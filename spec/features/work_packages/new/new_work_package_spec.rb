@@ -95,7 +95,7 @@ RSpec.describe "new work package", :js, :with_cuprite do
       # safeguards
       wp_page.dismiss_toaster!
       wp_page.expect_no_toaster(
-        message: "Successful creation. Click here to open this work package in fullscreen view."
+        message: "Successful creation."
       )
 
       subject_field.expect_state_text(subject)
@@ -115,7 +115,7 @@ RSpec.describe "new work package", :js, :with_cuprite do
       # safeguards
       wp_page.dismiss_toaster!
       wp_page.expect_no_toaster(
-        message: "Successful creation. Click here to open this work package in fullscreen view."
+        message: "Successful creation."
       )
 
       wp_page.edit_field(:subject).expect_text(subject)
@@ -190,7 +190,7 @@ RSpec.describe "new work package", :js, :with_cuprite do
         end
 
         it do
-          ids = custom_fields.map(&:id)
+          custom_fields.map(&:id)
           cf1 = find(".#{custom_fields.first.attribute_name(:camel_case)} input")
           expect(cf1).not_to be_nil
 
@@ -231,12 +231,7 @@ RSpec.describe "new work package", :js, :with_cuprite do
       create_work_package(type_task)
       save_work_package!
 
-      wp_page.expect_toast message: "Successful creation. Click here to open this work package in fullscreen view."
-      page.find(".op-toast--target-link", text: "Click here to open this work package in fullscreen view.").click
-
-      full_page = Pages::FullWorkPackage.new(WorkPackage.last)
-      full_page.ensure_page_loaded
-      full_page.expect_subject
+      wp_page.expect_toast message: "Successful creation."
     end
 
     it "reloads the table and selects the new work package" do
@@ -262,7 +257,7 @@ RSpec.describe "new work package", :js, :with_cuprite do
       table_subject.expect_state_text new_subject
 
       wp_page.expect_toast(
-        message: "Successful update. Click here to open this work package in fullscreen view."
+        message: "Successful update."
       )
 
       new_wp.reload

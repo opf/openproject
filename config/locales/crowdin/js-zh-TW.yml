@@ -276,8 +276,6 @@ zh-TW:
         warning: >
           更改可能需要一些時間才能生效。當更新完所有相關工作包時，您將收到通知。
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          將進度計算模式從基於狀態更改為基於工作將使<i>完成百分比</i>成為不可編輯，其值源自<i>工時</i>和<i>剩餘工時</i >。 <i>% Complete</i> 的現有值將會保留。如果<i>工時</i>和<i>剩餘工時</i>的值不存在，則需要更改它們'才能修改<i>完成百分比</i>。
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           將進度計算模式從基於狀態變更為基於工作將使<i>完成百分比</i>欄位可自由編輯。如果您選擇輸入<i>工時</i>或<i>剩餘工時</i>，它們也會連結到<i>完成百分比</i>。更改<i>剩餘工作</i>可以更新<i>完成百分比</i>。
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -345,7 +343,7 @@ zh-TW:
     hal:
       error:
         update_conflict_refresh: "點擊此處刷新資源並更新到最新版本。"
-        edit_prohibited: "已阻止對此工作包編輯 %{attribute}。此屬性來自於關係繼承(如子項目)或其他無法配置的來源。"
+        edit_prohibited: "已阻止對此屬性資源編輯 %{attribute} 功能。此屬性來自於關係繼承(如子項目)或其他無法配置的來源。"
         format:
           date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
         general: "發生錯誤。"
@@ -356,15 +354,15 @@ zh-TW:
           learn_about: "瞭解更多新功能的資訊"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                該版本包含多種新功能和改進，例如： <br> <ul class="%{list_styling_class}"> <li>保留並還原所見及所得內容變更之單機版本。</li> <li>一次啟用多個專案的儲存空間。</li> <li>以更新的模組匯出工作項目，並提供額外的設定。</li> <li>在專案清單中顯示自訂欄位列/篩選器，也適用於社群版。</li> <li>支援 CloudFlare Turnstile 作為 Captcha。</li> </ul>
+                該版本為您帶來了各種功能和改進，例如：<br> <ul class="%{list_styling_class}"> <li>受益於更靈活的進度報告- 感謝用戶回饋。</li> <li>接收帶有會議重新載入選項的更新通知.</li> <li>同時為多個專案啟用自訂欄位。</li> <li>使用相關工作項目屬性巨集。</li> <li>已儲存文字已可顯示空白行。</li> <li>「會議」標籤旁的編號可查看過去的會議。</li> </ul>
     ical_sharing_modal:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"
       description: "您可以使用 URL (iCalendar) 在外部客戶端中訂閱此日曆，並從外部客戶端查看最新工作包信息。"
-      warning: "請不要與其他用戶共用此 URL 。擁有這個鏈接的任何人都可以在沒有帳戶或密碼的情況下查看工作包的詳細信息。"
+      warning: "請不要與其他用戶共享此 URL 。擁有這個鏈接的任何人都可以在沒有帳戶或密碼的情況下查看工作項目的詳細信息。"
       token_name_label: "您將在哪裡使用它？"
       token_name_placeholder: '輸入名稱，例如“Phone”'
       token_name_description_text: '如果您從多個設備訂閱此日曆，此名稱將有助於在<a href="my/access_token", target="_blank">訪問權杖</a>列表中區分它們。'
@@ -476,7 +474,7 @@ zh-TW:
     label_open_context_menu: "打開選單"
     label_open_work_packages: "開啟"
     label_password: "密碼"
-    label_previous: "上一個"
+    label_previous: "上一頁"
     label_per_page: "每頁："
     label_please_wait: "請稍候"
     label_project: "專案"
@@ -568,7 +566,7 @@ zh-TW:
     onboarding:
       buttons:
         skip: "略過"
-        next: "下一個"
+        next: "下一頁"
         got_it: "了解"
       steps:
         help_menu: "幫助 (?) 菜單中提供了<b>其他幫助資源</b>。您可以在這裡找到用戶指南、實用的使用方法視頻等內容。<br>使用 OpenProject 盡情享受您的工作吧！"
@@ -610,14 +608,16 @@ zh-TW:
         mentioned: "被提及"
         watched: "監看者"
         assigned: "執行者"
-        accountable: "負責人"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "負責人"
         created: "已建立"
         scheduled: "已排程"
         commented: "已留言"
         processed: "已處理"
         prioritized: "已優先"
         dateAlert: "日期提醒"
-        shared: "共用"
+        shared: "參與"
       date_alerts:
         milestone_date: "里程碑日期"
         overdue: "逾期"
@@ -671,7 +671,7 @@ zh-TW:
             description: "每當有人提及我時都收到通知"
           assignee: "執行者"
           responsible: "負責人"
-          shared: "共用"
+          shared: "參與"
           watched: "監看者\n"
           work_package_commented: "有新留言"
           work_package_created: "新增工作項目"
@@ -687,7 +687,7 @@ zh-TW:
             description: "額外通知"
           date_alerts:
             title: "日期提醒"
-            description: "當「執行者、負責人或監看者」進行中的工作項目，其重要日期臨近時，自動發出通知。"
+            description: "當「執行者、負責人或監看者」之開啟的工作項目，其重要日期臨近時，自動發出通知。"
             teaser_text: "透過日期提醒，您將收到即將到來的開始或結束日期的通知，這樣您就不會錯過或忘記重要的截止日期。"
           overdue: 逾期
         project_specific:
@@ -780,7 +780,7 @@ zh-TW:
     timer:
       start_new_timer: "開始新的計時"
       timer_already_running: "要啓動新計時器，必須先停止當前計時器："
-      timer_already_stopped: "此工作包沒有啟用的計時器，您是否已在其他窗口中將其停止？"
+      timer_already_stopped: "沒有啟用此工作項目計時器，您是否已在其他窗口中將其停止？"
       tracking_time: "跟蹤時間"
       button_stop: "停止當前計時器"
     two_factor_authentication:
@@ -883,7 +883,7 @@ zh-TW:
       wiki_link: "連結到一個 Wiki 頁面"
       image: "圖片"
     sharing:
-      share: "共用"
+      share: "參與"
       selected_count: "已選取 %{count} 個"
       selection:
         mixed: "混合"
@@ -1002,11 +1002,11 @@ zh-TW:
         created_by_me: "由我建立"
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
-        all_open: "所有「進行中」工作"
+        all_open: "所有 「開啟中」 工作"
         overdue: "逾期"
         summary: "總覽"
-        shared_with_users: "分配給成員"
-        shared_with_me: "我共用之工作項目"
+        shared_with_users: "成員參與的"
+        shared_with_me: "我參與之工作項目"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作項目表並轉到分頁"
@@ -1044,10 +1044,10 @@ zh-TW:
         is_parent: "此工作包的日期會自動從其子項推導出。可啟用“手動計劃”來設置日期。"
         is_switched_from_manual_to_automatic: "由於與其他工作包的關係，在從手動計劃切換為自動計劃後，此工作包的日期可能需要重新計算。"
       sharing:
-        title: "共用工作項目"
-        show_all_users: "顯示與之共用工作項目的所有用戶"
+        title: "參與工作項目"
+        show_all_users: "顯示與之共同參與工作項目的所有用戶"
         upsale:
-          description: "與不是專案成員的使用者共用工作項目。"
+          description: "與不是專案成員的使用者共同參與工作項目。"
       table:
         configure_button: "設定工作項目"
         summary: "由工作項目和工作項目屬性列組成的表格。"
@@ -1131,7 +1131,7 @@ zh-TW:
         text: "確定要執行此操作嗎？"
       destroy_work_package:
         title: "確認刪除 %{label}"
-        single_text: "確定要刪除此工作包嗎？"
+        single_text: "確定要刪除此工作項目嗎？"
         bulk_text: "確定要刪除以下%{label} 嗎？"
         has_children: "此工作項目包含 %{childUnits}:"
         confirm_deletion_children: "我確認列出的工作項目的所有細項全部都將被刪除。"

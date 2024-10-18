@@ -1,0 +1,7 @@
+<%=
+  component_wrapper do
+    unless error_message.blank?
+      render(Primer::Alpha::Banner.new(scheme: :danger, dismiss_scheme: :hide)) { error_message }
+    end
+  end
+%>

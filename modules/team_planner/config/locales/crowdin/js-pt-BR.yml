@@ -8,7 +8,7 @@ pt-BR:
       create_title: 'Criar novo planejador de equipe'
       unsaved_title: 'Planejador de equipe não nomeado'
       no_data: 'Adicione responsáveis para configurar seu planejador de equipe.'
-      add_assignee: 'Adicionar responsável'
+      add_assignee: 'Encarregado'
       remove_assignee: 'Remover responsável'
       two_weeks: '2 semanas'
       one_week: '1 semana'

@@ -5,13 +5,11 @@ import { Injectable } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import {
-  firstValueFrom,
-  Observable,
-} from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { firstValueFrom, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { ApiV3Filter } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 
 export type RelationsStateValue = { [relationId:string]:RelationResource };
 
@@ -78,12 +76,13 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   protected load(id:string):Observable<RelationsStateValue> {
     return this
       .apiV3Service
-      .work_packages
-      .id(id)
       .relations
-      .get()
+      .filtered(
+        ApiV3Filter('involved', '=', [id]),
+      )
+      .getPaginatedResults()
       .pipe(
-        map((collection) => this.relationsStateValue(id, collection.elements)),
+        map((elements:RelationResource[]) => this.relationsStateValue(id, elements)),
       );
   }
 

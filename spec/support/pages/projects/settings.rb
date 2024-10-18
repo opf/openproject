@@ -43,11 +43,6 @@ module Pages
         visit "/projects/#{project.identifier}/settings/#{name}"
       end
 
-      # only notice is used as opposed to op-toast
-      def expect_toast(message:, type: :success)
-        expect(page).to have_css(".op-toast.-#{type}", text: message, wait: 10)
-      end
-
       def expect_type_active(type)
         expect_type(type, true)
       end
@@ -87,10 +82,6 @@ module Pages
       end
 
       private
-
-      def toast_type
-        :rails
-      end
 
       def path
         project_settings_general_path(project)

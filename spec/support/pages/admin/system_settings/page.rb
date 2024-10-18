@@ -32,10 +32,6 @@ require "support/pages/page"
 
 module Pages::Admin::SystemSettings
   class Page < ::Pages::Page
-    def toast_type
-      :rails
-    end
-
     def press_save_button
       scroll_to(:bottom)
       click_button("Save")

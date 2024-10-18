@@ -1,0 +1,35 @@
+<%=
+  component_wrapper(class: "work-packages-activities-tab-journals-item-component-edit") do
+    render(Primer::Box.new(my: 3)) do
+      primer_form_with(
+        id: "work-package-journal-form-element", # required for specs
+        model: journal,
+        method: :put,
+        data: { turbo: true, turbo_stream: true, test_selector: "op-work-package-journal-form-element" },
+        url: work_package_activity_path(work_package_id: work_package.id, id: journal.id, filter:),
+      ) do |f|
+        flex_layout do |form_container|
+          form_container.with_row do
+            render(WorkPackages::ActivitiesTab::Journals::NotesForm.new(f))
+          end
+          form_container.with_row(flex_layout: true, mt: 3, justify_content: :flex_end) do |submit_container|
+            submit_container.with_column(mr: 2) do
+              render(Primer::Beta::Button.new(
+                     scheme: :secondary,
+                     size: :medium,
+                     tag: :a,
+                     href: cancel_edit_work_package_activity_path(work_package.id, id: journal.id, filter:),
+                     data: { turbo_stream: true }
+                   )) do
+              t("button_cancel")
+            end
+            end
+            submit_container.with_column do
+              render(WorkPackages::ActivitiesTab::Journals::Submit.new(f))
+            end
+          end
+        end
+      end
+    end
+  end
+%>

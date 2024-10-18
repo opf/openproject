@@ -8,7 +8,7 @@ de:
       create_title: 'Neuen Teamplaner erstellen'
       unsaved_title: 'Unbenannter Teamplaner'
       no_data: 'Fügen Sie zugewiesene Benutzer hinzu, um Ihren Teamplaner einzurichten.'
-      add_assignee: 'Zugewiesenen Benutzer hinzufügen'
+      add_assignee: 'Zugewiesenen Benutzer'
       remove_assignee: 'Zugewiesenen Benutzer entfernen'
       two_weeks: '2 Wochen'
       one_week: '1 Woche'

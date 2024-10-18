@@ -111,6 +111,7 @@ pt-PT:
   label_rate: "Taxa"
   label_rate_plural: "Taxas"
   label_status_finished: "Terminado"
+  label_show: "Mostrar"
   label_units: "Custos unitários"
   label_user: "Utilizador"
   label_until: "até"

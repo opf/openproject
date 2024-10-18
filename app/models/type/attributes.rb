@@ -146,7 +146,9 @@ module Type::Attributes
     end
 
     def add_custom_fields_to_form_attributes(attributes)
-      WorkPackageCustomField.includes(:custom_options).all.find_each do |field|
+      WorkPackageCustomField.includes(:custom_options)
+                            .where.not(field_format: "hierarchy") # TODO: Remove after enabling hierarchy fields
+                            .find_each do |field|
         attributes[field.attribute_name] = {
           required: field.is_required,
           has_default: field.default_value.present?,

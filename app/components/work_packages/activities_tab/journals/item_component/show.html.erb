@@ -1,0 +1,13 @@
+<%=
+  component_wrapper do
+    if journal.notes.present?
+      flex_layout do |journal_container|
+        journal_container.with_row do
+          render(Primer::Box.new(mt: 1)) do
+            format_text(journal, :notes)
+          end
+        end
+      end
+    end
+  end
+%>

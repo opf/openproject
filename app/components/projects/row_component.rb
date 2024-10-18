@@ -54,7 +54,7 @@ module Projects
                tag: :a,
                tooltip_direction: :e,
                href: helpers.build_favorite_path(project, format: :html),
-               data: { method: currently_favored? ? :delete : :post },
+               data: { "turbo-method": currently_favored? ? :delete : :post },
                classes: currently_favored? ? "op-primer--star-icon " : "op-project-row-component--favorite",
                label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite),
                aria: { label: currently_favored? ? I18n.t(:button_unfavorite) : I18n.t(:button_favorite) },
@@ -259,7 +259,7 @@ module Projects
         scheme: :default,
         icon: "star",
         href: helpers.build_favorite_path(project, format: :html),
-        data: { method: :post },
+        data: { "turbo-method": :post },
         label: I18n.t(:button_favorite),
         aria: { label: I18n.t(:button_favorite) }
       }
@@ -273,7 +273,7 @@ module Projects
         icon: "star-fill",
         size: :medium,
         href: helpers.build_favorite_path(project, format: :html),
-        data: { method: :delete },
+        data: { "turbo-method": :delete },
         classes: "op-primer--star-icon",
         label: I18n.t(:button_unfavorite),
         aria: { label: I18n.t(:button_unfavorite) }
@@ -298,7 +298,8 @@ module Projects
           scheme: :default,
           icon: :gear,
           label: I18n.t(:label_project_settings),
-          href: project_settings_general_path(project)
+          href: project_settings_general_path(project),
+          data: { turbo: false }
         }
       end
     end
@@ -371,6 +372,10 @@ module Projects
 
     def custom_field_column?(column)
       column.is_a?(::Queries::Projects::Selects::CustomField)
+    end
+
+    def current_page
+      table.model.current_page.to_s
     end
   end
 end

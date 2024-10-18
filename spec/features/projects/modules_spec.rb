@@ -55,7 +55,7 @@ RSpec.describe "Projects module administration" do
     check "Activity"
     click_button "Save"
 
-    settings_page.expect_toast message: I18n.t(:notice_successful_update)
+    expect_flash type: :success, message: I18n.t(:notice_successful_update)
 
     expect(page).to have_checked_field "Activity"
     expect(page).to have_unchecked_field "Calendar"
@@ -65,18 +65,17 @@ RSpec.describe "Projects module administration" do
     check "Calendar"
     click_button "Save"
 
-    expect(page)
-      .to have_css ".op-toast.-error",
-                   text: I18n.t(:"activerecord.errors.models.project.attributes.enabled_modules.dependency_missing",
-                                dependency: "Work packages",
-                                module: "Calendars")
+    expect_flash(type: :error, message:
+      I18n.t(:"activerecord.errors.models.project.attributes.enabled_modules.dependency_missing",
+             dependency: "Work packages",
+             module: "Calendars"))
 
     expect(page).to have_no_xpath(project_work_packages_menu_link_selector)
 
     check "Work packages"
     click_button "Save"
 
-    settings_page.expect_toast message: I18n.t(:notice_successful_update)
+    expect_flash type: :success, message: I18n.t(:notice_successful_update)
 
     expect(page).to have_checked_field "Activity"
     expect(page).to have_checked_field "Calendars"

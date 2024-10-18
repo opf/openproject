@@ -27,10 +27,6 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     super();
   }
 
-  onFocusOut():void {
-    // interface
-  }
-
   public initialize(value:GridWidgetResource) {
     this.initializeChangeset(value);
     this.valueChanged$ = new BehaviorSubject(value.options.text as string);

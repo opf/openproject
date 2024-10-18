@@ -110,6 +110,7 @@ ja:
   label_rate: "原価率"
   label_rate_plural: "レート"
   label_status_finished: "完了しました"
+  label_show: "Show"
   label_units: "単価"
   label_user: "ユーザ"
   label_until: "まで"

@@ -39,7 +39,7 @@ module Boards
     end
 
     def created_at
-      safe_join([helpers.format_date(model.created_at), helpers.format_time(model.created_at, false)], " ")
+      safe_join([helpers.format_date(model.created_at), helpers.format_time(model.created_at, include_date: false)], " ")
     end
 
     def type

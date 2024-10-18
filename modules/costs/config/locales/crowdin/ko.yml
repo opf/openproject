@@ -110,6 +110,7 @@ ko:
   label_rate: "요금"
   label_rate_plural: "요금"
   label_status_finished: "마침"
+  label_show: "표시"
   label_units: "단위 비용"
   label_user: "사용자"
   label_until: "다음까지:"

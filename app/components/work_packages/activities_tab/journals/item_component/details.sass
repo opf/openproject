@@ -1,0 +1,50 @@
+.work-packages-activities-tab-journals-item-component-details
+    &--journal-details-container
+        margin-left: 19px
+        min-height: 20px
+    &--journal-details-container--empty--last--asc
+        display: none!important
+    &--journal-details-header-container
+        margin-left: -14px
+    &--journal-details-header
+        padding-top: 2px
+        width: 100%
+    &--timeline-icon
+        background-color: var(--bgColor-muted)
+        border-radius: 50%
+        width: 28px
+        height: 28px
+        text-align: center
+        padding-top: 3px
+        margin-top: -2px
+    &--user-name-container
+        max-width: 60%
+    &--user-name
+        @media screen and (min-width: $breakpoint-sm)
+            max-width: 30%
+    &--empty-line
+        margin-top: 0px!important
+        margin-bottom: 0px!important
+    &--journal-detail-stem-line
+        position: relative
+        width: 20px
+    &--journal-detail-stem-line::before
+        content: ""
+        position: absolute
+        top: 10px
+        left: 0
+        width: 100%
+        height: var(--borderWidth-thin, 1px)
+        background-color: var(--borderColor-default)
+        transform: translateY(-50%)
+    &--journal-detail-description
+        // quick hack to adapt the current detail rendering to desired primerised design
+        i
+            font-style: normal
+            color: var(--fgColor-muted, var(--color-fg-subtle))
+    &--notification-dot-icon
+        color: var(--bgColor-accent-emphasis)
+    &--activity-link-container
+        padding-top: 2px
+    &--journal-detail-description-container
+        max-width: 95% // otherwise the stem branch might get too short for long descriptions

@@ -27,7 +27,6 @@
 #++
 
 class MeetingsController < ApplicationController
-  around_action :set_time_zone
   before_action :load_and_authorize_in_optional_project, only: %i[index new show create history]
   before_action :verify_activities_module_activated, only: %i[history]
   before_action :determine_date_range, only: %i[history]
@@ -50,7 +49,6 @@ class MeetingsController < ApplicationController
 
   include OpTurbo::ComponentStream
   include OpTurbo::FlashStreamHelper
-  include ApplicationComponentStreams
   include Meetings::AgendaComponentStreams
   include MetaTagsHelper
 
@@ -79,7 +77,7 @@ class MeetingsController < ApplicationController
     if params[:reference] == @meeting.changed_hash
       head :no_content
     else
-      respond_with_flash(Meetings::UpdateFlashComponent.new(meeting: @meeting))
+      respond_with_flash(Meetings::UpdateFlashComponent.new(@meeting))
     end
   end
 
@@ -97,8 +95,8 @@ class MeetingsController < ApplicationController
 
     if call.success?
       text = I18n.t(:notice_successful_create)
-      if User.current.time_zone.nil?
-        link = I18n.t(:notice_timezone_missing, zone: Time.zone)
+      unless User.current.pref.time_zone?
+        link = I18n.t(:notice_timezone_missing, zone: formatted_time_zone_offset)
         text += " #{view_context.link_to(link, { controller: '/my', action: :settings, anchor: 'pref_time_zone' },
                                          class: 'link_to_profile')}"
       end
@@ -287,17 +285,6 @@ class MeetingsController < ApplicationController
     query
       .results
       .paginate(page: page_param, per_page: per_page_param)
-  end
-
-  def set_time_zone(&)
-    zone = User.current.time_zone
-    if zone.nil?
-      localzone = Time.current.utc_offset
-      localzone -= 3600 if Time.current.dst?
-      zone = ::ActiveSupport::TimeZone[localzone]
-    end
-
-    Time.use_zone(zone, &)
   end
 
   def build_meeting

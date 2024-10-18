@@ -54,7 +54,7 @@ RSpec.describe "Boards enterprise spec", :js, :with_cuprite do
     end
 
     it "disabled all action boards" do
-      page.find(".toolbar-item a", text: "Board").click
+      page.find('[data-test-selector="add-board-button"]', text: "Board").click
 
       expect(page).to have_css("#{test_selector('op-tile-block')}:not(.-disabled)", text: "Basic")
       expect(page).to have_css("#{test_selector('op-tile-block')}.-disabled", count: 5)
@@ -67,12 +67,12 @@ RSpec.describe "Boards enterprise spec", :js, :with_cuprite do
 
       board_page = board_index.open_board(manual_board)
       board_page.expect_query "My board"
-      expect(page).not_to have_test_selector "op-enterprise-banner"
+      expect(page).not_to have_enterprise_banner
 
       board_index.visit!
       board_page = board_index.open_board(action_board)
       board_page.expect_query "Subproject board"
-      expect(page).to have_test_selector "op-enterprise-banner"
+      expect(page).to have_enterprise_banner
     end
   end
 
@@ -83,7 +83,7 @@ RSpec.describe "Boards enterprise spec", :js, :with_cuprite do
     end
 
     it "enables all options" do
-      page.find(".toolbar-item a", text: "Board").click
+      page.find('[data-test-selector="add-board-button"]', text: "Board").click
 
       expect(page).to have_css("#{test_selector('op-tile-block')}:not(.-disabled)", count: 6)
     end
@@ -95,12 +95,12 @@ RSpec.describe "Boards enterprise spec", :js, :with_cuprite do
 
       board_page = board_index.open_board(manual_board)
       board_page.expect_query "My board"
-      expect(page).not_to have_test_selector "op-enterprise-banner"
+      expect(page).not_to have_enterprise_banner
 
       board_index.visit!
       board_page = board_index.open_board(action_board)
       board_page.expect_query "Subproject board"
-      expect(page).not_to have_test_selector "op-enterprise-banner"
+      expect(page).not_to have_enterprise_banner
     end
   end
 end

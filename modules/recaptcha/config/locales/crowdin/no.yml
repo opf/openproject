@@ -9,7 +9,7 @@
     verify_account: "Bekreft kontoen din"
     error_captcha: "Din konto kunne ikke bekreftes. Vennligst kontakt en administrator."
     settings:
-      website_key: 'Website key (May also be called "Site key")'
+      website_key: 'Nettstedsnøkkel'
       response_limit: 'Responsgrense for HCaptcha'
       response_limit_text: 'Maksimalt antall tegn for å behandle HCaptcha-responsen som gyldig.'
       website_key_text: 'Skriv inn nettstedsnøkkelen du opprettet i reCAPTCHA administratorkonsollen for dette domenet.'
@@ -22,4 +22,4 @@
       type_hcaptcha: 'HCaptcha'
       type_turnstile: 'Cloudflare Turnstile™'
       captcha_description_html: >
-        reCAPTCHA is a free service by Google that can be enabled for your OpenProject instance. If enabled, a captcha form will be rendered upon login for all users that have not verified a captcha yet. <br/> Please see the following link for more details on reCAPTCHA and their versions, and how to create the website and secret keys: %{recaptcha_link} <br/> HCaptcha is a Google-free alternative that you can use if you do not want to use reCAPTCHA. See this link for more information: %{hcaptcha_link} <br/> Cloudflare Turnstile™ is another alternative that is more convenient for users while still providing the same level of security. See this link for more information: %{turnstile_link}
+        reCAPTCHA er en gratistjeneste av Google som kan aktiveres for din OpenProject forekomst. Hvis aktivert, vil et captcha-skjema bli gjengitt ved pålogging til alle brukere som ikke har bekreftet captcha ennå. <br/> Vennligst se linken nedenfor for flere detaljer på reCAPTCHA og deres versjoner, og hvordan du oppretter det nettstedet og hemmelige nøkler: %{recaptcha_link} <br/> HCaptcha er et Google-gratis alternativ som du kan bruke hvis du ikke vil bruke reCAPTCHA. Se denne linken for mer informasjon: %{hcaptcha_link} <br/> Cloudflare TurnstileTM er et annet alternativ som er mer praktisk for brukere samtidig som det gir samme sikkerhetsnivå. Se denne linken for mer informasjon: %{turnstile_link}

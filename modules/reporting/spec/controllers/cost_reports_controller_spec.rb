@@ -70,7 +70,7 @@ RSpec.describe CostReportsController do
       end
 
       it "redirected" do
-        expect(response).to have_http_status(:redirect)
+        expect(response).to redirect_to(cost_reports_url(default: 1))
       end
     end
 

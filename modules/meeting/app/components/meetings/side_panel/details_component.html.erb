@@ -30,13 +30,13 @@
             flex_layout(align_items: :center) do |time|
               time.with_column do
                 render(Primer::Beta::Text.new) do
-                  "#{format_time(@meeting.start_time, false)} - #{format_time(@meeting.end_time, false)}"
+                  "#{format_time(@meeting.start_time, include_date: false)} - #{format_time(@meeting.end_time, include_date:false)}"
                 end
               end
 
               time.with_column(ml: 2) do
                 render(Primer::Beta::Text.new(color: :subtle, font_size: :small)) do
-                  (User.current.time_zone || Time.zone).to_s[/\((.*?)\)/m, 1]
+                  formatted_time_zone_offset
                 end
               end
             end

@@ -1,0 +1,155 @@
+ko:
+  activemodel:
+    attributes:
+      saml/provider:
+        display_name: 이름
+        identifier: 식별자
+        secret: 비밀번호
+        scope: 범위
+        assertion_consumer_service_url: ACS(Assertion Consumer Service) URL
+        limit_self_registration: 자체 등록 제한
+        sp_entity_id: 서비스 엔티티 ID
+        metadata_url: ID 공급자 메타데이터 URL
+        name_identifier_format: 이름 식별자 형식
+        idp_sso_service_url: ID 공급자 로그인 엔드포인트
+        idp_slo_service_url: ID 공급자 로그아웃 엔드포인트
+        idp_cert: ID 공급자의 공개 인증서
+        authn_requests_signed: SAML AuthnRequests 서명
+        want_assertions_signed: 서명된 응답 필요
+        want_assertions_encrypted: 암호화된 응답 필요
+        certificate: OpenProject에서 SAML 요청에 사용하는 인증서
+        private_key: OpenProject SAML 요청에 해당하는 비공개 키
+        signature_method: 서명 알고리즘
+        digest_method: 다이제스트 알고리즘
+        format: "형식"
+        icon: "사용자 지정 아이콘"
+  activerecord:
+    errors:
+      models:
+        saml/provider:
+          invalid_certificate: "- 유효한 PEM 형식 인증서가 아닙니다: %{additional_message}"
+          invalid_private_key: "- 유효한 PEM 형식 비공개 키가 아닙니다: %{additional_message}"
+          certificate_expired: "- 만료되어 더 이상 사용할 수 없습니다."
+          unmatched_private_key: "- 지정된 인증서에 속하지 않습니다."
+  saml:
+    menu_title: SAML 공급자
+    info:
+      title: "SAML 프로토콜 구성 매개 변수"
+      description: >
+        이러한 매개 변수를 사용하여 OpenProject에 대한 ID 공급자 연결을 구성합니다.
+    metadata_parser:
+      success: "ID 공급자 메타데이터를 사용하여 구성을 업데이트했습니다."
+      invalid_url: "제공한 메타데이터 URL이 유효하지 않습니다. HTTP(s) URL을 입력하세요."
+      error: "ID 공급자 메타데이터를 검색하지 못했습니다: %{error}"
+    providers:
+      label_empty_title: "아직 구성된 SAML 공급자가 없습니다."
+      label_empty_description: "여기에서 보려면 공급자를 추가합니다."
+      label_automatic_configuration: 자동 구성
+      label_metadata: 메타데이터
+      label_metadata_endpoint: OpenProject 메타데이터 엔드포인트
+      label_openproject_information: OpenProject 정보
+      label_configuration_details: "ID 공급자 엔드포인트 및 인증서"
+      label_configuration_encryption: "서명 및 암호화"
+      label_add_new: 새로운 SAML ID 공급자
+      label_edit: SAML ID 공급자 %{name} 편집
+      label_uid: 내부 사용자 ID
+      label_mapping: 매핑
+      label_mapping_for: "매핑 대상: %{attribute}"
+      label_requested_attribute_for: "요청된 특성 대상: %{attribute}"
+      no_results_table: 아직 정의된 SAML ID 공급자가 없습니다.
+      plural: SAML ID 공급자
+      singular: SAML ID 공급자
+      requested_attributes: 요청된 특성
+      attribute_mapping: 특성 매핑
+      attribute_mapping_text: >
+        다음 필드는 OpenProject에 사용자 특성을 제공하는 데 사용되는 SAML ID 공급자 제공 특성을 제어합니다.
+      metadata:
+        dialog: "OpenProject SAML 메타데이터를 사용할 수 있는 URL입니다. 선택적으로 이 URL을 사용하여 ID 공급자를 구성합니다:"
+      upsale:
+        description: SAML ID 공급자에 OpenProject 연결
+      request_attributes:
+        title: '요청된 특성'
+        legend: >
+          이러한 특성은 SAML XML 메타데이터에 추가되어 OpenProject에 필요한 특성이 무엇인지 ID 공급자에게 나타냅니다. 이러한 특성을 보내려면 ID 공급자를 명시적으로 구성해야 할 수도 있습니다. 해당 ID 공급자의 설명서를 참조하세요.
+        name: '요청된 특성 키'
+        format: '특성 형식'
+      section_headers:
+        configuration: "기본 구성"
+        attributes: "특성"
+      section_texts:
+        display_name: "SAML 공급자의 표시 이름을 구성합니다."
+        metadata: "메타데이터 URL을 사용하거나 메타데이터 XML을 붙여넣어 구성 미리 채우기"
+        metadata_form: "ID 공급자에게 메타데이터 엔드포인트 또는 XML 다운로드가 있는 경우 아래에 추가하여 구성을 미리 채웁니다."
+        metadata_form_banner: "메타데이터를 편집하면 다른 섹션의 기존 값이 재정의될 수 있습니다. "
+        configuration: "ID 공급자, 인증서 및 추가 SAML 옵션에 대한 엔드포인트 URL을 구성합니다."
+        configuration_metadata: "이 정보는 제공된 메타데이터를 사용하여 미리 채워졌습니다. 대부분의 경우 편집할 필요가 없습니다."
+        encryption: "SAML 요청 및 응답에 대한 어설션 서명 및 암호화를 구성합니다."
+        encryption_form: "선택적으로 어설션 응답을 암호화하거나 OpenProject의 요청에 서명할 수 있습니다."
+        mapping: "OpenProject에서 SAML 응답과 사용자 특성 간 매핑을 수동으로 조정합니다."
+        requested_attributes: "ID 공급자에게 보내는 SAML 요청에서 요청할 특성 집합을 정의합니다."
+      seeded_from_env: "이 공급자는 환경 구성에서 시드되었으며, 편집할 수 없습니다."
+    settings:
+      metadata_none: "메타데이터가 없습니다"
+      metadata_url: "메타데이터 URL"
+      metadata_xml: "메타데이터 XML"
+    instructions:
+      documentation_link: >
+        이러한 구성 옵션에 대한 자세한 내용은 [SAML 공급자 구성에 대한 문서](docs_url)를 참조하세요.
+      display_name: >
+        공급자 이름입니다. 로그인 버튼으로 표시되며 공급자 목록에 표시됩니다.
+      metadata_none: >
+        Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
+      metadata_url: >
+        ID 공급자가 메타데이터 URL을 제공합니다.
+      metadata_xml: >
+        ID 공급자가 메타데이터 XML 다운로드를 제공합니다.
+      limit_self_registration: >
+        활성화되면, 사용자는 자체 등록 설정에서 허용하는 경우에만 이 공급자를 사용하여 등록할 수 있습니다.
+      sp_entity_id: >
+        서비스 공급자(SP)의 엔티티 ID입니다. 오디언스라고 하는 경우도 있습니다. OpenProject 인스턴스의 고유한 클라이언트 ID입니다.
+      idp_sso_service_url: >
+        ID 공급자 로그인 엔드포인트의 URL입니다.
+      idp_slo_service_url: >
+        ID 공급자 로그인 엔드포인트의 URL입니다.
+      idp_cert: >
+        ID 공급자의 X509 PEM 형식 공개 인증서를 입력합니다. 여러 인증서를 새 줄로 구분하여 입력할 수 있습니다.
+      name_identifier_format: >
+        SAML 어설션에 사용할 이름 식별자 형식을 설정합니다.
+      sp_metadata_endpoint: >
+        OpenProject SAML 메타데이터를 사용할 수 있는 URL입니다. 선택적으로 이 URL을 사용하여 ID 공급자를 구성합니다.
+      mapping: >
+        OpenProject에서 SAML 응답과 사용자 특성 간 매핑을 구성합니다. 찾을 특성 이름을 여러 개 구성할 수 있습니다. OpenProject는 SAML 응답에서 사용 가능한 첫 번째 특성을 선택합니다.
+      mapping_login: >
+        로그인에 사용된 응답의 SAML 특성입니다.
+      mapping_mail: >
+        사용자 이메일에 사용된 응답의 SAML 특성입니다.
+      mapping_firstname: >
+        지정된 이름에 사용된 응답의 SAML 특성입니다.
+      mapping_lastname: >
+        성에 사용된 응답의 SAML 특성입니다.
+      mapping_uid: >
+        내부 사용자 ID에 사용할 SAML 특성입니다. name_id 특성을 대신 사용하려면 비워 둡니다.
+      request_uid: >
+        내부 사용자 ID를 요청하는 SAML 특성입니다. 기본적으로 이 필드에는 name_id가 사용됩니다.
+      requested_attributes: >
+        이러한 특성은 SAML 요청 XML에 추가되어 OpenProject에 필요한 특성을 ID 공급자에게 전달합니다.
+      requested_format: >
+        요청된 특성의 형식입니다. SAML 요청에서 특성의 형식을 지정하는 데 사용됩니다. 자세한 내용은 [요청된 특성 구성에 대한 문서](docs_url)를 참조하세요.
+      authn_requests_signed: >
+        이 옵션을 선택하면 OpenProject가 SAML AuthnRequest에 서명합니다. 아래 필드를 사용하여 서명 인증서와 비공개 키를 제공해야 합니다.
+      want_assertions_signed: >
+        이 옵션을 선택하면 OpenProject가 고유한 인증서 키 쌍을 사용한 ID 공급자의 서명된 응답을 요구합니다. OpenProject는 기본 구성 섹션의 인증서와 비교하여 서명을 확인합니다.
+      want_assertions_encrypted: >
+        이 옵션을 활성화하면 사용자가 제공하는 인증서 쌍을 사용하여 어설션 응답을 암호화하도록 ID 공급자에 요구합니다.
+      certificate: >
+        OpenProject가 SAML 요청 서명에 사용하는 X509 PEM 형식 인증서를 입력합니다.
+      private_key: >
+        위 인증서에 대한 X509 PEM 형식 비공개 키를 입력합니다. 이 키는 RSA 비공개 키여야 합니다.
+      signature_method: >
+        OpenProject에서 수행하는 SAML 요청 서명에 사용할 서명 알고리즘을 선택합니다(기본값: %{default_option}).
+      digest_method: >
+        OpenProject에서 수행하는 SAML 요청 서명에 사용할 다이제스트 알고리즘을 선택합니다(기본값: %{default_option}).
+      icon: >
+        공급자 이름 옆에 표시되는 아이콘 그래픽의 공개 URL을 선택적으로 제공합니다.
+      metadata_for_idp: >
+        이 정보는 SAML ID 공급자가 요청할 수 있습니다.

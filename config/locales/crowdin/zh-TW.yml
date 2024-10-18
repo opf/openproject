@@ -24,6 +24,22 @@ zh-TW:
   activities:
     index:
       no_results_title_text: 在這一時限內, 該專案沒有任何活動。
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: 目前沒有安裝任何外掛程式
@@ -39,16 +55,9 @@ zh-TW:
         accent-color: "強調（Accent）"
         header-bg-color: "頁首背景"
         header-item-bg-hover-color: "頁首背景（滑鼠停留）"
-        header-item-font-color: "頁首字型"
-        header-item-font-hover-color: "頁首字型（滑鼠移入時）"
-        header-border-bottom-color: "頁首邊框"
         main-menu-bg-color: "主畫面背景"
         main-menu-bg-selected-background: "主畫面背景（當選擇時）"
         main-menu-bg-hover-background: "主要選單（滑鼠移入時）"
-        main-menu-font-color: "主功能表字型"
-        main-menu-selected-font-color: "主功能表字型（當選擇時）"
-        main-menu-hover-font-color: "主功能表字型（當滑鼠移入時）"
-        main-menu-border-color: "主功能表邊框"
       custom_colors: "自訂顏色"
       customize: "客製OpenProject中專屬您的標誌(logo)與顏色"
       enterprise_notice: "這個插件僅對企業版支持訂閱者開放，以感謝他們對開發 OpenProject 的贊助。"
@@ -82,6 +91,7 @@ zh-TW:
         contact: "聯絡我們取得試用"
       enterprise_info_html: "是企業版功能 <span class='spot-icon spot-icon_inline spot-icon_enterprise-addons'></span> 。"
       upgrade_info: "請升級到付費版以啟用此功能"
+    jemalloc_allocator: Jemalloc 記憶體分配器
     journal_aggregation:
       explanation:
         text: "例如使用者\"更新\"工作項目兩次，如果時間間隔小於設定值，則將合併視為為單次操作。應用程序中亦會顯示為單個操作。這也會套用在電子郵件通知，以及 %{webhook_link} 。"
@@ -209,6 +219,16 @@ zh-TW:
         is_for_all_blank_slate:
           heading: 對所有的專案
           description: 由於已勾選「適用於所有專案」選項，因此所有專案都會啟用此自訂欄位。個別專案無法停用。
+      items:
+        blankslate:
+          title: "您的欄位清單是空的"
+          description: "首先將項目新增至層次結構的自訂欄位。每個項目都可用於在其下方建立一個層次結構。若要在層次結構內導覽和建立子項目，請按一下已建立的項目。"
+        actions: "Item actions"
+        placeholder:
+          label: "項目標籤"
+          short: "簡稱"
+      notice:
+        remember_items_and_projects: "請記得在此自訂欄位索引標籤中設定項目和專案。"
     text_add_new_custom_field: >
       要加入客製欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
     is_enabled_globally: "已全域啟用"
@@ -221,6 +241,7 @@ zh-TW:
       is_required: "將此欄位定義成必填。\n"
       is_required_for_project: "勾選以啟用此屬性，並使其成為所有專案的必要屬性。個別專案無法停用。"
       is_for_all: "將客製欄位標記為「所有現有專案」和「新專案」中可用。"
+      multi_select: "允許使用者為此自訂欄位指定多個值。"
       searchable: "使用全域搜尋功能時包含此欄位。"
       searchable_for_project: "勾選可使此屬性在專案清單中作為篩選條件。"
       editable: "允許使用者自行編輯此欄位"
@@ -232,6 +253,14 @@ zh-TW:
       no_results_content_text: 建立一個新的自定義欄位
   concatenation:
     single: "或者"
+  dry_validation:
+    errors:
+      rules:
+        label:
+          filled?: "必填"
+          not_unique: "在同一層級內必須唯一"
+    rules:
+      label: "標籤"
   global_search:
     placeholder: "在 %{app_title} 搜尋"
     overwritten_tabs:
@@ -258,7 +287,7 @@ zh-TW:
       work_package_attachments: "工作項目：附件"
       work_package_categories: "工作項目：類別"
       work_package_file_links: "工作項目：檔案連結"
-      work_package_shares: "工作項目：共用"
+      work_package_shares: "工作項目：參與"
     delete:
       scheduled: "已經安排背景執行刪除任務。你將會收到結果通知。"
       schedule_failed: "專案無法刪除: %{errors}"
@@ -344,50 +373,50 @@ zh-TW:
     invite_by_mail: "寄發邀請至：%{mail}"
     send_invite_to: "寄送邀請"
     columns:
-      shared: "共用"
+      shared: "參與"
     filters:
-      all_shares: "所有共用的"
+      all_shares: "所有參與的"
     menu:
       all: "全部"
       invited: "已邀請"
       locked: "停用"
       project_roles: "專案角色"
-      wp_shares: "共用之工作項目"
+      wp_shares: "參與之工作項目"
       groups: "群組"
     delete_member_dialog:
       title: "移除成員"
       will_remove_the_users_role: "這將從此專案中移除使用者的角色。"
       will_remove_the_groups_role: "這將從此專案中移除群組角色。"
       however_work_packages_shared_with_user_html:
-        other: "不過， %{shared_work_packages_link} ，也與此使用者共用。"
+        other: "不過， %{shared_work_packages_link} ，也與此使用者共同參與。"
       however_work_packages_shared_with_group_html:
-        other: "不過， %{shared_work_packages_link} ，也與此群組共用。"
-      remove_work_packages_shared_with_user_too: "已移除專案成員的使用者仍可存取共用工作項目。您也想移除共用嗎？"
-      remove_work_packages_shared_with_group_too: "已移除成員身份的群組仍可存取共用工作套件。您也想移除共用嗎？"
-      will_not_affect_inherited_shares: "(這不會影響與其小組共用的工作項目)。"
+        other: "不過， %{shared_work_packages_link} ，也與此群組共同參與。"
+      remove_work_packages_shared_with_user_too: "已移除專案成員的使用者，但其仍可參與工作項目。您也想移除參與權限嗎？"
+      remove_work_packages_shared_with_group_too: "已移除群組，但其中若是專案成員仍可參與工作項目。您也想移除參與權限嗎？"
+      will_not_affect_inherited_shares: "(這不會影響與其小組參與工作項目)。"
       can_remove_direct_but_not_shared_roles: "您可以直接刪除該用戶的專案成員身份，但他們所在的群組也是該專案成員，因此他們將繼續通過群組成為成員。"
       also_work_packages_shared_with_user_html:
-        other: "此外，還與該用戶共用了 %{shared_work_packages_link}。"
+        other: "此外，還與該用戶參與了 %{shared_work_packages_link}。"
       remove_project_membership_or_work_package_shares_too: "您想直接刪除用戶成員(保留共用)，或連同共用也刪除？"
       will_remove_all_user_access_priveleges: "刪除該成員將移除該專案所有存取權限。但使用者部分專案資料仍然存在。"
       will_remove_all_group_access_priveleges: "刪除該成員將刪除該組對項目的所有訪問權限。該組仍將作為實例的一部分存在。"
       cannot_delete_inherited_membership: "您不能刪除此成員，因為他們所屬的組本身就是此項目的成員。"
       cannot_delete_inherited_membership_note_admin_html: "您可以在 %{administration_settings_link} 中刪除作為項目成員的組或組中的特定成員。"
-      cannot_delete_inherited_membership_note_non_admin: "您可以將該組作為項目成員移除，或者聯繫管理員將該特定成員從組中移除。"
+      cannot_delete_inherited_membership_note_non_admin: "您可以將該群組作為專案成員移除，或者聯繫管理員將該特定成員從組中移除。"
     delete_work_package_shares_dialog:
-      title: "撤銷已共用的工作項目"
+      title: "撤銷已參與的工作項目"
       shared_with_this_user_html:
-        other: "%{all_shared_work_packages_link} 已與該用戶共用。"
+        other: "%{all_shared_work_packages_link} 已讓用戶參與。"
       shared_with_this_group_html:
-        other: "%{all_shared_work_packages_link} 已與該組共用。"
+        other: "%{all_shared_work_packages_link} 已讓該群組參與。"
       shared_with_permission_html:
-        other: "只有 %{shared_work_packages_link} 共用 %{shared_role_name} 權限。"
-      revoke_all_or_with_role: "您想撤銷對所有共用工作項目的存取權限，還是只撤銷 %{shared_role_name} 的相關權限？"
-      will_not_affect_inherited_shares: "(這不會影響與其群組共用的工作項目)。"
-      cannot_remove_inherited: "無法刪除通過群組共享的工作項目。"
-      cannot_remove_inherited_with_role: "與角色 %{shared_role_name} 共用的工作項目是通過群組共用的，不能刪除。"
-      cannot_remove_inherited_note_admin_html: "您可以在 %{administration_settings_link} 中撤銷群組中的共享，或從群組中刪除該特定成員。"
-      cannot_remove_inherited_note_non_admin: "您可以撤銷對該群組的共用，或者聯繫管理員將該特定成員從群組中刪除。"
+        other: "只有 %{shared_work_packages_link} 分享 %{shared_role_name} 權限。"
+      revoke_all_or_with_role: "您想撤銷所有參與工作項目的存取權限，還是只撤銷 %{shared_role_name} 的相關權限？"
+      will_not_affect_inherited_shares: "(這不會影響其群組參與工作項目)。"
+      cannot_remove_inherited: "無法刪除通過群組參與的工作項目。"
+      cannot_remove_inherited_with_role: "角色 %{shared_role_name} 參與的工作項目是通過群組分享的，不能刪除。"
+      cannot_remove_inherited_note_admin_html: "您可以在 %{administration_settings_link} 中撤銷群組參與，或從群組中刪除該特定成員。"
+      cannot_remove_inherited_note_non_admin: "您可以撤銷對該群組參與，或者聯繫管理員將該特定成員從群組中刪除。"
       will_revoke_directly_granted_access: "此操作將取消他們對所有工作項目的訪問權限，但會取消他們對某個群組共用的工作項目存取權限。"
       will_revoke_access_to_all: "此操作將撤銷他們對所有這些系統的存取權限。"
   my:
@@ -404,7 +433,7 @@ zh-TW:
       new_access_token_dialog_text_field_label: "權杖(token)名稱"
       new_access_token_dialog_submit_button_text: "建立"
       new_access_token_dialog_text: "此權杖(token)允許第三方應用程式與本專案系統進行互動。為了區分新 API token用途，請為其命名。"
-      new_access_token_dialog_attention_text: "請務必將API Token(權杖)視為密碼一樣重要。任何知道此連結的人都可以存取此系統中的信息，只能讓受信任使用者共用。"
+      new_access_token_dialog_attention_text: "請務必將API Token(權杖) 視為密碼一樣重要。任何知道此連結的人都可以存取此系統中的信息，只能讓受信任使用者參與。"
       failed_to_reset_token: "無法重置訪問權杖(Token): %{error}"
       failed_to_create_token: "無法建立訪問權杖: %{error}"
       failed_to_revoke_token: "無法撤銷訪問權杖: %{error}"
@@ -465,17 +494,22 @@ zh-TW:
       no_results_content_text: 新增一個狀態回報
   statuses:
     edit:
+      status_color_text: |
+        按一下以分配或更改此優先順序的顏色。
+        它可用於突出顯示表中的工作包。
+      status_default_text: |-
+        新工作項目預設為此類型。它們不能為唯讀。
+      status_excluded_from_totals_text: |-
+        選中此選項可將具有此狀態的工作包排除在層次結構中的 "工時"、"
+        剩餘工時 "和 "完成百分比 "總數之外。
+      status_percent_complete_text: |-
+        在<a href="%{href}">基於狀態的進度計算模式</a>下，工作項目的完成百分比會自動設定為此值。
+        而基於工作的模式則會被忽略。
       status_readonly_html: |
         選中此選項可將具有此狀態的工作項目設定為唯讀。
         不能更改任何屬性, 但狀態除外。
         123 _ 2 _
         <strong>筆記</strong>: 繼承的值 (例如, 來自子項或關係) 仍將適用。
-      status_excluded_from_totals_text: |-
-        選中此選項可將具有此狀態的工作包排除在層次結構中的 "工時"、"
-        剩餘工時 "和 "完成百分比 "總數之外。
-      status_color_text: |
-        按一下以分配或更改此優先順序的顏色。
-        它可用於突出顯示表中的工作包。
     index:
       no_results_title_text: 目前沒有工作項目狀態
       no_results_content_text: 新增一個狀態
@@ -526,7 +560,7 @@ zh-TW:
       could_not_be_saved: "以下文檔無法被保存"
       none_could_be_saved: " %{total} 個工作項目無法更新"
       x_out_of_y_could_be_saved: "在 %{total} 個工作包中，%{failing} 個無法更新，%{success} 個可以更新。"
-      selected_because_descendants: "雖然選擇了 %{selected} 個工作包，但共有 %{total} 個工作包受到影響，包括子工作包。"
+      selected_because_descendants: "雖然選擇了 %{selected} 工作項目，但共有 %{total} 個工作項目受到影響，包括子工作項目。"
       descendant: "所選項的子工作"
     move:
       no_common_statuses_exists: "被選取的工作項目沒有可用的狀態。他們的狀態不可以變更。"
@@ -534,11 +568,11 @@ zh-TW:
       current_type_not_available_in_target_project: >
         當前工作包類型未在目標項目中啓用。 如果您想保持不變，請啓用目標項目中的類型。 否則，將從列表中選擇目標項目中的可用類型。
       bulk_current_type_not_available_in_target_project: >
-        目標項目中未啓用工作包的當前類型。如果您希望工作包類型保持不變，請在目標項目中啓用這些類型。否則，請從列表中選擇目標項目中的可用類型。
+        當前類型之工作項目尚未啓用於目標專案。如果您希望工作項目類型保持不變，請在目標專案中啓用這些類型。否則，請從列表中選擇目標專案中的可用類型。
     sharing:
       missing_workflow_warning:
         title: "共用工作項目缺少工作流"
-        message: "沒有為\"工作項目編輯者\"角色配置工作流。沒有工作流，共用用戶就無法更改工作項目的狀態。工作流可以複製。選擇一個類型(例如\"任務\")和角色(例如\"成員\")。然後選擇目標類型。一開始，您可以將所有類型都選擇為目標類型。最後，選擇\"工作項目編輯者\"角色作為目標，然後點擊\"複製\"。在創建預設設置之後，像對其他角色一樣進行微調，對工作流進行詳細調整。"
+        message: "沒有為\"工作項目編輯者\"角色配置工作流程。沒有工作流參與，參與用戶就無法更改工作項目的狀態。工作流程可以複製。選擇一個類型(例如\"任務\")和角色(例如\"成員\")。然後選擇目標類型。一開始，您可以將所有類型都選擇為目標類型。最後，選擇\"工作項目編輯者\"角色作為目標，然後點擊\"複製\"。在建立預設設定之後，像對其他角色一樣進行微調，以其對工作流程進行詳細調整。"
         link_message: "在管理中配置工作流。"
     summary:
       reports:
@@ -616,6 +650,7 @@ zh-TW:
         editable: "可編輯"
         field_format: "格式"
         is_filter: "作為篩選條件"
+        is_for_all: "適用於所有專案"
         is_required: "必填"
         max_length: "最大長度"
         min_length: "最小長度"
@@ -722,7 +757,7 @@ zh-TW:
         hours: "小時"
         spent_on: "日期"
         type: "類型"
-        ongoing: "進行中"
+        ongoing: "開啟中"
       type:
         description: "描述的預設文字"
         attribute_groups: ""
@@ -784,7 +819,7 @@ zh-TW:
         readonly: "唯讀"
         remaining_hours: "剩餘工作"
         remaining_time: "剩餘工作"
-        shared_with_users: "協作成員（共用）"
+        shared_with_users: "參與"
         schedule_manually: "手動排程"
         spent_hours: "耗時"
         spent_time: "耗時"
@@ -803,7 +838,7 @@ zh-TW:
         blank: "不可空白"
         blank_nested: "需要設置屬性  '%{property}' "
         cannot_delete_mapping: "必需項，不能刪除"
-        is_for_all_cannot_modify: "全域使用。無法修改。"
+        is_for_all_cannot_modify: "適用於所有專案，因此無法修改。"
         cant_link_a_work_package_with_a_descendant: "一個工作項目不能聯結到它的一個子項目"
         circular_dependency: "這個關係會建立一個循環依賴"
         confirmation: "不吻合 %{attribute}。"
@@ -911,6 +946,8 @@ zh-TW:
             name:
               blank: "必填。 請選擇一個名稱。"
               not_unique: "已被使用。請選擇其他名稱。"
+        meeting:
+          error_conflict: "無法儲存，因為會議現主時已由其他人更新。請重新載入頁面。"
         notifications:
           at_least_one_channel: "至少需要指定一個發送通知的方式"
           attributes:
@@ -1340,6 +1377,7 @@ zh-TW:
   button_expand_all: "全部展開"
   button_favorite: "收藏"
   button_filter: "篩選條件"
+  button_finish_setup: "完成設定"
   button_generate: "產生"
   button_list: "清單"
   button_lock: "鎖定"
@@ -1377,11 +1415,11 @@ zh-TW:
   button_add_menu_entry: "新增選單項目"
   button_configure_menu_entry: "設定選單項目"
   button_delete_menu_entry: "刪除選單項目"
-  button_view_shared_work_packages: "檢視共用的工作項目"
+  button_view_shared_work_packages: "檢視參與的工作項目"
   button_manage_roles: "管理角色"
   button_remove_member: "移除成員"
-  button_remove_member_and_shares: "移除成員及共用"
-  button_revoke_work_package_shares: "撤銷已共用的工作項目"
+  button_remove_member_and_shares: "移除成員及參與項目"
+  button_revoke_work_package_shares: "撤銷已參與的工作項目"
   button_revoke_access: "撤銷存取權限"
   button_revoke_all: "全部撤銷"
   button_revoke_only: "僅撤銷 %{shared_role_name}"
@@ -1392,8 +1430,8 @@ zh-TW:
     failure_message: 同意失敗, 無法繼續。
     title: 使用者同意個資意向書
     decline_warning_message: 您已拒絕同意並已登出。
-    user_has_consented: 使用者已同意您在給定時間配置的語句。
-    not_yet_consented: 使用者尚未同意, 將在下次登錄時請求。
+    user_has_consented: 使用者同意您的 [設定的同意資訊文字](consent_settings)。
+    not_yet_consented: 使用者尚未同意您的 [設定的同意資訊文字](consent_settings)。下次登入時會提醒他們。
     contact_mail_instructions: 使用者可透過系統更改或移除郵寄地址。
     contact_your_administrator: 如果您想刪除您的帳戶, 請與您的管理員聯繫。
     contact_this_mail_address: 如果要刪除帳戶, 請聯繫 %{mail_address}。
@@ -1763,11 +1801,15 @@ zh-TW:
       progress_mode_changed_to_status_based: "更新計算後的進度"
       status_changed: "狀態 '%{status_name}'"
       system_update: "OpenProject 系統更新："
+      work_package_duplicate_closed: "更新了重複工作項目："
+      total_percent_complete_mode_changed_to_work_weighted_average: "完成百分比總計的計算現在以工作加權。"
+      total_percent_complete_mode_changed_to_simple_average: "完成百分比總數的計算現在僅基於完成百分比值的簡單平均值。"
     cause_descriptions:
       work_package_predecessor_changed_times: 根據前置任務 %{link} 的更改
       work_package_parent_changed_times: 因上層%{link}而異動
       work_package_children_changed_times: 因子工作項目%{link}而異動
       work_package_related_changed_times: 因與%{link}相關而異動
+      work_package_duplicate_closed: 重複的工作項目會自動更新狀態 %{link}
       unaccessable_work_package_changed: 因相關工作項目而異動
       working_days_changed:
         changed: "因工作天數 (%{changes})變更而異動"
@@ -1780,7 +1822,7 @@ zh-TW:
       progress_mode_changed_to_status_based: 自動計算模式設定成「Status-based」
       status_excluded_from_totals_set_to_false_message: 現在包含在層次結構總計中
       status_excluded_from_totals_set_to_true_message: 現在不包含在層次結構總計中
-      status_percent_complete_changed: "完成百分比從 %{old_value}% 變為 %{new_value}%"
+      status_percent_complete_changed: "完成百分比從 %{old_value} % 變為 %{new_value}%"
       system_update:
         file_links_journal: >
           從現在開始，與文件鏈接(存儲在外部存儲器中的文件) 相關的活動將出現在“活動”選項卡中。以下是與已經存在的鏈接相關的活動的表示：
@@ -1790,6 +1832,10 @@ zh-TW:
           自動計算進度<a href="%{href}" target="_blank">隨版本更新調整</a>。
         totals_removed_from_childless_work_packages: >-
           使用 <a href="%{href}" target="_blank">版本更新</a>的非父工作包的工作和進度總計自動移除。 這是一個維護任務，可以安全地被忽略。
+      total_percent_complete_mode_changed_to_work_weighted_average: >-
+        沒有工作內容的子工作項目會被忽略。
+      total_percent_complete_mode_changed_to_simple_average: >-
+        子工作包的工作值會被忽略。
   links:
     configuration_guide: "設定指南"
     get_in_touch: "如有任何問題，歡迎聯繫我們"
@@ -1850,7 +1896,7 @@ zh-TW:
       dateAlert: "到期提醒"
       mentioned: "被提及"
       responsible: "負責人"
-      shared: "共用"
+      shared: "參與"
       watched: "監看者"
     facets:
       unread: "未讀"
@@ -1896,7 +1942,7 @@ zh-TW:
   label_all: "所有"
   label_all_time: "所有的時間"
   label_all_words: "所以的詞"
-  label_all_open_wps: "所有「進行中」工作項目"
+  label_all_open_wps: "所有「未關閉」工作項目"
   label_always_visible: "總是顯示"
   label_announcement: "公告"
   label_angular: "AngularJS"
@@ -1930,7 +1976,7 @@ zh-TW:
   label_available_project_repositories: "可用的版本庫"
   label_available_project_versions: "可用的版本"
   label_available_project_work_package_categories: "可用的工作項目類別"
-  label_available_project_work_package_types: "可用的工作包類型"
+  label_available_project_work_package_types: "可用的工作項目類型"
   label_available_projects: "可用專案"
   label_api_doc: "API文件"
   label_backup: "備份"
@@ -1953,6 +1999,7 @@ zh-TW:
   label_calendars_and_dates: "行事曆與日期"
   label_calendar_show: "顯示行事曆"
   label_category: "類別"
+  label_completed: 已完成
   label_consent_settings: "使用者同意個資意向書"
   label_wiki_menu_item: 維基選單項目
   label_select_main_menu_item: 選擇新的主選單項目
@@ -1972,7 +2019,6 @@ zh-TW:
   label_check_uncheck_all_in_row: "選取/取消選取 全部"
   label_child_element: "子項目"
   label_choices: "選項"
-  label_chronological_order: "由舊排列至新"
   label_close_versions: "關閉已完成的版本"
   label_closed_work_packages: "已關閉"
   label_collapse: "收合"
@@ -2048,9 +2094,9 @@ zh-TW:
   label_enabled_project_activities: "啟用的時間追蹤活動"
   label_end_to_end: "尾端到尾端"
   label_end_to_start: "尾端至開端"
-  label_enumeration_new: "新增「選項」"
-  label_enumeration_value: "選項"
-  label_enumerations: "選項"
+  label_enumeration_new: "新增「列舉」"
+  label_enumeration_value: "列舉"
+  label_enumerations: "列舉"
   label_enterprise: "企業"
   label_enterprise_active_users: "%{current}/%{limit} 已預訂的活動使用者"
   label_enterprise_edition: "企業版"
@@ -2101,6 +2147,7 @@ zh-TW:
   label_here: 這裡
   label_hide: "隱藏"
   label_history: "歷史"
+  label_hierarchy: "階層"
   label_hierarchy_leaf: "頁面結構頁"
   label_home: "Home"
   label_subject_or_id: "主旨或 id"
@@ -2112,6 +2159,7 @@ zh-TW:
   label_inactive: "未啟用"
   label_incoming_emails: "接收到的電子郵件"
   label_includes: "包括"
+  label_incomplete: 未完成
   label_include_sub_projects: 包含子專案
   label_index_by_date: "按日期索引"
   label_index_by_title: "按標題索引"
@@ -2122,9 +2170,11 @@ zh-TW:
   label_internal: "內部"
   label_introduction_video: "簡介影片"
   label_invite_user: "邀請使用者"
-  label_share: "共用"
-  label_share_project_list: "共用專案清單"
-  label_share_work_package: "共用工作項目"
+  label_item: "欄位"
+  label_item_plural: "欄位"
+  label_share: "參與"
+  label_share_project_list: "分享專案清單"
+  label_share_work_package: "參與工作項目"
   label_show_all_registered_users: "顯示所有註冊使用者"
   label_show_less: "減少顯示"
   label_show_more: "顯示更多"
@@ -2198,7 +2248,7 @@ zh-TW:
   label_more: "更多"
   label_more_than_ago: "超過幾天"
   label_move_work_package: "移動工作項目"
-  label_my_account: "我的帳號"
+  label_my_account: "帳號設定"
   label_my_activity: "我的活動紀錄"
   label_my_account_data: "我的帳號資料"
   label_my_avatar: "我的大頭貼"
@@ -2216,7 +2266,7 @@ zh-TW:
   label_news_edit: "編輯消息"
   label_news_plural: "最新消息"
   label_news_view_all: "檢視所有新聞"
-  label_next: "下一個"
+  label_next: "下一頁"
   label_next_week: "下一週"
   label_no_change_option: "(沒有變動)"
   label_no_data: "沒有資料可顯示"
@@ -2225,6 +2275,7 @@ zh-TW:
   label_no_parent_page: "無上層頁面"
   label_nothing_display: "沒有可以顯示的"
   label_nobody: "沒有人"
+  label_not_configured: "尚未設定"
   label_not_found: "未找到"
   label_none: "無"
   label_none_parentheses: "（無）"
@@ -2237,8 +2288,8 @@ zh-TW:
   label_operator_equals_all: "包含"
   label_operator_shared_with_user_any: "任何"
   label_open_menu: "開啟選單"
-  label_open_work_packages: "進行中"
-  label_open_work_packages_plural: "進行中"
+  label_open_work_packages: "開啟中"
+  label_open_work_packages_plural: "開啟中"
   label_openproject_website: "OpenProject 網站"
   label_optional_description: "說明"
   label_options: "選項"
@@ -2333,7 +2384,6 @@ zh-TW:
   label_required: "必要"
   label_requires: "需要"
   label_result_plural: "結果"
-  label_reverse_chronological_order: "由新排列至舊"
   label_revision: "修訂"
   label_revision_id: "修訂版 %{value}"
   label_revision_plural: "修訂"
@@ -2427,7 +2477,7 @@ zh-TW:
   label_version_plural: "版本"
   label_version_sharing_descendants: "與子專案"
   label_version_sharing_hierarchy: "有專案階層"
-  label_version_sharing_none: "非共用的"
+  label_version_sharing_none: "非參與的"
   label_version_sharing_system: "有所有的版本"
   label_version_sharing_tree: "有專案樹"
   label_videos: "影片"
@@ -2483,7 +2533,7 @@ zh-TW:
     other: "%{count} 個留言"
     zero: "沒有留言"
   label_x_open_work_packages_abbr:
-    one: "1 進行中"
+    one: "1 開啟中"
     other: "%{count} 個未完成"
     zero: "0 個已開啟"
   label_x_work_packages:
@@ -2555,7 +2605,7 @@ zh-TW:
         assigned: "指派"
         responsible: "負責人"
         mentioned: "被提及"
-        shared: "共用"
+        shared: "參與"
         subscribed: "所有"
         prefix: "因為通知設定而收到：%{reason}"
         date_alert_start_date: "日期提醒"
@@ -2565,13 +2615,13 @@ zh-TW:
     sharing:
       work_packages:
         allowed_actions: "您擁有這個工作項目的 %{allowed_actions} 權限. 這些權限將隨著您的角色不同而更改."
-        create_account: "要訪問此工作包，您需要創建一個 %{instance} 帳戶。"
+        create_account: "要存取此工作項目，您需要建立一個 %{instance} 帳戶。"
         open_work_package: "開啟工作項目"
-        subject: "有個工作項目 #%{id} 與您共用"
-        enterprise_text: "與不是專案成員的使用者共用工作項目。"
+        subject: "有個工作項目 #%{id} 與您共同參與"
+        enterprise_text: "與不是專案成員的使用者共同參與工作項目。"
         summary:
-          user: "%{user} 將一個工作項目與您共用，權限：%{role_rights}\""
-          group: "%{user} 將一個工作項目與您之群組共用： %{group}"
+          user: "%{user} 將一個工作項目邀請您參與，權限：%{role_rights}\""
+          group: "%{user} 將一個工作項目與您之群組共同參與： %{group}"
     storages:
       health:
         plaintext:
@@ -2619,7 +2669,7 @@ zh-TW:
     body: "您的 %{app_title} 帳戶已關聯到外部身份驗證服務提供商 (%{name})。"
     subtext: "無法在應用程序中更改外部帳戶的密碼。請使用您的身份驗證服務提供商的密碼丟失功能。"
   mail_body_register: "歡迎使用 %{app_title}。請點擊此鏈接啟用您的帳戶："
-  mail_body_register_header_title: "項目成員邀請電子郵件"
+  mail_body_register_header_title: "專案成員邀請電子郵件"
   mail_body_register_user: "親 %{name}，"
   mail_body_register_links_html: |
     請隨時瀏覽我們提供網絡研討會 (%{webinar_link}) 的 YouTube 頻道 (%{youtube_link})
@@ -2768,7 +2818,7 @@ zh-TW:
   permission_add_messages: "張貼訊息"
   permission_add_project: "建立專案"
   permission_add_work_package_attachments: "新增附件"
-  permission_add_work_package_attachments_explanation: "允許在沒有編輯工作包權限的情況下添加附件"
+  permission_add_work_package_attachments_explanation: "允許在沒有編輯工作項目權限的情況下新增附件"
   permission_archive_project: "封存專案"
   permission_create_user: "新增使用者"
   permission_manage_user: "編輯使用者"
@@ -2779,7 +2829,7 @@ zh-TW:
   permission_browse_repository: "唯讀版本庫 (瀏覽和 Checkout)"
   permission_change_wiki_parent_page: "更改上層 Wiki 頁面"
   permission_change_work_package_status: "變更工作項目狀態"
-  permission_change_work_package_status_explanation: "允許在不編輯工作包權限的情況下更改狀態"
+  permission_change_work_package_status_explanation: "允許在無編輯工作項目權限的情況下更改狀態"
   permission_comment_news: "在「最新消息」留言"
   permission_commit_access: "讀/寫 權限版本庫 (Commit)"
   permission_copy_projects: "複製專案"
@@ -2831,7 +2881,7 @@ zh-TW:
   permission_select_custom_fields: "選擇客製欄位"
   permission_select_project_custom_fields: "選擇專案屬性"
   permission_select_project_modules: "選擇專案的模組"
-  permission_share_work_packages: "共用工作項目"
+  permission_share_work_packages: "參與工作項目"
   permission_manage_types: "選擇類型"
   permission_view_project: "檢視專案"
   permission_view_changesets: "在 OpenProject 檢視版本庫修訂"
@@ -2843,9 +2893,10 @@ zh-TW:
   permission_view_news: "檢視公告"
   permission_view_members: "檢視成員"
   permission_view_reportings: "檢視報表"
-  permission_view_shared_work_packages: "檢視分享的工作項目"
+  permission_view_shared_work_packages: "檢視參與的工作項目"
   permission_view_time_entries: "檢視耗時"
   permission_view_timelines: "檢視時間軸"
+  permission_view_user_email: "檢視使用者的郵件地址"
   permission_view_wiki_edits: "檢視維基歷史"
   permission_view_wiki_pages: "檢視維基"
   permission_work_package_assigned: "成為執行者/負責人"
@@ -2904,8 +2955,8 @@ zh-TW:
     member_of_group: "執行者的群組"
     name_or_identifier: "名稱或識別碼"
     only_subproject_id: "只限子專案"
-    shared_with_user: "與使用者共用"
-    shared_with_me: "與我共用"
+    shared_with_user: "使用者參與的"
+    shared_with_me: "我參與的"
     subproject_id: "包含子專案"
   repositories:
     at_identifier: "在 %{identifier}"
@@ -2951,7 +3002,7 @@ zh-TW:
       empty_repository: "版本庫已存在，但是是空的。"
       exists_on_filesystem: "版本庫的路徑已經存在在檔案系統中"
       filesystem_access_failed: "在檔案系統中存取版本庫時發生錯誤: %{message}"
-      not_manageable: "此版本庫的提供者不能被 OpenProject 所管理"
+      not_manageable: "此版本庫的提供商不能被 OpenProject 所管理"
       path_permission_failed: "嘗試建立以下路徑(%{path})時發生錯誤。請確保 OpenProject 可以寫入到該資料夾。"
       unauthorized: "你沒有被授權存取這個版本庫，或者你的憑證已經失效。"
       unavailable: "版本褲無法使用"
@@ -3103,8 +3154,6 @@ zh-TW:
   setting_work_package_done_ratio_status: "基於狀態"
   setting_work_package_done_ratio_status_caption_html: >-
     每個狀態都有一個與之相關的<i>完成百分比</i>值。變更狀態會變更<i>完成百分比</i>。
-  setting_work_package_done_ratio_explanation_pre_14_4_without_percent_complete_edition_html: >
-    在<b>基於工作</b>模式下，完成百分比是根據已完成的工作量相對於總工作量來計算的。在<b>基於狀態</b>模式下，每個狀態都有一個與其關聯的完成百分比值。更改狀態將更改完成百分比。
   setting_work_package_done_ratio_explanation_html: >
     在<b>基於工作</b>模式下，完成百分比可以自由設定為任何值。如果您可以選擇輸入工時，則會自動算出剩餘工時。在<b>基於狀態</b>模式下，每個狀態都有一個與其關聯的完成百分比值。更改狀態將更改完成百分比。
   setting_work_package_properties: "工作項目屬性"
@@ -3156,6 +3205,13 @@ zh-TW:
   setting_sys_api_enabled: "啟用版控容器管理網路服務"
   setting_sys_api_description: "版控容器管理網路服務提供容器存取管理和使用者認證"
   setting_time_format: "時間"
+  setting_total_percent_complete_mode: "完成百分比層級總計"
+  setting_total_percent_complete_mode_work_weighted_average: "工作加權"
+  setting_total_percent_complete_mode_work_weighted_average_caption_html: >-
+    <i>總完成百分比</i>將根據層級架構中每個工作套件的<i>工作量</i>加權計算。沒有<i>工作</i>的工作包將被忽略。
+  setting_total_percent_complete_mode_simple_average: "簡易平均"
+  setting_total_percent_complete_mode_simple_average_caption_html: >-
+    <i>工作</i>會被忽略，<i>總完成百分比</i>將是層級結構中工作套件<i>完成百分比</i>值的簡單平均值。
   setting_accessibility_mode_for_anonymous: "啟用匿名使用者存取模式"
   setting_user_format: "姓名顯示方式"
   setting_user_default_timezone: "使用者預設時區"
@@ -3423,7 +3479,7 @@ zh-TW:
     active: "啟用"
     activate: "啟用"
     activate_and_reset_failed_logins: "啟用並重置失敗的登錄"
-    authentication_provider: "驗證提供者"
+    authentication_provider: "身份驗證提供商"
     identity_url_text: "身份驗證提供商提供的內部唯一標識符。"
     authentication_settings_disabled_due_to_external_authentication: >
       此使用者通過外部身份檢查器提供者進行身份驗證, 因此 OpenProject 中沒有要更改的密碼。
@@ -3445,7 +3501,7 @@ zh-TW:
     reset_failed_logins: "重置失敗的登錄"
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: "狀態變更"
-    text_change_disabled_for_provider_login: "該名稱由賬戶提供者設定，因此無法更改。"
+    text_change_disabled_for_provider_login: "該名稱由您的登入提供商設定，因此無法變更。"
     text_change_disabled_for_ldap_login: "姓名和電子郵件由 LDAP 設定，因此無法變更。"
     unlock: "按此啟用"
     unlock_and_reset_failed_logins: "啟用並清除登入紀錄"
@@ -3496,8 +3552,7 @@ zh-TW:
       label_note: "備註"
       modal:
         work_based_help_text: "在可能的情況下，每個欄位都會根據其他兩個欄位自動計算。"
-        work_based_help_text_pre_14_4_without_percent_complete_edition: "完成百分比由 \"工時\" 和 \"剩餘工時\" 自動得出。"
-        status_based_help_text: "完成百分比由工作包狀態設定。"
+        status_based_help_text: "完成百分比依工作項目狀態設定。"
         migration_warning_text: "在「基於工時」進度計算模式下，完成百分比無法手動設置，並且與「工時」相關聯。目前手動輸入數值已保留，無法編輯。 請務必輸入「工時」才能進行。"
       derivation_hints:
         done_ratio:
@@ -3536,24 +3591,24 @@ zh-TW:
       group: "群組"
       role: "角色"
       type: "類型"
-    denied: "您沒有權限共用 %{entities}。"
+    denied: "您沒有權限分享 %{entities}。"
     label_search: "搜尋要邀請的用戶"
     label_search_placeholder: "以帳號或電子郵件搜尋"
-    label_toggle_all: "切換到「所有共用的」"
+    label_toggle_all: "切換到「所有參與的」"
     remove: "刪除"
-    share: "共用"
+    share: "參與"
     text_empty_search_description: "沒有符合當前過濾條件的用戶。"
     text_empty_search_header: "我們找不到任何匹配結果。"
-    text_empty_state_description: "%{entity} 尚未與任何人共用。"
-    text_empty_state_header: "非共用的"
+    text_empty_state_description: "%{entity} 尚未與任何人分享。"
+    text_empty_state_header: "非參與的"
     text_user_limit_reached: "添加其他用戶將超出當前限制。請聯繫管理員增加用戶限制，以確保外部用戶能夠訪問 %{entity}。"
     text_user_limit_reached_admins: '添加更多用戶將超出當前限制。請<a href="%{upgrade_url}">升級您的計劃</a>，以便添加更多用戶。'
     warning_user_limit_reached: >
       添加其他用戶將超出當前限制。請聯繫管理員增加用戶限制，以確保外部用戶能夠訪問 %{entity}。
     warning_user_limit_reached_admin: >
       添加其他用戶將超出當前限制。請<a href="%{upgrade_url}">升級您的計劃</a>，以確保外部用戶能夠訪問 %{entity}。
-    warning_no_selected_user: "請選擇要與之共用此 %{entity} 的用戶"
-    warning_locked_user: "使用者 %{user} 已停用，無法共用"
+    warning_no_selected_user: "請選擇要參與 %{entity} 的用戶"
+    warning_locked_user: "使用者 %{user} 已停用，無法參與"
     user_details:
       locked: "使用者已停用"
       invited: "已傳送邀請"
@@ -3561,10 +3616,10 @@ zh-TW:
       invite_resent: "已重傳邀請"
       not_project_member: "非專案的成員"
       project_group: "小組成員可能擁有額外權限(作為項目成員)"
-      not_project_group: "群組 (與所有成員共用)"
-      additional_privileges_project: "可能有額外的權限(作為項目成員)"
-      additional_privileges_group: "可能有額外的權限(作為組成員)"
-      additional_privileges_project_or_group: "可能有額外的權限(作為項目成員或組成員)"
+      not_project_group: "群組 (所有成員參與)"
+      additional_privileges_project: "可能有額外的權限(身為專案成員)"
+      additional_privileges_group: "可能有額外的權限(作為群組成員)"
+      additional_privileges_project_or_group: "可能有額外的權限(身為專案成員或群組成員)"
     project_queries:
       publishing_denied: "您沒有公開專案列表的權限。"
       access_warning: "用戶只能看到他們有權訪問的專案。共用專案列表不會影響單一專案的權限。"
@@ -3573,20 +3628,20 @@ zh-TW:
         can_view_because_public: "因專案清單公開，已經可以查看"
         can_manage_public_lists: "可根據全域權限進行編輯"
       public_flag:
-        label: "通過 %{instance_name} 與大家分享"
+        label: "通過 %{instance_name} 讓大家參與"
         caption: "每個人都可以查看此項目列表。有全局編輯權限的人可以修改它。"
       blank_state:
         public:
-          header: "共用給所有人"
+          header: "所有人一同參與"
           description: "每個人都可以查看此項目列表。您也可以添加具有額外權限的個別用戶。"
         private:
-          header: "不共用：私有"
-          description: "此專案列表尚未與任何人共用。只有您可以存取此列表。"
+          header: "不分享：私有"
+          description: "此專案列表尚未讓任何人參與。只有您可以存取此列表。"
       permissions:
         view: "檢視"
         view_description: "可以查看此項目列表。"
         edit: "編輯"
-        edit_description: "可以查看、共用和編輯此專案列表。"
+        edit_description: "可以查看、分享和編輯此專案列表。"
       upsale:
         message: "與單個用戶共用專案列表是一項企業附加功能。"
   working_days:
@@ -3622,7 +3677,7 @@ zh-TW:
       code_500_outbound_request_failure: "對另一個資源的出站請求存在失敗狀態代碼 %{status_code} 。"
       code_500_missing_enterprise_token: "由於企業權杖是無效的或缺失的，故無法處理該請求。"
       not_found:
-        work_package: "找不到您要查找的工作包或者它已被刪除。"
+        work_package: "找不到您要查找的工作項目或者它已被刪除。"
       expected:
         date: "YYYY-MM-DD (僅適用於 ISO 8601 日期)"
         datetime: "YYYY-MM-DDThh:mm:ss[.lll][+hh:mm](任何兼容的 ISO 8601 日期時間)"
@@ -3812,4 +3867,4 @@ zh-TW:
     description: "在 OpenProject 中集成 OmniAuth 策略提供程序以進行身份驗證。"
   plugin_openproject_auth_saml:
     name: "OmniAuth SAML / SSO單點登錄"
-    description: "將 OmniAuth SAML 身份提供程序添加到 OpenProject"
+    description: "將 OmniAuth SAML 提供商增加到 OpenProject"

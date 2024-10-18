@@ -43,14 +43,14 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
   end
 
   let(:oauth_application) { create(:oauth_application) }
-  let(:storage) { create(:nextcloud_storage, creator: current_user, oauth_application:) }
+  let(:storage) { create(:nextcloud_storage_configured, creator: current_user, oauth_application:) }
+  let(:oauth_token) { create(:oauth_client_token, user: current_user, oauth_client: storage.oauth_client) }
   let(:project_storage) { create(:project_storage, project:, storage:) }
 
-  subject(:last_response) do
-    get path
-  end
+  subject(:last_response) { get path }
 
   before do
+    oauth_application
     project_storage
     login_as current_user
   end
@@ -205,12 +205,9 @@ RSpec.describe "API v3 storage files", :webmock, content_type: :json do
 
     context "with query failed" do
       before do
-        clazz = Storages::Peripherals::StorageInteraction::Nextcloud::FileInfoQuery
-        instance = instance_double(clazz)
-        allow(clazz).to receive(:new).and_return(instance)
-        allow(instance).to receive(:call).and_return(
-          ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error))
-        )
+        Storages::Peripherals::Registry
+          .stub("#{storage}.queries.file_info",
+                ->(_) { ServiceResult.failure(result: error, errors: Storages::StorageError.new(code: error)) })
       end
 
       context "with authorization failure" do

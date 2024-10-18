@@ -107,6 +107,11 @@ RSpec.describe "My page time entries current user widget spec", :js do
     create(:user,
            member_with_permissions: { project => %i[view_time_entries edit_time_entries view_work_packages log_own_time] })
   end
+
+  let!(:my_page_grid) do
+    create(:my_page, :empty, user:)
+  end
+
   let(:my_page) do
     Pages::My::Page.new
   end

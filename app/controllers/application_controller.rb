@@ -52,6 +52,7 @@ class ApplicationController < ActionController::Base
   include AdditionalUrlHelpers
   include OpenProjectErrorHelper
   include Security::DefaultUrlOptions
+  include OpModalFlashable
 
   layout "base"
 

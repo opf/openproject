@@ -1,0 +1,75 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  component_wrapper(tag: 'turbo-frame') do
+    flex_layout do |container|
+      if items.empty? && !show_new_item_form?
+        container.with_row(mb: 3) do
+          render Primer::Beta::Blankslate.new(border: true) do |component|
+            component.with_visual_icon(icon: "list-ordered")
+            component.with_heading(tag: :h3).with_content(I18n.t("custom_fields.admin.items.blankslate.title"))
+            component.with_description { I18n.t("custom_fields.admin.items.blankslate.description") }
+          end
+        end
+      else
+        container.with_row(mb: 3) do
+          render(Primer::Beta::BorderBox.new) do |item_box|
+            item_box.with_header { @custom_field.name }
+
+            items.each do |item|
+              item_box.with_row do
+                render Admin::CustomFields::Hierarchy::ItemComponent.new(custom_field: @custom_field,
+                                                                         hierarchy_item: item)
+              end
+            end
+
+            if show_new_item_form?
+              item_box.with_footer do
+                render Admin::CustomFields::Hierarchy::NewItemFormComponent.new(custom_field: @custom_field,
+                                                                                label: @new_item_form_data[:label],
+                                                                                short: @new_item_form_data[:short])
+              end
+            end
+          end
+        end
+      end
+
+      container.with_row do
+        render Primer::Beta::Button.new(scheme: :primary,
+                                        tag: :a,
+                                        data: { turbo_stream: true },
+                                        href: new_custom_field_item_path(@custom_field)) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          I18n.t(:label_item)
+        end
+      end
+    end
+  end
+%>

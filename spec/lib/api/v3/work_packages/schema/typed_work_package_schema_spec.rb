@@ -28,8 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema,
-               with_flag: { percent_complete_edition: true } do
+RSpec.describe API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
   let(:project) { build(:project) }
   let(:type) { build(:type) }
 

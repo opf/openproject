@@ -27,6 +27,7 @@
 #++
 
 require "spec_helper"
+require_relative "replace_references_context"
 
 RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
   subject(:service_call) { instance.call(from: principal, to: to_principal) }
@@ -78,65 +79,6 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
         it "replaces user_id" do
           expect(journal.user_id)
             .to eql other_user.id
-        end
-      end
-    end
-
-    shared_examples_for "rewritten record" do |factory, attribute, format = Integer|
-      let!(:model) do
-        klass = FactoryBot.factories.find(factory).build_class
-        all_attributes = other_attributes.merge(attribute => principal_id)
-
-        inserted = ActiveRecord::Base.connection.select_one <<~SQL.squish
-          INSERT INTO #{klass.table_name}
-          (#{all_attributes.keys.join(', ')})
-          VALUES
-          (#{all_attributes.values.join(', ')})
-          RETURNING id
-        SQL
-
-        klass.find(inserted["id"])
-      end
-
-      let(:other_attributes) do
-        defined?(attributes) ? attributes : {}
-      end
-
-      def expected(user, format)
-        if format == String
-          user.id.to_s
-        else
-          user.id
-        end
-      end
-
-      context "for #{factory}" do
-        context "with the replaced user" do
-          let(:principal_id) { principal.id }
-
-          before do
-            service_call
-            model.reload
-          end
-
-          it "replaces #{attribute}" do
-            expect(model.send(attribute))
-              .to eql expected(to_principal, format)
-          end
-        end
-
-        context "with a different user" do
-          let(:principal_id) { other_user.id }
-
-          before do
-            service_call
-            model.reload
-          end
-
-          it "keeps #{attribute}" do
-            expect(model.send(attribute))
-              .to eql expected(other_user, format)
-          end
         end
       end
     end
@@ -258,9 +200,7 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
                       :meeting_agenda,
                       :author_id do
         let(:attributes) do
-          { type: "'MeetingAgenda'",
-            created_at: "NOW()",
-            updated_at: "NOW()" }
+          { type: "'MeetingAgenda'" }
         end
       end
 
@@ -268,32 +208,19 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
                       :meeting_minutes,
                       :author_id do
         let(:attributes) do
-          { type: "'MeetingMinutes'",
-            created_at: "NOW()",
-            updated_at: "NOW()" }
+          { type: "'MeetingMinutes'" }
         end
       end
 
       it_behaves_like "rewritten record",
                       :journal_meeting_content_journal,
-                      :author_id do
-        let(:attributes) do
-          {}
-        end
-      end
+                      :author_id
     end
 
     context "with MeetingParticipant" do
       it_behaves_like "rewritten record",
                       :meeting_participant,
-                      :user_id do
-        let(:attributes) do
-          {
-            created_at: "NOW()",
-            updated_at: "NOW()"
-          }
-        end
-      end
+                      :user_id
     end
 
     context "with News" do
@@ -330,8 +257,7 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
 
       it_behaves_like "rewritten record",
                       :journal_wiki_page_journal,
-                      :author_id do
-      end
+                      :author_id
     end
 
     context "with WorkPackage" do
@@ -525,9 +451,7 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
           {
             recipient_id: user.id,
             resource_id: 1234,
-            resource_type: "'WorkPackage'",
-            created_at: "NOW()",
-            updated_at: "NOW()"
+            resource_type: "'WorkPackage'"
           }
         end
       end
@@ -542,9 +466,7 @@ RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
             name: "'foo'",
             uid: "'bar'",
             secret: "'bar'",
-            redirect_uri: "'urn:whatever'",
-            created_at: "NOW()",
-            updated_at: "NOW()"
+            redirect_uri: "'urn:whatever'"
           }
         end
       end

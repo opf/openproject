@@ -93,7 +93,7 @@ RSpec.describe "form query configuration", :js, :with_cuprite do
     it "can save an empty query group" do
       form.add_query_group("Empty test", :children)
       form.save_changes
-      expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+      expect_flash(message: "Successful update.")
       type_bug.reload
 
       query_group = type_bug.attribute_groups.detect { |x| x.is_a?(Type::QueryGroup) }
@@ -105,7 +105,7 @@ RSpec.describe "form query configuration", :js, :with_cuprite do
       form.add_query_group("Subtasks", :children)
       # Save changed query
       form.save_changes
-      expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+      expect_flash(message: "Successful update.")
 
       # Visit wp_table
       wp_table.visit!
@@ -131,7 +131,7 @@ RSpec.describe "form query configuration", :js, :with_cuprite do
         form.add_query_group("Subtasks", :children)
         # Save changed query
         form.save_changes
-        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+        expect_flash(message: "Successful update.")
 
         # Visit new wp page
         visit new_project_work_packages_path(project)
@@ -156,7 +156,7 @@ RSpec.describe "form query configuration", :js, :with_cuprite do
         filters.save
 
         form.save_changes
-        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+        expect_flash message: "Successful update."
 
         archived.update_attribute(:active, false)
 
@@ -184,7 +184,7 @@ RSpec.describe "form query configuration", :js, :with_cuprite do
 
       # Save changed query
       form.save_changes
-      expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+      expect_flash(message: "Successful update.")
 
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
@@ -206,7 +206,7 @@ RSpec.describe "form query configuration", :js, :with_cuprite do
 
       # Save changed query
       form.save_changes
-      expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+      expect_flash(message: "Successful update.")
 
       type_bug.reload
       query = type_bug.attribute_groups.detect { |x| x.key == "Columns Test" }
@@ -253,7 +253,7 @@ RSpec.describe "form query configuration", :js, :with_cuprite do
         filters.save
 
         form.save_changes
-        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+        expect_flash(message: "Successful update.")
 
         # Visit work package with that type
         wp_page.visit!

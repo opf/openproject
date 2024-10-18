@@ -38,10 +38,10 @@ require_relative "../../lib_static/open_project/feature_decisions"
 #   initializer 'the_engine.feature_decisions' do
 #     OpenProject::FeatureDecisions.add :some_flag
 #   end
-OpenProject::FeatureDecisions.add :percent_complete_edition,
-                                  description: "Allow edition of % Complete in work-based progress calculation mode. " \
-                                               "Will be enabled by default in OpenProject 15.0. " \
-                                               "See work package #52233 for more details."
 
+OpenProject::FeatureDecisions.add :primerized_work_package_activities
 OpenProject::FeatureDecisions.add :built_in_oauth_applications,
                                   description: "Allows the display and use of built-in OAuth applications."
+
+OpenProject::FeatureDecisions.add :custom_field_of_type_hierarchy,
+                                  description: "Allows the use of the custom field type 'Hierarchy'."

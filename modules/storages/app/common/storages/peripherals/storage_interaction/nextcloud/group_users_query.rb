@@ -34,51 +34,67 @@ module Storages
       module Nextcloud
         class GroupUsersQuery
           include TaggedLogging
-          using ServiceResultRefinements
 
-          def self.call(storage:, group: storage.group)
-            new(storage).call(group:)
+          def self.call(storage:, auth_strategy:, group:)
+            new(storage).call(auth_strategy:, group:)
           end
 
           def initialize(storage)
             @storage = storage
-            @username = storage.username
-            @password = storage.password
           end
 
-          # rubocop:disable Metrics/AbcSize
-          def call(group:)
+          def call(auth_strategy:, group:)
             with_tagged_logger do
-              url = UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/groups", CGI.escapeURIComponent(group))
+              Authentication[auth_strategy].call(storage: @storage, http_options:) do |http|
+                url = UrlBuilder.url(@storage.uri, "ocs/v1.php/cloud/groups", group)
+                info "Requesting user list for group #{group} via url #{url} "
 
-              info "Requesting user list for group #{group} via url #{url} "
-              response = OpenProject.httpx
-                                    .basic_auth(@username, @password)
-                                    .with(headers: { "OCS-APIRequest" => "true" })
-                                    .get(url)
-
-              error_data = StorageErrorData.new(source: self.class, payload: response)
-
-              case response
-              in { status: 200..299 }
-                group_users = Nokogiri::XML(response.body.to_s).xpath("/ocs/data/users/element").map(&:text)
-                info "#{group_users.size} users found"
-                ServiceResult.success(result: group_users)
-              in { status: 405 }
-                Util.error(:not_allowed, "Outbound request method not allowed", error_data)
-              in { status: 401 }
-                Util.error(:unauthorized, "Outbound request not authorized", error_data)
-              in { status: 404 }
-                Util.error(:not_found, "Outbound request destination not found", error_data)
-              in { status: 409 }
-                Util.error(:conflict, error_text_from_response(response), error_data)
-              else
-                Util.error(:error, "Outbound request failed", error_data)
+                handle_response(http.get(url))
               end
             end
           end
 
-          # rubocop:enable Metrics/AbcSize
+          private
+
+          def http_options
+            Util.ocs_api_request
+          end
+
+          def handle_response(response)
+            error_data = StorageErrorData.new(source: self.class, payload: response)
+
+            case response
+            in { status: 200..299 }
+              handle_success_response(response)
+            in { status: 405 }
+              Util.error(:not_allowed, "Outbound request method not allowed", error_data)
+            in { status: 401 }
+              Util.error(:unauthorized, "Outbound request not authorized", error_data)
+            in { status: 404 }
+              Util.error(:not_found, "Outbound request destination not found", error_data)
+            in { status: 409 }
+              Util.error(:conflict, error_text_from_response(response), error_data)
+            else
+              Util.error(:error, "Outbound request failed", error_data)
+            end
+          end
+
+          def handle_success_response(response)
+            error_data = StorageErrorData.new(source: self.class, payload: response)
+            xml = Nokogiri::XML(response.body.to_s)
+            statuscode = xml.xpath("/ocs/meta/statuscode").text
+
+            case statuscode
+            when "100"
+              group_users = xml.xpath("/ocs/data/users/element").map(&:text)
+              info "#{group_users.size} users found"
+              ServiceResult.success(result: group_users)
+            when "404"
+              Util.error(:group_does_not_exist, "Group does not exist", error_data)
+            else
+              Util.error(:error, "Unknown response body", error_data)
+            end
+          end
         end
       end
     end

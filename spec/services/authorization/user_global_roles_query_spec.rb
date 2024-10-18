@@ -38,6 +38,7 @@ RSpec.describe Authorization::UserGlobalRolesQuery do
   let(:role2) { build(:project_role) }
   let(:anonymous_role) { build(:anonymous_role) }
   let(:non_member) { build(:non_member) }
+  let(:standard_global) { build(:standard_global_role) }
   let(:member) do
     build(:member, project:,
                    roles: [role],
@@ -69,6 +70,7 @@ RSpec.describe Authorization::UserGlobalRolesQuery do
     before do
       non_member.save!
       anonymous_role.save!
+      standard_global.save!
       user.save!
     end
 
@@ -81,8 +83,8 @@ RSpec.describe Authorization::UserGlobalRolesQuery do
         member.save!
       end
 
-      it "is the member and non member role" do
-        expect(described_class.query(user)).to contain_exactly(role, non_member)
+      it "is the member, non member role, and standard global role" do
+        expect(described_class.query(user)).to contain_exactly(role, non_member, standard_global)
       end
     end
 
@@ -92,20 +94,20 @@ RSpec.describe Authorization::UserGlobalRolesQuery do
         member2.save!
       end
 
-      it "is both member and the non member role" do
-        expect(described_class.query(user)).to contain_exactly(role, role2, non_member)
+      it "is both member roles, the non member role, and standard global role" do
+        expect(described_class.query(user)).to contain_exactly(role, role2, non_member, standard_global)
       end
     end
 
     context "without the user being a member in a project" do
-      it "is the non member role" do
-        expect(described_class.query(user)).to contain_exactly(non_member)
+      it "is the non member role and standard global role" do
+        expect(described_class.query(user)).to contain_exactly(non_member, standard_global)
       end
     end
 
     context "with the user being anonymous" do
-      it "is the anonymous role" do
-        expect(described_class.query(anonymous)).to contain_exactly(anonymous_role)
+      it "is the anonymous role and the global role" do
+        expect(described_class.query(anonymous)).to contain_exactly(anonymous_role, standard_global)
       end
     end
 
@@ -114,8 +116,8 @@ RSpec.describe Authorization::UserGlobalRolesQuery do
         global_member.save!
       end
 
-      it "is the global role and non member role" do
-        expect(described_class.query(user)).to contain_exactly(global_role, non_member)
+      it "is the global role, non member role, and standard global role" do
+        expect(described_class.query(user)).to contain_exactly(global_role, non_member, standard_global)
       end
     end
 
@@ -125,8 +127,8 @@ RSpec.describe Authorization::UserGlobalRolesQuery do
         global_member.save!
       end
 
-      it "is the global role, member role and non member role" do
-        expect(described_class.query(user)).to contain_exactly(global_role, role, non_member)
+      it "is the global role, member role, non member role, and standard global role" do
+        expect(described_class.query(user)).to contain_exactly(global_role, role, non_member, standard_global)
       end
     end
 
@@ -137,8 +139,8 @@ RSpec.describe Authorization::UserGlobalRolesQuery do
         work_package_member.save!
       end
 
-      it "is the global role, member role and non member role" do
-        expect(described_class.query(user)).to contain_exactly(global_role, role, non_member)
+      it "is the global role, member role, non member role, and standard global role" do
+        expect(described_class.query(user)).to contain_exactly(global_role, role, non_member, standard_global)
       end
     end
   end

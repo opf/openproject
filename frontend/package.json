@@ -99,7 +99,7 @@
     "@ngneat/content-loader": "^7.0.0",
     "@ngx-formly/core": "^6.1.4",
     "@openproject/octicons-angular": "^19.18.0",
-    "@openproject/primer-view-components": "^0.47.0",
+    "@openproject/primer-view-components": "^0.48.0",
     "@openproject/reactivestates": "^3.0.1",
     "@primer/css": "^21.3.3",
     "@types/hotwired__turbo": "^8.0.1",
@@ -166,8 +166,8 @@
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks",
     "tokens:generate": "theo src/app/spot/styles/tokens/tokens.yml --transform web --format sass,json --dest src/app/spot/styles/tokens/dist",
-    "serve": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --public-host http://${PROXY_HOSTNAME:-localhost}:4200",
-    "serve:test": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve --host 0.0.0.0 --disable-host-check --public-host http://frontend-test:4200",
+    "serve": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve --host ${FE_HOST:-localhost} --port ${FE_PORT:-4200} --public-host http://${PROXY_HOSTNAME:-localhost}:${FE_PORT:-4200}",
+    "serve:test": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve --host ${FE_HOST:-localhost} --port ${FE_PORT:-4200} --disable-host-check --public-host http://frontend-test:${FE_PORT:-4200}",
     "test": "ng test --watch=false",
     "test:watch": "ng test --watch=true",
     "lint": "esprint check",
@@ -176,6 +176,6 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.47.0"
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.48.0"
   }
 }

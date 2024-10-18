@@ -32,7 +32,7 @@
             <% selected = menu_item.selected ? 'selected' : '' %>
             <a class="op-submenu--item-action <%= selected %>" href="<%= menu_item.href %>" data-test-selector="op-submenu--item-action">
               <% if menu_item.icon %>
-                <%= render Primer::Beta::Octicon.new(icon: menu_item.icon, classes: "op-submenu--item-icon", mr: 2) %>
+                <%= render Primer::Beta::Octicon.new(icon: menu_item.icon, classes: "op-submenu--item-icon") %>
               <% end %>
               <span class="op-submenu--item-title">
                 <%= menu_item.title %>
@@ -72,7 +72,7 @@
               <% selected = child_item.selected ? 'selected' : '' %>
               <a class="op-submenu--item-action <%= selected %>" href="<%= child_item.href %>" data-test-selector="op-submenu--item-action">
                 <% if child_item.icon %>
-                  <%= render Primer::Beta::Octicon.new(icon: child_item.icon, classes: "op-submenu--item-icon", mr: 2) %>
+                  <%= render Primer::Beta::Octicon.new(icon: child_item.icon, classes: "op-submenu--item-icon") %>
                 <% end %>
                 <span class="op-submenu--item-title">
                   <%= child_item.title %>

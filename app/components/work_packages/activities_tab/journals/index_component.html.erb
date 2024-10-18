@@ -1,0 +1,25 @@
+<%=
+  component_wrapper(class: "work-packages-activities-tab-journals-index-component") do
+    flex_layout do |journals_index_wrapper_container|
+      journals_index_wrapper_container.with_row(classes: "work-packages-activities-tab-journals-index-component--journals-inner-container", mb: inner_container_margin_bottom) do
+        flex_layout(id: insert_target_modifier_id, data: { "test_selector": "op-wp-journals-container" }) do |journals_index_container|
+          if empty_state?
+            journals_index_container.with_row(mt: 2, mb: 3) do
+              render(
+                WorkPackages::ActivitiesTab::Journals::EmptyComponent.new()
+              )
+            end
+          end
+          journals.each do |journal|
+            journals_index_container.with_row do
+              render(
+                WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:)
+              )
+            end
+          end
+        end
+      end
+      journals_index_wrapper_container.with_row(classes: "work-packages-activities-tab-journals-index-component--stem-connection") unless empty_state? || journal_sorting == "desc"
+    end
+  end
+%>

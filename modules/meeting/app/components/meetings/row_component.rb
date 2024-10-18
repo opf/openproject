@@ -47,7 +47,7 @@ module Meetings
     end
 
     def start_time
-      safe_join([helpers.format_date(model.start_time), helpers.format_time(model.start_time, false)], " ")
+      safe_join([helpers.format_date(model.start_time), helpers.format_time(model.start_time, include_date: false)], " ")
     end
 
     def duration

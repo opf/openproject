@@ -58,9 +58,9 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
     end
 
     it "selects a color theme and redirect to the interface tab" do
-      select("OpenProject Light", from: "theme")
+      select("OpenProject Gray", from: "theme")
       find("[data-test-selector='color-theme-button']").click
-      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_update))
+      expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_current_path custom_style_path(tab: "interface")
     end
 
@@ -76,9 +76,9 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_current_path custom_style_path(tab: "branding")
 
       # select a color theme and redirect to the branding tab
-      select("OpenProject Dark", from: "theme")
+      select("OpenProject Navy Blue", from: "theme")
       find("[data-test-selector='color-theme-button']").click
-      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_update))
+      expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_current_path custom_style_path(tab: "branding")
 
       # remove the logo and redirect to the branding tab
@@ -92,9 +92,9 @@ RSpec.describe "Tabs navigation and content switching on the admin/design page" 
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")
 
       # select a color theme and redirect to the PDF export styles tab
-      select("OpenProject", from: "theme")
+      select("OpenProject (default)", from: "theme")
       find("[data-test-selector='color-theme-button']").click
-      expect(page).to have_css(".op-toast.-success", text: I18n.t(:notice_successful_update))
+      expect_flash(message: I18n.t(:notice_successful_update))
       expect(page).to have_current_path custom_style_path(tab: "pdf_export_styles")
 
       # change export cover text color and redirect to the PDF export styles tab

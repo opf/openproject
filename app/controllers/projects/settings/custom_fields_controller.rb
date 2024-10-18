@@ -30,7 +30,9 @@ class Projects::Settings::CustomFieldsController < Projects::SettingsController
   menu_item :settings_custom_fields
 
   def show
-    @wp_custom_fields = WorkPackageCustomField.order("lower(name)")
+    @wp_custom_fields = WorkPackageCustomField
+                          .order("lower(name)")
+                          .where.not(field_format: "hierarchy") # TODO: Remove after enabling hierarchy fields
   end
 
   def update

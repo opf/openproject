@@ -141,7 +141,7 @@ tr:
   points_resolved: "puanlar çözüldü"
   points_to_accept: "puan kabul edilmedi"
   points_to_resolve: "puan çözülmedi"
-  project_module_backlogs: "İş listeleri"
+  project_module_backlogs: "Bekleyen İşler"
   rb_label_copy_tasks: "İş paketlerini kopyala"
   rb_label_copy_tasks_all: "Hepsi"
   rb_label_copy_tasks_none: "Hiçbiri"

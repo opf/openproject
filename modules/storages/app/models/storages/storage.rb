@@ -110,7 +110,7 @@ module Storages
     def self.extract_part_from_piped_string(text, index)
       return if text.nil?
 
-      split_reason = text.split("|")
+      split_reason = text.split(/[|:]/)
       if split_reason.length > index
         split_reason[index].strip
       end

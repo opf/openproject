@@ -39,17 +39,17 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Inputs::UploadData do
   end
 
   it "returns a Success(UploadData)" do
-    result = input.build(folder_id: "/Folder/Subfolder", file_name: "i_am_file_with_a_name.txt")
+    result = input.build(folder_id: "1337", file_name: "i_am_file_with_a_name.txt")
 
     expect(result).to be_success
     upload_data = result.value!
-    expect(upload_data.folder_id).to eq(Storages::Peripherals::ParentFolder.new("/Folder/Subfolder"))
+    expect(upload_data.folder_id).to eq("1337")
     expect(upload_data.file_name).to eq("i_am_file_with_a_name.txt")
   end
 
   context "when invalid" do
     context "with a nil file name" do
-      let(:kwargs) { { folder_id: "/folder", file_name: nil } }
+      let(:kwargs) { { folder_id: "42", file_name: nil } }
 
       it "returns a failure" do
         result = input.build(**kwargs)
@@ -63,7 +63,7 @@ RSpec.describe Storages::Peripherals::StorageInteraction::Inputs::UploadData do
     end
 
     context "with a empty file name" do
-      let(:kwargs) { { folder_id: "/folder", file_name: "" } }
+      let(:kwargs) { { folder_id: "42", file_name: "" } }
 
       it "returns a failure" do
         result = input.build(**kwargs)

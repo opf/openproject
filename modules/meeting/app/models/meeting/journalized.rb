@@ -35,7 +35,7 @@ module Meeting::Journalized
     acts_as_event title: Proc.new { |o|
                            "#{I18n.t(:label_meeting)}: #{o.title} \
           #{format_date o.start_time} \
-          #{format_time o.start_time, false}-#{format_time o.end_time, false})"
+          #{format_time o.start_time, include_date: false}-#{format_time o.end_time, include_date: false})"
                          },
                   url: Proc.new { |o| { controller: "/meetings", action: "show", id: o } },
                   author: Proc.new(&:user),

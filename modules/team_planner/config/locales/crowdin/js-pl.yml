@@ -8,7 +8,7 @@ pl:
       create_title: 'Utwórz nowego planistę zespołu'
       unsaved_title: 'Planista zespołu bez nazwy'
       no_data: 'Aby skonfigurować planistę zespołu, dodaj przypisane osoby.'
-      add_assignee: 'Dodaj przypisaną osobę'
+      add_assignee: 'Osoba przydzielona'
       remove_assignee: 'Usuń osobę przypisaną'
       two_weeks: '2 tygodnie'
       one_week: '1 tydzień'

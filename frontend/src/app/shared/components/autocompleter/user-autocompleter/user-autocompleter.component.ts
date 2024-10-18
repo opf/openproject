@@ -26,23 +26,33 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import {
+  filter,
+  map,
+} from 'rxjs/operators';
+import {
+  ControlValueAccessor,
+  NG_VALUE_ACCESSOR,
+} from '@angular/forms';
 import { ID } from '@datorama/akita';
 import { OpInviteUserModalService } from 'core-app/features/invite-user-modal/invite-user-modal.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
-import {
-  OpAutocompleterComponent,
-} from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
+import { OpAutocompleterComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-path';
-import {
-  UserAutocompleterTemplateComponent,
-} from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
+import { UserAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter-template.component';
 import { IUser } from 'core-app/core/state/principals/user.model';
 import { compareByAttribute } from 'core-app/shared/helpers/angular/tracking-functions';
 
@@ -68,6 +78,8 @@ export interface IUserAutocompleteItem {
     // as otherwise the close event will be shared across all instances
     OpInviteUserModalService,
   ],
+  styleUrls: ['./user-autocompleter.component.sass'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAutocompleteItem> implements OnInit, ControlValueAccessor {
   @Input() public inviteUserToProject:string|undefined;

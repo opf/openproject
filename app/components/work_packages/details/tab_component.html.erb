@@ -6,6 +6,7 @@
     flex.with_column(classes: "op-work-package-details-tab-component--action") do
       render(Primer::Beta::IconButton.new(icon: :"chevron-left",
                                           tag: :a,
+                                          classes: "hidden-for-tablet",
                                           scheme: :invisible,
                                           data: {
                                             action: "click->work-packages--details--tabs#scrollLeft"
@@ -42,6 +43,7 @@
     flex.with_column(classes: "op-work-package-details-tab-component--action") do
       render(Primer::Beta::IconButton.new(icon: :"chevron-right",
                                           tag: :a,
+                                          classes: "hidden-for-tablet",
                                           scheme: :invisible,
                                           data: {
                                             action: "click->work-packages--details--tabs#scrollRight"
@@ -52,6 +54,7 @@
     flex.with_column(classes: "op-work-package-details-tab-component--action") do
       render(Primer::Beta::IconButton.new(icon: :"screen-full",
                                           tag: :a,
+                                          classes: "hidden-for-small-laptops",
                                           href: work_package_path(work_package.id, full_screen_tab),
                                           target: "_top",
                                           scheme: :invisible,

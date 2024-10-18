@@ -45,6 +45,7 @@ RSpec.describe "model viewer", :js, with_config: { edition: "bim" } do
            uploader: user)
   end
 
+  let(:show_default_page) { Pages::IfcModels::ShowDefault.new(project) }
   let(:show_model_page) { Pages::IfcModels::Show.new(project, model.id) }
   let(:model_tree) { Components::XeokitModelTree.new }
   let(:card_view) { Pages::WorkPackageCards.new(project) }
@@ -93,7 +94,7 @@ RSpec.describe "model viewer", :js, with_config: { edition: "bim" } do
       it "shows a warning that no IFC models exist yet" do
         login_as user
         visit defaults_bcf_project_ifc_models_path(project)
-        expect(page).to have_css(".op-toast.-info", text: I18n.t("js.ifc_models.empty_warning"))
+        show_default_page.expect_toast(type: :info, message: I18n.t("js.ifc_models.empty_warning"))
       end
     end
   end
@@ -134,7 +135,7 @@ RSpec.describe "model viewer", :js, with_config: { edition: "bim" } do
 
     it "shows no viewer" do
       expected = "[Error 403] You are not authorized to access this page."
-      expect(page).to have_css(".op-toast.-error", text: expected)
+      expect_flash(type: :error, message: expected)
 
       show_model_page.model_viewer_visible false
       show_model_page.model_viewer_shows_a_toolbar false

@@ -36,9 +36,9 @@ module Storages
           private_class_method :new
 
           def self.build(folder_id:, file_name:, contract: UploadDataContract.new)
-            contract.call(folder_id:, file_name:).to_monad.fmap do |result|
-              new(file_name: result[:file_name], folder_id: ParentFolder.new(result[:folder_id]))
-            end
+            contract.call(folder_id:, file_name:)
+                    .to_monad
+                    .fmap { |result| new(file_name: result[:file_name], folder_id: result[:folder_id]) }
           end
         end
       end

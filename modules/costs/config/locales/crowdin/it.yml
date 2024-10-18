@@ -111,6 +111,7 @@ it:
   label_rate: "Tariffa"
   label_rate_plural: "Tariffe"
   label_status_finished: "Terminato"
+  label_show: "Mostra"
   label_units: "Unità di costo"
   label_user: "Utente"
   label_until: "finché"

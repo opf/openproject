@@ -8,7 +8,7 @@ it:
       create_title: 'Crea nuovo pianificatore di team'
       unsaved_title: 'Team planner senza nome'
       no_data: 'Aggiungi assegnatari per configurare il tuo team planner.'
-      add_assignee: 'Aggiungi assegnatario'
+      add_assignee: 'Assegnatario'
       remove_assignee: 'Rimuovi assegnatario'
       two_weeks: '2 settimane'
       one_week: '1 settimana'

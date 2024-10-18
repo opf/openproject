@@ -41,21 +41,24 @@ module API
           "bool" => "Boolean",
           "user" => "User",
           "version" => "Version",
-          "list" => "CustomOption"
+          "list" => "CustomOption",
+          "hierarchy" => "CustomField::Hierarchy::Item"
         }.freeze
 
-        LINK_FORMATS = %w(list user version).freeze
+        LINK_FORMATS = %w(list user version hierarchy).freeze
 
         NAMESPACE_MAP = {
           "user" => ["users", "groups", "placeholder_users"],
           "version" => "versions",
-          "list" => "custom_options"
+          "list" => "custom_options",
+          "hierarchy" => "hierarchical_items"
         }.freeze
 
         REPRESENTER_MAP = {
           "user" => "::API::V3::Principals::PrincipalRepresenterFactory",
           "version" => "::API::V3::Versions::VersionRepresenter",
-          "list" => "::API::V3::CustomOptions::CustomOptionRepresenter"
+          "list" => "::API::V3::CustomOptions::CustomOptionRepresenter",
+          "hierarchy" => "::API::V3::CustomFields::Hierarchy::HierarchyItemRepresenter"
         }.freeze
 
         class << self

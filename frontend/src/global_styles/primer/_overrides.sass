@@ -52,6 +52,9 @@ action-menu
   @media screen and (min-width: $breakpoint-sm)
     scroll-behavior: smooth
 
+ul.SegmentedControl
+  margin-left: 0
+
 /* Remove margin-left: 2rem from Breadcrumbs */
 #breadcrumb,
 page-header,
@@ -91,3 +94,26 @@ sub-header,
   &:hover
     background: var(--header-item-bg-hover-color)
     color: var(--header-item-font-hover-color)
+
+// Prototypical CKEditor adjustments to better match Primer styles
+.ck-editor-primer-adjusted
+  .ck-toolbar
+    border-radius: var(--borderRadius-medium) var(--borderRadius-medium) 0px 0px!important
+  .document-editor__editable-container
+    background: var(--bgColor-default)
+    border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
+  .ck-content
+    background: var(--bgColor-default)
+    overflow-y: auto
+    border-radius: var(--borderRadius-medium)!important
+    margin: 5px
+  .CodeMirror
+    border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
+  .ck-editor__preview
+    border-radius: 0px 0px var(--borderRadius-medium) var(--borderRadius-medium)
+  .op-ckeditor--wrapper
+    margin-bottom: 0px
+  
+// Todo: Remove once https://github.com/primer/view_components/pull/3087 is merged
+.FormControl-spacingWrapper
+  row-gap: var(--stack-gap-normal)

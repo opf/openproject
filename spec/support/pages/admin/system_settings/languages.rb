@@ -38,7 +38,7 @@ module Pages::Admin::SystemSettings
 
     def save
       press_save_button
-      expect_and_dismiss_toaster
+      expect_and_dismiss_flash(message: "Successful update.")
     end
   end
 end

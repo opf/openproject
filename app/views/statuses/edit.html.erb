@@ -27,19 +27,28 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), "#{t(:label_edit)} #{Status.model_name.human} #{h @status.name}" %>
+<% html_title t(:label_administration), "#{t(:label_edit)} #{Status.model_name.human} #{h @status.name_was}" %>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { @status.name }
+    header.with_title { @status.name_was }
     header.with_breadcrumbs([{ href: admin_index_path, text: t("label_administration") },
                              { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
                              { href: statuses_path, text: t(:label_status) },
-                             @status.name])
+                             @status.name_was])
   end
 %>
 
-<%= labelled_tabular_form_for(@status) do |f| %>
-  <%= render partial: 'form', locals: { f: f } %>
-  <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
-<% end %>
+<%= error_messages_for :status %>
+
+<%=
+primer_form_with(
+  model: @status,
+  data: {
+    application_target: "dynamic",
+    controller: "admin--statuses"
+  }
+) do |f|
+  render Statuses::Form.new(f)
+end
+%>

@@ -191,9 +191,7 @@ class Storages::Admin::StoragesController < ApplicationController
       update_via_turbo_stream(component: Storages::Admin::SidePanel::HealthNotificationsComponent.new(storage: @storage))
       respond_with_turbo_streams
     else
-      flash.now[:primer_banner] = {
-        message: I18n.t("storages.health_email_notifications.error_could_not_be_saved"), scheme: :danger
-      }
+      flash.now[:error] = I18n.t("storages.health_email_notifications.error_could_not_be_saved")
       render :edit
     end
   end
@@ -209,11 +207,11 @@ class Storages::Admin::StoragesController < ApplicationController
 
     # rubocop:disable Rails/ActionControllerFlashBeforeRender
     service_result.on_failure do
-      flash[:primer_banner] = { message: join_flash_messages(service_result.errors.full_messages), scheme: :danger }
+      flash[:error] = service_result.errors.full_messages
     end
 
     service_result.on_success do
-      flash[:primer_banner] = { message: I18n.t(:notice_successful_delete), scheme: :success }
+      flash[:notice] = I18n.t(:notice_successful_delete)
     end
     # rubocop:enable Rails/ActionControllerFlashBeforeRender
 
@@ -265,7 +263,7 @@ class Storages::Admin::StoragesController < ApplicationController
   def ensure_valid_provider_type_selected
     short_provider_type = params[:provider]
     if short_provider_type.blank? || (@provider_type = ::Storages::Storage::PROVIDER_TYPE_SHORT_NAMES[short_provider_type]).blank?
-      flash[:primer_banner] = { message: I18n.t("storages.error_invalid_provider_type"), scheme: :danger }
+      flash[:error] = I18n.t("storages.error_invalid_provider_type")
       redirect_to admin_settings_storages_path
     end
   end

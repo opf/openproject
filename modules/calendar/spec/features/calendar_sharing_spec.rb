@@ -140,7 +140,7 @@ RSpec.describe "Calendar sharing via ical", :js do
       it "shows disabled sharing menu item" do
         visit project_calendars_path(project)
 
-        click_link "Create new calendar"
+        page.find_test_selector("add-calendar-button").click
 
         # wait for settings button to become visible
         expect(page).to have_css("#work-packages-settings-button")

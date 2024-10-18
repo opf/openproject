@@ -111,6 +111,7 @@ da:
   label_rate: "Sats"
   label_rate_plural: "Satser"
   label_status_finished: "Afsluttet"
+  label_show: "Show"
   label_units: "Omkostningsenheder"
   label_user: "Bruger"
   label_until: "indtil"

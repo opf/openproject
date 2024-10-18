@@ -45,6 +45,7 @@ interface ColorItem {
                bindLabel="name"
                bindValue="value"
                [(ngModel)]="selectedOption"
+               [ngClass]="classes"
                (change)="onModelChange($event)"
                [clearable]="false"
                appendTo="body">
@@ -66,6 +67,8 @@ export class ColorsAutocompleterComponent implements OnInit {
 
   private highlightTextInline = false;
 
+  public classes:string;
+
   private updateInputField:HTMLInputElement|undefined;
 
   private selectedColorId:string;
@@ -80,7 +83,8 @@ export class ColorsAutocompleterComponent implements OnInit {
     this.setColorOptions();
 
     this.updateInputField = document.getElementsByName(this.elementRef.nativeElement.dataset.updateInput as string)[0] as HTMLInputElement|undefined;
-    this.highlightTextInline = JSON.parse(this.elementRef.nativeElement.dataset.highlightTextInline as string) as boolean;
+    this.highlightTextInline = JSON.parse(this.elementRef.nativeElement.dataset.highlightTextInline || 'false') as boolean;
+    this.classes = this.elementRef.nativeElement.dataset.classes || '';
   }
 
   public onModelChange(color:{ name:string, value:string }) {

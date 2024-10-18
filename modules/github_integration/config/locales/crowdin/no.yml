@@ -37,4 +37,4 @@
     So far we only support OpenProject itself.
   text_deploy_target_api_key_info: >
     An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.
-  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"
+  text_pull_request_deployed_to: "%{pr_link} distribuert til %{deploy_target_link}"

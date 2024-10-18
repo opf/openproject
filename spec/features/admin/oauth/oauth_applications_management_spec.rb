@@ -49,20 +49,20 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
     fill_in "application_redirect_uri", with: "not a url!"
     click_on "Create"
 
-    expect(page).to have_css(".errorExplanation", text: "Redirect URI must be an absolute URI.")
+    expect_flash(type: :error, message: "Redirect URI must be an absolute URI.")
 
     fill_in("application_redirect_uri", with: "")
     # Fill redirect_uri which does not provide a Secure Context
     fill_in "application_redirect_uri", with: "http://example.org"
     click_on "Create"
 
-    expect(page).to have_css(".errorExplanation", text: 'Redirect URI is not providing a "Secure Context"')
+    expect_flash(type: :error, message: 'Redirect URI is not providing a "Secure Context"')
 
     # Can create localhost without https (https://community.openproject.com/wp/34025)
     fill_in "application_redirect_uri", with: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback"
     click_on "Create"
 
-    expect(page).to have_css(".op-toast.-success", text: "Successful creation.")
+    expect_flash(message: "Successful creation.")
 
     expect(page).to have_css(".attributes-key-value--key", text: "Client ID")
     expect(page).to have_css(".attributes-key-value--value", text: "urn:ietf:wg:oauth:2.0:oob\nhttp://localhost/my/callback")
@@ -106,15 +106,7 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
       within_test_selector("op-admin-oauth--built-in-applications") do
         expect(page).to have_test_selector("op-admin-oauth--application", count: 1)
         expect(page).to have_link(text: "OpenProject Mobile App")
-        expect(page).to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "On")
-
-        find_test_selector("op-admin-oauth--application-enabled-toggle-switch").click
-        expect(page).not_to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Loading")
         expect(page).to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Off")
-
-        app.reload
-        expect(app).to be_builtin
-        expect(app).not_to be_enabled
 
         find_test_selector("op-admin-oauth--application-enabled-toggle-switch").click
         expect(page).not_to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Loading")
@@ -123,6 +115,14 @@ RSpec.describe "OAuth applications management", :js, :with_cuprite do
         app.reload
         expect(app).to be_builtin
         expect(app).to be_enabled
+
+        find_test_selector("op-admin-oauth--application-enabled-toggle-switch").click
+        expect(page).not_to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Loading")
+        expect(page).to have_test_selector("op-admin-oauth--application-enabled-toggle-switch", text: "Off")
+
+        app.reload
+        expect(app).to be_builtin
+        expect(app).not_to be_enabled
 
         click_on "OpenProject Mobile App"
       end

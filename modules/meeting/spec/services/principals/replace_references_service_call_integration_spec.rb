@@ -30,38 +30,32 @@
 
 require "spec_helper"
 require_module_spec_helper
+require Rails.root.join("spec/services/principals/replace_references_context")
 
 RSpec.describe Principals::ReplaceReferencesService, "#call", type: :model do
-  shared_let(:principal) { create(:user) }
-  shared_let(:to_principal) { create(:user) }
-
   subject(:service_call) { instance.call(from: principal, to: to_principal) }
+
+  shared_let(:other_user) { create(:user, firstname: "other user") }
+  shared_let(:principal) { create(:user, firstname: "old principal") }
+  shared_let(:to_principal) { create(:user, firstname: "new principal") }
 
   let(:instance) do
     described_class.new
   end
 
-  shared_examples "replaces the creator" do
-    before do
-      model
-    end
+  context "with MeetingAgendaItem" do
+    it_behaves_like "rewritten record",
+                    :meeting_agenda_item,
+                    :author_id
 
-    it "is successful" do
-      expect(service_call)
-        .to be_success
-    end
-
-    it "replaces principal with to_principal" do
-      service_call
-      model.reload
-
-      expect(model.author).to eql to_principal
-    end
+    it_behaves_like "rewritten record",
+                    :meeting_agenda_item,
+                    :presenter_id
   end
 
-  context "with MeetingAgendaItem" do
-    it_behaves_like "replaces the creator" do
-      let(:model) { create(:meeting_agenda_item, author: principal) }
-    end
+  context "with Journal::MeetingAgendaItemJournal" do
+    it_behaves_like "rewritten record",
+                    :journal_meeting_agenda_item_journal,
+                    :author_id
   end
 end

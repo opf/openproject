@@ -49,7 +49,7 @@ RSpec.describe "delete placeholder user", :js do
       expect(page).to have_css(".danger-zone--verification button:not([disabled])")
       click_on "Delete"
 
-      expect(page).to have_css(".op-toast.-info", text: I18n.t(:notice_deletion_scheduled))
+      expect_flash(type: :info, message: I18n.t(:notice_deletion_scheduled))
 
       # The user is still there
       placeholder_user.reload

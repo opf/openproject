@@ -26,11 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
-<turbo-stream action="<%=@action%>" target="<%=@target%>">
+<%= content_tag("turbo-stream", action: @action, target: @target, **@turbo_stream_args) do %>
   <% if @template %>
     <template>
       <%= @template %>
     </template>
   <% end %>
-</turbo-stream>
-
+<% end %>

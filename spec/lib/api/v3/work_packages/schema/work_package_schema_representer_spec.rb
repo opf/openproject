@@ -28,8 +28,7 @@
 
 require "spec_helper"
 
-RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter,
-               with_flag: { percent_complete_edition: true } do
+RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:project) { build_stubbed(:project_with_types) }

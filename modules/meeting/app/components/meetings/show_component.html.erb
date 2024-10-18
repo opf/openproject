@@ -1,13 +1,6 @@
 <%=
   flex_layout(data: { turbo: true }) do |show_page|
     show_page.with_row do
-      # prototyical usage of Primer's flash message component wrapped in a component which can be updated via turbo stream
-      # empty initially
-      # should become part of the application layout once finalized
-      render(FlashMessageComponent.new)
-    end
-
-    show_page.with_row do
       render(Meetings::HeaderComponent.new(meeting: @meeting, project: @project))
     end
 

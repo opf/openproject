@@ -1,0 +1,40 @@
+<%=
+  primer_form_with(
+    id: "saml-providers-edit-form",
+    model: provider,
+    url:,
+    method: form_method
+  ) do |form|
+    flex_layout do |flex|
+      if @heading
+        flex.with_row do
+          render(Primer::Beta::Text.new(tag: :p, mb: 4, font_size: :small)) do
+            @heading
+          end
+        end
+      end
+
+      if @banner
+        flex.with_row(mb: 2) do
+          icon = @banner_scheme == :warning ? :alert : :info
+          render(Primer::Alpha::Banner.new(scheme: @banner_scheme, icon:)) do
+            @banner
+          end
+        end
+      end
+
+      flex.with_row do
+        render(@form_class.new(form, provider:))
+      end
+
+      flex.with_row(mt: 4) do
+        render(Saml::Providers::SubmitOrCancelForm.new(
+          form,
+          provider:,
+          submit_button_options: { label: button_label },
+          cancel_button_options: { hidden: edit_mode }
+        ))
+      end
+    end
+  end
+%>

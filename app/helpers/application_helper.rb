@@ -172,21 +172,15 @@ module ApplicationHelper
     end.join.html_safe
   end
 
-  def html_hours(text)
-    html_safe_gsub(text,
-                   %r{(\d+)\.(\d+)},
-                   '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
-  end
-
   def html_safe_gsub(string, *gsub_args, &)
     html_safe = string.html_safe?
-    string.gsub(*gsub_args, &)
+    result = string.gsub(*gsub_args, &)
 
     # We only mark the string as safe if the previous string was already safe
     if html_safe
-      string.html_safe # rubocop:disable Rails/OutputSafety
+      result.html_safe # rubocop:disable Rails/OutputSafety
     else
-      string
+      result
     end
   end
 

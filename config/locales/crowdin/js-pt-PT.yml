@@ -278,8 +278,6 @@ pt-PT:
           As alterações podem demorar algum tempo a entrar em vigor. Receberá uma notificação quando todos os pacotes de trabalho relevantes forem atualizados.
           Tem a certeza de que quer continuar?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Alterar o modo de cálculo do progresso de "baseado no estado" para "baseado no trabalho" fará com que a <i>% de conclusão</i> seja um campo não editável cujo valor é derivado de <i>Trabalho</i> e <i>Trabalho restante</i>. Os valores existentes para a <i>% de conclusão</i> são preservados. Se os valores para <i>Trabalho</i> e <i>Trabalho restante</i> não estiverem presentes, eles serão necessários para alterar a <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           Se alterar o modo de cálculo do progresso de baseado no estado para baseado no trabalho, o campo <i>% de conclusão</i> poderá ser editado livremente. Se, opcionalmente, introduzir valores para <i>Trabalho</i> ou <i>Trabalho restante</i>, estes também serão associado a <i>% de conclusão</i>. Se alterar o <i>Trabalho restante</i>, pode atualizar a <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -358,10 +356,10 @@ pt-PT:
           learn_about: "Saiba mais sobre os novos recursos"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                A versão contém várias funcionalidades novas e melhorias, tais como: <br> <ul class="%{list_styling_class}"> <li>Manter e restaurar versões locais de alterações de conteúdo WYSIWYG.</li> <li>Permitir o armazenamento de vários projetos de uma só vez.</li> <li>Exportar pacotes de trabalho num modal atualizado com definições adicionais.</li> <li>Exibir colunas/filtros de campos personalizados em listas de projetos também na Community Edition.</li> <li>Oferecer suporte ao CloudFlare Turnstile como Captcha.</li> </ul>
+                A versão traz várias funcionalidades e melhorias para si, por exemplo, <br> <ul class="%{list_styling_class}"> <li>Beneficie de relatórios de progresso mais flexíveis – graças ao feedback dos utilizadores.</li> <li>Receba uma notificação de atualização com opção de recarregamento para as reuniões.</li> <li>Ative um campo personalizado para vários projetos de uma só vez.</li> <li>Utilize macros de atributos de pacotes de trabalho relativos.</li> <li>Mostre linhas vazias em rich text guardado.</li> <li>Veja as reuniões anteriores incluídas no número junto ao separador Reuniões.</li> </ul>
     ical_sharing_modal:
       title: "Subscrever o calendário"
       inital_setup_error_message: "Ocorreu um erro ao recuperar os dados."
@@ -612,7 +610,9 @@ pt-PT:
         mentioned: "Mencionado"
         watched: "Observador"
         assigned: "Pessoa atribuída"
-        accountable: "Responsável"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Responsável"
         created: "Criado"
         scheduled: "Agendado"
         commented: "Comentado"

@@ -1,0 +1,88 @@
+This component defines a specific use case of the Primer `Banner` component, consisting of an overlay around it to simplify its use as a flash in OpenProject.
+
+## Overview
+
+To use a Primerised flash, the `OpPrimer::FlashComponent` was introduced.
+
+<%= embed OpPrimer::FlashComponentPreview, :default, panels: %i[source] %>
+
+Internally, this component uses the `Primer::BannerComponent` to render the flash message.
+The `OpPrimer::FlashComponent` is a wrapper around the `Primer::BannerComponent` that adds a wrapper class to prepend the flash message to the `#primerized-flash-messages` div in the base layout.
+
+Otherwise, you use the component as you would use `Primer::Alpha::Banner`.
+See below for available arguments.
+
+<%= embed Primer::Alpha::BannerPreview, :playground, panels: %i[params] %>
+
+## Render primer banner / flash from controllers
+
+In many views in OpenProject, you will find `flash[:notice], flash[:alert], flash[:error]` messages.
+All of these are now rendered with primer banners by default.
+
+If you find the need to customize the rendering of the flash, you can also pass a hash to the flash:
+
+```ruby
+flash[:notice] = { message: "Successful update", icon: :check }
+```
+
+Or for an error:
+
+```ruby
+flash[:error] = { message: "Oh no! Something went wrong", icon: :alert }
+```
+
+If you want to render multiple lines, `message` can also be an array that will be joined by breaklines for rendering:
+
+```ruby
+flash[:error] = { message: ["Oh no! Something went wrong", "Some more details here"], icon: :alert }
+```
+
+If you want to make the flash non-dismissable, you can pass `dismiss_scheme: :none`:
+
+```ruby
+flash[:error] = { message: "Oh no!", icon: :alert, dismiss_scheme: :none }
+```
+
+## Usage in turbo streams
+
+The interesting part is having a flash message responded from within a turbo stream response
+
+When a Primerised flash is required, this component can be used by calling `update_flash_message_via_turbo_stream()`. Under the hood, this prepends via turbo stream the `UpdateFlashComponent` in the `#banner-messages` div within the base layout.
+
+The icon, dismiss scheme, and scheme are configurable identically to the Primer `Banner` component.
+A `message` property is added that will be passed as the content of the banner.
+
+For example:
+
+```ruby
+update_flash_message_via_turbo_stream(
+  message: t(:notice_project_not_found),
+  full: true,
+  dismiss_scheme: :hide,
+  scheme: :danger
+)
+```
+
+The width of this banner is always configured through the `op-primer-flash` namespace.
+It is set to 80% of the available width
+
+Note that using a turbo stream will always remove  all previous flashes.
+Please create a code maintenance ticket if you need to append/prepend messages instead.
+
+## Further Examples
+
+### Danger:
+
+As this is a common use case, the method `render_error_flash_message_via_turbo_stream()` is provided, generating a flash with `scheme: :danger` and `icon: :stop` by default.
+
+<%= embed OpPrimer::FlashComponentPreview, :danger, panels: %i[source] %>
+
+### With optional button:
+
+<%= embed OpPrimer::FlashComponentPreview, :button, panels: %i[source] %>
+
+### Replacing existing flashes
+
+By passing `data-unique-key`, you can delete previous flashes using the same key
+
+<%= embed OpPrimer::FlashComponentPreview, :unique_key, panels: %i[source] %>

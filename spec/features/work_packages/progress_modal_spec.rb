@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Progress modal", :js, :with_cuprite,
-               with_flag: { percent_complete_edition: true } do
+RSpec.describe "Progress modal", :js, :with_cuprite do
   shared_let(:user) { create(:admin) }
   shared_let(:role) { create(:project_role) }
 

@@ -278,8 +278,6 @@ pl:
           Zmiany mogą wejść w życie po pewnym czasie. Gdy wszystkie odpowiednie pakiety robocze zostaną zaktualizowane, otrzymasz powiadomienie.
           Czy na pewno chcesz kontynuować?
       work_packages_settings:
-        warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html: >-
-          Zmiana trybu obliczania postępu z opartego na statusie na oparty na pracy sprawi, że atrybut <i>% ukończenia</i> będzie nieedytowalnym polem, którego wartość pochodzi z atrybutów <i>Praca</i> i <i>Pozostała praca</i>. Istniejące wartości atrybutu <i>% ukończenia</i> zostaną zachowane. Jeśli wartości atrybutów <i>Praca</i> i <i>Pozostała praca</i> nie były obecne, będą one wymagane w celu zmiany wartości <i>% ukończenia</i>.
         warning_progress_calculation_mode_change_from_status_to_field_html: >-
           Zmiana trybu obliczania postępu z opartego na statusie na oparty na pracy spowoduje, że pole <i>% ukończenia</i> będzie można dowolnie edytować. Jeśli opcjonalnie wprowadzisz wartości <i>Praca</i> lub <i>Pozostała praca</i>, zostaną one również powiązane z wartością <i>% ukończenia</i>. Zmiana wartości <i>Pozostała praca</i> może wówczas skutkować zaktualizowaniem wartości <i>% ukończenia</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: >-
@@ -358,10 +356,10 @@ pl:
           learn_about: "Dowiedz się więcej o nowych funkcjach"
           #Include the version to invalidate outdated translations in other locales.
           #Otherwise, e.g. chinese might still have the translations for 10.0 in the 12.0 release.
-          "14_5":
+          "14_6":
             standard:
               new_features_html: >
-                Wersja zawiera różne nowe funkcje i ulepszenia, takie jak: <br> <ul class="%{list_styling_class}"> <li>Zachowywanie i przywracanie lokalnych wersji zmian zawartości WYSIWYG.</li> <li>Włączanie magazynu dla wielu projektów naraz.</li> <li>Eksport pakietów roboczych w zaktualizowanym modalu z dodatkowymi ustawieniami.</li> <li>Wyświetlanie niestandardowych kolumny/filtrów pól na listach projektów również w wersji Community.</li> <li>Obsługa CloudFlare Turnstile jako mechanizmu Captcha.</li> </ul>
+                Ta wersja wprowadza różne funkcje i ulepszenia m.in. <br> <ul class="%{list_styling_class}"> <li>Korzystaj z bardziej elastycznej sprawozdawczości o postępach – dzięki opiniom użytkowników.</li> <li>Otrzymuj powiadomienia o aktualizacjach z opcją przeładowania spotkań.</li> <li>Włączaj pole niestandardowe dla wielu projektów jednocześnie.</li> <li>Używaj makr dla względnego atrybutu pakietu roboczego.</li> <li>Wyświetlaj puste linie w zapisanym formatowanym tekście.</li> <li>Oglądaj wcześniejsze spotkania znajdujące się na karcie Spotkania.</li> </ul>
     ical_sharing_modal:
       title: "Subskrybuj kalendarz"
       inital_setup_error_message: "Podczas pobierania danych wystąpił błąd."
@@ -612,7 +610,9 @@ pl:
         mentioned: "Wzmianka"
         watched: "Obserwator"
         assigned: "Przypisana osoba"
-        accountable: "Osoba odpowiedzialna"
+        #The enum value is named 'responsible' in the database and that is what is transported through the API
+        #up to the frontend.
+        responsible: "Osoba odpowiedzialna"
         created: "Utworzono"
         scheduled: "Zaplanowany"
         commented: "Skomentował"

@@ -41,6 +41,6 @@ RSpec.describe "Editing a new wiki page", :js do
     expect(page).to have_field "page_title", with: "Foobar"
     click_on "Save"
 
-    expect(page).to have_css(".op-toast.-success", text: "Successful creation.", wait: 10)
+    expect_flash(message: "Successful creation.", wait: 10)
   end
 end

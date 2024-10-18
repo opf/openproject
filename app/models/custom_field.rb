@@ -41,6 +41,11 @@ class CustomField < ApplicationRecord
            inverse_of: "custom_field"
   accepts_nested_attributes_for :custom_options
 
+  has_one :hierarchy_root,
+          class_name: "CustomField::Hierarchy::Item",
+          dependent: :destroy,
+          inverse_of: "custom_field"
+
   acts_as_list scope: [:type]
 
   validates :field_format, presence: true
@@ -286,6 +291,10 @@ class CustomField < ApplicationRecord
 
   def multi_value_possible?
     version? || user? || list?
+  end
+
+  def field_format_hierarchy?
+    field_format == "hierarchy"
   end
 
   def allow_non_open_versions_possible?

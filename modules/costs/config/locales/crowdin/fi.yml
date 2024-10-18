@@ -111,6 +111,7 @@ fi:
   label_rate: "Tuntihinta"
   label_rate_plural: "Tuntihinnat"
   label_status_finished: "Valmis"
+  label_show: "Show"
   label_units: "Kustannusten yksiköt"
   label_user: "Käyttäjä"
   label_until: "saakka"

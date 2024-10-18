@@ -32,11 +32,11 @@ module OpenProject
       allowNonOpenVersions: [:only, %w[version]],
       defaultBool: [:only, %w[bool]],
       defaultLongText: [:only, %w[text]],
-      defaultText: [:except, %w[list bool date text user version]],
-      length: [:except, %w[list bool date user version link]],
-      multiSelect: [:only, %w[list user version]],
+      defaultText: [:except, %w[list bool date text user version hierarchy]],
+      length: [:except, %w[list bool date user version link hierarchy]],
+      multiSelect: [:only, %w[list user version hierarchy]],
       possibleValues: [:only, %w[list]],
-      regexp: [:except, %w[list bool date user version]],
+      regexp: [:except, %w[list bool date user version hierarchy]],
       searchable: [:except, %w[bool date float int user version]],
       textOrientation: [:only, %w[text]]
     }.freeze

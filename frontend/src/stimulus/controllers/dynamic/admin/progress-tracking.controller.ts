@@ -33,7 +33,6 @@ import { Controller } from '@hotwired/stimulus';
 export default class ProgressTrackingController extends Controller {
   static values = {
     initialMode: String,
-    percentCompleteEditionActive: Boolean,
   };
 
   static targets = [
@@ -44,7 +43,6 @@ export default class ProgressTrackingController extends Controller {
   ];
 
   declare readonly initialModeValue:string;
-  declare readonly percentCompleteEditionActiveValue:boolean;
 
   declare readonly progressCalculationModeRadioGroupTarget:HTMLElement;
   declare readonly warningTextTarget:HTMLElement;
@@ -93,13 +91,6 @@ export default class ProgressTrackingController extends Controller {
     const selectedMode = this.getSelectedMode();
     if (selectedMode === this.initialModeValue || !selectedMode) {
       return '';
-    }
-
-    // to be removed in 15.0 with :percent_complete_edition feature flag removal
-    if (!this.percentCompleteEditionActiveValue && selectedMode === 'field') {
-      return I18n.t(
-        'js.admin.work_packages_settings.warning_progress_calculation_mode_change_from_status_to_field_pre_14_4_without_percent_complete_edition_html',
-      );
     }
 
     return I18n.t(

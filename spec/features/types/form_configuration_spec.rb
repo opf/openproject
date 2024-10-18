@@ -91,7 +91,7 @@ RSpec.describe "form configuration", :js do
 
         # Save configuration
         form.save_changes
-        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+        expect_flash(message: "Successful update.")
 
         form.expect_empty
 
@@ -171,7 +171,7 @@ RSpec.describe "form configuration", :js do
 
         # Save configuration
         form.save_changes
-        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+        expect_flash(message: "Successful update.")
 
         # Expect configuration to be correct now
         form.expect_no_attribute("assignee", "Cool Stuff")
@@ -269,7 +269,7 @@ RSpec.describe "form configuration", :js do
         form.expect_attribute(key: cf_identifier)
 
         form.save_changes
-        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+        expect_flash(message: "Successful update.")
       end
     end
 
@@ -299,7 +299,7 @@ RSpec.describe "form configuration", :js do
         form.expect_attribute(key: cf_identifier)
 
         form.save_changes
-        expect(page).to have_css(".op-toast.-success", text: "Successful update.", wait: 10)
+        expect_flash(message: "Successful update.")
       end
 
       context "if inactive in project" do

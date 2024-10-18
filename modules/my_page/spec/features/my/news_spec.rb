@@ -53,6 +53,10 @@ RSpec.describe "My page news widget spec", :js do
     Pages::My::Page.new
   end
 
+  let!(:my_page_grid) do
+    create(:my_page, :empty, user:)
+  end
+
   before do
     login_as user
 

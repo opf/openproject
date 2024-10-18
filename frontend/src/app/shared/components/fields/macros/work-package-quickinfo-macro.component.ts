@@ -75,6 +75,8 @@ export class WorkPackageQuickinfoMacroComponent {
 
   workPackageLink:string;
 
+  workPackageHoverCardUrl:string;
+
   detailed = false;
 
   constructor(readonly elementRef:ElementRef,
@@ -93,6 +95,7 @@ export class WorkPackageQuickinfoMacroComponent {
     const id:string = element.dataset.id!;
     this.detailed = element.dataset.detailed === 'true';
     this.workPackageLink = this.pathHelper.workPackagePath(id);
+    this.workPackageHoverCardUrl = this.pathHelper.workPackageHoverCardPath(id);
 
     this.workPackage$ = this
       .apiV3Service

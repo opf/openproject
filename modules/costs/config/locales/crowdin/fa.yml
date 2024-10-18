@@ -111,6 +111,7 @@ fa:
   label_rate: "نرخ"
   label_rate_plural: "نرخ ها (ضرایب پرداخت)"
   label_status_finished: "پایان یافته"
+  label_show: ""
   label_units: "واحدهای هزینه"
   label_user: "کاربر"
   label_until: "تا"

@@ -31,6 +31,7 @@ module Admin
     class EditFormHeaderComponent < ApplicationComponent
       TAB_NAVS = %i[
         edit
+        items
         custom_field_projects
       ].freeze
 
