@@ -27,7 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ElementRef,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -40,6 +40,12 @@ import { RelationResource } from 'core-app/features/hal/resources/relation-resou
 import { RelationsStateValue, WorkPackageRelationsService } from './wp-relations.service';
 import { RelatedWorkPackagesGroup } from './wp-relations.interfaces';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { renderStreamMessage } from '@hotwired/turbo';
+
+interface TurboFrameElement extends HTMLElement {
+  src:string;
+}
 
 @Component({
   selector: 'wp-relations',
@@ -50,6 +56,8 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
   @Input() public workPackage:WorkPackageResource;
 
   public relationGroups:RelatedWorkPackagesGroup = {};
+
+  @ViewChild('#work-package-relations-tab-content') readonly relationTurboFrame:TurboFrameElement;
 
   public relationGroupKeys:string[] = [];
 
@@ -74,6 +82,7 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
     private cdRef:ChangeDetectorRef,
     private apiV3Service:ApiV3Service,
     private PathHelper:PathHelperService,
+    private turboRequests:TurboRequestsService,
 ) {
     super();
   }
@@ -90,6 +99,14 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
       )
       .subscribe((relations:RelationsStateValue) => {
         this.loadedRelations(relations);
+        // Refresh the turbo frame
+        // eslint-disable-next-line no-self-assign
+        this.relationTurboFrame.src = this.relationTurboFrame.src;
+        void this.turboRequests.requestStream(this.turboFrameSrc)
+          .then((html) => {
+            // eslint-disable-next-line no-self-assign
+            renderStreamMessage(html);
+          });
       });
 
     this.wpRelations.require(this.workPackage.id!);
@@ -105,6 +122,11 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
+        void this.turboRequests.requestStream(this.turboFrameSrc)
+        .then((html) => {
+          // eslint-disable-next-line no-self-assign
+            renderStreamMessage(html);
+          });
       });
   }
 

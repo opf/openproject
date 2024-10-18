@@ -1,31 +1,63 @@
-<%= turbo_frame_tag "work-package-relations-tab-content" do %>
-  <%= flex_layout(classes:  "work-package-relations-tab--list-container") do |flex| %>
-    <% @relations.group_by(&:relation_type).each do |relation_type, relations| %>
-      <%= flex.with_row do %>
-        <%= render(border_box_container(padding: :condensed)) do |border_box|
-            border_box.with_header do
-              flex_layout do |flex|
-                flex.with_column(mr: 2) do
-                  render(Primer::Beta::Text.new(font_size: :normal, color: :muted)) do
-                    t(relations.first.label_for(@work_package)).capitalize
+<%= component_wrapper(tag: "turbo-frame") do %>
+  <%= 
+    flex_layout(justify_content: :space_between, align_items: :center, mb: 4) do |action_bar|
+      action_bar.with_column do
+        render(Primer::Beta::Text.new(color: :muted)) do
+          "Add relations to other work packages to create a link between them."
+        end
+      end
+      action_bar.with_column do
+        render(Primer::Alpha::ActionMenu.new(menu_id: "relations-list-action-menu")) do |menu|
+          menu.with_show_button do |button|
+            button.with_leading_visual_icon(icon: :"plus")
+
+            button.with_trailing_action_icon(icon: :"triangle-down")
+            "Relation"
+          end
+          Relation::TYPES.values.each do |type_configuration_hash|
+            menu.with_item(label: t(type_configuration_hash[:name]).capitalize) do |item|
+              item.with_description.with_content("blugh")
+            end
+          end
+        end
+      end
+    end
+  %>
+  <%=
+    if relations.any?
+      flex_layout(classes: "work-package-relations-tab--list-container") do |flex|
+        relations.group_by(&:relation_type).each do |relation_type, relations_of_type|
+          flex.with_row do
+            render(border_box_container(padding: :condensed)) do |border_box|
+              border_box.with_header(py: 3) do
+                flex_layout(align_items: :center) do |flex|
+                  flex.with_column(mr: 2) do
+                    render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
+                      t(relations_of_type.first.label_for(work_package)).capitalize
+                    end
+                  end
+                  flex.with_column do
+                    render(Primer::Beta::Counter.new(count: relations_of_type.size,
+                                                    round: true,
+                                                    scheme: :primary))
                   end
                 end
-                flex.with_column do
-                  render(Primer::Beta::Counter.new(count: relations.size,
-                                                  round: true,
-                                                  scheme: :primary))
+              end
+              relations_of_type.each do |relation|
+                border_box.with_row(style: "padding-top: 12px; padding-bottom: 12px;") do
+                  render(WorkPackageRelationsTab::RelationComponent.new(work_package: relation.to))
                 end
               end
             end
-            relations.each do |relation|
-              border_box.with_row do
-                render(Primer::Beta::Text.new(font_size: :normal, color: :muted)) do
-                  relation.to.subject.to_s
-                end
-              end
-            end
-          end %>
-      <% end %>
-    <% end %>
-  <% end %>
+          end
+        end
+      end
+    else
+      render Primer::Beta::Blankslate.new(border: true) do |component|
+        component.with_visual_icon(icon: "package-dependents")
+        component.with_heading(tag: :h2).with_content("No relations")
+        component.with_description { "This work package does not yet have any relations." }
+      end
+    end
+  %>
 <% end %>

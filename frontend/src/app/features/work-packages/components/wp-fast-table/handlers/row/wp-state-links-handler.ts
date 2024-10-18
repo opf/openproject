@@ -48,7 +48,6 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     }
 
     // Locate the details link from event
-    // debugger;
     const target = evt.target as HTMLElement;
     const element = target.closest(this.SELECTOR) as HTMLElement & { dataset:DOMStringMap };
     const state = element.dataset.wpState;

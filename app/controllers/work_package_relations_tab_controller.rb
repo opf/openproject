@@ -38,15 +38,25 @@ class WorkPackageRelationsTabController < ApplicationController
     @relations = @work_package
       .relations
       .includes(:to, :from)
-      .visible
 
-    render(
-      WorkPackageRelationsTab::IndexComponent.new(
-        work_package: @work_package,
-        relations: @relations
-      ),
-      layout: false
-    )
+    respond_to do |format|
+      format.html do
+        render(
+          WorkPackageRelationsTab::IndexComponent.new(
+            work_package: @work_package,
+            relations: @relations
+          ),
+          layout: false
+        )
+      end
+      format.turbo_stream do
+        replace_via_turbo_stream(component: WorkPackageRelationsTab::IndexComponent.new(
+          work_package: @work_package,
+          relations: @relations
+        ))
+        render turbo_stream: turbo_streams
+      end
+    end
   end
 
   # def count

@@ -1,0 +1,69 @@
+<%= flex_layout(direction: :column, style: "gap: 0.25rem;") do |flex|
+  flex.with_row(flex_layout: true,
+                justify_content: :flex_start,
+                align_items: :center,
+                style: "gap: 0.5rem;") do |meta_information_row|
+    meta_information_row.with_column do
+      render(Primer::Beta::Text.new(font_size: :small,
+                                  font_weight: :bold,
+                                  color: :muted)) { "#{work_package.type.name.upcase}" }
+    end
+
+    meta_information_row.with_column do
+      render(Primer::Beta::Text.new(font_size: :small,
+                                    color: :muted)) { "##{work_package.id}" }
+    end
+    meta_information_row.with_column do
+      render(Primer::Beta::Text.new(classes: "__hl_inline_status_#{work_package.status.id}")) do
+        work_package.status.name
+      end
+    end
+  end
+
+  flex.with_row(flex_layout: true, justify_content: :space_between, align_items: :center) do |subject_line_row|
+    subject_line_row.with_column do
+      render(Primer::Beta::Link.new(href: work_package_path(work_package),
+                                    color: :default,
+                                    underline: false,
+                                    font_size: :normal,
+                                    font_weight: :bold,
+                                    target: "_blank")) { work_package.subject }
+    end
+
+    subject_line_row.with_column do
+      render(Primer::Alpha::ActionMenu.new) do |menu|
+        menu.with_show_button(icon: "kebab-horizontal",
+                              'aria-label': I18n.t(:label_agenda_item_actions),
+                              scheme: :invisible,
+                              ml: 2,
+                              test_selector: 'op-meeting-agenda-actions')
+        menu.with_item(label: "Edit relation",
+          href: "#",
+          content_arguments: {
+            data: { "turbo-stream": true }
+          }) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+        menu.with_item(label: "Delete relation",
+                     scheme: :danger,
+                     href: "#",
+                     form_arguments: {
+                       method: :delete, data: { confirm: t("text_are_you_sure"), "turbo-stream": true }
+                     }) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
+    end
+  end
+
+  if work_package.description.present?
+    flex.with_row(flex_layout: true, justify_content: :flex_start) do |description_row|
+      description_row.with_column do
+        render(Primer::Beta::Text.new(font_size: :small,
+                                      color: :muted)) do
+          format_text(work_package, :description)
+        end
+      end
+    end
+  end
+end %>

@@ -1,3 +1,8 @@
 .work-package-relations-tab
   &--list-container
     gap: 1.5rem
+
+// We reference an ID as one is required to be specified for the action menu list.
+// It can't be nested inside the BEM model as it's placed as a #top-layer element.
+#relations-list-action-menu-list
+  max-height: 300px
