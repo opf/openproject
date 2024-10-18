@@ -1,0 +1,31 @@
+<%= turbo_frame_tag "work-package-relations-tab-content" do %>
+  <%= flex_layout(classes:  "work-package-relations-tab--list-container") do |flex| %>
+    <% @relations.group_by(&:relation_type).each do |relation_type, relations| %>
+      <%= flex.with_row do %>
+        <%= render(border_box_container(padding: :condensed)) do |border_box|
+            border_box.with_header do
+              flex_layout do |flex|
+                flex.with_column(mr: 2) do
+                  render(Primer::Beta::Text.new(font_size: :normal, color: :muted)) do
+                    t(relations.first.label_for(@work_package)).capitalize
+                  end
+                end
+                flex.with_column do
+                  render(Primer::Beta::Counter.new(count: relations.size,
+                                                  round: true,
+                                                  scheme: :primary))
+                end
+              end
+            end
+            relations.each do |relation|
+              border_box.with_row do
+                render(Primer::Beta::Text.new(font_size: :normal, color: :muted)) do
+                  relation.to.subject.to_s
+                end
+              end
+            end
+          end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

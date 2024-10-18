@@ -39,6 +39,7 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { RelationsStateValue, WorkPackageRelationsService } from './wp-relations.service';
 import { RelatedWorkPackagesGroup } from './wp-relations.interfaces';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
   selector: 'wp-relations',
@@ -65,14 +66,20 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
 
   public currentRelations:WorkPackageResource[] = [];
 
-  constructor(private I18n:I18nService,
+  turboFrameSrc:string;
+
+  constructor(
+  private I18n:I18nService,
     private wpRelations:WorkPackageRelationsService,
     private cdRef:ChangeDetectorRef,
-    private apiV3Service:ApiV3Service) {
+    private apiV3Service:ApiV3Service,
+    private PathHelper:PathHelperService,
+) {
     super();
   }
 
   ngOnInit() {
+    this.turboFrameSrc = `${this.PathHelper.staticBase}/work_packages/${this.workPackage.id}/relations_tab`;
     this.canAddRelation = !!this.workPackage.addRelation;
 
     this.wpRelations
@@ -126,14 +133,16 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
       return;
     }
 
-    this.relationGroups = <RelatedWorkPackagesGroup>_.groupBy(this.currentRelations,
+    this.relationGroups = <RelatedWorkPackagesGroup>_.groupBy(
+this.currentRelations,
       (wp:WorkPackageResource) => {
         if (this.groupByWorkPackageType) {
           return wp.type.name;
         }
         const normalizedType = (wp.relatedBy as RelationResource).normalizedType(this.workPackage);
         return this.I18n.t(`js.relation_labels.${normalizedType}`);
-      });
+      },
+);
     this.relationGroupKeys = _.keys(this.relationGroups);
     this.relationsPresent = _.size(this.relationGroups) > 0;
     this.cdRef.detectChanges();
