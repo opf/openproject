@@ -92,6 +92,29 @@ module CustomField::OrderStatements
 
   def can_be_used_for_grouping? = field_format.in?(%w[list date bool int float string link])
 
+  # Template for all the join statements.
+  #
+  # For single value custom fields thejoin ensures single value for every
+  # customized object using DISTINCT ON and selecting first value by id of
+  # custom value:
+  #
+  #   LEFT OUTER JOIN (
+  #     SELECT DISTINCT ON (cv.customized_id), cv.customized_id, xxx "value"
+  #       FROM custom_values cv
+  #       WHERE …
+  #       ORDER BY cv.customized_id, cv.id
+  #   ) cf_order_NNN ON cf_order_NNN.customized_id = …
+  #
+  # For multi value custom fields the GROUP BY and value aggregate function
+  # ensure single value for every customized object:
+  #
+  #   LEFT OUTER JOIN (
+  #     SELECT cv.customized_id, ARRAY_AGG(xxx ORDERY BY yyy) "value"
+  #       FROM custom_values cv
+  #       WHERE …
+  #       GROUP BY cv.customized_id, cv.id
+  #   ) cf_order_NNN ON cf_order_NNN.customized_id = …
+  #
   def join_for_order_sql(value:, add_select: nil, join: nil, multi_value: false)
     <<-SQL.squish
       LEFT OUTER JOIN (
