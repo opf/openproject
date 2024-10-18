@@ -431,20 +431,14 @@ module SortHelper
     asc_sort_link = projects_path(sort_by_options(column, "asc", default_order, allowed_params:, **html_options))
 
     menu.with_item(**menu_options(label: t(:label_sort_descending),
-                                  content_args: content_args.merge(
-                                    data: {
-                                      "test-selector" => "#{column}-sort-desc"
-                                    }
-                                  ),
+                                  content_args:,
+                                  data: { "test-selector" => "#{column}-sort-desc" },
                                   href: desc_sort_link)) do |item|
       item.with_leading_visual_icon(icon: :"sort-desc")
     end
     menu.with_item(**menu_options(label: t(:label_sort_ascending),
-                                  content_args: content_args.merge(
-                                    data: {
-                                      "test-selector" => "#{column}-sort-asc"
-                                    }
-                                  ),
+                                  content_args:,
+                                  data: { "test-selector" => "#{column}-sort-asc" },
                                   href: asc_sort_link)) do |item|
       item.with_leading_visual_icon(icon: :"sort-asc")
     end
@@ -453,13 +447,12 @@ module SortHelper
 
   def filter_action(menu, column, filter, content_args:)
     menu.with_item(**menu_options(label: t(:label_filter_by),
-                                  content_args: content_args.merge(
-                                    data: {
-                                      "test-selector" => "#{column}-filter-by",
-                                      action: "table-action-menu#filterBy",
-                                      filter_name: filter
-                                    }
-                                  ))) do |item|
+                                  content_args:,
+                                  data: {
+                                    "test-selector" => "#{column}-filter-by",
+                                    action: "table-action-menu#filterBy",
+                                    filter_name: filter
+                                  })) do |item|
       item.with_leading_visual_icon(icon: :filter)
     end
     menu.with_divider
@@ -489,11 +482,8 @@ module SortHelper
     shift_link = build_columns_link(shifted_columns, allowed_params:, **html_options)
 
     menu.with_item(**menu_options(label: t(label_key),
-                                  content_args: content_args.merge(
-                                    data: {
-                                      "test-selector" => test_selector
-                                    }
-                                  ),
+                                  content_args:,
+                                  data: { "test-selector" => test_selector },
                                   href: shift_link)) do |item|
       item.with_leading_visual_icon(icon:)
     end
@@ -506,22 +496,20 @@ module SortHelper
     rm_column_link = build_columns_link(all_columns_except_this, allowed_params:, **html_options)
 
     menu.with_item(**menu_options(label: t(:label_add_column),
-                                  content_args: content_args.merge(
-                                    data: {
-                                      controller: "async-dialog",
-                                      "test-selector" => "#{column}-add-column"
-                                    }
-                                  ),
+                                  content_args:,
+                                  data: {
+                                    controller: "async-dialog",
+                                    "test-selector" => "#{column}-add-column"
+                                  },
                                   href: config_view_modal_link)) do |item|
       item.with_leading_visual_icon(icon: :columns)
     end
     menu.with_divider
     menu.with_item(**menu_options(label: t(:label_remove_column),
-                                  content_args: content_args.merge(
-                                    data: {
-                                      "test-selector" => "#{column}-remove-column"
-                                    }
-                                  ),
+                                  content_args:,
+                                  data: {
+                                    "test-selector" => "#{column}-remove-column"
+                                  },
                                   scheme: :danger,
                                   href: rm_column_link)) do |item|
       item.with_leading_visual_icon(icon: :trash)
@@ -547,10 +535,13 @@ module SortHelper
   end
 
   def menu_options(label:, content_args:, **extra_args)
-    {
-      label:,
-      content_arguments: content_args.merge(title: label)
-    }.merge(extra_args)
+    content_arguments = content_args.merge(title: label)
+
+    if extra_args[:data]
+      content_arguments[:data] = content_arguments.fetch(:data, {}).merge(extra_args.delete(:data))
+    end
+
+    { label:, content_arguments: }.merge(extra_args)
   end
 
   def sort_class(column)
