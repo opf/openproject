@@ -24,6 +24,22 @@ ko:
   activities:
     index:
       no_results_title_text: 이 시간 프레임 내에서 프로젝트에 대한 활동이 없습니다.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: 현재 설치된 플러그인이 없습니다.
@@ -208,7 +224,7 @@ ko:
         blankslate:
           title: "항목 목록이 비어 있습니다"
           description: "먼저 유형 계층의 사용자 지정 필드에 항목을 추가하여 시작하세요. 각 항목을 사용하여 그 아래에 계층을 만들 수 있습니다. 계층 내에서 하위 항목을 탐색하고 만들려면 생성된 항목을 클릭하세요."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2005,7 +2021,6 @@ ko:
   label_check_uncheck_all_in_row: "모든 행에서 확인/취소"
   label_child_element: "자식 요소"
   label_choices: "선택 사항"
-  label_chronological_order: "오래된순"
   label_close_versions: "완료된 버전 닫기"
   label_closed_work_packages: "닫음"
   label_collapse: "축소"
@@ -2371,7 +2386,6 @@ ko:
   label_required: "필수"
   label_requires: "필수"
   label_result_plural: "결과"
-  label_reverse_chronological_order: "최신순"
   label_revision: "수정"
   label_revision_id: "수정 %{value}"
   label_revision_plural: "수정"

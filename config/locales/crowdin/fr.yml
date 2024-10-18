@@ -24,6 +24,22 @@ fr:
   activities:
     index:
       no_results_title_text: Il n’y a pas eu d'activité pour le projet pendant cette période.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Aucun plugin n'est actuellement installé.
@@ -208,7 +224,7 @@ fr:
         blankslate:
           title: "Votre liste d'articles est vide"
           description: "Commencez par ajouter des éléments au champ personnalisé de type hiérarchie. Chaque élément peut être utilisé pour créer une hiérarchie en dessous de lui. Pour naviguer et créer des sous-éléments à l'intérieur d'une hiérarchie, cliquez sur l'élément créé."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2040,7 +2056,6 @@ fr:
   label_check_uncheck_all_in_row: "Cocher/Décocher tout dans la ligne"
   label_child_element: "Élément enfant"
   label_choices: "Choix"
-  label_chronological_order: "Le plus ancien en premier"
   label_close_versions: "Fermer les versions complètes"
   label_closed_work_packages: "clôturé"
   label_collapse: "Regrouper"
@@ -2406,7 +2421,6 @@ fr:
   label_required: "requis"
   label_requires: "requiert"
   label_result_plural: "Résultats"
-  label_reverse_chronological_order: "Le plus récent en premier"
   label_revision: "Révision"
   label_revision_id: "Révision %{value}"
   label_revision_plural: "Révisions"

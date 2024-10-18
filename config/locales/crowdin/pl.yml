@@ -24,6 +24,22 @@ pl:
   activities:
     index:
       no_results_title_text: W tym okresie nie było żadnych działań związanych z projektem.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Obecnie nie ma żadnych zainstalowanych wtyczek.
@@ -205,7 +221,7 @@ pl:
         blankslate:
           title: "Twoja lista elementów jest pusta"
           description: "Zacznij od dodawania elementów do pola niestandardowego typu hierarchii. Każdy element może być użyty do tworzenia hierarchii poniżej niego. Aby nawigować i tworzyć podelementy wewnątrz hierarchii, kliknij utworzony element."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2108,7 +2124,6 @@ pl:
   label_check_uncheck_all_in_row: "Sprawdź/Odznacz wszystko w wierszu"
   label_child_element: "Element podrzędny"
   label_choices: "Wybory"
-  label_chronological_order: "Od najstarszych"
   label_close_versions: "Zamknij zakończone wersje"
   label_closed_work_packages: "Zamknięte"
   label_collapse: "Zwiń"
@@ -2474,7 +2489,6 @@ pl:
   label_required: "wymagane"
   label_requires: "wymaga"
   label_result_plural: "Wyniki"
-  label_reverse_chronological_order: "Od najnowszych"
   label_revision: "Rewizja"
   label_revision_id: "Rewizja %{value}"
   label_revision_plural: "Rewizje"
