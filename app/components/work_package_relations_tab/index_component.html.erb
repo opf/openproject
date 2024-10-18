@@ -1,0 +1,32 @@
+<%= turbo_frame_tag "work-package-relations-tab-content" do %>
+  <%= 
+    blah_blah = "Blah blah"
+    flex_layout(classes: "work-package-relations-tab--list-container") do |flex|
+      relations.group_by(&:relation_type).each do |relation_type, relations_of_type|
+        flex.with_row do
+          render(border_box_container(padding: :condensed)) do |border_box|
+            border_box.with_header(py: 3) do
+              flex_layout(align_items: :center) do |flex|
+                flex.with_column(mr: 2) do
+                  render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
+                    t(relations_of_type.first.label_for(work_package)).capitalize
+                  end
+                end
+                flex.with_column do
+                  render(Primer::Beta::Counter.new(count: relations_of_type.size,
+                                                   round: true,
+                                                   scheme: :primary))
+                end
+              end
+            end
+            relations_of_type.each do |relation|
+              border_box.with_row(style: "padding-top: 12px; padding-bottom: 12px;") do
+                render(WorkPackageRelationsTab::RelationComponent.new(work_package: relation.to))
+              end
+            end
+          end
+        end
+      end
+    end
+  %>
+<% end %>

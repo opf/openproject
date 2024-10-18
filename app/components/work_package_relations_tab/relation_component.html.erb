@@ -1,0 +1,39 @@
+<%= flex_layout(direction: :column, style: "gap: 0.25rem;") do |flex|
+  flex.with_row(flex_layout: true,
+                justify_content: :flex_start,
+                style: "gap: 0.5rem;") do |meta_information_row|
+    meta_information_row.with_column do
+      render(Primer::Beta::Text.new(font_size: :small,
+                                  font_weight: :bold,
+                                  color: :muted)) { "#{work_package.type.name.upcase}" }
+    end
+
+    meta_information_row.with_column do
+      render(Primer::Beta::Text.new(font_size: :small,
+                                    color: :muted)) { "##{work_package.id}" }
+    end
+    meta_information_row.with_column do
+      render(Primer::Beta::Label.new(font_weight: :bold)) { work_package.status.name }
+    end
+  end
+
+  flex.with_row(flex_layout: true, justify_content: :flex_start) do |subject_line_row|
+    subject_line_row.with_column do
+      render(Primer::Beta::Link.new(href: work_package_path(work_package),
+                                    color: :default,
+                                    underline: false,
+                                    font_size: :normal,
+                                    font_weight: :bold,
+                                    target: "_blank")) { work_package.subject }
+    end
+  end
+
+  flex.with_row(flex_layout: true, justify_content: :flex_start) do |description_row|
+    description_row.with_column do
+      render(Primer::Beta::Text.new(font_size: :small,
+                                    color: :muted)) do
+        format_text(work_package, :description)
+      end
+    end
+  end
+end %>
