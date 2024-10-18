@@ -427,7 +427,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_no_columns("Status")
 
       # Sorts ASC by name
-      projects_page.sort_by_via_table_header("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :asc)
       wait_for_reload
       projects_page.expect_sort_order_via_table_header("Name", direction: :asc)
 
@@ -461,7 +462,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
       projects_page.expect_total_pages(2) # Filters kept active, so there is no third page.
 
       # Sorts DESC by name
-      projects_page.sort_by_via_table_header("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :desc)
       wait_for_reload
       projects_page.expect_sort_order_via_table_header("Name", direction: :desc)
 
@@ -646,12 +648,14 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         login_as(admin)
         projects_page.visit!
 
-        click_link_or_button('Sort by "Status"')
+        projects_page.click_table_header_to_open_action_menu("project_status")
+        projects_page.sort_via_action_menu("project_status", direction: :asc)
 
         projects_page.expect_project_at_place(green_project, 1)
         expect(page).to have_text("(1 - 5/5)")
 
-        click_link_or_button('Ascending sorted by "Status"')
+        projects_page.click_table_header_to_open_action_menu("project_status")
+        projects_page.sort_via_action_menu("project_status", direction: :desc)
 
         projects_page.expect_project_at_place(green_project, 5)
         expect(page).to have_text("(1 - 5/5)")
@@ -1254,7 +1258,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                   child_project_z,
                                   public_project)
 
-      click_link_or_button("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :asc)
       wait_for_reload
 
       # Projects ordered by name asc
@@ -1266,7 +1271,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                   public_project,
                                   child_project_z)
 
-      click_link_or_button("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :desc)
       wait_for_reload
 
       # Projects ordered by name desc
@@ -1278,7 +1284,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
                                   development_project,
                                   child_project_a)
 
-      click_link_or_button(integer_custom_field.name)
+      projects_page.click_table_header_to_open_action_menu(integer_custom_field.column_name)
+      projects_page.sort_via_action_menu(integer_custom_field.column_name, direction: :asc)
       wait_for_reload
 
       # Projects ordered by cf asc first then project name desc
@@ -1304,7 +1311,8 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
     end
 
     it "sorts projects by latest_activity_at" do
-      click_link_or_button('Sort by "Latest activity at"')
+      projects_page.click_table_header_to_open_action_menu("latest_activity_at")
+      projects_page.sort_via_action_menu("latest_activity_at", direction: :asc)
       wait_for_reload
 
       projects_page.expect_project_at_place(project, 1)
@@ -1474,6 +1482,135 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
 
       # Columns are taken from the default set as defined by the setting
       projects_page.expect_columns("Name", "Created on", "Status")
+    end
+  end
+
+  context "when using the action menu", with_settings: { enabled_projects_columns: %w[created_at name project_status] } do
+    before do
+      login_as(admin)
+      visit projects_path
+    end
+
+    describe "moving a column" do
+      it "moves the selected column one place to the left and right" do
+        projects_page.expect_columns_in_order("Created on", "Name", "Status")
+
+        # Move "Name" column to the left
+        projects_page.click_table_header_to_open_action_menu("Name")
+        projects_page.move_column_via_action_menu("Name", direction: :left)
+        wait_for_reload
+
+        # Name was moved left?
+        projects_page.expect_columns_in_order("Name", "Created on", "Status")
+
+        # Now move it back to the right once
+        projects_page.click_table_header_to_open_action_menu("Name")
+        projects_page.move_column_via_action_menu("Name", direction: :right)
+        wait_for_reload
+
+        # Original position should have been restored
+        projects_page.expect_columns_in_order("Created on", "Name", "Status")
+
+        # Looking at the leftmost column
+        projects_page.click_table_header_to_open_action_menu("created_at")
+        projects_page.within("#menu-created_at-overlay") do
+          # It should allow us to move the column right
+          expect(page)
+            .to have_css("a[data-test-selector='created_at-move-col-right']", text: I18n.t(:label_move_column_right))
+
+          # It should not allow us to move the column further left
+          expect(page)
+            .to have_no_css("a[data-test-selector='created_at-move-col-left']", text: I18n.t(:label_move_column_left))
+        end
+
+        # Looking at the rightmost column
+        projects_page.click_table_header_to_open_action_menu("project_status")
+        projects_page.within("#menu-project_status-overlay") do
+          # It should allow us to move the column further left
+          expect(page)
+            .to have_css("a[data-test-selector='project_status-move-col-left']", text: I18n.t(:label_move_column_left))
+
+          # It should not allow us to move the column right
+          expect(page)
+            .to have_no_css("a[data-test-selector='project_status-move-col-right']", text: I18n.t(:label_move_column_right))
+        end
+      end
+    end
+
+    describe "sorting a column",
+             with_settings: { enabled_projects_columns: %w[created_at name project_status description] } do
+      it "does not offer the sorting options for columns that are not sortable" do
+        projects_page.expect_columns_in_order("Created on", "Name", "Status", "Description")
+
+        projects_page.click_table_header_to_open_action_menu("Description")
+        projects_page.expect_no_sorting_option_in_action_menu("Description")
+      end
+    end
+
+    describe "removing a column" do
+      it "removes the column from the table view" do
+        projects_page.expect_columns_in_order("Created on", "Name", "Status")
+
+        # Remove "Name" column
+        projects_page.click_table_header_to_open_action_menu("Name")
+        projects_page.remove_column_via_action_menu("Name")
+        wait_for_reload
+
+        # Name was removed
+        projects_page.expect_columns_in_order("Created on", "Status")
+
+        # Remove "Status" column, too
+        projects_page.click_table_header_to_open_action_menu("project_status")
+        projects_page.remove_column_via_action_menu("project_status")
+        wait_for_reload
+
+        # It was removed
+        projects_page.expect_columns_in_order("Created on")
+      end
+    end
+
+    describe "adding a column" do
+      it "opens the configure view dialog" do
+        projects_page.click_table_header_to_open_action_menu("Name")
+        projects_page.click_add_column_in_action_menu("Name")
+
+        # Configure view dialog was opened
+        expect(page).to have_css("#op-project-list-configure-dialog")
+      end
+    end
+
+    describe "filtering by column",
+             with_settings: { enabled_projects_columns: %w[created_at identifier project_status] } do
+      it "adds the filter for a selected column" do
+        projects_page.click_table_header_to_open_action_menu("created_at")
+        projects_page.expect_filter_option_in_action_menu("created_at")
+        projects_page.filter_by_column_via_action_menu("created_at")
+
+        # Filter component is visible
+        expect(page).to have_select("add_filter_select")
+        # Filter for column is visible and can now be specified by the user
+        expect(page).to have_css(".advanced-filters--filter-name[for='created_at']")
+      end
+
+      it "adds the filter for a selected column that has a different filter mapped to its column" do
+        projects_page.click_table_header_to_open_action_menu("project_status")
+        projects_page.expect_filter_option_in_action_menu("project_status")
+        projects_page.filter_by_column_via_action_menu("project_status")
+
+        # Filter component is visible
+        expect(page).to have_select("add_filter_select")
+        # Filter for column is visible. Note that the filter name is different from the column attribute!
+        expect(page).to have_css(".advanced-filters--filter-name[for='project_status_code']")
+      end
+
+      it "does not offer to filter if the column has no associated filter" do
+        # There is no filter mapping for the identifier column: we should not get the option to filter by it
+        projects_page.click_table_header_to_open_action_menu("identifier")
+        projects_page.expect_no_filter_option_in_action_menu("identifier")
+
+        # Filters have not been activated and are therefore not visible
+        expect(page).to have_no_select("add_filter_select")
+      end
     end
   end
 end

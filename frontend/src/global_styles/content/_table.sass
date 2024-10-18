@@ -104,6 +104,9 @@ table.generic-table
       // https://www.456bereastreet.com/archive/201305/firefox_and_the_magical_text-overflowellipsis_z-index/
       z-index: 1
 
+      action-menu
+        text-transform: none
+
       &.-right
         text-align: right
 
@@ -279,6 +282,8 @@ thead.-sticky th
 
 .generic-table--sort-header-outer
   padding:      0 12px 0 6px
+  &.generic-table--header_no-padding
+    padding: 0
 
 .generic-table--header-outer,
 .generic-table--empty-header

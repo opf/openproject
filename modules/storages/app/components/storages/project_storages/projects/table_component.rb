@@ -46,6 +46,10 @@ module Storages::ProjectStorages::Projects
       false
     end
 
+    def use_quick_action_table_headers?
+      false
+    end
+
     # Overwritten to avoid loading data that is not needed in this context
     def projects(query)
       @projects ||= query

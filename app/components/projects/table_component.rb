@@ -63,8 +63,8 @@ module Projects
 
     ##
     # The project sort by is handled differently
-    def build_sort_header(column, options)
-      helpers.projects_sort_header_tag(column, **options, param: :json)
+    def quick_action_table_header(column, options)
+      helpers.projects_sort_header_tag(column, query.selects.map(&:attribute), **options, param: :json)
     end
 
     # We don't return the project row
@@ -119,7 +119,10 @@ module Projects
     end
 
     def order_options(select, turbo: false)
-      options = { caption: select.caption }
+      options = {
+        caption: select.caption,
+        sortable: sortable_column?(select)
+      }
 
       if turbo
         options[:data] = { "turbo-stream": true }
@@ -130,6 +133,10 @@ module Projects
 
     def sortable_column?(select)
       sortable? && query.known_order?(select.attribute)
+    end
+
+    def use_quick_action_table_headers?
+      true
     end
 
     def columns

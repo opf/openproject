@@ -198,6 +198,11 @@ module Pages
         end
       end
 
+      def expect_columns_in_order(*column_names)
+        columns = page.find_all("#project-table th .Button-label")
+        expect(column_names.map(&:upcase)).to eq(columns.map { |c| c.text.upcase })
+      end
+
       def expect_no_columns(*column_names)
         column_names.each do |column_name|
           expect(page).to have_no_css("th", text: column_name.upcase)
@@ -472,14 +477,52 @@ module Pages
         end
       end
 
-      def sort_by_via_table_header(column_name)
-        find(".generic-table--sort-header a", text: column_name.upcase).click
+      def click_table_header_to_open_action_menu(column_name)
+        find(".generic-table--sort-header #menu-#{column_name.downcase}-button").click
+      end
+
+      def sort_via_action_menu(column_name, direction:)
+        raise ArgumentError, "direction should be :asc or :desc" unless %i[asc desc].include?(direction)
+
+        find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-sort-#{direction}']").click
+      end
+
+      def expect_no_sorting_option_in_action_menu(column_name)
+        expect(page).to have_no_css("[data-test-selector='#{column_name.downcase}-sort-asc']")
+        expect(page).to have_no_css("[data-test-selector='#{column_name.downcase}-sort-desc']")
+      end
+
+      def move_column_via_action_menu(column_name, direction:)
+        raise ArgumentError, "direction should be :left or :right" unless %i[left right].include?(direction)
+
+        find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-move-col-#{direction}']").click
+      end
+
+      def remove_column_via_action_menu(column_name)
+        find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-remove-column']").click
+      end
+
+      def click_add_column_in_action_menu(column_name)
+        find(".generic-table--sort-header a[data-test-selector='#{column_name.downcase}-add-column']").click
+      end
+
+      def expect_filter_option_in_action_menu(column_name)
+        expect(page).to have_css("[data-test-selector='#{column_name.downcase}-filter-by']",
+                                 text: I18n.t(:label_filter_by))
+      end
+
+      def expect_no_filter_option_in_action_menu(column_name)
+        expect(page).to have_no_css("[data-test-selector='#{column_name.downcase}-filter-by']")
+      end
+
+      def filter_by_column_via_action_menu(column_name)
+        page.find("[data-test-selector='#{column_name.downcase}-filter-by']", text: I18n.t(:label_filter_by)).click
       end
 
       def expect_sort_order_via_table_header(column_name, direction:)
         raise ArgumentError, "direction should be :asc or :desc" unless %i[asc desc].include?(direction)
 
-        find(".generic-table--sort-header .#{direction} a", text: column_name.upcase)
+        find(".generic-table--sort-header .#{direction} .Button-label", text: column_name.upcase)
       end
 
       def set_page_size(size)

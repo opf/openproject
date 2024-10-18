@@ -30,16 +30,25 @@ module ProjectsHelper
   include WorkPackagesFilterHelper
 
   PROJECTS_QUERY_PARAM_NAMES = %i[query_id filters columns sortBy per_page page].freeze
+  PROJECTS_FILTER_FOR_COLUMN_MAPPING = {
+    "description" => nil,
+    "identifier" => nil,
+    "name" => "id",
+    "project_status" => "project_status_code",
+    "required_disk_space" => nil,
+    "status_explanation" => nil
+  }.freeze
 
   # Just like sort_header tag but removes sorting by
   # lft from the sort criteria as lft is mutually exclusive with
   # the other criteria.
-  def projects_sort_header_tag(column, **)
+  def projects_sort_header_tag(column, all_column_attributes, **)
     former_criteria = @sort_criteria.criteria.dup
 
     @sort_criteria.criteria.reject! { |a, _| a == "lft" }
 
-    sort_header_tag(column, **, allowed_params: projects_query_param_names_for_sort)
+    sort_header_with_action_menu(column, all_column_attributes, PROJECTS_FILTER_FOR_COLUMN_MAPPING, **,
+                                 allowed_params: projects_query_param_names_for_sort)
   ensure
     @sort_criteria.criteria = former_criteria
   end

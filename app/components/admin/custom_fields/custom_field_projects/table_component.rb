@@ -39,6 +39,10 @@ module Admin
         def sortable?
           false
         end
+
+        def use_quick_action_table_headers?
+          false
+        end
       end
     end
   end
