@@ -1024,7 +1024,7 @@ GEM
       rubocop (~> 1.41)
     rubocop-factory_bot (2.26.1)
       rubocop (~> 1.61)
-    rubocop-openproject (0.1.0)
+    rubocop-openproject (0.2.0)
       rubocop
     rubocop-performance (1.22.1)
       rubocop (>= 1.48.1, < 2.0)
