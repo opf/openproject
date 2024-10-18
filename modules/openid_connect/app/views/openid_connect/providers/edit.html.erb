@@ -1,25 +1,32 @@
-<% page_title = t('openid_connect.providers.label_edit', name: @provider.name) %>
-<% local_assigns[:additional_breadcrumb] = @provider.name %>
+<% page_title = t('openid_connect.providers.label_edit', name: @provider.display_name) %>
+<% local_assigns[:additional_breadcrumb] = @provider.display_name %>
 
 <% html_title(t(:label_administration), page_title) -%>
 
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { @provider.name }
+    header.with_title { @provider.display_name }
     header.with_breadcrumbs([{ href: admin_index_path, text: t(:label_administration) },
                              { href: admin_settings_authentication_path, text: t(:label_authentication) },
                              { href: openid_connect_providers_path, text: t("openid_connect.providers.plural") },
-                             @provider.name])
+                             @provider.display_name])
+    header.with_action_button(
+      tag: :a,
+      scheme: :danger,
+      mobile_icon: :trash,
+      mobile_label: t(:button_delete),
+      size: :medium,
+      href: confirm_destroy_openid_connect_provider_path(@provider),
+      aria: { label: I18n.t(:button_delete) },
+      title: I18n.t(:button_delete)
+    ) do |button|
+      button.with_leading_visual_icon(icon: :trash)
+      t(:button_delete)
+    end
   end
 %>
 
-<%= error_messages_for @provider %>
-
-<%= labelled_tabular_form_for @provider,
-                              html: { class: 'form', autocomplete: 'off' } do |f| %>
-  <%= render partial: "form", locals: { f: f } %>
-  <p>
-    <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
-    <%= link_to t(:button_cancel), { action: :index }, class: 'button -with-icon icon-cancel' %>
-  </p>
-<% end %>
+<%= render(OpenIDConnect::Providers::ViewComponent.new(@provider,
+                                                       view_mode: :edit,
+                                                       edit_mode: @edit_mode,
+                                                       edit_state: @edit_state)) %>

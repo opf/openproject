@@ -45,6 +45,10 @@ module Saml
 
     def self.slug_fragment = "saml"
 
+    def human_type
+      "SAML"
+    end
+
     def seeded_from_env?
       (Setting.seed_saml_provider || {}).key?(slug)
     end

@@ -32,7 +32,17 @@ class AuthProvider < ApplicationRecord
   validates :display_name, presence: true
   validates :display_name, uniqueness: true
 
+  after_destroy :unset_direct_provider
+
   def self.slug_fragment
+    raise NotImplementedError
+  end
+
+  def user_count
+    @user_count ||= User.where("identity_url LIKE ?", "#{slug}%").count
+  end
+
+  def human_type
     raise NotImplementedError
   end
 
@@ -43,5 +53,13 @@ class AuthProvider < ApplicationRecord
 
   def callback_url
     URI.join(auth_url, "callback").to_s
+  end
+
+  protected
+
+  def unset_direct_provider
+    if Setting.omniauth_direct_login_provider == slug
+      Setting.omniauth_direct_login_provider = ""
+    end
   end
 end
