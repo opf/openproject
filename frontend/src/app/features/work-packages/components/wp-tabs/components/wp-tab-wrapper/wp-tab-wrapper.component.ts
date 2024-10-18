@@ -59,10 +59,15 @@ export class WpTabWrapperComponent implements OnInit {
     readonly I18n:I18nService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly apiV3Service:ApiV3Service,
-    readonly wpTabsService:WorkPackageTabsService
+    readonly wpTabsService:WorkPackageTabsService,
   ) {}
 
   ngOnInit() {
+    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
+    const { tabIdentifier } = this.uiRouterGlobals.params as unknown as { tabIdentifier:string };
+    this.workPackageId = (workPackageId || this.workPackageId);
+    this.tabIdentifier = (tabIdentifier || this.tabIdentifier);
+
     this.ndcDynamicInputs$ = this
       .apiV3Service
       .work_packages
