@@ -131,7 +131,7 @@ RSpec.describe "Quick-add menu", :js, :with_cuprite do
       quick_add.click_link type_bug.name
 
       expect(page)
-        .to have_current_path new_project_work_packages_path(project_id: project_with_permission, type: type_bug.id)
+        .to have_current_path new_project_work_package_path(project_id: project_with_permission, type: type_bug.id)
 
       visit project_path(project_without_permission)
 

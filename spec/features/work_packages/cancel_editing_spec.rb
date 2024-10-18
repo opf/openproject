@@ -39,7 +39,7 @@ RSpec.describe "Cancel editing work package", :js do
     [
       new_work_packages_path,
       new_split_work_packages_path,
-      new_project_work_packages_path(project),
+      new_project_work_package_path(project),
       new_split_project_work_packages_path(project)
     ]
   end

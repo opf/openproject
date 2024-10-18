@@ -29,6 +29,7 @@
 import { UIRouterGlobals } from '@uirouter/core';
 import {
   Component,
+  Input,
   OnInit,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -44,6 +45,9 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
   selector: 'op-wp-tab',
 })
 export class WpTabWrapperComponent implements OnInit {
+  @Input() public workPackageId:string;
+  @Input() public tabIdentifier:string;
+
   workPackage:WorkPackageResource;
 
   ndcDynamicInputs$:Observable<{
@@ -51,17 +55,19 @@ export class WpTabWrapperComponent implements OnInit {
     tab:WpTabDefinition | undefined;
   }>;
 
-  get workPackageId():string {
-    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
-    return workPackageId;
-  }
-
-  constructor(readonly I18n:I18nService,
+  constructor(
+    readonly I18n:I18nService,
     readonly uiRouterGlobals:UIRouterGlobals,
     readonly apiV3Service:ApiV3Service,
-    readonly wpTabsService:WorkPackageTabsService) {}
+    readonly wpTabsService:WorkPackageTabsService,
+  ) {}
 
   ngOnInit() {
+    const { workPackageId } = this.uiRouterGlobals.params as unknown as { workPackageId:string };
+    const { tabIdentifier } = this.uiRouterGlobals.params as unknown as { tabIdentifier:string };
+    this.workPackageId = (workPackageId || this.workPackageId);
+    this.tabIdentifier = (tabIdentifier || this.tabIdentifier);
+
     this.ndcDynamicInputs$ = this
       .apiV3Service
       .work_packages
@@ -76,8 +82,6 @@ export class WpTabWrapperComponent implements OnInit {
   }
 
   findTab(workPackage:WorkPackageResource):WpTabDefinition | undefined {
-    const { tabIdentifier } = this.uiRouterGlobals.params as unknown as { tabIdentifier:string };
-
-    return this.wpTabsService.getTab(tabIdentifier, workPackage);
+    return this.wpTabsService.getTab(this.tabIdentifier, workPackage);
   }
 }

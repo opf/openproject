@@ -30,6 +30,7 @@ import {
   ChangeDetectorRef,
   Directive,
   Injector,
+  Input,
   OnInit,
   ViewChild,
 } from '@angular/core';
@@ -52,17 +53,16 @@ import * as URI from 'urijs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { HalResource, HalSource } from 'core-app/features/hal/resources/hal-resource';
+import { HalSource } from 'core-app/features/hal/resources/hal-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { WorkPackageCreateService } from './wp-create.service';
 import { HalError } from 'core-app/features/hal/services/hal-error';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Directive()
 export class WorkPackageCreateComponent extends UntilDestroyedMixin implements OnInit {
   public successState:string = splitViewRoute(this.$state);
 
-  public cancelState:string = this.$state.current.data.baseRoute;
+  public cancelState:string = this.$state?.current?.data?.baseRoute;
 
   public newWorkPackage:WorkPackageResource;
 
@@ -73,7 +73,10 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   /** Are we in the copying substates ? */
   public copying = false;
 
-  public stateParams = this.$transition.params('to');
+  @Input() public stateParams:any;
+  //public stateParams:{ parent_id?:string, type:string, projectPath?:string, defaults?:unknown }
+
+  @Input() public routedFromAngular:boolean = true;
 
   public text = {
     button_settings: this.I18n.t('js.button_settings'),
@@ -86,7 +89,6 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
 
   constructor(
     public readonly injector:Injector,
-    protected readonly $transition:Transition,
     protected readonly $state:StateService,
     protected readonly I18n:I18nService,
     protected readonly titleService:OpTitleService,
@@ -97,11 +99,18 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
     protected readonly wpTableFilters:WorkPackageViewFiltersService,
     protected readonly pathHelper:PathHelperService,
     protected readonly apiV3Service:ApiV3Service,
-    protected readonly cdRef:ChangeDetectorRef) {
+    protected readonly cdRef:ChangeDetectorRef,
+  ) {
     super();
   }
 
   public ngOnInit() {
+    // In case the create form is still routed via Angular, the stateParams are empty. We then read the params from the Transition
+    if (this.routedFromAngular) {
+      const transition = this.injector.get(Transition);
+      this.stateParams = transition.params('to');
+    }
+
     this.closeEditFormWhenNewWorkPackageSaved();
 
     this.showForm();
@@ -112,8 +121,8 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
   }
 
   public switchToFullscreen() {
-    const type = idFromLink(this.change.value<HalResource>('type')?.href);
-    void this.$state.go('work-packages.new', { ...this.$state.params, type });
+    const link = this.stateParams.projectPath ? this.pathHelper.projectWorkPackageNewPath(this.stateParams.projectPath) : this.pathHelper.workPackageNewPath();
+    window.location.href = link + window.location.search;
   }
 
   public onSaved(params:{ savedResource:WorkPackageResource, isInitial:boolean }) {
@@ -184,7 +193,25 @@ export class WorkPackageCreateComponent extends UntilDestroyedMixin implements O
 
   public cancelAndBackToList() {
     this.wpCreate.cancelCreation();
-    this.$state.go(this.cancelState, this.$state.params);
+    if (this.routedFromAngular) {
+      this.$state.go(this.cancelState, this.$state.params);
+    } else {
+      const link = this.stateParams.projectPath ? this.pathHelper.projectWorkPackagesPath(this.stateParams.projectPath) : this.pathHelper.workPackagesPath();
+      Turbo.visit(link + window.location.search, { frame: 'content-bodyRight', action: 'advance' });
+    }
+  }
+
+  public showNewSplitWorkPackage(wp:WorkPackageResource) {
+    if (wp.id) {
+      const link = this.pathHelper.workPackageDetailsPath(wp.project.identifier, wp.id) + window.location.search;
+      Turbo.visit(link, { frame: 'content-bodyRight', action: 'advance' });
+    }
+  }
+
+  public showNewFullWorkPackage(wp:WorkPackageResource) {
+    if (wp.id) {
+      window.location.href = this.pathHelper.projectWorkPackagePath(wp.project.identifier, wp.id) + window.location.search;
+    }
   }
 
   protected createdWorkPackage() {

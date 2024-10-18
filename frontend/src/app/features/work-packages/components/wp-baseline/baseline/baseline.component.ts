@@ -78,6 +78,8 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
 
   @Input() visible = true;
 
+  @Input() showHeaderText = true;
+
   public mappedSelectedDate:string|null;
 
   public nonWorkingDays$:Observable<IDay[]> = this.wpTableBaseline.nonWorkingDays$;

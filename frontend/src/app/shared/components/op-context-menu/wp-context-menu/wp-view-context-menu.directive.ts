@@ -98,7 +98,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         this.editSelectedWorkPackages(link!);
         break;
 
-      case 'copy':
+      case 'duplicate':
         this.copySelectedWorkPackages(link!);
         break;
 
@@ -152,11 +152,9 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
       return;
     }
 
-    const params = {
-      copiedFromWorkPackageId: selected[0].id,
-    };
-
-    this.$state.go(`${this.baseRoute}.copy`, params);
+    if (selected[0].id) {
+      window.location.href = this.pathHelper.workPackageCopyPath(selected[0].project.id, selected[0].id);
+    }
   }
 
   private logTimeForSelectedWorkPackage() {
