@@ -66,11 +66,13 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
   end
 
   describe "sign-up and login" do
+    let(:limit_self_registration) { false }
+
     before do
-      create(:oidc_provider, slug: "keycloak", limit_self_registration: false)
+      create(:oidc_provider, slug: "keycloak", limit_self_registration:)
     end
 
-    it "works" do
+    it "logs in the user" do
       ##
       # it should redirect to the provider's openid connect authentication endpoint
       click_on_signin("keycloak")
@@ -115,7 +117,76 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
       expect(response.location).to match /\/my\/page/
     end
 
-    context "with a custom claim and mapping" do
+    context "with self-registration disabled and provider respecting that",
+            with_settings: {
+              self_registration: 0
+            } do
+      let(:limit_self_registration) { true }
+
+      it "does not allow registration" do
+        click_on_signin("keycloak")
+        redirect_from_provider("keycloak")
+
+        expect(response).to have_http_status :found
+        expect(response.location).to match /\/login$/
+        expect(flash[:error]).to include "User registration is limited for the Single sign-on provider 'keycloak'"
+
+        user = User.find_by(mail: user_info[:email])
+        expect(user).to be_nil
+      end
+    end
+
+    context "with self-registration manual and provider respecting that",
+            with_settings: {
+              self_registration: 2
+            } do
+      let(:limit_self_registration) { true }
+
+      it "does not allow registration" do
+        ##
+        # it should redirect to the provider's openid connect authentication endpoint
+        click_on_signin("keycloak")
+
+        ##
+        # it should redirect back from the provider to the login page
+        redirect_from_provider("keycloak")
+
+        expect(response).to have_http_status :found
+        expect(response.location).to match /\/login$/
+        expect(flash[:notice]).to eq "Your account was created and is now pending administrator approval."
+
+        user = User.find_by(mail: user_info[:email])
+        expect(user).to be_registered
+        expect(user).not_to be active
+      end
+    end
+
+    context "with self-registration disabled and provider ignoring that",
+            with_settings: {
+              self_registration: 0
+            } do
+      let(:limit_self_registration) { false }
+
+      it "does not allow registration" do
+        click_on_signin("keycloak")
+        redirect_from_provider("keycloak")
+
+        expect(response).to have_http_status :found
+        expect(response.location).to match /\/\?first_time_user=true$/
+
+        user = User.find_by(mail: user_info[:email])
+        expect(user).to be_active
+      end
+    end
+
+    context "with a custom attribute mapping" do
+      let!(:provider) do
+        create(:oidc_provider,
+               slug: "keycloak",
+               limit_self_registration:,
+               mapping_login: :foobar)
+      end
+
       let(:user_info) do
         {
           sub: "87117114115116",
@@ -125,18 +196,6 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
           family_name: "Wurst",
           foobar: "a.truly.random.value"
         }
-      end
-
-      before do
-        allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
-          "providers" => {
-            "heroku" => {
-              "attribute_map" => { login: :foobar },
-              "identifier" => "does not",
-              "secret" => "matter"
-            }
-          }
-        )
       end
 
       it "maps to the login" do

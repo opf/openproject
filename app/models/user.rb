@@ -308,7 +308,12 @@ class User < Principal
   def authentication_provider
     return if identity_url.blank?
 
-    identity_url.split(":", 2).first.titleize
+    identity_url.split(":", 2).first
+  end
+
+  # Return user's authentication provider for display
+  def human_authentication_provider
+    authentication_provider&.titleize
   end
 
   ##
