@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,18 +25,42 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-module CustomFields
-  class DetailsComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
 
-    alias_method :custom_field, :model
+require "support/pages/page"
 
-    def has_no_items_or_projects?
-      custom_field.field_format_hierarchy? &&
-        custom_field.hierarchy_root.children.empty? &&
-        custom_field.projects.empty?
+module Pages
+  module CustomFields
+    class IndexPage < Page
+      def path
+        "/custom_fields"
+      end
+
+      def visit_tab(name)
+        visit!
+        within_test_selector("custom-fields--tab-nav") do
+          click_on name.to_s
+        end
+      end
+
+      def select_format(label)
+        select label, from: "custom_field_field_format"
+      end
+
+      def set_name(name)
+        find_by_id("custom_field_name").set name
+      end
+
+      def set_default_value(value)
+        fill_in "custom_field[default_value]", with: value
+      end
+
+      def set_all_projects(value)
+        find_by_id("custom_field_is_for_all").set value
+      end
+
+      def has_form_element?(name)
+        page.has_css? "label.form--label", text: name
+      end
     end
   end
 end

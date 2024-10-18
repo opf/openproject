@@ -245,10 +245,10 @@ en:
           heading: For all projects
           description: This custom field is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
       items:
+        actions: "Item actions"
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"

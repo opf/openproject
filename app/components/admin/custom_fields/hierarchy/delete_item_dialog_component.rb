@@ -35,6 +35,7 @@ module Admin
         include OpTurbo::Streamable
 
         DIALOG_ID = "op-hierarchy-item--deletion-confirmation"
+        TEST_SELECTOR = "op-custom-fields--delete-item-dialog"
 
         def initialize(custom_field:, hierarchy_item:)
           super

@@ -37,7 +37,10 @@ See COPYRIGHT and LICENSE files for more details.
   data-admin--custom-fields-format-config-value="<%= OpenProject::CustomFieldFormatDependent.stimulus_config %>"
 >
   <div class="form--field -required" id="custom_field_name_attributes">
-    <%= f.text_field :name, required: true, container_class: '-middle' %>
+    <%= f.text_field :name,
+                     required: true,
+                     container_class: "-middle",
+                     "data-test-selector": "op-custom-fields--new-custom-field-name" %>
   </div>
   <% if @custom_field.type == 'ProjectCustomField' %>
     <div class="form--field -required">

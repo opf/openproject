@@ -30,7 +30,7 @@ require "spec_helper"
 
 RSpec.describe "User custom fields edit", :js, :with_cuprite do
   shared_let(:admin) { create(:admin) }
-  let(:cf_page) { Pages::CustomFields.new }
+  let(:cf_page) { Pages::CustomFields::IndexPage.new }
 
   before do
     login_as(admin)

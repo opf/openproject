@@ -131,6 +131,8 @@ services:
     environment:
       PROXY_HOSTNAME: backend-test
       CHROME_BIN: chromium
+      FE_PORT: 4200
+      FE_HOST: frontend-test
     networks:
       - testing
 

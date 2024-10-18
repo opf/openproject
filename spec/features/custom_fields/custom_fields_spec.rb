@@ -1,9 +1,9 @@
 require "spec_helper"
-require "support/pages/custom_fields"
+require "support/pages/custom_fields/index_page"
 
 RSpec.describe "custom fields", :js, :with_cuprite do
   let(:user) { create(:admin) }
-  let(:cf_page) { Pages::CustomFields.new }
+  let(:cf_page) { Pages::CustomFields::IndexPage.new }
 
   before do
     login_as user
