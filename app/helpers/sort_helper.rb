@@ -564,13 +564,13 @@ module SortHelper
 
   def within_sort_header_tag_hierarchy(options, classes, &)
     # A column with all icon and no text requires other styles:
-    icon_header = options.fetch(:icon_only_header, false)
-    outer_classes = icon_header ? "generic-table--header_no-padding" : ""
-    inner_classes = icon_header ? "generic-table--header_centered generic-table--header_no-min-width" : ""
+    icon_header = options.delete(:icon_only_header) { false }
+    outer_classes = icon_header ? " generic-table--header_no-padding" : ""
+    inner_classes = icon_header ? " generic-table--header_centered generic-table--header_no-min-width" : ""
 
     content_tag "th", options do
-      content_tag "div", class: "generic-table--sort-header-outer #{outer_classes}" do
-        content_tag "div", class: "generic-table--sort-header #{inner_classes}" do
+      content_tag "div", class: "generic-table--sort-header-outer#{outer_classes}" do
+        content_tag "div", class: "generic-table--sort-header#{inner_classes}" do
           content_tag("span", class: classes, &)
         end
       end
