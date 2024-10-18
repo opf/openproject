@@ -24,6 +24,22 @@ sr:
   activities:
     index:
       no_results_title_text: There has not been any activity for the project within this time frame.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -208,7 +224,7 @@ sr:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2076,7 +2092,6 @@ sr:
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Child element"
   label_choices: "Choices"
-  label_chronological_order: "Oldest first"
   label_close_versions: "Close completed versions"
   label_closed_work_packages: "closed"
   label_collapse: "Collapse"
@@ -2442,7 +2457,6 @@ sr:
   label_required: "required"
   label_requires: "requires"
   label_result_plural: "Results"
-  label_reverse_chronological_order: "Newest first"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisions"

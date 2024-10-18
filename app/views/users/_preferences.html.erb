@@ -42,8 +42,8 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
   <div class="form--field">
     <%= pref_fields.select :comments_sorting,
-                           [[t(:label_chronological_order), 'asc'],
-                            [t(:label_reverse_chronological_order), 'desc']],
+                           [[t("activities.work_packages.activity_tab.label_sort_asc"), 'asc'],
+                            [t("activities.work_packages.activity_tab.label_sort_desc"), 'desc']],
                            container_class: (defined? input_size) ? "-#{input_size}" : '' %>
   </div>
   <div class="form--field"><%= pref_fields.check_box :warn_on_leaving_unsaved %></div>

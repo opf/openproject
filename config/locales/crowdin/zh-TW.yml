@@ -24,6 +24,22 @@ zh-TW:
   activities:
     index:
       no_results_title_text: 在這一時限內, 該專案沒有任何活動。
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: 目前沒有安裝任何外掛程式
@@ -207,7 +223,7 @@ zh-TW:
         blankslate:
           title: "您的欄位清單是空的"
           description: "首先將項目新增至層次結構的自訂欄位。每個項目都可用於在其下方建立一個層次結構。若要在層次結構內導覽和建立子項目，請按一下已建立的項目。"
-        more_actions: "更多操作"
+        actions: "Item actions"
         placeholder:
           label: "項目標籤"
           short: "簡稱"
@@ -741,7 +757,7 @@ zh-TW:
         hours: "小時"
         spent_on: "日期"
         type: "類型"
-        ongoing: "進行中"
+        ongoing: "開啟中"
       type:
         description: "描述的預設文字"
         attribute_groups: ""
@@ -2003,7 +2019,6 @@ zh-TW:
   label_check_uncheck_all_in_row: "選取/取消選取 全部"
   label_child_element: "子項目"
   label_choices: "選項"
-  label_chronological_order: "由舊排列至新"
   label_close_versions: "關閉已完成的版本"
   label_closed_work_packages: "已關閉"
   label_collapse: "收合"
@@ -2273,8 +2288,8 @@ zh-TW:
   label_operator_equals_all: "包含"
   label_operator_shared_with_user_any: "任何"
   label_open_menu: "開啟選單"
-  label_open_work_packages: "進行中"
-  label_open_work_packages_plural: "進行中"
+  label_open_work_packages: "開啟中"
+  label_open_work_packages_plural: "開啟中"
   label_openproject_website: "OpenProject 網站"
   label_optional_description: "說明"
   label_options: "選項"
@@ -2369,7 +2384,6 @@ zh-TW:
   label_required: "必要"
   label_requires: "需要"
   label_result_plural: "結果"
-  label_reverse_chronological_order: "由新排列至舊"
   label_revision: "修訂"
   label_revision_id: "修訂版 %{value}"
   label_revision_plural: "修訂"
@@ -2519,7 +2533,7 @@ zh-TW:
     other: "%{count} 個留言"
     zero: "沒有留言"
   label_x_open_work_packages_abbr:
-    one: "1 進行中"
+    one: "1 開啟中"
     other: "%{count} 個未完成"
     zero: "0 個已開啟"
   label_x_work_packages:

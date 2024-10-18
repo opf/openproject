@@ -24,6 +24,22 @@ zh-CN:
   activities:
     index:
       no_results_title_text: 在这个时间范围内没有任何项目的活动。
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: 目前没有安装插件。
@@ -205,7 +221,7 @@ zh-CN:
         blankslate:
           title: "您的条目列表为空"
           description: "首先，将条目添加到类型层次结构的自定义字段中。每个条目都可以用于在其下方创建一个层次结构。要导航并在层次结构中创建子条目，请点击已创建的条目。"
-        more_actions: "更多操作"
+        actions: "Item actions"
         placeholder:
           label: "项目标签"
           short: "短名"
@@ -2001,7 +2017,6 @@ zh-CN:
   label_check_uncheck_all_in_row: "选中/取消选中所有行"
   label_child_element: "子元素"
   label_choices: "选择"
-  label_chronological_order: "最早的优先"
   label_close_versions: "关闭已完成版本"
   label_closed_work_packages: "关闭"
   label_collapse: "折叠"
@@ -2367,7 +2382,6 @@ zh-CN:
   label_required: "必填"
   label_requires: "要求"
   label_result_plural: "结果"
-  label_reverse_chronological_order: "最新的优先"
   label_revision: "修订"
   label_revision_id: "修订版本 %{value}"
   label_revision_plural: "修订"

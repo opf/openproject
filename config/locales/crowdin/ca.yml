@@ -24,6 +24,22 @@ ca:
   activities:
     index:
       no_results_title_text: No hi hagut activitat al projecte en aquesta finestra de temps.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Actualment no hi ha connectors disponibles.
@@ -205,7 +221,7 @@ ca:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2037,7 +2053,6 @@ ca:
   label_check_uncheck_all_in_row: "Marca/desmarca tot a la fila"
   label_child_element: "Element fill"
   label_choices: "Opcions"
-  label_chronological_order: "Més antic primer"
   label_close_versions: "Tancar versions completades"
   label_closed_work_packages: "tancat"
   label_collapse: "Replega"
@@ -2403,7 +2418,6 @@ ca:
   label_required: "requerit"
   label_requires: "requereix"
   label_result_plural: "Resultats"
-  label_reverse_chronological_order: "El més nou primer"
   label_revision: "Revisió"
   label_revision_id: "Revisió %{value}"
   label_revision_plural: "Revisions"

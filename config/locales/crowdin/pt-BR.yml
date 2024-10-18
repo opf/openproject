@@ -24,6 +24,22 @@ pt-BR:
   activities:
     index:
       no_results_title_text: Não há nenhuma atividade no projeto neste período de tempo.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Atualmente, não existem plugins instalados.
@@ -207,7 +223,7 @@ pt-BR:
         blankslate:
           title: "Sua lista de itens está vazia"
           description: "Comece adicionando itens ao campo personalizado do tipo hierarquia. Cada item pode ser utilizado para construir uma hierarquia abaixo dele. Para navegar e criar subitens dentro dessa hierarquia, clique no item que você criou."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2039,7 +2055,6 @@ pt-BR:
   label_check_uncheck_all_in_row: "Marcar/Desmarcar todos na linha"
   label_child_element: "Elemento filho"
   label_choices: "Escolhas"
-  label_chronological_order: "Mais antigo primeiro"
   label_close_versions: "Fechar versões concluídas"
   label_closed_work_packages: "fechado"
   label_collapse: "Recolher"
@@ -2405,7 +2420,6 @@ pt-BR:
   label_required: "requerido"
   label_requires: "requer"
   label_result_plural: "Resultados"
-  label_reverse_chronological_order: "Mais recentes primeiro"
   label_revision: "Revisão"
   label_revision_id: "Revisão %{value}"
   label_revision_plural: "Revisões"

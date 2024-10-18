@@ -24,6 +24,22 @@ ms:
   activities:
     index:
       no_results_title_text: Tiada sebarang aktiviti untuk projek dalam tempoh masa ini.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Pada masa ini tiada sebarang plugin yang dipasang.
@@ -207,7 +223,7 @@ ms:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2004,7 +2020,6 @@ ms:
   label_check_uncheck_all_in_row: "Tanda/Nyahtanda semua dalam baris"
   label_child_element: "Elemen anak"
   label_choices: "Pilihan"
-  label_chronological_order: "Paling lama dahulu"
   label_close_versions: "Tutup versi yang telah selesai"
   label_closed_work_packages: "ditutup"
   label_collapse: "Sembunyi"
@@ -2370,7 +2385,6 @@ ms:
   label_required: "diperlukan"
   label_requires: "memerlukan"
   label_result_plural: "Keputusan"
-  label_reverse_chronological_order: "Terbaharu dahulu"
   label_revision: "Semakan"
   label_revision_id: "Semakan %{value}"
   label_revision_plural: "Semakan"

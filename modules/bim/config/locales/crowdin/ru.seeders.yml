@@ -655,11 +655,11 @@ ru:
           description: Это краткое описание целей этого демонстрационного проекта по управлению BCF.
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: Больница - Архитектура (CC-BY-SA-3.0 Autodesk Inc.)
             item_1:
               name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Больница - Механика (CC-BY-SA-3.0 Autodesk Inc.)
           categories:
             item_0: Категория 1 (будет изменена в настройках проекта)
           queries:

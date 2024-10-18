@@ -687,7 +687,7 @@ zh-TW:
             description: "額外通知"
           date_alerts:
             title: "日期提醒"
-            description: "當「執行者、負責人或監看者」進行中的工作項目，其重要日期臨近時，自動發出通知。"
+            description: "當「執行者、負責人或監看者」之開啟的工作項目，其重要日期臨近時，自動發出通知。"
             teaser_text: "透過日期提醒，您將收到即將到來的開始或結束日期的通知，這樣您就不會錯過或忘記重要的截止日期。"
           overdue: 逾期
         project_specific:
@@ -1002,7 +1002,7 @@ zh-TW:
         created_by_me: "由我建立"
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
-        all_open: "所有「進行中」工作"
+        all_open: "所有 「開啟中」 工作"
         overdue: "逾期"
         summary: "總覽"
         shared_with_users: "成員參與的"
