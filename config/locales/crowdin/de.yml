@@ -24,6 +24,22 @@ de:
   activities:
     index:
       no_results_title_text: Innerhalb dieses Zeitraums haben keine Aktivitäten in dem Projekt stattgefunden.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Es sind derzeit keine Plugins installiert.
@@ -205,7 +221,7 @@ de:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2035,7 +2051,6 @@ de:
   label_check_uncheck_all_in_row: "Alle in Zeile an/abwählen"
   label_child_element: "Kind-Element"
   label_choices: "Auswahlmöglichkeiten"
-  label_chronological_order: "Älteste zuerst"
   label_close_versions: "Abgeschlossene Versionen schließen"
   label_closed_work_packages: "Geschlossen"
   label_collapse: "Zuklappen"
@@ -2401,7 +2416,6 @@ de:
   label_required: "benötigt von"
   label_requires: "benötigt"
   label_result_plural: "Ergebnisse"
-  label_reverse_chronological_order: "Neueste zuerst"
   label_revision: "Revision"
   label_revision_id: "Revision %{value}"
   label_revision_plural: "Revisionen"

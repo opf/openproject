@@ -24,6 +24,22 @@ lt:
   activities:
     index:
       no_results_title_text: Šiuo periodu projekte nieko neįvyko.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Šio metu nėra įdiegtų priedų.
@@ -205,7 +221,7 @@ lt:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2108,7 +2124,6 @@ lt:
   label_check_uncheck_all_in_row: "Žymėti/atžymėti visus eilutėje"
   label_child_element: "Vaiko elementas"
   label_choices: "Pasirinkimai"
-  label_chronological_order: "Seniausias pirmas"
   label_close_versions: "Uždaryti užbaigtas versijas"
   label_closed_work_packages: "uždarytas"
   label_collapse: "Sutraukti"
@@ -2474,7 +2489,6 @@ lt:
   label_required: "reikalingas"
   label_requires: "turi turėti"
   label_result_plural: "Rezultatai"
-  label_reverse_chronological_order: "Naujausias pirmas"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizijos"

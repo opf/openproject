@@ -24,6 +24,22 @@
   activities:
     index:
       no_results_title_text: Det har ikke vært noen aktivitet i dette prosjektet i valgt periode
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Det er for tiden ingen utvidelser installert.
@@ -208,7 +224,7 @@
         blankslate:
           title: "Din liste over elementer er tom"
           description: "Start ved å legge elementer til i det tilpassede feltet av typehierarkiet. Hvert element kan brukes til å opprette et hierarkisk buk på det. For å navigere og opprette underelementer i et hierarki, klikk på det opprettede elementet."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2040,7 +2056,6 @@
   label_check_uncheck_all_in_row: "Sjekk/Avmerk alle på rad"
   label_child_element: "Underordnet element"
   label_choices: "Valg"
-  label_chronological_order: "Eldste først"
   label_close_versions: "Lukk fullførte versjoner"
   label_closed_work_packages: "lukket"
   label_collapse: "Skjul"
@@ -2406,7 +2421,6 @@
   label_required: "påkrevd"
   label_requires: "krever"
   label_result_plural: "Resultater"
-  label_reverse_chronological_order: "Nyeste først"
   label_revision: "Revisjon"
   label_revision_id: "Revisjon %{value}"
   label_revision_plural: "Revisjoner"

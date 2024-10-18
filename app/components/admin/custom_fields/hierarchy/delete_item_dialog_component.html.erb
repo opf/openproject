@@ -28,31 +28,29 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  component_wrapper do
-    flex_layout(align_items: :center, justify_content: :space_between) do |item_container|
-      item_container.with_column(flex_layout: true) do |item_information|
-        item_information.with_column(mr: 2) do
-          render(Primer::Beta::Text.new(font_weight: :bold)) do
-            @hierarchy_item.label
-          end
-        end
+  render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: "Delete item")) do |dialog|
+    dialog.with_header(variant: :large)
+    dialog.with_body do
+      "Are you sure you want to delete this item from the current hierarchy level?"
+    end
 
-        unless @hierarchy_item.short.nil?
-          item_information.with_column(mr: 2) do
-            render(Primer::Beta::Text.new(color: :subtle)) { short_text }
-          end
-        end
-      end
+    dialog.with_footer do
+      concat(render(Primer::ButtonComponent.new(data: { "close-dialog-id": DIALOG_ID })) do
+        I18n.t(:button_cancel)
+      end)
 
-      # Actions
-      item_container.with_column do
-        render(Primer::Alpha::ActionMenu.new(data: { test_selector: "op-hierarchy-item--action-menu" })) do |menu|
-          menu.with_show_button(icon: "kebab-horizontal",
-                                scheme: :invisible,
-                                "aria-label": I18n.t("custom_fields.admin.items.actions"))
-          deletion_action_item(menu)
+      concat(primer_form_with(
+               model: @custom_field,
+               url: custom_field_item_path(custom_field_id: @custom_field.id, id: @hierarchy_item.id),
+               method: :delete,
+               data: { turbo: true }
+             ) do
+        render(Primer::ButtonComponent.new(scheme: :danger,
+                                           type: :submit,
+                                           data: { "close-dialog-id": DIALOG_ID })) do
+          I18n.t(:button_delete)
         end
-      end
+      end)
     end
   end
 %>

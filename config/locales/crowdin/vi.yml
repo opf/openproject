@@ -24,6 +24,22 @@ vi:
   activities:
     index:
       no_results_title_text: Đã không có bất kỳ hoạt động nào cho dự án trong khung thời gian này.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Hiện tại không có plugin nào được cài đặt.
@@ -210,7 +226,7 @@ vi:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2008,7 +2024,6 @@ vi:
   label_check_uncheck_all_in_row: "Chọn/Bỏ chọn tất cả trong hàng"
   label_child_element: "Phần tử con"
   label_choices: "Lựa chọn"
-  label_chronological_order: "Cũ nhất trước"
   label_close_versions: "Đóng các phiên bản đã hoàn thành"
   label_closed_work_packages: "đã đóng"
   label_collapse: "Thu gọn"
@@ -2374,7 +2389,6 @@ vi:
   label_required: "bắt buộc"
   label_requires: "bắt buộc"
   label_result_plural: "Các kết quả"
-  label_reverse_chronological_order: "Mới nhất trước"
   label_revision: "Sửa đổi"
   label_revision_id: "Sửa đổi %{value}"
   label_revision_plural: "Sửa đổi"

@@ -44,7 +44,10 @@ See COPYRIGHT and LICENSE files for more details.
             item_box.with_header { @custom_field.name }
 
             items.each do |item|
-              item_box.with_row { render Admin::CustomFields::Hierarchy::ItemComponent.new(hierarchy_item: item) }
+              item_box.with_row do
+                render Admin::CustomFields::Hierarchy::ItemComponent.new(custom_field: @custom_field,
+                                                                         hierarchy_item: item)
+              end
             end
 
             if show_new_item_form?

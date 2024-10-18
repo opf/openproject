@@ -24,6 +24,22 @@ es:
   activities:
     index:
       no_results_title_text: No se ha producido ninguna actividad en el proyecto en este período de tiempo.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Actualmente no hay ningún plugin instalado.
@@ -205,7 +221,7 @@ es:
         blankslate:
           title: "Su lista de artículos está vacía"
           description: "Comience añadiendo elementos al campo personalizado de tipo jerarquía. Cada elemento puede utilizarse para crear una jerarquía debajo de él. Para navegar y crear subelementos dentro de una jerarquía, haga clic en el elemento creado."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -2038,7 +2054,6 @@ es:
   label_check_uncheck_all_in_row: "Marcar/Desmarcar toda la fila"
   label_child_element: "Elementos secundarios"
   label_choices: "Opciones"
-  label_chronological_order: "Antiguos primero"
   label_close_versions: "Cerrar versiones completadas"
   label_closed_work_packages: "cerrado"
   label_collapse: "Colapsar"
@@ -2404,7 +2419,6 @@ es:
   label_required: "requerido"
   label_requires: "requiere"
   label_result_plural: "Resultados"
-  label_reverse_chronological_order: "Recientes primero"
   label_revision: "Revisión"
   label_revision_id: "Revisión %{value}"
   label_revision_plural: "Revisiones"

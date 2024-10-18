@@ -24,6 +24,22 @@ ru:
   activities:
     index:
       no_results_title_text: В течение этого периода времени не было никакой деятельности по проекту.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: В настоящее время плагины не установлены.
@@ -207,7 +223,7 @@ ru:
         blankslate:
           title: "Ваш список элементов пуст"
           description: "Начните с добавления элементов в настраиваемое поле иерархии. Каждый элемент может быть использован для создания иерархии ниже его. Чтобы переместить и создать подпункты внутри иерархии, нажмите на созданный элемент."
-        more_actions: "Еще действия"
+        actions: "Item actions"
         placeholder:
           label: "Название элемента"
           short: "Краткое имя"
@@ -2110,7 +2126,6 @@ ru:
   label_check_uncheck_all_in_row: "Поставить/снять все флажки в строке"
   label_child_element: "Дочерний элемент"
   label_choices: "Выбор"
-  label_chronological_order: "Самый старый в начале"
   label_close_versions: "Закрыть завершённые этапы"
   label_closed_work_packages: "закрыт"
   label_collapse: "свернуть"
@@ -2476,7 +2491,6 @@ ru:
   label_required: "требуется"
   label_requires: "требуется"
   label_result_plural: "Результаты"
-  label_reverse_chronological_order: "Самый новый в начале"
   label_revision: "Редакция"
   label_revision_id: "Редакция %{value}"
   label_revision_plural: "Редакции"
