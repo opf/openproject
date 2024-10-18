@@ -602,6 +602,7 @@ Rails.application.routes.draw do
                controller: "work_packages/progress",
                as: :work_package_progress
     end
+    resources :relations_tab, only: %i[index], controller: "work_package_relations_tab"
     get "/export_dialog" => "work_packages#export_dialog", on: :collection, as: "export_dialog"
 
     get "/split_view/update_counter" => "work_packages/split_view#update_counter",
