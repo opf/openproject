@@ -347,13 +347,9 @@ module SortHelper
     data = options.delete(:data) || {}
 
     options[:title] = sort_header_title(column, caption, options)
+    options[:icon_only_header] = column == :favored
 
-    additional_classes = ""
-    if column == :favored
-      additional_classes = "generic-table--header_centered generic-table--header_no-min-width"
-    end
-
-    within_sort_header_tag_hierarchy(options, sort_class(column), additional_classes) do
+    within_sort_header_tag_hierarchy(options, sort_class(column)) do
       yield(column, caption, default_order, allowed_params:, param:, lang:, title: options[:title],
                                             sortable: options.fetch(:sortable, false), data:)
     end
@@ -573,10 +569,15 @@ module SortHelper
     end
   end
 
-  def within_sort_header_tag_hierarchy(options, classes, sort_header_classes = "", &)
+  def within_sort_header_tag_hierarchy(options, classes, &)
+    # A column with all icon and no text requires other styles:
+    icon_header = options.fetch(:icon_only_header, false)
+    outer_classes = icon_header ? "generic-table--header_no-padding" : ""
+    inner_classes = icon_header ? "generic-table--header_centered generic-table--header_no-min-width" : ""
+
     content_tag "th", options do
-      content_tag "div", class: "generic-table--sort-header-outer" do
-        content_tag "div", class: "generic-table--sort-header #{sort_header_classes}" do
+      content_tag "div", class: "generic-table--sort-header-outer #{outer_classes}" do
+        content_tag "div", class: "generic-table--sort-header #{inner_classes}" do
           content_tag("span", class: classes, &)
         end
       end
