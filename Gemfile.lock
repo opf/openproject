@@ -360,12 +360,14 @@ GEM
       aws-sigv4 (~> 1.5)
     aws-sigv4 (1.10.0)
       aws-eventstream (~> 1, >= 1.0.2)
-    axe-core-api (4.10.0)
+    axe-core-api (4.10.1)
       dumb_delegator
+      ostruct
       virtus
-    axe-core-rspec (4.10.0)
-      axe-core-api (= 4.10.0)
+    axe-core-rspec (4.10.1)
+      axe-core-api (= 4.10.1)
       dumb_delegator
+      ostruct
       virtus
     axiom-types (0.1.1)
       descendants_tracker (~> 0.0.4)
