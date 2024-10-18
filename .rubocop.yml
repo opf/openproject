@@ -25,6 +25,11 @@ AllCops:
   Exclude:
     - '**/node_modules/**/*'
 
+# This cop is disabled because it is deprecated and will be removed in the next
+# major version update of rubocop-capybara to 3.0
+Capybara/ClickLinkOrButtonStyle:
+  Enabled: false
+
 FactoryBot/ConsistentParenthesesStyle:
   Enabled: false
 
