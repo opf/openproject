@@ -64,7 +64,9 @@ module AuthenticationHelpers
                                  num_days: I18n.t("datetime.distance_in_words.x_days", count: Setting.autologin))
         check autologin_label
       end
+
       click_button I18n.t(:button_login)
+      wait_for_network_idle
     end
   end
 
@@ -74,7 +76,7 @@ module AuthenticationHelpers
     if !using_cuprite? || RSpec.current_example.metadata[:signout_via_visit]
       visit signout_path
     else
-      page.driver.cookies.clear
+      page.driver.clear_cookies
     end
   end
 

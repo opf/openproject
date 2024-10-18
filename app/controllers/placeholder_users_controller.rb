@@ -94,7 +94,7 @@ class PlaceholderUsersController < ApplicationController
     else
       respond_to do |format|
         format.html do
-          render action: :new
+          render action: :new, status: :unprocessable_entity
         end
       end
     end
@@ -118,7 +118,7 @@ class PlaceholderUsersController < ApplicationController
 
       respond_to do |format|
         format.html do
-          render action: :edit
+          render action: :edit, status: :unprocessable_entity
         end
       end
     end

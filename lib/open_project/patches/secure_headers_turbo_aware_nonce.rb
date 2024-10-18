@@ -1,8 +1,6 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -27,30 +25,18 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+#
 
-require "spec_helper"
-
-RSpec.describe "Statuses", :skip_csrf, type: :rails_request do
-  shared_let(:admin) { create(:admin) }
-
-  current_user { admin }
-
-  describe "POST /statuses" do
-    it "creates a new status" do
-      post statuses_path, params: { status: { name: "New Status" } }
-
-      expect(Status.find_by(name: "New Status")).not_to be_nil
-      expect(response).to redirect_to(statuses_path)
-    end
-
-    context "with empty % Complete" do
-      it "displays an error" do
-        post statuses_path, params: { status: { name: "New status", default_done_ratio: "" } }
-
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response).to render_template("new")
-        expect(response.body).to include("% Complete must be between 0 and 100.")
-      end
+module OpenProject::Patches::SecureHeadersTurboAwareNonce
+  def content_security_policy_script_nonce(request)
+    if request.env["HTTP_TURBO_REFERRER"].present?
+      request.env["HTTP_X_TURBO_NONCE"]
+    else
+      super
     end
   end
+end
+
+OpenProject::Patches.patch_gem_version "secure_headers", "6.7.0" do
+  SecureHeaders.singleton_class.prepend OpenProject::Patches::SecureHeadersTurboAwareNonce
 end

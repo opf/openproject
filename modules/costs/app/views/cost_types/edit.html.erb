@@ -45,8 +45,8 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
-<costs-subform item-count="<%= @cost_type.rates.length %>">
-<%= labelled_tabular_form_for @cost_type do |f| %>
+<%= labelled_tabular_form_for @cost_type,
+                              data: { controller: 'subform', 'application-target': 'dynamic' } do |f| %>
   <%= error_messages_for 'cost_type' %>
   <%= back_url_hidden_field_tag %>
 
@@ -95,7 +95,7 @@ See COPYRIGHT and LICENSE files for more details.
             <th><div class="generic-table--empty-header"></div></th>
           </tr>
         </thead>
-        <tbody id="rates_body" class="subform-container">
+        <tbody id="rates_body" class="subform-container" data-subform-target="table">
           <%= render partial: "rate", object: CostRate.new(valid_from: Date.current), locals: { templated: true } %>
           <% @cost_type.rates.sort do |a,b|
             case
@@ -118,7 +118,11 @@ See COPYRIGHT and LICENSE files for more details.
   </div>
   <div class="wp-inline-create-button">
     <label class="hidden-for-sighted" for="add_rate_date" %>"><%= t(:description_date_for_new_rate) %></label>
-    <a id="add_rate_date" href="#" class="add-row-button wp-inline-create--add-link" title="<%= t(:button_add_rate) %>">
+    <a id="add_rate_date"
+       href="#"
+       class="add-row-button wp-inline-create--add-link"
+       title="<%= t(:button_add_rate) %>"
+       data-action="subform#addRow">
       <%= op_icon('icon icon-add') %>
     </a>
   </div>

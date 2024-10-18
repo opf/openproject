@@ -69,7 +69,7 @@ class MeetingContentsController < ApplicationController
     else
       flash.now[:error] = call.message
       params[:tab] ||= "minutes" if @meeting.agenda.present? && @meeting.agenda.locked?
-      render "meetings/show"
+      render "meetings/show", status: :unprocessable_entity
     end
   end
 

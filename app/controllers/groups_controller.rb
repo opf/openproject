@@ -64,7 +64,7 @@ class GroupsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to(groups_path)
     else
-      render action: :new
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -77,7 +77,7 @@ class GroupsController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_update)
       redirect_to(groups_path)
     else
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

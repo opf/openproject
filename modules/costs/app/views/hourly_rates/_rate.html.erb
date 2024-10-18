@@ -34,12 +34,15 @@ See COPYRIGHT and LICENSE files for more details.
   id_or_index = rate.new_record? ? index : rate.id
   prefix = "user[#{new_or_existing}_rate_attributes][]"
   id_prefix = "user_#{new_or_existing}_rate_attributes_#{id_or_index}"
-  classes ||= ""
-  classes += " subform-row-template" if templated
 -%>
 
 <%= fields_for prefix, rate, builder: TabularFormBuilder do |rate_form| %>
-  <tr class="subform-row <%= classes %>" id="<%= id_prefix %>">
+  <%= content_tag(:tr,
+                  class: "subform-row",
+                  id: id_prefix,
+                  data: templated ? { 'row-target': 'true' } : {},
+                  style: templated ? 'display: none;' : ''
+                  ) do %>
     <td>
       <label class="hidden-for-sighted" for="<%= "#{id_prefix}_valid_from" %>"><%= Rate.human_attribute_name(:valid_from) %></label>
       <%= rate_form.date_picker :valid_from,
@@ -63,9 +66,9 @@ See COPYRIGHT and LICENSE files for more details.
       </span>
     </td>
     <td class="buttons">
-      <a href="#" class="delete-row-button no-decoration-on-hover">
+      <a href="#" class="delete-row-button no-decoration-on-hover" data-action="subform#deleteRow">
         <%= op_icon('icon-context icon-delete', title: t(:button_delete)) %>
       </a>
     </td>
-  </tr>
+  <% end %>
 <% end %>

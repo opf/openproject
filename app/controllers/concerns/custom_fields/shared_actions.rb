@@ -58,7 +58,7 @@ module CustomFields
           redirect_to index_path(call.result, tab: call.result.class.name)
         else
           @custom_field = call.result || new_custom_field
-          render action: "new"
+          render action: :new, status: :unprocessable_entity
         end
       end
 
@@ -76,7 +76,7 @@ module CustomFields
           call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
           redirect_back_or_default(edit_path(@custom_field, id: @custom_field.id))
         else
-          render action: "edit"
+          render action: :edit, status: :unprocessable_entity
         end
       end
 

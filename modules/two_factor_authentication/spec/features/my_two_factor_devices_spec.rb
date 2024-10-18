@@ -1,8 +1,11 @@
 require_relative "../spec_helper"
 
-RSpec.describe "My Account 2FA configuration", :js, with_settings: {
-  plugin_openproject_two_factor_authentication: { "active_strategies" => %i[developer totp] }
-} do
+RSpec.describe "My Account 2FA configuration",
+               :js,
+               :with_cuprite,
+               with_settings: {
+                 plugin_openproject_two_factor_authentication: { "active_strategies" => %i[developer totp] }
+               } do
   let(:dialog) { Components::PasswordConfirmationDialog.new }
   let(:user_password) { "boB!4" * 4 }
   let(:user) do

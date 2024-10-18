@@ -82,7 +82,7 @@ class NewsController < ApplicationController
       redirect_to controller: "/news", action: "index", project_id: @project
     else
       @news = call.result
-      render action: "new"
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -96,7 +96,7 @@ class NewsController < ApplicationController
       redirect_to action: "show", id: @news
     else
       @news = call.result
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

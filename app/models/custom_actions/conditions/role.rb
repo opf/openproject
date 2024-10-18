@@ -41,7 +41,7 @@ class CustomActions::Conditions::Role < CustomActions::Conditions::Base
       with_request_store(projects_of(work_packages)) do |projects|
         projects.map do |project|
           user.roles_for_project(project)
-        end.flatten
+        end.compact.flatten
       end
     end
 

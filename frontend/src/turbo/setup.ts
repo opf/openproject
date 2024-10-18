@@ -4,12 +4,14 @@ import TurboPower from 'turbo_power';
 import { registerDialogStreamAction } from './dialog-stream-action';
 import { addTurboEventListeners } from './turbo-event-listeners';
 import { registerFlashStreamAction } from './flash-stream-action';
+import { addTurboGlobalListeners } from './turbo-global-listeners';
 import { applyTurboNavigationPatch } from './turbo-navigation-patch';
 import { debugLog, whenDebugging } from 'core-app/shared/helpers/debug_output';
 import { TURBO_EVENTS } from './constants';
 
-// Disable default turbo-drive for now as we don't need it for now AND it breaks angular routing
-Turbo.session.drive = false;
+Turbo.session.drive = true;
+Turbo.setProgressBarDelay(100);
+
 // Start turbo
 Turbo.start();
 
@@ -24,6 +26,7 @@ whenDebugging(() => {
 
 // Register our own actions
 addTurboEventListeners();
+addTurboGlobalListeners();
 registerDialogStreamAction();
 registerFlashStreamAction();
 

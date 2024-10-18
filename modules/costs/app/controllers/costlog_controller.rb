@@ -57,7 +57,7 @@ class CostlogController < ApplicationController
       flash[:notice] = t(:notice_cost_logged_successfully)
       redirect_back_or_default work_package_path(@cost_entry.work_package)
     else
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

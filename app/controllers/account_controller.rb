@@ -386,6 +386,7 @@ class AccountController < ApplicationController
         # correct password
         if not user.active?
           account_inactive(user, flash_now: true)
+          render status: :unprocessable_entity
         elsif user.force_password_change
           return if redirect_if_password_change_not_allowed(user)
 
@@ -397,12 +398,15 @@ class AccountController < ApplicationController
                                  show_user_name: true)
         else
           flash_and_log_invalid_credentials
+          render status: :unprocessable_entity
         end
       elsif user and user.invited?
         invited_account_not_activated(user)
+        render status: :unprocessable_entity
       else
         # incorrect password
         flash_and_log_invalid_credentials
+        render status: :unprocessable_entity
       end
     elsif user.new_record?
       onthefly_creation_failed(user, login: user.login, ldap_auth_source_id: user.ldap_auth_source_id)

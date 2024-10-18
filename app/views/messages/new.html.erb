@@ -31,12 +31,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_for @message,
                               url: forum_topics_path(@forum),
-                              html: { multipart: true,
-                                      id: 'message-form',
-                                      class: 'form' } do |f| %>
+                              html: {
+                                multipart: true,
+                                id: 'message-form',
+                                class: 'form',
+                                data: { turbo: false }
+                              } do |f| %>
   <%= render partial: 'messages/form', locals: { f: f } %>
 
-  <hr class="form--separator" />
+  <hr class="form--separator"/>
 
   <%= f.button t(:button_create), class: 'button -primary -with-icon icon-checkmark' %>
   <%= link_to t(:button_cancel), project_forum_path(@project, @forum), class: 'button -with-icon icon-cancel' %>

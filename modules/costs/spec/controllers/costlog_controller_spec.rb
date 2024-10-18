@@ -303,7 +303,7 @@ RSpec.describe CostlogController do
         post :create, params:
       end
 
-      it { expect(response).to be_successful }
+      it { expect(response).to have_http_status(:unprocessable_entity) }
 
       it_behaves_like "assigns"
       it { expect(flash[:notice]).to be_nil }

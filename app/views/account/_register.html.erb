@@ -27,7 +27,11 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <div class="modal-delivery-element">
-  <%= labelled_tabular_form_for(@user, url: account_register_path, html: { class: 'form -wide-labels spot-modal' }) do |f| %>
+  <%= labelled_tabular_form_for(
+        @user,
+        url: account_register_path,
+        data: { turbo: false },
+        html: { class: 'form -wide-labels spot-modal' }) do |f| %>
     <%= back_url_hidden_field_tag use_referer: false %>
     <%= error_messages_for :user %>
     <div id="spotModalTitle" class="spot-modal--header">

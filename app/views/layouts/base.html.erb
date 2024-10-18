@@ -38,7 +38,7 @@ See COPYRIGHT and LICENSE files for more details.
   <!-- page specific tags -->
   <%= content_for(:header_tags) if content_for?(:header_tags) %>
   <meta name="current_menu_item" content="<%= current_menu_item %>"/>
-  <%# Disable prefetching while we have data-turbo=false on body %>
+  <%# Disable prefetching for now %>
   <meta name="turbo-prefetch" content="false">
 </head>
 <body
