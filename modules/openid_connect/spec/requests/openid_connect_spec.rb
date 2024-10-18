@@ -67,10 +67,7 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
 
   describe "sign-up and login" do
     let(:limit_self_registration) { false }
-
-    before do
-      create(:oidc_provider, slug: "keycloak", limit_self_registration:)
-    end
+    let!(:provider) { create(:oidc_provider, slug: "keycloak", limit_self_registration:) }
 
     it "logs in the user" do
       ##
@@ -143,12 +140,7 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
       let(:limit_self_registration) { true }
 
       it "does not allow registration" do
-        ##
-        # it should redirect to the provider's openid connect authentication endpoint
         click_on_signin("keycloak")
-
-        ##
-        # it should redirect back from the provider to the login page
         redirect_from_provider("keycloak")
 
         expect(response).to have_http_status :found
@@ -157,7 +149,7 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
 
         user = User.find_by(mail: user_info[:email])
         expect(user).to be_registered
-        expect(user).not_to be active
+        expect(user).not_to be_active
       end
     end
 
@@ -199,9 +191,8 @@ RSpec.describe "OpenID Connect", :skip_2fa_stage, # Prevent redirects to 2FA sta
       end
 
       it "maps to the login" do
-        skip "Mapping is not supported yet"
-        click_on_signin
-        redirect_from_provider
+        click_on_signin("keycloak")
+        redirect_from_provider("keycloak")
 
         user = User.find_by(login: "a.truly.random.value")
         expect(user).to be_present
