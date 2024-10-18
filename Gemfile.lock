@@ -1059,7 +1059,7 @@ GEM
     sanitize (6.1.3)
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
-    secure_headers (6.5.0)
+    secure_headers (6.7.0)
     selenium-devtools (0.129.0)
       selenium-webdriver (~> 4.2)
     selenium-webdriver (4.25.0)
@@ -1367,7 +1367,7 @@ DEPENDENCIES
   ruby-progressbar (~> 1.13.0)
   rubytree (~> 2.1.0)
   sanitize (~> 6.1.0)
-  secure_headers (~> 6.5.0)
+  secure_headers (~> 6.7.0)
   selenium-devtools
   selenium-webdriver (~> 4.20)
   semantic (~> 1.6.1)
