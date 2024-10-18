@@ -4,8 +4,12 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
 
     reversible do |direction|
       direction.up do
+        create_successor_journals_utility_table
+
         fix_all_journal_timestamps
         write_validity_period
+
+        drop_successor_journals_utility_table
 
         add_validity_period_constraint
       end
@@ -21,9 +25,6 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
 
     say "Fixing potential timestamp inconsistencies on existing journals."
 
-    say "Creating utility table to improve the performance of subsequent actions."
-    create_successor_journals_utility_table
-
     current_max_journal_version.downto(1).each do |version|
       say_with_time "Fixing timestamps for journals with version #{version}." do
         fixed_journals = fix_journal_timestamps(version)
@@ -33,39 +34,39 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
     end
 
     say "Done."
-
-    drop_successor_journals_utility_table
   end
 
   def create_successor_journals_utility_table
-    suppress_messages do
-      create_table :successor_journals, id: false do |t|
-        t.references :predecessor, null: true, index: false
-        t.references :successor, null: true, index: false
+    say_with_time "Creating utility table to improve the performance of subsequent actions." do
+      suppress_messages do
+        create_table :successor_journals, id: false do |t|
+          t.references :predecessor, null: true, index: false
+          t.references :successor, null: true, index: false
+        end
+
+        execute <<~SQL.squish
+          INSERT INTO
+            successor_journals
+          SELECT
+            predecessors.id predecessor_id,
+            successors.id successor_id
+          FROM
+            journals predecessors
+          LEFT JOIN LATERAL (SELECT DISTINCT ON (journable_type, journable_id) *
+                              FROM journals successors
+                              WHERE successors.version > predecessors.version
+                                AND successors.journable_id = predecessors.journable_id
+                                AND successors.journable_type = predecessors.journable_type
+                              ORDER BY successors.journable_type ASC,
+                                      successors.journable_id ASC,
+                                      successors.version ASC) successors
+          ON successors.journable_id = predecessors.journable_id
+          AND successors.journable_type = predecessors.journable_type
+        SQL
+
+        add_index :successor_journals, :predecessor_id
+        add_index :successor_journals, :successor_id
       end
-
-      execute <<~SQL.squish
-        INSERT INTO
-          successor_journals
-        SELECT
-          predecessors.id predecessor_id,
-          successors.id successor_id
-        FROM
-          journals predecessors
-        LEFT JOIN LATERAL (SELECT DISTINCT ON (journable_type, journable_id) *
-                            FROM journals successors
-                            WHERE successors.version > predecessors.version
-                              AND successors.journable_id = predecessors.journable_id
-                              AND successors.journable_type = predecessors.journable_type
-                            ORDER BY successors.journable_type ASC,
-                                    successors.journable_id ASC,
-                                    successors.version ASC) successors
-        ON successors.journable_id = predecessors.journable_id
-        AND successors.journable_type = predecessors.journable_type
-      SQL
-
-      add_index :successor_journals, :predecessor_id
-      add_index :successor_journals, :successor_id
     end
   end
 
@@ -123,15 +124,10 @@ class AddValidityPeriodToJournals < ActiveRecord::Migration[7.0]
               tstzrange(predecessors.created_at, successors.created_at) validity_period
             FROM
               journals predecessors
-            LEFT JOIN LATERAL (SELECT DISTINCT ON (journable_type, journable_id) *
-                               FROM journals successors
-                               WHERE successors.version > predecessors.version
-                                 AND successors.journable_id = predecessors.journable_id
-                               ORDER BY successors.journable_type ASC,
-                                        successors.journable_id ASC,
-                                        successors.version ASC) successors
-            ON successors.journable_id = predecessors.journable_id
-            AND successors.journable_type = predecessors.journable_type
+            LEFT JOIN successor_journals
+            ON successor_journals.predecessor_id = predecessors.id
+            LEFT JOIN journals successors
+            ON successor_journals.successor_id = successors.id
           ) values
           WHERE values.id = journals.id
         SQL
