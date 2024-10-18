@@ -31,6 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
   primer_form_with(
     url: custom_field_items_path(@custom_field),
     method: :post,
+    data: { test_selector: "op-custom-fields--new-item-form" }
   ) do |f|
     render(CustomFields::Hierarchy::NewItemForm.new(f, custom_field: @custom_field, label: @label, short: @short))
   end

@@ -1,9 +1,9 @@
 require "spec_helper"
-require "support/pages/custom_fields"
+require "support/pages/custom_fields/index_page"
 
 RSpec.describe "custom fields", :js do
   let(:user) { create(:admin) }
-  let(:cf_page) { Pages::CustomFields.new }
+  let(:cf_page) { Pages::CustomFields::IndexPage.new }
   let(:editor) { Components::WysiwygEditor.new "#custom_field_form" }
   let(:type) { create(:type_task) }
   let!(:project) { create(:project, enabled_module_names: %i[work_package_tracking], types: [type]) }

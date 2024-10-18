@@ -28,7 +28,9 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Alpha::Dialog.new(id: DIALOG_ID, title: "Delete item")) do |dialog|
+  render(Primer::Alpha::Dialog.new(id: DIALOG_ID,
+                                   title: "Delete item",
+                                   data: { test_selector: TEST_SELECTOR })) do |dialog|
     dialog.with_header(variant: :large)
     dialog.with_body do
       "Are you sure you want to delete this item from the current hierarchy level?"
