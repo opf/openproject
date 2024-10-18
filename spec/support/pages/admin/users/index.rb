@@ -62,15 +62,21 @@ module Pages
         def filter_by_status(value)
           select value, from: "Status:"
           click_button "Apply"
+
+          wait_for_network_idle
         end
 
         def filter_by_name(value)
           fill_in "Name", with: value
           click_button "Apply"
+
+          wait_for_network_idle
         end
 
         def clear_filters
           click_link "Clear"
+
+          wait_for_network_idle
         end
 
         def order_by(key)
