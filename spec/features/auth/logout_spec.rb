@@ -28,7 +28,9 @@
 
 require "spec_helper"
 
-RSpec.describe "Logout", :js do
+RSpec.describe "Logout",
+               :js,
+               :with_cuprite do
   let(:user_password) { "b0B" * 4 }
   let(:user) do
     create(:user,
@@ -38,6 +40,7 @@ RSpec.describe "Logout", :js do
 
   before do
     login_with(user.login, user_password)
+    wait_for_network_idle
   end
 
   it "prevents the user from making any more changes" do
