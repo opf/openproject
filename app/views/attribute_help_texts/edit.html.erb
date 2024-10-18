@@ -43,7 +43,10 @@ See COPYRIGHT and LICENSE files for more details.
 <%= labelled_tabular_form_for @attribute_help_text,
                               as: 'attribute_help_text',
                               url: { action: :update },
-                              html: {id: 'attribute_help_text_form'} do |f| %>
+                              html: {
+                                id: 'attribute_help_text_form',
+                                data: { turbo: false } # reload page to update previews
+                              } do |f| %>
   <%= render partial: 'form', locals: { f: f, editing: true } %>
   <%= hidden_field_tag 'attribute_scope', @attribute_help_text.attribute_scope %>
   <%= styled_button_tag t(:button_save), class: '-primary -with-icon icon-checkmark' %>
