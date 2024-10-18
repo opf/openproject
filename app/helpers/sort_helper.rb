@@ -535,8 +535,10 @@ module SortHelper
   end
 
   def menu_options(label:, content_args:, **extra_args)
+    # The `title` should always be identical to `label`.
     content_arguments = content_args.merge(title: label)
 
+    # Since `data` might already be set, do not override it, but instead merge with the given extra arguments.
     if extra_args[:data]
       content_arguments[:data] = content_arguments.fetch(:data, {}).merge(extra_args.delete(:data))
     end
