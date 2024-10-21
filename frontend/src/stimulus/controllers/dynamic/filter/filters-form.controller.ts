@@ -214,16 +214,27 @@ export default class FiltersFormController extends Controller {
   // Takes an Element and tries to find the next input or select child element. This should be the filter value.
   // If found, it will be focused.
   focusFilterValueIfPossible(element:undefined|HTMLElement) {
-    if (!element) { return; }
+    if (!element) return;
 
-    const valueField = element.querySelector('.advanced-filters--filter-value input') as HTMLInputElement;
-    if (valueField) {
-      valueField.focus();
-      return;
-    }
+    // Try different selectors for various filter styles. The order is important as some selectors match unwanted
+    // hidden fields when used too early in the chain.
+    const selectors = [
+      '.advanced-filters--filter-value ng-select input',
+      '.advanced-filters--filter-value input',
+      '.advanced-filters--filter-value select',
+    ];
 
-    const select = element.querySelector('.advanced-filters--filter-value select') as HTMLSelectElement;
-    select?.focus();
+    selectors.some((selector) => {
+      const target = element.querySelector(selector) as HTMLElement;
+
+      if (target) {
+        target.focus();
+        // We have found and focused our element, abort the iteration.
+        return true;
+      }
+
+      return false;
+    });
   }
 
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {
