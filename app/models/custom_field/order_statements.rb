@@ -27,152 +27,144 @@
 #++
 
 module CustomField::OrderStatements
-  # Returns a ORDER BY clause that can used to sort customized
-  # objects by their value of the custom field.
-  # Returns false, if the custom field can not be used for sorting.
-  def order_statements
+  # Returns the expression to use in ORDER BY clause to sort objects by their
+  # value of the custom field.
+  def order_statement
     case field_format
-    when "list"
-      [order_by_list_sql]
-    when "string", "date", "bool", "link"
-      [coalesce_select_custom_value_as_string]
-    when "int", "float"
-      # Make the database cast values into numeric
-      # Postgresql will raise an error if a value can not be casted!
-      # CustomValue validations should ensure that it doesn't occur
-      [select_custom_value_as_decimal]
-    when "user"
-      [order_by_user_sql]
-    when "version"
-      [order_by_version_sql]
+    when "string", "date", "bool", "link", "int", "float", "list", "user", "version"
+      "cf_order_#{id}.value"
     end
   end
 
-  ##
-  # Returns the null handling for the given direction
-  def null_handling(asc)
-    return unless %w[int float].include?(field_format)
+  # Returns the join statement that is required to sort objects by their value
+  # of the custom field.
+  def order_join_statement
+    case field_format
+    when "string", "date", "bool", "link"
+      join_for_order_by_string_sql
+    when "int"
+      join_for_order_by_int_sql
+    when "float"
+      join_for_order_by_float_sql
+    when "list"
+      join_for_order_by_list_sql
+    when "user"
+      join_for_order_by_user_sql
+    when "version"
+      join_for_order_by_version_sql
+    end
+  end
 
+  # Returns the ORDER BY option defining order of objects without value for the
+  # custom field.
+  def order_null_handling(asc)
     null_direction = asc ? "FIRST" : "LAST"
     Arel.sql("NULLS #{null_direction}")
   end
 
-  # Returns the grouping result
-  # which differ for multi-value select fields,
-  # because in this case we do want the primary CV values
+  # Returns the expression to use in GROUP BY (and ORDER BY) clause to group
+  # objects by their value of the custom field.
   def group_by_statement
-    return order_statements unless field_format == "list"
+    return unless can_be_used_for_grouping?
 
-    if multi_value?
-      # We want to return the internal IDs in the case of grouping
-      select_custom_values_as_group
-    else
-      coalesce_select_custom_value_as_string
-    end
+    order_statement
+  end
+
+  # Returns the expression to use in SELECT clause if it differs from one used
+  # to group by
+  def group_by_select_statement
+    return unless field_format == "list"
+
+    # MIN needed to not add this column to group by, ANY_VALUE can be used when
+    # minimum required PostgreSQL becomes 16
+    "MIN(cf_order_#{id}.ids)"
+  end
+
+  # Returns the join statement that is required to group objects by their value
+  # of the custom field.
+  def group_by_join_statement
+    return unless can_be_used_for_grouping?
+
+    order_join_statement
   end
 
   private
 
-  def coalesce_select_custom_value_as_string
-    # COALESCE is here to make sure that blank and NULL values are sorted equally
+  def can_be_used_for_grouping? = field_format.in?(%w[list date bool int float string link])
+
+  # Template for all the join statements.
+  #
+  # For single value custom fields thejoin ensures single value for every
+  # customized object using DISTINCT ON and selecting first value by id of
+  # custom value:
+  #
+  #   LEFT OUTER JOIN (
+  #     SELECT DISTINCT ON (cv.customized_id), cv.customized_id, xxx "value"
+  #       FROM custom_values cv
+  #       WHERE …
+  #       ORDER BY cv.customized_id, cv.id
+  #   ) cf_order_NNN ON cf_order_NNN.customized_id = …
+  #
+  # For multi value custom fields the GROUP BY and value aggregate function
+  # ensure single value for every customized object:
+  #
+  #   LEFT OUTER JOIN (
+  #     SELECT cv.customized_id, ARRAY_AGG(xxx ORDERY BY yyy) "value"
+  #       FROM custom_values cv
+  #       WHERE …
+  #       GROUP BY cv.customized_id, cv.id
+  #   ) cf_order_NNN ON cf_order_NNN.customized_id = …
+  #
+  def join_for_order_sql(value:, add_select: nil, join: nil, multi_value: false)
     <<-SQL.squish
-      COALESCE(#{select_custom_value_as_string}, '')
+      LEFT OUTER JOIN (
+        SELECT
+          #{multi_value ? '' : 'DISTINCT ON (cv.customized_id)'}
+            cv.customized_id
+            , #{value} "value"
+            #{", #{add_select}" if add_select}
+          FROM #{CustomValue.quoted_table_name} cv
+          #{join}
+          WHERE cv.customized_type = #{CustomValue.connection.quote(self.class.customized_class.name)}
+            AND cv.custom_field_id = #{id}
+            AND cv.value IS NOT NULL
+            AND cv.value != ''
+          #{multi_value ? 'GROUP BY cv.customized_id' : 'ORDER BY cv.customized_id, cv.id'}
+      ) cf_order_#{id}
+        ON cf_order_#{id}.customized_id = #{self.class.customized_class.quoted_table_name}.id
     SQL
   end
 
-  def select_custom_value_as_string
-    <<-SQL.squish
-      (
-        SELECT cv_sort.value
-          FROM #{CustomValue.quoted_table_name} cv_sort
-          WHERE #{cv_sort_only_custom_field_condition_sql}
-          LIMIT 1
-      )
-    SQL
+  def join_for_order_by_string_sql = join_for_order_sql(value: "cv.value")
+
+  def join_for_order_by_int_sql = join_for_order_sql(value: "cv.value::decimal(60)")
+
+  def join_for_order_by_float_sql = join_for_order_sql(value: "cv.value::double precision")
+
+  def join_for_order_by_list_sql
+    join_for_order_sql(
+      value: multi_value? ? "ARRAY_AGG(co.position ORDER BY co.position)" : "co.position",
+      add_select: "#{multi_value? ? "ARRAY_TO_STRING(ARRAY_AGG(cv.value ORDER BY co.position), '.')" : 'cv.value'} ids",
+      join: "INNER JOIN #{CustomOption.quoted_table_name} co ON co.id = cv.value::bigint",
+      multi_value:
+    )
   end
 
-  def select_custom_values_as_group
-    <<-SQL.squish
-      COALESCE(
-        (
-          SELECT string_agg(cv_sort.value, '.')
-            FROM #{CustomValue.quoted_table_name} cv_sort
-            WHERE #{cv_sort_only_custom_field_condition_sql}
-              AND cv_sort.value IS NOT NULL
-        ),
-        ''
-      )
-    SQL
+  def join_for_order_by_user_sql
+    columns_array = "ARRAY[users.lastname, users.firstname, users.mail]"
+
+    join_for_order_sql(
+      value: multi_value? ? "ARRAY_AGG(#{columns_array} ORDER BY #{columns_array})" : columns_array,
+      join: "INNER JOIN #{User.quoted_table_name} users ON users.id = cv.value::bigint",
+      multi_value:
+    )
   end
 
-  def select_custom_value_as_decimal
-    <<-SQL.squish
-      (
-        SELECT CAST(cv_sort.value AS decimal(60,3))
-          FROM #{CustomValue.quoted_table_name} cv_sort
-          WHERE #{cv_sort_only_custom_field_condition_sql}
-            AND cv_sort.value <> ''
-            AND cv_sort.value IS NOT NULL
-          LIMIT 1
-      )
-    SQL
-  end
-
-  def order_by_list_sql
-    columns = multi_value? ? "array_agg(co_sort.position ORDER BY co_sort.position)" : "co_sort.position"
-    limit = multi_value? ? "" : "LIMIT 1"
-
-    <<-SQL.squish
-      (
-        SELECT #{columns}
-          FROM #{CustomOption.quoted_table_name} co_sort
-          INNER JOIN #{CustomValue.quoted_table_name} cv_sort
-            ON cv_sort.value IS NOT NULL AND cv_sort.value != '' AND co_sort.id = cv_sort.value::bigint
-          WHERE #{cv_sort_only_custom_field_condition_sql}
-          #{limit}
-      )
-    SQL
-  end
-
-  def order_by_user_sql
-    columns_array = "ARRAY[cv_user.lastname, cv_user.firstname, cv_user.mail]"
-
-    columns = multi_value? ? "array_agg(#{columns_array} ORDER BY #{columns_array})" : columns_array
-    limit = multi_value? ? "" : "LIMIT 1"
-
-    <<-SQL.squish
-      (
-        SELECT #{columns}
-          FROM #{User.quoted_table_name} cv_user
-          INNER JOIN #{CustomValue.quoted_table_name} cv_sort
-            ON cv_sort.value IS NOT NULL AND cv_sort.value != '' AND cv_user.id = cv_sort.value::bigint
-          WHERE #{cv_sort_only_custom_field_condition_sql}
-          #{limit}
-      )
-    SQL
-  end
-
-  def order_by_version_sql
-    columns = multi_value? ? "array_agg(cv_version.name ORDER BY cv_version.name)" : "cv_version.name"
-    limit = multi_value? ? "" : "LIMIT 1"
-
-    <<-SQL.squish
-      (
-        SELECT #{columns}
-          FROM #{Version.quoted_table_name} cv_version
-          INNER JOIN #{CustomValue.quoted_table_name} cv_sort
-            ON cv_sort.value IS NOT NULL AND cv_sort.value != '' AND cv_version.id = cv_sort.value::bigint
-          WHERE #{cv_sort_only_custom_field_condition_sql}
-          #{limit}
-      )
-    SQL
-  end
-
-  def cv_sort_only_custom_field_condition_sql
-    <<-SQL.squish
-      cv_sort.customized_type='#{self.class.customized_class.name}'
-      AND cv_sort.customized_id=#{self.class.customized_class.quoted_table_name}.id
-      AND cv_sort.custom_field_id=#{id}
-    SQL
+  def join_for_order_by_version_sql
+    join_for_order_sql(
+      value: multi_value? ? "array_agg(versions.name ORDER BY versions.name)" : "versions.name",
+      join: "INNER JOIN #{Version.quoted_table_name} versions ON versions.id = cv.value::bigint",
+      multi_value:
+    )
   end
 end

@@ -27,7 +27,7 @@
 #++
 
 class Queries::WorkPackages::Selects::RelationSelect < Queries::WorkPackages::Selects::WorkPackageSelect
-  attr_accessor :type
+  attr_reader :type
 
   def self.granted_by_enterprise_token
     EnterpriseToken.allows_to?(:work_package_query_relation_columns)
