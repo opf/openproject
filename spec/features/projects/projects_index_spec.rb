@@ -1590,6 +1590,9 @@ RSpec.describe "Projects index page", :js, :with_cuprite, with_settings: { login
         expect(page).to have_select("add_filter_select")
         # Filter for column is visible and can now be specified by the user
         expect(page).to have_css(".advanced-filters--filter-name[for='created_at']")
+
+        # The correct filter input field has focus
+        expect(page.has_focus_on?(".advanced-filters--filter-value input#created_at_value")).to be(true)
       end
 
       it "adds the filter for a selected column that has a different filter mapped to its column" do
