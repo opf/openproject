@@ -34,9 +34,25 @@ RSpec.describe EmojiReaction do
     it { is_expected.to belong_to(:reactable) }
   end
 
+  describe "Enums" do
+    it do
+      expect(subject).to define_enum_for(:emoji)
+        .with_values(
+          thumbs_up: "\u{1F44D}",
+          thumbs_down: "\u{1F44E}",
+          grinning_face_with_smiling_eyes: "\u{1F604}",
+          confused_face: "\u{1F615}",
+          heart: "\u{2764}",
+          party_popper: "\u{1F389}",
+          rocket: "\u{1F680}",
+          eyes: "\u{1F440}"
+        )
+        .backed_by_column_of_type(:string)
+    end
+  end
+
   describe "Validations" do
     it { is_expected.to validate_presence_of(:emoji) }
-    it { is_expected.to validate_inclusion_of(:emoji).in_array(EmojiReaction::AVAILABLE_EMOJIS) }
 
     it do
       emoji_reaction = create(:emoji_reaction)
@@ -46,18 +62,19 @@ RSpec.describe EmojiReaction do
 
   describe ".available_emojis" do
     it "returns the available emojis as HTML codes" do
-      expect(described_class.available_emojis).to eq(["&#x1F44D;", "&#x1F44E;", "&#x1F604;", "&#x1F615;", "&#x2764;",
-                                                      "&#x1F389;", "&#x1F680;", "&#x1F440;"])
+      expect(described_class.available_emojis).to eq(["👍", "👎", "😄", "😕", "❤", "🎉", "🚀", "👀"])
     end
   end
 
-  describe ".shortcode" do
-    it "returns the emoji shortcode for a given HTML code" do
-      expect(described_class.shortcode("&#x1F44D;")).to eq(":thumbs_up:")
+  describe ".emoji_name" do
+    it "returns the emoji name for a given unicode", :aggregate_failures do
+      expect(described_class.emoji_name("\u{1F44D}")).to eq("thumbs up")
+      expect(described_class.emoji_name("😄")).to eq("grinning face with smiling eyes")
     end
 
-    it "returns the HTML code if no shortcode is found" do
-      expect(described_class.shortcode("&#x1F4A9;")).to eq("&#x1F4A9;")
+    it "returns nil if no emoji exists with given unicode" do
+      expect(described_class.emoji_name("\u{1F607}")).to be_nil
+      expect(described_class.emoji_name("🤗")).to be_nil
     end
   end
 end

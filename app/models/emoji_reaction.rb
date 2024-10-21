@@ -27,15 +27,16 @@
 #++
 
 class EmojiReaction < ApplicationRecord
+  # See: https://unicode.org/Public/emoji/latest/emoji-test.txt
   EMOJI_MAP = {
-    thumbs_up: "&#x1F44D;",
-    thumbs_down: "&#x1F44E;",
-    grinning_face_with_smiling_eyes: "&#x1F604;",
-    confused_face: "&#x1F615;",
-    heart: "&#x2764;",
-    party_popper: "&#x1F389;",
-    rocket: "&#x1F680;",
-    eyes: "&#x1F440;"
+    thumbs_up: "\u{1F44D}",
+    thumbs_down: "\u{1F44E}",
+    grinning_face_with_smiling_eyes: "\u{1F604}",
+    confused_face: "\u{1F615}",
+    heart: "\u{2764}",
+    party_popper: "\u{1F389}",
+    rocket: "\u{1F680}",
+    eyes: "\u{1F440}"
   }.freeze
 
   AVAILABLE_EMOJIS = EMOJI_MAP.values.freeze
@@ -43,8 +44,10 @@ class EmojiReaction < ApplicationRecord
   belongs_to :user
   belongs_to :reactable, polymorphic: true
 
-  validates :emoji, presence: true, inclusion: { in: AVAILABLE_EMOJIS }
+  validates :emoji, presence: true
   validates :user_id, uniqueness: { scope: %i[reactable_type reactable_id emoji] }
+
+  enum :emoji, EMOJI_MAP
 
   def self.available_emojis
     AVAILABLE_EMOJIS
