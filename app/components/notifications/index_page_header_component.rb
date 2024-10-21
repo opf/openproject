@@ -38,16 +38,41 @@ module Notifications
     end
 
     def page_title
-      I18n.t("js.notifications.title")
+      if current_item.present?
+        current_item.title
+      else
+        I18n.t("notifications.menu.inbox")
+      end
     end
 
     def breadcrumb_items
-      [parent_element,
-       page_title]
+      [{ href: home_path, text: helpers.organization_name },
+       { href: notifications_path, text: I18n.t("js.notifications.title") },
+       current_breadcrumb_element]
     end
 
-    def parent_element
-      { href: home_path, text: helpers.organization_name }
+    def current_breadcrumb_element
+      if current_section && current_section.header.present?
+        I18n.t("menus.breadcrumb.nested_element", section_header: current_section.header, title: page_title).html_safe
+      else
+        page_title
+      end
+    end
+
+    def current_section
+      return @current_section if defined?(@current_section)
+
+      @current_section = Notifications::Menu
+                           .new(params:, current_user: User.current)
+                           .selected_menu_group
+    end
+
+    def current_item
+      return @current_item if defined?(@current_item)
+
+      @current_item = Notifications::Menu
+                        .new(params:, current_user: User.current)
+                        .selected_menu_item
     end
   end
 end
