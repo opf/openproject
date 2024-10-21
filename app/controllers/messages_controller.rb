@@ -89,7 +89,7 @@ class MessagesController < ApplicationController
 
       redirect_to topic_path(@message)
     else
-      render action: "new"
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -118,7 +118,7 @@ class MessagesController < ApplicationController
       @message.reload
       redirect_to topic_path(@message.root, r: @message.parent_id && @message.id)
     else
-      render action: "edit"
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

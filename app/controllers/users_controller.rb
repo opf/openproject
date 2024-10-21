@@ -93,7 +93,7 @@ class UsersController < ApplicationController
       flash[:notice] = I18n.t(:notice_successful_create)
       redirect_to(params[:continue] ? new_user_path : helpers.allowed_management_user_profile_path(@user))
     else
-      render action: "new"
+      render action: :new, status: :unprocessable_entity
     end
   end
 
@@ -125,7 +125,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = I18n.t(:notice_successful_update)
-          render action: :edit
+          redirect_to action: :edit
         end
       end
     else
@@ -136,7 +136,7 @@ class UsersController < ApplicationController
 
       respond_to do |format|
         format.html do
-          render action: :edit
+          render action: :edit, status: :unprocessable_entity
         end
       end
     end

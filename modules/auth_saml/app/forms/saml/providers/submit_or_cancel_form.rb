@@ -59,7 +59,8 @@ module Saml
           name: :submit,
           scheme: :primary,
           label: I18n.t(:button_continue),
-          disabled: false
+          disabled: false,
+          data: { turbo: @provider.persisted? }
         }
       end
 

@@ -31,7 +31,9 @@ require "features/page_objects/notification"
 require "features/work_packages/shared_contexts"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "Wiki menu items" do
+RSpec.describe "Wiki menu items",
+               :js,
+               :with_cuprite do
   let(:user) do
     create(:user,
            member_with_permissions: { project => %i[view_wiki_pages
@@ -91,12 +93,12 @@ RSpec.describe "Wiki menu items" do
     visit project_wiki_path(project, wiki_page)
 
     # creating the menu item with the pages name for the menu item
-    click_link "More"
-    click_link "Configure menu item"
+    click_link_or_button "More"
+    click_link_or_button "Configure menu item"
 
     choose "Show as menu item in project navigation"
 
-    click_button "Save"
+    click_link_or_button "Save"
 
     expect(page)
       .to have_css(".main-menu--children-menu-header", text: wiki_page.title)
@@ -107,23 +109,24 @@ RSpec.describe "Wiki menu items" do
       .to have_css(".main-item-wrapper", text: wiki_page.title)
 
     # clicking the menu item leads to the page
-    click_link wiki_page.title
+    click_link_or_button wiki_page.title
 
     expect(page)
       .to have_current_path(project_wiki_path(project, wiki_page))
 
     # modifying the menu item to a different name and to be a subpage
 
-    click_link "More"
-    click_link "Configure menu item"
+    click_link_or_button "More"
+    click_link_or_button "Configure menu item"
+    wait_for_network_idle
 
     fill_in "Name of menu item", with: "Custom page name"
-
     choose "Show as submenu item of"
 
     select other_wiki_page.slug, from: "parent_wiki_menu_item"
 
-    click_button "Save"
+    click_link_or_button "Save"
+    wait_for_network_idle
 
     # the other page is now the main heading
     expect(page)
@@ -132,7 +135,8 @@ RSpec.describe "Wiki menu items" do
     expect(page)
       .to have_css(".wiki-menu--sub-item", text: "Custom page name")
 
-    click_link "Custom page name"
+    click_link_or_button "Custom page name"
+    wait_for_network_idle
 
     expect(page)
       .to have_current_path(project_wiki_path(project, wiki_page))
@@ -146,9 +150,9 @@ RSpec.describe "Wiki menu items" do
     # deleting the page will remove the menu item
     visit project_wiki_path(project, wiki_page)
 
-    click_link "More"
+    click_link_or_button "More"
     accept_alert do
-      click_link "Delete"
+      click_link_or_button "Delete"
     end
 
     within "#menu-sidebar" do
@@ -160,17 +164,17 @@ RSpec.describe "Wiki menu items" do
     MenuItems::WikiMenuItem.where(navigatable_id: project.wiki.id, name: "wiki").delete_all
     visit project_wiki_path(project, other_wiki_page)
 
-    click_link "More"
-    click_link "Configure menu item"
+    click_link_or_button "More"
+    click_link_or_button "Configure menu item"
 
     choose "Do not show this wikipage in project navigation"
 
-    click_button "Save"
+    click_link_or_button "Save"
 
     # Because it is the last wiki menu item, the user is prompted to select another menu item
     select another_wiki_page.title, from: "main-menu-item-select"
 
-    click_button "Save"
+    click_link_or_button "Save"
 
     expect(page)
       .to have_no_css(".main-menu--children-menu-header", text: other_wiki_page.title)

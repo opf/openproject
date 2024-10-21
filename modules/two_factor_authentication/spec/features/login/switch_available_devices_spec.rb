@@ -1,9 +1,12 @@
 require_relative "../../spec_helper"
 require_relative "../shared_2fa_examples"
 
-RSpec.describe "Login by switching 2FA device", :js, with_settings: {
-  plugin_openproject_two_factor_authentication: { "active_strategies" => %i[developer totp] }
-} do
+RSpec.describe "Login by switching 2FA device",
+               :js,
+               :with_cuprite,
+               with_settings: {
+                 plugin_openproject_two_factor_authentication: { "active_strategies" => %i[developer totp] }
+               } do
   let(:user_password) { "bob!" * 4 }
   let(:user) do
     create(:user,
@@ -21,12 +24,11 @@ RSpec.describe "Login by switching 2FA device", :js, with_settings: {
 
       expect(page).to have_css("input#otp")
 
-      SeleniumHubWaiter.wait
       # Toggle device to TOTP
       find_by_id("toggle_resend_form").click
 
-      SeleniumHubWaiter.wait
       find(".button--link[value='#{device2.redacted_identifier}']").click
+      wait_for_network_idle
 
       expect(page).to have_css("input#otp")
       expect(page).to have_css("#submit_otp p", text: device2.redacted_identifier)

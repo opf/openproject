@@ -62,21 +62,29 @@ module Pages
         def filter_by_status(value)
           select value, from: "Status:"
           click_button "Apply"
+
+          wait_for_network_idle
         end
 
         def filter_by_name(value)
           fill_in "Name", with: value
           click_button "Apply"
+
+          wait_for_network_idle
         end
 
         def clear_filters
           click_link "Clear"
+
+          wait_for_network_idle
         end
 
         def order_by(key)
           within "thead" do
             click_link key
           end
+
+          wait_for_network_idle
         end
 
         def lock_user(user)
@@ -103,6 +111,8 @@ module Pages
           within_user_row(user) do
             click_link text
           end
+
+          wait_for_network_idle
         end
 
         private

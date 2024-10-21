@@ -77,7 +77,7 @@ class CustomActionsController < ApplicationController
 
       call.on_failure do
         @custom_action = call.result
-        render action: render_action
+        render action: render_action, status: :unprocessable_entity
       end
     }
   end

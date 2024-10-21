@@ -123,24 +123,11 @@ RSpec.describe RolesController do
     context "failure" do
       let(:service_call) { ServiceResult.failure(result: new_role) }
 
-      it "returns a 200 OK" do
-        expect(response)
-          .to have_http_status(:ok)
-      end
-
-      it "renders the new template" do
-        expect(response)
-          .to render_template("roles/new")
-      end
-
-      it "has the service call assigned" do
-        expect(assigns[:call])
-          .to eql service_call
-      end
-
-      it "has the role assigned" do
-        expect(assigns[:role])
-          .to eql new_role
+      it "renders the new form again", :aggregate_failures do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template("roles/new")
+        expect(assigns[:call]).to eql service_call
+        expect(assigns[:role]).to eql new_role
       end
     end
   end
@@ -206,24 +193,11 @@ RSpec.describe RolesController do
     context "failure" do
       let(:service_call) { ServiceResult.failure(result: role) }
 
-      it "returns a 200 OK" do
-        expect(response)
-          .to have_http_status(:ok)
-      end
-
-      it "renders the edit template" do
-        expect(response)
-          .to render_template("roles/edit")
-      end
-
-      it "has the service call assigned" do
-        expect(assigns[:call])
-          .to eql service_call
-      end
-
-      it "has the role assigned" do
-        expect(assigns[:role])
-          .to eql role
+      it "renders edit again", :aggregate_failures do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template("roles/edit")
+        expect(assigns[:call]).to eql service_call
+        expect(assigns[:role]).to eql role
       end
     end
   end
@@ -349,24 +323,11 @@ RSpec.describe RolesController do
     context "failure" do
       let(:service_call2) { ServiceResult.failure(result: role2) }
 
-      it "returns a 200 OK" do
-        expect(response)
-          .to have_http_status(:ok)
-      end
-
-      it "renders the report template" do
-        expect(response)
-          .to render_template("roles/report")
-      end
-
-      it "has the service call assigned" do
-        expect(assigns[:calls])
-          .to contain_exactly(service_call0, service_call1, service_call2, service_call3)
-      end
-
-      it "has the roles assigned" do
-        expect(assigns[:roles])
-          .to match_array roles
+      it "renders the report again" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response).to render_template("roles/report")
+        expect(assigns[:calls]).to contain_exactly(service_call0, service_call1, service_call2, service_call3)
+        expect(assigns[:roles]).to match_array roles
       end
     end
   end

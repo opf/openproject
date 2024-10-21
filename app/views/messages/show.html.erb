@@ -138,9 +138,12 @@ See COPYRIGHT and LICENSE files for more details.
       <%= labelled_tabular_form_for @reply,
                                     as: :reply,
                                     url: reply_to_topic_path(@topic),
-                                    html: { multipart: true,
-                                            id: 'message-form',
-                                            class: 'form' } do |f| %>
+                                    html: {
+                                      multipart: true,
+                                      id: 'message-form',
+                                      class: 'form',
+                                      data: { turbo: false }
+                                    } do |f| %>
         <%= render partial: 'form', locals: { f: f, replying: true } %>
 
         <hr class="form--separator"/>

@@ -36,8 +36,10 @@ See COPYRIGHT and LICENSE files for more details.
 <p><strong><%= t(:label_current_default_rate) %>:</strong> <%= number_to_currency(default_rate.rate)%></p>
 <% end %>
 
-<costs-subform item-count="<%= @rates.count %>">
-<%= labelled_tabular_form_for @user, url: {action: 'update', project_id: @project}, method: :put do |f| %>
+<%= labelled_tabular_form_for @user,
+                              url: {action: 'update', project_id: @project},
+                              data: { controller: 'subform', 'application-target': 'dynamic' },
+                              method: :put do |f| %>
   <%= back_url_hidden_field_tag %>
   <%= error_messages_for 'user' %>
   <%- @rates.each do |rate| -%>
@@ -46,7 +48,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%- end -%>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
-      <table class="generic-table rates" width="200px">
+      <table class="generic-table rates">
         <colgroup>
           <col>
           <col>
@@ -75,7 +77,7 @@ See COPYRIGHT and LICENSE files for more details.
             <th><div class="generic-table--empty-header"></div></th>
           </tr>
         </thead>
-        <tbody id="rates_body" class="subform-container">
+        <tbody id="rates_body" class="subform-container" data-subform-target="table">
           <%= render partial: "hourly_rates/rate", object: HourlyRate.new(valid_from: Date.current), locals: { templated: true } %>
           <%- @rates.each_with_index do |rate, index| -%>
             <%= render partial: 'rate', object: rate, locals: {index: index} %>
@@ -86,7 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
   <div class="wp-inline-create-button">
-    <a href="#" class="add-row-button wp-inline-create--add-link">
+    <a href="#" class="add-row-button wp-inline-create--add-link" data-action="subform#addRow">
       <%= op_icon('icon icon-add') %>
         <%= t(:button_add_rate) %>
     </a>
@@ -95,4 +97,3 @@ See COPYRIGHT and LICENSE files for more details.
     <%= styled_button_tag t(:button_save), class: '-with-icon icon-checkmark' %>
   </div>
 <% end %>
-</costs-subform>

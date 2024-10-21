@@ -35,7 +35,7 @@ See COPYRIGHT and LICENSE files for more details.
      breadcrumb_element = t(:label_meeting_new)
    end %>
 
-<% html_title page_title  %>
+<% html_title page_title %>
 
 <%=
   render(Primer::OpenProject::PageHeader.new) do |header|
@@ -52,13 +52,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_for @meeting,
                               as: :meeting,
-                              url: {:controller => '/meetings', :action => 'create', :project_id => @project},
-                              :html => {:id => 'meeting-form',
-                                        :data => { :controller => 'refresh-on-form-changes',
-                                                   'refresh-on-form-changes-target': 'form',
-                                                   'refresh-on-form-changes-turbo-stream-url-value': new_meeting_url }} do |f| -%>
+                              url: { controller: '/meetings', action: 'create', project_id: @project },
+                              html: {
+                                :id => 'meeting-form',
+                                target: '_top',
+                                :data => {
+                                  controller: 'refresh-on-form-changes',
+                                  'refresh-on-form-changes-target': 'form',
+                                  'refresh-on-form-changes-turbo-stream-url-value': new_meeting_url
+                                }
+                              } do |f| -%>
   <%= render :partial => 'form', :locals => { f:, copy_from: } %>
   <%= styled_button_tag t(:button_create), class: '-primary' %>
   <%= link_to t(:button_cancel), { :action => 'index', :project_id => @project },
-        class: 'button' %>
+              class: 'button' %>
 <% end %>

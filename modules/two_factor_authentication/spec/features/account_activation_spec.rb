@@ -1,7 +1,9 @@
 require_relative "../spec_helper"
 require_relative "shared_2fa_examples"
 
-RSpec.describe "activating an invited account", :js,
+RSpec.describe "activating an invited account",
+               :js,
+               :with_cuprite,
                with_settings: {
                  plugin_openproject_two_factor_authentication: { "active_strategies" => [:developer] }
                } do
@@ -49,12 +51,11 @@ RSpec.describe "activating an invited account", :js,
       # rubocop:enable RSpec/AnyInstance
 
       activate!
-
       expect_flash(message: "Developer strategy generated the following one-time password:")
 
-      SeleniumHubWaiter.wait
       fill_in I18n.t(:field_otp), with: sms_token
       click_button I18n.t(:button_login)
+      wait_for_network_idle
 
       visit my_account_path
       expect(page).to have_css(".form--field-container", text: user.login)

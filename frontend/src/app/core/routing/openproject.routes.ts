@@ -170,13 +170,18 @@ export function initializeUiRouterListeners(injector:Injector) {
   const currentProject:CurrentProjectService = injector.get(CurrentProjectService);
   const firstRoute:FirstRouteService = injector.get(FirstRouteService);
   const backRoutingService:BackRoutingService = injector.get(BackRoutingService);
+  const uiRouter = injector.get(UIRouter);
+
+  // Connect ui router to turbo drive
+  document.addEventListener('turbo:load', () => {
+    uiRouter.urlService.sync();
+  });
 
   // Check whether we are running within our complete app, or only within some other bootstrapped
   // component
   const wpBase = document.querySelector(appBaseSelector);
 
   // Uncomment to trace route changes
-  // const uiRouter = injector.get(UIRouter);
   // uiRouter.trace.enable();
 
   // For some pages it makes no sense to display them on mobile (e.g. the split screen).

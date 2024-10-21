@@ -134,7 +134,7 @@ RSpec.describe AccountController, :skip_2fa_stage do
     describe "wrong password" do
       it "redirects back to login" do
         post :login, params: { username: "admin", password: "bad" }
-        expect(response).to be_successful
+        expect(response).to have_http_status :unprocessable_entity
         expect(response).to render_template "login"
         expect(flash[:error]).to include "Invalid user or password"
       end

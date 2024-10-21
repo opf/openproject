@@ -26,15 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
-import {
-  Inject,
-  Injectable,
-} from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import {
-  BehaviorSubject,
-  Observable,
-} from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export const ANIMATION_RATE_MS = 100;
 
@@ -44,7 +38,7 @@ export class TopMenuService {
 
   private menuIsOpen = false;
 
-  private menuContainer = this.document.querySelector<HTMLElement>('.op-app-header');
+  private menuContainer:HTMLElement;
 
   private active$ = new BehaviorSubject<HTMLElement|null>(null);
 
@@ -52,6 +46,7 @@ export class TopMenuService {
   }
 
   register():void {
+    this.menuContainer = this.document.querySelector<HTMLElement>('.op-app-header') as HTMLElement;
     this.setupDropdownClick();
     this.closeOnBodyClick();
     this.accessibility();
@@ -135,7 +130,7 @@ export class TopMenuService {
     }
 
     wrapper.addEventListener('click', (evt) => {
-      if (this.menuIsOpen && !this.openDropdowns()[0].contains(evt.target as HTMLElement)) {
+      if (this.menuIsOpen && !this.openDropdowns()[0]?.contains(evt.target as HTMLElement)) {
         this.close();
       }
     }, true);

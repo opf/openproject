@@ -54,7 +54,7 @@ module ::TwoFactorAuthentication
           end
         else
           Rails.logger.warn { "User ##{target_user.id} forced to register failed for #{@device_type}." }
-          render "two_factor_authentication/two_factor_devices/new"
+          render "two_factor_authentication/two_factor_devices/new", status: :unprocessable_entity
         end
       end
 

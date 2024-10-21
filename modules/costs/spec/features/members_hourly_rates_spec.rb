@@ -57,6 +57,7 @@ RSpec.describe "hourly rates on a member", :js do
     click_link_or_button "Add rate"
 
     datepicker = Components::BasicDatepicker.new
+    datepicker.expect_visible
     datepicker.set_date(date.strftime("%Y-%m-%d"))
 
     within "tr[id^='user_new_rate_attributes_']" do
@@ -68,6 +69,7 @@ RSpec.describe "hourly rates on a member", :js do
     input = find("table.rates .date input[data-value='#{from.strftime('%Y-%m-%d')}']")
     input.click
     datepicker = Components::BasicDatepicker.new
+    datepicker.expect_visible
     datepicker.set_date(to.strftime("%Y-%m-%d"))
   end
 

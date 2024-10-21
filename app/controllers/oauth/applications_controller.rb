@@ -61,7 +61,7 @@ module OAuth
         redirect_to action: :show, id: result.id
       else
         @application = result
-        render action: :new
+        render action: :new, status: :unprocessable_entity
       end
     end
 
@@ -79,7 +79,7 @@ module OAuth
         redirect_to action: :index
       else
         flash[:error] = call.errors.full_messages.join('\n')
-        render action: :edit
+        render action: :edit, status: :unprocessable_entity
       end
     end
 

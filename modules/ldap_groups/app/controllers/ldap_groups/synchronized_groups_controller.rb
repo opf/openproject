@@ -28,7 +28,7 @@ module LdapGroups
         flash[:notice] = I18n.t(:notice_successful_create)
         redirect_to action: :index
       else
-        render action: :new
+        render action: :new, status: :unprocessable_entity
       end
     rescue ActionController::ParameterMissing
       render_400

@@ -54,8 +54,8 @@ class AttributeHelpTextsController < ApplicationController
       redirect_to attribute_help_texts_path(tab: call.result.attribute_scope)
     else
       @attribute_help_text = call.result
-      flash[:error] = call.message || I18n.t("notice_internal_server_error")
-      render action: "new"
+      flash.now[:error] = call.message || I18n.t("notice_internal_server_error")
+      render action: "new", status: :unprocessable_entity
     end
   end
 
@@ -68,8 +68,8 @@ class AttributeHelpTextsController < ApplicationController
       flash[:notice] = t(:notice_successful_update)
       redirect_to attribute_help_texts_path(tab: @attribute_help_text.attribute_scope)
     else
-      flash[:error] = call.message || I18n.t("notice_internal_server_error")
-      render action: "edit"
+      flash.now[:error] = call.message || I18n.t("notice_internal_server_error")
+      render action: :edit, status: :unprocessable_entity
     end
   end
 

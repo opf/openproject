@@ -451,7 +451,7 @@ module ApplicationHelper
   end
 
   def link_to_content_update(text, url_params = {}, html_options = {})
-    link_to(text, url_params, html_options)
+    link_to(text, url_params, html_options.reverse_merge(target: "_top"))
   end
 
   def password_complexity_requirements
