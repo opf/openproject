@@ -55,6 +55,12 @@ module OpenIDConnect
                   if: -> { model.public_send(:"#{attr}_changed?") && !path_attribute?(model.public_send(attr)) }
       end
 
+      attribute :post_logout_redirect_uri
+      validates :post_logout_redirect_uri,
+                url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
+                if: -> { model.post_logout_redirect_uri_changed? }
+
+
       OpenIDConnect::Provider::MAPPABLE_ATTRIBUTES.each do |attr|
         attribute :"mapping_#{attr}"
       end

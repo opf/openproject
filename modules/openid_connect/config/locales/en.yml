@@ -19,6 +19,7 @@ en:
         userinfo_endpoint: User information endpoint
         token_endpoint: Token endpoint
         end_session_endpoint: End session endpoint
+        post_logout_redirect_uri: Post logout redirect URI
         jwks_uri: JWKS URI
         issuer: Issuer
         tenant: Tenant
@@ -62,6 +63,7 @@ en:
       limit_self_registration: If enabled, users can only register using this provider if configuration on the prvoder's end allows it.
       display_name: Then name of the provider. This will be displayed as the login button and in the list of providers.
       tenant: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
+      post_logout_redirect_uri: The URL the OpenID Connect provider should redirect to after a logout request.
       claims: >
         You can request additional claims for the userinfo and id token endpoints. Please see [our OpenID connect documentation](docs_url) for more information.
       acr_values: >

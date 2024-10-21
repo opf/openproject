@@ -3,14 +3,12 @@ module OpenIDConnect
     include HashBuilder
 
     OIDC_PROVIDERS = %w[google microsoft_entra custom].freeze
-    DISCOVERABLE_ATTRIBUTES_ALL = %i[authorization_endpoint
-                                     userinfo_endpoint
-                                     token_endpoint
-                                     end_session_endpoint
-                                     jwks_uri
-                                     issuer].freeze
-    DISCOVERABLE_ATTRIBUTES_OPTIONAL = %i[end_session_endpoint].freeze
-    DISCOVERABLE_ATTRIBUTES_MANDATORY = DISCOVERABLE_ATTRIBUTES_ALL - %i[end_session_endpoint jwks_uri]
+    DISCOVERABLE_ATTRIBUTES_MANDATORY = %i[authorization_endpoint
+                                           userinfo_endpoint
+                                           token_endpoint
+                                           issuer].freeze
+    DISCOVERABLE_ATTRIBUTES_OPTIONAL = %i[end_session_endpoint jwks_uri].freeze
+    DISCOVERABLE_ATTRIBUTES_ALL = DISCOVERABLE_ATTRIBUTES_MANDATORY + DISCOVERABLE_ATTRIBUTES_OPTIONAL
 
     MAPPABLE_ATTRIBUTES = %i[login email first_name last_name].freeze
 
@@ -27,6 +25,7 @@ module OpenIDConnect
 
     store_attribute :options, :client_id, :string
     store_attribute :options, :client_secret, :string
+    store_attribute :options, :post_logout_redirect_uri, :string
     store_attribute :options, :tenant, :string
     store_attribute :options, :host, :string
     store_attribute :options, :scheme, :string

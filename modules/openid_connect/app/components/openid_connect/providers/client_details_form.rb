@@ -40,6 +40,14 @@ module OpenIDConnect
             input_width: :large
           )
         end
+        f.text_field(
+          name: :post_logout_redirect_uri,
+          label: I18n.t("activemodel.attributes.openid_connect/provider.post_logout_redirect_uri"),
+          caption: I18n.t("openid_connect.instructions.post_logout_redirect_uri"),
+          disabled: provider.seeded_from_env?,
+          required: false,
+          input_width: :large
+        )
         f.check_box(
           name: :limit_self_registration,
           label: I18n.t("activemodel.attributes.openid_connect/provider.limit_self_registration"),
