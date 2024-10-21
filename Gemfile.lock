@@ -1044,7 +1044,7 @@ GEM
       i18n
       iso8601
     ruby-ole (1.2.13.1)
-    ruby-prof (1.7.0)
+    ruby-prof (1.7.1)
     ruby-progressbar (1.13.0)
     ruby-rc4 (0.1.5)
     ruby-saml (1.17.0)
