@@ -244,7 +244,7 @@ export class PrincipalComponent implements OnInit {
         const fieldSchema = fieldsSchema[fieldKey];
         let fieldValue = this.customFields[fieldKey];
 
-        if (fieldSchema.location === '_links') {
+        if (fieldSchema.location === '_links' && !!fieldValue) {
           fieldValue = Array.isArray(fieldValue)
             ? fieldValue.map((opt:any) => (opt._links ? opt._links.self : opt))
             : (fieldValue._links ? fieldValue._links.self : fieldValue);
