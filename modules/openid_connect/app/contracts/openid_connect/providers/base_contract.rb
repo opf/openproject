@@ -60,7 +60,6 @@ module OpenIDConnect
                 url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
                 if: -> { model.post_logout_redirect_uri_changed? }
 
-
       OpenIDConnect::Provider::MAPPABLE_ATTRIBUTES.each do |attr|
         attribute :"mapping_#{attr}"
       end

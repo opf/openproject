@@ -35,7 +35,7 @@ module OpenIDConnect
     end
 
     def call! # rubocop:disable Metrics/AbcSize
-      options = mapped_options(configuration.deep_stringify_keys)
+      options = configuration.deep_stringify_keys
 
       {
         "slug" => options["name"],
@@ -57,7 +57,12 @@ module OpenIDConnect
         "token_endpoint" => extract_url(options, "token_endpoint"),
         "userinfo_endpoint" => extract_url(options, "userinfo_endpoint"),
         "end_session_endpoint" => extract_url(options, "end_session_endpoint"),
-        "jwks_uri" => extract_url(options, "jwks_uri")
+        "jwks_uri" => extract_url(options, "jwks_uri"),
+        "mapping_login" => options.dig("attribute_map", "login"),
+        "mapping_mail" => options.dig("attribute_map", "email"),
+        "mapping_firstname" => options.dig("attribute_map", "first_name"),
+        "mapping_lastname" => options.dig("attribute_map", "last_name"),
+        "mapping_admin" => options.dig("attribute_map", "admin")
       }.compact
     end
 
@@ -101,22 +106,6 @@ module OpenIDConnect
         port: options["port"],
         scheme: options["scheme"] || "https"
       ).to_s
-    end
-
-    def mapped_options(options)
-      extract_mapping(options)
-
-      options.compact
-    end
-
-    def extract_mapping(options)
-      return unless options["attribute_map"]
-
-      options["mapping_login"] = options["attribute_map"]["login"]
-      options["mapping_mail"] = options["attribute_map"]["email"]
-      options["mapping_firstname"] = options["attribute_map"]["first_name"]
-      options["mapping_lastname"] = options["attribute_map"]["last_name"]
-      options["mapping_admin"] = options["attribute_map"]["admin"]
     end
   end
 end
