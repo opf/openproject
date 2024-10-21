@@ -2,32 +2,27 @@ require "spec_helper"
 
 RSpec.describe Versions::Scopes::OrderBySemverName do
   let(:project) { create(:project) }
-  let!(:version1) do
-    create(:version, name: "aaaaa 1.", project:)
+  let(:names) do
+    [
+      "1. xxxx",
+      "1.1. aaa",
+      "1.1. zzz",
+      "1.2. mmm",
+      "1.10. aaa",
+      "9",
+      "10.2",
+      "10.10.2",
+      "10.10.10",
+      "aaaaa",
+      "aaaaa 1."
+    ]
   end
-  let!(:version2) do
-    create(:version, name: "aaaaa", project:)
-  end
-  let!(:version3) do
-    create(:version, name: "1.10. aaa", project:)
-  end
-  let!(:version4) do
-    create(:version, name: "1.1. zzz", project:, start_date: Date.today, effective_date: Date.today + 1.day)
-  end
-  let!(:version5) do
-    create(:version, name: "1.2. mmm", project:, start_date: Date.today)
-  end
-  let!(:version6) do
-    create(:version, name: "1. xxxx", project:, start_date: Date.today + 5.days)
-  end
-  let!(:version7) do
-    create(:version, name: "1.1. aaa", project:)
-  end
+  let!(:versions) { names.map { |name| create(:version, name:, project:) } }
 
-  subject { Version.order_by_semver_name }
+  subject { Version.order_by_semver_name.order(id: :desc).to_a }
 
   it "returns the versions in semver order" do
-    expect(subject.to_a)
-      .to eql [version6, version7, version4, version5, version3, version2, version1]
+    expect(subject)
+      .to eql versions
   end
 end
