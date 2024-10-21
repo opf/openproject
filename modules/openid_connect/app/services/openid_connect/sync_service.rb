@@ -33,21 +33,31 @@ module OpenIDConnect
     def initialize(name, configuration)
       @name = name
       configuration[:name] = name
-      @configuration = ::OpenIDConnect::ConfigurationMapper.new(configuration).call!
+      @configuration = configuration
     end
 
-    def call # rubocop:disable Metrics/AbcSize
+    def call
+      mapped_configuration = ::OpenIDConnect::ConfigurationMapper.new(@configuration).call!
       provider = ::OpenIDConnect::Provider.find_by(slug: name)
+
+      service_call(provider, mapped_configuration)
+    rescue StandardError => e
+      ServiceResult.failure(message: e.message)
+    end
+
+    private
+
+    def service_call(provider, configuration) # rubocop:disable Metrics/AbcSize
       if provider
         ::OpenIDConnect::Providers::UpdateService
           .new(model: provider, user: User.system)
-          .call(@configuration)
+          .call(configuration)
           .on_success { |call| call.message = "Successfully updated OpenID provider #{name}." }
           .on_failure { |call| call.message = "Failed to update OpenID provider: #{call.message}" }
       else
         ::OpenIDConnect::Providers::CreateService
           .new(user: User.system)
-          .call(@configuration)
+          .call(configuration)
           .on_success { |call| call.message = "Successfully created OpenID provider #{name}." }
           .on_failure { |call| call.message = "Failed to create OpenID provider: #{call.message}" }
       end
