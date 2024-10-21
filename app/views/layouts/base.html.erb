@@ -173,6 +173,12 @@ See COPYRIGHT and LICENSE files for more details.
       $('.can-hide-navigation').addClass('hidden-navigation');
     }
 
+    window.addEventListener('resize', function() {
+      if (window.innerWidth < 1012) {
+        $('.can-hide-navigation').addClass('hidden-navigation');
+      }
+    });
+
     if (mainMenuCollapsed === 'true') {
       savedMainMenuWidth = 0;
     }
