@@ -45,8 +45,11 @@ module OpenIDConnect
         "client_secret" => options["secret"],
         "issuer" => options["issuer"],
         "host" => options["host"],
+        "port" => options["port"],
+        "scheme" => options["scheme"],
         "claims" => options["claims"],
         "tenant" => options["tenant"],
+        "post_logout_redirect_uri" => options["post_logout_redirect_uri"],
         "limit_self_registration" => options["limit_self_registration"],
         "use_graph_api" => options["use_graph_api"],
         "acr_values" => options["acr_values"],
@@ -113,7 +116,7 @@ module OpenIDConnect
       options["mapping_mail"] = options["attribute_map"]["email"]
       options["mapping_firstname"] = options["attribute_map"]["first_name"]
       options["mapping_lastname"] = options["attribute_map"]["last_name"]
-      options["mapping_uid"] = options["attribute_map"]["uid"]
+      options["mapping_admin"] = options["attribute_map"]["admin"]
     end
   end
 end

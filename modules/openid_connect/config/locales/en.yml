@@ -76,6 +76,9 @@ en:
         Provide a custom mapping in the userinfo response to be used for the first name.
       mapping_last_name: >
         Provide a custom mapping in the userinfo response to be used for the last name.
+      mapping_admin: >
+        Provide a custom mapping in the userinfo response to be used for the admin status.
+        It expects a boolean attribute to be returned.
     settings:
       metadata_none: I don't have this information
       metadata_url: I have a discovery endpoint URL
