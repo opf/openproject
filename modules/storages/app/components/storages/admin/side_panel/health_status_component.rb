@@ -31,20 +31,15 @@
 module Storages
   module Admin
     module SidePanel
-      class HealthStatusComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+      class HealthStatusComponent < ApplicationComponent
         include ApplicationHelper
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
 
-        def initialize(storage:)
-          super(storage)
-          @storage = storage
-        end
-
         private
 
         def health_status_indicator
-          case @storage.health_status
+          case model.health_status
           when "healthy"
             { scheme: :success, label: I18n.t("storages.health.label_healthy") }
           when "unhealthy"
@@ -57,8 +52,15 @@ module Storages
         # This method returns the health identifier, description and the time since when the error occurs in a
         # formatted manner. e.g. "Not found: Outbound request destination not found since 12/07/2023 03:45 PM"
         def formatted_health_reason
-          "#{@storage.health_reason_identifier.tr('_', ' ').strip.capitalize}: #{@storage.health_reason_description} " +
-            I18n.t("storages.health.since", datetime: helpers.format_time(@storage.health_changed_at))
+          identifier = model.health_reason_identifier.tr("_", " ").strip
+          description = model.health_reason_description
+
+          if description.present?
+            identifier.capitalize!
+            identifier << ": #{description}"
+          end
+
+          "#{identifier} #{I18n.t('storages.health.since', datetime: helpers.format_time(model.health_changed_at))}"
         end
 
         def validation_result_placeholder
