@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -31,35 +29,15 @@
 module Admin
   module CustomFields
     module Hierarchy
-      class ItemComponent < ApplicationComponent
+      class EditItemFormComponent < ApplicationComponent
         include OpTurbo::Streamable
-        include OpPrimer::ComponentHelpers
 
         def initialize(custom_field:, hierarchy_item:)
           super
           @custom_field = custom_field
           @hierarchy_item = hierarchy_item
-        end
-
-        def short_text
-          "(#{@hierarchy_item.short})"
-        end
-
-        def deletion_action_item(menu)
-          menu.with_item(label: I18n.t(:button_delete),
-                         scheme: :danger,
-                         tag: :a,
-                         href: deletion_dialog_custom_field_item_path(custom_field_id: @custom_field.id,
-                                                                      id: @hierarchy_item.id),
-                         content_arguments: { data: { controller: "async-dialog" } }) do |item|
-            item.with_leading_visual_icon(icon: :trash)
-          end
-        end
-
-        def edit_action_item(menu)
-          menu.with_item(label: I18n.t(:button_edit)) do |item|
-            item.with_leading_visual_icon(icon: :pencil)
-          end
+          @label = @hierarchy_item.label
+          @short = @hierarchy_item.short
         end
       end
     end

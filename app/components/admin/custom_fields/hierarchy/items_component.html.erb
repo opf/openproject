@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  component_wrapper(tag: 'turbo-frame') do
+  component_wrapper(tag: "turbo-frame") do
     flex_layout do |container|
       if items.empty? && !show_new_item_form?
         container.with_row(mb: 3) do
@@ -45,8 +45,14 @@ See COPYRIGHT and LICENSE files for more details.
 
             items.each do |item|
               item_box.with_row do
-                render Admin::CustomFields::Hierarchy::ItemComponent.new(custom_field: @custom_field,
-                                                                         hierarchy_item: item)
+                render Admin::CustomFields::Hierarchy::EditItemFormComponent.new(
+                  custom_field: @custom_field,
+                  hierarchy_item: item
+                )
+                render Admin::CustomFields::Hierarchy::ItemComponent.new(
+                  custom_field: @custom_field,
+                  hierarchy_item: item
+                )
               end
             end
 

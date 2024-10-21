@@ -41,7 +41,7 @@ module Admin
 
         before_action :require_admin
         before_action :find_model_object, except: %i[destroy deletion_dialog]
-        before_action :find_custom_field_and_item, only: %i[destroy deletion_dialog]
+        before_action :find_custom_field_and_item, only: %i[destroy deletion_dialog update]
 
         menu_item :custom_fields
 
@@ -53,10 +53,28 @@ module Admin
           respond_with_turbo_streams
         end
 
+        def edit
+          update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field, new_item_form_data: { show: false }))
+
+          respond_with_turbo_streams
+        end
+
         def create
           ::CustomFields::Hierarchy::HierarchicalItemService
             .new
             .insert_item(**item_input)
+            .either(
+              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
+              ->(validation_result) { add_errors_to_form(validation_result) }
+            )
+
+          respond_with_turbo_streams
+        end
+
+        def update
+          ::CustomFields::Hierarchy::HierarchicalItemService
+            .new
+            .update_item(item: @hierarchy_item, label: item_input[:label], short: item_input[:short])
             .either(
               ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
               ->(validation_result) { add_errors_to_form(validation_result) }
