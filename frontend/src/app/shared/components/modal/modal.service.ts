@@ -58,7 +58,7 @@ export class OpModalService {
 
   constructor(
     private readonly injector:Injector,
-    private readonly rendererFactory:RendererFactory2,
+    readonly rendererFactory:RendererFactory2,
   ) {
     // Listen to keystrokes on window to close context menus
     window.addEventListener('keydown', (evt:KeyboardEvent) => {
@@ -127,23 +127,16 @@ export class OpModalService {
   }
 
   private fixElementPosition(element:HTMLElement|null):void {
-    let anchor = document.body;
-
-    if (element !== null) {
-      anchor = element;
-    }
+    const anchor = element || document.body;
 
     const scrollY:string = document.documentElement.style.getPropertyValue('--scroll-y');
+
     this.bodyRenderer.setStyle(anchor, 'position', 'fixed');
     this.bodyRenderer.setStyle(anchor, 'top', `-${scrollY}`);
   }
 
   private unfixElementPosition(element:HTMLElement|null):void {
-    let anchor = document.body;
-
-    if (element !== null) {
-      anchor = element;
-    }
+    const anchor = element || document.body;
 
     const scrollY:string = anchor.style.top;
 
