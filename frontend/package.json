@@ -101,7 +101,9 @@
     "@openproject/octicons-angular": "^19.18.0",
     "@openproject/primer-view-components": "^0.48.0",
     "@openproject/reactivestates": "^3.0.1",
-    "@primer/css": "^21.3.3",
+    "@primer/css": "^21.5.0",
+    "@primer/primitives": "^9.1.2",
+    "@primer/view-components": "npm:@openproject/primer-view-components@^0.48.0",
     "@types/hotwired__turbo": "^8.0.1",
     "@uirouter/angular": "^13.0.0",
     "@uirouter/core": "^6.1.0",
@@ -176,6 +178,5 @@
     "generate-typings": "tsc -d -p src/tsconfig.app.json"
   },
   "overrides": {
-    "@primer/view-components": "npm:@openproject/primer-view-components@^0.48.0"
   }
 }
