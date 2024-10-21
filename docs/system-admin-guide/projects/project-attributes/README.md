@@ -88,7 +88,7 @@ The *Details* tab will allow you to edit the name, section and visibility.
 
 ![OpenProject project attribute details editing](open_project_system_admin_guide_project_attributes_details.png)
 
-The *Enabled in projects* tab will show a list of all the projects this project attributes was activated in. 
+The *Projects* tab will show a list of all the projects this project attributes was activated in. 
 
 ![Project attributes enabled in projects list in OpenProject administration](open_project_system_admin_guide_project_attributes_enabled_in_projects.png)
 
