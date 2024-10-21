@@ -332,7 +332,7 @@ class Notifications::CreateFromModelService
 
   def user_not_mentioned_or_mentioned_indirectly(self_reason)
     self_reason != NotificationSetting::MENTIONED ||
-    (mention_matches[:user_ids].exclude?(user_with_fallback.id) &&
+    (mention_matches[:user_ids].exclude?(user_with_fallback.id.to_s) &&
      mention_matches[:user_login_names].exclude?(user_with_fallback.login))
   end
 
