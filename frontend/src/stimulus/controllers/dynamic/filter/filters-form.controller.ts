@@ -204,9 +204,37 @@ export default class FiltersFormController extends Controller {
     this.addFilterSelectTarget.selectedIndex = 0;
     this.setSpacerVisibility();
 
+    this.focusFilterValueIfPossible(selectedFilter);
+
     if (this.performTurboRequestsValue) {
       this.sendForm();
     }
+  }
+
+  // Takes an Element and tries to find the next input or select child element. This should be the filter value.
+  // If found, it will be focused.
+  focusFilterValueIfPossible(element:undefined|HTMLElement) {
+    if (!element) return;
+
+    // Try different selectors for various filter styles. The order is important as some selectors match unwanted
+    // hidden fields when used too early in the chain.
+    const selectors = [
+      '.advanced-filters--filter-value ng-select input',
+      '.advanced-filters--filter-value input',
+      '.advanced-filters--filter-value select',
+    ];
+
+    selectors.some((selector) => {
+      const target = element.querySelector(selector) as HTMLElement;
+
+      if (target) {
+        target.focus();
+        // We have found and focused our element, abort the iteration.
+        return true;
+      }
+
+      return false;
+    });
   }
 
   removeFilter({ params: { filterName } }:{ params:{ filterName:string } }) {

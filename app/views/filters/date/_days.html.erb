@@ -4,10 +4,11 @@
         <span class="inline-label">
           <%= number_field_tag :value,
                                value,
+                               id: "#{filter.name}_value",
                                class: 'advanced-filters--text-field -slim',
                                'data-filter--filters-form-target': 'days',
                                'data-filter-name': filter.name %>
-          <label for="value" class="form-label -transparent">days</label>
+          <label for="<%= "#{filter.name}_value" %>" class="form-label -transparent">days</label>
          </span>
     </div>
   </div>
