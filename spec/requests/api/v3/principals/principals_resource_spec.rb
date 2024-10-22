@@ -144,7 +144,7 @@ RSpec.describe "API v3 Principals resource" do
         [{ any_name_attribute: { operator: "~", values: ["aaaa@example.com"] } }]
       end
 
-      context "when user havs permission to view user emails" do
+      context "when user has permission to view user emails" do
         let(:standard_global_role) { create :standard_global_role }
 
         it_behaves_like "API V3 collection response", 1, 1, "User"

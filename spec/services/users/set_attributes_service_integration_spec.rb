@@ -40,6 +40,16 @@ RSpec.describe Users::SetAttributesService, "Integration", type: :model do
 
   subject { instance.call(params) }
 
+  context "with a boolean castable preference" do
+    let(:params) do
+      { pref: { warn_on_leaving_unsaved: "0" } }
+    end
+
+    it "returns no error for that" do
+      expect(subject.errors).to be_empty
+    end
+  end
+
   context "with an invalid parameter" do
     let(:params) do
       { pref: { workdays: "foobar" } }
