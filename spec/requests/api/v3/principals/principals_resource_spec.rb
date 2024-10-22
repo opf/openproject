@@ -252,7 +252,6 @@ RSpec.describe "API v3 Principals resource" do
                 _type: "User",
                 id: other_user.id,
                 name: other_user.name,
-                email: other_user.mail,
                 _links: {
                   self: {
                     href: api_v3_paths.user(other_user.id),
