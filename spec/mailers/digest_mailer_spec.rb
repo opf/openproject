@@ -120,6 +120,16 @@ RSpec.describe DigestMailer do
         .to have_text(expected_text, normalize_ws: true)
     end
 
+    it "includes a reference to the notification center if there are more than the maximum number of shown work packages" do
+      stub_const("DigestMailer::MAX_SHOWN_WORK_PACKAGES", 0)
+
+      expect(mail_body)
+        .to have_text I18n.t(:"mail.work_packages.more_to_see.one")
+
+      expect(mail_body)
+        .to have_link(I18n.t(:"mail.work_packages.see_all"), href: notifications_url)
+    end
+
     context "with only a deleted work package for the digest" do
       let(:work_package) { nil }
 
