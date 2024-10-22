@@ -9,7 +9,10 @@
     [hideName]="true"
     size="mini"
   ></op-principal>
-  <span [opSearchHighlight]="search">{{ item.name }}</span>
+  <span [opSearchHighlight]="search"
+        class="op-user-autocompleter--name">
+      {{ item.name }}
+    </span>
   <span
     class="op-autocompleter__option-principal-email"
     *ngIf="item.email"

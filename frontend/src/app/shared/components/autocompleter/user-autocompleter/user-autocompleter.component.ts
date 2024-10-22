@@ -26,7 +26,16 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, EventEmitter, forwardRef, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  forwardRef,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   filter,
@@ -142,7 +151,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
     };
   }
 
-  protected defaultTrackByFunction():(item:{ href:unknown, name:unknown }) => unknown|null {
+  protected defaultTrackByFunction():(item:{ href:unknown, name:unknown }) => unknown {
     return (item) => item.href || item.name;
   }
 
