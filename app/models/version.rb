@@ -57,8 +57,6 @@ class Version < ApplicationRecord
 
   scope :systemwide, -> { where(sharing: "system") }
 
-  scope :order_by_name, -> { order(Arel.sql("LOWER(#{Version.table_name}.name) ASC")) }
-
   def self.with_status_open
     where(status: "open")
   end
