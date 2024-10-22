@@ -32,14 +32,14 @@ require_module_spec_helper
 RSpec.describe Storages::Admin::SidePanel::HealthStatusComponent, type: :component do
   frozen_date_time = Time.zone.local(2023, 11, 28, 1, 2, 3)
 
-  subject(:health_status_component) { described_class.new(storage:) }
+  subject(:health_status_component) { described_class.new(storage) }
 
   before do
     render_inline(health_status_component)
   end
 
   context "with healthy storage" do
-    shared_let(:storage) do
+    let(:storage) do
       travel_to(frozen_date_time) do
         create(:nextcloud_storage_with_complete_configuration, :as_healthy)
       end
@@ -52,7 +52,7 @@ RSpec.describe Storages::Admin::SidePanel::HealthStatusComponent, type: :compone
   end
 
   context "with storage health pending" do
-    shared_let(:storage) do
+    let(:storage) do
       travel_to(frozen_date_time) do
         create(:nextcloud_storage_with_complete_configuration)
       end
@@ -64,7 +64,7 @@ RSpec.describe Storages::Admin::SidePanel::HealthStatusComponent, type: :compone
   end
 
   context "with unhealthy storage" do
-    shared_let(:storage) do
+    let(:storage) do
       travel_to(frozen_date_time) do
         create(:nextcloud_storage_with_complete_configuration, :as_unhealthy)
       end
@@ -76,8 +76,22 @@ RSpec.describe Storages::Admin::SidePanel::HealthStatusComponent, type: :compone
     end
   end
 
+  context "with an unhealthy storage with a localized error message" do
+    let(:error_text) { I18n.t("services.errors.models.nextcloud_sync_service.unauthorized") }
+    let(:storage) do
+      travel_to(frozen_date_time) do
+        create(:nextcloud_storage_with_complete_configuration, :as_unhealthy, health_reason: error_text)
+      end
+    end
+
+    it "shows a correctly formatted error message" do
+      expect(page).to have_test_selector("storage-health-status", text: "Error")
+      expect(page).to have_test_selector("storage-health-error", text: "#{error_text} since 11/28/2023 01:02 AM")
+    end
+  end
+
   context "with unhealthy storage, long reason" do
-    shared_let(:storage) do
+    let(:storage) do
       travel_to(frozen_date_time) do
         create(:nextcloud_storage_with_complete_configuration, :as_unhealthy_long_reason)
       end
