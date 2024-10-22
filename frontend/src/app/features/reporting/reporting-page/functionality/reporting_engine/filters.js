@@ -172,7 +172,7 @@ Reporting.Filters = function($){
   };
 
   var operator_changed = function (field, select) {
-    var option_tag, arity, first;
+    var option_tag, arity, first, forcedType;
     if (select === null) {
       return;
     }
@@ -183,7 +183,8 @@ Reporting.Filters = function($){
     }
     option_tag = select.find('option[value="' + select.val() + '"]');
     arity = parseInt(option_tag.attr("data-arity"));
-    change_argument_visibility(field, arity);
+    forcedType = option_tag.attr("data-forced");
+    change_argument_visibility(field, arity, forcedType);
     if (option_tag.attr("data-forced")) {
       force_type(option_tag, first);
     }
@@ -210,18 +211,28 @@ Reporting.Filters = function($){
     }
   };
 
-  var change_argument_visibility = function (field, arg_nr) {
+  var change_argument_visibility = function (field, arg_nr, forcedType) {
     var params, i;
-    params = [$('#' + field + '_arg_1'), $('#' + field + '_arg_2')];
 
-    for (i = 0; i < 2; i += 1) {
-      if (params[i] !== null) {
-        if (arg_nr >= (i + 1) || arg_nr <= (-1 - i)) {
-          params[i].show();
-          params[i].children().show();
-        } else {
-          params[i].hide();
-          params[i].children().hide();
+    if (forcedType) {
+      [$('#' + field + '_arg_1'), $('#' + field + '_arg_2')].forEach(function (param) {
+        param.hide();
+        param.children().hide().prop('disabled', true);
+      })
+      $('#' + field + 'arg_' + forcedType + '_val').show().prop('disabled', false);
+    } else {
+      $('.advanced-filters--forced').hide().prop('disabled', true);
+
+      params = [$('#' + field + '_arg_1'), $('#' + field + '_arg_2')];
+      for (i = 0; i < 2; i += 1) {
+        if (params[i] !== null) {
+          if (arg_nr >= (i + 1) || arg_nr <= (-1 - i)) {
+            params[i].show();
+            params[i].children().show().prop('disabled', false);
+          } else {
+            params[i].hide();
+            params[i].children().hide().prop('disabled', true);
+          }
         }
       }
     }
