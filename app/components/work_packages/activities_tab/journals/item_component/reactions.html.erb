@@ -1,24 +1,26 @@
 <%=
   component_wrapper do
-    if journal.detailed_grouped_emoji_reactions.any?
-      flex_layout(test_selector: 'emoji-reactions') do |reactions_container|
-        journal.detailed_grouped_emoji_reactions.each do |emoji, data|
-          reactions_container.with_column(mr: 2) do
-            render(Primer::Beta::Button.new(
-              scheme: button_scheme(data[:users]),
-              color: :default,
-              bg: counter_color(data[:users]),
-              id: "#{journal.id}-#{data[:reaction]}",
-              test_selector: "reaction-#{data[:reaction]}",
-              tag: :a,
-              href: href(reaction: data[:reaction]),
-              data: { turbo_stream: true, turbo_method: :put },
-              disabled: current_user_cannot_react?,
-              classes: 'op-reactions-button'
-            )) do |button|
-              button.with_tooltip(text: tooltip_text(data[:reaction], data[:users]))
-              "#{emoji} #{data[:count]}"
+    flex_layout(test_selector: "emoji-reactions") do |reactions_container|
+      journal.detailed_grouped_emoji_reactions.each do |emoji, data|
+        reactions_container.with_column(mr: 2) do
+          render(Primer::Beta::Button.new(
+                  scheme: button_scheme(data[:users]),
+                  color: :default,
+                  bg: counter_color(data[:users]),
+                  id: "#{journal.id}-#{data[:reaction]}",
+                  test_selector: "reaction-#{data[:reaction]}",
+                  tag: :a,
+                  href: href(reaction: data[:reaction]),
+                  data: { turbo_stream: true, turbo_method: :put },
+                  aria: { label: aria_label_text(data[:reaction], data[:users]) },
+                  disabled: current_user_cannot_react?,
+                  classes: "op-reactions-button"
+                )) do |button|
+            button.with_tooltip(text: number_of_user_reactions_text(data[:users]),
+                                test_selector: "reaction-tooltip-#{data[:reaction]}") do
+              button.with_icon(emoji, size: :small)
             end
+            "#{emoji} #{data[:count]}"
           end
         end
       end

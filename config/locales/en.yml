@@ -550,9 +550,10 @@ en:
     action_title: "React"
     add_reaction: "Add reaction"
     react_with: "React with %{reaction}"
+    and_user: "and %{user}"
     and_n_others_singular: "and %{n} other"
     and_n_others_plural: "and %{n} others"
-    reacted_with: "reacted with %{reaction}"
+    reaction_by: "%{reaction} by"
 
   reportings:
     index:

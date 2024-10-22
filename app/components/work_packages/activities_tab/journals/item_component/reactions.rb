@@ -30,6 +30,8 @@ module WorkPackages
   module ActivitiesTab
     module Journals
       class ItemComponent::Reactions < ApplicationComponent
+        MAX_DISPLAYED_USERS_COUNT = 5
+
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
@@ -40,19 +42,16 @@ module WorkPackages
           @journal = journal
         end
 
+        def render?
+          journal.detailed_grouped_emoji_reactions.any?
+        end
+
         private
 
         attr_reader :journal
 
-        def wrapper_uniq_by
-          journal.id
-        end
-
+        def wrapper_uniq_by = journal.id
         def work_package = journal.journable
-
-        def reacted_by_current_user?(users)
-          users.any? { |u| u[:id] == User.current.id }
-        end
 
         def counter_color(users)
           reacted_by_current_user?(users) ? :accent : nil
@@ -62,25 +61,30 @@ module WorkPackages
           reacted_by_current_user?(users) ? :default : :invisible
         end
 
-        def tooltip_text(reaction, users)
-          max_displayed_users_count = 5
+        def reacted_by_current_user?(users)
+          users.any? { |u| u[:id] == User.current.id }
+        end
 
+        # ARIA-label, show names and emoji type: "{Name of reaction} by {user A}, {user B} and {user C}".
+        def aria_label_text(reaction, users)
+          "#{I18n.t('reactions.reaction_by', reaction: reaction.tr('_', ' '))} #{number_of_user_reactions_text(users)}"
+        end
+
+        # Visually, show just names: "{user A}, {user B} and {user C}"
+        def number_of_user_reactions_text(users, max_displayed_users_count: 5)
           user_count = users.length
           displayed_users = users.take(max_displayed_users_count).pluck(:name)
 
-          result = if user_count <= max_displayed_users_count
-                     displayed_users.join(", ")
-                   elsif user_count == max_displayed_users_count + 1
-                     "#{displayed_users.join(', ')} #{I18n.t('reactions.and_n_others_singular', n: 1)}"
-                   else
-                     "#{displayed_users.join(', ')} #{I18n.t('reactions.and_n_others_plural',
-                                                             n: user_count - max_displayed_users_count)}"
-                   end
+          return displayed_users.first if user_count == 1
 
-          result += " "
-
-          result += I18n.t("reactions.reacted_with", reaction: reaction.tr("_", " "))
-          result
+          if user_count <= max_displayed_users_count
+            "#{displayed_users[0..-2].join(', ')} #{I18n.t('reactions.and_user', user: displayed_users.last)}"
+          elsif user_count == max_displayed_users_count + 1
+            "#{displayed_users.join(', ')} #{I18n.t('reactions.and_n_others_singular', n: 1)}"
+          else
+            "#{displayed_users.join(', ')} #{I18n.t('reactions.and_n_others_plural',
+                                                    n: user_count - max_displayed_users_count)}"
+          end
         end
 
         def href(reaction:)
