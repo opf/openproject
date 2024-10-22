@@ -41,7 +41,7 @@ module Admin
 
         before_action :require_admin
         before_action :find_model_object, except: %i[destroy deletion_dialog]
-        before_action :find_custom_field_and_item, only: %i[destroy deletion_dialog update]
+        before_action :find_custom_field_and_item, only: %i[destroy deletion_dialog edit update]
 
         menu_item :custom_fields
 
@@ -54,7 +54,13 @@ module Admin
         end
 
         def edit
-          update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field, new_item_form_data: { show: false }))
+          update_via_turbo_stream(
+            component: ItemComponent.new(
+              custom_field: @custom_field,
+              hierarchy_item: @hierarchy_item,
+              show_edit_form: true
+            )
+          )
 
           respond_with_turbo_streams
         end

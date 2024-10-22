@@ -45,10 +45,6 @@ See COPYRIGHT and LICENSE files for more details.
 
             items.each do |item|
               item_box.with_row do
-                render Admin::CustomFields::Hierarchy::EditItemFormComponent.new(
-                  custom_field: @custom_field,
-                  hierarchy_item: item
-                )
                 render Admin::CustomFields::Hierarchy::ItemComponent.new(
                   custom_field: @custom_field,
                   hierarchy_item: item
