@@ -32,14 +32,22 @@ See COPYRIGHT and LICENSE files for more details.
     flex_layout(align_items: :center, justify_content: :space_between) do |item_container|
       item_container.with_column(flex_layout: true) do |item_information|
         item_information.with_column(mr: 2) do
-          render(Primer::Beta::Text.new(font_weight: :bold)) do
-            @hierarchy_item.label
+          render(Primer::Beta::Link.new(href: custom_field_item_path(@hierarchy_item.root, @hierarchy_item), underline: false)) do
+            render(Primer::Beta::Text.new(font_weight: :bold)) do
+              @hierarchy_item.label
+            end
           end
         end
 
         unless @hierarchy_item.short.nil?
           item_information.with_column(mr: 2) do
             render(Primer::Beta::Text.new(color: :subtle)) { short_text }
+          end
+        end
+
+        if @hierarchy_item.children.exists?
+          item_information.with_column(mr: 2) do
+            render(Primer::Beta::Text.new) { children_count }
           end
         end
       end
