@@ -549,10 +549,10 @@ en:
   reactions:
     action_title: "React"
     add_reaction: "Add reaction"
-    react_with: "React with %{emoji_shortcode}"
+    react_with: "React with %{reaction}"
     and_n_others_singular: "and %{n} other"
     and_n_others_plural: "and %{n} others"
-    reacted_with: "reacted with %{emoji_shortcode}"
+    reacted_with: "reacted with %{reaction}"
 
   reportings:
     index:

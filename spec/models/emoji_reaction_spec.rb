@@ -36,27 +36,32 @@ RSpec.describe EmojiReaction do
 
   describe "Enums" do
     it do
-      expect(subject).to define_enum_for(:emoji)
+      expect(subject).to define_enum_for(:reaction)
         .with_values(
-          thumbs_up: "\u{1F44D}",
-          thumbs_down: "\u{1F44E}",
-          grinning_face_with_smiling_eyes: "\u{1F604}",
-          confused_face: "\u{1F615}",
-          heart: "\u{2764}",
-          party_popper: "\u{1F389}",
-          rocket: "\u{1F680}",
-          eyes: "\u{1F440}"
+          thumbs_up: "thumbs_up",
+          thumbs_down: "thumbs_down",
+          grinning_face_with_smiling_eyes: "grinning_face_with_smiling_eyes",
+          confused_face: "confused_face",
+          heart: "heart",
+          party_popper: "party_popper",
+          rocket: "rocket",
+          eyes: "eyes"
         )
         .backed_by_column_of_type(:string)
+    end
+
+    it "stores the reaction identifier" do
+      emoji_reaction = create(:emoji_reaction, reaction: :thumbs_up)
+      expect(emoji_reaction.reaction).to eq("thumbs_up")
     end
   end
 
   describe "Validations" do
-    it { is_expected.to validate_presence_of(:emoji) }
+    it { is_expected.to validate_presence_of(:reaction) }
 
     it do
       emoji_reaction = create(:emoji_reaction)
-      expect(emoji_reaction).to validate_uniqueness_of(:user_id).scoped_to(%i[reactable_type reactable_id emoji])
+      expect(emoji_reaction).to validate_uniqueness_of(:user_id).scoped_to(%i[reactable_type reactable_id reaction])
     end
   end
 
@@ -66,15 +71,13 @@ RSpec.describe EmojiReaction do
     end
   end
 
-  describe ".emoji_name" do
-    it "returns the emoji name for a given unicode", :aggregate_failures do
-      expect(described_class.emoji_name("\u{1F44D}")).to eq("thumbs up")
-      expect(described_class.emoji_name("😄")).to eq("grinning face with smiling eyes")
+  describe ".emoji" do
+    it "returns the emoji for a given reaction" do
+      expect(described_class.emoji("thumbs_up")).to eq("👍")
     end
 
-    it "returns nil if no emoji exists with given unicode" do
-      expect(described_class.emoji_name("\u{1F607}")).to be_nil
-      expect(described_class.emoji_name("🤗")).to be_nil
+    it "returns nil if no reaction exists with given name" do
+      expect(described_class.emoji("rock_on")).to be_nil
     end
   end
 end

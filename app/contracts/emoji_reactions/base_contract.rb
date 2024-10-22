@@ -28,7 +28,7 @@
 
 module EmojiReactions
   class BaseContract < ::ModelContract
-    attribute :emoji
+    attribute :reaction
     attribute :user_id
     attribute :reactable_id
     attribute :reactable_type

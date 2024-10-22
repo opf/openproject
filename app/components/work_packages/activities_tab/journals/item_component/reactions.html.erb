@@ -8,16 +8,16 @@
               scheme: button_scheme(data[:users]),
               color: :default,
               bg: counter_color(data[:users]),
-              id: "#{journal.id}-#{emoji_alias(emoji)}",
-              test_selector: "reaction-#{emoji_alias(emoji)}",
+              id: "#{journal.id}-#{data[:reaction]}",
+              test_selector: "reaction-#{data[:reaction]}",
               tag: :a,
-              href: href(emoji:),
+              href: href(reaction: data[:reaction]),
               data: { turbo_stream: true, turbo_method: :put },
               disabled: current_user_cannot_react?,
               classes: 'op-reactions-button'
             )) do |button|
-              button.with_tooltip(text: tooltip_text(emoji, data[:users]))
-              "#{emoji} #{data[:count]}".html_safe
+              button.with_tooltip(text: tooltip_text(data[:reaction], data[:users]))
+              "#{emoji} #{data[:count]}"
             end
           end
         end

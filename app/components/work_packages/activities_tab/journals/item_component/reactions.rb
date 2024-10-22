@@ -62,7 +62,7 @@ module WorkPackages
           reacted_by_current_user?(users) ? :default : :invisible
         end
 
-        def tooltip_text(emoji, users)
+        def tooltip_text(reaction, users)
           max_displayed_users_count = 5
 
           user_count = users.length
@@ -79,18 +79,14 @@ module WorkPackages
 
           result += " "
 
-          result += I18n.t("reactions.reacted_with", emoji_shortcode: EmojiReaction.shortcode(emoji))
+          result += I18n.t("reactions.reacted_with", reaction: reaction.tr("_", " "))
           result
         end
 
-        def href(emoji:)
+        def href(reaction:)
           return if current_user_cannot_react?
 
-          toggle_reaction_work_package_activity_path(journal.journable.id, id: journal.id, emoji:)
-        end
-
-        def emoji_alias(emoji)
-          EmojiReaction::EMOJI_MAP.invert[emoji].to_s
+          toggle_reaction_work_package_activity_path(journal.journable.id, id: journal.id, reaction:)
         end
 
         def current_user_can_react?

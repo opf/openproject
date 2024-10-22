@@ -33,45 +33,32 @@ module Reactable
     has_many :emoji_reactions, as: :reactable, dependent: :destroy
   end
 
-  def add_reaction(user, emoji)
-    emoji_reactions.create(user:, emoji:)
-  end
-
-  def remove_reaction(user, emoji)
-    emoji_reactions.find_by(user:, emoji:)&.destroy
-  end
-
-  def grouped_emoji_reactions
-    emoji_reactions.group(:emoji).count
+  def available_emoji_reactions
+    (EmojiReaction.reactions.values - emoji_reactions.pluck(:reaction).uniq).index_by do |reaction|
+      EmojiReaction.emoji(reaction)
+    end.sort
   end
 
   def detailed_grouped_emoji_reactions
     # TODO: Refactor this to be database agnostic
     # fetch all emoji reactions and group them by emoji with their count and user ids
-    emoji_groups = emoji_reactions
-      .select("emoji, COUNT(*) as count, ARRAY_AGG(user_id) as user_ids")
-      .group(:emoji)
-      .order("emoji ASC")
+    reaction_groups = emoji_reactions
+      .select("reaction, COUNT(*) as count, ARRAY_AGG(user_id) as user_ids")
+      .group(:reaction)
+      .order("reaction ASC")
 
     # avoid N+1 queries by preloading all reacting users
-    user_ids = emoji_groups.flat_map(&:user_ids).uniq
+    user_ids = reaction_groups.flat_map(&:user_ids).uniq
     users = User.where(id: user_ids).select(:id, :firstname, :lastname).index_by(&:id)
 
-    # convert the result to a hash indexed by emoji suitable for rendering
-    emoji_groups.map do |result|
+    # convert the result to a hash indexed by reaction suitable for rendering
+    reaction_groups.map do |result|
       {
-        emoji: result.emoji,
+        reaction: result.reaction,
+        emoji: EmojiReaction.emoji(result.reaction),
         count: result.count,
         users: result.user_ids.map { |id| { id:, name: users[id].name } }
       }
     end.index_by { |r| r[:emoji] }
-  end
-
-  def available_emojis
-    EmojiReaction.available_emojis.sort
-  end
-
-  def available_untaken_emojis
-    (EmojiReaction.available_emojis - detailed_grouped_emoji_reactions.keys).sort
   end
 end

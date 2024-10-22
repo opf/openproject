@@ -44,16 +44,16 @@ class EmojiReaction < ApplicationRecord
   belongs_to :user
   belongs_to :reactable, polymorphic: true
 
-  validates :emoji, presence: true
-  validates :user_id, uniqueness: { scope: %i[reactable_type reactable_id emoji] }
+  validates :reaction, presence: true
+  validates :user_id, uniqueness: { scope: %i[reactable_type reactable_id reaction] }
 
-  enum :emoji, EMOJI_MAP
+  enum :reaction, EMOJI_MAP.each_with_object({}) { |(k, _v), h| h[k] = k.to_s }
 
   def self.available_emojis
     AVAILABLE_EMOJIS
   end
 
-  def self.shortcode(html_code)
-    EMOJI_MAP.key(html_code)&.to_s&.prepend(":")&.concat(":") || html_code
+  def self.emoji(reaction)
+    EMOJI_MAP[reaction.to_sym]
   end
 end

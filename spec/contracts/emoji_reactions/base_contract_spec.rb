@@ -120,13 +120,5 @@ RSpec.describe EmojiReactions::BaseContract do
     end
   end
 
-  describe "validate emoji type" do
-    context "when emoji is not included in the available emojis" do
-      before { emoji_reaction.emoji = "not_an_emoji" }
-
-      it_behaves_like "contract is invalid", emoji: :inclusion
-    end
-  end
-
   include_examples "contract reuses the model errors"
 end

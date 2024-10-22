@@ -28,12 +28,8 @@
 
 FactoryBot.define do
   factory :emoji_reaction do
-    transient do
-      emoji_alias { EmojiReaction::EMOJI_MAP.keys.sample }
-    end
-
     user
-    emoji { EmojiReaction::EMOJI_MAP[emoji_alias] }
+    reaction { EmojiReaction.reactions.keys.sample }
     reactable factory: :work_package_journal
   end
 end

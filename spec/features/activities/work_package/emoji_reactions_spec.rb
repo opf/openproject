@@ -55,7 +55,7 @@ RSpec.describe "Emoji reactions on work package activity", :js, :with_cuprite,
     before do
       first_comment
 
-      create(:emoji_reaction, user: admin, reactable: first_comment, emoji_alias: :thumbs_down)
+      create(:emoji_reaction, user: admin, reactable: first_comment, reaction: :thumbs_down)
 
       wp_page.visit!
       wp_page.wait_for_activity_tab
@@ -77,7 +77,7 @@ RSpec.describe "Emoji reactions on work package activity", :js, :with_cuprite,
     before do
       first_comment
 
-      create(:emoji_reaction, user: admin, reactable: first_comment, emoji_alias: :thumbs_down)
+      create(:emoji_reaction, user: admin, reactable: first_comment, reaction: :thumbs_down)
 
       wp_page.visit!
       wp_page.wait_for_activity_tab
@@ -96,7 +96,7 @@ RSpec.describe "Emoji reactions on work package activity", :js, :with_cuprite,
     before do
       first_comment
 
-      create(:emoji_reaction, user: admin, reactable: first_comment, emoji_alias: :rocket)
+      create(:emoji_reaction, user: admin, reactable: first_comment, reaction: :rocket)
 
       wp_page.visit!
       wp_page.wait_for_activity_tab
@@ -121,7 +121,7 @@ RSpec.describe "Emoji reactions on work package activity", :js, :with_cuprite,
     context "when visited by an anonymous visitor" do
       before do
         first_comment
-        create(:emoji_reaction, user: admin, reactable: first_comment, emoji_alias: :party_popper)
+        create(:emoji_reaction, user: admin, reactable: first_comment, reaction: :party_popper)
 
         login_as User.anonymous
 
