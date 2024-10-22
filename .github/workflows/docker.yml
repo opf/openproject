@@ -90,6 +90,9 @@ jobs:
           path: public/
           name: public-assets-${{ github.sha }}
           overwrite: true
+          # Since v4.4, hidden files are excluded by default.
+          # We need to include public/assets/.sprockets-manifest-*.json
+          include-hidden-files: true
     outputs:
       version: ${{ steps.extract_version.outputs.version }}
       checkout_ref: ${{ steps.extract_version.outputs.checkout_ref }}
@@ -324,4 +327,4 @@ jobs:
           curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
             -XPOST -H"Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
-            -d '{"ref": "dev", "inputs": { "tag" : "${{ needs.setup.outputs.version }}" }}'
+            -d '{"ref": "main", "inputs": { "tag" : "${{ needs.setup.outputs.version }}" }}'

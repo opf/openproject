@@ -1,4 +1,4 @@
-FROM ruby:3.3.4-bullseye as develop
+FROM ruby:3.3.4-bullseye AS develop
 MAINTAINER operations@openproject.com
 
 ARG DEV_UID=1000
@@ -67,7 +67,7 @@ RUN gem install bundler --version "${BUNDLER_VERSION}" --no-document
 
 ####### Testing image below #########
 
-FROM develop as test
+FROM develop AS test
 
 USER root
 

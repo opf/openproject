@@ -1,5 +1,5 @@
 ARG RUBY_VERSION="3.3.4"
-FROM ruby:${RUBY_VERSION}-bookworm as base
+FROM ruby:${RUBY_VERSION}-bookworm AS base
 LABEL maintainer="operations@openproject.com"
 
 ARG BUNDLER_VERSION="2.5.13"
@@ -80,7 +80,7 @@ RUN cp Gemfile.lock.bak Gemfile.lock && rm Gemfile.lock.bak && \
 # -------------------------------------
 # slim (public)
 # -------------------------------------
-FROM base as slim
+FROM base AS slim
 
 USER $APP_USER
 EXPOSE 8080
@@ -91,7 +91,7 @@ VOLUME ["$APP_DATA_PATH"]
 # -------------------------------------
 # all-in-one (public)
 # -------------------------------------
-FROM base as all-in-one
+FROM base AS all-in-one
 
 ENV OPENPROJECT_RAILS__CACHE__STORE=memcache
 ENV DATABASE_URL=postgres://openproject:openproject@127.0.0.1/openproject

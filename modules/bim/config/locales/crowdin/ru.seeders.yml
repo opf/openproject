@@ -161,21 +161,21 @@ ru:
                 options:
                   name: Приступая к работе
                   text: |
-                    We are glad you joined! We suggest to try a few things to get started in OpenProject.
+                    Мы рады, что Вы присоединились! Рекомендуем попробовать некоторые функции OpenProject для начала.
 
-                    Here you will find the classical roles, some workflows and work packages for your construction project.
+                    В данный момент здесь Вы найдете классические роли, немного рабочих потоков и пакетов для Вашего проекта строительства.
 
-                    _Try the following steps:_
+                    _Попробуйте следующее:_
 
-                    1.  _Invite new members to your project:_ → Go to [Members]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) in the project navigation.
-                    2.  _View the work in your projects:_ → Go to [Work packages]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    3.  _Create a new work package:_ → Go to [Work packages → Create]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
-                    4.  _Create and update a Gantt chart:_ → Go to [Gantt chart]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) in the project navigation.
-                    5.  _Activate further modules:_ → Go to [Project settings → Modules]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
-                    6.  _Working agile? Create a new board:_ → Go to [Boards]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
+                    1.  _Пригласите новых участников в проект:_ → Перейдите в раздел [Участники]({{opSetting:base_url}}/projects/demo-planning-constructing-project/members) в боковом меню проекта.
+                    2.  _Посмотрите работы в ваших проектах:_ → Перейдите в раздел [Комплекс работ]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) в боковом меню проекта.
+                    3.  _Создайте новый Комплекс работ:_ → Перейдите в раздел [Комлекс работ → Создать]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages/new?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22status%22%2C%22assignee%22%2C%22priority%22%5D%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%7B%22n%22%3A%22bcfIssueAssociated%22%2C%22o%22%3A%22%3D%22%2C%22v%22%3A%5B%22f%22%5D%7D%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D&type=11).
+                    4.  _Создайте и обновите диаграмму Ганта:_ → Перейдите в раздел [Диаграммы Ганта]({{opSetting:base_url}}/projects/demo-planning-constructing-project/work_packages?query_props=%7B%22c%22%3A%5B%22type%22%2C%22id%22%2C%22subject%22%2C%22assignee%22%2C%22responsible%22%5D%2C%22tv%22%3Atrue%2C%22tzl%22%3A%22weeks%22%2C%22hl%22%3A%22priority%22%2C%22hi%22%3Atrue%2C%22g%22%3A%22%22%2C%22t%22%3A%22startDate%3Aasc%22%2C%22f%22%3A%5B%5D%2C%22pa%22%3A1%2C%22pp%22%3A100%2C%22dr%22%3A%22list%22%7D) в боковом меню проекта.
+                    5.  _Активируйте дополнительные модули:_ → Перейдите в [Настройки проекта → Модули]({{opSetting:base_url}}/projects/demo-planning-constructing-project/settings/modules).
+                    6.  _Используете agile? Создайте новую доску:_ → Перейдите в [Доски]({{opSetting:base_url}}/projects/demo-planning-constructing-project/boards)
 
-                    Here you will find our [User Guides](https://www.openproject.org/docs/user-guide/).
-                    Please let us know if you have any questions or need support. Contact us: [support\[at\]openproject.com](mailto:support@openproject.com).
+                    Здесь вы найдёте наши [Руководства пользователя](https://www.openproject.org/docs/user-guide/).
+                    Пожалуйста, дайте нам знать, если у Вас возникнут вопросы или понадобится воддержка. Свяжитесь с нами: [support\[at\]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Участники
@@ -291,87 +291,87 @@ ru:
                 item_0:
                   subject: Начать конструирование
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Ground breaking ceremony
-                    *   Setting up the construction site
-                    *   ...
+                    * Церемония закладки фундамента
+                    * Обустройство строительной площадки
+                    * ...
 
-                    ## Description
+                    ## Описание
 
-                    *   Preparing the site for the project
-                    *   Get the team together
-                    *   ...
+                    * Подготовка площадки к проекту
+                    * Собрать команду
+                    * ...
                 item_1:
                   subject: Фундамент
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Laying of the foundation stone
-                    *   ...
+                    * Укладка фундамента
+                    * ...
 
-                    ## Description
+                    ## Описание
 
-                    *   Setting up the concrete mixer
-                    *   Setting up the supply chain for the concrete
-                    *   ...
+                    * Установка бетономешалки
+                    * Установка системы подачи бетона
+                    * ...
                 item_2:
                   subject: Строительство здания
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Topping out ceremony
-                    *   Walls and ceilings are done
-                    *   ...
+                    * Завершение церемонии
+                    * Стены и потолки готовы
+                    * ...
 
-                    ## Description
+                    ## Описание
 
-                    *   Creating all structural levels of the building
-                    *   Installing doors and windows
-                    *   Finishing the roof structure
-                    *   ...
+                    * Создание всех структурных уровней здания
+                    * Установка дверей и окон
+                    * Завершение возведения крыши
+                    * ...
                 item_3:
                   subject: Завершение фасада
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Facade is done
-                    *   Whole building is waterproof
-                    *   ...
+                    * Фасад готов
+                    * Все здание водонепроницаемо
+                    * ...
 
-                    ## Description
+                    ## Описание
 
-                    *   Install all elements for the facade
-                    *   Finish the roof
-                    *   ...
+                    * Установите все элементы для фасада
+                    * Закончите возведение крыши
+                    * ...
                 item_4:
                   subject: Установка систем обслуживания конструкций
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   All building service systems are ready to be used
+                    * Все системы здания готовы к использованию
 
-                    ## Description
+                    ## Описание
 
-                    *   Installing the heating system
-                    *   Installing the climate system
-                    *   Electrical installation
-                    *   ...
+                    * Установка системы отопления
+                    * Установка климатической системы
+                    * Электромонтаж
+                    * ...
                 item_5:
                   subject: Последние штрихи
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Handover of the keys
-                    *   The customer is happy with his building
-                    *   ...
+                    * Передача ключей
+                    * Заказчик доволен своим зданием
+                    * ...
 
-                    ## Description
+                    ## Описание
 
-                    *   Finishing the installation of the building service systems
-                    *   Finishing the interior construction
-                    *   Finishing the facade
-                    *   ...
+                    * Завершение монтажа систем здания
+                    * Завершение внутренней отделки
+                    * Завершение отделки фасада
+                    * ...
                 item_6:
                   subject: Вечеринка по случаю новоселья
                   description: |-
@@ -508,14 +508,14 @@ ru:
                 item_1:
                   subject: Первоначальная внутренняя проверка и пересмотр модели
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   Submitting a BIM model according to the defined standards
+                    * Передача BIM-модели в соответствии с определенными стандартами
 
-                    # Description
+                    # Описание
 
-                    *   The model shall be checked, according to the defined standards (conventions, LOD, ...) and revised
-                    *   ...
+                    * Модель должна быть проверена на соответствие стандартам (конвенциям, LOD, ...) и пересмотрена.
+                    * ...
                 item_2:
                   subject: Отправка исходной BIM-модели
                   description: Этот тип иерархически является родительским для типов "Столкновение" и "Запрос", таким образом, представляет собой общее примечание.
@@ -526,27 +526,27 @@ ru:
                 item_0:
                   subject: Ссылки на внешние BIM-модели
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   Having a foundation for developing the internal model/ offering answers
-                    *   Using the external model to develop the internal model
+                    * Создание основы для разработки внутренней модели/предложение ответов
+                    * Использование внешней модели для разработки внутренней модели
 
-                    # Description
+                    # Описание
 
-                    *   The external model will be referenced in the BIM platform, thus used for modelling the internal model
-                    *   ...
+                    * На внешнюю модель будут ссылаться в BIM-платформе, что позволит использовать ее для моделирования внутренней модели
+                    * ...
                 item_1:
                   subject: Моделирование BIM-модели
                   description: |-
-                    # Goal
+                    # Цель
 
-                    *   Creating a BIM model for the project
-                    *   Creating a BIM model for the whole project team
+                    * Создание BIM-модели для проекта
+                    * Создание BIM-модели для всей команды проекта
 
-                    # Description
+                    # Описание
 
-                    *   The model will be created according to the BIM execution plan
-                    *   ...
+                    * Модель будет создана в соответствии с планом выполнения BIM
+                    * ...
                 item_2:
                   subject: Первый цикл, проверка и пересмотр внутренней модели
                   description: |-
@@ -604,30 +604,30 @@ ru:
                 item_0:
                   subject: Модель передачи команде разработчика
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   Everyone knows the model and their tasks
-                    *   Everybody gets all the relevant information, model based
-                    *   ...
+                    * Каждый знает модель и свои задачи
+                    * Каждый получает всю необходимую информацию, основанную на модели
+                    * ...
 
-                    ## Description
+                    ## Описание
 
-                    *   The Kickoff on the construction site includes an introduction to the model
-                    *   All the objects should have the information needed for the assigned tasks. If not, data enrichment of the model needs to be done
-                    *   ...
+                    * Начало работы на строительной площадке включает в себя знакомство с моделью
+                    * Все объекты должны обладать информацией, необходимой для выполнения поставленных задач. Если это не так, необходимо доработать модель с новыми данными
+                    * ...
                 item_1:
                   subject: Создать сборку
                   description: |-
-                    ## Goal
+                    ## Цель
 
-                    *   New issues realized on construction site will be handled model based
-                    *   Issues will be documented by using the BCF files and the BIM model
+                    * Новые проблемы, возникающие на строительной площадке, будут обрабатываться на основе модели
+                    * Проблемы будут документироваться с помощью файлов BCF и BIM-модели
 
-                    ## Description
+                    ## Описание
 
-                    *   New issues will be documented using BCF files as sticky notes for the model
-                    *   The BCF files will be used to assign, track and correct issues
-                    *   ...
+                    * Новые проблемы будут документироваться с помощью файлов BCF в качестве заметок в модели
+                    * Файлы BCF будут использоваться для назначения, отслеживания и исправления проблем
+                    * ...
                 item_2:
                   subject: Завершить конструирование
             item_12:
@@ -635,17 +635,17 @@ ru:
             item_13:
               subject: Передача полномочий по управлению объектами
               description: |-
-                ## Goal
+                ## Цель
 
-                *   The BIM model will be used for the Facility Management
-                *   The model provides all the relevant information for commissioning and operating the building
-                *   ...
+                * BIM-модель будет использоваться для управления объектом
+                * Модель содержит всю необходимую информацию для ввода в эксплуатацию и эксплуатации здания
+                * ...
 
-                ## Description
+                ## Описание
 
-                *   The model contains the relevant information for the facility manager
-                *   The model can be used for the operating system of the building
-                *   ...
+                * Модель содержит всю необходимую информацию для менеджера объекта
+                * Модель может быть использована для операционной системы здания
+                * ...
             item_14:
               subject: Управление активами
               description: Наслаждайтесь своим творением! :)
@@ -655,11 +655,11 @@ ru:
           description: Это краткое описание целей этого демонстрационного проекта по управлению BCF.
           ifc_models:
             item_0:
-              name: Hospital - Architecture (cc-by-sa-3.0 Autodesk Inc.)
+              name: Больница - Архитектура (CC-BY-SA-3.0 Autodesk Inc.)
             item_1:
-              name: Hospital - Structural (cc-by-sa-3.0 Autodesk Inc.)
+              name: Больница - Механика (CC-BY-SA-3.0 Autodesk Inc.)
             item_2:
-              name: Hospital - Mechanical (cc-by-sa-3.0 Autodesk Inc.)
+              name: Больница - Механика (CC-BY-SA-3.0 Autodesk Inc.)
           categories:
             item_0: Категория 1 (будет изменена в настройках проекта)
           queries:

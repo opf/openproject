@@ -362,7 +362,7 @@ zh-TW:
       title: "訂閱日曆"
       inital_setup_error_message: "更新資料時發生錯誤"
       description: "您可以使用 URL (iCalendar) 在外部客戶端中訂閱此日曆，並從外部客戶端查看最新工作包信息。"
-      warning: "請不要與其他用戶共用此 URL 。擁有這個鏈接的任何人都可以在沒有帳戶或密碼的情況下查看工作包的詳細信息。"
+      warning: "請不要與其他用戶共享此 URL 。擁有這個鏈接的任何人都可以在沒有帳戶或密碼的情況下查看工作項目的詳細信息。"
       token_name_label: "您將在哪裡使用它？"
       token_name_placeholder: '輸入名稱，例如“Phone”'
       token_name_description_text: '如果您從多個設備訂閱此日曆，此名稱將有助於在<a href="my/access_token", target="_blank">訪問權杖</a>列表中區分它們。'
@@ -474,7 +474,7 @@ zh-TW:
     label_open_context_menu: "打開選單"
     label_open_work_packages: "開啟"
     label_password: "密碼"
-    label_previous: "上一個"
+    label_previous: "上一頁"
     label_per_page: "每頁："
     label_please_wait: "請稍候"
     label_project: "專案"
@@ -566,7 +566,7 @@ zh-TW:
     onboarding:
       buttons:
         skip: "略過"
-        next: "下一個"
+        next: "下一頁"
         got_it: "了解"
       steps:
         help_menu: "幫助 (?) 菜單中提供了<b>其他幫助資源</b>。您可以在這裡找到用戶指南、實用的使用方法視頻等內容。<br>使用 OpenProject 盡情享受您的工作吧！"
@@ -617,7 +617,7 @@ zh-TW:
         processed: "已處理"
         prioritized: "已優先"
         dateAlert: "日期提醒"
-        shared: "共用"
+        shared: "參與"
       date_alerts:
         milestone_date: "里程碑日期"
         overdue: "逾期"
@@ -671,7 +671,7 @@ zh-TW:
             description: "每當有人提及我時都收到通知"
           assignee: "執行者"
           responsible: "負責人"
-          shared: "共用"
+          shared: "參與"
           watched: "監看者\n"
           work_package_commented: "有新留言"
           work_package_created: "新增工作項目"
@@ -687,7 +687,7 @@ zh-TW:
             description: "額外通知"
           date_alerts:
             title: "日期提醒"
-            description: "當「執行者、負責人或監看者」進行中的工作項目，其重要日期臨近時，自動發出通知。"
+            description: "當「執行者、負責人或監看者」之開啟的工作項目，其重要日期臨近時，自動發出通知。"
             teaser_text: "透過日期提醒，您將收到即將到來的開始或結束日期的通知，這樣您就不會錯過或忘記重要的截止日期。"
           overdue: 逾期
         project_specific:
@@ -883,7 +883,7 @@ zh-TW:
       wiki_link: "連結到一個 Wiki 頁面"
       image: "圖片"
     sharing:
-      share: "共用"
+      share: "參與"
       selected_count: "已選取 %{count} 個"
       selection:
         mixed: "混合"
@@ -1002,11 +1002,11 @@ zh-TW:
         created_by_me: "由我建立"
         assigned_to_me: "分配給我"
         recently_created: "最近創建的"
-        all_open: "所有「進行中」工作"
+        all_open: "所有 「開啟中」 工作"
         overdue: "逾期"
         summary: "總覽"
-        shared_with_users: "分配給成員"
-        shared_with_me: "我共用之工作項目"
+        shared_with_users: "成員參與的"
+        shared_with_me: "我參與之工作項目"
       jump_marks:
         pagination: "跳轉至表格分頁"
         label_pagination: "點擊此處跳過工作項目表並轉到分頁"
@@ -1044,10 +1044,10 @@ zh-TW:
         is_parent: "此工作包的日期會自動從其子項推導出。可啟用“手動計劃”來設置日期。"
         is_switched_from_manual_to_automatic: "由於與其他工作包的關係，在從手動計劃切換為自動計劃後，此工作包的日期可能需要重新計算。"
       sharing:
-        title: "共用工作項目"
-        show_all_users: "顯示與之共用工作項目的所有用戶"
+        title: "參與工作項目"
+        show_all_users: "顯示與之共同參與工作項目的所有用戶"
         upsale:
-          description: "與不是專案成員的使用者共用工作項目。"
+          description: "與不是專案成員的使用者共同參與工作項目。"
       table:
         configure_button: "設定工作項目"
         summary: "由工作項目和工作項目屬性列組成的表格。"
@@ -1131,7 +1131,7 @@ zh-TW:
         text: "確定要執行此操作嗎？"
       destroy_work_package:
         title: "確認刪除 %{label}"
-        single_text: "確定要刪除此工作包嗎？"
+        single_text: "確定要刪除此工作項目嗎？"
         bulk_text: "確定要刪除以下%{label} 嗎？"
         has_children: "此工作項目包含 %{childUnits}:"
         confirm_deletion_children: "我確認列出的工作項目的所有細項全部都將被刪除。"

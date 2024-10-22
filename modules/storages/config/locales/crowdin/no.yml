@@ -22,16 +22,16 @@
         storages/project_storage:
           attributes:
             project_folder_id:
-              blank: Please select a folder.
+              blank: Velg en mappe.
             project_folder_mode:
               mode_unavailable: er ikke tilgjengelig for dette lagringsstedet.
             project_ids:
-              blank: Please select a project.
+              blank: Velg et prosjekt.
         storages/storage:
           attributes:
             host:
               authorization_header_missing: er ikke ferdig konfigurert. Nextcloud forekomsten mottar ikke "Authorization"-overskriften, som er nødvendig for en Bearer-nøkkel basert autorisasjon for API-forespørsler. Dobbeltsjekk HTTP-serverkonfigurasjonen din.
-              cannot_be_connected_to: could not be reached. Please ensure the host is reachable and the OpenProject integration app is installed.
+              cannot_be_connected_to: kunne ikke nås. Vennligst sørg for at verten er tilgjengelig og at OpenProject integrasjonsapp er installert.
               minimal_nextcloud_version_unmet: oppfyller ikke minimale krav til versjon (må være Nextcloud 23 eller høyere)
               not_nextcloud_server: er ikke en Nextcloud server
               op_application_not_installed: ser ut til å ikke ha appen "OpenProject integrasjon" installert. Installer den først og prøv igjen.
@@ -51,7 +51,7 @@
   permission_delete_files_explanation: Denne tillatelsen er bare tilgjengelig for Nextcloud lagre
   permission_header_for_project_module_storages: Automatisk administrerte prosjektmapper
   permission_manage_file_links: Administrer fil-linker
-  permission_manage_files_in_project: Manage files in project
+  permission_manage_files_in_project: Administrere filer i prosjektet
   permission_read_files: 'Automatisk administrerte prosjektmapper: Les filer'
   permission_share_files: 'Automatisk administrerte prosjektmapper: Del filer'
   permission_share_files_explanation: Denne tillatelsen er bare tilgjengelig for Nextcloud lagre
@@ -60,97 +60,97 @@
   project_module_storages: Filer
   project_storages:
     edit_project_folder:
-      label: Edit project folder
+      label: Rediger prosjektmappe
     project_folder_mode:
-      automatic: Automatically managed
+      automatic: Automatisk administrert
       inactive: Ingen spesifikk mappe
-      manual: Existing folder manually managed
+      manual: Eksisterende mappe administrert manuelt
     remove_project:
-      deletion_failure_flash: Failed to remove the project from the storage. %{error}
+      deletion_failure_flash: Fjerning av prosjektet feilet. %{error}
       dialog:
-        automatically_managed_appendix: Also, in this case this storage has an automatically managed project folder, this and its files will be deleted forever.
-        confirmation_text: Please, confirm you understand and want to remove this file storage from this project
-        heading_text: Remove project from %{storage}
-        text: This action is irreversible and will remove all links from work packages of this project to files and folders of that storage.
-      label: Remove project
+        automatically_managed_appendix: I dette tilfellet har denne lagringen automatisk administrert prosjektmappe, disse filene og filene vil slettes for alltid.
+        confirmation_text: Vennligst bekreft at du forstår og ønsker å fjerne fillagringen fra dette prosjektet
+        heading_text: Fjern prosjektet fra %{storage}
+        text: Denne handlingen er irreversibel, og vil fjerne alle koblinger fra arbeidspakker i dette prosjektet til filer og mapper i denne lagringen.
+      label: Slett prosjekt
   services:
     attributes:
       nextcloud_sync_service:
-        add_user_to_group: 'Add User to Group:'
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the group folder:'
-        remove_user_from_group: 'Remove User from Group:'
-        rename_project_folder: 'Rename managed project Folder:'
+        add_user_to_group: 'Legg bruker til gruppe:'
+        create_folder: 'Forvaltet prosjektmappeoppretting:'
+        ensure_root_folder_permissions: 'Angi standard mappetillatelser:'
+        hide_inactive_folders: 'Skjul inaktive mapper:'
+        remote_folders: 'Les innholdet i gruppemappen:'
+        remove_user_from_group: 'Fjern bruker fra gruppen:'
+        rename_project_folder: 'Endre navn på administrert prosjektmappe:'
       one_drive_sync_service:
-        create_folder: 'Managed Project Folder Creation:'
-        ensure_root_folder_permissions: 'Set Base Folder Permissions:'
-        hide_inactive_folders: 'Hide Inactive Folders Step:'
-        remote_folders: 'Read contents of the group folder:'
-        rename_project_folder: 'Rename managed project Folder:'
+        create_folder: 'Forvaltet prosjektmappeoppretting:'
+        ensure_root_folder_permissions: 'Angi standard mappetillatelser:'
+        hide_inactive_folders: 'Skjul inaktive mapper:'
+        remote_folders: 'Les innholdet i gruppemappen:'
+        rename_project_folder: 'Endre navn på administrert prosjektmappe:'
     errors:
       messages:
-        error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-        unauthorized: OpenProject could not authenticate with the Storage Provider. Please ensure that you have access to it.
+        error: Det oppstod en uventet feil. Sjekk OpenProject logger for mer informasjon eller kontakt en administrator
+        unauthorized: OpenProject kunne ikke logge inn på lagringsstedet. Vennligst sørg for at du har tilgang til det.
       models:
         copy_project_folders_service:
-          conflict: The folder %{destination_path} already exists. Interrupting process to avoid overwrites.
-          error: An unexpected error occurred. Please check OpenProject logs for more information or contact an administrator
-          forbidden: OpenProject could not access the source folder. Please check your permissions configuration on the Storage Provider
-          not_found: The source template location %{source_path} wasn't found.
-          unauthorized: OpenProject could not authenticate with the Storage Provider. Please check your storage configuration
+          conflict: Mappen %{destination_path} finnes allerede. Avbryter prosessen for å unngå overskriving.
+          error: Det oppstod en uventet feil. Sjekk OpenProject logger for mer informasjon eller kontakt en administrator
+          forbidden: OpenProject har ikke tilgang til kildemappen. Vennligst sjekk din tillatelseskonfigurasjon på lagringstilbyderen
+          not_found: Kildemal plassering %{source_path} ble ikke funnet.
+          unauthorized: OpenProject kunne ikke logge inn på lagringsstedet. Sjekk konfigurasjonen
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
-              conflict: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
-              failed_to_add: 'The user %{user} could not be added to the %{group} group for the following reason: %{reason}'
+              conflict: 'Brukeren %{user} kunne ikke bli lagt til i %{group} gruppen av følgende årsak: %{reason}'
+              failed_to_add: 'Brukeren %{user} kunne ikke bli lagt til i %{group} gruppen av følgende årsak: %{reason}'
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: '%{folder_name} finnes allerede på %{parent_location}.'
+              not_found: "%{parent_location} ble ikke funnet."
             ensure_root_folder_permissions:
-              not_found: "%{group_folder} wasn't found. Please check your Nextcloud Group Folder setup."
-              permission_not_set: could not set permissions on %{group_folder}.
+              not_found: "%{group_folder} ble ikke funnet. Sjekk din Nextcloud gruppe mappeoppsett."
+              permission_not_set: kunne ikke sette tillatelser på %{group_folder}.
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: kunne ikke sette tillatelser på %{path}.
             remote_folders:
               not_allowed: The %{username} doesn't have access to the %{group_folder} folder. Please check the folder permissions on Nextcloud.
               not_found: "%{group_folder} folder wasn't found. Please check your Nextcloud setup."
             remove_user_from_group:
-              conflict: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
-              failed_to_remove: 'The user %{user} could not be removed from the %{group} group for the following reason: %{reason}'
+              conflict: 'Brukeren %{user} kunne ikke fjernes fra %{group} gruppen av følgende årsak: %{reason}'
+              failed_to_remove: 'Brukeren %{user} kunne ikke fjernes fra %{group} gruppen av følgende årsak: %{reason}'
             rename_project_folder:
-              forbidden: OpenProject user does not have access to %{current_path} folder.
-              not_found: "%{current_path} wasn't found."
+              forbidden: OpenProject bruker har ikke tilgang til %{current_path} mappe.
+              not_found: "%{current_path} ble ikke funnet."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
+              permission_not_set: kunne ikke sette tillatelser på %{path}.
+          error: Det oppstod en uventet feil. Sørg for at din Nextcloud forekomst er tilgjengelig og sjekk OpenProject logger for mer informasjon
           group_does_not_exist: "%{group} does not exist. Check your Nextcloud instance configuration."
-          insufficient_privileges: OpenProject does not have enough privileges to add %{user} to %{group}. Check you group settings in Nextcloud.
-          not_allowed: Nextcloud block the request.
+          insufficient_privileges: OpenProject har ikke nok rettigheter til å legge til %{user} til %{group}. Sjekk gruppeinnstillinger i Nextcloud.
+          not_allowed: Nextcloud blokkerer forespørselen.
           unauthorized: OpenProject could not sync with Nextcloud. Please check your storage and Nextcloud configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+          user_does_not_exist: "%{user} finnes ikke i Nextcloud."
         one_drive_sync_service:
           attributes:
             create_folder:
-              conflict: The %{folder_name} already exists on %{parent_location}.
-              not_found: "%{parent_location} wasn't found."
+              conflict: '%{folder_name} finnes allerede på %{parent_location}.'
+              not_found: "%{parent_location} ble ikke funnet."
             hide_inactive_folders:
-              permission_not_set: could not set permissions on %{path}.
+              permission_not_set: kunne ikke sette tillatelser på %{path}.
             remote_folders:
-              request_error: OpenProject could not access your drive %{drive_id}. Please check if your storage configuration is correct.
+              request_error: OpenProject kunne ikke få tilgang til harddisken %{drive_id}. Kontroller om lagringskonfigurasjonen er riktig.
             rename_project_folder:
-              conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists
-              forbidden: OpenProject does not have access to %{current_path} in order to rename it.
-              not_found: "%{current_path} wasn't found."
+              conflict: OpenProject kunne ikke endre navn på mappen %{current_path} til %{project_folder_name} da en mappe med samme navn allerede eksisterer
+              forbidden: OpenProject har ikke tilgang til å endre navn på %{current_path}.
+              not_found: "%{current_path} ble ikke funnet."
             set_folders_permissions:
-              permission_not_set: could not set permissions on %{path}.
-          error: An unexpected error occurred. Please ensure that you Nextcloud instance is reachable and check OpenProject worker logs for more information
-          not_allowed: OpenProject wasn't allowed to access your OneDrive drive. Please check the permissions set on the Azure Application.
+              permission_not_set: kunne ikke sette tillatelser på %{path}.
+          error: Det oppstod en uventet feil. Sørg for at din Nextcloud forekomst er tilgjengelig og sjekk OpenProject logger for mer informasjon
+          not_allowed: OpenProject har ikke fått tilgang til din OneDrive stasjon. Vennligst sjekk tillatelsene som er angitt i Azure appen.
           unauthorized: OpenProject could not sync with OneDrive. Please check your storage and Azure Application configuration.
-          user_does_not_exist: "%{user} does not exist in Nextcloud."
+          user_does_not_exist: "%{user} finnes ikke i Nextcloud."
         upload_link_service:
-          not_found: The destination folder %{folder} could not be found on %{storage_name}.
+          not_found: Målmappen %{folder} ble ikke funnet på %{storage_name}.
   storages:
     buttons:
       complete_without_setup: Fullfør uten

@@ -24,7 +24,7 @@ Watch the following video to see how you can configure your custom actions:
 
 Navigate to the -> *Administration* -> *Work packages* -> *Custom actions*.
 
-To create a new custom action button press the green **+ Custom action** button.
+To create a new custom action button press the + Custom action** button.
 
 ![custom actions overview in OpenProject administration](openproject_system_guide_work_packages_custom_actions_overview.png)
 
@@ -51,3 +51,7 @@ If a work package is then in the defined condition, the button will appear on to
 3. Delete a custom action.
 
 ![Update or delete custom actions in OpenProject administration](openproject_system_guide_work_packages_custom_actions_edit_delete.png)
+
+> [!TIP]
+>
+> Read this [blog article](https://www.openproject.org/blog/custom-action-self-assign/) for an example of custom actions used within OpenProject team to quickly self-assign a work package.
