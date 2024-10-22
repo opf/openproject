@@ -59,6 +59,10 @@ module WorkPackages
           User.current.preference&.comments_sorting || "desc"
         end
 
+        def journal_sorting_desc?
+          journal_sorting == "desc"
+        end
+
         def journals
           work_package.journals.includes(:user, :notifications).reorder(version: journal_sorting)
         end
@@ -72,7 +76,7 @@ module WorkPackages
         end
 
         def inner_container_margin_bottom
-          if journal_sorting == "desc"
+          if journal_sorting_desc?
             3
           else
             0

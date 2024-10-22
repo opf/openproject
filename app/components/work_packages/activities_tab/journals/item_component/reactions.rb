@@ -30,8 +30,6 @@ module WorkPackages
   module ActivitiesTab
     module Journals
       class ItemComponent::Reactions < ApplicationComponent
-        MAX_DISPLAYED_USERS_COUNT = 5
-
         include ApplicationHelper
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
