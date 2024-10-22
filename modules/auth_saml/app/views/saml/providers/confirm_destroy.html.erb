@@ -1,0 +1,66 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+<%= styled_form_tag(saml_provider_path(@provider),
+                    class: 'danger-zone',
+                    method: :delete) do %>
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= t('saml.delete_title') %>
+    </h3>
+    <p>
+      <%= t('provider.delete_warning.provider', name: content_tag(:strong, @provider.display_name)).html_safe %>
+    </p>
+    <ul class="mb-3">
+      <li> <%= t('provider.delete_warning.delete_result_1') %>
+      <li> <%= t('provider.delete_warning.delete_result_user_count', count: @provider.user_count) %>
+      <% if Setting.omniauth_direct_login_provider == @provider.slug  %>
+      <li> <%= t('provider.delete_warning.delete_result_direct') %>
+      <% end %>
+    </ul>
+    <p class="danger-zone--warning">
+      <span class="icon icon-error"></span>
+      <span><%= t('provider.delete_warning.irreversible_notice') %></span>
+    </p>
+    <p>
+      <%= t('provider.delete_warning.input_delete_confirmation', name: "<em class=\"danger-zone--expected-value\">#{h(@provider.display_name)}</em>").html_safe %>
+    </p>
+    <div class="danger-zone--verification">
+      <%= text_field_tag :delete_confirmation %>
+      <%= styled_button_tag title: t(:button_delete), class: '-primary', disabled: true do
+        concat content_tag :i, '', class: 'button--icon icon-delete'
+        concat content_tag :span, t(:button_delete), class: 'button--text'
+      end %>
+      <%= link_to saml_providers_path,
+                  title: t(:button_cancel),
+                  class: 'button -with-icon icon-cancel' do %>
+        <%= t(:button_cancel) %>
+      <% end %>
+    </div>
+  </section>
+<% end %>
