@@ -2,14 +2,15 @@
 
 class WorkPackages::HighlightedDateComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
-  include OpTurbo::Streamable
 
-  def initialize(work_package:)
+  def initialize(work_package:, text_arguments: {})
     super
 
     @work_package = work_package
     @start_date = work_package.start_date
     @due_date = work_package.due_date
+
+    @text_arguments = text_arguments
   end
 
   def parsed_date(date)
@@ -29,12 +30,5 @@ class WorkPackages::HighlightedDateComponent < ApplicationComponent
     end
 
     "__hl_date_not_overdue"
-  end
-
-  def text_arguments
-    {
-      font_size: :small,
-      color: :muted
-    }
   end
 end
