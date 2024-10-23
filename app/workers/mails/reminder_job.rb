@@ -32,7 +32,11 @@ class Mails::ReminderJob < Mails::DeliverJob
 
   good_job_control_concurrency_with(
     total_limit: 1,
-    key: -> { "#{self.class.name}-#{arguments.last}" }
+    key: -> do
+      id = arguments.last.respond_to?(:id) ? arguments.last.id : arguments.last
+
+      "#{self.class.name}-#{id}"
+    end
   )
 
   private
