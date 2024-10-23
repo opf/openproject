@@ -883,6 +883,7 @@ si:
         not_a_datetime: "වලංගු දිනය කාලය නොවේ."
         not_a_number: "අංකයක් නොවේ."
         not_allowed: "අතුරුදහන් අවසරයන් නිසා අවලංගු වේ."
+        not_json: "is not a valid JSON object."
         not_an_integer: "පූර්ණ සංඛ්යාලයක් නොවේ."
         not_an_iso_date: "වලංගු දිනයක් නොවේ. අවශ්ය ආකෘතිය: YYY-MM-DD."
         not_same_project: "එකම ව්යාපෘතියට අයත් නොවේ."
@@ -2020,6 +2021,7 @@ si:
   label_api_doc: "API ප්රලේඛනය"
   label_backup: "Backup"
   label_backup_code: "Backup code"
+  label_basic_details: "Basic details"
   label_between: "අතර"
   label_blocked_by: "විසින් අවහිර"
   label_blocks: "කුට්ටි"
@@ -2253,6 +2255,7 @@ si:
   label_custom_favicon: "අභිරුචි ප්රියතම"
   label_custom_touch_icon: "අභිරුචි ස්පර්ශ අයිකනය"
   label_logout: "ලියාපදිංචි වන්න"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "පැති මෙනුව"
   label_manage: "Manage"
   label_manage_groups: "කණ්ඩායම් කළමනාකරණය කරන්න"
@@ -2380,7 +2383,7 @@ si:
   label_project_latest: "නවතම ව්යාපෘති"
   label_project_default_type: "හිස් වර්ගය ඉඩ"
   label_project_hierarchy: "ව්යාපෘති ධූරාවලිය"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "නව ව්යාපෘතිය"
   label_project_plural: "ව්‍යාපෘති"
   label_project_list_plural: "Project lists"
@@ -3177,7 +3180,9 @@ si:
   setting_default_language: "පෙරනිමි භාෂාව"
   setting_default_projects_modules: "නව ව්යාපෘති සඳහා පෙරනිමි සක්රීය මොඩියුල"
   setting_default_projects_public: "නව ව්යාපෘති පෙරනිමියෙන් පොදු වේ"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "ප්රදර්ශනය diff රේඛා උපරිම සංඛ්යාව"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "පෙරනිමියෙන් ප්රධාන ව්යාපෘතිවල උප ව්යාපෘති වැඩ පැකේජ ප්රදර්ශනය කරන්න"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3274,6 +3279,10 @@ si:
   setting_work_package_list_default_highlighted_attributes: "පෙරනිමි පේළිගත උද්දීපිත ගුණාංග"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

@@ -882,6 +882,7 @@ tr:
         not_a_datetime: "geçerli bir zaman değil."
         not_a_number: "bir sayı değil."
         not_allowed: "Eksik izinler nedeniyle geçersiz."
+        not_json: "is not a valid JSON object."
         not_an_integer: "bir tamsayı değil."
         not_an_iso_date: "geçerli bir tarih değil. Gerekli biçim:: YYYY-AA-GG."
         not_same_project: "aynı projeye ait değil."
@@ -2019,6 +2020,7 @@ tr:
   label_api_doc: "API belgelendirmesi"
   label_backup: "Destek olmak"
   label_backup_code: "Yedek kod"
+  label_basic_details: "Basic details"
   label_between: "arasında"
   label_blocked_by: "bağlı"
   label_blocks: "engeller"
@@ -2252,6 +2254,7 @@ tr:
   label_custom_favicon: "Özel favicon"
   label_custom_touch_icon: "Özel dokunma simgesi"
   label_logout: "Oturumu kapat"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Yan menü"
   label_manage: "Yönet"
   label_manage_groups: "Grupları yönet"
@@ -2379,7 +2382,7 @@ tr:
   label_project_latest: "Son projeler"
   label_project_default_type: "Boş türe izin ver"
   label_project_hierarchy: "Proje hiyerarşisi"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Yeni proje"
   label_project_plural: "Projeler"
   label_project_list_plural: "Project lists"
@@ -3173,7 +3176,9 @@ tr:
   setting_default_language: "Varsayılan dil"
   setting_default_projects_modules: "Yeni projeler için varsayılan etkin modüller"
   setting_default_projects_public: "Yeni projeler varsayılan olarak herkese açık"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Görüntülenen fark satırlarının maksimum sayısı"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Varsayılan olarak ana projenin iş listesinde alt proje iş paketlerini göster"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3270,6 +3275,10 @@ tr:
   setting_work_package_list_default_highlighted_attributes: "Varsayılan satır içi vurgulanan özellikler"
   setting_working_days: "İş Günleri"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Yüklenen dosyalar için geçerli dosya uzantılarının ve/veya mim türlerinin bir listesini tanımlayın. <br/> Dosya uzantılarını (ör. <code>%{ext_example}</code>) veya mime türlerini (ör. <code>%{mime_example}</code>) girin. <br/> Herhangi bir dosya türünün yüklenmesine izin vermek için boş bırakın. Birden çok değere izin verilir (her değer için bir satır).

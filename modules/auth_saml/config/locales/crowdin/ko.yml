@@ -33,6 +33,7 @@ ko:
           unmatched_private_key: "- 지정된 인증서에 속하지 않습니다."
   saml:
     menu_title: SAML 공급자
+    delete_title: Delete SAML provider
     info:
       title: "SAML 프로토콜 구성 매개 변수"
       description: >
@@ -54,7 +55,6 @@ ko:
       label_edit: SAML ID 공급자 %{name} 편집
       label_uid: 내부 사용자 ID
       label_mapping: 매핑
-      label_mapping_for: "매핑 대상: %{attribute}"
       label_requested_attribute_for: "요청된 특성 대상: %{attribute}"
       no_results_table: 아직 정의된 SAML ID 공급자가 없습니다.
       plural: SAML ID 공급자

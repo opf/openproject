@@ -879,6 +879,7 @@ ca:
         not_a_datetime: "no és una data-i-hora vàlida."
         not_a_number: "no és un número."
         not_allowed: "és invàlid perquè falten permisos."
+        not_json: "is not a valid JSON object."
         not_an_integer: "no és un enter."
         not_an_iso_date: "no és una data vàlida. Format requerit: AAAA-MM-DD."
         not_same_project: "no pertany al mateix projecte."
@@ -2016,6 +2017,7 @@ ca:
   label_api_doc: "Documentació d'API"
   label_backup: "Còpia de seguretat"
   label_backup_code: "Codi de còpia de seguretat"
+  label_basic_details: "Basic details"
   label_between: "entre"
   label_blocked_by: "bloquejats per"
   label_blocks: "blocs"
@@ -2249,6 +2251,7 @@ ca:
   label_custom_favicon: "Favicon personalitzat"
   label_custom_touch_icon: "Icona \"touch\" personalitzada"
   label_logout: "Tancar sessió"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Menú lateral"
   label_manage: "Maneja"
   label_manage_groups: "Administrar grups"
@@ -2376,7 +2379,7 @@ ca:
   label_project_latest: "Últims projectes"
   label_project_default_type: "Permetre tipus buit"
   label_project_hierarchy: "Jerarquia de projectes"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Nou projecte"
   label_project_plural: "Projectes"
   label_project_list_plural: "Llistes de projectes"
@@ -3166,7 +3169,9 @@ ca:
   setting_default_language: "Idioma per defecte"
   setting_default_projects_modules: "Mòduls activats per defecte en els projectes nous"
   setting_default_projects_public: "Els projectes nous són públics per defecte"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Nombre màxim de línies mostrades pels diff"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Mostrae els paquets de treball dels subprojectes en els projectes principals per defecte"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3263,6 +3268,10 @@ ca:
   setting_work_package_list_default_highlighted_attributes: "Atributs de destacament en línia per defecte"
   setting_working_days: "Dies laborals"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Defineix una llista vàlida d'extensions de fitxers i/o classes MIME per carregar fitxers. <br/>Introdueïx extensions de fitxers (ex. <code>%{ext_example}</code>) o classes MIME (ex. <code>%{mime_example}</code>). <br/> Deixa el camp buit per permetre qualsevol classe de fitxer. Es permeten múltiples valors (una línia per cada valor).

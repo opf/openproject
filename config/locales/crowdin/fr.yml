@@ -882,6 +882,7 @@ fr:
         not_a_datetime: "n'est pas une heure valide."
         not_a_number: "n'est pas un nombre."
         not_allowed: "est invalide en raison d’autorisations insuffisantes."
+        not_json: "is not a valid JSON object."
         not_an_integer: "n'est pas un entier."
         not_an_iso_date: "n’est pas une date valide. Format requis : AAAA-MM-JJ."
         not_same_project: "n'appartient pas au même projet."
@@ -2019,6 +2020,7 @@ fr:
   label_api_doc: "Documentation de l'API"
   label_backup: "Sauvegarde"
   label_backup_code: "Code de sauvegarde"
+  label_basic_details: "Basic details"
   label_between: "entre"
   label_blocked_by: "bloqué par"
   label_blocks: "bloque"
@@ -2252,6 +2254,7 @@ fr:
   label_custom_favicon: "Favicon personnalisé"
   label_custom_touch_icon: "Icône de contact personnalisé"
   label_logout: "Déconnexion"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Menu principal"
   label_manage: "Gérer"
   label_manage_groups: "Gérer les groupes"
@@ -2379,7 +2382,7 @@ fr:
   label_project_latest: "Derniers projets"
   label_project_default_type: "Autoriser type défaut"
   label_project_hierarchy: "Hiérarchie du projet"
-  label_project_mappings: "Activé dans les projets"
+  label_project_mappings: "Projects"
   label_project_new: "Nouveau projet"
   label_project_plural: "Projets"
   label_project_list_plural: "Listes de projets"
@@ -3176,7 +3179,9 @@ fr:
   setting_default_language: "Langage par défaut"
   setting_default_projects_modules: "Modules activés par défaut pour les nouveaux projets"
   setting_default_projects_public: "Les nouveaux projets sont publics par défaut"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Nombre maximal de lignes de «diff» affichées"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Par défaut, afficher les lots de travaux des sous-projets dans les projets parents"
   setting_duration_format: "Format de durée"
   setting_duration_format_hours_only: "Heures seulement"
@@ -3273,6 +3278,10 @@ fr:
   setting_work_package_list_default_highlighted_attributes: "Attributs en ligne mis en surbrillance par défaut"
   setting_working_days: "Jours ouvrés"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).

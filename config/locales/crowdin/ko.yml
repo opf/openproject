@@ -875,6 +875,7 @@ ko:
         not_a_datetime: "은(는) 유효한 날짜가 아닙니다."
         not_a_number: "은(는) 숫자가 아닙니다."
         not_allowed: "- 사용 권한이 없어 유효하지 않습니다."
+        not_json: "is not a valid JSON object."
         not_an_integer: "은(는) 정수가 아닙니다."
         not_an_iso_date: "은(는) 유효한 날짜가 아닙니다. 필요한 형식: YYYY-MM-DD."
         not_same_project: "은(는) 동일한 프로젝트에 속하지 않습니다."
@@ -1984,6 +1985,7 @@ ko:
   label_api_doc: "API 문서"
   label_backup: "백업"
   label_backup_code: "백업 코드"
+  label_basic_details: "Basic details"
   label_between: "사이에"
   label_blocked_by: "차단한 사용자"
   label_blocks: "블록"
@@ -2217,6 +2219,7 @@ ko:
   label_custom_favicon: "사용자 지정 favicon"
   label_custom_touch_icon: "사용자 지정 터치 아이콘"
   label_logout: "로그아웃"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "측면 메뉴"
   label_manage: "관리"
   label_manage_groups: "그룹 관리"
@@ -2344,7 +2347,7 @@ ko:
   label_project_latest: "최근 프로젝트"
   label_project_default_type: "빈 유형 허용"
   label_project_hierarchy: "프로젝트 계층 구조"
-  label_project_mappings: "프로젝트에서 활성화됨"
+  label_project_mappings: "Projects"
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
   label_project_list_plural: "프로젝트 목록"
@@ -3136,7 +3139,9 @@ ko:
   setting_default_language: "기본 언어"
   setting_default_projects_modules: "새 프로젝트에 대해 기본적으로 활성화된 모듈"
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "표시되는 최대 차이점 줄 수"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시"
   setting_duration_format: "기간 형식"
   setting_duration_format_hours_only: "시간만"
@@ -3233,6 +3238,10 @@ ko:
   setting_work_package_list_default_highlighted_attributes: "기본 인라인 강조 표시 특성"
   setting_working_days: "근무일"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).

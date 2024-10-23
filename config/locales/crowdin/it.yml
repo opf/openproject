@@ -880,6 +880,7 @@ it:
         not_a_datetime: "non è un'orario valido."
         not_a_number: "non è un numero."
         not_allowed: "non è valido a causa di autorizzazioni assenti."
+        not_json: "is not a valid JSON object."
         not_an_integer: "non è un numero intero."
         not_an_iso_date: "non è una data valida. Formato richiesto: AAAA-MM-GG."
         not_same_project: "non appartiene allo stesso progetto."
@@ -2017,6 +2018,7 @@ it:
   label_api_doc: "Documentazione API"
   label_backup: "Backup"
   label_backup_code: "Codice di backup"
+  label_basic_details: "Basic details"
   label_between: "tra"
   label_blocked_by: "bloccato da"
   label_blocks: "blocca"
@@ -2250,6 +2252,7 @@ it:
   label_custom_favicon: "Favicon personalizzata"
   label_custom_touch_icon: "Icona del touch personalizzata"
   label_logout: "Disconnetti"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Menu laterale"
   label_manage: "Gestisci"
   label_manage_groups: "Gestisci i gruppi"
@@ -2377,7 +2380,7 @@ it:
   label_project_latest: "Ultimi progetti"
   label_project_default_type: "Permetti tipi vuoti"
   label_project_hierarchy: "Gerarchia del progetto"
-  label_project_mappings: "Abilitato nei progetti"
+  label_project_mappings: "Projects"
   label_project_new: "Nuovo progetto"
   label_project_plural: "Progetti"
   label_project_list_plural: "Elenchi progetto"
@@ -3174,7 +3177,9 @@ it:
   setting_default_language: "Linguaggio predefinito"
   setting_default_projects_modules: "Moduli abilitati in automatico su nuovi progetti"
   setting_default_projects_public: "I nuovi progetti sono pubblici come impostazione predefinita"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Numero massimo di linee diff visualizzate"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Visualizza le macro-attività dei sotto-progetti nei progetti principali come impostazione predefinita"
   setting_duration_format: "Formato durata"
   setting_duration_format_hours_only: "Solo ore"
@@ -3271,6 +3276,10 @@ it:
   setting_work_package_list_default_highlighted_attributes: "Attributi evidenziati in linea predefiniti"
   setting_working_days: "Giorni lavorativi"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Definisci un elenco di estensioni di file valide e/o tipi MIME per i file caricati. <br/> Inserisci le estensioni dei file (ad es. <code>%{ext_example}</code>) o i tipi MIME (ad es. <code>%{mime_example}</code>). <br/> Lascia vuoto per consentire il caricamento di qualsiasi tipo di file. Sono consentiti più valori (una riga per ogni valore).

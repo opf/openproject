@@ -882,6 +882,7 @@
         not_a_datetime: "er ikke et gyldig tidspunkt for datoen."
         not_a_number: "er ikke et tall."
         not_allowed: "er ugyldig på grunn av manglende tillatelser."
+        not_json: "is not a valid JSON object."
         not_an_integer: "er ikke et heltall."
         not_an_iso_date: "er ikke en gyldig dato. Påkrevd format: ÅÅÅÅ-MM-DD."
         not_same_project: "hører ikke til samme prosjekt."
@@ -2019,6 +2020,7 @@
   label_api_doc: "API dokumentasjon"
   label_backup: "Sikkerhetskopi"
   label_backup_code: "Sikkerhetskopieringsnøkkel"
+  label_basic_details: "Basic details"
   label_between: "mellom"
   label_blocked_by: "blokkert av"
   label_blocks: "blokkeringer"
@@ -2252,6 +2254,7 @@
   label_custom_favicon: "Tilpasset favicon"
   label_custom_touch_icon: "Egendefinert berøringsikon"
   label_logout: "Logg av"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Sidemeny"
   label_manage: "Administrer"
   label_manage_groups: "Administrer grupper"
@@ -2379,7 +2382,7 @@
   label_project_latest: "Siste prosjekter"
   label_project_default_type: "Tillatt tom type"
   label_project_hierarchy: "Prosjekthierarki"
-  label_project_mappings: "Aktivert i prosjekter"
+  label_project_mappings: "Projects"
   label_project_new: "Nytt prosjekt"
   label_project_plural: "Prosjekter"
   label_project_list_plural: "Prosjektlister"
@@ -3176,7 +3179,9 @@
   setting_default_language: "Standardspråk"
   setting_default_projects_modules: "Standardaktiverte moduler for nye prosjekter"
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maks antall linjeforskjeller som vises"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Vis arbeidspakker for underprosjekter som standard for hovedprosjekter"
   setting_duration_format: "Varighetsformat"
   setting_duration_format_hours_only: "Kun timer"
@@ -3273,6 +3278,10 @@
   setting_work_package_list_default_highlighted_attributes: "Standard inline uthevede egenskaper"
   setting_working_days: "Arbeidsdager"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Definer en liste over gydlige fil-typer og/eller mime typer for opplastingsfiler.<br/>Sett inn fil-typer (f.eks. <code>%{ext_example}</code>) eller mime typer (f.eks. <code>%{mime_example}</code>).<br/> La stå tom for å godta at alle filtyper kan lastes opp.  Flere verdier er tillatt (en linje for hver verdi).

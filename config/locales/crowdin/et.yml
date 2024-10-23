@@ -883,6 +883,7 @@ et:
         not_a_datetime: "is not a valid date time."
         not_a_number: "pole arv."
         not_allowed: "is invalid because of missing permissions."
+        not_json: "is not a valid JSON object."
         not_an_integer: "pole täisarv."
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
@@ -2020,6 +2021,7 @@ et:
   label_api_doc: "API documentation"
   label_backup: "Backup"
   label_backup_code: "Backup code"
+  label_basic_details: "Basic details"
   label_between: "between"
   label_blocked_by: "blokeeritud"
   label_blocks: "blokeerib"
@@ -2253,6 +2255,7 @@ et:
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Logi välja"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Ääremenüü"
   label_manage: "Manage"
   label_manage_groups: "Manage groups"
@@ -2380,7 +2383,7 @@ et:
   label_project_latest: "Viimased projektid"
   label_project_default_type: "Luba määramata tüüp"
   label_project_hierarchy: "Projekti hierarhia"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Uus projekt"
   label_project_plural: "Projektid"
   label_project_list_plural: "Project lists"
@@ -3177,7 +3180,9 @@ et:
   setting_default_language: "Vaikimisi keel"
   setting_default_projects_modules: "Uue projekti vaikimisi moodulid"
   setting_default_projects_public: "Uued projektid on vaikimisi avalikud"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Enim korraga näidatavaid erinevusi"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Kuva ka alamprojektide teemad peaprojekti teemade juures"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3274,6 +3279,10 @@ et:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

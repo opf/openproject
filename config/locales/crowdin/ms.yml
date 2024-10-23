@@ -874,6 +874,7 @@ ms:
         not_a_datetime: "bukan tarikh masa yang sah."
         not_a_number: "bukan nombor."
         not_allowed: "adalah tidak sah kerana kekurangan kebenaran."
+        not_json: "is not a valid JSON object."
         not_an_integer: "bukan sebuah integer."
         not_an_iso_date: "bukan tarikh yang sah. Format yang diperlukan: TTTT-BB-HH."
         not_same_project: "tidak tergolong dalam projek yang sama."
@@ -1983,6 +1984,7 @@ ms:
   label_api_doc: "Dokumentasi API"
   label_backup: "Sandaran"
   label_backup_code: "Kod sandaran"
+  label_basic_details: "Basic details"
   label_between: "antara"
   label_blocked_by: "disekat oleh"
   label_blocks: "blok"
@@ -2216,6 +2218,7 @@ ms:
   label_custom_favicon: "Favicon tersuai"
   label_custom_touch_icon: "Ikon sentuh tersuai"
   label_logout: "Daftar keluar"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Menu Sampingan"
   label_manage: "Uruskan"
   label_manage_groups: "Urus kumpulan"
@@ -2343,7 +2346,7 @@ ms:
   label_project_latest: "Projek terkini"
   label_project_default_type: "Benarkan jenis kosong"
   label_project_hierarchy: "Hierarki projek"
-  label_project_mappings: "Didayakan dalam projek"
+  label_project_mappings: "Projects"
   label_project_new: "Projek baharu"
   label_project_plural: "Projek"
   label_project_list_plural: "Senarai projek"
@@ -3136,7 +3139,9 @@ ms:
   setting_default_language: "Bahasa default"
   setting_default_projects_modules: "Modul yang diaktifkan secara default untuk projek baharu"
   setting_default_projects_public: "Projek baharu adalah awam secara default"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Jumlah maksimum baris perbezaan yang dipaparkan"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Paparkan subprojek pakej kerja di projek utama secara default"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3233,6 +3238,10 @@ ms:
   setting_work_package_list_default_highlighted_attributes: "Atribut disorot sebaris default"
   setting_working_days: "Hari bekerja"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Jelaskan senarai sambungan fail yang sah dan/atau jenis mime bagi fail yang telah dimuat naik. <br/> Masukkan sambungan fail (cth., <code>%{ext_example}</code>) atau jenis mime (cth., <code>%{mime_example}</code>). <br/> Tinggalkan kosong untuk benarkan sebarang jenis fail untuk dimuat naik. Pelbagai nilai juga dibenarkan. (satu baris untuk setiap nilai)

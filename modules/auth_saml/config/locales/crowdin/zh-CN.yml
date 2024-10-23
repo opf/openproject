@@ -33,6 +33,7 @@ zh-CN:
           unmatched_private_key: "不属于给定证书"
   saml:
     menu_title: SAML 提供商
+    delete_title: Delete SAML provider
     info:
       title: "SAML 协议配置参数"
       description: >
@@ -54,7 +55,6 @@ zh-CN:
       label_edit: 编辑 SAML 身份提供商 %{name}
       label_uid: 内部用户ID
       label_mapping: 映射
-      label_mapping_for: "映射： %{attribute}"
       label_requested_attribute_for: "请求属性： %{attribute}"
       no_results_table: 尚未定义 SAML 身份提供商。
       plural: SAML 身份供应商

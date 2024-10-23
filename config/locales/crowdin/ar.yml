@@ -911,6 +911,7 @@ ar:
         not_a_datetime: "is not a valid date time."
         not_a_number: "ليس رقماً."
         not_allowed: "is invalid because of missing permissions."
+        not_json: "is not a valid JSON object."
         not_an_integer: "ليس عدداً صحيحاً."
         not_an_iso_date: "ليس تاريخًا صالحًا. الشكل المطلوب: YYYY-MM-DD."
         not_same_project: "لا ينتمي إلى نفس المشروع."
@@ -2160,6 +2161,7 @@ ar:
   label_api_doc: "توثيق API"
   label_backup: "Backup"
   label_backup_code: "Backup code"
+  label_basic_details: "Basic details"
   label_between: "بين"
   label_blocked_by: "محجوب من قبل"
   label_blocks: "حجوبات"
@@ -2393,6 +2395,7 @@ ar:
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "تسجيل الخروج"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "القائمة الثانوية"
   label_manage: "Manage"
   label_manage_groups: "إدارة المجموعات"
@@ -2520,7 +2523,7 @@ ar:
   label_project_latest: "أحدث المشاريع"
   label_project_default_type: "السماح بالنوع فارغ"
   label_project_hierarchy: "التسلسل الهرمي للمشروع"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "مشروع جديد"
   label_project_plural: "المشاريع"
   label_project_list_plural: "Project lists"
@@ -3323,7 +3326,9 @@ ar:
   setting_default_language: "اللغة الافتراضية"
   setting_default_projects_modules: "وحدات التمكين الافتراضية للمشاريع الجديدة"
   setting_default_projects_public: "هناك مشاريع جديدة عامة بشكل افتراضي"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "الحد الأقصى لعدد الخطوط المختلفة المعروضة"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "عرض المشاريع الجزئية لمجموعات العمل في المشاريع الرئيسية افتراضيا"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3420,6 +3425,10 @@ ar:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

@@ -872,6 +872,7 @@ ja:
         not_a_datetime: "は有効な日時ではありません。"
         not_a_number: "は数値にしてください。"
         not_allowed: "権限がないため無効です。"
+        not_json: "is not a valid JSON object."
         not_an_integer: "は整数にしてください。"
         not_an_iso_date: "は有効な日付ではありません。必要な形式: YYYY-MM-dd。"
         not_same_project: "は同じプロジェクトに属していません。"
@@ -1981,6 +1982,7 @@ ja:
   label_api_doc: "APIドキュメント"
   label_backup: "バックアップ"
   label_backup_code: "バックアップコード"
+  label_basic_details: "Basic details"
   label_between: "次の範囲内"
   label_blocked_by: "ブロックされている"
   label_blocks: "ブロックしている"
@@ -2214,6 +2216,7 @@ ja:
   label_custom_favicon: "カスタムの favicon"
   label_custom_touch_icon: "カスタムのタッチアイコン"
   label_logout: "ログアウト"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "サイドメニュー"
   label_manage: "管理"
   label_manage_groups: "グループを管理"
@@ -2341,7 +2344,7 @@ ja:
   label_project_latest: "最新のプロジェクト"
   label_project_default_type: "空の種類を許可する"
   label_project_hierarchy: "プロジェクトの階層構造"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "新規プロジェクト"
   label_project_plural: "プロジェクト"
   label_project_list_plural: "Project lists"
@@ -3136,7 +3139,9 @@ ja:
   setting_default_language: "デフォルトの言語"
   setting_default_projects_modules: "新規プロジェクトにおいてデフォルトで有効になるモジュール"
   setting_default_projects_public: "デフォルトで新しいプロジェクトは公開にする"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "差分の表示行数の上限"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "デフォルトで子プロジェクトのワークパッケージを親プロジェクトに表示する"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3233,6 +3238,10 @@ ja:
   setting_work_package_list_default_highlighted_attributes: "デフォルトのインライン強調表示属性"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

@@ -33,6 +33,7 @@ de:
           unmatched_private_key: "gehört nicht zum angegebenen Zertifikat"
   saml:
     menu_title: SAML-Anbieter
+    delete_title: Delete SAML provider
     info:
       title: "Konfigurationsparameter für das SAML-Protokoll"
       description: >
@@ -54,7 +55,6 @@ de:
       label_edit: SAML-Identitätsanbieter %{name} bearbeiten
       label_uid: Interne Benutzerkennung
       label_mapping: Zuordnung
-      label_mapping_for: "Zuordnung für: %{attribute}"
       label_requested_attribute_for: "Angefordertes Attribut für: %{attribute}"
       no_results_table: Es wurden noch keine SAML-Identitätsanbieter definiert.
       plural: SAML-Identitätsanbieter

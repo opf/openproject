@@ -878,6 +878,7 @@ vi:
         not_a_datetime: "không phải là thời gian hợp lệ"
         not_a_number: "không phải là số"
         not_allowed: "không hợp lệ vì thiếu quyền."
+        not_json: "is not a valid JSON object."
         not_an_integer: "không phải là một số nguyên"
         not_an_iso_date: "không phải là một ngày hợp lệ. Yêu cầu định dạng: YYYY-MM-DD."
         not_same_project: "không thuộc cùng dự án."
@@ -1987,6 +1988,7 @@ vi:
   label_api_doc: "Tài liệu API"
   label_backup: "Sao lưu"
   label_backup_code: "Mã sao lưu"
+  label_basic_details: "Basic details"
   label_between: "giữa"
   label_blocked_by: "bị chặn bởi"
   label_blocks: "các khối"
@@ -2220,6 +2222,7 @@ vi:
   label_custom_favicon: "Favicon tuỳ chỉnh"
   label_custom_touch_icon: "Tùy chỉnh biểu tượng ICON"
   label_logout: "Đăng xuất"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Menu bên"
   label_manage: "Quản lý"
   label_manage_groups: "Quản lý nhóm"
@@ -2347,7 +2350,7 @@ vi:
   label_project_latest: "Dự án mới nhất"
   label_project_default_type: "Cho phép kiểu rỗng"
   label_project_hierarchy: "Phân cấp dự án"
-  label_project_mappings: "Đã bật trong dự án"
+  label_project_mappings: "Projects"
   label_project_new: "Dự án mới"
   label_project_plural: "Dự án"
   label_project_list_plural: "Danh sách dự án"
@@ -3142,7 +3145,9 @@ vi:
   setting_default_language: "Ngôn ngữ mặc định"
   setting_default_projects_modules: "Các mô-đun kích hoạt mặc định cho dự án mới"
   setting_default_projects_public: "Dự án mới là công khai theo mặc định"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Số dòng khác biệt tối đa hiển thị"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Hiển thị các gói công việc của các dự án phụ trên các dự án chính theo mặc định"
   setting_duration_format: "Định dạng thời gian"
   setting_duration_format_hours_only: "Chỉ giờ"
@@ -3239,6 +3244,10 @@ vi:
   setting_work_package_list_default_highlighted_attributes: "Các thuộc tính được tô sáng mặc định trong dòng"
   setting_working_days: "Ngày làm việc"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Xác định danh sách các phần mở rộng tệp hợp lệ và/hoặc loại mime cho các tệp tải lên. <br/> Nhập các phần mở rộng tệp (ví dụ: <code>%{ext_example}</code>) hoặc loại mime (ví dụ: <code>%{mime_example}</code>). <br/> Để trống để cho phép tải lên bất kỳ loại tệp nào. Nhiều giá trị được phép (mỗi giá trị trên một dòng).

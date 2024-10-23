@@ -894,6 +894,7 @@ sl:
         not_a_datetime: "ni veljaven datum."
         not_a_number: "ni število."
         not_allowed: "ni veljavno, saj manjka dovoljenje. "
+        not_json: "is not a valid JSON object."
         not_an_integer: "ni celo število. "
         not_an_iso_date: "neveljaven čas. Potreben format: YYYY-MM-DD."
         not_same_project: "ne pripada istemu projektu"
@@ -2087,6 +2088,7 @@ sl:
   label_api_doc: "API dokumentacija"
   label_backup: "Varnostna kopija"
   label_backup_code: "Rezervna koda"
+  label_basic_details: "Basic details"
   label_between: "med"
   label_blocked_by: "blokirano od"
   label_blocks: "Bloki"
@@ -2320,6 +2322,7 @@ sl:
   label_custom_favicon: "Prilagodi favicon"
   label_custom_touch_icon: "Ikona za dotik po meri"
   label_logout: "Odjava"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Stranski meni"
   label_manage: "Manage"
   label_manage_groups: "Upravljanje skupin"
@@ -2447,7 +2450,7 @@ sl:
   label_project_latest: "Zadnji projekti"
   label_project_default_type: "Dovoli prazen tip\n"
   label_project_hierarchy: "Struktura projekta"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Nov projekt"
   label_project_plural: "Projekti"
   label_project_list_plural: "Project lists"
@@ -3247,7 +3250,9 @@ sl:
   setting_default_language: "Privzeti jezik"
   setting_default_projects_modules: "Privzeti omogočeni moduli za nove projekte"
   setting_default_projects_public: "Novi projekti so privzeto javni"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maksimalno število prikazanih vrstic različnosti"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Privzeto prikazuj delovne pakete podprojektov na glavnem projektu"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3344,6 +3349,10 @@ sl:
   setting_work_package_list_default_highlighted_attributes: "Privzeti atributi, označeni s črto"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

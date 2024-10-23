@@ -879,6 +879,7 @@ el:
         not_a_datetime: "δεν είναι έγκυρη ημερομηνία και ώρα."
         not_a_number: "δεν είναι αριθμός."
         not_allowed: "δεν είναι έγκυρο επειδή λείπουν δικαιώματα."
+        not_json: "is not a valid JSON object."
         not_an_integer: "δεν είναι ακέραιος αριθμός."
         not_an_iso_date: "δεν είναι έγκυρη ημερομηνία. Απαιτούμενη μορφοποίηση: ΕΕΕΕ-ΜΜ-ΗΗ."
         not_same_project: "δεν ανήκει στο ίδιο έργο."
@@ -2016,6 +2017,7 @@ el:
   label_api_doc: "Τεκμηρίωση API"
   label_backup: "Αντίγραφο Ασφαλείας"
   label_backup_code: "Κωδικός αντιγράφων ασφαλείας"
+  label_basic_details: "Basic details"
   label_between: "μεταξύ"
   label_blocked_by: "αποκλεισμένο από"
   label_blocks: "μπλόκς"
@@ -2249,6 +2251,7 @@ el:
   label_custom_favicon: "Προσαρμοσμένο favicon"
   label_custom_touch_icon: "Προσαρμοσμένο εικονίδιο αφής"
   label_logout: "Αποσύνδεση"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Πλευρικό Μενού"
   label_manage: "Διαχείριση"
   label_manage_groups: "Διαχείριση Ομάδων"
@@ -2376,7 +2379,7 @@ el:
   label_project_latest: "Τελευταία έργα"
   label_project_default_type: "Επιτρέψτε άδειους τύπους"
   label_project_hierarchy: "Ιεραρχία έργου"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Νέο έργο"
   label_project_plural: "Έργα"
   label_project_list_plural: "Project lists"
@@ -3172,7 +3175,9 @@ el:
   setting_default_language: "Προεπιλεγμένη γλώσσα"
   setting_default_projects_modules: "Ενότητα ενεργοποιημένες από προεπιλογή για τα νέα έργα"
   setting_default_projects_public: "Τα νέα έργα είναι δημόσια από προεπιλογή"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Εμφανίζεται ο μέγιστος αριθμός γραμμών diff"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Εμφάνιση πακέτων εργασίας υποέργων στα κύρια έργα από προεπιλογή"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3269,6 +3274,10 @@ el:
   setting_work_package_list_default_highlighted_attributes: "Προεπιλεγμένα inline χαρακτηριστικά με επισήμανση"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

@@ -894,6 +894,7 @@ lt:
         not_a_datetime: "nėra tinkama data ir laikas."
         not_a_number: "nėra skaičius."
         not_allowed: "netinkamas dėl trūkstamų teisių."
+        not_json: "is not a valid JSON object."
         not_an_integer: "nėra sveikasis skaičius."
         not_an_iso_date: "nėra tinkama data. Reikalingas formatas: YYYY-MM-DD."
         not_same_project: "nepriklauso tam pačiam projektui."
@@ -2087,6 +2088,7 @@ lt:
   label_api_doc: "API dokumentacija"
   label_backup: "Atsarginė kopija"
   label_backup_code: "Atsarginis kodas"
+  label_basic_details: "Basic details"
   label_between: "tarp"
   label_blocked_by: "blokuojamas"
   label_blocks: "blokai"
@@ -2320,6 +2322,7 @@ lt:
   label_custom_favicon: "Pasirinktinė piktograma"
   label_custom_touch_icon: "Pasirinktinė prisilietimo piktograma"
   label_logout: "Atsijungti"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Šoninis meniu"
   label_manage: "Valdyti"
   label_manage_groups: "Valdyti grupes"
@@ -2447,7 +2450,7 @@ lt:
   label_project_latest: "Naujausi projektai"
   label_project_default_type: "Leisti tuščią tipą"
   label_project_hierarchy: "Projekto hierarchija"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
   label_project_list_plural: "Projektų sąrašai"
@@ -3244,7 +3247,9 @@ lt:
   setting_default_language: "Numatytoji kalba"
   setting_default_projects_modules: "Pagal nutylėjimą naujame projekte įjungti moduliai"
   setting_default_projects_public: "Nauji projektai yra vieši pagal nutylėjimą"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maksimalus rodomas pakeitimų eilučių skaičius"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Pagal nutylėjimą rodyti sub-projektų darbų paketus pagrindiniuose projektuose."
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3341,6 +3346,10 @@ lt:
   setting_work_package_list_default_highlighted_attributes: "Atributai, kuriuos numatyta paryškinti"
   setting_working_days: "Darbo dienos"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).

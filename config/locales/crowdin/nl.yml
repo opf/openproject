@@ -880,6 +880,7 @@ nl:
         not_a_datetime: "is geen geldige datum tijd."
         not_a_number: "is geen getal."
         not_allowed: "is ongeldig vanwege ontbrekende machtigingen."
+        not_json: "is not a valid JSON object."
         not_an_integer: "is niet een geheel getal."
         not_an_iso_date: "is geen geldige datum. Vereist formaat: JJJJ-MM-DD."
         not_same_project: "hoort niet bij hetzelfde project."
@@ -2017,6 +2018,7 @@ nl:
   label_api_doc: "API documentatie"
   label_backup: "Back-up"
   label_backup_code: "Back-up code"
+  label_basic_details: "Basic details"
   label_between: "tussen"
   label_blocked_by: "vergrendeld door"
   label_blocks: "vergrendelingen"
@@ -2250,6 +2252,7 @@ nl:
   label_custom_favicon: "Aangepaste favicon"
   label_custom_touch_icon: "Aangepaste touch-pictogram"
   label_logout: "Afmelden"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Submenu"
   label_manage: "Beheren"
   label_manage_groups: "Groepen beheren"
@@ -2377,7 +2380,7 @@ nl:
   label_project_latest: "Meest recente projecten"
   label_project_default_type: "Lege type toestaan"
   label_project_hierarchy: "Projecthiërarchie"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Nieuw project"
   label_project_plural: "Projecten"
   label_project_list_plural: "Projectlijsten"
@@ -3173,7 +3176,9 @@ nl:
   setting_default_language: "Standaard taal"
   setting_default_projects_modules: "Standaard actieve modules voor nieuwe projecten"
   setting_default_projects_public: "Nieuwe projecten zijn standaard publiek"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maximaal aantal afwijkende regels getoond"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Toon standaard de werkpakketten van onderliggende projecten bij hoofdprojecten"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Alleen uren"
@@ -3270,6 +3275,10 @@ nl:
   setting_work_package_list_default_highlighted_attributes: "Inline gemarkeerd standaardkenmerken"
   setting_working_days: "Werkdagen"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Definieer een lijst met geldige bestandsextensies en/of MIME-types voor geüploade bestanden. <br/> Vul de bestandsextensies in (bijv. <code>%{ext_example}</code>) of MIME-types (bijv. ., <code>%{mime_example}</code>). <br/> Laat leeg om elk bestandstype te kunnen uploaden. Meerdere waarden toegestaan (één regel voor elke waarde).

@@ -897,6 +897,7 @@ cs:
         not_a_datetime: "není platný čas."
         not_a_number: "není číslo."
         not_allowed: "je neplatný z důvodu chybějících oprávnění."
+        not_json: "is not a valid JSON object."
         not_an_integer: "není celé číslo."
         not_an_iso_date: "není platné datum. Požadovaný formát: RRRR-MM-DD."
         not_same_project: "nepatří do stejného projektu."
@@ -2090,6 +2091,7 @@ cs:
   label_api_doc: "API dokumentace"
   label_backup: "Záloha"
   label_backup_code: "Záložní kód"
+  label_basic_details: "Basic details"
   label_between: "mezi"
   label_blocked_by: "zablokoval"
   label_blocks: "bloky"
@@ -2323,6 +2325,7 @@ cs:
   label_custom_favicon: "Vlastní favicon"
   label_custom_touch_icon: "Vlastní ikona dotyku"
   label_logout: "Odhlásit se"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Boční Menu"
   label_manage: "Spravovat"
   label_manage_groups: "Spravovat skupiny"
@@ -2450,7 +2453,7 @@ cs:
   label_project_latest: "Nejnovější projekty"
   label_project_default_type: "Povolit prázdný typ"
   label_project_hierarchy: "Hierarchie projektu"
-  label_project_mappings: "Povoleno v projektech"
+  label_project_mappings: "Projects"
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_list_plural: "Seznamy projektů"
@@ -3250,7 +3253,9 @@ cs:
   setting_default_language: "Výchozí jazyk"
   setting_default_projects_modules: "Výchozí zapnutné moduly pro nový projekt"
   setting_default_projects_public: "Nové projekty nastavovat jako veřejné"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maximální počet zobrazených řádků rozdílu"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Automaticky zobrazit úkoly podprojektu v hlavním projektu"
   setting_duration_format: "Formát doby trvání"
   setting_duration_format_hours_only: "Pouze hodiny"
@@ -3347,6 +3352,10 @@ cs:
   setting_work_package_list_default_highlighted_attributes: "Výchozí inline zvýrazněné atributy"
   setting_working_days: "Pracovní dny"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).

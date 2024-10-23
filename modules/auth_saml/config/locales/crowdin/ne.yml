@@ -33,6 +33,7 @@ ne:
           unmatched_private_key: "does not belong to the given certificate"
   saml:
     menu_title: SAML providers
+    delete_title: Delete SAML provider
     info:
       title: "SAML Protocol Configuration Parameters"
       description: >
@@ -54,7 +55,6 @@ ne:
       label_edit: Edit SAML identity provider %{name}
       label_uid: Internal user id
       label_mapping: Mapping
-      label_mapping_for: "Mapping for: %{attribute}"
       label_requested_attribute_for: "Requested attribute for: %{attribute}"
       no_results_table: No SAML identity providers have been defined yet.
       plural: SAML identity providers

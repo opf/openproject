@@ -869,6 +869,7 @@ id:
         not_a_datetime: "bukan tanggal waktu yang valid."
         not_a_number: "harus diisi angka."
         not_allowed: "tidak valid karena tidak ada izin."
+        not_json: "is not a valid JSON object."
         not_an_integer: "harus bilangan bulat."
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "harus berasal dari proyek yang sama."
@@ -1978,6 +1979,7 @@ id:
   label_api_doc: "API documentation"
   label_backup: "Cadangan"
   label_backup_code: "Kode cadangan"
+  label_basic_details: "Basic details"
   label_between: "antara"
   label_blocked_by: "diblokir oleh"
   label_blocks: "blok"
@@ -2211,6 +2213,7 @@ id:
   label_custom_favicon: "Favicon sesuai keinginan"
   label_custom_touch_icon: "Ikon sentuh sesuai keinginan"
   label_logout: "Logout"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Sidemenu"
   label_manage: "Manage"
   label_manage_groups: "Manage groups"
@@ -2338,7 +2341,7 @@ id:
   label_project_latest: "Project terbaru"
   label_project_default_type: "Biarkan kosong pada Tipe"
   label_project_hierarchy: "Hirarki proyek"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Project baru"
   label_project_plural: "Project"
   label_project_list_plural: "Project lists"
@@ -3129,7 +3132,9 @@ id:
   setting_default_language: "Bahasa default"
   setting_default_projects_modules: "Modul default aktif untuk Project baru"
   setting_default_projects_public: "Project baru default untuk publik"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maks. tampilan baris diff"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Tampilkan Paket-Penugasan pada Sub-Project secara default"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3226,6 +3231,10 @@ id:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Hari kerja"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

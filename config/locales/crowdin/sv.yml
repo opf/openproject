@@ -882,6 +882,7 @@ sv:
         not_a_datetime: "är inte en giltig datumtid."
         not_a_number: "är inte ett nummer."
         not_allowed: "är inte tillåtet på grund av saknade behörigheter."
+        not_json: "is not a valid JSON object."
         not_an_integer: "är inte ett heltal."
         not_an_iso_date: "är inte ett giltigt datum. Använd formatet ÅÅÅÅ-MM-DD."
         not_same_project: "tillhör inte samma projekt."
@@ -2019,6 +2020,7 @@ sv:
   label_api_doc: "API-dokumentation"
   label_backup: "Backup"
   label_backup_code: "Reservkod"
+  label_basic_details: "Basic details"
   label_between: "mellan"
   label_blocked_by: "blockeras av"
   label_blocks: "blockerar"
@@ -2252,6 +2254,7 @@ sv:
   label_custom_favicon: "Anpassad favicon"
   label_custom_touch_icon: "Anpassad touch-ikon"
   label_logout: "Logga ut"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Sidomenyn"
   label_manage: "Hantera"
   label_manage_groups: "Hantera grupper"
@@ -2379,7 +2382,7 @@ sv:
   label_project_latest: "Senaste projekt"
   label_project_default_type: "Tillåta tom typ"
   label_project_hierarchy: "Projekthierarki"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Nytt projekt"
   label_project_plural: "Projekt"
   label_project_list_plural: "Projektlistor"
@@ -3174,7 +3177,9 @@ sv:
   setting_default_language: "Standardspråk"
   setting_default_projects_modules: "Standardmoduler för nya projekt"
   setting_default_projects_public: "Nya projekt är offentliga som standard"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Max antal diff rader som visas"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Visa arbetspaket för delprojekt på huvudprojekt som standard"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3271,6 +3276,10 @@ sv:
   setting_work_package_list_default_highlighted_attributes: "Standardattribut för inline-markering"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

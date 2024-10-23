@@ -890,6 +890,7 @@ ro:
         not_a_datetime: "nu este o dată-ora validă."
         not_a_number: "nu este un număr."
         not_allowed: "nu este valabilă din cauza lipsei de permisiuni."
+        not_json: "is not a valid JSON object."
         not_an_integer: "nu este un întreg."
         not_an_iso_date: "nu este o dată validă. Formatul necesar: AAAA-MM-ZZ."
         not_same_project: "nu aparține aceluiași proiect."
@@ -2055,6 +2056,7 @@ ro:
   label_api_doc: "Documentație API"
   label_backup: "Backup"
   label_backup_code: "Cod copie de rezervă"
+  label_basic_details: "Basic details"
   label_between: "între"
   label_blocked_by: "blocat de"
   label_blocks: "blochează"
@@ -2288,6 +2290,7 @@ ro:
   label_custom_favicon: "Pictogramă personalizată"
   label_custom_touch_icon: "Pictogramă touch personalizată"
   label_logout: "Deconectare"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Meniu lateral"
   label_manage: "Gestionează"
   label_manage_groups: "Gestionare grupuri"
@@ -2415,7 +2418,7 @@ ro:
   label_project_latest: "Ultimele proiecte"
   label_project_default_type: "Tip gol permis"
   label_project_hierarchy: "Ierarhie de proiecte"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Proiect nou"
   label_project_plural: "Proiecte"
   label_project_list_plural: "Listă proiecte"
@@ -3213,7 +3216,9 @@ ro:
   setting_default_language: "Limbă implicită"
   setting_default_projects_modules: "Module activate implicit la creare proiect"
   setting_default_projects_public: "Proiectele noi sunt implicit publice"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Numărul maxim de linii afișate în comparație"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Afișare pachete de lucru din subproiecte pe pagina proiectului principal"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3310,6 +3315,10 @@ ro:
   setting_work_package_list_default_highlighted_attributes: "Atributele evidențiate implicit în linie"
   setting_working_days: "Zile lucrătoare"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Definește o listă validă de extensii de fișiere și/sau tipuri mime pentru fișierele încărcate. <br/> Introduceți extensii de fișiere (de ex. <code>%{ext_example}</code>) sau tipuri mime (e. ., <code>%{mime_example}</code>). <br/> Lăsați gol pentru a permite oricărui tip de fișier să fie încărcat. Valori multiple permise (o linie pentru fiecare valoare).
