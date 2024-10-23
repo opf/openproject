@@ -265,6 +265,38 @@ RSpec.describe "edit work package", :js do
   end
 
   context "when using the user auto completer" do
+    RSpec.shared_examples "without permission" do |field_name|
+      it "does not show you the email of other users" do
+        wp_page.open_user_auto_completer(field_name)
+        options = wp_page.visible_user_auto_completer_options
+
+        expected_options = [
+          { name: manager.name, email: nil },  # Manager's email should not be visible
+          { name: dev.name, email: dev.mail }  # Developer's email should be visible
+        ]
+
+        expect(options).to eq(expected_options)
+      end
+    end
+
+    RSpec.shared_examples "with permission" do |field_name|
+      it "does show you the email of other users" do
+        wp_page.open_user_auto_completer(field_name)
+        options = wp_page.visible_user_auto_completer_options
+
+        expected_options = [
+          # With the right permissions, you can see other users email address
+          { name: manager.name,
+            email: manager.mail },
+          # The current user can always see their own email
+          { name: dev.name,
+            email: dev.mail }
+        ]
+
+        expect(options).to eq(expected_options)
+      end
+    end
+
     let(:dev_role) do
       create(:project_role,
              permissions: %i[view_work_packages
@@ -274,23 +306,12 @@ RSpec.describe "edit work package", :js do
 
     let(:logged_in_user) { dev }
 
-    context "when assigning" do
-      it "does not show you the email of other users" do
-        # Click on assignee
-        wp_page.open_user_auto_completer
-        options = wp_page.visible_user_auto_completer_options
+    context "when assigning people to a work package" do
+      include_examples "without permission", "assignee"
+    end
 
-        expected_options = [
-          # The current user lacks permission to see other users email address
-          { name: manager.name,
-            email: nil },
-          # The current user can always see their own email
-          { name: dev.name,
-            email: dev.mail }
-        ]
-
-        expect(options).to eq(expected_options)
-      end
+    context "when setting accountable person for a work package" do
+      include_examples "without permission", "responsible"
     end
 
     context "with permission to see emails" do
@@ -302,23 +323,12 @@ RSpec.describe "edit work package", :js do
                                work_package_assigned])
       end
 
-      context "when assigning" do
-        it "does show you the email of other users" do
-          # Click on assignee
-          wp_page.open_user_auto_completer
-          options = wp_page.visible_user_auto_completer_options
+      context "when assigning people to a work package" do
+        include_examples "with permission", "assignee"
+      end
 
-          expected_options = [
-            # With the right permissions, you can see other users email address
-            { name: manager.name,
-              email: manager.mail },
-            # The current user can always see their own email
-            { name: dev.name,
-              email: dev.mail }
-          ]
-
-          expect(options).to eq(expected_options)
-        end
+      context "when setting accountable person for a work package" do
+        include_examples "with permission", "responsible"
       end
     end
   end
