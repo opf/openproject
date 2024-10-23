@@ -32,12 +32,12 @@ module Admin
       class EditItemFormComponent < ApplicationComponent
         include OpTurbo::Streamable
 
-        def initialize(custom_field:, hierarchy_item:)
+        def initialize(custom_field:, hierarchy_item:, label: nil, short: nil)
           super
           @custom_field = custom_field
           @hierarchy_item = hierarchy_item
-          @label = @hierarchy_item.label
-          @short = @hierarchy_item.short
+          @label = label || @hierarchy_item.label
+          @short = short || @hierarchy_item.short
         end
       end
     end

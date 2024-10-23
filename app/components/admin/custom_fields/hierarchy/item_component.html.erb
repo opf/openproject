@@ -28,11 +28,13 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  component_wrapper(tag: "turbo-frame") do
-    if @show_edit_form
+  component_wrapper do
+    if show_edit_form?
       render Admin::CustomFields::Hierarchy::EditItemFormComponent.new(
         custom_field: @custom_field,
-        hierarchy_item: @hierarchy_item
+        hierarchy_item: @hierarchy_item,
+        label: @edit_item_form_data.fetch(:label, nil),
+        short: @edit_item_form_data.fetch(:short, nil)
       )
     else
       flex_layout(align_items: :center, justify_content: :space_between) do |item_container|

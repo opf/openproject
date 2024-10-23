@@ -58,7 +58,7 @@ module Admin
             component: ItemComponent.new(
               custom_field: @custom_field,
               hierarchy_item: @hierarchy_item,
-              show_edit_form: true
+              edit_item_form_data: { show: true }
             )
           )
 
@@ -71,7 +71,7 @@ module Admin
             .insert_item(**item_input)
             .either(
               ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
-              ->(validation_result) { add_errors_to_form(validation_result) }
+              ->(validation_result) { add_errors_to_new_form(validation_result) }
             )
 
           respond_with_turbo_streams
@@ -83,7 +83,7 @@ module Admin
             .update_item(item: @hierarchy_item, label: item_input[:label], short: item_input[:short])
             .either(
               ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
-              ->(validation_result) { add_errors_to_form(validation_result) }
+              ->(validation_result) { add_errors_to_edit_form(validation_result) }
             )
 
           respond_with_turbo_streams
@@ -115,7 +115,7 @@ module Admin
           input
         end
 
-        def add_errors_to_form(validation_result)
+        def add_errors_to_new_form(validation_result)
           validation_result.errors(full: true).to_h.each do |attribute, errors|
             @custom_field.errors.add(attribute, errors.join(", "))
           end
@@ -123,6 +123,18 @@ module Admin
           new_item_form_data = { show: true, label: validation_result[:label], short: validation_result[:short] }
           update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field, new_item_form_data:),
                                   status: :unprocessable_entity)
+        end
+
+        def add_errors_to_edit_form(validation_result)
+          validation_result.errors(full: true).to_h.each do |attribute, errors|
+            @hierarchy_item.errors.add(attribute, errors.join(", "))
+          end
+
+          edit_item_form_data = { show: true, label: validation_result[:label], short: validation_result[:short] }
+          update_via_turbo_stream(
+            component: ItemComponent.new(custom_field: @custom_field, hierarchy_item: @hierarchy_item, edit_item_form_data:),
+            status: :unprocessable_entity
+          )
         end
 
         def find_model_object(object_id = :custom_field_id)

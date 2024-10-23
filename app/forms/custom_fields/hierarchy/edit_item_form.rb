@@ -62,12 +62,12 @@ module CustomFields
         end
       end
 
-      def initialize(custom_field:, hierarchy_item:)
+      def initialize(custom_field:, hierarchy_item:, short:, label:)
         super()
         @custom_field = custom_field
         @hierarchy_item = hierarchy_item
-        @label = @hierarchy_item.label
-        @short = @hierarchy_item.short
+        @label = label
+        @short = short
       end
 
       private
