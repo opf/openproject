@@ -93,6 +93,15 @@ RSpec.describe Settings::Definition, :settings_reset do
         expect(all[:default_language].value).to eql "de"
       end
 
+      it "picks double underscore over single underscore if both are defined in ENV",
+         with_env: {
+           "OPENPROJECT_WELCOME__TITLE" => "double underscore",
+           "OPENPROJECT_WELCOME_TITLE" => "single underscore"
+         } do
+        reset(:welcome_title)
+        expect(all[:welcome_title].value).to eql "double underscore"
+      end
+
       it "allows overriding configuration from ENV without OPENPROJECT_ prefix",
          with_env: { "EDITION" => "bim" } do
         reset(:edition)
