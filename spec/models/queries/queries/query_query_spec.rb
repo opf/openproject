@@ -43,7 +43,7 @@ RSpec.describe Queries::Queries::QueryQuery do
 
   context "with an updated_at filter" do
     before do
-      instance.where("updated_at", "<>d", ["2018-03-22 20:00:00"])
+      instance.where("updated_at", "<>d", ["2018-03-22T20:00:00z"])
     end
 
     describe "#results" do

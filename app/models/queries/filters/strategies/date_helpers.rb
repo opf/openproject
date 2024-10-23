@@ -27,25 +27,17 @@
 #++
 
 module Queries::Filters::Strategies
-  module Validations
-    private
+  module DateHelpers
+    # Technically dates in PostgreSQL can be up to 5874897 AD, but limit to
+    # timestamp range, as dates are used to query for timestamps too
+    #
+    # https://www.postgresql.org/docs/current/datatype-datetime.html
+    PG_DATE_FROM = ::Date.new(-4713, 1, 1)
+    PG_DATE_TO_EXCLUSIVE = ::Date.new(294276 + 1, 1, 1)
+    PG_DATE_RANGE = PG_DATE_FROM...PG_DATE_TO_EXCLUSIVE
 
-    def date?(str)
-      true if Date.parse(str)
-    rescue StandardError
-      false
-    end
-
-    def validate
-      unless values.all? { |value| value.blank? || date?(value) }
-        errors.add(:values, I18n.t("activerecord.errors.messages.not_a_date"))
-      end
-    end
-
-    def integer?(str)
-      true if Integer(str)
-    rescue StandardError
-      false
+    def valid_date?(date)
+      PG_DATE_RANGE.cover?(date)
     end
   end
 end
