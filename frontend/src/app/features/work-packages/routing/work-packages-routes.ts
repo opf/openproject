@@ -129,11 +129,11 @@ export const WORK_PACKAGES_ROUTES:Ng2StateDeclaration[] = [
   //   menuItemClass,
   //   WorkPackageSplitViewComponent,
   // ),
-  {
-    url: '/share_upsale',
-    name: 'work-packages.share_upsale',
-    component: ShareUpsaleComponent,
-  },
+  // {
+  //   url: '/share_upsale',
+  //   name: 'work-packages.share_upsale',
+  //   component: ShareUpsaleComponent,
+  // },
   // Avoid lazy-loading the routes for now
   // {
   //   name: 'work-packages.calendar.**',

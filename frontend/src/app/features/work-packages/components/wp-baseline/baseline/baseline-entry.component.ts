@@ -30,40 +30,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
-  EventEmitter,
-  HostBinding,
   Input,
-  OnInit,
-  Output,
 } from '@angular/core';
-
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
-import { WeekdayService } from 'core-app/core/days/weekday.service';
-import { DayResourceService } from 'core-app/core/state/days/day.service';
-import { IDay } from 'core-app/core/state/days/day.model';
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { Observable } from 'rxjs';
-import {
-  DEFAULT_TIMESTAMP,
-  WorkPackageViewBaselineService,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
-import { validDate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
-import {
-  baselineFilterFromValue,
-  getPartsFromTimestamp,
-  offsetToUtcString,
-} from 'core-app/features/work-packages/components/wp-baseline/baseline-helpers';
-import * as moment from 'moment-timezone';
-import { BannersService } from 'core-app/core/enterprise/banners.service';
-import { enterpriseDocsUrl } from 'core-app/core/setup/globals/constants.const';
-import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
-
 
 @Component({
   hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],

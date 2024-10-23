@@ -16,7 +16,7 @@
     header.with_action_button(tag: :a,
                               mobile_icon: :"op-baseline",
                               mobile_label: I18n.t("js.baseline.toggle_title"),
-                              href: @project.present? ? baseline_dialog_project_work_packages_path(@project) : baseline_dialog_project_work_packages_path(),
+                              href: @project.present? ? baseline_dialog_project_work_packages_path(@project) : baseline_dialog_work_packages_path(),
                               aria: { label: I18n.t("js.baseline.toggle_title") },
                               title: I18n.t("js.baseline.toggle_title"),
                               data: { controller: "async-dialog" },

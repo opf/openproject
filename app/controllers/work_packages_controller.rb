@@ -48,6 +48,8 @@ class WorkPackagesController < ApplicationController
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
   before_action :load_and_validate_query_for_export, only: :export_dialog
 
+  no_authorization_required! :share_upsale
+
   def index
     respond_to do |format|
       format.html do
@@ -107,6 +109,15 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :new,
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+      end
+    end
+  end
+
+  def share_upsale
+    respond_to do |format|
+      format.html do
+        render :share_upsale,
                locals: { query: @query, project: @project, menu_name: project_or_global_menu }
       end
     end
