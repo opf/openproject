@@ -1094,7 +1094,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       describe "move" do
         it_behaves_like "has a titled action link" do
           let(:link) { "move" }
-          let(:href) { work_package_path(work_package, "move/new") }
+          let(:href) { "/work_packages/#{work_package.id}/move/new" }
           let(:permission) { :move_work_packages }
           let(:title) { "Move work package '#{work_package.subject}'" }
         end
