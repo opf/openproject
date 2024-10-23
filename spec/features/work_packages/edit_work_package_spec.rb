@@ -70,6 +70,7 @@ RSpec.describe "edit work package", :js do
   let(:category) { create(:category, project:) }
 
   let(:visit_before) { true }
+  let(:logged_in_user) { manager }
 
   def visit!
     wp_page.visit!
@@ -77,7 +78,7 @@ RSpec.describe "edit work package", :js do
   end
 
   before do
-    login_as(manager)
+    login_as(logged_in_user)
 
     manager
     dev
@@ -260,6 +261,65 @@ RSpec.describe "edit work package", :js do
 
       subject_field.expect_active!
       wp_page.expect_no_toaster(type: :success, message: "Successful update", wait: 1)
+    end
+  end
+
+  context "when using the user auto completer" do
+    let(:dev_role) do
+      create(:project_role,
+             permissions: %i[view_work_packages
+                             edit_work_packages
+                             work_package_assigned])
+    end
+
+    let(:logged_in_user) { dev }
+
+    context "when assigning" do
+      it "does not show you the email of other users" do
+        # Click on assignee
+        wp_page.open_user_auto_completer
+        options = wp_page.visible_user_auto_completer_options
+
+        expected_options = [
+          # The current user lacks permission to see other users email address
+          { name: manager.name,
+            email: nil },
+          # The current user can always see their own email
+          { name: dev.name,
+            email: dev.mail }
+        ]
+
+        expect(options).to eq(expected_options)
+      end
+    end
+
+    context "with permission to see emails" do
+      let(:dev_role) do
+        create(:project_role,
+               permissions: %i[view_work_packages
+                               edit_work_packages
+                               view_user_email
+                               work_package_assigned])
+      end
+
+      context "when assigning" do
+        it "does show you the email of other users" do
+          # Click on assignee
+          wp_page.open_user_auto_completer
+          options = wp_page.visible_user_auto_completer_options
+
+          expected_options = [
+            # With the right permissions, you can see other users email address
+            { name: manager.name,
+              email: manager.mail },
+            # The current user can always see their own email
+            { name: dev.name,
+              email: dev.mail }
+          ]
+
+          expect(options).to eq(expected_options)
+        end
+      end
     end
   end
 end
