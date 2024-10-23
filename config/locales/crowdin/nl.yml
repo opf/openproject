@@ -24,6 +24,22 @@ nl:
   activities:
     index:
       no_results_title_text: Er is geen activiteit voor deze projecten binnen deze periode.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -205,7 +221,7 @@ nl:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -864,6 +880,7 @@ nl:
         not_a_datetime: "is geen geldige datum tijd."
         not_a_number: "is geen getal."
         not_allowed: "is ongeldig vanwege ontbrekende machtigingen."
+        not_json: "is not a valid JSON object."
         not_an_integer: "is niet een geheel getal."
         not_an_iso_date: "is geen geldige datum. Vereist formaat: JJJJ-MM-DD."
         not_same_project: "hoort niet bij hetzelfde project."
@@ -1974,6 +1991,7 @@ nl:
   label_ical_access_key_generation_hint: "Automatisch gegenereerd bij het abonneren op een kalender."
   label_ical_access_key_latest: "laatste"
   label_ical_access_key_revoke: "Intrekken"
+  label_add_column: "Add column"
   label_applied_status: "Toegepaste status"
   label_archive_project: "Project archiveren"
   label_ascending: "Oplopend"
@@ -2000,6 +2018,7 @@ nl:
   label_api_doc: "API documentatie"
   label_backup: "Back-up"
   label_backup_code: "Back-up code"
+  label_basic_details: "Basic details"
   label_between: "tussen"
   label_blocked_by: "vergrendeld door"
   label_blocks: "vergrendelingen"
@@ -2038,7 +2057,6 @@ nl:
   label_check_uncheck_all_in_row: "Selecteer/Deselecteer alles in rij"
   label_child_element: "Onderliggend element"
   label_choices: "Choices"
-  label_chronological_order: "Oudste eerst"
   label_close_versions: "Voltooide versies sluiten"
   label_closed_work_packages: "gesloten"
   label_collapse: "Samenvouwen"
@@ -2143,8 +2161,9 @@ nl:
   label_feeds_access_key_created_on: "RSS toegangssleutel %{value} geleden gemaakt"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Bestanden"
-  label_filter_add: "Filter toevoegen"
   label_filter: "Filters"
+  label_filter_add: "Filter toevoegen"
+  label_filter_by: "Filter by"
   label_filter_plural: "Filters"
   label_filters_toggle: "Filter tonen/verbergen"
   label_float: "Zwevend"
@@ -2233,6 +2252,7 @@ nl:
   label_custom_favicon: "Aangepaste favicon"
   label_custom_touch_icon: "Aangepaste touch-pictogram"
   label_logout: "Afmelden"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Submenu"
   label_manage: "Beheren"
   label_manage_groups: "Groepen beheren"
@@ -2267,6 +2287,8 @@ nl:
   label_months_from: "maanden vanaf"
   label_more: "Meer"
   label_more_than_ago: "meer dan dagen geleden"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Verplaatsen werkpakket"
   label_my_account: "Account settings"
   label_my_activity: "Mijn activiteit"
@@ -2358,7 +2380,7 @@ nl:
   label_project_latest: "Meest recente projecten"
   label_project_default_type: "Lege type toestaan"
   label_project_hierarchy: "Projecthiërarchie"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Nieuw project"
   label_project_plural: "Projecten"
   label_project_list_plural: "Projectlijsten"
@@ -2389,6 +2411,7 @@ nl:
   label_relation_new: "Nieuwe relatie"
   label_release_notes: "Release notes"
   label_remaining_work: "Resterend werk"
+  label_remove_column: "Remove column"
   label_remove_columns: "Verwijder geselecteerde kolommen"
   label_renamed: "hernoemd"
   label_reply_plural: "Reacties"
@@ -2404,7 +2427,6 @@ nl:
   label_required: "vereist"
   label_requires: "vereist"
   label_result_plural: "Resultaten"
-  label_reverse_chronological_order: "Nieuwste eerst"
   label_revision: "Revisie"
   label_revision_id: "Revisie %{value}"
   label_revision_plural: "Revisies"
@@ -2430,8 +2452,10 @@ nl:
   label_show_completed_versions: "Toon voltooide versies"
   label_columns: "Kolommen"
   label_sort: "Sorteren"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Sorteren op %{value}"
   label_sorted_by: "gesorteerd op %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Omhoog"
   label_sort_highest: "Verplaats naar boven"
   label_sort_lower: "Omlaag"
@@ -3152,7 +3176,9 @@ nl:
   setting_default_language: "Standaard taal"
   setting_default_projects_modules: "Standaard actieve modules voor nieuwe projecten"
   setting_default_projects_public: "Nieuwe projecten zijn standaard publiek"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maximaal aantal afwijkende regels getoond"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Toon standaard de werkpakketten van onderliggende projecten bij hoofdprojecten"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Alleen uren"
@@ -3249,6 +3275,10 @@ nl:
   setting_work_package_list_default_highlighted_attributes: "Inline gemarkeerd standaardkenmerken"
   setting_working_days: "Werkdagen"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Definieer een lijst met geldige bestandsextensies en/of MIME-types voor geüploade bestanden. <br/> Vul de bestandsextensies in (bijv. <code>%{ext_example}</code>) of MIME-types (bijv. ., <code>%{mime_example}</code>). <br/> Laat leeg om elk bestandstype te kunnen uploaden. Meerdere waarden toegestaan (één regel voor elke waarde).

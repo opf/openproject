@@ -39,8 +39,8 @@ See COPYRIGHT and LICENSE files for more details.
 
         health_status_container.with_row(mt: 2) do
           primer_form_with(
-            model: @storage,
-            url: validate_connection_admin_settings_storage_connection_validation_path(@storage),
+            model:,
+            url: validate_connection_admin_settings_storage_connection_validation_path(model),
             method: :post,
             data: { turbo: true }
           ) do
@@ -56,14 +56,14 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
 
-        if @storage.automatic_management_enabled?
+        if model.automatic_management_enabled?
           health_status_container.with_row(mt: 2) do
             render(Primer::Beta::Text.new(font_weight: :bold)) { I18n.t("storages.health.project_folders.subtitle") }
           end
 
           health_status_container.with_row(mt: 2) do
             concat(render(Primer::Beta::Text.new(pr: 2, test_selector: "storage-health-checked-at")) do
-              I18n.t('storages.health.checked', datetime: helpers.format_time(@storage.health_checked_at))
+              I18n.t('storages.health.checked', datetime: helpers.format_time(model.health_checked_at))
             end)
 
             concat(render(Primer::Beta::Label.new(scheme: health_status_indicator[:scheme], test_selector: "storage-health-status")) do
@@ -71,7 +71,7 @@ See COPYRIGHT and LICENSE files for more details.
             end)
           end
 
-          if @storage.health_unhealthy?
+          if model.health_unhealthy?
             health_status_container.with_row(mt: 2) do
               render(Primer::Beta::Text.new(color: :muted, test_selector: "storage-health-error")) do
                 formatted_health_reason

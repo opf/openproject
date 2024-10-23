@@ -24,6 +24,22 @@ fr:
   activities:
     index:
       no_results_title_text: Il n’y a pas eu d'activité pour le projet pendant cette période.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Aucun plugin n'est actuellement installé.
@@ -208,7 +224,7 @@ fr:
         blankslate:
           title: "Votre liste d'articles est vide"
           description: "Commencez par ajouter des éléments au champ personnalisé de type hiérarchie. Chaque élément peut être utilisé pour créer une hiérarchie en dessous de lui. Pour naviguer et créer des sous-éléments à l'intérieur d'une hiérarchie, cliquez sur l'élément créé."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -866,6 +882,7 @@ fr:
         not_a_datetime: "n'est pas une heure valide."
         not_a_number: "n'est pas un nombre."
         not_allowed: "est invalide en raison d’autorisations insuffisantes."
+        not_json: "is not a valid JSON object."
         not_an_integer: "n'est pas un entier."
         not_an_iso_date: "n’est pas une date valide. Format requis : AAAA-MM-JJ."
         not_same_project: "n'appartient pas au même projet."
@@ -1976,6 +1993,7 @@ fr:
   label_ical_access_key_generation_hint: "Généré automatiquement lors de l'abonnement à un calendrier."
   label_ical_access_key_latest: "Dernier"
   label_ical_access_key_revoke: "Révoquer"
+  label_add_column: "Add column"
   label_applied_status: "Statut appliqué"
   label_archive_project: "Archiver le projet"
   label_ascending: "Croissant"
@@ -2002,6 +2020,7 @@ fr:
   label_api_doc: "Documentation de l'API"
   label_backup: "Sauvegarde"
   label_backup_code: "Code de sauvegarde"
+  label_basic_details: "Basic details"
   label_between: "entre"
   label_blocked_by: "bloqué par"
   label_blocks: "bloque"
@@ -2040,7 +2059,6 @@ fr:
   label_check_uncheck_all_in_row: "Cocher/Décocher tout dans la ligne"
   label_child_element: "Élément enfant"
   label_choices: "Choix"
-  label_chronological_order: "Le plus ancien en premier"
   label_close_versions: "Fermer les versions complètes"
   label_closed_work_packages: "clôturé"
   label_collapse: "Regrouper"
@@ -2145,8 +2163,9 @@ fr:
   label_feeds_access_key_created_on: "Clé d'accès RSS créé il y a %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fichiers"
-  label_filter_add: "Ajouter le filtre"
   label_filter: "Filtres"
+  label_filter_add: "Ajouter le filtre"
+  label_filter_by: "Filter by"
   label_filter_plural: "Filtres"
   label_filters_toggle: "Afficher/masquer les filtres"
   label_float: "Flottant"
@@ -2235,6 +2254,7 @@ fr:
   label_custom_favicon: "Favicon personnalisé"
   label_custom_touch_icon: "Icône de contact personnalisé"
   label_logout: "Déconnexion"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Menu principal"
   label_manage: "Gérer"
   label_manage_groups: "Gérer les groupes"
@@ -2269,6 +2289,8 @@ fr:
   label_months_from: "mois de"
   label_more: "Plus"
   label_more_than_ago: "il y a plus de quelques jours"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Déplacer le Lot de Travaux"
   label_my_account: "Paramètres du compte"
   label_my_activity: "Mon activité"
@@ -2360,7 +2382,7 @@ fr:
   label_project_latest: "Derniers projets"
   label_project_default_type: "Autoriser type défaut"
   label_project_hierarchy: "Hiérarchie du projet"
-  label_project_mappings: "Activé dans les projets"
+  label_project_mappings: "Projects"
   label_project_new: "Nouveau projet"
   label_project_plural: "Projets"
   label_project_list_plural: "Listes de projets"
@@ -2391,6 +2413,7 @@ fr:
   label_relation_new: "Nouvelle relation"
   label_release_notes: "Notes de version"
   label_remaining_work: "Travail restant"
+  label_remove_column: "Remove column"
   label_remove_columns: "Enlever les colonnes sélectionnées"
   label_renamed: "renommé"
   label_reply_plural: "Réponses"
@@ -2406,7 +2429,6 @@ fr:
   label_required: "requis"
   label_requires: "requiert"
   label_result_plural: "Résultats"
-  label_reverse_chronological_order: "Le plus récent en premier"
   label_revision: "Révision"
   label_revision_id: "Révision %{value}"
   label_revision_plural: "Révisions"
@@ -2432,8 +2454,10 @@ fr:
   label_show_completed_versions: "Afficher les versions terminées"
   label_columns: "Colonnes"
   label_sort: "Trier"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Trier par %{value}"
   label_sorted_by: "trié par %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Déplacer vers le haut"
   label_sort_highest: "Déplacer en haut"
   label_sort_lower: "Déplacer vers le bas"
@@ -3155,7 +3179,9 @@ fr:
   setting_default_language: "Langage par défaut"
   setting_default_projects_modules: "Modules activés par défaut pour les nouveaux projets"
   setting_default_projects_public: "Les nouveaux projets sont publics par défaut"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Nombre maximal de lignes de «diff» affichées"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Par défaut, afficher les lots de travaux des sous-projets dans les projets parents"
   setting_duration_format: "Format de durée"
   setting_duration_format_hours_only: "Heures seulement"
@@ -3252,6 +3278,10 @@ fr:
   setting_work_package_list_default_highlighted_attributes: "Attributs en ligne mis en surbrillance par défaut"
   setting_working_days: "Jours ouvrés"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Définissez une liste d'extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).

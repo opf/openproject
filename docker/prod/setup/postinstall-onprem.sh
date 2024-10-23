@@ -32,7 +32,7 @@ rm -rf /var/lib/postgresql/{$CURRENT_PGVERSION,$NEXT_PGVERSION}
 
 # create schema_cache.yml and db/structure.sql
 
-su - postgres -c "$PGBIN/initdb -D /tmp/nulldb"
+su - postgres -c "$PGBIN/initdb -D /tmp/nulldb -E UTF8"
 su - postgres -c "$PGBIN/pg_ctl -D /tmp/nulldb -l /dev/null -l /tmp/nulldb/log -w start"
 
 # give some more time for DB to start

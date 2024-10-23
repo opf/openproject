@@ -24,6 +24,22 @@ th:
   activities:
     index:
       no_results_title_text: ไม่มีกิจกรรมสำหรับโปรเจคนี้
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -208,7 +224,7 @@ th:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -860,6 +876,7 @@ th:
         not_a_datetime: "is not a valid date time."
         not_a_number: "is not a number."
         not_allowed: "is invalid because of missing permissions."
+        not_json: "is not a valid JSON object."
         not_an_integer: "is not an integer."
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "doesn't belong to the same project."
@@ -1942,6 +1959,7 @@ th:
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
   label_ical_access_key_revoke: "Revoke"
+  label_add_column: "Add column"
   label_applied_status: "ใช้สถานะ"
   label_archive_project: "Archive project"
   label_ascending: "จากน้อยไปมาก"
@@ -1968,6 +1986,7 @@ th:
   label_api_doc: "API documentation"
   label_backup: "สำรอง"
   label_backup_code: "Backup code"
+  label_basic_details: "Basic details"
   label_between: "between"
   label_blocked_by: "ถูกบล็อคโดย"
   label_blocks: "บล็อก"
@@ -2006,7 +2025,6 @@ th:
   label_check_uncheck_all_in_row: "เลือก/ไม่เลือก ทั้งหมดในแถว"
   label_child_element: "Child element"
   label_choices: "Choices"
-  label_chronological_order: "Oldest first"
   label_close_versions: "ปิดเวอร์ชั่นที่เสร็จแล้ว"
   label_closed_work_packages: "ปิด"
   label_collapse: "ยุบ"
@@ -2111,8 +2129,9 @@ th:
   label_feeds_access_key_created_on: "คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ไฟล์"
-  label_filter_add: "เพิ่มตัวกรอง"
   label_filter: "ตัวกรอง"
+  label_filter_add: "เพิ่มตัวกรอง"
+  label_filter_by: "Filter by"
   label_filter_plural: "ตัวกรอง"
   label_filters_toggle: "Show/hide filters"
   label_float: "ลอย"
@@ -2201,6 +2220,7 @@ th:
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "ออกจากระบบ"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "เมนูด้านข้าง"
   label_manage: "Manage"
   label_manage_groups: "จัดการกลุ่ม"
@@ -2235,6 +2255,8 @@ th:
   label_months_from: "เดือนจาก"
   label_more: "เพิ่มเติม"
   label_more_than_ago: "มากกว่าวันที่ผ่านมา"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "ย้ายชุดภารกิจ"
   label_my_account: "Account settings"
   label_my_activity: "My activity"
@@ -2326,7 +2348,7 @@ th:
   label_project_latest: "โครงการล่าสุด"
   label_project_default_type: "อนุญาตให้ใช้ชนิดว่าง"
   label_project_hierarchy: "Project hierarchy"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "โครงการใหม่"
   label_project_plural: "โครงการ"
   label_project_list_plural: "Project lists"
@@ -2357,6 +2379,7 @@ th:
   label_relation_new: "ความสัมพันธ์ใหม่"
   label_release_notes: "Release notes"
   label_remaining_work: "Remaining work"
+  label_remove_column: "Remove column"
   label_remove_columns: "ลบคอลัมน์ที่เลือก"
   label_renamed: "เปลี่ยนชื่อ"
   label_reply_plural: "ตอบกลับ"
@@ -2372,7 +2395,6 @@ th:
   label_required: "required"
   label_requires: "requires"
   label_result_plural: "ผลลัพธ์"
-  label_reverse_chronological_order: "Newest first"
   label_revision: "การปรับปรุง"
   label_revision_id: "ปรับปรุงค่า %{value}"
   label_revision_plural: "การปรับปรุง"
@@ -2398,8 +2420,10 @@ th:
   label_show_completed_versions: "แสดงเวอร์ชันที่เสร็จสมบูรณ์"
   label_columns: "คอลัมน์"
   label_sort: "เรียงลำดับ"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "เรียงตาม %{value}"
   label_sorted_by: "เรียงตาม %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "เลื่อนขึ้น"
   label_sort_highest: "เลื่อนไว้บนสุด"
   label_sort_lower: "เลื่อนลง"
@@ -3119,7 +3143,9 @@ th:
   setting_default_language: "ภาษาเริ่มต้น"
   setting_default_projects_modules: "ค่าเริ่มต้นของโมดูลที่เปิดใช้สำหรับโครงการใหม่"
   setting_default_projects_public: "โดยเริ่มแรก โครงการใหม่จะเป็นสาธารณะ"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "จำนวนบรรทัดที่แตกต่างที่แสดงได้สูงสุด"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "ค่าเริ่มต้น จะแสดงชุดภารกิจของโครงการย่อย ในโครงการหลัก"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3216,6 +3242,10 @@ th:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

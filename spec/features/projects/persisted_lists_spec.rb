@@ -457,7 +457,8 @@ RSpec.describe "Persisted lists on projects index page",
       projects_page.expect_no_sidebar_filter(another_users_projects_list.name)
 
       # Sorts ASC by name
-      projects_page.sort_by_via_table_header("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :asc)
 
       # Results should be filtered and ordered ASC by name and the user is still on the first page.
       # Column is kept.
@@ -483,7 +484,8 @@ RSpec.describe "Persisted lists on projects index page",
 
       # Sorts DESC by name
       # Soon, a save icon should be displayed then.
-      projects_page.sort_by_via_table_header("Name")
+      projects_page.click_table_header_to_open_action_menu("Name")
+      projects_page.sort_via_action_menu("Name", direction: :desc)
 
       # The title is kept
       projects_page.expect_title(my_projects_list.name)

@@ -24,6 +24,22 @@ es:
   activities:
     index:
       no_results_title_text: No se ha producido ninguna actividad en el proyecto en este período de tiempo.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Actualmente no hay ningún plugin instalado.
@@ -205,7 +221,7 @@ es:
         blankslate:
           title: "Su lista de artículos está vacía"
           description: "Comience añadiendo elementos al campo personalizado de tipo jerarquía. Cada elemento puede utilizarse para crear una jerarquía debajo de él. Para navegar y crear subelementos dentro de una jerarquía, haga clic en el elemento creado."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -864,6 +880,7 @@ es:
         not_a_datetime: "no es una fecha/hora válida."
         not_a_number: "No es un número."
         not_allowed: "no es válido porque faltan permisos."
+        not_json: "is not a valid JSON object."
         not_an_integer: "No es un entero."
         not_an_iso_date: "no es una fecha válida. Requiere formato: AAAA-MM-DD."
         not_same_project: "no pertenecen a un mismo proyecto."
@@ -1974,6 +1991,7 @@ es:
   label_ical_access_key_generation_hint: "Se genera automáticamente al suscribirse a un calendario."
   label_ical_access_key_latest: "último"
   label_ical_access_key_revoke: "Revocar"
+  label_add_column: "Add column"
   label_applied_status: "Estado aplicado"
   label_archive_project: "Archivar proyecto"
   label_ascending: "Ascendente"
@@ -2000,6 +2018,7 @@ es:
   label_api_doc: "Documentación de la API"
   label_backup: "Copia de seguridad"
   label_backup_code: "Código de copia de seguridad"
+  label_basic_details: "Basic details"
   label_between: "entre"
   label_blocked_by: "bloqueado por"
   label_blocks: "bloques"
@@ -2038,7 +2057,6 @@ es:
   label_check_uncheck_all_in_row: "Marcar/Desmarcar toda la fila"
   label_child_element: "Elementos secundarios"
   label_choices: "Opciones"
-  label_chronological_order: "Antiguos primero"
   label_close_versions: "Cerrar versiones completadas"
   label_closed_work_packages: "cerrado"
   label_collapse: "Colapsar"
@@ -2143,8 +2161,9 @@ es:
   label_feeds_access_key_created_on: "Código de acceso RSS creado hace %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Archivos"
-  label_filter_add: "Añadir filtro"
   label_filter: "Filtros"
+  label_filter_add: "Añadir filtro"
+  label_filter_by: "Filter by"
   label_filter_plural: "Filtros"
   label_filters_toggle: "Mostrar/Ocultar filtros"
   label_float: "Desprender"
@@ -2233,6 +2252,7 @@ es:
   label_custom_favicon: "Icono de página personalizado"
   label_custom_touch_icon: "Icono táctil personalizado"
   label_logout: "Cerrar sesión"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Menú lateral"
   label_manage: "Administrar"
   label_manage_groups: "Administrar grupos"
@@ -2267,6 +2287,8 @@ es:
   label_months_from: "meses desde"
   label_more: "Más"
   label_more_than_ago: "más días atrás"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Mover el paquete de trabajo"
   label_my_account: "Ajustes de la cuenta"
   label_my_activity: "Mi actividad"
@@ -2358,7 +2380,7 @@ es:
   label_project_latest: "Últimos proyectos"
   label_project_default_type: "Permitir tipo vacio"
   label_project_hierarchy: "Jerarquía del proyecto"
-  label_project_mappings: "Activado en proyectos"
+  label_project_mappings: "Projects"
   label_project_new: "Nuevo proyecto"
   label_project_plural: "Proyectos"
   label_project_list_plural: "Listas de proyectos"
@@ -2389,6 +2411,7 @@ es:
   label_relation_new: "Nueva relación"
   label_release_notes: "Notas de lanzamiento"
   label_remaining_work: "Trabajo restante"
+  label_remove_column: "Remove column"
   label_remove_columns: "Eliminar columnas seleccionadas"
   label_renamed: "nombre cambiado"
   label_reply_plural: "Respuestas"
@@ -2404,7 +2427,6 @@ es:
   label_required: "requerido"
   label_requires: "requiere"
   label_result_plural: "Resultados"
-  label_reverse_chronological_order: "Recientes primero"
   label_revision: "Revisión"
   label_revision_id: "Revisión %{value}"
   label_revision_plural: "Revisiones"
@@ -2430,8 +2452,10 @@ es:
   label_show_completed_versions: "Mostrar versiones terminadas"
   label_columns: "Columnas"
   label_sort: "Ordenar"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Ordenar por %{value}"
   label_sorted_by: "ordenados por %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Mover hacia arriba"
   label_sort_highest: "Arriba de todo"
   label_sort_lower: "Mover hacia abajo"
@@ -3152,7 +3176,9 @@ es:
   setting_default_language: "Idioma predeterminado"
   setting_default_projects_modules: "Modulos activados por defecto para nuevos proyectos"
   setting_default_projects_public: "Nuevos proyectos son públicos por defecto"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Cantidad máxima de diferencias de lineas mostradas"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Mostrar paquetes de trabajo de subproyectos en proyectos principales por defecto"
   setting_duration_format: "Formato de la duración"
   setting_duration_format_hours_only: "Sólo horas"
@@ -3249,6 +3275,10 @@ es:
   setting_work_package_list_default_highlighted_attributes: "Atributos resaltados en línea predeterminados"
   setting_working_days: "Días laborables"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define una lista de extensiones de archivo válidas o tipos MIME para los archivos cargados. <br/> Escriba las extensiones de archivo (por ejemplo, <code>%{ext_example}</code>) o tipos MIME (<code>%{mime_example}</code>). <br/> Deje vacío este campo para que pueda cargarse cualquier tipo de archivo. Se permiten varios valores (una línea para cada valor).

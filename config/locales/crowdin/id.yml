@@ -24,6 +24,22 @@ id:
   activities:
     index:
       no_results_title_text: Belum ada kegiatan untuk proyek dalam jangka waktu ini.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -202,7 +218,7 @@ id:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -853,6 +869,7 @@ id:
         not_a_datetime: "bukan tanggal waktu yang valid."
         not_a_number: "harus diisi angka."
         not_allowed: "tidak valid karena tidak ada izin."
+        not_json: "is not a valid JSON object."
         not_an_integer: "harus bilangan bulat."
         not_an_iso_date: "is not a valid date. Required format: YYYY-MM-DD."
         not_same_project: "harus berasal dari proyek yang sama."
@@ -1935,6 +1952,7 @@ id:
   label_ical_access_key_generation_hint: "Dibuat secara otomatis saat berlangganan kalender."
   label_ical_access_key_latest: "terbaru"
   label_ical_access_key_revoke: "Menarik kembali"
+  label_add_column: "Add column"
   label_applied_status: "Status berjalan"
   label_archive_project: "Proyek arsip"
   label_ascending: "Askending"
@@ -1961,6 +1979,7 @@ id:
   label_api_doc: "API documentation"
   label_backup: "Cadangan"
   label_backup_code: "Kode cadangan"
+  label_basic_details: "Basic details"
   label_between: "antara"
   label_blocked_by: "diblokir oleh"
   label_blocks: "blok"
@@ -1999,7 +2018,6 @@ id:
   label_check_uncheck_all_in_row: "Check/Uncheck all in row"
   label_child_element: "Sub-elemen"
   label_choices: "Choices"
-  label_chronological_order: "Terlama dulu"
   label_close_versions: "Tutup versi yang sudah komplit"
   label_closed_work_packages: "berakhir"
   label_collapse: "Tampilkan"
@@ -2104,8 +2122,9 @@ id:
   label_feeds_access_key_created_on: "RSS access key dibuat %{value} yang lalu"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "File"
-  label_filter_add: "Tambah Filter"
   label_filter: "Filter"
+  label_filter_add: "Tambah Filter"
+  label_filter_by: "Filter by"
   label_filter_plural: "Filter"
   label_filters_toggle: "Tampilkan/Sembunyikan penyaringan"
   label_float: "Float"
@@ -2194,6 +2213,7 @@ id:
   label_custom_favicon: "Favicon sesuai keinginan"
   label_custom_touch_icon: "Ikon sentuh sesuai keinginan"
   label_logout: "Logout"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Sidemenu"
   label_manage: "Manage"
   label_manage_groups: "Manage groups"
@@ -2228,6 +2248,8 @@ id:
   label_months_from: "dari bulan"
   label_more: "Lanjut"
   label_more_than_ago: "lusa yang lalu"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Pindahkan Paket-Penugasan"
   label_my_account: "Account settings"
   label_my_activity: "Aktivitas saya"
@@ -2319,7 +2341,7 @@ id:
   label_project_latest: "Project terbaru"
   label_project_default_type: "Biarkan kosong pada Tipe"
   label_project_hierarchy: "Hirarki proyek"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Project baru"
   label_project_plural: "Project"
   label_project_list_plural: "Project lists"
@@ -2350,6 +2372,7 @@ id:
   label_relation_new: "Keterkaitan baru"
   label_release_notes: "Release notes"
   label_remaining_work: "Pekerjaan yang tersisa"
+  label_remove_column: "Remove column"
   label_remove_columns: "Hapus kolom terpilih"
   label_renamed: "telah diganti nama"
   label_reply_plural: "Balasan"
@@ -2365,7 +2388,6 @@ id:
   label_required: "dibutuhkan"
   label_requires: "dibutuhkan"
   label_result_plural: "Hasil"
-  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisi"
   label_revision_id: "Revisi %{value}"
   label_revision_plural: "Revisi"
@@ -2391,8 +2413,10 @@ id:
   label_show_completed_versions: "Tampilkan versi lengkap"
   label_columns: "Kolom"
   label_sort: "Urutkan"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Urutkan %{value}"
   label_sorted_by: "diurutkan berdasarkan %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Naikkan"
   label_sort_highest: "Pindah paling atas"
   label_sort_lower: "Pindahkan ke bawah"
@@ -3108,7 +3132,9 @@ id:
   setting_default_language: "Bahasa default"
   setting_default_projects_modules: "Modul default aktif untuk Project baru"
   setting_default_projects_public: "Project baru default untuk publik"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maks. tampilan baris diff"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Tampilkan Paket-Penugasan pada Sub-Project secara default"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3205,6 +3231,10 @@ id:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Hari kerja"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

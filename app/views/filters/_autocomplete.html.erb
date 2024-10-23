@@ -13,6 +13,7 @@
                               # Stimulus controller.
                             }.merge(autocomplete_options.except(:component)),
                             class: 'form--field',
+                            id: "#{filter.name}_value",
                             data: {
                               'filter-autocomplete': true,
                               'filter--filters-form-target': 'filterValueContainer',

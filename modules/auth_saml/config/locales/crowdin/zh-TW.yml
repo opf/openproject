@@ -33,6 +33,7 @@ zh-TW:
           unmatched_private_key: "不屬於指定的憑證"
   saml:
     menu_title: SAML 提供商
+    delete_title: Delete SAML provider
     info:
       title: "SAML 通訊協定組態參數"
       description: >
@@ -54,7 +55,6 @@ zh-TW:
       label_edit: 編輯 SAML 身分提供者 %{name}
       label_uid: 內部使用者 id
       label_mapping: 對應
-      label_mapping_for: "對應為： %{attribute}"
       label_requested_attribute_for: "要求的屬性為： %{attribute}"
       no_results_table: 目前尚未定義 SAML 身分提供者。
       plural: SAML 身分提供商

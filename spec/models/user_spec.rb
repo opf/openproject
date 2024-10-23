@@ -370,8 +370,12 @@ RSpec.describe User do
       user.save!
     end
 
+    it "returns the internal provider slug" do
+      expect(user.authentication_provider).to eql("test_provider")
+    end
+
     it "creates a human readable name" do
-      expect(user.authentication_provider).to eql("Test Provider")
+      expect(user.human_authentication_provider).to eql("Test Provider")
     end
   end
 

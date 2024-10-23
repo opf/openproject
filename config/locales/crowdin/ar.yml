@@ -24,6 +24,22 @@ ar:
   activities:
     index:
       no_results_title_text: ولم يكن هناك أي نشاط للمشروع ضمن هذا الإطار الزمني.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -208,7 +224,7 @@ ar:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -895,6 +911,7 @@ ar:
         not_a_datetime: "is not a valid date time."
         not_a_number: "ليس رقماً."
         not_allowed: "is invalid because of missing permissions."
+        not_json: "is not a valid JSON object."
         not_an_integer: "ليس عدداً صحيحاً."
         not_an_iso_date: "ليس تاريخًا صالحًا. الشكل المطلوب: YYYY-MM-DD."
         not_same_project: "لا ينتمي إلى نفس المشروع."
@@ -2117,6 +2134,7 @@ ar:
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
   label_ical_access_key_revoke: "Revoke"
+  label_add_column: "Add column"
   label_applied_status: "الحالة المطبقة"
   label_archive_project: "Archive project"
   label_ascending: "ترتيب تصاعدي"
@@ -2143,6 +2161,7 @@ ar:
   label_api_doc: "توثيق API"
   label_backup: "Backup"
   label_backup_code: "Backup code"
+  label_basic_details: "Basic details"
   label_between: "بين"
   label_blocked_by: "محجوب من قبل"
   label_blocks: "حجوبات"
@@ -2181,7 +2200,6 @@ ar:
   label_check_uncheck_all_in_row: "اختيار / إلغاء اختيار كل شيء في السطر"
   label_child_element: "العنصر التابع"
   label_choices: "Choices"
-  label_chronological_order: "Oldest first"
   label_close_versions: "إغلاق الإصدارات المنجزة"
   label_closed_work_packages: "مغلق"
   label_collapse: "مطوي"
@@ -2286,8 +2304,9 @@ ar:
   label_feeds_access_key_created_on: "مفتاح الوصول إلى RSS التي تم إنشاؤها %{value} من قبل"
   label_feeds_access_key_type: "اختصاراً لِ:\"Rich Site Summary\" \nReally Simple Syndication\" or\""
   label_file_plural: "الملفّات"
-  label_filter_add: "إضافة عامل تصفية"
   label_filter: "عوامل التصفية"
+  label_filter_add: "إضافة عامل تصفية"
+  label_filter_by: "Filter by"
   label_filter_plural: "عوامل التصفية"
   label_filters_toggle: "Show/hide filters"
   label_float: "عدد عشري"
@@ -2376,6 +2395,7 @@ ar:
   label_custom_favicon: "Custom favicon"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "تسجيل الخروج"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "القائمة الثانوية"
   label_manage: "Manage"
   label_manage_groups: "إدارة المجموعات"
@@ -2410,6 +2430,8 @@ ar:
   label_months_from: "أشهر من"
   label_more: "المزيد"
   label_more_than_ago: "منذ أكثر من أيام"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "نقل مجموعة العمل"
   label_my_account: "Account settings"
   label_my_activity: "My activity"
@@ -2501,7 +2523,7 @@ ar:
   label_project_latest: "أحدث المشاريع"
   label_project_default_type: "السماح بالنوع فارغ"
   label_project_hierarchy: "التسلسل الهرمي للمشروع"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "مشروع جديد"
   label_project_plural: "المشاريع"
   label_project_list_plural: "Project lists"
@@ -2532,6 +2554,7 @@ ar:
   label_relation_new: "علاقة جديدة"
   label_release_notes: "ملاحظات الإصدار"
   label_remaining_work: "Remaining work"
+  label_remove_column: "Remove column"
   label_remove_columns: "إزالة الأعمدة المختارة"
   label_renamed: "إعادة التسمية"
   label_reply_plural: "الردود"
@@ -2547,7 +2570,6 @@ ar:
   label_required: "مطلوب"
   label_requires: "متطلبات"
   label_result_plural: "نتائج"
-  label_reverse_chronological_order: "Newest first"
   label_revision: "مراجعة"
   label_revision_id: "مراجعة%{value}"
   label_revision_plural: "مراجعات"
@@ -2573,8 +2595,10 @@ ar:
   label_show_completed_versions: "عرض الإصدارات المنجزة"
   label_columns: "الأعمدة"
   label_sort: "فرز"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "ترتيب حسب %{value}"
   label_sorted_by: "مرتبة حسب %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "تحريك للأعلى"
   label_sort_highest: "الانتقال لأعلى الصفحة"
   label_sort_lower: "تحريك للأسفل"
@@ -3302,7 +3326,9 @@ ar:
   setting_default_language: "اللغة الافتراضية"
   setting_default_projects_modules: "وحدات التمكين الافتراضية للمشاريع الجديدة"
   setting_default_projects_public: "هناك مشاريع جديدة عامة بشكل افتراضي"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "الحد الأقصى لعدد الخطوط المختلفة المعروضة"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "عرض المشاريع الجزئية لمجموعات العمل في المشاريع الرئيسية افتراضيا"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3399,6 +3425,10 @@ ar:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

@@ -33,6 +33,7 @@ fa:
           unmatched_private_key: "متعلق به مدرک ارائه شده نیست"
   saml:
     menu_title: ارائه دهندگان سخت افزاری
+    delete_title: Delete SAML provider
     info:
       title: "پارامترهای پیکربندی پروتکل احراز هویت سخت افزاری"
       description: >
@@ -54,7 +55,6 @@ fa:
       label_edit: ویرایش ارائه دهنده احراز هویت سخت افزاری %{name}
       label_uid: شناسه کاربری داخلی
       label_mapping: نگاشت
-      label_mapping_for: "نگاشت مرتبط با: %{attribute}"
       label_requested_attribute_for: "ویژگی درخواست شده برای: %{attribute}"
       no_results_table: هیچ ارائه دهنده سخت‌افزار احراز هویتی تعریف نشده است.
       plural: ارائه دهنده های سخت‌افزار احراز هویت

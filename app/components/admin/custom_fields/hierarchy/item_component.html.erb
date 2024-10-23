@@ -46,9 +46,12 @@ See COPYRIGHT and LICENSE files for more details.
 
       # Actions
       item_container.with_column do
-        render(Primer::Beta::IconButton.new(scheme: :default,
-                                            icon: "kebab-horizontal",
-                                            "aria-label": I18n.t("custom_fields.admin.items.more_actions")))
+        render(Primer::Alpha::ActionMenu.new(data: { test_selector: "op-hierarchy-item--action-menu" })) do |menu|
+          menu.with_show_button(icon: "kebab-horizontal",
+                                scheme: :invisible,
+                                "aria-label": I18n.t("custom_fields.admin.items.actions"))
+          deletion_action_item(menu)
+        end
       end
     end
   end

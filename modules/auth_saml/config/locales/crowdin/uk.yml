@@ -33,6 +33,7 @@ uk:
           unmatched_private_key: "не належить до даного сертифікату"
   saml:
     menu_title: Постачальники SAML
+    delete_title: Delete SAML provider
     info:
       title: "Параметри конфігурації протоколу SAML"
       description: >
@@ -54,7 +55,6 @@ uk:
       label_edit: Редагувати постачальника ідентифікаційних даних SAML %{name}
       label_uid: Внутрішній ID користувача
       label_mapping: Зіставлення
-      label_mapping_for: "Зіставлення для: %{attribute}"
       label_requested_attribute_for: "Запитаний атрибут для: %{attribute}"
       no_results_table: Поки не визначеного жодного постачальника ідентифікаційних даних SAML.
       plural: Постачальники ідентифікаційних даних SAML

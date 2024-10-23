@@ -34,6 +34,8 @@ OpenProject::Inflector.rule do |basename, abspath|
     "OAuth#{default_inflect($1, abspath)}"
   when /\A(.*)_oauth\z/
     "#{default_inflect($1, abspath)}OAuth"
+  when "openid_connect"
+    "OpenIDConnect"
   when "oauth"
     "OAuth"
   when /\Aclamav_(.*)\z/

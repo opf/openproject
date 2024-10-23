@@ -24,6 +24,22 @@ ru:
   activities:
     index:
       no_results_title_text: В течение этого периода времени не было никакой деятельности по проекту.
+    work_packages:
+      activity_tab:
+        no_results_title_text: Нет деятельности для отображения
+        no_results_description_text: "Выберите \"Показать всё\" для отображения всей деятельности и комментариев"
+        label_activity_show_all: "Показать всё"
+        label_activity_show_only_comments: "Показать только комментарии"
+        label_activity_show_only_changes: "Показать только изменения"
+        label_sort_asc: "Новые внизу"
+        label_sort_desc: "Новые вверху"
+        label_type_to_comment: "Введите комментарий"
+        label_submit_comment: "Отправить комментарий"
+        changed_on: "изменено"
+        created_on: "создано в"
+        changed: "изменено"
+        created: "создано"
+        commented: "прокомментировано"
   admin:
     plugins:
       no_results_title_text: В настоящее время плагины не установлены.
@@ -207,7 +223,7 @@ ru:
         blankslate:
           title: "Ваш список элементов пуст"
           description: "Начните с добавления элементов в настраиваемое поле иерархии. Каждый элемент может быть использован для создания иерархии ниже его. Чтобы переместить и создать подпункты внутри иерархии, нажмите на созданный элемент."
-        more_actions: "Еще действия"
+        actions: "Действия с элементом"
         placeholder:
           label: "Название элемента"
           short: "Краткое имя"
@@ -222,9 +238,9 @@ ru:
     reorder_alphabetical: "Переупорядочить значения по алфавиту"
     reorder_confirmation: "Внимание: Текущий порядок доступных значений будет утерян. Продолжить?"
     instructions:
-      is_required: ""
+      is_required: "Пометить пользовательское поле как обязательное. Это сделает заполнение поля обязательным при создании новых или обновлении существующих ресурсов."
       is_required_for_project: "Установите флажок, чтобы включить этот атрибут и сделать его обязательным для всех проектов. Он не может быть отключен для отдельных проектов."
-      is_for_all: ""
+      is_for_all: "Отметьте пользовательское поле как доступное во всех существующих и новых проектах."
       multi_select: "Позволяет пользователю присвоить несколько значений этому пользовательскому полю."
       searchable: "Включать значения полей при использовании функции глобального поиска."
       searchable_for_project: "Установите флажок, чтобы сделать этот атрибут доступным в качестве фильтра в списках проектов."
@@ -880,6 +896,7 @@ ru:
         not_a_datetime: "дата и время не являются допустимыми."
         not_a_number: "не является числом."
         not_allowed: "неверно, ввиду отсутствия прав."
+        not_json: "is not a valid JSON object."
         not_an_integer: "не является целым числом."
         not_an_iso_date: "недопустимая дата. Требуемый формат: гггг-мм-дд."
         not_same_project: "не принадлежит тому же проекту."
@@ -1624,7 +1641,7 @@ ru:
       x_years:
         one: "1 год"
         few: "%{count} года"
-        many: "%{count} years"
+        many: "%{count} лет"
         other: "%{count} лет"
       x_seconds:
         one: "1 секунда"
@@ -2046,6 +2063,7 @@ ru:
   label_ical_access_key_generation_hint: "Автоматически генерируется при подписке на календарь."
   label_ical_access_key_latest: "последний"
   label_ical_access_key_revoke: "Отозвать"
+  label_add_column: "Добавить столбец"
   label_applied_status: "Прикладной статус"
   label_archive_project: "Архивировать проект"
   label_ascending: "По возрастанию"
@@ -2072,6 +2090,7 @@ ru:
   label_api_doc: "Документация по API"
   label_backup: "Резервное копирование"
   label_backup_code: "Код резервного копирования"
+  label_basic_details: "Basic details"
   label_between: "между"
   label_blocked_by: "заблокировано"
   label_blocks: "блоки"
@@ -2110,7 +2129,6 @@ ru:
   label_check_uncheck_all_in_row: "Поставить/снять все флажки в строке"
   label_child_element: "Дочерний элемент"
   label_choices: "Выбор"
-  label_chronological_order: "Самый старый в начале"
   label_close_versions: "Закрыть завершённые этапы"
   label_closed_work_packages: "закрыт"
   label_collapse: "свернуть"
@@ -2215,8 +2233,9 @@ ru:
   label_feeds_access_key_created_on: "Ключ доступа RSS, созданный %{value} назад"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Файлы"
-  label_filter_add: "Добавить фильтр"
   label_filter: "Фильтры"
+  label_filter_add: "Добавить фильтр"
+  label_filter_by: "Фильтровать по"
   label_filter_plural: "Фильтры"
   label_filters_toggle: "Показать/скрыть фильтры"
   label_float: "Плавающий"
@@ -2305,6 +2324,7 @@ ru:
   label_custom_favicon: "Пользовательские иконки"
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Боковое меню"
   label_manage: "Управление"
   label_manage_groups: "Управление группами"
@@ -2339,6 +2359,8 @@ ru:
   label_months_from: "месяцев с"
   label_more: "Более"
   label_more_than_ago: "больше, чем дней назад"
+  label_move_column_left: "Переместить столбец влево"
+  label_move_column_right: "Переместить столбец вправо"
   label_move_work_package: "Переместить пакет работ"
   label_my_account: "Настройки учетной записи"
   label_my_activity: "Моя активность"
@@ -2430,7 +2452,7 @@ ru:
   label_project_latest: "Последние проекты"
   label_project_default_type: "Разрешить пустой тип"
   label_project_hierarchy: "Иерархия проектов"
-  label_project_mappings: "Включено в проектах"
+  label_project_mappings: "Projects"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_list_plural: "Списки проектов"
@@ -2461,6 +2483,7 @@ ru:
   label_relation_new: "Новая связь"
   label_release_notes: "Список изменений"
   label_remaining_work: "Оставшиеся часы"
+  label_remove_column: "Удалить столбец"
   label_remove_columns: "Удалить выбранные столбцы"
   label_renamed: "переименовано"
   label_reply_plural: "Ответы"
@@ -2476,7 +2499,6 @@ ru:
   label_required: "требуется"
   label_requires: "требуется"
   label_result_plural: "Результаты"
-  label_reverse_chronological_order: "Самый новый в начале"
   label_revision: "Редакция"
   label_revision_id: "Редакция %{value}"
   label_revision_plural: "Редакции"
@@ -2502,8 +2524,10 @@ ru:
   label_show_completed_versions: "Показать завершённые этапы"
   label_columns: "Столбцы"
   label_sort: "Сортировать"
+  label_sort_ascending: "Сортировать по возрастанию"
   label_sort_by: "Сортировать по %{value}"
   label_sorted_by: "отсортировано по %{value}"
+  label_sort_descending: "Сортировать по убыванию"
   label_sort_higher: "Переместить вверх"
   label_sort_highest: "В начало"
   label_sort_lower: "Переместить вниз"
@@ -3226,7 +3250,9 @@ ru:
   setting_default_language: "Язык по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Максимальное количество отображаемых строк diff(разницы)"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Отображать пакеты работ подпроектов в основном проекте по-умолчанию"
   setting_duration_format: "Формат длительности"
   setting_duration_format_hours_only: "Только часы"
@@ -3323,6 +3349,10 @@ ru:
   setting_work_package_list_default_highlighted_attributes: "Выделенные встроенные атрибуты по умолчанию"
   setting_working_days: "Рабочие дни"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Определите список допустимых расширений файлов и/или mime типов для загруженных файлов. <br/> Введите расширения файлов (например, <code>%{ext_example}</code>) или mime типы (e. ., <code>%{mime_example}</code>). <br/> Оставьте пустым, чтобы разрешить загрузку любого типа файла. Допустимы несколько значений (одна строка для каждого значения).

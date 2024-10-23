@@ -24,6 +24,22 @@ hu:
   activities:
     index:
       no_results_title_text: Nem volt semmilyen tevékenység a projektben ebben az időszakban.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -207,7 +223,7 @@ hu:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -864,6 +880,7 @@ hu:
         not_a_datetime: "ez nem érvényes dátum."
         not_a_number: "ez nem egy szám."
         not_allowed: "hiányzó engedélyek miatt érvénytelen."
+        not_json: "is not a valid JSON object."
         not_an_integer: "ez nem egy szám."
         not_an_iso_date: "nem érvényes dátum. A szükséges formátum ÉÉÉÉ-HH-NN."
         not_same_project: "nem azonos projekthez tartozik."
@@ -1974,6 +1991,7 @@ hu:
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
   label_ical_access_key_revoke: "Visszavonás"
+  label_add_column: "Add column"
   label_applied_status: "Alkalmazott státusz"
   label_archive_project: "Projekt archiválása"
   label_ascending: "Növekvő"
@@ -2000,6 +2018,7 @@ hu:
   label_api_doc: "API dokumentáció"
   label_backup: "Biztonsági mentés"
   label_backup_code: "Visszaállítási kulcs"
+  label_basic_details: "Basic details"
   label_between: "között"
   label_blocked_by: "Blokkolta"
   label_blocks: "blokkolja"
@@ -2038,7 +2057,6 @@ hu:
   label_check_uncheck_all_in_row: "Megjelöl/Jelölést töröl minden sorban"
   label_child_element: "Gyermek alkotó"
   label_choices: "Choices"
-  label_chronological_order: "Régiek elől"
   label_close_versions: "Lezárja a befejezett változatokat"
   label_closed_work_packages: "lezárt"
   label_collapse: "Collapse"
@@ -2143,8 +2161,9 @@ hu:
   label_feeds_access_key_created_on: "RSS-hozzáférési kulcs készítette: %{value} ezelőtt "
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fájlok"
-  label_filter_add: "Szűrő hozzáadása"
   label_filter: "Szürő"
+  label_filter_add: "Szűrő hozzáadása"
+  label_filter_by: "Filter by"
   label_filter_plural: "Szűrők"
   label_filters_toggle: "Szűrők mutatása/elrejtése"
   label_float: "Mozgó"
@@ -2233,6 +2252,7 @@ hu:
   label_custom_favicon: "Egyedi favicon"
   label_custom_touch_icon: "Egyedi \"touch-icon\""
   label_logout: "Kijelentkezés"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Oldalsó menü"
   label_manage: "Kezelés"
   label_manage_groups: "Csoportok kezelése"
@@ -2267,6 +2287,8 @@ hu:
   label_months_from: "hónaptól"
   label_more: "További"
   label_more_than_ago: "több, nappal ezelőtt"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "A munkacsomag mozgatása"
   label_my_account: "Account settings"
   label_my_activity: "My activity"
@@ -2358,7 +2380,7 @@ hu:
   label_project_latest: "Legújabb projektek"
   label_project_default_type: "Engedélyezi az üres típust"
   label_project_hierarchy: "Projekt-hierarchia"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Új projekt"
   label_project_plural: "Projektek"
   label_project_list_plural: "Project lists"
@@ -2389,6 +2411,7 @@ hu:
   label_relation_new: "Új kapcsolat"
   label_release_notes: "Kiadási megjegyzések"
   label_remaining_work: "Fennmaradó órák"
+  label_remove_column: "Remove column"
   label_remove_columns: "Eltávolítja a kijelölt oszlopokat"
   label_renamed: "átnevez"
   label_reply_plural: "Válaszok"
@@ -2404,7 +2427,6 @@ hu:
   label_required: "kötelező"
   label_requires: "igényel"
   label_result_plural: "Eredmények"
-  label_reverse_chronological_order: "Újak elől"
   label_revision: "Felülvizsgálat"
   label_revision_id: "Felülvizsgálat %{value}"
   label_revision_plural: "Felülvizsgálatok"
@@ -2430,8 +2452,10 @@ hu:
   label_show_completed_versions: "Befejezett verziók megjelenítése"
   label_columns: "Oszlopok"
   label_sort: "Rendez"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Rendezés %{value} szerint"
   label_sorted_by: "rendezve %{value} szerint"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Mozgatás felfelé"
   label_sort_highest: "Mozgatás felfelé"
   label_sort_lower: "Mozgás lefelé"
@@ -3152,7 +3176,9 @@ hu:
   setting_default_language: "Alapértelmezett nyelv"
   setting_default_projects_modules: "Az új projektekben alapértelmezetten engedélyezett modulok"
   setting_default_projects_public: "Új projektek nyilvánosak alapértelmezetten"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "A különböző sorok megjelenítésének maximális száma"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Megjelenítendő alprojektek, feladatcsoportok a fő projekt alapértelmezett beállítása szerint"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3249,6 +3275,10 @@ hu:
   setting_work_package_list_default_highlighted_attributes: "Alapértelmezett kiemelt attribútumok sorai"
   setting_working_days: "Munkanapok"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Határozza meg a feltöltött fájlok érvényes fájlkiterjesztéseinek és/vagy mime típusainak listáját. <br/> Adjon meg fájlkiterjesztéseket (pl. <code>%{ext_example} </code>) vagy mime típusokat (pl. <code>%{mime_example} </code>). <br/> Hagyja üresen, ha bármilyen fájltípust szeretne feltölteni. Több érték megengedett (egy sor minden értékhez).

@@ -1,46 +1,69 @@
 module OpenIDConnect
   class ProvidersController < ::ApplicationController
+    include OpTurbo::ComponentStream
+
     layout "admin"
     menu_item :plugin_openid_connect
 
     before_action :require_admin
     before_action :check_ee
-    before_action :find_provider, only: %i[edit update destroy]
+    before_action :find_provider, only: %i[edit update confirm_destroy destroy]
+    before_action :set_edit_state, only: %i[create edit update]
 
-    def index; end
+    def index
+      @providers = ::OpenIDConnect::Provider.all
+    end
 
     def new
-      if openid_connect_providers_available_for_configure.none?
-        redirect_to action: :index
-      else
-        @provider = ::OpenIDConnect::Provider.initialize_with({ use_graph_api: true })
-      end
+      oidc_provider = case params[:oidc_provider]
+                      when "google"
+                        "google"
+                      when "microsoft_entra"
+                        "microsoft_entra"
+                      else
+                        "custom"
+                      end
+      @provider = OpenIDConnect::Provider.new(oidc_provider:)
     end
 
     def create
-      @provider = ::OpenIDConnect::Provider.initialize_with(create_params)
+      create_params = params
+                        .require(:openid_connect_provider)
+                        .permit(:display_name, :oidc_provider, :tenant)
 
-      if @provider.save
-        flash[:notice] = I18n.t(:notice_successful_create)
-        redirect_to action: :index
+      call = ::OpenIDConnect::Providers::CreateService
+        .new(user: User.current)
+        .call(**create_params)
+
+      @provider = call.result
+
+      if call.success?
+        successful_save_response
       else
-        render action: :new
+        failed_save_response(:new)
       end
     end
 
     def edit; end
 
     def update
-      @provider = ::OpenIDConnect::Provider.initialize_with(
-        update_params.merge("name" => params[:id])
-      )
-      if @provider.save
-        flash[:notice] = I18n.t(:notice_successful_update)
-        redirect_to action: :index
+      update_params = params
+                        .require(:openid_connect_provider)
+                        .permit(:display_name, :oidc_provider, :limit_self_registration,
+                                *OpenIDConnect::Provider.stored_attributes[:options])
+      call = OpenIDConnect::Providers::UpdateService
+        .new(model: @provider, user: User.current)
+        .call(update_params)
+
+      if call.success?
+        successful_save_response
       else
-        render action: :edit
+        @provider = call.result
+        failed_save_response(edit)
       end
     end
+
+    def confirm_destroy; end
 
     def destroy
       if @provider.destroy
@@ -61,39 +84,68 @@ module OpenIDConnect
       end
     end
 
-    def create_params
-      params
-        .require(:openid_connect_provider)
-        .permit(:name, :display_name, :identifier, :secret, :limit_self_registration, :tenant, :use_graph_api)
-    end
-
-    def update_params
-      params
-        .require(:openid_connect_provider)
-        .permit(:display_name, :identifier, :secret, :limit_self_registration, :tenant, :use_graph_api)
-    end
-
     def find_provider
-      @provider = providers.find { |provider| provider.id.to_s == params[:id].to_s }
-      if @provider.nil?
-        render_404
-      end
+      @provider = OpenIDConnect::Provider.find(params[:id])
+    rescue ActiveRecord::RecordNotFound
+      render_404
     end
-
-    def providers
-      @providers ||= OpenProject::OpenIDConnect.providers
-    end
-    helper_method :providers
-
-    def openid_connect_providers_available_for_configure
-      Provider::ALLOWED_TYPES.dup - providers.map(&:name)
-    end
-    helper_method :openid_connect_providers_available_for_configure
 
     def default_breadcrumb; end
 
     def show_local_breadcrumb
       false
+    end
+
+    def successful_save_response
+      respond_to do |format|
+        format.turbo_stream do
+          update_via_turbo_stream(
+            component: OpenIDConnect::Providers::ViewComponent.new(
+              @provider,
+              edit_mode: @edit_mode,
+              edit_state: @next_edit_state,
+              view_mode: :show
+            )
+          )
+          render turbo_stream: turbo_streams
+        end
+        format.html do
+          flash[:notice] = I18n.t(:notice_successful_update) unless @edit_mode
+          if @edit_mode && @next_edit_state
+            redirect_to edit_openid_connect_provider_path(@provider,
+                                                          anchor: "openid-connect-providers-edit-form",
+                                                          edit_mode: true,
+                                                          edit_state: @next_edit_state)
+          else
+            redirect_to openid_connect_provider_path(@provider)
+          end
+        end
+      end
+    end
+
+    def failed_save_response(action_to_render)
+      respond_to do |format|
+        format.turbo_stream do
+          update_via_turbo_stream(
+            component: OpenIDConnect::Providers::ViewComponent.new(
+              @provider,
+              edit_mode: @edit_mode,
+              edit_state: @edit_state,
+              view_mode: :show
+            )
+          )
+          render turbo_stream: turbo_streams
+        end
+        format.html do
+          render action: action_to_render
+        end
+      end
+    end
+
+    def set_edit_state
+      @edit_state = params[:edit_state].to_sym if params.key?(:edit_state)
+      @edit_mode = ActiveRecord::Type::Boolean.new.cast(params[:edit_mode])
+      @next_edit_state = params[:next_edit_state].to_sym if params.key?(:next_edit_state)
     end
   end
 end

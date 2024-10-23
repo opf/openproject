@@ -24,6 +24,22 @@ lt:
   activities:
     index:
       no_results_title_text: Šiuo periodu projekte nieko neįvyko.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Šio metu nėra įdiegtų priedų.
@@ -205,7 +221,7 @@ lt:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -878,6 +894,7 @@ lt:
         not_a_datetime: "nėra tinkama data ir laikas."
         not_a_number: "nėra skaičius."
         not_allowed: "netinkamas dėl trūkstamų teisių."
+        not_json: "is not a valid JSON object."
         not_an_integer: "nėra sveikasis skaičius."
         not_an_iso_date: "nėra tinkama data. Reikalingas formatas: YYYY-MM-DD."
         not_same_project: "nepriklauso tam pačiam projektui."
@@ -2044,6 +2061,7 @@ lt:
   label_ical_access_key_generation_hint: "Automatiškai sukurta prenumeruojant kalendorių."
   label_ical_access_key_latest: "vėliausias"
   label_ical_access_key_revoke: "Atšaukti"
+  label_add_column: "Add column"
   label_applied_status: "Taikomoji būsena"
   label_archive_project: "Archyvuoti projektą"
   label_ascending: "Didėjančia tvarka"
@@ -2070,6 +2088,7 @@ lt:
   label_api_doc: "API dokumentacija"
   label_backup: "Atsarginė kopija"
   label_backup_code: "Atsarginis kodas"
+  label_basic_details: "Basic details"
   label_between: "tarp"
   label_blocked_by: "blokuojamas"
   label_blocks: "blokai"
@@ -2108,7 +2127,6 @@ lt:
   label_check_uncheck_all_in_row: "Žymėti/atžymėti visus eilutėje"
   label_child_element: "Vaiko elementas"
   label_choices: "Pasirinkimai"
-  label_chronological_order: "Seniausias pirmas"
   label_close_versions: "Uždaryti užbaigtas versijas"
   label_closed_work_packages: "uždarytas"
   label_collapse: "Sutraukti"
@@ -2213,8 +2231,9 @@ lt:
   label_feeds_access_key_created_on: "RSS prieigos raktas sukurtas prieš %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Failai"
-  label_filter_add: "Pridėti filtrą"
   label_filter: "Filtrai"
+  label_filter_add: "Pridėti filtrą"
+  label_filter_by: "Filter by"
   label_filter_plural: "Filtrai"
   label_filters_toggle: "Rodyti/slėpti filtrus"
   label_float: "Skaičius su kableliu"
@@ -2303,6 +2322,7 @@ lt:
   label_custom_favicon: "Pasirinktinė piktograma"
   label_custom_touch_icon: "Pasirinktinė prisilietimo piktograma"
   label_logout: "Atsijungti"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Šoninis meniu"
   label_manage: "Valdyti"
   label_manage_groups: "Valdyti grupes"
@@ -2337,6 +2357,8 @@ lt:
   label_months_from: "mėnesiai nuo"
   label_more: "Daugiau"
   label_more_than_ago: "daugiau nei prieš dieną"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Perkelti darbų paketą"
   label_my_account: "Account settings"
   label_my_activity: "Mano veikla"
@@ -2428,7 +2450,7 @@ lt:
   label_project_latest: "Naujausi projektai"
   label_project_default_type: "Leisti tuščią tipą"
   label_project_hierarchy: "Projekto hierarchija"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Naujas projektas"
   label_project_plural: "Projektai"
   label_project_list_plural: "Projektų sąrašai"
@@ -2459,6 +2481,7 @@ lt:
   label_relation_new: "Naujas ryšys"
   label_release_notes: "Išleidimo informacija"
   label_remaining_work: "Liko darbo"
+  label_remove_column: "Remove column"
   label_remove_columns: "Pašalinti pažymėtus stulpelius"
   label_renamed: "pervadintas"
   label_reply_plural: "Atsakymai"
@@ -2474,7 +2497,6 @@ lt:
   label_required: "reikalingas"
   label_requires: "turi turėti"
   label_result_plural: "Rezultatai"
-  label_reverse_chronological_order: "Naujausias pirmas"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizijos"
@@ -2500,8 +2522,10 @@ lt:
   label_show_completed_versions: "Rodyti užbaigtas versijas"
   label_columns: "Stulpeliai"
   label_sort: "Rikiuoti"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Rūšiuoti pagal %{value}"
   label_sorted_by: "suršiuota pagal %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Perkelti aukštyn"
   label_sort_highest: "Perkelti į viršūnę"
   label_sort_lower: "Perkelti žemyn"
@@ -3223,7 +3247,9 @@ lt:
   setting_default_language: "Numatytoji kalba"
   setting_default_projects_modules: "Pagal nutylėjimą naujame projekte įjungti moduliai"
   setting_default_projects_public: "Nauji projektai yra vieši pagal nutylėjimą"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maksimalus rodomas pakeitimų eilučių skaičius"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Pagal nutylėjimą rodyti sub-projektų darbų paketus pagrindiniuose projektuose."
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3320,6 +3346,10 @@ lt:
   setting_work_package_list_default_highlighted_attributes: "Atributai, kuriuos numatyta paryškinti"
   setting_working_days: "Darbo dienos"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Sudarykite sąrašą leidžiamų failų praplėtimų ir/arba MIME tipų su kuriais bus leidžiama įkelti failus. <br/> Įveskite failų praplėtimus (t.y., <code>%{ext_example}</code>) arba MIME tipus (t.y., <code>%{mime_example}</code>). <br/> Palikite tuščią, jei norite leisti visus tipus. Leidžiama daugiau nei viena reikšmė (po vieną kiekvienoje eilutėje).

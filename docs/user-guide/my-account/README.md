@@ -78,7 +78,7 @@ This mode is recommended for users with visuals impairment.
 
 ### Select the dark mode
 
-In the dropdown menu **Mode** you can pick the color mode. The default setting is the **Light mode**. You can also select the **Dark mode**, which will change the color theme of the OpenProject instance for you. 
+In the dropdown menu **Mode** you can pick the color mode. The default setting is the **Light mode**. You can also select the **Dark mode**, which will change the color theme of the OpenProject instance for you.
 
 > [!NOTE]
 > The dark mode ignores parts of the configured design. Top header and side menu colors are entirely overridden for this  mode. Only the accent color and the primary button color are kept, but are calculated to brighter variants.
@@ -87,9 +87,9 @@ In the dropdown menu **Mode** you can pick the color mode. The default setting i
 
 ### Change the order to display comments
 
-You can select the order of the comments (for example of the comments for a work package which appear in the Activity tab). You can select the **oldest first** or **newest first** to display the comments.
+You can select the order of the comments (for example of the comments for a work package which appear in the Activity tab). You can select the **newest at the bottom** or **newest on top** to display the comments.
 
-If you choose newest first the latest comment will appear on top in the Activity list.
+If you choose newest on top, the latest comment will appear on top in the Activity list.
 
 ### Backlogs settings
 
@@ -246,7 +246,7 @@ Default: Enable daily email reminders: 2am, Monday - Friday.
 You can choose to receive emails immediately, or only on certain days and times, temporarily pause reminder emails, or opt for no reminders at all.
 
 > [!IMPORTANT]
-> If you have selected the *immediately when someone mentions me* option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder. 
+> If you have selected the *immediately when someone mentions me* option, you will only be notified once, i.e. this reminder will not be duplicated in a daily reminder.
 
 You can also opt-in to receive **email alerts for other items (that are not work packages)** whenever one of your project members:
 

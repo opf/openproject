@@ -33,6 +33,7 @@ RSpec.describe "SAML administration CRUD",
                :js,
                :with_cuprite do
   shared_let(:user) { create(:admin) }
+  let(:danger_zone) { DangerZone.new(page) }
 
   before do
     login_as(user)
@@ -98,18 +99,31 @@ RSpec.describe "SAML administration CRUD",
       expect(provider.private_key.strip.gsub("\r\n", "\n")).to eq CertificateHelper.private_key.private_to_pem.strip
       expect(provider.idp_sso_service_url).to eq "https://example.com/sso"
       expect(provider.idp_slo_service_url).to eq "https://example.com/slo"
-      expect(provider.mapping_login).to eq "login\nmail"
+      expect(provider.mapping_login).to eq "login\r\nmail"
       expect(provider.mapping_mail).to eq "mail"
       expect(provider.mapping_firstname).to eq "myName"
       expect(provider.mapping_lastname).to eq "myLastName"
       expect(provider.mapping_uid).to eq "uid"
       expect(provider.authn_requests_signed).to be true
 
-      accept_confirm do
-        click_link_or_button "Delete"
-      end
+      click_link_or_button "Delete"
+      # Confirm the deletion
+      # Without confirmation, the button is disabled
+      expect(danger_zone).to be_disabled
+
+      # With wrong confirmation, the button is disabled
+      danger_zone.confirm_with("foo")
+
+      expect(danger_zone).to be_disabled
+
+      # With correct confirmation, the button is enabled
+      # and the project can be deleted
+      danger_zone.confirm_with(provider.display_name)
+      expect(danger_zone).not_to be_disabled
+      danger_zone.danger_button.click
 
       expect(page).to have_text "No SAML providers configured yet."
+      expect { provider.reload }.to raise_error ActiveRecord::RecordNotFound
     end
 
     it "can import metadata from XML" do

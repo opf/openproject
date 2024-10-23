@@ -72,7 +72,7 @@ class UserMailer < ApplicationMailer
       if user.ldap_auth_source
         user.ldap_auth_source.name
       else
-        user.authentication_provider
+        user.human_authentication_provider
       end
     open_project_headers "Type" => "Account"
 

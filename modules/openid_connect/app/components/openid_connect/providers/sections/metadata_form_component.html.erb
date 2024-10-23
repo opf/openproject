@@ -1,0 +1,56 @@
+<%=
+  primer_form_with(
+    model: provider,
+    id: "openid-connect-providers-edit-form",
+    url:,
+    data: {
+      controller: "show-when-value-selected",
+      turbo: true,
+      turbo_stream: true,
+    },
+    method: :put,
+  ) do |form|
+    flex_layout do |flex|
+      unless edit_mode
+        flex.with_row do
+          render(Primer::Alpha::Banner.new(mb: 2, scheme: :warning, icon: :alert)) do
+            t("openid_connect.providers.section_texts.metadata_form_banner")
+          end
+        end
+      end
+
+      flex.with_row do
+        render(Primer::Beta::Text.new(tag: :p, font_weight: :bold)) {
+          I18n.t("openid_connect.providers.label_metadata")
+        }
+      end
+
+      flex.with_row do
+        render(Primer::Beta::Text.new(tag: :p)) {
+           I18n.t("openid_connect.providers.section_texts.metadata_form_description")
+        }
+      end
+
+      flex.with_row do
+        render(OpenIDConnect::Providers::MetadataOptionsForm.new(form, provider:))
+      end
+
+      flex.with_row(
+        mt: 2,
+        hidden: provider.metadata_url.blank?,
+        data: { value: :url, 'show-when-value-selected-target': "effect" }
+      ) do
+        render(OpenIDConnect::Providers::MetadataUrlForm.new(form, provider:))
+      end
+
+      flex.with_row(mt: 4) do
+        render(OpenIDConnect::Providers::SubmitOrCancelForm.new(
+          form,
+          provider:,
+          submit_button_options: { label: button_label },
+          cancel_button_options: { hidden: edit_mode },
+          state: :metadata))
+      end
+    end
+  end
+%>

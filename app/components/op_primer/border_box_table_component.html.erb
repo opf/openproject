@@ -46,11 +46,11 @@ See COPYRIGHT and LICENSE files for more details.
 
     if rows.empty?
       component.with_row(scheme: :default) { render_blank_slate }
-    end
-
-    rows.each do |row|
-      component.with_row(scheme: :default) do
-        render(row_class.new(row:, table: self))
+    else
+      rows.each do |row|
+        component.with_row(scheme: :default) do
+          render(row_class.new(row:, table: self))
+        end
       end
     end
   end

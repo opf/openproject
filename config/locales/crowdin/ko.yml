@@ -24,6 +24,22 @@ ko:
   activities:
     index:
       no_results_title_text: 이 시간 프레임 내에서 프로젝트에 대한 활동이 없습니다.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: 현재 설치된 플러그인이 없습니다.
@@ -208,7 +224,7 @@ ko:
         blankslate:
           title: "항목 목록이 비어 있습니다"
           description: "먼저 유형 계층의 사용자 지정 필드에 항목을 추가하여 시작하세요. 각 항목을 사용하여 그 아래에 계층을 만들 수 있습니다. 계층 내에서 하위 항목을 탐색하고 만들려면 생성된 항목을 클릭하세요."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -859,6 +875,7 @@ ko:
         not_a_datetime: "은(는) 유효한 날짜가 아닙니다."
         not_a_number: "은(는) 숫자가 아닙니다."
         not_allowed: "- 사용 권한이 없어 유효하지 않습니다."
+        not_json: "is not a valid JSON object."
         not_an_integer: "은(는) 정수가 아닙니다."
         not_an_iso_date: "은(는) 유효한 날짜가 아닙니다. 필요한 형식: YYYY-MM-DD."
         not_same_project: "은(는) 동일한 프로젝트에 속하지 않습니다."
@@ -1941,6 +1958,7 @@ ko:
   label_ical_access_key_generation_hint: "캘린더 구독 시 자동으로 생성됩니다."
   label_ical_access_key_latest: "최신"
   label_ical_access_key_revoke: "취소"
+  label_add_column: "Add column"
   label_applied_status: "적용된 상태"
   label_archive_project: "프로젝트 아카이브하기"
   label_ascending: "오름차순"
@@ -1967,6 +1985,7 @@ ko:
   label_api_doc: "API 문서"
   label_backup: "백업"
   label_backup_code: "백업 코드"
+  label_basic_details: "Basic details"
   label_between: "사이에"
   label_blocked_by: "차단한 사용자"
   label_blocks: "블록"
@@ -2005,7 +2024,6 @@ ko:
   label_check_uncheck_all_in_row: "모든 행에서 확인/취소"
   label_child_element: "자식 요소"
   label_choices: "선택 사항"
-  label_chronological_order: "오래된순"
   label_close_versions: "완료된 버전 닫기"
   label_closed_work_packages: "닫음"
   label_collapse: "축소"
@@ -2110,8 +2128,9 @@ ko:
   label_feeds_access_key_created_on: "RSS 액세스 키가 %{value} 전에 생성되었습니다."
   label_feeds_access_key_type: "RSS"
   label_file_plural: "파일"
-  label_filter_add: "필터 추가"
   label_filter: "필터"
+  label_filter_add: "필터 추가"
+  label_filter_by: "Filter by"
   label_filter_plural: "필터"
   label_filters_toggle: "필터 표시/숨기기"
   label_float: "부동"
@@ -2200,6 +2219,7 @@ ko:
   label_custom_favicon: "사용자 지정 favicon"
   label_custom_touch_icon: "사용자 지정 터치 아이콘"
   label_logout: "로그아웃"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "측면 메뉴"
   label_manage: "관리"
   label_manage_groups: "그룹 관리"
@@ -2234,6 +2254,8 @@ ko:
   label_months_from: "개월 동안 | 다음부터"
   label_more: "기타"
   label_more_than_ago: "일 이상 전"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "작업 패키지 이동"
   label_my_account: "계정 설정"
   label_my_activity: "내 활동"
@@ -2325,7 +2347,7 @@ ko:
   label_project_latest: "최근 프로젝트"
   label_project_default_type: "빈 유형 허용"
   label_project_hierarchy: "프로젝트 계층 구조"
-  label_project_mappings: "프로젝트에서 활성화됨"
+  label_project_mappings: "Projects"
   label_project_new: "새 프로젝트"
   label_project_plural: "프로젝트"
   label_project_list_plural: "프로젝트 목록"
@@ -2356,6 +2378,7 @@ ko:
   label_relation_new: "새 관계"
   label_release_notes: "릴리스 노트"
   label_remaining_work: "남은 작업"
+  label_remove_column: "Remove column"
   label_remove_columns: "선택된 열 제거"
   label_renamed: "이름 변경됨"
   label_reply_plural: "회신"
@@ -2371,7 +2394,6 @@ ko:
   label_required: "필수"
   label_requires: "필수"
   label_result_plural: "결과"
-  label_reverse_chronological_order: "최신순"
   label_revision: "수정"
   label_revision_id: "수정 %{value}"
   label_revision_plural: "수정"
@@ -2397,8 +2419,10 @@ ko:
   label_show_completed_versions: "완료된 버전 표시"
   label_columns: "열"
   label_sort: "분류"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "%{value}(으)로 정렬"
   label_sorted_by: "%{value}(으)로 정렬됨"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "위로 이동"
   label_sort_highest: "맨 위로 이동"
   label_sort_lower: "아래로 이동"
@@ -3115,7 +3139,9 @@ ko:
   setting_default_language: "기본 언어"
   setting_default_projects_modules: "새 프로젝트에 대해 기본적으로 활성화된 모듈"
   setting_default_projects_public: "새 프로젝트는 기본적으로 공용입니다."
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "표시되는 최대 차이점 줄 수"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "기본적으로 기본 프로젝트의 하위 프로젝트 작업 패키지 표시"
   setting_duration_format: "기간 형식"
   setting_duration_format_hours_only: "시간만"
@@ -3212,6 +3238,10 @@ ko:
   setting_work_package_list_default_highlighted_attributes: "기본 인라인 강조 표시 특성"
   setting_working_days: "근무일"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         업로드된 파일의 유효한 파일 확장명 및/또는 MIME 형식 목록을 정의합니다. <br/> 파일 확장명(예: <code>%{ext_example}</code>) 또는 MIME 형식(예: <code>%{mime_example}</code>)을 입력합니다. <br/> 모든 파일 형식을 업로드할 수 있도록 허용하려면 비워 둡니다. 여러 값이 허용됩니다(각 값에 대해 한 줄).

@@ -33,6 +33,7 @@ pl:
           unmatched_private_key: "nie należy do danego certyfikatu"
   saml:
     menu_title: Dostawcy SAML
+    delete_title: Delete SAML provider
     info:
       title: "Parametry konfiguracji protokołu SAML"
       description: >
@@ -54,7 +55,6 @@ pl:
       label_edit: Edytuj dostawcę tożsamości SAML %{name}
       label_uid: Wewnętrzny identyfikator użytkownika
       label_mapping: Mapowanie
-      label_mapping_for: "Mapowanie dla: %{attribute}"
       label_requested_attribute_for: "Wymagany atrybut dla: %{attribute}"
       no_results_table: Jeszcze nie zdefiniowano żadnych dostawców tożsamości SAML.
       plural: Dostawcy tożsamości SAML

@@ -160,6 +160,27 @@ RSpec.describe "Invite user modal", :js, :with_cuprite do
             let(:mail_membership_recipients) { [principal] }
           end
         end
+
+        context "with a required list user CF (regression #58429)" do
+          let(:current_user) { create(:admin) }
+          let(:list_cf) do
+            create(:user_custom_field,
+                   :list,
+                   name: "List",
+                   is_required: true,
+                   editable: false,
+                   default_option: "A")
+          end
+
+          before do
+            list_cf
+          end
+
+          it_behaves_like "invites the principal to the project" do
+            let(:added_principal) { principal }
+            let(:mail_membership_recipients) { [principal] }
+          end
+        end
       end
 
       context "with a user to be invited" do

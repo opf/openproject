@@ -24,6 +24,22 @@ ja:
   activities:
     index:
       no_results_title_text: この期間内にプロジェクトの活動はありませんでした。
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -206,7 +222,7 @@ ja:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -856,6 +872,7 @@ ja:
         not_a_datetime: "は有効な日時ではありません。"
         not_a_number: "は数値にしてください。"
         not_allowed: "権限がないため無効です。"
+        not_json: "is not a valid JSON object."
         not_an_integer: "は整数にしてください。"
         not_an_iso_date: "は有効な日付ではありません。必要な形式: YYYY-MM-dd。"
         not_same_project: "は同じプロジェクトに属していません。"
@@ -1938,6 +1955,7 @@ ja:
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
   label_ical_access_key_revoke: "取り消し"
+  label_add_column: "Add column"
   label_applied_status: "適用されるステータス"
   label_archive_project: "プロジェクトをアーカイブ"
   label_ascending: "昇順"
@@ -1964,6 +1982,7 @@ ja:
   label_api_doc: "APIドキュメント"
   label_backup: "バックアップ"
   label_backup_code: "バックアップコード"
+  label_basic_details: "Basic details"
   label_between: "次の範囲内"
   label_blocked_by: "ブロックされている"
   label_blocks: "ブロックしている"
@@ -2002,7 +2021,6 @@ ja:
   label_check_uncheck_all_in_row: "すべての行をチェック/チェックを外す"
   label_child_element: "子要素"
   label_choices: "Choices"
-  label_chronological_order: "Oldest first"
   label_close_versions: "完了したバージョンを終了にする"
   label_closed_work_packages: "完了"
   label_collapse: "折りたたむ"
@@ -2107,8 +2125,9 @@ ja:
   label_feeds_access_key_created_on: "RSSアクセスキーが%{value}前に作成されました"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "ファイルを添付する"
-  label_filter_add: "フィルタを追加"
   label_filter: "フィルタ"
+  label_filter_add: "フィルタを追加"
+  label_filter_by: "Filter by"
   label_filter_plural: "フィルタ"
   label_filters_toggle: "フィルターの表示/非表示"
   label_float: "小数"
@@ -2197,6 +2216,7 @@ ja:
   label_custom_favicon: "カスタムの favicon"
   label_custom_touch_icon: "カスタムのタッチアイコン"
   label_logout: "ログアウト"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "サイドメニュー"
   label_manage: "管理"
   label_manage_groups: "グループを管理"
@@ -2231,6 +2251,8 @@ ja:
   label_months_from: "ヶ月分"
   label_more: "続き"
   label_more_than_ago: "今日より○日前以前"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "ワークパッケージを移動"
   label_my_account: "Account settings"
   label_my_activity: "My activity"
@@ -2322,7 +2344,7 @@ ja:
   label_project_latest: "最新のプロジェクト"
   label_project_default_type: "空の種類を許可する"
   label_project_hierarchy: "プロジェクトの階層構造"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "新規プロジェクト"
   label_project_plural: "プロジェクト"
   label_project_list_plural: "Project lists"
@@ -2353,6 +2375,7 @@ ja:
   label_relation_new: "新しい関係"
   label_release_notes: "リリースノート"
   label_remaining_work: "残りの作業"
+  label_remove_column: "Remove column"
   label_remove_columns: "選択した列を削除"
   label_renamed: "名称変更"
   label_reply_plural: "返信"
@@ -2368,7 +2391,6 @@ ja:
   label_required: "必須"
   label_requires: "要求"
   label_result_plural: "検索結果"
-  label_reverse_chronological_order: "Newest first"
   label_revision: "リビジョン"
   label_revision_id: "リビジョン%{value}"
   label_revision_plural: "リビジョン"
@@ -2394,8 +2416,10 @@ ja:
   label_show_completed_versions: "終了したバージョンを表示"
   label_columns: "列"
   label_sort: "並べ替え"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "%{value}で並べ替え"
   label_sorted_by: "%{value}で並べ替えている"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "上へ"
   label_sort_highest: "一番上へ移動"
   label_sort_lower: "下へ移動"
@@ -3115,7 +3139,9 @@ ja:
   setting_default_language: "デフォルトの言語"
   setting_default_projects_modules: "新規プロジェクトにおいてデフォルトで有効になるモジュール"
   setting_default_projects_public: "デフォルトで新しいプロジェクトは公開にする"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "差分の表示行数の上限"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "デフォルトで子プロジェクトのワークパッケージを親プロジェクトに表示する"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3212,6 +3238,10 @@ ja:
   setting_work_package_list_default_highlighted_attributes: "デフォルトのインライン強調表示属性"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

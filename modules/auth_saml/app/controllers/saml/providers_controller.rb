@@ -7,7 +7,7 @@ module Saml
 
     before_action :require_admin
     before_action :check_ee
-    before_action :find_provider, only: %i[show edit import_metadata update destroy]
+    before_action :find_provider, only: %i[show edit import_metadata update confirm_destroy destroy]
     before_action :check_provider_writable, only: %i[update import_metadata]
     before_action :set_edit_state, only: %i[create edit update import_metadata]
 
@@ -85,7 +85,7 @@ module Saml
     def update
       call = Saml::Providers::UpdateService
         .new(model: @provider, user: User.current)
-        .call(options: update_params)
+        .call(update_params)
 
       if call.success?
         flash[:notice] = I18n.t(:notice_successful_update) unless @edit_mode
@@ -95,6 +95,8 @@ module Saml
         render action: :edit
       end
     end
+
+    def confirm_destroy; end
 
     def destroy
       call = ::Saml::Providers::DeleteService

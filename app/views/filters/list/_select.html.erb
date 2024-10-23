@@ -9,7 +9,8 @@
                           {
                             class: 'form--select -slim',
                             'data-filter--filters-form-target': 'filterValueSelect',
-                            'data-filter-name': filter.name
+                            'data-filter-name': filter.name,
+                            id: "#{filter.name}_value"
                           }]
        if multi_value
          select_options.third[:multiple] = true

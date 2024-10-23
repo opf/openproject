@@ -24,6 +24,22 @@ fi:
   activities:
     index:
       no_results_title_text: Ei tapahtumia projektissa tällä aikavälillä.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -208,7 +224,7 @@ fi:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -867,6 +883,7 @@ fi:
         not_a_datetime: "ei ole kelvollinen aika."
         not_a_number: "ei ole numero."
         not_allowed: "is invalid because of missing permissions."
+        not_json: "is not a valid JSON object."
         not_an_integer: "ei ole kokonaisluku."
         not_an_iso_date: "ei ole kelvollinen päivämäärä. Vaadittava muoto: VVVV-KK-PP."
         not_same_project: "ei kuulu samaan projektiin."
@@ -1977,6 +1994,7 @@ fi:
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
   label_ical_access_key_revoke: "Revoke"
+  label_add_column: "Add column"
   label_applied_status: "Käytetty tila"
   label_archive_project: "Arkisto projekti"
   label_ascending: "Nouseva"
@@ -2003,6 +2021,7 @@ fi:
   label_api_doc: "API-dokumentaatio"
   label_backup: "Backup"
   label_backup_code: "Palautuskoodi"
+  label_basic_details: "Basic details"
   label_between: "välillä"
   label_blocked_by: "estänyt"
   label_blocks: "estää"
@@ -2041,7 +2060,6 @@ fi:
   label_check_uncheck_all_in_row: "Valitse/poista kaikki valinnat riviltä"
   label_child_element: "Alemman tason elementti"
   label_choices: "Choices"
-  label_chronological_order: "Oldest first"
   label_close_versions: "Sulje valmiit versiot"
   label_closed_work_packages: "suljettu"
   label_collapse: "Pienennä"
@@ -2146,8 +2164,9 @@ fi:
   label_feeds_access_key_created_on: "RSS avain luotiin %{value} sitten"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Tiedostot"
-  label_filter_add: "Lisää suodatin"
   label_filter: "Suodattimet"
+  label_filter_add: "Lisää suodatin"
+  label_filter_by: "Filter by"
   label_filter_plural: "Suodattimet"
   label_filters_toggle: "Show/hide filters"
   label_float: "Liukuluku"
@@ -2236,6 +2255,7 @@ fi:
   label_custom_favicon: "Mukautettu kuvake"
   label_custom_touch_icon: "Custom touch icon"
   label_logout: "Kirjaudu ulos"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Sivuvalikko"
   label_manage: "Manage"
   label_manage_groups: "Ryhmien hallinta"
@@ -2270,6 +2290,8 @@ fi:
   label_months_from: "kuukauden päässä"
   label_more: "Lisää"
   label_more_than_ago: "enemän kuin päivää sitten"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Siirrä tehtävä"
   label_my_account: "Account settings"
   label_my_activity: "My activity"
@@ -2361,7 +2383,7 @@ fi:
   label_project_latest: "Uusimmat projektit"
   label_project_default_type: "Salli tyhjä tyyppi"
   label_project_hierarchy: "Project hierarchy"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Uusi projekti"
   label_project_plural: "Projektit"
   label_project_list_plural: "Project lists"
@@ -2392,6 +2414,7 @@ fi:
   label_relation_new: "Uusi riippuvuus"
   label_release_notes: "Julkaisutiedot"
   label_remaining_work: "Remaining work"
+  label_remove_column: "Remove column"
   label_remove_columns: "Poista valitut sarakkeet"
   label_renamed: "uudelleennimetty"
   label_reply_plural: "Vastaukset"
@@ -2407,7 +2430,6 @@ fi:
   label_required: "Required"
   label_requires: "edellyttää"
   label_result_plural: "Tulokset"
-  label_reverse_chronological_order: "Newest first"
   label_revision: "Revisio"
   label_revision_id: "Revisio %{value}"
   label_revision_plural: "Revisiot"
@@ -2433,8 +2455,10 @@ fi:
   label_show_completed_versions: "Näytä valmiit versiot"
   label_columns: "Sarakkeet"
   label_sort: "Järjestä"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Lajittele %{value}"
   label_sorted_by: "lajitteluperuste %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Siirrä ylös"
   label_sort_highest: "Siirrä ylimmäiseksi"
   label_sort_lower: "Siirrä alas"
@@ -3156,7 +3180,9 @@ fi:
   setting_default_language: "Vakiokieli"
   setting_default_projects_modules: "Oletusmodulit uusille projketeille"
   setting_default_projects_public: "Uudet projektit ovat oletuksena julkisia"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Max number of diff lines displayed"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Oletuksena näytä aliprojektien tehtävät pääprojektissa"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3253,6 +3279,10 @@ fi:
   setting_work_package_list_default_highlighted_attributes: "Default inline highlighted attributes"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

@@ -316,10 +316,10 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
         let(:projects) do
           [
-            project_with_cf_value(id_by_name.fetch("10.10.10")),
-            project_with_cf_value(id_by_name.fetch("10.10.2")),
-            project_with_cf_value(id_by_name.fetch("10.2")),
             project_with_cf_value(id_by_name.fetch("9")),
+            project_with_cf_value(id_by_name.fetch("10.2")),
+            project_with_cf_value(id_by_name.fetch("10.10.2")),
+            project_with_cf_value(id_by_name.fetch("10.10.10")),
             project # TODO: should be at index 0
           ]
         end
@@ -332,12 +332,12 @@ RSpec.describe ProjectQuery, "order using CustomFieldOrder" do
 
         let(:projects) do
           [
-            project_with_cf_value(*id_by_name.fetch_values("10.10.10")),        # 10.10.10
-            project_with_cf_value(*id_by_name.fetch_values("9", "10.10.10")),   # 10.10.10, 9
-            project_with_cf_value(*id_by_name.fetch_values("10.10.10", "9")),   # 10.10.10, 9
+            project_with_cf_value(*id_by_name.fetch_values("10.10.2", "9")),    # 9, 10.10.2
+            project_with_cf_value(*id_by_name.fetch_values("10.10.10", "9")),   # 9, 10.10.10
+            project_with_cf_value(*id_by_name.fetch_values("9", "10.10.10")),   # 9, 10.10.10
+            project_with_cf_value(*id_by_name.fetch_values("10.2", "10.10.2")), # 10.2, 10.10.2
             project_with_cf_value(*id_by_name.fetch_values("10.10.2")),         # 10.10.2
-            project_with_cf_value(*id_by_name.fetch_values("10.2", "10.10.2")), # 10.10.2, 10.2
-            project_with_cf_value(*id_by_name.fetch_values("10.10.2", "9")),    # 10.10.2, 9
+            project_with_cf_value(*id_by_name.fetch_values("10.10.10")),        # 10.10.10
             project # TODO: should be at index 0
           ]
         end

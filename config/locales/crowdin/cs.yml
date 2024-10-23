@@ -24,6 +24,22 @@ cs:
   activities:
     index:
       no_results_title_text: V tomto časovém rámci nebyla pro projekt žádná aktivita.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: V současné době nejsou nainstalovány žádné pluginy.
@@ -208,10 +224,10 @@ cs:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
-          short: "Short name"
+          short: "Krátký název"
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
     text_add_new_custom_field: >
@@ -881,6 +897,7 @@ cs:
         not_a_datetime: "není platný čas."
         not_a_number: "není číslo."
         not_allowed: "je neplatný z důvodu chybějících oprávnění."
+        not_json: "is not a valid JSON object."
         not_an_integer: "není celé číslo."
         not_an_iso_date: "není platné datum. Požadovaný formát: RRRR-MM-DD."
         not_same_project: "nepatří do stejného projektu."
@@ -2047,6 +2064,7 @@ cs:
   label_ical_access_key_generation_hint: "Automaticky vygenerováno při odebírání kalendáře."
   label_ical_access_key_latest: "poslední"
   label_ical_access_key_revoke: "Revoke"
+  label_add_column: "Add column"
   label_applied_status: "Přiřazený stav"
   label_archive_project: "Archivovat projekt"
   label_ascending: "Vzestupně"
@@ -2073,6 +2091,7 @@ cs:
   label_api_doc: "API dokumentace"
   label_backup: "Záloha"
   label_backup_code: "Záložní kód"
+  label_basic_details: "Basic details"
   label_between: "mezi"
   label_blocked_by: "zablokoval"
   label_blocks: "bloky"
@@ -2111,7 +2130,6 @@ cs:
   label_check_uncheck_all_in_row: "Zaškrtnout/Odznačit vše v řádku"
   label_child_element: "Podřazený prvek"
   label_choices: "Volby"
-  label_chronological_order: "Od nejstarších"
   label_close_versions: "Zavřít dokončené verze"
   label_closed_work_packages: "uzavřeno"
   label_collapse: "Sbalit"
@@ -2216,8 +2234,9 @@ cs:
   label_feeds_access_key_created_on: "Přístupový klíč pro RSS byl vytvořen před %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Soubory"
-  label_filter_add: "Přidat filtr"
   label_filter: "Filtry"
+  label_filter_add: "Přidat filtr"
+  label_filter_by: "Filter by"
   label_filter_plural: "Filtry"
   label_filters_toggle: "Zobrazit/skrýt filtry"
   label_float: "Desetinné číslo"
@@ -2306,6 +2325,7 @@ cs:
   label_custom_favicon: "Vlastní favicon"
   label_custom_touch_icon: "Vlastní ikona dotyku"
   label_logout: "Odhlásit se"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Boční Menu"
   label_manage: "Spravovat"
   label_manage_groups: "Spravovat skupiny"
@@ -2340,6 +2360,8 @@ cs:
   label_months_from: "měsíců od"
   label_more: "Více"
   label_more_than_ago: "před více jak (dny)"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Přesunout pracovní balíček"
   label_my_account: "Account settings"
   label_my_activity: "Moje aktivita"
@@ -2431,7 +2453,7 @@ cs:
   label_project_latest: "Nejnovější projekty"
   label_project_default_type: "Povolit prázdný typ"
   label_project_hierarchy: "Hierarchie projektu"
-  label_project_mappings: "Povoleno v projektech"
+  label_project_mappings: "Projects"
   label_project_new: "Nový projekt"
   label_project_plural: "Projekty"
   label_project_list_plural: "Seznamy projektů"
@@ -2462,6 +2484,7 @@ cs:
   label_relation_new: "Nový vztah"
   label_release_notes: "Poznámky k verzi"
   label_remaining_work: "Zbývající práce"
+  label_remove_column: "Remove column"
   label_remove_columns: "Odstranit vybrané sloupce"
   label_renamed: "přejmenováno"
   label_reply_plural: "odpovědi"
@@ -2477,7 +2500,6 @@ cs:
   label_required: "vyžadováno"
   label_requires: "vyžaduje"
   label_result_plural: "Výsledky"
-  label_reverse_chronological_order: "Od nejnovějších"
   label_revision: "Revize"
   label_revision_id: "Revize %{value}"
   label_revision_plural: "Revize"
@@ -2503,8 +2525,10 @@ cs:
   label_show_completed_versions: "Zobrazit dokončené verze"
   label_columns: "Sloupce"
   label_sort: "Řadit"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Seřadit podle %{value}"
   label_sorted_by: "seřazeno dle %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Přesunout výš"
   label_sort_highest: "Přesunout nahoru"
   label_sort_lower: "Přesunout níž"
@@ -3229,7 +3253,9 @@ cs:
   setting_default_language: "Výchozí jazyk"
   setting_default_projects_modules: "Výchozí zapnutné moduly pro nový projekt"
   setting_default_projects_public: "Nové projekty nastavovat jako veřejné"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maximální počet zobrazených řádků rozdílu"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Automaticky zobrazit úkoly podprojektu v hlavním projektu"
   setting_duration_format: "Formát doby trvání"
   setting_duration_format_hours_only: "Pouze hodiny"
@@ -3326,6 +3352,10 @@ cs:
   setting_work_package_list_default_highlighted_attributes: "Výchozí inline zvýrazněné atributy"
   setting_working_days: "Pracovní dny"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Definujte seznam platných přípon souborů a/nebo mime typů pro nahrané soubory. <br/> Zadejte přípony souborů (např. <code>%{ext_example}</code>) nebo mime typy (např. ., <code>%{mime_example}</code>). <br/> Ponechte prázdné pro nahrání jakéhokoli typu souboru. Povoleno více hodnot (jeden řádek pro každou hodnotu).

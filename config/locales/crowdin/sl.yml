@@ -24,6 +24,22 @@ sl:
   activities:
     index:
       no_results_title_text: Na projektu ni bilo nobene aktivnosti v izbranem časovnem okviru
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -207,7 +223,7 @@ sl:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -878,6 +894,7 @@ sl:
         not_a_datetime: "ni veljaven datum."
         not_a_number: "ni število."
         not_allowed: "ni veljavno, saj manjka dovoljenje. "
+        not_json: "is not a valid JSON object."
         not_an_integer: "ni celo število. "
         not_an_iso_date: "neveljaven čas. Potreben format: YYYY-MM-DD."
         not_same_project: "ne pripada istemu projektu"
@@ -2044,6 +2061,7 @@ sl:
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
   label_ical_access_key_revoke: "Prekliči"
+  label_add_column: "Add column"
   label_applied_status: "Uveljavljeno stanje"
   label_archive_project: "Arhivirani projekti"
   label_ascending: "Naraščajoče"
@@ -2070,6 +2088,7 @@ sl:
   label_api_doc: "API dokumentacija"
   label_backup: "Varnostna kopija"
   label_backup_code: "Rezervna koda"
+  label_basic_details: "Basic details"
   label_between: "med"
   label_blocked_by: "blokirano od"
   label_blocks: "Bloki"
@@ -2108,7 +2127,6 @@ sl:
   label_check_uncheck_all_in_row: "Potrdite / počistite vse vrstice"
   label_child_element: "Podrejeni elementi"
   label_choices: "Choices"
-  label_chronological_order: "Oldest first"
   label_close_versions: "Zapri dokončane različice"
   label_closed_work_packages: "Zaprto"
   label_collapse: "Strni"
@@ -2213,8 +2231,9 @@ sl:
   label_feeds_access_key_created_on: "RSS dostopni ključ narejen pred %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Datoteke"
-  label_filter_add: "Dodaj filter"
   label_filter: "Filtri"
+  label_filter_add: "Dodaj filter"
+  label_filter_by: "Filter by"
   label_filter_plural: "Filtri"
   label_filters_toggle: "Prikaži/skrij filter"
   label_float: "Lebdeti"
@@ -2303,6 +2322,7 @@ sl:
   label_custom_favicon: "Prilagodi favicon"
   label_custom_touch_icon: "Ikona za dotik po meri"
   label_logout: "Odjava"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Stranski meni"
   label_manage: "Manage"
   label_manage_groups: "Upravljanje skupin"
@@ -2337,6 +2357,8 @@ sl:
   label_months_from: "mesecev od"
   label_more: "več"
   label_more_than_ago: "pred več kot nekaj dnevi"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Prestavi delovni paket"
   label_my_account: "Account settings"
   label_my_activity: "My activity"
@@ -2428,7 +2450,7 @@ sl:
   label_project_latest: "Zadnji projekti"
   label_project_default_type: "Dovoli prazen tip\n"
   label_project_hierarchy: "Struktura projekta"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Nov projekt"
   label_project_plural: "Projekti"
   label_project_list_plural: "Project lists"
@@ -2459,6 +2481,7 @@ sl:
   label_relation_new: "Nova povezava"
   label_release_notes: "Opombe ob izdaji"
   label_remaining_work: "Remaining work"
+  label_remove_column: "Remove column"
   label_remove_columns: "Odstranite izbrane stolpce"
   label_renamed: "Preimenuj"
   label_reply_plural: "Odgovori"
@@ -2474,7 +2497,6 @@ sl:
   label_required: "Zahtevano"
   label_requires: "Potrebuje"
   label_result_plural: "Rezultati"
-  label_reverse_chronological_order: "Newest first"
   label_revision: "Revizija"
   label_revision_id: "Revizija %{value}"
   label_revision_plural: "Revizije"
@@ -2500,8 +2522,10 @@ sl:
   label_show_completed_versions: "Prikaži zaključene različice"
   label_columns: "Stolpci"
   label_sort: "Razvrsti"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Razporedi po %{value}"
   label_sorted_by: "Razporejeno po %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Premakni gor"
   label_sort_highest: "Premakni na vrh"
   label_sort_lower: "Premakni dol"
@@ -3226,7 +3250,9 @@ sl:
   setting_default_language: "Privzeti jezik"
   setting_default_projects_modules: "Privzeti omogočeni moduli za nove projekte"
   setting_default_projects_public: "Novi projekti so privzeto javni"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maksimalno število prikazanih vrstic različnosti"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Privzeto prikazuj delovne pakete podprojektov na glavnem projektu"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3323,6 +3349,10 @@ sl:
   setting_work_package_list_default_highlighted_attributes: "Privzeti atributi, označeni s črto"
   setting_working_days: "Working days"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Define a list of valid file extensions and/or mime types for uploaded files. <br/> Enter file extensions (e.g., <code>%{ext_example}</code>) or mime types (e.g., <code>%{mime_example}</code>). <br/> Leave empty to allow any file type to be uploaded. Multiple values allowed (one line for each value).

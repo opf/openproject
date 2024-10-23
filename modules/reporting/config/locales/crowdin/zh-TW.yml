@@ -51,7 +51,7 @@ zh-TW:
   label_money: "現金價值"
   label_month_reporting: "月"
   label_new_report: "新建成本報表"
-  label_open: "進行中"
+  label_open: "開啟中"
   label_operator: "操作員"
   label_private_report_plural: "私密成本報告"
   label_progress_bar_explanation: "產生報告中..."

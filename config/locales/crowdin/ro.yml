@@ -24,6 +24,22 @@ ro:
   activities:
     index:
       no_results_title_text: Nu s-a înregistrat nicio activitate pentru acest proiect în această perioadă de timp.
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: There are currently no plugins installed.
@@ -208,7 +224,7 @@ ro:
         blankslate:
           title: "Your list of items is empty"
           description: "Start by adding items to the custom field of type hierarchy. Each item can be used to create a hierarchy bellow it. To navigate and create sub-items inside a hierarchy click on the created item."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -874,6 +890,7 @@ ro:
         not_a_datetime: "nu este o dată-ora validă."
         not_a_number: "nu este un număr."
         not_allowed: "nu este valabilă din cauza lipsei de permisiuni."
+        not_json: "is not a valid JSON object."
         not_an_integer: "nu este un întreg."
         not_an_iso_date: "nu este o dată validă. Formatul necesar: AAAA-MM-ZZ."
         not_same_project: "nu aparține aceluiași proiect."
@@ -2012,6 +2029,7 @@ ro:
   label_ical_access_key_generation_hint: "Automatically generated when subscribing to a calendar."
   label_ical_access_key_latest: "latest"
   label_ical_access_key_revoke: "Revocă"
+  label_add_column: "Add column"
   label_applied_status: "Stare aplicată"
   label_archive_project: "Proiect de arhivă"
   label_ascending: "Crescător"
@@ -2038,6 +2056,7 @@ ro:
   label_api_doc: "Documentație API"
   label_backup: "Backup"
   label_backup_code: "Cod copie de rezervă"
+  label_basic_details: "Basic details"
   label_between: "între"
   label_blocked_by: "blocat de"
   label_blocks: "blochează"
@@ -2076,7 +2095,6 @@ ro:
   label_check_uncheck_all_in_row: "Bifare/debifare toate pe rând"
   label_child_element: "Element copil"
   label_choices: "Choices"
-  label_chronological_order: "Întâi cele mai vechi"
   label_close_versions: "Închidere versiuni complete"
   label_closed_work_packages: "închis"
   label_collapse: "Restrângere"
@@ -2181,8 +2199,9 @@ ro:
   label_feeds_access_key_created_on: "Cheia de acces RSS a fost creată acum %{value}"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Fișiere"
-  label_filter_add: "Adăugare filtru"
   label_filter: "Filtre"
+  label_filter_add: "Adăugare filtru"
+  label_filter_by: "Filter by"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Arată/ascunde filtre"
   label_float: "Număr real"
@@ -2271,6 +2290,7 @@ ro:
   label_custom_favicon: "Pictogramă personalizată"
   label_custom_touch_icon: "Pictogramă touch personalizată"
   label_logout: "Deconectare"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Meniu lateral"
   label_manage: "Gestionează"
   label_manage_groups: "Gestionare grupuri"
@@ -2305,6 +2325,8 @@ ro:
   label_months_from: "luni de la"
   label_more: "Mai mult"
   label_more_than_ago: "acum mai mult de zile"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Mutare pachet de lucru"
   label_my_account: "Account settings"
   label_my_activity: "Activitatea mea"
@@ -2396,7 +2418,7 @@ ro:
   label_project_latest: "Ultimele proiecte"
   label_project_default_type: "Tip gol permis"
   label_project_hierarchy: "Ierarhie de proiecte"
-  label_project_mappings: "Enabled in projects"
+  label_project_mappings: "Projects"
   label_project_new: "Proiect nou"
   label_project_plural: "Proiecte"
   label_project_list_plural: "Listă proiecte"
@@ -2427,6 +2449,7 @@ ro:
   label_relation_new: "Relație nouă"
   label_release_notes: "Note privind lansarea noii versiuni"
   label_remaining_work: "Muncă rămasă"
+  label_remove_column: "Remove column"
   label_remove_columns: "Eliminare coloane selectate"
   label_renamed: "redenumit"
   label_reply_plural: "Răspunsuri"
@@ -2442,7 +2465,6 @@ ro:
   label_required: "obligatoriu"
   label_requires: "Această caracteristică necesită un cont la"
   label_result_plural: "Rezultate"
-  label_reverse_chronological_order: "Întâi cele mai noi"
   label_revision: "Revizie"
   label_revision_id: "Revizia %{value}"
   label_revision_plural: "Revizii"
@@ -2468,8 +2490,10 @@ ro:
   label_show_completed_versions: "Afișare versiuni complete"
   label_columns: "Coloane"
   label_sort: "Sortare"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Sortare după %{value}"
   label_sorted_by: "sortate după %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Mută în sus"
   label_sort_highest: "Mută sus"
   label_sort_lower: "Mută în jos"
@@ -3192,7 +3216,9 @@ ro:
   setting_default_language: "Limbă implicită"
   setting_default_projects_modules: "Module activate implicit la creare proiect"
   setting_default_projects_public: "Proiectele noi sunt implicit publice"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Numărul maxim de linii afișate în comparație"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Afișare pachete de lucru din subproiecte pe pagina proiectului principal"
   setting_duration_format: "Duration format"
   setting_duration_format_hours_only: "Hours only"
@@ -3289,6 +3315,10 @@ ro:
   setting_work_package_list_default_highlighted_attributes: "Atributele evidențiate implicit în linie"
   setting_working_days: "Zile lucrătoare"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Definește o listă validă de extensii de fișiere și/sau tipuri mime pentru fișierele încărcate. <br/> Introduceți extensii de fișiere (de ex. <code>%{ext_example}</code>) sau tipuri mime (e. ., <code>%{mime_example}</code>). <br/> Lăsați gol pentru a permite oricărui tip de fișier să fie încărcat. Valori multiple permise (o linie pentru fiecare valoare).

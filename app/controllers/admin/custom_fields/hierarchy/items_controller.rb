@@ -33,13 +33,15 @@ module Admin
     module Hierarchy
       class ItemsController < ApplicationController
         include OpTurbo::ComponentStream
+        include OpTurbo::DialogStreamHelper
 
         layout "admin"
 
         model_object CustomField
 
         before_action :require_admin
-        before_action :find_model_object
+        before_action :find_model_object, except: %i[destroy deletion_dialog]
+        before_action :find_custom_field_and_item, only: %i[destroy deletion_dialog]
 
         menu_item :custom_fields
 
@@ -61,6 +63,23 @@ module Admin
             )
 
           respond_with_turbo_streams
+        end
+
+        def destroy
+          ::CustomFields::Hierarchy::HierarchicalItemService
+            .new
+            .delete_branch(item: @hierarchy_item)
+            .either(
+              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
+              ->(errors) { update_flash_message_via_turbo_stream(message: errors.full_messages, scheme: :danger) }
+            )
+
+          respond_with_turbo_streams
+        end
+
+        def deletion_dialog
+          respond_with_dialog DeleteItemDialogComponent.new(custom_field: @custom_field,
+                                                            hierarchy_item: @hierarchy_item)
         end
 
         private
@@ -85,6 +104,13 @@ module Admin
         def find_model_object(object_id = :custom_field_id)
           super
           @custom_field = @object
+        end
+
+        def find_custom_field_and_item
+          @custom_field = CustomField.find(params[:custom_field_id])
+          @hierarchy_item = CustomField::Hierarchy::Item.find(params[:id])
+        rescue ActiveRecord::RecordNotFound
+          render_404
         end
       end
     end

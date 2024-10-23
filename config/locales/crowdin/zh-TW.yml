@@ -24,6 +24,22 @@ zh-TW:
   activities:
     index:
       no_results_title_text: 在這一時限內, 該專案沒有任何活動。
+    work_packages:
+      activity_tab:
+        no_results_title_text: 無活動顯示
+        no_results_description_text: "選擇「顯示所有內容」以顯示所有活動和留言"
+        label_activity_show_all: "全部顯示"
+        label_activity_show_only_comments: "僅顯示留言"
+        label_activity_show_only_changes: "僅顯示差異"
+        label_sort_asc: "最新的在最下面"
+        label_sort_desc: "最新的在最上面"
+        label_type_to_comment: "在此留言"
+        label_submit_comment: "留言"
+        changed_on: "異動於"
+        created_on: "新增於"
+        changed: "變更"
+        created: "建立"
+        commented: "已留言"
   admin:
     plugins:
       no_results_title_text: 目前沒有安裝任何外掛程式
@@ -207,7 +223,7 @@ zh-TW:
         blankslate:
           title: "您的欄位清單是空的"
           description: "首先將項目新增至層次結構的自訂欄位。每個項目都可用於在其下方建立一個層次結構。若要在層次結構內導覽和建立子項目，請按一下已建立的項目。"
-        more_actions: "更多操作"
+        actions: "自訂動作"
         placeholder:
           label: "項目標籤"
           short: "簡稱"
@@ -741,7 +757,7 @@ zh-TW:
         hours: "小時"
         spent_on: "日期"
         type: "類型"
-        ongoing: "進行中"
+        ongoing: "開啟中"
       type:
         description: "描述的預設文字"
         attribute_groups: ""
@@ -857,6 +873,7 @@ zh-TW:
         not_a_datetime: "不是有效的日期時間。"
         not_a_number: "不是數字"
         not_allowed: "是無效的因為缺少權限"
+        not_json: "is not a valid JSON object."
         not_an_integer: "不是整數"
         not_an_iso_date: "不是有效日期。所需格式：YYYY-MM-DD。"
         not_same_project: "不屬於相同的專案"
@@ -1939,6 +1956,7 @@ zh-TW:
   label_ical_access_key_generation_hint: "訂閱日曆時自動生成的。"
   label_ical_access_key_latest: "最新"
   label_ical_access_key_revoke: "撤銷"
+  label_add_column: "新增欄位"
   label_applied_status: "套用的狀態"
   label_archive_project: "封存專案"
   label_ascending: "昇冪"
@@ -1965,6 +1983,7 @@ zh-TW:
   label_api_doc: "API文件"
   label_backup: "備份"
   label_backup_code: "備份代碼"
+  label_basic_details: "Basic details"
   label_between: "介於"
   label_blocked_by: "標示禁止者"
   label_blocks: "區塊"
@@ -2003,7 +2022,6 @@ zh-TW:
   label_check_uncheck_all_in_row: "選取/取消選取 全部"
   label_child_element: "子項目"
   label_choices: "選項"
-  label_chronological_order: "由舊排列至新"
   label_close_versions: "關閉已完成的版本"
   label_closed_work_packages: "已關閉"
   label_collapse: "收合"
@@ -2108,8 +2126,9 @@ zh-TW:
   label_feeds_access_key_created_on: "RSS 金鑰在 %{value} 前已建立"
   label_feeds_access_key_type: "RSS訂閱"
   label_file_plural: "檔案"
-  label_filter_add: "新增條件"
   label_filter: "篩選條件"
+  label_filter_add: "新增條件"
+  label_filter_by: "篩選條件："
   label_filter_plural: "篩選器"
   label_filters_toggle: "顯示/隱藏篩選條件"
   label_float: "浮點數"
@@ -2198,6 +2217,7 @@ zh-TW:
   label_custom_favicon: "自訂圖示"
   label_custom_touch_icon: "自訂觸控圖示"
   label_logout: "登出"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "側邊選單"
   label_manage: "管理"
   label_manage_groups: "管理群組"
@@ -2232,6 +2252,8 @@ zh-TW:
   label_months_from: "從幾個月"
   label_more: "更多"
   label_more_than_ago: "超過幾天"
+  label_move_column_left: "欄位左移"
+  label_move_column_right: "欄位右移"
   label_move_work_package: "移動工作項目"
   label_my_account: "帳號設定"
   label_my_activity: "我的活動紀錄"
@@ -2273,8 +2295,8 @@ zh-TW:
   label_operator_equals_all: "包含"
   label_operator_shared_with_user_any: "任何"
   label_open_menu: "開啟選單"
-  label_open_work_packages: "進行中"
-  label_open_work_packages_plural: "進行中"
+  label_open_work_packages: "開啟中"
+  label_open_work_packages_plural: "開啟中"
   label_openproject_website: "OpenProject 網站"
   label_optional_description: "說明"
   label_options: "選項"
@@ -2323,7 +2345,7 @@ zh-TW:
   label_project_latest: "最新的專案"
   label_project_default_type: "允許空類型"
   label_project_hierarchy: "專案結構"
-  label_project_mappings: "已在專案中啟用"
+  label_project_mappings: "Projects"
   label_project_new: "新增專案"
   label_project_plural: "專案"
   label_project_list_plural: "專案列表"
@@ -2354,6 +2376,7 @@ zh-TW:
   label_relation_new: "新增關聯"
   label_release_notes: "發行說明"
   label_remaining_work: "剩餘工作"
+  label_remove_column: "移除欄位"
   label_remove_columns: "移除所選欄"
   label_renamed: "重新命名"
   label_reply_plural: "回覆"
@@ -2369,7 +2392,6 @@ zh-TW:
   label_required: "必要"
   label_requires: "需要"
   label_result_plural: "結果"
-  label_reverse_chronological_order: "由新排列至舊"
   label_revision: "修訂"
   label_revision_id: "修訂版 %{value}"
   label_revision_plural: "修訂"
@@ -2395,8 +2417,10 @@ zh-TW:
   label_show_completed_versions: "顯示已完成的版本"
   label_columns: "欄位"
   label_sort: "排序"
+  label_sort_ascending: "昇冪排序"
   label_sort_by: "按 %{value} 排序"
   label_sorted_by: "以 %{value} 排序"
+  label_sort_descending: "降冪排序"
   label_sort_higher: "往上移動"
   label_sort_highest: "移到頂端"
   label_sort_lower: "往下移動"
@@ -2519,7 +2543,7 @@ zh-TW:
     other: "%{count} 個留言"
     zero: "沒有留言"
   label_x_open_work_packages_abbr:
-    one: "1 進行中"
+    one: "1 開啟中"
     other: "%{count} 個未完成"
     zero: "0 個已開啟"
   label_x_work_packages:
@@ -3113,7 +3137,9 @@ zh-TW:
   setting_default_language: "預設語言"
   setting_default_projects_modules: "新專案預設啟用的模組"
   setting_default_projects_public: "新專案預設為公開"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "顯示比對差異的最大行數"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "預設在主專案中顯示子專案的工作項目"
   setting_duration_format: "持續時間格式"
   setting_duration_format_hours_only: "僅限小時"
@@ -3210,6 +3236,10 @@ zh-TW:
   setting_work_package_list_default_highlighted_attributes: "預設顯眼屬性"
   setting_working_days: "工作日"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。

@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%= component_wrapper(tag: 'turbo-frame') do %>
-  <div class="project-list-page--table">
+  <div class="project-list-page--table" data-controller="table-action-menu" data-application-target="dynamic">
     <div class="generic-table--flex-container">
       <div class="generic-table--container <%= container_class %>">
         <div class="generic-table--results-container">
@@ -54,28 +54,20 @@ See COPYRIGHT and LICENSE files for more details.
                         </div>
                       </div>
                     </th>
-                  <% elsif sortable_column?(column) %>
-                    <%= build_sort_header column.attribute, order_options(column, turbo: true) %>
-                  <% elsif column.attribute == :favored %>
-                    <th>
-                      <div class="generic-table--header-outer">
-                        <div class="generic-table--header generic-table--header_centered generic-table--header_no-min-width">
-                          <span>
-                            <%= render(Primer::Beta::Octicon.new(icon: "star-fill", color: :subtle, "aria-label": I18n.t(:label_favorite))) %>
-                          </span>
-                        </div>
-                      </div>
-                    </th>
                   <% else %>
-                    <th>
-                      <div class="generic-table--sort-header-outer">
-                        <div class="generic-table--sort-header">
+                    <% if use_quick_action_table_headers? %>
+                      <%= quick_action_table_header column.attribute, order_options(column, turbo: true) %>
+                    <% else %>
+                      <th>
+                        <div class="generic-table--sort-header-outer">
+                          <div class="generic-table--sort-header">
                           <span>
                             <%= column.caption %>
                           </span>
+                          </div>
                         </div>
-                      </div>
-                    </th>
+                      </th>
+                    <% end %>
                   <% end %>
                 <% end %>
                 <th>

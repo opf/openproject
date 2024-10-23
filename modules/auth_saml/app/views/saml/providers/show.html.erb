@@ -14,12 +14,8 @@
       mobile_icon: :trash,
       mobile_label: t(:button_delete),
       size: :medium,
-      href: saml_provider_path(@provider),
+      href: confirm_destroy_saml_provider_path(@provider),
       aria: { label: I18n.t(:button_delete) },
-      data: {
-        confirm: t(:text_are_you_sure),
-        method: :delete,
-      },
       title: I18n.t(:button_delete)
     ) do |button|
       button.with_leading_visual_icon(icon: :trash)

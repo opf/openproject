@@ -107,7 +107,7 @@ RSpec.describe "Admin lists project mappings for a storage",
       aggregate_failures "shows tab navigation" do
         within_test_selector("storage_detail_header") do
           expect(page).to have_link("Details")
-          expect(page).to have_link("Enabled in projects")
+          expect(page).to have_link("Projects")
         end
       end
 

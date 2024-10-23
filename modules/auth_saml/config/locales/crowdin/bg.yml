@@ -33,6 +33,7 @@ bg:
           unmatched_private_key: "не принадлежи към дадения сертификат"
   saml:
     menu_title: Доставчици на SAML
+    delete_title: Delete SAML provider
     info:
       title: "Параметри на конфигурацията на протокола SAML"
       description: >
@@ -54,7 +55,6 @@ bg:
       label_edit: Редактиране на доставчика на SAML идентичност %{name}
       label_uid: Вътрешен идентификатор на потребител
       label_mapping: Картографиране
-      label_mapping_for: "Картографиране за: %{attribute}"
       label_requested_attribute_for: "Искан атрибут за: %{attribute}"
       no_results_table: Все още не са дефинирани доставчици на SAML идентичност.
       plural: Доставчици на идентичност SAML

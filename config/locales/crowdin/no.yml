@@ -24,6 +24,22 @@
   activities:
     index:
       no_results_title_text: Det har ikke vært noen aktivitet i dette prosjektet i valgt periode
+    work_packages:
+      activity_tab:
+        no_results_title_text: No activity to display
+        no_results_description_text: "Choose \"Show everything\" to show all activity and comments"
+        label_activity_show_all: "Show everything"
+        label_activity_show_only_comments: "Show comments only"
+        label_activity_show_only_changes: "Show changes only"
+        label_sort_asc: "Newest at the bottom"
+        label_sort_desc: "Newest on top"
+        label_type_to_comment: "Type here to comment"
+        label_submit_comment: "Submit comment"
+        changed_on: "changed on"
+        created_on: "created this on"
+        changed: "changed"
+        created: "created"
+        commented: "commented"
   admin:
     plugins:
       no_results_title_text: Det er for tiden ingen utvidelser installert.
@@ -208,7 +224,7 @@
         blankslate:
           title: "Din liste over elementer er tom"
           description: "Start ved å legge elementer til i det tilpassede feltet av typehierarkiet. Hvert element kan brukes til å opprette et hierarkisk buk på det. For å navigere og opprette underelementer i et hierarki, klikk på det opprettede elementet."
-        more_actions: "More actions"
+        actions: "Item actions"
         placeholder:
           label: "Item label"
           short: "Short name"
@@ -866,6 +882,7 @@
         not_a_datetime: "er ikke et gyldig tidspunkt for datoen."
         not_a_number: "er ikke et tall."
         not_allowed: "er ugyldig på grunn av manglende tillatelser."
+        not_json: "is not a valid JSON object."
         not_an_integer: "er ikke et heltall."
         not_an_iso_date: "er ikke en gyldig dato. Påkrevd format: ÅÅÅÅ-MM-DD."
         not_same_project: "hører ikke til samme prosjekt."
@@ -1976,6 +1993,7 @@
   label_ical_access_key_generation_hint: "Automatisk generert ved abonnering på en kalender."
   label_ical_access_key_latest: "siste"
   label_ical_access_key_revoke: "Tilbakekall"
+  label_add_column: "Add column"
   label_applied_status: "Tildelt status"
   label_archive_project: "Arkiver prosjekt"
   label_ascending: "Stigende"
@@ -2002,6 +2020,7 @@
   label_api_doc: "API dokumentasjon"
   label_backup: "Sikkerhetskopi"
   label_backup_code: "Sikkerhetskopieringsnøkkel"
+  label_basic_details: "Basic details"
   label_between: "mellom"
   label_blocked_by: "blokkert av"
   label_blocks: "blokkeringer"
@@ -2040,7 +2059,6 @@
   label_check_uncheck_all_in_row: "Sjekk/Avmerk alle på rad"
   label_child_element: "Underordnet element"
   label_choices: "Valg"
-  label_chronological_order: "Eldste først"
   label_close_versions: "Lukk fullførte versjoner"
   label_closed_work_packages: "lukket"
   label_collapse: "Skjul"
@@ -2145,8 +2163,9 @@
   label_feeds_access_key_created_on: "RSS tilgangsnøkkel opprettet for %{value} siden"
   label_feeds_access_key_type: "RSS"
   label_file_plural: "Filer"
-  label_filter_add: "Legg til filter"
   label_filter: "Filtre"
+  label_filter_add: "Legg til filter"
+  label_filter_by: "Filter by"
   label_filter_plural: "Filtre"
   label_filters_toggle: "Vis/skjul filtre"
   label_float: "Flyt"
@@ -2235,6 +2254,7 @@
   label_custom_favicon: "Tilpasset favicon"
   label_custom_touch_icon: "Egendefinert berøringsikon"
   label_logout: "Logg av"
+  label_mapping_for: "Mapping for: %{attribute}"
   label_main_menu: "Sidemeny"
   label_manage: "Administrer"
   label_manage_groups: "Administrer grupper"
@@ -2269,6 +2289,8 @@
   label_months_from: "måneder fra"
   label_more: "Mer"
   label_more_than_ago: "mer enn dager siden"
+  label_move_column_left: "Move column left"
+  label_move_column_right: "Move column right"
   label_move_work_package: "Flytt arbeidspakke"
   label_my_account: "Kontoinnstillinger"
   label_my_activity: "Min aktivitet"
@@ -2360,7 +2382,7 @@
   label_project_latest: "Siste prosjekter"
   label_project_default_type: "Tillatt tom type"
   label_project_hierarchy: "Prosjekthierarki"
-  label_project_mappings: "Aktivert i prosjekter"
+  label_project_mappings: "Projects"
   label_project_new: "Nytt prosjekt"
   label_project_plural: "Prosjekter"
   label_project_list_plural: "Prosjektlister"
@@ -2391,6 +2413,7 @@
   label_relation_new: "Ny relasjon"
   label_release_notes: "Utgivelsesnotater"
   label_remaining_work: "Gjenstående arbeid"
+  label_remove_column: "Remove column"
   label_remove_columns: "Fjern valgte kolonner"
   label_renamed: "omdøpt"
   label_reply_plural: "Svar"
@@ -2406,7 +2429,6 @@
   label_required: "påkrevd"
   label_requires: "krever"
   label_result_plural: "Resultater"
-  label_reverse_chronological_order: "Nyeste først"
   label_revision: "Revisjon"
   label_revision_id: "Revisjon %{value}"
   label_revision_plural: "Revisjoner"
@@ -2432,8 +2454,10 @@
   label_show_completed_versions: "Vis fullførte versjoner"
   label_columns: "Kolonner"
   label_sort: "Sortèr"
+  label_sort_ascending: "Sort ascending"
   label_sort_by: "Sorter på %{value}"
   label_sorted_by: "sortert på %{value}"
+  label_sort_descending: "Sort descending"
   label_sort_higher: "Flytt opp"
   label_sort_highest: "Flytt til toppen"
   label_sort_lower: "Flytt ned"
@@ -3155,7 +3179,9 @@
   setting_default_language: "Standardspråk"
   setting_default_projects_modules: "Standardaktiverte moduler for nye prosjekter"
   setting_default_projects_public: "Nye prosjekter er offentlige som standard"
+  setting_disable_password_login: "Disable password authentication"
   setting_diff_max_lines_displayed: "Maks antall linjeforskjeller som vises"
+  setting_omniauth_direct_login_provider: "Direct login SSO provider"
   setting_display_subprojects_work_packages: "Vis arbeidspakker for underprosjekter som standard for hovedprosjekter"
   setting_duration_format: "Varighetsformat"
   setting_duration_format_hours_only: "Kun timer"
@@ -3252,6 +3278,10 @@
   setting_work_package_list_default_highlighted_attributes: "Standard inline uthevede egenskaper"
   setting_working_days: "Arbeidsdager"
   settings:
+    authentication:
+      single_sign_on: "Single Sign-On"
+      omniauth_direct_login_hint_html: >
+        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:
       whitelist_text_html: >
         Definer en liste over gydlige fil-typer og/eller mime typer for opplastingsfiler.<br/>Sett inn fil-typer (f.eks. <code>%{ext_example}</code>) eller mime typer (f.eks. <code>%{mime_example}</code>).<br/> La stå tom for å godta at alle filtyper kan lastes opp.  Flere verdier er tillatt (en linje for hver verdi).

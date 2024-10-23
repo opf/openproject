@@ -1,7 +1,7 @@
 <%=
   component_wrapper do
     render(Primer::OpenProject::SidePanel.new) do |panel|
-      panel.with_section(Storages::Admin::SidePanel::HealthStatusComponent.new(storage: @storage))
+      panel.with_section(Storages::Admin::SidePanel::HealthStatusComponent.new(@storage))
 
       if @storage.automatic_management_enabled?
         panel.with_section(Storages::Admin::SidePanel::HealthNotificationsComponent.new(storage: @storage))
