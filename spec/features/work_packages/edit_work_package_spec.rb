@@ -267,7 +267,9 @@ RSpec.describe "edit work package", :js do
   context "when using the user auto completer" do
     RSpec.shared_examples "without permission" do |field_name|
       it "does not show you the email of other users" do
-        wp_page.open_user_auto_completer(field_name)
+        completer = wp_page.edit_field field_name
+        completer.activate!
+
         options = wp_page.visible_user_auto_completer_options
 
         expected_options = [
@@ -281,7 +283,9 @@ RSpec.describe "edit work package", :js do
 
     RSpec.shared_examples "with permission" do |field_name|
       it "does show you the email of other users" do
-        wp_page.open_user_auto_completer(field_name)
+        completer = wp_page.edit_field field_name
+        completer.activate!
+
         options = wp_page.visible_user_auto_completer_options
 
         expected_options = [

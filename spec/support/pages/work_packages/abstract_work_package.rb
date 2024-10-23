@@ -330,10 +330,6 @@ module Pages
       find('[data-test-selector="mark-notification-read-button"]').click
     end
 
-    def open_user_auto_completer(field = "assignee")
-      find("op-editable-attribute-field[ng-reflect-field-name='#{field}'] [role='button']", wait: 10).click
-    end
-
     # Finds the currently visible, expanded user auto completer and returns its dropdown menu options.
     # A user always has a name, but their email is only visible in certain circumstances, so that value
     # might be nil.
