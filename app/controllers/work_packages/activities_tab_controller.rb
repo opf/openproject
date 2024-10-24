@@ -339,7 +339,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     # Current limitation: Only shows added reactions, not removed ones
     Journal.grouped_work_package_journals_emoji_reactions(
       @work_package, last_updated_at:
-    ).each do |journal_id, emoji_reactions|
+    ).each do |journal_id, grouped_emoji_reactions|
       update_via_turbo_stream(
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(
           journal: @work_package.journals.find(journal_id),
