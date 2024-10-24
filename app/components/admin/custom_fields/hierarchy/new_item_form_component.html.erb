@@ -29,9 +29,9 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   primer_form_with(
-    url: custom_field_items_path(@custom_field),
+    url: new_child_custom_field_item_path(@custom_field, @parent),
     method: :post,
   ) do |f|
-    render(CustomFields::Hierarchy::NewItemForm.new(f, custom_field: @custom_field, label: @label, short: @short))
+    render(CustomFields::Hierarchy::NewItemForm.new(f, custom_field: @custom_field, parent: @parent, label: @label, short: @short))
   end
 %>

@@ -35,21 +35,32 @@ module Admin
         include OpTurbo::ComponentStream
         include OpTurbo::DialogStreamHelper
 
-        layout "admin"
+        layout :custom_layout
 
         model_object CustomField
 
         before_action :require_admin
-        before_action :find_model_object, except: %i[destroy deletion_dialog]
-        before_action :find_custom_field_and_item, only: %i[destroy deletion_dialog]
+        before_action :find_model_object
+        before_action :find_hierarchy_item, except: :index
 
         menu_item :custom_fields
 
+        # See https://github.com/hotwired/turbo-rails?tab=readme-ov-file#a-note-on-custom-layouts
+        def custom_layout
+          return "turbo_rails/frame" if turbo_frame_request?
+
+          "admin"
+        end
+
         def index; end
 
+        def show; end
+
         def new
-          update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field,
-                                                                new_item_form_data: { show: true }))
+          update_via_turbo_stream(
+            component: ItemsComponent.new(item: @hierarchy_item, new_item_form_data: { show: true })
+          )
+
           respond_with_turbo_streams
         end
 
@@ -59,7 +70,7 @@ module Admin
             .insert_item(**item_input)
             .either(
               ->(_) do
-                update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field,
+                update_via_turbo_stream(component: ItemsComponent.new(item: @hierarchy_item,
                                                                       new_item_form_data: { show: true }))
               end,
               ->(validation_result) { add_errors_to_form(validation_result) }
@@ -73,7 +84,7 @@ module Admin
             .new
             .delete_branch(item: @hierarchy_item)
             .either(
-              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
+              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(item: @hierarchy_item.parent)) },
               ->(errors) { update_flash_message_via_turbo_stream(message: errors.full_messages, scheme: :danger) }
             )
 
@@ -81,17 +92,13 @@ module Admin
         end
 
         def deletion_dialog
-          respond_with_dialog DeleteItemDialogComponent.new(custom_field: @custom_field,
-                                                            hierarchy_item: @hierarchy_item)
+          respond_with_dialog DeleteItemDialogComponent.new(custom_field: @custom_field, hierarchy_item: @hierarchy_item)
         end
 
         private
 
         def item_input
-          input = { parent: @custom_field.hierarchy_root, label: params[:label] }
-          input[:short] = params[:short] unless params[:short].empty?
-
-          input
+          { parent: @hierarchy_item, label: params[:label], short: params[:short] }
         end
 
         def add_errors_to_form(validation_result)
@@ -100,18 +107,19 @@ module Admin
           end
 
           new_item_form_data = { show: true, label: validation_result[:label], short: validation_result[:short] }
-          update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field, new_item_form_data:),
+          update_via_turbo_stream(component: ItemsComponent.new(item: @custom_field, new_item_form_data:),
                                   status: :unprocessable_entity)
         end
 
-        def find_model_object(object_id = :custom_field_id)
-          super
+        def find_model_object
+          @object = CustomField.hierarchy_root_and_children.find(params[:custom_field_id])
           @custom_field = @object
+        rescue ActiveRecord::RecordNotFound
+          render_404
         end
 
-        def find_custom_field_and_item
-          @custom_field = CustomField.find(params[:custom_field_id])
-          @hierarchy_item = CustomField::Hierarchy::Item.find(params[:id])
+        def find_hierarchy_item
+          @hierarchy_item = CustomField::Hierarchy::Item.including_children.find(params[:id])
         rescue ActiveRecord::RecordNotFound
           render_404
         end

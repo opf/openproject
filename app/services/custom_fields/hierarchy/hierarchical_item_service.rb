@@ -84,7 +84,7 @@ module CustomFields
       # @param item [CustomField::Hierarchy::Item] the parent of the node
       # @return [Success(Array<CustomField::Hierarchy::Item>)]
       def get_branch(item:)
-        Success(item.ancestors.reverse)
+        Success(item.self_and_ancestors.reverse)
       end
 
       # Move an item/node to a new parent item/node

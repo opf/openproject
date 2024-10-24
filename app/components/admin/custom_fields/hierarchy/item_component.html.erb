@@ -32,14 +32,20 @@ See COPYRIGHT and LICENSE files for more details.
     flex_layout(align_items: :center, justify_content: :space_between) do |item_container|
       item_container.with_column(flex_layout: true) do |item_information|
         item_information.with_column(mr: 2) do
-          render(Primer::Beta::Text.new(font_weight: :bold)) do
-            @hierarchy_item.label
+          render(Primer::Beta::Link.new(href: custom_field_item_path(@root.custom_field_id, model), underline: false)) do
+            render(Primer::Beta::Text.new(font_weight: :bold)) { model.label }
           end
         end
 
-        unless @hierarchy_item.short.nil?
+        if model.short.present?
           item_information.with_column(mr: 2) do
             render(Primer::Beta::Text.new(color: :subtle)) { short_text }
+          end
+        end
+
+        if model.children.any?
+          item_information.with_column(mr: 2) do
+            render(Primer::Beta::Text.new) { children_count }
           end
         end
       end
@@ -47,9 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
       # Actions
       item_container.with_column do
         render(Primer::Alpha::ActionMenu.new(data: { test_selector: "op-hierarchy-item--action-menu" })) do |menu|
-          menu.with_show_button(icon: "kebab-horizontal",
-                                scheme: :invisible,
-                                "aria-label": I18n.t("custom_fields.admin.items.actions"))
+          menu.with_show_button(icon: "kebab-horizontal", scheme: :invisible, "aria-label": I18n.t("custom_fields.admin.items.actions"))
           deletion_action_item(menu)
         end
       end

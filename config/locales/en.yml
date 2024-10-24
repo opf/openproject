@@ -254,6 +254,11 @@ en:
           short: "Short name"
       notice:
         remember_items_and_projects: "Remember to set items and projects in the respective tabs for this custom field."
+      hierarchy:
+        subitems:
+          zero: no sub-items
+          one: 1 sub-item
+          other: "%{count} sub-items"
 
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before

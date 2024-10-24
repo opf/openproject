@@ -46,6 +46,8 @@ class CustomField < ApplicationRecord
           dependent: :destroy,
           inverse_of: "custom_field"
 
+  scope :hierarchy_root_and_children, -> { includes(hierarchy_root: { children: :children }) }
+
   acts_as_list scope: [:type]
 
   validates :field_format, presence: true

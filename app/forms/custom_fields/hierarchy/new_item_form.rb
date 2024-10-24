@@ -40,6 +40,7 @@ module CustomFields
             placeholder: I18n.t("custom_fields.admin.items.placeholder.label"),
             validation_message: validation_message_for(:label)
           )
+
           input_group.text_field(
             name: :short,
             label: "Short",
@@ -56,15 +57,15 @@ module CustomFields
                               tag: :a,
                               label: I18n.t(:button_cancel),
                               scheme: :default,
-                              data: { turbo_stream: true },
-                              href: url_helpers.custom_field_items_path(@custom_field))
+                              href: url_helpers.custom_field_item_path(@custom_field, @parent))
           button_group.submit(name: :submit, label: I18n.t(:button_save), scheme: :primary)
         end
       end
 
-      def initialize(custom_field:, label:, short:)
+      def initialize(custom_field:, parent:, label:, short:)
         super()
         @custom_field = custom_field
+        @parent = parent
         @label = label
         @short = short
       end
@@ -72,11 +73,7 @@ module CustomFields
       private
 
       def validation_message_for(attribute)
-        @custom_field
-          .errors
-          .messages_for(attribute)
-          .to_sentence
-          .presence
+        @parent.errors.messages_for(attribute).to_sentence.presence
       end
     end
   end

@@ -35,22 +35,28 @@ module Admin
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
 
-        def initialize(custom_field:, hierarchy_item:)
-          super
-          @custom_field = custom_field
-          @hierarchy_item = hierarchy_item
+        def initialize(root:, item:)
+          super(item)
+          @root = root
+        end
+
+        def wrapper_uniq_by
+          model.id
         end
 
         def short_text
-          "(#{@hierarchy_item.short})"
+          "(#{model.short})"
+        end
+
+        def children_count
+          I18n.t("custom_fields.admin.hierarchy.subitems", count: model.children.count)
         end
 
         def deletion_action_item(menu)
           menu.with_item(label: I18n.t(:button_delete),
                          scheme: :danger,
                          tag: :a,
-                         href: deletion_dialog_custom_field_item_path(custom_field_id: @custom_field.id,
-                                                                      id: @hierarchy_item.id),
+                         href: deletion_dialog_custom_field_item_path(custom_field_id: @root.custom_field_id, id: model.id),
                          content_arguments: { data: { controller: "async-dialog" } }) do |item|
             item.with_leading_visual_icon(icon: :trash)
           end

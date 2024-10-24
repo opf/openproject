@@ -33,4 +33,6 @@ class CustomField::Hierarchy::Item < ApplicationRecord
 
   belongs_to :custom_field
   has_closure_tree order: "sort_order", numeric_order: true, dependent: :destroy
+
+  scope :including_children, -> { includes(children: :children) }
 end
