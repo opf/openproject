@@ -28,22 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ProjectCustomFieldProjectMappings
-  class BulkCreateService < ::BulkServices::ProjectMappings::BaseCreateService
-    def initialize(user:, projects:, model:, include_sub_projects: false)
-      mapping_context = ::BulkServices::ProjectMappings::MappingContext.new(
-        mapping_model_class: ProjectCustomFieldProjectMapping,
-        model:,
-        projects:,
-        model_foreign_key_id:,
-        include_sub_projects:
-      )
-      super(user:, mapping_context:)
+module Storages
+  module LastProjectFolders
+    class ProjectStoragesMappingContext < BulkServices::ProjectMappings::MappingContextBase
+      attr_reader :project_storages
+
+      def initialize(project_storages)
+        super(mapping_model_class: ::Storages::LastProjectFolder)
+        @project_storages = project_storages
+      end
+
+      def mapping_attributes_for_all_projects(_params)
+        project_storages.map do |project_storage|
+          {
+            project_storage_id: project_storage.id,
+            origin_folder_id: project_storage.project_folder_id,
+            mode: project_storage.project_folder_mode
+          }
+        end
+      end
+
+      def incoming_projects
+        @incoming_projects ||= Project.where(id: project_storages.pluck(:project_id))
+      end
     end
-
-    private
-
-    def permission = :select_project_custom_fields
-    def model_foreign_key_id = :custom_field_id
   end
 end
