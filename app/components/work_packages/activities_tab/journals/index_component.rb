@@ -59,6 +59,10 @@ module WorkPackages
           User.current.preference&.comments_sorting || "desc"
         end
 
+        def journal_sorting_desc?
+          journal_sorting == "desc"
+        end
+
         def journals
           work_package.journals.includes(:user, :notifications).reorder(version: journal_sorting)
         end
@@ -67,12 +71,16 @@ module WorkPackages
           journals.where.not(notes: "")
         end
 
+        def wp_journals_grouped_emoji_reactions
+          @wp_journals_grouped_emoji_reactions ||= Journal.grouped_work_package_journals_emoji_reactions(work_package)
+        end
+
         def empty_state?
           filter == :only_comments && journal_with_notes.empty?
         end
 
         def inner_container_margin_bottom
-          if journal_sorting == "desc"
+          if journal_sorting_desc?
             3
           else
             0

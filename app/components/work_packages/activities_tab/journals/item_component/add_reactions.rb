@@ -29,28 +29,27 @@
 module WorkPackages
   module ActivitiesTab
     module Journals
-      class ItemComponent::Show < ApplicationComponent
+      class ItemComponent::AddReactions < ApplicationComponent
         include ApplicationHelper
-        include AvatarHelper
-        include JournalFormatter
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(journal:, filter:, grouped_emoji_reactions:)
+        def initialize(journal:)
           super
 
           @journal = journal
-          @filter = filter
-          @grouped_emoji_reactions = grouped_emoji_reactions
+        end
+
+        def render?
+          User.current.allowed_in_work_package?(:add_work_package_notes, work_package)
         end
 
         private
 
-        attr_reader :journal, :filter, :grouped_emoji_reactions
+        attr_reader :journal
 
-        def wrapper_uniq_by
-          journal.id
-        end
+        def work_package = journal.journable
+        def wrapper_uniq_by = journal.id
       end
     end
   end

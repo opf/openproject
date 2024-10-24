@@ -546,6 +546,15 @@ en:
         Click to assign or change the color of this priority.
         It can be used for highlighting work packages in the table.
 
+  reactions:
+    action_title: "React"
+    add_reaction: "Add reaction"
+    react_with: "React with %{reaction}"
+    and_user: "and %{user}"
+    and_n_others_singular: "and %{n} other"
+    and_n_others_plural: "and %{n} others"
+    reaction_by: "%{reaction} by"
+
   reportings:
     index:
       no_results_title_text: There are currently no status reportings.
@@ -934,6 +943,7 @@ en:
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         does_not_exist: "does not exist."
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition"
+        error_not_found: "not found."
         error_unauthorized: "may not be accessed."
         error_readonly: "was attempted to be written but is not writable."
         error_conflict: "Information has been updated by at least one other user in the meantime."

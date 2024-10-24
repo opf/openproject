@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2012-2023 the OpenProject GmbH
+# Copyright (C) 2012-2024 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,32 +26,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module WorkPackages
-  module ActivitiesTab
-    module Journals
-      class ItemComponent::Show < ApplicationComponent
-        include ApplicationHelper
-        include AvatarHelper
-        include JournalFormatter
-        include OpPrimer::ComponentHelpers
-        include OpTurbo::Streamable
+class EmojiReaction < ApplicationRecord
+  # See: https://unicode.org/Public/emoji/latest/emoji-test.txt
+  EMOJI_MAP = {
+    thumbs_up: "\u{1F44D}",
+    thumbs_down: "\u{1F44E}",
+    grinning_face_with_smiling_eyes: "\u{1F604}",
+    confused_face: "\u{1F615}",
+    heart: "\u{2764}",
+    party_popper: "\u{1F389}",
+    rocket: "\u{1F680}",
+    eyes: "\u{1F440}"
+  }.freeze
 
-        def initialize(journal:, filter:, grouped_emoji_reactions:)
-          super
+  AVAILABLE_EMOJIS = EMOJI_MAP.values.freeze
 
-          @journal = journal
-          @filter = filter
-          @grouped_emoji_reactions = grouped_emoji_reactions
-        end
+  belongs_to :user
+  belongs_to :reactable, polymorphic: true
 
-        private
+  validates :reaction, presence: true
+  validates :user_id, uniqueness: { scope: %i[reactable_type reactable_id reaction] }
 
-        attr_reader :journal, :filter, :grouped_emoji_reactions
+  enum :reaction, EMOJI_MAP.each_with_object({}) { |(k, _v), h| h[k] = k.to_s }
 
-        def wrapper_uniq_by
-          journal.id
-        end
-      end
-    end
+  def self.available_emojis
+    AVAILABLE_EMOJIS
+  end
+
+  def self.emoji(reaction)
+    EMOJI_MAP[reaction.to_sym]
   end
 end
