@@ -30,11 +30,12 @@ require "spec_helper"
 
 RSpec.describe FrontendAssetHelper do
   describe "#include_frontend_assets" do
-    context "when in development or test",
-            with_env: { "OPENPROJECT_DISABLE_DEV_ASSET_PROXY" => nil } do
-      before do
-        allow(Rails.env).to receive(:production?).and_return(false)
-      end
+    before do
+      allow(FrontendAssetHelper).to receive(:assets_proxied?).and_return(proxied)
+    end
+
+    context "when proxied" do
+      let(:proxied) { true }
 
       it "returns the proxied frontend server" do
         expect(helper.include_frontend_assets).to match(%r{script src="http://(frontend-test|localhost):4200/assets/frontend/main(.*).js"})
@@ -51,10 +52,8 @@ RSpec.describe FrontendAssetHelper do
       end
     end
 
-    context "when in production" do
-      before do
-        allow(Rails.env).to receive(:production?).and_return(true)
-      end
+    context "when not proxied" do
+      let(:proxied) { false }
 
       it "returns the path to the asset" do
         expect(helper.include_frontend_assets).to match(%r{script src="/assets/frontend/main(.*).js"})
