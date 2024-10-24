@@ -35,7 +35,10 @@ module FrontendAssetHelper
   CLI_PROXY = ENV.fetch("OPENPROJECT_CLI_PROXY", CLI_DEFAULT_PROXY)
 
   def self.assets_proxied?
-    ENV["OPENPROJECT_DISABLE_DEV_ASSET_PROXY"].blank? && !Rails.env.production? && cli_proxy.present?
+    override = ActiveModel::Type::Boolean.new.cast ENV.fetch("OPENPROJECT_DISABLE_DEV_ASSET_PROXY", nil)
+    return override unless override.nil?
+
+    !Rails.env.production? && cli_proxy.present?
   end
 
   def self.cli_proxy
