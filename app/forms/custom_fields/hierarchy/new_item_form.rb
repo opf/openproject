@@ -63,6 +63,7 @@ module CustomFields
       end
 
       def initialize(custom_field:, parent:, label:, short:)
+        super()
         @custom_field = custom_field
         @parent = parent
         @label = label
@@ -71,9 +72,8 @@ module CustomFields
 
       private
 
-      # FIXME: I don't think this will work... as the errors aren't necessarily on the CF - 2024.10.23 @mereghost
       def validation_message_for(attribute)
-        @custom_field.errors.messages_for(attribute).to_sentence.presence
+        @parent.errors.messages_for(attribute).to_sentence.presence
       end
     end
   end
