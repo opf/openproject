@@ -49,12 +49,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def update_streams
-    if params[:last_update_timestamp].present?
-      generate_time_based_update_streams(params[:last_update_timestamp])
-      generate_time_based_reaction_update_streams(params[:last_update_timestamp])
-    else
-      @turbo_status = :bad_request
-    end
+    perform_update_streams_from_last_update_timestamp
 
     respond_with_turbo_streams
   end
@@ -254,8 +249,16 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     if call.result.initial?
       update_index_component # update the whole index component to reset empty state
     else
-      generate_time_based_update_streams(params[:last_update_timestamp])
-      generate_time_based_reaction_update_streams(params[:last_update_timestamp])
+      perform_update_streams_from_last_update_timestamp
+    end
+  end
+
+  def perform_update_streams_from_last_update_timestamp
+    if params[:last_update_timestamp].present? && (last_updated_at = Time.zone.parse(params[:last_update_timestamp]))
+      generate_time_based_update_streams(last_updated_at)
+      generate_time_based_reaction_update_streams(last_updated_at)
+    else
+      @turbo_status = :bad_request
     end
   end
 
