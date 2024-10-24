@@ -26,18 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Meeting::Location < ApplicationForm
+class Meeting::Title < ApplicationForm
   form do |meeting_form|
     meeting_form.text_field(
-      name: :location,
-      placeholder: Meeting.human_attribute_name(:location),
-      label: Meeting.human_attribute_name(:location),
-      visually_hide_label: false,
-      leading_visual: { icon: @icon }
+      name: :title,
+      required: true,
+      label: Meeting.human_attribute_name(:title),
+      placeholder: Meeting.human_attribute_name(:title),
+      visually_hide_label: false
     )
-  end
-
-  def initialize(icon: :link)
-    @icon = icon
   end
 end

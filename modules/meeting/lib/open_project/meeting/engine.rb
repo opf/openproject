@@ -47,7 +47,7 @@ module OpenProject::Meeting
                      work_package_meetings_tab: %i[index count] },
                    permissible_on: :project
         permission :create_meetings,
-                   { meetings: %i[new create copy],
+                   { meetings: %i[new create copy new_dialog],
                      "meetings/menus": %i[show] },
                    permissible_on: :project,
                    require: :member,

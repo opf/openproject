@@ -26,18 +26,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Meeting::Location < ApplicationForm
-  form do |meeting_form|
-    meeting_form.text_field(
-      name: :location,
-      placeholder: Meeting.human_attribute_name(:location),
-      label: Meeting.human_attribute_name(:location),
-      visually_hide_label: false,
-      leading_visual: { icon: @icon }
-    )
-  end
+module Meetings
+  class Index::NewFormComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-  def initialize(icon: :link)
-    @icon = icon
+    def initialize(meeting:, project:)
+      super
+
+      @meeting = meeting
+      @project = project
+    end
+
+    private
+
+    def start_date_initial_value
+      format_time_as_date(@meeting.start_time, format: "%Y-%m-%d")
+    end
+
+    def start_time_initial_value
+      format_time(@meeting.start_time, include_date: false, format: "%H:%M")
+    end
   end
 end

@@ -26,18 +26,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Meeting::Location < ApplicationForm
-  form do |meeting_form|
-    meeting_form.text_field(
-      name: :location,
-      placeholder: Meeting.human_attribute_name(:location),
-      label: Meeting.human_attribute_name(:location),
-      visually_hide_label: false,
-      leading_visual: { icon: @icon }
+class Meeting::ProjectAutocompleter < ApplicationForm
+  form do |f|
+    f.project_autocompleter(
+      name: "project_id",
+      id: "project_id",
+      label: Project.model_name.human,
+      autocomplete_options: {
+        with_search_icon: true,
+        openDirectly: false,
+        focusDirectly: false,
+        dropdownPosition: "bottom",
+        inputName: "project_id",
+        inputValue: @project&.id,
+        filters: [{ name: "user_action", operator: "=", values: ["meetings/create"] }]
+      }
     )
-  end
-
-  def initialize(icon: :link)
-    @icon = icon
   end
 end

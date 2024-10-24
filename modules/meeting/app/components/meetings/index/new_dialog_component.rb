@@ -26,18 +26,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Meeting::Location < ApplicationForm
-  form do |meeting_form|
-    meeting_form.text_field(
-      name: :location,
-      placeholder: Meeting.human_attribute_name(:location),
-      label: Meeting.human_attribute_name(:location),
-      visually_hide_label: false,
-      leading_visual: { icon: @icon }
-    )
-  end
+module Meetings
+  class Index::NewDialogComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpenProject::FormTagHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-  def initialize(icon: :link)
-    @icon = icon
+    def initialize(meeting:, project:)
+      super
+
+      @meeting = meeting
+      @project = project
+    end
+
+    def render?
+      if @project
+        User.current.allowed_in_project?(:create_meetings, @project)
+      else
+        User.current.allowed_in_any_project?(:create_meetings)
+      end
+    end
   end
 end

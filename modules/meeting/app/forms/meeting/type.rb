@@ -26,18 +26,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Meeting::Location < ApplicationForm
+class Meeting::Type < ApplicationForm
   form do |meeting_form|
-    meeting_form.text_field(
-      name: :location,
-      placeholder: Meeting.human_attribute_name(:location),
-      label: Meeting.human_attribute_name(:location),
-      visually_hide_label: false,
-      leading_visual: { icon: @icon }
-    )
-  end
-
-  def initialize(icon: :link)
-    @icon = icon
+    meeting_form.hidden(name: :type, value: "StructuredMeeting")
   end
 end
