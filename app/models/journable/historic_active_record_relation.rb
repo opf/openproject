@@ -56,14 +56,13 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
   def initialize(relation, timestamp:)
     raise ArgumentError, "Expected ActiveRecord::Relation" unless relation.kind_of? ActiveRecord::Relation
 
-    super(relation.klass)
+    super(relation.klass, table: relation.journal_class.arel_table)
     relation.instance_variables.each do |key|
       instance_variable_set key, relation.instance_variable_get(key)
     end
 
     self.timestamp = Array(timestamp)
     readonly!
-    instance_variable_set :@table, model.journal_class.arel_table
   end
 
   # We need to patch the `pluck` method of an active-record relation that
