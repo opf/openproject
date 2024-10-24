@@ -1,0 +1,60 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      scope: :meeting,
+      model: @meeting,
+      method: :post,
+      data: { turbo: true },
+      html: { :id => 'meeting-form' },
+      url: {:controller => '/meetings', :action => 'create', :project_id => @project}
+    ) do |f|
+      component_collection do |collection|
+        collection.with_component(Primer::Alpha::Dialog::Body.new) do
+          flex_layout(mb: 3) do |modal_body|
+            if @project.nil?
+              modal_body.with_row(mt: 3) do
+                render(Meeting::ProjectAutocompleter.new(f))
+              end
+            end
+
+            modal_body.with_row(mt: 3) do
+              render(Meeting::Title.new(f))
+            end
+
+            modal_body.with_row(mt: 3) do
+              render(Meeting::StartDate.new(f, initial_value: start_date_initial_value))
+            end
+
+            modal_body.with_row(mt: 3) do
+              render(Meeting::StartTime.new(f, initial_value: start_time_initial_value))
+            end
+
+            modal_body.with_row(mt: 3) do
+              render(Meeting::Duration.new(f))
+            end
+
+            modal_body.with_row(mt: 3) do
+              render(Meeting::Location.new(f, icon: :location))
+            end
+
+            modal_body.with_row do
+              render(Meeting::Type.new(f))
+            end
+          end
+        end
+
+        collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+          component_collection do |modal_footer|
+            modal_footer.with_component(Primer::ButtonComponent.new(data: { 'close-dialog-id': "new-meeting-dialog" })) do
+              I18n.t("button_cancel")
+            end
+
+            modal_footer.with_component(Primer::ButtonComponent.new(scheme: :primary, type: :submit)) do
+              I18n.t("label_meeting_create")
+            end
+          end
+        end
+      end
+    end
+  end
+%>

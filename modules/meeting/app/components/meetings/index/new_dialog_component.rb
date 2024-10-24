@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,43 +27,25 @@
 #++
 
 module Meetings
-  class TableComponent < ::OpPrimer::BorderBoxTableComponent
-    options :current_project # used to determine if displaying the projects column
+  class Index::NewDialogComponent < ApplicationComponent
+    include ApplicationHelper
+    include OpenProject::FormTagHelper
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-    columns :title, :project_name, :start_time, :duration, :location
+    def initialize(meeting:, project:)
+      super
 
-    def sortable?
-      true
+      @meeting = meeting
+      @project = project
     end
 
-    def initial_sort
-      %i[start_time asc]
-    end
-
-    def has_actions?
-      true
-    end
-
-    def header_args(column)
-      if column == :title
-        { style: "grid-column: span 2" }
+    def render?
+      if @project
+        User.current.allowed_in_project?(:create_meetings, @project)
       else
-        super
+        User.current.allowed_in_any_project?(:create_meetings)
       end
-    end
-
-    def headers
-      @headers ||= [
-        [:title, { caption: Meeting.human_attribute_name(:title) }],
-        current_project.blank? ? [:project_name, { caption: Meeting.human_attribute_name(:project) }] : nil,
-        [:start_time, { caption: I18n.t(:label_meeting_date_and_time) }],
-        [:duration, { caption: Meeting.human_attribute_name(:duration) }],
-        [:location, { caption: Meeting.human_attribute_name(:location) }]
-      ].compact
-    end
-
-    def columns
-      @columns ||= headers.map(&:first)
     end
   end
 end

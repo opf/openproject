@@ -104,13 +104,18 @@ en:
   label_meeting: "Meeting"
   label_meeting_plural: "Meetings"
   label_meeting_new: "New Meeting"
+  label_meeting_new_one_time: "New one-time meeting"
+  label_meeting_create: "Create meeting"
   label_meeting_edit: "Edit Meeting"
   label_meeting_agenda: "Agenda"
   label_meeting_minutes: "Minutes"
   label_meeting_close: "Close"
   label_meeting_open: "Open"
+  label_meeting_index_delete: "Delete"
+  label_meeting_open_this_meeting: "Open this meeting"
   label_meeting_agenda_close: "Close the agenda to begin the Minutes"
   label_meeting_date_time: "Date/Time"
+  label_meeting_date_and_time: "Date and time"
   label_meeting_diff: "Diff"
   label_upcoming_meetings: "Upcoming meetings"
   label_past_meetings: "Past meetings"
@@ -127,6 +132,7 @@ en:
   label_version: "Version"
   label_time_zone: "Time zone"
   label_start_date: "Start date"
+
 
   meeting:
     attachments:
@@ -154,7 +160,7 @@ en:
     types:
       classic: "Classic"
       classic_text: "Organize your meeting in a formattable text agenda and protocol."
-      structured: "Dynamic"
+      structured: "One-time"
       structured_text: "Organize your meeting as a list of agenda items, optionally linking them to a work package."
       structured_text_copy: "Copying a meeting will currently not copy the associated meeting agenda items, just the details"
     copied: "Copied from Meeting #%{id}"

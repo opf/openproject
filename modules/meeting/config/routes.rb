@@ -56,6 +56,7 @@ Rails.application.routes.draw do
   end
 
   resources :meetings do
+    get :new_dialog, on: :collection
     member do
       get :check_for_updates
       get :cancel_edit

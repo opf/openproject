@@ -33,7 +33,11 @@ class Meeting::Location < ApplicationForm
       placeholder: Meeting.human_attribute_name(:location),
       label: Meeting.human_attribute_name(:location),
       visually_hide_label: false,
-      leading_visual: { icon: :link }
+      leading_visual: { icon: @icon }
     )
+  end
+
+  def initialize(icon: :link)
+    @icon = icon
   end
 end

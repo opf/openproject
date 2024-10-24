@@ -7,18 +7,35 @@
     render(Meetings::MeetingFilterButtonComponent.new(query: @query, project: @project))
   end
 
-  subheader.with_action_button(tag: :a,
-                               href: dynamic_path,
-                               scheme: :primary,
-                               mobile_icon: :plus,
-                               mobile_label: label_text,
-                               aria: { label: accessibility_label_text },
-                               title: accessibility_label_text,
-                               id: id,
-                               test_selector: "add-meeting-button") do |button|
-    button.with_leading_visual_icon(icon: :plus)
-    label_text
-  end if render_create_button?
+  if render_create_button?
+    subheader.with_action_component do
+
+      render Primer::Alpha::ActionMenu.new(anchor_align: :end) do |menu|
+        menu.with_show_button(scheme: :primary,
+                              test_selector: "add-meeting-button",
+                              mobile_icon: :plus,
+                              mobile_label: label_text,
+                              id: id,
+                              title: accessibility_label_text,
+                              aria: { label: accessibility_label_text }) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          button.with_trailing_action_icon(icon: :"triangle-down")
+          I18n.t(:label_meeting)
+        end
+
+        menu.with_item(label: I18n.t("meeting.types.classic"),
+                       tag: :a,
+                       href: dynamic_path
+        )
+
+        menu.with_item(label: I18n.t("meeting.types.structured"),
+                       tag: :a,
+                       href: new_dialog_meetings_path(project_id: @project&.id),
+                       content_arguments: { data: { controller: "async-dialog" }}
+        )
+      end
+    end
+  end
 
   subheader.with_bottom_pane_component(mt: 0) do
     render(Meetings::MeetingFiltersComponent.new(query: @query, project: @project))

@@ -27,17 +27,18 @@
 #++
 
 class MeetingsController < ApplicationController
-  before_action :load_and_authorize_in_optional_project, only: %i[index new show create history]
+  before_action :load_and_authorize_in_optional_project, only: %i[index new new_dialog show create history]
   before_action :verify_activities_module_activated, only: %i[history]
   before_action :determine_date_range, only: %i[history]
   before_action :determine_author, only: %i[history]
-  before_action :build_meeting, only: %i[new]
-  before_action :find_meeting, except: %i[index new create]
+  before_action :build_meeting, only: %i[new new_dialog]
+  before_action :find_meeting, except: %i[index new create new_dialog]
   before_action :set_activity, only: %i[history]
   before_action :find_copy_from_meeting, only: %i[create]
   before_action :convert_params, only: %i[create update update_participants]
-  before_action :authorize, except: %i[index new create update_title update_details update_participants change_state]
-  before_action :authorize_global, only: %i[index new create update_title update_details update_participants change_state]
+  before_action :authorize, except: %i[index new create update_title update_details update_participants change_state new_dialog]
+  before_action :authorize_global,
+                only: %i[index new create update_title update_details update_participants change_state new_dialog]
 
   helper :watchers
   helper :meeting_contents
@@ -49,6 +50,7 @@ class MeetingsController < ApplicationController
 
   include OpTurbo::ComponentStream
   include OpTurbo::FlashStreamHelper
+  include OpTurbo::DialogStreamHelper
   include Meetings::AgendaComponentStreams
   include MetaTagsHelper
 
@@ -93,6 +95,8 @@ class MeetingsController < ApplicationController
           .call(@converted_params)
       end
 
+    @meeting = call.result
+
     if call.success?
       text = I18n.t(:notice_successful_create)
       unless User.current.pref.time_zone?
@@ -102,11 +106,33 @@ class MeetingsController < ApplicationController
       end
       flash[:notice] = text.html_safe # rubocop:disable Rails/OutputSafety
 
-      redirect_to action: "show", id: call.result
+      respond_to do |format|
+        format.html do
+          redirect_to action: "show", id: @meeting
+        end
+
+        format.turbo_stream do
+          render turbo_stream: turbo_stream.redirect_to(meeting_path(@meeting))
+        end
+      end
     else
-      @meeting = call.result
-      render template: "meetings/new", project_id: @project, locals: { copy_from: @copy_from }
+      respond_to do |format|
+        format.html do
+          render template: "meetings/new", project_id: @project, locals: { copy_from: @copy_from }
+        end
+
+        format.turbo_stream do
+          update_via_turbo_stream(component: Meetings::Index::NewFormComponent.new(meeting: @meeting, project: @project),
+                                  status: :bad_request)
+
+          respond_with_turbo_streams
+        end
+      end
     end
+  end
+
+  def new_dialog
+    respond_with_dialog Meetings::Index::NewDialogComponent.new(meeting: @meeting, project: @project)
   end
 
   def new; end
