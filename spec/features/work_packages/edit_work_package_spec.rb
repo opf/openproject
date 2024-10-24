@@ -2,6 +2,7 @@ require "spec_helper"
 require "features/page_objects/notification"
 
 RSpec.describe "edit work package", :js do
+  let!(:standard_global_role) { create(:empty_global_role) }
   let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages
@@ -319,13 +320,7 @@ RSpec.describe "edit work package", :js do
     end
 
     context "with permission to see emails" do
-      let(:dev_role) do
-        create(:project_role,
-               permissions: %i[view_work_packages
-                               edit_work_packages
-                               view_user_email
-                               work_package_assigned])
-      end
+      let!(:standard_global_role) { create(:standard_global_role) }
 
       context "when assigning people to a work package" do
         include_examples "with permission", "assignee"
