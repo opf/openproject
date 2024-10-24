@@ -72,6 +72,22 @@ RSpec.describe Reactable do
         users: [{ id: user2.id, name: user2.name }]
       )
     end
+
+    context "when last_updated_at is set" do
+      it "returns grouped emoji reactions for work package journals that were updated after last_updated_at" do
+        wp_journal1.update!(updated_at: 1.day.ago)
+        result = Journal.grouped_work_package_journals_emoji_reactions(work_package, last_updated_at: wp_journal2.updated_at)
+
+        expect(result).to eq(
+          wp_journal2.id => {
+            thumbs_down: {
+              count: 1,
+              users: [{ id: user2.id, name: user2.name }]
+            }
+          }
+        )
+      end
+    end
   end
 
   describe ".grouped_journal_emoji_reactions" do
