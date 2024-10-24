@@ -524,7 +524,7 @@ it:
         is_readonly: "Sola lettura"
         excluded_from_totals: "Escluso dai totali"
   themes:
-    dark: "Scura (Beta)"
+    dark: "Dark"
     light: "Chiaro"
     light_high_contrast: "Chiaro ad alto contrasto"
   types:

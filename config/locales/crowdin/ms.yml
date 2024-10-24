@@ -519,7 +519,7 @@ ms:
         is_readonly: "Baca-sahaja"
         excluded_from_totals: "Dikecualikan daripada jumlah"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Dark"
     light: "Terang"
     light_high_contrast: "Kontras tinggi yang terang"
   types:

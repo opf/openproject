@@ -523,7 +523,7 @@ vi:
         is_readonly: "Chỉ đọc"
         excluded_from_totals: "Loại trừ khỏi tổng số"
   themes:
-    dark: "Tối (thử nghiệm)"
+    dark: "Dark"
     light: "Sáng"
     light_high_contrast: "Sáng, độ tương phản cao"
   types:

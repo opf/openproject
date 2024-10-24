@@ -536,7 +536,7 @@ lt:
         is_readonly: "Tik skaityti"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Tamsus (Beta versija)"
+    dark: "Dark"
     light: "Šviesi"
     light_high_contrast: "Šviesi kontrastinga"
   types:

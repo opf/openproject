@@ -33,7 +33,7 @@ ru:
           unmatched_private_key: "не принадлежит данному сертификату"
   saml:
     menu_title: Провайдеры SAML
-    delete_title: Delete SAML provider
+    delete_title: Удалить провайдера SAML
     info:
       title: "Параметры конфигурации протокола SAML"
       description: >

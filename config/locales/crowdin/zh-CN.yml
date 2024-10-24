@@ -517,7 +517,7 @@ zh-CN:
         is_readonly: "只读"
         excluded_from_totals: "不包括在总计中"
   themes:
-    dark: "黑暗（测试版）"
+    dark: "Dark"
     light: "浅色模式"
     light_high_contrast: "高对比度模式"
   types:
@@ -871,7 +871,7 @@ zh-CN:
         not_a_datetime: "不是有效的日期时间。"
         not_a_number: "不是一个数字。"
         not_allowed: "没有权限使用。"
-        not_json: "is not a valid JSON object."
+        not_json: "不是一个有效的 JSON 对象。"
         not_an_integer: "不是一个整数。"
         not_an_iso_date: "不是有效日期。所需格式：YYYY-MM-DD。"
         not_same_project: "不属于同一个项目。"
@@ -1981,7 +1981,7 @@ zh-CN:
   label_api_doc: "API 文档"
   label_backup: "备份"
   label_backup_code: "备份代码"
-  label_basic_details: "Basic details"
+  label_basic_details: "基本详细信息"
   label_between: "介于"
   label_blocked_by: "阻止于"
   label_blocks: "阻止"
@@ -2215,7 +2215,7 @@ zh-CN:
   label_custom_favicon: "自定义图标"
   label_custom_touch_icon: "自定义触摸图标"
   label_logout: "注销"
-  label_mapping_for: "Mapping for: %{attribute}"
+  label_mapping_for: "映射： %{attribute}"
   label_main_menu: "侧边菜单"
   label_manage: "管理"
   label_manage_groups: "组管理"
@@ -2343,7 +2343,7 @@ zh-CN:
   label_project_latest: "最新的项目"
   label_project_default_type: "允许为空类型"
   label_project_hierarchy: "项目层次结构"
-  label_project_mappings: "Projects"
+  label_project_mappings: "项目"
   label_project_new: "新的项目"
   label_project_plural: "项目"
   label_project_list_plural: "项目列表"
@@ -3132,9 +3132,9 @@ zh-CN:
   setting_default_language: "默认语言"
   setting_default_projects_modules: "新项目的默认启用模块"
   setting_default_projects_public: "新项目默认公开"
-  setting_disable_password_login: "Disable password authentication"
+  setting_disable_password_login: "禁用密码验证"
   setting_diff_max_lines_displayed: "最大差异显示行数"
-  setting_omniauth_direct_login_provider: "Direct login SSO provider"
+  setting_omniauth_direct_login_provider: "直接登录 SSO 提供商"
   setting_display_subprojects_work_packages: "默认在主项目上显示子项目工作包"
   setting_duration_format: "持续时间格式"
   setting_duration_format_hours_only: "仅限小时"
@@ -3232,9 +3232,9 @@ zh-CN:
   setting_working_days: "工作日"
   settings:
     authentication:
-      single_sign_on: "Single Sign-On"
+      single_sign_on: "单点登录"
       omniauth_direct_login_hint_html: >
-        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
+        如果激活该选项，登录请求将重定向到已配置的 omniauth 提供商。登录下拉菜单和登录页面将被禁用。 <br/> <strong>注意：</strong>除非同时禁用密码登录，否则启用此选项后，用户仍可通过访问 <code>%{internal_path}</code>登录页面。
     attachments:
       whitelist_text_html: >
         为上传的文件定义有效文件扩展名和/或 MIME 类型列表。<br/>输入文件扩展名（例如 <code>%{ext_example}</code>）或 MIME 类型（例如 <code>%{mime_example}</code>）。<br/>留空以允许上传任何文件类型。允许输入多个值（每个值一行）。

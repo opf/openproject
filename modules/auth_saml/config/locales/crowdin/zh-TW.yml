@@ -33,7 +33,7 @@ zh-TW:
           unmatched_private_key: "不屬於指定的憑證"
   saml:
     menu_title: SAML 提供商
-    delete_title: Delete SAML provider
+    delete_title: 刪除 SAML 提供者
     info:
       title: "SAML 通訊協定組態參數"
       description: >

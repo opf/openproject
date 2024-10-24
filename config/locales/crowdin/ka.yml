@@ -527,7 +527,7 @@ ka:
         is_readonly: "მხოლოდ-წასაკითხად"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Dark"
     light: "ღია"
     light_high_contrast: "Light high contrast"
   types:

@@ -525,7 +525,7 @@ hu:
         is_readonly: "Írásvédett"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Dark"
     light: "Világos"
     light_high_contrast: "Világos, nagy kontraszt"
   types:

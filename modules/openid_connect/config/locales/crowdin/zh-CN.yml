@@ -9,110 +9,110 @@ zh-CN:
       openid_connect/provider:
         name: 名称
         display_name: 显示名称
-        client_id: Client ID
-        client_secret: Client secret
+        client_id: 客户端 ID
+        client_secret: 客户端密钥
         secret: 密钥
         scope: 范围
         limit_self_registration: 限制自行注册
-        authorization_endpoint: Authorization endpoint
-        userinfo_endpoint: User information endpoint
-        token_endpoint: Token endpoint
-        end_session_endpoint: End session endpoint
-        post_logout_redirect_uri: Post logout redirect URI
+        authorization_endpoint: 验证端点
+        userinfo_endpoint: 用户信息端点
+        token_endpoint: 令牌端点
+        end_session_endpoint: 结束会话端点
+        post_logout_redirect_uri: 发布注销重定向 URI
         jwks_uri: JWKS URI
-        issuer: Issuer
-        tenant: Tenant
-        metadata_url: Metadata URL
-        icon: Custom icon
-        claims: Claims
-        acr_values: ACR values
+        issuer: 发行者
+        tenant: 租户
+        metadata_url: 元数据 URL
+        icon: 自定义图标
+        claims: 声明
+        acr_values: ACR 值
   activerecord:
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
-              format: "Discovery endpoint URL %{message}"
-              response_is_not_successful: " responds with %{status}."
-              response_is_not_json: " does not return JSON body."
-              response_misses_required_attributes: " does not return required attributes. Missing attributes are: %{missing_attributes}."
+              format: "发现端点 URL %{message}"
+              response_is_not_successful: " 响应状态为 %{status}。"
+              response_is_not_json: " 不返回 JSON 正文。"
+              response_misses_required_attributes: " 不返回所需的属性。缺少的属性有 %{missing_attributes}."
   provider:
     delete_warning:
-      input_delete_confirmation: Enter the provider name %{name} to confirm deletion.
-      irreversible_notice: Deleting an SSO provider is an irreversible action.
-      provider: 'Are you sure you want to delete the SSO provider %{name}? To confirm this action please enter the name of the provider in the field below, this will:'
-      delete_result_1: Remove the provider from the list of available providers.
+      input_delete_confirmation: 输入占位符名称 %{name} 以确认删除。
+      irreversible_notice: 删除项目是一个不可逆转的操作。
+      provider: '您确定要删除 SSO 提供商 %{name} 吗？要确认此操作，请在下面的字段中输入提供商的名称：'
+      delete_result_1: 从可用的提供商列表中删除提供商。
       delete_result_user_count:
-        zero: No users are currently using this provider. No further action is required.
-        one: "One user is currently still using this provider. They will need to be re-invited or logging in with another provider."
-        other: "%{count} users are currently still using this provider. They will need to be re-invited or logging in with another provider."
-      delete_result_direct: This provider is marked as a direct login provider. The setting will be removed and users will no longer be redirected to the provider for login.
+        zero: 目前没有用户正在使用此提供商。无需采取进一步操作。
+        one: "目前有一个用户仍在使用此提供商。他们需要被重新邀请或使用其他提供商登录。"
+        other: "目前有 %{count} 个用户仍在使用该提供商。他们需要重新邀请或使用其他提供商登录。"
+      delete_result_direct: 此提供商被标记为直接登录提供商。 设置将被删除，用户将不再被重定向到提供商登录。
   openid_connect:
     menu_title: OpenID 提供商
-    delete_title: "Delete OpenID Connect provider"
+    delete_title: "删除 OpenID Connect 提供商"
     instructions:
-      endpoint_url: The endpoint URL given to you by the OpenID Connect provider
-      metadata_none: I don't have this information
-      metadata_url: I have a discovery endpoint URL
-      client_id: This is the client ID given to you by your OpenID Connect provider
-      client_secret: This is the client secret given to you by your OpenID Connect provider
-      limit_self_registration: If enabled, users can only register using this provider if configuration on the prvoder's end allows it.
-      display_name: Then name of the provider. This will be displayed as the login button and in the list of providers.
-      tenant: 'Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.'
-      post_logout_redirect_uri: The URL the OpenID Connect provider should redirect to after a logout request.
+      endpoint_url: OpenID Connect 提供商给您的端点 URL
+      metadata_none: 我没有这个信息
+      metadata_url: 我有一个发现端点网址
+      client_id: 这是您的 OpenID Connect 提供商给您的客户端 ID
+      client_secret: 这是您的 OpenID Connect 提供商给您的客户端密钥
+      limit_self_registration: 如果启用，用户只能在提供商端的配置允许的情况下使用此提供商注册。
+      display_name: 提供商的名称。这将显示为登录按钮以及提供商列表中的名称。
+      tenant: '如果适用，请将默认租户替换为您自己的租户。请参阅<a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">此处</a>。'
+      post_logout_redirect_uri: OpenID Connect 提供商在注销请求后应重定向到的 URL。
       claims: >
-        You can request additional claims for the userinfo and id token endpoints. Please see [our OpenID connect documentation](docs_url) for more information.
+        您可以请求用户信息和 Id 令牌端点的附加声明。有关更多信息，请参阅 [我们的 OpenID Connect 文档](docs_url)。
       acr_values: >
-        Request non-essential claims in an easier format. See [our documentation on acr_values](docs_url) for more information.
+        以更简单的格式请求非必要声明。更多信息，请参阅 [我们关于acr_value的文档](docs_url)。
       mapping_login: >
-        Provide a custom mapping in the userinfo response to be used for the login attribute.
+        提供用于登录属性的用户信息响应自定义映射。
       mapping_email: >
-        Provide a custom mapping in the userinfo response to be used for the email attribute.
+        在用户信息响应中提供自定义映射，用于电子邮件属性。
       mapping_first_name: >
-        Provide a custom mapping in the userinfo response to be used for the first name.
+        在用户信息响应中提供自定义映射，用于名字。
       mapping_last_name: >
-        Provide a custom mapping in the userinfo response to be used for the last name.
+        在用户信息响应中提供自定义映射，用于姓氏。
       mapping_admin: >
-        Provide a custom mapping in the userinfo response to be used for the admin status. It expects a boolean attribute to be returned.
+        在用户信息响应中提供自定义映射，用于管理员状态。它期望返回一个布尔属性。
     settings:
-      metadata_none: I don't have this information
-      metadata_url: I have a discovery endpoint URL
-      endpoint_url: Endpoint URL
+      metadata_none: 我没有这个信息
+      metadata_url: 我有一个发现端点 URL
+      endpoint_url: 端点 URL
     providers:
-      seeded_from_env: "This provider was seeded from the environment configuration. It cannot be edited."
+      seeded_from_env: "此提供商是从环境配置中生成的。它无法被编辑。"
       google:
-        name: Google
+        name: 谷歌
       microsoft_entra:
-        name: Microsoft Entra
+        name: 微软 Entra
       custom:
-        name: Custom
+        name: 自定义
       upsale:
-        description: Connect OpenProject to an OpenID connect identity provider
+        description: 将 OpenProject 连接到 OpenID connect 身份提供商
       label_add_new: 添加一个新的 OpenID 提供商
       label_edit: 编辑 OpenID 提供商 %{name}
-      label_empty_title: No OpenID providers configured yet.
-      label_empty_description: Add a provider to see them here.
-      label_metadata: OpenID Connect Discovery Endpoint
-      label_automatic_configuration: Automatic configuration
-      label_optional_configuration: Optional configuration
-      label_advanced_configuration: Advanced configuration
-      label_configuration_details: Metadata
-      label_client_details: Client details
-      label_attribute_mapping: Attribute mapping
-      client_details_description: Configuration details of OpenProject as an OIDC client
+      label_empty_title: 尚未配置 OpenID 提供商。
+      label_empty_description: 在这里添加一个提供商以查看它们。
+      label_metadata: OpenID Connect 发现端点
+      label_automatic_configuration: 自动配置
+      label_optional_configuration: 可选配置
+      label_advanced_configuration: 高级配置
+      label_configuration_details: 元数据
+      label_client_details: 客户端详细信息
+      label_attribute_mapping: 属性映射
+      client_details_description: OpenProject 作为 OIDC 客户端的配置详细信息
       no_results_table: 尚未定义提供商。
       plural: OpenID 提供商
       singular: OpenID 提供商
       section_texts:
-        metadata: Pre-fill configuration using an OpenID Connect discovery endpoint URL
-        metadata_form_banner: Editing the discovery endpoint may override existing pre-filled metadata values.
-        metadata_form_title: OpenID Connect Discovery endpoint
-        metadata_form_description: If your identity provider has a discovery endpoint URL. Use it below to pre-fill configuration.
-        configuration_metadata: The information has been pre-filled using the supplied discovery endpoint. In most cases, they do not require editing.
-        configuration: Configuration details of the OpenID Connect provider
-        display_name: The display name visible to users.
-        attribute_mapping: Configure the mapping of attributes between OpenProject and the OpenID Connect provider.
-        claims: Request additional claims for the ID token or userinfo response.
+        metadata: 使用 OpenID Connect 发现端点 URL 预填充配置
+        metadata_form_banner: 编辑发现端点可能会覆盖现有的预填元数据值。
+        metadata_form_title: OpenID Connect 发现端点
+        metadata_form_description: 如果您的身份提供商有发现端点 URL 。请使用下面的地址来预填写配置。
+        configuration_metadata: 这些资料是利用所提供的发现端点预先填写的，在大多数情况下，这些资料不需要编辑。
+        configuration: OpenID Connect 提供商的配置详细信息
+        display_name: 显示名称对用户可见。
+        attribute_mapping: 配置 OpenProject 和 OpenID Connect 提供商之间属性的映射。
+        claims: 请求额外的 ID 令牌或用户信息响应请求。
     setting_instructions:
       limit_self_registration: >
         如果启用，用户只能使用此提供商注册，如果自注册设置允许的话。

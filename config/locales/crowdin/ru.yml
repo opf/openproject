@@ -538,7 +538,7 @@ ru:
         is_readonly: "Только для чтения"
         excluded_from_totals: "Исключен из итогов"
   themes:
-    dark: "Темный (бета)"
+    dark: "Dark"
     light: "Светлая"
     light_high_contrast: "Светлый высокий контраст"
   types:
@@ -896,7 +896,7 @@ ru:
         not_a_datetime: "дата и время не являются допустимыми."
         not_a_number: "не является числом."
         not_allowed: "неверно, ввиду отсутствия прав."
-        not_json: "is not a valid JSON object."
+        not_json: "не является допустимым объектом JSON."
         not_an_integer: "не является целым числом."
         not_an_iso_date: "недопустимая дата. Требуемый формат: гггг-мм-дд."
         not_same_project: "не принадлежит тому же проекту."
@@ -2090,7 +2090,7 @@ ru:
   label_api_doc: "Документация по API"
   label_backup: "Резервное копирование"
   label_backup_code: "Код резервного копирования"
-  label_basic_details: "Basic details"
+  label_basic_details: "Основные сведения"
   label_between: "между"
   label_blocked_by: "заблокировано"
   label_blocks: "блоки"
@@ -2324,7 +2324,7 @@ ru:
   label_custom_favicon: "Пользовательские иконки"
   label_custom_touch_icon: "Пользовательский значок логотипа"
   label_logout: "Выход"
-  label_mapping_for: "Mapping for: %{attribute}"
+  label_mapping_for: "Привязки для: %{attribute}"
   label_main_menu: "Боковое меню"
   label_manage: "Управление"
   label_manage_groups: "Управление группами"
@@ -2452,7 +2452,7 @@ ru:
   label_project_latest: "Последние проекты"
   label_project_default_type: "Разрешить пустой тип"
   label_project_hierarchy: "Иерархия проектов"
-  label_project_mappings: "Projects"
+  label_project_mappings: "Проекты"
   label_project_new: "Новый проект"
   label_project_plural: "Проекты"
   label_project_list_plural: "Списки проектов"
@@ -3250,9 +3250,9 @@ ru:
   setting_default_language: "Язык по умолчанию"
   setting_default_projects_modules: "По умолчанию доступные в новых проектах модули"
   setting_default_projects_public: "По умолчанию новые проекты видимы всем"
-  setting_disable_password_login: "Disable password authentication"
+  setting_disable_password_login: "Отключить аутентификацию по паролю"
   setting_diff_max_lines_displayed: "Максимальное количество отображаемых строк diff(разницы)"
-  setting_omniauth_direct_login_provider: "Direct login SSO provider"
+  setting_omniauth_direct_login_provider: "Прямая аутентификация у провайдера SSO"
   setting_display_subprojects_work_packages: "Отображать пакеты работ подпроектов в основном проекте по-умолчанию"
   setting_duration_format: "Формат длительности"
   setting_duration_format_hours_only: "Только часы"
@@ -3350,7 +3350,7 @@ ru:
   setting_working_days: "Рабочие дни"
   settings:
     authentication:
-      single_sign_on: "Single Sign-On"
+      single_sign_on: "Единый вход"
       omniauth_direct_login_hint_html: >
         If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
     attachments:

@@ -526,7 +526,7 @@ sv:
         is_readonly: "Skrivskyddad"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Dark"
     light: "Ljust"
     light_high_contrast: "Light high contrast"
   types:

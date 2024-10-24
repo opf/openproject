@@ -33,7 +33,7 @@ zh-CN:
           unmatched_private_key: "不属于给定证书"
   saml:
     menu_title: SAML 提供商
-    delete_title: Delete SAML provider
+    delete_title: 删除 SAML 提供商
     info:
       title: "SAML 协议配置参数"
       description: >

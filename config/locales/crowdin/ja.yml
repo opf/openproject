@@ -517,7 +517,7 @@ ja:
         is_readonly: "読み取り専用"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Dark"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:

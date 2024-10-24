@@ -524,7 +524,7 @@ nl:
         is_readonly: "Alleen-lezen"
         excluded_from_totals: "Uitgesloten van totalen"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Dark"
     light: "Licht"
     light_high_contrast: "Licht hoog contrast"
   types:

@@ -533,7 +533,7 @@ uk:
         is_readonly: "Лише для перегляду"
         excluded_from_totals: "Виключено з підсумків"
   themes:
-    dark: "Темна (бета)"
+    dark: "Dark"
     light: "Світла"
     light_high_contrast: "Світла, високий контраст"
   types:

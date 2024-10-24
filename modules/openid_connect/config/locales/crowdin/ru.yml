@@ -9,32 +9,32 @@ ru:
       openid_connect/provider:
         name: Имя
         display_name: Отображаемое имя
-        client_id: Client ID
-        client_secret: Client secret
+        client_id: ID клиента
+        client_secret: Закрытый ключ клиента
         secret: Секретный ключ
         scope: Область
         limit_self_registration: Ограничить саморегистрацию
-        authorization_endpoint: Authorization endpoint
-        userinfo_endpoint: User information endpoint
-        token_endpoint: Token endpoint
-        end_session_endpoint: End session endpoint
-        post_logout_redirect_uri: Post logout redirect URI
+        authorization_endpoint: Конечная точка авторизации
+        userinfo_endpoint: Конечная точка получения информации о пользователе
+        token_endpoint: Конечная точка токена
+        end_session_endpoint: Конечная точка завершения сеанса
+        post_logout_redirect_uri: URI перенаправления после выхода из системы
         jwks_uri: JWKS URI
         issuer: Issuer
         tenant: Tenant
-        metadata_url: Metadata URL
-        icon: Custom icon
+        metadata_url: URL метаданных
+        icon: Пользовательская иконка
         claims: Claims
-        acr_values: ACR values
+        acr_values: Значения ACR
   activerecord:
     errors:
       models:
         openid_connect/provider:
           attributes:
             metadata_url:
-              format: "Discovery endpoint URL %{message}"
-              response_is_not_successful: " responds with %{status}."
-              response_is_not_json: " does not return JSON body."
+              format: "URL конечной точки обнаружения %{message}"
+              response_is_not_successful: " отвечает %{status}."
+              response_is_not_json: " не возвращает тело JSON."
               response_misses_required_attributes: " does not return required attributes. Missing attributes are: %{missing_attributes}."
   provider:
     delete_warning:
@@ -49,11 +49,11 @@ ru:
       delete_result_direct: This provider is marked as a direct login provider. The setting will be removed and users will no longer be redirected to the provider for login.
   openid_connect:
     menu_title: Провайдеры OpenID
-    delete_title: "Delete OpenID Connect provider"
+    delete_title: "Удалить провайдера OpenID Connect"
     instructions:
       endpoint_url: The endpoint URL given to you by the OpenID Connect provider
-      metadata_none: I don't have this information
-      metadata_url: I have a discovery endpoint URL
+      metadata_none: У меня нет этой информации
+      metadata_url: У меня есть URL конечной точки обнаружения
       client_id: This is the client ID given to you by your OpenID Connect provider
       client_secret: This is the client secret given to you by your OpenID Connect provider
       limit_self_registration: If enabled, users can only register using this provider if configuration on the prvoder's end allows it.
@@ -75,9 +75,9 @@ ru:
       mapping_admin: >
         Provide a custom mapping in the userinfo response to be used for the admin status. It expects a boolean attribute to be returned.
     settings:
-      metadata_none: I don't have this information
-      metadata_url: I have a discovery endpoint URL
-      endpoint_url: Endpoint URL
+      metadata_none: У меня нет этой информации
+      metadata_url: У меня есть URL конечной точки обнаружения
+      endpoint_url: URL конечной точки
     providers:
       seeded_from_env: "This provider was seeded from the environment configuration. It cannot be edited."
       google:
@@ -85,32 +85,32 @@ ru:
       microsoft_entra:
         name: Microsoft Entra
       custom:
-        name: Custom
+        name: Пользовательский
       upsale:
         description: Connect OpenProject to an OpenID connect identity provider
       label_add_new: Добавить нового провайдера OpenID
       label_edit: Редактировать провайдера OpenID %{name}
-      label_empty_title: No OpenID providers configured yet.
-      label_empty_description: Add a provider to see them here.
-      label_metadata: OpenID Connect Discovery Endpoint
-      label_automatic_configuration: Automatic configuration
-      label_optional_configuration: Optional configuration
-      label_advanced_configuration: Advanced configuration
-      label_configuration_details: Metadata
-      label_client_details: Client details
-      label_attribute_mapping: Attribute mapping
-      client_details_description: Configuration details of OpenProject as an OIDC client
+      label_empty_title: Провайдеры OpenID еще не настроены.
+      label_empty_description: Добавьте провайдера, чтобы увидеть его здесь.
+      label_metadata: Конечная точка обнаружения OpenID Connect
+      label_automatic_configuration: Автоматическая настройка
+      label_optional_configuration: Необязательные настройки
+      label_advanced_configuration: Расширенные настройки
+      label_configuration_details: Метаданные
+      label_client_details: Информация о клиенте
+      label_attribute_mapping: Привязки атрибутов
+      client_details_description: Информация о настройке OpenProject в качестве клиента OIDC
       no_results_table: Ни один провайдер еще не был определен.
       plural: Провайдеры OpenID
       singular: Провайдер OpenID
       section_texts:
         metadata: Pre-fill configuration using an OpenID Connect discovery endpoint URL
         metadata_form_banner: Editing the discovery endpoint may override existing pre-filled metadata values.
-        metadata_form_title: OpenID Connect Discovery endpoint
+        metadata_form_title: Конечная точка обнаружения OpenID Connect
         metadata_form_description: If your identity provider has a discovery endpoint URL. Use it below to pre-fill configuration.
         configuration_metadata: The information has been pre-filled using the supplied discovery endpoint. In most cases, they do not require editing.
         configuration: Configuration details of the OpenID Connect provider
-        display_name: The display name visible to users.
+        display_name: Отображаемое имя, видимое пользователям.
         attribute_mapping: Configure the mapping of attributes between OpenProject and the OpenID Connect provider.
         claims: Request additional claims for the ID token or userinfo response.
     setting_instructions:

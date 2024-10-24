@@ -519,7 +519,7 @@ zh-TW:
         is_readonly: "唯讀"
         excluded_from_totals: "不包括在總計中"
   themes:
-    dark: "深色(測試版)"
+    dark: "Dark"
     light: "白色主題"
     light_high_contrast: "高對比白色主題"
   types:
@@ -873,7 +873,7 @@ zh-TW:
         not_a_datetime: "不是有效的日期時間。"
         not_a_number: "不是數字"
         not_allowed: "是無效的因為缺少權限"
-        not_json: "is not a valid JSON object."
+        not_json: "不是有效的 JSON 物件。"
         not_an_integer: "不是整數"
         not_an_iso_date: "不是有效日期。所需格式：YYYY-MM-DD。"
         not_same_project: "不屬於相同的專案"
@@ -1983,7 +1983,7 @@ zh-TW:
   label_api_doc: "API文件"
   label_backup: "備份"
   label_backup_code: "備份代碼"
-  label_basic_details: "Basic details"
+  label_basic_details: "基本訊息"
   label_between: "介於"
   label_blocked_by: "標示禁止者"
   label_blocks: "區塊"
@@ -2217,7 +2217,7 @@ zh-TW:
   label_custom_favicon: "自訂圖示"
   label_custom_touch_icon: "自訂觸控圖示"
   label_logout: "登出"
-  label_mapping_for: "Mapping for: %{attribute}"
+  label_mapping_for: "對應為： %{attribute}"
   label_main_menu: "側邊選單"
   label_manage: "管理"
   label_manage_groups: "管理群組"
@@ -2345,7 +2345,7 @@ zh-TW:
   label_project_latest: "最新的專案"
   label_project_default_type: "允許空類型"
   label_project_hierarchy: "專案結構"
-  label_project_mappings: "Projects"
+  label_project_mappings: "專案"
   label_project_new: "新增專案"
   label_project_plural: "專案"
   label_project_list_plural: "專案列表"
@@ -3137,9 +3137,9 @@ zh-TW:
   setting_default_language: "預設語言"
   setting_default_projects_modules: "新專案預設啟用的模組"
   setting_default_projects_public: "新專案預設為公開"
-  setting_disable_password_login: "Disable password authentication"
+  setting_disable_password_login: "停用密碼驗證"
   setting_diff_max_lines_displayed: "顯示比對差異的最大行數"
-  setting_omniauth_direct_login_provider: "Direct login SSO provider"
+  setting_omniauth_direct_login_provider: "直接登入 SSO 提供者"
   setting_display_subprojects_work_packages: "預設在主專案中顯示子專案的工作項目"
   setting_duration_format: "持續時間格式"
   setting_duration_format_hours_only: "僅限小時"
@@ -3237,9 +3237,9 @@ zh-TW:
   setting_working_days: "工作日"
   settings:
     authentication:
-      single_sign_on: "Single Sign-On"
+      single_sign_on: "單一帳號登入"
       omniauth_direct_login_hint_html: >
-        If this option is active, login requests will redirect to the configured omniauth provider. The login dropdown and sign-in page will be disabled. <br/> <strong>Note:</strong> Unless you also disable password logins, with this option enabled, users can still log in internally by visiting the <code>%{internal_path}</code> login page.
+        如果此選項處於活動狀態，登入請求將重新導向至已設定的omniauth 提供者。登入下拉選單和登入頁面將被停用。 <br/> <strong>注意：</strong>除非您也停用密碼登錄，否則啟用此選項後，使用者仍可透過造訪 <code>%{internal_path}</code> 登入頁面進行內部登入。
     attachments:
       whitelist_text_html: >
         為上傳的文件定義有效文件副檔名和/或 MIME 類型的列表。 <br/> 輸入文件副檔名（例如 <code>%{ext_example}</code>）或 MIME 類型（例如 <code>%{mime_example}</code>）。 <br/> 留空以允許上傳任何文件類型。允許多個值（每個值一行）。

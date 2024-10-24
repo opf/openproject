@@ -523,7 +523,7 @@ el:
         is_readonly: "Μόνο για ανάγνωση"
         excluded_from_totals: "Excluded from totals"
   themes:
-    dark: "Dark (Beta)"
+    dark: "Dark"
     light: "Light"
     light_high_contrast: "Light high contrast"
   types:
