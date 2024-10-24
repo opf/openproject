@@ -236,8 +236,8 @@ module API
             # Do not embed list or multi values as their links contain all the
             # information needed (title and href) already.
             next if represented.available_custom_fields.exclude?(custom_field) ||
-                    custom_field.list? ||
-                    custom_field.multi_value?
+              custom_field.list? ||
+              custom_field.multi_value?
 
             value = represented.send custom_field.attribute_getter
 
@@ -282,19 +282,33 @@ module API
           }
         end
 
+        # rubocop:disable Metrics/AbcSize
         def allowed_users_href_callback
+          # Careful to not alter the static_filters object here.
+          # It is made available in the closure (which is class level) and would thus
+          # keep the appended filters between requests.
           static_filters = allowed_users_static_filters
           instance_filters = method(:allowed_users_instance_filter)
 
-          ->(*) {
-            # Careful to not alter the static_filters object here.
-            # It is made available in the closure (which is class level) and would thus
-            # keep the appended filters between requests.
-            filters = static_filters + instance_filters.call(represented)
+          represented_is_existent_instance = lambda do |represented, clazz|
+            represented.respond_to?(:model) &&
+              represented.model.is_a?(clazz) &&
+              represented.model.id.present?
+          end
 
-            api_v3_paths.path_for(:principals, filters:, page_size: -1)
+          ->(*) {
+            if represented_is_existent_instance.(represented, Project)
+              api_v3_paths.available_assignees_in_project(represented.id)
+            elsif represented_is_existent_instance.(represented, WorkPackage)
+              api_v3_paths.available_assignees_in_work_package(represented.id)
+            else
+              filters = static_filters + instance_filters.call(represented)
+              api_v3_paths.path_for(:principals, filters:, page_size: -1)
+            end
           }
         end
+
+        # rubocop:enable Metrics/AbcSize
 
         def cf_min_length(custom_field)
           custom_field.min_length if custom_field.min_length.positive?
@@ -352,12 +366,7 @@ module API
         end
 
         def allowed_users_instance_filter(represented)
-          project_id_value =
-            if represented.respond_to?(:model) && represented.model.is_a?(Project)
-              represented.id
-            else
-              represented.project_id.to_s
-            end
+          project_id_value = represented.project_id
 
           if project_id_value.present?
             [{ member: { operator: "=", values: [project_id_value.to_s] } }]
@@ -402,13 +411,14 @@ module API
           def custom_field_class(custom_fields)
             custom_field_sha = OpenProject::Cache::CacheKey.expand(custom_fields.sort_by(&:id))
 
-            cached_custom_field_classes[custom_field_sha] ||= begin
-              injector_class = custom_field_injector_config[:injector_class]
+            cached_custom_field_classes[custom_field_sha] ||=
+              begin
+                injector_class = custom_field_injector_config[:injector_class]
 
-              method_name = :"create_#{custom_field_injector_config[:type]}"
+                method_name = :"create_#{custom_field_injector_config[:type]}"
 
-              injector_class.send(method_name, custom_fields, self)
-            end
+                injector_class.send(method_name, custom_fields, self)
+              end
           end
 
           def cached_custom_field_classes

@@ -254,6 +254,12 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
               is_required: true)
       end
 
+      before do
+        allow(schema)
+          .to receive(:id)
+                .and_return(model.id)
+      end
+
       it_behaves_like "has basic schema properties" do
         let(:path) { cf_path }
         let(:type) { "User" }
@@ -278,17 +284,7 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
 
       it_behaves_like "links to allowed values via collection link" do
         let(:path) { cf_path }
-        let(:href) do
-          params = [
-            { status: { operator: "!", values: [Principal.statuses[:locked].to_s] } },
-            { type: { operator: "=", values: %w[User Group PlaceholderUser] } },
-            { member: { operator: "=", values: [schema.project_id.to_s] } }
-          ]
-
-          query = CGI.escape(JSON.dump(params))
-
-          "#{api_v3_paths.principals}?filters=#{query}&pageSize=-1"
-        end
+        let(:href) { api_v3_paths.available_assignees_in_work_package(model.id) }
       end
     end
 
@@ -303,6 +299,12 @@ RSpec.describe API::V3::Utilities::CustomFieldInjector do
         build(:custom_field,
               field_format: "user",
               is_required: true)
+      end
+
+      before do
+        allow(schema)
+          .to receive(:project_id)
+                .and_return(nil)
       end
 
       it_behaves_like "links to allowed values via collection link" do
