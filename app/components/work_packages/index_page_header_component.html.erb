@@ -6,11 +6,17 @@
     end
     header.with_breadcrumbs(breadcrumb_items)
 
-    header.with_action_dialog(mobile_icon: :"op-include-projects",
+    header.with_action_button(tag: :a,
+                              mobile_icon: :"op-include-projects",
                               mobile_label: I18n.t("js.include_projects.toggle_title"),
-                              dialog_arguments: { id: "my_dialog", title: "A great dialog" },
-                              button_arguments: { button_block: project_include_button_callback, test_selector: "project-include-button" }) do |d|
-      d.with_body { "TODO" }
+                              href: @project.present? ? include_projects_dialog_project_work_packages_path(@project) : include_projects_dialog_work_packages_path(),
+                              aria: { label: I18n.t("js.include_projects.toggle_title") },
+                              title: I18n.t("js.include_projects.toggle_title"),
+                              data: { controller: "async-dialog" },
+                              test_selector: "project-include-button",
+                              rel: "nofollow") do |button|
+      button.with_leading_visual_icon(icon: :"op-include-projects")
+      I18n.t("js.include_projects.toggle_title")
     end
 
     header.with_action_button(tag: :a,

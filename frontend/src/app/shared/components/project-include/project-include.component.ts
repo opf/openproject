@@ -30,6 +30,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   HostBinding,
+  Input,
   OnInit,
 } from '@angular/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -77,8 +78,11 @@ import { calculatePositions } from 'core-app/shared/components/project-include/c
 export class OpProjectIncludeComponent extends UntilDestroyedMixin implements OnInit {
   @HostBinding('class.op-project-include') className = true;
 
+  @Input() public showActionBar = true;
+
+  @Input() public showHeaderText = true;
+
   public text = {
-    toggle_title: this.I18n.t('js.include_projects.toggle_title'),
     title: this.I18n.t('js.include_projects.title'),
     filter_all: this.I18n.t('js.include_projects.selected_filter.all'),
     filter_selected: this.I18n.t('js.include_projects.selected_filter.selected'),
@@ -88,8 +92,6 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     include_subprojects: this.I18n.t('js.include_projects.include_subprojects'),
     no_results: this.I18n.t('js.include_projects.no_results'),
   };
-
-  public opened = false;
 
   public textFieldFocused = false;
 
@@ -157,8 +159,6 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
         return selectedProjects;
       }),
     );
-
-  public numberOfProjectsInFilter$ = this.projectsInFilter$.pipe(map((selected) => selected.length));
 
   public projects$ = combineLatest([
     this.searchableProjectListService.allProjects$,
@@ -299,27 +299,21 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
       .subscribe((includeSubprojects) => {
         this.includeSubprojects = includeSubprojects;
       });
+
+    this.searchableProjectListService.loadAllProjects();
+    this.projectsInFilter$
+      .pipe(
+        take(1),
+      )
+      .subscribe((selectedProjects) => {
+        this.displayMode = 'all';
+        this.searchableProjectListService.searchText = '';
+        this.selectedProjects = selectedProjects as string[];
+      });
   }
 
   public toggleIncludeSubprojects():void {
     this.wpIncludeSubprojects.setIncludeSubprojects(!this.wpIncludeSubprojects.current);
-  }
-
-  public toggleOpen():void {
-    this.opened = !this.opened;
-
-    if (this.opened) {
-      this.searchableProjectListService.loadAllProjects();
-      this.projectsInFilter$
-        .pipe(
-          take(1),
-        )
-        .subscribe((selectedProjects) => {
-          this.displayMode = 'all';
-          this.searchableProjectListService.searchText = '';
-          this.selectedProjects = selectedProjects as string[];
-        });
-    }
   }
 
   public clearSelection():void {
@@ -337,11 +331,5 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
     });
 
     this.wpIncludeSubprojects.update(this.includeSubprojects);
-
-    this.close();
-  }
-
-  public close():void {
-    this.opened = false;
   }
 }

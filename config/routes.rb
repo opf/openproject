@@ -347,6 +347,7 @@ Rails.application.routes.draw do
         get "menu" => "work_packages/menus#show"
         get "/export_dialog" => "work_packages#export_dialog"
         get "/baseline_dialog" => "work_packages#baseline_dialog"
+        get "/include_projects_dialog" => "work_packages#include_projects_dialog"
       end
 
       get "/copy" => "work_packages#copy", on: :member, as: "copy"
@@ -620,6 +621,7 @@ Rails.application.routes.draw do
 
     get "/export_dialog" => "work_packages#export_dialog", on: :collection, as: "export_dialog"
     get "/baseline_dialog" => "work_packages#baseline_dialog", on: :collection, as: "baseline_dialog"
+    get "/include_projects_dialog" => "work_packages#include_projects_dialog", on: :collection, as: "include_projects_dialog"
 
     get "/split_view/update_counter" => "work_packages/split_view#update_counter",
         on: :member

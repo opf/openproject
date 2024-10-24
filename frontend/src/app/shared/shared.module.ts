@@ -100,6 +100,8 @@ import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.m
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { OpDatePickerModule } from 'core-app/shared/components/datepicker/datepicker.module';
 import { ShareUpsaleComponent } from 'core-app/features/enterprise/share-upsale/share-upsale.component';
+import { OpProjectIncludeModalComponent } from 'core-app/shared/components/project-include/project-include-modal.component';
+import { OpIncludeProjectsEntryComponent } from 'core-app/shared/components/project-include/project-include-entry.component';
 
 export function bootstrapModule(injector:Injector):void {
   // Ensure error reporter is run
@@ -193,7 +195,7 @@ export function bootstrapModule(injector:Injector):void {
     DynamicModule,
 
     OpOptionListComponent,
-    OpProjectIncludeComponent,
+    OpProjectIncludeModalComponent,
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,
 
@@ -245,6 +247,8 @@ export function bootstrapModule(injector:Injector):void {
     HomescreenNewFeaturesBlockComponent,
 
     OpOptionListComponent,
+    OpIncludeProjectsEntryComponent,
+    OpProjectIncludeModalComponent,
     OpProjectIncludeComponent,
     OpProjectIncludeListComponent,
     OpLoadingProjectListComponent,

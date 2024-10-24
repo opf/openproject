@@ -1,0 +1,27 @@
+<spot-drop-modal
+  [opened]="opened"
+  (closed)="opened = false"
+  class="op-project-list-modal"
+>
+  <button
+    slot="trigger"
+    type="button"
+    class="button"
+    (click)="toggleOpen()"
+    [title]="text.toggle_title"
+    data-test-selector="project-include-button"
+  >
+    {{ text.toggle_title }}
+    <span
+      *ngIf="count"
+      class="badge -secondary"
+      [textContent]="count"
+    >
+    </span>
+    <span class="spot-icon spot-icon_dropdown"></span>
+  </button>
+
+  <op-project-include
+    slot="body"
+  ></op-project-include>
+</spot-drop-modal>
