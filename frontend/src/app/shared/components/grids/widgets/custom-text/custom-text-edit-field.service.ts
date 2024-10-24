@@ -20,10 +20,12 @@ export class CustomTextEditFieldService extends EditFieldHandler {
 
   public active:boolean;
 
-  constructor(protected elementRef:ElementRef,
+  constructor(
+    protected elementRef:ElementRef,
     protected injector:Injector,
     protected halResource:HalResourceService,
-    protected schemaCache:SchemaCacheService) {
+    protected schemaCache:SchemaCacheService,
+  ) {
     super();
   }
 
@@ -39,7 +41,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   /**
    * Handle saving the text
    */
-  public handleUserSubmit():Promise<any> {
+  public handleUserSubmit():Promise<void> {
     return this.update();
   }
 
@@ -135,6 +137,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
     const schemaHref = 'customtext-schema';
     const grid:GridResource = value.grid;
     const resourceSource:HalSource = {
+      id: `${grid.id}_custom_text`,
       text: value.options.text,
       getEditorContext: () => ({
         type: 'full',
@@ -142,6 +145,7 @@ export class CustomTextEditFieldService extends EditFieldHandler {
       } as ICKEditorContext),
       canAddAttachments: value.grid.canAddAttachments as boolean,
       _links: {
+        addAttachment: grid.addAttachment as { href?:string },
         attachments: grid.attachments as { href?:string },
         schema: {
           href: schemaHref,
