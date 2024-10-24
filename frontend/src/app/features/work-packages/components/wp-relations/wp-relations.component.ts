@@ -27,7 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, ViewChild, ElementRef,
 } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -39,6 +39,13 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { RelationsStateValue, WorkPackageRelationsService } from './wp-relations.service';
 import { RelatedWorkPackagesGroup } from './wp-relations.interfaces';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { renderStreamMessage } from '@hotwired/turbo';
+
+interface TurboFrameElement extends HTMLElement {
+  src:string;
+}
 
 @Component({
   selector: 'wp-relations',
@@ -49,6 +56,8 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
   @Input() public workPackage:WorkPackageResource;
 
   public relationGroups:RelatedWorkPackagesGroup = {};
+
+  @ViewChild('#work-package-relations-tab-content') readonly relationTurboFrame:TurboFrameElement;
 
   public relationGroupKeys:string[] = [];
 
@@ -65,14 +74,21 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
 
   public currentRelations:WorkPackageResource[] = [];
 
-  constructor(private I18n:I18nService,
+  turboFrameSrc:string;
+
+  constructor(
+  private I18n:I18nService,
     private wpRelations:WorkPackageRelationsService,
     private cdRef:ChangeDetectorRef,
-    private apiV3Service:ApiV3Service) {
+    private apiV3Service:ApiV3Service,
+    private PathHelper:PathHelperService,
+    private turboRequests:TurboRequestsService,
+) {
     super();
   }
 
   ngOnInit() {
+    this.turboFrameSrc = `${this.PathHelper.staticBase}/work_packages/${this.workPackage.id}/relations_tab`;
     this.canAddRelation = !!this.workPackage.addRelation;
 
     this.wpRelations
@@ -83,6 +99,14 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
       )
       .subscribe((relations:RelationsStateValue) => {
         this.loadedRelations(relations);
+        // Refresh the turbo frame
+        // eslint-disable-next-line no-self-assign
+        this.relationTurboFrame.src = this.relationTurboFrame.src;
+        void this.turboRequests.requestStream(this.turboFrameSrc)
+          .then((html) => {
+            // eslint-disable-next-line no-self-assign
+            renderStreamMessage(html);
+          });
       });
 
     this.wpRelations.require(this.workPackage.id!);
@@ -98,6 +122,11 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
       )
       .subscribe((wp:WorkPackageResource) => {
         this.workPackage = wp;
+        void this.turboRequests.requestStream(this.turboFrameSrc)
+        .then((html) => {
+          // eslint-disable-next-line no-self-assign
+            renderStreamMessage(html);
+          });
       });
   }
 
@@ -126,14 +155,16 @@ export class WorkPackageRelationsComponent extends UntilDestroyedMixin implement
       return;
     }
 
-    this.relationGroups = <RelatedWorkPackagesGroup>_.groupBy(this.currentRelations,
+    this.relationGroups = <RelatedWorkPackagesGroup>_.groupBy(
+this.currentRelations,
       (wp:WorkPackageResource) => {
         if (this.groupByWorkPackageType) {
           return wp.type.name;
         }
         const normalizedType = (wp.relatedBy as RelationResource).normalizedType(this.workPackage);
         return this.I18n.t(`js.relation_labels.${normalizedType}`);
-      });
+      },
+);
     this.relationGroupKeys = _.keys(this.relationGroups);
     this.relationsPresent = _.size(this.relationGroups) > 0;
     this.cdRef.detectChanges();

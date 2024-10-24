@@ -224,7 +224,8 @@ Rails.application.reloader.to_prepare do
                        "work_packages/reports": %i[report report_details],
                        "work_packages/activities_tab": %i[index update_streams update_sorting update_filter],
                        "work_packages/menus": %i[show],
-                       "work_packages/hover_card": %i[show]
+                       "work_packages/hover_card": %i[show],
+                       work_package_relations_tab: %i[index]
                      },
                      permissible_on: %i[work_package project],
                      contract_actions: { work_packages: %i[read] }

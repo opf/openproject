@@ -672,6 +672,41 @@ en:
         version:
           no_results_title_text: There are currently no versions available.
 
+  work_package_relations_tab:
+    index:
+      action_bar_title: "Add relations to other work packages to create a link between them."
+      no_results_title_text: There are currently no relations available.
+      blankslate_heading: "No relations"
+      blankslate_description: "This work package does not yet have any relations."
+    relations:
+      label_relates_singular: "related to"
+      label_relates_plural: "related to"
+      label_precedes_singular: "precedessor"
+      label_precedes_plural: "precedessors (before)"
+      label_follows_singular: "successor"
+      label_follows_plural: "successors (after)"
+      label_child_singular: "child"
+      label_child_plural: "child"
+      label_blocks_singular: "blocks"
+      label_blocks_plural: "blocks"
+      label_blocked_singular: "blocked by"
+      label_blocked_plural: "blocked by"
+      label_duplicates_singular: "duplicates"
+      label_duplicates_plural: "duplicates"
+      label_duplicated_singular: "duplicated by"
+      label_duplicated_plural: "duplicated by"
+      label_includes_singular: "includes"
+      label_includes_plural: "includes"
+      label_partof_singular: "part of"
+      label_partof_plural: "part of"
+      label_requires_singular: "requires"
+      label_requires_plural: "requires"
+      label_required_singular: "required by"
+      label_required_plural: "required by"
+
+      label_parent_singular: "parent"
+      label_parent_plural: "parent"
+
   label_invitation: Invitation
   account:
     delete: "Delete account"
@@ -2531,6 +2566,7 @@ en:
   label_related_work_packages: "Related work packages"
   label_relates: "related to"
   label_relates_to: "related to"
+  label_relation: "Relation"
   label_relation_delete: "Delete relation"
   label_relation_new: "New relation"
   label_release_notes: "Release notes"
