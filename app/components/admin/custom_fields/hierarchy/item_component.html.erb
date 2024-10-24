@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  component_wrapper do
+  component_wrapper(data: { test_selector: "op-custom-fields--hierarchy-item" }) do
     flex_layout(align_items: :center, justify_content: :space_between) do |item_container|
       item_container.with_column(flex_layout: true) do |item_information|
         item_information.with_column(mr: 2) do

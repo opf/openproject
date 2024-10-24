@@ -32,7 +32,10 @@ See COPYRIGHT and LICENSE files for more details.
     flex_layout do |container|
       if items.empty? && !show_new_item_form?
         container.with_row(mb: 3) do
-          render Primer::Beta::Blankslate.new(border: true) do |component|
+          render Primer::Beta::Blankslate.new(
+            border: true,
+            test_selector: "op-custom-fields--hierarchy-items-blankslate"
+          ) do |component|
             component.with_visual_icon(icon: "list-ordered")
             component.with_heading(tag: :h3).with_content(I18n.t("custom_fields.admin.items.blankslate.title"))
             component.with_description { I18n.t("custom_fields.admin.items.blankslate.description") }
