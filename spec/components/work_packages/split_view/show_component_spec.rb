@@ -2,7 +2,7 @@
 
 require "rails_helper"
 
-RSpec.describe WorkPackages::SplitViewComponent, type: :component do
+RSpec.describe WorkPackages::SplitView::ShowComponent, type: :component do
   include OpenProject::StaticRouting::UrlHelpers
 
   let(:project)      { create(:project) }

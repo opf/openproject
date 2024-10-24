@@ -1,0 +1,112 @@
+<%=
+  render(Primer::OpenProject::PageHeader.new(state: :show)) do |header|
+    header.with_title do |component|
+      component.with_editable_form(update_path: "/todo", cancel_path: "/todo")
+      title
+    end
+    header.with_breadcrumbs(breadcrumb_items)
+
+    header.with_action_button(tag: :a,
+                              mobile_icon: :"op-include-projects",
+                              mobile_label: I18n.t("js.include_projects.toggle_title"),
+                              href: @project.present? ? include_projects_dialog_project_work_packages_path(@project) : include_projects_dialog_work_packages_path(),
+                              aria: { label: I18n.t("js.include_projects.toggle_title") },
+                              title: I18n.t("js.include_projects.toggle_title"),
+                              data: { controller: "async-dialog" },
+                              test_selector: "project-include-button",
+                              rel: "nofollow") do |button|
+      button.with_leading_visual_icon(icon: :"op-include-projects")
+      I18n.t("js.include_projects.toggle_title")
+    end
+
+    header.with_action_button(tag: :a,
+                              mobile_icon: :"op-baseline",
+                              mobile_label: I18n.t("js.baseline.toggle_title"),
+                              href: @project.present? ? baseline_dialog_project_work_packages_path(@project) : baseline_dialog_work_packages_path(),
+                              aria: { label: I18n.t("js.baseline.toggle_title") },
+                              title: I18n.t("js.baseline.toggle_title"),
+                              data: { controller: "async-dialog" },
+                              rel: "nofollow") do |button|
+      button.with_leading_visual_icon(icon: :"op-baseline")
+      I18n.t("js.baseline.toggle_title")
+    end
+
+
+
+    header.with_action_zen_mode_button
+
+    header.with_action_menu(
+      menu_arguments: {
+        anchor_align: :end
+      },
+      button_arguments: {
+        icon: "kebab-horizontal",
+        "aria-label": t(:label_more),
+        data: { "test-selector": "project-more-dropdown-menu" }
+      }
+    ) do |menu|
+      menu.with_item(
+        tag: :a,
+        label: t(:'queries.configure_view.heading'),
+        href: "TODO",
+        content_arguments: { data: { controller: "async-dialog" }}
+      ) do |item|
+        item.with_leading_visual_icon(icon: :gear)
+      end
+
+      if can_rename?
+        menu.with_item(
+          label: t("button_rename"),
+          href: "TODO",
+          ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
+        end
+      end
+
+      if can_save?
+        menu.with_item(
+          label: t("button_save"),
+          href: "TODO",
+          content_arguments: {
+            data: { "turbo-stream": true, method: :patch }
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"op-save")
+        end
+      end
+
+      if can_save_as?
+        menu.with_item(
+          label: t("button_save_as"),
+          href: "TODO",
+          content_arguments: {
+            data: { "turbo-stream": true, method: :patch }
+          }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"op-save")
+        end
+      end
+
+      menu.with_item(
+        tag: :a,
+        label: t('js.label_export'),
+        href: @project.present? ? export_dialog_project_work_packages_path(@project) : export_dialog_work_packages_path(),
+        content_arguments: { data: { controller: "async-dialog" }, rel: "nofollow" }
+      ) do |item|
+        item.with_leading_visual_icon(icon: 'sign-out')
+      end
+
+      if can_delete?
+        menu.with_item(
+          tag: :a,
+          label: t(:button_delete),
+          scheme: :danger,
+          href: "TODO",
+          content_arguments: { data: { controller: "async-dialog" }}
+        ) do |item|
+          item.with_leading_visual_icon(icon: 'trash')
+        end
+      end
+    end
+  end
+%>

@@ -1,0 +1,15 @@
+<%=
+  component_wrapper(class: helpers.container_class) do
+    flex_layout(h: :full) do |flex|
+      flex.with_row(flex: 1) do
+        helpers.angular_component_tag "opce-wp-split-create",
+                                      inputs: {
+                                        type: @type,
+                                        projectIdentifier: @project.present? ? @project.identifier : nil,
+                                        resizerClass: helpers.container_class,
+                                        routedFromAngular: false,
+                                      }
+      end
+    end
+  end
+%>

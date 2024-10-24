@@ -16,7 +16,6 @@ import { QueryParamListenerService } from 'core-app/features/work-packages/compo
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageSettingsButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-settings-button/wp-settings-button.component';
 import { CalendarDragDropService } from 'core-app/features/team-planner/team-planner/calendar-drag-drop.service';
-import { OpProjectIncludeComponent } from 'core-app/shared/components/project-include/project-include.component';
 import {
   EffectCallback,
   registerEffectCallbacks,
@@ -29,6 +28,7 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { OpWorkPackagesCalendarService } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
+import { OpProjectIncludeModalComponent } from 'core-app/shared/components/project-include/project-include-modal.component';
 
 @Component({
   templateUrl: '../../../work-packages/routing/partitioned-query-space-page/partitioned-query-space-page.component.html',
@@ -79,7 +79,7 @@ export class TeamPlannerPageComponent extends PartitionedQuerySpacePageComponent
   /** Define the buttons shown in the toolbar */
   toolbarButtonComponents:ToolbarButtonComponentDefinition[] = [
     {
-      component: OpProjectIncludeComponent,
+      component: OpProjectIncludeModalComponent,
     },
     {
       component: WorkPackageFilterButtonComponent,

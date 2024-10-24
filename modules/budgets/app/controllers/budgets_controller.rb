@@ -220,12 +220,6 @@ class BudgetsController < ApplicationController
     render_404
   end
 
-  def find_optional_project
-    @project = Project.find(params[:project_id]) if params[:project_id].present?
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  end
-
   def render_item_as_json(element_id, costs, unit, project, permission)
     response = {
       "#{element_id}_unit_name" => ActionController::Base.helpers.sanitize(unit),

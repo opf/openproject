@@ -26,13 +26,32 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { WorkPackageCopyController } from 'core-app/features/work-packages/components/wp-copy/wp-copy.controller';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  Input,
+} from '@angular/core';
+import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
+import { WorkPackageIsolatedQuerySpaceDirective } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
 
 @Component({
-  selector: 'wp-copy-split-view',
+  hostDirectives: [WorkPackageIsolatedQuerySpaceDirective],
+  template: `
+    <op-project-include
+      [showHeaderText]="showHeaderText"
+      [showActionBar]="showActionBar"
+    ></op-project-include>
+  `,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: '../wp-new/wp-new-split-view.html',
 })
-export class WorkPackageCopySplitViewComponent extends WorkPackageCopyController {
+export class OpIncludeProjectsEntryComponent {
+  @Input() showActionBar = false;
+  @Input() showHeaderText = true;
+
+  constructor(
+    readonly elementRef:ElementRef,
+  ) {
+    populateInputsFromDataset(this);
+  }
 }

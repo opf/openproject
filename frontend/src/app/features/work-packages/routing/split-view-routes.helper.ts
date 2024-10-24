@@ -35,6 +35,6 @@ import { StateService } from '@uirouter/angular';
  */
 export function splitViewRoute(state:StateService, target:'details'|'new' = 'details'):string {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access,@typescript-eslint/no-unsafe-assignment
-  const baseRoute:string = state.current.data.baseRoute || '';
+  const baseRoute:string = state?.current?.data?.baseRoute || '';
   return `${baseRoute}.${target}`;
 }

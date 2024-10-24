@@ -1,0 +1,22 @@
+<% if can_create_work_packages? %>
+  <%=
+    render Primer::Alpha::ActionMenu.new do |menu|
+      menu.with_show_button(scheme: :primary,
+                            aria: {
+                              label: I18n.t(:label_work_package_new)
+                            }) do |button|
+        button.with_trailing_action_icon(icon: :"triangle-down")
+        button.with_leading_visual_icon(icon: :plus)
+        I18n.t(:button_create)
+      end
+
+      items.each do |type|
+        menu.with_item(label: type.name,
+                       tag: :a,
+                       href: create_href_for_type(type),
+                       content_arguments: { target: "_top" },
+                       label_arguments: { classes: "__hl_inline_type_#{type.id}" })
+      end
+    end
+  %>
+<% end %>

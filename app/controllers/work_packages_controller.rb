@@ -32,26 +32,30 @@ class WorkPackagesController < ApplicationController
   include Layout
   include WorkPackagesControllerHelper
   include OpTurbo::DialogStreamHelper
+  include WorkPackages::WithSplitView
 
   accept_key_auth :index, :show
 
   before_action :authorize_on_work_package,
                 :project, only: :show
-  before_action :load_and_authorize_in_optional_project,
-                :check_allowed_export,
+  before_action :check_allowed_export,
                 :protect_from_unauthorized_export, only: %i[index export_dialog]
-  authorization_checked! :index, :show, :export_dialog
+  before_action :find_optional_project, only: %i[split_view split_create baseline_dialog include_projects_dialog]
+  before_action :load_and_authorize_in_optional_project, only: %i[index export_dialog new copy]
+  authorization_checked! :index, :show, :new, :copy, :export_dialog, :split_view, :split_create, :baseline_dialog,
+                         :include_projects_dialog
 
-  before_action :load_and_validate_query, only: :index, unless: -> { request.format.html? }
+  before_action :load_and_validate_query, only: %i[index split_view split_create copy baseline_dialog include_projects_dialog]
   before_action :load_work_packages, only: :index, if: -> { request.format.atom? }
   before_action :load_and_validate_query_for_export, only: :export_dialog
+
+  no_authorization_required! :share_upsale
 
   def index
     respond_to do |format|
       format.html do
         render :index,
-               locals: { query: @query, project: @project, menu_name: project_or_global_menu },
-               layout: "angular/angular"
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu }
       end
 
       format.any(*supported_list_formats) do
@@ -68,8 +72,7 @@ class WorkPackagesController < ApplicationController
     respond_to do |format|
       format.html do
         render :show,
-               locals: { work_package:, menu_name: project_or_global_menu },
-               layout: "angular/angular"
+               locals: { work_package:, menu_name: project_or_global_menu }
       end
 
       format.any(*supported_single_formats) do
@@ -86,11 +89,68 @@ class WorkPackagesController < ApplicationController
     end
   end
 
+  def split_view
+    render_split_view
+  end
+
+  def split_create
+    render_split_view
+  end
+
+  def copy
+    respond_to do |format|
+      format.html do
+        render :copy,
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+      end
+    end
+  end
+
+  def new
+    respond_to do |format|
+      format.html do
+        render :new,
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+      end
+    end
+  end
+
+  def share_upsale
+    respond_to do |format|
+      format.html do
+        render :share_upsale,
+               locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+      end
+    end
+  end
+
   def export_dialog
-    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query, project: @project, title: params[:title])
+    respond_with_dialog WorkPackages::Exports::ModalDialogComponent.new(query: @query,
+                                                                        project: @project,
+                                                                        title: params[:title])
+  end
+
+  def baseline_dialog
+    respond_with_dialog WorkPackages::Baseline::ModalDialogComponent.new(query: @query,
+                                                                         project: @project,
+                                                                         title: params[:title])
+  end
+
+  def include_projects_dialog
+    respond_with_dialog WorkPackages::IncludeProjects::ModalDialogComponent.new(query: @query,
+                                                                                project: @project,
+                                                                                title: params[:title])
   end
 
   protected
+
+  def split_view_base_route
+    if @project
+      project_work_packages_path(@project, request.query_parameters)
+    else
+      work_packages_path(request.query_parameters)
+    end
+  end
 
   def load_and_validate_query_for_export
     load_and_validate_query
@@ -145,7 +205,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def project
-    @project ||= work_package ? work_package.project : nil
+    @project ||= work_package&.project
   end
 
   def work_package
@@ -192,5 +252,17 @@ class WorkPackagesController < ApplicationController
 
   def login_back_url_params
     params.permit(:query_id, :state, :query_props)
+  end
+
+  def render_split_view
+    respond_to do |format|
+      format.html do
+        if turbo_frame_request?
+          render "work_packages/split_view", layout: false
+        else
+          render :index, locals: { query: @query, project: @project, menu_name: project_or_global_menu }
+        end
+      end
+    end
   end
 end

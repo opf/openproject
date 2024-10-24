@@ -1,0 +1,11 @@
+<%=
+  helpers.angular_component_tag "opce-wp-full-copy",
+                                inputs: {
+                                  type: @type,
+                                  copiedFromWorkPackageId: @copied_from_work_package_id,
+                                  projectIdentifier: @project.present? ? @project.identifier : nil,
+                                  resizerClass: helpers.container_class,
+                                  routedFromAngular: false,
+                                }
+
+%>

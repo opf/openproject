@@ -34,6 +34,10 @@ class Queries::WorkPackages::Filter::ManualSortFilter <
     [Queries::Operators::OrderedWorkPackages]
   end
 
+  def default_operator
+    Queries::Operators::OrderedWorkPackages
+  end
+
   def available?
     true
   end

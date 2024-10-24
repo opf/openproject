@@ -26,30 +26,32 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
 import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
 import { take } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
+import {
+  WorkPackageNotificationService,
+} from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
+import {
+  QueryParamListenerService,
+} from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ComponentType } from '@angular/cdk/overlay';
 import { Ng2StateDeclaration } from '@uirouter/angular';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { InviteUserModalComponent } from 'core-app/features/invite-user-modal/invite-user.component';
-import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
+import {
+  WorkPackageFilterContainerComponent,
+} from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { UIRouterGlobals } from '@uirouter/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { firstValueFrom } from 'rxjs';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 export interface DynamicComponentDefinition {
   component:ComponentType<any>;
@@ -86,6 +88,8 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   @InjectField() uiRouterGlobals:UIRouterGlobals;
 
   @InjectField() configuration:ConfigurationService;
+
+  @InjectField() pathHelper:PathHelperService;
 
   text:{ [key:string]:string } = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),

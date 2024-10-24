@@ -93,6 +93,21 @@ Rails.application.routes.draw do
     end
   end
 
+  concern :with_split_view do |options|
+    get "details/:work_package_id(/:tab)",
+        action: options.fetch(:action, :split_view),
+        defaults: { tab: :overview },
+        as: :details,
+        view_type: "work_package_split_view"
+  end
+
+  concern :with_split_create do |options|
+    get "split_create",
+        action: options.fetch(:action, :split_create),
+        as: :split_create,
+        view_type: "work_package_split_create"
+  end
+
   scope controller: "account" do
     get "/account/force_password_change", action: "force_password_change"
     post "/account/change_password", action: "change_password"
@@ -322,21 +337,21 @@ Rails.application.routes.draw do
     # work as a catchall for everything under /wiki
     get "wiki" => "wiki#show"
 
-    resources :work_packages, only: [] do
+    resources :work_packages, only: %i[index show new] do
       collection do
+        concerns :with_split_view, base_route: :project_work_packages_path
+        concerns :with_split_create, base_route: :project_work_packages_path
+
         get "/report/:detail" => "work_packages/reports#report_details"
         get "/report" => "work_packages/reports#report"
         get "menu" => "work_packages/menus#show"
         get "/export_dialog" => "work_packages#export_dialog"
+        get "/baseline_dialog" => "work_packages#baseline_dialog"
+        get "/include_projects_dialog" => "work_packages#include_projects_dialog"
       end
 
-      # states managed by client-side routing on work_package#index
-      get "(/*state)" => "work_packages#index", on: :collection, as: ""
-      get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
-      get "/new" => "work_packages#index", on: :collection, as: "new"
-
-      # state for show view in project context
-      get "(/*state)" => "work_packages#show", on: :member, as: ""
+      get "/copy" => "work_packages#copy", on: :member, as: "copy"
+      get "(/:tab)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view|split_create|new|copy)).+/ }
     end
 
     resources :activity, :activities, only: :index, controller: "activities" do
@@ -562,6 +577,7 @@ Rails.application.routes.draw do
 
   namespace :work_packages do
     get "menu" => "menus#show"
+    get "index_page_header" => "page_header#index"
 
     match "auto_complete" => "auto_completes#index", via: %i[get post]
     resource :bulk, controller: "bulk", only: %i[edit update destroy]
@@ -581,9 +597,6 @@ Rails.application.routes.draw do
     # move individual wp
     resource :move, controller: "work_packages/moves", only: %i[new create]
 
-    # states managed by client-side routing on work_package#index
-    get "details/*state" => "work_packages#index", on: :collection, as: :details
-
     resources :activities, controller: "work_packages/activities_tab", only: %i[index create edit update] do
       member do
         get :cancel_edit
@@ -597,23 +610,31 @@ Rails.application.routes.draw do
 
     resource :progress, only: %i[new edit update], controller: "work_packages/progress"
     collection do
+      concerns :with_split_view, base_route: :work_packages_path
+      concerns :with_split_create, base_route: :work_packages_path
+
       resource :progress,
                only: :create,
                controller: "work_packages/progress",
                as: :work_package_progress
     end
+
     get "/export_dialog" => "work_packages#export_dialog", on: :collection, as: "export_dialog"
+    get "/baseline_dialog" => "work_packages#baseline_dialog", on: :collection, as: "baseline_dialog"
+    get "/include_projects_dialog" => "work_packages#include_projects_dialog", on: :collection, as: "include_projects_dialog"
 
     get "/split_view/update_counter" => "work_packages/split_view#update_counter",
         on: :member
 
+    get "/copy" => "work_packages#copy", on: :member, as: "copy"
+    get "/new" => "work_packages#new", on: :collection, as: "new"
+    get "(/:tab)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view|split_create|new|copy)).+/ }
+
     # states managed by client-side (angular) routing on work_package#show
     get "/" => "work_packages#index", on: :collection, as: "index"
-    get "/create_new" => "work_packages#index", on: :collection, as: "new_split"
-    get "/new" => "work_packages#index", on: :collection, as: "new", state: "new"
     # We do not want to match the work package export routes
-    get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view)).+/ }
-    get "/share_upsale" => "work_packages#index", on: :collection, as: "share_upsale"
+    #get "(/*state)" => "work_packages#show", on: :member, as: "", constraints: { id: /\d+/, state: /(?!(shares|split_view|split_create|copy)).+/ }
+    get "/share_upsale" => "work_packages#share_upsale", on: :collection, as: "share_upsale"
     get "/edit" => "work_packages#show", on: :member, as: "edit"
   end
 
@@ -744,14 +765,6 @@ Rails.application.routes.draw do
   get "/robots" => "homescreen#robots", defaults: { format: :txt }
 
   root to: "account#login"
-
-  concern :with_split_view do |options|
-    get "details/:work_package_id(/:tab)",
-        action: options.fetch(:action, :split_view),
-        defaults: { tab: :overview },
-        as: :details,
-        work_package_split_view: true
-  end
 
   resources :notifications, only: :index do
     collection do

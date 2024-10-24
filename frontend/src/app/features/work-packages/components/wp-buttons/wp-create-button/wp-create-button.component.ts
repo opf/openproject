@@ -42,9 +42,9 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
   templateUrl: './wp-create-button.html',
 })
 export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  @Input('allowed') allowedWhen:string[];
-
   @Input('stateName$') stateName$:Observable<string>;
+
+  @Input() routedFromAngular:boolean = true;
 
   allowed:boolean;
 

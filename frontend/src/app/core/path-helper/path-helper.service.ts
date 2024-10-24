@@ -256,12 +256,28 @@ export class PathHelperService {
     return `${this.staticBase}/work_packages/${id}`;
   }
 
+  public genericWorkPackagePath(projectIdentifier:string|null, workPackageId:string|number, tab = 'activity') {
+    if (projectIdentifier) {
+      return `${this.projectWorkPackagePath(projectIdentifier, workPackageId)}/${tab}`;
+    }
+
+    return `${this.workPackagePath(workPackageId)}/${tab}`;
+  }
+
   public workPackageShortPath(id:string|number) {
     return `${this.staticBase}/wp/${id}`;
   }
 
-  public workPackageCopyPath(workPackageId:string|number) {
+  public workPackageCopyPath(projectIdentifier:string|null, workPackageId:string|number) {
+    if (projectIdentifier) {
+      return `${this.projectWorkPackagesPath(projectIdentifier)}/${workPackageId}/copy`;
+    }
+
     return `${this.workPackagePath(workPackageId)}/copy`;
+  }
+
+  public workPackageNewPath():string {
+    return `${this.staticBase}/work_packages/new`;
   }
 
   public workPackageDetailsPath(projectIdentifier:string, workPackageId:string|number, tab?:string) {
@@ -272,6 +288,15 @@ export class PathHelperService {
     return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}`;
   }
 
+  public workPackagePrimerDetailsPath(projectIdentifier:string|null, workPackageId:string|number, tab = 'activity') {
+    if (projectIdentifier) {
+      return `${this.projectWorkPackagesPath(projectIdentifier)}/details/${workPackageId}/${tab}`;
+    }
+
+    return `${this.workPackagesPath()}/details/${workPackageId}/${tab}`;
+  }
+
+  // Todo: Remove?
   public workPackageDetailsCopyPath(projectIdentifier:string, workPackageId:string|number) {
     return this.workPackageDetailsPath(projectIdentifier, workPackageId, 'copy');
   }

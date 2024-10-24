@@ -106,6 +106,10 @@ export class LoadingIndicatorService {
     return this.indicator('table');
   }
 
+  public get list():LoadingIndicator {
+    return this.indicator('list');
+  }
+
   public get wpDetails() {
     return this.indicator('wpDetails');
   }

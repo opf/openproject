@@ -26,7 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Injector } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Directive,
+  Injector,
+  Input,
+} from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import {
@@ -63,7 +68,13 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { HttpErrorResponse } from '@angular/common/http';
 
-export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
+@Directive()
+export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
+  // TODO: Get variable from angular routes
+  @Input() workPackageId:string;
+
+  @Input() activeTab:string = 'activity';
+
   @InjectField() states:States;
 
   @InjectField() i18n:I18nService;
@@ -115,7 +126,6 @@ export class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   constructor(
     public injector:Injector,
-    protected workPackageId:string,
   ) {
     super();
   }

@@ -41,6 +41,10 @@ class Projects::ProjectsFiltersComponent < Filter::FilterComponent
     true
   end
 
+  def show_apply?
+    false
+  end
+
   private
 
   def allowed_filter?(filter)
