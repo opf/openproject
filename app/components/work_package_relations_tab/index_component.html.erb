@@ -3,16 +3,15 @@
     flex_layout(justify_content: :space_between, align_items: :center, mb: 4) do |action_bar|
       action_bar.with_column do
         render(Primer::Beta::Text.new(color: :muted)) do
-          "Add relations to other work packages to create a link between them."
+          t("work_package_relations_tab.index.action_bar_title")
         end
       end
       action_bar.with_column do
         render(Primer::Alpha::ActionMenu.new(menu_id: "relations-list-action-menu")) do |menu|
           menu.with_show_button do |button|
             button.with_leading_visual_icon(icon: :"plus")
-
             button.with_trailing_action_icon(icon: :"triangle-down")
-            "Relation"
+            t(:label_relation)
           end
           Relation::TYPES.values.each do |type_configuration_hash|
             menu.with_item(label: t(type_configuration_hash[:name]).capitalize) do |item|
@@ -27,13 +26,17 @@
     if relations.any?
       flex_layout(classes: "work-package-relations-tab--list-container") do |flex|
         relations.group_by(&:relation_type).each do |relation_type, relations_of_type|
+          relation_relative_to_work_package = relation_type
+          key_namespace = "work_package_relations_tab.relations"
+          base_key = "#{key_namespace}.label_#{relation_type}"
+
           flex.with_row do
             render(border_box_container(padding: :condensed)) do |border_box|
               border_box.with_header(py: 3) do
                 flex_layout(align_items: :center) do |flex|
                   flex.with_column(mr: 2) do
                     render(Primer::Beta::Text.new(font_size: :normal, font_weight: :bold)) do
-                      t(relations_of_type.first.label_for(work_package)).capitalize
+                      t("#{base_key}_plural").capitalize
                     end
                   end
                   flex.with_column do
@@ -55,8 +58,8 @@
     else
       render Primer::Beta::Blankslate.new(border: true) do |component|
         component.with_visual_icon(icon: "package-dependents")
-        component.with_heading(tag: :h2).with_content("No relations")
-        component.with_description { "This work package does not yet have any relations." }
+        component.with_heading(tag: :h2).with_content(t("work_package_relations_tab.index.blankslate_heading"))
+        component.with_description { t("work_package_relations_tab.index.blankslate_description") }
       end
     end
   %>
