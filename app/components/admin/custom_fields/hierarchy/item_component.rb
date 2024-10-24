@@ -35,14 +35,23 @@ module Admin
         include OpTurbo::Streamable
         include OpPrimer::ComponentHelpers
 
-        def initialize(custom_field:, hierarchy_item:)
+        def initialize(custom_field:, hierarchy_item:, edit_item_form_data: { show: false })
           super
           @custom_field = custom_field
           @hierarchy_item = hierarchy_item
+          @edit_item_form_data = edit_item_form_data
         end
 
         def short_text
           "(#{@hierarchy_item.short})"
+        end
+
+        def wrapper_uniq_by
+          @hierarchy_item.id
+        end
+
+        def show_edit_form?
+          @edit_item_form_data.fetch(:show, false)
         end
 
         def deletion_action_item(menu)
@@ -53,6 +62,15 @@ module Admin
                                                                       id: @hierarchy_item.id),
                          content_arguments: { data: { controller: "async-dialog" } }) do |item|
             item.with_leading_visual_icon(icon: :trash)
+          end
+        end
+
+        def edit_action_item(menu)
+          menu.with_item(label: I18n.t(:button_edit),
+                         tag: :a,
+                         content_arguments: { data: { turbo_stream: true } },
+                         href: edit_custom_field_item_path(@custom_field, @hierarchy_item)) do |item|
+            item.with_leading_visual_icon(icon: :pencil)
           end
         end
       end

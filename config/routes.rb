@@ -180,7 +180,7 @@ Rails.application.routes.draw do
                  only: :destroy
         resources :items,
                   controller: "/admin/custom_fields/hierarchy/items",
-                  only: %i[index new create destroy] do
+                  except: %i[show] do
           get :deletion_dialog, on: :member
         end
       end

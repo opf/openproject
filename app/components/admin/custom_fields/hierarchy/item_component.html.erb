@@ -29,28 +29,38 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper do
-    flex_layout(align_items: :center, justify_content: :space_between) do |item_container|
-      item_container.with_column(flex_layout: true) do |item_information|
-        item_information.with_column(mr: 2) do
-          render(Primer::Beta::Text.new(font_weight: :bold)) do
-            @hierarchy_item.label
-          end
-        end
-
-        unless @hierarchy_item.short.nil?
+    if show_edit_form?
+      render Admin::CustomFields::Hierarchy::EditItemFormComponent.new(
+        custom_field: @custom_field,
+        hierarchy_item: @hierarchy_item,
+        label: @edit_item_form_data.fetch(:label, nil),
+        short: @edit_item_form_data.fetch(:short, nil)
+      )
+    else
+      flex_layout(align_items: :center, justify_content: :space_between) do |item_container|
+        item_container.with_column(flex_layout: true) do |item_information|
           item_information.with_column(mr: 2) do
-            render(Primer::Beta::Text.new(color: :subtle)) { short_text }
+            render(Primer::Beta::Text.new(font_weight: :bold)) do
+              @hierarchy_item.label
+            end
+          end
+
+          unless @hierarchy_item.short.nil?
+            item_information.with_column(mr: 2) do
+              render(Primer::Beta::Text.new(color: :subtle)) { short_text }
+            end
           end
         end
-      end
 
-      # Actions
-      item_container.with_column do
-        render(Primer::Alpha::ActionMenu.new(data: { test_selector: "op-hierarchy-item--action-menu" })) do |menu|
-          menu.with_show_button(icon: "kebab-horizontal",
-                                scheme: :invisible,
-                                "aria-label": I18n.t("custom_fields.admin.items.actions"))
-          deletion_action_item(menu)
+        # Actions
+        item_container.with_column do
+          render(Primer::Alpha::ActionMenu.new(data: { test_selector: "op-hierarchy-item--action-menu" })) do |menu|
+            menu.with_show_button(icon: "kebab-horizontal",
+                                  scheme: :invisible,
+                                  "aria-label": I18n.t("custom_fields.admin.items.actions"))
+            edit_action_item(menu)
+            deletion_action_item(menu)
+          end
         end
       end
     end
