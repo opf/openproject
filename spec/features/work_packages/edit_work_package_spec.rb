@@ -1,7 +1,9 @@
 require "spec_helper"
 require "features/page_objects/notification"
 
-RSpec.describe "edit work package", :js do
+RSpec.describe "edit work package", :js, :with_cuprite do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
   let!(:standard_global_role) { create(:empty_global_role) }
   let(:dev_role) do
     create(:project_role,
@@ -271,7 +273,7 @@ RSpec.describe "edit work package", :js do
         completer = wp_page.edit_field field_name
         completer.activate!
 
-        options = wp_page.visible_user_auto_completer_options
+        options = visible_user_auto_completer_options
 
         expected_options = [
           { name: manager.name, email: nil },  # Manager's email should not be visible
@@ -287,7 +289,7 @@ RSpec.describe "edit work package", :js do
         completer = wp_page.edit_field field_name
         completer.activate!
 
-        options = wp_page.visible_user_auto_completer_options
+        options = visible_user_auto_completer_options
 
         expected_options = [
           # With the right permissions, you can see other users email address
