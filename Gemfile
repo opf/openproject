@@ -222,7 +222,7 @@ gem "appsignal", "~> 3.10.0", require: false
 
 gem "view_component"
 # Lookbook
-gem "lookbook", "~> 2.3.0"
+gem "lookbook", "~> 2.3.3"
 
 # Require factory_bot for usage with openproject plugins testing
 gem "factory_bot", "~> 6.5.0", require: false
