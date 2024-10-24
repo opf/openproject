@@ -1,7 +1,7 @@
 <%=
   component_wrapper do
     flex_layout(test_selector: "emoji-reactions") do |reactions_container|
-      emoji_reactions.each do |reaction, data|
+      grouped_emoji_reactions.each do |reaction, data|
         reactions_container.with_column(mr: 2) do
           render(Primer::Beta::Button.new(
                   scheme: button_scheme(data[:users]),

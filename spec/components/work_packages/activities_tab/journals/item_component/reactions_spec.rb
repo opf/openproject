@@ -33,7 +33,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions, 
 
   context "with reactions" do
     it "renders the reactions" do
-      render_inline(described_class.new(journal:, emoji_reactions: mock_detailed_grouped_emoji_reactions))
+      render_inline(described_class.new(journal:, grouped_emoji_reactions: mock_detailed_grouped_emoji_reactions))
 
       {
         thumbs_up: {
@@ -62,7 +62,7 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions, 
 
   context "with no reactions" do
     it "does not render" do
-      render_inline(described_class.new(journal:, emoji_reactions: {}))
+      render_inline(described_class.new(journal:, grouped_emoji_reactions: {}))
 
       expect(page.text).to be_empty
     end

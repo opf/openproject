@@ -12,7 +12,7 @@
             render(WorkPackages::ActivitiesTab::Journals::ItemComponent::AddReactions.new(journal:))
           end
           reactions_container.with_column do
-            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(journal:, emoji_reactions:))
+            render(WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(journal:, grouped_emoji_reactions:))
           end
         end
       end

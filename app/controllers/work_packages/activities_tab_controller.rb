@@ -93,7 +93,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def edit
     if allowed_to_edit?(@journal)
-      update_item_component(journal: @journal, state: :edit)
+      update_item_edit_component(journal: @journal)
     else
       @turbo_status = :forbidden
     end
@@ -103,7 +103,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
 
   def cancel_edit
     if allowed_to_edit?(@journal)
-      update_item_component(journal: @journal, state: :show)
+      update_item_show_component(journal: @journal, grouped_emoji_reactions: grouped_emoji_reactions_for_journal)
     else
       @turbo_status = :forbidden
     end
@@ -130,7 +130,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
 
     if call.success? && call.result
-      update_item_component(journal: call.result, state: :show)
+      update_item_show_component(journal: call.result, grouped_emoji_reactions: grouped_emoji_reactions_for_journal)
     else
       handle_failed_update_call(call)
     end
@@ -156,7 +156,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
           journal: @journal,
           filter: params[:filter]&.to_sym || :all,
-          grouped_emoji_reactions: Journal.grouped_journal_emoji_reactions(@journal)
+          grouped_emoji_reactions: grouped_emoji_reactions_for_journal
         )
       )
     end
@@ -308,16 +308,6 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     ###
   end
 
-  def update_item_component(journal:, filter: @filter, state: :show)
-    update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-        journal:,
-        state:,
-        filter:
-      )
-    )
-  end
-
   def generate_time_based_update_streams(last_update_timestamp)
     journals = @work_package.journals
 
@@ -325,13 +315,21 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       journals = journals.where.not(notes: "")
     end
 
-    rerender_updated_journals(journals, last_update_timestamp)
+    grouped_emoji_reactions =
+      if journals.present?
+        Journal.grouped_emoji_reactions_by_reactable(
+          reactable_id: journals.pluck(:id),
+          reactable_type: "Journal", last_updated_at: last_update_timestamp
+        )
+      else
+        {}
+      end
 
-    rerender_journals_with_updated_notification(journals, last_update_timestamp)
+    rerender_updated_journals(journals, last_update_timestamp, grouped_emoji_reactions)
+    rerender_journals_with_updated_notification(journals, last_update_timestamp, grouped_emoji_reactions)
+    append_or_prepend_journals(journals, last_update_timestamp, grouped_emoji_reactions)
 
-    append_or_prepend_journals(journals, last_update_timestamp)
-
-    if journals.any?
+    if journals.present?
       remove_potential_empty_state
       update_activity_counter
     end
@@ -345,41 +343,43 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       update_via_turbo_stream(
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(
           journal: @work_package.journals.find(journal_id),
-          emoji_reactions:
+          grouped_emoji_reactions:
         )
       )
     end
   end
 
-  def rerender_updated_journals(journals, last_update_timestamp)
+  def rerender_updated_journals(journals, last_update_timestamp, grouped_emoji_reactions)
     journals.where("updated_at > ?", last_update_timestamp).find_each do |journal|
-      update_item_component(journal:)
+      update_item_show_component(journal:, grouped_emoji_reactions: grouped_emoji_reactions.fetch(journal.id, {}))
     end
   end
 
-  def rerender_journals_with_updated_notification(journals, last_update_timestamp)
+  def rerender_journals_with_updated_notification(journals, last_update_timestamp, grouped_emoji_reactions)
     # Case: the user marked the journal as read somewhere else and expects the bubble to disappear
     journals
       .joins(:notifications)
       .where("notifications.updated_at > ?", last_update_timestamp)
       .find_each do |journal|
-      update_item_component(journal:)
+      update_item_show_component(journal:, grouped_emoji_reactions: grouped_emoji_reactions.fetch(journal.id, {}))
     end
   end
 
-  def append_or_prepend_journals(journals, last_update_timestamp)
+  def append_or_prepend_journals(journals, last_update_timestamp, grouped_emoji_reactions)
     journals.where("created_at > ?", last_update_timestamp).find_each do |journal|
-      append_or_prepend_latest_journal_via_turbo_stream(journal)
+      append_or_prepend_latest_journal_via_turbo_stream(journal, grouped_emoji_reactions.fetch(journal.id, {}))
     end
   end
 
-  def append_or_prepend_latest_journal_via_turbo_stream(journal)
+  def append_or_prepend_latest_journal_via_turbo_stream(journal, grouped_emoji_reactions)
     target_component = WorkPackages::ActivitiesTab::Journals::IndexComponent.new(
       work_package: @work_package,
       filter: @filter
     )
 
-    component = WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter: @filter)
+    component = WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+      journal:, filter: @filter, grouped_emoji_reactions:
+    )
 
     stream_config = {
       target_component:,
@@ -401,12 +401,35 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
   end
 
+  def update_item_edit_component(journal:, grouped_emoji_reactions: {})
+    update_item_component(journal:, state: :edit, grouped_emoji_reactions:)
+  end
+
+  def update_item_show_component(journal:, grouped_emoji_reactions:)
+    update_item_component(journal:, state: :show, grouped_emoji_reactions:)
+  end
+
+  def update_item_component(journal:, grouped_emoji_reactions:, state:, filter: @filter)
+    update_via_turbo_stream(
+      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+        journal:,
+        state:,
+        filter:,
+        grouped_emoji_reactions:
+      )
+    )
+  end
+
   def update_activity_counter
     # update the activity counter in the primerized tabs
     # not targeting the legacy tab!
     replace_via_turbo_stream(
       component: WorkPackages::Details::UpdateCounterComponent.new(work_package: @work_package, menu_name: "activity")
     )
+  end
+
+  def grouped_emoji_reactions_for_journal
+    Journal.grouped_journal_emoji_reactions(@journal).fetch(@journal.id, {})
   end
 
   def allowed_to_edit?(journal)

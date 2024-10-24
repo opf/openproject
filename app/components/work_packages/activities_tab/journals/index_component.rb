@@ -71,8 +71,8 @@ module WorkPackages
           journals.where.not(notes: "")
         end
 
-        def grouped_emoji_reactions
-          @grouped_emoji_reactions ||= Journal.grouped_work_package_journals_emoji_reactions(work_package)
+        def wp_journals_grouped_emoji_reactions
+          @wp_journals_grouped_emoji_reactions ||= Journal.grouped_work_package_journals_emoji_reactions(work_package)
         end
 
         def empty_state?

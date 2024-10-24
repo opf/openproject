@@ -51,10 +51,6 @@ module WorkPackages
         def wrapper_uniq_by
           journal.id
         end
-
-        def emoji_reactions
-          grouped_emoji_reactions[journal.id]
-        end
       end
     end
   end

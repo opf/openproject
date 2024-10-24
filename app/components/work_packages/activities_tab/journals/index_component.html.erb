@@ -17,7 +17,10 @@
 
           journals.each do |journal|
             journals_index_container.with_row do
-              render(WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:, grouped_emoji_reactions:))
+              render(WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
+                      journal:, filter:,
+                      grouped_emoji_reactions: wp_journals_grouped_emoji_reactions[journal.id]
+                    ))
             end
           end
         end
