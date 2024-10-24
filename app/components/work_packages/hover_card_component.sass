@@ -1,15 +1,19 @@
 .op-wp-hover-card
   display: grid
   align-items: center
-  grid-template-columns: max-content max-content max-content auto 1fr
+  grid-template-columns: auto auto auto auto 1fr
   grid-template-rows: max-content 1fr auto
-  grid-row-gap: 5px
-  grid-column-gap: 5px
-  grid-template-areas: "status status id project project" "middleRow middleRow middleRow middleRow middleRow" "assignee assignee dates dates dates"
+  grid-row-gap: calc(var(--stack-gap-condensed) / 2)
+  grid-column-gap: var(--stack-gap-condensed)
+  grid-template-areas: "type id status project project project" "subject subject subject subject subject subject" "assignee assignee assignee assignee dates dates"
   overflow: hidden
 
-  &--middleRow
-    align-self: flex-start
+  &--project
+    @include text-shortener()
 
   &--dates
     justify-self: flex-end
+    white-space: nowrap
+
+  &--principal
+    max-width: 300px
