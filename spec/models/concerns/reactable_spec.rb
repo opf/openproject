@@ -45,18 +45,55 @@ RSpec.describe Reactable do
 
   let(:thumbs_down_reactions) { create(:emoji_reaction, reactable: wp_journal2, user: user2, reaction: :thumbs_down) }
 
+  before do
+    thumbs_up_reactions
+    thumbs_down_reactions
+  end
+
   describe "Associations" do
     it { expect(wp_journal1).to have_many(:emoji_reactions) }
   end
 
   describe ".grouped_work_package_journals_emoji_reactions" do
-    before do
-      thumbs_up_reactions
-      thumbs_down_reactions
-    end
-
-    it "returns grouped emoji reactions" do
+    it "returns grouped emoji reactions for work package journals" do
       result = Journal.grouped_work_package_journals_emoji_reactions(work_package)
+
+      expect(result.size).to eq(2)
+
+      expect(result[wp_journal1.id].size).to eq(1)
+      expect(result[wp_journal1.id][:thumbs_up]).to eq(
+        count: 2,
+        users: [{ id: user1.id, name: user1.name }, { id: user2.id, name: user2.name }]
+      )
+
+      expect(result[wp_journal2.id].size).to eq(1)
+      expect(result[wp_journal2.id][:thumbs_down]).to eq(
+        count: 1,
+        users: [{ id: user2.id, name: user2.name }]
+      )
+    end
+  end
+
+  describe ".grouped_journal_emoji_reactions" do
+    context "with a single reactable" do
+      it "returns grouped emoji reactions for that journal" do
+        result = Journal.grouped_journal_emoji_reactions(wp_journal1)
+
+        expect(result).to eq(
+          wp_journal1.id => {
+            thumbs_up: {
+              count: 2,
+              users: [{ id: user1.id, name: user1.name }, { id: user2.id, name: user2.name }]
+            }
+          }
+        )
+      end
+    end
+  end
+
+  describe ".grouped_emoji_reactions" do
+    it "returns grouped emoji reactions" do
+      result = Journal.grouped_emoji_reactions(reactable_id: work_package.journal_ids, reactable_type: "Journal")
 
       expect(result.size).to eq({ "thumbs_up" => 2, "thumbs_down" => 1 })
 
@@ -71,7 +108,7 @@ RSpec.describe Reactable do
 
     context "when user format is set to :username", with_settings: { user_format: :username } do
       it "returns grouped emoji reactions with usernames" do
-        result = Journal.grouped_work_package_journals_emoji_reactions(work_package)
+        result = Journal.grouped_emoji_reactions(reactable_id: work_package.journal_ids, reactable_type: "Journal")
 
         expect(result[0].user_details).to eq([[user1.id, user1.login], [user2.id, user2.login]])
       end
@@ -79,20 +116,15 @@ RSpec.describe Reactable do
 
     context "when user format is set to :firstname", with_settings: { user_format: :firstname } do
       it "returns grouped emoji reactions with first and last names" do
-        result = Journal.grouped_work_package_journals_emoji_reactions(work_package)
+        result = Journal.grouped_emoji_reactions(reactable_id: wp_journal2.id, reactable_type: "Journal")
 
-        expect(result[0].user_details).to eq(
-          [
-            [user1.id, user1.firstname],
-            [user2.id, user2.firstname]
-          ]
-        )
+        expect(result[0].user_details).to eq([[user2.id, user2.firstname]])
       end
     end
 
     context "when user format is set to :lastname_coma_firstname", with_settings: { user_format: :lastname_coma_firstname } do
       it "returns grouped emoji reactions with last coma firstname" do
-        result = Journal.grouped_work_package_journals_emoji_reactions(work_package)
+        result = Journal.grouped_emoji_reactions(reactable_id: wp_journal1.id, reactable_type: "Journal")
 
         expect(result[0].user_details).to eq(
           [
@@ -105,7 +137,7 @@ RSpec.describe Reactable do
 
     context "when user format is set to :lastname_n_firstname", with_settings: { user_format: :lastname_n_firstname } do
       it "returns grouped emoji reactions with last firstname" do
-        result = Journal.grouped_work_package_journals_emoji_reactions(work_package)
+        result = Journal.grouped_emoji_reactions(reactable_id: wp_journal1.id, reactable_type: "Journal")
 
         expect(result[0].user_details).to eq(
           [

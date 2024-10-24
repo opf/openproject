@@ -34,8 +34,22 @@ module Reactable
   end
 
   class_methods do
+    def grouped_journal_emoji_reactions(journal)
+      grouped_emoji_reactions_by_reactable(reactable_id: journal.id, reactable_type: "Journal")
+    end
+
     def grouped_work_package_journals_emoji_reactions(work_package)
-      grouped_emoji_reactions(reactable_id: work_package.journal_ids, reactable_type: "Journal")
+      grouped_emoji_reactions_by_reactable(reactable_id: work_package.journal_ids, reactable_type: "Journal")
+    end
+
+    def grouped_emoji_reactions_by_reactable(reactable_id:, reactable_type:)
+      grouped_emoji_reactions(reactable_id:, reactable_type:).each_with_object({}) do |row, hash|
+        hash[row.reactable_id] ||= {}
+        hash[row.reactable_id][row.reaction.to_sym] = {
+          count: row.count,
+          users: row.user_details.map { |(id, name)| { id:, name: } }
+        }
+      end
     end
 
     def grouped_emoji_reactions(reactable_id:, reactable_type:)
@@ -73,28 +87,5 @@ module Reactable
     (EmojiReaction.reactions.values - emoji_reactions.pluck(:reaction).uniq).index_by do |reaction|
       EmojiReaction.emoji(reaction)
     end.sort
-  end
-
-  def detailed_grouped_emoji_reactions
-    # TODO: Refactor this to be database agnostic
-    # fetch all emoji reactions and group them by emoji with their count and user ids
-    reaction_groups = emoji_reactions
-      .select("reaction, COUNT(*) as count, ARRAY_AGG(user_id) as user_ids")
-      .group(:reaction)
-      .order("reaction ASC")
-
-    # avoid N+1 queries by preloading all reacting users
-    user_ids = reaction_groups.flat_map(&:user_ids).uniq
-    users = User.where(id: user_ids).select(:id, :firstname, :lastname).index_by(&:id)
-
-    # convert the result to a hash indexed by reaction suitable for rendering
-    reaction_groups.map do |result|
-      {
-        reaction: result.reaction,
-        emoji: EmojiReaction.emoji(result.reaction),
-        count: result.count,
-        users: result.user_ids.map { |id| { id:, name: users[id].name } }
-      }
-    end.index_by { |r| r[:emoji] }
   end
 end

@@ -32,12 +32,8 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions, 
   let(:journal) { build_stubbed(:work_package_journal) }
 
   context "with reactions" do
-    before do
-      allow(journal).to receive(:detailed_grouped_emoji_reactions).and_return(mock_detailed_grouped_emoji_reactions)
-    end
-
     it "renders the reactions" do
-      render_inline(described_class.new(journal:))
+      render_inline(described_class.new(journal:, emoji_reactions: mock_detailed_grouped_emoji_reactions))
 
       {
         thumbs_up: {
@@ -65,12 +61,8 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions, 
   end
 
   context "with no reactions" do
-    before do
-      allow(journal).to receive(:detailed_grouped_emoji_reactions).and_return([])
-    end
-
     it "does not render" do
-      render_inline(described_class.new(journal:))
+      render_inline(described_class.new(journal:, emoji_reactions: {}))
 
       expect(page.text).to be_empty
     end
@@ -86,11 +78,11 @@ RSpec.describe WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions, 
     users = build_stubbed_list(:user, 20).map { |user| { id: user.id, name: user.name } }
 
     {
-      EmojiReaction.emoji(:thumbs_up) => { reaction: "thumbs_up", users: users.sample(3), count: 3 },
-      EmojiReaction.emoji(:thumbs_down) => { reaction: "thumbs_down", users: users.sample(1), count: 1 },
-      EmojiReaction.emoji(:eyes) => { reaction: "eyes", users: users, count: 20 },
-      EmojiReaction.emoji(:rocket) => { reaction: "rocket", users: users.sample(5), count: 5 },
-      EmojiReaction.emoji(:confused_face) => { reaction: "confused_face", users: users.sample(6), count: 6 }
+      thumbs_up: { users: users.sample(3), count: 3 },
+      thumbs_down: { users: users.sample(1), count: 1 },
+      eyes: { users: users, count: 20 },
+      rocket: { users: users.sample(5), count: 5 },
+      confused_face: { users: users.sample(6), count: 6 }
     }
   end
 end

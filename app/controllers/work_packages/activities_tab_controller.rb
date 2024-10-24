@@ -160,7 +160,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       update_via_turbo_stream(
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
           journal: @journal,
-          filter: params[:filter]&.to_sym || :all
+          filter: params[:filter]&.to_sym || :all,
+          grouped_emoji_reactions: Journal.grouped_journal_emoji_reactions(@journal)
         )
       )
     end
