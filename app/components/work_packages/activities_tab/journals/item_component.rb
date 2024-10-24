@@ -35,20 +35,18 @@ module WorkPackages
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(journal:, filter:, index_component:, state: :show)
+        def initialize(journal:, filter:, grouped_emoji_reactions:, state: :show)
           super
 
           @journal = journal
           @filter = filter
-          @index_component = index_component
+          @grouped_emoji_reactions = grouped_emoji_reactions
           @state = state
         end
 
         private
 
-        delegate :grouped_emoji_reactions, to: :@index_component
-
-        attr_reader :journal, :state, :filter
+        attr_reader :journal, :state, :filter, :grouped_emoji_reactions
 
         def wrapper_uniq_by
           journal.id

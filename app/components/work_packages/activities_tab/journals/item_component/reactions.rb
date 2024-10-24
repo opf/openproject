@@ -42,7 +42,7 @@ module WorkPackages
         end
 
         def render?
-          emoji_reactions.any?
+          emoji_reactions.present?
         end
 
         private

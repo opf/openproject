@@ -334,14 +334,15 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     end
   end
 
-  def generate_time_based_reaction_update_streams(last_update_timestamp)
+  def generate_time_based_reaction_update_streams(last_updated_at)
     # Current limitation: Only shows added reactions, not removed ones
-    EmojiReaction
-      .where(reactable_id: @work_package.journal_ids)
-      .where("updated_at > ?", last_update_timestamp).find_each do |reaction|
+    Journal.grouped_work_package_journals_emoji_reactions(
+      @work_package, last_updated_at:
+    ).each do |journal_id, emoji_reactions|
       update_via_turbo_stream(
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions.new(
-          journal: reaction.reactable
+          journal: @work_package.journals.find(journal_id),
+          emoji_reactions:
         )
       )
     end

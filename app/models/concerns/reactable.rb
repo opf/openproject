@@ -38,12 +38,12 @@ module Reactable
       grouped_emoji_reactions_by_reactable(reactable_id: journal.id, reactable_type: "Journal")
     end
 
-    def grouped_work_package_journals_emoji_reactions(work_package)
-      grouped_emoji_reactions_by_reactable(reactable_id: work_package.journal_ids, reactable_type: "Journal")
+    def grouped_work_package_journals_emoji_reactions(work_package, last_updated_at: nil)
+      grouped_emoji_reactions_by_reactable(reactable_id: work_package.journal_ids, reactable_type: "Journal", last_updated_at:)
     end
 
-    def grouped_emoji_reactions_by_reactable(reactable_id:, reactable_type:)
-      grouped_emoji_reactions(reactable_id:, reactable_type:).each_with_object({}) do |row, hash|
+    def grouped_emoji_reactions_by_reactable(reactable_id:, reactable_type:, last_updated_at: nil)
+      grouped_emoji_reactions(reactable_id:, reactable_type:, last_updated_at:).each_with_object({}) do |row, hash|
         hash[row.reactable_id] ||= {}
         hash[row.reactable_id][row.reaction.to_sym] = {
           count: row.count,
@@ -52,13 +52,16 @@ module Reactable
       end
     end
 
-    def grouped_emoji_reactions(reactable_id:, reactable_type:)
-      EmojiReaction
+    def grouped_emoji_reactions(reactable_id:, reactable_type:, last_updated_at: nil)
+      query = EmojiReaction
         .select("emoji_reactions.reactable_id, emoji_reactions.reaction, COUNT(emoji_reactions.id) as count, " \
                 "json_agg(json_build_array(users.id, #{user_name_concat_format_sql}) ORDER BY emoji_reactions.created_at) as user_details") # rubocop:disable Layout/LineLength
         .joins(:user)
         .where(reactable_id:, reactable_type:)
-        .group("emoji_reactions.reactable_id, emoji_reactions.reaction")
+
+      query = query.where("emoji_reactions.updated_at > ?", last_updated_at) if last_updated_at
+
+      query.group("emoji_reactions.reactable_id, emoji_reactions.reaction")
     end
 
     private

@@ -43,10 +43,6 @@ module WorkPackages
           @filter = filter
         end
 
-        def grouped_emoji_reactions
-          @grouped_emoji_reactions ||= Journal.grouped_work_package_journals_emoji_reactions(work_package)
-        end
-
         private
 
         attr_reader :work_package, :filter
@@ -73,6 +69,10 @@ module WorkPackages
 
         def journal_with_notes
           journals.where.not(notes: "")
+        end
+
+        def grouped_emoji_reactions
+          @grouped_emoji_reactions ||= Journal.grouped_work_package_journals_emoji_reactions(work_package)
         end
 
         def empty_state?

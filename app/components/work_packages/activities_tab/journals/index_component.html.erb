@@ -17,7 +17,7 @@
 
           journals.each do |journal|
             journals_index_container.with_row do
-              render(WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:, index_component: self))
+              render(WorkPackages::ActivitiesTab::Journals::ItemComponent.new(journal:, filter:, grouped_emoji_reactions:))
             end
           end
         end
