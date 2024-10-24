@@ -32,5 +32,5 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render(Admin::CustomFields::EditFormHeaderComponent.new(custom_field: @custom_field, selected: :items)) %>
 
 <%= turbo_frame_tag :hierarchy_list, data: { turbo_action: :advance } do %>
-  <%= render(Admin::CustomFields::Hierarchy::ItemsComponent.new(custom_field: @custom_field)) %>
+  <%= render(Admin::CustomFields::Hierarchy::ItemsComponent.new(item: @custom_field.hierarchy_root)) %>
 <% end %>

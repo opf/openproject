@@ -32,15 +32,12 @@ module Admin
       class NewItemFormComponent < ApplicationComponent
         include OpTurbo::Streamable
 
-        def initialize(custom_field:, label: nil, short: nil)
+        def initialize(custom_field:, parent:, label: nil, short: nil)
           super
+          @parent = parent
           @custom_field = custom_field
           @label = label
           @short = short
-        end
-
-        def items_path
-          custom_field_items_path(@custom_field)
         end
       end
     end
