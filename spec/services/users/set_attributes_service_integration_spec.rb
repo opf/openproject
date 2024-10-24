@@ -42,10 +42,10 @@ RSpec.describe Users::SetAttributesService, "Integration", type: :model do
 
   context "with a boolean castable preference" do
     let(:params) do
-      { pref: { hide_mail: "0" } }
+      { pref: { warn_on_leaving_unsaved: "0" } }
     end
 
-    it "returns an error for that" do
+    it "returns no error for that" do
       expect(subject.errors).to be_empty
     end
   end

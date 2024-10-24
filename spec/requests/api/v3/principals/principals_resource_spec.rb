@@ -46,6 +46,7 @@ RSpec.describe "API v3 Principals resource" do
     let(:other_project) { create(:project) }
     let(:non_member_project) { create(:project) }
     let(:role) { create(:project_role, permissions:) }
+    let(:standard_global_role) { nil }
     let(:permissions) { [] }
     let(:user) do
       user = create(:user,
@@ -84,6 +85,7 @@ RSpec.describe "API v3 Principals resource" do
     current_user { user }
 
     before do
+      standard_global_role
       get path
     end
 
@@ -142,26 +144,29 @@ RSpec.describe "API v3 Principals resource" do
         [{ any_name_attribute: { operator: "~", values: ["aaaa@example.com"] } }]
       end
 
-      it_behaves_like "API V3 collection response", 1, 1, "User"
+      context "when user has permission to view user emails" do
+        let(:standard_global_role) { create :standard_global_role }
+
+        it_behaves_like "API V3 collection response", 1, 1, "User"
+      end
+
+      context "when user does not have permission to view user emails" do
+        it_behaves_like "API V3 collection response", 0, 0
+      end
     end
 
     context "with a filter for typeahead" do
-      let(:permissions) { [:view_user_email] }
       let(:filter) do
         [{ typeahead: { operator: "**", values: ["aaaa@example.com"] } }]
       end
 
-      before do
-        mock_permissions_for(current_user) do |mock|
-          mock.allow_globally(*permissions)
-        end
+      context "when user has permission to view user emails" do
+        let(:standard_global_role) { create :standard_global_role }
+
+        it_behaves_like "API V3 collection response", 1, 1, "User"
       end
 
-      it_behaves_like "API V3 collection response", 1, 1, "User"
-
       context "when user does not have permission to view user emails" do
-        let(:permissions) { [] }
-
         it_behaves_like "API V3 collection response", 0, 0
       end
     end
@@ -223,6 +228,7 @@ RSpec.describe "API v3 Principals resource" do
                 _type: "PlaceholderUser",
                 id: placeholder_user.id,
                 name: placeholder_user.name,
+                email: "",
                 _links: {
                   self: {
                     href: api_v3_paths.placeholder_user(placeholder_user.id),
@@ -234,6 +240,7 @@ RSpec.describe "API v3 Principals resource" do
                 _type: "Group",
                 id: group.id,
                 name: group.name,
+                email: "",
                 _links: {
                   self: {
                     href: api_v3_paths.group(group.id),
@@ -258,6 +265,7 @@ RSpec.describe "API v3 Principals resource" do
                 name: user.name,
                 firstname: user.firstname,
                 lastname: user.lastname,
+                email: user.mail,
                 _links: {
                   self: {
                     href: api_v3_paths.user(user.id),

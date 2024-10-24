@@ -79,10 +79,6 @@ See COPYRIGHT and LICENSE files for more details.
       <% end %>
     </div>
 
-    <%= fields_for :pref, @user.pref, builder: TabularFormBuilder, lang: current_language do |pref_fields| %>
-      <div class="form--field"><%= pref_fields.check_box :hide_mail %></div>
-    <% end %>
-
     <%= call_hook(:view_my_account, user: @user, form: f) %>
 
     <%= render partial: "customizable/form",

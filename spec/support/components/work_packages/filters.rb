@@ -113,7 +113,7 @@ module Components
 
       def expect_loaded
         SeleniumHubWaiter.wait
-        expect(filter_button).to have_css(".badge", wait: 2, visible: :all)
+        expect(filter_button).to have_css(".badge", wait: 10, visible: :all)
       end
 
       def add_filter(name)

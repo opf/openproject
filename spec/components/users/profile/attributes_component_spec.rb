@@ -31,20 +31,30 @@
 require "rails_helper"
 
 RSpec.describe Users::Profile::AttributesComponent, type: :component do
+  shared_let(:logged_in_user) { create(:user) }
+  let(:user) { build(:user) }
   let(:component) { described_class.new(user:) }
+
+  current_user { logged_in_user }
 
   describe "render?" do
     subject { component.render? }
 
-    context "when user has hide_mail = false in their preferences" do
-      let(:user) { build(:user, preferences: { hide_mail: false }) }
+    context "when user has view_user_email permission" do
+      before do
+        create(:standard_global_role)
+      end
 
       it { is_expected.to be(true) }
     end
 
-    context "when user has hide_mail = true in their preferences" do
-      let(:user) { build(:user, preferences: { hide_mail: true }) }
+    context "when user views its own profile" do
+      current_user { user }
 
+      it { is_expected.to be(true) }
+    end
+
+    context "when user has no view_user_email permission" do
       it { is_expected.to be(false) }
     end
 

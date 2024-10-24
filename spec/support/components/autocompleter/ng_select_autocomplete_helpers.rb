@@ -118,5 +118,27 @@ module Components::Autocompleter
       # click the element to select it
       target_dropdown.find(".ng-option", text:, match: :first, wait: 15).click
     end
+
+    # Finds the currently visible, expanded user auto completer and returns its dropdown menu options.
+    # A user always has a name, but their email is only visible in certain circumstances, so that value
+    # might be nil.
+    #
+    # The options are returned as an Array of Hashes, like this example with two users:
+    #
+    #   [
+    #     { name: "Bob", email: nil },
+    #     { name: "Alice", email: "alice@example.com" }
+    #   ]
+    #
+    # The order of elements in the Array is equal to the visible order on the website.
+    def visible_user_auto_completer_options
+      find(".ng-dropdown-panel [role='listbox']").all(".ng-option[role='option']").map do |opt|
+        name = opt.find(".op-user-autocompleter--name").text
+        email_element = opt.all(".op-autocompleter__option-principal-email").first
+        email = email_element&.text
+
+        { name:, email: }
+      end
+    end
   end
 end

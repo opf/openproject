@@ -6,9 +6,6 @@
             "type": "object",
             "additionalProperties": false,
             "properties": {
-                "hide_mail": {
-                    "type": "boolean"
-                },
                 "time_zone": {
                     "type": ["string", "null"]
                 },

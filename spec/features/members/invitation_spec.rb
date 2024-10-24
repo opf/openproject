@@ -34,10 +34,11 @@ RSpec.describe "invite user via email", :js, :with_cuprite do
   let(:project_members) { {} }
 
   let(:members_page) { Pages::Members.new project.identifier }
+  let(:global_permissions) { [:create_user] }
 
   current_user do
     create(:user,
-           global_permissions: [:create_user],
+           global_permissions:,
            member_with_permissions: { project => %i[view_members manage_members] })
   end
 
@@ -99,9 +100,10 @@ RSpec.describe "invite user via email", :js, :with_cuprite do
   end
 
   context "with a registered user" do
+    let(:global_permissions) { %i[create_user view_user_email] }
     let!(:user) do
       create(:user, mail: "hugo@openproject.com",
-                    login: "hugo@openproject.com",
+                    login: "hugo.com",
                     firstname: "Hugo",
                     lastname: "Hurried")
     end
@@ -115,41 +117,72 @@ RSpec.describe "invite user via email", :js, :with_cuprite do
       end
 
       members_page.search_and_select_principal! "hugo@openproject.com",
-                                                "Hugo Hurried"
+                                                "Hugo Hurriedhugo@openproject.com"
       members_page.select_role! "Developer"
 
       click_on "Add"
       expect(members_page).to have_added_user "Hugo Hurried"
     end
 
-    context "who is already a member" do
-      let(:project_members) { { user => developer } }
+    shared_examples "no user to invite is found" do
+      it "no matches found" do
+        members_page.visit!
+        members_page.open_new_member!
 
-      shared_examples "no user to invite is found" do
-        it "no matches found" do
-          members_page.visit!
-          members_page.open_new_member!
-
-          members_page.search_principal! "hugo@openproject.com"
-          expect(members_page).to have_no_search_results
-        end
+        members_page.search_principal! "hugo@openproject.com"
+        expect(members_page).to have_no_search_results
       end
+    end
+
+    context "without permission to view user emails" do
+      let(:global_permissions) { [] }
 
       it_behaves_like "no user to invite is found"
+    end
 
-      ##
-      # This is a edge case where the email address to be invited is free in principle
-      # but there is a user with that email address as their login. Due to this the email address
-      # cannot be used after all as the login is the same as the email address for new users
-      # which means the login for this invited user will already by taken.
-      # Accordingly it should not be offered to invite a user with that email address.
-      context "with different email but email as login" do
-        before do
-          user.mail = "foo@bar.de"
-          user.save!
+    context "having the login as the email" do
+      let!(:user) do
+        create(:user, mail: "hugo@openproject.com",
+                      login: "hugo@openproject.com",
+                      firstname: "Hugo",
+                      lastname: "Hurried")
+      end
+
+      it "user lookup by email" do
+        members_page.visit!
+
+        retry_block do
+          members_page.open_new_member!
+          find_by_id("members_add_form")
         end
 
+        members_page.search_and_select_principal! "hugo@openproject.com",
+                                                  "Hugo Hurried"
+        members_page.select_role! "Developer"
+
+        click_on "Add"
+        expect(members_page).to have_added_user "Hugo Hurried"
+      end
+
+      context "when user is already a member" do
+        let(:project_members) { { user => developer } }
+
         it_behaves_like "no user to invite is found"
+
+        ##
+        # This is a edge case where the email address to be invited is free in principle
+        # but there is a user with that email address as their login. Due to this the email address
+        # cannot be used after all as the login is the same as the email address for new users
+        # which means the login for this invited user will already by taken.
+        # Accordingly it should not be offered to invite a user with that email address.
+        context "with different email but email as login" do
+          before do
+            user.mail = "foo@bar.de"
+            user.save!
+          end
+
+          it_behaves_like "no user to invite is found"
+        end
       end
     end
   end

@@ -1,8 +1,9 @@
 require "spec_helper"
 
-RSpec.describe "Watcher tab", :js, :selenium do
+RSpec.describe "Watcher tab", :js, :selenium, :with_cuprite do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
+  let!(:standard_global_role) { create(:empty_global_role) }
   let(:project) { create(:project) }
   let(:work_package) { create(:work_package, project:) }
   let(:tabs) { Components::WorkPackages::Tabs.new(work_package) }
@@ -110,6 +111,44 @@ RSpec.describe "Watcher tab", :js, :selenium do
       let(:permissions) { %i(view_work_packages view_work_package_watchers) }
 
       it_behaves_like "watch and unwatch with button"
+    end
+
+    context "when auto completing users" do
+      let!(:other_user) { create(:user, firstname: "Other", member_with_roles: { project => role }) }
+
+      it "shows only the email address of the current user by default" do
+        autocomplete = find(".wp-watcher--autocomplete ng-select")
+        target_dropdown = search_autocomplete autocomplete,
+                                              query: "",
+                                              results_selector: "body"
+
+        # Your own mail address is visible
+        expect(target_dropdown).to have_css(".ng-option", text: user.name)
+        expect(target_dropdown).to have_css(".ng-option", text: user.mail)
+
+        # Other users addresses are invisible
+        expect(target_dropdown).to have_css(".ng-option", text: other_user.name)
+        expect(target_dropdown).to have_no_css(".ng-option", text: other_user.mail)
+      end
+
+      context "with view_user_email permissions" do
+        let!(:standard_global_role) { create(:standard_global_role) }
+
+        it "shows the email address of all users" do
+          autocomplete = find(".wp-watcher--autocomplete ng-select")
+          target_dropdown = search_autocomplete autocomplete,
+                                                query: "",
+                                                results_selector: "body"
+
+          # Your own mail address is visible
+          expect(target_dropdown).to have_css(".ng-option", text: user.name)
+          expect(target_dropdown).to have_css(".ng-option", text: user.mail)
+
+          # Other users addresses are visible as well
+          expect(target_dropdown).to have_css(".ng-option", text: other_user.name)
+          expect(target_dropdown).to have_css(".ng-option", text: other_user.mail)
+        end
+      end
     end
   end
 

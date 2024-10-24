@@ -418,6 +418,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
                 _type: "Group",
                 id: other_group.id,
                 name: other_group.name,
+                email: "",
                 _links: {
                   self: {
                     href: api_v3_paths.group(other_group.id),
@@ -429,6 +430,7 @@ RSpec.describe "API v3 Group resource", content_type: :json do
                 _type: "Group",
                 id: group.id,
                 name: group.name,
+                email: "",
                 _links: {
                   self: {
                     href: api_v3_paths.group(group.id),

@@ -44,7 +44,7 @@ module Queries::Filters::Shared::AnyUserNameAttributeFilter
     end
 
     def email_field_allowed?
-      true
+      User.current.allowed_globally?(:view_user_email)
     end
 
     private

@@ -57,6 +57,14 @@ module API
               "id = #{User.current.id}"
             end
           end
+
+          def render_if_view_user_email_or_self(*)
+            if User.current.allowed_globally?(:view_user_email)
+              "TRUE"
+            else
+              "id = #{User.current.id}"
+            end
+          end
         end
 
         link :self,
@@ -71,6 +79,10 @@ module API
 
         property :name,
                  representation: method(:user_name_projection)
+
+        property :email,
+                 column: :mail,
+                 render_if: method(:render_if_view_user_email_or_self)
 
         property :firstname,
                  render_if: method(:render_if_manage_user_or_self)

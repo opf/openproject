@@ -33,6 +33,8 @@ module Pages
     attr_reader :project, :work_package
 
     def initialize(work_package, project = nil)
+      super()
+
       @work_package = work_package
       @project = project
     end

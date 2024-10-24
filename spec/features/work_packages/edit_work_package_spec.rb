@@ -1,7 +1,10 @@
 require "spec_helper"
 require "features/page_objects/notification"
 
-RSpec.describe "edit work package", :js do
+RSpec.describe "edit work package", :js, :with_cuprite do
+  include Components::Autocompleter::NgSelectAutocompleteHelpers
+
+  let!(:standard_global_role) { create(:empty_global_role) }
   let(:dev_role) do
     create(:project_role,
            permissions: %i[view_work_packages
@@ -70,6 +73,7 @@ RSpec.describe "edit work package", :js do
   let(:category) { create(:category, project:) }
 
   let(:visit_before) { true }
+  let(:logged_in_user) { manager }
 
   def visit!
     wp_page.visit!
@@ -77,7 +81,7 @@ RSpec.describe "edit work package", :js do
   end
 
   before do
-    login_as(manager)
+    login_as(logged_in_user)
 
     manager
     dev
@@ -260,6 +264,73 @@ RSpec.describe "edit work package", :js do
 
       subject_field.expect_active!
       wp_page.expect_no_toaster(type: :success, message: "Successful update", wait: 1)
+    end
+  end
+
+  context "when using the user auto completer" do
+    RSpec.shared_examples "without permission" do |field_name|
+      it "does not show you the email of other users" do
+        completer = wp_page.edit_field field_name
+        completer.activate!
+
+        options = visible_user_auto_completer_options
+
+        expected_options = [
+          { name: manager.name, email: nil },  # Manager's email should not be visible
+          { name: dev.name, email: dev.mail }  # Developer's email should be visible
+        ]
+
+        expect(options).to eq(expected_options)
+      end
+    end
+
+    RSpec.shared_examples "with permission" do |field_name|
+      it "does show you the email of other users" do
+        completer = wp_page.edit_field field_name
+        completer.activate!
+
+        options = visible_user_auto_completer_options
+
+        expected_options = [
+          # With the right permissions, you can see other users email address
+          { name: manager.name,
+            email: manager.mail },
+          # The current user can always see their own email
+          { name: dev.name,
+            email: dev.mail }
+        ]
+
+        expect(options).to eq(expected_options)
+      end
+    end
+
+    let(:dev_role) do
+      create(:project_role,
+             permissions: %i[view_work_packages
+                             edit_work_packages
+                             work_package_assigned])
+    end
+
+    let(:logged_in_user) { dev }
+
+    context "when assigning people to a work package" do
+      include_examples "without permission", "assignee"
+    end
+
+    context "when setting accountable person for a work package" do
+      include_examples "without permission", "responsible"
+    end
+
+    context "with permission to see emails" do
+      let!(:standard_global_role) { create(:standard_global_role) }
+
+      context "when assigning people to a work package" do
+        include_examples "with permission", "assignee"
+      end
+
+      context "when setting accountable person for a work package" do
+        include_examples "with permission", "responsible"
+      end
     end
   end
 end

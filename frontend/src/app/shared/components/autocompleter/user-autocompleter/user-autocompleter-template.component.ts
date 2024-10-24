@@ -37,6 +37,7 @@ import { IAutocompleterTemplateComponent } from 'core-app/shared/components/auto
 
 @Component({
   templateUrl: './user-autocompleter-template.component.html',
+  styleUrls: ['./user-autocompleter-template.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UserAutocompleterTemplateComponent implements IAutocompleterTemplateComponent {
