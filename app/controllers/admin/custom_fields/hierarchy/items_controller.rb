@@ -82,8 +82,13 @@ module Admin
             .new
             .update_item(item: @hierarchy_item, label: item_input[:label], short: item_input[:short])
             .either(
-              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
-              ->(validation_result) { add_errors_to_edit_form(validation_result) }
+              ->(_) {
+                update_via_turbo_stream(component: ItemComponent.new(custom_field: @custom_field,
+                                                                     hierarchy_item: @hierarchy_item))
+              },
+              ->(validation_result) {
+                add_errors_to_edit_form(validation_result)
+              }
             )
 
           respond_with_turbo_streams
