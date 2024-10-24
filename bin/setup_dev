@@ -3,6 +3,13 @@
 # Deletes bundled javascript assets and rebuilds them.
 # Useful for when your frontend doesn't work (jQuery not defined etc.) for seemingly no reason at all.
 
+NPM_COMMAND="ci"
+
+# allow to speed-up boot by using npm install instead of npm ci
+if [ "$1" = "fast" ]; then
+  NPM_COMMAND="install"
+fi
+
 yell() { echo -e "$0: $*" >&2; }
 die() { yell "$*"; exit 1; }
 try() { eval "$@" || die "\n\nFailed to run '$*', check log/setup_dev.log for more information."; }
@@ -18,7 +25,7 @@ echo "Removing public assets"
 try 'rm -rf public/assets >> log/setup_dev.log'
 
 echo "Installing node_modules ... "
-try '(cd frontend && npm ci) >> log/setup_dev.log'
+try "(cd frontend && npm $NPM_COMMAND) >> log/setup_dev.log"
 
 echo "Linking plugin modules"
 try 'bundle exec rake openproject:plugins:register_frontend >> log/setup_dev.log'

@@ -118,6 +118,8 @@ Rails.application.configure do
   if ENV["OPENPROJECT_DEV_EXTRA_HOSTS"].present?
     config.hosts.push(*ENV["OPENPROJECT_DEV_EXTRA_HOSTS"].split(","))
   end
+
+  config.hosts.push /\A\w+\.openproject-dev\.com\z/
 end
 
 ActiveRecord::Base.logger = ActiveSupport::Logger.new($stdout) unless String(ENV.fetch("SILENCE_SQL_LOGS", nil)).to_bool

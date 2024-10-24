@@ -31,7 +31,7 @@ require "spec_helper"
 RSpec.describe FrontendAssetHelper do
   describe "#include_frontend_assets" do
     before do
-      allow(FrontendAssetHelper).to receive(:assets_proxied?).and_return(proxied)
+      allow(described_class).to receive(:assets_proxied?).and_return(proxied)
     end
 
     context "when proxied" do
