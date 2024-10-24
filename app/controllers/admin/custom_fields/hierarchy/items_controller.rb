@@ -58,7 +58,10 @@ module Admin
             .new
             .insert_item(**item_input)
             .either(
-              ->(_) { update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field)) },
+              ->(_) do
+                update_via_turbo_stream(component: ItemsComponent.new(custom_field: @custom_field,
+                                                                      new_item_form_data: { show: true }))
+              end,
               ->(validation_result) { add_errors_to_form(validation_result) }
             )
 
