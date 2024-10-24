@@ -140,9 +140,9 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
         expect(result).to be_success
 
         ancestors = result.value!
-        expect(ancestors.size).to eq(2)
-        expect(ancestors).to contain_exactly(root, luke)
-        expect(ancestors.last).to eq(luke)
+        expect(ancestors.size).to eq(3)
+        expect(ancestors).to contain_exactly(root, luke, leia)
+        expect(ancestors.last).to eq(leia)
       end
     end
 
@@ -150,7 +150,7 @@ RSpec.describe CustomFields::Hierarchy::HierarchicalItemService do
       it "returns a empty list" do
         result = service.get_branch(item: root)
         expect(result).to be_success
-        expect(result.value!).to be_empty
+        expect(result.value!).to match_array(root)
       end
     end
   end
