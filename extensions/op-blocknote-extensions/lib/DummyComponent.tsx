@@ -1,6 +1,6 @@
 import { createReactBlockSpec } from "@blocknote/react";
 
-export function DummyComponent() {
+export function DummyComponent(_props: any) {
   return (
     <div>This is a dummy component being served from a separate library</div>
   );
@@ -13,9 +13,8 @@ export const dummyBlockSpec = createReactBlockSpec(
     content: "inline",
   },
   {
-    render: (_props) => {
+    render: (_params) => {
       return <DummyComponent />;
     },
   }
 );
-

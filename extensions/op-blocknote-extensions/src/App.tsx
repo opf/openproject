@@ -1,5 +1,4 @@
 import {
-  BlockNoteEditor,
   BlockNoteSchema,
   defaultBlockSpecs,
   filterSuggestionItems,
@@ -24,19 +23,14 @@ export default function App() {
     },
   });
   const editor = useCreateBlockNote({ schema });
+  type EditorType = typeof editor;
 
-  const getCustomSlashMenuItems = (
-    editor: BlockNoteEditor<typeof schema.blockSchema>
-  ) => {
+  const getCustomSlashMenuItems = (editor: EditorType) => {
     return [
       ...getDefaultReactSlashMenuItems(editor),
       {
         title: "Insert Dummy Block",
         onItemClick: () =>
-          // If the block containing the text caret is empty, `insertOrUpdateBlock`
-          // changes its type to the provided block. Otherwise, it inserts the new
-          // block below and moves the text caret to it. We use this function with
-          // a block containing 'Hello World' in bold.
           insertOrUpdateBlock(editor, {
             type: "dummy",
           }),
