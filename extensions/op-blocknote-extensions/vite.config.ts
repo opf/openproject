@@ -11,18 +11,18 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "lib/index.ts"),
       name: "OpBlocknoteExtensions",
-      formats: ["es", "cjs"],
+      formats: ["es"],
       fileName: (format) => `op-blocknote-extensions.${format}.js`,
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled
-      external: ["react", "react-dom", "@blocknote/core", "@blocknote/react"],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
+      external: [
+        "react",
+        "react-dom",
+        "@blocknote/core",
+        "@blocknote/react",
+        "@blocknote/mantine",
+      ],
     },
   },
 });

@@ -2,10 +2,12 @@
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "./dist",
     "declarationMap": true,
+    "declarationDir": "./dist",
+    "esModuleInterop": true,
     "emitDeclarationOnly": true,
-    "noEmit": false
+    "noEmit": false,
+    "strict": true,
   },
   "include": ["lib/**/*.ts", "lib/**/*.tsx"]
 }

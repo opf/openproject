@@ -280,7 +280,7 @@ function ae() {
   return F || (F = 1, process.env.NODE_ENV === "production" ? v.exports = ne() : v.exports = oe()), v.exports;
 }
 var L = ae();
-function se() {
+function se(c) {
   return /* @__PURE__ */ L.jsx("div", { children: "This is a dummy component being served from a separate library" });
 }
 const le = te(

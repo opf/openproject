@@ -1,4 +1,4 @@
-export declare function DummyComponent(): import("react/jsx-runtime").JSX.Element;
+export declare function DummyComponent(_props: any): import("react/jsx-runtime").JSX.Element;
 export declare const dummyBlockSpec: {
     config: {
         readonly type: "dummy";
