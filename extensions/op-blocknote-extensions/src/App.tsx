@@ -13,12 +13,13 @@ import {
   useCreateBlockNote,
 } from "@blocknote/react";
 
-import { dummyBlockSpec } from "../lib";
+import { dummyBlockSpec, openProjectWorkPackageBlockSpec } from "../lib";
 
 export default function App() {
   const schema = BlockNoteSchema.create({
     blockSpecs: {
       ...defaultBlockSpecs,
+      openProjectWorkPackage: openProjectWorkPackageBlockSpec,
       dummy: dummyBlockSpec,
     },
   });
@@ -29,15 +30,26 @@ export default function App() {
     return [
       ...getDefaultReactSlashMenuItems(editor),
       {
+        title: "Open Project Work Package",
+        onItemClick: () =>
+          insertOrUpdateBlock(editor, {
+            type: "openProjectWorkPackage",
+          }),
+        aliases: ["openproject", "workpackage", "op", "wp"],
+        group: "OpenProject",
+        icon: <span>📦</span>,
+        subtext: "Search and link an existing Work Package",
+      },
+      {
         title: "Insert Dummy Block",
         onItemClick: () =>
           insertOrUpdateBlock(editor, {
             type: "dummy",
           }),
         aliases: ["dummy"],
-        group: "Other",
+        group: "OpenProject",
         icon: <span>🧩</span>,
-        subtext: "Used to insert a Dummy block",
+        subtext: "Insert a Dummy block",
       },
     ];
   };
