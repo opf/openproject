@@ -1,3 +1,4 @@
+import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 
@@ -725,3 +726,15 @@ export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
     },
   },
 );
+
+export const openProjectWorkPackageSlashMenu = (editor: any) => ({
+  title: "Open Project Work Package",
+  onItemClick: () =>
+    insertOrUpdateBlock(editor, {
+      type: "openProjectWorkPackage",
+    }),
+  aliases: ["openproject", "workpackage", "op", "wp"],
+  group: "OpenProject",
+  icon: <span>📦</span>,
+  subtext: "Search and link an existing Work Package",
+})

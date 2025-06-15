@@ -111,4 +111,12 @@ export declare const openProjectWorkPackageBlockSpec: {
         readonly content: "inline";
     }, any, import("@blocknote/core").InlineContentSchema, import("@blocknote/core").StyleSchema>;
 };
+export declare const openProjectWorkPackageSlashMenu: (editor: any) => {
+    title: string;
+    onItemClick: () => import("@blocknote/core").Block<Record<string, import("@blocknote/core").BlockConfig>, import("@blocknote/core").InlineContentSchema, import("@blocknote/core").StyleSchema>;
+    aliases: string[];
+    group: string;
+    icon: import("react/jsx-runtime").JSX.Element;
+    subtext: string;
+};
 //# sourceMappingURL=OpenProjectWorkPackageBlock.d.ts.map
