@@ -1,3 +1,4 @@
+import { insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 
 export function DummyComponent(_props: any) {
@@ -18,3 +19,15 @@ export const dummyBlockSpec = createReactBlockSpec(
     },
   }
 );
+
+export const dummySlashMenu = (editor: any) => ({
+  title: "Insert Dummy Block",
+  onItemClick: () =>
+    insertOrUpdateBlock(editor, {
+      type: "dummy",
+    }),
+  aliases: ["dummy"],
+  group: "Other",
+  icon: <span>🧩</span>,
+  subtext: "Used to insert a Dummy block",
+})

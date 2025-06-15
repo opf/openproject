@@ -1,1 +1,1 @@
-{"version":3,"file":"DummyComponent.d.ts","sourceRoot":"","sources":["../lib/DummyComponent.tsx"],"names":[],"mappings":"AAEA,wBAAgB,cAAc,CAAC,MAAM,EAAE,GAAG,2CAIzC;AAED,eAAO,MAAM,cAAc;;;;;;;;;;;CAW1B,CAAC"}
+{"version":3,"file":"DummyComponent.d.ts","sourceRoot":"","sources":["../lib/DummyComponent.tsx"],"names":[],"mappings":"AAGA,wBAAgB,cAAc,CAAC,MAAM,EAAE,GAAG,2CAIzC;AAED,eAAO,MAAM,cAAc;;;;;;;;;;;CAW1B,CAAC;AAEF,eAAO,MAAM,cAAc,GAAI,QAAQ,GAAG;;;;;;;CAUxC,CAAA"}

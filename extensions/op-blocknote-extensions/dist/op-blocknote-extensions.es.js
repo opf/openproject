@@ -1,5 +1,6 @@
 import te, { useState as p, useRef as fe, useEffect as le, useCallback as xe } from "react";
-import { createReactBlockSpec as ge } from "@blocknote/react";
+import { insertOrUpdateBlock as ve } from "@blocknote/core";
+import { createReactBlockSpec as je } from "@blocknote/react";
 var ae = { exports: {} }, K = {};
 /**
  * @license React
@@ -11,26 +12,26 @@ var ae = { exports: {} }, K = {};
  * LICENSE file in the root directory of this source tree.
  */
 var he;
-function je() {
+function ye() {
   if (he) return K;
   he = 1;
-  var l = Symbol.for("react.transitional.element"), O = Symbol.for("react.fragment");
-  function g(I, d, f) {
+  var o = Symbol.for("react.transitional.element"), P = Symbol.for("react.fragment");
+  function v(N, d, f) {
     var h = null;
     if (f !== void 0 && (h = "" + f), d.key !== void 0 && (h = "" + d.key), "key" in d) {
       f = {};
-      for (var j in d)
-        j !== "key" && (f[j] = d[j]);
+      for (var x in d)
+        x !== "key" && (f[x] = d[x]);
     } else f = d;
     return d = f.ref, {
-      $$typeof: l,
-      type: I,
+      $$typeof: o,
+      type: N,
       key: h,
       ref: d !== void 0 ? d : null,
       props: f
     };
   }
-  return K.Fragment = O, K.jsx = g, K.jsxs = g, K;
+  return K.Fragment = P, K.jsx = v, K.jsxs = v, K;
 }
 var ee = {};
 /**
@@ -43,12 +44,12 @@ var ee = {};
  * LICENSE file in the root directory of this source tree.
  */
 var me;
-function ye() {
+function ke() {
   return me || (me = 1, process.env.NODE_ENV !== "production" && function() {
-    function l(e) {
+    function o(e) {
       if (e == null) return null;
       if (typeof e == "function")
-        return e.$$typeof === W ? null : e.displayName || e.name || null;
+        return e.$$typeof === Y ? null : e.displayName || e.name || null;
       if (typeof e == "string") return e;
       switch (e) {
         case C:
@@ -57,7 +58,7 @@ function ye() {
           return "Profiler";
         case ne:
           return "StrictMode";
-        case Y:
+        case W:
           return "Suspense";
         case w:
           return "SuspenseList";
@@ -78,42 +79,42 @@ function ye() {
             var n = e.render;
             return e = e.displayName, e || (e = n.displayName || n.name || "", e = e !== "" ? "ForwardRef(" + e + ")" : "ForwardRef"), e;
           case H:
-            return n = e.displayName || null, n !== null ? n : l(e.type) || "Memo";
+            return n = e.displayName || null, n !== null ? n : o(e.type) || "Memo";
           case A:
             n = e._payload, e = e._init;
             try {
-              return l(e(n));
+              return o(e(n));
             } catch {
             }
         }
       return null;
     }
-    function O(e) {
+    function P(e) {
       return "" + e;
     }
-    function g(e) {
+    function v(e) {
       try {
-        O(e);
+        P(e);
         var n = !1;
       } catch {
         n = !0;
       }
       if (n) {
         n = console;
-        var a = n.error, i = typeof Symbol == "function" && Symbol.toStringTag && e[Symbol.toStringTag] || e.constructor.name || "Object";
-        return a.call(
+        var c = n.error, i = typeof Symbol == "function" && Symbol.toStringTag && e[Symbol.toStringTag] || e.constructor.name || "Object";
+        return c.call(
           n,
           "The provided key is an unsupported type %s. This value must be coerced to a string before using it here.",
           i
-        ), O(e);
+        ), P(e);
       }
     }
-    function I(e) {
+    function N(e) {
       if (e === C) return "<>";
       if (typeof e == "object" && e !== null && e.$$typeof === A)
         return "<...>";
       try {
-        var n = l(e);
+        var n = o(e);
         return n ? "<" + n + ">" : "<...>";
       } catch {
         return "<...>";
@@ -127,38 +128,38 @@ function ye() {
       return Error("react-stack-top-frame");
     }
     function h(e) {
-      if (F.call(e, "key")) {
+      if (M.call(e, "key")) {
         var n = Object.getOwnPropertyDescriptor(e, "key").get;
         if (n && n.isReactWarning) return !1;
       }
       return e.key !== void 0;
     }
-    function j(e, n) {
-      function a() {
+    function x(e, n) {
+      function c() {
         V || (V = !0, console.error(
           "%s: `key` is not a prop. Trying to access it will result in `undefined` being returned. If you need to access the same value within the child component, you should pass it as a different prop. (https://react.dev/link/special-props)",
           n
         ));
       }
-      a.isReactWarning = !0, Object.defineProperty(e, "key", {
-        get: a,
+      c.isReactWarning = !0, Object.defineProperty(e, "key", {
+        get: c,
         configurable: !0
       });
     }
     function y() {
-      var e = l(this.type);
+      var e = o(this.type);
       return X[e] || (X[e] = !0, console.error(
         "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
       )), e = this.props.ref, e !== void 0 ? e : null;
     }
-    function re(e, n, a, i, E, m, U, B) {
-      return a = m.ref, e = {
-        $$typeof: P,
+    function re(e, n, c, i, b, m, U, B) {
+      return c = m.ref, e = {
+        $$typeof: O,
         type: e,
         key: n,
         props: m,
-        _owner: E
-      }, (a !== void 0 ? a : null) !== null ? Object.defineProperty(e, "ref", {
+        _owner: b
+      }, (c !== void 0 ? c : null) !== null ? Object.defineProperty(e, "ref", {
         enumerable: !1,
         get: y
       }) : Object.defineProperty(e, "ref", { enumerable: !1, value: null }), e._store = {}, Object.defineProperty(e._store, "validated", {
@@ -183,21 +184,21 @@ function ye() {
         value: B
       }), Object.freeze && (Object.freeze(e.props), Object.freeze(e)), e;
     }
-    function z(e, n, a, i, E, m, U, B) {
+    function z(e, n, c, i, b, m, U, B) {
       var u = n.children;
       if (u !== void 0)
         if (i)
           if (se(u)) {
             for (i = 0; i < u.length; i++)
-              x(u[i]);
+              j(u[i]);
             Object.freeze && Object.freeze(u);
           } else
             console.error(
               "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
             );
-        else x(u);
-      if (F.call(n, "key")) {
-        u = l(e);
+        else j(u);
+      if (M.call(n, "key")) {
+        u = o(e);
         var S = Object.keys(n).filter(function(oe) {
           return oe !== "key";
         });
@@ -214,92 +215,101 @@ React keys must be passed directly to JSX without using spread:
           u
         ), L[u + i] = !0);
       }
-      if (u = null, a !== void 0 && (g(a), u = "" + a), h(n) && (g(n.key), u = "" + n.key), "key" in n) {
-        a = {};
+      if (u = null, c !== void 0 && (v(c), u = "" + c), h(n) && (v(n.key), u = "" + n.key), "key" in n) {
+        c = {};
         for (var G in n)
-          G !== "key" && (a[G] = n[G]);
-      } else a = n;
-      return u && j(
-        a,
+          G !== "key" && (c[G] = n[G]);
+      } else c = n;
+      return u && x(
+        c,
         typeof e == "function" ? e.displayName || e.name || "Unknown" : e
       ), re(
         e,
         u,
         m,
-        E,
+        b,
         d(),
-        a,
+        c,
         U,
         B
       );
     }
-    function x(e) {
-      typeof e == "object" && e !== null && e.$$typeof === P && e._store && (e._store.validated = 1);
+    function j(e) {
+      typeof e == "object" && e !== null && e.$$typeof === O && e._store && (e._store.validated = 1);
     }
-    var b = te, P = Symbol.for("react.transitional.element"), T = Symbol.for("react.portal"), C = Symbol.for("react.fragment"), ne = Symbol.for("react.strict_mode"), J = Symbol.for("react.profiler"), _ = Symbol.for("react.consumer"), ce = Symbol.for("react.context"), $ = Symbol.for("react.forward_ref"), Y = Symbol.for("react.suspense"), w = Symbol.for("react.suspense_list"), H = Symbol.for("react.memo"), A = Symbol.for("react.lazy"), q = Symbol.for("react.activity"), W = Symbol.for("react.client.reference"), D = b.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, F = Object.prototype.hasOwnProperty, se = Array.isArray, N = console.createTask ? console.createTask : function() {
+    var k = te, O = Symbol.for("react.transitional.element"), T = Symbol.for("react.portal"), C = Symbol.for("react.fragment"), ne = Symbol.for("react.strict_mode"), J = Symbol.for("react.profiler"), _ = Symbol.for("react.consumer"), ce = Symbol.for("react.context"), $ = Symbol.for("react.forward_ref"), W = Symbol.for("react.suspense"), w = Symbol.for("react.suspense_list"), H = Symbol.for("react.memo"), A = Symbol.for("react.lazy"), q = Symbol.for("react.activity"), Y = Symbol.for("react.client.reference"), D = k.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, M = Object.prototype.hasOwnProperty, se = Array.isArray, I = console.createTask ? console.createTask : function() {
       return null;
     };
-    b = {
+    k = {
       "react-stack-bottom-frame": function(e) {
         return e();
       }
     };
-    var V, X = {}, M = b["react-stack-bottom-frame"].bind(
-      b,
+    var V, X = {}, F = k["react-stack-bottom-frame"].bind(
+      k,
       f
-    )(), Q = N(I(f)), L = {};
-    ee.Fragment = C, ee.jsx = function(e, n, a, i, E) {
+    )(), Q = I(N(f)), L = {};
+    ee.Fragment = C, ee.jsx = function(e, n, c, i, b) {
       var m = 1e4 > D.recentlyCreatedOwnerStacks++;
       return z(
         e,
         n,
-        a,
+        c,
         !1,
         i,
-        E,
-        m ? Error("react-stack-top-frame") : M,
-        m ? N(I(e)) : Q
+        b,
+        m ? Error("react-stack-top-frame") : F,
+        m ? I(N(e)) : Q
       );
-    }, ee.jsxs = function(e, n, a, i, E) {
+    }, ee.jsxs = function(e, n, c, i, b) {
       var m = 1e4 > D.recentlyCreatedOwnerStacks++;
       return z(
         e,
         n,
-        a,
+        c,
         !0,
         i,
-        E,
-        m ? Error("react-stack-top-frame") : M,
-        m ? N(I(e)) : Q
+        b,
+        m ? Error("react-stack-top-frame") : F,
+        m ? I(N(e)) : Q
       );
     };
   }()), ee;
 }
-var ve;
+var ge;
 function be() {
-  return ve || (ve = 1, process.env.NODE_ENV === "production" ? ae.exports = je() : ae.exports = ye()), ae.exports;
+  return ge || (ge = 1, process.env.NODE_ENV === "production" ? ae.exports = ye() : ae.exports = ke()), ae.exports;
 }
 var r = be();
-function Ee(l) {
+function Ee(o) {
   return /* @__PURE__ */ r.jsx("div", { children: "This is a dummy component being served from a separate library" });
 }
-const Re = ge(
+const Ae = je(
   {
     type: "dummy",
     propSchema: {},
     content: "inline"
   },
   {
-    render: (l) => /* @__PURE__ */ r.jsx(Ee, {})
+    render: (o) => /* @__PURE__ */ r.jsx(Ee, {})
   }
-), ie = "#000091", ke = "#FBF5F2", Oe = "#3a3a3a", Te = "https://openproject.local", _e = ({
-  block: l,
-  editor: O
+), Te = (o) => ({
+  title: "Insert Dummy Block",
+  onItemClick: () => ve(o, {
+    type: "dummy"
+  }),
+  aliases: ["dummy"],
+  group: "Other",
+  icon: /* @__PURE__ */ r.jsx("span", { children: "🧩" }),
+  subtext: "Used to insert a Dummy block"
+}), ie = "#000091", _e = "#FBF5F2", De = "#3a3a3a", we = "https://openproject.local", Se = ({
+  block: o,
+  editor: P
 }) => {
   var U, B, u, S, G, oe, ue, de;
-  const [g, I] = p("search"), [d, f] = p(""), [h, j] = p([]), [y, re] = p(null), [z, x] = p(!1), [b, P] = p(-1), T = fe(null), C = fe(null), [ne, J] = p([]), [_, ce] = p(null), [$, Y] = p([]), [w, H] = p(null), [A, q] = p([]), [W, D] = p(null), [F, se] = p(""), [N, V] = p(""), [X, M] = p(!1), [Q, L] = p(null), [e, n] = p(null);
+  const [v, N] = p("search"), [d, f] = p(""), [h, x] = p([]), [y, re] = p(null), [z, j] = p(!1), [k, O] = p(-1), T = fe(null), C = fe(null), [ne, J] = p([]), [_, ce] = p(null), [$, W] = p([]), [w, H] = p(null), [A, q] = p([]), [Y, D] = p(null), [M, se] = p(""), [I, V] = p(""), [X, F] = p(!1), [Q, L] = p(null), [e, n] = p(null);
   te.useEffect(() => {
-    l.props.wpid && fetch(`api/v3/work_packages/${l.props.wpid}`, {
+    o.props.wpid && fetch(`api/v3/work_packages/${o.props.wpid}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" }
     }).then(async (t) => {
@@ -310,94 +320,94 @@ const Re = ge(
     }).catch((t) => {
       console.error("Error fetching work package:", t);
     });
-  }, [l.props.wpid]), te.useEffect(() => {
+  }, [o.props.wpid]), te.useEffect(() => {
     if (!w) {
       q([]), D(null);
       return;
     }
     let t = !0;
     return (async () => {
-      var o;
+      var a;
       try {
-        const c = await fetch("api/v3/statuses", {
+        const l = await fetch("api/v3/statuses", {
           method: "GET",
           headers: { "Content-Type": "application/json" }
         });
-        if (!c.ok)
-          throw new Error(`HTTP error! status: ${c.status}`);
-        const v = await c.json();
-        t && ((o = v._embedded) != null && o.elements) || t && q([]);
-      } catch (c) {
-        t && q([]), console.error("Error fetching statuses:", c);
+        if (!l.ok)
+          throw new Error(`HTTP error! status: ${l.status}`);
+        const g = await l.json();
+        t && ((a = g._embedded) != null && a.elements) || t && q([]);
+      } catch (l) {
+        t && q([]), console.error("Error fetching statuses:", l);
       }
     })(), () => {
       t = !1;
     };
   }, [w]), te.useEffect(() => {
     if (!_) {
-      Y([]), H(null);
+      W([]), H(null);
       return;
     }
     let t = !0;
     return (async () => {
-      var o;
+      var a;
       try {
-        const c = await fetch(`api/v3/projects/${_}/types`, {
+        const l = await fetch(`api/v3/projects/${_}/types`, {
           method: "GET",
           headers: { "Content-Type": "application/json" }
         });
-        if (!c.ok)
-          throw new Error(`HTTP error! status: ${c.status}`);
-        const v = await c.json();
-        t && ((o = v._embedded) != null && o.elements) ? Y(
-          v._embedded.elements.filter((k) => {
+        if (!l.ok)
+          throw new Error(`HTTP error! status: ${l.status}`);
+        const g = await l.json();
+        t && ((a = g._embedded) != null && a.elements) ? W(
+          g._embedded.elements.filter((E) => {
             var R, Z;
-            return (Z = (R = k._links) == null ? void 0 : R.self) == null ? void 0 : Z.href;
+            return (Z = (R = E._links) == null ? void 0 : R.self) == null ? void 0 : Z.href;
           })
-        ) : t && Y([]);
-      } catch (c) {
-        t && Y([]), console.error("Error fetching types:", c);
+        ) : t && W([]);
+      } catch (l) {
+        t && W([]), console.error("Error fetching types:", l);
       }
     })(), () => {
       t = !1;
     };
   }, [_]), te.useEffect(() => {
-    if (g !== "create")
+    if (v !== "create")
       return;
     let t = !0;
     return (async () => {
-      var o;
+      var a;
       try {
-        const c = await fetch("api/v3/projects", {
+        const l = await fetch("api/v3/projects", {
           method: "GET",
           headers: { "Content-Type": "application/json" }
         });
-        if (!c.ok)
-          throw new Error(`HTTP error! status: ${c.status}`);
-        const v = await c.json();
-        t && ((o = v._embedded) != null && o.elements) ? J(
-          v._embedded.elements.map((k) => ({
-            id: k.id,
-            name: k.name
+        if (!l.ok)
+          throw new Error(`HTTP error! status: ${l.status}`);
+        const g = await l.json();
+        t && ((a = g._embedded) != null && a.elements) ? J(
+          g._embedded.elements.map((E) => ({
+            id: E.id,
+            name: E.name
           }))
         ) : t && J([]);
-      } catch (c) {
-        t && J([]), console.error("Error fetching projects:", c);
+      } catch (l) {
+        t && J([]), console.error("Error fetching projects:", l);
       }
     })(), () => {
       t = !1;
     };
-  }, [g]), le(() => {
+  }, [v]), le(() => {
     const t = (s) => {
-      C.current && !C.current.contains(s.target) && T.current && !T.current.contains(s.target) && x(!1);
+      C.current && !C.current.contains(s.target) && T.current && !T.current.contains(s.target) && j(!1);
     };
     return document.addEventListener("mousedown", t), () => {
       document.removeEventListener("mousedown", t);
     };
   }, []);
-  const a = xe(async () => {
+  const c = xe(async () => {
     if (!d) {
-      j([]), x(!1);
+      x([]), j(!1);
       return;
     }
     try {
@@ -411,54 +421,54 @@ const Re = ge(
       if (!t.ok)
         throw new Error(`HTTP error! status: ${t.status}`);
       const s = await t.json();
-      s && s._embedded && s._embedded.elements ? (j(s._embedded.elements), x(s._embedded.elements.length > 0), P(-1)) : (console.error("Invalid API response:", s), j([]), x(!1));
+      s && s._embedded && s._embedded.elements ? (x(s._embedded.elements), j(s._embedded.elements.length > 0), O(-1)) : (console.error("Invalid API response:", s), x([]), j(!1));
     } catch (t) {
-      console.error("Error fetching work packages:", t), j([]), x(!1);
+      console.error("Error fetching work packages:", t), x([]), j(!1);
     }
   }, [d]);
   le(() => {
     const t = setTimeout(() => {
-      d && a();
+      d && c();
     }, 300);
     return () => clearTimeout(t);
-  }, [d, a]);
+  }, [d, c]);
   const i = (t) => {
-    var s, o, c, v, k, R, Z, pe;
-    re(t), f(""), x(!1), O.updateBlock(l, {
+    var s, a, l, g, E, R, Z, pe;
+    re(t), f(""), j(!1), P.updateBlock(o, {
       props: {
-        ...l.props,
+        ...o.props,
         wpid: t.id,
         subject: t.subject,
-        status: ((o = (s = t._links) == null ? void 0 : s.status) == null ? void 0 : o.title) || "",
-        assignee: ((v = (c = t._links) == null ? void 0 : c.assignee) == null ? void 0 : v.title) || "",
-        type: ((R = (k = t._links) == null ? void 0 : k.type) == null ? void 0 : R.title) || "",
+        status: ((a = (s = t._links) == null ? void 0 : s.status) == null ? void 0 : a.title) || "",
+        assignee: ((g = (l = t._links) == null ? void 0 : l.assignee) == null ? void 0 : g.title) || "",
+        type: ((R = (E = t._links) == null ? void 0 : E.type) == null ? void 0 : R.title) || "",
         href: ((pe = (Z = t._links) == null ? void 0 : Z.self) == null ? void 0 : pe.href) || ""
       }
     });
   };
   le(() => {
-    g === "search" && T.current && setTimeout(() => {
+    v === "search" && T.current && setTimeout(() => {
       var t;
       return (t = T == null ? void 0 : T.current) == null ? void 0 : t.focus();
     }, 50);
-  }, [g]);
-  const E = (t) => {
+  }, [v]);
+  const b = (t) => {
     if (z)
       switch (t.key) {
         case "ArrowDown":
-          t.preventDefault(), P((s) => s < h.length - 1 ? s + 1 : s);
+          t.preventDefault(), O((s) => s < h.length - 1 ? s + 1 : s);
           break;
         case "ArrowUp":
-          t.preventDefault(), P((s) => s > 0 ? s - 1 : 0);
+          t.preventDefault(), O((s) => s > 0 ? s - 1 : 0);
           break;
         case "Enter":
-          t.preventDefault(), b >= 0 && b < h.length && i(h[b]);
+          t.preventDefault(), k >= 0 && k < h.length && i(h[k]);
           break;
         case "Escape":
-          t.preventDefault(), x(!1);
+          t.preventDefault(), j(!1);
           break;
       }
-  }, m = `${Te}/wp/${l.props.wpid}`;
+  }, m = `${we}/wp/${o.props.wpid}`;
   return /* @__PURE__ */ r.jsxs(
     "div",
     {
@@ -466,12 +476,12 @@ const Re = ge(
         padding: "12px 10px",
         border: "none",
         borderRadius: "5px",
-        backgroundColor: ke,
+        backgroundColor: _e,
         width: "450px"
       },
       children: [
-        g === "search" && /* @__PURE__ */ r.jsxs("div", { children: [
-          !l.props.wpid && /* @__PURE__ */ r.jsxs("div", { style: { position: "relative" }, children: [
+        v === "search" && /* @__PURE__ */ r.jsxs("div", { children: [
+          !o.props.wpid && /* @__PURE__ */ r.jsxs("div", { style: { position: "relative" }, children: [
             /* @__PURE__ */ r.jsx(
               "div",
               {
@@ -486,12 +496,12 @@ const Re = ge(
                     placeholder: "Search for work package ID or subject",
                     value: d,
                     onChange: (t) => {
-                      f(t.target.value), t.target.value && x(!0);
+                      f(t.target.value), t.target.value && j(!0);
                     },
                     onFocus: () => {
-                      h.length > 0 && x(!0);
+                      h.length > 0 && j(!0);
                     },
-                    onKeyDown: E,
+                    onKeyDown: b,
                     style: {
                       width: "100%",
                       padding: "8px 12px",
@@ -524,22 +534,22 @@ const Re = ge(
                   marginTop: "2px"
                 },
                 children: h.slice(0, 5).map((t, s) => {
-                  var o, c, v, k;
+                  var a, l, g, E;
                   return /* @__PURE__ */ r.jsxs(
                     "div",
                     {
                       role: "option",
-                      "aria-selected": b === s,
+                      "aria-selected": k === s,
                       tabIndex: 0,
                       onClick: () => i(t),
                       onKeyDown: (R) => {
                         (R.key === "Enter" || R.key === " ") && (R.preventDefault(), i(t));
                       },
-                      onMouseEnter: () => P(s),
+                      onMouseEnter: () => O(s),
                       style: {
                         padding: "8px 12px",
                         cursor: "pointer",
-                        backgroundColor: b === s ? "#f0f0f0" : "transparent",
+                        backgroundColor: k === s ? "#f0f0f0" : "transparent",
                         borderBottom: s < h.length - 1 ? "1px solid #eee" : "none"
                       },
                       children: [
@@ -550,9 +560,9 @@ const Re = ge(
                           t.subject
                         ] }),
                         /* @__PURE__ */ r.jsxs("div", { style: { fontSize: "12px", color: "#666" }, children: [
-                          (c = (o = t._links) == null ? void 0 : o.type) == null ? void 0 : c.title,
+                          (l = (a = t._links) == null ? void 0 : a.type) == null ? void 0 : l.title,
                           " ",
-                          (k = (v = t._links) == null ? void 0 : v.status) == null ? void 0 : k.title
+                          (E = (g = t._links) == null ? void 0 : g.status) == null ? void 0 : E.title
                         ] })
                       ]
                     },
@@ -562,11 +572,11 @@ const Re = ge(
               }
             )
           ] }),
-          l.props.wpid && !y && /* @__PURE__ */ r.jsxs("div", { children: [
+          o.props.wpid && !y && /* @__PURE__ */ r.jsxs("div", { children: [
             "#",
-            l.props.wpid,
+            o.props.wpid,
             " ",
-            l.props.subject
+            o.props.subject
           ] }),
           y && /* @__PURE__ */ r.jsxs("div", { children: [
             /* @__PURE__ */ r.jsxs(
@@ -637,7 +647,7 @@ const Re = ge(
             ) })
           ] })
         ] }),
-        g === "create" && /* @__PURE__ */ r.jsxs("div", { children: [
+        v === "create" && /* @__PURE__ */ r.jsxs("div", { children: [
           /* @__PURE__ */ r.jsx("p", { children: "Select a project to create a new work package in:" }),
           ne.length === 0 ? /* @__PURE__ */ r.jsx("p", { children: "Loading projects..." }) : /* @__PURE__ */ r.jsxs("select", { value: _ || "", onChange: (t) => ce(t.target.value), children: [
             /* @__PURE__ */ r.jsx("option", { value: "", children: "Select a project" }),
@@ -656,7 +666,7 @@ const Re = ge(
               "Status",
               ":",
               " ",
-              A.length === 0 ? /* @__PURE__ */ r.jsx("span", { children: "Loading statuses..." }) : /* @__PURE__ */ r.jsxs("select", { value: W || "", onChange: (t) => D(t.target.value), children: [
+              A.length === 0 ? /* @__PURE__ */ r.jsx("span", { children: "Loading statuses..." }) : /* @__PURE__ */ r.jsxs("select", { value: Y || "", onChange: (t) => D(t.target.value), children: [
                 /* @__PURE__ */ r.jsx("option", { value: "", children: "Select a status" }),
                 A.map((t) => /* @__PURE__ */ r.jsx("option", { value: t.id, children: t.name }, t.id))
               ] })
@@ -664,48 +674,48 @@ const Re = ge(
             /* @__PURE__ */ r.jsx("div", { style: { marginBottom: 8 }, children: /* @__PURE__ */ r.jsxs("label", { children: [
               "Subject",
               ": ",
-              /* @__PURE__ */ r.jsx("input", { type: "text", value: F, onChange: (t) => se(t.target.value) })
+              /* @__PURE__ */ r.jsx("input", { type: "text", value: M, onChange: (t) => se(t.target.value) })
             ] }) }),
             /* @__PURE__ */ r.jsx("div", { style: { marginBottom: 8 }, children: /* @__PURE__ */ r.jsxs("label", { children: [
               "Description",
               ": ",
-              /* @__PURE__ */ r.jsx("textarea", { value: N, onChange: (t) => V(t.target.value) })
+              /* @__PURE__ */ r.jsx("textarea", { value: I, onChange: (t) => V(t.target.value) })
             ] }) }),
             /* @__PURE__ */ r.jsxs("div", { children: [
               /* @__PURE__ */ r.jsx(
                 "button",
                 {
-                  disabled: X || !F || !N || !W || !w || !_,
+                  disabled: X || !M || !I || !Y || !w || !_,
                   onClick: () => {
-                    L(null), n(null), M(!0);
-                    const t = $.find((o) => o.id === w), s = A.find((o) => o.id === W);
-                    if (console.log("types:", $), console.log("statuses:", A), console.log("selectedType:", w), console.log("selectedStatus:", W), console.log("typeObj:", t), console.log("statusObj:", s), !t || !s) {
-                      L("Type or status not found."), M(!1);
+                    L(null), n(null), F(!0);
+                    const t = $.find((a) => a.id === w), s = A.find((a) => a.id === Y);
+                    if (console.log("types:", $), console.log("statuses:", A), console.log("selectedType:", w), console.log("selectedStatus:", Y), console.log("typeObj:", t), console.log("statusObj:", s), !t || !s) {
+                      L("Type or status not found."), F(!1);
                       return;
                     }
                     fetch(`api/v3/projects/${_}/work_packages`, {
                       method: "POST",
                       headers: { "Content-Type": "application/json" },
                       body: JSON.stringify({
-                        subject: F,
-                        description: { format: "plain", raw: N },
+                        subject: M,
+                        description: { format: "plain", raw: I },
                         _links: {
                           type: { href: t._links.self.href },
                           status: { href: s._links.self.href }
                         }
                       })
-                    }).then(async (o) => {
-                      if (!o.ok) {
-                        const c = await o.text();
-                        throw new Error(`HTTP error! status: ${o.status} - ${c}`);
+                    }).then(async (a) => {
+                      if (!a.ok) {
+                        const l = await a.text();
+                        throw new Error(`HTTP error! status: ${a.status} - ${l}`);
                       }
                       n("Work package created successfully!"), se(""), V(""), D(null), H(null);
-                    }).catch((o) => {
-                      console.error("Error creating work package:", o), L(
-                        "Failed to create work package: " + ((o == null ? void 0 : o.message) || String(o))
+                    }).catch((a) => {
+                      console.error("Error creating work package:", a), L(
+                        "Failed to create work package: " + ((a == null ? void 0 : a.message) || String(a))
                       );
                     }).finally(() => {
-                      M(!1);
+                      F(!1);
                     });
                   },
                   children: X ? "Saving..." : "Save"
@@ -719,7 +729,7 @@ const Re = ge(
       ]
     }
   );
-}, Pe = ge(
+}, Ie = je(
   {
     type: "openProjectWorkPackage",
     propSchema: {
@@ -733,15 +743,33 @@ const Re = ge(
     content: "inline"
   },
   {
-    render: ({ block: l, editor: O }) => /* @__PURE__ */ r.jsx(_e, { block: l, editor: O })
+    render: ({ block: o, editor: P }) => /* @__PURE__ */ r.jsx(Se, { block: o, editor: P })
   }
-);
+), Re = (o) => ({
+  title: "Open Project Work Package",
+  onItemClick: () => ve(o, {
+    type: "openProjectWorkPackage"
+  }),
+  aliases: ["openproject", "workpackage", "op", "wp"],
+  group: "OpenProject",
+  icon: /* @__PURE__ */ r.jsx("span", { children: "📦" }),
+  subtext: "Search and link an existing Work Package"
+});
+function Ne(o) {
+  return [
+    Re(o),
+    Te(o)
+  ];
+}
 export {
   Ee as DummyComponent,
-  Te as OPENPROJECT_HOST,
-  ke as UI_BEIGE,
+  we as OPENPROJECT_HOST,
+  _e as UI_BEIGE,
   ie as UI_BLUE,
-  Oe as UI_GRAY,
-  Re as dummyBlockSpec,
-  Pe as openProjectWorkPackageBlockSpec
+  De as UI_GRAY,
+  Ae as dummyBlockSpec,
+  Te as dummySlashMenu,
+  Ne as getDefaultOpenProjectSlashMenuItems,
+  Ie as openProjectWorkPackageBlockSpec,
+  Re as openProjectWorkPackageSlashMenu
 };
