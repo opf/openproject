@@ -28,7 +28,6 @@
 
 import { debounce } from 'lodash-es';
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
-import type { Editor as CodeMirrorEditor } from 'codemirror';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -38,10 +37,11 @@ import {
   ICKEditorWatchdog,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
 import { CKEditorSetupService } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
-import { CodeMirrorLoaderService } from 'core-app/shared/components/editor/components/ckeditor/codemirror-loader.service';
 import { KeyCodes } from 'core-app/shared/helpers/keycodes';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
+import invariant from 'tiny-invariant';
+import { type EditorView } from 'codemirror';
 
 @Component({
   selector: 'op-ckeditor',
@@ -88,8 +88,6 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   // View container of the replacement used to initialize CKEditor5
   @ViewChild('opCkeditorReplacementContainer', { static: true }) opCkeditorReplacementContainer:ElementRef<HTMLDivElement>;
 
-  @ViewChild('codeMirrorPane') codeMirrorPane:ElementRef<HTMLDivElement>;
-
   // CKEditor instance once initialized
   public watchdog:ICKEditorWatchdog;
 
@@ -108,14 +106,18 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   private readonly I18n = inject(I18nService);
   private readonly configurationService = inject(ConfigurationService);
   private readonly ckEditorSetup = inject(CKEditorSetupService);
-  private readonly codeMirrorLoader = inject(CodeMirrorLoaderService);
 
   public text = {
     errorTitle: this.I18n.t('js.editor.ckeditor_error'),
   };
 
-  // Codemirror instance, initialized lazily when running source mode
-  public codeMirrorInstance:CodeMirrorEditor|null = null;
+  // CodeMirror EditorView instance, initialized lazily when entering source mode
+  public sourceEditorView:EditorView|null = null;
+
+  // Bumped on every mode switch so a late async source-mode setup can detect
+  // that it has been superseded (e.g. source mode disabled again before the
+  // dynamic imports resolved) and bail out.
+  private sourceModeToken = 0;
 
   // Debounce change listener for both CKE and codemirror
   // to read back changes as they happen
@@ -136,7 +138,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
     let content:string;
 
     if (this.manualMode) {
-      content = this.codeMirrorInstance!.getValue();
+      content = this.sourceEditorView!.state.doc.toString();
     } else {
       content = this.ckEditorInstance.getData({ trim: false });
     }
@@ -213,6 +215,10 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
   }
 
   ngOnDestroy() {
+    this.sourceModeToken += 1;
+    this.sourceEditorView?.destroy();
+    this.sourceEditorView = null;
+
     try {
       this.watchdog?.destroy();
     } catch (e) {
@@ -317,11 +323,13 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
    * Disable the manual mode, kill the codeMirror instance and switch back to CKEditor
    */
   private disableManualMode() {
+    this.sourceModeToken += 1;
     const current = this.getRawData();
 
     // Apply content to ckeditor
     this.ckEditorInstance.setData(current);
-    this.codeMirrorInstance = null;
+    this.sourceEditorView?.destroy();
+    this.sourceEditorView = null;
     this.manualMode = false;
   }
 
@@ -329,27 +337,42 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
    * Enable manual mode, get data from WYSIWYG and show CodeMirror instance.
    */
   private enableManualMode() {
+    this.sourceModeToken += 1;
+    const token = this.sourceModeToken;
     const current = this.getRawData();
-    const cmMode = 'gfm';
+    const sourceContainer = this.elementRef.nativeElement.querySelector('.ck-editor__source');
+    invariant(sourceContainer, 'Source container is not defined.');
 
-    void this.codeMirrorLoader
-      .ensureModeLoaded(cmMode)
-      .then((modeLoaded) => modeLoaded ? cmMode : '')
-      .then(async (resolvedMode) => {
-        const CodeMirror = await this.codeMirrorLoader.loadCore();
-        this.codeMirrorInstance = CodeMirror(
-          this.elementRef.nativeElement.querySelector<HTMLElement>('.ck-editor__source')!,
-          {
-            lineNumbers: true,
-            smartIndent: true,
-            value: current,
-            mode: resolvedMode,
-          },
-        );
+    void Promise
+      .all([
+        import('codemirror'),
+        import('@codemirror/lang-markdown'),
+      ])
+      .then(([{ EditorView, basicSetup }, { markdown }]) => {
+        // Source mode was toggled again while the imports were loading; bail out
+        // rather than create an orphaned EditorView and desync manualMode.
+        if (token !== this.sourceModeToken) {
+          return;
+        }
 
-        this.codeMirrorInstance.on('change', this.debouncedEmitter);
-        setTimeout(() => this.codeMirrorInstance!.refresh(), 100);
+        this.sourceEditorView = new EditorView({
+          parent: sourceContainer,
+          doc: current,
+          extensions: [
+            basicSetup,
+            markdown(),
+            EditorView.updateListener.of((update) => {
+              if (update.docChanged) {
+                this.debouncedEmitter();
+              }
+            }),
+          ],
+        });
+
         this.manualMode = true;
+      })
+      .catch((error:unknown) => {
+        console.error('Failed to load CodeMirror for source mode:', error);
       });
   }
 

@@ -28,12 +28,14 @@
 
 import { debounce } from 'lodash-es';
 import {
-  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject,
+  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnDestroy, ViewChild, inject,
 } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { CodeMirrorLoaderService } from 'core-app/shared/components/editor/components/ckeditor/codemirror-loader.service';
-import type { Editor as CodeMirrorEditor } from 'codemirror';
+import { EditorView, basicSetup } from 'codemirror';
+import { Compartment, type Extension } from '@codemirror/state';
+import { LanguageDescription } from '@codemirror/language';
+import { languages } from '@codemirror/language-data';
 
 @Component({
   templateUrl: './code-block-macro.modal.html',
@@ -43,7 +45,7 @@ import type { Editor as CodeMirrorEditor } from 'codemirror';
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
   changeDetection: ChangeDetectionStrategy.Eager,
 })
-export class CodeBlockMacroModalComponent extends OpModalComponent implements AfterViewInit {
+export class CodeBlockMacroModalComponent extends OpModalComponent implements AfterViewInit, OnDestroy {
   public changed = false;
 
   public showClose = true;
@@ -56,17 +58,20 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
 
   public content:string;
 
-  // Codemirror instance
-  public codeMirrorInstance:CodeMirrorEditor|undefined;
+  // CodeMirror EditorView instance
+  public sourceEditorView:EditorView|null = null;
 
-  private pendingMode:string|undefined;
+  // Compartment used to swap the active language without recreating the editor
+  private readonly languageCompartment = new Compartment();
+
+  // Latest token requested by the debounced loader, used to ignore stale async loads
+  private languageLoadToken = 0;
 
   public debouncedLanguageLoader = debounce(() => this.loadLanguageAsMode(this.language), 300);
 
-  @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef<HTMLTextAreaElement>;
+  @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef<HTMLDivElement>;
 
   readonly I18n = inject(I18nService);
-  readonly codeMirrorLoader = inject(CodeMirrorLoaderService);
 
   public text:any = {
     title: this.I18n.t('js.editor.macro.code_block.title'),
@@ -91,7 +96,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   }
 
   public applyAndClose(evt:Event):void {
-    this.content = this.codeMirrorInstance!.getValue();
+    this.content = this.sourceEditorView?.state.doc.toString() ?? this.content;
     const lang = this.language || 'text';
     this.languageClass = `language-${lang}`;
 
@@ -100,22 +105,25 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   }
 
   ngAfterViewInit():void {
-    void this.codeMirrorLoader.loadCore().then((CodeMirror) => {
-      this.codeMirrorInstance = CodeMirror.fromTextArea(
-        this.codeMirrorPane.nativeElement,
-        {
-          lineNumbers: true,
-          smartIndent: true,
-          autofocus: true,
-          value: this.content,
-          mode: '',
-        },
-      );
-      if (this.pendingMode !== undefined) {
-        this.updateCodeMirrorMode(this.pendingMode);
-        this.pendingMode = undefined;
-      }
+    this.sourceEditorView = new EditorView({
+      parent: this.codeMirrorPane.nativeElement,
+      doc: this.content,
+      extensions: [
+        basicSetup,
+        this.languageCompartment.of([]),
+      ],
     });
+
+    this.sourceEditorView.focus();
+
+    // Load the language detected from the initial content, if any
+    this.loadLanguageAsMode(this.language);
+  }
+
+  ngOnDestroy():void {
+    this.debouncedLanguageLoader.cancel();
+    this.sourceEditorView?.destroy();
+    this.sourceEditorView = null;
   }
 
   get language() {
@@ -128,26 +136,41 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   }
 
   loadLanguageAsMode(language:string) {
+    this.languageLoadToken += 1;
+    const token = this.languageLoadToken;
+
     // For the special language 'text', don't try to load anything
     if (!language || language === 'text') {
-      return this.updateCodeMirrorMode('');
-    }
-
-    void this.codeMirrorLoader
-      .ensureModeLoaded(language)
-      .then((modeLoaded) => {
-        this.updateCodeMirrorMode(modeLoaded ? language : '');
-      });
-  }
-
-  updateCodeMirrorMode(newLanguage:string) {
-    if (!this.codeMirrorInstance) {
-      this.pendingMode = newLanguage;
+      this.reconfigureLanguage([]);
       return;
     }
 
-    this.codeMirrorInstance.setOption('mode', newLanguage);
-    this.codeMirrorInstance.refresh();
+    const description = LanguageDescription.matchLanguageName(languages, language, true);
+    if (!description) {
+      this.reconfigureLanguage([]);
+      return;
+    }
+
+    void description
+      .load()
+      .then((support) => {
+        // Ignore the result if a newer language was requested in the meantime
+        if (token === this.languageLoadToken) {
+          this.reconfigureLanguage(support);
+        }
+      })
+      .catch((e:unknown) => {
+        console.error(`Failed to load language ${language}:`, e);
+        if (token === this.languageLoadToken) {
+          this.reconfigureLanguage([]);
+        }
+      });
+  }
+
+  private reconfigureLanguage(extension:Extension) {
+    this.sourceEditorView?.dispatch({
+      effects: this.languageCompartment.reconfigure(extension),
+    });
   }
 
   updateLanguage(newValue?:string) {
