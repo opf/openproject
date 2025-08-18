@@ -2,7 +2,6 @@ import {
   BlockNoteSchema,
   defaultBlockSpecs,
   filterSuggestionItems,
-  insertOrUpdateBlock,
 } from "@blocknote/core";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
@@ -13,7 +12,7 @@ import {
   useCreateBlockNote,
 } from "@blocknote/react";
 
-import { dummyBlockSpec, openProjectWorkPackageBlockSpec } from "../lib";
+import { dummyBlockSpec, getDefaultOpenProjectSlashMenuItems, openProjectWorkPackageBlockSpec } from "../lib";
 
 export default function App() {
   const schema = BlockNoteSchema.create({
@@ -29,28 +28,7 @@ export default function App() {
   const getCustomSlashMenuItems = (editor: EditorType) => {
     return [
       ...getDefaultReactSlashMenuItems(editor),
-      {
-        title: "Open Project Work Package",
-        onItemClick: () =>
-          insertOrUpdateBlock(editor, {
-            type: "openProjectWorkPackage",
-          }),
-        aliases: ["openproject", "workpackage", "op", "wp"],
-        group: "OpenProject",
-        icon: <span>📦</span>,
-        subtext: "Search and link an existing Work Package",
-      },
-      {
-        title: "Insert Dummy Block",
-        onItemClick: () =>
-          insertOrUpdateBlock(editor, {
-            type: "dummy",
-          }),
-        aliases: ["dummy"],
-        group: "OpenProject",
-        icon: <span>🧩</span>,
-        subtext: "Insert a Dummy block",
-      },
+      ...getDefaultOpenProjectSlashMenuItems(editor),
     ];
   };
 
