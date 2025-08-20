@@ -1,6 +1,6 @@
 import te, { useState as p, useRef as fe, useEffect as le, useCallback as xe } from "react";
-import { insertOrUpdateBlock as ve } from "@blocknote/core";
-import { createReactBlockSpec as je } from "@blocknote/react";
+import { insertOrUpdateBlock as je } from "@blocknote/core";
+import { createReactBlockSpec as ve } from "@blocknote/react";
 var ae = { exports: {} }, K = {};
 /**
  * @license React
@@ -16,7 +16,7 @@ function ye() {
   if (he) return K;
   he = 1;
   var o = Symbol.for("react.transitional.element"), P = Symbol.for("react.fragment");
-  function v(N, d, f) {
+  function j(N, d, f) {
     var h = null;
     if (f !== void 0 && (h = "" + f), d.key !== void 0 && (h = "" + d.key), "key" in d) {
       f = {};
@@ -31,7 +31,7 @@ function ye() {
       props: f
     };
   }
-  return K.Fragment = P, K.jsx = v, K.jsxs = v, K;
+  return K.Fragment = P, K.jsx = j, K.jsxs = j, K;
 }
 var ee = {};
 /**
@@ -45,7 +45,7 @@ var ee = {};
  */
 var me;
 function ke() {
-  return me || (me = 1, process.env.NODE_ENV !== "production" && function() {
+  return me || (me = 1, process.env.NODE_ENV !== "production" && (function() {
     function o(e) {
       if (e == null) return null;
       if (typeof e == "function")
@@ -92,7 +92,7 @@ function ke() {
     function P(e) {
       return "" + e;
     }
-    function v(e) {
+    function j(e) {
       try {
         P(e);
         var n = !1;
@@ -152,7 +152,7 @@ function ke() {
         "Accessing element.ref was removed in React 19. ref is now a regular prop. It will be removed from the JSX Element type in a future release."
       )), e = this.props.ref, e !== void 0 ? e : null;
     }
-    function re(e, n, c, i, b, m, U, B) {
+    function re(e, n, c, i, b, m, L, U) {
       return c = m.ref, e = {
         $$typeof: O,
         type: e,
@@ -176,33 +176,33 @@ function ke() {
         configurable: !1,
         enumerable: !1,
         writable: !0,
-        value: U
+        value: L
       }), Object.defineProperty(e, "_debugTask", {
         configurable: !1,
         enumerable: !1,
         writable: !0,
-        value: B
+        value: U
       }), Object.freeze && (Object.freeze(e.props), Object.freeze(e)), e;
     }
-    function z(e, n, c, i, b, m, U, B) {
+    function z(e, n, c, i, b, m, L, U) {
       var u = n.children;
       if (u !== void 0)
         if (i)
           if (se(u)) {
             for (i = 0; i < u.length; i++)
-              j(u[i]);
+              v(u[i]);
             Object.freeze && Object.freeze(u);
           } else
             console.error(
               "React.jsx: Static children should always be an array. You are likely explicitly calling React.jsxs or React.jsxDEV. Use the Babel transform instead."
             );
-        else j(u);
+        else v(u);
       if (M.call(n, "key")) {
         u = o(e);
         var S = Object.keys(n).filter(function(oe) {
           return oe !== "key";
         });
-        i = 0 < S.length ? "{key: someKey, " + S.join(": ..., ") + ": ...}" : "{key: someKey}", L[u + i] || (S = 0 < S.length ? "{" + S.join(": ..., ") + ": ...}" : "{}", console.error(
+        i = 0 < S.length ? "{key: someKey, " + S.join(": ..., ") + ": ...}" : "{key: someKey}", B[u + i] || (S = 0 < S.length ? "{" + S.join(": ..., ") + ": ...}" : "{}", console.error(
           `A props object containing a "key" prop is being spread into JSX:
   let props = %s;
   <%s {...props} />
@@ -213,9 +213,9 @@ React keys must be passed directly to JSX without using spread:
           u,
           S,
           u
-        ), L[u + i] = !0);
+        ), B[u + i] = !0);
       }
-      if (u = null, c !== void 0 && (v(c), u = "" + c), h(n) && (v(n.key), u = "" + n.key), "key" in n) {
+      if (u = null, c !== void 0 && (j(c), u = "" + c), h(n) && (j(n.key), u = "" + n.key), "key" in n) {
         c = {};
         for (var G in n)
           G !== "key" && (c[G] = n[G]);
@@ -230,25 +230,25 @@ React keys must be passed directly to JSX without using spread:
         b,
         d(),
         c,
-        U,
-        B
+        L,
+        U
       );
     }
-    function j(e) {
+    function v(e) {
       typeof e == "object" && e !== null && e.$$typeof === O && e._store && (e._store.validated = 1);
     }
     var k = te, O = Symbol.for("react.transitional.element"), T = Symbol.for("react.portal"), C = Symbol.for("react.fragment"), ne = Symbol.for("react.strict_mode"), J = Symbol.for("react.profiler"), _ = Symbol.for("react.consumer"), ce = Symbol.for("react.context"), $ = Symbol.for("react.forward_ref"), W = Symbol.for("react.suspense"), w = Symbol.for("react.suspense_list"), H = Symbol.for("react.memo"), A = Symbol.for("react.lazy"), q = Symbol.for("react.activity"), Y = Symbol.for("react.client.reference"), D = k.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, M = Object.prototype.hasOwnProperty, se = Array.isArray, I = console.createTask ? console.createTask : function() {
       return null;
     };
     k = {
-      "react-stack-bottom-frame": function(e) {
+      react_stack_bottom_frame: function(e) {
         return e();
       }
     };
-    var V, X = {}, F = k["react-stack-bottom-frame"].bind(
+    var V, X = {}, F = k.react_stack_bottom_frame.bind(
       k,
       f
-    )(), Q = I(N(f)), L = {};
+    )(), Q = I(N(f)), B = {};
     ee.Fragment = C, ee.jsx = function(e, n, c, i, b) {
       var m = 1e4 > D.recentlyCreatedOwnerStacks++;
       return z(
@@ -274,7 +274,7 @@ React keys must be passed directly to JSX without using spread:
         m ? I(N(e)) : Q
       );
     };
-  }()), ee;
+  })()), ee;
 }
 var ge;
 function be() {
@@ -284,7 +284,7 @@ var r = be();
 function Ee(o) {
   return /* @__PURE__ */ r.jsx("div", { children: "This is a dummy component being served from a separate library" });
 }
-const Ae = je(
+const Ae = ve(
   {
     type: "dummy",
     propSchema: {},
@@ -293,21 +293,21 @@ const Ae = je(
   {
     render: (o) => /* @__PURE__ */ r.jsx(Ee, {})
   }
-), Te = (o) => ({
+), De = (o) => ({
   title: "Insert Dummy Block",
-  onItemClick: () => ve(o, {
+  onItemClick: () => je(o, {
     type: "dummy"
   }),
   aliases: ["dummy"],
   group: "Other",
   icon: /* @__PURE__ */ r.jsx("span", { children: "🧩" }),
   subtext: "Used to insert a Dummy block"
-}), ie = "#000091", _e = "#FBF5F2", De = "#3a3a3a", we = "https://openproject.local", Se = ({
+}), ie = "#000091", Te = "#FBF5F2", Ie = "#3a3a3a", _e = "https://openproject.local", we = ({
   block: o,
   editor: P
 }) => {
-  var U, B, u, S, G, oe, ue, de;
-  const [v, N] = p("search"), [d, f] = p(""), [h, x] = p([]), [y, re] = p(null), [z, j] = p(!1), [k, O] = p(-1), T = fe(null), C = fe(null), [ne, J] = p([]), [_, ce] = p(null), [$, W] = p([]), [w, H] = p(null), [A, q] = p([]), [Y, D] = p(null), [M, se] = p(""), [I, V] = p(""), [X, F] = p(!1), [Q, L] = p(null), [e, n] = p(null);
+  var L, U, u, S, G, oe, ue, de;
+  const [j, N] = p("search"), [d, f] = p(""), [h, x] = p([]), [y, re] = p(null), [z, v] = p(!1), [k, O] = p(-1), T = fe(null), C = fe(null), [ne, J] = p([]), [_, ce] = p(null), [$, W] = p([]), [w, H] = p(null), [A, q] = p([]), [Y, D] = p(null), [M, se] = p(""), [I, V] = p(""), [X, F] = p(!1), [Q, B] = p(null), [e, n] = p(null);
   te.useEffect(() => {
     o.props.wpid && fetch(`api/v3/work_packages/${o.props.wpid}`, {
       method: "GET",
@@ -372,7 +372,7 @@ const Ae = je(
       t = !1;
     };
   }, [_]), te.useEffect(() => {
-    if (v !== "create")
+    if (j !== "create")
       return;
     let t = !0;
     return (async () => {
@@ -397,9 +397,9 @@ const Ae = je(
     })(), () => {
       t = !1;
     };
-  }, [v]), le(() => {
+  }, [j]), le(() => {
     const t = (s) => {
-      C.current && !C.current.contains(s.target) && T.current && !T.current.contains(s.target) && j(!1);
+      C.current && !C.current.contains(s.target) && T.current && !T.current.contains(s.target) && v(!1);
     };
     return document.addEventListener("mousedown", t), () => {
       document.removeEventListener("mousedown", t);
@@ -407,7 +407,7 @@ const Ae = je(
   }, []);
   const c = xe(async () => {
     if (!d) {
-      x([]), j(!1);
+      x([]), v(!1);
       return;
     }
     try {
@@ -421,9 +421,9 @@ const Ae = je(
       if (!t.ok)
         throw new Error(`HTTP error! status: ${t.status}`);
       const s = await t.json();
-      s && s._embedded && s._embedded.elements ? (x(s._embedded.elements), j(s._embedded.elements.length > 0), O(-1)) : (console.error("Invalid API response:", s), x([]), j(!1));
+      s && s._embedded && s._embedded.elements ? (x(s._embedded.elements), v(s._embedded.elements.length > 0), O(-1)) : (console.error("Invalid API response:", s), x([]), v(!1));
     } catch (t) {
-      console.error("Error fetching work packages:", t), x([]), j(!1);
+      console.error("Error fetching work packages:", t), x([]), v(!1);
     }
   }, [d]);
   le(() => {
@@ -434,7 +434,7 @@ const Ae = je(
   }, [d, c]);
   const i = (t) => {
     var s, a, l, g, E, R, Z, pe;
-    re(t), f(""), j(!1), P.updateBlock(o, {
+    re(t), f(""), v(!1), P.updateBlock(o, {
       props: {
         ...o.props,
         wpid: t.id,
@@ -447,11 +447,11 @@ const Ae = je(
     });
   };
   le(() => {
-    v === "search" && T.current && setTimeout(() => {
+    j === "search" && T.current && setTimeout(() => {
       var t;
       return (t = T == null ? void 0 : T.current) == null ? void 0 : t.focus();
     }, 50);
-  }, [v]);
+  }, [j]);
   const b = (t) => {
     if (z)
       switch (t.key) {
@@ -465,10 +465,10 @@ const Ae = je(
           t.preventDefault(), k >= 0 && k < h.length && i(h[k]);
           break;
         case "Escape":
-          t.preventDefault(), j(!1);
+          t.preventDefault(), v(!1);
           break;
       }
-  }, m = `${we}/wp/${o.props.wpid}`;
+  }, m = `${_e}/wp/${o.props.wpid}`;
   return /* @__PURE__ */ r.jsxs(
     "div",
     {
@@ -476,11 +476,11 @@ const Ae = je(
         padding: "12px 10px",
         border: "none",
         borderRadius: "5px",
-        backgroundColor: _e,
+        backgroundColor: Te,
         width: "450px"
       },
       children: [
-        v === "search" && /* @__PURE__ */ r.jsxs("div", { children: [
+        j === "search" && /* @__PURE__ */ r.jsxs("div", { children: [
           !o.props.wpid && /* @__PURE__ */ r.jsxs("div", { style: { position: "relative" }, children: [
             /* @__PURE__ */ r.jsx(
               "div",
@@ -496,10 +496,10 @@ const Ae = je(
                     placeholder: "Search for work package ID or subject",
                     value: d,
                     onChange: (t) => {
-                      f(t.target.value), t.target.value && j(!0);
+                      f(t.target.value), t.target.value && v(!0);
                     },
                     onFocus: () => {
-                      h.length > 0 && j(!0);
+                      h.length > 0 && v(!0);
                     },
                     onKeyDown: b,
                     style: {
@@ -592,7 +592,7 @@ const Ae = je(
                     {
                       style: {
                         gap: "8px",
-                        color: ((B = (U = y._embedded) == null ? void 0 : U.type) == null ? void 0 : B.color) || ie,
+                        color: ((U = (L = y._embedded) == null ? void 0 : L.type) == null ? void 0 : U.color) || ie,
                         fontWeight: "bold",
                         textTransform: "uppercase"
                       },
@@ -647,7 +647,7 @@ const Ae = je(
             ) })
           ] })
         ] }),
-        v === "create" && /* @__PURE__ */ r.jsxs("div", { children: [
+        j === "create" && /* @__PURE__ */ r.jsxs("div", { children: [
           /* @__PURE__ */ r.jsx("p", { children: "Select a project to create a new work package in:" }),
           ne.length === 0 ? /* @__PURE__ */ r.jsx("p", { children: "Loading projects..." }) : /* @__PURE__ */ r.jsxs("select", { value: _ || "", onChange: (t) => ce(t.target.value), children: [
             /* @__PURE__ */ r.jsx("option", { value: "", children: "Select a project" }),
@@ -687,10 +687,10 @@ const Ae = je(
                 {
                   disabled: X || !M || !I || !Y || !w || !_,
                   onClick: () => {
-                    L(null), n(null), F(!0);
+                    B(null), n(null), F(!0);
                     const t = $.find((a) => a.id === w), s = A.find((a) => a.id === Y);
                     if (console.log("types:", $), console.log("statuses:", A), console.log("selectedType:", w), console.log("selectedStatus:", Y), console.log("typeObj:", t), console.log("statusObj:", s), !t || !s) {
-                      L("Type or status not found."), F(!1);
+                      B("Type or status not found."), F(!1);
                       return;
                     }
                     fetch(`api/v3/projects/${_}/work_packages`, {
@@ -711,7 +711,7 @@ const Ae = je(
                       }
                       n("Work package created successfully!"), se(""), V(""), D(null), H(null);
                     }).catch((a) => {
-                      console.error("Error creating work package:", a), L(
+                      console.error("Error creating work package:", a), B(
                         "Failed to create work package: " + ((a == null ? void 0 : a.message) || String(a))
                       );
                     }).finally(() => {
@@ -729,7 +729,7 @@ const Ae = je(
       ]
     }
   );
-}, Ie = je(
+}, Se = ve(
   {
     type: "openProjectWorkPackage",
     propSchema: {
@@ -743,11 +743,11 @@ const Ae = je(
     content: "inline"
   },
   {
-    render: ({ block: o, editor: P }) => /* @__PURE__ */ r.jsx(Se, { block: o, editor: P })
+    render: ({ block: o, editor: P }) => /* @__PURE__ */ r.jsx(we, { block: o, editor: P })
   }
 ), Re = (o) => ({
   title: "Open Project Work Package",
-  onItemClick: () => ve(o, {
+  onItemClick: () => je(o, {
     type: "openProjectWorkPackage"
   }),
   aliases: ["openproject", "workpackage", "op", "wp"],
@@ -757,19 +757,24 @@ const Ae = je(
 });
 function Ne(o) {
   return [
-    Re(o),
-    Te(o)
+    Re(o)
+  ];
+}
+function $e() {
+  return [
+    Se
   ];
 }
 export {
   Ee as DummyComponent,
-  we as OPENPROJECT_HOST,
-  _e as UI_BEIGE,
+  _e as OPENPROJECT_HOST,
+  Te as UI_BEIGE,
   ie as UI_BLUE,
-  De as UI_GRAY,
+  Ie as UI_GRAY,
   Ae as dummyBlockSpec,
-  Te as dummySlashMenu,
+  De as dummySlashMenu,
+  $e as getDefaultOpenProjectBlockSpecs,
   Ne as getDefaultOpenProjectSlashMenuItems,
-  Ie as openProjectWorkPackageBlockSpec,
+  Se as openProjectWorkPackageBlockSpec,
   Re as openProjectWorkPackageSlashMenu
 };

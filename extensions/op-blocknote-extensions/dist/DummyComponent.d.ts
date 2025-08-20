@@ -19,4 +19,3 @@ export declare const dummySlashMenu: (editor: any) => {
     icon: import("react/jsx-runtime").JSX.Element;
     subtext: string;
 };
-//# sourceMappingURL=DummyComponent.d.ts.map
