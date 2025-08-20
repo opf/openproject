@@ -12,14 +12,13 @@ import {
   useCreateBlockNote,
 } from "@blocknote/react";
 
-import { dummyBlockSpec, getDefaultOpenProjectSlashMenuItems, openProjectWorkPackageBlockSpec } from "../lib";
+import { getDefaultOpenProjectSlashMenuItems, getDefaultOpenProjectBlockSpecs } from "../lib";
 
 export default function App() {
   const schema = BlockNoteSchema.create({
     blockSpecs: {
       ...defaultBlockSpecs,
-      openProjectWorkPackage: openProjectWorkPackageBlockSpec,
-      dummy: dummyBlockSpec,
+      ...getDefaultOpenProjectBlockSpecs,
     },
   });
   const editor = useCreateBlockNote({ schema });

@@ -1,9 +1,16 @@
-import { dummySlashMenu } from "./DummyComponent"
-import { openProjectWorkPackageSlashMenu } from "./OpenProjectWorkPackageBlock";
+import {
+  openProjectWorkPackageBlockSpec,
+  openProjectWorkPackageSlashMenu
+} from "./OpenProjectWorkPackageBlock";
 
 export function getDefaultOpenProjectSlashMenuItems(editor: any): any[] {
   return [
     openProjectWorkPackageSlashMenu(editor),
-    dummySlashMenu(editor),
+  ];
+}
+
+export function getDefaultOpenProjectBlockSpecs(): any[] {
+  return [
+    openProjectWorkPackageBlockSpec,
   ];
 }
