@@ -119,4 +119,3 @@ export declare const openProjectWorkPackageSlashMenu: (editor: any) => {
     icon: import("react/jsx-runtime").JSX.Element;
     subtext: string;
 };
-//# sourceMappingURL=OpenProjectWorkPackageBlock.d.ts.map
