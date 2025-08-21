@@ -4,6 +4,16 @@
 
 ## Usage
 
+### Installation
+
+Include the following entry to your _package.json_.
+
+```json
+"op-blocknote-extensions": "github:opf/op-blocknote-extensions#<VERSION>"
+```
+
+### Implementation
+
 First setup a blocknote schema with additional blocks offered by this library...
 
 ```jsx
@@ -81,8 +91,6 @@ This should make sure that the package is available for OpenProject even if runn
 
 ### Releases
 
-Releases and versioning are not implemented yet. For now the way to use this library is by including the following entry directly to the _package.json_ of your application.
+Updating the version field in package.json will automatically create a new Git tag with the corresponding version. Pushing this tag to the repository triggers the generation of a new release.
 
-```json
-"op-blocknote-extensions": "github:opf/op-blocknote-extensions"
-```
+To publish a new release, simply update the version in package.json and merge the changes into the main branch.
