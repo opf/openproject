@@ -14,21 +14,26 @@ Include the following entry to your _package.json_.
 
 ### Implementation
 
-First setup a blocknote schema with additional blocks offered by this library...
+First thing is to initialize the library configuration...
+
+```js
+  initOpenProjectApi({ baseUrl: "https://my.openproject.url" });
+```
+
+... then setup a blocknote schema with additional blocks offered by this library...
 
 ```jsx
   const schema = BlockNoteSchema.create({
     blockSpecs: {
       ...defaultBlockSpecs,
-      openProjectWorkPackage: openProjectWorkPackageBlockSpec,
-      dummy: dummyBlockSpec,
+      ...defaultOpenProjectBlockSpecs,
     },
   });
   const editor = useCreateBlockNote({ schema });
   type EditorType = typeof editor;
 ```
 
-... setup slash menus ...
+... same for slash menus ...
 
 ```jsx
   const getCustomSlashMenuItems = (editor: EditorType) => {
@@ -39,7 +44,7 @@ First setup a blocknote schema with additional blocks offered by this library...
   };
 ```
 
-And include them all in a BlockNote instance
+... and include them all in a BlockNote instance
 
 ```jsx
   return (

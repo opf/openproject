@@ -1,7 +1,7 @@
 import {
   openProjectWorkPackageBlockSpec,
   openProjectWorkPackageSlashMenu
-} from "./OpenProjectWorkPackageBlock";
+} from "./components/OpenProjectWorkPackageBlock";
 
 export function getDefaultOpenProjectSlashMenuItems(editor: any): any[] {
   return [
@@ -9,8 +9,6 @@ export function getDefaultOpenProjectSlashMenuItems(editor: any): any[] {
   ];
 }
 
-export function getDefaultOpenProjectBlockSpecs(): any[] {
-  return [
-    openProjectWorkPackageBlockSpec,
-  ];
+export const defaultOpenProjectBlockSpecs = {
+  "openProjectWorkPackage": openProjectWorkPackageBlockSpec,
 }
