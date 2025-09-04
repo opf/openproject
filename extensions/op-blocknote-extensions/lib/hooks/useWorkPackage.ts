@@ -35,5 +35,5 @@ export function useWorkPackage(wpid: string | null) {
     fetchWorkPackage();
   }, [fetchWorkPackage]);
 
-  return { workPackage, loading, error, refetch: fetchWorkPackage };
+  return { workPackage, loading, error };
 }

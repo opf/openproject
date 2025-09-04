@@ -5,6 +5,10 @@
   "type": "module",
   "module": "dist/op-blocknote-extensions.es.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "style": "dist/op-blocknote-extensions.css",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",

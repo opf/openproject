@@ -6,8 +6,9 @@ import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
 
+import "./OpenProjectWorkPackageBlock.css";
+
 const UI_BLUE = "#000091"; // Default color for task status icons
-const UI_BEIGE = "#FBF5F2";
 
 interface BlockProps {
   props: {
@@ -35,8 +36,6 @@ const OpenProjectWorkPackageBlockComponent = ({
     searchQuery,
     setSearchQuery,
     searchResults,
-    // loading: searchLoading,
-    // error: searchError,
   } = useWorkPackageSearch();
 
   const [selectedWorkPackage, setSelectedWorkPackage] = useState<WorkPackage | null>(null);
@@ -45,12 +44,20 @@ const OpenProjectWorkPackageBlockComponent = ({
 
   // Load saved work package if it exists
   const workPackageResult = useWorkPackage(block.props.wpid);
-  if (!workPackageResult.error && workPackageResult.workPackage) {
-    setSelectedWorkPackage(workPackageResult.workPackage);
-  } else {
-    // Autofocus search
-    setTimeout(() => inputRef?.current?.focus(), 50);
-  }
+
+  // Set selected work package when loaded
+  useEffect(() => {
+    if (!workPackageResult.error && workPackageResult.workPackage) {
+      setSelectedWorkPackage(workPackageResult.workPackage);
+    }
+  }, [workPackageResult.error, workPackageResult.workPackage]);
+
+  // Autofocus search if no work package
+  useEffect(() => {
+    if (workPackageResult.error || !workPackageResult.workPackage) {
+      setTimeout(() => inputRef?.current?.focus(), 50);
+    }
+  }, [workPackageResult.error, workPackageResult.workPackage]);
 
   // Handle click outside to close dropdown
   useEffect(() => {
@@ -121,52 +128,29 @@ const OpenProjectWorkPackageBlockComponent = ({
   };
 
   return (
-    <div
-      style={{
-        padding: "12px 10px",
-        border: "none",
-        borderRadius: "5px",
-        backgroundColor: UI_BEIGE,
-        width: "450px",
-      }}
-    >
+    <div className="opwp-block">
       <div>
         {!block.props.wpid && (
-          <div style={{ position: "relative" }}>
-            <div
-              style={{
-                display: "flex",
+          <div className="opwp-search-container">
+            <input
+              ref={inputRef}
+              type="text"
+              className="opwp-search-input"
+              placeholder={"Search for work package ID or subject"}
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value);
+                if (e.target.value) {
+                  setIsDropdownOpen(true);
+                }
               }}
-            >
-              <input
-                ref={inputRef}
-                type="text"
-                placeholder={"Search for work package ID or subject"}
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  if (e.target.value) {
-                    setIsDropdownOpen(true);
-                  }
-                }}
-                onFocus={() => {
-                  if (searchResults.length > 0) {
-                    setIsDropdownOpen(true);
-                  }
-                }}
-                onKeyDown={handleKeyDown}
-                style={{
-                  width: "100%",
-                  padding: "8px 12px",
-                  borderRadius: "4px",
-                  border: "1px solid #ccc",
-                  fontSize: "14px",
-                }}
-              />
-              {/* <button onClick={() => setMode('create')}>
-                  {t('New Work Package')}
-                </button> */}
-            </div>
+              onFocus={() => {
+                if (searchResults.length > 0) {
+                  setIsDropdownOpen(true);
+                }
+              }}
+              onKeyDown={handleKeyDown}
+            />
 
             {/* Autocomplete dropdown */}
             {isDropdownOpen && searchResults.length > 0 && (
@@ -174,20 +158,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                 ref={dropdownRef}
                 role="listbox"
                 aria-label={"Work package search results"}
-                style={{
-                  position: "absolute",
-                  top: "100%",
-                  left: 0,
-                  right: 0,
-                  zIndex: 10,
-                  backgroundColor: "white",
-                  border: "1px solid #ccc",
-                  borderRadius: "0 0 4px 4px",
-                  boxShadow: "0 2px 4px rgba(0,0,0,0.1)",
-                  maxHeight: "200px",
-                  overflowY: "auto",
-                  marginTop: "2px",
-                }}
+                className="opwp-dropdown"
               >
                 {searchResults.slice(0, 5).map((wp, index) => (
                   <div
@@ -195,6 +166,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                     role="option"
                     aria-selected={focusedResultIndex === index}
                     tabIndex={0}
+                    className={`opwp-dropdown-option${focusedResultIndex === index ? " selected" : ""}`}
                     onClick={() => handleSelectWorkPackage(wp)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
@@ -203,12 +175,6 @@ const OpenProjectWorkPackageBlockComponent = ({
                       }
                     }}
                     onMouseEnter={() => setFocusedResultIndex(index)}
-                    style={{
-                      padding: "8px 12px",
-                      cursor: "pointer",
-                      backgroundColor: focusedResultIndex === index ? "#f0f0f0" : "transparent",
-                      borderBottom: index < searchResults.length - 1 ? "1px solid #eee" : "none",
-                    }}
                   >
                     <div style={{ fontWeight: "bold" }}>
                       #{wp.id} - {wp.subject}
@@ -222,57 +188,30 @@ const OpenProjectWorkPackageBlockComponent = ({
             )}
           </div>
         )}
-        {block.props.wpid && !selectedWorkPackage && (
-          <div>
-            #{block.props.wpid} {block.props.subject}
-          </div>
-        )}
         {/* Display selected work package details */}
         {selectedWorkPackage && (
           <div>
-            <div
-              style={{
-                display: "flex",
-                gap: "8px",
-              }}
-            >
+            <div style={{ display: "flex", gap: "8px" }}>
               <div
-                style={{
-                  gap: "8px",
-                  color: selectedWorkPackage._embedded?.type?.color || UI_BLUE,
-                  fontWeight: "bold",
-                  textTransform: "uppercase",
-                }}
+                className="opwp-type opwp-type-color"
+                style={{ color: selectedWorkPackage._embedded?.type?.color || UI_BLUE }}
               >
                 {selectedWorkPackage._links?.type?.title}
               </div>
+              <div className="opwp-id">#{selectedWorkPackage.id}</div>
               <div
-                style={{
-                  color: "#666",
-                }}
-              >
-                #{selectedWorkPackage.id}
-              </div>
-              <div
-                style={{
-                  fontSize: "0.8rem",
-                  borderRadius: "12px",
-                  padding: "2px 8px",
-                  border: "1px solid #ccc",
-                  backgroundColor: selectedWorkPackage._embedded?.status?.color || UI_BLUE,
-                }}
+                className="opwp-status"
+                style={{ backgroundColor: selectedWorkPackage._embedded?.status?.color || UI_BLUE }}
               >
                 {selectedWorkPackage._links?.status?.title}
               </div>
             </div>
 
             <div>
-              <a href={linkToWorkPackage(block.props.wpid)} style={{
-                  marginRight: 6,
-                  textDecoration: "none",
-                  color: UI_BLUE,
-                  cursor: "pointer",
-              }} >
+              <a
+                href={linkToWorkPackage(block.props.wpid)}
+                className="opwp-link"
+              >
                 {selectedWorkPackage.subject}
               </a>
             </div>

@@ -26,7 +26,7 @@ export function useWorkPackageSearch(
 
     setLoading(true);
     setError(null);
-    const timer = setTimeout(() => {
+    const debouncedSearchQuery = setTimeout(() => {
       searchWorkPackages(searchQuery)
         .then((results) => {
           setSearchResults(results);
@@ -40,7 +40,7 @@ export function useWorkPackageSearch(
         });
     }, debounce);
 
-    return () => clearTimeout(timer);
+    return () => clearTimeout(debouncedSearchQuery);
   }, [searchQuery, debounce]);
 
   return {

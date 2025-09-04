@@ -8,5 +8,5 @@
     "noEmit": false,
     "strict": true,
   },
-  "include": ["lib/**/*.ts", "lib/**/*.tsx"]
+  "include": ["lib/**/*.ts", "lib/**/*.tsx", "*.d.ts"]
 }
