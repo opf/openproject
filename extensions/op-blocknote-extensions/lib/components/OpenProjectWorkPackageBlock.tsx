@@ -6,9 +6,80 @@ import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
 
-import "./OpenProjectWorkPackageBlock.css";
+import styled from "styled-components";
 
 const UI_BLUE = "#000091"; // Default color for task status icons
+
+const Block = styled.div`
+  padding: 12px 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #FBF5F2;
+  width: 450px;
+`;
+
+const SearchContainer = styled.div`
+  position: relative;
+`;
+
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+`;
+
+const Dropdown = styled.div`
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  max-height: 200px;
+  overflow-y: auto;
+  margin-top: 2px;
+`;
+
+const DropdownOption = styled.div<{ selected: boolean }>`
+  padding: 8px 12px;
+  cursor: pointer;
+  background-color: ${({ selected }) => selected ? '#f0f0f0' : 'transparent'};
+  border-bottom: 1px solid #eee;
+`;
+
+const Type = styled.div`
+  gap: 8px;
+  font-weight: bold;
+  text-transform: uppercase;
+`;
+
+const TypeColor = styled(Type) <{ color?: string }>`
+  color: ${({ color }) => color || UI_BLUE};
+`;
+
+const Id = styled.div`
+  color: #666;
+`;
+
+const Status = styled.div<{ bgcolor?: string }>`
+  font-size: 0.8rem;
+  border-radius: 12px;
+  padding: 2px 8px;
+  border: 1px solid #ccc;
+  background-color: ${({ bgcolor }) => bgcolor || UI_BLUE};
+`;
+
+const Link = styled.a`
+  margin-right: 6px;
+  text-decoration: none;
+  color: #000091;
+  cursor: pointer;
+`;
 
 interface BlockProps {
   props: {
@@ -128,14 +199,13 @@ const OpenProjectWorkPackageBlockComponent = ({
   };
 
   return (
-    <div className="opwp-block">
+    <Block>
       <div>
         {!block.props.wpid && (
-          <div className="opwp-search-container">
-            <input
+          <SearchContainer>
+            <SearchInput
               ref={inputRef}
               type="text"
-              className="opwp-search-input"
               placeholder={"Search for work package ID or subject"}
               value={searchQuery}
               onChange={(e) => {
@@ -154,19 +224,18 @@ const OpenProjectWorkPackageBlockComponent = ({
 
             {/* Autocomplete dropdown */}
             {isDropdownOpen && searchResults.length > 0 && (
-              <div
+              <Dropdown
                 ref={dropdownRef}
                 role="listbox"
                 aria-label={"Work package search results"}
-                className="opwp-dropdown"
               >
                 {searchResults.slice(0, 5).map((wp, index) => (
-                  <div
+                  <DropdownOption
                     key={wp.id}
                     role="option"
                     aria-selected={focusedResultIndex === index}
                     tabIndex={0}
-                    className={`opwp-dropdown-option${focusedResultIndex === index ? " selected" : ""}`}
+                    selected={focusedResultIndex === index}
                     onClick={() => handleSelectWorkPackage(wp)}
                     onKeyDown={(e) => {
                       if (e.key === "Enter" || e.key === " ") {
@@ -182,43 +251,41 @@ const OpenProjectWorkPackageBlockComponent = ({
                     <div style={{ fontSize: "12px", color: "#666" }}>
                       {wp._links?.type?.title} {wp._links?.status?.title}
                     </div>
-                  </div>
+                  </DropdownOption>
                 ))}
-              </div>
+              </Dropdown>
             )}
+          </SearchContainer>
+        )}
+        {block.props.wpid && !selectedWorkPackage && (
+          <div>
+            #{block.props.wpid} {block.props.subject}
           </div>
         )}
         {/* Display selected work package details */}
         {selectedWorkPackage && (
           <div>
             <div style={{ display: "flex", gap: "8px" }}>
-              <div
-                className="opwp-type opwp-type-color"
-                style={{ color: selectedWorkPackage._embedded?.type?.color || UI_BLUE }}
-              >
+              <TypeColor color={selectedWorkPackage._embedded?.type?.color}>
                 {selectedWorkPackage._links?.type?.title}
-              </div>
-              <div className="opwp-id">#{selectedWorkPackage.id}</div>
-              <div
-                className="opwp-status"
-                style={{ backgroundColor: selectedWorkPackage._embedded?.status?.color || UI_BLUE }}
-              >
+              </TypeColor>
+              <Id>#{selectedWorkPackage.id}</Id>
+              <Status bgcolor={selectedWorkPackage._embedded?.status?.color}>
                 {selectedWorkPackage._links?.status?.title}
-              </div>
+              </Status>
             </div>
 
             <div>
-              <a
+              <Link
                 href={linkToWorkPackage(block.props.wpid)}
-                className="opwp-link"
               >
                 {selectedWorkPackage.subject}
-              </a>
+              </Link>
             </div>
           </div>
         )}
       </div>
-    </div>
+    </Block>
   );
 };
 
@@ -241,7 +308,7 @@ export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
     render: (props) => {
       return <OpenProjectWorkPackageBlockComponent block={props.block} editor={props.editor} />;
     },
-  },
+  }
 );
 
 export const openProjectWorkPackageSlashMenu = (editor: BlockNoteEditor<Record<string, BlockConfig>, InlineContentSchema, StyleSchema>) => ({
