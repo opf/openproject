@@ -57,6 +57,10 @@ RSpec.describe "Project description widget on dashboard", :js, :selenium do
     create(:user, member_with_permissions: { project => editing_permissions })
   end
 
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end

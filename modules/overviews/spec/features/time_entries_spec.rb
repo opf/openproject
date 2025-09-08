@@ -80,19 +80,23 @@ RSpec.describe "Time entries widget on dashboard", :js, :selenium do
 
   let(:time_logging_modal) { Components::TimeLoggingModal.new }
 
-  let(:dashboard) do
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
+  let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
 
   before do
     login_as user
 
-    dashboard.visit!
+    dashboard_page.visit!
   end
 
   it "adds the widget and checks the displayed entries" do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, :within, 'Spent time \(last 7 days\)')
+    dashboard_page.add_widget(1, 1, :within, 'Spent time \(last 7 days\)')
 
     spent_time_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 

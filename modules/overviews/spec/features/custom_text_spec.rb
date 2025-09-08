@@ -51,6 +51,11 @@ RSpec.describe "Project description widget on dashboard", :js, :selenium do
   let(:user) do
     create(:user, member_with_permissions: { project => permissions })
   end
+
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
@@ -69,8 +74,6 @@ RSpec.describe "Project description widget on dashboard", :js, :selenium do
 
     it "can use the wp create button macro within it" do
       dashboard_page.add_widget(1, 1, :within, "Custom text")
-
-      sleep(0.1)
 
       # As the user lacks the manage_public_queries and save_queries permission, no other widget is present
       custom_text_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")

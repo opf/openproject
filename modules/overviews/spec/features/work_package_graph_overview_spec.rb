@@ -73,21 +73,25 @@ RSpec.describe "Work package overview graph widget on dashboard", :js, :selenium
     end
   end
 
-  let(:dashboard) do
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
+  let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
 
   before do
     login_as user
 
-    dashboard.visit!
+    dashboard_page.visit!
   end
 
   # As a graph is rendered as a canvas, we have limited abilities to test the widget
   it "can add the widget", :selenium do
     sleep(0.1)
 
-    dashboard.add_widget(1, 1, :within, "Work packages overview")
+    dashboard_page.add_widget(1, 1, :within, "Work packages overview")
 
     # As the user lacks the necessary permissions, no widget is preconfigured
     overview_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")

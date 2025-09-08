@@ -106,18 +106,22 @@ RSpec.describe "Work package calendar widget on dashboard", :js, :selenium do
     end
   end
 
-  let(:dashboard) do
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
+  let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
 
   before do
     login_as user
 
-    dashboard.visit!
+    dashboard_page.visit!
   end
 
   it "can add the widget and see the work packages of the project" do
-    dashboard.add_widget(1, 1, :within, "Calendar")
+    dashboard_page.add_widget(1, 1, :within, "Calendar")
 
     sleep(0.1)
 

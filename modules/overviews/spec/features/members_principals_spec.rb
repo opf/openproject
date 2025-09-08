@@ -61,6 +61,10 @@ RSpec.describe "Dashboard page members", :js, :selenium do
            member_with_permissions: { project => permissions })
   end
 
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end

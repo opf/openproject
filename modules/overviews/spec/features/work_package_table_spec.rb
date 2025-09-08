@@ -80,6 +80,11 @@ RSpec.describe "Arbitrary WorkPackage query table widget dashboard", :js, :selen
       create(:member, project: other_project, user: u, roles: [role])
     end
   end
+
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
