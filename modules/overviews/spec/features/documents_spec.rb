@@ -56,19 +56,24 @@ RSpec.describe "Documents widget on dashboard", :js, :selenium do
       create(:member, project: other_project, roles: [role], user: u)
     end
   end
-  let(:dashboard) do
+
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
+  let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
 
   before do
     login_as user
 
-    dashboard.visit!
+    dashboard_page.visit!
   end
 
   it "can add the widget and see the visible documents" do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, :within, "Documents")
+    dashboard_page.add_widget(1, 1, :within, "Documents")
 
     document_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 

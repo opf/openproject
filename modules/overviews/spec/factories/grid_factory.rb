@@ -55,6 +55,23 @@ FactoryBot.define do
     end
   end
 
+  factory :dashboard_with_table_narrow, class: "Grids::Overview" do
+    project
+    row_count { 1 }
+    column_count { 3 }
+    widgets do
+      [
+        Grids::Widget.new(
+          identifier: "work_packages_table",
+          start_row: 1,
+          end_row: 2,
+          start_column: 1,
+          end_column: 2
+        )
+      ]
+    end
+  end
+
   factory :dashboard_with_table, class: "Grids::Overview" do
     project
     row_count { 7 }

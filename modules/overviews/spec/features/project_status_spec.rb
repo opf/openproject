@@ -59,6 +59,10 @@ RSpec.describe "Project status widget on dashboard", :js, :selenium do
            member_with_permissions: { project => editing_permissions })
   end
 
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end

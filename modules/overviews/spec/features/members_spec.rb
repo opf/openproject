@@ -72,14 +72,19 @@ RSpec.describe "Members widget on dashboard", :js, :selenium do
                            manage_members
                            view_members])
   end
-  let(:dashboard) do
+
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
+  let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
 
   before do
     login_as manager_user
 
-    dashboard.visit!
+    dashboard_page.visit!
   end
 
   def expect_all_members_visible(area)
@@ -103,7 +108,7 @@ RSpec.describe "Members widget on dashboard", :js, :selenium do
 
   it "can add the widget and see the members if the permissions suffice" do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, :within, "Members")
+    dashboard_page.add_widget(1, 1, :within, "Members")
 
     members_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 
@@ -121,7 +126,7 @@ RSpec.describe "Members widget on dashboard", :js, :selenium do
     login_as no_edit_member_user
 
     visit root_path
-    dashboard.visit!
+    dashboard_page.visit!
 
     expect_all_members_visible(members_area.area)
 
@@ -135,7 +140,7 @@ RSpec.describe "Members widget on dashboard", :js, :selenium do
 
     visit root_path
 
-    dashboard.visit!
+    dashboard_page.visit!
 
     within members_area.area do
       expect(page)

@@ -57,19 +57,23 @@ RSpec.describe "News widget on dashboard", :js, :selenium do
     end
   end
 
-  let(:dashboard) do
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
+  let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
 
   before do
     login_as user
 
-    dashboard.visit!
+    dashboard_page.visit!
   end
 
   it "can add the widget and see the visible news" do
     # within top-right area, add an additional widget
-    dashboard.add_widget(1, 1, :within, "News")
+    dashboard_page.add_widget(1, 1, :within, "News")
 
     news_widget = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
 

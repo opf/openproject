@@ -71,6 +71,11 @@ RSpec.describe "Subprojects widget on dashboard", :js, :selenium do
       create(:member, project: parent_project, roles: [role], user: u)
     end
   end
+
+  let!(:dashboard) do
+    create(:dashboard_with_table_narrow, project:)
+  end
+
   let(:dashboard_page) do
     Pages::Dashboard.new(project)
   end
