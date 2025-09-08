@@ -32,7 +32,7 @@ require "spec_helper"
 
 require_relative "../support/pages/dashboard"
 
-RSpec.describe "Project description widget on dashboard", :js do
+RSpec.describe "Project description widget on dashboard", :js, :selenium do
   let!(:type) { create(:type_task, name: "Task") }
   let!(:project) do
     create(:project, types: [type])

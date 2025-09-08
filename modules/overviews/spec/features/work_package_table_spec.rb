@@ -32,7 +32,7 @@ require "spec_helper"
 
 require_relative "../support/pages/dashboard"
 
-RSpec.describe "Arbitrary WorkPackage query table widget dashboard", :js do
+RSpec.describe "Arbitrary WorkPackage query table widget dashboard", :js, :selenium do
   let!(:type) { create(:type) }
   let!(:other_type) { create(:type) }
   let!(:priority) { create(:default_priority) }
