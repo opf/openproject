@@ -32,7 +32,7 @@ require "spec_helper"
 
 require_relative "../support/pages/dashboard"
 
-RSpec.describe "Dashboard page members", :js do
+RSpec.describe "Dashboard page members", :js, :selenium do
   shared_let(:type) { create(:type) }
   shared_let(:project) { create(:project, types: [type], description: "My **custom** description") }
 

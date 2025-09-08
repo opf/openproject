@@ -32,7 +32,7 @@ require "spec_helper"
 
 require_relative "../support/pages/dashboard"
 
-RSpec.describe "Modifying a dashboard which already has widgets for which permissions are lacking", :js do
+RSpec.describe "Modifying a dashboard which already has widgets for which permissions are lacking", :js, :selenium do
   let!(:project) do
     create(:project)
   end

@@ -32,7 +32,7 @@ require "spec_helper"
 
 require_relative "../support/pages/dashboard"
 
-RSpec.describe "Documents widget on dashboard", :js do
+RSpec.describe "Documents widget on dashboard", :js, :selenium do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
   let!(:visible_document) do

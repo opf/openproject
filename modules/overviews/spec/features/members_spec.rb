@@ -32,7 +32,7 @@ require "spec_helper"
 
 require_relative "../support/pages/dashboard"
 
-RSpec.describe "Members widget on dashboard", :js do
+RSpec.describe "Members widget on dashboard", :js, :selenium do
   let!(:project) { create(:project) }
   let!(:other_project) { create(:project) }
 
