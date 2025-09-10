@@ -18,15 +18,15 @@ jobs:
           fetch-depth: 0 # fetch all tags
 
       - name: Tag and push if new version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=$(jq -r .version package.json)
           TAG="v$VERSION"
           if git rev-parse "$TAG" >/dev/null 2>&1; then
             echo "Tag $TAG already exists. No action taken."
           else
-            git config user.name "github-actions[bot]"
-            git config user.email "github-actions[bot]@users.noreply.github.com"
-            git tag "$TAG"
-            git push origin "$TAG"
-            echo "Tag $TAG created and pushed."
+            gh auth login --with-token < <(echo "$GH_TOKEN")
+            gh api repos/${GITHUB_REPOSITORY}/git/refs -f ref="refs/tags/$TAG" -f sha="$(git rev-parse HEAD)"
+            echo "Tag $TAG created via GitHub API."
           fi
