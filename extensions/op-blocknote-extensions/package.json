@@ -27,7 +27,7 @@
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.0.0",
     "typescript": "~5.9.2",
-    "typescript-eslint": "^8.30.1",
+    "typescript-eslint": "^8.42.0",
     "vite": "^7.1.3"
   },
   "peerDependencies": {
