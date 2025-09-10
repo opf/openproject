@@ -1,3 +1,3 @@
-export * from "./DummyComponent";
 export * from "./helpers";
-export * from "./OpenProjectWorkPackageBlock";
+export * from "./components";
+export { initOpenProjectApi } from "./services/openProjectApi";

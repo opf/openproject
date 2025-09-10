@@ -12,17 +12,20 @@ import {
   useCreateBlockNote,
 } from "@blocknote/react";
 
-import { getDefaultOpenProjectSlashMenuItems, getDefaultOpenProjectBlockSpecs } from "../lib";
+import { initOpenProjectApi, getDefaultOpenProjectSlashMenuItems, defaultOpenProjectBlockSpecs } from "../lib";
+
+const schema = BlockNoteSchema.create({
+  blockSpecs: {
+    ...defaultBlockSpecs,
+    ...defaultOpenProjectBlockSpecs,
+  },
+});
 
 export default function App() {
-  const schema = BlockNoteSchema.create({
-    blockSpecs: {
-      ...defaultBlockSpecs,
-      ...getDefaultOpenProjectBlockSpecs,
-    },
-  });
   const editor = useCreateBlockNote({ schema });
   type EditorType = typeof editor;
+
+  initOpenProjectApi({ baseUrl: "http://localhost:3000" });
 
   const getCustomSlashMenuItems = (editor: EditorType) => {
     return [
