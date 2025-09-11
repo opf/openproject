@@ -1,6 +1,8 @@
 name: Release
 
 on:
+  repository_dispatch:
+    types: [trigger-release]
   workflow_dispatch:
   push:
     tags:
@@ -27,9 +29,18 @@ jobs:
       - name: Package build output
         run: npm pack
 
+      - name: Set TAG from repository_dispatch
+        if: github.event_name == 'repository_dispatch'
+        run: echo "TAG=${{ github.event.client_payload.tag }}" >> $GITHUB_ENV
+
+      - name: Set TAG from push
+        if: github.event_name == 'push'
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
+          tag_name: ${{ env.TAG }}
           files: '*.tgz'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
