@@ -34,15 +34,6 @@ jobs:
             echo "tag_exists=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Create and push tag
-        if: steps.check_tag.outputs.tag_exists == 'false'
-        run: |
-          TAG="v${{ steps.get_version.outputs.version }}"
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git tag "$TAG"
-          git push origin "$TAG"
-
       - name: Setup Node
         if: steps.check_tag.outputs.tag_exists == 'false'
         uses: actions/setup-node@v4
@@ -65,7 +56,7 @@ jobs:
         if: steps.check_tag.outputs.tag_exists == 'false'
         uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.get_version.outputs.version }}
+          tag_name: v${{ steps.get_version.outputs.version }}
           files: '*.tgz'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
