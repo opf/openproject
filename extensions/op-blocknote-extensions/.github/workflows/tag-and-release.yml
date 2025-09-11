@@ -1,0 +1,71 @@
+name: Tag and Release
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  tag-and-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # fetch all tags
+
+      - name: Get version from package.json
+        id: get_version
+        run: |
+          VERSION=$(jq -r .version package.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Check if tag exists
+        id: check_tag
+        run: |
+          TAG="v${{ steps.get_version.outputs.version }}"
+          if git rev-parse "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG exists. Skipping release."
+            echo "tag_exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "tag_exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create and push tag
+        if: steps.check_tag.outputs.tag_exists == 'false'
+        run: |
+          TAG="v${{ steps.get_version.outputs.version }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag "$TAG"
+          git push origin "$TAG"
+
+      - name: Setup Node
+        if: steps.check_tag.outputs.tag_exists == 'false'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        if: steps.check_tag.outputs.tag_exists == 'false'
+        run: npm ci
+
+      - name: Build library
+        if: steps.check_tag.outputs.tag_exists == 'false'
+        run: npm run build:lib
+
+      - name: Package build output
+        if: steps.check_tag.outputs.tag_exists == 'false'
+        run: npm pack
+
+      - name: Create GitHub Release
+        if: steps.check_tag.outputs.tag_exists == 'false'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.get_version.outputs.version }}
+          files: '*.tgz'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
