@@ -2,6 +2,13 @@
 
 [OpenProject](https://www.openproject.org/) extensions for the [BlockNote](https://www.blocknotejs.org/) editor.
 
+## About this repo
+
+This repo is split into two parts:
+
+- The library itself, which is located in the `/lib` folder and can be built and packaged with `npm run build:lib`.
+- A demo app, which is located in the `src/App.tsx` file and can be run locally with `npm run dev`.
+
 ## Usage
 
 ### Installation
