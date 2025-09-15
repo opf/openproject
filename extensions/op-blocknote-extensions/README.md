@@ -16,8 +16,10 @@ This repo is split into two parts:
 Include the following entry to your _package.json_.
 
 ```json
-"op-blocknote-extensions": "github:opf/op-blocknote-extensions#<VERSION>"
+"op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/<VERSION>/op-blocknote-extensions-<VERSION>.tgz"
 ```
+
+(please note: at the time being, you need to replace the version in two places of the url.)
 
 ### Implementation
 
