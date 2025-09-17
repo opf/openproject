@@ -5,6 +5,9 @@ let baseUrl = "https://openproject.local";
 
 export function initOpenProjectApi(config: { baseUrl: string }) {
   baseUrl = config.baseUrl;
+  if (baseUrl.endsWith('/')) {
+    baseUrl = baseUrl.slice(0, -1);
+  }
 }
 
 async function get<T>(endpoint: string): Promise<T> {
