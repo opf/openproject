@@ -8,3 +8,10 @@ updates:
       prefix: "deps"
     labels:
       - "dependencies"
+    groups:
+      npm-minor-patch:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
