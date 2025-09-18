@@ -10,5 +10,5 @@ export function getDefaultOpenProjectSlashMenuItems(editor: any): any[] {
 }
 
 export const defaultOpenProjectBlockSpecs = {
-  "openProjectWorkPackage": openProjectWorkPackageBlockSpec,
+  "openProjectWorkPackage": openProjectWorkPackageBlockSpec(),
 }
