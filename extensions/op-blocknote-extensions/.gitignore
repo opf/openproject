@@ -11,6 +11,7 @@ node_modules
 dist-ssr
 dist
 *.local
+coverage/
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +26,4 @@ dist
 
 # build things
 op-blocknote-extensions-*
+
