@@ -19,7 +19,7 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@blocknote/mantine": "^0.39.0",
+    "@blocknote/mantine": "^0.39.1",
     "@eslint/js": "^9.35.0",
     "@types/node": "^24.5.1",
     "@types/react": "^19.1.13",
