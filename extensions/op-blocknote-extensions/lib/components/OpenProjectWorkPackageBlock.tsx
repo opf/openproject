@@ -291,8 +291,7 @@ const OpenProjectWorkPackageBlockComponent = ({
 
 export default OpenProjectWorkPackageBlockComponent;
 
-export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
-  {
+export const openProjectWorkPackageBlockSpec = createReactBlockSpec({
     type: "openProjectWorkPackage",
     propSchema: {
       wpid: { default: "", type: "string" },
