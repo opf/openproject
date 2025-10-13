@@ -26,12 +26,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Constraints
-  module Enterprise
-    module_function
+module Routing
+  module Constraints
+    module Enterprise
+      module_function
 
-    def matches?(_request)
-      OpenProject::Configuration.ee_manager_visible?
+      def matches?(_request)
+        OpenProject::Configuration.ee_manager_visible?
+      end
     end
   end
 end

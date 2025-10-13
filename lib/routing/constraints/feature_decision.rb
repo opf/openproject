@@ -28,14 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Constraints
-  class FeatureDecision
-    def initialize(flag_name)
-      @flag_name = flag_name
-    end
+module Routing
+  module Constraints
+    class FeatureDecision
+      def initialize(flag_name)
+        @flag_name = flag_name
+      end
 
-    def matches?(...)
-      OpenProject::FeatureDecisions.public_send(:"#{@flag_name}_active?")
+      def matches?(...)
+        OpenProject::FeatureDecisions.public_send(:"#{@flag_name}_active?")
+      end
     end
   end
 end

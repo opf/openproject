@@ -600,7 +600,7 @@ Rails.application.routes.draw do
 
     get "/enterprise", to: redirect("#{rails_relative_url_root}/admin/enterprise_tokens")
 
-    constraints(Constraints::Enterprise) do
+    constraints(Routing::Constraints::Enterprise) do
       resources :enterprise_tokens, only: %i[index new create destroy] do
         member do
           get :destroy_dialog
