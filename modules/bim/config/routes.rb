@@ -27,10 +27,12 @@
 #++
 
 Rails.application.routes.draw do
+  extend Routing::Helpers::ProjectScope
+
   scope "", as: "bcf" do
     mount Bim::Bcf::API::Root => "/api/bcf"
 
-    scope "projects/:project_id", as: "project" do
+    project_scope do
       get "bcf/menu" => "bim/menus#show"
 
       resources :issues, controller: "bim/bcf/issues", except: :index do

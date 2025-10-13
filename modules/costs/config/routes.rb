@@ -29,6 +29,8 @@
 #++
 
 Rails.application.routes.draw do
+  extend Routing::Helpers::ProjectScope
+
   resources :time_entries, only: %i[create update destroy] do
     get :dialog, on: :collection
     get :dialog, on: :member
@@ -37,7 +39,7 @@ Rails.application.routes.draw do
     post :refresh_form, on: :member
   end
 
-  scope "projects/:project_id", as: "projects" do
+  project_scope as: "projects" do
     resources :cost_entries, controller: "costlog", only: %i[new create]
 
     resources :hourly_rates, only: %i[show edit update]
@@ -59,7 +61,7 @@ Rails.application.routes.draw do
         as: :time_tracking_refresh
   end
 
-  scope "projects/:project_id", as: "project", module: "projects" do
+  project_scope module: "projects" do
     namespace "settings" do
       resource :time_entry_activities, only: %i[show update]
       resources :cost_types, only: %i[index] do

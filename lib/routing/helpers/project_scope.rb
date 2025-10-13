@@ -28,25 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-Rails.application.routes.draw do
-  extend Routing::Helpers::ProjectScope
-
-  scope module: "grids" do
-    # project-scoped widget routes
-    project_scope do
-      namespace :widgets do
-        resource :members, only: %i[show]
-        resource :news, only: %i[show]
-        resource :project_status, only: %i[show update]
-        resource :subitems, only: %i[show]
-        resource :description, only: %i[show]
+module Routing
+  module Helpers
+    module ProjectScope
+      def project_scope(as: :project, **, &)
+        scope("projects/:project_id", constraints: { project_id: Constraints::ProjectIdentifier::REGEX }, as:, **, &)
       end
-    end
-
-    # global widget routes
-    namespace :widgets do
-      resource :news, only: %i[show]
-      resource :project_favorites, controller: :favorite_projects, only: %i[show]
     end
   end
 end
