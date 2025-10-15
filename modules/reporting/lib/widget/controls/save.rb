@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -27,13 +29,20 @@
 #++
 
 class Widget::Controls::Save < Widget::Controls
-  def render
-    return "" if @subject.new_record? or !@options[:can_save]
+  option :can_save, default: -> { false }
 
-    write link_to(I18n.t(:button_save),
-                  "#",
-                  id: "query-breadcrumb-save",
-                  class: "button icon-context icon-save",
-                  "data-target": url_for(action: :update, id: @subject.id, save_query: "1"))
+  def render_control
+    render_button(
+      id: "query-breadcrumb-save",
+      data: { target: url_for(action: :update, id: @subject.id, save_query: "1") }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :"op-save")
+
+      I18n.t(:button_save)
+    end
+  end
+
+  def render?
+    @subject.persisted? && can_save
   end
 end

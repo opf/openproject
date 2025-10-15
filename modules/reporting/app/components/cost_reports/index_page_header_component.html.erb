@@ -1,7 +1,7 @@
 <%= component_wrapper do %>
 <%=
   render Primer::OpenProject::PageHeader.new do |header|
-    header.with_title { render_widget Widget::Controls::QueryName, @query }
+    header.with_title { render Widget::Controls::QueryName.new(@query) }
     header.with_breadcrumbs(breadcrumb_items, selected_item_font_weight: :normal)
 
     if show_export_button?

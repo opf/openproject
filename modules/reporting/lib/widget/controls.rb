@@ -27,7 +27,22 @@
 #++
 
 class Widget::Controls < Widget::Base
-  def cache_key
-    "#{super}#{@subject.new_record? ? 1 : 0}"
+  include Primer::AttributesHelper
+
+  param :subject
+  param :form, optional: true
+
+  def call
+    render(Primer::Alpha::StackItem.new) do
+      render_control
+    end
+  end
+
+  def render_control
+    raise SubclassResponsibilityError, "Control subclasses must implement this method."
+  end
+
+  def render_button(**, &)
+    render(Primer::Beta::Button.new(**), &)
   end
 end

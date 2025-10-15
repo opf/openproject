@@ -28,22 +28,45 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require_relative "../../../spec_helper"
+require "rails_helper"
 
-RSpec.describe Widget::Filters::WorkPackage do
-  let(:admin) { create(:admin) }
-  let(:work_package) { create(:work_package, project:) }
-
-  let(:filter) do
-    CostQuery::Filter::WorkPackageId.new.tap { |f| f.values = [work_package.id.to_s] }
+RSpec.describe Widget::Filters::WorkPackage, type: :component do
+  def render_component(...)
+    render_inline(described_class.new(...))
   end
-  let(:widget) { described_class.new(filter) }
 
-  before { login_as(admin) }
+  let(:filter) { CostQuery::Filter::WorkPackageId.new }
+  let(:options) { {} }
 
-  subject(:payload) { widget.send(:map_filter_values).first }
+  subject(:rendered_component) do
+    render_component(filter, **options)
+  end
+
+  it "renders component" do
+    expect(rendered_component).to have_css ".advanced-filters--filter-value"
+  end
+
+  it "renders label for accessibility" do
+    expect(rendered_component).to have_element :label, text: "Work package Value", class: "sr-only"
+  end
+
+  it "renders autocompleter" do
+    expect(rendered_component).to have_element "opce-autocompleter", class: "advanced-filters--ng-select"
+  end
 
   describe "#map_filter_values" do
+    let(:admin) { create(:admin) }
+    let(:work_package) { create(:work_package, project:) }
+
+    let(:filter) do
+      CostQuery::Filter::WorkPackageId.new.tap { |f| f.values = [work_package.id.to_s] }
+    end
+    let(:widget) { described_class.new(filter) }
+
+    before { login_as(admin) }
+
+    subject(:payload) { widget.send(:map_filter_values).first }
+
     context "in classic mode",
             with_settings: { work_packages_identifier: "classic" } do
       let(:project) { create(:project) }

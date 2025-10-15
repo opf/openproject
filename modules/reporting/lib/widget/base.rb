@@ -32,7 +32,7 @@ require "digest/sha1"
 
 module ::Widget
   class Base < Widget::ReportingWidget
-    attr_reader :engine, :output
+    option :current_user, default: -> { User.current }
 
     ##
     # Deactivate caching for certain widgets. If called on Widget::Base,
@@ -47,41 +47,6 @@ module ::Widget
       @dont_cache or (self != Widget::Base && Widget::Base.dont_cache?)
     end
 
-    # ActionView::Base#initialize requires a lookup context, assigns and a
-    # controller. Widgets are handed those later by render_widget, so the parent
-    # initializer is deliberately skipped.
-    def initialize(query) # rubocop:disable Lint/MissingSuper
-      @subject = query
-      @engine = query.respond_to?(:engine) ? query.engine : query.class
-      @options = {}
-    end
-
-    ##
-    # Write a string to the canvas.
-    # OG: html_safe canvas; markup passed to write must be safe or it is escaped.
-    def write(str)
-      @output ||= ActiveSupport::SafeBuffer.new
-      @output << str
-      str
-    end
-
-    ##
-    # Render this widget. Abstract method. Needs to call #write at least once
-    def render
-      raise SubclassResponsibilityError, "#render is missing in subclass #{self.class}"
-    end
-
-    ##
-    # Render this widget, passing options.
-    # Available options:
-    #   :to => canvas - The canvas (streaming or otherwise) to render to. Has to respond to #write
-    def render_with_options(options = {}, &)
-      set_canvas(options.delete(:to)) if options.has_key? :to
-      @options = options
-      render_with_cache(options, &)
-      @output
-    end
-
     def cache_key
       @cache_key ||= Digest::SHA1::hexdigest begin
         if subject.respond_to? :cache_key
@@ -94,12 +59,6 @@ module ::Widget
 
     def cached?
       cache? && Rails.cache.exist?(cache_key)
-    end
-
-    protected
-
-    def render_view_component(component, &)
-      component.render_in(controller.view_context, &)
     end
 
     private
@@ -117,12 +76,6 @@ module ::Widget
         render(&)
         Rails.cache.write(cache_key, @output) if cache?
       end
-    end
-
-    ##
-    # Set the canvas.
-    def set_canvas(canvas)
-      @output = canvas
     end
   end
 end

@@ -30,10 +30,15 @@ class Widget::Table < Widget::Base
   extend Report::InheritedAttribute
   include ReportingHelper
 
+  delegate :cost_type, :unit_id, to: :controller
+
   attr_accessor :fields, :mapping
 
-  def initialize(query)
-    raise ArgumentError, "Tables need a subject that builds a reporting chain" unless query.respond_to?(:chain)
+  def initialize(subject, **options)
+    raise ArgumentError, "Tables need a subject that builds a reporting chain" unless subject.respond_to?(:chain)
+
+    @subject = subject
+    @options = options
 
     super
   end
@@ -46,15 +51,14 @@ class Widget::Table < Widget::Base
     end
   end
 
-  def render
-    write("<!-- table start -->".html_safe)
+  def call
     if @subject.result.count <= 0
-      write(content_tag(:div, "", class: "generic-table--no-results-container") do
+      content_tag(:div, "", class: "generic-table--no-results-container") do
         content_tag(:i, "", class: "icon-info1") +
           content_tag(:span, I18n.t(:no_results_title_text), class: "generic-table--no-results-title")
-      end)
+      end
     else
-      render_widget(resolve_table, @subject, @options.reverse_merge(to: @output))
+      render_widget(resolve_table, @subject, **@options)
     end
   end
 end

@@ -29,7 +29,7 @@
 #++
 
 class Widget::Filters::RemoveButton < Widget::Filters::Base
-  def render
+  def render_filter
     hidden_field = tag :input,
                        id: "rm_#{filter_class.underscore_name}",
                        name: "fields[]", type: "hidden", value: ""
@@ -38,17 +38,17 @@ class Widget::Filters::RemoveButton < Widget::Filters::Base
       href: "#",
       class: "filter_rem",
       data: {
-        action: "keydown->reporting--page#filterKeydown"
+        action: "click->reporting--page#removeFilter keydown->reporting--page#filterKeydown"
       }
     ) do
       icon_wrapper("icon-close advanced-filters--remove-filter-icon", I18n.t(:description_remove_filter))
     end
 
-    write(content_tag(:div, hidden_field + button,
-                      id: "rm_box_#{filter_class.underscore_name}",
-                      class: "advanced-filters--remove-filter",
-                      data: {
-                        action: "click->reporting--page#removeFilter"
-                      }))
+    content_tag(:div, hidden_field + button,
+                id: "rm_box_#{filter_class.underscore_name}",
+                class: "advanced-filters--remove-filter",
+                data: {
+                  action: "click->reporting--page#removeFilter"
+                })
   end
 end

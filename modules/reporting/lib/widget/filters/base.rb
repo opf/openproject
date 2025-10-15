@@ -29,7 +29,7 @@
 class Widget::Filters::Base < Widget::Base
   attr_reader :filter, :filter_class
 
-  def initialize(filter)
+  def initialize(filter, **)
     if filter.instance_of?(Class)
       @filter_class = filter
       @filter = filter.new
@@ -38,6 +38,16 @@ class Widget::Filters::Base < Widget::Base
       @filter_class = filter.class
     end
     @engine = filter.engine
+
+    super
+  end
+
+  def call
+    render_filter
+  end
+
+  def render_filter
+    raise SubclassResponsibilityError, "Filter subclasses must implement this method."
   end
 
   def expand_comma_separated_values!

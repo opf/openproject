@@ -31,9 +31,11 @@
 # as it would appear in a filters available values. If given, it renders the
 # option-tags from the content array instead of the filters available values.
 class Widget::Filters::Option < Widget::Filters::Base
-  def render
-    options = content(@options[:content] || filter_class.available_values)
-    write safe_join(options)
+  option :content, optional: true
+
+  def render_filter
+    options = content(@content || filter_class.available_values)
+    safe_join(options)
   end
 
   # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity

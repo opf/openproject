@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,15 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Widget::Filters::Label < Widget::Filters::Base
-  def render_filter
-    options = {
-      id: filter_class.underscore_name,
-      class: "advanced-filters--filter-name",
-      title: filter_class.label
-    }
-    content_tag(:label, options) do
-      filter_class.label
-    end
+require "rails_helper"
+
+RSpec.describe Widget::Filters::User, type: :component do
+  def render_component(...)
+    render_inline(described_class.new(...))
+  end
+
+  let(:filter) { CostQuery::Filter::UserId.new }
+  let(:options) { {} }
+
+  subject(:rendered_component) do
+    render_component(filter, **options)
+  end
+
+  it "renders component" do
+    expect(rendered_component).to have_css ".advanced-filters--filter-value"
+  end
+
+  it "renders label for accessibility" do
+    expect(rendered_component).to have_element :label, text: "User Value", class: "sr-only"
+  end
+
+  it "renders autocompleter" do
+    expect(rendered_component).to have_element "opce-user-autocompleter"
   end
 end

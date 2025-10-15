@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,11 +31,11 @@
 class Widget::Filters::Date < Widget::Filters::Base
   include AngularHelper
 
-  def render # rubocop:disable Metrics/AbcSize
+  def render_filter # rubocop:disable Metrics/AbcSize
     name = "values[#{filter_class.underscore_name}][]"
     id_prefix = "#{filter_class.underscore_name}_"
 
-    write(content_tag(:span, class: "advanced-filters--filter-value -binary") do
+    content_tag(:span, class: "advanced-filters--filter-value -binary") do
       label1 = label_tag "#{id_prefix}arg_1_val",
                          value_label,
                          class: "sr-only"
@@ -78,7 +80,7 @@ class Widget::Filters::Date < Widget::Filters::Base
       end
 
       arg1 + arg2 + arg3
-    end)
+    end
   end
 
   def value_label

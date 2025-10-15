@@ -76,8 +76,6 @@ interface IControls {
   clear_query:(e:Event) => void;
   observe_click:(elementId:string, callback:(e:Event) => void) => void;
   update_result_table:(response:string) => void;
-  toggle_delete_form:(e:Event) => void;
-  toggle_save_as_form:(e:Event) => void;
 }
 
 interface IRestoreQuery {
@@ -678,39 +676,16 @@ export default class PageController extends Controller {
         jQuery('#result-table').html(response);
         this.initTableSorter();
       },
-
-      toggle_delete_form: (e:Event) => {
-        e.preventDefault();
-        const offset = jQuery('#query-icon-delete').offset()?.left ?? 0;
-        jQuery('#delete_form').css('left', `${offset}px`).toggle();
-      },
-
-      toggle_save_as_form: (e:Event) => {
-        e.preventDefault();
-        const offset = jQuery('#query-icon-save-as').offset()?.left ?? 0;
-        jQuery('#save_as_form').css('left', `${offset}px`).toggle();
-      },
     };
 
     // Bind control events
     if (jQuery('#query_saved_name').length) {
       if (jQuery('#query_saved_name').attr('data-is_new')) {
-        if (jQuery('#query-icon-delete').length) {
-          this.controls.observe_click('query-icon-delete', this.controls.toggle_delete_form);
-          this.controls.observe_click('query-icon-delete-cancel', this.controls.toggle_delete_form);
-          jQuery('#delete_form').hide();
-        }
-
         if (jQuery('#query-breadcrumb-save').length) {
           this.controls.attach_settings_callback(jQuery('#query-breadcrumb-save'), this.controls.update_result_table);
         }
       }
     }
-
-    this.controls.observe_click('query-icon-save-as', this.controls.toggle_save_as_form);
-    this.controls.observe_click('query-icon-save-as-cancel', this.controls.toggle_save_as_form);
-
-    jQuery('#save_as_form').hide();
 
     this.controls.attach_settings_callback(jQuery('#query-icon-save-button'), (newLocation:string) => {
       document.location.href = newLocation;

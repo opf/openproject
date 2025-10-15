@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,15 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Widget::Filters::Label < Widget::Filters::Base
-  def render_filter
-    options = {
-      id: filter_class.underscore_name,
-      class: "advanced-filters--filter-name",
-      title: filter_class.label
-    }
-    content_tag(:label, options) do
-      filter_class.label
+require "rails_helper"
+
+RSpec.describe Widget::Controls::Clear, type: :component do
+  def render_component(...)
+    render_inline(described_class.new(...))
+  end
+
+  let(:cost_query) { build_stubbed(:cost_report, public: true) }
+
+  subject(:rendered_component) do
+    with_controller_class(Reporting::CostReportsController) do
+      with_request_url("/reporting/cost_reports") do
+        render_component(cost_query)
+      end
     end
+  end
+
+  it "renders a button" do
+    expect(rendered_component).to have_button text: "Clear", type: "reset"
   end
 end

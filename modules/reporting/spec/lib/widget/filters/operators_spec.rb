@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,15 +28,39 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Widget::Filters::Label < Widget::Filters::Base
-  def render_filter
-    options = {
-      id: filter_class.underscore_name,
-      class: "advanced-filters--filter-name",
-      title: filter_class.label
-    }
-    content_tag(:label, options) do
-      filter_class.label
+require "rails_helper"
+
+RSpec.describe Widget::Filters::Operators, type: :component do
+  def render_component(...)
+    render_inline(described_class.new(...))
+  end
+
+  let(:filter) { CostQuery::Filter::Subject.new }
+  let(:options) { {} }
+
+  subject(:rendered_component) do
+    render_component(filter, **options)
+  end
+
+  it "renders component" do
+    expect(rendered_component).to have_css ".advanced-filters--filter-operator"
+  end
+
+  it "renders label for accessibility" do
+    expect(rendered_component).to have_element :label, text: "Subject Operator", class: "sr-only"
+  end
+
+  context "with a string operators filter" do
+    it "renders select" do
+      expect(rendered_component).to have_select options: ["doesn't contain", "contains", "is", "is not"]
+    end
+  end
+
+  context "with a multi-choice filter" do
+    let(:filter) { CostQuery::Filter::MultiChoice.new }
+
+    it "renders hidden select" do
+      expect(rendered_component).to have_select options: ["is"], visible: :hidden
     end
   end
 end
