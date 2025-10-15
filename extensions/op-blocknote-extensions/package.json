@@ -19,15 +19,18 @@
     "preview": "vite preview"
   },
   "devDependencies": {
-    "@blocknote/mantine": "^0.39.1",
+    "@blocknote/mantine": "^0.41.1",
     "@eslint/js": "^9.35.0",
+    "@mantine/core": "^8.3.5",
+    "@mantine/hooks": "^8.3.5",
+    "@mantine/utils": "^6.0.22",
     "@types/node": "^24.5.1",
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@types/styled-components": "^5.1.34",
     "@vitejs/plugin-react": "^5.0.3",
-    "eslint": "^9.35.0",
     "@vitest/coverage-v8": "^3.2.4",
+    "eslint": "^9.35.0",
     "eslint-plugin-react-hooks": "^5.2.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.4.0",
@@ -37,8 +40,8 @@
     "vitest": "^3.2.4"
   },
   "peerDependencies": {
-    "@blocknote/core": "^0.39",
-    "@blocknote/react": "^0.39",
+    "@blocknote/core": "^0.41",
+    "@blocknote/react": "^0.41",
     "react": "^19.x",
     "react-dom": "^19.x"
   },

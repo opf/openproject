@@ -1,18 +1,22 @@
 import {
-  BlockNoteSchema,
-  defaultBlockSpecs,
-  filterSuggestionItems,
+    BlockNoteSchema,
+    defaultBlockSpecs,
+    filterSuggestionItems,
 } from "@blocknote/core";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
 import {
-  getDefaultReactSlashMenuItems,
-  SuggestionMenuController,
-  useCreateBlockNote,
+    getDefaultReactSlashMenuItems,
+    SuggestionMenuController,
+    useCreateBlockNote,
 } from "@blocknote/react";
 
-import { initOpenProjectApi, getDefaultOpenProjectSlashMenuItems, defaultOpenProjectBlockSpecs } from "../lib";
+import {
+    defaultOpenProjectBlockSpecs,
+    getDefaultOpenProjectSlashMenuItems,
+    initOpenProjectApi
+} from "../lib";
 
 const schema = BlockNoteSchema.create({
   blockSpecs: {
