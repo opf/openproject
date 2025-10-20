@@ -89,6 +89,9 @@ export default class PageController extends Controller {
   private controls!:IControls;
   private restoreQueryModule!:IRestoreQuery;
 
+  static targets = ['table'];
+  declare readonly tableTarget:HTMLTableElement;
+
   connect() {
     this.initializeReportingEngine();
     this.initializeFilters();
@@ -100,6 +103,24 @@ export default class PageController extends Controller {
 
   disconnect() {
     // Clean up event handlers if needed
+  }
+
+  tableTargetConnected(table:HTMLTableElement) {
+    jQuery(table)
+      .tablesorter({
+        sortList: [[0, 0]],
+        widgets: ['saveSort'],
+        widgetOptions: {
+          storage_storageType: 's',
+        },
+        textExtraction(node:HTMLElement) {
+          return node.getAttribute('raw-data');
+        },
+      });
+  }
+
+  tableTargetDisconnected(table:HTMLTableElement) {
+    jQuery(table).trigger('destroy', [false]);
   }
 
   // Called from data-action
@@ -213,19 +234,6 @@ export default class PageController extends Controller {
       nextDesc: I18n.t('js.sort.activate_dsc'),
       nextNone: I18n.t('js.sort.activate_no'),
     };
-
-    jQuery('#sortable-table')
-      .not('.tablesorter')
-      .tablesorter({
-        sortList: [[0, 0]],
-        widgets: ['saveSort'],
-        widgetOptions: {
-          storage_storageType: 's',
-        },
-        textExtraction(node:HTMLElement) {
-          return node.getAttribute('raw-data');
-        },
-      });
   }
 
   private flash(string:string, type = 'error') {
