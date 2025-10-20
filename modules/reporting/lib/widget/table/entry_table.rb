@@ -37,7 +37,8 @@ class Widget::Table::EntryTable < Widget::Table
     content_tag :div, class: "generic-table--container -with-footer" do
       content_tag :div, class: "generic-table--results-container" do
         table = content_tag :table, class: "generic-table",
-                                    id: "sortable-table" do
+                                    id: "sortable-table",
+                                    data: { reporting__page_target: "table" } do
           concat colgroup
           concat head
           concat foot
