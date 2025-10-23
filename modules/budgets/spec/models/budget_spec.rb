@@ -119,6 +119,70 @@ RSpec.describe Budget do
     end
   end
 
+  describe "#new_labor_budget_item_attributes= for a copied item" do
+    let(:source_project) { project }
+    let(:source) do
+      create(:labor_budget_item, budget: create(:budget, project: source_project), user:, hours: 2, amount: 999.0)
+    end
+
+    def build_item(**attributes)
+      budget.new_labor_budget_item_attributes = { "0": { hours: "2", user_id: user.id, copied_from_id: source.id, **attributes } }
+      budget.labor_budget_items.last
+    end
+
+    it "takes the override from the source item when no amount is given" do
+      expect(build_item.amount).to eq 999.0
+    end
+
+    it "uses a given amount" do
+      expect(build_item(amount: "5").amount).to eq 5
+    end
+
+    it "clears the override for a blank amount" do
+      expect(build_item(amount: "").amount).to be_nil
+    end
+
+    it "ignores a source item given to another user" do
+      expect(build_item(user_id: create(:user).id).amount).to be_nil
+    end
+
+    context "with the source item in another project" do
+      let(:source_project) { create(:project) }
+
+      it "ignores the source item" do
+        expect(build_item.amount).to be_nil
+      end
+    end
+  end
+
+  describe "#new_material_budget_item_attributes= for a copied item" do
+    let(:source_project) { project }
+    let(:source) do
+      create(:material_budget_item, budget: create(:budget, project: source_project), units: 2, amount: 600.0)
+    end
+
+    def build_item(**attributes)
+      budget.new_material_budget_item_attributes = { "0": { units: "2", copied_from_id: source.id, **attributes } }
+      budget.material_budget_items.last
+    end
+
+    it "takes the override from the source item when no amount is given" do
+      expect(build_item.amount).to eq 600.0
+    end
+
+    it "clears the override for a blank amount" do
+      expect(build_item(amount: "").amount).to be_nil
+    end
+
+    context "with the source item in another project" do
+      let(:source_project) { create(:project) }
+
+      it "ignores the source item" do
+        expect(build_item.amount).to be_nil
+      end
+    end
+  end
+
   describe "#existing_material_budget_item_attributes=" do
     let!(:existing_material_budget_item) do
       create(:material_budget_item, budget:, units: 10.0)
@@ -150,6 +214,80 @@ RSpec.describe Budget do
             .to be_destroyed
         end
       end
+    end
+  end
+
+  describe "#existing_labor_budget_item_attributes=" do
+    let!(:existing_labor_budget_item) do
+      create(:labor_budget_item, budget:, principal: user, hours: 2.0, amount: 250)
+
+      budget.labor_budget_items.reload.first
+    end
+    let(:item_attributes) { { hours: "2", user_id: user.id } }
+
+    def assign(attributes)
+      budget.existing_labor_budget_item_attributes = { existing_labor_budget_item.id.to_s.to_sym => attributes }
+    end
+
+    before do
+      mock_permissions_for(User.current) do |mock|
+        mock.allow_in_project :edit_budgets, project:
+      end
+    end
+
+    it "leaves the amount untouched when no amount is sent" do
+      assign(item_attributes)
+
+      expect(existing_labor_budget_item.amount).to eq 250
+    end
+
+    it "clears the amount when a blank amount is sent" do
+      assign(item_attributes.merge(amount: ""))
+
+      expect(existing_labor_budget_item.amount).to be_nil
+    end
+
+    it "sets the amount when a number is sent" do
+      assign(item_attributes.merge(amount: "300"))
+
+      expect(existing_labor_budget_item.amount).to eq 300
+    end
+  end
+
+  describe "#existing_material_budget_item_attributes= with an overridden amount" do
+    let!(:existing_material_budget_item) do
+      create(:material_budget_item, budget:, units: 10.0, amount: 250)
+
+      budget.material_budget_items.reload.first
+    end
+    let(:item_attributes) { { units: "10", cost_type_id: existing_material_budget_item.cost_type_id } }
+
+    def assign(attributes)
+      budget.existing_material_budget_item_attributes = { existing_material_budget_item.id.to_s.to_sym => attributes }
+    end
+
+    before do
+      mock_permissions_for(User.current) do |mock|
+        mock.allow_in_project :edit_budgets, project:
+      end
+    end
+
+    it "leaves the amount untouched when no amount is sent" do
+      assign(item_attributes)
+
+      expect(existing_material_budget_item.amount).to eq 250
+    end
+
+    it "clears the amount when a blank amount is sent" do
+      assign(item_attributes.merge(amount: ""))
+
+      expect(existing_material_budget_item.amount).to be_nil
+    end
+
+    it "sets the amount when a number is sent" do
+      assign(item_attributes.merge(amount: "300"))
+
+      expect(existing_material_budget_item.amount).to eq 300
     end
   end
 end
