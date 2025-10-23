@@ -35,6 +35,8 @@ class MaterialBudgetItem < ApplicationRecord
 
   include ActiveModel::ForbiddenAttributesProtection
 
+  attr_accessor :copied_from_id
+
   def self.visible(user)
     includes(budget: :project)
       .references(:projects)

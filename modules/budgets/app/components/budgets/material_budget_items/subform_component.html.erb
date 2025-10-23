@@ -27,30 +27,24 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% resource = budget_attachment_representer(f.object) %>
-<%= error_messages_for @budget %>
+<%=
+  render Primer::OpenProject::CollapsibleSection.new(
+    id: "material_budget_items_fieldset",
+    display: :block,
+    mt: 3,
+    data: {
+      controller: "costs--budget-subform",
+      costs__budget_subform_item_count_value: budget_items.size,
+      costs__budget_subform_update_url_value: url_for(action: :update_material_budget_item, project_id: project.id)
+    }
+  ) do |section|
+%>
+  <% section.with_title(tag: :h3) { Budget.human_attribute_name(:material_budget) } %>
+  <% section.with_collapsible_content do %>
+    <%= render(table) %>
 
-<div class="form--field -required">
-  <%= f.text_field :subject, required: true, autofocus: true, container_class: "-wide" %>
-</div>
-<div class="form--field -visible-overflow">
-  <%= f.text_area :description,
-                  container_class: "-xxwide",
-                  with_text_formatting: true,
-                  resource: resource %>
-</div>
-<div class="form--field">
-  <%= f.date_picker :fixed_date %>
-</div>
-<div class="form--field">
-  <%= f.text_field :base_amount,
-                   size: 12,
-                   inputmode: :decimal,
-                   container_class: "-wide",
-                   value: unitless_currency_number(@budget.base_amount) %>
-</div>
-
-<%= render partial: "budgets/subform/material_budget_subform" %>
-<%= render partial: "budgets/subform/labor_budget_subform" %>
-
-<div style="clear: both;"> </div>
+    <table style="display:none" data-costs--budget-subform-target="template">
+      <%= render(template_row) %>
+    </table>
+  <% end %>
+<% end %>

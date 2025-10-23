@@ -89,9 +89,8 @@ RSpec.describe "Work Package cost fields", :js do
     expect(page).to have_css("#cost_entry_costs", text: "4.00 €")
 
     # Override costs
-    find_by_id("cost_entry_costs").click
-    SeleniumHubWaiter.wait
-    fill_in "cost_entry_overridden_costs", with: "15.52"
+    click_on accessible_name: "Click here to edit"
+    fill_in "Costs", with: "15.52"
 
     click_on "Save"
 
@@ -104,7 +103,7 @@ RSpec.describe "Work Package cost fields", :js do
     expect(entry.real_costs).to eq(15.52)
 
     visit edit_cost_entry_path(entry)
-    expect(page).to have_css("#cost_entry_costs", text: "15.52 €")
+    expect(page).to have_field "Costs", with: "15.52"
   end
 
   context "with german locale" do
@@ -123,9 +122,8 @@ RSpec.describe "Work Package cost fields", :js do
       expect(page).to have_css("#cost_entry_costs", text: "2,84 €")
 
       # Override costs
-      find_by_id("cost_entry_costs").click
-      SeleniumHubWaiter.wait
-      fill_in "cost_entry_overridden_costs", with: "1.350,25"
+      click_on accessible_name: "Hier Klicken zum bearbeiten"
+      fill_in "Kosten", with: "1.350,25"
 
       click_on I18n.t(:button_save)
 
@@ -139,19 +137,13 @@ RSpec.describe "Work Package cost fields", :js do
 
       # Can edit the costs again
       visit edit_cost_entry_path(entry)
-      expect(page).to have_css("#cost_entry_costs", text: "1.350,25 €")
-
-      # Toggle the cost button
-      SeleniumHubWaiter.wait
-      find_by_id("cost_entry_costs").click
+      expect(page).to have_field "Kosten", with: "1.350,25"
 
       # Update the costs in german locale
-      SeleniumHubWaiter.wait
-      fill_in "cost_entry_overridden_costs", with: "55.000,55"
+      fill_in "Kosten", with: "55.000,55"
       click_on I18n.t(:button_save)
 
-      # Add explicit wait for the updated cost value
-      wait_for { page }.to have_css("#cost_entry_costs", text: "55.000,55 €")
+      expect_flash(message: I18n.t(:notice_successful_update))
 
       entry.reload
       expect(entry.units).to eq(1.42)

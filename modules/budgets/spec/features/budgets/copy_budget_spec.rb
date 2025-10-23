@@ -93,4 +93,31 @@ RSpec.describe "Copying a budget", :js do
     expect(page)
       .to have_css(".author", text: current_user.name)
   end
+
+  context "when the copying user may not see the costs of an overridden item" do
+    let(:current_user) do
+      create(:user, member_with_permissions: { project => %i(view_budgets edit_budgets) })
+    end
+    let!(:overwritten_labor_budget_item) do
+      create(:labor_budget_item, hours: 2, user: original_author, budget:, amount: 999.0)
+    end
+
+    it "keeps the overrides in the copy" do
+      budget_page.visit!
+      budget_page.click_copy
+      budget_page.expect_subject(budget_subject)
+
+      expect(page).to have_no_columnheader "Budget"
+      expect(page).to have_no_text "999.00"
+
+      expect(page).to have_css("#labor_budget_items opce-user-autocompleter .ng-value", count: 2)
+      click_on "Create"
+      expect_flash message: "Successful creation."
+
+      copy = Budget.last
+      expect(copy).not_to eq budget
+      expect(copy.labor_budget_items.map(&:amount)).to eq [nil, 999.0]
+      expect(copy.material_budget_items.map(&:amount)).to eq [nil, 600000.0]
+    end
+  end
 end
