@@ -63,8 +63,13 @@ module Pages
         fill_in("#{prefix}_units", with: units, **options) if units.present?
         fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs.present?
-          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
+        if expected_costs
+          expected_value, expected_currency = expected_costs.split
+
+          expect(page).to have_field "#{prefix}_amount",
+                                     readonly: true,
+                                     described_by: expected_currency,
+                                     with: expected_value
         end
       end
     end
@@ -73,7 +78,7 @@ module Pages
       row_id = "#budget_existing_#{type}_budget_item_attributes_#{id}"
 
       page.within row_id do
-        find(".costs--edit-planned-costs-btn").click
+        page.find_test_selector "edit_inline_cost"
       end
     end
 
@@ -92,7 +97,7 @@ module Pages
 
     # Submit the costs form
     def submit_form!
-      find_by_id("budget-table--submit-button").click
+      find_test_selector("budgets-save-button").click
     end
 
     ##
@@ -108,8 +113,13 @@ module Pages
         select user_name, from: "#{prefix}_user_id" if user_name.present?
         fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs.present?
-          expect(page).to have_css("##{prefix}_costs", text: expected_costs)
+        if expected_costs
+          expected_value, expected_currency = expected_costs.split
+
+          expect(page).to have_field "#{prefix}_amount",
+                                     readonly: true,
+                                     described_by: expected_currency,
+                                     with: expected_value
         end
       end
     end
@@ -132,9 +142,10 @@ module Pages
       raise "Unknown type: #{type}, allowed: labor, material" unless %i[labor material].include? type.to_sym
 
       within(:region, Budget.human_attribute_name(:"#{type}_budget")) do
-        container = find("tbody tr:nth-of-type(#{row}) td.currency.budget-table--fields")
-        expect(container).to have_text(expected, exact: true),
-                             "Expected planned costs to be #{expected.inspect}, was #{container.text.inspect}"
+        container = find("tbody tr:nth-of-type(#{row}) td.currency")
+        expected_value, expected_currency = expected.split
+        expect(container).to have_field(with: expected_value, described_by: expected_currency),
+                             "Expected planned costs to be #{expected_value.inspect}, was #{container.text.inspect}"
       end
     end
 

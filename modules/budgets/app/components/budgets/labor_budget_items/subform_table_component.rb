@@ -27,40 +27,45 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-require "rails_helper"
 
-RSpec.describe Budgets::ActualLaborBudgetItemsComponent, type: :component do
-  let(:project) do
-    create(
-      :project,
-      enabled_module_names: %i[costs work_package_tracking budgets],
-      members: {
-        user => member_role
-      }
-    )
-  end
+module Budgets
+  module LaborBudgetItems
+    class SubformTableComponent < ::TableComponent
+      options :form
+      options :budget
+      options :project
 
-  let(:member_role) { create(:project_role, name: "Member", permissions: [:view_time_entries]) }
-  let(:budget) { create :budget, project: }
-  let(:work_package) { create :work_package, project:, budget:, author: user }
-  let(:user) { create :user }
+      columns :hours, :user, :comments, :cost
 
-  subject do
-    described_class.new budget:, project:
-  end
+      def row_class
+        SubformRowComponent
+      end
 
-  before do
-    login_as user
-  end
+      def headers
+        [
+          ["hours", { caption: LaborBudgetItem.human_attribute_name(:hours) }],
+          ["user", { caption: LaborBudgetItem.human_attribute_name(:user) }],
+          ["comments", { caption: LaborBudgetItem.human_attribute_name(:comments) }],
+          ["cost", { caption: t(:label_budget) }]
+        ]
+      end
 
-  describe "with time entries" do
-    let!(:time_entry) { create :time_entry, entity: work_package, user: }
+      def sortable?
+        false
+      end
 
-    it "renders the link to the time entry's user's avatar" do
-      rendered = render_inline(subject)
-
-      expect(rendered).to have_css("opce-principal[data-title='\"#{user.name}\"']")
+      def inline_create_link
+        render(
+          Primer::Beta::IconButton.new(
+            scheme: :invisible,
+            icon: :plus,
+            tooltip_direction: :e,
+            aria: { label: t(:button_add_budget_item) },
+            data: { action: "costs--budget-subform#addRow" },
+            mt: 2
+          )
+        )
+      end
     end
   end
 end

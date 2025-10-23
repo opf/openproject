@@ -27,40 +27,44 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-require "rails_helper"
 
-RSpec.describe Budgets::ActualLaborBudgetItemsComponent, type: :component do
-  let(:project) do
-    create(
-      :project,
-      enabled_module_names: %i[costs work_package_tracking budgets],
-      members: {
-        user => member_role
-      }
-    )
-  end
+module Budgets
+  class Form < ApplicationForm
+    form do |f|
+      f.text_field(
+        name: :subject,
+        label: attribute_name(:subject),
+        required: true
+      )
 
-  let(:member_role) { create(:project_role, name: "Member", permissions: [:view_time_entries]) }
-  let(:budget) { create :budget, project: }
-  let(:work_package) { create :work_package, project:, budget:, author: user }
-  let(:user) { create :user }
+      f.rich_text_area(
+        name: :description,
+        label: attribute_name(:description),
+        rich_text_options: { resource: }
+      )
 
-  subject do
-    described_class.new budget:, project:
-  end
+      f.single_date_picker(
+        name: :fixed_date,
+        label: attribute_name(:fixed_date),
+        leading_visual: { icon: :calendar },
+        datepicker_options: {}
+      )
 
-  before do
-    login_as user
-  end
+      f.text_field(
+        name: :base_amount,
+        label: attribute_name(:base_amount),
+        # size: 12, TODO
+        inputmode: :decimal,
+        input_width: :small,
+        trailing_visual: { text: { text: Setting.costs_currency } }
+      )
+    end
 
-  describe "with time entries" do
-    let!(:time_entry) { create :time_entry, entity: work_package, user: }
+    private
 
-    it "renders the link to the time entry's user's avatar" do
-      rendered = render_inline(subject)
-
-      expect(rendered).to have_css("opce-principal[data-title='\"#{user.name}\"']")
+    def resource
+      API::V3::Budgets::BudgetRepresenter
+        .create(model, current_user: User.current, embed_links: true)
     end
   end
 end

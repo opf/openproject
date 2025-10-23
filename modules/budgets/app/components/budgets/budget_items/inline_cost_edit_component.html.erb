@@ -1,0 +1,33 @@
+<%= render(Primer::BaseComponent.new(**@system_arguments)) do %>
+  <%= render(Primer::Beta::IconButton.new(**@edit_button_arguments)) %>
+  <%= render(Primer::Beta::IconButton.new(**@cancel_button_arguments)) %>
+  <%=
+    render(
+      Primer::Alpha::TextField.new(
+        name: input_name,
+        id: input_id,
+        label: t(:label_budget),
+        value: unitless_currency_number(cost_value),
+        # type: "number",
+        # Avoid a number field due to chrome bug (OP#32232)
+        # but show the appearance of a decimal field on mobile
+        inputmode: "decimal",
+        # min: "0",
+        # step: "0.01",
+        placeholder: t(:label_example_placeholder, decimal: unitless_currency_number(1000.50)),
+        visually_hide_label: true,
+        classes: "rounded-left-0",
+        inset: true,
+        readonly: true,
+        trailing_visual: { text: { id: cost_currency_id, text: cost_currency } },
+        data: {
+          costs__budget_inline_cost_edit_target: "input",
+          action: "click->costs--budget-inline-cost-edit#edit"
+        },
+        aria: {
+          describedby: cost_currency_id
+        }
+      )
+    )
+  %>
+<% end %>
