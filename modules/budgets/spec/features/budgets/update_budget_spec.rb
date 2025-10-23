@@ -58,7 +58,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       budget_page.add_unit_costs! 3, comment: "Stimpak", expected_costs: "150.00 EUR"
       budget_page.add_labor_costs! 5, user_name: user.name, comment: "treatment", expected_costs: "125.00 EUR"
 
-      click_on "Submit"
+      click_on "Save"
       expect(budget_page).to have_content("Successful update")
 
       expect(page).to have_css("tbody td.currency", text: "150.00 EUR")
@@ -119,7 +119,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       budget_page.expect_planned_costs! type: :material, row: 1, expected: "250.00 EUR"
       budget_page.expect_planned_costs! type: :labor, row: 1, expected: "75.00 EUR"
 
-      click_on "Submit"
+      click_on "Save"
       expect(budget_page).to have_content("Successful update")
 
       expect(page).to have_css("tbody td.currency", text: "250.00 EUR")
@@ -325,7 +325,7 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       page.find("#budget_existing_labor_budget_item_attributes_#{labor_budget_item.id}")
         .click_on accessible_name: "Delete"
 
-      click_on "Submit"
+      click_on "Save"
 
       expect(budget_page.labor_costs_at(1)).to have_no_content "125.00 EUR"
     end

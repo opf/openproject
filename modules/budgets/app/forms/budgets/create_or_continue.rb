@@ -27,40 +27,46 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
-require "rails_helper"
 
-RSpec.describe Budgets::ActualLaborBudgetItemsComponent, type: :component do
-  let(:project) do
-    create(
-      :project,
-      enabled_module_names: %i[costs work_package_tracking budgets],
-      members: {
-        user => member_role
+module Budgets
+  class CreateOrContinue < ApplicationForm
+    extend Dry::Initializer
+
+    option :create_options, default: -> { {} }
+    option :continue_options, default: -> { {} }
+
+    form do |buttons|
+      buttons.group(layout: :horizontal) do |button_group|
+        button_group.submit(**create_options)
+        button_group.submit(**continue_options)
+      end
+    end
+
+    def initialize(...)
+      super
+
+      @create_options.with_defaults!(default_create_options)
+      @continue_options.with_defaults!(default_continue_options)
+    end
+
+    private
+
+    def default_create_options
+      {
+        name: :create,
+        scheme: :secondary,
+        label: I18n.t("button_create"),
+        data: { test_selector: "budgets-create-button" }
       }
-    )
-  end
+    end
 
-  let(:member_role) { create(:project_role, name: "Member", permissions: [:view_time_entries]) }
-  let(:budget) { create :budget, project: }
-  let(:work_package) { create :work_package, project:, budget:, author: user }
-  let(:user) { create :user }
-
-  subject do
-    described_class.new budget:, project:
-  end
-
-  before do
-    login_as user
-  end
-
-  describe "with time entries" do
-    let!(:time_entry) { create :time_entry, entity: work_package, user: }
-
-    it "renders the link to the time entry's user's avatar" do
-      rendered = render_inline(subject)
-
-      expect(rendered).to have_css("opce-principal[data-title='\"#{user.name}\"']")
+    def default_continue_options
+      {
+        name: :continue,
+        scheme: :primary,
+        label: I18n.t("button_create_and_continue"),
+        data: { test_selector: "budgets-continue-button" }
+      }
     end
   end
 end

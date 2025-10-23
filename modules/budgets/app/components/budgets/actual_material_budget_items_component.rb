@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-class Budgets::ActualMaterialBudgetItemsComponent < ApplicationComponent # rubocop:disable OpenProject/AddPreviewForViewComponent
+class Budgets::ActualMaterialBudgetItemsComponent < ApplicationComponent
   options :budget, :project
 
   def by_work_package_and_cost_entry
