@@ -34,6 +34,7 @@ export default class BudgetInlineCostEditController extends Controller {
   static targets = [
     'editButton',
     'cancelButton',
+    'display',
     'input'
   ];
 
@@ -43,6 +44,7 @@ export default class BudgetInlineCostEditController extends Controller {
 
   declare readonly editButtonTarget:HTMLButtonElement;
   declare readonly cancelButtonTarget:HTMLButtonElement;
+  declare readonly displayTarget:HTMLElement;
   declare readonly inputTarget:HTMLInputElement;
 
   declare isEditingValue:boolean;
@@ -55,9 +57,16 @@ export default class BudgetInlineCostEditController extends Controller {
     this.isEditingValue = false;
   }
 
+  update(_evt:Event) {
+    this.displayTarget.textContent = this.inputTarget.value;
+  }
+
   isEditingValueChanged(value:boolean, _previousValue:boolean) {
     this.editButtonTarget.hidden = value;
+    this.displayTarget.hidden = value;
+
     this.cancelButtonTarget.hidden = !value;
+    this.inputTarget.hidden = !value;
     this.inputTarget.readOnly = !value;
 
     if (value) {
@@ -65,5 +74,9 @@ export default class BudgetInlineCostEditController extends Controller {
     } else {
       this.inputTarget.blur();
     }
+  }
+
+  get inputFormControl() {
+    return this.inputTarget.closest<HTMLElement>('.FormControl')!;
   }
 }

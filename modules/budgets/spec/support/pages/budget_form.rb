@@ -63,14 +63,7 @@ module Pages
         fill_in("#{prefix}_units", with: units, **options) if units.present?
         fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs
-          expected_value, expected_currency = expected_costs.split
-
-          expect(page).to have_field "#{prefix}_amount",
-                                     readonly: true,
-                                     described_by: expected_currency,
-                                     with: expected_value
-        end
+        expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
       end
     end
 
@@ -113,14 +106,7 @@ module Pages
         select user_name, from: "#{prefix}_user_id" if user_name.present?
         fill_in("#{prefix}_comments", with: comment, **options) if comment.present?
 
-        if expected_costs
-          expected_value, expected_currency = expected_costs.split
-
-          expect(page).to have_field "#{prefix}_amount",
-                                     readonly: true,
-                                     described_by: expected_currency,
-                                     with: expected_value
-        end
+        expect(page).to have_css("##{prefix}_costs", text: expected_costs) if expected_costs.present?
       end
     end
 
@@ -143,9 +129,8 @@ module Pages
 
       within(:region, Budget.human_attribute_name(:"#{type}_budget")) do
         container = find("tbody tr:nth-of-type(#{row}) td.currency")
-        expected_value, expected_currency = expected.split
-        expect(container).to have_field(with: expected_value, described_by: expected_currency),
-                             "Expected planned costs to be #{expected_value.inspect}, was #{container.text.inspect}"
+
+        expect(container).to have_text(expected, normalize_ws: true) # "Expected planned costs to be #{expected.inspect}, was #{container.text.inspect}"
       end
     end
 

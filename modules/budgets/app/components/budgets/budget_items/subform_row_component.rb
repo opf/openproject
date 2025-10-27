@@ -33,6 +33,8 @@ module Budgets
     class SubformRowComponent < ::RowComponent
       include Costs::NumberHelper
 
+      COLUMN_CSS_CLASSES = { cost: "currency" }.freeze
+
       with_collection_parameter :row
 
       alias :budget_item :model
@@ -58,6 +60,10 @@ module Budgets
 
       def row_css_class
         "cost_entry"
+      end
+
+      def column_css_classes
+        COLUMN_CSS_CLASSES
       end
 
       def new_or_existing = budget_item.new_record? ? "new" : "existing"

@@ -3,6 +3,68 @@
   <%= render(Primer::Beta::IconButton.new(**@cancel_button_arguments)) %>
   <%=
     render(
+      Primer::BaseComponent.new(
+        tag: :div,
+        classes: "FormControl width-full FormControl--fullWidth rounded-left-0",
+        control_id:,
+      )
+    ) do
+      concat(
+        render(
+          Primer::BaseComponent.new(
+            tag: :div,
+            classes: "FormControl-input-wrap FormControl-input-wrap--trailingVisual FormControl-input-width--auto"
+          )
+        ) do
+          concat(
+            render(
+              Primer::BaseComponent.new(
+                tag: :input,
+                name: input_name,
+                id: input_id,
+                classes: "FormControl-inset FormControl-input FormControl-medium rounded-left-0",
+                value: unitless_currency_number(cost_value),
+                hidden: true,
+                inputmode: "decimal",
+                data: {
+                  costs__budget_inline_cost_edit_target: "input",
+                  action: "costs--budget-inline-cost-edit#update keydown.enter->costs--budget-inline-cost-edit#cancel"
+                },
+                aria: {
+                  describedby: cost_currency_id
+                }
+              )
+            )
+          )
+
+          concat(
+            render(
+              Primer::BaseComponent.new(
+                tag: :div,
+                classes: "FormControl-inset FormControl-input FormControl-medium rounded-left-0",
+                tabindex: 0,
+                data: {
+                  costs__budget_inline_cost_edit_target: "display",
+                  action: "click->costs--budget-inline-cost-edit#edit keydown->costs--budget-inline-cost-edit#edit"
+                }
+              )
+            ) do
+              unitless_currency_number(cost_value)
+            end
+          )
+
+          concat(
+            render(Primer::BaseComponent.new(tag: :div, classes: "FormControl-input-trailingVisualWrap")) do
+              render(Primer::Beta::Text.new(id: cost_currency_id, classes: "FormControl-input-trailingVisualText")) { cost_currency }
+            end
+          )
+        end
+      )
+    end
+  %>
+
+  <%#
+    render(
       Primer::Alpha::TextField.new(
         name: input_name,
         id: input_id,

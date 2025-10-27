@@ -34,6 +34,8 @@ module Budgets
       extend Dry::Initializer
       include Costs::NumberHelper
 
+      option :control_id
+
       option :input_name
       option :input_id
 

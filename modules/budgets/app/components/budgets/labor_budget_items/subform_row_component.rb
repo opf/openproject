@@ -78,6 +78,7 @@ module Budgets
         cost_value = budget_item.amount || budget_item.calculated_costs(budget.fixed_date, budget.project_id)
         render(
           BudgetItems::InlineCostEditComponent.new(
+            control_id: "#{id_prefix}_costs",
             input_name: "#{name_prefix}[amount]",
             input_id: "#{id_prefix}_amount",
             cost_value:
