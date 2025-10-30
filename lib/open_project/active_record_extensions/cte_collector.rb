@@ -32,7 +32,26 @@ module OpenProject
   module ActiveRecordExtensions
     class CteCollector < ActiveRecord::Relation
       def initialize(on:)
+        @cte_collector_scope = on
         super(on)
+      end
+
+      def arel(aliases = nil)
+        fetch_ctes_from_ast
+        ret = @cte_collector_scope.arel(aliases)
+
+        composed_cte = Arel::Nodes::As.new(Arel::Table.new("cte_aggregation_spec"),
+                                           Arel::Nodes::Grouping.new(Arel::Nodes::SqlLiteral.new(OpenProject::ActiveRecordExtensions::Cte::Aggregation.registered[:cte_aggregation_spec])))
+
+        ret.with(composed_cte)
+
+        ret
+      end
+
+      private
+
+      def fetch_ctes_from_ast
+        where_clause.ast
       end
     end
   end
