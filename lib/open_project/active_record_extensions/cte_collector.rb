@@ -31,27 +31,50 @@
 module OpenProject
   module ActiveRecordExtensions
     class CteCollector < ActiveRecord::Relation
+      attr_accessor :cte_collector_scope
+
       def initialize(on:)
-        @cte_collector_scope = on
+        self.cte_collector_scope = on
         super(on)
       end
 
       def arel(aliases = nil)
-        fetch_ctes_from_ast
+        provided_ctes = fetch_ctes_from_node(cte_collector_scope.arel.ast)
+
         ret = @cte_collector_scope.arel(aliases)
 
-        composed_cte = Arel::Nodes::As.new(Arel::Table.new("cte_aggregation_spec"),
-                                           Arel::Nodes::Grouping.new(Arel::Nodes::SqlLiteral.new(OpenProject::ActiveRecordExtensions::Cte::Aggregation.registered[:cte_aggregation_spec])))
+        provided_ctes.each do |provided_cte|
+          composed_cte = Arel::Nodes::As.new(Arel::Table.new(provided_cte),
+                                             Arel::Nodes::Grouping.new(Arel::Nodes::SqlLiteral.new(OpenProject::ActiveRecordExtensions::Cte::Aggregation.registered[provided_cte.to_sym])))
 
-        ret.with(composed_cte)
+          ret.with(composed_cte)
+        end
 
         ret
       end
 
       private
 
-      def fetch_ctes_from_ast
-        where_clause.ast
+      def fetch_ctes_from_node(node) # rubocop:disable Metrics/AbcSize
+        provided_ctes = []
+
+        if node.is_a?(Arel::Nodes::SelectStatement)
+          provided_ctes << node.instance_variable_get(:@provided_cte)
+        end
+
+        %i[wheres cores].each do |method|
+          next unless node.respond_to?(method)
+
+          node.public_send(method).each do |node|
+            provided_ctes << fetch_ctes_from_node(node)
+          end
+        end
+
+        %i[right left].each do |method|
+          provided_ctes << fetch_ctes_from_node(node.public_send(method)) if node.respond_to?(method)
+        end
+
+        provided_ctes.flatten.compact.uniq
       end
     end
   end
