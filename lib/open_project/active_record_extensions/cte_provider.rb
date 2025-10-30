@@ -32,7 +32,20 @@ module OpenProject
   module ActiveRecordExtensions
     class CteProvider < ActiveRecord::Relation
       def initialize(with:, on:)
+        @provided_cte = with
         super(on)
+      end
+
+      def build_arel(connection, aliases = nil)
+        ret = super
+
+        ret.ast.instance_variable_set(:@provided_cte, @provided_cte)
+
+        ret
+      end
+
+      def provided_cte
+        @provided_cte
       end
     end
   end
