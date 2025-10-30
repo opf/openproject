@@ -58,8 +58,8 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
     # WHERE work_packages.id IN (SELECT id FROM cte_aggregation_spec)
 
     provider = OpenProject::ActiveRecordExtensions::CteProvider.new(with: :cte_aggregation_spec,
-                                                                    on: WorkPackage)
-    scope = WorkPackage.where(id: provider.select(:id))
+                                                                    on: WorkPackage.select(:id))
+    scope = WorkPackage.where(id: provider)
 
     collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(on: scope)
 
