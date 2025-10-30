@@ -31,13 +31,17 @@
 module OpenProject
   module ActiveRecordExtensions
     class CteProvider < ActiveRecord::Relation
-      def initialize(with:, on:)
+      def initialize(on:, with:)
         @provided_cte = with
-        super(on)
+        # TODO: attempt to remove dependency from an AR model
+        # Since build_arel is overwritten anyway and will just
+        # provide the stored SQL, the initialize needs to know the
+        # columns from that overwritten statement.
+        super(on, table: with)
       end
 
-      def build_arel(connection, aliases = nil)
-        ret = super
+      def build_arel(_connection, _aliases = nil)
+        ret = Arel::Table.new(@provided_cte).project(:id)
 
         ret.ast.instance_variable_set(:@provided_cte, @provided_cte)
 

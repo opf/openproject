@@ -57,9 +57,34 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
     # FROM work_packages
     # WHERE work_packages.id IN (SELECT id FROM cte_aggregation_spec)
 
-    provider = OpenProject::ActiveRecordExtensions::CteProvider.new(with: :cte_aggregation_spec,
-                                                                    on: WorkPackage.select(:id))
+    provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+                                                                    with: "cte_aggregation_spec")
     scope = WorkPackage.where(id: provider)
+
+    collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(on: scope)
+
+    expect(collected_scope)
+      .to contain_exactly(work_package_in_cte)
+  end
+
+  it "returns the value from the CTE even if deeply nested" do
+    # Desired SQL
+    #
+    # WITH cte_aggregation_spec AS (
+    #   SELECT :id id
+    # )
+    #
+    # SELECT *
+    # FROM work_packages
+    # WHERE work_packages.id IN (
+    #   SELECT id
+    #   FROM work_packages
+    #   WHERE work_packges.id IN (SELECT id FROM cte_aggregation_spec)
+    # )
+
+    provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+                                                                    with: "cte_aggregation_spec")
+    scope = WorkPackage.where(id: WorkPackage.where(id: provider))
 
     collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(on: scope)
 
