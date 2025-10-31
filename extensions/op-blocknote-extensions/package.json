@@ -1,14 +1,20 @@
 {
   "name": "op-blocknote-extensions",
   "private": true,
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "module": "dist/op-blocknote-extensions.es.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/op-blocknote-extensions.es.js",
+      "require": "./dist/op-blocknote-extensions.cjs.js"
+   }
+  },
   "files": [
     "dist"
   ],
-  "style": "dist/op-blocknote-extensions.css",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -34,18 +40,17 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.4.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "typescript": "~5.9.2",
     "typescript-eslint": "^8.46.2",
     "vite": "^7.1.12",
     "vitest": "^4.0.5"
   },
-  "peerDependencies": {
-    "@blocknote/core": "^0.41",
-    "@blocknote/react": "^0.41",
-    "react": "^19.x",
-    "react-dom": "^19.x"
-  },
   "dependencies": {
+    "@blocknote/core": "^0.41.1",
+    "@blocknote/mantine": "^0.41.1",
+    "@blocknote/react": "^0.41.1",
     "styled-components": "^6.1.19"
   }
 }
