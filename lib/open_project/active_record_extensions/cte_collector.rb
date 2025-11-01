@@ -58,8 +58,8 @@ module OpenProject
       def fetch_ctes_from_node(node) # rubocop:disable Metrics/AbcSize
         provided_ctes = []
 
-        if node.is_a?(Arel::Nodes::SelectStatement)
-          provided_ctes << node.instance_variable_get(:@provided_cte)
+        if node.is_a?(OpenProject::ActiveRecordExtensions::ProviderStatement)
+          provided_ctes << node.collect_provided_cte!
         end
 
         %i[wheres cores].each do |method|

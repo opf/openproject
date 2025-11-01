@@ -41,11 +41,7 @@ module OpenProject
       end
 
       def build_arel(_connection, _aliases = nil)
-        ret = Arel::Table.new(@provided_cte).project(:id)
-
-        ret.ast.instance_variable_set(:@provided_cte, @provided_cte)
-
-        ret
+        OpenProject::ActiveRecordExtensions::ProviderManager.new(@provided_cte)
       end
 
       def provided_cte
