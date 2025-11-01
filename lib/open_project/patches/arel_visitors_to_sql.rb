@@ -28,25 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 
-module OpenProject
-  module ActiveRecordExtensions
-    class CteProvider < ActiveRecord::Relation
-      def initialize(on:, with:)
-        @provided_cte = with
-        # TODO: attempt to remove dependency from an AR model
-        # Since build_arel is overwritten anyway and will just
-        # provide the stored SQL, the initialize needs to know the
-        # columns from that overwritten statement.
-        super(on, table: with)
-      end
+# Necessary extension of Arel::Visitors::ToSql to support the CTE provider/collector
+# pattern for moving CTEs from somewhere within the subquery to the topmost
+# statement for increased performance.
+module OpenProject::Patches::ArelVisitorsToSql
+  def visit_OpenProject_ActiveRecordExtensions_ProviderStatement(node, collector) # rubocop:disable Naming/MethodName
+    # Since there might not always be a provider to collect the CTE from within
+    # the arel ast, fall back to inlining the registered sql.
+    collector << if node.provided_cte_collected?
+                   "SELECT * from #{nod.provided_cte}"
+                 else
+                   OpenProject::ActiveRecordExtensions::Cte::Aggregation.registered[node.provided_cte]
+                 end
 
-      def build_arel(_connection, _aliases = nil)
-        OpenProject::ActiveRecordExtensions::ProviderManager.new(@provided_cte)
-      end
-
-      def provided_cte
-        @provided_cte
-      end
-    end
+    collector
   end
 end
+
+Arel::Visitors::ToSql.prepend(OpenProject::Patches::ArelVisitorsToSql)
