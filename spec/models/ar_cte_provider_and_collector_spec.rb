@@ -46,49 +46,70 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
     OpenProject::ActiveRecordExtensions::Cte::Aggregation.deregister :cte_aggregation_spec
   end
 
-  it "returns the value from the CTE" do
-    # Desired SQL
-    #
-    # WITH cte_aggregation_spec AS (
-    #   SELECT :id id
-    # )
-    #
-    # SELECT *
-    # FROM work_packages
-    # WHERE work_packages.id IN (SELECT id FROM cte_aggregation_spec)
+  context "for subselects" do
+    it "returns the value from the CTE" do
+      # Desired SQL
+      #
+      # WITH cte_aggregation_spec AS (
+      #   SELECT :id id
+      # )
+      #
+      # SELECT *
+      # FROM work_packages
+      # WHERE work_packages.id IN (SELECT id FROM cte_aggregation_spec)
 
-    provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
-                                                                    with: "cte_aggregation_spec")
-    scope = WorkPackage.where(id: provider)
+      provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+                                                                      with: "cte_aggregation_spec")
+      scope = WorkPackage.where(id: provider)
 
-    collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(on: scope)
+      collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(on: scope)
 
-    expect(collected_scope)
-      .to contain_exactly(work_package_in_cte)
-  end
+      expect(collected_scope)
+        .to contain_exactly(work_package_in_cte)
+    end
 
-  it "returns the value from the CTE even if deeply nested" do
-    # Desired SQL
-    #
-    # WITH cte_aggregation_spec AS (
-    #   SELECT :id id
-    # )
-    #
-    # SELECT *
-    # FROM work_packages
-    # WHERE work_packages.id IN (
-    #   SELECT id
-    #   FROM work_packages
-    #   WHERE work_packges.id IN (SELECT id FROM cte_aggregation_spec)
-    # )
+    it "returns the value from the CTE even if deeply nested" do
+      # Desired SQL
+      #
+      # WITH cte_aggregation_spec AS (
+      #   SELECT :id id
+      # )
+      #
+      # SELECT *
+      # FROM work_packages
+      # WHERE work_packages.id IN (
+      #   SELECT id
+      #   FROM work_packages
+      #   WHERE work_packges.id IN (SELECT id FROM cte_aggregation_spec)
+      # )
 
-    provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
-                                                                    with: "cte_aggregation_spec")
-    scope = WorkPackage.where(id: WorkPackage.where(id: provider))
+      provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+                                                                      with: "cte_aggregation_spec")
+      scope = WorkPackage.where(id: WorkPackage.where(id: provider))
 
-    collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(on: scope)
+      collected_scope = OpenProject::ActiveRecordExtensions::CteCollector.new(on: scope)
 
-    expect(collected_scope)
-      .to contain_exactly(work_package_in_cte)
+      expect(collected_scope)
+        .to contain_exactly(work_package_in_cte)
+    end
+
+    it "works transparently without a collector" do
+      # Desired SQL
+      #
+      # SELECT *
+      # FROM work_packages
+      # WHERE work_packages.id IN (
+      #   SELECT id
+      #   FROM work_packages
+      #   WHERE work_packges.id IN (SELECT :id id)
+      # )
+
+      provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+                                                                      with: "cte_aggregation_spec")
+      scope = WorkPackage.where(id: WorkPackage.where(id: provider))
+
+      expect(scope)
+        .to contain_exactly(work_package_in_cte)
+    end
   end
 end
