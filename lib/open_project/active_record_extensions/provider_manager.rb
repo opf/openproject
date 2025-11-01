@@ -30,22 +30,15 @@
 
 module OpenProject
   module ActiveRecordExtensions
-    class CteProvider < ActiveRecord::Relation
-      def initialize(on:, with:)
-        @provided_cte = with
-        # TODO: attempt to remove dependency from an AR model
-        # Since build_arel is overwritten anyway and will just
-        # provide the stored SQL, the initialize needs to know the
-        # columns from that overwritten statement.
-        super(on, table: with)
-      end
+    class ProviderManager < Arel::SelectManager
+      attr_accessor :provided_cte
 
-      def build_arel(_connection, _aliases = nil)
-        OpenProject::ActiveRecordExtensions::ProviderManager.new(@provided_cte)
-      end
-
-      def provided_cte
-        @provided_cte
+      # TODO: is the ProviderStatement still necesary?
+      # Probably is since arel seems to shed the ProviderManager
+      # upon joining/subselect of this.
+      def initialize(cte_name) # rubocop:disable Lint/MissingSuper
+        @ast = OpenProject::ActiveRecordExtensions::ProviderStatement.new(cte_name)
+        @ctx = @ast.cores.last
       end
     end
   end

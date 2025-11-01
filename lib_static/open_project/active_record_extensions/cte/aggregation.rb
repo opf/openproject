@@ -43,7 +43,7 @@ module OpenProject
         end
 
         def registered
-          @registered ||= {}
+          @registered ||= {}.with_indifferent_access
         end
       end
     end
