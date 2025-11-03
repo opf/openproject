@@ -31,8 +31,11 @@
 module OpenProject
   module ActiveRecordExtensions
     class CteProvider < ActiveRecord::Relation
-      def initialize(on:, with:)
-        @provided_cte = with
+      attr_accessor :provided_cte, :provided_cte_params
+
+      def initialize(on:, with:, params: {})
+        with
+
         # TODO: attempt to remove dependency from an AR model
         # Since build_arel is overwritten anyway and will just
         # provide the stored SQL, the initialize needs to know the
