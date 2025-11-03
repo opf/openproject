@@ -37,9 +37,11 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
 
   before do
     OpenProject::ActiveRecordExtensions::Cte::Aggregation.register :cte_aggregation_spec,
-                                                                   <<~SQL.squish
-                                                                     SELECT #{work_package_in_cte.id} id
-                                                                   SQL
+                                                                   ->(id) {
+                                                                     <<~SQL.squish
+                                                                       SELECT #{id} id
+                                                                     SQL
+                                                                   }
   end
 
   after do
@@ -59,6 +61,7 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
       # WHERE work_packages.id IN (SELECT id FROM cte_aggregation_spec)
 
       provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+                                                                      params: { id: work_package_in_cte.id },
                                                                       with: "cte_aggregation_spec")
       scope = WorkPackage.where(id: provider)
 
@@ -84,6 +87,7 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
       # )
 
       provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+                                                                      params: { id: work_package_in_cte.id },
                                                                       with: "cte_aggregation_spec")
       scope = WorkPackage.where(id: WorkPackage.where(id: provider))
 
@@ -105,6 +109,7 @@ RSpec.describe "ActiveRecord CTE provider and collector" do # rubocop:disable RS
       # )
 
       provider = OpenProject::ActiveRecordExtensions::CteProvider.new(on: WorkPackage,
+                                                                      params: { id: work_package_in_cte.id },
                                                                       with: "cte_aggregation_spec")
       scope = WorkPackage.where(id: WorkPackage.where(id: provider))
 
