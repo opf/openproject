@@ -1,4 +1,5 @@
-import { BlockNoteEditor, insertOrUpdateBlock, type BlockConfig, type InlineContentSchema, type StyleSchema } from "@blocknote/core";
+import type { DefaultBlockSchema } from "@blocknote/core";
+import { BlockNoteEditor, createBlockConfig, createBlockSpec, insertOrUpdateBlock } from "@blocknote/core";
 import { createReactBlockSpec } from "@blocknote/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useWorkPackage } from "../hooks/useWorkPackage";
@@ -82,12 +83,10 @@ const Link = styled.a`
 `;
 
 interface BlockProps {
+  id: string,
   props: {
     wpid: string;
     subject: string;
-    status: string;
-    assignee: string;
-    type: string;
     href: string;
   };
 }
@@ -97,7 +96,7 @@ const OpenProjectWorkPackageBlockComponent = ({
   editor,
 }: {
   block: BlockProps;
-  editor: any;
+  editor: BlockNoteEditor<DefaultBlockSchema & { openProjectWorkPackage: ReturnType<typeof openprojectWorkPackageBlockConfig> }>;
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -160,9 +159,6 @@ const OpenProjectWorkPackageBlockComponent = ({
         ...block.props,
         wpid: workPackage.id,
         subject: workPackage.subject,
-        status: workPackage._links?.status?.title || "",
-        assignee: workPackage._links?.assignee?.title || "",
-        type: workPackage._links?.type?.title || "",
         href: workPackage._links?.self?.href || "",
       },
     });
@@ -289,33 +285,48 @@ const OpenProjectWorkPackageBlockComponent = ({
   );
 };
 
-export default OpenProjectWorkPackageBlockComponent;
-
-export const openProjectWorkPackageBlockSpec = createReactBlockSpec({
+export const openprojectWorkPackageBlockConfig = createBlockConfig(
+  () => ({
     type: "openProjectWorkPackage",
     propSchema: {
-      wpid: { default: "", type: "string" },
-      subject: { default: "", type: "string" },
-      status: { default: "", type: "string" },
-      assignee: { default: "", type: "string" },
-      type: { default: "", type: "string" },
-      href: { default: "", type: "string" },
+      wpid: { default: "" },
+      subject: { default: "" },
+      href: { default: "" },
     },
     content: "inline",
-  },
+  }) as const
+);
+
+export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
+  openprojectWorkPackageBlockConfig,
+  { render: (props) => <OpenProjectWorkPackageBlockComponent block={props.block} editor={props.editor as any} /> }
+);
+
+export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
+  openprojectWorkPackageBlockConfig,
   {
-    render: (props) => {
-      return <OpenProjectWorkPackageBlockComponent block={props.block} editor={props.editor} />;
-    },
+    render: (block) => {
+      const wpid = block.props.wpid || "unknown";
+      const subject = block.props.subject || "Work Package";
+      const href = block.props.href || "#";
+      
+      const anchor = document.createElement("a");
+      anchor.href = href;
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer";
+      anchor.textContent = `#${wpid} - ${subject}`;
+
+      return {
+        dom: anchor,
+        contentDOM: anchor,
+      };
+    }
   }
 );
 
-export const openProjectWorkPackageSlashMenu = (editor: BlockNoteEditor<Record<string, BlockConfig>, InlineContentSchema, StyleSchema>) => ({
+export const openProjectWorkPackageSlashMenu = (editor: any) => ({
   title: "Open Project Work Package",
-  onItemClick: () =>
-    insertOrUpdateBlock(editor, {
-      type: "openProjectWorkPackage",
-    }),
+  onItemClick: () => insertOrUpdateBlock(editor, { type: "openProjectWorkPackage" }),
   aliases: ["openproject", "workpackage", "op", "wp"],
   group: "OpenProject",
   icon: <span>📦</span>,

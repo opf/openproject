@@ -29,17 +29,17 @@ First thing is to initialize the library configuration...
   initOpenProjectApi({ baseUrl: "https://my.openproject.url" });
 ```
 
-... then setup a blocknote schema with additional blocks offered by this library...
+... then setup a blocknote schema extending it with blocks offered by this library...
 
 ```jsx
-  const schema = BlockNoteSchema.create({
+  const schema = BlockNoteSchema.create().extend({
     blockSpecs: {
-      ...defaultBlockSpecs,
-      ...defaultOpenProjectBlockSpecs,
+      "openProjectWorkPackage": openProjectWorkPackageBlockSpec(),
     },
   });
+  type EditorType = typeof schema.BlockNoteEditor;
+
   const editor = useCreateBlockNote({ schema });
-  type EditorType = typeof editor;
 ```
 
 ... same for slash menus ...
@@ -48,7 +48,7 @@ First thing is to initialize the library configuration...
   const getCustomSlashMenuItems = (editor: EditorType) => {
     return [
       ...getDefaultReactSlashMenuItems(editor),
-      ...getDefaultOpenProjectSlashMenuItems(editor),
+      openProjectWorkPackageSlashMenu(editor),
     ];
   };
 ```

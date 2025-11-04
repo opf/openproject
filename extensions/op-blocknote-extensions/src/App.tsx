@@ -1,8 +1,4 @@
-import {
-    BlockNoteSchema,
-    defaultBlockSpecs,
-    filterSuggestionItems,
-} from "@blocknote/core";
+import { BlockNoteSchema, filterSuggestionItems } from "@blocknote/core";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";
@@ -11,30 +7,28 @@ import {
     SuggestionMenuController,
     useCreateBlockNote,
 } from "@blocknote/react";
-
 import {
-    defaultOpenProjectBlockSpecs,
-    getDefaultOpenProjectSlashMenuItems,
-    initOpenProjectApi
+    initOpenProjectApi,
+    openProjectWorkPackageBlockSpec,
+    openProjectWorkPackageSlashMenu
 } from "../lib";
 
-const schema = BlockNoteSchema.create({
+const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
-    ...defaultBlockSpecs,
-    ...defaultOpenProjectBlockSpecs,
+    "openProjectWorkPackage": openProjectWorkPackageBlockSpec(),
   },
 });
+type EditorType = typeof schema.BlockNoteEditor;
 
 export default function App() {
   const editor = useCreateBlockNote({ schema });
-  type EditorType = typeof editor;
 
   initOpenProjectApi({ baseUrl: "http://localhost:3000" });
 
   const getCustomSlashMenuItems = (editor: EditorType) => {
     return [
       ...getDefaultReactSlashMenuItems(editor),
-      ...getDefaultOpenProjectSlashMenuItems(editor),
+      openProjectWorkPackageSlashMenu(editor),
     ];
   };
 

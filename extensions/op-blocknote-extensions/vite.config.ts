@@ -11,7 +11,7 @@ export default defineConfig({
     lib: {
       entry: path.resolve(__dirname, "lib/index.ts"),
       name: "OpBlocknoteExtensions",
-      formats: ["es"],
+      formats: ["es", "cjs"],
       fileName: (format) => `op-blocknote-extensions.${format}.js`,
     },
     rollupOptions: {
