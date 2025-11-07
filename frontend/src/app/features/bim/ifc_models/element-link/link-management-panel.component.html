@@ -1,0 +1,305 @@
+<div class="op-link-management-panel">
+  <!-- Header -->
+  <div class="panel-header">
+    <h3 class="panel-title">BIM Element Links</h3>
+    <button class="close-button" (click)="$event.stopPropagation()">×</button>
+  </div>
+
+  <!-- Loading Overlay -->
+  <div *ngIf="isLoading" class="loading-overlay">
+    <div class="spinner"></div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="panel-tabs">
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'links'"
+      (click)="activeTab = 'links'">
+      Links ({{ links.length }})
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'templates'"
+      (click)="activeTab = 'templates'">
+      Templates ({{ templates.length }})
+    </button>
+    <button
+      class="tab-button"
+      [class.active]="activeTab === 'statistics'"
+      (click)="activeTab = 'statistics'">
+      Statistics
+    </button>
+  </div>
+
+  <!-- Links Tab -->
+  <div *ngIf="activeTab === 'links'" class="tab-content">
+    <!-- Selection Mode Controls -->
+    <div *ngIf="!isSelectionMode" class="action-bar">
+      <div class="relationship-selector">
+        <label>Relationship:</label>
+        <select [(ngModel)]="selectedRelationshipType" class="form-select">
+          <option *ngFor="let type of relationshipTypes" [value]="type.value">
+            {{ type.label }}
+          </option>
+        </select>
+      </div>
+      <button class="btn btn-primary" (click)="enterSelectionMode()">
+        <span class="icon">+</span>
+        Add Links
+      </button>
+    </div>
+
+    <!-- Selection Mode Active -->
+    <div *ngIf="isSelectionMode" class="selection-mode-bar">
+      <div class="selection-info">
+        <span class="icon">👆</span>
+        <span>Click elements in the 3D viewer to select them</span>
+        <span class="badge">{{ selectedElementIds.length }} selected</span>
+      </div>
+      <div class="selection-actions">
+        <button
+          class="btn btn-success"
+          [disabled]="selectedElementIds.length === 0"
+          (click)="createLinksFromSelection()">
+          Create Links ({{ selectedElementIds.length }})
+        </button>
+        <button class="btn btn-secondary" (click)="exitSelectionMode()">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filter-bar">
+      <input
+        type="text"
+        class="search-input"
+        placeholder="Search element ID..."
+        [(ngModel)]="searchQuery" />
+
+      <select [(ngModel)]="filterStatus" class="filter-select">
+        <option value="all">All Status</option>
+        <option value="active">Active</option>
+        <option value="completed">Completed</option>
+        <option value="archived">Archived</option>
+      </select>
+
+      <select [(ngModel)]="filterRelationshipType" class="filter-select">
+        <option value="all">All Types</option>
+        <option *ngFor="let type of relationshipTypes" [value]="type.value">
+          {{ type.label }}
+        </option>
+      </select>
+    </div>
+
+    <!-- Bulk Actions -->
+    <div class="bulk-actions">
+      <button class="btn-small" (click)="visualizeLinks()">
+        Visualize All
+      </button>
+      <button class="btn-small" (click)="clearVisualization()">
+        Clear
+      </button>
+      <button class="btn-small" (click)="bulkCompleteLinks()">
+        Complete All Active
+      </button>
+      <button class="btn-small" (click)="refreshProperties()">
+        Refresh Properties
+      </button>
+    </div>
+
+    <!-- Links List -->
+    <div class="links-list">
+      <div
+        *ngFor="let link of filteredLinks; trackBy: trackByLinkId"
+        class="link-item"
+        [class.active]="link.status === 'active'"
+        [class.completed]="link.status === 'completed'"
+        [class.archived]="link.status === 'archived'">
+
+        <div class="link-header">
+          <span
+            class="relationship-badge"
+            [style.background-color]="getRelationshipColor(link.relationship_type)">
+            {{ getRelationshipLabel(link.relationship_type) }}
+          </span>
+          <span class="status-badge status-{{ link.status }}">
+            {{ link.status }}
+          </span>
+        </div>
+
+        <div class="link-body">
+          <div class="element-id">
+            <strong>Element:</strong> {{ link.element_id }}
+          </div>
+          <div class="element-info" *ngIf="link.element_properties">
+            <span *ngIf="link.element_properties.type">
+              Type: {{ link.element_properties.type }}
+            </span>
+            <span *ngIf="link.element_properties.name">
+              Name: {{ link.element_properties.name }}
+            </span>
+          </div>
+        </div>
+
+        <div class="link-actions">
+          <button
+            class="action-btn"
+            title="Visualize"
+            (click)="visualizeLinks(link.relationship_type)">
+            👁️
+          </button>
+
+          <select
+            class="status-select"
+            [value]="link.status"
+            (change)="updateLinkStatus(link.id, $event.target.value)">
+            <option value="active">Active</option>
+            <option value="completed">Completed</option>
+            <option value="archived">Archived</option>
+          </select>
+
+          <button
+            class="action-btn delete"
+            title="Delete"
+            (click)="deleteLink(link.id)">
+            🗑️
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="filteredLinks.length === 0" class="empty-state">
+        <p *ngIf="links.length === 0">No links created yet</p>
+        <p *ngIf="links.length > 0 && filteredLinks.length === 0">
+          No links match the current filters
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Templates Tab -->
+  <div *ngIf="activeTab === 'templates'" class="tab-content">
+    <div class="templates-list">
+      <div
+        *ngFor="let template of templates; trackBy: trackByTemplateId"
+        class="template-item">
+
+        <div class="template-header">
+          <h4 class="template-name">{{ template.name }}</h4>
+          <span
+            class="relationship-badge"
+            [style.background-color]="getRelationshipColor(template.relationship_type)">
+            {{ getRelationshipLabel(template.relationship_type) }}
+          </span>
+        </div>
+
+        <p class="template-description" *ngIf="template.description">
+          {{ template.description }}
+        </p>
+
+        <div class="template-filters" *ngIf="template.element_filters">
+          <div *ngIf="template.element_filters.types?.length" class="filter-item">
+            <strong>Types:</strong> {{ template.element_filters.types.join(', ') }}
+          </div>
+          <div *ngIf="template.element_filters.locations" class="filter-item">
+            <strong>Locations:</strong>
+            <span *ngFor="let key of objectKeys(template.element_filters.locations)">
+              {{ key }}: {{ template.element_filters.locations[key].join(', ') }}
+            </span>
+          </div>
+          <div *ngIf="template.element_filters.tags?.length" class="filter-item">
+            <strong>Tags:</strong> {{ template.element_filters.tags.join(', ') }}
+          </div>
+        </div>
+
+        <div class="template-actions">
+          <button
+            class="btn btn-secondary btn-small"
+            (click)="applyTemplate(template, true)">
+            Preview
+          </button>
+          <button
+            class="btn btn-primary btn-small"
+            (click)="applyTemplate(template, false)">
+            Apply Template
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="templates.length === 0" class="empty-state">
+        <p>No templates available</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Statistics Tab -->
+  <div *ngIf="activeTab === 'statistics'" class="tab-content">
+    <div class="statistics-content">
+      <div class="stat-card">
+        <h4>Total Links</h4>
+        <div class="stat-value">{{ statistics.total }}</div>
+      </div>
+
+      <div class="stat-card">
+        <h4>By Relationship Type</h4>
+        <div class="stat-list">
+          <div
+            *ngFor="let type of objectKeys(statistics.by_relationship)"
+            class="stat-item">
+            <span
+              class="stat-color"
+              [style.background-color]="getRelationshipColor(type)"></span>
+            <span class="stat-label">{{ getRelationshipLabel(type) }}</span>
+            <span class="stat-count">{{ statistics.by_relationship[type] }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <h4>By Status</h4>
+        <div class="stat-list">
+          <div
+            *ngFor="let status of objectKeys(statistics.by_status)"
+            class="stat-item">
+            <span class="stat-label status-{{ status }}">{{ status }}</span>
+            <span class="stat-count">{{ statistics.by_status[status] }}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="stat-card">
+        <h4>By Element Type</h4>
+        <div class="stat-list">
+          <div
+            *ngFor="let type of objectKeys(statistics.by_type)"
+            class="stat-item">
+            <span class="stat-label">{{ type }}</span>
+            <span class="stat-count">{{ statistics.by_type[type] }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Visualization Controls -->
+      <div class="stat-card">
+        <h4>Visualization</h4>
+        <div class="visualization-controls">
+          <button
+            *ngFor="let type of relationshipTypes"
+            class="viz-button"
+            [style.border-color]="type.color"
+            (click)="visualizeLinks(type.value)">
+            <span class="viz-color" [style.background-color]="type.color"></span>
+            {{ type.label }}
+          </button>
+          <button class="viz-button all" (click)="visualizeLinks()">
+            Show All
+          </button>
+          <button class="viz-button clear" (click)="clearVisualization()">
+            Clear All
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
