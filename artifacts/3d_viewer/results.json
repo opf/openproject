@@ -1,0 +1,26 @@
+{
+  "slice": "3d_viewer",
+  "mode": "deliberation",
+  "status": "complete",
+  "dependencies": {
+    "upstream": ["ifc_upload"],
+    "downstream": ["clash_detection", "model_comparison"]
+  },
+  "design_summary": "Advanced 3D viewer with section cuts (6-plane box, custom planes), comprehensive measurements (distance, area, volume, angle), enhanced navigation (walk/fly modes), rendering quality (shadows, AO, PBR), annotations, and performance optimizations.",
+  "estimated_loc": {
+    "typescript": 2200,
+    "ruby": 300,
+    "total": 2500
+  },
+  "technologies": {
+    "new": ["Custom xeokit plugins for measurements and sections"],
+    "existing": ["@xeokit/xeokit-bim-viewer 2.7.1"]
+  },
+  "database_tables": ["bim_saved_views", "bim_section_configs", "bim_measurements", "bim_annotations"],
+  "api_endpoints": 12,
+  "test_coverage_target": "85%",
+  "estimated_duration_weeks": 4,
+  "risk_level": "medium",
+  "readiness": "blocked_by_ifc_upload",
+  "next_action": "Wait for Slice 1 (IFC Upload) completion, then validate xeokit capabilities"
+}
