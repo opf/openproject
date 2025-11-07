@@ -28,20 +28,87 @@ module Bim
       end
 
       def processing
-        content_tag(:span) do
-          content = content_tag(:span,
-                                I18n.t("ifc_models.conversion_status.#{model.conversion_status}"),
-                                class: "ifc-models--conversion-status")
+        content_tag(:div, class: "ifc-models--processing-container", id: "ifc-model-#{model.id}-status") do
+          content = content_tag(:div, class: "ifc-models--status-row") do
+            status_content = content_tag(:span,
+                                         I18n.t("ifc_models.conversion_status.#{model.conversion_status}"),
+                                         class: "ifc-models--conversion-status")
 
-          if model.conversion_error_message
-            content << ": ".html_safe
-            content << content_tag(:span,
-                                   model.conversion_error_message,
-                                   class: "ifc-models--conversion-status-error",
-                                   title: model.conversion_error_message)
+            if model.conversion_status == "processing" && model.conversion_progress.present?
+              status_content << content_tag(:span, " (#{progress_percentage}%)", class: "ifc-models--progress-percentage")
+              if model.conversion_stage.present?
+                status_content << content_tag(:span, " - #{stage_name}", class: "ifc-models--stage-name")
+              end
+            end
+
+            if model.conversion_error_message
+              status_content << ": ".html_safe
+              status_content << content_tag(:span,
+                                           model.conversion_error_message,
+                                           class: "ifc-models--conversion-status-error",
+                                           title: model.conversion_error_message)
+            end
+
+            status_content
           end
+
+          # Add progress bar for processing status
+          if model.conversion_status == "processing"
+            content << content_tag(:div, class: "ifc-models--progress-bar-container") do
+              content_tag(:div,
+                         "",
+                         class: "ifc-models--progress-bar",
+                         style: "width: #{progress_percentage}%;")
+            end
+          end
+
+          # Add warnings section if present
+          if has_warnings?
+            content << content_tag(:div, class: "ifc-models--warnings") do
+              warning_content = content_tag(:span, "#{warnings.count} warnings", class: "ifc-models--warning-count")
+              warning_content << content_tag(:ul, class: "ifc-models--warning-list") do
+                warnings.map do |warning|
+                  content_tag(:li, warning["message"], class: "ifc-models--warning-item")
+                end.join.html_safe
+              end
+            end
+          end
+
           content
         end
+      end
+
+      def progress_percentage
+        model.conversion_progress.to_i
+      end
+
+      def stage_name
+        return "" unless model.conversion_stage.present?
+
+        case model.conversion_stage
+        when "validation"
+          "Validation"
+        when "ifc_to_dae"
+          "IFC to DAE"
+        when "dae_to_gltf"
+          "DAE to glTF"
+        when "gltf_to_xkt"
+          "glTF to XKT"
+        when "enhanced_metadata"
+          "Metadata extraction"
+        else
+          model.conversion_stage.humanize
+        end
+      end
+
+      def warnings
+        return [] unless model.conversion_logs.present?
+
+        model.conversion_logs.select { |log| log["level"] == "warning" }
+      end
+
+      def has_warnings?
+        warnings.any?
       end
 
       def still_processing?
