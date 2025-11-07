@@ -53,18 +53,6 @@ Rails.application.routes.draw do
             get :statistics
           end
         end
-
-        # Clashes
-        resources :clashes, controller: "clashes", only: %i[index show create update destroy] do
-          collection do
-            post :detect
-            get :statistics
-          end
-          member do
-            post :approve
-            post :resolve
-          end
-        end
       end
     end
   end
