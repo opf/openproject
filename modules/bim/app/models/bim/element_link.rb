@@ -32,8 +32,6 @@ module Bim
   class ElementLink < ApplicationRecord
     self.table_name = 'bim_element_links'
 
-    include Bim::Concerns::Workflowable
-
     # Relationship types define why an element is linked to a work package
     enum relationship_type: {
       affected_by: 0,       # Element is affected by this work package/issue
@@ -53,7 +51,6 @@ module Bim
     belongs_to :work_package, class_name: 'WorkPackage'
     belongs_to :ifc_model, class_name: 'Bim::IfcModels::IfcModel'
     belongs_to :user, optional: true
-    belongs_to :template, class_name: 'Bim::LinkTemplate', optional: true
 
     validates :element_id, presence: true, length: { maximum: 50 }
     validates :element_id, uniqueness: { scope: :work_package_id }
