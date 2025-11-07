@@ -12,6 +12,7 @@ import {
     openProjectWorkPackageBlockSpec,
     openProjectWorkPackageSlashMenu
 } from "../lib";
+import "./fetchOverride";
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
