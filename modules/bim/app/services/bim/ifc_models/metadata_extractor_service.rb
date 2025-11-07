@@ -53,14 +53,14 @@ module Bim
         ifc_metadata.update!(
           ifc_version: detect_ifc_version,
           entity_count: count_entities,
-          geometry_count: metadata['geometry_count'] || 0,
+          geometry_count: metadata['geometry_index']&.size || 0,
           spatial_structure: metadata['spatial_structure'] || {},
           property_sets: metadata['property_sets'] || {},
           quantities: metadata['quantities'] || {},
           classifications: metadata['classifications'] || {},
           materials: metadata['materials'] || {},
-          types: metadata['types'] || {},
-          validation_result: metadata['validation_result'] || {},
+          element_index: metadata['element_index'] || {},
+          geometry_index: metadata['geometry_index'] || {},
           file_checksum: calculate_checksum
         )
 
@@ -77,8 +77,7 @@ module Bim
         metadata = @ifc_model.ifc_model_metadata
         return {} unless metadata
 
-        # Search for element in spatial structure
-        find_element_in_tree(metadata.spatial_structure, element_id) || {}
+        metadata.find_element(element_id) || {}
       end
 
       private
@@ -126,23 +125,6 @@ module Bim
       def calculate_checksum
         Digest::SHA256.file(@ifc_file_path).hexdigest
       rescue StandardError
-        nil
-      end
-
-      def find_element_in_tree(node, element_id)
-        return nil unless node.is_a?(Hash)
-
-        # Check if this node matches the element_id
-        return node if node['id'] == element_id || node['guid'] == element_id
-
-        # Recursively search children
-        if node['children'].is_a?(Array)
-          node['children'].each do |child|
-            result = find_element_in_tree(child, element_id)
-            return result if result
-          end
-        end
-
         nil
       end
 
