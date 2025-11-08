@@ -4,13 +4,6 @@ module Bim
   class AuditLog < ApplicationRecord
     self.table_name = 'bim_audit_logs'
 
-    # Configuration constants
-    DEFAULT_ACTIVITY_PERIOD = 30.days
-    DEFAULT_TOP_USERS_LIMIT = 10
-    DEFAULT_RETENTION_PERIOD = 2.years
-    CSV_HEADERS = ['ID', 'Timestamp', 'User', 'Project', 'Action', 'IP Address', 'Details'].freeze
-    SECURITY_SENSITIVE_ACTIONS = %i[permission_changed api_key_created api_key_revoked export_data].freeze
-
     belongs_to :user, optional: true # Optional because user might be deleted
     belongs_to :project
 
@@ -57,7 +50,7 @@ module Bim
     end
 
     # Get activity summary for a project
-    def self.activity_summary(project_id, since: DEFAULT_ACTIVITY_PERIOD.ago)
+    def self.activity_summary(project_id, since: 30.days.ago)
       for_project(project_id)
         .since(since)
         .group(:action_type)
@@ -65,7 +58,7 @@ module Bim
     end
 
     # Get top users by activity
-    def self.top_users(project_id, limit: DEFAULT_TOP_USERS_LIMIT, since: DEFAULT_ACTIVITY_PERIOD.ago)
+    def self.top_users(project_id, limit: 10, since: 30.days.ago)
       for_project(project_id)
         .since(since)
         .where.not(user_id: nil)
@@ -81,7 +74,7 @@ module Bim
       require 'csv'
 
       CSV.generate do |csv|
-        csv << CSV_HEADERS
+        csv << ['ID', 'Timestamp', 'User', 'Project', 'Action', 'IP Address', 'Details']
 
         logs.each do |log|
           csv << [
@@ -98,7 +91,7 @@ module Bim
     end
 
     # Cleanup old audit logs (call from scheduled job)
-    def self.cleanup_old_logs(older_than: DEFAULT_RETENTION_PERIOD.ago)
+    def self.cleanup_old_logs(older_than: 2.years.ago)
       where('created_at < ?', older_than).delete_all
     end
 
@@ -141,7 +134,7 @@ module Bim
 
     # Check if action is security-sensitive
     def security_sensitive?
-      SECURITY_SENSITIVE_ACTIONS.include?(action_type.to_sym)
+      %i[permission_changed api_key_created api_key_revoked export_data].include?(action_type.to_sym)
     end
 
     # Export single log entry

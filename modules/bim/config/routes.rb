@@ -214,14 +214,6 @@ Rails.application.routes.draw do
             post :revoke
           end
         end
-
-        # Performance & Cache Management
-        namespace :performance do
-          get 'cache_stats', action: :cache_stats
-          post 'cache_cleanup', action: :cache_cleanup
-          get 'conversion_metrics', action: :conversion_metrics
-          get 'model/:id/logs', action: :conversion_logs, as: 'conversion_logs'
-        end
       end
     end
   end
