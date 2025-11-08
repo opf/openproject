@@ -1,0 +1,92 @@
+.comment-reactions
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  margin-top: 0.5rem
+
+  .reactions-list
+    display: flex
+    flex-wrap: wrap
+    gap: 0.375rem
+
+  .reaction-button
+    display: flex
+    align-items: center
+    gap: 0.25rem
+    padding: 0.25rem 0.5rem
+    border: 1px solid var(--borderColor-default)
+    border-radius: 12px
+    background: var(--bgColor-default)
+    cursor: pointer
+    transition: all 0.15s ease
+    font-size: 0.875rem
+
+    &:hover
+      background: var(--bgColor-muted)
+      border-color: var(--borderColor-emphasis)
+
+    &.reaction-active
+      background: var(--accent-color-muted)
+      border-color: var(--accent-color)
+
+    .reaction-emoji
+      font-size: 1rem
+      line-height: 1
+
+    .reaction-count
+      font-weight: 500
+      color: var(--fgColor-default)
+
+  .reaction-picker-container
+    position: relative
+
+  .reaction-add-button
+    display: flex
+    align-items: center
+    gap: 0.25rem
+    padding: 0.25rem 0.5rem
+    border: 1px dashed var(--borderColor-default)
+    border-radius: 12px
+    background: transparent
+    cursor: pointer
+    font-size: 0.875rem
+    color: var(--fgColor-muted)
+    transition: all 0.15s ease
+
+    &:hover
+      border-color: var(--borderColor-emphasis)
+      color: var(--fgColor-default)
+      background: var(--bgColor-muted)
+
+    .reaction-add-text
+      font-size: 0.75rem
+
+  .reaction-picker
+    position: absolute
+    top: 100%
+    left: 0
+    margin-top: 0.5rem
+    padding: 0.5rem
+    background: var(--body-background)
+    border: 1px solid var(--borderColor-default)
+    border-radius: 8px
+    box-shadow: var(--shadow-dropdown)
+    display: flex
+    gap: 0.25rem
+    z-index: 100
+
+  .reaction-picker-button
+    width: 32px
+    height: 32px
+    display: flex
+    align-items: center
+    justify-content: center
+    border: none
+    border-radius: 4px
+    background: transparent
+    font-size: 1.25rem
+    cursor: pointer
+    transition: background 0.15s ease
+
+    &:hover
+      background: var(--bgColor-muted)

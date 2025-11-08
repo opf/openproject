@@ -1,0 +1,55 @@
+.presence-indicator
+  display: flex
+  align-items: center
+  gap: 0.5rem
+  padding: 0.5rem 0.75rem
+  background: var(--body-background)
+  border-radius: 4px
+  font-size: 0.875rem
+
+  .presence-loading,
+  .presence-error
+    display: flex
+    align-items: center
+    color: var(--content-text-color)
+
+  .presence-error
+    color: var(--content-form-danger-zone-bg-color)
+
+  .presence-content
+    display: flex
+    align-items: center
+    gap: 0.75rem
+
+  .presence-avatars
+    display: flex
+    align-items: center
+
+  .user-avatar
+    display: flex
+    align-items: center
+    justify-content: center
+    width: 32px
+    height: 32px
+    border-radius: 50%
+    border: 2px solid var(--body-background)
+    font-weight: 600
+    font-size: 0.75rem
+    color: #fff
+    cursor: help
+    transition: transform 0.2s ease
+
+    &:hover
+      transform: scale(1.1)
+      z-index: 10
+
+    &.user-avatar-stacked
+      margin-left: -12px
+
+  .avatar-initials
+    text-transform: uppercase
+
+  .presence-count
+    color: var(--content-text-color)
+    white-space: nowrap
+    font-weight: 500

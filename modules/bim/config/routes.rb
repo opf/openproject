@@ -207,29 +207,6 @@ Rails.application.routes.draw do
             delete 'presence', to: 'viewer_presence#destroy'
           end
         end
-
-        # Security & Authentication: API tokens
-        resources :api_tokens, controller: "api_tokens", only: %i[index show create update destroy] do
-          member do
-            post :revoke
-          end
-        end
-      end
-    end
-  end
-
-  # Security & Authentication: Project-scoped audit logs
-  namespace :api do
-    namespace :v3 do
-      resources :projects, only: [] do
-        namespace :bim do
-          resources :audit_logs, controller: "bim/audit_logs", only: [:index] do
-            collection do
-              get :export
-              get :report
-            end
-          end
-        end
       end
     end
   end

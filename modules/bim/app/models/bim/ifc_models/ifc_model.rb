@@ -22,6 +22,9 @@ module Bim
       belongs_to :project
       belongs_to :uploader, class_name: "User"
 
+      # Collaboration associations
+      has_many :viewer_presences, class_name: 'Bim::ViewerPresence', dependent: :destroy
+
       validates :title, presence: true
       validates :project, presence: true
 

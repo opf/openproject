@@ -1,0 +1,39 @@
+<div class="comment-reactions">
+  <!-- Existing Reactions -->
+  <div *ngIf="!loading && reactions.length > 0" class="reactions-list">
+    <button
+      *ngFor="let reaction of reactions"
+      type="button"
+      class="reaction-button"
+      [class.reaction-active]="hasUserReacted(reaction)"
+      [title]="getUserNames(reaction)"
+      (click)="toggleReaction(reaction.emoji)">
+      <span class="reaction-emoji">{{ reaction.emoji }}</span>
+      <span class="reaction-count">{{ reaction.count }}</span>
+    </button>
+  </div>
+
+  <!-- Add Reaction Button -->
+  <div class="reaction-picker-container">
+    <button
+      type="button"
+      class="reaction-add-button"
+      (click)="togglePicker()"
+      title="Add reaction">
+      <op-icon icon-classes="icon-add"></op-icon>
+      <span class="reaction-add-text">React</span>
+    </button>
+
+    <!-- Reaction Picker -->
+    <div *ngIf="showPicker" class="reaction-picker">
+      <button
+        *ngFor="let emoji of allowedReactions"
+        type="button"
+        class="reaction-picker-button"
+        [title]="emoji"
+        (click)="toggleReaction(emoji)">
+        {{ emoji }}
+      </button>
+    </div>
+  </div>
+</div>
