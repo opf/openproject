@@ -112,15 +112,6 @@ Rails.application.routes.draw do
 
         # Metrics Aggregation
         resources :metrics, controller: "metrics", only: %i[index]
-
-        # IFC Models API
-        resources :ifc_models, controller: "ifc_models", only: %i[index show create update destroy] do
-          member do
-            get :conversion_logs
-            get :metadata
-            post :refresh_metadata
-          end
-        end
       end
     end
   end
