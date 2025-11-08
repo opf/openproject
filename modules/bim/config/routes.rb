@@ -65,14 +65,6 @@ Rails.application.routes.draw do
             post :resolve
           end
         end
-
-        # Model Comparisons
-        resources :comparisons, controller: "comparisons", only: %i[index show create update destroy] do
-          member do
-            post :approve
-            post :reject
-          end
-        end
       end
     end
   end
