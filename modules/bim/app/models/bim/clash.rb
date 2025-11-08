@@ -14,8 +14,6 @@ module Bim
   class Clash < ApplicationRecord
     self.table_name = 'bim_clashes'
 
-    include Bim::Concerns::Workflowable
-
     # Clash types define the nature of the geometric conflict
     enum clash_type: {
       hard: 0,        # Physical intersection/overlap
@@ -85,7 +83,6 @@ module Bim
     }
     scope :in_detection_run, ->(run_id) { where(detection_run_id: run_id) }
     scope :unresolved, -> { where.not(status: [:resolved, :closed]) }
-    scope :active_clashes, -> { where(status: [:new, :active]) }
     scope :needing_attention, -> { where(status: [:new, :active]) }
     scope :by_severity_order, -> { order(severity: :asc, detected_at: :desc) }
     scope :recent, ->(days = 7) { where('detected_at > ?', days.days.ago) }

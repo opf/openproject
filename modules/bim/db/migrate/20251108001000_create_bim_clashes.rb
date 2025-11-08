@@ -65,7 +65,6 @@ class CreateBimClashes < ActiveRecord::Migration[8.0]
       t.datetime :resolved_at
       t.text :resolution_comment
       t.integer :resolution_type # redesign, accepted, relocated, etc.
-      t.datetime :closed_at
 
       # Additional metadata
       t.text :description
