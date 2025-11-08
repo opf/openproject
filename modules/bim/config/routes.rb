@@ -73,24 +73,6 @@ Rails.application.routes.draw do
             post :reject
           end
         end
-
-        # Progress Baselines
-        resources :baselines, controller: "baselines", only: %i[index show create update destroy] do
-          member do
-            post :snapshot
-            post :set_current
-            get :compare
-          end
-        end
-
-        # Element Progress Tracking
-        resources :progress, controller: "progress", only: %i[index show create update destroy] do
-          collection do
-            post :bulk_update
-            post :sync_work_packages
-            get :statistics
-          end
-        end
       end
     end
   end
