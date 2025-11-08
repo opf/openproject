@@ -91,27 +91,6 @@ Rails.application.routes.draw do
             get :statistics
           end
         end
-
-        # BIM Dashboards & Reporting
-        resources :dashboards, controller: "dashboards", only: %i[index show create update destroy] do
-          member do
-            post :clone
-            post :refresh
-          end
-          collection do
-            get :default
-          end
-        end
-
-        # Dashboard Widgets
-        resources :widgets, controller: "dashboard_widgets", only: %i[show create update destroy] do
-          member do
-            post :refresh
-          end
-        end
-
-        # Metrics Aggregation
-        resources :metrics, controller: "metrics", only: %i[index]
       end
     end
   end
