@@ -1,0 +1,267 @@
+<div class="op-property-inspector">
+  <!-- No Element Selected State -->
+  @if (!elementGuid) {
+    <div class="op-property-inspector--empty">
+      <p>{{text.no_element_selected}}</p>
+    </div>
+  }
+
+  <!-- Loading State -->
+  @if (elementGuid && loading) {
+    <div class="op-property-inspector--loading">
+      <span class="loading-indicator"></span>
+      <span>{{text.loading}}</span>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error) {
+    <div class="op-property-inspector--error">
+      <p>{{error}}</p>
+    </div>
+  }
+
+  <!-- Properties Loaded -->
+  @if (properties && !loading) {
+    <!-- Tabs -->
+    <div class="op-property-inspector--tabs">
+      <button
+        class="op-property-inspector--tab"
+        [class.active]="activeTab === 'properties'"
+        (click)="switchTab('properties')">
+        {{text.tab_properties}}
+      </button>
+      <button
+        class="op-property-inspector--tab"
+        [class.active]="activeTab === 'history'"
+        (click)="switchTab('history')">
+        {{text.tab_history}}
+      </button>
+      <button
+        class="op-property-inspector--tab"
+        [class.active]="activeTab === 'related'"
+        (click)="switchTab('related')">
+        {{text.tab_related}}
+      </button>
+    </div>
+
+    <div class="op-property-inspector--content">
+      <!-- Properties Tab -->
+      @if (activeTab === 'properties') {
+        <!-- Basic Properties -->
+        <section class="op-property-inspector--section">
+          <header (click)="toggleSection('basic')" class="op-property-inspector--section-header">
+            <svg [class]="isSectionExpanded('basic') ? 'icon-arrow-down' : 'icon-arrow-right'" size="small"></svg>
+            <h3>{{text.section_basic}}</h3>
+          </header>
+          @if (isSectionExpanded('basic')) {
+            <div class="op-property-inspector--properties">
+              @for (entry of getPropertyEntries(properties.basic); track trackByIndex($index)) {
+                <div class="op-property-inspector--property">
+                  <span class="op-property-inspector--property-name">{{entry[0]}}</span>
+                  <span class="op-property-inspector--property-value">{{formatValue(entry[1])}}</span>
+                  <button class="op-property-inspector--copy-btn" (click)="copyToClipboard(entry[1])" title="{{text.copy}}">
+                    <svg op-copy-icon size="small"></svg>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </section>
+
+        <!-- Geometry Properties -->
+        <section class="op-property-inspector--section">
+          <header (click)="toggleSection('geometry')" class="op-property-inspector--section-header">
+            <svg [class]="isSectionExpanded('geometry') ? 'icon-arrow-down' : 'icon-arrow-right'" size="small"></svg>
+            <h3>{{text.section_geometry}}</h3>
+          </header>
+          @if (isSectionExpanded('geometry')) {
+            <div class="op-property-inspector--properties">
+              @for (entry of getPropertyEntries(properties.geometry); track trackByIndex($index)) {
+                <div class="op-property-inspector--property">
+                  <span class="op-property-inspector--property-name">{{entry[0]}}</span>
+                  <span class="op-property-inspector--property-value">{{formatValue(entry[1])}}</span>
+                  <button class="op-property-inspector--copy-btn" (click)="copyToClipboard(entry[1])" title="{{text.copy}}">
+                    <svg op-copy-icon size="small"></svg>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </section>
+
+        <!-- Materials Properties -->
+        <section class="op-property-inspector--section">
+          <header (click)="toggleSection('materials')" class="op-property-inspector--section-header">
+            <svg [class]="isSectionExpanded('materials') ? 'icon-arrow-down' : 'icon-arrow-right'" size="small"></svg>
+            <h3>{{text.section_materials}}</h3>
+          </header>
+          @if (isSectionExpanded('materials')) {
+            <div class="op-property-inspector--properties">
+              @for (entry of getPropertyEntries(properties.materials); track trackByIndex($index)) {
+                <div class="op-property-inspector--property">
+                  <span class="op-property-inspector--property-name">{{entry[0]}}</span>
+                  <span class="op-property-inspector--property-value">{{formatValue(entry[1])}}</span>
+                  <button class="op-property-inspector--copy-btn" (click)="copyToClipboard(entry[1])" title="{{text.copy}}">
+                    <svg op-copy-icon size="small"></svg>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </section>
+
+        <!-- Status Properties -->
+        <section class="op-property-inspector--section">
+          <header (click)="toggleSection('status')" class="op-property-inspector--section-header">
+            <svg [class]="isSectionExpanded('status') ? 'icon-arrow-down' : 'icon-arrow-right'" size="small"></svg>
+            <h3>{{text.section_status}}</h3>
+          </header>
+          @if (isSectionExpanded('status')) {
+            <div class="op-property-inspector--properties">
+              @for (entry of getPropertyEntries(properties.status); track trackByIndex($index)) {
+                <div class="op-property-inspector--property">
+                  <span class="op-property-inspector--property-name">{{entry[0]}}</span>
+                  <span class="op-property-inspector--property-value">{{formatValue(entry[1])}}</span>
+                  <button class="op-property-inspector--copy-btn" (click)="copyToClipboard(entry[1])" title="{{text.copy}}">
+                    <svg op-copy-icon size="small"></svg>
+                  </button>
+                </div>
+              }
+            </div>
+          }
+        </section>
+
+        <!-- Custom Properties (Editable) -->
+        <section class="op-property-inspector--section">
+          <header (click)="toggleSection('custom')" class="op-property-inspector--section-header">
+            <svg [class]="isSectionExpanded('custom') ? 'icon-arrow-down' : 'icon-arrow-right'" size="small"></svg>
+            <h3>{{text.section_custom}}</h3>
+          </header>
+          @if (isSectionExpanded('custom')) {
+            <div class="op-property-inspector--properties">
+              @for (entry of getPropertyEntries(properties.custom); track trackByIndex($index)) {
+                <div class="op-property-inspector--property" [class.editing]="editingProperty === entry[0]">
+                  <span class="op-property-inspector--property-name">{{entry[0]}}</span>
+
+                  @if (editingProperty === entry[0]) {
+                    <input
+                      type="text"
+                      class="op-property-inspector--property-input"
+                      [(ngModel)]="editValue"
+                      (keydown.enter)="saveEdit(entry[0])"
+                      (keydown.escape)="cancelEdit()"
+                    />
+                    <button class="op-property-inspector--save-btn" (click)="saveEdit(entry[0])" [disabled]="saving">
+                      {{text.save}}
+                    </button>
+                    <button class="op-property-inspector--cancel-btn" (click)="cancelEdit()">
+                      {{text.cancel}}
+                    </button>
+                  } @else {
+                    <span class="op-property-inspector--property-value">{{formatValue(entry[1])}}</span>
+                    @if (canEdit) {
+                      <button class="op-property-inspector--edit-btn" (click)="startEdit(entry[0], entry[1])" title="{{text.edit}}">
+                        <svg op-edit-icon size="small"></svg>
+                      </button>
+                    }
+                    <button class="op-property-inspector--copy-btn" (click)="copyToClipboard(entry[1])" title="{{text.copy}}">
+                      <svg op-copy-icon size="small"></svg>
+                    </button>
+                  }
+                </div>
+              }
+            </div>
+          }
+        </section>
+      }
+
+      <!-- History Tab -->
+      @if (activeTab === 'history') {
+        @if (history.length === 0) {
+          <div class="op-property-inspector--empty">
+            <p>{{text.no_history}}</p>
+          </div>
+        } @else {
+          <div class="op-property-inspector--history">
+            @for (entry of history; track trackByIndex($index)) {
+              <div class="op-property-inspector--history-entry">
+                <div class="op-property-inspector--history-icon" [class]="getHistoryActionIcon(entry.action)"></div>
+                <div class="op-property-inspector--history-content">
+                  <div class="op-property-inspector--history-header">
+                    <strong>{{entry.property_name}}</strong>
+                    <span class="badge">{{entry.action}}</span>
+                  </div>
+                  <div class="op-property-inspector--history-details">
+                    @if (entry.old_value) {
+                      <span>{{formatValue(entry.old_value)}}</span> →
+                    }
+                    <span>{{formatValue(entry.new_value)}}</span>
+                  </div>
+                  <div class="op-property-inspector--history-meta">
+                    {{entry.user}} • {{formatTimestamp(entry.timestamp)}}
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      }
+
+      <!-- Related Elements Tab -->
+      @if (activeTab === 'related') {
+        @if (!relatedElements) {
+          <div class="op-property-inspector--loading">
+            <span class="loading-indicator"></span>
+            <span>{{text.loading}}</span>
+          </div>
+        } @else {
+          <div class="op-property-inspector--related">
+            <!-- Parent Element -->
+            @if (relatedElements.parent) {
+              <section class="op-property-inspector--related-section">
+                <h4>{{text.parent_element}}</h4>
+                <div
+                  class="op-property-inspector--related-item"
+                  (click)="selectRelatedElement(relatedElements.parent.guid)"
+                  role="button"
+                  tabindex="0">
+                  <svg op-arrow-up-icon size="small"></svg>
+                  <span>{{relatedElements.parent.name}}</span>
+                  <span class="badge">{{relatedElements.parent.ifc_type}}</span>
+                </div>
+              </section>
+            }
+
+            <!-- Child Elements -->
+            @if (relatedElements.children.length > 0) {
+              <section class="op-property-inspector--related-section">
+                <h4>{{text.child_elements}} ({{relatedElements.children.length}})</h4>
+                @for (child of relatedElements.children; track child.guid) {
+                  <div
+                    class="op-property-inspector--related-item"
+                    (click)="selectRelatedElement(child.guid)"
+                    role="button"
+                    tabindex="0">
+                    <svg op-arrow-down-icon size="small"></svg>
+                    <span>{{child.name}}</span>
+                    <span class="badge">{{child.ifc_type}}</span>
+                    @if (child.count) {
+                      <span class="count-badge">{{child.count}}</span>
+                    }
+                  </div>
+                }
+              </section>
+            }
+
+            @if (!relatedElements.parent && relatedElements.children.length === 0) {
+              <div class="op-property-inspector--empty">
+                <p>{{text.no_related}}</p>
+              </div>
+            }
+          </div>
+        }
+      }
+    </div>
+  }
+</div>

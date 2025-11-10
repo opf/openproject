@@ -1,0 +1,366 @@
+// Model Tree Component Styles (V9.7 UX/UI Polish)
+
+.op-model-tree
+  display: flex
+  flex-direction: column
+  height: 100%
+  background: var(--main-menu-bg-color)
+  color: var(--main-menu-font-color)
+  overflow: hidden
+
+  // ==================== VIEW MODE SELECTOR ====================
+
+  &--view-mode-selector
+    display: flex
+    border-bottom: 1px solid var(--main-menu-border-color)
+    background: var(--main-menu-bg-hover-background)
+    padding: 4px
+
+    button
+      flex: 1
+      display: flex
+      align-items: center
+      justify-content: center
+      gap: 4px
+      padding: 6px 8px
+      border: none
+      background: transparent
+      color: var(--main-menu-font-color)
+      cursor: pointer
+      border-radius: 3px
+      font-size: 0.85rem
+      transition: background 0.2s, color 0.2s
+
+      &:hover
+        background: var(--main-menu-bg-selected-background)
+
+      &.active
+        background: var(--main-menu-bg-selected-background)
+        color: var(--main-menu-selected-font-color)
+        font-weight: var(--base-text-weight-bold)
+
+      svg
+        width: 14px
+        height: 14px
+
+  // ==================== SEARCH BAR ====================
+
+  &--search-bar
+    position: relative
+    padding: 8px
+    border-bottom: 1px solid var(--main-menu-border-color)
+
+  &--search-input
+    width: 100%
+    padding: 6px 30px 6px 10px
+    border: 1px solid var(--main-menu-border-color)
+    border-radius: 3px
+    background: var(--main-menu-bg-color)
+    color: var(--main-menu-font-color)
+    font-size: 0.9rem
+
+    &:focus
+      outline: none
+      border-color: var(--accent-color)
+      box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2)
+
+  &--search-clear
+    position: absolute
+    right: 12px
+    top: 50%
+    transform: translateY(-50%)
+    border: none
+    background: transparent
+    color: var(--main-menu-font-color)
+    cursor: pointer
+    padding: 4px
+
+    &:hover
+      color: var(--accent-color)
+
+    svg
+      width: 14px
+      height: 14px
+
+  // ==================== FILTERS ====================
+
+  &--filters
+    padding: 8px
+    border-bottom: 1px solid var(--main-menu-border-color)
+    max-height: 200px
+    overflow-y: auto
+
+  &--filter-group
+    margin-bottom: 8px
+
+    summary
+      cursor: pointer
+      padding: 4px 8px
+      background: var(--main-menu-bg-hover-background)
+      border-radius: 3px
+      font-size: 0.85rem
+      font-weight: var(--base-text-weight-bold)
+      list-style: none
+
+      &::-webkit-details-marker
+        display: none
+
+      &::before
+        content: '▶'
+        display: inline-block
+        margin-right: 4px
+        transition: transform 0.2s
+
+      &:hover
+        background: var(--main-menu-bg-selected-background)
+
+    &[open] summary::before
+      transform: rotate(90deg)
+
+  &--filter-options
+    padding: 4px 0 4px 20px
+    max-height: 150px
+    overflow-y: auto
+
+  &--filter-option
+    display: flex
+    align-items: center
+    gap: 6px
+    padding: 3px 0
+    cursor: pointer
+    font-size: 0.85rem
+
+    input[type="checkbox"]
+      cursor: pointer
+
+    span
+      cursor: pointer
+
+  &--clear-filters
+    padding: 4px 8px
+    border: 1px solid var(--main-menu-border-color)
+    border-radius: 3px
+    background: transparent
+    color: var(--main-menu-font-color)
+    cursor: pointer
+    font-size: 0.85rem
+    width: 100%
+
+    &:hover
+      background: var(--main-menu-bg-selected-background)
+
+  // ==================== LOADING / ERROR STATES ====================
+
+  &--loading,
+  &--error,
+  &--empty
+    padding: 20px
+    text-align: center
+    color: var(--main-menu-font-color)
+    font-size: 0.9rem
+
+  &--error
+    color: var(--content-form-danger-zone-bg-color)
+
+  .loading-indicator
+    display: inline-block
+    width: 20px
+    height: 20px
+    border: 3px solid var(--main-menu-border-color)
+    border-top-color: var(--accent-color)
+    border-radius: 50%
+    animation: spin 0.8s linear infinite
+
+    &--small
+      width: 14px
+      height: 14px
+      border-width: 2px
+
+  @keyframes spin
+    to
+      transform: rotate(360deg)
+
+  // ==================== SEARCH RESULTS ====================
+
+  &--search-results
+    flex: 1
+    overflow-y: auto
+    padding: 8px
+
+  &--search-results-header
+    padding: 8px
+    font-size: 0.85rem
+    border-bottom: 1px solid var(--main-menu-border-color)
+    margin-bottom: 8px
+
+  &--no-results
+    padding: 20px
+    text-align: center
+    color: var(--main-menu-font-color)
+    font-style: italic
+    font-size: 0.9rem
+
+  &--search-result
+    display: flex
+    align-items: center
+    gap: 8px
+    padding: 8px
+    border-radius: 3px
+    cursor: pointer
+    transition: background 0.2s
+
+    &:hover
+      background: var(--main-menu-bg-hover-background)
+
+    &-icon
+      flex-shrink: 0
+      width: 20px
+      height: 20px
+      display: flex
+      align-items: center
+      justify-content: center
+
+      svg
+        width: 16px
+        height: 16px
+
+    &-content
+      flex: 1
+      min-width: 0
+
+    &-name
+      font-size: 0.9rem
+      font-weight: var(--base-text-weight-bold)
+      overflow: hidden
+      text-overflow: ellipsis
+      white-space: nowrap
+
+    &-meta
+      display: flex
+      gap: 4px
+      margin-top: 2px
+      flex-wrap: wrap
+
+      .badge
+        font-size: 0.75rem
+        padding: 2px 6px
+        background: var(--main-menu-bg-selected-background)
+        border-radius: 3px
+        white-space: nowrap
+
+        &-discipline
+          background: var(--accent-color)
+          color: white
+
+  // ==================== TREE VIEW ====================
+
+  &--tree-container
+    flex: 1
+    overflow-y: auto
+    overflow-x: hidden
+    padding: 4px 0
+
+  &--node
+    display: flex
+    align-items: center
+    gap: 4px
+    padding: 4px 8px
+    cursor: pointer
+    transition: background 0.15s
+    border-radius: 3px
+    margin: 1px 4px
+
+    &:hover
+      background: var(--main-menu-bg-hover-background)
+
+    &.selected
+      background: var(--main-menu-bg-selected-background)
+      color: var(--main-menu-selected-font-color)
+      font-weight: var(--base-text-weight-bold)
+
+    &:focus
+      outline: 2px solid var(--accent-color)
+      outline-offset: -2px
+
+  &--expand-btn
+    flex-shrink: 0
+    width: 16px
+    height: 16px
+    padding: 0
+    border: none
+    background: transparent
+    color: inherit
+    cursor: pointer
+    display: flex
+    align-items: center
+    justify-content: center
+
+    svg
+      width: 12px
+      height: 12px
+
+    &:hover
+      color: var(--accent-color)
+
+  &--expand-placeholder
+    flex-shrink: 0
+    width: 16px
+    height: 16px
+
+  &--visibility-checkbox
+    flex-shrink: 0
+    cursor: pointer
+    margin: 0
+
+  &--node-icon
+    flex-shrink: 0
+    width: 18px
+    height: 18px
+    display: flex
+    align-items: center
+    justify-content: center
+    font-size: 14px
+
+  &--node-label
+    flex: 1
+    font-size: 0.9rem
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+  &--node-count
+    color: var(--main-menu-font-color)
+    opacity: 0.7
+    font-size: 0.8rem
+    font-weight: normal
+
+  &--children-badge
+    flex-shrink: 0
+    padding: 2px 6px
+    background: var(--main-menu-border-color)
+    border-radius: 10px
+    font-size: 0.75rem
+    font-weight: var(--base-text-weight-bold)
+
+// ==================== ACCESSIBILITY ====================
+
+// High contrast mode support
+@media (prefers-contrast: high)
+  .op-model-tree
+    &--node
+      border: 1px solid transparent
+
+      &.selected
+        border-color: var(--accent-color)
+
+// Reduced motion support
+@media (prefers-reduced-motion: reduce)
+  .op-model-tree
+    *
+      animation: none !important
+      transition: none !important
+
+// Focus visible (keyboard navigation)
+.op-model-tree--node:focus-visible
+  outline: 2px solid var(--accent-color)
+  outline-offset: 2px

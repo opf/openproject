@@ -1,0 +1,257 @@
+<div class="op-model-tree">
+  <!-- View Mode Selector -->
+  <div class="op-model-tree--view-mode-selector">
+    <button
+      class="op-model-tree--view-mode-btn"
+      [class.active]="viewMode === 'spatial'"
+      (click)="changeViewMode('spatial')"
+      [attr.aria-label]="text.view_mode_spatial"
+      title="{{text.view_mode_spatial}}">
+      <svg op-building-icon size="small"></svg>
+      <span>Spatial</span>
+    </button>
+    <button
+      class="op-model-tree--view-mode-btn"
+      [class.active]="viewMode === 'type'"
+      (click)="changeViewMode('type')"
+      [attr.aria-label]="text.view_mode_type"
+      title="{{text.view_mode_type}}">
+      <svg op-folder-icon size="small"></svg>
+      <span>Type</span>
+    </button>
+    <button
+      class="op-model-tree--view-mode-btn"
+      [class.active]="viewMode === 'discipline'"
+      (click)="changeViewMode('discipline')"
+      [attr.aria-label]="text.view_mode_discipline"
+      title="{{text.view_mode_discipline}}">
+      <svg op-group-icon size="small"></svg>
+      <span>Discipline</span>
+    </button>
+  </div>
+
+  <!-- Search Bar -->
+  @if (enableSearch) {
+    <div class="op-model-tree--search-bar">
+      <input
+        type="text"
+        class="op-model-tree--search-input"
+        [placeholder]="text.search_placeholder"
+        [value]="searchQuery"
+        (input)="onSearchInput($event)"
+        aria-label="Search model tree"
+      />
+      @if (searchQuery) {
+        <button
+          class="op-model-tree--search-clear"
+          (click)="clearSearch()"
+          aria-label="Clear search">
+          <svg op-close-icon size="small"></svg>
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Filters -->
+  @if (enableFilters && !searchActive) {
+    <div class="op-model-tree--filters">
+      <!-- Type Filter Dropdown -->
+      @if (availableTypes.length > 0) {
+        <details class="op-model-tree--filter-group">
+          <summary>{{text.filter_by_type}} ({{typeFilters.length}})</summary>
+          <div class="op-model-tree--filter-options">
+            @for (type of availableTypes; track type) {
+              <label class="op-model-tree--filter-option">
+                <input
+                  type="checkbox"
+                  [checked]="typeFilters.includes(type)"
+                  (change)="toggleTypeFilter(type)"
+                />
+                <span>{{type}}</span>
+              </label>
+            }
+          </div>
+        </details>
+      }
+
+      <!-- Level Filter Dropdown -->
+      @if (availableLevels.length > 0) {
+        <details class="op-model-tree--filter-group">
+          <summary>{{text.filter_by_level}} ({{levelFilters.length}})</summary>
+          <div class="op-model-tree--filter-options">
+            @for (level of availableLevels; track level) {
+              <label class="op-model-tree--filter-option">
+                <input
+                  type="checkbox"
+                  [checked]="levelFilters.includes(level)"
+                  (change)="toggleLevelFilter(level)"
+                />
+                <span>{{level}}</span>
+              </label>
+            }
+          </div>
+        </details>
+      }
+
+      <!-- Discipline Filter Dropdown -->
+      <details class="op-model-tree--filter-group">
+        <summary>{{text.filter_by_discipline}} ({{disciplineFilters.length}})</summary>
+        <div class="op-model-tree--filter-options">
+          @for (discipline of availableDisciplines; track discipline) {
+            <label class="op-model-tree--filter-option">
+              <input
+                type="checkbox"
+                [checked]="disciplineFilters.includes(discipline)"
+                (change)="toggleDisciplineFilter(discipline)"
+              />
+              <span>{{discipline}}</span>
+            </label>
+          }
+        </div>
+      </details>
+
+      <!-- Clear Filters -->
+      @if (typeFilters.length > 0 || levelFilters.length > 0 || disciplineFilters.length > 0) {
+        <button
+          class="op-model-tree--clear-filters"
+          (click)="clearFilters()">
+          {{text.clear_filters}}
+        </button>
+      }
+    </div>
+  }
+
+  <!-- Loading State -->
+  @if (loading) {
+    <div class="op-model-tree--loading">
+      <span class="loading-indicator"></span>
+      <span>{{text.loading}}</span>
+    </div>
+  }
+
+  <!-- Error State -->
+  @if (error) {
+    <div class="op-model-tree--error">
+      <p>{{error}}</p>
+    </div>
+  }
+
+  <!-- Search Results -->
+  @if (searchActive && searchResults) {
+    <div class="op-model-tree--search-results">
+      <div class="op-model-tree--search-results-header">
+        <strong>{{searchResults.total_results}} results</strong> for "{{searchQuery}}"
+      </div>
+      @if (searchResults.results.length === 0) {
+        <div class="op-model-tree--no-results">
+          {{text.no_results}}
+        </div>
+      }
+      @for (result of searchResults.results; track result.guid) {
+        <div
+          class="op-model-tree--search-result"
+          (click)="selectSearchResult(result)"
+          tabindex="0"
+          role="button"
+          [attr.aria-label]="result.name">
+          <span class="op-model-tree--search-result-icon">
+            <svg op-cube-icon size="small"></svg>
+          </span>
+          <div class="op-model-tree--search-result-content">
+            <div class="op-model-tree--search-result-name">{{result.name}}</div>
+            <div class="op-model-tree--search-result-meta">
+              <span class="badge">{{result.ifc_type}}</span>
+              @if (result.level) {
+                <span class="badge">{{result.level}}</span>
+              }
+              @if (result.discipline) {
+                <span class="badge badge-discipline">{{result.discipline}}</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+  }
+
+  <!-- Tree View -->
+  @if (!loading && !error && !searchActive) {
+    <div
+      class="op-model-tree--tree-container"
+      role="tree"
+      aria-label="Model hierarchy tree">
+      @if (flattenedNodes.length === 0) {
+        <div class="op-model-tree--empty">
+          {{text.no_results}}
+        </div>
+      }
+
+      @for (node of flattenedNodes; track trackByNodeId($index, node)) {
+        <div
+          class="op-model-tree--node"
+          [class.selected]="node.selected"
+          [class.has-children]="node.has_children"
+          [class.expanded]="node.expanded"
+          [style.padding-left.px]="node.level * 20 + 8"
+          (click)="selectNode(node)"
+          (keydown)="onKeyDown($event, node)"
+          tabindex="0"
+          role="treeitem"
+          [attr.aria-level]="node.level + 1"
+          [attr.aria-expanded]="node.has_children ? node.expanded : null"
+          [attr.aria-selected]="node.selected"
+          [attr.aria-label]="node.name">
+
+          <!-- Expand/Collapse Button -->
+          @if (node.has_children) {
+            <button
+              class="op-model-tree--expand-btn"
+              (click)="toggleExpand(node); $event.stopPropagation()"
+              [attr.aria-label]="node.expanded ? 'Collapse' : 'Expand'"
+              tabindex="-1">
+              @if (node.loading) {
+                <span class="loading-indicator loading-indicator--small"></span>
+              } @else if (node.expanded) {
+                <svg op-arrow-down-icon size="small"></svg>
+              } @else {
+                <svg op-arrow-right-icon size="small"></svg>
+              }
+            </button>
+          } @else {
+            <span class="op-model-tree--expand-placeholder"></span>
+          }
+
+          <!-- Visibility Checkbox -->
+          <input
+            type="checkbox"
+            class="op-model-tree--visibility-checkbox"
+            checked
+            (change)="toggleVisibility(node, $event)"
+            (click)="$event.stopPropagation()"
+            aria-label="Toggle visibility"
+            tabindex="-1"
+          />
+
+          <!-- Node Icon -->
+          <span class="op-model-tree--node-icon" [class]="getNodeIcon(node)">
+          </span>
+
+          <!-- Node Label -->
+          <span class="op-model-tree--node-label">
+            {{node.name}}
+            @if (node.element_count) {
+              <span class="op-model-tree--node-count">({{node.element_count}})</span>
+            }
+          </span>
+
+          <!-- Children Count Badge -->
+          @if (node.has_children && node.children_count > 0) {
+            <span class="op-model-tree--children-badge" [attr.title]="node.children_count + ' children'">
+              {{node.children_count}}
+            </span>
+          }
+        </div>
+      }
+    </div>
+  }
+</div>
