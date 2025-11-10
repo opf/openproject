@@ -3,22 +3,22 @@
   "private": true,
   "version": "0.0.9",
   "type": "module",
-  "module": "dist/op-blocknote-extensions.es.js",
-  "types": "dist/index.d.ts",
+  "module": "./dist/op-blocknote-extensions.es.js",
+  "types": "./dist/index.d.ts",
+  "main": "./dist/op-blocknote-extensions.cjs.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/op-blocknote-extensions.es.js",
       "require": "./dist/op-blocknote-extensions.cjs.js"
-   }
+    }
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "build:lib": "vite build && tsc -b tsconfig.lib.json",
+    "build": "vite build && tsc -b tsconfig.lib.json",
     "lint": "eslint .",
     "test": "vitest",
     "coverage": "vitest run --coverage",

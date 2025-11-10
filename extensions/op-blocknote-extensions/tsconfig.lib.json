@@ -3,10 +3,8 @@
   "compilerOptions": {
     "declaration": true,
     "declarationDir": "./dist",
-    "esModuleInterop": true,
     "emitDeclarationOnly": true,
-    "noEmit": false,
-    "strict": true,
+    "noEmit": false
   },
-  "include": ["lib/**/*.ts", "lib/**/*.tsx", "*.d.ts"]
+  "include": ["lib"]
 }

@@ -6,7 +6,7 @@
 
 This repo is split into two parts:
 
-- The library itself, which is located in the `/lib` folder and can be built and packaged with `npm run build:lib`.
+- The library itself, which is located in the `/lib` folder and can be built and packaged with `npm run build`.
 - A demo app, which is located in the `src/App.tsx` file and can be run locally with `npm run dev`.
 
 ## Usage
@@ -76,6 +76,22 @@ npm run dev
 
 Which will start a vite server with a BlockNote editor instance including the available extensions.
 
+### To run locally with valid API requests to an OpenProject instance
+
+Step 1: Make sure that the OpenProject instance URL is correct in App.tsx
+
+>  initOpenProjectApi({ baseUrl: "https://" });
+
+Step 2: Enable CORS and set the local address of this application at https://openproject.local/admin/settings/api
+
+> Set "http://localhost:5173" as the address
+
+Step 3: Generate an API key in OpenProject at https://openproject.local/my/access_tokens
+
+Step 4: Set it in the .env file (may need to copy .env.example to .env) with the key VITE_API_KEY
+
+Step 5: Start the development server - `npm run dev`
+
 ## Components in this library
 
 |Component|Description|
@@ -88,17 +104,17 @@ Which will start a vite server with a BlockNote editor instance including the av
 To build the library and generate types and source maps. This will update the `dist` folder.
 
 ```sh
-npm run build:lib
+npm run build
 ```
 
 To develop with OpenProject locally
 
 ```sh
-npm run build:lib
+npm run build
 npm pack
-cp op-blocknote-extensions-<VERSION>.tgz ../openproject/frontend
+cp op-blocknote-extensions-*.tgz ../openproject/frontend
 cd ../openproject/frontend
-npm i -S op-blocknote-extensions-<VERSION>.tgz
+npm i -S op-blocknote-extensions-*.tgz
 ```
 
 This should make sure that the package is available for OpenProject even if running on a container.

@@ -27,3 +27,5 @@ coverage/
 # build things
 op-blocknote-extensions-*
 
+.env
+!.env.*

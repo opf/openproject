@@ -46,7 +46,7 @@ jobs:
 
       - name: Build library
         if: steps.check_tag.outputs.tag_exists == 'false'
-        run: npm run build:lib
+        run: npm run build
 
       - name: Package build output
         if: steps.check_tag.outputs.tag_exists == 'false'
