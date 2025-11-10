@@ -34,9 +34,19 @@ module Bim
 
       PIPELINE_COMMANDS ||= %w[IfcConvert COLLADA2GLTF gltf2xkt xeokit-metadata].freeze
 
+      # Enhanced: 6-stage pipeline with progress tracking
+      CONVERSION_STAGES = [
+        { name: :validation, weight: 5 },
+        { name: :ifc_to_dae, weight: 20 },
+        { name: :dae_to_gltf, weight: 20 },
+        { name: :gltf_to_xkt, weight: 40 },
+        { name: :enhanced_metadata, weight: 15 }
+      ].freeze
+
       def initialize(ifc_model)
         @errors = ActiveModel::Errors.new(self)
         @ifc_model = ifc_model
+        @current_progress = 0
       end
 
       ##
@@ -54,32 +64,120 @@ module Bim
 
       def call
         ifc_model.processing!
+        initialize_conversion_logs
+
+        # PERFORMANCE OPTIMIZATION: Check cache before expensive conversion
+        cache_service = ResultCacheService.new(ifc_model)
+        if cache_service.cached?
+          return retrieve_from_cache(cache_service)
+        end
 
         validate!
+
+        # Track conversion start time for telemetry
+        conversion_start = Time.current
 
         Dir.mktmpdir do |dir|
           self.working_directory = dir
 
-          perform_conversion!
+          # Enhanced: Execute pipeline with progress tracking
+          execute_stages
+
+          # Store conversion results in cache for future use
+          store_in_cache(cache_service)
 
           ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:completed]
           ifc_model.conversion_error_message = nil
+          ifc_model.conversion_progress = 100
+
+          # Log performance metrics
+          log_performance_metrics(conversion_start)
 
           ServiceResult.new(success: ifc_model.save, result: ifc_model)
         end
       rescue StandardError => e
-        OpenProject.logger.error("Failed to convert IFC to XKT", exception: e)
-
-        ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
-        ifc_model.conversion_error_message = e.message
-        ifc_model.save
-
+        handle_conversion_failure(e)
         ServiceResult.failure.tap { |r| r.errors.add(:base, e.message) }
       ensure
         self.working_directory = nil
       end
 
       private
+
+      # Enhanced: Execute all conversion stages with progress tracking
+      def execute_stages
+        # Stage 1: Validation (NEW)
+        execute_stage(:validation) { stage_validation }
+
+        # Stage 2-5: Existing conversion pipeline
+        tmp_ifc_path = link_to_ifc_file
+
+        dae_path = execute_stage(:ifc_to_dae) { convert_to_collada(tmp_ifc_path) }
+        gltf_path = execute_stage(:dae_to_gltf) { convert_to_gltf(dae_path) }
+        xkt_path = execute_stage(:gltf_to_xkt) { convert_to_xkt(gltf_path) }
+
+        save_xkt(xkt_path)
+
+        # Stage 6: Enhanced metadata extraction (NEW)
+        execute_stage(:enhanced_metadata) { stage_enhanced_metadata }
+      end
+
+      def execute_stage(stage_name)
+        stage_config = CONVERSION_STAGES.find { |s| s[:name] == stage_name }
+
+        update_stage_status(stage_name, :started)
+        log_stage_start(stage_name)
+
+        result = yield
+
+        advance_progress(stage_config[:weight])
+        log_stage_success(stage_name)
+
+        result
+      rescue StandardError => e
+        log_stage_error(stage_name, e)
+        raise
+      end
+
+      # NEW: Validation stage using ValidatorService
+      def stage_validation
+        validator = ValidatorService.new(ifc_model_path.to_s)
+        validation_result = validator.call
+
+        unless validation_result[:valid]
+          errors = validation_result[:schema_errors].join('; ')
+          raise "IFC validation failed: #{errors}"
+        end
+
+        # Log warnings if present
+        if validation_result[:warnings].any?
+          validation_result[:warnings].each do |warning|
+            log_warning(:validation, warning)
+          end
+        end
+
+        true
+      end
+
+      # NEW: Enhanced metadata extraction stage
+      def stage_enhanced_metadata
+        extractor = MetadataExtractorService.new(ifc_model)
+        result = extractor.call
+
+        if result.failure?
+          # Don't fail the whole conversion if metadata extraction fails
+          # Just log a warning
+          log_warning(:enhanced_metadata, "Metadata extraction failed: #{result.errors.join('; ')}")
+        else
+          log_stage_info(:enhanced_metadata, "Metadata extracted successfully")
+        end
+
+        true
+      rescue StandardError => e
+        # Metadata extraction failure should not stop conversion
+        log_warning(:enhanced_metadata, "Metadata extraction error: #{e.message}")
+        true
+      end
 
       def perform_conversion!
         # Step 0: avoid file name issues (e.g. umlauts) in the pipeline
@@ -225,6 +323,193 @@ module Bim
 
       def working_directory
         @working_directory
+      end
+
+      # NEW: Progress tracking and logging helpers
+
+      def initialize_conversion_logs
+        ifc_model.update!(conversion_logs: [])
+      end
+
+      def update_stage_status(stage_name, status)
+        ifc_model.update!(conversion_stage: stage_name.to_s)
+      end
+
+      def advance_progress(weight)
+        @current_progress += weight
+        ifc_model.update!(conversion_progress: @current_progress.to_i)
+        broadcast_progress_update
+      end
+
+      def handle_conversion_failure(error)
+        OpenProject.logger.error("Failed to convert IFC to XKT", exception: error)
+
+        ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:error]
+        ifc_model.conversion_error_message = error.message
+        ifc_model.save
+        broadcast_progress_update
+      end
+
+      # Turbo Streams broadcasting for real-time updates
+
+      def broadcast_progress_update
+        return unless defined?(Turbo)
+
+        Turbo::StreamsChannel.broadcast_replace_to(
+          "ifc_model_#{ifc_model.id}",
+          target: "ifc-model-#{ifc_model.id}-status",
+          partial: "bim/ifc_models/ifc_models/conversion_status",
+          locals: { ifc_model: ifc_model }
+        )
+      rescue StandardError => e
+        # Don't fail conversion if broadcasting fails
+        Rails.logger.warn("Failed to broadcast progress update: #{e.message}")
+      end
+
+      # Logging methods
+
+      def log_stage_start(stage)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'info',
+          message: "Starting #{stage.to_s.humanize}",
+          details: { started_at: Time.current.iso8601 }
+        )
+      end
+
+      def log_stage_success(stage)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'info',
+          message: "Completed #{stage.to_s.humanize}",
+          details: { completed_at: Time.current.iso8601 }
+        )
+      end
+
+      def log_stage_error(stage, error)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'error',
+          message: "Failed #{stage.to_s.humanize}: #{error.message}",
+          details: {
+            error_class: error.class.name,
+            backtrace: error.backtrace&.first(5)
+          }
+        )
+      end
+
+      def log_warning(stage, message)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'warning',
+          message: message,
+          details: {}
+        )
+      end
+
+      def log_stage_info(stage, message)
+        add_log_entry(
+          stage: stage.to_s,
+          level: 'info',
+          message: message,
+          details: {}
+        )
+      end
+
+      def add_log_entry(log_data)
+        logs = ifc_model.conversion_logs || []
+        logs << log_data.merge(timestamp: Time.current.iso8601)
+        ifc_model.update!(conversion_logs: logs)
+      end
+
+      # Cache integration methods
+
+      def retrieve_from_cache(cache_service)
+        Rails.logger.info "Retrieving cached conversion for IFC model #{ifc_model.id}"
+
+        add_log_entry(
+          stage: 'cache',
+          level: 'info',
+          message: 'Retrieved conversion results from cache',
+          details: { cache_hit: true }
+        )
+
+        cached_data = cache_service.retrieve
+
+        if cached_data
+          ifc_model.conversion_status = ::Bim::IfcModels::IfcModel.conversion_statuses[:completed]
+          ifc_model.conversion_error_message = nil
+          ifc_model.conversion_progress = 100
+
+          ServiceResult.new(success: ifc_model.save, result: ifc_model)
+        else
+          # Cache retrieval failed, fall back to normal conversion
+          add_log_entry(
+            stage: 'cache',
+            level: 'warning',
+            message: 'Cache retrieval failed, falling back to conversion',
+            details: {}
+          )
+
+          # Recursive call without cache
+          cache_service.instance_variable_set(:@cached, false)
+          call
+        end
+      end
+
+      def store_in_cache(cache_service)
+        return unless ifc_model.xkt_attachment.present?
+
+        xkt_path = ifc_model.xkt_attachment.diskfile.path
+
+        # Prepare metadata for caching
+        metadata = if ifc_model.ifc_model_metadata.present?
+                     {
+                       ifc_version: ifc_model.ifc_model_metadata.ifc_version,
+                       entity_count: ifc_model.ifc_model_metadata.entity_count,
+                       geometry_count: ifc_model.ifc_model_metadata.geometry_count,
+                       spatial_structure: ifc_model.ifc_model_metadata.spatial_structure,
+                       property_sets: ifc_model.ifc_model_metadata.property_sets,
+                       quantities: ifc_model.ifc_model_metadata.quantities,
+                       classifications: ifc_model.ifc_model_metadata.classifications,
+                       materials: ifc_model.ifc_model_metadata.materials,
+                       types: ifc_model.ifc_model_metadata.types,
+                       validation_result: ifc_model.ifc_model_metadata.validation_result
+                     }
+                   end
+
+        cache_service.store(xkt_path: xkt_path, metadata: metadata)
+
+        add_log_entry(
+          stage: 'cache',
+          level: 'info',
+          message: 'Stored conversion results in cache',
+          details: { cache_stored: true }
+        )
+      rescue StandardError => e
+        # Don't fail conversion if caching fails
+        Rails.logger.warn "Failed to cache conversion results: #{e.message}"
+        add_log_entry(
+          stage: 'cache',
+          level: 'warning',
+          message: "Cache storage failed: #{e.message}",
+          details: {}
+        )
+      end
+
+      def log_performance_metrics(start_time)
+        duration = Time.current - start_time
+
+        add_log_entry(
+          stage: 'performance',
+          level: 'info',
+          message: "Conversion completed in #{duration.round(2)}s",
+          details: {
+            duration_seconds: duration.round(2),
+            file_size_mb: (ifc_model.ifc_attachment.filesize / 1024.0 / 1024.0).round(2),
+            throughput_mb_per_sec: ((ifc_model.ifc_attachment.filesize / 1024.0 / 1024.0) / duration).round(2)
+          }
+        )
       end
     end
   end

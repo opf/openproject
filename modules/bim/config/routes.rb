@@ -222,25 +222,6 @@ Rails.application.routes.draw do
           get 'conversion_metrics', action: :conversion_metrics
           get 'model/:id/logs', action: :conversion_logs, as: 'conversion_logs'
         end
-
-        # Workflow Automation
-        namespace :workflows, controller: "workflows" do
-          # Workflow templates
-          get 'templates', action: :index_templates, as: 'templates'
-          post 'templates', action: :create_template
-          get 'templates/:id', action: :show_template, as: 'template'
-          patch 'templates/:id', action: :update_template
-          delete 'templates/:id', action: :destroy_template
-
-          # Workflow logs
-          get 'logs', action: :logs
-
-          # Workflowable operations
-          post ':workflowable_type/:workflowable_id/transition', action: :execute_transition, as: 'transition'
-          get ':workflowable_type/:workflowable_id/available_transitions', action: :available_transitions, as: 'available_transitions'
-          get ':workflowable_type/:workflowable_id/state', action: :workflow_state, as: 'state'
-          get ':workflowable_type/:workflowable_id/timeline', action: :workflow_timeline, as: 'timeline'
-        end
       end
     end
   end
