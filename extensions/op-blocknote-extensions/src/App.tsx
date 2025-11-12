@@ -34,7 +34,10 @@ export default function App() {
   };
 
   return (
-    <BlockNoteView editor={editor}>
+    <BlockNoteView
+      editor={editor}
+      slashMenu={false}
+    >
       <SuggestionMenuController
         triggerCharacter="/"
         getItems={async (query: string) =>
