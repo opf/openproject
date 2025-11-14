@@ -6,12 +6,11 @@ import { useWorkPackage } from "../hooks/useWorkPackage";
 import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
+import { cacheColors, typeColor, statusColor, statusBorderColor, statusTextColor } from "../services/colors";
 import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 
 import styled from "styled-components";
 
-const FALLBACK_TYPE_COLOR = "#D4A72C";
-const FALLBACK_STATUS_COLOR = "#F1E5FF";
 const SPACER_S = "4px";
 const SPACER_M = "8px";
 const SPACER_L = "12px";
@@ -89,12 +88,13 @@ const WorkPackageId = styled.div`
   color: var(--bn-colors-highlights-gray-text);
 `;
 
-const WorkPackageStatus = styled.div<{ bgcolor?: string }>`
+const WorkPackageStatus = styled.div<{ bgcolor: string }>`
   font-size: 0.8rem;
-  border-radius: 12px;
-  border: 1px solid #ccc; // TODO: Border color based on background color
+  border-radius: 100px;
+  border: 1px solid ${({ bgcolor }) => statusBorderColor(bgcolor)};
   padding: 0 7px;
   align-content: center;
+  color: ${({ bgcolor }) => statusTextColor(bgcolor)};
   background-color: ${({ bgcolor }) => bgcolor};
 `;
 
@@ -114,14 +114,6 @@ const WorkPackageTitle = styled.div`
   }
 `;
 
-function typeColor(workPackage: WorkPackage) {
-  return workPackage._embedded?.type?.color || FALLBACK_TYPE_COLOR;
-}
-
-function statusColor(workPackage: WorkPackage) {
-  return workPackage._embedded?.status?.color || FALLBACK_STATUS_COLOR;
-}
-
 interface BlockProps {
   id: string,
   props: {
@@ -140,6 +132,20 @@ const OpenProjectWorkPackageBlockComponent = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const [colorsReady, setColorsReady] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    cacheColors().then(() => {
+      if (!cancelled) {
+        setColorsReady(true);
+      }
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // Search mode state (API + debounce only)
   const {
@@ -291,7 +297,9 @@ const OpenProjectWorkPackageBlockComponent = ({
                       <WorkPackageDetails>
                         <WorkPackageType color={typeColor(wp)}>{wp._links?.type?.title}</WorkPackageType>
                         <WorkPackageId>#{wp.id}</WorkPackageId>
-                        <WorkPackageStatus bgcolor={statusColor(wp)}>{wp._links?.status?.title}</WorkPackageStatus>
+                        <WorkPackageStatus bgcolor={statusColor(wp)}>
+                          {wp._links?.status?.title}
+                        </WorkPackageStatus>
                       </WorkPackageDetails>
                       <WorkPackageTitle>{wp.subject}</WorkPackageTitle>
                     </WorkPackage>

@@ -1,5 +1,5 @@
 
-import type { OpenProjectResponse, WorkPackage } from "../openProjectTypes";
+import type {OpenProjectResponse, StatusCollection, TypeCollection, WorkPackage} from "../openProjectTypes";
 
 let baseUrl = "https://openproject.local";
 
@@ -29,12 +29,12 @@ export function fetchWorkPackage(id: string): Promise<WorkPackage> {
   return get<WorkPackage>(`/api/v3/work_packages/${id}`);
 }
 
-export function fetchStatuses(): Promise<OpenProjectResponse> {
-  return get<OpenProjectResponse>(`/api/v3/statuses`);
+export function fetchStatuses(): Promise<StatusCollection> {
+  return get<StatusCollection>(`/api/v3/statuses`);
 }
 
-export function fetchProjectTypes(projectId: string): Promise<OpenProjectResponse> {
-  return get<OpenProjectResponse>(`/api/v3/projects/${projectId}/types`);
+export function fetchTypes(): Promise<TypeCollection> {
+  return get<TypeCollection>(`/api/v3/types`);
 }
 
 export async function searchWorkPackages(query: string): Promise<WorkPackage[]> {
