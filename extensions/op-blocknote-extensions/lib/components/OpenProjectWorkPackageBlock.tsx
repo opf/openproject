@@ -27,19 +27,24 @@ const Search = styled.div`
 `;
 
 const SearchLabel = styled.label`
+  font-weight: normal !important;
+`;
+
+const SearchInputWrapper = styled.div`
+  position: relative;
+  margin-top: ${SPACER_M};
 `;
 
 const SearchIconWrapper = styled.div`
   position: absolute;
-  margin-top: ${SPACER_M};
-  padding-top: ${SPACER_S};
+  top: 50%;
+  transform: translateY(-50%);
   padding-left: ${SPACER_M};
 `;
 const SearchInput = styled.input`
   width: 100%;
-  margin-top: ${SPACER_M};
   padding: ${SPACER_M} ${SPACER_L};
-  padding-left: 30px; // room for the search icon
+  padding-left: 30px !important; // room for the search icon
   border: 1px solid #ccc;
   border-radius: var(--bn-border-radius-small);
   font-size: 14px;
@@ -81,7 +86,7 @@ const WorkPackageDetails = styled.div`
 const WorkPackageType = styled.div<{ color: string }>`
   font-weight: 500;
   text-transform: uppercase;
-  color: ${({ color }) => color};
+  color: ${({ color }) => color} !important;
 `;
 
 const WorkPackageId = styled.div`
@@ -94,7 +99,7 @@ const WorkPackageStatus = styled.div<{ bgcolor: string }>`
   border: 1px solid ${({ bgcolor }) => statusBorderColor(bgcolor)};
   padding: 0 7px;
   align-content: center;
-  color: ${({ bgcolor }) => statusTextColor(bgcolor)};
+  color: ${({ bgcolor }) => statusTextColor(bgcolor)} !important;
   background-color: ${({ bgcolor }) => bgcolor};
 `;
 
@@ -240,6 +245,11 @@ const OpenProjectWorkPackageBlockComponent = ({
     }
   };
 
+  if (!colorsReady) {
+    // render nothing until colors are loaded
+    return null;
+  }
+
   return (
     <Block>
       <div>
@@ -247,27 +257,29 @@ const OpenProjectWorkPackageBlockComponent = ({
           <Search>
             <SearchLabel>
               Link existing work package
-              <SearchIconWrapper>
-                <SearchIcon size={18} />
-              </SearchIconWrapper>
-              <SearchInput
-                ref={inputRef}
-                type="search"
-                placeholder={"Search for work package ID or subject"}
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  if (e.target.value) {
-                    setIsDropdownOpen(true);
-                  }
-                }}
-                onFocus={() => {
-                  if (searchResults.length > 0) {
-                    setIsDropdownOpen(true);
-                  }
-                }}
-                onKeyDown={handleKeyDown}
-              />
+              <SearchInputWrapper>
+                <SearchIconWrapper>
+                  <SearchIcon size={18} />
+                </SearchIconWrapper>
+                <SearchInput
+                  ref={inputRef}
+                  type="custom"
+                  placeholder={"Search for work package ID or subject"}
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    if (e.target.value) {
+                      setIsDropdownOpen(true);
+                    }
+                  }}
+                  onFocus={() => {
+                    if (searchResults.length > 0) {
+                      setIsDropdownOpen(true);
+                    }
+                  }}
+                  onKeyDown={handleKeyDown}
+                />
+              </SearchInputWrapper>
             </SearchLabel>
 
             {/* Autocomplete dropdown */}
