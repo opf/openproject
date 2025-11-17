@@ -138,15 +138,25 @@ const OpenProjectWorkPackageBlockComponent = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const [colorsReady, setColorsReady] = useState(false);
+  // Fetch colors when the Block gets initialized. Allow rendering of existing
+  // items before the request returns. Type and status colors will
+  // use fallback values and get updated once colors are fetched.
+  // Usually, users should never see the fallback colors, but on a slow
+  // connection they will be able to still see the work package details
+  // in a styled way even when the colors are not yet fetched.
+  const [colorsVersion, setColorsVersion] = React.useState(0);
 
-  useEffect(() => {
+  React.useEffect(() => {
     let cancelled = false;
-    cacheColors().then(() => {
-      if (!cancelled) {
-        setColorsReady(true);
-      }
-    });
+
+    cacheColors()
+      .then(() => {
+        if (!cancelled) {
+          // trigger re-render so typeColor/statusColor are called again
+          setColorsVersion(v => v + 1);
+        }
+      })
+
     return () => {
       cancelled = true;
     };
@@ -245,14 +255,9 @@ const OpenProjectWorkPackageBlockComponent = ({
     }
   };
 
-  if (!colorsReady) {
-    // render nothing until colors are loaded
-    return null;
-  }
-
   return (
     <Block>
-      <div>
+      <div data-colors-version={colorsVersion}>
         {!block.props.wpid && (
           <Search>
             <SearchLabel>
