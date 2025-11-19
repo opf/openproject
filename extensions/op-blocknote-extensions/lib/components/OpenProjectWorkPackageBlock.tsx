@@ -6,7 +6,7 @@ import { useWorkPackage } from "../hooks/useWorkPackage";
 import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
-import { useColors, typeColor, statusColor, statusBorderColor, statusTextColor } from "../services/colors";
+import { useColors, typeColor, statusColor, statusBorderColor, statusTextColor, statusBackgroundColor } from "../services/colors";
 import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 
 import styled from "styled-components";
@@ -98,14 +98,14 @@ const WorkPackageId = styled.div`
   color: var(--bn-colors-highlights-gray-text);
 `;
 
-const WorkPackageStatus = styled.div<{ bgcolor: string }>`
+const WorkPackageStatus = styled.div<{ base_color: string }>`
   font-size: 0.8rem;
   border-radius: 100px;
-  border: 1px solid ${({ bgcolor }) => statusBorderColor(bgcolor)};
+  border: 1px solid ${({ base_color }) => statusBorderColor(base_color)};
   padding: 0 7px;
   align-content: center;
-  color: ${({ bgcolor }) => statusTextColor(bgcolor)} !important;
-  background-color: ${({ bgcolor }) => bgcolor};
+  color: ${({ base_color }) => statusTextColor(base_color)} !important;
+  background-color: ${({ base_color }) => statusBackgroundColor(base_color)};
 `;
 
 const WorkPackageTitle = styled.div`
@@ -299,7 +299,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                       <WorkPackageDetails>
                         <WorkPackageType color={typeColor(wp)}>{wp._links?.type?.title}</WorkPackageType>
                         <WorkPackageId>#{wp.id}</WorkPackageId>
-                        <WorkPackageStatus bgcolor={statusColor(wp)}>
+                        <WorkPackageStatus base_color={statusColor(wp)}>
                           {wp._links?.status?.title}
                         </WorkPackageStatus>
                       </WorkPackageDetails>
@@ -324,7 +324,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                 {selectedWorkPackage._links?.type?.title}
               </WorkPackageType>
               <WorkPackageId>#{selectedWorkPackage.id}</WorkPackageId>
-              <WorkPackageStatus bgcolor={statusColor(selectedWorkPackage)}>
+              <WorkPackageStatus base_color={statusColor(selectedWorkPackage)}>
                 {selectedWorkPackage._links?.status?.title}
               </WorkPackageStatus>
             </WorkPackageDetails>
