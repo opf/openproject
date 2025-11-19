@@ -17,6 +17,10 @@ const SPACER_L = "12px";
 const SPACER_XL = "16px";
 
 const Block = styled.div`
+    --highlight-wp-background: var(--bn-colors-highlights-gray-background);
+    [data-color-scheme="dark"] & {
+        --highlight-wp-background: var(--bn-colors-disabled-text);
+    }
 `;
 
 const Search = styled.div`
@@ -59,17 +63,17 @@ const Dropdown = styled.div`
 `;
 
 const DropdownOption = styled.div<{ selected: boolean }>`
-  cursor: pointer;
-  background-color: ${({ selected }) => selected ? 'var(--bn-colors-highlights-gray-background)' : 'var(--bn-colors-menu-background)'};
+  background-color: ${({ selected }) => selected ? 'var(--highlight-wp-background)' : 'var(--bn-colors-menu-background)'};
   border: none;
   border-radius: var(--bn-border-radius-small);
   margin: ${SPACER_S} 0;
   padding: 0 ${SPACER_M};
+  cursor: pointer;
 `;
 
 const WorkPackage = styled.div<{ inDropdown?: boolean }>`
   padding: ${SPACER_M} ${SPACER_L};
-  background-color: var(--bn-colors-highlights-gray-background);
+  background-color: var(--highlight-wp-background);
   border-radius: var(--bn-border-radius-small);
   ${({ inDropdown }) => inDropdown && `
     padding: ${SPACER_S} 0;
