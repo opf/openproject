@@ -6,80 +6,117 @@ import { useWorkPackage } from "../hooks/useWorkPackage";
 import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
+import { useColors, typeColor, statusColor, statusBorderColor, statusTextColor } from "../services/colors";
+import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 
 import styled from "styled-components";
 
-const UI_BLUE = "#000091"; // Default color for task status icons
+const SPACER_S = "4px";
+const SPACER_M = "8px";
+const SPACER_L = "12px";
+const SPACER_XL = "16px";
 
 const Block = styled.div`
-  padding: 12px 10px;
-  border: none;
-  border-radius: 5px;
-  background-color: #FBF5F2;
-  width: 450px;
 `;
 
-const SearchContainer = styled.div`
+const Search = styled.div`
   position: relative;
+  padding: ${SPACER_M} ${SPACER_XL};
+  box-shadow: var(--bn-shadow-medium);
+  border-radius: var(--bn-border-radius-large);
 `;
 
+const SearchLabel = styled.label`
+  font-weight: normal !important;
+`;
+
+const SearchInputWrapper = styled.div`
+  position: relative;
+  margin-top: ${SPACER_M};
+`;
+
+const SearchIconWrapper = styled.div`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  padding-left: ${SPACER_M};
+`;
 const SearchInput = styled.input`
   width: 100%;
-  padding: 8px 12px;
-  border-radius: 4px;
+  padding: ${SPACER_M} ${SPACER_L};
+  padding-left: 30px !important; // room for the search icon
   border: 1px solid #ccc;
+  border-radius: var(--bn-border-radius-small);
   font-size: 14px;
 `;
 
 const Dropdown = styled.div`
-  position: absolute;
-  top: 100%;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 0 0 4px 4px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  max-height: 200px;
+  background-color: var(--bn-colors-menu-background);
   overflow-y: auto;
-  margin-top: 2px;
+  padding-top: ${SPACER_M};
+  margin: 0 -${SPACER_M};
 `;
 
 const DropdownOption = styled.div<{ selected: boolean }>`
-  padding: 8px 12px;
   cursor: pointer;
-  background-color: ${({ selected }) => selected ? '#f0f0f0' : 'transparent'};
-  border-bottom: 1px solid #eee;
+  background-color: ${({ selected }) => selected ? 'var(--bn-colors-highlights-gray-background)' : 'var(--bn-colors-menu-background)'};
+  border: none;
+  border-radius: var(--bn-border-radius-small);
+  margin: ${SPACER_S} 0;
+  padding: 0 ${SPACER_M};
 `;
 
-const Type = styled.div`
-  gap: 8px;
-  font-weight: bold;
+const WorkPackage = styled.div<{ inDropdown?: boolean }>`
+  padding: ${SPACER_M} ${SPACER_L};
+  background-color: var(--bn-colors-highlights-gray-background);
+  border-radius: var(--bn-border-radius-small);
+  ${({ inDropdown }) => inDropdown && `
+    padding: ${SPACER_S} 0;
+    background-color: transparent; 
+  `}
+`;
+
+const WorkPackageDetails = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 10px;
+  width: 100%;
+`;
+
+const WorkPackageType = styled.div<{ color: string }>`
+  font-weight: 500;
   text-transform: uppercase;
+  color: ${({ color }) => color} !important;
 `;
 
-const TypeColor = styled(Type) <{ color?: string }>`
-  color: ${({ color }) => color || UI_BLUE};
+const WorkPackageId = styled.div`
+  color: var(--bn-colors-highlights-gray-text);
 `;
 
-const Id = styled.div`
-  color: #666;
-`;
-
-const Status = styled.div<{ bgcolor?: string }>`
+const WorkPackageStatus = styled.div<{ bgcolor: string }>`
   font-size: 0.8rem;
-  border-radius: 12px;
-  padding: 2px 8px;
-  border: 1px solid #ccc;
-  background-color: ${({ bgcolor }) => bgcolor || UI_BLUE};
+  border-radius: 100px;
+  border: 1px solid ${({ bgcolor }) => statusBorderColor(bgcolor)};
+  padding: 0 7px;
+  align-content: center;
+  color: ${({ bgcolor }) => statusTextColor(bgcolor)} !important;
+  background-color: ${({ bgcolor }) => bgcolor};
 `;
 
-const Link = styled.a`
-  margin-right: 6px;
-  text-decoration: none;
-  color: #000091;
-  cursor: pointer;
+const WorkPackageTitle = styled.div`
+  flex-basis: max-content;
+  color: var(--bn-colors-editor-text);
+  font-weight: 500;
+    
+  a {
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--bn-colors-highlights-blue-text);
+
+    &:hover {
+        text-decoration: underline;
+    }
+  }
 `;
 
 interface BlockProps {
@@ -100,6 +137,10 @@ const OpenProjectWorkPackageBlockComponent = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  // Fetch and cache colors.
+  // The hook handles triggering re-renders when data arrives.
+  useColors();
 
   // Search mode state (API + debounce only)
   const {
@@ -198,25 +239,33 @@ const OpenProjectWorkPackageBlockComponent = ({
     <Block>
       <div>
         {!block.props.wpid && (
-          <SearchContainer>
-            <SearchInput
-              ref={inputRef}
-              type="text"
-              placeholder={"Search for work package ID or subject"}
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                if (e.target.value) {
-                  setIsDropdownOpen(true);
-                }
-              }}
-              onFocus={() => {
-                if (searchResults.length > 0) {
-                  setIsDropdownOpen(true);
-                }
-              }}
-              onKeyDown={handleKeyDown}
-            />
+          <Search>
+            <SearchLabel>
+              Link existing work package
+              <SearchInputWrapper>
+                <SearchIconWrapper>
+                  <SearchIcon size={18} />
+                </SearchIconWrapper>
+                <SearchInput
+                  ref={inputRef}
+                  type="custom"
+                  placeholder={"Search for work package ID or subject"}
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    if (e.target.value) {
+                      setIsDropdownOpen(true);
+                    }
+                  }}
+                  onFocus={() => {
+                    if (searchResults.length > 0) {
+                      setIsDropdownOpen(true);
+                    }
+                  }}
+                  onKeyDown={handleKeyDown}
+                />
+              </SearchInputWrapper>
+            </SearchLabel>
 
             {/* Autocomplete dropdown */}
             {isDropdownOpen && searchResults.length > 0 && (
@@ -241,17 +290,21 @@ const OpenProjectWorkPackageBlockComponent = ({
                     }}
                     onMouseEnter={() => setFocusedResultIndex(index)}
                   >
-                    <div style={{ fontWeight: "bold" }}>
-                      #{wp.id} - {wp.subject}
-                    </div>
-                    <div style={{ fontSize: "12px", color: "#666" }}>
-                      {wp._links?.type?.title} {wp._links?.status?.title}
-                    </div>
+                    <WorkPackage inDropdown>
+                      <WorkPackageDetails>
+                        <WorkPackageType color={typeColor(wp)}>{wp._links?.type?.title}</WorkPackageType>
+                        <WorkPackageId>#{wp.id}</WorkPackageId>
+                        <WorkPackageStatus bgcolor={statusColor(wp)}>
+                          {wp._links?.status?.title}
+                        </WorkPackageStatus>
+                      </WorkPackageDetails>
+                      <WorkPackageTitle>{wp.subject}</WorkPackageTitle>
+                    </WorkPackage>
                   </DropdownOption>
                 ))}
               </Dropdown>
             )}
-          </SearchContainer>
+          </Search>
         )}
         {block.props.wpid && !selectedWorkPackage && (
           <div>
@@ -260,25 +313,28 @@ const OpenProjectWorkPackageBlockComponent = ({
         )}
         {/* Display selected work package details */}
         {selectedWorkPackage && (
-          <div>
-            <div style={{ display: "flex", gap: "8px" }}>
-              <TypeColor color={selectedWorkPackage._embedded?.type?.color}>
+          <WorkPackage>
+            <WorkPackageDetails>
+              <WorkPackageType color={typeColor(selectedWorkPackage)}>
                 {selectedWorkPackage._links?.type?.title}
-              </TypeColor>
-              <Id>#{selectedWorkPackage.id}</Id>
-              <Status bgcolor={selectedWorkPackage._embedded?.status?.color}>
+              </WorkPackageType>
+              <WorkPackageId>#{selectedWorkPackage.id}</WorkPackageId>
+              <WorkPackageStatus bgcolor={statusColor(selectedWorkPackage)}>
                 {selectedWorkPackage._links?.status?.title}
-              </Status>
-            </div>
-
-            <div>
-              <Link
+              </WorkPackageStatus>
+            </WorkPackageDetails>
+            <WorkPackageTitle>
+              <a
                 href={linkToWorkPackage(block.props.wpid)}
+                onClick={(event) => {
+                        event.stopPropagation();
+                        window.open(linkToWorkPackage(block.props.wpid), '_blank', 'noopener,noreferrer');
+                      }}
               >
                 {selectedWorkPackage.subject}
-              </Link>
-            </div>
-          </div>
+              </a>
+            </WorkPackageTitle>
+          </WorkPackage>
         )}
       </div>
     </Block>
@@ -325,7 +381,7 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
 );
 
 export const openProjectWorkPackageSlashMenu = (editor: any) => ({
-  title: "Open Project Work Package",
+  title: "Link to existing work package",
   onItemClick: () => insertOrUpdateBlock(editor, { type: "openProjectWorkPackage" }),
   aliases: ["openproject", "op", "workpackage", "work package", "wp", "link",
     "openproject work package link", "openproject workpackage link", "openproject wp link",
@@ -345,6 +401,6 @@ export const openProjectWorkPackageSlashMenu = (editor: any) => ({
     "link op work package", "link op workpackage", "link op wp",
   ],
   group: "OpenProject",
-  icon: <span>📦</span>,
-  subtext: "Search and link an existing Work Package",
+  icon: <LinkIcon size={18} />,
+  subtext: "Add a dynamic link to a single work package",
 })

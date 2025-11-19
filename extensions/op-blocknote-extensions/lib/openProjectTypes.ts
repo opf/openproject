@@ -11,12 +11,6 @@ export interface WorkPackage {
     assignee: { title: string; href: string } | null;
     type: { title: string; href: string } | null;
   } | null;
-  _embedded?: {
-    status?: Status | null;
-    type?: {
-      color: string;
-    } | null;
-  } | null;
 }
 
 export interface WorkPackageCollection {
@@ -25,14 +19,31 @@ export interface WorkPackageCollection {
   };
 }
 
-export interface Status {
-  id: string;
-  name: string;
-  isClosed: boolean;
-  color: string;
-  _links: {
-    self: { href: string };
-  };
+export interface StatusCollection {
+  _embedded?: {
+    elements?: Array<{
+      id: string;
+      name: string;
+      isClosed: boolean;
+      color: string;
+      _links: {
+        self: { href: string };
+      }
+    }>;
+  },
+}
+
+export interface TypeCollection {
+  _embedded?: {
+    elements?: Array<{
+      id: string;
+      name: string;
+      color: string;
+      _links: {
+        self: { href: string; };
+      }
+    }>;
+  },
 }
 
 export interface OpenProjectResponse {
