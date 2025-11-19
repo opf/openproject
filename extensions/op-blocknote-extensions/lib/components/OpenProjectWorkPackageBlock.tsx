@@ -6,7 +6,7 @@ import { useWorkPackage } from "../hooks/useWorkPackage";
 import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
-import { cacheColors, typeColor, statusColor, statusBorderColor, statusTextColor } from "../services/colors";
+import { useColors, typeColor, statusColor, statusBorderColor, statusTextColor } from "../services/colors";
 import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 
 import styled from "styled-components";
@@ -138,29 +138,9 @@ const OpenProjectWorkPackageBlockComponent = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Fetch colors when the Block gets initialized. Allow rendering of existing
-  // items before the request returns. Type and status colors will
-  // use fallback values and get updated once colors are fetched.
-  // Usually, users should never see the fallback colors, but on a slow
-  // connection they will be able to still see the work package details
-  // in a styled way even when the colors are not yet fetched.
-  const [colorsVersion, setColorsVersion] = React.useState(0);
-
-  React.useEffect(() => {
-    let cancelled = false;
-
-    cacheColors()
-      .then(() => {
-        if (!cancelled) {
-          // trigger re-render so typeColor/statusColor are called again
-          setColorsVersion(v => v + 1);
-        }
-      })
-
-    return () => {
-      cancelled = true;
-    };
-  }, []);
+  // Fetch and cache colors.
+  // The hook handles triggering re-renders when data arrives.
+  useColors();
 
   // Search mode state (API + debounce only)
   const {
@@ -257,7 +237,7 @@ const OpenProjectWorkPackageBlockComponent = ({
 
   return (
     <Block>
-      <div data-colors-version={colorsVersion}>
+      <div>
         {!block.props.wpid && (
           <Search>
             <SearchLabel>

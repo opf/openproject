@@ -1,5 +1,6 @@
 import type { WorkPackage } from "../openProjectTypes";
 import {fetchTypes, fetchStatuses} from "./openProjectApi";
+import { useEffect, useState } from "react";
 
 const FALLBACK_TYPE_COLOR = "#3f3f3f";
 const FALLBACK_STATUS_COLOR = "#D2DAE4";
@@ -8,6 +9,31 @@ const statusColors:Record<string, string> = {};
 const typeColors:Record<string, string> = {};
 
 let colorsPromise: Promise<void> | null = null;
+
+// Load colors only once (called when OpenProjectWorkPackageBlock is initialized).
+// And ensure that the component is re-rendered after colors are loaded.
+export function useColors() {
+  const [isLoaded, setIsLoaded] = useState(() =>
+    Object.keys(typeColors).length > 0 && Object.keys(statusColors).length > 0
+  );
+
+  useEffect(() => {
+    if (isLoaded) return;
+
+    let active = true;
+    cacheColors().then(() => {
+      if (active) {
+        setIsLoaded(true);
+      }
+    });
+
+    return () => {
+      active = false;
+    };
+  }, [isLoaded]);
+
+  return isLoaded;
+}
 
 export function cacheColors(): Promise<void> {
   if (colorsPromise) {
