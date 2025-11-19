@@ -24,6 +24,7 @@ const Search = styled.div`
   padding: ${SPACER_M} ${SPACER_XL};
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
+  width: 500px;
 `;
 
 const SearchLabel = styled.label`
