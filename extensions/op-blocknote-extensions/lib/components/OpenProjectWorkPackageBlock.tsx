@@ -6,7 +6,7 @@ import { useWorkPackage } from "../hooks/useWorkPackage";
 import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
-import { useColors, typeColor, statusColor, statusBorderColor, statusTextColor, statusBackgroundColor } from "../services/colors";
+import { defaultVariables, defaultColorStyles, useColors, typeColor, statusColor, statusBorderColor, statusTextColor, statusBackgroundColor, typeTextColor } from "../services/colors";
 import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 
 import styled from "styled-components";
@@ -71,11 +71,12 @@ const DropdownOption = styled.div<{ selected: boolean }>`
   cursor: pointer;
 `;
 
-const WorkPackage = styled.div<{ inDropdown?: boolean }>`
+const WorkPackage = styled.div<{ in_dropdown?: boolean }>`
+  ${defaultVariables}
   padding: ${SPACER_M} ${SPACER_L};
   background-color: var(--highlight-wp-background);
   border-radius: var(--bn-border-radius-small);
-  ${({ inDropdown }) => inDropdown && `
+  ${({ in_dropdown }) => in_dropdown && `
     padding: ${SPACER_S} 0;
     background-color: transparent; 
   `}
@@ -89,9 +90,10 @@ const WorkPackageDetails = styled.div`
 `;
 
 const WorkPackageType = styled.div<{ color: string }>`
+  ${({ color }) => defaultColorStyles(color)}
   font-weight: 500;
   text-transform: uppercase;
-  color: ${({ color }) => color} !important;
+  color: ${() => typeTextColor} !important;
 `;
 
 const WorkPackageId = styled.div`
@@ -99,13 +101,14 @@ const WorkPackageId = styled.div`
 `;
 
 const WorkPackageStatus = styled.div<{ base_color: string }>`
+  ${({ base_color }) => defaultColorStyles(base_color)}
   font-size: 0.8rem;
   border-radius: 100px;
-  border: 1px solid ${({ base_color }) => statusBorderColor(base_color)};
+  border: 1px solid ${() => statusBorderColor()};
   padding: 0 7px;
   align-content: center;
-  color: ${({ base_color }) => statusTextColor(base_color)} !important;
-  background-color: ${({ base_color }) => statusBackgroundColor(base_color)};
+  color: ${() => statusTextColor()} !important;
+  background-color: ${() => statusBackgroundColor()};
 `;
 
 const WorkPackageTitle = styled.div`
@@ -295,7 +298,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                     }}
                     onMouseEnter={() => setFocusedResultIndex(index)}
                   >
-                    <WorkPackage inDropdown>
+                    <WorkPackage in_dropdown={true}>
                       <WorkPackageDetails>
                         <WorkPackageType color={typeColor(wp)}>{wp._links?.type?.title}</WorkPackageType>
                         <WorkPackageId>#{wp.id}</WorkPackageId>

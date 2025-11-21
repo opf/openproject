@@ -79,58 +79,60 @@ export function statusColor(workPackage: WorkPackage) {
   return statusColors[statusId] || FALLBACK_STATUS_COLOR;
 }
 
-export function statusBorderColor(hexColor: string) {
+export function defaultColorStyles(hexColor: string) {
   const hsl = hexToHSL(hexColor);
+  return `
+    --color-r: ${parseHexColorValue(hexColor, "r")};
+    --color-g: ${parseHexColorValue(hexColor, "g")};
+    --color-b: ${parseHexColorValue(hexColor, "b")};
+    --color-h: ${hsl.h};
+    --color-s: ${hsl.s};
+    --color-l: ${hsl.l};
+    --perceived-lightness: calc( ((var(--color-r) * 0.2126) + (var(--color-g) * 0.7152) + (var(--color-b) * 0.0722)) / 255 );
+    --lightness-switch: max(0, min(calc((1/(var(--lightness-threshold) - var(--perceived-lightness)))), 1)); 
+    --lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
+    `
+}
 
-  if(detectTheme() === "dark") return `hsl(${hsl.h}, ${hsl.s}%, ${(hsl.l + lightenBy(hexColor))}%)`;
+export function defaultVariables() {
+  if (getTheme() === "dark") {
+    return `
+      --lightness-threshold: 0.6;
+      --background-alpha: 0.10; // this is darker than the default of OpenProject, but BlockNotes dark mode backgrounds are lighter
+  `;
+  }
+
+  return `
+    --lightness-threshold: 0.453; 
+  `
+}
+
+export function statusBorderColor() {
+  if (getTheme() === "dark") return `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%))`;
 
   // light theme
-  return `hsl(${hsl.h}, ${hsl.s}%, ${(hsl.l - 15)}%)`;
+  return `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 15) * 1%))`;
 }
 
-export function statusTextColor(hexColor: string) {
-  const hsl = hexToHSL(hexColor);
-
-  if (detectTheme() === "dark") return `hsl(${hsl.h}, ${hsl.s}%, ${(hsl.l + lightenBy(hexColor))}%)`;
+export function statusBackgroundColor() {
+  if (getTheme() === "dark") return `rgba(var(--color-r), var(--color-g), var(--color-b), var(--background-alpha))`;
 
   // light theme
-  return `hsl(0deg, 0%, ${lightnessSwitch(hexColor)*100}%)`;
+  return `rgb(var(--color-r), var(--color-g), var(--color-b))`;
 }
 
-export function statusBackgroundColor(hexColor: string) {
-  if (detectTheme() === "dark") return `rgba(${parseHexColorValue(hexColor, "r")}, ${parseHexColorValue(hexColor, "g")}, ${parseHexColorValue(hexColor, "b")}, ${backgroundAlpha()})`;
+export function statusTextColor() {
+  if (getTheme() === "dark") return `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%))`;
+
+  //light theme
+  return `hsl(0deg, 0%, calc(var(--lightness-switch) * 100%))`
+}
+
+export function typeTextColor() {
+  if (getTheme() === "dark") return `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%), 1)`;
 
   // light theme
-  return hexColor;
-}
-
-function lightnessSwitch(hexColor: string) {
-  return Math.max(0, Math.min(1/lightnessThreshold() - perceivedLightness(hexColor), 1));
-}
-
-function perceivedLightness(color: string) {
-  const r = parseHexColorValue(color, "r");
-  const g = parseHexColorValue(color, "g");
-  const b = parseHexColorValue(color, "b");
-
-  return ((r * 0.2126) + (g * 0.7152) + (b * 0.0722)) / 255;
-}
-
-function lightnessThreshold() {
-  if(getTheme() === "dark") return 0.6;
-
-  // light theme
-  return 0.453;
-}
-
-function lightenBy(hexColor: string) {
-  // so far only used for dark theme
-  return ((lightnessThreshold() - perceivedLightness(hexColor)) * 100) * lightnessSwitch(hexColor);
-}
-
-function backgroundAlpha() {
-  // so far only used for dark theme
-  return 0.18 - 0.07; // darken a bit because BlockNotes dark-mode background is lighter than OpenProjects
+  return `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - (var(--color-l) * 0.22)) * 1%), 1)`;
 }
 
 function hexToHSL(hexColor: string): { h: number; s: number; l: number } {
