@@ -130,6 +130,13 @@ const WorkPackageTitle = styled.div`
   }
 `;
 
+const UnavailableMessage = styled.div`
+`
+
+const UnavailableMessageHeader = styled.div`
+  font-weight: 600;
+`
+
 interface BlockProps {
   id: string,
   props: {
@@ -317,10 +324,16 @@ const OpenProjectWorkPackageBlockComponent = ({
             )}
           </Search>
         )}
+        {/* Display placeholder if user is not allowed to see the linked work package */}
         {block.props.wpid && !selectedWorkPackage && (
-          <div>
-            #{block.props.wpid} {block.props.subject}
-          </div>
+          <WorkPackage>
+            <UnavailableMessage>
+              <UnavailableMessageHeader>
+                Linked work package unavailable
+              </UnavailableMessageHeader>
+              You do not have permission to see this
+            </UnavailableMessage>
+          </WorkPackage>
         )}
         {/* Display selected work package details */}
         {selectedWorkPackage && (
