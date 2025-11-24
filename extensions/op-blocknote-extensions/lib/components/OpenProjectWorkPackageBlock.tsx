@@ -143,8 +143,6 @@ interface BlockProps {
   id: string,
   props: {
     wpid: string;
-    subject: string;
-    href: string;
   };
 }
 
@@ -219,8 +217,6 @@ const OpenProjectWorkPackageBlockComponent = ({
       props: {
         ...block.props,
         wpid: workPackage.id,
-        subject: workPackage.subject,
-        href: workPackage._links?.self?.href || "",
       },
     });
   };
@@ -372,8 +368,6 @@ export const openprojectWorkPackageBlockConfig = createBlockConfig(
     type: "openProjectWorkPackage",
     propSchema: {
       wpid: { default: "" },
-      subject: { default: "" },
-      href: { default: "" },
     },
     content: "inline",
   }) as const
