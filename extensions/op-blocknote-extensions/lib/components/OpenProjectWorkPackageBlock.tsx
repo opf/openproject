@@ -146,6 +146,35 @@ interface BlockProps {
   };
 }
 
+const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {workPackage: WorkPackage, inDropdown?: boolean, linkTitle?: boolean}) => {
+  let title = undefined
+  if(linkTitle ?? false) {
+    title = <a
+      href={linkToWorkPackage(workPackage.id)}
+      onClick={(event) => {
+        event.stopPropagation();
+        window.open(linkToWorkPackage(workPackage.id), '_blank', 'noopener,noreferrer');
+      }}
+    >
+      {workPackage.subject}
+    </a>
+  } else {
+    title = workPackage.subject
+  }
+
+  return (
+    <WorkPackage in_dropdown={inDropdown ?? false}>
+      <WorkPackageDetails>
+        <WorkPackageType color={typeColor(workPackage)}>{workPackage._links?.type?.title}</WorkPackageType>
+        <WorkPackageId>#{workPackage.id}</WorkPackageId>
+        <WorkPackageStatus base_color={statusColor(workPackage)}>
+          {workPackage._links?.status?.title}
+        </WorkPackageStatus>
+      </WorkPackageDetails>
+      <WorkPackageTitle>{title}</WorkPackageTitle>
+    </WorkPackage>
+  )
+}
 const UnavailableWorkPackageElement = ({ header, message }: {header: string, message: string}) => {
   return (
     <WorkPackage>
@@ -267,6 +296,7 @@ const OpenProjectWorkPackageBlockComponent = ({
   return (
     <Block>
       <div>
+        {/* Show search dialog if no work package is selected yet */}
         {!block.props.wpid && (
           <Search>
             <SearchLabel>
@@ -319,58 +349,26 @@ const OpenProjectWorkPackageBlockComponent = ({
                     }}
                     onMouseEnter={() => setFocusedResultIndex(index)}
                   >
-                    <WorkPackage in_dropdown={true}>
-                      <WorkPackageDetails>
-                        <WorkPackageType color={typeColor(wp)}>{wp._links?.type?.title}</WorkPackageType>
-                        <WorkPackageId>#{wp.id}</WorkPackageId>
-                        <WorkPackageStatus base_color={statusColor(wp)}>
-                          {wp._links?.status?.title}
-                        </WorkPackageStatus>
-                      </WorkPackageDetails>
-                      <WorkPackageTitle>{wp.subject}</WorkPackageTitle>
-                    </WorkPackage>
+                    <WorkPackageElement workPackage={wp} inDropdown={true} />
                   </DropdownOption>
                 ))}
               </Dropdown>
             )}
           </Search>
         )}
+
+        {/* Show work package data (if available) */}
         {block.props.wpid && !selectedWorkPackage && workPackageResult.loading && (
-          <UnavailableWorkPackageElement header="Loading" message="Please wait">
-          </UnavailableWorkPackageElement>
+          <UnavailableWorkPackageElement header="Loading" message="Please wait" />
         )}
         {block.props.wpid && !selectedWorkPackage && workPackageResult.unauthorized &&  (
-          <UnavailableWorkPackageElement header="Linked work package unavailable" message="You do not have permission to see this">
-          </UnavailableWorkPackageElement>
+          <UnavailableWorkPackageElement header="Linked work package unavailable" message="You do not have permission to see this" />
         )}
         {block.props.wpid && !selectedWorkPackage && workPackageResult.error && (
-          <UnavailableWorkPackageElement header="Error" message="Could not load work package">
-          </UnavailableWorkPackageElement>
+          <UnavailableWorkPackageElement header="Error" message="Could not load work package" />
         )}
-        {/* Display selected work package details */}
         {selectedWorkPackage && (
-          <WorkPackage>
-            <WorkPackageDetails>
-              <WorkPackageType color={typeColor(selectedWorkPackage)}>
-                {selectedWorkPackage._links?.type?.title}
-              </WorkPackageType>
-              <WorkPackageId>#{selectedWorkPackage.id}</WorkPackageId>
-              <WorkPackageStatus base_color={statusColor(selectedWorkPackage)}>
-                {selectedWorkPackage._links?.status?.title}
-              </WorkPackageStatus>
-            </WorkPackageDetails>
-            <WorkPackageTitle>
-              <a
-                href={linkToWorkPackage(block.props.wpid)}
-                onClick={(event) => {
-                        event.stopPropagation();
-                        window.open(linkToWorkPackage(block.props.wpid), '_blank', 'noopener,noreferrer');
-                      }}
-              >
-                {selectedWorkPackage.subject}
-              </a>
-            </WorkPackageTitle>
-          </WorkPackage>
+          <WorkPackageElement workPackage={selectedWorkPackage} linkTitle={true} />
         )}
       </div>
     </Block>
