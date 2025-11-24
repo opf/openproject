@@ -1,10 +1,11 @@
 import { useEffect, useState, useCallback } from "react";
 import type { WorkPackage } from "../openProjectTypes";
-import { fetchWorkPackage } from "../services/openProjectApi";
+import { OpenProjectApiError, fetchWorkPackage } from "../services/openProjectApi";
 
 export function useWorkPackage(wpid: string | null) {
   const [workPackage, setWorkPackage] = useState<WorkPackage | null>(null);
   const [loading, setLoading] = useState(false);
+  const [unauthorized, setUnauthorized] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const getWorkPackage = useCallback(async () => {
@@ -17,9 +18,14 @@ export function useWorkPackage(wpid: string | null) {
     try {
       const data = await fetchWorkPackage(wpid);
       setWorkPackage(data as WorkPackage);
-    } catch (err) {
-      setError((err as Error).message);
-      setWorkPackage(null);
+    } catch (error) {
+      if (error instanceof OpenProjectApiError && error.responseStatus === 404) {
+        setUnauthorized(true);
+        setWorkPackage(null);
+      } else {
+        setError((error as Error).message);
+        setWorkPackage(null);
+      }
     } finally {
       setLoading(false);
     }
@@ -29,5 +35,5 @@ export function useWorkPackage(wpid: string | null) {
     getWorkPackage();
   }, [getWorkPackage]);
 
-  return { workPackage, loading, error };
+  return { workPackage, loading, unauthorized, error };
 }

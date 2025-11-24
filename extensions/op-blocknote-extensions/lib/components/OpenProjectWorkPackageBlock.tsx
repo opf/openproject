@@ -146,6 +146,19 @@ interface BlockProps {
   };
 }
 
+const UnavailableWorkPackageElement = ({ header, message }: {header: string, message: string}) => {
+  return (
+    <WorkPackage>
+      <UnavailableMessage>
+        <UnavailableMessageHeader>
+          { header }
+        </UnavailableMessageHeader>
+        { message }
+      </UnavailableMessage>
+    </WorkPackage>
+  )
+}
+
 const OpenProjectWorkPackageBlockComponent = ({
   block,
   editor,
@@ -322,16 +335,17 @@ const OpenProjectWorkPackageBlockComponent = ({
             )}
           </Search>
         )}
-        {/* Display placeholder if user is not allowed to see the linked work package */}
-        {block.props.wpid && !selectedWorkPackage && (
-          <WorkPackage>
-            <UnavailableMessage>
-              <UnavailableMessageHeader>
-                Linked work package unavailable
-              </UnavailableMessageHeader>
-              You do not have permission to see this
-            </UnavailableMessage>
-          </WorkPackage>
+        {block.props.wpid && !selectedWorkPackage && workPackageResult.loading && (
+          <UnavailableWorkPackageElement header="Loading" message="Please wait">
+          </UnavailableWorkPackageElement>
+        )}
+        {block.props.wpid && !selectedWorkPackage && workPackageResult.unauthorized &&  (
+          <UnavailableWorkPackageElement header="Linked work package unavailable" message="You do not have permission to see this">
+          </UnavailableWorkPackageElement>
+        )}
+        {block.props.wpid && !selectedWorkPackage && workPackageResult.error && (
+          <UnavailableWorkPackageElement header="Error" message="Could not load work package">
+          </UnavailableWorkPackageElement>
         )}
         {/* Display selected work package details */}
         {selectedWorkPackage && (

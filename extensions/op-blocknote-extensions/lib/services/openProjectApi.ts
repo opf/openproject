@@ -3,6 +3,17 @@ import type {OpenProjectResponse, StatusCollection, TypeCollection, WorkPackage}
 
 let baseUrl = "https://openproject.local";
 
+
+export class OpenProjectApiError extends Error {
+  responseStatus?: number;
+
+  constructor(message: string, responseStatus?: number) {
+    super(message);
+    this.responseStatus = responseStatus;
+    this.name = "OpenProjectApiError";
+  }
+}
+
 export function initOpenProjectApi(config: { baseUrl: string }) {
   baseUrl = config.baseUrl;
   if (baseUrl.endsWith('/')) {
@@ -16,7 +27,7 @@ async function get<T>(endpoint: string): Promise<T> {
     headers: { "Content-Type": "application/json" },
   });
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status} - ${response.statusText}`);
+    throw new OpenProjectApiError(`HTTP error! status: ${response.status} - ${response.statusText}`, response.status);
   }
   return response.json();
 }
