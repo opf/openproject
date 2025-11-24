@@ -1,5 +1,5 @@
-import type { WorkPackage } from "../openProjectTypes";
-import {fetchTypes, fetchStatuses} from "./openProjectApi";
+import { type WorkPackage, type OpColorMode } from "../openProjectTypes";
+import { fetchTypes, fetchStatuses } from "./openProjectApi";
 import { useEffect, useState } from "react";
 
 const FALLBACK_TYPE_COLOR = "#3f3f3f";
@@ -7,7 +7,6 @@ const FALLBACK_STATUS_COLOR = "#D2DAE4";
 
 const statusColors:Record<string, string> = {};
 const typeColors:Record<string, string> = {};
-
 let colorsPromise: Promise<void> | null = null;
 
 // Load colors only once (called when OpenProjectWorkPackageBlock is initialized).
@@ -80,38 +79,68 @@ export function statusColor(workPackage: WorkPackage) {
   return statusColors[statusId] || FALLBACK_STATUS_COLOR;
 }
 
-export function statusBorderColor(hexColor: string) {
+export function defaultColorStyles(hexColor: string) {
   const hsl = hexToHSL(hexColor);
-  // for light theme
-  return `hsl(${hsl.h}, ${hsl.s}%, ${(hsl.l - 15)}%)`;
+  return `
+    --color-r: ${parseHexColorValue(hexColor, "r")};
+    --color-g: ${parseHexColorValue(hexColor, "g")};
+    --color-b: ${parseHexColorValue(hexColor, "b")};
+    --color-h: ${hsl.h};
+    --color-s: ${hsl.s};
+    --color-l: ${hsl.l};
+    --perceived-lightness: calc( ((var(--color-r) * 0.2126) + (var(--color-g) * 0.7152) + (var(--color-b) * 0.0722)) / 255 );
+    --lightness-switch: max(0, min(calc((1/(var(--lightness-threshold) - var(--perceived-lightness)))), 1)); 
+    --lighten-by: calc(((var(--lightness-threshold) - var(--perceived-lightness)) * 100) * var(--lightness-switch));
+    `
 }
 
-export function statusTextColor(hexColor: string) {
-  return `hsl(0deg, 0%, ${lightnessSwitch(hexColor)}%)`;
+export function defaultVariables() {
+  if (getTheme() === "dark") {
+    return `
+      --lightness-threshold: 0.6;
+      --background-alpha: 0.10; // this is darker than the default of OpenProject, but BlockNotes dark mode backgrounds are lighter
+  `;
+  }
+
+  return `
+    --lightness-threshold: 0.453; 
+  `
 }
 
-function lightnessSwitch(hexColor: string) {
-  return Math.max(0, Math.min(1/lightnessThreshold() - perceivedLightness(hexColor), 1));
-}
+export function statusBorderColor() {
+  if (getTheme() === "dark") return `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%))`;
 
-function perceivedLightness(color: string) {
-  const r = parseHexColorValue(color, "r");
-  const g = parseHexColorValue(color, "g");
-  const b = parseHexColorValue(color, "b");
-
-  return ((r * 0.2126) + (g * 0.7152) + (b * 0.0722)) / 255;
-}
-
-function lightnessThreshold() {
   // light theme
-  return 0.453;
+  return `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 15) * 1%))`;
 }
+
+export function statusBackgroundColor() {
+  if (getTheme() === "dark") return `rgba(var(--color-r), var(--color-g), var(--color-b), var(--background-alpha))`;
+
+  // light theme
+  return `rgb(var(--color-r), var(--color-g), var(--color-b))`;
+}
+
+export function statusTextColor() {
+  if (getTheme() === "dark") return `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%))`;
+
+  //light theme
+  return `hsl(0deg, 0%, calc(var(--lightness-switch) * 100%))`
+}
+
+export function typeTextColor() {
+  if (getTheme() === "dark") return `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%), 1)`;
+
+  // light theme
+  return `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - (var(--color-l) * 0.22)) * 1%), 1)`;
+}
+
 function hexToHSL(hexColor: string): { h: number; s: number; l: number } {
   const color = cleanColorString(hexColor);
 
-  const r = parseHexColorValue(color, "r");
-  const g = parseHexColorValue(color, "g");
-  const b = parseHexColorValue(color, "b");
+  const r = parseHexColorValue(color, "r") / 255;
+  const g = parseHexColorValue(color, "g") / 255;
+  const b = parseHexColorValue(color, "b") / 255;
 
   const max = Math.max(r, g, b);
   const min = Math.min(r, g, b);
@@ -148,7 +177,7 @@ function parseHexColorValue(colorString: string, channel: "r" | "g" | "b"): numb
     case "g": colorSubString = color.substring(2, 4); break;
     case "b": colorSubString = color.substring(4, 6); break;
   }
-  return parseInt(colorSubString, 16) / 255;
+  return parseInt(colorSubString, 16);
 }
 
 function cleanColorString(colorString: string) {
@@ -159,4 +188,19 @@ function cleanColorString(colorString: string) {
 
 function idFromHref(href: string) {
   return href.split("/").pop();
+}
+
+let theme: OpColorMode;
+function getTheme(): OpColorMode {
+  return theme ?? (theme = detectTheme());
+}
+
+function detectTheme(): OpColorMode {
+  const detected = document.querySelector('.bn-container')?.getAttribute('data-color-scheme');
+
+  if (detected === "light" || detected === "dark") {
+    return detected;
+  }
+
+  return "light";
 }

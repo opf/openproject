@@ -6,7 +6,7 @@ import { useWorkPackage } from "../hooks/useWorkPackage";
 import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
-import { useColors, typeColor, statusColor, statusBorderColor, statusTextColor } from "../services/colors";
+import { defaultVariables, defaultColorStyles, useColors, typeColor, statusColor, statusBorderColor, statusTextColor, statusBackgroundColor, typeTextColor } from "../services/colors";
 import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 
 import styled from "styled-components";
@@ -17,6 +17,10 @@ const SPACER_L = "12px";
 const SPACER_XL = "16px";
 
 const Block = styled.div`
+    --highlight-wp-background: var(--bn-colors-highlights-gray-background);
+    [data-color-scheme="dark"] & {
+        --highlight-wp-background: var(--bn-colors-disabled-text);
+    }
 `;
 
 const Search = styled.div`
@@ -24,6 +28,7 @@ const Search = styled.div`
   padding: ${SPACER_M} ${SPACER_XL};
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
+  width: 500px;
 `;
 
 const SearchLabel = styled.label`
@@ -58,19 +63,20 @@ const Dropdown = styled.div`
 `;
 
 const DropdownOption = styled.div<{ selected: boolean }>`
-  cursor: pointer;
-  background-color: ${({ selected }) => selected ? 'var(--bn-colors-highlights-gray-background)' : 'var(--bn-colors-menu-background)'};
+  background-color: ${({ selected }) => selected ? 'var(--highlight-wp-background)' : 'var(--bn-colors-menu-background)'};
   border: none;
   border-radius: var(--bn-border-radius-small);
   margin: ${SPACER_S} 0;
   padding: 0 ${SPACER_M};
+  cursor: pointer;
 `;
 
-const WorkPackage = styled.div<{ inDropdown?: boolean }>`
+const WorkPackage = styled.div<{ in_dropdown?: boolean }>`
+  ${defaultVariables}
   padding: ${SPACER_M} ${SPACER_L};
-  background-color: var(--bn-colors-highlights-gray-background);
+  background-color: var(--highlight-wp-background);
   border-radius: var(--bn-border-radius-small);
-  ${({ inDropdown }) => inDropdown && `
+  ${({ in_dropdown }) => in_dropdown && `
     padding: ${SPACER_S} 0;
     background-color: transparent; 
   `}
@@ -84,23 +90,25 @@ const WorkPackageDetails = styled.div`
 `;
 
 const WorkPackageType = styled.div<{ color: string }>`
+  ${({ color }) => defaultColorStyles(color)}
   font-weight: 500;
   text-transform: uppercase;
-  color: ${({ color }) => color} !important;
+  color: ${() => typeTextColor} !important;
 `;
 
 const WorkPackageId = styled.div`
   color: var(--bn-colors-highlights-gray-text);
 `;
 
-const WorkPackageStatus = styled.div<{ bgcolor: string }>`
+const WorkPackageStatus = styled.div<{ base_color: string }>`
+  ${({ base_color }) => defaultColorStyles(base_color)}
   font-size: 0.8rem;
   border-radius: 100px;
-  border: 1px solid ${({ bgcolor }) => statusBorderColor(bgcolor)};
+  border: 1px solid ${() => statusBorderColor()};
   padding: 0 7px;
   align-content: center;
-  color: ${({ bgcolor }) => statusTextColor(bgcolor)} !important;
-  background-color: ${({ bgcolor }) => bgcolor};
+  color: ${() => statusTextColor()} !important;
+  background-color: ${() => statusBackgroundColor()};
 `;
 
 const WorkPackageTitle = styled.div`
@@ -290,11 +298,11 @@ const OpenProjectWorkPackageBlockComponent = ({
                     }}
                     onMouseEnter={() => setFocusedResultIndex(index)}
                   >
-                    <WorkPackage inDropdown>
+                    <WorkPackage in_dropdown={true}>
                       <WorkPackageDetails>
                         <WorkPackageType color={typeColor(wp)}>{wp._links?.type?.title}</WorkPackageType>
                         <WorkPackageId>#{wp.id}</WorkPackageId>
-                        <WorkPackageStatus bgcolor={statusColor(wp)}>
+                        <WorkPackageStatus base_color={statusColor(wp)}>
                           {wp._links?.status?.title}
                         </WorkPackageStatus>
                       </WorkPackageDetails>
@@ -319,7 +327,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                 {selectedWorkPackage._links?.type?.title}
               </WorkPackageType>
               <WorkPackageId>#{selectedWorkPackage.id}</WorkPackageId>
-              <WorkPackageStatus bgcolor={statusColor(selectedWorkPackage)}>
+              <WorkPackageStatus base_color={statusColor(selectedWorkPackage)}>
                 {selectedWorkPackage._links?.status?.title}
               </WorkPackageStatus>
             </WorkPackageDetails>

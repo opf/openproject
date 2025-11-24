@@ -55,3 +55,5 @@ export interface OpenProjectResponse {
     }>;
   };
 }
+
+export type OpColorMode = "light" | "dark";
