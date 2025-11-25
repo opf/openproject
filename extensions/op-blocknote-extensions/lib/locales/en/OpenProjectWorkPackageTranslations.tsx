@@ -3,6 +3,12 @@ export const en = {
     "slashMenu": {
       "title": "Link to existing work package",
       "subtext": "Add a dynamic link to a single work package",
+      "aliases": {
+        "workpackage": "workpackage",
+        "work package": "work package",
+        "wp": "wp",
+        "link": "link"
+      }
     },
     "search": {
       "label": "Link existing work package",
