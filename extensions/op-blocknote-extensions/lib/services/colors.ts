@@ -108,10 +108,16 @@ export function defaultVariables() {
 }
 
 export function statusBorderColor() {
-  if (getTheme() === "dark") return `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%))`;
+  if (getTheme() === "dark") {
+    return wantsHighContrast()
+      ? `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + 10 + var(--lighten-by)) * 1%))`
+      : `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%))`;
+  }
 
   // light theme
-  return `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 15) * 1%))`;
+  return wantsHighContrast()
+    ? `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 75) * 1%), 1)`
+    : `hsl(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - 15) * 1%))`;
 }
 
 export function statusBackgroundColor() {
@@ -129,10 +135,16 @@ export function statusTextColor() {
 }
 
 export function typeTextColor() {
-  if (getTheme() === "dark") return `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%), 1)`;
+  if (getTheme() === "dark") {
+    return wantsHighContrast()
+      ? `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + 10 + var(--lighten-by)) * 1%), 1)`
+      : `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) + var(--lighten-by)) * 1%), 1)`;
+  }
 
   // light theme
-  return `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - (var(--color-l) * 0.22)) * 1%), 1)`;
+  return  wantsHighContrast()
+    ? `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - (var(--color-l) * 0.5)) * 1%), 1)`
+    : `hsla(var(--color-h), calc(var(--color-s) * 1%), calc((var(--color-l) - (var(--color-l) * 0.22)) * 1%), 1)`;
 }
 
 function hexToHSL(hexColor: string): { h: number; s: number; l: number } {
@@ -203,4 +215,19 @@ function detectTheme(): OpColorMode {
   }
 
   return "light";
+}
+
+let highContrast: boolean;
+function wantsHighContrast(): boolean {
+  return highContrast ?? (highContrast = detectHighContrast());
+}
+
+function detectHighContrast(): boolean {
+  const detected = document.querySelector('body')?.getAttribute('data-auto-theme-switcher-increase-contrast-value');
+
+  if (detected === "true" || detected === "false") {
+    return detected === "true";
+  }
+
+  return false
 }
