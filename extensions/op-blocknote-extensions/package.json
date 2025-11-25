@@ -52,6 +52,8 @@
     "@blocknote/mantine": "^0.41.1",
     "@blocknote/react": "^0.41.1",
     "@primer/octicons-react": "^19.20.0",
+    "i18next": "^25.6.3",
+    "react-i18next": "^16.3.5",
     "styled-components": "^6.1.19"
   }
 }
