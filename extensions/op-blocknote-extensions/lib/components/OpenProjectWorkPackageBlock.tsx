@@ -130,13 +130,62 @@ const WorkPackageTitle = styled.div`
   }
 `;
 
+const UnavailableMessage = styled.div`
+  color: var(--bn-colors-editor-text) !important;
+`
+
+const UnavailableMessageHeader = styled.div`
+  font-weight: 600;
+  color: var(--bn-colors-editor-text) !important;
+`
+
 interface BlockProps {
   id: string,
   props: {
     wpid: string;
-    subject: string;
-    href: string;
   };
+}
+
+const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {workPackage: WorkPackage, inDropdown?: boolean, linkTitle?: boolean}) => {
+  let title = undefined
+  if(linkTitle ?? false) {
+    title = <a
+      href={linkToWorkPackage(workPackage.id)}
+      onClick={(event) => {
+        event.stopPropagation();
+        window.open(linkToWorkPackage(workPackage.id), '_blank', 'noopener,noreferrer');
+      }}
+    >
+      {workPackage.subject}
+    </a>
+  } else {
+    title = workPackage.subject
+  }
+
+  return (
+    <WorkPackage in_dropdown={inDropdown ?? false}>
+      <WorkPackageDetails>
+        <WorkPackageType color={typeColor(workPackage)}>{workPackage._links?.type?.title}</WorkPackageType>
+        <WorkPackageId>#{workPackage.id}</WorkPackageId>
+        <WorkPackageStatus base_color={statusColor(workPackage)}>
+          {workPackage._links?.status?.title}
+        </WorkPackageStatus>
+      </WorkPackageDetails>
+      <WorkPackageTitle>{title}</WorkPackageTitle>
+    </WorkPackage>
+  )
+}
+const UnavailableWorkPackageElement = ({ header, message }: {header: string, message: string}) => {
+  return (
+    <WorkPackage>
+      <UnavailableMessage>
+        <UnavailableMessageHeader>
+          { header }
+        </UnavailableMessageHeader>
+        { message }
+      </UnavailableMessage>
+    </WorkPackage>
+  )
 }
 
 const OpenProjectWorkPackageBlockComponent = ({
@@ -210,8 +259,6 @@ const OpenProjectWorkPackageBlockComponent = ({
       props: {
         ...block.props,
         wpid: workPackage.id,
-        subject: workPackage.subject,
-        href: workPackage._links?.self?.href || "",
       },
     });
   };
@@ -249,6 +296,7 @@ const OpenProjectWorkPackageBlockComponent = ({
   return (
     <Block>
       <div>
+        {/* Show search dialog if no work package is selected yet */}
         {!block.props.wpid && (
           <Search>
             <SearchLabel>
@@ -301,51 +349,26 @@ const OpenProjectWorkPackageBlockComponent = ({
                     }}
                     onMouseEnter={() => setFocusedResultIndex(index)}
                   >
-                    <WorkPackage in_dropdown={true}>
-                      <WorkPackageDetails>
-                        <WorkPackageType color={typeColor(wp)}>{wp._links?.type?.title}</WorkPackageType>
-                        <WorkPackageId>#{wp.id}</WorkPackageId>
-                        <WorkPackageStatus base_color={statusColor(wp)}>
-                          {wp._links?.status?.title}
-                        </WorkPackageStatus>
-                      </WorkPackageDetails>
-                      <WorkPackageTitle>{wp.subject}</WorkPackageTitle>
-                    </WorkPackage>
+                    <WorkPackageElement workPackage={wp} inDropdown={true} />
                   </DropdownOption>
                 ))}
               </Dropdown>
             )}
           </Search>
         )}
-        {block.props.wpid && !selectedWorkPackage && (
-          <div>
-            #{block.props.wpid} {block.props.subject}
-          </div>
+
+        {/* Show work package data (if available) */}
+        {block.props.wpid && !selectedWorkPackage && workPackageResult.loading && (
+          <UnavailableWorkPackageElement header="Loading" message="Please wait" />
         )}
-        {/* Display selected work package details */}
+        {block.props.wpid && !selectedWorkPackage && workPackageResult.unauthorized &&  (
+          <UnavailableWorkPackageElement header="Linked work package unavailable" message="You do not have permission to see this" />
+        )}
+        {block.props.wpid && !selectedWorkPackage && workPackageResult.error && (
+          <UnavailableWorkPackageElement header="Error" message="Could not load work package" />
+        )}
         {selectedWorkPackage && (
-          <WorkPackage>
-            <WorkPackageDetails>
-              <WorkPackageType color={typeColor(selectedWorkPackage)}>
-                {selectedWorkPackage._links?.type?.title}
-              </WorkPackageType>
-              <WorkPackageId>#{selectedWorkPackage.id}</WorkPackageId>
-              <WorkPackageStatus base_color={statusColor(selectedWorkPackage)}>
-                {selectedWorkPackage._links?.status?.title}
-              </WorkPackageStatus>
-            </WorkPackageDetails>
-            <WorkPackageTitle>
-              <a
-                href={linkToWorkPackage(block.props.wpid)}
-                onClick={(event) => {
-                        event.stopPropagation();
-                        window.open(linkToWorkPackage(block.props.wpid), '_blank', 'noopener,noreferrer');
-                      }}
-              >
-                {selectedWorkPackage.subject}
-              </a>
-            </WorkPackageTitle>
-          </WorkPackage>
+          <WorkPackageElement workPackage={selectedWorkPackage} linkTitle={true} />
         )}
       </div>
     </Block>
@@ -357,8 +380,6 @@ export const openprojectWorkPackageBlockConfig = createBlockConfig(
     type: "openProjectWorkPackage",
     propSchema: {
       wpid: { default: "" },
-      subject: { default: "" },
-      href: { default: "" },
     },
     content: "inline",
   }) as const
@@ -373,15 +394,14 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
   openprojectWorkPackageBlockConfig,
   {
     render: (block) => {
-      const wpid = block.props.wpid || "unknown";
-      const subject = block.props.subject || "Work Package";
-      const href = block.props.href || "#";
-      
+      const wpid = block.props.wpid;
+      const href = linkToWorkPackage(wpid);
+
       const anchor = document.createElement("a");
       anchor.href = href;
       anchor.target = "_blank";
       anchor.rel = "noopener noreferrer";
-      anchor.textContent = `#${wpid} - ${subject}`;
+      anchor.textContent = `#${wpid}`;
 
       return {
         dom: anchor,
