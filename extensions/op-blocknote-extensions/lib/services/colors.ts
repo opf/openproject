@@ -223,11 +223,10 @@ function wantsHighContrast(): boolean {
 }
 
 function detectHighContrast(): boolean {
-  const detected = document.querySelector('body')?.getAttribute('data-auto-theme-switcher-increase-contrast-value');
+  const osContrast = window.matchMedia('(prefers-contrast: more)');
+  const opContrast = document.querySelector('body')?.getAttribute('data-auto-theme-switcher-increase-contrast-value');
+  const opForceLightContrast = document.querySelector('body')?.getAttribute('data-auto-theme-switcher-force-light-contrast-value');
+  const opForceDarkContrast = document.querySelector('body')?.getAttribute('data-auto-theme-switcher-force-dark-contrast-value');
 
-  if (detected === "true" || detected === "false") {
-    return detected === "true";
-  }
-
-  return false
+  return ((osContrast.matches && !(opContrast === "false")) || opContrast === "true" || (getTheme() == "light" && opForceLightContrast === "true") || (getTheme() == "dark" && opForceDarkContrast === "true"));
 }
