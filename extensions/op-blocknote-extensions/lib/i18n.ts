@@ -1,10 +1,14 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { en } from "./locales/en/OpenProjectWorkPackageTranslations";
+import { en } from "./locales/en";
+
+export function initLanguage(locale: string) {
+  i18n.changeLanguage(locale);
+}
 
 if (!i18n.isInitialized) {
   i18n
-    .use(initReactI18next) // Passes i18n down to react-i18next
+    .use(initReactI18next)
     .init({
       resources: {
         en
