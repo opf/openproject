@@ -8,7 +8,7 @@ import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
 import { defaultVariables, defaultColorStyles, useColors, typeColor, statusColor, statusBorderColor, statusTextColor, statusBackgroundColor, typeTextColor } from "../services/colors";
 import { useTranslation } from "react-i18next"; // localize react components
-import i18n from "../i18n"; // localize other code
+import i18n from "../services/i18n.ts"; // localize other code
 
 import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 import styled from "styled-components";

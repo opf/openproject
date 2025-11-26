@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { en } from "./locales/en";
+import { en } from "../locales/en.ts";
 
 export function initLanguage(locale: string) {
   i18n.changeLanguage(locale);
@@ -10,7 +10,7 @@ const resources: Record<string, any> = {
   en,
 };
 
-const localeModules = import.meta.glob("./locales/crowdin/*.ts", { eager: true });
+const localeModules = import.meta.glob("../locales/crowdin/*.ts", { eager: true });
 
 for (const path in localeModules) {
   const locale = path.match(/([^/]+)\.ts$/)?.[1];
