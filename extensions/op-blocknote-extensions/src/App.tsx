@@ -8,11 +8,12 @@ import {
     useCreateBlockNote,
 } from "@blocknote/react";
 import {
-    initOpenProjectApi,
-    openProjectWorkPackageBlockSpec,
-    openProjectWorkPackageSlashMenu
+  initializeOpBlockNoteExtensions,
+  openProjectWorkPackageBlockSpec,
+  openProjectWorkPackageSlashMenu
 } from "../lib";
 import "./fetchOverride";
+import * as locales from "@blocknote/core/locales";
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
@@ -22,9 +23,11 @@ const schema = BlockNoteSchema.create().extend({
 type EditorType = typeof schema.BlockNoteEditor;
 
 export default function App() {
-  const editor = useCreateBlockNote({ schema });
+  const editor = useCreateBlockNote({
+    schema
+  });
 
-  initOpenProjectApi({ baseUrl: "http://localhost:3000" });
+  initializeOpBlockNoteExtensions({ baseUrl: "http://localhost:3000", locale: "en" });
 
   const getCustomSlashMenuItems = (editor: EditorType) => {
     return [
