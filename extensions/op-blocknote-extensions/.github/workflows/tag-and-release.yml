@@ -3,7 +3,7 @@ name: Tag and Release
 on:
   push:
     branches:
-      - main
+      - dev
 
 permissions:
   contents: write
