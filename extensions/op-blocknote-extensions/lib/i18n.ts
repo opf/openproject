@@ -6,13 +6,25 @@ export function initLanguage(locale: string) {
   i18n.changeLanguage(locale);
 }
 
+const resources: Record<string, any> = {
+  en,
+};
+
+const localeModules = import.meta.glob("./locales/crowdin/*.ts", { eager: true });
+
+for (const path in localeModules) {
+  const locale = path.match(/([^/]+)\.ts$/)?.[1];
+  if (locale) {
+    const mod = localeModules[path] as any;
+    resources[locale] = mod[locale] || mod.default || Object.values(mod)[0];
+  }
+}
+
 if (!i18n.isInitialized) {
   i18n
     .use(initReactI18next)
     .init({
-      resources: {
-        en
-      },
+      resources,
       lng: "en",
       fallbackLng: "en",
       interpolation: {
