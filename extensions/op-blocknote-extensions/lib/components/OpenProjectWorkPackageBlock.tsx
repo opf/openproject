@@ -7,8 +7,10 @@ import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
 import { defaultVariables, defaultColorStyles, useColors, typeColor, statusColor, statusBorderColor, statusTextColor, statusBackgroundColor, typeTextColor } from "../services/colors";
-import { LinkIcon, SearchIcon } from "@primer/octicons-react";
+import { useTranslation } from "react-i18next"; // localize react components
+import i18n from "../i18n"; // localize other code
 
+import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 import styled from "styled-components";
 
 const SPACER_S = "4px";
@@ -175,6 +177,7 @@ const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {workPackage
     </WorkPackage>
   )
 }
+
 const UnavailableWorkPackageElement = ({ header, message }: {header: string, message: string}) => {
   return (
     <WorkPackage>
@@ -195,6 +198,7 @@ const OpenProjectWorkPackageBlockComponent = ({
   block: BlockProps;
   editor: BlockNoteEditor<DefaultBlockSchema & { openProjectWorkPackage: ReturnType<typeof openprojectWorkPackageBlockConfig> }>;
 }) => {
+  const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -300,7 +304,7 @@ const OpenProjectWorkPackageBlockComponent = ({
         {!block.props.wpid && (
           <Search>
             <SearchLabel>
-              Link existing work package
+              {t("search.label")}
               <SearchInputWrapper>
                 <SearchIconWrapper>
                   <SearchIcon size={18} />
@@ -308,7 +312,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                 <SearchInput
                   ref={inputRef}
                   type="custom"
-                  placeholder={"Search for work package ID or subject"}
+                  placeholder={t("search.placeholder")}
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
@@ -331,7 +335,7 @@ const OpenProjectWorkPackageBlockComponent = ({
               <Dropdown
                 ref={dropdownRef}
                 role="listbox"
-                aria-label={"Work package search results"}
+                aria-label={t("search.dropdownAriaLabel")}
               >
                 {searchResults.slice(0, 5).map((wp, index) => (
                   <DropdownOption
@@ -359,13 +363,13 @@ const OpenProjectWorkPackageBlockComponent = ({
 
         {/* Show work package data (if available) */}
         {block.props.wpid && !selectedWorkPackage && workPackageResult.loading && (
-          <UnavailableWorkPackageElement header="Loading" message="Please wait" />
+          <UnavailableWorkPackageElement header={t("unavailableWorkPackage.loading.header")} message={t("unavailableWorkPackage.loading.message")} />
         )}
         {block.props.wpid && !selectedWorkPackage && workPackageResult.unauthorized &&  (
-          <UnavailableWorkPackageElement header="Linked work package unavailable" message="You do not have permission to see this" />
+          <UnavailableWorkPackageElement header={t("unavailableWorkPackage.unauthorized.header")} message={t("unavailableWorkPackage.unauthorized.message")} />
         )}
         {block.props.wpid && !selectedWorkPackage && workPackageResult.error && (
-          <UnavailableWorkPackageElement header="Error" message="Could not load work package" />
+          <UnavailableWorkPackageElement header={t("unavailableWorkPackage.error.header")} message={t("unavailableWorkPackage.error.message")} />
         )}
         {selectedWorkPackage && (
           <WorkPackageElement workPackage={selectedWorkPackage} linkTitle={true} />
@@ -412,26 +416,33 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
 );
 
 export const openProjectWorkPackageSlashMenu = (editor: any) => ({
-  title: "Link to existing work package",
+  title: i18n.t("slashMenu.title"),
   onItemClick: () => insertOrUpdateBlock(editor, { type: "openProjectWorkPackage" }),
-  aliases: ["openproject", "op", "workpackage", "work package", "wp", "link",
-    "openproject work package link", "openproject workpackage link", "openproject wp link",
-    "op work package link", "op workpackage link", "op wp link",
-    "openproject link work package", "openproject link workpackage", "openproject link wp",
-    "op link work package", "op link workpackage", "op link wp",
-    "work package openproject link", "work package op link",
-    "workpackage openproject link", "workpackage op link",
-    "wp openproject link", "wp op link",
-    "work package link openproject", "work package link op",
-    "workpackage link openproject", "workpackage link op",
-    "wp link openproject", "wp link op",
-    "link work package openproject", "link work package op",
-    "link workpackage openproject", "link workpackage op",
-    "link wp openproject", "link wp op",
-    "link openproject work package", "link openproject workpackage", "link openproject wp",
-    "link op work package", "link op workpackage", "link op wp",
-  ],
+  aliases: [...calculateAliases()],
   group: "OpenProject",
   icon: <LinkIcon size={18} />,
-  subtext: "Add a dynamic link to a single work package",
+  subtext: i18n.t("slashMenu.subtext"),
 })
+
+function calculateAliases(): string[] {
+  const namespaces = ["openproject", "op"]
+  const objectTypes = [i18n.t("slashMenu.aliases.workpackage"), i18n.t("slashMenu.aliases.work package"), i18n.t("slashMenu.aliases.wp")]
+  const functionNames = [i18n.t("slashMenu.aliases.link")]
+
+  const combinations: string[] = [];
+
+  for (const namespace of namespaces) {
+    for (const objectType of objectTypes) {
+      for (const functionName of functionNames) {
+        combinations.push(`${namespace} ${objectType} ${functionName}`);
+        combinations.push(`${namespace} ${functionName} ${objectType}`);
+        combinations.push(`${objectType} ${namespace} ${functionName}`);
+        combinations.push(`${objectType} ${functionName} ${namespace}`);
+        combinations.push(`${functionName} ${namespace} ${objectType}`);
+        combinations.push(`${functionName} ${objectType} ${namespace}`);
+      }
+    }
+  }
+
+  return combinations;
+}
