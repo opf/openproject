@@ -265,6 +265,7 @@ const OpenProjectWorkPackageBlockComponent = ({
         wpid: workPackage.id,
       },
     });
+    setNewCursorPosition(editor, block);
   };
 
   // Handle keyboard navigation
@@ -445,4 +446,26 @@ function calculateAliases(): string[] {
   }
 
   return combinations;
+}
+
+// The link work package block is not editable, so the cursor should be
+// positioned at the beginning of the next block.
+// Selecting the work package from a dropdown with arrow keys and enter
+// somehow messes the cursor position up, so we need to set it manually.
+function setNewCursorPosition(editor: BlockNoteEditor<any>, block: BlockProps) {
+  editor.focus();
+  editor.setTextCursorPosition(block.id, "end");
+  setCursorToNextBlock(editor, editor.getTextCursorPosition());
+}
+
+type TextCursorPosition = ReturnType<BlockNoteEditor<any>["getTextCursorPosition"]>;
+function setCursorToNextBlock(editor: BlockNoteEditor<any>, cursorPosition: TextCursorPosition) {
+  if (cursorPosition.nextBlock) {
+    editor.setTextCursorPosition(cursorPosition.nextBlock.id, "start");
+    return
+  }
+  // ensure it still works at the end of the document when there is no next block
+  if (cursorPosition.block) {
+    editor.setTextCursorPosition(cursorPosition.block.id, "end");
+  }
 }
