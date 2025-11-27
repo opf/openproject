@@ -385,7 +385,7 @@ export const openprojectWorkPackageBlockConfig = createBlockConfig(
     propSchema: {
       wpid: { default: "" },
     },
-    content: "inline",
+    content: "none",
   }) as const
 );
 
