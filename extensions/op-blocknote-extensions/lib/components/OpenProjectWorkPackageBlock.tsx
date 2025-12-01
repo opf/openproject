@@ -76,12 +76,12 @@ const DropdownOption = styled.div<{ selected: boolean }>`
   cursor: pointer;
 `;
 
-const WorkPackage = styled.div<{ in_dropdown?: boolean }>`
+const WorkPackage = styled.div<{ in_dropdown?: string }>`
   ${defaultVariables}
   padding: ${SPACER_M} ${SPACER_L};
   background-color: var(--highlight-wp-background);
   border-radius: var(--bn-border-radius-small);
-  ${({ in_dropdown }) => in_dropdown && `
+  ${({ in_dropdown }) => in_dropdown && JSON.parse(in_dropdown) && `
     padding: ${SPACER_S} 0;
     background-color: transparent; 
   `}
@@ -148,7 +148,7 @@ interface BlockProps {
   };
 }
 
-const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {workPackage: WorkPackage, inDropdown?: boolean, linkTitle?: boolean}) => {
+const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {workPackage: WorkPackage, inDropdown?: string, linkTitle?: boolean}) => {
   let title = undefined
   if(linkTitle ?? false) {
     title = <a
@@ -165,7 +165,7 @@ const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {workPackage
   }
 
   return (
-    <WorkPackage in_dropdown={inDropdown ?? false}>
+    <WorkPackage in_dropdown={inDropdown ?? "false"}>
       <WorkPackageDetails>
         <WorkPackageType color={typeColor(workPackage)}>{workPackage._links?.type?.title}</WorkPackageType>
         <WorkPackageId>#{workPackage.id}</WorkPackageId>
@@ -353,7 +353,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                     }}
                     onMouseEnter={() => setFocusedResultIndex(index)}
                   >
-                    <WorkPackageElement workPackage={wp} inDropdown={true} />
+                    <WorkPackageElement workPackage={wp} inDropdown="true" />
                   </DropdownOption>
                 ))}
               </Dropdown>
