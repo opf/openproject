@@ -1,0 +1,3 @@
+files:
+  - source: /lib/locales/en.ts
+    translation: /lib/locales/crowdin/%two_letters_code%.ts
