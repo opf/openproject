@@ -1,4 +1,5 @@
-import { BlockNoteSchema, filterSuggestionItems } from "@blocknote/core";
+import { BlockNoteSchema } from "@blocknote/core";
+import { filterSuggestionItems } from "@blocknote/core/extensions";
 import "@blocknote/core/fonts/inter.css";
 import { BlockNoteView } from "@blocknote/mantine";
 import "@blocknote/mantine/style.css";

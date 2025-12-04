@@ -1,5 +1,6 @@
 import type { DefaultBlockSchema } from "@blocknote/core";
-import { BlockNoteEditor, createBlockConfig, createBlockSpec, insertOrUpdateBlock } from "@blocknote/core";
+import { BlockNoteEditor, createBlockConfig, createBlockSpec } from "@blocknote/core";
+import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import React, { useEffect, useRef, useState } from "react";
 import { useWorkPackage } from "../hooks/useWorkPackage";
@@ -418,7 +419,7 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
 
 export const openProjectWorkPackageSlashMenu = (editor: any) => ({
   title: i18n.t("slashMenu.title"),
-  onItemClick: () => insertOrUpdateBlock(editor, { type: "openProjectWorkPackage" }),
+  onItemClick: () => insertOrUpdateBlockForSlashMenu(editor, { type: "openProjectWorkPackage" }),
   aliases: [...calculateAliases()],
   group: "OpenProject",
   icon: <LinkIcon size={18} />,
