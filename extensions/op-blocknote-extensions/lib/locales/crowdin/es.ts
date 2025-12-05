@@ -1,8 +1,8 @@
 export const en = {
   translation: {
     "slashMenu": {
-      "title": "Link to existing work package",
-      "subtext": "Add a dynamic link to a single work package",
+      "title": "Vincular el paquete de trabajo existente",
+      "subtext": "Añadir un enlace dinámico a un solo paquete de trabajo",
       "aliases": {
         "workpackage": "paquetedetrabajo",
         "work package": "paquete de trabajo",
@@ -11,22 +11,22 @@ export const en = {
       }
     },
     "search": {
-      "label": "Link existing work package",
-      "placeholder": "Search for work package ID or subject",
-      "dropdownAriaLabel": "Work package search results"
+      "label": "Vincular el paquete de trabajo existente",
+      "placeholder": "Buscar paquete de trabajo por ID o asunto",
+      "dropdownAriaLabel": "Resultados de la búsqueda de paquetes de trabajo"
     },
     "unavailableWorkPackage": {
       "loading": {
-        "header": "Loading",
-        "message": "Please wait"
+        "header": "Cargando",
+        "message": "Por favor, espere"
       },
       "unauthorized": {
-        "header": "Linked work package unavailable",
-        "message": "You do not have permission to see this"
+        "header": "Paquete de trabajo vinculado no disponible",
+        "message": "Usted no está autorizado para ver este contenido"
       },
       "error": {
         "header": "Error",
-        "message": "Could not load work package"
+        "message": "No se ha podido cargar el paquete de trabajo"
       }
     }
   }

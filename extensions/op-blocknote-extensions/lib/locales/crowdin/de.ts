@@ -11,7 +11,7 @@ export const en = {
       }
     },
     "search": {
-      "label": "Bestehendes Arbeitspaket verlinken",
+      "label": "Vorhandenes Arbeitspaket verlinken",
       "placeholder": "Nach ID oder Betreff suchen",
       "dropdownAriaLabel": "Suchergebnisse (Arbeitspakete)"
     },
