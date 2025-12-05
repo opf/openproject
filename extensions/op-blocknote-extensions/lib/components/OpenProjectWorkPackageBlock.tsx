@@ -8,6 +8,7 @@ import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
 import { defaultVariables, defaultColorStyles, useColors, typeColor, statusColor, statusBorderColor, statusTextColor, statusBackgroundColor, typeTextColor } from "../services/colors";
+import { getAliases } from "../services/slashMenuAliases";
 import { useTranslation } from "react-i18next"; // localize react components
 import i18n from "../services/i18n.ts"; // localize other code
 
@@ -420,34 +421,11 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
 export const openProjectWorkPackageSlashMenu = (editor: any) => ({
   title: i18n.t("slashMenu.title"),
   onItemClick: () => insertOrUpdateBlockForSlashMenu(editor, { type: "openProjectWorkPackage" }),
-  aliases: [...calculateAliases()],
+  aliases: [...getAliases()],
   group: "OpenProject",
   icon: <LinkIcon size={18} />,
   subtext: i18n.t("slashMenu.subtext"),
 })
-
-function calculateAliases(): string[] {
-  const namespaces = ["openproject", "op"]
-  const objectTypes = [i18n.t("slashMenu.aliases.workpackage"), i18n.t("slashMenu.aliases.work package"), i18n.t("slashMenu.aliases.wp")]
-  const functionNames = [i18n.t("slashMenu.aliases.link")]
-
-  const combinations: string[] = [];
-
-  for (const namespace of namespaces) {
-    for (const objectType of objectTypes) {
-      for (const functionName of functionNames) {
-        combinations.push(`${namespace} ${objectType} ${functionName}`);
-        combinations.push(`${namespace} ${functionName} ${objectType}`);
-        combinations.push(`${objectType} ${namespace} ${functionName}`);
-        combinations.push(`${objectType} ${functionName} ${namespace}`);
-        combinations.push(`${functionName} ${namespace} ${objectType}`);
-        combinations.push(`${functionName} ${objectType} ${namespace}`);
-      }
-    }
-  }
-
-  return combinations;
-}
 
 // The link work package block is not editable, so the cursor should be
 // positioned at the beginning of the next block.

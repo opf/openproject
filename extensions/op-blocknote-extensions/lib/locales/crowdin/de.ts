@@ -6,7 +6,7 @@ export const en = {
       "aliases": {
         "workpackage": "Arbeitspaket",
         "work package": "work package",
-        "wp": "wp",
+        "wp": "ap",
         "link": "link"
       }
     },
