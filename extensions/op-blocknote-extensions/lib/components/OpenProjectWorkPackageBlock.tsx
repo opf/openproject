@@ -428,8 +428,8 @@ export const openProjectWorkPackageSlashMenu = (editor: any) => ({
 
 function calculateAliases(): string[] {
   const namespaces = ["openproject", "op"]
-  const objectTypes = ["workpackage", "work package", "wp"]
-  const functionNames = ["link"]
+  const objectTypes = [i18n.t("slashMenu.aliases.workpackage"), i18n.t("slashMenu.aliases.work package"), i18n.t("slashMenu.aliases.wp")]
+  const functionNames = [i18n.t("slashMenu.aliases.link")]
 
   const combinations: string[] = [];
 
