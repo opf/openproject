@@ -114,6 +114,7 @@ const WorkPackageDetails = styled.div.attrs({
   flex-wrap: wrap;
   gap: 0 10px;
   width: 100%;
+  font-size: 0.86em;
 `;
 
 const WorkPackageType = styled.div.attrs({
@@ -135,7 +136,7 @@ const WorkPackageStatus = styled.div.attrs({
   className: 'op-bn-work-package--status'
 })<{ base_color: string }>`
   ${({ base_color }) => defaultColorStyles(base_color)}
-  font-size: 0.8rem;
+  font-size: 0.95em;
   border-radius: 100px;
   border: 1px solid ${() => statusBorderColor()};
   padding: 0 7px;
