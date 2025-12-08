@@ -20,7 +20,9 @@ const SPACER_M = "8px";
 const SPACER_L = "12px";
 const SPACER_XL = "16px";
 
-const Block = styled.div`
+const Block = styled.div.attrs({
+  className: 'op-bn-work-package-block'
+})`
     --highlight-wp-background: var(--bn-colors-highlights-gray-background);
     [data-color-scheme="dark"] & {
         --highlight-wp-background: var(--bn-colors-disabled-text);
@@ -89,7 +91,9 @@ const WorkPackage = styled.div<{ in_dropdown?: string }>`
   `}
 `;
 
-const WorkPackageDetails = styled.div`
+const WorkPackageDetails = styled.div.attrs({
+  className: 'op-bn-work-package-block__details'
+})`
   display: flex;
   flex-wrap: wrap;
   gap: 0 10px;
@@ -118,7 +122,9 @@ const WorkPackageStatus = styled.div<{ base_color: string }>`
   background-color: ${() => statusBackgroundColor()};
 `;
 
-const WorkPackageTitle = styled.div`
+const WorkPackageTitle = styled.div.attrs({
+  className: 'op-bn-work-package-block__title'
+})`
   flex-basis: max-content;
   color: var(--bn-colors-editor-text);
   font-weight: 500;
