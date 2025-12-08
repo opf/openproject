@@ -1,7 +1,7 @@
 export const en = {
   translation: {
     "slashMenu": {
-      "title": "Link to existing work package",
+      "title": "Link existing work package",
       "subtext": "Add a dynamic link to a single work package",
       "aliases": {
         "workpackage": "workpackage",
@@ -12,7 +12,7 @@ export const en = {
     },
     "search": {
       "label": "Link existing work package",
-      "placeholder": "Search for work package ID or subject",
+      "placeholder": "Search by work package ID or subject",
       "dropdownAriaLabel": "Work package search results"
     },
     "unavailableWorkPackage": {

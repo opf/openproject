@@ -7,7 +7,7 @@ export const en = {
         "workpackage": "Arbeitspaket",
         "work package": "work package",
         "wp": "ap",
-        "link": "link"
+        "link": "verlinken"
       }
     },
     "search": {
