@@ -21,7 +21,7 @@ const SPACER_L = "12px";
 const SPACER_XL = "16px";
 
 const Block = styled.div.attrs({
-  className: 'op-bn-work-package-block'
+  className: 'op-bn-extensions'
 })`
     --highlight-wp-background: var(--bn-colors-highlights-gray-background);
     [data-color-scheme="dark"] & {
@@ -29,7 +29,9 @@ const Block = styled.div.attrs({
     }
 `;
 
-const Search = styled.div`
+const Search = styled.div.attrs({
+  className: 'op-bn-search'
+})`
   position: relative;
   padding: ${SPACER_M} ${SPACER_XL};
   box-shadow: var(--bn-shadow-medium);
@@ -40,22 +42,30 @@ const Search = styled.div`
   }
 `;
 
-const SearchLabel = styled.label`
+const SearchLabel = styled.label.attrs({
+  className: 'op-bn-search--label'
+})`
   font-weight: normal !important;
 `;
 
-const SearchInputWrapper = styled.div`
+const SearchInputWrapper = styled.div.attrs({
+  className: 'op-bn-search--input-wrapper'
+})`
   position: relative;
   margin-top: ${SPACER_M};
 `;
 
-const SearchIconWrapper = styled.div`
+const SearchIconWrapper = styled.div.attrs({
+  className: 'op-bn-search--icon-wrapper'
+})`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   padding-left: ${SPACER_M};
 `;
-const SearchInput = styled.input`
+const SearchInput = styled.input.attrs({
+  className: 'op-bn-search--input'
+})`
   width: 100%;
   padding: ${SPACER_M} ${SPACER_L};
   padding-left: 30px !important; // room for the search icon
@@ -64,14 +74,18 @@ const SearchInput = styled.input`
   font-size: 14px;
 `;
 
-const Dropdown = styled.div`
+const Dropdown = styled.div.attrs({
+  className: 'op-bn-dropdown'
+})`
   background-color: var(--bn-colors-menu-background);
   overflow-y: auto;
   padding-top: ${SPACER_M};
   margin: 0 -${SPACER_M};
 `;
 
-const DropdownOption = styled.div<{ selected: boolean }>`
+const DropdownOption = styled.div.attrs({
+  className: 'op-bn-dropdown--option'
+})<{ selected: boolean }>`
   background-color: ${({ selected }) => selected ? 'var(--highlight-wp-background)' : 'var(--bn-colors-menu-background)'};
   border: none;
   border-radius: var(--bn-border-radius-small);
@@ -80,7 +94,9 @@ const DropdownOption = styled.div<{ selected: boolean }>`
   cursor: pointer;
 `;
 
-const WorkPackage = styled.div<{ in_dropdown?: string }>`
+const WorkPackage = styled.div.attrs({
+  className: 'op-bn-work-package'
+})<{ in_dropdown?: string }>`
   ${defaultVariables}
   padding: ${SPACER_M} ${SPACER_L};
   background-color: var(--highlight-wp-background);
@@ -92,7 +108,7 @@ const WorkPackage = styled.div<{ in_dropdown?: string }>`
 `;
 
 const WorkPackageDetails = styled.div.attrs({
-  className: 'op-bn-work-package-block__details'
+  className: 'op-bn-work-package--details'
 })`
   display: flex;
   flex-wrap: wrap;
@@ -100,18 +116,24 @@ const WorkPackageDetails = styled.div.attrs({
   width: 100%;
 `;
 
-const WorkPackageType = styled.div<{ color: string }>`
+const WorkPackageType = styled.div.attrs({
+  className: 'op-bn-work-package--type'
+})<{ color: string }>`
   ${({ color }) => defaultColorStyles(color)}
   font-weight: 500;
   text-transform: uppercase;
   color: ${() => typeTextColor} !important;
 `;
 
-const WorkPackageId = styled.div`
+const WorkPackageId = styled.div.attrs({
+  className: 'op-bn-work-package--id'
+})`
   color: var(--bn-colors-highlights-gray-text);
 `;
 
-const WorkPackageStatus = styled.div<{ base_color: string }>`
+const WorkPackageStatus = styled.div.attrs({
+  className: 'op-bn-work-package--status'
+})<{ base_color: string }>`
   ${({ base_color }) => defaultColorStyles(base_color)}
   font-size: 0.8rem;
   border-radius: 100px;
@@ -123,7 +145,7 @@ const WorkPackageStatus = styled.div<{ base_color: string }>`
 `;
 
 const WorkPackageTitle = styled.div.attrs({
-  className: 'op-bn-work-package-block__title'
+  className: 'op-bn-work-package--title'
 })`
   flex-basis: max-content;
   color: var(--bn-colors-editor-text);
@@ -140,11 +162,15 @@ const WorkPackageTitle = styled.div.attrs({
   }
 `;
 
-const UnavailableMessage = styled.div`
+const UnavailableMessage = styled.div.attrs({
+  className: 'op-bn-unavailable-message'
+})`
   color: var(--bn-colors-editor-text) !important;
 `
 
-const UnavailableMessageHeader = styled.div`
+const UnavailableMessageHeader = styled.div.attrs({
+  className: 'op-bn-unavailable-message--header'
+})`
   font-weight: 600;
   color: var(--bn-colors-editor-text) !important;
 `
