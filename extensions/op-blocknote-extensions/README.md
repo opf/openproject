@@ -78,10 +78,10 @@ Which will start a vite server with a BlockNote editor instance including the av
 
 #### Usage within a shadow dom root
 
-This project uses `styled components` to define styles. This means that styles are, by default, injected onto the page header. To be able to use styles onto a shadow dom root it is necessary to use our `ShadowDomWrapper` component targeting the root for the styles.
+This project uses `styledComponents` to define styles. This means that styles are, by default, injected onto the page header. To be able to use styles onto a shadow dom root it is necessary to use our `ShadowDomWrapper` component targeting the root for the styles.
 
 ```tsx
-  <ShadowDomWrapper target={this.targetHtmlElementOrShadowRoot}>
+  <ShadowDomWrapper target={targetHtmlElementOrShadowRoot}>
     <MyBlockNoteView />
   </ShadowDomWrapper>
 ```

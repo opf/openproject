@@ -3,9 +3,11 @@ import { createRoot } from 'react-dom/client';
 import App from './App';
 
 import mantineStyles from '@blocknote/mantine/style.css?url';
+import { ShadowDomWrapper } from '../lib';
 
 class BlockNoteElement extends HTMLElement {
   private mount: HTMLDivElement;
+  private reactRoot: ReturnType<typeof createRoot> | null = null;
 
   constructor() {
     super();
@@ -21,15 +23,26 @@ class BlockNoteElement extends HTMLElement {
   }
 
   connectedCallback() {
-    const root = createRoot(this.mount);
+    this.reactRoot = createRoot(this.mount);
 
-    root.render(this.BlockNoteReactContainer());
+    this.reactRoot.render(
+      React.createElement(
+        ShadowDomWrapper,
+        { target: this.mount },
+        React.createElement(App)
+      )
+    );
   }
 
-  BlockNoteReactContainer() {
-    return React.createElement(App);
+  disconnectedCallback() {
+    if (this.reactRoot) {
+      this.reactRoot.unmount();
+      this.reactRoot = null;
+    }
   }
 }
 
-customElements.define('op-block-note', BlockNoteElement);
+if (!customElements.get('op-block-note')) {
+  customElements.define('op-block-note', BlockNoteElement);
+}
 
