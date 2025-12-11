@@ -76,6 +76,16 @@ npm run dev
 
 Which will start a vite server with a BlockNote editor instance including the available extensions.
 
+#### Usage within a shadow dom root
+
+This project uses `styledComponents` to define styles. This means that styles are, by default, injected onto the page header. To be able to use styles onto a shadow dom root it is necessary to use our `ShadowDomWrapper` component targeting the root for the styles.
+
+```tsx
+  <ShadowDomWrapper target={targetHtmlElementOrShadowRoot}>
+    <MyBlockNoteView />
+  </ShadowDomWrapper>
+```
+
 ### To run locally with valid API requests to an OpenProject instance
 
 Step 1: Make sure that the OpenProject instance URL is correct in App.tsx
