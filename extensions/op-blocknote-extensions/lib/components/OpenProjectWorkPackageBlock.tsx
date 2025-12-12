@@ -71,7 +71,6 @@ const SearchInput = styled.input.attrs({
   padding-left: 30px !important; // room for the search icon
   border: 1px solid #ccc;
   border-radius: var(--bn-border-radius-small);
-  font-size: 14px;
 `;
 
 const Dropdown = styled.div.attrs({
