@@ -245,11 +245,13 @@ const OpenProjectWorkPackageBlockComponent = ({
   // Handle click outside to close dropdown
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
+      const path = event.composedPath();
+
       if (
         dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
+        !path.includes(dropdownRef.current) &&
         inputRef.current &&
-        !inputRef.current.contains(event.target as Node)
+        !path.includes(inputRef.current)
       ) {
         setIsDropdownOpen(false);
       }
