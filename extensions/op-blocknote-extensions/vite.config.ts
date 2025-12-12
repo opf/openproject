@@ -22,6 +22,7 @@ export default defineConfig({
         "@blocknote/core",
         "@blocknote/react",
         "@blocknote/mantine",
+        "yjs",
       ],
     },
   },
