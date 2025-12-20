@@ -43,7 +43,6 @@ module Grids
 
     delegate :wrapper_key, to: :class
 
-    option :tag, default: -> { :div }
     option :current_user, default: -> { User.current }
 
     # @abstract Subclasses must implement this method.
