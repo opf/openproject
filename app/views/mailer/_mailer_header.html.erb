@@ -1,10 +1,10 @@
-<table <%= placeholder_table_styles(width: "100%", style: "width:100%;min-width:100%") %>>
+<table width="100%" cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles("width:100%;min-width:100%") %>">
   <tr>
     <td>
-      <table <%= placeholder_table_styles %>>
+      <table cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles %>">
         <tr>
           <td>
-            <table <%= placeholder_table_styles(width: "100%", style: "width:100%") %>>
+            <table width="100%" cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles("width:100%") %>">
               <tr>
                 <td>
                   <span style="font-size: 24px; color: #333333;">
@@ -30,7 +30,7 @@
               <% if defined?(button_href) && defined?(button_text) %>
                 <tr>
                   <td>
-                    <table <%= placeholder_table_styles %>>
+                    <table cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles %>">
                       <tr>
                         <td style="background: #D1E5F5; padding: 8px 12px; border: 1px solid #1A67A3; border-radius: 16px; overflow: hidden; text-overflow: ellipsis;">
                           <a href="<%= button_href %>"

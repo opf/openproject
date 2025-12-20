@@ -1,10 +1,10 @@
-<table <%= placeholder_table_styles %>>
+<table cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles %>">
   <tr>
     <%= placeholder_cell("20px", vertical: false) %>
   </tr>
 </table>
 
-<table <%= placeholder_table_styles(width: "100%", style: "width:100%;max-width:700px;") %>>
+<table width="100%" cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles("width:100%;max-width:700px;") %>">
   <tr>
     <%= placeholder_cell("12px", vertical: true) %>
     <td>
@@ -25,7 +25,7 @@
                      count: notifications_by_work_package.length,
                      user: @user
                    } do %>
-          <table <%= placeholder_table_styles %>>
+          <table cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles %>">
             <tr>
               <td style="color: #878787; line-height: 24px; font-size: 14px; white-space: normal;">
                 <% if notifications_by_work_package.first.date_alert? %>
@@ -57,7 +57,7 @@
               </td>
               <%= placeholder_cell("10px", vertical: true) %>
               <td>
-                <table <%= placeholder_table_styles %>>
+                <table cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles %>">
                   <tr>
                     <td style="background: #D1E5F5; padding: 8px 12px; border: 1px solid #1A67A3; border-radius: 16px; overflow: hidden; text-overflow: ellipsis;">
                       <a href="<%= notifications_url %>"

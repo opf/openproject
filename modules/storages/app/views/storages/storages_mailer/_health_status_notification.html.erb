@@ -30,11 +30,11 @@ See COPYRIGHT and LICENSE files for more details.
 <%= render layout: "mailer/border_table" do %>
   <tr>
     <td>
-      <table <%= placeholder_table_styles(width: "100%", style: "width:100%;font-size:14px;") %>>
+      <table width="100%" cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles("width:100%;font-size:14px;") %>">
         <tr>
           <%= placeholder_cell("12px", vertical: true) %>
           <td>
-            <table <%= placeholder_table_styles %>>
+            <table cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles %>">
               <tr>
                 <td>
                   <% if state == :unhealthy %>
@@ -98,7 +98,7 @@ See COPYRIGHT and LICENSE files for more details.
   </tr>
 <% end %>
 
-<table <%= placeholder_table_styles(width: "100%", style: "width:100%;") %>>
+<table width="100%" cellspacing="0" cellpadding="0" style="<%= placeholder_table_styles("width:100%;") %>">
   <tr>
     <%= placeholder_cell("12px", vertical: false) %>
   </tr>
