@@ -85,7 +85,7 @@ See COPYRIGHT and LICENSE files for more details.
               <%= icon_for_type(type) %>
               <%= h type.name %>
             </td>
-            <td class='center'>
+            <td class="center">
               <% type_id = "project_planning_element_type_ids_#{type.id}" %>
               <%= label_tag type_id, t("projects.settings.types.form.enable_type_in_project", type: type.name), class: "sr-only" %>
               <%= check_box_tag "project[type_ids][]",
@@ -95,10 +95,10 @@ See COPYRIGHT and LICENSE files for more details.
                                 "data-standard": type.is_standard %>
               <%= hidden_field_tag "project[type_ids][]", "", "data-for": type_id %>
             </td>
-            <td class='center'>
+            <td class="center">
               <%= checked_image(type.is_in_roadmap) %>
             </td>
-            <td class='center'>
+            <td class="center">
               <%= checked_image(type.is_milestone) %>
             </td>
           </tr>

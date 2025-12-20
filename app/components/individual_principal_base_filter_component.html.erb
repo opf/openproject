@@ -111,7 +111,7 @@ See COPYRIGHT and LICENSE files for more details.
         </li>
       <% end %>
       <li class="simple-filters--filter">
-        <label class='simple-filters--filter-name' for='name'><%= User.human_attribute_name :name %>:</label>
+        <label class="simple-filters--filter-name" for="name"><%= User.human_attribute_name :name %>:</label>
         <%= text_field_tag "name", params[:name], class: "simple-filters--filter-value", autocomplete: "off" %>
       </li>
       <li class="simple-filters--controls">

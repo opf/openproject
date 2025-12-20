@@ -41,6 +41,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= labelled_tabular_form_for @role, :url => { :action => 'create' }, :html => {:id => 'role_form'}, :as => :role do |f| %>
 <%= render partial: 'form', locals: { f: f, role: @role, roles: @roles } %>
-<br/>
+<br>
 <%= styled_button_tag t(:button_create), class: '-with-icon icon-checkmark' %>
 <% end %>

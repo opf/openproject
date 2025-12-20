@@ -52,7 +52,7 @@ See COPYRIGHT and LICENSE files for more details.
     </ul>
     <% @pages.each do |page| %>
       <hr>
-      <a name="<%= h(page.to_param) %>" />
+      <a name="<%= h(page.to_param) %>"></a>
         <%= format_text page, :text, wiki_links: :anchor %>
       <% end %>
     </body>
