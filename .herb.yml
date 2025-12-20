@@ -13,16 +13,19 @@
 
 version: 0.8.5
 
-# files:
-#   # Additional patterns beyond the defaults (**.html, **.rhtml, **.html.erb, etc.)
-#   include:
-#     - '**/*.xml.erb'
-#     - 'custom/**/*.html'
-#
-#   # Patterns to exclude (can exclude defaults too)
-#   exclude:
-#     - 'public/**/*'
-#     - 'tmp/**/*'
+files:
+  # Additional patterns beyond the defaults (**.html, **.rhtml, **.html.erb, etc.)
+  # include:
+  #   - '**/*.xml.erb'
+  #   - 'custom/**/*.html'
+
+  # Patterns to exclude (can exclude defaults too)
+  exclude:
+    - 'coverage/**/*'
+    - 'frontend/**/*'
+    - 'modules/*/frontend/**/*'
+    - 'public/**/*'
+    - 'tmp/**/*'
 
 linter:
   enabled: true
