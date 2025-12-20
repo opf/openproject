@@ -41,7 +41,7 @@ namespace :copyright do
     when :sql
       short_copyright_line("-- ", options)
     when :erb
-      short_copyright_surrounding("<%#", "#%>", options)
+      short_copyright_surrounding("<%# ", " # %>", options)
     when :rdoc
       "----------\n#{short_copyright_line(' ', options)}\n----------\n".gsub(" -- copyright", "==== copyright\n")
     when :md
