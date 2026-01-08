@@ -17,6 +17,8 @@ export function useWorkPackageSearch(
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let active = true;
+
     if (!searchQuery) {
       setSearchResults([]);
       setLoading(false);
@@ -29,18 +31,27 @@ export function useWorkPackageSearch(
     const debouncedSearchQuery = setTimeout(() => {
       searchWorkPackages(searchQuery)
         .then((results) => {
-          setSearchResults(results);
+          if (active) {
+            setSearchResults(results);
+          }
         })
         .catch((err) => {
-          setError(err.message || "Unknown error");
-          setSearchResults([]);
+          if (active) {
+            setError(err.message || "Unknown error");
+            setSearchResults([]);
+          }
         })
         .finally(() => {
-          setLoading(false);
+          if (active) {
+            setLoading(false);
+          }
         });
     }, debounce);
 
-    return () => clearTimeout(debouncedSearchQuery);
+    return () => {
+      active = false;
+      clearTimeout(debouncedSearchQuery);
+    };
   }, [searchQuery, debounce]);
 
   return {
