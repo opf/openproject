@@ -1,7 +1,7 @@
 {
   "name": "op-blocknote-extensions",
   "private": true,
-  "version": "0.0.19",
+  "version": "0.0.20",
   "type": "module",
   "module": "./dist/op-blocknote-extensions.es.js",
   "types": "./dist/index.d.ts",
