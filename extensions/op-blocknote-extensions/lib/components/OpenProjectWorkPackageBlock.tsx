@@ -7,18 +7,15 @@ import { useWorkPackage } from "../hooks/useWorkPackage";
 import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
-import { defaultVariables, defaultColorStyles, useColors, typeColor, statusColor, statusBorderColor, statusTextColor, statusBackgroundColor, typeTextColor } from "../services/colors";
+import { defaultVariables, useColors} from "../services/colors";
 import { getAliases } from "../services/slashMenuAliases";
 import { useTranslation } from "react-i18next"; // localize react components
 import i18n from "../services/i18n.ts"; // localize other code
 
 import { LinkIcon, SearchIcon } from "@primer/octicons-react";
+import { SPACER_S, SPACER_M, SPACER_L, SPACER_XL } from "../services/css_constants";
+import { WorkPackageElement } from "../elements/workPackageElement";
 import styled from "styled-components";
-
-const SPACER_S = "4px";
-const SPACER_M = "8px";
-const SPACER_L = "12px";
-const SPACER_XL = "16px";
 
 const Block = styled.div.attrs({
   className: 'op-bn-extensions'
@@ -27,13 +24,17 @@ const Block = styled.div.attrs({
     [data-color-scheme="dark"] & {
         --highlight-wp-background: var(--bn-colors-disabled-text);
     }
+    --spacer-s: 4px;
+    --spacer-m: 8px;
+    --spacer-l: 12px;
+    --spacer-xl: 16px;
 `;
 
 const Search = styled.div.attrs({
   className: 'op-bn-search'
 })`
   position: relative;
-  padding: ${SPACER_M} ${SPACER_XL};
+  padding: var(--spacer-m) var(--spacer-xl);
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
   width: 100%;
@@ -52,7 +53,7 @@ const SearchInputWrapper = styled.div.attrs({
   className: 'op-bn-search--input-wrapper'
 })`
   position: relative;
-  margin-top: ${SPACER_M};
+  margin-top: var(--spacer-m);
 `;
 
 const SearchIconWrapper = styled.div.attrs({
@@ -61,13 +62,13 @@ const SearchIconWrapper = styled.div.attrs({
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  padding-left: ${SPACER_M};
+  padding-left: var(--spacer-m);
 `;
 const SearchInput = styled.input.attrs({
   className: 'op-bn-search--input'
 })`
   width: 100%;
-  padding: ${SPACER_M} ${SPACER_L};
+  padding: var(--spacer-m) var(--spacer-l);
   padding-left: 30px !important; // room for the search icon
   border: 1px solid #ccc;
   border-radius: var(--bn-border-radius-small);
@@ -78,8 +79,8 @@ const Dropdown = styled.div.attrs({
 })`
   background-color: var(--bn-colors-menu-background);
   overflow-y: auto;
-  padding-top: ${SPACER_M};
-  margin: 0 -${SPACER_M};
+  padding-top: var(--spacer-m);
+  margin: 0 -(var(--spacer-m));
 `;
 
 const DropdownOption = styled.div.attrs({
@@ -93,73 +94,13 @@ const DropdownOption = styled.div.attrs({
   cursor: pointer;
 `;
 
-const WorkPackage = styled.div.attrs({
-  className: 'op-bn-work-package'
-})<{ in_dropdown?: string }>`
+const UnavailableWorkPackage = styled.div.attrs({
+  className: 'op-bn-work-package-placeholder'
+})`
   ${defaultVariables}
   padding: ${SPACER_M} ${SPACER_L};
   background-color: var(--highlight-wp-background);
   border-radius: var(--bn-border-radius-small);
-  ${({ in_dropdown }) => in_dropdown && JSON.parse(in_dropdown) && `
-    padding: ${SPACER_S} 0;
-    background-color: transparent; 
-  `}
-`;
-
-const WorkPackageDetails = styled.div.attrs({
-  className: 'op-bn-work-package--details'
-})`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0 10px;
-  width: 100%;
-  font-size: 0.86em;
-`;
-
-const WorkPackageType = styled.div.attrs({
-  className: 'op-bn-work-package--type'
-})<{ color: string }>`
-  ${({ color }) => defaultColorStyles(color)}
-  font-weight: 500;
-  text-transform: uppercase;
-  color: ${() => typeTextColor} !important;
-`;
-
-const WorkPackageId = styled.div.attrs({
-  className: 'op-bn-work-package--id'
-})`
-  color: var(--bn-colors-highlights-gray-text);
-`;
-
-const WorkPackageStatus = styled.div.attrs({
-  className: 'op-bn-work-package--status'
-})<{ base_color: string }>`
-  ${({ base_color }) => defaultColorStyles(base_color)}
-  font-size: 0.95em;
-  border-radius: 100px;
-  border: 1px solid ${() => statusBorderColor()};
-  padding: 0 7px;
-  align-content: center;
-  color: ${() => statusTextColor()} !important;
-  background-color: ${() => statusBackgroundColor()};
-`;
-
-const WorkPackageTitle = styled.div.attrs({
-  className: 'op-bn-work-package--title'
-})`
-  flex-basis: max-content;
-  color: var(--bn-colors-editor-text);
-  font-weight: 500;
-    
-  a {
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--bn-colors-highlights-blue-text);
-
-    &:hover {
-        text-decoration: underline;
-    }
-  }
 `;
 
 const UnavailableMessage = styled.div.attrs({
@@ -182,46 +123,16 @@ interface BlockProps {
   };
 }
 
-const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {workPackage: WorkPackage, inDropdown?: string, linkTitle?: boolean}) => {
-  let title = undefined
-  if(linkTitle ?? false) {
-    title = <a
-      href={linkToWorkPackage(workPackage.id)}
-      onClick={(event) => {
-        event.stopPropagation();
-        window.open(linkToWorkPackage(workPackage.id), '_blank', 'noopener,noreferrer');
-      }}
-    >
-      {workPackage.subject}
-    </a>
-  } else {
-    title = workPackage.subject
-  }
-
-  return (
-    <WorkPackage in_dropdown={inDropdown ?? "false"}>
-      <WorkPackageDetails>
-        <WorkPackageType color={typeColor(workPackage)}>{workPackage._links?.type?.title}</WorkPackageType>
-        <WorkPackageId>#{workPackage.id}</WorkPackageId>
-        <WorkPackageStatus base_color={statusColor(workPackage)}>
-          {workPackage._links?.status?.title}
-        </WorkPackageStatus>
-      </WorkPackageDetails>
-      <WorkPackageTitle>{title}</WorkPackageTitle>
-    </WorkPackage>
-  )
-}
-
 const UnavailableWorkPackageElement = ({ header, message }: {header: string, message: string}) => {
   return (
-    <WorkPackage>
+    <UnavailableWorkPackage>
       <UnavailableMessage>
         <UnavailableMessageHeader>
           { header }
         </UnavailableMessageHeader>
         { message }
       </UnavailableMessage>
-    </WorkPackage>
+    </UnavailableWorkPackage>
   )
 }
 
