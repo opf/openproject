@@ -945,7 +945,7 @@ Rails.application.routes.draw do
     get "/deletion_info" => "users#deletion_info", as: "delete_my_account_info"
     post "/oauth/revoke_application/:application_id" => "oauth/grants#revoke_application", as: "revoke_my_oauth_application"
 
-    resources :sessions, controller: "my/sessions", as: "my_sessions", only: %i[index show destroy]
+    resources :sessions, controller: "my/sessions", as: "my_sessions", only: %i[index destroy]
     resources :auto_login_tokens, controller: "my/auto_login_tokens", as: "my_auto_login_tokens", only: %i[destroy]
 
     get "/banner" => "my/enterprise_banners#show", as: "show_enterprise_banner"

@@ -32,7 +32,6 @@ module My
   class SessionsController < ::ApplicationController
     before_action :require_login
     no_authorization_required! :index,
-                               :show,
                                :destroy
 
     self._model_object = ::Sessions::UserSession
@@ -58,8 +57,6 @@ module My
         @current_token = @autologin_tokens.find_by_plaintext_value(token) # rubocop:disable Rails/DynamicFindBy
       end
     end
-
-    def show; end
 
     def destroy
       @session.delete
