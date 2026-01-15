@@ -36,7 +36,7 @@ module My
 
     self._model_object = ::Sessions::UserSession
 
-    before_action :find_model_object, only: %i(show destroy)
+    before_action :load_session, only: %i(destroy)
     before_action :prevent_current_session_deletion, only: %i(destroy)
 
     layout "my"
@@ -66,6 +66,10 @@ module My
     end
 
     private
+
+    def load_session
+      @session = ::Sessions::UserSession.for_user(current_user).find(params[:id])
+    end
 
     def prevent_current_session_deletion
       if @session.current?(session)
