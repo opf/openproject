@@ -32,11 +32,17 @@ async function get<T>(endpoint: string): Promise<T> {
   return response.json();
 }
 
-export function linkToWorkPackage(id: string): string {
+export function linkToWorkPackage(id: number): string {
+  if (isNaN(id) || id <= 0) {
+    throw new OpenProjectApiError(`Invalid work package ID: ${id}`);
+  }
   return `${baseUrl}/wp/${id}`;
 }
 
-export function fetchWorkPackage(id: string): Promise<WorkPackage> {
+export function fetchWorkPackage(id: number): Promise<WorkPackage> {
+  if (isNaN(id) || id <= 0) {
+    return Promise.reject(new OpenProjectApiError(`Invalid work package ID: ${id}`));
+  }
   return get<WorkPackage>(`/api/v3/work_packages/${id}`);
 }
 

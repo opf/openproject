@@ -1,5 +1,5 @@
 export interface WorkPackage {
-  id: string;
+  id: number;
   subject: string;
   status?: string | null;
   assignee?: string | null;

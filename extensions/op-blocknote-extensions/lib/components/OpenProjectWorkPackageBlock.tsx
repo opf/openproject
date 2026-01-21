@@ -97,7 +97,7 @@ const DropdownOption = styled.div.attrs({
 interface BlockProps {
   id: string,
   props: {
-    wpid: string;
+    wpid: number;
   };
 }
 
@@ -296,7 +296,7 @@ export const openprojectWorkPackageBlockConfig = createBlockConfig(
   () => ({
     type: "openProjectWorkPackage",
     propSchema: {
-      wpid: { default: "" },
+      wpid: { default: undefined, type: "number" },
     },
     content: "none",
   }) as const
