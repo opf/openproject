@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import type { WorkPackage } from "../openProjectTypes";
 import { OpenProjectApiError, fetchWorkPackage } from "../services/openProjectApi";
 
-export function useWorkPackage(wpid: string | null) {
+export function useWorkPackage(wpid: number|undefined) {
   const [workPackage, setWorkPackage] = useState<WorkPackage | null>(null);
   const [loading, setLoading] = useState(false);
   const [unauthorized, setUnauthorized] = useState(false);

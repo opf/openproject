@@ -1,15 +1,20 @@
-import {describe, it, expect, vi} from "vitest";
-import {initOpenProjectApi, linkToWorkPackage, searchWorkPackages} from "../../../lib/services/openProjectApi";
+import { describe, expect, it, vi } from "vitest";
+import {
+  fetchWorkPackage,
+  initOpenProjectApi,
+  linkToWorkPackage,
+  searchWorkPackages
+} from "../../../lib/services/openProjectApi";
 
 describe("openProjectApi", () => {
   it("works with a baseUrl with trailing slash", () => {
     initOpenProjectApi({baseUrl: "https://example.com/"});
-    expect(linkToWorkPackage('42')).toBe("https://example.com/wp/42");
+    expect(linkToWorkPackage(42)).toBe("https://example.com/wp/42");
   });
 
   it("works with a baseUrl without trailing slash", () => {
     initOpenProjectApi({baseUrl: "https://example.com"});
-    expect(linkToWorkPackage('42')).toBe("https://example.com/wp/42");
+    expect(linkToWorkPackage(42)).toBe("https://example.com/wp/42");
   });
 
   describe("searchWorkPackages", () => {
@@ -27,5 +32,30 @@ describe("openProjectApi", () => {
 
       fetchSpy.mockRestore();
     })
+  });
+
+  describe("linkToWorkPackage", () => {
+    it("throws an error for invalid work package ID", () => {
+      initOpenProjectApi({baseUrl: "https://example.com"});
+      expect(() => linkToWorkPackage(-1)).toThrow("Invalid work package ID: -1");
+      expect(() => linkToWorkPackage(0)).toThrow("Invalid work package ID: 0");
+      expect(() => linkToWorkPackage(NaN)).toThrow("Invalid work package ID: NaN");
+      expect(() => linkToWorkPackage("abublé" as unknown as number)).toThrow("Invalid work package ID: abublé");
+    });
+
+    it("builds a welformed url for valid work package ID", () => {
+      initOpenProjectApi({baseUrl: "https://example.com"});
+      expect(linkToWorkPackage(123)).toBe("https://example.com/wp/123");
+    });
+  });
+
+  describe("fetchWorkPackage", () => {
+    it("rejects for invalid work package ID", async () => {
+      initOpenProjectApi({baseUrl: "https://example.com"});
+      await expect(fetchWorkPackage(-1)).rejects.toHaveProperty("message", "Invalid work package ID: -1");
+      await expect(fetchWorkPackage(0)).rejects.toHaveProperty("message", "Invalid work package ID: 0");
+      await expect(fetchWorkPackage(NaN)).rejects.toHaveProperty("message", "Invalid work package ID: NaN");
+      await expect(fetchWorkPackage("abublé" as unknown as number)).rejects.toHaveProperty("message", "Invalid work package ID: abublé");
+    });
   });
 });
