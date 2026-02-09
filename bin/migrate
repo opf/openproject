@@ -1,0 +1,100 @@
+#!/bin/bash
+
+## Takes a given OpenProject database dump (>= OpenProject 10) and migrates it to the latest version.
+
+DUMP_FILE="$1"
+POSTGRES_CONTAINER=op-migrate-pg17
+OUTPUT_BUFFER=$(mktemp)
+
+if [ -z $DUMP_FILE ]; then
+  echo "Please provide a valid path to an OpenProject database dump file."
+fi
+
+dump() {
+  docker exec op10 bash -c 'pg_dump -d $DATABASE_URL'
+}
+
+# Function to be called on exit, whether regular or on error
+cleanup() {
+  echo "Cleaning up..."
+
+  docker stop $POSTGRES_CONTAINER
+
+  rm $OUTPUT_BUFFER
+
+  echo "done"
+}
+
+# Set up the trap to call cleanup on exit or error
+trap cleanup EXIT
+
+echo "Starting database..."
+docker run --rm -d --name $POSTGRES_CONTAINER -e POSTGRES_PASSWORD=postgres -p 5017:5432 postgres:17 &>/dev/null
+
+SECONDS=0
+while ! docker logs --since 5m op-migrate-pg17 2>1 | grep 'database system is ready to accept connections' &> /dev/null; do
+  echo "... waiting for database to start"
+  sleep 3
+
+  if [ $SECONDS -gt 10 ]; then
+    >&2 echo "Error: database hasn't started"
+    docker logs $POSTGRES_CONTAINER
+
+    exit 1
+  fi
+done
+
+DB_IP=$(docker inspect $POSTGRES_CONTAINER | grep IPAddress | cut -d: -f2 | tr -d '"' | tr -d ',' | tr -d ' ')
+
+echo "Database started under $DB_IP"
+
+docker exec -i $POSTGRES_CONTAINER su - postgres -c 'psql -c "CREATE DATABASE openproject;"'
+
+echo -e "\nRestoring dump"
+cat $DUMP_FILE | sed 's/OWNER TO openproject/OWNER TO postgres/g' | docker exec -u 999 -i $POSTGRES_CONTAINER bash -c 'psql -d openproject'
+
+SCHEMA_VERSION=$(echo "psql -qtd openproject -c \"select MAX(version) from schema_migrations where version like '2020%';\"" | docker exec -u 999 -i $POSTGRES_CONTAINER bash -)
+
+if [ -z "$SCHEMA_VERSION" ]; then
+  >&2 echo "Your OpenProject version is older than version 10. Please use script/migrate/migrate-from-pre-8.sh to migrate to a more recent state first."
+  exit 1
+fi
+
+echo -e "\nImported database"
+
+OP_VERSION=15
+
+while [ $? -eq 0 ]; do
+  echo "Looking for next OpenProject version..."
+
+  if ! docker pull openproject/openproject:$OP_VERSION &> $OUTPUT_BUFFER; then
+    if cat $OUTPUT_BUFFER | grep "not found" &>/dev/null; then
+      echo "Migration complete." # no next OP image found, meaning we just migrated the latest version
+
+      break
+    else
+      echo "Failed pulling OpenProject $OP_VERSION"
+
+      exit 1
+    fi
+  fi
+
+  echo -e "\nMigrating to OpenProject $OP_VERSION..."
+
+  docker run --rm -e DATABASE_URL="postgresql://postgres:postgres@$DB_IP:5432/openproject" -i openproject/openproject:$OP_VERSION bundle exec rake db:migrate
+
+  if [ $? -gt 0 ]; then
+    >&2 echo "Migration to OpenProject $OP_VERSION failed (see error above)"
+    exit 1
+  fi
+
+  OP_VERSION=$((OP_VERSION + 1))
+done
+
+echo "Dumping migrated (OpenProject $((OP_VERSION - 1))) database..."
+
+MIGRATED_FILE=$(echo $DUMP_FILE | sed -r 's/\.(sql|pgdump)/-migrated.sql/')
+
+docker exec -u 999 -i $POSTGRES_CONTAINER pg_dump -d openproject -x -O | gzip > $MIGRATED_FILE
+
+echo "Dump saved under $MIGRATED_FILE"
