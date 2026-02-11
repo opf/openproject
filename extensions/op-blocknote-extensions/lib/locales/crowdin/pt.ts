@@ -22,11 +22,11 @@ export const en = {
       },
       "unauthorized": {
         "header": "Pacote de trabalho associado não disponível",
-        "message": "You do not have permission to see this"
+        "message": "Não tem permissão para ver isto"
       },
       "error": {
-        "header": "Error",
-        "message": "Could not load work package"
+        "header": "Erro",
+        "message": "Não foi possível carregar o pacote de trabalho"
       }
     }
   }
