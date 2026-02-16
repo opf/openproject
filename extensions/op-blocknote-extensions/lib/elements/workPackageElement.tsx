@@ -13,19 +13,22 @@ import styled from "styled-components";
 import { linkToWorkPackage } from "../services/openProjectApi";
 
 export const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {workPackage: WorkPackage, inDropdown?: string, linkTitle?: boolean}) => {
-  let title = undefined
-  if(linkTitle ?? false) {
-    title = <a
-      href={linkToWorkPackage(workPackage.id)}
-      onClick={(event) => {
-        event.stopPropagation();
-        window.open(linkToWorkPackage(workPackage.id), '_blank', 'noopener,noreferrer');
-      }}
-    >
-      {workPackage.subject}
-    </a>
+  let title;
+  if (linkTitle ?? false) {
+    title = (
+      <a
+        href={linkToWorkPackage(workPackage.id)}
+        onClick={(event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          window.open(linkToWorkPackage(workPackage.id), "_blank", "noopener,noreferrer");
+        }}
+      >
+        {workPackage.subject}
+      </a>
+    );
   } else {
-    title = workPackage.subject
+    title = workPackage.subject;
   }
 
   return (
