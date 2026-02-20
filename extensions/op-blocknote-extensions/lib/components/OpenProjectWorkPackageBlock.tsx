@@ -116,7 +116,7 @@ const OpenProjectWorkPackageBlockComponent = ({
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-
+  const isSelectingRef = useRef(false);
   useColors(); // hook for syncing colors with editor
 
   const { searchQuery, setSearchQuery, searchResults } = useWorkPackageSearch();
@@ -168,10 +168,13 @@ const OpenProjectWorkPackageBlockComponent = ({
   }, [block.props.wpid, block.props.initialized, isActive]);
 
   const handleSelectWorkPackage = (workPackage: WorkPackage) => {
+    isSelectingRef.current = true;
+
     setSelectedWorkPackage(workPackage);
     setSearchQuery("");
     setIsDropdownOpen(false);
     setFocusedResultIndex(-1);
+
     editor.updateBlock(block, {
       props: {
         ...block.props,
@@ -179,6 +182,7 @@ const OpenProjectWorkPackageBlockComponent = ({
         initialized: true,
       },
     });
+
     editor.focus(); // Focus editor after selection
   };
 
@@ -233,17 +237,20 @@ const OpenProjectWorkPackageBlockComponent = ({
                   }}
                   onKeyDown={handleKeyDown}
                   onBlur={() => {
-                    // setTimeout used to defer blur, could cause subtle bugs
                     setTimeout(() => {
                       setIsDropdownOpen(false);
                       setFocusedResultIndex(-1);
                       setIsActive(false);
+
+                      // If we just selected an item do nothing
+                      if (isSelectingRef.current) {
+                        isSelectingRef.current = false;
+                        return;
+                      }
+
+                      // Remove only if truly empty
                       if (!block.props.wpid) {
                         editor.removeBlocks([block.id]);
-                      } else {
-                        editor.updateBlock(block, {
-                          props: { ...block.props, initialized: true },
-                        });
                       }
                     }, 100);
                   }}
