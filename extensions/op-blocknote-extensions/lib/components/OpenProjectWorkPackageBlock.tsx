@@ -38,7 +38,6 @@ const Search = styled.div.attrs({ className: "op-bn-search" })`
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
   width: 100%;
-  background: var(--bn-colors-editor-background);
   @media (min-width: 1120px) {
     width: 500px;
   }
@@ -70,12 +69,6 @@ const SearchInput = styled.input.attrs({ className: "op-bn-search--input" })`
   padding-left: 30px !important; // Hardcoded padding for icon
   border: 1px solid var(--bn-colors-border);
   border-radius: var(--bn-border-radius-small);
-  background: var(--bn-colors-editor-background);
-  color: var(--bn-colors-editor-text);
-
-  &:focus {
-    outline: 2px solid var(--bn-colors-border);
-  }
 `;
 
 const Dropdown = styled.div.attrs({ className: "op-bn-dropdown" })`
@@ -130,10 +123,17 @@ const OpenProjectWorkPackageBlockComponent = ({
 
   useEffect(() => {
     // Sync selectedWorkPackage when result updates
-    if (!workPackageResult.error && workPackageResult.workPackage) {
+    if (workPackageResult.workPackage) {
       setSelectedWorkPackage(workPackageResult.workPackage);
+      return;
     }
-  }, [workPackageResult.error, workPackageResult.workPackage]);
+
+    setSelectedWorkPackage(null);
+  }, [
+    workPackageResult.workPackage,
+    workPackageResult.unauthorized,
+    workPackageResult.error,
+  ]);
 
   useEffect(() => {
     // Direct access to _tiptapEditor
@@ -284,6 +284,12 @@ const OpenProjectWorkPackageBlockComponent = ({
               <UnavailableWorkPackageElement
                 header={t("unavailableWorkPackage.loading.header")}
                 message={t("unavailableWorkPackage.loading.message")}
+              />
+            )}
+            {!selectedWorkPackage && !workPackageResult.loading && (
+              <UnavailableWorkPackageElement
+                header={t("unavailableWorkPackage.unauthorized.header")}
+                message={t("unavailableWorkPackage.unauthorized.message")}
               />
             )}
             {selectedWorkPackage && (
