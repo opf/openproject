@@ -70,6 +70,17 @@ RSpec.describe Query::Results, "Project filter integration" do
     login_as user
   end
 
+  describe "any project (wildcard operator)" do
+    before do
+      query.add_filter "project_id", "*", []
+    end
+
+    it "shows work packages from all visible projects, ignoring the query's project scope" do
+      expect(query_results.work_packages)
+        .to contain_exactly(parent_wp, child_wp, second_parent_wp, second_child_wp)
+    end
+  end
+
   describe "both parent projects selected" do
     before do
       query.add_filter "project_id", "=", [parent_project.id, second_parent_project.id]
