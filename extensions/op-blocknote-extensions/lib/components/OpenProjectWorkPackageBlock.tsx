@@ -20,6 +20,7 @@ import { UnavailableWorkPackageElement } from "../elements/unavailableWorkPackag
 import styled from "styled-components";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })<{
+  // Added hasWp prop to be able to style the block if WP is present
   hasWp: boolean;
 }>`
   --highlight-wp-background: var(--bn-colors-highlights-gray-background);
@@ -67,23 +68,26 @@ const SearchInput = styled.input.attrs({ className: "op-bn-search--input" })`
   width: 100%;
   padding: var(--spacer-m) var(--spacer-l);
   padding-left: 30px !important; // Hardcoded padding for icon
-  border: 1px solid var(--bn-colors-border);
+  border: 1px solid #ccc;
   border-radius: var(--bn-border-radius-small);
 `;
 
-const Dropdown = styled.div.attrs({ className: "op-bn-dropdown" })`
+const Dropdown = styled.div.attrs({
+  className: "op-bn-dropdown"
+})`
   background-color: var(--bn-colors-menu-background);
   overflow-y: auto;
-  max-height: 300px;
   padding-top: var(--spacer-m);
   margin: 0 -(var(--spacer-m));
 `;
 
 const DropdownOption = styled.div.attrs({
-  className: "op-bn-dropdown--option",
+  className: "op-bn-dropdown--option"
 })<{ selected: boolean }>`
   background-color: ${({ selected }) =>
-    selected ? "var(--highlight-wp-background)" : "transparent"};
+    selected
+      ? "var(--highlight-wp-background)"
+      : "var(--bn-colors-menu-background)"};
   border: none;
   border-radius: var(--bn-border-radius-small);
   margin: var(--spacer-s) var(--spacer-m);
@@ -95,7 +99,7 @@ interface BlockProps {
   id: string;
   props: {
     wpid?: number;
-    initialized?: boolean;
+    initialized?: boolean; // to know if the block is already initialized
   };
 }
 
@@ -109,34 +113,26 @@ const OpenProjectWorkPackageBlockComponent = ({
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const isSelectingRef = useRef(false);
-  useColors(); // hook for syncing colors with editor
+  const isSelectingRef = useRef(false); // to follow the WP selection from the dropdown
 
-  const { searchQuery, setSearchQuery, searchResults } = useWorkPackageSearch();
-  const [selectedWorkPackage, setSelectedWorkPackage] =
-    useState<WorkPackage | null>(null);
+  // Fetch and cache colors.
+  // The hook handles triggering re-renders when data arrives.
+  useColors();
+
+  const { searchQuery, setSearchQuery, searchResults } =
+    useWorkPackageSearch();
+
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [focusedResultIndex, setFocusedResultIndex] = useState(-1);
   const [isActive, setIsActive] = useState(false);
 
-  const workPackageResult = useWorkPackage(block.props.wpid);
+  // use a single source of truth — result from useWorkPackage.
+  const workPackageResult = useWorkPackage(block.props.wpid); 
+
+  const selectedWorkPackage = workPackageResult.workPackage;
 
   useEffect(() => {
-    // Sync selectedWorkPackage when result updates
-    if (workPackageResult.workPackage) {
-      setSelectedWorkPackage(workPackageResult.workPackage);
-      return;
-    }
-
-    setSelectedWorkPackage(null);
-  }, [
-    workPackageResult.workPackage,
-    workPackageResult.unauthorized,
-    workPackageResult.error,
-  ]);
-
-  useEffect(() => {
-    // Direct access to _tiptapEditor
+    // accessing private tiptap instance until public API is available
     const tiptap = (editor as any)._tiptapEditor;
     if (!tiptap) return;
 
@@ -154,13 +150,16 @@ const OpenProjectWorkPackageBlockComponent = ({
   }, [editor, block.id]);
 
   useEffect(() => {
-    // Using requestAnimationFrame for focus, could be race condition
+    // Autofocus only when the block is active and not yet initialized
     if (
       !block.props.wpid &&
       !block.props.initialized &&
       isActive &&
       inputRef.current
     ) {
+      // use requestAnimationFrame to wait for React 
+      // to commit and update the internal state
+      // of the BlockNote before focusing.
       requestAnimationFrame(() => {
         inputRef.current?.focus();
       });
@@ -168,9 +167,8 @@ const OpenProjectWorkPackageBlockComponent = ({
   }, [block.props.wpid, block.props.initialized, isActive]);
 
   const handleSelectWorkPackage = (workPackage: WorkPackage) => {
-    isSelectingRef.current = true;
+    isSelectingRef.current = true; // checkbox so that onBlur does not remove the block
 
-    setSelectedWorkPackage(workPackage);
     setSearchQuery("");
     setIsDropdownOpen(false);
     setFocusedResultIndex(-1);
@@ -183,7 +181,10 @@ const OpenProjectWorkPackageBlockComponent = ({
       },
     });
 
-    editor.focus(); // Focus editor after selection
+    requestAnimationFrame(() => {
+      // move the cursor to the next block after selecting WP
+      moveCursorToNextBlock(editor, block.id);
+    });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -191,7 +192,7 @@ const OpenProjectWorkPackageBlockComponent = ({
       e.preventDefault();
       if (!isDropdownOpen) setIsDropdownOpen(true);
       setFocusedResultIndex((prev) =>
-        prev < searchResults.length - 1 ? prev + 1 : prev,
+        prev < searchResults.length - 1 ? prev + 1 : prev
       ); // tightly coupled to searchResults length
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
@@ -203,7 +204,7 @@ const OpenProjectWorkPackageBlockComponent = ({
       }
     } else if (e.key === "Escape") {
       editor.updateBlock(block, {
-        props: { ...block.props, initialized: true },
+        props: { ...block.props, initialized: true }, // close the dropdown, fix initialized
       });
       editor.focus();
     }
@@ -241,13 +242,11 @@ const OpenProjectWorkPackageBlockComponent = ({
                       setIsDropdownOpen(false);
                       setFocusedResultIndex(-1);
                       setIsActive(false);
-
                       // If we just selected an item do nothing
                       if (isSelectingRef.current) {
                         isSelectingRef.current = false;
                         return;
                       }
-
                       // Remove only if truly empty
                       if (!block.props.wpid) {
                         editor.removeBlocks([block.id]);
@@ -259,10 +258,17 @@ const OpenProjectWorkPackageBlockComponent = ({
             </SearchLabel>
 
             {isDropdownOpen && searchResults.length > 0 && (
-              <Dropdown ref={dropdownRef}>
+              <Dropdown
+                ref={dropdownRef}
+                role="listbox"
+                aria-label={t("search.dropdownAriaLabel")}
+              >
                 {searchResults.slice(0, 5).map((wp, index) => (
                   <DropdownOption
                     key={wp.id}
+                    role="option"
+                    aria-selected={focusedResultIndex === index}
+                    tabIndex={0}
                     selected={focusedResultIndex === index}
                     onMouseDown={(e) => {
                       e.preventDefault(); // prevent input blur
@@ -280,21 +286,42 @@ const OpenProjectWorkPackageBlockComponent = ({
 
         {block.props.wpid && (
           <>
-            {!selectedWorkPackage && workPackageResult.loading && (
+            {workPackageResult.loading && (
               <UnavailableWorkPackageElement
                 header={t("unavailableWorkPackage.loading.header")}
                 message={t("unavailableWorkPackage.loading.message")}
               />
             )}
-            {!selectedWorkPackage && !workPackageResult.loading && (
+
+            {!workPackageResult.loading && workPackageResult.error && (
               <UnavailableWorkPackageElement
-                header={t("unavailableWorkPackage.unauthorized.header")}
-                message={t("unavailableWorkPackage.unauthorized.message")}
+                header={t("unavailableWorkPackage.error.header")}
+                message={t("unavailableWorkPackage.error.message")}
               />
             )}
-            {selectedWorkPackage && (
-              <WorkPackageElement workPackage={selectedWorkPackage} linkTitle />
-            )}
+
+            {!workPackageResult.loading &&
+              !workPackageResult.error &&
+              workPackageResult.unauthorized && (
+                <UnavailableWorkPackageElement
+                  header={t(
+                    "unavailableWorkPackage.unauthorized.header"
+                  )}
+                  message={t(
+                    "unavailableWorkPackage.unauthorized.message"
+                  )}
+                />
+              )}
+
+            {!workPackageResult.loading &&
+              !workPackageResult.error &&
+              !workPackageResult.unauthorized &&
+              selectedWorkPackage && (
+                <WorkPackageElement
+                  workPackage={selectedWorkPackage}
+                  linkTitle
+                />
+              )}
           </>
         )}
       </div>
@@ -322,7 +349,7 @@ export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
         editor={props.editor as any}
       />
     ),
-  },
+  }
 );
 
 export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
@@ -330,30 +357,86 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
   {
     render: (block) => {
       const wpid = block.props.wpid;
+      const href = linkToWorkPackage(wpid);
+
+      /*
+      Create a wrapper element.
+      This is done for a stable DOM structure,
+      because <a> as a root block element
+      may not be serialized correctly in the clipboard.
+       */
+      const wrapper = document.createElement("span");
+
       const anchor = document.createElement("a");
-      anchor.href = linkToWorkPackage(wpid);
+      anchor.href = href;
+      anchor.target = "_blank";
+      anchor.rel = "noopener noreferrer";
       anchor.textContent = `#${wpid}`;
-      return { dom: anchor, contentDOM: anchor };
+
+      wrapper.appendChild(anchor);
+
+      return {
+        dom: wrapper,
+        contentDOM: wrapper,
+      };
     },
-  },
+  }
 );
 
-export const openProjectWorkPackageSlashMenu = (editor: any) => ({
-  title: i18n.t("slashMenu.title"),
-  onItemClick: () => {
-    const insertedBlock = insertOrUpdateBlockForSlashMenu(editor, {
-      type: "openProjectWorkPackage",
-    });
-    requestAnimationFrame(() => {
-      // ensure cursor is placed in newly inserted block
-      if (insertedBlock?.id) {
+export const openProjectWorkPackageSlashMenu =
+  (editor: BlockNoteEditor<any>) => ({
+    title: i18n.t("slashMenu.title"),
+    onItemClick: () => {
+      const insertedBlock = insertOrUpdateBlockForSlashMenu(editor, {
+        type: "openProjectWorkPackage",
+      });
+
+      requestAnimationFrame(() => {
+        if (!insertedBlock?.id) return;
+
         editor.setTextCursorPosition(insertedBlock.id, "start");
         editor.focus();
-      }
-    });
-  },
-  aliases: [...getAliases()],
-  group: "OpenProject",
-  icon: <LinkIcon size={18} />,
-  subtext: i18n.t("slashMenu.subtext"),
-});
+
+        const [newTextBlock] = editor.insertBlocks(
+          [
+            {
+              type: "text",
+              content: "",
+            },
+          ],
+          insertedBlock.id
+        );
+
+        if (newTextBlock?.id) {
+          requestAnimationFrame(() => {
+            editor.setTextCursorPosition(newTextBlock.id, "start");
+            editor.focus(); // logic for automatically moving to a new text block
+          });
+        }
+      });
+    },
+    aliases: [...getAliases()],
+    group: "OpenProject",
+    icon: <LinkIcon size={18} />,
+    subtext: i18n.t("slashMenu.subtext"),
+  });
+
+function moveCursorToNextBlock(
+  editor: BlockNoteEditor<any>,
+  blockId: string
+) {
+  editor.focus();
+  editor.setTextCursorPosition(blockId, "end");
+
+  const cursor = editor.getTextCursorPosition();
+
+  if (!cursor?.nextBlock && cursor?.block) {
+    editor.insertBlocks([{ type: "text", content: "" }], cursor.block.id);
+  }
+
+  const updatedCursor = editor.getTextCursorPosition();
+
+  if (updatedCursor?.nextBlock) {
+    editor.setTextCursorPosition(updatedCursor.nextBlock.id, "start");
+  }
+}
