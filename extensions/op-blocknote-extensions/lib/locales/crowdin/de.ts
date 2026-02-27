@@ -5,7 +5,7 @@ export const en = {
       "subtext": "Link zu einem einzelnen Arbeitspaket hinzufügen",
       "aliases": {
         "workpackage": "Arbeitspaket",
-        "work package": "work package",
+        "work package": "Arbeitspaket",
         "wp": "ap",
         "link": "verlinken"
       }

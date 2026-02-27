@@ -4,7 +4,7 @@ export const en = {
       "title": "Lien vers un lot de travaux existant",
       "subtext": "Ajouter un lien dynamique à un lot de travaux unique",
       "aliases": {
-        "workpackage": "workpackage",
+        "workpackage": "lotdetravaux",
         "work package": "lot de travaux",
         "wp": "lt",
         "link": "lien"
