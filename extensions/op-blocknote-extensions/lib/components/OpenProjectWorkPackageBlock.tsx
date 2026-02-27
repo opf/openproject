@@ -1,3 +1,4 @@
+import type { DefaultBlockSchema } from "@blocknote/core";
 import {
   BlockNoteEditor,
   createBlockConfig,
@@ -90,8 +91,8 @@ const DropdownOption = styled.div.attrs({
       : "var(--bn-colors-menu-background)"};
   border: none;
   border-radius: var(--bn-border-radius-small);
-  margin: var(--spacer-s) var(--spacer-m);
-  padding: var(--spacer-s) var(--spacer-m);
+  margin: var(--spacer-s) 0;
+  padding: 0 var(--spacer-m);
   cursor: pointer;
 `;
 
@@ -103,12 +104,42 @@ interface BlockProps {
   };
 }
 
+//function to handle a click on a slash menu item
+function handleOpenProjectWorkPackageClick(editor: BlockNoteEditor<any>) {
+  const insertedBlock = insertOrUpdateBlockForSlashMenu(editor, {
+    type: "openProjectWorkPackage",
+  });
+
+  requestAnimationFrame(() => {
+    if (!insertedBlock?.id) return;
+
+    editor.setTextCursorPosition(insertedBlock.id, "start");
+    editor.focus();
+
+    const [newTextBlock] = editor.insertBlocks(
+      [{ type: "text", content: "" }],
+      insertedBlock.id
+    );
+
+    if (newTextBlock?.id) {
+      requestAnimationFrame(() => {
+        editor.setTextCursorPosition(newTextBlock.id, "start");
+        editor.focus();
+      });
+    }
+  });
+}
+
 const OpenProjectWorkPackageBlockComponent = ({
   block,
   editor,
 }: {
   block: BlockProps;
-  editor: BlockNoteEditor<any>;
+  editor: BlockNoteEditor<
+    DefaultBlockSchema & {
+      openProjectWorkPackage: ReturnType<typeof openprojectWorkPackageBlockConfig>;
+    }
+  >;
 }) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -383,43 +414,14 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
   }
 );
 
-export const openProjectWorkPackageSlashMenu =
-  (editor: BlockNoteEditor<any>) => ({
-    title: i18n.t("slashMenu.title"),
-    onItemClick: () => {
-      const insertedBlock = insertOrUpdateBlockForSlashMenu(editor, {
-        type: "openProjectWorkPackage",
-      });
-
-      requestAnimationFrame(() => {
-        if (!insertedBlock?.id) return;
-
-        editor.setTextCursorPosition(insertedBlock.id, "start");
-        editor.focus();
-
-        const [newTextBlock] = editor.insertBlocks(
-          [
-            {
-              type: "text",
-              content: "",
-            },
-          ],
-          insertedBlock.id
-        );
-
-        if (newTextBlock?.id) {
-          requestAnimationFrame(() => {
-            editor.setTextCursorPosition(newTextBlock.id, "start");
-            editor.focus(); // logic for automatically moving to a new text block
-          });
-        }
-      });
-    },
-    aliases: [...getAliases()],
-    group: "OpenProject",
-    icon: <LinkIcon size={18} />,
-    subtext: i18n.t("slashMenu.subtext"),
-  });
+export const openProjectWorkPackageSlashMenu = (editor: BlockNoteEditor<any>) => ({
+  title: i18n.t("slashMenu.title"),
+  onItemClick: () => handleOpenProjectWorkPackageClick(editor),
+  aliases: [...getAliases()],
+  group: "OpenProject",
+  icon: <LinkIcon size={18} />,
+  subtext: i18n.t("slashMenu.subtext"),
+});
 
 function moveCursorToNextBlock(
   editor: BlockNoteEditor<any>,
