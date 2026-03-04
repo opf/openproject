@@ -1,5 +1,9 @@
 import type { DefaultBlockSchema } from "@blocknote/core";
-import { BlockNoteEditor, createBlockConfig, createBlockSpec } from "@blocknote/core";
+import {
+  BlockNoteEditor,
+  createBlockConfig,
+  createBlockSpec,
+} from "@blocknote/core";
 import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
 import React, { useEffect, useRef, useState } from "react";
@@ -7,32 +11,30 @@ import { useWorkPackage } from "../hooks/useWorkPackage";
 import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
-import { useColors} from "../services/colors";
+import { useColors } from "../services/colors";
 import { getAliases } from "../services/slashMenuAliases";
-import { useTranslation } from "react-i18next"; // localize react components
-import i18n from "../services/i18n.ts"; // localize other code
-
+import { useTranslation } from "react-i18next";
+import i18n from "../services/i18n.ts";
 import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 import { WorkPackageElement } from "../elements/workPackageElement";
 import { UnavailableWorkPackageElement } from "../elements/unavailableWorkPackageElement";
 import styled from "styled-components";
 
-const Block = styled.div.attrs({
-  className: 'op-bn-extensions'
-})`
-    --highlight-wp-background: var(--bn-colors-highlights-gray-background);
-    [data-color-scheme="dark"] & {
-        --highlight-wp-background: var(--bn-colors-disabled-text);
-    }
-    --spacer-s: 4px;
-    --spacer-m: 8px;
-    --spacer-l: 12px;
-    --spacer-xl: 16px;
+const Block = styled.div.attrs({ className: "op-bn-extensions" })<{
+  // Added hasWp prop to be able to style the block if WP is present
+  hasWp: boolean;
+}>`
+  --highlight-wp-background: var(--bn-colors-highlights-gray-background);
+  [data-color-scheme="dark"] & {
+    --highlight-wp-background: var(--bn-colors-disabled-text);
+  }
+  --spacer-s: 4px;
+  --spacer-m: 8px;
+  --spacer-l: 12px;
+  --spacer-xl: 16px;
 `;
 
-const Search = styled.div.attrs({
-  className: 'op-bn-search'
-})`
+const Search = styled.div.attrs({ className: "op-bn-search" })`
   position: relative;
   padding: var(--spacer-m) var(--spacer-xl);
   box-shadow: var(--bn-shadow-medium);
@@ -43,39 +45,36 @@ const Search = styled.div.attrs({
   }
 `;
 
-const SearchLabel = styled.label.attrs({
-  className: 'op-bn-search--label'
-})`
+const SearchLabel = styled.label.attrs({ className: "op-bn-search--label" })`
   font-weight: normal !important;
 `;
 
 const SearchInputWrapper = styled.div.attrs({
-  className: 'op-bn-search--input-wrapper'
+  className: "op-bn-search--input-wrapper",
 })`
   position: relative;
   margin-top: var(--spacer-m);
 `;
 
 const SearchIconWrapper = styled.div.attrs({
-  className: 'op-bn-search--icon-wrapper'
+  className: "op-bn-search--icon-wrapper",
 })`
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   padding-left: var(--spacer-m);
 `;
-const SearchInput = styled.input.attrs({
-  className: 'op-bn-search--input'
-})`
+
+const SearchInput = styled.input.attrs({ className: "op-bn-search--input" })`
   width: 100%;
   padding: var(--spacer-m) var(--spacer-l);
-  padding-left: 30px !important; // room for the search icon
+  padding-left: 30px !important; // Hardcoded padding for icon
   border: 1px solid #ccc;
   border-radius: var(--bn-border-radius-small);
 `;
 
 const Dropdown = styled.div.attrs({
-  className: 'op-bn-dropdown'
+  className: "op-bn-dropdown"
 })`
   background-color: var(--bn-colors-menu-background);
   overflow-y: auto;
@@ -84,9 +83,12 @@ const Dropdown = styled.div.attrs({
 `;
 
 const DropdownOption = styled.div.attrs({
-  className: 'op-bn-dropdown--option'
+  className: "op-bn-dropdown--option"
 })<{ selected: boolean }>`
-  background-color: ${({ selected }) => selected ? 'var(--highlight-wp-background)' : 'var(--bn-colors-menu-background)'};
+  background-color: ${({ selected }) =>
+    selected
+      ? "var(--highlight-wp-background)"
+      : "var(--bn-colors-menu-background)"};
   border: none;
   border-radius: var(--bn-border-radius-small);
   margin: var(--spacer-s) 0;
@@ -95,10 +97,37 @@ const DropdownOption = styled.div.attrs({
 `;
 
 interface BlockProps {
-  id: string,
+  id: string;
   props: {
-    wpid: number;
+    wpid?: number;
+    initialized?: boolean; // to know if the block is already initialized
   };
+}
+
+//function to handle a click on a slash menu item
+function handleOpenProjectWorkPackageClick(editor: BlockNoteEditor<any>) {
+  const insertedBlock = insertOrUpdateBlockForSlashMenu(editor, {
+    type: "openProjectWorkPackage",
+  });
+
+  requestAnimationFrame(() => {
+    if (!insertedBlock?.id) return;
+
+    editor.setTextCursorPosition(insertedBlock.id, "start");
+    editor.focus();
+
+    const [newTextBlock] = editor.insertBlocks(
+      [{ type: "text", content: "" }],
+      insertedBlock.id
+    );
+
+    if (newTextBlock?.id) {
+      requestAnimationFrame(() => {
+        editor.setTextCursorPosition(newTextBlock.id, "start");
+        editor.focus();
+      });
+    }
+  });
 }
 
 const OpenProjectWorkPackageBlockComponent = ({
@@ -106,115 +135,122 @@ const OpenProjectWorkPackageBlockComponent = ({
   editor,
 }: {
   block: BlockProps;
-  editor: BlockNoteEditor<DefaultBlockSchema & { openProjectWorkPackage: ReturnType<typeof openprojectWorkPackageBlockConfig> }>;
+  editor: BlockNoteEditor<
+    DefaultBlockSchema & {
+      openProjectWorkPackage: ReturnType<typeof openprojectWorkPackageBlockConfig>;
+    }
+  >;
 }) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const isSelectingRef = useRef(false); // to follow the WP selection from the dropdown
 
   // Fetch and cache colors.
   // The hook handles triggering re-renders when data arrives.
   useColors();
 
-  // Search mode state (API + debounce only)
-  const {
-    searchQuery,
-    setSearchQuery,
-    searchResults,
-  } = useWorkPackageSearch();
+  const { searchQuery, setSearchQuery, searchResults } =
+    useWorkPackageSearch();
 
-  const [selectedWorkPackage, setSelectedWorkPackage] = useState<WorkPackage | null>(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [focusedResultIndex, setFocusedResultIndex] = useState(-1);
+  const [isActive, setIsActive] = useState(false);
 
-  // Load saved work package if it exists
-  const workPackageResult = useWorkPackage(block.props.wpid);
+  // use a single source of truth — result from useWorkPackage.
+  const workPackageResult = useWorkPackage(block.props.wpid); 
 
-  // Set selected work package when loaded
+  const selectedWorkPackage = workPackageResult.workPackage;
+
   useEffect(() => {
-    if (!workPackageResult.error && workPackageResult.workPackage) {
-      setSelectedWorkPackage(workPackageResult.workPackage);
-    }
-  }, [workPackageResult.error, workPackageResult.workPackage]);
+    // accessing private tiptap instance until public API is available
+    const tiptap = (editor as any)._tiptapEditor;
+    if (!tiptap) return;
 
-  // Autofocus search if no work package
-  useEffect(() => {
-    if (workPackageResult.error || !workPackageResult.workPackage) {
-      setTimeout(() => inputRef?.current?.focus(), 50);
-    }
-  }, [workPackageResult.error, workPackageResult.workPackage]);
-
-  // Handle click outside to close dropdown
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      const path = event.composedPath();
-
-      if (
-        dropdownRef.current &&
-        !path.includes(dropdownRef.current) &&
-        inputRef.current &&
-        !path.includes(inputRef.current)
-      ) {
-        setIsDropdownOpen(false);
-      }
+    const updateActiveState = () => {
+      const pos = editor.getTextCursorPosition();
+      setIsActive(pos?.block?.id === block.id);
     };
 
-    document.addEventListener("mousedown", handleClickOutside);
+    tiptap.on("selectionUpdate", updateActiveState);
+    updateActiveState();
+
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      tiptap.off("selectionUpdate", updateActiveState);
     };
-  }, []);
+  }, [editor, block.id]);
+
+  useEffect(() => {
+    // Autofocus only when the block is active and not yet initialized
+    if (
+      !block.props.wpid &&
+      !block.props.initialized &&
+      isActive &&
+      inputRef.current
+    ) {
+      // use requestAnimationFrame to wait for React 
+      // to commit and update the internal state
+      // of the BlockNote before focusing.
+      requestAnimationFrame(() => {
+        inputRef.current?.focus();
+      });
+    }
+  }, [block.props.wpid, block.props.initialized, isActive]);
 
   const handleSelectWorkPackage = (workPackage: WorkPackage) => {
-    setSelectedWorkPackage(workPackage);
+    isSelectingRef.current = true; // checkbox so that onBlur does not remove the block
+
     setSearchQuery("");
     setIsDropdownOpen(false);
+    setFocusedResultIndex(-1);
 
-    // Update block props to persist the selection
     editor.updateBlock(block, {
       props: {
         ...block.props,
         wpid: workPackage.id,
+        initialized: true,
       },
     });
-    setNewCursorPosition(editor, block);
+
+    requestAnimationFrame(() => {
+      // move the cursor to the next block after selecting WP
+      moveCursorToNextBlock(editor, block.id);
+    });
   };
 
-  // Handle keyboard navigation
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isDropdownOpen) {
-      return;
-    }
-
-    switch (e.key) {
-      case "ArrowDown":
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      if (!isDropdownOpen) setIsDropdownOpen(true);
+      setFocusedResultIndex((prev) =>
+        prev < searchResults.length - 1 ? prev + 1 : prev
+      ); // tightly coupled to searchResults length
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setFocusedResultIndex((prev) => (prev > 0 ? prev - 1 : 0));
+    } else if (e.key === "Enter") {
+      if (focusedResultIndex >= 0 && searchResults[focusedResultIndex]) {
         e.preventDefault();
-        setFocusedResultIndex((prev) => (prev < searchResults.length - 1 ? prev + 1 : prev));
-        break;
-      case "ArrowUp":
-        e.preventDefault();
-        setFocusedResultIndex((prev) => (prev > 0 ? prev - 1 : 0));
-        break;
-      case "Enter":
-        e.preventDefault();
-        if (focusedResultIndex >= 0 && focusedResultIndex < searchResults.length) {
-          handleSelectWorkPackage(searchResults[focusedResultIndex]);
-        }
-        break;
-      case "Escape":
-        e.preventDefault();
-        setIsDropdownOpen(false);
-        break;
-      default:
-        break;
+        handleSelectWorkPackage(searchResults[focusedResultIndex]);
+      }
+    } else if (e.key === "Escape") {
+      editor.updateBlock(block, {
+        props: { ...block.props, initialized: true }, // close the dropdown, fix initialized
+      });
+      editor.focus();
     }
   };
+
+  const disableFocus = block.props.initialized && !block.props.wpid;
 
   return (
-    <Block>
-      <div>
-        {/* Show search dialog if no work package is selected yet */}
-        {!block.props.wpid && (
+    <Block
+      hasWp={!!block.props.wpid}
+      tabIndex={disableFocus ? -1 : 0} // tabIndex toggle could affect accessibility
+      style={disableFocus ? { pointerEvents: "none" } : undefined}
+    >
+      <div contentEditable={false}>
+        {!block.props.wpid && !block.props.initialized && isActive && (
           <Search>
             <SearchLabel>
               {t("search.label")}
@@ -224,26 +260,34 @@ const OpenProjectWorkPackageBlockComponent = ({
                 </SearchIconWrapper>
                 <SearchInput
                   ref={inputRef}
-                  type="custom"
+                  type="text"
                   placeholder={t("search.placeholder")}
                   value={searchQuery}
                   onChange={(e) => {
                     setSearchQuery(e.target.value);
-                    if (e.target.value) {
-                      setIsDropdownOpen(true);
-                    }
-                  }}
-                  onFocus={() => {
-                    if (searchResults.length > 0) {
-                      setIsDropdownOpen(true);
-                    }
+                    setIsDropdownOpen(e.target.value.length > 0);
                   }}
                   onKeyDown={handleKeyDown}
+                  onBlur={() => {
+                    setTimeout(() => {
+                      setIsDropdownOpen(false);
+                      setFocusedResultIndex(-1);
+                      setIsActive(false);
+                      // If we just selected an item do nothing
+                      if (isSelectingRef.current) {
+                        isSelectingRef.current = false;
+                        return;
+                      }
+                      // Remove only if truly empty
+                      if (!block.props.wpid) {
+                        editor.removeBlocks([block.id]);
+                      }
+                    }, 100);
+                  }}
                 />
               </SearchInputWrapper>
             </SearchLabel>
 
-            {/* Autocomplete dropdown */}
             {isDropdownOpen && searchResults.length > 0 && (
               <Dropdown
                 ref={dropdownRef}
@@ -257,12 +301,9 @@ const OpenProjectWorkPackageBlockComponent = ({
                     aria-selected={focusedResultIndex === index}
                     tabIndex={0}
                     selected={focusedResultIndex === index}
-                    onClick={() => handleSelectWorkPackage(wp)}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") {
-                        e.preventDefault();
-                        handleSelectWorkPackage(wp);
-                      }
+                    onMouseDown={(e) => {
+                      e.preventDefault(); // prevent input blur
+                      handleSelectWorkPackage(wp);
                     }}
                     onMouseEnter={() => setFocusedResultIndex(index)}
                   >
@@ -274,37 +315,72 @@ const OpenProjectWorkPackageBlockComponent = ({
           </Search>
         )}
 
-        {/* Show work package data (if available) */}
-        {block.props.wpid && !selectedWorkPackage && workPackageResult.loading && (
-          <UnavailableWorkPackageElement header={t("unavailableWorkPackage.loading.header")} message={t("unavailableWorkPackage.loading.message")} />
-        )}
-        {block.props.wpid && !selectedWorkPackage && workPackageResult.unauthorized &&  (
-          <UnavailableWorkPackageElement header={t("unavailableWorkPackage.unauthorized.header")} message={t("unavailableWorkPackage.unauthorized.message")} />
-        )}
-        {block.props.wpid && !selectedWorkPackage && workPackageResult.error && (
-          <UnavailableWorkPackageElement header={t("unavailableWorkPackage.error.header")} message={t("unavailableWorkPackage.error.message")} />
-        )}
-        {selectedWorkPackage && (
-          <WorkPackageElement workPackage={selectedWorkPackage} linkTitle={true} />
+        {block.props.wpid && (
+          <>
+            {workPackageResult.loading && (
+              <UnavailableWorkPackageElement
+                header={t("unavailableWorkPackage.loading.header")}
+                message={t("unavailableWorkPackage.loading.message")}
+              />
+            )}
+
+            {!workPackageResult.loading && workPackageResult.error && (
+              <UnavailableWorkPackageElement
+                header={t("unavailableWorkPackage.error.header")}
+                message={t("unavailableWorkPackage.error.message")}
+              />
+            )}
+
+            {!workPackageResult.loading &&
+              !workPackageResult.error &&
+              workPackageResult.unauthorized && (
+                <UnavailableWorkPackageElement
+                  header={t(
+                    "unavailableWorkPackage.unauthorized.header"
+                  )}
+                  message={t(
+                    "unavailableWorkPackage.unauthorized.message"
+                  )}
+                />
+              )}
+
+            {!workPackageResult.loading &&
+              !workPackageResult.error &&
+              !workPackageResult.unauthorized &&
+              selectedWorkPackage && (
+                <WorkPackageElement
+                  workPackage={selectedWorkPackage}
+                  linkTitle
+                />
+              )}
+          </>
         )}
       </div>
     </Block>
   );
 };
 
-export const openprojectWorkPackageBlockConfig = createBlockConfig(
-  () => ({
-    type: "openProjectWorkPackage",
-    propSchema: {
-      wpid: { default: undefined, type: "number" },
-    },
-    content: "none",
-  }) as const
-);
+// Config with proper propSchema
+export const openprojectWorkPackageBlockConfig = createBlockConfig((() => ({
+  type: "openProjectWorkPackage",
+  propSchema: {
+    wpid: { default: undefined, type: "number" },
+    initialized: { default: false, type: "boolean" },
+  },
+  content: "none",
+  isSelectable: false,
+})) as unknown as ReturnType<typeof createBlockConfig>);
 
 export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
   openprojectWorkPackageBlockConfig,
-  { render: (props) => <OpenProjectWorkPackageBlockComponent block={props.block} editor={props.editor as any} /> }
+  {
+    render: (props) => (
+      <OpenProjectWorkPackageBlockComponent
+        block={props.block}
+        editor={props.editor as any}
+      />
+    ),
+  }
 );
 
 export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
@@ -314,47 +390,55 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
       const wpid = block.props.wpid;
       const href = linkToWorkPackage(wpid);
 
+      /*
+      Create a wrapper element.
+      This is done for a stable DOM structure,
+      because <a> as a root block element
+      may not be serialized correctly in the clipboard.
+       */
+      const wrapper = document.createElement("span");
+
       const anchor = document.createElement("a");
       anchor.href = href;
       anchor.target = "_blank";
       anchor.rel = "noopener noreferrer";
       anchor.textContent = `#${wpid}`;
 
+      wrapper.appendChild(anchor);
+
       return {
-        dom: anchor,
-        contentDOM: anchor,
+        dom: wrapper,
+        contentDOM: wrapper,
       };
-    }
+    },
   }
 );
 
-export const openProjectWorkPackageSlashMenu = (editor: any) => ({
+export const openProjectWorkPackageSlashMenu = (editor: BlockNoteEditor<any>) => ({
   title: i18n.t("slashMenu.title"),
-  onItemClick: () => insertOrUpdateBlockForSlashMenu(editor, { type: "openProjectWorkPackage" }),
+  onItemClick: () => handleOpenProjectWorkPackageClick(editor),
   aliases: [...getAliases()],
   group: "OpenProject",
   icon: <LinkIcon size={18} />,
   subtext: i18n.t("slashMenu.subtext"),
-})
+});
 
-// The link work package block is not editable, so the cursor should be
-// positioned at the beginning of the next block.
-// Selecting the work package from a dropdown with arrow keys and enter
-// somehow messes the cursor position up, so we need to set it manually.
-function setNewCursorPosition(editor: BlockNoteEditor<any>, block: BlockProps) {
+function moveCursorToNextBlock(
+  editor: BlockNoteEditor<any>,
+  blockId: string
+) {
   editor.focus();
-  editor.setTextCursorPosition(block.id, "end");
-  setCursorToNextBlock(editor, editor.getTextCursorPosition());
-}
+  editor.setTextCursorPosition(blockId, "end");
 
-type TextCursorPosition = ReturnType<BlockNoteEditor<any>["getTextCursorPosition"]>;
-function setCursorToNextBlock(editor: BlockNoteEditor<any>, cursorPosition: TextCursorPosition) {
-  if (cursorPosition.nextBlock) {
-    editor.setTextCursorPosition(cursorPosition.nextBlock.id, "start");
-    return
+  const cursor = editor.getTextCursorPosition();
+
+  if (!cursor?.nextBlock && cursor?.block) {
+    editor.insertBlocks([{ type: "text", content: "" }], cursor.block.id);
   }
-  // ensure it still works at the end of the document when there is no next block
-  if (cursorPosition.block) {
-    editor.setTextCursorPosition(cursorPosition.block.id, "end");
+
+  const updatedCursor = editor.getTextCursorPosition();
+
+  if (updatedCursor?.nextBlock) {
+    editor.setTextCursorPosition(updatedCursor.nextBlock.id, "start");
   }
 }
