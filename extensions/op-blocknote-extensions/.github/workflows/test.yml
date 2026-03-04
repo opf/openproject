@@ -26,6 +26,10 @@ jobs:
         id: npm-i
         run: npm i
 
+      - name: Install Playwright Browsers
+        id: install-playwright
+        run: npx playwright install --with-deps
+
       - name: run tests
         id: npm-test
         run: CI=1 npm test

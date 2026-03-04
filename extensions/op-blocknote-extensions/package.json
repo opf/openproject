@@ -20,7 +20,9 @@
     "dev": "vite",
     "build": "vite build && tsc -b tsconfig.lib.json",
     "lint": "eslint .",
-    "test": "vitest",
+    "test": "npm run test:unit && npm run test:browser",
+    "test:unit": "vitest run",
+    "test:browser": "vitest run --config vitest.browser.config.ts",
     "coverage": "vitest run --coverage",
     "preview": "vite preview"
   },
@@ -40,6 +42,7 @@
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^16.4.0",
+    "jsdom": "^28.1.0",
     "msw": "^2.12.10",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

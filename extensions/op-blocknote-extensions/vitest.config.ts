@@ -1,16 +1,11 @@
-import { defineConfig } from 'vitest/config';
-import react from '@vitejs/plugin-react';
-import { playwright } from '@vitest/browser-playwright';
+import { defineConfig } from 'vitest/config'
+import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
   test: {
-    browser: {
-      enabled: true,
-      provider: playwright(),
-      headless: true, 
-      instances: [{ browser: 'chromium' }],
-    },
-    include: ["test/**/*.browser.test.tsx"], 
+    environment: 'jsdom',
+    include: ['test/**/*.test.ts', 'test/**/*.test.tsx'],
+    exclude: ['test/**/*.browser.test.tsx'],  
   },
-});
+})
