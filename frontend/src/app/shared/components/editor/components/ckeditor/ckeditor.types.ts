@@ -3,91 +3,30 @@ import {
   ICKEditorMacroType,
   ICKEditorType,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor-setup.service';
+import type {
+  CKEditorDomEventData,
+  CKEditorEvent,
+  CKEditorListenOptions,
+  ICKEditorContext as ICKEditorBuildContext,
+  ICKEditorError,
+  ICKEditorInstance,
+  ICKEditorStatic,
+  ICKEditorState,
+  ICKEditorWatchdog,
+} from 'core-vendor/ckeditor/types';
 
-export interface CKEditorEvent {
-  stop:() => void;
-}
+export type {
+  CKEditorDomEventData,
+  CKEditorEvent,
+  CKEditorListenOptions,
+  ICKEditorError,
+  ICKEditorInstance,
+  ICKEditorStatic,
+  ICKEditorState,
+  ICKEditorWatchdog,
+};
 
-export interface CKEditorListenOptions {
-  priority:string;
-}
-
-export interface CKEditorDomEventData {
-  altKey:boolean;
-  shiftKey:boolean;
-  ctrlKey:boolean;
-  metaKey:boolean;
-  keyCode:number;
-}
-
-export interface ICKEditorInstance {
-  id:string;
-
-  state:string;
-
-  getData(options?:{ trim:boolean }):string;
-
-  setData(content:string):void;
-
-  destroy():void;
-
-  enableReadOnlyMode(lockId:string):void;
-
-  disableReadOnlyMode(lockId:string):void;
-
-  on(event:string, callback:() => unknown):void;
-
-  listenTo(node:unknown, key:string, callback:(evt:CKEditorEvent, data:CKEditorDomEventData) => unknown, options:CKEditorListenOptions):void;
-
-  model:{
-    on(ev:string, callback:() => unknown):void
-    fire(ev:string, data:unknown):void
-    document:{
-      on(ev:string, callback:() => unknown):void
-    };
-  };
-  editing:{
-    view:{
-      focus():void;
-      document:Document
-    }
-  };
-  config:any;
-  ui:any;
-  element:HTMLElement;
-}
-
-export interface ICKEditorStatic {
-  create(el:HTMLElement, config?:any):Promise<ICKEditorInstance>;
-
-  createCustomized(el:string|HTMLElement, config?:any):Promise<ICKEditorInstance>;
-}
-
-export type ICKEditorState = 'initializing'|'ready'|'crashed'|'crashedPermanently'|'destroyed';
-
-export interface ICKEditorError {
-  message:string;
-  stack:any;
-}
-
-export interface ICKEditorWatchdog {
-  setCreator(callback:(elementOrData:any, editorConfig:any) => Promise<ICKEditorInstance>):void;
-
-  setDestructor(callback:(editor:ICKEditorInstance) => void):void;
-
-  create(elementOrData:any, editorConfig:any):Promise<ICKEditorInstance>;
-
-  destroy():void;
-
-  on(listener:'stateChange', callback:() => void):void;
-
-  on(listener:'error', callback:(evt:Event, args:{ error:ICKEditorError }) => void):void;
-
-  editor:ICKEditorInstance;
-  state:ICKEditorState;
-}
-
-export interface ICKEditorContext {
+export interface ICKEditorContext extends Omit<ICKEditorBuildContext, 'resource'|'macros'> {
   // Editor type to setup
   type:ICKEditorType;
   // Hal Resource to pass into ckeditor
@@ -96,18 +35,8 @@ export interface ICKEditorContext {
   field?:string;
   // Specific removing of plugins
   removePlugins?:string[];
-  // Set of enabled macro plugins or false to disable all
+  // Set of enabled macro plugins or false to disable all.
   macros?:ICKEditorMacroType;
-  // Additional options like the text orientation of the editors content
-  options?:{
-    rtl?:boolean;
-  };
-  // context link to append on preview requests
-  previewContext?:string;
-  // disabled specific mentions
-  disabledMentions?:['user'|'work_package'];
-  // overrides the default storage key for revisions
-  storageKey?:string;
 }
 
 declare global {
