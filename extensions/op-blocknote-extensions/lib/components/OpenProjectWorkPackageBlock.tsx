@@ -19,6 +19,7 @@ import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 import { WorkPackageElement } from "../elements/workPackageElement";
 import { UnavailableWorkPackageElement } from "../elements/unavailableWorkPackageElement";
 import styled from "styled-components";
+import { WpOptionsPopover } from "./InlineWorkPackageSpec";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })<{
   // Added hasWp prop to be able to style the block if WP is present
@@ -68,7 +69,7 @@ const SearchIconWrapper = styled.div.attrs({
 const SearchInput = styled.input.attrs({ className: "op-bn-search--input" })`
   width: 100%;
   padding: var(--spacer-m) var(--spacer-l);
-  padding-left: 30px !important; // Hardcoded padding for icon
+  padding-left: 30px !important;
   border: 1px solid #ccc;
   border-radius: var(--bn-border-radius-small);
 `;
@@ -93,6 +94,13 @@ const DropdownOption = styled.div.attrs({
   border-radius: var(--bn-border-radius-small);
   margin: var(--spacer-s) 0;
   padding: 0 var(--spacer-m);
+  cursor: pointer;
+`;
+
+// Wrapper for the resolved WP handles click-to-open-options
+const WpCardWrapper = styled.div`
+  position: relative;
+  display: inline-block;
   cursor: pointer;
 `;
 
@@ -144,6 +152,7 @@ const OpenProjectWorkPackageBlockComponent = ({
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const blockRef = useRef<HTMLDivElement>(null);
   const isSelectingRef = useRef(false); // to follow the WP selection from the dropdown
 
   // Fetch and cache colors.
@@ -156,6 +165,7 @@ const OpenProjectWorkPackageBlockComponent = ({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [focusedResultIndex, setFocusedResultIndex] = useState(-1);
   const [isActive, setIsActive] = useState(false);
+  const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
   // use a single source of truth — result from useWorkPackage.
   const workPackageResult = useWorkPackage(block.props.wpid); 
@@ -174,57 +184,45 @@ const OpenProjectWorkPackageBlockComponent = ({
 
     tiptap.on("selectionUpdate", updateActiveState);
     updateActiveState();
-
-    return () => {
-      tiptap.off("selectionUpdate", updateActiveState);
-    };
+    return () => { tiptap.off("selectionUpdate", updateActiveState); };
   }, [editor, block.id]);
 
   useEffect(() => {
-    // Autofocus only when the block is active and not yet initialized
-    if (
-      !block.props.wpid &&
-      !block.props.initialized &&
-      isActive &&
-      inputRef.current
-    ) {
-      // use requestAnimationFrame to wait for React 
-      // to commit and update the internal state
-      // of the BlockNote before focusing.
-      requestAnimationFrame(() => {
-        inputRef.current?.focus();
-      });
+    if (!block.props.wpid && !block.props.initialized && isActive && inputRef.current) {
+      requestAnimationFrame(() => { inputRef.current?.focus(); });
     }
   }, [block.props.wpid, block.props.initialized, isActive]);
 
-  const handleSelectWorkPackage = (workPackage: WorkPackage) => {
-    isSelectingRef.current = true; // checkbox so that onBlur does not remove the block
+  // Close options popover on outside click
+  useEffect(() => {
+    if (!isOptionsOpen) return;
+    const handleClickOutside = (e: MouseEvent) => {
+      if (blockRef.current && !blockRef.current.contains(e.target as Node)) {
+        setIsOptionsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOptionsOpen]);
 
+  const handleSelectWorkPackage = (workPackage: WorkPackage) => {
+    isSelectingRef.current = true;
     setSearchQuery("");
     setIsDropdownOpen(false);
     setFocusedResultIndex(-1);
 
     editor.updateBlock(block, {
-      props: {
-        ...block.props,
-        wpid: workPackage.id,
-        initialized: true,
-      },
+      props: { ...block.props, wpid: workPackage.id, initialized: true },
     });
 
-    requestAnimationFrame(() => {
-      // move the cursor to the next block after selecting WP
-      moveCursorToNextBlock(editor, block.id);
-    });
+    requestAnimationFrame(() => { moveCursorToNextBlock(editor, block.id); });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowDown") {
       e.preventDefault();
       if (!isDropdownOpen) setIsDropdownOpen(true);
-      setFocusedResultIndex((prev) =>
-        prev < searchResults.length - 1 ? prev + 1 : prev
-      ); // tightly coupled to searchResults length
+      setFocusedResultIndex((prev) => prev < searchResults.length - 1 ? prev + 1 : prev);
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setFocusedResultIndex((prev) => (prev > 0 ? prev - 1 : 0));
@@ -234,9 +232,7 @@ const OpenProjectWorkPackageBlockComponent = ({
         handleSelectWorkPackage(searchResults[focusedResultIndex]);
       }
     } else if (e.key === "Escape") {
-      editor.updateBlock(block, {
-        props: { ...block.props, initialized: true }, // close the dropdown, fix initialized
-      });
+      editor.updateBlock(block, { props: { ...block.props, initialized: true } });
       editor.focus();
     }
   };
@@ -246,7 +242,7 @@ const OpenProjectWorkPackageBlockComponent = ({
   return (
     <Block
       hasWp={!!block.props.wpid}
-      tabIndex={disableFocus ? -1 : 0} // tabIndex toggle could affect accessibility
+      tabIndex={disableFocus ? -1 : 0}
       style={disableFocus ? { pointerEvents: "none" } : undefined}
     >
       <div contentEditable={false}>
@@ -255,9 +251,7 @@ const OpenProjectWorkPackageBlockComponent = ({
             <SearchLabel>
               {t("search.label")}
               <SearchInputWrapper>
-                <SearchIconWrapper>
-                  <SearchIcon size={18} />
-                </SearchIconWrapper>
+                <SearchIconWrapper><SearchIcon size={18} /></SearchIconWrapper>
                 <SearchInput
                   ref={inputRef}
                   type="text"
@@ -273,15 +267,11 @@ const OpenProjectWorkPackageBlockComponent = ({
                       setIsDropdownOpen(false);
                       setFocusedResultIndex(-1);
                       setIsActive(false);
-                      // If we just selected an item do nothing
                       if (isSelectingRef.current) {
                         isSelectingRef.current = false;
                         return;
                       }
-                      // Remove only if truly empty
-                      if (!block.props.wpid) {
-                        editor.removeBlocks([block.id]);
-                      }
+                      if (!block.props.wpid) { editor.removeBlocks([block.id]); }
                     }, 100);
                   }}
                 />
@@ -289,11 +279,7 @@ const OpenProjectWorkPackageBlockComponent = ({
             </SearchLabel>
 
             {isDropdownOpen && searchResults.length > 0 && (
-              <Dropdown
-                ref={dropdownRef}
-                role="listbox"
-                aria-label={t("search.dropdownAriaLabel")}
-              >
+              <Dropdown ref={dropdownRef} role="listbox" aria-label={t("search.dropdownAriaLabel")}>
                 {searchResults.slice(0, 5).map((wp, index) => (
                   <DropdownOption
                     key={wp.id}
@@ -302,7 +288,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                     tabIndex={0}
                     selected={focusedResultIndex === index}
                     onMouseDown={(e) => {
-                      e.preventDefault(); // prevent input blur
+                      e.preventDefault();
                       handleSelectWorkPackage(wp);
                     }}
                     onMouseEnter={() => setFocusedResultIndex(index)}
@@ -323,35 +309,39 @@ const OpenProjectWorkPackageBlockComponent = ({
                 message={t("unavailableWorkPackage.loading.message")}
               />
             )}
-
             {!workPackageResult.loading && workPackageResult.error && (
               <UnavailableWorkPackageElement
                 header={t("unavailableWorkPackage.error.header")}
                 message={t("unavailableWorkPackage.error.message")}
               />
             )}
-
-            {!workPackageResult.loading &&
-              !workPackageResult.error &&
-              workPackageResult.unauthorized && (
-                <UnavailableWorkPackageElement
-                  header={t(
-                    "unavailableWorkPackage.unauthorized.header"
-                  )}
-                  message={t(
-                    "unavailableWorkPackage.unauthorized.message"
-                  )}
-                />
-              )}
-
+            {!workPackageResult.loading && !workPackageResult.error && workPackageResult.unauthorized && (
+              <UnavailableWorkPackageElement
+                header={t("unavailableWorkPackage.unauthorized.header")}
+                message={t("unavailableWorkPackage.unauthorized.message")}
+              />
+            )}
             {!workPackageResult.loading &&
               !workPackageResult.error &&
               !workPackageResult.unauthorized &&
               selectedWorkPackage && (
-                <WorkPackageElement
-                  workPackage={selectedWorkPackage}
-                  linkTitle
-                />
+                <WpCardWrapper
+                  ref={blockRef}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsOptionsOpen((prev) => !prev);
+                  }}
+                >
+                  <WorkPackageElement workPackage={selectedWorkPackage} linkTitle />
+                  {isOptionsOpen && (
+                    <WpOptionsPopover
+                      wp={selectedWorkPackage}
+                      currentSize={undefined}   // undefined = block mode → shows "Inline" button
+                      instanceId={undefined}
+                      onClose={() => setIsOptionsOpen(false)}
+                    />
+                  )}
+                </WpCardWrapper>
               )}
           </>
         )}
@@ -360,7 +350,6 @@ const OpenProjectWorkPackageBlockComponent = ({
   );
 };
 
-// Config with proper propSchema
 export const openprojectWorkPackageBlockConfig = createBlockConfig((() => ({
   type: "openProjectWorkPackage",
   propSchema: {
@@ -437,7 +426,6 @@ function moveCursorToNextBlock(
   }
 
   const updatedCursor = editor.getTextCursorPosition();
-
   if (updatedCursor?.nextBlock) {
     editor.setTextCursorPosition(updatedCursor.nextBlock.id, "start");
   }
