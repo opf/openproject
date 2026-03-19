@@ -2,7 +2,7 @@ import type { BlockNoteEditor, InlineContentFromConfig } from "@blocknote/core";
 import { LinkIcon } from "@primer/octicons-react";
 import i18n from "../services/i18n.ts";
 import { getAliases } from "../services/slashMenuAliases";
-import { registerInlineWpCallbacks, clearInlineWpCallbacks } from "./InlineWorkPackageSpec";
+import { registerInlineWpCallbacks, clearInlineWpCallbacks } from "./InlineWorkPackage";
 
 type AnyEditor = BlockNoteEditor<any, any, any>;
 

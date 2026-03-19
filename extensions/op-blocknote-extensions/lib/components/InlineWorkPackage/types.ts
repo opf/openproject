@@ -1,0 +1,1 @@
+export type InlineWpSize = "xxs" | "xs" | "s" | "m";

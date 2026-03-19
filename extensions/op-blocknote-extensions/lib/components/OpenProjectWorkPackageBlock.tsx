@@ -19,7 +19,7 @@ import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 import { WorkPackageElement } from "../elements/workPackageElement";
 import { UnavailableWorkPackageElement } from "../elements/unavailableWorkPackageElement";
 import styled from "styled-components";
-import { WpOptionsPopover } from "./InlineWorkPackageSpec";
+import { WpOptionsPopover } from "./InlineWorkPackage";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })<{
   // Added hasWp prop to be able to style the block if WP is present
@@ -245,7 +245,7 @@ const OpenProjectWorkPackageBlockComponent = ({
       tabIndex={disableFocus ? -1 : 0}
       style={disableFocus ? { pointerEvents: "none" } : undefined}
     >
-      <div contentEditable={false}>
+      <div contentEditable={false} style={{ userSelect: "none" }}>
         {!block.props.wpid && !block.props.initialized && isActive && (
           <Search>
             <SearchLabel>
