@@ -11,8 +11,10 @@ import { getInlineWpCallbacks, clearInlineWpCallbacks } from "./callbacks";
 import type { InlineWpSize } from "./types";
 
 // Outer chip wrapper 
-
-const InlineChip = styled.span.attrs({ className: "op-bn-inline-wp" })<{
+const InlineChip = styled.span.attrs({ 
+  className: "op-bn-inline-wp",
+  contentEditable: false,
+})<{
   selected?: boolean;
 }>`
   display: inline-flex;

@@ -6,25 +6,29 @@ import { registerInlineWpCallbacks, clearInlineWpCallbacks } from "./InlineWorkP
 
 type AnyEditor = BlockNoteEditor<any, any, any>;
 
-function getCurrentBlockContent(editor: AnyEditor): {
-  blockId: string;
-  content: InlineContentFromConfig<any, any>[];
-} | null {
-  const cursor = editor.getTextCursorPosition();
-  if (!cursor?.block) return null;
-  const block = cursor.block as { id: string; content: InlineContentFromConfig<any, any>[] };
-  return { blockId: block.id, content: block.content ?? [] };
-}
-
 function handleInlineWorkPackageClick(editor: AnyEditor): void {
   const key = `wp-${Date.now()}-${Math.random().toString(36).slice(2)}`;
   const pendingWpid = `pending:${key}`;
-  // Generate a stable instanceId for this chip — used for event routing
   const instanceId = `iid-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
+  // Capture blockId before insertion — cursor may move later
+  const insertedBlockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
+
+  const getBlockContent = (): { blockId: string; content: InlineContentFromConfig<any, any>[] } | null => {
+    if (!insertedBlockId) return null;
+    const block = editor.getBlock(insertedBlockId) as { id: string; content: InlineContentFromConfig<any, any>[] } | null;
+    if (!block) return null;
+    return { blockId: block.id, content: block.content ?? [] };
+  };
+
   const onSelect = (wpid: number): void => {
-    const current = getCurrentBlockContent(editor);
+    const current = getBlockContent();
     if (!current) return;
+
+    const chipIndex = current.content.findIndex((node) => {
+      const n = node as { type: string; props?: { wpid?: string } };
+      return n.type === "inlineWorkPackage" && n.props?.wpid === pendingWpid;
+    });
 
     const updatedContent = current.content.map((node) => {
       const n = node as { type: string; props?: { wpid?: string; instanceId?: string } };
@@ -34,18 +38,24 @@ function handleInlineWorkPackageClick(editor: AnyEditor): void {
       return node;
     });
 
+    const nodeAfter = updatedContent[chipIndex + 1] as any;
+    const hasSpaceAfter = nodeAfter?.type === "text" && nodeAfter?.text?.startsWith(" ");
+    if (!hasSpaceAfter) {
+      updatedContent.splice(chipIndex + 1, 0, { type: "text", text: " ", styles: {} } as any);
+    }
+
     editor.updateBlock(current.blockId, { content: updatedContent } as any);
 
-    const blockId = current.blockId;
     requestAnimationFrame(() => {
       editor.focus();
-      editor.setTextCursorPosition(blockId, "end");
+      editor.setTextCursorPosition(current.blockId, "end");
     });
   };
 
   const onCancel = (): void => {
-    const current = getCurrentBlockContent(editor);
+    const current = getBlockContent();
     if (!current) return;
+
     const updatedContent = current.content.filter((node) => {
       const n = node as { type: string; props?: { wpid?: string } };
       return !(n.type === "inlineWorkPackage" && n.props?.wpid === pendingWpid);

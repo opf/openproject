@@ -25,7 +25,6 @@ const subjectLinkProps = (wp: WorkPackage) => ({
 export const WpChipXXS = ({ wp }: { wp: WorkPackage }) => (
   <ChipBaseXXS>
     <IdAtom>#{wp.id}</IdAtom>
-    <SubjectLink {...subjectLinkProps(wp)}>{wp.subject}</SubjectLink>
   </ChipBaseXXS>
 );
 

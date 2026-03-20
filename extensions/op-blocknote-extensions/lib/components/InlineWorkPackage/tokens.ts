@@ -21,8 +21,8 @@ export const TOKEN = {
   },
 
   type: {
-    color:         "var(--op-inline-wp-type-color, #d97706)",
-    fontWeight:    700,
+    color: "var(--op-inline-wp-type-color, #d97706)",
+    fontWeight: 700,
     letterSpacing: "0.04em",
     textTransform: "uppercase" as const,
   },

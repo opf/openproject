@@ -204,7 +204,7 @@ const IcChevron = () => <svg width="10" height="10" viewBox="0 0 16 16" fill="no
 const IcInline = () => <svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="1" y="6" width="14" height="4" rx="2"/></svg>;
 
 const SIZE_OPTIONS: { value: InlineWpSize; label: string; desc: string }[] = [
-  { value: "xxs", label: "XXS", desc: "ID, Subject" },
+  { value: "xxs", label: "XXS", desc: "ID" },
   { value: "xs", label: "XS",  desc: "ID, Type, Subject" },
   { value: "s", label: "S", desc: "ID, Type, Status, Subject" },
   { value: "m", label: "M", desc: "Block — full card" },
