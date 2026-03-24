@@ -65,6 +65,14 @@ class WorkPackage < ApplicationRecord
   has_many :time_entries, dependent: :delete_all, inverse_of: :entity, as: :entity
   has_many :file_links, dependent: :delete_all, class_name: "Storages::FileLink", as: :container
   has_many :storages, through: :project
+  has_many :work_package_associated_versions, dependent: :delete_all
+  has_many :associated_versions, through: :work_package_associated_versions, source: :version
+  has_many :target_versions,
+           -> { where(work_package_associated_versions: { kind: "target" }) },
+           through: :work_package_associated_versions, source: :version
+  has_many :observed_in_versions,
+           -> { where(work_package_associated_versions: { kind: "observed_in" }) },
+           through: :work_package_associated_versions, source: :version
 
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")

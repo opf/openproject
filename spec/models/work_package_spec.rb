@@ -84,6 +84,10 @@ RSpec.describe WorkPackage do
     it { is_expected.to have_many(:member_principals).through(:members).class_name("Principal").source(:principal) }
     it { is_expected.to have_many(:meeting_agenda_items) }
     it { is_expected.to have_many(:meetings).through(:meeting_agenda_items).source(:meeting) }
+    it { is_expected.to have_many(:work_package_associated_versions).dependent(:delete_all) }
+    it { is_expected.to have_many(:associated_versions).through(:work_package_associated_versions).source(:version) }
+    it { is_expected.to have_many(:target_versions).through(:work_package_associated_versions).source(:version) }
+    it { is_expected.to have_many(:observed_in_versions).through(:work_package_associated_versions).source(:version) }
   end
 
   describe ".new" do
