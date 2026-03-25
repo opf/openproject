@@ -14,7 +14,6 @@ import {
   inlineWorkPackageSpec,
   inlineWorkPackageSlashMenu,
 } from "../lib";
-import { useEffect } from "react";
 import "./fetchOverride";
 
 const schema = BlockNoteSchema.create().extend({
@@ -26,17 +25,15 @@ const schema = BlockNoteSchema.create().extend({
   },
 });
 
+initializeOpBlockNoteExtensions({
+  baseUrl: "http://localhost:3000",
+  locale: "en",
+});
+
 type EditorType = typeof schema.BlockNoteEditor;
 
 export default function App() {
   const editor = useCreateBlockNote({ schema });
-
-  useEffect(() => {
-    initializeOpBlockNoteExtensions({
-      baseUrl: "http://localhost:3000",
-      locale: "en",
-    });
-  }, []);
 
   const getCustomSlashMenuItems = (editorInstance: EditorType) => [
     ...getDefaultReactSlashMenuItems(editorInstance),

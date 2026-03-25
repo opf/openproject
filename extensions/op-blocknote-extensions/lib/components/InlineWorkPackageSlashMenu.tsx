@@ -3,26 +3,32 @@ import { LinkIcon } from "@primer/octicons-react";
 import i18n from "../services/i18n.ts";
 import { getAliases } from "../services/slashMenuAliases";
 import { registerInlineWpCallbacks, clearInlineWpCallbacks } from "./InlineWorkPackage";
+import { makeInstanceId } from "../services/utils";
 
 type AnyEditor = BlockNoteEditor<any, any, any>;
+type AnyInlineNode = InlineContentFromConfig<any, any>;
 
-function handleInlineWorkPackageClick(editor: AnyEditor): void {
-  const key = `wp-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  const pendingWpid = `pending:${key}`;
-  const instanceId = `iid-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+// Returns the current content of the block where the chip was inserted.
+function getBlockContent(
+  editor: AnyEditor,
+  blockId: string
+): { blockId: string; content: AnyInlineNode[] } | null {
+  const block = editor.getBlock(blockId) as { id: string; content: AnyInlineNode[] } | null;
+  if (!block) return null;
+  return { blockId: block.id, content: block.content ?? [] };
+}
 
-  // Capture blockId before insertion — cursor may move later
-  const insertedBlockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
+// Replaces the pending chip with the real wpid after the user selects a work package.
+// Also ensures there is a space node after the chip so the cursor has somewhere to land.
 
-  const getBlockContent = (): { blockId: string; content: InlineContentFromConfig<any, any>[] } | null => {
-    if (!insertedBlockId) return null;
-    const block = editor.getBlock(insertedBlockId) as { id: string; content: InlineContentFromConfig<any, any>[] } | null;
-    if (!block) return null;
-    return { blockId: block.id, content: block.content ?? [] };
-  };
-
-  const onSelect = (wpid: number): void => {
-    const current = getBlockContent();
+function buildOnSelect(
+  editor: AnyEditor,
+  blockId: string,
+  pendingWpid: string,
+  instanceId: string
+): (wpid: number) => void {
+  return (wpid: number) => {
+    const current = getBlockContent(editor, blockId);
     if (!current) return;
 
     const chipIndex = current.content.findIndex((node) => {
@@ -51,20 +57,45 @@ function handleInlineWorkPackageClick(editor: AnyEditor): void {
       editor.setTextCursorPosition(current.blockId, "end");
     });
   };
+}
 
-  const onCancel = (): void => {
-    const current = getBlockContent();
+// Removes the pending chip from the document when the user cancels the search
+function buildOnCancel(
+  editor: AnyEditor,
+  blockId: string,
+  pendingWpid: string,
+  instanceId: string
+): () => void {
+  return () => {
+    const current = getBlockContent(editor, blockId);
     if (!current) return;
 
     const updatedContent = current.content.filter((node) => {
       const n = node as { type: string; props?: { wpid?: string } };
       return !(n.type === "inlineWorkPackage" && n.props?.wpid === pendingWpid);
     });
-    editor.updateBlock(current.blockId, { content: updatedContent } as any);
-    clearInlineWpCallbacks(key);
-  };
 
-  registerInlineWpCallbacks(key, onSelect, onCancel);
+    editor.updateBlock(current.blockId, { content: updatedContent } as any);
+    clearInlineWpCallbacks(instanceId);
+  };
+}
+
+
+// Inserts a pending inline chip at the current cursor position and registers
+// its select/cancel callbacks so the search popover can resolve them.
+
+function handleInlineWorkPackageClick(editor: AnyEditor): void {
+  const instanceId = makeInstanceId();
+  const pendingWpid = `pending:${instanceId}`;
+
+  // Capture the block ID before insertion — the cursor may move afterwards.
+  const blockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
+  if (!blockId) return;
+
+  const onSelect = buildOnSelect(editor, blockId, pendingWpid, instanceId);
+  const onCancel = buildOnCancel(editor, blockId, pendingWpid, instanceId);
+
+  registerInlineWpCallbacks(instanceId, onSelect, onCancel);
 
   try {
     (editor.insertInlineContent as (content: unknown[]) => void)([
@@ -73,7 +104,7 @@ function handleInlineWorkPackageClick(editor: AnyEditor): void {
     ]);
   } catch (e) {
     console.error("[inline-wp] insertInlineContent failed:", e);
-    clearInlineWpCallbacks(key);
+    clearInlineWpCallbacks(instanceId);
   }
 }
 

@@ -3,12 +3,14 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useWorkPackage } from "../../hooks/useWorkPackage";
 import { useColors } from "../../services/colors";
-import { TOKEN } from "./tokens";
-import { ChipBase, IdAtom } from "./atoms";
+import { CHIP_STYLES } from "./tokens";
+import { ChipBase } from "./atoms";
+import { WorkPackageId } from "../../elements/workPackageElement";
 import { WpChipXXS, WpChipXS, WpChipS } from "./chips";
 import { InlineSearchPopover, WpOptionsPopover } from "./popovers";
 import { getInlineWpCallbacks, clearInlineWpCallbacks } from "./callbacks";
 import type { InlineWpSize } from "./types";
+import { wpBridge } from "../../services/wpBridge";
 
 // Outer chip wrapper 
 const InlineChip = styled.span.attrs({ 
@@ -22,15 +24,13 @@ const InlineChip = styled.span.attrs({
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
-  border-radius: ${TOKEN.chip.radius};
-  outline: ${({ selected }) => (selected ? TOKEN.focusOutline : "none")};
+  border-radius: ${CHIP_STYLES.radius};
+  outline: ${({ selected }) => (selected ? CHIP_STYLES.focusOutline : "none")};
   outline-offset: 1px;
-  box-shadow: ${({ selected }) => (selected ? TOKEN.focusShadow : "none")};
+  box-shadow: ${({ selected }) => (selected ? CHIP_STYLES.focusShadow : "none")};
   position: relative;
   max-width: 100%;
 `;
-
-// Spec
 
 export const inlineWorkPackageSpec = createReactInlineContentSpec(
   {
@@ -93,7 +93,13 @@ export const inlineWorkPackageSpec = createReactInlineContentSpec(
 
       // Loading 
       if (wpid && loading) {
-        return <InlineChip ref={setRef}><ChipBase><IdAtom>#{wpid}…</IdAtom></ChipBase></InlineChip>;
+        return (
+          <InlineChip ref={setRef}>
+            <ChipBase>
+              <WorkPackageId as="span" $compact>#{wpid}…</WorkPackageId>
+            </ChipBase>
+          </InlineChip>
+        );
       }
 
       // Resolved 
@@ -114,6 +120,12 @@ export const inlineWorkPackageSpec = createReactInlineContentSpec(
                 currentSize={size}
                 instanceId={instanceId}
                 onClose={() => setIsSelected(false)}
+                onResize={(newSize) => {
+                  wpBridge.resize({ instanceId, wpid: wp.id, size: newSize });
+                }}
+                onRemove={() => {
+                  wpBridge.delete({ instanceId, wpid: wp.id });
+                }}
               />
             )}
           </InlineChip>
@@ -124,7 +136,9 @@ export const inlineWorkPackageSpec = createReactInlineContentSpec(
       if (wpid) {
         return (
           <InlineChip ref={setRef} style={{ opacity: 0.6 }}>
-            <ChipBase><IdAtom>#{wpid}</IdAtom></ChipBase>
+            <ChipBase>
+              <WorkPackageId as="span" $compact>#{wpid}</WorkPackageId>
+            </ChipBase>
           </InlineChip>
         );
       }

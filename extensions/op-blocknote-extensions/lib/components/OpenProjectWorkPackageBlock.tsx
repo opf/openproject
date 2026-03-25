@@ -4,22 +4,20 @@ import {
   createBlockConfig,
   createBlockSpec,
 } from "@blocknote/core";
-import { insertOrUpdateBlockForSlashMenu } from "@blocknote/core/extensions";
 import { createReactBlockSpec } from "@blocknote/react";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useWorkPackage } from "../hooks/useWorkPackage";
-import { useWorkPackageSearch } from "../hooks/useWorkPackageSearch";
 import type { WorkPackage } from "../openProjectTypes";
 import { linkToWorkPackage } from "../services/openProjectApi";
 import { useColors } from "../services/colors";
-import { getAliases } from "../services/slashMenuAliases";
 import { useTranslation } from "react-i18next";
-import i18n from "../services/i18n.ts";
-import { LinkIcon, SearchIcon } from "@primer/octicons-react";
 import { WorkPackageElement } from "../elements/workPackageElement";
 import { UnavailableWorkPackageElement } from "../elements/unavailableWorkPackageElement";
 import styled from "styled-components";
-import { WpOptionsPopover } from "./InlineWorkPackage";
+import { SearchDropdown } from "./SearchDropdown";
+import { WpOptionsPopover } from "../components/InlineWorkPackage/popovers";
+import type { InlineWpSize } from "../components/InlineWorkPackage/types";
+import { wpBridge } from "../services/wpBridge";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })<{
   // Added hasWp prop to be able to style the block if WP is present
@@ -29,10 +27,6 @@ const Block = styled.div.attrs({ className: "op-bn-extensions" })<{
   [data-color-scheme="dark"] & {
     --highlight-wp-background: var(--bn-colors-disabled-text);
   }
-  --spacer-s: 4px;
-  --spacer-m: 8px;
-  --spacer-l: 12px;
-  --spacer-xl: 16px;
 `;
 
 const Search = styled.div.attrs({ className: "op-bn-search" })`
@@ -50,92 +44,12 @@ const SearchLabel = styled.label.attrs({ className: "op-bn-search--label" })`
   font-weight: normal !important;
 `;
 
-const SearchInputWrapper = styled.div.attrs({
-  className: "op-bn-search--input-wrapper",
-})`
-  position: relative;
-  margin-top: var(--spacer-m);
-`;
-
-const SearchIconWrapper = styled.div.attrs({
-  className: "op-bn-search--icon-wrapper",
-})`
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  padding-left: var(--spacer-m);
-`;
-
-const SearchInput = styled.input.attrs({ className: "op-bn-search--input" })`
-  width: 100%;
-  padding: var(--spacer-m) var(--spacer-l);
-  padding-left: 30px !important;
-  border: 1px solid #ccc;
-  border-radius: var(--bn-border-radius-small);
-`;
-
-const Dropdown = styled.div.attrs({
-  className: "op-bn-dropdown"
-})`
-  background-color: var(--bn-colors-menu-background);
-  overflow-y: auto;
-  padding-top: var(--spacer-m);
-  margin: 0 -(var(--spacer-m));
-`;
-
-const DropdownOption = styled.div.attrs({
-  className: "op-bn-dropdown--option"
-})<{ selected: boolean }>`
-  background-color: ${({ selected }) =>
-    selected
-      ? "var(--highlight-wp-background)"
-      : "var(--bn-colors-menu-background)"};
-  border: none;
-  border-radius: var(--bn-border-radius-small);
-  margin: var(--spacer-s) 0;
-  padding: 0 var(--spacer-m);
-  cursor: pointer;
-`;
-
-// Wrapper for the resolved WP handles click-to-open-options
-const WpCardWrapper = styled.div`
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-`;
-
 interface BlockProps {
   id: string;
   props: {
     wpid?: number;
     initialized?: boolean; // to know if the block is already initialized
   };
-}
-
-//function to handle a click on a slash menu item
-function handleOpenProjectWorkPackageClick(editor: BlockNoteEditor<any>) {
-  const insertedBlock = insertOrUpdateBlockForSlashMenu(editor, {
-    type: "openProjectWorkPackage",
-  });
-
-  requestAnimationFrame(() => {
-    if (!insertedBlock?.id) return;
-
-    editor.setTextCursorPosition(insertedBlock.id, "start");
-    editor.focus();
-
-    const [newTextBlock] = editor.insertBlocks(
-      [{ type: "text", content: "" }],
-      insertedBlock.id
-    );
-
-    if (newTextBlock?.id) {
-      requestAnimationFrame(() => {
-        editor.setTextCursorPosition(newTextBlock.id, "start");
-        editor.focus();
-      });
-    }
-  });
 }
 
 const OpenProjectWorkPackageBlockComponent = ({
@@ -150,27 +64,24 @@ const OpenProjectWorkPackageBlockComponent = ({
   >;
 }) => {
   const { t } = useTranslation();
-  const inputRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const blockRef = useRef<HTMLDivElement>(null);
-  const isSelectingRef = useRef(false); // to follow the WP selection from the dropdown
-
+  const cardRef = useRef<HTMLDivElement>(null);
   // Fetch and cache colors.
   // The hook handles triggering re-renders when data arrives.
   useColors();
 
-  const { searchQuery, setSearchQuery, searchResults } =
-    useWorkPackageSearch();
-
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [focusedResultIndex, setFocusedResultIndex] = useState(-1);
   const [isActive, setIsActive] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
   // use a single source of truth — result from useWorkPackage.
   const workPackageResult = useWorkPackage(block.props.wpid); 
-
   const selectedWorkPackage = workPackageResult.workPackage;
+
+  const handleSelectWorkPackage = (wp: WorkPackage) => {
+    editor.updateBlock(block, {
+      props: { ...block.props, wpid: wp.id, initialized: true },
+    });
+    requestAnimationFrame(() => moveCursorToNextBlock(editor, block.id));
+  };
 
   useEffect(() => {
     // accessing private tiptap instance until public API is available
@@ -178,8 +89,7 @@ const OpenProjectWorkPackageBlockComponent = ({
     if (!tiptap) return;
 
     const updateActiveState = () => {
-      const pos = editor.getTextCursorPosition();
-      setIsActive(pos?.block?.id === block.id);
+      setIsActive(editor.getTextCursorPosition()?.block?.id === block.id);
     };
 
     tiptap.on("selectionUpdate", updateActiveState);
@@ -187,17 +97,11 @@ const OpenProjectWorkPackageBlockComponent = ({
     return () => { tiptap.off("selectionUpdate", updateActiveState); };
   }, [editor, block.id]);
 
-  useEffect(() => {
-    if (!block.props.wpid && !block.props.initialized && isActive && inputRef.current) {
-      requestAnimationFrame(() => { inputRef.current?.focus(); });
-    }
-  }, [block.props.wpid, block.props.initialized, isActive]);
-
   // Close options popover on outside click
   useEffect(() => {
     if (!isOptionsOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
-      if (blockRef.current && !blockRef.current.contains(e.target as Node)) {
+      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
         setIsOptionsOpen(false);
       }
     };
@@ -205,36 +109,13 @@ const OpenProjectWorkPackageBlockComponent = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOptionsOpen]);
 
-  const handleSelectWorkPackage = (workPackage: WorkPackage) => {
-    isSelectingRef.current = true;
-    setSearchQuery("");
-    setIsDropdownOpen(false);
-    setFocusedResultIndex(-1);
-
-    editor.updateBlock(block, {
-      props: { ...block.props, wpid: workPackage.id, initialized: true },
-    });
-
-    requestAnimationFrame(() => { moveCursorToNextBlock(editor, block.id); });
+  const handleConvertToInline = (size: InlineWpSize) => {
+    if (!selectedWorkPackage) return;
+    wpBridge.convertToInline({ wpid: selectedWorkPackage.id, size, blockId: block.id });
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      if (!isDropdownOpen) setIsDropdownOpen(true);
-      setFocusedResultIndex((prev) => prev < searchResults.length - 1 ? prev + 1 : prev);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setFocusedResultIndex((prev) => (prev > 0 ? prev - 1 : 0));
-    } else if (e.key === "Enter") {
-      if (focusedResultIndex >= 0 && searchResults[focusedResultIndex]) {
-        e.preventDefault();
-        handleSelectWorkPackage(searchResults[focusedResultIndex]);
-      }
-    } else if (e.key === "Escape") {
-      editor.updateBlock(block, { props: { ...block.props, initialized: true } });
-      editor.focus();
-    }
+  const handleRemove = () => {
+    editor.removeBlocks([block]);
   };
 
   const disableFocus = block.props.initialized && !block.props.wpid;
@@ -250,54 +131,17 @@ const OpenProjectWorkPackageBlockComponent = ({
           <Search>
             <SearchLabel>
               {t("search.label")}
-              <SearchInputWrapper>
-                <SearchIconWrapper><SearchIcon size={18} /></SearchIconWrapper>
-                <SearchInput
-                  ref={inputRef}
-                  type="text"
-                  placeholder={t("search.placeholder")}
-                  value={searchQuery}
-                  onChange={(e) => {
-                    setSearchQuery(e.target.value);
-                    setIsDropdownOpen(e.target.value.length > 0);
-                  }}
-                  onKeyDown={handleKeyDown}
-                  onBlur={() => {
-                    setTimeout(() => {
-                      setIsDropdownOpen(false);
-                      setFocusedResultIndex(-1);
-                      setIsActive(false);
-                      if (isSelectingRef.current) {
-                        isSelectingRef.current = false;
-                        return;
-                      }
-                      if (!block.props.wpid) { editor.removeBlocks([block.id]); }
-                    }, 100);
-                  }}
-                />
-              </SearchInputWrapper>
+              <SearchDropdown
+                autoFocus
+                onSelect={handleSelectWorkPackage}
+                onCancel={() => {
+                  editor.updateBlock(block, {
+                    props: { ...block.props, initialized: true },
+                  });
+                  editor.focus();
+                }}
+              />
             </SearchLabel>
-
-            {isDropdownOpen && searchResults.length > 0 && (
-              <Dropdown ref={dropdownRef} role="listbox" aria-label={t("search.dropdownAriaLabel")}>
-                {searchResults.slice(0, 5).map((wp, index) => (
-                  <DropdownOption
-                    key={wp.id}
-                    role="option"
-                    aria-selected={focusedResultIndex === index}
-                    tabIndex={0}
-                    selected={focusedResultIndex === index}
-                    onMouseDown={(e) => {
-                      e.preventDefault();
-                      handleSelectWorkPackage(wp);
-                    }}
-                    onMouseEnter={() => setFocusedResultIndex(index)}
-                  >
-                    <WorkPackageElement workPackage={wp} inDropdown="true" />
-                  </DropdownOption>
-                ))}
-              </Dropdown>
-            )}
           </Search>
         )}
 
@@ -325,23 +169,27 @@ const OpenProjectWorkPackageBlockComponent = ({
               !workPackageResult.error &&
               !workPackageResult.unauthorized &&
               selectedWorkPackage && (
-                <WpCardWrapper
-                  ref={blockRef}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setIsOptionsOpen((prev) => !prev);
-                  }}
-                >
-                  <WorkPackageElement workPackage={selectedWorkPackage} linkTitle />
+                <div style={{ position: "relative", display: "inline-block" }}>
+                  <WorkPackageElement
+                    ref={cardRef}
+                    workPackage={selectedWorkPackage}
+                    linkTitle
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setIsOptionsOpen((prev) => !prev);
+                    }}
+                  />
                   {isOptionsOpen && (
                     <WpOptionsPopover
                       wp={selectedWorkPackage}
-                      currentSize={undefined}   // undefined = block mode → shows "Inline" button
+                      currentSize={undefined}
                       instanceId={undefined}
                       onClose={() => setIsOptionsOpen(false)}
+                      onConvertToInline={handleConvertToInline}
+                      onRemove={handleRemove}
                     />
                   )}
-                </WpCardWrapper>
+                </div>
               )}
           </>
         )}
@@ -402,15 +250,6 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
     },
   }
 );
-
-export const openProjectWorkPackageSlashMenu = (editor: BlockNoteEditor<any>) => ({
-  title: i18n.t("slashMenu.title"),
-  onItemClick: () => handleOpenProjectWorkPackageClick(editor),
-  aliases: [...getAliases()],
-  group: "OpenProject",
-  icon: <LinkIcon size={18} />,
-  subtext: i18n.t("slashMenu.subtext"),
-});
 
 function moveCursorToNextBlock(
   editor: BlockNoteEditor<any>,

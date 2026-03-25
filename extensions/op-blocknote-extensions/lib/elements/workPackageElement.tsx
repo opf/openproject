@@ -11,12 +11,19 @@ import {
 } from "../services/colors.ts";
 import styled from "styled-components";
 import { linkToWorkPackage } from "../services/openProjectApi";
+import { forwardRef } from "react";
 
-export const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {workPackage: WorkPackage, inDropdown?: string, linkTitle?: boolean}) => {
-  let title;
-  if (linkTitle ?? false) {
-    title = (
-      <a
+interface WorkPackageElementProps {
+  workPackage: WorkPackage;
+  inDropdown?: boolean;
+  linkTitle?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+}
+
+export const WorkPackageElement = forwardRef<HTMLDivElement, WorkPackageElementProps>(
+  ({ workPackage, inDropdown = false, linkTitle = false, onClick }, ref) => {
+    const title = linkTitle ? (
+      <WorkPackageTitleLink
         href={linkToWorkPackage(workPackage.id)}
         onClick={(event) => {
           event.preventDefault();
@@ -25,36 +32,53 @@ export const WorkPackageElement = ({ workPackage, inDropdown, linkTitle }: {work
         }}
       >
         {workPackage.subject}
-      </a>
+      </WorkPackageTitleLink>
+    ) : (
+      workPackage.subject
     );
-  } else {
-    title = workPackage.subject;
+
+    return (
+      <WorkPackageCard
+        ref={ref}
+        $inDropdown={inDropdown}
+        onClick={onClick}
+        style={onClick ? { cursor: "pointer" } : undefined}
+      >
+        <WorkPackageDetails>
+          <WorkPackageType $color={typeColor(workPackage)}>
+            {workPackage._links?.type?.title}
+          </WorkPackageType>
+          <WorkPackageId>#{workPackage.id}</WorkPackageId>
+          <WorkPackageStatus
+            $baseColor={statusColor(workPackage)}
+            $borderColor={statusBorderColor()}
+            $textColor={statusTextColor()}
+            $bgColor={statusBackgroundColor()}
+          >
+            {workPackage._links?.status?.title}
+          </WorkPackageStatus>
+        </WorkPackageDetails>
+        <WorkPackageTitle>{title}</WorkPackageTitle>
+      </WorkPackageCard>
+    );
   }
+);
 
-  return (
-    <WorkPackage in_dropdown={inDropdown ?? "false"}>
-      <WorkPackageDetails>
-        <WorkPackageType color={typeColor(workPackage)}>{workPackage._links?.type?.title}</WorkPackageType>
-        <WorkPackageId>#{workPackage.id}</WorkPackageId>
-        <WorkPackageStatus base_color={statusColor(workPackage)}>
-          {workPackage._links?.status?.title}
-        </WorkPackageStatus>
-      </WorkPackageDetails>
-      <WorkPackageTitle>{title}</WorkPackageTitle>
-    </WorkPackage>
-  )
-}
+WorkPackageElement.displayName = "WorkPackageElement";
 
-const WorkPackage = styled.div.attrs({
-  className: 'op-bn-work-package'
-})<{ in_dropdown?: string }>`
+const WorkPackageCard = styled.div.attrs({ className: "op-bn-work-package" })<{
+  $inDropdown: boolean;
+}>`
   ${defaultVariables}
   padding: var(--spacer-m) var(--spacer-l);
   background-color: var(--highlight-wp-background);
   border-radius: var(--bn-border-radius-small);
-  ${({ in_dropdown }) => in_dropdown && JSON.parse(in_dropdown) && `
+
+  ${({ $inDropdown }) =>
+    $inDropdown &&
+    `
     padding: var(--spacer-s) 0;
-    background-color: transparent; 
+    background-color: transparent;
   `}
 `;
 
@@ -68,48 +92,94 @@ const WorkPackageDetails = styled.div.attrs({
   font-size: 0.86em;
 `;
 
-const WorkPackageType = styled.div.attrs({
+export const WorkPackageType = styled.div.attrs({
   className: 'op-bn-work-package--type'
-})<{ color: string }>`
-  ${({ color }) => defaultColorStyles(color)}
-  font-weight: 500;
+})<{ $color: string; $compact?: boolean }>`
+  ${({ $color }) => defaultColorStyles($color)}
+  font-weight: ${({ $compact }) => ($compact ? 600 : 500)};
   text-transform: uppercase;
-  color: ${() => typeTextColor} !important;
+  color: ${typeTextColor} !important;
+  ${({ $compact }) =>
+    $compact &&
+    `
+    font-size: 12px;
+    flex-shrink: 0;
+  `}
 `;
 
-const WorkPackageId = styled.div.attrs({
+export const WorkPackageId = styled.div.attrs({
   className: 'op-bn-work-package--id'
-})`
+})<{ $compact?: boolean }>`
   color: var(--bn-colors-highlights-gray-text);
+  ${({ $compact }) =>
+    $compact &&
+    `
+    font-size: 12px;
+    font-weight: 400;
+    flex-shrink: 0;
+  `}
 `;
 
-const WorkPackageStatus = styled.div.attrs({
+export const WorkPackageStatus = styled.div.attrs({
   className: 'op-bn-work-package--status'
-})<{ base_color: string }>`
-  ${({ base_color }) => defaultColorStyles(base_color)}
+})<{ $baseColor: string; $borderColor?: string; $textColor?: string; $bgColor?: string; $compact?: boolean }>`
+  ${({ $baseColor }) => defaultColorStyles($baseColor)}
   font-size: 0.95em;
   border-radius: 100px;
-  border: 1px solid ${() => statusBorderColor()};
+  border: 1px solid ${({ $borderColor }) => $borderColor ?? 'transparent'};
   padding: 0 7px;
   align-content: center;
-  color: ${() => statusTextColor()} !important;
-  background-color: ${() => statusBackgroundColor()};
+  color: ${({ $textColor }) => $textColor} !important;
+  background-color: ${({ $bgColor }) => $bgColor};
+  ${({ $compact }) =>
+    $compact &&
+    `
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--bn-colors-editor-text) !important;
+    flex-shrink: 0;
+    line-height: 1.4;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border: 1px solid var(--op-status-border-color);
+  `}
 `;
 
-const WorkPackageTitle = styled.div.attrs({
+export const WorkPackageTitle = styled.div.attrs({
   className: 'op-bn-work-package--title'
-})`
+})<{ $compact?: boolean }>`
   flex-basis: max-content;
   color: var(--bn-colors-editor-text);
   font-weight: 500;
-    
-  a {
-    cursor: pointer;
-    text-decoration: none;
+  ${({ $compact }) =>
+    $compact &&
+    `
+    font-size: 14px;
+    font-weight: 600;
     color: var(--bn-colors-highlights-blue-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  `}
+`;
 
-    &:hover {
-        text-decoration: underline;
-    }
+export const WorkPackageTitleLink = styled.a<{ $compact?: boolean }>`
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--bn-colors-highlights-blue-text);
+
+  &:hover {
+    text-decoration: underline;
   }
+
+  ${({ $compact }) =>
+    $compact &&
+    `
+    font-size: 14px;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  `}
 `;

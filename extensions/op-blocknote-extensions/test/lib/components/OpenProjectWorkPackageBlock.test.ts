@@ -1,21 +1,23 @@
-import {describe, it, expect} from "vitest";
-import {openProjectWorkPackageSlashMenu} from "../../../lib/components/OpenProjectWorkPackageBlock";
+// @vitest-environment jsdom
+
+import { describe, it, expect } from "vitest";
+import { inlineWorkPackageSlashMenu } from "../../../lib/components/InlineWorkPackageSlashMenu";
 import {initLanguage} from "../../../lib/services/i18n";
 
 
-describe("openProjectWorkPackageSlashMenu", () => {
+describe("inlineWorkPackageSlashMenu", () => {
   it("is translated", () => {
     initLanguage("de")
-    let slashMenu = openProjectWorkPackageSlashMenu({} as any);
+    let slashMenu = inlineWorkPackageSlashMenu({} as any);
     expect(slashMenu.title).toBe("Vorhandenes Arbeitspaket verlinken");
 
     initLanguage("en")
-    slashMenu = openProjectWorkPackageSlashMenu({} as any);
+    slashMenu = inlineWorkPackageSlashMenu({} as any);
     expect(slashMenu.title).toBe("Link existing work package");
   });
 
   it("calculates all possible aliases for the slash menu", () => {
-    const slashMenu = openProjectWorkPackageSlashMenu({} as any);
+    const slashMenu = inlineWorkPackageSlashMenu({} as any);
     const actual = slashMenu.aliases
     const expected = [
       "openproject work package link", "openproject workpackage link", "openproject wp link",
@@ -39,7 +41,7 @@ describe("openProjectWorkPackageSlashMenu", () => {
 
   it("also keeps english object types for aliases in other languages", () => {
     initLanguage("de");
-    const slashMenu = openProjectWorkPackageSlashMenu({} as any);
+    const slashMenu = inlineWorkPackageSlashMenu({} as any);
     const actual = slashMenu.aliases
 
     expect(actual).toContain("openproject work package link");
