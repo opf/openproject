@@ -36,7 +36,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
   end
   let(:role) do
     create(:project_role,
-           permissions: %i[view_work_packages add_work_packages manage_subtasks])
+           permissions: %i[view_work_packages add_work_packages manage_subtasks assign_versions])
   end
 
   let(:type) do
@@ -297,6 +297,73 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
 
           expect(new_work_package.errors.symbols_for(:created_at))
             .to contain_exactly(:error_readonly)
+        end
+      end
+    end
+
+    describe "setting the associated versions" do
+      let!(:version1) { create(:version, project:) }
+      let!(:version2) { create(:version, project:) }
+
+      context "with target_version_ids" do
+        let(:attributes) do
+          { subject: "test wp", project:, target_version_ids: [version1.id, version2.id] }
+        end
+
+        it "creates the work package with the specified target versions" do
+          expect(service_result).to be_success
+
+          expect(new_work_package.target_versions.reload).to contain_exactly(version1, version2)
+        end
+      end
+
+      context "with observed_in_version_ids" do
+        let(:attributes) do
+          { subject: "test wp", project:, observed_in_version_ids: [version1.id] }
+        end
+
+        it "creates the work package with the specified observed_in versions" do
+          expect(service_result).to be_success
+
+          expect(new_work_package.observed_in_versions.reload).to contain_exactly(version1)
+        end
+      end
+
+      context "with only version_id" do
+        let(:attributes) do
+          { subject: "test wp", project:, version_id: version1.id }
+        end
+
+        it "syncs version_id to target_versions" do
+          expect(service_result).to be_success
+
+          expect(new_work_package.target_versions.reload).to contain_exactly(version1)
+        end
+      end
+
+      context "with both version_id and target_version_ids" do
+        let(:attributes) do
+          { subject: "test wp", project:, version_id: version1.id, target_version_ids: [version2.id] }
+        end
+
+        it "rejects the creation" do
+          expect(service_result).to be_failure
+
+          expect(service_result.errors.symbols_for(:base))
+            .to include(:version_and_target_versions_mutually_exclusive)
+        end
+      end
+
+      context "with non-assignable version IDs" do
+        let(:other_version) { create(:version) }
+        let(:attributes) do
+          { subject: "test wp", project:, target_version_ids: [other_version.id] }
+        end
+
+        it "rejects the creation" do
+          expect(service_result).to be_failure
+
+          expect(service_result.errors.symbols_for(:target_version_ids)).to include(:inclusion)
         end
       end
     end

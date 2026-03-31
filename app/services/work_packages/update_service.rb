@@ -30,6 +30,7 @@
 
 class WorkPackages::UpdateService < BaseServices::Update
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::AssociatedVersions
   include Attachments::ReplaceAttachments
   include Types::ApplyPatterns
 
@@ -43,6 +44,13 @@ class WorkPackages::UpdateService < BaseServices::Update
   private
 
   def after_perform(service_call)
+    work_package = service_call.result
+
+    persist_associated_versions(work_package)
+    if work_package.saved_change_to_version_id? && !work_package.override_target_versions?
+      sync_version_to_target_versions(work_package)
+    end
+
     # TODO: code smell here: saving the automatically generated subject depends
     # on running the UpdateAncestorsService right after. The subject gets saved
     # only thanks to this. If the UpdateAncestorsService is not run, the subject

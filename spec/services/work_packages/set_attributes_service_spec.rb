@@ -1837,6 +1837,30 @@ RSpec.describe WorkPackages::SetAttributesService,
         end
       end
 
+      context "for associated versions" do
+        before do
+          work_package.target_version_ids_replacements = [version.id]
+        end
+
+        context "when not shared in the new project" do
+          it "filters to only assignable versions" do
+            subject
+
+            expect(work_package.target_version_ids_replacements).to be_empty
+          end
+        end
+
+        context "when shared in the new project" do
+          let(:new_versions) { [version] }
+
+          it "keeps assignable versions" do
+            subject
+
+            expect(work_package.target_version_ids_replacements).to eql [version.id]
+          end
+        end
+      end
+
       context "for category" do
         before do
           work_package.category = category
@@ -2321,6 +2345,47 @@ RSpec.describe WorkPackages::SetAttributesService,
       instance.call(subject: "My custom subject")
 
       expect(work_package.subject).to eq("My custom subject")
+    end
+  end
+
+  describe "associated versions attributes" do
+    it "extracts target_version_ids into replacements" do
+      instance.call(target_version_ids: [1, 2])
+
+      expect(work_package.target_version_ids_replacements).to eq [1, 2]
+    end
+
+    it "casts string IDs to integers" do
+      instance.call(target_version_ids: ["3", "4"])
+
+      expect(work_package.target_version_ids_replacements).to eq [3, 4]
+    end
+
+    it "extracts observed_in_version_ids into replacements" do
+      instance.call(observed_in_version_ids: [5])
+
+      expect(work_package.observed_in_version_ids_replacements).to eq [5]
+    end
+
+    it "handles both passed together" do
+      instance.call(target_version_ids: [1], observed_in_version_ids: [2])
+
+      expect(work_package.target_version_ids_replacements).to eq [1]
+      expect(work_package.observed_in_version_ids_replacements).to eq [2]
+    end
+
+    it "leaves replacements nil when not passed" do
+      instance.call(subject: "foo")
+
+      expect(work_package.target_version_ids_replacements).to be_nil
+      expect(work_package.observed_in_version_ids_replacements).to be_nil
+    end
+
+    it "sets empty array as override (not nil)" do
+      instance.call(target_version_ids: [])
+
+      expect(work_package.target_version_ids_replacements).to eq []
+      expect(work_package.override_target_versions?).to be true
     end
   end
 end

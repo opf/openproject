@@ -52,6 +52,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
              add_work_packages
              move_work_packages
              manage_subtasks
+             assign_versions
            ])
   end
   shared_let(:user) do
@@ -2093,6 +2094,82 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
       expect(subject.errors.attribute_names).to contain_exactly(:parent)
       # the error message in this case is far from ideal
       expect(subject.errors.details).to include(parent: [{ error: :cant_link_a_work_package_with_a_descendant }])
+    end
+  end
+
+  describe "associated versions" do
+    let!(:version1) { create(:version, project:) }
+    let!(:version2) { create(:version, project:) }
+    let!(:version3) { create(:version, project:) }
+
+    describe "persisting explicit associated versions" do
+      it "creates target_versions" do
+        result = instance.call(target_version_ids: [version1.id, version2.id], send_notifications: false)
+
+        expect(result).to be_success
+        expect(work_package.target_versions.reload).to contain_exactly(version1, version2)
+      end
+
+      it "replaces existing target_versions" do
+        WorkPackageAssociatedVersion.create!(work_package:, version: version1, kind: "target")
+
+        result = instance.call(target_version_ids: [version2.id], send_notifications: false)
+
+        expect(result).to be_success
+        expect(work_package.target_versions.reload).to contain_exactly(version2)
+      end
+
+      it "clears target_versions with empty array" do
+        WorkPackageAssociatedVersion.create!(work_package:, version: version1, kind: "target")
+
+        result = instance.call(target_version_ids: [], send_notifications: false)
+
+        expect(result).to be_success
+        expect(work_package.target_versions.reload).to be_empty
+      end
+
+      it "creates observed_in_versions" do
+        result = instance.call(observed_in_version_ids: [version1.id], send_notifications: false)
+
+        expect(result).to be_success
+        expect(work_package.observed_in_versions.reload).to contain_exactly(version1)
+      end
+    end
+
+    describe "syncing version_id to target_versions" do
+      it "syncs when version_id changes" do
+        result = instance.call(version_id: version1.id, send_notifications: false)
+
+        expect(result).to be_success
+        expect(work_package.target_versions.reload).to contain_exactly(version1)
+      end
+
+      it "clears target_versions when version_id is set to nil" do
+        work_package.update_column(:version_id, version1.id)
+        WorkPackageAssociatedVersion.create!(work_package:, version: version1, kind: "target")
+
+        result = instance.call(version_id: nil, send_notifications: false)
+
+        expect(result).to be_success
+        expect(work_package.target_versions.reload).to be_empty
+      end
+
+      it "replaces existing targets when version_id changes" do
+        WorkPackageAssociatedVersion.create!(work_package:, version: version1, kind: "target")
+        WorkPackageAssociatedVersion.create!(work_package:, version: version2, kind: "target")
+
+        result = instance.call(version_id: version3.id, send_notifications: false)
+
+        expect(result).to be_success
+        expect(work_package.target_versions.reload).to contain_exactly(version3)
+      end
+
+      it "rejects when both version_id and target_version_ids change" do
+        result = instance.call(version_id: version1.id, target_version_ids: [version2.id], send_notifications: false)
+
+        expect(result).to be_failure
+        expect(result.errors.symbols_for(:base)).to include(:version_and_target_versions_mutually_exclusive)
+      end
     end
   end
 end

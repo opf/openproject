@@ -30,6 +30,7 @@
 
 class WorkPackages::CreateService < BaseServices::BaseCallable
   include ::WorkPackages::Shared::UpdateAncestors
+  include ::WorkPackages::Shared::AssociatedVersions
   include ::Shared::ServiceContext
   include Types::ApplyPatterns
 
@@ -61,6 +62,8 @@ class WorkPackages::CreateService < BaseServices::BaseCallable
       # Avoid running validations again as we might be in a project copy scenario.
       work_package.attachments = work_package.attachments_replacements if work_package.attachments_replacements
       work_package.save(validate: false)
+
+      save_associated_versions(work_package)
 
       apply_patterns(work_package)
 

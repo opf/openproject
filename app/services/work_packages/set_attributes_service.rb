@@ -39,6 +39,7 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     model.file_links = Storages::FileLink.where(id: file_links_ids) if file_links_ids
 
     set_attachments_attributes(attributes)
+    set_associated_versions_attributes(attributes)
     set_static_attributes(attributes)
 
     model.change_by_system do
@@ -57,6 +58,14 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     else
       super(attributes)
     end
+  end
+
+  def set_associated_versions_attributes(attributes)
+    target_ids = attributes.delete(:target_version_ids)
+    observed_ids = attributes.delete(:observed_in_version_ids)
+
+    model.target_version_ids_replacements = Array(target_ids).map(&:to_i) if target_ids
+    model.observed_in_version_ids_replacements = Array(observed_ids).map(&:to_i) if observed_ids
   end
 
   def set_static_attributes(attributes)
@@ -359,6 +368,31 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     if work_package.version &&
        work_package.project&.shared_versions&.exclude?(work_package.version)
       work_package.version = nil
+    end
+
+    clear_unassignable_associated_versions
+  end
+
+  def clear_unassignable_associated_versions
+    return unless work_package.persisted?
+
+    assignable_ids = work_package.project&.shared_versions&.pluck(:id) || []
+
+    %w[target observed_in].each do |kind|
+      clear_unassignable_associated_versions_for(kind, assignable_ids)
+    end
+  end
+
+  def clear_unassignable_associated_versions_for(kind, assignable_ids)
+    attr = :"#{kind}_version_ids_replacements"
+    current_replacements = work_package.send(attr)
+
+    if current_replacements
+      work_package.send(:"#{attr}=", current_replacements & assignable_ids)
+    else
+      current_ids = work_package.work_package_associated_versions.where(kind:).pluck(:version_id)
+      filtered_ids = current_ids & assignable_ids
+      work_package.send(:"#{attr}=", filtered_ids) if filtered_ids != current_ids
     end
   end
 

@@ -2569,6 +2569,7 @@ en:
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: >-
                 must be empty when Work is empty and % Complete is 100%.
           readonly_status: "The work package is in a readonly status so its attributes cannot be changed."
+          version_and_target_versions_mutually_exclusive: "Version and target versions cannot both be changed at the same time."
         type:
           attributes:
             attribute_groups:
