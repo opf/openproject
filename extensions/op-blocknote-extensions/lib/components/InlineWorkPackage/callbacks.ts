@@ -9,23 +9,33 @@
 type WpSelectedCallback = (wpid: number) => void;
 type WpCancelCallback = () => void;
 
-interface PendingCallbacks {
+export interface PendingCallbacks {
   onSelect: WpSelectedCallback;
   onCancel: WpCancelCallback;
 }
 
+const PENDING_PREFIX = "pending:" as const;
 const registry = new Map<string, PendingCallbacks>();
+
+export function makePendingWpid(instanceId: string): string {
+  return `${PENDING_PREFIX}${instanceId}`;
+}
+
+// Returns callbacks if wpid is a pending placeholder, undefined otherwise.
+export function getPendingCallbacks(wpid: string): PendingCallbacks | undefined {
+  if (!wpid.startsWith(PENDING_PREFIX)) return undefined;
+  return registry.get(wpid.slice(PENDING_PREFIX.length));
+}
 
 export function registerInlineWpCallbacks(
   key: string,
   onSelect: WpSelectedCallback,
-  onCancel: WpCancelCallback
+  onCancel: WpCancelCallback,
 ): void {
+  if (process.env.NODE_ENV !== "production" && registry.has(key)) {
+    console.warn(`[inline-wp] Overwriting existing callbacks for key "${key}". This is likely a bug.`);
+  }
   registry.set(key, { onSelect, onCancel });
-}
-
-export function getInlineWpCallbacks(key: string): PendingCallbacks | undefined {
-  return registry.get(key);
 }
 
 export function clearInlineWpCallbacks(key: string): void {

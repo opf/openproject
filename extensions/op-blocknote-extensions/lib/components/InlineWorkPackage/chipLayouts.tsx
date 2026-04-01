@@ -2,8 +2,6 @@ import { css } from "styled-components";
 import styled from "styled-components";
 import { CHIP_STYLES } from "./tokens";
 
-// Chip base layouts (one per size for correct padding) 
-
 const chipBaseStyles = css`
   display: inline-flex;
   align-items: center;
@@ -31,7 +29,6 @@ export const ChipBaseS = styled.span`
   padding: ${CHIP_STYLES.padding.s};
 `;
 
-// Fallback used in loading / error states
 export const ChipBase = ChipBaseS;
 
 export const StatusChevron = () => (

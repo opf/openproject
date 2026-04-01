@@ -95,21 +95,14 @@ export function defaultColorStyles(hexColor: string) {
 }
 
 export function defaultVariables() {
-  const base = `
-    --spacer-s: 4px;
-    --spacer-m: 8px;
-    --spacer-l: 12px;
-    --spacer-xl: 16px;
-  `;
-
   if (getTheme() === "dark") {
-    return base + `
+    return `
       --lightness-threshold: 0.6;
       --background-alpha: 0.10; // this is darker than the default of OpenProject, but BlockNotes dark mode backgrounds are lighter
   `;
   }
 
-  return base + `
+  return `
     --lightness-threshold: 0.453; 
   `
 }
@@ -210,7 +203,7 @@ function idFromHref(href: string) {
 }
 
 let theme: OpColorMode;
-function getTheme(): OpColorMode {
+export function getTheme(): OpColorMode {
   return theme ?? (theme = detectTheme());
 }
 

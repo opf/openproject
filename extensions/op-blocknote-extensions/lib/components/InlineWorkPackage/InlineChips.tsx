@@ -8,19 +8,13 @@ import {
   statusTextColor,
   statusBackgroundColor,
 } from "../../services/colors";
-
-import {
-  ChipBaseXXS,
-  ChipBaseXS,
-  ChipBaseS,
-  StatusChevron,
-} from "./atoms";
+import { ChipBaseXXS, ChipBaseXS, ChipBaseS, StatusChevron } from "./chipLayouts";
 import {
   WorkPackageId,
   WorkPackageType,
   WorkPackageStatus,
   WorkPackageTitleLink,
-} from "../../elements/workPackageElement";
+} from "../WorkPackage/atoms";
 
 const titleLinkProps = (wp: WorkPackage) => ({
   as: "a" as const,
@@ -28,18 +22,17 @@ const titleLinkProps = (wp: WorkPackage) => ({
   target: "_blank" as const,
   rel: "noopener noreferrer",
   $compact: true,
-  // Prevent click from bubbling up to the chip's onClick (options popover)
   onClick: (e: React.MouseEvent) => e.stopPropagation(),
 });
 
-// XXS — "#ID  [Title]"  (padding 2px 8px) 
+// XXS — "#ID"  (padding 2px 8px)
 export const WpChipXXS = ({ wp }: { wp: WorkPackage }) => (
   <ChipBaseXXS>
     <WorkPackageId as="span" $compact>#{wp.id}</WorkPackageId>
   </ChipBaseXXS>
 );
 
-// XS — "#ID  TYPE  [Title]"  (padding 8px) 
+// XS — "#ID  TYPE  [Title]"  (padding 8px)
 export const WpChipXS = ({ wp }: { wp: WorkPackage }) => (
   <ChipBaseXS>
     <WorkPackageId as="span" $compact>#{wp.id}</WorkPackageId>
@@ -54,7 +47,7 @@ export const WpChipXS = ({ wp }: { wp: WorkPackage }) => (
   </ChipBaseXS>
 );
 
-// S — "#ID  TYPE  [New]  [Title]"  (padding 8px) 
+// S — "#ID  TYPE  [Status]  [Title]"  (padding 8px)
 export const WpChipS = ({ wp }: { wp: WorkPackage }) => (
   <ChipBaseS>
     <WorkPackageId as="span" $compact>#{wp.id}</WorkPackageId>

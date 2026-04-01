@@ -35,16 +35,16 @@ class WpBridge {
   }
 
   // Subscription API
-  onResize(cb: (payload: WpResizePayload) => void): () => void {
-    return this.on("resize", cb);
+  onResize(callback: (payload: WpResizePayload) => void): () => void {
+    return this.on("resize", callback);
   }
 
-  onDelete(cb: (payload: WpDeletePayload) => void): () => void {
-    return this.on("delete", cb);
+  onDelete(callback: (payload: WpDeletePayload) => void): () => void {
+    return this.on("delete", callback);
   }
 
-  onConvertToInline(cb: (payload: WpToInlinePayload) => void): () => void {
-    return this.on("toInline", cb);
+  onConvertToInline(callback: (payload: WpToInlinePayload) => void): () => void {
+    return this.on("toInline", callback);
   }
 
   // Internal
@@ -53,25 +53,25 @@ class WpBridge {
     if (!listeners) return;
 
     // Snapshot before iteration prevents issues if a listener calls off() during emit
-    for (const cb of [...listeners]) {
+    for (const callback of [...listeners]) {
       try {
-        cb(payload);
-      } catch (e) {
-        console.error("[WpBridge]", event, { payload, error: e });
+        callback(payload);
+      } catch (error) {
+        console.error("[WpBridge]", event, { payload, error });
       }
     }
   }
 
-  private on(event: string, cb: (payload: any) => void): () => void {
+  private on(event: string, callback: (payload: any) => void): () => void {
     let set = this.listeners.get(event);
     if (!set) {
       set = new Set();
       this.listeners.set(event, set);
     }
-    set.add(cb);
+    set.add(callback);
 
     return () => {
-      set!.delete(cb);
+      set!.delete(callback);
       if (set!.size === 0) this.listeners.delete(event);
     };
   }

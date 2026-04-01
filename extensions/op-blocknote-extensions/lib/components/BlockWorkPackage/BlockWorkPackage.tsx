@@ -1,67 +1,44 @@
-import type { DefaultBlockSchema } from "@blocknote/core";
-import {
-  BlockNoteEditor,
-  createBlockConfig,
-  createBlockSpec,
-} from "@blocknote/core";
-import { createReactBlockSpec } from "@blocknote/react";
+import { BlockNoteEditor } from "@blocknote/core";
 import { useEffect, useRef, useState } from "react";
-import { useWorkPackage } from "../hooks/useWorkPackage";
-import type { WorkPackage } from "../openProjectTypes";
-import { linkToWorkPackage } from "../services/openProjectApi";
-import { useColors } from "../services/colors";
-import { useTranslation } from "react-i18next";
-import { WorkPackageElement } from "../elements/workPackageElement";
-import { UnavailableWorkPackageElement } from "../elements/unavailableWorkPackageElement";
 import styled from "styled-components";
-import { SearchDropdown } from "./SearchDropdown";
-import { WpOptionsPopover } from "../components/InlineWorkPackage/popovers";
-import type { InlineWpSize } from "../components/InlineWorkPackage/types";
-import { wpBridge } from "../services/wpBridge";
+import { useTranslation } from "react-i18next";
+import { useWorkPackage } from "../../hooks/useWorkPackage";
+import { useColors } from "../../services/colors";
+import { wpBridge } from "../../services/wpBridge";
+import type { WorkPackage } from "../../openProjectTypes";
+import type { InlineWpSize } from "../InlineWorkPackage/types";
+import { BlockCard } from "./BlockCard";
+import { UnavailableCard } from "../WorkPackage/UnavailableCard";
+import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
+import { SearchContainer, SearchLabel } from "../Search/SearchContainer";
+import { SearchDropdown } from "../Search/SearchDropdown";
 
-const Block = styled.div.attrs({ className: "op-bn-extensions" })<{
-  // Added hasWp prop to be able to style the block if WP is present
-  hasWp: boolean;
-}>`
+const Block = styled.div.attrs({ className: "op-bn-extensions" })`
   --highlight-wp-background: var(--bn-colors-highlights-gray-background);
   [data-color-scheme="dark"] & {
     --highlight-wp-background: var(--bn-colors-disabled-text);
   }
 `;
 
-const Search = styled.div.attrs({ className: "op-bn-search" })`
+const BlockCardWrapper = styled.div`
   position: relative;
-  padding: var(--spacer-m) var(--spacer-xl);
-  box-shadow: var(--bn-shadow-medium);
-  border-radius: var(--bn-border-radius-large);
-  width: 100%;
-  @media (min-width: 1120px) {
-    width: 500px;
-  }
-`;
-
-const SearchLabel = styled.label.attrs({ className: "op-bn-search--label" })`
-  font-weight: normal !important;
+  display: inline-block;
 `;
 
 interface BlockProps {
   id: string;
   props: {
     wpid?: number;
-    initialized?: boolean; // to know if the block is already initialized
+    initialized?: boolean;
   };
 }
 
-const OpenProjectWorkPackageBlockComponent = ({
+export const BlockWorkPackageComponent = ({
   block,
   editor,
 }: {
   block: BlockProps;
-  editor: BlockNoteEditor<
-    DefaultBlockSchema & {
-      openProjectWorkPackage: ReturnType<typeof openprojectWorkPackageBlockConfig>;
-    }
-  >;
+  editor: BlockNoteEditor<any>;
 }) => {
   const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
@@ -72,8 +49,8 @@ const OpenProjectWorkPackageBlockComponent = ({
   const [isActive, setIsActive] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
-  // use a single source of truth — result from useWorkPackage.
-  const workPackageResult = useWorkPackage(block.props.wpid); 
+  // Use a single source of truth — result from useWorkPackage.
+  const workPackageResult = useWorkPackage(block.props.wpid);
   const selectedWorkPackage = workPackageResult.workPackage;
 
   const handleSelectWorkPackage = (wp: WorkPackage) => {
@@ -122,45 +99,45 @@ const OpenProjectWorkPackageBlockComponent = ({
 
   return (
     <Block
-      hasWp={!!block.props.wpid}
       tabIndex={disableFocus ? -1 : 0}
       style={disableFocus ? { pointerEvents: "none" } : undefined}
     >
       <div contentEditable={false} style={{ userSelect: "none" }}>
         {!block.props.wpid && !block.props.initialized && isActive && (
-          <Search>
+          <SearchContainer>
             <SearchLabel>
               {t("search.label")}
-              <SearchDropdown
-                autoFocus
-                onSelect={handleSelectWorkPackage}
-                onCancel={() => {
-                  editor.updateBlock(block, {
-                    props: { ...block.props, initialized: true },
-                  });
-                  editor.focus();
-                }}
-              />
             </SearchLabel>
-          </Search>
+            <SearchDropdown
+              autoFocus
+              onSelect={handleSelectWorkPackage}
+              onCancel={() => {
+                editor.updateBlock(block, {
+                  props: { ...block.props, initialized: true },
+                });
+                editor.focus();
+              }}
+              renderItem={(wp) => <BlockCard workPackage={wp} inDropdown />}
+            />
+          </SearchContainer>
         )}
 
         {block.props.wpid && (
           <>
             {workPackageResult.loading && (
-              <UnavailableWorkPackageElement
+              <UnavailableCard
                 header={t("unavailableWorkPackage.loading.header")}
                 message={t("unavailableWorkPackage.loading.message")}
               />
             )}
             {!workPackageResult.loading && workPackageResult.error && (
-              <UnavailableWorkPackageElement
+              <UnavailableCard
                 header={t("unavailableWorkPackage.error.header")}
                 message={t("unavailableWorkPackage.error.message")}
               />
             )}
             {!workPackageResult.loading && !workPackageResult.error && workPackageResult.unauthorized && (
-              <UnavailableWorkPackageElement
+              <UnavailableCard
                 header={t("unavailableWorkPackage.unauthorized.header")}
                 message={t("unavailableWorkPackage.unauthorized.message")}
               />
@@ -169,8 +146,8 @@ const OpenProjectWorkPackageBlockComponent = ({
               !workPackageResult.error &&
               !workPackageResult.unauthorized &&
               selectedWorkPackage && (
-                <div style={{ position: "relative", display: "inline-block" }}>
-                  <WorkPackageElement
+                <BlockCardWrapper>
+                  <BlockCard
                     ref={cardRef}
                     workPackage={selectedWorkPackage}
                     linkTitle
@@ -189,7 +166,7 @@ const OpenProjectWorkPackageBlockComponent = ({
                       onRemove={handleRemove}
                     />
                   )}
-                </div>
+                </BlockCardWrapper>
               )}
           </>
         )}
@@ -198,70 +175,14 @@ const OpenProjectWorkPackageBlockComponent = ({
   );
 };
 
-export const openprojectWorkPackageBlockConfig = createBlockConfig((() => ({
-  type: "openProjectWorkPackage",
-  propSchema: {
-    wpid: { default: undefined, type: "number" },
-    initialized: { default: false, type: "boolean" },
-  },
-  content: "none",
-  isSelectable: false,
-})) as unknown as ReturnType<typeof createBlockConfig>);
-
-export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
-  openprojectWorkPackageBlockConfig,
-  {
-    render: (props) => (
-      <OpenProjectWorkPackageBlockComponent
-        block={props.block}
-        editor={props.editor as any}
-      />
-    ),
-  }
-);
-
-export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
-  openprojectWorkPackageBlockConfig,
-  {
-    render: (block) => {
-      const wpid = block.props.wpid;
-      const href = linkToWorkPackage(wpid);
-
-      /*
-      Create a wrapper element.
-      This is done for a stable DOM structure,
-      because <a> as a root block element
-      may not be serialized correctly in the clipboard.
-       */
-      const wrapper = document.createElement("span");
-
-      const anchor = document.createElement("a");
-      anchor.href = href;
-      anchor.target = "_blank";
-      anchor.rel = "noopener noreferrer";
-      anchor.textContent = `#${wpid}`;
-
-      wrapper.appendChild(anchor);
-
-      return {
-        dom: wrapper,
-        contentDOM: wrapper,
-      };
-    },
-  }
-);
-
-function moveCursorToNextBlock(
-  editor: BlockNoteEditor<any>,
-  blockId: string
-) {
+function moveCursorToNextBlock(editor: BlockNoteEditor<any>, blockId: string) {
   editor.focus();
   editor.setTextCursorPosition(blockId, "end");
 
   const cursor = editor.getTextCursorPosition();
 
   if (!cursor?.nextBlock && cursor?.block) {
-    editor.insertBlocks([{ type: "text", content: "" }], cursor.block.id);
+    editor.insertBlocks([{ type: "paragraph", content: [] }], cursor.block.id, "after");
   }
 
   const updatedCursor = editor.getTextCursorPosition();

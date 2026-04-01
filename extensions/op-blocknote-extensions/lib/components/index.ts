@@ -1,4 +1,4 @@
-export * from "./OpenProjectWorkPackageBlock";
-export * from "./ShadowDomWrapper";
-export * from "./InlineWorkPackage"; 
-export * from "./InlineWorkPackageSlashMenu";
+export { openProjectWorkPackageBlockSpec } from "./BlockWorkPackage";
+export { inlineWorkPackageSpec } from "./InlineWorkPackage";
+export { workPackageSlashMenu } from "./SlashMenu";
+export { ShadowDomWrapper } from "./ShadowDomWrapper";

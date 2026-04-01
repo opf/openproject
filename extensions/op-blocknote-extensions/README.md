@@ -48,7 +48,7 @@ initOpenProjectApi({baseUrl: 'https://my.openproject.url'});
   const getCustomSlashMenuItems = (editor: EditorType) => {
     return [
       ...getDefaultReactSlashMenuItems(editor),
-      inlineWorkPackageSlashMenu(editor),
+      workPackageSlashMenu(editor),
     ];
   };
 ```

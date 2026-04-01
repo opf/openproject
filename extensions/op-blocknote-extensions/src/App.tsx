@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { BlockNoteSchema } from "@blocknote/core";
 import { filterSuggestionItems } from "@blocknote/core/extensions";
 import "@blocknote/core/fonts/inter.css";
@@ -12,7 +13,7 @@ import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
   inlineWorkPackageSpec,
-  inlineWorkPackageSlashMenu,
+  workPackageSlashMenu,
 } from "../lib";
 import "./fetchOverride";
 
@@ -35,18 +36,25 @@ type EditorType = typeof schema.BlockNoteEditor;
 export default function App() {
   const editor = useCreateBlockNote({ schema });
 
-  const getCustomSlashMenuItems = (editorInstance: EditorType) => [
-    ...getDefaultReactSlashMenuItems(editorInstance),
-    inlineWorkPackageSlashMenu(editorInstance as any),
-  ];
+  const getCustomSlashMenuItems = useCallback(
+    (editorInstance: EditorType) => [
+      ...getDefaultReactSlashMenuItems(editorInstance),
+      workPackageSlashMenu(editorInstance as any),
+    ],
+    []
+  );
+
+  const getItems = useCallback(
+    async (query: string) =>
+      filterSuggestionItems(getCustomSlashMenuItems(editor), query),
+    [editor, getCustomSlashMenuItems]
+  );
 
   return (
     <BlockNoteView editor={editor} slashMenu={false}>
       <SuggestionMenuController
         triggerCharacter="/"
-        getItems={async (query: string) =>
-          filterSuggestionItems(getCustomSlashMenuItems(editor), query)
-        }
+        getItems={getItems}
       />
     </BlockNoteView>
   );
