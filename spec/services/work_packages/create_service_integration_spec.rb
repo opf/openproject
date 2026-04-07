@@ -346,11 +346,11 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
           { subject: "test wp", project:, version_id: version1.id, target_version_ids: [version2.id] }
         end
 
-        it "rejects the creation" do
-          expect(service_result).to be_failure
+        it "allows the creation" do
+          expect(service_result).to be_success
 
-          expect(service_result.errors.symbols_for(:base))
-            .to include(:version_and_target_versions_mutually_exclusive)
+          expect(new_work_package.target_versions.reload).to contain_exactly(version2)
+          expect(new_work_package.version.reload).to eq(version1)
         end
       end
 
@@ -363,7 +363,7 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
         it "rejects the creation" do
           expect(service_result).to be_failure
 
-          expect(service_result.errors.symbols_for(:target_version_ids)).to include(:inclusion)
+          expect(service_result.errors.symbols_for(:target_versions)).to include(:inclusion)
         end
       end
     end

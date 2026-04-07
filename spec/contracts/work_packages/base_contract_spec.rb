@@ -1214,13 +1214,13 @@ RSpec.describe WorkPackages::BaseContract do
         it "is invalid for target version" do
           work_package.target_version_ids_replacements = [assignable_version.id]
           subject.validate
-          expect(subject.errors.symbols_for(:target_version_ids)).to include(:error_readonly)
+          expect(subject.errors.symbols_for(:target_versions)).to include(:error_readonly)
         end
 
         it "is invalid for observed_in version" do
           work_package.observed_in_version_ids_replacements = [assignable_version.id]
           subject.validate
-          expect(subject.errors.symbols_for(:observed_in_version_ids)).to include(:error_readonly)
+          expect(subject.errors.symbols_for(:observed_in_versions)).to include(:error_readonly)
         end
       end
 
@@ -1252,6 +1252,21 @@ RSpec.describe WorkPackages::BaseContract do
         end
       end
 
+      context "when both changed on a new record" do
+        before do
+          allow(work_package).to receive_messages(
+            new_record?: true,
+            version_id_changed?: true
+          )
+          work_package.target_version_ids_replacements = [assignable_version.id]
+          subject.validate
+        end
+
+        it "is valid" do
+          expect(subject.errors.symbols_for(:base)).not_to include(:version_and_target_versions_mutually_exclusive)
+        end
+      end
+
       context "when only one type of version changed" do
         it "is valid for version" do
           work_package.version = assignable_version
@@ -1275,7 +1290,7 @@ RSpec.describe WorkPackages::BaseContract do
         end
 
         it "is valid" do
-          expect(subject.errors.symbols_for(:target_version_ids)).to be_empty
+          expect(subject.errors.symbols_for(:target_versions)).to be_empty
         end
       end
 
@@ -1286,7 +1301,7 @@ RSpec.describe WorkPackages::BaseContract do
         end
 
         it "is invalid" do
-          expect(subject.errors.symbols_for(:target_version_ids)).to include(:inclusion)
+          expect(subject.errors.symbols_for(:target_versions)).to include(:inclusion)
         end
       end
 
@@ -1297,7 +1312,7 @@ RSpec.describe WorkPackages::BaseContract do
         end
 
         it "is valid" do
-          expect(subject.errors.symbols_for(:target_version_ids)).to be_empty
+          expect(subject.errors.symbols_for(:target_versions)).to be_empty
         end
       end
 
@@ -1307,7 +1322,7 @@ RSpec.describe WorkPackages::BaseContract do
         end
 
         it "is valid" do
-          expect(subject.errors.symbols_for(:target_version_ids)).to be_empty
+          expect(subject.errors.symbols_for(:target_versions)).to be_empty
         end
       end
     end
@@ -1320,7 +1335,7 @@ RSpec.describe WorkPackages::BaseContract do
         end
 
         it "is valid" do
-          expect(subject.errors.symbols_for(:observed_in_version_ids)).to be_empty
+          expect(subject.errors.symbols_for(:observed_in_versions)).to be_empty
         end
       end
 
@@ -1331,7 +1346,7 @@ RSpec.describe WorkPackages::BaseContract do
         end
 
         it "is invalid" do
-          expect(subject.errors.symbols_for(:observed_in_version_ids)).to include(:inclusion)
+          expect(subject.errors.symbols_for(:observed_in_versions)).to include(:inclusion)
         end
       end
     end

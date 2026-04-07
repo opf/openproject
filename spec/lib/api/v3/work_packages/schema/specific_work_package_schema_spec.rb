@@ -139,6 +139,12 @@ RSpec.describe API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
   end
 
+  describe "#assignable_target_versions" do
+    it_behaves_like "assignable values" do
+      let(:assignable_method) { :assignable_target_versions }
+    end
+  end
+
   describe "#assignable_priorities" do
     it_behaves_like "assignable values" do
       let(:assignable_method) { :assignable_priorities }

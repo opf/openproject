@@ -182,7 +182,7 @@ RSpec.describe "multi select custom values", :js do
 
         click_on "Reviewer: Save"
         wp_page.expect_and_dismiss_toaster(message: "Successful update.")
-        expect(page).to have_css(".custom-option", count: 2)
+        expect(page).to have_css(".custom-option", count: 3)
 
         expect(page).to have_text custom_field.name
         expect(page).to have_text "Billy Nobbler"

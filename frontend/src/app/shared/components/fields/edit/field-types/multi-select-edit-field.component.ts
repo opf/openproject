@@ -224,12 +224,12 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   private checkCurrentValueValidity() {
-    if (this.value) {
-      this.currentValueInvalid = !!(
-        // (If value AND)
-        // MultiSelect AND there is no value which href is not in the options hrefs
-        (!_.some(this.value, (value:HalResource) => _.some(this.availableOptions, (option) => (option.href === value.href))))
-      );
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const values = this.resource[this.name] as HalResource[];
+    if (values && values.length > 0) {
+      // MultiSelect AND there is no value whose href is in the options hrefs
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      this.currentValueInvalid = !_.some(values, (value:HalResource) => _.some(this.availableOptions, (option) => option.href === value.href));
     } else {
       // If no value but required
       this.currentValueInvalid = !!this.schema.required;

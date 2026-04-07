@@ -105,6 +105,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
     shared_examples_for "has a collection of allowed values" do
       let(:embedded) { true }
+      let(:assignable_values_key) { factory }
 
       before do
         allow(schema).to receive(:assignable_values).and_return(nil)
@@ -112,7 +113,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context "when no values are allowed" do
         before do
-          allow(schema).to receive(:assignable_values).with(factory, anything).and_return([])
+          allow(schema).to receive(:assignable_values).with(assignable_values_key, anything).and_return([])
         end
 
         it_behaves_like "links to and embeds allowed values directly" do
@@ -125,7 +126,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:values) { build_stubbed_list(factory, 3) }
 
         before do
-          allow(schema).to receive(:assignable_values).with(factory, anything).and_return(values)
+          allow(schema).to receive(:assignable_values).with(assignable_values_key, anything).and_return(values)
         end
 
         it_behaves_like "links to and embeds allowed values directly" do
@@ -136,7 +137,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
 
       context "when not embedded" do
         before do
-          allow(schema).to receive(:assignable_values).with(factory, anything).and_return(nil)
+          allow(schema).to receive(:assignable_values).with(assignable_values_key, anything).and_return(nil)
         end
 
         it_behaves_like "does not link to allowed values" do
@@ -1013,6 +1014,41 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:path) { "version" }
           let(:type) { "Version" }
           let(:name) { I18n.t("activerecord.attributes.work_package.version") }
+          let(:required) { false }
+          let(:writable) { false }
+          let(:location) { "_links" }
+        end
+      end
+    end
+
+    describe "target_versions" do
+      context "if having the assign_versions permission" do
+        let(:permissions) { [:assign_versions] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "targetVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+
+        it_behaves_like "has a collection of allowed values" do
+          let(:json_path) { "targetVersions" }
+          let(:href_path) { "versions" }
+          let(:factory) { :version }
+          let(:assignable_values_key) { :target_versions }
+        end
+      end
+
+      context "if having only the edit_work_packages permission" do
+        let(:permissions) { [:edit_work_packages] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "targetVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
           let(:required) { false }
           let(:writable) { false }
           let(:location) { "_links" }

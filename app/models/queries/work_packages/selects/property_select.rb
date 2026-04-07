@@ -105,6 +105,10 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       sortable: "name",
       groupable: "#{WorkPackage.table_name}.version_id"
     },
+    target_versions: {
+      sortable: false,
+      groupable: false
+    },
     start_date: {
       sortable: "#{WorkPackage.table_name}.start_date"
     },

@@ -2163,6 +2163,8 @@ en:
         time_entries: "Log time"
         type: "Type"
         version: "Version"
+        target_versions: "Target versions"
+        observed_in_versions: "Observed in versions"
         watcher: "Watcher"
       work_package_associated_version:
         kind: "Kind"
