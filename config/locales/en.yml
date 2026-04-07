@@ -5488,6 +5488,7 @@ en:
     formula injection when exported files are opened in spreadsheet applications such as Excel.
     This comes at the downside of modifying the string values inside the CSV,
     so you may want to disable this if downstream tools require the exact, unescaped cell values.
+  setting_crowdin_in_context_translations: "Enable Crowdin in-context translations"
   setting_first_week_of_year: "First week in year contains"
   setting_date_format: "Date"
   setting_default_language: "Default language"

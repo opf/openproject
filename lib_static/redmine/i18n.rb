@@ -51,7 +51,12 @@ module Redmine
     end
 
     def self.valid_languages
-      all_languages & (Setting.available_languages + [Setting.default_language])
+      langs = all_languages & (Setting.available_languages + [Setting.default_language])
+      if Setting.crowdin_in_context_translations?
+        langs | [IN_CONTEXT_TRANSLATION_CODE.to_s]
+      else
+        langs
+      end
     end
 
     def l_or_humanize(s, options = {})

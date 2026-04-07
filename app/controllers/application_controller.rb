@@ -149,6 +149,7 @@ class ApplicationController < ActionController::Base
   before_action :authorization_check_required,
                 :user_setup,
                 :set_localization,
+                :add_crowdin_in_context_csp,
                 :tag_request,
                 :check_if_login_required,
                 :log_requesting_user,
@@ -438,6 +439,22 @@ class ApplicationController < ActionController::Base
 
   def action_hooks
     call_hook(:application_controller_before_action)
+  end
+
+  def add_crowdin_in_context_csp
+    return unless Setting.crowdin_in_context_translations?
+    return unless ::I18n.locale == Redmine::I18n::IN_CONTEXT_TRANSLATION_CODE
+
+    append_content_security_policy_directives(
+      script_src:  %w[https://cdn.crowdin.com],
+      style_src:   %w[https://cdn.crowdin.com],
+      connect_src: %w[https://crowdin.com https://cdn.crowdin.com],
+      frame_src:   %w[https://crowdin.com],
+      form_action: %w[https://crowdin.com
+                      https://accounts.google.com
+                      https://github.com
+                      https://gitlab.com]
+    )
   end
 
   # ActiveSupport load hooks provide plugins with a consistent entry point to patch core classes.

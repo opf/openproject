@@ -1111,6 +1111,10 @@ module Settings
         default: nil,
         description: "Appsignal API key for JavaScript error reporting"
       },
+      crowdin_in_context_translations: {
+        default: false,
+        description: "Enable Crowdin in-context translation mode. Only intended for dedicated translation environments."
+      },
       session_cookie_name: {
         description: "Set session cookie name",
         default: "_open_project_session"
