@@ -107,9 +107,11 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }: Se
       </SearchInputWrapper>
 
       {isDropdownOpen && searchResults.length > 0 && (
-        <DropdownList>
+        <DropdownList role="listbox" aria-label={t("search.dropdownAriaLabel")}>
           {searchResults.slice(0, MAX_RESULTS).map((wp, index) => (
             <DropdownItem
+              role="option" 
+              aria-selected={focusedIndex === index}
               key={wp.id}
               $selected={focusedIndex === index}
               onMouseDown={(e) => {

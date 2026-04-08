@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback } from "react";
 import { BlockNoteSchema } from "@blocknote/core";
 import { filterSuggestionItems } from "@blocknote/core/extensions";
 import "@blocknote/core/fonts/inter.css";
@@ -14,13 +14,10 @@ import {
   openProjectWorkPackageBlockSpec,
   inlineWorkPackageSpec,
   workPackageSlashMenu,
-  createHashWpMenuComponent,
-  isHashWpQuery,
+  useHashWpMenu,
 } from "../lib";
-import type { HashMenuItem } from "../lib";
-import { useWorkPackageSearch } from "../lib/hooks/useWorkPackageSearch";
-import type { WorkPackage } from "../lib/openProjectTypes";
 import "./fetchOverride";
+import type { HashMenuItem } from "../lib";
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
@@ -38,49 +35,22 @@ initializeOpBlockNoteExtensions({
 
 type EditorType = typeof schema.BlockNoteEditor;
 
+function buildSlashMenuItems(editor: EditorType) {
+  return [
+    ...getDefaultReactSlashMenuItems(editor),
+    workPackageSlashMenu(editor as any),
+  ];
+}
+
 export default function App() {
   const editor = useCreateBlockNote({ schema });
 
-  const getCustomSlashMenuItems = useCallback(
-    (editorInstance: EditorType) => [
-      ...getDefaultReactSlashMenuItems(editorInstance),
-      workPackageSlashMenu(editorInstance as any),
-    ],
-    []
-  );
-
   const getSlashItems = useCallback(
-    async (query: string) =>
-      filterSuggestionItems(getCustomSlashMenuItems(editor), query),
-    [editor, getCustomSlashMenuItems]
-  );
-
-  const { searchResults, setSearchQuery } = useWorkPackageSearch();
-  const searchResultsRef = useRef<WorkPackage[]>([]);
-
-  useEffect(() => {
-    searchResultsRef.current = searchResults;
-  }, [searchResults]);
-
-  const getHashItems = useCallback(
-    async (query: string): Promise<HashMenuItem[]> => {
-      if (!isHashWpQuery(query)) return [];
-      setSearchQuery(query);
-
-      const results = searchResultsRef.current;
-      const count = Math.max(results.length, 1);
-      return Array.from({ length: count }, () => ({
-        title: query,
-        onItemClick: () => {},
-      }));
-    },
-    [setSearchQuery]
-  );
-
-  const HashWpMenu = useMemo(
-    () => createHashWpMenuComponent(editor as any, searchResultsRef),
+    async (query: string) => filterSuggestionItems(buildSlashMenuItems(editor), query),
     [editor]
   );
+
+  const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
 
   return (
     <BlockNoteView editor={editor} slashMenu={false}>
@@ -93,7 +63,7 @@ export default function App() {
         triggerCharacter="#"
         getItems={getHashItems}
         suggestionMenuComponent={HashWpMenu}
-        onItemClick={(item) => item.onItemClick()}
+        onItemClick={(item: HashMenuItem) => item.onItemClick()}
       />
     </BlockNoteView>
   );

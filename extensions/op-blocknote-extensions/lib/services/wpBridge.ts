@@ -1,8 +1,7 @@
-import type { InlineWpSize } from "../components/InlineWorkPackage/types";
-
-export interface WpResizePayload { instanceId: string; wpid: number; size: InlineWpSize }
+import type { InlineWpSize, WpSize } from "../components/WorkPackage/types";
+export interface WpResizePayload { instanceId: string; wpid: number; size: WpSize }
 export interface WpDeletePayload { instanceId: string; wpid: number }
-export interface WpToInlinePayload { wpid: number; size: InlineWpSize, blockId: string }
+export interface WpToInlinePayload { wpid: number; size: InlineWpSize; blockId: string }
 
 /**
  * Bridge between BlockNote inline components and the host application.
@@ -34,7 +33,6 @@ class WpBridge {
     this.emit("toInline", payload);
   }
 
-  // Subscription API
   onResize(callback: (payload: WpResizePayload) => void): () => void {
     return this.on("resize", callback);
   }
@@ -47,7 +45,6 @@ class WpBridge {
     return this.on("toInline", callback);
   }
 
-  // Internal
   private emit(event: string, payload: unknown): void {
     const listeners = this.listeners.get(event);
     if (!listeners) return;

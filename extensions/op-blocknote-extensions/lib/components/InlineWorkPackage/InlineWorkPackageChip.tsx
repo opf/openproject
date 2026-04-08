@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useWorkPackage } from "../../hooks/useWorkPackage";
 import { useColors } from "../../services/colors";
-import { CHIP_STYLES } from "./tokens";
+import { CHIP_STYLES } from "../WorkPackage/tokens";
 import { ChipBase } from "./chipLayouts";
 import { WorkPackageId } from "../WorkPackage/atoms";
 import { WpChipXXS, WpChipXS, WpChipS } from "./InlineChips";
 import { WorkPackageSearchPopover } from "../Search/WorkPackageSearchPopover";
 import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
 import { getPendingCallbacks, clearInlineWpCallbacks } from "./callbacks";
-import type { InlineWpSize } from "./types";
+import type { InlineWpSize } from "../WorkPackage/types";
 import { wpBridge } from "../../services/wpBridge";
 import { BlockCard } from "../BlockWorkPackage/BlockCard";
 
@@ -101,6 +101,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
   if (wpid && wp) {
     return (
       <InlineChip
+        role="button"
+        aria-label={`Work package #${wpid}`}
         ref={setRef}
         selected={isSelected}
         onClick={(e) => {
@@ -121,6 +123,9 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
             onClose={() => setIsSelected(false)}
             onResize={(newSize) => {
               wpBridge.resize({ instanceId, wpid: wp.id, size: newSize });
+            }}
+            onConvertToBlock={(blockSize) => {
+              wpBridge.resize({ instanceId, wpid: wp.id, size: blockSize });
             }}
             onRemove={() => {
               wpBridge.delete({ instanceId, wpid: wp.id });

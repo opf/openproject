@@ -7,6 +7,7 @@ export const blockConfig = createBlockConfig((() => ({
   propSchema: {
     wpid: { default: undefined, type: "number" },
     initialized: { default: false, type: "boolean" },
+    size: { default: "m", type: "string" },
   },
   content: "none",
   isSelectable: false,

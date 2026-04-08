@@ -1,6 +1,6 @@
 import { css } from "styled-components";
 import styled from "styled-components";
-import { CHIP_STYLES } from "./tokens";
+import { CHIP_STYLES } from "../WorkPackage/tokens";
 
 const chipBaseStyles = css`
   display: inline-flex;
