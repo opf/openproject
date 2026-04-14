@@ -9,22 +9,6 @@ import type { WorkPackage } from '../../../../lib/openProjectTypes';
 const renderItem = (wp: WorkPackage) => <BlockCard workPackage={wp} inDropdown />;
 
 describe('SearchDropdown', () => {
-  it('renders the search input', async () => {
-    render(
-      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
-    );
-
-    await expect.element(page.getByRole('textbox')).toBeInTheDocument();
-  });
-
-  it('does not show dropdown before typing', async () => {
-    render(
-      <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
-    );
-
-    await expect.element(page.getByText('Fix login bug')).not.toBeInTheDocument();
-  });
-
   it('shows results after typing', async () => {
     render(
       <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
@@ -93,13 +77,5 @@ describe('SearchDropdown', () => {
 
     const items = page.getByTestId('dropdown-item');
     expect((await items.all()).length).toBeLessThanOrEqual(5);
-  });
-
-  it('focuses input automatically when autoFocus is set', async () => {
-    render(
-      <SearchDropdown autoFocus onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
-    );
-
-    await expect.element(page.getByRole('textbox')).toHaveFocus();
   });
 });

@@ -203,7 +203,7 @@ function idFromHref(href: string) {
 }
 
 let theme: OpColorMode;
-export function getTheme(): OpColorMode {
+function getTheme(): OpColorMode {
   return theme ?? (theme = detectTheme());
 }
 

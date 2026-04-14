@@ -102,6 +102,7 @@ export const BlockCardM = ({
     className="op-bn-work-package op-bn-work-package--m"
     $inDropdown={inDropdown}
     onClick={onClick}
+    data-testid="block-card"
     style={onClick ? { cursor: "pointer" } : undefined}
   >
     <CardDetails>
@@ -136,6 +137,7 @@ export const BlockCardL = ({
     className="op-bn-work-package op-bn-work-package--l"
     $inDropdown={inDropdown}
     onClick={onClick}
+    data-testid="block-card"
     style={onClick ? { cursor: "pointer" } : undefined}
   >
     <CardDetailsSpaced>
@@ -184,6 +186,7 @@ export const BlockCardXL = ({
       className="op-bn-work-package op-bn-work-package--xl"
       $inDropdown={inDropdown}
       onClick={onClick}
+      data-testid="block-card"
       style={onClick ? { cursor: "pointer" } : undefined}
     >
       <CardDetailsSpaced>

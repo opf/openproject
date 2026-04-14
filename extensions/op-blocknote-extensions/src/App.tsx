@@ -12,19 +12,20 @@ import {
 import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
-  inlineWorkPackageSpec,
+  openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
   useHashWpMenu,
 } from "../lib";
 import "./fetchOverride";
 import type { HashMenuItem } from "../lib";
+import {useInlineWpEvents} from "../lib/hooks/useInlineWpEvents";
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
-    openProjectWorkPackage: openProjectWorkPackageBlockSpec(),
+    openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
   },
   inlineContentSpecs: {
-    inlineWorkPackage: inlineWorkPackageSpec,
+    openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
   },
 });
 
@@ -44,6 +45,8 @@ function buildSlashMenuItems(editor: EditorType) {
 
 export default function App() {
   const editor = useCreateBlockNote({ schema });
+
+  useInlineWpEvents(editor as any); 
 
   const getSlashItems = useCallback(
     async (query: string) => filterSuggestionItems(buildSlashMenuItems(editor), query),

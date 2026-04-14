@@ -1,7 +1,7 @@
 import "./services/i18n.ts";
 export {
   openProjectWorkPackageBlockSpec,
-  inlineWorkPackageSpec,
+  openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
   ShadowDomWrapper,
 } from "./components";

@@ -81,7 +81,7 @@ export function insertWpChip(editor: AnyEditor, wp: WorkPackage, size: InlineWpS
   const instanceId = makeInstanceId();
 
   (editor.insertInlineContent as (content: unknown[]) => void)([
-    { type: "inlineWorkPackage", props: { wpid: String(wp.id), instanceId, size } },
+    { type: "openProjectWorkPackageInline", props: { wpid: String(wp.id), instanceId, size } },
     { type: "text", text: " ", styles: {} },
   ]);
 
@@ -113,7 +113,7 @@ export function insertWpChipIntoBlock(
   editor.updateBlock(blockId, {
     content: [
       ...content,
-      { type: "inlineWorkPackage", props: { wpid: String(wp.id), instanceId, size } },
+      { type: "openProjectWorkPackageInline", props: { wpid: String(wp.id), instanceId, size } },
       { type: "text", text: " ", styles: {} },
     ],
   } as any);

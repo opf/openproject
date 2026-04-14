@@ -68,6 +68,20 @@ describe("clearTriggerText", () => {
     const editor = { getTextCursorPosition: () => null, updateBlock: vi.fn() };
     expect(clearTriggerText(editor as any)).toBeNull();
   });
+
+  it("keeps text before # and removes trigger", () => {
+    const editor = makeFakeEditor([{ type: "text", text: "Hello #foo" }]);
+    const blockId = clearTriggerText(editor as any);
+    expect(blockId).toBe("block-1");
+    expect(editor.block.content).toEqual([{ type: "text", text: "Hello " }]);
+  });
+
+  it("works with multiple # in the text", () => {
+    const editor = makeFakeEditor([{ type: "text", text: "Pre #one #two #three" }]);
+    const blockId = clearTriggerText(editor as any);
+    expect(blockId).toBe("block-1");
+    expect(editor.block.content).toEqual([{ type: "text", text: "Pre " }]);
+  });
 });
 
 describe("insertWpChipIntoBlock", () => {
@@ -85,7 +99,7 @@ describe("insertWpChipIntoBlock", () => {
 
     const chip = inserted.find(
       (c): c is { type: string; props: { size: string } } =>
-        c.type === "inlineWorkPackage" && c.props?.size
+        c.type === "openProjectWorkPackageInline" && c.props?.size
     );
     expect(chip).toBeDefined();
     expect(chip?.props.size).toBe("xxs");
@@ -96,25 +110,5 @@ describe("insertWpChipIntoBlock", () => {
     expect(() =>
       insertWpChipIntoBlock(editor as any, "wrong-id", { id: 1 } as any, "xxs")
     ).not.toThrow();
-  });
-});
-
-describe("clearTriggerText — edge case with text before #", () => {
-  it("keeps text before # and removes trigger", () => {
-    const editor = makeFakeEditor([{ type: "text", text: "Hello #foo" }]);
-
-    const blockId = clearTriggerText(editor as any);
-
-    expect(blockId).toBe("block-1");
-    expect(editor.block.content).toEqual([{ type: "text", text: "Hello " }]);
-  });
-
-  it("works with multiple # in the text", () => {
-    const editor = makeFakeEditor([{ type: "text", text: "Pre #one #two #three" }]);
-
-    const blockId = clearTriggerText(editor as any);
-
-    expect(blockId).toBe("block-1");
-    expect(editor.block.content).toEqual([{ type: "text", text: "Pre " }]);
   });
 });

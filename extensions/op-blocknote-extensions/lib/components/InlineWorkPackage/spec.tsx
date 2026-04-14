@@ -2,9 +2,9 @@ import { createReactInlineContentSpec } from "@blocknote/react";
 import { InlineWorkPackageChip } from "./InlineWorkPackageChip";
 import { linkToWorkPackage } from "../../services/openProjectApi";
 
-export const inlineWorkPackageSpec = createReactInlineContentSpec(
+export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
   {
-    type: "inlineWorkPackage" as const,
+    type: "openProjectWorkPackageInline" as const,
     propSchema: {
       wpid: { default: "" },
       instanceId: { default: "" },

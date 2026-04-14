@@ -3,7 +3,7 @@ import { createReactBlockSpec } from "@blocknote/react";
 import { BlockWorkPackageComponent } from "./BlockWorkPackage";
 
 export const blockConfig = createBlockConfig((() => ({
-  type: "openProjectWorkPackage",
+  type: "openProjectWorkPackageBlock" as const,
   propSchema: {
     wpid: { default: undefined, type: "number" },
     initialized: { default: false, type: "boolean" },

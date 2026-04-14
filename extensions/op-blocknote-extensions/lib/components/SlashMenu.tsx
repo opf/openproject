@@ -29,12 +29,12 @@ function buildOnSelect(
 
     const chipIndex = current.content.findIndex((node) => {
       const n = node as { type: string; props?: { wpid?: string } };
-      return n.type === "inlineWorkPackage" && n.props?.wpid === pendingWpid;
+      return n.type === "openProjectWorkPackageInline" && n.props?.wpid === pendingWpid;
     });
 
     const updatedContent = current.content.map((node) => {
       const n = node as { type: string; props?: { wpid?: string; instanceId?: string } };
-      if (n.type === "inlineWorkPackage" && n.props?.wpid === pendingWpid) {
+      if (n.type === "openProjectWorkPackageInline" && n.props?.wpid === pendingWpid) {
         return { ...n, props: { ...n.props, wpid: String(wpid), instanceId } };
       }
       return node;
@@ -67,7 +67,7 @@ function buildOnCancel(
 
     const updatedContent = current.content.filter((node) => {
       const n = node as { type: string; props?: { wpid?: string } };
-      return !(n.type === "inlineWorkPackage" && n.props?.wpid === pendingWpid);
+      return !(n.type === "openProjectWorkPackageInline" && n.props?.wpid === pendingWpid);
     });
 
     editor.updateBlock(current.blockId, { content: updatedContent } as any);
@@ -89,7 +89,7 @@ function handleInlineWorkPackageClick(editor: AnyEditor): void {
 
   try {
     (editor.insertInlineContent as (content: unknown[]) => void)([
-      { type: "inlineWorkPackage", props: { wpid: pendingWpid, instanceId, size: "s" } },
+      { type: "openProjectWorkPackageInline", props: { wpid: pendingWpid, instanceId, size: "s" } },
       " ",
     ]);
   } catch (error) {

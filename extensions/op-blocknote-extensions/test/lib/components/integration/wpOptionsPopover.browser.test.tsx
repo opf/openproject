@@ -1,105 +1,203 @@
-import { describe, it, expect, vi } from 'vitest';
-import { render } from 'vitest-browser-react';
+import { describe, it, expect, vi, afterEach } from 'vitest';
+import { render, cleanup } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
-import { WpOptionsPopover } from '../../../../lib/components/WorkPackage/OptionsPopover';
-import { mockWorkPackage } from '../../../mocks/handlers';
-import type { WorkPackage } from '../../../../lib/openProjectTypes';
+import { useState, useEffect } from 'react';
+import { InlineWorkPackageChip } from '../../../../lib/components/InlineWorkPackage/InlineWorkPackageChip';
+import { wpBridge } from '../../../../lib/services/wpBridge';
 
-const wp = mockWorkPackage as unknown as WorkPackage;
+afterEach(() => {
+  cleanup();
+});
 
-type PopoverProps = Partial<React.ComponentProps<typeof WpOptionsPopover>>;
+function ChipWrapper({ initialSize, wpid = '123', instanceId = 'iid-test' }: {
+  initialSize: string;
+  wpid?: string;
+  instanceId?: string;
+}) {
+  const [size, setSize] = useState(initialSize);
 
-function renderInlinePopover(props: PopoverProps = {}) {
-  return render(
-    <div style={{ position: 'relative', marginTop: '80px', display: 'inline-block' }}>
-      <WpOptionsPopover
-        wp={wp}
-        currentSize="s"
-        instanceId="test-instance"
-        onClose={vi.fn()}
-        onResize={vi.fn()}
-        onRemove={vi.fn()}
-        onConvertToBlock={vi.fn()}
-        {...props}
+  useEffect(() => {
+    const off = wpBridge.onResize(({ instanceId: iid, size: newSize }) => {
+      if (iid === instanceId) setSize(newSize as string);
+    });
+    return off;
+  }, [instanceId]);
+  
+  return (
+    <div style={{ paddingTop: '200px', paddingLeft: '20px' }}>
+      <InlineWorkPackageChip
+        inlineContent={{ props: { wpid, size, instanceId } }}
+        contentRef={vi.fn()}
       />
     </div>
   );
 }
 
-function renderBlockPopover(props: PopoverProps = {}) {
-  return render(
-    <div style={{ position: 'relative', marginTop: '80px', display: 'inline-block' }}>
-      <WpOptionsPopover
-        wp={wp}
-        currentSize={undefined}
-        currentBlockSize="m"
-        instanceId={undefined}
-        onClose={vi.fn()}
-        onResizeBlock={vi.fn()}
-        onConvertToInline={vi.fn()}
-        onRemove={vi.fn()}
-        {...props}
-      />
-    </div>
-  );
+async function waitForResolvedChip() {
+  await expect.element(page.getByText('#123')).toBeVisible();
 }
 
-describe('WpOptionsPopover - shared', () => {
-  it('renders Open and Remove buttons in both modes', async () => {
-    renderInlinePopover();
-    await expect.element(page.getByTitle('Open in new tab')).toBeVisible();
-    await expect.element(page.getByTitle('Remove')).toBeVisible();
+async function openPopover() {
+  await userEvent.click(page.getByText('#123'));
+  await expect.element(page.getByTestId('popover-content')).toBeVisible();
+}
+
+async function openSizeMenu() {
+  await openPopover();
+  await userEvent.click(page.getByTitle('Change size'));
+  await expect.element(page.getByTestId('size-menu')).toBeVisible();
+}
+
+describe('Inline chip size transitions (user-visible content)', () => {
+  it('switching from XXS to XS reveals the type badge and subject', async () => {
+    render(<ChipWrapper initialSize="xxs" />);
+    await waitForResolvedChip();
+
+    await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
+    await expect.element(page.getByText('Fix login bug')).not.toBeInTheDocument();
+    await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
+
+    await openSizeMenu();
+    await userEvent.click(page.getByRole('button', { name: 'Compact (inline)', exact: true }));
+
+    await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
   });
 
-  it('opens work package in new tab on Open click', async () => {
-    const openSpy = vi.spyOn(window, 'open').mockReturnValue(null);
-    renderInlinePopover();
+  it('switching from XS to S reveals the status badge', async () => {
+    render(<ChipWrapper initialSize="xs" />);
+    await waitForResolvedChip();
 
+    await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
+
+    await openSizeMenu();
+    await userEvent.click(page.getByRole('button', { name: 'Regular (inline)', exact: true }));
+
+    await expect.element(page.getByText('In Progress')).toBeVisible();
+  });
+
+  it('switching from S back to XXS hides the type, status, and subject', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+
+    await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
+    await expect.element(page.getByText('In Progress')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+
+    await openSizeMenu();
+    await userEvent.click(page.getByRole('button', { name: 'Tiny (inline)', exact: true }));
+
+    await expect.element(page.getByText('#123')).toBeVisible();
+    await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
+    await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
+    await expect.element(page.getByText('Fix login bug')).not.toBeInTheDocument();
+  });
+
+  it('removing a chip closes the popover', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+    await openPopover();
+
+    let deleteWasCalled = false;
+    const off = wpBridge.onDelete(() => { deleteWasCalled = true; });
+    await userEvent.click(page.getByTitle('Remove'));
+    off();
+
+    expect(deleteWasCalled).toBe(true);
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+});
+
+describe('Inline chip popover UX', () => {
+  it('popover is not visible before clicking the chip', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+
+  it('clicking the chip opens the popover', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+    await openPopover();
+    await expect.element(page.getByTestId('popover-content')).toBeVisible();
+  });
+
+  it('clicking the chip again closes the popover', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+    await openPopover();
+
+    await userEvent.click(page.getByText('#123'));
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+
+  it('clicking outside the chip closes the popover', async () => {
+    render(
+      <div style={{ paddingTop: '200px', paddingLeft: '20px' }}>
+        <InlineWorkPackageChip
+          inlineContent={{ props: { wpid: '123', size: 's', instanceId: 'iid-outside' } }}
+          contentRef={vi.fn()}
+        />
+        <div data-testid="outside" style={{ marginTop: '20px' }}>Outside</div>
+      </div>,
+    );
+
+    await waitForResolvedChip();
+    await openPopover();
+    await userEvent.click(page.getByTestId('outside'));
+    await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+
+  it('"Open" button opens the work package in a new tab', async () => {
+    const openSpy = vi.spyOn(window, 'open').mockReturnValue(null);
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+
+    await openPopover();
     await userEvent.click(page.getByTitle('Open in new tab'));
 
-    expect(openSpy).toHaveBeenCalledOnce();
     expect(openSpy).toHaveBeenCalledWith(
-      expect.stringContaining(`/wp/${wp.id}`),
+      expect.stringContaining('/wp/123'),
       '_blank',
-      'noopener,noreferrer'
+      'noopener,noreferrer',
     );
     openSpy.mockRestore();
   });
 
-  it('calls onRemove and onClose when Remove is clicked', async () => {
-    const onRemove = vi.fn();
-    const onClose = vi.fn();
-    renderInlinePopover({ onRemove, onClose });
-
-    await userEvent.click(page.getByTitle('Remove'));
-
-    expect(onRemove).toHaveBeenCalledOnce();
-    expect(onClose).toHaveBeenCalledOnce();
+  it('size menu is hidden before clicking the size button', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+    await openPopover();
+    await expect.element(page.getByTestId('size-menu')).not.toBeInTheDocument();
   });
 
-  it('hides the size menu after selecting any size', async () => {
-    renderInlinePopover();
-
-    await userEvent.click(page.getByTitle('Change size'));
+  it('size menu appears after clicking the size button', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+    await openSizeMenu();
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
+  });
 
+  it('size menu closes after selecting a size', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+    await openSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Compact (inline)', exact: true }));
     await expect.element(page.getByTestId('size-menu')).not.toBeInTheDocument();
   });
-});
 
-describe('WpOptionsPopover — inline chip mode', () => {
-  it('shows "Change size" button labelled with the current size', async () => {
-    renderInlinePopover({ currentSize: 's' });
-    const btn = page.getByTitle('Change size');
-    await expect.element(btn).toBeVisible();
-    await expect.element(btn).toHaveTextContent('Regular (inline)');
+  it('size button label reflects the current chip size', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+    await openPopover();
+    await expect.element(page.getByTitle('Change size')).toHaveTextContent('Regular (inline)');
   });
 
-  it('shows all 6 size options', async () => {
-    renderInlinePopover();
-
-    await userEvent.click(page.getByTitle('Change size'));
+  it('inline size menu shows all 6 options', async () => {
+    render(<ChipWrapper initialSize="s" />);
+    await waitForResolvedChip();
+    await openSizeMenu();
 
     for (const label of [
       'Tiny (inline)',
@@ -111,182 +209,5 @@ describe('WpOptionsPopover — inline chip mode', () => {
     ]) {
       await expect.element(page.getByRole('button', { name: label, exact: true })).toBeVisible();
     }
-  });
-
-  it('highlights the currently active inline size', async () => {
-    renderInlinePopover({ currentSize: 'xs' });
-
-    await userEvent.click(page.getByTitle('Change size'));
-
-    await expect.element(page.getByRole('button', { name: 'Compact (inline)', exact: true })).toBeVisible();
-  });
-
-  it('calls onResize with "xxs" when Tiny (inline) is selected', async () => {
-    const onResize = vi.fn();
-    const onClose = vi.fn();
-    renderInlinePopover({ onResize, onClose });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Tiny (inline)', exact: true }));
-
-    expect(onResize).toHaveBeenCalledWith('xxs');
-    expect(onClose).toHaveBeenCalledOnce();
-  });
-
-  it('calls onResize with "xs" when Compact (inline) is selected', async () => {
-    const onResize = vi.fn();
-    renderInlinePopover({ onResize });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Compact (inline)', exact: true }));
-
-    expect(onResize).toHaveBeenCalledWith('xs');
-  });
-
-  it('calls onResize with "s" when Regular (inline) is selected', async () => {
-    const onResize = vi.fn();
-    renderInlinePopover({ currentSize: 'xxs', onResize });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Regular (inline)', exact: true }));
-
-    expect(onResize).toHaveBeenCalledWith('s');
-  });
-
-  it('calls onConvertToBlock with "m" when Compact card is selected', async () => {
-    const onConvertToBlock = vi.fn();
-    renderInlinePopover({ onConvertToBlock });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
-
-    expect(onConvertToBlock).toHaveBeenCalledWith('m');
-  });
-
-  it('calls onConvertToBlock with "l" when Regular card is selected', async () => {
-    const onConvertToBlock = vi.fn();
-    renderInlinePopover({ onConvertToBlock });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
-
-    expect(onConvertToBlock).toHaveBeenCalledWith('l');
-  });
-
-  it('calls onConvertToBlock with "xl" when Full card is selected', async () => {
-    const onConvertToBlock = vi.fn();
-    renderInlinePopover({ onConvertToBlock });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Full card', exact: true }));
-
-    expect(onConvertToBlock).toHaveBeenCalledWith('xl');
-  });
-});
-
-describe('WpOptionsPopover - block card mode', () => {
-  it('shows "Change size" button labelled with the current block size', async () => {
-    renderBlockPopover({ currentBlockSize: 'l' });
-    const btn = page.getByTitle('Change size');
-    await expect.element(btn).toBeVisible();
-    await expect.element(btn).toHaveTextContent('Regular card');
-  });
-
-  it('shows block size section (Compact card / Regular card / Full card) and inline conversion section (Tiny / Compact / Regular)', async () => {
-    renderBlockPopover();
-
-    await userEvent.click(page.getByTitle('Change size'));
-
-    for (const label of [
-      'Compact card',
-      'Regular card',
-      'Full card',
-      'Tiny (inline)',
-      'Compact (inline)',
-      'Regular (inline)',
-    ]) {
-      await expect.element(page.getByRole('button', { name: label, exact: true })).toBeVisible();
-    }
-  });
-
-  it('shows "Block size" and "Convert to inline" section labels', async () => {
-    renderBlockPopover();
-
-    await userEvent.click(page.getByTitle('Change size'));
-
-    await expect.element(page.getByText('Block size')).toBeVisible();
-    await expect.element(page.getByText('Convert to inline')).toBeVisible();
-  });
-
-  it('highlights the currently active block size', async () => {
-    renderBlockPopover({ currentBlockSize: 'l' });
-
-    await userEvent.click(page.getByTitle('Change size'));
-
-    await expect.element(page.getByRole('button', { name: 'Regular card', exact: true })).toBeVisible();
-  });
-
-  it('calls onResizeBlock with "m" when Compact card is selected', async () => {
-    const onResizeBlock = vi.fn();
-    const onClose = vi.fn();
-    renderBlockPopover({ currentBlockSize: 'l', onResizeBlock, onClose });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
-
-    expect(onResizeBlock).toHaveBeenCalledWith('m');
-    expect(onClose).toHaveBeenCalledOnce();
-  });
-
-  it('calls onResizeBlock with "l" when Regular card is selected', async () => {
-    const onResizeBlock = vi.fn();
-    renderBlockPopover({ currentBlockSize: 'm', onResizeBlock });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
-
-    expect(onResizeBlock).toHaveBeenCalledWith('l');
-  });
-
-  it('calls onResizeBlock with "xl" when Full card is selected', async () => {
-    const onResizeBlock = vi.fn();
-    renderBlockPopover({ onResizeBlock });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Full card', exact: true }));
-
-    expect(onResizeBlock).toHaveBeenCalledWith('xl');
-  });
-
-  it('calls onConvertToInline with "xxs" when Tiny (inline) is selected', async () => {
-    const onConvertToInline = vi.fn();
-    const onClose = vi.fn();
-    renderBlockPopover({ onConvertToInline, onClose });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Tiny (inline)', exact: true }));
-
-    expect(onConvertToInline).toHaveBeenCalledWith('xxs');
-    expect(onClose).toHaveBeenCalledOnce();
-  });
-
-  it('calls onConvertToInline with "xs" when Compact (inline) is selected', async () => {
-    const onConvertToInline = vi.fn();
-    renderBlockPopover({ onConvertToInline });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Compact (inline)', exact: true }));
-
-    expect(onConvertToInline).toHaveBeenCalledWith('xs');
-  });
-
-  it('calls onConvertToInline with "s" when Regular (inline) is selected', async () => {
-    const onConvertToInline = vi.fn();
-    renderBlockPopover({ onConvertToInline });
-
-    await userEvent.click(page.getByTitle('Change size'));
-    await userEvent.click(page.getByRole('button', { name: 'Regular (inline)', exact: true }));
-
-    expect(onConvertToInline).toHaveBeenCalledWith('s');
   });
 });
