@@ -22,6 +22,10 @@ workflows:
         - 'actions/checkout@v7.0.1'
         - 'github/codeql-action@v4.39.3'
     '.github/workflows/continuous-delivery.yml': []
+    '.github/workflows/copycop-core.yml':
+        - 'actions/checkout@v7.0.1'
+        - 'reviewdog/action-setup@v1.5.0'
+        - 'ruby/setup-ruby@v1.342.0'
     '.github/workflows/core-docker-release.yml': []
     '.github/workflows/create-merge-from-previous-release-branch-pr.yml':
         - 'actions/checkout@v7.0.1'
