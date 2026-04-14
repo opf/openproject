@@ -29,6 +29,9 @@ pre-commit:
       files: git diff --name-only --staged
       glob: "*.rb"
       run: bin/dirty-rubocop --uncommitted --force-exclusion {files}
+    copycop:
+      files: git diff --name-only --staged --diff-filter=ACMR
+      run: bin/copycop {files}
     erb_lint:
       files: git diff --name-only --staged
       glob: "*.erb"
@@ -92,6 +95,9 @@ fix:
       files: git diff --name-only --staged
       glob: "*.rb"
       run: bin/dirty-rubocop --uncommitted --force-exclusion -a {files}
+    copycop:
+      files: git diff --name-only --staged --diff-filter=ACMR
+      run: bin/copycop -a {files}
     erb_lint:
       files: git diff --name-only --staged
       glob: "*.erb"

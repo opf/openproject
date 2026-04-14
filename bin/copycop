@@ -1,0 +1,712 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "find"
+require "forwardable"
+require "optparse"
+require "strscan"
+require "yaml"
+
+class CopyCop
+  CONFIG_FILE = ".copycop.yml"
+
+  SHEBANG_PATTERN = /\A\#!.*/
+  BLANK_PATTERN = /([ \t]*\n)+/
+  START_MARKER = /--[ \t]*(?i:copyright)\b/
+  END_MARKER = /\+\+/
+
+  Chunk = Data.define(:raw, :block, :start_marker, :end_marker, :blank, :magic) do
+    alias to_s raw
+    alias block? block
+    alias start_marker? start_marker
+    alias end_marker? end_marker
+    alias blank? blank
+    alias magic? magic
+
+    def initialize(raw:, block: false, start_marker: false, end_marker: false, blank: false, magic: false)
+      super
+    end
+  end
+
+  Match = Data.define(:before, :whitespace_before, :copyright_header, :whitespace_after, :after, :rest, :unsafe) do
+    def initialize(
+      before: "", whitespace_before: "", copyright_header: "", whitespace_after: "", after: "", rest: "", unsafe: true
+    )
+      super
+    end
+
+    def no_copyright_header? = copyright_header.empty?
+
+    def misplaced? = false
+
+    def safe? = !unsafe
+
+    def line = [before, whitespace_before].sum(1) { it.count("\n") }
+
+    def corrected(copyright_header:)
+      with(
+        whitespace_before: before.empty? ? "" : "\n\n",
+        copyright_header:,
+        whitespace_after: after.empty? && rest.empty? ? "\n" : "\n\n"
+      )
+    end
+
+    def write(io)
+      io << before << whitespace_before << copyright_header << whitespace_after << after << rest
+    end
+  end
+
+  Misplaced = Data.define(:line) do
+    def misplaced? = true
+  end
+
+  class Globs
+    FLAGS = File::FNM_PATHNAME | File::FNM_DOTMATCH | File::FNM_EXTGLOB | File::FNM_CASEFOLD
+
+    def initialize(list)
+      @glob = list.length > 1 ? "{#{list.join(',')}}" : list.first
+    end
+
+    def match?(path) = @glob && File.fnmatch?(@glob, path, FLAGS)
+  end
+
+  class LineComment
+    attr_reader :copyright_header_regexp
+
+    def initialize(delimiter:)
+      @delimiter = delimiter
+
+      escaped_delimiter = Regexp.escape(delimiter)
+      @regexp = /
+        [ \t]*                # whitespace before delimiter
+        #{escaped_delimiter}  # comment delimiter
+        [ \t]*                # whitespace before content
+        (?<content>.*)        # content
+      /x
+
+      @copyright_header_regexp = /
+        #{escaped_delimiter}[ \t]*#{START_MARKER}.*\n # start marker
+        ([ \t]*#{escaped_delimiter}.*\n)*?            # copyright text
+        [ \t]*#{escaped_delimiter}[ \t]*#{END_MARKER} # end marker
+      /x
+    end
+
+    def build(copyright_text)
+      <<~COPYRIGHT.chomp
+        #{@delimiter}-- copyright
+        #{copyright_text.gsub(/^.*/) { it.empty? ? @delimiter : "#{@delimiter} #{it}" }}
+        #{@delimiter}++
+      COPYRIGHT
+    end
+
+    def check(scanner)
+      return unless (raw = scanner.check(@regexp))
+
+      case scanner[:content]
+      when ""
+        Chunk.new(raw:, blank: true)
+      when /\A#{START_MARKER}/o
+        Chunk.new(raw:, start_marker: true)
+      when /\A#{END_MARKER}/o
+        Chunk.new(raw:, end_marker: true)
+      when /\A(?i:frozen_string_literal|coding|encoding)[ \t]*:/
+        Chunk.new(raw:, magic: true)
+      else
+        Chunk.new(raw:)
+      end
+    end
+  end
+
+  class BlockComment
+    attr_reader :copyright_header_regexp
+
+    def initialize(open:, close:)
+      @open = open
+      @close = close
+
+      escaped_open = Regexp.escape(open)
+      escaped_close = Regexp.escape(close)
+      @regexp = /
+        [ \t]*            # whitespace before open marker
+        #{escaped_open}   # open marker
+        \s*               # whitespace before content
+        (?<content>.*?)   # content
+        \s*               # whitespace after content
+        #{escaped_close}  # close marker
+        [ \t]*            # whitespace after close marker
+      /xm
+
+      @copyright_header_regexp = /
+        #{escaped_open}[ \t]*#{START_MARKER}  # start marker
+        .*?                                   # copyright text
+        #{END_MARKER}[ \t]*#{escaped_close}   # end marker
+      /xm
+    end
+
+    def build(copyright_text)
+      <<~COPYRIGHT.chomp
+        #{@open}-- copyright
+        #{copyright_text}
+        ++#{@close}
+      COPYRIGHT
+    end
+
+    def check(scanner)
+      return unless (raw = scanner.check(@regexp))
+
+      text = scanner[:content]
+      if text.empty?
+        Chunk.new(raw:, block: true, blank: true)
+      else
+        start_marker = text.match?(/\A#{START_MARKER}/o)
+        end_marker = text.match?(/#{END_MARKER}\z/o)
+        Chunk.new(raw:, block: true, start_marker:, end_marker:)
+      end
+    end
+  end
+
+  class Chunker
+    class << self
+      def cut(source:, comment_configs:)
+        scanner = StringScanner.new(source)
+
+        whitespaces = []
+        comments = []
+
+        if scanner.scan(SHEBANG_PATTERN)
+          whitespaces << ""
+          comments << Chunk.new(raw: scanner.matched, magic: true)
+        end
+
+        loop do
+          whitespaces << (scanner.scan(BLANK_PATTERN) || "")
+
+          shortest = shortest_comment_chunk(scanner:, comment_configs:)
+          break unless shortest
+
+          comments << shortest
+        end
+
+        new(whitespaces:, comments:, rest: scanner.rest)
+      end
+
+      private
+
+      def shortest_comment_chunk(scanner:, comment_configs:)
+        shortest = nil
+        comment_configs.each do |comment_config|
+          chunk = comment_config.check(scanner)
+          next if chunk.nil? || (shortest && shortest.raw.bytesize <= chunk.raw.bytesize)
+
+          shortest = chunk
+        end
+        return unless shortest
+
+        scanner.pos += shortest.raw.bytesize
+        shortest
+      end
+    end
+
+    COPYRIGHT_WORD = /\bcopyright\b/i
+
+    attr_reader :rest
+
+    def initialize(whitespaces:, comments:, rest:)
+      @whitespaces = whitespaces # one more than comments
+      @comments = comments
+      @rest = rest
+
+      @groups = comments.each_index
+        .slice_when { |a, b| comments[a].block? || comments[b].block? || whitespaces[b].count("\n") > 1 }
+        .map { it.first..it.last }
+      @group_of = @groups.flat_map { [it] * it.size }
+    end
+
+    def start_marker_match
+      return unless (start_at = index(&:start_marker?))
+
+      if (end_at = index(from: start_at, &:end_marker?))
+        build_match(absorb_blanks(start_at, step: -1), absorb_blanks(end_at, step: +1), unsafe: false)
+      else
+        build_match(absorb_blanks(start_at, step: -1), @group_of[start_at].last, unsafe: "no end marker")
+      end
+    end
+
+    def missing_start_marker_match
+      return unless (end_at = index(&:end_marker?))
+
+      build_match(@group_of[end_at].find { !@comments[it].magic? }, absorb_blanks(end_at, step: +1), unsafe: "no start marker")
+    end
+
+    def missing_both_markers_match
+      @groups.each do |group|
+        excluding_magic = group.drop_while { @comments[it].magic? }
+        next unless excluding_magic.any? { @comments[it].raw.match?(COPYRIGHT_WORD) }
+
+        return build_match(excluding_magic.first, excluding_magic.last, unsafe: "no markers")
+      end
+
+      nil
+    end
+
+    def rest_line = @whitespaces.chain(@comments).sum(1) { it.to_s.count("\n") }
+
+    def missing_match
+      leave_at_top = @groups.take_while { @comments[it.first].magic? }.sum(&:size)
+
+      Match.new(
+        before: interleave(@whitespaces.take(leave_at_top), @comments),
+        whitespace_before: @whitespaces[leave_at_top],
+        after: interleave(@comments.drop(leave_at_top), @whitespaces.drop(leave_at_top + 1)),
+        rest:,
+        unsafe: false
+      )
+    end
+
+    private
+
+    def index(from: 0)
+      (from...@comments.length).find { yield(@comments[it]) }
+    end
+
+    def absorb_blanks(from, step:)
+      group = @group_of[from]
+      from += step while group.include?(from + step) && @comments[from + step].blank?
+      from
+    end
+
+    def absorb_blank_groups(to)
+      return to unless to == @group_of[to].last
+
+      to = @group_of[to + 1].last while @group_of[to + 1]&.all? { @comments[it].blank? }
+      to
+    end
+
+    def build_match(from, to, unsafe: true) # rubocop:disable Metrics/AbcSize
+      to = absorb_blank_groups(to)
+
+      Match.new(
+        before: interleave(@whitespaces.take(from), @comments),
+        whitespace_before: @whitespaces[from],
+        copyright_header: interleave(@comments[from..to], @whitespaces[(from + 1)..to]),
+        whitespace_after: @whitespaces[to + 1],
+        after: interleave(@comments.drop(to + 1), @whitespaces.drop(to + 2)),
+        rest:,
+        unsafe:
+      )
+    end
+
+    def interleave(chunks_a, chunks_b)
+      out = +""
+      chunks_a.zip(chunks_b) { |a, b| out << a.to_s << b.to_s }
+      out
+    end
+  end
+
+  class Style
+    class << self
+      def parse(entry)
+        new(
+          globs: Globs.new(Array(entry.fetch("include"))),
+          comment_config: read_comment_config(entry["comment"]),
+          alternative_comment_configs: Array(entry["alternative_comments"]).map { read_comment_config(it) }
+        )
+      end
+
+      private
+
+      def read_comment_config(spec)
+        case spec
+        in String => delimiter
+          LineComment.new(delimiter:)
+        in [String => open, String => close]
+          BlockComment.new(open:, close:)
+        else
+          abort "Expected a string for line comment or 2 element array for block comment"
+        end
+      end
+    end
+
+    extend Forwardable
+
+    def_delegator :@globs, :match?, :applies_to?
+
+    def initialize(globs:, comment_config:, alternative_comment_configs:)
+      @globs = globs
+      @comment_config = comment_config
+      @comment_configs = [comment_config, *alternative_comment_configs]
+      @copyright_header_regexp = Regexp.union(@comment_configs.map(&:copyright_header_regexp))
+      @built = {}
+    end
+
+    def build(copyright_text)
+      @built[copyright_text] ||= @comment_config.build(copyright_text)
+    end
+
+    def match(source)
+      chunks = Chunker.cut(source:, comment_configs: @comment_configs)
+
+      chunks.start_marker_match ||
+      chunks.missing_start_marker_match ||
+      chunks.missing_both_markers_match ||
+      misplaced_match(chunks) ||
+      chunks.missing_match
+    end
+
+    private
+
+    def misplaced_match(chunks)
+      return unless (m = chunks.rest.match(@copyright_header_regexp))
+
+      Misplaced.new(line: chunks.rest_line + m.pre_match.count("\n"))
+    end
+  end
+
+  Config = Data.define(:copyright_file, :alternative_copyright_files, :ignore, :styles) do
+    class << self
+      def parse(config)
+        copyright_file = parse_copyright_file(config)
+        alternative_copyright_files = Array(config["alternative_copyrights"])
+
+        new(
+          copyright_file:,
+          alternative_copyright_files:,
+          ignore: parse_ignore(config, copyright_files: [copyright_file, *alternative_copyright_files]),
+          styles: parse_styles(config)
+        )
+      end
+
+      private
+
+      def parse_copyright_file(config)
+        config["copyright"].tap do |file|
+          abort "No copyright file defined" unless file.is_a?(String)
+          abort "Copyright file is empty" if file.empty?
+        end
+      end
+
+      def parse_ignore(config, copyright_files:)
+        Globs.new([*config.fetch("ignore", []), *copyright_files.map { "**/#{it}" }])
+      end
+
+      def parse_styles(config)
+        list = config["styles"]
+        abort "No styles defined" if !list.is_a?(Array) || list.empty?
+
+        list.map { Style.parse(it) }
+      end
+    end
+  end
+
+  def self.call(...) = new(...).call
+
+  def initialize(args = ARGV)
+    @args = parse_args(args)
+
+    @root = find_root(Dir.pwd)
+
+    config = read_config
+    @copyright_file = config.copyright_file
+    @alternative_copyright_files = config.alternative_copyright_files
+    @ignore = config.ignore
+    @styles = config.styles
+
+    @copyright_texts = {}
+  end
+
+  def call
+    results = Hash.new(0)
+
+    each_path do |**args|
+      result = process(**args)
+
+      results[result] += 1
+    end
+
+    puts summary(results)
+
+    results.except(:valid, :autocorrected).empty?
+  end
+
+  private
+
+  def parse_args(args)
+    @autocorrect = false
+    @autocorrect_all = false
+    @insert = true
+    @update = true
+    @verbose = false
+
+    op = option_parser
+
+    rest = begin
+      op.parse(args)
+    rescue OptionParser::ParseError => e
+      abort "#{e.message}\n#{op.help}"
+    end
+
+    rest.empty? ? %w[.] : rest
+  end
+
+  def option_parser
+    OptionParser.new do |opts|
+      opts.banner = "Usage: #$0 [-a|--autocorrect] [-A|--autocorrect-all] [--[no-]insert] [--[no-]update] [path ...]"
+      opts.on("-a", "--autocorrect", "Insert or update copyright headers (only when it's safe)") do
+        @autocorrect = true
+      end
+      opts.on("-A", "--autocorrect-all", "Insert or update copyright headers (safe and unsafe)") do
+        @autocorrect = @autocorrect_all = true
+      end
+      opts.on("--[no-]insert", "Insert missing copyright headers when autocorrecting (default: true)") do |value|
+        @insert = value
+      end
+      opts.on("--[no-]update", "Update existing copyright headers when autocorrecting (default: true)") do |value|
+        @update = value
+      end
+      opts.on("-v", "--verbose", "Show verbose output") do
+        @verbose = true
+      end
+    end
+  end
+
+  def process(path:, style:, copyright_texts:)
+    match = style.match(File.read(path))
+
+    if match.misplaced?
+      report_offense path, match, "copyright header is not at the top of the file"
+
+      return :misplaced
+    end
+
+    expected = match.corrected(copyright_header: expected_copyright_header(match:, style:, copyright_texts:))
+    return :valid if match == expected
+
+    if autocorrect?(match)
+      File.open(path, "w") { expected.write(it) }
+      puts "Corrected #{path}" if @verbose
+
+      :autocorrected
+    else
+      report_offense path, match, offenses(match:, expected:).join(", ")
+
+      match.safe? ? :safe : :unsafe
+    end
+  end
+
+  def report_offense(path, match, message) = puts "#{path}:#{match.line}: #{message}"
+
+  def summary(results)
+    inspected = results.values.sum
+    offenses = inspected - results[:valid]
+
+    parts = []
+
+    parts << "#{inspected} file#{'s' unless inspected == 1} inspected"
+    parts << (offenses.zero? ? "no offenses" : "#{offenses} with offenses")
+
+    {
+      autocorrected: "corrected",
+      safe: "safe to correct (use -a)",
+      unsafe: "unsafe to correct (use -A)",
+      misplaced: "requires manual correction"
+    }.each do |result, description|
+      parts << "#{results[result]} #{description}" if results.key?(result)
+    end
+
+    parts.join(", ")
+  end
+
+  def expected_copyright_header(match:, style:, copyright_texts:)
+    headers = copyright_texts.map { style.build(it) }
+    return headers.first if headers.length == 1 || match.no_copyright_header?
+    return match.copyright_header if headers.include?(match.copyright_header)
+    # skip comparison when not autocorrecting
+    return headers.first unless autocorrect?(match)
+
+    closest_by_rarest_words(match.copyright_header, headers)
+  end
+
+  def closest_by_rarest_words(text, candidates)
+    text_words = text.scan(/\w+/)
+    candidates_words = candidates.map { it.scan(/\w+/).uniq }
+    counts = candidates_words.flatten.tally
+
+    candidates.max_by.with_index do |_, i|
+      (candidates_words[i] & text_words).sum { 1r / counts[it] }
+    end
+  end
+
+  def autocorrect?(match)
+    return false unless @autocorrect
+    return false unless match.safe? || @autocorrect_all
+
+    match.no_copyright_header? ? @insert : @update
+  end
+
+  def offenses(match:, expected:)
+    return ["missing copyright header"] if match.no_copyright_header?
+
+    [
+      header_offense(match:, expected:),
+      whitespace_offense(match.whitespace_before, expected.whitespace_before, "before"),
+      whitespace_offense(match.whitespace_after, expected.whitespace_after, "after")
+    ].compact
+  end
+
+  def header_offense(match:, expected:)
+    return if match.copyright_header == expected.copyright_header
+
+    match.unsafe.is_a?(String) ? "copyright header has #{match.unsafe}" : "malformed copyright header"
+  end
+
+  def whitespace_offense(whitespace, expected, position)
+    return if whitespace == expected
+
+    if whitespace.include?(expected)
+      "extra whitespace #{position} copyright header"
+    else
+      "no empty line #{position} copyright header"
+    end
+  end
+
+  def find_root(dir)
+    until File.exist?(File.join(dir, CONFIG_FILE))
+      parent = File.dirname(dir)
+      return File.expand_path("..", __dir__) if parent == dir
+
+      dir = parent
+    end
+
+    dir
+  end
+
+  def read_config
+    path = File.join(@root, CONFIG_FILE)
+
+    config = YAML.load_file(path) if File.exist?(path)
+
+    Config.parse(config || {})
+  end
+
+  # own warn to not conflict with structured_warnings
+  def warn(message)
+    $stderr.puts(message) # rubocop:disable Style/StderrPuts
+  end
+
+  def each_path
+    seen = Set.new
+
+    each_matching_path do |path, root_relative, stat|
+      next unless seen.add?([stat.dev, stat.ino])
+
+      if stat.zero?
+        warn "Ignored empty #{path}" if @verbose
+        next
+      end
+
+      style = @styles.find { it.applies_to?(root_relative) }
+      unless style
+        warn "No style for #{path}" if @verbose
+        next
+      end
+
+      copyright_texts = copyright_texts_at(File.dirname(root_relative))
+
+      yield path:, style:, copyright_texts:
+    end
+  end
+
+  def each_matching_path(&)
+    @args.uniq.each do |arg|
+      stat = stat?(arg)
+      abort "No such file or directory #{arg}" unless stat
+
+      if stat.directory?
+        walk(arg, &)
+      elsif stat.file?
+        root_relative = make_root_relative(arg)
+
+        if @ignore.match?(root_relative)
+          warn "Ignored #{arg}"
+        else
+          yield arg, root_relative, stat
+        end
+      else
+        abort "Not a file or directory #{arg}"
+      end
+    end
+  end
+
+  def walk(dir)
+    Find.find(dir) do |path|
+      stat = stat?(path)
+      next unless stat
+
+      if stat.directory?
+        Find.prune if @ignore.match?("#{make_root_relative(path)}/")
+      elsif stat.file?
+        root_relative = make_root_relative(path)
+        next if @ignore.match?(root_relative)
+
+        yield path.delete_prefix("./"), root_relative, stat
+      end
+    end
+  end
+
+  def stat?(path)
+    File.stat(path)
+  rescue Errno::ENOENT
+    nil
+  end
+
+  def make_root_relative(path) = File.expand_path(path).delete_prefix("#{@root}/")
+
+  def copyright_texts_at(dir)
+    primary = copyright_text_at(dir, @copyright_file)
+    abort "No copyright file #{@copyright_file} found in #{@root}" unless primary
+
+    [primary, *@alternative_copyright_files.filter_map { copyright_text_at(dir, it) }]
+  end
+
+  def copyright_text_at(dir, file_name)
+    key = [dir, file_name]
+    return @copyright_texts[key] if @copyright_texts.key?(key)
+
+    copyright_path = File.join(@root, dir, file_name)
+    @copyright_texts[key] =
+      if File.file?(copyright_path)
+        File.read(copyright_path).chomp
+      elsif dir != (parent = File.dirname(dir))
+        copyright_text_at(parent, file_name)
+      end
+  end
+end
+
+exit CopyCop.call if __FILE__ == $0

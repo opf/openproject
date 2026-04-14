@@ -45,7 +45,7 @@ Run the linters and tests relevant to the changed files:
 
 ## Copyright Notices
 
-Use the applicable `copyright:update_*` Rake task or ESLint autofix to generate or repair notices where supported. Copy an existing notice manually only if neither tool can add a missing notice for the file type. See [copyright notices](docs/development/style-guide/README.md#copyright-notices) for commands and format guidance.
+Use `bin/copycop -a [paths]` to generate or repair notices from `COPYRIGHT_short`. Do not compose or reformat a header manually. See [copyright notices](docs/development/style-guide/README.md#copyright-notices) for details.
 
 ## Code Comments
 

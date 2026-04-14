@@ -4,16 +4,14 @@
 
 ## Copyright notices
 
-Use the applicable `copyright:update_*` Rake task or ESLint autofix to generate or repair copyright notices from [COPYRIGHT_short](https://github.com/opf/openproject/blob/dev/COPYRIGHT_short). The [Rake tasks](https://github.com/opf/openproject/blob/dev/lib/tasks/copyright.rake) list the available updaters; some only update existing notices.
-
-For Ruby, JavaScript, and TypeScript, run the matching task from the repository root. Replace `path/to/directory` with the directory containing the files to update:
+Use [bin/copycop](https://github.com/opf/openproject/blob/dev/bin/copycop) to check, generate, or repair copyright notices from [COPYRIGHT_short](https://github.com/opf/openproject/blob/dev/COPYRIGHT_short). Pass files or directories to check; without paths, it applies to the current directory:
 
 ```shell
-bundle exec rake 'copyright:update_rb[path/to/directory]'
-bundle exec rake 'copyright:update_js[path/to/directory]'
-bundle exec rake 'copyright:update_typescript[path/to/directory]'
+bin/copycop path/to/file_or_directory     # check
+bin/copycop -a path/to/file_or_directory  # insert or update notices where it is safe
+bin/copycop -A path/to/file_or_directory  # also apply unsafe corrections, review carefully
 ```
 
-The JavaScript task covers `.js`, `.mjs`, and `.cjs`; the TypeScript task covers `.ts` and `.tsx`. Both generate the canonical compact line-comment header, including its markers and the blank line before the source code. For frontend files covered by the copyright header rule, `npx eslint --fix path/to/file` from `frontend/` can also repair the notice.
+[.copycop.yml](https://github.com/opf/openproject/blob/dev/.copycop.yml) defines the comment style per file type and the ignored paths. A directory can have its own `COPYRIGHT_short`, or an alternative copyright file listed in `.copycop.yml`, which applies to the files below it.
 
-If neither tool can add a missing notice for the file type, manually copy one from a first-party OpenProject file of the same type and use the appropriate comment syntax. This includes file types whose Rake task only updates existing notices, such as CSS and HTML ERB. Preserve third-party copyright notices.
+If copycop has no style defined for the file type, add one to `.copycop.yml`. If that is not possible, manually copy a notice from a first-party OpenProject file of the same type. Preserve third-party copyright notices and add such files to the ignored paths.

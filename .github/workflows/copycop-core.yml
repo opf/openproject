@@ -1,0 +1,35 @@
+name: CopyCop
+
+on:
+  pull_request:
+
+jobs:
+  copycop:
+    name: CopyCop
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      checks: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f # v1.335.0
+        with:
+          bundler: none
+      - name: Set up reviewdog
+        uses: reviewdog/action-setup@d8a7baabd7f3e8544ee4dbde3ee41d0011c3a93f # v1.5.0
+      - name: Run copycop
+        env:
+          REVIEWDOG_GITHUB_API_TOKEN: ${{ github.token }}
+        run: |
+          bin/copycop > "${RUNNER_TEMP}/copycop.txt" 2> "${RUNNER_TEMP}/copycop.err" || true
+          if [ -s "${RUNNER_TEMP}/copycop.err" ]; then
+            cat "${RUNNER_TEMP}/copycop.err" >&2
+            exit 1
+          fi
+          reviewdog -efm="%f:%l: %m" -name=copycop -reporter=github-pr-annotations \
+            -filter-mode=file -fail-level=any < "${RUNNER_TEMP}/copycop.txt"
