@@ -1,0 +1,382 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+require "find"
+require "optparse"
+require "strscan"
+require "yaml"
+
+class CopyCop
+  CONFIG_FILE = ".copycop.yml"
+  FNMATCH_FLAGS = File::FNM_PATHNAME | File::FNM_DOTMATCH | File::FNM_EXTGLOB | File::FNM_CASEFOLD
+
+  Patterns = Data.define(:list) do
+    def match?(path)
+      list.any? { |pattern| File.fnmatch?(pattern, path, FNMATCH_FLAGS) }
+    end
+  end
+
+  module Comment
+    Line = Data.define(:prefix) do
+      def build(copyright_text)
+        <<~COPYRIGHT.chomp
+          #{prefix}-- copyright
+          #{copyright_text.gsub(/^.*/) { it.empty? ? prefix : "#{prefix} #{it}" }}
+          #{prefix}++
+        COPYRIGHT
+      end
+    end
+
+    Block = Data.define(:open, :close) do
+      def build(copyright_text)
+        <<~COPYRIGHT.chomp
+          #{open}-- copyright
+          #{copyright_text}
+          ++#{close}
+        COPYRIGHT
+      end
+    end
+
+    def self.parse(spec)
+      case spec
+      in String => prefix
+        Line.new(prefix:)
+      in [String => open, String => close]
+        Block.new(open:, close:)
+      else
+        abort "Expected a string for prefix comment or 2 element array for open-close comment"
+      end
+    end
+  end
+
+  class Style
+    def self.parse(entry)
+      new(
+        patterns: Patterns.new(Array(entry.fetch("include"))),
+        comment: Comment.parse(entry["comment"]),
+        alternative_comments: Array(entry["alternative_comments"]).map { Comment.parse(it) }
+      )
+    end
+
+    attr_reader :patterns
+
+    def initialize(patterns:, comment:, alternative_comments:)
+      @patterns = patterns
+      @comment = comment
+      @regexp = build_regexp(comment:)
+      @built = {}
+    end
+
+    def build(copyright_text)
+      @built[copyright_text] ||= @comment.build(copyright_text)
+    end
+
+    def match(content)
+      @regexp.match(content)
+    end
+
+    private
+
+    def build_regexp(comment:)
+      case comment
+      in Comment::Line(prefix:)
+        escaped_comment = Regexp.escape(prefix)
+
+        /
+          \A
+          (?<before>(.*\n)*) # content and whitespace before
+          (?<copyright_header>
+            \s*#{escaped_comment}\s*--\s*(?i:copyright)\b.*\n # start marker
+            (\s*#{escaped_comment}.*\n)*? # copyright text
+            \s*#{escaped_comment}\s*\+\+.*$ # end marker
+          )
+          (?<whitespace_after>(\s*\n)?) # whitespace after
+        |
+          \A
+          (?<before>
+            (
+              (
+                \#!.*\n # shebang
+              |
+                # TODO: this is ruby only magic comment
+                #{escaped_comment}[ ]*(?i:frozen_string_literal|coding|encoding)[ ]*:.*\n
+              )
+              (#{escaped_comment}.*\n)* # rest of comment block
+            )?
+            (\s*\n)?
+          )
+        /x
+      in Comment::Block(open:, close:)
+        escaped_open = Regexp.escape(open)
+        escaped_close = Regexp.escape(close)
+
+        /
+          \A
+          (?<before>(.*\n)*) # content and whitespace before
+          (?<copyright_header>
+            \s*#{escaped_open}\s*--\s*(?i:copyright)\b.*\n # start marker
+            (.*\n)*? # copyright text
+            .*#{escaped_close} # end marker
+          )
+          (?<whitespace_after>(\s*\n)?) # whitespace after
+        |
+          \A
+          (?<before>(\s*\n)?)
+        /x
+      end
+    end
+  end
+
+  def self.call(...) = new(...).call
+
+  def initialize(args = ARGV) # rubocop:todo Metrics/AbcSize
+    @autocorrect = false
+    @verbose = false
+
+    op = OptionParser.new do |opts|
+      opts.banner = "Usage: #$0 [-a|--autocorrect] [path ...]"
+      opts.on("-a", "--autocorrect", "Automatically insert or update headers") do
+        @autocorrect = true
+      end
+      opts.on("-v", "--verbose", "Show verbose output") do
+        @verbose = true
+      end
+    end
+
+    rest = begin
+      op.parse(args)
+    rescue OptionParser::ParseError => e
+      abort "#{e.message}\n#{op.help}"
+    end
+    @args = rest.empty? ? %w[.] : rest
+
+    @root = find_root(Dir.pwd)
+
+    config = read_config || {}
+    @ignore = Patterns.new(Array(config.fetch("ignore", [])))
+    @styles = parse_styles(config)
+    @copyright_file = config["copyright"]
+    abort "No copyright file defined" if !@copyright_file.is_a?(String) || @copyright_file.empty?
+    @copyright_texts = {}
+  end
+
+  def call
+    success = true
+
+    each_path do |**args|
+      success = false unless process?(**args)
+    end
+
+    success
+  end
+
+  private
+
+  def process?(**)
+    if @autocorrect
+      autocorrect?(**)
+    else
+      valid?(**)
+    end
+  end
+
+  def autocorrect?(path:, style:, copyright_text:) # rubocop:todo Metrics/AbcSize
+    content = File.read(path)
+    match = style.match(content)
+    before = match[:before].rstrip
+    after = match.post_match
+
+    parts = []
+    parts << before << "\n\n" unless before.empty?
+    parts << style.build(copyright_text)
+    parts << (after.empty? ? "\n" : "\n\n")
+    expected = parts.join
+    return true if expected == match.to_s
+
+    File.open(path, "w") { it << expected << after }
+    puts "Corrected #{path}" if @verbose
+
+    true
+  end
+
+  def valid?(path:, style:, copyright_text:)
+    content = File.read(path)
+    match = style.match(content)
+    offences = offences(match:, style:, copyright_text:)
+
+    puts "#{path}: #{offences.join(', ')}" unless offences.empty?
+
+    offences.empty?
+  end
+
+  def offences(match:, style:, copyright_text:) # rubocop:todo Metrics/AbcSize
+    return ["missing copyright header"] unless match[:copyright_header]
+
+    offences = []
+
+    unless match[:copyright_header] == style.build(copyright_text)
+      offences << "malformed copyright header"
+    end
+
+    unless match[:before].empty?
+      offences << whitespace_offence(match[:before][/\s*\z/], "\n\n", "before")
+    end
+
+    expected_after = match.post_match.empty? ? "\n" : "\n\n"
+    offences << whitespace_offence(match[:whitespace_after], expected_after, "after")
+
+    offences.compact
+  end
+
+  def whitespace_offence(whitespace, expected, position)
+    return if whitespace == expected
+
+    if whitespace.include?(expected)
+      "extra whitespace #{position} copyright header"
+    else
+      "no empty line #{position} copyright header"
+    end
+  end
+
+  def find_root(dir)
+    until File.exist?(File.join(dir, CONFIG_FILE))
+      parent = File.dirname(dir)
+      return File.expand_path("..", __dir__) if parent == dir
+
+      dir = parent
+    end
+
+    dir
+  end
+
+  def read_config
+    path = File.join(@root, CONFIG_FILE)
+
+    YAML.load_file(path) if File.exist?(path)
+  end
+
+  def parse_styles(config)
+    list = config["styles"]
+    abort "No styles defined" if !list.is_a?(Array) || list.empty?
+
+    list.map { Style.parse(it) }
+  end
+
+  # own warn to not conflict with structured_warnings
+  def warn(message)
+    $stderr.puts(message) # rubocop:disable Style/StderrPuts
+  end
+
+  def each_path(&)
+    seen = Set.new
+
+    each_matching_path do |path, root_relative, stat|
+      next unless seen.add?([stat.dev, stat.ino])
+
+      if stat.zero?
+        warn "Ignoring empty #{path}" if @verbose
+        next
+      end
+
+      style = @styles.find { it.patterns.match?(root_relative) }
+      unless style
+        warn "No style for #{path}" if @verbose
+        next
+      end
+
+      copyright_text = copyright_text_at(File.dirname(root_relative))
+
+      yield path:, style:, copyright_text:
+    end
+  end
+
+  def each_matching_path(&)
+    @args.uniq.each do |arg|
+      stat = stat?(arg)
+      abort "No such file or directory #{arg}" unless stat
+
+      if stat.directory?
+        walk(arg, &)
+      elsif stat.file?
+        root_relative = make_root_relative(arg)
+
+        if @ignore.match?(root_relative)
+          warn "Ignored #{arg}"
+        else
+          yield arg, root_relative, stat
+        end
+      else
+        abort "Not a file or directory #{arg}"
+      end
+    end
+  end
+
+  def walk(dir)
+    Find.find(dir) do |path|
+      stat = stat?(path)
+      next unless stat
+
+      if stat.directory?
+        Find.prune if @ignore.match?("#{make_root_relative(path)}/")
+      elsif stat.file?
+        root_relative = make_root_relative(path)
+        next if @ignore.match?(root_relative)
+
+        yield path.delete_prefix("./"), root_relative, stat
+      end
+    end
+  end
+
+  def stat?(path)
+    File.stat(path)
+  rescue Errno::ENOENT
+    nil
+  end
+
+  def make_root_relative(path) = File.expand_path(path).delete_prefix("#{@root}/")
+
+  def copyright_text_at(dir)
+    @copyright_texts[dir] ||= begin
+      copyright_path = File.join(@root, dir, @copyright_file)
+
+      if File.file?(copyright_path)
+        File.read(copyright_path).chomp
+      else
+        parent = File.dirname(dir)
+        abort "No copyright file found #{copyright_path}" if dir == parent
+
+        copyright_text_at(parent)
+      end
+    end
+  end
+end
+
+exit CopyCop.call if __FILE__ == $0
