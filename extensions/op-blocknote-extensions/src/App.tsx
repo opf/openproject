@@ -18,7 +18,7 @@ import {
 } from "../lib";
 import "./fetchOverride";
 import type { HashMenuItem } from "../lib";
-import {useInlineWpEvents} from "../lib/hooks/useInlineWpEvents";
+import {useInlineWpEvents} from "../lib";
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
