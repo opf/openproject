@@ -5,3 +5,4 @@ export { wpBridge } from "./services/wpBridge.ts";
 export type { WpResizePayload, WpDeletePayload, WpToInlinePayload } from "./services/wpBridge.ts";
 export { makeInstanceId } from "./services/utils.ts";
 export type { InlineWpSize } from "./components/InlineWorkPackage/types";
+export { useInlineWpEvents } from './hooks/useInlineWpEvents';
