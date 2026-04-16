@@ -689,28 +689,38 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       let(:workspace) { create(:project_with_types) }
       let(:work_package) { create(:work_package, project: workspace) }
 
-      context "when no target versions set" do
-        it_behaves_like "has an empty link collection" do
-          let(:link) { "targetVersions" }
+      context "with multiple versions enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        context "when no target versions set" do
+          it_behaves_like "has an empty link collection" do
+            let(:link) { "targetVersions" }
+          end
+        end
+
+        context "when target versions are set" do
+          let(:version1) { create(:version, project: workspace) }
+          let(:version2) { create(:version, project: workspace) }
+
+          before do
+            WorkPackageAssociatedVersion.create!(work_package:, version: version1, kind: "target")
+            WorkPackageAssociatedVersion.create!(work_package:, version: version2, kind: "target")
+            work_package.reload
+          end
+
+          it "has target version links" do
+            expect(subject).to have_json_size(2).at_path("_links/targetVersions")
+          end
+
+          it "has target versions embedded" do
+            expect(subject).to have_json_size(2).at_path("_embedded/targetVersions")
+          end
         end
       end
 
-      context "when target versions are set" do
-        let(:version1) { create(:version, project: workspace) }
-        let(:version2) { create(:version, project: workspace) }
-
-        before do
-          WorkPackageAssociatedVersion.create!(work_package:, version: version1, kind: "target")
-          WorkPackageAssociatedVersion.create!(work_package:, version: version2, kind: "target")
-          work_package.reload
-        end
-
-        it "has target version links" do
-          expect(subject).to have_json_size(2).at_path("_links/targetVersions")
-        end
-
-        it "has target versions embedded" do
-          expect(subject).to have_json_size(2).at_path("_embedded/targetVersions")
+      context "with multiple versions disabled",
+              with_settings: { work_package_multiple_versions: false } do
+        it_behaves_like "has no link" do
+          let(:link) { "targetVersions" }
         end
       end
     end

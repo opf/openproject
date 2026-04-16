@@ -5462,6 +5462,10 @@ en:
     (for example, if a day is 8 hours, 32 hours would be 4 days).
   setting_invitation_expiration_days: "Activation email expires after"
   setting_invitation_expiration_days_caption: "Number of days after which the activation email expires."
+  setting_work_package_multiple_versions: "Multiple versions per work package"
+  setting_work_package_multiple_versions_caption: >-
+    Warning: once enabled, disabling this setting can cause version assignments from work packages to be lost.
+    This action cannot be undone.
   setting_work_package_done_ratio: "Progress calculation mode"
   setting_work_package_done_ratio_field: "Work-based"
   setting_work_package_done_ratio_field_caption_html: >-

@@ -37,7 +37,8 @@ module API
 
           cached_representer key_parts: %i[project type],
                              dependencies: -> {
-                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio]
+                               all_permissions_granted_to_user_under_project + [Setting.work_package_done_ratio,
+                                                                                Setting.work_package_multiple_versions?]
                              }
 
           custom_field_injector type: :schema_representer
@@ -319,6 +320,7 @@ module API
                                              title: version.name
                                            }
                                          },
+                                         show_if: ->(*) { Setting.work_package_multiple_versions? },
                                          required: false
 
           schema_with_allowed_collection :priority,

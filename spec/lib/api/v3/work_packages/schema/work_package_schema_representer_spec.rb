@@ -1022,36 +1022,46 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
 
     describe "target_versions" do
-      context "if having the assign_versions permission" do
-        let(:permissions) { [:assign_versions] }
+      context "with multiple versions enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        context "if having the assign_versions permission" do
+          let(:permissions) { [:assign_versions] }
 
-        it_behaves_like "has basic schema properties" do
-          let(:path) { "targetVersions" }
-          let(:type) { "[]Version" }
-          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
-          let(:required) { false }
-          let(:writable) { true }
-          let(:location) { "_links" }
+          it_behaves_like "has basic schema properties" do
+            let(:path) { "targetVersions" }
+            let(:type) { "[]Version" }
+            let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
+            let(:required) { false }
+            let(:writable) { true }
+            let(:location) { "_links" }
+          end
+
+          it_behaves_like "has a collection of allowed values" do
+            let(:json_path) { "targetVersions" }
+            let(:href_path) { "versions" }
+            let(:factory) { :version }
+            let(:assignable_values_key) { :target_versions }
+          end
         end
 
-        it_behaves_like "has a collection of allowed values" do
-          let(:json_path) { "targetVersions" }
-          let(:href_path) { "versions" }
-          let(:factory) { :version }
-          let(:assignable_values_key) { :target_versions }
+        context "if having only the edit_work_packages permission" do
+          let(:permissions) { [:edit_work_packages] }
+
+          it_behaves_like "has basic schema properties" do
+            let(:path) { "targetVersions" }
+            let(:type) { "[]Version" }
+            let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
+            let(:required) { false }
+            let(:writable) { false }
+            let(:location) { "_links" }
+          end
         end
       end
 
-      context "if having only the edit_work_packages permission" do
-        let(:permissions) { [:edit_work_packages] }
-
-        it_behaves_like "has basic schema properties" do
-          let(:path) { "targetVersions" }
-          let(:type) { "[]Version" }
-          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
-          let(:required) { false }
-          let(:writable) { false }
-          let(:location) { "_links" }
+      context "with multiple versions disabled",
+              with_settings: { work_package_multiple_versions: false } do
+        it "has no schema for targetVersions" do
+          expect(subject).not_to have_json_path("targetVersions")
         end
       end
     end

@@ -106,6 +106,7 @@ class Queries::WorkPackages::Selects::PropertySelect < Queries::WorkPackages::Se
       groupable: "#{WorkPackage.table_name}.version_id"
     },
     target_versions: {
+      if: -> { Setting.work_package_multiple_versions? },
       sortable: false,
       groupable: false
     },
