@@ -660,12 +660,23 @@ class WorkPackage < ApplicationRecord
 
       unless issue.project.shared_versions.include?(issue.version)
         issue.version = nil
+        cleanup_unshared_associated_versions(issue)
         issue.save
       end
     end
   end
 
   private_class_method :update_versions
+
+  def self.cleanup_unshared_associated_versions(work_package)
+    shared_version_ids = work_package.project.shared_versions.pluck(:id)
+
+    work_package.work_package_associated_versions
+                .where.not(version_id: shared_version_ids)
+                .delete_all
+  end
+
+  private_class_method :cleanup_unshared_associated_versions
 
   # Default assignment based on category
   def default_assign
