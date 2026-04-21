@@ -570,7 +570,22 @@ module API
 
         associated_resource :version,
                             v3_path: :version,
-                            representer: ::API::V3::Versions::VersionRepresenter
+                            representer: ::API::V3::Versions::VersionRepresenter,
+                            uncacheable_link: true,
+                            getter: ->(*) {
+                              version = rendered_version_for(represented)
+                              next unless embed_links && version
+
+                              ::API::V3::Versions::VersionRepresenter.create(version, current_user:)
+                            },
+                            link: ->(*) {
+                              version = rendered_version_for(represented)
+                              if version
+                                { href: api_v3_paths.version(version.id), title: version.name }
+                              else
+                                { href: nil }
+                              end
+                            }
 
         associated_resources :target_versions,
                              v3_path: :version,
@@ -578,7 +593,7 @@ module API
                              skip_render: ->(*) { !Setting.work_package_multiple_versions? },
                              setter: ->(fragment:, **) do
                                ids = parse_link_ids_from_fragment(fragment, :version)
-                               represented.target_version_ids = ids
+                               represented.target_version_ids_replacements = ids.map(&:to_i)
                              end
 
         associated_resource :parent,
@@ -791,6 +806,22 @@ module API
         def ordered_custom_actions
           # As the custom actions are sometimes set as an array
           @ordered_custom_actions ||= represented.custom_actions(current_user).to_a.sort_by(&:position)
+        end
+
+        def rendered_version_for(work_package)
+          if Setting.work_package_multiple_versions?
+            last_target_version_for(work_package)
+          else
+            work_package.version
+          end
+        end
+
+        def last_target_version_for(work_package)
+          work_package
+            .work_package_associated_versions
+            .where(kind: "target")
+            .order(:created_at, :version_id)
+            .last&.version
         end
 
         # Attachments need to be eager loaded for the description

@@ -683,6 +683,47 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject).to be_json_eql(version.name.to_json).at_path("#{embedded_path}/name")
         end
       end
+
+      context "with multiple versions enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        let(:workspace) { create(:project_with_types) }
+        let(:work_package) { create(:work_package, project: workspace) }
+
+        context "when target_versions has entries" do
+          let(:version1) { create(:version, project: workspace) }
+          let(:version2) { create(:version, project: workspace) }
+
+          before do
+            WorkPackageAssociatedVersion.create!(work_package:, version: version1, kind: "target",
+                                                 created_at: 2.hours.ago)
+            WorkPackageAssociatedVersion.create!(work_package:, version: version2, kind: "target",
+                                                 created_at: 1.hour.ago)
+            work_package.reload
+          end
+
+          it "renders _links.version pointing to the last target version" do
+            expect(subject).to be_json_eql(api_v3_paths.version(version2.id).to_json).at_path(href_path)
+          end
+        end
+
+        context "when target_versions is empty" do
+          let(:legacy_version) { create(:version, project: workspace) }
+
+          before do
+            work_package.update_column(:version_id, legacy_version.id)
+          end
+
+          it "renders _links.version nil" do
+            expect(subject).to be_json_eql(nil.to_json).at_path(href_path)
+          end
+        end
+
+        context "when no version and no target_versions" do
+          it "renders _links.version.href as nil" do
+            expect(subject).to be_json_eql(nil.to_json).at_path(href_path)
+          end
+        end
+      end
     end
 
     describe "targetVersions" do

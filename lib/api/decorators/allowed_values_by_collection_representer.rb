@@ -47,7 +47,8 @@ module API
                      writable: true,
                      attribute_group: nil,
                      current_user: nil,
-                     allowed_values_getter: nil)
+                     allowed_values_getter: nil,
+                     deprecated: nil)
         @value_representer = value_representer
         @link_factory = link_factory
         @allowed_values_getter = allowed_values_getter
@@ -59,6 +60,7 @@ module API
               writable:,
               attribute_group:,
               location:,
+              deprecated:,
               current_user:)
       end
 

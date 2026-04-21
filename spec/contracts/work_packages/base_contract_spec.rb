@@ -1239,6 +1239,34 @@ RSpec.describe WorkPackages::BaseContract do
       end
     end
 
+    describe "version_id writability under multiple_versions setting" do
+      let(:version) { assignable_version }
+
+      context "with multiple versions disabled",
+              with_settings: { work_package_multiple_versions: false } do
+        it "allows version_id changes" do
+          work_package.version = version
+          subject.validate
+          expect(subject.errors.symbols_for(:version_id)).not_to include(:error_readonly)
+        end
+      end
+
+      context "with multiple versions enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        it "rejects version_id changes with error_readonly" do
+          work_package.version = version
+          subject.validate
+          expect(subject.errors.symbols_for(:version_id)).to include(:error_readonly)
+        end
+
+        it "still accepts target_version_ids changes" do
+          work_package.target_version_ids_replacements = [version.id]
+          subject.validate
+          expect(subject.errors.symbols_for(:target_versions)).to be_empty
+        end
+      end
+    end
+
     describe "mutual exclusion of version_id and target_version_ids" do
       context "when both version_id and target_version_ids changed" do
         before do

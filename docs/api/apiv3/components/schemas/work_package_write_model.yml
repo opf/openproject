@@ -109,9 +109,28 @@ properties:
         allOf:
           - $ref: './link.yml'
           - description: |-
-              The version associated to the work package
+              The version associated to the work package.
 
               **Resource**: Version
+
+              # Conditions
+
+              - When the `work_package_multiple_versions` system setting is **disabled** (default): both read and write the single-valued `version` association.
+              - When the setting is **enabled**: on read it reflects the last entry of `targetVersions`. It becomes **read-only** — any write attempt returns an `error_readonly` validation error. Use `targetVersions` instead.
+            deprecated: true
+      targetVersions:
+        type: array
+        items:
+          $ref: './link.yml'
+        description: |-
+          The versions associated to the work package.
+
+          **Resource**: Collection of Version
+
+          # Conditions
+
+          - Only accepted when the `work_package_multiple_versions` system setting is **enabled**.
+          - Requires the `assign_versions` permission.
       parent:
         allOf:
           - $ref: './link.yml'

@@ -309,7 +309,8 @@ module API
                                              title: version.name
                                            }
                                          },
-                                         required: false
+                                         required: false,
+                                         deprecated: true
 
           schema_with_allowed_collection :target_versions,
                                          type: "[]Version",

@@ -608,6 +608,41 @@ RSpec.describe API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
     end
 
+    describe "targetVersions link" do
+      let(:project) { create(:project_with_types) }
+      let(:work_package) { create(:work_package, project:) }
+      let(:version_a) { create(:version, project:) }
+      let(:version_b) { create(:version, project:) }
+
+      context "with multiple versions enabled",
+              with_settings: { work_package_multiple_versions: true } do
+        context "when writing multiple versions" do
+          let(:links) do
+            {
+              "targetVersions" => [
+                { "href" => api_v3_paths.version(version_a.id) },
+                { "href" => api_v3_paths.version(version_b.id) }
+              ]
+            }
+          end
+
+          it "replaces target_version_ids_replacements with the given ids" do
+            expect(subject.target_version_ids_replacements).to eq([version_a.id, version_b.id])
+            expect(subject.override_target_versions?).to be true
+          end
+        end
+
+        context "when writing an empty array" do
+          let(:links) { { "targetVersions" => [] } }
+
+          it "clears target_versions via replacement semantics" do
+            expect(subject.target_version_ids_replacements).to eq([])
+            expect(subject.override_target_versions?).to be true
+          end
+        end
+      end
+    end
+
     describe "type" do
       it_behaves_like "linked resource" do
         let(:attribute_name) { "type" }

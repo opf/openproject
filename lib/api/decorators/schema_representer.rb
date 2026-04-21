@@ -137,6 +137,7 @@ module API
                                            has_default: false,
                                            writable: default_writable_property(property),
                                            attribute_group: nil,
+                                           deprecated: nil,
                                            show_if: true)
           getter = ->(*) do
             schema_with_allowed_collection_getter(type,
@@ -149,7 +150,8 @@ module API
                                                   writable,
                                                   attribute_group,
                                                   values_callback,
-                                                  nil)
+                                                  nil,
+                                                  deprecated)
           end
 
           schema_property(property,
@@ -362,7 +364,8 @@ module API
                                                 writable,
                                                 attribute_group,
                                                 values_callback,
-                                                allowed_values_getter)
+                                                allowed_values_getter,
+                                                deprecated = nil)
         wrapped_link_factory = if link_factory
                                  ->(value) { instance_exec(value, &link_factory) }
                                else
@@ -377,7 +380,8 @@ module API
                        required: call_or_use(required),
                        has_default: call_or_use(has_default),
                        writable: call_or_use(writable),
-                       attribute_group: call_or_use(attribute_group) }
+                       attribute_group: call_or_use(attribute_group),
+                       deprecated: call_or_use(deprecated) }
 
         attributes[:allowed_values_getter] = allowed_values_getter if allowed_values_getter
 
