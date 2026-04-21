@@ -1,16 +1,57 @@
 import { http, HttpResponse } from 'msw';
 
+export const mockWorkPackage = {
+  id: 123,
+  subject: 'Fix login bug',
+  _links: {
+    self:   { href: '/api/v3/work_packages/123' },
+    type:   { title: 'Bug',         href: '/api/v3/types/1'    },
+    status: { title: 'In Progress', href: '/api/v3/statuses/1' },
+  },
+};
+
+export const mockWorkPackage2 = {
+  id: 456,
+  subject: 'Add dark mode',
+  _links: {
+    self:   { href: '/api/v3/work_packages/456' },
+    type:   { title: 'Feature', href: '/api/v3/types/2' },
+    status: { title: 'Open',    href: '/api/v3/statuses/2' },
+  },
+};
+
 export const handlers = [
-  http.get('/wp/:id', (req) => {
-    return HttpResponse.json({
-      id: 123,
-      subject: "Test WP",
-      _links: {
-        self: { href: "/wp/123" },
-        type: { title: "Feature", href: "/types/1" },
-        status: { title: "Open", href: "/statuses/1" },
-        assignee: { title: "John Doe", href: "/users/1" },
+  http.get('http://localhost:3000/api/v3/types', () =>
+    HttpResponse.json({
+      _embedded: {
+        elements: [
+          { id: '1', color: '#D35400' }, 
+          { id: '2', color: '#27AE60' }, 
+        ],
       },
-    });
+    })
+  ),
+
+  http.get('http://localhost:3000/api/v3/statuses', () =>
+    HttpResponse.json({
+      _embedded: {
+        elements: [
+          { id: '1', color: '#2980B9' }, 
+          { id: '2', color: '#95A5A6' },
+        ],
+      },
+    })
+  ),
+
+  http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) => {
+    const id = Number(params.id);
+    if (id === 456) return HttpResponse.json(mockWorkPackage2);
+    return HttpResponse.json({ ...mockWorkPackage, id });
   }),
+
+  http.get('http://localhost:3000/api/v3/work_packages', () =>
+    HttpResponse.json({
+      _embedded: { elements: [mockWorkPackage, mockWorkPackage2] },
+    })
+  ),
 ];

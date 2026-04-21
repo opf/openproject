@@ -26,7 +26,7 @@ Include the following entry to your _package.json_.
 First thing is to initialize the library configuration...
 
 ```js
-  initOpenProjectApi({ baseUrl: "https://my.openproject.url" });
+initOpenProjectApi({baseUrl: 'https://my.openproject.url'});
 ```
 
 ... then setup a blocknote schema extending it with blocks offered by this library...
@@ -48,7 +48,7 @@ First thing is to initialize the library configuration...
   const getCustomSlashMenuItems = (editor: EditorType) => {
     return [
       ...getDefaultReactSlashMenuItems(editor),
-      openProjectWorkPackageSlashMenu(editor),
+      workPackageSlashMenu(editor),
     ];
   };
 ```
@@ -81,16 +81,16 @@ Which will start a vite server with a BlockNote editor instance including the av
 This project uses `styledComponents` to define styles. This means that styles are, by default, injected onto the page header. To be able to use styles onto a shadow dom root it is necessary to use our `ShadowDomWrapper` component targeting the root for the styles.
 
 ```tsx
-  <ShadowDomWrapper target={targetHtmlElementOrShadowRoot}>
-    <MyBlockNoteView />
-  </ShadowDomWrapper>
+<ShadowDomWrapper target={targetHtmlElementOrShadowRoot}>
+  <MyBlockNoteView />
+</ShadowDomWrapper>
 ```
 
 ### To run locally with valid API requests to an OpenProject instance
 
 Step 1: Make sure that the OpenProject instance URL is correct in App.tsx
 
->  initOpenProjectApi({ baseUrl: "https://" });
+> initOpenProjectApi({ baseUrl: "https://" });
 
 Step 2: Enable CORS and set the local address of this application at https://openproject.local/admin/settings/api
 
@@ -104,10 +104,10 @@ Step 5: Start the development server - `npm run dev`
 
 ## Components in this library
 
-|Component|Description|
-|--|--|
-|WorkPackage block|Search and display elegantly work package links|
-|...|...|
+| Component         | Description                                     |
+| ----------------- | ----------------------------------------------- |
+| WorkPackage block | Search and display elegantly work package links |
+| ...               | ...                                             |
 
 ## Build
 
