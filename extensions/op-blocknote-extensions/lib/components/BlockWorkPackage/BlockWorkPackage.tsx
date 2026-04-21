@@ -6,7 +6,7 @@ import { useWorkPackage } from "../../hooks/useWorkPackage";
 import { useColors } from "../../services/colors";
 import { wpBridge } from "../../services/wpBridge";
 import type { WorkPackage } from "../../openProjectTypes";
-import type { InlineWpSize } from "../InlineWorkPackage/types";
+import type { InlineWpSize, BlockWpSize } from "../WorkPackage/types";
 import { BlockCard } from "./BlockCard";
 import { UnavailableCard } from "../WorkPackage/UnavailableCard";
 import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
@@ -30,6 +30,7 @@ interface BlockProps {
   props: {
     wpid?: number;
     initialized?: boolean;
+    size?: BlockWpSize;
   };
 }
 
@@ -49,9 +50,10 @@ export const BlockWorkPackageComponent = ({
   const [isActive, setIsActive] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
-  // Use a single source of truth — result from useWorkPackage.
   const workPackageResult = useWorkPackage(block.props.wpid);
   const selectedWorkPackage = workPackageResult.workPackage;
+
+  const cardSize: BlockWpSize = block.props.size ?? "m";
 
   const handleSelectWorkPackage = (wp: WorkPackage) => {
     editor.updateBlock(block, {
@@ -89,6 +91,12 @@ export const BlockWorkPackageComponent = ({
   const handleConvertToInline = (size: InlineWpSize) => {
     if (!selectedWorkPackage) return;
     wpBridge.convertToInline({ wpid: selectedWorkPackage.id, size, blockId: block.id });
+  };
+
+  const handleResizeBlock = (size: BlockWpSize) => {
+    editor.updateBlock(block, {
+      props: { ...block.props, size },
+    });
   };
 
   const handleRemove = () => {
@@ -150,6 +158,7 @@ export const BlockWorkPackageComponent = ({
                   <BlockCard
                     ref={cardRef}
                     workPackage={selectedWorkPackage}
+                    size={cardSize}
                     linkTitle
                     onClick={(e) => {
                       e.stopPropagation();
@@ -160,9 +169,12 @@ export const BlockWorkPackageComponent = ({
                     <WpOptionsPopover
                       wp={selectedWorkPackage}
                       currentSize={undefined}
+                      currentBlockSize={cardSize}
                       instanceId={undefined}
                       onClose={() => setIsOptionsOpen(false)}
                       onConvertToInline={handleConvertToInline}
+                      onConvertToBlock={handleResizeBlock}
+                      onResizeBlock={handleResizeBlock}
                       onRemove={handleRemove}
                     />
                   )}

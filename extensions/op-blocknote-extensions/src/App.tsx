@@ -12,17 +12,20 @@ import {
 import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
-  inlineWorkPackageSpec,
+  openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
+  useHashWpMenu,
 } from "../lib";
 import "./fetchOverride";
+import type { HashMenuItem } from "../lib";
+import {useInlineWpEvents} from "../lib";
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
-    openProjectWorkPackage: openProjectWorkPackageBlockSpec(),
+    openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
   },
   inlineContentSpecs: {
-    inlineWorkPackage: inlineWorkPackageSpec,
+    openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
   },
 });
 
@@ -33,28 +36,37 @@ initializeOpBlockNoteExtensions({
 
 type EditorType = typeof schema.BlockNoteEditor;
 
+function buildSlashMenuItems(editor: EditorType) {
+  return [
+    ...getDefaultReactSlashMenuItems(editor),
+    workPackageSlashMenu(editor as any),
+  ];
+}
+
 export default function App() {
   const editor = useCreateBlockNote({ schema });
 
-  const getCustomSlashMenuItems = useCallback(
-    (editorInstance: EditorType) => [
-      ...getDefaultReactSlashMenuItems(editorInstance),
-      workPackageSlashMenu(editorInstance as any),
-    ],
-    []
+  useInlineWpEvents(editor as any); 
+
+  const getSlashItems = useCallback(
+    async (query: string) => filterSuggestionItems(buildSlashMenuItems(editor), query),
+    [editor]
   );
 
-  const getItems = useCallback(
-    async (query: string) =>
-      filterSuggestionItems(getCustomSlashMenuItems(editor), query),
-    [editor, getCustomSlashMenuItems]
-  );
+  const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
 
   return (
     <BlockNoteView editor={editor} slashMenu={false}>
       <SuggestionMenuController
         triggerCharacter="/"
-        getItems={getItems}
+        getItems={getSlashItems}
+      />
+
+      <SuggestionMenuController
+        triggerCharacter="#"
+        getItems={getHashItems}
+        suggestionMenuComponent={HashWpMenu}
+        onItemClick={(item: HashMenuItem) => item.onItemClick()}
       />
     </BlockNoteView>
   );

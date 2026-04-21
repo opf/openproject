@@ -1,3 +1,3 @@
-export { inlineWorkPackageSpec } from "./spec";
+export { openProjectWorkPackageInlineSpec } from "./spec";
 export { registerInlineWpCallbacks, clearInlineWpCallbacks } from "./callbacks";
-export type { InlineWpSize } from "./types";
+export type { InlineWpSize } from "../WorkPackage/types";

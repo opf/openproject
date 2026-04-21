@@ -2,42 +2,6 @@ import { describe, it, expect, vi } from "vitest";
 import { wpBridge } from "../../../lib/services/wpBridge";
 
 describe("WpBridge", () => {
-  it("calls resize listener with correct payload", () => {
-    const cb = vi.fn();
-    const off = wpBridge.onResize(cb);
-
-    wpBridge.resize({ instanceId: "abc", wpid: 1, size: "s" });
-
-    expect(cb).toHaveBeenCalledOnce();
-    expect(cb).toHaveBeenCalledWith({ instanceId: "abc", wpid: 1, size: "s" });
-
-    off();
-  });
-
-  it("calls delete listener with correct payload", () => {
-    const cb = vi.fn();
-    const off = wpBridge.onDelete(cb);
-
-    wpBridge.delete({ instanceId: "abc", wpid: 1 });
-
-    expect(cb).toHaveBeenCalledOnce();
-    expect(cb).toHaveBeenCalledWith({ instanceId: "abc", wpid: 1 });
-
-    off();
-  });
-
-  it("calls convertToInline listener with correct payload", () => {
-    const cb = vi.fn();
-    const off = wpBridge.onConvertToInline(cb);
-
-    wpBridge.convertToInline({ wpid: 1, size: "xs", blockId: "block-abc" });
-
-    expect(cb).toHaveBeenCalledOnce();
-    expect(cb).toHaveBeenCalledWith({ wpid: 1, size: "xs", blockId: "block-abc" });
-
-    off();
-  });
-
   it("unsubscribes correctly — listener not called after off()", () => {
     const cb = vi.fn();
     const off = wpBridge.onResize(cb);

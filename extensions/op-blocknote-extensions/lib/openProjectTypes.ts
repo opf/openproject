@@ -1,6 +1,7 @@
 export interface WorkPackage {
   id: number;
   subject: string;
+  description?: { raw?: string; html?: string } | null;
   status?: string | null;
   assignee?: string | null;
   href?: string | null;
@@ -10,6 +11,8 @@ export interface WorkPackage {
     status: { title: string; href: string } | null;
     assignee: { title: string; href: string } | null;
     type: { title: string; href: string } | null;
+    parent?: { title: string; href: string } | null;
+    project?: { title: string; href: string } | null;
   } | null;
 }
 
@@ -28,9 +31,9 @@ export interface StatusCollection {
       color: string;
       _links: {
         self: { href: string };
-      }
+      };
     }>;
-  },
+  };
 }
 
 export interface TypeCollection {
@@ -40,10 +43,10 @@ export interface TypeCollection {
       name: string;
       color: string;
       _links: {
-        self: { href: string; };
-      }
+        self: { href: string };
+      };
     }>;
-  },
+  };
 }
 
 export interface OpenProjectResponse {
