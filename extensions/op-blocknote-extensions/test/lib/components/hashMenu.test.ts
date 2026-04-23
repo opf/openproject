@@ -8,20 +8,77 @@ import {
 
 type FakeContent = { type: string; text?: string; styles?: any; props?: any }[];
 
-function makeFakeEditor(content: FakeContent = []) {
-  let block = { id: "block-1", content };
-  const inserted: FakeContent = [];
+function findCursorPos(fullText: string): number {
+  const match = fullText.match(/#+/);
+  if (!match || match.index === undefined) return fullText.length;
+  return match.index + match[0].length;
+}
+
+function makeFakeTiptap(block: { id: string; content: FakeContent }) {
+  const getFullText = () =>
+    block.content
+      .filter((n) => n.type === "text")
+      .map((n) => n.text ?? "")
+      .join("");
 
   return {
+    get state() {
+      const fullText = getFullText();
+      const cursorPos = findCursorPos(fullText);
+
+      return {
+        selection: {
+          from: cursorPos,
+          $from: {
+            parentOffset: cursorPos,
+            parent: {
+              textBetween(start: number, end: number) {
+                const text = getFullText();
+                const absStart = Math.max(0, cursorPos - (end - start));
+                return text.slice(absStart, cursorPos);
+              },
+            },
+          },
+        },
+        tr: {
+          delete(start: number, end: number) {
+            return { _start: start, _end: end };
+          },
+        },
+      };
+    },
+    view: {
+      dispatch(tr: { _start: number; _end: number }) {
+        const fullText = getFullText();
+        const hashIndex = fullText.search(/#+/);
+        const newText = hashIndex <= 0 ? "" : fullText.slice(0, hashIndex);
+
+        if (newText === "") {
+          block.content = [];
+        } else {
+          const firstTextNode = block.content.find((n) => n.type === "text");
+          const nonTextNodes = block.content.filter((n) => n.type !== "text");
+          block.content = [
+            ...(firstTextNode ? [{ ...firstTextNode, text: newText }] : []),
+            ...nonTextNodes,
+          ];
+        }
+      },
+    },
+  };
+}
+
+function makeFakeEditor(content: FakeContent = []) {
+  const block = { id: "block-1", content: [...content] };
+  const inserted: FakeContent = [];
+
+  const editor: any = {
     block,
     inserted,
     getTextCursorPosition: () => ({ block }),
     getBlock: (id: string) => (id === block.id ? block : null),
     updateBlock: (id: string, update: { content: FakeContent }) => {
-      if (id === block.id) {
-        block.content = update.content;
-        inserted.push(...update.content);
-      }
+      if (id === block.id) block.content = update.content;
     },
     insertInlineContent: (content: FakeContent) => {
       inserted.push(...content);
@@ -29,6 +86,10 @@ function makeFakeEditor(content: FakeContent = []) {
     focus: vi.fn(),
     setTextCursorPosition: vi.fn(),
   };
+
+  editor._tiptapEditor = makeFakeTiptap(block);
+
+  return editor;
 }
 
 describe("getSizeFromCurrentBlock", () => {
@@ -65,7 +126,11 @@ describe("clearTriggerText", () => {
   });
 
   it("does nothing if no block", () => {
-    const editor = { getTextCursorPosition: () => null, updateBlock: vi.fn() };
+    const editor = {
+      _tiptapEditor: null,
+      getTextCursorPosition: () => null,
+      updateBlock: vi.fn(),
+    };
     expect(clearTriggerText(editor as any)).toBeNull();
   });
 
@@ -98,8 +163,8 @@ describe("insertWpChipIntoBlock", () => {
     expect(inserted.length).toBe(2);
 
     const chip = inserted.find(
-      (c): c is { type: string; props: { size: string } } =>
-        c.type === "openProjectWorkPackageInline" && c.props?.size
+      (item: any): item is { type: string; props: { size: string } } =>
+        item.type === "openProjectWorkPackageInline" && item.props?.size
     );
     expect(chip).toBeDefined();
     expect(chip?.props.size).toBe("xxs");
