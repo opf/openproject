@@ -33,12 +33,8 @@ const SIZE_META: Record<WpSize, { label: string; desc: string }> = {
   xl:  { label: "Full card", desc: "Full card - Identifier, Subject, Type, Status, Parent, Project, Description" },
 };
 
-
-const INLINE_SIZE_OPTIONS: WpSize[] = ["xxs", "xs", "s", "m", "l", "xl"];
+const INLINE_SIZE_OPTIONS: InlineWpSize[] = ["xxs", "xs", "s"];
 const BLOCK_SIZE_OPTIONS: BlockWpSize[] = ["m", "l", "xl"];
-const BLOCK_TO_INLINE_OPTIONS: InlineWpSize[] = ["xxs", "xs", "s"];
-
-const BLOCK_SIZES = new Set<WpSize>(["m", "l", "xl"]);
 
 export const WpOptionsPopover = ({
   wp,
@@ -62,22 +58,6 @@ export const WpOptionsPopover = ({
   const closeMenu = () => {
     setShowSizes(false);
     onClose();
-  };
-
-  const handleInlineSizeSelect = (size: WpSize) => {
-    if (isBlock) {
-      onConvertToInline?.(size as InlineWpSize);
-    } else if (BLOCK_SIZES.has(size)) {
-      onConvertToBlock?.(size as BlockWpSize);
-    } else {
-      onResize?.(size as InlineWpSize);
-    }
-    closeMenu();
-  };
-
-  const handleBlockSizeSelect = (size: BlockWpSize) => {
-    onResizeBlock?.(size);
-    closeMenu();
   };
 
   return (
@@ -112,74 +92,57 @@ export const WpOptionsPopover = ({
 
         {showSizes && (
           <SizeMenu onMouseDown={(e) => e.stopPropagation()}>
-            {isBlock ? (
-              <>
-                <SizeMenuLabel>Block size</SizeMenuLabel>
-                {BLOCK_SIZE_OPTIONS.map((size) => {
-                  const option = SIZE_META[size];
-                  return (
-                    <SizeBtn
-                      key={size}
-                      aria-label={option.label}
-                      $active={currentBlockSize === size}
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleBlockSizeSelect(size);
-                      }}
-                    >
-                      <SizeBtnLabel>{option.label}</SizeBtnLabel>
-                      <SizeBtnDesc>{option.desc}</SizeBtnDesc>
-                    </SizeBtn>
-                  );
-                })}
+            <SizeMenuLabel>Inline size</SizeMenuLabel>
+            {INLINE_SIZE_OPTIONS.map((size) => {
+              const option = SIZE_META[size];
+              return (
+                <SizeBtn
+                  key={size}
+                  aria-label={option.label}
+                  $active={!isBlock && currentSize === size}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (isBlock) {
+                      onConvertToInline?.(size);
+                    } else {
+                      onResize?.(size);
+                    }
+                    closeMenu();
+                  }}
+                >
+                  <SizeBtnLabel>{option.label}</SizeBtnLabel>
+                  <SizeBtnDesc>{option.desc}</SizeBtnDesc>
+                </SizeBtn>
+              );
+            })}
 
-                <SizeMenuDivider />
+            <SizeMenuDivider />
 
-                <SizeMenuLabel>Convert to inline</SizeMenuLabel>
-                {BLOCK_TO_INLINE_OPTIONS.map((size) => {
-                  const option = SIZE_META[size];
-                  return (
-                    <SizeBtn
-                      key={size}
-                      aria-label={option.label}
-                      $active={false}
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleInlineSizeSelect(size);
-                      }}
-                    >
-                      <SizeBtnLabel>{option.label}</SizeBtnLabel>
-                      <SizeBtnDesc>{option.desc}</SizeBtnDesc>
-                    </SizeBtn>
-                  );
-                })}
-              </>
-            ) : (
-              <>
-                <SizeMenuLabel>Change size</SizeMenuLabel>
-                {INLINE_SIZE_OPTIONS.map((size) => {
-                  const option = SIZE_META[size];
-                  return (
-                    <SizeBtn
-                      key={size}
-                      aria-label={option.label}
-                      $active={currentSize === size}
-                      // Use mousedown to avoid losing focus before click fires (important for editor integrations)
-                      onMouseDown={(e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        handleInlineSizeSelect(size);
-                      }}
-                    >
-                      <SizeBtnLabel>{option.label}</SizeBtnLabel>
-                      <SizeBtnDesc>{option.desc}</SizeBtnDesc>
-                    </SizeBtn>
-                  );
-                })}
-              </>
-            )}
+            <SizeMenuLabel>Block size</SizeMenuLabel>
+            {BLOCK_SIZE_OPTIONS.map((size) => {
+              const option = SIZE_META[size];
+              return (
+                <SizeBtn
+                  key={size}
+                  aria-label={option.label}
+                  $active={isBlock && currentBlockSize === size}
+                  onMouseDown={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    if (isBlock) {
+                      onResizeBlock?.(size);
+                    } else {
+                      onConvertToBlock?.(size);
+                    }
+                    closeMenu();
+                  }}
+                >
+                  <SizeBtnLabel>{option.label}</SizeBtnLabel>
+                  <SizeBtnDesc>{option.desc}</SizeBtnDesc>
+                </SizeBtn>
+              );
+            })}
           </SizeMenu>
         )}
       </SizeButtonWrapper>
