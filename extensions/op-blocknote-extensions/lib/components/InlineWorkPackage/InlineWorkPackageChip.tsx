@@ -13,6 +13,7 @@ import type { InlineWpSize } from "../WorkPackage/types";
 import { wpBridge } from "../../services/wpBridge";
 import { BlockCard } from "../BlockWorkPackage/BlockCard";
 import { useTranslation } from "react-i18next";
+import { defaultWpVariables } from "../WorkPackage/atoms";
 
 interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
@@ -23,6 +24,7 @@ const InlineChip = styled.span.attrs({
   className: "op-bn-inline-wp",
   contentEditable: false,
 })<{ selected?: boolean }>`
+ ${defaultWpVariables}
   display: inline-flex;
   align-items: center;
   vertical-align: middle;

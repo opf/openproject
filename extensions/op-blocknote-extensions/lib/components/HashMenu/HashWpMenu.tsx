@@ -27,12 +27,12 @@ const Menu = styled.div.attrs({ className: "op-bn-hash-menu" })`
 const MenuItem = styled.div<{ $selected: boolean }>`
   border-radius: var(--bn-border-radius-small);
   background: ${({ $selected }) =>
-    $selected ? "var(--bn-colors-highlights-gray-background, #f0f0f0)" : "transparent"};
+    $selected ? "var(--op-item-hover-bg)" : "transparent"};
   cursor: pointer;
   padding: 0 var(--spacer-s);
 
   &:hover {
-    background: var(--bn-colors-highlights-gray-background, #f0f0f0);
+    background: var(--op-item-hover-bg);
   }
 `;
 

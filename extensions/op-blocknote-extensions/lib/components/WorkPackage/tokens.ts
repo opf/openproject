@@ -1,5 +1,5 @@
 export const CHIP_STYLES = {
-  bg: "var(--bn-colors-highlights-gray-background)",
+  bg: "var(--op-chip-bg)",
   radius: "var(--bn-border-radius)",
   gap: "6px",
   padding: {

@@ -78,7 +78,10 @@ export const DropdownItem = styled.div.attrs<{
   $selected: boolean;
 }>`
   background-color: ${({ $selected }) =>
-    $selected ? "var(--bn-colors-highlights-gray-background, #f0f0f0)" : "transparent"};
+    $selected ? "var(--op-item-hover-bg)" : "transparent"};
+  &:hover {
+    background: var(--op-item-hover-bg);
+  }
   border-radius: var(--bn-border-radius-small);
   margin: var(--spacer-s) 0;
   padding: 0 var(--spacer-m);

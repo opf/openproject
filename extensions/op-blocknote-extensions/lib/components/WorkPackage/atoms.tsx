@@ -13,9 +13,14 @@ export const defaultWpVariables = css`
   --lightness-threshold: 0.453;
   --background-alpha: 0.18;
 
+  --op-chip-bg: var(--bn-colors-highlights-gray-background);
+  --op-item-hover-bg: var(--bn-colors-highlights-gray-background, #f0f0f0);
+
   [data-color-scheme="dark"] & {
     --lightness-threshold: 0.6;
     --background-alpha: 0.10;
+    --op-chip-bg: var(--bn-colors-disabled-text);
+    --op-item-hover-bg: rgba(255, 255, 255, 0.12);
   }
 `;
 
