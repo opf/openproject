@@ -28,7 +28,6 @@ const InlineChip = styled.span.attrs({
   cursor: pointer;
   user-select: none;
   border-radius: ${CHIP_STYLES.radius};
-  line-height: 1;
   outline: ${({ selected }) => (selected ? CHIP_STYLES.focusOutline : "none")};
   outline-offset: 1px;
   box-shadow: ${({ selected }) => (selected ? CHIP_STYLES.focusShadow : "none")};

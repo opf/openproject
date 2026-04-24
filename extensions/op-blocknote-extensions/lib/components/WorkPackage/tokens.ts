@@ -3,9 +3,9 @@ export const CHIP_STYLES = {
   radius: "var(--bn-border-radius)",
   gap: "6px",
   padding: {
-    xxs: "5px 6px",
-    xs: "4px 6px",
-    s: "3px 6px",
+    xxs: "2px 6px",
+    xs: "1px 6px",
+    s: "1px 6px",
   },
 
   fontSize: "12px",
