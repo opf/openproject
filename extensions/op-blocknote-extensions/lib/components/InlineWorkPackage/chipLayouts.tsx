@@ -30,16 +30,3 @@ export const ChipBaseS = styled.span`
 `;
 
 export const ChipBase = ChipBaseS;
-
-export const StatusChevron = () => (
-  <svg
-    aria-hidden="true"
-    width={CHIP_STYLES.status.chevron.width}
-    height={CHIP_STYLES.status.chevron.height}
-    viewBox="0 0 8 5"
-    fill="none"
-    style={{ flexShrink: 0, display: "block" }}
-  >
-    <path d="M0 0L4 5L8 0H0Z" fill={CHIP_STYLES.status.chevron.color} />
-  </svg>
-);

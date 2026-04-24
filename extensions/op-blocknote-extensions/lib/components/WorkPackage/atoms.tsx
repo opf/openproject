@@ -78,12 +78,10 @@ export const WorkPackageStatus = styled.div.attrs({
     css`
       font-size: 12px;
       font-weight: 600;
-      color: var(--bn-colors-editor-text) !important;
       flex-shrink: 0;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      border: 1px solid var(--op-status-border-color);
     `}
 `;
 
