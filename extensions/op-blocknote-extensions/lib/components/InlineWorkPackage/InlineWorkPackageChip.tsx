@@ -19,6 +19,7 @@ import { formatWorkPackageId } from "../../services/utils";
 interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
   contentRef: (node: HTMLElement | null) => void;
+  editor?: any;
 }
 
 const InlineChip = styled.span.attrs({
@@ -40,7 +41,7 @@ const InlineChip = styled.span.attrs({
   line-height: 1;
 `;
 
-export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkPackageChipProps) => {
+export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
   const rawWpid = inlineContent.props.wpid;
   const size = (inlineContent.props.size ?? "s") as InlineWpSize;
@@ -54,12 +55,33 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
   const { workPackage: wp, loading } = useWorkPackage(wpid);
 
   const [isSelected, setIsSelected] = useState(false);
+  const [isEditorSelected, setIsEditorSelected] = useState(false);
   const chipRef = useRef<HTMLElement | null>(null);
 
   const setRef = (node: HTMLElement | null) => {
     chipRef.current = node;
     contentRef(node);
   };
+
+  useEffect(() => {
+    if (!editor) return;
+
+    const unsubscribe = editor.onSelectionChange(() => {
+      const node = chipRef.current;
+      if (!node) return;
+
+      const selection = window.getSelection();
+      if (!selection || selection.rangeCount === 0) {
+        setIsEditorSelected(false);
+        return;
+      }
+
+      const range = selection.getRangeAt(0);
+      setIsEditorSelected(range.intersectsNode(node));
+    });
+
+    return () => unsubscribe();
+  }, [editor]);
 
   // Close the options popover when the user clicks outside the chip
   useEffect(() => {
@@ -118,7 +140,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
   // Loading
   if (wpid && loading) {
     return (
-      <InlineChip ref={setRef}>
+      <InlineChip ref={setRef} selected={isEditorSelected}>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}…</WorkPackageId>
         </ChipBase>
@@ -133,7 +155,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
         role="button"
         aria-label={t("options.chipAriaLabel", { id: formatWorkPackageId(wp.displayId) })}
         ref={setRef}
-        selected={isSelected}
+        selected={isSelected || isEditorSelected}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -168,7 +190,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
   // Error / unknown
   if (wpid) {
     return (
-      <InlineChip ref={setRef} style={{ opacity: 0.6 }}>
+      <InlineChip ref={setRef} selected={isEditorSelected} style={{ opacity: 0.6 }}>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}</WorkPackageId>
         </ChipBase>

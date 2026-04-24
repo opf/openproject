@@ -12,8 +12,8 @@ export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
     content: "none",
   },
   {
-    render: ({ inlineContent, contentRef }) => (
-      <InlineWorkPackageChip inlineContent={inlineContent} contentRef={contentRef} />
+    render: ({ inlineContent, contentRef, editor }) => (
+      <InlineWorkPackageChip inlineContent={inlineContent} contentRef={contentRef} editor={editor}/>
     ),
 
     toExternalHTML: ({ inlineContent }) => {
