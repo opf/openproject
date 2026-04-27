@@ -28,6 +28,24 @@ export const en = {
         "header": "Error",
         "message": "Could not load work package"
       }
+    },
+    "options": {
+      "openInNewTab": "Open in new tab",
+      "open": "Open",
+      "changeSize": "Change size",
+      "remove": "Remove",
+      "removeAriaLabel": "Remove work package",
+      "openAriaLabel": "Open work package #{{id}} in new tab",
+      "inlineSizeLabel": "Inline size",
+      "blockSizeLabel": "Block size"
+    },
+    "sizes": {
+      "xxs": { "label": "Tiny (inline)", "desc": "Identifier" },
+      "xs": { "label": "Compact (inline)", "desc": "Type, Identifier, Subject" },
+      "s": { "label": "Regular (inline)", "desc": "Status, Type, Identifier, Subject" },
+      "m": { "label": "Compact card", "desc": "Compact card - Status, Type, Identifier, Subject" },
+      "l": { "label": "Regular card", "desc": "Regular card - Identifier, Subject, Type, Status, Parent, Project" },
+      "xl": { "label": "Full card", "desc": "Full card - Identifier, Subject, Type, Status, Parent, Project, Description" }
     }
   }
 };
