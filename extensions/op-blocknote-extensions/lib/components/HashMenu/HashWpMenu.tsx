@@ -1,5 +1,4 @@
 import type { FC, RefObject } from "react";
-import { useRef } from "react";
 import type { SuggestionMenuProps } from "@blocknote/react";
 import styled from "styled-components";
 import { BlockCard } from "../BlockWorkPackage/BlockCard";
@@ -7,7 +6,6 @@ import { defaultWpVariables } from "../WorkPackage/atoms";
 import type { WorkPackage } from "../../openProjectTypes";
 import type { HashMenuItem } from "./types";
 import type { AnyEditor } from "./editorUtils";
-import type { InlineWpSize } from "../WorkPackage/types";
 import {
   getSizeFromCurrentBlock,
   insertWpChip,
@@ -56,10 +54,6 @@ export function createHashWpMenuComponent(
     const searchQuery = items[0]?.title ?? "";
     const visibleResults = (resultsRef.current ?? []).slice(0, MAX_RESULTS);
 
-    const pendingSizeRef = useRef<InlineWpSize>("xxs");
-    const originalBlockIdRef = useRef<string | undefined>(undefined);
-    const savedSelectionRef = useRef<any>(null);
-
     const currentSize = getSizeFromCurrentBlock(editor);
     const currentBlockId = editor.getTextCursorPosition()?.block?.id;
 
@@ -69,35 +63,22 @@ export function createHashWpMenuComponent(
       if (!items[index]) return;
 
       items[index].onItemClick = () => {
-        const size = pendingSizeRef.current !== "xxs"
-          ? pendingSizeRef.current
-          : currentSize;
-        const originalBlockId = originalBlockIdRef.current ?? currentBlockId;
-        const savedSelection = savedSelectionRef.current;
-
-        pendingSizeRef.current = "xxs";
-        originalBlockIdRef.current = undefined;
-        savedSelectionRef.current = null;
-
         requestAnimationFrame(() => {
-          if (!originalBlockId) return;
-          editor.focus();
+          if (!currentBlockId) return;
 
-          // BlockNote splits the block on Enter - remove the new empty block it created.
           const currentBlock = editor.getTextCursorPosition()?.block;
-          if (currentBlock && currentBlock.id !== originalBlockId) {
+
+          // BlockNote's default "Enter" behavior splits the block.
+          // If the block ID changed, it was a keyboard Enter, so we remove the new empty block.
+          const isKeyboardEnter = currentBlock && currentBlock.id !== currentBlockId;
+
+          if (isKeyboardEnter) {
             editor.removeBlocks([currentBlock.id]);
           }
 
-          if (savedSelection) {
-            const tiptap = (editor as any)._tiptapEditor;
-            if (tiptap) {
-              const tr = tiptap.state.tr.setSelection(savedSelection);
-              tiptap.view.dispatch(tr);
-            }
-          }
+          editor.focus();
 
-          insertWpChip(editor, wp, size);
+          insertWpChip(editor, wp, currentSize);
         });
       };
     });
@@ -124,13 +105,10 @@ export function createHashWpMenuComponent(
           <MenuItem
             key={wp.id}
             $selected={selectedIndex === index}
-            // Mouse path: e.preventDefault() stops BlockNote from doing its own
-            // cleanup, so we clear the trigger text manually before inserting.
+            // Mouse path: e.preventDefault() prevents the editor from losing focus.
+            // This allows us to safely insert the chip without needing TipTap to restore the cursor.
             onMouseDown={(e) => {
               e.preventDefault();
-              pendingSizeRef.current = getSizeFromCurrentBlock(editor);
-              originalBlockIdRef.current = editor.getTextCursorPosition()?.block?.id;
-              savedSelectionRef.current = (editor as any)._tiptapEditor?.state?.selection ?? null;
               items[index]?.onItemClick();
             }}
           >

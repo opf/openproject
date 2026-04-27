@@ -13,7 +13,7 @@ describe('Inline chip - insert', () => {
     renderEditor();
     await insertInlineChipViaSlashMenu();
 
-    await expect.element(page.getByText('#123').first()).toBeVisible();
+    await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
     await expect.element(page.getByText('In Progress')).toBeVisible();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -23,7 +23,7 @@ describe('Inline chip - insert', () => {
     renderEditor();
     await insertInlineChipViaHash('#');
 
-    await expect.element(page.getByText('#123').first()).toBeVisible();
+    await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
   });
@@ -32,7 +32,7 @@ describe('Inline chip - insert', () => {
     renderEditor();
     await insertInlineChipViaHash('##');
 
-    await expect.element(page.getByText('#123').first()).toBeVisible();
+    await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
   });
@@ -41,7 +41,7 @@ describe('Inline chip - insert', () => {
     renderEditor();
     await insertInlineChipViaHash('###');
 
-    await expect.element(page.getByText('#123').first()).toBeVisible();
+    await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
     await expect.element(page.getByText('In Progress')).toBeVisible();
   });
@@ -55,7 +55,7 @@ describe('Inline chip - resize', () => {
     await openInlineChipSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
 
-    await expect.element(page.getByText('#123').first()).toBeVisible();
+    await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
     await expect.element(page.getByText('Fix login bug')).not.toBeInTheDocument();
@@ -68,7 +68,7 @@ describe('Inline chip - resize', () => {
     await openInlineChipSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
 
-    await expect.element(page.getByText('#123').first()).toBeVisible();
+    await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -81,7 +81,7 @@ describe('Inline chip - resize', () => {
     await openInlineChipSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
 
-    await expect.element(page.getByText('#123').first()).toBeVisible();
+    await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
     await expect.element(page.getByText('Fix login bug')).not.toBeInTheDocument();
