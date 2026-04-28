@@ -39,7 +39,7 @@ module Projects
         end
 
         def call
-          return unless version.work_packages.any?
+          return unless version.issues_count > 0
 
           widget_wrapper do |widget|
             widget.with_body do

@@ -307,7 +307,7 @@ RSpec.describe Version do
     end
 
     context "with assigned work packages without estimated hours" do
-      let!(:work_package) { create(:work_package, version:) }
+      let!(:work_package) { create_target_versioned_wp(version:) }
 
       it "returns 0.0" do
         expect(version.estimated_hours)
@@ -316,8 +316,8 @@ RSpec.describe Version do
     end
 
     context "with two assigned work packages with estimated hours" do
-      let!(:work_package1) { create(:work_package, version:, estimated_hours: 2.5) }
-      let!(:work_package2) { create(:work_package, version:, estimated_hours: 5) }
+      let!(:work_package1) { create_target_versioned_wp(version:, estimated_hours: 2.5) }
+      let!(:work_package2) { create_target_versioned_wp(version:, estimated_hours: 5) }
 
       it "returns the sum of estimated hours" do
         expect(version.estimated_hours)
@@ -326,9 +326,9 @@ RSpec.describe Version do
     end
 
     context "with assigned work packages with estimated hours in the leaves" do
-      let!(:parent) { create(:work_package, version:) }
-      let!(:work_package1) { create(:work_package, parent:, version:, estimated_hours: 2.5) }
-      let!(:work_package2) { create(:work_package, parent:, version:, estimated_hours: 5) }
+      let!(:parent) { create_target_versioned_wp(version:) }
+      let!(:work_package1) { create_target_versioned_wp(parent:, version:, estimated_hours: 2.5) }
+      let!(:work_package2) { create_target_versioned_wp(parent:, version:, estimated_hours: 5) }
 
       it "returns the sum of estimated hours" do
         expect(version.estimated_hours)
@@ -366,6 +366,14 @@ RSpec.describe Version do
     let(:version) { create(:version, project:) }
     let(:closed_status) { create(:status, is_closed: true) }
 
+    # See note in #estimated_hours: Version aggregations read from
+    # work_packages_target_versions, which is service-populated.
+    def create_target_versioned_wp(*traits, **attrs)
+      create(:work_package, *traits, **attrs).tap do |wp|
+        wp.work_package_associated_versions.create!(version: attrs[:version], kind: "target") if attrs[:version]
+      end
+    end
+
     context "without a work package" do
       it "is 0 for completed_percent" do
         expect(version.completed_percent)
@@ -380,8 +388,8 @@ RSpec.describe Version do
 
     context "with assigned work packages that are not begun" do
       before do
-        create(:work_package, version:)
-        create(:work_package, version:, done_ratio: 0)
+        create_target_versioned_wp(version:)
+        create_target_versioned_wp(version:, done_ratio: 0)
       end
 
       it "is 0 for completed_percent" do
@@ -397,10 +405,10 @@ RSpec.describe Version do
 
     context "with assigned work packages that are closed" do
       before do
-        create(:work_package, status: closed_status, version:)
-        create(:work_package, status: closed_status, version:, done_ratio: 20)
-        create(:work_package, status: closed_status, version:, done_ratio: 70, estimated_hours: 25)
-        create(:work_package, status: closed_status, version:, estimated_hours: 15)
+        create_target_versioned_wp(status: closed_status, version:)
+        create_target_versioned_wp(status: closed_status, version:, done_ratio: 20)
+        create_target_versioned_wp(status: closed_status, version:, done_ratio: 70, estimated_hours: 25)
+        create_target_versioned_wp(status: closed_status, version:, estimated_hours: 15)
       end
 
       it "is 100 for completed_percent" do
@@ -416,9 +424,9 @@ RSpec.describe Version do
 
     context "with assigned work packages that have only done ratio" do
       before do
-        create(:work_package, version:)
-        create(:work_package, version:, done_ratio: 20)
-        create(:work_package, version:, done_ratio: 70)
+        create_target_versioned_wp(version:)
+        create_target_versioned_wp(version:, done_ratio: 20)
+        create_target_versioned_wp(version:, done_ratio: 70)
       end
 
       it "considers the done ratio of open work packages" do
@@ -434,9 +442,9 @@ RSpec.describe Version do
 
     context "with assigned work packages that have only done ratio with one being closed" do
       before do
-        create(:work_package, version:)
-        create(:work_package, version:, done_ratio: 20)
-        create(:work_package, status: closed_status, version:)
+        create_target_versioned_wp(version:)
+        create_target_versioned_wp(version:, done_ratio: 20)
+        create_target_versioned_wp(status: closed_status, version:)
       end
 
       it "considers the done ratio of open work packages" do
@@ -452,10 +460,10 @@ RSpec.describe Version do
 
     context "with assigned work packages that have weighted done ratio" do
       before do
-        create(:work_package, version:, estimated_hours: 10)
-        create(:work_package, version:, done_ratio: 30, estimated_hours: 20)
-        create(:work_package, version:, done_ratio: 10, estimated_hours: 40)
-        create(:work_package, status: closed_status, version:, estimated_hours: 25)
+        create_target_versioned_wp(version:, estimated_hours: 10)
+        create_target_versioned_wp(version:, done_ratio: 30, estimated_hours: 20)
+        create_target_versioned_wp(version:, done_ratio: 10, estimated_hours: 40)
+        create_target_versioned_wp(status: closed_status, version:, estimated_hours: 25)
       end
 
       it "considers the weighted done ratio of open work packages" do
@@ -471,10 +479,10 @@ RSpec.describe Version do
 
     context "with assigned work packages that have partly weighted done ratio" do
       before do
-        create(:work_package, version:, done_ratio: 20)
-        create(:work_package, version:, done_ratio: 30, estimated_hours: 10)
-        create(:work_package, version:, done_ratio: 10, estimated_hours: 40)
-        create(:work_package, status: closed_status, version:)
+        create_target_versioned_wp(version:, done_ratio: 20)
+        create_target_versioned_wp(version:, done_ratio: 30, estimated_hours: 10)
+        create_target_versioned_wp(version:, done_ratio: 10, estimated_hours: 40)
+        create_target_versioned_wp(status: closed_status, version:)
       end
 
       it "considers the weighted done ratio of open work packages and uses default weighting if unset" do
@@ -622,6 +630,12 @@ RSpec.describe Version do
 
     it "returns the versions in descending semver order" do
       expect(described_class.order(name: :desc).pluck(:name)).to eql ordered_names.reverse
+    end
+  end
+
+  def create_target_versioned_wp(*traits, **attrs)
+    create(:work_package, *traits, **attrs).tap do |wp|
+      wp.work_package_associated_versions.create!(version: attrs[:version], kind: "target") if attrs[:version]
     end
   end
 end

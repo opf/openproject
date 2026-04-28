@@ -58,7 +58,7 @@ RSpec.describe WorkPackagesFilterHelper do
               o: "c"
             },
             {
-              n: "version",
+              n: "targetVersion",
               o: "=",
               v: version.id.to_s
             }
@@ -80,7 +80,7 @@ RSpec.describe WorkPackagesFilterHelper do
               o: "o"
             },
             {
-              n: "version",
+              n: "targetVersion",
               o: "=",
               v: version.id.to_s
             }

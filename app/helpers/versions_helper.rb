@@ -88,7 +88,7 @@ module VersionsHelper
     when "descendants"
       filters << { subprojectId: { operator: "*", values: [] } }
     end
-    filters << { version: { operator: "=", values: [version.id] } }
+    filters << { targetVersion: { operator: "=", values: [version.id] } }
 
     filters # return as an array, not JSON string
   end

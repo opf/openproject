@@ -33,18 +33,12 @@ require "spec_helper"
 RSpec.describe VersionsController do
   let(:user) { create(:admin) }
   let(:project) { create(:public_project) }
-  let(:version1) { create(:version, project:, effective_date: nil) }
-  let(:version2) { create(:version, project:) }
-  let(:version3) { create(:version, project:, effective_date: (Date.today - 14.days)) }
+  let!(:version1) { create(:version, project:, effective_date: nil) }
+  let!(:version2) { create(:version, project:) }
+  let!(:version3) { create(:version, project:, effective_date: (Time.zone.today - 14.days)) }
 
   describe "#index" do
     render_views
-
-    before do
-      version1
-      version2
-      version3
-    end
 
     context "without additional params" do
       before do
@@ -74,8 +68,16 @@ RSpec.describe VersionsController do
       let(:type_a) { create(:type) }
       let(:type_b) { create(:type) }
 
-      let(:wp_a) { create(:work_package, type: type_a, project:, version: version1) }
-      let(:wp_b) { create(:work_package, type: type_b, project:, version: version1) }
+      let(:wp_a) do
+        create(:work_package, type: type_a, project:).tap do |wp|
+          wp.work_package_associated_versions.create!(version: version1, kind: "target")
+        end
+      end
+      let(:wp_b) do
+        create(:work_package, type: type_b, project:).tap do |wp|
+          wp.work_package_associated_versions.create!(version: version1, kind: "target")
+        end
+      end
 
       before do
         project.types = [type_a, type_b]

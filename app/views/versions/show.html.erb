@@ -97,7 +97,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% if @issues.present? %>
     <% grid.with_widget(Projects::Settings::Versions::RelatedIssuesWidgetComponent, version: @version, issues: @issues) %>
   <% end %>
-  <% if @version.work_packages.any? %>
+  <% if @version.issues_count > 0 %>
     <% grid.with_widget(Projects::Settings::Versions::WorkPackagesGraphWidgetComponent, version: @version) %>
   <% end %>
 <% end %>

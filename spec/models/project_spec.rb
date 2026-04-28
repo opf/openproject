@@ -278,17 +278,20 @@ RSpec.describe Project do
   describe "#close_completed_versions" do
     let!(:completed_version) do
       create(:version, project:, effective_date: Date.parse("2000-01-01")).tap do |v|
-        create(:work_package, version: v, status: create(:closed_status))
+        wp = create(:work_package, version: v, status: create(:closed_status))
+        WorkPackageAssociatedVersion.create!(work_package: wp, version: v, kind: "target")
       end
     end
     let!(:ineffective_version) do
       create(:version, project:, effective_date: Date.current + 1.day).tap do |v|
-        create(:work_package, version: v, status: create(:closed_status))
+        wp = create(:work_package, version: v, status: create(:closed_status))
+        WorkPackageAssociatedVersion.create!(work_package: wp, version: v, kind: "target")
       end
     end
     let!(:version_with_open_wps) do
       create(:version, project:, effective_date: Date.parse("2000-01-01")).tap do |v|
-        create(:work_package, version: v)
+        wp = create(:work_package, version: v)
+        WorkPackageAssociatedVersion.create!(work_package: wp, version: v, kind: "target")
       end
     end
 

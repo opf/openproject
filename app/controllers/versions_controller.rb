@@ -39,23 +39,15 @@ class VersionsController < ApplicationController
   def index
     @types = @project.types.order(Arel.sql("position"))
     retrieve_selected_type_ids(@types, @types.select(&:is_in_roadmap?))
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects].to_i == 1)
-    project_ids = @with_subprojects ? @project.self_and_descendants.includes(:wiki).map(&:id) : [@project.id]
 
-    @versions = find_versions(@with_subprojects, params[:completed])
-
-    @wps_by_version = {}
-    unless @selected_type_ids.empty?
-      @versions.each do |version|
-        @wps_by_version[version] = work_packages_of_version(version, project_ids, @selected_type_ids)
-      end
-    end
-    @versions.reject! { |version| !project_ids.include?(version.project_id) && @wps_by_version[version].blank? }
+    @versions = find_versions(with_subprojects, params[:completed])
+    @wps_by_version = build_wps_by_version(@versions)
+    @versions.reject! { |version| project_ids.exclude?(version.project_id) && @wps_by_version[version].blank? }
   end
 
   def show
     @issues = @version
-      .work_packages
+      .work_packages_target_versions
       .visible
       .includes(:status, :type, :priority)
       .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
@@ -119,6 +111,22 @@ class VersionsController < ApplicationController
     @project = @version.project
   end
 
+  def with_subprojects
+    @with_subprojects ||= if params[:with_subprojects].nil?
+                            Setting.display_subprojects_work_packages?
+                          else
+                            (params[:with_subprojects].to_i == 1)
+                          end
+  end
+
+  def project_ids
+    @project_ids ||= if with_subprojects
+                       @project.self_and_descendants.includes(:wiki).map(&:id)
+                     else
+                       [@project.id]
+                     end
+  end
+
   def archived_project_mesage
     if current_user.admin?
       ApplicationController.helpers.sanitize(
@@ -180,10 +188,16 @@ class VersionsController < ApplicationController
 
   def work_packages_of_version(version, project_ids, selected_type_ids)
     version
-      .work_packages
+      .work_packages_target_versions
       .visible
       .includes(:project, :status, :type, :priority)
       .where(type_id: selected_type_ids, project_id: project_ids)
       .order("#{Project.table_name}.lft, #{::Type.table_name}.position, #{WorkPackage.table_name}.id")
+  end
+
+  def build_wps_by_version(versions)
+    return {} if @selected_type_ids.empty?
+
+    versions.index_with { |version| work_packages_of_version(version, project_ids, @selected_type_ids) }
   end
 end

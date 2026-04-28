@@ -54,10 +54,18 @@ RSpec.describe "version show graph", :js, :selenium do
     create(:work_package,
            project: main_project,
            status: status_control,
-           version:)
+           version:).tap do |wp|
+      wp.work_package_associated_versions.create!(version:, kind: "target")
+    end
   end
 
   current_user { user }
+
+  def create_target_work_package(**attrs)
+    create(:work_package, **attrs).tap do |wp|
+      wp.work_package_associated_versions.create!(version: attrs[:version], kind: "target")
+    end
+  end
 
   def expect_work_packages_visible_in_graph
     expect(page).to have_css(".work-packages-embedded-view--container", wait: 20)
@@ -72,10 +80,9 @@ RSpec.describe "version show graph", :js, :selenium do
     end
 
     it "can show a work package from the same project" do
-      create(:work_package,
-             project: main_project,
-             status: status_sut,
-             version:)
+      create_target_work_package(project: main_project,
+                                 status: status_sut,
+                                 version:)
 
       visit version_path(version)
       expect_work_packages_visible_in_graph
@@ -88,10 +95,9 @@ RSpec.describe "version show graph", :js, :selenium do
     end
 
     it "can show a work package from a different project" do
-      create(:work_package,
-             project: other_project,
-             status: status_sut,
-             version:)
+      create_target_work_package(project: other_project,
+                                 status: status_sut,
+                                 version:)
 
       visit version_path(version)
       expect_work_packages_visible_in_graph
@@ -104,10 +110,9 @@ RSpec.describe "version show graph", :js, :selenium do
     end
 
     it "can show a work package from a descendant project" do
-      create(:work_package,
-             project: child_project,
-             status: status_sut,
-             version:)
+      create_target_work_package(project: child_project,
+                                 status: status_sut,
+                                 version:)
 
       visit version_path(version)
       expect_work_packages_visible_in_graph
@@ -120,20 +125,18 @@ RSpec.describe "version show graph", :js, :selenium do
     end
 
     it "can show a work package from a descendant project" do
-      create(:work_package,
-             project: child_project,
-             status: status_sut,
-             version:)
+      create_target_work_package(project: child_project,
+                                 status: status_sut,
+                                 version:)
 
       visit version_path(version)
       expect_work_packages_visible_in_graph
     end
 
     it "can show a work package from an ancestor project" do
-      create(:work_package,
-             project: parent_project,
-             status: status_sut,
-             version:)
+      create_target_work_package(project: parent_project,
+                                 status: status_sut,
+                                 version:)
 
       visit version_path(version)
       expect_work_packages_visible_in_graph
@@ -146,30 +149,27 @@ RSpec.describe "version show graph", :js, :selenium do
     end
 
     it "can show a work package from a descendant project" do
-      create(:work_package,
-             project: child_project,
-             status: status_sut,
-             version:)
+      create_target_work_package(project: child_project,
+                                 status: status_sut,
+                                 version:)
 
       visit version_path(version)
       expect_work_packages_visible_in_graph
     end
 
     it "can show a work package from an ancestor project" do
-      create(:work_package,
-             project: parent_project,
-             status: status_sut,
-             version:)
+      create_target_work_package(project: parent_project,
+                                 status: status_sut,
+                                 version:)
 
       visit version_path(version)
       expect_work_packages_visible_in_graph
     end
 
     it "can show a work package from a sibling project" do
-      create(:work_package,
-             project: sibling_project,
-             status: status_sut,
-             version:)
+      create_target_work_package(project: sibling_project,
+                                 status: status_sut,
+                                 version:)
 
       visit version_path(version)
       expect_work_packages_visible_in_graph
