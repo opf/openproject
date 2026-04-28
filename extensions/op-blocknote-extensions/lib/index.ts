@@ -14,5 +14,5 @@ export { createHashWpMenuComponent, isHashWpQuery, useHashWpMenu } from "./compo
 export type { HashMenuItem } from "./components/HashMenu";
 export { useWorkPackageSearch } from "./hooks/useWorkPackageSearch";
 export type { WorkPackage } from "./openProjectTypes";
-export { useInlineWpEvents } from './hooks/useInlineWpEvents';
+export { useInlineWpEvents } from "./hooks/useInlineWpEvents";
 export { useDeduplicateInstanceIds } from "./hooks/useDeduplicateInstanceIds";
