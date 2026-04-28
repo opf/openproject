@@ -108,6 +108,19 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
+
+          // Select the chip node in the browser so Ctrl+C copies it correctly.
+          // Without this, ProseMirror has no selection and copy produces nothing.
+          if (chipRef.current) {
+            const selection = window.getSelection();
+            if (selection) {
+              const range = document.createRange();
+              range.selectNode(chipRef.current);
+              selection.removeAllRanges();
+              selection.addRange(range);
+            }
+          }
+
           setIsSelected((prev) => !prev);
         }}
       >
@@ -120,7 +133,11 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
             wp={wp}
             currentSize={size}
             instanceId={instanceId}
-            onClose={() => setIsSelected(false)}
+            onClose={() => {
+              setIsSelected(false);
+              // Clear selection when closing popover
+              window.getSelection()?.removeAllRanges();
+            }}
             onResize={(newSize) => {
               wpBridge.resize({ instanceId, wpid: wp.id, size: newSize });
             }}
