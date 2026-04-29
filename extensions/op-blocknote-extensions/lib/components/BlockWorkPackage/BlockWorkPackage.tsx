@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { useWorkPackage } from "../../hooks/useWorkPackage";
+import { useDragSelection } from "../../hooks/useDragSelection";
 import { useColors } from "../../services/colors";
 import { wpBridge } from "../../services/wpBridge";
 import type { WorkPackage } from "../../openProjectTypes";
@@ -17,11 +18,21 @@ import { defaultWpVariables } from "../WorkPackage/atoms";
 const Block = styled.div.attrs({ className: "op-bn-extensions" })`
   ${defaultWpVariables}
   background-color: var(--op-chip-bg);
+  
+  user-select: all; 
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 `;
 
 const BlockCardWrapper = styled.div`
   position: relative;
   display: inline-block;
+  & > * {
+    pointer-events: auto;
+  }
 `;
 
 interface BlockProps {
@@ -45,6 +56,8 @@ export const BlockWorkPackageComponent = ({
   // Fetch and cache colors.
   // The hook handles triggering re-renders when data arrives.
   useColors();
+
+  const handleDragStart = useDragSelection(editor);
 
   const [isActive, setIsActive] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
@@ -136,6 +149,8 @@ export const BlockWorkPackageComponent = ({
     <Block
       tabIndex={disableFocus ? -1 : 0}
       style={disableFocus ? { pointerEvents: "none" } : undefined}
+      draggable="true"
+      onDragStart={handleDragStart}
     >
       <div contentEditable={false} style={{ userSelect: "none" }}>
         {!block.props.wpid && !block.props.initialized && isActive && (

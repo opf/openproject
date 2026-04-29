@@ -1,6 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
+import { useBlockNoteEditor } from "@blocknote/react";
 import { useWorkPackage } from "../../hooks/useWorkPackage";
+import { useDragSelection } from "../../hooks/useDragSelection"; // <-- Імпорт хука
 import { useColors } from "../../services/colors";
 import { CHIP_STYLES } from "../WorkPackage/tokens";
 import { ChipBase } from "./chipLayouts";
@@ -37,10 +39,27 @@ const InlineChip = styled.span.attrs({
   position: relative;
   max-width: 100%;
   line-height: 1;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  & > * {
+    pointer-events: none;
+  }
+  
+  ${({ selected }) => selected && `
+    & > * {
+      pointer-events: auto;
+    }
+  `}
 `;
 
 export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
+  const editor = useBlockNoteEditor(); 
+  const handleDragStart = useDragSelection(editor);
+  
   const rawWpid = inlineContent.props.wpid;
   const size = (inlineContent.props.size ?? "s") as InlineWpSize;
   const instanceId = inlineContent.props.instanceId;
@@ -132,6 +151,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
         aria-label={t("options.chipAriaLabel", { id: wpid })}
         ref={setRef}
         selected={isSelected}
+        draggable="true"
+        onDragStart={handleDragStart}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
