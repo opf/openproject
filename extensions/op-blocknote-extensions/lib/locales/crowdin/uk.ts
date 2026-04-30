@@ -4,29 +4,29 @@ export const en = {
       "title": "Link existing work package",
       "subtext": "Add a dynamic link to a single work package",
       "aliases": {
-        "workpackage": "workpackage",
-        "work package": "work package",
-        "wp": "wp",
-        "link": "link"
+        "workpackage": "робочий пакет",
+        "work package": "пакет робіт",
+        "wp": "пр",
+        "link": "посилання"
       }
     },
     "search": {
-      "label": "Link existing work package",
-      "placeholder": "Search by work package ID or subject",
-      "dropdownAriaLabel": "Work package search results"
+      "label": "Додати наявні пакети робіт",
+      "placeholder": "Пошук за ID робочого пакета або темою",
+      "dropdownAriaLabel": "Результати пошуку робочого пакета"
     },
     "unavailableWorkPackage": {
       "loading": {
-        "header": "Loading",
-        "message": "Please wait"
+        "header": "Завантаження…",
+        "message": "Будь ласка, зачекайте"
       },
       "unauthorized": {
-        "header": "Linked work package unavailable",
-        "message": "You do not have permission to see this"
+        "header": "Пов'язаний робочий пакет недоступний",
+        "message": "У вас немає прав щоб побачити це."
       },
       "error": {
-        "header": "Error",
-        "message": "Could not load work package"
+        "header": "Помилка",
+        "message": "Не вдалося завантажити робочий пакет"
       }
     }
   }
