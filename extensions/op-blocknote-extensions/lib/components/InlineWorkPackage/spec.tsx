@@ -1,5 +1,5 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
-import { InlineWorkPackageChip } from "./InlineWorkPackageChip";
+import { InlineWorkPackageChipInEditor } from "./InlineWorkPackageChipInEditor";
 
 export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
   {
@@ -13,7 +13,7 @@ export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
   },
   {
     render: ({ inlineContent, contentRef }) => (
-      <InlineWorkPackageChip inlineContent={inlineContent} contentRef={contentRef} />
+      <InlineWorkPackageChipInEditor inlineContent={inlineContent} contentRef={contentRef} />
     ),
 
     toExternalHTML: ({ inlineContent }) => {

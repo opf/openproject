@@ -30,9 +30,6 @@ const Block = styled.div.attrs({ className: "op-bn-extensions" })`
 const BlockCardWrapper = styled.div`
   position: relative;
   display: inline-block;
-  & > * {
-    pointer-events: auto;
-  }
 `;
 
 interface BlockProps {

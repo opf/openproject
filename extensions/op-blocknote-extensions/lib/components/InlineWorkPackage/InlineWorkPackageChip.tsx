@@ -1,8 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { useBlockNoteEditor } from "@blocknote/react";
 import { useWorkPackage } from "../../hooks/useWorkPackage";
-import { useDragSelection } from "../../hooks/useDragSelection"; // <-- Імпорт хука
 import { useColors } from "../../services/colors";
 import { CHIP_STYLES } from "../WorkPackage/tokens";
 import { ChipBase } from "./chipLayouts";
@@ -17,9 +15,10 @@ import { BlockCard } from "../BlockWorkPackage/BlockCard";
 import { useTranslation } from "react-i18next";
 import { defaultWpVariables } from "../WorkPackage/atoms";
 
-interface InlineWorkPackageChipProps {
+export interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
   contentRef: (node: HTMLElement | null) => void;
+  onDragStart?: (e: React.DragEvent) => void;
 }
 
 const InlineChip = styled.span.attrs({
@@ -43,23 +42,14 @@ const InlineChip = styled.span.attrs({
   &:active {
     cursor: grabbing;
   }
-
-  & > * {
-    pointer-events: none;
-  }
-  
-  ${({ selected }) => selected && `
-    & > * {
-      pointer-events: auto;
-    }
-  `}
 `;
 
-export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkPackageChipProps) => {
+export const InlineWorkPackageChip = ({
+  inlineContent,
+  contentRef,
+  onDragStart,
+}: InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
-  const editor = useBlockNoteEditor(); 
-  const handleDragStart = useDragSelection(editor);
-  
   const rawWpid = inlineContent.props.wpid;
   const size = (inlineContent.props.size ?? "s") as InlineWpSize;
   const instanceId = inlineContent.props.instanceId;
@@ -151,8 +141,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
         aria-label={t("options.chipAriaLabel", { id: wpid })}
         ref={setRef}
         selected={isSelected}
-        draggable="true"
-        onDragStart={handleDragStart}
+        draggable={!!onDragStart}
+        onDragStart={onDragStart}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -160,8 +150,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
         }}
       >
         {size === "xxs" && <WpChipXXS wp={wp} />}
-        {size === "xs"  && <WpChipXS  wp={wp} />}
-        {size === "s"   && <WpChipS   wp={wp} />}
+        {size === "xs" && <WpChipXS wp={wp} />}
+        {size === "s" && <WpChipS wp={wp} />}
 
         {isSelected && (
           <WpOptionsPopover
