@@ -37,7 +37,8 @@ export const en = {
       "removeAriaLabel": "Remove work package",
       "openAriaLabel": "Open work package #{{id}} in new tab",
       "inlineSizeLabel": "Inline size",
-      "blockSizeLabel": "Block size"
+      "blockSizeLabel": "Block size",
+      "chipAriaLabel": "Work package #{{id}}",
     },
     "sizes": {
       "xxs": { "label": "Tiny (inline)", "desc": "Identifier" },
@@ -46,6 +47,10 @@ export const en = {
       "m": { "label": "Compact card", "desc": "Compact card - Status, Type, Identifier, Subject" },
       "l": { "label": "Regular card", "desc": "Regular card - Identifier, Subject, Type, Status, Parent, Project" },
       "xl": { "label": "Full card", "desc": "Full card - Identifier, Subject, Type, Status, Parent, Project, Description" }
-    }
+    },
+    "hashMenu": {
+      "typeToSearch": "Type to search work packages…",
+      "noResults": "No results for \"{{query}}\""
+    },
   }
 };
