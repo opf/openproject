@@ -33,7 +33,7 @@ class Version < ApplicationRecord
   include ::Scopes::Scoped
 
   belongs_to :project
-  has_many :work_packages, dependent: :nullify
+  # has_many :work_packages, dependent: :nullify
   has_many :work_package_associated_versions, dependent: :delete_all
   has_many :work_packages_target_versions,
            -> { where(work_package_associated_versions: { kind: "target" }) },

@@ -656,9 +656,8 @@ RSpec.describe "API v3 Version resource", content_type: :json do
       let(:version) do
         create(:version,
                project:).tap do |v|
-          create(:work_package,
-                 project:,
-                 version: v)
+          work_package = create(:work_package, project:)
+          WorkPackageAssociatedVersion.create!(work_package:, version: v, kind: "target")
         end
       end
 

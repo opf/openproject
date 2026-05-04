@@ -39,9 +39,10 @@ RSpec.describe "version delete", :js do
            member_with_permissions: { version.project => %i[manage_versions view_work_packages] })
   end
   let!(:version) { create(:version, sharing: "system") }
-  let!(:wp_archived) { create(:work_package, version:, project: archived_child, subject: "Task in archive") }
+  let!(:wp_archived) { create(:work_package, project: archived_child, subject: "Task in archive") }
 
   before do
+    WorkPackageAssociatedVersion.create!(work_package: wp_archived, version:, kind: "target")
     login_as(user)
   end
 
