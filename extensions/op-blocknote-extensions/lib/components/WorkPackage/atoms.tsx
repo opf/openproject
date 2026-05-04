@@ -75,7 +75,6 @@ export const WorkPackageStatus = styled.div.attrs({
       font-weight: 600;
       color: var(--bn-colors-editor-text) !important;
       flex-shrink: 0;
-      line-height: 1.4;
       display: inline-flex;
       align-items: center;
       gap: 4px;

@@ -33,6 +33,7 @@ const InlineChip = styled.span.attrs({
   box-shadow: ${({ selected }) => (selected ? CHIP_STYLES.focusShadow : "none")};
   position: relative;
   max-width: 100%;
+  line-height: 1;
 `;
 
 export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkPackageChipProps) => {
