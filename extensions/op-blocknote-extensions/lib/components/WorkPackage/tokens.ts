@@ -11,7 +11,7 @@ export const CHIP_STYLES = {
   fontSize: "12px",
 
   id: {
-    color: "var(--bn-colors-highlights-gray-text)",
+    color: "var(--op-wp-meta-color)",
     fontWeight: 400,
   },
 

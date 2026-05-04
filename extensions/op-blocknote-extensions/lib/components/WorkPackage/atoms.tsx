@@ -15,19 +15,25 @@ export const defaultWpVariables = css`
 
   --op-chip-bg: var(--bn-colors-highlights-gray-background);
   --op-item-hover-bg: var(--bn-colors-highlights-gray-background, #f0f0f0);
+  --op-wp-meta-color: var(--bn-colors-highlights-gray-text);
 
   [data-color-scheme="dark"] & {
     --lightness-threshold: 0.6;
     --background-alpha: 0.10;
     --op-chip-bg: var(--bn-colors-disabled-text);
     --op-item-hover-bg: rgba(255, 255, 255, 0.12);
+    --op-wp-meta-color: var(--bn-colors-highlights-gray-text);
+  }
+
+  [data-color-scheme="dark"][data-high-contrast] & {
+    --op-wp-meta-color: var(--bn-colors-editor-text);
   }
 `;
 
-export const WorkPackageId = styled.div.attrs({
+export const WorkPackageId = styled.span.attrs({
   className: "op-bn-work-package--id",
 })<{ $compact?: boolean }>`
-  color: var(--bn-colors-highlights-gray-text);
+  color: var(--op-wp-meta-color) !important;
 
   ${({ $compact }) =>
     $compact &&
@@ -38,7 +44,7 @@ export const WorkPackageId = styled.div.attrs({
     `}
 `;
 
-export const WorkPackageType = styled.div.attrs({
+export const WorkPackageType = styled.span.attrs({
   className: "op-bn-work-package--type",
   "data-testid": "op-bn-work-package--type",
 })<{ $color: string; $compact?: boolean }>`
@@ -55,7 +61,7 @@ export const WorkPackageType = styled.div.attrs({
     `}
 `;
 
-export const WorkPackageStatus = styled.div.attrs({
+export const WorkPackageStatus = styled.span.attrs({
   className: "op-bn-work-package--status",
 })<{
   $baseColor: string;
@@ -85,7 +91,7 @@ export const WorkPackageStatus = styled.div.attrs({
     `}
 `;
 
-export const WorkPackageTitle = styled.div.attrs({
+export const WorkPackageTitle = styled.span.attrs({
   className: "op-bn-work-package--title",
 })<{ $compact?: boolean }>`
   flex-basis: max-content;
