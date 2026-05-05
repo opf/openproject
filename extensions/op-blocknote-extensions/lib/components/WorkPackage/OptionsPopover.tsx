@@ -8,7 +8,6 @@ import { defaultWpVariables } from "./atoms";
 import {
   LinkExternalIcon,
   TrashIcon,
-  ScreenFullIcon,
   ChevronDownIcon,
 } from "@primer/octicons-react";
 
@@ -26,7 +25,7 @@ export interface WpOptionsProps {
 }
 
 const INLINE_SIZE_OPTIONS: InlineWpSize[] = ["xxs", "xs", "s"];
-const BLOCK_SIZE_OPTIONS: BlockWpSize[] = ["m", "l", "xl"];
+const BLOCK_SIZE_OPTIONS: BlockWpSize[] = ["m"];
 
 export const WpOptionsPopover = ({
   wp,
@@ -78,7 +77,6 @@ export const WpOptionsPopover = ({
             setShowSizes((prev) => !prev);
           }}
         >
-          <IcSize />
           {displayedSize}
           <IcChevron />
         </PopBtn>
@@ -271,5 +269,4 @@ const SizeBtnDesc = styled.span`
 
 const IcOpen = () => <LinkExternalIcon size={13} />;
 const IcDelete = () => <TrashIcon size={13} />;
-const IcSize = () => <ScreenFullIcon size={13} />;
 const IcChevron = () => <ChevronDownIcon size={10} />;
