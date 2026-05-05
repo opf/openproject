@@ -88,12 +88,13 @@ module DemoData
     def create_work_package(attributes)
       wp_attr = base_work_package_attributes attributes
 
-      set_version! wp_attr, attributes
+      # set_version! wp_attr, attributes
       set_time_tracking_attributes! wp_attr, attributes
       set_backlogs_attributes! wp_attr, attributes
 
       work_package = WorkPackage.create! wp_attr
 
+      set_target_versions! work_package, attributes
       create_children! work_package, attributes
       create_attachments! work_package, attributes
       update_description! work_package
@@ -170,10 +171,19 @@ module DemoData
       end
     end
 
-    def set_version!(wp_attr, attributes)
-      version = seed_data.find_reference(attributes["version"])
-      if version
-        wp_attr[:version] = version
+    # def set_version!(wp_attr, attributes)
+    #   version = seed_data.find_reference(attributes["version"])
+    #   if version
+    #     wp_attr[:version] = version
+    #   end
+    # end
+
+    def set_target_versions!(work_package, attributes)
+      Array(attributes["target_versions"]).each do |ref|
+        version = seed_data.find_reference(ref)
+        next unless version
+
+        work_package.work_package_associated_versions.create!(version_id: version.id, kind: "target")
       end
     end
 

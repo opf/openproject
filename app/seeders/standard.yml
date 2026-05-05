@@ -616,12 +616,14 @@ projects:
         reference: :new_login_screen
         status: :default_status_in_specification
         type: :default_type_user_story
-        version: :scrum_project__version__product_backlog
+        target_versions:
+          - :scrum_project__version__product_backlog
         position: 3
       - t_subject: Password reset does not send email
         status: :default_status_confirmed
         type: :default_type_bug
-        version: :scrum_project__version__bug_backlog
+        target_versions:
+          - :scrum_project__version__bug_backlog
         position: 1
       - t_subject: New website
         reference: :new_website
@@ -634,17 +636,20 @@ projects:
           - t_subject: Newsletter registration form
             status: :default_status_in_progress
             type: :default_type_user_story
-            version: :scrum_project__version__product_backlog
+            target_versions:
+              - :scrum_project__version__product_backlog
             position: 6
           - t_subject: Implement product tour
             status: :default_status_in_specification
             type: :default_type_user_story
-            version: :scrum_project__version__product_backlog
+            target_versions:
+              - :scrum_project__version__product_backlog
             position: 4
           - t_subject: New landing page
             status: :default_status_specified
             type: :default_type_user_story
-            version: :scrum_project__version__sprint_1
+            target_versions:
+              - :scrum_project__version__sprint_1
             position: 2
             story_points: 3
             start: 28
@@ -654,13 +659,15 @@ projects:
               - t_subject: Create wireframes for new landing page
                 status: :default_status_in_progress
                 type: :default_type_task
-                version: :scrum_project__version__sprint_1
+                target_versions:
+                  - :scrum_project__version__sprint_1
                 start: 28
                 duration: 1
       - t_subject: Contact form
         status: :default_status_specified
         type: :default_type_user_story
-        version: :scrum_project__version__sprint_1
+        target_versions:
+          - :scrum_project__version__sprint_1
         position: 5
         start: 21
         duration: 1
@@ -668,7 +675,8 @@ projects:
       - t_subject: Feature carousel
         status: :default_status_specified
         type: :default_type_user_story
-        version: :scrum_project__version__sprint_1
+        target_versions:
+          - :scrum_project__version__sprint_1
         position: 3
         story_points: 5
         schedule_manually: false
@@ -676,12 +684,14 @@ projects:
           - t_subject: Make screenshots for feature tour
             status: :default_status_closed
             type: :default_type_task
-            version: :scrum_project__version__sprint_1
+            target_versions:
+              - :scrum_project__version__sprint_1
       - t_subject: Wrong hover color
         reference: :wrong_hover_color
         status: :default_status_rejected
         type: :default_type_bug
-        version: :scrum_project__version__sprint_1
+        target_versions:
+          - :scrum_project__version__sprint_1
         position: 4
         story_points: 1
         start: 21
@@ -690,7 +700,8 @@ projects:
         reference: :ssl_certificate
         status: :default_status_specified
         type: :default_type_user_story
-        version: :scrum_project__version__product_backlog
+        target_versions:
+          - :scrum_project__version__product_backlog
         position: 1
         start: 22
         duration: 1
@@ -698,7 +709,8 @@ projects:
         reference: :set_up_staging_environment
         status: :default_status_in_specification
         type: :default_type_user_story
-        version: :scrum_project__version__product_backlog
+        target_versions:
+          - :scrum_project__version__product_backlog
         position: 2
         start: 23
         duration: 1
@@ -706,14 +718,16 @@ projects:
         reference: :choose_content_management_system
         status: :default_status_specified
         type: :default_type_user_story
-        version: :scrum_project__version__product_backlog
+        target_versions:
+          - :scrum_project__version__product_backlog
         position: 7
         start: 24
         duration: 1
       - t_subject: Website navigation structure
         status: :default_status_specified
         type: :default_type_user_story
-        version: :scrum_project__version__sprint_1
+        target_versions:
+          - :scrum_project__version__sprint_1
         position: 7
         story_points: 3
         start: 25
@@ -723,13 +737,15 @@ projects:
           - t_subject: Set up navigation concept for website.
             status: :default_status_in_specification
             type: :default_type_task
-            version: :scrum_project__version__sprint_1
+            target_versions:
+              - :scrum_project__version__sprint_1
             start: 25
             duration: 1
       - t_subject: Internal link structure
         status: :default_status_closed
         type: :default_type_user_story
-        version: :scrum_project__version__product_backlog
+        target_versions:
+          - :scrum_project__version__product_backlog
         position: 5
         start: 25
         duration: 1

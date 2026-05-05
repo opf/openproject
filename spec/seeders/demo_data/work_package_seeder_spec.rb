@@ -361,6 +361,55 @@ RSpec.describe DemoData::WorkPackageSeeder do
     end
   end
 
+  describe "target_versions" do
+    let(:version_alpha) { create(:version, project:, name: "Alpha") }
+    let(:version_beta) { create(:version, project:, name: "Beta") }
+    let(:seed_data) do
+      seed_data = basic_seed_data.merge(Source::SeedData.new("work_packages" => work_packages_data))
+      seed_data.store_reference(:version_alpha, version_alpha)
+      seed_data.store_reference(:version_beta, version_beta)
+      seed_data
+    end
+
+    context "without target_versions" do
+      let(:work_packages_data) do
+        [work_package_data(subject: "no versions")]
+      end
+
+      it "creates no work_package_associated_versions rows" do
+        wp = WorkPackage.find_by(subject: "no versions")
+        expect(wp.work_package_associated_versions).to be_empty
+        expect(wp.target_versions).to be_empty
+      end
+    end
+
+    context "with a single target_versions reference" do
+      let(:work_packages_data) do
+        [work_package_data(subject: "single", target_versions: [:version_alpha])]
+      end
+
+      it "creates one kind: 'target' associated version row" do
+        wp = WorkPackage.find_by(subject: "single")
+        expect(wp.work_package_associated_versions.pluck(:kind, :version_id))
+          .to contain_exactly(["target", version_alpha.id])
+        expect(wp.target_versions).to contain_exactly(version_alpha)
+      end
+    end
+
+    context "with multiple target_versions references" do
+      let(:work_packages_data) do
+        [work_package_data(subject: "multi", target_versions: %i[version_alpha version_beta])]
+      end
+
+      it "creates one kind: 'target' row per resolved version" do
+        wp = WorkPackage.find_by(subject: "multi")
+        expect(wp.work_package_associated_versions.pluck(:kind, :version_id))
+          .to contain_exactly(["target", version_alpha.id], ["target", version_beta.id])
+        expect(wp.target_versions).to contain_exactly(version_alpha, version_beta)
+      end
+    end
+  end
+
   describe "assigned_to" do
     let(:seed_data) do
       seed_data = basic_seed_data.merge(Source::SeedData.new("work_packages" => work_packages_data))

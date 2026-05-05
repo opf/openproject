@@ -73,7 +73,7 @@ RSpec.describe RootSeeder,
     end
 
     it "links work packages to their version" do
-      count_by_version = WorkPackage.joins(:version).group("versions.name").count
+      count_by_version = WorkPackage.joins(:target_versions).group("versions.name").count
       # testing with strings would fail for the German language test
       # 'Bug Backlog' => 1,
       # 'Sprint 1' => 8,
