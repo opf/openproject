@@ -41,6 +41,11 @@ const SearchInputWithIcon = styled(SearchInput)`
   &:focus {
     outline: none;
   }
+  &::-webkit-search-cancel-button,
+  &::-webkit-search-decoration {
+    -webkit-appearance: none;
+    appearance: none;
+  }
 `;
 
 export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }: SearchDropdownProps) => {
@@ -84,14 +89,19 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }: Se
 
         <SearchInputWithIcon
           ref={inputRef}
-          type="text"
+          type="search"
+          autoComplete="off"
+          spellCheck={false}
           placeholder={t("search.placeholder")}
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
             setIsDropdownOpen(e.target.value.length > 0);
           }}
-          onKeyDown={handleKeyDown}
+          onKeyDown={(e) => {
+            e.stopPropagation();
+            handleKeyDown(e);
+          }}
           onBlur={() => {
             // Delay to allow onMouseDown on dropdown items to fire before blur.
             // Without this, clicking a result closes the dropdown before onSelect is called.
