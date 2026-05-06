@@ -72,7 +72,7 @@ const CardDetailsSpaced = styled(CardDetails)`
 `;
 
 const MetaItem = styled.span`
-  color: var(--bn-colors-highlights-gray-text);
+  color: var(--op-wp-meta-color) !important;
   font-size: 0.9em;
 `;
 

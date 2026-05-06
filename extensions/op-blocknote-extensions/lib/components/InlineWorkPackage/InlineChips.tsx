@@ -8,7 +8,7 @@ import {
   statusTextColor,
   statusBackgroundColor,
 } from "../../services/colors";
-import { ChipBaseXXS, ChipBaseXS, ChipBaseS, StatusChevron } from "./chipLayouts";
+import { ChipBaseXXS, ChipBaseXS, ChipBaseS } from "./chipLayouts";
 import {
   WorkPackageId,
   WorkPackageType,
@@ -59,14 +59,12 @@ export const WpChipS = ({ wp }: { wp: WorkPackage }) => (
     {wp._links?.status?.title && (
       <WorkPackageStatus
         as="span"
-        $compact
         $baseColor={statusColor(wp)}
         $borderColor={statusBorderColor()}
         $textColor={statusTextColor()}
         $bgColor={statusBackgroundColor()}
       >
         {wp._links.status.title}
-        <StatusChevron />
       </WorkPackageStatus>
     )}
     <WorkPackageTitleLink {...titleLinkProps(wp)}>

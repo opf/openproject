@@ -12,12 +12,11 @@ import { UnavailableCard } from "../WorkPackage/UnavailableCard";
 import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
 import { SearchContainer, SearchLabel } from "../Search/SearchContainer";
 import { SearchDropdown } from "../Search/SearchDropdown";
+import { defaultWpVariables } from "../WorkPackage/atoms";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })`
-  --highlight-wp-background: var(--bn-colors-highlights-gray-background);
-  [data-color-scheme="dark"] & {
-    --highlight-wp-background: var(--bn-colors-disabled-text);
-  }
+  ${defaultWpVariables}
+  background-color: var(--op-chip-bg);
 `;
 
 const BlockCardWrapper = styled.div`
