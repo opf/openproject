@@ -41,12 +41,12 @@ export const en = {
       "chipAriaLabel": "Work package #{{id}}",
     },
     "sizes": {
-      "xxs": { "label": "Tiny (inline)", "desc": "Identifier" },
-      "xs": { "label": "Compact (inline)", "desc": "Type, Identifier, Subject" },
-      "s": { "label": "Regular (inline)", "desc": "Status, Type, Identifier, Subject" },
-      "m": { "label": "Compact card", "desc": "Compact card - Status, Type, Identifier, Subject" },
-      "l": { "label": "Regular card", "desc": "Regular card - Identifier, Subject, Type, Status, Parent, Project" },
-      "xl": { "label": "Full card", "desc": "Full card - Identifier, Subject, Type, Status, Parent, Project, Description" }
+      "xxs": { "label": "Tiny", "desc": "Identifier" },
+      "xs": { "label": "Compact", "desc": "Type, Identifier, Subject" },
+      "s": { "label": "Regular", "desc": "Status, Type, Identifier, Subject" },
+      "m": { "label": "Compact card", "desc": "Status, Type, Identifier, Subject" },
+      "l": { "label": "Regular card", "desc": "Identifier, Subject, Type, Status, Parent, Project" },
+      "xl": { "label": "Full card", "desc": "Identifier, Subject, Type, Status, Parent, Project, Description" }
     },
     "hashMenu": {
       "typeToSearch": "Type to search work packages…",

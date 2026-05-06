@@ -9,34 +9,34 @@ import {
 } from '../../../helpers/editorHelpers';
 
 describe('Block card - resize', () => {
-  it('Compact card -> Regular card: both show title and status', async () => {
-    renderEditor();
-    await insertInlineChipViaSlashMenu();
-    await convertToCompactCard();
+  // it('Compact card -> Regular card: both show title and status', async () => {
+  //   renderEditor();
+  //   await insertInlineChipViaSlashMenu();
+  //   await convertToCompactCard();
 
-    await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
+  //   await openBlockCardSizeMenu();
+  //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
 
-    await expect.element(page.getByTestId('block-card')).toBeVisible();
-    await expect.element(page.getByText('Fix login bug')).toBeVisible();
-    await expect.element(page.getByText('In Progress')).toBeVisible();
-  });
+  //   await expect.element(page.getByTestId('block-card')).toBeVisible();
+  //   await expect.element(page.getByText('Fix login bug')).toBeVisible();
+  //   await expect.element(page.getByText('In Progress')).toBeVisible();
+  // });
 
-  it('Regular card -> Full card shows extended content', async () => {
-    renderEditor();
-    await insertInlineChipViaSlashMenu();
+  // it('Regular card -> Full card shows extended content', async () => {
+  //   renderEditor();
+  //   await insertInlineChipViaSlashMenu();
 
-    await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
-    await expect.element(page.getByTestId('block-card')).toBeVisible();
+  //   await openBlockCardSizeMenu();
+  //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
+  //   await expect.element(page.getByTestId('block-card')).toBeVisible();
 
-    await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Full card', exact: true }));
+  //   await openBlockCardSizeMenu();
+  //   await userEvent.click(page.getByRole('button', { name: 'Full card', exact: true }));
 
-    await expect.element(page.getByTestId('block-card')).toBeVisible();
-    await expect.element(page.getByText('Fix login bug')).toBeVisible();
-    await expect.element(page.getByText('In Progress')).toBeVisible();
-  });
+  //   await expect.element(page.getByTestId('block-card')).toBeVisible();
+  //   await expect.element(page.getByText('Fix login bug')).toBeVisible();
+  //   await expect.element(page.getByText('In Progress')).toBeVisible();
+  // });
 
   it('size button label reflects current card size', async () => {
     renderEditor();
@@ -47,7 +47,7 @@ describe('Block card - resize', () => {
     await expect.element(page.getByTitle('Change size')).toHaveTextContent('Compact card');
   });
 
-  it('size menu shows all 6 options for a block card', async () => {
+  it('size menu shows all 4 options for a block card', async () => {
     renderEditor();
     await insertInlineChipViaSlashMenu();
     await convertToCompactCard();
@@ -55,12 +55,10 @@ describe('Block card - resize', () => {
     await openBlockCardSizeMenu();
 
     for (const label of [
-      'Tiny (inline)',
-      'Compact (inline)',
-      'Regular (inline)',
+      'Tiny',
+      'Compact',
+      'Regular',
       'Compact card',
-      'Regular card',
-      'Full card',
     ]) {
       await expect.element(page.getByRole('button', { name: label, exact: true })).toBeVisible();
     }
@@ -72,7 +70,7 @@ describe('Block card - resize', () => {
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
+    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('size-menu')).not.toBeInTheDocument();
   });

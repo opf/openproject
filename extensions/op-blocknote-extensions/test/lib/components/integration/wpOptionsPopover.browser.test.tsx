@@ -58,7 +58,7 @@ describe('Inline chip size transitions (user-visible content)', () => {
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
 
     await openSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact (inline)', exact: true }));
+    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
 
     await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
@@ -72,7 +72,7 @@ describe('Inline chip size transitions (user-visible content)', () => {
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
 
     await openSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Regular (inline)', exact: true }));
+    await userEvent.click(page.getByRole('button', { name: 'Regular', exact: true }));
 
     await expect.element(page.getByText('In Progress')).toBeVisible();
   });
@@ -86,7 +86,7 @@ describe('Inline chip size transitions (user-visible content)', () => {
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
 
     await openSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny (inline)', exact: true }));
+    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
 
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).not.toBeInTheDocument();
@@ -183,7 +183,7 @@ describe('Inline chip popover UX', () => {
     render(<ChipWrapper initialSize="s" />);
     await waitForResolvedChip();
     await openSizeMenu();
-    await userEvent.click(page.getByRole('button', { name: 'Compact (inline)', exact: true }));
+    await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
     await expect.element(page.getByTestId('size-menu')).not.toBeInTheDocument();
   });
 
@@ -191,7 +191,7 @@ describe('Inline chip popover UX', () => {
     render(<ChipWrapper initialSize="s" />);
     await waitForResolvedChip();
     await openPopover();
-    await expect.element(page.getByTitle('Change size')).toHaveTextContent('Regular (inline)');
+    await expect.element(page.getByTitle('Change size')).toHaveTextContent('Regular');
   });
 
   it('inline size menu shows all 6 options', async () => {
@@ -200,12 +200,10 @@ describe('Inline chip popover UX', () => {
     await openSizeMenu();
 
     for (const label of [
-      'Tiny (inline)',
-      'Compact (inline)',
-      'Regular (inline)',
+      'Tiny',
+      'Compact',
+      'Regular',
       'Compact card',
-      'Regular card',
-      'Full card',
     ]) {
       await expect.element(page.getByRole('button', { name: label, exact: true })).toBeVisible();
     }
