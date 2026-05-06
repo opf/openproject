@@ -14,7 +14,7 @@ describe('SearchDropdown', () => {
       <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
     );
 
-    const input = page.getByRole('textbox');
+    const input = page.getByRole('searchbox');
     await userEvent.type(input, 'Fix');
 
     // Wait for debounce + MSW response
@@ -28,7 +28,7 @@ describe('SearchDropdown', () => {
       <SearchDropdown onSelect={onSelect} onCancel={vi.fn()} renderItem={renderItem} />
     );
 
-    await userEvent.type(page.getByRole('textbox'), 'bug');
+    await userEvent.type(page.getByRole('searchbox'), 'bug');
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
 
     await userEvent.click(page.getByText('Fix login bug'));
@@ -43,7 +43,7 @@ describe('SearchDropdown', () => {
       <SearchDropdown onSelect={vi.fn()} onCancel={onCancel} renderItem={renderItem} />
     );
 
-    const input = page.getByRole('textbox');
+    const input = page.getByRole('searchbox');
     await userEvent.click(input);
     await userEvent.keyboard('{Escape}');
 
@@ -56,7 +56,7 @@ describe('SearchDropdown', () => {
         <SearchDropdown onSelect={onSelect} onCancel={vi.fn()} renderItem={renderItem} />
     );
 
-    await userEvent.type(page.getByRole('textbox'), 'mode');
+    await userEvent.type(page.getByRole('searchbox'), 'mode');
     await expect.element(page.getByText('Add dark mode')).toBeVisible();
 
     await userEvent.keyboard('{ArrowDown}{Enter}');
@@ -72,7 +72,7 @@ describe('SearchDropdown', () => {
       <SearchDropdown onSelect={vi.fn()} onCancel={vi.fn()} renderItem={renderItem} />
     );
 
-    await userEvent.type(page.getByRole('textbox'), 'any');
+    await userEvent.type(page.getByRole('searchbox'), 'any');
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
 
     const items = page.getByTestId('dropdown-item');
