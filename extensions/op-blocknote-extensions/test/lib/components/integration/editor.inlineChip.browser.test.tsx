@@ -152,7 +152,7 @@ describe('Inline chip - paste deduplication', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTitle('Change size'));
     await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny (inline)', exact: true }));
+    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
 
     // Second chip is now XXS - status hidden for that chip
     // First chip should still be S - "In Progress" still visible once
