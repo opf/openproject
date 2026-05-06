@@ -30,5 +30,16 @@ export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
         </span>
       );
     },
+
+    parse: (element) => {
+      if (element.getAttribute("data-inline-content-type") !== "openProjectWorkPackageInline") {
+        return undefined;
+      }
+      return {
+        wpid: element.getAttribute("data-wpid") ?? "",
+        instanceId: element.getAttribute("data-instance-id") ?? "",
+        size: element.getAttribute("data-size") ?? "s",
+      };
+    },
   }
 );
