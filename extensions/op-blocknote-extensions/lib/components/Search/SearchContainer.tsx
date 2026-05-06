@@ -24,6 +24,7 @@ export const SearchContainer = styled.div.attrs({
   background-color: var(--bn-colors-menu-background, #fff);
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
+  line-height: 1.5;
 
   @media (min-width: 1120px) {
     width: ${({ $floating }) => ($floating ? "400px" : "500px")};

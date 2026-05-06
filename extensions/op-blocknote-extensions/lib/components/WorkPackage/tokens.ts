@@ -4,8 +4,8 @@ export const CHIP_STYLES = {
   gap: "6px",
   padding: {
     xxs: "2.5px 6px",
-    xs: "1px 6px",
-    s: "1px 6px",
+    xs: "1.5px 6px",
+    s: "1.5px 6px",
   },
 
   fontSize: "12px",
