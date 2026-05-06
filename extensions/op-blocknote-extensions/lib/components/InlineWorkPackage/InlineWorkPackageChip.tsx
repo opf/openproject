@@ -12,6 +12,7 @@ import { getPendingCallbacks, clearInlineWpCallbacks } from "./callbacks";
 import type { InlineWpSize } from "../WorkPackage/types";
 import { wpBridge } from "../../services/wpBridge";
 import { BlockCard } from "../BlockWorkPackage/BlockCard";
+import { useTranslation } from "react-i18next";
 
 interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
@@ -36,6 +37,7 @@ const InlineChip = styled.span.attrs({
 `;
 
 export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkPackageChipProps) => {
+  const { t } = useTranslation();
   const rawWpid = inlineContent.props.wpid;
   const size = (inlineContent.props.size ?? "s") as InlineWpSize;
   const instanceId = inlineContent.props.instanceId;
@@ -102,7 +104,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
     return (
       <InlineChip
         role="button"
-        aria-label={`Work package #${wpid}`}
+        aria-label={t("options.chipAriaLabel", { id: wpid })}
         ref={setRef}
         selected={isSelected}
         onClick={(e) => {

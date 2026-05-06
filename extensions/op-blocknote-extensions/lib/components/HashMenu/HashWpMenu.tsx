@@ -12,6 +12,7 @@ import {
   insertWpChip,
   insertWpChipIntoBlock,
 } from "./editorUtils";
+import { useTranslation } from "react-i18next";
 
 const Menu = styled.div.attrs({ className: "op-bn-hash-menu" })`
   ${defaultWpVariables}
@@ -51,6 +52,7 @@ export function createHashWpMenuComponent(
     items,
     selectedIndex,
   }) => {
+    const { t } = useTranslation();
     const searchQuery = items[0]?.title ?? "";
     const visibleResults = (resultsRef.current ?? []).slice(0, MAX_RESULTS);
 
@@ -82,7 +84,7 @@ export function createHashWpMenuComponent(
     if (!searchQuery) {
       return (
         <Menu>
-          <EmptyState>Type to search work packages…</EmptyState>
+          <EmptyState>{t("hashMenu.typeToSearch")}</EmptyState>
         </Menu>
       );
     }
@@ -90,7 +92,7 @@ export function createHashWpMenuComponent(
     if (visibleResults.length === 0) {
       return (
         <Menu>
-          <EmptyState>No results for "{searchQuery}"</EmptyState>
+          <EmptyState>{t("hashMenu.noResults", { query: searchQuery })}</EmptyState>
         </Menu>
       );
     }
