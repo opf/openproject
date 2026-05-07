@@ -65,6 +65,7 @@ npm-debug.log*
 /app/assets/javascripts/editor/*
 /app/assets/javascripts/locales/*.*
 /frontend/src/locales/*
+!/frontend/src/locales/pt-BR.json
 /modules/*/frontend/module/module
 /config/additional_environment.rb
 /config/configuration.yml
