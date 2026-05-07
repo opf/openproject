@@ -36,8 +36,7 @@ class HomescreenController < ApplicationController
   layout "global"
 
   def index
-    @announcement = Announcement.active_and_current
-    @homescreen = OpenProject::Static::Homescreen
+    redirect_to notifications_center_path
   end
 
   current_menu_item [:index] do

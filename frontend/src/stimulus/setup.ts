@@ -1,6 +1,7 @@
 import { environment } from '../environments/environment';
 import { OpApplicationController } from './controllers/op-application.controller';
 import MainMenuController from './controllers/dynamic/menus/main.controller';
+import MngtTreeController from './controllers/dynamic/mngt/tree.controller';
 import OpDisableWhenCheckedController from './controllers/disable-when-checked.controller';
 import PrintController from './controllers/print.controller';
 import RefreshOnFormChangesController from './controllers/refresh-on-form-changes.controller';
@@ -57,6 +58,7 @@ OpenProjectStimulusApplication.preregister('disable-when-checked', OpDisableWhen
 OpenProjectStimulusApplication.preregister('disable-when-clicked', DisableWhenClickedController);
 OpenProjectStimulusApplication.preregister('flash', FlashController);
 OpenProjectStimulusApplication.preregister('menus--main', MainMenuController);
+OpenProjectStimulusApplication.preregister('mngt--tree', MngtTreeController);
 OpenProjectStimulusApplication.preregister('require-password-confirmation', RequirePasswordConfirmationController);
 OpenProjectStimulusApplication.preregister('poll-for-changes', PollForChangesController);
 OpenProjectStimulusApplication.preregister('print', PrintController);

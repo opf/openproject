@@ -116,12 +116,7 @@ See COPYRIGHT and LICENSE files for more details.
                   )
                 ) %>
           </div>
-          <%= main_menu %>
-          <%= content_for :main_menu %>
-          <%= call_hook :view_layouts_base_main_menu %>
-          <%=
-            render(EnterpriseEdition::TrialTeaserComponent.new)
-          %>
+          <%= render(Mngt::SidebarComponent.new(current_user: User.current, current_project: @project)) %>
           <!-- Sidebar -->
           <div id="sidebar" data-menus--main-target="sidebar">
             <%= content_for :sidebar %>
@@ -139,6 +134,9 @@ See COPYRIGHT and LICENSE files for more details.
                  data-modal-class-name="onboarding-modal">
           <%= render partial: "/onboarding/configuration_modal" %>
         </section>
+      <% end %>
+      <% if @project.present? && show_decoration %>
+        <%= render(Mngt::ProjectTabsComponent.new(project: @project, current_menu_item: current_menu_item)) %>
       <% end %>
       <%= content_tag :div,
                       id: "content",

@@ -1,0 +1,11 @@
+<nav class="mngt-project-tabs" aria-label="Navegação do projeto">
+  <% tab_items.each do |item| %>
+    <%= link_to url_for(tab_url(item)),
+                class: "mngt-project-tab#{active?(item) ? ' mngt-project-tab--active' : ''}" do %>
+      <% if tab_icon(item).present? %>
+        <span class="op-icon op-icon-<%= tab_icon(item) %>" aria-hidden="true"></span>
+      <% end %>
+      <span class="mngt-project-tab-label"><%= tab_caption(item) %></span>
+    <% end %>
+  <% end %>
+</nav>

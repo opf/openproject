@@ -1,0 +1,34 @@
+<% children  = children_map[project.id] %>
+<% expanded  = sidebar.project_expanded?(project, children_map) %>
+<% is_active = sidebar.active_item?(project) %>
+<% indent    = "#{16 + depth * 14}px" %>
+
+<% if children.any? %>
+  <details class="mngt-sidebar-group"
+           data-controller="mngt--tree"
+           <%= "open" if expanded %>>
+    <summary class="mngt-sidebar-item mngt-sidebar-item--summary <%= 'mngt-sidebar-item--active' if is_active %>"
+             style="padding-left:<%= indent %>">
+      <a href="<%= sidebar.project_path(project) %>"
+         class="mngt-sidebar-item-link"
+         data-action="click->mngt--tree#navigate">
+        <span class="mngt-sidebar-avatar" style="background:<%= sidebar.project_color(project) %>"><%= project.name[0].upcase %></span>
+        <span class="mngt-sidebar-label"><%= project.name %></span>
+      </a>
+      <svg class="mngt-sidebar-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/></svg>
+    </summary>
+    <div class="mngt-sidebar-group-body">
+      <% children.each do |child| %>
+        <%= render partial: "mngt/sidebar_project_node",
+                   locals: { project: child, children_map: children_map, depth: depth + 1, sidebar: sidebar } %>
+      <% end %>
+    </div>
+  </details>
+<% else %>
+  <%= link_to sidebar.project_path(project),
+              class: "mngt-sidebar-item #{'mngt-sidebar-item--active' if is_active}",
+              style: "padding-left:#{indent}" do %>
+    <span class="mngt-sidebar-avatar" style="background:<%= sidebar.project_color(project) %>"><%= project.name[0].upcase %></span>
+    <span class="mngt-sidebar-label"><%= project.name %></span>
+  <% end %>
+<% end %>

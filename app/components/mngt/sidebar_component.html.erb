@@ -1,0 +1,52 @@
+<div class="mngt-sidebar">
+
+  <%# ── Personal ──────────────────────────────────────────── %>
+  <div class="mngt-sidebar-section">
+    <%= link_to "/notifications", class: "mngt-sidebar-item" do %>
+      <svg class="mngt-sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 16a2 2 0 0 0 1.985-1.75c.017-.137-.097-.25-.235-.25h-3.5c-.138 0-.252.113-.235.25A2 2 0 0 0 8 16ZM3 5a5 5 0 0 1 10 0v2.947c0 .05.015.098.042.139l1.703 2.555A1.519 1.519 0 0 1 13.482 13H2.518a1.519 1.519 0 0 1-1.263-2.36l1.703-2.554A.255.255 0 0 0 3 7.947Z"/></svg>
+      <span class="mngt-sidebar-label">Caixa de entrada</span>
+      <% if notification_count > 0 %>
+        <span class="mngt-sidebar-badge"><%= notification_count > 99 ? "99+" : notification_count %></span>
+      <% end %>
+    <% end %>
+
+    <%= link_to assigned_url, class: "mngt-sidebar-item" do %>
+      <svg class="mngt-sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25v-8.5C0 2.784.784 2 1.75 2ZM5.5 6.5V8h5V6.5Zm0 3.5v1.5h5V10ZM3 6.5a.75.75 0 0 0 0 1.5h.75A.75.75 0 0 0 3 6.5Zm0 3.5a.75.75 0 0 0 0 1.5h.75A.75.75 0 0 0 3 10Z"/></svg>
+      <span class="mngt-sidebar-label">Minhas demandas</span>
+    <% end %>
+  </div>
+
+  <%# ── Favoritos ──────────────────────────────────────────── %>
+  <% if favorite_projects.any? %>
+    <div class="mngt-sidebar-section">
+      <div class="mngt-sidebar-section-label">Favoritos</div>
+      <% favorite_projects.each do |project| %>
+        <%= link_to project_path(project), class: "mngt-sidebar-item #{active_item?(project) ? 'mngt-sidebar-item--active' : ''}" do %>
+          <span class="mngt-sidebar-avatar" style="background:<%= project_color(project) %>"><%= project.name[0].upcase %></span>
+          <span class="mngt-sidebar-label"><%= project.name %></span>
+        <% end %>
+      <% end %>
+    </div>
+  <% end %>
+
+  <%# ── Espaços (árvore recursiva) ─────────────────────────── %>
+  <div class="mngt-sidebar-section mngt-sidebar-section--grow">
+    <div class="mngt-sidebar-section-label">
+      Espaços
+      <%= link_to "/projects/new", class: "mngt-sidebar-add", title: "Nova área", "aria-label": "Nova área" do %>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+      <% end %>
+    </div>
+
+    <% tree = project_tree %>
+    <% tree[:roots].each do |project| %>
+      <%= render partial: "mngt/sidebar_project_node",
+                 locals: { project: project, children_map: tree[:children_map], depth: 0, sidebar: self } %>
+    <% end %>
+
+    <% if tree[:roots].empty? %>
+      <span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhuma área encontrada</span>
+    <% end %>
+  </div>
+
+</div>

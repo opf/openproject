@@ -1,0 +1,56 @@
+pt-BR:
+  # --- Programa → Pasta -------------------------------------------------------
+  label_program: Pasta
+  label_program_new: Nova pasta
+
+  # --- Projeto → Área ---------------------------------------------------------
+  label_project: Área
+  label_project_plural: Áreas
+  label_project_new: Nova área
+  label_projects_menu: Áreas
+  label_projects_disk_usage_information: "%{count} áreas usando %{used_disk_space} do espaço em disco"
+  label_for_all_projects: Todas as áreas
+  projects:
+    index:
+      no_results_title_text: Atualmente, não existem áreas
+      no_results_content_text: Criar uma nova área
+      search:
+        label: Filtro por nome da área
+        placeholder: Pesquisar por nome de área
+    lists:
+      active: Áreas ativas
+      my: Minhas áreas
+      favorited: Áreas favoritas
+      archived: Áreas arquivadas
+      shared: Listas de áreas compartilhadas
+      my_lists: Minhas listas de áreas
+
+  # --- Portfólio → Espaço -----------------------------------------------------
+  label_portfolio: Espaço
+  label_portfolio_plural: Espaços
+  label_portfolio_new: Novo espaço
+  permission_add_portfolios: Criar espaços
+  portfolios:
+    search:
+      label: Filtro de nome do espaço
+      placeholder: Pesquisar espaços
+    lists:
+      active: Ativar espaços
+      my: Meus espaços
+      favorited: Espaços favoritos
+      archived: Espaços arquivados
+
+  # --- Pacote de trabalho → Demanda -------------------------------------------
+  label_work_package: Demanda
+  label_work_package_plural: Demandas
+  label_work_package_new: Nova demanda
+  label_work_package_edit: Editar demanda %{name}
+  label_work_package_attachments: Anexos da demanda
+  label_work_package_comments: Comentários da demanda
+  label_work_package_hierarchy: Hierarquia de demandas
+  label_work_package_status: Situação da demanda
+  label_work_package_status_plural: Situações da demanda
+  label_work_package_types: Tipos de demanda
+  label_work_package_tracking: Controle de demandas
+  label_work_package_view_all: Exibir todas as demandas
+  project_module_work_package_tracking: Demandas
