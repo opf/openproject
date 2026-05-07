@@ -1,6 +1,4 @@
 import { BlockNoteEditor } from "@blocknote/core";
-import { SideMenuExtension } from "@blocknote/core/extensions";
-import { useExtension } from "@blocknote/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
@@ -42,6 +40,21 @@ interface BlockProps {
   };
 }
 
+// Looks up the SideMenu extension on the editor instance without using
+// `useExtension(SideMenuExtension, ...)`, which fails with "Extension not found"
+// when `@blocknote/core` is duplicated in node_modules — happens in op-app
+// where the host has its own @blocknote/core copy that doesn't 
+function getSideMenuExtension(editor: BlockNoteEditor<any>): any {
+  const extensions = (editor as any).extensions;
+  if (!extensions) return null;
+
+  if (extensions instanceof Map) {
+    return extensions.get("sideMenu") ?? null;
+  }
+
+  return extensions.sideMenu ?? extensions.SideMenu ?? null;
+}
+
 export const BlockWorkPackageComponent = ({
   block,
   editor,
@@ -54,8 +67,6 @@ export const BlockWorkPackageComponent = ({
   // Fetch and cache colors.
   // The hook handles triggering re-renders when data arrives.
   useColors();
-
-  const sideMenu = useExtension(SideMenuExtension, { editor });
 
   const [isActive, setIsActive] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
@@ -72,8 +83,11 @@ export const BlockWorkPackageComponent = ({
     requestAnimationFrame(() => moveCursorToNextBlock(editor, block.id));
   };
 
+  // Delegate the drag to the same mechanism the side menu uses internally,
+  // so dragging the block directly behaves identically to dragging via the handle.
   const handleBlockDragStart = (e: React.DragEvent) => {
-    if (sideMenu?.blockDragStart) {
+    const sideMenu = getSideMenuExtension(editor);
+    if (sideMenu && typeof sideMenu.blockDragStart === "function") {
       sideMenu.blockDragStart(e.nativeEvent, block as any);
     }
   };
