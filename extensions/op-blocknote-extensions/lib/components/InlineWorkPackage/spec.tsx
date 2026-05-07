@@ -41,5 +41,9 @@ export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
         size: element.getAttribute("data-size") ?? "s",
       };
     },
+
+    meta: {
+      draggable: true,
+    },
   }
 );

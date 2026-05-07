@@ -1,9 +1,10 @@
 import { BlockNoteEditor } from "@blocknote/core";
+import { SideMenuExtension } from "@blocknote/core/extensions";
+import { useExtension } from "@blocknote/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { useWorkPackage } from "../../hooks/useWorkPackage";
-import { useDragSelection } from "../../hooks/useDragSelection";
 import { useColors } from "../../services/colors";
 import { wpBridge } from "../../services/wpBridge";
 import type { WorkPackage } from "../../openProjectTypes";
@@ -54,7 +55,7 @@ export const BlockWorkPackageComponent = ({
   // The hook handles triggering re-renders when data arrives.
   useColors();
 
-  const handleDragStart = useDragSelection(editor);
+  const sideMenu = useExtension(SideMenuExtension, { editor });
 
   const [isActive, setIsActive] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
@@ -69,6 +70,12 @@ export const BlockWorkPackageComponent = ({
       props: { ...block.props, wpid: wp.id, initialized: true },
     });
     requestAnimationFrame(() => moveCursorToNextBlock(editor, block.id));
+  };
+
+  const handleBlockDragStart = (e: React.DragEvent) => {
+    if (sideMenu?.blockDragStart) {
+      sideMenu.blockDragStart(e.nativeEvent, block as any);
+    }
   };
 
   useEffect(() => {
@@ -147,7 +154,7 @@ export const BlockWorkPackageComponent = ({
       tabIndex={disableFocus ? -1 : 0}
       style={disableFocus ? { pointerEvents: "none" } : undefined}
       draggable="true"
-      onDragStart={handleDragStart}
+      onDragStart={handleBlockDragStart}
     >
       <div contentEditable={false} style={{ userSelect: "none" }}>
         {!block.props.wpid && !block.props.initialized && isActive && (

@@ -125,7 +125,7 @@ export const InlineWorkPackageChip = ({
   // Loading
   if (wpid && loading) {
     return (
-      <InlineChip ref={setRef}>
+      <InlineChip ref={setRef} data-drag-handle>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}…</WorkPackageId>
         </ChipBase>
@@ -137,11 +137,11 @@ export const InlineWorkPackageChip = ({
   if (wpid && wp) {
     return (
       <InlineChip
+        data-drag-handle
         role="button"
         aria-label={t("options.chipAriaLabel", { id: wpid })}
         ref={setRef}
         selected={isSelected}
-        draggable={!!onDragStart}
         onDragStart={onDragStart}
         onClick={(e) => {
           e.preventDefault();
@@ -177,7 +177,7 @@ export const InlineWorkPackageChip = ({
   // Error / unknown
   if (wpid) {
     return (
-      <InlineChip ref={setRef} style={{ opacity: 0.6 }}>
+      <InlineChip ref={setRef} data-drag-handle style={{ opacity: 0.6 }}>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}</WorkPackageId>
         </ChipBase>
