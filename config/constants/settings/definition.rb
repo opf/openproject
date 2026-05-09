@@ -1278,7 +1278,7 @@ module Settings
         default: false
       },
       user_default_theme: {
-        default: "light",
+        default: "dark",
         format: :string,
         allowed: -> do
           UserPreferences::Schema.schema.dig("definitions", "UserPreferences", "properties", "theme", "enum")

@@ -272,9 +272,7 @@ module ApplicationHelper
 
   def theme_options_for_select
     [
-      [I18n.t("themes.light"), "light"],
-      [I18n.t("themes.dark"), "dark"],
-      [I18n.t("themes.sync_with_os"), "sync_with_os"]
+      [I18n.t("themes.dark"), "dark"]
     ]
   end
 

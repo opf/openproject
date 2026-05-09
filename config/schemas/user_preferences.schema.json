@@ -11,7 +11,7 @@
                 },
                 "theme": {
                   "type": "string",
-                  "enum": ["light", "dark", "sync_with_os"]
+                  "enum": ["dark"]
                 },
                 "increase_theme_contrast": {
                   "type": "boolean"
