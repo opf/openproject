@@ -49,4 +49,48 @@
     <% end %>
   </div>
 
+  <%# ── Chat (Canais + Mensagens Diretas) ──────────────────── %>
+  <% if stream_configured? %>
+    <div class="mngt-sidebar-section"
+         data-controller="mngt--chat-rooms"
+         data-mngt--chat-rooms-users-url-value="/mngt/stream/users"
+         data-mngt--chat-rooms-dm-url-value="/mngt/stream/dm"
+         data-mngt--chat-rooms-channels-url-value="/mngt/stream/channels"
+         data-mngt--chat-rooms-current-user-id-value="op_<%= @current_user.id %>"
+         data-mngt--chat-rooms-notify-value="true"
+         data-mngt--chat-rooms-is-admin-value="<%= @current_user.admin? %>"
+         data-mngt--chat-rooms-company-slug-value="<%= current_user_company_slug %>"
+         data-mngt--chat-rooms-can-see-all-value="<%= current_user_can_see_all? %>"
+         data-mngt--chat-rooms-companies-map-value="<%= companies_map_json %>">
+
+      <div class="mngt-sidebar-section-label">
+        Canais
+        <% if @current_user.admin? %>
+          <button class="mngt-sidebar-add"
+                  data-action="click->mngt--chat-rooms#openNewChannelModal"
+                  title="Novo canal"
+                  aria-label="Novo canal">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+          </button>
+        <% end %>
+      </div>
+      <div data-mngt--chat-rooms-target="channelsList">
+        <span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>
+      </div>
+
+      <div class="mngt-sidebar-section-label mngt-sidebar-section-label--sub">
+        Mensagens Diretas
+        <button class="mngt-sidebar-add"
+                data-action="click->mngt--chat-rooms#openNewDmModal"
+                title="Nova conversa"
+                aria-label="Nova conversa">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+        </button>
+      </div>
+      <div data-mngt--chat-rooms-target="dmsList">
+        <span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>
+      </div>
+    </div>
+  <% end %>
+
 </div>

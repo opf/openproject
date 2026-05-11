@@ -68,6 +68,22 @@ class Mngt::SidebarComponent < ApplicationComponent
     "/projects/#{project.identifier}/work_packages"
   end
 
+  def stream_configured?
+    Mngt::Stream.configured? && @current_user.logged?
+  end
+
+  def current_user_company_slug
+    Mngt::Companies.slug_for(@current_user.mail) || "unknown"
+  end
+
+  def current_user_can_see_all?
+    Mngt::Companies.can_see_all?(@current_user.mail)
+  end
+
+  def companies_map_json
+    Mngt::Companies.slug_to_name.to_json
+  end
+
   def assigned_url
     "/work_packages?query_props=#{ASSIGNED_FILTER}"
   end
