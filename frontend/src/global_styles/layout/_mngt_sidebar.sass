@@ -1387,3 +1387,94 @@
   &:hover
     background: rgba(255,255,255,0.1)
     color: #fff
+
+// ── Login page (Google-only) ───────────────────────────────────
+
+.mngt-login-page
+  display: flex
+  align-items: center
+  justify-content: center
+  min-height: calc(100vh - 60px)
+  padding: 32px 16px
+  background: #0d1117
+
+.mngt-login-card
+  width: 380px
+  max-width: 100%
+  background: #161b22
+  border: 1px solid rgba(255,255,255,0.1)
+  border-radius: 16px
+  padding: 40px 36px
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 24px
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6)
+
+.mngt-login-brand
+  display: flex
+  align-items: center
+  gap: 12px
+
+.mngt-login-brand-name
+  font-size: 26px
+  font-weight: 800
+  letter-spacing: 0.06em
+  color: #fff
+
+.mngt-login-text
+  text-align: center
+
+.mngt-login-title
+  font-size: 22px
+  font-weight: 700
+  color: #fff
+  margin: 0 0 6px
+
+.mngt-login-subtitle
+  font-size: 14px
+  color: rgba(255,255,255,0.45)
+  margin: 0
+
+.mngt-login-alert
+  width: 100%
+  padding: 10px 14px
+  border-radius: 8px
+  font-size: 13px
+  text-align: center
+  &--error
+    background: rgba(248,113,113,0.1)
+    border: 1px solid rgba(248,113,113,0.3)
+    color: #f87171
+  &--notice
+    background: rgba(96,165,250,0.08)
+    border: 1px solid rgba(96,165,250,0.2)
+    color: #93c5fd
+
+.mngt-google-btn
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 12px
+  width: 100%
+  padding: 12px 20px
+  background: #fff
+  border: 1px solid #dadce0
+  border-radius: 8px
+  font-size: 15px
+  font-weight: 600
+  color: #3c4043
+  text-decoration: none
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease
+  &:hover
+    background: #f8f9fa
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25)
+    text-decoration: none
+    color: #3c4043
+    transform: translateY(-1px)
+  &:active
+    background: #f1f3f4
+    transform: translateY(0)
+
+.mngt-google-btn-icon
+  flex-shrink: 0

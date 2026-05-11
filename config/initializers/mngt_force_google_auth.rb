@@ -15,6 +15,13 @@ Rails.application.config.to_prepare do
     end
   end)
 
+  # Tell OpenProject's own templates to hide the password form.
+  OpenProject::Configuration.singleton_class.prepend(Module.new do
+    def disable_password_login?
+      true
+    end
+  end)
+
   # Block direct password login (belt-and-suspenders in case someone
   # hits POST /login manually or via curl).
   AccountController.prepend(Module.new do
