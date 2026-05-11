@@ -1,0 +1,13 @@
+<%= hidden_field_tag "automation[triggers_attributes][0][type]", "Automations::Triggers::Manual" %>
+<%= hidden_field_tag "automation[triggers_attributes][0][id]", trigger.id if trigger.persisted? %>
+
+<div class="form--field -required">
+  <%= styled_label_tag "automation_triggers_attributes_0_options_button_label", t("automations.triggers.manual.button_label"), class: "-top" %>
+  <div class="form--field-container">
+    <%= styled_text_field_tag "automation[triggers_attributes][0][options][button_label]",
+                              trigger.button_label || @automation.name,
+                              id: "automation_triggers_attributes_0_options_button_label",
+                              container_class: "-middle",
+                              required: true %>
+  </div>
+</div>

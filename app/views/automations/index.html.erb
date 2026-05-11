@@ -1,0 +1,31 @@
+<% html_title t(:label_administration), t("automations.plural") -%>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { t("automations.plural") }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+       t("automations.plural")]
+    )
+  end
+%>
+
+<%= with_enterprise_banner_guard(:custom_actions, variant: :large, video: "enterprise/custom-actions.mp4") do %>
+  <%=
+    render(Primer::OpenProject::SubHeader.new) do |subheader|
+      subheader.with_action_button(
+        scheme: :primary,
+        leading_icon: :plus,
+        label: t("automations.new"),
+        test_selector: "op-admin-automations--button-new",
+        tag: :a,
+        disabled: !EnterpriseToken.allows_to?(:custom_actions),
+        href: new_automation_path
+      ) do
+        Automation.model_name.human
+      end
+    end
+  %>
+  <%= render(::Automations::IndexComponent.new(rows: @automations)) %>
+<% end %>

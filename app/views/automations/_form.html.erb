@@ -1,0 +1,120 @@
+<% active_section_keys = @automation.actions.map(&:key) %>
+<% trigger = @automation.triggers.detect { |t| t.is_a?(Automations::Triggers::Manual) } || @automation.triggers.build(type: "Automations::Triggers::Manual") %>
+
+<div class="form--field -required">
+  <%= f.text_field :name, required: true, container_class: "-middle" %>
+</div>
+<div class="form--field">
+  <%= f.text_area :description, container_class: "-middle" %>
+</div>
+
+<fieldset class="form--fieldset" id="automations-form--trigger">
+  <legend class="form--fieldset-legend"><%= t("automations.trigger") %></legend>
+  <div class="form--field">
+    <%= styled_label_tag "automation_trigger_type", t("automations.triggers.name"), class: "-top" %>
+    <div class="form--field-container">
+      <%= styled_text_field_tag "automation_trigger_type",
+                                t("automations.triggers.manual.label"),
+                                disabled: true,
+                                container_class: "-middle" %>
+    </div>
+  </div>
+  <%= render partial: "trigger_fields_manual", locals: { trigger: } %>
+</fieldset>
+
+<fieldset class="form--fieldset" id="automations-form--conditions">
+  <legend class="form--fieldset-legend"><%= t("automations.conditions") %></legend>
+
+  <% @automation.all_conditions.each do |condition| %>
+    <div class="form--field">
+      <%= styled_label_tag("automation_conditions_#{condition.key}", condition.human_name, class: "-top") %>
+      <% input_name = "automation[conditions][#{condition.key}]" %>
+      <div class="form--field-container">
+        <div class="form--select-container -middle">
+          <% if condition.key == :project %>
+            <%= angular_component_tag "opce-project-autocompleter",
+                                      inputs: {
+                                        multiple: true,
+                                        filters: [{ name: "active", operator: "=", values: ["t"] }],
+                                        resource: "projects",
+                                        inputName: input_name,
+                                        labelForId: "automation_conditions_#{condition.key}",
+                                        inputValue: condition.values
+                                      } %>
+          <% else %>
+            <%= angular_component_tag "opce-autocompleter",
+                                      inputs: {
+                                        multiple: true,
+                                        defaultData: false,
+                                        items: condition.allowed_values.map { |v| { id: v[:value], name: v[:label] } },
+                                        model: condition.value_objects.map { |v| { id: v[:value], name: v[:label] } },
+                                        inputName: input_name,
+                                        bindLabel: "name",
+                                        labelForId: "automation_conditions_#{condition.key}"
+                                      } %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</fieldset>
+
+<fieldset class="form--fieldset" id="automations-form--actions">
+  <legend class="form--fieldset-legend"><%= t("automations.actions.name") %></legend>
+
+  <div id="automations-form--active-actions">
+    <% @automation.all_actions.each do |action| %>
+      <section class="hide-section"
+               data-hide-sections-target="section"
+               data-name="<%= action.key %>"
+               <%= tag.attributes(data: { section_name: action.key }, hidden: active_section_keys.exclude?(action.key)) %>>
+        <div class="form--field">
+          <%= styled_label_tag("automation_actions_#{action.key}", action.human_name, class: "-top") %>
+          <% input_name = "automation[actions][#{action.key}]" %>
+
+          <% if %i(associated_property boolean user project).include?(action.type) %>
+            <div class="form--field-container">
+              <div class="form--select-container -middle">
+                <% selected = action.value_objects.map { |v| { id: v[:value], name: v[:label] } } %>
+                <%= angular_component_tag "opce-autocompleter",
+                                          inputs: {
+                                            multiple: action.multi_value?,
+                                            hideSelected: true,
+                                            defaultData: false,
+                                            items: action.allowed_values.map { |v| { id: v[:value], name: v[:label] } },
+                                            model: action.multi_value? ? selected : selected.first,
+                                            inputName: input_name,
+                                            bindLabel: "name",
+                                            labelForId: "automation_actions_#{action.key}"
+                                          } %>
+              </div>
+            </div>
+          <% elsif %i(string_property text_property link_property float_property integer_property).include?(action.type) %>
+            <div class="form--field-container">
+              <%= styled_text_field_tag input_name, action.values, container_class: "-slim" %>
+            </div>
+          <% end %>
+
+          <%= render(Primer::Beta::IconButton.new(icon: :x, size: :small, scheme: :invisible, type: :button, aria: { label: t(:button_close) }, data: { action: "click->hide-sections#hide" })) %>
+        </div>
+      </section>
+    <% end %>
+  </div>
+
+  <div class="form--field">
+    <label class="form--label" for="add-automation-action-select">
+      <%= render(Primer::Beta::Octicon.new(icon: :plus, size: :small)) %>
+      <%= I18n.t(:"automations.actions.add") %>
+    </label>
+    <span class="form--field-container">
+      <span class="form--select-container -middle">
+        <%= select_tag "add_action",
+                       options_for_select(@automation.all_actions.map { |a| [a.human_name, a.key] }, disabled: active_section_keys),
+                       id: "add-automation-action-select",
+                       prompt: t(:"automations.actions.add"),
+                       data: { "hide-sections-target": "select", action: "change->hide-sections#add" },
+                       class: "form--select" %>
+      </span>
+    </span>
+  </div>
+</fieldset>

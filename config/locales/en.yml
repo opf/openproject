@@ -658,6 +658,29 @@ en:
     edit: "Edit custom action %{name}"
     execute: "Execute %{name}"
 
+  automations:
+    trigger: "Trigger"
+    triggers:
+      name: "Triggers"
+      manual:
+        label: "Manual button click"
+        button_label: "Button label"
+    actions:
+      name: "Actions"
+      add: "Add action"
+      assigned_to:
+        executing_user_value: "(Assign to executing user)"
+    conditions: "Conditions"
+    plural: "Automations"
+    new: "New automation"
+    edit: "Edit automation %{name}"
+    summary:
+      title: "Summary"
+      when: "When"
+      if: "If"
+      then: "Then"
+      none: "None"
+
   custom_fields:
     admin:
       custom_field_projects:
@@ -2807,6 +2830,7 @@ en:
     principal: "User or group"
     # kept for backwards compatibility
     issue: "Work package"
+    inexistent: "Inexistent"
     journal: "Journal"
     journal_notes: "Comment"
     lastname: "Last name"

@@ -43,7 +43,7 @@ class WorkPackageCustomField < CustomField
   scopes :visible,
          :on_visible_type_and_project
 
-  scope :usable_as_custom_action, -> {
+  scope :usable_as_automation, -> {
     where.not(field_format: %w[hierarchy weighted_item_list])
          .order(:name)
   }

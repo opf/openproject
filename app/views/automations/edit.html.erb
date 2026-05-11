@@ -1,0 +1,23 @@
+<% html_title t(:label_administration), t("automations.edit", name: @automation.name) %>
+
+<%=
+  render Primer::OpenProject::PageHeader.new do |header|
+    header.with_title { @automation.name }
+    header.with_breadcrumbs(
+      [{ href: admin_index_path, text: t("label_administration") },
+       { href: admin_settings_work_packages_general_path, text: t(:label_work_package_plural) },
+       { href: automations_path, text: t("automations.plural") },
+       @automation.name]
+    )
+  end
+%>
+
+<%= error_messages_for @automation %>
+
+<% content_controller "hide-sections" %>
+
+<%= labelled_tabular_form_for @automation,
+                              data: { "hide-sections-target": "form" } do |f| %>
+  <%= render partial: "form", locals: { f: f } %>
+  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
+<% end %>

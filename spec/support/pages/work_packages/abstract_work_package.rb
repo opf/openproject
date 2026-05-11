@@ -190,22 +190,22 @@ module Pages
       expect(page).to have_css(".op-app-header")
     end
 
-    def expect_custom_action(name)
+    def expect_automation(name)
       expect(page)
         .to have_css(".custom-action", text: name)
     end
 
-    def expect_custom_action_disabled(name)
+    def expect_automation_disabled(name)
       expect(page)
         .to have_css(".custom-action [disabled]", text: name)
     end
 
-    def expect_no_custom_action(name)
+    def expect_no_automation(name)
       expect(page)
         .to have_no_css(".custom-action", text: name)
     end
 
-    def expect_custom_action_order(*names)
+    def expect_automation_order(*names)
       within(".custom-actions") do
         names.each_cons(2) do |earlier, later|
           body.index(earlier) < body.index(later)
@@ -286,7 +286,7 @@ module Pages
       page
     end
 
-    def click_custom_action(name, expect_success: true)
+    def click_automation(name, expect_success: true)
       page.within(".custom-actions") do
         click_button(name)
       end

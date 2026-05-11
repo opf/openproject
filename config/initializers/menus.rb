@@ -475,10 +475,10 @@ Redmine::MenuManager.map :admin_menu do |menu|
             icon: "op-custom-fields",
             html: { class: "custom_fields" }
 
-  menu.push :custom_actions,
-            { controller: "/custom_actions" },
+  menu.push :automations,
+            { controller: "/automations" },
             if: ->(_) { User.current.admin? },
-            caption: :"custom_actions.plural",
+            caption: :"automations.plural",
             parent: :admin_work_packages,
             enterprise_feature: "custom_actions"
 

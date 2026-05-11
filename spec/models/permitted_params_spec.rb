@@ -440,8 +440,8 @@ RSpec.describe PermittedParams do
     it_behaves_like "allows params"
   end
 
-  describe "#custom_action" do
-    let(:attribute) { :custom_action }
+  describe "#automation" do
+    let(:attribute) { :automation }
     let(:hash) do
       {
         "name" => "blubs",

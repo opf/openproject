@@ -48,7 +48,7 @@ RSpec.describe "API::V3::CustomActions::CustomActionsAPI" do
     create(:user, member_with_roles: { project => role })
   end
   let(:action) do
-    create(:custom_action, actions: [CustomActions::Actions::AssignedTo.new(nil)])
+    create(:automation_with_manual_trigger, actions: [Automations::Actions::AssignedTo.new(nil)])
   end
   let(:parameters) do
     {
@@ -89,6 +89,22 @@ RSpec.describe "API::V3::CustomActions::CustomActionsAPI" do
       it "is a 404 NOT FOUND" do
         expect(last_response.status)
           .to be(404)
+      end
+    end
+
+    context "for an automation without manual trigger" do
+      let(:action) do
+        create(:automation_with_manual_trigger, actions: [Automations::Actions::AssignedTo.new(nil)]).tap do |automation|
+          automation.triggers.first.update_column(:type, "Automations::Triggers::Base")
+        end
+      end
+
+      before do
+        get api_v3_paths.custom_action(action.id)
+      end
+
+      it "is a 404 NOT FOUND" do
+        expect(last_response.status).to be(404)
       end
     end
 
@@ -212,9 +228,9 @@ RSpec.describe "API::V3::CustomActions::CustomActionsAPI" do
     context "when conditions are not fulfilled for the user" do
       let(:admin_role) { create(:project_role) }
       let(:action) do
-        create(:custom_action,
-               actions: [CustomActions::Actions::AssignedTo.new(nil)],
-               conditions: [CustomActions::Conditions::Role.new(admin_role.id)])
+        create(:automation,
+               actions: [Automations::Actions::AssignedTo.new(nil)],
+               conditions: [Automations::Conditions::Role.new(admin_role.id)])
       end
 
       include_context "post request"
