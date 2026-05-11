@@ -46,6 +46,16 @@ Rails.application.config.after_initialize do
       frame_src = []
       frame_src << OpenProject::Configuration[:security_badge_url] if OpenProject::Configuration[:security_badge_displayed]
 
+      # Stream Chat SDK connects to Stream CDN and API hosts
+      connect_src_additions = []
+      if Mngt::Stream.configured?
+        connect_src_additions += %w[
+          https://*.stream-io-api.com
+          wss://*.stream-io-api.com
+          https://cdn.getstream.io
+        ]
+      end
+
       # Default src
       default_src = %w('self') # rubocop:disable Lint/PercentStringArray
 
@@ -111,6 +121,8 @@ Rails.application.config.after_initialize do
       end
 
       form_action = default_src
+
+      connect_src += connect_src_additions
 
       # Allow test s3 bucket for direct uploads in tests
       if Rails.env.test?
