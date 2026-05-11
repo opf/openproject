@@ -1,0 +1,91 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Automations
+  class RowComponent < ::RowComponent
+    def automation
+      row
+    end
+
+    def name
+      link_to automation.name, edit_automation_path(automation)
+    end
+
+    def triggers
+      automation.triggers.map do |trigger|
+        case trigger
+        when Automations::Triggers::Manual
+          I18n.t("automations.triggers.manual.label")
+        else
+          trigger.type.demodulize
+        end
+      end.join(", ")
+    end
+
+    def conditions
+      automation.conditions.map(&:human_name).join(", ")
+    end
+
+    def actions
+      automation.actions.map(&:human_name).join(", ")
+    end
+
+    def sort
+      helpers.reorder_links("automation", { action: "update", id: automation }, method: :put)
+    end
+
+    def button_links
+      [
+        edit_link,
+        delete_link
+      ]
+    end
+
+    def edit_link
+      link_to(
+        helpers.op_icon("icon icon-edit"),
+        helpers.edit_automation_path(automation),
+        title: t(:button_edit)
+      )
+    end
+
+    def delete_link
+      link_to(
+        helpers.op_icon("icon icon-delete"),
+        helpers.automation_path(automation),
+        data: {
+          turbo_method: :delete,
+          turbo_confirm: I18n.t(:text_are_you_sure)
+        },
+        title: t(:button_delete)
+      )
+    end
+  end
+end
