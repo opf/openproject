@@ -11,8 +11,10 @@ Rails.application.routes.draw do
               as: :work_package_boards do
       collection do
         get "menu" => "boards/menus#show"
+        get "kanban" => "boards/boards#kanban"
       end
       member do
+        patch "set_default_kanban", action: :set_default_kanban
         get "details/:work_package_id(/:tab)",
             action: :split_view,
             defaults: { tab: :overview },

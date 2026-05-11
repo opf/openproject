@@ -28,13 +28,13 @@ module OpenProject::Boards
              settings: {} do
       project_module :board_view, dependencies: :work_package_tracking, order: 80 do
         permission :show_board_views,
-                   { "boards/boards": %i[index show split_view],
+                   { "boards/boards": %i[index show split_view kanban],
                      "boards/menus": %i[show] },
                    permissible_on: :project,
                    dependencies: :view_work_packages,
                    contract_actions: { boards: %i[read] }
         permission :manage_board_views,
-                   { "boards/boards": %i[index show new create destroy] },
+                   { "boards/boards": %i[index show new create destroy set_default_kanban] },
                    permissible_on: :project,
                    dependencies: %i[manage_public_queries save_queries],
                    contract_actions: { boards: %i[create update destroy] }
@@ -46,6 +46,13 @@ module OpenProject::Boards
            caption: :"boards.label_boards",
            after: :work_packages,
            icon: "op-boards"
+
+      menu :project_menu,
+           :kanban,
+           { controller: "/boards/boards", action: :kanban },
+           caption: :"boards.label_kanban",
+           after: :boards,
+           icon: "op-view-cards"
 
       menu :project_menu,
            :board_menu,
