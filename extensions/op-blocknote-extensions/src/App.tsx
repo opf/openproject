@@ -17,7 +17,6 @@ import {
   useHashWpMenu,
 } from "../lib";
 import "./fetchOverride";
-import type { HashMenuItem } from "../lib";
 import {useInlineWpEvents} from "../lib";
 
 const schema = BlockNoteSchema.create().extend({
@@ -66,7 +65,6 @@ export default function App() {
         triggerCharacter="#"
         getItems={getHashItems}
         suggestionMenuComponent={HashWpMenu}
-        onItemClick={(item: HashMenuItem) => item.onItemClick()}
       />
     </BlockNoteView>
   );

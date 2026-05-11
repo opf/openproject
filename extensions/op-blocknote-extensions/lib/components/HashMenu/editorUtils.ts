@@ -34,48 +34,56 @@ export function getSizeFromCurrentBlock(editor: AnyEditor): InlineWpSize {
   return "xxs";
 }
 
-export function clearTriggerText(editor: AnyEditor): string | null {
-  const tiptap = (editor as any)._tiptapEditor;
-  if (!tiptap) return null;
-
-  const { state, view } = tiptap;
-  const { selection } = state;
-  const { $from, from } = selection;
-
-  const textBefore = $from.parent.textBetween(
-    Math.max(0, $from.parentOffset - 50),
-    $from.parentOffset,
-    undefined,
-    "\n"
-  );
-
-  const match = textBefore.match(/(#+\S*)$/);
-  if (!match) return null;
-
-  const triggerLength = match[1].length;
-  const tr = state.tr.delete(from - triggerLength, from);
-  view.dispatch(tr);
-
-  const block = (editor as any).getTextCursorPosition()?.block;
-  return block?.id ?? null;
-}
-
 /**
- * Mouse path: inserts chip at the current cursor position via insertInlineContent.
- * Works correctly because e.preventDefault() stops BlockNote from moving the cursor.
+ * Inserts a chip at the cursor and removes the `#query` trigger before it.
+ * The chip acts as a position anchor so we don't need cursor offsets.
  */
 export function insertWpChip(editor: AnyEditor, wp: WorkPackage, size: InlineWpSize): void {
   const instanceId = makeInstanceId();
-
-  clearTriggerText(editor);
 
   (editor.insertInlineContent as (content: unknown[]) => void)([
     { type: "openProjectWorkPackageInline", props: { wpid: String(wp.id), instanceId, size } },
     { type: "text", text: " ", styles: {} },
   ]);
 
+  removeTriggerBeforeChip(editor, instanceId);
+
   editor.focus();
 }
+
+/**
+ * Trims the trailing `#query` from the text node right before the chip.
+ * Returns the block ID if the operation completed (with or without changes), or null if no block.
+ */
+export function removeTriggerBeforeChip(editor: AnyEditor, instanceId: string): string | null {
+  const block = editor.getTextCursorPosition()?.block;
+  if (!block) return null;
+
+  const content = (block.content ?? []) as any[];
+  const chipIndex = content.findIndex(
+    (n) => n.type === "openProjectWorkPackageInline" && n.props?.instanceId === instanceId
+  );
+  if (chipIndex <= 0) return block.id;
+
+  const prev = content[chipIndex - 1];
+  if (prev.type !== "text") return block.id;
+
+  const match = (prev.text as string).match(/#+\S*$/);
+  if (!match) return block.id;
+
+  const before = (prev.text as string).slice(0, match.index);
+  const newContent = [...content];
+
+  if (before.length > 0) {
+    newContent[chipIndex - 1] = { ...prev, text: before };
+  } else {
+    newContent.splice(chipIndex - 1, 1);
+  }
+
+  editor.updateBlock(block.id, { content: newContent } as any);
+  return block.id;
+}
+
 export function insertWpChipIntoBlock(
   editor: AnyEditor,
   _blockId: string,
