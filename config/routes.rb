@@ -906,7 +906,7 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :custom_actions, except: :show
+    resources :automations, except: :show
 
     namespace :oauth do
       resources :applications do
