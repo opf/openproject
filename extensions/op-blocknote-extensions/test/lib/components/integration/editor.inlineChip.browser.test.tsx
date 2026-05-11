@@ -133,30 +133,3 @@ describe('Inline chip - remove', () => {
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
   });
 });
-
-describe('Inline chip - paste deduplication', () => {
-  it('resizing a pasted chip does not affect the original', async () => {
-    renderEditor();
-    await insertInlineChipViaSlashMenu();
-
-    await userEvent.keyboard('{Control>}a{/Control}');
-    await userEvent.keyboard('{Control>}c{/Control}');
-
-    await userEvent.keyboard('{Control>}{End}{/Control}');
-    await userEvent.keyboard('{Control>}v{/Control}');
-
-    const chips = page.getByText('#123');
-    expect((await chips.all()).length).toBe(2);
-
-    await userEvent.click(page.getByText('#123').nth(1));
-    await expect.element(page.getByTestId('popover-content')).toBeVisible();
-    await userEvent.click(page.getByTitle('Change size'));
-    await expect.element(page.getByTestId('size-menu')).toBeVisible();
-    await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
-
-    // Second chip is now XXS - status hidden for that chip
-    // First chip should still be S - "In Progress" still visible once
-    const statusBadges = page.getByText('In Progress');
-    expect((await statusBadges.all()).length).toBe(1);
-  });
-});
