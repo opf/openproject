@@ -847,6 +847,8 @@ GEM
       prism (~> 1.5)
     msgpack (1.8.0)
     multi_json (1.20.1)
+    multi_xml (0.9.1)
+      bigdecimal (>= 3.1, < 5)
     mustermann (3.1.0)
     mustermann-grape (1.1.0)
       mustermann (>= 1.0.0)
@@ -881,11 +883,26 @@ GEM
       racc (~> 1.4)
     nokogiri (1.19.2-x86_64-linux-musl)
       racc (~> 1.4)
+    oauth2 (2.0.18)
+      faraday (>= 0.17.3, < 4.0)
+      jwt (>= 1.0, < 4.0)
+      logger (~> 1.2)
+      multi_xml (~> 0.5)
+      rack (>= 1.2, < 4)
+      snaky_hash (~> 2.0, >= 2.0.3)
+      version_gem (~> 1.1, >= 1.1.9)
     oj (3.16.17)
       bigdecimal (>= 3.0)
       ostruct (>= 0.2)
     okcomputer (1.19.1)
       benchmark
+    omniauth-google-oauth2 (0.8.0)
+      jwt (>= 2.0)
+      omniauth (>= 1.1.1)
+      omniauth-oauth2 (>= 1.6)
+    omniauth-oauth2 (1.7.3)
+      oauth2 (>= 1.4, < 3)
+      omniauth (>= 1.9, < 3)
     omniauth-saml (1.10.6)
       omniauth (~> 1.3, >= 1.3.2)
       ruby-saml (~> 1.18)
@@ -1421,6 +1438,9 @@ GEM
       multi_json (~> 1.10)
     simpleidn (0.2.3)
     smart_properties (1.17.0)
+    snaky_hash (2.0.3)
+      hashie (>= 0.1.0, < 6)
+      version_gem (>= 1.1.8, < 3)
     spreadsheet (1.3.4)
       bigdecimal
       logger
@@ -1493,6 +1513,7 @@ GEM
       public_suffix
     vcr (6.4.0)
     vernier (1.10.0)
+    version_gem (1.1.9)
     view_component (4.6.0)
       actionview (>= 7.1.0)
       activesupport (>= 7.1.0)
@@ -1668,6 +1689,7 @@ DEPENDENCIES
   oj (~> 3.16.16)
   okcomputer (~> 1.19.1)
   omniauth!
+  omniauth-google-oauth2 (~> 0.8.0)
   omniauth-openid-connect!
   omniauth-openid_connect-providers!
   op-clamav-client (~> 3.4)
@@ -2026,6 +2048,7 @@ CHECKSUMS
   minitest (6.0.4) sha256=df1304664589d40f46089247fdc451f866b0ce0d7cae1457a15fc1eb7d48dca1
   msgpack (1.8.0) sha256=e64ce0212000d016809f5048b48eb3a65ffb169db22238fb4b72472fecb2d732
   multi_json (1.20.1) sha256=2f3934e805cc45ef91b551a1f89d0e9191abd06a5e04a2ef09a6a036c452ca6d
+  multi_xml (0.9.1) sha256=7ce766b59c17241ed62976caeae1fae9b2431b263398c35396239a68c4a64e57
   mustermann (3.1.0) sha256=e73b006ffb7f743eae9303a7d6622e0dd9e1e5522718a2139c006085878768b9
   mustermann-grape (1.1.0) sha256=8d258a986004c8f01ce4c023c0b037c168a9ed889cf5778068ad54398fa458c5
   my_page (1.0.0)
@@ -2044,9 +2067,12 @@ CHECKSUMS
   nokogiri (1.19.2-x86_64-darwin) sha256=7d9af11fda72dfaa2961d8c4d5380ca0b51bc389dc5f8d4b859b9644f195e7a4
   nokogiri (1.19.2-x86_64-linux-gnu) sha256=fa8feca882b73e871a9845f3817a72e9734c8e974bdc4fbad6e4bc6e8076b94f
   nokogiri (1.19.2-x86_64-linux-musl) sha256=93128448e61a9383a30baef041bf1f5817e22f297a1d400521e90294445069a8
+  oauth2 (2.0.18) sha256=bacf11e470dfb963f17348666d0a75c7b29ca65bc48fd47be9057cf91a403287
   oj (3.16.17) sha256=a6688f666143632a1ef11a8d80c8d631b1112733c7da698ffafa4a22a8488244
   okcomputer (1.19.1) sha256=7df770e768434816d228407f0786563827cbf34cb379933578829720cb4f1e77
   omniauth (1.9.2)
+  omniauth-google-oauth2 (0.8.0) sha256=a564ff47f1669188498e3ccf406b59cf83b9ff29cf70c384ce111140b5c2ef9e
+  omniauth-oauth2 (1.7.3) sha256=3f5a8f99fa72e0f91d2abd7475ceb972a4ae67ed59e049f314c0c1bad81f4745
   omniauth-openid-connect (0.5.0)
   omniauth-openid_connect-providers (0.2.0)
   omniauth-saml (1.10.6) sha256=13dde22f4fd1beff0ef2d6dae576f7b68594f159990e8e886d8a02b32397afbd
@@ -2261,6 +2287,7 @@ CHECKSUMS
   signet (0.21.0) sha256=d617e9fbf24928280d39dcfefba9a0372d1c38187ffffd0a9283957a10a8cd5b
   simpleidn (0.2.3) sha256=08ce96f03fa1605286be22651ba0fc9c0b2d6272c9b27a260bc88be05b0d2c29
   smart_properties (1.17.0) sha256=f9323f8122e932341756ddec8e0ac9ec6e238408a7661508be99439ca6d6384b
+  snaky_hash (2.0.3) sha256=25a3d299566e8153fb02fa23fd9a9358845950f7a523ddbbe1fa1e0d79a6d456
   spreadsheet (1.3.4) sha256=0aefd6f3dfdc8b43528109f7fbd54db54f85ce5920429413d48305906bc59253
   spring (4.4.2) sha256=22f61bacd8dc8595cedcdc738de46d7fc18be4d7a770986760344c924f485ce7
   spring-commands-rspec (1.0.4) sha256=6202e54fa4767452e3641461a83347645af478bf45dddcca9737b43af0dd1a2c
@@ -2303,6 +2330,7 @@ CHECKSUMS
   validate_url (1.0.15) sha256=72fe164c0713d63a9970bd6700bea948babbfbdcec392f2342b6704042f57451
   vcr (6.4.0) sha256=077ac92cc16efc5904eb90492a18153b5e6ca5398046d8a249a7c96a9ea24ae6
   vernier (1.10.0) sha256=5b1dc57012e08ed23e14f4d2943540140d454aa8434c7c35e7eb97befd4969bf
+  version_gem (1.1.9) sha256=0c1a0962ae543c84a00889bb018d9f14d8f8af6029d26b295d98774e3d2eb9a4
   view_component (4.6.0) sha256=aabbcc68ab4af8a0135bd3f488e1a4132180cb611aa2565f86cb6e9135f4ed7e
   virtus (2.0.0) sha256=8841dae4eb7fcc097320ba5ea516bf1839e5d056c61ee27138aa4bddd6e3d1c2
   warden (1.2.9) sha256=46684f885d35a69dbb883deabf85a222c8e427a957804719e143005df7a1efd0

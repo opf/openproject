@@ -54,6 +54,7 @@ gem "doorkeeper", "~> 5.9.0"
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem "omniauth", git: "https://github.com/opf/omniauth", ref: "7eb21563ba047ef86d71f099975587b5ec88f9c9"
+gem "omniauth-google-oauth2", "~> 0.8.0"
 gem "request_store", "~> 1.7.0"
 
 gem "warden", "~> 1.2"
