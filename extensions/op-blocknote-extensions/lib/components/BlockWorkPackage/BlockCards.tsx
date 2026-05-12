@@ -16,7 +16,7 @@ import {
   statusTextColor,
   statusBackgroundColor,
 } from "../../services/colors";
-import { formatWorkPackageId } from "../../services/utils";
+import { formatWorkPackageId } from "../../utils/id";
 
 const DESCRIPTION_MAX_CHARS = 300;
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { makeInstanceId, formatWorkPackageId } from "../../../lib/services/utils";
+import { makeInstanceId, formatWorkPackageId } from "../../../lib/utils/id.ts";
 
 describe("formatWorkPackageId", () => {
   it("prepends # to a purely numeric string", () => {

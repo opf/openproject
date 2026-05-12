@@ -1,6 +1,6 @@
 import type { BlockNoteEditor } from "@blocknote/core";
 import type { InlineWpSize } from "../WorkPackage/types";
-import { makeInstanceId } from "../../services/utils";
+import { makeInstanceId } from "../../utils/id.ts";
 import type { WorkPackage } from "../../openProjectTypes";
 
 export type AnyEditor = BlockNoteEditor<any, any, any>;

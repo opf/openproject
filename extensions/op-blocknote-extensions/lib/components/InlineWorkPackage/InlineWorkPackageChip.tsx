@@ -14,7 +14,8 @@ import { wpBridge } from "../../services/wpBridge";
 import { BlockCard } from "../BlockWorkPackage/BlockCard";
 import { useTranslation } from "react-i18next";
 import { defaultWpVariables } from "../WorkPackage/atoms";
-import { formatWorkPackageId } from "../../services/utils";
+import { formatWorkPackageId } from "../../utils/id";
+import { useIsNodeInSelection } from "../../hooks/useIsNodeInSelection";
 
 interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
@@ -26,7 +27,7 @@ const InlineChip = styled.span.attrs({
   className: "op-bn-inline-wp",
   contentEditable: false,
 })<{ selected?: boolean }>`
- ${defaultWpVariables}
+  ${defaultWpVariables}
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
@@ -55,33 +56,14 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
   const { workPackage: wp, loading } = useWorkPackage(wpid);
 
   const [isSelected, setIsSelected] = useState(false);
-  const [isEditorSelected, setIsEditorSelected] = useState(false);
   const chipRef = useRef<HTMLElement | null>(null);
+
+  const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
   const setRef = (node: HTMLElement | null) => {
     chipRef.current = node;
     contentRef(node);
   };
-
-  useEffect(() => {
-    if (!editor) return;
-
-    const unsubscribe = editor.onSelectionChange(() => {
-      const node = chipRef.current;
-      if (!node) return;
-
-      const selection = window.getSelection();
-      if (!selection || selection.rangeCount === 0) {
-        setIsEditorSelected(false);
-        return;
-      }
-
-      const range = selection.getRangeAt(0);
-      setIsEditorSelected(range.intersectsNode(node));
-    });
-
-    return () => unsubscribe();
-  }, [editor]);
 
   // Close the options popover when the user clicks outside the chip
   useEffect(() => {

@@ -15,7 +15,7 @@ import {
   WorkPackageStatus,
   WorkPackageTitleLink,
 } from "../WorkPackage/atoms";
-import { formatWorkPackageId } from "../../services/utils";
+import { formatWorkPackageId } from "../../utils/id";
 
 const titleLinkProps = (wp: WorkPackage) => ({
   as: "a" as const,
