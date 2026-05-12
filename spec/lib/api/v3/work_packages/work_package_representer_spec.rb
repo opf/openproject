@@ -1586,7 +1586,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     describe "customActions" do
       it "has a collection of customActions" do
         unassign_action = build_stubbed(:automation,
-                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
+                                        actions: [Automations::Actions::AssignedTo.new],
                                         name: "Unassign")
         allow(work_package)
           .to receive(:automations)
@@ -1701,7 +1701,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     describe "customActions" do
       it "has an array of customActions" do
         unassign_action = build_stubbed(:automation,
-                                        actions: [Automations::Actions::AssignedTo.new(value: nil)],
+                                        actions: [Automations::Actions::AssignedTo.new],
                                         name: "Unassign")
         allow(work_package)
           .to receive(:automations)
