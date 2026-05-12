@@ -12,8 +12,9 @@ module Automations
     attribute :description
 
     attribute :actions do
-      errors.add(:actions, :empty) if model.actions.empty?
-      model.actions.each { |action| action.validate(errors) }
+      live_actions = model.actions.reject(&:marked_for_destruction?)
+      errors.add(:actions, :empty) if live_actions.empty?
+      live_actions.each { |action| action.validate(errors) }
     end
 
     attribute :conditions do

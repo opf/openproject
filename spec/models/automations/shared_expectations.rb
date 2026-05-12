@@ -65,10 +65,10 @@ RSpec.shared_examples_for "base custom action" do
     end
   end
 
-  describe ".all" do
-    it "is an array with the class itself" do
-      expect(described_class.all)
-        .to contain_exactly(described_class)
+  describe ".templates" do
+    it "is an array with a template instance of the class" do
+      expect(described_class.templates)
+        .to contain_exactly(an_instance_of(described_class))
     end
   end
 
@@ -88,7 +88,7 @@ RSpec.shared_examples_for "base custom action" do
 
   describe "#values" do
     it "can be provided on initialization" do
-      i = described_class.new(expected_value)
+      i = described_class.new(values: [expected_value])
 
       expect(i.values)
         .to eql [expected_value]

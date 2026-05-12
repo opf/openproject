@@ -36,10 +36,9 @@ RSpec.describe Automations::CuContract do
 
   let(:user) { build_stubbed(:user) }
   let(:action) do
-    build_stubbed(:automation, actions:
-                              [Automations::Actions::AssignedTo.new])
+    build(:automation, actions: [Automations::Actions::AssignedTo.new])
   end
-  let(:contract) { described_class.new(action) }
+  let(:contract) { described_class.new(action, user) }
 
   describe "name" do
     it "is writable" do
@@ -79,13 +78,13 @@ RSpec.describe Automations::CuContract do
     end
 
     it "requires a value if the action requires one" do
-      action.actions = [Automations::Actions::Status.new([])]
+      action.actions = [Automations::Actions::Status.new(values: [])]
 
       expect_contract_invalid actions: :empty
     end
 
     it "allows only the allowed values" do
-      status_action = Automations::Actions::Status.new([0])
+      status_action = Automations::Actions::Status.new(values: [0])
       allow(status_action)
         .to receive(:allowed_values)
         .and_return([{ value: nil, label: "-" },

@@ -5,7 +5,6 @@ class Automation < ApplicationRecord
   validate :must_have_at_least_one_trigger
   validate :must_not_have_more_than_one_manual_trigger
 
-  serialize :actions, coder: Automations::Actions::Serializer
   before_validation :ensure_manual_trigger
 
   has_and_belongs_to_many :status_conditions, class_name: "Status", join_table: :automations_statuses
@@ -20,6 +19,13 @@ class Automation < ApplicationRecord
            inverse_of: :automation
   accepts_nested_attributes_for :triggers
 
+  has_many :actions,
+           -> { order(:position, :id) },
+           class_name: "Automations::Actions::Base",
+           dependent: :destroy,
+           inverse_of: :automation
+  accepts_nested_attributes_for :actions, allow_destroy: true
+
   after_save :persist_conditions
 
   attribute :conditions
@@ -31,19 +37,8 @@ class Automation < ApplicationRecord
     joins(:triggers).where(automation_triggers: { type: "Automations::Triggers::Manual" }).distinct
   }
 
-  def initialize(*args)
-    ret = super
-    self.actions ||= []
-    ret
-  end
-
   def reload(*args)
     @conditions = nil
-    super
-  end
-
-  def actions=(values)
-    actions_will_change!
     super
   end
 
@@ -60,7 +55,7 @@ class Automation < ApplicationRecord
   end
 
   def available_actions
-    ::Automations::Register.actions.map(&:all).flatten
+    ::Automations::Register.actions.flat_map(&:templates)
   end
 
   def all_conditions
@@ -102,7 +97,7 @@ class Automation < ApplicationRecord
     availables.map do |available|
       existing = actual.detect { |a| a.key == available.key }
 
-      existing || available.new
+      existing || (available.is_a?(Class) ? available.new : available)
     end
   end
 

@@ -10,7 +10,7 @@ class Automations::BaseService
            &)
     set_attributes(action, attributes)
 
-    contract = Automations::CuContract.new(action)
+    contract = Automations::CuContract.new(action, user)
     result = ServiceResult.new(success: contract.validate && action.save,
                                result: action,
                                errors: contract.errors)
@@ -31,46 +31,37 @@ class Automations::BaseService
     set_triggers(action, triggers_attributes) if triggers_attributes
   end
 
-  def set_actions(action, actions_attributes)
-    existing_action_keys = action.actions.map(&:key)
+  def set_actions(automation, actions_attributes)
+    existing_by_key = automation.actions.index_by(&:key)
+    incoming_keys = actions_attributes.keys.map(&:to_sym)
 
-    remove_actions(action, existing_action_keys - actions_attributes.keys)
-    update_actions(action, actions_attributes.slice(*existing_action_keys))
-    add_actions(action, actions_attributes.slice(*(actions_attributes.keys - existing_action_keys)))
+    (existing_by_key.keys - incoming_keys).each do |key|
+      existing_by_key[key].mark_for_destruction
+    end
+
+    actions_attributes.each do |key, values|
+      key = key.to_sym
+      if (existing = existing_by_key[key])
+        existing.values = values
+      else
+        add_action(automation, key, values)
+      end
+    end
   end
 
-  def remove_actions(action, keys)
-    keys.each { |key| remove_action(action, key) }
-  end
+  def add_action(automation, key, values)
+    template = automation.available_actions.detect { |a| a.key == key } ||
+               Automations::Actions::Inexistent.new
 
-  def update_actions(action, key_values)
-    key_values.each { |key, values| update_action(action, key, values) }
-  end
-
-  def add_actions(action, key_values)
-    key_values.each { |key, values| add_action(action, key, values) }
-  end
-
-  def update_action(action, key, values)
-    action.actions.detect { |a| a.key == key }.values = values
-  end
-
-  def add_action(action, key, values)
-    action.actions << available_action_for(action, key).new(values)
-  end
-
-  def remove_action(action, key)
-    action.actions.reject! { |a| a.key == key }
+    new_action = template.dup
+    new_action.values = values
+    automation.actions << new_action
   end
 
   def set_conditions(action, conditions_attributes)
     action.conditions = conditions_attributes.map do |key, values|
       available_condition_for(action, key).new(values)
     end
-  end
-
-  def available_action_for(action, key)
-    action.available_actions.detect { |a| a.key == key } || Automations::Actions::Inexistent
   end
 
   def available_condition_for(action, key)

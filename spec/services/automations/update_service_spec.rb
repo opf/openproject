@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe Automations::UpdateService do
   let(:action) do
-    action = build_stubbed(:automation)
+    action = build(:automation)
 
     allow(action)
       .to receive(:save)
@@ -53,7 +53,7 @@ RSpec.describe Automations::UpdateService do
 
     allow(Automations::CuContract)
       .to receive(:new)
-      .with(action)
+      .with(action, user)
       .and_return(contract_instance)
 
     allow(contract_instance)
@@ -130,13 +130,14 @@ RSpec.describe Automations::UpdateService do
     end
 
     it "updates the actions" do
-      action.actions = [Automations::Actions::AssignedTo.new("1"),
-                        Automations::Actions::Status.new("3")]
+      action.actions = [Automations::Actions::AssignedTo.new(values: ["1"]),
+                        Automations::Actions::Status.new(values: ["3"])]
 
       new_actions = instance
                     .call(attributes: { actions: { assigned_to: ["2"], priority: ["3"] } })
                     .result
                     .actions
+                    .reject(&:marked_for_destruction?)
                     .map { |a| [a.key, a.values] }
 
       expect(new_actions)

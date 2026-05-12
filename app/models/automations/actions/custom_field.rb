@@ -29,80 +29,50 @@
 #++
 
 class Automations::Actions::CustomField < Automations::Actions::Base
-  class << self
-    def key
-      custom_field.attribute_name.to_sym
+  store_attribute :options, :custom_field_id, :integer
+
+  FORMAT_TO_SUBCLASS = {
+    "string" => "Automations::Actions::CustomField::ForString",
+    "text" => "Automations::Actions::CustomField::ForText",
+    "link" => "Automations::Actions::CustomField::ForLink",
+    "int" => "Automations::Actions::CustomField::ForInteger",
+    "float" => "Automations::Actions::CustomField::ForFloat",
+    "date" => "Automations::Actions::CustomField::ForDate",
+    "bool" => "Automations::Actions::CustomField::ForBoolean",
+    "user" => "Automations::Actions::CustomField::ForUser",
+    "list" => "Automations::Actions::CustomField::ForAssociated",
+    "version" => "Automations::Actions::CustomField::ForAssociated"
+  }.freeze
+
+  def self.templates
+    WorkPackageCustomField.usable_as_automation.filter_map do |cf|
+      subclass = subclass_for(cf)
+      next unless subclass
+
+      template = subclass.new(custom_field_id: cf.id)
+      template.instance_variable_set(:@custom_field, cf)
+      template
     end
+  end
 
-    def custom_field
-      raise SubclassResponsibilityError
-    end
-
-    def all
-      WorkPackageCustomField
-        .usable_as_automation
-        .map do |cf|
-          create_subclass(cf)
-        end
-    end
-
-    def for(key)
-      match_result = key.match /custom_field_(\d+)/
-
-      if match_result && (cf = WorkPackageCustomField.find_by(id: match_result[1]))
-        create_subclass(cf)
-      end
-    end
-
-    private
-
-    def create_subclass(custom_field)
-      klass = Class.new(Automations::Actions::CustomField)
-      klass.define_singleton_method(:custom_field) do
-        custom_field
-      end
-
-      klass.include(strategy(custom_field))
-      klass
-    end
-
-    def strategy(custom_field)
-      case custom_field.field_format
-      when "string"
-        Automations::Actions::Strategies::String
-      when "text"
-        Automations::Actions::Strategies::Text
-      when "link"
-        Automations::Actions::Strategies::Link
-      when "int"
-        Automations::Actions::Strategies::Integer
-      when "float"
-        Automations::Actions::Strategies::Float
-      when "date"
-        Automations::Actions::Strategies::Date
-      when "bool"
-        Automations::Actions::Strategies::Boolean
-      when "user"
-        Automations::Actions::Strategies::UserCustomField
-      when "list", "version"
-        Automations::Actions::Strategies::AssociatedCustomField
-      end
-    end
+  def self.subclass_for(custom_field)
+    name = FORMAT_TO_SUBCLASS[custom_field.field_format]
+    name&.constantize
   end
 
   def custom_field
-    self.class.custom_field
+    return nil if custom_field_id.blank?
+
+    @custom_field ||= WorkPackageCustomField.find_by(id: custom_field_id)
+  end
+
+  def key
+    cf = custom_field
+    cf ? cf.attribute_name.to_sym : :inexistent_custom_field
   end
 
   def human_name
-    custom_field.name
-  end
-
-  def apply(work_package)
-    if work_package.respond_to?(custom_field.attribute_setter)
-      set_custom_field_value(work_package)
-      validate_custom_field(work_package)
-    end
+    custom_field&.name || super
   end
 
   private
@@ -112,7 +82,6 @@ class Automations::Actions::CustomField < Automations::Actions::Base
   end
 
   def validate_custom_field(work_package)
-    # Validate the custom field the custom action is changing.
     work_package.custom_values_to_validate += Array(work_package.custom_value_for(custom_field))
   end
 end

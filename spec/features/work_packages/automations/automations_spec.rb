@@ -538,7 +538,7 @@ RSpec.describe "Automations", :js, with_ee: %i[automations] do
 
     before do
       create(:automation,
-             actions: [Automations::Actions::AssignedTo.new(value: nil)],
+             actions: [Automations::Actions::AssignedTo.new],
              name: "Unassign")
     end
 

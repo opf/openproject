@@ -48,7 +48,7 @@ RSpec.describe "API::V3::CustomActions::CustomActionsAPI" do
     create(:user, member_with_roles: { project => role })
   end
   let(:action) do
-    create(:automation_with_manual_trigger, actions: [Automations::Actions::AssignedTo.new(nil)])
+    create(:automation_with_manual_trigger, actions: [Automations::Actions::AssignedTo.new])
   end
   let(:parameters) do
     {
@@ -94,7 +94,7 @@ RSpec.describe "API::V3::CustomActions::CustomActionsAPI" do
 
     context "for an automation without manual trigger" do
       let(:action) do
-        create(:automation_with_manual_trigger, actions: [Automations::Actions::AssignedTo.new(nil)]).tap do |automation|
+        create(:automation_with_manual_trigger, actions: [Automations::Actions::AssignedTo.new]).tap do |automation|
           automation.triggers.first.update_column(:type, "Automations::Triggers::Base")
         end
       end
@@ -229,7 +229,7 @@ RSpec.describe "API::V3::CustomActions::CustomActionsAPI" do
       let(:admin_role) { create(:project_role) }
       let(:action) do
         create(:automation,
-               actions: [Automations::Actions::AssignedTo.new(nil)],
+               actions: [Automations::Actions::AssignedTo.new],
                conditions: [Automations::Conditions::Role.new(admin_role.id)])
       end
 
