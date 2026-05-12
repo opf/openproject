@@ -135,17 +135,30 @@ See COPYRIGHT and LICENSE files for more details.
               </div>
             </div>
             <%# TODO: allow editing versions when multiple projects %>
-            <div class="form--field">
-              <%= styled_label_tag :work_package_version_id, WorkPackage.human_attribute_name(:version) %>
-              <div class="form--field-container">
-                <%= styled_select_tag(
-                      "work_package[version_id]",
-                      content_tag("option", t(:label_none), value: "none") +
-                      version_options_for_select(@project.shared_versions.with_status_open.order(:name)),
-                      include_blank: t(:label_no_change_option)
-                    ) %>
+            <% if Setting.work_package_multiple_versions? %>
+              <div class="form--field">
+                <%= styled_label_tag :work_package_target_version_ids, WorkPackage.human_attribute_name(:target_versions) %>
+                <div class="form--field-container">
+                  <%= styled_select_tag(
+                        "work_package[target_version_ids][]",
+                        version_options_for_select(@project.shared_versions.with_status_open.order(:name)),
+                        multiple: true
+                      ) %>
+                </div>
               </div>
-            </div>
+            <% else %>
+              <div class="form--field">
+                <%= styled_label_tag :work_package_version_id, WorkPackage.human_attribute_name(:version) %>
+                <div class="form--field-container">
+                  <%= styled_select_tag(
+                        "work_package[version_id]",
+                        content_tag("option", t(:label_none), value: "none") +
+                        version_options_for_select(@project.shared_versions.with_status_open.order(:name)),
+                        include_blank: t(:label_no_change_option)
+                      ) %>
+                </div>
+              </div>
+            <% end %>
             <div class="form--field">
               <%= styled_label_tag :work_package_budget_id, Budget.model_name.human %>
               <div class="form--field-container">

@@ -63,7 +63,7 @@ module Projects::Copy
     def source_work_packages
       source
         .work_packages
-        .includes(:custom_values, :version, :assigned_to, :responsible)
+        .includes(:custom_values, :version, :target_versions, :assigned_to, :responsible)
         .order_by_ancestors("asc")
         .order("id ASC")
     end
@@ -134,6 +134,7 @@ module Projects::Copy
         project: target,
         parent_id:,
         version_id: work_package_version_id(source_work_package),
+        target_version_ids: work_package_target_version_ids(source_work_package),
         assigned_to_id: work_package_assigned_to_id(source_work_package),
         responsible_id: work_package_responsible_id(source_work_package),
         custom_field_values: custom_value_attributes(source_work_package, user_cf_ids),
@@ -146,6 +147,10 @@ module Projects::Copy
       return unless source_work_package.version_id
 
       state.version_id_lookup[source_work_package.version_id]
+    end
+
+    def work_package_target_version_ids(source_work_package)
+      source_work_package.target_versions.filter_map { |v| state.version_id_lookup[v.id] }
     end
 
     def work_package_assigned_to_id(source_work_package)

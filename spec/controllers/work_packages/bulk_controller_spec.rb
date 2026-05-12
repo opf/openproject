@@ -547,6 +547,34 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
             end
           end
 
+          describe "set target_version_ids attribute to multiple versions",
+                   with_settings: { work_package_multiple_versions: true } do
+            let(:subproject2) { create(:project, parent: project1, types: [type]) }
+            let(:version_a) do
+              create(:version, status: "open", sharing: "tree", project: subproject2)
+            end
+            let(:version_b) do
+              create(:version, status: "open", sharing: "tree", project: subproject2)
+            end
+
+            before do
+              put :update,
+                  params: {
+                    ids: work_package_ids,
+                    work_package: { target_version_ids: [version_a.id.to_s, version_b.id.to_s] }
+                  }
+            end
+
+            it "redirects on success" do
+              expect(response).to be_redirect
+            end
+
+            it "assigns both versions as target_versions on every selected work package" do
+              expect(work_packages.map { |wp| wp.target_versions.pluck(:id).sort }.uniq)
+                .to contain_exactly([version_a.id, version_b.id].sort)
+            end
+          end
+
           describe "set version_id to nil" do
             before do
               # 'none' is a magic value, setting version_id to nil

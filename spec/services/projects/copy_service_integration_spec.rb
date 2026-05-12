@@ -708,6 +708,32 @@ RSpec.describe(
           end
         end
 
+        context "with multiple target_versions",
+                with_settings: { work_package_multiple_versions: true } do
+          let(:only_args) { %i[work_packages versions] }
+          let(:version_one) { create(:version, name: "Target One", project: source, status: "open") }
+          let(:version_two) { create(:version, name: "Target Two", project: source, status: "open") }
+
+          before do
+            source_wp.work_package_associated_versions.where(kind: "target").delete_all
+            [version_one, version_two].each do |v|
+              source_wp.work_package_associated_versions.create!(version_id: v.id, kind: "target")
+            end
+          end
+
+          it "copies the target_versions remapped to the copied project's versions" do
+            expect(subject).to be_success
+
+            wp = copy_of(source_wp)
+            copied_names = wp.target_versions.map(&:name).sort
+            expect(copied_names).to eq(["Target One", "Target Two"])
+            wp.target_versions.each do |v|
+              expect(v.project_id).to eq(project_copy.id)
+              expect([version_one.id, version_two.id]).not_to include(v.id)
+            end
+          end
+        end
+
         context "with attachments" do
           before do
             create(:attachment, container: work_package)
