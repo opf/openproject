@@ -28,63 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Automations::Actions::Strategies::MeAssociated
-  include ::Automations::Actions::Strategies::Associated
-
-  def me_value
-    [current_user_value_key, current_user_name]
-  end
-
-  def associated
-    [me_value] + available_principles
-  end
-
-  def values=(values)
-    cast = Array(values).map do |v|
-      if v == current_user_value_key
-        v
-      else
-        to_integer_or_nil(v)
-      end
-    end
-
-    write_raw_values(cast.uniq)
-  end
-
-  ##
-  # Returns the me value if the user is logged
-  def transformed_value(val)
-    return val unless has_me_value?
-
-    if User.current.logged?
-      User.current.id
-    end
-  end
-
-  def current_user_value_key
-    "current_user"
-  end
-
-  def current_user_name
-    I18n.t("automations.actions.assigned_to.executing_user_value")
-  end
-
-  def has_me_value?
-    values.first == current_user_value_key
-  end
-
-  def validate(errors)
-    super
-    validate_me_value(errors)
-  end
-
-  private
-
-  def validate_me_value(errors)
-    if has_me_value? && !User.current.logged?
-      errors.add :actions,
-                 :not_logged_in,
-                 name: human_name
-    end
-  end
+class Automations::Actions::CustomField::ForUser < Automations::Actions::CustomField
+  include Automations::Actions::Strategies::UserCustomField
 end
