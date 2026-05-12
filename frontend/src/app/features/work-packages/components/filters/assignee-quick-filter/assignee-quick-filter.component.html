@@ -1,0 +1,77 @@
+<div class="op-assignee-filter" [class.-open]="isOpen">
+  <button
+    class="button -small op-assignee-filter--trigger"
+    [class.-active]="isActive"
+    (click)="toggleDropdown($event)"
+  >
+    <i class="button--icon icon-user"></i>
+    <span class="button--text">{{ label }}</span>
+    <i class="button--icon icon-small icon-arrow-down2"></i>
+  </button>
+
+  @if (isOpen) {
+    <div class="op-assignee-filter--dropdown" (click)="$event.stopPropagation()">
+
+      @if (isActive) {
+        <div class="op-assignee-filter--actions">
+          <button class="op-assignee-filter--clear" (click)="clearAll()">
+            <i class="icon-close"></i> {{ text.clearFilter }}
+          </button>
+        </div>
+        <hr class="op-assignee-filter--divider" />
+      }
+
+      @if (membersLoading) {
+        <div class="op-assignee-filter--loading">{{ text.loading }}</div>
+      } @else {
+        <ul class="op-assignee-filter--list">
+
+          <!-- Eu -->
+          <li
+            class="op-assignee-filter--item"
+            [class.-selected]="isSelected(meValue)"
+            (click)="toggleMember(meValue)"
+          >
+            <span class="op-assignee-filter--avatar -me">Eu</span>
+            <span class="op-assignee-filter--name">{{ text.me }}</span>
+            @if (isSelected(meValue)) {
+              <i class="icon-checkmark op-assignee-filter--check"></i>
+            }
+          </li>
+
+          <!-- Não atribuído -->
+          <li
+            class="op-assignee-filter--item"
+            [class.-selected]="unassignedSelected"
+            (click)="toggleUnassigned()"
+          >
+            <span class="op-assignee-filter--avatar -none">—</span>
+            <span class="op-assignee-filter--name">{{ text.unassigned }}</span>
+            @if (unassignedSelected) {
+              <i class="icon-checkmark op-assignee-filter--check"></i>
+            }
+          </li>
+
+          @if (members.length > 0) {
+            <hr class="op-assignee-filter--divider" />
+          }
+
+          @for (member of members; track member.href) {
+            <li
+              class="op-assignee-filter--item"
+              [class.-selected]="isSelected(member)"
+              (click)="toggleMember(member)"
+            >
+              <span class="op-assignee-filter--avatar">{{ initials(member) }}</span>
+              <span class="op-assignee-filter--name">{{ member.name }}</span>
+              @if (isSelected(member)) {
+                <i class="icon-checkmark op-assignee-filter--check"></i>
+              }
+            </li>
+          }
+
+        </ul>
+      }
+    </div>
+  }
+</div>

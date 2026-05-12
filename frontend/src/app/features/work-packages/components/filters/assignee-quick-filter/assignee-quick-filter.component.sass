@@ -1,0 +1,108 @@
+.op-assignee-filter
+  position: relative
+  display: inline-block
+
+.op-assignee-filter--trigger
+  display: inline-flex
+  align-items: center
+  gap: 4px
+
+  &.-active
+    background: var(--color-accent-muted, #1f3a5f)
+    border-color: var(--color-accent-emphasis, #1f6feb)
+    color: var(--color-fg-default, #e6edf3)
+
+.op-assignee-filter--dropdown
+  position: absolute
+  top: calc(100% + 4px)
+  left: 0
+  z-index: 1000
+  min-width: 210px
+  max-height: 320px
+  overflow-y: auto
+  background: var(--color-canvas-overlay, #2d333b)
+  border: 1px solid var(--color-border-default, #444c56)
+  border-radius: 6px
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4)
+  padding: 4px 0
+
+.op-assignee-filter--actions
+  padding: 4px 8px
+
+.op-assignee-filter--clear
+  display: flex
+  align-items: center
+  gap: 4px
+  width: 100%
+  background: none
+  border: none
+  color: var(--color-danger-fg, #f85149)
+  font-size: 12px
+  cursor: pointer
+  padding: 4px 4px
+  border-radius: 4px
+
+  &:hover
+    background: rgba(248, 81, 73, 0.1)
+
+.op-assignee-filter--divider
+  border: none
+  border-top: 1px solid var(--color-border-muted, #30363d)
+  margin: 4px 0
+
+.op-assignee-filter--list
+  list-style: none
+  margin: 0
+  padding: 0
+
+.op-assignee-filter--item
+  display: flex
+  align-items: center
+  gap: 8px
+  padding: 6px 12px
+  cursor: pointer
+  color: var(--color-fg-default, #e6edf3)
+  font-size: 13px
+
+  &:hover
+    background: var(--color-canvas-subtle, #1c2128)
+
+  &.-selected
+    background: rgba(31, 111, 235, 0.1)
+
+.op-assignee-filter--avatar
+  width: 24px
+  height: 24px
+  border-radius: 50%
+  background: var(--color-accent-emphasis, #1f6feb)
+  color: #fff
+  font-size: 10px
+  font-weight: 600
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  flex-shrink: 0
+
+  &.-me
+    background: var(--color-success-emphasis, #238636)
+
+  &.-none
+    background: var(--color-neutral-muted, #6e7681)
+    font-size: 14px
+
+.op-assignee-filter--name
+  flex: 1
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.op-assignee-filter--check
+  color: var(--color-accent-emphasis, #1f6feb)
+  font-size: 12px
+  flex-shrink: 0
+
+.op-assignee-filter--loading
+  padding: 12px
+  color: var(--color-fg-muted, #8b949e)
+  font-size: 13px
+  text-align: center
