@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe Automations::UpdateService do
   let(:automation) do
-    automation = build_stubbed(:automation, :with_button_trigger)
+    automation = build(:automation, :with_button_trigger)
 
     allow(automation)
       .to receive(:save)
@@ -126,13 +126,14 @@ RSpec.describe Automations::UpdateService do
     end
 
     it "updates the actions" do
-      automation.actions = [Automations::Actions::AssignedTo.new("1"),
-                            Automations::Actions::Status.new("3")]
+      automation.actions = [Automations::Actions::AssignedTo.new(values: ["1"]),
+                            Automations::Actions::Status.new(values: ["3"])]
 
       new_actions = instance
                     .call(attributes: { actions: { assigned_to: ["2"], priority: ["3"] } })
                     .result
                     .actions
+                    .reject(&:marked_for_destruction?)
                     .map { |a| [a.key, a.values] }
 
       expect(new_actions)
