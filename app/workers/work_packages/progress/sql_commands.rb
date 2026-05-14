@@ -252,30 +252,18 @@ module WorkPackages::Progress::SqlCommands
           WHEN current_depth = min_depth THEN NULL
           ELSE ROUND(
             (
-              /* Exclude the current work package if it has a status excluded from totals */
-              CASE WHEN wp.status_excluded_from_totals
-              THEN 0
-              /* Otherwise, use the current work package's % complete value or 0 if unset */
-              ELSE COALESCE(wp.done_ratio, 0)
-              END + (
-                SELECT
-                  SUM(
-                    COALESCE(child_wp.total_p_complete, child_wp.done_ratio, 0)
-                  )
-                FROM
-                  temp_wp_progress_values child_wp
-                WHERE
-                  child_wp.parent_id = wp.id
-                  /* Exclude children with a status excluded from totals */
-                  AND NOT child_wp.status_excluded_from_totals
-              )
-              ) / (
-              /* Exclude the current work package if it has a status excluded from totals */
-              CASE WHEN wp.status_excluded_from_totals
-              THEN 0
-              /* Otherwise, count the current work package if it has a % complete value set */
-              ELSE(CASE WHEN wp.done_ratio IS NOT NULL THEN 1 ELSE 0 END)
-              END + (
+              SELECT
+                SUM(
+                  COALESCE(child_wp.done_ratio, child_wp.total_p_complete, 0)
+                )
+              FROM
+                temp_wp_progress_values child_wp
+              WHERE
+                child_wp.parent_id = wp.id
+                /* Exclude children with a status excluded from totals */
+                AND NOT child_wp.status_excluded_from_totals
+            ) / NULLIF(
+              (
                 SELECT
                   COUNT(1)
                 FROM
@@ -284,7 +272,7 @@ module WorkPackages::Progress::SqlCommands
                   child_wp.parent_id = wp.id
                   /* Exclude children with a status excluded from totals */
                   AND NOT child_wp.status_excluded_from_totals
-              )
+              ), 0
             )
           )
         END

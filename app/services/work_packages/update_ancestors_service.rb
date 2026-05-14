@@ -153,10 +153,6 @@ class WorkPackages::UpdateAncestorsService < BaseServices::BaseCallable
   def calculate_simple_average_percent_complete(work_package, loader)
     all_done_ratios = children_done_ratio_values(work_package, loader)
 
-    if work_package.done_ratio.present? && !work_package.status.excluded_from_totals
-      all_done_ratios << work_package.done_ratio
-    end
-
     return if all_done_ratios.empty?
 
     progress = all_done_ratios.sum.to_f / all_done_ratios.count
@@ -167,7 +163,7 @@ class WorkPackages::UpdateAncestorsService < BaseServices::BaseCallable
     loader
       .children_of(work_package)
       .filter(&:included_in_totals_calculation?)
-      .map { |child| child.derived_done_ratio || child.done_ratio || 0 }
+      .map { |child| child.done_ratio || child.derived_done_ratio || 0 }
   end
 
   # Switches the direct parent of the initiator to automatic scheduling mode if
