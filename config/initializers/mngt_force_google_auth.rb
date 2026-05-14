@@ -7,14 +7,6 @@
 Rails.application.config.to_prepare do
   next unless ENV["GOOGLE_OAUTH_CLIENT_ID"].present?
 
-  # Make OpenProject redirect the login page directly to Google —
-  # no password form is ever shown to the user.
-  Setting.singleton_class.prepend(Module.new do
-    def omniauth_direct_login_provider
-      "google_oauth2"
-    end
-  end)
-
   # Tell OpenProject's own templates to hide the password form.
   OpenProject::Configuration.singleton_class.prepend(Module.new do
     def disable_password_login?

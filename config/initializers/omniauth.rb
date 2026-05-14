@@ -48,7 +48,8 @@ Rails.application.config.middleware.use OmniAuth::Builder do
                prompt:         "select_account",
                image_aspect_ratio: "square",
                image_size:     48,
-               name:           "google_oauth2"
+               name:           "google_oauth2",
+               hd:             %w[grupomngt.com.br maisarmazem.com.br clrc.com.br areaincrivel.com.br simbioseventures.com]
              }
   end
 end
