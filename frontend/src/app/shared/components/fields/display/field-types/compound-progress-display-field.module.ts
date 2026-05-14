@@ -56,7 +56,7 @@ export class CompoundProgressDisplayField extends DisplayField {
 
     this.renderActual(element, displayText);
 
-    if (this.derivedValue !== null && this.hasChildren()) {
+    if (this.derivedValue !== null && this.hasChildren() && this.value === null) {
       this.renderSeparator(element);
       this.renderDerived(element, this.derivedValueString);
     }
