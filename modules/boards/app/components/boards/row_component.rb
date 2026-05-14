@@ -52,11 +52,29 @@ module Boards
     end
 
     def button_links
-      [delete_link].compact
+      [default_kanban_link, delete_link].compact
+    end
+
+    def default_kanban_link
+      return unless render_manage_links?
+
+      if model.is_default_kanban?
+        content_tag(:span, "",
+                    class: "icon icon-watched",
+                    title: t("boards.label_default_kanban"))
+      else
+        link_to(
+          "",
+          set_default_kanban_project_work_package_board_path(model.project, model),
+          class: "icon icon-star",
+          data: { turbo_method: :patch },
+          title: t("boards.label_set_default_kanban")
+        )
+      end
     end
 
     def delete_link
-      if render_delete_link?
+      if render_manage_links?
         link_to(
           "",
           project_work_package_board_path(model.project, model),
@@ -73,7 +91,7 @@ module Boards
 
     private
 
-    def render_delete_link?
+    def render_manage_links?
       table.current_project && table.current_user.allowed_in_project?(:manage_board_views, table.current_project)
     end
   end

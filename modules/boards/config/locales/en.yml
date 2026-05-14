@@ -15,6 +15,10 @@ en:
   boards:
     label_board: "Board"
     label_boards: "Boards"
+    label_kanban: "Kanban"
+    label_default_kanban: "Default Kanban"
+    label_set_default_kanban: "Set as default Kanban"
+    notice_default_kanban_set: "Board set as default Kanban successfully."
     label_create_new_board: "Create new board"
     label_board_type: "Board type"
     board_types:

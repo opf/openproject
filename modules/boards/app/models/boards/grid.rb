@@ -34,6 +34,8 @@ module Boards
     belongs_to :linked, polymorphic: true, optional: true, inverse_of: :task_boards
     validates :name, presence: true
 
+    scope :default_kanban, -> { where(is_default_kanban: true) }
+
     before_destroy :delete_queries, prepend: true
 
     set_acts_as_attachable_options view_permission: :show_board_views,

@@ -7,16 +7,17 @@ module ::Boards
 
     before_action :load_and_authorize_in_optional_project
     before_action :find_board_for_deletion, only: %i[destroy]
-    before_action :find_board, only: %i[show split_view]
+    before_action :find_board, only: %i[show split_view set_default_kanban]
 
     # The boards permission alone does not suffice
     # to view work packages
-    before_action :authorize_work_package_permission, only: %i[show split_view]
+    before_action :authorize_work_package_permission, only: %i[show split_view kanban]
 
     before_action :build_board_grid, only: %i[new]
     before_action :load_query, only: %i[index]
 
     menu_item :boards
+    menu_item :kanban, only: %i[kanban]
 
     def index
       render "index", locals: { menu_name: project_or_global_menu }
@@ -36,6 +37,36 @@ module ::Boards
           end
         end
       end
+    end
+
+    def set_default_kanban
+      Boards::Grid.transaction do
+        Boards::Grid.default_kanban.where(project: @project).update_all(is_default_kanban: false)
+        @board_grid.update!(is_default_kanban: true)
+      end
+
+      flash[:notice] = I18n.t("boards.notice_default_kanban_set")
+      redirect_to project_work_package_boards_path(@project)
+    end
+
+    def kanban
+      board = Boards::Grid.default_kanban.find_by(project: @project)
+
+      if board.nil?
+        result = Boards::StatusBoardCreateService.new(user: User.current)
+                                                 .call(project: @project,
+                                                       name: I18n.t("boards.label_kanban"),
+                                                       attribute: "status")
+        if result.success?
+          board = result.result
+          board.update!(is_default_kanban: true)
+        else
+          flash[:error] = result.message
+          redirect_to project_work_package_boards_path(@project) and return
+        end
+      end
+
+      redirect_to project_work_package_board_path(@project, board)
     end
 
     def new; end
