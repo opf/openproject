@@ -64,8 +64,16 @@ RSpec.describe "Version action board",
   let!(:shared_version) { create(:version, project: second_project, name: "Shared version", sharing: "system") }
   let!(:closed_version) { create(:version, project:, status: "closed", name: "Closed version") }
 
-  let!(:work_package) { create(:work_package, project:, subject: "Foo", version: open_version) }
-  let!(:closed_version_wp) { create(:work_package, project:, subject: "Closed", version: closed_version) }
+  let!(:work_package) do
+    create(:work_package, project:, subject: "Foo").tap do |wp|
+      wp.work_package_associated_versions.create!(version: open_version, kind: "target")
+    end
+  end
+  let!(:closed_version_wp) do
+    create(:work_package, project:, subject: "Closed").tap do |wp|
+      wp.work_package_associated_versions.create!(version: closed_version, kind: "target")
+    end
+  end
   let(:filters) { Components::WorkPackages::Filters.new }
 
   def create_new_version_board
@@ -116,10 +124,10 @@ RSpec.describe "Version action board",
         expect(open.name).to eq "Open version"
         expect(second_open.name).to eq "A second version"
 
-        expect(open.filters.first.name).to eq :version_id
+        expect(open.filters.first.name).to eq :target_version_id
         expect(open.filters.first.values).to eq [open_version.id.to_s]
 
-        expect(second_open.filters.first.name).to eq :version_id
+        expect(second_open.filters.first.name).to eq :target_version_id
         expect(second_open.filters.first.values).to eq [other_version.id.to_s]
       end
 
@@ -138,9 +146,10 @@ RSpec.describe "Version action board",
       expect(second.ordered_work_packages).to be_empty
 
       # Expect work package to be saved in query first
-      subjects = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
+      wps = WorkPackage.where(id: first.ordered_work_packages.pluck(:work_package_id))
       # Only the explicitly added item is now contained in sort order
-      expect(subjects).to contain_exactly(["Task 1", open_version.id])
+      expect(wps.map { |wp| [wp.subject, wp.target_versions.pluck(:id)] })
+        .to contain_exactly(["Task 1", [open_version.id]])
 
       # Move item to Closed
       board_page.move_card(0, from: "Open version", to: "A second version")
@@ -156,8 +165,9 @@ RSpec.describe "Version action board",
         expect(second.reload.ordered_work_packages.count).to eq(1)
       end
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
-      expect(subjects).to contain_exactly(["Task 1", other_version.id])
+      wps = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id))
+      expect(wps.map { |wp| [wp.subject, wp.target_versions.pluck(:id)] })
+        .to contain_exactly(["Task 1", [other_version.id]])
 
       # Add filter
       # Filter for Task
@@ -207,8 +217,9 @@ RSpec.describe "Version action board",
       board_page.expect_card("Open version", "Foo", present: false)
       board_page.expect_card("A second version", "Task 1", present: true)
 
-      subjects = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id)).pluck(:subject, :version_id)
-      expect(subjects).to contain_exactly(["Task 1", other_version.id])
+      wps = WorkPackage.where(id: second.ordered_work_packages.pluck(:work_package_id))
+      expect(wps.map { |wp| [wp.subject, wp.target_versions.pluck(:id)] })
+        .to contain_exactly(["Task 1", [other_version.id]])
 
       # Open remaining in split view
       work_package = second.ordered_work_packages.first.work_package
@@ -290,7 +301,7 @@ RSpec.describe "Version action board",
       expect(ids).to contain_exactly(work_package.id, closed_version_wp.id)
 
       closed_version_wp.reload
-      expect(closed_version_wp.version_id).to eq(open_version.id)
+      expect(closed_version_wp.target_versions.pluck(:id)).to contain_exactly(open_version.id)
 
       # But we can not move back to closed
       board_page.move_card(0, from: "Open version", to: "Closed version")

@@ -238,11 +238,15 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         const service = this.boardActionRegistry.get(board.actionAttribute!);
         const { filterName } = service;
         const idFilterName = `${filterName}_id`;
+        const snakeIdFilterName = `${_.snakeCase(filterName)}_id`;
         const options = widget.options as unknown as BoardWidgetOption;
-        const instance = _.find(options.filters, (f) => !!f[filterName] || !!f[idFilterName]);
+        const instance = _.find(
+          options.filters,
+          (f) => !!f[filterName] || !!f[idFilterName] || !!f[snakeIdFilterName],
+        );
 
         if (instance) {
-          return ((instance[filterName] || instance[idFilterName])?.values[0] || null) as unknown as string|null;
+          return ((instance[filterName] || instance[idFilterName] || instance[snakeIdFilterName])?.values[0] || null) as unknown as string|null;
         }
 
         return null;

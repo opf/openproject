@@ -68,7 +68,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
 
   @Input() public highlightingMode:CardHighlightingMode;
 
-  @Input() public workPackageAddedHandler:(wp:WorkPackageResource) => Promise<unknown>;
+  @Input() public workPackageAddedHandler:(wp:WorkPackageResource, source?:HTMLElement) => Promise<unknown>;
 
   @Input() public showStatusButton = true;
 

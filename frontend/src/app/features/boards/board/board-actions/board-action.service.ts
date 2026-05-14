@@ -221,7 +221,7 @@ export abstract class BoardActionService {
   /**
    * Assign the work package to the action attribute
    */
-  assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource) {
+  assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource, _sourceId?:string) {
     // Ensure attribute remains writable in the form
     if (!changeset.isWritable(this.filterName)) {
       throw new Error(this.I18n.t(

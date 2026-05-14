@@ -11,6 +11,9 @@ import { CachedBoardActionService } from 'core-app/features/boards/board/board-a
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import {
   firstValueFrom,
   Observable,
@@ -22,7 +25,7 @@ import { map } from 'rxjs/operators';
 export class BoardVersionActionService extends CachedBoardActionService {
   readonly halNotification = inject(HalResourceNotificationService);
 
-  filterName = 'version';
+  filterName = 'targetVersion';
 
   resourceName = 'version';
 
@@ -48,8 +51,9 @@ export class BoardVersionActionService extends CachedBoardActionService {
     }
 
     if (!this.writable$) {
-      this.writable$ = query.results.createWorkPackage()
-        .then((form:FormResource) => form.schema.version.writable);
+      const createForm = query.results.createWorkPackage as () => Promise<FormResource>;
+      this.writable$ = createForm()
+        .then((form:FormResource) => (form.schema.targetVersions as { writable:boolean }).writable);
     }
 
     return this.writable$;
@@ -79,7 +83,10 @@ export class BoardVersionActionService extends CachedBoardActionService {
     return VersionBoardHeaderComponent;
   }
 
-  public disabledAddButtonPlaceholder(version:VersionResource) {
+  public disabledAddButtonPlaceholder(version?:VersionResource) {
+    if (!version) {
+      return undefined;
+    }
     if (version.isLocked()) {
       return { icon: 'locked', text: this.I18n.t('js.boards.version.locked') };
     }
@@ -87,6 +94,38 @@ export class BoardVersionActionService extends CachedBoardActionService {
       return { icon: 'not-supported', text: this.I18n.t('js.boards.version.closed') };
     }
     return undefined;
+  }
+
+  public canMove(workPackage:WorkPackageResource):boolean {
+    const schema = this.schemaCache.of(workPackage) as { targetVersions?:{ writable:boolean } };
+    return schema.targetVersions?.writable ?? false;
+  }
+
+  public assignToWorkPackage(changeset:WorkPackageChangeset, query:QueryResource, sourceId?:string):void {
+    if (!changeset.isWritable('targetVersions')) {
+      throw new Error(this.I18n.t(
+        'js.boards.error_attribute_not_writable',
+        { attribute: changeset.humanName('targetVersions') },
+      ));
+    }
+
+    const filter = this.getActionFilter(query);
+    const value = filter?.values[0] as HalResource | undefined;
+    if (!value) {
+      return;
+    }
+
+    const destinationId = value.id!;
+    const currentLinks = (changeset.projectedResource.$links as { targetVersions?:{ href:string }[] }).targetVersions ?? [];
+    const keptIds = currentLinks
+      .map((link) => idFromLink(link.href))
+      .filter((id) => id !== sourceId && id !== destinationId);
+
+    const newValue = [...keptIds, destinationId].map((id) => (
+      this.halResourceService.fromSelfLink(this.apiV3Service.versions.id(id).toString())
+    ));
+
+    changeset.setValue('targetVersions', newValue);
   }
 
   public dragIntoAllowed(query:QueryResource, value:HalResource|undefined) {

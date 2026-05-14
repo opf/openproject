@@ -167,7 +167,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
   public initiallyFocused = false;
 
   /** Editing handler to be passed into card component */
-  public workPackageAddedHandler = (workPackage:WorkPackageResource) => this.addWorkPackage(workPackage);
+  public workPackageAddedHandler = (workPackage:WorkPackageResource, source?:HTMLElement) => this.addWorkPackage(workPackage, source);
 
   /** Move check to be passed into card component */
   public canDragOutOf = false;
@@ -387,12 +387,16 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
    * adding to this query requires saving a changeset.
    * @param workPackage
    */
-  private addWorkPackage(workPackage:WorkPackageResource) {
+  private addWorkPackage(workPackage:WorkPackageResource, source?:HTMLElement) {
     const query = this.querySpace.query.value!;
     const changeset:WorkPackageChangeset = this.halEditing.changeFor(workPackage);
 
+    const sourceId = source
+      ?.closest('[data-action-resource-id]')
+      ?.getAttribute('data-action-resource-id') ?? undefined;
+
     // Assign to the action attribute if this is an action board
-    this.actionService?.assignToWorkPackage(changeset, query);
+    this.actionService?.assignToWorkPackage(changeset, query, sourceId);
 
     if (changeset.isEmpty()) {
       // Ensure work package and its schema is loaded

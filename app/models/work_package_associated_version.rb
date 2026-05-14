@@ -31,7 +31,7 @@
 class WorkPackageAssociatedVersion < ApplicationRecord
   VERSION_KINDS = %w[target observed_in].freeze
 
-  belongs_to :work_package
+  belongs_to :work_package, touch: true
   belongs_to :version
 
   validates :kind, presence: true, inclusion: { in: VERSION_KINDS }

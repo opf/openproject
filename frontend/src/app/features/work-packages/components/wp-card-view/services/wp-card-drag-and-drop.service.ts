@@ -76,12 +76,12 @@ export class WorkPackageCardDragAndDropService {
         const newOrder = this.reorderService.remove(this.currentOrder, wpId);
         this.updateOrder(newOrder);
       },
-      onAdded: async (card:HTMLElement) => {
+      onAdded: async (card:HTMLElement, _target:HTMLElement, source:HTMLElement) => {
         const wpId:string = card.dataset.workPackageId!;
         const toIndex = findIndex(card);
 
         const workPackage = await firstValueFrom(this.apiV3Service.work_packages.id(wpId).get());
-        const result = await this.addWorkPackageToQuery(workPackage, toIndex);
+        const result = await this.addWorkPackageToQuery(workPackage, toIndex, source);
 
         if (card.parentElement) {
           card.parentElement.removeChild(card);
@@ -164,9 +164,9 @@ export class WorkPackageCardDragAndDropService {
   /**
    * Add the given work package to the query
    */
-  async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex = -1):Promise<boolean> {
+  async addWorkPackageToQuery(workPackage:WorkPackageResource, toIndex = -1, source?:HTMLElement):Promise<boolean> {
     try {
-      await this.cardView.workPackageAddedHandler(workPackage);
+      await this.cardView.workPackageAddedHandler(workPackage, source);
       const newOrder = await this.reorderService.add(this.currentOrder, workPackage.id!, toIndex);
       this.updateOrder(newOrder);
       return true;
