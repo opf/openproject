@@ -10,5 +10,16 @@ export default [
     'target': `http://${PROXY_HOSTNAME}:${PORT}`,
     'secure': false,
     'timeout': 360000,
+  },
+  {
+    'context': ['/cable'],
+    'target': `ws://${PROXY_HOSTNAME}:${PORT}`,
+    'ws': true,
+    'secure': false,
+  },
+  {
+    'context': ['/mngt'],
+    'target': `http://${PROXY_HOSTNAME}:${PORT}`,
+    'secure': false,
   }
 ];

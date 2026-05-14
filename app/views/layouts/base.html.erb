@@ -216,6 +216,7 @@ See COPYRIGHT and LICENSE files for more details.
   <%= content_for :additional_js_dom_ready %>
 <% end %>
 <div class="op-wide-autocomplete-wrapper"></div>
+<%= render(Mngt::ChatPanelComponent.new) %>
 <%= call_hook :view_layouts_base_body_bottom %>
 <% end %>
 </html>

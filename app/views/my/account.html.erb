@@ -59,6 +59,87 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= error_messages_for "user" %>
 
+<% if ::OpenProject::Avatars::AvatarManager.avatars_enabled? && ::OpenProject::Avatars::AvatarManager.local_avatars_enabled? %>
+<style id="mngt-cropper-css">.cropper-container{-webkit-touch-callout:none;direction:ltr;font-size:0;line-height:0;position:relative;-ms-touch-action:none;touch-action:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.cropper-container img{backface-visibility:hidden;display:block;height:100%;image-orientation:0deg;max-height:none!important;max-width:none!important;min-height:0!important;min-width:0!important;width:100%}.cropper-canvas,.cropper-crop-box,.cropper-drag-box,.cropper-modal,.cropper-wrap-box{bottom:0;left:0;position:absolute;right:0;top:0}.cropper-canvas,.cropper-wrap-box{overflow:hidden}.cropper-drag-box{background-color:#fff;opacity:0}.cropper-modal{background-color:#000;opacity:.5}.cropper-view-box{display:block;height:100%;outline:1px solid #39f;outline-color:rgba(51,153,255,.75);overflow:hidden;width:100%}.cropper-dashed{border:0 dashed #eee;display:block;opacity:.5;position:absolute}.cropper-dashed.dashed-h{border-bottom-width:1px;border-top-width:1px;height:33.33333%;left:0;top:33.33333%;width:100%}.cropper-dashed.dashed-v{border-left-width:1px;border-right-width:1px;height:100%;left:33.33333%;top:0;width:33.33333%}.cropper-center{display:block;height:0;left:50%;opacity:.75;position:absolute;top:50%;width:0}.cropper-center:after,.cropper-center:before{background-color:#eee;content:" ";display:block;position:absolute}.cropper-center:before{height:1px;left:-3px;top:0;width:7px}.cropper-center:after{height:7px;left:0;top:-3px;width:1px}.cropper-face,.cropper-line,.cropper-point{display:block;height:100%;opacity:.1;position:absolute;width:100%}.cropper-face{background-color:#fff;left:0;top:0}.cropper-line{background-color:#39f}.cropper-line.line-e{cursor:ew-resize;right:-3px;top:0;width:5px}.cropper-line.line-n{cursor:ns-resize;height:5px;left:0;top:-3px}.cropper-line.line-w{cursor:ew-resize;left:-3px;top:0;width:5px}.cropper-line.line-s{bottom:-3px;cursor:ns-resize;height:5px;left:0}.cropper-point{background-color:#39f;height:5px;opacity:.75;width:5px}.cropper-point.point-e{cursor:ew-resize;margin-top:-3px;right:-3px;top:50%}.cropper-point.point-n{cursor:ns-resize;left:50%;margin-left:-3px;top:-3px}.cropper-point.point-w{cursor:ew-resize;left:-3px;margin-top:-3px;top:50%}.cropper-point.point-s{bottom:-3px;cursor:s-resize;left:50%;margin-left:-3px}.cropper-point.point-ne{cursor:nesw-resize;right:-3px;top:-3px}.cropper-point.point-nw{cursor:nwse-resize;left:-3px;top:-3px}.cropper-point.point-sw{bottom:-3px;cursor:nesw-resize;left:-3px}.cropper-point.point-se{bottom:-3px;cursor:nwse-resize;height:20px;opacity:1;right:-3px;width:20px}.cropper-point.point-se:before{background-color:#39f;bottom:-50%;content:" ";display:block;height:200%;opacity:0;position:absolute;right:-50%;width:200%}.cropper-invisible{opacity:0}.cropper-bg{background-image:url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC")}.cropper-hide{display:block;height:0;position:absolute;width:0}.cropper-hidden{display:none!important}.cropper-move{cursor:move}.cropper-crop{cursor:crosshair}.cropper-disabled .cropper-drag-box,.cropper-disabled .cropper-face,.cropper-disabled .cropper-line,.cropper-disabled .cropper-point{cursor:not-allowed}</style>
+<div data-controller="mngt--avatar-crop"
+     data-mngt--avatar-crop-upload-url-value="<%= edit_my_avatar_path %>"
+     data-mngt--avatar-crop-csrf-token-value="<%= form_authenticity_token %>"
+     style="margin-bottom: 2rem;">
+
+  <%# Current avatar + change button %>
+  <div style="display:flex; align-items:center; gap:1.25rem; margin-bottom:0.5rem;">
+    <div style="width:80px; height:80px; border-radius:50%; overflow:hidden; background:#2d2d2d; flex-shrink:0;">
+      <% if local_avatar?(@user) %>
+        <img src="<%= user_avatar_path(@user) %>?v=<%= @user.updated_at.to_i %>"
+             style="width:80px; height:80px; object-fit:cover; display:block;"
+             alt="<%= @user.name %>">
+      <% else %>
+        <div style="width:80px;height:80px;border-radius:50%;background:#5a4fcf;display:flex;align-items:center;justify-content:center;font-size:2rem;color:#fff;font-weight:600;">
+          <%= @user.firstname.to_s.first.upcase %>
+        </div>
+      <% end %>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:0.5rem;">
+      <label style="cursor:pointer; display:inline-flex; align-items:center; gap:0.4rem;
+                    background:#5a4fcf; color:#fff; padding:0.45rem 1rem; border-radius:6px;
+                    font-size:0.875rem; font-weight:500;">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+        Alterar foto
+        <input type="file" accept="image/*" style="display:none;"
+               data-mngt--avatar-crop-target="input"
+               data-action="change->mngt--avatar-crop#fileSelected">
+      </label>
+      <% if local_avatar?(@user) %>
+        <%= link_to "Remover foto",
+                    edit_my_avatar_path,
+                    data: { turbo_method: :delete, turbo_confirm: t(:are_you_sure_delete_avatar) },
+                    style: "font-size:0.8rem; color:#aaa; text-decoration:underline;" %>
+      <% end %>
+    </div>
+  </div>
+
+  <%# Crop modal %>
+  <div data-mngt--avatar-crop-target="modal"
+       style="display:none; position:fixed; inset:0; z-index:9999;
+              background:rgba(0,0,0,0.75); align-items:center; justify-content:center;">
+    <div style="background:#1e1e1e; border-radius:12px; width:min(520px,95vw);
+                max-height:90vh; overflow:hidden; display:flex; flex-direction:column;">
+
+      <%# Header %>
+      <div style="display:flex; align-items:center; justify-content:space-between;
+                  padding:1rem 1.25rem; border-bottom:1px solid #333;">
+        <span style="color:#fff; font-weight:600;">Recorte a imagem e clique em Salvar</span>
+        <button type="button" data-action="click->mngt--avatar-crop#closeModal"
+                style="background:none; border:none; color:#aaa; cursor:pointer; font-size:1.25rem; line-height:1;">✕</button>
+      </div>
+
+      <%# Cropper area %>
+      <div style="flex:1; overflow:hidden; max-height:360px; background:#000;">
+        <img data-mngt--avatar-crop-target="image"
+             style="display:block; max-width:100%;" src="" alt="crop">
+      </div>
+
+      <%# Preview + Save %>
+      <div style="display:flex; align-items:center; gap:1.5rem; padding:1rem 1.25rem; border-top:1px solid #333;">
+        <div style="flex-shrink:0;">
+          <div style="font-size:0.75rem; color:#888; margin-bottom:0.4rem;">Prévia</div>
+          <div data-mngt--avatar-crop-target="preview"
+               style="width:64px; height:64px; border-radius:50%; overflow:hidden; background:#333;"></div>
+        </div>
+        <div style="flex:1;"></div>
+        <button type="button" data-action="click->mngt--avatar-crop#save"
+                data-mngt--avatar-crop-target="uploadBtn"
+                style="background:#f97316; color:#fff; border:none; border-radius:6px;
+                       padding:0.5rem 1.5rem; font-weight:600; font-size:0.9rem; cursor:pointer;">
+          Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<% end %>
+
 <%=
   settings_primer_form_with(
     model: @user,

@@ -32,6 +32,18 @@ Rails.application.routes.draw do
   root to: "homescreen#index", as: "home"
   rails_relative_url_root = OpenProject::Configuration["rails_relative_url_root"] || ""
 
+  mount ActionCable.server => "/cable"
+
+  namespace :mngt do
+    get  "stream/token",    to: "stream_token#show"
+    get  "stream/channels", to: "stream_channels#index"
+    get  "stream/users",    to: "stream_users#index"
+    post  "stream/dm",           to: "stream_dm#create"
+    post  "stream/channels",     to: "stream_channels#create"
+    patch "stream/channels/:id", to: "stream_channels#update"
+    post "stream/webhook",  to: "stream_webhook#receive"
+  end
+
   # Route for error pages
   get "/404", to: "errors#not_found"
   get "/422", to: "errors#unacceptable"

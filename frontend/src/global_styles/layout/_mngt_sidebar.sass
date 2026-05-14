@@ -34,6 +34,34 @@
   letter-spacing: 0.06em
   user-select: none
 
+  &--sub
+    padding-top: 14px
+
+.mngt-sidebar-channel-hash
+  font-size: 14px
+  font-weight: 500
+  opacity: 0.6
+  flex-shrink: 0
+  width: 16px
+  text-align: center
+  line-height: 1
+
+  .mngt-sidebar-item:hover &,
+  .mngt-sidebar-item--active &
+    opacity: 1
+
+.mngt-sidebar-group-icon
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-shrink: 0
+  width: 16px
+  opacity: 0.7
+
+  .mngt-sidebar-item:hover &,
+  .mngt-sidebar-item--active &
+    opacity: 1
+
 .mngt-sidebar-item
   display: flex
   align-items: center
@@ -130,12 +158,12 @@
   justify-content: center
   flex-shrink: 0
   line-height: 1
+  position: relative
+  overflow: hidden
 
   &--sm
     width: 16px
     height: 16px
-    border-radius: 3px
-    font-size: 9px
 
 .mngt-sidebar-add
   color: var(--main-menu-font-color-disabled, rgba(255,255,255,0.35))
@@ -147,10 +175,39 @@
   border-radius: 4px
   text-decoration: none
   flex-shrink: 0
+  background: none
+  border: none
+  padding: 0
+  cursor: pointer
 
   &:hover
     background: rgba(255,255,255,0.12)
     color: #fff
+
+.mngt-sidebar-new-dm
+  display: flex
+  align-items: center
+  gap: 6px
+  width: calc(100% - 12px)
+  margin: 2px 6px 6px
+  padding: 5px 12px 5px 16px
+  background: none
+  border: none
+  border-radius: 6px
+  font-size: 13px
+  color: var(--main-menu-font-color-disabled, rgba(255,255,255,0.35))
+  cursor: pointer
+  text-align: left
+
+  &:hover
+    background: rgba(255,255,255,0.06)
+    color: var(--main-menu-font-color, #c8d1e0)
+
+.mngt-sidebar-new-dm-plus
+  font-size: 16px
+  font-weight: 300
+  line-height: 1
+  opacity: 0.8
 
 // ── Project module tab bar ────────────────────────────────────
 // Rendered by Mngt::ProjectTabsComponent — clean custom HTML,
@@ -225,3 +282,1213 @@
 
   &-body
     // children of collapsed group are hidden natively by <details>
+
+.mngt-sidebar-channel-hash
+  width: 22px
+  height: 22px
+  border-radius: 5px
+  font-size: 14px
+  font-weight: 700
+  color: rgba(255,255,255,0.5)
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-shrink: 0
+  line-height: 1
+
+// ── Floating Stream Chat panel ────────────────────────────────
+
+.mngt-chat
+  position: fixed
+  bottom: 24px
+  right: 24px
+  z-index: 9000
+  display: flex
+  flex-direction: column
+  align-items: flex-end
+  gap: 8px
+  font-family: inherit
+
+.mngt-chat-toggle
+  width: 44px
+  height: 44px
+  border-radius: 50%
+  background: var(--primary-button-color, #1a9641)
+  color: #fff
+  border: none
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  box-shadow: 0 4px 12px rgba(0,0,0,0.35)
+  position: relative
+  transition: background 0.15s ease, transform 0.15s ease
+
+  &:hover
+    background: var(--primary-button-hover-color, #157a34)
+    transform: scale(1.06)
+
+.mngt-chat-badge
+  position: absolute
+  top: -4px
+  right: -4px
+  min-width: 18px
+  height: 18px
+  border-radius: 9px
+  background: #e53e3e
+  color: #fff
+  font-size: 10px
+  font-weight: 700
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 0 4px
+  box-sizing: border-box
+
+.mngt-chat-panel
+  position: fixed
+  bottom: 80px
+  right: 24px
+  width: 380px
+  height: 560px
+  background: var(--body-background, #1e2330)
+  border: 1px solid rgba(255,255,255,0.1)
+  border-radius: 12px
+  box-shadow: 0 8px 32px rgba(0,0,0,0.45)
+  display: flex
+  flex-direction: column
+  overflow: hidden
+  z-index: 9000
+
+  &--maximized
+    top: var(--header-height, 44px)
+    left: var(--main-menu-width, 230px)
+    right: 0
+    bottom: 0
+    width: auto
+    height: auto
+    border-radius: 0
+
+  @media (max-width: 768px)
+    top: 0
+    left: 0
+    right: 0
+    bottom: 0
+    width: 100%
+    height: 100%
+    border-radius: 0
+    border: none
+
+.mngt-chat-panel-header
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 0 12px 0 16px
+  height: 44px
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  flex-shrink: 0
+
+.mngt-chat-panel-title
+  font-size: 14px
+  font-weight: 600
+  color: #fff
+
+.mngt-chat-panel-actions
+  display: flex
+  align-items: center
+  gap: 2px
+
+.mngt-chat-panel-close,
+.mngt-chat-panel-maximize
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 28px
+  height: 28px
+  border-radius: 6px
+  border: none
+  background: none
+  color: rgba(255,255,255,0.55)
+  cursor: pointer
+  transition: background 0.12s ease, color 0.12s ease
+
+  &:hover
+    background: rgba(255,255,255,0.1)
+    color: #fff
+
+.mngt-chat-panel-maximize
+  @media (max-width: 768px)
+    display: none
+
+.mngt-chat-panel-body
+  flex: 1
+  overflow: hidden
+  display: flex
+  flex-direction: column
+  position: relative
+
+.mngt-chat-loading,
+.mngt-chat-error
+  position: absolute
+  inset: 0
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: 10px
+  color: rgba(255,255,255,0.5)
+  font-size: 13px
+
+.mngt-chat-loading-icon
+  opacity: 0.4
+  animation: mngt-spin 1s linear infinite
+
+@keyframes mngt-spin
+  to
+    transform: rotate(360deg)
+
+// Container onde o Stimulus renderiza o chat do Stream (sem iframe)
+.mngt-chat-stream-container
+  flex: 1
+  overflow: hidden
+  display: flex
+  flex-direction: column
+
+.mngt-stream-placeholder
+  flex: 1
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 24px
+  color: rgba(255,255,255,0.35)
+  font-size: 13px
+  text-align: center
+
+.mngt-stream-header
+  display: flex
+  align-items: center
+  gap: 6px
+  padding: 10px 14px
+  font-size: 13px
+  font-weight: 600
+  color: #fff
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  flex-shrink: 0
+  position: relative
+
+.mngt-stream-header-name
+  flex: 1
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.mngt-stream-menu-btn
+  background: none
+  border: none
+  color: rgba(255,255,255,0.5)
+  cursor: pointer
+  padding: 3px 5px
+  border-radius: 4px
+  display: flex
+  align-items: center
+  flex-shrink: 0
+  &:hover
+    background: rgba(255,255,255,0.1)
+    color: #fff
+
+.mngt-stream-menu
+  position: absolute
+  right: 8px
+  top: calc(100% + 2px)
+  background: #2b2d31
+  border: 1px solid rgba(255,255,255,0.12)
+  border-radius: 6px
+  z-index: 100
+  min-width: 160px
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5)
+  overflow: hidden
+  button
+    display: block
+    width: 100%
+    padding: 8px 12px
+    text-align: left
+    background: none
+    border: none
+    color: #dcddde
+    font-size: 13px
+    cursor: pointer
+    &:hover
+      background: rgba(255,255,255,0.08)
+      color: #fff
+
+.mngt-stream-rename-input
+  flex: 1
+  background: rgba(255,255,255,0.08)
+  border: 1px solid rgba(255,255,255,0.3)
+  border-radius: 4px
+  color: #fff
+  font-size: 13px
+  font-weight: 600
+  padding: 2px 6px
+  outline: none
+  min-width: 0
+  &:focus
+    border-color: rgba(255,255,255,0.6)
+
+.mngt-stream-messages
+  flex: 1
+  overflow-y: auto
+  padding: 8px 4px
+  display: flex
+  flex-direction: column
+  gap: 2px
+
+.mngt-stream-message
+  display: flex
+  gap: 8px
+  align-items: flex-start
+  padding: 4px 12px
+  border-radius: 4px
+  position: relative
+  &:hover
+    background: rgba(255,255,255,0.04)
+  &:hover .mngt-msg-actions
+    opacity: 1
+
+.mngt-stream-msg-avatar
+  width: 28px
+  height: 28px
+  border-radius: 50%
+  flex-shrink: 0
+  margin-top: 1px
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: 11px
+  font-weight: 700
+  color: #fff
+  position: relative
+  overflow: hidden
+
+.mngt-stream-msg-content
+  flex: 1
+  min-width: 0
+
+.mngt-stream-msg-header
+  display: flex
+  align-items: baseline
+  gap: 6px
+  margin-bottom: 2px
+
+.mngt-stream-msg-author
+  font-size: 12px
+  font-weight: 600
+  color: var(--color-accent-fg, #58a6ff)
+
+.mngt-stream-msg-time
+  font-size: 11px
+  color: rgba(255,255,255,0.3)
+
+.mngt-stream-msg-text
+  margin: 0
+  font-size: 13px
+  color: var(--body-font-color, #e6edf3)
+  line-height: 1.4
+  word-break: break-word
+
+.mngt-stream-form
+  display: flex
+  align-items: flex-end
+  gap: 6px
+  padding: 8px 10px
+  border-top: 1px solid rgba(255,255,255,0.08)
+
+.mngt-stream-input
+  flex: 1
+  background: rgba(255,255,255,0.06)
+  border: 1px solid rgba(255,255,255,0.1)
+  border-radius: 6px
+  color: #e6edf3
+  font-size: 13px
+  padding: 6px 10px
+  outline: none
+  font-family: inherit
+  resize: none
+  overflow-y: hidden
+  min-height: 34px
+  max-height: 120px
+  line-height: 1.4
+  display: block
+  &:focus
+    border-color: var(--color-accent-fg, #58a6ff)
+  &::placeholder
+    color: rgba(255,255,255,0.3)
+
+.mngt-stream-send
+  width: 30px
+  height: 30px
+  border-radius: 6px
+  background: var(--primary-button-color, #1a9641)
+  border: none
+  color: #fff
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-shrink: 0
+  transition: background 0.12s ease
+  &:hover
+    background: var(--primary-button-hover-color, #157a34)
+
+// ── Message actions (hover) ────────────────────────────────────
+
+.mngt-msg-actions
+  position: absolute
+  top: 4px
+  right: 8px
+  display: flex
+  gap: 2px
+  opacity: 0
+  background: #1e1e1e
+  border: 1px solid rgba(255,255,255,0.1)
+  border-radius: 6px
+  padding: 2px 3px
+
+.mngt-msg-action-btn
+  background: none
+  border: none
+  color: rgba(255,255,255,0.45)
+  cursor: pointer
+  padding: 3px 5px
+  border-radius: 4px
+  line-height: 1
+  display: flex
+  align-items: center
+  &:hover
+    background: rgba(255,255,255,0.1)
+    color: #fff
+  &--danger:hover
+    color: #f87171
+
+// ── Typing indicator ───────────────────────────────────────────
+
+.mngt-typing-indicator
+  padding: 2px 12px 3px
+  font-size: 11px
+  color: rgba(255,255,255,0.35)
+  font-style: italic
+  min-height: 18px
+
+// ── Quoted message ─────────────────────────────────────────────
+
+.mngt-quoted-msg
+  border-left: 2px solid rgba(89,147,255,0.5)
+  background: rgba(255,255,255,0.04)
+  border-radius: 0 4px 4px 0
+  padding: 3px 8px
+  margin-bottom: 3px
+  font-size: 12px
+  color: rgba(255,255,255,0.5)
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  max-width: 100%
+
+.mngt-quoted-msg-author
+  font-weight: 600
+  color: rgba(89,147,255,0.75)
+  margin-right: 4px
+
+// ── Reply preview ──────────────────────────────────────────────
+
+.mngt-reply-preview
+  display: flex
+  align-items: center
+  gap: 8px
+  padding: 5px 10px
+  background: rgba(255,255,255,0.04)
+  border-top: 1px solid rgba(255,255,255,0.06)
+  font-size: 12px
+  color: rgba(255,255,255,0.45)
+
+.mngt-reply-preview-label
+  flex: 1
+  min-width: 0
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.mngt-reply-preview-cancel
+  background: none
+  border: none
+  color: rgba(255,255,255,0.3)
+  cursor: pointer
+  font-size: 18px
+  line-height: 1
+  padding: 0 2px
+  flex-shrink: 0
+  &:hover
+    color: #fff
+
+// ── @mention dropdown ──────────────────────────────────────────
+
+.mngt-stream-form-wrap
+  position: relative
+  flex-shrink: 0
+
+.mngt-mention-dropdown
+  position: absolute
+  bottom: 100%
+  left: 0
+  right: 0
+  background: #1e1e2e
+  border: 1px solid rgba(255,255,255,0.12)
+  border-radius: 6px 6px 0 0
+  max-height: 180px
+  overflow-y: auto
+  z-index: 200
+
+.mngt-mention-item
+  padding: 7px 12px
+  cursor: pointer
+  font-size: 13px
+  color: rgba(255,255,255,0.8)
+  &:hover, &--active
+    background: rgba(255,255,255,0.07)
+
+// ── Mention highlight in messages ──────────────────────────────
+
+.mngt-mention
+  color: #93c5fd
+  font-weight: 600
+
+// ── Date separator ─────────────────────────────────────────────
+
+.mngt-date-separator
+  display: flex
+  align-items: center
+  gap: 10px
+  padding: 10px 12px 4px
+  user-select: none
+  &::before,
+  &::after
+    content: ''
+    flex: 1
+    height: 1px
+    background: rgba(255,255,255,0.08)
+  span
+    font-size: 11px
+    font-weight: 600
+    color: rgba(255,255,255,0.35)
+    white-space: nowrap
+    text-transform: capitalize
+
+// ── Grouped messages ───────────────────────────────────────────
+
+.mngt-stream-message--grouped
+  padding-top: 1px
+
+.mngt-stream-msg-time--grouped
+  font-size: 10px
+  color: transparent
+  width: 28px
+  text-align: center
+  flex-shrink: 0
+  line-height: 1.8
+  transition: color 0.1s ease
+
+.mngt-stream-message--grouped:hover .mngt-stream-msg-time--grouped
+  color: rgba(255,255,255,0.3)
+
+// ── Pagination loader ──────────────────────────────────────────
+
+.mngt-older-loader
+  text-align: center
+  padding: 8px 12px
+  font-size: 12px
+  color: rgba(255,255,255,0.35)
+  font-style: italic
+
+.mngt-no-more-messages
+  text-align: center
+  padding: 12px
+  font-size: 11px
+  font-weight: 600
+  color: rgba(255,255,255,0.2)
+  text-transform: uppercase
+  letter-spacing: 0.06em
+
+// ── Markdown: code ────────────────────────────────────────────
+
+.mngt-code-block
+  display: block
+  margin: 4px 0
+  padding: 8px 12px
+  background: rgba(0,0,0,0.35)
+  border: 1px solid rgba(255,255,255,0.08)
+  border-radius: 4px
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace
+  font-size: 12px
+  color: #e6edf3
+  white-space: pre-wrap
+  word-break: break-all
+  overflow-x: auto
+  code
+    font: inherit
+    background: none
+    border: none
+    padding: 0
+
+.mngt-code-inline
+  padding: 1px 5px
+  background: rgba(0,0,0,0.35)
+  border: 1px solid rgba(255,255,255,0.08)
+  border-radius: 3px
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace
+  font-size: 12px
+  color: #e6edf3
+
+// ── Markdown: blockquote ───────────────────────────────────────
+
+.mngt-blockquote
+  border-left: 3px solid rgba(255,255,255,0.25)
+  padding: 2px 0 2px 10px
+  margin: 2px 0
+  color: rgba(255,255,255,0.65)
+
+// ── Inline link ────────────────────────────────────────────────
+
+.mngt-link
+  color: var(--color-accent-fg, #58a6ff)
+  text-decoration: none
+  word-break: break-all
+  &:hover
+    text-decoration: underline
+
+// ── Link preview card ──────────────────────────────────────────
+
+.mngt-link-preview
+  display: flex
+  flex-direction: row
+  border: 1px solid rgba(255,255,255,0.1)
+  border-left: 3px solid var(--color-accent-fg, #58a6ff)
+  border-radius: 4px 6px 6px 4px
+  overflow: hidden
+  max-width: 360px
+  margin-top: 6px
+  text-decoration: none
+  background: rgba(255,255,255,0.03)
+  transition: background 0.12s ease
+  &:hover
+    background: rgba(255,255,255,0.06)
+    text-decoration: none
+
+.mngt-link-preview-img
+  width: 80px
+  min-height: 72px
+  background-size: cover
+  background-position: center
+  flex-shrink: 0
+
+.mngt-link-preview-body
+  padding: 8px 10px
+  min-width: 0
+  display: flex
+  flex-direction: column
+  gap: 3px
+
+.mngt-link-preview-site
+  font-size: 10px
+  font-weight: 700
+  text-transform: uppercase
+  letter-spacing: 0.05em
+  color: var(--color-accent-fg, #58a6ff)
+
+.mngt-link-preview-title
+  font-size: 12px
+  font-weight: 600
+  color: #e6edf3
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.mngt-link-preview-text
+  font-size: 12px
+  color: rgba(255,255,255,0.45)
+  overflow: hidden
+  display: -webkit-box
+  -webkit-line-clamp: 2
+  -webkit-box-orient: vertical
+
+.mngt-link-preview-url
+  font-size: 10px
+  color: rgba(255,255,255,0.25)
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+// ── Message avatar wrap + online dot ──────────────────────────
+
+.mngt-msg-avatar-wrap
+  position: relative
+  flex-shrink: 0
+
+.mngt-status-dot
+  position: absolute
+  bottom: 0
+  right: 0
+  width: 8px
+  height: 8px
+  border-radius: 50%
+  background: #22c55e
+  border: 1.5px solid var(--body-background, #1e2330)
+  pointer-events: none
+
+// ── Reaction picker (emoji popup) ─────────────────────────────
+
+.mngt-reaction-picker
+  position: absolute
+  right: 8px
+  top: -42px
+  background: #2b2d31
+  border: 1px solid rgba(255,255,255,0.12)
+  border-radius: 8px
+  display: flex
+  gap: 2px
+  padding: 4px 6px
+  z-index: 200
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5)
+
+.mngt-reaction-pick-btn
+  background: none
+  border: none
+  cursor: pointer
+  font-size: 18px
+  padding: 2px 4px
+  border-radius: 4px
+  line-height: 1
+  &:hover
+    background: rgba(255,255,255,0.1)
+
+// ── Reactions row below message ────────────────────────────────
+
+.mngt-reactions
+  display: flex
+  flex-wrap: wrap
+  gap: 4px
+  margin-top: 4px
+
+.mngt-reaction-btn
+  display: inline-flex
+  align-items: center
+  gap: 3px
+  padding: 2px 7px
+  border-radius: 12px
+  border: 1px solid rgba(255,255,255,0.12)
+  background: rgba(255,255,255,0.05)
+  cursor: pointer
+  font-size: 13px
+  color: rgba(255,255,255,0.7)
+  line-height: 1.4
+  &:hover
+    background: rgba(255,255,255,0.1)
+    border-color: rgba(255,255,255,0.25)
+  &--own
+    background: rgba(89,147,255,0.15)
+    border-color: rgba(89,147,255,0.4)
+    color: #93c5fd
+  span
+    font-size: 11px
+    font-weight: 600
+
+// ── Sidebar DM avatar wrapper + presence dot ───────────────────
+
+.mngt-sidebar-dm-avatar-wrap
+  position: relative
+  flex-shrink: 0
+  display: inline-flex
+
+.mngt-sidebar-presence-dot
+  position: absolute
+  bottom: -1px
+  right: -1px
+  width: 7px
+  height: 7px
+  border-radius: 50%
+  background: #22c55e
+  border: 1.5px solid var(--main-menu-bg-color, #1a1d24)
+  pointer-events: none
+
+// ── Deleted / Edit ─────────────────────────────────────────────
+
+.mngt-msg-deleted
+  font-style: italic
+  color: rgba(255,255,255,0.25)
+  font-size: 12px
+
+.mngt-msg-edit-input
+  width: 100%
+  resize: none
+  margin-top: 2px
+
+// ── New DM / Group Chat Modal ──────────────────────────────────
+
+.mngt-dm-modal
+  position: fixed
+  inset: 0
+  z-index: 10000
+  display: flex
+  align-items: center
+  justify-content: center
+
+.mngt-dm-modal-backdrop
+  position: absolute
+  inset: 0
+  background: rgba(0,0,0,0.55)
+
+.mngt-dm-modal-body
+  position: relative
+  width: 420px
+  max-width: calc(100vw - 32px)
+  max-height: calc(100vh - 64px)
+  background: #1e2330
+  border: 1px solid rgba(255,255,255,0.12)
+  border-radius: 10px
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6)
+  display: flex
+  flex-direction: column
+  overflow: hidden
+
+.mngt-dm-modal-header
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 14px 16px
+  font-size: 14px
+  font-weight: 600
+  color: #fff
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  flex-shrink: 0
+
+.mngt-dm-modal-close
+  background: none
+  border: none
+  color: rgba(255,255,255,0.5)
+  cursor: pointer
+  font-size: 20px
+  line-height: 1
+  padding: 2px 8px
+  border-radius: 4px
+  font-family: inherit
+  &:hover
+    background: rgba(255,255,255,0.1)
+    color: #fff
+
+.mngt-dm-modal-search
+  width: 100%
+  box-sizing: border-box
+  padding: 10px 14px
+  background: rgba(255,255,255,0.05)
+  border: none
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  color: #e6edf3
+  font-size: 13px
+  font-family: inherit
+  outline: none
+  flex-shrink: 0
+  &::placeholder
+    color: rgba(255,255,255,0.35)
+  &:focus
+    background: rgba(255,255,255,0.08)
+
+.mngt-dm-modal-group-name
+  padding: 8px 12px
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  flex-shrink: 0
+
+.mngt-dm-modal-group-input
+  width: 100%
+  box-sizing: border-box
+  padding: 7px 10px
+  background: rgba(255,255,255,0.06)
+  border: 1px solid rgba(255,255,255,0.12)
+  border-radius: 6px
+  color: #e6edf3
+  font-size: 13px
+  font-family: inherit
+  outline: none
+  &::placeholder
+    color: rgba(255,255,255,0.35)
+  &:focus
+    border-color: var(--color-accent-fg, #58a6ff)
+
+.mngt-dm-modal-count
+  padding: 5px 14px
+  font-size: 11px
+  color: rgba(255,255,255,0.4)
+  flex-shrink: 0
+
+.mngt-dm-modal-users
+  flex: 1
+  overflow-y: auto
+  padding: 6px 0
+  min-height: 140px
+
+.mngt-dm-modal-user
+  display: flex
+  align-items: center
+  gap: 8px
+  padding: 7px 14px
+  cursor: pointer
+  font-size: 13px
+  color: var(--main-menu-font-color, #c8d1e0)
+  user-select: none
+  &:hover
+    background: rgba(255,255,255,0.06)
+  input[type="checkbox"]
+    width: 15px
+    height: 15px
+    flex-shrink: 0
+    cursor: pointer
+    accent-color: var(--color-accent-fg, #58a6ff)
+
+.mngt-dm-modal-empty
+  display: block
+  padding: 20px 16px
+  font-size: 12px
+  color: rgba(255,255,255,0.3)
+  text-align: center
+
+.mngt-dm-modal-footer
+  padding: 10px 14px
+  border-top: 1px solid rgba(255,255,255,0.08)
+  flex-shrink: 0
+
+.mngt-dm-modal-btn
+  width: 100%
+  padding: 8px 16px
+  background: var(--primary-button-color, #1a9641)
+  color: #fff
+  border: none
+  border-radius: 6px
+  font-size: 13px
+  font-weight: 600
+  font-family: inherit
+  cursor: pointer
+  transition: background 0.12s ease
+  &:hover:not(:disabled)
+    background: var(--primary-button-hover-color, #157a34)
+  &:disabled
+    opacity: 0.45
+    cursor: not-allowed
+
+.mngt-sidebar-company-group
+  margin-bottom: 4px
+
+.mngt-sidebar-company-label
+  padding: 6px 14px 2px
+  font-size: 10px
+  font-weight: 700
+  text-transform: uppercase
+  letter-spacing: 0.06em
+  color: rgba(255,255,255,0.35)
+  user-select: none
+
+// ── Header action buttons ──────────────────────────────────────
+
+.mngt-stream-header-btn
+  background: none
+  border: none
+  color: rgba(255,255,255,0.45)
+  cursor: pointer
+  padding: 3px 5px
+  border-radius: 4px
+  display: flex
+  align-items: center
+  flex-shrink: 0
+  transition: background 0.12s ease, color 0.12s ease
+  &:hover
+    background: rgba(255,255,255,0.1)
+    color: #fff
+  &--active
+    color: #fff
+    background: rgba(255,255,255,0.1)
+
+// ── Messages wrap + scroll-to-bottom ──────────────────────────
+
+.mngt-stream-messages-wrap
+  position: relative
+  flex: 1
+  overflow: hidden
+  display: flex
+  flex-direction: column
+
+.mngt-scroll-to-bottom
+  position: absolute
+  bottom: 12px
+  right: 12px
+  width: 32px
+  height: 32px
+  border-radius: 50%
+  background: #2b2d31
+  border: 1px solid rgba(255,255,255,0.15)
+  color: rgba(255,255,255,0.7)
+  cursor: pointer
+  display: flex
+  align-items: center
+  justify-content: center
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4)
+  z-index: 10
+  transition: background 0.12s ease
+  &:hover
+    background: #3b3d44
+    color: #fff
+
+.mngt-scroll-badge
+  position: absolute
+  top: -5px
+  right: -5px
+  min-width: 16px
+  height: 16px
+  border-radius: 8px
+  background: #e53e3e
+  color: #fff
+  font-size: 9px
+  font-weight: 700
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 0 3px
+  box-sizing: border-box
+  pointer-events: none
+
+// ── Unread divider ─────────────────────────────────────────────
+
+.mngt-unread-divider
+  display: flex
+  align-items: center
+  gap: 10px
+  padding: 6px 12px
+  user-select: none
+  &::before,
+  &::after
+    content: ''
+    flex: 1
+    height: 1px
+    background: rgba(232,75,75,0.4)
+  span
+    font-size: 11px
+    font-weight: 600
+    color: rgba(232,75,75,0.8)
+    white-space: nowrap
+
+// ── Mention highlight ──────────────────────────────────────────
+
+.mngt-stream-message--mention
+  background: rgba(250,200,50,0.05) !important
+  border-left: 2px solid rgba(250,200,50,0.5)
+  padding-left: 10px
+
+// ── Member list panel ──────────────────────────────────────────
+
+.mngt-member-list
+  position: absolute
+  top: 0
+  right: 0
+  bottom: 0
+  width: 196px
+  background: #1a1d24
+  border-left: 1px solid rgba(255,255,255,0.08)
+  overflow-y: auto
+  z-index: 20
+  display: flex
+  flex-direction: column
+
+.mngt-member-list-header
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 8px 10px 8px 12px
+  font-size: 11px
+  font-weight: 700
+  color: rgba(255,255,255,0.45)
+  text-transform: uppercase
+  letter-spacing: 0.05em
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  flex-shrink: 0
+
+.mngt-member-item
+  display: flex
+  align-items: center
+  gap: 8px
+  padding: 5px 12px
+  font-size: 12px
+  color: rgba(255,255,255,0.75)
+  &:hover
+    background: rgba(255,255,255,0.04)
+
+.mngt-member-avatar
+  width: 24px
+  height: 24px
+  border-radius: 50%
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: 10px
+  font-weight: 700
+  color: #fff
+  position: relative
+  overflow: hidden
+  flex-shrink: 0
+
+.mngt-member-dot
+  width: 7px
+  height: 7px
+
+.mngt-member-name
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+  flex: 1
+  &--offline
+    opacity: 0.4
+
+// ── Search bar ────────────────────────────────────────────────
+
+.mngt-search-bar
+  display: flex
+  align-items: center
+  gap: 6px
+  padding: 5px 10px
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  background: rgba(0,0,0,0.15)
+  flex-shrink: 0
+
+.mngt-search-input
+  flex: 1
+  background: rgba(255,255,255,0.06)
+  border: 1px solid rgba(255,255,255,0.1)
+  border-radius: 4px
+  color: #e6edf3
+  font-size: 12px
+  padding: 4px 8px
+  outline: none
+  font-family: inherit
+  &:focus
+    border-color: var(--color-accent-fg, #58a6ff)
+  &::placeholder
+    color: rgba(255,255,255,0.3)
+  &::-webkit-search-cancel-button
+    display: none
+
+.mngt-search-count
+  font-size: 11px
+  color: rgba(255,255,255,0.35)
+  white-space: nowrap
+  flex-shrink: 0
+
+.mngt-search-close
+  background: none
+  border: none
+  color: rgba(255,255,255,0.35)
+  cursor: pointer
+  font-size: 18px
+  line-height: 1
+  padding: 0 4px
+  border-radius: 4px
+  flex-shrink: 0
+  font-family: inherit
+  &:hover
+    background: rgba(255,255,255,0.1)
+    color: #fff
+
+// ── Login page (Google-only) ───────────────────────────────────
+
+.mngt-login-page
+  display: flex
+  align-items: center
+  justify-content: center
+  min-height: calc(100vh - 60px)
+  padding: 32px 16px
+  background: #0d1117
+
+.mngt-login-card
+  width: 380px
+  max-width: 100%
+  background: #161b22
+  border: 1px solid rgba(255,255,255,0.1)
+  border-radius: 16px
+  padding: 40px 36px
+  display: flex
+  flex-direction: column
+  align-items: center
+  gap: 24px
+  box-shadow: 0 20px 60px rgba(0,0,0,0.6)
+
+.mngt-login-brand
+  display: flex
+  align-items: center
+  gap: 12px
+
+.mngt-login-brand-name
+  font-size: 26px
+  font-weight: 800
+  letter-spacing: 0.06em
+  color: #fff
+
+.mngt-login-text
+  text-align: center
+
+.mngt-login-title
+  font-size: 22px
+  font-weight: 700
+  color: #fff
+  margin: 0 0 6px
+
+.mngt-login-subtitle
+  font-size: 14px
+  color: rgba(255,255,255,0.45)
+  margin: 0
+
+.mngt-login-alert
+  width: 100%
+  padding: 10px 14px
+  border-radius: 8px
+  font-size: 13px
+  text-align: center
+  &--error
+    background: rgba(248,113,113,0.1)
+    border: 1px solid rgba(248,113,113,0.3)
+    color: #f87171
+  &--notice
+    background: rgba(96,165,250,0.08)
+    border: 1px solid rgba(96,165,250,0.2)
+    color: #93c5fd
+
+.mngt-google-btn
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 12px
+  width: 100%
+  padding: 12px 20px
+  background: #fff
+  border: 1px solid #dadce0
+  border-radius: 8px
+  font-size: 15px
+  font-weight: 600
+  color: #3c4043
+  text-decoration: none
+  transition: background 0.15s ease, box-shadow 0.15s ease, transform 0.1s ease
+  &:hover
+    background: #f8f9fa
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25)
+    text-decoration: none
+    color: #3c4043
+    transform: translateY(-1px)
+  &:active
+    background: #f1f3f4
+    transform: translateY(0)
+
+.mngt-google-btn-icon
+  flex-shrink: 0

@@ -1,0 +1,62 @@
+<div class="mngt-chat"
+     data-controller="mngt--chat-panel"
+     data-mngt--chat-panel-token-url-value="<%= token_url %>">
+
+  <button class="mngt-chat-toggle"
+          data-action="click->mngt--chat-panel#toggle"
+          data-mngt--chat-panel-target="button"
+          aria-label="Chat"
+          title="Chat">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="20" height="20" aria-hidden="true">
+      <path d="M1 2.75C1 1.784 1.784 1 2.75 1h10.5c.966 0 1.75.784 1.75 1.75v7.5A1.75 1.75 0 0 1 13.25 12H9.06l-2.573 2.573A1.457 1.457 0 0 1 4 13.543V12H2.75A1.75 1.75 0 0 1 1 10.25Z"/>
+    </svg>
+    <span class="mngt-chat-badge" data-mngt--chat-panel-target="badge" hidden></span>
+  </button>
+
+  <div class="mngt-chat-panel"
+       data-mngt--chat-panel-target="panel"
+       hidden
+       aria-label="Chat">
+    <div class="mngt-chat-panel-header">
+      <span class="mngt-chat-panel-title">Chat</span>
+      <div class="mngt-chat-panel-actions">
+        <button class="mngt-chat-panel-maximize"
+                data-action="click->mngt--chat-panel#toggleMaximize"
+                aria-label="Maximizar chat">
+          <svg data-mngt--chat-panel-target="iconExpand"
+               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="14" height="14" aria-hidden="true">
+            <path d="M1.75 1h3.5a.75.75 0 0 1 0 1.5H2.56l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L1.5 3.56v2.69a.75.75 0 0 1-1.5 0v-3.5c0-.69.56-1.25 1.25-1.25Zm10 0h3.5c.69 0 1.25.56 1.25 1.25v3.5a.75.75 0 0 1-1.5 0V3.06l-3.22 3.22a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L12.94 2.5h-2.19a.75.75 0 0 1 0-1.5ZM.75 10a.75.75 0 0 1 .75.75v2.69l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L2.56 14h2.69a.75.75 0 0 1 0 1.5H1.75c-.69 0-1.25-.56-1.25-1.25v-3.5A.75.75 0 0 1 .75 10Zm14.5 0a.75.75 0 0 1 .75.75v3.5c0 .69-.56 1.25-1.25 1.25h-3.5a.75.75 0 0 1 0-1.5h2.69l-3.22-3.22a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215L14.5 12.44v-2.19a.75.75 0 0 1 .75-.75Z"/>
+          </svg>
+          <svg data-mngt--chat-panel-target="iconCompress"
+               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="14" height="14" aria-hidden="true"
+               hidden>
+            <path d="M4.75 1a.75.75 0 0 1 .75.75v2.69l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L6.56 5.5h2.69a.75.75 0 0 1 0 1.5h-4.5A.75.75 0 0 1 4 6.25v-4.5A.75.75 0 0 1 4.75 1ZM.75 14.5a.75.75 0 0 1 0-1.5h2.69L.22 9.78a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215L4.5 12.44v-2.19a.75.75 0 0 1 1.5 0v4.5a.749.749 0 0 1-.75.75h-4.5ZM14.75 1a.75.75 0 0 1 .75.75v4.5a.749.749 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h2.69L9.72 2.28a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215L14 4.44V2.25A.75.75 0 0 1 14.75 1Zm-.25 8a.75.75 0 0 1 .75.75v4.5a.75.75 0 0 1-.75.75h-4.5a.75.75 0 0 1 0-1.5h2.69l-3.22-3.22a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215L14 12.44v-2.19a.75.75 0 0 1 .75-.75Z"/>
+          </svg>
+        </button>
+        <button class="mngt-chat-panel-close"
+                data-action="click->mngt--chat-panel#toggle"
+                aria-label="Fechar chat">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="14" height="14" aria-hidden="true">
+            <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.749.749 0 0 1 1.275.326.749.749 0 0 1-.215.734L9.06 8l3.22 3.22a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215L8 9.06l-3.22 3.22a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+    <div class="mngt-chat-panel-body">
+      <div class="mngt-chat-loading" data-mngt--chat-panel-target="loading">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="24" height="24" class="mngt-chat-loading-icon" aria-hidden="true">
+          <path d="M8 0a8 8 0 1 1 0 16A8 8 0 0 1 8 0ZM1.5 8a6.5 6.5 0 1 0 13 0 6.5 6.5 0 0 0-13 0Z" opacity=".2"/>
+          <path d="M8 0a8 8 0 0 1 8 8h-1.5A6.5 6.5 0 0 0 8 1.5V0Z"/>
+        </svg>
+        <span>Conectando ao chat...</span>
+      </div>
+      <div class="mngt-chat-error" data-mngt--chat-panel-target="error" hidden>
+        <span>Erro ao conectar ao chat.</span>
+      </div>
+      <%# Stream SDK renderiza aqui — sem iframe %>
+      <div data-mngt--chat-panel-target="container"
+           class="mngt-chat-stream-container"
+           hidden></div>
+    </div>
+  </div>
+</div>
