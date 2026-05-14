@@ -1,7 +1,7 @@
 {
   "name": "op-blocknote-extensions",
   "private": true,
-  "version": "0.0.25",
+  "version": "0.1.0",
   "type": "module",
   "module": "./dist/op-blocknote-extensions.es.js",
   "types": "./dist/index.d.ts",
@@ -37,6 +37,9 @@
     "@types/react": "^19.1.13",
     "@types/react-dom": "^19.1.9",
     "@types/styled-components": "^5.1.35",
+    "@blocknote/core": "^0.51.0",
+    "@blocknote/mantine": "^0.51.0",
+    "@blocknote/react": "^0.51.0",
     "@vitejs/plugin-react": "^5.1.0",
     "@vitest/browser-playwright": "^4.0.18",
     "@vitest/coverage-v8": "^4.0.18",
@@ -56,10 +59,12 @@
     "vitest": "^4.0.18",
     "vitest-browser-react": "^2.0.5"
   },
+  "peerDependencies": {
+    "@blocknote/core": ">=0.51.0",
+    "@blocknote/mantine": ">=0.51.0",
+    "@blocknote/react": ">=0.51.0"
+  },
   "dependencies": {
-    "@blocknote/core": "^0.44.2",
-    "@blocknote/mantine": "^0.44.2",
-    "@blocknote/react": "^0.44.2",
     "@primer/octicons-react": "^19.20.0",
     "i18next": "^25.6.3",
     "react-i18next": "^16.3.5",
