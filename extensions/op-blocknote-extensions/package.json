@@ -11,6 +11,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/op-blocknote-extensions.es.js",
       "require": "./dist/op-blocknote-extensions.cjs.js"
+    },
+    "./server": {
+      "types": "./dist/server.d.ts",
+      "import": "./dist/op-blocknote-extensions-server.es.js",
+      "require": "./dist/op-blocknote-extensions-server.cjs.js"
     }
   },
   "files": [
@@ -63,6 +68,10 @@
     "@blocknote/core": ">=0.51.0",
     "@blocknote/mantine": ">=0.51.0",
     "@blocknote/react": ">=0.51.0"
+  },
+  "peerDependenciesMeta": {
+    "@blocknote/mantine": { "optional": true },
+    "@blocknote/react": { "optional": true }
   },
   "dependencies": {
     "@primer/octicons-react": "^19.20.0",

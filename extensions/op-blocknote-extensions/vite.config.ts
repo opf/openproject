@@ -9,10 +9,13 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: path.resolve(__dirname, "lib/index.ts"),
+      entry: {
+        "op-blocknote-extensions": path.resolve(__dirname, "lib/index.ts"),
+        "op-blocknote-extensions-server": path.resolve(__dirname, "lib/server.ts"),
+      },
       name: "OpBlocknoteExtensions",
       formats: ["es", "cjs"],
-      fileName: (format) => `op-blocknote-extensions.${format}.js`,
+      fileName: (format, entryName) => `${entryName}.${format}.js`,
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled
