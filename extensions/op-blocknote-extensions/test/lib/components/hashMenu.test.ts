@@ -64,6 +64,11 @@ describe("getSizeFromCurrentBlock", () => {
     const editor = createTestEditor("foo");
     expect(getSizeFromCurrentBlock(editor as any)).toBe("xxs");
   });
+
+  it("uses the last hash trigger in the block", () => {
+    const editor = createTestEditor("#first ##bug");
+    expect(getSizeFromCurrentBlock(editor as any)).toBe("xs");
+  });
 });
 
 describe("removeTriggerBeforeChip", () => {

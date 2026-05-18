@@ -18,19 +18,20 @@ export function getSizeFromCurrentBlock(editor: AnyEditor): InlineWpSize {
   if (!block) return "xxs";
 
   const content = (block.content ?? []) as any[];
+  let lastHashCount: number | null = null;
 
   for (const node of content) {
     if (node.type !== "text") continue;
     const text = node.text as string;
-    const match = text.match(/(#+)/);
-    if (match) {
-      const hashCount = match[1].length;
-      if (hashCount >= 3) return "s";
-      if (hashCount === 2) return "xs";
-      return "xxs";
+    const matches = [...text.matchAll(/#+/g)];
+    if (matches.length > 0) {
+      lastHashCount = matches[matches.length - 1][0].length;
     }
   }
 
+  if (lastHashCount === null) return "xxs";
+  if (lastHashCount >= 3) return "s";
+  if (lastHashCount === 2) return "xs";
   return "xxs";
 }
 
@@ -82,13 +83,4 @@ export function removeTriggerBeforeChip(editor: AnyEditor, instanceId: string): 
 
   editor.updateBlock(block.id, { content: newContent } as any);
   return block.id;
-}
-
-export function insertWpChipIntoBlock(
-  editor: AnyEditor,
-  _blockId: string,
-  wp: WorkPackage,
-  size: InlineWpSize
-): void {
-  insertWpChip(editor, wp, size);
 }

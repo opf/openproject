@@ -48,7 +48,6 @@ function Editor() {
         triggerCharacter="#"
         getItems={getHashItems}
         suggestionMenuComponent={HashWpMenu}
-        onItemClick={(item: HashMenuItem) => item.onItemClick()}
       />
     </BlockNoteView>
     </div>
