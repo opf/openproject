@@ -3,27 +3,90 @@ pt-BR:
   label_program: Pasta
   label_program_new: Nova pasta
 
-  # --- Projeto → Área ---------------------------------------------------------
+  # --- Projeto → Espaço (nav/listagem) ou Área (configs/admin) ----------------
   label_project: Área
-  label_project_plural: Áreas
-  label_project_new: Nova área
-  label_projects_menu: Áreas
-  label_projects_disk_usage_information: "%{count} áreas usando %{used_disk_space} do espaço em disco"
-  label_for_all_projects: Todas as áreas
+  label_project_plural: Espaços
+  label_project_new: Novo espaço
+  label_projects_menu: Espaços
+  label_projects_disk_usage_information: "%{count} espaços usando %{used_disk_space} do espaço em disco"
+  label_for_all_projects: Todos os espaços
+  label_public_projects: Espaços públicos
+  label_available_projects: Espaços disponíveis
+  label_project_mappings: Espaços
+  description_choose_project: Espaços
+  notice_project_not_found: Área não encontrada.
+  error_no_type_in_project: Nenhum tipo está associado a esta área. Por favor, verifique as Configurações da Área.
+  label_available_custom_fields_projects: Campos personalizados de espaços disponíveis
+
+  activerecord:
+    models:
+      project:
+        one: Espaço
+        other: Espaços
+    attributes:
+      project:
+        templated: Área modelo
+
+  attributes:
+    project: Espaço
+
+  project:
+    not_available: Área N/A
+
   projects:
     index:
-      no_results_title_text: Atualmente, não existem áreas
-      no_results_content_text: Criar uma nova área
+      no_results_title_text: Atualmente, não existem espaços
+      no_results_content_text: Criar um novo espaço
       search:
-        label: Filtro por nome da área
-        placeholder: Pesquisar por nome de área
+        label: Filtro por nome do espaço
+        placeholder: Pesquisar por nome de espaço
     lists:
-      active: Áreas ativas
-      my: Minhas áreas
-      favorited: Áreas favoritas
-      archived: Áreas arquivadas
-      shared: Listas de áreas compartilhadas
-      my_lists: Minhas listas de áreas
+      active: Espaços ativos
+      my: Meus espaços
+      favorited: Espaços favoritos
+      archived: Espaços arquivados
+      shared: Listas de espaços compartilhadas
+      my_lists: Minhas listas de espaços
+    delete:
+      schedule_failed: "Espaço não pode ser excluído: %{errors}"
+
+  copy_project:
+    text:
+      succeeded: "Espaço \"%{source_project_name}\" copiado para \"%{target_project_name}\"."
+    source_project_label: Espaço copiado
+
+  create_project:
+    blank_template:
+      label: Espaço em branco
+
+  events:
+    project: Área editada
+    projects: Área editada
+    title:
+      project_html: "Área: %{name}"
+
+  homescreen:
+    additional:
+      projects: Espaços mais recentes visíveis nesta instância.
+
+  my_account:
+    notifications:
+      project_specific_settings:
+        list_header: Espaços com notificações específicas
+
+  users:
+    invite_user_modal:
+      project:
+        label: Espaço
+
+  types:
+    edit:
+      projects:
+        tab: Espaços
+
+  ee:
+    features:
+      project_list_sharing: Compartilhamento de Lista de Espaços
 
   # --- Portfólio → Espaço -----------------------------------------------------
   label_portfolio: Espaço
