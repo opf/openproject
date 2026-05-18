@@ -94,9 +94,15 @@ function toRenderableMessage(msg: MessageResponse): RenderableMessage {
 
 type MemberLike = { user_id?: string; user?: { name?: string; id?: string; image?: string } };
 
+interface StreamUser {
+  id:        string;
+  name:      string;
+  avatarUrl?: string;
+}
+
 export default class MngtChatPanelController extends Controller<HTMLElement> {
   static targets = ['panel', 'container', 'loading', 'error', 'button', 'badge', 'iconExpand', 'iconCompress'];
-  static values  = { tokenUrl: String };
+  static values  = { tokenUrl: String, usersUrl: String, groupMembersUrl: String };
 
   declare panelTarget:         HTMLElement;
   declare containerTarget:     HTMLElement;
@@ -106,7 +112,9 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   declare badgeTarget:         HTMLElement;
   declare iconExpandTarget:    HTMLElement;
   declare iconCompressTarget:  HTMLElement;
-  declare tokenUrlValue:       string;
+  declare tokenUrlValue:        string;
+  declare usersUrlValue:        string;
+  declare groupMembersUrlValue: string;
 
   private streamClient:    StreamChat | null = null;
   private activeChannel:   Channel   | null = null;
@@ -123,6 +131,11 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   private hasMoreMsgs     = true;
   private currentUserName = '';
   private newMsgCount     = 0;
+  private isJumpMode           = false;
+  private searchDebounce:       ReturnType<typeof setTimeout> | null = null;
+  private globalSearchDebounce: ReturnType<typeof setTimeout> | null = null;
+  private channelNameMap:        Map<string, string> = new Map();
+  private loadedChannels:        Channel[]           = [];
 
   private readonly onMessagesScroll = (): void => {
     const c = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-messages');
@@ -151,6 +164,12 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
   toggle(): void { this.panelTarget.hidden = !this.panelTarget.hidden; }
 
+  showChannelList(): void {
+    this.unsubscribeChannel();
+    this.activeChannel = null;
+    this.renderChannelList();
+  }
+
   toggleMaximize(): void {
     this.maximized = !this.maximized;
     this.panelTarget.classList.toggle('mngt-chat-panel--maximized', this.maximized);
@@ -168,6 +187,12 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const msgData: Record<string, any> = { text };
     if (this.replyToMessage) msgData['quoted_message_id'] = this.replyToMessage.id;
+    if (text.includes('@todos')) {
+      msgData['mentioned_users'] = (Object.values(this.activeChannel.state.members) as MemberLike[])
+        .filter((m) => m.user_id !== this.currentUserId)
+        .map((m) => m.user_id)
+        .filter(Boolean);
+    }
 
     if (input) { input.value = ''; input.style.height = 'auto'; }
     this.closeMentionDropdown();
@@ -292,12 +317,12 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   }
 
   toggleSearch(): void {
-    const bar = this.containerTarget.querySelector<HTMLElement>('#mngt-search-bar');
-    if (!bar) return;
-    const opening = !!bar.hidden;
-    bar.hidden = !opening;
+    const overlay = this.containerTarget.querySelector<HTMLElement>('#mngt-search-overlay');
+    if (!overlay) return;
+    const opening = overlay.hidden;
+    overlay.hidden = !opening;
     if (opening) {
-      bar.querySelector<HTMLInputElement>('.mngt-search-input')?.focus();
+      overlay.querySelector<HTMLInputElement>('.mngt-search-overlay-input')?.focus();
     } else {
       this.clearSearch();
     }
@@ -307,18 +332,47 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
   handleSearchInput(event: Event): void {
     const query = (event.target as HTMLInputElement).value.trim();
-    this.filterMessages(query);
-    const count   = query ? this.containerTarget.querySelectorAll<HTMLElement>('[data-message-id]:not([hidden])').length : null;
-    const countEl = this.containerTarget.querySelector<HTMLElement>('.mngt-search-count');
-    if (countEl) countEl.textContent = count !== null ? `${count} resultado${count !== 1 ? 's' : ''}` : '';
+    if (this.searchDebounce) clearTimeout(this.searchDebounce);
+    const resultsEl = this.containerTarget.querySelector<HTMLElement>('#mngt-search-results');
+    if (!resultsEl) return;
+    if (!query) {
+      resultsEl.innerHTML = '<div class="mngt-search-hint">Digite para buscar mensagens</div>';
+      return;
+    }
+    resultsEl.innerHTML = '<div class="mngt-search-hint">Buscando…</div>';
+    this.searchDebounce = setTimeout(() => void this.doSearch(query), 400);
   }
 
   clearSearchAction(): void {
+    const overlay = this.containerTarget.querySelector<HTMLElement>('#mngt-search-overlay');
+    if (overlay) overlay.hidden = true;
     this.clearSearch();
-    const bar = this.containerTarget.querySelector<HTMLElement>('#mngt-search-bar');
-    if (bar) bar.hidden = true;
     this.containerTarget.querySelector<HTMLElement>('#mngt-search-btn')
       ?.classList.remove('mngt-stream-header-btn--active');
+  }
+
+  handleSearchResultClick(event: Event): void {
+    const btn = event.currentTarget as HTMLElement;
+    const messageId = btn.dataset['messageId'];
+    if (!messageId) return;
+    const overlay = this.containerTarget.querySelector<HTMLElement>('#mngt-search-overlay');
+    if (overlay) overlay.hidden = true;
+    this.containerTarget.querySelector<HTMLElement>('#mngt-search-btn')
+      ?.classList.remove('mngt-stream-header-btn--active');
+    void this.jumpToMessage(messageId);
+  }
+
+  returnToLive(): void {
+    this.isJumpMode = false;
+    const jumpBar = this.containerTarget.querySelector<HTMLElement>('#mngt-jump-mode-bar');
+    if (jumpBar) jumpBar.hidden = true;
+    if (this.activeChannel) {
+      const type = this.activeChannel.type;
+      const id   = this.activeChannel.id ?? '';
+      const data = this.activeChannel.data as Record<string, unknown> | undefined;
+      const name = (data?.['name'] as string | undefined);
+      void this.openChannel(type, id, name);
+    }
   }
 
   toggleMuteChannel(): void {
@@ -377,7 +431,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     }
   }
 
-  private async openChannel(type: string, id: string, displayName?: string): Promise<void> {
+  private async openChannel(type: string, id: string, displayName?: string, jumpToId?: string): Promise<void> {
     if (!this.streamClient) return;
     this.unsubscribeChannel();
     this.typingUsers.clear();
@@ -385,6 +439,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     this.loadingOlder   = false;
     this.hasMoreMsgs    = true;
     this.newMsgCount    = 0;
+    this.isJumpMode     = false;
 
     const channel = this.streamClient.channel(type, id);
     channel.on('message.new',     this.onNewMessage);
@@ -400,6 +455,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     this.activeChannel = channel;
     this.renderChannel(channel, displayName);
     document.dispatchEvent(new CustomEvent('mngt:channel-read', { detail: { channelId: id } }));
+    if (jumpToId) void this.jumpToMessage(jumpToId);
 
     // Query presence for DM members only (team channels have too many members)
     if (type === 'messaging' && this.streamClient) {
@@ -432,6 +488,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
   private readonly onNewMessage = (event: StreamEvent): void => {
     if (!event.message) return;
+    if (this.isJumpMode) return;
     const container = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-messages');
     if (!container) return;
 
@@ -661,18 +718,23 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     if (!match) { this.closeMentionDropdown(); return; }
 
     const query   = match[1]!.toLowerCase();
+    const showAll = !query || 'todos'.startsWith(query);
     const members = (Object.values(this.activeChannel?.state.members ?? {}) as MemberLike[])
       .filter((m) => m.user_id !== this.currentUserId)
       .map((m) => ({ id: m.user_id ?? '', name: (m.user?.name ?? m.user_id ?? '').trim() }))
       .filter((m) => m.id && (!query || m.name.toLowerCase().includes(query)));
 
-    if (members.length === 0) { this.closeMentionDropdown(); return; }
+    if (!showAll && members.length === 0) { this.closeMentionDropdown(); return; }
 
     this.closeMentionDropdown();
     const dropdown = document.createElement('div');
     dropdown.id        = 'mngt-mention-dropdown';
     dropdown.className = 'mngt-mention-dropdown';
-    dropdown.innerHTML = members.slice(0, 8).map((m) =>
+
+    const todosItem = showAll
+      ? `<div class="mngt-mention-item mngt-mention-item--all" data-user-id="__todos__" data-user-name="todos">@todos <span class="mngt-mention-item-hint">— Todos no canal</span></div>`
+      : '';
+    dropdown.innerHTML = todosItem + members.slice(0, 8).map((m) =>
       `<div class="mngt-mention-item" data-user-id="${this.escape(m.id)}" data-user-name="${this.escape(m.name)}">@${this.escape(m.name)}</div>`
     ).join('');
     this.containerTarget.querySelector<HTMLElement>('.mngt-stream-form-wrap')?.insertAdjacentElement('afterbegin', dropdown);
@@ -682,7 +744,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         e.preventDefault();
         const name    = item.dataset['userName'] ?? '';
         const pos2    = input.selectionStart ?? input.value.length;
-        const newBef  = input.value.substring(0, pos2).replace(/@(\w*)$/, name.includes(' ') ? `@[${name}] ` : `@${name} `);
+        const newBef  = input.value.substring(0, pos2).replace(/@(\w*)$/, `@${name} `);
         input.value   = newBef + input.value.substring(pos2);
         input.selectionStart = input.selectionEnd = newBef.length;
         this.closeMentionDropdown();
@@ -698,12 +760,165 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   // ── Rendering ──────────────────────────────────────────────────
 
   private renderPlaceholder(): void {
-    this.containerTarget.innerHTML = `<div class="mngt-stream-placeholder">Selecione um canal na barra lateral para abrir o chat.</div>`;
+    this.renderChannelList();
+  }
+
+  private renderChannelList(): void {
+    this.containerTarget.innerHTML = `<div class="mngt-chat-list"><span class="mngt-chat-list-empty">Carregando...</span></div>`;
+    void this.loadChannelList();
+  }
+
+  private async loadChannelList(): Promise<void> {
+    const listEl = this.containerTarget.querySelector<HTMLElement>('.mngt-chat-list');
+    if (!listEl || !this.streamClient) return;
+    try {
+      const sort = [{ last_message_at: -1 }, { created_at: -1 }] as const;
+      const opts  = { limit: 30, state: true, watch: false };
+      const [team, dms] = await Promise.all([
+        this.streamClient.queryChannels({ type: 'team' }, sort, opts),
+        this.streamClient.queryChannels(
+          { type: 'messaging', members: { $in: [this.currentUserId] } },
+          sort, opts,
+        ),
+      ]);
+
+      // Build channel name lookup for global search results
+      this.channelNameMap.clear();
+      this.loadedChannels = [...team, ...dms];
+      this.loadedChannels.forEach((ch) => {
+        const data = ch.data as Record<string, unknown> | undefined;
+        let name: string;
+        if (ch.type === 'messaging') {
+          const others = (Object.values(ch.state.members) as MemberLike[])
+            .filter((m) => m.user_id !== this.currentUserId);
+          name = (data?.['name'] as string | undefined)
+            ?? others.map((m) => m.user?.name ?? m.user_id ?? '?').join(', ')
+            ?? ch.id ?? '';
+        } else {
+          name = (data?.['name'] as string | undefined) ?? ch.id ?? '';
+        }
+        this.channelNameMap.set(ch.id ?? '', name);
+      });
+
+      const teamHtml = team.map((ch) => this.renderListChannelItem(ch)).join('');
+      const dmsHtml  = dms.map((ch)  => this.renderListDmItem(ch)).join('');
+
+      const searchIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"/></svg>`;
+
+      listEl.innerHTML = `
+        <div class="mngt-global-search-wrap">
+          <div class="mngt-global-search-bar">
+            ${searchIcon}
+            <input class="mngt-global-search-input" id="mngt-global-search-input"
+                   type="search" placeholder="Buscar mensagens…" autocomplete="off">
+          </div>
+          <div class="mngt-global-search-results" id="mngt-global-search-results" hidden>
+            <div class="mngt-search-hint">Digite para buscar em todos os canais</div>
+          </div>
+        </div>
+        <div class="mngt-chat-list-section">
+          <div class="mngt-chat-list-section-label">Canais</div>
+          ${teamHtml || '<span class="mngt-chat-list-empty">Nenhum canal</span>'}
+          <button class="mngt-sidebar-new-dm" id="mngt-panel-new-channel"><span class="mngt-sidebar-new-dm-plus">+</span> Novo canal</button>
+        </div>
+        <div class="mngt-chat-list-section">
+          <div class="mngt-chat-list-section-label">Mensagens Diretas</div>
+          ${dmsHtml || '<span class="mngt-chat-list-empty">Nenhuma conversa</span>'}
+          <button class="mngt-sidebar-new-dm" id="mngt-panel-new-dm"><span class="mngt-sidebar-new-dm-plus">+</span> Nova mensagem</button>
+        </div>`;
+
+      // Global search input handler
+      const globalInput = listEl.querySelector<HTMLInputElement>('#mngt-global-search-input');
+      const globalResultsEl = listEl.querySelector<HTMLElement>('#mngt-global-search-results');
+      if (globalInput && globalResultsEl) {
+        globalInput.addEventListener('input', () => {
+          const query = globalInput.value.trim();
+          if (this.globalSearchDebounce) clearTimeout(this.globalSearchDebounce);
+          if (!query) { globalResultsEl.hidden = true; return; }
+          globalResultsEl.hidden = false;
+          globalResultsEl.innerHTML = '<div class="mngt-search-hint">Buscando…</div>';
+          this.globalSearchDebounce = setTimeout(() => void this.doGlobalSearch(query), 400);
+        });
+
+        globalResultsEl.addEventListener('click', (e) => {
+          const btn = (e.target as HTMLElement).closest<HTMLElement>('[data-message-id]');
+          if (!btn) return;
+          const channelId   = btn.dataset['channelId']   ?? '';
+          const channelType = btn.dataset['channelType']  ?? 'team';
+          const channelName = btn.dataset['channelName'];
+          const messageId   = btn.dataset['messageId']   ?? '';
+          if (!channelId || !messageId) return;
+          globalInput.value = '';
+          globalResultsEl.hidden = true;
+          void this.openChannel(channelType, channelId, channelName, messageId);
+        });
+      }
+
+      listEl.querySelectorAll<HTMLElement>('[data-list-channel-id]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          const type = btn.dataset['listChannelType'] ?? 'team';
+          const id   = btn.dataset['listChannelId']   ?? '';
+          const name = btn.dataset['listChannelName'];
+          void this.openChannel(type, id, name);
+        });
+      });
+
+      listEl.querySelector('#mngt-panel-new-channel')?.addEventListener('click', () => {
+        document.dispatchEvent(new CustomEvent('mngt:open-new-channel'));
+      });
+      listEl.querySelector('#mngt-panel-new-dm')?.addEventListener('click', () => {
+        document.dispatchEvent(new CustomEvent('mngt:open-new-dm'));
+      });
+    } catch {
+      if (listEl) listEl.innerHTML = '<span class="mngt-chat-list-empty">Erro ao carregar canais</span>';
+    }
+  }
+
+  private renderListChannelItem(ch: Channel): string {
+    const data   = ch.data as Record<string, unknown> | undefined;
+    const name   = (data?.['name'] as string | undefined) ?? ch.id ?? '';
+    const unread = ch.countUnread();
+    return `<button class="mngt-chat-list-item"
+        data-list-channel-id="${this.escape(ch.id ?? '')}"
+        data-list-channel-type="${ch.type}"
+        data-list-channel-name="${this.escape(name)}">
+      <span class="mngt-chat-list-hash">#</span>
+      <span class="mngt-chat-list-name">${this.escape(name)}</span>
+      ${unread > 0 ? `<span class="mngt-sidebar-badge">${unread > 99 ? '99+' : unread}</span>` : ''}
+    </button>`;
+  }
+
+  private renderListDmItem(ch: Channel): string {
+    const data         = ch.data as Record<string, unknown> | undefined;
+    const otherMembers = (Object.values(ch.state.members) as MemberLike[])
+      .filter((m) => m.user_id !== this.currentUserId);
+    const isGroup = !/^op_\d+--op_\d+$/.test(ch.id ?? '');
+    const name    = (data?.['name'] as string | undefined)
+      ?? otherMembers.map((m) => m.user?.name ?? m.user_id ?? '?').join(', ')
+      ?? ch.id ?? '';
+    const unread  = ch.countUnread();
+    const bg      = msgAvatarColor(name);
+    const initial = (name[0] ?? '?').toUpperCase();
+    const avatarHtml = isGroup
+      ? `<span class="mngt-chat-list-avatar" style="background:${bg}">
+           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216Z"/><path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/></svg>
+         </span>`
+      : `<span class="mngt-chat-list-avatar" style="background:${bg}">${initial}</span>`;
+    return `<button class="mngt-chat-list-item"
+        data-list-channel-id="${this.escape(ch.id ?? '')}"
+        data-list-channel-type="${ch.type}"
+        data-list-channel-name="${this.escape(name)}">
+      ${avatarHtml}
+      <span class="mngt-chat-list-name">${this.escape(name)}</span>
+      ${unread > 0 ? `<span class="mngt-sidebar-badge">${unread > 99 ? '99+' : unread}</span>` : ''}
+    </button>`;
   }
 
   private renderChannel(channel: Channel, displayName?: string): void {
     const members = Object.values(channel.state.members) as MemberLike[];
-    const isGroup = channel.type === 'messaging' && members.length > 2;
+    // 1:1 DMs have a deterministic ID like "op_5--op_10"; groups have a Stream-assigned ID
+    const is1on1  = channel.type === 'messaging' && /^op_\d+--op_\d+$/.test(channel.id ?? '');
+    const isGroup = channel.type === 'messaging' && !is1on1;
     let name: string;
     if (displayName) {
       name = displayName;
@@ -736,25 +951,36 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="13" height="13"><path d="M2 5.5a3.5 3.5 0 1 1 5.898 2.549 5.508 5.508 0 0 1 3.034 4.084.75.75 0 1 1-1.482.235 4 4 0 0 0-7.9 0 .75.75 0 0 1-1.482-.236A5.507 5.507 0 0 1 3.102 8.05 3.493 3.493 0 0 1 2 5.5ZM11 4a3.001 3.001 0 0 1 2.22 5.018 5.01 5.01 0 0 1 2.56 3.012.749.749 0 0 1-.885.954.752.752 0 0 1-.549-.514 3.507 3.507 0 0 0-2.522-2.372.75.75 0 0 1-.574-.73v-.352a.75.75 0 0 1 .416-.672A1.5 1.5 0 0 0 11 5.5.75.75 0 0 1 11 4Zm-5.5-.5a2 2 0 1 0-.001 3.999A2 2 0 0 0 5.5 3.5Z"/></svg>
       </button>` : '';
 
-    const menuBtn = isGroup ? `
+    const menuBtn = channel.type === 'messaging' ? `
       <button class="mngt-stream-header-btn" data-action="click->mngt--chat-panel#toggleChannelMenu" aria-label="Opções">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M8 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3ZM1.5 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm13 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Z"/></svg>
       </button>
       <div class="mngt-stream-menu" id="mngt-stream-menu" hidden>
-        <button data-action="click->mngt--chat-panel#startRename">Renomear grupo</button>
+        <button data-action="click->mngt--chat-panel#openAddMemberModal">Adicionar membro</button>
+        ${isGroup ? '<button data-action="click->mngt--chat-panel#startRename">Renomear grupo</button>' : ''}
       </div>` : '';
+
+    const backBtn = `<button class="mngt-chat-back-btn" data-action="click->mngt--chat-panel#showChannelList" aria-label="Voltar"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M9.78 12.78a.75.75 0 0 1-1.06 0L4.47 8.53a.75.75 0 0 1 0-1.06l4.25-4.25a.751.751 0 0 1 1.042.018.751.751 0 0 1 .018 1.042L6.06 8l3.72 3.72a.75.75 0 0 1 0 1.06Z"/></svg></button>`;
 
     const messages = channel.state.messages as unknown as MessageResponse[];
     this.containerTarget.innerHTML = `
       <div class="mngt-stream-header">
-        <span class="mngt-stream-header-name">${this.escape(name)}</span>
+        ${backBtn}<span class="mngt-stream-header-name">${this.escape(name)}</span>
         ${searchBtn}${muteBtn}${membersBtn}${menuBtn}
       </div>
-      <div id="mngt-search-bar" class="mngt-search-bar" hidden>
-        <input class="mngt-search-input" type="search" placeholder="Buscar mensagens…" autocomplete="off"
-               data-action="input->mngt--chat-panel#handleSearchInput">
-        <span class="mngt-search-count"></span>
-        <button class="mngt-search-close" data-action="click->mngt--chat-panel#clearSearchAction" aria-label="Fechar">×</button>
+      <div id="mngt-search-overlay" class="mngt-search-overlay" hidden>
+        <div class="mngt-search-overlay-bar">
+          <input class="mngt-search-overlay-input" type="search" placeholder="Buscar mensagens…" autocomplete="off"
+                 data-action="input->mngt--chat-panel#handleSearchInput">
+          <button class="mngt-search-close" data-action="click->mngt--chat-panel#clearSearchAction" aria-label="Fechar">×</button>
+        </div>
+        <div class="mngt-search-results" id="mngt-search-results">
+          <div class="mngt-search-hint">Digite para buscar mensagens</div>
+        </div>
+      </div>
+      <div id="mngt-jump-mode-bar" class="mngt-jump-mode-bar" hidden>
+        <span>Visualizando mensagens antigas</span>
+        <button class="mngt-jump-mode-return" data-action="click->mngt--chat-panel#returnToLive">Ir para mensagens recentes ↓</button>
       </div>
       <div class="mngt-stream-messages-wrap">
         <div class="mngt-stream-messages" id="mngt-stream-messages">
@@ -1045,6 +1271,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       .replace(/~~(.+?)~~/g,          '<s>$1</s>')
       .replace(/^&gt;\s?(.*)$/gm,     '<div class="mngt-blockquote">$1</div>')
       .replace(/@\[([^\]]+)\]/g,      '<strong class="mngt-mention">@$1</strong>')
+      .replace(/@todos\b/g,           '<strong class="mngt-mention mngt-mention-all">@todos</strong>')
       .replace(/@(\w+)/g,             '<strong class="mngt-mention">@$1</strong>')
       .replace(/\n/g,                 '<br>');
   }
@@ -1079,7 +1306,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     const lower     = text.toLowerCase();
     const name      = this.currentUserName.toLowerCase();
     const firstName = name.split(' ')[0] ?? name;
-    return lower.includes(`@${firstName}`) || lower.includes(`@[${name}]`);
+    return lower.includes(`@${firstName}`) || lower.includes(`@[${name}]`) || lower.includes('@todos');
   }
 
   // ── Mute ───────────────────────────────────────────────────────
@@ -1109,11 +1336,14 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         return bOn - aOn;
       });
 
+    const isGroupDm = this.activeChannel.type === 'messaging';
+
     panel.innerHTML = `
       <div class="mngt-member-list-header">
         <span>Membros (${members.length})</span>
         <button class="mngt-msg-action-btn" data-action="click->mngt--chat-panel#toggleMemberList" aria-label="Fechar">×</button>
       </div>
+      ${isGroupDm ? `<button class="mngt-member-add-btn" data-action="click->mngt--chat-panel#openAddMemberModal">+ Adicionar membro</button>` : ''}
       ${members.map((m) => {
         const uid      = m.user_id!;
         const name     = m.user?.name ?? m.user?.id ?? uid;
@@ -1133,24 +1363,326 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       }).join('')}`;
   }
 
-  // ── Message search ─────────────────────────────────────────────
+  openAddMemberModal(): void {
+    const menu = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-menu');
+    if (menu) menu.hidden = true;
+    document.getElementById('mngt-add-member-modal')?.remove();
+    if (!this.activeChannel) return;
 
-  private filterMessages(query: string): void {
-    const container = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-messages');
-    if (!container) return;
-    const lower = query.toLowerCase();
-    container.querySelectorAll<HTMLElement>('[data-message-id]').forEach((el) => {
-      if (!query) { el.hidden = false; return; }
-      const text = el.querySelector('.mngt-stream-msg-text')?.textContent?.toLowerCase() ?? '';
-      el.hidden = !text.includes(lower);
+    const currentMemberIds = new Set(
+      (Object.values(this.activeChannel.state.members) as MemberLike[])
+        .map((m) => m.user_id)
+        .filter(Boolean) as string[],
+    );
+
+    const modal = document.createElement('div');
+    modal.id        = 'mngt-add-member-modal';
+    modal.className = 'mngt-dm-modal';
+    modal.innerHTML = `
+      <div class="mngt-dm-modal-backdrop"></div>
+      <div class="mngt-dm-modal-body" role="dialog" aria-modal="true" aria-label="Adicionar membro">
+        <div class="mngt-dm-modal-header">
+          <span>Adicionar membro</span>
+          <button class="mngt-dm-modal-close" aria-label="Fechar">×</button>
+        </div>
+        <input class="mngt-dm-modal-search" type="text" placeholder="Buscar usuário..." autocomplete="off" />
+        <div class="mngt-dm-modal-users" id="mngt-add-member-users">
+          <span class="mngt-dm-modal-empty">Carregando...</span>
+        </div>
+        <div class="mngt-dm-modal-footer">
+          <button class="mngt-dm-modal-btn" disabled>Adicionar</button>
+        </div>
+      </div>`;
+
+    document.body.appendChild(modal);
+
+    const escHandler = (e: KeyboardEvent): void => {
+      if (e.key === 'Escape') closeModal();
+    };
+    const closeModal = (): void => {
+      document.removeEventListener('keydown', escHandler);
+      document.getElementById('mngt-add-member-modal')?.remove();
+    };
+
+    document.addEventListener('keydown', escHandler);
+    modal.querySelector('.mngt-dm-modal-backdrop')!.addEventListener('click', closeModal);
+    modal.querySelector('.mngt-dm-modal-close')!.addEventListener('click', closeModal);
+
+    let allUsers: StreamUser[] = [];
+
+    const renderUsers = (query: string): void => {
+      const container = document.getElementById('mngt-add-member-users');
+      if (!container) return;
+      const q        = query.toLowerCase().trim();
+      const filtered = q ? allUsers.filter((u) => u.name.toLowerCase().includes(q)) : allUsers;
+      if (filtered.length === 0) {
+        container.innerHTML = '<span class="mngt-dm-modal-empty">Nenhum usuário encontrado</span>';
+        return;
+      }
+      container.innerHTML = filtered.map((u) => {
+        const initial    = (u.name[0] ?? '?').toUpperCase();
+        const color      = msgAvatarColor(u.name);
+        const photoLayer = u.avatarUrl
+          ? `<span style="position:absolute;inset:0;border-radius:inherit;background:url('${this.escape(u.avatarUrl)}') center/cover no-repeat"></span>`
+          : '';
+        return `
+          <label class="mngt-dm-modal-user">
+            <input type="checkbox" value="${u.id}" />
+            <span class="mngt-sidebar-avatar mngt-sidebar-avatar--sm" style="background:${color}">${initial}${photoLayer}</span>
+            <span>${this.escape(u.name)}</span>
+          </label>`;
+      }).join('');
+      container.querySelectorAll<HTMLInputElement>('input[type="checkbox"]').forEach((cb) => {
+        cb.addEventListener('change', () => {
+          const count = container.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked').length;
+          const btn   = modal.querySelector<HTMLButtonElement>('.mngt-dm-modal-btn')!;
+          btn.disabled    = count === 0;
+          btn.textContent = count > 1 ? `Adicionar (${count})` : 'Adicionar';
+        });
+      });
+    };
+
+    modal.querySelector<HTMLInputElement>('.mngt-dm-modal-search')!
+      .addEventListener('input', (e) => renderUsers((e.target as HTMLInputElement).value));
+
+    void fetch(this.usersUrlValue, { headers: { Accept: 'application/json' }, credentials: 'same-origin' })
+      .then((res) => res.json() as Promise<StreamUser[]>)
+      .then((users) => {
+        allUsers = users.filter((u) => !currentMemberIds.has(u.id));
+        renderUsers('');
+      })
+      .catch(() => {
+        const container = document.getElementById('mngt-add-member-users');
+        if (container) container.innerHTML = '<span class="mngt-dm-modal-empty">Erro ao carregar usuários</span>';
+      });
+
+    modal.querySelector<HTMLInputElement>('.mngt-dm-modal-search')!.focus();
+
+    modal.querySelector('.mngt-dm-modal-btn')!.addEventListener('click', () => {
+      const checked = Array.from(modal.querySelectorAll<HTMLInputElement>('input[type="checkbox"]:checked'));
+      if (checked.length === 0 || !this.activeChannel) return;
+
+      const userIds = checked.map((cb) => cb.value);
+      const btn     = modal.querySelector<HTMLButtonElement>('.mngt-dm-modal-btn')!;
+      btn.disabled    = true;
+      btn.textContent = '...';
+
+      void fetch(this.groupMembersUrlValue, {
+        method:      'POST',
+        credentials: 'same-origin',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept':       'application/json',
+          'X-CSRF-Token': this.csrfToken(),
+        },
+        body: JSON.stringify({ channelId: this.activeChannel.id, userIds }),
+      })
+        .then(async (res) => {
+          if (!res.ok) {
+            const body = await res.json().catch(() => ({})) as { error?: string };
+            throw new Error(body.error ?? `HTTP ${res.status}`);
+          }
+          closeModal();
+          const memberPanel = this.containerTarget.querySelector<HTMLElement>('#mngt-member-list');
+          if (memberPanel && !memberPanel.hidden) this.renderMemberList(memberPanel);
+        })
+        .catch((err: unknown) => {
+          console.error('[mngt:chat] addMembers failed', err);
+          btn.textContent = 'Erro';
+          btn.disabled    = false;
+        });
     });
   }
 
+  // ── Message search ─────────────────────────────────────────────
+
+  private async doSearch(query: string): Promise<void> {
+    if (!this.activeChannel || !this.streamClient) return;
+    const resultsEl = this.containerTarget.querySelector<HTMLElement>('#mngt-search-results');
+    if (!resultsEl) return;
+
+    let messages: MessageResponse[] = [];
+
+    // Try Stream's server-side full-text search
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result = await this.streamClient.search(
+        { type: this.activeChannel.type, id: this.activeChannel.id } as any,
+        query,
+        { limit: 20 },
+      );
+      messages = ((result.results ?? []) as Array<{ message: unknown }>)
+        .map((r) => r.message as MessageResponse)
+        .filter((m) => !!m?.id);
+    } catch (err) {
+      console.warn('[mngt search] Stream API search unavailable, using local fallback:', err);
+    }
+
+    // Fallback: filter messages already loaded in channel state
+    if (messages.length === 0) {
+      const lower = query.toLowerCase();
+      messages = (this.activeChannel.state.messages as unknown as MessageResponse[])
+        .filter((m) => (m.text ?? '').toLowerCase().includes(lower))
+        .slice()
+        .reverse()
+        .slice(0, 20);
+    }
+
+    if (messages.length === 0) {
+      resultsEl.innerHTML = '<div class="mngt-search-hint">Nenhuma mensagem encontrada</div>';
+      return;
+    }
+
+    resultsEl.innerHTML = messages.map((msg) => {
+      const author  = (msg.user?.name as string | undefined) ?? '?';
+      const rawDate = msg.created_at ? new Date(msg.created_at as string) : new Date();
+      const dateStr = rawDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) +
+                      ' ' + rawDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const text        = msg.text ?? '';
+      const safeText    = this.escape(text.substring(0, 120));
+      const highlighted = this.highlightQuery(safeText, query);
+      return `<button class="mngt-search-result-item"
+                      data-message-id="${this.escape(msg.id ?? '')}"
+                      data-action="click->mngt--chat-panel#handleSearchResultClick">
+        <div class="mngt-search-result-header">
+          <span class="mngt-search-result-author">${this.escape(author)}</span>
+          <span class="mngt-search-result-date">${dateStr}</span>
+        </div>
+        <div class="mngt-search-result-text">${highlighted}${text.length > 120 ? '…' : ''}</div>
+      </button>`;
+    }).join('');
+  }
+
+  private async doGlobalSearch(query: string): Promise<void> {
+    if (!this.streamClient) return;
+    const resultsEl = this.containerTarget.querySelector<HTMLElement>('#mngt-global-search-results');
+    if (!resultsEl) return;
+
+    interface GlobalResult { msg: MessageResponse; channelId: string; channelType: string; channelName: string }
+    let results: GlobalResult[] = [];
+
+    // Try Stream's server-side full-text search across all user channels
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const response = await this.streamClient.search(
+        { members: { $in: [this.currentUserId] } } as any,
+        query,
+        { limit: 25 },
+      );
+      results = ((response.results ?? []) as Array<{ message: unknown }>)
+        .map((r) => {
+          const msg     = r.message as MessageResponse & { cid?: string };
+          if (!msg?.id || !msg.cid) return null;
+          const parts      = msg.cid.split(':');
+          const channelType = parts[0] ?? 'team';
+          const channelId   = parts.slice(1).join(':');
+          const channelName = this.channelNameMap.get(channelId) ?? channelId;
+          return { msg, channelId, channelType, channelName };
+        })
+        .filter((r): r is GlobalResult => r !== null);
+    } catch (err) {
+      console.warn('[mngt global search] Stream API unavailable, using local fallback:', err);
+    }
+
+    // Fallback: search through locally loaded channel states
+    if (results.length === 0) {
+      const lower = query.toLowerCase();
+      for (const ch of this.loadedChannels) {
+        const channelId   = ch.id ?? '';
+        const channelType = ch.type;
+        const channelName = this.channelNameMap.get(channelId) ?? channelId;
+        (ch.state.messages as unknown as MessageResponse[])
+          .filter((m) => (m.text ?? '').toLowerCase().includes(lower))
+          .forEach((m) => results.push({ msg: m, channelId, channelType, channelName }));
+      }
+      results.sort((a, b) => {
+        const at = a.msg.created_at ? new Date(a.msg.created_at as string).getTime() : 0;
+        const bt = b.msg.created_at ? new Date(b.msg.created_at as string).getTime() : 0;
+        return bt - at;
+      });
+      results = results.slice(0, 20);
+    }
+
+    if (results.length === 0) {
+      resultsEl.innerHTML = '<div class="mngt-search-hint">Nenhuma mensagem encontrada</div>';
+      return;
+    }
+
+    resultsEl.innerHTML = results.map(({ msg, channelId, channelType, channelName }) => {
+      const author  = (msg.user?.name as string | undefined) ?? '?';
+      const rawDate = msg.created_at ? new Date(msg.created_at as string) : new Date();
+      const dateStr = rawDate.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' }) +
+                      ' ' + rawDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const text        = msg.text ?? '';
+      const safeText    = this.escape(text.substring(0, 110));
+      const highlighted = this.highlightQuery(safeText, query);
+      const channelLabel = channelType === 'team'
+        ? `<span class="mngt-search-result-channel"># ${this.escape(channelName)}</span>`
+        : `<span class="mngt-search-result-channel mngt-search-result-channel--dm">@ ${this.escape(channelName)}</span>`;
+      return `<button class="mngt-search-result-item"
+                      data-message-id="${this.escape(msg.id ?? '')}"
+                      data-channel-id="${this.escape(channelId)}"
+                      data-channel-type="${this.escape(channelType)}"
+                      data-channel-name="${this.escape(channelName)}">
+        <div class="mngt-search-result-header">
+          ${channelLabel}
+          <span class="mngt-search-result-author">${this.escape(author)}</span>
+          <span class="mngt-search-result-date">${dateStr}</span>
+        </div>
+        <div class="mngt-search-result-text">${highlighted}${text.length > 110 ? '…' : ''}</div>
+      </button>`;
+    }).join('');
+  }
+
+  private async jumpToMessage(messageId: string): Promise<void> {
+    if (!this.activeChannel) return;
+    const container = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-messages');
+    if (!container) return;
+
+    const existing = container.querySelector<HTMLElement>(`[data-message-id="${messageId}"]`);
+    if (existing) {
+      existing.scrollIntoView({ block: 'center', behavior: 'smooth' });
+      existing.classList.add('mngt-msg--highlighted');
+      setTimeout(() => existing.classList.remove('mngt-msg--highlighted'), 2000);
+      return;
+    }
+
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const result = await (this.activeChannel as any).query({
+        messages: { limit: 25, id_around: messageId },
+        members:  { limit: 0 },
+        watchers: { limit: 0 },
+      }) as { messages: MessageResponse[] };
+
+      const messages = (result.messages ?? []) as MessageResponse[];
+      container.innerHTML = this.renderMessageList(messages);
+
+      this.isJumpMode = true;
+      const jumpBar = this.containerTarget.querySelector<HTMLElement>('#mngt-jump-mode-bar');
+      if (jumpBar) jumpBar.hidden = false;
+
+      await new Promise<void>((resolve) => setTimeout(resolve, 50));
+      const target = container.querySelector<HTMLElement>(`[data-message-id="${messageId}"]`);
+      if (target) {
+        target.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        target.classList.add('mngt-msg--highlighted');
+        setTimeout(() => target.classList.remove('mngt-msg--highlighted'), 2000);
+      }
+    } catch { /* silent */ }
+  }
+
+  private highlightQuery(escapedText: string, query: string): string {
+    if (!query) return escapedText;
+    const safeQuery = this.escape(query).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return escapedText.replace(new RegExp(`(${safeQuery})`, 'gi'), '<mark class="mngt-search-highlight">$1</mark>');
+  }
+
   private clearSearch(): void {
-    this.filterMessages('');
-    const countEl = this.containerTarget.querySelector<HTMLElement>('.mngt-search-count');
-    if (countEl) countEl.textContent = '';
-    const input = this.containerTarget.querySelector<HTMLInputElement>('.mngt-search-input');
+    if (this.searchDebounce) { clearTimeout(this.searchDebounce); this.searchDebounce = null; }
+    const resultsEl = this.containerTarget.querySelector<HTMLElement>('#mngt-search-results');
+    if (resultsEl) resultsEl.innerHTML = '<div class="mngt-search-hint">Digite para buscar mensagens</div>';
+    const input = this.containerTarget.querySelector<HTMLInputElement>('.mngt-search-overlay-input');
     if (input) input.value = '';
   }
 

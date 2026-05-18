@@ -38,10 +38,12 @@ Rails.application.routes.draw do
     get  "stream/token",    to: "stream_token#show"
     get  "stream/channels", to: "stream_channels#index"
     get  "stream/users",    to: "stream_users#index"
-    post  "stream/dm",           to: "stream_dm#create"
-    post  "stream/channels",     to: "stream_channels#create"
+    post  "stream/dm",            to: "stream_dm#create"
+    post  "stream/group_members", to: "stream_group_members#create"
+    post  "stream/channels",      to: "stream_channels#create"
     patch "stream/channels/:id", to: "stream_channels#update"
     post "stream/webhook",  to: "stream_webhook#receive"
+    patch "theme",          to: "theme#update"
   end
 
   # Route for error pages

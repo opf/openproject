@@ -4,6 +4,13 @@
 # To re-enable a module, comment out its block below and restart the server.
 
 Rails.application.config.after_initialize do
+  # Default new users to the light theme when no explicit setting has been stored
+  begin
+    Setting.user_default_theme = "light" if Setting[:user_default_theme].blank?
+  rescue StandardError
+    # Settings table may not exist yet during initial setup
+  end
+
   # Load our custom translations last so they override Crowdin files
   I18n.backend.store_translations(:'pt-BR', YAML.load_file(
     Rails.root.join("config/locales/mngt.pt-BR.yml")
@@ -48,6 +55,18 @@ Rails.application.config.after_initialize do
 
   # --- Fóruns -----------------------------------------------------------------
   Redmine::MenuManager.map(:project_menu) { |m| m.delete(:forums) }
+
+  # --- Quadros (Boards) -------------------------------------------------------
+  Redmine::MenuManager.map(:project_menu) { |m| m.delete(:boards) }
+  Redmine::MenuManager.map(:project_menu) { |m| m.delete(:kanban) }
+  Redmine::MenuManager.map(:project_menu) { |m| m.delete(:board_menu) }
+
+  # --- Tempo e Custos (Cost Reports) ------------------------------------------
+  Redmine::MenuManager.map(:project_menu) { |m| m.delete(:costs) }
+  Redmine::MenuManager.map(:project_menu) { |m| m.delete(:costs_menu) }
+
+  # --- Área Inicial (Overview) ------------------------------------------------
+  Redmine::MenuManager.map(:project_menu) { |m| m.delete(:overview) }
 
   # --- Wiki -------------------------------------------------------------------
   # Wiki items are added dynamically per request; prepend makes build_wiki_menus

@@ -34,8 +34,8 @@ module ::Gantt
       :milestones
     ].freeze
 
-    PROJECT_DEFAULT_COLUMNS = %w[id type subject status startDate dueDate duration].freeze
-    GLOBAL_DEFAULT_COLUMNS = %w[id project type subject status startDate dueDate duration].freeze
+    PROJECT_DEFAULT_COLUMNS = %w[id type percentageDone subject status startDate dueDate duration].freeze
+    GLOBAL_DEFAULT_COLUMNS = %w[id project type percentageDone subject status startDate dueDate duration].freeze
 
     DEFAULT_PARAMS =
       {

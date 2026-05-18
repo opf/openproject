@@ -1869,6 +1869,7 @@ pt-BR:
         text: Conteúdo da página
       work_package:
         ancestor: Descendentes de
+        ancestral: Ancestral e descendentes de
         begin_insertion: Início da inserção
         begin_deletion: Início da exclusão
         children: Subelementos

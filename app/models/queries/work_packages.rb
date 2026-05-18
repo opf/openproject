@@ -31,6 +31,7 @@
 module Queries::WorkPackages
   ::Queries::Register.register(Query) do
     filter Filter::AncestorFilter
+    filter Filter::AncestralFilter
     filter Filter::AssignedToFilter
     filter Filter::AssigneeOrGroupFilter
     filter Filter::AttachmentContentFilter

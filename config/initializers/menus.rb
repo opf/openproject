@@ -144,11 +144,6 @@ Redmine::MenuManager.map :account_menu do |menu|
   menu.push :timers,
             { controller: "/my/timer", action: "show" },
             partial: "/my/timer/menu"
-  menu.push :my_page,
-            :my_page_path,
-            caption: I18n.t("my_page.label"),
-            icon: :person,
-            if: ->(_) { User.current.logged? }
   menu.push :my_profile,
             { controller: "/users", action: "show", id: "me" },
             caption: :label_my_activity,
