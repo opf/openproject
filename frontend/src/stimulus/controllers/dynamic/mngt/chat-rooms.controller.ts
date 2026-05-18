@@ -70,6 +70,9 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
 
   private readonly onChannelRead = (): void => { void this.refreshChannels(); };
 
+  private readonly onOpenNewDm      = (): void => { this.openNewDmModal(); };
+  private readonly onOpenNewChannel = (): void => { if (this.isAdminValue) this.openNewChannelModal(); };
+
   private readonly onPresenceChanged = (event: StreamEvent): void => {
     const user = event.user;
     if (!user?.id) return;
@@ -92,7 +95,9 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   connect(): void {
     void this.waitAndLoad();
     if (this.notifyValue) void this.requestNotificationPermission();
-    document.addEventListener('mngt:channel-read', this.onChannelRead);
+    document.addEventListener('mngt:channel-read',    this.onChannelRead);
+    document.addEventListener('mngt:open-new-dm',     this.onOpenNewDm);
+    document.addEventListener('mngt:open-new-channel', this.onOpenNewChannel);
     document.addEventListener('click', this.unlockAudio, { once: true });
   }
 
@@ -100,7 +105,9 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     this.client?.off('notification.message_new', this.onNotificationMessage);
     this.client?.off('notification.added_to_channel', this.onAddedToChannel);
     this.client?.off('user.presence.changed', this.onPresenceChanged);
-    document.removeEventListener('mngt:channel-read', this.onChannelRead);
+    document.removeEventListener('mngt:channel-read',    this.onChannelRead);
+    document.removeEventListener('mngt:open-new-dm',     this.onOpenNewDm);
+    document.removeEventListener('mngt:open-new-channel', this.onOpenNewChannel);
     this.closeDmModal();
   }
 
@@ -408,7 +415,7 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
       const data        = ch.data as Record<string, unknown> | undefined;
       const otherMembers = (Object.values(ch.state.members) as AnyRecord[])
         .filter((m) => m['user_id'] !== this.currentUserIdValue);
-      const isGroup     = otherMembers.length > 1;
+      const isGroup     = !/^op_\d+--op_\d+$/.test(ch.id ?? '');
       const name        = (data?.['name'] as string | undefined)
         ?? otherMembers.map((m) => (m['user']?.['name'] as string | undefined) ?? (m['user_id'] as string | undefined) ?? '?').join(', ')
         ?? ch.id
@@ -551,14 +558,14 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
         const ch = this.client.channel('messaging', sdkChannelId, { members });
         await ch.create();
       } else {
-        // Group DM: let Stream assign the ID
+        // Group DM: use explicit ID so Stream creates a non-distinct channel (allows adding members later)
         const allMembers = [this.currentUserIdValue, ...userIds];
+        sdkChannelId = `grp-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const chData: Record<string, any> = { members: allMembers };
         if (groupName) chData['name'] = groupName;
-        const ch = this.client.channel('messaging', chData);
+        const ch = this.client.channel('messaging', sdkChannelId, chData);
         await ch.create();
-        sdkChannelId = ch.id ?? '';
       }
 
       // Notify backend for company validation
