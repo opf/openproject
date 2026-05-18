@@ -281,7 +281,7 @@
     cursor: pointer
 
   &-body
-    // children of collapsed group are hidden natively by <details>
+    padding-left: 14px
 
 .mngt-sidebar-channel-hash
   width: 22px
@@ -756,11 +756,110 @@
   &:hover, &--active
     background: rgba(255,255,255,0.07)
 
+// ── Channel list view (panel placeholder) ─────────────────────
+
+.mngt-chat-list
+  flex: 1
+  overflow-y: auto
+  padding: 8px 0
+
+.mngt-chat-list-section
+  margin-bottom: 4px
+
+.mngt-chat-list-section-label
+  font-size: 11px
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 0.06em
+  color: rgba(255,255,255,0.35)
+  padding: 10px 14px 4px
+  user-select: none
+
+.mngt-chat-list-item
+  display: flex
+  align-items: center
+  gap: 9px
+  width: 100%
+  padding: 7px 14px
+  background: none
+  border: none
+  color: rgba(255,255,255,0.75)
+  font-size: 13.5px
+  text-align: left
+  cursor: pointer
+  &:hover
+    background: rgba(255,255,255,0.06)
+
+.mngt-chat-list-hash
+  flex-shrink: 0
+  font-size: 16px
+  color: rgba(255,255,255,0.35)
+  width: 20px
+  text-align: center
+
+.mngt-chat-list-avatar
+  flex-shrink: 0
+  width: 26px
+  height: 26px
+  border-radius: 50%
+  font-size: 11px
+  font-weight: 600
+  color: #fff
+  display: flex
+  align-items: center
+  justify-content: center
+
+.mngt-chat-list-name
+  flex: 1
+  min-width: 0
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+.mngt-chat-list-empty
+  display: block
+  padding: 4px 14px
+  font-size: 12px
+  color: rgba(255,255,255,0.3)
+
+// ── Back button ────────────────────────────────────────────────
+
+.mngt-chat-back-btn
+  flex-shrink: 0
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 26px
+  height: 26px
+  background: none
+  border: none
+  border-radius: 5px
+  color: rgba(255,255,255,0.4)
+  cursor: pointer
+  padding: 0
+  margin-right: 2px
+  &:hover
+    color: rgba(255,255,255,0.85)
+    background: rgba(255,255,255,0.07)
+
 // ── Mention highlight in messages ──────────────────────────────
 
 .mngt-mention
   color: #93c5fd
   font-weight: 600
+
+.mngt-mention-all
+  color: #fbbf24
+
+.mngt-mention-item--all
+  color: #fbbf24
+  &:hover, &.mngt-mention-item--active
+    background: rgba(251,191,36,0.08)
+
+.mngt-mention-item-hint
+  font-size: 11px
+  opacity: 0.55
+  font-weight: 400
 
 // ── Date separator ─────────────────────────────────────────────
 
@@ -1353,6 +1452,22 @@
   &--offline
     opacity: 0.4
 
+.mngt-member-add-btn
+  display: block
+  width: calc(100% - 24px)
+  margin: 8px 12px
+  padding: 5px 8px
+  border: 1px dashed rgba(255,255,255,0.2)
+  border-radius: 4px
+  background: transparent
+  color: rgba(255,255,255,0.5)
+  font-size: 11px
+  text-align: left
+  cursor: pointer
+  &:hover
+    border-color: rgba(255,255,255,0.4)
+    color: rgba(255,255,255,0.8)
+
 // ── Search bar ────────────────────────────────────────────────
 
 .mngt-search-bar
@@ -1401,6 +1516,192 @@
   &:hover
     background: rgba(255,255,255,0.1)
     color: #fff
+
+// ── Global search (channel list page) ─────────────────────────
+
+.mngt-global-search-wrap
+  flex-shrink: 0
+
+.mngt-global-search-bar
+  display: flex
+  align-items: center
+  gap: 7px
+  padding: 8px 10px
+  border-bottom: 1px solid rgba(255,255,255,0.06)
+  color: rgba(255,255,255,0.4)
+
+.mngt-global-search-input
+  flex: 1
+  background: rgba(255,255,255,0.07)
+  border: 1px solid rgba(255,255,255,0.1)
+  border-radius: 5px
+  color: #e6edf3
+  font-size: 13px
+  padding: 5px 9px
+  outline: none
+  font-family: inherit
+  &:focus
+    border-color: #5865f2
+    background: rgba(255,255,255,0.1)
+  &::placeholder
+    color: rgba(255,255,255,0.3)
+  &::-webkit-search-cancel-button
+    display: none
+
+.mngt-global-search-results
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  max-height: 340px
+  overflow-y: auto
+
+.mngt-search-result-channel
+  font-size: 11px
+  font-weight: 600
+  color: rgba(255,255,255,0.5)
+  margin-right: auto
+  max-width: 130px
+  min-width: 0
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+  flex-shrink: 1
+
+  &--dm
+    color: rgba(255,255,255,0.4)
+
+// ── Search overlay (Discord-style) ────────────────────────────
+
+.mngt-search-overlay
+  background: #2b2d31
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  flex-shrink: 0
+  display: flex
+  flex-direction: column
+  max-height: 380px
+
+.mngt-search-overlay-bar
+  display: flex
+  align-items: center
+  gap: 6px
+  padding: 6px 10px
+  border-bottom: 1px solid rgba(255,255,255,0.06)
+  flex-shrink: 0
+
+.mngt-search-overlay-input
+  flex: 1
+  background: rgba(255,255,255,0.06)
+  border: 1px solid rgba(255,255,255,0.1)
+  border-radius: 4px
+  color: #e6edf3
+  font-size: 13px
+  padding: 5px 8px
+  outline: none
+  font-family: inherit
+  &:focus
+    border-color: #5865f2
+    background: rgba(255,255,255,0.09)
+  &::placeholder
+    color: rgba(255,255,255,0.3)
+  &::-webkit-search-cancel-button
+    display: none
+
+.mngt-search-results
+  overflow-y: auto
+  flex: 1
+
+.mngt-search-result-item
+  display: block
+  width: 100%
+  background: none
+  border: none
+  cursor: pointer
+  text-align: left
+  padding: 9px 12px
+  color: #dbdee1
+  font-family: inherit
+  border-bottom: 1px solid rgba(255,255,255,0.04)
+  &:hover
+    background: rgba(255,255,255,0.06)
+  &:last-child
+    border-bottom: none
+
+.mngt-search-result-header
+  display: flex
+  align-items: baseline
+  gap: 8px
+  margin-bottom: 3px
+
+.mngt-search-result-author
+  font-weight: 600
+  font-size: 12px
+  color: #fff
+
+.mngt-search-result-date
+  font-size: 11px
+  color: rgba(255,255,255,0.38)
+  margin-left: auto
+  white-space: nowrap
+
+.mngt-search-result-text
+  font-size: 13px
+  color: rgba(255,255,255,0.65)
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+  text-align: left
+
+.mngt-search-hint
+  padding: 16px
+  text-align: center
+  color: rgba(255,255,255,0.38)
+  font-size: 13px
+
+.mngt-search-highlight
+  background: rgba(255, 210, 0, 0.25)
+  color: #ffd200
+  border-radius: 2px
+  padding: 0 1px
+  font-style: normal
+
+// ── Jump mode bar ──────────────────────────────────────────────
+
+.mngt-jump-mode-bar
+  display: flex
+  align-items: center
+  justify-content: space-between
+  background: #1e1f22
+  border-bottom: 1px solid rgba(255,255,255,0.08)
+  padding: 5px 12px
+  font-size: 12px
+  color: rgba(255,255,255,0.55)
+  gap: 10px
+  flex-shrink: 0
+
+.mngt-jump-mode-return
+  background: #5865f2
+  color: #fff
+  border: none
+  border-radius: 4px
+  padding: 3px 10px
+  font-size: 12px
+  font-family: inherit
+  cursor: pointer
+  white-space: nowrap
+  &:hover
+    background: #4752c4
+
+// ── Jump-target highlight animation ───────────────────────────
+
+@keyframes mngt-highlight-pulse
+  0%
+    background: rgba(88, 101, 242, 0.3)
+  70%
+    background: rgba(88, 101, 242, 0.12)
+  100%
+    background: transparent
+
+.mngt-msg--highlighted
+  animation: mngt-highlight-pulse 2s ease-out forwards
+  border-radius: 4px
 
 // ── Login page (Google-only) ───────────────────────────────────
 
@@ -1492,3 +1793,465 @@
 
 .mngt-google-btn-icon
   flex-shrink: 0
+
+// --- Theme toggle button in top menu -----------------------------------------
+
+.mngt-theme-toggle-wrapper
+  display: flex
+  align-items: center
+
+.mngt-theme-toggle-btn
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 32px
+  height: 32px
+  padding: 0
+  background: transparent
+  border: none
+  border-radius: 6px
+  cursor: pointer
+  color: var(--header-item-font-color, rgba(255,255,255,0.75))
+  transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease
+  &:hover
+    background: rgba(255,255,255,0.12)
+    color: #fff
+  &:active
+    background: rgba(255,255,255,0.2)
+
+.mngt-theme-icon
+  width: 18px
+  height: 18px
+  flex-shrink: 0
+  display: none
+
+// Show sun when dark mode is active (click → switch to light)
+body[data-color-mode="dark"]
+  .mngt-theme-icon--sun
+    display: block
+
+// Show moon when light mode is active (click → switch to dark)
+body[data-color-mode="light"]
+  .mngt-theme-icon--moon
+    display: block
+
+// ── Light-mode overrides ───────────────────────────────────────
+// All MNGT components were originally designed for a dark sidebar.
+// These overrides make text visible when the app theme is light.
+
+body[data-color-mode="light"]
+
+  // --- Theme toggle hover (header is light, so use dark hover) ---
+  .mngt-theme-toggle-btn
+    &:hover
+      background: rgba(0,0,0,0.08)
+      color: var(--header-item-font-color)
+    &:active
+      background: rgba(0,0,0,0.12)
+
+  // --- Sidebar (background becomes --main-menu-bg-color = light) ---
+
+  // Base item color: --main-menu-font-color is only defined for dark/high-contrast,
+  // not for plain light theme → falls back to #c8d1e0 (nearly invisible on white)
+  .mngt-sidebar-item
+    color: rgba(0,0,0,0.75)
+
+  // Channel hash has its own hardcoded rgba(255,255,255,0.5) — must override explicitly
+  .mngt-sidebar-channel-hash
+    color: rgba(0,0,0,0.4)
+
+  // Section labels ("Espaços", "Canais", "Mensagens Diretas"):
+  // use --main-menu-font-color-disabled which is not defined in light mode
+  // → falls back to rgba(255,255,255,0.4) (invisible)
+  .mngt-sidebar-section-label
+    color: rgba(0,0,0,0.45)
+
+  // "+" add buttons next to section labels (default state)
+  .mngt-sidebar-add
+    color: rgba(0,0,0,0.35)
+
+  // "+ Novo canal" / "+ Nova mensagem" buttons (default state, both sidebar and chat panel)
+  .mngt-sidebar-new-dm
+    color: rgba(0,0,0,0.55)
+    &:hover
+      background: rgba(0,0,0,0.04)
+      color: rgba(0,0,0,0.8)
+
+  // Hover: was rgba(255,255,255,0.08) bg + white text → now subtle dark
+  .mngt-sidebar-item:hover
+    background: rgba(0,0,0,0.05) !important
+    color: var(--main-menu-font-color) !important
+
+  // Active: was rgba(255,255,255,0.14) bg + white text
+  .mngt-sidebar-item--active
+    background: var(--main-menu-bg-selected-background, rgba(0,0,0,0.1)) !important
+    color: var(--main-menu-selected-font-color, #1e2330) !important
+
+  // Empty/disabled items
+  .mngt-sidebar-item--empty
+    color: rgba(0,0,0,0.35) !important
+    &:hover
+      background: none !important
+
+  // Section divider border
+  .mngt-sidebar-section
+    border-bottom-color: rgba(0,0,0,0.08)
+
+  // "+" add button hover
+  .mngt-sidebar-add:hover
+    background: rgba(0,0,0,0.07)
+    color: var(--main-menu-font-color)
+
+  // New DM button hover
+  .mngt-sidebar-new-dm:hover
+    background: rgba(0,0,0,0.04)
+    color: var(--main-menu-font-color)
+
+  // Company group label
+  .mngt-sidebar-company-label
+    color: rgba(0,0,0,0.4)
+
+  // --- Project tab bar (background becomes --header-bg-color = light) ---
+
+  .mngt-project-tabs
+    border-bottom-color: rgba(0,0,0,0.08)
+
+  .mngt-project-tab
+    color: rgba(0,0,0,0.55)
+    &:hover
+      color: rgba(0,0,0,0.85)
+      border-bottom-color: rgba(0,0,0,0.2)
+    &--active
+      color: rgba(0,0,0,0.9)
+      border-bottom-color: var(--accent-color, #1a9641)
+
+  // --- Chat panel (background becomes --body-background = white) ---
+
+  .mngt-chat-panel
+    border-color: rgba(0,0,0,0.12)
+
+  .mngt-chat-panel-header
+    border-bottom-color: rgba(0,0,0,0.08)
+
+  .mngt-chat-panel-title
+    color: #1e2330
+
+  .mngt-chat-panel-close,
+  .mngt-chat-panel-maximize
+    color: rgba(0,0,0,0.4)
+    &:hover
+      background: rgba(0,0,0,0.06)
+      color: #1e2330
+
+  .mngt-chat-back-btn
+    color: rgba(0,0,0,0.35)
+    &:hover
+      color: #1e2330
+      background: rgba(0,0,0,0.06)
+
+  .mngt-chat-loading,
+  .mngt-chat-error
+    color: rgba(0,0,0,0.4)
+
+  .mngt-stream-placeholder
+    color: rgba(0,0,0,0.35)
+
+  // Channel header
+  .mngt-stream-header
+    color: #1e2330
+    border-bottom-color: rgba(0,0,0,0.08)
+
+  .mngt-stream-menu-btn
+    color: rgba(0,0,0,0.4)
+    &:hover
+      background: rgba(0,0,0,0.06)
+      color: #1e2330
+
+  .mngt-stream-rename-input
+    background: rgba(0,0,0,0.04)
+    border-color: rgba(0,0,0,0.25)
+    color: #1e2330
+    &:focus
+      border-color: rgba(0,0,0,0.5)
+
+  .mngt-stream-header-btn
+    color: rgba(0,0,0,0.4)
+    &:hover
+      background: rgba(0,0,0,0.06)
+      color: #1e2330
+    &--active
+      color: #1e2330
+      background: rgba(0,0,0,0.08)
+
+  // Messages
+  .mngt-stream-message:hover
+    background: rgba(0,0,0,0.03)
+
+  .mngt-stream-msg-time
+    color: rgba(0,0,0,0.35)
+
+  .mngt-stream-msg-time--grouped
+    // stays transparent until hover
+  .mngt-stream-message--grouped:hover .mngt-stream-msg-time--grouped
+    color: rgba(0,0,0,0.3)
+
+  // Message input form
+  .mngt-stream-form
+    border-top-color: rgba(0,0,0,0.08)
+
+  .mngt-stream-input
+    background: rgba(0,0,0,0.04)
+    border-color: rgba(0,0,0,0.12)
+    color: #1e2330
+    &:focus
+      border-color: var(--color-accent-fg, #1a9641)
+    &::placeholder
+      color: rgba(0,0,0,0.35)
+
+  // Typing indicator
+  .mngt-typing-indicator
+    color: rgba(0,0,0,0.35)
+
+  // Quoted message
+  .mngt-quoted-msg
+    background: rgba(0,0,0,0.03)
+    color: rgba(0,0,0,0.5)
+
+  // Reply preview
+  .mngt-reply-preview
+    background: rgba(0,0,0,0.03)
+    border-top-color: rgba(0,0,0,0.06)
+    color: rgba(0,0,0,0.45)
+
+  .mngt-reply-preview-cancel
+    color: rgba(0,0,0,0.35)
+    &:hover
+      color: #1e2330
+
+  // Channel list (placeholder view)
+  .mngt-chat-list-section-label
+    color: rgba(0,0,0,0.4)
+
+  .mngt-chat-list-item
+    color: rgba(0,0,0,0.75)
+    &:hover
+      background: rgba(0,0,0,0.04)
+
+  .mngt-chat-list-hash
+    color: rgba(0,0,0,0.35)
+
+  .mngt-chat-list-empty
+    color: rgba(0,0,0,0.35)
+
+  // Date separator
+  .mngt-date-separator
+    &::before,
+    &::after
+      background: rgba(0,0,0,0.08)
+    span
+      color: rgba(0,0,0,0.35)
+
+  // Pagination
+  .mngt-older-loader
+    color: rgba(0,0,0,0.35)
+
+  .mngt-no-more-messages
+    color: rgba(0,0,0,0.25)
+
+  // Code blocks (dark bg stays, but border needs to be visible)
+  .mngt-code-block
+    background: rgba(0,0,0,0.05)
+    border-color: rgba(0,0,0,0.1)
+    color: #1e2330
+
+  .mngt-code-inline
+    background: rgba(0,0,0,0.05)
+    border-color: rgba(0,0,0,0.1)
+    color: #1e2330
+
+  // Blockquote
+  .mngt-blockquote
+    border-left-color: rgba(0,0,0,0.2)
+    color: rgba(0,0,0,0.6)
+
+  // Link preview
+  .mngt-link-preview
+    background: rgba(0,0,0,0.02)
+    border-color: rgba(0,0,0,0.1)
+    &:hover
+      background: rgba(0,0,0,0.04)
+
+  .mngt-link-preview-title
+    color: #1e2330
+
+  .mngt-link-preview-text
+    color: rgba(0,0,0,0.5)
+
+  .mngt-link-preview-url
+    color: rgba(0,0,0,0.35)
+
+  // Reactions
+  .mngt-reaction-btn
+    border-color: rgba(0,0,0,0.12)
+    background: rgba(0,0,0,0.03)
+    color: rgba(0,0,0,0.65)
+    &:hover
+      background: rgba(0,0,0,0.06)
+      border-color: rgba(0,0,0,0.2)
+
+  // Deleted message
+  .mngt-msg-deleted
+    color: rgba(0,0,0,0.3)
+
+  // Search bar (inside chat panel)
+  .mngt-search-bar
+    background: rgba(0,0,0,0.03)
+    border-bottom-color: rgba(0,0,0,0.08)
+
+  .mngt-search-input
+    background: rgba(0,0,0,0.04)
+    border-color: rgba(0,0,0,0.12)
+    color: #1e2330
+    &::placeholder
+      color: rgba(0,0,0,0.35)
+
+  .mngt-search-count
+    color: rgba(0,0,0,0.4)
+
+  .mngt-search-close
+    color: rgba(0,0,0,0.35)
+    &:hover
+      background: rgba(0,0,0,0.06)
+      color: #1e2330
+
+  // Online dot border: matches the new chat panel background
+  .mngt-status-dot
+    border-color: var(--body-background, #fff)
+
+  // Sidebar presence dot border
+  .mngt-sidebar-presence-dot
+    border-color: var(--main-menu-bg-color, #fff)
+
+  // --- Modals (Nova mensagem / Novo canal) - hardcoded dark → light ---
+
+  .mngt-dm-modal-body
+    background: #fff
+    border-color: rgba(0,0,0,0.12)
+    box-shadow: 0 12px 40px rgba(0,0,0,0.18)
+
+  .mngt-dm-modal-header
+    color: #1e2330
+    border-bottom-color: rgba(0,0,0,0.08)
+
+  .mngt-dm-modal-close
+    color: rgba(0,0,0,0.4)
+    &:hover
+      background: rgba(0,0,0,0.06)
+      color: #1e2330
+
+  .mngt-dm-modal-search
+    background: #f8f9fa
+    border-bottom-color: rgba(0,0,0,0.08)
+    color: #1e2330
+    &::placeholder
+      color: rgba(0,0,0,0.35)
+    &:focus
+      background: #f3f4f6
+
+  .mngt-dm-modal-group-name
+    border-bottom-color: rgba(0,0,0,0.08)
+
+  .mngt-dm-modal-group-input
+    background: #f8f9fa
+    border-color: rgba(0,0,0,0.12)
+    color: #1e2330
+    &::placeholder
+      color: rgba(0,0,0,0.35)
+    &:focus
+      border-color: var(--color-accent-fg, #1a9641)
+
+  .mngt-dm-modal-count
+    color: rgba(0,0,0,0.4)
+
+  .mngt-dm-modal-user
+    color: #1e2330
+    &:hover
+      background: rgba(0,0,0,0.04)
+
+  .mngt-dm-modal-empty
+    color: rgba(0,0,0,0.35)
+
+  .mngt-dm-modal-footer
+    border-top-color: rgba(0,0,0,0.08)
+
+  // --- Global search ---
+
+  .mngt-global-search-bar
+    border-bottom-color: rgba(0,0,0,0.08)
+    color: rgba(0,0,0,0.35)
+
+  .mngt-global-search-input
+    background: rgba(0,0,0,0.05)
+    border-color: rgba(0,0,0,0.12)
+    color: #2e3338
+    &:focus
+      border-color: #5865f2
+      background: rgba(0,0,0,0.07)
+    &::placeholder
+      color: rgba(0,0,0,0.35)
+
+  .mngt-global-search-results
+    border-bottom-color: rgba(0,0,0,0.08)
+
+  .mngt-search-result-channel
+    color: rgba(0,0,0,0.45)
+
+    &--dm
+      color: rgba(0,0,0,0.35)
+
+  // --- Search overlay ---
+
+  .mngt-search-overlay
+    background: #f8f9fa
+    border-bottom-color: rgba(0,0,0,0.1)
+
+  .mngt-search-overlay-bar
+    border-bottom-color: rgba(0,0,0,0.08)
+
+  .mngt-search-overlay-input
+    background: rgba(0,0,0,0.05)
+    border-color: rgba(0,0,0,0.12)
+    color: #2e3338
+    &:focus
+      border-color: #5865f2
+      background: rgba(0,0,0,0.07)
+    &::placeholder
+      color: rgba(0,0,0,0.35)
+
+  .mngt-search-results
+    background: #f8f9fa
+
+  .mngt-search-result-item
+    color: #2e3338
+    border-bottom-color: rgba(0,0,0,0.06)
+    &:hover
+      background: rgba(0,0,0,0.05)
+
+  .mngt-search-result-author
+    color: #060607
+
+  .mngt-search-result-date
+    color: rgba(0,0,0,0.4)
+
+  .mngt-search-result-text
+    color: rgba(0,0,0,0.65)
+
+  .mngt-search-hint
+    color: rgba(0,0,0,0.38)
+
+  // --- Jump mode bar ---
+
+  .mngt-jump-mode-bar
+    background: #eef0f2
+    border-bottom-color: rgba(0,0,0,0.1)
+    color: rgba(0,0,0,0.55)

@@ -113,11 +113,41 @@ module Redmine::MenuManager::TopMenuHelper
   def render_top_menu_right
     capture do
       concat render_top_menu_teaser
+      concat render_mngt_theme_toggle
       concat render_quick_add_menu
       concat render_notification_top_menu_node
-      concat render_help_top_menu_node
       concat render_user_top_menu_node
     end
+  end
+
+  def render_mngt_theme_toggle
+    return "".html_safe unless User.current.logged?
+
+    current_theme = User.current.pref.theme.presence || "light"
+
+    sun_icon = tag.svg(xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 16 16", width: "18", height: "18",
+                       fill: "currentColor", class: "mngt-theme-icon mngt-theme-icon--sun",
+                       aria: { hidden: true }) do
+      tag.path(d: "M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zm8-5a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.06l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.061 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0zm9.193 2.121a.75.75 0 01-1.06 0l-1.061-1.06a.75.75 0 111.06-1.061l1.061 1.06a.75.75 0 010 1.061zM4.464 4.464a.75.75 0 01-1.06 0L2.343 3.404a.75.75 0 111.06-1.06l1.061 1.06a.75.75 0 010 1.06z")
+    end
+
+    moon_icon = tag.svg(xmlns: "http://www.w3.org/2000/svg", viewBox: "0 0 16 16", width: "18", height: "18",
+                        fill: "currentColor", class: "mngt-theme-icon mngt-theme-icon--moon",
+                        aria: { hidden: true }) do
+      tag.path(d: "M9.598 1.591a.749.749 0 0 1 .785-.175 7 7 0 1 1-8.967 8.967.75.75 0 0 1 .961-.96 5.5 5.5 0 0 0 7.046-7.046.75.75 0 0 1 .175-.786Zm1.616 1.945a7 7 0 0 1-7.678 7.678 5.499 5.499 0 1 0 7.678-7.678Z")
+    end
+
+    button = tag.button(
+      sun_icon + moon_icon,
+      class: "mngt-theme-toggle-btn",
+      "data-action": "click->mngt--theme-toggle#toggle",
+      "aria-label": current_theme == "dark" ? "Mudar para modo claro" : "Mudar para modo escuro"
+    )
+
+    tag.div(button,
+            class: "op-app-menu--item mngt-theme-toggle-wrapper",
+            "data-controller": "mngt--theme-toggle",
+            "data-mngt--theme-toggle-theme-value": current_theme)
   end
 
   private
