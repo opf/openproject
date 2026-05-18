@@ -1,14 +1,12 @@
 <% children  = children_map[project.id] %>
 <% expanded  = sidebar.project_expanded?(project, children_map) %>
 <% is_active = sidebar.active_item?(project) %>
-<% indent    = "#{16 + depth * 14}px" %>
 
 <% if children.any? %>
   <details class="mngt-sidebar-group"
            data-controller="mngt--tree"
            <%= "open" if expanded %>>
-    <summary class="mngt-sidebar-item mngt-sidebar-item--summary <%= 'mngt-sidebar-item--active' if is_active %>"
-             style="padding-left:<%= indent %>">
+    <summary class="mngt-sidebar-item mngt-sidebar-item--summary <%= 'mngt-sidebar-item--active' if is_active %>">
       <a href="<%= sidebar.project_path(project) %>"
          class="mngt-sidebar-item-link"
          data-action="click->mngt--tree#navigate">
@@ -25,10 +23,10 @@
     </div>
   </details>
 <% else %>
-  <%= link_to sidebar.project_path(project),
-              class: "mngt-sidebar-item #{'mngt-sidebar-item--active' if is_active}",
-              style: "padding-left:#{indent}" do %>
-    <span class="mngt-sidebar-avatar" style="background:<%= sidebar.project_color(project) %>"><%= project.name[0].upcase %></span>
-    <span class="mngt-sidebar-label"><%= project.name %></span>
-  <% end %>
+  <div class="mngt-sidebar-item <%= 'mngt-sidebar-item--active' if is_active %>">
+    <%= link_to sidebar.project_path(project), class: "mngt-sidebar-item-link" do %>
+      <span class="mngt-sidebar-avatar" style="background:<%= sidebar.project_color(project) %>"><%= project.name[0].upcase %></span>
+      <span class="mngt-sidebar-label"><%= project.name %></span>
+    <% end %>
+  </div>
 <% end %>

@@ -66,7 +66,7 @@
   display: flex
   align-items: center
   gap: 8px
-  padding: 6px 12px 6px 16px
+  padding: 6px 12px 6px 1rem
   font-size: 13px
   font-weight: 400
   color: var(--main-menu-font-color, #c8d1e0)
@@ -93,9 +93,12 @@
     font-weight: 500
 
   &--summary
+    display: flex
     list-style: none
     &::-webkit-details-marker
       display: none
+    &::marker
+      content: none
 
   &--nested
     padding-left: 36px
@@ -277,11 +280,19 @@
     text-decoration: none
 
 .mngt-sidebar-group
+  padding: 0
+  margin: 0
+  position: relative
+
   summary
     cursor: pointer
 
   &-body
     // children of collapsed group are hidden natively by <details>
+
+.mngt-sidebar details > :not(summary)
+  padding-left: 1.5rem
+  margin-top: 0.5rem
 
 .mngt-sidebar-channel-hash
   width: 22px
