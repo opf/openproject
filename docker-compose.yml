@@ -1,6 +1,14 @@
 networks:
   network:
   testing:
+  # `external` joins the gateway network managed by the TLS proxy stack
+  # (traefik + step). Used by services that need to be reachable under
+  # https://*.${OPENPROJECT_DOCKER_DEV_TLD:-local}. First step toward
+  # TLS-by-default for dev — currently hocuspocus uses it; backend and
+  # frontend will follow.
+  external:
+    name: gateway
+    external: true
 
 volumes:
   downloads-test:
@@ -119,6 +127,14 @@ services:
     <<: *hocuspocus
     networks:
       - network
+      - external
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.hocuspocus.rule=Host(`hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
+      - "traefik.http.routers.hocuspocus.tls=true"
+      - "traefik.http.routers.hocuspocus.tls.certresolver=step"
+      - "traefik.http.routers.hocuspocus.service=hocuspocus-service"
+      - "traefik.http.services.hocuspocus-service.loadbalancer.server.port=1234"
 
   cache:
     image: memcached
