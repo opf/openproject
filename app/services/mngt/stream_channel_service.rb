@@ -153,6 +153,11 @@ class Mngt::StreamChannelService
     raise
   end
 
+  # Add members to an existing group DM (messaging channel) server-side.
+  def add_members_to_group(channel_id, user_ids)
+    stream_post("/channels/messaging/#{channel_id}", { add_members: user_ids })
+  end
+
   # Rename any messaging channel the current user is a member of.
   def rename_channel(channel_id, name)
     stream_post("/channels/messaging/#{channel_id}", { data: { name: name } })
