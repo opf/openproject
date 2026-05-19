@@ -16,6 +16,7 @@ import {
   statusTextColor,
   statusBackgroundColor,
 } from "../../services/colors";
+import { formatWorkPackageId } from "../../services/utils";
 
 const DESCRIPTION_MAX_CHARS = 300;
 
@@ -109,7 +110,7 @@ export const BlockCardM = ({
       <WorkPackageType $color={typeColor(workPackage)}>
         {workPackage._links?.type?.title}
       </WorkPackageType>
-      <WorkPackageId>#{workPackage.id}</WorkPackageId>
+      <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
       <WorkPackageStatus
         $baseColor={statusColor(workPackage)}
         $borderColor={statusBorderColor()}
@@ -144,7 +145,7 @@ export const BlockCardL = ({
       <WorkPackageType $color={typeColor(workPackage)}>
         {workPackage._links?.type?.title}
       </WorkPackageType>
-      <WorkPackageId>#{workPackage.id}</WorkPackageId>
+      <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
       <WorkPackageStatus
         $baseColor={statusColor(workPackage)}
         $borderColor={statusBorderColor()}
@@ -193,7 +194,7 @@ export const BlockCardXL = ({
         <WorkPackageType $color={typeColor(workPackage)}>
           {workPackage._links?.type?.title}
         </WorkPackageType>
-        <WorkPackageId>#{workPackage.id}</WorkPackageId>
+        <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
         <WorkPackageStatus
           $baseColor={statusColor(workPackage)}
           $borderColor={statusBorderColor()}

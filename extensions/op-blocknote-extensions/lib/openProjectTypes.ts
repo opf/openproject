@@ -1,5 +1,6 @@
 export interface WorkPackage {
   id: number;
+  displayId: string;
   subject: string;
   description?: { raw?: string; html?: string } | null;
   status?: string | null;

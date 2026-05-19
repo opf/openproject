@@ -32,13 +32,28 @@ export async function insertInlineChipViaHash(hashes: string) {
 }
 
 // Inline chip - popover & size menu
-export async function openInlineChipPopover() {
-  await userEvent.click(page.getByText('#123').first());
+export async function openInlineChipPopover(displayId: string = '#123') {
+  await userEvent.click(page.getByText(displayId).first());
   await expect.element(page.getByTestId('popover-content')).toBeVisible();
 }
 
-export async function openInlineChipSizeMenu() {
-  await openInlineChipPopover();
+export async function insertSemanticInlineChipViaSlashMenu() {
+  await openEditorAndType('/');
+  await expect.element(page.getByText('Link existing work package').first()).toBeVisible();
+  await userEvent.click(page.getByText('Link existing work package').first());
+
+  const searchInput = page.getByPlaceholder('Search by work package ID or subject');
+  await expect.element(searchInput).toBeVisible();
+  await userEvent.type(searchInput, 'Semantic');
+
+  await expect.element(page.getByText('Semantic ID work package')).toBeVisible();
+  await userEvent.click(page.getByText('Semantic ID work package'));
+
+  await expect.element(page.getByText('DWPS-1')).toBeVisible();
+}
+
+export async function openInlineChipSizeMenu(displayId:string|undefined = '#123') {
+  await openInlineChipPopover(displayId);
   await userEvent.click(page.getByTitle('Change size'));
   await expect.element(page.getByTestId('size-menu')).toBeVisible();
 }
@@ -55,8 +70,8 @@ export async function openBlockCardSizeMenu() {
   await expect.element(page.getByTestId('size-menu')).toBeVisible();
 }
 
-export async function convertToCompactCard() {
-  await openInlineChipSizeMenu();
+export async function convertToCompactCard(displayId:string|undefined = "#123") {
+  await openInlineChipSizeMenu(displayId);
   await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
   await expect.element(page.getByTestId('block-card')).toBeVisible();
 }
