@@ -38,7 +38,7 @@ export async function openInlineChipPopover(displayId: string = '#123') {
   await expect.element(page.getByTestId('popover-content')).toBeVisible();
 }
 
-export async function openInlineChipSizeMenu(displayId:string|undefined = '#123') {
+export async function openInlineChipSizeMenu(displayId:string = '#123') {
   await openInlineChipPopover(displayId);
   await userEvent.click(page.getByTitle('Change size'));
   await expect.element(page.getByTestId('size-menu')).toBeVisible();
@@ -56,7 +56,7 @@ export async function openBlockCardSizeMenu() {
   await expect.element(page.getByTestId('size-menu')).toBeVisible();
 }
 
-export async function convertToCompactCard(displayId:string|undefined = "#123") {
+export async function convertToCompactCard(displayId:string = "#123") {
   await openInlineChipSizeMenu(displayId);
   await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
   await expect.element(page.getByTestId('block-card')).toBeVisible();
