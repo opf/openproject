@@ -9,12 +9,12 @@ import {
 describe("openProjectApi", () => {
   it("works with a baseUrl with trailing slash", () => {
     initOpenProjectApi({baseUrl: "https://example.com/"});
-    expect(linkToWorkPackage(42)).toBe("https://example.com/wp/42");
+    expect(linkToWorkPackage("42")).toBe("https://example.com/wp/42");
   });
 
   it("works with a baseUrl without trailing slash", () => {
     initOpenProjectApi({baseUrl: "https://example.com"});
-    expect(linkToWorkPackage(42)).toBe("https://example.com/wp/42");
+    expect(linkToWorkPackage("42")).toBe("https://example.com/wp/42");
   });
 
   describe("searchWorkPackages", () => {
@@ -35,17 +35,23 @@ describe("openProjectApi", () => {
   });
 
   describe("linkToWorkPackage", () => {
-    it("throws an error for invalid work package ID", () => {
+    it("builds a correct URL for a numeric displayId", () => {
       initOpenProjectApi({baseUrl: "https://example.com"});
-      expect(() => linkToWorkPackage(-1)).toThrow("Invalid work package ID: -1");
-      expect(() => linkToWorkPackage(0)).toThrow("Invalid work package ID: 0");
-      expect(() => linkToWorkPackage(NaN)).toThrow("Invalid work package ID: NaN");
-      expect(() => linkToWorkPackage("abublé" as unknown as number)).toThrow("Invalid work package ID: abublé");
+      expect(linkToWorkPackage("123")).toBe("https://example.com/wp/123");
+      expect(linkToWorkPackage("42")).toBe("https://example.com/wp/42");
     });
 
-    it("builds a welformed url for valid work package ID", () => {
+    it("builds a correct URL for a semantic displayId", () => {
       initOpenProjectApi({baseUrl: "https://example.com"});
-      expect(linkToWorkPackage(123)).toBe("https://example.com/wp/123");
+      expect(linkToWorkPackage("DWPS-1")).toBe("https://example.com/wp/DWPS-1");
+      expect(linkToWorkPackage("PROJ-42")).toBe("https://example.com/wp/PROJ-42");
+    });
+
+    it("encodes path traversal attempts via encodeURIComponent", () => {
+      initOpenProjectApi({baseUrl: "https://example.com"});
+      expect(linkToWorkPackage("../secret")).toBe("https://example.com/wp/..%2Fsecret");
+      expect(linkToWorkPackage("../../etc/passwd")).toBe("https://example.com/wp/..%2F..%2Fetc%2Fpasswd");
+      expect(linkToWorkPackage("foo/bar")).toBe("https://example.com/wp/foo%2Fbar");
     });
   });
 

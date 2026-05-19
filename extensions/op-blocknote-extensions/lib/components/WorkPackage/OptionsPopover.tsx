@@ -60,7 +60,7 @@ export const WpOptionsPopover = ({
         aria-label={t("options.openAriaLabel", { id: wp.id })}
         onClick={(e) => {
           e.stopPropagation();
-          window.open(linkToWorkPackage(wp.id), "_blank", "noopener,noreferrer");
+          window.open(linkToWorkPackage(wp.displayId), "_blank", "noopener,noreferrer");
         }}
       >
         <IcOpen /> {t("options.open")}

@@ -19,7 +19,7 @@ import { formatWorkPackageId } from "../../services/utils";
 
 const titleLinkProps = (wp: WorkPackage) => ({
   as: "a" as const,
-  href: linkToWorkPackage(wp.id),
+  href: linkToWorkPackage(wp.displayId),
   target: "_blank" as const,
   rel: "noopener noreferrer",
   $compact: true,

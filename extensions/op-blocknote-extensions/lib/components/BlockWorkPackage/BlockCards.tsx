@@ -28,7 +28,7 @@ export interface BlockCardSharedProps {
 }
 
 function buildTitle(workPackage: WorkPackage, linkTitle: boolean) {
-  const href = linkToWorkPackage(workPackage.id);
+  const href = linkToWorkPackage(workPackage.displayId);
   if (!linkTitle) return workPackage.subject;
   return (
     <WorkPackageTitleLink
