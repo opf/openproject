@@ -37,6 +37,13 @@ Then continue the setup:
 
 ```shell
 cp docker-compose.override.example.yml docker-compose.override.yml
+
+# Required: create the `gateway` docker network. Services like hocuspocus
+# join it; the optional TLS proxy (see "TLS support" below) and other
+# external services such as Nextcloud or Keycloak join the same network
+# when present. Safe to run multiple times.
+docker network create gateway 2>/dev/null || true
+
 docker compose run --rm backend setup
 docker compose run --rm frontend npm install
 docker compose up -d backend
@@ -117,7 +124,24 @@ There is an example you can use out of the box.
 cp docker-compose.override.example.yml docker-compose.override.yml
 ```
 
-### 3) Setup database and install dependencies
+### 3) Create the shared `gateway` network
+
+Services like `hocuspocus` (and, when added, external dev services such as
+Nextcloud or Keycloak, plus the optional TLS proxy described under
+[TLS support](#tls-support)) all join a shared docker network called
+`gateway`. It's declared in `docker-compose.yml` as an externally-managed
+network, so docker compose expects it to exist before any service starts.
+
+Create it once:
+
+```shell
+docker network create gateway
+```
+
+`docker network create gateway 2>/dev/null || true` is the idempotent form if
+you want to fold it into a setup script.
+
+### 4) Setup database and install dependencies
 
 ```shell
 # This will start the database as a dependency
@@ -129,7 +153,7 @@ docker compose run --rm backend setup
 docker compose run --rm frontend npm install
 ```
 
-### 4) Start the stack
+### 5) Start the stack
 
 The docker compose file also has the test containers defined. The easiest way to start only the development stack, use
 
@@ -275,8 +299,9 @@ an active internet connection. A compose file exists that runs those two service
 touch docker/dev/tls/acme.json
 chmod 0600 docker/dev/tls/acme.json
 
-# Create external docker network
-docker network create gateway
+# The `gateway` network is already created as part of the base setup
+# (see "Step-by-step Setup → 3) Create the shared `gateway` network").
+# If you skipped that step, create it now: `docker network create gateway`.
 
 # Start certificate authority and reverse proxy
 docker compose --project-directory docker/dev/tls up -d
