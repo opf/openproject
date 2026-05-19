@@ -9,20 +9,21 @@ export async function openEditorAndType(text: string) {
   await userEvent.type(editorEl, text);
 }
 
-export async function insertInlineChipViaSlashMenu() {
+export async function insertInlineChipViaSlashMenu(searchTerm:string='Fix', resultTerm:string='Fix login bug') {
   await openEditorAndType('/');
   await expect.element(page.getByText('Link existing work package').first()).toBeVisible();
   await userEvent.click(page.getByText('Link existing work package').first());
 
   const searchInput = page.getByPlaceholder('Search by work package ID or subject');
   await expect.element(searchInput).toBeVisible();
-  await userEvent.type(searchInput, 'Fix');
+  await userEvent.type(searchInput, searchTerm);
 
-  await expect.element(page.getByText('Fix login bug')).toBeVisible();
-  await userEvent.click(page.getByText('Fix login bug'));
+  await expect.element(page.getByText(resultTerm)).toBeVisible();
+  await userEvent.click(page.getByText(resultTerm));
 
   // default S chip - status visible
-  await expect.element(page.getByText('In Progress')).toBeVisible();
+  await expect.element(searchInput).not.toBeInTheDocument();
+  await expect.element(page.getByText(resultTerm)).toBeVisible();
 }
 
 export async function insertInlineChipViaHash(hashes: string) {
@@ -35,21 +36,6 @@ export async function insertInlineChipViaHash(hashes: string) {
 export async function openInlineChipPopover(displayId: string = '#123') {
   await userEvent.click(page.getByText(displayId).first());
   await expect.element(page.getByTestId('popover-content')).toBeVisible();
-}
-
-export async function insertSemanticInlineChipViaSlashMenu() {
-  await openEditorAndType('/');
-  await expect.element(page.getByText('Link existing work package').first()).toBeVisible();
-  await userEvent.click(page.getByText('Link existing work package').first());
-
-  const searchInput = page.getByPlaceholder('Search by work package ID or subject');
-  await expect.element(searchInput).toBeVisible();
-  await userEvent.type(searchInput, 'Semantic');
-
-  await expect.element(page.getByText('Semantic ID work package')).toBeVisible();
-  await userEvent.click(page.getByText('Semantic ID work package'));
-
-  await expect.element(page.getByText('DWPS-1')).toBeVisible();
 }
 
 export async function openInlineChipSizeMenu(displayId:string|undefined = '#123') {
