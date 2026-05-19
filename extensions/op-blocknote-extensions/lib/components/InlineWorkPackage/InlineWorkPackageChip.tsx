@@ -131,7 +131,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
     return (
       <InlineChip
         role="button"
-        aria-label={t("options.chipAriaLabel", { id: wpid })}
+        aria-label={t("options.chipAriaLabel", { id: formatWorkPackageId(wp.displayId) })}
         ref={setRef}
         selected={isSelected}
         onClick={(e) => {
