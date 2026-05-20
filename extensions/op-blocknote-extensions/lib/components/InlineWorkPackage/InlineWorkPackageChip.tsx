@@ -14,17 +14,20 @@ import { wpBridge } from "../../services/wpBridge";
 import { BlockCard } from "../BlockWorkPackage/BlockCard";
 import { useTranslation } from "react-i18next";
 import { defaultWpVariables } from "../WorkPackage/atoms";
+import { formatWorkPackageId } from "../../utils/id";
+import { useIsNodeInSelection } from "../../hooks/useIsNodeInSelection";
 
 export interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
   contentRef: (node: HTMLElement | null) => void;
+  editor?: any;
 }
 
 const InlineChip = styled.span.attrs({
   className: "op-bn-inline-wp",
   contentEditable: false,
 })<{ selected?: boolean }>`
- ${defaultWpVariables}
+  ${defaultWpVariables}
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
@@ -43,10 +46,7 @@ const InlineChip = styled.span.attrs({
   }
 `;
 
-export const InlineWorkPackageChip = ({
-  inlineContent,
-  contentRef,
-}: InlineWorkPackageChipProps) => {
+export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
   const rawWpid = inlineContent.props.wpid;
   const size = (inlineContent.props.size ?? "s") as InlineWpSize;
@@ -61,6 +61,8 @@ export const InlineWorkPackageChip = ({
 
   const [isSelected, setIsSelected] = useState(false);
   const chipRef = useRef<HTMLElement | null>(null);
+
+  const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
   const setRef = (node: HTMLElement | null) => {
     chipRef.current = node;
@@ -86,10 +88,11 @@ export const InlineWorkPackageChip = ({
       e.preventDefault();
       e.stopPropagation();
 
-      e.clipboardData?.setData("text/plain", `#${wpid}`);
+      const formattedId = formatWorkPackageId(wp?.displayId ?? String(wpid));
+      e.clipboardData?.setData("text/plain", formattedId);
       e.clipboardData?.setData(
         "text/html",
-        `<span data-inline-content-type="openProjectWorkPackageInline" data-wpid="${wpid}" data-instance-id="${instanceId}" data-size="${size}">#${wpid}</span>`,
+        `<span data-inline-content-type="openProjectWorkPackageInline" data-wpid="${wpid}" data-instance-id="${instanceId}" data-size="${size}">${formattedId}</span>`,
       );
     },
     [isSelected, wp, wpid, instanceId, size],
@@ -123,7 +126,7 @@ export const InlineWorkPackageChip = ({
   // Loading
   if (wpid && loading) {
     return (
-      <InlineChip ref={setRef} data-drag-handle>
+      <InlineChip ref={setRef} selected={isEditorSelected} data-drag-handle>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}…</WorkPackageId>
         </ChipBase>
@@ -137,9 +140,9 @@ export const InlineWorkPackageChip = ({
       <InlineChip
         data-drag-handle
         role="button"
-        aria-label={t("options.chipAriaLabel", { id: wpid })}
+        aria-label={t("options.chipAriaLabel", { id: formatWorkPackageId(wp.displayId) })}
         ref={setRef}
-        selected={isSelected}
+        selected={isSelected || isEditorSelected}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -174,7 +177,7 @@ export const InlineWorkPackageChip = ({
   // Error / unknown
   if (wpid) {
     return (
-      <InlineChip ref={setRef} data-drag-handle style={{ opacity: 0.6 }}>
+      <InlineChip ref={setRef} data-drag-handle selected={isEditorSelected} style={{ opacity: 0.6 }}>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}</WorkPackageId>
         </ChipBase>

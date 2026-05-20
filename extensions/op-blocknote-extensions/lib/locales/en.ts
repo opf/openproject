@@ -35,10 +35,10 @@ export const en = {
       "changeSize": "Change size",
       "remove": "Remove",
       "removeAriaLabel": "Remove work package",
-      "openAriaLabel": "Open work package #{{id}} in new tab",
+      "openAriaLabel": "Open work package {{id}} in new tab",
       "inlineSizeLabel": "Inline size",
       "blockSizeLabel": "Block size",
-      "chipAriaLabel": "Work package #{{id}}",
+      "chipAriaLabel": "Work package {{id}}",
     },
     "sizes": {
       "xxs": { "label": "Tiny", "desc": "Identifier" },

@@ -13,6 +13,7 @@ import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
 import { SearchContainer, SearchLabel } from "../Search/SearchContainer";
 import { SearchDropdown } from "../Search/SearchDropdown";
 import { defaultWpVariables } from "../WorkPackage/atoms";
+import { formatWorkPackageId } from "../../utils/id";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })`
   ${defaultWpVariables}
@@ -123,14 +124,15 @@ export const BlockWorkPackageComponent = ({
       e.stopPropagation();
 
       const wpid = block.props.wpid;
+      const formattedId = formatWorkPackageId(selectedWorkPackage?.displayId ?? String(wpid));
 
-      e.clipboardData?.setData("text/plain", `#${wpid}`);
+      e.clipboardData?.setData("text/plain", formattedId);
       e.clipboardData?.setData(
         "text/html",
-        `<div data-block-content-type="openProjectWorkPackageBlock" data-wpid="${wpid}" data-size="${cardSize}" data-initialized="true">#${wpid}</div>`,
+        `<div data-block-content-type="openProjectWorkPackageBlock" data-wpid="${wpid}" data-size="${cardSize}" data-initialized="true">${formattedId}</div>`,
       );
     },
-    [isOptionsOpen, block.props.wpid, cardSize],
+    [isOptionsOpen, block.props.wpid, cardSize, selectedWorkPackage],
   );
 
   useEffect(() => {

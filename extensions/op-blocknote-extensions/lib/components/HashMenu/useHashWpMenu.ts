@@ -2,6 +2,7 @@ import { useCallback, useMemo, useRef } from "react";
 import { useWorkPackageSearch } from "../../hooks/useWorkPackageSearch";
 import { createHashWpMenuComponent } from "./HashWpMenu";
 import { isHashWpQuery } from "./types";
+import { getSizeFromCurrentBlock, insertWpChip } from "./editorUtils";
 import type { HashMenuItem } from "./types";
 import type { AnyEditor } from "./editorUtils";
 import type { WorkPackage } from "../../openProjectTypes";
@@ -20,18 +21,20 @@ export function useHashWpMenu(editor: AnyEditor) {
       const results = await search(query);
       searchResultsRef.current = results;
 
-      const count = Math.max(results.length, 1);
-      return Array.from({ length: count }, () => ({
+      const size = getSizeFromCurrentBlock(editor);
+      return results.map((wp) => ({
         title: query,
-        onItemClick: () => {},
+        onItemClick: () => {
+          insertWpChip(editor, wp, size);
+        },
       }));
     },
-    [search]
+    [editor, search]
   );
 
   const HashWpMenu = useMemo(
-    () => createHashWpMenuComponent(editor, searchResultsRef),
-    [editor]
+    () => createHashWpMenuComponent(searchResultsRef),
+    []
   );
 
   return { getHashItems, HashWpMenu };

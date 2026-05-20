@@ -8,7 +8,7 @@ export {
 export { initializeOpBlockNoteExtensions } from "./initialize";
 export { wpBridge } from "./services/wpBridge.ts";
 export type { WpResizePayload, WpDeletePayload, WpToInlinePayload } from "./services/wpBridge.ts";
-export { makeInstanceId } from "./services/utils.ts";
+export { makeInstanceId } from "./utils/id.ts";
 export type { InlineWpSize, BlockWpSize, WpSize } from "./components/WorkPackage/types";
 export { createHashWpMenuComponent, isHashWpQuery, useHashWpMenu } from "./components/HashMenu";
 export type { HashMenuItem } from "./components/HashMenu";

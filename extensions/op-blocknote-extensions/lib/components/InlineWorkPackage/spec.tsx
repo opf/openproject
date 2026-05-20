@@ -12,14 +12,9 @@ export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
     content: "none",
   },
   {
-    render: ({ inlineContent, contentRef }) => {
-      return (
-        <InlineWorkPackageChip
-          inlineContent={inlineContent}
-          contentRef={contentRef}
-        />
-      );
-    },
+    render: ({ inlineContent, contentRef, editor }) => (
+      <InlineWorkPackageChip inlineContent={inlineContent} contentRef={contentRef} editor={editor}/>
+    ),
 
     toExternalHTML: ({ inlineContent }) => {
       const { wpid, instanceId, size } = inlineContent.props;

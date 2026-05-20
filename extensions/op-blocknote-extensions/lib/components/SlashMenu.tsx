@@ -3,7 +3,7 @@ import { LinkIcon } from "@primer/octicons-react";
 import i18n from "../services/i18n.ts";
 import { getAliases } from "../services/slashMenuAliases";
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from "./InlineWorkPackage/callbacks";
-import { makeInstanceId } from "../services/utils";
+import { makeInstanceId } from "../utils/id.ts";
 
 type AnyEditor = BlockNoteEditor<any, any, any>;
 type AnyInlineNode = InlineContentFromConfig<any, any>;
