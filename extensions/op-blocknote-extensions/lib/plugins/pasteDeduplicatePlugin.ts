@@ -1,7 +1,7 @@
 import { Plugin, PluginKey } from "prosemirror-state";
 import { Fragment, Slice } from "prosemirror-model";
 import type { Node } from "prosemirror-model";
-import { makeInstanceId } from "../services/utils";
+import { makeInstanceId } from "../utils/id";
 
 /**
  * Regenerates instanceId for every inline WP chip in pasted content.
