@@ -10,7 +10,7 @@ import {
   TrashIcon,
   ChevronDownIcon,
 } from "@primer/octicons-react";
-import {formatWorkPackageId} from "../../services/utils.ts";
+import {formatWorkPackageId} from "../../utils/id";
 
 export interface WpOptionsProps {
   wp: WorkPackage;

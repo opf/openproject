@@ -13,7 +13,7 @@ import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
 import { SearchContainer, SearchLabel } from "../Search/SearchContainer";
 import { SearchDropdown } from "../Search/SearchDropdown";
 import { defaultWpVariables } from "../WorkPackage/atoms";
-import { formatWorkPackageId } from "../../services/utils";
+import { formatWorkPackageId } from "../../utils/id";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })`
   ${defaultWpVariables}

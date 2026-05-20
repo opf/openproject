@@ -14,18 +14,20 @@ import { wpBridge } from "../../services/wpBridge";
 import { BlockCard } from "../BlockWorkPackage/BlockCard";
 import { useTranslation } from "react-i18next";
 import { defaultWpVariables } from "../WorkPackage/atoms";
-import { formatWorkPackageId } from "../../services/utils";
+import { formatWorkPackageId } from "../../utils/id";
+import { useIsNodeInSelection } from "../../hooks/useIsNodeInSelection";
 
 interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
   contentRef: (node: HTMLElement | null) => void;
+  editor?: any;
 }
 
 const InlineChip = styled.span.attrs({
   className: "op-bn-inline-wp",
   contentEditable: false,
 })<{ selected?: boolean }>`
- ${defaultWpVariables}
+  ${defaultWpVariables}
   display: inline-flex;
   align-items: center;
   vertical-align: middle;
@@ -40,7 +42,7 @@ const InlineChip = styled.span.attrs({
   line-height: 1;
 `;
 
-export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkPackageChipProps) => {
+export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
   const rawWpid = inlineContent.props.wpid;
   const size = (inlineContent.props.size ?? "s") as InlineWpSize;
@@ -55,6 +57,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
 
   const [isSelected, setIsSelected] = useState(false);
   const chipRef = useRef<HTMLElement | null>(null);
+
+  const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
   const setRef = (node: HTMLElement | null) => {
     chipRef.current = node;
@@ -118,7 +122,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
   // Loading
   if (wpid && loading) {
     return (
-      <InlineChip ref={setRef}>
+      <InlineChip ref={setRef} selected={isEditorSelected}>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}…</WorkPackageId>
         </ChipBase>
@@ -133,7 +137,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
         role="button"
         aria-label={t("options.chipAriaLabel", { id: formatWorkPackageId(wp.displayId) })}
         ref={setRef}
-        selected={isSelected}
+        selected={isSelected || isEditorSelected}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();
@@ -168,7 +172,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
   // Error / unknown
   if (wpid) {
     return (
-      <InlineChip ref={setRef} style={{ opacity: 0.6 }}>
+      <InlineChip ref={setRef} selected={isEditorSelected} style={{ opacity: 0.6 }}>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}</WorkPackageId>
         </ChipBase>
