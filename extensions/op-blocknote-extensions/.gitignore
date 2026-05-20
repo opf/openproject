@@ -29,3 +29,6 @@ op-blocknote-extensions-*
 
 .env
 !.env.*
+
+# test screenshots
+test/lib/components/integration/__screenshots__/*

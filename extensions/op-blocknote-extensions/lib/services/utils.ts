@@ -6,3 +6,7 @@ export function makeInstanceId(): string {
     ? crypto.randomUUID()
     : `iid-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
+
+export function formatWorkPackageId(displayId: string): string {
+  return /^\d+$/.test(displayId) ? `#${displayId}` : displayId;
+}

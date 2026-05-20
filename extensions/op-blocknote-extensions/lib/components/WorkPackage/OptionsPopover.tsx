@@ -10,6 +10,7 @@ import {
   TrashIcon,
   ChevronDownIcon,
 } from "@primer/octicons-react";
+import {formatWorkPackageId} from "../../services/utils.ts";
 
 export interface WpOptionsProps {
   wp: WorkPackage;
@@ -57,10 +58,10 @@ export const WpOptionsPopover = ({
     <Popover onMouseDown={(e) => e.stopPropagation()}>
       <PopBtn
         title={t("options.openInNewTab")}
-        aria-label={t("options.openAriaLabel", { id: wp.id })}
+        aria-label={t("options.openAriaLabel", { id: formatWorkPackageId(wp.displayId) })}
         onClick={(e) => {
           e.stopPropagation();
-          window.open(linkToWorkPackage(wp.id), "_blank", "noopener,noreferrer");
+          window.open(linkToWorkPackage(wp.displayId), "_blank", "noopener,noreferrer");
         }}
       >
         <IcOpen /> {t("options.open")}

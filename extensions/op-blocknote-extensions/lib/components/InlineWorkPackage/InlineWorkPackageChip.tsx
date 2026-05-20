@@ -14,6 +14,7 @@ import { wpBridge } from "../../services/wpBridge";
 import { BlockCard } from "../BlockWorkPackage/BlockCard";
 import { useTranslation } from "react-i18next";
 import { defaultWpVariables } from "../WorkPackage/atoms";
+import { formatWorkPackageId } from "../../services/utils";
 
 interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
@@ -79,10 +80,11 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
       e.preventDefault();
       e.stopPropagation();
 
-      e.clipboardData?.setData("text/plain", `#${wpid}`);
+      const formattedId = formatWorkPackageId(wp?.displayId ?? String(wpid));
+      e.clipboardData?.setData("text/plain", formattedId);
       e.clipboardData?.setData(
         "text/html",
-        `<span data-inline-content-type="openProjectWorkPackageInline" data-wpid="${wpid}" data-instance-id="${instanceId}" data-size="${size}">#${wpid}</span>`,
+        `<span data-inline-content-type="openProjectWorkPackageInline" data-wpid="${wpid}" data-instance-id="${instanceId}" data-size="${size}">${formattedId}</span>`,
       );
     },
     [isSelected, wp, wpid, instanceId, size],
@@ -129,7 +131,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
     return (
       <InlineChip
         role="button"
-        aria-label={t("options.chipAriaLabel", { id: wpid })}
+        aria-label={t("options.chipAriaLabel", { id: formatWorkPackageId(wp.displayId) })}
         ref={setRef}
         selected={isSelected}
         onClick={(e) => {
