@@ -44,11 +44,17 @@ export function fetchWorkPackage(id: number): Promise<WorkPackage> {
 }
 
 export function fetchStatuses(): Promise<StatusCollection> {
-  return get<StatusCollection>(`/api/v3/statuses`);
+  return get<StatusCollection>(`/api/v3/statuses`).catch((error) => {
+    console.error("[OpenProjectApi] fetchStatuses failed:", error);
+    return Promise.reject(error);
+  });
 }
 
 export function fetchTypes(): Promise<TypeCollection> {
-  return get<TypeCollection>(`/api/v3/types`);
+  return get<TypeCollection>(`/api/v3/types`).catch((error) => {
+    console.error("[OpenProjectApi] fetchTypes failed:", error);
+    return Promise.reject(error);
+  });
 }
 
 export async function searchWorkPackages(query: string): Promise<WorkPackage[]> {

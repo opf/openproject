@@ -39,9 +39,10 @@ export function useWorkPackageSearch(
             setSearchResults(results);
           }
         })
-        .catch((err) => {
+        .catch((error) => {
           if (active) {
-            setError(err.message || "Unknown error");
+            setError(error.message || "Unknown error");
+            console.error("[work package search] Failed to load work packages from OpenProject:", error);
             setSearchResults([]);
           }
         })
