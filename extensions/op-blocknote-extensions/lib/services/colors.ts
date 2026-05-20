@@ -58,7 +58,9 @@ export function cacheColors(): Promise<void> {
         }
       });
     })(),
-  ]).then(() => {});
+  ]).then(() => {}).catch((error) => {
+    console.error("[colors] Failed to load colors from OpenProject:", error);
+  });
 
   return colorsPromise;
 }
