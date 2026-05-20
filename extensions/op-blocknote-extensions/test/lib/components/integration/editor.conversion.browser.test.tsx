@@ -4,6 +4,7 @@ import { renderEditor } from '../../../helpers/renderEditor';
 import {
   insertInlineChipViaSlashMenu,
   insertInlineChipViaHash,
+  insertInlineChipViaHashWithTextBefore,
   convertToCompactCard,
   openInlineChipSizeMenu,
   openBlockCardSizeMenu,
@@ -76,6 +77,48 @@ describe('Block card - convert to inline chip', () => {
     await expect.element(page.getByTestId('block-card')).not.toBeInTheDocument();
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByText('In Progress')).toBeVisible();
+  });
+});
+
+describe('Inline chip -> block: surrounding text is split at chip position', () => {
+  it('WP - text: text after chip moves to new paragraph below block', async () => {
+    renderEditor();
+    await insertInlineChipViaHash('#');
+    await userEvent.keyboard(' World');
+
+    await openInlineChipSizeMenu();
+    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('World')).toBeVisible();
+  });
+
+  it('text - WP - text: surrounding sentence is split into two paragraphs around the block', async () => {
+    renderEditor();
+    await insertInlineChipViaHashWithTextBefore('Hello ');
+    await userEvent.keyboard(' World');
+
+    await openInlineChipSizeMenu();
+    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('Hello')).toBeVisible();
+    await expect.element(page.getByText('World')).toBeVisible();
+    await expect.element(page.getByText('Hello World')).not.toBeInTheDocument();
+  });
+
+  it('text - WP: text before chip stays in paragraph above block', async () => {
+    renderEditor();
+    await insertInlineChipViaHashWithTextBefore('Hello ');
+
+    await openInlineChipSizeMenu();
+    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('Hello')).toBeVisible();
   });
 });
 

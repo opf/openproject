@@ -61,3 +61,13 @@ export async function convertToCompactCard(displayId:string = "#123") {
   await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
   await expect.element(page.getByTestId('block-card')).toBeVisible();
 }
+
+export async function insertInlineChipViaHashWithTextBefore(before: string) {
+  const editorEl = page.getByRole('textbox');
+  await expect.element(editorEl).toBeVisible();
+  await userEvent.click(editorEl);
+  await userEvent.type(editorEl, `${before}#Fix`);
+  await expect.element(page.getByText('Fix login bug')).toBeVisible();
+  await userEvent.click(page.getByText('Fix login bug'));
+  await expect.element(page.getByText('#123')).toBeVisible();
+}
