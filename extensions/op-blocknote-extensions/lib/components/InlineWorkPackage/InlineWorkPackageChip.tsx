@@ -18,7 +18,6 @@ import { defaultWpVariables } from "../WorkPackage/atoms";
 export interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
   contentRef: (node: HTMLElement | null) => void;
-  onDragStart?: (e: React.DragEvent) => void;
 }
 
 const InlineChip = styled.span.attrs({
@@ -47,7 +46,6 @@ const InlineChip = styled.span.attrs({
 export const InlineWorkPackageChip = ({
   inlineContent,
   contentRef,
-  onDragStart,
 }: InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
   const rawWpid = inlineContent.props.wpid;
@@ -142,7 +140,6 @@ export const InlineWorkPackageChip = ({
         aria-label={t("options.chipAriaLabel", { id: wpid })}
         ref={setRef}
         selected={isSelected}
-        onDragStart={onDragStart}
         onClick={(e) => {
           e.preventDefault();
           e.stopPropagation();

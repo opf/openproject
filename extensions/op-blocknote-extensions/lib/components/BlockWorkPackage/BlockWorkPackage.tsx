@@ -19,11 +19,6 @@ const Block = styled.div.attrs({ className: "op-bn-extensions" })`
   background-color: var(--op-chip-bg);
   
   user-select: all; 
-  cursor: grab;
-
-  &:active {
-    cursor: grabbing;
-  }
 `;
 
 const BlockCardWrapper = styled.div`
@@ -45,6 +40,7 @@ interface BlockProps {
 // when `@blocknote/core` is duplicated in node_modules — happens in op-app
 // where the host has its own @blocknote/core copy that doesn't share class
 // identity with the one this lib was built against.
+// TODO: remove once @blocknote/core is a peer dependency of this package.
 function getSideMenuExtension(editor: BlockNoteEditor<any>): any {
   const extensions = (editor as any).extensions;
   if (!extensions) return null;
