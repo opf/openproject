@@ -148,7 +148,7 @@ export class AssigneeQuickFilterComponent extends UntilDestroyedMixin implements
   public clearAll():void {
     this.selectedHrefs.clear();
     this.unassignedSelected = false;
-    this.wpTableFilters.remove('assignee');
+    this.wpTableFilters.remove('responsible');
     this.close();
   }
 
@@ -204,7 +204,7 @@ export class AssigneeQuickFilterComponent extends UntilDestroyedMixin implements
 
   private getAllowedValuesHref():string|null {
     try {
-      const filter = this.wpTableFilters.instantiate('assignee');
+      const filter = this.wpTableFilters.instantiate('responsible');
       const allowedValues = filter.currentSchema?.values?.allowedValues as { href?:string }|undefined;
       return allowedValues?.href || null;
     } catch {
@@ -214,12 +214,12 @@ export class AssigneeQuickFilterComponent extends UntilDestroyedMixin implements
 
   private applyFilter():void {
     if (!this.isActive) {
-      this.wpTableFilters.remove('assignee');
+      this.wpTableFilters.remove('responsible');
       return;
     }
 
     if (this.unassignedSelected) {
-      this.wpTableFilters.replace('assignee', (filter:QueryFilterInstanceResource) => {
+      this.wpTableFilters.replace('responsible', (filter:QueryFilterInstanceResource) => {
         filter.operator = filter.findOperator('!*')!;
         filter.values = [];
       });
@@ -233,14 +233,14 @@ export class AssigneeQuickFilterComponent extends UntilDestroyedMixin implements
       }, true);
     });
 
-    this.wpTableFilters.replace('assignee', (filter:QueryFilterInstanceResource) => {
+    this.wpTableFilters.replace('responsible', (filter:QueryFilterInstanceResource) => {
       filter.operator = filter.findOperator('=')!;
       filter.values = values;
     });
   }
 
   private syncFromFilter():void {
-    const filter = this.wpTableFilters.find('assignee');
+    const filter = this.wpTableFilters.find('responsible');
     this.selectedHrefs.clear();
     this.unassignedSelected = false;
 
