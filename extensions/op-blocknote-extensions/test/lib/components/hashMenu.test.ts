@@ -1,114 +1,200 @@
 // @vitest-environment jsdom
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect } from "vitest";
+import { BlockNoteEditor, BlockNoteSchema } from "@blocknote/core";
+import {
+  openProjectWorkPackageBlockSpec,
+  openProjectWorkPackageInlineSpec,
+} from "../../../lib";
 import {
   getSizeFromCurrentBlock,
-  insertWpChipIntoBlock,
-  clearTriggerText,
+  insertWpChip,
+  removeTriggerBeforeChip,
 } from "../../../lib/components/HashMenu/editorUtils";
 
-type FakeContent = { type: string; text?: string; styles?: any; props?: any }[];
+const schema = BlockNoteSchema.create().extend({
+  blockSpecs: {
+    openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+  },
+  inlineContentSpecs: {
+    openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+  },
+});
 
-function makeFakeEditor(content: FakeContent = []) {
-  let block = { id: "block-1", content };
-  const inserted: FakeContent = [];
+function createTestEditor(text: string) {
+  const editor = BlockNoteEditor.create({
+    schema,
+    initialContent: [{ type: "paragraph", content: text }],
+  });
 
-  return {
-    block,
-    inserted,
-    getTextCursorPosition: () => ({ block }),
-    getBlock: (id: string) => (id === block.id ? block : null),
-    updateBlock: (id: string, update: { content: FakeContent }) => {
-      if (id === block.id) {
-        block.content = update.content;
-        inserted.push(...update.content);
-      }
-    },
-    insertInlineContent: (content: FakeContent) => {
-      inserted.push(...content);
-    },
-    focus: vi.fn(),
-    setTextCursorPosition: vi.fn(),
-  };
+  const block = editor.document[0];
+  editor.setTextCursorPosition(block, "end");
+
+  return editor;
+}
+
+function createEditorWithContent(content: any[]) {
+  return BlockNoteEditor.create({
+    schema,
+    initialContent: [
+      {
+        type: "paragraph",
+        content,
+      } as any,
+    ],
+  });
 }
 
 describe("getSizeFromCurrentBlock", () => {
   it("returns xxs for #", () => {
-    const editor = makeFakeEditor([{ type: "text", text: "#foo" }]);
+    const editor = createTestEditor("#foo");
     expect(getSizeFromCurrentBlock(editor as any)).toBe("xxs");
   });
 
   it("returns xs for ##", () => {
-    const editor = makeFakeEditor([{ type: "text", text: "##foo" }]);
+    const editor = createTestEditor("##foo");
     expect(getSizeFromCurrentBlock(editor as any)).toBe("xs");
   });
 
   it("returns s for ### or more", () => {
-    const editor = makeFakeEditor([{ type: "text", text: "###foo" }]);
-    expect(getSizeFromCurrentBlock(editor as any)).toBe("s");
-
-    const editor2 = makeFakeEditor([{ type: "text", text: "####foo" }]);
-    expect(getSizeFromCurrentBlock(editor2 as any)).toBe("s");
+    expect(getSizeFromCurrentBlock(createTestEditor("###foo") as any)).toBe("s");
+    expect(getSizeFromCurrentBlock(createTestEditor("####foo") as any)).toBe("s");
   });
 
   it("returns xxs if no hashes", () => {
-    const editor = makeFakeEditor([{ type: "text", text: "foo" }]);
+    const editor = createTestEditor("foo");
     expect(getSizeFromCurrentBlock(editor as any)).toBe("xxs");
   });
-});
 
-describe("clearTriggerText", () => {
-  it("removes # text and returns block id", () => {
-    const editor = makeFakeEditor([{ type: "text", text: "#foo" }]);
-    const blockId = clearTriggerText(editor as any);
-    expect(blockId).toBe("block-1");
-    expect(editor.block.content).toEqual([]);
-  });
-
-  it("does nothing if no block", () => {
-    const editor = { getTextCursorPosition: () => null, updateBlock: vi.fn() };
-    expect(clearTriggerText(editor as any)).toBeNull();
-  });
-
-  it("keeps text before # and removes trigger", () => {
-    const editor = makeFakeEditor([{ type: "text", text: "Hello #foo" }]);
-    const blockId = clearTriggerText(editor as any);
-    expect(blockId).toBe("block-1");
-    expect(editor.block.content).toEqual([{ type: "text", text: "Hello " }]);
-  });
-
-  it("works with multiple # in the text", () => {
-    const editor = makeFakeEditor([{ type: "text", text: "Pre #one #two #three" }]);
-    const blockId = clearTriggerText(editor as any);
-    expect(blockId).toBe("block-1");
-    expect(editor.block.content).toEqual([{ type: "text", text: "Pre " }]);
+  it("uses the last hash trigger in the block", () => {
+    const editor = createTestEditor("#first ##bug");
+    expect(getSizeFromCurrentBlock(editor as any)).toBe("xs");
   });
 });
 
-describe("insertWpChipIntoBlock", () => {
-  it("adds a chip to the block content", () => {
-    const editor = makeFakeEditor([]);
-    insertWpChipIntoBlock(
+describe("removeTriggerBeforeChip", () => {
+  it("removes the trailing # before the chip", () => {
+    const editor = createEditorWithContent([
+      { type: "text", text: "Hello #", styles: {} },
+      {
+        type: "openProjectWorkPackageInline",
+        props: { wpid: "1", instanceId: "test-iid", size: "xxs" },
+      },
+    ]);
+
+    removeTriggerBeforeChip(editor as any, "test-iid");
+
+    const block = editor.getBlock(editor.document[0].id);
+    expect((block?.content as any)[0].text).toBe("Hello ");
+  });
+
+  it("removes multiple trailing hashes (##, ###) before the chip", () => {
+    const editor = createEditorWithContent([
+      { type: "text", text: "Hello ###", styles: {} },
+      {
+        type: "openProjectWorkPackageInline",
+        props: { wpid: "1", instanceId: "test-iid", size: "s" },
+      },
+    ]);
+
+    removeTriggerBeforeChip(editor as any, "test-iid");
+
+    const block = editor.getBlock(editor.document[0].id);
+    expect((block?.content as any)[0].text).toBe("Hello ");
+  });
+
+  it("leaves earlier # in the line alone — removes only the trigger # nearest to the chip", () => {
+    const editor = createEditorWithContent([
+      { type: "text", text: "Pre #one #two #", styles: {} },
+      {
+        type: "openProjectWorkPackageInline",
+        props: { wpid: "1", instanceId: "test-iid", size: "xxs" },
+      },
+    ]);
+
+    removeTriggerBeforeChip(editor as any, "test-iid");
+
+    const block = editor.getBlock(editor.document[0].id);
+    expect((block?.content as any)[0].text).toBe("Pre #one #two ");
+  });
+
+  it("removes the previous text node entirely when only # remains", () => {
+    const editor = createEditorWithContent([
+      { type: "text", text: "#", styles: {} },
+      {
+        type: "openProjectWorkPackageInline",
+        props: { wpid: "1", instanceId: "test-iid", size: "xxs" },
+      },
+    ]);
+
+    removeTriggerBeforeChip(editor as any, "test-iid");
+
+    const block = editor.getBlock(editor.document[0].id);
+    expect((block?.content as any)[0].type).toBe("openProjectWorkPackageInline");
+  });
+
+  it("does nothing if the chip is not found", () => {
+    const editor = createTestEditor("Hello #foo");
+    const before = JSON.stringify(editor.document);
+
+    removeTriggerBeforeChip(editor as any, "nonexistent-iid");
+
+    expect(JSON.stringify(editor.document)).toBe(before);
+  });
+
+  it("does nothing when there is no preceding text node", () => {
+    const editor = createEditorWithContent([
+      {
+        type: "openProjectWorkPackageInline",
+        props: { wpid: "1", instanceId: "test-iid", size: "xxs" },
+      },
+    ]);
+
+    const before = JSON.stringify(editor.document);
+    removeTriggerBeforeChip(editor as any, "test-iid");
+
+    expect(JSON.stringify(editor.document)).toBe(before);
+  });
+});
+
+describe("insertWpChip", () => {
+  it("inserts a chip with the work package ID and size", () => {
+    const editor = createTestEditor("test ");
+
+    insertWpChip(
       editor as any,
-      "block-1",
       { id: 1, subject: "Fix bug" } as any,
-      "xxs"
+      "xxs",
     );
 
-    const inserted = editor.inserted;
-    expect(inserted.length).toBe(2);
-
-    const chip = inserted.find(
-      (c): c is { type: string; props: { size: string } } =>
-        c.type === "openProjectWorkPackageInline" && c.props?.size
+    const block = editor.getBlock(editor.document[0].id);
+    const chip = (block?.content as any[]).find(
+      (n) => n.type === "openProjectWorkPackageInline",
     );
+
     expect(chip).toBeDefined();
-    expect(chip?.props.size).toBe("xxs");
+    expect(chip.props.wpid).toBe("1");
+    expect(chip.props.size).toBe("xxs");
+    expect(chip.props.instanceId).toEqual(expect.any(String));
   });
 
-  it("does nothing if block not found", () => {
-    const editor = makeFakeEditor([]);
-    expect(() =>
-      insertWpChipIntoBlock(editor as any, "wrong-id", { id: 1 } as any, "xxs")
-    ).not.toThrow();
+  it("inserts a trailing space after the chip", () => {
+    const editor = createTestEditor("test ");
+
+    insertWpChip(
+      editor as any,
+      { id: 1, subject: "Fix bug" } as any,
+      "xxs",
+    );
+
+    const block = editor.getBlock(editor.document[0].id);
+    const content = block?.content as any[];
+
+    const chipIdx = content.findIndex(
+      (n) => n.type === "openProjectWorkPackageInline",
+    );
+    const afterChip = content[chipIdx + 1];
+
+    expect(afterChip?.type).toBe("text");
+    expect(afterChip?.text).toBe(" ");
   });
 });
