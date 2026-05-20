@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { BlockNoteSchema } from "@blocknote/core";
 import { filterSuggestionItems } from "@blocknote/core/extensions";
 import "@blocknote/core/fonts/inter.css";
@@ -11,41 +12,59 @@ import {
 import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
-  openProjectWorkPackageSlashMenu,
+  openProjectWorkPackageInlineSpec,
+  workPackageSlashMenu,
+  useHashWpMenu,
 } from "../lib";
 import "./fetchOverride";
+import {useInlineWpEvents} from "../lib";
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
-    openProjectWorkPackage: openProjectWorkPackageBlockSpec(),
+    openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+  },
+  inlineContentSpecs: {
+    openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
   },
 });
+
+initializeOpBlockNoteExtensions({
+  baseUrl: "http://localhost:3000",
+  locale: "en",
+});
+
 type EditorType = typeof schema.BlockNoteEditor;
 
+function buildSlashMenuItems(editor: EditorType) {
+  return [
+    ...getDefaultReactSlashMenuItems(editor),
+    workPackageSlashMenu(editor as any),
+  ];
+}
+
 export default function App() {
-  const editor = useCreateBlockNote({
-    schema,
-  });
+  const editor = useCreateBlockNote({ schema });
 
-  initializeOpBlockNoteExtensions({
-    baseUrl: "http://localhost:3000",
-    locale: "en",
-  });
+  useInlineWpEvents(editor as any); 
 
-  const getCustomSlashMenuItems = (editor: EditorType) => {
-    return [
-      ...getDefaultReactSlashMenuItems(editor),
-      openProjectWorkPackageSlashMenu(editor),
-    ];
-  };
+  const getSlashItems = useCallback(
+    async (query: string) => filterSuggestionItems(buildSlashMenuItems(editor), query),
+    [editor]
+  );
+
+  const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
 
   return (
     <BlockNoteView editor={editor} slashMenu={false}>
       <SuggestionMenuController
         triggerCharacter="/"
-        getItems={async (query: string) =>
-          filterSuggestionItems(getCustomSlashMenuItems(editor), query)
-        }
+        getItems={getSlashItems}
+      />
+
+      <SuggestionMenuController
+        triggerCharacter="#"
+        getItems={getHashItems}
+        suggestionMenuComponent={HashWpMenu}
       />
     </BlockNoteView>
   );

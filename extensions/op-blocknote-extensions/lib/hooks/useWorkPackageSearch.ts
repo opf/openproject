@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import type { WorkPackage } from "../openProjectTypes";
 import { searchWorkPackages } from "../services/openProjectApi";
 
@@ -16,6 +16,10 @@ export function useWorkPackageSearch(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // Used to cancel debounce in imperative search()
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Reactive search (used by SearchDropdown)
   useEffect(() => {
     let active = true;
 
@@ -28,16 +32,17 @@ export function useWorkPackageSearch(
 
     setLoading(true);
     setError(null);
-    const debouncedSearchQuery = setTimeout(() => {
+    const timer = setTimeout(() => {
       searchWorkPackages(searchQuery)
         .then((results) => {
           if (active) {
             setSearchResults(results);
           }
         })
-        .catch((err) => {
+        .catch((error) => {
           if (active) {
-            setError(err.message || "Unknown error");
+            setError(error.message || "Unknown error");
+            console.error("[work package search] Failed to load work packages from OpenProject:", error);
             setSearchResults([]);
           }
         })
@@ -50,9 +55,38 @@ export function useWorkPackageSearch(
 
     return () => {
       active = false;
-      clearTimeout(debouncedSearchQuery);
+      clearTimeout(timer);
     };
   }, [searchQuery, debounce]);
+
+  // Imperative search (used by BlockNote getItems — must return results immediately)
+  const search = useCallback(
+    (query: string): Promise<WorkPackage[]> => {
+      if (!query.trim()) {
+        setSearchResults([]);
+        return Promise.resolve([]);
+      }
+
+      if (debounceTimerRef.current !== null) {
+        clearTimeout(debounceTimerRef.current);
+      }
+
+      return new Promise<WorkPackage[]>((resolve) => {
+        debounceTimerRef.current = setTimeout(async () => {
+          debounceTimerRef.current = null;
+          try {
+            const results = await searchWorkPackages(query);
+            setSearchResults(results);
+            resolve(results);
+          } catch {
+            setSearchResults([]);
+            resolve([]);
+          }
+        }, debounce);
+      });
+    },
+    [debounce]
+  );
 
   return {
     searchQuery,
@@ -60,5 +94,6 @@ export function useWorkPackageSearch(
     searchResults,
     loading,
     error,
+    search,
   };
 }
