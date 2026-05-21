@@ -36,9 +36,13 @@ export default class CreateDialogController extends Controller<HTMLFormElement> 
 
   static values = {
     refreshUrl: String,
+    dialogUrlTemplate: String,
+    refreshUrlTemplate: String,
   };
 
   declare refreshUrlValue:string;
+  declare dialogUrlTemplateValue:string;
+  declare refreshUrlTemplateValue:string;
 
   async connect() {
     const context = await window.OpenProject.getPluginContext();
@@ -51,5 +55,16 @@ export default class CreateDialogController extends Controller<HTMLFormElement> 
       null,
       this.refreshUrlValue,
     );
+  }
+
+  updateProject() {
+    const projectField = this.element.querySelector<HTMLInputElement>('[name="work_package[project_id]"]');
+    const projectId = projectField?.value;
+    if (!projectId) return;
+
+    this.element.action = this.dialogUrlTemplateValue.replace(':id', projectId);
+    this.refreshUrlValue = this.refreshUrlTemplateValue.replace(':id', projectId);
+
+    this.refreshForm();
   }
 }

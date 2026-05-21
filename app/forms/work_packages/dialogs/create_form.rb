@@ -44,6 +44,24 @@ module WorkPackages::Dialogs
     end
 
     form do |f|
+      f.project_autocompleter(
+        name: :project_id,
+        required: true,
+        label: Project.model_name.human,
+        visually_hide_label: true,
+        input_width: :large,
+        autocomplete_options: {
+          multiple: false,
+          clearable: false,
+          focusDirectly: false,
+          url: ::API::V3::Utilities::PathHelper::ApiV3Path.available_projects_on_create,
+          model: { id: work_package.project_id, name: work_package.project&.name },
+          hiddenFieldAction: "change->work-packages--create-dialog#updateProject",
+          append_to: wrapper_id,
+          data: { test_selector: "work_package_create_dialog_project" }
+        }
+      )
+
       f.autocompleter(
         name: :type_id,
         required: true,
@@ -81,6 +99,23 @@ module WorkPackages::Dialogs
         disabled: !@schema.writable?(:subject)
       )
 
+      f.work_package_autocompleter(
+        name: :parent_id,
+        label: WorkPackage.human_attribute_name(:parent),
+        required: false,
+        input_width: :large,
+        autocomplete_options: {
+          multiple: false,
+          clearable: true,
+          focusDirectly: false,
+          defaultData: false,
+          url: ::API::V3::Utilities::PathHelper::ApiV3Path.work_packages_by_project(work_package.project_id),
+          model: parent_model,
+          append_to: wrapper_id,
+          data: { test_selector: "work_package_create_dialog_parent" }
+        }
+      )
+
       f.rich_text_area(
         name: :description,
         label: WorkPackage.human_attribute_name(:description),
@@ -96,7 +131,7 @@ module WorkPackages::Dialogs
       # Keep hidden fields for relevant changes
       work_package.changes
                   .slice(*writable_attributes)
-                  .except(:description, :subject, :type_id)
+                  .except(:description, :subject, :type_id, :project_id, :parent_id)
                   .each do |attribute, value|
         f.hidden(name: attribute, value:)
       end
@@ -108,6 +143,12 @@ module WorkPackages::Dialogs
 
     def autofocus_subject?
       work_package.errors.empty? && work_package.custom_values.all? { |cv| cv.errors.empty? }
+    end
+
+    def parent_model
+      return nil unless work_package.parent_id
+
+      { id: work_package.parent_id, name: work_package.parent&.subject }
     end
 
     private
