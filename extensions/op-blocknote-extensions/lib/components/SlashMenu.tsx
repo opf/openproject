@@ -4,6 +4,7 @@ import i18n from "../services/i18n.ts";
 import { getAliases } from "../services/slashMenuAliases";
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from "./InlineWorkPackage/callbacks";
 import { makeInstanceId } from "../utils/id.ts";
+import { placeCursorAfterInlineNode } from "../utils/cursor.ts";
 
 type AnyEditor = BlockNoteEditor<any, any, any>;
 type AnyInlineNode = InlineContentFromConfig<any, any>;
@@ -50,7 +51,7 @@ function buildOnSelect(
 
     requestAnimationFrame(() => {
       editor.focus();
-      editor.setTextCursorPosition(current.blockId, "end");
+      placeCursorAfterInlineNode(editor, instanceId);
     });
   };
 }
