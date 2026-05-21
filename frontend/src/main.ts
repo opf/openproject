@@ -40,6 +40,18 @@ if (environment.production) {
   enableProdMode();
 }
 
+// Register ELO service worker for PWA installability and future push support
+if ('serviceWorker' in navigator) {
+  void navigator.serviceWorker.register('/sw.js', { scope: '/' });
+}
+
+// Capture beforeinstallprompt early — before Stimulus boots — so the
+// pwa-install controller can pick it up on connect regardless of timing.
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  (window as Window & { __pwaPrompt?: Event }).__pwaPrompt = e;
+});
+
 // Import the correct locale early on
 void initializeLocale()
   .then(() => {

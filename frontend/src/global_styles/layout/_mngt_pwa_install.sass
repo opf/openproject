@@ -1,0 +1,133 @@
+// ELO PWA install bottom sheet
+$pwa-green: var(--primary-button-color, #1a9641)
+$pwa-sheet-radius: 20px
+$pwa-transition: 0.35s cubic-bezier(0.32, 0.72, 0, 1)
+
+.mngt-pwa-overlay
+  position: fixed
+  inset: 0
+  background: rgba(0, 0, 0, 0)
+  z-index: 9998
+  pointer-events: none
+  transition: background $pwa-transition
+
+  &--visible
+    background: rgba(0, 0, 0, 0.55)
+    pointer-events: auto
+
+.mngt-pwa-sheet
+  position: fixed
+  bottom: 0
+  left: 0
+  right: 0
+  z-index: 9999
+  background: #fff
+  border-radius: $pwa-sheet-radius $pwa-sheet-radius 0 0
+  padding: 0 0 env(safe-area-inset-bottom, 0)
+  box-shadow: 0 -4px 32px rgba(0, 0, 0, 0.18)
+  transform: translateY(100%)
+  transition: transform $pwa-transition
+  will-change: transform
+
+  &--visible
+    transform: translateY(0)
+
+  &--handle
+    width: 40px
+    height: 4px
+    background: #e0e0e0
+    border-radius: 2px
+    margin: 12px auto 0
+
+  &--body
+    display: flex
+    align-items: center
+    gap: 16px
+    padding: 20px 24px 8px
+
+  &--icon-wrapper
+    flex-shrink: 0
+    width: 64px
+    height: 64px
+    border-radius: 16px
+    background: $pwa-green
+    display: flex
+    align-items: center
+    justify-content: center
+    box-shadow: 0 4px 12px rgba(26, 150, 65, 0.35)
+
+  &--icon
+    width: 40px
+    height: 40px
+    object-fit: contain
+
+  &--text
+    flex: 1
+
+  &--title
+    font-size: 18px
+    font-weight: 700
+    color: #111
+    margin: 0 0 4px
+    line-height: 1.3
+
+  &--description
+    font-size: 14px
+    color: #555
+    margin: 0
+    line-height: 1.5
+
+  &--ios-hint
+    font-size: 13px
+    color: #555
+    margin: 8px 0 0
+    line-height: 1.5
+    background: #f5f5f5
+    border-radius: 8px
+    padding: 10px 12px
+
+    strong
+      color: #111
+
+  &--actions
+    display: flex
+    flex-direction: column
+    gap: 10px
+    padding: 16px 24px 20px
+
+  &--install-btn
+    width: 100%
+    padding: 15px
+    background: $pwa-green
+    color: #fff
+    border: none
+    border-radius: 12px
+    font-size: 16px
+    font-weight: 600
+    cursor: pointer
+    letter-spacing: 0.2px
+    transition: filter 0.15s ease
+
+    &:hover,
+    &:focus-visible
+      filter: brightness(1.1)
+      outline: none
+
+    &:active
+      filter: brightness(0.92)
+
+  &--dismiss-btn
+    width: 100%
+    padding: 12px
+    background: transparent
+    color: #888
+    border: none
+    font-size: 15px
+    cursor: pointer
+    border-radius: 8px
+    transition: color 0.15s ease
+
+    &:hover,
+    &:focus-visible
+      color: #444
+      outline: none

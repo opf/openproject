@@ -1135,6 +1135,13 @@ pt-BR:
       load_error_message: Ocorreu um erro ao carregar o formulário
       validation_error_message: Corrija os erros presentes no formulário
       advanced_settings: Configurações avançadas
+    mngt:
+      pwa:
+        title: "O ELO está disponível como app!"
+        description: "Instale agora e receba notificações de tarefas e mensagens direto no seu celular."
+        ios_hint_html: "No Safari, toque no ícone <strong>Compartilhar</strong> (&#x2B06; na barra inferior) e selecione <strong>\"Adicionar à Tela Inicial\"</strong>."
+        install_btn: "Instalar agora"
+        dismiss_btn: "Agora não"
     spot:
       filter_chip:
         remove: Remover

@@ -1,0 +1,51 @@
+<div data-controller="mngt--pwa-install"
+     data-mngt--pwa-install-dismiss-days-value="3">
+
+  <div data-mngt--pwa-install-target="overlay"
+       class="mngt-pwa-overlay"
+       data-action="click->mngt--pwa-install#dismiss"
+       aria-hidden="true"></div>
+
+  <div data-mngt--pwa-install-target="sheet"
+       class="mngt-pwa-sheet"
+       role="dialog"
+       aria-modal="true"
+       aria-labelledby="mngt-pwa-title">
+
+    <div class="mngt-pwa-sheet--handle"></div>
+
+    <div class="mngt-pwa-sheet--body">
+      <div class="mngt-pwa-sheet--icon-wrapper">
+        <%= image_tag "icon_logo_white.svg", alt: "ELO", class: "mngt-pwa-sheet--icon" %>
+      </div>
+
+      <div class="mngt-pwa-sheet--text">
+        <h2 id="mngt-pwa-title" class="mngt-pwa-sheet--title">
+          <%= t("js.mngt.pwa.title") %>
+        </h2>
+        <p class="mngt-pwa-sheet--description">
+          <%= t("js.mngt.pwa.description") %>
+        </p>
+        <p data-mngt--pwa-install-target="iosHint"
+           class="mngt-pwa-sheet--ios-hint"
+           hidden>
+          <%= t("js.mngt.pwa.ios_hint_html").html_safe %>
+        </p>
+      </div>
+    </div>
+
+    <div class="mngt-pwa-sheet--actions">
+      <button data-mngt--pwa-install-target="installBtn"
+              data-action="click->mngt--pwa-install#install"
+              class="mngt-pwa-sheet--install-btn"
+              type="button">
+        <%= t("js.mngt.pwa.install_btn") %>
+      </button>
+      <button data-action="click->mngt--pwa-install#dismiss"
+              class="mngt-pwa-sheet--dismiss-btn"
+              type="button">
+        <%= t("js.mngt.pwa.dismiss_btn") %>
+      </button>
+    </div>
+  </div>
+</div>
