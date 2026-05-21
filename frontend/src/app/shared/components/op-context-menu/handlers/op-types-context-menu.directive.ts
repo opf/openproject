@@ -86,6 +86,9 @@ export class OpTypesContextMenuDirective extends OpContextMenuTrigger implements
         .wpCreate
         .getEmptyForm(this.projectIdentifier)
         .then((form) => {
+          // Guard: don't show if another context menu was opened while waiting for the form
+          if (!this.isOpen) { return; }
+          if (this.opContextMenu.active !== null && !this.opContextMenu.isActive(this)) { return; }
           // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
           this.buildItems(form.schema.type.allowedValues as TypeResource[]);
           this.opContextMenu.show(this, evt);
