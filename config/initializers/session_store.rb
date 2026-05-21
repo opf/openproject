@@ -38,7 +38,8 @@ session_options = {
   httponly: true,
   same_site: :lax,
   secure: config.https?,
-  path: relative_url_root
+  path: relative_url_root,
+  expire_after: 30.days
 }
 
 Rails.application.config.session_store :active_record_store, **session_options

@@ -89,6 +89,13 @@ class Mngt::StreamChannelService
     Rails.logger.warn("[Mngt::Stream] ensure_user_in_all_team_channels failed: #{e.message}")
   end
 
+  # Add the current user to a specific team channel by ID.
+  def add_to_team_channel(channel_id)
+    stream_post("/channels/team/#{channel_id}", { add_members: [@user_id] })
+  rescue Error => e
+    Rails.logger.warn("[Mngt::Stream] add_to_team_channel #{channel_id} failed: #{e.message}")
+  end
+
   # Add the right users to a team channel that was already created via the frontend SDK.
   # Adds all users from the channel's own company + all CSC users.
   def add_all_users_to_team_channel(channel_id)

@@ -53,7 +53,11 @@ module OpenProject
       end
 
       def load_manifest
-        @load_manifest ||= begin
+        current_mtime = File.mtime(manifest_path).to_i rescue 0
+        return @load_manifest if @load_manifest && @load_manifest_mtime == current_mtime
+
+        @load_manifest_mtime = current_mtime
+        @load_manifest = begin
           JSON.parse File.read(manifest_path)
         rescue StandardError => e
           Rails.logger.error "Failed to read frontend manifest file: #{e}."

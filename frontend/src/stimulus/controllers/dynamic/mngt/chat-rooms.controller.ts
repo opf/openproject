@@ -233,10 +233,8 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     const sort = [{ last_message_at: -1 }, { created_at: -1 }] as const;
     const opts  = { limit: 30, state: true, watch: false };
 
-    // Team channels are public — query by type so new users see them without being members.
-    // DMs are private — filter by current user's membership.
     const [team, dms] = await Promise.all([
-      this.client.queryChannels({ type: 'team' }, sort, opts),
+      this.client.queryChannels({ type: 'team', members: { $in: [this.currentUserIdValue] } }, sort, opts),
       this.client.queryChannels(
         { type: 'messaging', members: { $in: [this.currentUserIdValue] } },
         sort,

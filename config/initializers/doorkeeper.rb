@@ -61,7 +61,7 @@ Doorkeeper.configure do
   # Access token expiration time (default 2 hours).
   # If you want to disable expiration, set this to nil.
   #
-  access_token_expires_in 2.hours
+  access_token_expires_in 30.days
 
   # Assign custom TTL for access tokens. Will be used instead of access_token_expires_in
   # option if defined. `context` has the following properties available

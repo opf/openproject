@@ -9,6 +9,26 @@ module Mngt
       "clrc.com.br"         => { name: "Centro Logístico", slug: "clrc",         can_see_all: false },
     }.freeze
 
+    # Maps API company names (from external people API) to Stream channel slugs.
+    COMPANY_NAME_TO_SLUG = {
+      "Grupo MNGT"    => "csc",
+      "Área Incrível" => "areaincrivel",
+      "Mais Armazém"  => "maisarmazem",
+      "Lar Incrível"  => "larincrivel",
+      "Galpões SA"    => "galpoessa",
+    }.freeze
+
+    # Strips accents, lowercases, removes non-alphanumeric chars for fuzzy matching.
+    def self.normalize(str)
+      str.to_s.unicode_normalize(:nfd).gsub(/\p{Mn}/, "").downcase.gsub(/[^a-z0-9\s]/, "").squish
+    end
+
+    # Returns Stream slug for an API company name (fuzzy match).
+    def self.slug_for_company_name(name)
+      normalized = normalize(name)
+      COMPANY_NAME_TO_SLUG.find { |k, _v| normalize(k) == normalized }&.last
+    end
+
     def self.for_email(email)
       domain = email.to_s.split("@").last.to_s.downcase
       REGISTRY[domain]

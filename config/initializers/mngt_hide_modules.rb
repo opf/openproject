@@ -58,7 +58,8 @@ Rails.application.config.after_initialize do
 
   # --- Quadros (Boards) -------------------------------------------------------
   Redmine::MenuManager.map(:project_menu) { |m| m.delete(:boards) }
-  Redmine::MenuManager.map(:project_menu) { |m| m.delete(:kanban) }
+  # Kanban reativado
+  # Redmine::MenuManager.map(:project_menu) { |m| m.delete(:kanban) }
   Redmine::MenuManager.map(:project_menu) { |m| m.delete(:board_menu) }
 
   # --- Tempo e Custos (Cost Reports) ------------------------------------------

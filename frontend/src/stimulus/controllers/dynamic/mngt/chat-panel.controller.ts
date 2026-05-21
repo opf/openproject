@@ -775,7 +775,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       const sort = [{ last_message_at: -1 }, { created_at: -1 }] as const;
       const opts  = { limit: 30, state: true, watch: false };
       const [team, dms] = await Promise.all([
-        this.streamClient.queryChannels({ type: 'team' }, sort, opts),
+        this.streamClient.queryChannels({ type: 'team', members: { $in: [this.currentUserId] } }, sort, opts),
         this.streamClient.queryChannels(
           { type: 'messaging', members: { $in: [this.currentUserId] } },
           sort, opts,
@@ -869,7 +869,8 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       listEl.querySelector('#mngt-panel-new-dm')?.addEventListener('click', () => {
         document.dispatchEvent(new CustomEvent('mngt:open-new-dm'));
       });
-    } catch {
+    } catch (err) {
+      console.error('[mngt:chat] loadChannelList failed', err);
       if (listEl) listEl.innerHTML = '<span class="mngt-chat-list-empty">Erro ao carregar canais</span>';
     }
   }
