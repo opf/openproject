@@ -4,12 +4,6 @@ import { playwright } from '@vitest/browser-playwright'
 
 export default defineConfig({
   plugins: [react()],
-  optimizeDeps: {
-    include: [
-      "prosemirror-state",
-      "prosemirror-model",
-    ],
-  },
   test: {
     setupFiles: ['./test/setupTests.ts'],
     browser: {
