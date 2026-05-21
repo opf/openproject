@@ -42,6 +42,8 @@ import {
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TOpAutocompleterResource } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export interface IWorkPackageAutocompleteItem extends WorkPackageResource {
   id:string,
@@ -66,6 +68,8 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
   @InjectField(WorkPackageNotificationService) notificationService:WorkPackageNotificationService;
 
   @InjectField(SchemaCacheService) schemaCacheService:SchemaCacheService;
+
+  @InjectField(ApiV3Service) apiV3Service:ApiV3Service;
 
   resource:TOpAutocompleterResource = 'work_packages';
 
@@ -106,6 +110,27 @@ export class WorkPackageRelationsAutocompleteComponent extends OpAutocompleterCo
     // Return when the search string is empty
     if (query === null || query.length === 0) {
       return of([]);
+    }
+
+    if (isNewResource(this.workPackage) && this.filterCandidatesFor === 'parent') {
+      const project = this.workPackage.project as unknown&{ id:string }|null;
+      if (!project?.id) {
+        return of([]);
+      }
+
+      const filters = new ApiV3FilterBuilder();
+      filters.add('typeahead', '**', [query]);
+
+      return this.apiV3Service.projects.id(project.id).work_packages
+        .filtered(filters, { sortBy: JSON.stringify([['updatedAt', 'desc']]), pageSize: '20' })
+        .get()
+        .pipe(
+          map((collection) => collection.elements),
+          catchError((error:unknown) => {
+            this.notificationService.handleRawError(error);
+            return of([]);
+          }),
+        );
     }
 
     return from(

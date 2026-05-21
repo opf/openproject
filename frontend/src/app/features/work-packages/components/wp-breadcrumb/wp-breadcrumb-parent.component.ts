@@ -38,6 +38,9 @@ import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-pac
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
+import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
+import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 
 @Component({
   templateUrl: './wp-breadcrumb-parent.html',
@@ -69,10 +72,14 @@ export class WorkPackageBreadcrumbParentComponent {
     protected readonly wpRelationsHierarchy:WorkPackageRelationsHierarchyService,
     protected readonly notificationService:WorkPackageNotificationService,
     protected readonly pathHelper:PathHelperService,
+    protected readonly halEditing:HalResourceEditingService,
   ) {
   }
 
   public canModifyParent():boolean {
+    if (isNewResource(this.workPackage)) {
+      return true;
+    }
     return !!this.workPackage.changeParent;
   }
 
@@ -96,6 +103,13 @@ export class WorkPackageBreadcrumbParentComponent {
     this.close();
     const newParentId = newParent ? newParent.id : null;
     if (_.get(this.parent, 'id', null) === newParentId) {
+      return;
+    }
+
+    if (isNewResource(this.workPackage)) {
+      const change = this.halEditing.changeFor<WorkPackageResource, WorkPackageChangeset>(this.workPackage);
+      change.setValue('parentId', newParentId);
+      this.workPackage.parent = newParent as WorkPackageResource;
       return;
     }
 

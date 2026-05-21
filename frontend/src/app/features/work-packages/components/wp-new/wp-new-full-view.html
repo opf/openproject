@@ -8,6 +8,9 @@
       [skippedFields]="['status', 'type']"
       [inEditMode]="true"
       (onSaved)="onSaved($event)">
+      <div class="wp-show--header-container--breadcrumb">
+        <wp-breadcrumb-parent [workPackage]="newWorkPackage" />
+      </div>
       <div class="toolbar">
         <div class="title-container">
           <wp-type-status [workPackage]="newWorkPackage" />

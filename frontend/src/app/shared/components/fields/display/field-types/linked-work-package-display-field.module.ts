@@ -70,10 +70,6 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     element.appendChild(title);
   }
 
-  public get writable():boolean {
-    return false;
-  }
-
   public get valueString() {
     return `#${this.wpId}`;
   }

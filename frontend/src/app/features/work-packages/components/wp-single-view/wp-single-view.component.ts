@@ -215,14 +215,15 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
     }
 
     // eslint-disable-next-line no-underscore-dangle
-    this.groupedFields = this.rebuildGroupedFields(change, this.schema(resource)._attributeGroups) as GroupDescriptor[];
+    const attributeGroups = this.schema(resource)._attributeGroups;
+    this.groupedFields = this.rebuildGroupedFields(change, attributeGroups) as GroupDescriptor[];
     this.cdRef.detectChanges();
   }
 
   private updateWorkPackageCreationState(change:WorkPackageChangeset) {
     const resource = change.projectedResource;
+    this.projectContext.field = this.getFields(change, ['project']);
     if (!this.currentProject.inProjectContext) {
-      this.projectContext.field = this.getFields(change, ['project']);
       this.workPackage.project = resource.project as HalResource;
     }
 

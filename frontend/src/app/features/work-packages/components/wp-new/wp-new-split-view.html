@@ -7,6 +7,9 @@
       [inEditMode]="true"
       (onSaved)="onSaved($event)">
       <div class="work-packages--details-content -create-mode">
+        <div class="work-packages--breadcrumb">
+          <wp-breadcrumb-parent [workPackage]="newWorkPackage" />
+        </div>
         <div class="work-packages--new-details-header">
           <wp-type-status [workPackage]="newWorkPackage" />
         </div>
