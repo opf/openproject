@@ -612,7 +612,7 @@ pt-BR:
       click_to_switch_to_project: 'Espaço: %{projectname}'
       context: Contexto do espaço
       not_available: Área N/A
-      required_outside_context: 'Por favor, escolha o projeto onde vai criar a demanda para visualizar todos os atributos. Você pode selecionar somente projetos que possuam o tipo acima ativado.
+      required_outside_context: 'Por favor, escolha o espaço onde vai criar a demanda para visualizar todos os atributos. Você pode selecionar somente espaços que possuam o tipo acima ativado.
 
         '
     text_are_you_sure: Você tem certeza?

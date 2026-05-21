@@ -147,6 +147,7 @@ module WorkPackages
 
     validate :validate_milestone_constraint
     validate :validate_parent_not_milestone
+    validate :validate_parent_type_allowed
 
     validate :validate_parent_exists
     validate :validate_parent_in_same_project
@@ -292,6 +293,16 @@ module WorkPackages
     def validate_parent_not_milestone
       if model.parent&.is_milestone?
         errors.add :parent, :cannot_be_milestone
+      end
+    end
+
+    def validate_parent_type_allowed
+      return unless model.parent && model.type
+      return if model.parent.is_a?(WorkPackage::InexistentWorkPackage)
+
+      allowed = model.type.allowed_parent_types
+      unless allowed.include?(model.parent.type)
+        errors.add :parent, :type_not_allowed
       end
     end
 

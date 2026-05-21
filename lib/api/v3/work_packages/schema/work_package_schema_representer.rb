@@ -255,8 +255,14 @@ module API
                                    writable: true,
                                    href_callback: ->(*) {
                                      work_package = represented.work_package
+                                     allowed_type_ids = work_package&.type&.allowed_parent_types&.pluck(:id)
+                                     next if allowed_type_ids&.empty?
+
                                      if work_package&.persisted?
-                                       api_v3_paths.work_package_available_relation_candidates(represented.id, type: :parent)
+                                       api_v3_paths.work_package_available_relation_candidates(represented.id,
+                                                                                               type: :parent)
+                                     elsif work_package&.project_id
+                                       api_v3_paths.work_packages_by_project(work_package.project_id)
                                      end
                                    }
 

@@ -85,6 +85,22 @@ module WorkPackageTypes
         label: label(:is_default)
       )
 
+      unless model.new_record?
+        settings_form.check_box_group(
+          name: :allowed_parent_type_ids,
+          label: I18n.t("types.edit.settings.allowed_parent_types"),
+          caption: I18n.t("types.edit.settings.allowed_parent_types_caption")
+        ) do |group|
+          work_package_types.each do |type|
+            group.check_box(
+              label: type.name,
+              value: type.id,
+              checked: model.allowed_parent_types.include?(type)
+            )
+          end
+        end
+      end
+
       settings_form.submit(
         name: :submit,
         label: I18n.t(:button_save),

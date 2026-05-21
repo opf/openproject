@@ -1293,6 +1293,8 @@ pt-BR:
       settings:
         tab: Configurações
         type_color_text: A cor selecionada distingue os tipos diferentes nas tabelas de Gantt ou tabelas dos pacotes de trabalho. Recomenda-se o uso de uma cor forte.
+        allowed_parent_types: "Tipos de pai permitidos"
+        allowed_parent_types_caption: "Restrinja quais tipos de demanda podem ser definidos como pai. Deixe em branco para permitir todos os tipos."
       subject_configuration:
         tab: Configuração de assunto
         manually_editable_subjects:
@@ -2247,6 +2249,7 @@ pt-BR:
               cannot_be_self_assigned: não pode ser atribuído a ele mesmo.
               cannot_be_in_another_project: não pode ser em outro projeto.
               not_a_valid_parent: é inválido.
+              type_not_allowed: o tipo selecionado como pai não é permitido para este tipo de demanda.
             schedule_manually:
               cannot_be_automatically_scheduled: não pode ser definido como falso (agendado automaticamente) porque não possui predecessores nem filhos.
             start_date:

@@ -43,6 +43,7 @@ module WorkPackageTypes
                             .call(permitted_settings_params)
 
       if result.success?
+        save_allowed_parent_types
         redirect_to edit_type_settings_path(type_id: @type.id), notice: I18n.t(:notice_successful_update)
       else
         render :edit, status: :unprocessable_entity
@@ -53,6 +54,11 @@ module WorkPackageTypes
 
     def permitted_settings_params
       params.expect(type: %i[name color_id description is_milestone is_in_roadmap is_default])
+    end
+
+    def save_allowed_parent_types
+      ids = Array(params.dig(:type, :allowed_parent_type_ids)).map(&:to_i).select(&:positive?)
+      @type.allowed_parent_types = Type.where(id: ids)
     end
   end
 end

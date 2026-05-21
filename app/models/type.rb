@@ -54,6 +54,9 @@ class Type < ApplicationRecord
 
   has_and_belongs_to_many :projects
 
+  has_many :allowed_parent_type_links, class_name: "TypeAllowedParentType", foreign_key: :type_id, dependent: :destroy
+  has_many :allowed_parent_types, through: :allowed_parent_type_links, source: :parent_type
+
   has_and_belongs_to_many :custom_fields,
                           class_name: "WorkPackageCustomField",
                           join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",

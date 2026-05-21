@@ -1393,6 +1393,8 @@ en:
       settings:
         tab: "Settings"
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
+        allowed_parent_types: "Allowed parent types"
+        allowed_parent_types_caption: "Restrict which work package types can be set as parent. Leave empty to allow all types."
       subject_configuration:
         tab: "Subject configuration"
         manually_editable_subjects:
@@ -2382,6 +2384,7 @@ en:
               cannot_be_self_assigned: "cannot be assigned to itself."
               cannot_be_in_another_project: "cannot be in another project."
               not_a_valid_parent: "is invalid."
+              type_not_allowed: "type is not allowed as parent for this work package type."
             schedule_manually:
               cannot_be_automatically_scheduled: "cannot be set to false (automatically scheduled) as it has no predecessors or children."
             start_date:
