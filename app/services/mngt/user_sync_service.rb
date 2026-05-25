@@ -24,8 +24,8 @@ module Mngt
         return
       end
 
-      email_index  = build_email_index(people)
-      managed_ids  = load_managed_user_ids
+      email_index = build_email_index(people)
+      managed_ids = load_managed_user_ids
 
       puts "[DRY RUN] #{people.size} pessoas na API (#{email_index.size} com e-mail)"
       puts "[DRY RUN] #{User.active.count} usuários ativos no OpenProject"
@@ -51,7 +51,7 @@ module Mngt
       if to_create.any?
         puts "=== SERIAM CRIADOS (#{to_create.size}) ==="
         to_create.each do |p|
-          puts "  #{p['corporate_email']} — #{p['fullname']} (#{p['company']} / #{p['area']})"
+          puts "  #{p['corporate_email']} — #{p['fullname']} (#{p['company']} / #{p['area']} / #{p['sector']})"
         end
         puts ""
       end
@@ -115,6 +115,7 @@ module Mngt
         next if email_index.key?(user.mail&.downcase)
 
         user.lock!
+        new(user).deactivate_stream_user
         Rails.logger.info("[Mngt::UserSync] Deactivated #{user.mail} (no longer in API)")
       end
 
@@ -140,25 +141,40 @@ module Mngt
 
       company_name = person["company"]
       area_name    = person["area"]
-      slug         = Mngt::Companies.slug_for_company_name(company_name)
+      sector_name  = person["sector"]
+      company_id   = person["company_id"]
+      area_id      = person["area_id"]
+      sector_id    = person["sector_id"]
+
+      slug = Mngt::Companies.slug_for_company_name(company_name)
       return unless slug
+
+      Mngt::UserProfile.upsert(
+        { user_id: @user.id, company_slug: slug },
+        unique_by: :user_id,
+        update_only: [:company_slug]
+      )
 
       ensure_stream_channel_membership("#{slug}--geral")
 
-      membro_role     = Role.find(MEMBRO_ROLE_ID)
-      company_project = find_project(nil, company_name)
-      area_project    = company_project ? find_project(company_project.id, area_name) : nil
+      company_project = find_project(api_company_id: company_id, name: company_name)
+      return unless company_project
 
-      [company_project, area_project].compact.each do |project|
-        next if already_member?(project)
+      area_project   = nil
+      sector_project = nil
 
-        member = Member.new(project: project, principal: @user)
-        member.roles << membro_role
-        member.save!
-        Rails.logger.info("[Mngt::UserSync] Added #{@user.mail} to '#{project.name}'")
+      if area_id || area_name.present?
+        area_project = find_or_create_area_project(company_project, area_name, company_id, area_id)
+
+        if area_project && (sector_id || sector_name.present?)
+          sector_project = find_or_create_sector_project(area_project, sector_name,
+                                                         company_id, area_id, sector_id)
+        end
       end
+
+      add_user_to_assigned_projects(company_project, area_project, sector_project)
     rescue => e
-      Rails.logger.error("[Mngt::UserSync] perform_sync failed for #{@user.mail}: #{e.message}")
+      Rails.logger.error("[Mngt::UserSync] perform_sync failed for #{@user.mail}: #{e.message}\n#{e.backtrace.first(3).join("\n")}")
     end
 
     # -----------------------------------------------------------------------
@@ -175,6 +191,10 @@ module Mngt
 
       company_name = person["company"]
       area_name    = person["area"]
+      sector_name  = person["sector"]
+      company_id   = person["company_id"]
+      area_id      = person["area_id"]
+      sector_id    = person["sector_id"]
       slug         = Mngt::Companies.slug_for_company_name(company_name)
 
       unless slug
@@ -182,26 +202,159 @@ module Mngt
         return
       end
 
-      channel_id      = "#{slug}--geral"
-      company_project = find_project(nil, company_name)
-      area_project    = company_project ? find_project(company_project.id, area_name) : nil
+      company_project = find_project(api_company_id: company_id, name: company_name,
+                                     record_link: false)
+      area_project    = company_project ? find_project(api_company_id: company_id, api_area_id: area_id,
+                                                       name: area_name, parent_id: company_project.id,
+                                                       record_link: false) : nil
+      sector_project  = area_project ? find_project(api_company_id: company_id, api_area_id: area_id,
+                                                     api_sector_id: sector_id, name: sector_name,
+                                                     parent_id: area_project.id, record_link: false) : nil
 
       puts "#{prefix}:"
-      puts "    empresa=#{company_name}, área=#{area_name.presence || '(vazia)'} → canal '#{channel_id}'"
+      puts "    empresa=#{company_name}, área=#{area_name.presence || '(vazia)'}, setor=#{sector_name.presence || '(vazio)'}"
+      puts "    → canal '#{slug}--geral'"
 
-      if company_project
-        label = already_member?(company_project) ? "já membro" : "SERIA ADICIONADO"
-        puts "    Projeto empresa: #{company_project.name} (id:#{company_project.id}) — #{label}"
+      [
+        [company_project, "Espaço empresa",  company_name],
+        [area_project,    "Espaço área",     area_name],
+        [sector_project,  "Espaço setor",    sector_name]
+      ].each do |project, label, name|
+        if project
+          status = explicit_member?(@user.id, project.id) ? "já membro" : "SERIA ADICIONADO"
+          puts "    #{label}: #{project.name} (id:#{project.id}) — #{status}"
+        elsif name.present?
+          puts "    #{label}: '#{name}' — SERIA CRIADO"
+        end
+      end
+    end
+
+    # Lookup by API IDs first; falls back to name-matching and optionally records the link.
+    # Pass record_link: false for dry-run paths to avoid writing to DB.
+    def find_project(api_company_id: nil, api_area_id: nil, api_sector_id: nil,
+                     name: nil, parent_id: nil, record_link: true)
+      if api_company_id
+        binding = Mngt::ProjectApiId.find_by(
+          api_company_id: api_company_id,
+          api_area_id:    api_area_id,
+          api_sector_id:  api_sector_id
+        )
+        return binding.project if binding&.project&.active?
+      end
+
+      return nil if name.blank?
+
+      scope      = parent_id ? Project.active.where(parent_id:) : Project.active.where(parent_id: nil)
+      normalized = Mngt::Companies.normalize(name)
+      project    = scope.find { |p| Mngt::Companies.normalize(p.name) == normalized }
+
+      if project && api_company_id && record_link
+        record = Mngt::ProjectApiId.find_or_initialize_by(project_id: project.id)
+        record.assign_attributes(api_company_id:, api_area_id:, api_sector_id:)
+        record.save!
+      end
+
+      project
+    end
+
+    def find_or_create_area_project(company_project, area_name, api_company_id, api_area_id)
+      project = find_project(
+        api_company_id: api_company_id,
+        api_area_id:    api_area_id,
+        name:           area_name,
+        parent_id:      company_project.id
+      )
+      return project if project
+      return nil if area_name.blank?
+
+      project = Project.new(
+        name:                 area_name,
+        parent_id:            company_project.id,
+        workspace_type:       :program,
+        public:               false,
+        enabled_module_names: Setting.default_projects_modules
+      )
+
+      if project.save
+        Mngt::ProjectApiId.create!(
+          project:        project,
+          api_company_id: api_company_id,
+          api_area_id:    api_area_id,
+          api_sector_id:  nil
+        )
+        Rails.logger.info("[Mngt::UserSync] Created area project '#{area_name}' under '#{company_project.name}'")
+        project
       else
-        puts "    Projeto empresa: nenhum encontrado para '#{company_name}'"
+        Rails.logger.error("[Mngt::UserSync] Failed to create area project '#{area_name}': " \
+                           "#{project.errors.full_messages.join(', ')}")
+        nil
       end
+    end
 
-      if area_project
-        label = already_member?(area_project) ? "já membro" : "SERIA ADICIONADO"
-        puts "    Projeto área: #{area_project.name} (id:#{area_project.id}) — #{label}"
-      elsif company_project && area_name.present?
-        puts "    Projeto área: nenhum encontrado para '#{area_name}'"
+    def find_or_create_sector_project(area_project, sector_name, api_company_id, api_area_id,
+                                      api_sector_id)
+      project = find_project(
+        api_company_id: api_company_id,
+        api_area_id:    api_area_id,
+        api_sector_id:  api_sector_id,
+        name:           sector_name,
+        parent_id:      area_project.id
+      )
+      return project if project
+      return nil if sector_name.blank?
+
+      project = Project.new(
+        name:                 sector_name,
+        parent_id:            area_project.id,
+        workspace_type:       :project,
+        public:               false,
+        enabled_module_names: Setting.default_projects_modules
+      )
+
+      if project.save
+        Mngt::ProjectApiId.create!(
+          project:        project,
+          api_company_id: api_company_id,
+          api_area_id:    api_area_id,
+          api_sector_id:  api_sector_id
+        )
+        Rails.logger.info("[Mngt::UserSync] Created sector project '#{sector_name}' under '#{area_project.name}'")
+        project
+      else
+        Rails.logger.error("[Mngt::UserSync] Failed to create sector project '#{sector_name}': " \
+                           "#{project.errors.full_messages.join(', ')}")
+        nil
       end
+    end
+
+    # Adds @user explicitly to their assigned path in the hierarchy:
+    # company project + their area + their sector (whichever exist).
+    def add_user_to_assigned_projects(company_project, area_project, sector_project)
+      [company_project, area_project, sector_project].compact.each do |project|
+        next if explicit_member?(@user.id, project.id)
+
+        call = Members::CreateService
+                 .new(user: system_user, contract_class: EmptyContract)
+                 .call(principal: @user, project_id: project.id, role_ids: [MEMBRO_ROLE_ID])
+
+        unless call.success?
+          Rails.logger.error("[Mngt::UserSync] Failed to add #{@user.mail} to " \
+                             "'#{project.name}': #{call.errors.full_messages.join(', ')}")
+        end
+      end
+    rescue => e
+      Rails.logger.error("[Mngt::UserSync] add_user_to_assigned_projects failed for #{@user.mail}: #{e.message}")
+    end
+
+    def explicit_member?(user_id, project_id)
+      Member
+        .joins(:member_roles)
+        .where(user_id:, project_id:, member_roles: { inherited_from: nil })
+        .exists?
+    end
+
+    def deactivate_stream_user
+      Mngt::StreamChannelService.new(@user).deactivate_user
     end
 
     def ensure_stream_channel_membership(channel_id)
@@ -212,16 +365,8 @@ module Mngt
       Rails.logger.warn("[Mngt::UserSync] Stream #{channel_id} failed for #{@user.mail}: #{e.message}")
     end
 
-    def find_project(parent_id, name)
-      return nil if name.blank?
-
-      scope      = parent_id ? Project.active.where(parent_id: parent_id) : Project.active.where(parent_id: nil)
-      normalized = Mngt::Companies.normalize(name)
-      scope.find { |p| Mngt::Companies.normalize(p.name) == normalized }
-    end
-
-    def already_member?(project)
-      Member.exists?(project: project, principal: @user)
+    def system_user
+      @system_user ||= User.system
     end
 
     # -----------------------------------------------------------------------
