@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+# Build the frontend and deploy assets atomically.
+#
+# Uses a temporary Node container that mounts the host filesystem directly,
+# so assets and manifest are written to the same location in one pass.
+# No race condition between manifest and assets.
+
+set -euo pipefail
+
+PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+ASSETS_DIR="$PROJECT_ROOT/public/assets/frontend"
+MANIFEST="$PROJECT_ROOT/config/frontend_assets.manifest.json"
+NODE_IMAGE="node:22-bookworm-slim"
+
+echo "[build-frontend] Starting frontend build..."
+
+# Run Angular build inside a throwaway Node container.
+# Mounted at /home/dev/openproject so symlinks in frontend/src/app/features/plugins/linked/
+# (which point to /home/dev/openproject/modules/*/frontend/module) resolve correctly.
+# No fedata-test volume override means both assets and manifest land directly on the
+# host filesystem. Angular CLI writes assets before the manifest, so there is no window
+# where the manifest references files that do not yet exist.
+docker run --rm \
+  --user "$(id -u):$(id -g)" \
+  -e HOME=/tmp \
+  -v "$PROJECT_ROOT":/home/dev/openproject \
+  -w /home/dev/openproject/frontend \
+  "$NODE_IMAGE" \
+  npm run build
+
+echo "[build-frontend] Build complete. Assets: $ASSETS_DIR"
+echo "[build-frontend] Restarting backend to reload manifest..."
+
+docker restart openproject-backend-1
+
+echo "[build-frontend] Done."
