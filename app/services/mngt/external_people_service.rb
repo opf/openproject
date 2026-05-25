@@ -11,23 +11,36 @@ module Mngt
       new.fetch_all
     end
 
+    def self.companies
+      new.fetch_companies
+    end
+
     def self.bust_cache!
       Rails.cache.delete(Mngt::ExternalPeople::CACHE_KEY)
+      Rails.cache.delete(Mngt::ExternalPeople::COMPANIES_CACHE_KEY)
     end
 
     def fetch_all
       Rails.cache.fetch(Mngt::ExternalPeople::CACHE_KEY, expires_in: Mngt::ExternalPeople::CACHE_TTL) do
-        fetch_from_api
+        raw = fetch_json(Mngt::ExternalPeople::API_URL)
+        extract_people(raw)
+      end
+    end
+
+    def fetch_companies
+      Rails.cache.fetch(Mngt::ExternalPeople::COMPANIES_CACHE_KEY, expires_in: Mngt::ExternalPeople::CACHE_TTL) do
+        raw = fetch_json(Mngt::ExternalPeople::COMPANIES_API_URL)
+        raw.is_a?(Array) ? raw : []
       end
     end
 
     private
 
-    def fetch_from_api
-      uri = URI(Mngt::ExternalPeople::API_URL)
+    def fetch_json(url)
+      uri     = URI(url)
       request = Net::HTTP::Get.new(uri)
       request["X-Integration-Token"] = Mngt::ExternalPeople.api_token
-      request["Accept"]        = "application/json"
+      request["Accept"]              = "application/json"
 
       response = Net::HTTP.start(uri.hostname, uri.port,
                                  use_ssl: true,
@@ -38,8 +51,7 @@ module Mngt
         raise Error, "HTTP #{response.code}: #{response.body.truncate(200)}"
       end
 
-      raw = JSON.parse(response.body)
-      extract_people(raw)
+      JSON.parse(response.body)
     rescue JSON::ParserError, Net::OpenTimeout, Net::ReadTimeout,
            Errno::ECONNREFUSED, SocketError => e
       raise Error, "External people API unreachable: #{e.message}"
