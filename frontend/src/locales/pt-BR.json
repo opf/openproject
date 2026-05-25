@@ -748,8 +748,8 @@
           "all": "Todos os projetos",
           "selected": "Somente selecionados"
         },
-        "title": "Projetos",
-        "toggle_title": "Incluir projetos",
+        "title": "Espaços",
+        "toggle_title": "Incluir espaços",
         "tooltip": {
           "current_project": "Este é o projeto atual em que você está.",
           "does_not_match_search": "O projeto não corresponde ao critério de pesquisa",
@@ -915,9 +915,9 @@
       "label_press_enter_to_save": "Pressione enter para salvar.",
       "label_preview": "Pré-visualizar",
       "label_previous": "Anterior",
-      "label_project": "Projeto",
-      "label_project_list": "Listas de projeto",
-      "label_project_plural": "Projetos",
+      "label_project": "Área",
+      "label_project_list": "Listas de espaços",
+      "label_project_plural": "Espaços",
       "label_public_query": "Público",
       "label_quote_comment": "Citar este comentário",
       "label_recent": "Recente",
@@ -983,6 +983,15 @@
       "label_work_package_plural": "Demandas",
       "label_work_package_upload_notification": "Enviando arquivos para a demanda #%{id}: %{subject}",
       "label_wp_id_added_by": "#%{id} adicionado por %{author}",
+      "mngt": {
+        "pwa": {
+          "description": "Instale agora e receba notificações de tarefas e mensagens direto no seu celular.",
+          "dismiss_btn": "Agora não",
+          "install_btn": "Instalar agora",
+          "ios_hint_html": "No Safari, toque no ícone <strong>Compartilhar</strong> (&#x2B06; na barra inferior) e selecione <strong>\"Adicionar à Tela Inicial\"</strong>.",
+          "title": "O ELO está disponível como app!"
+        }
+      },
       "modals": {
         "button_apply": "Aplicar",
         "button_cancel": "Cancelar",
@@ -1160,10 +1169,10 @@
         "autocompleter": {
           "label": "Autocompletar projeto"
         },
-        "click_to_switch_to_project": "Projeto: %{projectname}",
-        "context": "Contexto do projeto",
-        "not_available": "Projeto N/A",
-        "required_outside_context": "Por favor, escolha o projeto onde vai criar a demanda para visualizar todos os atributos. Você pode selecionar somente projetos que possuam o tipo acima ativado.\n"
+        "click_to_switch_to_project": "Espaço: %{projectname}",
+        "context": "Contexto do espaço",
+        "not_available": "Área N/A",
+        "required_outside_context": "Por favor, escolha o espaço onde vai criar a demanda para visualizar todos os atributos. Você pode selecionar somente espaços que possuam o tipo acima ativado.\n"
       },
       "project_menu_details": "Detalhes",
       "projects": {
@@ -1614,7 +1623,7 @@
           "percentCompleteAlternative": "Progresso",
           "percentageDone": "Percentual pronto",
           "priority": "Prioridade",
-          "projectName": "Projeto",
+          "projectName": "Espaço",
           "remainingTime": "Trabalho restante",
           "remainingWork": "Trabalho restante",
           "remainingWorkAlternative": "Horas restantes",

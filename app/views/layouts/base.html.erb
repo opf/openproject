@@ -97,24 +97,13 @@ See COPYRIGHT and LICENSE files for more details.
         <div id="menu-sidebar">
           <div class="main-menu--top-container">
             <%= render(Primer::OpenProject::FlexLayout.new(align_items: :center, pt: 3)) do |flex|
-              flex.with_column(overflow: :hidden) do
-                render_projects_top_menu_node
-              end
+              # flex.with_column(overflow: :hidden) do
+              #   render_projects_top_menu_node
+              # end
               flex.with_column(text_align: :right, flex: :auto) do
                 render(OpenProject::Common::MainMenuToggleComponent.new(expanded: true))
               end
             end %>
-
-            <%= render(
-                  Primer::BaseComponent.new(
-                    tag: :hr,
-                    classes: "main-menu--projects-divider",
-                    role: :presentation,
-                    aria: {
-                      hidden: true
-                    }
-                  )
-                ) %>
           </div>
           <%= render(Mngt::SidebarComponent.new(current_user: User.current, current_project: @project)) %>
           <!-- Sidebar -->
@@ -216,6 +205,39 @@ See COPYRIGHT and LICENSE files for more details.
   <%= content_for :additional_js_dom_ready %>
 <% end %>
 <div class="op-wide-autocomplete-wrapper"></div>
+<% if User.current.logged? && Mngt::Stream.configured? %>
+  <div data-controller="mngt--notif-prompt">
+    <div data-mngt--notif-prompt-target="banner" class="mngt-notif-prompt" hidden>
+
+      <%# Estado: permissão nunca concedida — botão resolve na hora %>
+      <div data-mngt--notif-prompt-target="stateDefault" hidden>
+        <span class="mngt-notif-prompt--icon">🔔</span>
+        <span class="mngt-notif-prompt--text">Ative as notificações para receber alertas de mensagens mesmo com o app em segundo plano.</span>
+        <button class="mngt-notif-prompt--btn-primary"
+                data-action="click->mngt--notif-prompt#enable">
+          Ativar notificações
+        </button>
+      </div>
+
+      <%# Estado: permissão bloqueada — instrução manual %>
+      <div data-mngt--notif-prompt-target="stateDenied" hidden>
+        <span class="mngt-notif-prompt--icon">🔕</span>
+        <span class="mngt-notif-prompt--text">
+          Notificações bloqueadas. Para ativar:
+          <strong>clique nos três pontos ⋮ no canto da janela</strong> → <strong>Informações do app</strong> → <strong>Notificações</strong> → <strong>Permitir</strong>.
+        </span>
+        <button class="mngt-notif-prompt--btn-secondary"
+                data-action="click->mngt--notif-prompt#check">
+          Já ativei
+        </button>
+      </div>
+
+      <button class="mngt-notif-prompt--close"
+              data-action="click->mngt--notif-prompt#dismiss"
+              aria-label="Fechar">✕</button>
+    </div>
+  </div>
+<% end %>
 <%= render(Mngt::PwaInstallBannerComponent.new) %>
 <%= render(Mngt::ChatPanelComponent.new) %>
 <%= call_hook :view_layouts_base_body_bottom %>

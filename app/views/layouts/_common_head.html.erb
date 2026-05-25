@@ -55,6 +55,9 @@
 
 <%# PWA manifest and theme color for ELO app %>
 <link rel="manifest" href="/manifest.json">
+<% if Mngt::Vapid.configured? %>
+  <meta name="mngt-vapid-public-key" content="<%= Mngt::Vapid.public_key %>">
+<% end %>
 <meta name="theme-color" content="#1a9641">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">

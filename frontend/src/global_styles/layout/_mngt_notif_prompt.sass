@@ -1,0 +1,117 @@
+// ELO notification permission banner — fixed top strip
+.mngt-notif-prompt
+  position: fixed
+  top: 0
+  left: 0
+  right: 0
+  z-index: 10000
+  background: #1a4a8a
+  color: #fff
+  display: flex
+  align-items: center
+  gap: 12px
+  padding: 10px 16px
+  font-size: 13px
+  line-height: 1.4
+  box-shadow: 0 2px 8px rgba(0,0,0,0.25)
+
+  > div
+    display: contents
+
+  &--icon
+    font-size: 18px
+    flex-shrink: 0
+
+  &--text
+    flex: 1
+
+    strong
+      font-weight: 600
+
+  &--btn-primary
+    flex-shrink: 0
+    padding: 6px 14px
+    background: #fff
+    color: #1a4a8a
+    border: none
+    border-radius: 6px
+    font-size: 13px
+    font-weight: 600
+    cursor: pointer
+    white-space: nowrap
+    transition: opacity 0.15s
+
+    &:hover
+      opacity: 0.88
+
+  &--btn-secondary
+    flex-shrink: 0
+    padding: 6px 14px
+    background: rgba(255,255,255,0.15)
+    color: #fff
+    border: 1px solid rgba(255,255,255,0.4)
+    border-radius: 6px
+    font-size: 13px
+    font-weight: 600
+    cursor: pointer
+    white-space: nowrap
+    transition: background 0.15s
+
+    &:hover
+      background: rgba(255,255,255,0.25)
+
+  &--close
+    flex-shrink: 0
+    background: transparent
+    border: none
+    color: rgba(255,255,255,0.7)
+    font-size: 16px
+    cursor: pointer
+    padding: 2px 4px
+    line-height: 1
+    border-radius: 4px
+    transition: color 0.15s
+
+    &:hover
+      color: #fff
+
+// Reconnect banner — shown inside the chat panel body when Stream WS is offline
+.mngt-reconnect-banner
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 8px
+  padding: 6px 12px
+  background: #f5a623
+  color: #fff
+  font-size: 12px
+  font-weight: 600
+  border-radius: 4px
+  margin: 6px 8px 0
+  text-align: center
+  animation: mngt-pulse 1.4s ease-in-out infinite
+
+  &[hidden]
+    display: none
+
+@keyframes mngt-pulse
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0.65
+
+// Character counter inside the chat input wrap (right-aligned, below textarea)
+.mngt-char-counter
+  font-size: 11px
+  color: rgba(255,255,255,0.35)
+  text-align: right
+  line-height: 1
+  padding: 0 2px
+  transition: color 0.15s
+
+  &:empty
+    display: none
+
+  &--warn
+    color: #f87171
+    font-weight: 600

@@ -6,6 +6,9 @@ import MngtChatPanelController from './controllers/dynamic/mngt/chat-panel.contr
 import MngtChatRoomsController from './controllers/dynamic/mngt/chat-rooms.controller';
 import MngtAvatarCropController from './controllers/dynamic/mngt/avatar-crop.controller';
 import MngtThemeToggleController from './controllers/dynamic/mngt/theme-toggle.controller';
+import MngtPwaInstallController from './controllers/dynamic/mngt/pwa-install.controller';
+import MngtNotifPromptController from './controllers/dynamic/mngt/notif-prompt.controller';
+import MngtSidebarController from './controllers/dynamic/mngt/sidebar.controller';
 import OpDisableWhenCheckedController from './controllers/disable-when-checked.controller';
 import PrintController from './controllers/print.controller';
 import RefreshOnFormChangesController from './controllers/refresh-on-form-changes.controller';
@@ -67,6 +70,9 @@ OpenProjectStimulusApplication.preregister('mngt--chat-panel', MngtChatPanelCont
 OpenProjectStimulusApplication.preregister('mngt--chat-rooms', MngtChatRoomsController);
 OpenProjectStimulusApplication.preregister('mngt--avatar-crop', MngtAvatarCropController);
 OpenProjectStimulusApplication.preregister('mngt--theme-toggle', MngtThemeToggleController);
+OpenProjectStimulusApplication.preregister('mngt--pwa-install', MngtPwaInstallController);
+OpenProjectStimulusApplication.preregister('mngt--notif-prompt', MngtNotifPromptController);
+OpenProjectStimulusApplication.preregister('mngt--sidebar', MngtSidebarController);
 OpenProjectStimulusApplication.preregister('require-password-confirmation', RequirePasswordConfirmationController);
 OpenProjectStimulusApplication.preregister('poll-for-changes', PollForChangesController);
 OpenProjectStimulusApplication.preregister('print', PrintController);

@@ -703,6 +703,7 @@ GEM
       logger
     highline (3.1.2)
       reline
+    hkdf (0.3.0)
     html-pipeline (2.14.3)
       activesupport (>= 2)
       nokogiri (>= 1.4)
@@ -773,7 +774,7 @@ GEM
     json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
-    jwt (3.1.2)
+    jwt (2.10.2)
       base64
     ladle (1.0.1)
       open4 (~> 1.0)
@@ -1542,6 +1543,9 @@ GEM
       addressable (>= 2.8.0)
       crack (>= 0.3.2)
       hashdiff (>= 0.4.0, < 2.0.0)
+    webpush (1.1.0)
+      hkdf (~> 0.2)
+      jwt (~> 2.0)
     webrick (1.9.2)
     websocket (1.2.11)
     websocket-driver (0.8.0)
@@ -1809,6 +1813,7 @@ DEPENDENCIES
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
   webmock (~> 3.26)
+  webpush (~> 1.1)
   will_paginate (~> 4.0.0)
   with_advisory_lock (~> 7.5.0)
   yabeda-activerecord
@@ -1993,6 +1998,7 @@ CHECKSUMS
   hashery (2.1.2) sha256=d239cc2310401903f6b79d458c2bbef5bf74c46f3f974ae9c1061fb74a404862
   hashie (5.1.0) sha256=c266471896f323c446ea8207f8ffac985d2718df0a0ba98651a3057096ca3870
   highline (3.1.2) sha256=67cbd34d19f6ef11a7ee1d82ffab5d36dfd5b3be861f450fc1716c7125f4bb4a
+  hkdf (0.3.0) sha256=34c62c7708451aaccbbafde62c471d837aa174dc30302381dfc486a2c0ebd111
   html-pipeline (2.14.3) sha256=8a1d4d7128b2141913387cac0f8ba898bb6812557001acc0c2b46910f59413a0
   htmlbeautifier (1.4.3) sha256=b43d08f7e2aa6ae1b5a6f0607b4ed8954c8d4a8e85fd2336f975dda1e4db385b
   htmldiff (0.0.1) sha256=a96d068c8b8ea96cca3154a61785365d83129f47f1df964c6b1666924ce113a1
@@ -2019,7 +2025,7 @@ CHECKSUMS
   json-schema (6.2.0) sha256=e8bff46ed845a22c1ab2bd0d7eccf831c01fe23bb3920caa4c74db4306813666
   json_schemer (2.5.0) sha256=2f01fb4cce721a4e08dd068fc2030cffd0702a7f333f1ea2be6e8991f00ae396
   json_spec (1.1.5) sha256=7a77b97a92c787e2aa3fbc4a1239afc3342c781151dc98cfb81461b3b7cad10f
-  jwt (3.1.2) sha256=af6991f19a6bb4060d618d9add7a66f0eeb005ac0bc017cd01f63b42e122d535
+  jwt (2.10.2) sha256=31e1ee46f7359883d5e622446969fe9c118c3da87a0b1dca765ce269c3a0c4f4
   ladle (1.0.1) sha256=e8586964108c798d48bf57d2a65bd5602e8e5223a176b6602a0fb36c0bda90dc
   language_server-protocol (3.17.0.5) sha256=fd1e39a51a28bf3eec959379985a72e296e9f9acfce46f6a79d31ca8760803cc
   launchy (3.1.1) sha256=72b847b5cc961589dde2c395af0108c86ff0119f42d4648d25b5440ebb10059e
@@ -2338,6 +2344,7 @@ CHECKSUMS
   webauthn (3.4.3) sha256=9be6f5f838f3405b0226e560aa40b67cc8c15ec9154509b997caa7ec9a05e1fc
   webfinger (2.1.3) sha256=567a52bde77fb38ca6b67e55db755f988766ec4651c1d24916a65aa70540695c
   webmock (3.26.2) sha256=774556f2ea6371846cca68c01769b2eac0d134492d21f6d0ab5dd643965a4c90
+  webpush (1.1.0) sha256=63773d1e5cd06c45e34bf1641fd530b9f328b2de2bc46708ff0c200c505135fd
   webrick (1.9.2) sha256=beb4a15fc474defed24a3bda4ffd88a490d517c9e4e6118c3edce59e45864131
   websocket (1.2.11) sha256=b7e7a74e2410b5e85c25858b26b3322f29161e300935f70a0e0d3c35e0462737
   websocket-driver (0.8.0) sha256=ed0dba4b943c22f17f9a734817e808bc84cdce6a7e22045f5315aa57676d4962

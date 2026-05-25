@@ -43,6 +43,9 @@ Rails.application.routes.draw do
     post  "stream/channels",      to: "stream_channels#create"
     patch "stream/channels/:id", to: "stream_channels#update"
     post "stream/webhook",  to: "stream_webhook#receive"
+    post   "push_subscriptions", to: "push_subscriptions#create"
+    delete "push_subscriptions", to: "push_subscriptions#destroy"
+    post   "chat/reply",         to: "chat_reply#create"
     patch "theme",          to: "theme#update"
   end
 
