@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import type { WorkPackage } from "../../openProjectTypes";
@@ -46,12 +46,29 @@ export const WpOptionsPopover = ({
   const { t } = useTranslation();
   const [showSizes, setShowSizes] = useState(false);
 
-  const rect = anchorEl?.getBoundingClientRect();
-  const fixedStyle: React.CSSProperties | undefined = rect
+  const [anchorRect, setAnchorRect] = useState<DOMRect | null>(
+    () => anchorEl?.getBoundingClientRect() ?? null
+  );
+
+  useEffect(() => {
+    if (!anchorEl) return;
+    const update = () => setAnchorRect(anchorEl.getBoundingClientRect());
+    const handleScroll = () => onClose();
+
+    update();
+    window.addEventListener("scroll", handleScroll, true);
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", update);
+    };
+  }, [anchorEl, onClose]);
+
+  const fixedStyle: React.CSSProperties | undefined = anchorRect
     ? {
         position: "fixed",
-        bottom: window.innerHeight - rect.top + 6,
-        left: rect.left,
+        bottom: window.innerHeight - anchorRect.top + 6,
+        left: anchorRect.left,
       }
     : undefined;
 
