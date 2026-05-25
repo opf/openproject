@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import type { WorkPackage } from "../../openProjectTypes";
@@ -64,7 +64,7 @@ export const WpOptionsPopover = ({
     };
   }, [anchorEl, onClose]);
 
-  const fixedStyle: React.CSSProperties | undefined = anchorRect
+  const fixedStyle: CSSProperties | undefined = anchorRect
     ? {
         position: "fixed",
         bottom: window.innerHeight - anchorRect.top + 6,
