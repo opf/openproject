@@ -1,4 +1,4 @@
-<div class="mngt-sidebar">
+<div id="mngt-sidebar" class="mngt-sidebar" data-controller="mngt--sidebar">
 
   <%# ── Personal ──────────────────────────────────────────── %>
   <div class="mngt-sidebar-section">
@@ -63,20 +63,25 @@
          data-mngt--chat-rooms-can-see-all-value="<%= current_user_can_see_all? %>"
          data-mngt--chat-rooms-companies-map-value="<%= companies_map_json %>">
 
-      <div class="mngt-sidebar-section-label">
-        Canais
-        <% if @current_user.admin? %>
-          <button class="mngt-sidebar-add"
-                  data-action="click->mngt--chat-rooms#openNewChannelModal"
-                  title="Novo canal"
-                  aria-label="Novo canal">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
-          </button>
-        <% end %>
-      </div>
-      <div data-mngt--chat-rooms-target="channelsList">
-        <span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>
-      </div>
+      <details class="mngt-sidebar-channels-details"
+               data-mngt--chat-rooms-target="channelsSection">
+        <summary class="mngt-sidebar-section-label mngt-sidebar-section-label--collapsible">
+          <svg class="mngt-sidebar-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="10" height="10" aria-hidden="true"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/></svg>
+          Canais
+          <% if @current_user.admin? %>
+            <button class="mngt-sidebar-add"
+                    data-action="click->mngt--chat-rooms#openNewChannelModal"
+                    title="Novo canal"
+                    aria-label="Novo canal"
+                    onclick="event.stopPropagation()">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+            </button>
+          <% end %>
+        </summary>
+        <div data-mngt--chat-rooms-target="channelsList">
+          <span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>
+        </div>
+      </details>
 
       <div class="mngt-sidebar-section-label mngt-sidebar-section-label--sub">
         Mensagens Diretas

@@ -1,8 +1,14 @@
-<div class="mngt-chat"
+<div id="mngt-chat-permanent"
+     class="mngt-chat"
+     data-turbo-permanent
      data-controller="mngt--chat-panel"
      data-mngt--chat-panel-token-url-value="<%= token_url %>"
      data-mngt--chat-panel-users-url-value="<%= users_url %>"
-     data-mngt--chat-panel-group-members-url-value="<%= group_members_url %>">
+     data-mngt--chat-panel-group-members-url-value="<%= group_members_url %>"
+     data-mngt--chat-panel-is-admin-value="<%= is_admin? %>"
+     data-mngt--chat-panel-can-see-all-value="<%= can_see_all? %>"
+     data-mngt--chat-panel-company-slug-value="<%= company_slug %>"
+     data-mngt--chat-panel-companies-map-value="<%= companies_map_json %>">
 
   <button class="mngt-chat-toggle"
           data-action="click->mngt--chat-panel#toggle"

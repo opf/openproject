@@ -21,6 +21,7 @@ import { platformBrowser } from '@angular/platform-browser';
 // based on the RAILS_RELATIVE_URL_ROOT setting
 // https://webpack.js.org/guides/public-path/
 const ASSET_BASE_PATH = '/assets/frontend/';
+const _BUILD = 2;
 
 // Sets the relative base path
 window.appBasePath = getMetaElement('app_base_path')?.content || '';

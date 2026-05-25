@@ -20,13 +20,12 @@
   &:last-child,
   &--grow
     border-bottom: none
-    flex: 1
 
 .mngt-sidebar-section-label
   display: flex
   align-items: center
   justify-content: space-between
-  padding: 8px 16px 4px
+  padding: 6px 16px 2px
   font-size: 11px
   font-weight: 700
   color: var(--main-menu-font-color-disabled, rgba(255,255,255,0.4))
@@ -35,7 +34,7 @@
   user-select: none
 
   &--sub
-    padding-top: 14px
+    padding-top: 10px
 
 .mngt-sidebar-channel-hash
   font-size: 14px
@@ -66,7 +65,7 @@
   display: flex
   align-items: center
   gap: 8px
-  padding: 6px 12px 6px 1rem
+  padding: 4px 12px 4px 1rem
   font-size: 13px
   font-weight: 400
   color: var(--main-menu-font-color, #c8d1e0)
@@ -80,7 +79,7 @@
   box-sizing: border-box
   text-align: left
   transition: background 0.12s ease, color 0.12s ease
-  min-height: 34px
+  min-height: 30px
 
   &:hover
     background: var(--main-menu-hover-bg-color, rgba(255,255,255,0.08))
@@ -144,10 +143,30 @@
   flex-shrink: 0
   opacity: 0.5
   transition: transform 0.18s ease
-  margin-left: auto
+  margin-right: 2px
 
   details[open] > summary &
     transform: rotate(90deg)
+
+.mngt-sidebar-channels-details
+  > summary
+    list-style: none
+    cursor: pointer
+    &::-webkit-details-marker
+      display: none
+    &::marker
+      content: none
+    &:hover
+      color: var(--main-menu-font-color, #c8d1e0)
+      .mngt-sidebar-chevron
+        opacity: 0.8
+
+.mngt-sidebar-section-label--collapsible
+  justify-content: flex-start
+  gap: 2px
+  // push the + button to the right end
+  .mngt-sidebar-add
+    margin-left: auto
 
 .mngt-sidebar-avatar
   width: 22px
@@ -390,6 +409,18 @@
     border-radius: 0
     border: none
 
+.mngt-chat-panel:not([hidden]):not(.mngt-chat-panel--maximized)
+  animation: mngt-panel-open 0.18s ease-out
+
+@keyframes mngt-panel-open
+  from
+    opacity: 0
+    transform: translateY(10px) scale(0.97)
+    transform-origin: bottom right
+  to
+    opacity: 1
+    transform: translateY(0) scale(1)
+
 .mngt-chat-panel-header
   display: flex
   align-items: center
@@ -453,6 +484,21 @@
 .mngt-chat-loading-icon
   opacity: 0.4
   animation: mngt-spin 1s linear infinite
+
+.mngt-chat-retry-btn
+  margin-top: 4px
+  padding: 6px 16px
+  border: 1px solid rgba(255,255,255,0.25)
+  border-radius: 6px
+  background: transparent
+  color: rgba(255,255,255,0.7)
+  font-size: 13px
+  cursor: pointer
+  transition: background 0.15s, color 0.15s
+
+  &:hover
+    background: rgba(255,255,255,0.12)
+    color: #fff
 
 @keyframes mngt-spin
   to
@@ -561,14 +607,15 @@
   padding: 4px 12px
   border-radius: 4px
   position: relative
+  transition: background 0.1s ease
   &:hover
-    background: rgba(255,255,255,0.04)
+    background: rgba(255,255,255,0.06)
   &:hover .mngt-msg-actions
     opacity: 1
 
 .mngt-stream-msg-avatar
-  width: 28px
-  height: 28px
+  width: 34px
+  height: 34px
   border-radius: 50%
   flex-shrink: 0
   margin-top: 1px
@@ -602,43 +649,52 @@
 
 .mngt-stream-msg-text
   margin: 0
-  font-size: 13px
+  font-size: 14px
   color: var(--body-font-color, #e6edf3)
-  line-height: 1.4
+  line-height: 1.45
   word-break: break-word
 
 .mngt-stream-form
   display: flex
   align-items: flex-end
-  gap: 6px
-  padding: 8px 10px
+  gap: 8px
+  padding: 8px 12px 10px
   border-top: 1px solid rgba(255,255,255,0.08)
+
+.mngt-stream-input-wrap
+  flex: 1
+  min-width: 0
+  display: flex
+  flex-direction: column
+  gap: 2px
 
 .mngt-stream-input
   flex: 1
-  background: rgba(255,255,255,0.06)
-  border: 1px solid rgba(255,255,255,0.1)
-  border-radius: 6px
+  background: rgba(255,255,255,0.07)
+  border: 1px solid rgba(255,255,255,0.12)
+  border-radius: 8px
   color: #e6edf3
   font-size: 13px
-  padding: 6px 10px
+  padding: 8px 12px
   outline: none
   font-family: inherit
   resize: none
   overflow-y: hidden
-  min-height: 34px
+  min-height: 38px
   max-height: 120px
   line-height: 1.4
   display: block
+  transition: border-color 0.12s ease, background 0.12s ease
   &:focus
     border-color: var(--color-accent-fg, #58a6ff)
+    background: rgba(255,255,255,0.09)
   &::placeholder
     color: rgba(255,255,255,0.3)
 
 .mngt-stream-send
-  width: 30px
-  height: 30px
-  border-radius: 6px
+  width: 32px
+  height: 32px
+  border-radius: 8px
   background: var(--primary-button-color, #1a9641)
   border: none
   color: #fff
@@ -647,9 +703,12 @@
   align-items: center
   justify-content: center
   flex-shrink: 0
-  transition: background 0.12s ease
-  &:hover
+  transition: background 0.12s ease, opacity 0.12s ease
+  &:hover:not(:disabled)
     background: var(--primary-button-hover-color, #157a34)
+  &:disabled
+    opacity: 0.3
+    cursor: default
 
 // ── Message actions (hover) ────────────────────────────────────
 
@@ -660,6 +719,7 @@
   display: flex
   gap: 2px
   opacity: 0
+  transition: opacity 0.12s ease
   background: #1e1e1e
   border: 1px solid rgba(255,255,255,0.1)
   border-radius: 6px
@@ -778,6 +838,10 @@
   margin-bottom: 4px
 
 .mngt-chat-list-section-label
+  display: flex
+  align-items: center
+  justify-content: space-between
+  gap: 4px
   font-size: 11px
   font-weight: 600
   text-transform: uppercase
@@ -798,8 +862,14 @@
   font-size: 13.5px
   text-align: left
   cursor: pointer
+  transition: background 0.1s ease
   &:hover
     background: rgba(255,255,255,0.06)
+
+.mngt-chat-list-item--active
+  background: rgba(255,255,255,0.1) !important
+  color: #fff !important
+  font-weight: 500
 
 .mngt-chat-list-hash
   flex-shrink: 0
@@ -901,7 +971,7 @@
 .mngt-stream-msg-time--grouped
   font-size: 10px
   color: transparent
-  width: 28px
+  width: 34px
   text-align: center
   flex-shrink: 0
   line-height: 1.8
@@ -927,6 +997,41 @@
   color: rgba(255,255,255,0.2)
   text-transform: uppercase
   letter-spacing: 0.06em
+
+// ── Skeleton loader ────────────────────────────────────────────
+
+@keyframes mngt-skeleton-wave
+  0%, 100%
+    opacity: 1
+  50%
+    opacity: 0.45
+
+.mngt-skeleton-row
+  display: flex
+  align-items: center
+  gap: 9px
+  padding: 7px 14px
+  animation: mngt-skeleton-wave 1.5s ease-in-out infinite
+
+.mngt-skeleton-avatar
+  width: 22px
+  height: 22px
+  border-radius: 50%
+  background: rgba(255,255,255,0.08)
+  flex-shrink: 0
+
+.mngt-skeleton-text
+  height: 10px
+  border-radius: 4px
+  background: rgba(255,255,255,0.08)
+  flex: 1
+
+.mngt-skeleton-label
+  height: 8px
+  border-radius: 3px
+  background: rgba(255,255,255,0.06)
+  width: 80px
+  animation: mngt-skeleton-wave 1.5s ease-in-out infinite
 
 // ── Markdown: code ────────────────────────────────────────────
 
@@ -1141,6 +1246,13 @@
   resize: none
   margin-top: 2px
 
+.mngt-edit-hint
+  font-size: 11px
+  color: rgba(255,255,255,0.38)
+  padding: 3px 0 0
+  font-style: italic
+  user-select: none
+
 // ── New DM / Group Chat Modal ──────────────────────────────────
 
 .mngt-dm-modal
@@ -1296,7 +1408,7 @@
   margin-bottom: 4px
 
 .mngt-sidebar-company-label
-  padding: 6px 14px 2px
+  padding: 4px 14px 1px
   font-size: 10px
   font-weight: 700
   text-transform: uppercase
@@ -1413,6 +1525,28 @@
   z-index: 20
   display: flex
   flex-direction: column
+  animation: mngt-slide-in-right 0.2s ease-out
+
+@keyframes mngt-slide-in-right
+  from
+    transform: translateX(100%)
+    opacity: 0
+  to
+    transform: translateX(0)
+    opacity: 1
+
+.mngt-member-list-backdrop
+  position: absolute
+  inset: 0
+  background: rgba(0,0,0,0.25)
+  z-index: 19
+  animation: mngt-fade-in 0.2s ease
+
+@keyframes mngt-fade-in
+  from
+    opacity: 0
+  to
+    opacity: 1
 
 .mngt-member-list-header
   display: flex
@@ -2010,15 +2144,6 @@ body[data-color-mode="light"]
   .mngt-stream-form
     border-top-color: rgba(0,0,0,0.08)
 
-  .mngt-stream-input
-    background: rgba(0,0,0,0.04)
-    border-color: rgba(0,0,0,0.12)
-    color: #1e2330
-    &:focus
-      border-color: var(--color-accent-fg, #1a9641)
-    &::placeholder
-      color: rgba(0,0,0,0.35)
-
   // Typing indicator
   .mngt-typing-indicator
     color: rgba(0,0,0,0.35)
@@ -2266,3 +2391,52 @@ body[data-color-mode="light"]
     background: #eef0f2
     border-bottom-color: rgba(0,0,0,0.1)
     color: rgba(0,0,0,0.55)
+
+  // --- Mention dropdown ---
+  .mngt-mention-dropdown
+    background: #fff
+    border-color: rgba(0,0,0,0.15)
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12)
+
+  .mngt-mention-item
+    color: rgba(0,0,0,0.8)
+    &:hover, &--active
+      background: rgba(0,0,0,0.05)
+
+  // --- Channel list active item ---
+  .mngt-chat-list-item--active
+    background: rgba(0,0,0,0.1) !important
+    color: #1e2330 !important
+
+  // --- Edit hint ---
+  .mngt-edit-hint
+    color: rgba(0,0,0,0.4)
+
+  // --- Skeleton ---
+  .mngt-skeleton-avatar,
+  .mngt-skeleton-text
+    background: rgba(0,0,0,0.07)
+
+  .mngt-skeleton-label
+    background: rgba(0,0,0,0.05)
+
+  // --- Input area ---
+  .mngt-stream-input
+    background: rgba(0,0,0,0.04)
+    border-color: rgba(0,0,0,0.12)
+    color: #1e2330
+    &:focus
+      border-color: var(--color-accent-fg, #1a9641)
+      background: rgba(0,0,0,0.06)
+    &::placeholder
+      color: rgba(0,0,0,0.35)
+
+  // --- Char counter ---
+  .mngt-char-counter
+    color: rgba(0,0,0,0.35)
+    &--warn
+      color: #dc2626
+
+  // --- Member list backdrop ---
+  .mngt-member-list-backdrop
+    background: rgba(0,0,0,0.15)

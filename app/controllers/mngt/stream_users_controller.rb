@@ -12,7 +12,7 @@ class Mngt::StreamUsersController < ApplicationController
       users = users.where("mail ILIKE ?", "%@#{domain}")
     end
 
-    avatar_ids = Attachment.where(description: "avatar", container_type: "User")
+    avatar_ids = Attachment.where(description: "avatar", container_type: "Principal")
                            .where(container_id: users.pluck(:id)).pluck(:container_id).to_set
 
     render json: users.map { |u|

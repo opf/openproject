@@ -1,12 +1,13 @@
 import { Controller } from '@hotwired/stimulus';
-import { StreamChat, type Channel, type MessageResponse, type Event as StreamEvent } from 'stream-chat';
+import type { StreamChat, Channel, MessageResponse, Event as StreamEvent } from 'stream-chat';
 import { signalClientReady } from './stream-client';
+import { avatarColor as msgAvatarColorUtil, opAvatarUrl as opAvatarUrlUtil } from './utils/mngt-chat-utils';
 
 interface StreamCredentials {
   token:  string;
   userId: string;
   apiKey: string;
-  user:   { id: string; name: string };
+  user:   { id: string; name: string; image?: string };
 }
 
 interface NavigateDetail {
@@ -53,19 +54,15 @@ const EMOJI_MAP: Record<string, string> = Object.fromEntries(
   EMOJI_REACTIONS.map(({ type, emoji }) => [type, emoji]),
 );
 
-// ── Avatar color ───────────────────────────────────────────────
-const MSG_PALETTE = ['#7c3aed', '#2563eb', '#059669', '#dc2626', '#d97706', '#0891b2', '#be185d', '#65a30d'];
-function msgAvatarColor(name: string): string {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  return MSG_PALETTE[Math.abs(hash) % MSG_PALETTE.length]!;
-}
+// ── Avatar color (re-exported from shared utils) ───────────────
+const msgAvatarColor = msgAvatarColorUtil;
+const opAvatarUrl    = opAvatarUrlUtil;
 
 function toRenderableMessage(msg: MessageResponse): RenderableMessage {
   const raw          = msg as unknown as Record<string, unknown>;
   const authorName   = (msg.user?.name as string | undefined) ?? (msg.user?.id ?? '?');
   const authorId     = msg.user?.id ?? '';
-  const avatarUrl    = (msg.user as Record<string, unknown> | undefined)?.['image'] as string | undefined;
+  const avatarUrl    = opAvatarUrl(msg.user?.id);
   const rawDate     = msg.created_at ? new Date(msg.created_at as string) : new Date();
   const createdAt   = rawDate.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
   const createdAtMs = rawDate.getTime();
@@ -87,7 +84,7 @@ function toRenderableMessage(msg: MessageResponse): RenderableMessage {
       imageUrl: (a['image_url'] ?? a['thumb_url']) as string | undefined,
       siteName: (a['author_name'] ?? a['footer'])  as string | undefined,
     }))
-    .filter((p) => !!p.url);
+    .filter((p) => !!p.url && /^https?:\/\//.test(p.url));
 
   return { id: msg.id ?? '', text: msg.text ?? '', authorName, authorId, avatarUrl, createdAt, createdAtMs, quotedMessage, isDeleted, reactions, linkPreviews };
 }
@@ -102,7 +99,10 @@ interface StreamUser {
 
 export default class MngtChatPanelController extends Controller<HTMLElement> {
   static targets = ['panel', 'container', 'loading', 'error', 'button', 'badge', 'iconExpand', 'iconCompress'];
-  static values  = { tokenUrl: String, usersUrl: String, groupMembersUrl: String };
+  static values  = {
+    tokenUrl: String, usersUrl: String, groupMembersUrl: String,
+    isAdmin: Boolean, canSeeAll: Boolean, companySlug: String, companiesMap: String,
+  };
 
   declare panelTarget:         HTMLElement;
   declare containerTarget:     HTMLElement;
@@ -115,6 +115,10 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   declare tokenUrlValue:        string;
   declare usersUrlValue:        string;
   declare groupMembersUrlValue: string;
+  declare isAdminValue:         boolean;
+  declare canSeeAllValue:       boolean;
+  declare companySlugValue:     string;
+  declare companiesMapValue:    string;
 
   private streamClient:    StreamChat | null = null;
   private activeChannel:   Channel   | null = null;
@@ -136,6 +140,10 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   private globalSearchDebounce: ReturnType<typeof setTimeout> | null = null;
   private channelNameMap:        Map<string, string> = new Map();
   private loadedChannels:        Channel[]           = [];
+  private listNotifHandler: ((e: StreamEvent) => void) | null = null;
+  private listAddedHandler: ((e: StreamEvent) => void) | null = null;
+  private currentMessagesEl: HTMLElement | null = null;
+  private openSeq = 0;
 
   private readonly onMessagesScroll = (): void => {
     const c = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-messages');
@@ -156,7 +164,13 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   disconnect(): void {
     document.removeEventListener('mngt:chat-navigate', this.handleNavigate);
     this.streamClient?.off('user.presence.changed', this.onPresenceChanged);
+    this.streamClient?.off('connection.changed', this.onConnectionChanged);
+    this.unsubscribeListUpdates();
     this.unsubscribeChannel();
+    if (this.currentMessagesEl) {
+      this.currentMessagesEl.removeEventListener('scroll', this.onMessagesScroll);
+      this.currentMessagesEl = null;
+    }
     this.activeChannel = null;
     this.ready         = false;
     this.streamClient  = null;
@@ -182,7 +196,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     if (!this.activeChannel) return;
     const input = this.containerTarget.querySelector<HTMLTextAreaElement>('#mngt-stream-input');
     const text  = input?.value.trim();
-    if (!text) return;
+    if (!text || text.length > 10000) return;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const msgData: Record<string, any> = { text };
@@ -194,7 +208,12 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         .filter(Boolean);
     }
 
-    if (input) { input.value = ''; input.style.height = 'auto'; }
+    if (input) {
+      input.value = '';
+      input.style.height = 'auto';
+      const sendBtn = this.containerTarget.querySelector<HTMLButtonElement>('.mngt-stream-send');
+      if (sendBtn) sendBtn.disabled = true;
+    }
     this.closeMentionDropdown();
     this.cancelReply();
     if (this.typingTimer) { clearTimeout(this.typingTimer); this.typingTimer = null; }
@@ -206,12 +225,21 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
   handleTypingInput(event: Event): void {
     if (!this.activeChannel) return;
+    const channel = this.activeChannel;
     const input = event.target as HTMLTextAreaElement;
     input.style.height = 'auto';
     input.style.height = `${Math.min(input.scrollHeight, 120)}px`;
     if (this.typingTimer) clearTimeout(this.typingTimer);
-    void this.activeChannel.keystroke();
-    this.typingTimer = setTimeout(() => { void this.activeChannel?.stopTyping(); this.typingTimer = null; }, 3000);
+    void channel.keystroke();
+    this.typingTimer = setTimeout(() => { void channel.stopTyping(); this.typingTimer = null; }, 3000);
+    const sendBtn = this.containerTarget.querySelector<HTMLButtonElement>('.mngt-stream-send');
+    if (sendBtn) sendBtn.disabled = input.value.trim().length === 0;
+    const counter = this.containerTarget.querySelector<HTMLElement>('#mngt-char-counter');
+    if (counter) {
+      const len = input.value.length;
+      counter.textContent  = len > 9000 ? `${len}/10000` : '';
+      counter.className    = `mngt-char-counter${len > 9500 ? ' mngt-char-counter--warn' : ''}`;
+    }
     this.handleMentionInput(input);
   }
 
@@ -311,7 +339,18 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     if (!panel) return;
     const opening = !!panel.hidden;
     panel.hidden = !opening;
-    if (opening) this.renderMemberList(panel);
+    if (opening) {
+      this.renderMemberList(panel);
+      const wrap = this.containerTarget.querySelector<HTMLElement>('.mngt-stream-messages-wrap');
+      if (wrap && !wrap.querySelector('.mngt-member-list-backdrop')) {
+        const backdrop = document.createElement('div');
+        backdrop.className = 'mngt-member-list-backdrop';
+        backdrop.addEventListener('click', () => this.toggleMemberList());
+        wrap.insertAdjacentElement('afterbegin', backdrop);
+      }
+    } else {
+      this.containerTarget.querySelector('.mngt-member-list-backdrop')?.remove();
+    }
     this.containerTarget.querySelector<HTMLElement>('#mngt-members-btn')
       ?.classList.toggle('mngt-stream-header-btn--active', opening);
   }
@@ -399,7 +438,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     else this.pendingNavigate = detail;
   };
 
-  private async setup(): Promise<void> {
+  private async setup(attempt = 1): Promise<void> {
     try {
       const response = await fetch(this.tokenUrlValue, {
         headers: { 'X-CSRF-Token': this.csrfToken(), 'Accept': 'application/json' },
@@ -409,6 +448,9 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       const creds = await response.json() as StreamCredentials;
       this.currentUserId   = creds.userId;
       this.currentUserName = creds.user.name ?? '';
+
+      // Lazy-load the Stream SDK only when the chat is actually used
+      const { StreamChat } = await import('stream-chat');
       const client = StreamChat.getInstance(creds.apiKey);
       if (client.userID !== creds.userId) {
         if (client.userID) await client.disconnectUser().catch(() => {});
@@ -417,6 +459,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       this.streamClient = client;
       signalClientReady(client);
       client.on('user.presence.changed', this.onPresenceChanged);
+      client.on('connection.changed',    this.onConnectionChanged);
       this.loadingTarget.hidden   = true;
       this.containerTarget.hidden = false;
       this.ready = true;
@@ -425,15 +468,42 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         const p = this.pendingNavigate; this.pendingNavigate = null;
         void this.openChannel(p.channelType, p.channelId, p.displayName);
       }
-    } catch {
+    } catch (err) {
+      console.error('[mngt:chat] setup failed', err);
+      // Auto-retry with back-off (up to 3 attempts)
+      if (attempt < 3) {
+        const delay = attempt * 3000;
+        setTimeout(() => void this.setup(attempt + 1), delay);
+        return;
+      }
       this.loadingTarget.hidden = true;
-      this.errorTarget.hidden   = false;
+      this.showError();
     }
+  }
+
+  private showError(): void {
+    const btn = document.createElement('button');
+    btn.className   = 'mngt-chat-retry-btn';
+    btn.textContent = 'Tentar novamente';
+    btn.addEventListener('click', () => {
+      this.errorTarget.hidden   = true;
+      this.loadingTarget.hidden = false;
+      void this.setup();
+    });
+    this.errorTarget.innerHTML = '<span>Erro ao conectar ao chat.</span>';
+    this.errorTarget.appendChild(btn);
+    this.errorTarget.hidden = false;
   }
 
   private async openChannel(type: string, id: string, displayName?: string, jumpToId?: string): Promise<void> {
     if (!this.streamClient) return;
+    this.unsubscribeListUpdates();
     this.unsubscribeChannel();
+
+    // Monotonic counter: if another openChannel() starts before this one settles,
+    // the seq check below aborts the stale call and removes its orphan listeners.
+    const seq = ++this.openSeq;
+
     this.typingUsers.clear();
     this.replyToMessage = null;
     this.loadingOlder   = false;
@@ -442,15 +512,28 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     this.isJumpMode     = false;
 
     const channel = this.streamClient.channel(type, id);
-    channel.on('message.new',     this.onNewMessage);
-    channel.on('message.updated', this.onMessageUpdated);
-    channel.on('message.deleted', this.onMessageDeleted);
-    channel.on('typing.start',    this.onTypingStart);
-    channel.on('typing.stop',     this.onTypingStop);
-    channel.on('reaction.new',    this.onReactionEvent);
+    channel.on('message.new',      this.onNewMessage);
+    channel.on('message.updated',  this.onMessageUpdated);
+    channel.on('message.deleted',  this.onMessageDeleted);
+    channel.on('typing.start',     this.onTypingStart);
+    channel.on('typing.stop',      this.onTypingStop);
+    channel.on('reaction.new',     this.onReactionEvent);
     channel.on('reaction.deleted', this.onReactionEvent);
 
     await channel.watch();
+
+    if (seq !== this.openSeq) {
+      // A newer openChannel() call took over — clean up orphan listeners and bail.
+      channel.off('message.new',      this.onNewMessage);
+      channel.off('message.updated',  this.onMessageUpdated);
+      channel.off('message.deleted',  this.onMessageDeleted);
+      channel.off('typing.start',     this.onTypingStart);
+      channel.off('typing.stop',      this.onTypingStop);
+      channel.off('reaction.new',     this.onReactionEvent);
+      channel.off('reaction.deleted', this.onReactionEvent);
+      return;
+    }
+
     await channel.markRead().catch(() => {});
     this.activeChannel = channel;
     this.renderChannel(channel, displayName);
@@ -655,10 +738,11 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   // ── Edit / Delete / Reply ──────────────────────────────────────
 
   private startEdit(messageId: string): void {
+    const messages = this.activeChannel?.state.messages as unknown as MessageResponse[] | undefined;
+    const original = messages?.find((m) => m.id === messageId)?.text ?? '';
     const msgEl  = this.containerTarget.querySelector<HTMLElement>(`[data-message-id="${messageId}"]`);
     const textEl = msgEl?.querySelector<HTMLElement>('.mngt-stream-msg-text');
     if (!msgEl || !textEl) return;
-    const original = textEl.textContent ?? '';
     const textarea = document.createElement('textarea');
     textarea.className = 'mngt-stream-input mngt-msg-edit-input';
     textarea.value     = original;
@@ -666,14 +750,19 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     textEl.replaceWith(textarea);
     textarea.focus();
     textarea.setSelectionRange(textarea.value.length, textarea.value.length);
+    const hint = document.createElement('div');
+    hint.className = 'mngt-edit-hint';
+    hint.textContent = 'Enter para salvar · Esc para cancelar';
+    textarea.insertAdjacentElement('afterend', hint);
     let done = false;
     const finish = () => {
       if (done) return; done = true;
+      hint.remove();
       const newText = textarea.value.trim();
       if (newText && newText !== original) void this.streamClient?.updateMessage({ id: messageId, text: newText } as unknown as MessageResponse);
       else textarea.replaceWith(textEl);
     };
-    const cancel = () => { if (!done) { done = true; textarea.replaceWith(textEl); } };
+    const cancel = () => { if (!done) { done = true; hint.remove(); textarea.replaceWith(textEl); } };
     textarea.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); finish(); }
       if (e.key === 'Escape') cancel();
@@ -764,13 +853,26 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   }
 
   private renderChannelList(): void {
-    this.containerTarget.innerHTML = `<div class="mngt-chat-list"><span class="mngt-chat-list-empty">Carregando...</span></div>`;
+    this.containerTarget.innerHTML = `
+      <div class="mngt-chat-list">
+        <div class="mngt-skeleton-row" style="padding:8px 10px 6px"><div class="mngt-skeleton-text" style="height:26px;border-radius:5px;max-width:none;flex:1"></div></div>
+        <div style="padding:10px 14px 4px"><div class="mngt-skeleton-label"></div></div>
+        <div class="mngt-skeleton-row"><div class="mngt-skeleton-avatar" style="border-radius:3px;width:16px;height:16px"></div><div class="mngt-skeleton-text" style="max-width:100px"></div></div>
+        <div class="mngt-skeleton-row" style="animation-delay:0.1s"><div class="mngt-skeleton-avatar" style="border-radius:3px;width:16px;height:16px"></div><div class="mngt-skeleton-text" style="max-width:140px"></div></div>
+        <div class="mngt-skeleton-row" style="animation-delay:0.2s"><div class="mngt-skeleton-avatar" style="border-radius:3px;width:16px;height:16px"></div><div class="mngt-skeleton-text" style="max-width:80px"></div></div>
+        <div style="padding:10px 14px 4px"><div class="mngt-skeleton-label" style="animation-delay:0.15s"></div></div>
+        <div class="mngt-skeleton-row" style="animation-delay:0.05s"><div class="mngt-skeleton-avatar"></div><div class="mngt-skeleton-text" style="max-width:90px"></div></div>
+        <div class="mngt-skeleton-row" style="animation-delay:0.15s"><div class="mngt-skeleton-avatar"></div><div class="mngt-skeleton-text" style="max-width:120px"></div></div>
+        <div class="mngt-skeleton-row" style="animation-delay:0.25s"><div class="mngt-skeleton-avatar"></div><div class="mngt-skeleton-text" style="max-width:75px"></div></div>
+      </div>`;
     void this.loadChannelList();
   }
 
   private async loadChannelList(): Promise<void> {
     const listEl = this.containerTarget.querySelector<HTMLElement>('.mngt-chat-list');
     if (!listEl || !this.streamClient) return;
+    // Preserve any active global search so a background refresh doesn't reset it.
+    const preservedSearch = listEl.querySelector<HTMLInputElement>('#mngt-global-search-input')?.value ?? '';
     try {
       const sort = [{ last_message_at: -1 }, { created_at: -1 }] as const;
       const opts  = { limit: 30, state: true, watch: false };
@@ -800,8 +902,38 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         this.channelNameMap.set(ch.id ?? '', name);
       });
 
-      const teamHtml = team.map((ch) => this.renderListChannelItem(ch)).join('');
       const dmsHtml  = dms.map((ch)  => this.renderListDmItem(ch)).join('');
+
+      const plusSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>`;
+      const channelAddBtn = this.isAdminValue
+        ? `<button class="mngt-sidebar-add" id="mngt-panel-new-channel" title="Novo canal" aria-label="Novo canal">${plusSvg}</button>`
+        : '';
+      const dmAddBtn = `<button class="mngt-sidebar-add" id="mngt-panel-new-dm" title="Nova conversa" aria-label="Nova conversa">${plusSvg}</button>`;
+
+      // Build team channels HTML — group by company for users who can see all companies
+      let teamSectionHtml: string;
+      if (team.length === 0) {
+        teamSectionHtml = '<span class="mngt-chat-list-empty">Nenhum canal</span>';
+      } else if (this.canSeeAllValue) {
+        const knownSlugs = new Set(Object.keys(this.companiesMapObj));
+        const validChannels = team.filter((ch) => knownSlugs.has((ch.id ?? '').split('--')[0] ?? ''));
+        const groups = new Map<string, Channel[]>();
+        for (const ch of validChannels) {
+          const company = this.companyNameFromChannelId(ch.id ?? '');
+          if (!groups.has(company)) groups.set(company, []);
+          groups.get(company)!.push(ch);
+        }
+        let html = '';
+        groups.forEach((chs, companyName) => {
+          html += `<div class="mngt-sidebar-company-group">
+            <div class="mngt-sidebar-company-label">${this.escape(companyName)}</div>
+            ${chs.map((ch) => this.renderListChannelItem(ch)).join('')}
+          </div>`;
+        });
+        teamSectionHtml = html || '<span class="mngt-chat-list-empty">Nenhum canal</span>';
+      } else {
+        teamSectionHtml = team.map((ch) => this.renderListChannelItem(ch)).join('');
+      }
 
       const searchIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"/></svg>`;
 
@@ -817,14 +949,14 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
           </div>
         </div>
         <div class="mngt-chat-list-section">
-          <div class="mngt-chat-list-section-label">Canais</div>
-          ${teamHtml || '<span class="mngt-chat-list-empty">Nenhum canal</span>'}
-          <button class="mngt-sidebar-new-dm" id="mngt-panel-new-channel"><span class="mngt-sidebar-new-dm-plus">+</span> Novo canal</button>
+          <div class="mngt-chat-list-section-label">Canais${channelAddBtn}</div>
+          ${teamSectionHtml}
+          ${this.isAdminValue ? `<button class="mngt-sidebar-new-dm mngt-panel-new-channel-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Novo canal</button>` : ''}
         </div>
         <div class="mngt-chat-list-section">
-          <div class="mngt-chat-list-section-label">Mensagens Diretas</div>
+          <div class="mngt-chat-list-section-label">Mensagens Diretas${dmAddBtn}</div>
           ${dmsHtml || '<span class="mngt-chat-list-empty">Nenhuma conversa</span>'}
-          <button class="mngt-sidebar-new-dm" id="mngt-panel-new-dm"><span class="mngt-sidebar-new-dm-plus">+</span> Nova mensagem</button>
+          <button class="mngt-sidebar-new-dm mngt-panel-new-dm-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Nova mensagem</button>
         </div>`;
 
       // Global search input handler
@@ -856,6 +988,8 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
       listEl.querySelectorAll<HTMLElement>('[data-list-channel-id]').forEach((btn) => {
         btn.addEventListener('click', () => {
+          listEl.querySelectorAll<HTMLElement>('.mngt-chat-list-item--active').forEach((b) => b.classList.remove('mngt-chat-list-item--active'));
+          btn.classList.add('mngt-chat-list-item--active');
           const type = btn.dataset['listChannelType'] ?? 'team';
           const id   = btn.dataset['listChannelId']   ?? '';
           const name = btn.dataset['listChannelName'];
@@ -863,12 +997,27 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         });
       });
 
-      listEl.querySelector('#mngt-panel-new-channel')?.addEventListener('click', () => {
-        document.dispatchEvent(new CustomEvent('mngt:open-new-channel'));
+      listEl.querySelectorAll<HTMLElement>('#mngt-panel-new-channel, .mngt-panel-new-channel-btn').forEach((el) => {
+        el.addEventListener('click', () => document.dispatchEvent(new CustomEvent('mngt:open-new-channel')));
       });
-      listEl.querySelector('#mngt-panel-new-dm')?.addEventListener('click', () => {
-        document.dispatchEvent(new CustomEvent('mngt:open-new-dm'));
+      listEl.querySelectorAll<HTMLElement>('#mngt-panel-new-dm, .mngt-panel-new-dm-btn').forEach((el) => {
+        el.addEventListener('click', () => document.dispatchEvent(new CustomEvent('mngt:open-new-dm')));
       });
+
+      // Restore search query if user was typing when a background refresh fired.
+      if (preservedSearch) {
+        const newInput    = listEl.querySelector<HTMLInputElement>('#mngt-global-search-input');
+        const newResults  = listEl.querySelector<HTMLElement>('#mngt-global-search-results');
+        if (newInput && newResults) {
+          newInput.value   = preservedSearch;
+          newResults.hidden = false;
+          newResults.innerHTML = '<div class="mngt-search-hint">Buscando…</div>';
+          void this.doGlobalSearch(preservedSearch);
+        }
+      }
+
+      // Subscribe to global client events so the list refreshes when messages arrive.
+      this.subscribeListUpdates();
     } catch (err) {
       console.error('[mngt:chat] loadChannelList failed', err);
       if (listEl) listEl.innerHTML = '<span class="mngt-chat-list-empty">Erro ao carregar canais</span>';
@@ -898,13 +1047,17 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       ?? otherMembers.map((m) => m.user?.name ?? m.user_id ?? '?').join(', ')
       ?? ch.id ?? '';
     const unread  = ch.countUnread();
-    const bg      = msgAvatarColor(name);
-    const initial = (name[0] ?? '?').toUpperCase();
+    const bg         = msgAvatarColor(name);
+    const initial    = (name[0] ?? '?').toUpperCase();
+    const dmPhotoUrl = !isGroup ? opAvatarUrl(otherMembers[0]?.user_id) : undefined;
+    const dmPhoto    = dmPhotoUrl
+      ? `<span style="position:absolute;inset:0;border-radius:50%;background:url('${this.escape(dmPhotoUrl)}') center/cover no-repeat"></span>`
+      : '';
     const avatarHtml = isGroup
       ? `<span class="mngt-chat-list-avatar" style="background:${bg}">
            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12"><path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/><path fill-rule="evenodd" d="M5.216 14A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216Z"/><path d="M4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/></svg>
          </span>`
-      : `<span class="mngt-chat-list-avatar" style="background:${bg}">${initial}</span>`;
+      : `<span class="mngt-chat-list-avatar" style="background:${bg};position:relative">${initial}${dmPhoto}</span>`;
     return `<button class="mngt-chat-list-item"
         data-list-channel-id="${this.escape(ch.id ?? '')}"
         data-list-channel-type="${ch.type}"
@@ -997,10 +1150,13 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       <div class="mngt-typing-indicator" id="mngt-typing-indicator" hidden></div>
       <div class="mngt-stream-form-wrap">
         <form class="mngt-stream-form" data-action="submit->mngt--chat-panel#sendMessage">
-          <textarea class="mngt-stream-input" rows="1" placeholder="Escreva uma mensagem… use @ para mencionar"
-                    autocomplete="off" id="mngt-stream-input"
-                    data-action="input->mngt--chat-panel#handleTypingInput keydown->mngt--chat-panel#handleInputKeydown"></textarea>
-          <button class="mngt-stream-send" type="submit" aria-label="Enviar">
+          <div class="mngt-stream-input-wrap">
+            <textarea class="mngt-stream-input" rows="1" placeholder="Escreva uma mensagem… use @ para mencionar"
+                      autocomplete="off" id="mngt-stream-input" maxlength="10000"
+                      data-action="input->mngt--chat-panel#handleTypingInput keydown->mngt--chat-panel#handleInputKeydown"></textarea>
+            <span class="mngt-char-counter" id="mngt-char-counter"></span>
+          </div>
+          <button class="mngt-stream-send" type="submit" aria-label="Enviar" disabled>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M1.422 3.672a.75.75 0 0 1 .87-.49l12 3.5a.75.75 0 0 1 0 1.456l-12 3.5A.75.75 0 0 1 1 11v-3a.75.75 0 0 1 .662-.746L8.36 6.5.662 5.746A.75.75 0 0 1 1 5V3.672Z"/></svg>
           </button>
         </form>
@@ -1008,8 +1164,13 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
     this.insertUnreadDivider(channel);
 
+    if (this.currentMessagesEl) {
+      this.currentMessagesEl.removeEventListener('scroll', this.onMessagesScroll);
+      this.currentMessagesEl = null;
+    }
     const msgsEl = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-messages');
     if (msgsEl) {
+      this.currentMessagesEl = msgsEl;
       msgsEl.addEventListener('scroll', this.onMessagesScroll, { passive: true });
       const divider = msgsEl.querySelector<HTMLElement>('#mngt-unread-divider');
       if (divider) divider.scrollIntoView({ block: 'start' });
@@ -1022,7 +1183,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     const res = await fetch(`/mngt/stream/channels/${this.activeChannel!.id}`, {
       method: 'PATCH', credentials: 'same-origin',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json', 'X-CSRF-Token': this.csrfToken() },
-      body: JSON.stringify({ name: newName }),
+      body: JSON.stringify({ name: newName, channel_type: this.activeChannel!.type }),
     }).catch(() => null);
     this.restoreHeaderName(input, res?.ok ? newName : original);
     if (res?.ok) document.dispatchEvent(new CustomEvent('mngt:channel-read'));
@@ -1043,7 +1204,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     const cls        = `mngt-stream-message${grouped ? ' mngt-stream-message--grouped' : ''}${mentionsMe ? ' mngt-stream-message--mention' : ''}`;
     const initial    = (msg.authorName[0] ?? '?').toUpperCase();
     const color      = msgAvatarColor(msg.authorName);
-    const photoLayer = msg.avatarUrl
+    const photoLayer = msg.avatarUrl && /^(https?:\/\/|\/)/.test(msg.avatarUrl)
       ? `<span style="position:absolute;inset:0;border-radius:50%;background:url('${this.escape(msg.avatarUrl)}') center/cover no-repeat"></span>`
       : '';
     const isOnline   = this.presenceMap.get(msg.authorId) ?? false;
@@ -1351,8 +1512,9 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         const initial  = (name[0] ?? '?').toUpperCase();
         const color    = msgAvatarColor(name);
         const isOnline = this.presenceMap.get(uid) ?? false;
-        const photo    = m.user?.image
-          ? `<span style="position:absolute;inset:0;border-radius:50%;background:url('${this.escape(m.user.image)}') center/cover no-repeat"></span>`
+        const memberPhotoUrl = opAvatarUrl(uid);
+        const photo = memberPhotoUrl
+          ? `<span style="position:absolute;inset:0;border-radius:50%;background:url('${this.escape(memberPhotoUrl)}') center/cover no-repeat"></span>`
           : '';
         return `<div class="mngt-member-item">
           <div class="mngt-msg-avatar-wrap">
@@ -1692,11 +1854,65 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     if (el) el.scrollTop = el.scrollHeight;
   }
 
+  private subscribeListUpdates(): void {
+    if (!this.streamClient || this.listNotifHandler) return;
+    this.listNotifHandler = () => { void this.loadChannelList(); };
+    this.listAddedHandler = () => { void this.loadChannelList(); };
+    this.streamClient.on('notification.message_new',      this.listNotifHandler);
+    this.streamClient.on('notification.added_to_channel', this.listAddedHandler);
+  }
+
+  private unsubscribeListUpdates(): void {
+    if (!this.streamClient) return;
+    if (this.listNotifHandler) {
+      this.streamClient.off('notification.message_new', this.listNotifHandler);
+      this.listNotifHandler = null;
+    }
+    if (this.listAddedHandler) {
+      this.streamClient.off('notification.added_to_channel', this.listAddedHandler);
+      this.listAddedHandler = null;
+    }
+  }
+
+  private get companiesMapObj(): Record<string, string> {
+    try {
+      return JSON.parse(this.companiesMapValue || '{}') as Record<string, string>;
+    } catch {
+      return {};
+    }
+  }
+
+  private companyNameFromChannelId(channelId: string): string {
+    const slug = channelId.split('--')[0] ?? '';
+    return this.companiesMapObj[slug] ?? slug;
+  }
+
   private escape(text: string): string {
-    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    return text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
 
   private csrfToken(): string {
     return document.querySelector<HTMLMetaElement>('meta[name="csrf-token"]')?.content ?? '';
   }
+
+  private readonly onConnectionChanged = (event: StreamEvent): void => {
+    const online = (event as unknown as Record<string, unknown>)['online'] !== false;
+    const body   = this.panelTarget.querySelector('.mngt-chat-panel-body');
+    if (!body) return;
+    let banner = body.querySelector<HTMLElement>('#mngt-reconnect-banner');
+    if (!online) {
+      if (!banner) {
+        banner           = document.createElement('div');
+        banner.id        = 'mngt-reconnect-banner';
+        banner.className = 'mngt-reconnect-banner';
+        banner.textContent = 'Reconectando…';
+        body.prepend(banner);
+      }
+      banner.hidden = false;
+    } else if (banner) {
+      banner.hidden = true;
+      // Refresh the channel list so unread counts reflect messages missed during disconnect.
+      if (!this.activeChannel) void this.loadChannelList();
+    }
+  };
 }

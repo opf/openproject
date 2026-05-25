@@ -1,9 +1,14 @@
 import { Controller } from '@hotwired/stimulus';
 import { type StreamChat, type Channel, type Event as StreamEvent } from 'stream-chat';
 import { getStreamClient } from './stream-client';
+import { avatarColor, opAvatarUrl } from './utils/mngt-chat-utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyRecord = Record<string, any>;
+
+// Module-level cache: persists across Turbo navigations (disconnect/connect cycles)
+let _cachedClient: import('stream-chat').StreamChat | null = null;
+let _channelsReady = false;
 
 interface StreamUser {
   id:        string;
@@ -11,19 +16,11 @@ interface StreamUser {
   avatarUrl?: string;
 }
 
-const DM_PALETTE = ['#7c3aed', '#2563eb', '#059669', '#dc2626', '#d97706', '#0891b2', '#be185d', '#65a30d'];
-
-function avatarColor(name: string): string {
-  let hash = 0;
-  for (let i = 0; i < name.length; i++) hash = name.charCodeAt(i) + ((hash << 5) - hash);
-  return DM_PALETTE[Math.abs(hash) % DM_PALETTE.length];
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyChannel = Channel;
 
 export default class MngtChatRoomsController extends Controller<HTMLElement> {
-  static targets = ['channelsList', 'dmsList'];
+  static targets = ['channelsList', 'dmsList', 'channelsSection'];
   static values  = {
     usersUrl:      String,
     dmUrl:         String,
@@ -36,8 +33,9 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     companiesMap:  String,
   };
 
-  declare channelsListTarget: HTMLElement;
-  declare dmsListTarget:      HTMLElement;
+  declare channelsListTarget:    HTMLElement;
+  declare dmsListTarget:         HTMLElement;
+  declare channelsSectionTarget: HTMLDetailsElement;
 
   declare usersUrlValue:      string;
   declare dmUrlValue:         string;
@@ -57,12 +55,10 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   private readonly onNotificationMessage = (_event: StreamEvent): void => {
     void this.refreshChannels();
     if (this.notifyValue) {
-      const ch      = (_event as unknown as { channel?: { name?: string; id?: string } }).channel;
-      const muted   = !!ch?.id && localStorage.getItem(`mngt_muted_${ch.id}`) === 'true';
-      if (!muted) {
-        this.playSound();
-        void this.showBrowserNotification(ch?.name || ch?.id || '');
-      }
+      const ev    = _event as unknown as { channel?: { name?: string; id?: string } };
+      const ch    = ev.channel;
+      const muted = !!ch?.id && localStorage.getItem(`mngt_muted_${ch.id}`) === 'true';
+      if (!muted) this.playSound();
     }
   };
 
@@ -72,6 +68,7 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
 
   private readonly onOpenNewDm      = (): void => { this.openNewDmModal(); };
   private readonly onOpenNewChannel = (): void => { if (this.isAdminValue) this.openNewChannelModal(); };
+  private readonly onRequestPushSubscription = (): void => { void this.registerPushSubscription(); };
 
   private readonly onPresenceChanged = (event: StreamEvent): void => {
     const user = event.user;
@@ -86,6 +83,12 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   private readonly unlockAudio = (): void => {
     if (!this.audioCtx) this.audioCtx = new AudioContext();
     if (this.audioCtx.state === 'suspended') void this.audioCtx.resume();
+    // Piggyback notification permission request on first user click (requires user gesture in Chrome 94+)
+    if (this.notifyValue) {
+      void this.requestNotificationPermission().then(() => {
+        if (Notification.permission === 'granted') void this.registerPushSubscription();
+      });
+    }
   };
 
   private readonly escHandler = (e: KeyboardEvent): void => {
@@ -93,21 +96,32 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   };
 
   connect(): void {
-    void this.waitAndLoad();
+    if (_channelsReady && _cachedClient) {
+      // Turbo navigation reconnect: channels already rendered, just re-attach Stream listeners
+      this.client = _cachedClient;
+      this.attachClientListeners();
+    } else {
+      void this.waitAndLoad();
+    }
     if (this.notifyValue) void this.requestNotificationPermission();
-    document.addEventListener('mngt:channel-read',    this.onChannelRead);
-    document.addEventListener('mngt:open-new-dm',     this.onOpenNewDm);
+    document.addEventListener('mngt:channel-read',     this.onChannelRead);
+    document.addEventListener('mngt:open-new-dm',      this.onOpenNewDm);
     document.addEventListener('mngt:open-new-channel', this.onOpenNewChannel);
+    document.addEventListener('mngt:push-subscribe',   this.onRequestPushSubscription);
     document.addEventListener('click', this.unlockAudio, { once: true });
+    this.restoreChannelsSectionState();
+    this.channelsSectionTarget.addEventListener('toggle', this.onChannelsSectionToggle);
   }
 
   disconnect(): void {
     this.client?.off('notification.message_new', this.onNotificationMessage);
     this.client?.off('notification.added_to_channel', this.onAddedToChannel);
     this.client?.off('user.presence.changed', this.onPresenceChanged);
-    document.removeEventListener('mngt:channel-read',    this.onChannelRead);
-    document.removeEventListener('mngt:open-new-dm',     this.onOpenNewDm);
+    document.removeEventListener('mngt:channel-read',     this.onChannelRead);
+    document.removeEventListener('mngt:open-new-dm',      this.onOpenNewDm);
     document.removeEventListener('mngt:open-new-channel', this.onOpenNewChannel);
+    document.removeEventListener('mngt:push-subscribe',   this.onRequestPushSubscription);
+    this.channelsSectionTarget.removeEventListener('toggle', this.onChannelsSectionToggle);
     this.closeDmModal();
   }
 
@@ -171,6 +185,16 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
 
   // ── private ────────────────────────────────────────────────────
 
+  private readonly onChannelsSectionToggle = (): void => {
+    localStorage.setItem('mngt-channels-open', String(this.channelsSectionTarget.open));
+  };
+
+  private restoreChannelsSectionState(): void {
+    const saved = localStorage.getItem('mngt-channels-open');
+    // Default closed; only open if user explicitly opened it before.
+    if (saved === 'true') this.channelsSectionTarget.setAttribute('open', '');
+  }
+
   private async waitAndLoad(): Promise<void> {
     try {
       this.renderLoading();
@@ -179,13 +203,20 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
       await this.ensureGeralChannel();
       await this.refreshChannels();
 
-      this.client.on('notification.message_new',      this.onNotificationMessage);
-      this.client.on('notification.added_to_channel', this.onAddedToChannel);
-      this.client.on('user.presence.changed',         this.onPresenceChanged);
+      _cachedClient  = this.client;
+      _channelsReady = true;
+      this.attachClientListeners();
     } catch {
       this.renderChannelsEmpty();
       this.renderDmsEmpty();
     }
+  }
+
+  private attachClientListeners(): void {
+    if (!this.client) return;
+    this.client.on('notification.message_new',      this.onNotificationMessage);
+    this.client.on('notification.added_to_channel', this.onAddedToChannel);
+    this.client.on('user.presence.changed',         this.onPresenceChanged);
   }
 
   // Create the default "Geral" team channel for the current user's company via SDK.
@@ -421,9 +452,9 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
       const unread      = ch.countUnread();
 
       const dmUserId   = !isGroup ? (otherMembers[0]?.['user_id'] as string | undefined) : undefined;
-      const dmImage    = !isGroup ? (otherMembers[0]?.['user']?.['image'] as string | undefined) : undefined;
-      const photoLayer = dmImage
-        ? `<span style="position:absolute;inset:0;border-radius:inherit;background:url('${this.esc(dmImage)}') center/cover no-repeat"></span>`
+      const dmPhotoUrl = opAvatarUrl(dmUserId);
+      const photoLayer = dmPhotoUrl
+        ? `<span style="position:absolute;inset:0;border-radius:inherit;background:url('${this.esc(dmPhotoUrl)}') center/cover no-repeat"></span>`
         : '';
       const isOnline    = dmUserId ? (this.presenceMap.get(dmUserId) ?? false) : false;
       const presenceDot = dmUserId
@@ -673,12 +704,49 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     await Notification.requestPermission();
   }
 
-  private async showBrowserNotification(sender: string): Promise<void> {
+  private async registerPushSubscription(): Promise<void> {
+    if (!('serviceWorker' in navigator) || !('PushManager' in window)) return;
+    if (Notification.permission !== 'granted') return;
+
+    const vapidKey = document.querySelector<HTMLMetaElement>('meta[name="mngt-vapid-public-key"]')?.content;
+    if (!vapidKey) return;
+
+    try {
+      const reg    = await navigator.serviceWorker.ready;
+      const existing = await reg.pushManager.getSubscription();
+      const sub = existing ?? await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: this.urlBase64ToUint8Array(vapidKey).buffer as ArrayBuffer,
+      });
+      if (!existing) {
+        // Only POST when a new subscription was just created (avoids duplicate server calls).
+        await fetch('/mngt/push_subscriptions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': this.csrfToken() },
+          body: JSON.stringify({ subscription: sub.toJSON() }),
+        });
+      }
+    } catch (e) {
+      console.warn('[mngt:push] subscription failed', e);
+    }
+  }
+
+  private urlBase64ToUint8Array(base64String: string): Uint8Array {
+    const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
+    const base64 = (base64String + padding).replace(/-/g, '+').replace(/_/g, '/');
+    const raw = atob(base64);
+    return Uint8Array.from([...raw].map((c) => c.charCodeAt(0)));
+  }
+
+  private async showBrowserNotification(channel: string, author: string, text: string, avatarUrl?: string): Promise<void> {
     if (!('Notification' in window) || Notification.permission !== 'granted') return;
-    new Notification('Nova mensagem', {
-      body: `${sender} enviou uma mensagem`,
-      icon: '/favicon.ico',
-      tag:  'mngt-chat',
-    });
+    const body  = author ? `${author}: ${text}`.slice(0, 120) : text.slice(0, 120);
+    const icon  = avatarUrl || '/favicon.ico';
+    const payload = { body, icon, badge: '/favicon.ico', tag: 'mngt-chat', renotify: true };
+    if ('serviceWorker' in navigator) {
+      const reg = await navigator.serviceWorker.ready.catch(() => null);
+      if (reg) { reg.showNotification(channel || 'Nova mensagem', payload); return; }
+    }
+    new Notification(channel || 'Nova mensagem', payload);
   }
 }

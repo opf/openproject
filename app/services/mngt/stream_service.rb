@@ -35,9 +35,8 @@ class Mngt::StreamService
   end
 
   def user_data
-    {
-      id:   user_id,
-      name: @user.name
-    }
+    data = { id: user_id, name: @user.name }
+    data[:image] = "#{Setting.protocol}://#{Setting.host_name}/users/#{@user.id}/avatar" if @user.local_avatar_attachment.present?
+    data
   end
 end

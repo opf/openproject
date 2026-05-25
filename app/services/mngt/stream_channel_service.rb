@@ -20,28 +20,32 @@ class Mngt::StreamChannelService
   # Upsert the current user into Stream so they exist for DMs and member lists.
   def upsert_current_user
     entry = { id: @user_id, name: @user.name }
-    entry[:image] = "/users/#{@user.id}/avatar" if @user.local_avatar_attachment.present?
+    entry[:image] = "#{Setting.protocol}://#{Setting.host_name}/users/#{@user.id}/avatar" if @user.local_avatar_attachment.present?
     stream_post("/users", { users: { @user_id => entry } })
   rescue Error => e
     Rails.logger.warn("[Mngt::Stream] upsert_current_user failed: #{e.message}")
   end
 
   # Upsert ALL active OpenProject users into Stream (cached 24h per server instance).
+  # Stream's /users endpoint accepts up to 100 users per request, so we batch.
   def upsert_all_users
-    cache_key = "mngt_stream_all_users_upserted_v4"
+    cache_key = "mngt_stream_all_users_upserted_v5"
     return if Rails.cache.exist?(cache_key)
 
-    avatar_ids = Attachment.where(description: "avatar", container_type: "User").pluck(:container_id).to_set
+    avatar_ids = Attachment.where(description: "avatar", container_type: "Principal").pluck(:container_id).to_set
 
-    users_map = User.active.limit(200).each_with_object({}) do |u, h|
+    all_entries = User.active.find_each.map do |u|
       uid   = "op_#{u.id}"
       entry = { id: uid, name: u.name }
-      entry[:image] = "/users/#{u.id}/avatar" if avatar_ids.include?(u.id)
-      h[uid] = entry
+      entry[:image] = "#{Setting.protocol}://#{Setting.host_name}/users/#{u.id}/avatar" if avatar_ids.include?(u.id)
+      [uid, entry]
     end
-    return if users_map.empty?
+    return if all_entries.empty?
 
-    stream_post("/users", { users: users_map })
+    all_entries.each_slice(100) do |batch|
+      stream_post("/users", { users: batch.to_h })
+    end
+
     Rails.cache.write(cache_key, true, expires_in: 24.hours)
   rescue Error => e
     Rails.logger.warn("[Mngt::Stream] upsert_all_users failed: #{e.message}")
@@ -77,7 +81,8 @@ class Mngt::StreamChannelService
 
     channel_ids.each do |ch_id|
       begin
-        stream_post("/channels/team/#{ch_id}", { add_members: [@user_id] })
+        name = ch_id.end_with?("--geral") ? "Geral" : nil
+        add_to_team_channel(ch_id, channel_name: name)
       rescue Error => e
         Rails.logger.warn("[Mngt::Stream] add #{@user_id} to #{ch_id} failed: #{e.message}")
       end
@@ -90,23 +95,44 @@ class Mngt::StreamChannelService
   end
 
   # Add the current user to a specific team channel by ID.
-  def add_to_team_channel(channel_id)
-    stream_post("/channels/team/#{channel_id}", { add_members: [@user_id] })
+  # Pass channel_name to auto-create the channel if it doesn't exist yet.
+  def add_to_team_channel(channel_id, channel_name: nil)
+    body = { add_members: [@user_id] }
+    body[:data] = { name: channel_name } if channel_name
+    stream_post("/channels/team/#{channel_id}", body)
   rescue Error => e
     Rails.logger.warn("[Mngt::Stream] add_to_team_channel #{channel_id} failed: #{e.message}")
+  end
+
+  # Create (or update) a team channel server-side and populate it with all eligible members.
+  # Used by the provision rake task and channel auto-setup.
+  def provision_team_channel(channel_id, channel_name: "Geral")
+    # POST …/query with state:true is Stream's create-or-fetch endpoint (REST, no WebSocket).
+    # POST …/{id} is update-only and 404s when the channel doesn't exist yet.
+    stream_post("/channels/team/#{channel_id}/query", {
+      state:    true,
+      watch:    false,
+      presence: false,
+      data:     { name: channel_name, created_by_id: @user_id }
+    })
+    add_all_users_to_team_channel(channel_id)
+  rescue Error => e
+    Rails.logger.warn("[Mngt::Stream] provision_team_channel #{channel_id} failed: #{e.message}")
   end
 
   # Add the right users to a team channel that was already created via the frontend SDK.
   # Adds all users from the channel's own company + all CSC users.
   def add_all_users_to_team_channel(channel_id)
-    channel_slug = Mngt::Companies.slug_from_channel_id(channel_id)
+    channel_slug  = Mngt::Companies.slug_from_channel_id(channel_id)
+    profile_slugs = Mngt::UserProfile.all.pluck(:user_id, :company_slug).to_h
 
-    csc_domain   = "grupomngt.com.br"
-    user_ids = User.active.limit(500).select { |u|
-      user_domain = u.mail.to_s.split("@").last.downcase
-      user_domain == csc_domain ||
-        Mngt::Companies.slug_for(u.mail) == channel_slug
-    }.map { |u| "op_#{u.id}" }
+    user_ids = []
+    User.active.find_each do |u|
+      slug = profile_slugs[u.id] || Mngt::Companies.slug_for(u.mail)
+      next unless Mngt::Companies.can_see_all_by_slug?(slug) || slug == channel_slug
+
+      user_ids << "op_#{u.id}"
+    end
 
     user_ids.each_slice(100) do |batch|
       begin
@@ -165,9 +191,23 @@ class Mngt::StreamChannelService
     stream_post("/channels/messaging/#{channel_id}", { add_members: user_ids })
   end
 
-  # Rename any messaging channel the current user is a member of.
-  def rename_channel(channel_id, name)
-    stream_post("/channels/messaging/#{channel_id}", { data: { name: name } })
+  # Deactivate the user in Stream (called when the user is locked/deactivated).
+  def deactivate_user
+    stream_post("/users/#{@user_id}/deactivate", {})
+  rescue Error => e
+    Rails.logger.warn("[Mngt::Stream] deactivate_user failed for #{@user_id}: #{e.message}")
+  end
+
+  # Send a message to a channel as the current user.
+  def send_message(channel_type, channel_id, text)
+    stream_post("/channels/#{channel_type}/#{channel_id}/message", {
+      message: { text:, user_id: @user_id }
+    })
+  end
+
+  # Rename a channel the current user is a member of.
+  def rename_channel(channel_id, name, channel_type: "messaging")
+    stream_post("/channels/#{channel_type}/#{channel_id}", { data: { name: name } })
   end
 
   # Validate a 1-on-1 DM between the current user and target (company check only).
@@ -187,15 +227,21 @@ class Mngt::StreamChannelService
   private
 
   def company_slug
-    Mngt::Companies.slug_for(@user.mail) || "unknown"
+    Mngt::UserProfile.where(user: @user).pick(:company_slug) ||
+      Mngt::Companies.slug_for(@user.mail) || "unknown"
   end
 
   def can_see_all?
-    Mngt::Companies.can_see_all?(@user.mail)
+    Mngt::Companies.can_see_all_by_slug?(company_slug)
   end
 
   def same_company?(other_user)
-    Mngt::Companies.slug_for(@user.mail) == Mngt::Companies.slug_for(other_user.mail)
+    slug_for_user(@user) == slug_for_user(other_user)
+  end
+
+  def slug_for_user(user)
+    Mngt::UserProfile.where(user: user).pick(:company_slug) ||
+      Mngt::Companies.slug_for(user.mail) || "unknown"
   end
 
   def validate_dm_company!(target_stream_user_id)
@@ -205,8 +251,11 @@ class Mngt::StreamChannelService
     target_user  = User.find_by(id: target_op_id)
     return unless target_user
 
+    target_slug = slug_for_user(target_user)
+    return if Mngt::Companies.can_see_all_by_slug?(target_slug)
+
     unless same_company?(target_user)
-      raise Error, "Mensagens diretas só são permitidas entre usuários da mesma empresa"
+      raise Error, "Mensagens diretas são permitidas apenas com a própria empresa ou com membros do Grupo MNGT"
     end
   end
 
@@ -234,12 +283,8 @@ class Mngt::StreamChannelService
     request["Content-Type"]     = "application/json"
     request.body = body.to_json
 
-    response = Net::HTTP.start(uri.hostname, uri.port,
-                               use_ssl: true,
-                               open_timeout: 5,
-                               read_timeout: 10) { |http| http.request(request) }
-
-    parsed = JSON.parse(response.body)
+    response = stream_http.request(request)
+    parsed   = JSON.parse(response.body)
 
     unless response.is_a?(Net::HTTPSuccess)
       msg = parsed.is_a?(Hash) ? (parsed["message"] || parsed["detail"] || "HTTP #{response.code}") : "HTTP #{response.code}"
@@ -249,6 +294,18 @@ class Mngt::StreamChannelService
     parsed
   rescue JSON::ParserError, Net::OpenTimeout, Net::ReadTimeout,
          Errno::ECONNREFUSED, SocketError => e
+    @stream_http = nil  # force reconnect on next call
     raise Error, "Stream API unreachable: #{e.message}"
+  end
+
+  # Persistent TCP+TLS connection reused across all API calls on this instance.
+  # Eliminates one TLS handshake per request (significant during full user sync).
+  def stream_http
+    @stream_http ||= Net::HTTP.new("chat.stream-io-api.com", 443).tap do |h|
+      h.use_ssl      = true
+      h.open_timeout = 5
+      h.read_timeout = 10
+      h.start
+    end
   end
 end

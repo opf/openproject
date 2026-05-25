@@ -35,11 +35,12 @@ class Mngt::StreamChannelsController < ApplicationController
   end
 
   def update
-    name = params[:name].to_s.strip
+    name         = params[:name].to_s.strip
+    channel_type = params[:channel_type].to_s.presence || "messaging"
     return render json: { error: "name_blank" }, status: :bad_request if name.blank?
     return render json: { error: "name_too_long" }, status: :bad_request if name.length > 80
 
-    Mngt::StreamChannelService.new(current_user).rename_channel(params[:id], name)
+    Mngt::StreamChannelService.new(current_user).rename_channel(params[:id], name, channel_type:)
     render json: { ok: true, name: name }
   rescue Mngt::StreamChannelService::Error => e
     Rails.logger.error("[Mngt::Stream] rename_channel failed: #{e.message}")
