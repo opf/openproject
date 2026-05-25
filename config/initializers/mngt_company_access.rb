@@ -130,7 +130,8 @@ module Mngt
 
       selects = entity_types.any? ? [arel_table[:id], Arel.sql("null AS entity_id")] : [arel_table[:id]]
 
-      company_arel = unscoped.active
+      company_arel = unscoped
+                             .where("#{quoted_table_name}.active = TRUE")
                              .where("#{quoted_table_name}.id IN (#{sql})")
                              .select(*selects)
                              .arel
