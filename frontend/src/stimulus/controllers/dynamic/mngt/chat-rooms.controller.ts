@@ -718,12 +718,6 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   }
 
   private playSound(): void {
-    const audio = new Audio('/sounds/notification.mp3');
-    audio.volume = 0.5;
-    audio.play().catch(() => this.playSoundFallback());
-  }
-
-  private playSoundFallback(): void {
     try {
       if (!this.audioCtx) this.audioCtx = new AudioContext();
       const ctx  = this.audioCtx;
