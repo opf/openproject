@@ -140,8 +140,19 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   private globalSearchDebounce: ReturnType<typeof setTimeout> | null = null;
   private channelNameMap:        Map<string, string> = new Map();
   private loadedChannels:        Channel[]           = [];
-  private listNotifHandler: ((e: StreamEvent) => void) | null = null;
-  private listAddedHandler: ((e: StreamEvent) => void) | null = null;
+  private listNotifHandler:  ((e: StreamEvent) => void) | null = null;
+  private listAddedHandler:  ((e: StreamEvent) => void) | null = null;
+  private notifBadgeHandler: ((e: StreamEvent) => void) | null = null;
+  private totalUnread        = 0;
+
+  private readonly onUnreadChanged = (e: Event): void => {
+    const { total } = (e as CustomEvent<{ total: number }>).detail;
+    this.totalUnread = total;
+    if (this.panelTarget.hidden) {
+      this.badgeTarget.hidden      = total === 0;
+      this.badgeTarget.textContent = total > 99 ? '99+' : String(total);
+    }
+  };
   private currentMessagesEl: HTMLElement | null = null;
   private openSeq = 0;
 
@@ -157,15 +168,18 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   };
 
   connect(): void {
-    document.addEventListener('mngt:chat-navigate', this.handleNavigate);
+    document.addEventListener('mngt:chat-navigate',   this.handleNavigate);
+    document.addEventListener('mngt:unread-changed',  this.onUnreadChanged);
     void this.setup();
   }
 
   disconnect(): void {
-    document.removeEventListener('mngt:chat-navigate', this.handleNavigate);
+    document.removeEventListener('mngt:chat-navigate',  this.handleNavigate);
+    document.removeEventListener('mngt:unread-changed', this.onUnreadChanged);
     this.streamClient?.off('user.presence.changed', this.onPresenceChanged);
     this.streamClient?.off('connection.changed', this.onConnectionChanged);
     this.unsubscribeListUpdates();
+    this.unsubscribeBadgeUpdates();
     this.unsubscribeChannel();
     if (this.currentMessagesEl) {
       this.currentMessagesEl.removeEventListener('scroll', this.onMessagesScroll);
@@ -176,7 +190,15 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     this.streamClient  = null;
   }
 
-  toggle(): void { this.panelTarget.hidden = !this.panelTarget.hidden; }
+  toggle(): void {
+    this.panelTarget.hidden = !this.panelTarget.hidden;
+    if (!this.panelTarget.hidden) {
+      this.badgeTarget.hidden = true;
+    } else {
+      this.badgeTarget.hidden      = this.totalUnread === 0;
+      this.badgeTarget.textContent = this.totalUnread > 99 ? '99+' : String(this.totalUnread);
+    }
+  }
 
   showChannelList(): void {
     this.unsubscribeChannel();
@@ -457,6 +479,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         await client.connectUser(creds.user, creds.token);
       }
       this.streamClient = client;
+      this.subscribeBadgeUpdates();
       signalClientReady(client);
       client.on('user.presence.changed', this.onPresenceChanged);
       client.on('connection.changed',    this.onConnectionChanged);
@@ -1018,6 +1041,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
       // Subscribe to global client events so the list refreshes when messages arrive.
       this.subscribeListUpdates();
+      this.updateBadge();
     } catch (err) {
       console.error('[mngt:chat] loadChannelList failed', err);
       if (listEl) listEl.innerHTML = '<span class="mngt-chat-list-empty">Erro ao carregar canais</span>';
@@ -1627,8 +1651,9 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
       const userIds = checked.map((cb) => cb.value);
       const btn     = modal.querySelector<HTMLButtonElement>('.mngt-dm-modal-btn')!;
-      btn.disabled    = true;
-      btn.textContent = '...';
+      btn.disabled = true;
+      btn.textContent = 'Adicionando';
+      btn.classList.add('is-loading');
 
       void fetch(this.groupMembersUrlValue, {
         method:      'POST',
@@ -1645,14 +1670,28 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
             const body = await res.json().catch(() => ({})) as { error?: string };
             throw new Error(body.error ?? `HTTP ${res.status}`);
           }
+          await this.activeChannel!.watch();
           closeModal();
+          document.dispatchEvent(new CustomEvent('mngt:channel-read', { detail: { channelId: this.activeChannel!.id } }));
           const memberPanel = this.containerTarget.querySelector<HTMLElement>('#mngt-member-list');
           if (memberPanel && !memberPanel.hidden) this.renderMemberList(memberPanel);
         })
         .catch((err: unknown) => {
           console.error('[mngt:chat] addMembers failed', err);
-          btn.textContent = 'Erro';
-          btn.disabled    = false;
+          btn.classList.remove('is-loading');
+          btn.textContent = 'Tentar novamente';
+          btn.disabled = false;
+          const footer = modal.querySelector<HTMLElement>('.mngt-dm-modal-footer');
+          if (footer) {
+            let errEl = footer.querySelector<HTMLElement>('.mngt-add-member-error');
+            if (!errEl) {
+              errEl = document.createElement('span');
+              errEl.className = 'mngt-add-member-error';
+              errEl.style.cssText = 'color:var(--color-danger,#c92a2a);font-size:0.8rem;display:block;margin-top:4px';
+              footer.appendChild(errEl);
+            }
+            errEl.textContent = err instanceof Error ? err.message : 'Erro ao adicionar membro';
+          }
         });
     });
   }
@@ -1872,6 +1911,31 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       this.streamClient.off('notification.added_to_channel', this.listAddedHandler);
       this.listAddedHandler = null;
     }
+  }
+
+  // Badge permanente no botão de toggle — independente do estado do painel/canal
+  private subscribeBadgeUpdates(): void {
+    if (!this.streamClient || this.notifBadgeHandler) return;
+    this.notifBadgeHandler = () => { this.updateBadge(); };
+    this.streamClient.on('notification.message_new', this.notifBadgeHandler);
+  }
+
+  private unsubscribeBadgeUpdates(): void {
+    if (this.streamClient && this.notifBadgeHandler) {
+      this.streamClient.off('notification.message_new', this.notifBadgeHandler);
+      this.notifBadgeHandler = null;
+    }
+  }
+
+  private updateBadge(): void {
+    const panelVisible = !this.panelTarget.hidden;
+    const total = this.loadedChannels.reduce((sum, ch) => {
+      if (ch.id === this.activeChannel?.id) return sum;
+      return sum + ch.countUnread();
+    }, 0);
+    this.totalUnread             = total;
+    this.badgeTarget.hidden      = panelVisible || total === 0;
+    this.badgeTarget.textContent = total > 99 ? '99+' : String(total);
   }
 
   private get companiesMapObj(): Record<string, string> {

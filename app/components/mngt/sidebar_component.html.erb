@@ -53,6 +53,7 @@
   <% if stream_configured? %>
     <div class="mngt-sidebar-section"
          data-controller="mngt--chat-rooms"
+         data-mngt--chat-rooms-token-url-value="<%= mngt_stream_token_path %>"
          data-mngt--chat-rooms-users-url-value="/mngt/stream/users"
          data-mngt--chat-rooms-dm-url-value="/mngt/stream/dm"
          data-mngt--chat-rooms-channels-url-value="/mngt/stream/channels"

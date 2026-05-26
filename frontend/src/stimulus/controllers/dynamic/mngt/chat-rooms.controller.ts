@@ -1,6 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
-import { type StreamChat, type Channel, type Event as StreamEvent } from 'stream-chat';
-import { getStreamClient } from './stream-client';
+import { type StreamChat, type Channel, type Event as StreamEvent, type OwnUserResponse } from 'stream-chat';
+import { getStreamClient, signalClientReady } from './stream-client';
 import { avatarColor, opAvatarUrl } from './utils/mngt-chat-utils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,6 +22,7 @@ type AnyChannel = Channel;
 export default class MngtChatRoomsController extends Controller<HTMLElement> {
   static targets = ['channelsList', 'dmsList', 'channelsSection'];
   static values  = {
+    tokenUrl:      String,
     usersUrl:      String,
     dmUrl:         String,
     channelsUrl:   String,
@@ -37,6 +38,7 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   declare dmsListTarget:         HTMLElement;
   declare channelsSectionTarget: HTMLDetailsElement;
 
+  declare tokenUrlValue:      string;
   declare usersUrlValue:      string;
   declare dmUrlValue:         string;
   declare channelsUrlValue:   string;
@@ -55,9 +57,10 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   private readonly onNotificationMessage = (_event: StreamEvent): void => {
     void this.refreshChannels();
     if (this.notifyValue) {
-      const ev    = _event as unknown as { channel?: { name?: string; id?: string } };
-      const ch    = ev.channel;
-      const muted = !!ch?.id && localStorage.getItem(`mngt_muted_${ch.id}`) === 'true';
+      const ev     = _event as unknown as { channel?: { name?: string; id?: string }; user?: { id?: string } };
+      const ch     = ev.channel;
+      if (ev.user?.id === this.currentUserIdValue) return;
+      const muted  = !!ch?.id && localStorage.getItem(`mngt_muted_${ch.id}`) === 'true';
       if (!muted) this.playSound();
     }
   };
@@ -97,9 +100,10 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
 
   connect(): void {
     if (_channelsReady && _cachedClient) {
-      // Turbo navigation reconnect: channels already rendered, just re-attach Stream listeners
+      // Turbo navigation reconnect: re-attach listeners and re-dispatch unread count
       this.client = _cachedClient;
       this.attachClientListeners();
+      void this.refreshChannels();
     } else {
       void this.waitAndLoad();
     }
@@ -198,7 +202,24 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   private async waitAndLoad(): Promise<void> {
     try {
       this.renderLoading();
-      this.client = await getStreamClient();
+
+      // Initialize the Stream client directly so the sidebar works without
+      // requiring the chat panel to be opened first.
+      const { StreamChat } = await import('stream-chat');
+      const response = await fetch(this.tokenUrlValue, {
+        headers: { 'X-CSRF-Token': this.csrfToken(), 'Accept': 'application/json' },
+        credentials: 'same-origin',
+      });
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const creds = await response.json() as any;
+      const client = StreamChat.getInstance(creds.apiKey as string);
+      if (client.userID !== (creds.userId as string)) {
+        if (client.userID) await client.disconnectUser().catch(() => {});
+        await client.connectUser(creds.user as unknown as OwnUserResponse, creds.token as string);
+      }
+      signalClientReady(client);
+      this.client = client;
 
       await this.ensureGeralChannel();
       await this.refreshChannels();
@@ -207,8 +228,18 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
       _channelsReady = true;
       this.attachClientListeners();
     } catch {
-      this.renderChannelsEmpty();
-      this.renderDmsEmpty();
+      // Fallback: wait for the chat panel to signal the client (original behaviour)
+      try {
+        this.client = await getStreamClient();
+        await this.ensureGeralChannel();
+        await this.refreshChannels();
+        _cachedClient  = this.client;
+        _channelsReady = true;
+        this.attachClientListeners();
+      } catch {
+        this.renderChannelsEmpty();
+        this.renderDmsEmpty();
+      }
     }
   }
 
@@ -276,6 +307,12 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     this.renderTeamChannels(team);
     this.renderDms(dms);
     void this.refreshPresence(dms);
+    this.dispatchUnreadChanged([...team, ...dms]);
+  }
+
+  private dispatchUnreadChanged(channels: AnyChannel[]): void {
+    const total = channels.reduce((sum, ch) => sum + ch.countUnread(), 0);
+    document.dispatchEvent(new CustomEvent('mngt:unread-changed', { detail: { total } }));
   }
 
   private renderLoading(): void {
@@ -444,7 +481,7 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
       const data        = ch.data as Record<string, unknown> | undefined;
       const otherMembers = (Object.values(ch.state.members) as AnyRecord[])
         .filter((m) => m['user_id'] !== this.currentUserIdValue);
-      const isGroup     = !/^op_\d+--op_\d+$/.test(ch.id ?? '');
+      const isGroup     = Object.keys(ch.state.members).length > 2;
       const name        = (data?.['name'] as string | undefined)
         ?? otherMembers.map((m) => (m['user']?.['name'] as string | undefined) ?? (m['user_id'] as string | undefined) ?? '?').join(', ')
         ?? ch.id
@@ -586,6 +623,13 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
         sdkChannelId  = members.join('--');
         const ch = this.client.channel('messaging', sdkChannelId, { members });
         await ch.create();
+
+        // If the original 1:1 was promoted to a group, create a fresh 1:1 instead
+        if (Object.keys(ch.state?.members ?? {}).length > 2) {
+          sdkChannelId = `dm-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
+          const freshCh = this.client.channel('messaging', sdkChannelId, { members });
+          await freshCh.create();
+        }
       } else {
         // Group DM: use explicit ID so Stream creates a non-distinct channel (allows adding members later)
         const allMembers = [this.currentUserIdValue, ...userIds];
@@ -679,19 +723,19 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
       const ctx  = this.audioCtx;
       const play = () => {
         const now = ctx.currentTime;
-        [520, 680].forEach((freq, i) => {
+        [330, 440].forEach((freq, i) => {
           const osc  = ctx.createOscillator();
           const gain = ctx.createGain();
           osc.connect(gain);
           gain.connect(ctx.destination);
           osc.type = 'sine';
           osc.frequency.value = freq;
-          const t0 = now + i * 0.14;
+          const t0 = now + i * 0.12;
           gain.gain.setValueAtTime(0, t0);
-          gain.gain.linearRampToValueAtTime(0.22, t0 + 0.01);
-          gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.35);
+          gain.gain.linearRampToValueAtTime(0.14, t0 + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, t0 + 0.5);
           osc.start(t0);
-          osc.stop(t0 + 0.35);
+          osc.stop(t0 + 0.5);
         });
       };
       if (ctx.state === 'suspended') ctx.resume().then(play).catch(() => {});

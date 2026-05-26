@@ -1403,6 +1403,19 @@
   &:disabled
     opacity: 0.45
     cursor: not-allowed
+  &.is-loading
+    cursor: wait
+    &::before
+      content: ''
+      display: inline-block
+      width: 11px
+      height: 11px
+      border: 2px solid rgba(255,255,255,0.35)
+      border-top-color: #fff
+      border-radius: 50%
+      animation: mngt-spin 0.65s linear infinite
+      margin-right: 6px
+      vertical-align: middle
 
 .mngt-sidebar-company-group
   margin-bottom: 4px
