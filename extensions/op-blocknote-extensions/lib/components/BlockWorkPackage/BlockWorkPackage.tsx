@@ -14,11 +14,13 @@ import { SearchContainer, SearchLabel } from "../Search/SearchContainer";
 import { SearchDropdown } from "../Search/SearchDropdown";
 import { defaultWpVariables } from "../WorkPackage/atoms";
 import { moveCursorAfterBlock } from "../../utils/cursor";
+import { formatWorkPackageId } from "../../utils/id";
+import { pendingBlockRegistry } from "./pendingBlockRegistry";
 
-const Block = styled.div.attrs({ className: "op-bn-extensions" })`
+const Block = styled.div.attrs({ className: "op-bn-extensions" })<{ $pending?: boolean }>`
   ${defaultWpVariables}
-  background-color: var(--op-chip-bg);  
-  user-select: all; 
+  background-color: ${({ $pending }) => ($pending ? "transparent" : "var(--op-chip-bg)")};
+  user-select: all;
   border-radius: var(--bn-border-radius);
 `;
 
@@ -33,6 +35,8 @@ interface BlockProps {
   id: string;
   props: {
     wpid?: number;
+    // Not used for render logic - only written on select so the spec serialises
+    // data-initialized="true" in toExternalHTML.
     initialized?: boolean;
     size?: BlockWpSize;
   };
@@ -51,7 +55,6 @@ export const BlockWorkPackageComponent = ({
   // The hook handles triggering re-renders when data arrives.
   useColors();
 
-  const [isActive, setIsActive] = useState(false);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
   const workPackageResult = useWorkPackage(block.props.wpid);
@@ -67,7 +70,12 @@ export const BlockWorkPackageComponent = ({
 
   const cardSize: BlockWpSize = block.props.size ?? "m";
 
+  useEffect(() => {
+    return () => { pendingBlockRegistry.delete(block.id); };
+  }, [block.id]);
+
   const handleSelectWorkPackage = (wp: WorkPackage) => {
+    pendingBlockRegistry.delete(block.id);
     editor.updateBlock(block, {
       props: { ...block.props, wpid: wp.id, displayId: wp.displayId, initialized: true },
     });
@@ -81,25 +89,12 @@ export const BlockWorkPackageComponent = ({
     sideMenu?.blockDragStart(e.nativeEvent, block as any);
   };
 
-  useEffect(() => {
-    // accessing private tiptap instance until public API is available
-    const tiptap = (editor as any)._tiptapEditor;
-    if (!tiptap) return;
-
-    const updateActiveState = () => {
-      setIsActive(editor.getTextCursorPosition()?.block?.id === block.id);
-    };
-
-    tiptap.on("selectionUpdate", updateActiveState);
-    updateActiveState();
-    return () => { tiptap.off("selectionUpdate", updateActiveState); };
-  }, [editor, block.id]);
-
   // Close options popover on outside click
   useEffect(() => {
     if (!isOptionsOpen) return;
     const handleClickOutside = (e: MouseEvent) => {
-      if (cardRef.current && !cardRef.current.contains(e.target as Node)) {
+      const path = e.composedPath();
+      if (cardRef.current && !path.includes(cardRef.current as EventTarget)) {
         setIsOptionsOpen(false);
       }
     };
@@ -122,17 +117,12 @@ export const BlockWorkPackageComponent = ({
     editor.removeBlocks([block]);
   };
 
-  const disableFocus = block.props.initialized && !block.props.wpid;
+  const isPending = pendingBlockRegistry.has(block.id);
 
   return (
-    <Block
-      tabIndex={disableFocus ? -1 : 0}
-      style={disableFocus ? { pointerEvents: "none" } : undefined}
-      draggable="true"
-      onDragStart={handleBlockDragStart}
-    >
+    <Block $pending={isPending} draggable="true" onDragStart={handleBlockDragStart}>
       <div contentEditable={false} style={{ userSelect: "none" }}>
-        {!block.props.wpid && !block.props.initialized && isActive && (
+        {isPending && (
           <SearchContainer>
             <SearchLabel>
               {t("search.label")}
@@ -141,9 +131,8 @@ export const BlockWorkPackageComponent = ({
               autoFocus
               onSelect={handleSelectWorkPackage}
               onCancel={() => {
-                editor.updateBlock(block, {
-                  props: { ...block.props, initialized: true },
-                });
+                pendingBlockRegistry.delete(block.id);
+                editor.removeBlocks([block]);
                 editor.focus();
               }}
               renderItem={(wp) => <BlockCard workPackage={wp} inDropdown />}
