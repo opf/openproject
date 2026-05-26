@@ -80,7 +80,7 @@ RSpec.describe "Create work package in sprint", :js do
 
   context "in a non shared sprint" do
     it "allows creating a new story" do
-      backlogs_page.click_in_sprint_menu(sprint1, "Add work package")
+      backlogs_page.click_in_sprint_menu(sprint1, "Add new work package")
 
       within_dialog "New work package" do
         fill_in "Subject", with: "The new item"
@@ -102,7 +102,7 @@ RSpec.describe "Create work package in sprint", :js do
       # xpect(page).to have_css(".velocity", text: "12")
 
       # this will ensure that the page refresh is through before we check the order
-      backlogs_page.click_in_sprint_menu(sprint1, "Add work package")
+      backlogs_page.click_in_sprint_menu(sprint1, "Add new work package")
 
       within_dialog "New work package" do
         fill_in "Subject", with: "Another story"
@@ -129,7 +129,7 @@ RSpec.describe "Create work package in sprint", :js do
 
   context "in an empty non shared sprint" do
     it "allows creating a new story" do
-      backlogs_page.click_in_sprint_menu(sprint2, "Add work package")
+      backlogs_page.click_in_sprint_menu(sprint2, "Add new work package")
 
       within_dialog "New work package" do
         fill_in "Subject", with: "The new item"
@@ -151,7 +151,7 @@ RSpec.describe "Create work package in sprint", :js do
     let(:backlogs_page) { Pages::Backlog.new(project2) }
 
     it "allows creating a new story" do
-      backlogs_page.click_in_sprint_menu(sprint1, "Add work package")
+      backlogs_page.click_in_sprint_menu(sprint1, "Add new work package")
 
       within_dialog "New work package" do
         fill_in "Subject", with: "The new item"
@@ -183,7 +183,7 @@ RSpec.describe "Create work package in sprint", :js do
       # Once we add more and more menu items back, the menu will be rendered, but the action
       # will be missing. When that happens, the expectation has to be adjusted for something like
       # this:
-      # backlogs_page.expect_no_sprint_menu_item(sprint1, "Add work package")
+      # backlogs_page.expect_no_sprint_menu_item(sprint1, "Add new work package")
 
       backlogs_page.expect_no_sprint_menu(sprint1)
     end

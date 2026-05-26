@@ -179,7 +179,7 @@ en:
 
     sprint_component:
       action_menu:
-        add_work_package: "Add work package"
+        add_new_work_package: "Add new work package"
         edit_sprint: "Edit sprint"
       blankslate_description: "No items planned yet. Drag items here to add them."
       blankslate_title: "%{name} is empty"

@@ -88,7 +88,7 @@ RSpec.describe "Edit", :js do
   end
 
   it "adds a work package to a sprint" do
-    planning_page.click_in_sprint_menu(first_sprint, "Add work package")
+    planning_page.click_in_sprint_menu(first_sprint, "Add new work package")
     planning_page.expect_create_work_package_dialog
 
     page.within("#create-work-package-dialog") do
@@ -111,7 +111,7 @@ RSpec.describe "Edit", :js do
         planning_page.within_sprint_menu(first_sprint) do |menu|
           expect(menu).to have_selector :menuitem, count: 2
           expect(menu).to have_selector :menuitem, "Edit sprint"
-          expect(menu).to have_selector :menuitem, "Add work package"
+          expect(menu).to have_selector :menuitem, "Add new work package"
         end
       end
 
@@ -167,7 +167,7 @@ RSpec.describe "Edit", :js do
             expect(menu).to have_selector :menuitem, count: 1
             expect(menu).to have_selector :menuitem, "Edit sprint"
 
-            expect(menu).to have_no_selector :menuitem, "Add work package"
+            expect(menu).to have_no_selector :menuitem, "Add new work package"
           end
         end
       end
