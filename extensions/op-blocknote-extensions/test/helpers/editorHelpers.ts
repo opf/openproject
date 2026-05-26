@@ -10,7 +10,7 @@ export async function openEditorAndType(text: string) {
 }
 
 export async function insertInlineWorkPackageViaSlashMenu(searchTerm:string='Fix', resultTerm:string='Fix login bug') {
-  await openEditorAndType('/');
+  await openEditorAndType(' /');
   await expect.element(page.getByText('Link existing work package').first()).toBeVisible();
   await userEvent.click(page.getByText('Link existing work package').first());
 
