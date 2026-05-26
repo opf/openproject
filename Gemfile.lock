@@ -1669,6 +1669,7 @@ DEPENDENCIES
   i18n-tasks (~> 1.1.0)
   ice_cube (~> 0.17.0)
   ice_nine
+  image_processing (~> 1.2)
   inline_svg (~> 1.10.0)
   job-iteration
   json_schemer (~> 2.5.0)
