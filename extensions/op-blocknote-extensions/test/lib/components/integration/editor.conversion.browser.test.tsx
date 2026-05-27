@@ -92,6 +92,12 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
     await expect.element(page.getByText('World')).toBeVisible();
+
+    const blockCardEl = page.getByTestId('block-card').element();
+    const worldEl = page.getByText('World').element();
+    // World must follow the block card in the DOM and not be inside it
+    expect(blockCardEl.compareDocumentPosition(worldEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.contains(worldEl)).toBe(false);
   });
 
   it('text - WP - text: surrounding sentence is split into two paragraphs around the block', async () => {
@@ -107,6 +113,15 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
     await expect.element(page.getByText('Hello')).toBeVisible();
     await expect.element(page.getByText('World')).toBeVisible();
     await expect.element(page.getByText('Hello World')).not.toBeInTheDocument();
+
+    const helloEl = page.getByText('Hello').element();
+    const blockCardEl = page.getByTestId('block-card').element();
+    const worldEl = page.getByText('World').element();
+    // DOM order must be: Hello paragraph -> block card -> World paragraph
+    expect(helloEl.compareDocumentPosition(blockCardEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.compareDocumentPosition(worldEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.contains(helloEl)).toBe(false);
+    expect(blockCardEl.contains(worldEl)).toBe(false);
   });
 
   it('text - WP: text before chip stays in paragraph above block', async () => {
@@ -119,6 +134,12 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
     await expect.element(page.getByText('Hello')).toBeVisible();
+
+    const helloEl = page.getByText('Hello').element();
+    const blockCardEl = page.getByTestId('block-card').element();
+    // Hello must precede the block card in the DOM and not be inside it
+    expect(helloEl.compareDocumentPosition(blockCardEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.contains(helloEl)).toBe(false);
   });
 });
 
