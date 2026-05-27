@@ -107,12 +107,19 @@ See COPYRIGHT and LICENSE files for more details.
           with_item_group(menu) do
             if user_allowed?(:manage_sprint_items)
               menu.with_item(
-                id: dom_target(sprint, :menu, :new_story),
+                id: dom_target(sprint, :menu, :add_new_work_package),
                 label: t(".action_menu.add_new_work_package"),
                 href: new_project_work_packages_dialog_path(project, sprint_id: sprint.id),
                 content_arguments: { data: { turbo_stream: true } }
               ) do |item|
                 item.with_leading_visual_icon(icon: :plus)
+              end
+
+              menu.with_item(
+                id: dom_target(sprint, :menu, :add_existing_work_package),
+                label: t(".action_menu.add_existing_work_package")
+              ) do |item|
+                item.with_leading_visual_icon(icon: :link)
               end
             end
           end

@@ -66,6 +66,24 @@ See COPYRIGHT and LICENSE files for more details.
                 item.with_leading_visual_icon(icon: :trash)
               end
             end
+
+            with_item_group(menu) do
+              if user_allowed?(:manage_sprint_items)
+                menu.with_item(
+                  id: dom_target(backlog_bucket, :menu, :add_new_work_package),
+                  label: t(".action_menu.add_new_work_package")
+                ) do |item|
+                  item.with_leading_visual_icon(icon: :plus)
+                end
+
+                menu.with_item(
+                  id: dom_target(backlog_bucket, :menu, :add_existing_work_package),
+                  label: t(".action_menu.add_existing_work_package")
+                ) do |item|
+                  item.with_leading_visual_icon(icon: :link)
+                end
+              end
+            end
           end
         end
       end

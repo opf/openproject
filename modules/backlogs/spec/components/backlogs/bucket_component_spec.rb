@@ -104,7 +104,10 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       end
 
       it "renders the bucket menu actions" do
-        expect(rendered_component.to_html).to include("Edit backlog bucket", "Delete backlog bucket")
+        expect(rendered_component).to have_css("[role='menuitem']", text: "Edit backlog bucket")
+        expect(rendered_component).to have_css("[role='menuitem']", text: "Delete backlog bucket")
+        expect(rendered_component).to have_css("[role='menuitem']", text: "Add new work package")
+        expect(rendered_component).to have_css("[role='menuitem']", text: "Add existing work package")
       end
 
       it "renders one shared-card row per work package" do
@@ -221,6 +224,11 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}.Box-row--draggable")
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[data-draggable-id]")
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[data-drop-url]")
+    end
+
+    it "does not render the add work package menu actions" do
+      expect(rendered_component).to have_no_css("[role='menuitem']", text: "Add new work package")
+      expect(rendered_component).to have_no_css("[role='menuitem']", text: "Add existing work package")
     end
   end
 end

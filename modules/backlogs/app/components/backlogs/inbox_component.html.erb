@@ -46,7 +46,27 @@ See COPYRIGHT and LICENSE files for more details.
         }
       )
     ) do |list|
-      list.with_header(title: t(".title"), count: work_packages.size, title_arguments: { font_size: 4 })
+      list.with_header(title: t(".title"), count: work_packages.size, title_arguments: { font_size: 4 }) do |header|
+        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+          with_item_group(menu) do
+            if user_allowed?(:manage_sprint_items)
+              menu.with_item(
+                id: dom_target(:inbox, :menu, :add_new_work_package),
+                label: t(".action_menu.add_new_work_package")
+              ) do |item|
+                item.with_leading_visual_icon(icon: :plus)
+              end
+
+              menu.with_item(
+                id: dom_target(:inbox, :menu, :add_existing_work_package),
+                label: t(".action_menu.add_existing_work_package")
+              ) do |item|
+                item.with_leading_visual_icon(icon: :link)
+              end
+            end
+          end
+        end
+      end
 
       list.with_empty_state(
         title: t(".blankslate_title"),

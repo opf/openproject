@@ -109,9 +109,10 @@ RSpec.describe "Edit", :js do
     context "when editing a sprint" do
       it "displays all menu entries" do
         planning_page.within_sprint_menu(first_sprint) do |menu|
-          expect(menu).to have_selector :menuitem, count: 2
+          expect(menu).to have_selector :menuitem, count: 3
           expect(menu).to have_selector :menuitem, "Edit sprint"
           expect(menu).to have_selector :menuitem, "Add new work package"
+          expect(menu).to have_selector :menuitem, "Add existing work package"
         end
       end
 
