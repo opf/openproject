@@ -18,6 +18,7 @@ import { formatWorkPackageId } from "../../utils/id";
 const Block = styled.div.attrs({ className: "op-bn-extensions" })`
   ${defaultWpVariables}
   background-color: var(--op-chip-bg);
+  border-radius: var(--bn-border-radius);
 `;
 
 const BlockCardWrapper = styled.div`
