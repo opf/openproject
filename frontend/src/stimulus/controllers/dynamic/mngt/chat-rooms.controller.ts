@@ -108,6 +108,7 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
       void this.waitAndLoad();
     }
     if (this.notifyValue) void this.requestNotificationPermission();
+    if (this.notifyValue && Notification.permission === 'granted') void this.registerPushSubscription();
     document.addEventListener('mngt:channel-read',     this.onChannelRead);
     document.addEventListener('mngt:open-new-dm',      this.onOpenNewDm);
     document.addEventListener('mngt:open-new-channel', this.onOpenNewChannel);
@@ -756,20 +757,20 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     if (!vapidKey) return;
 
     try {
-      const reg    = await navigator.serviceWorker.ready;
-      const existing = await reg.pushManager.getSubscription();
-      const sub = existing ?? await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: this.urlBase64ToUint8Array(vapidKey).buffer as ArrayBuffer,
-      });
-      if (!existing) {
-        // Only POST when a new subscription was just created (avoids duplicate server calls).
-        await fetch('/mngt/push_subscriptions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': this.csrfToken() },
-          body: JSON.stringify({ subscription: sub.toJSON() }),
+      const reg = await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.getSubscription()
+        ?? await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: this.urlBase64ToUint8Array(vapidKey).buffer as ArrayBuffer,
         });
-      }
+      // Always sync with server — the server record may have been destroyed when a
+      // previous push failed (ExpiredSubscription/InvalidSubscription). The server
+      // upserts by endpoint, so repeated calls are idempotent.
+      await fetch('/mngt/push_subscriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': this.csrfToken() },
+        body: JSON.stringify({ subscription: sub.toJSON() }),
+      });
     } catch (e) {
       console.warn('[mngt:push] subscription failed', e);
     }
