@@ -656,7 +656,7 @@
 
 .mngt-stream-form
   display: flex
-  align-items: flex-end
+  align-items: center
   gap: 8px
   padding: 8px 12px 10px
   border-top: 1px solid rgba(255,255,255,0.08)
@@ -670,6 +670,8 @@
 
 .mngt-stream-input
   flex: 1
+  width: 100%
+  box-sizing: border-box
   background: rgba(255,255,255,0.07)
   border: 1px solid rgba(255,255,255,0.12)
   border-radius: 8px
@@ -2453,3 +2455,262 @@ body[data-color-mode="light"]
   // --- Member list backdrop ---
   .mngt-member-list-backdrop
     background: rgba(0,0,0,0.15)
+
+  // --- Image limit toast ---
+  .mngt-img-limit-toast
+    background: rgba(241, 245, 249, 0.96)
+    color: #1e2330
+    border-color: rgba(0,0,0,0.1)
+
+  // --- Drag-and-drop overlay ---
+  .mngt-drop-overlay
+    background: rgba(99, 102, 241, 0.1)
+    border-color: rgba(99, 102, 241, 0.5)
+    color: #4f46e5
+
+  // --- Attach menu ---
+  .mngt-stream-attach-btn
+    color: rgba(0,0,0,0.55)
+    &:hover
+      color: rgba(0,0,0,0.85)
+      background: rgba(0,0,0,0.05)
+
+  .mngt-attach-menu
+    background: #ffffff
+    border-color: rgba(0,0,0,0.12)
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12)
+
+  .mngt-attach-menu-item
+    color: rgba(0,0,0,0.75)
+    &:hover
+      background: rgba(0,0,0,0.05)
+      color: rgba(0,0,0,0.9)
+
+  // --- Pending image previews ---
+  .mngt-attach-preview
+    background: rgba(0,0,0,0.04)
+    &--error
+      background: rgba(220,38,38,0.06)
+      border-color: rgba(220,38,38,0.2)
+
+  .mngt-attach-error-msg
+    color: #dc2626
+
+  .mngt-attach-remove
+    background: rgba(0,0,0,0.45)
+    color: #fff
+
+  .mngt-attach-error-summary
+    color: #dc2626
+
+// ── Image attachments in form ──────────────────────────────────
+
+.mngt-stream-attachments
+  display: flex
+  flex-wrap: wrap
+  gap: 6px
+  padding: 4px 8px
+  min-height: 0
+
+.mngt-attach-preview
+  position: relative
+  width: 72px
+  height: 72px
+  border-radius: 6px
+  overflow: hidden
+  background: rgba(255,255,255,0.06)
+  flex-shrink: 0
+  img
+    width: 100%
+    height: 100%
+    object-fit: cover
+    display: block
+  &--error
+    width: auto
+    height: auto
+    max-width: 200px
+    padding: 4px 28px 4px 6px
+    background: rgba(220,38,38,0.12)
+    border: 1px solid rgba(220,38,38,0.3)
+    border-radius: 4px
+    display: flex
+    align-items: center
+
+.mngt-attach-error-msg
+  font-size: 11px
+  color: #fca5a5
+  line-height: 1.3
+
+.mngt-attach-remove
+  position: absolute
+  top: 2px
+  right: 2px
+  width: 18px
+  height: 18px
+  border-radius: 50%
+  background: rgba(0,0,0,0.6)
+  color: #fff
+  border: none
+  cursor: pointer
+  font-size: 12px
+  line-height: 1
+  display: flex
+  align-items: center
+  justify-content: center
+  padding: 0
+  &:hover
+    background: rgba(220,38,38,0.8)
+
+.mngt-attach-spinner
+  position: absolute
+  inset: 0
+  display: flex
+  align-items: center
+  justify-content: center
+  background: rgba(0,0,0,0.4)
+  &::after
+    content: ''
+    width: 20px
+    height: 20px
+    border: 2px solid rgba(255,255,255,0.3)
+    border-top-color: #fff
+    border-radius: 50%
+    animation: mngt-spin 0.7s linear infinite
+
+.mngt-attach-error-summary
+  font-size: 12px
+  color: #fca5a5
+  width: 100%
+  padding: 2px 8px
+
+// ── Image limit toast ──────────────────────────────────────────
+
+.mngt-img-limit-toast
+  position: absolute
+  bottom: calc(100% + 6px)
+  left: 50%
+  transform: translateX(-50%)
+  background: rgba(30, 30, 46, 0.92)
+  color: #e2e8f0
+  font-size: 12px
+  padding: 5px 12px
+  border-radius: 6px
+  white-space: nowrap
+  pointer-events: none
+  animation: mngt-fade-in 0.15s ease
+  z-index: 20
+  border: 1px solid rgba(255,255,255,0.08)
+
+// ── Drag-and-drop overlay ──────────────────────────────────────
+
+.mngt-stream-form-wrap
+  position: relative
+
+.mngt-drop-overlay
+  position: absolute
+  inset: 0
+  z-index: 10
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: center
+  gap: 8px
+  background: rgba(99, 102, 241, 0.18)
+  border: 2px dashed rgba(99, 102, 241, 0.7)
+  border-radius: 8px
+  color: #a5b4fc
+  font-size: 13px
+  font-weight: 500
+  pointer-events: none
+  svg
+    opacity: 0.9
+
+.mngt-stream-form-wrap--dragging .mngt-stream-form,
+.mngt-stream-form-wrap--dragging .mngt-stream-attachments
+  opacity: 0.4
+  pointer-events: none
+
+// ── Attach menu ────────────────────────────────────────────────
+
+.mngt-attach-menu-wrap
+  position: relative
+  flex-shrink: 0
+
+.mngt-stream-attach-btn
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 28px
+  height: 28px
+  background: none
+  border: none
+  cursor: pointer
+  color: rgba(255,255,255,0.65)
+  border-radius: 4px
+  padding: 0
+  transition: color 0.1s ease, background 0.1s ease
+  &:hover
+    color: rgba(255,255,255,0.9)
+    background: rgba(255,255,255,0.06)
+
+.mngt-attach-menu
+  position: absolute
+  bottom: calc(100% + 6px)
+  left: 0
+  background: #252836
+  border: 1px solid rgba(255,255,255,0.12)
+  border-radius: 8px
+  padding: 4px
+  min-width: 150px
+  z-index: 300
+  box-shadow: 0 6px 20px rgba(0,0,0,0.45)
+
+.mngt-attach-menu-item
+  display: flex
+  align-items: center
+  gap: 8px
+  width: 100%
+  background: none
+  border: none
+  color: rgba(255,255,255,0.8)
+  font-size: 13px
+  padding: 7px 10px
+  border-radius: 5px
+  cursor: pointer
+  text-align: left
+  white-space: nowrap
+  transition: background 0.1s ease, color 0.1s ease
+  &:hover
+    background: rgba(255,255,255,0.07)
+    color: #fff
+  svg
+    flex-shrink: 0
+    opacity: 0.75
+
+// ── Image grid in messages ─────────────────────────────────────
+
+.mngt-msg-images
+  display: grid
+  gap: 3px
+  margin-top: 4px
+  max-width: 320px
+  &.mngt-img-single
+    .mngt-msg-image
+      width: 100%
+      max-height: 280px
+      object-fit: cover
+      border-radius: 8px
+      display: block
+  &.mngt-img-grid
+    grid-template-columns: 1fr 1fr
+    .mngt-msg-image
+      width: 100%
+      height: 140px
+      object-fit: cover
+      border-radius: 6px
+      display: block
+  a
+    display: block
+    line-height: 0
+    &:hover .mngt-msg-image
+      opacity: 0.9

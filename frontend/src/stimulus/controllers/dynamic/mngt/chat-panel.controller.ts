@@ -27,17 +27,27 @@ interface LinkPreview {
 }
 
 interface RenderableMessage {
-  id:             string;
-  text:           string;
-  authorName:     string;
-  authorId:       string;
-  avatarUrl?:     string;
-  createdAt:      string;
-  createdAtMs:    number;
-  quotedMessage?: { authorName: string; text: string };
-  isDeleted?:     boolean;
-  reactions:      ReactionSummary[];
-  linkPreviews:   LinkPreview[];
+  id:               string;
+  text:             string;
+  authorName:       string;
+  authorId:         string;
+  avatarUrl?:       string;
+  createdAt:        string;
+  createdAtMs:      number;
+  quotedMessage?:   { authorName: string; text: string };
+  isDeleted?:       boolean;
+  reactions:        ReactionSummary[];
+  linkPreviews:     LinkPreview[];
+  imageAttachments: Array<{ url: string; fallback: string }>;
+}
+
+interface PendingImage {
+  id:         string;
+  url:        string;
+  filename:   string;
+  previewUrl: string;
+  uploading:  boolean;
+  error?:     string;
 }
 
 // ── Emoji reactions ────────────────────────────────────────────
@@ -85,8 +95,11 @@ function toRenderableMessage(msg: MessageResponse): RenderableMessage {
       siteName: (a['author_name'] ?? a['footer'])  as string | undefined,
     }))
     .filter((p) => !!p.url && /^https?:\/\//.test(p.url));
+  const imageAttachments = attachments
+    .filter((a) => a['type'] === 'image' && a['image_url'])
+    .map((a) => ({ url: a['image_url'] as string, fallback: (a['fallback'] as string | undefined) ?? 'imagem' }));
 
-  return { id: msg.id ?? '', text: msg.text ?? '', authorName, authorId, avatarUrl, createdAt, createdAtMs, quotedMessage, isDeleted, reactions, linkPreviews };
+  return { id: msg.id ?? '', text: msg.text ?? '', authorName, authorId, avatarUrl, createdAt, createdAtMs, quotedMessage, isDeleted, reactions, linkPreviews, imageAttachments };
 }
 
 type MemberLike = { user_id?: string; user?: { name?: string; id?: string; image?: string } };
@@ -130,6 +143,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   private typingUsers:    Map<string, string>  = new Map();
   private typingTimer:    ReturnType<typeof setTimeout> | null = null;
   private replyToMessage: MessageResponse | null = null;
+  private pendingImages:  PendingImage[] = [];
   private presenceMap:    Map<string, boolean>  = new Map();
   private loadingOlder    = false;
   private hasMoreMsgs     = true;
@@ -217,8 +231,9 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     event.preventDefault();
     if (!this.activeChannel) return;
     const input = this.containerTarget.querySelector<HTMLTextAreaElement>('#mngt-stream-input');
-    const text  = input?.value.trim();
-    if (!text || text.length > 10000) return;
+    const text  = input?.value.trim() ?? '';
+    const readyImages = this.pendingImages.filter((i) => !i.uploading && !i.error && i.url);
+    if ((!text || text.length > 10000) && readyImages.length === 0) return;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const msgData: Record<string, any> = { text };
@@ -229,6 +244,13 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         .map((m) => m.user_id)
         .filter(Boolean);
     }
+    if (readyImages.length > 0) {
+      msgData['attachments'] = readyImages.map((img) => ({
+        type: 'image',
+        image_url: img.url,
+        fallback: img.filename,
+      }));
+    }
 
     if (input) {
       input.value = '';
@@ -236,6 +258,9 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
       const sendBtn = this.containerTarget.querySelector<HTMLButtonElement>('.mngt-stream-send');
       if (sendBtn) sendBtn.disabled = true;
     }
+    this.pendingImages.forEach((img) => URL.revokeObjectURL(img.previewUrl));
+    this.pendingImages = [];
+    this.renderPendingImages();
     this.closeMentionDropdown();
     this.cancelReply();
     if (this.typingTimer) { clearTimeout(this.typingTimer); this.typingTimer = null; }
@@ -254,8 +279,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     if (this.typingTimer) clearTimeout(this.typingTimer);
     void channel.keystroke();
     this.typingTimer = setTimeout(() => { void channel.stopTyping(); this.typingTimer = null; }, 3000);
-    const sendBtn = this.containerTarget.querySelector<HTMLButtonElement>('.mngt-stream-send');
-    if (sendBtn) sendBtn.disabled = input.value.trim().length === 0;
+    this.updateSendButton();
     const counter = this.containerTarget.querySelector<HTMLElement>('#mngt-char-counter');
     if (counter) {
       const len = input.value.length;
@@ -1172,12 +1196,36 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         <div class="mngt-member-list" id="mngt-member-list" hidden></div>
       </div>
       <div class="mngt-typing-indicator" id="mngt-typing-indicator" hidden></div>
-      <div class="mngt-stream-form-wrap">
+      <div class="mngt-stream-form-wrap" id="mngt-stream-form-wrap"
+           data-action="dragover->mngt--chat-panel#handleDragOver dragenter->mngt--chat-panel#handleDragEnter dragleave->mngt--chat-panel#handleDragLeave drop->mngt--chat-panel#handleDrop">
+        <div class="mngt-drop-overlay" id="mngt-drop-overlay" hidden aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="24" height="24"><path d="M2.75 14A1.75 1.75 0 0 1 1 12.25v-2.5a.75.75 0 0 1 1.5 0v2.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25v-2.5a.75.75 0 0 1 1.5 0v2.5A1.75 1.75 0 0 1 13.25 14Z"/><path d="M7.25 7.689V2a.75.75 0 0 1 1.5 0v5.689l1.97-1.97a.749.749 0 1 1 1.06 1.06l-3.25 3.25a.749.749 0 0 1-1.06 0L4.22 6.779a.749.749 0 1 1 1.06-1.06l1.97 1.97Z"/></svg>
+          <span>Soltar para enviar</span>
+        </div>
+        <div class="mngt-stream-attachments" id="mngt-stream-attachments"></div>
         <form class="mngt-stream-form" data-action="submit->mngt--chat-panel#sendMessage">
+          <div class="mngt-attach-menu-wrap">
+            <button class="mngt-stream-attach-btn" type="button"
+                    data-action="click->mngt--chat-panel#toggleAttachMenu"
+                    aria-label="Anexar" aria-haspopup="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+            </button>
+            <div class="mngt-attach-menu" id="mngt-attach-menu" hidden role="menu">
+              <button class="mngt-attach-menu-item" type="button"
+                      data-action="click->mngt--chat-panel#triggerFileInput"
+                      role="menuitem">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="14" height="14"><path d="M4.502 9a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3M14.002 13a2 2 0 0 1-2 2h-10a2 2 0 0 1-2-2V5A2 2 0 0 1 2 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v8a2 2 0 0 1-1.998 2M14 2H4a1 1 0 0 0-1 1h9.002a2 2 0 0 1 2 2v7A1 1 0 0 0 15 11V3a1 1 0 0 0-1-1M2.002 4a1 1 0 0 0-1 1v8l2.646-2.354a.5.5 0 0 1 .63-.062l2.66 1.773 3.71-3.71a.5.5 0 0 1 .577-.094l1.777 1.947V5a1 1 0 0 0-1-1z"/></svg>
+                <span>Imagem</span>
+              </button>
+            </div>
+            <input type="file" accept="image/jpeg,image/png,image/webp,image/gif" multiple
+                   id="mngt-stream-file-input" style="display:none"
+                   data-action="change->mngt--chat-panel#handleFileSelect">
+          </div>
           <div class="mngt-stream-input-wrap">
-            <textarea class="mngt-stream-input" rows="1" placeholder="Escreva uma mensagem… use @ para mencionar"
+            <textarea class="mngt-stream-input" rows="1" placeholder="Escreva uma mensagem…"
                       autocomplete="off" id="mngt-stream-input" maxlength="10000"
-                      data-action="input->mngt--chat-panel#handleTypingInput keydown->mngt--chat-panel#handleInputKeydown"></textarea>
+                      data-action="input->mngt--chat-panel#handleTypingInput keydown->mngt--chat-panel#handleInputKeydown paste->mngt--chat-panel#handlePaste"></textarea>
             <span class="mngt-char-counter" id="mngt-char-counter"></span>
           </div>
           <button class="mngt-stream-send" type="submit" aria-label="Enviar" disabled>
@@ -1312,13 +1360,24 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         </button>` : ''}
       </div>`;
 
+    const imagesHtml = msg.imageAttachments.length > 0 ? (() => {
+      const gridClass = msg.imageAttachments.length === 1 ? 'mngt-img-single' : 'mngt-img-grid';
+      return `<div class="mngt-msg-images ${gridClass}">
+        ${msg.imageAttachments.map((a) => `
+          <a href="${this.escape(a.url)}" target="_blank" rel="noopener noreferrer">
+            <img src="${this.escape(a.url)}" alt="${this.escape(a.fallback)}" loading="lazy" class="mngt-msg-image" />
+          </a>`).join('')}
+      </div>`;
+    })() : '';
+
     return `
       <div class="${cls}" ${data}>
         ${avatar}
         <div class="mngt-stream-msg-content">
           ${headerHtml}
           ${quotedHtml}
-          <div class="mngt-stream-msg-text">${this.renderText(msg.text)}</div>
+          ${msg.text ? `<div class="mngt-stream-msg-text">${this.renderText(msg.text)}</div>` : ''}
+          ${imagesHtml}
           ${previewsHtml}
           ${reactionsHtml}
         </div>
@@ -1949,6 +2008,231 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   private companyNameFromChannelId(channelId: string): string {
     const slug = channelId.split('--')[0] ?? '';
     return this.companiesMapObj[slug] ?? slug;
+  }
+
+  // ── Drag-and-drop ──────────────────────────────────────────────
+
+  handleDragOver(event: DragEvent): void {
+    event.preventDefault();
+    event.dataTransfer!.dropEffect = 'copy';
+  }
+
+  handleDragEnter(event: DragEvent): void {
+    event.preventDefault();
+    const overlay = this.containerTarget.querySelector<HTMLElement>('#mngt-drop-overlay');
+    const wrap    = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-form-wrap');
+    if (overlay) overlay.hidden = false;
+    if (wrap)    wrap.classList.add('mngt-stream-form-wrap--dragging');
+  }
+
+  handleDragLeave(event: DragEvent): void {
+    const wrap = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-form-wrap');
+    if (!wrap) return;
+    // Only hide when the cursor truly leaves the drop zone (not when entering a child)
+    if (wrap.contains(event.relatedTarget as Node | null)) return;
+    const overlay = this.containerTarget.querySelector<HTMLElement>('#mngt-drop-overlay');
+    if (overlay) overlay.hidden = true;
+    wrap.classList.remove('mngt-stream-form-wrap--dragging');
+  }
+
+  async handleDrop(event: DragEvent): Promise<void> {
+    event.preventDefault();
+    const overlay = this.containerTarget.querySelector<HTMLElement>('#mngt-drop-overlay');
+    const wrap    = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-form-wrap');
+    if (overlay) overlay.hidden = true;
+    if (wrap)    wrap.classList.remove('mngt-stream-form-wrap--dragging');
+
+    const files = Array.from(event.dataTransfer?.files ?? [])
+      .filter((f) => f.type.startsWith('image/'));
+    if (files.length === 0) return;
+
+    // Reuse the same file-select pipeline
+    const fakeInput = { files: files as unknown as FileList };
+    const fakeEvent = { target: fakeInput } as unknown as Event;
+    await this.handleFileSelect(fakeEvent);
+  }
+
+  // ── Clipboard paste ────────────────────────────────────────────
+
+  async handlePaste(event: ClipboardEvent): Promise<void> {
+    const items = Array.from(event.clipboardData?.items ?? []);
+    const imageFiles = items
+      .filter((item) => item.kind === 'file' && item.type.startsWith('image/'))
+      .map((item) => item.getAsFile())
+      .filter((f): f is File => f !== null);
+
+    if (imageFiles.length === 0) return;
+
+    event.preventDefault();
+    const fakeInput = { files: imageFiles as unknown as FileList };
+    const fakeEvent = { target: fakeInput } as unknown as Event;
+    await this.handleFileSelect(fakeEvent);
+  }
+
+  // ── Attach menu ────────────────────────────────────────────────
+
+  toggleAttachMenu(event: Event): void {
+    event.stopPropagation();
+    const menu = this.containerTarget.querySelector<HTMLElement>('#mngt-attach-menu');
+    if (!menu) return;
+    const opening = menu.hidden;
+    menu.hidden = !opening;
+    if (!opening) return;
+    const closeOnOutsideClick = (e: MouseEvent): void => {
+      const btn = this.containerTarget.querySelector<HTMLElement>('.mngt-stream-attach-btn');
+      if (!menu.contains(e.target as Node) && e.target !== btn) {
+        menu.hidden = true;
+        document.removeEventListener('click', closeOnOutsideClick);
+      }
+    };
+    setTimeout(() => document.addEventListener('click', closeOnOutsideClick), 0);
+  }
+
+  triggerFileInput(event: Event): void {
+    event.stopPropagation();
+    const menu = this.containerTarget.querySelector<HTMLElement>('#mngt-attach-menu');
+    if (menu) menu.hidden = true;
+    this.containerTarget.querySelector<HTMLInputElement>('#mngt-stream-file-input')?.click();
+  }
+
+  // ── Image upload actions ───────────────────────────────────────
+
+  async handleFileSelect(event: Event): Promise<void> {
+    const input = event.target as HTMLInputElement;
+    const files = Array.from(input.files ?? []);
+    input.value = '';
+
+    const validCount = this.pendingImages.filter((i) => !i.error).length;
+    const available  = 4 - validCount;
+    if (available <= 0) {
+      this.showImageLimitToast('Máximo de 4 imagens por mensagem');
+      return;
+    }
+
+    const toProcess = files.slice(0, available);
+    if (files.length > available) {
+      this.showImageLimitToast(`Apenas ${available} imagem(ns) adicionada(s) — máximo de 4`);
+    }
+
+    // Step 1 — validate magic bytes for all files in parallel (fast, local read)
+    const prevalidated = await Promise.all(toProcess.map(async (file) => {
+      const id         = crypto.randomUUID();
+      const previewUrl = URL.createObjectURL(file);
+      const valid      = await this.validateMagicBytes(file);
+      return { file, id, previewUrl, valid };
+    }));
+
+    // Step 2 — push all items immediately so spinners appear before any fetch starts
+    for (const { file, id, previewUrl, valid } of prevalidated) {
+      if (!valid) {
+        this.pendingImages.push({ id, url: '', filename: file.name, previewUrl, uploading: false,
+          error: `${file.name}: tipo não permitido ou arquivo corrompido` });
+      } else if (file.size > 10 * 1024 * 1024) {
+        this.pendingImages.push({ id, url: '', filename: file.name, previewUrl, uploading: false,
+          error: `${file.name}: excede 10 MB` });
+      } else {
+        this.pendingImages.push({ id, url: '', filename: file.name, previewUrl, uploading: true });
+      }
+    }
+    this.renderPendingImages();
+    this.updateSendButton();
+
+    // Step 3 — upload valid files in parallel; update each entry in-place when done
+    await Promise.all(
+      prevalidated
+        .filter(({ valid, file }) => valid && file.size <= 10 * 1024 * 1024)
+        .map(async ({ file, id }) => {
+          try {
+            const form = new FormData();
+            form.append('image', file);
+            const resp = await fetch('/mngt/stream/images', {
+              method: 'POST', body: form,
+              headers: { 'X-CSRF-Token': this.csrfToken() },
+            });
+            if (!resp.ok) throw new Error('upload failed');
+            const data = await resp.json() as { url: string; id: number };
+            const entry = this.pendingImages.find((p) => p.id === id);
+            if (entry) { entry.url = data.url; entry.uploading = false; }
+          } catch {
+            const entry = this.pendingImages.find((p) => p.id === id);
+            if (entry) { entry.uploading = false; entry.error = `${file.name}: falha no upload`; }
+          }
+          this.renderPendingImages();
+          this.updateSendButton();
+        })
+    );
+  }
+
+  removePendingImage(event: Event): void {
+    const btn = event.currentTarget as HTMLElement;
+    const imgId = btn.dataset['imgId'] ?? '';
+    const img = this.pendingImages.find((i) => i.id === imgId);
+    if (img) URL.revokeObjectURL(img.previewUrl);
+    this.pendingImages = this.pendingImages.filter((i) => i.id !== imgId);
+    this.renderPendingImages();
+    this.updateSendButton();
+  }
+
+  // ── Image upload helpers ───────────────────────────────────────
+
+  private showImageLimitToast(message: string): void {
+    const wrap = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-form-wrap');
+    if (!wrap) return;
+    const existing = wrap.querySelector<HTMLElement>('.mngt-img-limit-toast');
+    if (existing) { existing.textContent = message; return; }
+    const toast = document.createElement('div');
+    toast.className = 'mngt-img-limit-toast';
+    toast.textContent = message;
+    wrap.prepend(toast);
+    setTimeout(() => toast.remove(), 3000);
+  }
+
+  private async validateMagicBytes(file: File): Promise<boolean> {
+    const buf   = await file.slice(0, 16).arrayBuffer();
+    const bytes = new Uint8Array(buf);
+    // JPEG: FF D8 FF
+    if (bytes[0] === 0xFF && bytes[1] === 0xD8 && bytes[2] === 0xFF) return true;
+    // PNG: 89 50 4E 47
+    if (bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4E && bytes[3] === 0x47) return true;
+    // GIF: 47 49 46 38
+    if (bytes[0] === 0x47 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x38) return true;
+    // WebP: RIFF....WEBP
+    if (bytes[0] === 0x52 && bytes[1] === 0x49 && bytes[2] === 0x46 && bytes[3] === 0x46 &&
+        bytes[8] === 0x57 && bytes[9] === 0x45 && bytes[10] === 0x42 && bytes[11] === 0x50) return true;
+    return false;
+  }
+
+  private renderPendingImages(): void {
+    const area = this.containerTarget.querySelector<HTMLElement>('#mngt-stream-attachments');
+    if (!area) return;
+
+    if (this.pendingImages.length === 0) { area.innerHTML = ''; return; }
+
+    const errorCount = this.pendingImages.filter((i) => !!i.error).length;
+    area.innerHTML = this.pendingImages.map((img) => `
+      <div class="mngt-attach-preview${img.error ? ' mngt-attach-preview--error' : ''}" data-img-id="${img.id}">
+        ${img.error
+          ? `<span class="mngt-attach-error-msg">${this.escape(img.error)}</span>`
+          : `<img src="${img.previewUrl}" alt="${this.escape(img.filename)}" />
+             ${img.uploading ? '<span class="mngt-attach-spinner"></span>' : ''}`
+        }
+        <button class="mngt-attach-remove" type="button"
+                data-action="click->mngt--chat-panel#removePendingImage"
+                data-img-id="${img.id}" aria-label="Remover">×</button>
+      </div>`).join('') +
+      (errorCount > 0
+        ? `<div class="mngt-attach-error-summary">${errorCount} arquivo(s) inválido(s) — corrija antes de enviar</div>`
+        : '');
+  }
+
+  private updateSendButton(): void {
+    const sendBtn = this.containerTarget.querySelector<HTMLButtonElement>('.mngt-stream-send');
+    if (!sendBtn) return;
+    const text        = this.containerTarget.querySelector<HTMLTextAreaElement>('#mngt-stream-input')?.value.trim() ?? '';
+    const hasError    = this.pendingImages.some((i) => !!i.error);
+    const hasUploading = this.pendingImages.some((i) => i.uploading);
+    const hasImages   = this.pendingImages.some((i) => !i.error && i.url);
+    sendBtn.disabled  = (!text && !hasImages) || hasError || hasUploading;
   }
 
   private escape(text: string): string {
