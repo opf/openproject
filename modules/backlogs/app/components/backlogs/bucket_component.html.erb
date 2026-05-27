@@ -71,7 +71,9 @@ See COPYRIGHT and LICENSE files for more details.
               if user_allowed?(:manage_sprint_items)
                 menu.with_item(
                   id: dom_target(backlog_bucket, :menu, :add_new_work_package),
-                  label: t(".action_menu.add_new_work_package")
+                  label: t(".action_menu.add_new_work_package"),
+                  href: new_project_work_packages_dialog_path(project, backlog_bucket_id: backlog_bucket.id),
+                  content_arguments: { data: { controller: "async-dialog" } }
                 ) do |item|
                   item.with_leading_visual_icon(icon: :plus)
                 end

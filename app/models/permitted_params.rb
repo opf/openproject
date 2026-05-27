@@ -566,6 +566,7 @@ class PermittedParams
         new_work_package: [
           :assigned_to_id,
           { attachments: %i[file description] },
+          :backlog_bucket_id,
           :category_id,
           :description,
           :done_ratio,

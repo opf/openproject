@@ -31,7 +31,7 @@
 require "spec_helper"
 require_relative "../../support/pages/backlog"
 
-RSpec.describe "Create work package in sprint", :js do
+RSpec.describe "Create work package", :js do
   let!(:project) do
     create(:project,
            types: [type, type2],
@@ -59,6 +59,7 @@ RSpec.describe "Create work package in sprint", :js do
 
   let!(:sprint1) { create(:sprint, project:) }
   let!(:sprint2) { create(:sprint, project:) }
+  let!(:bucket) { create(:backlog_bucket, project:) }
 
   let!(:sprint1_wp1) { create(:work_package, sprint: sprint1, type:, project:) }
   let!(:sprint1_wp2) { create(:work_package, sprint: sprint1, type:, project:) }
@@ -170,6 +171,36 @@ RSpec.describe "Create work package in sprint", :js do
     end
   end
 
+  context "in a backlog bucket" do
+    it "allows creating a new story" do
+      backlogs_page.click_in_backlog_bucket_menu(bucket, "Add new work package")
+
+      within_dialog "New work package" do
+        fill_in "Subject", with: "The new item"
+        click_on "Create"
+      end
+
+      expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
+
+      backlogs_page.expect_work_package_in_backlog_bucket(WorkPackage.last, bucket)
+    end
+  end
+
+  context "in the inbox" do
+    it "allows creating a new story" do
+      backlogs_page.click_in_inbox_menu("Add new work package")
+
+      within_dialog "New work package" do
+        fill_in "Subject", with: "The new item"
+        click_on "Create"
+      end
+
+      expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
+
+      backlogs_page.expect_inbox_item(WorkPackage.last)
+    end
+  end
+
   context "when lacking the permission to create work packages" do
     current_user do
       create(:user,
@@ -186,6 +217,8 @@ RSpec.describe "Create work package in sprint", :js do
       # backlogs_page.expect_no_sprint_menu_item(sprint1, "Add new work package")
 
       backlogs_page.expect_no_sprint_menu(sprint1)
+      backlogs_page.expect_no_backlog_bucket_menu(bucket)
+      backlogs_page.expect_no_inbox_menu
     end
   end
 end
