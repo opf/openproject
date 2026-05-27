@@ -153,6 +153,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
             wp={wp}
             currentSize={size}
             instanceId={instanceId}
+            anchorEl={chipRef.current}
             onClose={() => setIsSelected(false)}
             onResize={(newSize) => {
               wpBridge.resize({ instanceId, wpid: wp.id, size: newSize });

@@ -200,6 +200,7 @@ export const BlockWorkPackageComponent = ({
                       currentSize={undefined}
                       currentBlockSize={cardSize}
                       instanceId={undefined}
+                      anchorEl={cardRef.current}
                       onClose={() => setIsOptionsOpen(false)}
                       onConvertToInline={handleConvertToInline}
                       onConvertToBlock={handleResizeBlock}
