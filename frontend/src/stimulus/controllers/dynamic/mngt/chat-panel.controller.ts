@@ -1225,7 +1225,7 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
           <div class="mngt-stream-input-wrap">
             <textarea class="mngt-stream-input" rows="1" placeholder="Escreva uma mensagem…"
                       autocomplete="off" id="mngt-stream-input" maxlength="10000"
-                      data-action="input->mngt--chat-panel#handleTypingInput keydown->mngt--chat-panel#handleInputKeydown"></textarea>
+                      data-action="input->mngt--chat-panel#handleTypingInput keydown->mngt--chat-panel#handleInputKeydown paste->mngt--chat-panel#handlePaste"></textarea>
             <span class="mngt-char-counter" id="mngt-char-counter"></span>
           </div>
           <button class="mngt-stream-send" type="submit" aria-label="Enviar" disabled>
@@ -2048,6 +2048,23 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
     // Reuse the same file-select pipeline
     const fakeInput = { files: files as unknown as FileList };
+    const fakeEvent = { target: fakeInput } as unknown as Event;
+    await this.handleFileSelect(fakeEvent);
+  }
+
+  // ── Clipboard paste ────────────────────────────────────────────
+
+  async handlePaste(event: ClipboardEvent): Promise<void> {
+    const items = Array.from(event.clipboardData?.items ?? []);
+    const imageFiles = items
+      .filter((item) => item.kind === 'file' && item.type.startsWith('image/'))
+      .map((item) => item.getAsFile())
+      .filter((f): f is File => f !== null);
+
+    if (imageFiles.length === 0) return;
+
+    event.preventDefault();
+    const fakeInput = { files: imageFiles as unknown as FileList };
     const fakeEvent = { target: fakeInput } as unknown as Event;
     await this.handleFileSelect(fakeEvent);
   }
