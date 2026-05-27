@@ -62,6 +62,7 @@ See COPYRIGHT and LICENSE files for more details.
 <span id="open-blank-target-link-description" class="sr-only"><%= I18n.t("open_link_in_a_new_tab") %></span>
 <opce-spot-drop-modal-portal></opce-spot-drop-modal-portal>
 <% main_menu = render_main_menu(local_assigns.fetch(:menu_name, nil), @project) %>
+<% is_admin_page = local_assigns.fetch(:menu_name, nil) == :admin_menu %>
 <% side_displayed = content_for?(:sidebar) || content_for?(:main_menu) || !main_menu.blank? %>
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
 <div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>">
@@ -105,12 +106,21 @@ See COPYRIGHT and LICENSE files for more details.
               end
             end %>
           </div>
-          <%= render(Mngt::SidebarComponent.new(current_user: User.current, current_project: @project)) %>
-          <!-- Sidebar -->
-          <div id="sidebar" data-menus--main-target="sidebar">
-            <%= content_for :sidebar %>
-            <%= call_hook :view_layouts_base_sidebar %>
-          </div>
+          <% if is_admin_page %>
+            <%= main_menu %>
+            <%= content_for :main_menu %>
+            <%= call_hook :view_layouts_base_main_menu %>
+            <div id="sidebar" data-menus--main-target="sidebar">
+              <%= content_for :sidebar %>
+              <%= call_hook :view_layouts_base_sidebar %>
+            </div>
+          <% else %>
+            <%= render(Mngt::SidebarComponent.new(current_user: User.current, current_project: @project)) %>
+            <div id="sidebar" data-menus--main-target="sidebar">
+              <%= content_for :sidebar %>
+              <%= call_hook :view_layouts_base_sidebar %>
+            </div>
+          <% end %>
         </div>
       </nav>
     <% end %>
