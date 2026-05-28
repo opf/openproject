@@ -14,6 +14,7 @@ import { SearchContainer, SearchLabel } from "../Search/SearchContainer";
 import { SearchDropdown } from "../Search/SearchDropdown";
 import { defaultWpVariables } from "../WorkPackage/atoms";
 import { formatWorkPackageId } from "../../utils/id";
+import { moveCursorAfterBlock } from "../../utils/cursor";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })`
   ${defaultWpVariables}
@@ -60,7 +61,7 @@ export const BlockWorkPackageComponent = ({
     editor.updateBlock(block, {
       props: { ...block.props, wpid: wp.id, initialized: true },
     });
-    requestAnimationFrame(() => moveCursorToNextBlock(editor, block.id));
+    requestAnimationFrame(() => moveCursorAfterBlock(editor, block.id));
   };
 
   useEffect(() => {
@@ -218,18 +219,3 @@ export const BlockWorkPackageComponent = ({
   );
 };
 
-function moveCursorToNextBlock(editor: BlockNoteEditor<any>, blockId: string) {
-  editor.focus();
-  editor.setTextCursorPosition(blockId, "end");
-
-  const cursor = editor.getTextCursorPosition();
-
-  if (!cursor?.nextBlock && cursor?.block) {
-    editor.insertBlocks([{ type: "paragraph", content: [] }], cursor.block.id, "after");
-  }
-
-  const updatedCursor = editor.getTextCursorPosition();
-  if (updatedCursor?.nextBlock) {
-    editor.setTextCursorPosition(updatedCursor.nextBlock.id, "start");
-  }
-}

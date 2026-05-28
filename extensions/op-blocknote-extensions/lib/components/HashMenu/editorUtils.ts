@@ -2,6 +2,7 @@ import type { BlockNoteEditor } from "@blocknote/core";
 import type { InlineWpSize } from "../WorkPackage/types";
 import { makeInstanceId } from "../../utils/id.ts";
 import type { WorkPackage } from "../../openProjectTypes";
+import { placeCursorAfterInlineNode } from "../../utils/cursor.ts";
 
 export type AnyEditor = BlockNoteEditor<any, any, any>;
 
@@ -36,8 +37,8 @@ export function getSizeFromCurrentBlock(editor: AnyEditor): InlineWpSize {
 }
 
 /**
- * Inserts a chip at the cursor and removes the `#query` trigger before it.
- * The chip acts as a position anchor so we don't need cursor offsets.
+ * Inserts a chip at the cursor, removes the `#query` trigger before it,
+ * then repositions the cursor right after the chip via its instanceId.
  */
 export function insertWpChip(editor: AnyEditor, wp: WorkPackage, size: InlineWpSize): void {
   const instanceId = makeInstanceId();
@@ -48,8 +49,11 @@ export function insertWpChip(editor: AnyEditor, wp: WorkPackage, size: InlineWpS
   ]);
 
   removeTriggerBeforeChip(editor, instanceId);
-
   editor.focus();
+
+  requestAnimationFrame(() => {
+    placeCursorAfterInlineNode(editor, instanceId);
+  });
 }
 
 /**

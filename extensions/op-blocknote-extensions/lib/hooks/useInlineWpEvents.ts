@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import type { BlockNoteEditor, InlineContentFromConfig } from '@blocknote/core';
 import { wpBridge, makeInstanceId } from '../../lib';
 import type { InlineWpSize, BlockWpSize, WpSize } from '../../lib';
+import { moveCursorAfterBlock } from '../utils/cursor';
 
 type AnyEditor = BlockNoteEditor<any, any, any>;
 type AnyInlineNode = InlineContentFromConfig<any, any>;
@@ -93,27 +94,6 @@ function updateInlineChip(
   return found;
 }
 
-function moveCursorAfter(editor:AnyEditor, blockId:string):void {
-  requestAnimationFrame(() => {
-    editor.focus();
-    editor.setTextCursorPosition(blockId, 'end');
-
-    const cursor = editor.getTextCursorPosition();
-    if (!cursor?.nextBlock && cursor?.block) {
-      editor.insertBlocks(
-        [{ type:'paragraph', content:[] }],
-        cursor.block.id,
-        'after'
-      );
-    }
-
-    const updated = editor.getTextCursorPosition();
-    if (updated?.nextBlock) {
-      editor.setTextCursorPosition(updated.nextBlock.id, 'start');
-    }
-  });
-}
-
 function handleResize(editor:AnyEditor, instanceId:string, size:WpSize):void {
   const isBlockSize = size === 'm' || size === 'l' || size === 'xl';
 
@@ -158,7 +138,7 @@ function handlePromoteToBlock(
   );
 
   if (insertedBlock?.id) {
-    moveCursorAfter(editor, insertedBlock.id);
+    requestAnimationFrame(() => moveCursorAfterBlock(editor, insertedBlock.id));
   }
 }
 
