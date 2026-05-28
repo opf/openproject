@@ -1,17 +1,17 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, it, expect, vi } from 'vitest';
 import {
   registerInlineWpCallbacks,
   getPendingCallbacks,
   clearInlineWpCallbacks,
   makePendingWpid,
-} from "../../../lib/components/InlineWorkPackage/callbacks";
+} from '../../../lib/components/InlineWorkPackage/callbacks';
 
-describe("InlineWp callbacks registry", () => {
-  it("registers and retrieves callbacks via pending wpid", () => {
+describe('InlineWp callbacks registry', () => {
+  it('registers and retrieves callbacks via pending wpid', () => {
     const onSelect = vi.fn();
     const onCancel = vi.fn();
 
-    const key = "key-1";
+    const key = 'key-1';
     const wpid = makePendingWpid(key);
 
     registerInlineWpCallbacks(key, onSelect, onCancel);
@@ -23,20 +23,20 @@ describe("InlineWp callbacks registry", () => {
     clearInlineWpCallbacks(key);
   });
 
-  it("returns undefined for unknown key", () => {
-    const wpid = makePendingWpid("nonexistent");
+  it('returns undefined for unknown key', () => {
+    const wpid = makePendingWpid('nonexistent');
     expect(getPendingCallbacks(wpid)).toBeUndefined();
   });
 
-  it("returns undefined for non-pending wpid", () => {
-    expect(getPendingCallbacks("123")).toBeUndefined();
+  it('returns undefined for non-pending wpid', () => {
+    expect(getPendingCallbacks('123')).toBeUndefined();
   });
 
-  it("clears callbacks by key", () => {
+  it('clears callbacks by key', () => {
     const onSelect = vi.fn();
     const onCancel = vi.fn();
 
-    const key = "key-2";
+    const key = 'key-2';
     const wpid = makePendingWpid(key);
 
     registerInlineWpCallbacks(key, onSelect, onCancel);
@@ -45,12 +45,12 @@ describe("InlineWp callbacks registry", () => {
     expect(getPendingCallbacks(wpid)).toBeUndefined();
   });
 
-  it("overwrites existing callbacks for the same key", () => {
+  it('overwrites existing callbacks for the same key', () => {
     const onSelect1 = vi.fn();
     const onSelect2 = vi.fn();
     const onCancel = vi.fn();
 
-    const key = "key-3";
+    const key = 'key-3';
     const wpid = makePendingWpid(key);
 
     registerInlineWpCallbacks(key, onSelect1, onCancel);

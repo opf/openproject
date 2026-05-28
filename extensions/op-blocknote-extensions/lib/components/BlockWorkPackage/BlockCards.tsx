@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import type { WorkPackage } from "../../openProjectTypes";
-import { linkToWorkPackage } from "../../services/openProjectApi";
+import styled from 'styled-components';
+import type { WorkPackage } from '../../openProjectTypes';
+import { linkToWorkPackage } from '../../services/openProjectApi';
 import {
   defaultWpVariables,
   WorkPackageId,
@@ -8,26 +8,26 @@ import {
   WorkPackageStatus,
   WorkPackageTitle,
   WorkPackageTitleLink,
-} from "../WorkPackage/atoms";
+} from '../WorkPackage/atoms';
 import {
   typeColor,
   statusColor,
   statusBorderColor,
   statusTextColor,
   statusBackgroundColor,
-} from "../../services/colors";
-import { formatWorkPackageId } from "../../utils/id";
+} from '../../services/colors';
+import { formatWorkPackageId } from '../../utils/id';
 
 const DESCRIPTION_MAX_CHARS = 300;
 
 export interface BlockCardSharedProps {
-  workPackage: WorkPackage;
-  inDropdown?: boolean;
-  linkTitle?: boolean;
-  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  workPackage:WorkPackage;
+  inDropdown?:boolean;
+  linkTitle?:boolean;
+  onClick?:(e:React.MouseEvent<HTMLDivElement>) => void;
 }
 
-function buildTitle(workPackage: WorkPackage, linkTitle: boolean) {
+function buildTitle(workPackage:WorkPackage, linkTitle:boolean) {
   const href = linkToWorkPackage(workPackage.displayId);
   if (!linkTitle) return workPackage.subject;
   return (
@@ -36,7 +36,7 @@ function buildTitle(workPackage: WorkPackage, linkTitle: boolean) {
       onClick={(e) => {
         e.preventDefault();
         e.stopPropagation();
-        window.open(href, "_blank", "noopener,noreferrer");
+        window.open(href, '_blank', 'noopener,noreferrer');
       }}
     >
       {workPackage.subject}
@@ -44,7 +44,7 @@ function buildTitle(workPackage: WorkPackage, linkTitle: boolean) {
   );
 }
 
-const CardBase = styled.div<{ $inDropdown: boolean }>`
+const CardBase = styled.div<{ $inDropdown:boolean }>`
   ${defaultWpVariables}
   padding: var(--spacer-m) var(--spacer-l);
   background-color: var(--highlight-wp-background);
@@ -59,7 +59,7 @@ const CardBase = styled.div<{ $inDropdown: boolean }>`
 `;
 
 const CardDetails = styled.div.attrs({
-  className: "op-bn-work-package--details",
+  className: 'op-bn-work-package--details',
 })`
   display: flex;
   flex-wrap: wrap;
@@ -97,14 +97,14 @@ export const BlockCardM = ({
   linkTitle = false,
   onClick,
   cardRef,
-}: BlockCardSharedProps & { cardRef?: React.Ref<HTMLDivElement> }) => (
+}:BlockCardSharedProps & { cardRef?:React.Ref<HTMLDivElement> }) => (
   <CardBase
     ref={cardRef}
     className="op-bn-work-package op-bn-work-package--m"
     $inDropdown={inDropdown}
     onClick={onClick}
     data-testid="block-card"
-    style={onClick ? { cursor: "pointer" } : undefined}
+    style={onClick ? { cursor: 'pointer' } : undefined}
   >
     <CardDetails>
       <WorkPackageType $color={typeColor(workPackage)}>
@@ -132,14 +132,14 @@ export const BlockCardL = ({
   linkTitle = false,
   onClick,
   cardRef,
-}: BlockCardSharedProps & { cardRef?: React.Ref<HTMLDivElement> }) => (
+}:BlockCardSharedProps & { cardRef?:React.Ref<HTMLDivElement> }) => (
   <CardBase
     ref={cardRef}
     className="op-bn-work-package op-bn-work-package--l"
     $inDropdown={inDropdown}
     onClick={onClick}
     data-testid="block-card"
-    style={onClick ? { cursor: "pointer" } : undefined}
+    style={onClick ? { cursor: 'pointer' } : undefined}
   >
     <CardDetailsSpaced>
       <WorkPackageType $color={typeColor(workPackage)}>
@@ -172,7 +172,7 @@ export const BlockCardXL = ({
   linkTitle = false,
   onClick,
   cardRef,
-}: BlockCardSharedProps & { cardRef?: React.Ref<HTMLDivElement> }) => {
+}:BlockCardSharedProps & { cardRef?:React.Ref<HTMLDivElement> }) => {
   const rawDescription = workPackage.description?.raw;
   const snippetText = rawDescription
     ? rawDescription.slice(0, DESCRIPTION_MAX_CHARS)
@@ -188,7 +188,7 @@ export const BlockCardXL = ({
       $inDropdown={inDropdown}
       onClick={onClick}
       data-testid="block-card"
-      style={onClick ? { cursor: "pointer" } : undefined}
+      style={onClick ? { cursor: 'pointer' } : undefined}
     >
       <CardDetailsSpaced>
         <WorkPackageType $color={typeColor(workPackage)}>
@@ -214,7 +214,7 @@ export const BlockCardXL = ({
       {snippetText && (
         <DescriptionSnippet>
           {snippetText}
-          {isTruncated && "…"}
+          {isTruncated && '…'}
         </DescriptionSnippet>
       )}
     </CardBase>

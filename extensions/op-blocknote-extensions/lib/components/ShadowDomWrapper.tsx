@@ -1,11 +1,11 @@
-import type { PropsWithChildren } from "react";
-import { StyleSheetManager } from "styled-components";
+import type { PropsWithChildren } from 'react';
+import { StyleSheetManager } from 'styled-components';
 
 interface ShadowDomWrapperProps {
-  target: ShadowRoot | HTMLElement;
+  target:ShadowRoot | HTMLElement;
 }
 
-export const ShadowDomWrapper = ({ children, target }: PropsWithChildren<ShadowDomWrapperProps>) => (
+export const ShadowDomWrapper = ({ children, target }:PropsWithChildren<ShadowDomWrapperProps>) => (
   <StyleSheetManager target={target}>
     {children}
   </StyleSheetManager>

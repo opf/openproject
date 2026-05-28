@@ -1,10 +1,10 @@
-import { createReactBlockSpec } from "@blocknote/react";
-import { BlockWorkPackageComponent } from "./BlockWorkPackage";
-import { blockConfig } from "./blockConfig";
+import { createReactBlockSpec } from '@blocknote/react';
+import { BlockWorkPackageComponent } from './BlockWorkPackage';
+import { blockConfig } from './blockConfig';
 import {
   computeWorkPackageBlockExternalData,
   parseWorkPackageBlockExternalHTML,
-} from "./externalHtml";
+} from './externalHtml';
 
 export { blockConfig };
 
@@ -14,6 +14,7 @@ export const openProjectWorkPackageBlockSpec = createReactBlockSpec(
     render: (props) => (
       <BlockWorkPackageComponent
         block={props.block}
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
         editor={props.editor as any}
       />
     ),

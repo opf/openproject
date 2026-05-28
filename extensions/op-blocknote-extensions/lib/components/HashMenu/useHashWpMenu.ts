@@ -1,19 +1,19 @@
-import { useCallback, useMemo, useRef } from "react";
-import { useWorkPackageSearch } from "../../hooks/useWorkPackageSearch";
-import { createHashWpMenuComponent } from "./HashWpMenu";
-import { isHashWpQuery } from "./types";
-import { getSizeFromCurrentBlock, insertWpChip } from "./editorUtils";
-import type { HashMenuItem } from "./types";
-import type { AnyEditor } from "./editorUtils";
-import type { WorkPackage } from "../../openProjectTypes";
-import { cacheColors } from "../../services/colors";
+import { useCallback, useMemo, useRef } from 'react';
+import { useWorkPackageSearch } from '../../hooks/useWorkPackageSearch';
+import { createHashWpMenuComponent } from './HashWpMenu';
+import { isHashWpQuery } from './types';
+import { getSizeFromCurrentBlock, insertWpChip } from './editorUtils';
+import type { HashMenuItem } from './types';
+import type { AnyEditor } from './editorUtils';
+import type { WorkPackage } from '../../openProjectTypes';
+import { cacheColors } from '../../services/colors';
 
-export function useHashWpMenu(editor: AnyEditor) {
+export function useHashWpMenu(editor:AnyEditor) {
   const { search } = useWorkPackageSearch();
   const searchResultsRef = useRef<WorkPackage[]>([]);
 
   const getHashItems = useCallback(
-    async (query: string): Promise<HashMenuItem[]> => {
+    async (query:string):Promise<HashMenuItem[]> => {
       if (!isHashWpQuery(query)) return [];
 
       await cacheColors();
@@ -32,10 +32,12 @@ export function useHashWpMenu(editor: AnyEditor) {
     [editor, search]
   );
 
+  /* eslint-disable react-hooks/refs */
   const HashWpMenu = useMemo(
     () => createHashWpMenuComponent(searchResultsRef),
     []
   );
+  /* eslint-enable react-hooks/refs */
 
   return { getHashItems, HashWpMenu };
 }

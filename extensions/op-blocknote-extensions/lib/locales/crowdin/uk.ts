@@ -10,23 +10,23 @@ export const en = {
         "link": "посилання"
       }
     },
-    "search": {
-      "label": "Додати наявні пакети робіт",
-      "placeholder": "Пошук за ID робочого пакета або темою",
-      "dropdownAriaLabel": "Результати пошуку робочого пакета"
+    'search': {
+      'label': 'Додати наявні пакети робіт',
+      'placeholder': 'Пошук за ID робочого пакета або темою',
+      'dropdownAriaLabel': 'Результати пошуку робочого пакета'
     },
-    "unavailableWorkPackage": {
-      "loading": {
-        "header": "Завантаження…",
-        "message": "Будь ласка, зачекайте"
+    'unavailableWorkPackage': {
+      'loading': {
+        'header': 'Завантаження…',
+        'message': 'Будь ласка, зачекайте'
       },
-      "unauthorized": {
-        "header": "Пов'язаний робочий пакет недоступний",
-        "message": "У вас немає прав щоб побачити це."
+      'unauthorized': {
+        'header': "Пов'язаний робочий пакет недоступний",
+        'message': 'У вас немає прав щоб побачити це.'
       },
-      "error": {
-        "header": "Помилка",
-        "message": "Не вдалося завантажити робочий пакет"
+      'error': {
+        'header': 'Помилка',
+        'message': 'Не вдалося завантажити робочий пакет'
       }
     },
     "options": {

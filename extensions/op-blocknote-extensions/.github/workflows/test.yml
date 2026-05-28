@@ -30,6 +30,10 @@ jobs:
         id: install-playwright
         run: npx playwright install --with-deps
 
+      - name: lint
+        id: npm-lint
+        run: npm run lint
+
       - name: run tests
         id: npm-test
         run: CI=1 npm test

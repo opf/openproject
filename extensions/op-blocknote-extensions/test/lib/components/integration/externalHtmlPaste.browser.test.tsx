@@ -12,7 +12,7 @@ import {
 
 // Simulate a paste from an external source (e.g. Hocuspocus markdown export or
 // another editor) by dispatching a ClipboardEvent carrying the serialised HTML.
-function pasteHtml(html: string, plain: string) {
+function pasteHtml(html:string, plain:string) {
   const el = document.querySelector('[contenteditable]');
   if (!(el instanceof HTMLElement)) {
     throw new Error('Could not find a [contenteditable] element to dispatch paste on');

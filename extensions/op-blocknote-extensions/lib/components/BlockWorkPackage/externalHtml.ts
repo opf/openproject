@@ -10,41 +10,41 @@
 // The React spec applies the same data via JSX so the produced HTML matches
 // byte-for-byte.
 
-import { buildExternalDOM, hashPrefixForSize } from "../WorkPackage/externalHtml";
-import { linkToWorkPackage } from "../../services/openProjectApi";
+import { buildExternalDOM, hashPrefixForSize } from '../WorkPackage/externalHtml';
+import { linkToWorkPackage } from '../../services/openProjectApi';
 
 export interface WorkPackageBlockProps {
-  wpid?: number | string;
-  instanceId?: string;
-  size?: string;
-  displayId?: string;
+  wpid?:number | string;
+  instanceId?:string;
+  size?:string;
+  displayId?:string;
 }
 
 export interface WorkPackageBlockExternalData {
-  attrs: {
-    "data-block-content-type": "openProjectWorkPackageBlock";
-    "data-wpid": string;
-    "data-instance-id": string;
-    "data-size": string;
-    "data-display-id": string;
+  attrs:{
+    'data-block-content-type':'openProjectWorkPackageBlock';
+    'data-wpid':string;
+    'data-instance-id':string;
+    'data-size':string;
+    'data-display-id':string;
   };
-  text: string;
-  href: string;
+  text:string;
+  href:string;
 }
 
 export function computeWorkPackageBlockExternalData(
-  props: WorkPackageBlockProps,
-): WorkPackageBlockExternalData | null {
+  props:WorkPackageBlockProps,
+):WorkPackageBlockExternalData | null {
   const wpid = props.wpid;
   if (!wpid) return null;
-  const displayId = props.displayId || String(wpid);
+  const displayId = props.displayId ?? String(wpid);
   return {
     attrs: {
-      "data-block-content-type": "openProjectWorkPackageBlock",
-      "data-wpid": String(wpid),
-      "data-instance-id": props.instanceId ?? "",
-      "data-size": props.size ?? "m",
-      "data-display-id": displayId,
+      'data-block-content-type': 'openProjectWorkPackageBlock',
+      'data-wpid': String(wpid),
+      'data-instance-id': props.instanceId ?? '',
+      'data-size': props.size ?? 'm',
+      'data-display-id': displayId,
     },
     text: hashPrefixForSize(props.size) + displayId,
     href: linkToWorkPackage(String(wpid)),
@@ -52,22 +52,22 @@ export function computeWorkPackageBlockExternalData(
 }
 
 export function buildWorkPackageBlockExternalDOM(
-  data: WorkPackageBlockExternalData,
-  doc: Document,
-): HTMLElement {
-  return buildExternalDOM("div", data.attrs, data.text, doc, data.href);
+  data:WorkPackageBlockExternalData,
+  doc:Document,
+):HTMLElement {
+  return buildExternalDOM('div', data.attrs, data.text, doc, data.href);
 }
 
 export function parseWorkPackageBlockExternalHTML(
-  element: HTMLElement,
-): WorkPackageBlockProps | undefined {
-  if (element.getAttribute("data-block-content-type") !== "openProjectWorkPackageBlock") {
+  element:HTMLElement,
+):WorkPackageBlockProps | undefined {
+  if (element.getAttribute('data-block-content-type') !== 'openProjectWorkPackageBlock') {
     return undefined;
   }
-  const wpid = element.getAttribute("data-wpid");
-  const instanceId = element.getAttribute("data-instance-id") ?? "";
-  const size = element.getAttribute("data-size") ?? "m";
-  const displayId = element.getAttribute("data-display-id") ?? "";
+  const wpid = element.getAttribute('data-wpid');
+  const instanceId = element.getAttribute('data-instance-id') ?? '';
+  const size = element.getAttribute('data-size') ?? 'm';
+  const displayId = element.getAttribute('data-display-id') ?? '';
   return {
     wpid: wpid ? Number(wpid) : undefined,
     instanceId,

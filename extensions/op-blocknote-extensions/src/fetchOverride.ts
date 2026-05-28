@@ -8,7 +8,7 @@ window.fetch = (url, options = {}) => {
   return originalFetch(url, {
     ...options,
     headers: {
-      "Authorization": `Basic ${apiKey}`,
+      'Authorization': `Basic ${apiKey}`,
     },
   });
 };

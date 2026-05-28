@@ -1,12 +1,12 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render } from 'vitest-browser-react';
 import { page, userEvent } from 'vitest/browser';
-import { SearchDropdown } from '../../../../lib/components/Search/SearchDropdown'
+import { SearchDropdown } from '../../../../lib/components/Search/SearchDropdown';
 import { BlockCard } from '../../../../lib/components/BlockWorkPackage/BlockCard';
 import { mockWorkPackage } from '../../../mocks/handlers';
 import type { WorkPackage } from '../../../../lib/openProjectTypes';
 
-const renderItem = (wp: WorkPackage) => <BlockCard workPackage={wp} inDropdown />;
+const renderItem = (wp:WorkPackage) => <BlockCard workPackage={wp} inDropdown />;
 
 describe('SearchDropdown', () => {
   it('shows results after typing', async () => {
@@ -33,8 +33,7 @@ describe('SearchDropdown', () => {
 
     await userEvent.click(page.getByText('Fix login bug'));
 
-    expect(onSelect).toHaveBeenCalledOnce();
-    expect(onSelect).toHaveBeenCalledWith(expect.objectContaining({ id: mockWorkPackage.id }));
+    expect(onSelect).toHaveBeenCalledExactlyOnceWith(expect.objectContaining({ id: mockWorkPackage.id }));
   });
 
   it('calls onCancel when pressing Escape', async () => {
@@ -61,8 +60,7 @@ describe('SearchDropdown', () => {
 
     await userEvent.keyboard('{ArrowDown}{Enter}');
 
-    expect(onSelect).toHaveBeenCalledOnce();
-    expect(onSelect).toHaveBeenCalledWith(
+    expect(onSelect).toHaveBeenCalledExactlyOnceWith(
         expect.objectContaining({ id: mockWorkPackage.id })
     );
     });

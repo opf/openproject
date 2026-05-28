@@ -1,7 +1,7 @@
-import { Plugin, PluginKey } from "prosemirror-state";
-import { Fragment, Slice } from "prosemirror-model";
-import type { Node } from "prosemirror-model";
-import { makeInstanceId } from "../utils/id";
+import { Plugin, PluginKey } from 'prosemirror-state';
+import { Fragment, Slice } from 'prosemirror-model';
+import type { Node } from 'prosemirror-model';
+import { makeInstanceId } from '../utils/id';
 
 /**
  * Regenerates instanceId for every inline WP chip in pasted content.
@@ -11,7 +11,7 @@ import { makeInstanceId } from "../utils/id";
  * to always affect the first chip instead of the intended one.
  */
 export const pasteDeduplicatePluginKey = new PluginKey(
-  "pasteDeduplicateInstanceIds"
+  'pasteDeduplicateInstanceIds'
 );
 
 export const pasteDeduplicatePlugin = new Plugin({
@@ -28,12 +28,12 @@ export const pasteDeduplicatePlugin = new Plugin({
   },
 });
 
-function transformFragment(fragment: Fragment): Fragment {
-  const nodes: Node[] = [];
+function transformFragment(fragment:Fragment):Fragment {
+  const nodes:Node[] = [];
 
   fragment.forEach((node) => {
     if (
-      node.type.name === "openProjectWorkPackageInline" &&
+      node.type.name === 'openProjectWorkPackageInline' &&
       node.attrs.instanceId
     ) {
       nodes.push(

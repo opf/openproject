@@ -1,11 +1,11 @@
-import type { FC, RefObject } from "react";
-import type { SuggestionMenuProps } from "@blocknote/react";
-import styled from "styled-components";
-import { BlockCard } from "../BlockWorkPackage/BlockCard";
-import { defaultWpVariables } from "../WorkPackage/atoms";
-import type { WorkPackage } from "../../openProjectTypes";
-import type { HashMenuItem } from "./types";
-import { useTranslation } from "react-i18next";
+import type { FC, RefObject } from 'react';
+import type { SuggestionMenuProps } from '@blocknote/react';
+import styled from 'styled-components';
+import { BlockCard } from '../BlockWorkPackage/BlockCard';
+import { defaultWpVariables } from '../WorkPackage/atoms';
+import type { WorkPackage } from '../../openProjectTypes';
+import type { HashMenuItem } from './types';
+import { useTranslation } from 'react-i18next';
 
 /*
  * BlockNote's GenericPopover wrapper (data-floating-ui-focusable) is the
@@ -21,7 +21,7 @@ import { useTranslation } from "react-i18next";
  * a flex item won't actually clip / scroll unless its min-height is
  * explicitly zero. (Harmless on non-flex layouts.)
  */
-const Menu = styled.div.attrs({ className: "op-bn-hash-menu" })`
+const Menu = styled.div.attrs({ className: 'op-bn-hash-menu' })`
   ${defaultWpVariables}
   background-color: var(--bn-colors-menu-background, #fff);
   box-shadow: var(--bn-shadow-medium);
@@ -33,10 +33,10 @@ const Menu = styled.div.attrs({ className: "op-bn-hash-menu" })`
   min-height: 0;
 `;
 
-const MenuItem = styled.div<{ $selected: boolean }>`
+const MenuItem = styled.div<{ $selected:boolean }>`
   border-radius: var(--bn-border-radius-small);
   background: ${({ $selected }) =>
-    $selected ? "var(--op-item-hover-bg)" : "transparent"};
+    $selected ? 'var(--op-item-hover-bg)' : 'transparent'};
   cursor: pointer;
   padding: 0 var(--spacer-s);
 
@@ -54,21 +54,21 @@ const EmptyState = styled.div`
 const MAX_RESULTS = 5;
 
 export function createHashWpMenuComponent(
-  resultsRef: RefObject<WorkPackage[]>,
-): FC<SuggestionMenuProps<HashMenuItem>> {
-  const HashWpMenuComponent: FC<SuggestionMenuProps<HashMenuItem>> = ({
+  resultsRef:RefObject<WorkPackage[]>,
+):FC<SuggestionMenuProps<HashMenuItem>> {
+  const HashWpMenuComponent:FC<SuggestionMenuProps<HashMenuItem>> = ({
     items,
     selectedIndex,
     onItemClick,
   }) => {
     const { t } = useTranslation();
-    const searchQuery = items[0]?.title ?? "";
+    const searchQuery = items[0]?.title ?? '';
     const visibleResults = (resultsRef.current ?? []).slice(0, MAX_RESULTS);
 
     if (!searchQuery) {
       return (
         <Menu>
-          <EmptyState>{t("hashMenu.typeToSearch")}</EmptyState>
+          <EmptyState>{t('hashMenu.typeToSearch')}</EmptyState>
         </Menu>
       );
     }
@@ -76,7 +76,7 @@ export function createHashWpMenuComponent(
     if (visibleResults.length === 0) {
       return (
         <Menu>
-          <EmptyState>{t("hashMenu.noResults", { query: searchQuery })}</EmptyState>
+          <EmptyState>{t('hashMenu.noResults', { query: searchQuery })}</EmptyState>
         </Menu>
       );
     }
@@ -101,6 +101,6 @@ export function createHashWpMenuComponent(
     );
   };
 
-  HashWpMenuComponent.displayName = "HashWpMenu";
+  HashWpMenuComponent.displayName = 'HashWpMenu';
   return HashWpMenuComponent;
 }

@@ -1,17 +1,17 @@
-import { useState, useEffect, useCallback, useRef } from "react";
-import type { WorkPackage } from "../openProjectTypes";
-import { searchWorkPackages } from "../services/openProjectApi";
+import { useState, useEffect, useCallback, useRef } from 'react';
+import type { WorkPackage } from '../openProjectTypes';
+import { searchWorkPackages } from '../services/openProjectApi';
 
 interface UseWorkPackageSearchOptions {
-  debounce?: number;
+  debounce?:number;
 }
 
 export function useWorkPackageSearch(
-  options: UseWorkPackageSearchOptions = {}
+  options:UseWorkPackageSearchOptions = {}
 ) {
   const { debounce = 300 } = options;
 
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<WorkPackage[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -24,6 +24,7 @@ export function useWorkPackageSearch(
     let active = true;
 
     if (!searchQuery) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setSearchResults([]);
       setLoading(false);
       setError(null);
@@ -39,10 +40,10 @@ export function useWorkPackageSearch(
             setSearchResults(results);
           }
         })
-        .catch((error) => {
+        .catch((error:unknown) => {
           if (active) {
-            setError(error.message || "Unknown error");
-            console.error("[work package search] Failed to load work packages from OpenProject:", error);
+            setError(error instanceof Error ? error.message : 'Unknown error');
+            console.error('[work package search] Failed to load work packages from OpenProject:', error);
             setSearchResults([]);
           }
         })
@@ -61,7 +62,7 @@ export function useWorkPackageSearch(
 
   // Imperative search (used by BlockNote getItems — must return results immediately)
   const search = useCallback(
-    (query: string): Promise<WorkPackage[]> => {
+    (query:string):Promise<WorkPackage[]> => {
       if (!query.trim()) {
         setSearchResults([]);
         return Promise.resolve([]);
@@ -72,6 +73,7 @@ export function useWorkPackageSearch(
       }
 
       return new Promise<WorkPackage[]>((resolve) => {
+        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         debounceTimerRef.current = setTimeout(async () => {
           debounceTimerRef.current = null;
           try {

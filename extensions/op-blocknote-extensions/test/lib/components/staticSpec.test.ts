@@ -1,17 +1,17 @@
 // @vitest-environment jsdom
-import { describe, it, expect, beforeAll } from "vitest";
-import { initOpenProjectApi } from "../../../lib/services/openProjectApi";
-import { openProjectWorkPackageStaticBlockSpec } from "../../../lib/components/BlockWorkPackage/staticSpec";
-import { openProjectWorkPackageStaticInlineSpec } from "../../../lib/components/InlineWorkPackage/staticSpec";
+import { describe, it, expect, beforeAll } from 'vitest';
+import { initOpenProjectApi } from '../../../lib/services/openProjectApi';
+import { openProjectWorkPackageStaticBlockSpec } from '../../../lib/components/BlockWorkPackage/staticSpec';
+import { openProjectWorkPackageStaticInlineSpec } from '../../../lib/components/InlineWorkPackage/staticSpec';
 import {
   computeWorkPackageBlockExternalData,
   buildWorkPackageBlockExternalDOM,
-} from "../../../lib/components/BlockWorkPackage/externalHtml";
+} from '../../../lib/components/BlockWorkPackage/externalHtml';
 import {
   computeWorkPackageInlineExternalData,
   buildWorkPackageInlineExternalDOM,
-} from "../../../lib/components/InlineWorkPackage/externalHtml";
-import {openProjectWorkPackageBlockSpec, openProjectWorkPackageInlineSpec} from "../../../lib";
+} from '../../../lib/components/InlineWorkPackage/externalHtml';
+import {openProjectWorkPackageBlockSpec, openProjectWorkPackageInlineSpec} from '../../../lib';
 
 // The static spec wraps the same externalHtml functions in a BlockNote-compatible
 // spec object (no React dependency). These tests verify that the spec's
@@ -19,7 +19,7 @@ import {openProjectWorkPackageBlockSpec, openProjectWorkPackageInlineSpec} from 
 // Hocuspocus (server-side) and the React spec always produce identical HTML.
 
 beforeAll(() => {
-  initOpenProjectApi({ baseUrl: "http://localhost:3000" });
+  initOpenProjectApi({ baseUrl: 'http://localhost:3000' });
 });
 
 // createBlockSpec returns a creator function; call it to get the spec.
@@ -29,86 +29,86 @@ const reactBlockImpl = (openProjectWorkPackageBlockSpec as any)().implementation
 const inlineImpl = (openProjectWorkPackageStaticInlineSpec as any).implementation;
 const reactInlineImpl = (openProjectWorkPackageInlineSpec as any).implementation;
 
-describe("static block spec — toExternalHTML", () => {
-  it("produces a DOM node whose innerHTML matches buildWorkPackageBlockExternalDOM", () => {
-    const props = { wpid: 42, instanceId: "inst1", size: "l", displayId: "PROJ-42" };
-    const specResult = blockImpl.toExternalHTML({ props }) as { dom: HTMLElement } | undefined;
+describe('static block spec — toExternalHTML', () => {
+  it('produces a DOM node whose innerHTML matches buildWorkPackageBlockExternalDOM', () => {
+    const props = { wpid: 42, instanceId: 'inst1', size: 'l', displayId: 'PROJ-42' };
+    const specResult = blockImpl.toExternalHTML({ props }) as { dom:HTMLElement } | undefined;
     const expected = buildWorkPackageBlockExternalDOM(computeWorkPackageBlockExternalData(props)!, document);
     // BlockNote wraps the returned dom in an outer block-content div;
     // the inner content is what our implementation produces.
     expect(specResult?.dom.innerHTML).toBe(expected.outerHTML);
   });
 
-  it("returns undefined when wpid is absent", () => {
+  it('returns undefined when wpid is absent', () => {
     expect(blockImpl.toExternalHTML({ props: {} })).toBeUndefined();
   });
 });
 
-describe("static block spec — parse", () => {
+describe('static block spec — parse', () => {
   const makeBlockElement = () => {
-    const element = document.createElement("div");
-    element.setAttribute("data-block-content-type", "openProjectWorkPackageBlock");
-    element.setAttribute("data-wpid", "42");
-    element.setAttribute("data-instance-id", "inst1");
-    element.setAttribute("data-size", "l");
-    element.setAttribute("data-display-id", "PROJ-42");
+    const element = document.createElement('div');
+    element.setAttribute('data-block-content-type', 'openProjectWorkPackageBlock');
+    element.setAttribute('data-wpid', '42');
+    element.setAttribute('data-instance-id', 'inst1');
+    element.setAttribute('data-size', 'l');
+    element.setAttribute('data-display-id', 'PROJ-42');
     return element;
   };
 
-  it("parses the HTML element", () => {
+  it('parses the HTML element', () => {
     const element = makeBlockElement();
-    expect(blockImpl.parse(element)).toEqual({ wpid: 42, instanceId: "inst1", size: "l", "displayId": "PROJ-42" });
+    expect(blockImpl.parse(element)).toEqual({ wpid: 42, instanceId: 'inst1', size: 'l', 'displayId': 'PROJ-42' });
   });
 
-  it("parses the HTML element in the same way as the react block spec", () => {
+  it('parses the HTML element in the same way as the react block spec', () => {
     const element = makeBlockElement();
     expect(blockImpl.parse(element)).toEqual(reactBlockImpl.parse(element));
   });
 
-  it("returns undefined for an unrelated element", () => {
-    expect(blockImpl.parse(document.createElement("div"))).toBeUndefined();
+  it('returns undefined for an unrelated element', () => {
+    expect(blockImpl.parse(document.createElement('div'))).toBeUndefined();
   });
 });
 
-describe("static inline spec — toExternalHTML", () => {
-  it("produces a DOM node matching buildWorkPackageInlineExternalDOM", () => {
-    const props = { wpid: "57", instanceId: "inst1", size: "xs", displayId: "PROJ-57" };
-    const specResult = inlineImpl.toExternalHTML({ props }) as { dom: HTMLElement } | undefined;
+describe('static inline spec — toExternalHTML', () => {
+  it('produces a DOM node matching buildWorkPackageInlineExternalDOM', () => {
+    const props = { wpid: '57', instanceId: 'inst1', size: 'xs', displayId: 'PROJ-57' };
+    const specResult = inlineImpl.toExternalHTML({ props }) as { dom:HTMLElement } | undefined;
     const expected = buildWorkPackageInlineExternalDOM(computeWorkPackageInlineExternalData(props)!, document);
     expect(specResult?.dom.outerHTML).toBe(expected.outerHTML);
   });
 
-  it("returns undefined for a pending wpid", () => {
-    expect(inlineImpl.toExternalHTML({ props: { wpid: "pending:abc" } })).toBeUndefined();
+  it('returns undefined for a pending wpid', () => {
+    expect(inlineImpl.toExternalHTML({ props: { wpid: 'pending:abc' } })).toBeUndefined();
   });
 
-  it("returns undefined when wpid is absent", () => {
+  it('returns undefined when wpid is absent', () => {
     expect(inlineImpl.toExternalHTML({ props: {} })).toBeUndefined();
   });
 });
 
-describe("static inline spec — parse", () => {
+describe('static inline spec — parse', () => {
   const makeInlineElement = () => {
-    const element = document.createElement("span");
-    element.setAttribute("data-inline-content-type", "openProjectWorkPackageInline");
-    element.setAttribute("data-wpid", "57");
-    element.setAttribute("data-instance-id", "inst1");
-    element.setAttribute("data-size", "xs");
-    element.setAttribute("data-display-id", "PROJ-57");
+    const element = document.createElement('span');
+    element.setAttribute('data-inline-content-type', 'openProjectWorkPackageInline');
+    element.setAttribute('data-wpid', '57');
+    element.setAttribute('data-instance-id', 'inst1');
+    element.setAttribute('data-size', 'xs');
+    element.setAttribute('data-display-id', 'PROJ-57');
     return element;
   };
 
-  it("parses the HTML element", () => {
+  it('parses the HTML element', () => {
     const element = makeInlineElement();
-    expect(inlineImpl.parse(element)).toEqual({ wpid: "57", instanceId: "inst1", size: "xs", "displayId": "PROJ-57" });
+    expect(inlineImpl.parse(element)).toEqual({ wpid: '57', instanceId: 'inst1', size: 'xs', 'displayId': 'PROJ-57' });
   });
 
-  it("parses the HTML element in the same way as the react inline spec", () => {
+  it('parses the HTML element in the same way as the react inline spec', () => {
     const element = makeInlineElement();
     expect(inlineImpl.parse(element)).toEqual(reactInlineImpl.parse(element));
   });
 
-  it("returns undefined for an unrelated element", () => {
-    expect(inlineImpl.parse(document.createElement("span"))).toBeUndefined();
+  it('returns undefined for an unrelated element', () => {
+    expect(inlineImpl.parse(document.createElement('span'))).toBeUndefined();
   });
 });

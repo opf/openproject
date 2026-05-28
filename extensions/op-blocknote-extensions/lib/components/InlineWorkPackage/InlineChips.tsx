@@ -1,42 +1,42 @@
-import React from "react";
-import type { WorkPackage } from "../../openProjectTypes";
-import { linkToWorkPackage } from "../../services/openProjectApi";
+import React from 'react';
+import type { WorkPackage } from '../../openProjectTypes';
+import { linkToWorkPackage } from '../../services/openProjectApi';
 import {
   typeColor,
   statusColor,
   statusBorderColor,
   statusTextColor,
   statusBackgroundColor,
-} from "../../services/colors";
-import { ChipBaseXXS, ChipBaseXS, ChipBaseS } from "./chipLayouts";
+} from '../../services/colors';
+import { ChipBaseXXS, ChipBaseXS, ChipBaseS } from './chipLayouts';
 import {
   WorkPackageId,
   WorkPackageType,
   WorkPackageStatus,
   WorkPackageTitleLink,
-} from "../WorkPackage/atoms";
-import { formatWorkPackageId } from "../../utils/id";
+} from '../WorkPackage/atoms';
+import { formatWorkPackageId } from '../../utils/id';
 
-const resolvedDisplayId = (wp: WorkPackage) => wp.displayId ?? String(wp.id);
+const resolvedDisplayId = (wp:WorkPackage) => wp.displayId ?? String(wp.id);
 
-const titleLinkProps = (wp: WorkPackage) => ({
-  as: "a" as const,
+const titleLinkProps = (wp:WorkPackage) => ({
+  as: 'a' as const,
   href: linkToWorkPackage(resolvedDisplayId(wp)),
-  target: "_blank" as const,
-  rel: "noopener noreferrer",
+  target: '_blank' as const,
+  rel: 'noopener noreferrer',
   $compact: true,
-  onClick: (e: React.MouseEvent) => e.stopPropagation(),
+  onClick: (e:React.MouseEvent) => e.stopPropagation(),
 });
 
 // XXS — "#ID"  (padding 2px 8px)
-export const WpChipXXS = ({ wp }: { wp: WorkPackage }) => (
+export const WpChipXXS = ({ wp }:{ wp:WorkPackage }) => (
   <ChipBaseXXS>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
   </ChipBaseXXS>
 );
 
 // XS — "#ID  TYPE  [Title]"  (padding 8px)
-export const WpChipXS = ({ wp }: { wp: WorkPackage }) => (
+export const WpChipXS = ({ wp }:{ wp:WorkPackage }) => (
   <ChipBaseXS>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
     {wp._links?.type?.title && (
@@ -51,7 +51,7 @@ export const WpChipXS = ({ wp }: { wp: WorkPackage }) => (
 );
 
 // S — "#ID  TYPE  [Status]  [Title]"  (padding 8px)
-export const WpChipS = ({ wp }: { wp: WorkPackage }) => (
+export const WpChipS = ({ wp }:{ wp:WorkPackage }) => (
   <ChipBaseS>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
     {wp._links?.type?.title && (

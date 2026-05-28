@@ -9,26 +9,26 @@
 // React variant uses, so client copy-to-clipboard and server save-as-markdown
 // produce byte-identical HTML (and therefore byte-identical markdown).
 
-export { blockConfig } from "./components/BlockWorkPackage/blockConfig";
-export { openProjectWorkPackageStaticBlockSpec } from "./components/BlockWorkPackage/staticSpec";
+export { blockConfig } from './components/BlockWorkPackage/blockConfig';
+export { openProjectWorkPackageStaticBlockSpec } from './components/BlockWorkPackage/staticSpec';
 export {
   buildWorkPackageBlockExternalDOM,
   computeWorkPackageBlockExternalData,
   parseWorkPackageBlockExternalHTML,
-} from "./components/BlockWorkPackage/externalHtml";
+} from './components/BlockWorkPackage/externalHtml';
 export type {
   WorkPackageBlockExternalData,
   WorkPackageBlockProps,
-} from "./components/BlockWorkPackage/externalHtml";
+} from './components/BlockWorkPackage/externalHtml';
 
-export { inlineConfig } from "./components/InlineWorkPackage/inlineConfig";
-export { openProjectWorkPackageStaticInlineSpec } from "./components/InlineWorkPackage/staticSpec";
+export { inlineConfig } from './components/InlineWorkPackage/inlineConfig';
+export { openProjectWorkPackageStaticInlineSpec } from './components/InlineWorkPackage/staticSpec';
 export {
   buildWorkPackageInlineExternalDOM,
   computeWorkPackageInlineExternalData,
   parseWorkPackageInlineExternalHTML,
-} from "./components/InlineWorkPackage/externalHtml";
+} from './components/InlineWorkPackage/externalHtml';
 export type {
   WorkPackageInlineExternalData,
   WorkPackageInlineProps,
-} from "./components/InlineWorkPackage/externalHtml";
+} from './components/InlineWorkPackage/externalHtml';

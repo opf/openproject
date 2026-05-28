@@ -1,10 +1,10 @@
-import { createReactInlineContentSpec } from "@blocknote/react";
-import { InlineWorkPackageChip } from "./InlineWorkPackageChip";
-import { inlineConfig } from "./inlineConfig";
+import { createReactInlineContentSpec } from '@blocknote/react';
+import { InlineWorkPackageChip } from './InlineWorkPackageChip';
+import { inlineConfig } from './inlineConfig';
 import {
   computeWorkPackageInlineExternalData,
   parseWorkPackageInlineExternalHTML,
-} from "./externalHtml";
+} from './externalHtml';
 
 export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
   inlineConfig,
@@ -27,7 +27,7 @@ export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
     },
 
     parse: (element) => parseWorkPackageInlineExternalHTML(element),
-    
+
     meta: {
       draggable: true,
     },
