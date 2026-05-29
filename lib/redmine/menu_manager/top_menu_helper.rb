@@ -64,8 +64,8 @@ module Redmine::MenuManager::TopMenuHelper
     content_tag :div, class: "op-logo" do
       link_to(I18n.t("label_home"),
               configurable_home_url,
-              data: { auto_theme_switcher_target: "desktopLogo" },
-              class: ["op-logo--link", mode_class].compact)
+              data: { auto_theme_switcher_target: "desktopLogo", controller: "mngt--logo-skeleton" },
+              class: ["op-logo--link", "op-logo--loading", mode_class].compact)
     end
   end
 

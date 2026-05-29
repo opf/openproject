@@ -9,6 +9,7 @@ import MngtThemeToggleController from './controllers/dynamic/mngt/theme-toggle.c
 import MngtPwaInstallController from './controllers/dynamic/mngt/pwa-install.controller';
 import MngtNotifPromptController from './controllers/dynamic/mngt/notif-prompt.controller';
 import MngtSidebarController from './controllers/dynamic/mngt/sidebar.controller';
+import MngtLogoSkeletonController from './controllers/dynamic/mngt/logo-skeleton.controller';
 import OpDisableWhenCheckedController from './controllers/disable-when-checked.controller';
 import PrintController from './controllers/print.controller';
 import RefreshOnFormChangesController from './controllers/refresh-on-form-changes.controller';
@@ -73,6 +74,7 @@ OpenProjectStimulusApplication.preregister('mngt--theme-toggle', MngtThemeToggle
 OpenProjectStimulusApplication.preregister('mngt--pwa-install', MngtPwaInstallController);
 OpenProjectStimulusApplication.preregister('mngt--notif-prompt', MngtNotifPromptController);
 OpenProjectStimulusApplication.preregister('mngt--sidebar', MngtSidebarController);
+OpenProjectStimulusApplication.preregister('mngt--logo-skeleton', MngtLogoSkeletonController);
 OpenProjectStimulusApplication.preregister('require-password-confirmation', RequirePasswordConfirmationController);
 OpenProjectStimulusApplication.preregister('poll-for-changes', PollForChangesController);
 OpenProjectStimulusApplication.preregister('print', PrintController);

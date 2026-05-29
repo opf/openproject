@@ -2809,8 +2809,10 @@ opce-global-search:not(:defined)
 
 // ── Header: logo skeleton ─────────────────────────────────────────
 
-// Especificidade maior que .op-logo--link de logo.sass (que é importado depois via
-// common e reseta background-color via shorthand). O background-color aparece
-// enquanto a imagem carrega e fica coberto por ela depois.
-.op-app-header .op-logo--link
+// Skeleton do logo: ativo enquanto a imagem não carregou (.op-logo--loading removida
+// pelo logo-skeleton.controller.ts ao detectar o load do background-image).
+// Especificidade (0,3,0) garante prioridade sobre logo.sass importado depois via common.
+.op-app-header .op-logo--link.op-logo--loading
   background-color: rgba(255, 255, 255, 0.1)
+  border-radius: 4px
+  animation: mngt-skeleton-wave 1.5s ease-in-out infinite
