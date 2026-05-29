@@ -9,17 +9,24 @@
   display: flex
   flex-direction: column
   flex: 1
-  overflow-y: auto
+  overflow: hidden
   overflow-x: hidden
   padding: 4px 0 16px
 
 .mngt-sidebar-section
+  flex-shrink: 0
   padding: 6px 0
   border-bottom: 1px solid var(--main-menu-border-color, rgba(255,255,255,0.08))
 
   &:last-child,
   &--grow
     border-bottom: none
+
+  &--grow
+    flex: 1
+    min-height: 0
+    overflow-y: auto
+    scrollbar-gutter: stable
 
 .mngt-sidebar-section-label
   display: flex
@@ -205,6 +212,21 @@
   &:hover
     background: rgba(255,255,255,0.12)
     color: #fff
+
+  &:disabled
+    opacity: 0.25
+    cursor: default
+    pointer-events: none
+
+.mngt-sidebar-space-group
+  display: flex
+  align-items: center
+  gap: 4px
+
+.mngt-sidebar-space-actions
+  display: flex
+  gap: 2px
+  flex-shrink: 0
 
 .mngt-sidebar-new-dm
   display: flex
@@ -851,6 +873,34 @@
   color: rgba(255,255,255,0.35)
   padding: 10px 14px 4px
   user-select: none
+
+  &--collapsible
+    cursor: pointer
+    justify-content: flex-start
+    gap: 4px
+    list-style: none
+    &::-webkit-details-marker
+      display: none
+    &::marker
+      content: none
+    .mngt-sidebar-add
+      margin-left: auto
+    .mngt-sidebar-chevron
+      opacity: 0.5
+      transition: transform 0.18s ease
+
+  details[open] > &--collapsible
+    .mngt-sidebar-chevron
+      transform: rotate(90deg)
+
+.mngt-chat-list-section--collapsible
+  > summary
+    list-style: none
+    cursor: pointer
+    &::-webkit-details-marker
+      display: none
+    &::marker
+      content: none
 
 .mngt-chat-list-item
   display: flex

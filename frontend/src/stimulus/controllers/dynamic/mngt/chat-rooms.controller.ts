@@ -20,7 +20,7 @@ interface StreamUser {
 type AnyChannel = Channel;
 
 export default class MngtChatRoomsController extends Controller<HTMLElement> {
-  static targets = ['channelsList', 'dmsList', 'channelsSection'];
+  static targets = ['channelsList', 'dmsList', 'channelsSection', 'channelsBadge', 'dmsSection', 'dmsBadge'];
   static values  = {
     tokenUrl:      String,
     usersUrl:      String,
@@ -37,6 +37,9 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   declare channelsListTarget:    HTMLElement;
   declare dmsListTarget:         HTMLElement;
   declare channelsSectionTarget: HTMLDetailsElement;
+  declare channelsBadgeTarget:   HTMLElement;
+  declare dmsSectionTarget:      HTMLDetailsElement;
+  declare dmsBadgeTarget:        HTMLElement;
 
   declare tokenUrlValue:      string;
   declare usersUrlValue:      string;
@@ -116,6 +119,8 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     document.addEventListener('click', this.unlockAudio, { once: true });
     this.restoreChannelsSectionState();
     this.channelsSectionTarget.addEventListener('toggle', this.onChannelsSectionToggle);
+    this.restoreDmsSectionState();
+    this.dmsSectionTarget.addEventListener('toggle', this.onDmsSectionToggle);
   }
 
   disconnect(): void {
@@ -127,6 +132,7 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     document.removeEventListener('mngt:open-new-channel', this.onOpenNewChannel);
     document.removeEventListener('mngt:push-subscribe',   this.onRequestPushSubscription);
     this.channelsSectionTarget.removeEventListener('toggle', this.onChannelsSectionToggle);
+    this.dmsSectionTarget.removeEventListener('toggle', this.onDmsSectionToggle);
     this.closeDmModal();
   }
 
@@ -194,10 +200,20 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     localStorage.setItem('mngt-channels-open', String(this.channelsSectionTarget.open));
   };
 
+  private readonly onDmsSectionToggle = (): void => {
+    localStorage.setItem('mngt-dms-open', String(this.dmsSectionTarget.open));
+  };
+
   private restoreChannelsSectionState(): void {
     const saved = localStorage.getItem('mngt-channels-open');
     // Default closed; only open if user explicitly opened it before.
     if (saved === 'true') this.channelsSectionTarget.setAttribute('open', '');
+  }
+
+  private restoreDmsSectionState(): void {
+    const saved = localStorage.getItem('mngt-dms-open');
+    // Default closed; only open if user explicitly opened it before.
+    if (saved === 'true') this.dmsSectionTarget.setAttribute('open', '');
   }
 
   private async waitAndLoad(): Promise<void> {
@@ -323,7 +339,14 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
       '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>';
   }
 
+  private updateChannelsBadge(channels: AnyChannel[]): void {
+    const total = channels.reduce((s, ch) => s + ch.countUnread(), 0);
+    this.channelsBadgeTarget.hidden = total === 0;
+    this.channelsBadgeTarget.textContent = total > 99 ? '99+' : String(total);
+  }
+
   private renderTeamChannels(channels: AnyChannel[]): void {
+    this.updateChannelsBadge(channels);
     if (channels.length === 0) { this.renderChannelsEmpty(); return; }
 
     const channelBtn = (ch: AnyChannel): string => {
@@ -476,6 +499,7 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   }
 
   private renderDms(channels: AnyChannel[]): void {
+    this.updateDmsBadge(channels);
     if (channels.length === 0) { this.renderDmsEmpty(); return; }
 
     this.dmsListTarget.innerHTML = channels.map((ch) => {
@@ -517,12 +541,20 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   }
 
   private renderChannelsEmpty(): void {
+    this.channelsBadgeTarget.hidden = true;
     this.channelsListTarget.innerHTML =
       '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhum canal</span>' +
       (this.isAdminValue ? this.newChannelButton() : '');
   }
 
+  private updateDmsBadge(channels: AnyChannel[]): void {
+    const total = channels.reduce((s, ch) => s + ch.countUnread(), 0);
+    this.dmsBadgeTarget.hidden = total === 0;
+    this.dmsBadgeTarget.textContent = total > 99 ? '99+' : String(total);
+  }
+
   private renderDmsEmpty(): void {
+    this.dmsBadgeTarget.hidden = true;
     this.dmsListTarget.innerHTML =
       '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhuma conversa</span>' +
       this.newDmButton();

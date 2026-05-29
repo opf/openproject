@@ -984,6 +984,8 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
       const searchIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"/></svg>`;
 
+      const chevronSvg = `<svg class="mngt-sidebar-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="10" height="10" aria-hidden="true"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/></svg>`;
+
       listEl.innerHTML = `
         <div class="mngt-global-search-wrap">
           <div class="mngt-global-search-bar">
@@ -995,16 +997,29 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
             <div class="mngt-search-hint">Digite para buscar em todos os canais</div>
           </div>
         </div>
-        <div class="mngt-chat-list-section">
-          <div class="mngt-chat-list-section-label">Canais${channelAddBtn}</div>
+        <details class="mngt-chat-list-section mngt-chat-list-section--collapsible" id="mngt-panel-channels-details">
+          <summary class="mngt-chat-list-section-label mngt-chat-list-section-label--collapsible">
+            ${chevronSvg}
+            Canais${channelAddBtn}
+          </summary>
           ${teamSectionHtml}
           ${this.isAdminValue ? `<button class="mngt-sidebar-new-dm mngt-panel-new-channel-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Novo canal</button>` : ''}
-        </div>
+        </details>
         <div class="mngt-chat-list-section">
           <div class="mngt-chat-list-section-label">Mensagens Diretas${dmAddBtn}</div>
           ${dmsHtml || '<span class="mngt-chat-list-empty">Nenhuma conversa</span>'}
           <button class="mngt-sidebar-new-dm mngt-panel-new-dm-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Nova mensagem</button>
         </div>`;
+
+      // Restore and persist Canais collapse state in the panel
+      const panelChannelsDetails = listEl.querySelector<HTMLDetailsElement>('#mngt-panel-channels-details');
+      if (panelChannelsDetails) {
+        const savedOpen = localStorage.getItem('mngt-panel-channels-open');
+        if (savedOpen === 'true') panelChannelsDetails.open = true;
+        panelChannelsDetails.addEventListener('toggle', () => {
+          localStorage.setItem('mngt-panel-channels-open', String(panelChannelsDetails.open));
+        });
+      }
 
       // Global search input handler
       const globalInput = listEl.querySelector<HTMLInputElement>('#mngt-global-search-input');

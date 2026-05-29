@@ -32,7 +32,25 @@
   <%# ── Espaços (árvore recursiva) ─────────────────────────── %>
   <div class="mngt-sidebar-section mngt-sidebar-section--grow">
     <div class="mngt-sidebar-section-label">
-      Espaços
+      <span class="mngt-sidebar-space-group">
+        Espaços
+      <div class="mngt-sidebar-space-actions">
+        <button class="mngt-sidebar-add"
+                data-mngt--sidebar-target="expandAllBtn"
+                data-action="click->mngt--sidebar#expandAllSpaces"
+                title="Expandir tudo"
+                aria-label="Expandir tudo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M2.75 1h10.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25V2.75C1 1.784 1.784 1 2.75 1Zm0 1.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25H2.75ZM8 4a.75.75 0 0 1 .75.75v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5A.75.75 0 0 1 8 4Z"/></svg>
+        </button>
+        <button class="mngt-sidebar-add"
+                data-mngt--sidebar-target="collapseAllBtn"
+                data-action="click->mngt--sidebar#collapseAllSpaces"
+                title="Recolher tudo"
+                aria-label="Recolher tudo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M2.75 1h10.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25V2.75C1 1.784 1.784 1 2.75 1Zm0 1.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25H2.75ZM4.25 7.25a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Z"/></svg>
+        </button>
+      </div>
+      </span>
       <%= link_to "/projects/new", class: "mngt-sidebar-add", title: "Nova área", "aria-label": "Nova área" do %>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
       <% end %>
@@ -69,6 +87,7 @@
         <summary class="mngt-sidebar-section-label mngt-sidebar-section-label--collapsible">
           <svg class="mngt-sidebar-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="10" height="10" aria-hidden="true"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/></svg>
           Canais
+          <span class="mngt-sidebar-badge" data-mngt--chat-rooms-target="channelsBadge" hidden></span>
           <% if @current_user.admin? %>
             <button class="mngt-sidebar-add"
                     data-action="click->mngt--chat-rooms#openNewChannelModal"
@@ -84,18 +103,24 @@
         </div>
       </details>
 
-      <div class="mngt-sidebar-section-label mngt-sidebar-section-label--sub">
-        Mensagens Diretas
-        <button class="mngt-sidebar-add"
-                data-action="click->mngt--chat-rooms#openNewDmModal"
-                title="Nova conversa"
-                aria-label="Nova conversa">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
-        </button>
-      </div>
-      <div data-mngt--chat-rooms-target="dmsList">
-        <span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>
-      </div>
+      <details class="mngt-sidebar-channels-details"
+               data-mngt--chat-rooms-target="dmsSection">
+        <summary class="mngt-sidebar-section-label mngt-sidebar-section-label--collapsible mngt-sidebar-section-label--sub">
+          <svg class="mngt-sidebar-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="10" height="10" aria-hidden="true"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/></svg>
+          Mensagens Diretas
+          <span class="mngt-sidebar-badge" data-mngt--chat-rooms-target="dmsBadge" hidden></span>
+          <button class="mngt-sidebar-add"
+                  data-action="click->mngt--chat-rooms#openNewDmModal"
+                  title="Nova conversa"
+                  aria-label="Nova conversa"
+                  onclick="event.stopPropagation()">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+          </button>
+        </summary>
+        <div data-mngt--chat-rooms-target="dmsList">
+          <span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>
+        </div>
+      </details>
     </div>
   <% end %>
 
