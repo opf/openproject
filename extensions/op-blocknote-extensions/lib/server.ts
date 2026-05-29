@@ -20,3 +20,15 @@ export type {
   WorkPackageBlockExternalData,
   WorkPackageBlockProps,
 } from "./components/BlockWorkPackage/externalHtml";
+
+export { inlineConfig } from "./components/InlineWorkPackage/inlineConfig";
+export { openProjectWorkPackageStaticInlineSpec } from "./components/InlineWorkPackage/staticSpec";
+export {
+  buildWorkPackageInlineExternalDOM,
+  computeWorkPackageInlineExternalData,
+  parseWorkPackageInlineExternalHTML,
+} from "./components/InlineWorkPackage/externalHtml";
+export type {
+  WorkPackageInlineExternalData,
+  WorkPackageInlineProps,
+} from "./components/InlineWorkPackage/externalHtml";

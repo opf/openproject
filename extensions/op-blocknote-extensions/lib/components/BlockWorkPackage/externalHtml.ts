@@ -10,6 +10,8 @@
 // The React spec applies the same data via JSX so the produced HTML matches
 // byte-for-byte.
 
+import { buildExternalDOM } from "../WorkPackage/externalHtml";
+
 export interface WorkPackageBlockProps {
   wpid?: number | string;
   size?: string;
@@ -46,12 +48,7 @@ export function buildWorkPackageBlockExternalDOM(
   data: WorkPackageBlockExternalData,
   doc: Document,
 ): HTMLElement {
-  const div = doc.createElement("div");
-  for (const [name, value] of Object.entries(data.attrs)) {
-    div.setAttribute(name, value);
-  }
-  div.textContent = data.text;
-  return div;
+  return buildExternalDOM("div", data.attrs, data.text, doc);
 }
 
 export function parseWorkPackageBlockExternalHTML(
