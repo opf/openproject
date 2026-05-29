@@ -2809,6 +2809,8 @@ opce-global-search:not(:defined)
 
 // ── Header: logo skeleton ─────────────────────────────────────────
 
-// Cor de fundo enquanto a imagem do logo ainda não carregou
-.op-logo--link
-  background-color: rgba(255, 255, 255, 0.08)
+// Especificidade maior que .op-logo--link de logo.sass (que é importado depois via
+// common e reseta background-color via shorthand). O background-color aparece
+// enquanto a imagem carrega e fica coberto por ela depois.
+.op-app-header .op-logo--link
+  background-color: rgba(255, 255, 255, 0.1)
