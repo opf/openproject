@@ -1040,16 +1040,18 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
           </div>
         </div>
         <div class="mngt-chat-tab-bar">
-          <button class="mngt-chat-tab" id="mngt-panel-channels-tab-btn">Canais${channelAddBtn}</button>
-          <button class="mngt-chat-tab" id="mngt-panel-dms-tab-btn">Mensagens${dmAddBtn}</button>
+          <button class="mngt-chat-tab" id="mngt-panel-channels-tab-btn">Canais</button>
+          ${channelAddBtn}
+          <button class="mngt-chat-tab" id="mngt-panel-dms-tab-btn">Mensagens</button>
+          ${dmAddBtn}
         </div>
         <div class="mngt-chat-tab-panel" id="mngt-panel-channels-tab">
-          ${teamSectionHtml}
           ${this.isAdminValue ? `<button class="mngt-sidebar-new-dm mngt-panel-new-channel-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Novo canal</button>` : ''}
+          ${teamSectionHtml}
         </div>
         <div class="mngt-chat-tab-panel" id="mngt-panel-dms-tab">
-          ${dmsHtml || '<span class="mngt-chat-list-empty">Nenhuma conversa</span>'}
           <button class="mngt-sidebar-new-dm mngt-panel-new-dm-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Nova mensagem</button>
+          ${dmsHtml || '<span class="mngt-chat-list-empty">Nenhuma conversa</span>'}
         </div>`;
 
       // Tab switching for panel — default: dms

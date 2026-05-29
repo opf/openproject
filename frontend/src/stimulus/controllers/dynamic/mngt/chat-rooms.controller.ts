@@ -381,11 +381,11 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
           ${chs.map(channelBtn).join('')}
         </div>`;
       });
-      this.channelsListTarget.innerHTML = html + (this.isAdminValue ? this.newChannelButton() : '');
+      this.channelsListTarget.innerHTML = (this.isAdminValue ? this.newChannelButton() : '') + html;
     } else {
       // Regular user: flat list
       this.channelsListTarget.innerHTML =
-        channels.map(channelBtn).join('') + (this.isAdminValue ? this.newChannelButton() : '');
+        (this.isAdminValue ? this.newChannelButton() : '') + channels.map(channelBtn).join('');
     }
   }
 
@@ -531,14 +531,15 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
           <span class="mngt-sidebar-label">${this.esc(name)}</span>
           ${unread > 0 ? `<span class="mngt-sidebar-badge">${unread > 99 ? '99+' : unread}</span>` : ''}
         </button>`;
-    }).join('') + this.newDmButton();
+    }).join('');
+    this.dmsListTarget.innerHTML = this.newDmButton() + this.dmsListTarget.innerHTML;
   }
 
   private renderChannelsEmpty(): void {
     this.channelsBadgeTarget.hidden = true;
     this.channelsListTarget.innerHTML =
-      '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhum canal</span>' +
-      (this.isAdminValue ? this.newChannelButton() : '');
+      (this.isAdminValue ? this.newChannelButton() : '') +
+      '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhum canal</span>';
   }
 
   private updateDmsBadge(channels: AnyChannel[]): void {
@@ -550,8 +551,8 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   private renderDmsEmpty(): void {
     this.dmsBadgeTarget.hidden = true;
     this.dmsListTarget.innerHTML =
-      '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhuma conversa</span>' +
-      this.newDmButton();
+      this.newDmButton() +
+      '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhuma conversa</span>';
   }
 
   // ── Modal internals ────────────────────────────────────────────
