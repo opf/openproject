@@ -104,10 +104,17 @@ module Redmine::MenuManager::TopMenuHelper
   end
 
   def render_global_search_input
-    angular_component_tag "opce-global-search",
-                          inputs: {
-                            placeholder: I18n.t("global_search.placeholder", app_title: Setting.app_title)
-                          }
+    placeholder = I18n.t("global_search.placeholder", app_title: Setting.app_title)
+    data_attrs  = { placeholder: placeholder }.transform_keys { |k| k.to_s.camelize(:lower) }
+
+    content_tag :'opce-global-search', class: 'op-angular-component', data: data_attrs do
+      content_tag(:div, class: 'op-header-search-skeleton') do
+        safe_join([
+          content_tag(:span, '', class: 'op-header-search-skeleton--icon'),
+          content_tag(:span, placeholder, class: 'op-header-search-skeleton--label'),
+        ])
+      end
+    end
   end
 
   def render_top_menu_right

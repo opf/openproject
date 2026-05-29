@@ -79,7 +79,7 @@ export default class extends Controller {
     } else if (event.key === 'Enter' && this.activeIndex >= 0) {
       event.preventDefault();
       const item = this.currentItems[this.activeIndex];
-      if (item) visit = item.href;
+      if (item) visit(item.href);
     } else if (event.key === 'Escape') {
       this.closeResults();
       this.inputTarget.blur();
@@ -183,7 +183,7 @@ export default class extends Controller {
   private navigateTo(href: string): void {
     const q = this.inputTarget.value.trim();
     if (q) this.addToRecent(href, q);
-    visit = href;
+    visit(href);
   }
 
   private clearDebounce(): void {

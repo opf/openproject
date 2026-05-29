@@ -2764,3 +2764,39 @@ body[data-color-mode="light"]
     line-height: 0
     &:hover .mngt-msg-image
       opacity: 0.9
+
+// ── Header: search skeleton ───────────────────────────────────────
+
+.op-header-search-skeleton
+  display: flex
+  align-items: center
+  gap: 8px
+  height: 34px
+  padding: 0 12px
+  border-radius: 4px
+  background: rgba(255, 255, 255, 0.08)
+  border: 1px solid rgba(255, 255, 255, 0.18)
+  min-width: 200px
+  max-width: 340px
+  width: 100%
+  box-sizing: border-box
+  pointer-events: none
+  animation: mngt-skeleton-wave 1.5s ease-in-out infinite
+
+  &--icon
+    flex-shrink: 0
+    width: 15px
+    height: 15px
+    border-radius: 50%
+    background: rgba(255, 255, 255, 0.35)
+
+  &--label
+    font-size: 13px
+    color: rgba(255, 255, 255, 0.4)
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+// Esconde o skeleton assim que o Angular registrar o custom element
+opce-global-search:defined .op-header-search-skeleton
+  display: none
