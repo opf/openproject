@@ -76,10 +76,21 @@ export default class extends Controller {
 
   private updateActive():void {
     const path = window.location.pathname;
+
+    // Direct link items (<a class="mngt-sidebar-item" href="...">): favorites, inbox, etc.
     this.element.querySelectorAll<HTMLElement>('.mngt-sidebar-item[href]').forEach((el) => {
       const href = el.getAttribute('href') as string;
       const active = path === href || path.startsWith(`${href}/`);
       el.classList.toggle('mngt-sidebar-item--active', active);
+    });
+
+    // Project tree items: href lives on the inner <a class="mngt-sidebar-item-link">,
+    // active class must be toggled on the parent .mngt-sidebar-item wrapper.
+    this.element.querySelectorAll<HTMLElement>('.mngt-sidebar-item-link[href]').forEach((link) => {
+      const href = link.getAttribute('href') as string;
+      const active = path === href || path.startsWith(`${href}/`);
+      const item = link.closest<HTMLElement>('.mngt-sidebar-item');
+      if (item) item.classList.toggle('mngt-sidebar-item--active', active);
     });
   }
 }

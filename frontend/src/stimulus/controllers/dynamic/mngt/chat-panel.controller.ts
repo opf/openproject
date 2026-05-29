@@ -110,6 +110,14 @@ interface StreamUser {
   avatarUrl?: string;
 }
 
+// Module-level cache: survives Stimulus disconnect/connect cycles caused by
+// data-turbo-permanent DOM transplant on Turbo Drive navigation.
+let _panelClient:        StreamChat | null = null;
+let _panelUserId        = '';
+let _panelUserName      = '';
+let _panelActiveChannel: Channel | null = null;
+let _panelInitialized   = false;
+
 export default class MngtChatPanelController extends Controller<HTMLElement> {
   static targets = ['panel', 'container', 'loading', 'error', 'button', 'badge', 'iconExpand', 'iconCompress'];
   static values  = {
@@ -184,10 +192,39 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   connect(): void {
     document.addEventListener('mngt:chat-navigate',   this.handleNavigate);
     document.addEventListener('mngt:unread-changed',  this.onUnreadChanged);
-    void this.setup();
+    if (_panelInitialized && _panelClient) {
+      // Turbo navigation reconnect: DOM preserved by data-turbo-permanent — restore state.
+      this.streamClient    = _panelClient;
+      this.currentUserId   = _panelUserId;
+      this.currentUserName = _panelUserName;
+      this.ready           = true;
+      this.subscribeBadgeUpdates();
+      _panelClient.on('user.presence.changed', this.onPresenceChanged);
+      _panelClient.on('connection.changed',    this.onConnectionChanged);
+      if (_panelActiveChannel) {
+        this.activeChannel = _panelActiveChannel;
+        this.activeChannel.on('message.new',      this.onNewMessage);
+        this.activeChannel.on('message.updated',  this.onMessageUpdated);
+        this.activeChannel.on('message.deleted',  this.onMessageDeleted);
+        this.activeChannel.on('typing.start',     this.onTypingStart);
+        this.activeChannel.on('typing.stop',      this.onTypingStop);
+        this.activeChannel.on('reaction.new',     this.onReactionEvent);
+        this.activeChannel.on('reaction.deleted', this.onReactionEvent);
+      }
+    } else {
+      void this.setup();
+    }
   }
 
   disconnect(): void {
+    // Persist state for reconnect (Turbo Drive transplants data-turbo-permanent elements)
+    if (this.ready && this.streamClient) {
+      _panelClient        = this.streamClient;
+      _panelUserId        = this.currentUserId;
+      _panelUserName      = this.currentUserName;
+      _panelActiveChannel = this.activeChannel;
+      _panelInitialized   = true;
+    }
     document.removeEventListener('mngt:chat-navigate',  this.handleNavigate);
     document.removeEventListener('mngt:unread-changed', this.onUnreadChanged);
     this.streamClient?.off('user.presence.changed', this.onPresenceChanged);
@@ -503,6 +540,10 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         await client.connectUser(creds.user, creds.token);
       }
       this.streamClient = client;
+      _panelClient      = client;
+      _panelUserId      = creds.userId;
+      _panelUserName    = creds.user.name ?? '';
+      _panelInitialized = true;
       this.subscribeBadgeUpdates();
       signalClientReady(client);
       client.on('user.presence.changed', this.onPresenceChanged);
@@ -582,7 +623,8 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     }
 
     await channel.markRead().catch(() => {});
-    this.activeChannel = channel;
+    this.activeChannel  = channel;
+    _panelActiveChannel = channel;
     this.renderChannel(channel, displayName);
     document.dispatchEvent(new CustomEvent('mngt:channel-read', { detail: { channelId: id } }));
     if (jumpToId) void this.jumpToMessage(jumpToId);

@@ -103,10 +103,11 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
 
   connect(): void {
     if (_channelsReady && _cachedClient) {
-      // Turbo navigation reconnect: re-attach listeners and re-dispatch unread count
+      // Stimulus reconnects on every Turbo Drive navigation (DOM transplant for data-turbo-permanent).
+      // The DOM content is already intact — only re-attach Stream listeners.
+      // Badge updates come from real-time Stream events (notification.message_new, etc.).
       this.client = _cachedClient;
       this.attachClientListeners();
-      void this.refreshChannels();
     } else {
       void this.waitAndLoad();
     }

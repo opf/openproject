@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import { visit } from '@hotwired/turbo';
 
 // Handles the split click behavior on sidebar tree nodes:
 // - Clicking the name/avatar link: navigate to project page AND toggle expand/collapse
@@ -13,6 +14,7 @@ export default class MngtTreeController extends Controller<HTMLDetailsElement> {
     // trigger the native summary toggle in most browsers, so we do it manually).
     this.element.open = !this.element.open;
 
-    window.location.href = link.href;
+    // Use Turbo Drive so data-turbo-permanent elements (sidebar, chat) are preserved.
+    visit(link.href);
   }
 }
