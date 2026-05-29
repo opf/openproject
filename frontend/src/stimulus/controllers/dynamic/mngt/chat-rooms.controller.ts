@@ -20,7 +20,7 @@ interface StreamUser {
 type AnyChannel = Channel;
 
 export default class MngtChatRoomsController extends Controller<HTMLElement> {
-  static targets = ['channelsList', 'dmsList', 'channelsSection', 'channelsBadge', 'dmsSection', 'dmsBadge'];
+  static targets = ['channelsList', 'dmsList', 'channelsTab', 'channelsBadge', 'dmsTab', 'dmsBadge'];
   static values  = {
     tokenUrl:      String,
     usersUrl:      String,
@@ -34,12 +34,12 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     companiesMap:  String,
   };
 
-  declare channelsListTarget:    HTMLElement;
-  declare dmsListTarget:         HTMLElement;
-  declare channelsSectionTarget: HTMLDetailsElement;
-  declare channelsBadgeTarget:   HTMLElement;
-  declare dmsSectionTarget:      HTMLDetailsElement;
-  declare dmsBadgeTarget:        HTMLElement;
+  declare channelsListTarget: HTMLElement;
+  declare dmsListTarget:      HTMLElement;
+  declare channelsTabTarget:  HTMLButtonElement;
+  declare channelsBadgeTarget:HTMLElement;
+  declare dmsTabTarget:       HTMLButtonElement;
+  declare dmsBadgeTarget:     HTMLElement;
 
   declare tokenUrlValue:      string;
   declare usersUrlValue:      string;
@@ -105,7 +105,6 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     if (_channelsReady && _cachedClient) {
       // Stimulus reconnects on every Turbo Drive navigation (DOM transplant for data-turbo-permanent).
       // The DOM content is already intact — only re-attach Stream listeners.
-      // Badge updates come from real-time Stream events (notification.message_new, etc.).
       this.client = _cachedClient;
       this.attachClientListeners();
     } else {
@@ -118,10 +117,7 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     document.addEventListener('mngt:open-new-channel', this.onOpenNewChannel);
     document.addEventListener('mngt:push-subscribe',   this.onRequestPushSubscription);
     document.addEventListener('click', this.unlockAudio, { once: true });
-    this.restoreChannelsSectionState();
-    this.channelsSectionTarget.addEventListener('toggle', this.onChannelsSectionToggle);
-    this.restoreDmsSectionState();
-    this.dmsSectionTarget.addEventListener('toggle', this.onDmsSectionToggle);
+    this.restoreTabState();
   }
 
   disconnect(): void {
@@ -132,9 +128,13 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     document.removeEventListener('mngt:open-new-dm',      this.onOpenNewDm);
     document.removeEventListener('mngt:open-new-channel', this.onOpenNewChannel);
     document.removeEventListener('mngt:push-subscribe',   this.onRequestPushSubscription);
-    this.channelsSectionTarget.removeEventListener('toggle', this.onChannelsSectionToggle);
-    this.dmsSectionTarget.removeEventListener('toggle', this.onDmsSectionToggle);
     this.closeDmModal();
+  }
+
+  showTab(event: MouseEvent): void {
+    const tab = (event.currentTarget as HTMLElement).dataset['tab'] as 'channels' | 'dms';
+    this.activateTab(tab);
+    localStorage.setItem('mngt-active-tab', tab);
   }
 
   // Action: open a channel or DM from the sidebar list
@@ -197,24 +197,17 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
 
   // ── private ────────────────────────────────────────────────────
 
-  private readonly onChannelsSectionToggle = (): void => {
-    localStorage.setItem('mngt-channels-open', String(this.channelsSectionTarget.open));
-  };
-
-  private readonly onDmsSectionToggle = (): void => {
-    localStorage.setItem('mngt-dms-open', String(this.dmsSectionTarget.open));
-  };
-
-  private restoreChannelsSectionState(): void {
-    const saved = localStorage.getItem('mngt-channels-open');
-    // Default closed; only open if user explicitly opened it before.
-    if (saved === 'true') this.channelsSectionTarget.setAttribute('open', '');
+  private restoreTabState(): void {
+    const saved = localStorage.getItem('mngt-active-tab') as 'channels' | 'dms' | null;
+    this.activateTab(saved ?? 'channels');
   }
 
-  private restoreDmsSectionState(): void {
-    const saved = localStorage.getItem('mngt-dms-open');
-    // Default closed; only open if user explicitly opened it before.
-    if (saved === 'true') this.dmsSectionTarget.setAttribute('open', '');
+  private activateTab(tab: 'channels' | 'dms'): void {
+    const isChannels = tab === 'channels';
+    this.channelsTabTarget.classList.toggle('mngt-chat-tab--active', isChannels);
+    this.dmsTabTarget.classList.toggle('mngt-chat-tab--active', !isChannels);
+    this.channelsListTarget.hidden = !isChannels;
+    this.dmsListTarget.hidden = isChannels;
   }
 
   private async waitAndLoad(): Promise<void> {

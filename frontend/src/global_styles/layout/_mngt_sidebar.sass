@@ -23,10 +23,19 @@
     border-bottom: none
 
   &--grow
-    flex: 1
+    flex: 1 1 0
     min-height: 0
     overflow-y: auto
     scrollbar-gutter: stable
+
+  &--chat
+    flex: 1 1 0
+    min-height: 0
+    overflow: hidden
+    display: flex
+    flex-direction: column
+    padding: 0
+    border-bottom: none
 
 .mngt-sidebar-section-label
   display: flex
@@ -155,18 +164,53 @@
   details[open] > summary &
     transform: rotate(90deg)
 
-.mngt-sidebar-channels-details
-  > summary
-    list-style: none
-    cursor: pointer
-    &::-webkit-details-marker
-      display: none
-    &::marker
-      content: none
-    &:hover
-      color: var(--main-menu-font-color, #c8d1e0)
-      .mngt-sidebar-chevron
-        opacity: 0.8
+// ── Abas (sidebar + chat panel) ──────────────────────────────────
+
+.mngt-chat-tab-bar
+  display: flex
+  flex-shrink: 0
+  gap: 4px
+  padding: 6px 8px 4px
+
+.mngt-chat-tab
+  flex: 1
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 4px
+  padding: 5px 6px
+  border: none
+  border-radius: 6px
+  background: transparent
+  color: var(--main-menu-font-color-disabled, rgba(255,255,255,0.45))
+  font-size: 12px
+  font-weight: 500
+  cursor: pointer
+  white-space: nowrap
+  transition: background 0.15s, color 0.15s
+
+  &:hover
+    background: rgba(255, 255, 255, 0.06)
+    color: var(--main-menu-font-color, rgba(255,255,255,0.85))
+
+  &--active
+    background: rgba(255, 255, 255, 0.12)
+    color: var(--main-menu-font-color, rgba(255,255,255,0.9))
+    font-weight: 600
+
+  // badge dentro da aba
+  .mngt-sidebar-badge
+    position: static
+    font-size: 10px
+    padding: 1px 5px
+    min-width: 16px
+    height: 16px
+
+.mngt-chat-tab-panel
+  flex: 1
+  min-height: 0
+  overflow-y: auto
+  scrollbar-gutter: stable
 
 .mngt-sidebar-section-label--collapsible
   justify-content: flex-start

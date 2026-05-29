@@ -1039,29 +1039,34 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
             <div class="mngt-search-hint">Digite para buscar em todos os canais</div>
           </div>
         </div>
-        <details class="mngt-chat-list-section mngt-chat-list-section--collapsible" id="mngt-panel-channels-details">
-          <summary class="mngt-chat-list-section-label mngt-chat-list-section-label--collapsible">
-            ${chevronSvg}
-            Canais${channelAddBtn}
-          </summary>
+        <div class="mngt-chat-tab-bar">
+          <button class="mngt-chat-tab" id="mngt-panel-channels-tab-btn">Canais${channelAddBtn}</button>
+          <button class="mngt-chat-tab" id="mngt-panel-dms-tab-btn">Mensagens${dmAddBtn}</button>
+        </div>
+        <div class="mngt-chat-tab-panel" id="mngt-panel-channels-tab">
           ${teamSectionHtml}
           ${this.isAdminValue ? `<button class="mngt-sidebar-new-dm mngt-panel-new-channel-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Novo canal</button>` : ''}
-        </details>
-        <div class="mngt-chat-list-section">
-          <div class="mngt-chat-list-section-label">Mensagens Diretas${dmAddBtn}</div>
+        </div>
+        <div class="mngt-chat-tab-panel" id="mngt-panel-dms-tab">
           ${dmsHtml || '<span class="mngt-chat-list-empty">Nenhuma conversa</span>'}
           <button class="mngt-sidebar-new-dm mngt-panel-new-dm-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Nova mensagem</button>
         </div>`;
 
-      // Restore and persist Canais collapse state in the panel
-      const panelChannelsDetails = listEl.querySelector<HTMLDetailsElement>('#mngt-panel-channels-details');
-      if (panelChannelsDetails) {
-        const savedOpen = localStorage.getItem('mngt-panel-channels-open');
-        if (savedOpen === 'true') panelChannelsDetails.open = true;
-        panelChannelsDetails.addEventListener('toggle', () => {
-          localStorage.setItem('mngt-panel-channels-open', String(panelChannelsDetails.open));
-        });
-      }
+      // Tab switching for panel — default: dms
+      const panelActivateTab = (tab: 'channels' | 'dms'): void => {
+        const isChannels = tab === 'channels';
+        listEl.querySelector('#mngt-panel-channels-tab-btn')?.classList.toggle('mngt-chat-tab--active', isChannels);
+        listEl.querySelector('#mngt-panel-dms-tab-btn')?.classList.toggle('mngt-chat-tab--active', !isChannels);
+        const chPanel = listEl.querySelector<HTMLElement>('#mngt-panel-channels-tab');
+        const dmPanel = listEl.querySelector<HTMLElement>('#mngt-panel-dms-tab');
+        if (chPanel) chPanel.hidden = !isChannels;
+        if (dmPanel) dmPanel.hidden = isChannels;
+        localStorage.setItem('mngt-panel-active-tab', tab);
+      };
+      const savedPanelTab = localStorage.getItem('mngt-panel-active-tab') as 'channels' | 'dms' | null;
+      panelActivateTab(savedPanelTab ?? 'dms');
+      listEl.querySelector('#mngt-panel-channels-tab-btn')?.addEventListener('click', () => panelActivateTab('channels'));
+      listEl.querySelector('#mngt-panel-dms-tab-btn')?.addEventListener('click', () => panelActivateTab('dms'));
 
       // Global search input handler
       const globalInput = listEl.querySelector<HTMLInputElement>('#mngt-global-search-input');
