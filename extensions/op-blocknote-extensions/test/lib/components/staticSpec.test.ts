@@ -24,14 +24,19 @@ beforeAll(() => {
 
 // createBlockSpec returns a creator function; call it to get the spec.
 // createInlineContentSpec returns the spec directly.
+ 
 const blockImpl = (openProjectWorkPackageStaticBlockSpec as any)().implementation;
+ 
 const reactBlockImpl = (openProjectWorkPackageBlockSpec as any)().implementation;
+ 
 const inlineImpl = (openProjectWorkPackageStaticInlineSpec as any).implementation;
+ 
 const reactInlineImpl = (openProjectWorkPackageInlineSpec as any).implementation;
 
 describe('static block spec — toExternalHTML', () => {
   it('produces a DOM node whose innerHTML matches buildWorkPackageBlockExternalDOM', () => {
     const props = { wpid: 42, instanceId: 'inst1', size: 'l', displayId: 'PROJ-42' };
+     
     const specResult = blockImpl.toExternalHTML({ props }) as { dom:HTMLElement } | undefined;
     const expected = buildWorkPackageBlockExternalDOM(computeWorkPackageBlockExternalData(props)!, document);
     // BlockNote wraps the returned dom in an outer block-content div;
@@ -40,6 +45,7 @@ describe('static block spec — toExternalHTML', () => {
   });
 
   it('returns undefined when wpid is absent', () => {
+     
     expect(blockImpl.toExternalHTML({ props: {} })).toBeUndefined();
   });
 });
@@ -57,15 +63,18 @@ describe('static block spec — parse', () => {
 
   it('parses the HTML element', () => {
     const element = makeBlockElement();
+     
     expect(blockImpl.parse(element)).toEqual({ wpid: 42, instanceId: 'inst1', size: 'l', 'displayId': 'PROJ-42' });
   });
 
   it('parses the HTML element in the same way as the react block spec', () => {
     const element = makeBlockElement();
+     
     expect(blockImpl.parse(element)).toEqual(reactBlockImpl.parse(element));
   });
 
   it('returns undefined for an unrelated element', () => {
+     
     expect(blockImpl.parse(document.createElement('div'))).toBeUndefined();
   });
 });
@@ -73,16 +82,19 @@ describe('static block spec — parse', () => {
 describe('static inline spec — toExternalHTML', () => {
   it('produces a DOM node matching buildWorkPackageInlineExternalDOM', () => {
     const props = { wpid: '57', instanceId: 'inst1', size: 'xs', displayId: 'PROJ-57' };
+     
     const specResult = inlineImpl.toExternalHTML({ props }) as { dom:HTMLElement } | undefined;
     const expected = buildWorkPackageInlineExternalDOM(computeWorkPackageInlineExternalData(props)!, document);
     expect(specResult?.dom.outerHTML).toBe(expected.outerHTML);
   });
 
   it('returns undefined for a pending wpid', () => {
+     
     expect(inlineImpl.toExternalHTML({ props: { wpid: 'pending:abc' } })).toBeUndefined();
   });
 
   it('returns undefined when wpid is absent', () => {
+     
     expect(inlineImpl.toExternalHTML({ props: {} })).toBeUndefined();
   });
 });
@@ -100,15 +112,18 @@ describe('static inline spec — parse', () => {
 
   it('parses the HTML element', () => {
     const element = makeInlineElement();
+     
     expect(inlineImpl.parse(element)).toEqual({ wpid: '57', instanceId: 'inst1', size: 'xs', 'displayId': 'PROJ-57' });
   });
 
   it('parses the HTML element in the same way as the react inline spec', () => {
     const element = makeInlineElement();
+     
     expect(inlineImpl.parse(element)).toEqual(reactInlineImpl.parse(element));
   });
 
   it('returns undefined for an unrelated element', () => {
+     
     expect(inlineImpl.parse(document.createElement('span'))).toBeUndefined();
   });
 });

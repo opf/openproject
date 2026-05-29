@@ -31,7 +31,8 @@ export function computeWorkPackageInlineExternalData(
 ):WorkPackageInlineExternalData | null {
   const { wpid, instanceId, size } = props;
   if (!wpid || wpid.startsWith('pending:')) return null;
-  const displayId = props.displayId ?? wpid;
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const displayId = props.displayId || wpid;
   return {
     attrs: {
       'data-inline-content-type': 'openProjectWorkPackageInline',

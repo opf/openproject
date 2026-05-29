@@ -7,7 +7,6 @@
     "module": "ESNext",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "strict": true,
 
     /* Bundler mode */
     "moduleResolution": "bundler",

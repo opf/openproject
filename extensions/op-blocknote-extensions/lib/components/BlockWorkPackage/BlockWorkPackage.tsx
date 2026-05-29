@@ -1,5 +1,5 @@
 import { BlockNoteEditor, SideMenuExtension } from '@blocknote/core';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
@@ -7,13 +7,13 @@ import { useColors } from '../../services/colors';
 import { wpBridge } from '../../services/wpBridge';
 import type { WorkPackage } from '../../openProjectTypes';
 import type { InlineWpSize, BlockWpSize } from '../WorkPackage/types';
+import type { BlockWorkPackageProps } from './types';
 import { BlockCard } from './BlockCard';
 import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { SearchContainer, SearchLabel } from '../Search/SearchContainer';
 import { SearchDropdown } from '../Search/SearchDropdown';
 import { defaultWpVariables } from '../WorkPackage/atoms';
-import { formatWorkPackageId } from '../../utils/id';
 import { moveCursorAfterBlock } from '../../utils/cursor';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 
@@ -34,10 +34,7 @@ type SideMenuInstance = NonNullable<ReturnType<ReturnType<typeof SideMenuExtensi
 
 interface BlockProps {
   id:string;
-  props:{
-    wpid?:number;
-    size?:BlockWpSize;
-  };
+  props:BlockWorkPackageProps;
 }
 
 export const BlockWorkPackageComponent = ({
@@ -61,8 +58,7 @@ export const BlockWorkPackageComponent = ({
 
   useEffect(() => {
     if (!selectedWorkPackage) return;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-    if (selectedWorkPackage.displayId === (block.props as any).displayId) return;
+    if (selectedWorkPackage.displayId === block.props.displayId) return;
     editor.updateBlock(block, {
       props: { ...block.props, displayId: selectedWorkPackage.displayId },
     });
@@ -85,7 +81,6 @@ export const BlockWorkPackageComponent = ({
   // Delegate the drag to the same mechanism the side menu uses internally,
   // so dragging the block directly behaves identically to dragging via the handle.
   const handleBlockDragStart = (e:React.DragEvent) => {
-     
     const sideMenu = editor.extensions.get('sideMenu') as SideMenuInstance | undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     sideMenu?.blockDragStart(e.nativeEvent, block as any);
@@ -103,35 +98,6 @@ export const BlockWorkPackageComponent = ({
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOptionsOpen]);
-
-  const handleCopy = useCallback(
-    (e:ClipboardEvent) => {
-      if (!isOptionsOpen || !block.props.wpid) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      const wpid = block.props.wpid;
-      const formattedId = formatWorkPackageId(selectedWorkPackage?.displayId ?? String(wpid));
-
-      e.clipboardData?.setData('text/plain', formattedId);
-      e.clipboardData?.setData(
-        'text/html',
-        `<div data-block-content-type="openProjectWorkPackageBlock" data-wpid="${wpid}" data-size="${cardSize}" data-initialized="true">${formattedId}</div>`,
-      );
-    },
-    [isOptionsOpen, block.props.wpid, cardSize, selectedWorkPackage],
-  );
-
-  useEffect(() => {
-    if (!isOptionsOpen) return;
-
-    // Chrome doesn't expose clipboardData on copy events that bubble past a
-    // shadow boundary - attach to the nearest root to get a writable event.
-    const root = (cardRef.current?.getRootNode() ?? document) as Document | ShadowRoot;
-    root.addEventListener('copy', handleCopy as EventListener);
-    return () => root.removeEventListener('copy', handleCopy as EventListener);
-  }, [isOptionsOpen, handleCopy]);
 
   const handleConvertToInline = (size:InlineWpSize) => {
     if (!selectedWorkPackage) return;

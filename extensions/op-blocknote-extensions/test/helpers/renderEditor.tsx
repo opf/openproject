@@ -12,7 +12,6 @@ import {
   useOpBlockNoteExtensions,
   PasteDeduplicateInstanceIdsExtension,
 } from '../../lib';
-import type { HashMenuItem } from '../../lib';
 
 import '@blocknote/core/fonts/inter.css';
 import '@blocknote/mantine/style.css';

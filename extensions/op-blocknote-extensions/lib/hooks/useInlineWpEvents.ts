@@ -125,8 +125,8 @@ function handlePromoteToBlock(
   // wpid must be a positive integer
   const wpid = Number(found.chip.props.wpid);
   if (Number.isNaN(wpid) || wpid <= 0) return;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-  const displayId = ((found.chip.props as any).displayId ?? String(found.chip.props.wpid)) as string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing
+  const displayId = (((found.chip.props as any).displayId || String(found.chip.props.wpid)) as string);
 
   const chipIndex = found.content.findIndex(
     (node) => isInlineWpNode(node) && node.props.instanceId === instanceId
@@ -182,8 +182,8 @@ function handleConvertToInline(
 ):void {
   const block = editor.getBlock(blockId);
   if (!block) return;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-  const displayId = ((block?.props as any)?.displayId ?? String(wpid)) as string;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing
+  const displayId = (((block?.props as any)?.displayId || String(wpid)) as string);
 
   const instanceId = makeInstanceId();
 

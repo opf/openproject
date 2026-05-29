@@ -37,7 +37,8 @@ export function computeWorkPackageBlockExternalData(
 ):WorkPackageBlockExternalData | null {
   const wpid = props.wpid;
   if (!wpid) return null;
-  const displayId = props.displayId ?? String(wpid);
+  // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+  const displayId = props.displayId || String(wpid);
   return {
     attrs: {
       'data-block-content-type': 'openProjectWorkPackageBlock',
