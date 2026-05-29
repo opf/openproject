@@ -99,10 +99,18 @@ Rails.application.routes.draw do
   # In case assets are actually delivered by a node server (e.g. in test env)
   # forward requests to the proxy
   if FrontendAssetHelper.assets_proxied?
-    match "/assets/frontend/*appendix",
-          to: redirect("#{FrontendAssetHelper.cli_proxy}/assets/frontend/%{appendix}", status: 307),
-          format: false,
-          via: :all
+    if ENV["OPENPROJECT_DEV_ASSET_INTERNAL_HOST"].present?
+      # Server-side proxy: avoids redirect loop when CLI_PROXY and app share the same origin (e.g. ngrok).
+      match "/assets/frontend/*appendix",
+            to: "frontend_asset_proxy#proxy",
+            format: false,
+            via: :all
+    else
+      match "/assets/frontend/*appendix",
+            to: redirect("#{FrontendAssetHelper.cli_proxy}/assets/frontend/%{appendix}", status: 307),
+            format: false,
+            via: :all
+    end
   end
 
   # Shared route concerns

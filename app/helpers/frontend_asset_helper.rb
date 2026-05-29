@@ -75,11 +75,17 @@ module FrontendAssetHelper
 
   def variable_asset_path(path)
     if FrontendAssetHelper.assets_proxied?
-      File.join(
-        FrontendAssetHelper.cli_proxy,
-        Rails.application.config.relative_url_root,
+      if ENV["OPENPROJECT_DEV_ASSET_INTERNAL_HOST"].present?
+        # When Rails proxies assets internally (e.g. ngrok or Docker tunnel), generate a
+        # relative URL so it works from any origin — localhost, ngrok, or any other host.
         frontend_asset_path(path)
-      )
+      else
+        File.join(
+          FrontendAssetHelper.cli_proxy,
+          Rails.application.config.relative_url_root,
+          frontend_asset_path(path)
+        )
+      end
     else
       # we do not need to take care about Rails.application.config.relative_url_root
       # because in this case javascript|stylesheet_include_tag will add it automatically.

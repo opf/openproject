@@ -66,6 +66,57 @@ upgrade. Security issues will always take precedence over anything else in the p
 
 For more information on how to disclose a security vulnerability, [please see this page](docs/security-and-privacy/statement-on-security/README.md).
 
+## Desenvolvimento local (ELO/MNGT)
+
+### Setup com Docker
+
+```bash
+bin/compose setup   # primeira vez
+bin/compose start   # inicia todos os serviços
+```
+
+O app fica disponível em `http://localhost:3000`. Consulte o `CLAUDE.md` para o guia completo de comandos.
+
+### Testando PWA e notificações push com ngrok
+
+Push notifications e instalação de PWA exigem HTTPS. Em desenvolvimento, use o ngrok para expor o servidor local com HTTPS para o celular:
+
+**1. Instale o ngrok**
+
+```bash
+# macOS
+brew install ngrok
+
+# Linux / WSL
+curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
+  && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" | sudo tee /etc/apt/sources.list.d/ngrok.list \
+  && sudo apt update && sudo apt install ngrok
+```
+
+Ou baixe em [ngrok.com/download](https://ngrok.com/download) e autentique com `ngrok config add-authtoken <seu-token>`.
+
+**2. Exponha o servidor**
+
+Com os containers rodando (`bin/compose start`), abra outro terminal:
+
+```bash
+ngrok http 3000
+```
+
+O ngrok exibirá uma URL pública como `https://abc123.ngrok-free.app`. Acesse essa URL no celular.
+
+**3. Nenhuma configuração adicional é necessária**
+
+- Os domínios `*.ngrok-free.app` e `*.ngrok.io` já estão liberados em `config/environments/development.rb`
+- O proxy interno de assets (`OPENPROJECT_DEV_ASSET_INTERNAL_HOST`) já está configurado no `docker-compose.override.yml`, garantindo que JS/CSS carregue corretamente pelo túnel
+- As chaves VAPID para push devem estar preenchidas no `.env` — veja `.env.example`
+
+**4. Registrar a subscription de push no celular**
+
+Ao acessar o app via ngrok pelo celular pela primeira vez, clique em **"Ativar notificações"** no banner que aparecer. A subscription é salva no banco e os próximos pushes chegam mesmo com o app fechado.
+
+---
+
 ## License
 
 OpenProject is licensed under the terms of the GNU General Public License version 3.
