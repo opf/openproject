@@ -2765,38 +2765,50 @@ body[data-color-mode="light"]
     &:hover .mngt-msg-image
       opacity: 0.9
 
-// ── Header: search skeleton ───────────────────────────────────────
+// ── Header: search skeleton (CSS-only, sem HTML extra) ───────────
 
-.op-header-search-skeleton
+// Alinha verticalmente o centro do header
+.op-app-header--center
+  align-items: center
+
+// Skeleton visível antes do Angular registrar o custom element
+opce-global-search:not(:defined)
+  align-self: center
   display: flex
   align-items: center
   gap: 8px
+  width: 300px
   height: 34px
   padding: 0 12px
   border-radius: 4px
+  box-sizing: border-box
   background: rgba(255, 255, 255, 0.08)
   border: 1px solid rgba(255, 255, 255, 0.18)
-  min-width: 200px
-  max-width: 340px
-  width: 100%
-  box-sizing: border-box
   pointer-events: none
   animation: mngt-skeleton-wave 1.5s ease-in-out infinite
+  cursor: text
 
-  &--icon
+  &::before
+    content: ''
+    display: block
     flex-shrink: 0
-    width: 15px
-    height: 15px
+    width: 14px
+    height: 14px
     border-radius: 50%
     background: rgba(255, 255, 255, 0.35)
 
-  &--label
+  &::after
+    content: attr(data-placeholder)
+    display: block
+    flex: 1
     font-size: 13px
     color: rgba(255, 255, 255, 0.4)
     overflow: hidden
     text-overflow: ellipsis
     white-space: nowrap
 
-// Esconde o skeleton assim que o Angular registrar o custom element
-opce-global-search:defined .op-header-search-skeleton
-  display: none
+// ── Header: logo skeleton ─────────────────────────────────────────
+
+// Cor de fundo enquanto a imagem do logo ainda não carregou
+.op-logo--link
+  background-color: rgba(255, 255, 255, 0.08)
