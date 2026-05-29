@@ -14,6 +14,7 @@ import { buildExternalDOM } from "../WorkPackage/externalHtml";
 
 export interface WorkPackageBlockProps {
   wpid?: number | string;
+  instanceId?: string;
   size?: string;
   initialized?: boolean;
 }
@@ -22,6 +23,7 @@ export interface WorkPackageBlockExternalData {
   attrs: {
     "data-block-content-type": "openProjectWorkPackageBlock";
     "data-wpid": string;
+    "data-instance-id": string;
     "data-size": string;
     "data-initialized": string;
   };
@@ -37,6 +39,7 @@ export function computeWorkPackageBlockExternalData(
     attrs: {
       "data-block-content-type": "openProjectWorkPackageBlock",
       "data-wpid": String(wpid),
+      "data-instance-id": props.instanceId ?? "",
       "data-size": props.size ?? "m",
       "data-initialized": String(props.initialized ?? true),
     },
@@ -58,9 +61,11 @@ export function parseWorkPackageBlockExternalHTML(
     return undefined;
   }
   const wpid = element.getAttribute("data-wpid");
+  const instanceId = element.getAttribute("data-instance-id") ?? "";
   const size = element.getAttribute("data-size") ?? "m";
   return {
     wpid: wpid ? Number(wpid) : undefined,
+    instanceId,
     size,
     initialized: true,
   };
