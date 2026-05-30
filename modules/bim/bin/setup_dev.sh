@@ -14,7 +14,7 @@ fi
 
 # Specifics for BIM edition (Ubuntu)
 apt-get update -qq
-apt-get install -y dotnet-runtime-6.0 wget unzip
+apt-get install -y wget unzip
 
 tmpdir=$(mktemp -d)
 cd $tmpdir
@@ -29,15 +29,16 @@ wget --quiet --tries 3 https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v
 unzip -q IfcConvert-v0.7.11-fea8e3a-linux64.zip
 mv IfcConvert "/usr/local/bin/IfcConvert"
 
-wget --quiet --tries 3 https://github.com/bimspot/xeokit-metadata/releases/download/1.0.1/xeokit-metadata-linux-x64.tar.gz
-tar -zxvf xeokit-metadata-linux-x64.tar.gz
-chmod +x xeokit-metadata-linux-x64/xeokit-metadata
-cp -rT xeokit-metadata-linux-x64 "/usr/lib/xeokit-metadata"
-rm -f /usr/local/bin/xeokit-metadata
-ln -s /usr/lib/xeokit-metadata/xeokit-metadata /usr/local/bin/xeokit-metadata
-
 cd /
 rm -rf $tmpdir
+
+# Clean up any prior install of the legacy .NET-based xeokit-metadata.
+rm -f /usr/local/bin/xeokit-metadata
+rm -rf /usr/lib/xeokit-metadata
+
+# Install IFC metadata extractor
+# Requires Node.js (>=22.18) and npm to already be available on the host.
+npm install -g @openproject/web-ifc-xeokit-metadata@0.0.1
 
 which IfcConvert
 echo "✔ IfcConvert is in your path."
@@ -45,8 +46,8 @@ echo "✔ IfcConvert is in your path."
 which COLLADA2GLTF
 echo "✔ COLLADA2GLTF is in your path."
 
-which xeokit-metadata
-echo "✔ xeokit-metadata is in your path."
+which web-ifc-xeokit-metadata
+echo "✔ web-ifc-xeokit-metadata is in your path."
 
 echo "DONE - Now execute the following as your development user:
       $ # Install XKT converter
