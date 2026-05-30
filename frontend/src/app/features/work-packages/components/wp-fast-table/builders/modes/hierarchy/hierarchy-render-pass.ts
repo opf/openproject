@@ -58,6 +58,15 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     });
 
     this.rowBuilder.parentsWithVisibleChildren = this.parentsWithVisibleChildren;
+
+    // On initial load (nothing collapsed/expanded yet), start with all parents collapsed
+    if (Object.keys(this.hierarchies.collapsed).length === 0) {
+      const parentIds = Object.keys(this.parentsWithVisibleChildren);
+      if (parentIds.length > 0) {
+        this.wpTableHierarchies.collapseAll(parentIds);
+        this.hierarchies = this.wpTableHierarchies.current;
+      }
+    }
   }
 
   /**

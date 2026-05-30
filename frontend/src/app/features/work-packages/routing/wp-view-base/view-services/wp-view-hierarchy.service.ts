@@ -64,6 +64,15 @@ export class WorkPackageViewHierarchiesService extends WorkPackageQueryStateServ
   }
 
   /**
+   * Collapse multiple work packages at once in a single state update
+   */
+  public collapseAll(wpIds:string[]):void {
+    const state = { ...this.current, last: null };
+    wpIds.forEach((id) => { state.collapsed[id] = true; });
+    this.update(state);
+  }
+
+  /**
    * Expand the hierarchy for this work package
    */
   public expand(wpId:string):void {
