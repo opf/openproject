@@ -1,13 +1,15 @@
-<div id="mngt-sidebar" class="mngt-sidebar" data-controller="mngt--sidebar">
+<div id="mngt-sidebar" class="mngt-sidebar" data-turbo-permanent data-controller="mngt--sidebar">
 
   <%# ── Personal ──────────────────────────────────────────── %>
-  <div class="mngt-sidebar-section">
+  <div class="mngt-sidebar-section"
+       data-controller="mngt--notification-bell"
+       data-mngt--notification-bell-interval-value="50000">
     <%= link_to "/notifications", class: "mngt-sidebar-item" do %>
       <svg class="mngt-sidebar-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 16a2 2 0 0 0 1.985-1.75c.017-.137-.097-.25-.235-.25h-3.5c-.138 0-.252.113-.235.25A2 2 0 0 0 8 16ZM3 5a5 5 0 0 1 10 0v2.947c0 .05.015.098.042.139l1.703 2.555A1.519 1.519 0 0 1 13.482 13H2.518a1.519 1.519 0 0 1-1.263-2.36l1.703-2.554A.255.255 0 0 0 3 7.947Z"/></svg>
       <span class="mngt-sidebar-label">Caixa de entrada</span>
-      <% if notification_count > 0 %>
-        <span class="mngt-sidebar-badge"><%= notification_count > 99 ? "99+" : notification_count %></span>
-      <% end %>
+      <span class="mngt-sidebar-badge"
+            data-mngt--notification-bell-target="badge"
+            <%= notification_count <= 0 ? 'hidden' : '' %>><%= notification_count > 99 ? "99+" : (notification_count > 0 ? notification_count.to_s : "") %></span>
     <% end %>
 
     <%= link_to assigned_url, class: "mngt-sidebar-item" do %>
@@ -32,7 +34,25 @@
   <%# ── Espaços (árvore recursiva) ─────────────────────────── %>
   <div class="mngt-sidebar-section mngt-sidebar-section--grow">
     <div class="mngt-sidebar-section-label">
-      Espaços
+      <span class="mngt-sidebar-space-group">
+        Espaços
+      <div class="mngt-sidebar-space-actions">
+        <button class="mngt-sidebar-add"
+                data-mngt--sidebar-target="expandAllBtn"
+                data-action="click->mngt--sidebar#expandAllSpaces"
+                title="Expandir tudo"
+                aria-label="Expandir tudo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M2.75 1h10.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25V2.75C1 1.784 1.784 1 2.75 1Zm0 1.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25H2.75ZM8 4a.75.75 0 0 1 .75.75v2.5h2.5a.75.75 0 0 1 0 1.5h-2.5v2.5a.75.75 0 0 1-1.5 0v-2.5h-2.5a.75.75 0 0 1 0-1.5h2.5v-2.5A.75.75 0 0 1 8 4Z"/></svg>
+        </button>
+        <button class="mngt-sidebar-add"
+                data-mngt--sidebar-target="collapseAllBtn"
+                data-action="click->mngt--sidebar#collapseAllSpaces"
+                title="Recolher tudo"
+                aria-label="Recolher tudo">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M2.75 1h10.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 13.25 15H2.75A1.75 1.75 0 0 1 1 13.25V2.75C1 1.784 1.784 1 2.75 1Zm0 1.5a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h10.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25H2.75ZM4.25 7.25a.75.75 0 0 0 0 1.5h7.5a.75.75 0 0 0 0-1.5h-7.5Z"/></svg>
+        </button>
+      </div>
+      </span>
       <%= link_to "/projects/new", class: "mngt-sidebar-add", title: "Nova área", "aria-label": "Nova área" do %>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
       <% end %>
@@ -51,7 +71,7 @@
 
   <%# ── Chat (Canais + Mensagens Diretas) ──────────────────── %>
   <% if stream_configured? %>
-    <div class="mngt-sidebar-section"
+    <div class="mngt-sidebar-section mngt-sidebar-section--chat"
          data-controller="mngt--chat-rooms"
          data-mngt--chat-rooms-token-url-value="<%= mngt_stream_token_path %>"
          data-mngt--chat-rooms-users-url-value="/mngt/stream/users"
@@ -64,38 +84,31 @@
          data-mngt--chat-rooms-can-see-all-value="<%= current_user_can_see_all? %>"
          data-mngt--chat-rooms-companies-map-value="<%= companies_map_json %>">
 
-      <details class="mngt-sidebar-channels-details"
-               data-mngt--chat-rooms-target="channelsSection">
-        <summary class="mngt-sidebar-section-label mngt-sidebar-section-label--collapsible">
-          <svg class="mngt-sidebar-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="10" height="10" aria-hidden="true"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/></svg>
+      <div class="mngt-chat-tab-bar">
+        <button class="mngt-chat-tab"
+                data-mngt--chat-rooms-target="channelsTab"
+                data-action="click->mngt--chat-rooms#showTab"
+                data-tab="channels">
           Canais
-          <% if @current_user.admin? %>
-            <button class="mngt-sidebar-add"
-                    data-action="click->mngt--chat-rooms#openNewChannelModal"
-                    title="Novo canal"
-                    aria-label="Novo canal"
-                    onclick="event.stopPropagation()">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
-            </button>
-          <% end %>
-        </summary>
-        <div data-mngt--chat-rooms-target="channelsList">
-          <span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>
-        </div>
-      </details>
-
-      <div class="mngt-sidebar-section-label mngt-sidebar-section-label--sub">
-        Mensagens Diretas
-        <button class="mngt-sidebar-add"
-                data-action="click->mngt--chat-rooms#openNewDmModal"
-                title="Nova conversa"
-                aria-label="Nova conversa">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="12" height="12" aria-hidden="true"><path d="M7.75 2a.75.75 0 0 1 .75.75V7h4.25a.75.75 0 0 1 0 1.5H8.5v4.25a.75.75 0 0 1-1.5 0V8.5H2.75a.75.75 0 0 1 0-1.5H7V2.75A.75.75 0 0 1 7.75 2Z"/></svg>
+          <span class="mngt-sidebar-badge" data-mngt--chat-rooms-target="channelsBadge" hidden></span>
+        </button>
+        <button class="mngt-chat-tab"
+                data-mngt--chat-rooms-target="dmsTab"
+                data-action="click->mngt--chat-rooms#showTab"
+                data-tab="dms">
+          Mensagens
+          <span class="mngt-sidebar-badge" data-mngt--chat-rooms-target="dmsBadge" hidden></span>
         </button>
       </div>
-      <div data-mngt--chat-rooms-target="dmsList">
+
+      <div class="mngt-chat-tab-panel" data-mngt--chat-rooms-target="channelsList">
         <span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>
       </div>
+
+      <div class="mngt-chat-tab-panel" data-mngt--chat-rooms-target="dmsList">
+        <span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>
+      </div>
+
     </div>
   <% end %>
 

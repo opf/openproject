@@ -20,7 +20,7 @@ interface StreamUser {
 type AnyChannel = Channel;
 
 export default class MngtChatRoomsController extends Controller<HTMLElement> {
-  static targets = ['channelsList', 'dmsList', 'channelsSection'];
+  static targets = ['channelsList', 'dmsList', 'channelsTab', 'channelsBadge', 'dmsTab', 'dmsBadge'];
   static values  = {
     tokenUrl:      String,
     usersUrl:      String,
@@ -34,9 +34,12 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     companiesMap:  String,
   };
 
-  declare channelsListTarget:    HTMLElement;
-  declare dmsListTarget:         HTMLElement;
-  declare channelsSectionTarget: HTMLDetailsElement;
+  declare channelsListTarget: HTMLElement;
+  declare dmsListTarget:      HTMLElement;
+  declare channelsTabTarget:  HTMLButtonElement;
+  declare channelsBadgeTarget:HTMLElement;
+  declare dmsTabTarget:       HTMLButtonElement;
+  declare dmsBadgeTarget:     HTMLElement;
 
   declare tokenUrlValue:      string;
   declare usersUrlValue:      string;
@@ -100,21 +103,21 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
 
   connect(): void {
     if (_channelsReady && _cachedClient) {
-      // Turbo navigation reconnect: re-attach listeners and re-dispatch unread count
+      // Stimulus reconnects on every Turbo Drive navigation (DOM transplant for data-turbo-permanent).
+      // The DOM content is already intact — only re-attach Stream listeners.
       this.client = _cachedClient;
       this.attachClientListeners();
-      void this.refreshChannels();
     } else {
       void this.waitAndLoad();
     }
     if (this.notifyValue) void this.requestNotificationPermission();
+    if (this.notifyValue && Notification.permission === 'granted') void this.registerPushSubscription();
     document.addEventListener('mngt:channel-read',     this.onChannelRead);
     document.addEventListener('mngt:open-new-dm',      this.onOpenNewDm);
     document.addEventListener('mngt:open-new-channel', this.onOpenNewChannel);
     document.addEventListener('mngt:push-subscribe',   this.onRequestPushSubscription);
     document.addEventListener('click', this.unlockAudio, { once: true });
-    this.restoreChannelsSectionState();
-    this.channelsSectionTarget.addEventListener('toggle', this.onChannelsSectionToggle);
+    this.restoreTabState();
   }
 
   disconnect(): void {
@@ -125,8 +128,13 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     document.removeEventListener('mngt:open-new-dm',      this.onOpenNewDm);
     document.removeEventListener('mngt:open-new-channel', this.onOpenNewChannel);
     document.removeEventListener('mngt:push-subscribe',   this.onRequestPushSubscription);
-    this.channelsSectionTarget.removeEventListener('toggle', this.onChannelsSectionToggle);
     this.closeDmModal();
+  }
+
+  showTab(event: MouseEvent): void {
+    const tab = (event.currentTarget as HTMLElement).dataset['tab'] as 'channels' | 'dms';
+    this.activateTab(tab);
+    localStorage.setItem('mngt-active-tab', tab);
   }
 
   // Action: open a channel or DM from the sidebar list
@@ -189,14 +197,17 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
 
   // ── private ────────────────────────────────────────────────────
 
-  private readonly onChannelsSectionToggle = (): void => {
-    localStorage.setItem('mngt-channels-open', String(this.channelsSectionTarget.open));
-  };
+  private restoreTabState(): void {
+    const saved = localStorage.getItem('mngt-active-tab') as 'channels' | 'dms' | null;
+    this.activateTab(saved ?? 'channels');
+  }
 
-  private restoreChannelsSectionState(): void {
-    const saved = localStorage.getItem('mngt-channels-open');
-    // Default closed; only open if user explicitly opened it before.
-    if (saved === 'true') this.channelsSectionTarget.setAttribute('open', '');
+  private activateTab(tab: 'channels' | 'dms'): void {
+    const isChannels = tab === 'channels';
+    this.channelsTabTarget.classList.toggle('mngt-chat-tab--active', isChannels);
+    this.dmsTabTarget.classList.toggle('mngt-chat-tab--active', !isChannels);
+    this.channelsListTarget.hidden = !isChannels;
+    this.dmsListTarget.hidden = isChannels;
   }
 
   private async waitAndLoad(): Promise<void> {
@@ -322,7 +333,14 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
       '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Carregando...</span>';
   }
 
+  private updateChannelsBadge(channels: AnyChannel[]): void {
+    const total = channels.reduce((s, ch) => s + ch.countUnread(), 0);
+    this.channelsBadgeTarget.hidden = total === 0;
+    this.channelsBadgeTarget.textContent = total > 99 ? '99+' : String(total);
+  }
+
   private renderTeamChannels(channels: AnyChannel[]): void {
+    this.updateChannelsBadge(channels);
     if (channels.length === 0) { this.renderChannelsEmpty(); return; }
 
     const channelBtn = (ch: AnyChannel): string => {
@@ -363,11 +381,11 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
           ${chs.map(channelBtn).join('')}
         </div>`;
       });
-      this.channelsListTarget.innerHTML = html + (this.isAdminValue ? this.newChannelButton() : '');
+      this.channelsListTarget.innerHTML = (this.isAdminValue ? this.newChannelButton() : '') + html;
     } else {
       // Regular user: flat list
       this.channelsListTarget.innerHTML =
-        channels.map(channelBtn).join('') + (this.isAdminValue ? this.newChannelButton() : '');
+        (this.isAdminValue ? this.newChannelButton() : '') + channels.map(channelBtn).join('');
     }
   }
 
@@ -475,6 +493,7 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
   }
 
   private renderDms(channels: AnyChannel[]): void {
+    this.updateDmsBadge(channels);
     if (channels.length === 0) { this.renderDmsEmpty(); return; }
 
     this.dmsListTarget.innerHTML = channels.map((ch) => {
@@ -512,19 +531,28 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
           <span class="mngt-sidebar-label">${this.esc(name)}</span>
           ${unread > 0 ? `<span class="mngt-sidebar-badge">${unread > 99 ? '99+' : unread}</span>` : ''}
         </button>`;
-    }).join('') + this.newDmButton();
+    }).join('');
+    this.dmsListTarget.innerHTML = this.newDmButton() + this.dmsListTarget.innerHTML;
   }
 
   private renderChannelsEmpty(): void {
+    this.channelsBadgeTarget.hidden = true;
     this.channelsListTarget.innerHTML =
-      '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhum canal</span>' +
-      (this.isAdminValue ? this.newChannelButton() : '');
+      (this.isAdminValue ? this.newChannelButton() : '') +
+      '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhum canal</span>';
+  }
+
+  private updateDmsBadge(channels: AnyChannel[]): void {
+    const total = channels.reduce((s, ch) => s + ch.countUnread(), 0);
+    this.dmsBadgeTarget.hidden = total === 0;
+    this.dmsBadgeTarget.textContent = total > 99 ? '99+' : String(total);
   }
 
   private renderDmsEmpty(): void {
+    this.dmsBadgeTarget.hidden = true;
     this.dmsListTarget.innerHTML =
-      '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhuma conversa</span>' +
-      this.newDmButton();
+      this.newDmButton() +
+      '<span class="mngt-sidebar-item mngt-sidebar-item--empty">Nenhuma conversa</span>';
   }
 
   // ── Modal internals ────────────────────────────────────────────
@@ -756,20 +784,20 @@ export default class MngtChatRoomsController extends Controller<HTMLElement> {
     if (!vapidKey) return;
 
     try {
-      const reg    = await navigator.serviceWorker.ready;
-      const existing = await reg.pushManager.getSubscription();
-      const sub = existing ?? await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: this.urlBase64ToUint8Array(vapidKey).buffer as ArrayBuffer,
-      });
-      if (!existing) {
-        // Only POST when a new subscription was just created (avoids duplicate server calls).
-        await fetch('/mngt/push_subscriptions', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': this.csrfToken() },
-          body: JSON.stringify({ subscription: sub.toJSON() }),
+      const reg = await navigator.serviceWorker.ready;
+      const sub = await reg.pushManager.getSubscription()
+        ?? await reg.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: this.urlBase64ToUint8Array(vapidKey).buffer as ArrayBuffer,
         });
-      }
+      // Always sync with server — the server record may have been destroyed when a
+      // previous push failed (ExpiredSubscription/InvalidSubscription). The server
+      // upserts by endpoint, so repeated calls are idempotent.
+      await fetch('/mngt/push_subscriptions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': this.csrfToken() },
+        body: JSON.stringify({ subscription: sub.toJSON() }),
+      });
     } catch (e) {
       console.warn('[mngt:push] subscription failed', e);
     }

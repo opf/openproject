@@ -16,7 +16,9 @@
         "build": {
           "builder": "@angular-builders/custom-esbuild:application",
           "options": {
-            "plugins": ["./esbuild/plugins.ts"],
+            "plugins": [
+              "./esbuild/plugins.ts"
+            ],
             "allowedCommonJsDependencies": [
               "dom-plane",
               "pako",
@@ -37,7 +39,9 @@
             },
             "index": false,
             "browser": "src/main.ts",
-            "polyfills": ["src/polyfills.ts"],
+            "polyfills": [
+              "src/polyfills.ts"
+            ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "sass",
             "assets": [
@@ -98,9 +102,9 @@
               ],
               "preserveSymlinks": true,
               "optimization": {
-                "scripts" : false,
-                "styles" : true,
-                "fonts" : true
+                "scripts": false,
+                "styles": true,
+                "fonts": true
               },
               "outputHashing": "all",
               "sourceMap": false,
@@ -112,13 +116,17 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "define": { "process.env.NODE_ENV": "'production'" }
+              "define": {
+                "process.env.NODE_ENV": "'production'"
+              }
             },
             "development": {
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true,
-              "define": { "process.env.NODE_ENV": "'development'" }
+              "define": {
+                "process.env.NODE_ENV": "'development'"
+              }
             }
           },
           "defaultConfiguration": "production"
@@ -126,7 +134,8 @@
         "serve": {
           "builder": "@angular-builders/custom-esbuild:dev-server",
           "options": {
-            "servePath": "/assets/frontend"
+            "servePath": "/assets/frontend",
+            "allowedHosts": true
           },
           "configurations": {
             "production": {
@@ -137,7 +146,8 @@
               "proxyConfig": "src/proxy.conf.mjs",
               "headers": {
                 "Access-Control-Allow-Origin": "*"
-              }
+              },
+              "allowedHosts": true
             }
           },
           "defaultConfiguration": "development"

@@ -77,10 +77,12 @@ self.addEventListener('push', (e) => {
       _batches.delete(tag);
 
       try {
-        // Suppress notification when the user already has the app visible —
-        // the in-app badge/sound covers this case.
+        // Suppress notification only when the app window is focused (user is
+        // actively looking at it). visibilityState is unreliable on mobile —
+        // a backgrounded tab can still report 'visible' after a notification
+        // click reopened it. focused is false the moment the user goes home.
         const windowClients = await clients.matchAll({ type: 'window', includeUncontrolled: true });
-        const appVisible = windowClients.some((c) => c.visibilityState === 'visible');
+        const appVisible = windowClients.some((c) => c.focused);
 
         if (!appVisible) {
           // Merge with any notification already visible for this channel

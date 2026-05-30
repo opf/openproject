@@ -110,6 +110,14 @@ interface StreamUser {
   avatarUrl?: string;
 }
 
+// Module-level cache: survives Stimulus disconnect/connect cycles caused by
+// data-turbo-permanent DOM transplant on Turbo Drive navigation.
+let _panelClient:        StreamChat | null = null;
+let _panelUserId        = '';
+let _panelUserName      = '';
+let _panelActiveChannel: Channel | null = null;
+let _panelInitialized   = false;
+
 export default class MngtChatPanelController extends Controller<HTMLElement> {
   static targets = ['panel', 'container', 'loading', 'error', 'button', 'badge', 'iconExpand', 'iconCompress'];
   static values  = {
@@ -184,10 +192,39 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
   connect(): void {
     document.addEventListener('mngt:chat-navigate',   this.handleNavigate);
     document.addEventListener('mngt:unread-changed',  this.onUnreadChanged);
-    void this.setup();
+    if (_panelInitialized && _panelClient) {
+      // Turbo navigation reconnect: DOM preserved by data-turbo-permanent — restore state.
+      this.streamClient    = _panelClient;
+      this.currentUserId   = _panelUserId;
+      this.currentUserName = _panelUserName;
+      this.ready           = true;
+      this.subscribeBadgeUpdates();
+      _panelClient.on('user.presence.changed', this.onPresenceChanged);
+      _panelClient.on('connection.changed',    this.onConnectionChanged);
+      if (_panelActiveChannel) {
+        this.activeChannel = _panelActiveChannel;
+        this.activeChannel.on('message.new',      this.onNewMessage);
+        this.activeChannel.on('message.updated',  this.onMessageUpdated);
+        this.activeChannel.on('message.deleted',  this.onMessageDeleted);
+        this.activeChannel.on('typing.start',     this.onTypingStart);
+        this.activeChannel.on('typing.stop',      this.onTypingStop);
+        this.activeChannel.on('reaction.new',     this.onReactionEvent);
+        this.activeChannel.on('reaction.deleted', this.onReactionEvent);
+      }
+    } else {
+      void this.setup();
+    }
   }
 
   disconnect(): void {
+    // Persist state for reconnect (Turbo Drive transplants data-turbo-permanent elements)
+    if (this.ready && this.streamClient) {
+      _panelClient        = this.streamClient;
+      _panelUserId        = this.currentUserId;
+      _panelUserName      = this.currentUserName;
+      _panelActiveChannel = this.activeChannel;
+      _panelInitialized   = true;
+    }
     document.removeEventListener('mngt:chat-navigate',  this.handleNavigate);
     document.removeEventListener('mngt:unread-changed', this.onUnreadChanged);
     this.streamClient?.off('user.presence.changed', this.onPresenceChanged);
@@ -503,6 +540,10 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
         await client.connectUser(creds.user, creds.token);
       }
       this.streamClient = client;
+      _panelClient      = client;
+      _panelUserId      = creds.userId;
+      _panelUserName    = creds.user.name ?? '';
+      _panelInitialized = true;
       this.subscribeBadgeUpdates();
       signalClientReady(client);
       client.on('user.presence.changed', this.onPresenceChanged);
@@ -582,7 +623,8 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
     }
 
     await channel.markRead().catch(() => {});
-    this.activeChannel = channel;
+    this.activeChannel  = channel;
+    _panelActiveChannel = channel;
     this.renderChannel(channel, displayName);
     document.dispatchEvent(new CustomEvent('mngt:channel-read', { detail: { channelId: id } }));
     if (jumpToId) void this.jumpToMessage(jumpToId);
@@ -984,6 +1026,8 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
 
       const searchIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="13" height="13" aria-hidden="true"><path d="M10.68 11.74a6 6 0 0 1-7.922-8.982 6 6 0 0 1 8.982 7.922l3.04 3.04a.749.749 0 0 1-.326 1.275.749.749 0 0 1-.734-.215ZM11.5 7a4.499 4.499 0 1 0-8.997 0A4.499 4.499 0 0 0 11.5 7Z"/></svg>`;
 
+      const chevronSvg = `<svg class="mngt-sidebar-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" width="10" height="10" aria-hidden="true"><path d="M6.22 3.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.751.751 0 0 1-1.042-.018.751.751 0 0 1-.018-1.042L9.94 8 6.22 4.28a.75.75 0 0 1 0-1.06Z"/></svg>`;
+
       listEl.innerHTML = `
         <div class="mngt-global-search-wrap">
           <div class="mngt-global-search-bar">
@@ -995,16 +1039,36 @@ export default class MngtChatPanelController extends Controller<HTMLElement> {
             <div class="mngt-search-hint">Digite para buscar em todos os canais</div>
           </div>
         </div>
-        <div class="mngt-chat-list-section">
-          <div class="mngt-chat-list-section-label">Canais${channelAddBtn}</div>
-          ${teamSectionHtml}
-          ${this.isAdminValue ? `<button class="mngt-sidebar-new-dm mngt-panel-new-channel-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Novo canal</button>` : ''}
+        <div class="mngt-chat-tab-bar">
+          <button class="mngt-chat-tab" id="mngt-panel-channels-tab-btn">Canais</button>
+          ${channelAddBtn}
+          <button class="mngt-chat-tab" id="mngt-panel-dms-tab-btn">Mensagens</button>
+          ${dmAddBtn}
         </div>
-        <div class="mngt-chat-list-section">
-          <div class="mngt-chat-list-section-label">Mensagens Diretas${dmAddBtn}</div>
-          ${dmsHtml || '<span class="mngt-chat-list-empty">Nenhuma conversa</span>'}
+        <div class="mngt-chat-tab-panel" id="mngt-panel-channels-tab">
+          ${this.isAdminValue ? `<button class="mngt-sidebar-new-dm mngt-panel-new-channel-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Novo canal</button>` : ''}
+          ${teamSectionHtml}
+        </div>
+        <div class="mngt-chat-tab-panel" id="mngt-panel-dms-tab">
           <button class="mngt-sidebar-new-dm mngt-panel-new-dm-btn"><span class="mngt-sidebar-new-dm-plus">+</span> Nova mensagem</button>
+          ${dmsHtml || '<span class="mngt-chat-list-empty">Nenhuma conversa</span>'}
         </div>`;
+
+      // Tab switching for panel — default: dms
+      const panelActivateTab = (tab: 'channels' | 'dms'): void => {
+        const isChannels = tab === 'channels';
+        listEl.querySelector('#mngt-panel-channels-tab-btn')?.classList.toggle('mngt-chat-tab--active', isChannels);
+        listEl.querySelector('#mngt-panel-dms-tab-btn')?.classList.toggle('mngt-chat-tab--active', !isChannels);
+        const chPanel = listEl.querySelector<HTMLElement>('#mngt-panel-channels-tab');
+        const dmPanel = listEl.querySelector<HTMLElement>('#mngt-panel-dms-tab');
+        if (chPanel) chPanel.hidden = !isChannels;
+        if (dmPanel) dmPanel.hidden = isChannels;
+        localStorage.setItem('mngt-panel-active-tab', tab);
+      };
+      const savedPanelTab = localStorage.getItem('mngt-panel-active-tab') as 'channels' | 'dms' | null;
+      panelActivateTab(savedPanelTab ?? 'dms');
+      listEl.querySelector('#mngt-panel-channels-tab-btn')?.addEventListener('click', () => panelActivateTab('channels'));
+      listEl.querySelector('#mngt-panel-dms-tab-btn')?.addEventListener('click', () => panelActivateTab('dms'));
 
       // Global search input handler
       const globalInput = listEl.querySelector<HTMLInputElement>('#mngt-global-search-input');

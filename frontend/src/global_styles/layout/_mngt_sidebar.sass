@@ -9,16 +9,32 @@
   display: flex
   flex-direction: column
   flex: 1
-  overflow-y: auto
+  overflow: hidden
   overflow-x: hidden
   padding: 4px 0 16px
 
 .mngt-sidebar-section
+  flex-shrink: 0
   padding: 6px 0
   border-bottom: 1px solid var(--main-menu-border-color, rgba(255,255,255,0.08))
 
   &:last-child,
   &--grow
+    border-bottom: none
+
+  &--grow
+    flex: 1 1 0
+    min-height: 0
+    overflow-y: auto
+    scrollbar-gutter: stable
+
+  &--chat
+    flex: 1 1 0
+    min-height: 0
+    overflow: hidden
+    display: flex
+    flex-direction: column
+    padding: 0
     border-bottom: none
 
 .mngt-sidebar-section-label
@@ -148,18 +164,54 @@
   details[open] > summary &
     transform: rotate(90deg)
 
-.mngt-sidebar-channels-details
-  > summary
-    list-style: none
-    cursor: pointer
-    &::-webkit-details-marker
-      display: none
-    &::marker
-      content: none
-    &:hover
-      color: var(--main-menu-font-color, #c8d1e0)
-      .mngt-sidebar-chevron
-        opacity: 0.8
+// ── Abas (sidebar + chat panel) ──────────────────────────────────
+
+.mngt-chat-tab-bar
+  display: flex
+  align-items: center
+  flex-shrink: 0
+  gap: 4px
+  padding: 6px 8px 4px
+
+.mngt-chat-tab
+  flex: 1
+  display: flex
+  align-items: center
+  justify-content: center
+  gap: 4px
+  padding: 5px 6px
+  border: none
+  border-radius: 6px
+  background: transparent
+  color: var(--main-menu-font-color-disabled, rgba(255,255,255,0.45))
+  font-size: 12px
+  font-weight: 500
+  cursor: pointer
+  white-space: nowrap
+  transition: background 0.15s, color 0.15s
+
+  &:hover
+    background: rgba(255, 255, 255, 0.06)
+    color: var(--main-menu-font-color, rgba(255,255,255,0.85))
+
+  &--active
+    background: rgba(255, 255, 255, 0.12)
+    color: var(--main-menu-font-color, rgba(255,255,255,0.9))
+    font-weight: 600
+
+  // badge dentro da aba
+  .mngt-sidebar-badge
+    position: static
+    font-size: 10px
+    padding: 1px 5px
+    min-width: 16px
+    height: 16px
+
+.mngt-chat-tab-panel
+  flex: 1
+  min-height: 0
+  overflow-y: auto
+  scrollbar-gutter: stable
 
 .mngt-sidebar-section-label--collapsible
   justify-content: flex-start
@@ -205,6 +257,21 @@
   &:hover
     background: rgba(255,255,255,0.12)
     color: #fff
+
+  &:disabled
+    opacity: 0.25
+    cursor: default
+    pointer-events: none
+
+.mngt-sidebar-space-group
+  display: flex
+  align-items: center
+  gap: 4px
+
+.mngt-sidebar-space-actions
+  display: flex
+  gap: 2px
+  flex-shrink: 0
 
 .mngt-sidebar-new-dm
   display: flex
@@ -851,6 +918,34 @@
   color: rgba(255,255,255,0.35)
   padding: 10px 14px 4px
   user-select: none
+
+  &--collapsible
+    cursor: pointer
+    justify-content: flex-start
+    gap: 4px
+    list-style: none
+    &::-webkit-details-marker
+      display: none
+    &::marker
+      content: none
+    .mngt-sidebar-add
+      margin-left: auto
+    .mngt-sidebar-chevron
+      opacity: 0.5
+      transition: transform 0.18s ease
+
+  details[open] > &--collapsible
+    .mngt-sidebar-chevron
+      transform: rotate(90deg)
+
+.mngt-chat-list-section--collapsible
+  > summary
+    list-style: none
+    cursor: pointer
+    &::-webkit-details-marker
+      display: none
+    &::marker
+      content: none
 
 .mngt-chat-list-item
   display: flex
@@ -2714,3 +2809,55 @@ body[data-color-mode="light"]
     line-height: 0
     &:hover .mngt-msg-image
       opacity: 0.9
+
+// ── Header: search skeleton (CSS-only, sem HTML extra) ───────────
+
+// Alinha verticalmente o centro do header
+.op-app-header--center
+  align-items: center
+
+// Skeleton visível antes do Angular registrar o custom element
+opce-global-search:not(:defined)
+  align-self: center
+  display: flex
+  align-items: center
+  gap: 8px
+  width: 300px
+  height: 34px
+  padding: 0 12px
+  border-radius: 4px
+  box-sizing: border-box
+  background: rgba(255, 255, 255, 0.08)
+  border: 1px solid rgba(255, 255, 255, 0.18)
+  pointer-events: none
+  animation: mngt-skeleton-wave 1.5s ease-in-out infinite
+  cursor: text
+
+  &::before
+    content: ''
+    display: block
+    flex-shrink: 0
+    width: 14px
+    height: 14px
+    border-radius: 50%
+    background: rgba(255, 255, 255, 0.35)
+
+  &::after
+    content: attr(data-placeholder)
+    display: block
+    flex: 1
+    font-size: 13px
+    color: rgba(255, 255, 255, 0.4)
+    overflow: hidden
+    text-overflow: ellipsis
+    white-space: nowrap
+
+// ── Header: logo skeleton ─────────────────────────────────────────
+
+// Skeleton do logo: ativo enquanto a imagem não carregou (.op-logo--loading removida
+// pelo logo-skeleton.controller.ts ao detectar o load do background-image).
+// Especificidade (0,3,0) garante prioridade sobre logo.sass importado depois via common.
+.op-app-header .op-logo--link.op-logo--loading
+  background-color: rgba(255, 255, 255, 0.1)
+  border-radius: 4px
+  animation: mngt-skeleton-wave 1.5s ease-in-out infinite

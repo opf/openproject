@@ -67,7 +67,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% initial_classes = initial_menu_classes(side_displayed, show_decoration) %>
 <div id="wrapper" style="<%= initial_menu_styles %>" class="<%= initial_classes %>">
   <% if show_decoration %>
-    <header class="op-app-header<%= " op-app-header_development" if OpenProject::Configuration.development_highlight_enabled? %>">
+    <header id="op-app-header" class="op-app-header<%= " op-app-header_development" if OpenProject::Configuration.development_highlight_enabled? %>" data-turbo-permanent>
       <div class="op-app-header--start">
         <a href="" class="sr-only skip-navigation-link"
            id="skip-navigation--content"
