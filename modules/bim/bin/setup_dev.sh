@@ -25,8 +25,8 @@ unzip -q COLLADA2GLTF-v2.1.5-linux.zip
 mv COLLADA2GLTF-bin "/usr/local/bin/COLLADA2GLTF"
 
 # IFCconvert
-wget --quiet --tries 3 https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.7.11-fea8e3a-linux64.zip
-unzip -q IfcConvert-v0.7.11-fea8e3a-linux64.zip
+wget --quiet --tries 3 https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.8.5-a51b2c5-linux64.zip
+unzip -q IfcConvert-v0.8.5-a51b2c5-linux64.zip
 mv IfcConvert "/usr/local/bin/IfcConvert"
 
 wget --quiet --tries 3 https://github.com/bimspot/xeokit-metadata/releases/download/1.0.1/xeokit-metadata-linux-x64.tar.gz

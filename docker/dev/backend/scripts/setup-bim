@@ -21,8 +21,8 @@ unzip -q COLLADA2GLTF-v2.1.5-linux.zip
 mv COLLADA2GLTF-bin "/usr/local/bin/COLLADA2GLTF"
 
 # IFCconvert
-wget --no-verbose --tries 3 https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.7.11-fea8e3a-linux64.zip
-unzip -q IfcConvert-v0.7.11-fea8e3a-linux64.zip
+wget --no-verbose --tries 3 https://s3.amazonaws.com/ifcopenshell-builds/IfcConvert-v0.8.5-a51b2c5-linux64.zip
+unzip -q IfcConvert-v0.8.5-a51b2c5-linux64.zip
 mv IfcConvert "/usr/local/bin/IfcConvert"
 
 wget --no-verbose --tries 3 https://github.com/opf/xeokit-metadata/releases/download/v1.1.0/xeokit-metadata-linux-x64.tar.gz
