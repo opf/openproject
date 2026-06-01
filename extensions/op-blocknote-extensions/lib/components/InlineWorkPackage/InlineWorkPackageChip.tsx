@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useWorkPackage } from "../../hooks/useWorkPackage";
 import { useColors } from "../../services/colors";
@@ -71,28 +71,6 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef }: InlineWorkP
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [isSelected]);
-
-  const handleCopy = useCallback(
-    (e: ClipboardEvent) => {
-      if (!isSelected || !wp || !wpid) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      e.clipboardData?.setData("text/plain", `#${wpid}`);
-      e.clipboardData?.setData(
-        "text/html",
-        `<span data-inline-content-type="openProjectWorkPackageInline" data-wpid="${wpid}" data-instance-id="${instanceId}" data-size="${size}">#${wpid}</span>`,
-      );
-    },
-    [isSelected, wp, wpid, instanceId, size],
-  );
-
-  useEffect(() => {
-    if (!isSelected) return;
-    document.addEventListener("copy", handleCopy);
-    return () => document.removeEventListener("copy", handleCopy);
-  }, [isSelected, handleCopy]);
 
   // Pending: waiting for user to pick a WP via search
   if (pendingCallbacks) {
