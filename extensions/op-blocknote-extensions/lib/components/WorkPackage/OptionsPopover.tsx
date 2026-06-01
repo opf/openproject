@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect, type CSSProperties } from "react";
+import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import type { WorkPackage } from "../../openProjectTypes";
 import { linkToWorkPackage } from "../../services/openProjectApi";
@@ -10,12 +11,14 @@ import {
   TrashIcon,
   ChevronDownIcon,
 } from "@primer/octicons-react";
+import {formatWorkPackageId} from "../../utils/id";
 
 export interface WpOptionsProps {
   wp: WorkPackage;
   currentSize?: InlineWpSize;
   currentBlockSize?: BlockWpSize;
   instanceId?: string;
+  anchorEl?: HTMLElement | null;
   onClose: () => void;
   onResize?: (size: InlineWpSize) => void;
   onRemove?: () => void;
@@ -32,6 +35,7 @@ export const WpOptionsPopover = ({
   currentSize,
   currentBlockSize,
   instanceId: _instanceId,
+  anchorEl,
   onClose,
   onResize,
   onRemove,
@@ -41,6 +45,32 @@ export const WpOptionsPopover = ({
 }: WpOptionsProps) => {
   const { t } = useTranslation();
   const [showSizes, setShowSizes] = useState(false);
+
+  const [anchorRect, setAnchorRect] = useState<DOMRect | null>(
+    () => anchorEl?.getBoundingClientRect() ?? null
+  );
+
+  useEffect(() => {
+    if (!anchorEl) return;
+    const update = () => setAnchorRect(anchorEl.getBoundingClientRect());
+    const handleScroll = () => onClose();
+
+    update();
+    window.addEventListener("scroll", handleScroll, true);
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+      window.removeEventListener("resize", update);
+    };
+  }, [anchorEl, onClose]);
+
+  const fixedStyle: CSSProperties | undefined = anchorRect
+    ? {
+        position: "fixed",
+        bottom: window.innerHeight - anchorRect.top + 6,
+        left: anchorRect.left,
+      }
+    : undefined;
 
   const isBlock = currentSize === undefined;
   
@@ -52,15 +82,15 @@ export const WpOptionsPopover = ({
     onClose();
   };
 
-  return (
+  const content = (
     // Prevent editor/parent handlers from stealing focus or closing the popover
-    <Popover onMouseDown={(e) => e.stopPropagation()}>
+    <Popover style={fixedStyle} onMouseDown={(e) => e.stopPropagation()}>
       <PopBtn
         title={t("options.openInNewTab")}
-        aria-label={t("options.openAriaLabel", { id: wp.id })}
+        aria-label={t("options.openAriaLabel", { id: formatWorkPackageId(wp.displayId) })}
         onClick={(e) => {
           e.stopPropagation();
-          window.open(linkToWorkPackage(wp.id), "_blank", "noopener,noreferrer");
+          window.open(linkToWorkPackage(wp.displayId), "_blank", "noopener,noreferrer");
         }}
       >
         <IcOpen /> {t("options.open")}
@@ -153,6 +183,12 @@ export const WpOptionsPopover = ({
       </PopBtn>
     </Popover>
   );
+
+  if (anchorEl) {
+    const portalTarget = (anchorEl.closest(".bn-container") as HTMLElement | null) ?? document.body;
+    return createPortal(content, portalTarget);
+  }
+  return content;
 };
 
 const Popover = styled.div.attrs({

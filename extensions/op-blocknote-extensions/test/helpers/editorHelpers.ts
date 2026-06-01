@@ -9,20 +9,21 @@ export async function openEditorAndType(text: string) {
   await userEvent.type(editorEl, text);
 }
 
-export async function insertInlineChipViaSlashMenu() {
+export async function insertInlineChipViaSlashMenu(searchTerm:string='Fix', resultTerm:string='Fix login bug') {
   await openEditorAndType('/');
   await expect.element(page.getByText('Link existing work package').first()).toBeVisible();
   await userEvent.click(page.getByText('Link existing work package').first());
 
   const searchInput = page.getByPlaceholder('Search by work package ID or subject');
   await expect.element(searchInput).toBeVisible();
-  await userEvent.type(searchInput, 'Fix');
+  await userEvent.type(searchInput, searchTerm);
 
-  await expect.element(page.getByText('Fix login bug')).toBeVisible();
-  await userEvent.click(page.getByText('Fix login bug'));
+  await expect.element(page.getByText(resultTerm)).toBeVisible();
+  await userEvent.click(page.getByText(resultTerm));
 
   // default S chip - status visible
-  await expect.element(page.getByText('In Progress')).toBeVisible();
+  await expect.element(searchInput).not.toBeInTheDocument();
+  await expect.element(page.getByText(resultTerm)).toBeVisible();
 }
 
 export async function insertInlineChipViaHash(hashes: string) {
@@ -32,13 +33,13 @@ export async function insertInlineChipViaHash(hashes: string) {
 }
 
 // Inline chip - popover & size menu
-export async function openInlineChipPopover() {
-  await userEvent.click(page.getByText('#123').first());
+export async function openInlineChipPopover(displayId: string = '#123') {
+  await userEvent.click(page.getByText(displayId).first());
   await expect.element(page.getByTestId('popover-content')).toBeVisible();
 }
 
-export async function openInlineChipSizeMenu() {
-  await openInlineChipPopover();
+export async function openInlineChipSizeMenu(displayId:string = '#123') {
+  await openInlineChipPopover(displayId);
   await userEvent.click(page.getByTitle('Change size'));
   await expect.element(page.getByTestId('size-menu')).toBeVisible();
 }
@@ -55,8 +56,8 @@ export async function openBlockCardSizeMenu() {
   await expect.element(page.getByTestId('size-menu')).toBeVisible();
 }
 
-export async function convertToCompactCard() {
-  await openInlineChipSizeMenu();
+export async function convertToCompactCard(displayId:string = "#123") {
+  await openInlineChipSizeMenu(displayId);
   await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
   await expect.element(page.getByTestId('block-card')).toBeVisible();
 }

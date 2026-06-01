@@ -9,8 +9,8 @@ import {
 export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
   inlineConfig,
   {
-    render: ({ inlineContent, contentRef }) => (
-      <InlineWorkPackageChip inlineContent={inlineContent} contentRef={contentRef} />
+    render: ({ inlineContent, contentRef, editor }) => (
+      <InlineWorkPackageChip inlineContent={inlineContent} contentRef={contentRef} editor={editor}/>
     ),
 
     // BlockNote's InlineContentWrapper already wraps this output in a span carrying

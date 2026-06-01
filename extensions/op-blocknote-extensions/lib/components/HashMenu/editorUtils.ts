@@ -1,7 +1,8 @@
 import type { BlockNoteEditor } from "@blocknote/core";
 import type { InlineWpSize } from "../WorkPackage/types";
-import { makeInstanceId } from "../../services/utils";
+import { makeInstanceId } from "../../utils/id.ts";
 import type { WorkPackage } from "../../openProjectTypes";
+import { placeCursorAfterInlineNode } from "../../utils/cursor.ts";
 
 export type AnyEditor = BlockNoteEditor<any, any, any>;
 
@@ -18,64 +19,26 @@ export function getSizeFromCurrentBlock(editor: AnyEditor): InlineWpSize {
   if (!block) return "xxs";
 
   const content = (block.content ?? []) as any[];
+  let lastHashCount: number | null = null;
 
   for (const node of content) {
     if (node.type !== "text") continue;
     const text = node.text as string;
-    const match = text.match(/(#+)[^#]/);
-    if (match) {
-      const hashCount = match[1].length;
-      if (hashCount >= 3) return "s";
-      if (hashCount === 2) return "xs";
-      return "xxs";
+    const matches = [...text.matchAll(/#+/g)];
+    if (matches.length > 0) {
+      lastHashCount = matches[matches.length - 1][0].length;
     }
   }
 
+  if (lastHashCount === null) return "xxs";
+  if (lastHashCount >= 3) return "s";
+  if (lastHashCount === 2) return "xs";
   return "xxs";
 }
 
 /**
- * Removes the # trigger text (and any extra # symbols) from the current block.
- * BlockNote removes #query itself on Enter, but may leave extra # characters
- * (e.g. ## from ###query). Returns the block id, or null if nothing was found.
- */
-export function clearTriggerText(editor: AnyEditor): string | null {
-  const block = editor.getTextCursorPosition()?.block;
-  if (!block) return null;
-
-  const content = (block.content ?? []) as any[];
-
-  const triggerNodeIndex = content.findIndex((n) => {
-    if (n.type !== "text") return false;
-    return /#+/.test(n.text as string);
-  });
-
-  if (triggerNodeIndex === -1) return null;
-
-  const triggerNode = content[triggerNodeIndex] as { type: string; text: string; styles: any };
-  const text = triggerNode.text;
-  const hashIndex = text.search(/#/);
-  const textBefore = hashIndex > 0 ? text.slice(0, hashIndex) : null;
-
-  const cleanedContent = [
-    ...content.slice(0, triggerNodeIndex),
-    ...(textBefore ? [{ type: "text", text: textBefore, styles: triggerNode.styles }] : []),
-  ];
-
-  editor.updateBlock(block.id, { content: cleanedContent } as any);
-  return block.id;
-}
-
-function focusAndMoveToEnd(editor: AnyEditor, blockId: string): void {
-  requestAnimationFrame(() => {
-    editor.focus();
-    editor.setTextCursorPosition(blockId, "end");
-  });
-}
-
-/**
- * Mouse path: inserts chip at the current cursor position via insertInlineContent.
- * Works correctly because e.preventDefault() stops BlockNote from moving the cursor.
+ * Inserts a chip at the cursor, removes the `#query` trigger before it,
+ * then repositions the cursor right after the chip via its instanceId.
  */
 export function insertWpChip(editor: AnyEditor, wp: WorkPackage, size: InlineWpSize): void {
   const instanceId = makeInstanceId();
@@ -85,38 +48,43 @@ export function insertWpChip(editor: AnyEditor, wp: WorkPackage, size: InlineWpS
     { type: "text", text: " ", styles: {} },
   ]);
 
+  removeTriggerBeforeChip(editor, instanceId);
+  editor.focus();
+
   requestAnimationFrame(() => {
-    editor.focus();
-    const cursor = editor.getTextCursorPosition();
-    if (cursor?.block?.id) {
-      editor.setTextCursorPosition(cursor.block.id, "end");
-    }
+    placeCursorAfterInlineNode(editor, instanceId);
   });
 }
+
 /**
- * Keyboard (Enter) path: inserts chip directly into block content by ID,
- * bypassing cursor position entirely to avoid race conditions with
- * BlockNote's Enter handling which moves the cursor to a new block.
+ * Trims the trailing `#query` from the text node right before the chip.
+ * Returns the block ID if the operation completed (with or without changes), or null if no block.
  */
-export function insertWpChipIntoBlock(
-  editor: AnyEditor,
-  blockId: string,
-  wp: WorkPackage,
-  size: InlineWpSize,
-): void {
-  const instanceId = makeInstanceId();
-  const block = editor.getBlock(blockId);
-  if (!block) return;
+export function removeTriggerBeforeChip(editor: AnyEditor, instanceId: string): string | null {
+  const block = editor.getTextCursorPosition()?.block;
+  if (!block) return null;
 
   const content = (block.content ?? []) as any[];
+  const chipIndex = content.findIndex(
+    (n) => n.type === "openProjectWorkPackageInline" && n.props?.instanceId === instanceId
+  );
+  if (chipIndex <= 0) return block.id;
 
-  editor.updateBlock(blockId, {
-    content: [
-      ...content,
-      { type: "openProjectWorkPackageInline", props: { wpid: String(wp.id), instanceId, size } },
-      { type: "text", text: " ", styles: {} },
-    ],
-  } as any);
+  const prev = content[chipIndex - 1];
+  if (prev.type !== "text") return block.id;
 
-  focusAndMoveToEnd(editor, blockId);
+  const match = (prev.text as string).match(/#+\S*$/);
+  if (!match) return block.id;
+
+  const before = (prev.text as string).slice(0, match.index);
+  const newContent = [...content];
+
+  if (before.length > 0) {
+    newContent[chipIndex - 1] = { ...prev, text: before };
+  } else {
+    newContent.splice(chipIndex - 1, 1);
+  }
+
+  editor.updateBlock(block.id, { content: newContent } as any);
+  return block.id;
 }

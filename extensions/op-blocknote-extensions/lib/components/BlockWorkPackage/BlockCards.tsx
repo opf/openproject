@@ -16,6 +16,7 @@ import {
   statusTextColor,
   statusBackgroundColor,
 } from "../../services/colors";
+import { formatWorkPackageId } from "../../utils/id";
 
 const DESCRIPTION_MAX_CHARS = 300;
 
@@ -27,7 +28,7 @@ export interface BlockCardSharedProps {
 }
 
 function buildTitle(workPackage: WorkPackage, linkTitle: boolean) {
-  const href = linkToWorkPackage(workPackage.id);
+  const href = linkToWorkPackage(workPackage.displayId);
   if (!linkTitle) return workPackage.subject;
   return (
     <WorkPackageTitleLink
@@ -47,7 +48,7 @@ const CardBase = styled.div<{ $inDropdown: boolean }>`
   ${defaultWpVariables}
   padding: var(--spacer-m) var(--spacer-l);
   background-color: var(--highlight-wp-background);
-  border-radius: var(--bn-border-radius-small);
+  border-radius: var(--bn-border-radius);
 
   ${({ $inDropdown }) =>
     $inDropdown &&
@@ -109,7 +110,7 @@ export const BlockCardM = ({
       <WorkPackageType $color={typeColor(workPackage)}>
         {workPackage._links?.type?.title}
       </WorkPackageType>
-      <WorkPackageId>#{workPackage.id}</WorkPackageId>
+      <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
       <WorkPackageStatus
         $baseColor={statusColor(workPackage)}
         $borderColor={statusBorderColor()}
@@ -144,7 +145,7 @@ export const BlockCardL = ({
       <WorkPackageType $color={typeColor(workPackage)}>
         {workPackage._links?.type?.title}
       </WorkPackageType>
-      <WorkPackageId>#{workPackage.id}</WorkPackageId>
+      <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
       <WorkPackageStatus
         $baseColor={statusColor(workPackage)}
         $borderColor={statusBorderColor()}
@@ -193,7 +194,7 @@ export const BlockCardXL = ({
         <WorkPackageType $color={typeColor(workPackage)}>
           {workPackage._links?.type?.title}
         </WorkPackageType>
-        <WorkPackageId>#{workPackage.id}</WorkPackageId>
+        <WorkPackageId>{formatWorkPackageId(workPackage.displayId)}</WorkPackageId>
         <WorkPackageStatus
           $baseColor={statusColor(workPackage)}
           $borderColor={statusBorderColor()}

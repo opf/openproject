@@ -5,13 +5,6 @@ import { BlockCard } from "../BlockWorkPackage/BlockCard";
 import { defaultWpVariables } from "../WorkPackage/atoms";
 import type { WorkPackage } from "../../openProjectTypes";
 import type { HashMenuItem } from "./types";
-import type { AnyEditor } from "./editorUtils";
-import {
-  getSizeFromCurrentBlock,
-  clearTriggerText,
-  insertWpChip,
-  insertWpChipIntoBlock,
-} from "./editorUtils";
 import { useTranslation } from "react-i18next";
 
 const Menu = styled.div.attrs({ className: "op-bn-hash-menu" })`
@@ -45,41 +38,16 @@ const EmptyState = styled.div`
 const MAX_RESULTS = 5;
 
 export function createHashWpMenuComponent(
-  editor: AnyEditor,
   resultsRef: RefObject<WorkPackage[]>,
 ): FC<SuggestionMenuProps<HashMenuItem>> {
   const HashWpMenuComponent: FC<SuggestionMenuProps<HashMenuItem>> = ({
     items,
     selectedIndex,
+    onItemClick,
   }) => {
     const { t } = useTranslation();
     const searchQuery = items[0]?.title ?? "";
     const visibleResults = (resultsRef.current ?? []).slice(0, MAX_RESULTS);
-
-    // Mutate each item's onItemClick so BlockNote's keyboard handler
-    // (Enter / PgUp / PgDn) calls the correct insertion for that result.
-    visibleResults.forEach((wp, index) => {
-      if (!items[index]) return;
-
-      const size = getSizeFromCurrentBlock(editor);
-      const blockId = editor.getTextCursorPosition()?.block?.id;
-
-      items[index].onItemClick = () => {
-        requestAnimationFrame(() => {
-          if (!blockId) return;
-          editor.focus();
-
-          // BlockNote splits the block on Enter - remove the new empty block it created.
-          const currentBlock = editor.getTextCursorPosition()?.block;
-          if (currentBlock && currentBlock.id !== blockId) {
-            editor.removeBlocks([currentBlock.id]);
-          }
-
-          clearTriggerText(editor);
-          insertWpChipIntoBlock(editor, blockId, wp, size);
-        });
-      };
-    });
 
     if (!searchQuery) {
       return (
@@ -103,17 +71,11 @@ export function createHashWpMenuComponent(
           <MenuItem
             key={wp.id}
             $selected={selectedIndex === index}
-            // Mouse path: e.preventDefault() stops BlockNote from doing its own
-            // cleanup, so we clear the trigger text manually before inserting.
+            // Mouse path: e.preventDefault() prevents the editor from losing focus.
+            // This allows us to safely insert the chip without needing TipTap to restore the cursor.
             onMouseDown={(e) => {
               e.preventDefault();
-              const size = getSizeFromCurrentBlock(editor);
-              const blockId = clearTriggerText(editor);
-              if (blockId) {
-                editor.focus();
-                editor.setTextCursorPosition(blockId, "end");
-              }
-              insertWpChip(editor, wp, size);
+              if (items[index]) onItemClick?.(items[index]);
             }}
           >
             <BlockCard workPackage={wp} inDropdown />

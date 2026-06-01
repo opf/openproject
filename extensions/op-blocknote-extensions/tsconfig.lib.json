@@ -1,6 +1,7 @@
 {
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
+    "rootDir": "./lib",
     "declaration": true,
     "declarationDir": "./dist",
     "emitDeclarationOnly": true,

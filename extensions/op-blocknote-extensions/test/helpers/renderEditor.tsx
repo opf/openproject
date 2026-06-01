@@ -9,8 +9,8 @@ import {
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
   useHashWpMenu,
+  useOpBlockNoteExtensions,
 } from '../../lib';
-import { useInlineWpEvents } from '../../lib/hooks/useInlineWpEvents';
 import type { HashMenuItem } from '../../lib';
 
 import '@blocknote/core/fonts/inter.css';
@@ -27,7 +27,7 @@ const schema = BlockNoteSchema.create().extend({
 
 function Editor() {
   const editor = useCreateBlockNote({ schema });
-  useInlineWpEvents(editor as any);
+  useOpBlockNoteExtensions(editor as any); 
 
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
 
@@ -48,7 +48,6 @@ function Editor() {
         triggerCharacter="#"
         getItems={getHashItems}
         suggestionMenuComponent={HashWpMenu}
-        onItemClick={(item: HashMenuItem) => item.onItemClick()}
       />
     </BlockNoteView>
     </div>

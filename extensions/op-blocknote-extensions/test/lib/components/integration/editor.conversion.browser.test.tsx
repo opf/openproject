@@ -36,7 +36,7 @@ describe('Inline chip - convert to block card', () => {
 });
 
 describe('Block card - convert to inline chip', () => {
-  it('block -> Tiny (inline) replaces card with XXS chip', async () => {
+  it('block -> Tiny replaces card with XXS chip', async () => {
     renderEditor();
     await insertInlineChipViaSlashMenu();
     await convertToCompactCard();
