@@ -16,7 +16,6 @@ export interface WorkPackageBlockProps {
   wpid?: number | string;
   instanceId?: string;
   size?: string;
-  initialized?: boolean;
 }
 
 export interface WorkPackageBlockExternalData {
@@ -25,7 +24,6 @@ export interface WorkPackageBlockExternalData {
     "data-wpid": string;
     "data-instance-id": string;
     "data-size": string;
-    "data-initialized": string;
   };
   text: string;
 }
@@ -41,7 +39,6 @@ export function computeWorkPackageBlockExternalData(
       "data-wpid": String(wpid),
       "data-instance-id": props.instanceId ?? "",
       "data-size": props.size ?? "m",
-      "data-initialized": String(props.initialized ?? true),
     },
     text: `#${wpid}`,
   };
@@ -67,6 +64,5 @@ export function parseWorkPackageBlockExternalHTML(
     wpid: wpid ? Number(wpid) : undefined,
     instanceId,
     size,
-    initialized: true,
   };
 }
