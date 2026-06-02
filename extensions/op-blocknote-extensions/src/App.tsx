@@ -29,7 +29,7 @@ const schema = BlockNoteSchema.create().extend({
 });
 
 initializeOpBlockNoteExtensions({
-  baseUrl: "http://localhost:3000",
+  baseUrl: import.meta.env.VITE_OPENPROJECT_URL ?? "http://localhost:3000",
   locale: "en",
 });
 
