@@ -87,7 +87,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
       <InlineChip ref={setRef}>
         <WorkPackageSearchPopover
           onSelect={(selectedWp) => {
-            pendingCallbacks.onSelect(selectedWp.id);
+            pendingCallbacks.onSelect(selectedWp.id, selectedWp.displayId);
             clearInlineWpCallbacks(instanceId);
           }}
           onCancel={() => {

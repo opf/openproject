@@ -7,6 +7,7 @@ export const blockConfig = createBlockConfig((() => ({
     initialized: { default: false, type: "boolean" },
     size: { default: "m", type: "string" },
     instanceId: { default: "", type: "string" },
+    displayId: { default: "", type: "string" },
   },
   content: "none",
   isSelectable: false,

@@ -1,13 +1,23 @@
+export function hashPrefixForSize(size: string | undefined): string {
+  if (size === 'xxs') return '#';
+  if (size === 'xs') return '##';
+  return '###'; // s, m, l, xl, undefined
+}
+
 export function buildExternalDOM(
   tag: "div" | "span",
   attrs: Record<string, string>,
   text: string,
   doc: Document,
+  href: string,
 ): HTMLElement {
-  const el = doc.createElement(tag);
+  const element = doc.createElement(tag);
   for (const [name, value] of Object.entries(attrs)) {
-    el.setAttribute(name, value);
+    element.setAttribute(name, value);
   }
-  el.textContent = text;
-  return el;
+  const a = doc.createElement("a");
+  a.setAttribute("href", href);
+  a.textContent = text;
+  element.appendChild(a);
+  return element;
 }

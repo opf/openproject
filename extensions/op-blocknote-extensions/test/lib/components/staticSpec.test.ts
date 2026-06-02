@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, beforeAll } from "vitest";
+import { initOpenProjectApi } from "../../../lib/services/openProjectApi";
 import { openProjectWorkPackageStaticBlockSpec } from "../../../lib/components/BlockWorkPackage/staticSpec";
 import { openProjectWorkPackageStaticInlineSpec } from "../../../lib/components/InlineWorkPackage/staticSpec";
 import {
@@ -17,6 +18,10 @@ import {openProjectWorkPackageBlockSpec, openProjectWorkPackageInlineSpec} from 
 // toExternalHTML and parse are consistent with the underlying functions so that
 // Hocuspocus (server-side) and the React spec always produce identical HTML.
 
+beforeAll(() => {
+  initOpenProjectApi({ baseUrl: "http://localhost:3000" });
+});
+
 // createBlockSpec returns a creator function; call it to get the spec.
 // createInlineContentSpec returns the spec directly.
 const blockImpl = (openProjectWorkPackageStaticBlockSpec as any)().implementation;
@@ -25,8 +30,8 @@ const inlineImpl = (openProjectWorkPackageStaticInlineSpec as any).implementatio
 const reactInlineImpl = (openProjectWorkPackageInlineSpec as any).implementation;
 
 describe("static block spec — toExternalHTML", () => {
-  it("produces a DOM node matching buildWorkPackageBlockExternalDOM", () => {
-    const props = { wpid: 42, instanceId: "inst1", size: "l" };
+  it("produces a DOM node whose innerHTML matches buildWorkPackageBlockExternalDOM", () => {
+    const props = { wpid: 42, instanceId: "inst1", size: "l", displayId: "PROJ-42" };
     const specResult = blockImpl.toExternalHTML({ props }) as { dom: HTMLElement } | undefined;
     const expected = buildWorkPackageBlockExternalDOM(computeWorkPackageBlockExternalData(props)!, document);
     // BlockNote wraps the returned dom in an outer block-content div;
@@ -46,12 +51,13 @@ describe("static block spec — parse", () => {
     element.setAttribute("data-wpid", "42");
     element.setAttribute("data-instance-id", "inst1");
     element.setAttribute("data-size", "l");
+    element.setAttribute("data-display-id", "PROJ-42");
     return element;
   };
 
   it("parses the HTML element", () => {
     const element = makeBlockElement();
-    expect(blockImpl.parse(element)).toEqual({ wpid: 42, instanceId: "inst1", size: "l" });
+    expect(blockImpl.parse(element)).toEqual({ wpid: 42, instanceId: "inst1", size: "l", "displayId": "PROJ-42" });
   });
 
   it("parses the HTML element in the same way as the react block spec", () => {
@@ -66,7 +72,7 @@ describe("static block spec — parse", () => {
 
 describe("static inline spec — toExternalHTML", () => {
   it("produces a DOM node matching buildWorkPackageInlineExternalDOM", () => {
-    const props = { wpid: "57", instanceId: "inst1", size: "xs" };
+    const props = { wpid: "57", instanceId: "inst1", size: "xs", displayId: "PROJ-57" };
     const specResult = inlineImpl.toExternalHTML({ props }) as { dom: HTMLElement } | undefined;
     const expected = buildWorkPackageInlineExternalDOM(computeWorkPackageInlineExternalData(props)!, document);
     expect(specResult?.dom.outerHTML).toBe(expected.outerHTML);
@@ -88,12 +94,13 @@ describe("static inline spec — parse", () => {
     element.setAttribute("data-wpid", "57");
     element.setAttribute("data-instance-id", "inst1");
     element.setAttribute("data-size", "xs");
+    element.setAttribute("data-display-id", "PROJ-57");
     return element;
   };
 
   it("parses the HTML element", () => {
     const element = makeInlineElement();
-    expect(inlineImpl.parse(element)).toEqual({ wpid: "57", instanceId: "inst1", size: "xs" });
+    expect(inlineImpl.parse(element)).toEqual({ wpid: "57", instanceId: "inst1", size: "xs", "displayId": "PROJ-57" });
   });
 
   it("parses the HTML element in the same way as the react inline spec", () => {

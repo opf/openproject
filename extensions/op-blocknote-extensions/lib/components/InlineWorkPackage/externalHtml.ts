@@ -4,12 +4,14 @@
 // Mirrors the structure of BlockWorkPackage/externalHtml.ts so that the React
 // spec and the static spec produce byte-identical output.
 
-import { buildExternalDOM } from "../WorkPackage/externalHtml";
+import { buildExternalDOM, hashPrefixForSize } from "../WorkPackage/externalHtml";
+import { linkToWorkPackage } from "../../services/openProjectApi";
 
 export interface WorkPackageInlineProps {
   wpid?: string;
   instanceId?: string;
   size?: string;
+  displayId?: string;
 }
 
 export interface WorkPackageInlineExternalData {
@@ -18,8 +20,10 @@ export interface WorkPackageInlineExternalData {
     "data-wpid": string;
     "data-instance-id": string;
     "data-size": string;
+    "data-display-id": string;
   };
   text: string;
+  href: string;
 }
 
 export function computeWorkPackageInlineExternalData(
@@ -27,14 +31,17 @@ export function computeWorkPackageInlineExternalData(
 ): WorkPackageInlineExternalData | null {
   const { wpid, instanceId, size } = props;
   if (!wpid || wpid.startsWith("pending:")) return null;
+  const displayId = props.displayId || wpid;
   return {
     attrs: {
       "data-inline-content-type": "openProjectWorkPackageInline",
       "data-wpid": wpid,
       "data-instance-id": instanceId ?? "",
       "data-size": size ?? "s",
+      "data-display-id": displayId,
     },
-    text: `#${wpid}`,
+    text: hashPrefixForSize(size) + displayId,
+    href: linkToWorkPackage(wpid),
   };
 }
 
@@ -42,7 +49,7 @@ export function buildWorkPackageInlineExternalDOM(
   data: WorkPackageInlineExternalData,
   doc: Document,
 ): HTMLElement {
-  return buildExternalDOM("span", data.attrs, data.text, doc);
+  return buildExternalDOM("span", data.attrs, data.text, doc, data.href);
 }
 
 export function parseWorkPackageInlineExternalHTML(
@@ -55,5 +62,6 @@ export function parseWorkPackageInlineExternalHTML(
     wpid: element.getAttribute("data-wpid") ?? "",
     instanceId: element.getAttribute("data-instance-id") ?? "",
     size: element.getAttribute("data-size") ?? "s",
+    displayId: element.getAttribute("data-display-id") ?? "",
   };
 }

@@ -123,6 +123,7 @@ function handlePromoteToBlock(
   // wpid must be a positive integer
   const wpid = Number(found.chip.props.wpid);
   if (Number.isNaN(wpid) || wpid <= 0) return;
+  const displayId = (found.chip.props as any).displayId || String(found.chip.props.wpid);
 
   const chipIndex = found.content.findIndex(
     (node) => isInlineWpNode(node) && node.props.instanceId === instanceId
@@ -134,7 +135,7 @@ function handlePromoteToBlock(
 
   const blockNode = {
     type: 'openProjectWorkPackageBlock',
-    props: { wpid, initialized: true, size },
+    props: { wpid, initialized: true, size, displayId },
   } as Parameters<typeof editor.insertBlocks>[0][number];
 
   if (contentBefore.length > 0) {
@@ -178,6 +179,7 @@ function handleConvertToInline(
 ):void {
   const block = editor.getBlock(blockId);
   if (!block) return;
+  const displayId = (block?.props as any)?.displayId || String(wpid);
 
   const instanceId = makeInstanceId();
 
@@ -186,7 +188,7 @@ function handleConvertToInline(
     content:[
       {
         type:'openProjectWorkPackageInline',
-        props:{ wpid:String(wpid), instanceId, size },
+        props:{ wpid:String(wpid), instanceId, size, displayId },
       },
     ],
   } as Parameters<typeof editor.insertBlocks>[0][number];

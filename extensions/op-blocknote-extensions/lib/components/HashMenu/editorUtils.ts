@@ -44,7 +44,7 @@ export function insertWpChip(editor: AnyEditor, wp: WorkPackage, size: InlineWpS
   const instanceId = makeInstanceId();
 
   (editor.insertInlineContent as (content: unknown[]) => void)([
-    { type: "openProjectWorkPackageInline", props: { wpid: String(wp.id), instanceId, size } },
+    { type: "openProjectWorkPackageInline", props: { wpid: String(wp.id), instanceId, size, displayId: wp.displayId } },
     { type: "text", text: " ", styles: {} },
   ]);
 

@@ -4,6 +4,7 @@ export const inlineConfig = {
     wpid: { default: "" },
     instanceId: { default: "" },
     size: { default: "s" },
+    displayId: { default: "", type: "string" },
   },
   content: "none" as const,
 };

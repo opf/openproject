@@ -6,7 +6,7 @@
 // and calls `onSelect` / `onCancel` when the user picks a WP or dismisses.
 
 
-type WpSelectedCallback = (wpid: number) => void;
+type WpSelectedCallback = (wpid: number, displayId: string) => void;
 type WpCancelCallback = () => void;
 
 export interface PendingCallbacks {

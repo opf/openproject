@@ -23,8 +23,8 @@ function buildOnSelect(
   blockId: string,
   pendingWpid: string,
   instanceId: string
-): (wpid: number) => void {
-  return (wpid: number) => {
+): (wpid: number, displayId: string) => void {
+  return (wpid: number, displayId: string) => {
     const current = getBlockContent(editor, blockId);
     if (!current) return;
 
@@ -36,7 +36,7 @@ function buildOnSelect(
     const updatedContent = current.content.map((node) => {
       const n = node as { type: string; props?: { wpid?: string; instanceId?: string } };
       if (n.type === "openProjectWorkPackageInline" && n.props?.wpid === pendingWpid) {
-        return { ...n, props: { ...n.props, wpid: String(wpid), instanceId } };
+        return { ...n, props: { ...n.props, wpid: String(wpid), instanceId, displayId } };
       }
       return node;
     });

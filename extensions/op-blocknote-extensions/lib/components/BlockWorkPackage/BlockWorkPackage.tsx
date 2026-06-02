@@ -61,7 +61,7 @@ export const BlockWorkPackageComponent = ({
 
   const handleSelectWorkPackage = (wp: WorkPackage) => {
     editor.updateBlock(block, {
-      props: { ...block.props, wpid: wp.id, initialized: true },
+      props: { ...block.props, wpid: wp.id, displayId: wp.displayId, initialized: true },
     });
     requestAnimationFrame(() => moveCursorAfterBlock(editor, block.id));
   };
