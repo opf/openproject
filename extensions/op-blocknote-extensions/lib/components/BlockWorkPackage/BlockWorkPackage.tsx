@@ -57,6 +57,14 @@ export const BlockWorkPackageComponent = ({
   const workPackageResult = useWorkPackage(block.props.wpid);
   const selectedWorkPackage = workPackageResult.workPackage;
 
+  useEffect(() => {
+    if (!selectedWorkPackage) return;
+    if (selectedWorkPackage.displayId === (block.props as any).displayId) return;
+    editor.updateBlock(block, {
+      props: { ...block.props, displayId: selectedWorkPackage.displayId },
+    });
+  }, [selectedWorkPackage?.displayId]); // eslint-disable-line react-hooks/exhaustive-deps
+
   const cardSize: BlockWpSize = block.props.size ?? "m";
 
   const handleSelectWorkPackage = (wp: WorkPackage) => {

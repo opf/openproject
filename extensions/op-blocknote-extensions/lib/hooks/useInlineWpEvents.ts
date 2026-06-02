@@ -72,7 +72,7 @@ function findInlineChip(editor:AnyEditor, instanceId:string):FoundInlineBlock | 
 
 // The updater returns the updated node, or null to remove it.
 // Returns found so the caller can use it without a second traversal.
-function updateInlineChip(
+export function updateInlineChip(
   editor:AnyEditor,
   instanceId:string,
   updater:(chip:InlineWpNode) => InlineWpNode | null

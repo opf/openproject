@@ -9,6 +9,7 @@ import { WpChipXXS, WpChipXS, WpChipS } from "./InlineChips";
 import { WorkPackageSearchPopover } from "../Search/WorkPackageSearchPopover";
 import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
 import { getPendingCallbacks, clearInlineWpCallbacks } from "./callbacks";
+import { updateInlineChip } from "../../hooks/useInlineWpEvents";
 import type { InlineWpSize } from "../WorkPackage/types";
 import { wpBridge } from "../../services/wpBridge";
 import { BlockCard } from "../BlockWorkPackage/BlockCard";
@@ -58,6 +59,12 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
   useColors();
 
   const { workPackage: wp, loading } = useWorkPackage(wpid);
+
+  useEffect(() => {
+    if (!wp || !editor) return;
+    if (wp.displayId === ((inlineContent.props as any).displayId || '')) return;
+    updateInlineChip(editor, instanceId, (chip) => ({ ...chip, props: { ...chip.props, displayId: wp.displayId } }));
+  }, [wp?.displayId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [isSelected, setIsSelected] = useState(false);
   const chipRef = useRef<HTMLElement | null>(null);
