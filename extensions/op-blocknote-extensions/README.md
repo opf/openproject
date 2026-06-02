@@ -88,19 +88,14 @@ This project uses `styledComponents` to define styles. This means that styles ar
 
 ### To run locally with valid API requests to an OpenProject instance
 
-Step 1: Make sure that the OpenProject instance URL is correct in App.tsx
+Step 1: Copy `.env.example` to `.env` and fill in:
 
-> initOpenProjectApi({ baseUrl: "https://" });
+- `VITE_OPENPROJECT_URL` — your OpenProject instance (e.g. `https://openproject.local`). Defaults to `http://localhost:3000` if unset.
+- `VITE_API_KEY` — an API key generated at `https://openproject.local/my/access_tokens`.
 
-Step 2: Enable CORS and set the local address of this application at https://openproject.local/admin/settings/api
+Step 2: Enable CORS and add the dev origin (`http://localhost:5173`) at `https://openproject.local/admin/settings/api`.
 
-> Set "http://localhost:5173" as the address
-
-Step 3: Generate an API key in OpenProject at https://openproject.local/my/access_tokens
-
-Step 4: Set it in the .env file (may need to copy .env.example to .env) with the key VITE_API_KEY
-
-Step 5: Start the development server - `npm run dev`
+Step 3: Start the development server — `npm run dev`.
 
 ## Components in this library
 

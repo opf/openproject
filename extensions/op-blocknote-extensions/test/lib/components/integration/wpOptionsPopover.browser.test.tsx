@@ -4,6 +4,12 @@ import { page, userEvent } from 'vitest/browser';
 import { useState, useEffect } from 'react';
 import { InlineWorkPackageChip } from '../../../../lib/components/InlineWorkPackage/InlineWorkPackageChip';
 import { wpBridge } from '../../../../lib/services/wpBridge';
+import { renderEditor } from '../../../helpers/renderEditor';
+import {
+  insertInlineChipViaSlashMenu,
+  convertToCompactCard,
+  openBlockCardPopover,
+} from '../../../helpers/editorHelpers';
 
 afterEach(() => {
   cleanup();
@@ -106,6 +112,44 @@ describe('Inline chip size transitions (user-visible content)', () => {
 
     expect(deleteWasCalled).toBe(true);
     await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
+  });
+});
+
+describe('Options popover portal', () => {
+  it('inline chip: popover is rendered outside the chip DOM so it is not clipped by overflow', async () => {
+    render(
+      <div data-testid="chip-wrapper">
+        <InlineWorkPackageChip
+          inlineContent={{ props: { wpid: '123', size: 's', instanceId: 'iid-portal' } }}
+          contentRef={vi.fn()}
+        />
+      </div>,
+    );
+
+    await waitForResolvedChip();
+    await openPopover();
+
+    const chipWrapper = document.querySelector('[data-testid="chip-wrapper"]');
+    const popoverInsideWrapper = chipWrapper?.querySelector('[data-testid="popover-content"]');
+    expect(popoverInsideWrapper).toBeNull();
+
+    const popoverInDocument = document.querySelector('[data-testid="popover-content"]');
+    expect(popoverInDocument).not.toBeNull();
+  });
+
+  it('block card: popover is rendered outside the block DOM so it is not clipped by overflow', async () => {
+    renderEditor();
+    await insertInlineChipViaSlashMenu();
+    await convertToCompactCard();
+
+    await openBlockCardPopover();
+
+    const blockEl = document.querySelector('[data-content-type="openProjectWorkPackageBlock"]');
+    const popoverInsideBlock = blockEl?.querySelector('[data-testid="popover-content"]');
+    expect(popoverInsideBlock).toBeNull();
+
+    const popoverInDocument = document.querySelector('[data-testid="popover-content"]');
+    expect(popoverInDocument).not.toBeNull();
   });
 });
 

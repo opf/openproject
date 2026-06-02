@@ -48,7 +48,7 @@ const CardBase = styled.div<{ $inDropdown: boolean }>`
   ${defaultWpVariables}
   padding: var(--spacer-m) var(--spacer-l);
   background-color: var(--highlight-wp-background);
-  border-radius: var(--bn-border-radius-small);
+  border-radius: var(--bn-border-radius);
 
   ${({ $inDropdown }) =>
     $inDropdown &&
