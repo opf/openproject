@@ -229,7 +229,7 @@ module OpenProject
     end
 
     def root_url
-      "#{Setting.protocol}://#{Setting.host_name}"
+       "#{Setting.protocol}://#{Setting.host_name}"
     end
 
     ##
