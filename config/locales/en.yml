@@ -29,6 +29,8 @@
 ---
 en:
   no_results_title_text: There is currently nothing to display.
+  bbb: bbb
+  aaa: aaa
 
   activities:
     index:
