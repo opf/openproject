@@ -1,5 +1,5 @@
 import { BlockNoteEditor } from "@blocknote/core";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { useWorkPackage } from "../../hooks/useWorkPackage";
@@ -13,7 +13,6 @@ import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
 import { SearchContainer, SearchLabel } from "../Search/SearchContainer";
 import { SearchDropdown } from "../Search/SearchDropdown";
 import { defaultWpVariables } from "../WorkPackage/atoms";
-import { formatWorkPackageId } from "../../utils/id";
 import { moveCursorAfterBlock } from "../../utils/cursor";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })`
@@ -116,35 +115,6 @@ export const BlockWorkPackageComponent = ({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isOptionsOpen]);
-
-  const handleCopy = useCallback(
-    (e: ClipboardEvent) => {
-      if (!isOptionsOpen || !block.props.wpid) return;
-
-      e.preventDefault();
-      e.stopPropagation();
-
-      const wpid = block.props.wpid;
-      const formattedId = formatWorkPackageId(selectedWorkPackage?.displayId ?? String(wpid));
-
-      e.clipboardData?.setData("text/plain", formattedId);
-      e.clipboardData?.setData(
-        "text/html",
-        `<div data-block-content-type="openProjectWorkPackageBlock" data-wpid="${wpid}" data-size="${cardSize}" data-initialized="true">${formattedId}</div>`,
-      );
-    },
-    [isOptionsOpen, block.props.wpid, cardSize, selectedWorkPackage],
-  );
-
-  useEffect(() => {
-    if (!isOptionsOpen) return;
-
-    // Chrome doesn't expose clipboardData on copy events that bubble past a
-    // shadow boundary - attach to the nearest root to get a writable event.
-    const root = (cardRef.current?.getRootNode() ?? document) as Document | ShadowRoot;
-    root.addEventListener("copy", handleCopy as EventListener);
-    return () => root.removeEventListener("copy", handleCopy as EventListener);
-  }, [isOptionsOpen, handleCopy]);
 
   const handleConvertToInline = (size: InlineWpSize) => {
     if (!selectedWorkPackage) return;

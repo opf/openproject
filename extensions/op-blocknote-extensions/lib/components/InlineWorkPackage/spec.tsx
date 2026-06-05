@@ -1,47 +1,30 @@
 import { createReactInlineContentSpec } from "@blocknote/react";
 import { InlineWorkPackageChip } from "./InlineWorkPackageChip";
+import { inlineConfig } from "./inlineConfig";
+import {
+  computeWorkPackageInlineExternalData,
+  parseWorkPackageInlineExternalHTML,
+} from "./externalHtml";
 
 export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
-  {
-    type: "openProjectWorkPackageInline" as const,
-    propSchema: {
-      wpid: { default: "" },
-      instanceId: { default: "" },
-      size: { default: "s" },
-    },
-    content: "none",
-  },
+  inlineConfig,
   {
     render: ({ inlineContent, contentRef, editor }) => (
       <InlineWorkPackageChip inlineContent={inlineContent} contentRef={contentRef} editor={editor}/>
     ),
 
+    // BlockNote's InlineContentWrapper already wraps this output in a span carrying
+    // data-inline-content-type, data-wpid, and data-instance-id from the prop schema.
+    // data-size is also serialised onto the outer span for non-default values by BlockNote.
+    // Returning just the text avoids a duplicate inner span with the same attributes.
     toExternalHTML: ({ inlineContent }) => {
-      const { wpid, instanceId, size } = inlineContent.props;
-      if (!wpid || wpid.startsWith("pending:")) return <></>;
-      return (
-        <span
-          data-inline-content-type="openProjectWorkPackageInline"
-          data-wpid={wpid}
-          data-instance-id={instanceId}
-          data-size={size}
-        >
-          #{wpid}
-        </span>
-      );
+      const data = computeWorkPackageInlineExternalData(inlineContent.props);
+      if (!data) return <></>;
+      return <>{data.text}</>;
     },
 
-    parse: (element) => {
-      if (element.getAttribute("data-inline-content-type") !== "openProjectWorkPackageInline") {
-        return undefined;
-      }
-      return {
-        wpid: element.getAttribute("data-wpid") ?? "",
-        instanceId: element.getAttribute("data-instance-id") ?? "",
-        size: element.getAttribute("data-size") ?? "s",
-      };
-    },
-
+    parse: (element) => parseWorkPackageInlineExternalHTML(element),
+    
     meta: {
       draggable: true,
     },
