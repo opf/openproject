@@ -55,8 +55,21 @@ See COPYRIGHT and LICENSE files for more details.
     <% flex.with_column do %>
       <%= render Backlogs::BacklogFilterSelectPanelComponent.new(project:, field_name: :bucket_ids) %>
     <% end %>
-    <% if backlog_bucket_creation_allowed? %>
-      <% flex.with_column do %>
+    <% flex.with_column(classes: "d-flex flex-items-center gap-2") do %>
+      <%# Scrum Base "group by epic" toggle %>
+      <%= link_to(
+            group_by_epic_toggle_path,
+            class: "button #{'-active' if group_by_epic}",
+            data: {
+              test_selector: "op-backlog-group-by-epic",
+              turbo_frame: "backlogs_container",
+              turbo_action: :advance
+            }
+          ) do %>
+        <%= render(Primer::Beta::Octicon.new(:"list-unordered", mr: 1)) %>
+        <%= content_tag(:span, group_by_epic ? t("backlogs.grouped_by_epic") : t("backlogs.group_by_epic")) %>
+      <% end %>
+      <% if backlog_bucket_creation_allowed? %>
         <%=
           render Primer::Beta::Button.new(
             tag: :a,
@@ -91,7 +104,8 @@ See COPYRIGHT and LICENSE files for more details.
       render Backlogs::InboxComponent.new(
         work_packages: work_packages_for_inbox,
         project:,
-        current_user:
+        current_user:,
+        group_by_epic:
       )
     %>
   <% end %>

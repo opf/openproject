@@ -49,39 +49,181 @@
   container-name: backlogsListsContainer
   container-type: inline-size
 
+// Scrum Base layout: vertical stack (sprints on top, backlog below); the whole
+// page scrolls as one column rather than two independent panes.
 .op-sprint-planning-container
   display: flex
-  flex-direction: row
+  flex-direction: column
   gap: var(--stack-gap-normal)
   height: 100%
   align-items: stretch
-  overflow: hidden
+  overflow-y: auto
+  overflow-x: hidden
 
 .op-sprint-planning-lists
   display: flex
   flex-direction: column
   gap: var(--stack-gap-normal)
-  flex: 1 1 100%
+  flex: 0 0 auto
   min-height: 0
-  overflow-y: auto
-  overflow-x: hidden
+  overflow: visible
   padding-top: var(--stack-padding-normal)
   padding-bottom: var(--stack-padding-normal)
 
-//------------------ Sprint planning divider (side-by-side only) ----
-@container backlogsListsContainer (min-width: 655px)
-  .op-sprint-planning-lists
-    padding-right: var(--stack-gap-normal)
+//==================== Scrum Base backlog restyle =================
+$scrum_base-blue: #0052CC
+$scrum_base-blue-light: #E9F2FF
+$scrum_base-canvas: #F4F5F7
+$scrum_base-surface: #FFFFFF
+$scrum_base-border: #DFE1E6
+$scrum_base-text: #172B4D
 
-    &:not(:last-child)
-      border-right: 1px solid var(--borderColor-default)
+.op-backlogs-page
+  background: $scrum_base-canvas
+  // Atlassian-blue accent for links/buttons within the backlog
+  --accent-color: #{$scrum_base-blue}
+  --fgColor-accent: #{$scrum_base-blue}
+  --fgColor-link: #{$scrum_base-blue}
 
-//------------------ Mobile responsive styling -----------------------
-@container backlogsListsContainer (max-width: 654px)
-  .op-sprint-planning-container
-    height: unset
-    overflow: auto
-    flex-direction: column
+  // Compact single-row items (Scrum Base backlog rows)
+  .op-work-package-card
+    grid-template-columns: auto auto 1fr auto
+    grid-template-rows: auto
+    grid-template-areas: "drag_handle info_line subject actions"
+    align-items: center
+    column-gap: 8px
+    margin: 0
+    padding: 5px 8px
+    background: $scrum_base-surface
+    border-bottom: 1px solid $scrum_base-border
+    border-radius: 0
 
-  .op-sprint-planning-lists
-    padding-top: 0
+    &:hover
+      background: $scrum_base-blue-light
+
+    &_with-footer
+      grid-template-rows: auto auto
+      grid-template-areas: "drag_handle info_line subject actions" ". footer footer footer"
+
+    &--subject
+      align-self: center
+      white-space: nowrap
+      overflow: hidden
+      text-overflow: ellipsis
+      font-size: 14px
+      color: $scrum_base-text
+
+    &--parent_link,
+    &--additional_details
+      grid-column: 2 / -1
+
+    // Parent shown as a Scrum Base-style purple "epic" tag. The footer parent row is
+    // a ".ellipsis" wrapper holding "Parent: <link>"; hide the prefix (font-size
+    // 0) and render the link as a purple chip.
+    .ellipsis
+      padding-top: 2px
+
+      // Hide the "Parent:" prefix (the inner .text-small span sets its own size)
+      span
+        font-size: 0 !important
+
+      a
+        display: inline-flex
+        align-items: center
+        max-width: 240px
+        padding: 1px 8px
+        border-radius: 3px
+        background: #DFD6F3
+        color: #403294
+        font-size: 11px
+        font-weight: 600
+        text-transform: uppercase
+        letter-spacing: 0.02em
+        text-decoration: none
+        white-space: nowrap
+        overflow: hidden
+        text-overflow: ellipsis
+
+        &:hover
+          background: #C9B8EE
+
+  // Section "cards" (backlog / each sprint) become flat Scrum Base panels
+  .op-work-package-card-list,
+  .Box
+    border-radius: 3px
+
+  // Scrum Base-style sprint point rollup chips (To Do / In Progress / Done)
+  .op-scrum-base-sprint-points
+    display: inline-flex
+    align-items: center
+    gap: 4px
+    margin-left: 8px
+
+    &--chip
+      display: inline-flex
+      align-items: center
+      justify-content: center
+      min-width: 22px
+      height: 20px
+      padding: 0 7px
+      border-radius: 10px
+      font-size: 12px
+      font-weight: 600
+      line-height: 1
+
+      &.-todo
+        background: #DFE1E6
+        color: #42526E
+
+      &.-in-progress
+        background: #0052CC
+        color: #FFFFFF
+
+      &.-done
+        background: #00875A
+        color: #FFFFFF
+
+  // Scrum Base-style inline story-point estimate badge (editable)
+  .op-scrum-base-estimate-form
+    display: inline-flex
+
+  .op-scrum-base-estimate
+    width: 34px
+    height: 22px
+    padding: 0 4px
+    border: 1px solid transparent
+    border-radius: 11px
+    background: #DFE1E6
+    color: #42526E
+    font-size: 12px
+    font-weight: 600
+    text-align: center
+    -moz-appearance: textfield
+    appearance: textfield
+
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button
+      -webkit-appearance: none
+      margin: 0
+
+    &:hover
+      background: #C1C7D0
+
+    &:focus
+      background: #FFFFFF
+      border-color: #0052CC
+      outline: none
+
+  // Group-by-epic header rows in the backlog
+  .op-backlog-epic-group
+    display: flex
+    align-items: center
+    gap: 8px
+    font-weight: 600
+    font-size: 13px
+    color: #403294
+    background: #F4F2FB
+    border-left: 3px solid #8777D9
+
+    &--count
+      color: #6B778C
+      font-weight: 600

@@ -111,6 +111,27 @@ module Backlogs
       work_packages.filter_map(&:story_points).sum
     end
 
+    # Scrum Base-style sprint point rollup grouped by status category:
+    # To Do (default/new status), In Progress (open, non-default), Done (closed).
+    def points_by_category
+      default_status_id = Status.default&.id
+      totals = { to_do: 0, in_progress: 0, done: 0 }
+      work_packages.each do |wp|
+        points = wp.story_points.to_i
+        next if points.zero?
+
+        category = if wp.status&.is_closed?
+                     :done
+                   elsif default_status_id && wp.status&.id == default_status_id
+                     :to_do
+                   else
+                     :in_progress
+                   end
+        totals[category] += points
+      end
+      totals
+    end
+
     def project_has_another_active_sprint?
       (resolved_active_sprint_ids - [sprint.id]).any?
     end

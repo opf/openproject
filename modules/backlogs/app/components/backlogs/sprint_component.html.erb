@@ -61,6 +61,16 @@ See COPYRIGHT and LICENSE files for more details.
             <%= story_points_total %>&nbsp;<%= t(:"backlogs.points_label", count: story_points_total) %>
           <% end %>
 
+          <%# Scrum Base-style per-status-category point chips (To Do / In Progress / Done) %>
+          <% category_points = points_by_category %>
+          <% if category_points.values.sum.positive? %>
+            <span class="op-scrum-base-sprint-points" data-test-selector="op-scrum-base-sprint-points">
+              <span class="op-scrum-base-sprint-points--chip -todo" title="<%= t("js.label_to_do", default: "To Do") %>"><%= category_points[:to_do] %></span>
+              <span class="op-scrum-base-sprint-points--chip -in-progress" title="<%= t("js.label_in_progress", default: "In progress") %>"><%= category_points[:in_progress] %></span>
+              <span class="op-scrum-base-sprint-points--chip -done" title="<%= t("js.label_done", default: "Done") %>"><%= category_points[:done] %></span>
+            </span>
+          <% end %>
+
           <% if sprint.date_range_set? %>
             <%= render(Primer::Beta::Text.new(role: :group, ml: :auto, mr: 2)) do %>
               <%= render(Primer::Beta::Octicon.new(:calendar, size: :small, mr: 1)) %>

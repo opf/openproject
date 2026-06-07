@@ -43,5 +43,15 @@ module Backlogs
     def story_points
       work_package.story_points || 0
     end
+
+    def editable?
+      # Mirror the permission that authorizes the estimate endpoint
+      # (backlogs/work_packages#estimate is guarded by :manage_sprint_items).
+      User.current.allowed_in_project?(:manage_sprint_items, work_package.project)
+    end
+
+    def estimate_path
+      estimate_project_backlogs_work_package_path(work_package.project, work_package)
+    end
   end
 end

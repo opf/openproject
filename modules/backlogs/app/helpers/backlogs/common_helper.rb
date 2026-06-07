@@ -55,8 +55,16 @@ module Backlogs
       end
     end
 
+    # Carries the active backlog filters across URLs / Turbo re-renders. The
+    # Scrum Base "group by epic" state rides along here so it survives the
+    # turbo-frame reloads used by inline estimation and filter changes.
     def backlog_filter_params
-      backlog_filters.to_h
+      backlog_filters.to_h.tap { |params| params[:group_by] = "epic" if group_by_epic? }
+    end
+
+    # Scrum Base-style "group by epic" toggle for the backlog (`?group_by=epic`).
+    def group_by_epic?
+      params[:group_by].to_s == "epic"
     end
 
     def all_sprints_for(project)

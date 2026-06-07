@@ -55,36 +55,58 @@ See COPYRIGHT and LICENSE files for more details.
         spacious: true
       )
 
-      visible_work_packages.each.with_index do |work_package, index|
-        list.with_work_package_item(
-          work_package:,
-          project:,
-          params: backlog_filter_params,
-          component_klass: Backlogs::WorkPackageCardListItemComponent
-        )
+      if group_by_epic
+        # Scrum Base group-by-epic: items grouped under their parent ("epic"), with a
+        # header row per epic; all stay in the single draggable inbox list.
+        grouped_work_packages.each do |epic, epic_work_packages|
+          list.with_item(scheme: :neutral, classes: "op-backlog-epic-group") do
+            safe_join([
+                        content_tag(:span, epic ? epic.subject : no_epic_label, class: "op-backlog-epic-group--label"),
+                        content_tag(:span, epic_work_packages.size, class: "op-backlog-epic-group--count")
+                      ])
+          end
 
-        if truncated? && index == TRUNCATE_MIDDLE - 1
-          list.with_item(
-            scheme: :neutral,
-            classes: "op-work-package-card-list--show-more-row",
-            data: { draggable_id: last_omitted_id }
-          ) do
-            render(
-              Primer::Beta::Button.new(
-                id: show_more_id,
-                scheme: :link,
-                tag: :a,
-                size: :large,
-                block: true,
-                align_content: :start,
-                underline: true,
-                href: project_backlogs_backlog_path(project, backlog_filter_params.merge(all: true)),
-                data: {
-                  turbo_frame: "backlogs_container",
-                  turbo_action: :advance
-                }
-              )
-            ) { show_more_label }
+          epic_work_packages.each do |work_package|
+            list.with_work_package_item(
+              work_package:,
+              project:,
+              params: backlog_filter_params,
+              component_klass: Backlogs::WorkPackageCardListItemComponent
+            )
+          end
+        end
+      else
+        visible_work_packages.each.with_index do |work_package, index|
+          list.with_work_package_item(
+            work_package:,
+            project:,
+            params: backlog_filter_params,
+            component_klass: Backlogs::WorkPackageCardListItemComponent
+          )
+
+          if truncated? && index == TRUNCATE_MIDDLE - 1
+            list.with_item(
+              scheme: :neutral,
+              classes: "op-work-package-card-list--show-more-row",
+              data: { draggable_id: last_omitted_id }
+            ) do
+              render(
+                Primer::Beta::Button.new(
+                  id: show_more_id,
+                  scheme: :link,
+                  tag: :a,
+                  size: :large,
+                  block: true,
+                  align_content: :start,
+                  underline: true,
+                  href: project_backlogs_backlog_path(project, backlog_filter_params.merge(all: true)),
+                  data: {
+                    turbo_frame: "backlogs_container",
+                    turbo_action: :advance
+                  }
+                )
+              ) { show_more_label }
+            end
           end
         end
       end

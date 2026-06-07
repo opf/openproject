@@ -101,6 +101,10 @@ en:
         other: "Sprints"
 
   backlogs:
+    group_by_epic: "Group by epic"
+    grouped_by_epic: "Grouped by epic"
+    no_epic: "No epic"
+
     administration_blankslate:
       title: "Backlog admin settings are evolving"
       text: "We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available."
