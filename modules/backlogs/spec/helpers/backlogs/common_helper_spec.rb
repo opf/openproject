@@ -102,6 +102,22 @@ RSpec.describe Backlogs::CommonHelper do
     it "returns the same hash as backlog_filters.to_h" do
       expect(helper.backlog_filter_params).to eq(helper.backlog_filters.to_h)
     end
+
+    context "when group_by is epic" do
+      let(:params) { { group_by: "epic" } }
+
+      it "carries the group_by param so it survives backlog re-renders" do
+        expect(helper.backlog_filter_params).to eq({ group_by: "epic" })
+      end
+    end
+
+    context "when both a filter and group_by are set" do
+      let(:params) { { all: "1", group_by: "epic" } }
+
+      it "carries both the filter and the group_by param" do
+        expect(helper.backlog_filter_params).to eq({ all: true, group_by: "epic" })
+      end
+    end
   end
 
   describe "#filtered_buckets_for" do
@@ -138,6 +154,36 @@ RSpec.describe Backlogs::CommonHelper do
 
       it "returns only the matching bucket" do
         expect(helper.filtered_buckets_for(project)).to contain_exactly(bucket_a)
+      end
+    end
+  end
+
+  describe "#group_by_epic?" do
+    before do
+      allow(helper).to receive(:params).and_return(params)
+    end
+
+    context "when group_by is epic" do
+      let(:params) { { group_by: "epic" } }
+
+      it "is true" do
+        expect(helper.group_by_epic?).to be true
+      end
+    end
+
+    context "when group_by is absent" do
+      let(:params) { {} }
+
+      it "is false" do
+        expect(helper.group_by_epic?).to be false
+      end
+    end
+
+    context "when group_by is some other value" do
+      let(:params) { { group_by: "assignee" } }
+
+      it "is false" do
+        expect(helper.group_by_epic?).to be false
       end
     end
   end
