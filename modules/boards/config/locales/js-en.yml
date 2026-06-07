@@ -14,6 +14,19 @@ en:
       lists:
         delete: 'Delete list'
 
+      scrum_base:
+        set_wip_limit: 'Set WIP limit'
+        add_status: 'Add status to column'
+        wip_limit_prompt: 'WIP limit for this column (leave empty to remove):'
+        add_status_prompt: 'Add a status to this column:'
+        enter_number: 'Enter a number:'
+        all_statuses_mapped: 'All statuses are already mapped to this column.'
+        group_by_assignee: 'Group by assignee'
+        swimlanes_assignee_on: 'Swimlanes: Assignee (on)'
+        report: 'Report'
+        hide_report: 'Hide report'
+        board_report: 'Board report — %{count} work packages'
+
       version:
         is_locked: 'Version is locked. No items can be added to this version.'
         is_closed: 'Version is closed. No items can be added to this version.'

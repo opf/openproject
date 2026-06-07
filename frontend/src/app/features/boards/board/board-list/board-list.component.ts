@@ -7,9 +7,11 @@ import {
   EventEmitter,
   inject,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
   Output,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import {
@@ -87,7 +89,7 @@ export interface DisabledButtonPlaceholder {
   ],
   standalone: false,
 })
-export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnDestroy {
+export class BoardListComponent extends AbstractWidgetComponent implements OnInit, OnChanges, OnDestroy {
   readonly apiv3Service = inject(ApiV3Service);
   readonly state = inject(StateService);
   readonly cdRef = inject(ChangeDetectorRef);
@@ -121,6 +123,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   /** Access to the board resource */
   @Input() public board:Board;
+
+  /**
+   * Optional extra filter applied to this column's query (swimlanes scope a
+   * column to one lane, e.g. assignee = X). Becoming part of the column query's
+   * filters means dropping a card here also assigns that lane value.
+   */
+  @Input() public additionalFilter:ApiV3Filter|undefined;
 
   /** Access to the loading indicator element */
   @ViewChild('loadingIndicator', { static: true }) indicator:ElementRef<HTMLElement>;
@@ -247,6 +256,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
       });
   }
 
+  ngOnChanges(changes:SimpleChanges):void {
+    // Swimlanes bind additionalFilter after init; re-run the query when it changes.
+    if (changes.additionalFilter && !changes.additionalFilter.isFirstChange()) {
+      this.updateQuery(true);
+    }
+  }
+
   ngOnDestroy() {
     super.ngOnDestroy();
   }
@@ -323,6 +339,119 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   public showCardStatusButton() {
     return this.board.showStatusButton();
+  }
+
+  /** WIP limits are a Scrum Base-board capability only. */
+  public get wipLimitEnabled():boolean {
+    return this.board.actionAttribute === 'scrum_base';
+  }
+
+  /** The configured WIP limit for this column, or null when none/invalid. */
+  public get wipLimit():number|null {
+    const value = (this.resource.options as { wipLimit?:unknown }).wipLimit;
+    return typeof value === 'number' && value > 0 ? value : null;
+  }
+
+  /** Number of cards currently in this column. */
+  public get cardCount():number {
+    return this.query?.results?.total ?? 0;
+  }
+
+  public get isOverWipLimit():boolean {
+    return this.wipLimit !== null && this.cardCount > this.wipLimit;
+  }
+
+  /** Prompt for and persist a per-column WIP limit (empty/0 clears it). */
+  public setWipLimit():void {
+    const current = this.wipLimit;
+    const input = window.prompt(this.i18n.t('js.boards.scrum_base.wip_limit_prompt'), current ? String(current) : '');
+    if (input === null) {
+      return;
+    }
+
+    const options = this.resource.options as { wipLimit?:number };
+    const trimmed = input.trim();
+    if (trimmed === '') {
+      delete options.wipLimit;
+    } else {
+      const parsed = parseInt(trimmed, 10);
+      if (Number.isNaN(parsed) || parsed < 0) {
+        return;
+      }
+      if (parsed === 0) {
+        delete options.wipLimit;
+      } else {
+        options.wipLimit = parsed;
+      }
+    }
+
+    this.boardService.save(this.board).subscribe(
+      () => {
+        this.toastService.addSuccess(this.text.updateSuccessful);
+        this.cdRef.detectChanges();
+      },
+      (error) => this.halNotification.handleRawError(error),
+    );
+  }
+
+  /** The status ids currently mapped to this column (Scrum Base multi-status). */
+  public get statusFilterValues():string[] {
+    const filters = (this.resource.options.filters ?? []) as Record<string, { values?:unknown[] }>[];
+    const statusFilter = filters.find((f) => f.status_id);
+    return statusFilter?.status_id?.values?.map((v) => String(v)) ?? [];
+  }
+
+  /** Number of statuses mapped to this column (Scrum Base boards). */
+  public get mappedStatusCount():number {
+    return this.statusFilterValues.length;
+  }
+
+  /**
+   * Map an additional workflow status to this column (Scrum Base multi-status columns).
+   * Cards in any mapped status appear here; dropping a card sets the first status.
+   */
+  public addStatusToColumn():void {
+    this.apiv3Service.statuses.get().subscribe((collection) => {
+      const all = collection.elements;
+      const current = this.statusFilterValues;
+      const addable = all.filter((s) => !current.includes(s.id!.toString()));
+      if (addable.length === 0) {
+        window.alert(this.i18n.t('js.boards.scrum_base.all_statuses_mapped'));
+        return;
+      }
+
+      const list = addable.map((s, i) => `${i + 1}) ${s.name}`).join('\n');
+      const input = window.prompt(
+        `${this.i18n.t('js.boards.scrum_base.add_status_prompt')}\n${list}\n\n${this.i18n.t('js.boards.scrum_base.enter_number')}`,
+        '',
+      );
+      if (input === null) {
+        return;
+      }
+      const index = parseInt(input.trim(), 10) - 1;
+      if (Number.isNaN(index) || index < 0 || index >= addable.length) {
+        return;
+      }
+
+      const newValues = current.concat(addable[index].id!.toString());
+      const filters = (this.resource.options.filters ?? []) as Record<string, { operator:string, values:string[] }>[];
+      const statusFilter = filters.find((f) => f.status_id);
+      if (statusFilter) {
+        statusFilter.status_id.values = newValues;
+      } else {
+        filters.push({ status_id: { operator: '=', values: newValues } });
+      }
+      this.resource.options.filters = filters;
+
+      this.boardService.save(this.board).subscribe(
+        () => {
+          this.toastService.addSuccess(this.text.updateSuccessful);
+          this.updateQuery(true);
+          this.cdRef.detectChanges();
+        },
+        (error) => this.halNotification.handleRawError(error),
+      );
+    });
   }
 
   public refreshQueryUnlessCaused(query:QueryResource, visibly = true) {
@@ -442,8 +571,9 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
 
   private setQueryProps(filters:ApiV3Filter[]) {
     const existingFilters = (this.resource.options.filters || []) as ApiV3Filter[];
+    const swimlaneFilters = this.additionalFilter ? [this.additionalFilter] : [];
 
-    const newFilters = existingFilters.concat(filters);
+    const newFilters = existingFilters.concat(filters).concat(swimlaneFilters);
     const newColumnsQueryProps:any = {
       'columns[]': ['id', 'subject'],
       showHierarchies: false,

@@ -1,54 +1,115 @@
 @if ((board$ | async); as board) {
-  <div
-    class="boards-list--container"
-    [ngClass]="{ '-free' : board.isFree }"
-    #container
-    cdkDropList
-    [cdkDropListDisabled]="!board.editable"
-    cdkDropListOrientation="horizontal"
-    (cdkDropListDropped)="moveList(board, $event)"
-    >
-    @for (boardWidget of boardWidgets; track trackByQueryId($index, boardWidget)) {
-      <div
-        class="boards-list--item"
-        cdkDrag
-        [cdkDragData]="boardWidget"
-        >
-        @if (board.editable) {
-          <span
-            class="boards-list-item-handle icon icon-drag-handle"
-          cdkDragHandle></span>
+  @if (board.actionAttribute === 'scrum_base') {
+    <div class="op-board-swimlane-toggle">
+      <button type="button"
+        class="button"
+        data-test-selector="op-swimlane-toggle"
+        (click)="toggleSwimlanes(board)">
+        <op-icon icon-classes="button--icon icon-hierarchy" />
+        <span class="button--text"
+          [textContent]="board.hasSwimlanes ? text.swimlanesOn : text.groupByAssignee"></span>
+      </button>
+      @if (!board.hasSwimlanes) {
+        <button type="button"
+          class="button"
+          data-test-selector="op-board-report-toggle"
+          (click)="toggleReport()">
+          <op-icon icon-classes="button--icon icon-stats" />
+          <span class="button--text" [textContent]="showReport ? text.hideReport : text.report"></span>
+        </button>
+      }
+    </div>
+
+    @if (showReport && !board.hasSwimlanes) {
+      <div class="op-board-report" data-test-selector="op-board-report">
+        <div class="op-board-report--title" data-test-selector="op-board-report--total">{{ reportTitle }}</div>
+        @for (row of reportRows; track row.label) {
+          <div class="op-board-report--row" data-test-selector="op-board-report--row">
+            <span class="op-board-report--label" [textContent]="row.label"></span>
+            <span class="op-board-report--bar-track">
+              <span class="op-board-report--bar"
+                [ngClass]="{ '-over': row.overWip }"
+                [style.width.%]="(row.count / reportMax) * 100"></span>
+            </span>
+            <span class="op-board-report--count"
+              [ngClass]="{ '-over': row.overWip }"
+              [textContent]="row.wipLimit !== null ? (row.count + ' / ' + row.wipLimit) : row.count"></span>
+          </div>
         }
-        <board-list [resource]="boardWidget"
-          [board]="board"
-          (onRemove)="removeList(board, boardWidget)"
-          (visibilityChange)="changeVisibilityOfList(board, boardWidget, $event)" />
       </div>
     }
-    @if (showHiddenListWarning) {
-      <span class="boards-list--tooltip">
-        <i id="boards-list--warning" class="icon icon-attention"></i>
-        <tool-tip
-          class="sr-only position-absolute"
-          popover="manual"
-          for="boards-list--warning"
-          id="boards-list--warning-tooltip"
-          data-direction="s"
-        >{{ text.hiddenListWarning }}</tool-tip>
-      </span>
-    }
-    @if (board.editable) {
-      <div class="boards-list--add-item -no-text-select"
-        role="button"
-        tabindex="0"
-        (click)="addList(board)"
-        (keydown.enter)="addList(board)"
-        (keydown.space)="addList(board)">
-        <div class="boards-list--add-item-text">
-          <op-icon icon-classes="icon-add icon-context" />
-          <span [textContent]="text.addList"></span>
+  }
+
+  @if (board.hasSwimlanes) {
+    <div class="op-swimlanes" data-test-selector="op-swimlanes">
+      @for (lane of swimlanes; track lane.key) {
+        <div class="op-swimlane" data-test-selector="op-swimlane">
+          <div class="op-swimlane--header" [textContent]="lane.label"></div>
+          <div class="op-swimlane--columns">
+            @for (boardWidget of boardWidgets; track trackByQueryId($index, boardWidget)) {
+              <div class="boards-list--item">
+                <board-list [resource]="boardWidget"
+                  [board]="board"
+                  [additionalFilter]="lane.filter"
+                  (visibilityChange)="changeVisibilityOfList(board, boardWidget, $event)" />
+              </div>
+            }
+          </div>
         </div>
-      </div>
-    }
-  </div>
+      }
+    </div>
+  } @else {
+    <div
+      class="boards-list--container"
+      [ngClass]="{ '-free' : board.isFree }"
+      #container
+      cdkDropList
+      [cdkDropListDisabled]="!board.editable"
+      cdkDropListOrientation="horizontal"
+      (cdkDropListDropped)="moveList(board, $event)"
+      >
+      @for (boardWidget of boardWidgets; track trackByQueryId($index, boardWidget)) {
+        <div
+          class="boards-list--item"
+          cdkDrag
+          [cdkDragData]="boardWidget"
+          >
+          @if (board.editable) {
+            <span
+              class="boards-list-item-handle icon icon-drag-handle"
+            cdkDragHandle></span>
+          }
+          <board-list [resource]="boardWidget"
+            [board]="board"
+            (onRemove)="removeList(board, boardWidget)"
+            (visibilityChange)="changeVisibilityOfList(board, boardWidget, $event)" />
+        </div>
+      }
+      @if (showHiddenListWarning) {
+        <span class="boards-list--tooltip">
+          <i id="boards-list--warning" class="icon icon-attention"></i>
+          <tool-tip
+            class="sr-only position-absolute"
+            popover="manual"
+            for="boards-list--warning"
+            id="boards-list--warning-tooltip"
+            data-direction="s"
+          >{{ text.hiddenListWarning }}</tool-tip>
+        </span>
+      }
+      @if (board.editable) {
+        <div class="boards-list--add-item -no-text-select"
+          role="button"
+          tabindex="0"
+          (click)="addList(board)"
+          (keydown.enter)="addList(board)"
+          (keydown.space)="addList(board)">
+          <div class="boards-list--add-item-text">
+            <op-icon icon-classes="icon-add icon-context" />
+            <span [textContent]="text.addList"></span>
+          </div>
+        </div>
+      }
+    </div>
+  }
 }

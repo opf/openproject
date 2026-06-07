@@ -24,6 +24,7 @@ en:
     board_type_attributes:
       assignee: Assignee
       status: Kanban
+      scrum_base: Scrum Base
       version: Version
       subproject: Subproject
       subtasks: Parent-child
@@ -34,6 +35,9 @@ en:
         Manually add cards and columns to this board.
       status: >
         Basic kanban style board with columns for status such as To Do, In Progress, Done.
+      scrum_base: >
+        Scrum Base style board. Columns are workflow statuses; dragging a card
+        changes its status. Foundation for swimlanes, WIP limits and multi-status columns.
       assignee: >
         Board with automated columns based on assigned users.
         Ideal for dispatching work packages.

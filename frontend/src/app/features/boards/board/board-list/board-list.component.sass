@@ -70,3 +70,39 @@ $board-list-max-width: 300px
     position: sticky
     top: 0px
     z-index: 1
+
+  // WIP limit badge (Scrum Base-style boards)
+  &--wip-limit
+    display: inline-flex
+    align-items: center
+    height: 20px
+    padding: 0 8px
+    margin-right: 4px
+    border-radius: 10px
+    font-size: 12px
+    font-weight: 600
+    background: var(--gray-light)
+    color: var(--body-font-color)
+    white-space: nowrap
+
+    &.-exceeded
+      background: #FFEBE6
+      color: #BF2600
+
+  // Multi-status column indicator (Scrum Base-style boards)
+  &--multi-status
+    display: inline-flex
+    align-items: center
+    height: 20px
+    padding: 0 8px
+    margin-right: 4px
+    border-radius: 10px
+    font-size: 12px
+    font-weight: 600
+    background: #DEEBFF
+    color: #0747A6
+    white-space: nowrap
+
+  &.-wip-exceeded
+    .op-board-list--header
+      box-shadow: inset 0 2px 0 0 #BF2600

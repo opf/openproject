@@ -38,6 +38,7 @@ import { BoardVersionActionService } from 'core-app/features/boards/board/board-
 import { BoardAssigneeActionService } from 'core-app/features/boards/board/board-actions/assignee/assignee-action.service';
 import { BoardSubprojectActionService } from 'core-app/features/boards/board/board-actions/subproject/subproject-action.service';
 import { BoardSubtasksActionService } from 'core-app/features/boards/board/board-actions/subtasks/board-subtasks-action.service';
+import { BoardScrumBaseActionService } from 'core-app/features/boards/board/board-actions/scrum-base/scrum-base-action.service';
 import { QueryUpdatedService } from 'core-app/features/boards/board/query-updated/query-updated.service';
 
 @Component({
@@ -52,6 +53,7 @@ import { QueryUpdatedService } from 'core-app/features/boards/board/query-update
     BoardAssigneeActionService,
     BoardSubprojectActionService,
     BoardSubtasksActionService,
+    BoardScrumBaseActionService,
     QueryUpdatedService,
   ],
   standalone: false,
@@ -75,6 +77,7 @@ export class BoardEntryComponent implements OnDestroy {
     registry.add('version', injector.get(BoardVersionActionService));
     registry.add('subproject', injector.get(BoardSubprojectActionService));
     registry.add('subtasks', injector.get(BoardSubtasksActionService));
+    registry.add('scrum_base', injector.get(BoardScrumBaseActionService));
   }
 
   ngOnDestroy() {

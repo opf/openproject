@@ -40,6 +40,17 @@ module API
                    getter: ->(represented:, **) {
                      represented["filters"]
                    }
+
+          # Per-column WIP (work-in-progress) limit for Scrum Base-style boards.
+          # Stored in the widget options as an integer; nil/absent means no limit.
+          property :wipLimit,
+                   getter: ->(represented:, **) {
+                     represented["wipLimit"]
+                   },
+                   setter: ->(fragment:, represented:, **) {
+                     value = Integer(fragment, exception: false)
+                     represented["wipLimit"] = value&.positive? ? value : nil
+                   }
         end
       end
     end
