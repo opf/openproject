@@ -15,3 +15,4 @@ export type { HashMenuItem } from "./components/HashMenu";
 export { useWorkPackageSearch } from "./hooks/useWorkPackageSearch";
 export type { WorkPackage } from "./openProjectTypes";
 export { useOpBlockNoteExtensions } from './hooks/useOpBlockNoteExtensions';
+export { PasteDeduplicateInstanceIdsExtension } from './plugins/pasteDeduplicateExtension';
