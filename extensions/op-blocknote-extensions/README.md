@@ -23,49 +23,71 @@ Include the following entry to your _package.json_.
 
 ### Implementation
 
-First thing is to initialize the library configuration...
+First, initialize the library configuration:
 
 ```js
-initOpenProjectApi({baseUrl: 'https://my.openproject.url'});
+initializeOpBlockNoteExtensions({ baseUrl: 'https://my.openproject.url', locale: 'en' });
 ```
 
-... then setup a blocknote schema extending it with blocks offered by this library...
+Then set up a BlockNote schema extending it with the block and inline specs:
 
-```jsx
-  const schema = BlockNoteSchema.create().extend({
-    blockSpecs: {
-      "openProjectWorkPackage": openProjectWorkPackageBlockSpec(),
-    },
-  });
-  type EditorType = typeof schema.BlockNoteEditor;
-
-  const editor = useCreateBlockNote({ schema });
+```tsx
+const schema = BlockNoteSchema.create().extend({
+  blockSpecs: {
+    openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+  },
+  inlineContentSpecs: {
+    openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
+  },
+});
+type EditorType = typeof schema.BlockNoteEditor;
 ```
 
-... same for slash menus ...
+Create the editor, passing `PasteDeduplicateInstanceIdsExtension` in `extensions`.
+This must be done at construction time — registering the plugin post-mount via
+`editor.registerPlugin()` triggers ProseMirror's `reconfigure()`, which destroys
+the Y.js `UndoManager` and silently breaks Ctrl+Z.
 
-```jsx
-  const getCustomSlashMenuItems = (editor: EditorType) => {
-    return [
-      ...getDefaultReactSlashMenuItems(editor),
-      workPackageSlashMenu(editor),
-    ];
-  };
+```tsx
+const editor = useCreateBlockNote({
+  schema,
+  extensions: [PasteDeduplicateInstanceIdsExtension],
+});
 ```
 
-... and include them all in a BlockNote instance
+Wire the runtime hooks and build the slash and hash menus:
 
-```jsx
-  return (
-    <BlockNoteView editor={editor}>
-      <SuggestionMenuController
-        triggerCharacter="/"
-        getItems={async (query: string) =>
-          filterSuggestionItems(getCustomSlashMenuItems(editor), query)
-        }
-      />
-    </BlockNoteView>
-  );
+```tsx
+useOpBlockNoteExtensions(editor);
+
+const getSlashItems = useCallback(
+  async (query: string) =>
+    filterSuggestionItems(
+      [...getDefaultReactSlashMenuItems(editor), workPackageSlashMenu(editor)],
+      query
+    ),
+  [editor]
+);
+
+const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
+```
+
+Include everything in a `BlockNoteView`:
+
+```tsx
+return (
+  <BlockNoteView editor={editor} slashMenu={false}>
+    <SuggestionMenuController
+      triggerCharacter="/"
+      getItems={getSlashItems}
+    />
+    <SuggestionMenuController
+      triggerCharacter="#"
+      getItems={getHashItems}
+      suggestionMenuComponent={HashWpMenu}
+    />
+  </BlockNoteView>
+);
 ```
 
 There's a working example in the [src/App.tsx](src/App.tsx) in this repository. You can test it locally by running:

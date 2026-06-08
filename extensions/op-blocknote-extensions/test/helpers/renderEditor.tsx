@@ -10,6 +10,7 @@ import {
   workPackageSlashMenu,
   useHashWpMenu,
   useOpBlockNoteExtensions,
+  PasteDeduplicateInstanceIdsExtension,
 } from '../../lib';
 import type { HashMenuItem } from '../../lib';
 
@@ -26,7 +27,7 @@ const schema = BlockNoteSchema.create().extend({
 });
 
 function Editor() {
-  const editor = useCreateBlockNote({ schema });
+  const editor = useCreateBlockNote({ schema, extensions: [PasteDeduplicateInstanceIdsExtension] });
   useOpBlockNoteExtensions(editor as any); 
 
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
