@@ -51,8 +51,6 @@ class Backlogs::WorkPackages::UpdateService
   private
 
   def resolve_required_attributes(direction:, list_type:, list_id:)
-    list_id = list_id.presence&.to_s
-
     if list_type.present? && direction
       ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.ambiguous_target"))
     elsif list_type.present?
@@ -65,13 +63,10 @@ class Backlogs::WorkPackages::UpdateService
   end
 
   def attributes_result_from_list(list_type, list_id)
-    case [list_type, list_id]
-    in ["sprint", /\A\d+\z/ => sprint_id]
-      ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: })
-    in ["backlog_bucket", /\A\d+\z/ => backlog_bucket_id]
-      ServiceResult.success(result: { backlog_bucket_id:, sprint_id: nil })
-    in ["inbox", nil]
-      ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: nil })
+    target = Backlogs::MoveTarget.from_list(list_type, list_id)
+
+    if target
+      ServiceResult.success(result: target.attributes)
     else
       ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.invalid_target_type"))
     end
