@@ -116,15 +116,9 @@ module Backlogs
     end
 
     def current_list_inputs
-      list_type, list_id = if work_package.backlog_bucket_id?
-                             ["backlog_bucket", work_package.backlog_bucket_id]
-                           elsif work_package.sprint_id?
-                             ["sprint", work_package.sprint_id]
-                           else
-                             ["inbox", nil]
-                           end
+      target = Backlogs::MoveTarget.for(work_package)
 
-      [{ name: "list_type", value: list_type }, { name: "list_id", value: list_id }]
+      [{ name: "list_type", value: target.list_type }, { name: "list_id", value: target.list_id }]
     end
   end
 end
