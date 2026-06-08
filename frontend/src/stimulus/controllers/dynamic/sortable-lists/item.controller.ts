@@ -234,6 +234,9 @@ export default class ItemController extends Controller<HTMLElement> {
   }
 
   private sanitizePreview(element:HTMLElement) {
+    // Avoid side effects from custom elements (e.g. Primer include-fragment) in the cloned preview.
+    element.querySelectorAll('include-fragment').forEach((fragment) => fragment.remove());
+
     const nodes = [element, ...Array.from(element.querySelectorAll<HTMLElement>('*'))];
 
     for (const node of nodes) {
