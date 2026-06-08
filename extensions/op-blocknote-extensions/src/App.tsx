@@ -15,7 +15,8 @@ import {
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
   useHashWpMenu,
-  useOpBlockNoteExtensions
+  useOpBlockNoteExtensions,
+  PasteDeduplicateInstanceIdsExtension,
 } from "../lib";
 import "./fetchOverride";
 
@@ -43,7 +44,7 @@ function buildSlashMenuItems(editor: EditorType) {
 }
 
 export default function App() {
-  const editor = useCreateBlockNote({ schema });
+  const editor = useCreateBlockNote({ schema, extensions: [PasteDeduplicateInstanceIdsExtension] });
 
   useOpBlockNoteExtensions(editor as any);
 
