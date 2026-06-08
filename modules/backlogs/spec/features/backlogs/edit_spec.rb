@@ -168,6 +168,27 @@ RSpec.describe "Edit", :js do
     end
   end
 
+  context "when moving work packages from sprints" do
+    describe "moving to a different sprint" do
+      it "moves a work package to a different sprint" do
+        planning_page.expect_work_package_in_sprint(work_package, first_sprint)
+
+        planning_page.click_in_work_package_move_submenu(work_package, "Move to sprint", wait: false)
+
+        within_modal "Move to sprint" do
+          expect(page).to have_no_select("list_id", with_options: [first_sprint.name])
+          expect(page).to have_select("list_id", with_options: [second_sprint.name])
+
+          select second_sprint.name, from: "list_id"
+          click_on "Move"
+        end
+
+        planning_page.expect_work_package_not_in_sprint(work_package, first_sprint)
+        planning_page.expect_work_package_in_sprint(work_package, second_sprint)
+      end
+    end
+  end
+
   context "without the necessary permissions" do
     let(:permissions) { all_permissions - %i[create_sprints start_complete_sprint] }
 

@@ -105,16 +105,23 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
       work_package = work_packages.first
 
       expect(rendered_component).to have_css(
-        ".Box-row#work_package_#{work_package.id}[data-controller='backlogs--story']"
+        ".Box-row#work_package_#{work_package.id}[data-controller='sortable-lists--item'] " \
+        ".op-work-package-card[data-controller='backlogs--story']"
       )
     end
 
-    it "renders Backlogs-specific row data attributes" do
+    it "renders Backlogs-specific row and card data attributes" do
       work_package = work_packages.first
 
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-        expect(row["data-story"]).to be_present
-        expect(row["data-backlogs--story-id-value"]).to eq(work_package.id.to_s)
+        expect(row["data-sortable-lists--item-id-value"]).to eq(work_package.id.to_s)
+        expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+      end
+
+      expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id} .op-work-package-card") do |card|
+        expect(card["data-story"]).to be_present
+        expect(card["data-backlogs--story-id-value"]).to eq(work_package.id.to_s)
+        expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
       end
     end
 
@@ -269,23 +276,22 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
   describe "drag-and-drop data merging" do
     context "without drag_and_drop" do
       it "does not emit drag-and-drop data" do
-        expect(rendered_component).to have_no_css(".Box[data-generic-drag-and-drop-target]")
-        expect(rendered_component).to have_no_css(".Box[data-target-id]")
-        expect(rendered_component).to have_no_css(".Box[data-target-allowed-drag-type]")
+        expect(rendered_component).to have_no_css(".Box[data-sortable-lists-target]")
+        expect(rendered_component).to have_no_css(".Box[data-sortable-lists-list-type]")
+        expect(rendered_component).to have_no_css(".Box[data-sortable-lists-list-id]")
       end
     end
 
     context "with drag_and_drop configured" do
       let(:drag_and_drop) do
-        { target_id: "sprint:#{sprint.id}", allowed_drag_type: "story" }
+        { list_type: "sprint", list_id: sprint.id }
       end
 
       it "merges drag-and-drop data attributes onto the box" do
         expect(rendered_component).to have_css(".Box") do |box|
-          expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-          expect(box["data-target-container-accessor"]).to eq(":scope > ul")
-          expect(box["data-target-id"]).to eq("sprint:#{sprint.id}")
-          expect(box["data-target-allowed-drag-type"]).to eq("story")
+          expect(box["data-sortable-lists-target"]).to eq("list")
+          expect(box["data-sortable-lists-list-type"]).to eq("sprint")
+          expect(box["data-sortable-lists-list-id"]).to eq(sprint.id.to_s)
         end
       end
     end

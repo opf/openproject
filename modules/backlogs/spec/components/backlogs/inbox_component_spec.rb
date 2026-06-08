@@ -64,9 +64,9 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
 
     it "wires drop-target data attributes for the inbox" do
       expect(page).to have_css(".Box#inbox_project_#{project.id}") do |box|
-        expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-        expect(box["data-target-id"]).to eq("inbox")
-        expect(box["data-target-allowed-drag-type"]).to eq("story")
+        expect(box["data-sortable-lists-target"]).to eq("list")
+        expect(box["data-sortable-lists-list-type"]).to eq("inbox")
+        expect(box["data-sortable-lists-list-id"]).to be_nil
       end
     end
 
@@ -175,10 +175,10 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
         expect(show_link["data-turbo-frame"]).to eq("backlogs_container")
       end
 
-      it "renders the show-more row with the last omitted work package id" do
+      it "renders the show-more row with the previous item id" do
         last_omitted = work_packages.sort_by(&:position)[-(tail_size + 1)]
 
-        expect(page).to have_css("[data-draggable-id='#{last_omitted.id}']")
+        expect(page).to have_css("[data-sortable-lists-prev-item-id='#{last_omitted.id}']")
       end
     end
 

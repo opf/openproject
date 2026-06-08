@@ -32,7 +32,7 @@ require "spec_helper"
 require_relative "../../support/pages/backlog"
 
 RSpec.describe "Dragging work packages in the inbox",
-               :js do
+               :js, :selenium do
   create_shared_association_defaults_for_work_package_factory
 
   shared_let(:project) { create(:project) }
@@ -117,6 +117,27 @@ RSpec.describe "Dragging work packages in the inbox",
         .expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp4,
                                                                 inbox_wp1,
                                                                 inbox_wp5])
+    end
+  end
+
+  context "when the item was morphed by a Turbo update" do
+    it "allows dragging a morphed inbox item" do
+      backlogs_page.visit!
+
+      backlogs_page.click_in_inbox_move_menu(inbox_wp2, "Move down")
+      backlogs_page.expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1,
+                                                                           inbox_wp3,
+                                                                           inbox_wp2,
+                                                                           inbox_wp4,
+                                                                           inbox_wp5])
+
+      backlogs_page.drag_work_package(inbox_wp2, before: inbox_wp5)
+
+      backlogs_page.expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1,
+                                                                           inbox_wp3,
+                                                                           inbox_wp4,
+                                                                           inbox_wp2,
+                                                                           inbox_wp5])
     end
   end
 

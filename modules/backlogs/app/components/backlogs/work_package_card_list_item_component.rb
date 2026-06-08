@@ -35,7 +35,11 @@ module Backlogs
     private
 
     def build_card
-      WorkPackageCardComponent.new(work_package:, menu_src:)
+      WorkPackageCardComponent.new(
+        work_package:,
+        menu_src:,
+        **card_arguments
+      )
     end
 
     def draggable?
@@ -50,7 +54,7 @@ module Backlogs
       url_helpers.work_package_path(work_package)
     end
 
-    def drop_url
+    def move_url
       url_helpers.move_project_backlogs_work_package_path(project, work_package, params)
     end
 
@@ -58,10 +62,16 @@ module Backlogs
       url_helpers.menu_project_backlogs_work_package_path(project, work_package, params)
     end
 
-    # `story` data attrs match the live Stimulus controller and Dragula
-    # drag-type; renaming requires coordinated JS changes (separate PR).
-    def row_data
-      super.merge(
+    def card_arguments
+      {
+        classes: "Box-card",
+        tabindex: 0,
+        data: card_data
+      }
+    end
+
+    def card_data
+      data = {
         story: true,
         controller: "backlogs--story",
         backlogs__story_id_value: work_package.id,
@@ -69,15 +79,29 @@ module Backlogs
         backlogs__story_split_url_value: split_url,
         backlogs__story_full_url_value: full_url,
         backlogs__story_selected_class: "Box-row--blue"
-      )
+      }
+
+      return data unless draggable?
+
+      data.merge(sortable_lists__item_target: "preview handle")
     end
 
     def draggable_data
       {
-        draggable_id: work_package.id,
-        draggable_type: "story",
-        drop_url:
+        controller: "sortable-lists--item",
+        sortable_lists__item_id_value: work_package.id,
+        sortable_lists__item_type_value: "work_package",
+        sortable_lists__item_move_url_value: move_url
       }
+    end
+
+    public
+
+    def row_args
+      arguments = super
+      arguments.delete(:tabindex)
+      arguments[:draggable] = true if draggable?
+      arguments
     end
   end
 end

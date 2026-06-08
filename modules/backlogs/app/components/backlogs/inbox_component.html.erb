@@ -39,10 +39,8 @@ See COPYRIGHT and LICENSE files for more details.
         header_padding: :default,
         test_selector: "backlog-inbox",
         data: {
-          generic_drag_and_drop_target: "container",
-          target_container_accessor: ":scope > ul",
-          target_id: "inbox",
-          target_allowed_drag_type: "story"
+          sortable_lists_target: "list",
+          sortable_lists_list_type: "inbox"
         }
       )
     ) do |list|
@@ -67,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
           list.with_item(
             scheme: :neutral,
             classes: "op-work-package-card-list--show-more-row",
-            data: { draggable_id: last_omitted_id }
+            data: { sortable_lists_prev_item_id: last_omitted_id }
           ) do
             render(
               Primer::Beta::Button.new(

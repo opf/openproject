@@ -202,10 +202,10 @@ en:
 
     stories:
       update_service:
-        missing_target: "target_id or direction must be present."
-        ambiguous_target: "target_id and direction cannot both be present."
-        invalid_target_type: "target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox."
+        ambiguous_target: "list_type and direction cannot both be present."
         invalid_direction: "direction must be one of: higher, highest, lower, lowest."
+        invalid_target_type: "list_type must be one of: backlog_bucket with a list_id, sprint with a list_id, or inbox without a list_id."
+        missing_target: "list_type or direction must be present."
 
     work_package_card_menu_component:
       action_menu:

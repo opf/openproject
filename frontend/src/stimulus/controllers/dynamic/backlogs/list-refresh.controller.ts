@@ -28,34 +28,41 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { FrameElement } from '@hotwired/turbo';
-import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { filter, Subscription } from 'rxjs';
 
-export default class BacklogsController extends Controller<HTMLElement> {
-  private service:HalEventsService|null = null;
+// The Backlogs lists are server-rendered and updated via Turbo streams on drag
+// moves, but a work package can also change outside a drag — e.g. edited in the
+// split pane or by the Angular layer. Those edits emit HAL events rather than a
+// Turbo stream targeting this frame, so subscribe to them and reload the frame
+// to keep the cards (and sprint point totals) in sync.
+export default class ListRefreshController extends Controller<FrameElement> {
   private subscription:Subscription|null = null;
+  private currentConnectionToken?:symbol;
 
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   async connect() {
+    const connectionToken = Symbol('backlogs-list-refresh');
+    this.currentConnectionToken = connectionToken;
+
     const { services: { halEvents } } = await window.OpenProject.getPluginContext();
 
-    this.service = halEvents;
-    this.subscription = this.service.aggregated$('WorkPackage')
+    if (!this.isCurrentConnection(connectionToken)) {
+      return;
+    }
+
+    this.subscription = halEvents
+      .aggregated$('WorkPackage')
       .pipe(filter((events) => events.some((event) => event.eventType === 'updated')))
-      .subscribe(() => { this.refreshList(); });
+      .subscribe(() => { void this.element.reload(); });
   }
 
   disconnect() {
+    this.currentConnectionToken = undefined;
     this.subscription?.unsubscribe();
     this.subscription = null;
-    this.service = null;
   }
 
-  private refreshList() {
-    void this.listElement.reload();
-  }
-
-  private get listElement() {
-    return this.element.querySelector<FrameElement>('#backlogs_container')!;
+  private isCurrentConnection(connectionToken:symbol):boolean {
+    return this.element.isConnected && this.currentConnectionToken === connectionToken;
   }
 }

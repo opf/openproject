@@ -217,6 +217,13 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_octicon(:"move-to-bottom")
     end
 
+    it "carries the work package's current sprint as list_type and list_id on reorder items" do
+      render_component
+
+      expect(page).to have_field("list_type", type: :hidden, with: "sprint", count: 2)
+      expect(page).to have_field("list_id", type: :hidden, with: sprint.id.to_s, count: 2)
+    end
+
     context "when item is first" do
       let(:work_package) { enrich_with_neighbours(first_story) }
 
@@ -366,6 +373,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
         expect(page).to have_octicon(:inbox)
         expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_inbox"))
+        expect(page).to have_field("list_type", type: :hidden, with: "inbox")
       end
     end
 

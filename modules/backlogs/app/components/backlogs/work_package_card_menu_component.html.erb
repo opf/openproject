@@ -88,7 +88,7 @@ See COPYRIGHT and LICENSE files for more details.
               label: t(".action_menu.move_to_inbox"),
               tag: :button,
               href: move_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
-              form_arguments: { method: :put, inputs: [{ name: "target_id", value: "inbox" }] }
+              form_arguments: { method: :put, inputs: [{ name: "list_type", value: "inbox" }] }
             ) do |item|
               item.with_leading_visual_icon(icon: :inbox)
             end

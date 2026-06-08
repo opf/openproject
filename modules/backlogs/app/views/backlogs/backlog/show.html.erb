@@ -29,9 +29,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t(:label_backlogs) %>
 
-<% content_controller "backlogs",
-                      "backlogs-list-url-value": project_backlogs_backlog_path(@project) %>
-
 <% content_for :content_header do %>
   <%=
     render Primer::OpenProject::PageHeader.new(mb: 0) do |header|
