@@ -32,21 +32,20 @@ See COPYRIGHT and LICENSE files for more details.
     d.with_header(variant: :large)
 
     d.with_body do
+      available_buckets = buckets
+
       primer_form_with(
         url: move_action,
         method: :put,
         id: FORM_ID,
         data: { turbo_stream: true }
-      ) do
-        render(
-          Primer::Alpha::Select.new(
-            name: "target_id",
-            label: BacklogBucket.human_attribute_name(:name),
-            visually_hide_label: true
-          )
-        ) do |select|
-          buckets.each do |bucket|
-            select.option(label: bucket.name, value: "backlog_bucket:#{bucket.id}")
+      ) do |f|
+        render_inline_form(f) do |form|
+          form.hidden(name: "list_type", value: "backlog_bucket")
+          form.select_list(name: "list_id", label: BacklogBucket.human_attribute_name(:name), visually_hide_label: true) do |select|
+            available_buckets.each do |bucket|
+              select.option(label: bucket.name, value: bucket.id)
+            end
           end
         end
       end

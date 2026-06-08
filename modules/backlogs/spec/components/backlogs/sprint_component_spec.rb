@@ -103,10 +103,9 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       it "wires drop-target data attributes for the sprint" do
         expect(rendered_component).to have_css(".Box") do |box|
-          expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-          expect(box["data-target-container-accessor"]).to eq(":scope > ul")
-          expect(box["data-target-id"]).to eq("sprint:#{sprint.id}")
-          expect(box["data-target-allowed-drag-type"]).to eq("story")
+          expect(box["data-sortable-lists-target"]).to eq("list")
+          expect(box["data-sortable-lists-list-type"]).to eq("sprint")
+          expect(box["data-sortable-lists-list-id"]).to eq(sprint.id.to_s)
         end
       end
 
@@ -116,11 +115,18 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       it "wires draggable data on work package rows" do
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
-          expect(row["data-draggable-id"]).to eq(work_package1.id.to_s)
-          expect(row["data-draggable-type"]).to eq("story")
-          expect(row["data-backlogs--story-display-id-value"]).to eq(work_package1.display_id.to_s)
-          expect(row["data-drop-url"])
+          expect(row["data-controller"]).to eq("sortable-lists--item")
+          expect(row["data-sortable-lists--item-id-value"]).to eq(work_package1.id.to_s)
+          expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
+          expect(row["data-sortable-lists--item-move-url-value"])
             .to end_with(move_project_backlogs_work_package_path(project, work_package1))
+          expect(row["draggable"]).to eq("true")
+        end
+
+        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
+          expect(card["data-controller"]).to eq("backlogs--story")
+          expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
+          expect(card["data-backlogs--story-display-id-value"]).to eq(work_package1.display_id.to_s)
         end
       end
 
@@ -131,7 +137,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
         it "propagates ?all=1 to the work package drop URL" do
           expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
-            expect(row["data-drop-url"])
+            expect(row["data-sortable-lists--item-move-url-value"])
               .to eq(move_project_backlogs_work_package_path(project, work_package1, all: "1"))
           end
         end
@@ -153,8 +159,15 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       it "does not mark work package rows as draggable" do
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}")
         expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}.Box-row--draggable")
-        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[data-draggable-id]")
-        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[data-drop-url]")
+        expect(rendered_component)
+          .to have_no_css(".Box-row#work_package_#{work_package1.id}[data-sortable-lists--item-id-value]")
+        expect(rendered_component)
+          .to have_no_css(".Box-row#work_package_#{work_package1.id}[data-sortable-lists--item-move-url-value]")
+        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[draggable='true']")
+        expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-id-value]")
+        expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-target]")
+        expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-move-url-value]")
+        expect(rendered_component).to have_no_css(".op-work-package-card[draggable='true']")
       end
     end
 

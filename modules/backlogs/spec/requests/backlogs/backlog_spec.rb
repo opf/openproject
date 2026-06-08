@@ -86,6 +86,12 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         expect(response).to render_template("backlogs/backlog/_backlog_list")
 
         expect(response).to have_turbo_frame "backlogs_container"
+        expect(response.body).to include('class="op-sprint-planning-container"')
+        expect(response.body).to include('data-controller="sortable-lists"')
+        expect(response.body).to include('data-sortable-lists-accepted-type-value="work_package"')
+        expect(response.body).to include('id="owner_backlogs_container"')
+        expect(response.body).to include('id="sprint_backlogs_container"')
+        expect(response.body.scan('data-sortable-lists-target="scrollable"').size).to eq(2)
         expect(response).to have_no_turbo_frame "content-bodyRight"
       end
 
@@ -103,6 +109,29 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
           expect(response).to have_http_status(:ok)
           expect(response.body).to include('id="owner_backlogs_container"')
           expect(response.body).to include('id="sprint_backlogs_container"')
+        end
+      end
+
+      it "uses the inbox border box as a backlogs list target" do
+        get "/projects/#{project.identifier}/backlogs/backlog", headers: { "Turbo-Frame" => "backlogs_container" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(%(id="inbox_project_#{project.id}"))
+        expect(response.body).to include('data-sortable-lists-target="list"')
+        expect(response.body).to include('data-sortable-lists-list-type="inbox"')
+        expect(response.body).not_to include('data-sortable-lists-list-id="inbox"')
+      end
+
+      context "with backlog buckets" do
+        shared_let(:backlog_bucket) { create(:backlog_bucket, project:) }
+
+        it "uses each backlog bucket border box as a backlogs list target" do
+          get "/projects/#{project.identifier}/backlogs/backlog", headers: { "Turbo-Frame" => "backlogs_container" }
+
+          expect(response).to have_http_status(:ok)
+          expect(response.body).to include(%(data-test-selector="backlog-bucket-#{backlog_bucket.id}"))
+          expect(response.body).to include('data-sortable-lists-list-type="backlog_bucket"')
+          expect(response.body).to include(%(data-sortable-lists-list-id="#{backlog_bucket.id}"))
         end
       end
     end

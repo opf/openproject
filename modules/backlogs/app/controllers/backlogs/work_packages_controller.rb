@@ -68,7 +68,7 @@ module Backlogs
       source = @work_package.sprint
 
       call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, story: @work_package)
-                                   .call(**move_params.to_h.symbolize_keys)
+                                   .call(**move_service_params)
 
       if call.success?
         move_work_package_to_target_component_via_turbo_stream(source:, target: call.result.sprint)
@@ -126,7 +126,14 @@ module Backlogs
     end
 
     def move_params
-      params.permit(:position, :prev_id, :target_id, :direction)
+      params.permit(:prev_id, :direction, :list_type, :list_id)
+    end
+
+    # A blank prev_id (drag or menu move to the top of a list) is kept so the
+    # service inserts at the top; nil values (absent prev_id/direction) are
+    # dropped. The service resolves list_type/list_id into the destination list.
+    def move_service_params
+      move_params.to_h.symbolize_keys.compact
     end
 
     def displayed_work_packages

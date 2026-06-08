@@ -176,5 +176,19 @@ RSpec.describe OpenProject::Common::WorkPackageCardComponent, type: :component d
         end
       end
     end
+
+    it "passes system arguments to the root card element" do
+      rendered = render_inline(
+        described_class.new(
+          work_package:,
+          data: { controller: "custom-card" },
+          draggable: true
+        )
+      )
+
+      expect(rendered).to have_css(
+        ".op-work-package-card[data-controller='custom-card'][draggable='true']"
+      )
+    end
   end
 end

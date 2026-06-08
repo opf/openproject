@@ -27,11 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++# %>
 
-<%= grid_layout(
-      "op-work-package-card",
-      tag: :article,
-      classes: layout_classes
-    ) do |grid| %>
+<%= grid_layout("op-work-package-card", **@system_arguments) do |grid| %>
   <% if show_drag_handle %>
     <% grid.with_area(:drag_handle, classes: "hide-when-print") do %>
       <%= render(Primer::OpenProject::DragHandle.new) %>

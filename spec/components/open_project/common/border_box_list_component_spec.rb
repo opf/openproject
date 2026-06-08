@@ -528,6 +528,10 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         )
       end
 
+      it "applies the Box-card class to the work-package card" do
+        expect(rendered_component).to have_css(".op-work-package-card.Box-card")
+      end
+
       it "sets the test selector" do
         item = described_class::WorkPackageItem.new(
           work_package:,

@@ -32,21 +32,20 @@ See COPYRIGHT and LICENSE files for more details.
     d.with_header(variant: :large)
 
     d.with_body do
+      available_sprints = sprints
+
       primer_form_with(
         url: move_action,
         method: :put,
         id: FORM_ID,
         data: { turbo_stream: true }
-      ) do
-        render(
-          Primer::Alpha::Select.new(
-            name: "target_id",
-            label: Sprint.human_model_name,
-            visually_hide_label: true
-          )
-        ) do |select|
-          sprints.each do |sprint|
-            select.option(label: sprint.name, value: "sprint:#{sprint.id}")
+      ) do |f|
+        render_inline_form(f) do |form|
+          form.hidden(name: "list_type", value: "sprint")
+          form.select_list(name: "list_id", label: Sprint.human_model_name, visually_hide_label: true) do |select|
+            available_sprints.each do |sprint|
+              select.option(label: sprint.name, value: sprint.id)
+            end
           end
         end
       end

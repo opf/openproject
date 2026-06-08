@@ -59,50 +59,46 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
         end
       end
 
-      context "with neither target_id nor direction" do
+      context "with neither list_type nor direction" do
         it_behaves_like "returns failure without delegating",
                         {},
                         "backlogs.stories.update_service.missing_target"
       end
 
-      context "with both target_id and direction" do
+      context "with both list_type and direction" do
         it_behaves_like "returns failure without delegating",
-                        { target_id: "inbox", direction: "highest" },
+                        { list_type: "inbox", direction: "highest" },
                         "backlogs.stories.update_service.ambiguous_target"
       end
 
-      context "when target_id contains an invalid type and id" do
-        it_behaves_like "returns failure without delegating", { target_id: "unknown:42" }
+      context "when list_type is an invalid type with a list_id" do
+        it_behaves_like "returns failure without delegating", { list_type: "unknown", list_id: "42" }
       end
 
-      context "when target_id contains an invalid type and no id" do
-        it_behaves_like "returns failure without delegating", { target_id: "unknown" }
+      context "when list_type is an invalid type without a list_id" do
+        it_behaves_like "returns failure without delegating", { list_type: "unknown" }
       end
 
-      %w[sprint backlog_bucket].each do |target_type|
-        context "when target_id is '#{target_type}' missing the colon and id" do
-          it_behaves_like "returns failure without delegating", { target_id: target_type }
+      %w[sprint backlog_bucket].each do |list_type|
+        context "when list_type is '#{list_type}' with no list_id" do
+          it_behaves_like "returns failure without delegating", { list_type: }
         end
 
-        context "when target_id is '#{target_type}:' missing id" do
-          it_behaves_like "returns failure without delegating", { target_id: "#{target_type}:" }
+        context "when list_type is '#{list_type}' with a blank list_id" do
+          it_behaves_like "returns failure without delegating", { list_type:, list_id: "" }
         end
 
-        context "when target_id is '#{target_type}:unknown' having an invalid id" do
-          it_behaves_like "returns failure without delegating", { target_id: "#{target_type}:unknown" }
+        context "when list_type is '#{list_type}' with a non-numeric list_id" do
+          it_behaves_like "returns failure without delegating", { list_type:, list_id: "unknown" }
         end
       end
 
-      context "when target_id is 'inbox:' having an extra colon" do
-        it_behaves_like "returns failure without delegating", { target_id: "inbox:" }
+      context "when list_type is 'inbox' with a numeric list_id" do
+        it_behaves_like "returns failure without delegating", { list_type: "inbox", list_id: "1" }
       end
 
-      context "when target_id is 'inbox:1' having a valid id" do
-        it_behaves_like "returns failure without delegating", { target_id: "inbox:1" }
-      end
-
-      context "when target_id is 'inbox:unknown' having an invalid id" do
-        it_behaves_like "returns failure without delegating", { target_id: "inbox:unknown" }
+      context "when list_type is 'inbox' with a non-numeric list_id" do
+        it_behaves_like "returns failure without delegating", { list_type: "inbox", list_id: "unknown" }
       end
 
       context "with an invalid direction" do
@@ -120,25 +116,31 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       end
     end
 
-    context "with target_id: sprint" do
+    context "with list_type: sprint" do
       it "delegates with sprint_id and nil backlog_bucket_id" do
-        instance.call(target_id: "sprint:42")
+        instance.call(list_type: "sprint", list_id: "42")
+
+        expect(inner_service).to have_received(:call).with(sprint_id: "42", backlog_bucket_id: nil)
+      end
+
+      it "normalizes integer list IDs before validating the target" do
+        instance.call(list_type: "sprint", list_id: 42)
 
         expect(inner_service).to have_received(:call).with(sprint_id: "42", backlog_bucket_id: nil)
       end
     end
 
-    context "with target_id: backlog_bucket" do
+    context "with list_type: backlog_bucket" do
       it "delegates with backlog_bucket_id and nil sprint_id" do
-        instance.call(target_id: "backlog_bucket:99")
+        instance.call(list_type: "backlog_bucket", list_id: "99")
 
         expect(inner_service).to have_received(:call).with(backlog_bucket_id: "99", sprint_id: nil)
       end
     end
 
-    context "with target_id: inbox" do
+    context "with list_type: inbox" do
       it "delegates with nil sprint_id and nil backlog_bucket_id" do
-        instance.call(target_id: "inbox")
+        instance.call(list_type: "inbox")
 
         expect(inner_service).to have_received(:call).with(backlog_bucket_id: nil, sprint_id: nil)
       end
@@ -150,7 +152,7 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       it "returns the failure without calling move_after", :aggregate_failures do
         allow(story).to receive(:move_after)
 
-        result = instance.call(target_id: "inbox")
+        result = instance.call(list_type: "inbox")
 
         expect(result).to be_failure
         expect(story).not_to have_received(:move_after)
@@ -161,7 +163,7 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       it "calls move_after with the prev_id on success" do
         allow(story).to receive(:move_after)
 
-        instance.call(target_id: "inbox", prev_id: "5")
+        instance.call(list_type: "inbox", prev_id: "5")
 
         expect(story).to have_received(:move_after).with(prev_id: "5")
       end
@@ -171,7 +173,7 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       it "calls move_after with the position on success" do
         allow(story).to receive(:move_after)
 
-        instance.call(target_id: "inbox", position: "3")
+        instance.call(list_type: "inbox", position: "3")
 
         expect(story).to have_received(:move_after).with(position: "3")
       end
@@ -181,7 +183,7 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       it "prefers prev_id over position" do
         allow(story).to receive(:move_after)
 
-        instance.call(target_id: "inbox", prev_id: "5", position: "3")
+        instance.call(list_type: "inbox", prev_id: "5", position: "3")
 
         expect(story).to have_received(:move_after).with(prev_id: "5")
         expect(story).not_to have_received(:move_after).with(position: "3")

@@ -110,7 +110,7 @@ module OpenProject
         #
         # @return [ApplicationComponent]
         def build_card
-          WorkPackageCardComponent.new(work_package:)
+          WorkPackageCardComponent.new(work_package:, classes: "Box-card")
         end
 
         def row_classes

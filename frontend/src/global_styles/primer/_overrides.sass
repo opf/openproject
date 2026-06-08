@@ -157,12 +157,6 @@ ul.SegmentedControl,
   .ActionListItem-label[class^="__hl_"], .ActionListItem-label[class*=" __hl_"]
     color: var(--control-fgColor-disabled) !important
 
-// hide hover when dragging with legacy Dragula implementation
-.Box-row--hover-gray,
-.Box-row--hover-blue
-  body[data-dragging="active"] &
-    background-color: unset
-
 .Box-row--focus-gray
   &:focus-visible
     background-color: var(--bgColor-muted)
@@ -174,25 +168,61 @@ ul.SegmentedControl,
 .Box-row--clickable
   cursor: pointer
 
-.Box-row--draggable:not(.Box-row--clickable)
+.Box-row--draggable
   cursor: grab
 
-// `:is(.Box-row--clickable)` bumps selector specificity so these rules win
-// over Dragula's `.gu-*` transit styles; without it the mirror and source
-// rows render transparent mid-drag. Revisit once #74172 / #73729 replace the
-// legacy Dragula implementation.
-.Box-row:is(.Box-row--clickable)
-  &[data-dragging="mirror"]
+  &:active
+    cursor: grabbing
+
+.Box-row:is(.Box-row--draggable)
+  --op-backlogs-drop-gap-border-width: 2px
+  --op-backlogs-drop-gap-height: 8px
+
+  padding: 0
+
+  &[data-dragging="source"]
+    opacity: 0.4
+    background-color: var(--bgColor-inset)
+    box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
+
+  &[data-drop-position]
+    position: relative
+
+    &::before,
+    &::after
+      position: absolute
+      left: 0
+      right: 0
+      height: var(--op-backlogs-drop-gap-height)
+      background: linear-gradient(
+        to bottom,
+        var(--bgColor-accent-muted) 0,
+        var(--bgColor-accent-muted) calc(50% - var(--op-backlogs-drop-gap-border-width) / 2),
+        var(--fgColor-accent) calc(50% - var(--op-backlogs-drop-gap-border-width) / 2),
+        var(--fgColor-accent) calc(50% + var(--op-backlogs-drop-gap-border-width) / 2),
+        var(--bgColor-accent-muted) calc(50% + var(--op-backlogs-drop-gap-border-width) / 2),
+        var(--bgColor-accent-muted) 100%
+      )
+      pointer-events: none
+      z-index: 1
+
+  &[data-drop-position="top"]::before
+    content: ''
+    top: calc(var(--op-backlogs-drop-gap-height) / -2)
+
+  &[data-drop-position="bottom"]::after
+    content: ''
+    bottom: calc(var(--op-backlogs-drop-gap-height) / -2)
+
+.Box-card
+  padding: var(--stack-padding-condensed) var(--stack-padding-normal)
+
+  &[data-preview]
     background-color: var(--bgColor-default)
     border: var(--borderWidth-default) solid var(--borderColor-default)
     border-radius: var(--borderRadius-medium)
     box-shadow: var(--shadow-floating-medium)
     opacity: 1
-
-  &[data-dragging="source"]
-    opacity: 0.4
-    background-color: var(--bgColor-subtle)
-    box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
 
 // Apply the mobile styles as soon as the banner itself is small
 // Styles are copied from the PVC repo

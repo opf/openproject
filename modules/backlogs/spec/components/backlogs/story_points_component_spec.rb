@@ -49,6 +49,14 @@ RSpec.describe Backlogs::StoryPointsComponent, type: :component do
     expect(page).to have_css(".sr-only", text: "5 story points")
   end
 
+  it "positions the story points wrapper for the screen reader label" do
+    work_package = create(:work_package, project:, story_points: 5)
+
+    render_inline(described_class.new(work_package:))
+
+    expect(page).to have_css(".position-relative .sr-only", text: "5 story points")
+  end
+
   it "renders zero when story points are unset" do
     work_package = create(:work_package, project:, story_points: nil)
 

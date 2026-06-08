@@ -36,8 +36,8 @@ class Backlogs::WorkPackages::UpdateService
     self.story = story
   end
 
-  def call(direction: nil, target_id: nil, position: nil, prev_id: nil)
-    resolve_required_attributes(direction:, target_id:)
+  def call(direction: nil, list_type: nil, list_id: nil, position: nil, prev_id: nil)
+    resolve_required_attributes(direction:, list_type:, list_id:)
       .bind { |attrs| ::WorkPackages::UpdateService.new(user:, model: story).call(**attrs) }
       .on_success do |call|
         if prev_id
@@ -50,11 +50,13 @@ class Backlogs::WorkPackages::UpdateService
 
   private
 
-  def resolve_required_attributes(direction:, target_id:)
-    if target_id && direction
+  def resolve_required_attributes(direction:, list_type:, list_id:)
+    list_id = list_id.presence&.to_s
+
+    if list_type.present? && direction
       ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.ambiguous_target"))
-    elsif target_id
-      attributes_result_from_target(target_id)
+    elsif list_type.present?
+      attributes_result_from_list(list_type, list_id)
     elsif direction
       attributes_result_from_direction(direction)
     else
@@ -62,13 +64,13 @@ class Backlogs::WorkPackages::UpdateService
     end
   end
 
-  def attributes_result_from_target(target_id)
-    case target_id.to_s.split(":", 2)
+  def attributes_result_from_list(list_type, list_id)
+    case [list_type, list_id]
     in ["sprint", /\A\d+\z/ => sprint_id]
       ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: })
     in ["backlog_bucket", /\A\d+\z/ => backlog_bucket_id]
       ServiceResult.success(result: { backlog_bucket_id:, sprint_id: nil })
-    in ["inbox"]
+    in ["inbox", nil]
       ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: nil })
     else
       ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.invalid_target_type"))
