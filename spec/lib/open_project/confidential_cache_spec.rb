@@ -96,5 +96,40 @@ RSpec.describe OpenProject::ConfidentialCache do
 
       expect(OpenProject::Cache.read(cache_key)).not_to be_nil
     end
+
+    it "raises instead of looping when the value stays unreadable across a retry" do
+      # Simulate a value that remains an unreadable cache hit even after delete/retry.
+      allow(OpenProject::Cache).to receive(:fetch).and_return("some clear text")
+
+      expect { described_class.fetch(cache_key) { "value" } }
+        .to raise_error(ActiveSupport::MessageEncryptor::InvalidMessage)
+    end
+  end
+
+  # Regression: a hash that reuses the same object for two keys  was rejected on load
+  # which the strict read-side load rejected, raising InvalidMessage on every decrypt and
+  # sending #fetch into an endless delete/retry loop.
+  describe "with symbol keys and shared object references" do
+    let(:shared) { "https://idp.example.com/slo" }
+    let(:value) do
+      {
+        my_provider: {
+          name: :my_provider,
+          idp_slo_service_url: shared,
+          idp_slo_target_url: shared
+        }
+      }
+    end
+
+    it "roundtrips via #write and #read" do
+      described_class.write(cache_key, value)
+
+      expect(described_class.read(cache_key)).to eq(value)
+    end
+
+    it "decrypts the cached value on a subsequent #fetch without recomputing" do
+      expect(described_class.fetch(cache_key) { value }).to eq(value)
+      expect(described_class.fetch(cache_key) { raise "should not recompute" }).to eq(value)
+    end
   end
 end
