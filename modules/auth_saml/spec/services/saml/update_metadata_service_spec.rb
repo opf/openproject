@@ -258,7 +258,7 @@ RSpec.describe Saml::UpdateMetadataService do
         parse_metadata
 
         expect(OpenProject::SsrfProtection).to have_received(:safe_ip?).with("example.com")
-        expect(OpenProject::SsrfProtection).to have_received(:get).with(metadata_url, anything)
+        expect(OpenProject::SsrfProtection).to have_received(:get).with(metadata_url)
         expect(Saml::MetadataDocument).to have_received(:prepare).with(instance_of(File), entity_id: nil)
         expect(parser_instance).to have_received(:parse_to_hash).with("<xml/>")
         expect(fetched_file).to be_closed

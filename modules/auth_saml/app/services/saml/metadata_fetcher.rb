@@ -32,9 +32,6 @@ module Saml
   class MetadataFetcher
     include ActionView::Helpers::NumberHelper
 
-    READ_TIMEOUT = 120
-    OPEN_TIMEOUT = 15
-
     def self.fetch(url, &)
       new(url).fetch(&)
     end
@@ -47,10 +44,7 @@ module Saml
       Tempfile.create("saml-metadata") do |file|
         file.binmode
 
-        OpenProject::SsrfProtection.get(
-          @url,
-          http_options: { open_timeout: OPEN_TIMEOUT, read_timeout: READ_TIMEOUT }
-        ) do |response|
+        OpenProject::SsrfProtection.get(@url) do |response|
           unless response.is_a?(Net::HTTPSuccess)
             raise OneLogin::RubySaml::HttpError,
                   "Failed to fetch idp metadata: #{response.code}: #{response.message}"

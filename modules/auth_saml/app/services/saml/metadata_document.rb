@@ -40,11 +40,6 @@ module Saml
     class FederationMetadataError < StandardError; end
 
     MAX_SIZE = 150.megabytes
-    # Instead of trying to parse the entire file, we first look for an aggregate EntitiesDescriptor
-    # If that is found, we know that we can parse each entity individually to find our entity.
-    # For that, we only have to look at the EntityID of each node rather than trying to parse the entire XML
-    AGGREGATE_SNIPPET_BYTES = 64.kilobytes
-    AGGREGATE_ROOT_PATTERN = /<(?:\w+:)?EntitiesDescriptor[\s>]/
 
     def self.prepare(source, entity_id: nil)
       new(source, entity_id:).prepare
@@ -78,9 +73,18 @@ module Saml
       fragment
     end
 
+    # Decide whether the document is a federation aggregate by inspecting its root element.
+    # Using +Nokogiri::XML::Reader+, we only advance to the root element and stop based on it.
     def aggregate?
-      snippet = read_snippet
-      snippet.match?(AGGREGATE_ROOT_PATTERN)
+      with_reader_io do |io|
+        Nokogiri::XML::Reader(io).each do |node|
+          next unless node.node_type == Nokogiri::XML::Reader::TYPE_ELEMENT
+
+          return node.local_name == "EntitiesDescriptor"
+        end
+      end
+
+      false
     end
 
     private
@@ -128,12 +132,6 @@ module Saml
 
     def entity_descriptor_element?(node)
       node.node_type == Nokogiri::XML::Reader::TYPE_ELEMENT && node.local_name == "EntityDescriptor"
-    end
-
-    def read_snippet
-      with_reader_io do |io|
-        io.read(AGGREGATE_SNIPPET_BYTES)
-      end
     end
 
     def read_all
