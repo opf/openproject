@@ -66,7 +66,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
   describe "#row_args" do
     it "marks the row as clickable and wires it as the Backlogs draggable item" do
       expect(item.row_args[:classes]).to include(
-        "Box-row--hover-blue",
+        "Box-row--hover-gray",
         "Box-row--focus-gray",
         "Box-row--clickable"
       )

@@ -115,7 +115,7 @@ module OpenProject
 
         def row_classes
           class_names(
-            "Box-row--hover-blue",
+            "Box-row--hover-gray",
             "Box-row--focus-gray",
             "Box-row--clickable",
             "Box-row--draggable" => draggable?
