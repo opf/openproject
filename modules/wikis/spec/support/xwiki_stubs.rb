@@ -41,7 +41,7 @@ module XWikiStubs
                  headers: { "Content-Type" => "application/json" })
   end
 
-  def search_endpoint(wiki_name, linkable, provider:, number: 10)
+  def search_endpoint(wiki_name, linkable, provider:, number: 25)
     "#{provider.url}rest/wikis/#{wiki_name}/openproject/links/workPackages/#{linkable.id}?number=#{number}"
   end
 
@@ -54,7 +54,7 @@ module XWikiStubs
                  headers: { "Content-Type" => "application/json" })
   end
 
-  def stub_search(wiki_name, search_results, provider:, linkable:, number: 10, token: "user-bearer-token")
+  def stub_search(wiki_name, search_results, provider:, linkable:, number: 25, token: "user-bearer-token")
     stub_request(:get, search_endpoint(wiki_name, linkable, provider:, number:))
       .with(headers: { "Authorization" => "Bearer #{token}" })
       .to_return(status: 200,

@@ -41,19 +41,11 @@ module Wikis
                                    .merge(RelationPageLink.all)
                                    .where(linkable: input_data.linkable)
                                    .map do |page_link|
-                page_info_result = canonical_page_info(identifier: page_link.identifier, auth_strategy:)
+                page_info_result = page_info(identifier: page_link.identifier, auth_strategy:)
                 Results::PageLinkAggregate.new(page_info_result:, page_link:)
               end
 
               success(page_links)
-            end
-
-            private
-
-            def canonical_page_info(identifier:, auth_strategy:)
-              Input::PageInfo.build(identifier:).bind do |input_data|
-                Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
-              end
             end
           end
         end
