@@ -118,14 +118,6 @@ Instead of sending an email for every small change, OpenProject now consolidates
 
 [Read more about OpenProject's Meetings module](../../user-guide/meetings/).
 
-### Nested groups for organizational structures and inherited permissions
-
-OpenProject 17.5 introduces nested groups to better represent organizational structures such as departments, teams, or business units.
-
-Groups can now contain subgroups, allowing administrators to model hierarchies directly in OpenProject. Permissions and memberships can also be inherited from parent groups, making it easier to manage access rights consistently across larger organizations.
-
-![Mockup showing users and permissions sorted into hierarchical groups](openproject-17-5-nested-groups-mockup.png)
-
 ### Allow multi-selection of roles in workflow
 
 OpenProject 17.5 improves workflow administration by allowing administrators to select and configure multiple roles at once in the workflow configuration. This makes it easier and faster to manage workflows across complex role setups and reduces repetitive configuration work for administrators.
