@@ -26,17 +26,23 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { vi } from 'vitest';
+
 import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import {
   acceptsSortableItemType,
   buildMoveFormData,
+  captureRowPositions,
+  flipMove,
   isSortableItemData,
   isSortableListData,
+  reorderRows,
   resolveFallbackDropTarget,
   resolveItemType,
   resolveListAppendPreviousItemId,
   resolveListData,
   resolvePreviousSortableItemId,
+  restoreRowPositions,
   sortableItemData,
   sortableListData,
 } from './drag-and-drop';
@@ -434,6 +440,168 @@ describe('sortable lists drag and drop helpers', () => {
       list.append(itemRow('1'));
 
       expect(resolveListAppendPreviousItemId({ sourceItemId: '1', list })).toBeNull();
+    });
+  });
+
+  function listElement():HTMLUListElement {
+    const list = document.createElement('ul');
+
+    list.setAttribute('data-sortable-lists-target', 'list');
+
+    return list;
+  }
+
+  function itemIdOrder(list:HTMLElement):string[] {
+    return Array.from(list.querySelectorAll('[data-sortable-lists--item-id-value]'))
+      .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
+  }
+
+  describe('reorderRows', () => {
+    it('moves a row to sit immediately after the previous item anchor', () => {
+      const list = listElement();
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+
+      list.append(one, two, three);
+      reorderRows({ rows: [one], list, previousItemId: '2' });
+
+      expect(itemIdOrder(list)).toEqual(['2', '1', '3']);
+    });
+
+    it('moves a row to the top of the list before the first existing row', () => {
+      const list = listElement();
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+
+      list.append(one, two, three);
+      reorderRows({ rows: [three], list, previousItemId: null });
+
+      expect(itemIdOrder(list)).toEqual(['3', '1', '2']);
+    });
+
+    it('keeps a top-of-list move inside a nested list element instead of escaping it', () => {
+      const list = document.createElement('div');
+      const inner = document.createElement('ul');
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+
+      list.setAttribute('data-sortable-lists-target', 'list');
+      inner.append(one, two, three);
+      list.append(inner);
+
+      reorderRows({ rows: [three], list, previousItemId: null });
+
+      expect(three.parentElement).toBe(inner);
+      expect(itemIdOrder(list)).toEqual(['3', '1', '2']);
+    });
+
+    it('inserts a moved group after the anchor preserving their order', () => {
+      const list = listElement();
+      const [one, two, three, four] = ['1', '2', '3', '4'].map(itemRow);
+
+      list.append(one, two, three, four);
+      reorderRows({ rows: [three, four], list, previousItemId: '1' });
+
+      expect(itemIdOrder(list)).toEqual(['1', '3', '4', '2']);
+    });
+
+    it('anchors on a truncation marker row when the previous item is hidden', () => {
+      const list = listElement();
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+      const marker = showMoreRow('hidden');
+
+      list.append(three, one, marker, two);
+      reorderRows({ rows: [three], list, previousItemId: 'hidden' });
+
+      expect(three.previousElementSibling).toBe(marker);
+      expect(itemIdOrder(list)).toEqual(['1', '3', '2']);
+    });
+  });
+
+  describe('captureRowPositions / restoreRowPositions', () => {
+    it('restores a row to its original position after an optimistic move', () => {
+      const list = listElement();
+      const [one, two, three] = ['1', '2', '3'].map(itemRow);
+
+      list.append(one, two, three);
+      const snapshot = captureRowPositions([three]);
+
+      reorderRows({ rows: [three], list, previousItemId: null });
+      expect(itemIdOrder(list)).toEqual(['3', '1', '2']);
+
+      restoreRowPositions(snapshot);
+      expect(itemIdOrder(list)).toEqual(['1', '2', '3']);
+    });
+
+    it('restores a multi-row group to its original order', () => {
+      const list = listElement();
+      const [one, two, three, four] = ['1', '2', '3', '4'].map(itemRow);
+
+      list.append(one, two, three, four);
+      const snapshot = captureRowPositions([two, three]);
+
+      reorderRows({ rows: [two, three], list, previousItemId: '4' });
+      expect(itemIdOrder(list)).toEqual(['1', '4', '2', '3']);
+
+      restoreRowPositions(snapshot);
+      expect(itemIdOrder(list)).toEqual(['1', '2', '3', '4']);
+    });
+  });
+
+  describe('flipMove', () => {
+    afterEach(() => {
+      vi.restoreAllMocks();
+    });
+
+    function stubReducedMotion(matches:boolean) {
+      vi.spyOn(window, 'matchMedia').mockReturnValue({ matches } as MediaQueryList);
+    }
+
+    function stubRects(row:HTMLElement, first:{ top:number; left:number }, last:{ top:number; left:number }) {
+      vi.spyOn(row, 'getBoundingClientRect')
+        .mockReturnValueOnce({ ...first } as DOMRect)
+        .mockReturnValueOnce({ ...last } as DOMRect);
+    }
+
+    it('runs the mutation and animates each row from its previous position', () => {
+      stubReducedMotion(false);
+
+      const row = itemRow('1');
+      const animate = vi.spyOn(row, 'animate').mockReturnValue({} as Animation);
+      const mutate = vi.fn();
+
+      stubRects(row, { top: 100, left: 20 }, { top: 0, left: 0 });
+      flipMove([row], mutate);
+
+      expect(mutate).toHaveBeenCalledOnce();
+      expect(animate).toHaveBeenCalledWith(
+        [{ transform: 'translate(20px, 100px)' }, { transform: 'none' }],
+        { duration: 200, easing: 'ease' },
+      );
+    });
+
+    it('does not animate a row that did not move', () => {
+      stubReducedMotion(false);
+
+      const row = itemRow('1');
+      const animate = vi.spyOn(row, 'animate');
+      const mutate = vi.fn();
+
+      stubRects(row, { top: 50, left: 0 }, { top: 50, left: 0 });
+      flipMove([row], mutate);
+
+      expect(mutate).toHaveBeenCalledOnce();
+      expect(animate).not.toHaveBeenCalled();
+    });
+
+    it('applies the mutation without animating when reduced motion is preferred', () => {
+      stubReducedMotion(true);
+
+      const row = itemRow('1');
+      const animate = vi.spyOn(row, 'animate');
+      const mutate = vi.fn();
+
+      flipMove([row], mutate);
+
+      expect(mutate).toHaveBeenCalledOnce();
+      expect(animate).not.toHaveBeenCalled();
     });
   });
 });

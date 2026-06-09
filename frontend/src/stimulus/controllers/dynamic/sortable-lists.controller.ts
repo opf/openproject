@@ -45,12 +45,16 @@ import {
   isSortableItemData,
   isSourceListTarget,
   resolveFallbackDropTarget,
+  captureRowPositions,
+  flipMove,
+  reorderRows,
+  restoreRowPositions,
   resolveListAppendPreviousItemId,
   resolveListData,
   resolvePreviousSortableItemId,
   sortableItemSelector,
+  sortableListSelector,
   sortableListsMovingAttribute,
-  type SortableItemData,
   type SortableListData,
 } from './sortable-lists/drag-and-drop';
 
@@ -225,11 +229,29 @@ export default class SortableListsController extends Controller<HTMLElement> {
         list: targetElement,
       });
 
-    await this.moveItem({
+    const sourceRow = source.element.closest('li');
+    const listElement = targetElement.closest(sortableListSelector);
+    if (!(sourceRow instanceof HTMLElement) || !(listElement instanceof HTMLElement)) {
+      return;
+    }
+
+    // Move the row optimistically, then persist. The server response (a
+    // turbo-stream) reconciles the list on success; a failure rolls the row
+    // back to where it started.
+    const rows = [sourceRow];
+    const rollback = captureRowPositions(rows);
+    reorderRows({ rows, list: listElement, previousItemId });
+
+    const moved = await this.moveItem({
       listData,
       previousItemId,
-      sourceData: source.data,
+      moveUrl,
     });
+
+    if (!moved) {
+      flipMove(rows, () => restoreRowPositions(rollback));
+      this.dispatchErrorToast();
+    }
   }
 
   // A Turbo morph can strip the Pragmatic DnD attributes/listeners an item
@@ -249,17 +271,12 @@ export default class SortableListsController extends Controller<HTMLElement> {
   private async moveItem({
     listData,
     previousItemId,
-    sourceData,
+    moveUrl,
   }:{
     listData:SortableListData;
     previousItemId:string|null;
-    sourceData:SortableItemData;
-  }):Promise<void> {
-    const moveUrl = this.resolveMoveUrl(sourceData);
-    if (!moveUrl) {
-      return;
-    }
-
+    moveUrl:string;
+  }):Promise<boolean> {
     const request = new FetchRequest(
       'put',
       moveUrl,
@@ -280,9 +297,11 @@ export default class SortableListsController extends Controller<HTMLElement> {
       if (!response.ok) {
         debugLog(`Failed to move sortable list item: ${response.statusCode}`);
       }
+
+      return response.ok;
     } catch (error) {
       debugLog('Failed to move sortable list item due to request error', error);
-      this.dispatchErrorToast();
+      return false;
     } finally {
       this.setMoving(false);
     }

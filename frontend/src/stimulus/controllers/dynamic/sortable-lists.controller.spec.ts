@@ -209,6 +209,11 @@ describe('Sortable lists controller', () => {
     return vi.mocked(dropTargetForElements).mock.calls.find(([options]) => options.element === element)?.[0];
   }
 
+  function itemIds(list:HTMLElement):string[] {
+    return Array.from(list.querySelectorAll('[data-sortable-lists--item-id-value]'))
+      .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
+  }
+
   beforeEach(async () => {
     vi.clearAllMocks();
 
@@ -458,6 +463,49 @@ describe('Sortable lists controller', () => {
     expect(loadingIndicator.hidden).toBe(true);
 
     window.removeEventListener('op:toasters:add', onToast);
+  });
+
+  it('moves the dropped row into the target list before the move request resolves', async () => {
+    let resolveMove:(response:{ ok:boolean }) => void;
+
+    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
+      return {
+        perform: vi.fn(() => new Promise<{ ok:boolean }>((resolve) => {
+          resolveMove = resolve;
+        })),
+      };
+    });
+
+    const { sourceList, targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    // The row is appended optimistically while the request is still pending.
+    expect(itemIds(targetList)).toEqual(['4', '5', '1']);
+    expect(itemIds(sourceList)).toEqual(['2', '3']);
+
+    resolveMove!({ ok: true });
+    await flushPromises();
+
+    expect(itemIds(targetList)).toEqual(['4', '5', '1']);
+  });
+
+  it('rolls the dropped row back to its original position when the move request fails', async () => {
+    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
+      return {
+        perform: vi.fn(() => Promise.reject(new Error('Network failure'))),
+      };
+    });
+
+    const { sourceList, targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+    await flushPromises();
+
+    expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+    expect(itemIds(targetList)).toEqual(['4', '5']);
   });
 
   it('registers Backlogs lists as drop targets', async () => {
