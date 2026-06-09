@@ -34,8 +34,6 @@ module Wikis
       module XWiki
         module Queries
           class RelationPageLinks < BaseQuery
-            include Concerns::XWikiQuery
-
             def call(input_data:, auth_strategy:)
               page_links = provider.page_links
                                    .merge(RelationPageLink.all)
