@@ -83,6 +83,21 @@ describe('Backlogs list-refresh controller', () => {
     return { frame, reload };
   }
 
+  async function renderFrameContent() {
+    await ctx.mount(`
+      <turbo-frame id="backlogs-list">
+        <div data-controller="backlogs--list-refresh"></div>
+      </turbo-frame>
+    `);
+    const frame = ctx.container.querySelector<HTMLElement>('turbo-frame')!;
+    const reload = vi.fn();
+    (frame as unknown as { reload:() => void }).reload = reload;
+
+    await waitFor(() => { expect(aggregated$).toHaveBeenCalledWith('WorkPackage'); });
+
+    return { frame, reload };
+  }
+
   it('subscribes to aggregated WorkPackage events', async () => {
     await renderFrame();
 
@@ -91,6 +106,14 @@ describe('Backlogs list-refresh controller', () => {
 
   it('reloads the frame when an aggregated updated event arrives', async () => {
     const { reload } = await renderFrame();
+
+    events$.next([{ eventType: 'updated' }]);
+
+    expect(reload).toHaveBeenCalledTimes(1);
+  });
+
+  it('reloads the containing frame when mounted on loaded frame content', async () => {
+    const { reload } = await renderFrameContent();
 
     events$.next([{ eventType: 'updated' }]);
 

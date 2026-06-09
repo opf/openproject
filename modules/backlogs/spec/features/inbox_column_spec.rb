@@ -485,6 +485,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       details_view.expect_and_dismiss_toaster message: "Successful update."
       details_view.close
 
+      planning_page.expect_work_package_text_in_sprint(sprint_wp1, sprint, "Updated subject")
       planning_page.expect_no_inbox_show_more
     end
 

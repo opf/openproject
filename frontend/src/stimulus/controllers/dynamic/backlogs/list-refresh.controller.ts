@@ -35,7 +35,7 @@ import { filter, Subscription } from 'rxjs';
 // split pane or by the Angular layer. Those edits emit HAL events rather than a
 // Turbo stream targeting this frame, so subscribe to them and reload the frame
 // to keep the cards (and sprint point totals) in sync.
-export default class ListRefreshController extends Controller<FrameElement> {
+export default class ListRefreshController extends Controller<HTMLElement> {
   private subscription:Subscription|null = null;
   private currentConnectionToken?:symbol;
 
@@ -53,7 +53,7 @@ export default class ListRefreshController extends Controller<FrameElement> {
     this.subscription = halEvents
       .aggregated$('WorkPackage')
       .pipe(filter((events) => events.some((event) => event.eventType === 'updated')))
-      .subscribe(() => { void this.element.reload(); });
+      .subscribe(() => { void this.frame?.reload(); });
   }
 
   disconnect() {
@@ -64,5 +64,9 @@ export default class ListRefreshController extends Controller<FrameElement> {
 
   private isCurrentConnection(connectionToken:symbol):boolean {
     return this.element.isConnected && this.currentConnectionToken === connectionToken;
+  }
+
+  private get frame():FrameElement|null {
+    return this.element.closest<FrameElement>('turbo-frame');
   }
 }

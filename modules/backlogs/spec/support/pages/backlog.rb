@@ -233,6 +233,13 @@ module Pages
       end
     end
 
+    def expect_work_package_text_in_sprint(work_package, sprint, text)
+      within_sprint(sprint) do
+        expect(page)
+          .to have_selector(work_package_selector(work_package).to_s, text:)
+      end
+    end
+
     def expect_work_package_not_in_sprint(work_package, sprint)
       within_sprint(sprint) do
         expect(page)
