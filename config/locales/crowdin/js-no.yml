@@ -1045,16 +1045,13 @@
         all: Alle prosjekter
         selected: Kun valgte
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Inkluder alle underprosjekter
       tooltip:
         include_all_selected: Prosjektet er allerede inkludert siden det alle underprosjekter er aktivert.
         current_project: Dette er det nåværende prosjektet du er i.
         does_not_match_search: Prosjektet samsvarer ikke med søkekriteriene.
       no_results: Ingen treff på dine søkekriterier.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

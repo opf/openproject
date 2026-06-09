@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Queries
-          RSpec.describe Internal::DriveItemQuery, :vcr, :webmock do
+          RSpec.describe Internal::DriveItemQuery, :disable_ssrf_filter, :vcr, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox) }
             let(:auth_strategy) { Adapters::Registry["sharepoint.authentication.userless"].call }
             let(:drive_id) { "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY8Qconfm2i6SKEoCmuGYqQK" }

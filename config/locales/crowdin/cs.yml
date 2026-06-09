@@ -149,8 +149,8 @@ cs:
         title: Jira configuration
         new: Nová konfigurace
       banner:
-        title: Beta - Try it out!
-        description: This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time.
+        title: Beta verze - Vyzkoušejte si ji!
+        description: Tento Jira Migrátor je v současné době v beta verzi. Momentálně podporujeme pouze Jira Server/Data Center verze 10. a 11.x. Cloudové instance nejsou v tuto chvíli podporovány.
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
           '
@@ -210,7 +210,7 @@ cs:
           instance_meta_fetching: Fetching meta data
           instance_meta_error: Error fetching meta data
           instance_meta_done: Meta data fetched
-          import_scope: Select scope
+          import_scope: Zvolte rozsah
           configuring: Select scope
           projects_meta_fetching: Fetching project data
           projects_meta_error: Error fetching project data
@@ -307,12 +307,12 @@ cs:
                 issues: Issues
                 issue_details: Issue description, history, comments and attachments
                 custom_fields: A subset of custom fields
-                users: Involved users and groups
+                users: Zapojení uživatelé a skupiny
             confirm_import:
               title: Import dat
               caption: Review your import settings and start the import
               caption_done: Completed
-              label_available_data: Data to be imported
+              label_available_data: Data k importu
               label_users_import_explanation: Users that are involved in selected projects (group memberships included)
               button_start: Start import
               description: You are about to start an import run with the following settings.
@@ -321,11 +321,11 @@ cs:
             import_result:
               title: Import run results
               caption: Review import run or revert import
-              info: Import run was successful.
+              info: Import proběhl úspěšně.
               label_results: Importováno
               label_revert: Revert import
               button_revert: Revert import
-              button_done: Approve import
+              button_done: Schválit import
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
@@ -1285,10 +1285,10 @@ cs:
         not_set: Nenastaveno
       future:
         title: Budoucí rozvrhy
-        description: Plan working schedule changes ahead of time. Once the date arrives your working schedules will be updated automatically.
+        description: Naplánujte změny pracovního rozvrhu s předstihem. Jakmile datum nastane, vaše pracovní rozvrhy se automaticky aktualizují.
         add_button: Přidat budoucí rozvrh
         blank_title: Žádné budoucí rozvrhy
-        blank_description: Create a future schedule to plan changes ahead of time
+        blank_description: Vytvořte budoucí rozvrh pro včasné plánování změn
       history:
         title: Historie rozvrhu
         description: Prohlédněte si své minulé pracovní rozvrhy.
@@ -2151,17 +2151,14 @@ cs:
         before: musí být před %{date}.
         before_or_equal_to: musí být před nebo rovno %{date}.
         blank: nemůže být prázdné.
-        not_before_start_date: nesmí být před datem zahájení.
-        overlapping_range: se překrývá se stávajícím rozsahem nepracovního dne.
         blank_nested: musí mít nastavenou vlastnost '%{property}'.
         cannot_delete_mapping: je povinné. Nelze odstranit.
-        is_for_all_cannot_modify: je pro všechny projekty, a proto je nelze měnit.
         cant_link_a_work_package_with_a_descendant: Pracovní balíček nemůže být propojen s jedním z jeho podúkolů.
         circular_dependency: Tento vztah by vytvořil kruhovou závislost.
         confirmation: neshoduje se s %{attribute}.
         could_not_be_copied: "%{dependency} nemůže být (zcela) zkopírován."
+        datetime_must_be_in_future: musí být v budoucnosti.
         does_not_exist: neexistuje.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: není přístupný.
         error_readonly: se pokusil být napsán, ale není zapisovatelný.
@@ -2182,36 +2179,38 @@ cs:
         greater_than_or_equal_to: musí být větší než nebo rovno %{count}.
         greater_than_or_equal_to_start_date: musí být větší nebo rovno počátečnímu datu.
         greater_than_start_date: musí být větší než počáteční datum.
+        hexcode_invalid: není platným 6-místným hexadecimálním barevným kódem.
         inclusion: není nastavena na jednu z povolených hodnot.
         inclusion_nested: není nastavena na jednu z povolených hodnot na cestě '%{path}'.
         invalid: je neplatné.
         invalid_uri: must be a valid URI.
         invalid_url: není platná adresa URL.
         invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
+        is_for_all_cannot_modify: je pro všechny projekty, a proto je nelze měnit.
         less_than_or_equal_to: musí být menší než nebo rovno %{count}.
         not_available: není k dispozici kvůli konfiguraci systému.
+        not_before_start_date: nesmí být před datem zahájení.
         not_deletable: nelze odstranit
         not_editable: nelze upravit, protože již platí.
         not_current_user: není aktuální uživatel.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: nenalezeno.
         not_a_date: není platné datum.
         not_a_datetime: není platný čas.
         not_a_number: není číslo.
         not_allowed: je neplatný z důvodu chybějících oprávnění.
-        host_not_allowed: is not an allowed host.
         not_json: nelze přečíst jako JSON.
         not_json_object: není platným JSON objektem.
         not_an_integer: není celé číslo.
         not_an_iso_date: 'není platné datum. Požadovaný formát: RRRR-MM-DD.'
         not_same_project: nepatří do stejného projektu.
-        datetime_must_be_in_future: musí být v budoucnosti.
         odd: musí být liché.
+        overlapping_range: se překrývá se stávajícím rozsahem nepracovního dne.
         regex_match_failed: neodpovídá regulárnímu výrazu %{expression}.
         regex_invalid: nelze ověřit s přidruženým regulárním výrazem.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: není platným 6-místným hexadecimálním barevným kódem.
         smaller_than_or_equal_to_max_length: musí být menší než nebo rovno maximální délce.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: je již použito.
         too_long: je příliš dlouhý (maximum je %{count} znaků).
         too_short: je příliš krátký (minimum je %{count} znaků).
@@ -2224,6 +2223,7 @@ cs:
         url_not_secure_context: 'neposkytuje "bezpečný kontext". Buď použijte HTTPS nebo adresu pro smyčku, jako je localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: má chybnou délku (měla by být %{count} znaků).
       models:
         group:
@@ -2930,6 +2930,7 @@ cs:
   button_login: Přihlásit se
   button_move: Přesunout
   button_move_and_follow: Přesunout a pokračovat
+  button_next: Next
   button_print: Tisk
   button_quote: Citovat
   button_remove: Odstranit
@@ -3105,10 +3106,10 @@ cs:
         other: téměř %{count} let
       half_a_minute: půl minuty
       less_than_x_minutes:
-        one: méně než minuta
-        few: méně než %{count} minut
-        many: méně než %{count} minut
-        other: méně než %{count} minut
+        one: méně než minutou
+        few: méně než %{count} minutami
+        many: méně než %{count} minutami
+        other: méně než %{count} minutami
       less_than_x_seconds:
         one: méně než 1 sekundu
         few: méně než %{count} sekund
@@ -3288,8 +3289,8 @@ cs:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Přidat nové skupiny atributů
-          rename: Rename attribute groups
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Add a table of related work packages
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3601,6 +3602,12 @@ cs:
       selected: Vybráno
     include_sub_items: Zahrnout dílčí položky
     no_results_text: Žádné výsledky
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: Zap.
     label_off: Vyp.
@@ -3755,10 +3762,10 @@ cs:
       label: Přidat…
   my_account:
     notifications_and_email:
-      title: Notification and email
+      title: Oznámení a e-mail
       tabs:
-        notifications: Notification settings
-        email_reminders: Email reminders
+        notifications: Nastavení oznámení
+        email_reminders: E-mailové připomínky
     access_tokens:
       description: Poskytovatelské tokeny vydává OpenProject a umožňuje tím přístup ostatním aplikacím. Klientské tokeny jsou vydávány jinými aplikacemi a umožňují OpenProjectu přistup k nim.
       no_results:
@@ -3772,7 +3779,7 @@ cs:
       simple_revoke_confirmation: Opravdu chcete zrušit tento token?
       tabs:
         client:
-          title: Client tokens
+          title: Klientské tokeny
         provider:
           title: Poskytovatelské tokeny
       token/api:
@@ -3800,8 +3807,8 @@ cs:
         table_title: Tokeny aplikací OAuth
         text_hint: OAuth application tokens allow third-party applications to connect with this OpenProject instance.
       oauth_client:
-        blank_description: There are no OAuth client tokens yet.
-        blank_title: No OAuth client tokens
+        blank_description: Zatím neexistují žádné tokeny OAuth.
+        blank_title: Žádné klientské tokeny OAuth
         failed: An error occurred and the token couldn't be removed. Please try again later.
         integration_type: Typ integrace
         table_title: Klientské tokeny OAuth
@@ -3848,9 +3855,9 @@ cs:
         document_added: Document added
         forum_messages: Forum message posted
         wiki_page_added: Wiki page added
-        wiki_page_updated: Wiki page updated
+        wiki_page_updated: Wiki stránka aktualizována
         membership_added: Membership added
-        membership_updated: Membership updated
+        membership_updated: Členství bylo aktualizováno
         submit_button: Update alerts
     notifications:
       participating:
@@ -3864,7 +3871,7 @@ cs:
         shared: Shared with me
       date_alerts:
         title: Date alerts
-        description: Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).
+        description: Automatická upozornění na blížící se důležitá data otevřených pracovních balíčků, do kterých jste zapojeni (přiřazený, odpovědný pracovník nebo pozorovatel).
         submit_button: Update date alerts
         start_date: Start date
         due_date: Finish date
@@ -4680,11 +4687,11 @@ cs:
   label_continues_into_next_year: pokračování do dalšího roku
   label_end_date: Finish date
   label_working_days: Working days
-  label_non_working_times_with_count: "%{year} time off (%{count})"
-  label_non_working_times_summary: "%{year} summary"
-  label_total_user_non_working_times: Personal non-working days
-  label_total_global_non_working_days: Global non-working days
-  label_total_days_off: Total days off
+  label_non_working_times_with_count: Volna v roce %{year} (%{count})
+  label_non_working_times_summary: Souhrn roku %{year}
+  label_total_user_non_working_times: Osobní nepracovní dny
+  label_total_global_non_working_days: Dny pracovního klidu
+  label_total_days_off: Celkový počet dnů volna
   macro_execution_error: Chyba při provádění makra %{macro_name}
   macro_unavailable: Makro %{macro_name} nelze zobrazit.
   macro_unknown: Unknown or unsupported macro.

@@ -2,7 +2,7 @@
   <ul
     class="spot-list spot-list_compact op-file-list"
     >
-    @for (attachment of attachments; track attachment; let i = $index) {
+    @for (attachment of attachments; track attachment.id; let i = $index) {
       <li
         op-attachment-list-item
         class="spot-list--item op-file-list--item"

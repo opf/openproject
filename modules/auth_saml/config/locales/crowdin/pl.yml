@@ -12,6 +12,7 @@ pl:
         sp_entity_id: Identyfikator jednostki usługowej
         metadata_url: Adres URL metadanych dostawcy tożsamości
         name_identifier_format: Format identyfikatora nazwy
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Punkt końcowy logowania dostawcy tożsamości
         idp_slo_service_url: Punkt końcowy wylogowania dostawcy tożsamości
         idp_cert: Publiczny certyfikat dostawcy tożsamości
@@ -44,6 +45,10 @@ pl:
       success: Pomyślnie zaktualizowano konfigurację, używając metadanych dostawcy tożsamości.
       invalid_url: Podany adres URL metadanych jest nieprawidłowy. Podaj adres URL HTTP(s).
       error: 'Nie udało się pobrać metadanych dostawcy identyfikacji: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Brak skonfigurowanych dostawców SAML.
       label_empty_description: Dodaj dostawcę, aby zobaczyć go tutaj.
@@ -109,6 +114,9 @@ pl:
 
         '
       metadata_url: 'Dostawca tożsamości podaje adres URL metadanych.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Twój dostawca tożsamości udostępnia metadane pobierania XML.

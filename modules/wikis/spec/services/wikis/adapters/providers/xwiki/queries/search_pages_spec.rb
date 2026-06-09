@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::SearchPages, :webmock do
+RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::SearchPages, :disable_ssrf_filter, :webmock do
   subject { described_class.new(model: provider).call(input_data:, auth_strategy:) }
 
   let(:provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
@@ -51,6 +51,13 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::SearchPages, :webmock
     it "returns matching pages" do
       expect(subject.value!).not_to be_empty
       expect(subject.value!.first.title).to eq("Test Page for RSpec")
+    end
+
+    it "returns a complete PageInfo result" do
+      page_info = subject.value!.first
+      page_info.to_h.each do |attribute, value|
+        expect(value).not_to be_nil, "#{attribute} was expected to be non-nil, but was nil"
+      end
     end
 
     it "returns no other random results" do

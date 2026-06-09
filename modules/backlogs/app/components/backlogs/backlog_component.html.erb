@@ -75,11 +75,18 @@ See COPYRIGHT and LICENSE files for more details.
     end
   %>
 
-  <%= render Backlogs::BucketComponent.with_collection(buckets, project:) %>
-
+  <% buckets.each do |bucket| %>
+    <%=
+      render Backlogs::BucketComponent.new(
+        project:,
+        backlog_bucket: bucket,
+        work_packages: work_packages_for(bucket)
+      )
+    %>
+  <% end %>
   <%=
     render Backlogs::InboxComponent.new(
-      work_packages: inbox_work_packages,
+      work_packages: work_packages_for_inbox,
       project: project
     )
   %>

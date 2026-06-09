@@ -67,4 +67,12 @@ export class OpBreadcrumbsComponent {
   getHref(item:BreadcrumbItem):string | null {
     return this.isLink(item) ? item.href : null;
   }
+
+  trackBreadcrumbItem(index:number, item:BreadcrumbItem):string {
+    if (this.isLink(item)) {
+      return `link:${item.href}:${index}`;
+    }
+
+    return `text:${item}:${index}`;
+  }
 }

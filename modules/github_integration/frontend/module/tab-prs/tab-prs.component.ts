@@ -58,7 +58,7 @@ export class TabPrsComponent implements OnInit {
   emptyText:string;
 
   ngOnInit():void {
-    this.emptyText = this.I18n.t('js.github_integration.tab_prs.empty', { wp_id: this.workPackage.id });
+    this.emptyText = this.I18n.t('js.github_integration.tab_prs.empty', { wp_id: this.workPackage.displayId });
     this.pullRequests$ = this
       .githubPullRequests
       .ofWorkPackage(this.workPackage)

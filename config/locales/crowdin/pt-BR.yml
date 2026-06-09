@@ -2104,17 +2104,14 @@ pt-BR:
         before: deve ser antes de %{date}.
         before_or_equal_to: deve ser antes ou igual a %{date}.
         blank: não pode ficar em branco.
-        not_before_start_date: não pode ser anterior à data de início.
-        overlapping_range: sobrepõe-se a um período já existente de dias não úteis.
         blank_nested: 'precisa ter a propriedade ''%{property}'' definida. '
         cannot_delete_mapping: é obrigatório. Não pode ser excluído.
-        is_for_all_cannot_modify: é aplicável a todos os projetos e, portanto, não pode ser modificado.
         cant_link_a_work_package_with_a_descendant: Um pacote de trabalho não pode ser vinculado a uma das suas subtarefas.
         circular_dependency: Esta relação vai criar uma dependência circular.
         confirmation: não coincide com %{attribute}.
         could_not_be_copied: "%{dependency} não pôde ser copiado (completamente)."
+        datetime_must_be_in_future: deve ser no futuro.
         does_not_exist: não existe.
-        user_already_in_department: Usuário %{user_id} já é membro do departamento %{department_id}.
         error_enterprise_only: "%{action} só está disponível na edição OpenProject Enterprise."
         error_unauthorized: não pode ser acessado.
         error_readonly: tentou escrever, mas não é gravável.
@@ -2135,36 +2132,38 @@ pt-BR:
         greater_than_or_equal_to: deve ser maior ou igual a %{count}.
         greater_than_or_equal_to_start_date: deve ser maior ou igual a data de início.
         greater_than_start_date: deve ser maior que a data de início.
+        hexcode_invalid: não é um código de cor hexadecimal válido de 6 dígitos.
         inclusion: Não está definido como um dos valores permitidos.
         inclusion_nested: 'não foi definido para um dos valores permitidos no caminho ''%{path}''. '
         invalid: é inválido.
         invalid_uri: deve ser um URI válido.
         invalid_url: não é um URL válido.
         invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
+        is_for_all_cannot_modify: é aplicável a todos os projetos e, portanto, não pode ser modificado.
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
         not_available: não está disponível devido a uma configuração do sistema.
+        not_before_start_date: não pode ser anterior à data de início.
         not_deletable: não pode ser excluído.
         not_editable: não pode ser editado porque já está em vigor.
         not_current_user: não é o usuário atual.
-        system_wide_non_working_day_exists: conflita com um dia não útil já existente em todo o sistema para esta data.
         not_found: não encontrado.
         not_a_date: não é uma data válida.
         not_a_datetime: não é uma data/hora válida.
         not_a_number: não é um número.
         not_allowed: é inválido devido à falta de permissões.
-        host_not_allowed: não é um host permitido.
         not_json: não pode ser analisado como JSON.
         not_json_object: não é um objeto JSON.
         not_an_integer: não é um número inteiro.
         not_an_iso_date: 'não é uma data válida. Formato exigido: AAAA-MM-DD.'
         not_same_project: não pertence ao mesmo projeto.
-        datetime_must_be_in_future: deve ser no futuro.
         odd: deve ser ímpar.
+        overlapping_range: sobrepõe-se a um período já existente de dias não úteis.
         regex_match_failed: não corresponde à expressão regular %{expression}.
         regex_invalid: não pode ser validado com a expressão regular associada.
         regex_list_invalid: As linhas %{invalid_lines} não puderam ser interpretadas como expressão regular.
-        hexcode_invalid: não é um código de cor hexadecimal válido de 6 dígitos.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao tamanho máximo.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflita com um dia não útil já existente em todo o sistema para esta data.
         taken: já está sendo utilizado.
         too_long: é muito longo (o máximo é %{count} caracteres).
         too_short: é muito curto (mínimo é %{count} caracteres).
@@ -2177,6 +2176,7 @@ pt-BR:
         url_not_secure_context: 'não está fornecendo um "Secure Context". Você pode tanto usar HTTPS  ou um endereço loopback.
 
           '
+        user_already_in_department: Usuário %{user_id} já é membro do departamento %{department_id}.
         wrong_length: é o tamanho errado (deve ser %{count} caracteres).
       models:
         group:
@@ -2843,6 +2843,7 @@ pt-BR:
   button_login: Iniciar sessão
   button_move: Mover
   button_move_and_follow: Mover e seguir
+  button_next: Próximo
   button_print: Imprimir
   button_quote: Citar
   button_remove: Remover
@@ -3161,8 +3162,8 @@ pt-BR:
       edit_attribute_groups:
         description: 'Personalize a configuração do formulário com estes complementos adicionais:'
         features:
-          groups: Adicionar novos grupos de atributos
-          rename: Renomear grupos de atributos
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Adicionar uma tabela de pacotes de trabalho relacionados
       readonly_work_packages:
         description: Marcar pacotes de trabalho como somente leitura para determinados status.
@@ -3472,6 +3473,12 @@ pt-BR:
       selected: Selecionado
     include_sub_items: Incluir subitens
     no_results_text: Sem resultados
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: Ativado
     label_off: Desativado

@@ -37,7 +37,7 @@ module WorkPackages
         include OpTurbo::Streamable
         include WorkPackages::ActivitiesTab::SharedHelpers
 
-        def initialize(work_package:, journals:, paginator:, filter: :all)
+        def initialize(work_package:, journals:, paginator:, filter: Filters::ALL)
           super
 
           @work_package = work_package
@@ -81,7 +81,7 @@ module WorkPackages
         end
 
         def empty_state?
-          filter == :only_comments && journal_with_notes.empty?
+          filter == Filters::ONLY_COMMENTS && journal_with_notes.empty?
         end
 
         def wp_journals_grouped_emoji_reactions

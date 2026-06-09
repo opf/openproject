@@ -37,6 +37,16 @@ module Wikis
             module XWikiQuery
               ACCEPT_HEADERS = { "Accept" => "application/json" }.freeze
 
+              def self.included(base)
+                base.prepend Prepended
+              end
+
+              module Prepended
+                def call(**)
+                  catch(:xwiki_error) { super }
+                end
+              end
+
               def authenticated(auth_strategy)
                 Adapters::Authentication[auth_strategy].call do |http|
                   yield http.with(headers: ACCEPT_HEADERS)
@@ -70,6 +80,10 @@ module Wikis
                 else
                   failure(code: :request_failed)
                 end
+              end
+
+              def fetch_json(json_hash, key)
+                json_hash.fetch(key) { throw :xwiki_error, failure(code: :invalid_response) }
               end
             end
           end

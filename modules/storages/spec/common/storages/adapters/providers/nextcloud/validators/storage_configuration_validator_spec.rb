@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          RSpec.describe StorageConfigurationValidator, :webmock do
+          RSpec.describe StorageConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed) }
 
             subject(:validator) { described_class.new(storage) }

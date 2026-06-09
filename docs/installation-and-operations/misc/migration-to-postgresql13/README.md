@@ -213,11 +213,13 @@ sudo mv /var/lib/openproject/pgdata-next /var/lib/openproject/pgdata
 
 Finally, you can restart OpenProject with the same command that you used before. For instance:
 
+```shell
 docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=<your-secret-key-base> \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   [...]
   openproject/openproject:17
+```
 
 If your new installation looks fine, you can then choose to remove `/var/lib/openproject/pgdata-prev`:
 

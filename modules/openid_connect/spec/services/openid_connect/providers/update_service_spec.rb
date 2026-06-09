@@ -92,7 +92,7 @@ RSpec.describe OpenIDConnect::Providers::UpdateService, type: :model do
         result = service_call
 
         expect(result).not_to be_success
-        expect(result.errors[:metadata_url]).to include("is not an allowed host.")
+        expect(result.errors[:metadata_url]).to include("violates the SSRF policy of this OpenProject instance.")
         expect(httpx_session).not_to have_received(:get)
       end
     end

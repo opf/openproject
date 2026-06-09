@@ -1045,16 +1045,13 @@ tr:
         all: Tüm projeler
         selected: Sadece seçilen
       search_placeholder: Projeleri ara...
-      search_placeholder_favorites: Favorileri ara...
       include_subprojects: Tüm alt projeleri dahil et
       tooltip:
         include_all_selected: Tüm alt projeleri dahil et etkinleştirildiğinden, proje zaten dahil edilmiştir.
         current_project: Bu, içinde bulunduğunuz mevcut projedir.
         does_not_match_search: Proje arama kriterleriyle eşleşmiyor.
       no_results: Arama kriterleriniz ile eşleşen proje yok
-      no_favorite_results: Arama kriterleriniz ile eşleşen favori proje yok.
     include_workspaces:
-      search_placeholder: Arama...
       types:
         program: Program
         portfolio: Portföy

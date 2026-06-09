@@ -2086,17 +2086,14 @@ ms:
         before: mesti sebelum %{date}.
         before_or_equal_to: mesti sebelum atau sama dengan %{date}.
         blank: tidak boleh dibiarkan kosong.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: perlu ada ciri-ciri '%{property}' yang ditetapkan.
         cannot_delete_mapping: diperlukan. Tidak boleh dipadam.
-        is_for_all_cannot_modify: adalah untuk semua projek dan oleh itu tidak boleh diubah suai.
         cant_link_a_work_package_with_a_descendant: Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya.
         circular_dependency: Hubungan ini akan mencipta kebergantungan bulat.
         confirmation: tidak sepadan dengan %{attribute}.
         could_not_be_copied: "%{dependency} tidak dapat disalin (sepenuhnya)."
+        datetime_must_be_in_future: mestilah pada masa hadapan.
         does_not_exist: tidak wujud.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: tidak boleh diakses.
         error_readonly: telah cuba untuk menulis tetapi tidak dapat ditulis.
@@ -2117,36 +2114,38 @@ ms:
         greater_than_or_equal_to: perlu lebih besar atau sama dengan %{count}.
         greater_than_or_equal_to_start_date: perlu lebih besar atau sama dengan tarikh mula.
         greater_than_start_date: perlu lebih besar dari tarikh mula.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: tidak ditetapkan pada salah satu nilai yang dibenarkan.
         inclusion_nested: tidak ditetapkan pada salah satu nilai yang dibenarkan pada laluan '%{path}'.
         invalid: adalah tidak sah.
         invalid_uri: must be a valid URI.
         invalid_url: bukan URL yang sah.
         invalid_url_scheme: 'adalah bukan protokol yang disokong (dibenarkan: %{allowed_schemes}).'
+        is_for_all_cannot_modify: adalah untuk semua projek dan oleh itu tidak boleh diubah suai.
         less_than_or_equal_to: perlu kurang daripada atau sama dengan %{count}.
         not_available: adalah tidak tersedia kerana konfigurasi sistem.
+        not_before_start_date: must not be before the start date.
         not_deletable: tidak dapat dipadamkan.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: adalah bukan pengguna semasa.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: tidak dijumpai.
         not_a_date: bukan tarikh yang sah.
         not_a_datetime: bukan tarikh masa yang sah.
         not_a_number: bukan nombor.
         not_allowed: adalah tidak sah kerana kekurangan kebenaran.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: bukan sebuah integer.
         not_an_iso_date: 'bukan tarikh yang sah. Format yang diperlukan: TTTT-BB-HH.'
         not_same_project: tidak tergolong dalam projek yang sama.
-        datetime_must_be_in_future: mestilah pada masa hadapan.
         odd: mesti ganjil.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: tidak padan dengan ungkapan biasa %{expression}.
         regex_invalid: tidak dapat disahkan dengan ungkapan biasa yang berkaitan.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: perlu kurang daripada atau sama dengan panjang maksima.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: sudah diguna pakai.
         too_long: adalah terlalu panjang (maksimum adalah %{count} karakter).
         too_short: adalah terlalu pendek (minimum adalah %{count} karakter).
@@ -2159,6 +2158,7 @@ ms:
         url_not_secure_context: 'tidak menyediakan "Konteks Selamat". Gunakan antara HTTPS atau alamat gelung-balik, seperti localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: adalah panjang yang salah (sepatutnya %{count} karakter).
       models:
         group:
@@ -2811,6 +2811,7 @@ ms:
   button_login: Daftar masuk
   button_move: Alih
   button_move_and_follow: Alih dan ikut
+  button_next: Next
   button_print: Cetak
   button_quote: Petikan
   button_remove: Keluarkan
@@ -3109,8 +3110,8 @@ ms:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Tambah kumpulan atribut baharu
-          rename: Rename attribute groups
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Add a table of related work packages
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3421,6 +3422,12 @@ ms:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'

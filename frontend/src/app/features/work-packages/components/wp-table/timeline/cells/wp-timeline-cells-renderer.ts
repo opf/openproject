@@ -29,7 +29,7 @@
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 import { RenderInfo } from '../wp-timeline';
 import { TimelineCellRenderer } from './timeline-cell-renderer';
@@ -38,9 +38,9 @@ import { WorkPackageTimelineCell } from './wp-timeline-cell';
 
 export class WorkPackageTimelineCellsRenderer {
   // Injections
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public halEditing:HalResourceEditingService;
+  @LazyInject() public halEditing:HalResourceEditingService;
 
   public cells:Record<string, WorkPackageTimelineCell> = {};
 

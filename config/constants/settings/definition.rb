@@ -479,12 +479,14 @@ module Settings
       emails_footer: {
         default: {
           "en" => ""
-        }
+        },
+        string_values: true
       },
       emails_header: {
         default: {
           "en" => ""
-        }
+        },
+        string_values: true
       },
       # use email address as login, hide login in registration form
       email_login: {

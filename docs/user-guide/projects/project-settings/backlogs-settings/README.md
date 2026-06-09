@@ -7,23 +7,58 @@ keywords: backlogs settings, backlogs, definition of done, share sprint, sprints
 ---
 # Backlogs settings
 
-In OpenProject, you can configure your Backlogs settings specific to each project.
+In OpenProject, you can configure your Backlogs settings specific to each project. Navigate to **Project settings -> Backlogs**. 
 
-## Set the definition of done
 
-You can define what "done" means for the Backlogs module. This determines when a work package should be considered complete and included in the backlog views and reporting. 
+## Types and statuses
 
-Choose the status or statuses which should be treated as "done".
+Under the tab **Types and statuses** you can configure which work package statuses are considered closed and which work package types are excluded from backlog views.
 
-![Set a definition of done for Backlogs under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_definition_of_done.png)
+### Statuses considered closed
+
+You can choose the statuses that represent a closed or finished state in your workflow.
+
+These statuses are treated as closed throughout sprint planning and reporting, including burndown charts and sprint completion.
+
+Examples include:
+
+* Done
+* Resolved
+* Rejected
+* Won't Fix
+
+Statuses using the global **Closed** meta status are always treated as closed and cannot be removed.
+
+![Configure statuses considered closed in Backlogs settings](openproject_user_guide_project_settings_backlogs_definition_of_done.png)
+
+### Excluded work package types
+
+You can choose which work package types should be hidden from backlog views.
+
+Excluded work package types:
+
+* do not appear in the Inbox backlog.
+* do not appear in backlog buckets.
+* continue to appear in sprints.
+* continue to appear on sprint boards.
+
+This can be useful for work package types that are managed at a higher level, such as Epics or Milestones.
+
+Select one or more work package types from the list of active work package types available in the project.
+
+> [!NOTE]
+> The selection is project-specific and is copied when a project is copied.
 
 Press the **Save** button to apply your changes.
 
-![Manage backlogs settings under project settings in OpenProject](openproject_user_guide_project_settings_backlogs_done_status.png)
+![Configure statuses considered closed and excluded work package types in Backlogs settings](openproject_user_guide_project_settings_backlogs_types_statuses.png)
 
-## Sharing sprints
 
-Sharing is a **project-level setting** that allows you to choose whether sprints should be shared across projects or not.
+## Sharing sprints 
+
+[feature: sprint_sharing ]
+
+Sprint sharing is a **project-level setting** that allows you to choose whether sprints should be shared across projects.
 
 > [!NOTE]
 > This is not a sprint-level setting as is currently the case with versions.
@@ -48,17 +83,18 @@ Depending on the selected option, a project can either provide sprints to others
 
 When sprints are shared, the sprint itself is shared across projects. This includes:
 
-- Sprint name  
-- Start and finish dates  
-- Sprint status (e.g. planning, active, completed)  
+- Sprint name 
+- Start and finish dates 
+- Sprint status (e.g. planning, active, completed) 
 
 This ensures that all participating projects work with the same sprint definition and timeline.
 
 ### What is not shared
 
-- Work packages remain in their respective projects  
-- Backlogs and their structure remain project-specific  
-- Permissions and visibility are still managed per project  
+The following remain project-specific:
+- Work packages remain in their respective projects 
+- Backlogs and their structure remain project-specific 
+- Permissions and visibility are still managed per project 
 
 Even when using shared sprints, each project keeps its own work items and configuration.
 

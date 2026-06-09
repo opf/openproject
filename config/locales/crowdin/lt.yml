@@ -2148,17 +2148,14 @@ lt:
         before: turi eiti prieš %{date}.
         before_or_equal_to: turi eiti prieš arba būti lygu %{date}.
         blank: negali būti tuščia.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: reikalauja, kad savybė '%{property}' būtų nustatyta.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Darbų paketas negali būti susietas su viena iš savo vidinių užduočių.
         circular_dependency: Šis ryšys sukurtų ciklinę priklausomybę.
         confirmation: nesutampa su %{attribute}.
         could_not_be_copied: "%{dependency} negali (pilnai) būti nukopijuota(s)."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: neegzistuoja.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: negali būti pasiektas.
         error_readonly: bandytas įrašyti, bet įrašyti nebuvo galima.
@@ -2179,36 +2176,38 @@ lt:
         greater_than_or_equal_to: turi būti didesnis arba lygus %{count}.
         greater_than_or_equal_to_start_date: turi būti didesnis arba lygus už pradžios datą.
         greater_than_start_date: turi būti didesnis už pradžios datą.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: nenustatyta kaip viena iš leidžiamų reikšmių.
         inclusion_nested: nėra nustatytas į vieną iš leidžiamų reikšmių kelyje „%{path}“.
         invalid: " neteisingas."
         invalid_uri: must be a valid URI.
         invalid_url: nėra tinkamas URL.
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: turi būti mažesnis arba lygus %{count}.
         not_available: yra nepasiekiamas dėl sistemos konfigūracijos
+        not_before_start_date: must not be before the start date.
         not_deletable: negali būti pašalintas.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: nėra dabartinis naudotojas
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: nėra tinkama data.
         not_a_datetime: nėra tinkama data ir laikas.
         not_a_number: nėra skaičius.
         not_allowed: netinkamas dėl trūkstamų teisių.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: nėra sveikasis skaičius.
         not_an_iso_date: 'nėra tinkama data. Reikalingas formatas: YYYY-MM-DD.'
         not_same_project: nepriklauso tam pačiam projektui.
-        datetime_must_be_in_future: must be in the future.
         odd: turi būti nelyginis.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: neatitinka reguliariosios išraiškos %{expression}.
         regex_invalid: negalėjo būti patvirtintas su susieta reguliaria išraiška.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: turi būti mažesnis arba lygus didžiausiam ilgiui.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: jau užimtas.
         too_long: yra per ilgas (daugiausiai galima %{count} simbolių).
         too_short: yra per trumpas (mažiausiai %{count} simbolių).
@@ -2221,6 +2220,7 @@ lt:
         url_not_secure_context: 'neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: yra neteisingo ilgio (turi būti %{count} simbolių).
       models:
         group:
@@ -2927,6 +2927,7 @@ lt:
   button_login: Prisijungti
   button_move: Perkelti
   button_move_and_follow: Perkelti ir sekti
+  button_next: Next
   button_print: Spausdinti
   button_quote: Cituoti
   button_remove: Pašalinti
@@ -3285,8 +3286,8 @@ lt:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Pridėti naujas atributų grupes
-          rename: Rename attribute groups
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Add a table of related work packages
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3598,6 +3599,12 @@ lt:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'

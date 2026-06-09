@@ -52,25 +52,25 @@ de:
           confirm_button_text: Veröffentlichen
   admin:
     reserved_identifiers:
-      title: Reserved project identifiers
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
+      title: Reservierte Projektkennungen
+      lede_html: Wenn eine Kennung eines Projekts umbenannt wird, bleibt die vorherige Kennung reserviert, damit bestehende Links und Integrationen weiterhin funktionieren.<br>Hier können reservierten Kennungen freigegeben werden, sodass sie von anderen Projekten verwendet werden können.
       col_identifier: Kennung
       col_project: Projekt
-      col_reserved: Reserved
-      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
-      filter_label: Search identifiers
-      btn_release: Release
-      released_notice: Identifier "%{identifier}" has been released.
-      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
+      col_reserved: Reserviert
+      not_available_in_semantic_mode: Reservierte Projektkennungen sind nur im numerischen Modus verfügbar.
+      filter_label: Kennung suchen
+      btn_release: Freigeben
+      released_notice: Die Kennung "%{identifier}" wurde freigegeben.
+      identifier_not_found: Die reservierte Kennung konnte nicht gefunden werden. Möglicherweise wurde diese bereits freigegeben oder das Projekt wurde gelöscht. Bitte aktualisieren Sie die Seite.
       dialog:
-        title: Release identifier
-        heading: Release "%{identifier}"?
-        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        checkbox_label: I understand that this cannot be undone.
-        confirm_button: Release identifier
-      empty_heading: No reserved identifiers
+        title: Kennung freigeben
+        heading: '"%{identifier}" freigeben?'
+        description: Die Freigabe dieser Kennung kann nicht rückgängig gemacht werden. Externe Links und Integrationen, die diese Kennung verwenden, werden nicht mehr aufgelöst, und der Name wird für neue Projekte verfügbar, die ihn beansprucht.
+        checkbox_label: Ich verstehe, dass dies nicht rückgängig gemacht werden kann.
+        confirm_button: Kennung freigeben
+      empty_heading: Keine reservierten Kennungen
       reserved_ago: vor %{time}
-      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
+      empty_body: Wenn sich die Projektkennung ändert, wird die vorherige Kennung hier angezeigt, damit Sie diese freigeben können, sobald es sicher ist.
     plugins:
       no_results_title_text: Es sind derzeit keine Plugins installiert.
       no_results_content_text: Weitere Informationen finden Sie auf unserer Seite für Integrationen und Plugins.
@@ -140,7 +140,7 @@ de:
         cannot_delete_with_imports: Jira-Hosts mit laufenden Importen können nicht gelöscht werden
         custom_field_creation_failed: 'Das nutzerdefinierte Feld ''%{name}'' konnte nicht erstellt werden: %{message}'
         semantic_identifiers_must_be_enabled:
-          title: Project-based semantic identifiers must be enabled.
+          title: Projektspezifische semantische Kennungen müssen aktiviert sein.
           description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
       blank:
         title: Noch keine Jira-Hosts konfiguriert
@@ -180,7 +180,7 @@ de:
       client:
         connection_error: 'Verbindung zum Jira-Server fehlgeschlagen: %{message}'
         connection_timeout: 'Die Verbindung zum Jira-Server wurde unterbrochen: %{message}'
-        ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        ssrf_blocked: 'Verbindung blockiert: Der Jira-Host wird zu einer privaten IP-Adresse aufgelöst. Wenn Ihre Jira-Instanz in einem internen Netzwerk läuft, erlauben Sie ihre IP über die OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST Umgebungsvariable.'
         ssrf_block_doc_link: Bitte sehen Sie sich unsere [Dokumentation](docs_url) an.
         ssl_error: 'SSL-Fehler bei der Verbindung zum Jira-Server: %{message}'
         parse_error: 'Die Jira API-Antwort konnte nicht gelesen werden: %{message}'
@@ -286,7 +286,7 @@ de:
               elements:
                 relations: Beziehungen zwischen Tickets
                 project_ids: Projektkennungen
-                issue_ids: Issue identifiers
+                issue_ids: Ticketkennungen
                 sprints: Sprint-Zuweisungen
                 workflows: Workflows auf Projektebene
                 schemes: Schemas
@@ -433,11 +433,11 @@ de:
         page_header:
           description: Wählen Sie zwischen einfachen numerischen Arbeitspaket- oder projektspezifischen Kennungen, bei denen die Projektkennung der Arbeitspaket-ID vorangestellt wird.
         banner:
-          existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
+          existing_identifiers_notice: 'Vorhandene Kennungen für %{project_count} Projekte entsprechen nicht den Anforderungen für projektbasierte alphanumerische Bezeichner. OpenProject kann diese automatisch aktualisieren, so dass sie wie in den folgenden Beispielen gültig sind. Klicken Sie auf ''Kennung konvertieren'', um die Kennungen für alle Projekte auf diese Weise zu aktualisieren und projektbasierte alphanumerische Bezeichner zu aktivieren.
 
             '
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: Projekte mit Kennungen zum Aktualisieren
           label_project: Projekt
           label_previous_identifier: Vorherige Kennung
           label_autofixed_suggestion: Zukünftige Kennung
@@ -455,21 +455,21 @@ de:
           remaining_projects:
             one: "... 1 weiteres Projekt"
             other: "... %{count} weitere Projekte"
-        button_autofix: Convert identifiers
-        button_save: Convert identifiers
+        button_autofix: Kennungen konvertieren
+        button_save: Kennungen konvertieren
         dialog:
           title: Arbeitspaket-Kennungen ändern
           heading: Aktivieren Sie projektspezifische Arbeitspaket-Kennungen?
-          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to work. This change will take some time to complete.
+          description: 'Dadurch werden die IDs für alle Arbeitspakete in allen Projekten in diesem Fall geändert. Die bisherigen Identifikatoren und URLs werden weiterhin funktionieren. Diese Änderung wird einige Zeit in Anspruch nehmen.
 
             '
           confirm_button: Kennungen ändern
           checkbox_label: Mir ist bewusst, dass dies alle Arbeitspaket-Kennungen dauerhaft ändern wird
         success_banner: Das Format der Arbeitspaket-Kennung wurde erfolgreich aktualisiert.
         in_progress:
-          header_semantic: Converting to project-based identifiers
-          header_classic: Converting to numeric identifiers
-          footer_message: Background conversion is in progress. You can safely leave this page.
+          header_semantic: Zu projektbasierten Kennungen konvertieren
+          header_classic: Zu numerischen Kennungen konvertieren
+          footer_message: Die Hintergrundkonvertierung ist im Gange. Sie können diese Seite sicher verlassen.
     workflows:
       tabs:
         default_transitions: Standard-Übergänge
@@ -915,7 +915,7 @@ de:
         text: Diese Aktion löscht keine Projekte, die in der Liste enthalten sind. Sind Sie sicher, dass Sie diese Projektliste löschen möchten?
     settings:
       header_details: Allgemeine Informationen
-      header_identifier: Identifier
+      header_identifier: Kennung
       header_status: Status
       header_relations: Projektbeziehungen
       button_update_details: Einstellungen aktualisieren
@@ -940,7 +940,7 @@ de:
       change_identifier_dialog_title: Projektkennung ändern
       change_identifier_format_hint_semantic: Nur Großbuchstaben (A-Z), Zahlen oder Unterstriche erlaubt. Maximal 10 Zeichen. Muss mit einem Buchstaben beginnen.
       change_identifier_format_hint_legacy: Nur Kleinbuchstaben (a-z), Zahlen, Bindestriche oder Unterstriche erlaubt.
-      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifiers and URLs will nevertheless continue to work.
+      change_identifier_warning: 'Dies wird die Kennungen und URLs aller Arbeitspakete in diesem Projekt dauerhaft ändern. Die bisherigen Werte werden jedoch weiterhin funktionieren.
 
         '
       subitems:
@@ -1368,12 +1368,12 @@ de:
     edit:
       form_configuration:
         tab: Formularkonfiguration
-        label_group: Section
-        reset_to_defaults: Reset form
-        add_attribute_group: Section
-        add_query_group: Related work packages table
-        delete_group: Delete section
-        remove_attribute: Remove from section
+        label_group: Abschnitt
+        reset_to_defaults: Formular zurücksetzen
+        add_attribute_group: Abschnitt
+        add_query_group: Zugehörige Arbeitspaket-Tabelle
+        delete_group: Abschnitt löschen
+        remove_attribute: Aus Abschnitt entfernen
         drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
         drag_to_reorder: Ziehen zum Neuordnen
         edit_query: Abfrage bearbeiten
@@ -1383,12 +1383,12 @@ de:
         no_inactive_attributes: Keine inaktiven Attribute
         blankslate_title: Noch keine Gruppen
         blankslate_description: Fügen Sie Gruppen über die Schaltfläche oben hinzu oder ziehen Sie Attribute aus dem linken Bereich.
-        group_actions: Section actions
-        rename_group: Rename section
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        group_name_label: Section name
+        group_actions: Abschnittsoptionen
+        rename_group: Abschnitt umbenennen
+        confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
+        group_name_label: Name des Abschnitts
         row_actions: Weitere Aktionen
-        query_group_label: Related work packages table
+        query_group_label: Zugehörige Arbeitspaket-Tabelle
         empty_group_hint: Attribute hierher ziehen
         invalid_attribute_groups: Die abgesendeten Daten der Formularkonfiguration sind ungültig.
         invalid_query: Die eingebettete Abfrage ist ungültig.
@@ -1717,7 +1717,7 @@ de:
       attachment:
         attachment_content: Inhalt des Anhangs
         attachment_file_name: Dateiname des Anhangs
-        charset: Character set
+        charset: Zeichensatz
         content_type: Medien-Typ
         downloads: Downloads
         file: Datei
@@ -1812,7 +1812,7 @@ de:
         title: Titel
         description: Beschreibung
       member:
-        blocked: Blocked
+        blocked: Gesperrt
         roles: Rollen
       notification:
         read_ian: In-App lesen
@@ -2061,7 +2061,7 @@ de:
         relatable: Relatable to
         remaining_hours: Verbleibender Aufwand
         remaining_time: Verbleibender Aufwand
-        sequence_number: Sequence number
+        sequence_number: Sequenznummer
         shared_with_users: Geteilt mit
         schedule_manually: Manuelle Planung
         spent_hours: Aufgewendete Zeit
@@ -2103,17 +2103,14 @@ de:
         before: muss vor %{date} sein.
         before_or_equal_to: muss vor oder gleich %{date} sein.
         blank: muss ausgefüllt werden.
-        not_before_start_date: darf nicht vor dem Startdatum liegen.
-        overlapping_range: überschneidet sich mit einem bereits existierenden arbeitsfreien Zeitraum.
         blank_nested: muss die Eigenschaft '%{property}' gesetzt haben.
         cannot_delete_mapping: ist erforderlich. Kann nicht gelöscht werden.
-        is_for_all_cannot_modify: gilt für alle Projekte und kann daher nicht geändert werden.
         cant_link_a_work_package_with_a_descendant: Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden.
         circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen.
         confirmation: stimmt nicht mit %{attribute} überein.
         could_not_be_copied: "%{dependency} konnte nicht (vollständig) kopiert werden."
+        datetime_must_be_in_future: muss in der Zukunft liegen.
         does_not_exist: existiert nicht.
-        user_already_in_department: Der Benutzer %{user_id} ist bereits Mitglied der Abteilung %{department_id}.
         error_enterprise_only: "%{action} ist nur in der OpenProject Enterprise Edition verfügbar."
         error_unauthorized: kann nicht zugegriffen werden.
         error_readonly: wurde versucht zu beschreiben, ist aber nicht beschreibbar.
@@ -2134,36 +2131,38 @@ de:
         greater_than_or_equal_to: muss größer oder gleich %{count} sein.
         greater_than_or_equal_to_start_date: muss größer als oder gleich dem Anfangsdatum sein.
         greater_than_start_date: muss größer als das Anfangsdatum sein.
+        hexcode_invalid: ist kein gültiger 6-stelliger hexadezimaler Farbcode.
         inclusion: ist nicht auf einen erlaubten Wert gesetzt.
         inclusion_nested: ist nicht auf einen der erlaubten Werte im Pfad '%{path} ' gesetzt.
         invalid: ist ungültig.
         invalid_uri: muss eine gültige URI sein.
         invalid_url: ist keine gültige URL.
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
+        is_for_all_cannot_modify: gilt für alle Projekte und kann daher nicht geändert werden.
         less_than_or_equal_to: muss kleiner oder gleich %{count} sein.
         not_available: ist aufgrund einer Systemkonfiguration nicht verfügbar.
+        not_before_start_date: darf nicht vor dem Startdatum liegen.
         not_deletable: kann nicht entfernt werden.
         not_editable: kann nicht bearbeitet werden, da sie bereits in Kraft ist.
         not_current_user: ist nicht der aktuelle Benutzer.
-        system_wide_non_working_day_exists: widerspricht einem systemweiten Nicht-Arbeitstag für dieses Datum.
         not_found: nicht gefunden.
         not_a_date: ist kein gültiges Datum.
         not_a_datetime: ist kein gültiges Datum.
         not_a_number: ist keine Zahl.
         not_allowed: ist ungültig aufgrund fehlender Berechtigungen.
-        host_not_allowed: ist kein erlaubter Host.
         not_json: konnte nicht als JSON gelsen werden.
         not_json_object: ist kein gültiges JSON-Objekt.
         not_an_integer: ist keine ganzzahlige Zahl.
         not_an_iso_date: 'ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD.'
         not_same_project: gehört nicht zum selben Projekt.
-        datetime_must_be_in_future: muss in der Zukunft liegen.
         odd: muss ungerade sein.
+        overlapping_range: überschneidet sich mit einem bereits existierenden arbeitsfreien Zeitraum.
         regex_match_failed: stimmt nicht mit dem regulären Ausdruck %{expression} überein.
         regex_invalid: konnte nicht mit dem zugehörigen regulären Ausdruck überprüft werden.
         regex_list_invalid: Die Zeilen %{invalid_lines} konnten nicht als regulärer Ausdruck gelesen werden.
-        hexcode_invalid: ist kein gültiger 6-stelliger hexadezimaler Farbcode.
         smaller_than_or_equal_to_max_length: muss kleiner als oder gleich der maximalen Länge sein.
+        ssrf_filtered: verstößt gegen die SSRF-Richtlinien dieser OpenProject Instanz.
+        system_wide_non_working_day_exists: widerspricht einem systemweiten Nicht-Arbeitstag für dieses Datum.
         taken: ist bereits vergeben.
         too_long: ist zu lang (nicht mehr als %{count} Zeichen).
         too_short: ist zu kurz (nicht weniger als %{count} Zeichen).
@@ -2176,6 +2175,7 @@ de:
         url_not_secure_context: 'stellt keinen "Secure Context" zur Verfügung: Benutzen Sie entweder HTTPS oder eine Loopback-Adresse, wie z.B. localhost.
 
           '
+        user_already_in_department: Der Benutzer %{user_id} ist bereits Mitglied der Abteilung %{department_id}.
         wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben).
       models:
         group:
@@ -2840,6 +2840,7 @@ de:
   button_login: Anmelden
   button_move: Verschieben
   button_move_and_follow: Verschieben und Arbeitspaket anzeigen
+  button_next: Weiter
   button_print: Drucken
   button_quote: Zitieren
   button_remove: Entfernen
@@ -3158,8 +3159,8 @@ de:
       edit_attribute_groups:
         description: 'Anpassen der Form-Konfiguration mit diesen zusätzlichen Add-ons:'
         features:
-          groups: Neue Attributgruppen hinzufügen
-          rename: Attributgruppen umbenennen
+          groups: Neue Attributabschnitte hinzufügen
+          rename: Attributabschnitte umbenennen
           related: Tabelle mit zugehörigen Arbeitspaketen hinzufügen
       readonly_work_packages:
         description: Arbeitspakete in bestimmten Status als schreibgeschützt markieren.
@@ -3469,6 +3470,12 @@ de:
       selected: Ausgewählt
     include_sub_items: Unterelemente einbeziehen
     no_results_text: Keine Ergebnisse
+  header:
+    project_select_component:
+      all_projects: Alle Projekte
+      favorites: Favoriten
+      leave_project: Projekt verlassen
+      title: Projekte
   toggle_switch:
     label_on: Ein
     label_off: Aus
@@ -3510,8 +3517,8 @@ de:
       projects: Neueste sichtbare Projekte in dieser Instanz.
       no_visible_projects: Es gibt keine sichtbaren Projekte in dieser OpenProject-Umgebung.
       favorite_projects:
-        no_results: You have no favorite projects
-        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
+        no_results: Sie haben keine favorisierten Projekte
+        no_results_subtext: Fügen Sie ein oder mehrere Projekte als Favorit in ihrer Übersicht oder in einer Projektliste hinzu.
       users: Neueste registrierte Benutzer in dieser Instanz.
     blocks:
       community: OpenProject Community
@@ -3522,18 +3529,18 @@ de:
         learn_about: Erfahren Sie mehr über die neuen Funktionen
         missing: Es gibt noch keine hervorgehobenen Funktionen.
         '17_5':
-          new_features_title: 'The release contains various new features and improvements, such as:
+          new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: Projektbasierte Arbeitspaket-Kennungen für klarere Referenzen.
+            line_1: Jira Migrator unterstützt Jira-Kennungen, Fälligkeitsdaten und mehr.
+            line_2: Option Arbeitspakettypen und -status in Backlogs auszuschließen.
+            line_3: Neu gestaltete Sprint-Ansichten.
+            line_4: Verbesserte Verknüpfung von Arbeitspaketen zwischen dem Dokumenten-Modul und Texteditoren.
+            line_5: Flexiblere Besprechungspläne und weniger E-Mail-Benachrichtigungen.
+            line_6: Verschachtelte Gruppen für Organisationsstrukturen und vererbte Berechtigungen.
+            line_7: Verbesserte Verwaltungsoberflächen für Workflows, Benutzer und Typkonfiguration.
     links:
       upgrade_enterprise_edition: Auf Enterprise Edition upgraden
       postgres_migration: Migration Ihrer Installation zu PostgreSQL
@@ -4047,7 +4054,7 @@ de:
   label_home: Hauptseite
   label_subject_or_id: Titel oder ID
   label_calendar_subscriptions: Kalenderabonnements
-  label_identifier: Identifiers
+  label_identifier: Kennungen
   label_project_identifier: Projektkennung
   label_in: an
   label_in_less_than: in weniger als
@@ -4080,7 +4087,7 @@ de:
   label_journal_diff: Beschreibungsvergleich
   label_language: Sprache
   label_languages: Sprachen
-  label_export_plural: Exports
+  label_export_plural: Exporte
   label_external_links: Externe Links
   label_locale: Sprache und Region
   label_jump_to_a_project: Zu einem Projekt springen...
@@ -4277,7 +4284,7 @@ de:
   label_project_new: Neues Projekt
   label_project_plural: Projekte
   label_project_list_plural: Projektlisten
-  label_reserved_identifiers: Reserved project identifiers
+  label_reserved_identifiers: Reservierte Projektkennungen
   label_project_life_cycle: Projekt-Lebenszyklus
   label_project_attributes_plural: Projektattribute
   label_project_custom_field_plural: Projektattribute
@@ -4545,7 +4552,7 @@ de:
   label_total_days_off: Gesamtzahl freier Tage
   macro_execution_error: Fehler beim Ausführen des Makros %{macro_name}
   macro_unavailable: Das Makro %{macro_name} kann nicht angezeigt werden.
-  macro_unknown: Unknown or unsupported macro.
+  macro_unknown: Unbekanntes oder nicht unterstütztes Makro.
   macros:
     placeholder: "[Placeholder] Makro %{macro_name}"
     errors:
@@ -4829,7 +4836,7 @@ de:
     common:
       work_package_card_component:
         drag_handle:
-          label: Drag to reorder
+          label: Ziehen zum Neuordnen
         menu:
           label_actions: Arbeitspaket-Aktionen
         parent: Übergeordnetes Arbeitspaket
@@ -5235,8 +5242,8 @@ de:
   setting_consent_required: Einwilligung erforderlich
   setting_consent_decline_mail: Kontaktadresse bei Rückfragen zur Einwilligung
   setting_cross_project_work_package_relations: Arbeitspaket-Beziehungen zwischen Projekten erlauben
-  setting_csv_escape_formulas: Escape formulas in CSV exports
-  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+  setting_csv_escape_formulas: Formeln in CSV-Exporten maskieren
+  setting_csv_escape_formulas_text: 'Tabellenkalkulationsformeln in CSV-Exporten maskieren, indem Zellen, die mit Zeichen wie =, +, - oder @ beginnen, ein einfaches Anführungszeichen vorangestellt wird. Dies verhindert CSV-Formelinjektionen, wenn exportierte Dateien in Tabellenkalkulationsanwendungen wie Excel geöffnet werden. Der Nachteil ist, dass dadurch die Zeichenkettenwerte in der CSV verändert werden. Diese Option sollte daher deaktiviert werden, wenn nachgelagerte Tools die exakten, unmaskierten Zellwerte benötigen.
 
     '
   setting_first_week_of_year: Die erste Woche im Jahr enthält
@@ -5279,7 +5286,7 @@ de:
   setting_work_package_properties: Arbeitspaket-Eigenschaften
   setting_work_package_startdate_is_adddate: Neue Arbeitspakete haben "Heute" als Anfangsdatum
   setting_work_packages_projects_export_limit: Arbeitspakete / Exportlimit für Projekte
-  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+  setting_work_packages_projects_export_limit_text: 'Maximale Anzahl von Arbeitspaketen oder Projekten, die in einem einzelnen Export enthalten sein können. Größere Exporte werden auf diesen Grenzwert gekürzt.
 
     '
   setting_journal_aggregation_time_minutes: Aggregationszeitraum
@@ -5368,9 +5375,9 @@ de:
   setting_welcome_title: Titel des Willkommens-Block
   setting_welcome_on_homescreen: Willkommens-Block auf Startseite anzeigen
   setting_work_packages_identifier_classic: Instanzweite numerische Sequenz (Standard)
-  setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
-  setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
+  setting_work_packages_identifier_classic_caption: 'Jedes Arbeitspaket erhält eine sequentielle Nummer beginnend mit 1 (z.B. #1234). Die Nummern sind innerhalb dieser Instanz eindeutig. Sie bleiben also gleich, auch wenn Arbeitspakete zwischen Projekten verschoben werden.'
+  setting_work_packages_identifier_semantic: Projektspezifische semantische Kennungen (Beta)
+  setting_work_packages_identifier_semantic_caption: Jedes Projekt hat eine eindeutige Projektkennung, die einer Zahl vorangestellt wird (z. B. PROJ-11). Die Nummerierung beginnt in jedem Projekt bei 1. Wenn ein Arbeitspaket in ein anderes Projekt verschoben wird, wird eine neue Kennung generiert, die alte bleibt jedoch weiterhin gültig.
   setting_work_package_list_default_highlighting_mode: Standard Hervorhebung
   setting_work_package_list_default_highlighted_attributes: Voreinstellung Inline Hervorherbung
   setting_working_days: Arbeitstage
@@ -5552,7 +5559,7 @@ de:
       section_work_week: Arbeitswoche
       section_holidays_and_closures: Feiertage und Schließungen
     work_packages:
-      work_package_identifier: Work package identifiers
+      work_package_identifier: Arbeitspaket-Kennungen
       not_allowed_text: Sie haben nicht die notwendigen Rechte, um diese Seite zu sehen.
       activities:
         enable_internal_comments: Interne Kommentare aktivieren
@@ -5982,16 +5989,16 @@ de:
 
       '
     dialog:
-      title: Change working days
-      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+      title: Arbeitstage ändern
+      description: 'Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich auf die Start- und Endtage aller Arbeitspakete und Projektphasen in allen Projekten auswirken.
 
         '
-      removed_title: 'You will remove the following days from the non-working days list:'
-      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+      removed_title: 'Sie werden die folgenden Tage aus der Liste der arbeitsfreien Tage entfernen:'
+      warning: 'Es kann einige Zeit dauern, bis die Änderungen wirksam werden. Sie werden benachrichtigt, wenn alle relevanten Arbeitspakete und Projektphasen aktualisiert worden sind.
 
         '
-      heading: Change the working days?
-      confirm_button: Save and reschedule
+      heading: Arbeitstage ändern?
+      confirm_button: Speichern und verschieben
     journal_note:
       changed: _**Arbeitstage** geändert (%{changes})._
       days:
@@ -6066,7 +6073,7 @@ de:
       ancestor: Unbekannt - Das übergeordnete Element ist wegen fehlender Berechtigungen nicht sichtbar.
       definingProject: Unbekannt - Das Projekt ist wegen fehlender Berechtigungen nicht sichtbar.
       definingWorkspace: Unbekannt - Der Arbeitsbereich ist wegen fehlender Berechtigungen nicht sichtbar.
-      workPackage: Undisclosed - The work package is invisible because of lacking permissions.
+      workPackage: Unbekannt - Das Arbeitspaket ist wegen fehlender Berechtigungen nicht sichtbar.
   doorkeeper:
     pre_authorization:
       status: Vorab-Autorisierung

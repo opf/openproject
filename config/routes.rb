@@ -310,6 +310,14 @@ Rails.application.routes.draw do
     resource :identifier_suggestion, only: %i[show], controller: "identifier_suggestion"
   end
 
+  namespace :header do
+    resources :projects, only: :index do
+      collection do
+        get :frame
+      end
+    end
+  end
+
   %w[portfolio project program].each do |workspace_type|
     resources workspace_type.pluralize,
               only: %i[new create],

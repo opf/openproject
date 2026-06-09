@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://xwiki.local/rest/wikis/query?number=50&q=%22A%20page%20that%20does%20not%20exist%22
+    uri: https://xwiki.local/rest/wikis/query?number=20&q=%22A%20page%20that%20does%20not%20exist%22
     body:
       encoding: US-ASCII
       string: ''
@@ -27,11 +27,11 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Tue, 02 Jun 2026 08:17:23 GMT
+      - Fri, 05 Jun 2026 08:53:31 GMT
       Set-Cookie:
-      - JSESSIONID=9D417B4F0A9D4C117C903A54394DAD6C; Path=/; HttpOnly
+      - JSESSIONID=732467DE0A76FD79B8958EC80B2E9BB2; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - 2XZUUfWArYhRgLYx4nHjhQ
+      - ON8xsHlEpixyujzpUPNupg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
@@ -41,5 +41,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"links":[],"searchResults":[],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
-  recorded_at: Tue, 02 Jun 2026 08:17:23 GMT
+  recorded_at: Fri, 05 Jun 2026 08:53:31 GMT
 recorded_with: VCR 6.4.0

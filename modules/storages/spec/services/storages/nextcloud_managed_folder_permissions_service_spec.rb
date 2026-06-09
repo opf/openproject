@@ -41,7 +41,7 @@ module Storages
     end
   end
 
-  RSpec.describe NextcloudManagedFolderPermissionsService, :webmock do
+  RSpec.describe NextcloudManagedFolderPermissionsService, :disable_ssrf_filter, :webmock do
     shared_let(:oidc_provider) { create(:oidc_provider) }
 
     shared_let(:admin) { create(:admin) }

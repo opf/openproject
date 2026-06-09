@@ -39,21 +39,21 @@ module WorkPackages::Scopes::WithoutStatusConsideredClosed
       # Additionally, all globally closed statuses are always treated as done,
       # safeguarding against empty/corrupt project configuration (per AC).
       status_subquery = <<~SQL.squish
-        work_packages.status_id NOT IN (
-          SELECT status_id
+        NOT EXISTS (
+          SELECT 1
           FROM done_statuses_for_project
           WHERE project_id = work_packages.project_id
-          AND status_id IS NOT NULL
+            AND status_id = work_packages.status_id
         )
-        AND work_packages.status_id NOT IN (
-          SELECT id
+        AND NOT EXISTS (
+          SELECT 1
           FROM statuses
-          WHERE is_closed = TRUE
+          WHERE id = work_packages.status_id
+            AND is_closed = TRUE
         )
       SQL
 
       where(status_subquery)
-        .includes(:status)
     end
   end
 end

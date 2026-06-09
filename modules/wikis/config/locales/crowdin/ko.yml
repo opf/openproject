@@ -27,68 +27,19 @@ ko:
         other: 관련 페이지 링크
       wikis/xwiki_provider:
         other: XWiki 공급자
+  menus:
+    admin:
+      external_wiki_providers: Wiki providers
+      internal_wiki_provider: Internal wiki
+      wikis: Wikis
   permission_manage_wiki_page_links: 위키 페이지 링크 관리
   project_module_wiki_platforms: 위키 공급자
   wikis:
-    buttons:
-      connect_account: "%{provider} 계정 연결"
-      done_continue: 완료, 계속
-      open_wiki: 위키 열기
-      save_and_continue: 저장 및 계속
-      wiki_page: 위키 페이지
-    instructions:
-      xwiki:
-        integration: XWiki 관리
-        oauth_application_details_html: '이 창을 닫으면 클라이언트 비밀번호 값에 다시 액세스할 수 없습니다. 다음 값을 [XWiki OpenProject 통합 설정](xwiki_admin_link)에 복사하세요:'
-    provider_types:
-      xwiki:
-        name: XWiki
-    delete_relation_page_link_confirmation_dialog:
-      title: 관련 위키 페이지 링크 삭제
-      heading: 관련 위키 페이지 링크를 삭제하시겠습니까?
-    health_checks:
-      authentication:
-        existing_token: 사용자 토큰
-        header: 인증
-        user_bound_request: 사용자 기반 요청 인증
-      base_configuration:
-        header: 구성
-        provider_configured: 구성 완료
-      errors:
-        not_configured: 연결에 대한 유효성 검사를 할 수 없습니다. 먼저 구성을 완료하세요.
-        xwiki_oauth_connection_error: 구성된 XWiki 인스턴스에 OpenProject가 연결할 수 없습니다.
-        xwiki_oauth_request_error: XWiki 인스턴스와 통신을 시도할 때 예기치 않은 오류가 발생했습니다.
-        xwiki_oauth_token_missing: 사용자가 아직 XWiki 계정을 연결하지 않았기 때문에 OpenProject가 XWiki와의 사용자 수준 통신을 테스트할 수 없습니다.
-        xwiki_oauth_unauthorized: 사용자 토큰이 XWiki에서 인식되지 않았습니다.
-    link_existing_wiki_page_dialog:
-      title: 기존 위키 페이지 추가
-    link_existing_wiki_page_form:
-      no_results: No wiki pages found
-      placeholder: Search for a wiki page
-    work_package_wikis_tab_component:
-      inline_page_links: 인라인 페이지 링크
-      referencing_pages: '다음에서 참조됨:'
-    page_links:
-      errors:
-        page_not_found: 링크된 위키 페이지를 더 이상 사용할 수 없음
-        page_access_forbidden: 이 위키 페이지에 액세스할 수 있는 권한이 없습니다
-        unexpected: 예기치 않은 오류가 발생했습니다
-    page_link_component:
-      remove: 페이지 링크 제거
-    relation_page_links_component:
-      link_existing: 기존 위키 페이지
-      link_new: 새 위키 페이지
-      empty_heading: 관련 페이지 없음
-      empty_text: 다른 관련 위키 페이지에 대한 링크를 수동으로 추가합니다.
-    oauth_login_component:
-      heading: "%{provider}에 연결되지 않음"
-      description: "%{provider}에 로그인하여 이 OpenProject 인스턴스의 관련 위키 페이지를 보고 관리합니다."
-      connect_button: "%{provider} 계정 연결"
     admin:
       destroy_confirmation_dialog_component:
-        title: 위키 공급자 삭제
-        heading: 이 위키 공급자를 영구적으로 삭제하시겠습니까?
         description_html: 위키 공급자 %{wiki_provider} 및 모든 관련 위키 페이지 링크가 삭제됩니다. 또한 모든 인라인 위키 페이지 링크에 더 이상 액세스할 수 없습니다. 이 작업은 되돌릴 수 없습니다.
+        heading: 이 위키 공급자를 영구적으로 삭제하시겠습니까?
+        title: 위키 공급자 삭제
       forms:
         general_info_form_component:
           provider_description: 설정을 수행하기 전에 XWiki 인스턴스에서 관리 권한이 있는지 확인하세요.
@@ -110,6 +61,12 @@ ko:
           no_health_report: 사용 가능한 보고서 없음
           no_health_report_description: 이 위키 공급자에 대한 전체 상태 보고서를 보려면 지금 검사를 실행하세요.
           title: 상태 보고서
+      internal_provider_form:
+        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
+        checkbox_label: Enable the internal OpenProject wiki
+      internal_wiki_provider:
+        show:
+          description: Choose to enable or disable the internal OpenProject wiki
       oauth_application_info_component:
         confirm_replace_oauth_application: 이 작업은 현재 OAuth 자격 증명을 재설정합니다. 확인 후 XWiki 인스턴스에서 자격 증명을 다시 입력해야 하며 모든 사용자가 다시 인증해야 합니다. 계속하시겠습니까?
         label_oauth_client_id: OAuth 클라이언트 ID
@@ -154,3 +111,61 @@ ko:
           openproject_oauth_description: XWiki가 OAuth를 사용하여 OpenProject 데이터에 액세스하도록 허용합니다.
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: OpenProject가 OAuth를 사용하여 XWiki 데이터에 액세스하도록 허용합니다.
+    buttons:
+      connect_account: "%{provider} 계정 연결"
+      done_continue: 완료, 계속
+      open_wiki: 위키 열기
+      save_and_continue: 저장 및 계속
+      wiki_page: 위키 페이지
+    create_new_wiki_page_dialog:
+      page_title: Title
+      parent_help_text: Select a parent for this new wiki page.
+      title: Create new wiki page
+    delete_relation_page_link_confirmation_dialog:
+      heading: 관련 위키 페이지 링크를 삭제하시겠습니까?
+      title: 관련 위키 페이지 링크 삭제
+    health_checks:
+      authentication:
+        existing_token: 사용자 토큰
+        header: 인증
+        user_bound_request: 사용자 기반 요청 인증
+      base_configuration:
+        header: 구성
+        provider_configured: 구성 완료
+      errors:
+        not_configured: 연결에 대한 유효성 검사를 할 수 없습니다. 먼저 구성을 완료하세요.
+        xwiki_oauth_connection_error: 구성된 XWiki 인스턴스에 OpenProject가 연결할 수 없습니다.
+        xwiki_oauth_request_error: XWiki 인스턴스와 통신을 시도할 때 예기치 않은 오류가 발생했습니다.
+        xwiki_oauth_token_missing: 사용자가 아직 XWiki 계정을 연결하지 않았기 때문에 OpenProject가 XWiki와의 사용자 수준 통신을 테스트할 수 없습니다.
+        xwiki_oauth_unauthorized: 사용자 토큰이 XWiki에서 인식되지 않았습니다.
+    instructions:
+      xwiki:
+        integration: XWiki 관리
+        oauth_application_details_html: '이 창을 닫으면 클라이언트 비밀번호 값에 다시 액세스할 수 없습니다. 다음 값을 [XWiki OpenProject 통합 설정](xwiki_admin_link)에 복사하세요:'
+    link_existing_wiki_page_dialog:
+      title: 기존 위키 페이지 추가
+    link_existing_wiki_page_form:
+      no_results: No wiki pages found
+      placeholder: Search for a wiki page
+    oauth_login_component:
+      connect_button: "%{provider} 계정 연결"
+      description: "%{provider}에 로그인하여 이 OpenProject 인스턴스의 관련 위키 페이지를 보고 관리합니다."
+      heading: "%{provider}에 연결되지 않음"
+    page_link_component:
+      remove: 페이지 링크 제거
+    page_links:
+      errors:
+        page_access_forbidden: 이 위키 페이지에 액세스할 수 있는 권한이 없습니다
+        page_not_found: 링크된 위키 페이지를 더 이상 사용할 수 없음
+        unexpected: 예기치 않은 오류가 발생했습니다
+    provider_types:
+      xwiki:
+        name: XWiki
+    relation_page_links_component:
+      empty_heading: 관련 페이지 없음
+      empty_text: 다른 관련 위키 페이지에 대한 링크를 수동으로 추가합니다.
+      link_existing: 기존 위키 페이지
+      link_new: 새 위키 페이지
+    work_package_wikis_tab_component:
+      inline_page_links: 인라인 페이지 링크
+      referencing_pages: '다음에서 참조됨:'

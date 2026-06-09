@@ -37,9 +37,11 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
   private
 
   def render_projects_dropdown
-    content_tag(:div, class: "main-menu-item") do
-      angular_component_tag("opce-header-project-select")
-    end
+    render(Header::ProjectSelectComponent.new(
+             current_project: @project,
+             current_menu_item: current_menu_item,
+             current_user: User.current
+           ))
   end
 
   include OpenProject::StaticRouting::UrlHelpers

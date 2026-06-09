@@ -82,7 +82,7 @@ In OpenProject, authentication is an important element to guarantee a data prote
 
 Backlogs is a [module](#module) in OpenProject that brings features that support [Agile project management](#agile-project-management), in particular the Scrum methodology, such as a product backlog and sprint backlogs.
 
-It includes functionality for planning and managing sprints, including a sprint board that is automatically created when a sprint is started. Within the backlog, work packages can be organized using **backlog buckets** to group items into clearly defined sections. Work packages that are not assigned to a backlog bucket or a sprint are listed in the **index backlog**.
+It includes functionality for planning and managing [sprints](#sprint), including a sprint [board](#board) that is automatically created when a sprint is started. Within the backlog, work packages can be organized using **backlog buckets** to group items into clearly defined sections. Work packages that are not assigned to a backlog bucket or a sprint are listed in the **inbox** backlog bucket.
 
 To use backlogs in OpenProject, the Backlogs module has to be activated in the [project settings](#project-settings) by a project admin.
 
@@ -98,7 +98,7 @@ BIM stands for Building Information Modeling. In OpenProject, we offer a special
 
 ### Board
 
-A board in OpenProject is a view that allows you to see your work packages as cards divided into columns. A board is a typical element in [agile project management](#agile-project-management), supporting methodologies such as Scrum or Kanban. OpenProject, you can use a [basic board](../user-guide/agile-boards/#basic-boards) or [advanced Action boards](../user-guide/agile-boards). Use advanced Action boards to quickly change attributes of your work package. [Read more about boards for agile project management](../user-guide/agile-boards/).
+A board in OpenProject is a view that allows you to see your work packages as cards divided into columns. A board is a typical element in [agile project management](#agile-project-management), supporting methodologies such as Scrum or Kanban. In OpenProject, you can use a [basic board](../user-guide/agile-boards/#basic-boards) or [advanced Action boards](../user-guide/agile-boards). Use advanced Action boards to quickly change attributes of your work package. [Read more about boards for agile project management](../user-guide/agile-boards/).
 
 **More information on boards in OpenProject**
 
@@ -200,7 +200,7 @@ Excel synchronization is an integration in OpenProject which allows you to easil
 
 ### File storage
 
-File storages can be configured in the System Administration and then be selected in the [project settings](#project-settings). OpenProject offers a [Nextcloud integration](#nextcloud-integration) to support file storage. [More information on file storage with the Nextcloud integration](../user-guide/file-management/nextcloud-integration/).
+File storages can be configured in the system administration and then be selected in the [project settings](#project-settings). OpenProject offers a [Nextcloud integration](#nextcloud-integration) to support file storage. [More information on file storage with the Nextcloud integration](../user-guide/file-management/nextcloud-integration/).
 
 ### Filters
 
@@ -218,11 +218,11 @@ The Gantt charts [module](#module) in OpenProject displays the work packages in 
 
 ### Global modules
 
-In OpenProject, global modules are defined as a menu to access all [modules](#module) for *all* your projects. With global modules you can easily see all your project-overarching information at one place, e.g. for work packages, boards, calendars or meetings. Click on the grid icon on the left side of the header menu to access the global modules. [Read more about global modules in OpenProject](../user-guide/home/global-modules/).
+In OpenProject, global modules are defined as a menu to access all [modules](#module) for *all* your projects. With global modules you can easily see all your project-overarching information at one place, e.g. for [work packages](#work-package), [boards](#board), calendars or [meetings](#meetings). Click on the grid icon on the left side of the header menu to access the global modules. [Read more about global modules in OpenProject](../user-guide/home/global-modules/).
 
 ### Group
 
-A group in OpenProject is defined as a list of users which can be added as a member to projects with a selected [role](#role). Groups can also be assigned to work packages. New groups can be defined in *Administration → Users and permissions → Groups*.
+A group in OpenProject is defined as a list of users which can be added as a member to projects with a selected [role](#role). Groups can also be assigned to work packages. They can be nested to represent organizational structures and inherit permissions from parent groups. New groups can be defined in *Administration → Users and permissions → Groups*.
 
 ## H
 
@@ -343,7 +343,7 @@ OpenProject on-premises is a self-hosted version of OpenProject. As opposed to t
 
 **More information on OpenProject on-premises**
 
-- [See our pricing side about your options for OpenProject](https://www.openproject.org/pricing/).
+- [See our pricing page about your options for OpenProject](https://www.openproject.org/pricing/).
 - [Read a blog article comparing on-premises and cloud](https://www.openproject.org/blog/why-self-hosting-software/).
 - [Read how to activate the Enterprise on-premises edition](../enterprise-guide/enterprise-on-premises-guide/activate-enterprise-on-premises/).
 - [Read how to start a trial for Enterprise on-premises](../enterprise-guide/enterprise-on-premises-guide/enterprise-on-premises-trial/).
@@ -379,7 +379,7 @@ PM² is a project management framework developed by the European Commission to s
 
 ### PMflex
 
-PMflex is is a comprehensive and flexible project management system based on the European [PM²](#pm--pm2) standard and further developed for public administration in Germany. [Read more about how to use PMflex with OpenProject](https://www.openproject.org/pmflex). If you  are looking for specific PMflex terminology, please see our [use case of implementing PM² and PMflex project management in OpenProject](../use-cases/project-management-pm2-pmflex/#implementing-pm-and-pmflex-project-management-in-openproject). 
+PMflex is a comprehensive and flexible project management system based on the European [PM²](#pm--pm2) standard and further developed for public administration in Germany. [Read more about how to use PMflex with OpenProject](https://www.openproject.org/pmflex). If you are looking for specific PMflex terminology, please see our [use case of implementing PM² and PMflex project management in OpenProject](../use-cases/project-management-pm2-pmflex/#implementing-pm-and-pmflex-project-management-in-openproject). 
 
 ### Portfolio
 
@@ -388,7 +388,7 @@ In OpenProject, you can manage your project portfolio by creating, filtering and
 
 ### Primer design system
 
-OpenProject started adopting [Github's Primer Design System](https://primer.style/) in 2023. New features will be developed using Primer and existing features will will be gradually revised. Relevant reusable components from Primer as well as common patterns and compositions of these components will be documented in our [Lookbook](https://qa.openproject-edge.com/lookbook/pages/how_to_use). [Read more about OpenProject's decision to use Primer](https://www.openproject.org/blog/primer-design-system/).
+OpenProject started adopting [Github's Primer Design System](https://primer.style/) in 2023. New features will be developed using Primer and existing features will be gradually revised. Relevant reusable components from Primer as well as common patterns and compositions of these components will be documented in our [Lookbook](https://qa.openproject-edge.com/lookbook/pages/how_to_use). [Read more about OpenProject's decision to use Primer](https://www.openproject.org/blog/primer-design-system/).
 
 ### Project
 
@@ -404,9 +404,7 @@ A project attribute in OpenProject is a [custom field](#custom-field) that appli
 
 ### Project folder
 
-Project folders help collaborating in the most efficient way. They can be used with
-OpenProject's [Nextcloud integration](#nextcloud-integration) or with
-OpenProject's [OneDrive integration](#onedrive-integration). [Read more about project folders in OpenProject](../user-guide/projects/project-settings/files/#project-folders).
+Project folders help collaborating in the most efficient way. They can be used with OpenProject's [Nextcloud integration](#nextcloud-integration) or with OpenProject's [OneDrive integration](#onedrive-integration). [Read more about project folders in OpenProject](../user-guide/projects/project-settings/files/#project-folders).
 
 ### Project home
 
@@ -437,7 +435,7 @@ Phases and phase gates are visible on the [project home](#project-home) page, in
 
 ### Project lists
 
-In OpenProject, project lists are very useful for project portfolio managers to get an overview of all their [projects](#project) on the instance. Access your project lists on OpenProject by either navigating to the "All projects" menu and clicking on the "Project lists" button, or via the [Global modules](#global-modules). [Read more about project lists OpenProject](../user-guide/projects/project-lists/).
+In OpenProject, project lists are very useful for project portfolio managers to get an overview of all their [projects](#project) on the instance. Access your project lists on OpenProject by either navigating to the "All projects" menu and clicking on the "Project lists" button, or via the [Global modules](#global-modules). [Read more about project lists in OpenProject](../user-guide/projects/project-lists/).
 
 ### Project navigation
 
@@ -481,7 +479,7 @@ In OpenProject, you can set work packages in relation to each other. Some relati
 
 OpenProject offers different types of reminders so that you can lean back and never forget a task. One is the [date alert](#date-alerts) (Enterprise add-on), which generates automatic and customized [notifications](#notifications) regarding a work package's due date or start date.
 
-OpenProject also allows you to set **work package reminders**:  Simply activate the clock icon on top of a work package and choose from different options, e.g. to be reminded the next day (at 9 am) or in one week. You can also set a custom date. [Read more about work package reminders in OpenProject](../user-guide/work-packages/edit-work-package/#work-package-reminders).
+OpenProject also allows you to set **work package reminders**: Simply activate the clock icon on top of a work package and choose from different options, e.g. to be reminded the next day (at 9 am) or in one week. You can also set a custom date. [Read more about work package reminders in OpenProject](../user-guide/work-packages/edit-work-package/#work-package-reminders).
 
 ### Repository
 
@@ -508,6 +506,10 @@ SAML (Security Assertion Markup Language) is an open standard for exchanging aut
 ### Share work packages
 
 OpenProject offers the possibility to share work packages with external groups or users that are not [members](#member) of the project. This feature is an [Enterprise add-on](#enterprise-add-on). Every user with whom a work package is shared must either already be a user of the instance or be newly created. The latter requires special rights. [Read more about OpenProject's feature to share work packages with project non-members](../user-guide/work-packages/share-work-packages/).
+
+### Sprint
+
+A sprint is a time-boxed iteration used in agile project management to plan and execute work during a defined period. In OpenProject, sprints are managed through the [Backlogs](#backlogs) module and include attributes such as start and end dates. Sprint [boards](#board) are automatically created when a sprint is started.
 
 ### Story points
 
@@ -545,7 +547,7 @@ The OpenProject [user guide](../user-guide/) is an in-depth guide of all feature
 
 ### Versions
 
-Versions in OpenProject are defined as an attribute for [work packages](#work-package) or in the [Backlogs](#backlogs) module. Versions will be displayed in the [Roadmap](#roadmap). In the [Enterprise edition](#enterprise-add-on), you can also create a version [board](#board) to get an overview of the progress of your versions. [Read more about how to manage versions in OpenProject](../user-guide/projects/project-settings/versions/).
+Versions in OpenProject are used to group and organize work packages, for example to plan releases, milestones, or delivery targets. Versions are displayed in the [Roadmap](#roadmap) and can be assigned to work packages as an attribute. You can also create a version [board](#board) to get an overview of the progress of your versions. [Read more about how to manage versions in OpenProject](../user-guide/projects/project-settings/versions/).
 
 ## W
 
@@ -569,7 +571,8 @@ In OpenProject, a wiki is defined as a [module](#module) that allows to use wiki
 
 ### Work, Remaining Work and % Complete
 
-In OpenProject, '**Work**' refers to a work package attribute indicating the estimated hours and days needed to complete a task.  
+In OpenProject, '**Work**' refers to a work package attribute indicating the estimated hours and days needed to complete a task.
+
 '**Remaining work**' is a work package attribute that shows how much work is left to finish the work package. It is automatically calculated if you work with [status-based progress reporting](../user-guide/time-and-costs/progress-tracking/#status-based-progress-reporting). And '**% Complete**' is an automatically calculated work package attribute that shows in percentage how much work is already completed. All three attributes are important for [progress reporting with OpenProject](https://www.openproject.org/blog/changes-progress-work-estimates/).
 
 To make it easier for project managers to work with work package hierarchies, OpenProject also displays a value (in blue) for the total amount of work in the Work field for parent work packages – next to the value for the dedicated work package. This **total work value** is the sum of the work value of the parent work package and all the work values of its children. The same principle applies to the work package attribute Remaining Work. [Read in our user guide about how to configure a work package](../user-guide/work-packages/work-package-table-configuration/)
@@ -599,7 +602,11 @@ If you need a Category that applies to all projects on your instance, we recomme
 
 ### Work package ID
 
-Work package ID is defined as a unique ascending number assigned to a newly created work package. Work package IDs cannot be changed and are numbered across all projects of an OpenProject instance (therefore, the numbering within a project may not be sequential).
+In OpenProject, every work package has a unique ID (identifier). It is automatically assigned when a work package is created. Work package IDs are configured globally and apply across the entire OpenProject instance.
+
+By default, work package IDs are numerical, ascending numbers, for example #429. System [administrators](#admin) can optionally switch to project-based work package IDs, which consist of a project-specific prefix and an ascending number (e.g. OP-382). Project-based identifiers that have been used are [reserved and can be released if necessary](../system-admin-guide/projects/reserved-project-identifiers/) so that they can be used again.
+
+Administrators can configure work package identifiers under *Administration → Work packages → Identifiers*. [Read more in the OpenProject system admin guide](../user-guide/projects/project-settings/project-information/#change-project-identifier).
 
 ### Work package subject
 
@@ -617,7 +624,7 @@ Work package types are the different items a work package can represent. Each wo
 
 ### Work package view
 
-A list of work packages is considered a view. The containing work packages in any view can be displayed a number of different ways. Examples for most used work package views are the [table view](#work-package-table), the full screen view or the split screen view. You can also display work packages  in a card view and use them in a [board](#board) to use agile methods. [Read more about work package views in OpenProject](../user-guide/work-packages/work-package-views/#work-packages-views).
+A list of work packages is considered a view. The containing work packages in any view can be displayed a number of different ways. Examples for most used work package views are the [table view](#work-package-table), the full screen view or the split screen view. You can also display work packages in a card view and use them in a [board](#board) to use agile methods. [Read more about work package views in OpenProject](../user-guide/work-packages/work-package-views/#work-packages-views).
 
 ### WYSIWYG editor
 

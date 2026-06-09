@@ -35,7 +35,6 @@ import {
 } from 'rxjs';
 import { ComponentType } from '@angular/cdk/portal';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
@@ -43,11 +42,11 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 export class WorkPackageInlineCreateService implements OnDestroy {
   readonly injector = inject(Injector);
 
-  @InjectField() I18n!:I18nService;
+  readonly I18n = inject(I18nService);
 
-  @InjectField() protected readonly currentUser:CurrentUserService;
+  protected readonly currentUser = inject(CurrentUserService);
 
-  @InjectField() protected readonly currentProject:CurrentProjectService;
+  protected readonly currentProject = inject(CurrentProjectService);
 
   /**
    * A separate reference pane for the inline create component

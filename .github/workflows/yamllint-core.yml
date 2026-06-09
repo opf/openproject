@@ -1,4 +1,4 @@
-name: yamllint
+name: Yamllint
 
 on:
   pull_request:
@@ -9,23 +9,22 @@ on:
       - 'modules/*/config/locales/en.yml'
       - 'modules/*/config/locales/js-en.yml'
 
-permissions: {}
-
 jobs:
-  rubocop:
-    name: yamllint
+  yamllint:
+    name: Yamllint
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
     steps:
       - name: Checkout code
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
-
       - name: Run Yamllint
         uses: reviewdog/action-yamllint@f01d8a48fd8d89f89895499fca2cff09f9e9e8c0 # v1.21.0
         with:
-          github_token: ${{ secrets.github_token }}
-          fail_level: error
+          reporter: github-pr-check
           yamllint_flags: >
             .yamllint.yml
             config/locales/en.yml

@@ -63,7 +63,7 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render Backlogs::SprintComponent.new(
           sprint:,
           project:,
-          work_packages: work_packages_by_sprint_id[sprint.id],
+          work_packages: work_packages_by_sprint_id[sprint.id] || [],
           active_sprint_ids: active_sprint_ids
         ) %>
   <% end %>

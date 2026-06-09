@@ -47,6 +47,7 @@ Rails.application.routes.draw do
       get "menu" => "meetings/menus#show"
       get :fetch_timezone
       get :fetch_templates
+      get :project_items
 
       get "ical/:token", controller: "meetings/ical", action: :index, as: "ical_feed"
 

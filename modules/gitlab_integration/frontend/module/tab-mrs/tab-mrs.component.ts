@@ -64,6 +64,6 @@ export class TabMrsComponent implements OnInit {
   }
 
   public getEmptyText() {
-    return this.I18n.t('js.gitlab_integration.tab_mrs.empty',{ wp_id: this.workPackage.id });
+    return this.I18n.t('js.gitlab_integration.tab_mrs.empty',{ wp_id: this.workPackage.displayId });
   }
 }

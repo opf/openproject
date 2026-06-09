@@ -33,7 +33,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HttpClient } from '@angular/common/http';
@@ -111,17 +111,17 @@ export class IFCViewerService extends ViewerBridgeService {
 
   private xeokitViewer:XeokitBimViewer|undefined;
 
-  @InjectField() pathHelper:PathHelperService;
+  @LazyInject() pathHelper:PathHelperService;
 
-  @InjectField() bcfApi:BcfApiService;
+  @LazyInject() bcfApi:BcfApiService;
 
-  @InjectField() viewpointsService:ViewpointsService;
+  @LazyInject() viewpointsService:ViewpointsService;
 
-  @InjectField() ifcModelsDataService:IfcModelsDataService;
+  @LazyInject() ifcModelsDataService:IfcModelsDataService;
 
-  @InjectField() currentProjectService:CurrentProjectService;
+  @LazyInject() currentProjectService:CurrentProjectService;
 
-  @InjectField() httpClient:HttpClient;
+  @LazyInject() httpClient:HttpClient;
 
   public newViewer(elements:XeokitElements, projects:IfcProjectDefinition[]):void {
     const server = new XeokitServer(this.pathHelper, this.ifcModelsDataService);

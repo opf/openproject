@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_access_grant", :webmock do
+RSpec.describe "GET /projects/:project_id/settings/project_storages/:id/oauth_access_grant", :disable_ssrf_filter, :webmock do
   let(:user) { create(:user, preferences: { time_zone: "Etc/UTC" }) }
 
   let(:role) do

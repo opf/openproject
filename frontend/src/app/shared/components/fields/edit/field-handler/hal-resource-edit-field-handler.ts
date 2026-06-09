@@ -38,15 +38,15 @@ import { Subject, Observable } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
 export class HalResourceEditFieldHandler extends EditFieldHandler {
   // Injections
-  @InjectField() FocusHelper:FocusHelperService;
+  @LazyInject() FocusHelper:FocusHelperService;
 
-  @InjectField() ConfigurationService:ConfigurationService;
+  @LazyInject() ConfigurationService:ConfigurationService;
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() I18n!:I18nService;
 
   // Subject to fire when user demanded activation
   public $onUserActivate = new Subject<void>();

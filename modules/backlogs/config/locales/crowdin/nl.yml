@@ -38,7 +38,7 @@ nl:
         sharing: Delen
         statuses:
           in_planning: Wordt gepland
-          active: Actief
+          active: Gestart
           completed: Voltooid
         work_packages: Work packages
       work_package:

@@ -140,8 +140,8 @@ fr:
         cannot_delete_with_imports: Impossible de supprimer un hôte Jira avec des importations existantes
         custom_field_creation_failed: 'Échec de la création du champ personnalisé « %{name} » : %{message}'
         semantic_identifiers_must_be_enabled:
-          title: Les identificateurs sémantiques basés sur les projets doivent être activés.
-          description: Jira utilise des identificateurs de ticket composés d'une clé de projet et d'un numéro de séquence (PRJ-123). OpenProject le prend également en charge, mais cela doit être activé [ici](link).
+          title: Les identifiants sémantiques basés sur les projets doivent être activés.
+          description: Jira utilise des identifiants de ticket composés d'une clé de projet et d'un numéro de séquence (PRJ-123). OpenProject le prend également en charge, mais cela doit être activé [ici](link).
       blank:
         title: Aucun hôte Jira n'est encore configuré
         description: Configurez un hôte Jira pour commencer à importer des éléments de Jira vers cette instance d'OpenProject.
@@ -2100,17 +2100,14 @@ fr:
         before: doit être antérieur(e) à %{date}.
         before_or_equal_to: doit être antérieur(e) ou égal(e) à %{date}.
         blank: ne peut pas être vide.
-        not_before_start_date: ne doit pas être avant la date de début.
-        overlapping_range: chevauche une plage de jours non ouvrables existante.
         blank_nested: doit avoir la propriété « %{property} » définie.
         cannot_delete_mapping: est requis. Ne peut être supprimé.
-        is_for_all_cannot_modify: s'applique à tous les projets et ne peut donc pas être modifié.
         cant_link_a_work_package_with_a_descendant: Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches.
         circular_dependency: Cette relation créerait une dépendance circulaire.
         confirmation: ne correspond pas à %{attribute}.
         could_not_be_copied: "%{dependency} n'a pas pu être copié (entièrement)."
+        datetime_must_be_in_future: doit se situer dans le futur.
         does_not_exist: n'existe pas.
-        user_already_in_department: L'utilisateur %{user_id} est déjà membre du service %{department_id}.
         error_enterprise_only: "%{action} n'est disponible que dans l'édition Enterprise d'OpenProject."
         error_unauthorized: est interdit d'accès.
         error_readonly: a tenté d'être écrit mais n'est pas accessible en écriture.
@@ -2131,36 +2128,38 @@ fr:
         greater_than_or_equal_to: doit être supérieur ou égal à %{count}.
         greater_than_or_equal_to_start_date: doit être supérieur ou égal à la date de début.
         greater_than_start_date: doit être postérieure à la date de début.
+        hexcode_invalid: n'est pas un code couleur hexadécimal valide à 6 chiffres.
         inclusion: ne correspond à aucune des valeurs autorisées.
         inclusion_nested: ne correspond à aucune des valeurs autorisées dans le chemin « %{path} ».
         invalid: est invalide.
         invalid_uri: doit être une URI valide.
         invalid_url: n'est pas une URL valide.
         invalid_url_scheme: 'n''est pas un protocole pris en charge (autorisés : %{allowed_schemes}).'
+        is_for_all_cannot_modify: s'applique à tous les projets et ne peut donc pas être modifié.
         less_than_or_equal_to: doit être inférieur ou égal à %{count}.
         not_available: n'est pas disponible en raison d'une configuration système.
+        not_before_start_date: ne doit pas être avant la date de début.
         not_deletable: ne peut pas être supprimé
         not_editable: ne peut pas être modifiée car elle est déjà en vigueur.
         not_current_user: n'est pas l'utilisateur actuel.
-        system_wide_non_working_day_exists: entre en conflit avec un jour chômé existant dans le système pour cette date.
         not_found: introuvable.
         not_a_date: n'est pas une date valide.
         not_a_datetime: n'est pas une heure valide.
         not_a_number: n'est pas un nombre.
         not_allowed: est invalide en raison d'autorisations insuffisantes.
-        host_not_allowed: n'est pas un hôte autorisé.
         not_json: ne peut pas être analysé en tant que JSON.
         not_json_object: n'est pas un objet JSON.
         not_an_integer: n'est pas un entier.
         not_an_iso_date: 'n''est pas une date valide. Format requis : AAAA-MM-JJ.'
         not_same_project: n'appartient pas au même projet.
-        datetime_must_be_in_future: doit se situer dans le futur.
         odd: doit être impair.
+        overlapping_range: chevauche une plage de jours non ouvrables existante.
         regex_match_failed: ne correspond pas à l'expression régulière %{expression}.
         regex_invalid: n'a pas pu être validé avec l'expression régulière associée.
         regex_list_invalid: Les lignes %{invalid_lines} n'ont pas pu être analysées comme des expressions régulières.
-        hexcode_invalid: n'est pas un code couleur hexadécimal valide à 6 chiffres.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: entre en conflit avec un jour chômé existant dans le système pour cette date.
         taken: a déjà été pris.
         too_long: est trop long (le maximum est de %{count} caractères).
         too_short: est trop court (le minimum est de %{count} caractères).
@@ -2173,6 +2172,7 @@ fr:
         url_not_secure_context: 'ne fournit pas de « Contexte sécurisé ». Utilisez soit HTTPS, soit une adresse de bouclage, comme localhost.
 
           '
+        user_already_in_department: L'utilisateur %{user_id} est déjà membre du service %{department_id}.
         wrong_length: est de mauvaise longueur (devrait être %{count} caractères).
       models:
         group:
@@ -2839,6 +2839,7 @@ fr:
   button_login: Connexion
   button_move: Déplacer
   button_move_and_follow: Déplacer et suivre
+  button_next: Suivant
   button_print: Imprimer
   button_quote: Citer
   button_remove: Supprimer
@@ -3157,8 +3158,8 @@ fr:
       edit_attribute_groups:
         description: 'Personnalisez la configuration du formulaire avec ces add-ons supplémentaires :'
         features:
-          groups: Ajouter de nouveaux groupes d'attributs
-          rename: Renommer les groupes d'attributs
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Ajouter un tableau des lots de travaux associés
       readonly_work_packages:
         description: Marquer les lots de travaux comme étant en lecture seule pour des statuts spécifiques.
@@ -3468,6 +3469,12 @@ fr:
       selected: Sélectionné
     include_sub_items: Inclure les sous-projets
     no_results_text: Aucun résultat
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: Activé
     label_off: Désactivé
@@ -3525,7 +3532,7 @@ fr:
 
             '
           new_features_list:
-            line_0: Identificateurs de lots de travail basés sur des projets pour des références plus claires.
+            line_0: Identifiants de lots de travaux basés sur des projets pour des références plus claires.
             line_1: Prise en charge par Jira Migrator des identifiants Jira, des dates d'échéance, etc.
             line_2: Possibilité d'exclure des types de lots de travail des carnets de commandes.
             line_3: Refonte des vues de sprint.
@@ -5364,7 +5371,7 @@ fr:
   setting_welcome_on_homescreen: Afficher le bloc de bienvenue sur l'écran d'accueil
   setting_work_packages_identifier_classic: Séquence numérique à l'échelle de l'instance (par défaut)
   setting_work_packages_identifier_classic_caption: 'Chaque lot de travaux reçoit un numéro séquentiel commençant à 1 (par exemple, #1234). Les numéros sont uniques au sein de l''instance et restent identiques même si les lots de travaux sont déplacés entre des projets.'
-  setting_work_packages_identifier_semantic: Identificateurs sémantiques basés sur des projets (Beta)
+  setting_work_packages_identifier_semantic: Identifiants sémantiques basés sur des projets (Beta)
   setting_work_packages_identifier_semantic_caption: Chaque projet possède un identifiant de projet unique préfixé à un numéro (par exemple, PROJ-11). La numérotation de chaque projet commence à 1. Si un lot de travaux est déplacé vers un autre projet, un nouvel identifiant est généré, mais l'ancien continuera de fonctionner.
   setting_work_package_list_default_highlighting_mode: Mode de surbrillance par défaut
   setting_work_package_list_default_highlighted_attributes: Attributs en ligne mis en surbrillance par défaut

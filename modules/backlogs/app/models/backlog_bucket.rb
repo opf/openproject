@@ -29,6 +29,8 @@
 #++
 
 class BacklogBucket < ApplicationRecord
+  include ::Scopes::Scoped
+
   self.table_name = "backlog_buckets"
 
   belongs_to :project
@@ -45,9 +47,11 @@ class BacklogBucket < ApplicationRecord
 
   scope :order_alphabetically, -> { order(:name) }
 
+  scopes :visible
+
   validates :name, :project, presence: true
 
   def self.for_project(project)
-    where(project:).order_alphabetically.includes(displayed_work_packages: %i[assigned_to priority parent])
+    where(project:).order_alphabetically
   end
 end

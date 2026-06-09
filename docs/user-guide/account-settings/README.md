@@ -85,7 +85,7 @@ Pressing the **Save** button will save your changes.
 
 ## Interface
 
-Under the **Interface** section of project settings you can adjust the color mode, activate alerts and adjust backlog settings. Settings here are grouped into three sections: *Look and feel*, *Alerts* and *Backlogs module*.
+Under the **Interface** section of project settings you can adjust the color mode, activate alerts and adjust backlog settings. Settings here are grouped into two sections: *Look and feel* and *Alerts*.
 
 ### Look and feel
 
@@ -143,14 +143,6 @@ Under **Alerts** section you can activate a **warning if you are leaving a work 
 Additionally, you can activate to **auto-hide success notifications** from the system. This (only) means that the green pop-up success notifications will be removed automatically after five seconds.
 
 ![Alerts section under interface settings in OpenProject account settings](openproject_account_settings_interface_alerts.png)
-
-### Backlogs settings
-
-There is a personal settings available for the [Backlogs module](../../user-guide/backlogs-scrum/):
-
-**Show versions folded**: When you navigate to the "Backlogs" module in a project, the available versions (e.g. Product backlog, Sprints) are displayed. By default they are expanded, i.e. all work packages included in those versions are shown right away. If you have a large number of versions that are shown on the "Backlogs" page, you may opt to collapse them by default. This way you see all the versions on a page and can then choose to expand those versions for which you want to see details.
-
-![Backlogs settings under Interface settings in OpenProject account settings](openproject_account_settings_interface_backlogs_module.png)
 
 ## Change password
 

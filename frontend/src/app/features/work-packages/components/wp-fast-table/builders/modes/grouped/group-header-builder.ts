@@ -31,7 +31,7 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { rowGroupClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { groupName } from './grouped-rows-helpers';
 import { ProjectPhaseDisplayField } from 'core-app/shared/components/fields/display/field-types/project-phase-display-field.module';
@@ -42,7 +42,7 @@ export function groupClassNameFor(group:GroupObject) {
 }
 
 export class GroupHeaderBuilder {
-  @InjectField() public I18n:I18nService;
+  @LazyInject() public I18n:I18nService;
 
   public text:{ collapse:string, expand:string };
 

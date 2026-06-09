@@ -2082,17 +2082,14 @@ zh-TW:
         before: 必須在 %{date} 之前
         before_or_equal_to: 必須在 %{date} 以前
         blank: 不可空白
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: '需要設置屬性  ''%{property}'' '
         cannot_delete_mapping: 必需項，不能刪除
-        is_for_all_cannot_modify: 適用於所有專案，因此無法修改。
         cant_link_a_work_package_with_a_descendant: 工作套件不能聯結到自己的子套件。
         circular_dependency: 這個關係會建立一個循環依賴
         confirmation: 不吻合 %{attribute}。
         could_not_be_copied: "%{dependency} 無法完整複製."
+        datetime_must_be_in_future: 必須是未來時間。
         does_not_exist: 不存在
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} 只適用於 OpenProject 企業版。"
         error_unauthorized: 無法被存取。
         error_readonly: 被嘗試寫入但是無法寫入。
@@ -2113,36 +2110,38 @@ zh-TW:
         greater_than_or_equal_to: 必須大於或等於 %{count}。
         greater_than_or_equal_to_start_date: 必須晚於或等於開始日期。
         greater_than_start_date: 必須晚於開始日期。
+        hexcode_invalid: 不是有效的六位數十六進位顏色代碼。
         inclusion: 沒有被設置為一個允許的值。
         inclusion_nested: 未設置為路徑“%{path}”中允許的值之一
         invalid: 不正確。
         invalid_uri: must be a valid URI.
         invalid_url: 不是有效的 URL。
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
+        is_for_all_cannot_modify: 適用於所有專案，因此無法修改。
         less_than_or_equal_to: 必須少於或者等於 %{count}。
         not_available: 由於系統配置所以不可用
+        not_before_start_date: must not be before the start date.
         not_deletable: 無法刪除
         not_editable: cannot be edited because it is already in effect.
         not_current_user: 不是目前使用者。
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: 未找到
         not_a_date: 不是有效的日期。
         not_a_datetime: 不是有效的日期時間。
         not_a_number: 不是數字
         not_allowed: 是無效的因為缺少權限
-        host_not_allowed: is not an allowed host.
         not_json: 無法解析為 JSON。
         not_json_object: 不是 JSON 物件。
         not_an_integer: 不是整數
         not_an_iso_date: 不是有效日期。所需格式：YYYY-MM-DD。
         not_same_project: 不屬於相同的專案
-        datetime_must_be_in_future: 必須是未來時間。
         odd: 必須是奇數
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: 與正則表達式 %{expression} 不匹配。
         regex_invalid: 不能被相關聯的正則運算式驗證。
         regex_list_invalid: "%{invalid_lines} 行無法解析為正規表示式。"
-        hexcode_invalid: 不是有效的六位數十六進位顏色代碼。
         smaller_than_or_equal_to_max_length: 必須小於或等於最大長度。
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: 已經被使用
         too_long: 太長 (最長是 %{count} 個字元)
         too_short: 太短 (最少 %{count} 個字元)
@@ -2155,6 +2154,7 @@ zh-TW:
         url_not_secure_context: '未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: 長度錯誤 (應該要有 %{count} 個字元)
       models:
         group:
@@ -2801,6 +2801,7 @@ zh-TW:
   button_login: 登入
   button_move: 移動
   button_move_and_follow: 移動並跟隨
+  button_next: Next
   button_print: 列印
   button_quote: 引言
   button_remove: 刪除
@@ -3099,8 +3100,8 @@ zh-TW:
       edit_attribute_groups:
         description: 使用以下額外附加元件自訂表單設定：
         features:
-          groups: 增加新的屬性群組
-          rename: 重新命名群组屬性
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: 新增相關工作套件表
       readonly_work_packages:
         description: 將特定狀態的工作套件標記為唯讀。
@@ -3407,6 +3408,12 @@ zh-TW:
       selected: 已選取
     include_sub_items: 包含子項目
     no_results_text: 查無結果
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 開啟
     label_off: 關閉

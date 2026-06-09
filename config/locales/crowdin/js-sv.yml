@@ -1045,16 +1045,13 @@ sv:
         all: Alla projekt
         selected: Only selected
       search_placeholder: Sök projekt...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Include all sub-projects
       tooltip:
         include_all_selected: Projekt som redan ingår sedan Inkludera alla delprojekt är aktiverat.
         current_project: Detta är det aktuella projektet du befinner dig i.
         does_not_match_search: Projektet matchar inte sökkriterierna.
       no_results: Inget projekt matchar dina sökkriterier.
-      no_favorite_results: Inget favoritprojekt matchar dina sökkriterier.
     include_workspaces:
-      search_placeholder: Sök...
       types:
         program: Program
         portfolio: Portfölj

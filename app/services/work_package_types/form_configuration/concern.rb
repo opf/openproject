@@ -106,6 +106,7 @@ module WorkPackageTypes
                  .reject { |group| group.key.to_s == "__empty" }
         seen_keys = groups.filter_map(&:key).compact_blank.map(&:to_s)
         groups = groups.map { |group| normalize_group(group, seen_keys:) }
+        prune_unavailable_attribute_group_items(groups)
 
         if groups.empty?
           [::Type::AttributeGroup.new(type, :__empty, [])]
@@ -135,6 +136,12 @@ module WorkPackageTypes
                                   attribute.delete_prefix("custom_field_").to_i
                                 end
                                 .uniq
+      end
+
+      def prune_unavailable_attribute_group_items(groups)
+        groups.each do |group|
+          group.attributes = group.members if group.group_type == :attribute
+        end
       end
 
       def assign_groups(groups)

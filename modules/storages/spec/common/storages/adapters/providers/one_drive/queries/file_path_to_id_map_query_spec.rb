@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Queries
-          RSpec.describe FilePathToIdMapQuery, :webmock do
+          RSpec.describe FilePathToIdMapQuery, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:one_drive_sandbox_storage) }
             let(:auth_strategy) { Adapters::Registry["one_drive.authentication.userless"].call }
             let(:depth) { Float::INFINITY }

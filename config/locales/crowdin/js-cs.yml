@@ -1057,16 +1057,13 @@ cs:
         all: Všechny projekty
         selected: Pouze vybrané
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Zahrnout všechny podprojekty
       tooltip:
         include_all_selected: Projekt je již zahrnut, protože Zahrnout všechny podprojekty je povoleno.
         current_project: Toto je aktuální projekt, ve kterém se nacházíte.
         does_not_match_search: Projekt neodpovídá kritériím vyhledávání.
       no_results: Žádný projekt neodpovídá vašim kritériím vyhledávání.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Hledat...
       types:
         program: Program
         portfolio: Portfolio

@@ -51,7 +51,7 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
   end
 
   describe "GET /api/v3/meetings/:meeting_id/agenda_items/:agenda_item_id/outcomes" do
-    let(:path) { api_v3_paths.meeting_agenda_item_outcomes(meeting.id, agenda_item.id) }
+    let(:path) { api_v3_paths.meeting_agenda_item_outcomes(agenda_item.id, meeting_id: meeting.id) }
 
     before { get path }
 
@@ -65,11 +65,19 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
       expect(last_response.body)
         .to have_json_size(1)
         .at_path("_embedded/elements")
+
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.meeting_outcome(outcome.id).to_json)
+        .at_path("_embedded/elements/0/_links/self/href")
+
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.meeting_agenda_item(agenda_item.id).to_json)
+        .at_path("_embedded/elements/0/_links/agendaItem/href")
     end
 
     context "with an agenda item from another meeting" do
       let(:other_meeting) { create(:meeting, project:, author: current_user) }
-      let(:path) { api_v3_paths.meeting_agenda_item_outcomes(other_meeting.id, agenda_item.id) }
+      let(:path) { api_v3_paths.meeting_agenda_item_outcomes(agenda_item.id, meeting_id: other_meeting.id) }
 
       it "returns 404" do
         expect(last_response).to have_http_status(:not_found)
@@ -108,12 +116,17 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
     end
   end
 
-  describe "POST /api/v3/meetings/:meeting_id/agenda_items/:agenda_item_id/outcomes" do
-    let(:path) { api_v3_paths.meeting_agenda_item_outcomes(meeting.id, agenda_item.id) }
+  describe "POST /api/v3/meeting_outcomes" do
+    let(:path) { api_v3_paths.meeting_outcomes }
     let(:body) do
       {
         kind: "information",
-        notes: { raw: "Outcome created via API" }
+        notes: { raw: "Outcome created via API" },
+        _links: {
+          agendaItem: {
+            href: api_v3_paths.meeting_agenda_item(agenda_item.id)
+          }
+        }
       }.to_json
     end
 
@@ -153,6 +166,9 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
         {
           kind: "work_package",
           _links: {
+            agendaItem: {
+              href: api_v3_paths.meeting_agenda_item(agenda_item.id)
+            },
             workPackage: {
               href: api_v3_paths.work_package(work_package.id)
             }
@@ -182,6 +198,9 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
         {
           kind: "work_package",
           _links: {
+            agendaItem: {
+              href: api_v3_paths.meeting_agenda_item(agenda_item.id)
+            },
             workPackage: {
               href: api_v3_paths.work_package(private_work_package.id)
             }
@@ -197,7 +216,11 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
   end
 
   describe "GET /api/v3/meetings/:meeting_id/agenda_items/:agenda_item_id/outcomes/:id" do
-    let(:path) { api_v3_paths.meeting_agenda_item_outcome(meeting.id, agenda_item.id, outcome.id) }
+    let(:path) do
+      api_v3_paths.meeting_agenda_item_outcome(outcome.id,
+                                               agenda_item_id: agenda_item.id,
+                                               meeting_id: meeting.id)
+    end
 
     before { get path }
 
@@ -211,11 +234,19 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
       expect(last_response.body)
         .to be_json_eql(outcome.id.to_json)
         .at_path("id")
+
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.meeting_outcome(outcome.id).to_json)
+        .at_path("_links/self/href")
     end
 
     context "with an outcome from another agenda item" do
       let(:other_agenda_item) { create(:meeting_agenda_item, meeting:, meeting_section: section, author: current_user) }
-      let(:path) { api_v3_paths.meeting_agenda_item_outcome(meeting.id, other_agenda_item.id, outcome.id) }
+      let(:path) do
+        api_v3_paths.meeting_agenda_item_outcome(outcome.id,
+                                                 agenda_item_id: other_agenda_item.id,
+                                                 meeting_id: meeting.id)
+      end
 
       it "returns 404" do
         expect(last_response).to have_http_status(:not_found)
@@ -242,13 +273,38 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
           .at_path("_links/workPackage/href")
 
         expect(last_response.body).not_to have_json_path("_embedded/workPackage")
-
       end
     end
   end
 
-  describe "PATCH /api/v3/meetings/:meeting_id/agenda_items/:agenda_item_id/outcomes/:id" do
-    let(:path) { api_v3_paths.meeting_agenda_item_outcome(meeting.id, agenda_item.id, outcome.id) }
+  describe "GET /api/v3/meeting_outcomes/:id" do
+    let(:path) { api_v3_paths.meeting_outcome(outcome.id) }
+
+    before { get path }
+
+    it "returns 200 and the outcome" do
+      expect(last_response).to have_http_status(:ok)
+
+      expect(last_response.body)
+        .to be_json_eql("MeetingOutcome".to_json)
+        .at_path("_type")
+
+      expect(last_response.body)
+        .to be_json_eql(api_v3_paths.meeting_outcome(outcome.id).to_json)
+        .at_path("_links/self/href")
+    end
+
+    context "without view_meetings permission" do
+      let(:permissions) { [] }
+
+      it "returns 404" do
+        expect(last_response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe "PATCH /api/v3/meeting_outcomes/:id" do
+    let(:path) { api_v3_paths.meeting_outcome(outcome.id) }
     let(:body) do
       {
         notes: { raw: "Updated outcome" }
@@ -271,8 +327,8 @@ RSpec.describe "API v3 Meeting Outcomes sub-resource", content_type: :json do
     end
   end
 
-  describe "DELETE /api/v3/meetings/:meeting_id/agenda_items/:agenda_item_id/outcomes/:id" do
-    let(:path) { api_v3_paths.meeting_agenda_item_outcome(meeting.id, agenda_item.id, outcome.id) }
+  describe "DELETE /api/v3/meeting_outcomes/:id" do
+    let(:path) { api_v3_paths.meeting_outcome(outcome.id) }
 
     before { delete path }
 

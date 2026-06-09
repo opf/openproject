@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Commands
-          RSpec.describe RenameFileCommand, :webmock do
+          RSpec.describe RenameFileCommand, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox) }
             let(:auth_strategy) { Registry.resolve("sharepoint.authentication.userless").call }
             let(:input_data) { Input::RenameFile.build(location: file_id, new_name: name).value! }

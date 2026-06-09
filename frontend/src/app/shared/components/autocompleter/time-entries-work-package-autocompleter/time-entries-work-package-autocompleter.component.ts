@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, forwardRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, forwardRef, OnInit, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import {
   OpAutocompleterComponent,
@@ -38,7 +38,6 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { IAPIFilter } from 'core-app/shared/components/autocompleter/op-autocompleter/typings';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import {
   TimeEntriesWorkPackageAutocompleterTemplateComponent,
@@ -64,7 +63,7 @@ const RECENT_TIME_ENTRIES_MAGIC_NUMBER = 30;
 export class TimeEntriesWorkPackageAutocompleterComponent extends OpAutocompleterComponent implements OnInit, ControlValueAccessor {
   public mode:TimeEntryWorkPackageAutocompleterMode = 'all';
 
-  @InjectField() halSorting:HalResourceSortingService;
+  readonly halSorting = inject(HalResourceSortingService);
 
   labelAll = this.I18n.t('js.label_all');
   labelRecent = this.I18n.t('js.label_recent');

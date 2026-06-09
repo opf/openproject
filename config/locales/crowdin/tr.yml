@@ -2108,17 +2108,14 @@ tr:
         before: "%{date}'dan daha önce olması gerekir."
         before_or_equal_to: "%{date}} tarihinden önce veya ona eşit olmalıdır."
         blank: boş bırakılamaz.
-        not_before_start_date: başlangıç tarihinden önce olmamalıdır.
-        overlapping_range: mevcut bir çalışma dışı gün aralığı ile çakışır.
         blank_nested: "'%{property}' özelliğinin ayarlanmış olması gerekir."
         cannot_delete_mapping: zorunlu. Silinemez.
-        is_for_all_cannot_modify: tüm projeler içindir ve bu nedenle değiştirilemez.
         cant_link_a_work_package_with_a_descendant: İş paketi alt görevlerinden birine bağlanamaz.
         circular_dependency: Bu ilişki döngüsel bağımlılık oluşturacak.
         confirmation: "%{attribute} eşleşmiyor."
         could_not_be_copied: "%{dependency} (tam olarak) kopyalanamadı."
+        datetime_must_be_in_future: gelecekte olmalı.
         does_not_exist: mevcut değil.
-        user_already_in_department: Kullanıcı %{user_id} zaten %{department_id} departmanının bir üyesidir.
         error_enterprise_only: "%{action} yalnızca OpenProject Enterprise sürümünde mevcuttur."
         error_unauthorized: erişilemez.
         error_readonly: yazılmaya çalışıldı fakat yazılabilir değil.
@@ -2141,38 +2138,40 @@ tr:
         greater_than_or_equal_to: "%{count} ya da daha büyük olması gerekir."
         greater_than_or_equal_to_start_date: başlangıç tarihi ile aynı ya da daha büyük olması gerekir.
         greater_than_start_date: başlangıç tarihinden daha büyük olması gerekir.
+        hexcode_invalid: geçerli bir 6 basamaklı onaltılık renk kodu değildir.
         inclusion: izin verilen değerlerden birine ayarlanmamış.
         inclusion_nested: "'%{path}' yolunda izin verilen değerlerden birine ayarlanmamış."
         invalid: geçersizdir.
         invalid_uri: must be a valid URI.
         invalid_url: geçerli bir adres değil.
         invalid_url_scheme: 'bu protokol desteklenmiyor (izin: %{allowed_schemes}).'
+        is_for_all_cannot_modify: tüm projeler içindir ve bu nedenle değiştirilemez.
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
         not_available: 'Sistem yapılandırması nedeniyle kullanılamaz.
 
           '
+        not_before_start_date: başlangıç tarihinden önce olmamalıdır.
         not_deletable: kaldırılamadı.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: mevcut kullanıcı değil.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: bulunamadı.
         not_a_date: geçerli bir tarih değil.
         not_a_datetime: geçerli bir zaman değil.
         not_a_number: bir sayı değil.
         not_allowed: Eksik izinler nedeniyle geçersiz.
-        host_not_allowed: is not an allowed host.
         not_json: JSON olarak ayrıştırılamaz.
         not_json_object: geçerli bir JSON nesnesi değildir.
         not_an_integer: bir tamsayı değil.
         not_an_iso_date: 'geçerli bir tarih değil. Gerekli biçim:: YYYY-AA-GG.'
         not_same_project: aynı projeye ait değil.
-        datetime_must_be_in_future: gelecekte olmalı.
         odd: tek sayı olmalı.
+        overlapping_range: mevcut bir çalışma dışı gün aralığı ile çakışır.
         regex_match_failed: "%{expression} düzenli ifadesiyle eşleşmiyor."
         regex_invalid: atanmış düzenli ifadeler ile doğrulanamadı.
         regex_list_invalid: "%{invalid_lines} satırları düzenli ifade olarak ayrıştırılamadı."
-        hexcode_invalid: geçerli bir 6 basamaklı onaltılık renk kodu değildir.
         smaller_than_or_equal_to_max_length: en fazla uzunluğa eşit veya daha küçük olmalıdır.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: zaten alınmıştır.
         too_long: çok uzun (en fazla %{count} karakterdir).
         too_short: çok kısa (en az %{count} karakterdir).
@@ -2185,6 +2184,7 @@ tr:
         url_not_secure_context: 'bir "Güvenli Bağlam" sağlamıyor. HTTPS veya localhost gibi bir geri döngü adresi kullanın.
 
           '
+        user_already_in_department: Kullanıcı %{user_id} zaten %{department_id} departmanının bir üyesidir.
         wrong_length: uzunluğu yanlıştır (%{count} karakter olmalıdır).
       models:
         group:
@@ -2851,6 +2851,7 @@ tr:
   button_login: Oturum aç
   button_move: Taşı
   button_move_and_follow: Taşı ve takip et
+  button_next: Next
   button_print: Yazdır
   button_quote: Alıntı
   button_remove: Kaldır
@@ -3169,8 +3170,8 @@ tr:
       edit_attribute_groups:
         description: 'Bu ek eklentilerle form yapılandırmasını özelleştirin:'
         features:
-          groups: Yeni öznitelik grubu ekleyin
-          rename: Öznitelik gruplarını yeniden adlandırın
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: İlgili iş paketleri tablosu ekleyin
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3480,6 +3481,12 @@ tr:
       selected: Seçilen
     include_sub_items: Alt öğeleri dahil et
     no_results_text: Sonuç yok
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: Açık
     label_off: Kapalı

@@ -7,7 +7,6 @@ import { filter, map } from 'rxjs/operators';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
@@ -30,8 +29,8 @@ export class TimerAccountMenuComponent extends UntilDestroyedMixin implements On
   readonly toastService = inject(ToastService);
 
   @HostBinding('class.op-timer-account-menu') className = true;
-  @InjectField() PathHelper:PathHelperService;
-  @InjectField() TurboRequests:TurboRequestsService;
+  readonly PathHelper = inject(PathHelperService);
+  readonly TurboRequests = inject(TurboRequestsService);
 
   timer$ = this.timeEntryService.activeTimer$;
 

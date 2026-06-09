@@ -34,12 +34,21 @@ module QuickFilterHelpers
   end
 
   def filters_from_link(link)
-    json = CGI.unescape(link[:href].match(/filters=([^&]+)/)[1])
-    JSON.parse(json)
+    parse_url_param(link[:href], "filters")
   end
 
   def sort_from_link(link)
-    json = CGI.unescape(link[:href].match(/sortBy=([^&]+)/)[1])
+    parse_url_param(link[:href], "sortBy")
+  end
+
+  def filters_from_base_url(url)
+    parse_url_param(url, "filters")
+  end
+
+  private
+
+  def parse_url_param(url, param)
+    json = CGI.unescape(url.match(/#{param}=([^&]+)/)[1])
     JSON.parse(json)
   end
 end

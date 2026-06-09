@@ -38,11 +38,11 @@ import {
   HTTPSupportedMethods,
 } from 'core-app/features/hal/http/http.interfaces';
 import { catchError, map } from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { URLParamsEncoder } from 'core-app/features/hal/services/url-params-encoder';
 
 export class BcfApiRequestService<T> {
-  @InjectField() http:HttpClient;
+  @LazyInject() http:HttpClient;
 
   /**
    * Create a BCF api request service.

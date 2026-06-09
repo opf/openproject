@@ -50,6 +50,16 @@ module Wikis
       provider.user_connected?(User.current)
     end
 
+    def create_new_page_parameters
+      {
+        wikis_forms_create_new_wiki_page_form_model: {
+          linkable_id: work_package.id,
+          linkable_type: work_package.class.name,
+          provider_id: provider.id
+        }
+      }
+    end
+
     private
 
     def page_link_service

@@ -29,7 +29,7 @@
 # ++
 
 module Meetings
-  class MeetingTimeFilterComponent < OpPrimer::QuickFilter::SegmentedComponent
+  class MeetingTimeFilterComponent < OpPrimer::QuickFilter::SegmentedControlComponent
     def initialize(query:, project: nil)
       super(
         name: I18n.t(:label_meeting_date_time),

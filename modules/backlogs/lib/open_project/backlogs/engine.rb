@@ -220,17 +220,9 @@ module OpenProject::Backlogs
     end
 
     config.to_prepare do
-      enabled_backlogs_story = ->(_type, project: nil) do
-        project.nil? || project.backlogs_enabled?
+      %i[position story_points sprint].each do |attribute|
+        ::Type.add_constraint attribute, ->(_type, project: nil) { project.nil? || project.backlogs_enabled? }
       end
-
-      story_and_sprint_permission = ->(_type, project: nil) do
-        project.nil? || User.current.allowed_in_project?(:view_sprints, project)
-      end
-
-      ::Type.add_constraint :position, enabled_backlogs_story
-      ::Type.add_constraint :story_points, enabled_backlogs_story
-      ::Type.add_constraint :sprint, story_and_sprint_permission
 
       ::Type.add_default_mapping(:estimates_and_progress, :story_points)
       ::Type.add_default_mapping(:other, :position)

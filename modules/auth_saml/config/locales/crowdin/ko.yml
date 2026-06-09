@@ -12,6 +12,7 @@ ko:
         sp_entity_id: 서비스 엔티티 ID
         metadata_url: ID 공급자 메타데이터 URL
         name_identifier_format: 이름 식별자 형식
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: ID 공급자 로그인 엔드포인트
         idp_slo_service_url: ID 공급자 로그아웃 엔드포인트
         idp_cert: ID 공급자의 공개 인증서
@@ -44,6 +45,10 @@ ko:
       success: ID 공급자 메타데이터를 사용하여 구성을 업데이트했습니다.
       invalid_url: 제공한 메타데이터 URL이 유효하지 않습니다. HTTP(s) URL을 입력하세요.
       error: 'ID 공급자 메타데이터를 검색하지 못했습니다: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: 아직 구성된 SAML 공급자가 없습니다.
       label_empty_description: 여기에서 보려면 공급자를 추가합니다.
@@ -109,6 +114,9 @@ ko:
 
         '
       metadata_url: 'ID 공급자가 메타데이터 URL을 제공합니다.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'ID 공급자가 메타데이터 XML 다운로드를 제공합니다.

@@ -42,6 +42,7 @@ import {
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
   useOpBlockNoteExtensions,
+  PasteDeduplicateInstanceIdsExtension,
   useHashWpMenu,
 } from 'op-blocknote-extensions';
 import { useCallback, useEffect, useMemo } from 'react';
@@ -118,13 +119,18 @@ export function OpBlockNoteEditor({
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
+        PasteDeduplicateInstanceIdsExtension,
         ExternalLinkA11yExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
       ],
     };
   }, [hocuspocusProvider, doc, activeUser, localeDictionary, attachmentsEnabled, uploadFile, captureExternalLinks]);
 
-  const editor = useCreateBlockNote(editorParams, [activeUser]);
+  // Create the editor exactly once per mount. `useCreateBlockNote(options, deps)` uses `deps`
+  // as the sole `useMemo` key — `options` is intentionally NOT in deps. `[activeUser]` rebuilt
+  // the editor (wiping `Y.UndoManager` history) whenever a fresh `activeUser` reference
+  // reached this component, e.g. on Stimulus reconnect / Turbo morph.
+  const editor = useCreateBlockNote(editorParams, []);
   useOpBlockNoteExtensions(editor);
   type EditorType = typeof editor;
   const theme = useOpTheme();

@@ -35,7 +35,6 @@ import { States } from 'core-app/core/states/states.service';
 import {
   WorkPackageViewTimelineService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { RelationsStateValue, WorkPackageRelationsService } from '../../../wp-relations/wp-relations.service';
 import { WorkPackageTimelineCell } from '../cells/wp-timeline-cell';
@@ -92,7 +91,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   wpTableTimeline = inject(WorkPackageViewTimelineService);
   wpRelations = inject(WorkPackageRelationsService);
 
-  @InjectField() querySpace:IsolatedQuerySpace;
+  readonly querySpace = inject(IsolatedQuerySpace);
 
   private container:HTMLElement;
 

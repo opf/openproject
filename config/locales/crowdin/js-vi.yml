@@ -1041,16 +1041,13 @@ vi:
         all: Tất cả dự án
         selected: Chỉ được chọn
       search_placeholder: Tìm kiếm dự án...
-      search_placeholder_favorites: Tìm kiếm yêu thích...
       include_subprojects: Bao gồm tất cả các tiểu dự án
       tooltip:
         include_all_selected: Dự án đã được đưa vào kể từ khi tính năng Bao gồm tất cả các dự án con được bật.
         current_project: Đây là dự án hiện tại bạn đang tham gia.
         does_not_match_search: Dự án không phù hợp với tiêu chí tìm kiếm.
       no_results: Không có dự án nào phù hợp với tiêu chí tìm kiếm của bạn.
-      no_favorite_results: Không có dự án yêu thích nào phù hợp với tiêu chí tìm kiếm của bạn.
     include_workspaces:
-      search_placeholder: Tìm kiếm...
       types:
         program: chương trình
         portfolio: danh mục đầu tư

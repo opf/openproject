@@ -2191,17 +2191,14 @@ ar:
         before: يجب أن يكون قبل %{date}.
         before_or_equal_to: يجب أن يكون قبل أو يساوي %{date}.
         blank: لا يمكن أن يكون فارغا.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: needs to have the property '%{property}' set.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: حزمة العمل لا يمكن أن تكون مرتبطة إلى واحدة من المهام الفرعية.
         circular_dependency: ان هذه العلاقة خلق تبعية دائرية.
         confirmation: لا يتطابق مع %{attribute}.
         could_not_be_copied: "%{dependency} could not be (fully) copied."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: غير موجود.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: may not be accessed.
         error_readonly: was attempted to be written but is not writable.
@@ -2222,36 +2219,38 @@ ar:
         greater_than_or_equal_to: يجب أن يكون أكبر أو يساوي%{count}.
         greater_than_or_equal_to_start_date: يجب أن يكون أكبر أو يساوي تاريخ البدء.
         greater_than_start_date: يجب أن يكون أكبر من تاريخ البدء.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: لم يتم تعيين إلى واحدة من القيم المسموح بها.
         inclusion_nested: is not set to one of the allowed values at path '%{path}'.
         invalid: غير صالح.
         invalid_uri: must be a valid URI.
         invalid_url: is not a valid URL.
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: يجب أن يكون أقل من أو يساوي %{count}.
         not_available: is not available due to a system configuration.
+        not_before_start_date: must not be before the start date.
         not_deletable: cannot be deleted.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: is not the current user.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
         not_a_number: ليس رقماً.
         not_allowed: is invalid because of missing permissions.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: ليس عدداً صحيحاً.
         not_an_iso_date: 'ليس تاريخًا صالحًا. الشكل المطلوب: YYYY-MM-DD.'
         not_same_project: لا ينتمي إلى نفس المشروع.
-        datetime_must_be_in_future: must be in the future.
         odd: يجب أن يكون فردي.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: could not be validated with the associated regular expression.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: يجب أن يكون أصغر أو يساوي الطول الأعظم.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: قد اتخذت بالفعل.
         too_long: طويل جداً (الحد الأقصى من الأحرف %{count}).
         too_short: قصيرة جداً (الحد الأدنى هو الأحرف %{count}).
@@ -2264,6 +2263,7 @@ ar:
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: هو طول خاطئ (يجب أن تكون الأحرف %{count}).
       models:
         group:
@@ -3008,6 +3008,7 @@ ar:
   button_login: تسجيل الدخول
   button_move: نقل
   button_move_and_follow: نقل ومتابعة
+  button_next: Next
   button_print: طباعة
   button_quote: اقتباس
   button_remove: إزالة
@@ -3406,8 +3407,8 @@ ar:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Add new attribute groups
-          rename: Rename attribute groups
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Add a table of related work packages
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3721,6 +3722,12 @@ ar:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'

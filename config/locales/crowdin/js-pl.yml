@@ -1053,16 +1053,13 @@ pl:
         all: Wszystkie projekty
         selected: Tylko zaznaczone
       search_placeholder: Wyszukaj projekty...
-      search_placeholder_favorites: Wyszukaj ulubione...
       include_subprojects: Uwzględnij wszystkie podprojekty
       tooltip:
         include_all_selected: Projekt już uwzględniony, ponieważ włączenie wszystkich podprojektów jest włączone.
         current_project: To jest bieżący projekt, w którym jesteś.
         does_not_match_search: Projekt nie spełnia kryteriów wyszukiwania.
       no_results: Żaden projekt nie spełnia kryteriów wyszukiwania.
-      no_favorite_results: Żaden ulubiony projekt nie spełnia kryteriów wyszukiwania.
     include_workspaces:
-      search_placeholder: Wyszukaj...
       types:
         program: Program
         portfolio: Portfolio

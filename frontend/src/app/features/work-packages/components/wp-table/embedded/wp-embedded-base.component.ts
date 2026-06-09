@@ -1,24 +1,17 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Directive,
   Input,
-  SimpleChanges, OnInit, OnChanges,
+  SimpleChanges, OnInit, OnChanges, inject,
 } from '@angular/core';
 import {
   WorkPackageTableConfiguration,
   WorkPackageTableConfigurationObject,
 } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
-import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackagesViewBase } from 'core-app/features/work-packages/routing/wp-view-base/work-packages-view.base';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { WorkPackageStatesInitializationService } from '../../wp-list/wp-states-initialization.service';
 import { firstValueFrom } from 'rxjs';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -40,23 +33,11 @@ export abstract class WorkPackageEmbeddedBaseComponent extends WorkPackagesViewB
 
   protected initialized = false;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  readonly apiV3Service = inject(ApiV3Service);
 
-  @InjectField() querySpace:IsolatedQuerySpace;
+  readonly urlParamsHelper = inject(UrlParamsHelperService);
 
-  @InjectField() I18n!:I18nService;
-
-  @InjectField() urlParamsHelper:UrlParamsHelperService;
-
-  @InjectField() loadingIndicatorService:LoadingIndicatorService;
-
-  @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
-
-  @InjectField() currentProject:CurrentProjectService;
-
-  @InjectField() pathHelper:PathHelperService;
-
-  @InjectField() cdRef:ChangeDetectorRef;
+  readonly pathHelper = inject(PathHelperService);
 
   ngOnInit() {
     this.configuration = new WorkPackageTableConfiguration(this.providedConfiguration);

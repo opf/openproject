@@ -7,7 +7,7 @@ import {
 } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { States } from 'core-app/core/states/states.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
@@ -19,9 +19,9 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public halEditing:HalResourceEditingService;
+  @LazyInject() public halEditing:HalResourceEditingService;
 
   // Keep a reference to all
 

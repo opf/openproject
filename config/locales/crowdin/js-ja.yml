@@ -1041,16 +1041,13 @@ ja:
         all: すべてのプロジェクト
         selected: 選択したもののみ
       search_placeholder: プロジェクトを検索…
-      search_placeholder_favorites: Search favorites...
       include_subprojects: すべての子プロジェクトを含む
       tooltip:
         include_all_selected: すべての子プロジェクトを含める」が有効になっているため、プロジェクトはすでに含まれている。
         current_project: これが現在あなたが参加しているプロジェクトです。
         does_not_match_search: プロジェクトが検索条件に一致しません。
       no_results: 検索条件に一致するプロジェクトはありません。
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

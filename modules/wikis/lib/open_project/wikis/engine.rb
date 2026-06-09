@@ -64,6 +64,7 @@ module OpenProject::Wikis
       # Registering queries and filters
       ::Queries::Register.register(::Queries::Wikis::PageLinks::PageLinkQuery) do
         filter ::Queries::Wikis::PageLinks::Filter::ProviderFilter
+        filter ::Queries::Wikis::PageLinks::Filter::WikiPageLinkTypeFilter
       end
     end
 
@@ -73,7 +74,11 @@ module OpenProject::Wikis
       project_module :work_package_tracking do
         permission :manage_wiki_page_links,
                    {
-                     "wikis/relation_page_links": %i[create destroy confirm_delete_dialog link_existing_dialog]
+                     "wikis/pages": %i[create_and_link create_new_page_dialog],
+                     "wikis/relation_page_links": %i[create
+                                                     destroy
+                                                     confirm_delete_dialog
+                                                     link_existing_dialog]
                    },
                    permissible_on: :project,
                    dependencies: %i[edit_work_packages],
@@ -94,9 +99,23 @@ module OpenProject::Wikis
       menu :admin_menu,
            :wiki_providers,
            { controller: "/wikis/admin/wiki_providers", action: :index },
-           if: ->(_) { OpenProject::FeatureDecisions.wiki_enhancements_active? },
-           caption: :project_module_wiki_platforms,
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           caption: :"menus.admin.wikis",
            icon: :book
+
+      menu :admin_menu,
+           :internal_wiki_provider,
+           { controller: "/wikis/admin/internal_wiki_provider", action: :show },
+           parent: :wiki_providers,
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           caption: :"menus.admin.internal_wiki_provider"
+
+      menu :admin_menu,
+           :external_wiki_providers,
+           { controller: "/wikis/admin/wiki_providers", action: :index },
+           parent: :wiki_providers,
+           if: ->(_) { User.current.admin? && OpenProject::FeatureDecisions.wiki_enhancements_active? },
+           caption: :"menus.admin.external_wiki_providers"
     end
 
     patch_with_namespace :WikiPages, :CreateService

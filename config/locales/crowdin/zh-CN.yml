@@ -2086,17 +2086,14 @@ zh-CN:
         before: 必须在 %{date} 之前。
         before_or_equal_to: 必须在早于或等于 %{date}
         blank: 不能为空。
-        not_before_start_date: 不得在开始日期之前。
-        overlapping_range: 与现有的非工作日范围重叠。
         blank_nested: 需要设置属性“%{property}”。
         cannot_delete_mapping: 必需项，不能删除
-        is_for_all_cannot_modify: 适用于所有项目，因此不能修改。
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
         circular_dependency: 这种关系将创建循环依赖项。
         confirmation: 不匹配 %{attribute}。
         could_not_be_copied: 无法（完全）复制 %{dependency}。
+        datetime_must_be_in_future: 必须是将来的时间
         does_not_exist: 不存在。
-        user_already_in_department: 用户 %{user_id} 已经是部门 %{department_id} 的成员。
         error_enterprise_only: "%{action}仅在 OpenProject 企业版中可用。"
         error_unauthorized: 无法访问。
         error_readonly: 曾尝试被写入，但不可写。
@@ -2117,36 +2114,38 @@ zh-CN:
         greater_than_or_equal_to: 必须大于或等于 %{count}。
         greater_than_or_equal_to_start_date: 必须晚于或等于开始日期。
         greater_than_start_date: 必须晚于开始日期。
+        hexcode_invalid: 不是有效的 6 位十六进制颜色代码。
         inclusion: 未设置为允许的值之一。
         inclusion_nested: 未设置为路径“%{path}”中允许的值之一。
         invalid: 是无效的。
         invalid_uri: 必须是有效的 URI。
         invalid_url: 不是有效的 URL。
         invalid_url_scheme: 不是受支持的协议（允许：%{allowed_schemes}）。
+        is_for_all_cannot_modify: 适用于所有项目，因此不能修改。
         less_than_or_equal_to: 必须小于或等于 %{count}。
         not_available: 因系统配置而不可用。
+        not_before_start_date: 不得在开始日期之前。
         not_deletable: 无法删除。
         not_editable: 无法编辑，因为其已经生效。
         not_current_user: 不是当前用户。
-        system_wide_non_working_day_exists: 与此日期现有的系统范围非工作日冲突。
         not_found: 未找到
         not_a_date: 不是有效的日期。
         not_a_datetime: 不是有效的日期时间。
         not_a_number: 不是一个数字。
         not_allowed: 没有权限使用。
-        host_not_allowed: 不是允许的主机。
         not_json: 无法解析为 JSON。
         not_json_object: 不是 JSON 对象。
         not_an_integer: 不是一个整数。
         not_an_iso_date: 不是有效日期。所需格式：YYYY-MM-DD。
         not_same_project: 不属于同一个项目。
-        datetime_must_be_in_future: 必须是将来的时间
         odd: 必须是奇数。
+        overlapping_range: 与现有的非工作日范围重叠。
         regex_match_failed: 与正则表达式 %{expression}不匹配。
         regex_invalid: 无法与关联的正则表达式进行验证。
         regex_list_invalid: 行 %{invalid_lines} 无法解析为正则表达式。
-        hexcode_invalid: 不是有效的 6 位十六进制颜色代码。
         smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: 与此日期现有的系统范围非工作日冲突。
         taken: 已经采取。
         too_long: 太长 (最多 %{count} 个字符)。
         too_short: 太短 (最低是 %{count} 个字符)。
@@ -2159,6 +2158,7 @@ zh-CN:
         url_not_secure_context: '未提供“安全上下文”。使用 HTTPS 或环回地址，例如 localhost。
 
           '
+        user_already_in_department: 用户 %{user_id} 已经是部门 %{department_id} 的成员。
         wrong_length: 长度不正确 (应该是 %{count} 个字符)。
       models:
         group:
@@ -2805,6 +2805,7 @@ zh-CN:
   button_login: 登录
   button_move: 移动
   button_move_and_follow: 移动和跟踪
+  button_next: 下一步
   button_print: 打印
   button_quote: 引用
   button_remove: 移除
@@ -3103,8 +3104,8 @@ zh-CN:
       edit_attribute_groups:
         description: 使用这些附加组件自定义表单配置：
         features:
-          groups: 添加新属性组
-          rename: 重命名属性组
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: 添加一个相关工作包表
       readonly_work_packages:
         description: 标记工作包为只读的特定状态。
@@ -3413,6 +3414,12 @@ zh-CN:
       selected: 已选择
     include_sub_items: 包含子条目
     no_results_text: 无结果
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 开启
     label_off: 关闭

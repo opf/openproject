@@ -1041,16 +1041,13 @@ zh-CN:
         all: 所有项目
         selected: 仅限所选
       search_placeholder: 搜索项目…
-      search_placeholder_favorites: 搜索收藏夹…
       include_subprojects: 包含所有子项目
       tooltip:
         include_all_selected: 自启用“包含所有子项目”后已包含的项目。
         current_project: 这是您当前所在的项目。
         does_not_match_search: 项目不符合搜索条件。
       no_results: 没有项目符合您的搜索条件。
-      no_favorite_results: 没有收藏的项目符合您的搜索条件。
     include_workspaces:
-      search_placeholder: 搜索…
       types:
         program: 项目群
         portfolio: 项目组合

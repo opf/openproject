@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Commands
-          RSpec.describe SetPermissionsCommand, :webmock do
+          RSpec.describe SetPermissionsCommand, :disable_ssrf_filter, :webmock do
             let(:storage) do
               create(:sharepoint_storage, :sandbox)
             end

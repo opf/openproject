@@ -1,5 +1,4 @@
 import { firstValueFrom, Observable } from 'rxjs';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { HttpParams } from '@angular/common/http';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, Input, OnInit } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';

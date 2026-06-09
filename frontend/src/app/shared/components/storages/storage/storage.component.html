@@ -21,7 +21,7 @@
     }
   </div>
 
-  @for (infoBox of storageErrors | async; track infoBox) {
+  @for (infoBox of storageErrors | async; track infoBox.header + ':' + infoBox.content) {
     <op-storage-information class="op-files-tab--storage-info-box"
       data-test-selector="op-storage--information"
       [content]="infoBox"

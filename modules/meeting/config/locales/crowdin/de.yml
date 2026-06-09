@@ -374,8 +374,8 @@ de:
         caption: Dieser Text wird auf jeder Seite in der Mitte der Fußzeile angezeigt.
       submit_button: Download
     notifications:
-      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
-      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+      disabled: Die Teilnehmenden erhalten keine E-Mail, die sie über Änderungen des Datums, der Uhrzeit oder der Teilnehmer der Besprechung informiert.
+      enabled: Alle Teilnehmer erhalten aktualisierte Kalendereinladungen, die sie über Änderungen von Datum, Uhrzeit oder Teilnehmerliste informieren.
       sidepanel:
         title: E-Mail-Kalender-Aktualisierungen
         description:
@@ -385,8 +385,8 @@ de:
           enable: E-Mail-Kalender-Aktualisierungen aktivieren?
           disable: E-Mail-Kalender-Aktualisierungen deaktivieren?
         message:
-          enable: Once enabled, an email will be sent out immediately to all participants.
-          disable: If they already had an invite for this meeting, it might no longer be accurate.
+          enable: Nach der Aktivierung wird sofort eine E-Mail an alle Teilnehmer verschickt.
+          disable: Wenn sie bereits eine Einladung für dieses Treffen hatten, ist diese möglicherweise nicht mehr korrekt.
         confirm_label:
           enable: E-Mail-Aktualisierungen aktivieren
           disable: E-Mail-Aktualisierungen deaktivieren
@@ -492,8 +492,8 @@ de:
       weekly_interval: Alle %{interval} Wochen am %{weekday}
       monthly_day: Jeden Monat am %{day}
       monthly_day_interval: Alle %{interval} Monate am %{day}
-      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
+      monthly_nth_weekday: Jeden Monat am %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Alle %{interval} Monate am %{ordinal} %{weekday}
       frequency: "%{base} um %{time}"
       full: "%{base} um %{time}, endet %{end_date}"
       full_past: "%{base} um %{time}, endet am %{end_date}"
@@ -602,7 +602,7 @@ de:
   label_agenda_item_duplicate_in_next_title: In die nächste Besprechung duplizieren?
   label_agenda_item_add_notes: Notiz hinzufügen
   label_agenda_item_add_outcome: Ergebnis hinzufügen
-  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_convert_to_work_package: In Arbeitspaket umwandeln
   label_agenda_item_work_package_add: Arbeitspaket hinzufügen
   label_agenda_item_work_package: Tagesordnungspunkt Arbeitspaket
   label_section_rename: Abschnitt umbenennen

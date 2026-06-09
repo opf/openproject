@@ -42,6 +42,7 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
     expect(page).to have_current_path(
       "/notifications/details/#{semantic_id}/activity"
     )
+    center.expect_item_selected(notification)
   end
 
   it "renders the notification's WP link with the semantic identifier in its href" do

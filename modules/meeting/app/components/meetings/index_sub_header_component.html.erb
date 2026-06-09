@@ -13,6 +13,20 @@
       render(Meetings::MeetingTimeFilterComponent.new(query: @query, project: @project))
     end
 
+    if @project.nil?
+      subheader.with_quick_filter do
+        render(
+          OpPrimer::QuickFilter::SelectPanelComponent.new(
+            name: I18n.t(:label_project),
+            query: @query,
+            filter_key: :project_id,
+            path_args: [@project, :meetings],
+            src: project_items_meetings_path
+          )
+        )
+      end
+    end
+
     subheader.with_filter_component do
       render(Meetings::MeetingFilterButtonComponent.new(query: @query, project: @project))
     end

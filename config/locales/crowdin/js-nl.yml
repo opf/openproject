@@ -1045,16 +1045,13 @@ nl:
         all: Alle projecten
         selected: Alleen geselecteerd
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Inclusief alle sub-projecten
       tooltip:
         include_all_selected: Project al opgenomen omdat alle subprojecten zijn ingeschakeld.
         current_project: Dit is het huidige project waarin u zich bevindt.
         does_not_match_search: Het project komt niet overeen met de zoekcriteria.
       no_results: Geen enkel project komt overeen met uw zoekcriteria.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

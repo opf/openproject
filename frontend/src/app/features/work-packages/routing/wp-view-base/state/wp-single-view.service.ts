@@ -24,8 +24,8 @@ import {
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { Query } from '@datorama/akita';
 
-@EffectHandler
 @Injectable()
+@EffectHandler
 export class WpSingleViewService {
   readonly actions$ = inject(ActionsService);
   readonly currentUser$ = inject(CurrentUserService);

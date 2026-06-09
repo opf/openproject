@@ -31,7 +31,7 @@ import {
 } from '@angular/core';
 import { UIRouterGlobals } from '@uirouter/core';
 import { States } from 'core-app/core/states/states.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { DragAndDropService } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.service';
 import { BcfApiService } from 'core-app/features/bim/bcf/api/bcf-api.service';
@@ -68,19 +68,19 @@ import {
 export class BcfListComponent extends WorkPackageListViewComponent implements UntilDestroyedMixin, OnInit {
   @Input() showResizer = false;
 
-  @InjectField() bcfView:BcfViewService;
+  @LazyInject() bcfView:BcfViewService;
 
-  @InjectField() ifcModelsService:IfcModelsDataService;
+  @LazyInject() ifcModelsService:IfcModelsDataService;
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() uIRouterGlobals:UIRouterGlobals;
+  @LazyInject() uIRouterGlobals:UIRouterGlobals;
 
-  @InjectField() viewer:ViewerBridgeService;
+  @LazyInject() viewer:ViewerBridgeService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() bcfApi:BcfApiService;
+  @LazyInject() bcfApi:BcfApiService;
 
   public wpTableConfiguration = {
     dragAndDropEnabled: false,

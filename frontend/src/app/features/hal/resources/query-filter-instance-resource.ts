@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { QueryOperatorResource } from 'core-app/features/hal/resources/query-operator-resource';
@@ -44,9 +44,9 @@ export class QueryFilterInstanceResource extends HalResource {
 
   private memoizedCurrentSchemas:Record<string, QueryFilterInstanceSchemaResource> = {};
 
-  @InjectField(SchemaCacheService) schemaCache:SchemaCacheService;
+  @LazyInject(SchemaCacheService) schemaCache:SchemaCacheService;
 
-  @InjectField(PathHelperService) pathHelper:PathHelperService;
+  @LazyInject(PathHelperService) pathHelper:PathHelperService;
 
   public $initialize(source:any) {
     super.$initialize(source);

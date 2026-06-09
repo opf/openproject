@@ -68,13 +68,6 @@ import { OpenprojectEnterpriseModule } from 'core-app/features/enterprise/openpr
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
 import { ConfirmDialogModalComponent } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.modal';
 import { DynamicContentModalComponent } from 'core-app/shared/components/modals/modal-wrapper/dynamic-content.modal';
-import {
-  OpHeaderProjectSelectComponent,
-} from 'core-app/shared/components/header-project-select/header-project-select.component';
-import {
-  OpHeaderProjectSelectListComponent,
-} from 'core-app/shared/components/header-project-select/list/header-project-select-list.component';
-
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 import { MainMenuResizerComponent } from 'core-app/shared/components/resizer/resizer/main-menu-resizer.component';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
@@ -263,10 +256,6 @@ export function runBootstrap(appRef:ApplicationRef) {
     // Main menu
     MainMenuResizerComponent,
 
-    // Project selector
-    OpHeaderProjectSelectComponent,
-    OpHeaderProjectSelectListComponent,
-
     // Form configuration
     OpDragScrollDirective,
   ],
@@ -417,7 +406,6 @@ export class OpenProjectModule implements DoBootstrap {
     registerCustomElement('opce-editable-query-props', EditableQueryPropsComponent, { injector });
     registerCustomElement('opce-time-entry-trigger-actions', TriggerActionsEntryComponent, { injector });
     registerCustomElement('opce-wp-overview-graph', WorkPackageOverviewGraphComponent, { injector });
-    registerCustomElement('opce-header-project-select', OpHeaderProjectSelectComponent, { injector });
     registerCustomElement('opce-no-results', NoResultsComponent, { injector });
     registerCustomElement('opce-non-working-days-list', OpNonWorkingDaysListComponent, { injector });
     registerCustomElement('opce-main-menu-resizer', MainMenuResizerComponent, { injector });

@@ -12,6 +12,7 @@ tr:
         sp_entity_id: Hizmet kuruluşu kimliği
         metadata_url: Kimlik sağlayıcı meta veri URL'si
         name_identifier_format: Ad tanımlayıcı biçimi
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Kimlik sağlayıcı oturum açma uç noktası
         idp_slo_service_url: Kimlik sağlayıcı oturum kapatma uç noktası
         idp_cert: Kamu kimlik belgesi sağlayıcısı.
@@ -44,6 +45,10 @@ tr:
       success: Kimlik sağlayıcı meta verilerini kullanarak yapılandırma başarıyla güncelledi.
       invalid_url: Sağlanan meta veri URL'si geçersiz. Lütfen bir HTTP(s) URL'si sağlayın.
       error: 'Kimlik sağlayıcı meta verilerini alma işlemi başarısız oldu: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Henüz hiçbir SAML sağlayıcısı yapılandırılmadı.
       label_empty_description: Onları burada görmek için bir sağlayıcı ekleyin.
@@ -107,6 +112,9 @@ tr:
         '
       metadata_none: ''
       metadata_url: 'Kimlik sağlayıcınız bir meta veri URL''si sağlar.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Kimlik sağlayıcınız bir meta veri XML indirmesi sağlar.

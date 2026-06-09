@@ -31,6 +31,7 @@
 module Backlogs
   class BacklogController < BaseController
     include ::WorkPackages::WithSplitView
+    include Backlogs::Concerns::ContainerLoading
 
     current_menu_item %i[show details] do
       :backlog
@@ -39,7 +40,7 @@ module Backlogs
     def show
       case turbo_frame_request_id
       when "backlogs_container"
-        load_backlogs
+        load_container_data
 
         render partial: "backlogs/backlog/backlog_list", layout: false
       else
@@ -51,7 +52,7 @@ module Backlogs
       if turbo_frame_request?
         render "work_packages/split_view", layout: false
       else
-        load_backlogs
+        load_container_data
 
         render "backlogs/backlog/show"
       end
@@ -61,23 +62,6 @@ module Backlogs
 
     def split_view_base_route
       project_backlogs_backlog_path(@project, request.query_parameters)
-    end
-
-    def load_backlogs
-      @backlog_buckets = BacklogBucket.for_project(@project)
-
-      @sprints = Sprint.for_project(@project)
-                       .not_completed
-                       .order_by_date
-                       .includes(:project, :task_boards)
-
-      @work_packages_by_sprint_id = WorkPackage
-                                      .where(sprint: @sprints, project: @project)
-                                      .includes(:type, :status, :assigned_to, :priority, :parent)
-                                      .order_by_position
-                                      .group_by(&:sprint_id)
-      @active_sprint_ids = @sprints.select(&:active?).map(&:id)
-      @inbox_work_packages = WorkPackage.backlogs_inbox_for(project: @project)
     end
   end
 end

@@ -40,6 +40,10 @@ module Queries::Filters::Shared::ProjectFilter::Optional
       @allowed_values ||= ::Project.visible.pluck(:id).map { |id| [id, id.to_s] }
     end
 
+    def value_objects
+      Project.visible.where(id: values)
+    end
+
     def type
       :list_optional
     end

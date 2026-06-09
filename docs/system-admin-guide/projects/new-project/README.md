@@ -16,8 +16,6 @@ The New project settings allow instance administrators to define default configu
 
 To configure defaults for newly created projects, navigate to *Administration settings → Projects → New project*.
 
-![New project settings in OpenProject administration](open_project_system_guide_new_project_settings.png)
-
 > [!TIP] 
 > Changes made on this page apply **globally** to the instance and affect only projects created after the settings are saved. Existing projects and their configurations remain unchanged.
 

@@ -34,7 +34,7 @@ class MeetingsController < ApplicationController
   before_action :determine_date_range, only: %i[history]
   before_action :determine_author, only: %i[history]
   before_action :build_meeting, only: %i[new new_dialog fetch_timezone]
-  before_action :find_meeting, except: %i[index new create new_dialog fetch_timezone fetch_templates]
+  before_action :find_meeting, except: %i[index new create new_dialog fetch_timezone fetch_templates project_items]
   before_action :redirect_to_project, only: %i[show]
   before_action :set_activity, only: %i[history]
   before_action :find_copy_from_meeting, only: %i[create]
@@ -381,6 +381,25 @@ class MeetingsController < ApplicationController
     )
 
     respond_with_turbo_streams
+  end
+
+  def project_items
+    @query = load_query
+    # Scope to projects that have meetings visible to the current user
+    projects = Project.where(id: @query.results.select(:project_id)).order(:name)
+    # The component appends ?selected=id1,id2 so we know which items to mark as selected.
+    # Standard filters can't be passed to the query because then the projects from @query.results
+    # would be *only* the already selected list
+    selected_ids = params[:selected]&.split(",") || []
+
+    respond_to do |format|
+      format.html_fragment do
+        render "meetings/project_items",
+               locals: { projects:, selected_ids: },
+               layout: false,
+               formats: %i[html html_fragment]
+      end
+    end
   end
 
   def generate_pdf_dialog

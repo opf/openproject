@@ -7,16 +7,16 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageCardViewService } from 'core-app/features/work-packages/components/wp-card-view/services/wp-card-view.service';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class CardRightClickHandler implements CardEventHandler {
   // Injections
-  @InjectField() wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() wpTableSelection:WorkPackageViewSelectionService;
 
-  @InjectField() wpCardView:WorkPackageCardViewService;
+  @LazyInject() wpCardView:WorkPackageCardViewService;
 
-  @InjectField() opContextMenu:OPContextMenuService;
+  @LazyInject() opContextMenu:OPContextMenuService;
 
   constructor(public readonly injector:Injector,
     card:WorkPackageCardViewComponent) {

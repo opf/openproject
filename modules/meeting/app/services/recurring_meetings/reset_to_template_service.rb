@@ -90,10 +90,13 @@ module RecurringMeetings
           section.attributes.except("id", "meeting_id", "created_at", "updated_at")
         )
         section.agenda_items.each do |item|
-          # copy_attributes excludes :id and :meeting_id; we supply both FKs explicitly
-          new_section.agenda_items.create!(
-            item.copy_attributes.except("meeting_section_id").merge("meeting_id" => meeting.id)
-          )
+          new_item = item.dup
+          new_item.meeting_section = new_section
+
+          # A work_package agenda item whose WP was deleted has work_package_id nullified but
+          # item_type still set. Skip validations for this state
+          skip_validation = new_item.work_package? && new_item.work_package_id.nil?
+          new_item.save!(validate: !skip_validation)
         end
       end
     end

@@ -29,7 +29,6 @@
 import { Injectable, Injector, inject } from '@angular/core';
 import { StateService, Transition } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export interface BackRouteOptions {
   name:string;
@@ -42,9 +41,9 @@ export interface BackRouteOptions {
 export class BackRoutingService {
   readonly injector = inject(Injector);
 
-  @InjectField() private $state:StateService;
+  private readonly $state = inject(StateService);
 
-  @InjectField() private keepTab:KeepTabService;
+  private readonly keepTab = inject(KeepTabService);
 
   private _backRoute:BackRouteOptions;
 

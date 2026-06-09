@@ -33,8 +33,8 @@ zh-CN:
         drive: 驱动器 ID
         file_link_origin: 文件链接来源 ID
         host: 主机
-        linkable_to_storage: 可关联到存储
-        linkable_to_storage_url: 可关联到存储 URL
+        linkable_to_storage: 可链接到存储
+        linkable_to_storage_url: 可链接到存储 URL
         name: 名称
         password: 应用程序密码
         provider_type: 提供商类型
@@ -131,7 +131,7 @@ zh-CN:
     errors:
       messages:
         error: 发生意外错误。请检查日志获取更多信息或联系管理员
-        folder_id_collision: 多个项目存储尝试管理项目文件夹 %{folder}。已跳过文件夹同步。
+        folder_id_collision: 多个项目存储空间尝试管理项目文件夹 %{folder}。已跳过文件夹同步。
         forbidden: OpenProject 无法访问请求的资源。请检查存储提供程序上的权限配置。
         unauthorized: 无法通过存储提供商进行身份验证。请确保您有访问权限。
       models:

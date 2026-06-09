@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Validators
-          RSpec.describe AmpfConfigurationValidator, :webmock do
+          RSpec.describe AmpfConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) do
               create(:sharepoint_storage, :sandbox, :as_automatically_managed,
                      managed_drive_id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY-uqLcDyJy5Rp1j0luD0b1v",

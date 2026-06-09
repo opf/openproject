@@ -30,13 +30,13 @@ de:
         resource_work_package_list:
           attributes:
             query:
-              must_be_work_package_query: must be a work package query.
+              must_be_work_package_query: muss mit einer Arbeitspaket-Abfrage verbunden sein.
     models:
-      resource_allocation: Resource Allocation
-      resource_planner: Resource Planner
-      resource_work_package_list: Work packages list
-      user_card: User cards
-  button_next: Next
+      resource_allocation: Ressourcenzuteilung
+      resource_planner: Ressourcenplanung
+      resource_work_package_list: Liste von Arbeitspaketen
+      user_card: Benutzer-Karten
+  button_next: Weiter
   label_resource_management: Ressourcenplanung
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
   permission_allocate_user_resources_explanation: 'Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
@@ -65,16 +65,16 @@ de:
       desc: Erstellen Sie einen Ressourcenplaner, um Kapazitäten für dieses Projekt zu planen.
       title: Keine Ressourcenplaner vorhanden
     configure_view_dialog:
-      delete_confirmation: Are you sure you want to delete this view? This cannot be undone.
+      delete_confirmation: Sind Sie sicher, dass Sie diese Ansicht löschen möchten? Dies kann nicht rückgängig gemacht werden.
       filter_mode:
         automatic:
-          caption: An automatically-generated list that displays items that meet criteria you define.
-          label: Automatically filtered
-        label: Item selection
+          caption: Eine automatisch generierte Liste, die Arbeitspakete anzeigt, die den von ihnen definierten Kriterien entsprechen.
+          label: Automatisch gefiltert
+        label: Auswahl
         manual:
-          caption: A custom list of items you manually add and remove. Filtering is not possible.
-          label: Manually hand-picked
-      title: Configure view
+          caption: Eine benutzerdefinierte Liste von Artikeln, die Sie manuell hinzufügen und entfernen. Eine Filterung ist nicht möglich.
+          label: Manuell ausgewählt
+      title: Ansicht konfigurieren
     favorite_caption: 'Machen Sie diese Ansicht zu einem Favoriten, um sie im oberen Bereich des Seitenleistenmenüs hinzuzufügen.
 
       '
@@ -82,7 +82,7 @@ de:
     label_resource_planner: Ressourcenplaner
     label_resource_planner_plural: Ressourcenplaner
     new_view_dialog:
-      title: Add View
+      title: Ansicht hinzufügen
     public_caption: 'Machen Sie diese Ansicht für alle Mitglieder des Projekts öffentlich. Dies hat keine Auswirkungen auf die Sichtbarkeit von Arbeitspaketen, die immer noch von den jeweiligen Benutzerrechten abhängt.
 
       '
@@ -91,42 +91,42 @@ de:
     sidebar:
       private: Privat
       public: Öffentlich
-    sub_views: Views in this resource planner
+    sub_views: Ansichten in dieser Ressourcenplanung
     view_types:
       resource_work_package_list:
-        caption: Create a view based on work packages and see its details and allocation in a list
-        label: Work packages list
+        caption: Erstellen Sie eine Ansicht auf Basis von Arbeitspaketen und sehen Sie deren Details und Zuweisungen in einer Liste
+        label: Liste von Arbeitspaketen
       user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Erstellen Sie eine Ansicht auf der Basis von Benutzern und sehen Sie deren Details und Zuordnung in einer Kachelansicht von Benutzerkarten
+        label: Benutzer-Karten
     work_package_list:
       add_work_package_dialog:
-        title: Add work package
+        title: Arbeitspaket hinzufügen
       allocation_placeholder: "—"
       blank:
-        description: There are no work packages matching this view's filters yet.
-        title: No work packages to display
+        description: Es gibt noch keine Arbeitspakete, die den Filtern dieser Ansicht entsprechen.
+        title: Keine Arbeitspakete anzuzeigen
       columns:
-        allocated_members: Allocated members
-        allocation: Allocation
-        dates: Dates
+        allocated_members: Zugewiesene Benutzer
+        allocation: Zuweisung
+        dates: Daten
       context_menu:
-        add_filter_criteria: Add filter criteria
-        add_user_group: Add user group
-        edit_total_work: Edit total work
-        label: More actions
-        move: Move
-        move_down: Move down
-        move_to_bottom: Move to bottom
-        move_to_top: Move to top
-        move_up: Move up
-        remove: Remove
-        remove_confirmation: Remove this work package from the view?
-        see_allocation: See allocation
-      mobile_title: Work packages
-      query_name: 'Resource management work packages: %{name}'
+        add_filter_criteria: Filter hinzufügen
+        add_user_group: Benutzergruppe hinzufügen
+        edit_total_work: Gesamte Arbeit bearbeiten
+        label: Weitere Aktionen
+        move: Verschieben
+        move_down: Nach unten verschieben
+        move_to_bottom: Nach ganz unten verschieben
+        move_to_top: Nach ganz oben verschieben
+        move_up: Nach oben verschieben
+        remove: Entfernen
+        remove_confirmation: Dieses Arbeitspaket aus der Ansicht entfernen?
+        see_allocation: Zuteilung anzeigen
+      mobile_title: Arbeitspakete
+      query_name: 'Arbeitspakete zur Ressourcenverwaltung: %{name}'
       subheader:
-        add: Add
-        add_work_package: Add work package
-        allocate: Allocate
-        settings: Configure view
+        add: Hinzufügen
+        add_work_package: Arbeitspaket hinzufügen
+        allocate: Zuweisen
+        settings: Ansicht konfigurieren

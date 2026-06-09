@@ -31,6 +31,7 @@
 Rails.application.routes.draw do
   namespace :admin do
     namespace :settings do
+      resource :internal_wiki_provider, controller: "/wikis/admin/internal_wiki_provider", only: %i[show update]
       resources :wiki_providers, controller: "/wikis/admin/wiki_providers", except: [:show] do
         member do
           get :confirm_destroy
@@ -73,5 +74,9 @@ Rails.application.routes.draw do
     get :load
   end
 
-  resource :search_wiki_pages, controller: "wikis/search_pages", only: %i[show]
+  resource :wiki_pages, controller: "wikis/pages", only: [] do
+    get :search
+    get :create_new_page_dialog
+    post :create_and_link
+  end
 end

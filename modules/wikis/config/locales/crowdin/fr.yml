@@ -31,68 +31,19 @@ fr:
       wikis/xwiki_provider:
         one: Fournisseur XWiki
         other: Fournisseur XWiki
+  menus:
+    admin:
+      external_wiki_providers: Wiki providers
+      internal_wiki_provider: Internal wiki
+      wikis: Wikis
   permission_manage_wiki_page_links: Gérer les liens de la page wiki
   project_module_wiki_platforms: Fournisseurs de wiki
   wikis:
-    buttons:
-      connect_account: Connectez votre compte %{provider}
-      done_continue: Terminé, continuer
-      open_wiki: Ouvrir le wiki
-      save_and_continue: Enregistrer et continuer
-      wiki_page: Page wiki
-    instructions:
-      xwiki:
-        integration: Administration de XWiki
-        oauth_application_details_html: La valeur du secret client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les [paramètres de l'intégration XWiki OpenProject](xwiki_admin_link).
-    provider_types:
-      xwiki:
-        name: XWiki
-    delete_relation_page_link_confirmation_dialog:
-      title: Supprimer le lien vers la page wiki associée
-      heading: Supprimer le lien vers la page wiki associée ?
-    health_checks:
-      authentication:
-        existing_token: Jeton d'utilisateur
-        header: Authentification
-        user_bound_request: Authentification des requêtes basée sur l’utilisateur
-      base_configuration:
-        header: Configuration
-        provider_configured: Configuration terminée
-      errors:
-        not_configured: La connexion n'a pas pu être validée. Veuillez d'abord terminer la configuration.
-        xwiki_oauth_connection_error: OpenProject n'a pas pu se connecter à l'instance XWiki configurée.
-        xwiki_oauth_request_error: Une erreur inattendue s'est produite lors de la communication avec l'instance XWiki.
-        xwiki_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau de l'utilisateur avec XWiki car l'utilisateur n'a pas encore connecté son compte XWiki.
-        xwiki_oauth_unauthorized: Le jeton d'utilisateur n'a pas été reconnu par XWiki.
-    link_existing_wiki_page_dialog:
-      title: Ajouter une page wiki existante
-    link_existing_wiki_page_form:
-      no_results: No wiki pages found
-      placeholder: Search for a wiki page
-    work_package_wikis_tab_component:
-      inline_page_links: Liens intégrés dans la page
-      referencing_pages: Référencé dans
-    page_links:
-      errors:
-        page_not_found: La page wiki liée n'est plus disponible
-        page_access_forbidden: Vous n'avez pas l'autorisation d'accéder à cette page wiki
-        unexpected: Une erreur inattendue s'est produite
-    page_link_component:
-      remove: Supprimer le lien de la page
-    relation_page_links_component:
-      link_existing: Page wiki existante
-      link_new: Nouvelle page wiki
-      empty_heading: Aucune page liée
-      empty_text: Ajoutez manuellement des liens vers d'autres pages wiki liées.
-    oauth_login_component:
-      heading: Non connecté à %{provider}
-      description: Connectez-vous à %{provider} pour voir et gérer les pages wiki liées à cette instance d'OpenProject.
-      connect_button: Connecter le compte %{provider}
     admin:
       destroy_confirmation_dialog_component:
-        title: Supprimer le fournisseur de wiki
-        heading: Supprimer définitivement ce fournisseur wiki ?
         description_html: Le fournisseur du wiki %{wiki_provider} et tous les liens de la page wiki correspondante seront supprimés. En outre, chaque lien de page wiki en ligne ne sera plus accessible. Cette action est irréversible.
+        heading: Supprimer définitivement ce fournisseur wiki ?
+        title: Supprimer le fournisseur de wiki
       forms:
         general_info_form_component:
           provider_description: Veuillez vous assurer que vous disposez des privilèges d'administration dans votre instance XWiki avant de procéder à l'installation.
@@ -114,6 +65,12 @@ fr:
           no_health_report: Aucun rapport disponible
           no_health_report_description: Lancez les contrôles maintenant pour obtenir un rapport complet sur l'état de santé de ce fournisseur wiki.
           title: Bilan de santé
+      internal_provider_form:
+        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
+        checkbox_label: Enable the internal OpenProject wiki
+      internal_wiki_provider:
+        show:
+          description: Choose to enable or disable the internal OpenProject wiki
       oauth_application_info_component:
         confirm_replace_oauth_application: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir à nouveau les informations d'identification dans votre instance XWiki et tous les utilisateurs devront se réautoriser. Voulez-vous vraiment continuer ?
         label_oauth_client_id: ID client OAuth
@@ -158,3 +115,61 @@ fr:
           openproject_oauth_description: Autoriser XWiki à accéder aux données d'OpenProject via OAuth.
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: Autoriser OpenProject à accéder aux données XWiki via OAuth.
+    buttons:
+      connect_account: Connectez votre compte %{provider}
+      done_continue: Terminé, continuer
+      open_wiki: Ouvrir le wiki
+      save_and_continue: Enregistrer et continuer
+      wiki_page: Page wiki
+    create_new_wiki_page_dialog:
+      page_title: Title
+      parent_help_text: Select a parent for this new wiki page.
+      title: Create new wiki page
+    delete_relation_page_link_confirmation_dialog:
+      heading: Supprimer le lien vers la page wiki associée ?
+      title: Supprimer le lien vers la page wiki associée
+    health_checks:
+      authentication:
+        existing_token: Jeton d'utilisateur
+        header: Authentification
+        user_bound_request: Authentification des requêtes basée sur l’utilisateur
+      base_configuration:
+        header: Configuration
+        provider_configured: Configuration terminée
+      errors:
+        not_configured: La connexion n'a pas pu être validée. Veuillez d'abord terminer la configuration.
+        xwiki_oauth_connection_error: OpenProject n'a pas pu se connecter à l'instance XWiki configurée.
+        xwiki_oauth_request_error: Une erreur inattendue s'est produite lors de la communication avec l'instance XWiki.
+        xwiki_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau de l'utilisateur avec XWiki car l'utilisateur n'a pas encore connecté son compte XWiki.
+        xwiki_oauth_unauthorized: Le jeton d'utilisateur n'a pas été reconnu par XWiki.
+    instructions:
+      xwiki:
+        integration: Administration de XWiki
+        oauth_application_details_html: La valeur du secret client ne sera plus accessible après la fermeture de cette fenêtre. Veuillez copier ces valeurs dans les [paramètres de l'intégration XWiki OpenProject](xwiki_admin_link).
+    link_existing_wiki_page_dialog:
+      title: Ajouter une page wiki existante
+    link_existing_wiki_page_form:
+      no_results: No wiki pages found
+      placeholder: Search for a wiki page
+    oauth_login_component:
+      connect_button: Connecter le compte %{provider}
+      description: Connectez-vous à %{provider} pour voir et gérer les pages wiki liées à cette instance d'OpenProject.
+      heading: Non connecté à %{provider}
+    page_link_component:
+      remove: Supprimer le lien de la page
+    page_links:
+      errors:
+        page_access_forbidden: Vous n'avez pas l'autorisation d'accéder à cette page wiki
+        page_not_found: La page wiki liée n'est plus disponible
+        unexpected: Une erreur inattendue s'est produite
+    provider_types:
+      xwiki:
+        name: XWiki
+    relation_page_links_component:
+      empty_heading: Aucune page liée
+      empty_text: Ajoutez manuellement des liens vers d'autres pages wiki liées.
+      link_existing: Page wiki existante
+      link_new: Nouvelle page wiki
+    work_package_wikis_tab_component:
+      inline_page_links: Liens intégrés dans la page
+      referencing_pages: Référencé dans

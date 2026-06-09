@@ -36,7 +36,7 @@ $arrow-left-width: 36px
   border-radius: var(--borderRadius-medium)
   @if $main-item
     border-width: 1px 1px 1px 5px
-    padding-left: 8px
+    padding-left: 8px !important
   @else
     border-width: 1px
 
@@ -67,7 +67,7 @@ $arrow-left-width: 36px
     @include styled-scroll-bar
     padding: 0 var(--main-menu-x-spacing) var(--main-menu-x-spacing) var(--main-menu-x-spacing)
 
-  ul
+  ul:not(.TreeViewRootUlStyles)
     margin: 0
     padding: 0
 
@@ -89,7 +89,7 @@ $arrow-left-width: 36px
         align-items: center
 
     // -------------------- MAIN menu items ---------------------------
-    li a
+    li a:not(.Button)
       // work around due to dom manipulation on document: ready:
       // this isn't scoped to .main-item-wrapper to avoid flickering
       padding-left: var(--main-menu-x-spacing)
@@ -100,9 +100,9 @@ $arrow-left-width: 36px
 
     .main-menu--children li a:not(.Button)
       // children have no icon so we need to push them right.
-      padding-left: var(--main-menu-x-spacing)
+      padding-left: var(--main-menu-x-spacing) !important
 
-  a:not(.Button)
+  a:not(.Button):not(.TreeViewItemContent)
     text-decoration: none
     line-height: var(--main-menu-item-height)
     position: relative

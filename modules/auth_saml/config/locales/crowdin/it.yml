@@ -12,6 +12,7 @@ it:
         sp_entity_id: ID dell'entità di servizio
         metadata_url: URL dei metadati del fornitore di identità
         name_identifier_format: Formato dell'identificatore del nome
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Endpoint di login del fornitore di identità
         idp_slo_service_url: Endpoint di logout del fornitore di identità
         idp_cert: Certificato pubblico del fornitore di identità
@@ -44,6 +45,10 @@ it:
       success: La configurazione è stata aggiornata utilizzando i metadati del fornitore di identità.
       invalid_url: L'URL dei metadati forniti non è valido. Fornire un URL HTTP(s).
       error: 'Impossibile recuperare i metadati del fornitore di identità: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Nessun fornitore SAML configurato.
       label_empty_description: Aggiungi un fornitore per vederli qui.
@@ -109,6 +114,9 @@ it:
 
         '
       metadata_url: 'Il tuo fornitore di identità fornisce un URL di metadati.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Il tuo fornitore di identità fornisce un download in XML dei metadati.

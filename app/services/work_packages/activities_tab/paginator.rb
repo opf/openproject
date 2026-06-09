@@ -28,16 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Paginates work package activities (journals and changesets) with support for filtering and anchor navigation.
+# Paginates work package activities (journals and changesets) with support for
+# filtering and anchor navigation.
 #
 # Filter modes:
 # - :all - Shows all activities (default)
 # - :only_comments - Shows only journals with notes
 # - :only_changes - Shows only journals with detected changes using SQL heuristics
 #
-# Anchor format (filter is reset to :all when using anchors):
-# - "comment-{journal_id}" - Navigate to specific journal by ID
-# - "activity-{sequence_version}" - Navigate to journal by sequence version
+# Anchor format:
+# - "comment-{journal_id}" - Navigate to a specific journal by id
+# - "activity-{sequence_version}" - Legacy alias resolved on demand to the
+#   journal's comment id; the sequence version is computed only for this lookup,
+#   never for the rendered page, so the default feed avoids the window function.
+#
+# Anchored navigation bypasses the active filter so a deep link to a record
+# that wouldn't match the filter still resolves.
+#
+# Internally, the activities feed is a single Journal relation paginated by
+# pagy at the database level. Only the page slice is materialised — eager-loaded
+# and wrapped — keeping per-request cost independent of total history size.
 #
 # @param work_package [WorkPackage] The work package to paginate activities for
 # @param params [Hash] Pagination and filtering parameters
@@ -47,137 +57,162 @@
 # @option params [Symbol] :filter Filter mode (:all, :only_comments, :only_changes)
 # @option params [String] :anchor Anchor to navigate to specific journal
 #
-# @return [Array<Pagy, Array>] Pagy pagination object and array of activity records
+# @return [(Pagy, Array)] Pagy pagination object and array of activity records
 class WorkPackages::ActivitiesTab::Paginator
   include Pagy::Method
   include WorkPackages::ActivitiesTab::JournalSortingInquirable
 
-  MAX_PAGES = 100
+  Filters = WorkPackages::ActivitiesTab::Filters
 
-  def self.paginate(work_package, params = {})
-    new(work_package, params).call
-  end
-
-  attr_reader :work_package, :params, :filter
+  attr_reader :work_package, :params, :filter, :resolved_anchor
 
   def initialize(work_package, params = {})
     @work_package = work_package
     @params = params
-    @filter = params[:filter]&.to_sym || :all
+    @filter = Filters.cast(params[:filter])
+    @resolved_anchor = nil
   end
 
   def call
-    anchor_type, target_record_id = extract_target_record_id
+    anchor_type, target_record_id = parse_anchor
 
-    pagy, records =
+    pagy_obj, page_relation =
       if anchor_type && target_record_id
-        @filter = :all # Ignore filter when jumping to specific journal
-        pagy_array_for_target_journal(anchor_type, target_record_id)
+        pagy_at_anchor(anchor_type, target_record_id)
       else
-        pagy(:offset, capped_journals, **pagy_options)
+        pagy(:offset, activities_scope, **pagy_options)
       end
 
-    # For UI display: if user wants "oldest first" UI, reverse the array
-    records = records.reverse if journal_sorting.asc?
+    activities = load_activities(page_relation)
+    # For UI display: if user wants "oldest first" UI, reverse the collection
+    activities = activities.reverse if journal_sorting.asc?
 
-    [pagy, records]
+    [pagy_obj, activities]
   end
 
   private
 
+  def parse_anchor
+    anchor = params[:anchor] # e.g., "comment-78758" (without #)
+    return unless anchor
+
+    match = anchor.match(/^(comment|activity)-(\d+)$/)
+    return unless match
+
+    [match[1].inquiry, match[2].to_i]
+  end
+
+  # An unresolvable anchor falls back to page 1; any params[:page] sent
+  # alongside is ignored, since the anchor is the explicit navigation intent.
+  def pagy_at_anchor(anchor_type, target_record_id)
+    scope = activities_scope(filter: Filters::ALL)
+    page = page_for_anchor(scope, anchor_type, target_record_id) || 1
+    pagy(:offset, scope, **pagy_options, page:)
+  end
+
+  # The activity feed as a single Journal relation, newest-first: the work
+  # package's journals plus the journals written for its changesets — changesets
+  # are journalized, so each carries a journal timestamped with its committed_on.
+  def activities_scope(filter: self.filter)
+    scope = filtered_journals(filter)
+    scope = scope.or(changeset_journals) if include_changesets?(filter)
+    scope.reorder(created_at: :desc, id: :desc)
+  end
+
   def pagy_options
     {
       page: params[:page] || 1,
-      limit: params[:limit] || Pagy::DEFAULT[:limit],
+      limit:,
       request: { params: }
     }.compact
   end
 
-  def extract_target_record_id
-    anchor = params[:anchor] # e.g., "comment-78758" (without #)
-    return nil unless anchor
-
-    match = anchor.match(/^(comment|activity)-(\d+)$/)
-    match && match.length == 3 ? [match[1].inquiry, match[2].to_i] : []
+  # Coerced to a positive integer to match how pagy reads the same option:
+  # a non-positive value floors to one page, avoiding a ZeroDivisionError.
+  def limit
+    (params[:limit] || Pagy::DEFAULT[:limit]).to_i.clamp(1..)
   end
 
-  def pagy_array_for_target_journal(anchor_type, target_record_id)
-    journals = base_journals
+  # Eager-loads are applied to the page slice here, not to activities_scope, so
+  # the count query stays off them. Changeset journals map back to Changeset
+  # records; work package journals go through the wrapper.
+  def load_activities(page_relation)
+    journals = page_journals(page_relation)
+    changesets = load_changesets(journals.select { changeset?(it) }.map(&:journable_id))
+    wrapped = wrap_journals(journals.reject { changeset?(it) })
 
-    target_index = journals.find_index do |record|
-      if anchor_type.comment?
-        record.id == target_record_id
-      elsif anchor_type.activity?
-        record.sequence_version == target_record_id
-      else
-        false
-      end
-    end
-
-    if target_index
-      limit = pagy_options[:limit]
-      target_page = (target_index / limit) + 1
-      pagy(:offset, journals, **pagy_options, page: target_page)
-    else
-      # Journal might be filtered out or deleted - fallback to page 1
-      pagy(:offset, journals, **pagy_options, page: 1)
-    end
+    journals.filter_map { |journal| changeset?(journal) ? changesets[journal.journable_id] : wrapped[journal.id] }
   end
 
-  def base_journals
-    combine_and_sort_records(fetch_journals, fetch_revisions)
+  def page_for_anchor(scope, anchor_type, target_record_id)
+    activity_at, anchor_id = locate_anchor(anchor_type, target_record_id)
+    return nil unless activity_at && anchor_id
+
+    record_resolved_anchor(anchor_type, anchor_id)
+
+    rows_ahead = scope
+      .where("(journals.created_at, journals.id) > (?, ?)", activity_at, anchor_id)
+      .count(:all)
+
+    (rows_ahead / limit) + 1
   end
 
-  def capped_journals
-    max_records = (params[:limit] || Pagy::DEFAULT[:limit]) * MAX_PAGES
-    base_journals.first(max_records)
-  end
-
-  def fetch_journals
-    API::V3::Activities::ActivityEagerLoadingWrapper.wrap(fetch_ar_journals)
-  end
-
-  def fetch_ar_journals
-    journals = work_package
-      .journals
-      .internal_visible
-      .includes(
-        :user,
-        :customizable_journals,
-        :attachable_journals,
-        :storable_journals,
-        :notifications
-      )
-      .reorder(version: :desc) # Always fetch newest first for pagination
-      .with_sequence_version
-
+  def filtered_journals(filter)
     case filter
-    when :only_comments then apply_comments_only_filter(journals)
-    when :only_changes then apply_changes_only_filter(journals)
-    else
-      journals
+    when Filters::ONLY_COMMENTS then apply_comments_only_filter(visible_journals)
+    when Filters::ONLY_CHANGES then apply_changes_only_filter(visible_journals)
+    else visible_journals
     end
   end
 
-  def fetch_revisions
-    return Changeset.none if filter == :only_comments
-
-    work_package.changesets.includes(:user, :repository)
+  def changeset_journals
+    Journal.where(journable_type: Changeset.name,
+                  journable_id: work_package.changesets.except(:order).select(:id))
   end
 
-  def combine_and_sort_records(journals, revisions)
-    (journals + revisions).sort_by do |record|
-      timestamp = record_timestamp(record)
-      [-timestamp, -record.id] # Always sort DESC (newest first)
+  # Most work packages have no changesets (revisions are a legacy feature), so
+  # the changeset leg is merged in only when one exists — keeping the common
+  # query scoped to the work package's own journals.
+  def include_changesets?(filter)
+    filter != Filters::ONLY_COMMENTS && work_package.changesets.exists?
+  end
+
+  def page_journals(page_relation)
+    page_relation
+      .includes(:user, :customizable_journals, :attachable_journals, :storable_journals, :notifications, :attachments)
+      .to_a
+  end
+
+  def load_changesets(ids)
+    return {} if ids.empty?
+
+    Changeset
+      .where(id: ids)
+      .includes(:user, :repository, :project)
+      .index_by(&:id)
+  end
+
+  def wrap_journals(journals)
+    API::V3::Activities::ActivityEagerLoadingWrapper.wrap(journals).index_by(&:id)
+  end
+
+  def changeset?(journal)
+    journal.journable_type == Changeset.name
+  end
+
+  def locate_anchor(anchor_type, target_record_id)
+    if anchor_type.comment?
+      visible_journals.where(id: target_record_id).pick(:created_at, :id)
+    elsif anchor_type.activity?
+      locate_anchor_by_sequence_version(target_record_id)
     end
   end
 
-  def record_timestamp(record)
-    if record.is_a?(API::V3::Activities::ActivityEagerLoadingWrapper)
-      record.created_at&.to_i
-    elsif record.is_a?(Changeset)
-      record.committed_on.to_i
-    end
+  # A comment anchor already matches the DOM's data-anchor-comment-id. An activity
+  # anchor has no rendered counterpart, so hand the comment id it resolved to back
+  # to the client to scroll to instead.
+  def record_resolved_anchor(anchor_type, anchor_id)
+    @resolved_anchor = anchor_id if anchor_type.activity?
   end
 
   def apply_comments_only_filter(scope)
@@ -186,5 +221,16 @@ class WorkPackages::ActivitiesTab::Paginator
 
   def apply_changes_only_filter(scope)
     JournalChangesFilter.apply(scope)
+  end
+
+  def visible_journals
+    work_package.journals.internal_visible
+  end
+
+  def locate_anchor_by_sequence_version(sequence_version)
+    visible_journals
+      .with_sequence_version
+      .where(ranked: { sequence_version: sequence_version })
+      .pick(:created_at, :id)
   end
 end

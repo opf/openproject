@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Commands
-          RSpec.describe CopyTemplateFolderCommand, :webmock do
+          RSpec.describe CopyTemplateFolderCommand, :disable_ssrf_filter, :webmock do
             shared_let(:storage) { create(:one_drive_sandbox_storage) }
 
             shared_let(:original_folders) do

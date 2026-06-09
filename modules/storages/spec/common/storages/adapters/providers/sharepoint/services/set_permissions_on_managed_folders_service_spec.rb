@@ -38,7 +38,7 @@ module Storages
     module Providers
       module Sharepoint
         module Services
-          RSpec.describe SetPermissionsOnManagedFoldersService, :webmock do
+          RSpec.describe SetPermissionsOnManagedFoldersService, :disable_ssrf_filter, :webmock do
             shared_let(:admin) { create(:admin) }
             shared_let(:storage) do
               # Automatically Managed Project Folder Drive

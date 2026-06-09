@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Validators
-          RSpec.describe StorageConfigurationValidator, :webmock do
+          RSpec.describe StorageConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox, :as_automatically_managed) }
             let(:error) { Results::Error.new(code: error_code, source: self) }
 

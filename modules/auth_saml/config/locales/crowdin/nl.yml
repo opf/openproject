@@ -12,6 +12,7 @@ nl:
         sp_entity_id: Service-entiteit ID
         metadata_url: URL metagegevens identiteitsprovider
         name_identifier_format: Formaat naamidentificatie
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Identiteit provider login eindpunt
         idp_slo_service_url: Identiteit provider loguit eindpunt
         idp_cert: Publiek certificaat van identiteitsprovider
@@ -44,6 +45,10 @@ nl:
       success: De configuratie is succesvol bijgewerkt met de metagegevens van de identiteits- provider.
       invalid_url: Verstrekte metadata URL is ongeldig. Geef een HTTP(s) URL.
       error: 'Fout bij het ophalen van de metagegevens van de identiteitaanbieder: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Er zijn nog geen SAML-providers geconfigureerd.
       label_empty_description: Voeg een provider toe om ze hier te zien.
@@ -90,7 +95,7 @@ nl:
         configuration: De endpoint URL's voor de identity provider, certificaten en verdere SAML opties configureren.
         configuration_metadata: Deze informatie is vooraf gevuld met behulp van de meegeleverde metadata. In de meeste gevallen hoeven ze niet bewerkt te worden.
         encryption: Configureer assertie handtekeningen en encryptie voor SAML verzoeken en antwoorden.
-        encryption_form: You may optionally want to encrypt the assertion response, or have requests from OpenProject signed.
+        encryption_form: U kunt optioneel de assertion-response versleutelen of de verzoeken van OpenProject laten ondertekenen.
         mapping: Pas de mapping tussen de SAML respons en gebruikerskenmerken handmatig aan in OpenProject.
         requested_attributes: Definieer de set kenmerken die moet worden opgevraagd in het SAML-verzoek dat naar uw identity provider wordt gestuurd.
       seeded_from_env: Deze provider is geplaatst vanuit de omgevingsconfiguratie. Deze kan niet worden bewerkt.
@@ -102,13 +107,16 @@ nl:
       documentation_link: 'Please refer to our [documentation on configuring SAML providers](docs_url) for more information on these configuration options.
 
         '
-      display_name: 'The name of the provider. This will be displayed as the login button and in the list of providers.
+      display_name: 'De naam van de provider. Deze naam wordt getoond op de inlogknop en in de lijst met providers.
 
         '
-      metadata_none: 'Your identity provider does not have a metadata endpoint or XML download option. You can configure it manually.
+      metadata_none: 'Uw identiteitsprovider heeft geen metadata-endpoint of XML-downloadoptie. U kunt deze handmatig configureren.
 
         '
-      metadata_url: 'Your identity provider provides a metadata URL.
+      metadata_url: 'Uw identiteitsprovider verstrekt een metadata-URL.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Your identity provider provides a metadata XML download.
@@ -186,6 +194,6 @@ nl:
       icon: 'Optionally provide a public URL to an icon graphic that will be displayed next to the provider name.
 
         '
-      metadata_for_idp: 'This information might be requested by your SAML identity provider.
+      metadata_for_idp: 'Uw SAML-identiteitsprovider kan om deze informatie vragen.
 
         '

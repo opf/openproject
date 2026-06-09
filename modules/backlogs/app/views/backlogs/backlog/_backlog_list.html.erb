@@ -35,8 +35,8 @@ See COPYRIGHT and LICENSE files for more details.
          data-generic-drag-and-drop-target="scrollContainer">
       <%=
         render Backlogs::BacklogComponent.new(
-          inbox_work_packages: @inbox_work_packages,
           buckets: @backlog_buckets,
+          work_packages_by_backlog_id: @work_packages_by_backlog_id,
           project: @project
         )
       %>

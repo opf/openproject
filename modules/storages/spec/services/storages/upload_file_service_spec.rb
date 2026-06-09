@@ -41,7 +41,7 @@ module Storages
     end
   end
 
-  RSpec.describe UploadFileService, :webmock, type: :model do
+  RSpec.describe UploadFileService, :disable_ssrf_filter, :webmock, type: :model do
     before do
       Adapters::Registry.stub("nextcloud.models.managed_folder_identifier", TestIdentifier)
     end

@@ -74,9 +74,8 @@ uk:
   permission_view_linked_issues: Проглянути BCF помилки
   permission_manage_bcf: Імпорт помилок BCF і керування ними
   permission_manage_bcf_explanation: |
-    Allows managing BCF issues, including bulk import and updates.
-    BCF import maps file metadata to project resources and can create or update work packages
-    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+    Дозволяє керувати помилками BCF, зокрема виконувати масовий імпорт і оновлення.
+    BCF імпортує метадані файлів карт у ресурси проєктів і може створювати й оновлювати пакети робіт, а також коментарі, використовуючи значення автора й мітки часу з імпортованого файлу, фактично діючи від імені користувачів.
   permission_delete_bcf: Видалити помилки BCF
   oauth:
     scopes:

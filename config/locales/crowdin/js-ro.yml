@@ -1049,16 +1049,13 @@ ro:
         all: Toate Proiectele
         selected: Numai selecția
       search_placeholder: Caută proiecte...
-      search_placeholder_favorites: Caută favorite...
       include_subprojects: Include toate subproiectele
       tooltip:
         include_all_selected: Proiectul este deja inclus, din moment ce opțiunea Include toate subproiectele este activată.
         current_project: Acesta este proiectul curent în care vă aflați.
         does_not_match_search: Proiectul nu corespunde criteriilor de căutare.
       no_results: Niciun proiect nu corespunde criteriilor de căutare.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

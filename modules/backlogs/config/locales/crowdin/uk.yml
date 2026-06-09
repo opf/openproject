@@ -103,7 +103,7 @@ uk:
       show:
         blankslate_title: Немає даних про згорання завдань
         blankslate_description: Визначте дату початку й завершення спринту, щоб згенерувати діаграму згорання завдань.
-    excluded_work_package_types_caption: 'Виберіть, які типи пакетів робіт слід приховати в беклозі. Елементи вибраних типів не відображатимуться в беклозі автоматично, що дає змогу зосередитися на завданнях своєї команди. Наприклад, ви можете приховати такі типи, як епіки чи віхи, якими керують на вищому рівні, щоб переглядати лише ті завдання, з якими можна працювати.
+    excluded_work_package_types_caption: 'Виберіть, які типи пакетів робіт слід приховати в беклогу. Елементи вибраних типів не відображатимуться в беклогу автоматично, що дає змогу зосередитися на завданнях своєї команди. Наприклад, ви можете приховати такі типи, як епіки чи віхи, якими керують на вищому рівні, щоб переглядати лише ті завдання, з якими можна працювати.
 
       '
     finish_sprint_dialog_component:
@@ -171,7 +171,7 @@ uk:
       few: "%{count} сторі-поінти"
       many: "%{count} сторі-поінтів"
       other: "%{count} сторі-поінта"
-    statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
+    statuses_considered_closed_caption: 'Виберіть статуси, які відповідають закритому або завершеному стану у вашому робочому процесі. Вони оброблятимуться як статус «Закрито» у звітах (наприклад, щодо згорання завдань) і при плануванні спринтів. Наприклад, у вашому процесі такі статуси, як «Виконано», «Вирішено» або «Не буде виправлено» можуть означати закриті робочі елементи.
 
       '
     types_and_statuses: Типи й статуси
@@ -181,29 +181,29 @@ uk:
       button_update_backlogs: Оновити модуль невиконаних завдань
     stories:
       update_service:
-        missing_target: target_id or direction must be present.
-        ambiguous_target: target_id and direction cannot both be present.
-        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
-        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+        missing_target: Має бути присутнім параметр target_id або direction.
+        ambiguous_target: Параметри target_id й direction не можуть бути присутніми одночасно.
+        invalid_target_type: 'Параметр target_type повинен мати одне з таких значень: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        invalid_direction: 'Параметр direction повинен мати одне з таких значень: higher, highest, lower, lowest.'
     work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: Copy URL to clipboard
-        copy_work_package_id: Copy work package ID
-        move_menu: Move
-        move_to_backlog_bucket: Move to backlog bucket
-        move_to_inbox: Move to inbox
-        move_to_sprint: Move to sprint
+        copy_url_to_clipboard: Скопіювати URL-адресу в буфер обміну
+        copy_work_package_id: Скопіювати ідентифікатор пакета робіт
+        move_menu: Перемістити
+        move_to_backlog_bucket: Перемістити в сегмент беклогу
+        move_to_inbox: Перемiстити у вхідні
+        move_to_sprint: Перемістити в спринт
     work_package_is_closed: Робочий пакет виконується, коли
   burndown:
     story_points: Сторі-поінти
     story_points_ideal: Сторі-поінти (ідеально)
   ee:
     features:
-      sprint_sharing: Sprint sharing
+      sprint_sharing: Спільний доступ до спринту
     upsell:
       sprint_sharing:
-        description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
-  label_all_sprints: All sprints
+        description: Надавайте доступ до спринтів кільком проєктам, щоб узгоджувати й координувати роботу команд у конфігураціях Масштабованої гнучкої розробки (SAFe).
+  label_all_sprints: Усі спринти
   label_backlog: Backlog
   label_backlogs: Backlogs
   label_backlog_and_sprints: Беклог і спринти
@@ -223,13 +223,13 @@ uk:
   notice_unsuccessful_start_with_reason: 'Спринт не вдалося розпочати: %{reason}'
   notice_unsuccessful_finish: Спринт не вдалося завершити.
   notice_unsuccessful_finish_with_reason: 'Спринт не вдалося завершити: %{reason}'
-  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+  notice_work_package_invisible_after_move: 'Пакет робіт було переміщено в беклог (%{backlog}), але він там не відображається, оскільки його тип або статус виключено з беклогу.
 
     '
   permission_create_sprints: Створення спринтів
   permission_manage_sprint_items: Керування елементами спринтів
-  permission_select_backlog_types_and_statuses: Select backlog types and statuses
-  permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.
+  permission_select_backlog_types_and_statuses: Вибір типів і статусів беклогу
+  permission_select_backlog_types_and_statuses_explanation: 'Дозволяє вибрати типи пакетів робіт, які слід приховати в беклогу. Також дає змогу визначити статуси, які відповідають закритому або завершеному стану в робочому процесі проєкту.
 
     '
   permission_share_sprint: Надання доступу до спринтів
@@ -259,6 +259,6 @@ uk:
         sprint_sharing: Надання доступу до спринтів
       backlogs:
         sharing_form_component:
-          sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
-          sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
+          sharing_description: Цей проєкт може надавати доступ до власних спринтів, використовувати спринти, до яких надано доступ, або працювати зі спринтами самостійно (без спільного доступу).
+          sharing_fallback_description: Якщо немає корпоративного плану Enterprise, можливості спільного доступу обмежуються спринтами, які належать проєкту. Поточний активний параметр залишається активним.
   remaining_hours: залишок роботи

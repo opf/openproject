@@ -153,7 +153,7 @@ export class InAppNotificationCenterComponent implements OnInit {
   protected readonly idFromLink = idFromLink;
 
   ngOnInit():void {
-    const facet = this.urlParams.get('facet') || 'unread';
+    const facet = this.urlParams.get('facet') ?? 'unread';
     this.storeService.setFacet(facet as 'unread'|'all');
     this.storeService.setFilters({
       filter: this.urlParams.get('filter'),
@@ -171,5 +171,13 @@ export class InAppNotificationCenterComponent implements OnInit {
     }
 
     return this.text.no_notification_for_filter;
+  }
+
+  notificationMatchesSelectedWorkPackage(notification:INotification, selected:string|null):boolean {
+    const href = notification._links.resource?.href;
+    const workPackageId = href ? idFromLink(href) : null;
+    const workPackage = workPackageId ? this.apiV3.work_packages.cache.current(workPackageId) : null;
+
+    return selected === workPackageId || selected === workPackage?.displayId;
   }
 }

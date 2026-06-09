@@ -114,10 +114,8 @@ RSpec.describe "Meetings", "Index", :js do
   end
 
   def setup_meeting_involvement
-    invite_to_meeting(tomorrows_meeting)
-    invite_to_meeting(yesterdays_meeting)
-    create(:meeting_participant, :attendee, user:, meeting: yesterdays_meeting)
-    create(:meeting_participant, :attendee, user:, meeting: tomorrows_meeting)
+    create(:meeting_participant, :invitee, :attendee, user:, meeting: yesterdays_meeting)
+    create(:meeting_participant, :invitee, :attendee, user:, meeting: tomorrows_meeting)
     meeting.update!(author: user)
   end
 
@@ -376,6 +374,24 @@ RSpec.describe "Meetings", "Index", :js do
       end
     end
 
+    context 'with the "Project" quick filter' do
+      before do
+        meetings_page.visit!
+        meetings_page.set_sidebar_filter "All meetings"
+      end
+
+      it "shows only meetings from the selected projects" do
+        meetings_page.set_project_filter(project)
+
+        meetings_page.expect_meetings_listed(meeting, tomorrows_meeting)
+        meetings_page.expect_meetings_not_listed(other_project_meeting)
+
+        meetings_page.set_project_filter(project, other_project)
+
+        meetings_page.expect_meetings_listed(meeting, tomorrows_meeting, other_project_meeting)
+      end
+    end
+
     include_examples "sidebar filtering", context: :global
   end
 
@@ -407,6 +423,11 @@ RSpec.describe "Meetings", "Index", :js do
         meetings_page.visit!
         meetings_page.expect_no_create_new_button
       end
+    end
+
+    it 'does not show the "Project" quick filter' do
+      meetings_page.visit!
+      expect(page).to have_no_button I18n.t(:label_project), exact: true
     end
 
     include_examples "sidebar filtering", context: :project

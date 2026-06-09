@@ -1,4 +1,4 @@
-name: rubocop
+name: RuboCop
 
 on:
   pull_request:
@@ -7,22 +7,22 @@ on:
 
 jobs:
   rubocop:
-    name: rubocop
+    name: RuboCop
     runs-on: ubuntu-latest
     permissions:
       contents: read
       checks: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Set up Ruby
         uses: ruby/setup-ruby@afeafc3d1ab54a631816aba4c914a0081c12ff2f # v1
-      - name: Run Rubocop
+      - name: Run RuboCop
         uses: reviewdog/action-rubocop@b6d5e953a5fc0bf3ab65254e77730ea2174d6d6d # v2
         with:
-          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-check
           rubocop_version: gemfile
           rubocop_extensions: >
             rubocop-capybara:gemfile
@@ -32,13 +32,4 @@ jobs:
             rubocop-rails:gemfile
             rubocop-rspec:gemfile
             rubocop-rspec_rails:gemfile
-          reporter: github-pr-check
           only_changed: true
-      - name: Install erb_lint
-        run: gem install -N erb_lint erblint-github
-      - name: Run erb-lint
-        uses: tk0miya/action-erblint@44c5fe3552356fe8bff23f30d534aa4258aa3f7b # v1
-        with:
-          github_token: ${{ secrets.github_token }}
-          reporter: github-pr-check
-          fail_on_error: true

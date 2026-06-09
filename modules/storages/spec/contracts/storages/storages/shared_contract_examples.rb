@@ -275,7 +275,7 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
       context "when host is localhost" do
         let(:storage_host) { "http://localhost:1234" }
 
-        include_examples "contract is invalid", host: :host_not_allowed
+        include_examples "contract is invalid", host: :ssrf_filtered
 
         it "does not perform metadata discovery requests" do
           contract.validate
@@ -288,7 +288,7 @@ RSpec.shared_examples_for "nextcloud storage contract", :storage_server_helpers,
       context "when host uses https protocol" do
         let(:storage_host) { "https://172.16.193.146" }
 
-        include_examples "contract is invalid", host: :host_not_allowed
+        include_examples "contract is invalid", host: :ssrf_filtered
       end
     end
 

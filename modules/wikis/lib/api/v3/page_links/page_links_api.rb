@@ -32,6 +32,12 @@ module API
   module V3
     module PageLinks
       class PageLinksAPI < OpenProjectAPI
+        helpers do
+          def enrich_models_with_wiki_metadata(relation)
+            Wikis::PageLinkMetadataService.new(relation).call
+          end
+        end
+
         resources :wiki_page_links do
           post &::API::V3::PageLinks::CreateEndpoint.new(
             model: ::Wikis::RelationPageLink,
@@ -42,6 +48,28 @@ module API
             process_contract: ::Wikis::RelationPageLinks::CreateContract,
             render_representer: PageLinkCollectionRepresenter
           ).mount
+
+          get do
+            query = ParamsToQueryService.new(
+              ::Wikis::PageLink,
+              current_user,
+              query_class: ::Queries::Wikis::PageLinks::PageLinkQuery
+            ).call(params)
+
+            unless query.valid?
+              message = I18n.t("api_v3.errors.missing_or_malformed_parameter", parameter: "filters")
+              raise ::API::Errors::InvalidQuery.new(message)
+            end
+
+            relation = query.results.where(linkable: Authorization.work_packages(:view_work_packages, current_user))
+
+            PageLinkCollectionRepresenter.new(
+              enrich_models_with_wiki_metadata(relation).result,
+              per_page: params[:pageSize],
+              self_link: api_v3_paths.wiki_page_links,
+              current_user:
+            )
+          end
         end
       end
     end

@@ -4,7 +4,14 @@ $blocknote-max-width: 800px
   .ck-content
     min-height: 30vh
 
-.block-note-editor-container
+// BlockNote 0.51 stamps `.block-note-editor-container` (the className we
+// pass to <BlockNoteView>) onto BOTH its outer `.bn-container` wrapper AND
+// an inner wrapper without `.bn-container`. Without the `.bn-container`
+// requirement, the rules below cascade onto both elements — `gap: 10px`
+// and `flex-direction: column-reverse` get applied at two nesting levels,
+// which shows up as a few-pixel vertical layout jump whenever the side
+// menu / drag handle re-renders during selection.
+.block-note-editor-container.bn-container
   align-items: center
   position: relative
   display: flex

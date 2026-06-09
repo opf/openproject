@@ -33,12 +33,18 @@ require "spec_helper"
 RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" } do
   include Components::Autocompleter::NgSelectAutocompleteHelpers
 
+  create_shared_association_defaults_for_work_package_factory
+
+  def char_for(integer)
+    ("a".ord + integer - 1).chr * 5
+  end
+
   shared_let(:admin) { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:work_packages) do
     (1..22).map do |n|
       Timecop.freeze("2016-11-21 #{n}:00".to_datetime) do
-        subject = "Subject No. #{n} WP"
+        subject = "Subject #{char_for(n)} WP"
         create(:work_package,
                subject:,
                project:)
@@ -90,7 +96,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
 
   def expect_range(param_a, param_b)
     (param_a..param_b).each do |n|
-      expect(page).to have_content("No. #{n} WP")
+      expect(page).to have_text("Subject #{char_for(n)} WP")
       expect(page).to have_css("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
     end
   end
@@ -335,6 +341,7 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
                               "subject")
         table.expect_work_package_listed(work_packages.last)
         filters.remove_filter("subject")
+        table.expect_work_package_listed(*work_packages[17..22]) # This line ensures that the table is completely rendered.
         page.find_by_id("filter-by-text-input").set(work_packages[5].subject)
         table.expect_work_package_subject(work_packages[5].subject)
         table.ensure_work_package_not_listed!(work_packages.last)
@@ -399,7 +406,6 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         expect(current_url).to include("filter=work_packages")
         expect(current_url).to include("scope=&")
 
-
         table = Pages::EmbeddedWorkPackagesTable.new(find(".work-packages-embedded-view--container"))
         table.expect_work_package_count(1)
         table.expect_work_package_subject(other_work_package.subject)
@@ -452,11 +458,10 @@ RSpec.describe "Search", :js, :selenium, with_settings: { per_page_options: "5" 
         global_search.open_tab "All"
 
         expect(page)
-          .to have_content attachment_text
+          .to have_text attachment_text
 
         expect(page)
           .to have_css(".search-highlight", text: query)
-
       end
     end
   end

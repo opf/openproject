@@ -60,13 +60,10 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
     def attribute_data_changes_condition_sql
       <<~SQL.squish
         SELECT 1
-          FROM journals predecessor
+          FROM #{predecessor_lateral_sql} predecessor
           INNER JOIN work_package_journals pred_data ON predecessor.data_id = pred_data.id
           INNER JOIN work_package_journals curr_data ON journals.data_id = curr_data.id
-          WHERE predecessor.journable_id = journals.journable_id
-            AND predecessor.journable_type = journals.journable_type
-            AND predecessor.version = (#{max_predecessor_version_sql})
-            AND (#{data_changes_condition_sql})
+          WHERE (#{data_changes_condition_sql})
       SQL
     end
 
@@ -98,15 +95,22 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
       )
     end
 
-    # Identify the immediate predecessor journal for comparison.
-    # NB: Journal versions are incremental but not guaranteed to be sequential.
-    def max_predecessor_version_sql
+    # The immediate predecessor journal, for comparison against the current one.
+    # Callers alias this as `predecessor`. Seeking the highest version below the
+    # current one through the (journable_type, journable_id, version) index keeps
+    # this a single-row lookup per journal; versions are incremental but may have
+    # gaps, so the seek matches on `< version` rather than `version - 1`.
+    def predecessor_lateral_sql
       <<~SQL.squish
-        SELECT MAX(version)
-        FROM journals p2
-        WHERE p2.journable_id = journals.journable_id
-          AND p2.journable_type = journals.journable_type
-          AND p2.version < journals.version
+        LATERAL (
+          SELECT p.id, p.data_id
+          FROM journals p
+          WHERE p.journable_id = journals.journable_id
+            AND p.journable_type = journals.journable_type
+            AND p.version < journals.version
+          ORDER BY p.version DESC
+          LIMIT 1
+        )
       SQL
     end
 
@@ -154,10 +158,7 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
       <<~SQL.squish
         SELECT 1
           FROM #{table} curr
-          LEFT JOIN journals predecessor
-            ON predecessor.journable_id = journals.journable_id
-            AND predecessor.journable_type = journals.journable_type
-            AND predecessor.version = (#{max_predecessor_version_sql})
+          LEFT JOIN #{predecessor_lateral_sql} predecessor ON TRUE
           LEFT JOIN #{table} pred
             ON pred.journal_id = predecessor.id
             AND #{join_conditions}
@@ -175,16 +176,13 @@ class WorkPackages::ActivitiesTab::Paginator::JournalChangesFilter
 
       <<~SQL.squish
         SELECT 1
-          FROM journals predecessor
+          FROM #{predecessor_lateral_sql} predecessor
           INNER JOIN #{table} pred
             ON pred.journal_id = predecessor.id
           LEFT JOIN #{table} curr
             ON curr.journal_id = journals.id
             AND #{join_conditions}
-          WHERE predecessor.journable_id = journals.journable_id
-            AND predecessor.journable_type = journals.journable_type
-            AND predecessor.version = (#{max_predecessor_version_sql})
-            AND curr.id IS NULL
+          WHERE curr.id IS NULL
       SQL
     end
   end

@@ -32,7 +32,6 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { WeekdayResourceService } from 'core-app/core/state/days/weekday.service';
 import { IWeekday } from 'core-app/core/state/days/weekday.model';
 import {
@@ -44,7 +43,7 @@ import {
 export class WeekdayService {
   readonly injector = inject(Injector);
 
-  @InjectField() weekdaysService:WeekdayResourceService;
+  readonly weekdaysService = inject(WeekdayResourceService);
 
   private weekdays:IWeekday[];
 

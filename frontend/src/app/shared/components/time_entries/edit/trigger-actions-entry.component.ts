@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, inject } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
@@ -36,19 +35,19 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 export class TriggerActionsEntryComponent {
   readonly injector = inject(Injector);
 
-  @InjectField() readonly apiv3Service:ApiV3Service;
+  readonly apiv3Service = inject(ApiV3Service);
 
-  @InjectField() readonly toastService:ToastService;
+  readonly toastService = inject(ToastService);
 
-  @InjectField() readonly elementRef:ElementRef;
+  readonly elementRef = inject(ElementRef);
 
-  @InjectField() i18n!:I18nService;
+  readonly i18n = inject(I18nService);
 
-  @InjectField() readonly cdRef:ChangeDetectorRef;
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @InjectField() readonly pathHelper:PathHelperService;
+  readonly pathHelper = inject(PathHelperService);
 
-  @InjectField() readonly turboRequestService:TurboRequestsService;
+  readonly turboRequestService = inject(TurboRequestsService);
 
   public text = {
     edit: this.i18n.t('js.button_edit'),

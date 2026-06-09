@@ -2128,17 +2128,14 @@ ro:
         before: trebuie să fie înainte de %{date}.
         before_or_equal_to: trebuie să fie înainte sau în %{date}.
         blank: nu poate fi gol.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: trebuie să aibă setul '%{property}' al proprietății.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Un pachet de lucru nu poate fi legat de una din sub-activitățile sale.
         circular_dependency: Această relație ar crea o dependință circulară.
         confirmation: nu se potrivește cu %{attribute}.
         could_not_be_copied: "%{dependency} nu a putut fi copiat (integral)."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: nu există.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: nu pot fi accesate.
         error_readonly: a fost încercat să fie scris, dar nu este inscriptibil.
@@ -2159,36 +2156,38 @@ ro:
         greater_than_or_equal_to: trebuie să fie mai mare sau egal cu %{count}.
         greater_than_or_equal_to_start_date: trebuie să fie mai mare sau egală cu dată început.
         greater_than_start_date: trebuie să fie mai mare decât dată început
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: nu este setată la una din valorile permise.
         inclusion_nested: nu este setată la una dintre valorile permise la calea '%{path}'.
         invalid: este invalid.
         invalid_uri: must be a valid URI.
         invalid_url: nu este o adresa URL validă.
         invalid_url_scheme: 'nu este un protocol permis (allowed: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: trebuie să fie mai mic sau egal cu %{count}.
         not_available: nu este disponibil din cauza unei configurații a sistemului.
+        not_before_start_date: must not be before the start date.
         not_deletable: "%s nu poate fi șters."
         not_editable: cannot be edited because it is already in effect.
         not_current_user: nu este utilizatorul curent.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: nu a fost găsit.
         not_a_date: Acest câmp trebuie să conțină o dată validă.
         not_a_datetime: nu este o dată-ora validă.
         not_a_number: nu este un număr.
         not_allowed: nu este valabilă din cauza lipsei de permisiuni.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: nu este un întreg.
         not_an_iso_date: 'nu este o dată validă. Formatul necesar: AAAA-MM-ZZ.'
         not_same_project: nu aparține aceluiași proiect.
-        datetime_must_be_in_future: must be in the future.
         odd: trebuie să fie impar.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: nu a putut fi validată cu expresia regulată asociată.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: trebuie să fie mai mic sau egal cu lungimea maximă.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: este deja utilizat
         too_long: este prea lung (maximul admis este de %{count} caractere).
         too_short: este prea scurt (minimum admis este de %{count} caractere).
@@ -2201,6 +2200,7 @@ ro:
         url_not_secure_context: 'nu oferă un "Context securizat". Folosește fie HTTPS sau o adresă de tip buclă, cum ar fi localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: nu are lungimea corectă (ar trebui să fie de %{count} characters).
       models:
         group:
@@ -2887,6 +2887,7 @@ ro:
   button_login: Autentificare
   button_move: Mutare
   button_move_and_follow: Mutare și continuare
+  button_next: Next
   button_print: Tipărește
   button_quote: Citare
   button_remove: Eliminare
@@ -3225,8 +3226,8 @@ ro:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Adaugă noi grupuri de atribut
-          rename: Rename attribute groups
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Add a table of related work packages
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3537,6 +3538,12 @@ ro:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'

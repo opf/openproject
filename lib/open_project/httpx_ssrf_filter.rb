@@ -46,7 +46,13 @@ module OpenProject
       end
 
       def addresses=(addrs)
-        addrs.reject!(&SsrfProtection.method(:unsafe_ip_address?)) # rubocop:disable Performance/MethodObjectAsBlock
+        addrs.reject! do |addr|
+          # working around an error in IPAddr that fails to check address inclusion if the passed address is not an
+          # IPAddr, but a SimpleDelegator to an IPAddr (like HTTPX::Resolver::Entry).
+          addr = addr.address if addr.respond_to?(:address)
+
+          SsrfProtection.send(:unsafe_ip_address?, addr)
+        end
 
         raise ServerSideRequestForgeryError, "#{@origin.host} has no public IP addresses" if addrs.empty?
 

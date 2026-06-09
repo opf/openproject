@@ -4,6 +4,9 @@
     @include text-shortener
     min-width: 25px
     max-width: 66%
+    // The label has a height of 18.5px. Half pixels are resolved differently by each OS/browser combination,
+    // resulting in cases where the bottom of the label was cut off
+    min-height: 19px
 
   &--id
     white-space: nowrap

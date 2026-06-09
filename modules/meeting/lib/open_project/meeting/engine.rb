@@ -44,7 +44,7 @@ module OpenProject::Meeting
         permission :view_meetings,
                    {
                      meetings: %i[index show check_for_updates download_ics
-                                  presentation generate_pdf_dialog history],
+                                  presentation generate_pdf_dialog history project_items],
                      "meetings/filters": %i[show],
                      "meetings/menus": %i[show],
                      work_package_meetings_tab: %i[index count],
@@ -241,28 +241,52 @@ module OpenProject::Meeting
       "#{root}/meetings/#{id}/form"
     end
 
-    add_api_path :meeting_agenda_items do |meeting_id|
-      "#{meeting(meeting_id)}/agenda_items"
+    add_api_path :meeting_agenda_items do |meeting_id: nil|
+      if meeting_id
+        "#{meeting(meeting_id)}/agenda_items"
+      else
+        "#{root}/meeting_agenda_items"
+      end
     end
 
-    add_api_path :meeting_agenda_item do |meeting_id, id|
-      "#{meeting(meeting_id)}/agenda_items/#{id}"
+    add_api_path :meeting_agenda_item do |id, meeting_id: nil|
+      if meeting_id
+        "#{meeting(meeting_id)}/agenda_items/#{id}"
+      else
+        "#{root}/meeting_agenda_items/#{id}"
+      end
     end
 
-    add_api_path :meeting_agenda_item_outcomes do |meeting_id, agenda_item_id|
-      "#{meeting_agenda_item(meeting_id, agenda_item_id)}/outcomes"
+    add_api_path :meeting_agenda_item_outcomes do |agenda_item_id, meeting_id: nil|
+      "#{meeting_agenda_item(agenda_item_id, meeting_id:)}/outcomes"
     end
 
-    add_api_path :meeting_agenda_item_outcome do |meeting_id, agenda_item_id, id|
-      "#{meeting_agenda_item_outcomes(meeting_id, agenda_item_id)}/#{id}"
+    add_api_path :meeting_outcomes do
+      "#{root}/meeting_outcomes"
     end
 
-    add_api_path :meeting_sections do |meeting_id|
-      "#{meeting(meeting_id)}/sections"
+    add_api_path :meeting_outcome do |id|
+      "#{root}/meeting_outcomes/#{id}"
     end
 
-    add_api_path :meeting_section do |meeting_id, id|
-      "#{meeting(meeting_id)}/sections/#{id}"
+    add_api_path :meeting_agenda_item_outcome do |id, agenda_item_id:, meeting_id: nil|
+      "#{meeting_agenda_item_outcomes(agenda_item_id, meeting_id:)}/#{id}"
+    end
+
+    add_api_path :meeting_sections do |meeting_id: nil|
+      if meeting_id
+        "#{meeting(meeting_id)}/sections"
+      else
+        "#{root}/meeting_sections"
+      end
+    end
+
+    add_api_path :meeting_section do |id, meeting_id: nil|
+      if meeting_id
+        "#{meeting(meeting_id)}/sections/#{id}"
+      else
+        "#{root}/meeting_sections/#{id}"
+      end
     end
 
     add_api_path :recurring_meetings do

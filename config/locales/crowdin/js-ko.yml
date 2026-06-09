@@ -1041,16 +1041,13 @@ ko:
         all: 모든 프로젝트
         selected: 선택한 항목만
       search_placeholder: 프로젝트 검색...
-      search_placeholder_favorites: 즐겨찾기 검색...
       include_subprojects: 모든 하위 프로젝트 포함
       tooltip:
         include_all_selected: "'모든 하위 프로젝트 포함'이 활성화되어 있으므로 프로젝트가 이미 포함되어 있습니다."
         current_project: 작업 중인 현재 프로젝트입니다.
         does_not_match_search: 프로젝트가 검색 기준과 일치하지 않습니다.
       no_results: 검색 기준과 일치하는 프로젝트가 없습니다.
-      no_favorite_results: 검색 기준과 일치하는 프로젝트 즐겨찾기가 없습니다.
     include_workspaces:
-      search_placeholder: 검색...
       types:
         program: 프로그램
         portfolio: 포트폴리오

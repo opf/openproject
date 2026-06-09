@@ -50,7 +50,7 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
     return false if host.blank?
     return true if OpenProject::SsrfProtection.safe_ip?(host)
 
-    contract.errors.add(attribute, :host_not_allowed)
+    contract.errors.add(attribute, :ssrf_filtered)
     false
   rescue URI::InvalidURIError
     false

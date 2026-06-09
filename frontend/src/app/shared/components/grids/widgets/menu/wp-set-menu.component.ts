@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Directive, EventEmitter, Output } from '@angular/core';
+import { Directive, EventEmitter, Output, inject } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { ComponentType } from '@angular/cdk/portal';
 import {
@@ -38,14 +38,13 @@ import {
 import {
   WpTableConfigurationModalComponent,
 } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.modal';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Directive()
 export abstract class WidgetWpSetMenuComponent extends WidgetAbstractMenuComponent {
   protected configurationComponent:ComponentType<WpGraphConfigurationModalComponent | WpTableConfigurationModalComponent>;
 
-  @InjectField() opModalService:OpModalService;
+  readonly opModalService = inject(OpModalService);
 
   // eslint-disable-next-line @angular-eslint/no-output-on-prefix
   @Output() onConfigured = new EventEmitter<unknown>();

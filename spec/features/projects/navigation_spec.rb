@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require "support/components/projects/top_menu"
 
 RSpec.describe "Projects navigation", :js do
   shared_let(:project) { create(:project) }
@@ -39,6 +40,8 @@ RSpec.describe "Projects navigation", :js do
   end
   shared_let(:admin) { create(:admin) }
 
+  let(:top_menu) { Components::Projects::TopMenu.new }
+
   context "as a user with all permissions" do
     before do
       login_as admin
@@ -46,14 +49,13 @@ RSpec.describe "Projects navigation", :js do
 
     it "can deselect the current project and keep the module" do
       visit project_work_packages_path(project)
-      page.find_test_selector("op-projects-menu").click
+      top_menu.toggle
 
       # The currently active project is highlighted and removable
-      page.within_test_selector("op-header-project-select--list") do
-        expect(page).to have_test_selector("op-header-project-select--item-remove-icon", count: 1)
-        expect(page).to have_test_selector("op-header-project-select--active-item", count: 1)
-
-        page.find_test_selector("op-header-project-select--item-remove-icon").click
+      within top_menu.search_results do
+        expect(page).to have_css(top_menu.remove_item_selector, count: 1)
+        expect(page).to have_css(top_menu.active_item_selector, count: 1)
+        page.find(top_menu.remove_item_selector).click
       end
 
       # Once removed, the user is redirected to the global WorkPackages page
@@ -63,9 +65,9 @@ RSpec.describe "Projects navigation", :js do
       visit project_roadmap_path(project)
 
       # Remove the project again
-      page.find_test_selector("op-projects-menu").click
-      page.within_test_selector("op-header-project-select--list") do
-        page.find_test_selector("op-header-project-select--item-remove-icon").click
+      top_menu.toggle
+      within top_menu.search_results do
+        page.find(top_menu.remove_item_selector).click
       end
 
       # Once removed, the user is redirected to the home page
@@ -95,31 +97,13 @@ RSpec.describe "Projects navigation", :js do
     before do
       login_as admin
       visit home_path
-      page.find_test_selector("op-projects-menu").click
-      wait_for_network_idle
+      top_menu.toggle!
     end
 
     it "displays badges for portfolio and program workspaces but not for regular projects" do
-      # Check portfolio has badge with icon and "Portfolio" text
-      portfolio_item = page.find('[data-test-selector="op-header-project-select--item"]', text: portfolio_project.name)
-      within portfolio_item do
-        expect(page).to have_css("svg.octicon")
-        expect(page).to have_text("Portfolio")
-      end
-
-      # Check program has badge with icon and "Program" text
-      program_item = page.find('[data-test-selector="op-header-project-select--item"]', text: program_project.name)
-      within program_item do
-        expect(page).to have_css("svg.octicon")
-        expect(page).to have_text("Program")
-      end
-
-      # Check regular project does NOT have workspace badge
-      regular_item = page.find('[data-test-selector="op-header-project-select--item"]', text: regular_project.name)
-      within regular_item do
-        expect(page).to have_no_text("Portfolio")
-        expect(page).to have_no_text("Program")
-      end
+      top_menu.expect_result(portfolio_project.name, workspace_badge: "Portfolio")
+      top_menu.expect_result(program_project.name, workspace_badge: "Program")
+      top_menu.expect_result(regular_project.name, workspace_badge: false)
     end
   end
 end

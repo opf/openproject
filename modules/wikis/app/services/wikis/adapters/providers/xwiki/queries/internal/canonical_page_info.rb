@@ -1,0 +1,78 @@
+# frozen_string_literal: true
+
+#-- copyright
+# OpenProject is an open source project management software.
+# Copyright (C) the OpenProject GmbH
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2013 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+#
+# See COPYRIGHT and LICENSE files for more details.
+#++
+
+module Wikis
+  module Adapters
+    module Providers
+      module XWiki
+        module Queries
+          module Internal
+            # Fetch page information using a canonical XWiki identifier
+            class CanonicalPageInfo < BaseQuery
+              include Concerns::XWikiQuery
+
+              def call(input_data:, auth_strategy:)
+                ref = CanonicalPageReference.parse(input_data.identifier)
+                return failure(code: :not_found) unless ref
+
+                perform_request(ref, auth_strategy:) do |data|
+                  success(
+                    Results::PageInfo.new(
+                      identifier: StablePageReference.parse(fetch_json(data, "id")).to_s,
+                      title: data.fetch("title"),
+                      href: data.fetch("xwikiAbsoluteUrl"),
+                      provider:
+                    )
+                  )
+                end
+              end
+
+              def perform_request(reference, auth_strategy:, &)
+                authenticated(auth_strategy) do |http|
+                  handle_response(
+                    # This query is implemented as a PUT on the XWiki side, because it dynamically creates the
+                    # stable identifier that it returns. Passing an empty JSON body is also required for the
+                    # endpoint to not raise an error 🤷
+                    http.with(headers: { "Content-Type": "application/json" })
+                        .put(
+                          rest_url("openproject/documents", query: { docRef: reference.to_s }),
+                          body: "{}"
+                        ),
+                    &
+                  )
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  end
+end

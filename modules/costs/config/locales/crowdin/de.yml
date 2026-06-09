@@ -39,8 +39,8 @@ de:
         unit: Einheit
         unit_plural: Einheit plural
         default: Standardkostentyp
-        for_all_projects: For all projects
-        rates: Rates
+        for_all_projects: Für alle Projekte
+        rates: Preise
       work_package:
         costs_by_type: Gebuchte Einheiten
         labor_costs: Personaleinzelkosten
@@ -93,7 +93,7 @@ de:
         cost_types_project:
           attributes:
             project_ids:
-              blank: Please select a project.
+              blank: Bitte wählen Sie ein Projekt aus.
   attributes:
     comment: Kommentar
     cost_type: Kostentyp
@@ -234,28 +234,28 @@ de:
     errors:
       validation:
         start_time_different_date: Der Datumsteil der Startzeit (%{start_time}) muss mit dem Datum (%{spent_on}) übereinstimmen.
-  label_available_cost_types_projects: Available cost types projects
+  label_available_cost_types_projects: Verfügbare Kostenarten in Projekten
   cost_types:
     errors:
-      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+      no_cost_types_available: In diesem Projekt sind keine Kostenarten verfügbar. Bitte kontaktieren Sie einen Administrator.
     admin:
       columns:
-        active_projects: Active projects
+        active_projects: Aktive Projekte
       cost_type_projects:
         for_all_projects_blank_slate:
-          heading: This cost type is enabled in all projects
-          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+          heading: Diese Kostenart ist in allen Projekten aktiviert
+          description: Deaktivieren Sie auf der Registerkarte "Details" die Option "Für alle Projekte", um diese Kostenart auf bestimmte Projekte zu beschränken.
         no_projects:
-          heading: No projects assigned
-          description: Add projects so this cost type can be used in them.
+          heading: Keine zugewiesenen Projekte
+          description: Fügen Sie Projekte hinzu, damit diese Kostenart in ihnen verwendet werden kann.
       rates:
-        title: Rate history
+        title: Stückpreise-Historie
     settings:
-      time_and_costs: Time & Costs
+      time_and_costs: Zeit und Kosten
       cost_types:
-        heading: Cost types
-        none_active: No cost types are currently active in this project.
-        for_all_projects_hint: This cost type is enabled in all projects.
+        heading: Kostentypen
+        none_active: In diesem Projekt sind derzeit keine Kostenarten aktiv.
+        for_all_projects_hint: Diese Kostenart ist in allen Projekten aktiviert.
   costs:
     widgets:
       actual_costs:

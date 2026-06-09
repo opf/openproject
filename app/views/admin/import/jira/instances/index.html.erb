@@ -49,8 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
       label: t("admin.jira.configuration.title"),
       scheme: :primary,
       tag: :a,
-      href: new_admin_import_jira_path,
-      disabled: !Setting::WorkPackageIdentifier.semantic?
+      href: new_admin_import_jira_path
     ) { t("admin.jira.configuration.title") }
   end
 %>

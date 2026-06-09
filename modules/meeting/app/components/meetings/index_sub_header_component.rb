@@ -41,6 +41,8 @@ module Meetings
       @params = params
     end
 
+    private
+
     def render_create_button?
       if @project
         User.current.allowed_in_project?(:create_meetings, @project)

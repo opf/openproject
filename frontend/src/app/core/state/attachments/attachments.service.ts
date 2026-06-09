@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -46,7 +46,6 @@ import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { AttachmentsStore } from 'core-app/core/state/attachments/attachments.store';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
   IUploadFile,
   OpUploadService,
@@ -56,19 +55,18 @@ import {
   ResourceStore,
   ResourceStoreService,
 } from 'core-app/core/state/resource-store.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import isNewResource, { HAL_NEW_RESOURCE_ID } from 'core-app/features/hal/helpers/is-new-resource';
 import waitForUploadsFinished from 'core-app/core/upload/wait-for-uploads-finished';
 
 @Injectable()
 export class AttachmentsResourceService extends ResourceStoreService<IAttachment> {
-  @InjectField() I18n:I18nService;
+  readonly I18n = inject(I18nService);
 
-  @InjectField() uploadService:OpUploadService;
+  // Keep lazy: the upload service factory depends on loaded configuration.
+  @LazyInject() uploadService:OpUploadService;
 
-  @InjectField() configurationService:ConfigurationService;
-
-  @InjectField() toastService:ToastService;
+  readonly configurationService = inject(ConfigurationService);
 
   /**
    * Sends deletion request and updates the store collection of attachments.

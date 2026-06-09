@@ -19,8 +19,7 @@ import {
   SlotLaneContentArg,
 } from '@fullcalendar/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
-import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
+import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import interactionPlugin from '@fullcalendar/interaction';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -31,7 +30,6 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
@@ -620,11 +618,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   }
 
   private entityName(entry:TimeEntryResource):string {
-    const entity = entry.entity;
-    const formattedId = entity instanceof WorkPackageResource
-      ? entity.formattedId
-      : `#${idFromLink(entity.href)}`;
-    return `${formattedId}: ${entity.name}`;
+    return formatTimeEntryEntityName(entry.entity);
   }
 
   private popoverHtml(

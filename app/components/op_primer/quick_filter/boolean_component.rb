@@ -30,7 +30,7 @@
 
 module OpPrimer
   module QuickFilter
-    class BooleanComponent < SegmentedComponent
+    class BooleanComponent < SegmentedControlComponent
       def initialize(name:, query:, filter_key:, path_args:, true_label: t(:general_text_Yes), false_label: t(:general_text_No),
                      orders: nil)
         super(name:, query:, filter_key:, path_args:, orders:)

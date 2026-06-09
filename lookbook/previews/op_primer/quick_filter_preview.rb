@@ -31,11 +31,11 @@
 module OpPrimer
   # @logical_path OpenProject/Primer
   class QuickFilterPreview < Lookbook::Preview
-    def segmented
+    def segmented_control
       render_with_template(locals: { query: meeting_query })
     end
 
-    def segmented_with_active_filter
+    def segmented_control_with_active_filter
       query = meeting_query
       query.where("time", "=", ["future"])
       render_with_template(locals: { query: })
@@ -44,6 +44,12 @@ module OpPrimer
     def boolean
       query = meeting_query
       query.where("type", "=", ["t"])
+      render_with_template(locals: { query: })
+    end
+
+    def select_panel_with_active_filter
+      query = meeting_query
+      query.where("project_id", "=", [Project.visible.first&.id.to_s].compact)
       render_with_template(locals: { query: })
     end
 

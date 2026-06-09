@@ -35,68 +35,19 @@ zh-CN:
           XWiki 提供商
           Other
           XWiki 提供商
+  menus:
+    admin:
+      external_wiki_providers: Wiki providers
+      internal_wiki_provider: Internal wiki
+      wikis: Wikis
   permission_manage_wiki_page_links: 管理 Wiki 页面链接
   project_module_wiki_platforms: Wiki 提供商
   wikis:
-    buttons:
-      connect_account: 连接 %{provider} 帐户
-      done_continue: 完成, 继续
-      open_wiki: 打开 wiki
-      save_and_continue: 保存并继续
-      wiki_page: Wiki 页面
-    instructions:
-      xwiki:
-        integration: XWiki 管理
-        oauth_application_details_html: 关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 [XWiki OpenProject 集成设置](xwiki_admin_link)中。
-    provider_types:
-      xwiki:
-        name: XWiki
-    delete_relation_page_link_confirmation_dialog:
-      title: 删除相关 wiki 页面链接
-      heading: 是否删除相关 wiki 页面链接？
-    health_checks:
-      authentication:
-        existing_token: 用户令牌
-        header: 身份验证
-        user_bound_request: 基于用户的请求身份验证
-      base_configuration:
-        header: 配置
-        provider_configured: 配置完成
-      errors:
-        not_configured: 无法验证连接。请先完成配置。
-        xwiki_oauth_connection_error: OpenProject 无法连接到已配置的 XWiki 实例。
-        xwiki_oauth_request_error: 尝试与 XWiki 实例通信时发生意外错误。
-        xwiki_oauth_token_missing: OpenProject 无法测试用户与 XWiki 的用户级通信，因为用户尚未关联他们的 XWiki 帐户。
-        xwiki_oauth_unauthorized: XWiki 未识别用户令牌。
-    link_existing_wiki_page_dialog:
-      title: 添加现有 wiki 页面
-    link_existing_wiki_page_form:
-      no_results: No wiki pages found
-      placeholder: Search for a wiki page
-    work_package_wikis_tab_component:
-      inline_page_links: 内联页面链接
-      referencing_pages: 引用于
-    page_links:
-      errors:
-        page_not_found: 关联的 wiki 页面不再可用
-        page_access_forbidden: 您无权访问此 wiki 页面
-        unexpected: 发生意外错误
-    page_link_component:
-      remove: 删除页面链接
-    relation_page_links_component:
-      link_existing: 现有 wiki 页面
-      link_new: 新 wiki 页面
-      empty_heading: 无相关页面
-      empty_text: 手动添加链接到其他相关Wiki页面。
-    oauth_login_component:
-      heading: 未连接至 %{provider}
-      description: 登录 %{provider} ，查看和管理此 OpenProject 实例的相关Wiki页面。
-      connect_button: 连接 %{provider} 账户
     admin:
       destroy_confirmation_dialog_component:
-        title: 删除 wiki 提供商
-        heading: 是否永久删除此 wiki 提供商？
         description_html: Wiki 提供商 %{wiki_provider} 和所有相关的 wiki 页面链接将被删除。此外，每个内联 wiki 页面链接也将无法再访问。此操作无法撤消。
+        heading: 是否永久删除此 wiki 提供商？
+        title: 删除 wiki 提供商
       forms:
         general_info_form_component:
           provider_description: 在进行设置之前，请确保您在 XWiki 实例中具有管理权限。
@@ -118,6 +69,12 @@ zh-CN:
           no_health_report: 无可用报告
           no_health_report_description: 立即运行检查，以获取此 wiki 提供商的完整健康状态报告。
           title: 健康报告
+      internal_provider_form:
+        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
+        checkbox_label: Enable the internal OpenProject wiki
+      internal_wiki_provider:
+        show:
+          description: Choose to enable or disable the internal OpenProject wiki
       oauth_application_info_component:
         confirm_replace_oauth_application: 此操作将重置当前的 OAuth 凭据。确认后，您必须在 XWiki 实例中重新输入凭据，所有用户都必须重新授权。确定要继续吗？
         label_oauth_client_id: OAuth 客户端 ID
@@ -162,3 +119,61 @@ zh-CN:
           openproject_oauth_description: 允许 XWiki 使用 OAuth 访问 OpenProject 数据。
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: 允许 OpenProject 使用 OAuth 访问 XWiki 数据。
+    buttons:
+      connect_account: 连接 %{provider} 帐户
+      done_continue: 完成, 继续
+      open_wiki: 打开 wiki
+      save_and_continue: 保存并继续
+      wiki_page: Wiki 页面
+    create_new_wiki_page_dialog:
+      page_title: Title
+      parent_help_text: Select a parent for this new wiki page.
+      title: Create new wiki page
+    delete_relation_page_link_confirmation_dialog:
+      heading: 是否删除相关 wiki 页面链接？
+      title: 删除相关 wiki 页面链接
+    health_checks:
+      authentication:
+        existing_token: 用户令牌
+        header: 身份验证
+        user_bound_request: 基于用户的请求身份验证
+      base_configuration:
+        header: 配置
+        provider_configured: 配置完成
+      errors:
+        not_configured: 无法验证关联。请先完成配置。
+        xwiki_oauth_connection_error: OpenProject 无法关联到已配置的 XWiki 实例。
+        xwiki_oauth_request_error: 尝试与 XWiki 实例通信时发生意外错误。
+        xwiki_oauth_token_missing: OpenProject 无法测试用户与 XWiki 的用户级通信，因为用户尚未关联他们的 XWiki 帐户。
+        xwiki_oauth_unauthorized: XWiki 未识别用户令牌。
+    instructions:
+      xwiki:
+        integration: XWiki 管理
+        oauth_application_details_html: 关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 [XWiki OpenProject 集成设置](xwiki_admin_link)中。
+    link_existing_wiki_page_dialog:
+      title: 添加现有 wiki 页面
+    link_existing_wiki_page_form:
+      no_results: No wiki pages found
+      placeholder: Search for a wiki page
+    oauth_login_component:
+      connect_button: 连接 %{provider} 账户
+      description: 登录 %{provider} ，查看和管理此 OpenProject 实例的相关Wiki页面。
+      heading: 未连接至 %{provider}
+    page_link_component:
+      remove: 删除页面链接
+    page_links:
+      errors:
+        page_access_forbidden: 您无权访问此 wiki 页面
+        page_not_found: 关联的 wiki 页面不再可用
+        unexpected: 发生意外错误
+    provider_types:
+      xwiki:
+        name: XWiki
+    relation_page_links_component:
+      empty_heading: 无相关页面
+      empty_text: 手动添加链接到其他相关Wiki页面。
+      link_existing: 现有 wiki 页面
+      link_new: 新 wiki 页面
+    work_package_wikis_tab_component:
+      inline_page_links: 内联页面链接
+      referencing_pages: 引用于

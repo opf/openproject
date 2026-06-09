@@ -34,6 +34,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   include WorkPackages::ActivitiesTab::JournalSortingInquirable
   include WorkPackages::ActivitiesTab::StimulusControllers
 
+  Filters = WorkPackages::ActivitiesTab::Filters
+
   before_action :find_work_package
   before_action :find_journal, only: %i[emoji_actions item_actions edit cancel_edit update toggle_reaction]
   before_action :set_filter
@@ -47,7 +49,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         journals: @paginated_journals,
         paginator: @paginator,
         filter: @filter,
-        last_server_timestamp: get_current_server_timestamp
+        last_server_timestamp: get_current_server_timestamp,
+        resolved_anchor: @resolved_anchor
       ),
       layout: false
     )
@@ -173,7 +176,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     respond_with_turbo_streams
   end
 
-  def toggle_reaction # rubocop:disable Metrics/AbcSize
+  def toggle_reaction
     emoji_reaction_service = EmojiReactions::ToggleEmojiReactionService
       .call(user: User.current,
             reactable: @journal,
@@ -183,7 +186,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
       update_via_turbo_stream(
         component: WorkPackages::ActivitiesTab::Journals::ItemComponent::Show.new(
           journal: @journal,
-          filter: params[:filter]&.to_sym || :all,
+          filter: @filter,
           grouped_emoji_reactions: grouped_emoji_reactions_for_journal
         )
       )
@@ -208,8 +211,9 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def initialize_pagination
-    @paginator, @paginated_journals = WorkPackages::ActivitiesTab::Paginator
-      .paginate(@work_package, params.merge(filter: @filter, limit: 20))
+    paginator = WorkPackages::ActivitiesTab::Paginator.new(@work_package, params.merge(filter: @filter, limit: 20))
+    @paginator, @paginated_journals = paginator.call
+    @resolved_anchor = paginator.resolved_anchor
   end
 
   def respond_with_error(error_message)
@@ -237,14 +241,13 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     @journal = @work_package
       .journals
       .internal_visible
-      .with_sequence_version
       .find(params[:id])
   rescue ActiveRecord::RecordNotFound
     respond_with_error(I18n.t("label_not_found"))
   end
 
   def set_filter
-    @filter = (params[:filter] || params.dig(:journal, :filter))&.to_sym || :all
+    @filter = Filters.cast(params[:filter] || params.dig(:journal, :filter))
   end
 
   def sanitized_journal_notes
@@ -256,7 +259,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def handle_successful_create_call(call)
-    if @filter == :only_changes
+    if @filter == Filters::ONLY_CHANGES
       handle_only_changes_filter_on_create
     else
       handle_other_filters_on_create(call)
@@ -264,7 +267,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   end
 
   def handle_only_changes_filter_on_create
-    @filter = :all # reset filter
+    @filter = Filters::ALL # reset filter
     # we need to update the whole tab in order to reset the filter
     # as the added journal would not be shown otherwise
     replace_whole_tab
@@ -317,7 +320,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         journals: @paginated_journals,
         paginator: @paginator,
         filter: @filter,
-        last_server_timestamp: get_current_server_timestamp
+        last_server_timestamp: get_current_server_timestamp,
+        resolved_anchor: @resolved_anchor
       )
     )
   end
@@ -359,9 +363,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     journals = @work_package
                  .journals
                  .internal_visible
-                 .with_sequence_version
 
-    if @filter == :only_comments
+    if @filter == Filters::ONLY_COMMENTS
       journals = journals.where.not(notes: "")
     end
 
@@ -407,7 +410,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         next if editing_journals.include?(notification.journal_id)
 
         update_item_show_component(
-          journal: journals.find(notification.journal_id), # take the journal from the journals querried with sequence_version!
+          journal: journals.find(notification.journal_id),
           grouped_emoji_reactions: grouped_emoji_reactions.fetch(notification.journal_id, {})
         )
       end

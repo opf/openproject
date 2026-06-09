@@ -33,7 +33,7 @@ de:
           title: Unterelemente
         project_favorites:
           title: Favorisierte Projekte
-          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
+          no_results: Sie haben derzeit keine favorisierten Projekte. Fügen Sie ein oder mehrere Projekte in der Übersicht oder in einer Projektliste als Favoriten hinzu.
         time_entries_current_user:
           title: Meine gebuchte Zeit
           displayed_days: 'Dargestellte Tage im Widget:'

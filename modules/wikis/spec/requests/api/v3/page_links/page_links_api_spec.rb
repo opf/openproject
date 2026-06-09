@@ -34,18 +34,18 @@ require_module_spec_helper
 RSpec.describe "API v3 wiki page links resource", content_type: :json do
   include API::V3::Utilities::PathHelper
 
-  let(:work_package) { create(:work_package) }
-  let(:internal_wiki) { create(:internal_wiki_provider) }
-  let(:xwiki_provider) { create(:xwiki_provider) }
+  shared_let(:work_package) { create(:work_package) }
+  shared_let(:internal_wiki) { create(:internal_wiki_provider) }
+  shared_let(:xwiki_provider) { create(:xwiki_provider) }
 
-  let(:project) { work_package.project }
+  shared_let(:project) { work_package.project }
 
-  let(:user) { create(:user, member_with_permissions: { project => %i(view_work_packages manage_wiki_page_links) }) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => %i(view_work_packages manage_wiki_page_links) }) }
 
-  let(:relation_page_links) { create_list(:relation_wiki_page_link, 3, provider: xwiki_provider, linkable: work_package) }
-  let(:inline_page_links) { create_list(:inline_wiki_page_link, 3, provider: internal_wiki, linkable: work_package) }
+  shared_let(:relation_page_links) { create_list(:relation_wiki_page_link, 3, provider: xwiki_provider, linkable: work_package) }
+  shared_let(:inline_page_links) { create_list(:inline_wiki_page_link, 3, provider: internal_wiki, linkable: work_package) }
 
-  let(:unrelated_page_links) do
+  shared_let(:unrelated_page_links) do
     create_list(:inline_wiki_page_link, 3, provider: internal_wiki, linkable: create(:work_package, project: project))
   end
 
@@ -75,6 +75,52 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
 
       it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
         let(:elements) { Wikis::PageLink.where(linkable: work_package, provider: internal_wiki).order(id: :desc).all }
+      end
+    end
+  end
+
+  describe "GET /api/v3/wiki_page_links" do
+    let(:unaccessible_links) { create_list(:relation_wiki_page_link, 2, provider: xwiki_provider) }
+    let(:path) { api_v3_paths.wiki_page_links }
+
+    context "with all preconditions met (happy path)" do
+      before do
+        unaccessible_links
+        get path
+      end
+
+      it_behaves_like "API V3 collection response", 9, 9, "WikiPageLink", "WikiPageLinkCollection" do
+        let(:elements) { Wikis::PageLink.where.not(id: unaccessible_links.pluck(:id)).order(id: :desc).all }
+      end
+    end
+
+    context "when filtered by provider" do
+      let(:filter) { [{ provider: { operator: "=", values: [internal_wiki.universal_identifier] } }] }
+
+      before { get "#{path}?filters=#{CGI.escape(filter.to_json)}" }
+
+      it_behaves_like "API V3 collection response", 6, 6, "WikiPageLink", "WikiPageLinkCollection" do
+        let(:elements) { Wikis::PageLink.where(provider: internal_wiki).order(id: :desc).all }
+      end
+    end
+
+    context "when filtered by link type" do
+      let(:filter) do
+        [{ wiki_page_link_type:
+             { operator: "=", values: [API::V3::PageLinks::URN_PAGE_LINK_TYPE["Wikis::RelationPageLink"]] } }]
+      end
+
+      before { get "#{path}?filters=#{CGI.escape(filter.to_json)}" }
+
+      it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
+        let(:elements) { Wikis::RelationPageLink.where.not(id: unaccessible_links.pluck(:id)).order(id: :desc).all }
+      end
+
+      it "only returns the filtered type" do
+        json = MultiJson.load(last_response.body, symbolize_keys: true)
+
+        expect(json.dig(:_embedded, :elements))
+          .to all(include(wikiPageLinkType: API::V3::PageLinks::URN_PAGE_LINK_TYPE["Wikis::RelationPageLink"]))
       end
     end
   end
@@ -168,10 +214,10 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
 
   def stub_provider_queries
     internal_class = class_double(Wikis::Adapters::Providers::Internal::Queries::PageInfo)
-    xwiki_class = class_double(Wikis::Adapters::Providers::XWiki::Queries::PageInfo)
+    xwiki_class = class_double(Wikis::Adapters::Providers::XWiki::Queries::StablePageInfo)
 
     internal_query = instance_double(Wikis::Adapters::Providers::Internal::Queries::PageInfo)
-    xwiki_query = instance_double(Wikis::Adapters::Providers::XWiki::Queries::PageInfo)
+    xwiki_query = instance_double(Wikis::Adapters::Providers::XWiki::Queries::StablePageInfo)
 
     Wikis::Adapters::Registry.stub("internal.queries.page_info", internal_class)
     Wikis::Adapters::Registry.stub("xwiki.queries.page_info", xwiki_class)
@@ -180,6 +226,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     allow(xwiki_class).to receive(:new).and_return(xwiki_query)
     stub_query_calls(inline_page_links, internal_query)
     stub_query_calls(relation_page_links, xwiki_query)
+    stub_query_calls(unrelated_page_links, internal_query)
   end
 
   def stub_query_calls(links, query)

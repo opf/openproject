@@ -39,68 +39,19 @@ pl:
         few: Dostawca XWiki
         many: Dostawcy XWiki
         other: Dostawcy XWiki
+  menus:
+    admin:
+      external_wiki_providers: Wiki providers
+      internal_wiki_provider: Internal wiki
+      wikis: Wikis
   permission_manage_wiki_page_links: Zarządzanie linkami do stron Wiki
   project_module_wiki_platforms: Dostawcy wiki
   wikis:
-    buttons:
-      connect_account: Podłącz konto %{provider}
-      done_continue: Gotowe, kontynuuj
-      open_wiki: Otwórz wiki
-      save_and_continue: Zapisz i kontynuuj
-      wiki_page: Strona wiki
-    instructions:
-      xwiki:
-        integration: Administracja XWiki
-        oauth_application_details_html: Wartość klucza tajnego klienta nie będzie ponownie dostępna po zamknięciu tego okna. Skopiuj te wartości do [ustawień integracji XWiki z OpenProject](xwiki_admin_link).
-    provider_types:
-      xwiki:
-        name: XWiki
-    delete_relation_page_link_confirmation_dialog:
-      title: Usuń powiązany link do strony wiki
-      heading: Usunąć powiązany link do strony wiki?
-    health_checks:
-      authentication:
-        existing_token: Token użytkownika
-        header: Uwierzytelnianie
-        user_bound_request: Uwierzytelnianie żądań po stronie użytkownika
-      base_configuration:
-        header: Konfiguracja
-        provider_configured: Ukończono konfigurację
-      errors:
-        not_configured: Nie można zweryfikować połączenia. Najpierw zakończ konfigurację.
-        xwiki_oauth_connection_error: OpenProject nie może połączyć się ze skonfigurowanym wystąpieniem XWiki.
-        xwiki_oauth_request_error: Podczas próby komunikacji z wystąpieniem XWiki wystąpił nieoczekiwany błąd.
-        xwiki_oauth_token_missing: Aplikacja OpenProject nie może przetestować komunikacji z XWiki na poziomie użytkownika, ponieważ użytkownik nie powiązał jeszcze swojego konta XWiki.
-        xwiki_oauth_unauthorized: Token użytkownika nie został rozpoznany przez XWiki.
-    link_existing_wiki_page_dialog:
-      title: Dodaj istniejącą stronę wiki
-    link_existing_wiki_page_form:
-      no_results: No wiki pages found
-      placeholder: Search for a wiki page
-    work_package_wikis_tab_component:
-      inline_page_links: Wbudowane linki strony
-      referencing_pages: Wymieniono w
-    page_links:
-      errors:
-        page_not_found: Powiązana linkiem strona wiki nie jest już dostępna
-        page_access_forbidden: Nie masz uprawnień dostępu do tej strony wiki
-        unexpected: Wystąpił nieoczekiwany błąd
-    page_link_component:
-      remove: Usuń link do strony
-    relation_page_links_component:
-      link_existing: Istniejąca strona wiki
-      link_new: Nowa strona wiki
-      empty_heading: Brak powiązanych stron
-      empty_text: Ręcznie dodaj linki do innych powiązanych stron wiki.
-    oauth_login_component:
-      heading: Nie połączono z %{provider}
-      description: Zaloguj się do %{provider}, aby przeglądać strony wiki powiązane z tym wystąpieniem OpenProject i zarządzać nimi.
-      connect_button: Podłącz konto %{provider}
     admin:
       destroy_confirmation_dialog_component:
-        title: Usuń dostawcę wiki
-        heading: Czy trwale usunąć tego dostawcę wiki?
         description_html: Zostanie usunięty dostawca wiki %{wiki_provider} i wszystkie powiązane linki do stron wiki. Ponadto nie będzie już dostępny żaden link do strony wiki. To działanie jest nieodwracalne.
+        heading: Czy trwale usunąć tego dostawcę wiki?
+        title: Usuń dostawcę wiki
       forms:
         general_info_form_component:
           provider_description: Przed wykonaniem konfiguracji upewnij się, że masz uprawnienia administracyjne w swoim wystąpieniu XWiki.
@@ -122,6 +73,12 @@ pl:
           no_health_report: Brak dostępnych raportów
           no_health_report_description: Uruchom kontrole teraz, aby uzyskać pełny raport o stanie tego dostawcy wiki.
           title: Raport o stanie
+      internal_provider_form:
+        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
+        checkbox_label: Enable the internal OpenProject wiki
+      internal_wiki_provider:
+        show:
+          description: Choose to enable or disable the internal OpenProject wiki
       oauth_application_info_component:
         confirm_replace_oauth_application: To działanie spowoduje zresetowanie bieżących poświadczeń OAuth. Po potwierdzeniu trzeba będzie ponownie wprowadzić poświadczenia w swoim wystąpieniu XWiki, a wszyscy użytkownicy będą musieli dokonać ponownej autoryzacji. Czy na pewno chcesz kontynuować?
         label_oauth_client_id: Identyfikator klienta OAuth
@@ -166,3 +123,61 @@ pl:
           openproject_oauth_description: Zezwalaj XWiki na dostęp do danych OpenProject za pomocą OAuth.
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: Zezwalaj OpenProject na dostęp do danych XWiki za pomocą OAuth.
+    buttons:
+      connect_account: Podłącz konto %{provider}
+      done_continue: Gotowe, kontynuuj
+      open_wiki: Otwórz wiki
+      save_and_continue: Zapisz i kontynuuj
+      wiki_page: Strona wiki
+    create_new_wiki_page_dialog:
+      page_title: Title
+      parent_help_text: Select a parent for this new wiki page.
+      title: Create new wiki page
+    delete_relation_page_link_confirmation_dialog:
+      heading: Usunąć powiązany link do strony wiki?
+      title: Usuń powiązany link do strony wiki
+    health_checks:
+      authentication:
+        existing_token: Token użytkownika
+        header: Uwierzytelnianie
+        user_bound_request: Uwierzytelnianie żądań po stronie użytkownika
+      base_configuration:
+        header: Konfiguracja
+        provider_configured: Ukończono konfigurację
+      errors:
+        not_configured: Nie można zweryfikować połączenia. Najpierw zakończ konfigurację.
+        xwiki_oauth_connection_error: OpenProject nie może połączyć się ze skonfigurowanym wystąpieniem XWiki.
+        xwiki_oauth_request_error: Podczas próby komunikacji z wystąpieniem XWiki wystąpił nieoczekiwany błąd.
+        xwiki_oauth_token_missing: Aplikacja OpenProject nie może przetestować komunikacji z XWiki na poziomie użytkownika, ponieważ użytkownik nie powiązał jeszcze swojego konta XWiki.
+        xwiki_oauth_unauthorized: Token użytkownika nie został rozpoznany przez XWiki.
+    instructions:
+      xwiki:
+        integration: Administracja XWiki
+        oauth_application_details_html: Wartość klucza tajnego klienta nie będzie ponownie dostępna po zamknięciu tego okna. Skopiuj te wartości do [ustawień integracji XWiki z OpenProject](xwiki_admin_link).
+    link_existing_wiki_page_dialog:
+      title: Dodaj istniejącą stronę wiki
+    link_existing_wiki_page_form:
+      no_results: No wiki pages found
+      placeholder: Search for a wiki page
+    oauth_login_component:
+      connect_button: Podłącz konto %{provider}
+      description: Zaloguj się do %{provider}, aby przeglądać strony wiki powiązane z tym wystąpieniem OpenProject i zarządzać nimi.
+      heading: Nie połączono z %{provider}
+    page_link_component:
+      remove: Usuń link do strony
+    page_links:
+      errors:
+        page_access_forbidden: Nie masz uprawnień dostępu do tej strony wiki
+        page_not_found: Powiązana linkiem strona wiki nie jest już dostępna
+        unexpected: Wystąpił nieoczekiwany błąd
+    provider_types:
+      xwiki:
+        name: XWiki
+    relation_page_links_component:
+      empty_heading: Brak powiązanych stron
+      empty_text: Ręcznie dodaj linki do innych powiązanych stron wiki.
+      link_existing: Istniejąca strona wiki
+      link_new: Nowa strona wiki
+    work_package_wikis_tab_component:
+      inline_page_links: Wbudowane linki strony
+      referencing_pages: Wymieniono w

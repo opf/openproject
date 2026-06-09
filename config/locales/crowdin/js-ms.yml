@@ -1041,16 +1041,13 @@ ms:
         all: Semua projek
         selected: Hanya terpilih
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Termasuk semua sub-projek
       tooltip:
         include_all_selected: Projek sudah disertakan sejak Sertakan semua sub-projek didayakan.
         current_project: Ini adalah projek yang anda terlibat dalam sekarang.
         does_not_match_search: Projek tidak sepadan dengan kriteria carian.
       no_results: Tiada projek yang sepadan dengan kriteria carian anda.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

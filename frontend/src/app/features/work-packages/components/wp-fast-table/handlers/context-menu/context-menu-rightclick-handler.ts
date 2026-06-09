@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TableEventComponent } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { timelineCellClassName } from '../../builders/timeline/timeline-row-builder';
@@ -10,7 +10,7 @@ import { ContextMenuHandler } from './context-menu-handler';
 import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/event-handling/event-handler-registry';
 
 export class ContextMenuRightClickHandler extends ContextMenuHandler {
-  @InjectField() readonly wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() readonly wpTableSelection:WorkPackageViewSelectionService;
 
   constructor(public readonly injector:Injector) {
     super(injector);

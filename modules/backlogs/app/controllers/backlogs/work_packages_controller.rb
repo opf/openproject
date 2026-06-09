@@ -31,6 +31,7 @@
 module Backlogs
   class WorkPackagesController < BaseController
     include OpTurbo::ComponentStream
+    include Backlogs::Concerns::ContainerLoading
 
     before_action :load_work_package
 
@@ -112,10 +113,11 @@ module Backlogs
     end
 
     def backlog_component
-      inbox_work_packages = WorkPackage.backlogs_inbox_for(project: @project)
-      buckets = BacklogBucket.for_project(@project)
+      load_backlog_data
 
-      Backlogs::BacklogComponent.new(inbox_work_packages:, buckets:, project: @project)
+      Backlogs::BacklogComponent.new(buckets: @backlog_buckets,
+                                     work_packages_by_backlog_id: @work_packages_by_backlog_id,
+                                     project: @project)
     end
 
     def load_work_package
@@ -133,7 +135,7 @@ module Backlogs
       elsif @work_package.backlog_bucket_id?
         @work_packages.merge(@work_package.backlog_bucket.displayed_work_packages)
       else
-        @work_packages.merge(WorkPackage.backlogs_inbox_for(project: @project))
+        @work_packages.merge(WorkPackage.in_inbox_for(project: @project))
       end
     end
 

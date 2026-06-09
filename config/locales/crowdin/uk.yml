@@ -52,25 +52,25 @@ uk:
           confirm_button_text: Зробити загальнодоступним
   admin:
     reserved_identifiers:
-      title: Reserved project identifiers
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
-      col_identifier: Identifier
-      col_project: Project
-      col_reserved: Reserved
-      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
-      filter_label: Search identifiers
-      btn_release: Release
-      released_notice: Identifier "%{identifier}" has been released.
-      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
+      title: Зарезервовані ідентифікатори проєктів
+      lede_html: Коли ідентифікатор проєкту перейменовується, попередній ідентифікатор залишається зарезервованим, щоб наявні посилання й інтеграції продовжували працювати.<br>Тут ви можете відв’язати зарезервовані ідентифікатори, щоб їх можна було використовувати для інших проєктів.
+      col_identifier: Ідентифікатор
+      col_project: Проєкт
+      col_reserved: Зарезервовано
+      not_available_in_semantic_mode: Зарезервовані ідентифікатори проєктів доступні лише в режимі числових ідентифікаторів.
+      filter_label: Шукати ідентифікатори
+      btn_release: Відв’язати
+      released_notice: Ідентифікатор %{identifier} відв’язано.
+      identifier_not_found: Не вдалося знайти зарезервований ідентифікатор. Можливо, його вже відв’язали або проєкт було видалено. Оновіть сторінку.
       dialog:
-        title: Release identifier
-        heading: Release "%{identifier}"?
-        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        checkbox_label: I understand that this cannot be undone.
-        confirm_button: Release identifier
-      empty_heading: No reserved identifiers
-      reserved_ago: "%{time} ago"
-      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
+        title: Відв’язати ідентифікатор
+        heading: Відв’язати %{identifier}?
+        description: Якщо відв’язати ідентифікатор, цю дію не можна буде відмінити. Зовнішні посилання й інтеграції, що використовують цей ідентифікатор, перестануть розпізнаватися, а ім’я стане доступним для будь-якого нового проєкту.
+        checkbox_label: Я розумію, що цю дію не можна відмінити.
+        confirm_button: Відв’язати ідентифікатор
+      empty_heading: Немає зарезервованих ідентифікаторів
+      reserved_ago: "%{time} тому"
+      empty_body: Коли ідентифікатор проєкту змінюється, тут з’являється попередній ідентифікатор, щоб ви могли відв’язати його, щойно переконаєтеся, що це безпечно.
     plugins:
       no_results_title_text: Зараз немає встановлених плагінів.
       no_results_content_text: Щоб дізнатися більше, ознайомтеся з нашою сторінкою інтеграцій і планів.
@@ -140,8 +140,8 @@ uk:
         cannot_delete_with_imports: Не вдається видалити хост Jira з наявними процесами імпорту
         custom_field_creation_failed: 'Не вдалося створити користувацьке поле «%{name}»: %{message}'
         semantic_identifiers_must_be_enabled:
-          title: Project-based semantic identifiers must be enabled.
-          description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
+          title: Необхідно ввімкнути семантичні ідентифікатори із зазначенням проєктів.
+          description: Jira використовує ідентифікатори задач, що складаються з ключа проєкту й порядкового номера (наприклад, PRJ-123). OpenProject також підтримує цю функцію, але її потрібно ввімкнути [тут](link).
       blank:
         title: Ще немає налаштованих хостів Jira
         description: Налаштуйте хост Jira, щоб почати імпорт елементів із Jira в цей екземпляр OpenProject.
@@ -180,13 +180,13 @@ uk:
       client:
         connection_error: 'Не вдалося під’єднатися до сервера Jira: %{message}'
         connection_timeout: 'Час очікування на встановлення з’єднання до сервера Jira минув: %{message}'
-        ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
-        ssrf_block_doc_link: Please see our [documentation](docs_url).
-        ssl_error: 'SSL error connecting to Jira server: %{message}'
+        ssrf_blocked: 'З’єднання заблоковано: хост Jira розпізнається як приватна IP-адреса. Якщо ваш екземпляр Jira працює у внутрішній мережі, дозвольте її IP-адресу за допомогою змінної середовища OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST.'
+        ssrf_block_doc_link: Перегляньте [документацію](docs_url).
+        ssl_error: 'При підключенні до сервера Jira сталася помилка SSL: %{message}'
         parse_error: 'Не вдалося проаналізувати відповідь Jira API: %{message}'
         api_error: Інтерфейс Jira API повернув статус помилки «%{status}»
         401_error: Інтерфейс Jira API повернув помилку 401. Можливо, закінчився строк дії вашого маркера автентифікації або в нього немає необхідних дозволів. Переконайтеся, що маркер належить адміністратору Jira.
-        429_error: Jira API returned a 429 error. It means token owner has been rate limited by the Jira instance. Please disable rate limiting for this user.
+        429_error: Інтерфейс Jira API повернув помилку 429. Це означає, що для власника маркера діють обмеження частоти запитів екземпляра Jira. Вимкніть обмеження для цього користувача.
       columns:
         projects: Проєкти
         last_change: Остання зміна
@@ -298,7 +298,7 @@ uk:
               elements:
                 relations: Зв’язки між задачами
                 project_ids: Ідентифікатори проєктів
-                issue_ids: Issue identifiers
+                issue_ids: Ідентифікатори задач
                 sprints: Призначення спринту
                 workflows: Робочі процеси на рівні проєктів
                 schemes: Схеми
@@ -353,7 +353,7 @@ uk:
           select_projects:
             title: Виберіть проєкти
       user:
-        unknown_name: Unknown
+        unknown_name: Невідомо
     mcp_configurations:
       index:
         description: Протокол контексту моделі дає змогу агентам ШІ надавати користувачам інструменти й ресурси, доступні в цьому екземплярі OpenProject. Ця функція досі доступна лише в бета-версії.
@@ -445,11 +445,11 @@ uk:
         page_header:
           description: Виберіть класичні числові ідентифікатори пакетів робіт або семантичні із зазначенням проєкту (до ідентифікатора пакета робіт додається префікс з ідентифікатором проєкту).
         banner:
-          existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
+          existing_identifiers_notice: 'Наявні ідентифікатори для кількох проєктів (%{project_count}) не відповідають вимогам до семантичних ідентифікаторів із зазначенням проєктів. OpenProject може автоматично оновити їх, щоб вони стали дійсними, як показано в прикладах нижче. Натисніть кнопку «Конвертувати ідентифікатори», щоб оновити в такий спосіб ідентифікатори для всіх проєктів і ввімкнути семантичні ідентифікатори із зазначенням проєктів.
 
             '
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: Проєкти з ідентифікаторами, які буде оновлено
           label_project: Проєкт
           label_previous_identifier: Попередній ідентифікатор
           label_autofixed_suggestion: Майбутній ідентифікатор
@@ -469,21 +469,21 @@ uk:
             few: "… ще %{count} проєкти"
             many: "… ще %{count} проєктів"
             other: "… ще %{count} проєкту"
-        button_autofix: Convert identifiers
-        button_save: Convert identifiers
+        button_autofix: Конвертувати ідентифікатори
+        button_save: Конвертувати ідентифікатори
         dialog:
           title: Змінити ідентифікатори пакетів робіт
           heading: Увімкнути ідентифікатори пакетів робіт із зазначенням проєктів?
-          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to work. This change will take some time to complete.
+          description: 'Це призведе до зміни ідентифікаторів усіх пакетів робіт у всіх проєктах цього екземпляра. Попередні ідентифікатори і URL-адреси й далі працюватимуть. Для впровадження цієї зміни знадобиться деякий час.
 
             '
           confirm_button: Змінити ідентифікатори
           checkbox_label: Я розумію, що ця дія назавжди змінить усі ідентифікатори пакетів робіт
         success_banner: Формат ідентифікаторів пакетів робіт успішно оновлено.
         in_progress:
-          header_semantic: Converting to project-based identifiers
-          header_classic: Converting to numeric identifiers
-          footer_message: Background conversion is in progress. You can safely leave this page.
+          header_semantic: Конвертація ідентифікаторів у тип із зазначенням проєктів
+          header_classic: Конвертація ідентифікаторів у числові
+          footer_message: Виконується конвертація у фоновому режимі. Можете залишити цю сторінку.
     workflows:
       tabs:
         default_transitions: Стандартні переходи
@@ -513,10 +513,10 @@ uk:
         label: 'Роль: %{role}'
         no_role: Виберіть роль
         roles:
-          one: One role selected
-          few: "%{count} roles selected"
-          many: "%{count} roles selected"
-          other: "%{count} roles selected"
+          one: Вибрано %{count} роль
+          few: Вибрано %{count} ролі
+          many: Вибрано %{count} ролей
+          other: Вибрано %{count} ролі
       blankslate:
         title: Переходи статусів не налаштовано
         description: Додайте статуси, щоб почати налаштовувати робочі процеси для цієї ролі
@@ -936,7 +936,7 @@ uk:
         text: Ця дія не призведе до видалення жодного проєкту зі списку. Справді видалити цей список проєктів?
     settings:
       header_details: Основна інформація
-      header_identifier: Identifier
+      header_identifier: Ідентифікатор
       header_status: Статус
       header_relations: Зв’язки проєкту
       button_update_details: Оновити деталі
@@ -961,7 +961,7 @@ uk:
       change_identifier_dialog_title: Змінити ідентифікатор проєкту
       change_identifier_format_hint_semantic: Може містити лише великі літери (A–Z), цифри або символи підкреслення; усього — щонайбільше 10 символів. Має починатися з літери.
       change_identifier_format_hint_legacy: Може містити лише малі літери (a–z), цифри, тире або символи підкреслення.
-      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifiers and URLs will nevertheless continue to work.
+      change_identifier_warning: 'Ця дія назавжди змінить ідентифікатори і URL-адреси всіх пакетів робіт у цьому проєкті. Однак попередні ідентифікатори і URL-адреси й далі працюватимуть.
 
         '
       subitems:
@@ -1405,36 +1405,36 @@ uk:
     edit:
       form_configuration:
         tab: Конфігурація форми
-        label_group: Section
-        reset_to_defaults: Reset form
-        add_attribute_group: Section
-        add_query_group: Related work packages table
-        delete_group: Delete section
-        remove_attribute: Remove from section
-        drag_to_activate: Drag fields from here to activate them
-        drag_to_reorder: Drag to reorder
-        edit_query: Edit query
-        custom_field: Custom field
-        filter_inactive: Filter attributes
-        inactive_attributes_heading: Inactive attributes
-        no_inactive_attributes: No inactive attributes
-        blankslate_title: No groups yet
-        blankslate_description: Add groups using the button above or drag attributes from the left panel.
-        group_actions: Section actions
-        rename_group: Rename section
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        group_name_label: Section name
-        row_actions: Row actions
-        query_group_label: Related work packages table
-        empty_group_hint: Drag attributes here
-        invalid_attribute_groups: The form configuration payload is invalid.
-        invalid_query: The embedded query configuration is invalid.
-        not_found: The requested form configuration item could not be found.
-        untitled_group: Untitled group
-        reset_title: Reset form configuration
-        confirm_reset: Are you sure you want to reset the form configuration?
-        builtin_field: Built-in field
-        reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
+        label_group: Розділ
+        reset_to_defaults: Скинути форму
+        add_attribute_group: Розділ
+        add_query_group: Таблиця пов’язаних робочих пакетів
+        delete_group: Видалити розділ
+        remove_attribute: Вилучити з розділу
+        drag_to_activate: Перетягніть поля звідси, щоб активувати їх
+        drag_to_reorder: Перетягніть, щоб змінити порядок
+        edit_query: Редагувати запит
+        custom_field: Користувацьке поле
+        filter_inactive: Фільтрувати атрибути
+        inactive_attributes_heading: Неактивні атрибути
+        no_inactive_attributes: Немає неактивних атрибутів
+        blankslate_title: Ще немає груп
+        blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
+        group_actions: Дії з розділом
+        rename_group: Перейменувати розділ
+        confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
+        group_name_label: Назва розділу
+        row_actions: Дії з рядком
+        query_group_label: Таблиця пов’язаних робочих пакетів
+        empty_group_hint: Перетягніть атрибути сюди
+        invalid_attribute_groups: Корисний обсяг даних конфігурації форми недійсний.
+        invalid_query: Конфігурація вбудованого запиту недійсна.
+        not_found: Запитуваний елемент конфігурації форми не знайдено.
+        untitled_group: Безіменна група
+        reset_title: Скинути конфігурацію форми
+        confirm_reset: Справді скинути конфігурацію форми?
+        builtin_field: Вбудоване поле
+        reset_description: 'Це призведе до скидання атрибутів до групи, що використовується за замовчуванням, і до вимкнення ВСІХ користувацьких полів.
 
           '
       projects:
@@ -1541,8 +1541,8 @@ uk:
     bulk_delete_dialog:
       title: Видалити пакети робіт (%{count})
       heading: Видалити ці пакети робіт (%{count}) остаточно?
-      description: 'The following work packages and all associated data will be permanently deleted:'
-      description_with_children: 'The following work packages, including children and all associated data, will be permanently deleted:'
+      description: 'Наведені нижче пакети робіт, зокрема всі пов’язані дані, буде видалено назавжди:'
+      description_with_children: 'Наведені нижче пакети робіт, зокрема їх дочірні елементи й усі пов’язані дані, буде видалено назавжди:'
       confirm_children_deletion: Я усвідомлюю, що всі вибрані пакети робіт і їх дочірні елементи буде видалено назавжди.
       cross_project_warning: 'Ці пакети робіт використовуються в кількох проєктах: %{projects}'
       children_label: 'Також видаляться наведені нижче дочірні елементи:'
@@ -1758,7 +1758,7 @@ uk:
       attachment:
         attachment_content: Вміст вкладення
         attachment_file_name: Назва файлу вкладеного файлу
-        charset: Character set
+        charset: Набір символів
         content_type: Тип контенту
         downloads: Завантаження
         file: Файл
@@ -1853,7 +1853,7 @@ uk:
         title: Заголовок
         description: Опис
       member:
-        blocked: Blocked
+        blocked: Заблоковано
         roles: Роль
       notification:
         read_ian: Читайте в додатку
@@ -2099,7 +2099,7 @@ uk:
         priority: Пріоритет
         progress: "% завершення"
         readonly: Лише читання
-        relatable: Relatable to
+        relatable: Можна пов’язати з
         remaining_hours: Залишок роботи
         remaining_time: Залишок роботи
         sequence_number: Порядковий номер
@@ -2144,17 +2144,14 @@ uk:
         before: має бути раніше %{date}
         before_or_equal_to: має бути до або  %{date}
         blank: не може бути порожнім.
-        not_before_start_date: не має передувати даті початку.
-        overlapping_range: збігається з наявним діапазоном неробочих днів.
         blank_nested: "– потрібно встановити властивість «%{property}»."
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
-        is_for_all_cannot_modify: призначений для всіх проєктів, тому його не можна бути змінити.
         cant_link_a_work_package_with_a_descendant: Робочий пакет не може бути пов'язаний з одним з підзадач.
         circular_dependency: Це співвідношення створить кругову залежність.
         confirmation: не збігається %{attribute}
         could_not_be_copied: "%{dependency} не вдалося скопіювати (повністю)."
+        datetime_must_be_in_future: має бути в майбутньому.
         does_not_exist: не існує.
-        user_already_in_department: Користувач %{user_id} уже є членом відділу «%{department_id}».
         error_enterprise_only: "%{action} можна лише у версії OpenProject Enterprise."
         error_unauthorized: "– можливо, немає доступу."
         error_readonly: "– було здійснено спробу запису, але елемент недоступний для запису."
@@ -2175,36 +2172,38 @@ uk:
         greater_than_or_equal_to: має бути більшим або рівним %{count}
         greater_than_or_equal_to_start_date: має бути більшою або дорівнювати даті початку.
         greater_than_start_date: має бути більше дати початку.
+        hexcode_invalid: не є дійсним 6-значним шістнадцятковим кодом кольору.
         inclusion: не встановлено в одному з допустимих значень
         inclusion_nested: "– не призначено одне з дозволених значень за шляхом «%{path}»."
         invalid: зазначено невірно
         invalid_uri: має бути дійсною URL-адресою.
         invalid_url: не є дійсною URL-адресою.
         invalid_url_scheme: 'не є підтримуваним протоколом (дозволено: %{allowed_schemes}).'
+        is_for_all_cannot_modify: призначений для всіх проєктів, тому його не можна бути змінити.
         less_than_or_equal_to: має бути меншим або рівним %{count}
         not_available: "– недоступно через налаштування системи."
+        not_before_start_date: не має передувати даті початку.
         not_deletable: не можна видалити.
         not_editable: уже використовується, тому вносити зміни не можна.
         not_current_user: не поточний користувач.
-        system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
         not_found: не знайдено.
         not_a_date: не є дійсною датою.
         not_a_datetime: не є дійсним датою.
         not_a_number: не є числом
         not_allowed: недійсний через відсутність дозволів.
-        host_not_allowed: не є дозволеним хостом.
         not_json: не аналізується як JSON.
         not_json_object: не є об’єктом JSON.
         not_an_integer: не є цілим числом
         not_an_iso_date: 'не є дійсною датою. Необхідний формат: YYYY-MM-DD.'
         not_same_project: не належить до одного проекту.
-        datetime_must_be_in_future: має бути в майбутньому.
         odd: має бути непарним.
+        overlapping_range: збігається з наявним діапазоном неробочих днів.
         regex_match_failed: не збігається з регулярним виразом %{expression}.
         regex_invalid: неможливо перевірити з відповідним регулярним виразом.
         regex_list_invalid: Неможливо проаналізувати рядки %{invalid_lines} як регулярний вираз.
-        hexcode_invalid: не є дійсним 6-значним шістнадцятковим кодом кольору.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
         taken: вже прийнято.
         too_long: 'занадто довгий (максимум - %{count} characters).
 
@@ -2219,6 +2218,7 @@ uk:
         url_not_secure_context: 'не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
 
           '
+        user_already_in_department: Користувач %{user_id} уже є членом відділу «%{department_id}».
         wrong_length: неправильна довжина (повинна бути %{count} символів).
       models:
         group:
@@ -2525,7 +2525,7 @@ uk:
               attribute_unknown_name: Недійсний атрибут робочого пакета:%{attribute}
               duplicate_group: Назва групи %{group} використовується більше одного разу. Назви груп повинні бути унікальними.
               query_invalid: 'Вбудований запит %{group} недійсний: %{details}'
-              group_without_name: Group name can't be blank.
+              group_without_name: Ім’я групи не може бути порожнім.
             patterns:
               invalid_tokens: Один або кілька атрибутів усередині поля недійсні. Виправте їх, перш ніж зберігати.
         user:
@@ -2617,7 +2617,7 @@ uk:
         other: Пріоритети
       meeting_participant: Учасник наради
       member: Учасник
-      message: Message
+      message: Повідомлення
       news: Новини
       notification:
         one: Сповіщення
@@ -2927,6 +2927,7 @@ uk:
   button_login: Увійти
   button_move: Перемістити
   button_move_and_follow: Перемістити і перейти
+  button_next: Далі
   button_print: Друкувати
   button_quote: Цитата
   button_remove: Видалити
@@ -3285,8 +3286,8 @@ uk:
       edit_attribute_groups:
         description: 'Налаштуйте конфігурацію форми за допомогою цих додаткових доповнень:'
         features:
-          groups: Додати нові групи атрибутів
-          rename: Перейменувати групи атрибутів
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Додати таблицю зв’язаних пакетів робіт
       readonly_work_packages:
         description: Позначайте пакети робіт як доступні лише для читання залежно від статусу.
@@ -3598,6 +3599,12 @@ uk:
       selected: Вибрано
     include_sub_items: Включити піделементи
     no_results_text: Немає результатів
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: Увімкнено
     label_off: Вимкнено
@@ -3618,20 +3625,20 @@ uk:
     common:
       checks:
         failures:
-          one: "%{count} check failed"
-          few: "%{count} checks failed"
-          many: "%{count} checks failed"
-          other: "%{count} checks failed"
-        success: All checks passed
+          one: "%{count} перевірку не пройдено"
+          few: "%{count} перевірки не пройдено"
+          many: "%{count} перевірок не пройдено"
+          other: "%{count} перевірки не пройдено"
+        success: Усі перевірки пройдено
         warnings:
-          one: "%{count} check returned a warning"
-          few: "%{count} checks returned a warning"
-          many: "%{count} checks returned a warning"
-          other: "%{count} checks returned a warning"
+          one: "%{count} перевірка завершилася з попередженням"
+          few: "%{count} перевірки завершилося з попередженням"
+          many: "%{count} перевірок завершилося з попередженням"
+          other: "%{count} перевірки завершилося з попередженням"
       summary:
-        failure: Some checks failed and the system does not work as expected.
-        success: All connections and systems are working as expected.
-        warning: Some checks returned a warning. This can lead to unexpected behaviour.
+        failure: Деякі перевірки не пройдено, і система працює неналежним чином.
+        success: Усі підключення й системи працюють належним чином.
+        warning: Деякі перевірки завершилися з попередженням. Це може призвести до неочікуваної поведінки.
     result_component:
       status:
         failed: Не пройдено
@@ -3643,8 +3650,8 @@ uk:
       projects: Нові видимі проекти в цьому екземплярі.
       no_visible_projects: У цьому випадку немає видимих проектів.
       favorite_projects:
-        no_results: You have no favorite projects
-        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
+        no_results: У вас немає вибраних проєктів
+        no_results_subtext: 'Додайте один або кілька проєктів у вибране: це можна зробити на сторінці огляду або в списку проєктів.'
       users: Нові зареєстровані користувачі в цьому екземплярі.
     blocks:
       community: Спільнота OpenProject
@@ -3655,18 +3662,18 @@ uk:
         learn_about: Дізнайтеся більше про всі нові функції
         missing: Ще немає виділених функцій.
         '17_5':
-          new_features_title: 'The release contains various new features and improvements, such as:
+          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, зокрема:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: ідентифікатори пакетів робіт із зазначенням проєктів для ясності;
+            line_1: підтримку Jira Migrator для термінів виконання, ідентифікаторів Jira тощо;
+            line_2: можливість виключити типи пакетів робіт із беклогу;
+            line_3: оновлений дизайн подань спринту;
+            line_4: покращене зв’язування робочих пакетів у документах і текстових редакторах;
+            line_5: більш гнучкі графіки нарад і надсилання меншої кількості неважливих сповіщень електронною поштою;
+            line_6: вкладені групи для організаційних структур і успадкування дозволів;
+            line_7: покращені інтерфейси адміністрування для робочих процесів, користувачів і конфігурації типів.
     links:
       upgrade_enterprise_edition: Оновлення до версії Enterprise
       postgres_migration: Міграція інсталяції в PostgreSQL
@@ -4180,7 +4187,7 @@ uk:
   label_home: Додому
   label_subject_or_id: Тема або ідентифікатор
   label_calendar_subscriptions: Підписки на календарі
-  label_identifier: Identifiers
+  label_identifier: Ідентифікатори
   label_project_identifier: Ідентифікатор проєкту
   label_in: в
   label_in_less_than: менш ніж
@@ -4213,7 +4220,7 @@ uk:
   label_journal_diff: Опис Порівняння
   label_language: Мова
   label_languages: Мови
-  label_export_plural: Exports
+  label_export_plural: Експорти
   label_external_links: Зовнішні посилання
   label_locale: Мова й регіон
   label_jump_to_a_project: Перейти до проекту...
@@ -4410,7 +4417,7 @@ uk:
   label_project_new: Новий проект
   label_project_plural: Проєкти
   label_project_list_plural: Списки проєкту
-  label_reserved_identifiers: Reserved project identifiers
+  label_reserved_identifiers: Зарезервовані ідентифікатори проєктів
   label_project_life_cycle: Життєвий цикл проєкту
   label_project_attributes_plural: Атрибути проєкту
   label_project_custom_field_plural: Атрибути проєкту
@@ -4624,9 +4631,9 @@ uk:
     other: 'Коментарів: %{count}'
     zero: немає коментарів
   label_x_items:
-    one: 1 item
-    other: "%{count} items"
-    zero: no items
+    one: 1 елемент
+    other: "%{count} елементи(-ів)"
+    zero: немає елементів
   label_x_open_work_packages_abbr:
     one: 1 відкрито
     other: 'Відкрито: %{count}'
@@ -4684,7 +4691,7 @@ uk:
   label_total_days_off: Усього вихідних днів
   macro_execution_error: Помилка виконання макросу %{macro_name}
   macro_unavailable: Макрос %{macro_name} не може бути відображений.
-  macro_unknown: Unknown or unsupported macro.
+  macro_unknown: Невідомий або непідтримуваний макрос.
   macros:
     placeholder: "[Placeholder] Макрос %{macro_name}"
     errors:
@@ -4967,11 +4974,11 @@ uk:
     common:
       work_package_card_component:
         drag_handle:
-          label: Drag to reorder
+          label: Перетягніть, щоб змінити порядок
         menu:
           label_actions: Дії з пакетом робіт
-        parent: Parent
-        undisclosed: Undisclosed
+        parent: Батьківський
+        undisclosed: Нерозкритий
   permission_add_work_package_comments: Додавання коментарів
   permission_add_work_packages: Додати робочі пакети
   permission_add_messages: Відправка повідомлень
@@ -5296,7 +5303,7 @@ uk:
 
     '
   setting_after_login_default_redirect_url: Переспрямування після входу
-  setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
+  setting_after_login_default_redirect_url_example_html: 'Налаштуйте шлях, який за замовчуванням використовуватиметься для переспрямування користувачів після входу, якщо зворотне посилання не надано. Якщо не налаштувати його, користувачі переспрямовуватимуться на головну сторінку. <br/>Приклад: %{example_code}
 
     '
   setting_apiv3_cors_title: Спільне використання ресурсів із різних джерел (CORS)
@@ -5375,8 +5382,8 @@ uk:
   setting_consent_required: Потрібна згода
   setting_consent_decline_mail: Згода на контактну пошту
   setting_cross_project_work_package_relations: Дозволити взаємозв'язок між робочими пакетами і проектами
-  setting_csv_escape_formulas: Escape formulas in CSV exports
-  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+  setting_csv_escape_formulas: Екранування формул при експорті в CSV
+  setting_csv_escape_formulas_text: 'При експорті у формат CSV екрануйте формули в електронних таблицях, додаючи до клітинок, які починаються із символів =, +, - або @, префікс з однією лапкою. Так ви зменшите ймовірність ін’єкції формул CSV під час відкриття експортованих файлів у програмах для роботи з електронними таблицями, наприклад в Excel. Однак це може призвести до зміни рядкових значень у файлі CSV, тому це налаштування можна вимкнути, якщо для роботи в подальших інструментах потрібні точні значення клітинок без екранування.
 
     '
   setting_first_week_of_year: Перший тиждень у році містить
@@ -5419,7 +5426,7 @@ uk:
   setting_work_package_properties: Властивості робочого пакета
   setting_work_package_startdate_is_adddate: Використовувати поточну дату в якості дати початку роботи для нових пакетів
   setting_work_packages_projects_export_limit: Ліміт експорту пакетів робіт / проєктів
-  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+  setting_work_packages_projects_export_limit_text: 'Максимальна кількість пакетів робіт або проєктів, які можна включити в один експорт. Більші експорти обрізаються до цього ліміту.
 
     '
   setting_journal_aggregation_time_minutes: Період агрегації
@@ -5508,9 +5515,9 @@ uk:
   setting_welcome_title: Заголовок вітального блоку
   setting_welcome_on_homescreen: Відображати вітальний блок на робочому столі
   setting_work_packages_identifier_classic: Числова послідовність для всього екземпляра (за умовчанням)
-  setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
-  setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
+  setting_work_packages_identifier_classic_caption: 'Кожному пакету робіт присвоюється порядковий номер, який починається з одиниці (наприклад, #1234). Номери є унікальними в межах екземпляра й залишаються незмінними, навіть якщо пакети робіт переміщуються між проєктами.'
+  setting_work_packages_identifier_semantic: Семантичні ідентифікатори із зазначенням проєктів (бета-версія)
+  setting_work_packages_identifier_semantic_caption: Кожен проєкт має унікальний ідентифікатор проєкту, який додається як префікс до числа (наприклад, PROJ-11). Нумерація кожного проєкту починається з одиниці. Якщо робочий пакет переміщується в інший проєкт, генерується новий ідентифікатор, але старий продовжує працювати.
   setting_work_package_list_default_highlighting_mode: Режим виділення за умовчанням
   setting_work_package_list_default_highlighted_attributes: Стандартні вбудовані виділені атрибути
   setting_working_days: Робочі дні
@@ -5692,7 +5699,7 @@ uk:
       section_work_week: Робочий тиждень
       section_holidays_and_closures: Свята й вихідні
     work_packages:
-      work_package_identifier: Work package identifiers
+      work_package_identifier: Ідентифікатори пакетів робіт
       not_allowed_text: У вас немає дозволів для перегляду цієї сторінки.
       activities:
         enable_internal_comments: Увімкнути внутрішні коментарі
@@ -6126,16 +6133,16 @@ uk:
 
       '
     dialog:
-      title: Change working days
-      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+      title: Змінити робочі дні
+      description: 'Якщо змінити дні тижня, які вважаються робочими чи неробочими, це може вплинути на дати початку й завершення всіх пакетів робіт і життєвих циклів в усіх проєктах цього екземпляра.
 
         '
-      removed_title: 'You will remove the following days from the non-working days list:'
-      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+      removed_title: 'Ви вилучите ці дні зі списку неробочих:'
+      warning: 'Застосування змін може тривати деякий час. Ви отримаєте сповіщення, коли всі відповідні пакети робіт і життєві цикли проєктів буде оновлено.
 
         '
-      heading: Change the working days?
-      confirm_button: Save and reschedule
+      heading: Змінити робочі дні?
+      confirm_button: Зберегти й перепланувати
     journal_note:
       changed: _**Робочі дні** змінено (%{changes})._
       days:
@@ -6210,7 +6217,7 @@ uk:
       ancestor: Нерозкритий – предок невидимий через відсутність дозволів.
       definingProject: 'Нерозкритий: проєкт невидимий через відсутність дозволів.'
       definingWorkspace: 'Нерозкритий: робочий простір невидимий через відсутність дозволів.'
-      workPackage: Undisclosed - The work package is invisible because of lacking permissions.
+      workPackage: 'Нерозкритий: пакет робіт невидимий через відсутність дозволів.'
   doorkeeper:
     pre_authorization:
       status: Попередня авторизація

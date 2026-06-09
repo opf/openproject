@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Services
-          RSpec.describe CreateManagedListService, :webmock do
+          RSpec.describe CreateManagedListService, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:sharepoint_storage, :sandbox) }
 
             subject(:instance) { described_class.new(storage) }

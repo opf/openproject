@@ -2107,17 +2107,14 @@ sv:
         before: måste vara innan %{date}.
         before_or_equal_to: måste vara före eller lika med %{date}.
         blank: kan inte vara tomt.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: needs to have the property '%{property}' set.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Ett arbetspaket kan inte kopplas till någon av dess underaktiviteter.
         circular_dependency: Detta förhållande skulle skapa ett cirkelberoende.
         confirmation: matchar inte %{attribute}.
         could_not_be_copied: "%{dependency} could not be (fully) copied."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: finns inte.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: åtkomst nekas.
         error_readonly: försökte skrivas men är inte skrivbart.
@@ -2138,36 +2135,38 @@ sv:
         greater_than_or_equal_to: måste vara större än eller lika med %{count}.
         greater_than_or_equal_to_start_date: måste vara senare eller lika som startdatumet.
         greater_than_start_date: måste vara senare än startdatumet.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: inte är inställd på ett av de tillåtna värdena.
         inclusion_nested: is not set to one of the allowed values at path '%{path}'.
         invalid: är ogiltig.
         invalid_uri: must be a valid URI.
         invalid_url: är inte ett giltigt URL.
         invalid_url_scheme: 'är inte ett tillåtet protokoll (tillåtna: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: måste vara mindre än eller lika med %{count}.
         not_available: is not available due to a system configuration.
+        not_before_start_date: must not be before the start date.
         not_deletable: kan inte raderas.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: is not the current user.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: hittades inte.
         not_a_date: är inte är ett giltigt datum.
         not_a_datetime: är inte en giltig datumtid.
         not_a_number: är inte ett nummer.
         not_allowed: är inte tillåtet på grund av saknade behörigheter.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: är inte ett heltal.
         not_an_iso_date: är inte ett giltigt datum. Använd formatet ÅÅÅÅ-MM-DD.
         not_same_project: tillhör inte samma projekt.
-        datetime_must_be_in_future: must be in the future.
         odd: måste vara udda.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: kunde inte valideras med det associerade reguljära uttrycket.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: måste vara mindre än eller lika med maximal längd.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: har redan använts.
         too_long: är för långt (maximalt är %{count} tecken).
         too_short: är för kort (minimum är %{count} tecken).
@@ -2180,6 +2179,7 @@ sv:
         url_not_secure_context: 'tillhandahåller inte en "Secure Context". Använd antingen HTTPS eller en loopback-adress, som localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: har fel längd (måste vara %{count} tecken).
       models:
         group:
@@ -2846,6 +2846,7 @@ sv:
   button_login: Logga in
   button_move: Flytta
   button_move_and_follow: Flytta och följ
+  button_next: Next
   button_print: Skriv ut
   button_quote: Citat
   button_remove: Ta bort
@@ -3164,8 +3165,8 @@ sv:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Lägg till nya attributgrupper
-          rename: Rename attribute groups
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Add a table of related work packages
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3475,6 +3476,12 @@ sv:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: Inga resultat
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'

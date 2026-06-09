@@ -124,6 +124,16 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         _pagy, records = paginator.call
         expect(records).to eq([changeset_2, journal, changeset_1, work_package.journals.first])
       end
+
+      it "preloads changeset projects so rendering them issues no per-row query" do
+        _pagy, records = paginator.call
+        changesets = records.grep(Changeset)
+
+        expect(changesets.size).to eq(2)
+        # format_text(changeset, :comments) reads changeset.project (a has_one
+        # through :repository) for each row at render time.
+        expect { changesets.each(&:project) }.to have_a_query_limit(0)
+      end
     end
 
     context "with pagination" do
@@ -181,69 +191,178 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
 
             expect(pagy.page).to eq(1)
           end
+
+          it "falls back to page 1 even when params[:page] is set alongside an unresolvable anchor" do
+            params[:anchor] = "comment-999999"
+            params[:page] = 3
+            pagy, _records = paginator.call
+
+            expect(pagy.page).to eq(1)
+          end
+
+          it "resolves the anchor page when the limit arrives as a query string" do
+            params[:anchor] = "comment-#{journal_1.id}"
+            params[:limit] = test_limit.to_s
+            pagy, records = paginator.call
+
+            expect(pagy.page).to eq(2)
+            expect(records.map(&:id)).to include(journal_1.id)
+          end
+
+          it "leaves resolved_anchor nil for comment anchors" do
+            params[:anchor] = "comment-#{journal_1.id}"
+            paginator.call
+
+            expect(paginator.resolved_anchor).to be_nil
+          end
         end
 
         context "with activity anchor" do
-          it "returns the page containing the target activity by sequence_version" do
+          it "returns the page containing the target activity and resolves it to the comment id" do
             params[:anchor] = "activity-2"
             pagy, records = paginator.call
 
-            # activity-2 corresponds to journal with sequence_version 2
-            # which should be journal_1
+            # activity-2 is the journal with sequence_version 2, i.e. journal_1
             expect(pagy.page).to eq(2)
-            wrapped_journal = records.find { it.is_a?(API::V3::Activities::ActivityEagerLoadingWrapper) && it.id == journal_1.id }
-            expect(wrapped_journal.sequence_version).to eq(2)
+            expect(records.map(&:id)).to include(journal_1.id)
+            expect(paginator.resolved_anchor).to eq(journal_1.id)
           end
 
-          it "handles activity anchor for initial journal" do
+          it "handles an activity anchor for the initial journal" do
             params[:anchor] = "activity-1"
             _pagy, records = paginator.call
 
-            # activity-1 should be on the last page (oldest)
-            expect(records.any? { it.respond_to?(:sequence_version) && it.sequence_version == 1 }).to be(true)
+            # activity-1 is the oldest journal, on the last page
+            initial_journal = work_package.journals.order(:version).first
+            expect(records.map(&:id)).to include(initial_journal.id)
+            expect(paginator.resolved_anchor).to eq(initial_journal.id)
           end
         end
       end
     end
 
-    context "when record count exceeds MAX_PAGES cap" do
+    context "with a large activity history" do
       let(:test_limit) { 2 }
 
       before do
-        stub_const("#{described_class}::MAX_PAGES", 3)
         8.times do |i|
           create(:work_package_journal, user:, notes: "Comment #{i + 1}", journable: work_package, version: i + 2)
         end
         params[:limit] = test_limit
       end
 
-      it "caps total records to limit * MAX_PAGES" do
-        pagy, _records = paginator.call
-
-        expect(pagy.count).to eq(test_limit * 3)
-        expect(pagy.pages).to eq(3)
-      end
-
-      it "keeps the newest records when truncating" do
-        _pagy, records = paginator.call
-
-        notes = records.map(&:notes)
-        expect(notes).to include("Comment 8")
-        expect(notes).not_to include("Comment 1")
-      end
-
-      it "still resolves an anchor to a journal beyond the cap" do
+      it "resolves an anchor to the oldest journal on the last page" do
         oldest_journal = work_package.journals.order(:version).first
         params[:anchor] = "comment-#{oldest_journal.id}"
         pagy, records = paginator.call
 
         expect(records.map(&:id)).to include(oldest_journal.id)
+        expect(pagy.page).to eq(5)
+      end
 
-        aggregate_failures "breaks out of capped limit" do
-          expect(pagy.count).to eq(work_package.journals.count)
-          expect(pagy.pages).to eq(5)
-          expect(pagy.page).to eq(5), "expected oldest journal on last page (page 5), got page #{pagy.page}"
+      it "issues a bounded number of queries regardless of history size" do
+        described_class.new(work_package, params).call # warm autoloads + caches
+
+        50.times { |i| create(:work_package_journal, user:, journable: work_package, version: 10 + i) }
+
+        recorder = ActiveRecord::QueryRecorder.new do
+          described_class.new(work_package, params).call
         end
+
+        # The wrapper runs against the page slice, so query count does not scale
+        # with history size. Ceiling leaves headroom for an extra eager-load
+        # without becoming brittle; actual count today is ~10.
+        expect(recorder.count).to be < 20,
+                                  "expected query count bounded regardless of history; got #{recorder.count}:\n" \
+                                  "#{recorder.log.join("\n")}"
+      end
+
+      it "skips the sequence-version window function on the default render path" do
+        recorder = ActiveRecord::QueryRecorder.new do
+          described_class.new(work_package, params).call
+        end
+
+        expect(recorder.log.join("\n")).not_to match(/ROW_NUMBER|JOIN LATERAL/i),
+                                               "expected no window function without an activity anchor:\n" \
+                                               "#{recorder.log.join("\n")}"
+      end
+
+      it "computes the sequence version only when resolving an activity anchor" do
+        recorder = ActiveRecord::QueryRecorder.new do
+          described_class.new(work_package, params.merge(anchor: "activity-2")).call
+        end
+
+        expect(recorder.log.join("\n")).to match(/ROW_NUMBER|JOIN LATERAL/i)
+      end
+    end
+
+    context "when the page holds comment journals carrying inline attachments" do
+      let!(:comment_journals) do
+        Array.new(3) do |i|
+          journal = create(:work_package_journal,
+                           user:, notes: "Comment #{i}", journable: work_package, version: i + 2)
+          create(:attachment, container: journal, author: user, filename: "inline_#{i}.png")
+          journal
+        end
+      end
+
+      # Rendering a comment body reads `journal.attachments` (the inline-image
+      # rewrite), so the page slice must preload them or each comment costs a query.
+      it "preloads journal attachments so rendering bodies does not query per comment" do
+        _pagy, records = paginator.call
+        journals = records.grep_v(Changeset)
+
+        recorder = ActiveRecord::QueryRecorder.new do
+          journals.each { it.attachments.to_a }
+        end
+
+        attachment_queries = recorder.log.count { it.match?(/FROM\s+"attachments"/) && it.include?("container_type") }
+        expect(attachment_queries).to eq(0),
+                                      "expected journal attachments preloaded; got #{attachment_queries}:\n" \
+                                      "#{recorder.log.join("\n")}"
+      end
+    end
+
+    # The journal factory chains each predecessor's `validity_period` upper
+    # bound to the next journal's `created_at`; two journals at the same
+    # `created_at` produce an empty range and trip the
+    # `validity_period_not_empty` constraint. A journal + changeset pair
+    # sidesteps that while still exercising the secondary id sort.
+    context "with a journal and a changeset at the same timestamp" do
+      let(:repository) { create(:repository_subversion, project:) }
+      let(:shared_time) { 1.day.ago }
+      let(:work_package) do
+        create(:work_package,
+               project:,
+               author: user,
+               journals: { shared_time => { notes: "Tied with changeset" } })
+      end
+      let(:tied_journal) { work_package.journals.sole }
+      let!(:tied_changeset) do
+        create(:changeset, repository:, committed_on: shared_time, revision: "tied")
+      end
+
+      before do
+        # Default sort can be :asc, which reverses the records. Pin to :desc so
+        # the relation's `id DESC` secondary sort surfaces in the result.
+        user.pref.update!(comments_sorting: :desc)
+        work_package.changesets << tied_changeset
+      end
+
+      it "breaks ties by the journal id descending" do
+        _pagy, records = paginator.call
+
+        # A changeset surfaces through its own journal, so the feed orders both
+        # rows by journal id; the record whose journal id is higher must lead.
+        changeset_journal_id = Journal.where(journable: tied_changeset).pick(:id)
+        leader, trailer =
+          if changeset_journal_id > tied_journal.id
+            [tied_changeset.id, tied_journal.id]
+          else
+            [tied_journal.id, tied_changeset.id]
+          end
+
+        expect(records.map(&:id)).to eq([leader, trailer])
       end
     end
 
@@ -282,6 +401,13 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
       context "when user cannot see internal comments" do
         let(:member_role) { create(:project_role, permissions: %i[view_work_packages]) }
         let(:member_user) { create(:user, member_with_roles: { project => member_role }) }
+        let(:internal_sequence_version) do
+          Journal
+            .where(journable: work_package)
+            .with_sequence_version
+            .where(id: internal_journal.id)
+            .pick("ranked.sequence_version")
+        end
 
         before do
           allow(User).to receive(:current).and_return(member_user)
@@ -293,6 +419,21 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
           journal_notes = records.map(&:notes)
           expect(journal_notes).not_to include("Internal comment")
           expect(journal_notes).to include("Public comment")
+        end
+
+        it "falls back to page 1 when anchoring to an internal journal" do
+          params[:anchor] = "comment-#{internal_journal.id}"
+          pagy, _records = described_class.new(work_package, params).call
+
+          expect(pagy.page).to eq(1)
+        end
+
+        it "falls back to page 1 and resolves no anchor for an internal journal by sequence_version" do
+          paginator = described_class.new(work_package, params.merge(anchor: "activity-#{internal_sequence_version}"))
+          pagy, _records = paginator.call
+
+          expect(pagy.page).to eq(1)
+          expect(paginator.resolved_anchor).to be_nil
         end
       end
     end
@@ -666,6 +807,27 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
       end
     end
 
+    context "with an unrecognised filter value" do
+      let(:initial_journal) { work_package.journals.find_by(version: 1) }
+      let!(:journal_with_notes) do
+        create(:work_package_journal, user:, notes: "A comment", journable: work_package, version: 2)
+      end
+
+      before do
+        params[:filter] = "bogus"
+      end
+
+      it "normalises the filter to :all" do
+        expect(paginator.filter).to eq(:all)
+      end
+
+      it "returns the unfiltered feed" do
+        _pagy, records = paginator.call
+
+        expect(records.map(&:id)).to include(initial_journal.id, journal_with_notes.id)
+      end
+    end
+
     context "with filter and deep linking" do
       let!(:journal_with_notes) do
         create(:work_package_journal,
@@ -691,19 +853,17 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
           params[:anchor] = "comment-#{journal_with_notes.id}"
           _pagy, records = paginator.call
 
-          expect(paginator.filter).to eq(:all) # resets to :all when anchoring
           expect(records.map(&:id)).to include(journal_with_notes.id)
         end
       end
 
       context "when anchoring to a journal that doesn't match the filter" do
-        it "ignores the filter and shows all journals (fallback behavior)" do
+        it "ignores the filter without mutating the filter reader" do
           params[:anchor] = "comment-#{journal_without_notes.id}"
           _pagy, records = paginator.call
 
-          expect(paginator.filter).to eq(:all) # resets to :all when anchoring
-          expect(records.map(&:id)).to include(journal_without_notes.id)
-          expect(records.map(&:id)).to include(journal_with_notes.id)
+          expect(records.map(&:id)).to include(journal_without_notes.id, journal_with_notes.id)
+          expect(paginator.filter).to eq(:only_comments)
         end
       end
     end

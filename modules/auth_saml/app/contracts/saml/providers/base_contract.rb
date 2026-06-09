@@ -47,6 +47,8 @@ module Saml
                 url: { allow_blank: true, allow_nil: true, schemes: %w[http https] },
                 if: -> { model.metadata_url_changed? }
 
+      attribute :idp_entity_id
+
       attribute :idp_sso_service_url
       validates :idp_sso_service_url,
                 url: { schemes: %w[http https] },

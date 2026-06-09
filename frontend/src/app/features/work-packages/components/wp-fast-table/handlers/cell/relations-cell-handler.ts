@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { WorkPackageViewRelationColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { relationCellIndicatorClassName, relationCellTdClassName } from '../../builders/relation-cell-builder';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
@@ -11,7 +11,7 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class RelationsCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
-  @InjectField() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
+  @LazyInject() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
   public get EVENT():EventType[] {
     return ['click', 'keydown'];

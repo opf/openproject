@@ -26,7 +26,7 @@
     "@blocknote/server-util": "^0.51.3",
     "@hocuspocus/extension-logger": "^3.4.4",
     "@hocuspocus/server": "^3.4.0",
-    "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.1.0/op-blocknote-extensions-0.1.0.tgz",
+    "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.1.1/op-blocknote-extensions-0.1.1.tgz",
     "tsx": "^4.21.0"
   },
   "devDependencies": {

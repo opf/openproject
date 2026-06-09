@@ -74,9 +74,9 @@ de:
   permission_view_linked_issues: BCF-Fälle anzeigen
   permission_manage_bcf: BCF-Fälle importieren und verwalten
   permission_manage_bcf_explanation: |
-    Allows managing BCF issues, including bulk import and updates.
-    BCF import maps file metadata to project resources and can create or update work packages
-    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
+    Ermöglicht die Verwaltung von BCF-Projekten, einschließlich Massenimport und Aktualisierungen.
+    Der BCF-Import ordnet die Datei-Metadaten den Projektressourcen zu und kann Arbeitspakete
+    und Kommentare unter Verwendung von Autoren- und Zeitstempelwerten aus der importierten Datei erstellen oder aktualisieren, wobei er effektiv im Namen der Benutzer handelt.
   permission_delete_bcf: BCF-Fälle löschen
   oauth:
     scopes:

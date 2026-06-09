@@ -1,6 +1,6 @@
 import { Injector } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-baseline.service';
 import { tdClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/cell-builder';
@@ -18,13 +18,13 @@ import {
 export const baselineCellName = 'op-table-baseline--column-cell';
 
 export class BaselineColumnBuilder {
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() wpTableBaseline:WorkPackageViewBaselineService;
+  @LazyInject() wpTableBaseline:WorkPackageViewBaselineService;
 
-  @InjectField() schemaCache:SchemaCacheService;
+  @LazyInject() schemaCache:SchemaCacheService;
 
-  @InjectField() I18n:I18nService;
+  @LazyInject() I18n:I18nService;
 
   constructor(public readonly injector:Injector) {
   }

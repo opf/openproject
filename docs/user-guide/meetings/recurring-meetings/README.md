@@ -25,7 +25,7 @@ Recurring meetings are helpful to schedule and organize meetings that happen reg
 
 ## Create and edit recurring meetings
 
-You can either create a recurring meeting from within a project or from the global **Meetings** module. For steps on setting up one-time meetings please consult [this page](../one-time-meetings).
+You can either create a recurring meeting from within a project or from the global **Meetings** module. For steps on setting up one-time meetings, please consult [this page](../one-time-meetings).
 
 To create a new recurring meeting, click the green **+ Meeting** button in the upper right corner and select **Recurring**. 
 
@@ -33,21 +33,24 @@ To create a new recurring meeting, click the green **+ Meeting** button in the u
 
 Enter your meeting's title, location, start and end date and time, duration, frequency and interval. Note that if you are creating a meeting from a global module you will first need to select a project to which the meeting belongs.
 
-![Form to create recurring meetings in OpenProject](openproject_userguide_meetings_recurring_meeting_form.png)
+![Form to create recurring meetings in OpenProject](openproject_userguide_meetings_recurring_meeting_default_form.png)
 
 > [!TIP] 
-> Duration can be entered both in hours and minutes. For example for a meeting that should last for 1.5 hours, you can enter:
->
+> Duration can be entered both in hours and minutes. For example for a meeting that should last for 1.5 hours, you can enter: 
 > - 1.5h
 > - 90m
 > - 90min
 > - 1:30
 
-**Frequency** offers following options: 
+**Frequency** offers the following options: 
 
-- Every day
-- Every working day
-- Every week
+- Every day 
+- Every working day 
+- Every week 
+- Day of month: This option allows you to schedule meetings to recur on the same calendar date every month
+- Monthly on a weekday: This option allows you to choose an ordinal position and a weekday 
+
+Depending on the selected frequency, one or more of the following additional fields may appear:
 
 **Interval** is a **required** integer field that defines the recurrence pattern of a meeting series. It specifies how often a meeting should repeat within the selected recurrence scheme. For example:
 
@@ -55,13 +58,22 @@ Enter your meeting's title, location, start and end date and time, duration, fre
 - Weekly, Interval = 4 → The meeting occurs every four weeks.
 
 > [!TIP]
-> For **working day-based recurrence**, the **Interval field is hidden** and always set to 1, meaning the meeting occurs on every working day without customization.
+> For **working day-based recurrence**, the **Interval** field is hidden and always set to 1, meaning the meeting occurs on every working day without customization.
 
-**Meeting series ends** field is a select dropdown field that defines when a recurring meeting series should come to an end. The following options are possible:
+**Day of month**  is a **required** field indicating the date of the month, on which meetings will recur. For example, if you enter 4, the meeting will be scheduled on the 4th of every month.
+
+**Position** is a **required** ordinal indicator field ranging from first, second, third, fourth to last. For example: Every first Monday of the month.
+
+**Weekday** is a **required** field used to select a day of the week, from Monday through Sunday.
+
+**Meeting series ends** field is a dropdown field that defines when a recurring meeting series should come to an end. The following options are available:
 
 - **Never** - the meeting series runs indefinitely
-- **After a specific date** – lets you specify an **end date** (the meeting might end before or on this date, depending on the original start date and frequency)
+- **After a specific date** – lets you specify an **end date** (the final occurrence will be scheduled on or before this date, depending on the recurrence pattern)
 - **After a number of occurrences** – lets you specify the number of individual **occurrences** after which the series will end
+
+> [!NOTE]
+> If the scheduled start time does not match the actual first occurrence, the caption is extended to state: "The first occurrence of this series will be on (date/time)".
 
 Click the **Create meeting series** button to save your changes. This will create the recurring meeting series and redirect you to the meeting template page. 
 
@@ -76,9 +88,14 @@ You can define the template the same way that you would a [one-time meeting](../
 > [!IMPORTANT]
 > Once you leave the draft mode, you can no longer return, i.e. you can still edit your template, but the changes may be visible (depending on the e-mail notification status).
 
-You will be asked to decide whether or not meeting series participants should receive calendar invites and updates. Depending on your choice, a corresponding banner will inform you of the consequent actions. 
+You will be asked to decide whether or not meeting series participants should receive calendar invites and updates. Depending on your choice, a corresponding banner will inform you of the consequent actions.
 
 ![A dialogue to select meeting related notification preferences when exiting a meeting draft mode in OpenProject](openproject_userguide_meetings_recurring_meeting_open_button_dialogue.png)
+
+> [!NOTE]
+> Multiple meeting updates made within a short period of time are combined into a single notification email. Participants will receive one email showing all changes, including participant updates and changes to meeting details.
+>
+> Exception: Meeting deletion notifications are sent immediately and separately.
 
 You can always adjust the template at a later date by selecting the meeting series from the left hand menu and clicking **Edit template** on the meeting series index page. These changes will not affect past or already created (opened) meetings. 
 

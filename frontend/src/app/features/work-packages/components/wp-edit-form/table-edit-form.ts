@@ -45,7 +45,7 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { editModeClassName } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { editFieldContainerClass } from 'core-app/shared/components/fields/display/display-field-renderer';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
@@ -54,17 +54,17 @@ export const activeFieldContainerClassName = 'inline-edit--active-field';
 export const activeFieldClassName = 'inline-edit--field';
 
 export class TableEditForm extends EditForm<WorkPackageResource> {
-  @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() public apiV3Service!:ApiV3Service;
+  @LazyInject() public apiV3Service!:ApiV3Service;
 
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public FocusHelper:FocusHelperService;
+  @LazyInject() public FocusHelper:FocusHelperService;
 
-  @InjectField() public editingPortalService:EditingPortalService;
+  @LazyInject() public editingPortalService:EditingPortalService;
 
-  @InjectField() wpListService:WorkPackagesListService;
+  @LazyInject() wpListService:WorkPackagesListService;
 
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder(this.injector);

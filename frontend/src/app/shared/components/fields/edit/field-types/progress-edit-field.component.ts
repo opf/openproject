@@ -26,16 +26,13 @@
  *  See COPYRIGHT and LICENSE files for more details.
  */
 
-import { Directive, Injector, OnDestroy, OnInit } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { Directive, OnDestroy, OnInit, inject } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 @Directive()
 export abstract class ProgressEditFieldComponent extends EditFieldComponent implements OnInit, OnDestroy {
-  @InjectField() deviceService:DeviceService;
-
-  @InjectField() injector:Injector;
+  readonly deviceService = inject(DeviceService);
 
   ngOnInit():void {
     super.ngOnInit();

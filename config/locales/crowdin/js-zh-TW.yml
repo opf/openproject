@@ -1041,16 +1041,13 @@ zh-TW:
         all: 所有專案
         selected: 僅所選專案
       search_placeholder: 搜尋專案...
-      search_placeholder_favorites: 搜尋我的收藏...
       include_subprojects: 包含子專案
       tooltip:
         include_all_selected: 自啓用“包含所有子項目”後已包含的項目。
         current_project: 這是您當前所在的專案。
         does_not_match_search: 沒有符合搜尋條件
       no_results: 沒有符合搜尋條件
-      no_favorite_results: 沒有符合您搜尋條件的收藏專案。
     include_workspaces:
-      search_placeholder: 搜尋……
       types:
         program: 方案
         portfolio: 專案組合

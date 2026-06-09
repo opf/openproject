@@ -2150,17 +2150,14 @@ sl:
         before: mora biti pred %{date}.
         before_or_equal_to: mora biti pred ali enako %{date}.
         blank: ne sme biti prazno.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: mora imeti nastavljeno lastnost '%{property}'.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Zahtevek ne more biti povezan s svojo podnalogo
         circular_dependency: Ta povezava bi ustvarila krožno odvisnost.
         confirmation: se ne ujema %{attribute}
         could_not_be_copied: "%{dependency} ni bilo mogoče (v celoti) kopirati."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: ne obstaja
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: morda ni mogoče dostopati.
         error_readonly: poskušano je bilo napisati, vendar ni mogoče pisati.
@@ -2181,36 +2178,38 @@ sl:
         greater_than_or_equal_to: mora biti večje ali enako %{count}.
         greater_than_or_equal_to_start_date: mora biti večji ali enak začetnemu datumu.
         greater_than_start_date: mora biti večje od začetnega datuma.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: ni nastavljeno na eno od dovoljenih vrednosti.
         inclusion_nested: ni nastavljena na eno od dovoljenih vrednosti na poti '%{path}'.
         invalid: ni pravo.
         invalid_uri: must be a valid URI.
         invalid_url: 'ni veljaven URL. '
         invalid_url_scheme: ni podprt protokol (dovoljeno:%{allowed_schemes}).
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: 'mora biti manjše ali enako %{count}. '
         not_available: is not available due to a system configuration.
+        not_before_start_date: must not be before the start date.
         not_deletable: se ne da izbrisati.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: ni trenutni uporabnik.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: ni veljaven datum
         not_a_datetime: ni veljaven datum.
         not_a_number: ni število.
         not_allowed: 'ni veljavno, saj manjka dovoljenje. '
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: 'ni celo število. '
         not_an_iso_date: 'neveljaven čas. Potreben format: YYYY-MM-DD.'
         not_same_project: ne pripada istemu projektu
-        datetime_must_be_in_future: must be in the future.
         odd: 'mora biti liho. '
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: ni bilo mogoče potrditi s pripadajočim stalnim izrazom.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: mora biti manjše ali enako največji dolžini.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: je že zasedeno.
         too_long: je predolgo (največ %{count} znakov).
         too_short: je prekrateko (najmanj %{count} znakov).
@@ -2223,6 +2222,7 @@ sl:
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: 'je napačna dolžina (mora biti %{count} znakov). '
       models:
         group:
@@ -2935,6 +2935,7 @@ sl:
   button_login: Prijava
   button_move: Premakni
   button_move_and_follow: Premakni in sledi
+  button_next: Next
   button_print: Natisni
   button_quote: Citiraj
   button_remove: Odstrani
@@ -3293,8 +3294,8 @@ sl:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Dodajte nove skupine atributov
-          rename: Rename attribute groups
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Add a table of related work packages
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3608,6 +3609,12 @@ sl:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'

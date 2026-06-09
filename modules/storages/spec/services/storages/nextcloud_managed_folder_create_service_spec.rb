@@ -41,7 +41,7 @@ module Storages
     end
   end
 
-  RSpec.describe NextcloudManagedFolderCreateService, :webmock do
+  RSpec.describe NextcloudManagedFolderCreateService, :disable_ssrf_filter, :webmock do
     before do
       Adapters::Registry.stub("nextcloud.models.managed_folder_identifier", TestIdentifier)
     end

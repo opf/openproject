@@ -31,15 +31,15 @@ de:
         authentication_method: Authentifizierungsmethode
         creator: Ersteller
         drive: Laufwerk ID
-        file_link_origin: File link origin ID
+        file_link_origin: Externe ID des Datei-Links
         host: Host
-        linkable_to_storage: Linkable to storage
-        linkable_to_storage_url: Linkable to storage URL
+        linkable_to_storage: Verlinkbar mit Dateispeicher
+        linkable_to_storage_url: Verlinkbar mit Dateispeicher-URL
         name: Name
         password: Anwendungspasswort
         provider_type: Anbieter-Typ
-        storage: Storage
-        storage_url: Storage URL
+        storage: Dateispeicher
+        storage_url: Dateispeicher-URL
         tenant: Verzeichnis (Tenant) ID
     errors:
       messages:
@@ -113,25 +113,25 @@ de:
         remote_folders: 'Inhalt des Teamordners lesen:'
         remove_user_from_group: 'Benutzer aus Gruppe entfernen:'
         rename_project_folder: 'Verwalteten Projektordner umbenennen:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 'Berechtigungen für verwaltete Projektordner festlegen:'
       one_drive_sync_service:
         create_folder: 'Verwaltete Projekt-Ordnererstellung:'
         ensure_root_folder_permissions: 'Basisordner-Berechtigungen festlegen:'
         hide_inactive_folders: 'Verstecke Inaktive Ordner:'
         remote_folders: 'Inhalt des Root-Ordners des Laufwerks lesen:'
         rename_project_folder: 'Verwalteten Projektordner umbenennen:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 'Berechtigungen für verwaltete Projektordner festlegen:'
       sharepoint_sync_service:
         create_folder: 'Verwaltete Projekt-Ordnererstellung:'
         ensure_root_folder_permissions: 'Basisordner-Berechtigungen festlegen:'
         hide_inactive_folders: 'Verstecke Inaktive Ordner:'
         remote_folders: 'Inhalt des Root-Ordners des Laufwerks lesen:'
         rename_project_folder: 'Verwalteten Projektordner umbenennen:'
-        set_folder_permission: 'Set managed project Folder permissions:'
+        set_folder_permission: 'Berechtigungen für verwaltete Projektordner festlegen:'
     errors:
       messages:
         error: Ein unerwarteter Fehler ist aufgetreten. Bitte überprüfen Sie die OpenProject Logdateien für weitere Informationen oder kontaktieren Sie einen Administrator
-        folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
+        folder_id_collision: Mehrere Projektspeicher versuchen, den Projektordner %{folder} zu verwalten. Seine Synchronisierung wurde übersprungen.
         forbidden: OpenProject konnte nicht auf die angefragte Ressource zugreifen. Bitte überprüfen Sie Ihre Berechtigungskonfiguration auf dem Speicheranbieter.
         unauthorized: OpenProject konnte sich nicht mit dem Speicheranbieter authentifizieren. Bitte überprüfen Sie Ihre Speicherkonfiguration und dessen Zugang.
       models:

@@ -86,11 +86,7 @@ module API
                                                                                      title_attribute:,
                                                                                      getter:))
 
-            if link.is_a?(Hash) && entity.is_a?(WorkPackage)
-              link.merge(displayId: entity.display_id.to_s)
-            else
-              link
-            end
+            entity.is_a?(WorkPackage) ? link.merge(displayId: entity.display_id.to_s) : link
           }
         end
 

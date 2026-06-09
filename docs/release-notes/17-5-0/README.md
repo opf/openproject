@@ -16,7 +16,7 @@ We released [OpenProject 17.5.0](https://community.openproject.org/versions/2293
 
 ### Project-based work package identifiers for clearer references and Jira migrations
 
-OpenProject 17.5 introduces **optional project-based work package identifiers in Beta**. Administrators can choose between the **default numerical sequence** and **project-based IDs** for the entire OpenProject instance. 
+OpenProject 17.5 introduces **optional project-based work package identifiers in Beta**. Administrators can choose between the **default numerical sequence** and **project-based IDs** for the entire OpenProject instance.
 
 > [!NOTE]
 > The setting can be reverted later. Existing numerical IDs remain valid and continue to resolve to the same work packages throughout the application, including existing URLs, bookmarks, and references.
@@ -56,11 +56,11 @@ When switching from the default numerical sequence to project-based work package
 
 OpenProject 17.5 further improves the Jira Migrator that was [introduced in Beta with OpenProject 17.4](../17-4-0/#support-basic-custom-fields-migration-from-jira). Jira issue identifiers can now be preserved during migration when using [project-based work package identifiers](#project-based-work-package-identifiers-for-clearer-references-and-jira-migrations).
 
-This helps organizations maintain existing references, naming conventions, and established workflows when transitioning from Jira to OpenProject. 
+This helps organizations maintain existing references, naming conventions, and established workflows when transitioning from Jira to OpenProject.
 
 In addition to Jira identifiers, OpenProject 17.5 also adds support for migrating due dates, estimated hours, and remaining hours. [Read more about the Jira Migrator in our documentation](../../installation-and-operations/jira-migration/).
 
-### Option to exclude work package types from Backlogs 
+### Option to exclude work package types from Backlogs
 
 OpenProject 17.5 introduces more flexible backlog configuration by allowing project administrators to exclude specific work package types from Backlogs. This helps teams keep sprint planning and backlog refinement focused on actionable work items.
 
@@ -140,6 +140,18 @@ Sprint sharing was introduced to support scaled agile planning scenarios across 
 
 > [!NOTE]
 > Existing sprint sharing configurations remain available after updating to OpenProject 17.5, including sprint sharing that was previously handled through shared versions in older OpenProject versions. Existing configurations continue to be migrated during upgrades. However, once sprint sharing is disabled, reactivating it requires the Corporate plan.
+
+### Session authentication relies on new header for non-GET requests
+
+Previously when making session-authenticated requests to APIv3 endpoints, non-GET requests were only allowed when the
+HTTP Header `X-Requested-With: XMLHttpRequest` was present. This header is usually associated with frameworks such as jQuery,
+but is also added for all requests originating from the OpenProject frontend still. For session authentication it served the
+purpose of preventing cross-site request forgery, e.g. through simple HTTP forms.
+
+The usage of this header has now been replaced with a check for `Sec-Fetch-Site: same-origin`, which is added by a browser automatically
+to requests and also can't be added or altered through JavaScript. It's unlikely that this causes any disruptions, because session authentication
+should only be used for browser-contexts, where the new header will still be present. Non-browser API-access should use different authentication
+methods (e.g. OAuth or API tokens), which are not affected by this change.
 
 <!-- Remove this section if empty, add to it in pull requests linking to tickets and provide information -->
 
@@ -277,7 +289,7 @@ Sprint sharing was introduced to support scaled agile planning scenarios across 
 
 ## Contributions
 
-A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn and ZenDiS for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations. 
+A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn and ZenDiS for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
 
 Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Walid Ibrahim, billy kenne, and Agustín Dall'Alba.
 

@@ -32,7 +32,6 @@ import { AuthorisationService } from 'core-app/core/model-auth/model-auth.servic
 import { StateService } from '@uirouter/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { Injectable, Injector, inject } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -80,7 +79,7 @@ export class WorkPackagesListService {
   protected wpQueryView = inject(WorkPackagesQueryViewService);
   protected submenuService = inject(SubmenuService);
 
-  @InjectField() protected readonly currentUser:CurrentUserService;
+  protected readonly currentUser = inject(CurrentUserService);
 
   // We remember the query requests coming in so we can ensure only the latest request is being tended to
   private queryRequests = input<QueryDefinition>();

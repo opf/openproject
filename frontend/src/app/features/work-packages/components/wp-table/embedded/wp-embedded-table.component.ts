@@ -1,10 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import {
-  WorkPackageViewTimelineService,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
-import {
-  WorkPackageViewPaginationService,
-} from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-pagination.service';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { OpTableActionFactory } from 'core-app/features/work-packages/components/wp-table/table-actions/table-action';
 import {
   OpTableActionsService,
@@ -19,11 +13,9 @@ import {
 } from 'core-app/features/work-packages/components/wp-table/embedded/wp-embedded-base.component';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import { distinctUntilChanged, map, take, withLatestFrom } from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import {
   KeepTabService,
 } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
-import { States } from 'core-app/core/states/states.service';
 import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { firstValueFrom } from 'rxjs';
@@ -54,19 +46,13 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
   /** Inform about loaded query */
   @Output() public onQueryLoaded = new EventEmitter<QueryResource>();
 
-  @InjectField() apiv3Service:ApiV3Service;
+  readonly apiv3Service = inject(ApiV3Service);
 
-  @InjectField() opModalService:OpModalService;
+  readonly opModalService = inject(OpModalService);
 
-  @InjectField() tableActionsService:OpTableActionsService;
+  readonly tableActionsService = inject(OpTableActionsService);
 
-  @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
-
-  @InjectField() wpTablePagination:WorkPackageViewPaginationService;
-
-  @InjectField() keepTab:KeepTabService;
-
-  @InjectField() states:States;
+  readonly keepTab = inject(KeepTabService);
 
   // Cache the form promise
   private formPromise:Promise<QueryFormResource|undefined>|undefined;

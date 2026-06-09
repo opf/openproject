@@ -69,7 +69,7 @@ uk:
         frequency: Частота
         interval: Інтервал
         monthly_day: День місяця
-        monthly_ordinal: Position
+        monthly_ordinal: Позиція
         monthly_weekday: Будній день
         start_date: Починається
         start_time: Час початку
@@ -332,12 +332,12 @@ uk:
           '
         confirm_button: Скасувати нараду
       occurrence_past:
-        title: Delete occurrence
-        heading: Delete this occurrence?
-        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+        title: Видалити повторення
+        heading: Видалити це повторення?
+        confirmation_message_html: 'Зверніть увагу: цю дію не можна відмінити.
 
           '
-        confirm_button: Delete occurrence
+        confirm_button: Видалити повторення
     blankslate:
       title: Зустрічей не знайдено
       desc: Створіть зустріч або змініть параметри фільтра
@@ -384,8 +384,8 @@ uk:
         caption: Цей текст з’явиться на кожній сторінці в центрі нижнього колонтитула.
       submit_button: Завантажити
     notifications:
-      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
-      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+      disabled: Учасники не отримуватимуть листів з інформацією про зміни, які вносяться в дату, час і список учасників.
+      enabled: Усі учасники отримуватимуть оновлені запрошення з календаря з інформацією про зміни, які вносяться в дату, час і список учасників.
       sidepanel:
         title: Оновлення з календаря електронною поштою
         description:
@@ -395,8 +395,8 @@ uk:
           enable: Увімкнути оновлення з календаря електронною поштою?
           disable: Вимкнути оновлення з календаря електронною поштою?
         message:
-          enable: Once enabled, an email will be sent out immediately to all participants.
-          disable: If they already had an invite for this meeting, it might no longer be accurate.
+          enable: Після ввімкнення всі учасники негайно отримають електронний лист.
+          disable: Якщо в них уже є запрошення на цю зустріч, тепер зазначена в ньому інформація може бути неточною.
         confirm_label:
           enable: Увімкнути оновлення електронною поштою
           disable: Вимкнути оновлення електронною поштою
@@ -416,7 +416,7 @@ uk:
     widgets:
       blankslate:
         heading: Немає запланованих нарад
-        description: Upcoming meetings you are participating in will appear here.
+        description: Тут відображатимуться майбутні зустрічі, у яких ви маєте взяти участь.
       view_details: Переглянути всі наради
   meeting_section:
     untitled_title: Розділ без назви
@@ -483,33 +483,33 @@ uk:
       working_days: Кожен робочий день
     monthly:
       inflected_ordinal:
-        first: first
-        second: second
-        third: third
-        fourth: fourth
-        last: last
+        first: перший(-а)
+        second: другий(-а)
+        third: третій(-я)
+        fourth: четвертий(-а)
+        last: останній(-я)
       ordinal_options:
-        first: First
-        second: Second
-        third: Third
-        fourth: Fourth
-        last: Last
-    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
-    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
+        first: Перший(-а)
+        second: Другий(-а)
+        third: Третій(-я)
+        fourth: Четвертий(-а)
+        last: Останній(-я)
+    actual_first_occurrence_mismatch_html: Перша нарада цієї серії — %{first_occurrence}
+    day_of_month_skipping_info: Місяці з меншою кількістю днів, ніж %{monthly_day}, буде пропущено
     end_after:
-      never: Never
-      specific_date: After a specific date
-      iterations: After a number of occurrences
+      never: Ніколи
+      specific_date: Після конкретної дати
+      iterations: Після певної кількості повторень
     starts: Починається
     in_words:
       daily_interval: Через %{interval} дн.
       working_days: Кожен робочий день
       weekly: Щотижня в %{weekday}
       weekly_interval: Через %{interval} тижн. у %{weekday}
-      monthly_day: Every month on the %{day}
-      monthly_day_interval: Every %{interval} months on the %{day}
-      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
+      monthly_day: 'Щомісяця в цей день: %{day}'
+      monthly_day_interval: 'Що %{interval} міс. у цей день: %{day}'
+      monthly_nth_weekday: 'Щомісяця в цей день: %{ordinal} %{weekday}'
+      monthly_nth_weekday_interval: 'Що %{interval} міс. у цей день: %{ordinal} %{weekday}'
       frequency: "%{base} о %{time}"
       full: "%{base} о %{time}, закінчується %{end_date}"
       full_past: "%{base} о %{time}, завершено %{end_date}"
@@ -618,7 +618,7 @@ uk:
   label_agenda_item_duplicate_in_next_title: Дублювати в наступну нараду?
   label_agenda_item_add_notes: Додати примітки
   label_agenda_item_add_outcome: Додати результат
-  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_convert_to_work_package: Перетворити в пакет робіт
   label_agenda_item_work_package_add: Додати пакет робіт
   label_agenda_item_work_package: Пакет робіт пункту порядку денного
   label_section_rename: Перейменувати розділ

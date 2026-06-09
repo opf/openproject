@@ -2,12 +2,11 @@ import { AfterViewInit, ChangeDetectorRef, Directive, Injector, OnDestroy, OnIni
 import { AbstractWidgetComponent } from 'core-app/shared/components/grids/widgets/abstract-widget.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import {
@@ -48,8 +47,8 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
 
   private closeDialogHandler:EventListener = this.handleDialogClose.bind(this);
 
-  @InjectField() public readonly apiV3Service:ApiV3Service;
-  @InjectField() public readonly turboRequests:TurboRequestsService;
+  public readonly apiV3Service = inject(ApiV3Service);
+  public readonly turboRequests = inject(TurboRequestsService);
 
   ngOnInit():void {
     this.loadTimeEntries();
@@ -101,11 +100,7 @@ export abstract class WidgetTimeEntriesListComponent extends AbstractWidgetCompo
   }
 
   public entityName(entry:TimeEntryResource):string {
-    const entity = entry.entity;
-    const formattedId = entity instanceof WorkPackageResource
-      ? entity.formattedId
-      : `#${idFromLink(entity.href)}`;
-    return `${formattedId}: ${entity.name}`;
+    return formatTimeEntryEntityName(entry.entity);
   }
 
   public entityId(entry:TimeEntryResource):string {

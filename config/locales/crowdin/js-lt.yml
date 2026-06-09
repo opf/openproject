@@ -1053,16 +1053,13 @@ lt:
         all: Visi projektai
         selected: Tik pasirinktus
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Įtraukti visus sub-projektus
       tooltip:
         include_all_selected: Projektas jau įtrauktas, nes įjungta parinktis įtraukti visus sub-projektus.
         current_project: Tai dabartinis projektas, kuriame jūs esate.
         does_not_match_search: Projektas neatitinka paieškos kriterijaus.
       no_results: Nei vienas projektas neatitinka jūsų paieškos kriterijaus.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

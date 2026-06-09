@@ -53,7 +53,7 @@ See COPYRIGHT and LICENSE files for more details.
   ) do |subheader|
     subheader.with_quick_filter do
       render(
-        OpPrimer::QuickFilter::SegmentedComponent.new(
+        OpPrimer::QuickFilter::SegmentedControlComponent.new(
           name: t(:label_filter_plural),
           query: @query,
           filter_key: :status,

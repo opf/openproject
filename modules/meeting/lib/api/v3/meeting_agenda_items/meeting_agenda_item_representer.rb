@@ -42,8 +42,7 @@ module API
           { outcomes: %i[author work_package] }
         ]
 
-        self_link id_attribute: ->(*) { [represented.meeting_id, represented.id] },
-                  title_getter: ->(*) { represented.title }
+        self_link title_getter: ->(*) { represented.title }
 
         property :id
 
@@ -88,7 +87,7 @@ module API
                               next if represented.meeting_section_id.nil?
 
                               {
-                                href: api_v3_paths.meeting_section(represented.meeting_id, represented.meeting_section_id),
+                                href: api_v3_paths.meeting_section(represented.meeting_section_id),
                                 title: represented.meeting_section&.title
                               }
                             }
@@ -102,8 +101,7 @@ module API
                              link: ->(*) {
                                represented.outcomes.map do |outcome|
                                  {
-                                   href: api_v3_paths
-                                     .meeting_agenda_item_outcome(represented.meeting_id, represented.id, outcome.id),
+                                   href: api_v3_paths.meeting_outcome(outcome.id),
                                    title: outcome.id.to_s
                                  }
                                end

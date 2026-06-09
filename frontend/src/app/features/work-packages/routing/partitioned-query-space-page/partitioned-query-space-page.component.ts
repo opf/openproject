@@ -31,6 +31,7 @@ import {
   Component,
   OnDestroy,
   OnInit,
+  inject,
 } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { OpTitleService } from 'core-app/core/html/op-title.service';
@@ -39,10 +40,8 @@ import { take } from 'rxjs/operators';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
 import { QueryParamListenerService } from 'core-app/features/work-packages/components/wp-query/query-param-listener.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ComponentType } from '@angular/cdk/overlay';
 import { Ng2StateDeclaration } from '@uirouter/angular';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { WorkPackageFilterContainerComponent } from 'core-app/features/work-packages/components/filters/filter-container/filter-container.directive';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
@@ -77,21 +76,19 @@ export type ViewPartitionState = '-split'|'-left-only'|'-right-only';
   standalone: false,
 })
 export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase implements OnInit, OnDestroy {
-  @InjectField() I18n!:I18nService;
+  readonly titleService = inject(OpTitleService);
 
-  @InjectField() titleService:OpTitleService;
+  readonly queryParamListener = inject(QueryParamListenerService);
 
-  @InjectField() queryParamListener:QueryParamListenerService;
+  readonly pathHelperService = inject(PathHelperService);
 
-  @InjectField() pathHelperService:PathHelperService;
+  readonly currentProjectService = inject(CurrentProjectService);
 
-  @InjectField() currentProjectService:CurrentProjectService;
+  readonly opModalService = inject(OpModalService);
 
-  @InjectField() opModalService:OpModalService;
+  readonly uiRouterGlobals = inject(UIRouterGlobals);
 
-  @InjectField() uiRouterGlobals:UIRouterGlobals;
-
-  @InjectField() configuration:ConfigurationService;
+  readonly configuration = inject(ConfigurationService);
 
   text:Record<string, string> = {
     jump_to_pagination: this.I18n.t('js.work_packages.jump_marks.pagination'),

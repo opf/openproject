@@ -2105,17 +2105,14 @@ it:
         before: deve essere precedente al %{date}.
         before_or_equal_to: deve essere precedente o uguale al %{date}.
         blank: non può essere lasciato vuoto.
-        not_before_start_date: non deve essere prima della data di inizio.
-        overlapping_range: si sovrappone a un intervallo di giorni non lavorativi esistente.
         blank_nested: deve avere la proprietà '%{property}' impostata.
         cannot_delete_mapping: è necessario. Non può essere cancellato.
-        is_for_all_cannot_modify: è per tutti i progetti e non può quindi essere modificato.
         cant_link_a_work_package_with_a_descendant: Una macro-attività non può essere collegato a una delle sue sottoattività.
         circular_dependency: Questa relazione creerebbe una dipendenza circolare.
         confirmation: non coincide con %{attribute}.
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
+        datetime_must_be_in_future: deve essere nel futuro.
         does_not_exist: non esiste.
-        user_already_in_department: L'utente %{user_id} è già membro del reparto %{department_id}.
         error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition."
         error_unauthorized: potrebbe non essere accessibile.
         error_readonly: è in sola lettura, pertanto non è stato possibile modificarlo.
@@ -2136,36 +2133,38 @@ it:
         greater_than_or_equal_to: deve essere maggiore o uguale di %{count}.
         greater_than_or_equal_to_start_date: deve essere successivo o uguale alla data di inizio.
         greater_than_start_date: deve essere successivo alla data di inizio.
+        hexcode_invalid: non è un codice colore esadecimale a 6 cifre valido.
         inclusion: non è impostata su uno dei valori consentiti.
         inclusion_nested: non è impostato su uno dei valori consentiti al percorso '%{path}'.
         invalid: non è valido.
         invalid_uri: deve essere un URI valido.
         invalid_url: non è un URL valido.
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
+        is_for_all_cannot_modify: è per tutti i progetti e non può quindi essere modificato.
         less_than_or_equal_to: deve essere inferiore o uguale a %{count}.
         not_available: non è disponibile a causa di una configurazione di sistema.
+        not_before_start_date: non deve essere prima della data di inizio.
         not_deletable: non può essere eliminato.
         not_editable: non può essere modificato perché è già in vigore.
         not_current_user: non è l'utente attuale.
-        system_wide_non_working_day_exists: È in conflitto con un giorno non lavorativo già definito a livello di sistema per questa data.
         not_found: non trovato.
         not_a_date: non è una data valida.
         not_a_datetime: non è un'orario valido.
         not_a_number: non è un numero.
         not_allowed: non è valido a causa di autorizzazioni assenti.
-        host_not_allowed: non è un host consentito.
         not_json: non è analizzabile come JSON.
         not_json_object: non è un oggetto JSON.
         not_an_integer: non è un numero intero.
         not_an_iso_date: 'non è una data valida. Formato richiesto: AAAA-MM-GG.'
         not_same_project: non appartiene allo stesso progetto.
-        datetime_must_be_in_future: deve essere nel futuro.
         odd: deve essere dispari.
+        overlapping_range: si sovrappone a un intervallo di giorni non lavorativi esistente.
         regex_match_failed: non corrisponde all'espressione regolare %{expression}.
         regex_invalid: non può essere convalidato con l'espressione regolare associata.
         regex_list_invalid: Le righe %{invalid_lines} non possono essere analizzate come espressione regolare.
-        hexcode_invalid: non è un codice colore esadecimale a 6 cifre valido.
         smaller_than_or_equal_to_max_length: deve essere minore o uguale alla lunghezza massima.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: È in conflitto con un giorno non lavorativo già definito a livello di sistema per questa data.
         taken: è già stato usato.
         too_long: è troppo lungo (il massimo è %{count} caratteri).
         too_short: è troppo breve (il minimo è %{count} caratteri).
@@ -2178,6 +2177,7 @@ it:
         url_not_secure_context: 'non fornisce un "Contesto sicuro". Usa HTTPS o un indirizzo di loopback, come localhost.
 
           '
+        user_already_in_department: L'utente %{user_id} è già membro del reparto %{department_id}.
         wrong_length: è della lunghezza sbagliata (dovrebbe essere %{count} caratteri).
       models:
         group:
@@ -2846,6 +2846,7 @@ it:
   button_login: Accedi
   button_move: Sposta
   button_move_and_follow: Sposta e segui
+  button_next: Avanti
   button_print: Stampa
   button_quote: Cita
   button_remove: Rimuovi
@@ -3164,8 +3165,8 @@ it:
       edit_attribute_groups:
         description: 'Personalizza la configurazione del modulo con le seguenti aggiunte:'
         features:
-          groups: Aggiunta di gruppi di proprietà
-          rename: Rinomina gruppi di attributi
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Aggiungi una tabella delle relative macro-attività
       readonly_work_packages:
         description: Contrassegna le macro-attività come in sola lettura per stati specifici.
@@ -3475,6 +3476,12 @@ it:
       selected: Selezionati
     include_sub_items: Includi sottovoci
     no_results_text: Nessun risultato
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'

@@ -39,10 +39,7 @@ module API
 
         self.to_eager_load = [{ meeting_agenda_item: :meeting }, :author, :work_package]
 
-        self_link path: :meeting_agenda_item_outcome,
-                  id_attribute: ->(*) {
-                    [represented.meeting_agenda_item.meeting_id, represented.meeting_agenda_item_id, represented.id]
-                  },
+        self_link path: :meeting_outcome,
                   title_getter: ->(*) { represented.id.to_s }
 
         property :id
@@ -56,13 +53,16 @@ module API
                             representer: ::API::V3::Users::UserRepresenter,
                             skip_render: ->(*) { represented.author_id.nil? }
 
-        link :agendaItem do
-          {
-            href: api_v3_paths.meeting_agenda_item(represented.meeting_agenda_item.meeting_id,
-                                                   represented.meeting_agenda_item_id),
-            title: represented.meeting_agenda_item.title
-          }
-        end
+        associated_resource :meeting_agenda_item,
+                            as: :agendaItem,
+                            link: ->(*) {
+                              next if represented.meeting_agenda_item_id.nil?
+
+                              {
+                                href: api_v3_paths.meeting_agenda_item(represented.meeting_agenda_item_id),
+                                title: represented.meeting_agenda_item.title
+                              }
+                            }
 
         associated_visible_resource :work_package
 

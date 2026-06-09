@@ -107,7 +107,7 @@ zh-CN:
         description: 还没有与此视图的筛选条件相符的工作包。
         title: 没有要显示的工作包
       columns:
-        allocated_members: 已分配成员
+        allocated_members: 分配的成员
         allocation: 分配
         dates: 日期
       context_menu:
@@ -121,7 +121,7 @@ zh-CN:
         move_to_top: 移至顶部
         move_up: 向上移动
         remove: 移除
-        remove_confirmation: 将此工作包从视图中移除？
+        remove_confirmation: 是否将此工作包从视图中移除？
         see_allocation: 查看分配
       mobile_title: 工作包
       query_name: 资源管理工作包：%{name}

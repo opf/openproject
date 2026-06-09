@@ -272,20 +272,32 @@ paths:
   "/api/v3/meetings/{id}":
     "$ref": "./paths/meeting.yml"
   "/api/v3/meetings/{id}/agenda_items":
-    "$ref": "./paths/meeting_agenda_items.yml"
+    "$ref": "./paths/meeting_agenda_items_by_meeting.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{id}":
+    "$ref": "./paths/meeting_agenda_item_by_meeting.yml"
+  "/api/v3/meeting_agenda_items":
+    "$ref": "./paths/meeting_agenda_items.yml"
+  "/api/v3/meeting_agenda_items/{id}":
     "$ref": "./paths/meeting_agenda_item.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes":
     "$ref": "./paths/meeting_agenda_item_outcomes.yml"
   "/api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes/{id}":
     "$ref": "./paths/meeting_agenda_item_outcome.yml"
+  "/api/v3/meeting_outcomes":
+    "$ref": "./paths/meeting_outcomes.yml"
+  "/api/v3/meeting_outcomes/{id}":
+    "$ref": "./paths/meeting_outcome.yml"
   "/api/v3/meetings/{id}/attachments":
     "$ref": "./paths/meeting_attachments.yml"
   "/api/v3/meetings/{id}/form":
     "$ref": "./paths/meeting_form.yml"
   "/api/v3/meetings/{id}/sections":
-    "$ref": "./paths/meeting_sections.yml"
+    "$ref": "./paths/meeting_sections_by_meeting.yml"
   "/api/v3/meetings/{meeting_id}/sections/{id}":
+    "$ref": "./paths/meeting_section_by_meeting.yml"
+  "/api/v3/meeting_sections":
+    "$ref": "./paths/meeting_sections.yml"
+  "/api/v3/meeting_sections/{id}":
     "$ref": "./paths/meeting_section.yml"
   "/api/v3/meetings/form":
     "$ref": "./paths/meetings_form.yml"

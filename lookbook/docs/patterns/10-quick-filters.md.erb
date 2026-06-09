@@ -1,16 +1,17 @@
-Quick filters are lightweight controls that let users toggle a single filter without opening the full filter panel. Each click can navigate to a new URL with updated `filters` and `sortBy` params,
+Quick filters are lightweight controls that let users toggle a single filter without opening the full filter panel. Each click or selection navigates to a new URL with updated `filters` and `sortBy` params,
 preserving any other active filters.
 
-There are currently two variants:
-* SegmentedComponent
+There are currently three variants:
+* SegmentedControlComponent
 * BooleanComponent
+* SelectPanelComponent
 
-## SegmentedComponent
+## SegmentedControlComponent
 
 A general purpose segmented control that accepts any number of items via `with_item` slots.
 Each item has a label and a filter value (`nil` means "no filter" and is useful for an "All" option).
 
-<%= embed OpPrimer::QuickFilterPreview, :segmented, panels: %i[source] %>
+<%= embed OpPrimer::QuickFilterPreview, :segmented_control, panels: %i[source] %>
 
 Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
 
@@ -19,13 +20,13 @@ Note: Clicking on buttons in the above preview will break it and redirect to the
 When the query already has a matching filter value, the corresponding item is rendered as selected.
 You can also pass `orders` to define the sort order per value.
 
-<%= embed OpPrimer::QuickFilterPreview, :segmented_with_active_filter, panels: %i[source] %>
+<%= embed OpPrimer::QuickFilterPreview, :segmented_control_with_active_filter, panels: %i[source] %>
 
 Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
 
 ## BooleanComponent
 
-A specialized subclass of `SegmentedComponent` for boolean (true/false) filters.
+A specialized subclass of `SegmentedControlComponent` for boolean (true/false) filters.
 It always renders exactly two items using `t` and `f` as filter values.
 Labels are provided via `true_label` and `false_label`.
 
@@ -33,7 +34,11 @@ Labels are provided via `true_label` and `false_label`.
 
 Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
 
-## Parameters
+## SelectPanelComponent
 
-* `BooleanComponent` requires `true_label` and `false_label`.
-* `SegmentedComponent` accepts items via a block using `with_item(label:, value:)`.
+A multiselect select panel based quick filter. Select panel items are provided via `with_item` slots.
+Navigation happens when items are checked and the "Apply" button is clicked.
+
+<%= embed OpPrimer::QuickFilterPreview, :select_panel_with_active_filter, panels: %i[source] %>
+
+Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.

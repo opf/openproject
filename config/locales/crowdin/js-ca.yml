@@ -1045,16 +1045,13 @@ ca:
         all: Tots els projectes
         selected: Només seleccionats
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Inclou tots els subprojectes
       tooltip:
         include_all_selected: Projecte ja inclòs, ja que "Inclou tots els subprojectes" està activat.
         current_project: Aquest és el projecte actual.
         does_not_match_search: El projecte no coincideix amb la cerca.
       no_results: Cap projecte s'ajusta a la teva cerca.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

@@ -2105,17 +2105,14 @@ nl:
         before: moet voor %{date} zijn.
         before_or_equal_to: moet voor of gelijk zijn aan %{date}.
         blank: mag niet leeg zijn.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: moet de eigenschap '%{property}' ingesteld hebben.
         cannot_delete_mapping: is vereist. Kan niet worden verwijderd.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken.
         circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
         confirmation: komt niet overeen met %{attribute}.
         could_not_be_copied: "%{dependency} kon niet (volledig) worden gekopieerd."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: bestaat niet.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: geen toegang.
         error_readonly: werd geprobeerd te schrijven maar is niet schrijfbaar.
@@ -2136,36 +2133,38 @@ nl:
         greater_than_or_equal_to: moet groter dan of gelijk zijn aan %{count}.
         greater_than_or_equal_to_start_date: moet groter of gelijk zijn aan startdatum.
         greater_than_start_date: moet groter zijn dan startdatum.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: is niet ingesteld op één van de toegestane waarden.
         inclusion_nested: is niet ingesteld op een van de toegestane waarden op pad '%{path}'.
         invalid: is ongeldig.
         invalid_uri: must be a valid URI.
         invalid_url: is geen geldige URL.
         invalid_url_scheme: 'is geen ondersteunde protocol (toegestaan: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: moet kleiner zijn dan of gelijk aan %{count}.
         not_available: is niet beschikbaar vanwege een systeemconfiguratie.
+        not_before_start_date: must not be before the start date.
         not_deletable: kan niet worden verwijderd.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: is niet de huidige gebruiker.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: niet gevonden.
         not_a_date: is geen geldige datum.
         not_a_datetime: is geen geldige datum tijd.
         not_a_number: is geen getal.
         not_allowed: is ongeldig vanwege ontbrekende machtigingen.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: is niet een geheel getal.
         not_an_iso_date: 'is geen geldige datum. Vereist formaat: JJJJ-MM-DD.'
         not_same_project: hoort niet bij hetzelfde project.
-        datetime_must_be_in_future: must be in the future.
         odd: moet oneven zijn.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: moet kleiner zijn dan of even groot zijn als de maximale lengte.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: is al in gebruik.
         too_long: is te lang (maximaal %{count} karakters).
         too_short: is te kort (minimum is %{count} karakters).
@@ -2178,6 +2177,7 @@ nl:
         url_not_secure_context: 'bevat geen "Secure Context". Gebruik HTTPS of een loopbackadres, zoals localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
       models:
         group:
@@ -2842,6 +2842,7 @@ nl:
   button_login: Aanmelden
   button_move: Verplaatsen
   button_move_and_follow: Verplaatsen en volgen
+  button_next: Next
   button_print: Afdrukken
   button_quote: Citeer
   button_remove: Verwijder
@@ -3160,8 +3161,8 @@ nl:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Toevoegen van nieuwe attribuutgroepen
-          rename: Rename attribute groups
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Add a table of related work packages
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3471,6 +3472,12 @@ nl:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'

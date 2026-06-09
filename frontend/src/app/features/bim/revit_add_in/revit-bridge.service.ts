@@ -34,7 +34,7 @@ import {
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { ViewpointsService } from 'core-app/features/bim/bcf/helper/viewpoints.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { BcfViewpointData, CreateBcfViewpointData } from 'core-app/features/bim/bcf/api/bcf-api.model';
 
 declare global {
@@ -62,7 +62,7 @@ export class RevitBridgeService extends ViewerBridgeService {
 
   private trackingIdNumber = 0;
 
-  @InjectField() viewpointsService:ViewpointsService;
+  @LazyInject() viewpointsService:ViewpointsService;
 
   revitMessageReceived$ = this.revitMessageReceivedSource.asObservable();
 

@@ -101,6 +101,46 @@ RSpec.describe RecurringMeetings::UpdateService, "integration", type: :model do
     end
   end
 
+  context "when ending a series with a stale cancelled occurrence" do
+    let(:series) do
+      create(:recurring_meeting,
+             project:,
+             start_time: 1.month.ago + 10.hours,
+             frequency: "daily",
+             interval: 1,
+             end_after: "specific_date",
+             end_date: 1.month.from_now)
+    end
+    let(:instance) do
+      described_class.new(model: series, user:, contract_class: RecurringMeetings::EndSeriesContract)
+    end
+    let(:params) do
+      {
+        end_after: "specific_date",
+        end_date: Time.zone.yesterday
+      }
+    end
+    let!(:cancelled_occurrence) do
+      create(:recurring_meeting_occurrence,
+             recurring_meeting: series,
+             start_time: Time.zone.tomorrow + 10.hours,
+             recurrence_start_time: Time.zone.tomorrow + 10.hours,
+             state: :cancelled)
+    end
+    let!(:section) { create(:meeting_section, meeting: cancelled_occurrence) }
+    let!(:agenda_item) do
+      create(:meeting_agenda_item, meeting: cancelled_occurrence, meeting_section: section)
+    end
+
+    it "destroys the cancelled occurrence with its structured meeting content" do
+      expect(service_result).to be_success
+
+      expect { cancelled_occurrence.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { section.reload }.to raise_error(ActiveRecord::RecordNotFound)
+      expect { agenda_item.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
   describe "rescheduling job" do
     context "when updating the title" do
       let(:params) do
