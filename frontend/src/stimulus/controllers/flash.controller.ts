@@ -65,6 +65,10 @@ export default class FlashController extends ApplicationController {
     const politeness = element.dataset.politeness === 'assertive' ? 'assertive' : 'polite';
 
     window.setTimeout(() => {
+      if (!element.isConnected) {
+        return;
+      }
+
       void announce(message, { politeness, from: element });
     }, FLASH_ANNOUNCEMENT_DELAY);
   }

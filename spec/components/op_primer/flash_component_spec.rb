@@ -80,6 +80,14 @@ RSpec.describe OpPrimer::FlashComponent, type: :component do
       it "marks the flash for autohide" do
         expect(rendered_component).to have_css '[data-autohide="true"]'
       end
+
+      context "with disabled dismissing" do
+        subject(:rendered_component) { render_component(content, scheme: :success, dismiss_scheme: :none) }
+
+        it "does not mark the flash for autohide" do
+          expect(rendered_component).to have_css '[data-autohide="false"]'
+        end
+      end
     end
 
     context "with blank content" do

@@ -60,9 +60,5 @@ module Meetings
     def live_region_message
       I18n.t("notice_meeting_updated")
     end
-
-    def live_region_politeness
-      "polite"
-    end
   end
 end

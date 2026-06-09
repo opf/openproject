@@ -36,7 +36,7 @@ module OpPrimer
     def initialize(**system_arguments)
       @unique_key = system_arguments.delete(:unique_key)
       @scheme = system_arguments[:scheme]&.to_sym
-      @autohide = success?
+      @autohide = success? && system_arguments[:dismiss_scheme] != :none
 
       apply_accessibility_defaults(system_arguments)
 

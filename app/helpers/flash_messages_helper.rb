@@ -39,7 +39,7 @@ module FlashMessagesHelper
   #
   # @return [String] an HTML-safe string.
   def render_flash_messages
-    safe_join(build_flash_entries.map { |entry| entry[:component].render_in(self) }, "\n")
+    safe_join(build_flash_components.map { it.render_in(self) }, "\n")
   end
 
   # Renders flash messages wrapped in `<turbo-stream>` tags, suitable for
@@ -47,8 +47,8 @@ module FlashMessagesHelper
   #
   # @return [String] an HTML-safe string.
   def render_flash_messages_as_turbo_streams
-    streams = build_flash_entries.map do |entry|
-      entry[:component].render_as_turbo_stream(view_context: self, action: :flash)
+    streams = build_flash_components.map do |component|
+      component.render_as_turbo_stream(view_context: self, action: :flash)
     end
 
     safe_join(streams)
@@ -65,19 +65,11 @@ module FlashMessagesHelper
 
   private
 
-  def build_flash_entries
+  def build_flash_components
     flash
       .reject { |k, _| k.start_with? "_" }
       .reject { |k, _| k.to_s == "op_modal" }
-      .map do |key, value|
-        type = key.to_sym
-        component = build_flash_component(type, value)
-
-        {
-          type:,
-          component:
-        }
-      end
+      .map { |key, value| build_flash_component(key.to_sym, value) }
   end
 
   def mapped_flash_scheme(type)
