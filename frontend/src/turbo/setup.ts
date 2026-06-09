@@ -12,6 +12,7 @@ import { getTurboEvents } from './utils';
 import { StreamActions } from '@hotwired/turbo';
 import { addTurboAngularWrapper } from 'core-turbo/turbo-angular-wrapper';
 import { registerActionMenuMorphRemount } from './action-menu-morph-remount';
+import { registerPragmaticDndMorphAttributePreservation } from './pragmatic-dnd-morph-attributes';
 
 Turbo.session.drive = true;
 Turbo.config.drive.progressBarDelay = 100;
@@ -39,6 +40,7 @@ whenDebugging(() => {
 addTurboEventListeners();
 addTurboGlobalListeners();
 registerActionMenuMorphRemount();
+registerPragmaticDndMorphAttributePreservation();
 registerDialogStreamAction();
 registerFlashStreamAction();
 registerLiveRegionStreamAction();
