@@ -7,14 +7,31 @@ import type { WorkPackage } from "../../openProjectTypes";
 import type { HashMenuItem } from "./types";
 import { useTranslation } from "react-i18next";
 
+/*
+ * BlockNote's GenericPopover wrapper (data-floating-ui-focusable) is the
+ * element FloatingUI applies max-height to via its `size` middleware, but
+ * this `Menu` element is the painted surface (white background, shadow,
+ * rounded corners). Without our own height limit and overflow constraint,
+ * the result rows render outside the painted card and ghost over the
+ * editor content behind — visible on iOS Safari in particular.
+ *
+ * The painted surface and the overflow container must be the same
+ * element, so the rounded corners clip the scroll area cleanly. The
+ * `min-height: 0` line is the iOS Safari flex-child-with-overflow quirk:
+ * a flex item won't actually clip / scroll unless its min-height is
+ * explicitly zero. (Harmless on non-flex layouts.)
+ */
 const Menu = styled.div.attrs({ className: "op-bn-hash-menu" })`
   ${defaultWpVariables}
-  background: var(--bn-colors-menu-background, #fff);
+  background-color: var(--bn-colors-menu-background, #fff);
   box-shadow: var(--bn-shadow-medium);
   border-radius: var(--bn-border-radius-large);
   padding: var(--spacer-s);
   min-width: 320px;
   max-width: 480px;
+  max-height: 60vh;
+  overflow-y: auto;
+  min-height: 0;
 `;
 
 const MenuItem = styled.div<{ $selected: boolean }>`
