@@ -126,7 +126,9 @@ module Components
         if name == "name_and_identifier"
           page.find_by_id("name_and_identifier").find(:xpath, "following-sibling::button").click
         else
-          page.find("li[data-filter-name='#{name}'] .filter_rem").click
+          wait_for_turbo_stream do
+            page.find("li[data-filter-name='#{name}'] .filter_rem").click
+          end
         end
       end
 
