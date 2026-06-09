@@ -126,7 +126,7 @@ module Backlogs
     end
 
     def move_params
-      params.permit(:prev_id, :direction, :list_type, :list_id)
+      params.permit(:prev_id, :position, :direction, :list_type, :list_id)
     end
 
     # A blank prev_id (drag or menu move to the top of a list) is kept so the

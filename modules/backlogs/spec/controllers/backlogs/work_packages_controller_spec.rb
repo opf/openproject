@@ -109,11 +109,13 @@ RSpec.describe Backlogs::WorkPackagesController do
     let(:list_type) { nil }
     let(:list_id) { nil }
     let(:prev_id) { nil }
+    let(:position) { nil }
     let(:all) { nil }
     let(:direction) { nil }
 
     subject do
-      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, all:, direction: }, format: :turbo_stream
+      put :move, params: { project_id:, id:, list_type:, list_id:, prev_id:, position:, all:, direction: },
+                 format: :turbo_stream
     end
 
     context "with a Sprint as source" do
@@ -227,6 +229,17 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(work_package_in_sprint.reload).to have_attributes(sprint_id: nil, backlog_bucket_id: nil, position: 2)
+        end
+
+        context "with a position instead of prev_id" do
+          let(:prev_id) { nil }
+          let(:position) { "1" }
+
+          it "moves the work_package to the requested position" do
+            subject
+
+            expect(work_package_in_sprint.reload).to have_attributes(sprint_id: nil, backlog_bucket_id: nil, position: 1)
+          end
         end
 
         include_examples "respecting the all param for inbox pagination"
