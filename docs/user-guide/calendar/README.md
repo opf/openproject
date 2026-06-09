@@ -48,17 +48,17 @@ The current month is automatically selected.
 2. The **today** button brings you back to the current date.
 3. You can use the month/week toggle on the top right corner to switch between either a month view or a week view.
 
-If multiple work packages are scheduled on the same day, they are displayed in a vertical stack.
+If multiple work packages are scheduled on the same day, they are displayed in a vertical stack.m 
 
 Click on a work package strip to view the work package in split screen mode.
 
-![Work package details in split screen view](calendar-splitScreen.png)
+![Work package details in split screen view](openproject_user_guide_calendar_splitscreen.png)
 
 ### Create work packages
 
 You can create new work packages directly on the calendar. To do so, either click on a single date or click and drag across a date range. A new work package form will open in a split screen with the selected date(s) pre-filled.
 
-![Click and drag across a date range to create a new work package](calendar-newWorkPackage.png)
+![ ](openproject_user_guide_calendar_create_wp.png)
 
 ### Modify work packages
 
@@ -78,9 +78,9 @@ You can make basic date modifications simply by manipulating the work package st
 
 You can filter the work packages displayed in a calendar by adding any number of [filters](../work-packages/work-package-table-configuration/#filter-work-packages "Learn more about work package filters"), e.g. *Author*, *Due Date*, *Priority*, *Assignee*, etc. This allows you to create a custom calendar showing only relevant work packages, either for yourself (as a private calendar) or for your team (as a public calendar visible to all project members).
 
-Click the **Filter** button on the top right above the calendar to open the filter details.To add another filter criteria, select the drop down next to **+ Add filter** and choose a filter criteria.The number of different filter criteria is displayed on the filter button.
+Click the **Filter** button on the top right above the calendar to open the filter details.  To add another filter criteria, select the drop down next to **+ Add filter** and choose a filter criteria. The number of different filter criteria is displayed on the filter button.
 
-![Calendar filters](calendarFilters.png)
+![Calendar filters in openproject user guide](openproject_user_guide_calendar_filters.png)
 
 > **Note:** OpenProject also offers a module called **Team planner** that allows you to view modules in a calendar by assignee. [Learn more about Team planner](../team-planner "Documentation about Team planner").
 
@@ -104,7 +104,7 @@ This makes it possible for you to keep an eye on your project schedule from any 
 
 > **Note:** You can only subscribe to saved calendars. If you are creating a new calendar, please save it before you are able to create a calendar subscription.
 
-![Subscribe to calendar in the More menu](subscribeToCalendar.png)
+![Subscribe to calendar in the More menu](openproject_user_guide_calendar_menu_subscribe.png)
 
 To subscribe to a calendar:
 
@@ -113,6 +113,6 @@ To subscribe to a calendar:
 3. Click on **Copy URL**. This creates the a [calendar token](../../user-guide/account-settings/#access-tokens) and copies the calendar URL to your clipboard.
 4. Paste this URL in your desired calendar client to subscribe.
 
-![Subscribe to calendar modal](subscribeToCalendar-modal.png)
+![Subscribe to calendar modal](openproject_user_guide_calendar_subscribe.png)
 
-> **Important:** Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password.
+> **Important:** Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password. 
