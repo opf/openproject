@@ -29,7 +29,6 @@ const Menu = styled.div.attrs({ className: "op-bn-hash-menu" })`
   padding: var(--spacer-s);
   min-width: 320px;
   max-width: 480px;
-  max-height: 60vh;
   overflow-y: auto;
   min-height: 0;
 `;
