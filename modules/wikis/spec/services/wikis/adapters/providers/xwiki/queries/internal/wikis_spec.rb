@@ -39,7 +39,6 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::Wikis, :web
     let(:wiki_provider) do
       create(:xwiki_provider, :with_connected_user, url: "https://xwiki.example.com/", connected_user: user)
     end
-    let(:wikis_endpoint) { "https://xwiki.example.com/rest/wikis" }
     let(:auth_strategy) do
       Wikis::Adapters::Input::AuthStrategy.build(key: :bearer_token, user:, provider: wiki_provider).value!
     end
@@ -48,7 +47,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::Wikis, :web
     subject(:result) { query.call(auth_strategy:) }
 
     context "when the farm has multiple wikis" do
-      before { stub_wiki_list(%w[xwiki myfarm]) }
+      before { stub_wiki_list(%w[xwiki myfarm], provider: wiki_provider) }
 
       it { is_expected.to be_success }
 
@@ -58,7 +57,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::Wikis, :web
     end
 
     context "when the response has no wikis" do
-      before { stub_wiki_list([]) }
+      before { stub_wiki_list([], provider: wiki_provider) }
 
       it { is_expected.to be_success }
 
@@ -68,32 +67,32 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::Wikis, :web
     end
 
     context "when access is unauthorized" do
-      before { stub_request(:get, wikis_endpoint).to_return(status: 401, body: "") }
+      before { stub_request(:get, wikis_endpoint(wiki_provider)).to_return(status: 401, body: "") }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :unauthorized)) }
     end
 
     context "when access is forbidden" do
-      before { stub_request(:get, wikis_endpoint).to_return(status: 403, body: "") }
+      before { stub_request(:get, wikis_endpoint(wiki_provider)).to_return(status: 403, body: "") }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :unauthorized)) }
     end
 
     context "when XWiki returns a non-2xx status" do
-      before { stub_request(:get, wikis_endpoint).to_return(status: 500, body: "Internal Server Error") }
+      before { stub_request(:get, wikis_endpoint(wiki_provider)).to_return(status: 500, body: "Internal Server Error") }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :request_failed)) }
     end
 
     context "when a network error occurs" do
-      before { stub_request(:get, wikis_endpoint).to_timeout }
+      before { stub_request(:get, wikis_endpoint(wiki_provider)).to_timeout }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :connection_error)) }
     end
 
     context "when the response body is not valid JSON" do
       before do
-        stub_request(:get, wikis_endpoint)
+        stub_request(:get, wikis_endpoint(wiki_provider))
           .to_return(status: 200, body: "not json", headers: { "Content-Type" => "application/json" })
       end
 

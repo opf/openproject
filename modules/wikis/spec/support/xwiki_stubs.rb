@@ -29,20 +29,24 @@
 #++
 
 module XWikiStubs
-  def stub_wiki_list(wiki_names, token: "user-bearer-token")
-    stub_request(:get, wikis_endpoint)
+  def wikis_endpoint(provider)
+    "#{provider.url}rest/wikis"
+  end
+
+  def stub_wiki_list(wiki_names, provider:, token: "user-bearer-token")
+    stub_request(:get, wikis_endpoint(provider))
       .with(headers: { "Authorization" => "Bearer #{token}" })
       .to_return(status: 200,
                  body: { "wikis" => wiki_names.map { |id| { "id" => id } } }.to_json,
                  headers: { "Content-Type" => "application/json" })
   end
 
-  def search_endpoint(wiki_name, linkable, number: 10)
-    "https://xwiki.example.com/rest/wikis/#{wiki_name}/openproject/links/workPackages/#{linkable.id}?number=#{number}"
+  def search_endpoint(wiki_name, linkable, provider:, number: 10)
+    "#{provider.url}rest/wikis/#{wiki_name}/openproject/links/workPackages/#{linkable.id}?number=#{number}"
   end
 
-  def stub_search(wiki_name, search_results, linkable:, number: 10, token: "user-bearer-token")
-    stub_request(:get, search_endpoint(wiki_name, linkable, number:))
+  def stub_search(wiki_name, search_results, provider:, linkable:, number: 10, token: "user-bearer-token")
+    stub_request(:get, search_endpoint(wiki_name, linkable, provider:, number:))
       .with(headers: { "Authorization" => "Bearer #{token}" })
       .to_return(status: 200,
                  body: { "searchResults" => search_results }.to_json,

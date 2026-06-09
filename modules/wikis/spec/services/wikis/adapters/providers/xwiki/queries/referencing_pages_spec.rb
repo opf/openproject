@@ -44,7 +44,6 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       create(:xwiki_provider, :with_connected_user, url: "https://xwiki.example.com/", connected_user: user)
     end
     let(:linkable) { create(:work_package) }
-    let(:wikis_endpoint) { "https://xwiki.example.com/rest/wikis" }
     let(:auth_strategy) do
       Wikis::Adapters::Input::AuthStrategy.build(key: :bearer_token, user:, provider: wiki_provider).value!
     end
@@ -61,7 +60,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       let(:page_absolute_url) { "https://xwiki.example.com/bin/view/Main/Eric%27s%20Space/" }
 
       before do
-        stub_wiki_list(["xwiki"])
+        stub_wiki_list(["xwiki"], provider: wiki_provider)
         stub_search("xwiki",
                     [{ "type" => "page",
                        "id" => page_identifier,
@@ -71,6 +70,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
                        "pageName" => "WebHome",
                        "links" => [{ "href" => page_rest_url,
                                      "rel" => "http://www.xwiki.org/rel/page" }] }],
+                    provider: wiki_provider,
                     linkable:)
         stub_request(:get, page_rest_url)
           .with(headers: { "Authorization" => "Bearer user-bearer-token" })
@@ -99,13 +99,13 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       let(:page_rest_wiki2) { "https://xwiki.example.com/rest/wikis/myfarm/spaces/Docs/pages/Index" }
 
       before do
-        stub_wiki_list(%w[xwiki myfarm])
+        stub_wiki_list(%w[xwiki myfarm], provider: wiki_provider)
         stub_search("xwiki", [{ "id" => page_id_wiki1, "title" => "Home",
                                 "links" => [{ "href" => page_rest_wiki1, "rel" => "http://www.xwiki.org/rel/page" }] }],
-                    linkable:)
+                    provider: wiki_provider, linkable:)
         stub_search("myfarm", [{ "id" => page_id_wiki2, "title" => "Docs Index",
                                  "links" => [{ "href" => page_rest_wiki2, "rel" => "http://www.xwiki.org/rel/page" }] }],
-                    linkable:)
+                    provider: wiki_provider, linkable:)
         stub_request(:get, page_rest_wiki1)
           .with(headers: { "Authorization" => "Bearer user-bearer-token" })
           .to_return(status: 200,
@@ -138,8 +138,8 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       end
 
       before do
-        stub_wiki_list(["xwiki"])
-        stub_search("xwiki", [duplicate_result, duplicate_result], linkable:)
+        stub_wiki_list(["xwiki"], provider: wiki_provider)
+        stub_search("xwiki", [duplicate_result, duplicate_result], provider: wiki_provider, linkable:)
         stub_request(:get, page_rest_url)
           .with(headers: { "Authorization" => "Bearer user-bearer-token" })
           .to_return(status: 200,
@@ -157,8 +157,8 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
 
     context "when no pages are found across all wikis" do
       before do
-        stub_wiki_list(["xwiki"])
-        stub_search("xwiki", [], linkable:)
+        stub_wiki_list(["xwiki"], provider: wiki_provider)
+        stub_search("xwiki", [], provider: wiki_provider, linkable:)
       end
 
       it { is_expected.to be_success }
@@ -170,9 +170,10 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
 
     context "when one wiki's search fails" do
       before do
-        stub_wiki_list(%w[xwiki broken_wiki])
-        stub_search("xwiki", [], linkable:)
-        stub_request(:get, search_endpoint("broken_wiki", linkable)).to_return(status: 500, body: "Internal Server Error")
+        stub_wiki_list(%w[xwiki broken_wiki], provider: wiki_provider)
+        stub_search("xwiki", [], provider: wiki_provider, linkable:)
+        stub_request(:get, search_endpoint("broken_wiki", linkable, provider: wiki_provider))
+          .to_return(status: 500, body: "Internal Server Error")
       end
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :request_failed)) }
@@ -185,13 +186,13 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
     end
 
     context "when the wikis preflight fails with unauthorized" do
-      before { stub_request(:get, wikis_endpoint).to_return(status: 401, body: "") }
+      before { stub_request(:get, wikis_endpoint(wiki_provider)).to_return(status: 401, body: "") }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :unauthorized)) }
     end
 
     context "when the wikis preflight fails with a network error" do
-      before { stub_request(:get, wikis_endpoint).to_timeout }
+      before { stub_request(:get, wikis_endpoint(wiki_provider)).to_timeout }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :connection_error)) }
     end
