@@ -60,6 +60,7 @@ type CleanupFn = () => void;
 type ElementDropPayload = ElementEventPayloadMap['onDrop'];
 type AutoScrollAllowedAxis = 'vertical'|'horizontal'|'all';
 type AutoScrollMaxScrollSpeed = 'standard'|'fast';
+type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
 
 const allowedAxes = new Set<string>(['vertical', 'horizontal', 'all']);
 const maxScrollSpeeds = new Set<string>(['standard', 'fast']);
@@ -228,15 +229,22 @@ export default class SortableListsController extends Controller<HTMLElement> {
     const rollback = captureRowPositions(rows);
     reorderRows({ rows, list: listElement, previousItemId: intent.previousItemId });
 
-    const moved = await this.moveItem({
+    const result = await this.moveItem({
       listData: intent.listData,
       previousItemId: intent.previousItemId,
       moveUrl,
     });
 
-    if (!moved) {
-      flipMove(rows, () => restoreRowPositions(rollback));
-      this.dispatchErrorToast();
+    if (!result.ok) {
+      try {
+        flipMove(rows, () => restoreRowPositions(rollback));
+      } catch (error) {
+        debugLog('Failed to roll back sortable list item move', error);
+      }
+
+      if (result.showToast) {
+        this.dispatchErrorToast();
+      }
     }
   }
 
@@ -260,7 +268,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
     listData:SortableListData;
     previousItemId:string|null;
     moveUrl:string;
-  }):Promise<boolean> {
+  }):Promise<MoveResult> {
     const request = new FetchRequest(
       'put',
       moveUrl,
@@ -282,10 +290,12 @@ export default class SortableListsController extends Controller<HTMLElement> {
         debugLog(`Failed to move sortable list item: ${response.statusCode}`);
       }
 
-      return response.ok;
+      return response.ok
+        ? { ok: true }
+        : { ok: false, showToast: response.statusCode !== 422 };
     } catch (error) {
       debugLog('Failed to move sortable list item due to request error', error);
-      return false;
+      return { ok: false, showToast: true };
     } finally {
       this.setMoving(false);
     }

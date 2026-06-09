@@ -185,5 +185,17 @@ describe('sortable lists DOM helpers', () => {
       restoreRowPositions(snapshot);
       expect(itemIdOrder(list)).toEqual(['1', '2', '3', '4']);
     });
+
+    it('falls back to appending when the captured next sibling is stale', () => {
+      const list = listElement();
+      const [one, two] = ['1', '2'].map(itemRow);
+
+      list.append(one, two);
+      const snapshot = captureRowPositions([one]);
+      two.remove();
+
+      expect(() => restoreRowPositions(snapshot)).not.toThrow();
+      expect(itemIdOrder(list)).toEqual(['1']);
+    });
   });
 });

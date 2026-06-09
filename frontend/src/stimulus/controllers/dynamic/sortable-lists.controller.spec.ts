@@ -522,6 +522,54 @@ describe('Sortable lists controller', () => {
     expect(itemIds(targetList)).toEqual(['4', '5']);
   });
 
+  it('does not dispatch a generic toast when a 422 turbo stream rejects the move', async () => {
+    const toastEvents:CustomEvent[] = [];
+    const onToast = (event:Event) => toastEvents.push(event as CustomEvent);
+
+    window.addEventListener('op:toasters:add', onToast);
+    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
+      return {
+        perform: vi.fn(() => Promise.resolve({ ok: false, statusCode: 422 })),
+      };
+    });
+
+    const { sourceList, targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+    await flushPromises();
+
+    expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+    expect(itemIds(targetList)).toEqual(['4', '5']);
+    expect(toastEvents).toHaveLength(0);
+
+    window.removeEventListener('op:toasters:add', onToast);
+  });
+
+  it('dispatches a generic toast when a non-422 response rejects the move', async () => {
+    const toastEvents:CustomEvent[] = [];
+    const onToast = (event:Event) => toastEvents.push(event as CustomEvent);
+
+    window.addEventListener('op:toasters:add', onToast);
+    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
+      return {
+        perform: vi.fn(() => Promise.resolve({ ok: false, statusCode: 500 })),
+      };
+    });
+
+    const { sourceList, targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+    await flushPromises();
+
+    expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+    expect(itemIds(targetList)).toEqual(['4', '5']);
+    expect(toastEvents).toHaveLength(1);
+
+    window.removeEventListener('op:toasters:add', onToast);
+  });
+
   it('registers Backlogs lists as drop targets', async () => {
     const { sourceList, targetList } = renderFixture();
 

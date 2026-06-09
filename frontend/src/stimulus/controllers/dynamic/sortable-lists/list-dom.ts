@@ -132,7 +132,12 @@ export function captureRowPositions(rows:HTMLElement[]):RowPlacement[] {
 export function restoreRowPositions(positions:RowPlacement[]):void {
   for (let i = positions.length - 1; i >= 0; i -= 1) {
     const { row, parent, nextSibling } = positions[i];
-    parent?.insertBefore(row, nextSibling);
+    if (!parent) {
+      continue;
+    }
+
+    const insertionPoint = nextSibling?.parentNode === parent ? nextSibling : null;
+    parent.insertBefore(row, insertionPoint);
   }
 }
 
