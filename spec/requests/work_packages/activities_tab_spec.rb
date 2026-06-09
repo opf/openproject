@@ -101,4 +101,40 @@ RSpec.describe "Work package activities tab",
       expect(response.body.scan(I18n.t("label_not_found")).size).to eq(1)
     end
   end
+
+  describe "GET update_streams" do
+    let(:last_poll) { 1.hour.ago }
+
+    before do
+      # Age every journal past the poll window so neither the changed-since nor the
+      # created-after path can fire; a journal can then only be streamed because its
+      # notification was refreshed.
+      work_package.journals.update_all(created_at: 2.hours.ago, updated_at: 2.hours.ago)
+    end
+
+    def poll(**params)
+      get update_streams_work_package_activities_path(work_package),
+          params: { last_update_timestamp: last_poll.iso8601, **params },
+          headers: { "Accept" => "text/vnd.turbo-stream.html" }
+    end
+
+    it "re-renders a journal whose notification was refreshed since the last poll" do
+      create(:notification, recipient: user, resource: work_package, journal: comment)
+
+      poll
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("A comment")
+      expect(response.body).to include("work-packages-activities-tab-journals-item-component-#{comment.id}")
+    end
+
+    it "skips a re-notified journal the user is currently editing" do
+      create(:notification, recipient: user, resource: work_package, journal: comment)
+
+      poll(editing_journals: comment.id.to_s)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).not_to include("A comment")
+    end
+  end
 end
