@@ -29,11 +29,11 @@
 #++
 
 module Wikis::Adapters::Input
-  ReferencingPages = Data.define(:linkable, :number) do
+  ReferencingPages = Data.define(:linkable) do
     private_class_method :new
 
-    def self.build(linkable:, number: 10, contract: ReferencingPagesContract.new)
-      contract.call(linkable:, number:).to_monad.fmap { new(**it.to_h) }
+    def self.build(linkable:, contract: ReferencingPagesContract.new)
+      contract.call(linkable:).to_monad.fmap { new(**it.to_h) }
     end
   end
 end

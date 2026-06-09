@@ -92,17 +92,6 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       end
     end
 
-    context "when a custom number is provided" do
-      let(:input_data) { Wikis::Adapters::Input::ReferencingPages.build(linkable:, number: 25).value! }
-
-      before do
-        stub_wiki_list(["xwiki"])
-        stub_search("xwiki", [], linkable:, number: 25)
-      end
-
-      it { is_expected.to be_success }
-    end
-
     context "when a farm has multiple wikis with results" do
       let(:page_id_wiki1) { "xwiki:Main.WebHome" }
       let(:page_id_wiki2) { "myfarm:Docs.Index" }

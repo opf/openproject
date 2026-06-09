@@ -34,7 +34,6 @@ module Wikis
       class ReferencingPagesContract < DryApplicationContract
         params do
           required(:linkable).filled(Types::Linkable)
-          required(:number).filled(:integer, gt?: 0)
         end
       end
     end
