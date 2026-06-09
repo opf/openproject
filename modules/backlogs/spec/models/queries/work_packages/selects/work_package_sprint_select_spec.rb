@@ -31,8 +31,6 @@
 require "spec_helper"
 
 RSpec.describe OpenProject::Backlogs::WorkPackageSprintSelect do # rubocop:disable RSpec/SpecFilePathFormat
-  let(:instance) { described_class.new(:sprint) }
-
   describe ".instances" do
     context "when user has permission to view sprints in a project" do
       let(:project) { build_stubbed(:project, enabled_module_names: %w[backlogs]) }
