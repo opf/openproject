@@ -89,15 +89,19 @@ module WorkPackages
       end
 
       def rerender_renotified(sink)
+        journals.where(id: renotified_journal_ids).find_each do |journal|
+          emit_item_show(sink, journal)
+        end
+      end
+
+      def renotified_journal_ids
         Notification
-          .where(journal_id: journals.pluck(:id))
+          .where(journal_id: journals.select(:id))
           .where(recipient_id: User.current.id)
           .where("notifications.updated_at > ?", since)
-          .find_each do |notification|
-            next if editing?(notification.journal_id)
-
-            emit_item_show(sink, journals.find(notification.journal_id))
-          end
+          .where.not(journal_id: editing_journal_ids)
+          .distinct
+          .pluck(:journal_id)
       end
 
       def insert_latest(sink)
