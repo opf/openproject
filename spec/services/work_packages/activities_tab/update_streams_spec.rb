@@ -132,7 +132,7 @@ RSpec.describe WorkPackages::ActivitiesTab::UpdateStreams do
   end
 
   context "with comments present" do
-    before { add_comment(notes: "any", created_at: 5.minutes.ago, updated_at: 5.minutes.ago) }
+    let!(:comment) { add_comment(notes: "any", created_at: 5.minutes.ago, updated_at: 5.minutes.ago) }
 
     it "removes a potential empty state and refreshes the activity counter once each" do
       emit
@@ -140,12 +140,15 @@ RSpec.describe WorkPackages::ActivitiesTab::UpdateStreams do
       expect(sink.replaced.size).to eq(1)
     end
 
-    it "refreshes the reactions of every journal on the work package" do
+    it "streams reactions only for journals whose reactions changed since the last poll" do
+      comment.update_columns(reactions_changed_at: 1.minute.ago)
+
       emit
-      reaction_components = sink.updated.select do |component|
-        component.instance_of?(WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions)
-      end
-      expect(reaction_components.size).to eq(work_package.journals.count)
+
+      reacted_journal_ids = sink.updated
+        .select { it.instance_of?(WorkPackages::ActivitiesTab::Journals::ItemComponent::Reactions) }
+        .map { it.instance_variable_get(:@journal).id }
+      expect(reacted_journal_ids).to contain_exactly(comment.id)
     end
   end
 

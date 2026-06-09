@@ -136,5 +136,23 @@ RSpec.describe "Work package activities tab",
       expect(response).to have_http_status(:ok)
       expect(response.body).not_to include("A comment")
     end
+
+    it "re-renders reactions for a journal whose reactions changed since the last poll" do
+      create(:emoji_reaction, reactable: comment, user: create(:user))
+
+      poll
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body)
+        .to include("work-packages-activities-tab-journals-item-component-reactions-#{comment.id}")
+    end
+
+    it "does not re-render reactions when no reactions changed" do
+      poll
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body)
+        .not_to include("work-packages-activities-tab-journals-item-component-reactions-#{comment.id}")
+    end
   end
 end

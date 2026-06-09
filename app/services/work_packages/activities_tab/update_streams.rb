@@ -54,7 +54,7 @@ module WorkPackages
           update_activity_counter(sink)
         end
 
-        rerender_all_reactions(sink)
+        rerender_changed_reactions(sink)
       end
 
       private
@@ -73,11 +73,6 @@ module WorkPackages
         @grouped_emoji_reactions ||= EmojiReactions::GroupedQueries.grouped_emoji_reactions_by_reactable(
           reactable_id: journals.pluck(:id), reactable_type: "Journal"
         )
-      end
-
-      def whole_work_package_emoji_reactions
-        @whole_work_package_emoji_reactions ||=
-          EmojiReactions::GroupedQueries.grouped_work_package_journals_emoji_reactions_by_reactable(work_package)
       end
 
       def rerender_changed(sink)
@@ -112,12 +107,12 @@ module WorkPackages
         end
       end
 
-      def rerender_all_reactions(sink)
-        work_package.journals.each do |journal|
+      def rerender_changed_reactions(sink)
+        journals.where("reactions_changed_at > ?", since).find_each do |journal|
           sink.update_via_turbo_stream(
             component: Journals::ItemComponent::Reactions.new(
               journal:,
-              grouped_emoji_reactions: whole_work_package_emoji_reactions[journal.id] || {}
+              grouped_emoji_reactions: grouped_emoji_reactions.fetch(journal.id, {})
             )
           )
         end
