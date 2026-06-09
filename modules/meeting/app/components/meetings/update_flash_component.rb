@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -53,12 +52,8 @@ module Meetings
           }
         ) { I18n.t("label_meeting_reload") }
 
-        live_region_message
+        I18n.t("notice_meeting_updated")
       end
-    end
-
-    def live_region_message
-      I18n.t("notice_meeting_updated")
     end
   end
 end
