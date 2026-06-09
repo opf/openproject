@@ -5,13 +5,12 @@ import { openProjectWorkPackageStaticInlineSpec } from "../../../lib/components/
 import {
   computeWorkPackageBlockExternalData,
   buildWorkPackageBlockExternalDOM,
-  parseWorkPackageBlockExternalHTML,
 } from "../../../lib/components/BlockWorkPackage/externalHtml";
 import {
   computeWorkPackageInlineExternalData,
   buildWorkPackageInlineExternalDOM,
-  parseWorkPackageInlineExternalHTML,
 } from "../../../lib/components/InlineWorkPackage/externalHtml";
+import {openProjectWorkPackageBlockSpec, openProjectWorkPackageInlineSpec} from "../../../lib";
 
 // The static spec wraps the same externalHtml functions in a BlockNote-compatible
 // spec object (no React dependency). These tests verify that the spec's
@@ -21,7 +20,9 @@ import {
 // createBlockSpec returns a creator function; call it to get the spec.
 // createInlineContentSpec returns the spec directly.
 const blockImpl = (openProjectWorkPackageStaticBlockSpec as any)().implementation;
+const reactBlockImpl = (openProjectWorkPackageBlockSpec as any)().implementation;
 const inlineImpl = (openProjectWorkPackageStaticInlineSpec as any).implementation;
+const reactInlineImpl = (openProjectWorkPackageInlineSpec as any).implementation;
 
 describe("static block spec — toExternalHTML", () => {
   it("produces a DOM node matching buildWorkPackageBlockExternalDOM", () => {
@@ -39,13 +40,23 @@ describe("static block spec — toExternalHTML", () => {
 });
 
 describe("static block spec — parse", () => {
-  it("delegates to parseWorkPackageBlockExternalHTML for a valid element", () => {
-    const el = document.createElement("div");
-    el.setAttribute("data-block-content-type", "openProjectWorkPackageBlock");
-    el.setAttribute("data-wpid", "42");
-    el.setAttribute("data-instance-id", "inst1");
-    el.setAttribute("data-size", "l");
-    expect(blockImpl.parse(el)).toEqual(parseWorkPackageBlockExternalHTML(el));
+  const makeBlockElement = () => {
+    const element = document.createElement("div");
+    element.setAttribute("data-block-content-type", "openProjectWorkPackageBlock");
+    element.setAttribute("data-wpid", "42");
+    element.setAttribute("data-instance-id", "inst1");
+    element.setAttribute("data-size", "l");
+    return element;
+  };
+
+  it("parses the HTML element", () => {
+    const element = makeBlockElement();
+    expect(blockImpl.parse(element)).toEqual({ wpid: 42, instanceId: "inst1", size: "l" });
+  });
+
+  it("parses the HTML element in the same way as the react block spec", () => {
+    const element = makeBlockElement();
+    expect(blockImpl.parse(element)).toEqual(reactBlockImpl.parse(element));
   });
 
   it("returns undefined for an unrelated element", () => {
@@ -71,13 +82,23 @@ describe("static inline spec — toExternalHTML", () => {
 });
 
 describe("static inline spec — parse", () => {
-  it("delegates to parseWorkPackageInlineExternalHTML for a valid element", () => {
-    const el = document.createElement("span");
-    el.setAttribute("data-inline-content-type", "openProjectWorkPackageInline");
-    el.setAttribute("data-wpid", "57");
-    el.setAttribute("data-instance-id", "inst1");
-    el.setAttribute("data-size", "xs");
-    expect(inlineImpl.parse(el)).toEqual(parseWorkPackageInlineExternalHTML(el));
+  const makeInlineElement = () => {
+    const element = document.createElement("span");
+    element.setAttribute("data-inline-content-type", "openProjectWorkPackageInline");
+    element.setAttribute("data-wpid", "57");
+    element.setAttribute("data-instance-id", "inst1");
+    element.setAttribute("data-size", "xs");
+    return element;
+  };
+
+  it("parses the HTML element", () => {
+    const element = makeInlineElement();
+    expect(inlineImpl.parse(element)).toEqual({ wpid: "57", instanceId: "inst1", size: "xs" });
+  });
+
+  it("parses the HTML element in the same way as the react inline spec", () => {
+    const element = makeInlineElement();
+    expect(inlineImpl.parse(element)).toEqual(reactInlineImpl.parse(element));
   });
 
   it("returns undefined for an unrelated element", () => {
