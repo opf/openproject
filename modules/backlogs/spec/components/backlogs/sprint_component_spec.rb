@@ -118,8 +118,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           expect(row["data-controller"]).to eq("sortable-lists--item")
           expect(row["data-sortable-lists--item-id-value"]).to eq(work_package1.id.to_s)
           expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
-          expect(row["data-sortable-lists--item-move-url-value"])
-            .to end_with(move_project_backlogs_work_package_path(project, work_package1))
           expect(row["draggable"]).to eq("true")
         end
 
@@ -127,19 +125,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           expect(card["data-controller"]).to eq("backlogs--story")
           expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
           expect(card["data-backlogs--story-display-id-value"]).to eq(work_package1.display_id.to_s)
-        end
-      end
-
-      context "when params[:all] is true" do
-        before do
-          vc_test_controller.params[:all] = "1"
-        end
-
-        it "propagates ?all=1 to the work package drop URL" do
-          expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
-            expect(row["data-sortable-lists--item-move-url-value"])
-              .to eq(move_project_backlogs_work_package_path(project, work_package1, all: "1"))
-          end
         end
       end
 

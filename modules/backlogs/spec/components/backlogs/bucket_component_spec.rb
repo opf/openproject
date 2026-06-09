@@ -138,8 +138,6 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
           expect(row["data-controller"]).to eq("sortable-lists--item")
           expect(row["data-sortable-lists--item-id-value"]).to eq(work_package.id.to_s)
           expect(row["data-sortable-lists--item-type-value"]).to eq("work_package")
-          expect(row["data-sortable-lists--item-move-url-value"])
-            .to end_with(move_project_backlogs_work_package_path(project, work_package))
           expect(row["draggable"]).to eq("true")
         end
 
@@ -180,12 +178,6 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
     it "includes all=1 in the split-view URL" do
       expect(rendered_component).to have_css(".op-work-package-card") do |card|
         expect(card["data-backlogs--story-split-url-value"]).to include("all=1")
-      end
-    end
-
-    it "includes all=1 in the drop URL" do
-      expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-        expect(row["data-sortable-lists--item-move-url-value"]).to include("all=1")
       end
     end
 

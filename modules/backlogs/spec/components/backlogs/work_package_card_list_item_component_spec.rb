@@ -74,9 +74,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       expect(item.row_args[:data]).to include(
         controller: "sortable-lists--item",
         sortable_lists__item_id_value: work_package.id,
-        sortable_lists__item_type_value: "work_package",
-        sortable_lists__item_move_url_value:
-          a_string_ending_with(move_project_backlogs_work_package_path(project, work_package))
+        sortable_lists__item_type_value: "work_package"
       )
       expect(item.row_args[:draggable]).to be(true)
       expect(item.row_args).not_to include(:tabindex)
@@ -108,35 +106,13 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
     end
   end
 
-  describe "URL derivation by container" do
-    context "with a sprint container" do
-      it "uses the shared move route" do
-        render_inline(item.card)
-        card = page.find(".op-work-package-card")
+  describe "URL derivation" do
+    it "uses the shared split-view route" do
+      render_inline(item.card)
+      card = page.find(".op-work-package-card")
 
-        expect(card["data-backlogs--story-split-url-value"])
-          .to end_with(project_backlogs_backlog_details_path(project, work_package))
-        expect(item.row_args[:data][:sortable_lists__item_move_url_value])
-          .to end_with(move_project_backlogs_work_package_path(project, work_package))
-      end
-    end
-
-    context "with a backlog bucket container" do
-      let(:container) { backlog_bucket }
-
-      it "uses the shared move route" do
-        expect(item.row_args[:data][:sortable_lists__item_move_url_value])
-          .to end_with(move_project_backlogs_work_package_path(project, work_package))
-      end
-    end
-
-    context "with an inbox container id" do
-      let(:container) { "inbox_project_#{project.id}" }
-
-      it "uses the shared move route" do
-        expect(item.row_args[:data][:sortable_lists__item_move_url_value])
-          .to end_with(move_project_backlogs_work_package_path(project, work_package))
-      end
+      expect(card["data-backlogs--story-split-url-value"])
+        .to end_with(project_backlogs_backlog_details_path(project, work_package))
     end
 
     context "with params" do
@@ -147,7 +123,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         card = page.find(".op-work-package-card")
 
         expect(card["data-backlogs--story-split-url-value"]).to match(/all=1/)
-        expect(item.row_args[:data][:sortable_lists__item_move_url_value]).to match(/all=1/)
       end
     end
   end

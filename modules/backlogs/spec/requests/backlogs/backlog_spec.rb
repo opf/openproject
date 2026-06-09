@@ -89,10 +89,24 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         expect(response.body).to include('class="op-sprint-planning-container"')
         expect(response.body).to include('data-controller="sortable-lists"')
         expect(response.body).to include('data-sortable-lists-accepted-type-value="work_package"')
+        expect(response.body).to include(
+          %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
+        )
         expect(response.body).to include('id="owner_backlogs_container"')
         expect(response.body).to include('id="sprint_backlogs_container"')
         expect(response.body.scan('data-sortable-lists-target="scrollable"').size).to eq(2)
         expect(response).to have_no_turbo_frame "content-bodyRight"
+      end
+
+      it "passes all=1 to the move URL template when requested" do
+        get "/projects/#{project.identifier}/backlogs/backlog",
+            params: { all: "1" },
+            headers: { "Turbo-Frame" => "backlogs_container" }
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include(
+          %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move?all=1")
+        )
       end
 
       context "with no sprints available" do

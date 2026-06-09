@@ -33,7 +33,8 @@ See COPYRIGHT and LICENSE files for more details.
                     data: { controller: "backlogs--list-refresh" } do %>
   <div class="op-sprint-planning-container"
        data-controller="sortable-lists"
-       data-sortable-lists-accepted-type-value="work_package">
+       data-sortable-lists-accepted-type-value="work_package"
+       data-sortable-lists-move-url-template-value="<%= backlogs_move_url_template(@project) %>">
     <div id="owner_backlogs_container" class="op-sprint-planning-lists" data-sortable-lists-target="scrollable">
       <%=
         render Backlogs::BacklogComponent.new(

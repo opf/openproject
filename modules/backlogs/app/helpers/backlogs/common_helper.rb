@@ -55,5 +55,12 @@ module Backlogs
     def all_backlogs_params
       show_all_backlog ? { all: 1 } : {}
     end
+
+    def backlogs_move_url_template(project)
+      id_placeholder = "__work_package_id__"
+
+      move_project_backlogs_work_package_path(project, id_placeholder, all_backlogs_params)
+        .sub(id_placeholder, "{id}")
+    end
   end
 end

@@ -54,10 +54,6 @@ module Backlogs
       url_helpers.work_package_path(work_package)
     end
 
-    def move_url
-      url_helpers.move_project_backlogs_work_package_path(project, work_package, params)
-    end
-
     def menu_src
       url_helpers.menu_project_backlogs_work_package_path(project, work_package, params)
     end
@@ -90,8 +86,7 @@ module Backlogs
       {
         controller: "sortable-lists--item",
         sortable_lists__item_id_value: work_package.id,
-        sortable_lists__item_type_value: "work_package",
-        sortable_lists__item_move_url_value: move_url
+        sortable_lists__item_type_value: "work_package"
       }
     end
 
