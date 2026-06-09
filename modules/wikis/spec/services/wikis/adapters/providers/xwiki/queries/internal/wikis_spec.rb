@@ -35,12 +35,17 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::Wikis, :web
   include XWikiStubs
 
   describe "#call" do
-    let(:wiki_provider) { create(:xwiki_provider, url: "https://xwiki.example.com/") }
+    let(:user) { create(:user) }
+    let(:wiki_provider) do
+      create(:xwiki_provider, :with_connected_user, url: "https://xwiki.example.com/", connected_user: user)
+    end
     let(:wikis_endpoint) { "https://xwiki.example.com/rest/wikis" }
-    let(:http) { OpenProject.httpx.bearer_auth("user-bearer-token") }
+    let(:auth_strategy) do
+      Wikis::Adapters::Input::AuthStrategy.build(key: :bearer_token, user:, provider: wiki_provider).value!
+    end
     let(:query) { described_class.new(model: wiki_provider) }
 
-    subject(:result) { query.call(http:) }
+    subject(:result) { query.call(auth_strategy:) }
 
     context "when the farm has multiple wikis" do
       before { stub_wiki_list(%w[xwiki myfarm]) }

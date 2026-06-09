@@ -36,9 +36,11 @@ module Wikis
           class ReferencingPages < BaseQuery
             include Concerns::XWikiQuery
 
+            MAXIMUM_RESULTS = 10
+
             def call(input_data:, auth_strategy:)
               authenticated(auth_strategy) do |http|
-                Internal::Wikis.new(model: provider).call(http:).bind do |wiki_names|
+                Internal::Wikis.new(model: provider).call(auth_strategy:).bind do |wiki_names|
                   wiki_names.reduce(Success([])) do |acc, wiki_name|
                     acc.bind do |results|
                       search_wiki(wiki_name:, input_data:, http:, auth_strategy:)
@@ -53,11 +55,11 @@ module Wikis
 
             def search_wiki(wiki_name:, input_data:, http:, auth_strategy:)
               url = rest_url("wikis/#{wiki_name}/openproject/links/workPackages/#{input_data.linkable.id}")
-              handle_response(http.get(url, params: { number: input_data.number })) do |data|
+              handle_response(http.get(url, params: { number: MAXIMUM_RESULTS })) do |data|
                 success(
                   (data["searchResults"] || [])
                     .uniq { |r| r["id"] }
-                    .map { page_info(identifier: it["id"], auth_strategy:) }
+                    .map { canonical_page_info(identifier: it["id"], auth_strategy:) }
                 )
               end
             end

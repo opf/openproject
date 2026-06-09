@@ -41,9 +41,11 @@ module Wikis
             class Wikis < BaseQuery
               include Concerns::XWikiQuery
 
-              def call(http:)
-                handle_response(http.get(rest_url("wikis"))) do |data|
-                  success((data["wikis"] || []).filter_map { it["id"] })
+              def call(auth_strategy:)
+                authenticated(auth_strategy) do |http|
+                  handle_response(http.get(rest_url("wikis"))) do |data|
+                    success((data["wikis"] || []).filter_map { it["id"] })
+                  end
                 end
               end
             end
