@@ -52,7 +52,7 @@ module Wikis::Adapters
       Failure(Results::Error.new(source: self.class, code:))
     end
 
-    def page_info(identifier:, auth_strategy:)
+    def canonical_page_info(identifier:, auth_strategy:)
       Input::PageInfo.build(identifier:).bind do |input|
         provider.resolve("queries.page_info").call(input_data: input, auth_strategy:)
       end

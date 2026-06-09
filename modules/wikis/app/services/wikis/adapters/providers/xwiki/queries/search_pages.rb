@@ -47,7 +47,7 @@ module Wikis
                     json.fetch("searchResults")
                         .uniq { |r| r.fetch("id") }
                         .map do |r|
-                          result = page_info(identifier: r.fetch("id"), auth_strategy:)
+                          result = canonical_page_info(identifier: r.fetch("id"), auth_strategy:)
                           return result if result.failure?
 
                           result.value!

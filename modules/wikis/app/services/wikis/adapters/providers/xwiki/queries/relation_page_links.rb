@@ -39,7 +39,7 @@ module Wikis
                                    .merge(RelationPageLink.all)
                                    .where(linkable: input_data.linkable)
                                    .map do |page_link|
-                page_info_result = page_info(identifier: page_link.identifier, auth_strategy:)
+                page_info_result = canonical_page_info(identifier: page_link.identifier, auth_strategy:)
                 Results::PageLinkAggregate.new(page_info_result:, page_link:)
               end
 
