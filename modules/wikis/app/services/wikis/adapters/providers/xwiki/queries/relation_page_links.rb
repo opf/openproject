@@ -34,6 +34,8 @@ module Wikis
       module XWiki
         module Queries
           class RelationPageLinks < BaseQuery
+            include Concerns::XWikiQuery
+
             def call(input_data:, auth_strategy:)
               page_links = provider.page_links
                                    .merge(RelationPageLink.all)
@@ -44,6 +46,14 @@ module Wikis
               end
 
               success(page_links)
+            end
+
+            private
+
+            def canonical_page_info(identifier:, auth_strategy:)
+              Input::PageInfo.build(identifier:).bind do |input_data|
+                Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
+              end
             end
           end
         end

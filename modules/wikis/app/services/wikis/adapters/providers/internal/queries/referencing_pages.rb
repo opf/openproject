@@ -40,7 +40,7 @@ module Wikis
                         .merge(ReverseInlinePageLink.all)
                         .where(linkable: input_data.linkable)
                         .order(created_at: :desc)
-                        .map { canonical_page_info(identifier: it.identifier, auth_strategy:) }
+                        .map { page_info(identifier: it.identifier, auth_strategy:) }
               )
             end
           end

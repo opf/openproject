@@ -36,7 +36,7 @@ module Wikis
           class ReferencingPages < BaseQuery
             include Concerns::XWikiQuery
 
-            MAXIMUM_RESULTS = 10
+            MAXIMUM_RESULTS = 25
 
             def call(input_data:, auth_strategy:)
               authenticated(auth_strategy) do |http|
@@ -61,6 +61,12 @@ module Wikis
                     .uniq { |r| r["id"] }
                     .map { canonical_page_info(identifier: it["id"], auth_strategy:) }
                 )
+              end
+            end
+
+            def canonical_page_info(identifier:, auth_strategy:)
+              Input::PageInfo.build(identifier:).bind do |input_data|
+                Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
               end
             end
           end

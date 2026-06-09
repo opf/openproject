@@ -54,36 +54,23 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
 
     context "when a single wiki returns results" do
       let(:page_identifier) { "xwiki:Main.Eric's Space.WebHome" }
-      let(:page_rest_url) do
-        "https://xwiki.example.com/rest/wikis/xwiki/spaces/Main/spaces/Eric%27s%20Space/pages/WebHome"
-      end
       let(:page_absolute_url) { "https://xwiki.example.com/bin/view/Main/Eric%27s%20Space/" }
 
       before do
         stub_wiki_list(["xwiki"], provider: wiki_provider)
         stub_search("xwiki",
-                    [{ "type" => "page",
-                       "id" => page_identifier,
-                       "title" => "Eric's Space #2",
-                       "wiki" => "xwiki",
-                       "space" => "Main.Eric's Space",
-                       "pageName" => "WebHome",
-                       "links" => [{ "href" => page_rest_url,
-                                     "rel" => "http://www.xwiki.org/rel/page" }] }],
+                    [{ "id" => page_identifier, "title" => "Eric's Space #2" }],
                     provider: wiki_provider,
                     linkable:)
-        stub_request(:get, page_rest_url)
-          .with(headers: { "Authorization" => "Bearer user-bearer-token" })
-          .to_return(
-            status: 200,
-            body: { "title" => "Eric's Space #2", "xwikiAbsoluteUrl" => page_absolute_url }.to_json,
-            headers: { "Content-Type" => "application/json" }
-          )
+        stub_canonical_page_info(page_identifier,
+                                 title: "Eric's Space #2",
+                                 href: page_absolute_url,
+                                 provider: wiki_provider)
       end
 
       it { is_expected.to be_success }
 
-      it "returns page infos resolved via page_info" do
+      it "returns page infos resolved via canonical_page_info" do
         page_results = result.value!
         expect(page_results).to all(be_success)
         expect(page_results.map { it.value!.identifier }).to contain_exactly(page_identifier)
@@ -95,28 +82,21 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
     context "when a farm has multiple wikis with results" do
       let(:page_id_wiki1) { "xwiki:Main.WebHome" }
       let(:page_id_wiki2) { "myfarm:Docs.Index" }
-      let(:page_rest_wiki1) { "https://xwiki.example.com/rest/wikis/xwiki/spaces/Main/pages/WebHome" }
-      let(:page_rest_wiki2) { "https://xwiki.example.com/rest/wikis/myfarm/spaces/Docs/pages/Index" }
 
       before do
         stub_wiki_list(%w[xwiki myfarm], provider: wiki_provider)
-        stub_search("xwiki", [{ "id" => page_id_wiki1, "title" => "Home",
-                                "links" => [{ "href" => page_rest_wiki1, "rel" => "http://www.xwiki.org/rel/page" }] }],
+        stub_search("xwiki", [{ "id" => page_id_wiki1, "title" => "Home" }],
                     provider: wiki_provider, linkable:)
-        stub_search("myfarm", [{ "id" => page_id_wiki2, "title" => "Docs Index",
-                                 "links" => [{ "href" => page_rest_wiki2, "rel" => "http://www.xwiki.org/rel/page" }] }],
+        stub_search("myfarm", [{ "id" => page_id_wiki2, "title" => "Docs Index" }],
                     provider: wiki_provider, linkable:)
-        stub_request(:get, page_rest_wiki1)
-          .with(headers: { "Authorization" => "Bearer user-bearer-token" })
-          .to_return(status: 200,
-                     body: { "title" => "Home", "xwikiAbsoluteUrl" => "https://xwiki.example.com/bin/view/Main/" }.to_json,
-                     headers: { "Content-Type" => "application/json" })
-        stub_request(:get, page_rest_wiki2)
-          .with(headers: { "Authorization" => "Bearer user-bearer-token" })
-          .to_return(status: 200,
-                     body: { "title" => "Docs Index",
-                             "xwikiAbsoluteUrl" => "https://xwiki.example.com/bin/view/Docs/" }.to_json,
-                     headers: { "Content-Type" => "application/json" })
+        stub_canonical_page_info(page_id_wiki1,
+                                 title: "Home",
+                                 href: "https://xwiki.example.com/bin/view/Main/",
+                                 provider: wiki_provider)
+        stub_canonical_page_info(page_id_wiki2,
+                                 title: "Docs Index",
+                                 href: "https://xwiki.example.com/bin/view/Docs/",
+                                 provider: wiki_provider)
       end
 
       it { is_expected.to be_success }
@@ -130,21 +110,16 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
 
     context "when the same page appears multiple times in results" do
       let(:page_identifier) { "xwiki:Main.WebHome" }
-      let(:page_rest_url) { "https://xwiki.example.com/rest/wikis/xwiki/spaces/Main/pages/WebHome" }
       let(:page_absolute_url) { "https://xwiki.example.com/bin/view/Main/" }
-      let(:duplicate_result) do
-        { "id" => page_identifier, "title" => "Home",
-          "links" => [{ "href" => page_rest_url, "rel" => "http://www.xwiki.org/rel/page" }] }
-      end
+      let(:duplicate_result) { { "id" => page_identifier, "title" => "Home" } }
 
       before do
         stub_wiki_list(["xwiki"], provider: wiki_provider)
         stub_search("xwiki", [duplicate_result, duplicate_result], provider: wiki_provider, linkable:)
-        stub_request(:get, page_rest_url)
-          .with(headers: { "Authorization" => "Bearer user-bearer-token" })
-          .to_return(status: 200,
-                     body: { "title" => "Home", "xwikiAbsoluteUrl" => page_absolute_url }.to_json,
-                     headers: { "Content-Type" => "application/json" })
+        stub_canonical_page_info(page_identifier,
+                                 title: "Home",
+                                 href: page_absolute_url,
+                                 provider: wiki_provider)
       end
 
       it { is_expected.to be_success }
