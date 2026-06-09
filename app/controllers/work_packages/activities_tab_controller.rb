@@ -33,6 +33,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   include FlashMessagesOutputSafetyHelper
   include WorkPackages::ActivitiesTab::JournalSortingInquirable
   include WorkPackages::ActivitiesTab::StimulusControllers
+  include WorkPackages::ActivitiesTab::ComponentStreaming
   include WorkPackages::ActivitiesTab::UpdateStreaming
 
   Filters = WorkPackages::ActivitiesTab::Filters
@@ -296,55 +297,6 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     @turbo_status = :internal_server_error
     render_error_flash_message_via_turbo_stream(
       message: error.message
-    )
-  end
-
-  def replace_whole_tab
-    initialize_pagination # re-initialize pagination to pick up changes to sorting/filtering
-    replace_via_turbo_stream(component: lazy_index_shell)
-  end
-
-  def update_index_component
-    initialize_pagination # re-initialize pagination to pick up changes to sorting/filtering
-    update_via_turbo_stream(component: lazy_index_list)
-  end
-
-  def lazy_index_shell
-    WorkPackages::ActivitiesTab::LazyIndexComponent.new(
-      work_package: @work_package,
-      journals: @paginated_journals,
-      paginator: @paginator,
-      filter: @filter,
-      last_server_timestamp: get_current_server_timestamp,
-      resolved_anchor: @resolved_anchor
-    )
-  end
-
-  def lazy_index_list
-    WorkPackages::ActivitiesTab::Journals::LazyIndexComponent.new(
-      work_package: @work_package,
-      journals: @paginated_journals,
-      paginator: @paginator,
-      filter: @filter
-    )
-  end
-
-  def update_item_edit_component(journal:, grouped_emoji_reactions: {})
-    update_item_component(journal:, state: :edit, grouped_emoji_reactions:)
-  end
-
-  def update_item_show_component(journal:, grouped_emoji_reactions:)
-    update_item_component(journal:, state: :show, grouped_emoji_reactions:)
-  end
-
-  def update_item_component(journal:, grouped_emoji_reactions:, state:, filter: @filter)
-    update_via_turbo_stream(
-      component: WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
-        journal:,
-        state:,
-        filter:,
-        grouped_emoji_reactions:
-      )
     )
   end
 
