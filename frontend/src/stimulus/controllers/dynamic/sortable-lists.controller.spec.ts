@@ -35,7 +35,10 @@ import type { dropTargetForElements as dropTargetForElementsFn, monitorForElemen
 import type { FetchRequest as FetchRequestFn } from '@rails/request.js';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
-import type { sortableItemData as sortableItemDataFn } from './sortable-lists/drag-and-drop';
+import type {
+  sortableItemData as sortableItemDataFn,
+  sortableListData as sortableListDataFn,
+} from './sortable-lists/drag-and-drop';
 
 describe('Sortable lists controller', () => {
   const flushPromises = () => new Promise<void>((resolve) => setTimeout(resolve));
@@ -46,6 +49,7 @@ describe('Sortable lists controller', () => {
   let autoScrollForElements:typeof autoScrollForElementsFn;
   let SortableListsController:typeof SortableListsControllerType;
   let sortableItemData:typeof sortableItemDataFn;
+  let sortableListData:typeof sortableListDataFn;
 
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
@@ -74,7 +78,7 @@ describe('Sortable lists controller', () => {
     ({ dropTargetForElements, monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ autoScrollForElements } = await import('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
-    ({ sortableItemData } = await import('./sortable-lists/drag-and-drop'));
+    ({ sortableItemData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
   });
 
   function input() {
@@ -148,6 +152,16 @@ describe('Sortable lists controller', () => {
     return fixture.querySelector<HTMLElement>('[data-sortable-lists-target="scrollable"]')!;
   }
 
+  function renderInvalidListFixture() {
+    fixture.innerHTML = `
+      <div data-controller="sortable-lists">
+        <ul data-sortable-lists-target="list"></ul>
+      </div>
+    `;
+
+    return fixture.querySelector<HTMLElement>('[data-sortable-lists-target="list"]')!;
+  }
+
   async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement) {
     const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
 
@@ -169,10 +183,10 @@ describe('Sortable lists controller', () => {
           dropTargets: [
             dropTargetRecord(
               list,
-              {
-                type: list.getAttribute('data-sortable-lists-list-type'),
+              sortableListData({
+                type: list.getAttribute('data-sortable-lists-list-type')!,
                 listId: list.getAttribute('data-sortable-lists-list-id'),
-              },
+              }),
             ),
           ],
           input: input(),
@@ -518,6 +532,16 @@ describe('Sortable lists controller', () => {
     }));
     expect(dropTargetForElements).toHaveBeenCalledWith(expect.objectContaining({
       element: targetList,
+    }));
+  });
+
+  it('does not register list targets without sortable list data', async () => {
+    const list = renderInvalidListFixture();
+
+    await ctx.nextFrame();
+
+    expect(dropTargetForElements).not.toHaveBeenCalledWith(expect.objectContaining({
+      element: list,
     }));
   });
 

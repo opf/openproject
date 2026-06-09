@@ -38,6 +38,7 @@ import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unha
 import { Controller } from '@hotwired/stimulus';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
+  acceptsSortableItemType,
   isSortableItemData,
   sortableItemData,
   type SortableItemData,
@@ -143,7 +144,17 @@ export default class ItemController extends Controller<HTMLElement> {
     return dropTargetForElements({
       element: this.element,
       canDrop: ({ source }) => {
-        return isSortableItemData(source.data) && source.data.itemId !== this.idValue;
+        if (!isSortableItemData(source.data) || source.data.itemId === this.idValue) {
+          return false;
+        }
+
+        const targetRoot = this.element.closest(sortableListsRootSelector);
+        const sourceRoot = source.element.closest(sortableListsRootSelector);
+
+        return targetRoot === sourceRoot && acceptsSortableItemType({
+          acceptedType: targetRoot?.getAttribute('data-sortable-lists-accepted-type-value') ?? null,
+          type: source.data.type,
+        });
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {

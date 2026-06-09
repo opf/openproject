@@ -527,7 +527,7 @@ describe('sortable lists drag and drop helpers', () => {
       expect(intent).toBeNull();
     });
 
-    it('falls back to pointer hit-testing when no drop targets are reported', () => {
+    it('treats an empty drop target list as no move', () => {
       const { root, list } = buildList();
       const source = itemRow('1');
       const target = itemRow('2');
@@ -535,7 +535,6 @@ describe('sortable lists drag and drop helpers', () => {
       list.append(source, target);
       document.body.appendChild(root);
       stubElementFromPoint(target.querySelector('article')!);
-      vi.spyOn(target, 'getBoundingClientRect').mockReturnValue(rect());
 
       const intent = resolveDropIntent({
         location: dropLocation({ clientY: 90 }),
@@ -544,8 +543,32 @@ describe('sortable lists drag and drop helpers', () => {
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
-      expect(intent?.targetElement).toBe(target);
-      expect(intent?.previousItemId).toEqual('2');
+      expect(intent).toBeNull();
+    });
+
+    it('ignores drop targets that are neither items nor lists', () => {
+      const { root, list } = buildList();
+      const sourceList = document.createElement('ul');
+      const source = itemRow('1');
+      const header = document.createElement('header');
+
+      sourceList.setAttribute('data-sortable-lists-target', 'list');
+      sourceList.setAttribute('data-sortable-lists-list-type', 'sprint');
+      sourceList.setAttribute('data-sortable-lists-list-id', '3');
+      sourceList.append(source);
+      list.append(header, itemRow('4'));
+      root.append(sourceList);
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [{ data: {}, element: header }],
+        }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent).toBeNull();
     });
 
     it('returns null when the drop lands outside the root', () => {

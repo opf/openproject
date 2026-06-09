@@ -236,6 +236,55 @@ describe('Sortable lists item controller', () => {
     })).toBe(false);
   });
 
+  it('does not accept drops from another sortable lists root', () => {
+    const sourceRoot = document.createElement('div');
+    const targetRoot = document.createElement('div');
+    const sourceElement = document.createElement('article');
+    const targetElement = document.createElement('article');
+
+    sourceRoot.setAttribute('data-controller', 'sortable-lists');
+    targetRoot.setAttribute('data-controller', 'sortable-lists');
+    sourceRoot.append(sourceElement);
+    targetRoot.append(targetElement);
+    document.body.append(sourceRoot, targetRoot);
+    connectedControllerFor(targetElement);
+
+    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
+      element: targetElement,
+      input: {} as never,
+      source: {
+        data: sortableItemData({ type: 'item', itemId: '456' }),
+        element: sourceElement,
+      } as never,
+    })).toBe(false);
+
+    sourceRoot.remove();
+    targetRoot.remove();
+  });
+
+  it('does not accept drops whose type is rejected by the root', () => {
+    const root = document.createElement('div');
+    const sourceElement = document.createElement('article');
+    const targetElement = document.createElement('article');
+
+    root.setAttribute('data-controller', 'sortable-lists');
+    root.setAttribute('data-sortable-lists-accepted-type-value', 'work_package');
+    root.append(sourceElement, targetElement);
+    document.body.append(root);
+    connectedControllerFor(targetElement);
+
+    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
+      element: targetElement,
+      input: {} as never,
+      source: {
+        data: sortableItemData({ type: 'meeting_agenda_item', itemId: '456' }),
+        element: sourceElement,
+      } as never,
+    })).toBe(false);
+
+    root.remove();
+  });
+
   it('does not expose native external drag data', () => {
     const element = document.createElement('article');
 

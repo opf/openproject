@@ -110,13 +110,18 @@ export default class SortableListsController extends Controller<HTMLElement> {
   }
 
   listTargetConnected(element:HTMLElement):void {
+    const listData = resolveListData(element);
+    if (!listData) {
+      return;
+    }
+
     const cleanup = dropTargetForElements({
       element,
       canDrop: ({ source }) => !this.moving && isSortableItemData(source.data) && acceptsSortableItemType({
         acceptedType: this.acceptedType,
         type: source.data.type,
       }),
-      getData: () => resolveListData(element) ?? {},
+      getData: () => listData,
       getIsSticky: () => false,
     });
 

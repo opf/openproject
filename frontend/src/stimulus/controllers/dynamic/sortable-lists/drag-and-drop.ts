@@ -287,19 +287,10 @@ export function resolveDropIntent({
   const targetItem = location.current.dropTargets.find(({ data, element }) => (
     isSortableItemData(data) && element instanceof HTMLElement && root.contains(element)
   ));
-  const targetList = location.current.dropTargets.find(({ element }) => (
-    element instanceof HTMLElement && root.contains(element)
+  const targetList = location.current.dropTargets.find(({ data, element }) => (
+    isSortableListData(data) && element instanceof HTMLElement && root.contains(element)
   ));
-  const fallbackTarget = location.current.dropTargets.length === 0
-    ? resolveFallbackDropTarget({
-      input: location.current.input,
-      root,
-      sourceElement,
-    })
-    : null;
-  const fallbackItem = fallbackTarget?.isItem ? fallbackTarget : null;
-  const resolvedTargetItem = targetItem ?? fallbackItem;
-  const targetElement = resolvedTargetItem?.element ?? targetList?.element ?? fallbackTarget?.element;
+  const targetElement = targetItem?.element ?? targetList?.element;
 
   if (!(targetElement instanceof HTMLElement)) {
     return null;
@@ -310,15 +301,15 @@ export function resolveDropIntent({
     return null;
   }
 
-  if (!resolvedTargetItem && isSourceListTarget({ sourceElement, targetElement })) {
+  if (!targetItem && isSourceListTarget({ sourceElement, targetElement })) {
     return null;
   }
 
-  const previousItemId = resolvedTargetItem?.element instanceof HTMLElement
+  const previousItemId = targetItem?.element instanceof HTMLElement
     ? resolvePreviousSortableItemId({
       sourceItemId: sourceData.itemId,
-      targetItem: resolvedTargetItem.element,
-      closestEdge: extractClosestEdge(resolvedTargetItem.data),
+      targetItem: targetItem.element,
+      closestEdge: extractClosestEdge(targetItem.data),
     })
     : resolveListAppendPreviousItemId({
       sourceItemId: sourceData.itemId,
