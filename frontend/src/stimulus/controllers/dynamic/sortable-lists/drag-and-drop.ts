@@ -29,13 +29,15 @@
 import {
   attachClosestEdge,
   type Edge,
+  extractClosestEdge,
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
-import { type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
+import { type DragLocationHistory, type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
   resolveClosestItemElement,
   resolveItemElement,
   resolveItemId,
   resolveItemType,
+  resolveListAppendPreviousItemId,
   resolvePreviousItemId,
   sortableListSelector,
 } from './list-dom';
@@ -259,4 +261,69 @@ export function resolvePreviousSortableItemId({
   }
 
   return null;
+}
+
+export interface DropIntent {
+  targetElement:HTMLElement;
+  listData:SortableListData;
+  previousItemId:string|null;
+}
+
+// Resolve where a dropped item should land: the element under the drop, the
+// list it belongs to and the item the dropped one should be inserted after.
+// Returns null when the drop does not amount to a move (outside the root, no
+// list metadata, or dropped back onto its own list without a target item).
+export function resolveDropIntent({
+  location,
+  root,
+  sourceElement,
+  sourceData,
+}:{
+  location:DragLocationHistory;
+  root:HTMLElement;
+  sourceElement:HTMLElement;
+  sourceData:SortableItemData;
+}):DropIntent|null {
+  const targetItem = location.current.dropTargets.find(({ data, element }) => (
+    isSortableItemData(data) && element instanceof HTMLElement && root.contains(element)
+  ));
+  const targetList = location.current.dropTargets.find(({ element }) => (
+    element instanceof HTMLElement && root.contains(element)
+  ));
+  const fallbackTarget = location.current.dropTargets.length === 0
+    ? resolveFallbackDropTarget({
+      input: location.current.input,
+      root,
+      sourceElement,
+    })
+    : null;
+  const fallbackItem = fallbackTarget?.isItem ? fallbackTarget : null;
+  const resolvedTargetItem = targetItem ?? fallbackItem;
+  const targetElement = resolvedTargetItem?.element ?? targetList?.element ?? fallbackTarget?.element;
+
+  if (!(targetElement instanceof HTMLElement)) {
+    return null;
+  }
+
+  const listData = resolveListData(targetElement);
+  if (!listData) {
+    return null;
+  }
+
+  if (!resolvedTargetItem && isSourceListTarget({ sourceElement, targetElement })) {
+    return null;
+  }
+
+  const previousItemId = resolvedTargetItem?.element instanceof HTMLElement
+    ? resolvePreviousSortableItemId({
+      sourceItemId: sourceData.itemId,
+      targetItem: resolvedTargetItem.element,
+      closestEdge: extractClosestEdge(resolvedTargetItem.data),
+    })
+    : resolveListAppendPreviousItemId({
+      sourceItemId: sourceData.itemId,
+      list: targetElement,
+    });
+
+  return { targetElement, listData, previousItemId };
 }

@@ -28,12 +28,14 @@
 
 import { vi } from 'vitest';
 
-import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
+import { attachClosestEdge, extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
+import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
   acceptsSortableItemType,
   buildMoveFormData,
   isSortableItemData,
   isSortableListData,
+  resolveDropIntent,
   resolveFallbackDropTarget,
   resolveListData,
   resolvePreviousSortableItemId,
@@ -59,6 +61,54 @@ describe('sortable lists drag and drop helpers', () => {
 
     return row;
   }
+
+  function input({ clientX = 10, clientY = 10 } = {}) {
+    return {
+      altKey: false,
+      button: 0,
+      buttons: 0,
+      ctrlKey: false,
+      metaKey: false,
+      shiftKey: false,
+      clientX,
+      clientY,
+      pageX: clientX,
+      pageY: clientY,
+    };
+  }
+
+  function rect():DOMRect {
+    return {
+      top: 0,
+      bottom: 100,
+      left: 0,
+      right: 100,
+      width: 100,
+      height: 100,
+      x: 0,
+      y: 0,
+      toJSON: () => ({}),
+    };
+  }
+
+  function stubElementFromPoint(element:Element) {
+    Object.defineProperty(document, 'elementFromPoint', {
+      configurable: true,
+      value: vi.fn(() => element),
+    });
+  }
+
+  function stubElementsFromPoint(elements:Element[]) {
+    Object.defineProperty(document, 'elementsFromPoint', {
+      configurable: true,
+      value: vi.fn(() => elements),
+    });
+  }
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+    document.body.replaceChildren();
+  });
 
   describe('isSortableItemData', () => {
     it('accepts backlogs item data', () => {
@@ -238,54 +288,6 @@ describe('sortable lists drag and drop helpers', () => {
   });
 
   describe('resolveFallbackDropTarget', () => {
-    function input({ clientX = 10, clientY = 10 } = {}) {
-      return {
-        altKey: false,
-        button: 0,
-        buttons: 0,
-        ctrlKey: false,
-        metaKey: false,
-        shiftKey: false,
-        clientX,
-        clientY,
-        pageX: clientX,
-        pageY: clientY,
-      };
-    }
-
-    function rect():DOMRect {
-      return {
-        top: 0,
-        bottom: 100,
-        left: 0,
-        right: 100,
-        width: 100,
-        height: 100,
-        x: 0,
-        y: 0,
-        toJSON: () => ({}),
-      };
-    }
-
-    function stubElementFromPoint(element:Element) {
-      Object.defineProperty(document, 'elementFromPoint', {
-        configurable: true,
-        value: vi.fn(() => element),
-      });
-    }
-
-    function stubElementsFromPoint(elements:Element[]) {
-      Object.defineProperty(document, 'elementsFromPoint', {
-        configurable: true,
-        value: vi.fn(() => elements),
-      });
-    }
-
-    afterEach(() => {
-      vi.restoreAllMocks();
-      document.body.replaceChildren();
-    });
-
     it('resolves an item at the drop coordinates', () => {
       const root = document.createElement('div');
       const list = document.createElement('div');
@@ -427,4 +429,141 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
+  describe('resolveDropIntent', () => {
+    function dropLocation({
+      dropTargets = [],
+      clientX = 10,
+      clientY = 10,
+    }:{
+      dropTargets?:{ data:Record<string|symbol, unknown>; element:Element }[];
+      clientX?:number;
+      clientY?:number;
+    } = {}):DragLocationHistory {
+      return {
+        current: { dropTargets, input: input({ clientX, clientY }) },
+      } as unknown as DragLocationHistory;
+    }
+
+    function buildList({ listId = '7' } = {}) {
+      const root = document.createElement('div');
+      const list = document.createElement('ul');
+
+      list.setAttribute('data-sortable-lists-target', 'list');
+      list.setAttribute('data-sortable-lists-list-type', 'backlog_bucket');
+      list.setAttribute('data-sortable-lists-list-id', listId);
+      root.appendChild(list);
+
+      return { root, list };
+    }
+
+    it('resolves a drop on an item to the position implied by the edge', () => {
+      const { root, list } = buildList();
+      const source = itemRow('1');
+      const target = itemRow('2');
+
+      list.append(source, target);
+      document.body.appendChild(root);
+      vi.spyOn(target, 'getBoundingClientRect').mockReturnValue(rect());
+
+      const data = attachClosestEdge(sortableItemData({ type: 'work_package', itemId: '2' }), {
+        element: target,
+        input: input({ clientY: 90 }),
+        allowedEdges: ['top', 'bottom'],
+      });
+
+      const intent = resolveDropIntent({
+        location: dropLocation({ dropTargets: [{ data, element: target }] }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent?.targetElement).toBe(target);
+      expect(intent?.listData).toEqual(expect.objectContaining({ type: 'backlog_bucket', listId: '7' }));
+      expect(intent?.previousItemId).toEqual('2');
+    });
+
+    it('appends to the list when the drop target is the list itself', () => {
+      const { root, list } = buildList();
+      const sourceList = document.createElement('ul');
+      const source = itemRow('1');
+
+      sourceList.setAttribute('data-sortable-lists-target', 'list');
+      sourceList.setAttribute('data-sortable-lists-list-type', 'sprint');
+      sourceList.setAttribute('data-sortable-lists-list-id', '3');
+      sourceList.append(source);
+      list.append(itemRow('4'), itemRow('5'));
+      root.append(sourceList);
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list }],
+        }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent?.targetElement).toBe(list);
+      expect(intent?.listData).toEqual(expect.objectContaining({ type: 'backlog_bucket', listId: '7' }));
+      expect(intent?.previousItemId).toEqual('5');
+    });
+
+    it('returns null for a drop back onto the source list without a target item', () => {
+      const { root, list } = buildList();
+      const source = itemRow('1');
+
+      list.append(source, itemRow('2'));
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list }],
+        }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent).toBeNull();
+    });
+
+    it('falls back to pointer hit-testing when no drop targets are reported', () => {
+      const { root, list } = buildList();
+      const source = itemRow('1');
+      const target = itemRow('2');
+
+      list.append(source, target);
+      document.body.appendChild(root);
+      stubElementFromPoint(target.querySelector('article')!);
+      vi.spyOn(target, 'getBoundingClientRect').mockReturnValue(rect());
+
+      const intent = resolveDropIntent({
+        location: dropLocation({ clientY: 90 }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent?.targetElement).toBe(target);
+      expect(intent?.previousItemId).toEqual('2');
+    });
+
+    it('returns null when the drop lands outside the root', () => {
+      const { root } = buildList();
+      const source = itemRow('1');
+      const outside = document.createElement('div');
+
+      document.body.append(root, outside);
+      stubElementFromPoint(outside);
+
+      const intent = resolveDropIntent({
+        location: dropLocation(),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent).toBeNull();
+    });
+  });
 });

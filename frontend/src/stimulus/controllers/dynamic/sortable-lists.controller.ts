@@ -27,7 +27,6 @@
 //++
 
 import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
-import { extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import {
   dropTargetForElements,
   monitorForElements,
@@ -44,16 +43,13 @@ import {
   acceptsSortableItemType,
   buildMoveFormData,
   isSortableItemData,
-  isSourceListTarget,
-  resolveFallbackDropTarget,
+  resolveDropIntent,
   resolveListData,
-  resolvePreviousSortableItemId,
   type SortableListData,
 } from './sortable-lists/drag-and-drop';
 import {
   captureRowPositions,
   reorderRows,
-  resolveListAppendPreviousItemId,
   restoreRowPositions,
   sortableItemSelector,
   sortableListSelector,
@@ -204,49 +200,18 @@ export default class SortableListsController extends Controller<HTMLElement> {
       return;
     }
 
-    const targetItem = location.current.dropTargets.find(({ data, element }) => (
-      isSortableItemData(data) && element instanceof HTMLElement && this.element.contains(element)
-    ));
-    const targetList = location.current.dropTargets.find(({ element }) => (
-      element instanceof HTMLElement && this.element.contains(element)
-    ));
-    const fallbackTarget = location.current.dropTargets.length === 0
-      ? resolveFallbackDropTarget({
-        input: location.current.input,
-        root: this.element,
-        sourceElement: source.element,
-      })
-      : null;
-    const fallbackItem = fallbackTarget?.isItem ? fallbackTarget : null;
-    const resolvedTargetItem = targetItem ?? fallbackItem;
-    const targetElement = resolvedTargetItem?.element ?? targetList?.element ?? fallbackTarget?.element;
-
-    if (!(targetElement instanceof HTMLElement)) {
+    const intent = resolveDropIntent({
+      location,
+      root: this.element,
+      sourceElement: source.element,
+      sourceData: source.data,
+    });
+    if (!intent) {
       return;
     }
-
-    const listData = resolveListData(targetElement);
-    if (!listData) {
-      return;
-    }
-
-    if (!resolvedTargetItem && isSourceListTarget({ sourceElement: source.element, targetElement })) {
-      return;
-    }
-
-    const previousItemId = resolvedTargetItem?.element instanceof HTMLElement
-      ? resolvePreviousSortableItemId({
-        sourceItemId: source.data.itemId,
-        targetItem: resolvedTargetItem.element,
-        closestEdge: extractClosestEdge(resolvedTargetItem.data),
-      })
-      : resolveListAppendPreviousItemId({
-        sourceItemId: source.data.itemId,
-        list: targetElement,
-      });
 
     const sourceRow = source.element.closest('li');
-    const listElement = targetElement.closest(sortableListSelector);
+    const listElement = intent.targetElement.closest(sortableListSelector);
     if (!(sourceRow instanceof HTMLElement) || !(listElement instanceof HTMLElement)) {
       return;
     }
@@ -256,11 +221,11 @@ export default class SortableListsController extends Controller<HTMLElement> {
     // back to where it started.
     const rows = [sourceRow];
     const rollback = captureRowPositions(rows);
-    reorderRows({ rows, list: listElement, previousItemId });
+    reorderRows({ rows, list: listElement, previousItemId: intent.previousItemId });
 
     const moved = await this.moveItem({
-      listData,
-      previousItemId,
+      listData: intent.listData,
+      previousItemId: intent.previousItemId,
       moveUrl,
     });
 
