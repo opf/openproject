@@ -61,9 +61,7 @@ module WorkPackages
       end
 
       def streamed_grouped_emoji_reactions
-        @streamed_grouped_emoji_reactions ||= EmojiReactions::GroupedQueries.grouped_emoji_reactions_by_reactable(
-          reactable_id: streamed_journals.pluck(:id), reactable_type: "Journal"
-        )
+        @streamed_grouped_emoji_reactions ||= grouped_emoji_reactions_for(streamed_journals.pluck(:id))
       end
 
       def rerender_changed_journals(since, editing_journal_ids)

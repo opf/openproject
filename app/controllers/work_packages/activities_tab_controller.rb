@@ -33,6 +33,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
   include FlashMessagesOutputSafetyHelper
   include WorkPackages::ActivitiesTab::JournalSortingInquirable
   include WorkPackages::ActivitiesTab::StimulusControllers
+  include WorkPackages::ActivitiesTab::PollingTimestamp
+  include WorkPackages::ActivitiesTab::ReactionGrouping
   include WorkPackages::ActivitiesTab::ComponentStreaming
   include WorkPackages::ActivitiesTab::UpdateStreaming
 
@@ -300,27 +302,7 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     )
   end
 
-  def wp_journals_emoji_reactions
-    @wp_journals_emoji_reactions ||= EmojiReactions::GroupedQueries
-      .grouped_work_package_journals_emoji_reactions_by_reactable(@work_package)
-  end
-
-  def grouped_emoji_reactions_for_journal
-    EmojiReactions::GroupedQueries
-      .grouped_emoji_reactions_by_reactable(reactable: @journal)[@journal.id]
-  end
-
   def allowed_to_edit?(journal)
     journal.editable_by?(User.current)
-  end
-
-  def get_current_server_timestamp
-    # single source of truth for the server timestamp format
-    Time.current.iso8601(3)
-  end
-
-  def set_last_server_timestamp_to_headers
-    # Add server timestamp to response in order to let the client be in sync with the server
-    response.headers["X-Server-Timestamp"] = get_current_server_timestamp
   end
 end
