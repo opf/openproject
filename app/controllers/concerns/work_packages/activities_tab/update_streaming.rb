@@ -49,7 +49,7 @@ module WorkPackages
           update_activity_counter
         end
 
-        rerender_all_journal_reactions
+        rerender_changed_journal_reactions(since)
       end
 
       def streamed_journals
@@ -104,12 +104,12 @@ module WorkPackages
         end
       end
 
-      def rerender_all_journal_reactions
-        @work_package.journals.each do |journal|
+      def rerender_changed_journal_reactions(since)
+        streamed_journals.where("reactions_changed_at > ?", since).find_each do |journal|
           update_via_turbo_stream(
             component: Journals::ItemComponent::Reactions.new(
               journal:,
-              grouped_emoji_reactions: wp_journals_emoji_reactions[journal.id] || {}
+              grouped_emoji_reactions: streamed_grouped_emoji_reactions.fetch(journal.id, {})
             )
           )
         end
