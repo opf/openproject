@@ -64,27 +64,22 @@ module OpPrimer
       system_arguments.reverse_merge!(
         test_selector: "op-primer-flash-message",
         dismiss_scheme: :remove,
-        dismiss_label: I18n.t(:button_close),
-        role: aria_role
+        dismiss_label: I18n.t(:button_close)
       )
-      system_arguments[:aria] = { live: live_region_politeness }.merge(system_arguments[:aria] || {})
+      # Live region announcements are handled by the controller via @primer/live-region-element
+      # to avoid duplicate announcements from the visible banner and the global live region.
       apply_flash_data_attributes(system_arguments[:data] ||= {})
     end
 
     def apply_flash_data_attributes(data)
       data.merge!(
         "flash-target" => "flash",
-        "flash-role" => aria_role,
         "autohide" => @autohide
       )
     end
 
     def render?
       trimmed_content.present?
-    end
-
-    def aria_role
-      urgent? ? "alert" : "status"
     end
 
     def success?

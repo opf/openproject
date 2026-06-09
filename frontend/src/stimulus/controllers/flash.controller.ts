@@ -2,6 +2,8 @@ import { ApplicationController } from 'stimulus-use';
 import { announce } from '@primer/live-region-element';
 
 export const SUCCESS_AUTOHIDE_TIMEOUT = 5000;
+// Delay announcement to avoid competing with Turbo-cached preview rendering,
+// which briefly has data-turbo-preview set before clearing it
 export const FLASH_ANNOUNCEMENT_DELAY = 500;
 
 export default class FlashController extends ApplicationController {
@@ -46,6 +48,7 @@ export default class FlashController extends ApplicationController {
 
   private startAutohideTimer(element:HTMLElement) {
     this.resumeAutohideTimer(element);
+    // Pause auto-hide when user interacts with the flash message via keyboard or mouse
     element.addEventListener('focusin', () => this.pauseAutohideTimer(element));
     element.addEventListener('focusout', () => this.resumeAutohideTimer(element));
     element.addEventListener('mouseenter', () => this.pauseAutohideTimer(element));

@@ -49,10 +49,6 @@ RSpec.describe OpPrimer::FlashComponent, type: :component do
         expect(rendered_component).to have_css ".Banner-message .Banner-title", text: "Flash Text"
       end
 
-      it "renders a polite status region" do
-        expect(rendered_component).to have_css '[role="status"][aria-live="polite"]'
-      end
-
       it "marks the flash for polite announcement" do
         expect(rendered_component).to have_css '[data-announcement="Flash Text"][data-politeness="polite"]'
       end
@@ -62,10 +58,6 @@ RSpec.describe OpPrimer::FlashComponent, type: :component do
       let(:content) { "Flash Error" }
 
       subject(:rendered_component) { render_component(content, scheme: :danger) }
-
-      it "renders an assertive alert region" do
-        expect(rendered_component).to have_css '[role="alert"][aria-live="assertive"]'
-      end
 
       it "marks the flash for assertive announcement" do
         expect(rendered_component).to have_css '[data-announcement="Flash Error"][data-politeness="assertive"]'
