@@ -14,6 +14,10 @@ We released [OpenProject 17.5.0](https://community.openproject.org/versions/2293
 
 ## Important feature changes
 
+Take a look at our release video showing the most important features introduced in OpenProject 17.5.0:
+
+![Release video of OpenProject 17.5](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_17_5_release.mp4)
+
 ### Project-based work package identifiers for clearer references and Jira migrations
 
 OpenProject 17.5 introduces **optional project-based work package identifiers in Beta**. Administrators can choose between the **default numerical sequence** and **project-based IDs** for the entire OpenProject instance.
