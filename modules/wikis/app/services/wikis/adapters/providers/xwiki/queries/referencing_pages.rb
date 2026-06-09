@@ -63,12 +63,6 @@ module Wikis
                 )
               end
             end
-
-            def canonical_page_info(identifier:, auth_strategy:)
-              Input::PageInfo.build(identifier:).bind do |input_data|
-                Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
-              end
-            end
           end
         end
       end
