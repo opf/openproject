@@ -3,8 +3,7 @@ import { Application } from '@hotwired/stimulus';
 
 export type DynamicControllerLoader = () => Promise<{ default:ControllerConstructor }>;
 
-console.log('eslint should flag this');
-
+/* random change that should not annoy the linter */
 export class OpenProjectStimulusApplication extends Application {
   /** A map of controllers that have been preregistered. */
   static controllers = new Map<string, ControllerConstructor>();
