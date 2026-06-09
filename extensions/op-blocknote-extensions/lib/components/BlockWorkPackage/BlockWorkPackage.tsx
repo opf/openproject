@@ -1,4 +1,4 @@
-import { BlockNoteEditor } from "@blocknote/core";
+import { BlockNoteEditor, SideMenuExtension } from "@blocknote/core";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
@@ -27,6 +27,8 @@ const BlockCardWrapper = styled.div`
   display: inline-block;
 `;
 
+type SideMenuInstance = NonNullable<ReturnType<ReturnType<typeof SideMenuExtension>>>;
+
 interface BlockProps {
   id: string;
   props: {
@@ -34,23 +36,6 @@ interface BlockProps {
     initialized?: boolean;
     size?: BlockWpSize;
   };
-}
-
-// Looks up the SideMenu extension on the editor instance without using
-// `useExtension(SideMenuExtension, ...)`, which fails with "Extension not found"
-// when `@blocknote/core` is duplicated in node_modules — happens in op-app
-// where the host has its own @blocknote/core copy that doesn't share class
-// identity with the one this lib was built against.
-// TODO: remove once @blocknote/core is a peer dependency of this package.
-function getSideMenuExtension(editor: BlockNoteEditor<any>): any {
-  const extensions = (editor as any).extensions;
-  if (!extensions) return null;
-
-  if (extensions instanceof Map) {
-    return extensions.get("sideMenu") ?? null;
-  }
-
-  return extensions.sideMenu ?? extensions.SideMenu ?? null;
 }
 
 export const BlockWorkPackageComponent = ({
@@ -84,10 +69,8 @@ export const BlockWorkPackageComponent = ({
   // Delegate the drag to the same mechanism the side menu uses internally,
   // so dragging the block directly behaves identically to dragging via the handle.
   const handleBlockDragStart = (e: React.DragEvent) => {
-    const sideMenu = getSideMenuExtension(editor);
-    if (sideMenu && typeof sideMenu.blockDragStart === "function") {
-      sideMenu.blockDragStart(e.nativeEvent, block as any);
-    }
+    const sideMenu = editor.extensions.get("sideMenu") as SideMenuInstance | undefined;
+    sideMenu?.blockDragStart(e.nativeEvent, block as any);
   };
 
   useEffect(() => {

@@ -42,10 +42,11 @@ describe('Drag and drop - inline chip', () => {
     await expect.element(page.getByText('#123')).toBeVisible();
     expect(document.querySelectorAll('.op-bn-inline-wp')).toHaveLength(1);
 
-    // Verify chip actually moved below "Last line" (not just that count is 1)
+    // Verify chip actually moved into the "Last line" block (inline drop splits the text node,
+    // so getByText('Last line') won't find it whole - check via the block container instead)
     const chipEl = document.querySelector('.op-bn-inline-wp')!;
-    const lastLineEl = page.getByText('Last line').element();
-    expect(lastLineEl.compareDocumentPosition(chipEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    const chipBlock = chipEl.closest('[data-node-type="blockOuter"]');
+    expect(chipBlock?.textContent).toContain('Last');
   });
 });
 
