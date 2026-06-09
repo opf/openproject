@@ -26,8 +26,10 @@ export default class FlashController extends ApplicationController {
   }
 
   itemTargetConnected(element:HTMLElement) {
+    // Announce the flash message to screen readers via global live region
     this.announceFlash(element);
 
+    // Schedule auto-hide timer if enabled for both controller and individual element
     const autohide = element.dataset.autohide === 'true';
     if (this.autohideValue && autohide) {
       this.startAutohideTimer(element);
@@ -55,27 +57,38 @@ export default class FlashController extends ApplicationController {
     element.addEventListener('mouseleave', () => this.resumeAutohideTimer(element));
   }
 
+  // Announces a flash message to screen readers via global live region.
   private announceFlash(element:HTMLElement) {
+    // Skip announcements during Turbo cached preview rendering to avoid noise
     if (document.documentElement.hasAttribute('data-turbo-preview')) {
       return;
     }
 
+    // Extract announcement text from element data attribute
     const message = element.dataset.announcement;
     if (!message) {
       return;
     }
 
+    // Determine politeness level: 'assertive' for errors/alerts, 'polite' for other messages
     const politeness = element.dataset.politeness === 'assertive' ? 'assertive' : 'polite';
 
+    // Delay announcement to avoid competing with Turbo's preview rendering
     window.setTimeout(() => {
+      // Check element still exists in DOM (may have been removed quickly)
       if (!element.isConnected) {
         return;
       }
 
+      // Announce to screen readers via global live region
       void announce(message, { politeness, from: element });
     }, FLASH_ANNOUNCEMENT_DELAY);
   }
 
+  /**
+   * Pauses the auto-hide timer for an element (called on user interaction).
+   * Clears any existing timer without restarting it.
+   */
   private pauseAutohideTimer(element:HTMLElement) {
     const timeoutId = this.autohideTimers.get(element);
     if (timeoutId) {
@@ -84,15 +97,28 @@ export default class FlashController extends ApplicationController {
     }
   }
 
+  /**
+   * Resumes the auto-hide timer for an element.
+   * Only starts if no timer exists and user is not actively interacting with the element.
+   *
+   * WCAG 2.1 §2.2.4 (Pause, Stop, Hide): Allows users to pause auto-dismissing content
+   * while they're reading or interacting with it.
+   */
   private resumeAutohideTimer(element:HTMLElement) {
+    // Don't restart if timer already exists or user is currently interacting
     if (this.autohideTimers.has(element) || this.isBeingInteractedWith(element)) {
       return;
     }
 
+    // Schedule element removal after timeout
     const timeoutId = window.setTimeout(() => element.remove(), SUCCESS_AUTOHIDE_TIMEOUT);
     this.autohideTimers.set(element, timeoutId);
   }
 
+  /**
+   * Clears the auto-hide timer when an element is removed from the DOM.
+   * Prevents orphaned timers from holding memory (though WeakMap helps here too).
+   */
   private clearAutohideTimer(element:HTMLElement) {
     const timeoutId = this.autohideTimers.get(element);
     if (timeoutId) {
@@ -102,6 +128,10 @@ export default class FlashController extends ApplicationController {
     this.autohideTimers.delete(element);
   }
 
+  /**
+   * Checks if the user is currently interacting with the element.
+   * Used to avoid resuming auto-hide timers while the user is actively using the message.
+   */
   private isBeingInteractedWith(element:HTMLElement) {
     return element.matches(':hover') || element.contains(document.activeElement);
   }
