@@ -64,6 +64,6 @@ export class TabIssueComponent implements OnInit {
   }
 
   public getEmptyText() {
-    return this.I18n.t('js.gitlab_integration.tab_issue.empty',{ wp_id: this.workPackage.id });
+    return this.I18n.t('js.gitlab_integration.tab_issue.empty', { wp_id: this.workPackage.displayId });
   }
 }
