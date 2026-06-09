@@ -81,4 +81,24 @@ RSpec.describe "Work package activities tab",
       expect(response.body).not_to include(resolved_value_attribute)
     end
   end
+
+  describe "when the work package cannot be found" do
+    let(:missing_path) { work_package_activities_path(work_package_id: 0) }
+
+    it "renders the standalone error frame for the initial HTML request" do
+      get missing_path
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.body).to include(I18n.t("label_not_found"))
+      expect(response.body).to include("work-package-activities-tab-content")
+    end
+
+    it "renders a single error flash for a subsequent turbo-stream request" do
+      get missing_path, headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:not_found)
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      expect(response.body.scan(I18n.t("label_not_found")).size).to eq(1)
+    end
+  end
 end

@@ -214,19 +214,15 @@ class WorkPackages::ActivitiesTabController < ApplicationController
     @turbo_status = :not_found
     render_error_flash_message_via_turbo_stream(message: error_message)
 
+    # Subsequent in-tab requests arrive as turbo_stream and fall through to the flash
+    # stream above; only the initial HTML load needs the standalone error frame.
     respond_to_with_turbo_streams do |format|
       format.html do
         render(
-          WorkPackages::ActivitiesTab::ErrorFrameComponent.new(error_message: error_message),
+          WorkPackages::ActivitiesTab::ErrorFrameComponent.new(error_message:),
           layout: false,
           status: :not_found
         )
-      end
-      # turbo_stream requests (tab is already rendered and an error occured in subsequent requests) are handled below
-      format.turbo_stream do
-        @turbo_status = :not_found
-        render_error_flash_message_via_turbo_stream(message: error_message)
-        render turbo_stream: turbo_streams, status: :not_found
       end
     end
   end
