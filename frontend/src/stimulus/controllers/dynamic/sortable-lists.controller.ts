@@ -36,21 +36,25 @@ import {
 import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
+import { flipMove } from 'core-stimulus/helpers/flip-helper';
 import { withLoadingIndicator } from 'core-stimulus/helpers/request-helpers';
 import URI from 'urijs';
 import 'urijs/src/URITemplate';
 import {
   acceptsSortableItemType,
   buildMoveFormData,
+  captureRowPositions,
   isSortableItemData,
   isSourceListTarget,
+  reorderRows,
   resolveFallbackDropTarget,
+  restoreRowPositions,
   resolveListAppendPreviousItemId,
   resolveListData,
   resolvePreviousSortableItemId,
   sortableItemSelector,
+  sortableListSelector,
   sortableListsMovingAttribute,
-  type SortableItemData,
   type SortableListData,
 } from './sortable-lists/drag-and-drop';
 
@@ -239,11 +243,29 @@ export default class SortableListsController extends Controller<HTMLElement> {
         list: targetElement,
       });
 
-    await this.moveItem({
+    const sourceRow = source.element.closest('li');
+    const listElement = targetElement.closest(sortableListSelector);
+    if (!(sourceRow instanceof HTMLElement) || !(listElement instanceof HTMLElement)) {
+      return;
+    }
+
+    // Move the row optimistically, then persist. The server response (a
+    // turbo-stream) reconciles the list on success; a failure rolls the row
+    // back to where it started.
+    const rows = [sourceRow];
+    const rollback = captureRowPositions(rows);
+    reorderRows({ rows, list: listElement, previousItemId });
+
+    const moved = await this.moveItem({
       listData,
       previousItemId,
-      sourceData: source.data,
+      moveUrl,
     });
+
+    if (!moved) {
+      flipMove(rows, () => restoreRowPositions(rollback));
+      this.dispatchErrorToast();
+    }
   }
 
   private resolveMoveUrl(data:{ itemId:string; moveUrl?:string }):string|null {
@@ -261,17 +283,12 @@ export default class SortableListsController extends Controller<HTMLElement> {
   private async moveItem({
     listData,
     previousItemId,
-    sourceData,
+    moveUrl,
   }:{
     listData:SortableListData;
     previousItemId:string|null;
-    sourceData:SortableItemData;
-  }):Promise<void> {
-    const moveUrl = this.resolveMoveUrl(sourceData);
-    if (!moveUrl) {
-      return;
-    }
-
+    moveUrl:string;
+  }):Promise<boolean> {
     const request = new FetchRequest(
       'put',
       moveUrl,
@@ -292,9 +309,11 @@ export default class SortableListsController extends Controller<HTMLElement> {
       if (!response.ok) {
         debugLog(`Failed to move sortable list item: ${response.statusCode}`);
       }
+
+      return response.ok;
     } catch (error) {
       debugLog('Failed to move sortable list item due to request error', error);
-      this.dispatchErrorToast();
+      return false;
     } finally {
       this.setMoving(false);
     }

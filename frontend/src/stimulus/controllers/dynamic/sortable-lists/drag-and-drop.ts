@@ -175,12 +175,16 @@ export function isSourceListTarget({
   return sourceElement.closest(sortableListSelector) === targetElement;
 }
 
-function resolveItemElement(element:Element):HTMLElement|null {
+function resolveClosestItemElement(element:Element):HTMLElement|null {
   if (element instanceof HTMLElement && element.matches(sortableItemSelector)) {
     return element;
   }
 
-  return element.closest<HTMLElement>(sortableItemSelector) ??
+  return element.closest<HTMLElement>(sortableItemSelector);
+}
+
+function resolveItemElement(element:Element):HTMLElement|null {
+  return resolveClosestItemElement(element) ??
     element.querySelector<HTMLElement>(sortableItemSelector);
 }
 
@@ -219,7 +223,7 @@ export function resolveFallbackDropTarget({
       continue;
     }
 
-    const item = resolveItemElement(elementAtPoint);
+    const item = resolveClosestItemElement(elementAtPoint);
     if (item && item !== sourceElement && root.contains(item)) {
       const itemId = resolveItemId(item);
 
@@ -284,6 +288,80 @@ export function resolvePreviousSortableItemId({
   }
 
   return null;
+}
+
+export interface RowPlacement {
+  row:HTMLElement;
+  parent:Node|null;
+  nextSibling:Node|null;
+}
+
+// Snapshot each row's current location so an optimistic move can be undone if
+// the server rejects it. Captured before the move; restored in reverse so the
+// stored nextSibling references are still valid when reinserting.
+export function captureRowPositions(rows:HTMLElement[]):RowPlacement[] {
+  return rows.map((row) => ({
+    row,
+    parent: row.parentNode,
+    nextSibling: row.nextSibling,
+  }));
+}
+
+export function restoreRowPositions(positions:RowPlacement[]):void {
+  for (let i = positions.length - 1; i >= 0; i -= 1) {
+    const { row, parent, nextSibling } = positions[i];
+    parent?.insertBefore(row, nextSibling);
+  }
+}
+
+// Optimistically move rows on the client without waiting for the server.
+// `rows` are the moved <li>s in order (one today, the selected set once
+// multi-item DnD lands); `previousItemId` of null means top of list.
+export function reorderRows({
+  rows,
+  list,
+  previousItemId,
+}:{
+  rows:HTMLElement[];
+  list:HTMLElement;
+  previousItemId:string|null;
+}):void {
+  let anchor:Element|null = previousItemId ? resolveAnchorRow(list, previousItemId) : null;
+
+  for (const row of rows) {
+    if (anchor) {
+      anchor.after(row);
+    } else {
+      insertAtListTop(list, row);
+    }
+
+    anchor = row;
+  }
+}
+
+// The previous item id can point at a hidden item collapsed behind a truncation
+// marker row, which carries the id on data-sortable-lists-prev-item-id rather
+// than exposing an item element. Anchor on that marker so the row lands next to
+// the collapsed block instead of jumping to the top.
+function resolveAnchorRow(list:HTMLElement, previousItemId:string):HTMLElement|null {
+  const escaped = CSS.escape(previousItemId);
+  const anchor = list.querySelector(`[data-sortable-lists--item-id-value="${escaped}"]`)
+    ?? list.querySelector(`[${sortablePreviousItemIdAttribute}="${escaped}"]`);
+
+  return anchor?.closest('li') ?? null;
+}
+
+// Rows can sit directly under the list element or inside a nested <ul>, so a
+// plain list.prepend() would drop the row before that <ul>. Insert before the
+// first existing row instead, keeping it in the same container as its siblings.
+function insertAtListTop(list:HTMLElement, row:HTMLElement):void {
+  const firstRow = list.querySelector(':scope > li, :scope > ul > li');
+
+  if (firstRow && firstRow !== row) {
+    firstRow.before(row);
+  } else if (!firstRow) {
+    (list.querySelector(':scope > ul') ?? list).prepend(row);
+  }
 }
 
 export function resolveListAppendPreviousItemId({
