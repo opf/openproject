@@ -43,20 +43,22 @@ import 'urijs/src/URITemplate';
 import {
   acceptsSortableItemType,
   buildMoveFormData,
-  captureRowPositions,
   isSortableItemData,
   isSourceListTarget,
-  reorderRows,
   resolveFallbackDropTarget,
-  restoreRowPositions,
-  resolveListAppendPreviousItemId,
   resolveListData,
   resolvePreviousSortableItemId,
+  type SortableListData,
+} from './sortable-lists/drag-and-drop';
+import {
+  captureRowPositions,
+  reorderRows,
+  resolveListAppendPreviousItemId,
+  restoreRowPositions,
   sortableItemSelector,
   sortableListSelector,
   sortableListsMovingAttribute,
-  type SortableListData,
-} from './sortable-lists/drag-and-drop';
+} from './sortable-lists/list-dom';
 
 type CleanupFn = () => void;
 type ElementDropPayload = ElementEventPayloadMap['onDrop'];

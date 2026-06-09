@@ -31,19 +31,19 @@ import {
   type Edge,
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
+import {
+  resolveClosestItemElement,
+  resolveItemElement,
+  resolveItemId,
+  resolveItemType,
+  resolvePreviousItemId,
+  sortableListSelector,
+} from './list-dom';
 
+// The Pragmatic DnD payloads exchanged between the sortable-lists root and
+// item controllers, built on top of the DOM contract in list-dom.ts.
 const sortableItemDataKey = Symbol('sortable-list-item');
 const sortableListDataKey = Symbol('sortable-list');
-
-// Sortable lists use a DOM contract shared by the root and item controllers:
-// the root has data-controller~="sortable-lists"; lists are root targets with
-// data-sortable-lists-list-* metadata; items expose sortable-lists--item values;
-// sparse non-item rows may expose data-sortable-lists-prev-item-id.
-export const sortableListsMovingAttribute = 'data-sortable-lists-moving';
-export const sortableListsRootSelector = '[data-controller~="sortable-lists"]';
-export const sortableItemSelector = '[data-sortable-lists--item-id-value]';
-export const sortableListSelector = '[data-sortable-lists-target~="list"]';
-export const sortablePreviousItemIdAttribute = 'data-sortable-lists-prev-item-id';
 
 export interface SortableItemData extends Record<string|symbol, unknown> {
   [sortableItemDataKey]:true;
@@ -128,14 +128,6 @@ export function buildMoveFormData({
   return data;
 }
 
-export function resolveItemId(element:Element):string|null {
-  return element.getAttribute('data-sortable-lists--item-id-value');
-}
-
-export function resolveItemType(element:Element):string {
-  return element.getAttribute('data-sortable-lists--item-type-value') ?? 'item';
-}
-
 export function resolveListData(element:Element):SortableListData|null {
   const list = element.closest<HTMLElement>(sortableListSelector);
 
@@ -173,27 +165,6 @@ export function isSourceListTarget({
   targetElement:Element;
 }):boolean {
   return sourceElement.closest(sortableListSelector) === targetElement;
-}
-
-function resolveClosestItemElement(element:Element):HTMLElement|null {
-  if (element instanceof HTMLElement && element.matches(sortableItemSelector)) {
-    return element;
-  }
-
-  return element.closest<HTMLElement>(sortableItemSelector);
-}
-
-function resolveItemElement(element:Element):HTMLElement|null {
-  return resolveClosestItemElement(element) ??
-    element.querySelector<HTMLElement>(sortableItemSelector);
-}
-
-function resolvePreviousItemId(element:Element):string|null {
-  const item = resolveItemElement(element);
-
-  // Non-item rows, such as truncated "show more" rows, can mark the last
-  // omitted item so position resolution remains correct in sparse lists.
-  return item ? resolveItemId(item) : element.getAttribute(sortablePreviousItemIdAttribute);
 }
 
 function elementsFromPoint(document:Document, clientX:number, clientY:number):Element[] {
@@ -285,99 +256,6 @@ export function resolvePreviousSortableItemId({
     }
 
     row = row.previousElementSibling;
-  }
-
-  return null;
-}
-
-export interface RowPlacement {
-  row:HTMLElement;
-  parent:Node|null;
-  nextSibling:Node|null;
-}
-
-// Snapshot each row's current location so an optimistic move can be undone if
-// the server rejects it. Captured before the move; restored in reverse so the
-// stored nextSibling references are still valid when reinserting.
-export function captureRowPositions(rows:HTMLElement[]):RowPlacement[] {
-  return rows.map((row) => ({
-    row,
-    parent: row.parentNode,
-    nextSibling: row.nextSibling,
-  }));
-}
-
-export function restoreRowPositions(positions:RowPlacement[]):void {
-  for (let i = positions.length - 1; i >= 0; i -= 1) {
-    const { row, parent, nextSibling } = positions[i];
-    parent?.insertBefore(row, nextSibling);
-  }
-}
-
-// Optimistically move rows on the client without waiting for the server.
-// `rows` are the moved <li>s in order (one today, the selected set once
-// multi-item DnD lands); `previousItemId` of null means top of list.
-export function reorderRows({
-  rows,
-  list,
-  previousItemId,
-}:{
-  rows:HTMLElement[];
-  list:HTMLElement;
-  previousItemId:string|null;
-}):void {
-  let anchor:Element|null = previousItemId ? resolveAnchorRow(list, previousItemId) : null;
-
-  for (const row of rows) {
-    if (anchor) {
-      anchor.after(row);
-    } else {
-      insertAtListTop(list, row);
-    }
-
-    anchor = row;
-  }
-}
-
-// The previous item id can point at a hidden item collapsed behind a truncation
-// marker row, which carries the id on data-sortable-lists-prev-item-id rather
-// than exposing an item element. Anchor on that marker so the row lands next to
-// the collapsed block instead of jumping to the top.
-function resolveAnchorRow(list:HTMLElement, previousItemId:string):HTMLElement|null {
-  const escaped = CSS.escape(previousItemId);
-  const anchor = list.querySelector(`[data-sortable-lists--item-id-value="${escaped}"]`)
-    ?? list.querySelector(`[${sortablePreviousItemIdAttribute}="${escaped}"]`);
-
-  return anchor?.closest('li') ?? null;
-}
-
-// Rows can sit directly under the list element or inside a nested <ul>, so a
-// plain list.prepend() would drop the row before that <ul>. Insert before the
-// first existing row instead, keeping it in the same container as its siblings.
-function insertAtListTop(list:HTMLElement, row:HTMLElement):void {
-  const firstRow = list.querySelector(':scope > li, :scope > ul > li');
-
-  if (firstRow && firstRow !== row) {
-    firstRow.before(row);
-  } else if (!firstRow) {
-    (list.querySelector(':scope > ul') ?? list).prepend(row);
-  }
-}
-
-export function resolveListAppendPreviousItemId({
-  sourceItemId,
-  list,
-}:{
-  sourceItemId:string;
-  list:Element;
-}):string|null {
-  const rows = Array.from(list.querySelectorAll(':scope > li, :scope > ul > li')).reverse();
-
-  for (const row of rows) {
-    const itemId = resolvePreviousItemId(row);
-    if (itemId && itemId !== sourceItemId) {
-      return itemId;
-    }
   }
 
   return null;

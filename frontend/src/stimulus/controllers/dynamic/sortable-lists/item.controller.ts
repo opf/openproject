@@ -39,12 +39,14 @@ import { Controller } from '@hotwired/stimulus';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
   isSortableItemData,
-  sortableItemSelector,
   sortableItemData,
-  sortableListsMovingAttribute,
-  sortableListsRootSelector,
   type SortableItemData,
 } from './drag-and-drop';
+import {
+  sortableItemSelector,
+  sortableListsMovingAttribute,
+  sortableListsRootSelector,
+} from './list-dom';
 
 type CleanupFn = () => void;
 
