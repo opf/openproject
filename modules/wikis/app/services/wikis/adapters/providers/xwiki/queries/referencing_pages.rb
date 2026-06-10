@@ -45,7 +45,7 @@ module Wikis
                   success(
                     (data["searchResults"] || [])
                       .uniq { |r| fetch_json(r, "id") }
-                      .map { canonical_page_info(identifier: it["id"], auth_strategy:) }
+                      .map { canonical_page_info(identifier: fetch_json(it, "id"), auth_strategy:) }
                   )
                 end
               end
