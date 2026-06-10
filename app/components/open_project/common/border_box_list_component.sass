@@ -26,6 +26,17 @@
     &:has(> .Box-card[aria-current="true"])
       border-top-color: var(--box-list-item-pressed-border-color)
 
+// Upstream rounds the outer row corners for boxes whose rows form the box
+// edge. With a header or footer between the row and the box edge, a row
+// background (hover, focus, selected) would show rounded corners mid-box.
+.op-border-box-list:has(> .Box-header) > ul > .Box-row:first-of-type
+  border-top-left-radius: 0
+  border-top-right-radius: 0
+
+.op-border-box-list:has(> .Box-footer) > ul > .Box-row:last-of-type
+  border-bottom-left-radius: 0
+  border-bottom-right-radius: 0
+
 .op-border-box-list
   --op-border-box-list-header-row-gap: calc(var(--stack-gap-condensed) / 2)
 
