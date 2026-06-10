@@ -135,6 +135,42 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
+  describe "backlogBucket" do
+    let(:path) { "backlogBucket" }
+
+    it_behaves_like "has basic schema properties" do
+      let(:type) { "BacklogBucket" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.backlog_bucket") }
+      let(:required) { false }
+      let(:writable) { true }
+      let(:location) { "_links" }
+    end
+
+    it_behaves_like "links to allowed values via collection link" do
+      let(:href) { "#{api_v3_paths.project_backlog_buckets(project.id)}?filters=%5B%5D&pageSize=-1" }
+    end
+
+    context "when lacking permission to see the sprints (or if backlogs is disabled)" do
+      let(:permissions) { %i(view_work_packages edit_work_packages) }
+
+      it "has no reference to the backlog bucket" do
+        expect(subject).not_to have_json_path(path)
+      end
+    end
+
+    context "when lacking permission to set the backlog bucket" do
+      let(:permissions) { %i(view_work_packages edit_work_packages view_sprints) }
+
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "BacklogBucket" }
+        let(:name) { I18n.t("activerecord.attributes.work_package.backlog_bucket") }
+        let(:required) { false }
+        let(:writable) { false }
+        let(:location) { "_links" }
+      end
+    end
+  end
+
   describe "attribute_groups" do
     context "with backlogs enabled" do
       it "has backlogs properties listed in the right group" do
@@ -158,30 +194,6 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       it "lacks the backlogs properties" do
         expect(subject).to be_json_eql(%w[])
                              .at_path("_attributeGroups/0/attributes")
-      end
-    end
-  end
-
-  describe "backlogBucket" do
-    let(:path) { "backlogBucket" }
-
-    it_behaves_like "has basic schema properties" do
-      let(:type) { "BacklogBucket" }
-      let(:name) { I18n.t("activerecord.attributes.work_package.backlog_bucket") }
-      let(:required) { false }
-      let(:writable) { true }
-      let(:location) { "_links" }
-    end
-
-    it_behaves_like "links to allowed values via collection link" do
-      let(:href) { "#{api_v3_paths.project_backlog_buckets(project.id)}?filters=%5B%5D&pageSize=-1" }
-    end
-
-    context "when lacking permission to see the sprints (or if backlogs is disabled)" do
-      let(:permissions) { %i(view_work_packages edit_work_packages) }
-
-      it "has no reference to the backlog bucket" do
-        expect(subject).not_to have_json_path(path)
       end
     end
   end
