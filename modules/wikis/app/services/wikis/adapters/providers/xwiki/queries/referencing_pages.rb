@@ -40,27 +40,14 @@ module Wikis
 
             def call(input_data:, auth_strategy:)
               authenticated(auth_strategy) do |http|
-                Internal::Wikis.new(model: provider).call(auth_strategy:).bind do |wiki_names|
-                  wiki_names.reduce(Success([])) do |acc, wiki_name|
-                    acc.bind do |results|
-                      search_wiki(wiki_name:, input_data:, http:, auth_strategy:)
-                        .fmap { results + it }
-                    end
-                  end
+                url = rest_url("openproject/links/workPackages/#{input_data.linkable.id}")
+                handle_response(http.get(url, params: { number: MAXIMUM_RESULTS })) do |data|
+                  success(
+                    (data["searchResults"] || [])
+                      .uniq { |r| r["id"] }
+                      .map { canonical_page_info(identifier: it["id"], auth_strategy:) }
+                  )
                 end
-              end
-            end
-
-            private
-
-            def search_wiki(wiki_name:, input_data:, http:, auth_strategy:)
-              url = rest_url("wikis/#{wiki_name}/openproject/links/workPackages/#{input_data.linkable.id}")
-              handle_response(http.get(url, params: { number: MAXIMUM_RESULTS })) do |data|
-                success(
-                  (data["searchResults"] || [])
-                    .uniq { |r| r["id"] }
-                    .map { canonical_page_info(identifier: it["id"], auth_strategy:) }
-                )
               end
             end
           end
