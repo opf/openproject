@@ -61,9 +61,10 @@ describe('Backlogs story controller', () => {
     application.register('backlogs--story', StoryController);
   });
 
-  afterEach(() => {
-    application.stop();
+  afterEach(async () => {
     fixture.remove();
+    await nextFrame();
+    application.stop();
     vi.restoreAllMocks();
   });
 
@@ -147,6 +148,25 @@ describe('Backlogs story controller', () => {
     expect(story.hasAttribute('data-selected')).toBe(true);
     expect(story.hasAttribute('aria-current')).toBe(false);
     expect(navigation.openSplitPane).not.toHaveBeenCalled();
+  });
+
+  it('cancels a pending click activation when the card disconnects', async () => {
+    const story = renderStory();
+
+    await nextFrame();
+    vi.useFakeTimers();
+
+    try {
+      story.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      fixture.remove();
+      await Promise.resolve();
+      await Promise.resolve();
+      vi.advanceTimersByTime(250);
+
+      expect(navigation.openSplitPane).not.toHaveBeenCalled();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 
   it('marks the card as selected when Enter opens the split pane', async () => {
