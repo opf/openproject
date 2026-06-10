@@ -38,6 +38,12 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
     expect(Wikis::Adapters::Registry.resolve("xwiki.queries.referencing_pages")).to eq(described_class)
   end
 
+  describe "input validation" do
+    it "rejects a linkable that is not a work package" do
+      expect(Wikis::Adapters::Input::ReferencingPages.build(linkable: create(:project))).to be_failure
+    end
+  end
+
   describe "#call" do
     let(:user) { create(:user) }
     let(:wiki_provider) do
@@ -71,30 +77,40 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       it "returns page infos resolved via canonical_page_info" do
         page_results = result.value!
         expect(page_results).to all(be_success)
-        expect(page_results.map { it.value!.identifier }).to contain_exactly(page_identifier)
-        expect(page_results.map { it.value!.title }).to contain_exactly("Eric's Space #2")
-        expect(page_results.map { it.value!.href }).to contain_exactly(page_absolute_url)
+        expect(page_results.map { it.value!.to_h.except(:provider) }).to contain_exactly(
+          { identifier: page_identifier, title: "Eric's Space #2", href: page_absolute_url }
+        )
       end
     end
 
     context "when the same page appears multiple times in results" do
-      let(:page_identifier) { "xwiki:Main.WebHome" }
-      let(:page_absolute_url) { "https://xwiki.example.com/bin/view/Main/" }
-      let(:duplicate_result) { { "id" => page_identifier, "title" => "Home" } }
+      let(:duplicate_id) { "xwiki:Main.WebHome" }
+      let(:same_title_different_id) { "xwiki:Other.WebHome" }
 
       before do
-        stub_search([duplicate_result, duplicate_result], provider: wiki_provider, linkable:)
-        stub_canonical_page_info(page_identifier,
+        stub_search(
+          [
+            { "id" => duplicate_id, "title" => "Home" },
+            { "id" => duplicate_id, "title" => "Home" },
+            { "id" => same_title_different_id, "title" => "Home" }
+          ],
+          provider: wiki_provider,
+          linkable:
+        )
+        stub_canonical_page_info(duplicate_id,
                                  title: "Home",
-                                 href: page_absolute_url,
+                                 href: "https://xwiki.example.com/bin/view/Main/",
+                                 provider: wiki_provider)
+        stub_canonical_page_info(same_title_different_id,
+                                 title: "Home",
+                                 href: "https://xwiki.example.com/bin/view/Other/",
                                  provider: wiki_provider)
       end
 
       it { is_expected.to be_success }
 
-      it "deduplicates by page identifier" do
-        expect(result.value!.size).to eq(1)
-        expect(result.value!.first.value!.identifier).to eq(page_identifier)
+      it "deduplicates by page identifier, not by title" do
+        expect(result.value!.map { it.value!.identifier }).to contain_exactly(duplicate_id, same_title_different_id)
       end
     end
 
