@@ -71,6 +71,16 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
                         "backlogs.stories.update_service.ambiguous_target"
       end
 
+      context "with both list_id and direction" do
+        it_behaves_like "returns failure without delegating",
+                        { list_id: "42", direction: "highest" },
+                        "backlogs.stories.update_service.ambiguous_target"
+      end
+
+      context "with a list_id but no list_type" do
+        it_behaves_like "returns failure without delegating", { list_id: "42" }
+      end
+
       context "when list_type is an invalid type with a list_id" do
         it_behaves_like "returns failure without delegating", { list_type: "unknown", list_id: "42" }
       end
