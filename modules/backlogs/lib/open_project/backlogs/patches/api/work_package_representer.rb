@@ -48,8 +48,7 @@ module OpenProject::Backlogs
 
             resource :sprint,
                      link_cache_if: ->(*) {
-                       represented.project.present? &&
-                         current_user.allowed_in_project?(:view_sprints, represented.project)
+                       current_user.allowed_in_project?(:view_sprints, represented.project)
                      },
                      link: ->(*) {
                        if represented.sprint.present?
@@ -65,7 +64,6 @@ module OpenProject::Backlogs
                      },
                      getter: ->(*) do
                        if embed_links &&
-                          represented.project.present? &&
                           represented.sprint.present? &&
                           current_user.allowed_in_project?(:view_sprints, represented.project)
                          ::API::V3::Sprints::SprintRepresenter.create(represented.sprint, current_user:)
@@ -75,8 +73,7 @@ module OpenProject::Backlogs
 
             resource :backlog_bucket,
                      link_cache_if: ->(*) {
-                       represented.project.present? &&
-                         current_user.allowed_in_project?(:view_sprints, represented.project)
+                       current_user.allowed_in_project?(:view_sprints, represented.project)
                      },
                      link: ->(*) {
                        if represented.backlog_bucket.present?
@@ -92,7 +89,6 @@ module OpenProject::Backlogs
                      },
                      getter: ->(*) do
                        if embed_links &&
-                          represented.project.present? &&
                           represented.backlog_bucket.present? &&
                           current_user.allowed_in_project?(:view_sprints, represented.project)
                          ::API::V3::BacklogBuckets::BacklogBucketRepresenter.create(represented.backlog_bucket, current_user:)
