@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, OnDestroy, OnInit, inject } from '@angular/core';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import {
   debounceTime,
@@ -56,6 +50,7 @@ import {
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
+import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { IProject } from 'core-app/core/state/projects/project.model';
 import {
   SearchableProjectListService,
@@ -77,6 +72,13 @@ import { calculatePositions } from 'core-app/shared/components/project-include/c
   standalone: false,
 })
 export class OpProjectIncludeComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  readonly I18n = inject(I18nService);
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  readonly wpIncludeSubprojects = inject(WorkPackageViewIncludeSubprojectsService);
+  readonly halResourceService = inject(HalResourceService);
+  readonly searchableProjectListService = inject(SearchableProjectListService);
+  readonly querySpace = inject(IsolatedQuerySpace);
+
   @HostBinding('class.op-project-include') className = true;
 
   public text = {
@@ -95,7 +97,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   public textFieldFocused = false;
 
-  public query$ = this.wpTableFilters.querySpace.query.values$();
+  public query$ = this.querySpace.query.values$();
 
   public displayModeOptions = [
     { value: 'all', title: this.text.filter_all },
@@ -258,13 +260,7 @@ export class OpProjectIncludeComponent extends UntilDestroyedMixin implements On
 
   public loading$ = new BehaviorSubject<boolean>(false);
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly wpTableFilters:WorkPackageViewFiltersService,
-    readonly wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
-    readonly halResourceService:HalResourceService,
-    readonly searchableProjectListService:SearchableProjectListService,
-  ) {
+  constructor() {
     super();
 
     this.projects$

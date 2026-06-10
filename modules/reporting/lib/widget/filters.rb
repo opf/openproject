@@ -31,11 +31,12 @@ class Widget::Filters < Widget::Base
   def render
     spacer = content_tag :li, "", class: "advanced-filters--spacer hide-when-print"
 
-    add_filter = content_tag :li, id: "add_filter_block", class: "advanced-filters--add-filter hide-when-print" do
+    add_filter = content_tag :li, id: "add_filter_block",
+                                  class: "advanced-filters--add-filter hide-when-print add_filter_block" do
       add_filter_label = label_tag(
         "add_filter_select",
         I18n.t(:label_filter_add),
-        class: "advanced-filters--add-filter-label"
+        class: "advanced-filters--add-filter-label add_filter_select"
       )
       add_filter_label += label_tag(
         "add_filter_select",
@@ -46,7 +47,7 @@ class Widget::Filters < Widget::Base
       add_filter_value = content_tag :div, class: "advanced-filters--add-filter-value" do
         select_tag "add_filter_select",
                    options_for_select([["", ""]] + selectables),
-                   class: "advanced-filters--select",
+                   class: "advanced-filters--select add_filter_select",
                    data: {
                      action: "reporting--page#addFilter"
                    },

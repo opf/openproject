@@ -65,12 +65,15 @@ module Projects::SemanticIdentifier
   # and (by default) inserts alias rows for every historical slug prefix of
   # this project.
   #
+  # Returns a hash of { work_package_id => semantic_identifier } so callers
+  # already holding live records can refresh in-memory state without reloading.
+  #
   # Pass insert_aliases: false when the caller will run seed_alias_table
   # immediately after (e.g. the conversion backfill path), to avoid
   # duplicating the alias insertion work.
   def reserve_semantic_id_block!(work_package_ids, insert_aliases: true)
     count = work_package_ids.size
-    return if count.zero?
+    return {} if count.zero?
 
     range = allocate_sequence_range!(count)
     sorted_ids = work_package_ids.sort
@@ -79,6 +82,8 @@ module Projects::SemanticIdentifier
       bulk_assign_sequence_numbers!(sorted_ids, range)
       insert_sequence_aliases!(sorted_ids, range) if insert_aliases
     end
+
+    sorted_ids.zip(range).to_h { |wp_id, seq| [wp_id, "#{identifier}-#{seq}"] }
   end
 
   # Called after this project's identifier is renamed. Atomically:
@@ -149,11 +154,11 @@ module Projects::SemanticIdentifier
       now = Time.current
       WorkPackageSemanticAlias.connection.execute(
         WorkPackageSemanticAlias.sanitize_sql([<<~SQL.squish, { prefix:, new_prefix:, now: }])
-            INSERT INTO work_package_semantic_aliases (identifier, work_package_id, created_at, updated_at)
-            SELECT REPLACE(identifier, :prefix, :new_prefix), work_package_id, :now, :now
-            FROM (#{relation.to_sql}) AS batch
-            ON CONFLICT (identifier) DO NOTHING
-          SQL
+          INSERT INTO work_package_semantic_aliases (identifier, work_package_id, created_at, updated_at)
+          SELECT REPLACE(identifier, :prefix, :new_prefix), work_package_id, :now, :now
+          FROM (#{relation.to_sql}) AS batch
+          ON CONFLICT (identifier) DO NOTHING
+        SQL
       )
     end
   end

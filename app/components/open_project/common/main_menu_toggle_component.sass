@@ -57,7 +57,7 @@
 
     @media only screen and (max-width: $breakpoint-lg)
       // Special logic for those pages that already use the new layout and have the content-bodyRight filled (so basically, the split screen opened full height on mobile)
-      #content:has(#content-bodyRight > *)
+      @include split-pane-active
         #menu-toggle--expand-button
           top: 60px
         .op-wp-breadcrumb

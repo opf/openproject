@@ -24,8 +24,8 @@ fr:
   js:
     ajax:
       hide: Masquer
-      loading: Chargement…
-      updating: Mise à jour…
+      loading: Chargement...
+      updating: Mise à jour...
     attachments:
       delete: Supprimer la pièce jointe
       delete_confirmation: 'Voulez-vous vraiment supprimer ce fichier ? Cette action est irréversible.
@@ -38,7 +38,7 @@ fr:
     autocomplete_ng_select:
       add_tag: Ajouter un élément
       clear_all: Tout réinitialiser
-      loading: Chargement…
+      loading: Chargement...
       not_found: Aucun élément trouvé
       type_to_search: Taper pour rechercher
     autocomplete_select:
@@ -179,15 +179,15 @@ fr:
           macros: Macros
           chose_macro: Choisir une macro
         toc: Table des matières
-        toolbar_help: Cliquez pour sélectionner le widget et afficher la barre d’outils. Double-cliquez pour modifier le widget
+        toolbar_help: Cliquez pour sélectionner le widget et afficher la barre d'outils. Double-cliquez pour modifier le widget
         wiki_page_include:
-          button: Inclure le contenu d’une autre page wiki
+          button: Inclure le contenu d'une autre page wiki
           text: "[Placeholder] Page wiki inclue de"
           page: Page du wiki
           not_set: "(page non encore définie)"
           hint: |
-            Incluez le contenu d’une autre page du wiki en indiquant son titre ou son slug.
-            Vous pouvez inclure la page wiki d'un autre projet en les séparant par un point-virgule comme dans l’exemple suivant.
+            Incluez le contenu d'une autre page du wiki en indiquant son titre ou son slug.
+            Vous pouvez inclure la page wiki d'un autre projet en les séparant par un point-virgule comme dans l'exemple suivant.
         work_package_button:
           button: Insérer un bouton pour créer un lot de travaux
           type: Type de lot de travaux
@@ -202,16 +202,7 @@ fr:
           text: "[Placeholder] Calendrier embarqué"
     admin:
       type_form:
-        custom_field: Champ personnalisé
-        inactive: Inactif
-        drag_to_activate: Faire glisser les champs ici pour les activer
-        add_group: Ajouter un groupe d’attributs
-        add_table: Ajouter un tableau des lots de travaux associés
         edit_query: Modifier la requête
-        new_group: Nouveau groupe
-        delete_group: Supprimer le groupe
-        remove_attribute: Retirer du groupe
-        reset_to_defaults: Rétablir les valeurs par défaut
       working_days:
         calendar:
           empty_state_header: Jours non travaillés
@@ -219,13 +210,6 @@ fr:
           new_date: "(nouveau)"
         add_non_working_day: Jour non travaillé
         already_added_error: Un jour non travaillé pour cette date existe déjà. Il ne peut y avoir qu'un seul jour non travaillé créé pour chaque date unique.
-        change_button: Enregistrer et reprogrammer
-        change_title: Changer les jours travaillés
-        removed_title: 'Vous supprimerez les jours suivants de la liste des jours non travaillés :'
-        change_description: La modification des jours de la semaine considérés comme des jours ouvrables ou des jours non ouvrables peut affecter les jours de début et de fin de tous les lots de travaux et les cycles de vie de tous les projets dans ce cas.
-        warning: 'Les modifications peuvent prendre un certain temps avant de prendre effet. Vous serez informé(e) lorsque tous les lots de travaux et cycles de vie des projets concernés auront été mis à jour. Voulez-vous continuer ?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ librement modifiable. Si vous complétez les champs <i>Travail</i> et <i>Travail restant</i>, ils seront également liés à <i>% réalisé</i>. Changer le champ <i>Travail restant</i> peut alors changer le <i>% réalisé</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Passer du mode de calcul de la progression basé sur le travail au mode basé sur le statut entraînera la perte de toutes les valeurs de <i>% réalisé</i> existantes et leur remplacement par les valeurs associées à chaque statut. Les valeurs existantes pour <i>Travail restant</i> peuvent également être recalculées pour refléter ce changement. Cette action est irréversible.
@@ -235,9 +219,9 @@ fr:
         current_date: Date actuelle
     error:
       internal: Une erreur interne s'est produite.
-      cannot_save_changes_with_message: 'Impossible d’enregistrer vos modifications en raison de l’erreur suivante : %{error}'
+      cannot_save_changes_with_message: 'Impossible d''enregistrer vos modifications en raison de l''erreur suivante : %{error}'
       query_saving: La vue n'a pas pu être enregistrée.
-      embedded_table_loading: 'La vue intégrée n’a pas pu être chargée : %{message}'
+      embedded_table_loading: 'La vue intégrée n''a pas pu être chargée : %{message}'
     enumeration_activities: Activités (suivi de temps)
     enumeration_doc_categories: Catégories de documents
     enumeration_work_package_priorities: Priorités des lots de travaux
@@ -274,7 +258,7 @@ fr:
       filter:
         noneSelection: "(aucun)"
       selection_mode:
-        notification: Cliquez sur n’importe quel lot de travaux mis en évidence afin de créer la relation. Appuyez sur Échap pour annuler.
+        notification: Cliquez sur n'importe quel lot de travaux mis en évidence afin de créer la relation. Appuyez sur Échap pour annuler.
       zoom:
         in: Zoomer
         out: Dézoomer
@@ -296,7 +280,7 @@ fr:
         update_conflict_refresh: Cliquez ici pour actualiser la ressource et mettre à jour vers la version la plus récente.
         edit_prohibited: La modification de %{attribute} est bloquée pour cette ressource. Soit cet attribut est dérivé de relations (ex. enfants), soit il n'est pas configurable.
         format:
-          date: "%{attribute} n’est pas une date valide. Format attendu : AAAA-MM-JJ."
+          date: "%{attribute} n'est pas une date valide. Format attendu : AAAA-MM-JJ."
         general: Une erreur s'est produite.
     ical_sharing_modal:
       title: S'abonner au calendrier
@@ -311,12 +295,12 @@ fr:
       success_message: L'adresse URL « %{name} » a été copiée avec succès dans votre presse-papiers. Collez-la dans votre client de calendrier pour compléter l'abonnement.
     label_activate: Activer
     label_assignee: Assigné
-    label_assignee_alt_text: Ce lot de travail est attribué à %{name}
+    label_assignee_alt_text: Ce lot de travaux est attribué à %{name}
     label_add_column_after: Ajouter une colonne après
     label_add_column_before: Ajouter une colonne avant
     label_add_columns: Ajouter des colonnes
     label_add_comment: Ajouter un commentaire
-    label_add_comment_title: Commentez et utilisez @ pour informer d’autres personnes
+    label_add_comment_title: Commentez et utilisez @ pour informer d'autres personnes
     label_add_row_after: Ajouter une ligne après
     label_add_row_before: Ajouter une ligne avant
     label_add_selected_columns: Ajouter les colonnes sélectionnées
@@ -391,7 +375,7 @@ fr:
     label_learn_more_link: En savoir plus
     label_less_or_equal: "<="
     label_less_than_ago: il y a moins de quelques jours
-    label_loading: Chargement…
+    label_loading: Chargement...
     label_mail_notification: Notifications par courriel
     label_manage_columns: Gérer et réorganiser les colonnes
     label_me: moi
@@ -418,7 +402,6 @@ fr:
     label_per_page: 'Par page:'
     label_please_wait: Veuillez patienter
     label_project: Projet
-    label_project_list: Listes de projets
     label_project_plural: Projets
     label_visibility_settings: Paramètres de visibilité
     label_quote_comment: Citer ce commentaire
@@ -433,7 +416,7 @@ fr:
     label_resize_project_menu: Redimensionner le menu du projet
     label_save_as: Enregistrer sous
     label_search_columns: Rechercher une colonne
-    label_select_watcher: Sélectionner un observateur…
+    label_select_watcher: Sélectionner un observateur...
     label_selected_filter_list: Filtres sélectionnés
     label_show_attributes: Afficher tous les attributs
     label_show_in_menu: Afficher la vue dans le menu
@@ -465,7 +448,7 @@ fr:
     label_warning: Attention
     label_work_package: Lot de travaux
     label_work_package_parent: Lot de travaux parent
-    label_work_package_plural: Lots de Travaux
+    label_work_package_plural: Lots de travaux
     label_watch: Suivre
     label_watch_work_package: Suivre le lot de travaux
     label_watcher_added_successfully: Observateur ajouté avec succès !
@@ -496,7 +479,7 @@ fr:
     label_files_to_upload: 'Ces fichiers vont être transférés :'
     label_rejected_files: 'Ces fichiers ne peuvent pas être transférés :'
     label_rejected_files_reason: Ces fichiers ne peuvent pas être transférés car leur taille est supérieure à %{maximumFilesize}
-    label_wait: Veuillez patienter pendant la configuration…
+    label_wait: Veuillez patienter pendant la configuration...
     label_upload_counter: "%{done} fichiers sur %{count} finis"
     label_validation_error: 'Le lot de travaux n''a pas pu être enregistré en raison des erreurs suivantes :'
     label_version_plural: Versions
@@ -513,7 +496,7 @@ fr:
         members: Invitez de nouveaux <b>membres</b> à rejoindre votre projet.
         quick_add_button: Cliquez sur l'icône plus (+) dans l'en-tête de navigation pour <b>créer un nouveau projet</b> ou <b>inviter des collègues</b>.
         sidebar_arrow: Utilisez la flèche de retour dans le coin supérieur gauche pour retourner au <b>menu principal</b> du projet.
-        welcome: Faites une visite d’introduction de trois minutes pour apprendre <b>les fonctionnalités les plus importantes</b>.<br>Il est recommandé d’effectuer les étapes jusqu'à la fin. Vous pouvez redémarrer cette visite à tout moment.
+        welcome: Faites une visite d'introduction de trois minutes pour apprendre <b>les fonctionnalités les plus importantes</b>.<br>Il est recommandé d'effectuer les étapes jusqu'à la fin. Vous pouvez redémarrer cette visite à tout moment.
         wiki: Dans le <b>wiki</b> vous pouvez documenter et partager vos connaissances avec votre équipe.
         boards:
           overview: Sélectionnez <b>tableaux</b> pour déplacer la vue et gérer votre projet en utilisant la vue des tableaux agiles.
@@ -614,18 +597,6 @@ fr:
     breadcrumb: Fil d'Ariane
     text_data_lost: Toutes les données saisies seront perdues.
     text_user_wrote: "%{value} écrit:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: Le nom %{group} est utilisé plus d’une fois. Les noms de groupe doivent être uniques.
-        error_no_table_configured: Veuillez configurer un tableau pour %{group}.
-        reset_title: Réinitialiser la configuration du formulaire
-        confirm_reset: 'Avertissement : êtes-vous sûr de vouloir réinitialiser la configuration du formulaire ? Ceci va réinitialiser les attributs à leur groupe par défaut et désactiver TOUS les champs personnalisés.
-
-          '
-        upgrade_to_ee: Mettre à niveau vers la version Entreprise autohébergée
-        upgrade_to_ee_text: Waouh ! Si vous avez besoin de cette fonctionnalité, vous êtes un véritable pro ! Cela vous dérangerait-il de soutenir les développeurs Open Source en devenant un client de la version Entreprise ?
-        more_information: Plus d'informations
-        nevermind: Peu importe
     time_entry:
       work_package_required: Nécessite d'abord la sélection d'un lot de travaux.
       title: Consigner du temps
@@ -640,7 +611,7 @@ fr:
     two_factor_authentication:
       label_two_factor_authentication: Authentification à deux facteurs
     watchers:
-      label_loading: observateurs en cours de chargement…
+      label_loading: chargement des observateurs...
       label_error_loading: Une erreur s'est produite lors du chargement des observateurs
       label_search_watchers: Rechercher des observateurs
       label_add: Ajouter des observateurs
@@ -713,8 +684,8 @@ fr:
       activate_asc: activer pour appliquer un tri par ordre croissant
       activate_dsc: activer pour appliquer un tri par ordre décroissant
       activate_no: activer pour supprimer le tri
-    text_work_packages_destroy_confirmation: Êtes-vous sûr de vouloir supprimer le(s) lot(s) de travaux sélectionné(s) ?
-    text_query_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la vue sélectionnée ?
+    text_work_packages_destroy_confirmation: Voulez-vous vraiment supprimer le(s) lot(s) de travaux sélectionné(s) ?
+    text_query_destroy_confirmation: Voulez-vous vraiment supprimer la vue sélectionnée ?
     tl_toolbar:
       zooms: Niveau de zoom
       outlines: Niveau de hiérarchie
@@ -751,7 +722,7 @@ fr:
       comment_added: Le commentaire a été ajouté avec succès.
       comment_send_failed: Une erreur s'est produite. Impossible de soumettre le commentaire.
       comment_updated: Le commentaire a été mis à jour avec succès.
-      confirm_edit_cancel: Êtes-vous sûr de vouloir annuler l'édition du lot de travaux ?
+      confirm_edit_cancel: Voulez-vous vraiment annuler l'édition du lot de travaux ?
       description_filter: Filtrer
       description_enter_text: Saisir texte
       description_options_hide: Masquer les options
@@ -769,7 +740,7 @@ fr:
       message_successful_show_in_fullscreen: Cliquez ici pour ouvrir ce lot de travaux en affichage plein écran.
       message_view_spent_time: Afficher le temps passé pour ce lot de travaux
       message_work_package_read_only: Le lot de travaux est verrouillé dans ce statut. Aucun autre attribut que le statut ne peut être modifié.
-      message_work_package_status_blocked: Le statut du lot de travail n'est pas modifiable en raison de la fermeture du statut et de la version assignés.
+      message_work_package_status_blocked: Le statut du lot de travaux n'est pas modifiable en raison de la fermeture du statut et de la version assignés.
       placeholder_filter_by_text: Objet, description, commentaires, ...
       progress:
         title: Estimation des travaux et de la progression
@@ -874,7 +845,7 @@ fr:
         insert_columns: Insérer des colonnes
         filters: Filtres
         display_sums: Afficher les sommes
-        confirm_edit_cancel: Êtes-vous sûr de vouloir annuler la modification du nom de cette vue ? Le titre sera redéfini selon la valeur précédente.
+        confirm_edit_cancel: Voulez-vous vraiment annuler la modification du nom de cette vue ? Le titre sera redéfini selon la valeur précédente.
         click_to_edit_query_name: Cliquez ici pour modifier le titre de cette présentation.
         rename_query_placeholder: Nom de cette vue
         star_text: Marquez cette vue comme favorite et ajoutez-la à la barre latérale des vues enregistrées sur la gauche.
@@ -906,8 +877,8 @@ fr:
         show_all_users: Afficher tous les utilisateurs avec lesquels le lot de travaux a été partagé
       table:
         configure_button: Configurer le tableau du lot de travaux
-        summary: Tableau avec lignes de lots de travaux et colonnes d’attributs de lots de travaux.
-        text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui activent la fonctionnalité d'édition en ligne de l’attribut.
+        summary: Tableau avec lignes de lots de travaux et colonnes d'attributs de lots de travaux.
+        text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui activent la fonctionnalité d'édition en ligne de l'attribut.
         text_sort_hint: Avec les liens dans les en-têtes de tableau vous pouvez trier, regrouper, réorganiser, supprimer et ajouter des colonnes.
         text_select_hint: Les boîtes de sélection doivent être ouvertes avec la touche « ALT » et les flèches directionelles.
       table_configuration:
@@ -980,9 +951,9 @@ fr:
       button_delete: Supprimer
       form_submit:
         title: Confirmez pour continuer
-        text: Êtes-vous sûr de vouloir effectuer cette action ?
+        text: Voulez-vous vraiment effectuer cette action ?
       destroy_time_entry:
-        title: Confirmer la suppression de l’entrée de temps
+        title: Confirmer la suppression de l'entrée de temps
         text: Êtes-vous sur de vouloir supprimer l'entrée de temps suivante ?
     notice_no_results_to_display: Aucun résultat visible à afficher.
     notice_successful_create: Création réussie.
@@ -1011,11 +982,11 @@ fr:
         number: "%{field} n'est pas un nombre valide"
         maxlength: "%{field} ne peut pas contenir plus de %{maxLength} chiffre(s)"
         minlength: "%{field} ne peut pas contenir moins de %{minLength} chiffre(s)"
-        messages_on_field: 'Ce champ n’est pas valide : %{messages}'
+        messages_on_field: 'Ce champ n''est pas valide : %{messages}'
     error_could_not_resolve_version_name: Ne peut résoudre le nom de version
     error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
     error_attachment_upload: 'Erreur de chargement du fichier : %{error}'
-    error_attachment_upload_permission: Vous n’avez pas l'autorisation de charger des fichiers sur cette ressource.
+    error_attachment_upload_permission: Vous n'avez pas l'autorisation de charger des fichiers sur cette ressource.
     units:
       workPackage:
         one: lot de travaux
@@ -1074,16 +1045,13 @@ fr:
         all: Tous les projets
         selected: Uniquement la sélection
       search_placeholder: Recherche de projets...
-      search_placeholder_favorites: Recherche de favoris...
       include_subprojects: inclure tous les sous-projets
       tooltip:
         include_all_selected: Projet déjà inclus puisque Include tous les sous-projets sont activés.
         current_project: Ceci est le projet dans lequel vous vous trouvez actuellement.
         does_not_match_search: Le projet ne correspond pas aux critères de recherche.
       no_results: Aucun projet ne correspond à vos critères de recherche.
-      no_favorite_results: Aucun projet favori ne correspond à vos critères de recherche.
     include_workspaces:
-      search_placeholder: Rechercher...
       types:
         program: Programme
         portfolio: Portefeuille

@@ -16,7 +16,7 @@ export function addTurboGlobalListeners() {
   const runOnRenderAndLoad = () => {
     // Add to content if warnings displayed
     if (document.querySelector('.warning-bar--item')) {
-      const content = document.querySelector('#content') as HTMLElement;
+      const content = document.querySelector<HTMLElement>('#content');
       if (content) {
         content.style.marginBottom = '100px';
       }

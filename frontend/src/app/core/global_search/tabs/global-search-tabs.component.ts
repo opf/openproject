@@ -26,8 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnDestroy, OnInit } from '@angular/core';
-import { StateService } from '@uirouter/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
 import { ScrollableTabsComponent } from 'core-app/shared/components/tabs/scrollable-tabs/scrollable-tabs.component';
@@ -40,20 +39,13 @@ import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
   standalone: false,
 })
 export class GlobalSearchTabsComponent extends ScrollableTabsComponent implements OnInit, OnDestroy {
+  readonly globalSearchService = inject(GlobalSearchService);
+
   private currentTabSub:Subscription;
 
   private tabsSub:Subscription;
 
-  public classes:string[] = ['global-search--tabs', 'scrollable-tabs'];
-
-  constructor(
-    readonly globalSearchService:GlobalSearchService,
-    protected readonly $state:StateService,
-    public injector:Injector,
-    cdRef:ChangeDetectorRef,
-  ) {
-    super($state, cdRef, injector);
-  }
+  public override classes:string[] = ['global-search--tabs', 'scrollable-tabs'];
 
   ngOnInit():void {
     this.currentTabSub = this.globalSearchService

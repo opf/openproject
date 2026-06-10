@@ -1,9 +1,9 @@
-import { Inject, Injectable, DOCUMENT } from '@angular/core';
+import { Injectable, DOCUMENT, inject } from '@angular/core';
 
 @Injectable()
 export class BcfDetectorService {
-  constructor(@Inject(DOCUMENT) private documentElement:Document) {
-  }
+  private documentElement = inject<Document>(DOCUMENT);
+
 
   /**
    * Detect whether the BCF module was activated,

@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import {
@@ -34,19 +33,21 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
   standalone: false,
 })
 export class TriggerActionsEntryComponent {
-  @InjectField() readonly apiv3Service:ApiV3Service;
+  readonly injector = inject(Injector);
 
-  @InjectField() readonly toastService:ToastService;
+  readonly apiv3Service = inject(ApiV3Service);
 
-  @InjectField() readonly elementRef:ElementRef;
+  readonly toastService = inject(ToastService);
 
-  @InjectField() i18n!:I18nService;
+  readonly elementRef = inject(ElementRef);
 
-  @InjectField() readonly cdRef:ChangeDetectorRef;
+  readonly i18n = inject(I18nService);
 
-  @InjectField() readonly pathHelper:PathHelperService;
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @InjectField() readonly turboRequestService:TurboRequestsService;
+  readonly pathHelper = inject(PathHelperService);
+
+  readonly turboRequestService = inject(TurboRequestsService);
 
   public text = {
     edit: this.i18n.t('js.button_edit'),
@@ -54,9 +55,6 @@ export class TriggerActionsEntryComponent {
     error: this.i18n.t('js.error.internal'),
     areYouSure: this.i18n.t('js.text_are_you_sure'),
   };
-
-  constructor(readonly injector:Injector) {
-  }
 
   editTimeEntry() {
     void this.loadEntry().subscribe((entry:TimeEntryResource) => {

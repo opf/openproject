@@ -70,7 +70,6 @@ RSpec.describe "Working Days", :js do
     follower              |          XXX   | automatic       | follows earliest_work_package, follows second_work_package
   TABLE
 
-  let(:dialog) { Components::ConfirmationDialog.new }
   let(:datepicker) { Components::DatepickerModal.new }
   let(:project_activity_page) { Pages::Projects::Activity.new(project) }
 
@@ -106,7 +105,7 @@ RSpec.describe "Working Days", :js do
       click_on "Apply changes"
 
       perform_enqueued_jobs do
-        dialog.cancel
+        within_dialog("Change working days") { click_button "Cancel" }
       end
 
       expect(page).to have_no_css(".op-toast.-success")
@@ -130,7 +129,7 @@ RSpec.describe "Working Days", :js do
       click_on "Apply changes"
 
       perform_enqueued_jobs do
-        dialog.confirm
+        within_dialog("Change working days") { click_button "Save and reschedule" }
       end
 
       expect_flash(message: "Successful update.")
@@ -171,7 +170,7 @@ RSpec.describe "Working Days", :js do
       click_on "Apply changes"
 
       perform_enqueued_jobs do
-        dialog.confirm
+        within_dialog("Change working days") { click_button "Save and reschedule" }
       end
 
       expect_flash(type: :error, message: "At least one day of the week must be defined as a working day.")
@@ -202,7 +201,7 @@ RSpec.describe "Working Days", :js do
       click_on "Apply changes"
 
       # Not executing the background jobs
-      dialog.confirm
+      within_dialog("Change working days") { click_button "Save and reschedule" }
 
       expect_flash(type: :error,
                    message: "The previous changes to the working days configuration have not been applied yet.")
@@ -223,7 +222,7 @@ RSpec.describe "Working Days", :js do
       click_on "Apply changes"
 
       perform_enqueued_jobs do
-        dialog.confirm
+        within_dialog("Change working days") { click_button "Save and reschedule" }
       end
 
       expect_flash(message: "Successful update.")
@@ -351,7 +350,7 @@ RSpec.describe "Working Days", :js do
 
       click_on "Apply changes"
 
-      dialog.confirm
+      within_dialog("Change working days") { click_button "Save and reschedule" }
 
       # Remove the first date
       expect(page).to have_no_css("tr", text: non_working_days.first.date.strftime("%B %-d, %Y"))
@@ -373,7 +372,7 @@ RSpec.describe "Working Days", :js do
 
       click_on "Apply changes"
 
-      dialog.confirm
+      within_dialog("Change working days") { click_button "Save and reschedule" }
 
       # Keep the second date hidden
       expect(page).to have_no_css("tr", text: non_working_days.second.date.strftime("%B %-d, %Y"))

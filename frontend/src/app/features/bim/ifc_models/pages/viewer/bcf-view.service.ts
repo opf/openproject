@@ -26,10 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageQueryStateService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-base.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { ViewerBridgeService } from 'core-app/features/bim/bcf/bcf-viewer-bridge/viewer-bridge.service';
 
@@ -43,6 +42,9 @@ export type BcfViewState = 'cards'|'viewer'|'splitTable'|'splitCards'|'table';
 
 @Injectable()
 export class BcfViewService extends WorkPackageQueryStateService<BcfViewState> {
+  private readonly I18n = inject(I18nService);
+  private readonly viewerBridgeService = inject(ViewerBridgeService);
+
   public text:Record<string, string> = {
     cards: this.I18n.t('js.views.card'),
     viewer: this.I18n.t('js.ifc_models.views.viewer'),
@@ -58,14 +60,6 @@ export class BcfViewService extends WorkPackageQueryStateService<BcfViewState> {
     splitCards: 'icon-view-split2',
     table: 'icon-view-list',
   };
-
-  constructor(
-    private readonly I18n:I18nService,
-    private readonly viewerBridgeService:ViewerBridgeService,
-    protected readonly querySpace:IsolatedQuerySpace,
-  ) {
-    super(querySpace);
-  }
 
   hasChanged(query:QueryResource):boolean {
     return this.current !== query.displayRepresentation;

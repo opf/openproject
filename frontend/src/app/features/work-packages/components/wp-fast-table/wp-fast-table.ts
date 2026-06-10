@@ -3,7 +3,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { States } from 'core-app/core/states/states.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageViewCollapsedGroupsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-collapsed-groups.service';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
@@ -18,15 +18,15 @@ import { WorkPackageTableEditingContext } from './wp-table-editing';
 import { WorkPackageTableRow } from './wp-table.interfaces';
 
 export class WorkPackageTable {
-  @InjectField() querySpace:IsolatedQuerySpace;
+  @LazyInject() querySpace:IsolatedQuerySpace;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() I18n!:I18nService;
 
-  @InjectField() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
+  @LazyInject() workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService;
 
   public originalRows:string[] = [];
 

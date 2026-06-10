@@ -128,40 +128,32 @@ RSpec.describe "Create project custom fields in sections", :js do
     end
 
     context "when trying to create calculated value field" do
-      context "without the feature flag", with_flag: { calculated_value_project_attribute: false } do
-        it "prevents creation" do
-          cf_index_page.expect_not_having_create_item "Calculated value"
+      before do
+        cf_index_page.click_to_create_new_custom_field "Calculated value"
+      end
+
+      context "without calculated_values enterprise feature" do
+        it do
+          expect(page)
+            .to have_enterprise_banner(:premium)
+            .and have_no_field("custom_field_name")
+            .and have_no_button("Save")
         end
       end
 
-      context "with the feature flag", with_flag: { calculated_value_project_attribute: true } do
-        before do
-          cf_index_page.click_to_create_new_custom_field "Calculated value"
-        end
+      context "with calculated_values enterprise feature", with_ee: %i[calculated_values] do
+        it "allows creation" do
+          fill_in("custom_field_name", with: "New calculated value custom field")
+          select(section_for_select_fields.name, from: "custom_field_custom_field_section_id")
+          find_field(id: "custom_field_formula", type: :hidden).set("1 + 1")
 
-        context "without calculated_values enterprise feature" do
-          it do
-            expect(page)
-              .to have_enterprise_banner(:premium)
-              .and have_no_field("custom_field_name")
-              .and have_no_button("Save")
-          end
-        end
+          click_on("Save")
 
-        context "with calculated_values enterprise feature", with_ee: %i[calculated_values] do
-          it "allows creation" do
-            fill_in("custom_field_name", with: "New calculated value custom field")
-            select(section_for_select_fields.name, from: "custom_field_custom_field_section_id")
-            find_field(id: "custom_field_formula", type: :hidden).set("1 + 1")
+          expect(page).to have_text("Successful creation")
 
-            click_on("Save")
-
-            expect(page).to have_text("Successful creation")
-
-            created = ProjectCustomField.find_by_name("New calculated value custom field")
-            expect(page).to have_current_path(admin_settings_project_custom_field_path(created))
-            expect(page).to have_text("New calculated value custom field")
-          end
+          created = ProjectCustomField.find_by_name("New calculated value custom field")
+          expect(page).to have_current_path(admin_settings_project_custom_field_path(created))
+          expect(page).to have_text("New calculated value custom field")
         end
       end
     end

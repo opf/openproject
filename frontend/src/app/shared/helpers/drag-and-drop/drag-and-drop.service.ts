@@ -1,6 +1,4 @@
-import {
-  Inject, Injectable, Injector, OnDestroy, DOCUMENT
-} from '@angular/core';
+import { Injectable, Injector, OnDestroy, DOCUMENT, inject } from '@angular/core';
 import { DomAutoscrollService } from 'core-app/shared/helpers/drag-and-drop/dom-autoscroll.service';
 import { findIndex, reinsert } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.helpers';
 import dragula, { Drake } from 'dragula';
@@ -32,6 +30,9 @@ export interface DragMember {
 
 @Injectable()
 export class DragAndDropService implements OnDestroy {
+  private document = inject<Document>(DOCUMENT);
+  readonly injector = inject(Injector);
+
   public drake:Drake|null = null;
 
   public members:DragMember[] = [];
@@ -44,8 +45,7 @@ export class DragAndDropService implements OnDestroy {
     }
   };
 
-  constructor(@Inject(DOCUMENT) private document:Document,
-    readonly injector:Injector) {
+  constructor() {
     this.document.documentElement.addEventListener('keydown', this.escapeListener);
   }
 

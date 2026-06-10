@@ -6,7 +6,7 @@ zh-CN:
     description: 后台作业的列表和状态。
   job_status_dialog:
     download_starts: 下载会自动开始。
-    click_to_download: Or [click here](download_url) to download.
+    click_to_download: 或 [点击此处](download_url) 下载。
     title: 后台作业状态
     redirect: 正在将您重定向。
     redirect_link: 请点击此处继续。

@@ -28,8 +28,8 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 <% html_title t(:label_administration), t(:label_user_plural) -%>
 
-<%= render Users::IndexPageHeaderComponent.new %>
+<%= render Users::IndexPageHeaderComponent.new(query: @query) %>
 
-<%= render Users::IndexSubHeaderComponent.new(groups: @groups, status: @status, params: params) %>
+<%= render Users::IndexSubHeaderComponent.new(query: @query) %>
 
-<%= render Users::TableComponent.new(rows: @users, current_user:) %>
+<%= render Users::TableComponent.new(rows: @query, current_user:) %>

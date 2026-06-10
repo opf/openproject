@@ -222,7 +222,7 @@ module OpenProject
     config.log_level = OpenProject::Configuration["log_level"].to_sym
 
     # Enable the Rails 7 cache format
-    config.active_support.cache_format_version = 7.0
+    config.active_support.cache_format_version = 7.1
 
     config.after_initialize do
       Settings::Definition.add_all

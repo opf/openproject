@@ -24,7 +24,7 @@ nl:
   js:
     work_packages:
       properties:
-        storyPoints: Verhaal punten
+        storyPoints: Story points
     burndown:
-      day: Day
+      day: Dag
       points: Points

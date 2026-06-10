@@ -22,6 +22,7 @@ uk:
         group_name_attribute: Атрибут назви групи
         sync_users: Синхронізація користувачів
         base_dn: База пошуку унікальних імен
+        member_lookup_attribute: Атрибут учасника групи
     models:
       ldap_groups/synchronized_group: Синхронізована група LDAP
       ldap_groups/synchronized_filter: Фільтр синхронізації групи LDAP
@@ -32,7 +33,7 @@ uk:
   ldap_groups:
     label_menu_item: Синхронізація групи LDAP
     label_group_key: Ключ фільтра LDAP-групи
-    label_synchronize: Синхронізувати
+    label_synchronize: Ознайомтеся з групами LDAP
     settings:
       name_attribute: Атрибут назви груп LDAP
       name_attribute_text: Атрибут LDAP, який використовується для іменування групи OpenProject під час створення фільтром
@@ -46,7 +47,7 @@ uk:
         zero: Груп за фільтром не знайдено
       destroy:
         title: Вилучити синхронізований фільтр %{name}
-        heading: Remove synchronized filter %{name}?
+        heading: Вилучити синхронізований фільтр «%{name}»?
         confirmation: Якщо ви продовжите, синхронізований фільтр %{name} і всі групи (%{groups_count}), створені через нього, буде вилучено.
         removed_groups: Увага! Це призведе до вилучення наведених нижче груп з OpenProject і з усіх проєктів!
         verification_html: Введіть назву фільтра «%{name}», щоб підтвердити видалення.
@@ -56,19 +57,26 @@ uk:
         base_dn_text: 'Введіть унікальне ім’я бази даних, щоб використовувати цей фільтр. Його має бути розташовано під базовим унікальним іменем вибраного LDAP-підключення. Не вказуйте тут нічого, щоб повторно використовувати базове унікальне ім’я підключення
 
           '
+        member_lookup_attribute_text: 'Нічого не вказуйте, щоб використовувати зворотний пошук за замовчуванням, і OpenProject знайде користувачів, атрибут memberOf яких відповідає DN групи. Для цього потрібно, щоб атрибут memberOf був у записах користувачів (Active Directory, OpenLDAP з накладанням memberof). Щоб використовувати прямий пошук, укажіть тут ім’я атрибута із запису групи, який містить список DN членів групи. Приклади: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Використовуйте це для серверів LDAP, які не підтримують атрибут memberOf у записах користувачів.
+
+          '
     synchronized_groups:
       add_new: Додати синхронізовану групу LDAP
       destroy:
         title: Вилучити синхронізовану групу %{name}
-        heading: Remove synchronized group %{name}?
+        heading: Вилучити синхронізовану групу «%{name}»?
         confirmation: Якщо ви продовжите, синхронізовану групу %{name} і всіх користувачі (%{users_count}), синхронізованих через неї, буде вилучено.
-        info: The OpenProject group itself and members added outside this LDAP synchronization will not be removed.
+        info: Групу OpenProject і учасників, доданих з-поза меж цієї синхронізації LDAP, не буде вилучено.
       help_text_html: |
-        This module allows you to set up a synchronization between LDAP and OpenProject groups.
-        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        Цей модуль дозволяє налаштувати синхронізацію між групами LDAP й OpenProject.
         <br/>
-        Groups are synchronized hourly through a cron job.
-        [Please see our documentation on this topic](docs_url).
+        За замовчуванням OpenProject використовує <strong>зворотний</strong> пошук: знаходить користувачів, атрибут <em>memberOf</em> яких збігається з DN групи.
+        Для цього потрібно, щоб атрибут <em>memberOf</em> був у записах користувачів (Active Directory, OpenLDAP з накладанням memberof).
+        <br/>
+        Якщо ваш LDAP-сервер не підтримує атрибут <em>memberOf</em> у записах користувачів (наприклад, використовує <em>groupOfUniqueNames</em> із <em>uniqueMember</em>), ви можете налаштувати <strong>прямий пошук</strong>, указавши <em>атрибут учасника групи</em> у фільтрі синхронізації.
+        <br/>
+        Групи синхронізуються щогодини за допомогою запланованого завдання (cron).
+        [Перегляньте документацію на цю тему](docs_url).
       no_results: Не знайдено синхронізованих груп.
       no_members: У цієї групи поки немає синхронізованих учасників.
       plural: Синхронізовані групи LDAP

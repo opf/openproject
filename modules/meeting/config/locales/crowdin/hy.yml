@@ -1,0 +1,731 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+#English strings go here for Rails i18n
+---
+hy:
+  plugin_openproject_meeting:
+    name: OpenProject Meeting
+    description: This module adds functions to support project meetings to OpenProject. Meetings can be scheduled selecting invitees from the same project to take part in the meeting. An agenda can be created and sent to the invitees. After the meeting, attendees can be selected and minutes can be created based on the agenda. Finally, the minutes can be sent to all attendees and invitees.
+  activerecord:
+    attributes:
+      meeting:
+        type: Meeting type
+        location: Location
+        duration: Duration
+        notes: Notes
+        recurrence_start_time: Scheduled start time
+        participants: Participants
+        participant:
+          one: 1 Participant
+          other: "%{count} Participants"
+        participants_attended: Attendees
+        participants_invited: Invitees
+        participants_added: 'Participants added:'
+        participants_removed: 'Participants removed:'
+        project: Project
+        start_date: Date
+        start_time: Start time
+        start_time_hour: Start time
+        end_time: End time
+        template: Template
+        notify: Send notifications
+        sharing: Sharing
+      meeting_agenda_item:
+        title: Title
+        author: Author
+        duration_in_minutes: Duration
+        description: Notes
+        presenter: Presenter
+        item_type: Type
+        position: Position
+        lock_version: Lock version
+        notes: Notes
+      meeting_section:
+        title: Title
+        position: Position
+      recurring_meeting:
+        title: Title
+        frequency: Frequency
+        interval: Interval
+        monthly_day: Day of month
+        monthly_ordinal: Position
+        monthly_weekday: Weekday
+        start_date: Starts on
+        start_time: Start time
+        start_time_hour: Start time
+        end_after: Meeting series ends
+        end_date: End date
+        iterations: Occurrences
+        time_zone: Time zone
+        location: Location
+        duration: Duration
+        notify: Send notifications
+      recurring_meeting_interim_response:
+        start_time: Start time
+      meeting_participant:
+        invited: Invited
+        attended: Attended
+        participation_status: Participation status
+    errors:
+      models:
+        meeting_participant:
+          user_invalid: is not a valid participant.
+        meeting_agenda_item:
+          section_not_belong_to_meeting: Section does not belong to the same meeting.
+          user_invalid: is not a valid participant.
+        recurring_meeting_interim_response:
+          not_an_occurrence: is not a valid occurrence time for this recurring meeting
+        recurring_meeting:
+          must_cover_existing_meetings:
+            one: There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            format: "%{message}"
+      messages:
+        invalid_time_format: 'is not a valid time. Required format: HH:MM'
+    models:
+      recurring_meeting: Recurring meeting
+      meeting: One-time meeting
+      meeting_agenda_item: Agenda item
+      meeting_agenda: Agenda
+      meeting_section: Section
+      token/ical_meeting:
+        one: iCal Meeting subscription
+        other: iCal Meeting subscription
+  activity:
+    filter:
+      meeting: Meetings
+    item:
+      meeting_agenda_item:
+        duration:
+          added: set to %{value}
+          added_html: set to <i>%{value}</i>
+          removed: removed
+          updated: changed from %{old_value} to %{value}
+          updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
+        position:
+          updated: reordered
+        work_package:
+          updated: changed from %{old_value} to %{value}
+          updated_html: changed from <i>%{old_value}</i> to <i>%{value}</i>
+  description_attended: attended
+  events:
+    meeting: Meeting edited
+    meeting_agenda: Meeting agenda edited
+    meeting_agenda_closed: Meeting agenda closed
+    meeting_agenda_opened: Meeting agenda opened
+    meeting_minutes: Meeting minutes edited
+    meeting_minutes_created: Meeting minutes created
+  error_notification: Failed to send notification.
+  error_notification_with_errors: 'Failed to send notification. The following recipients could not be notified: %{recipients}'
+  label_meeting: Meeting
+  label_meeting_plural: Meetings
+  label_meeting_templates: Templates
+  label_meeting_template: Template
+  label_meeting_template_new: New template
+  label_meeting_template_create: Create template
+  label_meeting_template_delete: Delete template
+  label_meeting_template_edit: Edit template
+  label_meeting_create_from_template: Create meeting from template
+  label_meeting_new: New Meeting
+  label_meeting_new_dynamic: New one-time meeting
+  label_meeting_new_recurring: New recurring meeting
+  label_meeting_create: Create meeting
+  label_meeting_duplicate: Duplicate meeting
+  label_meeting_edit: Edit Meeting
+  label_meeting_agenda: Agenda
+  label_meeting_minutes: Minutes
+  label_meeting_close: Close
+  label_meeting_open: Open
+  label_meeting_index_delete: Delete
+  label_meeting_open_this_meeting: Open this meeting
+  label_meeting_agenda_close: Close the agenda to begin the Minutes
+  label_meeting_date_time: Date/Time
+  label_meeting_date_and_time: Date and time
+  label_meeting_diff: Diff
+  label_meeting_send_updates: Send email calendar invite and updates
+  label_meeting_send_updates_caption: Send out email invites to all participants of this meeting
+  label_recurring_meeting: Recurring meeting
+  label_recurring_meeting_part_of: Part of a meeting series
+  label_recurring_meeting_new: New recurring meeting
+  label_recurring_meeting_plural: Recurring meetings
+  label_template: Template
+  label_recurring_meeting_view: View meeting series
+  label_recurring_meeting_create: Open
+  label_recurring_meeting_duplicate: Duplicate as a one-time meeting
+  label_recurring_meeting_cancel: Cancel this occurrence
+  label_recurring_meeting_delete: Delete occurrence
+  label_recurring_meeting_restore: Restore this occurrence
+  label_recurring_meeting_schedule: Schedule
+  label_recurring_meeting_next_occurrence: Next occurrence
+  label_recurring_meeting_no_end_date: There are more scheduled meetings (%{schedule}).
+  label_recurring_meeting_more:
+    one: There is one more scheduled meeting (%{schedule}).
+    other: There are %{count} more scheduled meetings (%{schedule}).
+  label_recurring_meeting_more_past:
+    one: There is one more past meeting.
+    other: There are %{count} more past meetings.
+  label_recurring_meeting_show_more: Show more
+  label_recurring_meeting_series_create: Create meeting series
+  label_recurring_meeting_series_edit: Edit meeting series
+  label_recurring_meeting_series_delete: Delete meeting series
+  label_recurring_meeting_series_end: End meeting series
+  label_recurring_meeting_series_end_now: End series now
+  label_meeting_more:
+    one: There is one more meeting.
+    other: There are %{count} more meetings.
+  label_my_meetings: My meetings
+  label_all_meetings: All meetings
+  label_upcoming_meetings: Upcoming meetings
+  label_past_meetings: Past meetings
+  label_upcoming_meetings_short: Upcoming
+  label_past_meetings_short: Past
+  label_involvement: Involvement
+  label_invitations: Invitations
+  label_invited_user: Invited user
+  label_past_invitations: Past invitations
+  label_attended: Attended
+  label_attended_user: Attended user
+  label_created_by_me: Created by me
+  label_notify: Send for review
+  label_icalendar: Send iCalendar
+  label_icalendar_download: Download iCalendar event
+  label_view_meeting: View meeting
+  label_view_meeting_series: View meeting series
+  label_meeting_series: Meeting series
+  label_version: Version
+  label_time_zone: Time zone
+  label_start_date: Start date
+  label_subscribe_icalendar: Subscribe to calendar
+  label_recurring_filter: Recurring filter
+  caption_meeting_template_select: Select a template to automatically copy its agenda items
+  caption_template_project_select: Please select the project in which to create this meeting template
+  placeholder_meeting_template_select_project_first: Select a project first
+  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  meeting:
+    participants:
+      label:
+        participants: Participants
+        attended: Attended
+        mark_as_attended: Mark as attended
+        mark_all_as_attended: Mark all as attended
+        remove_participant: Remove participant
+        manage_participants: Manage participants
+        no_participants: No participants
+        show_all: Show all
+        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
+      text:
+        template: These participants will be invited automatically to all future meetings as they are created.
+        manage_participants: Search for and add project members as participants to this meeting.
+        search_for_members: Search for project members
+      blankslate:
+        heading: No participants
+        description: There are no participants yet.
+    attachments:
+      onetime_template: These attached files will be included in all future meetings using this template.
+      series_template: These attached files will be included in all future meetings in the series.
+      text: Attached files are available to all meeting participants. You can also drag and drop these into agenda item notes.
+    copy:
+      title: 'Copy meeting: %{title}'
+      attachments: Copy attachments
+      attachments_text: Copy over all attached files to the new meeting
+      agenda: Copy agenda
+      agenda_items: Copy agenda items
+      agenda_text: Copy the agenda of the old meeting
+      participants: Copy list of participants
+      to_clipboard: Copy link to clipboard
+    email:
+      send_emails: Email participants
+      send_invitation_emails: 'Send an email invitation immediately to the participants selected above. You can also do this manually at any time later.
+
+        '
+      send_invitation_emails_structured: Send an email invitation immediately to all participants. You can also do this manually at any time later.
+      open_meeting_link: Open meeting
+      open_my_meetings_link: Go to My meetings
+      series:
+        title: "[%{project_name}] Meeting series '%{title}'"
+        summary: "%{actor} has invited you to a new meeting series '%{title}'"
+      series_updated:
+        title: "[%{project_name}] Meeting series '%{title}' has been updated"
+        summary: Meeting series '%{title}' has been updated by %{actor}
+        old_schedule: Old schedule
+        new_schedule: New schedule
+      invited:
+        summary: "%{actor} has sent you an invitation for the meeting '%{title}'"
+      cancelled:
+        header: 'Cancelled: Meeting ''%{title}'''
+        header_occurrence: 'Cancelled: Meeting occurrence ''%{title}'''
+        header_series: 'Cancelled: Meeting series ''%{title}'''
+        summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+        summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
+        summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
+        date_time: Scheduled date/time
+      ended:
+        header_series: 'Ended: Meeting series ''%{title}'''
+        summary_series: Meeting series '%{title}' has been ended by %{actor}
+      updated:
+        header: Meeting '%{title}' has been updated
+        summary: Meeting '%{title}' has been updated by %{actor}
+        body: The meeting '%{title}' has been updated by %{actor}.
+        old_title: Old title
+        new_title: New title
+        old_date_time: Old date/time
+        new_date_time: New date/time
+        old_location: Old location
+        new_location: New location
+        added_participants: Added
+        removed_participants: Removed
+    label_mail_all_participants: Send email invite to participants
+    types:
+      one_time: One-time
+      recurring: Recurring
+      recurring_text: Create meeting series with dynamic template for each occurrence.
+      structured_text: Organize your meeting as a dynamic list of agenda items, optionally linking them to a work package.
+      structured_text_copy: Copying a meeting will currently not copy the associated meeting agenda items, just the details
+    copied: 'Copied from Meeting #%{id}'
+    delete_dialog:
+      one_time:
+        title: Delete meeting
+        heading: Delete this meeting?
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        template:
+          title: Delete template
+          heading: Delete this template?
+          confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
+
+            '
+      occurrence:
+        title: Cancel meeting occurrence
+        heading: Cancel this meeting occurrence?
+        confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
+
+          '
+        confirm_button: Cancel occurrence
+      occurrence_past:
+        title: Delete occurrence
+        heading: Delete this occurrence?
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        confirm_button: Delete occurrence
+    blankslate:
+      title: There are no meetings to display
+      desc: You can create a new meeting or change filter criteria
+    label_export_pdf: Export PDF
+    export:
+      your_meeting_export: Meeting is being exported
+      minutes:
+        footer_page_numbers: P. %{current_page} of %{total_pages}
+        author: Author
+        date: Date
+        time: Time
+        location: Location
+        title: Minutes
+    export_pdf_dialog:
+      title: Export PDF
+      description: Generate a printable PDF file of this meeting at the current state.
+      templates:
+        default:
+          label: Default
+          caption: The default template is suitable for most meetings and represent the current state.
+        minutes:
+          label: Minutes
+          caption: The minutes template is suitable for closed and archived meetings.
+      first_page_header_left:
+        label: First page header left
+        caption: This text will appear on the first page at the left of the header.
+      author:
+        label: Author
+        caption: The author of the minutes will be displayed in the subtitle.
+      include_participants:
+        label: Include list of participants
+        caption: A list of participants will be preset above the meeting agenda.
+      include_attachments:
+        label: Include list of attachments
+        caption: A list containing the filenames of attachments will be appended at the end.
+      include_backlog:
+        label: Include backlog
+        caption: Backlog elements are not normally considered part of a meeting occurrence but you can choose to include them.
+      include_outcomes:
+        label: Include agenda outcomes
+        caption: If your agenda outcomes contain confidential information, you can choose to not include them in the export.
+      footer_text:
+        label: Footer text
+        caption: This text will appear on every page at the center of the footer.
+      submit_button: Download
+    notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
+      sidepanel:
+        title: Email calendar updates
+        description:
+          change_via_template: To change this, edit the series template.
+      dialog:
+        title:
+          enable: Enable email calendar updates?
+          disable: Disable email calendar updates?
+        message:
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
+        confirm_label:
+          enable: Enable email updates
+          disable: Disable email updates
+    presentation_mode:
+      title: Presentation Mode
+      button_present: Present
+      exit: Exit presentation
+      current_item: Current item
+      total_items: "%{current} of %{total}"
+      previous: Previous
+      next: Next
+      no_items: No agenda items
+      no_items_flash: There are no agenda items to present.
+    ical_response:
+      update_failed: Could not update participation status.
+      meeting_not_found: Meeting not found for the given UID.
+    widgets:
+      blankslate:
+        heading: No upcoming meetings
+        description: Upcoming meetings you are participating in will appear here.
+      view_details: View all meetings
+  meeting_section:
+    untitled_title: Untitled section
+    delete_confirmation: Deleting the section will also delete all of its agenda items. Are you sure you want to do this?
+    placeholder_title: New section
+    empty_text: Drag items here or create a new one
+  meeting_participant:
+    participation_status:
+      needs_action: No response
+      accepted: Accepted
+      declined: Declined
+      tentative: Maybe
+      unknown: Unknown
+  recurring_meeting:
+    time_zone_difference_banner:
+      title: Time zone difference
+      description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
+
+        '
+    ended_blankslate:
+      title: Meeting series ended
+      message: 'This meeting series has come to an end. There are no upcoming meetings. '
+      action: You can still view past occurrences or edit the meeting series to extend it.
+    occurrence:
+      infoline: This meeting is part of a recurring meeting series.
+      error_no_next: There is no next occurrence for this meeting.
+      first_already_exists: The first occurrence of this meeting series is already instantiated.
+      first_created: 'The first meeting has been successfuly created from template. All future meetings will be created automatically at the time of the previous occurrence.
+
+        '
+    template:
+      button_finalize: Open first meeting
+      blank_title: Your meeting series template is empty
+      description: 'This template will be used whenever new meetings in the series get created. You can add agenda items, participants, and attachments to this template.
+
+        '
+      label_view_template: View template
+      label_edit_template: Edit template
+      banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings.
+
+        '
+      draft_banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings. No email invites will be sent in this current draft mode until you open the first meeting.
+
+        '
+    frequency:
+      x_daily:
+        one: Every day
+        other: Every %{count} days
+      x_weekly:
+        one: Every week
+        other: Every %{count} weeks
+      x_monthly:
+        one: Every month
+        other: Every %{count} months
+      monthly_day_of_month: Day of month
+      monthly_nth_weekday: Monthly on a weekday
+      every_weekday: Every %{day_of_the_week}
+      working_days: Every working day
+    monthly:
+      inflected_ordinal:
+        first: first
+        second: second
+        third: third
+        fourth: fourth
+        last: last
+      ordinal_options:
+        first: First
+        second: Second
+        third: Third
+        fourth: Fourth
+        last: Last
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
+    end_after:
+      never: Never
+      specific_date: After a specific date
+      iterations: After a number of occurrences
+    starts: Starts
+    in_words:
+      daily_interval: Every %{interval} days
+      working_days: Every working day
+      weekly: Every week on %{weekday}
+      weekly_interval: Every %{interval} weeks on %{weekday}
+      monthly_day: Every month on the %{day}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
+      frequency: "%{base} at %{time}"
+      full: "%{base} at %{time}, ends on %{end_date}"
+      full_past: "%{base} at %{time}, ended on %{end_date}"
+      never_ending: "%{base} at %{time}"
+    open:
+      title: Agenda opened
+      subtitle: 'Open meetings have agendas that can be edited and show up in individual users’ ‘My meetings’ section. Changes to the meeting series template do not affect already-open meeting occurrences.
+
+        '
+      blankslate:
+        title: No open meetings at the moment
+        desc: You can manually open a planned meeting by clicking on the 'Open' button below
+    planned:
+      title: Planned
+      subtitle: 'The following meetings are planned in the recurring meeting schedule but are not open yet. Every time a planned meeting starts, the next one will automatically be opened for you. You can also open planned meetings manually to import the template and start editing the agenda.
+
+        '
+      blankslate:
+        title: No more planned meetings
+        desc: 'There are no additional meetings planned in this series. To schedule additional meetings or extend the series, go to the template and edit meeting details to change the end date, frequency or interval.
+
+          '
+    delete_dialog:
+      title: Delete meeting series
+      heading: Permanently delete this meeting series?
+      confirmation_message_html:
+        zero: 'The meeting series <strong>%{title}</strong> does not have any meeting occurrences. The series will be deleted for everyone. Please proceed with caution.
+
+          '
+        one: 'Deleting <strong>%{title}</strong> will also delete one occurrence in this series. This action is not reversible. Please proceed with caution.
+
+          '
+        other: 'Deleting <strong>%{title}</strong> will delete all %{count} occurrences in this series. This action is not reversible. Please proceed with caution.
+
+          '
+    scheduled_delete_dialog:
+      title: Cancel meeting occurrence
+      heading: Cancel this meeting occurrence?
+      confirmation_message_html: 'Any meeting information not in the template will be lost. Do you want to continue?
+
+        '
+      confirm_button: Cancel occurrence
+    end_series_dialog:
+      title: End meeting series
+  notice_successful_notification: Email calendar update sent to all participants
+  notice_meeting_template_created: Template successfully created
+  notice_timezone_missing: No time zone is set and %{zone} is assumed. To choose your time zone, please click here.
+  notice_meeting_updated: This page has been updated by someone else. Reload to view changes.
+  permission_create_meetings: Create meetings
+  permission_edit_meetings: Edit meetings
+  permission_delete_meetings: Delete meetings
+  permission_view_meetings: View meetings
+  permission_manage_agendas: Manage agendas
+  permission_manage_agendas_explanation: Allows creating, editing and removing agenda items
+  permission_manage_outcomes: Manage outcomes
+  permission_send_meeting_invites_and_outcomes: Send meeting invites and outcomes to participants
+  project_module_meetings: Meetings
+  text_duration_in_hours: Duration in hours
+  text_in_hours: in hours
+  text_meeting_agenda_for_meeting: agenda for the meeting "%{meeting}"
+  text_meeting_template_blank_slate_heading: There are no templates to display
+  text_meeting_template_blank_slate: You can create a new template for one-time meetings
+  text_meeting_series_end_early_heading: Delete future occurrences?
+  text_meeting_series_end_early: Ending the series will delete any future open or scheduled meeting occurrences
+  text_meeting_closing_are_you_sure: Are you sure you want to close the meeting agenda?
+  text_meeting_agenda_open_are_you_sure: This will overwrite all changes in the minutes! Do you want to continue?
+  text_meeting_minutes_for_meeting: minutes for the meeting "%{meeting}"
+  text_notificiation_invited: 'This mail contains an ics entry for the meeting below:'
+  text_meeting_ics_description: 'Link to meeting: %{url}'
+  text_meeting_ics_meeting_series_description: 'Link to meeting series: %{url}'
+  text_meeting_occurrence_ics_description: 'Link to meeting occurrence: %{url} Link to meeting series: %{series_url}'
+  text_meeting_empty_heading: Your meeting is empty
+  text_meeting_empty_description1: Start by adding agenda items below. Each item can be as simple as just a title, but you can also add additional details like duration and notes.
+  text_meeting_empty_description2: You can also add references to existing work packages. When you do, related notes will automatically be visible in the work package's "Meetings" tab.
+  label_meeting_empty_action: Add agenda item
+  label_meeting_actions: Meeting actions
+  label_meeting_edit_title: Edit meeting title
+  label_meeting_delete: Delete meeting
+  label_meeting_created_by: Created by
+  label_meeting_last_updated: Last updated
+  label_meeting_reload: Reload
+  label_meeting_index_today: Today
+  label_meeting_index_tomorrow: Tomorrow
+  label_meeting_index_this_week: Later this week
+  label_meeting_index_later: Next week and later
+  label_agenda_items: Agenda items
+  label_agenda_items_reordered: reordered
+  label_agenda_item_add: Add agenda item
+  label_agenda_item_remove_from_agenda: Remove from agenda
+  label_agenda_item_remove_from_backlog: Remove from backlog
+  label_agenda_item_undisclosed_wp: 'Work package #%{id} not visible'
+  label_agenda_item_deleted_wp: Deleted work package reference
+  label_agenda_item_actions: Agenda items actions
+  label_agenda_item_move_to_next_title: Move to next meeting?
+  label_agenda_item_move: Move
+  label_agenda_item_move_to_next: Move to next meeting
+  label_agenda_item_move_to_backlog: Move to backlog
+  label_agenda_item_move_to_current_meeting: Move to current meeting
+  label_agenda_item_move_to_section: Move to section
+  label_agenda_item_move_to_top: Move to top
+  label_agenda_item_move_to_bottom: Move to bottom
+  label_agenda_item_move_up: Move up
+  label_agenda_item_move_down: Move down
+  label_agenda_item_duplicate: Duplicate
+  label_agenda_item_duplicate_in_next: Duplicate in next meeting
+  label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
+  label_agenda_item_add_notes: Add notes
+  label_agenda_item_add_outcome: Add outcome
+  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_work_package_add: Add work package
+  label_agenda_item_work_package: Agenda item work package
+  label_section_rename: Rename section
+  label_agenda_outcome: Outcome
+  label_agenda_new_outcome: New outcome
+  label_agenda_outcome_actions: Agenda outcome actions
+  label_agenda_outcome_edit: Edit outcome
+  label_agenda_outcome_delete: Remove outcome
+  label_added_as_outcome: Added as outcome
+  label_write_outcome: Write outcome
+  label_existing_work_package: Existing work package
+  text_outcome_not_editable_anymore: This outcome is not editable anymore.
+  text_outcome_cannot_be_added: An outcome can no longer be added.
+  label_backlog_clear: Clear backlog
+  label_backlog_clear_button: Clear all
+  text_backlog_clear_error: One or more errors occurred while trying to clear the backlog.
+  label_agenda_backlog: Agenda backlog
+  text_agenda_backlog: 'This backlog is unique to this one-time meeting. You can drag items in and out to add or remove them from the meeting agenda.
+
+    '
+  label_agenda_backlog_clear_title: Clear agenda backlog?
+  text_agenda_backlog_clear_description: 'Are you sure you want to remove all items currently in the agenda backlog? This action is not reversible.
+
+    '
+  label_series_backlog: Series backlog
+  text_series_backlog: 'The backlog is shared with all occurrences of this series. You can drag items in and out to add or remove them from a particular meeting.
+
+    '
+  label_series_backlog_clear_title: Clear series backlog?
+  text_series_backlog_clear_description: 'This will remove all items in the series backlog, which is shared with all meetings in the series. Are you sure you want to continue? This action is not reversible.
+
+    '
+  text_agenda_item_title: Agenda item "%{title}"
+  text_agenda_work_package_deleted: Agenda item for deleted work package
+  text_deleted_agenda_item: Deleted agenda item
+  label_initial_meeting_details: Meeting
+  label_meeting_details: Meeting details
+  label_meeting_series_details: Meeting series details
+  label_meeting_details_edit: Edit meeting details
+  label_meeting_state: Meeting status
+  label_meeting_state_draft: Draft
+  label_meeting_state_open: Open
+  label_meeting_state_closed: Closed
+  label_meeting_state_agenda_created: Agenda created
+  label_meeting_state_planned: Planned
+  label_meeting_state_cancelled: Cancelled
+  label_meeting_state_skipped: Skipped
+  label_meeting_state_in_progress: In progress
+  label_meeting_reopen_action: Reopen meeting
+  label_meeting_close_action: Close meeting
+  label_meeting_in_progress_action: Start meeting
+  label_meeting_open_action: Open meeting
+  text_meeting_draft_description: Prepare your agenda in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
+  text_meeting_open_description: You can add/remove agenda items and participants. Once the agenda is ready, mark it as in progress to document outcomes.
+  text_meeting_closed_description: This meeting is closed. You cannot add/remove agenda items anymore.
+  text_meeting_in_progress_description: You can modify the agenda, document outcomes for each item and track attendance for participants. Once the meeting is complete, you can mark it as closed to lock it.
+  text_meeting_open_dropdown_description: Any existing outcomes will remain but users will not be able to add new outcomes.
+  text_meeting_in_progress_dropdown_description: Document outcomes like information needs or decisions taken during the meeting.
+  text_meeting_closed_dropdown_description: This meeting is closed. You cannot modify agenda items or outcomes anymore.
+  text_meeting_draft_banner: You are currently in draft mode. This meeting will not send out any calendar updates or invites, even if you change meeting details or add/remove participants.
+  text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.
+  text_onetime_meeting_template_empty_heading: This meeting template is empty
+  text_onetime_meeting_template_empty_description: Add agenda items, sections and attachments here. They will be included in every meeting created using this template.
+  text_exit_draft_mode_dialog_title: Open this meeting and send invites?
+  text_exit_draft_mode_dialog_subtitle: You cannot return to draft mode once you schedule a meeting.
+  text_exit_draft_mode_dialog_template_title: Open the first occurrence of this meeting series?
+  text_exit_draft_mode_dialog_template_subtitle: You cannot return to draft mode after this.
+  label_meeting_template_sharing: Sharing
+  label_meeting_template_sharing_none: Only with this project
+  label_meeting_template_sharing_descendants: With subprojects
+  label_meeting_template_sharing_system: With all projects
+  text_meeting_template_sharing_description: This template can be shared with subprojects or other projects in this instance. Only the agenda items and attachments will be copied.
+  text_meeting_not_editable_anymore: This meeting is not editable anymore.
+  text_meeting_not_present_anymore: This meeting was deleted. Please select another meeting.
+  label_add_work_package_to_meeting_dialog_title: Select meeting
+  label_add_work_package_to_meeting_section_label: Section
+  label_add_work_package_to_meeting_dialog_button: Add to meeting
+  label_meeting_selection_caption: It is only possible to add this work package to an upcoming or an ongoing meeting.
+  label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.
+  placeholder_section_select_meeting_first: Meeting selection is required first
+  text_add_work_package_to_meeting_form: The work package will be added to the selected meeting or backlog as an agenda item.
+  text_add_work_package_to_meeting_description: A work package can be added to one or multiple meetings for discussion. Any notes concerning it are also visible here.
+  text_agenda_item_no_notes: No notes provided
+  text_agenda_item_not_editable_anymore: This agenda item is not editable anymore.
+  text_agenda_item_move_next_meeting: This item will be moved to the next meeting on %{date} at %{time}.
+  text_agenda_item_moved_to_next_meeting: Agenda item moved to the next meeting, on %{date}
+  text_agenda_item_duplicate_in_next_meeting: Are you sure you want to add a copy of this agenda item to the next meeting, on %{date} at %{time}? Outcomes will not be duplicated.
+  text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
+  text_work_package_has_no_upcoming_meeting_agenda_items: This work package is not scheduled in an upcoming meeting agenda yet.
+  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
+  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
+  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
+  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
+  text_work_package_add_to_meeting_hint: Use the "Add to meeting" button to add this work package to an upcoming meeting.
+  text_work_package_has_no_past_meeting_agenda_items: This work package was not added as an agenda item in a past meeting.
+  text_email_updates_muted: Email calendar updates are muted. Participants will not receive updated invites via email when you make changes.
+  text_email_updates_enabled: Email calendar updates are enabled. All participants will receive updated invites via email when you make changes.
+  my_account:
+    access_tokens:
+      token/ical_meeting:
+        blank_description: You can create one using the button below.
+        blank_title: No iCalendar meeting token
+        title: iCalendar for meetings
+        table_title: iCalendar meeting tokens
+        text_hint: iCalendar meeting tokens allow users to subscribe to all their meetings and view up-to-date meeting information in external clients.
+        disabled_text: iCalendar meeting subscriptions are not enabled by the administrator. Please contact your administrator to use this feature.
+        add_button: Subscribe to calendar
+  my:
+    access_token:
+      dialog:
+        token/ical_meeting:
+          dialog_title: New iCal subscription token for meetings
+          dialog_body: This token will generate an iCal subscription URL that lets you view all your meetings in an external calendar application.
+          create_button: Create subscription
+          name_label: Token name
+          name_caption: You can name it after where you will use it, such as "My phone" or "Work computer".
+      created_dialog:
+        token/ical_meeting:
+          title: An iCal meeting subscription token has been generated
+          body: Treat the following URL as you would a password. Anyone who has access to it can view all your meetings.
+      revocation:
+        token/ical_meeting:
+          notice_success: The iCalendar meeting subscription has been revoked successfully.
+          notice_failure: 'Failed to revoke iCalendar meeting subscription: %{error}'

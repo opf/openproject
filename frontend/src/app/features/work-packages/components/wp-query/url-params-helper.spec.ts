@@ -26,15 +26,28 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { TestBed } from '@angular/core/testing';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
+import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
 
 describe('UrlParamsHelper', () => {
   const paginationStub = {
     getPerPage: () => 20,
   } as any;
 
-  const UrlParamsHelper = new UrlParamsHelperService(paginationStub);
+  let UrlParamsHelper:UrlParamsHelperService;
   let queryString;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        UrlParamsHelperService,
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+        { provide: PaginationService, useValue: paginationStub },
+      ],
+    });
+    UrlParamsHelper = TestBed.inject(UrlParamsHelperService);
+  });
 
   describe('buildQueryString', () => {
     const params = {

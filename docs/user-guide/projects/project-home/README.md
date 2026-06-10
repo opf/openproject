@@ -25,7 +25,7 @@ The project home page is a centralized overview page that displays all essential
 
 You can access the project overview by navigating to **Project home** in the project menu on the left.
 
-![Project overview page for a specific project in OpenProject](openproject_user_guide_project_home_page.png)
+![Project overview page for a specific project in OpenProject](openproject_user_guide_project_new_home_page.png)
 
 On the project overview page you will see the following sections: 
 
@@ -40,7 +40,7 @@ Here you can also [mark a project as favorite](#mark-a-project-as-favorite) or [
 
 
 
-![Pre-set project widgets on the overview tab of the project home page](openproject_user_guide_project_home_overview_tab.png)
+![Pre-set project widgets on the overview tab of the project home page](openproject_user_guide_project_home_new_overview_tab.png)
 
 The **Overview** tab is a pre-configured to provide a concise summary of the project’s status. Its layout is fixed and cannot be modified. It includes the following widgets: 
 
@@ -49,11 +49,13 @@ The **Overview** tab is a pre-configured to provide a concise summary of the pro
   - [Status](./project-widgets/#status-widget) 
 
   - [Subitems](./project-widgets/#subitems-widget) 
+  - [Meetings](project-widgets/#meetings-widget)
+    > [!TIP]
+    > If you do not see the meeting widgets displayed, make sure the Meetings module is activated for the project. 
 
   - [Members](./project-widgets/#members-widget) 
 
   - [News](project-widgets/#news-widget) 
-
   - [Budgets](project-widgets/#budgets-widgets)
 
     > [!TIP]

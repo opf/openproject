@@ -337,8 +337,10 @@ export default class MyTimeTrackingController extends Controller {
 
     const colgroup = document.createElement('colgroup');
     const col = document.createElement('col');
-    const otherCol = document.querySelector('.fc-scrollgrid-section-header .fc-col-header col') as HTMLElement;
-    col.style.width = otherCol?.style?.width;
+    const otherCol = document.querySelector<HTMLTableColElement>('.fc-scrollgrid-section-header .fc-col-header col');
+    if (otherCol) {
+      col.style.width = otherCol.style.width;
+    }
 
     const tbody = document.createElement('tbody');
     tbody.setAttribute('role', 'presentation');

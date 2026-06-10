@@ -34,8 +34,8 @@ module Projects
       form do |f|
         f.autocompleter(
           name: :done_status_ids,
-          label: I18n.t(:"backlogs.definition_of_done"),
-          caption: I18n.t(:"backlogs.definition_of_done_caption"),
+          label: attribute_name(:statuses_considered_closed),
+          caption: I18n.t(:"backlogs.statuses_considered_closed_caption"),
           autocomplete_options: {
             multiple: true,
             closeOnSelect: false,
@@ -46,8 +46,32 @@ module Projects
             }
           }
         ) do |list|
-          available_statuses.each do |label, value|
-            active = value.in?(model.done_status_ids)
+          available_statuses.each do |label, value, is_closed|
+            list.option(
+              label:,
+              value:,
+              selected: value.in?(model.done_status_ids),
+              disabled: is_closed
+            )
+          end
+        end
+
+        f.autocompleter(
+          name: :backlog_excluded_type_ids,
+          label: attribute_name(:backlog_excluded_types),
+          caption: I18n.t(:"backlogs.excluded_work_package_types_caption"),
+          autocomplete_options: {
+            multiple: true,
+            closeOnSelect: false,
+            clearable: false,
+            decorated: true,
+            data: {
+              test_selector: "backlog_excluded_type_ids_autocomplete"
+            }
+          }
+        ) do |list|
+          available_types.each do |label, value|
+            active = value.in?(model.backlog_excluded_type_ids)
 
             list.option(
               label:,
@@ -63,7 +87,11 @@ module Projects
       private
 
       def available_statuses
-        Status.pluck(:name, :id)
+        Status.pluck(:name, :id, :is_closed)
+      end
+
+      def available_types
+        model.types.pluck(:name, :id)
       end
     end
   end

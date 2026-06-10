@@ -28,8 +28,7 @@
 
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
@@ -37,10 +36,7 @@ import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<QueryGroupByResource|null> {
-  public constructor(readonly states:States,
-    readonly querySpace:IsolatedQuerySpace) {
-    super(querySpace);
-  }
+  readonly states = inject(States);
 
   valueFromQuery(query:QueryResource) {
     return query.groupBy || null;
@@ -95,6 +91,6 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
 
   public isCurrentlyGroupedBy(column:QueryColumn):boolean {
     const cur = this.current;
-    return !!(cur && cur.id === column.id);
+    return cur?.id === column.id;
   }
 }

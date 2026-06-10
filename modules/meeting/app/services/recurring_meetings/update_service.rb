@@ -175,7 +175,7 @@ module RecurringMeetings
         .cancelled
         .find_each do |meeting|
           occurring = recurring_meeting.schedule.occurs_at?(meeting.recurrence_start_time)
-          meeting.delete unless occurring
+          meeting.destroy! unless occurring
         end
     end
 

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 import { FormsModule } from '@angular/forms';
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
 import { UIRouterGlobals } from '@uirouter/core';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -222,7 +222,9 @@ export function bootstrapModule(injector:Injector):void {
   ],
 })
 export class OpSharedModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     bootstrapModule(injector);
   }
 }

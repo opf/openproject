@@ -2,10 +2,10 @@ import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export const uiStateLinkClass = '__ui-state-link';
 export const checkedClassName = '-checked';
+export const pressedClassName = '-pressed';
 
 export class UiStateLinkBuilder {
   constructor(

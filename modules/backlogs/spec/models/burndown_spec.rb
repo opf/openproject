@@ -136,6 +136,26 @@ RSpec.describe Burndown do
 
               it { expect(burndown.story_points).to eql [9.0, 0.0, 0.0, 0.0, 9.0, 9.0] }
             end
+
+            describe "WITH all non-closed statuses also configured as done for the project" do
+              # Edge case: every status (open, resolved) is treated as done.
+              # open_status_ids becomes empty, so the query should return 0
+              # remaining story points rather than incorrectly
+              # summing *everything*.
+              before do
+                work_package.story_points = 9
+                work_package.save!
+                work_package.last_journal.update_columns(created_at: work_package.created_at,
+                                                         updated_at: work_package.created_at)
+                # Configure every non-closed status as a done status for the project
+                project.done_statuses << issue_open
+                project.done_statuses << issue_resolved
+              end
+
+              it "shows 0.0 remaining story points for all days" do
+                expect(burndown.story_points).to eql [0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+              end
+            end
           end
         end
 

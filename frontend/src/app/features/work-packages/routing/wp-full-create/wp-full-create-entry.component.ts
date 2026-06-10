@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -48,12 +48,14 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageFullCreateEntryComponent {
+  readonly elementRef = inject(ElementRef);
+
   @Input() type:string;
   @Input() parentId?:string;
   @Input() projectIdentifier?:string;
   @Input() routedFromAngular:boolean;
 
-  constructor(readonly elementRef:ElementRef) {
+  constructor() {
     populateInputsFromDataset(this);
 
     document.body.classList.add('router--work-packages-full-create');

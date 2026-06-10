@@ -81,6 +81,12 @@ module MeetingAgendaItems
       editable? && @meeting_agenda_item.notes.blank?
     end
 
+    def convert_to_work_package_action?
+      editable? &&
+        @meeting_agenda_item.simple? &&
+        User.current.allowed_in_project?(:add_work_packages, @meeting.project)
+    end
+
     def first?
       @first ||=
         if @first_and_last.first
@@ -124,6 +130,22 @@ module MeetingAgendaItems
                        method: "GET"
                      } }) do |item|
         item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def convert_to_work_package_action_item(menu)
+      menu.with_item(label: t("label_agenda_item_convert_to_work_package"),
+                     tag: :button,
+                     content_arguments: { data: {
+                       action: "click->meetings--submit#intercept",
+                       href: convert_to_work_package_dialog_project_meeting_agenda_item_path(
+                         @meeting.project,
+                         @meeting,
+                         @meeting_agenda_item
+                       ),
+                       method: "GET"
+                     } }) do |item|
+        item.with_leading_visual_icon(icon: :"package-dependents")
       end
     end
 

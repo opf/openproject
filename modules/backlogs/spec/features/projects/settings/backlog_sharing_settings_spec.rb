@@ -32,7 +32,7 @@ require "rails_helper"
 
 RSpec.describe "Backlogs project settings sprint sharing", :js do
   let(:project) { create(:project) }
-  let(:permissions) { %i[create_sprints share_sprint select_done_statuses] }
+  let(:permissions) { %i[create_sprints share_sprint select_backlog_types_and_statuses] }
 
   let(:current_user) do
     create(:user, member_with_permissions: { project => permissions })
@@ -42,7 +42,8 @@ RSpec.describe "Backlogs project settings sprint sharing", :js do
     login_as current_user
   end
 
-  context "with share_sprint permission" do
+  context "with share_sprint permission and enterprise token",
+          with_ee: [:sprint_sharing] do
     it "displays and stores sprint sharing settings" do
       visit project_settings_backlog_sharing_path(project)
 
@@ -127,8 +128,52 @@ RSpec.describe "Backlogs project settings sprint sharing", :js do
     end
   end
 
+  context "with share_sprint permission but no enterprise token" do
+    context "without existing sharing setting in the project" do
+      it "shows an enterprise token teaser" do
+        visit project_settings_backlog_sharing_path(project)
+
+        expect(page).to have_text("Share sprints across projects to align teams")
+
+        expect(page).to have_no_field("Don't share")
+        expect(page).to have_no_field("All projects")
+        expect(page).to have_no_field("Subprojects")
+        expect(page).to have_no_field("Receive shared sprints")
+      end
+    end
+
+    context "with existing sharing setting in the project" do
+      before do
+        project.update!(sprint_sharing: "receive_shared")
+      end
+
+      it "shows the existing sharing setting but disables them except for `Don't share`" do
+        visit project_settings_backlog_sharing_path(project)
+
+        # All radio buttons are present with the selected option displayed.
+        # But all except the "Don't share" option are disabled.
+        expect(page).to have_unchecked_field("Don't share")
+        expect(page).to have_unchecked_field("All projects", disabled: true)
+        expect(page).to have_unchecked_field("Subprojects", disabled: true)
+        expect(page).to have_checked_field("Receive shared sprints", disabled: true)
+
+        choose("Don't share")
+
+        click_button "Save"
+
+        # Now that the `Don't share` option is selected, the large enterprise banner is displayed.
+        expect(page).to have_text("Share sprints across projects to align teams")
+
+        expect(page).to have_no_field("Don't share")
+        expect(page).to have_no_field("All projects")
+        expect(page).to have_no_field("Subprojects")
+        expect(page).to have_no_field("Receive shared sprints")
+      end
+    end
+  end
+
   context "without share_sprint permission" do
-    let(:permissions) { %i[create_sprints select_done_statuses] }
+    let(:permissions) { %i[create_sprints select_backlog_types_and_statuses] }
 
     it "does not show the sharing tab and forbids direct route access" do
       visit project_settings_backlogs_path(project)

@@ -278,5 +278,14 @@ RSpec.describe Primer::OpenProject::Forms::Dsl::InputMethods, type: :forms do
       include_examples "input class", Primer::OpenProject::Forms::Dsl::SelectPanelInput
       it_behaves_like "supporting help texts"
     end
+
+    describe "#segmented_control" do
+      let(:field_group) do
+        form_dsl.segmented_control(name:, label:, value: "a", items: [{ value: "a", label: "A" }], **options)
+      end
+
+      include_examples "input class", Primer::OpenProject::Forms::Dsl::SegmentedControlInput
+      it_behaves_like "supporting help texts"
+    end
   end
 end

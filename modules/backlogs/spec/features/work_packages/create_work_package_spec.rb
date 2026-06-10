@@ -121,7 +121,7 @@ RSpec.describe "Create work package in sprint", :js do
                                                                  created_work_package])
 
       # created with the selected type (HighlightedTypeComponent renders type name in uppercase)
-      backlogs_page.within_work_package_row(created_work_package) do
+      backlogs_page.within_work_package(created_work_package) do
         expect(page).to have_text(type2.name.upcase)
       end
     end

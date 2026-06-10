@@ -34,6 +34,7 @@ require "open_project/patches"
 require "open_project/mime_type"
 require "open_project/custom_styles/design"
 require "open_project/httpx_appsignal"
+require "open_project/httpx_ssrf_filter"
 require "redmine/plugin"
 
 require "csv"
@@ -62,6 +63,7 @@ module OpenProject
                 .with(headers: { "User-Agent" => "OpenProject #{OpenProject::VERSION.to_semver} HTTPX Client" })
                 .plugin(:auth)
                 .plugin(:webdav)
+                .plugin(HttpxSsrfFilter)
                 .with(
                   timeout: {
                     connect_timeout: OpenProject::Configuration.httpx_connect_timeout,

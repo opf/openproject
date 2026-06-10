@@ -21,7 +21,7 @@
           scheme: :invisible,
           tag: :a,
           href: check_all_url,
-          data: { turbo_stream: true }
+          data: { action: "click->admin--jira-projects#checkAll" }
         )
       ) do |button|
         button.with_leading_visual_icon(icon: :"check-circle")
@@ -34,7 +34,7 @@
           scheme: :invisible,
           tag: :a,
           href: uncheck_all_url,
-          data: { turbo_stream: true }
+          data: { action: "click->admin--jira-projects#uncheckAll" }
         )
       ) do |button|
         button.with_leading_visual_icon(icon: :"x-circle")

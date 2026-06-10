@@ -38,6 +38,10 @@ module Queries::WorkPackages::Filter::CustomFieldContext
       ::WorkPackage
     end
 
+    def customized_type
+      model.name
+    end
+
     def custom_fields(context)
       if context&.project
         context

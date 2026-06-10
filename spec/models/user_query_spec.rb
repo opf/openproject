@@ -31,6 +31,11 @@
 require "spec_helper"
 
 RSpec.describe UserQuery do
+  # The query default scope filters to users visible to the current user.
+  # Admins satisfy `view_all_principals`, so `User.user.visible(admin)` is a no-op,
+  # keeping the SQL identical to the hand-written expectations.
+  current_user { create(:admin) }
+
   let(:instance) { described_class.new(name: "Users") }
   let(:base_scope) { User.user.order(id: :desc) }
 

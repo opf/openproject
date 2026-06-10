@@ -26,18 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Injectable({ providedIn: 'root' })
 export class AttributeHelpTextModalService {
-  constructor(
-    protected pathHelper:PathHelperService,
-    protected turboRequests:TurboRequestsService,
-  ) {
+  protected pathHelper = inject(PathHelperService);
+  protected turboRequests = inject(TurboRequestsService);
 
-  }
 
   public show(helpTextId:string):Promise<unknown> {
     return this.turboRequests.requestStream(this.helpTextModalUrl(helpTextId));

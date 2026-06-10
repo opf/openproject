@@ -30,12 +30,14 @@
 
 require "spec_helper"
 
-RSpec.describe Import::JiraImportProjectsJob, :webmock do
+RSpec.describe Import::JiraImportProjectsJob,
+               :webmock,
+               with_settings: { work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC } do
   let(:jira)       { create(:jira) }
   let(:author)     { create(:user) }
   let(:jira_import) do
     create(:jira_import, jira:, author:,
-                         projects: [{ "id" => "10242", "key" => "DYX", "name" => "Zombie Engine" }])
+                         projects: [{ "id" => "10012", "key" => "DPPP", "name" => "Demo project" }])
   end
   let(:jira_project_payload) { JSON.parse(Rails.root.join("spec/fixtures/import/jira/project.json").read) }
   let(:jira_user_payload)    { JSON.parse(Rails.root.join("spec/fixtures/import/jira/user.json").read) }
@@ -50,7 +52,7 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
     create(:jira_project,
            jira:,
            jira_import:,
-           jira_project_id: "10242",
+           jira_project_id: "10012",
            payload: jira_project_payload)
   end
   let!(:default_status) { create(:default_status) }
@@ -494,7 +496,7 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
                             },
                             "contextGroups" => [
                               {
-                                "projects" => ["DYX"], "issuetypes" => [],
+                                "projects" => ["DPPP"], "issuetypes" => [],
                                 "allowedValues" => [{ "id" => "10200", "value" => "Alpha" },
                                                     { "id" => "10201", "value" => "Beta" }]
                               },
@@ -516,7 +518,7 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
     before { described_class.new.perform(jira_import.id) }
 
     it "creates one multi-value list CF per context group" do
-      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Multi-Context Checks (DYX)")
+      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Multi-Context Checks (DPPP)")
       cf_zbx = WorkPackageCustomField.find_by!(name: "CF Multi-Context Checks (ZBX)")
       expect(cf_dyx.field_format).to eq("list")
       expect(cf_zbx.field_format).to eq("list")
@@ -525,15 +527,15 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
     end
 
     it "populates each CF with its own set of options" do
-      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Multi-Context Checks (DYX)")
+      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Multi-Context Checks (DPPP)")
       cf_zbx = WorkPackageCustomField.find_by!(name: "CF Multi-Context Checks (ZBX)")
       expect(cf_dyx.custom_options.pluck(:value)).to contain_exactly("Alpha", "Beta")
       expect(cf_zbx.custom_options.pluck(:value)).to contain_exactly("Gamma", "Delta")
     end
 
     it "sets the value using the issue's matching context CF" do
-      # The issue is from project DYX and has 'Alpha' selected
-      expect(cf_value("CF Multi-Context Checks (DYX)")).to contain_exactly("Alpha")
+      # The issue is from project DPPP and has 'Alpha' selected
+      expect(cf_value("CF Multi-Context Checks (DPPP)")).to contain_exactly("Alpha")
     end
   end
 
@@ -553,7 +555,7 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
                             },
                             "contextGroups" => [
                               {
-                                "projects" => ["DYX"], "issuetypes" => [],
+                                "projects" => ["DPPP"], "issuetypes" => [],
                                 "allowedValues" => [{ "id" => "10205", "value" => "Yes" }]
                               },
                               {
@@ -573,15 +575,15 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
     before { described_class.new.perform(jira_import.id) }
 
     it "creates one list CF per context group" do
-      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Different-Single Checks - Yes (DYX)")
+      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Different-Single Checks - Yes (DPPP)")
       cf_zbx = WorkPackageCustomField.find_by!(name: "CF Different-Single Checks - No (ZBX)")
       expect(cf_dyx.field_format).to eq("bool")
       expect(cf_zbx.field_format).to eq("bool")
     end
 
     it "sets the value from the issue's matching context" do
-      # The issue is from project DYX and has 'Yes' selected
-      expect(cf_value("CF Different-Single Checks - Yes (DYX)")).to be(true)
+      # The issue is from project DPPP and has 'Yes' selected
+      expect(cf_value("CF Different-Single Checks - Yes (DPPP)")).to be(true)
     end
   end
 
@@ -653,7 +655,7 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
                             },
                             "contextGroups" => [
                               {
-                                "projects" => ["DYX"], "issuetypes" => [],
+                                "projects" => ["DPPP"], "issuetypes" => [],
                                 "allowedValues" => [{ "id" => "10300", "value" => "North" },
                                                     { "id" => "10301", "value" => "South" }]
                               },
@@ -675,7 +677,7 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
     before { described_class.new.perform(jira_import.id) }
 
     it "creates one single-select list CF per context group" do
-      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Radio Multi-Context (DYX)")
+      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Radio Multi-Context (DPPP)")
       cf_zbx = WorkPackageCustomField.find_by!(name: "CF Radio Multi-Context (ZBX)")
       expect(cf_dyx.field_format).to eq("list")
       expect(cf_zbx.field_format).to eq("list")
@@ -684,15 +686,15 @@ RSpec.describe Import::JiraImportProjectsJob, :webmock do
     end
 
     it "populates each CF with its own set of options" do
-      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Radio Multi-Context (DYX)")
+      cf_dyx = WorkPackageCustomField.find_by!(name: "CF Radio Multi-Context (DPPP)")
       cf_zbx = WorkPackageCustomField.find_by!(name: "CF Radio Multi-Context (ZBX)")
       expect(cf_dyx.custom_options.pluck(:value)).to contain_exactly("North", "South")
       expect(cf_zbx.custom_options.pluck(:value)).to contain_exactly("East", "West")
     end
 
     it "sets the value using the issue's matching context CF" do
-      # The issue is from project DYX and has 'North' selected
-      expect(cf_value("CF Radio Multi-Context (DYX)")).to eq("North")
+      # The issue is from project DPPP and has 'North' selected
+      expect(cf_value("CF Radio Multi-Context (DPPP)")).to eq("North")
     end
   end
 

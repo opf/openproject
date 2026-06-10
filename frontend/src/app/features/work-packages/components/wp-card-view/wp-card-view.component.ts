@@ -1,16 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  OnInit,
-  Output,
-  ViewChild, OnDestroy,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnInit, Output, ViewChild, OnDestroy, inject } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageInlineCreateService } from 'core-app/features/work-packages/components/wp-inline-create/wp-inline-create.service';
@@ -55,6 +43,25 @@ export type CardViewOrientation = 'horizontal'|'vertical';
   standalone: false,
 })
 export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, WorkPackageViewOutputs, OnDestroy {
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly states = inject(States);
+  readonly injector = inject(Injector);
+  readonly $state = inject(StateService);
+  readonly I18n = inject(I18nService);
+  readonly wpCreate = inject(WorkPackageCreateService);
+  readonly wpInlineCreate = inject(WorkPackageInlineCreateService);
+  readonly notificationService = inject(WorkPackageNotificationService);
+  readonly halEvents = inject(HalEventsService);
+  readonly authorisationService = inject(AuthorisationService);
+  readonly causedUpdates = inject(CausedUpdatesService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly pathHelper = inject(PathHelperService);
+  readonly wpTableSelection = inject(WorkPackageViewSelectionService);
+  readonly wpViewOrder = inject(WorkPackageViewOrderService);
+  readonly cardView = inject(WorkPackageCardViewService);
+  readonly cardDragDrop = inject(WorkPackageCardDragAndDropService);
+  readonly deviceService = inject(DeviceService);
+
   @Input('dragOutOfHandler') public canDragOutOf:(wp:WorkPackageResource) => boolean;
 
   @Input() public dragInto:boolean;
@@ -118,27 +125,6 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   };
 
   isNewResource = isNewResource;
-
-  constructor(readonly querySpace:IsolatedQuerySpace,
-    readonly states:States,
-    readonly injector:Injector,
-    readonly $state:StateService,
-    readonly I18n:I18nService,
-    readonly wpCreate:WorkPackageCreateService,
-    readonly wpInlineCreate:WorkPackageInlineCreateService,
-    readonly notificationService:WorkPackageNotificationService,
-    readonly halEvents:HalEventsService,
-    readonly authorisationService:AuthorisationService,
-    readonly causedUpdates:CausedUpdatesService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly pathHelper:PathHelperService,
-    readonly wpTableSelection:WorkPackageViewSelectionService,
-    readonly wpViewOrder:WorkPackageViewOrderService,
-    readonly cardView:WorkPackageCardViewService,
-    readonly cardDragDrop:WorkPackageCardDragAndDropService,
-    readonly deviceService:DeviceService) {
-    super();
-  }
 
   ngOnInit() {
     this.registerCreationCallback();

@@ -130,7 +130,18 @@ class WorkPackages::BulkController < ApplicationController
 
     attributes = permitted_params.update_work_package
     attributes[:custom_field_values] = transform_attributes(attributes[:custom_field_values])
+    attributes = attributes_with_normalized_parent_id(attributes)
     transform_attributes(attributes)
+  end
+
+  def attributes_with_normalized_parent_id(attributes)
+    raw = attributes[:parent_id]
+    return attributes unless WorkPackage::SemanticIdentifier.semantic_id?(raw.to_s)
+
+    wp = WorkPackage.find_by_display_id(raw)
+    # If the semantic ID hasn't resolved to a proper package, default to 0, which is an invalid value
+    # that will trigger errors in the main update service
+    attributes.merge(parent_id: wp ? wp.id : 0)
   end
 
   def user

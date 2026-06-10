@@ -582,7 +582,8 @@ module API
                               if represented.parent&.visible?
                                 {
                                   href: api_v3_paths.work_package(represented.parent.id),
-                                  title: represented.parent.subject
+                                  title: represented.parent.subject,
+                                  displayId: represented.parent.display_id.to_s
                                 }
                               else
                                 {
@@ -805,7 +806,7 @@ module API
            Setting.work_package_done_ratio,
            Setting.show_work_package_attachments,
            Setting.feeds_enabled?,
-           Setting::WorkPackageIdentifier.semantic_mode_active?]
+           Setting::WorkPackageIdentifier.semantic?]
         end
 
         def load_complete_model(model)

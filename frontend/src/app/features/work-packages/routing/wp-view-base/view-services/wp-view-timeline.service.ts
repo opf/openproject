@@ -28,7 +28,6 @@
 
 import { Injectable } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { input } from '@openproject/reactivestates';
 import { WorkPackageTimelineState } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-timeline';
 import { zoomLevelOrder } from 'core-app/features/work-packages/components/wp-table/timeline/wp-timeline';
@@ -39,10 +38,6 @@ import { WorkPackageQueryStateService } from './wp-view-base.service';
 export class WorkPackageViewTimelineService extends WorkPackageQueryStateService<WorkPackageTimelineState> {
   /** Remember the computed zoom level to correct zooming after leaving autozoom */
   public appliedZoomLevel$ = input<TimelineZoomLevel>('auto');
-
-  public constructor(protected readonly querySpace:IsolatedQuerySpace) {
-    super(querySpace);
-  }
 
   public valueFromQuery(query:QueryResource) {
     return {
@@ -163,7 +158,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
    * @param update
    */
   private modify(update:Partial<WorkPackageTimelineState>) {
-    this.update({ ...this.current, ...update } as WorkPackageTimelineState);
+    this.update({ ...this.current, ...update });
   }
 
   /**

@@ -29,13 +29,22 @@
  */
 
 import { BlockNoteEditorOptions, BlockNoteSchema } from '@blocknote/core';
+import { ExternalLinkA11yExtension } from '../extensions/external-link-a11y';
 import { ExternalLinkCaptureExtension } from '../extensions/external-link-capture';
 import { User } from '@blocknote/core/comments';
 import { filterSuggestionItems } from '@blocknote/core/extensions';
 import { BlockNoteView } from '@blocknote/mantine';
 import { getDefaultReactSlashMenuItems, SuggestionMenuController, useCreateBlockNote } from '@blocknote/react';
 import { HocuspocusProvider } from '@hocuspocus/provider';
-import { initializeOpBlockNoteExtensions, openProjectWorkPackageBlockSpec, openProjectWorkPackageSlashMenu } from 'op-blocknote-extensions';
+import {
+  initializeOpBlockNoteExtensions,
+  openProjectWorkPackageBlockSpec,
+  openProjectWorkPackageInlineSpec,
+  workPackageSlashMenu,
+  useOpBlockNoteExtensions,
+  PasteDeduplicateInstanceIdsExtension,
+  useHashWpMenu,
+} from 'op-blocknote-extensions';
 import { useCallback, useEffect, useMemo } from 'react';
 import * as Y from 'yjs';
 import { useBlockNoteAttachments } from '../hooks/useBlockNoteAttachments';
@@ -60,7 +69,10 @@ export interface OpBlockNoteEditorProps {
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
-    openProjectWorkPackage: openProjectWorkPackageBlockSpec(),
+    openProjectWorkPackageBlock: openProjectWorkPackageBlockSpec(),
+  },
+  inlineContentSpecs: {
+    openProjectWorkPackageInline: openProjectWorkPackageInlineSpec,
   },
 });
 
@@ -86,40 +98,48 @@ export function OpBlockNoteEditor({
   }, [openProjectUrl, localeString]);
 
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
-    const baseCollaboration = {
-      fragment: doc.getXmlFragment('document-store'),
-      user: {
-        name: activeUser.username,
-        color: hocuspocusProvider ? generateRandomColor() : '#333333',
-        ...(hocuspocusProvider && { id: activeUser.id }),
-      } as unknown as CollaborativeUser,
-    };
-
     return {
       schema,
-      collaboration: {
-        ...baseCollaboration,
-        provider: hocuspocusProvider ?? null,
-        ...(hocuspocusProvider && { showCursorLabels: 'activity' as const }),
-      },
+      // BlockNote 0.51 tightened `collaboration.provider` to a non-null shape
+      // and `awareness: Awareness | undefined` (vs Hocuspocus's
+      // `Awareness | null`). Omit the whole `collaboration` block when no
+      // provider is wired up; cast the provider at the boundary otherwise.
+      ...(hocuspocusProvider && {
+        collaboration: {
+          fragment: doc.getXmlFragment('document-store'),
+          user: {
+            name: activeUser.username,
+            color: generateRandomColor(),
+            id: activeUser.id,
+          } as unknown as CollaborativeUser,
+          provider: hocuspocusProvider as unknown as { awareness?:NonNullable<HocuspocusProvider['awareness']> },
+          showCursorLabels: 'activity' as const,
+        },
+      }),
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
-      // When external link capture is enabled, intercept clicks on external
-      // links via a ProseMirror plugin and route through /external_redirect.
-      ...(captureExternalLinks && {
-        extensions: [ExternalLinkCaptureExtension],
-      }),
+      extensions: [
+        PasteDeduplicateInstanceIdsExtension,
+        ExternalLinkA11yExtension,
+        ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
+      ],
     };
   }, [hocuspocusProvider, doc, activeUser, localeDictionary, attachmentsEnabled, uploadFile, captureExternalLinks]);
 
-  const editor = useCreateBlockNote(editorParams, [activeUser]);
+  // Create the editor exactly once per mount. `useCreateBlockNote(options, deps)` uses `deps`
+  // as the sole `useMemo` key — `options` is intentionally NOT in deps. `[activeUser]` rebuilt
+  // the editor (wiping `Y.UndoManager` history) whenever a fresh `activeUser` reference
+  // reached this component, e.g. on Stimulus reconnect / Turbo morph.
+  const editor = useCreateBlockNote(editorParams, []);
+  useOpBlockNoteExtensions(editor);
   type EditorType = typeof editor;
   const theme = useOpTheme();
 
   const getCustomSlashMenuItems = useCallback((editorInstance:EditorType) => [
     ...getDefaultReactSlashMenuItems(editorInstance),
-    openProjectWorkPackageSlashMenu(editorInstance),
+    workPackageSlashMenu(editorInstance),
   ], []);
+  const { getHashItems, HashWpMenu } = useHashWpMenu(editor);
 
   return (
     <>
@@ -133,6 +153,11 @@ export function OpBlockNoteEditor({
         <SuggestionMenuController
           triggerCharacter="/"
           getItems={async (query:string) => Promise.resolve(filterSuggestionItems(getCustomSlashMenuItems(editor), query))}
+        />
+        <SuggestionMenuController
+          triggerCharacter="#"
+          getItems={getHashItems}
+          suggestionMenuComponent={HashWpMenu}
         />
       </BlockNoteView>
     </>

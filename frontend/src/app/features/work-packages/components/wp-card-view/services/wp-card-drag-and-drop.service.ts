@@ -1,4 +1,4 @@
-import { Injectable, Injector, Optional } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { States } from 'core-app/core/states/states.service';
@@ -16,6 +16,16 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WorkPackageCardDragAndDropService {
+  readonly states = inject(States);
+  readonly injector = inject(Injector);
+  readonly reorderService = inject(WorkPackageViewOrderService);
+  readonly wpCreate = inject(WorkPackageCreateService);
+  readonly notificationService = inject(WorkPackageNotificationService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly dragService = inject(DragAndDropService, { optional: true });
+  readonly wpInlineCreate = inject(WorkPackageInlineCreateService);
+
   private _workPackages:WorkPackageResource[];
 
   /** Whether the card view has an active inline created wp */
@@ -23,18 +33,6 @@ export class WorkPackageCardDragAndDropService {
 
   /** A reference to the component in use, to have access to the current input variables */
   public cardView:WorkPackageCardViewComponent;
-
-  public constructor(readonly states:States,
-    readonly injector:Injector,
-    readonly reorderService:WorkPackageViewOrderService,
-    readonly wpCreate:WorkPackageCreateService,
-    readonly notificationService:WorkPackageNotificationService,
-    readonly apiV3Service:ApiV3Service,
-    readonly currentProject:CurrentProjectService,
-    @Optional() readonly dragService:DragAndDropService,
-    readonly wpInlineCreate:WorkPackageInlineCreateService) {
-
-  }
 
   public init(componentRef:WorkPackageCardViewComponent) {
     this.cardView = componentRef;

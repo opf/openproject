@@ -44,7 +44,7 @@ RSpec.describe Queries::Users::Filters::GroupFilter do
   it_behaves_like "basic query filter" do
     let(:class_key) { :group }
     let(:type) { :list_optional }
-    let(:name) { I18n.t("query_fields.member_of_group") }
+    let(:name) { I18n.t(:label_group) }
 
     describe "#allowed_values" do
       it "is a list of the possible values" do

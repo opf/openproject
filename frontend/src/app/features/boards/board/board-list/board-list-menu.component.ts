@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -49,17 +47,16 @@ import { BoardActionService } from 'core-app/features/boards/board/board-actions
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BoardListMenuComponent {
+  readonly opModalService = inject(OpModalService);
+  readonly authorisationService = inject(AuthorisationService);
+  private readonly querySpace = inject(IsolatedQuerySpace);
+  private readonly boardService = inject(BoardService);
+  private readonly boardActionRegistry = inject(BoardActionsRegistryService);
+  readonly I18n = inject(I18nService);
+
   @Input() board:Board;
 
   @Output() onRemove = new EventEmitter<void>();
-
-  constructor(readonly opModalService:OpModalService,
-    readonly authorisationService:AuthorisationService,
-    private readonly querySpace:IsolatedQuerySpace,
-    private readonly boardService:BoardService,
-    private readonly boardActionRegistry:BoardActionsRegistryService,
-    readonly I18n:I18nService) {
-  }
 
   public get menuItems() {
     return async () => {

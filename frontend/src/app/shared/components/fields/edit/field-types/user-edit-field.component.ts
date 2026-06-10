@@ -26,29 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-  Injector,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   EditFieldComponent,
-  OpEditingPortalChangesetToken,
-  OpEditingPortalHandlerToken,
-  OpEditingPortalSchemaToken,
 } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
-// import { IProject } from 'core-app/core/state/projects/project.model';
-import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { ResourceChangeset } from '../../changeset/resource-changeset';
-import { IFieldSchema } from '../../field.base';
-import { EditFieldHandler } from '../editing-portal/edit-field-handler';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { IUserAutocompleteItem } from 'core-app/shared/components/autocompleter/user-autocompleter/user-autocompleter.component';
@@ -60,32 +43,13 @@ import { CallableHalLink } from 'core-app/features/hal/hal-link/hal-link';
   standalone: false,
 })
 export class UserEditFieldComponent extends EditFieldComponent implements OnInit {
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly http = inject(HttpClient);
+  readonly halResourceService = inject(HalResourceService);
+
   isNew = isNewResource(this.resource);
 
   url:string;
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly elementRef:ElementRef,
-    @Inject(OpEditingPortalChangesetToken) protected change:ResourceChangeset<HalResource>,
-    @Inject(OpEditingPortalSchemaToken) public schema:IFieldSchema,
-    @Inject(OpEditingPortalHandlerToken) readonly handler:EditFieldHandler,
-    readonly cdRef:ChangeDetectorRef,
-    readonly injector:Injector,
-    readonly apiV3Service:ApiV3Service,
-    readonly http:HttpClient,
-    readonly halResourceService:HalResourceService,
-  ) {
-    super(
-      I18n,
-      elementRef,
-      change,
-      schema,
-      handler,
-      cdRef,
-      injector,
-    );
-  }
 
   initialize():void {
     const link = this.schema.allowedValues as CallableHalLink|undefined;

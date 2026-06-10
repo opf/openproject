@@ -39,10 +39,10 @@ module Wikis
       before_action :require_admin
       before_action :find_wiki_provider, only: %i[edit update destroy confirm_destroy edit_general_info replace_oauth_application]
 
-      menu_item :wiki_providers
+      menu_item :external_wiki_providers
 
       def index
-        @wiki_providers = Wikis::Provider.visible
+        @wiki_providers = editable_wiki_providers
       end
 
       def new
@@ -150,13 +150,13 @@ module Wikis
       end
 
       def find_wiki_provider
-        @wiki_provider = Wikis::XWikiProvider.visible.find(params[:id])
+        @wiki_provider = editable_wiki_providers.find(params[:id])
       end
 
       def continue_from_wizard_params
         return if params[:continue_wizard].blank?
 
-        Wikis::Provider.visible.find(params[:continue_wizard])
+        editable_wiki_providers.find(params[:continue_wizard])
       end
 
       def wiki_provider_params
@@ -165,6 +165,10 @@ module Wikis
 
       def wiki_provider_wizard(wiki_provider)
         wiki_provider.resolve("components.setup_wizard", user: current_user)
+      end
+
+      def editable_wiki_providers
+        Wikis::Provider.visible.where.not(type: InternalProvider.sti_name)
       end
     end
   end

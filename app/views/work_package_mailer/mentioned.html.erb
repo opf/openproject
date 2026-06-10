@@ -11,7 +11,7 @@
       <%= render partial: "mailer/mailer_header",
                  locals: {
                    summary: I18n.t(:"mail.work_packages.mentioned_by", user: @journal.user),
-                   button_href: details_notifications_url(@work_package.id, tab: :activity),
+                   button_href: details_notifications_url(@work_package, tab: :activity),
                    button_text: I18n.t(:"mail.notification.see_in_center"),
                    user: @user
                  } %>
@@ -26,7 +26,7 @@
         <table <%= placeholder_table_styles(width: "100%", style: "width:100%;") %>>
           <tr>
             <td style="<%= placeholder_text_styles %>">
-              <%= format_text @journal.notes, only_path: false %>
+              <%= format_mail_html @journal.notes %>
             </td>
           </tr>
         </table>

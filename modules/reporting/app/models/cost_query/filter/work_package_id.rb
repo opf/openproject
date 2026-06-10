@@ -47,7 +47,7 @@ class CostQuery::Filter::WorkPackageId < Report::Filter::Base
   # Overwrites Report::Filter::Base self.label_for_value method
   # to achieve a more performant implementation
   def self.label_for_value(value)
-    return nil unless value.to_i.to_s == value.to_s # we expect an work_package-id
+    return nil unless WorkPackage::SemanticIdentifier.numeric_id?(value.to_s)
 
     work_package = WorkPackage.visible.find(value.to_i)
     [text_for_work_package(work_package), work_package.id] if work_package&.visible?(User.current)

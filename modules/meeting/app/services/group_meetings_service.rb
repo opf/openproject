@@ -32,6 +32,8 @@ class GroupMeetingsService
   include Redmine::I18n
   include PaginationHelper
 
+  GROUPS = %i[today tomorrow this_week later].freeze
+
   def initialize(all_meetings, as_options: false, limit: nil)
     @all_meetings = all_meetings
     @as_options = as_options

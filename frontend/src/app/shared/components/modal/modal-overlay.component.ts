@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ComponentRef,
-  ElementRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentRef, ElementRef, ViewChild, inject } from '@angular/core';
 import { CdkPortalOutlet, ComponentPortal } from '@angular/cdk/portal';
 import { combineLatest } from 'rxjs';
 import { distinctUntilChanged, filter } from 'rxjs/operators';
@@ -52,6 +45,10 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
   standalone: false,
 })
 export class OpModalOverlayComponent extends UntilDestroyedMixin {
+  readonly modalService = inject(OpModalService);
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   public notFullscreen = false;
 
   mobileTopPosition = false;
@@ -72,14 +69,6 @@ export class OpModalOverlayComponent extends UntilDestroyedMixin {
   activeModalData$ = this.modalService.activeModalData$;
 
   activeModalInstance$ = this.modalService.activeModalInstance$;
-
-  constructor(
-    readonly modalService:OpModalService,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   setupListener():void {
     combineLatest([

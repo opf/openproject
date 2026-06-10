@@ -1,6 +1,6 @@
 {
   "name": "op-blocknote-hocuspocus",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "src/index.ts",
   "type": "module",
   "scripts": {
@@ -23,14 +23,14 @@
     "node": ">=22.18"
   },
   "dependencies": {
-    "@blocknote/server-util": "^0.44.2",
+    "@blocknote/server-util": "^0.51.3",
     "@hocuspocus/extension-logger": "^3.4.4",
     "@hocuspocus/server": "^3.4.0",
-    "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.0.18/op-blocknote-extensions-0.0.18.tgz",
+    "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.1.1/op-blocknote-extensions-0.1.1.tgz",
     "tsx": "^4.21.0"
   },
   "devDependencies": {
-    "@blocknote/core": "^0.44.2",
+    "@blocknote/core": "^0.51.3",
     "@eslint/js": "^9.35.0",
     "@eslint/json": "^1.2.0",
     "@stylistic/eslint-plugin": "^5.3.1",
@@ -39,6 +39,6 @@
     "globals": "^17.3.0",
     "msw": "^2.12.7",
     "typescript-eslint": "^8.48.1",
-    "vitest": "^4.0.15"
+    "vitest": "^4.1.0"
   }
 }

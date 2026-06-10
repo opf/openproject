@@ -27,9 +27,8 @@
 //++
 
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { States } from 'core-app/core/states/states.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { QueryColumn, queryColumnTypes } from 'core-app/features/work-packages/components/wp-query/query-column';
 import { combine } from '@openproject/reactivestates';
 import { mapTo, take } from 'rxjs/operators';
@@ -39,9 +38,7 @@ import { sharedUserColumn } from 'core-app/features/work-packages/components/wp-
 
 @Injectable()
 export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<QueryColumn[]> {
-  public constructor(readonly states:States, readonly querySpace:IsolatedQuerySpace) {
-    super(querySpace);
-  }
+  readonly states = inject(States);
 
   public valueFromQuery(query:QueryResource):QueryColumn[] {
     return [...query.columns];

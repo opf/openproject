@@ -10,6 +10,8 @@ module Primer
           @html_block = html_block
         end
 
+        def hidden? = false
+
         def perform_render(&)
           super(&@html_block)
         end

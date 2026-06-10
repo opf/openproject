@@ -49,7 +49,7 @@ FactoryBot.define do
     workspace_type { "project" }
 
     sequence(:name) { |n| "My Project No. #{n}" }
-    sequence(:identifier) { |n| "myproject_no_#{n}" }
+    sequence(:identifier) { |n| Setting::WorkPackageIdentifier.semantic? ? "MPN#{n}" : "myproject_no_#{n}" }
 
     # Use this trait for specs that exercise semantic-mode behaviour.
     # Produces a deterministic uppercase identifier that satisfies

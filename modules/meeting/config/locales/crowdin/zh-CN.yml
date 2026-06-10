@@ -32,19 +32,21 @@ zh-CN:
         location: 地点
         duration: 时长
         notes: 备注
-        recurrence_start_time: Scheduled start time
+        recurrence_start_time: 计划开始时间
         participants: 参加者
         participant:
           other: "%{count}位参与者"
         participants_attended: 与会者
         participants_invited: 受邀者
+        participants_added: 参会人已添加：
+        participants_removed: 参会者已移除：
         project: 项目
         start_date: 日期
         start_time: 开始时间
         start_time_hour: 开始时间
-        end_time: End time
-        template: Template
-        notify: Send notifications
+        end_time: 结束时间
+        template: 模板
+        notify: 发送通知
         sharing: 共享中
       meeting_agenda_item:
         title: 标题
@@ -52,27 +54,30 @@ zh-CN:
         duration_in_minutes: 持续时间
         description: 备注
         presenter: 演讲者
-        item_type: Type
-        position: Position
-        lock_version: Lock version
-        notes: Notes
+        item_type: 类型
+        position: 位置
+        lock_version: 锁定版本
+        notes: 备注
       meeting_section:
         title: 标题
-        position: Position
+        position: 位置
       recurring_meeting:
-        title: Title
+        title: 标题
         frequency: 周期
         interval: 间隔
+        monthly_day: 一个月中的某天
+        monthly_ordinal: 位置
+        monthly_weekday: 工作日
         start_date: 开始日期：
         start_time: 开始时间
         start_time_hour: 开始时间
         end_after: 会议系列结束
         end_date: 结束日期
         iterations: 事件
-        time_zone: Time zone
-        location: Location
-        duration: Duration
-        notify: Send notifications
+        time_zone: 时区
+        location: 地点
+        duration: 持续时间
+        notify: 发送通知
       recurring_meeting_interim_response:
         start_time: 开始时间
       meeting_participant:
@@ -205,6 +210,7 @@ zh-CN:
   label_time_zone: 时区
   label_start_date: 开始日期
   label_subscribe_icalendar: 订阅日历
+  label_recurring_filter: 重复过滤器
   caption_meeting_template_select: 选择一个模板，以自动复制其议程条目
   caption_template_project_select: 请选择要在其中创建此会议模板的项目
   placeholder_meeting_template_select_project_first: 先选择项目
@@ -217,8 +223,8 @@ zh-CN:
         mark_as_attended: 标记为已参加
         mark_all_as_attended: 将所有标记为已参加
         remove_participant: 移除参与者
-        manage_participants: 管理与会者
-        no_participants: 无参加者
+        manage_participants: 管理参会者
+        no_participants: 无参会者
         show_all: 全部显示
         apply_to_upcoming_meetings: 将这些更改应用于此系列中所有即将召开的会议
       text:
@@ -226,8 +232,8 @@ zh-CN:
         manage_participants: 搜索并添加项目成员作为本次会议的参与者。
         search_for_members: 搜索项目成员
       blankslate:
-        heading: 沒有与会者
-        description: 还没有参加者。
+        heading: 无参会者
+        description: 尚无参会者。
     attachments:
       onetime_template: 今后所有使用此模板的会议都将包含这些随附文件。
       series_template: 今后此系列中的所有会议都将包含这些随附文件。
@@ -267,16 +273,6 @@ zh-CN:
         summary_series: 会议系列 '%{title}' 已被 %{actor} 取消，或者您的参与者身份已被移除
         summary: "'%{title}' 已被 %{actor} 取消，或者您的参与者身份已被移除"
         date_time: 预定日期/时间
-      participant_added:
-        header: 会议 '%{title}' - 已添加参加者
-        header_series: 会议系列 '%{title}' - 已添加参加者
-        summary: "%{actor} 将 %{participant} 添加到会议 '%{title}'"
-        summary_series: "%{actor} 将 %{participant} 添加到会议系列 '%{title}'"
-      participant_removed:
-        header: 会议 '%{title}' - 已移除参加者
-        header_series: 会议系列 '%{title}' - 已移除参加者
-        summary: "%{actor} 将 %{participant} 从会议 '%{title}' 中移除"
-        summary_series: "%{actor} 将 %{participant} 从会议系列 '%{title}' 中移除"
       ended:
         header_series: 结束：会议系列 '%{title}'
         summary_series: 会议系列 '%{title}' 已由 %{actor} 结束
@@ -290,6 +286,8 @@ zh-CN:
         new_date_time: 新日期/时间
         old_location: 原位置
         new_location: 新位置
+        added_participants: 已添加
+        removed_participants: 已移除
     label_mail_all_participants: 向参与者发送电子邮件邀请
     types:
       one_time: 动态
@@ -318,6 +316,13 @@ zh-CN:
 
           '
         confirm_button: 取消事件
+      occurrence_past:
+        title: 删除事件
+        heading: 是否删除此事件？
+        confirmation_message_html: '此操作无法撤消。请谨慎处理。
+
+          '
+        confirm_button: 删除事件
     blankslate:
       title: 没有可显示的会议
       desc: 您可以创建新会议或更改筛选条件
@@ -364,58 +369,22 @@ zh-CN:
         caption: 此文本将出现在每一页的页脚中心。
       submit_button: 下载
     notifications:
+      disabled: 参与者不会收到向其通知日期、时间或参与者名单更改的电子邮件更新。
+      enabled: 所有参与者都将收到通知其日期、时间或参与者名单更改的更新日历邀请。
       sidepanel:
         title: 电子邮件日历更新
         description:
-          disabled: 与会者不会收到向其通知更改的电子邮件。
-          enabled: 所有与会者都将通过电子邮件收到更新的日历邀请，向其通知相关更改。
           change_via_template: 要更改此设置，请编辑系列模板。
       dialog:
         title:
           enable: 启用电子邮件日历更新？
           disable: 禁用电子邮件日历更新？
         message:
-          enable: '每次会议日期、时间、地点或与会者更改时，所有与会者都将通过电子邮件收到更新日历的邀请。 一旦启用，将立即向所有参与者发送一封电子邮件。
-
-            '
-          disable: '当会议日期、时间、地点或与会者发生更改时，与会者将不再通过电子邮件收到更新的日历邀请。如果他们已经收到过此次会议的邀请，则该邀请可能不再准确。
-
-            '
+          enable: 启用后，将立即向所有参与者发送电子邮件。
+          disable: 如果他们已经收到这次会议的邀请，该邀请的信息可能不再准确。
         confirm_label:
           enable: 启用电子邮件更新
           disable: 禁用电子邮件更新
-      banner:
-        participants:
-          enabled: '当您添加或移除参与者时，所有参与者都将通过电子邮件收到更新的日历邀请。
-
-            '
-          disabled: '电子邮件日历更新已禁用。在您添加或移除参与者时，参与者不会收到电子邮件通知。
-
-            '
-          draft_disabled: '在您添加或移除参与者时，参与者不会收到电子邮件通知。
-
-            '
-        onetime:
-          enabled: '当您添加或移除参与者时，所有参与者都将通过电子邮件收到更新后的日历邀请。
-
-            '
-          disabled: '参与者不会收到向其通知会议日期、时间或参与者更改的电子邮件。
-
-            '
-        occurrence:
-          enabled: '已对会议系列启用电子邮件日历更新。所有与会者都会收到更新的日历邀请，向其通知您对此次事件所做的更改。
-
-            '
-          disabled: '已对会议系列禁用电子邮件日历更新。与会者将不会收到向其通知您对此次事件所做更改的电子邮件。
-
-            '
-        template:
-          enabled: '已对会议系列启用电子邮件日历更新。所有与会者都会收到更新的日历邀请，向其通知您对此模板或各个事件所做的更改。
-
-            '
-          disabled: '已对会议系列禁用电子邮件日历更新。与会者将不会收到向其通知您对此模板或各个事件所做更改的电子邮件。
-
-            '
     presentation_mode:
       title: 演示模式
       button_present: 演示
@@ -431,9 +400,9 @@ zh-CN:
       meeting_not_found: 找不到与给定 UID 匹配的会议。
     widgets:
       blankslate:
-        heading: No upcoming meetings
-        description: Upcoming meetings where you are the organizer or a participant will appear here.
-      view_details: View all meetings
+        heading: 无会议安排
+        description: 即将召开的项目会议将在此处显示。
+      view_details: 查看所有会议
   meeting_section:
     untitled_title: 无标题章节
     delete_confirmation: 删除该属性也会删除其在所有项目中的值。您确定要这样做吗？
@@ -482,11 +451,34 @@ zh-CN:
         other: 每 %{count} 天
       x_weekly:
         other: 每 %{count} 周
+      x_monthly:
+        other: |-
+          One
+          每月
+          Other
+          每 %{count} 个月
+      monthly_day_of_month: 一个月中的某天
+      monthly_nth_weekday: 每月的某个工作日
       every_weekday: 每个 %{day_of_the_week}
       working_days: 每个工作日
+    monthly:
+      inflected_ordinal:
+        first: 第一个
+        second: 第二个
+        third: 第三个
+        fourth: 第四个
+        last: 最后一个
+      ordinal_options:
+        first: 第一个
+        second: 第二个
+        third: 第三个
+        fourth: 第四个
+        last: 最后一个
+    actual_first_occurrence_mismatch_html: 此系列的第一个事件将是%{first_occurrence}
+    day_of_month_skipping_info: 将跳过天数少于 %{monthly_day} 天的月份
     end_after:
       never: 从不
-      specific_date: 在指定日期之后
+      specific_date: 在特定日期之后
       iterations: 在数次事件之后
     starts: 开始
     in_words:
@@ -494,6 +486,10 @@ zh-CN:
       working_days: 每个工作日
       weekly: 每 %{weekday}
       weekly_interval: 每 %{interval} 周在 %{weekday}
+      monthly_day: 每月 %{day} 日
+      monthly_day_interval: 每 %{interval} 个月的 %{day} 日
+      monthly_nth_weekday: 每月第 %{ordinal} 个%{weekday}
+      monthly_nth_weekday_interval: 每 %{interval} 个月第 %{ordinal} 个%{weekday}
       frequency: "%{base} 在 %{time}"
       full: "%{base} 在 %{time}，在 %{end_date} 结束"
       full_past: "%{base} 在 %{time}，于 %{end_date}结束"
@@ -589,10 +585,10 @@ zh-CN:
   label_agenda_item_actions: 议程项目行动
   label_agenda_item_move_to_next_title: 是否移至下一次会议？
   label_agenda_item_move: 移动
-  label_agenda_item_move_to_next: 移动到下次会议
-  label_agenda_item_move_to_backlog: 移动到待办事项
-  label_agenda_item_move_to_current_meeting: 移动到当前会议
-  label_agenda_item_move_to_section: 移动到小节
+  label_agenda_item_move_to_next: 移至下次会议
+  label_agenda_item_move_to_backlog: 移至待办事项
+  label_agenda_item_move_to_current_meeting: 移至当前会议
+  label_agenda_item_move_to_section: 移至小节
   label_agenda_item_move_to_top: 移至顶部
   label_agenda_item_move_to_bottom: 移至底部
   label_agenda_item_move_up: 向上移动
@@ -602,6 +598,7 @@ zh-CN:
   label_agenda_item_duplicate_in_next_title: 是否在下次会议中重复？
   label_agenda_item_add_notes: 添加备注
   label_agenda_item_add_outcome: 添加成果
+  label_agenda_item_convert_to_work_package: 转换为工作包
   label_agenda_item_work_package_add: 添加工作包
   label_agenda_item_work_package: 议程项目工作包
   label_section_rename: 重命名章节
@@ -670,9 +667,9 @@ zh-CN:
   text_exit_draft_mode_dialog_template_title: 是否打开此会议系列的第一个会议？
   text_exit_draft_mode_dialog_template_subtitle: 在此之后，您将无法返回到草稿模式。
   label_meeting_template_sharing: 共享中
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_system: With all projects
+  label_meeting_template_sharing_none: 仅使用此项目
+  label_meeting_template_sharing_descendants: 包含所有子项目
+  label_meeting_template_sharing_system: 包含所有项目
   text_meeting_template_sharing_description: 此模板可以与此实例中的子项目或其他项目共享。仅复制议程条目和附件。
   text_meeting_not_editable_anymore: 本次会议已不可编辑。
   text_meeting_not_present_anymore: 此次会议已被删除。请选择另一次会议。
@@ -691,12 +688,12 @@ zh-CN:
   text_agenda_item_duplicate_in_next_meeting: 确定要将此议程条目的副本添加到 %{date} %{time} 的下一个会议吗？结果不会复制。
   text_agenda_item_duplicated_in_next_meeting: 在 %{date}的下一个会议中复制的议程条目
   text_work_package_has_no_upcoming_meeting_agenda_items: 该工作包尚未被安排到即将举行的会议议程中。
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
-  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
-  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
+  text_agenda_item_no_available_occurrence: 没有即将发生的事件。
+  text_agenda_item_dialog_skipping_note: 注：跳过 %{details}。
+  text_agenda_item_dialog_skipping_cancelled_one: 取消会议 %{date}
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} 取消的会议"
+  text_agenda_item_dialog_skipping_closed_one: 已于 %{date}关闭会议
+  text_agenda_item_dialog_skipping_closed_many: "%{count} 个关闭的会议"
   text_work_package_add_to_meeting_hint: 使用"添加到会议"按钮将此工作包添加到即将举行的会议。
   text_work_package_has_no_past_meeting_agenda_items: 此工作包未作为过往会议中的议程条目添加。
   text_email_updates_muted: 电子邮件日历更新已静音。当您进行更改时，与会者将不会通过电子邮件收到更新的邀请。

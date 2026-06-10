@@ -31,10 +31,15 @@ pl:
         authentication_method: Metoda uwierzytelniania
         creator: Twórca
         drive: Identyfikator dysku
+        file_link_origin: Identyfikator pochodzenia linku do pliku
         host: Host
+        linkable_to_storage: Możliwe powiązanie z magazynem
+        linkable_to_storage_url: Możliwe powiązanie z adresem URL magazynu
         name: Nazwa
         password: Hasło aplikacji
         provider_type: Typ dostawcy
+        storage: Magazyn danych
+        storage_url: Adres URL magazynu
         tenant: Identyfikator katalogu (dzierżawcy)
     errors:
       messages:
@@ -108,21 +113,25 @@ pl:
         remote_folders: 'Odczytaj zawartość folderu zespołu:'
         remove_user_from_group: 'Usuń użytkownika z grupy:'
         rename_project_folder: 'Zmień nazwę zarządzanego folderu projektu:'
+        set_folder_permission: 'Ustaw uprawnienia zarządzanego folderu projektu:'
       one_drive_sync_service:
         create_folder: 'Utworzenie zarządzanego folderu projektu:'
         ensure_root_folder_permissions: 'Ustaw podstawowe uprawnienia do folderu:'
         hide_inactive_folders: 'Krok „Ukryj nieaktywne foldery”:'
         remote_folders: 'Odczytaj zawartość folderu głównego dysku:'
         rename_project_folder: 'Zmień nazwę zarządzanego folderu projektu:'
+        set_folder_permission: 'Ustaw uprawnienia zarządzanego folderu projektu:'
       sharepoint_sync_service:
         create_folder: 'Utworzenie zarządzanego folderu projektu:'
         ensure_root_folder_permissions: 'Ustaw podstawowe uprawnienia do folderu:'
         hide_inactive_folders: 'Krok „Ukryj nieaktywne foldery”:'
         remote_folders: 'Odczytaj zawartość folderu głównego dysku:'
         rename_project_folder: 'Zmień nazwę zarządzanego folderu projektu:'
+        set_folder_permission: 'Ustaw uprawnienia zarządzanego folderu projektu:'
     errors:
       messages:
         error: Wystąpił nieoczekiwany błąd. Sprawdź dzienniki OpenProject, aby uzyskać więcej informacji lub skontaktuj się z administratorem
+        folder_id_collision: Folderem projektu %{folder} próbuje zarządzać wiele magazynów projektów. Jego synchronizacja została pominięta.
         forbidden: OpenProject nie mógł uzyskać dostępu do żądanego zasobu. Sprawdź konfigurację uprawnień do dostawcy magazynu.
         unauthorized: OpenProject nie mógł uwierzytelnić się z dostawcą magazynu. Upewnij się, że masz do niego dostęp.
       models:
@@ -314,78 +323,59 @@ pl:
           host_url_accessible: Adres URL hosta jest dostępny
           storage_configured: Ukończono konfigurację
           tenant_id: Identyfikator dzierżawcy
-        failures:
-          one: "%{count} kontrola nie powiodła się"
-          few: "%{count} kontrole nie powiodły się"
-          many: "%{count} kontroli nie powiodło się"
-          other: "%{count} kontroli nie powiodło się"
-        success: Wszystkie kontrole powiodły się
-        warnings:
-          one: "%{count} kontrola zwróciła ostrzeżenie"
-          few: "%{count} kontrole zwróciły ostrzeżenie"
-          many: "%{count} kontroli zwróciło ostrzeżenie"
-          other: "%{count} kontroli zwróciło ostrzeżenie"
-      connection_validation:
-        client_id_invalid: Skonfigurowany identyfikator klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
-        client_secret_invalid: Skonfigurowany klucz tajny klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
-        nc_dependency_missing: 'Brakuje wymaganej zależności magazynu plików. Dodaj następującą zależność: %{dependency}.'
-        nc_dependency_version_mismatch: Wersja aplikacji %{dependency} jest nieobsługiwana. Zaktualizuj swój serwer Nextcloud.
-        nc_host_not_found: Nie znaleziono serwera Nextcloud pod skonfigurowanym adresem URL hosta. Sprawdź konfigurację.
-        nc_oauth_request_not_found: Nie znaleziono punktu końcowego, z którego można pobrać informacje o aktualnie połączonym użytkowniku. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
-        nc_oauth_request_unauthorized: Bieżący użytkownik nie ma uprawnień dostępu do zdalnego magazynu plików. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
-        nc_oauth_token_missing: Aplikacja OpenProject nie może przetestować komunikacji z usługą Nextcloud na poziomie użytkownika, ponieważ użytkownik nie powiązał jeszcze swojego konta Nextcloud.
-        nc_project_folder_missing: Nie można znaleźć wcześniej utworzonego folderu projektu „%{project}”.
-        nc_team_folder_not_found: Nie można znaleźć folderu zespołu.
-        nc_unexpected_files: 'W zarządzanym folderze zespołu znaleziono nieoczekiwane pliki. Na przykład: %{sample}'
-        nc_unlinked_project_folders: Nie utworzone jeszcze wszystkich folderów projektu (%{actual} / %{expected}). Może to wskazywać na błędy podczas synchronizacji AMPF w tle.
-        nc_userless_access_denied: Skonfigurowane hasło aplikacji jest nieprawidłowe.
-        not_configured: Nie można zweryfikować połączenia. Najpierw zakończ konfigurację.
-        od_client_cant_delete_folder: Klient ma problemy z usunięciem folderów. Sprawdź dokumentację konfiguracji swojej pamięci masowej.
-        od_client_write_permission_missing: Klient nie ma uprawnień zapisu. Sprawdź dokumentację konfiguracji swojej pamięci masowej.
-        od_drive_id_invalid: Skonfigurowany Drive ID jest nieprawidłowy. Sprawdź konfigurację.
-        od_drive_id_not_found: Nie można znaleźć skonfigurowanego Drive ID. Sprawdź konfigurację.
-        od_oauth_request_not_found: Nie znaleziono punktu końcowego, z którego można pobrać informacje o aktualnie połączonym użytkowniku. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
-        od_oauth_request_unauthorized: Bieżący użytkownik nie ma uprawnień dostępu do zdalnego magazynu plików. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
-        od_oauth_token_missing: Aplikacja OpenProject nie może przetestować komunikacji z usługą OneDrive na poziomie użytkownika, ponieważ użytkownik nie powiązał jeszcze swojego konta Microsoft.
-        od_tenant_id_wrong: Skonfigurowany katalog (dzierżawca) jest nieprawidłowy. Sprawdź konfigurację.
-        od_test_folder_exists: Wymagany do testowania folder %{folder_name} już istnieje. Usuń go i spróbuj ponownie.
-        od_unexpected_content: Na dysku znaleziono nieoczekiwaną zawartość.
-        offline_access_scope_missing: Zalecane jest skonfigurowanie dostawcy OpenID Connect tak, aby żądał zakresu offline_access. Integracja i tak może działać, ale upewnij się, że tokeny odświeżania nie wygasły.
-        oidc_cant_refresh_token: Podczas próby sprawdzenia Twojego dostępu do magazynu wystąpił błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
-        oidc_non_oidc_user: Bieżący użytkownik, choć otrzymał konfigurację, nie otrzymał konfiguracji od dostawcy tożsamości OpenID Connect (OIDC). Przeprowadź ponowne sprawdzenie z użytkownikiem, który otrzymał konfigurację od OIDC.
-        oidc_non_provisioned_user: Bieżący użytkownik nie jest dostarczany przez dostawcę tożsamości OpenID Connect. Ponownie uruchom sprawdzanie z dostarczonym użytkownikiem.
-        oidc_provider_cant_exchange: Dostawca OpenID Connect nie obsługuje wymiany tokenów, ale wymiana tokenów została skonfigurowana dla magazynu.
-        oidc_token_acquisition_failed: Twoja konfiguracja OpenID Connect nie zapewnia niezbędnych odbiorców ani możliwości wymiany tokenów. Sprawdź naszą dokumentację, aby uzyskać więcej informacji.
-        oidc_token_exchange_failed: Wygląda na to, że wystąpił problem z konfiguracją wymiany tokenów u Twojego dostawcy OpenID Connect. Sprawdź jego konfigurację i spróbuj ponownie.
-        oidc_token_refresh_failed: Podczas próby sprawdzenia Twojego dostępu do magazynu wystąpił błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
-        sp_client_cant_delete_folder: Klient ma problemy z usunięciem folderów w usłudze SharePoint. Sprawdź dokumentację konfiguracji swojej pamięci masowej.
-        sp_client_id_missing: Brakuje skonfigurowanego identyfikatora klienta OAuth 2 dla SharePoint. Sprawdź konfigurację.
-        sp_client_secret_missing: Brakuje skonfigurowanego klucza tajnego klienta OAuth 2 dla SharePoint. Sprawdź konfigurację.
-        sp_client_write_permission_missing: Klient nie ma uprawnień zapisu w usłudze SharePoint. Sprawdź dokumentację konfiguracji swojej pamięci masowej.
-        sp_existing_test_folder: Wymagany do testowania folder %{folder_name} już istnieje w usłudze SharePoint. Usuń go i spróbuj ponownie.
-        sp_oauth_request_error: Związane z użytkownikiem żądanie do usługi SharePoint nie powiodło się. W celu uzyskania dodatkowych informacji sprawdź dzienniki serwera.
-        sp_oauth_request_unauthorized: Bieżący użytkownik nie ma uprawnień dostępu do zdalnego magazynu plików. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
-        sp_oauth_token_missing: Aplikacja OpenProject nie może przetestować komunikacji z usługą SharePoint na poziomie użytkownika, ponieważ użytkownik nie powiązał jeszcze swojego konta SharePoint.
-        sp_tenant_id_missing: Brakuje skonfigurowanego identyfikatora katalogu (dzierżawcy) usługi SharePoint. Sprawdź konfigurację.
-        sp_unexpected_content: W bibliotece dokumentów usługi SharePoint znaleziono nieoczekiwaną zawartość.
-        unknown_error: Nie można zweryfikować połączenia. Wystąpił nieznany błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
+        errors:
+          client_id_invalid: Skonfigurowany identyfikator klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
+          client_secret_invalid: Skonfigurowany klucz tajny klienta OAuth 2 jest nieprawidłowy. Sprawdź konfigurację.
+          nc_dependency_missing: 'Brakuje wymaganej zależności magazynu plików. Dodaj następującą zależność: %{dependency}.'
+          nc_dependency_version_mismatch: Wersja aplikacji %{dependency} jest nieobsługiwana. Zaktualizuj swój serwer Nextcloud.
+          nc_host_not_found: Nie znaleziono serwera Nextcloud pod skonfigurowanym adresem URL hosta. Sprawdź konfigurację.
+          nc_oauth_request_not_found: Nie znaleziono punktu końcowego, z którego można pobrać informacje o aktualnie połączonym użytkowniku. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
+          nc_oauth_request_unauthorized: Bieżący użytkownik nie ma uprawnień dostępu do zdalnego magazynu plików. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
+          nc_oauth_token_missing: Aplikacja OpenProject nie może przetestować komunikacji z usługą Nextcloud na poziomie użytkownika, ponieważ użytkownik nie powiązał jeszcze swojego konta Nextcloud.
+          nc_project_folder_missing: Nie można znaleźć wcześniej utworzonego folderu projektu „%{project}”.
+          nc_team_folder_not_found: Nie można znaleźć folderu zespołu.
+          nc_unexpected_files: 'W zarządzanym folderze zespołu znaleziono nieoczekiwane pliki. Na przykład: %{sample}'
+          nc_unlinked_project_folders: Nie utworzone jeszcze wszystkich folderów projektu (%{actual} / %{expected}). Może to wskazywać na błędy podczas synchronizacji AMPF w tle.
+          nc_userless_access_denied: Skonfigurowane hasło aplikacji jest nieprawidłowe.
+          not_configured: Nie można zweryfikować połączenia. Najpierw zakończ konfigurację.
+          od_client_cant_delete_folder: Klient ma problemy z usunięciem folderów. Sprawdź dokumentację konfiguracji swojej pamięci masowej.
+          od_client_write_permission_missing: Klient nie ma uprawnień zapisu. Sprawdź dokumentację konfiguracji swojej pamięci masowej.
+          od_drive_id_invalid: Skonfigurowany Drive ID jest nieprawidłowy. Sprawdź konfigurację.
+          od_drive_id_not_found: Nie można znaleźć skonfigurowanego Drive ID. Sprawdź konfigurację.
+          od_oauth_request_not_found: Nie znaleziono punktu końcowego, z którego można pobrać informacje o aktualnie połączonym użytkowniku. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
+          od_oauth_request_unauthorized: Bieżący użytkownik nie ma uprawnień dostępu do zdalnego magazynu plików. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
+          od_oauth_token_missing: Aplikacja OpenProject nie może przetestować komunikacji z usługą OneDrive na poziomie użytkownika, ponieważ użytkownik nie powiązał jeszcze swojego konta Microsoft.
+          od_tenant_id_wrong: Skonfigurowany katalog (dzierżawca) jest nieprawidłowy. Sprawdź konfigurację.
+          od_test_folder_exists: Wymagany do testowania folder %{folder_name} już istnieje. Usuń go i spróbuj ponownie.
+          od_unexpected_content: Na dysku znaleziono nieoczekiwaną zawartość.
+          offline_access_scope_missing: Zalecane jest skonfigurowanie dostawcy OpenID Connect tak, aby żądał zakresu offline_access. Integracja i tak może działać, ale upewnij się, że tokeny odświeżania nie wygasły.
+          oidc_cant_refresh_token: Podczas próby sprawdzenia Twojego dostępu do magazynu wystąpił błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
+          oidc_non_oidc_user: Bieżący użytkownik, choć otrzymał konfigurację, nie otrzymał konfiguracji od dostawcy tożsamości OpenID Connect (OIDC). Przeprowadź ponowne sprawdzenie z użytkownikiem, który otrzymał konfigurację od OIDC.
+          oidc_non_provisioned_user: Bieżący użytkownik nie jest dostarczany przez dostawcę tożsamości OpenID Connect. Ponownie uruchom sprawdzanie z dostarczonym użytkownikiem.
+          oidc_provider_cant_exchange: Dostawca OpenID Connect nie obsługuje wymiany tokenów, ale wymiana tokenów została skonfigurowana dla magazynu.
+          oidc_token_acquisition_failed: Twoja konfiguracja OpenID Connect nie zapewnia niezbędnych odbiorców ani możliwości wymiany tokenów. Sprawdź naszą dokumentację, aby uzyskać więcej informacji.
+          oidc_token_exchange_failed: Wygląda na to, że wystąpił problem z konfiguracją wymiany tokenów u Twojego dostawcy OpenID Connect. Sprawdź jego konfigurację i spróbuj ponownie.
+          oidc_token_refresh_failed: Podczas próby sprawdzenia Twojego dostępu do magazynu wystąpił błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
+          sp_client_cant_delete_folder: Klient ma problemy z usunięciem folderów w usłudze SharePoint. Sprawdź dokumentację konfiguracji swojej pamięci masowej.
+          sp_client_id_missing: Brakuje skonfigurowanego identyfikatora klienta OAuth 2 dla SharePoint. Sprawdź konfigurację.
+          sp_client_secret_missing: Brakuje skonfigurowanego klucza tajnego klienta OAuth 2 dla SharePoint. Sprawdź konfigurację.
+          sp_client_write_permission_missing: Klient nie ma uprawnień zapisu w usłudze SharePoint. Sprawdź dokumentację konfiguracji swojej pamięci masowej.
+          sp_existing_test_folder: Wymagany do testowania folder %{folder_name} już istnieje w usłudze SharePoint. Usuń go i spróbuj ponownie.
+          sp_oauth_request_error: Związane z użytkownikiem żądanie do usługi SharePoint nie powiodło się. W celu uzyskania dodatkowych informacji sprawdź dzienniki serwera.
+          sp_oauth_request_unauthorized: Bieżący użytkownik nie ma uprawnień dostępu do zdalnego magazynu plików. Aby uzyskać więcej informacji, sprawdź dzienniki serwera.
+          sp_oauth_token_missing: Aplikacja OpenProject nie może przetestować komunikacji z usługą SharePoint na poziomie użytkownika, ponieważ użytkownik nie powiązał jeszcze swojego konta SharePoint.
+          sp_tenant_id_missing: Brakuje skonfigurowanego identyfikatora katalogu (dzierżawcy) usługi SharePoint. Sprawdź konfigurację.
+          sp_unexpected_content: W bibliotece dokumentów usługi SharePoint znaleziono nieoczekiwaną zawartość.
+          unknown_error: Nie można zweryfikować połączenia. Wystąpił nieznany błąd. Aby uzyskać dalsze informacje, sprawdź dzienniki serwera.
       label_error: Błąd
-      label_failed: Niepowodzenie
       label_healthy: Zdrowe
-      label_passed: Zaliczono
       label_pending: Oczekujący
-      label_skipped: Pominięto
-      label_warning: Ostrzeżenie
       no_report: Brak dostępnych raportów
       no_report_description: Uruchom kontrole teraz, aby uzyskać pełny raport o stanie tego magazynu plików.
       open_report: Otwórz pełny raport o stanie
       project_folders:
         subtitle: Automatycznie zarządzane foldery projektu
       since: od %{datetime}
-      summary:
-        failure: Niektóre kontrole nie powiodły się i system nie działa zgodnie z oczekiwaniami.
-        success: Wszystkie połączenia i systemy działają zgodnie z oczekiwaniami.
-        warning: Niektóre kontrole zwróciły ostrzeżenie. Może to prowadzić do nieoczekiwanego sposobu działania.
       synced: 'Ostatnia synchronizacja: %{datetime}'
       title: Raport o stanie
     health_email_notifications:

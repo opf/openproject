@@ -202,16 +202,7 @@ pt-PT:
           text: "[Placeholder] Calendário embutido"
     admin:
       type_form:
-        custom_field: Campo personalizado
-        inactive: Inativo
-        drag_to_activate: Arraste campos daqui para ativá-los
-        add_group: Adicionar grupo de atributos
-        add_table: Adicionar tabela de pacotes de trabalho relacionados
         edit_query: Editar consulta
-        new_group: Novo Grupo
-        delete_group: Eliminar grupo
-        remove_attribute: Remover do grupo
-        reset_to_defaults: Repor predefinições
       working_days:
         calendar:
           empty_state_header: Dias não úteis
@@ -219,13 +210,6 @@ pt-PT:
           new_date: "(novo)"
         add_non_working_day: Dia não-útil
         already_added_error: Já existe um dia não-útil para esta data. Só pode haver um dia não útil criado para cada data única.
-        change_button: Guardar e reagendar
-        change_title: Alterar dias úteis
-        removed_title: 'Removerá os seguintes dias da lista de dias não-úteis:'
-        change_description: Mudar quais dias da semana considerados dias úteis ou não úteis pode afetar os dias de início e de término de todos os pacotes de trabalho em todos os projetos nesta instância.
-        warning: 'As alterações podem demorar algum tempo a entrar em vigor. Receberá uma notificação quando todos os pacotes de trabalho relevantes forem atualizados. Tem a certeza que quer continuar?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Se alterar o modo de cálculo do progresso de baseado no estado para baseado no trabalho, o campo <i>% de conclusão</i> poderá ser editado livremente. Se, opcionalmente, introduzir valores para <i>Trabalho</i> ou <i>Trabalho restante</i>, estes também serão associado a <i>% de conclusão</i>. Se alterar o <i>Trabalho restante</i>, pode atualizar a <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Se alterar o modo de cálculo do progresso de "baseado no trabalho" para "baseado no estado", todos os valores <i>% Completo</i> existentes serão perdidos e substituídos por valores associados a cada estado. Os valores existentes para <i>Trabalho restante</i> também podem ser recalculados para refletir esta alteração. Esta ação não é reversível.
@@ -418,7 +402,6 @@ pt-PT:
     label_per_page: 'Por página:'
     label_please_wait: Aguarde, por favor
     label_project: Projecto
-    label_project_list: Lista de projetos
     label_project_plural: Projetos
     label_visibility_settings: Configurações de visibilidade
     label_quote_comment: Citar este comentário
@@ -614,18 +597,6 @@ pt-PT:
     breadcrumb: Estrutural
     text_data_lost: Todos os dados inseridos serão perdidos.
     text_user_wrote: "%{value} escreveu:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: O nome %{group} é utilizado mais de uma vez. Os nomes de grupos têm de ser exclusivos.
-        error_no_table_configured: Por favor configure uma tabela para %{group}.
-        reset_title: Redefinir configuração do formulário
-        confirm_reset: 'Aviso: Tem a certeza que deseja redefinir a configuração de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar TODOS os campos personalizados.
-
-          '
-        upgrade_to_ee: Aprimore para a edição Enterprise on-premises
-        upgrade_to_ee_text: Uau! Se precisa deste complemento é porque faz parte dos utilizadores especializados! Gostaria de apoiar os desenvolvedores de OpenSource tornando-se cliente da edição Enterprise?
-        more_information: Mais informação
-        nevermind: Não, obrigado
     time_entry:
       work_package_required: Requer que selecione um pacote de trabalho primeiro.
       title: Tempo de registro
@@ -1074,16 +1045,13 @@ pt-PT:
         all: Todos os projetos
         selected: Apenas os selecionados
       search_placeholder: Procurar projetos...
-      search_placeholder_favorites: Procurar favoritos...
       include_subprojects: Incluir todos os subprojetos
       tooltip:
         include_all_selected: Projeto já incluído porque todos os subprojetos estão ativados.
         current_project: Este é o projeto atual em que está.
         does_not_match_search: O projeto não corresponde aos critérios de pesquisa.
       no_results: Nenhum projeto corresponde aos seus critérios de pesquisa.
-      no_favorite_results: Nenhum projeto favorito corresponde aos seus critérios de pesquisa.
     include_workspaces:
-      search_placeholder: Pesquisar...
       types:
         program: Programa
         portfolio: Carteira

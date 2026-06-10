@@ -33,14 +33,14 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3QueryForm } from 'core-app/core/apiv3/endpoints/queries/apiv3-query-form';
 import { Observable } from 'rxjs';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { ApiV3ListParameters, listParamsString } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { QueryFiltersService } from 'core-app/features/work-packages/components/wp-query/query-filters.service';
 import { HalPayloadHelper } from 'core-app/features/hal/schemas/hal-payload.helper';
 
 export class ApiV3QueriesPaths extends ApiV3ResourceCollection<QueryResource, ApiV3QueryPaths> {
-  @InjectField() private queryFilters:QueryFiltersService;
+  @LazyInject() private queryFilters:QueryFiltersService;
 
   constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {

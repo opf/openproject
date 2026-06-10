@@ -330,10 +330,6 @@ class ProjectsController < ApplicationController
     ::Exports::Register.list_formats(Project).map(&:to_s)
   end
 
-  def not_authorized_on_feature_flag_inactive
-    render_403 unless OpenProject::FeatureDecisions.portfolio_models_active?
-  end
-
   def layout_for_new
     if portfolio_management_feature_missing?
       "global"

@@ -32,6 +32,37 @@ require "rails_helper"
 
 RSpec.describe ProjectIdentifiers::PendingProjectsFinder,
                with_settings: { work_packages_identifier: "classic" } do
+  describe ".count" do
+    context "when everything is clean" do
+      it "returns 0" do
+        expect(described_class.count).to eq(0)
+      end
+    end
+
+    context "when projects span multiple buckets" do
+      let!(:project) do
+        create(:project).tap { |p| p.update_columns(identifier: "VALID1") }
+      end
+      let!(:wp) { create(:work_package, project:) }
+
+      it "counts each project once regardless of how many buckets it appears in" do
+        expect(described_class.count).to eq(1)
+      end
+    end
+
+    context "when projects are in distinct buckets" do
+      let!(:project_bad_id) { create(:project, name: "Bad Identifier") }
+      let!(:project_unsequenced) do
+        create(:project).tap { |p| p.update_columns(identifier: "VALID1", wp_sequence_counter: 1) }
+      end
+      let!(:unsequenced_wp) { create(:work_package, project: project_unsequenced) }
+
+      it "counts all pending projects" do
+        expect(described_class.count).to eq(2)
+      end
+    end
+  end
+
   describe ".project_ids" do
     context "when everything is clean" do
       it "returns an empty set" do

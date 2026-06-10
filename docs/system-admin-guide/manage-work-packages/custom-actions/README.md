@@ -2,7 +2,7 @@
 
 sidebar_navigation:
   title: Custom actions
-  priority: 950
+  priority: 200
 description: Intelligent workflows with custom actions.
 keywords: custom actions
 ---

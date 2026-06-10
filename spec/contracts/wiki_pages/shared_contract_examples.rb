@@ -138,8 +138,8 @@ RSpec.shared_examples_for "wiki page contract" do
       end
     end
 
-    context "if the page is protected and the user has permission to protect pages" do
-      let(:permissions) { %i[view_wiki_pages edit_wiki_pages protect_wiki_pages] }
+    context "if the page is protected and the user has permission to manage the wiki" do
+      let(:permissions) { %i[view_wiki_pages edit_wiki_pages manage_wiki] }
       let(:page_protected) { true }
 
       it_behaves_like "is valid"

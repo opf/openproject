@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
@@ -18,19 +18,29 @@ import { WorkPackageFiltersService } from 'core-app/features/work-packages/compo
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WpGraphConfigurationFiltersTabInnerComponent extends QuerySpacedTabComponent implements TabComponent, OnInit {
+  readonly I18n:I18nService;
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  readonly wpFiltersService = inject(WorkPackageFiltersService);
+  readonly wpStatesInitialization:WorkPackageStatesInitializationService;
+  readonly wpGraphConfiguration:WpGraphConfigurationService;
+  private cdRef = inject(ChangeDetectorRef);
+
   public filters:QueryFilterInstanceResource[] = [];
 
   public text = {
     multiSelectLabel: this.I18n.t('js.work_packages.label_column_multiselect'),
   };
 
-  constructor(readonly I18n:I18nService,
-    readonly wpTableFilters:WorkPackageViewFiltersService,
-    readonly wpFiltersService:WorkPackageFiltersService,
-    readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-    readonly wpGraphConfiguration:WpGraphConfigurationService,
-    private cdRef:ChangeDetectorRef) {
+  constructor() {
+    const I18n = inject(I18nService);
+    const wpStatesInitialization = inject(WorkPackageStatesInitializationService);
+    const wpGraphConfiguration = inject(WpGraphConfigurationService);
+
     super(I18n, wpStatesInitialization, wpGraphConfiguration);
+
+    this.I18n = I18n;
+    this.wpStatesInitialization = wpStatesInitialization;
+    this.wpGraphConfiguration = wpGraphConfiguration;
   }
 
   ngOnInit() {

@@ -1,4 +1,5 @@
 # English strings go here
+---
 en:
   js:
     label_preview: 'Preview'
@@ -13,4 +14,3 @@ en:
       error_image_too_large: "Image is too large."
       wrong_file_format: "Allowed formats are jpg, png, gif"
       empty_file_error: "Please upload a valid image (jpg, png, gif)"
-

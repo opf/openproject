@@ -30,78 +30,60 @@
 
 module Backlogs
   class InboxComponent < ApplicationComponent
-    include Primer::AttributesHelper
+    include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
 
-    PAGINATION_THRESHOLD = 70
-    FIRST_PAGE_SIZE = 50
-    LAST_PAGE_SIZE = 10
+    TRUNCATE_MIDDLE = 50
 
     attr_reader :work_packages, :project, :current_user
 
-    def initialize(work_packages:, project:, current_user: User.current, **system_arguments)
+    def initialize(work_packages:, project:, current_user: User.current)
       super()
 
       @work_packages = work_packages
       @project = project
       @current_user = current_user
-
-      @system_arguments = system_arguments
-      @system_arguments[:id] = inbox_dom_id
-      @system_arguments[:padding] = :condensed
-      @system_arguments[:test_selector] = test_selector
-      @system_arguments[:data] = merge_data(
-        @system_arguments,
-        { data: drop_target_config }
-      )
     end
 
     def wrapper_uniq_by
-      project
+      project.id
+    end
+
+    def truncated?
+      !show_all_backlog && work_packages.size > truncate_threshold
+    end
+
+    def visible_work_packages
+      return work_packages unless truncated?
+
+      work_packages.first(TRUNCATE_MIDDLE) + work_packages.last(tail_size)
+    end
+
+    def show_more_id
+      dom_target(:inbox, project, :show_more)
+    end
+
+    def show_more_label
+      I18n.t("backlogs.inbox_component.show_more", count: omitted_count)
+    end
+
+    def last_omitted_id
+      work_packages[-(tail_size + 1)]&.id
     end
 
     private
 
-    def total
-      @total ||= work_packages.count
+    def tail_size
+      [TRUNCATE_MIDDLE / 5, 1].max
     end
 
-    def test_selector
-      "backlog-inbox"
+    def truncate_threshold
+      TRUNCATE_MIDDLE + (tail_size * 2)
     end
 
-    def inbox_dom_id
-      "inbox_#{project.id}"
-    end
-
-    def paginate?
-      !show_all_backlog && total > PAGINATION_THRESHOLD
-    end
-
-    def first_page
-      work_packages.limit(FIRST_PAGE_SIZE)
-    end
-
-    def last_page
-      work_packages.last(LAST_PAGE_SIZE)
-    end
-
-    def id_of_last_omitted_in_middle
-      work_packages.reverse_order.offset(LAST_PAGE_SIZE).limit(1).pick(:id)
-    end
-
-    def middle_count
-      total - FIRST_PAGE_SIZE - LAST_PAGE_SIZE
-    end
-
-    def drop_target_config
-      {
-        generic_drag_and_drop_target: "container mirrorContainer",
-        target_container_accessor: ":scope > ul",
-        target_id: "inbox",
-        target_allowed_drag_type: "story"
-      }
+    def omitted_count
+      work_packages.size - TRUNCATE_MIDDLE - tail_size
     end
   end
 end

@@ -118,7 +118,7 @@ RSpec.describe "projects/:project_id/project_storages/:id/open", :webmock do
         expect(last_response).to have_http_status(:found)
         expect(last_response.headers["Location"]).to eq(
           "http://test.host/oauth_clients/#{storage.oauth_client.client_id}/ensure_connection?" \
-          "destination_url=#{destination}&storage_id=#{storage.id}"
+          "destination_url=#{destination}&integration_id=#{storage.id}"
         )
       end
     end

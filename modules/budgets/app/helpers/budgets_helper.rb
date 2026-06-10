@@ -38,7 +38,7 @@ module BudgetsHelper
     User.current.allowed_in_project?(:edit_budgets, @project)
   end
 
-  def budgets_to_csv(budgets)
+  def budgets_to_csv(budgets) # rubocop:disable Metrics/AbcSize
     CSV.generate(col_sep: t(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [
@@ -54,7 +54,7 @@ module BudgetsHelper
         Budget.human_attribute_name(:updated_at),
         Budget.human_attribute_name(:description)
       ]
-      csv << headers.map { |c| begin; c.to_s.encode("UTF-8"); rescue StandardError; c.to_s; end }
+      csv << headers.map { |c| Exports::Concerns::CSVFormulaSanitization.sanitize(c) }
       # csv lines
       budgets.each do |budget|
         fields = [
@@ -70,7 +70,7 @@ module BudgetsHelper
           format_time(budget.updated_at),
           budget.description
         ]
-        csv << fields.map { |c| begin; c.to_s.encode("UTF-8"); rescue StandardError; c.to_s; end }
+        csv << fields.map { |c| Exports::Concerns::CSVFormulaSanitization.sanitize(c) }
       end
     end
   end

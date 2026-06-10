@@ -74,10 +74,6 @@ RSpec.describe Admin::Settings::GeneralSettingsForm, type: :forms do
       expect(field["name"]).to eq "settings[feeds_limit]"
     end
 
-    expect(rendered_form).to have_field "Work packages / Projects export limit", type: :number do |field|
-      expect(field["name"]).to eq "settings[work_packages_projects_export_limit]"
-    end
-
     expect(rendered_form).to have_field "Max size of text files displayed inline", type: :number,
                                                                                    accessible_description: "kB" do |field|
       expect(field["name"]).to eq "settings[file_max_size_displayed]"

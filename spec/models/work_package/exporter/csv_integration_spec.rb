@@ -114,6 +114,24 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
         ]
       end
     end
+
+    context "with a formula-injection payload in user-controlled fields",
+            with_settings: { csv_escape_formulas: true } do
+      shared_let(:work_package) do
+        create(:work_package,
+               subject: "=1+1",
+               description: '=HYPERLINK("https://example.com","x")',
+               type: type_a,
+               project:)
+      end
+
+      it "escapes the formula cell by prepending a single quote" do
+        pairs = header_value_pairs.to_h
+
+        expect(pairs["Subject"]).to eq("'=1+1")
+        expect(pairs["Description"]).to eq(%('=HYPERLINK("https://example.com","x")))
+      end
+    end
   end
 
   context "with multiple work packages" do

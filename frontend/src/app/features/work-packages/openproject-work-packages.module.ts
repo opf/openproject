@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule, inject } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectFieldsModule } from 'core-app/shared/components/fields/openproject-fields.module';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
@@ -683,9 +683,13 @@ import {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectWorkPackagesModule {
+  private injector = inject(Injector);
+
   static bootstrapAttributeGroupsCalled = false;
 
-  constructor(private injector:Injector) {
+  constructor() {
+    const injector = this.injector;
+
     OpenprojectWorkPackagesModule.bootstrapAttributeGroups(injector);
   }
 

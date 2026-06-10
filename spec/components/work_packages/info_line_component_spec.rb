@@ -30,7 +30,6 @@ RSpec.describe WorkPackages::InfoLineComponent, type: :component do
 
   describe "formatted identifier display" do
     context "when semantic mode is active",
-            with_flag: { semantic_work_package_ids: true },
             with_settings: { work_packages_identifier: "semantic" } do
       let(:project) { create(:project, identifier: "MYPROJ") }
 
@@ -46,7 +45,6 @@ RSpec.describe WorkPackages::InfoLineComponent, type: :component do
     end
 
     context "when semantic mode is active but identifier is nil",
-            with_flag: { semantic_work_package_ids: true },
             with_settings: { work_packages_identifier: "semantic" } do
       let(:project) { create(:project, identifier: "MYPROJ") }
 
@@ -62,7 +60,7 @@ RSpec.describe WorkPackages::InfoLineComponent, type: :component do
     end
 
     context "when classic mode is active",
-            with_flag: { semantic_work_package_ids: false } do
+            with_settings: { work_packages_identifier: "classic" } do
       it "displays hash-prefixed numeric id" do
         subject
 

@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Injector,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
@@ -22,6 +17,12 @@ import { StateService } from '@uirouter/angular';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WpTableConfigurationTimelinesTabComponent implements TabComponent, OnInit {
+  readonly injector = inject(Injector);
+  readonly I18n = inject(I18nService);
+  readonly wpTableTimeline = inject(WorkPackageViewTimelineService);
+  readonly wpTableColumns = inject(WorkPackageViewColumnsService);
+  readonly $state = inject(StateService);
+
   public timelineVisible = false;
 
   public availableAttributes:{ id:string, name:string }[];
@@ -60,15 +61,6 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
       farRight: this.I18n.t('js.gantt_chart.labels.farRight'),
     },
   };
-
-  constructor(
-    readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly wpTableTimeline:WorkPackageViewTimelineService,
-    readonly wpTableColumns:WorkPackageViewColumnsService,
-    readonly $state:StateService,
-  ) {
-  }
 
   public onSave() {
     this.wpTableTimeline.update({

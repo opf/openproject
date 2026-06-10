@@ -34,7 +34,6 @@ require "spec_helper"
 # the full service stack: CreateService, UpdateService, and Projects::UpdateService.
 RSpec.describe "SemanticIds registry integration",
                type: :model,
-               with_flag: { semantic_work_package_ids: true },
                with_settings: { work_packages_identifier: "semantic" } do
   shared_let(:role) do
     create(:project_role,
@@ -128,6 +127,13 @@ RSpec.describe "SemanticIds registry integration",
     it "new identifier also resolves to the WP" do
       WorkPackages::UpdateService.new(user:, model: work_package).call(project: target_project)
       expect(WorkPackage.find_by_display_id(work_package.reload.identifier)).to eq(work_package)
+    end
+
+    it "refreshes the in-memory identifier so to_param produces the semantic URL" do
+      WorkPackages::UpdateService.new(user:, model: work_package).call(project: target_project)
+
+      expect(work_package.identifier).to start_with("DEST-")
+      expect(work_package.to_param).to start_with("DEST-")
     end
   end
 

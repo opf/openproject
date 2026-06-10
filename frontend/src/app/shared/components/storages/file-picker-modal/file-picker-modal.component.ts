@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
@@ -37,14 +35,10 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IFileLink } from 'core-app/core/state/file-links/file-link.model';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { IStorageFile } from 'core-app/core/state/storage-files/storage-file.model';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { SortFilesPipe } from 'core-app/shared/components/storages/pipes/sort-files.pipe';
 import { FileLinksResourceService } from 'core-app/core/state/file-links/file-links.service';
 import { isDirectory, storageLocaleString } from 'core-app/shared/components/storages/functions/storages.functions';
-import { StorageFilesResourceService } from 'core-app/core/state/storage-files/storage-files.service';
 import {
   StorageFileListItem, StorageFileListItemCheckbox,
 } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
@@ -58,6 +52,12 @@ import {
   standalone: false,
 })
 export class FilePickerModalComponent extends FilePickerBaseModalComponent {
+  private readonly i18n = inject(I18nService);
+  private readonly toastService = inject(ToastService);
+  private readonly timezoneService = inject(TimezoneService);
+  private readonly configuration = inject(ConfigurationService);
+  private readonly fileLinksResourceService = inject(FileLinksResourceService);
+
   public readonly text = {
     header: this.i18n.t('js.storages.file_links.select'),
     alertNoAccess: this.i18n.t('js.storages.files.project_folder_no_access'),
@@ -117,25 +117,8 @@ export class FilePickerModalComponent extends FilePickerBaseModalComponent {
 
   private readonly fileMap:Record<string, IStorageFile> = {};
 
-  constructor(
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly elementRef:ElementRef,
-    readonly cdRef:ChangeDetectorRef,
-    protected readonly sortFilesPipe:SortFilesPipe,
-    protected readonly storageFilesResourceService:StorageFilesResourceService,
-    private readonly i18n:I18nService,
-    private readonly toastService:ToastService,
-    private readonly timezoneService:TimezoneService,
-    private readonly configuration:ConfigurationService,
-    private readonly fileLinksResourceService:FileLinksResourceService,
-  ) {
-    super(
-      locals,
-      elementRef,
-      cdRef,
-      sortFilesPipe,
-      storageFilesResourceService,
-    );
+  constructor() {
+    super();
 
     this.showSelectAll = this.configuration.activeFeatureFlags.includes('storageFilePickingSelectAll');
   }

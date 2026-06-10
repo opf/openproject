@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
@@ -45,9 +39,11 @@ import {
   standalone: false,
 })
 export class CalendarEntryComponent implements OnDestroy {
+  readonly elementRef = inject(ElementRef);
+
   @Input() queryId:string;
 
-  constructor(readonly elementRef:ElementRef) {
+  constructor() {
     populateInputsFromDataset(this);
     document.body.classList.add('router--calendar');
   }

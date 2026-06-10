@@ -202,16 +202,7 @@ uz:
           text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
-        custom_field: Custom field
-        inactive: Inactive
-        drag_to_activate: Drag fields from here to activate them
-        add_group: Add attribute group
-        add_table: Add table of related work packages
         edit_query: Edit query
-        new_group: New group
-        delete_group: Delete group
-        remove_attribute: Remove from group
-        reset_to_defaults: Reset to defaults
       working_days:
         calendar:
           empty_state_header: Non-working days
@@ -219,13 +210,6 @@ uz:
           new_date: "(new)"
         add_non_working_day: Non-working day
         already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
-        change_button: Save and reschedule
-        change_title: Change working days
-        removed_title: 'You will remove the following days from the non-working days list:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -418,7 +402,6 @@ uz:
     label_per_page: 'Per page:'
     label_please_wait: Please wait
     label_project: Project
-    label_project_list: Project lists
     label_project_plural: Projects
     label_visibility_settings: Visibility settings
     label_quote_comment: Quote this comment
@@ -614,18 +597,6 @@ uz:
     breadcrumb: Breadcrumb
     text_data_lost: All entered data will be lost.
     text_user_wrote: "%{value} wrote:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: The name %{group} is used more than once. Group names must be unique.
-        error_no_table_configured: Please configure a table for %{group}.
-        reset_title: Reset form configuration
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-
-          '
-        upgrade_to_ee: Upgrade to Enterprise on-premises edition
-        upgrade_to_ee_text: Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?
-        more_information: More information
-        nevermind: Nevermind
     time_entry:
       work_package_required: Requires selecting a work package first.
       title: Log time
@@ -1074,16 +1045,13 @@ uz:
         all: All projects
         selected: Only selected
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Include all sub-projects
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.
         current_project: This is the current project you are in.
         does_not_match_search: Project does not match the search criteria.
       no_results: No project matches your search criteria.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

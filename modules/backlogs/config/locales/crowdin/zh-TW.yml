@@ -28,6 +28,8 @@ zh-TW:
     attributes:
       project:
         sprint_sharing: Sprint 共用
+        backlog_excluded_types: Excluded work package types
+        statuses_considered_closed: Statuses considered closed
       sprint:
         duration: Duration
         finish_date: Finish date
@@ -38,8 +40,7 @@ zh-TW:
           in_planning: In planning
           active: Active
           completed: Completed
-      user_preference:
-        backlogs_versions_default_fold_state: Show sprints folded
+        work_packages: Work packages
       work_package:
         backlog_bucket: Backlog Bucket
         backlogs_work_package_type: 待辦事項類型
@@ -82,86 +83,26 @@ zh-TW:
     models:
       sprint: 衝刺
   backlogs:
-    caption_sprints_default_fold_state: Sprints will not be expanded by default when viewing the 'Backlog and sprints' page. Each one has to be manually expanded.
-    definition_of_done: 定義
-    definition_of_done_caption: 在積壓檢視和報告中，具有這些狀態的工作任務會被視為已完成。
-    done_status: 完成狀態
-    sharing_description: 此專案可以分享自己的衝刺、接受分享的衝刺或獨立處理衝刺（不分享）。
-    sharing: 共享
-    label_burndown_chart: 未完成圖
-    label_sprint_board: 衝刺目標
-    work_package_is_closed: 視為工作套件已完成
-    label_is_done_status: 狀態 %{status_name} 表示完成
-    points_label:
-      other: 點
-    positions_could_not_be_rebuilt: 無法重建位置
-    positions_rebuilt_successfully: 位置重建成功
-    rebuild: 重建
-    rebuild_positions: 重建位置
-    remaining_hours: 剩餘工時
-    show_burndown_chart: 未完成圖
-    story_points:
-      other: "%{count} 故事點"
-    unassigned: 尚未指派
-    user_preference:
-      header_backlogs: 待辦清單模組
-      button_update_backlogs: 更新待辦清單模組
     administration_blankslate:
       title: Backlog 管理設定不斷演進
       text: 我們目前正在重新設計 Backlogs 模組。在不久的將來，Sprint 和 Backlogs 的管理設定將在此處顯示。專案層級的設定仍然可用。
-    backlog_bucket_component:
+    bucket_destroy_modal_component:
+      title: Delete backlog bucket?
+      details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
+    bucket_component:
       blankslate_title: Backlog bucket is empty
       blankslate_description: Drag items here to add them.
-    backlog_bucket_item_component:
-      label_actions: Work package actions
-    sprint_component:
-      blankslate_title: "%{name} 為空"
-      blankslate_description: 尚未規劃任何項目。將項目拖曳至此即可新增。
-    inbox_component:
-      blankslate_title: 積壓收件匣為空
-      blankslate_description: 此專案中所有開啟的工作任務都會自動出現在這裡。
-      show_more:
-        other: 再顯示 %{count} 項
-    inbox_item_component:
-      label_actions: 工作項目追蹤
-    inbox_menu_component:
-      action_menu:
-        copy_url_to_clipboard: 複製連結到剪貼簿
-        copy_work_package_id: 複製工作項目 ID
-        move_menu: 移動
-      label_move_to_sprint: 移動到衝刺
-    move_to_sprint_dialog_component:
-      title: 移動到衝刺
-      label_sprint: 衝刺
-    sprints_component:
-      blankslate:
-        title: No sprints present yet
-        settings_link_text: project settings
-        receive_and_manage_description_html: This project receives sprints from a different project. Manage this in the %{settings_link}.
-        receive_description_text: This project receives shared sprints from a different project, but none are available right now.
-        create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
-        create_description_text: To start planning your sprint, create one here.
-        manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
-        no_actions_description_text: No sprints are available for this project yet.
-    backlog_bucket_menu_component:
       label_actions: Backlog bucket actions
       action_menu:
         edit_backlog_bucket: Edit backlog bucket
         delete_backlog_bucket: Delete backlog bucket
-    backlog_bucket_header_component:
-      label_work_package_count:
-        zero: No stories in backlog bucket
-        one: "%{count} story in backlog bucket"
-        other: "%{count} stories in backlog bucket"
-    sprint_header_component:
-      label_start_sprint: 開始
-      label_complete_sprint: 完成
-      start_sprint_disabled_reason_active_sprint: 另一個衝刺已經展開。
-      start_sprint_disabled_reason_missing_dates: 要開始衝刺，必須要有開始和結束日期。
-      label_story_count:
-        zero: 衝刺階段沒有[故事]
-        one: "%{count} 衝刺中的故事"
-        other: "%{count} 衝刺中的故事"
+    burndown_chart:
+      show:
+        blankslate_title: No burndown data available
+        blankslate_description: Set start and end date for the sprint to generate a burndown chart.
+    excluded_work_package_types_caption: 'Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically, keeping it focused on the work that matters to your team. For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
+
+      '
     finish_sprint_dialog_component:
       title: 有進行中的工作項目
       body: "%{message} 您想用這些做什麼？"
@@ -172,38 +113,97 @@ zh-TW:
         move_to_sprint: 將它們移到另一個衝刺階段
       select_sprint_label: 選擇衝刺
       button_complete_sprint: 完成衝刺
-    sprint_menu_component:
-      label_actions: 衝刺行動
+    inbox_component:
+      title: Inbox
+      blankslate_title: 積壓收件匣為空
+      blankslate_description: 此專案中所有開啟的工作任務都會自動出現在這裡。
+      show_more:
+        other: 再顯示 %{count} 項
+    label_burndown_chart: 未完成圖
+    label_is_done_status: 狀態 %{status_name} 表示完成
+    label_sprint_board: 衝刺目標
+    move_to_bucket_dialog_component:
+      title: Move to backlog bucket
+    move_to_sprint_dialog_component:
+      title: 移動到衝刺
+      label_sprint: 衝刺
+    points_label:
+      other: 點
+    positions_could_not_be_rebuilt: 無法重建位置
+    positions_rebuilt_successfully: 位置重建成功
+    rebuild: 重建
+    rebuild_positions: 重建位置
+    remaining_hours: 剩餘工時
+    sharing: 共享
+    show_burndown_chart: 未完成圖
+    sprint_component:
+      blankslate_title: "%{name} 為空"
+      blankslate_description: 尚未規劃任何項目。將項目拖曳至此即可新增。
+      label_actions: Sprint actions
+      label_start_sprint: Start sprint
+      label_complete_sprint: Complete sprint
+      start_sprint_disabled_reason_active_sprint: Another sprint is already active.
+      start_sprint_disabled_reason_missing_dates: Start and finish dates are required in order to start the sprint.
       action_menu:
-        edit_sprint: 編輯衝刺
-        add_work_package: 新增工作項目
-    story_component:
-      label_actions: 故事相關操作
-    story_menu_list_component:
+        edit_sprint: Edit sprint
+        add_work_package: Add work package
+    sprints_component:
+      blankslate:
+        title: No sprints present yet
+        settings_link_text: project settings
+        receive_and_manage_description_html: This project receives sprints from a different project. Manage this in the %{settings_link}.
+        receive_description_text: This project receives shared sprints from a different project, but none are available right now.
+        create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
+        create_description_text: To start planning your sprint, create one here.
+        manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
+        no_actions_description_text: No sprints are available for this project yet.
+    story_points:
+      other: "%{count} 故事點"
+    statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
+
+      '
+    types_and_statuses: Types and statuses
+    unassigned: 尚未指派
+    user_preference:
+      header_backlogs: 待辦清單模組
+      button_update_backlogs: 更新待辦清單模組
+    stories:
+      update_service:
+        missing_target: target_id or direction must be present.
+        ambiguous_target: target_id and direction cannot both be present.
+        invalid_target_type: 'target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox.'
+        invalid_direction: 'direction must be one of: higher, highest, lower, lowest.'
+    work_package_card_menu_component:
       action_menu:
-        copy_url_to_clipboard: 複製網址到剪貼簿
-        copy_work_package_id: 複製工作項目 ID
-        move_menu: 移動
+        copy_url_to_clipboard: Copy URL to clipboard
+        copy_work_package_id: Copy work package ID
+        move_menu: Move
+        move_to_backlog_bucket: Move to backlog bucket
+        move_to_inbox: Move to inbox
         move_to_sprint: Move to sprint
-    burndown_chart:
-      show:
-        blankslate_title: No burndown data available
-        blankslate_description: Set start and end date for the sprint to generate a burndown chart.
+    work_package_is_closed: 視為工作套件已完成
   burndown:
     story_points: 故事點
     story_points_ideal: 理想估算故事點數
+  ee:
+    features:
+      sprint_sharing: Sprint sharing
+    upsell:
+      sprint_sharing:
+        description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
+  label_all_sprints: All sprints
   label_backlog: Backlog
+  label_backlogs: 待辦事項
+  label_backlog_and_sprints: Backlog and sprints
   label_backlog_bucket_edit: Edit backlog bucket
   label_backlog_bucket_new: New backlog bucket
-  label_inbox: Inbox
-  label_backlogs: 待辦事項
   label_burndown_chart: Burndown chart
+  label_inbox: Inbox
   label_sprint_board: Sprint board
   label_points_burn_down: 減少
   label_points_burn_up: 增加
   label_sprint_edit: Edit sprint
   label_sprint_new: New sprint
-  label_backlog_and_sprints: Backlog and sprints
   label_task_board: 任務看板
   notice_successful_start: The sprint was started.
   notice_successful_finish: The sprint was completed.
@@ -211,9 +211,15 @@ zh-TW:
   notice_unsuccessful_start_with_reason: 'The sprint could not be started: %{reason}'
   notice_unsuccessful_finish: The sprint could not be completed.
   notice_unsuccessful_finish_with_reason: 'The sprint could not be completed: %{reason}'
+  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+
+    '
   permission_create_sprints: Create sprints
   permission_manage_sprint_items: Manage sprint items
-  permission_select_done_statuses: 選擇完成狀態
+  permission_select_backlog_types_and_statuses: Select backlog types and statuses
+  permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.
+
+    '
   permission_share_sprint: Share sprint
   permission_start_complete_sprint: Start/complete sprint
   permission_view_sprints: View sprints
@@ -239,4 +245,8 @@ zh-TW:
             caption: Sprints created in this project will be available to all subprojects of the current project.
             info: Sharing a sprint will share the name, status and the start and finish dates in all projects. These cannot be modified in projects that receive and use these sprints.
         sprint_sharing: Share sprints
+      backlogs:
+        sharing_form_component:
+          sharing_description: This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing).
+          sharing_fallback_description: Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active.
   remaining_hours: 剩餘工時

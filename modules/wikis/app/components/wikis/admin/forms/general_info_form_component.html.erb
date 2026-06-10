@@ -1,35 +1,30 @@
 <%=
   component_wrapper do
-    primer_form_with(
-      model: wiki_provider,
-      url: form_url,
-      method: form_method
-    ) do |form|
-      flex_layout do |general_info_row|
-        general_info_row.with_row(mb: 3) do
-          render(Primer::Beta::Text.new(font_weight: :bold)) { t("wikis.admin.wiki_providers.xwiki_instance") }
-        end
+    flex_layout(mb: 3) do |general_info_row|
+      general_info_row.with_row do
+        render(Primer::Beta::Text.new(font_weight: :bold)) { t("wikis.provider_types.#{wiki_provider}.name") }
+      end
 
-        general_info_row.with_row(mb: 3) do
-          render(Primer::Beta::Text.new(test_selector: "wiki-provider-configuration-instructions")) do
-            t(".xwiki_instance_description")
-          end
+      general_info_row.with_row do
+        render(Primer::Beta::Text.new(color: :subtle, test_selector: "wiki-provider-configuration-instructions")) do
+          t(".provider_description")
         end
+      end
 
-        general_info_row.with_row(mb: 3) do
-          render(Wikis::Admin::NameInputForm.new(form))
-        end
-
-        general_info_row.with_row(mb: 3) do
-          render(Wikis::Admin::UrlInputForm.new(form))
-        end
-
-        general_info_row.with_row(mb: 3) do
-          render(Wikis::Admin::XWikiAuthenticationMethodSelectForm.new(form))
-        end
-
-        general_info_row.with_row do
-          render(Wikis::Admin::SubmitOrCancelForm.new(form, wiki_provider:))
+      general_info_row.with_row(mt: 3) do
+        primer_form_with(
+          model: wiki_provider,
+          url: form_url,
+          method: form_method
+        ) do |form|
+          render(
+            Primer::Forms::FormList.new(
+              Wikis::Admin::NameInputForm.new(form),
+              Wikis::Admin::UrlInputForm.new(form),
+              Wikis::Admin::XWikiAuthenticationMethodSelectForm.new(form),
+              Wikis::Admin::SubmitOrCancelForm.new(form, wiki_provider:)
+            )
+          )
         end
       end
     end

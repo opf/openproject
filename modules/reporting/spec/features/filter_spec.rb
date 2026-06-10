@@ -84,4 +84,13 @@ RSpec.describe "Cost report calculations", :js do
     user_autocompleter = find("opce-user-autocompleter#user_id_select_1")
     expect_current_autocompleter_value(user_autocompleter, "me")
   end
+
+  it "allows selecting a locked user in the user filter" do
+    locked_user = create(:locked_user)
+
+    user_autocompleter = find("opce-user-autocompleter#user_id_select_1")
+    dropdown = search_autocomplete(user_autocompleter, query: locked_user.name)
+
+    expect(dropdown).to have_css(".ng-option", text: locked_user.name)
+  end
 end

@@ -1,16 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
 import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/edit/field-handler/hal-resource-edit-field-handler';
 import { takeUntil } from 'rxjs/operators';
@@ -34,6 +22,11 @@ import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/r
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit {
+  readonly injector = inject(Injector);
+  readonly editField = inject(EditFieldService);
+  readonly elementRef = inject(ElementRef);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() schemaInput:IFieldSchema;
 
   @Input() changeInput:ResourceChangeset;
@@ -55,13 +48,6 @@ export class EditFormPortalComponent implements OnInit, OnDestroy, AfterViewInit
   public htmlId:string;
 
   public label:string;
-
-  constructor(
-    readonly injector:Injector,
-    readonly editField:EditFieldService,
-    readonly elementRef:ElementRef,
-    readonly cdRef:ChangeDetectorRef,
-  ) { }
 
   ngOnInit() {
     if (this.editFieldHandler && this.schemaInput) {

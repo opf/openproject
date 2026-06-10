@@ -202,16 +202,7 @@ ca:
           text: "[Placeholder] Calendari incrustat"
     admin:
       type_form:
-        custom_field: Camp personalitzat
-        inactive: Inactiu
-        drag_to_activate: Arrossega els camps aquí per activar-los
-        add_group: Afegir atribut de grup
-        add_table: Afegeix una taula de paquets de treball relacionats
         edit_query: Editar consulta
-        new_group: Nou grup
-        delete_group: Delete group
-        remove_attribute: Remove from group
-        reset_to_defaults: Restableix als valors per defecte
       working_days:
         calendar:
           empty_state_header: Dies no laborables
@@ -219,13 +210,6 @@ ca:
           new_date: "(nou)"
         add_non_working_day: Dia no laborable
         already_added_error: Ja existeix un dia no laborable per aquesta data. Només hi pot haver un dia no laborable creat per a cada data.
-        change_button: Guarda i reprograma
-        change_title: Canvia els dies laborals
-        removed_title: 'Eliminaràs els següents dies de la llista de dies no laborals:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -418,7 +402,6 @@ ca:
     label_per_page: 'Per pàgina:'
     label_please_wait: Espereu, si us plau
     label_project: Projecte
-    label_project_list: Llistes de projectes
     label_project_plural: Projectes
     label_visibility_settings: Configuració de visualització
     label_quote_comment: Citar aquest comentari
@@ -614,18 +597,6 @@ ca:
     breadcrumb: Breadcrumb
     text_data_lost: Totes les dades entrades es perdran.
     text_user_wrote: "%{value} va escriure:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: El nom %{group} ja està en ús. Els noms de grup han de ser únics.
-        error_no_table_configured: Si us plau, configuri una taula per a %{group}.
-        reset_title: Reiniciar la configuració del formulari
-        confirm_reset: 'Alerta: Estàs segur que vols reiniciar la configuració del formulari? Això reiniciarà els atributs als seus grups per defecte i desactivarà TOTS els camps personalitzats.
-
-          '
-        upgrade_to_ee: Actualitza a l'edició Enterprise on-premises
-        upgrade_to_ee_text: Ostres! Si necessita aquesta funció ets un súper pro! T'importaria donar suport als nostres desenvolupadors de codi obert convertint-te en client de l'edició Enterprise?
-        more_information: Més informació
-        nevermind: Sense importància
     time_entry:
       work_package_required: Requereix seleccionar un paquet de treball primer.
       title: Registrar temps
@@ -1074,16 +1045,13 @@ ca:
         all: Tots els projectes
         selected: Només seleccionats
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Inclou tots els subprojectes
       tooltip:
         include_all_selected: Projecte ja inclòs, ja que "Inclou tots els subprojectes" està activat.
         current_project: Aquest és el projecte actual.
         does_not_match_search: El projecte no coincideix amb la cerca.
       no_results: Cap projecte s'ajusta a la teva cerca.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

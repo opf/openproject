@@ -1,13 +1,12 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Injectable({ providedIn: 'root' })
 export class JobStatusModalService {
-  constructor(
-    protected pathHelper:PathHelperService,
-    protected turboRequests:TurboRequestsService,
-  ) {}
+  protected pathHelper = inject(PathHelperService);
+  protected turboRequests = inject(TurboRequestsService);
+
 
   public show(jobId:string):void {
     void this.turboRequests.requestStream(this.jobModalUrl(jobId));

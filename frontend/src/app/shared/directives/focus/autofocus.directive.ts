@@ -1,9 +1,4 @@
-import {
-  AfterViewInit,
-  Directive,
-  ElementRef,
-  Input,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Input, inject } from '@angular/core';
 import { FocusHelperService } from './focus-helper';
 
 @Directive({
@@ -11,12 +6,10 @@ import { FocusHelperService } from './focus-helper';
   standalone: false,
 })
 export class AutofocusDirective implements AfterViewInit {
-  @Input('opAutofocus') public condition:string|boolean = true;
+  readonly FocusHelper = inject(FocusHelperService);
+  readonly elementRef = inject(ElementRef);
 
-  constructor(
-    readonly FocusHelper:FocusHelperService,
-    readonly elementRef:ElementRef,
-  ) { }
+  @Input('opAutofocus') public condition:string|boolean = true;
 
   ngAfterViewInit():void {
     this.updateFocus();

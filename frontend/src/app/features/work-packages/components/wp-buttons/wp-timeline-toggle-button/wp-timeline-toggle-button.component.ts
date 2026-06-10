@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { TimelineZoomLevel } from 'core-app/features/hal/resources/query-resource';
@@ -48,6 +46,10 @@ export interface TimelineButtonText extends ButtonControllerText {
   standalone: false,
 })
 export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButtonComponent implements OnInit {
+  readonly I18n:I18nService;
+  readonly cdRef = inject(ChangeDetectorRef);
+  wpTableTimeline = inject(WorkPackageViewTimelineService);
+
   public buttonId = 'work-packages-timeline-toggle-button';
 
   public iconClass = 'icon-view-timeline';
@@ -68,10 +70,12 @@ export class WorkPackageTimelineButtonComponent extends AbstractWorkPackageButto
 
   public isMinLevel = false;
 
-  constructor(readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-    public wpTableTimeline:WorkPackageViewTimelineService) {
+  constructor() {
+    const I18n = inject(I18nService);
+
     super(I18n);
+    this.I18n = I18n;
+
 
     this.activateLabel = I18n.t('js.gantt_chart.button_activate');
     this.deactivateLabel = I18n.t('js.gantt_chart.button_deactivate');

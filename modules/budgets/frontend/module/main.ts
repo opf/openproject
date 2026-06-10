@@ -24,7 +24,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { multiInput } from '@openproject/reactivestates';
 import { PlannedCostsFormAugment } from 'core-app/features/plugins/linked/budgets/augment/planned-costs-form';
@@ -49,7 +49,9 @@ export function initializeCostsPlugin(injector:Injector) {
 
 @NgModule({})
 export class PluginModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     initializeCostsPlugin(injector);
   }
 }

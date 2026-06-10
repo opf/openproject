@@ -26,17 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { NgxGalleryComponent, NgxGalleryOptions } from '@kolkov/ngx-gallery';
@@ -62,6 +52,17 @@ import { filter, take } from 'rxjs/operators';
   standalone: false,
 })
 export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements AfterViewInit, OnDestroy, OnInit {
+  readonly state = inject(StateService);
+  readonly bcfAuthorization = inject(BcfAuthorizationService);
+  readonly viewerBridge = inject(ViewerBridgeService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly wpCreate = inject(WorkPackageCreateService);
+  readonly toastService = inject(ToastService);
+  readonly bcfViewer = inject(BcfViewService, { optional: true });
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly I18n = inject(I18nService);
+  readonly viewpointsService = inject(ViewpointsService);
+
   @Input() workPackage:WorkPackageResource;
 
   @ViewChild(NgxGalleryComponent) gallery:NgxGalleryComponent;
@@ -145,19 +146,6 @@ export class BcfWpAttributeGroupComponent extends UntilDestroyedMixin implements
   viewerVisible = false;
 
   projectId:string;
-
-  constructor(readonly state:StateService,
-    readonly bcfAuthorization:BcfAuthorizationService,
-    readonly viewerBridge:ViewerBridgeService,
-    readonly apiV3Service:ApiV3Service,
-    readonly wpCreate:WorkPackageCreateService,
-    readonly toastService:ToastService,
-    @Optional() readonly bcfViewer:BcfViewService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-    readonly viewpointsService:ViewpointsService) {
-    super();
-  }
 
   ngAfterViewInit():void {
     // Observe changes on the work package to update the viewpoints

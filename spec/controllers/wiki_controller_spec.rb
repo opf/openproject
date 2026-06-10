@@ -292,7 +292,7 @@ RSpec.describe WikiController do
         let(:permissions) do
           existing_page.update_column(:protected, true)
 
-          %i[view_wiki_pages edit_wiki_pages protect_wiki_pages]
+          %i[view_wiki_pages edit_wiki_pages manage_wiki]
         end
 
         it "is sucessful" do
@@ -590,7 +590,7 @@ RSpec.describe WikiController do
       shared_let(:parent_page) { create(:wiki_page, wiki:) }
       shared_let(:child_page) { create(:wiki_page, wiki:, parent: parent_page) }
 
-      let(:permissions) { %i[view_wiki_pages rename_wiki_pages edit_wiki_pages] }
+      let(:permissions) { %i[view_wiki_pages edit_wiki_pages] }
 
       let(:params) do
         { project_id: project, id: existing_page.title }
@@ -822,7 +822,7 @@ RSpec.describe WikiController do
     end
 
     describe "export" do
-      let(:permissions) { %i[view_wiki_pages export_wiki_pages] }
+      let(:permissions) { %i[view_wiki_pages] }
 
       current_user { create(:user, member_with_permissions: { project => permissions }) }
 
@@ -846,7 +846,7 @@ RSpec.describe WikiController do
       end
 
       context "for an unauthorized user" do
-        let(:permissions) { %i[view_wiki_pages] }
+        let(:permissions) { [] }
 
         it "prevents access" do
           expect(response)
@@ -856,7 +856,7 @@ RSpec.describe WikiController do
     end
 
     describe "protect" do
-      let(:permissions) { %i[view_wiki_pages protect_wiki_pages] }
+      let(:permissions) { %i[view_wiki_pages manage_wiki] }
 
       let(:params) do
         { project_id: project, id: existing_page.title, protected: "1" }
@@ -891,7 +891,7 @@ RSpec.describe WikiController do
         let(:permissions) do
           existing_page.update_column :protected, true
 
-          %i[view_wiki_pages protect_wiki_pages]
+          %i[view_wiki_pages manage_wiki]
         end
 
         let(:params) do

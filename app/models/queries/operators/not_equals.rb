@@ -38,8 +38,8 @@ module Queries::Operators
       values = values.map(&:to_s)
 
       if values.present?
-        "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" +
-          values.map { |val| "'#{connection.quote_string(val)}'" }.join(",") + "))"
+        not_in = OpenProject::SqlSanitization.sanitize("#{db_table}.#{db_field} NOT IN (?)", values)
+        "(#{db_table}.#{db_field} IS NULL OR #{not_in})"
       else
         # empty set of forbidden values allows all results
         "1=1"

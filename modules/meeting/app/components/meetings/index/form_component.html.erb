@@ -58,14 +58,39 @@
             end
           end
 
+          modal_body.with_row(
+            mt: 3,
+            hidden: !@meeting.frequency_monthly_day_of_month?,
+            data: {
+              value: "monthly_day_of_month",
+              target_name: "frequency",
+              "show-when-value-selected-target": "effect"
+            }
+          ) do
+            render(RecurringMeeting::DayOfMonth.new(f))
+          end
+
+          modal_body.with_row(
+            mt: 3,
+            hidden: !@meeting.frequency_monthly_nth_weekday?,
+            data: {
+              value: "monthly_nth_weekday",
+              target_name: "frequency",
+              "show-when-value-selected-target": "effect"
+            }
+          ) do
+            flex_layout(classes: "FormControl-horizontalGroup") do |monthly_pattern_row|
+              monthly_pattern_row.with_column(flex: 1) do
+                render(RecurringMeeting::MonthlyOrdinal.new(f))
+              end
+              monthly_pattern_row.with_column(flex: 1) do
+                render(RecurringMeeting::MonthlyWeekday.new(f))
+              end
+            end
+          end
+
           modal_body.with_row(mt: 1) do
-            render(
-              Primer::Beta::Text.new(
-                id: "recurring-meeting-frequency-schedule",
-                font_size: :small,
-                color: :subtle
-              )
-            ) { @meeting.human_frequency_schedule }
+            render(RecurringMeetings::HumanScheduleComponent.new(recurring_meeting: @meeting))
           end
 
           modal_body.with_row(mt: 3) do

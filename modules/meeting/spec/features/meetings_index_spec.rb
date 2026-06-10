@@ -114,10 +114,8 @@ RSpec.describe "Meetings", "Index", :js do
   end
 
   def setup_meeting_involvement
-    invite_to_meeting(tomorrows_meeting)
-    invite_to_meeting(yesterdays_meeting)
-    create(:meeting_participant, :attendee, user:, meeting: yesterdays_meeting)
-    create(:meeting_participant, :attendee, user:, meeting: tomorrows_meeting)
+    create(:meeting_participant, :invitee, :attendee, user:, meeting: yesterdays_meeting)
+    create(:meeting_participant, :invitee, :attendee, user:, meeting: tomorrows_meeting)
     meeting.update!(author: user)
   end
 
@@ -188,34 +186,60 @@ RSpec.describe "Meetings", "Index", :js do
           # keeps the past filter selected when changing advanced filters (Regression #61875)" do
           meetings_page.open_filters
           meetings_page.remove_filter "invited_user_id"
-          click_on "Apply"
 
           wait_for_network_idle
 
+          sort = [["start_time", "desc"]].to_json
+          time_filters = [{ "time" => { "operator" => "=", "values" => ["past"] } }].to_json
           if context == :global
-            expect(page).to have_current_path(meetings_path(upcoming: false, filters: "[]"))
+            expect(page).to have_current_path(meetings_path(filters: time_filters, sortBy: sort))
           else
-            expect(page).to have_current_path(project_meetings_path(project, upcoming: false, filters: "[]"))
+            expect(page).to have_current_path(project_meetings_path(project, filters: time_filters, sortBy: sort))
           end
         end
       end
 
-      context 'with the "Invitations" filter' do
-        before do
-          meetings_page.set_sidebar_filter "Invitations"
+      context 'when applying the "Past" time filter without sortBy (Bug #75159)' do
+        let(:one_hour_ago_meeting) do
+          create(:meeting,
+                 project:,
+                 title: "One hour ago meeting",
+                 start_time: business_day_at_noon - 1.hour)
+        end
+        let(:three_hours_ago_meeting) do
+          create(:meeting,
+                 project:,
+                 title: "Three hours ago meeting",
+                 start_time: business_day_at_noon - 3.hours)
         end
 
-        it "shows all meetings I've been marked as invited to with a quick filter" do
-          meetings_page.expect_meeting_listed_in_group(tomorrows_meeting, key: :tomorrow)
-          meetings_page.expect_meetings_not_listed(yesterdays_meeting,
-                                                   meeting,
-                                                   ongoing_meeting)
+        before do
+          three_hours_ago_meeting
+          one_hour_ago_meeting
+        end
 
-          meetings_page.set_quick_filter upcoming: false
+        it "shows past meetings sorted by descending start time" do
+          # On mobile the segmented quick filter is hidden, so users apply the past
+          # filter via the all filters form. That form does not add sortBy to the URL.
+          # The backend must apply start_time: :desc as a default in this case
+          time_filters = [{ "time" => { "operator" => "=", "values" => ["past"] } }].to_json
 
-          meetings_page.expect_meetings_listed_in_table(yesterdays_meeting)
+          if context == :global
+            visit meetings_path(filters: time_filters)
+          else
+            visit project_meetings_path(project, filters: time_filters)
+          end
 
-          meetings_page.expect_meetings_not_listed(meeting, tomorrows_meeting)
+          wait_for_network_idle
+
+          meetings_page.expect_meetings_listed_in_order(
+            meeting,
+            ongoing_meeting,
+            one_hour_ago_meeting,
+            three_hours_ago_meeting,
+            yesterdays_meeting
+          )
+          meetings_page.expect_meetings_not_listed(tomorrows_meeting)
         end
       end
 
@@ -350,6 +374,24 @@ RSpec.describe "Meetings", "Index", :js do
       end
     end
 
+    context 'with the "Project" quick filter' do
+      before do
+        meetings_page.visit!
+        meetings_page.set_sidebar_filter "All meetings"
+      end
+
+      it "shows only meetings from the selected projects" do
+        meetings_page.set_project_filter(project)
+
+        meetings_page.expect_meetings_listed(meeting, tomorrows_meeting)
+        meetings_page.expect_meetings_not_listed(other_project_meeting)
+
+        meetings_page.set_project_filter(project, other_project)
+
+        meetings_page.expect_meetings_listed(meeting, tomorrows_meeting, other_project_meeting)
+      end
+    end
+
     include_examples "sidebar filtering", context: :global
   end
 
@@ -381,6 +423,11 @@ RSpec.describe "Meetings", "Index", :js do
         meetings_page.visit!
         meetings_page.expect_no_create_new_button
       end
+    end
+
+    it 'does not show the "Project" quick filter' do
+      meetings_page.visit!
+      expect(page).to have_no_button I18n.t(:label_project), exact: true
     end
 
     include_examples "sidebar filtering", context: :project

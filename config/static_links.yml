@@ -206,6 +206,8 @@ sysadmin_docs:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/scim/#step-3-choose-an-authentication-method
   scim_jwt_authetication_method:
     href: https://www.openproject.org/docs/system-admin-guide/authentication/scim/#c-jwt-from-identity-provider
+  ssrf_protection:
+    href: https://www.openproject.org/docs/installation-and-operations/configuration/ssrf-protection/
 terms_of_service:
   href: https://www.openproject.org/terms-of-service/
 text_formatting:

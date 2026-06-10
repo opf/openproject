@@ -36,7 +36,7 @@ module Storages
       nonce = SecureRandom.uuid
       cookies["oauth_state_#{nonce}"] = {
         value: { href: callback_url,
-                 storageId: storage.id }.to_json,
+                 integrationId: storage.id }.to_json,
         expires: 1.hour
       }
 

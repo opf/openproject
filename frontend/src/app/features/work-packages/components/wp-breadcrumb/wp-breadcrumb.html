@@ -8,7 +8,7 @@
         <li>
           <span>{{ hierarchyLabel }}: </span>
         </li>
-        @for (ancestor of workPackage.getAncestors(); track ancestor; let first = $first; let last = $last) {
+        @for (ancestor of workPackage.getAncestors(); track ancestor.href; let first = $first; let last = $last) {
           @if (!last) {
             <li
               class="op-wp-breadcrumb--ellipsed"

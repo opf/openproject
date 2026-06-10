@@ -213,12 +213,12 @@ export default class BulkSelectionController extends Controller {
     });
   }
 
-  private get selectedPermissions() {
+  private get selectedPermissions():string[] {
     return this.selectedRoleButtons.map((button) => {
       const label = button.querySelector('.Button-label')!;
 
-      return label.textContent;
-    }) as string[];
+      return label.textContent ?? '';
+    });
   }
 
   private get selectedRoleButtons() {

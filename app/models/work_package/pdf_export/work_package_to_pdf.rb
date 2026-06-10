@@ -108,7 +108,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   end
 
   def heading
-    "#{work_package.type} ##{work_package.id} - #{work_package.subject}"
+    "#{work_package.type} #{work_package.formatted_id} - #{work_package.subject}"
   end
 
   def footer_title
@@ -118,7 +118,7 @@ class WorkPackage::PDFExport::WorkPackageToPdf < Exports::Exporter
   def title
     # <project>_<type>_<ID>_<subject><YYYY-MM-DD>_<HH-MM>.pdf
     build_pdf_filename([work_package.project, work_package.type,
-                        "##{work_package.id}", work_package.subject].join("_"))
+                        work_package.display_id, work_package.subject].join("_"))
   end
 
   def write_description!(work_package)

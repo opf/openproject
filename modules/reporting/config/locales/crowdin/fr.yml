@@ -59,9 +59,9 @@ fr:
   label_private_report_plural: Rapports privés de coûts
   label_progress_bar_explanation: Rapport en cours de génération...
   label_public_report_plural: Rapports publics de coûts
-  label_really_delete_question: Êtes-vous sûr de vouloir supprimer ce rapport ?
+  label_really_delete_question: Voulez-vous vraiment supprimer ce rapport ?
   label_rows: Lignes
-  label_saving: Enregistrement en cours …
+  label_saving: Enregistrement...
   label_spent_on_reporting: Date (passée)
   label_sum: Total
   label_units: Unité

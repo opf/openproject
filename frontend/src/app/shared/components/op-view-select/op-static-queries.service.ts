@@ -28,16 +28,14 @@
 
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StateService } from '@uirouter/core';
 
 @Injectable()
 export class StaticQueriesService {
-  constructor(
-    private readonly I18n:I18nService,
-    private readonly $state:StateService,
-  ) {
-  }
+  private readonly I18n = inject(I18nService);
+  private readonly $state = inject(StateService);
+
 
   public text = {
     work_packages: this.I18n.t('js.label_work_package_plural'),

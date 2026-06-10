@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -43,20 +43,16 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageOverviewTabComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly $state = inject(StateService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() public workPackage:WorkPackageResource;
 
   public workPackageId:string;
 
   public tabName = this.I18n.t('js.label_latest_activity');
-
-  public constructor(
-    readonly I18n:I18nService,
-    readonly $state:StateService,
-    readonly apiV3Service:ApiV3Service,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this.workPackageId = this.workPackage?.id || this.$state.params.workPackageId as string;

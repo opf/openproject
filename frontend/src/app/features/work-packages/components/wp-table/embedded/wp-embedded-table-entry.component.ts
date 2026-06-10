@@ -1,6 +1,4 @@
-import {
-  ChangeDetectionStrategy, Component, ElementRef, Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, inject } from '@angular/core';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
@@ -23,13 +21,15 @@ export const wpTableEntrySelector = 'wp-embedded-table-entry';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageEmbeddedTableEntryComponent {
+  readonly elementRef = inject(ElementRef);
+
   @Input() public queryProps:unknown;
 
   @Input() public configuration:unknown;
 
   @Input() public initialLoadingIndicator = true;
 
-  constructor(readonly elementRef:ElementRef) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 }

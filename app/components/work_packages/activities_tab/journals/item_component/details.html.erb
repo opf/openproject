@@ -11,9 +11,9 @@
       }
     ) do |details_container|
       case filter
-      when :only_comments
+      when WorkPackages::ActivitiesTab::Filters::ONLY_COMMENTS
         render_empty_line(details_container) unless journal.notes.blank? && !journal.noop?
-      when :only_changes
+      when WorkPackages::ActivitiesTab::Filters::ONLY_CHANGES
         if has_details?
           render_details_header(details_container)
           render_details(details_container)

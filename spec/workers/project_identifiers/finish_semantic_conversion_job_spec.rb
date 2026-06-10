@@ -33,10 +33,12 @@ require "rails_helper"
 RSpec.describe ProjectIdentifiers::FinishSemanticConversionJob do
   subject(:job) { described_class.new }
 
+  let(:batch) { instance_double(GoodJob::Batch, discarded?: false) }
   let(:update_service) { instance_double(Settings::UpdateService, call: ServiceResult.success) }
 
   before do
     allow(Settings::UpdateService).to receive(:new).with(user: User.system).and_return(update_service)
+    allow(ProjectIdentifiers::RevertInstanceToClassicIdsJob).to receive(:perform_later)
   end
 
   describe "#perform" do
@@ -45,7 +47,7 @@ RSpec.describe ProjectIdentifiers::FinishSemanticConversionJob do
 
       it "enables semantic mode without running any conversion" do
         allow(ProjectIdentifiers::ConvertProjectToSemanticService).to receive(:new)
-        job.perform
+        job.perform(batch)
         expect(ProjectIdentifiers::ConvertProjectToSemanticService).not_to have_received(:new)
         expect(update_service).to have_received(:call)
           .with(work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC)
@@ -63,7 +65,7 @@ RSpec.describe ProjectIdentifiers::FinishSemanticConversionJob do
       end
 
       it "runs one conversion sweep then enables semantic mode" do
-        job.perform
+        job.perform(batch)
         expect(service).to have_received(:call).once
         expect(update_service).to have_received(:call)
           .with(work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC)
@@ -82,7 +84,7 @@ RSpec.describe ProjectIdentifiers::FinishSemanticConversionJob do
       end
 
       it "enables semantic mode after the final sweep clears all projects" do
-        job.perform
+        job.perform(batch)
         expect(service).to have_received(:call).exactly(described_class::MAX_SWEEPS).times
         expect(update_service).to have_received(:call)
           .with(work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC)
@@ -97,16 +99,24 @@ RSpec.describe ProjectIdentifiers::FinishSemanticConversionJob do
         allow(ProjectIdentifiers::PendingProjectsFinder).to receive(:project_ids).and_return(Set[1])
         allow(Project).to receive(:find_by).with(id: 1).and_return(project)
         allow(ProjectIdentifiers::ConvertProjectToSemanticService).to receive(:new).with(project).and_return(service)
+        allow(Rails.logger).to receive(:error)
       end
 
-      it "raises after MAX_SWEEPS sweeps, logging a warning and not enabling semantic mode" do
-        allow(Rails.logger).to receive(:warn)
-        give_up_pattern = /Giving up after #{described_class::MAX_SWEEPS} sweeps/o
-
-        expect { job.perform }.to raise_error(RuntimeError, give_up_pattern)
-        expect(service).to have_received(:call).exactly(described_class::MAX_SWEEPS).times
-        expect(Rails.logger).to have_received(:warn).with(give_up_pattern)
+      it "does not enable semantic mode and reverts to classic" do
+        job.perform(batch)
         expect(update_service).not_to have_received(:call)
+        expect(ProjectIdentifiers::RevertInstanceToClassicIdsJob).to have_received(:perform_later)
+      end
+
+      it "logs the failure reason" do
+        job.perform(batch)
+        expect(Rails.logger).to have_received(:error)
+          .with(/Giving up after #{described_class::MAX_SWEEPS} sweeps/o)
+      end
+
+      it "runs the maximum number of sweeps before giving up" do
+        job.perform(batch)
+        expect(service).to have_received(:call).exactly(described_class::MAX_SWEEPS).times
       end
     end
 
@@ -118,10 +128,56 @@ RSpec.describe ProjectIdentifiers::FinishSemanticConversionJob do
       end
 
       it "skips the missing project and still enables semantic mode" do
-        job.perform
+        job.perform(batch)
         expect(ProjectIdentifiers::ConvertProjectToSemanticService).not_to have_received(:new)
         expect(update_service).to have_received(:call)
           .with(work_packages_identifier: Setting::WorkPackageIdentifier::SEMANTIC)
+      end
+    end
+
+    context "when enabling semantic mode fails" do
+      before do
+        allow(ProjectIdentifiers::PendingProjectsFinder).to receive(:project_ids).and_return(Set.new)
+        allow(update_service).to receive(:call)
+          .and_return(instance_double(ServiceResult, success?: false, message: "update failed"))
+        allow(Rails.logger).to receive(:error)
+      end
+
+      it "reverts to classic" do
+        job.perform(batch)
+        expect(ProjectIdentifiers::RevertInstanceToClassicIdsJob).to have_received(:perform_later)
+      end
+
+      it "logs the failure reason" do
+        job.perform(batch)
+        expect(Rails.logger).to have_received(:error).with(/Failed to enable semantic mode/)
+      end
+    end
+
+    context "when the batch had failures" do
+      let(:batch) { instance_double(GoodJob::Batch, discarded?: true) }
+
+      before { allow(Rails.logger).to receive(:error) }
+
+      it "does not run a corrective sweep" do
+        allow(ProjectIdentifiers::PendingProjectsFinder).to receive(:project_ids)
+        job.perform(batch)
+        expect(ProjectIdentifiers::PendingProjectsFinder).not_to have_received(:project_ids)
+      end
+
+      it "does not enable semantic mode" do
+        job.perform(batch)
+        expect(update_service).not_to have_received(:call)
+      end
+
+      it "enqueues RevertInstanceToClassicIdsJob" do
+        job.perform(batch)
+        expect(ProjectIdentifiers::RevertInstanceToClassicIdsJob).to have_received(:perform_later)
+      end
+
+      it "logs the failure reason" do
+        job.perform(batch)
+        expect(Rails.logger).to have_received(:error).with(/Batch had failures/)
       end
     end
   end

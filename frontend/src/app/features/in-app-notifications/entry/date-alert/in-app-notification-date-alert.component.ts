@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IInAppNotificationDetailsAttribute, INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
@@ -20,6 +13,9 @@ import moment, { Moment } from 'moment';
   standalone: false,
 })
 export class InAppNotificationDateAlertComponent implements OnInit {
+  private I18n = inject(I18nService);
+  private timezoneService = inject(TimezoneService);
+
   @Input() aggregatedNotifications:INotification[];
 
   @HostBinding('class.op-ian-date-alert') className = true;
@@ -48,11 +44,6 @@ export class InAppNotificationDateAlertComponent implements OnInit {
     due_today: this.I18n.t('js.notifications.date_alerts.property_today'),
     note: '', // date alerts do not have notes
   };
-
-  constructor(
-    private I18n:I18nService,
-    private timezoneService:TimezoneService,
-  ) { }
 
   ngOnInit():void {
     // Find the most important date alert

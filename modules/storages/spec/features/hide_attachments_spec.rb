@@ -90,9 +90,8 @@ RSpec.describe "Hide attachments", :js do
 
       check(checkbox_label)
       click_on("Save")
-
-      expect(Setting.find_by(name: "show_work_package_attachments").value).to be_truthy
       expect(page).to have_checked_field(checkbox_label)
+      expect(Setting.find_by(name: "show_work_package_attachments").value).to be_truthy
     end
   end
 

@@ -83,8 +83,8 @@ RSpec.describe "Edit", :js do
   it "lists all open sprints" do
     planning_page.expect_sprint_names_in_order(first_sprint.name, second_sprint.name)
 
-    planning_page.expect_story_in_sprint(work_package, first_sprint)
-    planning_page.expect_story_not_in_sprint(work_package, second_sprint)
+    planning_page.expect_work_package_in_sprint(work_package, first_sprint)
+    planning_page.expect_work_package_not_in_sprint(work_package, second_sprint)
   end
 
   it "adds a work package to a sprint" do
@@ -102,7 +102,7 @@ RSpec.describe "Edit", :js do
     expect_and_dismiss_flash type: :success, exact_message: "Successful creation."
     created_wp = first_sprint.reload.work_packages.last
     expect(created_wp.subject).to eq("Story created in sprint")
-    planning_page.expect_story_in_sprint(created_wp, first_sprint)
+    planning_page.expect_work_package_in_sprint(created_wp, first_sprint)
   end
 
   context "with the 'create_sprints' permissions" do
@@ -164,27 +164,6 @@ RSpec.describe "Edit", :js do
             end
           end
         end
-      end
-    end
-  end
-
-  context "when moving work packages from sprints" do
-    describe "moving to a different sprint" do
-      it "moves a work package to a different sprint" do
-        planning_page.expect_story_in_sprint(work_package, first_sprint)
-
-        planning_page.click_in_sprint_story_move_menu(work_package, "Move to sprint")
-
-        within("#move-to-sprint-dialog") do
-          expect(page).to have_no_select("target_id", with_options: [first_sprint.name])
-          expect(page).to have_select("target_id", with_options: [second_sprint.name])
-
-          select second_sprint.name, from: "target_id"
-          click_on "Move"
-        end
-
-        planning_page.expect_story_not_in_sprint(work_package, first_sprint)
-        planning_page.expect_story_in_sprint(work_package, second_sprint)
       end
     end
   end

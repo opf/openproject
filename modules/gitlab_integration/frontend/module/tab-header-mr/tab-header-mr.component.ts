@@ -27,7 +27,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { I18nService } from "core-app/core/i18n/i18n.service";
 
@@ -40,6 +40,8 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
   standalone: false,
 })
 export class TabHeaderMrsComponent {
+  readonly I18n = inject(I18nService);
+
   @Input() public workPackage:WorkPackageResource;
 
   public text = {
@@ -49,7 +51,4 @@ export class TabHeaderMrsComponent {
     gitMenuLabel: this.I18n.t('js.gitlab_integration.tab_header_mr.copy_menu.label'),
     gitMenuDescription: this.I18n.t('js.gitlab_integration.tab_header_mr.copy_menu.description'),
   };
-
-  constructor(readonly I18n:I18nService) {
-  }
 }

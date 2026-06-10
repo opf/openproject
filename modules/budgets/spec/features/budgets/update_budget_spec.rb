@@ -330,4 +330,26 @@ RSpec.describe "updating a budget", :js, with_settings: { costs_currency: "EUR" 
       expect(budget_page.labor_costs_at(1)).to have_no_content "125.00 EUR"
     end
   end
+
+  describe "with a group as planned labor cost" do
+    let!(:group) { create(:group, member_with_permissions: { project => %i[work_package_assigned] }) }
+    let!(:hourly_rate) { create(:default_hourly_rate, user:, rate: 25.0, valid_from: 1.day.ago) }
+    let(:budget_page) { Pages::EditBudget.new budget.id }
+
+    it "saves the budget without error and displays the group on the show page" do
+      budget_page.visit!
+
+      click_on "Update"
+
+      # This line here is only there to ensure that the JS is initialized when the data is inserted.
+      # This requires having expected_costs which only users can have. Groups don't have a rate.
+      budget_page.add_labor_costs! 5, user_name: user.name, comment: "individual work", expected_costs: "125.00 EUR"
+      budget_page.add_labor_costs! 10, user_name: group.name, comment: "team work"
+
+      click_on "Submit"
+      expect(budget_page).to have_content("Successful update")
+
+      expect(page).to have_css(".labor_budget_items tbody td", text: group.name)
+    end
+  end
 end

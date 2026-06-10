@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnDestroy, inject } from '@angular/core';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
@@ -64,12 +57,14 @@ import { QueryUpdatedService } from 'core-app/features/boards/board/query-update
   standalone: false,
 })
 export class BoardEntryComponent implements OnDestroy {
+  readonly elementRef = inject(ElementRef);
+  readonly injector = inject(Injector);
+
   @Input() boardId:string;
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly injector:Injector,
-  ) {
+  constructor() {
+    const injector = this.injector;
+
     populateInputsFromDataset(this);
 
     document.body.classList.add('router--boards-full-view');

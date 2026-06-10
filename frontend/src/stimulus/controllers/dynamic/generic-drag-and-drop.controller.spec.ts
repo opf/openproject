@@ -29,15 +29,16 @@
  */
 
 import GenericDragAndDropController from './generic-drag-and-drop.controller';
+import { createControllerInstance } from 'core-stimulus/test-helpers';
 
 describe('GenericDragAndDropController', () => {
   let controller:GenericDragAndDropController;
 
   beforeEach(() => {
-    controller = Object.create(GenericDragAndDropController.prototype) as GenericDragAndDropController;
+    controller = createControllerInstance(GenericDragAndDropController);
   });
 
-  function setValue(name:'handleValue'|'handleSelectorValue', value:boolean|string) {
+  function setValue(name:'handleValue' | 'handleSelectorValue', value:boolean | string) {
     Object.defineProperty(controller, name, { value, configurable: true });
   }
 
@@ -51,31 +52,16 @@ describe('GenericDragAndDropController', () => {
     return row;
   }
 
-  function callCanStartDrag(el:Element|null|undefined, handle:Element|null|undefined):boolean {
-    const canStartDrag = Reflect.get(controller, 'canStartDrag') as (
-      this:GenericDragAndDropController,
-      el:Element|null|undefined,
-      handle:Element|null|undefined
-    ) => boolean;
+  function callCanStartDrag(el:Element | null | undefined, handle:Element | null | undefined):boolean {
+    const canStartDrag = Reflect.get(controller, 'canStartDrag') as (this:GenericDragAndDropController, el:Element | null | undefined, handle:Element | null | undefined) => boolean;
 
     return canStartDrag.call(controller, el, handle);
   }
 
-  function callAriaPressedTarget(el:Element):Element|null {
-    const ariaPressedTarget = Reflect.get(controller, 'ariaPressedTarget') as (
-      this:GenericDragAndDropController,
-      el:Element
-    ) => Element|null;
+  function callAriaPressedTarget(el:Element):Element | null {
+    const ariaPressedTarget = Reflect.get(controller, 'ariaPressedTarget') as (this:GenericDragAndDropController, el:Element) => Element | null;
 
     return ariaPressedTarget.call(controller, el);
-  }
-
-  function callResolveMirrorContainer():Element {
-    const resolveMirrorContainer = Reflect.get(controller, 'resolveMirrorContainer') as (
-      this:GenericDragAndDropController
-    ) => Element;
-
-    return resolveMirrorContainer.call(controller);
   }
 
   describe('canStartDrag', () => {
@@ -85,7 +71,7 @@ describe('GenericDragAndDropController', () => {
       setValue('handleValue', false);
       setValue('handleSelectorValue', '.DragHandle');
 
-      expect(callCanStartDrag(row, row)).toBeTrue();
+      expect(callCanStartDrag(row, row)).toBe(true);
     });
 
     it('rejects rows that are not draggable in handle-less mode', () => {
@@ -96,7 +82,7 @@ describe('GenericDragAndDropController', () => {
       setValue('handleValue', false);
       setValue('handleSelectorValue', '.DragHandle');
 
-      expect(callCanStartDrag(row, row)).toBeFalse();
+      expect(callCanStartDrag(row, row)).toBe(false);
     });
 
     it('rejects empty placeholder rows in handle-less mode', () => {
@@ -106,7 +92,7 @@ describe('GenericDragAndDropController', () => {
       setValue('handleValue', false);
       setValue('handleSelectorValue', '.DragHandle');
 
-      expect(callCanStartDrag(row, row)).toBeFalse();
+      expect(callCanStartDrag(row, row)).toBe(false);
     });
 
     it('rejects interactive descendants in handle-less mode', () => {
@@ -117,7 +103,7 @@ describe('GenericDragAndDropController', () => {
       setValue('handleValue', false);
       setValue('handleSelectorValue', '.DragHandle');
 
-      expect(callCanStartDrag(row, button)).toBeFalse();
+      expect(callCanStartDrag(row, button)).toBe(false);
     });
 
     it('allows drag handles in handle mode', () => {
@@ -129,7 +115,7 @@ describe('GenericDragAndDropController', () => {
       setValue('handleValue', true);
       setValue('handleSelectorValue', '.DragHandle');
 
-      expect(callCanStartDrag(row, handle)).toBeTrue();
+      expect(callCanStartDrag(row, handle)).toBe(true);
     });
   });
 
@@ -153,23 +139,6 @@ describe('GenericDragAndDropController', () => {
       setValue('handleSelectorValue', '.DragHandle');
 
       expect(callAriaPressedTarget(row)).toBe(handle);
-    });
-  });
-
-  describe('resolveMirrorContainer', () => {
-    it('returns the configured mirror container target when present', () => {
-      const mirrorContainer = document.createElement('div');
-
-      Object.defineProperty(controller, 'hasMirrorContainerTarget', { value: true, configurable: true });
-      Object.defineProperty(controller, 'mirrorContainerTarget', { value: mirrorContainer, configurable: true });
-
-      expect(callResolveMirrorContainer()).toBe(mirrorContainer);
-    });
-
-    it('falls back to document.body when no mirror container target exists', () => {
-      Object.defineProperty(controller, 'hasMirrorContainerTarget', { value: false, configurable: true });
-
-      expect(callResolveMirrorContainer()).toBe(document.body);
     });
   });
 });

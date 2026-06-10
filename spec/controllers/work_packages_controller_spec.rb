@@ -266,7 +266,6 @@ RSpec.describe WorkPackagesController do
   end
 
   describe "show.html with semantic identifier",
-           with_flag: { semantic_work_package_ids: true },
            with_settings: { work_packages_identifier: "semantic" } do
     let(:project) { create(:project, identifier: "TESTPROJ") }
     let(:call_action) { get("show", params: { id: work_package.display_id.to_s }) }

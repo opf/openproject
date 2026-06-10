@@ -1,0 +1,79 @@
+<%=
+  flex_layout(justify_content: :space_between, align_items: :center) do |row|
+    row.with_column(flex_layout: true, align_items: :center, flex: 1) do |left|
+      left.with_column(mr: 2, classes: "hide-when-print type-form-configuration-page--drag-handle") do
+        render(
+          Primer::OpenProject::DragHandle.new(
+            classes: "attribute-handle",
+            "aria-label": t("types.edit.form_configuration.drag_to_reorder"),
+            test_selector: "type-form-configuration-attribute-handle-#{@attribute[:key]}"
+          )
+        )
+      end
+      left.with_column do
+        render(Primer::Beta::Text.new) { @attribute[:translation] }
+      end
+      if @attribute[:field_format_label].present?
+        left.with_column(ml: 2) do
+          render(Primer::Beta::Text.new(color: :muted, font_size: :small)) { @attribute[:field_format_label] }
+        end
+      end
+    end
+
+    row.with_column(classes: "hide-when-print type-form-configuration-page--actions") do
+      render(Primer::Alpha::ActionMenu.new) do |menu|
+        menu.with_show_button(
+          icon: "kebab-horizontal",
+          scheme: :invisible,
+          size: :small,
+          classes: "type-form-configuration-page--actions-button",
+          test_selector: "type-form-configuration-attribute-actions-#{@attribute[:key]}",
+          "aria-label": t("types.edit.form_configuration.row_actions")
+        )
+
+        if attribute_can_move_up?
+          move_action(
+            menu:,
+            href: row_move_path(:highest),
+            label: t("label_agenda_item_move_to_top"),
+            icon: "move-to-top"
+          )
+          move_action(
+            menu:,
+            href: row_move_path(:higher),
+            label: t("label_agenda_item_move_up"),
+            icon: "chevron-up"
+          )
+        end
+
+        if attribute_can_move_down?
+          move_action(
+            menu:,
+            href: row_move_path(:lower),
+            label: t("label_agenda_item_move_down"),
+            icon: "chevron-down"
+          )
+          move_action(
+            menu:,
+            href: row_move_path(:lowest),
+            label: t("label_agenda_item_move_to_bottom"),
+            icon: "move-to-bottom"
+          )
+        end
+
+        menu.with_divider if show_delete_divider?
+
+        menu.with_item(
+          label: t("button_delete"),
+          test_selector: "type-form-configuration-delete-attribute-#{@attribute[:key]}",
+          scheme: :danger,
+          tag: :a,
+          href: row_destroy_path,
+          content_arguments: { data: { turbo_method: :delete, turbo_stream: true } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :trash)
+        end
+      end
+    end
+  end
+%>

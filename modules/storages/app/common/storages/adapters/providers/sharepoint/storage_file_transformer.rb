@@ -91,7 +91,7 @@ module Storages
           end
 
           def build_ancestor(name, location)
-            Results::StorageFileAncestor.new(name:, location: CGI.unescape(location))
+            Results::StorageFileAncestor.new(name:, location:)
           end
 
           private

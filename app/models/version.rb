@@ -222,15 +222,15 @@ class Version < ApplicationRecord
   # Examples:
   # issues_progress(true)   => returns the progress percentage for open issues.
   # issues_progress(false)  => returns the progress percentage for closed issues.
-  def issues_progress(open)
+  def issues_progress(open) # rubocop:disable Metrics/AbcSize
     @issues_progress ||= {}
     @issues_progress[open] ||= begin
       progress = 0
 
       if issues_count > 0
         ratio = open ? "done_ratio" : 100
-        sum_sql = self.class.sanitize_sql_array(
-          ["COALESCE(#{WorkPackage.table_name}.estimated_hours, ?) * #{ratio}", estimated_average]
+        sum_sql = OpenProject::SqlSanitization.sanitize(
+          "COALESCE(#{WorkPackage.table_name}.estimated_hours, ?) * #{ratio}", estimated_average
         )
 
         done = work_packages

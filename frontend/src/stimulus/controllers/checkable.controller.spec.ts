@@ -31,14 +31,14 @@
 
 import { ActionEvent } from '@hotwired/stimulus';
 import CheckableController from './checkable.controller';
+import { createControllerInstance } from 'core-stimulus/test-helpers';
 
 describe('CheckableController', () => {
   let controller:any;
   let inputs:HTMLInputElement[];
 
   beforeEach(() => {
-    // Create a plain object that uses the controller prototype so we can call methods
-    controller = Object.create(CheckableController.prototype);
+    controller = createControllerInstance(CheckableController);
 
     inputs = [0, 1, 2].map(() => {
       const input = document.createElement('input');
@@ -53,7 +53,7 @@ describe('CheckableController', () => {
   it('checks all when none are checked', () => {
     controller.toggleAll(new Event('click'));
 
-    expect(inputs.every((i) => i.checked)).toBeTrue();
+    expect(inputs.every((i) => i.checked)).toBe(true);
   });
 
   it('checks all when some are checked (mixed state)', () => {
@@ -61,7 +61,7 @@ describe('CheckableController', () => {
 
     controller.toggleAll(new Event('click'));
 
-    expect(inputs.every((i) => i.checked)).toBeTrue();
+    expect(inputs.every((i) => i.checked)).toBe(true);
   });
 
   it('unchecks all when all are checked', () => {
@@ -69,17 +69,17 @@ describe('CheckableController', () => {
 
     controller.toggleAll(new Event('click'));
 
-    expect(inputs.every((i) => !i.checked)).toBeTrue();
+    expect(inputs.every((i) => !i.checked)).toBe(true);
   });
 
   it('dispatches input event', () => {
-    const dispatchSpy = spyOn(inputs[0], 'dispatchEvent').and.callThrough();
+    const dispatchSpy = vi.spyOn(inputs[0], 'dispatchEvent');
 
     controller.toggleAll(new Event('click'));
 
     expect(dispatchSpy).toHaveBeenCalledTimes(1);
 
-    const eventArg = dispatchSpy.calls.mostRecent().args[0];
+    const eventArg = vi.mocked(dispatchSpy).mock.lastCall![0];
 
     expect(eventArg.type).toBe('input');
     expect(eventArg.bubbles).toBe(false);
@@ -87,7 +87,7 @@ describe('CheckableController', () => {
   });
 
   it('checkAll calls toggleChecked(true)', () => {
-    spyOn(controller, 'toggleChecked').and.callFake(() => {});
+    vi.spyOn(controller, 'toggleChecked').mockImplementation(() => { });
 
     controller.checkAll(new Event('click'));
 
@@ -95,7 +95,7 @@ describe('CheckableController', () => {
   });
 
   it('uncheckAll calls toggleChecked(false)', () => {
-    spyOn(controller, 'toggleChecked').and.callFake(() => {});
+    vi.spyOn(controller, 'toggleChecked').mockImplementation(() => { });
 
     controller.uncheckAll(new Event('click'));
 
@@ -103,7 +103,6 @@ describe('CheckableController', () => {
   });
 
   describe('toggleSelection', () => {
-    // Helper to create an ActionEvent-like object with params
     function createActionEvent(params:ActionEvent['params']):ActionEvent {
       const event = new Event('click') as ActionEvent;
       event.params = params;
@@ -129,7 +128,6 @@ describe('CheckableController', () => {
     });
 
     it('toggles only checkboxes matching the key/value pair', () => {
-      // Add data attributes to checkboxes
       inputs[0].dataset.role = 'admin';
       inputs[1].dataset.role = 'member';
       inputs[2].dataset.role = 'admin';
@@ -138,10 +136,9 @@ describe('CheckableController', () => {
 
       controller.toggleSelection(event);
 
-      // Only admin checkboxes should be checked
-      expect(inputs[0].checked).toBeTrue();
-      expect(inputs[1].checked).toBeFalse();
-      expect(inputs[2].checked).toBeTrue();
+      expect(inputs[0].checked).toBe(true);
+      expect(inputs[1].checked).toBe(false);
+      expect(inputs[2].checked).toBe(true);
     });
 
     it('unchecks all matching checkboxes when all are checked', () => {
@@ -156,10 +153,9 @@ describe('CheckableController', () => {
 
       controller.toggleSelection(event);
 
-      // Only admin checkboxes should be unchecked
-      expect(inputs[0].checked).toBeFalse();
-      expect(inputs[1].checked).toBeTrue(); // member stays checked
-      expect(inputs[2].checked).toBeFalse();
+      expect(inputs[0].checked).toBe(false);
+      expect(inputs[1].checked).toBe(true); // member stays checked
+      expect(inputs[2].checked).toBe(false);
     });
 
     it('works with numeric value params (converted to string)', () => {
@@ -172,9 +168,9 @@ describe('CheckableController', () => {
 
       controller.toggleSelection(event);
 
-      expect(inputs[0].checked).toBeTrue();
-      expect(inputs[1].checked).toBeFalse();
-      expect(inputs[2].checked).toBeTrue();
+      expect(inputs[0].checked).toBe(true);
+      expect(inputs[1].checked).toBe(false);
+      expect(inputs[2].checked).toBe(true);
     });
 
     it('works with boolean value params (converted to string)', () => {
@@ -187,9 +183,9 @@ describe('CheckableController', () => {
 
       controller.toggleSelection(event);
 
-      expect(inputs[0].checked).toBeTrue();
-      expect(inputs[1].checked).toBeFalse();
-      expect(inputs[2].checked).toBeTrue();
+      expect(inputs[0].checked).toBe(true);
+      expect(inputs[1].checked).toBe(false);
+      expect(inputs[2].checked).toBe(true);
     });
   });
 });

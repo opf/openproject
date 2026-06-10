@@ -33,7 +33,7 @@ it:
           title: Sottoelementi
         project_favorites:
           title: Progetti preferiti
-          no_results: Al momento non hai progetti preferiti. Clicca sull'icona della stella nella dashboard del progetto per aggiungerne uno ai tuoi preferiti.
+          no_results: Al momento non hai progetti preferiti. Aggiungi uno o più progetti ai preferiti dalla relativa panoramica o da un elenco di progetti.
         time_entries_current_user:
           title: Il mio tempo trascorso
           displayed_days: 'Giorni visualizzati nel widget:'

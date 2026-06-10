@@ -41,7 +41,7 @@ cs:
         updated: Aktualizováno
         comment: Komentář
         internal_comment: Interní komentář
-      explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
+      explanation_html: 'Při výskytu události, jako je vytvoření pracovního balíčku nebo úprava projektu, OpenProject odešle POST request na nakonfigurované webové endpointy. Často je událost odeslána poté, co uplynul [nastavená agregační interval](aggregation_path).
 
         '
       status:

@@ -32,19 +32,20 @@ class Journals::CreateService
   class Association
     include Helpers
 
-    ASSOCIATION_NAMES = %i[
-      AgendaItemable
-      Attachable
-      CustomComment
-      Customizable
-      ProjectPhase
-      Storable
-    ].freeze
+    # Core associations are defined here. Module-specific associations can be defined in engines
+    # using `Journals::CreateService::Association.register`.
+    @registry = Set.new(%i[Attachable CustomComment Customizable ProjectPhase])
 
-    def self.for(journable)
-      ASSOCIATION_NAMES
-        .map { "Journals::CreateService::#{it}".constantize.new(journable) }
-        .select(&:associated?)
+    class << self
+      def register(*names)
+        @registry.merge(names.map(&:to_sym))
+      end
+
+      def for(journable)
+        @registry
+          .map { "Journals::CreateService::#{it}".constantize.new(journable) }
+          .select(&:associated?)
+      end
     end
 
     attr_reader :journable

@@ -3,7 +3,7 @@ import { TabComponent } from 'core-app/features/work-packages/components/wp-tabl
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { WorkPackageViewSumService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sum.service';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, inject } from '@angular/core';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 
 @Component({
@@ -16,6 +16,13 @@ import { QueryGroupByResource } from 'core-app/features/hal/resources/query-grou
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WpTableConfigurationDisplaySettingsTabComponent implements TabComponent, OnInit {
+  readonly injector = inject(Injector);
+  readonly I18n = inject(I18nService);
+  readonly wpTableGroupBy = inject(WorkPackageViewGroupByService);
+  readonly wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
+  readonly wpTableSums = inject(WorkPackageViewSumService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   // Display mode
   public displayMode:'hierarchy'|'grouped'|'default' = 'default';
 
@@ -43,15 +50,6 @@ export class WpTableConfigurationDisplaySettingsTabComponent implements TabCompo
       hierarchy_hint: `— ${this.I18n.t('js.work_packages.table_configuration.hierarchy_hint')}`,
     },
   };
-
-  constructor(
-    readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly wpTableGroupBy:WorkPackageViewGroupByService,
-    readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
-    readonly wpTableSums:WorkPackageViewSumService,
-    readonly cdRef:ChangeDetectorRef,
-  ) { }
 
   public onSave() {
     // Update hierarchy state

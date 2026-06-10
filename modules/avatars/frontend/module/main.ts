@@ -24,7 +24,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AvatarUploadFormComponent } from './avatar-upload-form/avatar-upload-form.component';
 import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-elements.helper';
@@ -38,7 +38,9 @@ import { registerCustomElement } from 'core-app/shared/helpers/angular/custom-el
   ],
 })
 export class PluginModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     registerCustomElement('opce-avatar-upload-form', AvatarUploadFormComponent, { injector });
   }
 }

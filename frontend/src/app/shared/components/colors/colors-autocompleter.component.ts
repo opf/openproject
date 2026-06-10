@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, inject } from '@angular/core';
 import {
   Highlighting,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
@@ -62,6 +62,9 @@ interface ColorItem {
   standalone: false,
 })
 export class ColorsAutocompleterComponent implements OnInit {
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  protected readonly I18n = inject(I18nService);
+
   public options:ColorItem[];
 
   public selectedOption?:ColorItem|string;
@@ -73,12 +76,6 @@ export class ColorsAutocompleterComponent implements OnInit {
   private updateInputField:HTMLInputElement|undefined;
 
   private selectedColorId:string;
-
-  constructor(
-    protected elementRef:ElementRef<HTMLElement>,
-    protected readonly I18n:I18nService,
-  ) {
-  }
 
   ngOnInit() {
     this.setColorOptions();

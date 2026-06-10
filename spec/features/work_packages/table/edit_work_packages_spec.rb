@@ -204,8 +204,7 @@ RSpec.describe "Inline editing work packages", :js do
     end
   end
 
-  context "when editing the project field with workspace types",
-          with_flag: { portfolio_models: true } do
+  context "when editing the project field with workspace types" do
     let!(:portfolio) { create(:portfolio, name: "Test Portfolio") }
     let!(:program) { create(:program, name: "Test Program") }
     let(:manager_permissions) { %i[view_work_packages edit_work_packages move_work_packages] }

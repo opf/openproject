@@ -1,0 +1,132 @@
+---
+zh-CN:
+  activerecord:
+    attributes:
+      resource_allocation:
+        allocated_time: 分配时间
+        end_date: 结束日期
+        entity: 实体
+        principal: 受理人
+        start_date: 开始日期
+        state: 地区
+        user_filter: 用户筛选器
+      resource_planner:
+        default_view_class_name: 默认视图
+        end_date: 结束日期
+        favorite: 收藏夹
+        name: 名称
+        public: 公开
+        start_date: 开始日期
+    errors:
+      models:
+        resource_allocation:
+          attributes:
+            end_date:
+              greater_than_start_date: 必须在开始日期之后。
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: 必须在开始日期之后。
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: 必须是工作包查询。
+    models:
+      resource_allocation: 资源分配
+      resource_planner: 资源规划工具
+      resource_work_package_list: 工作包列表
+      user_card: 用户卡
+  button_next: 下一步
+  label_resource_management: 资源规划
+  permission_allocate_user_resources: 分配用户资源
+  permission_allocate_user_resources_explanation: '允许用户在资源规划工具中创建、更新和删除资源分配。这包括为规划工具分配用户（或用户筛选器），以及调整分配的时间和日期范围。
+
+    '
+  permission_manage_public_resource_planners: 管理公开的资源规划工具
+  permission_manage_public_resource_planners_explanation: '允许用户创建和管理公开的资源规划工具。用户可以查看、创建、管理和发布自己的资源规划工具，但不可以查看其他用户创建的未公开共享的资源规划工具。
+
+    '
+  permission_view_resource_planners: 查看资源规划工具
+  permission_view_resource_planners_explanation: '允许用户访问资源规划工具。用户可以创建和管理自己的资源规划工具，并查看公开的资源规划工具，但不可以查看其他用户创建的未公开共享的资源规划工具。
+
+    '
+  plugin_openproject_resource_management:
+    description: 提供资源管理和能力规划。
+    name: OpenProject 资源管理
+  project_module_resource_management: 资源管理
+  resource_management:
+    action:
+      delete: 删除
+      favorite: 添加至收藏夹
+      make_private: 设为私有
+      make_public: 设为公开
+      unfavorite: 取消收藏
+    blankslate:
+      desc: 创建资源规划工具以开始规划此项目的容量。
+      title: 暂无资源规划工具
+    configure_view_dialog:
+      delete_confirmation: 确定要删除此视图吗？此操作无法撤消。
+      filter_mode:
+        automatic:
+          caption: 自动生成的列表，显示符合您所定义条件的项目。
+          label: 已自动筛选
+        label: 项目选择
+        manual:
+          caption: 您手动添加和移除的自定义项目列表。无法进行筛选。
+          label: 人工挑选
+      title: 配置视图
+    favorite_caption: '将此视图标记为收藏项，并添加到边栏菜单的顶部。
+
+      '
+    label_new_resource_planner: 新建资源规划工具
+    label_resource_planner: 资源规划工具
+    label_resource_planner_plural: 资源规划工具
+    new_view_dialog:
+      title: 添加视图
+    public_caption: '向该项目的所有成员公开此视图。这不会影响工作包的可见性，工作包的可见性仍然取决于每位用户的权限。
+
+      '
+    show:
+      placeholder: 此资源规划工具的详细视图即将发布。
+    sidebar:
+      private: 私用
+      public: 公开
+    sub_views: 此资源规划工具中的视图
+    view_types:
+      resource_work_package_list:
+        caption: 基于工作包创建视图，并在列表中查看其详细信息和分配情况
+        label: 工作包列表
+      user_card:
+        caption: 基于用户创建视图，并在用户卡列表中查看其详细信息和分配情况
+        label: 用户卡列表
+    work_package_list:
+      add_work_package_dialog:
+        title: 添加工作包
+      allocation_placeholder: "—"
+      blank:
+        description: 还没有与此视图的筛选条件相符的工作包。
+        title: 没有要显示的工作包
+      columns:
+        allocated_members: 分配的成员
+        allocation: 分配
+        dates: 日期
+      context_menu:
+        add_filter_criteria: 添加筛选条件
+        add_user_group: 添加用户群组
+        edit_total_work: 编辑总工时
+        label: 更多操作
+        move: 移动
+        move_down: 向下移动
+        move_to_bottom: 移至底部
+        move_to_top: 移至顶部
+        move_up: 向上移动
+        remove: 移除
+        remove_confirmation: 是否将此工作包从视图中移除？
+        see_allocation: 查看分配
+      mobile_title: 工作包
+      query_name: 资源管理工作包：%{name}
+      subheader:
+        add: 添加
+        add_work_package: 添加工作包
+        allocate: 分配
+        settings: 配置视图

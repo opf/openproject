@@ -116,6 +116,36 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
           expect(response).to render_template("work_packages/moves/new")
         end
       end
+
+      describe "with a semantic work package identifier",
+               with_settings: { work_packages_identifier: "semantic" } do
+        let(:semantic_project) { create(:project, :semantic, public: false, types: [type, type2]) }
+        let(:semantic_target_project) { create(:project, :semantic, public: false, types: [type, type2]) }
+        let(:semantic_work_package) do
+          create(:work_package, project: semantic_project, type:, author: user, priority:)
+        end
+        let!(:semantic_member) { create(:member, user: current_user, project: semantic_project, roles: [role]) }
+        let!(:semantic_target_member) { create(:member, user: current_user, project: semantic_target_project, roles: [role]) }
+
+        it "resolves the semantic identifier and renders the new builder template" do
+          get "new", params: { work_package_id: semantic_work_package.display_id }
+
+          expect(response).to render_template("work_packages/moves/new")
+        end
+
+        it "resolves the semantic identifier on create and moves the work package" do
+          post :create, params: {
+            work_package_id: semantic_work_package.display_id,
+            new_project_id: semantic_target_project.id,
+            new_type_id: semantic_target_project.types.first.id,
+            follow: "1"
+          }
+
+          expect(response).to be_redirect
+          expect(semantic_work_package.reload.project_id).to eq(semantic_target_project.id)
+          expect(response.location).to match(%r{/work_packages/#{semantic_target_project.identifier}-\d+})
+        end
+      end
     end
   end
 

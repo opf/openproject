@@ -28,10 +28,9 @@
 
 import { combine } from '@openproject/reactivestates';
 import { mapTo } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { States } from 'core-app/core/states/states.service';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -40,11 +39,8 @@ import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewSortByService extends WorkPackageQueryStateService<QuerySortByResource[]> {
-  constructor(protected readonly states:States,
-    protected readonly querySpace:IsolatedQuerySpace,
-    protected readonly pathHelper:PathHelperService) {
-    super(querySpace);
-  }
+  protected readonly states = inject(States);
+  protected readonly pathHelper = inject(PathHelperService);
 
   public valueFromQuery(query:QueryResource) {
     return [...query.sortBy];

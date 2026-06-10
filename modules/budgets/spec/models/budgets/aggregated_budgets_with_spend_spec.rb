@@ -38,7 +38,8 @@ RSpec.describe Budgets::AggregatedBudgetsWithSpend do
                                                     view_cost_entries
                                                     view_cost_rates
                                                     view_time_entries
-                                                    view_hourly_rates] })
+                                                    view_hourly_rates
+                                                    work_package_assigned] })
   end
   shared_let(:work_package) { create(:work_package, project: project) }
 

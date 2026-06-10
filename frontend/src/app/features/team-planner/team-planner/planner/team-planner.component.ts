@@ -26,17 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  Injector,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Injector, OnDestroy, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import {
   CalendarOptions,
   DateSelectArg,
@@ -143,6 +133,27 @@ export type TeamPlannerViewOptions = Record<TeamPlannerViewOptionKey, RawOptions
   standalone: false,
 })
 export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  private configuration = inject(ConfigurationService);
+  private principalsResourceService = inject(PrincipalsResourceService);
+  private capabilitiesResourceService = inject(CapabilitiesResourceService);
+  private wpTableFilters = inject(WorkPackageViewFiltersService);
+  private querySpace = inject(IsolatedQuerySpace);
+  private currentProject = inject(CurrentProjectService);
+  private I18n = inject(I18nService);
+  readonly injector = inject(Injector);
+  readonly calendar = inject(OpCalendarService);
+  readonly workPackagesCalendar = inject(OpWorkPackagesCalendarService);
+  readonly halEditing = inject(HalResourceEditingService);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly calendarDrag = inject(CalendarDragDropService);
+  readonly actions$ = inject(ActionsService);
+  readonly toastService = inject(ToastService);
+  readonly loadingIndicatorService = inject(LoadingIndicatorService);
+  readonly weekdayService = inject(WeekdayService);
+  readonly deviceService = inject(DeviceService);
+
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @ViewChild('ucCalendar', { read: ElementRef })
@@ -403,31 +414,6 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
     },
   };
 
-  constructor(
-    private configuration:ConfigurationService,
-    private principalsResourceService:PrincipalsResourceService,
-    private capabilitiesResourceService:CapabilitiesResourceService,
-    private wpTableFilters:WorkPackageViewFiltersService,
-    private querySpace:IsolatedQuerySpace,
-    private currentProject:CurrentProjectService,
-    private I18n:I18nService,
-    readonly injector:Injector,
-    readonly calendar:OpCalendarService,
-    readonly workPackagesCalendar:OpWorkPackagesCalendarService,
-    readonly halEditing:HalResourceEditingService,
-    readonly halNotification:HalResourceNotificationService,
-    readonly schemaCache:SchemaCacheService,
-    readonly apiV3Service:ApiV3Service,
-    readonly calendarDrag:CalendarDragDropService,
-    readonly actions$:ActionsService,
-    readonly toastService:ToastService,
-    readonly loadingIndicatorService:LoadingIndicatorService,
-    readonly weekdayService:WeekdayService,
-    readonly deviceService:DeviceService,
-  ) {
-    super();
-  }
-
   ngOnInit():void {
     registerEffectCallbacks(this, this.untilDestroyed());
     this.initializeCalendar();
@@ -552,7 +538,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
             resources: skeletonResources,
             resourceAreaWidth: this.isMobile ? '60px' : '180px',
             resourceOrder: 'title',
-            select: this.handleDateClicked.bind(this) as unknown,
+            select: this.handleDateClicked.bind(this),
             // DnD configuration
             editable: true,
             droppable: true,

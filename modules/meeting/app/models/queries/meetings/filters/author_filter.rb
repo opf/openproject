@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -36,6 +37,10 @@ class Queries::Meetings::Filters::AuthorFilter < Queries::Meetings::Filters::Mee
 
   def type_strategy
     @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
+  end
+
+  def autocomplete_options
+    { component: "opce-user-autocompleter", resource: "principals" }
   end
 
   def self.key

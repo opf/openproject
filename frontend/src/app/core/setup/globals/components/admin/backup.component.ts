@@ -26,8 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, ViewChild } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -43,6 +42,13 @@ import { JobStatusModalService } from 'core-app/features/job-status/job-status-m
   standalone: false,
 })
 export class BackupComponent implements AfterViewInit {
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+  injector = inject(Injector);
+  protected i18n = inject(I18nService);
+  protected toastService = inject(ToastService);
+  protected pathHelper = inject(PathHelperService);
+  protected jobStatusModalService = inject(JobStatusModalService);
+
   public text = {
     info: this.i18n.t('js.backup.info'),
     note: this.i18n.t('js.backup.note'),
@@ -68,18 +74,11 @@ export class BackupComponent implements AfterViewInit {
 
   public backupToken = '';
 
-  @InjectField() opBackup:OpenProjectBackupService;
+  readonly opBackup = inject(OpenProjectBackupService);
 
   @ViewChild('backupTokenInput') backupTokenInput:ElementRef<HTMLInputElement>;
 
-  constructor(
-    readonly elementRef:ElementRef<HTMLElement>,
-    public injector:Injector,
-    protected i18n:I18nService,
-    protected toastService:ToastService,
-    protected pathHelper:PathHelperService,
-    protected jobStatusModalService:JobStatusModalService,
-  ) {
+  constructor() {
     this.includeAttachments = this.mayIncludeAttachments;
   }
 

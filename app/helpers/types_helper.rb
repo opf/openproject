@@ -29,6 +29,8 @@
 #++
 
 module ::TypesHelper
+  include CustomFieldsHelper
+
   # rubocop:disable Rails/HelperInstanceVariable
   def types_tabs
     [
@@ -136,13 +138,12 @@ module ::TypesHelper
   def get_active_groups(type, available, inactive)
     type.attribute_groups.map do |group|
       {
+        key: group.key,
         type: group.group_type,
         name: group.translated_key,
         attributes: active_group_attributes_map(group, available, inactive),
         query: query_to_query_props(group)
-      }.tap do |group_obj|
-        group_obj[:key] = group.key if group.internal_key?
-      end
+      }
     end
   end
 
@@ -151,7 +152,16 @@ module ::TypesHelper
       key:,
       is_cf: CustomField.custom_field_attribute?(key),
       is_required: represented[:required] && !represented[:has_default],
-      translation: Type.translated_attribute_name(key, represented)
+      translation: Type.translated_attribute_name(key, represented),
+      field_format_label: field_format_label(represented)
     }
+  end
+
+  def field_format_label(represented)
+    if represented[:is_cf]
+      label_for_custom_field_format(represented[:field_format])
+    else
+      I18n.t("types.edit.form_configuration.builtin_field")
+    end
   end
 end

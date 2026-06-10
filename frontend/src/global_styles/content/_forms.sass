@@ -173,6 +173,11 @@ form
     .-columns-2
       column-count: 2
 
+      .form--field
+        break-inside: avoid
+        page-break-inside: avoid
+        -webkit-column-break-inside: avoid
+
   // follows new board page columns width (which uses -wide class (500px) for its tiles)
   .boards-enterprise-banner-wide
     max-width: calc(2*500px + 1rem)
@@ -920,7 +925,7 @@ input[readonly].-clickable
       border-bottom-right-radius: 2px
 
     &:focus-within
-      @include spot-focus
+      @include focus
 
 .form--list
   display: flex

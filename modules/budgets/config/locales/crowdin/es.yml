@@ -36,6 +36,7 @@ es:
         subject: Asunto
         type: Tipo de costo
         labor_budget: Costos laborales planeados
+        labor_budget_items: Costos laborales previstos
         material_budget: Costos unitarios planeados
         base_amount: Importe base
       work_package:
@@ -48,6 +49,7 @@ es:
               not_a_member_of_budget_project: no es miembro del proyecto presupuestario
     models:
       budget: Presupuesto
+      labor_budget_item: Costo laboral previsto
       material_budget_item: Unidad
   activity:
     filter:

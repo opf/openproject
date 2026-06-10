@@ -75,6 +75,14 @@ RSpec.describe Projects::Identifier do
       expect(project.identifier).to eq("foo")
     end
 
+    it "generates a valid identifier for an all-numeric name" do
+      project = Project.new(name: "12345")
+
+      project.validate
+
+      expect(project.identifier).to match(Projects::Identifier::CLASSIC_FORMAT)
+    end
+
     it "is not allowed to clash with projects routing" do
       expect(reserved).not_to be_empty
 
@@ -103,43 +111,9 @@ RSpec.describe Projects::Identifier do
       end.to raise_error(ActiveRecord::RecordNotUnique)
     end
 
-    it "is not allowed to clash with a former identifier of another project" do
-      other_project = create(:project, identifier: "former-id")
-      other_project.update!(identifier: "new-id")
-
-      project = build(:project, identifier: "former-id")
-      expect(project).not_to be_valid
-      expect(project.errors[:identifier]).to include("has already been taken.")
-    end
-
-    it "is not allowed to clash with a former identifier of another project case-insensitively" do
-      other_project = create(:project, identifier: "former-id")
-      other_project.update!(identifier: "new-id")
-
-      # Bypass format validation to test the LOWER() slug check directly
-      project = create(:project)
-      project.identifier = "FORMER-ID"
-      project.valid?
-      expect(project.errors[:identifier]).to include("has already been taken.")
-    end
-
-    it "is allowed to be the same as its own former identifier" do
-      project = create(:project, identifier: "old-id")
-      project.update!(identifier: "new-id")
-
-      project.identifier = "old-id"
-      expect(project).to be_valid
-    end
-
-    it "rejects reserved identifiers case-insensitively" do
-      project = build(:project, identifier: "NEW")
-      expect(project).not_to be_valid
-      expect(project.errors[:identifier]).to include("is reserved.")
-    end
-
-    # The acts_as_url plugin defines validation callbacks on :create and it is not automatically
-    # called when calling a custom context. However we need the acts_as_url callback to set the
-    # identifier when the validations are called with the :saving_custom_fields context.
+    # The identifier-generation callback fires on :create and is not automatically called when
+    # validating with a custom context. The validation_context override ensures it still runs
+    # when the validations are called with the :saving_custom_fields context.
     context "when validating with :saving_custom_fields context" do
       it "is set from name" do
         project = Project.new(name: "foo")
@@ -198,42 +172,6 @@ RSpec.describe Projects::Identifier do
         project.identifier = "sc"
         expect(project).to be_valid
       end
-    end
-  end
-
-  describe "semantic_conversion context", with_settings: { work_packages_identifier: "classic" } do
-    let!(:project) { create(:project, identifier: "classic-id") }
-
-    it "rejects a semantic identifier under normal classic-mode validation" do
-      project.identifier = "PROJ"
-      expect(project).not_to be_valid
-      expect(project.errors[:identifier]).to be_present
-    end
-
-    it "accepts a semantic identifier when validated with the :semantic_conversion context" do
-      project.identifier = "PROJ"
-      expect(project.valid?(:semantic_conversion)).to be(true)
-    end
-
-    it "persists the semantic identifier when saved with the :semantic_conversion context" do
-      project.identifier = "PROJ"
-      project.save!(context: :semantic_conversion)
-      expect(project.reload.identifier).to eq("PROJ")
-    end
-
-    it "still rejects an invalid semantic identifier under :semantic_conversion context" do
-      project.identifier = "bad-format"
-      expect(project.valid?(:semantic_conversion)).to be(false)
-      expect(project.errors[:identifier]).to be_present
-    end
-
-    it "rejects an identifier already used historically by another project" do
-      other = create(:project, identifier: "other-id")
-      FriendlyId::Slug.create!(sluggable: other, slug: "PROJ")
-
-      project.identifier = "PROJ"
-      expect(project.valid?(:semantic_conversion)).to be(false)
-      expect(project.errors[:identifier]).to include(I18n.t("activerecord.errors.messages.taken"))
     end
   end
 

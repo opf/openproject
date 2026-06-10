@@ -33,7 +33,7 @@ module Wikis::Admin
     form do |f|
       f.text_field(
         name: :name,
-        label: I18n.t("activerecord.attributes.wikis/xwiki_provider.name"),
+        label: model.class.human_attribute_name(:name),
         required: true,
         caption: I18n.t("wikis.admin.wiki_providers.name_caption"),
         placeholder: I18n.t("wikis.admin.wiki_providers.name_placeholder"),

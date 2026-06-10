@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
@@ -48,6 +48,10 @@ import { IAPIFilter } from 'core-app/shared/components/autocompleter/op-autocomp
   standalone: false,
 })
 export class FilterProjectComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly currentProjectService = inject(CurrentProjectService);
+
   @Input() public shouldFocus = false;
 
   @Input() public filter:QueryFilterInstanceResource;
@@ -55,14 +59,6 @@ export class FilterProjectComponent extends UntilDestroyedMixin implements OnIni
   @Output() public filterChanged = new DebouncedEventEmitter<QueryFilterInstanceResource>(componentDestroyed(this), 0);
 
   additionalProjectApiFilters:IAPIFilter[] = [];
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly apiV3Service:ApiV3Service,
-    readonly currentProjectService:CurrentProjectService,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     const projectID = this.currentProjectService.id;

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { UIRouterGlobals } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -50,6 +50,17 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
   standalone: false,
 })
 export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly elementRef = inject(ElementRef);
+  readonly wpWatchersService = inject(WorkPackageWatchersService);
+  readonly uiRouterGlobals = inject(UIRouterGlobals);
+  readonly notificationService = inject(WorkPackageNotificationService);
+  readonly loadingIndicator = inject(LoadingIndicatorService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly pathHelper = inject(PathHelperService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly turboRequests = inject(TurboRequestsService);
+
   @Input() public workPackage:WorkPackageResource;
 
   public workPackageId:string;
@@ -77,21 +88,6 @@ export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin impleme
       placeholder: this.I18n.t('js.watchers.typeahead_placeholder'),
     },
   };
-
-  public constructor(
-    readonly I18n:I18nService,
-    readonly elementRef:ElementRef,
-    readonly wpWatchersService:WorkPackageWatchersService,
-    readonly uiRouterGlobals:UIRouterGlobals,
-    readonly notificationService:WorkPackageNotificationService,
-    readonly loadingIndicator:LoadingIndicatorService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly pathHelper:PathHelperService,
-    readonly apiV3Service:ApiV3Service,
-    readonly turboRequests:TurboRequestsService,
-  ) {
-    super();
-  }
 
   public ngOnInit() {
     this.element = this.elementRef.nativeElement;

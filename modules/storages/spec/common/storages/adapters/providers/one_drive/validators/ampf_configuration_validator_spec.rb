@@ -36,17 +36,17 @@ module Storages
     module Providers
       module OneDrive
         module Validators
-          RSpec.describe AmpfConfigurationValidator, :webmock do
+          RSpec.describe AmpfConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:one_drive_sandbox_storage, :as_automatically_managed) }
             let(:auth_strategy) { Registry["one_drive.authentication.userless"].call }
             let(:folder_name) { described_class::TEST_FOLDER_NAME }
 
             subject(:validator) { described_class.new(storage) }
 
-            it "returns a GroupValidationResult", vcr: "one_drive/validator_ampf_clean_run" do
+            it "returns a ResultGroup", vcr: "one_drive/validator_ampf_clean_run" do
               results = validator.call
 
-              expect(results).to be_a(ConnectionValidators::ValidationGroupResult)
+              expect(results).to be_a(HealthReport::ResultGroup)
               expect(results).to be_success
             end
 

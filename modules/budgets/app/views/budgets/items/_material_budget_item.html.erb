@@ -95,9 +95,12 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
 
         <% cost_value = material_budget_item.amount || material_budget_item.calculated_costs(@budget.fixed_date) %>
-        <a id="<%= id_prefix %>_costs" class="costs--edit-planned-costs-btn icon-context icon-edit" role="button" title="<%= t(:help_click_to_edit) %>">
+        <button type="button"
+                id="<%= id_prefix %>_costs"
+                class="costs--edit-planned-costs-btn icon-context icon-edit button--link no-decoration-on-hover"
+                aria-label="<%= t(:help_click_to_edit) %>">
           <%= number_to_currency(cost_value) %>
-        </a>
+        </button>
         <%= render partial: "/budgets/items/budget_override_cost_form",
                    locals: {
                      field_name: "#{name_prefix}[amount]",

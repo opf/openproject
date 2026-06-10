@@ -126,6 +126,10 @@ class ProjectCustomField < CustomField
     end
   end
 
+  def visible?(usr = User.current, project: nil)
+    self.class.visible(usr, project:).exists?(id: id)
+  end
+
   def type_name
     :label_project_plural
   end

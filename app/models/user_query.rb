@@ -29,13 +29,15 @@
 #++
 
 class UserQuery < PersistedQuery
+  scope :visible, ->(user = User.current) { where(principal: user) }
+
   def self.model
     User
   end
 
   def default_scope
     # Excludes the SystemUser, DeletedUser, AnonymousUser STI descendants of User.
-    User.user
+    User.user.visible
   end
 
   register_query do
@@ -45,9 +47,14 @@ class UserQuery < PersistedQuery
     filter Queries::Users::Filters::StatusFilter
     filter Queries::Users::Filters::LoginFilter
     filter Queries::Users::Filters::BlockedFilter
+    filter Queries::Users::Filters::CustomFieldFilter
 
     order Queries::Users::Orders::DefaultOrder
     order Queries::Users::Orders::NameOrder
     order Queries::Users::Orders::GroupOrder
+    order Queries::Users::Orders::CustomFieldOrder
+
+    select Queries::Users::Selects::Default
+    select Queries::Users::Selects::CustomField
   end
 end

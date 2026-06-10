@@ -1,0 +1,39 @@
+<%=
+  render(
+    Primer::OpenProject::DangerDialog.new(
+      id: DIALOG_ID,
+      title: t("working_days.dialog.title"),
+      confirm_button_text: t("working_days.dialog.confirm_button"),
+      form_arguments:,
+      size: :medium_portrait
+    )
+  ) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { t("working_days.dialog.heading") }
+      message.with_description_content(t("working_days.dialog.description"))
+    end
+
+    dialog.with_additional_details do
+      concat hidden_settings_fields
+      concat(
+        tag.div do
+          if removed_non_working_days.any?
+            concat tag.p(t("working_days.dialog.removed_title"))
+            concat(
+              render(
+                Primer::BaseComponent.new(
+                  tag: :ul,
+                  mb: 3
+                )
+              ) do
+                safe_join(removed_non_working_days.map { |non_working_day| tag.li(non_working_day) })
+              end
+            )
+          end
+
+          concat tag.p(t("working_days.dialog.warning"))
+        end
+      )
+    end
+  end
+%>

@@ -36,7 +36,14 @@ class WorkPackageWikisTabController < ApplicationController
   before_action :set_work_package
 
   def index
-    render(Wikis::WorkPackageWikisTabComponent.new(@work_package), layout: false)
+    tab_component = Wikis::WorkPackageWikisTabComponent.new(@work_package)
+    replace_via_turbo_stream(component: tab_component)
+
+    respond_to_with_turbo_streams do |format|
+      format.html do
+        render(tab_component, layout: false)
+      end
+    end
   end
 
   private

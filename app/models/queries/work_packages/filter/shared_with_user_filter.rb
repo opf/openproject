@@ -93,15 +93,27 @@ class Queries::WorkPackages::Filter::SharedWithUserFilter <
     members_table = Member.table_name
 
     where_clauses = values_replaced.map do |user_id|
-      <<~SQL.squish
-        EXISTS (SELECT 1
-                FROM #{members_table}
-                WHERE #{members_table}.entity_id = #{work_packages_table}.id
-                AND #{members_table}.user_id = #{ActiveRecord::Base.connection.quote_string(user_id)})
-      SQL
+      normalized_user_id = normalize_user_id(user_id)
+
+      if normalized_user_id.nil?
+        "1=0"
+      else
+        OpenProject::SqlSanitization.sanitize(<<~SQL.squish, normalized_user_id)
+          EXISTS (SELECT 1
+                  FROM #{members_table}
+                  WHERE #{members_table}.entity_id = #{work_packages_table}.id
+                  AND #{members_table}.user_id = ?)
+        SQL
+      end
     end
 
     where_clauses.join(" AND ")
+  end
+
+  def normalize_user_id(user_id)
+    Integer(user_id, 10)
+  rescue ArgumentError, TypeError
+    nil
   end
 
   def querying_for_self?

@@ -33,17 +33,17 @@ module Backlogs
     include Primer::AttributesHelper
     include CommonHelper
 
-    attr_reader :sprints, :stories_by_sprint_id, :active_sprint_ids, :project, :current_user
+    attr_reader :sprints, :work_packages_by_sprint_id, :active_sprint_ids, :project, :current_user
 
     def initialize(sprints:,
-                   stories_by_sprint_id:,
+                   work_packages_by_sprint_id:,
                    active_sprint_ids:,
                    project:,
                    current_user: User.current)
       super()
 
       @sprints = sprints
-      @stories_by_sprint_id = stories_by_sprint_id
+      @work_packages_by_sprint_id = work_packages_by_sprint_id
       @active_sprint_ids = active_sprint_ids
       @project = project
       @current_user = current_user
@@ -52,7 +52,7 @@ module Backlogs
     private
 
     def blankslate_description
-      if allow_sprint_management?(project)
+      if sprint_management_allowed?
         description_with_settings_link
       else
         description
@@ -67,7 +67,7 @@ module Backlogs
 
       if project.receive_shared_sprints?
         t(".blankslate.receive_and_manage_description_html", settings_link:)
-      elsif allow_sprint_creation?(project)
+      elsif sprint_creation_allowed?
         t(".blankslate.create_and_manage_description_html", settings_link:)
       else
         t(".blankslate.manage_description_html", settings_link:)
@@ -77,7 +77,7 @@ module Backlogs
     def description
       if project.receive_shared_sprints?
         t(".blankslate.receive_description_text")
-      elsif allow_sprint_creation?(project)
+      elsif sprint_creation_allowed?
         t(".blankslate.create_description_text")
       else
         t(".blankslate.no_actions_description_text")

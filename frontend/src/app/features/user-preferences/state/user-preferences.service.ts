@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { ApiV3UserPreferencesPaths } from 'core-app/core/apiv3/endpoints/users/apiv3-user-preferences-paths';
@@ -9,16 +9,13 @@ import { UserPreferencesQuery } from 'core-app/features/user-preferences/state/u
 
 @Injectable({ providedIn: 'root' })
 export class UserPreferencesService {
+  private apiV3Service = inject(ApiV3Service);
+  private toastService = inject(ToastService);
+  private I18n = inject(I18nService);
+
   readonly store = new UserPreferencesStore();
 
   readonly query = new UserPreferencesQuery(this.store);
-
-  constructor(
-    private apiV3Service:ApiV3Service,
-    private toastService:ToastService,
-    private I18n:I18nService,
-  ) {
-  }
 
   get(user:string):void {
     this.store.setLoading(true);

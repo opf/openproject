@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { WorkPackageRelationsHierarchyService } from 'core-app/features/work-packages/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -49,6 +43,11 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageBreadcrumbParentComponent {
+  protected readonly I18n = inject(I18nService);
+  protected readonly wpRelationsHierarchy = inject(WorkPackageRelationsHierarchyService);
+  protected readonly notificationService = inject(WorkPackageNotificationService);
+  protected readonly pathHelper = inject(PathHelperService);
+
   @Input() workPackage:WorkPackageResource;
 
   @Output() onSwitch = new EventEmitter<boolean>();
@@ -63,14 +62,6 @@ export class WorkPackageBreadcrumbParentComponent {
   };
 
   private editing:boolean;
-
-  public constructor(
-    protected readonly I18n:I18nService,
-    protected readonly wpRelationsHierarchy:WorkPackageRelationsHierarchyService,
-    protected readonly notificationService:WorkPackageNotificationService,
-    protected readonly pathHelper:PathHelperService,
-  ) {
-  }
 
   public canModifyParent():boolean {
     return !!this.workPackage.changeParent;

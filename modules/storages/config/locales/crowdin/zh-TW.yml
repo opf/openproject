@@ -31,10 +31,15 @@ zh-TW:
         authentication_method: 驗證方式
         creator: 建立者
         drive: Drive ID
+        file_link_origin: File link origin ID
         host: 主機
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: 名稱
         password: 應用程式密碼
         provider_type: 提供商類型
+        storage: Storage
+        storage_url: Storage URL
         tenant: 目錄 (租戶) ID
     errors:
       messages:
@@ -108,21 +113,25 @@ zh-TW:
         remote_folders: 閱讀團隊資料夾的內容：
         remove_user_from_group: 從群組移除使用者：
         rename_project_folder: 重新命名託管的專案資料夾：
+        set_folder_permission: 'Set managed project Folder permissions:'
       one_drive_sync_service:
         create_folder: 託管的專案資料夾建立：
         ensure_root_folder_permissions: 設定基本資料夾權限：
         hide_inactive_folders: 隱藏不活動的資料夾步驟：
         remote_folders: 讀取磁碟機根資料夾的內容：
         rename_project_folder: 重新命名託管的專案資料夾：
+        set_folder_permission: 'Set managed project Folder permissions:'
       sharepoint_sync_service:
         create_folder: 管理專案資料夾建立：
         ensure_root_folder_permissions: 設定基本資料夾權限：
         hide_inactive_folders: 隱藏不活動的資料夾步驟：
         remote_folders: 讀取磁碟機根資料夾的內容：
         rename_project_folder: 重新命名管理的專案資料夾：
+        set_folder_permission: 'Set managed project Folder permissions:'
     errors:
       messages:
         error: 發生意外錯誤。請檢查 OpenProject 記錄以獲得更多資訊，或聯絡管理員
+        folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject 無法存取所要求的資源。請檢查您在儲存服務提供者上的權限設定。
         unauthorized: OpenProject 無法驗證儲存服務提供商。請確認您有存取權。
       models:
@@ -314,72 +323,59 @@ zh-TW:
           host_url_accessible: 主機URL可存取
           storage_configured: 設定完成
           tenant_id: 租戶ID
-        failures:
-          other: "%{count} 檢查失敗"
-        success: 全部檢查通過
-        warnings:
-          other: "%{count} 次檢查結果顯示警告"
-      connection_validation:
-        client_id_invalid: 設定的 OAuth 2 客戶端 ID 無效。請檢查設定。
-        client_secret_invalid: 設定的 OAuth 2 用戶端密鑰無效。請檢查設定。
-        nc_dependency_missing: 檔案儲存中缺少所需的相依性。請新增下列相依性： %{dependency}。
-        nc_dependency_version_mismatch: "%{dependency} 應用程式版本不受支援。請更新您的 Nextcloud 伺服器。"
-        nc_host_not_found: 在設定的主機網址未找到 Nextcloud 伺服器。請檢查設定。
-        nc_oauth_request_not_found: 無法找到取得目前連線使用者的端點。請檢查伺服器日誌以取得更多資訊。
-        nc_oauth_request_unauthorized: 當前使用者未獲授權存取遠端檔案儲存空間。請檢查伺服器日誌以取得進一步資訊。
-        nc_oauth_token_missing: OpenProject 無法測試與 Nextcloud 的用戶級連線，因為沒有當前用戶的令牌(Token)。
-        nc_project_folder_missing: The previously created project folder for project "%{project}" could not be found.
-        nc_team_folder_not_found: 找不到團隊資料夾。
-        nc_unexpected_files: 'Unexpected files found in the managed team folder. For example: %{sample}'
-        nc_unlinked_project_folders: Not all project folders have been created yet (%{actual} / %{expected}). This can indicate errors during the AMPF background synchronization.
-        nc_userless_access_denied: 設定的應用程式密碼無效。
-        not_configured: 連線無法驗證。請先完成設定。
-        od_client_cant_delete_folder: 用戶刪除資料夾失敗，請檢查儲存空間的文件設定。
-        od_client_write_permission_missing: 用戶似乎缺少寫入權限，請檢查儲存空間的文件設定。
-        od_drive_id_invalid: 設定的磁碟代碼似乎不對。請檢查相關設定。
-        od_drive_id_not_found: 找不到已設定的磁碟代碼。請檢查相關設定。
-        od_oauth_request_not_found: 找不到取得當前連線使用者的端點。請檢查伺服器日誌以獲取更多資訊。
-        od_oauth_request_unauthorized: 當前使用者未獲授權存取遠端檔案儲存空間。請檢查伺服器日誌以取得進一步資訊。
-        od_oauth_token_missing: OpenProject 無法測試使用者與 OneDrive/SharePoint 的連線，因為使用者尚未連結 Microsoft 帳號。由於使用者尚未連結其 Microsoft 帳戶，OpenProject 無法測試與 OneDrive 的使用者層級通訊。
-        od_tenant_id_wrong: 設定的目錄 (租戶) id 無效。請檢查設定。
-        od_test_folder_exists: 測試所需的資料夾 %{folder_name} 已經存在。請刪除後再重試。
-        od_unexpected_content: 在磁碟中發現未預期的內容。
-        offline_access_scope_missing: 建議配置 OpenID Connect 服務以申請 offline_access 權限，雖然整合可能正常，但務必確保 refresh token 不會過期。
-        oidc_cant_refresh_token: 在嘗試檢查您存取儲存空間時發生錯誤。請檢查伺服器日誌以取得進一步資訊。
-        oidc_non_oidc_user: 目前使用者雖然已配置，但不是由 OpenID Connect (OIDC) 身分提供者配置的。請使用 OIDC 配置的使用者重新執行檢查。
-        oidc_non_provisioned_user: 當前用戶不是由 OpenID Connect Identity Provider 提供。請使用提供的使用者重新執行檢查。
-        oidc_provider_cant_exchange: OpenID Connect 提供者似乎不支援令牌交換，但已為儲存設定令牌交換。
-        oidc_token_acquisition_failed: OpenID Connect 配置中缺少所需的 audience 且不支援 Token Exchange，請查看官方文件了解更多。
-        oidc_token_exchange_failed: 您的 OpenID Connect 提供者似乎存在令牌交換設定問題。請檢查其設定並重試。
-        oidc_token_refresh_failed: 在檢查您存取儲存空間的權限時發生錯誤。請查看伺服器日誌以取得更多資訊。
-        sp_client_cant_delete_folder: 客戶在刪除 SharePoint 資料夾時遇到問題。請檢查您的儲存空間設定文件。
-        sp_client_id_missing: 已設定的 SharePoint OAuth 2 用戶端 ID 遺失。請檢查設定。
-        sp_client_secret_missing: 已設定的 SharePoint OAuth 2 用戶端密鑰遺失。請檢查設定。
-        sp_client_write_permission_missing: 客戶在 SharePoint 中似乎缺少寫入權限。請檢查您的儲存空間設定文件。
-        sp_existing_test_folder: 用於測試的資料夾 %{folder_name} 已存在於 SharePoint 中。請將其刪除後再試一次。
-        sp_oauth_request_error: 綁定至使用者的 SharePoint 請求失敗。請檢查伺服器日誌以取得更多資訊。
-        sp_oauth_request_unauthorized: 目前的使用者未獲授權存取遠端檔案儲存空間。請檢查伺服器日誌以取得進一步資訊。
-        sp_oauth_token_missing: 由於使用者尚未連結其 SharePoint 帳號，OpenProject 無法測試使用者層級的與 SharePoint 之間的通訊。
-        sp_tenant_id_missing: 已設定的 SharePoint 目錄（租用戶）Id 遺失。請檢查設定。
-        sp_unexpected_content: 在 SharePoint 文件庫中發現意外內容。
-        unknown_error: 連線無法驗證。發生未知錯誤。請檢查伺服器日誌以瞭解進一步資訊。
+        errors:
+          client_id_invalid: The configured OAuth 2 client id is invalid. Please check the configuration.
+          client_secret_invalid: The configured OAuth 2 client secret is invalid. Please check the configuration.
+          nc_dependency_missing: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
+          nc_dependency_version_mismatch: The %{dependency} app version is not supported. Please update your Nextcloud server.
+          nc_host_not_found: No Nextcloud server found at the configured host url. Please check the configuration.
+          nc_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
+          nc_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
+          nc_oauth_token_missing: OpenProject cannot test the user level communication with Nextcloud as the user did not yet link their Nextcloud account.
+          nc_project_folder_missing: The previously created project folder for project "%{project}" could not be found.
+          nc_team_folder_not_found: The team folder could not be found.
+          nc_unexpected_files: 'Unexpected files found in the managed team folder. For example: %{sample}'
+          nc_unlinked_project_folders: Not all project folders have been created yet (%{actual} / %{expected}). This can indicate errors during the AMPF background synchronization.
+          nc_userless_access_denied: The configured app password is invalid.
+          not_configured: The connection could not be validated. Please finish configuration first.
+          od_client_cant_delete_folder: The client is having trouble deleting folders. Please check the setup documentation for your storage.
+          od_client_write_permission_missing: The client seems to have write permissions missing. Please check the setup documentation for your storage.
+          od_drive_id_invalid: The configured drive id seems invalid. Please check the configuration.
+          od_drive_id_not_found: The configured drive id could not be found. Please check the configuration.
+          od_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
+          od_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
+          od_oauth_token_missing: OpenProject cannot test the user level communication with OneDrive as the user did not yet link their Microsoft account.
+          od_tenant_id_wrong: The configured directory (tenant) id is invalid. Please check the configuration.
+          od_test_folder_exists: The folder %{folder_name} needed for testing already exists. Please delete it and try again.
+          od_unexpected_content: Unexpected content found in the drive.
+          offline_access_scope_missing: It is recommended to configure the OpenID Connect provider to request the offline_access scope. The integration may still work anyways, but make sure that refresh tokens do not expire.
+          oidc_cant_refresh_token: There was an error while trying to check your access to the storage. Please check the server logs for further information.
+          oidc_non_oidc_user: The current user, while provisioned, wasn't provisioned by an OpenID Connect (OIDC) Identity Provider. Please re-run the check with an OIDC provisioned user.
+          oidc_non_provisioned_user: The current user isn't provided by an OpenID Connect Identity Provider. Please re-run the check with a provided user.
+          oidc_provider_cant_exchange: The OpenID Connect provider does not seem to support token exchange, but token exchange was configured for the storage.
+          oidc_token_acquisition_failed: Your OpenID Connect setup doesn't provide the necessary audience, nor does it provide token exchange capabilities. Please check out our documentation for more information.
+          oidc_token_exchange_failed: There seems to be a problem with the Token Exchange setup on your OpenID Connect Provider. Please check its configuration and try again.
+          oidc_token_refresh_failed: There was an error while trying to check your access to the storage. Please check the server logs for further information.
+          sp_client_cant_delete_folder: The client is having trouble deleting folders in SharePoint. Please check the setup documentation for your storage.
+          sp_client_id_missing: The configured OAuth 2 client id is missing for SharePoint. Please check the configuration.
+          sp_client_secret_missing: The configured OAuth 2 client secret is missing for SharePoint. Please check the configuration.
+          sp_client_write_permission_missing: The client seems to have write permissions missing in SharePoint. Please check the setup documentation for your storage.
+          sp_existing_test_folder: The folder %{folder_name} needed for testing already exists in SharePoint. Please delete it and try again.
+          sp_oauth_request_error: The user-bound request to SharePoint failed. Please check the server logs for further information.
+          sp_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
+          sp_oauth_token_missing: OpenProject cannot test the user level communication with SharePoint as the user did not yet link their SharePoint account.
+          sp_tenant_id_missing: The configured directory (tenant) id is missing for SharePoint. Please check the configuration.
+          sp_unexpected_content: Unexpected content found in the SharePoint Document Library.
+          unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: 錯誤
-      label_failed: 損壞
       label_healthy: 健康的
-      label_passed: 通過
       label_pending: 待處理
-      label_skipped: 已略過
-      label_warning: 警告
       no_report: 沒有報告
       no_report_description: 現在執行檢查，查看此檔案儲存的完整健康報告。
       open_report: 開啟完整健康報告
       project_folders:
         subtitle: 自動管理的專案文件夾
       since: 自從%{datetime}開始
-      summary:
-        failure: 部分檢查失敗，系統無法如預期運作。
-        success: 所有連線與系統均如預期運作。
-        warning: 某些檢查返回警告，可能會引發預期外的行為。
       synced: 'Last sync: %{datetime}'
       title: 健康狀況報告
     health_email_notifications:

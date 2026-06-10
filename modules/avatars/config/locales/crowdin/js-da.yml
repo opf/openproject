@@ -2,14 +2,14 @@
 ---
 da:
   js:
-    label_preview: Forhåndsvisning
-    button_update: Opdater
+    label_preview: Prævisning
+    button_update: Opdatér
     avatars:
       label_choose_avatar: Vælg avatar fra fil
-      uploading_avatar: Uploader valgte avatar.
+      uploading_avatar: Uploader valgt avatar.
       text_upload_instructions: |
         Upload egen tilpasset avatar på 128 x 128 pixels. Større filer nedskaleres og beskæres for at passe.
-        Når man har valgt et billede, ses en forhåndsvisning af avataren, inden den uploades.
+        Når et billede er valgt, ses en prævisning af avataren inden upload.
       error_image_too_large: Billede er for stort.
       wrong_file_format: Gyldige formater er jpg, png, gif
       empty_file_error: Upload et gyldigt billede (jpg, png, gif)

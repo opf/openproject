@@ -45,14 +45,13 @@ export class GitActionsService {
 
   private formattingInput(workPackage: WorkPackageResource) {
     const type = workPackage.type.name || '';
-    const id = workPackage.id || '';
+    const id = workPackage.displayId;
+    const formattedId = workPackage.formattedId;
     const title = workPackage.subject;
     const url = window.location.origin + workPackage.pathHelper.workPackageShortPath(id);
     const description = '';
 
-    return({
-      id, type, title, url, description
-    });
+    return { id, formattedId, type, title, url, description };
   }
 
   private sanitizeShellInput(str:string):string {
@@ -65,16 +64,12 @@ export class GitActionsService {
   }
 
   private commitMessageParts(workPackage:WorkPackageResource):string[] {
-    const { title, id, description, url } = this.formattingInput(workPackage);
-    return [`[#${id}] ${title}`, description, url].filter(Boolean);
+    const { title, formattedId, description, url } = this.formattingInput(workPackage);
+    return [`[${formattedId}] ${title}`, description, url].filter(Boolean);
   }
 
   public commitMessage(workPackage:WorkPackageResource):string {
     return this.commitMessageParts(workPackage).join("\n\n");
-  }
-
-  public commitMessageDisplayText(workPackage:WorkPackageResource):string {
-    return this.commitMessageParts(workPackage).join(' ');
   }
 
   public gitCommand(workPackage:WorkPackageResource):string {

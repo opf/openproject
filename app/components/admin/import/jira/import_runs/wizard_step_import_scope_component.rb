@@ -40,7 +40,7 @@ module Admin::Import::Jira::ImportRuns
         statuses_label(available_statuses_count),
         types_label(available_types_count),
         users_label(available_users_count)
-      ].map { |label| { label:, checked: true } }
+      ].compact.map { |label| { label:, checked: true } }
     end
 
     def server_info

@@ -4,31 +4,31 @@
       data: {
         controller: "filter--filters-form",
         "filter--filters-form-output-format-value": "json",
+        "filter--filters-form-perform-turbo-requests-value": true,
         "filter--filters-form-display-filters-value": filters_expanded?
       }
     )
   ) do |subheader|
-    subheader.with_filter_component do
-      render(Meetings::MeetingFilterButtonComponent.new(query: @query, project: @project))
+    subheader.with_quick_filter do
+      render(Meetings::MeetingTimeFilterComponent.new(query: @query, project: @project))
     end
 
-    subheader.with_segmented_control("aria-label": I18n.t(:label_meeting_date_time)) do |control|
-      control.with_item(
-        tag: :a,
-        icon: :"arrow-right",
-        href: dynamic_path,
-        label: t(:label_upcoming_meetings_short),
-        title: t(:label_upcoming_meetings),
-        selected: upcoming_query?
-      )
-      control.with_item(
-        tag: :a,
-        icon: :history,
-        href: dynamic_path(upcoming: false),
-        label: t(:label_past_meetings_short),
-        title: t(:label_past_meetings),
-        selected: !upcoming_query?
-      )
+    if @project.nil?
+      subheader.with_quick_filter do
+        render(
+          OpPrimer::QuickFilter::SelectPanelComponent.new(
+            name: I18n.t(:label_project),
+            query: @query,
+            filter_key: :project_id,
+            path_args: [@project, :meetings],
+            src: project_items_meetings_path
+          )
+        )
+      end
+    end
+
+    subheader.with_filter_component do
+      render(Meetings::MeetingFilterButtonComponent.new(query: @query, project: @project))
     end
 
     if render_create_button?
@@ -70,6 +70,7 @@
         Meetings::MeetingFiltersComponent.new(
           query: @query,
           project: @project,
+          lazy_loaded_path: :meetings_filters_path,
           initially_expanded: filters_expanded?
         )
       )

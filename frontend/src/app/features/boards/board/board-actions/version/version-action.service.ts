@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Board } from 'core-app/features/boards/board/board';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
@@ -7,7 +7,6 @@ import { isClickedWithModifier } from 'core-app/shared/helpers/link-handling/lin
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { VersionBoardHeaderComponent } from 'core-app/features/boards/board/board-actions/version/version-board-header.component';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { CachedBoardActionService } from 'core-app/features/boards/board/board-actions/cached-board-action.service';
 import { imagePath } from 'core-app/shared/helpers/images/path-helper';
 import { VersionAutocompleterComponent } from 'core-app/shared/components/autocompleter/version-autocompleter/version-autocompleter.component';
@@ -21,7 +20,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BoardVersionActionService extends CachedBoardActionService {
-  @InjectField() halNotification:HalResourceNotificationService;
+  readonly halNotification = inject(HalResourceNotificationService);
 
   filterName = 'version';
 

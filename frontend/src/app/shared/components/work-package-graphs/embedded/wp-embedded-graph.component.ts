@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, SimpleChanges, OnChanges, inject } from '@angular/core';
 import { WorkPackageTableConfiguration } from 'core-app/features/work-packages/components/wp-table/wp-table-configuration';
 import { ChartOptions } from 'chart.js';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -35,6 +35,8 @@ interface ChartDataSet {
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageEmbeddedGraphComponent implements OnChanges {
+  readonly i18n = inject(I18nService);
+
   @Input() public datasets:WorkPackageEmbeddedGraphDataset[];
 
   @Input() public chartOptions:ChartOptions;
@@ -58,8 +60,6 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   public text = {
     noResults: this.i18n.t('js.work_packages.no_results.title'),
   };
-
-  constructor(readonly i18n:I18nService) {}
 
   ngOnChanges(changes:SimpleChanges) {
     if (changes.datasets) {

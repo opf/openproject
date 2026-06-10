@@ -26,22 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  forwardRef,
-  HostBinding,
-  Injector,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, HostBinding, Injector, Input, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   ControlValueAccessor,
@@ -81,6 +66,13 @@ export const opBasicRangeDatePickerSelector = 'op-basic-range-date-picker';
   standalone: false,
 })
 export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAccessor, AfterViewInit {
+  readonly I18n = inject(I18nService);
+  readonly timezoneService = inject(TimezoneService);
+  readonly injector = inject(Injector);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly elementRef = inject(ElementRef);
+  readonly deviceService = inject(DeviceService);
+
   @HostBinding('class.op-basic-range-datepicker') className = true;
 
   @HostBinding('class.op-basic-range-datepicker_mobile') mobile = false;
@@ -121,6 +113,13 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
   @Input() dataAction = '';
 
+  @Input() set inputAttrs(attrs:Record<string, string> | null) {
+    this._inputAttrs = attrs ?? {};
+    this.applyInputAttrs();
+  }
+
+  private _inputAttrs:Record<string, string> = {};
+
   @ViewChild('input') input:ElementRef;
 
   stringValue = '';
@@ -133,14 +132,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
     spacer: this.I18n.t('js.filter.value_spacer'),
   };
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly timezoneService:TimezoneService,
-    readonly injector:Injector,
-    readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
-    readonly deviceService:DeviceService,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 
@@ -151,6 +143,15 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   ngAfterViewInit():void {
     if (!this.mobile) {
       this.initializeDatePicker();
+    }
+    this.applyInputAttrs();
+  }
+
+  private applyInputAttrs():void {
+    const el = (this.input?.nativeElement as HTMLInputElement | null)
+      ?? (this.elementRef.nativeElement as HTMLElement).querySelector<HTMLInputElement>(`input[id="${this.id}"]`);
+    if (el) {
+      Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
     }
   }
 
@@ -263,7 +264,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
   private appendToBodyOrDialog():HTMLElement|undefined {
     if (this.inDialog) {
-      return document.querySelector(`#${this.inDialog}`) as HTMLElement;
+      return document.querySelector<HTMLElement>(`#${this.inDialog}`)!;
     }
 
     return undefined;

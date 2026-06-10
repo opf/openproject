@@ -1,16 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnDestroy,
-  Output,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, Output, TemplateRef, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { findAllFocusableElementsWithin } from 'core-app/shared/helpers/focus-helpers';
 import { SpotDropModalTeleportationService } from './drop-modal-teleportation.service';
@@ -25,6 +13,11 @@ import { autoUpdate, computePosition, flip, limitShift, Placement, shift } from 
   standalone: false,
 })
 export class SpotDropModalComponent implements OnDestroy {
+  readonly i18n = inject(I18nService);
+  readonly elementRef = inject(ElementRef);
+  readonly cdRef = inject(ChangeDetectorRef);
+  private teleportationService = inject(SpotDropModalTeleportationService);
+
   @HostBinding('class.spot-drop-modal') public className = true;
 
   /**
@@ -98,13 +91,6 @@ export class SpotDropModalComponent implements OnDestroy {
   @ViewChild('body') body:TemplateRef<unknown>;
 
   @ViewChild('focusGrabber') focusGrabber:ElementRef;
-
-  constructor(
-    readonly i18n:I18nService,
-    readonly elementRef:ElementRef,
-    readonly cdRef:ChangeDetectorRef,
-    private teleportationService:SpotDropModalTeleportationService,
-  ) {}
 
   open() {
     this._opened = true;
@@ -197,7 +183,7 @@ export class SpotDropModalComponent implements OnDestroy {
     (this.focusGrabber.nativeElement as HTMLElement).focus();
   }
 
-  private onGlobalClick = this.close.bind(this) as () => void;
+  private onGlobalClick = this.close.bind(this);
 
   ngOnDestroy():void {
     if (this.opened) {

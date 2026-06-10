@@ -31,8 +31,6 @@
 require "spec_helper"
 
 RSpec.describe "Wysiwyg attribute macros", :js do
-  shared_let(:admin) { create(:admin) }
-  let(:user) { admin }
   let(:editor) { Components::WysiwygEditor.new }
   let(:markdown) do
     <<~MD
@@ -53,6 +51,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
         <tr>
           <td>projectLabel:identifier</td>
           <td>projectValue:identifier</td>
+          <td>projectValue:"Subproject of"</td>
         </tr>
         <tr>
           <td>invalid subject workPackageValue:"Invalid":subject</td>
@@ -77,11 +76,16 @@ RSpec.describe "Wysiwyg attribute macros", :js do
   shared_let(:type_milestone) { create(:type_milestone) }
   shared_let(:type_task) { create(:type_task) }
 
+  shared_let(:parent_project) do
+    create(:project,
+           name: "Parent project")
+  end
   shared_let(:project) do
     create(:project,
            identifier: "some-project",
            types: [type_milestone, type_task],
-           enabled_module_names: %w[wiki work_package_tracking])
+           enabled_module_names: %w[wiki work_package_tracking],
+           parent: parent_project)
   end
   shared_let(:work_package) do
     create(:work_package,
@@ -98,10 +102,16 @@ RSpec.describe "Wysiwyg attribute macros", :js do
            due_date: "2023-01-10",
            type: type_milestone)
   end
-
-  before do
-    login_as(user)
+  shared_let(:role) { create(:project_role, permissions: %i[view_work_packages view_wiki_pages edit_wiki_pages]) }
+  shared_let(:user) do
+    create(:user,
+           member_with_roles: {
+             project => role,
+             parent_project => role
+           })
   end
+
+  current_user { user }
 
   describe "creating a wiki page" do
     before do
@@ -124,6 +134,7 @@ RSpec.describe "Wysiwyg attribute macros", :js do
         expect(page).to have_css("td", text: "Foo Bar")
         expect(page).to have_css("td", text: "Identifier")
         expect(page).to have_css("td", text: "some-project")
+        expect(page).to have_css("td", text: "Parent project")
 
         expect(page).to have_css("td", text: "invalid subject Cannot expand macro: Requested resource could not be found")
         expect(page).to have_css("td",

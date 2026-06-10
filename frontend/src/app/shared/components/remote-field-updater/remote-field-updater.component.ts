@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, OnInit, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 export const remoteFieldUpdaterSelector = 'remote-field-updater';
@@ -38,11 +38,9 @@ export const remoteFieldUpdaterSelector = 'remote-field-updater';
   standalone: false,
 })
 export class RemoteFieldUpdaterComponent implements OnInit, OnDestroy {
-  constructor(
-    private elementRef:ElementRef,
-    private http:HttpClient,
-  ) {
-  }
+  private elementRef = inject(ElementRef);
+  private http = inject(HttpClient);
+
 
   private url:string;
 

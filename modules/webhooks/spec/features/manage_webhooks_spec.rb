@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "spec_helper"
 
 RSpec.describe "Manage webhooks through UI", :js, :selenium do
@@ -98,7 +100,7 @@ RSpec.describe "Manage webhooks through UI", :js, :selenium do
 
         # Open modal
         SeleniumHubWaiter.wait
-        find("td.response_body a", text: "Show").click
+        find("td.response_body").click_on "Show"
 
         page.within(".spot-modal") do
           expect(page).to have_css(".webhooks--response-headers strong", text: "test")
@@ -121,7 +123,7 @@ RSpec.describe "Manage webhooks through UI", :js, :selenium do
             within(row_element) do
               id = find("td.id").text.to_i
               matching_log = [log, log2, log3].find { |l| l.id == id }
-              find("td.response_body a", text: "Show").click
+              find("td.response_body").click_on "Show"
             end
 
             page.within(".spot-modal") do

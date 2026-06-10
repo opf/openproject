@@ -36,23 +36,22 @@ RSpec.describe OpenProject::CustomFieldFormat do
       it "returns all custom field formats for the '#{class_name}' class", :aggregate_failures do
         formats = described_class.available_for_class_name(class_name)
         expect(formats).to all(be_a described_class)
-        expect(formats.map(&:name)).to match_array(expected_formats)
+        expect(formats.map(&:name)).to eq(expected_formats)
       end
     end
 
     context "for a 'Project' class" do
       context "with some enterprise addons",
-              with_ee: %i[calculated_values weighted_item_lists custom_field_hierarchies],
-              with_flag: { calculated_value_project_attribute: true } do
+              with_ee: %i[calculated_values weighted_item_lists custom_field_hierarchies] do
         it_behaves_like "custom field formats",
                         "Project",
-                        %w[bool calculated_value date float hierarchy int link list string text user version weighted_item_list]
+                        %w[string text link int float list date bool user version hierarchy weighted_item_list calculated_value]
       end
 
       context "without enterprise addons" do
         it_behaves_like "custom field formats",
                         "Project",
-                        %w[bool date float int link list string text user version]
+                        %w[string text link int float list date bool user version]
       end
     end
 
@@ -60,73 +59,38 @@ RSpec.describe OpenProject::CustomFieldFormat do
       context "with some enterprise addons", with_ee: %i[weighted_item_lists custom_field_hierarchies] do
         it_behaves_like "custom field formats",
                         "WorkPackage",
-                        %w[bool date float hierarchy int link list weighted_item_list string text user version]
+                        %w[string text link int float list date bool user version hierarchy weighted_item_list]
       end
 
       context "without enterprise addons" do
         it_behaves_like "custom field formats",
                         "WorkPackage",
-                        %w[bool date float int link list string text user version]
+                        %w[string text link int float list date bool user version]
       end
     end
 
     context "for a 'Version' class" do
       it_behaves_like "custom field formats",
                       "Version",
-                      %w[bool date float int list string text user version]
+                      %w[string text int float list date bool user version]
     end
 
     context "for a 'TimeEntry' class" do
       it_behaves_like "custom field formats",
                       "TimeEntry",
-                      %w[bool date float int list string text user version]
+                      %w[string text int float list date bool user version]
     end
 
     context "for a 'User' class" do
       it_behaves_like "custom field formats",
                       "User",
-                      %w[bool date float int list string text]
+                      %w[string text int float list date bool]
     end
 
     context "for a 'Group' class" do
       it_behaves_like "custom field formats",
                       "Group",
-                      %w[bool date float int list string text]
-    end
-  end
-
-  describe ".available_formats" do
-    shared_examples_for "available custom field formats" do |suffix, expected_formats|
-      it "returns all custom field formats #{suffix}", :aggregate_failures do
-        formats = described_class.available_formats
-        expect(formats).to match_array(expected_formats)
-      end
-    end
-
-    context "with a custom_field_hierarchies ee", with_ee: [:custom_field_hierarchies] do
-      it_behaves_like "available custom field formats",
-                      "including hierarchy",
-                      %w[bool date float hierarchy int link list string text user version empty]
-    end
-
-    context "with a weighted item lists ee", with_ee: [:weighted_item_lists] do
-      it_behaves_like "available custom field formats",
-                      "including hierarchy",
-                      %w[bool date float int link list string text user version weighted_item_list empty]
-    end
-
-    context "without a custom_field_hierarchies ee" do
-      it_behaves_like "available custom field formats",
-                      "excluding hierarchy",
-                      %w[bool date float int link list string text user version empty]
-
-      context "with a calculated values ee",
-              with_ee: [:calculated_values],
-              with_flag: { calculated_value_project_attribute: true } do
-        it_behaves_like "available custom field formats",
-                        "including calculated values",
-                        %w[bool calculated_value date float int link list string text user version empty]
-      end
+                      %w[string text int float list date bool]
     end
   end
 
@@ -135,36 +99,103 @@ RSpec.describe OpenProject::CustomFieldFormat do
       it "returns all custom field formats for the '#{class_name}' class", :aggregate_failures do
         formats = described_class.enabled_for_class_name(class_name)
         expect(formats).to all(be_a described_class)
-        expect(formats.map(&:name)).to match_array(expected_formats)
+        expect(formats.map(&:name)).to eq(expected_formats)
       end
     end
 
     context "for a 'Project' class" do
-      context "with feature flags enabled", with_flag: { calculated_value_project_attribute: true } do
-        it_behaves_like "custom field formats",
-                        "Project",
-                        %w[bool calculated_value date float hierarchy int link list string text user version weighted_item_list]
-      end
+      it_behaves_like "custom field formats",
+                      "Project",
+                      %w[string text link int float list date bool user version hierarchy weighted_item_list calculated_value]
+    end
 
-      context "with no feature flags enabled", with_flag: {} do
-        it_behaves_like "custom field formats",
-                        "Project",
-                        %w[bool date float hierarchy int link list string text user version weighted_item_list]
+    context "for a 'WorkPackage' class" do
+      it_behaves_like "custom field formats",
+                      "WorkPackage",
+                      %w[string text link int float list date bool user version hierarchy weighted_item_list]
+    end
+
+    context "for a 'Version' class" do
+      it_behaves_like "custom field formats",
+                      "Version",
+                      %w[string text int float list date bool user version]
+    end
+
+    context "for a 'TimeEntry' class" do
+      it_behaves_like "custom field formats",
+                      "TimeEntry",
+                      %w[string text int float list date bool user version]
+    end
+
+    context "for a 'User' class" do
+      it_behaves_like "custom field formats",
+                      "User",
+                      %w[string text int float list date bool]
+    end
+
+    context "for a 'Group' class" do
+      it_behaves_like "custom field formats",
+                      "Group",
+                      %w[string text int float list date bool]
+    end
+  end
+
+  describe ".registered_formats" do
+    it "returns all formats" do
+      expect(described_class.registered_formats)
+        .to eq(%w[string text link int float list date bool user version empty hierarchy weighted_item_list calculated_value])
+    end
+  end
+
+  describe ".available_formats" do
+    shared_examples_for "available custom field formats" do |suffix, expected_formats|
+      it "returns all custom field formats #{suffix}", :aggregate_failures do
+        expect(described_class.available_formats).to eq(expected_formats)
       end
+    end
+
+    context "without any ee" do
+      it_behaves_like "available custom field formats",
+                      "not requiring an ee",
+                      %w[string text link int float list date bool user version empty]
+    end
+
+    context "with a custom_field_hierarchies ee", with_ee: [:custom_field_hierarchies] do
+      it_behaves_like "available custom field formats",
+                      "including hierarchy",
+                      %w[string text link int float list date bool user version empty hierarchy]
+    end
+
+    context "with a weighted_item_lists ee", with_ee: [:weighted_item_lists] do
+      it_behaves_like "available custom field formats",
+                      "including hierarchy",
+                      %w[string text link int float list date bool user version empty weighted_item_list]
+    end
+
+    context "with a calculated_values ee", with_ee: [:calculated_values] do
+      it_behaves_like "available custom field formats",
+                      "including calculated values",
+                      %w[string text link int float list date bool user version empty calculated_value]
+    end
+
+    context "with all ees", with_ee: %i[custom_field_hierarchies weighted_item_lists calculated_values] do
+      it_behaves_like "available custom field formats",
+                      "including hierarchy",
+                      %w[string text link int float list date bool user version empty hierarchy weighted_item_list
+                         calculated_value]
+    end
+  end
+
+  describe ".enabled_formats" do
+    it "returns all formats" do
+      expect(described_class.enabled_formats)
+        .to eq(%w[string text link int float list date bool user version empty hierarchy weighted_item_list calculated_value])
     end
   end
 
   describe ".disabled_formats" do
-    it "returns disabled formats" do
-      formats = described_class.disabled_formats
-      expect(formats).to match_array(%w[calculated_value])
-    end
-
-    context "with feature flags enabled", with_flag: { calculated_value_project_attribute: true } do
-      it "returns no disabled formats" do
-        formats = described_class.disabled_formats
-        expect(formats).to be_empty
-      end
+    it "returns no disabled formats" do
+      expect(described_class.disabled_formats).to be_empty
     end
   end
 end

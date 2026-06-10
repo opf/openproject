@@ -36,16 +36,9 @@ module API
           get do
             sections = @meeting.sections
             MeetingSectionCollectionRepresenter.new(sections,
-                                                    self_link: api_v3_paths.meeting_sections(@meeting.id),
+                                                    self_link: api_v3_paths.meeting_sections(meeting_id: @meeting.id),
                                                     current_user:)
           end
-
-          post(&::API::V3::Utilities::Endpoints::Create
-                 .new(model: MeetingSection,
-                      params_modifier: ->(params) {
-                        params.except(:meeting, :meeting_id).merge(meeting: @meeting)
-                      })
-                 .mount)
 
           route_param :section_id, type: Integer, desc: "Section ID" do
             after_validation do
@@ -53,10 +46,6 @@ module API
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: MeetingSection).mount
-
-            patch &::API::V3::Utilities::Endpoints::Update.new(model: MeetingSection).mount
-
-            delete &::API::V3::Utilities::Endpoints::Delete.new(model: MeetingSection).mount
           end
         end
       end

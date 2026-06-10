@@ -6,7 +6,7 @@ pl:
     description: Lista i status zadań w tle.
   job_status_dialog:
     download_starts: Pobieranie powinno rozpocząć się automatycznie.
-    click_to_download: Or [click here](download_url) to download.
+    click_to_download: Możesz też [kliknąć tutaj](download_url), aby pobrać.
     title: Status zadania w tle
     redirect: Następuje przekierowanie.
     redirect_link: Kliknij tutaj, aby kontynuować.

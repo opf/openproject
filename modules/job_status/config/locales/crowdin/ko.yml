@@ -6,7 +6,7 @@ ko:
     description: 백그라운드 작업 목록 및 상태.
   job_status_dialog:
     download_starts: 자동으로 다운로드가 시작됩니다.
-    click_to_download: Or [click here](download_url) to download.
+    click_to_download: 또는 [여기를 클릭](download_url)하여 다운로드하세요.
     title: 백그라운드 작업 상태
     redirect: 리디렉션 중입니다.
     redirect_link: 계속하려면 여기를 클릭하세요.

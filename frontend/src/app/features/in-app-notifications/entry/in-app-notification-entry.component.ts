@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -23,6 +23,14 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
   standalone: false,
 })
 export class InAppNotificationEntryComponent extends UntilDestroyedMixin implements OnInit {
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly I18n = inject(I18nService);
+  readonly storeService = inject(IanCenterService);
+  readonly timezoneService = inject(TimezoneService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly deviceService = inject(DeviceService);
+  readonly urlParams = inject(UrlParamsService);
+
   @HostBinding('class.op-ian-item') className = true;
 
   @Input() notification:INotification;
@@ -54,18 +62,6 @@ export class InAppNotificationEntryComponent extends UntilDestroyedMixin impleme
   private clickTimer:ReturnType<typeof setTimeout>;
 
   workPackageId:string|null;
-
-  constructor(
-    readonly apiV3Service:ApiV3Service,
-    readonly I18n:I18nService,
-    readonly storeService:IanCenterService,
-    readonly timezoneService:TimezoneService,
-    readonly pathHelper:PathHelperService,
-    readonly deviceService:DeviceService,
-    readonly urlParams:UrlParamsService,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     const href = this.notification._links.resource?.href;

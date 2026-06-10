@@ -1,0 +1,72 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<div data-controller="quick-filter--select-panel"
+     data-quick-filter--select-panel-base-url-value="<%= base_url %>"
+     data-quick-filter--select-panel-filter-key-value="<%= @filter_key %>"
+     data-quick-filter--select-panel-operator-value="<%= @operator %>">
+  <%= render(
+        Primer::Alpha::SelectPanel.new(
+          select_variant: @select_variant,
+          fetch_strategy: fetch_strategy,
+          src: panel_src,
+          title: @name
+        )
+      ) do |panel| %>
+    <% panel.with_show_button(scheme: :secondary, data: { test_selector: "quick-filter-select-panel-button" }) do |button|
+         button.with_trailing_visual_counter(count: current_values.size) if current_values.any?
+         button.with_trailing_action_icon(icon: :"triangle-down", color: current_values.empty? ? :muted : :default)
+         button_label
+       end %>
+    <% if local? %>
+      <% items.each do |item| %>
+        <% panel.with_item(
+             label: item.label,
+             active: current_values.include?(item.value.to_s),
+             href: @select_variant == :single ? item_href(item.value) : nil,
+             content_arguments: { data: { value: item.value.to_s } }
+           ) %>
+      <% end %>
+    <% end %>
+    <% if @select_variant == :multiple || current_values.any? %>
+      <% panel.with_footer(show_divider: true) do %>
+        <% if current_values.any? %>
+          <%= render(Primer::Beta::Button.new(scheme: :secondary, data: { action: "click->quick-filter--select-panel#clear", test_selector: "quick-filter-clear-button" })) do %>
+            <%= t(:button_clear) %>
+          <% end %>
+        <% end %>
+        <% if @select_variant == :multiple %>
+          <%= render(Primer::Beta::Button.new(scheme: :primary, data: { action: "click->quick-filter--select-panel#apply", test_selector: "quick-filter-apply-button" })) do %>
+            <%= t(:button_apply) %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+</div>

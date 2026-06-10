@@ -236,6 +236,18 @@ Actual costs include labor costs from logged time and unit costs from cost entri
 
 Click the  **View actual cost details** link at the bottom of the widget to open the cost reports filtered for the current project.
 
+## Meetings widget
+This widget provides an overview of your relevant and upcoming meetings.
+> [!NOTE] 
+> The Meetings widget is only displayed on the **Overview tab** of a project home page.
+
+For the meetings widget to be displayed on your project home page, the Meetings module has to be activated first. Once activated, all meetings you are participating in are displayed.
+
+![Meetings widget displayed under Over tab on Project home page in OpenProject](openproject_user_guide_project_overview_all_meetings_widget.png)
+
+If there are no meetings in your project yet and the Meetings module is activated, the widget allows you to create a new meeting directly by clicking the **+ Meeting** button.
+
+![Meetings widget displayed under Over tab on Project home page in OpenProject, with no meetings created yet](openproject_user_guide_project_create_meeting_widget.png)
 
 ## Resize and reorder widgets
 

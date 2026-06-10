@@ -1,16 +1,5 @@
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostListener,
-  Input,
-  OnDestroy,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostListener, Input, OnDestroy, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { first, map, switchMap, tap } from 'rxjs/operators';
 import { GlobalSearchService } from 'core-app/core/global_search/services/global-search.service';
@@ -74,6 +63,18 @@ interface SearchResultItems {
   standalone: false,
 })
 export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
+  readonly elementRef = inject(ElementRef);
+  readonly I18n = inject(I18nService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly pathHelperService = inject(PathHelperService);
+  readonly halResourceService = inject(HalResourceService);
+  readonly globalSearchService = inject(GlobalSearchService);
+  readonly currentProjectService = inject(CurrentProjectService);
+  readonly deviceService = inject(DeviceService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly recentItemsService = inject(RecentItemsService);
+
   @Input() public placeholder:string;
 
   @ViewChild('btn', { static: true }) btn:ElementRef;
@@ -131,19 +132,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     search: this.I18n.t('js.autocompleter.search'),
   };
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly I18n:I18nService,
-    readonly apiV3Service:ApiV3Service,
-    readonly pathHelperService:PathHelperService,
-    readonly halResourceService:HalResourceService,
-    readonly globalSearchService:GlobalSearchService,
-    readonly currentProjectService:CurrentProjectService,
-    readonly deviceService:DeviceService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly halNotification:HalResourceNotificationService,
-    readonly recentItemsService:RecentItemsService,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 
@@ -273,8 +262,8 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   public followItem(item:WorkPackageResource|SearchOptionItem|undefined):void {
     this.selectedItem = item;
-    if (item instanceof HalResource) {
-      window.location.href = this.wpPath(item.id!);
+    if (item instanceof WorkPackageResource) {
+      window.location.href = this.wpPath(item.displayId);
     } else if (item) {
       this.searchInScope(item.projectScope);
     }

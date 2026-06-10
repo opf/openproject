@@ -34,7 +34,8 @@ module Wikis::Admin
       f.select_list(
         name: :authentication_method,
         label: I18n.t("activerecord.attributes.wikis/xwiki_provider.authentication_method"),
-        required: true
+        required: true,
+        input_width: :large
       ) do |select|
         Wikis::XWikiProvider::AUTHENTICATION_METHODS.each do |method|
           select.option(

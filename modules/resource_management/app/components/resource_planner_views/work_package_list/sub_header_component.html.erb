@@ -1,0 +1,77 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(
+      icon_only: true,
+      leading_icon: :gear,
+      label: t("resource_management.work_package_list.subheader.settings"),
+      tag: :a,
+      href: edit_project_resource_planner_view_path(@project, @resource_planner, @view),
+      data: { controller: "async-dialog" }
+    )
+
+    if @view.manually_picked?
+      # Hand-picked views can both allocate and pull in existing work packages,
+      # so the primary action becomes a dropdown.
+      subheader.with_action_menu(
+        leading_icon: :plus,
+        trailing_icon: :"triangle-down",
+        label: t("resource_management.work_package_list.subheader.add"),
+        anchor_align: :end,
+        button_arguments: {
+          scheme: :primary,
+          "aria-label": t("resource_management.work_package_list.subheader.add")
+        }
+      ) do |menu|
+        menu.with_item(label: t("resource_management.work_package_list.subheader.allocate")) do |item|
+          item.with_leading_visual_icon(icon: :people)
+        end
+
+        menu.with_item(
+          label: t("resource_management.work_package_list.subheader.add_work_package"),
+          tag: :a,
+          href: new_work_package_project_resource_planner_view_path(@project, @resource_planner, @view),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"op-relations")
+        end
+      end
+    else
+      subheader.with_action_button(
+        leading_icon: :plus,
+        scheme: :primary,
+        label: t("resource_management.work_package_list.subheader.allocate")
+      ) do
+        t("resource_management.work_package_list.subheader.allocate")
+      end
+    end
+  end
+%>

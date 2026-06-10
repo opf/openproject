@@ -1,5 +1,5 @@
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend" title="<%= @device.name %>"><%= @device.name %></legend>
+  <legend class="form--fieldset-legend"><%= @device.name %></legend>
   <p><%= t("two_factor_authentication.devices.webauthn.description") %></p>
   <div class="form--field -required">
     <%= f.text_field :identifier, required: true, container_class: "-middle" %>

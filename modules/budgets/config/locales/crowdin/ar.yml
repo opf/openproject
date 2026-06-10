@@ -36,6 +36,7 @@ ar:
         subject: الموضوع
         type: أنواع التكلفة
         labor_budget: تكاليف العمل المخطط لها
+        labor_budget_items: Planned labor costs
         material_budget: تكاليف الوحدة المخطط لها
         base_amount: Base amount
       work_package:
@@ -48,6 +49,7 @@ ar:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: الميزانية
+      labor_budget_item: Planned labor cost
       material_budget_item: الوحدة
   activity:
     filter:

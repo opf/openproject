@@ -141,6 +141,39 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
           it { assert_select "input", attributes: { name: "work_package[parent_id]" } }
         end
 
+        context "with work package list" do
+          context "with classic (numeric) identifiers" do
+            it "displays a hash-prefixed numeric id link for each work package" do
+              assert_select "ul li a", text: /\A#{Regexp.escape(work_package1.type.to_s)} ##{work_package1.id}\z/
+              assert_select "ul li a", text: /\A#{Regexp.escape(work_package2.type.to_s)} ##{work_package2.id}\z/
+            end
+          end
+
+          context "with semantic identifiers" do
+            let(:semantic_prefix) { "TESTPROJ" }
+
+            before do
+              allow(Setting::WorkPackageIdentifier).to receive_messages(semantic?: true, classic?: false)
+              work_package1.update_columns(identifier: "#{semantic_prefix}-1", sequence_number: 1)
+              work_package2.update_columns(identifier: "#{semantic_prefix}-2", sequence_number: 2)
+            end
+
+            it "displays the semantic identifier in each link" do
+              get :edit, params: { ids: [work_package1.id, work_package2.id] }
+
+              assert_select "ul li a", text: /#{semantic_prefix}-1/
+              assert_select "ul li a", text: /#{semantic_prefix}-2/
+            end
+
+            it "does not display a bare numeric id in the links" do
+              get :edit, params: { ids: [work_package1.id, work_package2.id] }
+
+              assert_select "ul li a", text: /##{work_package1.id}/, count: 0
+              assert_select "ul li a", text: /##{work_package2.id}/, count: 0
+            end
+          end
+        end
+
         context "custom_field" do
           describe "#type" do
             it { assert_select "input", attributes: { name: "work_package[custom_field_values][#{custom_field1.id}]" } }
@@ -583,6 +616,29 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
       end
     end
 
+    context "with semantic identifiers",
+            with_settings: { work_packages_identifier: "semantic" } do
+      before do
+        work_package1.update_columns(identifier: "PROJ-1", sequence_number: 1)
+        work_package2.update_columns(identifier: "PROJ-2", sequence_number: 2)
+        put :update,
+            params: {
+              ids: work_package_ids,
+              work_package: { done_ratio: 150 }
+            }
+      end
+
+      it "shows semantic identifiers in the error flash" do
+        expect(flash[:error]).to include("PROJ-1")
+        expect(flash[:error]).to include("PROJ-2")
+      end
+
+      it "does not show bare numeric ids in the error flash" do
+        expect(flash[:error]).not_to include("##{work_package1.id}")
+        expect(flash[:error]).not_to include("##{work_package2.id}")
+      end
+    end
+
     describe "updating two children with dates to a new parent (Regression #28670)" do
       let(:task1) do
         create(:work_package,
@@ -623,6 +679,42 @@ RSpec.describe WorkPackages::BulkController, with_settings: { journal_aggregatio
 
         expect(new_parent.start_date).to eq(task1.start_date)
         expect(new_parent.due_date).to eq(task2.due_date)
+      end
+    end
+
+    describe "bulk parent assignment with semantic identifiers",
+             with_settings: { work_packages_identifier: "semantic" } do
+      let(:sem_project) do
+        create(:project, identifier: "SEMPROJ", types: [type]).tap do |p|
+          create(:member, project: p, principal: user, roles: [role])
+        end
+      end
+      let(:parent_wp) { create(:work_package, project: sem_project).reload }
+      let(:child1)    { create(:work_package, project: sem_project).reload }
+      let(:child2)    { create(:work_package, project: sem_project).reload }
+
+      it "accepts a semantic identifier and assigns the parent" do
+        put :update,
+            params: {
+              ids: [child1.id, child2.id],
+              work_package: { parent_id: parent_wp.identifier }
+            }
+
+        expect(response).to have_http_status(:found)
+        expect(child1.reload.parent_id).to eq(parent_wp.id)
+        expect(child2.reload.parent_id).to eq(parent_wp.id)
+      end
+
+      it "reports an error for an unknown semantic identifier" do
+        put :update,
+            params: {
+              ids: [child1.id, child2.id],
+              work_package: { parent_id: "SEMPROJ-9999" }
+            }
+
+        expect(flash[:error]).to be_present
+        expect(child1.reload.parent_id).to be_nil
+        expect(child2.reload.parent_id).to be_nil
       end
     end
   end

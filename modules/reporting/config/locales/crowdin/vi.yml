@@ -22,7 +22,7 @@
 ---
 vi:
   plugin_openproject_reporting:
-    name: Báo cáo dự án mở
+    name: Báo cáo OpenProject
     description: Plugin này cho phép tạo báo cáo chi phí tùy chỉnh với tính năng lọc và nhóm được tạo bởi plugin Thời gian và chi phí OpenProject.
   button_save_report_as: Lưu báo cáo dưới dạng...
   comments: bình luận

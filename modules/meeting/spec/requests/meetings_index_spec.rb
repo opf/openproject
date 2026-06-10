@@ -276,7 +276,11 @@ RSpec.describe "Meeting index",
   end
 
   context "when showing past meetings" do
-    let(:request) { get "/projects/#{project.id}/meetings?upcoming=false" }
+    let(:request) do
+      filters = [{ "time" => { "operator" => "=", "values" => ["past"] } }].to_json
+      sort = [["start_time", "desc"]].to_json
+      get "/projects/#{project.id}/meetings", params: { filters:, sortBy: sort }
+    end
 
     it "shows only one table" do
       expect(subject).to have_http_status(:ok)

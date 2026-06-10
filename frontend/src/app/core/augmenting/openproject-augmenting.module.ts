@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { OpenprojectModalModule } from 'core-app/shared/components/modal/modal.module';
 import { OpModalWrapperAugmentService } from 'core-app/shared/components/modal/modal-wrapper-augment.service';
 
@@ -34,7 +34,9 @@ import { OpModalWrapperAugmentService } from 'core-app/shared/components/modal/m
   imports: [OpenprojectModalModule],
 })
 export class OpenprojectAugmentingModule {
-  constructor(modalWrapper:OpModalWrapperAugmentService) {
+  constructor() {
+    const modalWrapper = inject(OpModalWrapperAugmentService);
+
     // Setup augmenting services
     modalWrapper.setupListener();
 

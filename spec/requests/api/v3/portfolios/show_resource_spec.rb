@@ -56,81 +56,71 @@ RSpec.describe "API v3 Portfolios resource show", content_type: :json do
     last_response
   end
 
-  context "with the feature flag enabled", with_flag: { portfolio_models: true } do
-    context "for a logged in user" do
-      it "responds with 200 OK" do
-        expect(subject.status).to eq(200)
-      end
-
-      it "responds with the correct project" do
-        expect(subject.body).to include_json("Portfolio".to_json).at_path("_type")
-        expect(subject.body).to be_json_eql(portfolio.identifier.to_json).at_path("identifier")
-      end
-
-      context "when requesting nonexistent portfolio" do
-        let(:get_path) { api_v3_paths.portfolio 9999 }
-
-        before do
-          response
-        end
-
-        it_behaves_like "not found"
-      end
-
-      context "when requesting a project" do
-        let(:portfolio) { create(:project, public: true) }
-
-        before do
-          response
-        end
-
-        it_behaves_like "not found"
-      end
-
-      context "with the project being archived/inactive" do
-        before do
-          portfolio.update_attribute(:active, false)
-        end
-
-        context "with the user being admin" do
-          current_user { admin }
-
-          it "responds with 200 OK" do
-            expect(subject.status).to eq(200)
-          end
-
-          it "responds with the correct project" do
-            expect(subject.body).to include_json("Portfolio".to_json).at_path("_type")
-            expect(subject.body).to be_json_eql(portfolio.identifier.to_json).at_path("identifier")
-          end
-        end
-
-        context "with the user being no admin" do
-          before do
-            response
-          end
-
-          it_behaves_like "not found"
-        end
-      end
+  context "for a logged in user" do
+    it "responds with 200 OK" do
+      expect(subject.status).to eq(200)
     end
 
-    context "for a not logged in user" do
-      current_user { create(:anonymous) }
+    it "responds with the correct project" do
+      expect(subject.body).to include_json("Portfolio".to_json).at_path("_type")
+      expect(subject.body).to be_json_eql(portfolio.identifier.to_json).at_path("identifier")
+    end
+
+    context "when requesting nonexistent portfolio" do
+      let(:get_path) { api_v3_paths.portfolio 9999 }
 
       before do
-        get get_path
+        response
       end
 
-      it_behaves_like "not found response based on login_required"
+      it_behaves_like "not found"
+    end
+
+    context "when requesting a project" do
+      let(:portfolio) { create(:project, public: true) }
+
+      before do
+        response
+      end
+
+      it_behaves_like "not found"
+    end
+
+    context "with the project being archived/inactive" do
+      before do
+        portfolio.update_attribute(:active, false)
+      end
+
+      context "with the user being admin" do
+        current_user { admin }
+
+        it "responds with 200 OK" do
+          expect(subject.status).to eq(200)
+        end
+
+        it "responds with the correct project" do
+          expect(subject.body).to include_json("Portfolio".to_json).at_path("_type")
+          expect(subject.body).to be_json_eql(portfolio.identifier.to_json).at_path("identifier")
+        end
+      end
+
+      context "with the user being no admin" do
+        before do
+          response
+        end
+
+        it_behaves_like "not found"
+      end
     end
   end
 
-  context "without the feature flag enabled", with_flag: { portfolio_models: false } do
+  context "for a not logged in user" do
+    current_user { create(:anonymous) }
+
     before do
-      response
+      get get_path
     end
 
-    it_behaves_like "not found"
+    it_behaves_like "not found response based on login_required"
   end
 end

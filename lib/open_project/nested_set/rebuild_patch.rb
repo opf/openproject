@@ -47,7 +47,7 @@ module OpenProject::NestedSet::RebuildPatch
   module ClassMethods
     # Rebuilds the left & rights if unset or invalid.  Also very useful for converting from acts_as_tree.
     # Very similar to original nested_set implementation but uses update_all so that callbacks are not triggered
-    def rebuild_silently!(roots = nil)
+    def rebuild_silently!(roots = nil) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
       # Don't rebuild a valid tree.
       return true if valid?
 
@@ -55,7 +55,9 @@ module OpenProject::NestedSet::RebuildPatch
       if acts_as_nested_set_options[:scope]
         scope = lambda { |node|
           scope_column_names.inject("") do |str, column_name|
-            str << "AND #{connection.quote_column_name(column_name)} = #{connection.quote(node.send(column_name.to_sym))} "
+            str << OpenProject::SqlSanitization.sanitize(
+              "AND #{connection.quote_column_name(column_name)} = ? ", node.send(column_name.to_sym)
+            )
           end
         }
       end

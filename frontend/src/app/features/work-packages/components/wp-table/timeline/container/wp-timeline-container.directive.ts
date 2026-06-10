@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Injector,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   IToast,
@@ -101,6 +95,22 @@ import { IDay } from 'core-app/core/state/days/day.model';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageTimelineTableController extends UntilDestroyedMixin implements AfterViewInit {
+  readonly injector = inject(Injector);
+  private elementRef = inject(ElementRef);
+  private states = inject(States);
+  wpTableComponent = inject(WorkPackagesTableComponent);
+  private toastService = inject(ToastService);
+  private wpTableTimeline = inject(WorkPackageViewTimelineService);
+  private notificationService = inject(WorkPackageNotificationService);
+  private wpRelations = inject(WorkPackageRelationsService);
+  private wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
+  private halEvents = inject(HalEventsService);
+  private querySpace = inject(IsolatedQuerySpace);
+  readonly I18n = inject(I18nService);
+  private workPackageViewCollapsedGroupsService = inject(WorkPackageViewCollapsedGroupsService);
+  private weekdaysService = inject(WeekdayService);
+  private daysService = inject(DayResourceService);
+
   private element:HTMLElement;
 
   public workPackageTable:WorkPackageTable;
@@ -147,26 +157,6 @@ export class WorkPackageTimelineTableController extends UntilDestroyedMixin impl
     const workPackagesWithGroupHeaderCell = this.orderedRows.filter((row) => wpsWithGroupHeaderCell.includes(row.workPackageId) && !this.workPackageIdOrder.includes(row));
 
     return workPackagesWithGroupHeaderCell;
-  }
-
-  constructor(
-    public readonly injector:Injector,
-    private elementRef:ElementRef,
-    private states:States,
-    public wpTableComponent:WorkPackagesTableComponent,
-    private toastService:ToastService,
-    private wpTableTimeline:WorkPackageViewTimelineService,
-    private notificationService:WorkPackageNotificationService,
-    private wpRelations:WorkPackageRelationsService,
-    private wpTableHierarchies:WorkPackageViewHierarchiesService,
-    private halEvents:HalEventsService,
-    private querySpace:IsolatedQuerySpace,
-    readonly I18n:I18nService,
-    private workPackageViewCollapsedGroupsService:WorkPackageViewCollapsedGroupsService,
-    private weekdaysService:WeekdayService,
-    private daysService:DayResourceService,
-  ) {
-    super();
   }
 
   ngAfterViewInit() {

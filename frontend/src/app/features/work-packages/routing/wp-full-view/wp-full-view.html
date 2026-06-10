@@ -69,13 +69,16 @@
           <op-wp-tabs [workPackage]="workPackage"
                       [currentTabId]="activeTab"
                       [view]="'full'"
-                      [routedFromAngular]="routedFromAngular"/>
+                      [routedFromAngular]="routedFromAngular"
+                      (tabSelected)="onTabSelected($event)"/>
           <div class="tabcontent"
             data-notification-selector='notification-scroll-container'>
-            <op-wp-tab
-              [workPackageId]="workPackage.id!"
-              [tabIdentifier]="activeTab"
-            ></op-wp-tab>
+            @for (tab of [activeTab]; track tab) {
+              <op-wp-tab
+                [workPackageId]="workPackage.id!"
+                [tabIdentifier]="tab"
+              ></op-wp-tab>
+            }
           </div>
         </div>
         <div class="work-packages-full-view--resizer hidden-for-mobile hide-when-print">

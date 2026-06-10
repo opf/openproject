@@ -79,6 +79,34 @@ module WorkPackages
         def change_in_progress? = state == :change_in_progress
         def completed?          = state == :completed
 
+        def total_projects_count
+          @total_projects_count ||= Project.count
+        end
+
+        def processed_projects_count
+          [total_projects_count - remaining_projects_count, 0].max
+        end
+
+        def progress_percentage
+          return 100 if total_projects_count.zero?
+
+          [(processed_projects_count.to_f / total_projects_count * 100), 100].min.round
+        end
+
+        def in_progress_header
+          key = ProjectIdentifiers::IdentifierAutofix.reversion_in_progress? ? :header_classic : :header_semantic
+          I18n.t("admin.settings.work_packages_identifier.in_progress.#{key}")
+        end
+
+        def remaining_projects_count
+          @remaining_projects_count ||=
+            if ProjectIdentifiers::IdentifierAutofix.reversion_in_progress?
+              Project.with_non_classic_identifier.count
+            else
+              ProjectIdentifiers::PendingProjectsFinder.count
+            end
+        end
+
         def wrapper_data_attrs
           if change_in_progress?
             poll_for_changes_controller_attrs
@@ -92,7 +120,7 @@ module WorkPackages
             data: {
               controller: "poll-for-changes",
               poll_for_changes_url_value: url_helpers.status_admin_settings_work_packages_identifier_path,
-              poll_for_changes_interval_value: 5000
+              poll_for_changes_interval_value: 3000
             }
           }
         end
@@ -101,7 +129,8 @@ module WorkPackages
           {
             data: {
               controller: "admin--work-packages-identifier",
-              admin__work_packages_identifier_has_problematic_projects_value: has_problematic_projects?
+              admin__work_packages_identifier_has_problematic_projects_value: has_problematic_projects?,
+              admin__work_packages_identifier_current_value_value: Setting[:work_packages_identifier]
             }
           }
         end

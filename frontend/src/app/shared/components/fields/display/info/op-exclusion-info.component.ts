@@ -28,13 +28,7 @@
  * ++
  */
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
@@ -45,6 +39,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   standalone: false,
 })
 export class OpExclusionInfoComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   public opened = false;
 
   @Input() public statusName:string;
@@ -54,11 +51,6 @@ export class OpExclusionInfoComponent implements OnInit {
     modalContent: '',
     buttonClose: this.I18n.t('js.button_close'),
   };
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {}
 
   ngOnInit() {
     this.text.modalContent = this.I18n.t('js.exclusion_info.modal.content', { status_name: this.statusName || '' });

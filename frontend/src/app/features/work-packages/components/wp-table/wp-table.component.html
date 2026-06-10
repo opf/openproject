@@ -49,6 +49,7 @@
               }
               @for (column of columns; track column.href) {
                 <th
+                  [attr.aria-label]="column.name"
                   [ngClass]="{'-max': column.id === 'subject', '-min-200': ['estimatedTime', 'remainingTime'].includes(column.id) }"
                   class="wp-table--table-header">
                   <sortHeader [headerColumn]="column"

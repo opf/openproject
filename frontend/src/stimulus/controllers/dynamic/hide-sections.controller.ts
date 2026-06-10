@@ -36,12 +36,11 @@ export default class extends Controller {
   }
 
   hide(event:MouseEvent) {
-    const section = (event.target as HTMLElement).closest('.hide-section') as HTMLElement;
-    if (section) {
-      section.hidden = true;
-    }
+    const section = (event.target as HTMLElement).closest<HTMLElement>('.hide-section');
+    if (!section) { return; }
 
-    const name = (section as HTMLElement).dataset.name!;
+    section.hidden = true;
+    const name = section.dataset.name!;
     this.toggleOption(name);
   }
 

@@ -73,6 +73,10 @@ af:
   project_module_bim: BSF
   permission_view_linked_issues: Kyk na BSF-kwessies
   permission_manage_bcf: Voer en bestuur BSF-kwessies
+  permission_manage_bcf_explanation: |
+    Allows managing BCF issues, including bulk import and updates.
+    BCF import maps file metadata to project resources and can create or update work packages
+    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
   permission_delete_bcf: Vee BSF-kwessies uit
   oauth:
     scopes:

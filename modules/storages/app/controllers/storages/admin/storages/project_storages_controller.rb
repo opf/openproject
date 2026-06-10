@@ -93,7 +93,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       update_via_turbo_stream(component:, status: :bad_request)
     end
 
-    respond_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+    respond_with_turbo_streams(status: create_service)
   end
 
   def update
@@ -108,7 +108,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       update_via_turbo_stream(component:, status: :bad_request)
     end
 
-    respond_with_turbo_streams(status: update_service.success? ? :ok : :unprocessable_entity)
+    respond_with_turbo_streams(status: update_service)
   end
 
   def destroy_confirmation_dialog
@@ -136,7 +136,7 @@ class Storages::Admin::Storages::ProjectStoragesController < ApplicationControll
       )
     end
 
-    respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
+    respond_to_with_turbo_streams(status: delete_service)
   end
 
   private

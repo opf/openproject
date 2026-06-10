@@ -36,6 +36,7 @@ tr:
         subject: Konu
         type: Maliyet türü
         labor_budget: Planlanmış iş gücü maliyetleri
+        labor_budget_items: Planned labor costs
         material_budget: Planlanan birim maliyetler
         base_amount: Matrah tutarı
       work_package:
@@ -48,6 +49,7 @@ tr:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Bütçe
+      labor_budget_item: Planned labor cost
       material_budget_item: Birim
   activity:
     filter:

@@ -33,7 +33,7 @@ module EnsureConnectionPathHelper
     url_helpers = OpenProject::StaticRouting::StaticRouter.new.url_helpers
     url_helpers.oauth_clients_ensure_connection_path(
       oauth_client_id: project_storage.storage.oauth_client.client_id,
-      storage_id: project_storage.storage.id,
+      integration_id: project_storage.storage.id,
       destination_url: url_helpers.open_project_storage_url(
         project_id: project_storage.project.identifier,
         id: project_storage.id

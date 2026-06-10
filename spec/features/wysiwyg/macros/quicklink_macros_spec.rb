@@ -171,7 +171,9 @@ RSpec.describe "Wysiwyg work package quicklink macros", :js do
       ####{wp_milestone_without_date.id}
     MD
 
-    click_on "Save"
+    wait_for_turbo { click_on "Save" }
+
+    expect_and_dismiss_flash(message: "Successful creation.")
 
     within("#content") do
       expect(page).to have_css("opce-macro-wp-quickinfo", text: /No dates$/)

@@ -235,7 +235,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
   end
   let(:expected_details) do
     [
-      "#{type.name} ##{work_package.id} - #{work_package.subject}",
+      "#{type.name} #{work_package.formatted_id} - #{work_package.subject}",
       " ", exporter.prawn_badge_text_stuffing(work_package.status.name.downcase), # badge & padding
       "People",
       "Assignee", user.name,

@@ -73,6 +73,11 @@ module Roles
                                 []
                               end
 
+      # For now, we also remove all permissions related to resource management as this module is still behind FF
+      unless Rails.env.local?
+        permissions_to_remove += OpenProject::AccessControl.module_permissions(:resource_management)
+      end
+
       OpenProject::AccessControl.project_permissions - permissions_to_remove
     end
 

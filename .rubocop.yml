@@ -142,6 +142,11 @@ Naming/ClassAndModuleCamelCase:
 Naming/FileName:
   Enabled: false
 
+Naming/MethodParameterName:
+  AllowedNames:
+    - id
+    - cf # custom fields are commonly abbreviated like that
+
 Naming/PredicatePrefix:
   ForbiddenPrefixes:
     - is_

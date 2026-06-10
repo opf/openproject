@@ -41,10 +41,15 @@ module Queries::Operators
 
         if values.present?
           sql = values.map do |val|
-            "EXISTS (SELECT 1 FROM #{cv_table} WHERE customized_type = '#{connection.quote_string(customized_type)}' " \
-              "AND custom_field_id = #{custom_field_id} " \
+            OpenProject::SqlSanitization.sanitize(
+              "EXISTS (SELECT 1 FROM #{cv_table} WHERE customized_type = ? " \
+              "AND custom_field_id = ? " \
               "AND customized_id = #{customized_id_join_field} " \
-              "AND value ='#{connection.quote_string(val)}')"
+              "AND value = ?)",
+              customized_type,
+              custom_field_id,
+              val
+            )
           end
 
           sql.join(" AND ")

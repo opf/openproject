@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { IToast } from 'core-app/shared/components/toaster/toast.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -36,13 +36,8 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 
 @Injectable()
 export class WorkPackageNotificationService extends HalResourceNotificationService {
-  constructor(
-    readonly injector:Injector,
-    readonly apiV3Service:ApiV3Service,
-    readonly turboRequests:TurboRequestsService,
-  ) {
-    super(injector);
-  }
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly turboRequests = inject(TurboRequestsService);
 
   public showSave(resource:HalResource, isCreate = false) {
     const message:IToast = {

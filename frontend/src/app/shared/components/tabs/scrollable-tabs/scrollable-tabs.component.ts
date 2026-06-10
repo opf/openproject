@@ -1,17 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  Injector,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Injector, OnChanges, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { TabDefinition } from 'core-app/shared/components/tabs/tab.interface';
 import {
   RawParams,
@@ -21,7 +8,6 @@ import {
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Component({
   templateUrl: 'scrollable-tabs.component.html',
@@ -31,6 +17,10 @@ import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decora
   standalone: false,
 })
 export class ScrollableTabsComponent extends UntilDestroyedMixin implements AfterViewInit, OnChanges {
+  protected readonly $state = inject(StateService);
+  private cdRef = inject(ChangeDetectorRef);
+  injector = inject(Injector);
+
   @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef;
 
   @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef;
@@ -51,7 +41,7 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
 
   @Output() public tabSelected = new EventEmitter<TabDefinition>();
 
-  @InjectField() uiRouterGlobals:UIRouterGlobals;
+  readonly uiRouterGlobals = inject(UIRouterGlobals);
 
   counters:Record<string, Observable<number>> = {};
 
@@ -64,14 +54,6 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
   private debouncedTabActivationTimeout:ReturnType<typeof setTimeout>|null;
 
   private dragTargetStack = 0;
-
-  constructor(
-    protected readonly $state:StateService,
-    private cdRef:ChangeDetectorRef,
-    public injector:Injector,
-  ) {
-    super();
-  }
 
   ngAfterViewInit():void {
     this.container = this.scrollContainer.nativeElement as HTMLElement;
@@ -135,7 +117,8 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
 
     // Override history to avoid that browser back leads you to a different tab instead of the page you originated from
     if (tab.path) {
-      Turbo.visit(tab.path, { action: document.referrer != '' ? 'replace' : 'advance' });
+      const historyMethod = document.referrer !== '' ? 'replaceState' : 'pushState';
+      history[historyMethod](null, '', tab.path);
     }
   }
 

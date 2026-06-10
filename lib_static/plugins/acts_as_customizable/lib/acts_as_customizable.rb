@@ -97,7 +97,10 @@ module Redmine
           true
         end
 
-        delegate :admin_only_custom_fields_allowed?, :can_have_custom_comments?, to: :class
+        delegate :admin_only_custom_fields_allowed?,
+                 :can_have_custom_comments?,
+                 :custom_field_class,
+                 to: :class
 
         def available_custom_fields
           self.class.available_custom_fields(self)

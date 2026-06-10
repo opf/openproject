@@ -1,6 +1,4 @@
-import {
-  ApplicationRef, ComponentFactoryResolver, Injectable, Injector,
-} from '@angular/core';
+import { ApplicationRef, Injectable, Injector, inject } from '@angular/core';
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
 import { TransitionService } from '@uirouter/core';
 import { FocusHelperService } from 'core-app/shared/directives/focus/focus-helper';
@@ -14,18 +12,16 @@ export type Class = new(...args:any[]) => any;
 
 @Injectable()
 export class ExternalQueryConfigurationService {
+  readonly FocusHelper = inject(FocusHelperService);
+  private appRef = inject(ApplicationRef);
+  private $transitions = inject(TransitionService);
+  private injector = inject(Injector);
+
   // Hold a reference to the DOM node we're using as a host
   private _portalHostElement:HTMLElement;
 
   // And a reference to the actual portal host interface on top of the element
   private _bodyPortalHost:DomPortalOutlet;
-
-  constructor(
-    readonly FocusHelper:FocusHelperService,
-    private appRef:ApplicationRef,
-    private $transitions:TransitionService,
-    private injector:Injector) {
-  }
 
   /**
    * Create a portal host element to contain the table configuration components.

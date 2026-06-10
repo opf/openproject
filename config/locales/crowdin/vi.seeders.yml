@@ -224,9 +224,9 @@ vi:
                 Trong mô-đun này, bạn có thể truyền đạt tin tức dự án cho các thành viên trong nhóm của mình.
           versions:
             item_0:
-              name: Tồn đọng lỗi
+              name: Backlog lỗi
             item_1:
-              name: Tồn đọng sản phẩm
+              name: Backlog sản phẩm
             item_2:
               name: Chạy nước rút 1
               wiki:
@@ -242,7 +242,7 @@ vi:
 
                   * Chia làm 2 ô thời gian bổ sung 4h:
 
-                      * Chủ sản phẩm trình bày [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và các ưu tiên cho nhóm, đồng thời giải thích Mục tiêu Sprint mà nhóm phải đồng ý. Họ cùng nhau ưu tiên các chủ đề trong Product Backlog mà nhóm sẽ xử lý trong lần chạy nước rút tiếp theo. Nhóm cam kết thực hiện việc giao hàng đã thảo luận.
+                      * Chủ sản phẩm trình bày [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và các ưu tiên cho nhóm, đồng thời giải thích Mục tiêu Sprint mà nhóm phải đồng ý. Họ cùng nhau ưu tiên các chủ đề trong Product Backlog mà nhóm sẽ xử lý trong lần Sprint tiếp theo. Nhóm cam kết thực hiện việc giao hàng đã thảo luận.
                       * Nhóm lập kế hoạch một cách tự động (không có Chủ sở hữu sản phẩm) một cách chi tiết và chia nhỏ các nhiệm vụ từ các yêu cầu đã thảo luận để hợp nhất [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
@@ -264,7 +264,7 @@ vi:
 
                   * Thời gian đóng hộp (4 h).
                   * Thời gian chuẩn bị tối đa một giờ cho mỗi người.
-                  * Nhóm cho chủ sở hữu sản phẩm và những người quan tâm khác thấy những gì đã đạt được trong lần chạy nước rút này.
+                  * Nhóm cho chủ sở hữu sản phẩm và những người quan tâm khác thấy những gì đã đạt được trong lần Sprint này.
                   * Quan trọng: không có hình nộm và không có PowerPoint! Chức năng của sản phẩm vừa hoàn thiện (Tăng dần) phải được thể hiện.
                   * Phản hồi từ Chủ sở hữu sản phẩm, các bên liên quan và những người khác là mong muốn và sẽ được đưa vào công việc tiếp theo.
                   * Dựa trên các chức năng đã được chứng minh, Chủ sở hữu sản phẩm quyết định đưa phần tăng trưởng này vào hoạt động hoặc phát triển thêm. Khả năng này cho phép ROI sớm.
@@ -276,7 +276,7 @@ vi:
 
                   * Thời gian đóng khung (3 h).
                   * Sau Sprint Review, sẽ được Scrum Master kiểm duyệt.
-                  * Nhóm thảo luận về lần chạy nước rút: điều gì đã diễn ra tốt đẹp, điều gì cần được cải thiện để đạt năng suất cao hơn cho lần chạy nước rút tiếp theo hoặc thậm chí có nhiều niềm vui hơn.
+                  * Nhóm thảo luận về lần Sprint: điều gì đã diễn ra tốt đẹp, điều gì cần được cải thiện để đạt năng suất cao hơn cho lần Sprint tiếp theo hoặc thậm chí có nhiều niềm vui hơn.
             item_3:
               name: Chạy nước rút 2
           categories:
@@ -285,7 +285,7 @@ vi:
             item_0:
               name: kế hoạch dự án
             item_1:
-              name: Sản phẩm tồn đọng
+              name: Sản phẩm Backlog
             item_2:
               name: Chạy nước rút 1
             item_3:
@@ -322,7 +322,7 @@ vi:
                     3. *Xem bảng Nhiệm vụ của bạn*: &rightarrow; Đi tới [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) &rightarrow; Nhấp vào mũi tên phải trên Sprint &rightarrow; Chọn [Task Board](##sprint:scrum_project__version__sprint_1).
                     4. *Tạo gói công việc mới*: &rightarrow; Đi tới [Work packages &rightarrow; Create]({{opSetting:base_url}}/projects/your-scrum-project/work_packages/new).
                     5. *Tạo và cập nhật kế hoạch dự án*: &rightarrow; Đi tới [Project plan](##query:scrum_project__query__project_plan) trong điều hướng dự án.
-                    6. *Tạo một wiki Sprint*: &rightarrow; Đi tới [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và mở wiki chạy nước rút từ menu thả xuống bên phải trong một lần chạy nước rút. Bạn có thể chỉnh sửa [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) tùy theo nhu cầu của mình.
+                    6. *Tạo một wiki Sprint*: &rightarrow; Đi tới [Backlogs]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và mở wiki Sprint từ menu thả xuống bên phải trong một lần Sprint. Bạn có thể chỉnh sửa [wiki template]({{opSetting:base_url}}/projects/your-scrum-project/wiki/) tùy theo nhu cầu của mình.
                     7. *Kích hoạt thêm các mô-đun*: &rightarrow; Đi tới [Project settings &rightarrow; Modules]({{opSetting:base_url}}/projects/your-scrum-project/settings/modules).
 
                     Tại đây bạn sẽ tìm thấy [User Guides](https://www.openproject.org/docs/user-guide/) của chúng tôi.
@@ -395,7 +395,7 @@ vi:
 
             * Chia làm 2 ô thời gian bổ sung 4h:
 
-                * Chủ sản phẩm trình bày [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và các ưu tiên cho nhóm, đồng thời giải thích Mục tiêu Sprint mà nhóm phải đồng ý. Họ cùng nhau ưu tiên các chủ đề trong Product Backlog mà nhóm sẽ xử lý trong lần chạy nước rút tiếp theo. Nhóm cam kết thực hiện việc giao hàng đã thảo luận.
+                * Chủ sản phẩm trình bày [Product Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs) và các ưu tiên cho nhóm, đồng thời giải thích Mục tiêu Sprint mà nhóm phải đồng ý. Họ cùng nhau ưu tiên các chủ đề trong Product Backlog mà nhóm sẽ xử lý trong lần Sprint tiếp theo. Nhóm cam kết thực hiện việc giao hàng đã thảo luận.
                 * Nhóm lập kế hoạch một cách tự động (không có Chủ sở hữu sản phẩm) một cách chi tiết và chia nhỏ các nhiệm vụ từ các yêu cầu đã thảo luận để hợp nhất [Sprint Backlog]({{opSetting:base_url}}/projects/your-scrum-project/backlogs).
 
 
@@ -417,7 +417,7 @@ vi:
 
             * Thời gian đóng hộp (4 h).
             * Thời gian chuẩn bị tối đa một giờ cho mỗi người.
-            * Nhóm cho chủ sở hữu sản phẩm và những người quan tâm khác thấy những gì đã đạt được trong lần chạy nước rút này.
+            * Nhóm cho chủ sở hữu sản phẩm và những người quan tâm khác thấy những gì đã đạt được trong lần Sprint này.
             * Quan trọng: không có hình nộm và không có PowerPoint! Chức năng của sản phẩm vừa hoàn thiện (Tăng dần) phải được thể hiện.
             * Phản hồi từ Chủ sở hữu sản phẩm, các bên liên quan và những người khác là mong muốn và sẽ được đưa vào công việc tiếp theo.
             * Dựa trên các chức năng đã được chứng minh, Chủ sở hữu sản phẩm quyết định đưa phần tăng trưởng này vào hoạt động hoặc phát triển thêm. Khả năng này cho phép ROI sớm.
@@ -429,7 +429,7 @@ vi:
 
             * Thời gian đóng khung (3 h).
             * Sau Sprint Review, sẽ được Scrum Master kiểm duyệt.
-            * Nhóm thảo luận về lần chạy nước rút: điều gì đã diễn ra tốt đẹp, điều gì cần được cải thiện để đạt năng suất cao hơn cho lần chạy nước rút tiếp theo hoặc thậm chí có nhiều niềm vui hơn.
+            * Nhóm thảo luận về lần Sprint: điều gì đã diễn ra tốt đẹp, điều gì cần được cải thiện để đạt năng suất cao hơn cho lần Sprint tiếp theo hoặc thậm chí có nhiều niềm vui hơn.
       statuses:
         item_0:
           name: Mới

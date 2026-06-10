@@ -36,6 +36,7 @@ el:
         subject: Θέμα
         type: Τύπος κόστους
         labor_budget: Σχεδιασμένο κόστος εργασίας
+        labor_budget_items: Planned labor costs
         material_budget: Σχεδιασμένο κόστος μονάδας
         base_amount: Ποσό Βάσης
       work_package:
@@ -48,6 +49,7 @@ el:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Προϋπολογισμός
+      labor_budget_item: Planned labor cost
       material_budget_item: Μονάδα
   activity:
     filter:

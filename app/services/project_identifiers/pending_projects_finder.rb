@@ -38,22 +38,33 @@ module ProjectIdentifiers
   #   the current project prefix (stale due to renames or cross-project moves)
   module PendingProjectsFinder
     def self.project_ids
-      projects_with_bad_identifier | projects_with_unsequenced_wps | projects_with_stale_wps
+      bad_identifier_scope.ids.to_set |
+        unsequenced_scope.pluck(:project_id).to_set |
+        non_semantic_scope.pluck(:project_id).to_set
+    end
+
+    def self.count
+      union_sql = [
+        bad_identifier_scope.select("id AS project_id"),
+        unsequenced_scope.select(:project_id),
+        non_semantic_scope.select(:project_id)
+      ].map(&:to_sql).join(" UNION ")
+      Project.unscoped.from("(#{union_sql}) AS pending_projects").count
     end
 
     class << self
       private
 
-      def projects_with_bad_identifier
-        ProjectIdentifiers::IdentifierAutofix::ProblematicIdentifiers.new.scope.ids.to_set
+      def bad_identifier_scope
+        IdentifierAutofix::ProblematicIdentifiers.new.scope
       end
 
-      def projects_with_unsequenced_wps
-        WorkPackage.unsequenced.distinct.pluck(:project_id).to_set
+      def unsequenced_scope
+        WorkPackage.unsequenced.distinct
       end
 
-      def projects_with_stale_wps
-        WorkPackage.non_semantic.distinct.pluck(:project_id).to_set
+      def non_semantic_scope
+        WorkPackage.non_semantic.distinct
       end
     end
   end

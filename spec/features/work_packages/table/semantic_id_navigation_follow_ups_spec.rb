@@ -5,7 +5,6 @@ require "spec_helper"
 RSpec.describe "Work package table navigation follow-ups use displayId",
                :js,
                :with_cuprite,
-               with_flag: { semantic_work_package_ids: true },
                with_settings: { work_packages_identifier: "semantic" } do
   # Classic mode is a behavioural no-op for each of these fixes:
   # `workPackage.displayId` and `resolveRoutingId(...)` both collapse to the

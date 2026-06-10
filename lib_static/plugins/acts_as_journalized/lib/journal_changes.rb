@@ -41,6 +41,7 @@ module JournalChanges
       get_custom_fields_changes,
       get_project_phases_changes,
       get_file_links_changes,
+      get_participants_changes,
       get_agenda_items_changes
     ].compact
 
@@ -150,7 +151,47 @@ module JournalChanges
     )
   end
 
+  def get_participants_changes
+    return unless journable.respond_to?(:participants)
+
+    baseline = participant_baseline_journal
+    return unless baseline
+
+    previous = participant_names_for(baseline, :invited)
+    current = participant_names_for(self, :invited)
+
+    added = current - previous
+    removed = previous - current
+
+    {
+      participants_added: participant_change_detail(added),
+      participants_removed: participant_change_detail(removed)
+    }.compact
+  end
+
   private
+
+  def participant_baseline_journal
+    journals = journable.journals.to_a
+    current_index = journals.index { |entry| entry.id == id }
+    return unless current_index
+
+    journals[0...current_index].reverse.find { |entry| entry.participant_journals.any? }
+  end
+
+  def participant_names_for(journal, attribute)
+    journal
+      .participant_journals
+      .select { |entry| entry.public_send(attribute) }
+      .filter_map { |entry| entry.user&.name }
+      .sort
+  end
+
+  def participant_change_detail(names)
+    return if names.empty?
+
+    [nil, names.join(", ")]
+  end
 
   def filter_admin_only_custom_fields(relation)
     return relation if User.current.admin?

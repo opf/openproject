@@ -41,12 +41,10 @@ module ProjectIdentifiers
     end
 
     def call
-      ApplicationRecord.transaction do
-        fix_identifier_if_needed
-        reset_stale_identifiers
-        backfill_missing_ids
-        seed_alias_table
-      end
+      fix_identifier_if_needed
+      ApplicationRecord.transaction { reset_stale_identifiers }
+      ApplicationRecord.transaction { backfill_missing_ids }
+      ApplicationRecord.transaction { seed_alias_table }
     end
 
     private
@@ -57,15 +55,8 @@ module ProjectIdentifiers
       # Pure format check — no DB queries.
       return if ProjectIdentifiers::IdentifierAutofix::ProblematicIdentifiers.valid_format?(project.identifier)
 
-      # Serialize all concurrent identifier assignments with a transaction-level
-      # advisory lock. The lock is automatically released when the outer
-      # ApplicationRecord.transaction commits, so the next job waiting on it
-      # always reads a fully up-to-date exclusion set and can never generate a
-      # duplicate. Without this, parallel jobs can read the same exclusion set
-      # before any of them commits, then all pick the same candidate.
-      OpenProject::Mutex.with_advisory_lock(
-        Project, "semantic_identifier_generation", transaction: true
-      ) do
+      # Identifier assignments must run one at a time to avoid conflicts with concurrent renames or conversions.
+      OpenProject::Mutex.with_advisory_lock(Project, "semantic_identifier_generation") do
         assign_semantic_identifier
       end
     end
@@ -79,9 +70,24 @@ module ProjectIdentifiers
 
       raise "Generated identifier is blank for project #{project.id}" if new_identifier.blank?
 
+      save_identifier!(new_identifier)
+    rescue ActiveRecord::RecordInvalid, ActiveRecord::RecordNotUnique => e
+      handle_identifier_conflict(new_identifier, e)
+    end
+
+    def handle_identifier_conflict(attempted_id, error)
+      Rails.logger.warn "#{self.class}: Could not set identifier '#{attempted_id}' for project #{project.id}; " \
+                        "falling back to a random identifier. (#{error.message})"
+      save_identifier!("P#{SecureRandom.alphanumeric(5).upcase}")
+    end
+
+    def save_identifier!(new_identifier)
       project.identifier = new_identifier
-      # Save with the validation context that allows to save semantic ID while system is in classic mode
-      project.save!(context: :semantic_conversion)
+      # Suppress notifications: this is a background system operation, not a user edit.
+      Journal::NotificationConfiguration.with(false) do
+        # Uses :semantic_conversion context to allow saving a semantic ID while the system is in classic mode.
+        project.save!(context: :semantic_conversion)
+      end
     end
 
     def reset_stale_identifiers

@@ -31,10 +31,15 @@ zh-CN:
         authentication_method: 身份验证方式
         creator: 创建者
         drive: 驱动器 ID
+        file_link_origin: 文件链接来源 ID
         host: 主机
+        linkable_to_storage: 可链接到存储
+        linkable_to_storage_url: 可链接到存储 URL
         name: 名称
         password: 应用程序密码
         provider_type: 提供商类型
+        storage: 存储
+        storage_url: 存储 URL
         tenant: 目录 (租户) ID
     errors:
       messages:
@@ -108,21 +113,25 @@ zh-CN:
         remote_folders: 读取团队文件夹的内容：
         remove_user_from_group: 从组中移除用户
         rename_project_folder: 重命名托管项目文件夹：
+        set_folder_permission: 设置托管项目文件夹权限：
       one_drive_sync_service:
         create_folder: 托管项目文件夹创建：
         ensure_root_folder_permissions: 设置基础文件夹权限：
         hide_inactive_folders: 隐藏非活动文件夹步骤：
         remote_folders: 读取驱动器根文件夹的内容：
         rename_project_folder: 重命名托管项目文件夹：
+        set_folder_permission: 设置托管项目文件夹权限：
       sharepoint_sync_service:
         create_folder: 托管项目文件夹创建：
         ensure_root_folder_permissions: 设置基础文件夹权限：
         hide_inactive_folders: 隐藏非活动文件夹步骤：
         remote_folders: 读取驱动器根文件夹的内容：
         rename_project_folder: 重命名托管项目文件夹：
+        set_folder_permission: 设置托管项目文件夹权限：
     errors:
       messages:
         error: 发生意外错误。请检查日志获取更多信息或联系管理员
+        folder_id_collision: 多个项目存储空间尝试管理项目文件夹 %{folder}。已跳过文件夹同步。
         forbidden: OpenProject 无法访问请求的资源。请检查存储提供程序上的权限配置。
         unauthorized: 无法通过存储提供商进行身份验证。请确保您有访问权限。
       models:
@@ -314,72 +323,59 @@ zh-CN:
           host_url_accessible: 主机 URL 可访问
           storage_configured: 配置完成
           tenant_id: 租户 ID
-        failures:
-          other: "%{count} 检查失败"
-        success: 所有检查已通过
-        warnings:
-          other: "%{count} 检查返回警告"
-      connection_validation:
-        client_id_invalid: 已配置的 OAuth 2 客户端 ID 无效。请检查配置。
-        client_secret_invalid: 已配置的 OAuth 2 客户端 ID 无效。请检查配置。
-        nc_dependency_missing: 文件存储缺少一个必需的依赖项。请添加以下依赖项： %{dependency}.
-        nc_dependency_version_mismatch: "%{dependency} 应用版本不受支持。请更新您的 Nextcloud 服务器。"
-        nc_host_not_found: 在配置的主机 URL 中找不到 Nextcloud 服务器。请检查配置。
-        nc_oauth_request_not_found: 未找到获取当前连接用户的端点。请检查服务器日志以获取更多信息。
-        nc_oauth_request_unauthorized: 当前用户无权访问远程文件存储。请检查服务器日志以获取更多信息。
-        nc_oauth_token_missing: OpenProject 无法测试用户与 Nextcloud 之间的通信，因为用户尚未链接他们的 Nextcloud 帐户。
-        nc_project_folder_missing: 找不到先前为项目“%{project}”创建的项目文件夹。
-        nc_team_folder_not_found: 找不到该团队文件夹。
-        nc_unexpected_files: 在受管理的团队文件夹中找到非预期文件。例如：%{sample}
-        nc_unlinked_project_folders: 部分项目文件夹尚未创建 (%{actual}/%{expected})。这可能表明 AMPF 后台同步过程中出错。
-        nc_userless_access_denied: 已配置的应用密码无效。
-        not_configured: 无法验证连接。请先完成配置。
-        od_client_cant_delete_folder: 客户端在删除文件夹时遇到问题。请检查您的存储的设置文档。
-        od_client_write_permission_missing: 客户端似乎没有写入权限。请检查您的存储的设置文档。
-        od_drive_id_invalid: 配置的驱动器 ID 似乎无效。请检查配置。
-        od_drive_id_not_found: 找不到配置的驱动器 ID。请检查配置。
-        od_oauth_request_not_found: 未找到获取当前连接用户的端点。请检查服务器日志以获取更多信息。
-        od_oauth_request_unauthorized: 当前用户无权访问远程文件存储。请检查服务器日志以获取更多信息。
-        od_oauth_token_missing: OpenProject 无法测试用户与 OneDrive 的用户级通信，因为用户尚未关联他们的 Microsoft 帐户。
-        od_tenant_id_wrong: 配置的目录（租户）无效。请检查配置。
-        od_test_folder_exists: 测试所需的文件夹 %{folder_name} 已存在。请删除它并重试。
-        od_unexpected_content: 在驱动器中找到意外内容。
-        offline_access_scope_missing: 建议配置 OpenID Connect 提供商以请求 offline_access 范围。集成仍然可以正常工作，但请确保刷新令牌不会过期。
-        oidc_cant_refresh_token: 尝试检查您对存储的访问时出错。请检查服务器日志以获取更多信息。
-        oidc_non_oidc_user: 当前用户在预配的情况下，没有被 OpenID Connect (OIDC) 身份提供商预置。请重新运行与OIDC 预置用户的检查。
-        oidc_non_provisioned_user: 当前用户并非由 OpenID Connect 身份提供商提供。请针对提供的用户重新运行检查。
-        oidc_provider_cant_exchange: OpenID Connect 提供商似乎不支持令牌交换，但已为存储配置了令牌交换。
-        oidc_token_acquisition_failed: 您的 OpenID Connect 设置中没有指明令牌的接收方，也没有提供令牌交换功能。请查看我们的文档以获取更多信息。
-        oidc_token_exchange_failed: 您的 OpenID Connect 提供商上的 Token Exchange 设置似乎存在问题。请检查其配置并重试。
-        oidc_token_refresh_failed: 当检查你对这个存储的访问权限时出现错误。详情请查看服务器日志。
-        sp_client_cant_delete_folder: 客户在删除 SharePoint 中的文件夹时遇到问题。请查看存储的设置文档。
-        sp_client_id_missing: SharePoint 缺少配置的 OAuth 2 客户端 id。请检查配置。
-        sp_client_secret_missing: SharePoint 缺少配置的 OAuth 2 客户端密钥。请检查配置。
-        sp_client_write_permission_missing: 客户端似乎在 SharePoint 中没有写入权限。请查看您的存储空间的设置文档。
-        sp_existing_test_folder: 测试所需的文件夹 %{folder_name} 已存在于 SharePoint 中。请删除此文件夹并重试。
-        sp_oauth_request_error: 向 SharePoint 发送的用户绑定请求失败。请查看服务器日志以获取更多信息。
-        sp_oauth_request_unauthorized: 当前用户无权访问远程文件存储空间。请查看服务器日志，了解更多信息。
-        sp_oauth_token_missing: OpenProject 无法测试与 SharePoint 的用户级通信，因为用户尚未关联他们的 SharePoint 帐户。
-        sp_tenant_id_missing: SharePoint 缺少配置的目录（租户）id。请检查配置。
-        sp_unexpected_content: 在 SharePoint 文档库中发现意外内容。
-        unknown_error: 连接无法验证。出现未知错误。请查看服务器日志以获取更多信息。
+        errors:
+          client_id_invalid: 配置的 OAuth 2 客户端 ID 无效。请检查配置。
+          client_secret_invalid: 配置的 OAuth 2 客户端密钥无效。请检查配置。
+          nc_dependency_missing: 文件存储空间中缺少所需依赖项。请添加以下依赖项：%{dependency}。
+          nc_dependency_version_mismatch: "%{dependency} 应用版本不受支持。请更新您的 Nextcloud 服务器。"
+          nc_host_not_found: 未在配置的主机 URL 中找到 Nextcloud 服务器。请检查配置。
+          nc_oauth_request_not_found: 找不到用于获取当前连接用户的端点。如需了解详情，请查看服务器日志。
+          nc_oauth_request_unauthorized: 当前用户无权访问远程文件存储空间。如需了解详情，请查看服务器日志。
+          nc_oauth_token_missing: OpenProject 无法测试与 Nextcloud 之间的用户级通信，因为该用户尚未关联其 Nextcloud 帐户。
+          nc_project_folder_missing: 找不到先前为项目“%{project}”创建的项目文件夹。
+          nc_team_folder_not_found: 找不到该团队文件夹。
+          nc_unexpected_files: 在托管团队文件夹中找到意外文件。例如：%{sample}
+          nc_unlinked_project_folders: 部分项目文件夹尚未创建 (%{actual}/%{expected})。这可能表明 AMPF 后台同步过程中出错。
+          nc_userless_access_denied: 配置的应用密码无效。
+          not_configured: 无法验证连接。请先完成配置。
+          od_client_cant_delete_folder: 客户端在删除文件夹时遇到问题。请查看您的存储空间的设置文档。
+          od_client_write_permission_missing: 客户端似乎没有写入权限。请查看您的存储空间的设置文档。
+          od_drive_id_invalid: 配置的驱动器 ID 似乎无效。请检查配置。
+          od_drive_id_not_found: 找不到配置的驱动器 ID。请检查配置。
+          od_oauth_request_not_found: 找不到用于获取当前连接用户的端点。如需了解详情，请查看服务器日志。
+          od_oauth_request_unauthorized: 当前用户无权访问远程文件存储空间。如需了解详情，请查看服务器日志。
+          od_oauth_token_missing: OpenProject 无法测试用户与 OneDrive 的用户级通信，因为用户尚未关联他们的 Microsoft 帐户。
+          od_tenant_id_wrong: 配置的目录（租户）无效。请检查配置。
+          od_test_folder_exists: 测试所需的文件夹 %{folder_name} 已存在。请将其删除并重试。
+          od_unexpected_content: 在驱动器中找到意外内容。
+          offline_access_scope_missing: 建议配置 OpenID Connect 提供商以请求 offline_access 范围。集成仍然可以正常工作，但请确保刷新令牌不会过期。
+          oidc_cant_refresh_token: 尝试检查您对存储空间的访问权限时出错。如需了解详情，请查看服务器日志。
+          oidc_non_oidc_user: 在预置的情况下，当前用户未被 OpenID Connect (OIDC) 身份提供商预置。请针对 OIDC 预置用户重新运行检查。
+          oidc_non_provisioned_user: 当前用户并非由 OpenID Connect 身份提供商提供。请针对提供的用户重新运行检查。
+          oidc_provider_cant_exchange: OpenID Connect 提供商似乎不支持令牌交换，但已为存储配置了令牌交换。
+          oidc_token_acquisition_failed: 您的 OpenID Connect 设置没有提供必要的受众，也没有提供令牌交换功能。如需了解详情，请查看我们的文档。
+          oidc_token_exchange_failed: 您的 OpenID Connect 提供商上的令牌交换设置似乎存在问题。请检查其配置并重试。
+          oidc_token_refresh_failed: 尝试检查您对存储空间的访问权限时出错。如需了解详情，请查看服务器日志。
+          sp_client_cant_delete_folder: 客户在删除 SharePoint 中的文件夹时遇到问题。请查看您的存储空间的设置文档。
+          sp_client_id_missing: SharePoint 缺少配置的 OAuth 2 客户端 ID。请检查配置。
+          sp_client_secret_missing: SharePoint 缺少配置的 OAuth 2 客户端密钥。请检查配置。
+          sp_client_write_permission_missing: 客户端似乎在 SharePoint 中没有写入权限。请查看您的存储空间的设置文档。
+          sp_existing_test_folder: SharePoint 中已存在测试所需的文件夹 %{folder_name}。请删除此文件夹并重试。
+          sp_oauth_request_error: 向 SharePoint 发送的用户绑定请求失败。如需了解详情，请查看服务器日志。
+          sp_oauth_request_unauthorized: 当前用户无权访问远程文件存储空间。如需了解详情，请查看服务器日志。
+          sp_oauth_token_missing: OpenProject 无法测试与 SharePoint 的用户级通信，因为用户尚未关联他们的 SharePoint 帐户。
+          sp_tenant_id_missing: SharePoint 缺少配置的目录（租户）ID。请检查配置。
+          sp_unexpected_content: 在 SharePoint 文档库中发现意外内容。
+          unknown_error: 无法验证连接。如需了解详情，请查看服务器日志。
       label_error: 错误
-      label_failed: 失败
       label_healthy: 健康
-      label_passed: 通过
       label_pending: 待处理
-      label_skipped: 跳过
-      label_warning: 警告
       no_report: 无可用报告
       no_report_description: 立即运行检查以获取此文件存储的完整运行状况报告。
       open_report: 打开完整的健康报告
       project_folders:
         subtitle: 自动托管项目文件夹
       since: 自从 %{datetime}
-      summary:
-        failure: 有些检查失败，系统无法按预期运行。
-        success: 所有连接和系统都按预期运行。
-        warning: 某些检查返回了警告。这可能导致异常行为。
       synced: 上次同步时间：%{datetime}
       title: 健康状况报告
     health_email_notifications:

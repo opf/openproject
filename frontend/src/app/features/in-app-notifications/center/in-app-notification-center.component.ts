@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { filter, map } from 'rxjs/operators';
 import { StateService } from '@uirouter/angular';
@@ -52,6 +52,17 @@ import {
   standalone: false,
 })
 export class InAppNotificationCenterComponent implements OnInit {
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly elementRef = inject(ElementRef);
+  readonly I18n = inject(I18nService);
+  readonly storeService = inject(IanCenterService);
+  readonly bellService = inject(IanBellService);
+  readonly urlParams = inject(UrlParamsService);
+  readonly state = inject(StateService);
+  readonly apiV3 = inject(ApiV3Service);
+  readonly pathService = inject(PathHelperService);
+  readonly colorsService = inject(ColorsService);
+
   maxSize = NOTIFICATIONS_MAX_SIZE;
 
   hasMoreThanPageSize$ = this.storeService.hasMoreThanPageSize$;
@@ -141,22 +152,8 @@ export class InAppNotificationCenterComponent implements OnInit {
 
   protected readonly idFromLink = idFromLink;
 
-  constructor(
-    readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
-    readonly I18n:I18nService,
-    readonly storeService:IanCenterService,
-    readonly bellService:IanBellService,
-    readonly urlParams:UrlParamsService,
-    readonly state:StateService,
-    readonly apiV3:ApiV3Service,
-    readonly pathService:PathHelperService,
-    readonly colorsService:ColorsService,
-  ) {
-  }
-
   ngOnInit():void {
-    const facet = this.urlParams.get('facet') || 'unread';
+    const facet = this.urlParams.get('facet') ?? 'unread';
     this.storeService.setFacet(facet as 'unread'|'all');
     this.storeService.setFilters({
       filter: this.urlParams.get('filter'),
@@ -174,5 +171,13 @@ export class InAppNotificationCenterComponent implements OnInit {
     }
 
     return this.text.no_notification_for_filter;
+  }
+
+  notificationMatchesSelectedWorkPackage(notification:INotification, selected:string|null):boolean {
+    const href = notification._links.resource?.href;
+    const workPackageId = href ? idFromLink(href) : null;
+    const workPackage = workPackageId ? this.apiV3.work_packages.cache.current(workPackageId) : null;
+
+    return selected === workPackageId || selected === workPackage?.displayId;
   }
 }

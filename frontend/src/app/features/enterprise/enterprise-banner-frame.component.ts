@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { BannersService } from 'core-app/core/enterprise/banners.service';
 
@@ -37,6 +37,9 @@ import { BannersService } from 'core-app/core/enterprise/banners.service';
   standalone: false,
 })
 export class EnterpriseBannerFrameComponent implements OnInit {
+  protected pathHelper = inject(PathHelperService);
+  protected banners = inject(BannersService);
+
   @Input() public feature:string;
 
   @Input() public dismissable = false;
@@ -44,12 +47,6 @@ export class EnterpriseBannerFrameComponent implements OnInit {
   visible:boolean;
   frameURL:string;
   frameID:string;
-
-  constructor(
-    protected pathHelper:PathHelperService,
-    protected banners:BannersService,
-  ) {
-  }
 
   ngOnInit() {
     this.visible = this.banners.showBannerFor(this.feature);

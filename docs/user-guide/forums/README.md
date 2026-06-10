@@ -110,7 +110,7 @@ You will get a list of all messages within this forum.
 
 Click the **Watch** icon in the top right corner of the forum.
 
-You will then be notified via e-mail according to your [e-mail notifications](../../user-guide/account-settings/#notifications-settings) about new messages and replies in a forum.
+You will then be notified via e-mail according to your [e-mail notifications](../../user-guide/account-settings/#notification-settings) about new messages and replies in a forum.
 
 ![Watch a forum in OpenProject](openproject_user_guide_forums_watch.png)
 

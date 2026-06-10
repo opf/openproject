@@ -24,3 +24,25 @@ The work package type that is at the top of the [list](../work-package-types) is
 ## Why can I not find the option to set a progress percentage for a work package status?
 
 You have to activate the progress calculation by status first. Find out [here](../work-package-settings) how to do it.
+
+## Can I switch back to numerical work package identifiers later?
+
+Yes. If you switch from numerical identifiers to project-based identifiers, you can switch back at any time. Changing the identifier mode requires administrator permissions.
+
+## Will existing work package links continue to work after switching identifier modes?
+
+Yes. Existing numerical identifiers remain associated with their original work packages and continue to resolve correctly.
+
+## What happens if a project identifier changes?
+
+Historical references remain functional. OpenProject continues to resolve references that use previously assigned project identifiers.
+
+## Are project-based work package identifiers available everywhere in OpenProject?
+
+Project-based identifiers are supported in many areas of OpenProject. Because the feature is currently available as a Beta feature (as of OpenProject 17.5), some areas of the application may still display numerical identifiers. In these cases, numerical identifiers remain fully functional and continue to resolve to the same work packages.
+
+## Do integrations support project-based work package identifiers?
+
+Yes. Project-based work package identifiers are supported by GitHub and GitLab integrations. References to work packages continue to resolve correctly when using project-based identifiers.
+
+Support for project-based identifiers is also available in other key areas of OpenProject, including work package URLs, notifications, searches, exports, and the API.

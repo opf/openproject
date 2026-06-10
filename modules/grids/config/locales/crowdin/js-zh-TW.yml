@@ -33,7 +33,7 @@ zh-TW:
           title: 子項目
         project_favorites:
           title: 收藏的專案
-          no_results: 您目前沒有收藏的專案。點擊項目儀表板中的星形圖示將其新增到您的收藏夾中。
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: 我的工時
           displayed_days: 小工具顯示天數

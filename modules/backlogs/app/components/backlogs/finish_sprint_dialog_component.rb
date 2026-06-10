@@ -32,6 +32,7 @@ module Backlogs
   class FinishSprintDialogComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include CommonHelper
 
     DIALOG_ID = "finish-sprint-dialog"
     FORM_ID = "finish-sprint-dialog-form"

@@ -29,7 +29,7 @@
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { input, State } from '@openproject/reactivestates';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpErrorResponse, HttpEvent } from '@angular/common/http';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -54,13 +54,13 @@ export interface IToast {
 
 @Injectable({ providedIn: 'root' })
 export class ToastService {
+  readonly configurationService = inject(ConfigurationService);
+  readonly I18n = inject(I18nService);
+
   // The current stack of toasters
   private stack = input<IToast[]>([]);
 
-  constructor(
-    readonly configurationService:ConfigurationService,
-    readonly I18n:I18nService,
-  ) {
+  constructor() {
     window.addEventListener(OPToastEvent, ({ detail:toast }:CustomEvent<IToast>) => {
       this.add(toast);
     });

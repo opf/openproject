@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { AttributeHelpTextsService } from './attribute-help-text.service';
@@ -50,6 +42,13 @@ export const attributeHelpTextSelector = 'attribute-help-text';
   standalone: false,
 })
 export class AttributeHelpTextComponent implements OnInit {
+  readonly elementRef = inject(ElementRef);
+  protected attributeHelpTexts = inject(AttributeHelpTextsService);
+  protected attributeHelpTextModalService = inject(AttributeHelpTextModalService);
+  protected cdRef = inject(ChangeDetectorRef);
+  protected injector = inject(Injector);
+  protected I18n = inject(I18nService);
+
   // Attribute to show help text for
   @Input() public attribute:string;
 
@@ -69,14 +68,7 @@ export class AttributeHelpTextComponent implements OnInit {
     open_dialog: this.I18n.t('js.help_texts.show_modal'),
   };
 
-  constructor(
-    readonly elementRef:ElementRef,
-    protected attributeHelpTexts:AttributeHelpTextsService,
-    protected attributeHelpTextModalService:AttributeHelpTextModalService,
-    protected cdRef:ChangeDetectorRef,
-    protected injector:Injector,
-    protected I18n:I18nService,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 

@@ -158,6 +158,49 @@ RSpec.describe AllMeetings::ICalService, type: :model do
         expect(uids).to contain_exactly(meeting.uid, past_meeting.uid)
       end
     end
+
+    context "without historic meetings but with recently started past meetings" do
+      let(:include_historic) { false }
+
+      let!(:closed_recent_meeting) do
+        create(:meeting,
+               author: user,
+               project:,
+               title: "Closed recent meeting",
+               state: :closed,
+               participants: [MeetingParticipant.new(user:)],
+               start_time: relevant_time - 1.week,
+               duration: 1.0)
+      end
+
+      let!(:in_progress_recent_meeting) do
+        create(:meeting,
+               author: user,
+               project:,
+               title: "In progress recent meeting",
+               state: :in_progress,
+               participants: [MeetingParticipant.new(user:)],
+               start_time: relevant_time - 3.days,
+               duration: 1.0)
+      end
+
+      let!(:closed_old_meeting) do
+        create(:meeting,
+               author: user,
+               project:,
+               title: "Closed old meeting",
+               state: :closed,
+               participants: [MeetingParticipant.new(user:)],
+               start_time: relevant_time - 2.months,
+               duration: 1.0)
+      end
+
+      it "includes closed and in_progress meetings within the past month, but not older ones" do
+        uids = ical.events.map(&:uid)
+        expect(uids).to include(closed_recent_meeting.uid, in_progress_recent_meeting.uid)
+        expect(uids).not_to include(closed_old_meeting.uid)
+      end
+    end
   end
 
   context "with recurring meetings" do

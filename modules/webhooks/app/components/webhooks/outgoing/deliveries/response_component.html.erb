@@ -2,13 +2,22 @@
   data-augmented-model-wrapper
   data-activation-selector=".log-response-<%= id %>-modal--activation-link"
   data-modal-class-name="webhooks--response-body-modal">
-  <a class="log-response-<%= id %>-modal--activation-link" title="<%= title %>">
-    <%= helpers.op_icon("icon-info1") %>
-    <%= t(:button_show) %>
-  </a>
+  <%=
+    render(
+      Primer::Beta::Button.new(
+        scheme: :link,
+        classes: "log-response-#{id}-modal--activation-link",
+        aria: { label: response_body_title }
+      )
+    ) do |link|
+      link.with_leading_visual_icon(icon: :info)
+
+      t(:button_show)
+    end
+  %>
   <div class="modal-delivery-element">
     <div class="spot-modal--header">
-     <h1 class="spot-subheader-big"> <%= title %> </h1>
+     <h1 class="spot-subheader-big"> <%= response_body_title %> </h1>
     </div>
     <div class="spot-divider"></div>
     <div class="spot-modal--body spot-container">
@@ -22,7 +31,7 @@
       <div class="spot-action-bar--right">
         <button
           class="button button_no-margin spot-action-bar--action spot-modal--cancel-button"
-          title="<%= t(:button_close) %>"
+          aria-label="<%= t(:button_close) %>"
           dynamic-content-modal-close-button>
           <%= t(:button_close) %>
         </button>

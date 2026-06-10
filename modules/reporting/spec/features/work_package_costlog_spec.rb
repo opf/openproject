@@ -79,7 +79,6 @@ RSpec.describe "Cost report showing my own times", :js do
   end
 
   context "in classic mode",
-          with_flag: { semantic_work_package_ids: false },
           with_settings: { work_packages_identifier: "classic" } do
     let(:project) { create(:project) }
     let(:expected_autocompleter_label) { "##{work_package.id} #{work_package.subject}" }
@@ -88,7 +87,6 @@ RSpec.describe "Cost report showing my own times", :js do
   end
 
   context "in semantic mode",
-          with_flag: { semantic_work_package_ids: true },
           with_settings: { work_packages_identifier: "semantic" } do
     let(:project) { create(:project, identifier: "MYPROJ") }
     let(:expected_autocompleter_label) { "MYPROJ-1 #{work_package.subject}" }

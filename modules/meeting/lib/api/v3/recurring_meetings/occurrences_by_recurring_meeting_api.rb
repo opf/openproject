@@ -124,6 +124,7 @@ module API
           route_param :start_time, type: DateTime, desc: "Occurrence start time (ISO 8601)" do
             namespace :init do
               post do
+                authorize_in_project(:create_meetings, project: @recurring_meeting.project)
                 start_time = declared_params[:start_time]
                 call = ::RecurringMeetings::InitOccurrenceService
                          .new(user: current_user, recurring_meeting: @recurring_meeting)

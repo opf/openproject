@@ -36,6 +36,7 @@ hu:
         subject: Tárgy
         type: Költségtípus
         labor_budget: Tervezett munkaerő-költségek
+        labor_budget_items: Planned labor costs
         material_budget: Tervezett egység költség
         base_amount: Alap mennyiség
       work_package:
@@ -48,6 +49,7 @@ hu:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Költségvetés
+      labor_budget_item: Planned labor cost
       material_budget_item: Egység
   activity:
     filter:

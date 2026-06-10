@@ -742,7 +742,7 @@ module Exports::PDF::Components::Gantt
     # @param [WorkPackage] work_package
     # @return [String]
     def work_package_info_line(work_package)
-      "#{work_package.type} ##{work_package.id} • #{work_package.status} • #{work_package_info_line_date work_package}"
+      "#{work_package.type} #{work_package.formatted_id} • #{work_package.status} • #{work_package_info_line_date work_package}"
     end
 
     def work_package_info_line_date(work_package)

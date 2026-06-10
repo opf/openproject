@@ -32,7 +32,7 @@ module Storages
   module Adapters
     module Providers
       module Sharepoint
-        SharepointRegistry = Dry::Container::Namespace.new("sharepoint") do
+        SharepointRegistry = Dry::Core::Container::Namespace.new("sharepoint") do
           namespace("authentication") do
             register(:userless, ->(use_cache = true) { Input::Strategy.build(key: :oauth_client_credentials, use_cache:) })
             register(:user_bound, ->(user, storage = nil) { Input::Strategy.build(key: :oauth_user_token, user:, storage:) })

@@ -160,7 +160,7 @@ RSpec.describe ProjectIdentifiers::IdentifierAutofix::ProblematicIdentifiers do
     end
   end
 
-  describe "#reserved_identifiers_by_error_reasons" do
+  describe "#reserved_identifiers_for_admin_preview" do
     subject(:exclusion) { analysis.reserved_identifiers_for_admin_preview }
 
     let!(:valid_project) { create_project_with_raw_identifier(name: "Alpha", identifier: "ALPHA") }

@@ -36,6 +36,7 @@ sv:
         subject: Ämne
         type: Kostnadstyp
         labor_budget: Planerade arbetskostnader
+        labor_budget_items: Planned labor costs
         material_budget: Planerade enhetskostnader
         base_amount: Basbelopp
       work_package:
@@ -48,6 +49,7 @@ sv:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Budget
+      labor_budget_item: Planned labor cost
       material_budget_item: Enhet
   activity:
     filter:

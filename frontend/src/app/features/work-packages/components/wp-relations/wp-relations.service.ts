@@ -1,7 +1,7 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { multiInput, MultiInputState, StatesGroup } from '@openproject/reactivestates';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
@@ -26,12 +26,12 @@ export class RelationStateGroup extends StatesGroup {
 
 @Injectable()
 export class WorkPackageRelationsService extends StateCacheService<RelationsStateValue> {
-  constructor(
-    private PathHelper:PathHelperService,
-    private apiV3Service:ApiV3Service,
-    private halResource:HalResourceService,
-    readonly turboRequests:TurboRequestsService,
-  ) {
+  private PathHelper = inject(PathHelperService);
+  private apiV3Service = inject(ApiV3Service);
+  private halResource = inject(HalResourceService);
+  readonly turboRequests = inject(TurboRequestsService);
+
+  constructor() {
     super(new RelationStateGroup().relations);
   }
 

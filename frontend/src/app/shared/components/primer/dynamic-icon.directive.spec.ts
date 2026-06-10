@@ -57,6 +57,10 @@ describe('DynamicIconDirective', () => {
     svgElement = fixture.nativeElement.querySelector('svg');
   });
 
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
   it('should create', () => {
     component.iconName = 'star';
     fixture.detectChanges();
@@ -151,8 +155,8 @@ describe('DynamicIconDirective', () => {
   });
 
   it('should warn when rendering unknown icon', () => {
-    spyOn(console, 'warn');
-    
+    vi.spyOn(console, 'warn');
+
     component.iconName = 'unknown-icon';
     fixture.detectChanges();
 
@@ -160,15 +164,15 @@ describe('DynamicIconDirective', () => {
   });
 
   it('should not render anything for unknown icon', () => {
-    spyOn(console, 'warn');
-    
+    vi.spyOn(console, 'warn');
+
     component.iconName = 'unknown-icon';
     fixture.detectChanges();
 
     // Should not have set viewBox or other attributes
     expect(svgElement.getAttribute('viewBox')).toBeNull();
     expect(svgElement.getAttribute('fill')).toBeNull();
-    
+
     // Should not have any paths
     const paths = svgElement.querySelectorAll('path');
 
@@ -176,28 +180,28 @@ describe('DynamicIconDirective', () => {
   });
 
   it('should handle empty icon name', () => {
-    spyOn(console, 'warn');
-    
+    vi.spyOn(console, 'warn');
+
     component.iconName = '';
     fixture.detectChanges();
 
     // Should not warn or render anything
     expect(console.warn).not.toHaveBeenCalled();
     expect(svgElement.getAttribute('viewBox')).toBeNull();
-    
+
     const paths = svgElement.querySelectorAll('path');
 
     expect(paths.length).toBe(0);
   });
 
   it('should only render once when loaded', () => {
-    spyOn(console, 'warn');
+    vi.spyOn(console, 'warn');
     const directive = fixture.debugElement.children[0].injector.get(DynamicIconDirective);
-    spyOn(directive as any, 'renderIcon').and.callThrough();
-    
+    vi.spyOn(directive as any, 'renderIcon');
+
     component.iconName = 'star';
     fixture.detectChanges();
-    
+
     // Change icon name after initial load - should not re-render
     component.iconName = 'x';
     fixture.detectChanges();

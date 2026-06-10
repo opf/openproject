@@ -29,18 +29,7 @@
 import {
   HalResourceEditingService,
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { getPosition } from 'core-app/shared/helpers/set-click-position/set-click-position';
@@ -66,6 +55,16 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
   standalone: false,
 })
 export class EditableAttributeFieldComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  protected states = inject(States);
+  protected injector = inject(Injector);
+  protected elementRef = inject(ElementRef);
+  protected opContextMenu = inject(OPContextMenuService);
+  protected halEditing = inject(HalResourceEditingService);
+  protected schemaCache = inject(SchemaCacheService);
+  protected editForm = inject(EditFormComponent, { optional: true });
+  protected cdRef = inject(ChangeDetectorRef);
+  protected I18n = inject(I18nService);
+
   @Input() public fieldName:string;
 
   @Input() public resource:HalResource;
@@ -89,21 +88,6 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   private element:HTMLElement;
 
   public destroyed = false;
-
-  constructor(
-    protected states:States,
-    protected injector:Injector,
-    protected elementRef:ElementRef,
-    protected opContextMenu:OPContextMenuService,
-    protected halEditing:HalResourceEditingService,
-    protected schemaCache:SchemaCacheService,
-    // Get parent field group from injector if we're in a form
-    @Optional() protected editForm:EditFormComponent,
-    protected cdRef:ChangeDetectorRef,
-    protected I18n:I18nService,
-  ) {
-    super();
-  }
 
   public setActive(active = true):void {
     this.active = active;
@@ -197,7 +181,7 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     // Activate the field
     this.setActive(true);
 
-    return this.editForm
+    return this.editForm!
       .activate(this.fieldName, noWarnings)
       .catch(() => this.deactivate(true));
   }

@@ -35,7 +35,8 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { States } from 'core-app/core/states/states.service';
-import { take, takeWhile } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
+import { take, toArray } from 'rxjs/operators';
 import { WorkPackagesActivityService } from 'core-app/features/work-packages/components/wp-single-view-tabs/activity-panel/wp-activity.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -55,8 +56,8 @@ describe('WorkPackageCache', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-    imports: [OpenprojectHalModule],
-    providers: [
+      imports: [OpenprojectHalModule],
+      providers: [
         States,
         HalResourceService,
         TimezoneService,
@@ -64,15 +65,15 @@ describe('WorkPackageCache', () => {
         SchemaCacheService,
         PathHelperService,
         { provide: ConfigurationService, useValue: {} },
-        { provide: I18nService, useValue: { t: (...args:any[]) => 'translation' } },
+        { provide: I18nService, useValue: { t: (..._args:any[]) => 'translation' } },
         { provide: WorkPackageResource, useValue: {} },
         { provide: ToastService, useValue: {} },
         { provide: HalResourceNotificationService, useValue: { handleRawError: () => false } },
         { provide: WorkPackageNotificationService, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ]
-});
+      ]
+    });
 
     injector = TestBed.inject(Injector);
     states = TestBed.inject(States);
@@ -80,55 +81,40 @@ describe('WorkPackageCache', () => {
     workPackageCache = new WorkPackageCache(injector, states.workPackages);
 
     // sinon.stub(schemaCacheService, 'ensureLoaded').returns(Promise.resolve(true));
-    spyOn(schemaCacheService, 'ensureLoaded').and.resolveTo(true as any);
+    vi.spyOn(schemaCacheService, 'ensureLoaded').mockResolvedValue(true as any);
 
-    const workPackage1 = new WorkPackageResource(
-      injector,
-      {
-        id: '1',
-        _links: {
-          self: '',
-        },
+    const workPackage1 = new WorkPackageResource(injector, {
+      id: '1',
+      _links: {
+        self: '',
       },
-      true,
-      (wp:WorkPackageResource) => undefined,
-      'WorkPackage',
-    );
+    }, true, (_wp:WorkPackageResource) => undefined, 'WorkPackage');
 
     dummyWorkPackages = [workPackage1 as any];
   });
 
-  it('returns a work package after the list has been initialized', (done:any) => {
-    workPackageCache.state('1').values$()
-      .pipe(
-        take(1),
-      )
-      .subscribe((wp:WorkPackageResource) => {
-        expect(wp.id!).toEqual('1');
-        done();
-      });
+  it('returns a work package after the list has been initialized', async () => {
+    const emittedWorkPackage = firstValueFrom(
+      workPackageCache.state('1').values$().pipe(take(1)),
+    );
 
     workPackageCache.updateWorkPackageList(dummyWorkPackages);
+
+    await expect(emittedWorkPackage).resolves.toMatchObject({ id: '1' });
   });
 
-  it('should return/stream a work package every time it gets updated', (done:any) => {
-    let count = 0;
-
-    workPackageCache.state('1').values$()
-      .pipe(
-        takeWhile((wp) => count < 2),
-      )
-      .subscribe((wp:WorkPackageResource) => {
-        expect(wp.id!).toEqual('1');
-
-        count += 1;
-        if (count === 2) {
-          done();
-        }
-      });
+  it('should return/stream a work package every time it gets updated', async () => {
+    const emittedWorkPackages = firstValueFrom(
+      workPackageCache.state('1').values$().pipe(take(3), toArray()),
+    );
 
     workPackageCache.updateWorkPackageList([dummyWorkPackages[0]], false);
     workPackageCache.updateWorkPackageList([dummyWorkPackages[0]], false);
     workPackageCache.updateWorkPackageList([dummyWorkPackages[0]], false);
+
+    const values = await emittedWorkPackages;
+
+    expect(values).toHaveLength(3);
+    expect(values.map((wp) => wp.id)).toEqual(['1', '1', '1']);
   });
 });

@@ -26,12 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { WorkPackageWatchersTabComponent } from './watchers-tab.component';
@@ -44,13 +39,12 @@ import { WorkPackageWatchersTabComponent } from './watchers-tab.component';
   standalone: false,
 })
 export class WorkPackageWatcherEntryComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly panelCtrl = inject(WorkPackageWatchersTabComponent);
+
   @Input() public watcher:UserResource;
 
   public text:{ remove:string };
-
-  constructor(readonly I18n:I18nService,
-    readonly panelCtrl:WorkPackageWatchersTabComponent) {
-  }
 
   ngOnInit():void {
     this.text = {

@@ -80,6 +80,10 @@ RSpec.describe Projects::SemanticIdentifier, with_settings: { work_packages_iden
         project.reserve_semantic_id_block!([])
         expect(project.reload.wp_sequence_counter).to eq(before_count)
       end
+
+      it "returns an empty hash" do
+        expect(project.reserve_semantic_id_block!([])).to eq({})
+      end
     end
 
     context "with work package ids" do
@@ -115,6 +119,17 @@ RSpec.describe Projects::SemanticIdentifier, with_settings: { work_packages_iden
         project.reserve_semantic_id_block!([wp1.id, wp2.id])
         expect(wp1.reload.sequence_number).to eq(11)
         expect(wp2.reload.sequence_number).to eq(12)
+      end
+
+      it "returns the wp_id => identifier assignments produced by the allocation" do
+        result = project.reserve_semantic_id_block!([wp1.id, wp2.id, wp3.id])
+        expect(result).to eq(wp1.id => "PROJ-1", wp2.id => "PROJ-2", wp3.id => "PROJ-3")
+      end
+
+      it "pairs ids with sequence numbers in ascending wp-id order regardless of input order" do
+        result = project.reserve_semantic_id_block!([wp3.id, wp1.id, wp2.id])
+        sorted_ids = [wp1.id, wp2.id, wp3.id]
+        expect(result).to eq(sorted_ids[0] => "PROJ-1", sorted_ids[1] => "PROJ-2", sorted_ids[2] => "PROJ-3")
       end
 
       context "when insert_aliases: true (default)" do

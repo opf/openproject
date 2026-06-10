@@ -26,12 +26,11 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, Input, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   OpContextMenuTrigger,
 } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
@@ -46,18 +45,12 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class IconTriggeredContextMenuComponent extends OpContextMenuTrigger {
-  override readonly placement = 'bottom-end';
+  readonly opModalService = inject(OpModalService);
+  readonly injector = inject(Injector);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly I18n = inject(I18nService);
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-    readonly opModalService:OpModalService,
-    readonly injector:Injector,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-  ) {
-    super(elementRef, opContextMenu);
-  }
+  override readonly placement = 'bottom-end';
 
   @Input() menuItemsFactory:() => Promise<OpContextMenuItem[]>;
   @Input() customAriaLabel:string = this.I18n.t('js.label_open_menu');

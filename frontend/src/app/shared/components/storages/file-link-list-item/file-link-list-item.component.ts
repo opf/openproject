@@ -26,19 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -64,6 +52,11 @@ import SpotDropAlignmentOption from 'core-app/spot/drop-alignment-options';
   standalone: false,
 })
 export class FileLinkListItemComponent implements OnInit, OnChanges, AfterViewInit {
+  private readonly i18n = inject(I18nService);
+  private readonly timezoneService = inject(TimezoneService);
+  private readonly confirmDialogService = inject(ConfirmDialogService);
+  private readonly principalRendererService = inject(PrincipalRendererService);
+
   @Input() public fileLink:IFileLink;
 
   @Input() public allowEditing = false;
@@ -98,13 +91,6 @@ export class FileLinkListItemComponent implements OnInit, OnChanges, AfterViewIn
     viewNotAllowedTooltipText: this.i18n.t('js.storages.file_links.tooltip.view_not_allowed'),
     notFoundTooltipText: this.i18n.t('js.storages.file_links.tooltip.not_found'),
   };
-
-  constructor(
-    private readonly i18n:I18nService,
-    private readonly timezoneService:TimezoneService,
-    private readonly confirmDialogService:ConfirmDialogService,
-    private readonly principalRendererService:PrincipalRendererService,
-  ) {}
 
   public get hasTooltip():boolean {
     return this.tooltip !== '';

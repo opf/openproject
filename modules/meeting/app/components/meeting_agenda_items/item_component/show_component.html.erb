@@ -73,6 +73,7 @@
           with_item_group(menu) do
             add_note_action_item(menu) if add_note_action?
             add_outcome_action_items(menu) if add_outcome_action?
+            convert_to_work_package_action_item(menu) if convert_to_work_package_action?
           end
 
           if editable? && !presentation_mode? && has_move_actions?

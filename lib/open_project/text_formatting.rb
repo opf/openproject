@@ -43,20 +43,25 @@ module OpenProject
 
     # @!macro format_text_params
     #   @param [Project] project a Project context.
-    #   @param [Boolean] only_path whether to generate links with relative URLs.
+    #   @param [Symbol] render_mode the rendering channel (`:in_app_html`,
+    #     `:external_html`, `:external_text`). Resolves the `only_path`,
+    #     `static_html` and `plain_text` context flags as a set. Prefer this
+    #     over passing the primitives individually. See {RenderMode}.
+    #   @param [Boolean] only_path explicit override for the resolved `only_path`.
     #   @param [User] current_user the current user context.
     #   @param [:plain, :rich] format the text format.
     #     `:plain` will return plain text.
     #     `:rich` will render raw Markdown as HTML.
     #   @param ** [Hash] additional context to pass to the underlying rendering
-    #      pipeline.
+    #      pipeline. Explicit `static_html:` / `plain_text:` here override the
+    #      values resolved from `render_mode:`.
 
     # rubocop:disable Layout/LineLength
 
     ##
     # Formats text according to system settings and provided params.
     #
-    # @overload format_text(text, object: nil, project: @project || object.try(:project), only_path: true, current_user: User.current, format: :rich, **)
+    # @overload format_text(text, object: nil, project: @project || object.try(:project), render_mode: :in_app_html, only_path: nil, current_user: User.current, format: :rich, **)
     #
     #   @param [String] text the raw text to be formatted, typically Markdown.
     #   @param [Object] object an object context.
@@ -64,10 +69,10 @@ module OpenProject
     #
     #   @example Setting a project context explicitly
     #     format_text("## Hello world", project: current_project)
-    #   @example Generating links with full URLs
-    #     format_text("[Projects](/projects)", only_path: false)
+    #   @example Rendering for an external surface (mailer, RSS, export)
+    #     format_text("see #42", render_mode: :external_html)
     #
-    # @overload format_text(object, attribute, project: @project || object.try(:project), only_path: true, current_user: User.current, format: :rich, **)
+    # @overload format_text(object, attribute, project: @project || object.try(:project), render_mode: :in_app_html, only_path: nil, current_user: User.current, format: :rich, **)
     #
     #   @param [Object] object an object, typically a model
     #     (i.e. `ActiveRecord::Base` descendent).
@@ -79,7 +84,8 @@ module OpenProject
     #     format_text(issue, :description, options)
     #
     # @return [String] the formatted text as an HTML-safe String.
-    def format_text(*args, object: nil, project: nil, only_path: true, current_user: User.current, format: :rich, **)
+    def format_text(*args, object: nil, project: nil, render_mode: :in_app_html,
+                    only_path: nil, current_user: User.current, format: :rich, **kwargs)
       case args.size
       when 1
         attribute = nil
@@ -94,15 +100,22 @@ module OpenProject
 
       project ||= @project || object.try(:project)
 
+      resolved = RenderMode.resolve(
+        render_mode,
+        only_path:,
+        static_html: kwargs.delete(:static_html),
+        plain_text: kwargs.delete(:plain_text)
+      )
+
       Renderer.format_text(
         text,
-        **,
+        **kwargs,
         format:,
         object:,
         request: try(:request),
         current_user:,
         attribute:,
-        only_path:,
+        **resolved,
         project:
       )
     end

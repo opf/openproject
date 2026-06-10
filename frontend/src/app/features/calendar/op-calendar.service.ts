@@ -1,7 +1,4 @@
-import {
-  ElementRef,
-  Injectable,
-} from '@angular/core';
+import { ElementRef, Injectable, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -13,17 +10,13 @@ import { DayHeaderContentArg } from '@fullcalendar/core';
 
 @Injectable()
 export class OpCalendarService extends UntilDestroyedMixin {
+  readonly weekdayService = inject(WeekdayService);
+  readonly dayService = inject(DayResourceService);
+  readonly configurationService = inject(ConfigurationService);
+
   resize$ = new Subject<void>();
 
   resizeObs:ResizeObserver;
-
-  constructor(
-    readonly weekdayService:WeekdayService,
-    readonly dayService:DayResourceService,
-    readonly configurationService:ConfigurationService,
-  ) {
-    super();
-  }
 
   resizeObserver(v:ElementRef|undefined):void {
     if (!v) {

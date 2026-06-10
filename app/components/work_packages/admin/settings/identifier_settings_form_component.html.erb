@@ -45,10 +45,22 @@
 
         form.html_content do
           if change_in_progress?
-            render(Primer::Beta::Text.new(my: 3)) do
-              render(Primer::Beta::Spinner.new(size: :small, mr: 2)).to_s +
-                in_progress_banner_message
-            end
+            render(Primer::Box.new(my: 2)) {
+              render(Primer::Box.new(classes: "d-flex flex-justify-between flex-items-center f6", mb: 1)) {
+                render(Primer::Beta::Text.new(font_weight: :bold)) {
+                  in_progress_header
+                } +
+                render(Primer::Beta::Text.new) { "#{processed_projects_count} / #{total_projects_count}" }
+              } +
+              render(
+                Primer::Beta::ProgressBar.new(test_selector: "conversion-progress-bar").tap { |bar|
+                  bar.with_item(percentage: progress_percentage)
+                }
+              ) +
+              render(Primer::Box.new(mt: 1, color: :muted, classes: "f6")) {
+                I18n.t("admin.settings.work_packages_identifier.in_progress.footer_message")
+              }
+            }
           elsif completed?
             render(Primer::Alpha::Banner.new(scheme: :success, dismiss_scheme: :remove, mb: 3)) do
               I18n.t("admin.settings.work_packages_identifier.success_banner")
@@ -77,10 +89,10 @@
               scheme: :primary,
               type: :submit,
               form: form_id,
-              hidden: show_autofix_section?,
+              hidden: true,
               data: { admin__work_packages_identifier_target: "saveButton" }
             )
-          ) { t("button_save") } %>
+          ) { t("admin.settings.work_packages_identifier.button_save") } %>
 
       <%= render(
             Primer::Beta::Button.new(

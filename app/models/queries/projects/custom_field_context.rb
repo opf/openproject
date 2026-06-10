@@ -38,6 +38,10 @@ module Queries::Projects::CustomFieldContext
       ::Project
     end
 
+    def customized_type
+      model.name
+    end
+
     def custom_fields(_context = nil)
       custom_field_class.visible
     end

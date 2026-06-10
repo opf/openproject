@@ -229,7 +229,8 @@ class Journable::HistoricActiveRecordRelation < ActiveRecord::Relation
                           raise NoMethodError, "Unknown timestamp type: #{timestamp.class}"
                         end
 
-      "WHEN \"#{Journal.table_name}\".\"validity_period\" @> timestamp with time zone '#{comparison_time}' THEN '#{timestamp}'"
+      quoted = ApplicationRecord.connection.quote(timestamp.to_s)
+      "WHEN \"#{Journal.table_name}\".\"validity_period\" @> timestamp with time zone '#{comparison_time}' THEN #{quoted}"
     end
       .join(" ")
   end

@@ -31,10 +31,15 @@ vi:
         authentication_method: Phương thức xác thực
         creator: Người sáng tạo
         drive: ID ổ đĩa
+        file_link_origin: File link origin ID
         host: chủ nhà
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: tên
         password: Mật khẩu ứng dụng
         provider_type: Loại nhà cung cấp
+        storage: Storage
+        storage_url: Storage URL
         tenant: ID thư mục (đối tượng thuê)
     errors:
       messages:
@@ -108,21 +113,25 @@ vi:
         remote_folders: 'Đọc nội dung của thư mục nhóm:'
         remove_user_from_group: 'Xóa người dùng khỏi nhóm:'
         rename_project_folder: 'Đổi tên thư mục dự án được quản lý:'
+        set_folder_permission: 'Set managed project Folder permissions:'
       one_drive_sync_service:
         create_folder: 'Tạo thư mục dự án được quản lý:'
         ensure_root_folder_permissions: 'Đặt quyền thư mục cơ sở:'
         hide_inactive_folders: 'Ẩn các thư mục không hoạt động Bước:'
         remote_folders: 'Đọc nội dung của thư mục gốc trên ổ đĩa:'
         rename_project_folder: 'Đổi tên thư mục dự án được quản lý:'
+        set_folder_permission: 'Set managed project Folder permissions:'
       sharepoint_sync_service:
         create_folder: 'Tạo thư mục dự án được quản lý:'
         ensure_root_folder_permissions: 'Đặt quyền thư mục cơ sở:'
         hide_inactive_folders: 'Ẩn các thư mục không hoạt động Bước:'
         remote_folders: 'Đọc nội dung của thư mục gốc trên ổ đĩa:'
         rename_project_folder: 'Đổi tên thư mục dự án được quản lý:'
+        set_folder_permission: 'Set managed project Folder permissions:'
     errors:
       messages:
         error: Đã xảy ra lỗi không mong muốn. Vui lòng kiểm tra nhật ký OpenProject để biết thêm thông tin hoặc liên hệ với quản trị viên
+        folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject không thể truy cập tài nguyên được yêu cầu. Vui lòng kiểm tra cấu hình quyền của bạn trên Nhà cung cấp bộ nhớ.
         unauthorized: OpenProject không thể xác thực với Nhà cung cấp lưu trữ. Hãy đảm bảo rằng bạn có quyền truy cập vào nó.
       models:
@@ -262,7 +271,7 @@ vi:
           manual_management: Chỉ cho phép truy cập và thư mục được quản lý thủ công
           manual_management_description: Các dự án sử dụng bộ lưu trữ này sẽ không được cung cấp tùy chọn phương pháp quản lý tự động. Các thư mục và quyền truy cập phải được quản lý thủ công.
       one_drive_oauth: Azure OAuth
-      openproject_oauth: OAuth dự án mở
+      openproject_oauth: OAuth OpenProject
       project_folders: Thư mục dự án
       redirect_uri: URI chuyển hướng
       sharepoint_oauth: Azure OAuth
@@ -314,72 +323,59 @@ vi:
           host_url_accessible: URL máy chủ có thể truy cập được
           storage_configured: Cấu hình hoàn tất
           tenant_id: ID người thuê
-        failures:
-          other: "%{count} kiểm tra không thành công"
-        success: Tất cả các cuộc kiểm tra đã được thông qua
-        warnings:
-          other: "%{count} séc trả lại cảnh báo"
-      connection_validation:
-        client_id_invalid: Id ứng dụng khách OAuth 2 đã định cấu hình không hợp lệ. Vui lòng kiểm tra cấu hình.
-        client_secret_invalid: Bí mật ứng dụng khách OAuth 2 đã định cấu hình không hợp lệ. Vui lòng kiểm tra cấu hình.
-        nc_dependency_missing: 'Thiếu phần phụ thuộc bắt buộc trên bộ lưu trữ tệp. Vui lòng thêm phần phụ thuộc sau: %{dependency}.'
-        nc_dependency_version_mismatch: Phiên bản ứng dụng %{dependency} không được hỗ trợ. Vui lòng cập nhật máy chủ Nextcloud của bạn.
-        nc_host_not_found: Không tìm thấy máy chủ Nextcloud tại url máy chủ đã định cấu hình. Vui lòng kiểm tra cấu hình.
-        nc_oauth_request_not_found: Không tìm thấy điểm cuối để tìm nạp người dùng hiện được kết nối. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
-        nc_oauth_request_unauthorized: Người dùng hiện tại không được phép truy cập vào bộ lưu trữ tệp từ xa. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
-        nc_oauth_token_missing: OpenProject không thể kiểm tra giao tiếp ở cấp độ người dùng với Nextcloud vì người dùng chưa liên kết tài khoản Nextcloud của họ.
-        nc_project_folder_missing: The previously created project folder for project "%{project}" could not be found.
-        nc_team_folder_not_found: Thư mục nhóm không thể được tìm thấy.
-        nc_unexpected_files: 'Unexpected files found in the managed team folder. For example: %{sample}'
-        nc_unlinked_project_folders: Not all project folders have been created yet (%{actual} / %{expected}). This can indicate errors during the AMPF background synchronization.
-        nc_userless_access_denied: Mật khẩu ứng dụng đã định cấu hình không hợp lệ.
-        not_configured: Kết nối không thể được xác nhận. Vui lòng hoàn tất cấu hình trước.
-        od_client_cant_delete_folder: Máy khách đang gặp sự cố khi xóa các thư mục. Vui lòng kiểm tra tài liệu thiết lập cho bộ nhớ của bạn.
-        od_client_write_permission_missing: Máy khách dường như bị thiếu quyền ghi. Vui lòng kiểm tra tài liệu thiết lập cho bộ nhớ của bạn.
-        od_drive_id_invalid: Id ổ đĩa được cấu hình có vẻ không hợp lệ. Vui lòng kiểm tra cấu hình.
-        od_drive_id_not_found: Không thể tìm thấy id ổ đĩa được cấu hình. Vui lòng kiểm tra cấu hình.
-        od_oauth_request_not_found: Không tìm thấy điểm cuối để tìm nạp người dùng hiện được kết nối. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
-        od_oauth_request_unauthorized: Người dùng hiện tại không được phép truy cập vào bộ lưu trữ tệp từ xa. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
-        od_oauth_token_missing: OpenProject không thể kiểm tra giao tiếp ở cấp độ người dùng với OneDrive vì người dùng chưa liên kết tài khoản Microsoft của họ.
-        od_tenant_id_wrong: Id thư mục (đối tượng thuê) được định cấu hình không hợp lệ. Vui lòng kiểm tra cấu hình.
-        od_test_folder_exists: Thư mục %{folder_name} cần thiết để kiểm tra đã tồn tại. Vui lòng xóa nó và thử lại.
-        od_unexpected_content: Đã tìm thấy nội dung không mong đợi trong ổ đĩa.
-        offline_access_scope_missing: Bạn nên định cấu hình nhà cung cấp OpenID Connect để yêu cầu phạm vi offline_access. Dù sao đi nữa, quá trình tích hợp vẫn có thể hoạt động nhưng hãy đảm bảo rằng mã thông báo làm mới không hết hạn.
-        oidc_cant_refresh_token: Đã xảy ra lỗi khi cố kiểm tra quyền truy cập của bạn vào bộ lưu trữ. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
-        oidc_non_oidc_user: Người dùng hiện tại, mặc dù được cấp phép, nhưng lại không được Nhà cung cấp danh tính OpenID Connect (OIDC) cấp phép. Vui lòng chạy lại quá trình kiểm tra với người dùng được cung cấp OIDC.
-        oidc_non_provisioned_user: Người dùng hiện tại không được cung cấp bởi Nhà cung cấp nhận dạng OpenID Connect. Vui lòng chạy lại quá trình kiểm tra với người dùng được cung cấp.
-        oidc_provider_cant_exchange: Nhà cung cấp OpenID Connect dường như không hỗ trợ trao đổi mã thông báo nhưng trao đổi mã thông báo đã được định cấu hình cho bộ lưu trữ.
-        oidc_token_acquisition_failed: Thiết lập OpenID Connect của bạn không cung cấp đối tượng cần thiết cũng như không cung cấp khả năng trao đổi mã thông báo. Vui lòng xem tài liệu của chúng tôi để biết thêm thông tin.
-        oidc_token_exchange_failed: Có vẻ như đã xảy ra sự cố với thiết lập Trao đổi mã thông báo trên Nhà cung cấp kết nối OpenID của bạn. Vui lòng kiểm tra cấu hình của nó và thử lại.
-        oidc_token_refresh_failed: Đã xảy ra lỗi khi cố kiểm tra quyền truy cập của bạn vào bộ lưu trữ. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
-        sp_client_cant_delete_folder: Máy khách đang gặp sự cố khi xóa thư mục trong SharePoint. Vui lòng kiểm tra tài liệu thiết lập cho bộ nhớ của bạn.
-        sp_client_id_missing: Thiếu id ứng dụng khách OAuth 2 đã định cấu hình cho SharePoint. Vui lòng kiểm tra cấu hình.
-        sp_client_secret_missing: Thiếu bí mật ứng dụng khách OAuth 2 đã định cấu hình cho SharePoint. Vui lòng kiểm tra cấu hình.
-        sp_client_write_permission_missing: Máy khách dường như bị thiếu quyền ghi trong SharePoint. Vui lòng kiểm tra tài liệu thiết lập cho bộ nhớ của bạn.
-        sp_existing_test_folder: Thư mục %{folder_name} cần thiết để kiểm tra đã tồn tại trong SharePoint. Vui lòng xóa nó và thử lại.
-        sp_oauth_request_error: Yêu cầu do người dùng giới hạn đối với SharePoint không thành công. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
-        sp_oauth_request_unauthorized: Người dùng hiện tại không được phép truy cập vào bộ lưu trữ tệp từ xa. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
-        sp_oauth_token_missing: OpenProject không thể kiểm tra giao tiếp ở cấp độ người dùng với SharePoint vì người dùng chưa liên kết tài khoản SharePoint của họ.
-        sp_tenant_id_missing: Thiếu id thư mục (đối tượng thuê) được cấu hình cho SharePoint. Vui lòng kiểm tra cấu hình.
-        sp_unexpected_content: Nội dung không mong muốn được tìm thấy trong Thư viện Tài liệu SharePoint.
-        unknown_error: Kết nối không thể được xác nhận. Đã xảy ra lỗi không xác định. Vui lòng kiểm tra nhật ký máy chủ để biết thêm thông tin.
+        errors:
+          client_id_invalid: The configured OAuth 2 client id không hợp lệ. Please check the cấu hình.
+          client_secret_invalid: The configured OAuth 2 client secret không hợp lệ. Please check the cấu hình.
+          nc_dependency_missing: 'A required dependency is missing on the file storage. Please add the following dependency: %{dependency}.'
+          nc_dependency_version_mismatch: The %{dependency} app version is not supported. Please update your Nextcloud server.
+          nc_host_not_found: No Nextcloud server found at the configured host url. Please check the cấu hình.
+          nc_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
+          nc_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
+          nc_oauth_token_missing: OpenProject cannot test the user level communication with Nextcloud as the user did not yet link their Nextcloud account.
+          nc_project_folder_missing: The previously created project folder for project "%{project}" could not be found.
+          nc_team_folder_not_found: The team folder could not be found.
+          nc_unexpected_files: 'Unexpected files found in the managed team folder. For example: %{sample}'
+          nc_unlinked_project_folders: Not all project folders have been created yet (%{actual} / %{expected}). This can indicate errors during the AMPF background synchronization.
+          nc_userless_access_denied: The configured app password không hợp lệ.
+          not_configured: The connection could not be validated. Please finish cấu hình first.
+          od_client_cant_delete_folder: The client is having trouble deleting folders. Please check the setup documentation for your storage.
+          od_client_write_permission_missing: The client seems to have write permissions missing. Please check the setup documentation for your storage.
+          od_drive_id_invalid: The configured drive id seems invalid. Please check the cấu hình.
+          od_drive_id_not_found: The configured drive id could not be found. Please check the cấu hình.
+          od_oauth_request_not_found: The endpoint to fetch the currently connected user was not found. Please check the server logs for further information.
+          od_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
+          od_oauth_token_missing: OpenProject cannot test the user level communication with OneDrive as the user did not yet link their Microsoft account.
+          od_tenant_id_wrong: The configured directory (tenant) id không hợp lệ. Please check the cấu hình.
+          od_test_folder_exists: The folder %{folder_name} needed for testing already exists. Please delete it and try again.
+          od_unexpected_content: Unexpected content found in the drive.
+          offline_access_scope_missing: It is recommended to configure the OpenID Connect provider to request the offline_access scope. The integration may still work anyways, but make sure that refresh tokens do not expire.
+          oidc_cant_refresh_token: There was an error while trying to check your access to the storage. Please check the server logs for further information.
+          oidc_non_oidc_user: The current user, while provisioned, wasn't provisioned by an OpenID Connect (OIDC) Identity Provider. Please re-run the check with an OIDC provisioned user.
+          oidc_non_provisioned_user: The current user isn't provided by an OpenID Connect Identity Provider. Please re-run the check with a provided user.
+          oidc_provider_cant_exchange: The OpenID Connect provider does not seem to support token exchange, but token exchange was configured for the storage.
+          oidc_token_acquisition_failed: Your OpenID Connect setup doesn't provide the necessary audience, nor does it provide token exchange capabilities. Please check out our documentation for more information.
+          oidc_token_exchange_failed: There seems to be a problem with the Token Exchange setup on your OpenID Connect Provider. Please check its cấu hình and try again.
+          oidc_token_refresh_failed: There was an error while trying to check your access to the storage. Please check the server logs for further information.
+          sp_client_cant_delete_folder: The client is having trouble deleting folders in SharePoint. Please check the setup documentation for your storage.
+          sp_client_id_missing: The configured OAuth 2 client id is missing for SharePoint. Please check the cấu hình.
+          sp_client_secret_missing: The configured OAuth 2 client secret is missing for SharePoint. Please check the cấu hình.
+          sp_client_write_permission_missing: The client seems to have write permissions missing in SharePoint. Please check the setup documentation for your storage.
+          sp_existing_test_folder: The folder %{folder_name} needed for testing already exists in SharePoint. Please delete it and try again.
+          sp_oauth_request_error: The user-bound request to SharePoint failed. Please check the server logs for further information.
+          sp_oauth_request_unauthorized: The current user isn't authorized to access the remote file storage. Please check the server logs for further information.
+          sp_oauth_token_missing: OpenProject cannot test the user level communication with SharePoint as the user did not yet link their SharePoint account.
+          sp_tenant_id_missing: The configured directory (tenant) id is missing for SharePoint. Please check the cấu hình.
+          sp_unexpected_content: Unexpected content found in the SharePoint Document Library.
+          unknown_error: The connection could not be validated. An unknown error occurred. Please check the server logs for further information.
       label_error: lỗi
-      label_failed: thất bại
       label_healthy: khỏe mạnh
-      label_passed: đã vượt qua
       label_pending: đang chờ xử lý
-      label_skipped: bỏ qua
-      label_warning: Cảnh báo
       no_report: Không có báo cáo nào
       no_report_description: Hãy chạy kiểm tra ngay bây giờ để có báo cáo trạng thái đầy đủ cho bộ lưu trữ tệp này.
       open_report: Mở báo cáo sức khỏe đầy đủ
       project_folders:
         subtitle: Các thư mục dự án được quản lý tự động
       since: kể từ %{datetime}
-      summary:
-        failure: Một số lần kiểm tra không thành công và hệ thống không hoạt động như mong đợi.
-        success: Tất cả các kết nối và hệ thống đều hoạt động như mong đợi.
-        warning: Một số kiểm tra trả lại một cảnh báo. Điều này có thể dẫn đến hành vi không mong muốn.
       synced: 'Last sync: %{datetime}'
       title: Báo cáo tình trạng sức khoẻ
     health_email_notifications:
@@ -411,7 +407,7 @@ vi:
       no_specific_folder: Theo mặc định, mỗi người dùng sẽ bắt đầu tại thư mục chính của riêng họ khi họ tải tệp lên.
       no_storage_set_up: Chưa có kho lưu trữ tập tin nào được thiết lập.
       not_logged_into_storage: Để chọn thư mục dự án, vui lòng đăng nhập trước
-      oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration settings](oauth_application_details_link).
+      oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration thiết lập](oauth_application_details_link).
       one_drive:
         application_link_text: Cổng thông tin Azure
         copy_redirect_uri: Sao chép URI chuyển hướng
@@ -435,7 +431,7 @@ vi:
         oauth_configuration: Sao chép các giá trị này từ ứng dụng mong muốn trong %{application_link_text}.
         provider_configuration: Vui lòng đảm bảo rằng bạn có đặc quyền quản trị trong %{application_link_text} hoặc liên hệ với quản trị viên Microsoft của bạn trước khi thực hiện thiết lập. Trong cổng thông tin, bạn cũng cần đăng ký ứng dụng Azure hoặc sử dụng ứng dụng hiện có để xác thực.
       type: 'Vui lòng đảm bảo rằng bạn có đặc quyền quản trị trong phiên bản Nextcloud của mình và cài đặt ứng dụng sau trước khi thực hiện thiết lập:'
-      type_link_text: "“Dự án mở tích hợp”"
+      type_link_text: "“OpenProject tích hợp”"
     label_active: Đang hoạt động
     label_add_new_storage: Thêm bộ nhớ mới
     label_automatic_folder: Thư mục mới với quyền được quản lý tự động

@@ -45,7 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
             <tr>
               <th><div class="generic-table--empty-header"></div></th>
               <% @roles.each do |role| %>
-                <th>
+                <th aria-label="<%= role.name %>">
                   <div class="generic-table--sort-header-outer">
                     <div class="generic-table--sort-header">
                         <%= content_tag(role.builtin? ? "em" : "span", h(role.name)) %>

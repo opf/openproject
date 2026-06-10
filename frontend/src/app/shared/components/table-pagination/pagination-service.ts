@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 
 export const DEFAULT_PAGINATION_OPTIONS = {
@@ -48,9 +48,11 @@ export interface PaginationObject {
 
 @Injectable()
 export class PaginationService {
+  private configuration = inject(ConfigurationService);
+
   private paginationOptions:IPaginationOptions;
 
-  constructor(private configuration:ConfigurationService) {
+  constructor() {
     this.loadPaginationOptions();
   }
 

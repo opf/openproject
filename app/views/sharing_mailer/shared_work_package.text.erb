@@ -18,9 +18,9 @@
 %>
 <%= "-" * 100 %>
 
-<%= "=" * (("# " + @work_package.id.to_s + @work_package.subject).length + 4) %>
-= #<%= @work_package.id %> <%= @work_package.subject %> =
-<%= "=" * (("# " + @work_package.id.to_s + @work_package.subject).length + 4) %>
+<%= "=" * ("#{@work_package.formatted_id} #{@work_package.subject}".length + 4) %>
+= <%= @work_package.formatted_id %> <%= @work_package.subject %> =
+<%= "=" * ("#{@work_package.formatted_id} #{@work_package.subject}".length + 4) %>
 
 <%= I18n.t("mail.work_packages.reason.shared") %>:
 <%= t("mail.sharing.work_packages.allowed_actions_html", allowed_actions: @allowed_work_package_actions.to_sentence) %>

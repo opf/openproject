@@ -141,7 +141,73 @@ namespace :ldap_groups do
 
       puts "Send CTRL+D to stop the server"
       require "irb"
-      binding.irb
+      binding.irb # rubocop:disable Lint/Debugger
+
+      ldap_server.stop
+    end
+
+    desc "Create a development LDAP server using groupOfUniqueNames/uniqueMember (forward lookup, no memberOf on users)"
+    task ldap_server_forward: :environment do
+      require "ladle"
+      ldif = ENV.fetch("LDIF_FILE") { Rails.root.join("spec/fixtures/ldap/users_unique_member.ldif") }
+      ldap_server = Ladle::Server.new(quiet: false, port: "12389", domain: "dc=example,dc=com", ldif:).start
+
+      source = LdapAuthSource.find_or_initialize_by(name: "ladle forward lookup")
+
+      source.attributes = {
+        host: "localhost",
+        port: "12389",
+        tls_mode: "plain_ldap",
+        account: "uid=admin,ou=system",
+        account_password: "secret",
+        base_dn: "dc=example,dc=com",
+        onthefly_register: true,
+        attr_login: "uid",
+        attr_firstname: "givenName",
+        attr_lastname: "sn",
+        attr_mail: "mail"
+      }
+
+      source.save!
+
+      filter = LdapGroups::SynchronizedFilter.find_or_initialize_by(ldap_auth_source: source, name: "All groups")
+      filter.group_name_attribute = "dn"
+      filter.sync_users = true
+      filter.filter_string = "(cn=*)"
+      filter.base_dn = "ou=groups,dc=example,dc=com"
+      filter.member_lookup_attribute = "uniqueMember"
+
+      filter.save!
+
+      LdapGroups::SynchronizationJob.perform_now
+
+      puts <<~INFO
+        LDAP server ready at localhost:12389 (forward lookup mode)
+
+        member_lookup_attribute: uniqueMember
+        Groups use groupOfUniqueNames — users have NO memberOf attribute.
+
+        --------------------------------------------------------
+
+        Users
+
+        uid=aa729,ou=people,dc=example,dc=com (Password: smada)    → engineering, cross-functional
+        uid=bb459,ou=people,dc=example,dc=com (Password: niwdlab)  → engineering
+        uid=cc414,ou=people,dc=example,dc=com (Password: retneprac) → management, cross-functional
+
+        --------------------------------------------------------
+
+        Groups
+
+        cn=engineering,ou=groups,dc=example,dc=com    (Members: aa729, bb459)
+        cn=management,ou=groups,dc=example,dc=com     (Members: cc414)
+        cn=cross-functional,ou=groups,dc=example,dc=com (Members: aa729, cc414)
+
+      INFO
+
+      puts "Send CTRL+D to stop the server"
+      require "irb"
+      binding.irb # rubocop:disable Lint/Debugger
 
       ldap_server.stop
     end

@@ -5,10 +5,10 @@ import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { TableEditForm } from 'core-app/features/work-packages/components/wp-edit-form/table-edit-form';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
 export class WorkPackageTableEditingContext {
-  @InjectField() public halEditing:HalResourceEditingService;
+  @LazyInject() public halEditing:HalResourceEditingService;
 
   constructor(readonly table:WorkPackageTable,
     readonly injector:Injector) {

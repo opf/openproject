@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { CurrentUserService } from 'core-app/core/current-user/current-user.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -44,6 +44,11 @@ import { Observable, of } from 'rxjs';
   standalone: false,
 })
 export class WorkPackageSplitViewToolbarComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly halEditing = inject(HalResourceEditingService);
+  readonly configurationService = inject(ConfigurationService);
+  readonly currentUserService = inject(CurrentUserService);
+
   @Input() workPackage:WorkPackageResource;
 
   @Input() displayNotificationsButton:boolean;
@@ -54,14 +59,6 @@ export class WorkPackageSplitViewToolbarComponent implements OnInit {
   public text = {
     button_more: this.I18n.t('js.button_more'),
   };
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly halEditing:HalResourceEditingService,
-    readonly configurationService:ConfigurationService,
-    readonly currentUserService:CurrentUserService,
-  ) {
-  }
 
   ngOnInit() {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access

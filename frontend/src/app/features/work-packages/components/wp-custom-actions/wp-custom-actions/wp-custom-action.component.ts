@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, Input, OnInit, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
@@ -51,21 +51,17 @@ import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destr
   standalone: false,
 })
 export class WpCustomActionComponent extends UntilDestroyedMixin implements OnInit {
+  private halResourceService = inject(HalResourceService);
+  private apiV3Service = inject(ApiV3Service);
+  private wpActivity = inject(WorkPackagesActivityService);
+  private notificationService = inject(WorkPackageNotificationService);
+  private halEditing = inject(HalResourceEditingService);
+  private halEvents = inject(HalEventsService);
+  private cdRef = inject(ChangeDetectorRef);
+
   @Input() workPackage:WorkPackageResource;
 
   @Input() action:CustomActionResource;
-
-  constructor(
-    private halResourceService:HalResourceService,
-    private apiV3Service:ApiV3Service,
-    private wpActivity:WorkPackagesActivityService,
-    private notificationService:WorkPackageNotificationService,
-    private halEditing:HalResourceEditingService,
-    private halEvents:HalEventsService,
-    private cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this

@@ -50,7 +50,7 @@ Under the *Single Sign-On (SSO)* tab you can adjust following settings:
 > [!NOTE]
 > Unless you also disable password logins, with this option enabled, users can still log in internally by visiting internal login page, for example `https://yourinstancename.openproject.com/login/internal` login page.
 
-2. Allow **remapping of existing users**. If enabled, this option allows any configured identity provider to authenticate existing users based on their email address, even if those users have never previously signed in with that provider. This feature is particularly useful when migrating your OpenProject instance to a new SSO provider. 
+2. Allow **remapping of existing users**. If enabled, this option allows any configured identity provider to authenticate existing users based on their login, even if those users have never previously signed in with that provider. This feature is particularly useful when migrating your OpenProject instance to a new SSO provider.
 
 > [!IMPORTANT]
 > It is **not recommended** when using an identity provider that is not trusted by all users in your instance, as this may introduce security risks.

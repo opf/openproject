@@ -40,13 +40,13 @@ class Queries::Projects::Filters::NameFilter < Queries::Projects::Filters::Base
     when "!"
       ["LOWER(projects.name) NOT IN (?)", sql_value]
     when "~"
-      ["LOWER(projects.name) LIKE ?", "%#{sql_value}%"]
+      ["LOWER(projects.name) LIKE ?", sql_value]
     when "**"
       terms = values.first.downcase.split
       conditions = Array.new(terms.size, "LOWER(projects.name) LIKE ?").join(" AND ")
       [conditions, *terms.map { |t| "%#{t}%" }]
     when "!~"
-      ["LOWER(projects.name) NOT LIKE ?", "%#{sql_value}%"]
+      ["LOWER(projects.name) NOT LIKE ?", sql_value]
     end
   end
 
@@ -63,9 +63,9 @@ class Queries::Projects::Filters::NameFilter < Queries::Projects::Filters::Base
   def sql_value
     case operator
     when "=", "!"
-      values.map { |val| self.class.connection.quote_string(val.downcase) }.join(",")
+      values.map(&:downcase)
     when "**", "~", "!~"
-      values.first.downcase
+      "%#{values.first.downcase}%"
     end
   end
 end

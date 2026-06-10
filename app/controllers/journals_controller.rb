@@ -88,15 +88,7 @@ class JournalsController < ApplicationController
   end
 
   def ensure_permitted
-    permission = case @journal.journable_type
-                 when "WorkPackage" then :view_work_packages
-                 when "Project" then :view_project
-                 when "Meeting" then :view_meetings
-                 end
-
-    do_authorize(permission)
-  rescue Authorization::UnknownPermissionError
-    deny_access
+    deny_access unless @journal.visible?(User.current)
   end
 
   def diff_values
@@ -138,32 +130,32 @@ class JournalsController < ApplicationController
   end
 
   def ensure_custom_value_valid_for_diffing(cf_id)
-    custom_field = CustomField.select(:field_format, :admin_only).find_by(id: cf_id)
+    custom_field = CustomField.find_by(id: cf_id)
+    # Even if the custom field is deleted
+    # we will need to return 403 if the custom field class allows admin-only fields
+    return render_403 if deleted_cf_forbidden?(custom_field)
 
-    if !allowed_to_view_custom_field_changes?(custom_field)
-      render_403
-    elsif custom_field && custom_field.field_format != "text"
-      render_404
-    end
+    # If no admin-only field, we can allow deleted custom fields to be rendered now
+    return if custom_field.nil?
+    return render_403 unless custom_field.visible?(User.current, project: @journable.project)
+
+    render_404 if custom_field.field_format != "text"
   end
 
   def ensure_custom_comment_valid_for_diffing(cf_id)
-    custom_field = CustomField.select(:admin_only).find_by(id: cf_id)
+    custom_field = CustomField.find_by(id: cf_id)
+    return render_403 if deleted_cf_forbidden?(custom_field)
+    return if custom_field.nil?
 
-    if !allowed_to_view_custom_field_changes?(custom_field)
-      render_403
-    end
+    render_403 unless custom_field.visible?(User.current, project: @journable.project)
   end
 
-  def allowed_to_view_custom_field_changes?(custom_field)
-    return true if User.current.admin?
-
-    if @journable.admin_only_custom_fields_allowed?
-      # don't reveal changes of deleted custom fields if those could have admin_only mark
-      custom_field && !custom_field.admin_only
-    else
-      true
-    end
+  # When a CF is deleted we can no longer call visible? on it. For journables that support
+  # admin-only CFs (e.g. Project), block non-admins because the deleted CF could have been admin-only.
+  def deleted_cf_forbidden?(custom_field)
+    custom_field.nil? &&
+      @journable.admin_only_custom_fields_allowed? &&
+      !User.current.admin?
   end
 
   def journals_index_title

@@ -401,7 +401,7 @@ The effort score ranges from 0.03 (XS = less than a day of effort) to 20 (XXXL =
 
 ### 4.3 Opportunity Canvas
 
-One of the main artifacts used in the evaluation phase is the Opportunity Canvas. The Opportunity Canvas - [slightly adapted from GitLab](https://about.gitlab.com/handbook/product-development-flow) - provides a quick overview of a requirement and includes four main sections as well as two supplemental sections:
+One of the main artifacts used in the evaluation phase is the Opportunity Canvas. The Opportunity Canvas - [slightly adapted from GitLab](https://handbook.gitlab.com/handbook/product/product-processes/#product-development-flow) - provides a quick overview of a requirement and includes four main sections as well as two supplemental sections:
 
 **<u>Main sections:</u>**
 

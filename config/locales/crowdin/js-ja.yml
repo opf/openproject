@@ -202,16 +202,7 @@ ja:
           text: "[Placeholder] 埋め込みカレンダー"
     admin:
       type_form:
-        custom_field: カスタムフィールド
-        inactive: 非アクティブ
-        drag_to_activate: ここからフィールドをドラッグして、有効にします
-        add_group: 属性グループを追加する
-        add_table: 関係するワークパッケージのテーブルを追加する
         edit_query: クエリの編集
-        new_group: 新規グループ
-        delete_group: Delete group
-        remove_attribute: Remove from group
-        reset_to_defaults: デフォルトに戻す
       working_days:
         calendar:
           empty_state_header: 休業日
@@ -219,13 +210,6 @@ ja:
           new_date: "(新)"
         add_non_working_day: 休業日を追加
         already_added_error: この日付の非営業日はすでに存在します。一意の日付に対して作成できる非営業日は1つだけです。
-        change_button: 保存して再スケジュール
-        change_title: 営業日を変更する
-        removed_title: 以下の日を非稼働日リストから削除します：
-        change_description: 営業日とみなす曜日を変更すると、このサイト内のすべてのプロジェクトのすべてのワークパッケージの開始日と終了日に影響を与える可能性があります。
-        warning: '変更の反映には時間がかかる場合があります。関連するすべてのワークパッケージとプロジェクトライフサイクルが更新されたら、通知されます。 本当に続けますか？
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: 進捗計算モードをステータスベースからワークベースに変更すると、「<i>完了率」</i>フィールドが自由に編集できるようになります。オプションで「<i>作業</i>」または「<i>残作業</i>」の値を入力した場合、それらは「<i>完了率」にも</i>リンクされます。<i>残りの作業</i>量を変更すると、<i>完了率が</i>更新されます。
         warning_progress_calculation_mode_change_from_field_to_status_html: 進捗の計算モードを作業ベースからステータスベースに変更すると、既存の<i>完了率の</i>値はすべて失われ、各ステータスに関連する値に置き換えられます。この変更を反映するために、「<i>残作業</i>」の既存の値も再計算される場合があります。この操作は元に戻すことはできません。
@@ -418,7 +402,6 @@ ja:
     label_per_page: 1 ページあたり
     label_please_wait: しばらくお待ちください
     label_project: プロジェクト
-    label_project_list: プロジェクト一覧
     label_project_plural: プロジェクト
     label_visibility_settings: 表示の設定
     label_quote_comment: このコメントを引用
@@ -613,18 +596,6 @@ ja:
     breadcrumb: パンくず
     text_data_lost: 入力されたデータはすべて失われる。
     text_user_wrote: "%{value} が書き込みました："
-    types:
-      attribute_groups:
-        error_duplicate_group_name: 名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。
-        error_no_table_configured: "%{group} のテーブルを設定してください。"
-        reset_title: フォーム設定をリセット
-        confirm_reset: '警告：フォーム設定をリセットしてもよろしいですか？ これにより、属性がデフォルトのグループにリセットされ、すべてのカスタムフィールドが無効になります。   コンテキスト| リクエストコンテキスト
-
-          '
-        upgrade_to_ee: エンタープライズ・オンプレミス版へのアップグレード
-        upgrade_to_ee_text: すごい！このアドオンが必要なら、あなたはスーパープロです！エンタープライズ版のクライアントになって、私たちオープンソース開発者をサポートしていただけませんか？
-        more_information: 詳細情報
-        nevermind: 無視
     time_entry:
       work_package_required: 最初にワークパッケージを選択する必要があります。
       title: 時間を記録
@@ -1070,16 +1041,13 @@ ja:
         all: すべてのプロジェクト
         selected: 選択したもののみ
       search_placeholder: プロジェクトを検索…
-      search_placeholder_favorites: Search favorites...
       include_subprojects: すべての子プロジェクトを含む
       tooltip:
         include_all_selected: すべての子プロジェクトを含める」が有効になっているため、プロジェクトはすでに含まれている。
         current_project: これが現在あなたが参加しているプロジェクトです。
         does_not_match_search: プロジェクトが検索条件に一致しません。
       no_results: 検索条件に一致するプロジェクトはありません。
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

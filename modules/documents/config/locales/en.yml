@@ -26,6 +26,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
+---
 en:
   plugin_openproject_documents:
     name: "OpenProject Documents"

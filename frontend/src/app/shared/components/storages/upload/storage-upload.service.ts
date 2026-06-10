@@ -28,7 +28,7 @@
 
 import { Observable } from 'rxjs';
 import { ID } from '@datorama/akita';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 
 import { IUploadFile, OpUploadService } from 'core-app/core/upload/upload.service';
@@ -47,13 +47,9 @@ export interface IStorageFileUploadResponse {
 
 @Injectable()
 export class StorageUploadService extends OpUploadService {
-  private uploadStrategy:IUploadStrategy;
+  private readonly http = inject(HttpClient);
 
-  constructor(
-    private readonly http:HttpClient,
-  ) {
-    super();
-  }
+  private uploadStrategy:IUploadStrategy;
 
   public upload<T>(
     href:string,

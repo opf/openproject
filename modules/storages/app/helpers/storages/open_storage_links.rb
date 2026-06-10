@@ -44,7 +44,7 @@ module Storages
 
           oauth_clients_ensure_connection_url(
             oauth_client_id: storage.oauth_client.client_id,
-            storage_id: storage.id,
+            integration_id: storage.id,
             destination_url: api_static_link
           )
         else

@@ -222,8 +222,8 @@ cs:
                   _Prosím dokumentujte zde témata na schůzce plánování Sprintu_
 
                   * Uložený čas (8 h)
-                  * Vstup: produkt Backlog
-                  * Výstup: nevyřízené nevyhovění
+                  * Vstup: backlogu produktu
+                  * Výstup: backlog sprintu
 
                   * Rozděleno na dvě další časová pole 4 h:
 
@@ -270,7 +270,7 @@ cs:
             item_0:
               name: Plán projektu
             item_1:
-              name: Nevyřízené produkty
+              name: Backlog sprintu
             item_2:
               name: Sprint 2
             item_3:
@@ -416,7 +416,7 @@ cs:
         item_1:
           name: Milník
         item_2:
-          name: Summary task
+          name: Souhrnný úkol
         item_3:
           name: Funkce
         item_4:

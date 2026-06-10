@@ -102,6 +102,31 @@ RSpec.describe Meetings::RowComponent, type: :component do
         let(:meeting) { build_stubbed(:meeting_template, recurring_meeting: series, project:) }
 
         context "without a current project" do
+          it "shows cancel menu item with a back url" do
+            back_url = meetings_path
+            expect(subject).to have_link "Cancel this occurrence",
+                                         href: delete_dialog_project_meeting_path(project, meeting, back_url:)
+          end
+        end
+
+        context "with a current project" do
+          let(:current_project) { project }
+
+          it "shows cancel menu item" do
+            expect(subject).to have_link "Cancel this occurrence",
+                                         href: delete_dialog_project_meeting_path(project, meeting)
+          end
+        end
+      end
+
+      context "with a past recurring occurrence" do
+        let(:series) { build_stubbed(:recurring_meeting, project:) }
+        let(:meeting) do
+          build_stubbed(:meeting, recurring_meeting: series, project:,
+                                  start_time: 2.days.ago, duration: 1)
+        end
+
+        context "without a current project" do
           it "shows delete menu item with a back url" do
             back_url = meetings_path
             expect(subject).to have_link "Delete occurrence",
@@ -113,7 +138,8 @@ RSpec.describe Meetings::RowComponent, type: :component do
           let(:current_project) { project }
 
           it "shows delete menu item" do
-            expect(subject).to have_link "Delete occurrence", href: delete_dialog_project_meeting_path(project, meeting)
+            expect(subject).to have_link "Delete occurrence",
+                                         href: delete_dialog_project_meeting_path(project, meeting)
           end
         end
       end

@@ -53,7 +53,7 @@ fr:
     delete_warning:
       input_delete_confirmation_html: Saisissez le nom du fournisseur %{name} pour confirmer la suppression.
       irreversible_notice: La suppression d'un fournisseur SSO est une action irréversible.
-      provider_html: 'Êtes-vous sûr de vouloir supprimer le fournisseur SSO %{name} ? Sachez que cela aura pour effet de :'
+      provider_html: 'Voulez-vous vraiment supprimer le fournisseur SSO %{name} ? Sachez que cela aura pour effet de :'
       delete_result_1: Supprimez le fournisseur de la liste des fournisseurs disponibles.
       delete_result_user_count:
         zero: Aucun utilisateur n'utilise actuellement ce fournisseur. Aucune action supplémentaire n'est requise.

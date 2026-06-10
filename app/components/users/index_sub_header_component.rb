@@ -32,11 +32,39 @@ module Users
   class IndexSubHeaderComponent < ApplicationComponent
     include ApplicationHelper
 
-    def initialize(groups:, status:, params:)
+    def initialize(query:)
       super
-      @groups = groups
-      @status = status
-      @params = params
+      @query = query
+    end
+
+    def filter_input_value
+      @query.find_active_filter(:any_name_attribute)&.values&.first
+    end
+
+    def sub_header_data_attributes
+      {
+        controller: "filter--filters-form",
+        "filter--filters-form-perform-turbo-requests-value": true,
+        "filter--filters-form-clear-button-id-value": clear_button_id,
+        "filter--filters-form-display-filters-value": filters_expanded?
+      }
+    end
+
+    def filter_input_data_attributes
+      {
+        "filter-name": "any_name_attribute",
+        "filter-type": "string",
+        "filter-operator": "~",
+        "filter--filters-form-target": "simpleFilter filterValueContainer simpleValue"
+      }
+    end
+
+    def clear_button_id
+      "user-filters-form-clear-button"
+    end
+
+    def filters_expanded?
+      params[:filters].present?
     end
   end
 end

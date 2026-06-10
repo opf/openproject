@@ -32,13 +32,15 @@ nl:
         spent: Uitgegeven
         spent_on: Datum
         logged_by: Gelogd door
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+        entity: Geregistreerd voor
+        entity_id: Geregistreerd voor
+        entity_gid: Geregistreerd voor
       cost_type:
         unit: Naam eenheid
         unit_plural: Vermeerderde eenheid naam
         default: Kostensoort als standaard
+        for_all_projects: For all projects
+        rates: Rates
       work_package:
         costs_by_type: Eenheden uitgegeven
         labor_costs: Arbeidskosten
@@ -62,9 +64,9 @@ nl:
         start_time: Starttijd
         end_time: Eindtijd
         time: Tijd
-        entity: Logged for
-        entity_id: Logged for
-        entity_gid: Logged for
+        entity: Geregistreerd voor
+        entity_id: Geregistreerd voor
+        entity_gid: Geregistreerd voor
     models:
       time_entry:
         one: Tijd invoer
@@ -88,6 +90,10 @@ nl:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Werkpakket #%{id} is geen geldig doel voor het opnieuw toewijzen van de kostenposten.'
           nullify_is_not_valid_for_cost_entries: Kostenposten kunnen niet worden toegewezen aan een project.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
   attributes:
     comment: Reactie
     cost_type: Soort kosten
@@ -129,7 +135,6 @@ nl:
   label_current_default_rate: Huidige standaard tarief
   label_date_on: op
   label_deleted_cost_types: Verwijderde kostentypen
-  label_locked_cost_types: Vergrendelde kostensoorten
   label_display_cost_entries: Kosten per eenheid weergeven
   label_display_time_entries: Gerapporteerde uren weergeven
   label_display_types: Soorten weergeven
@@ -173,7 +178,6 @@ nl:
   label_previous_week: Vorige week
   label_previous_month: Vorige maand
   label_specific_day: Dag %{day}
-  label_specific_week: Kalenderweek %{week}
   label_specific_month: Maand %{month}
   label_list: Lijst
   label_month: Maand
@@ -207,7 +211,7 @@ nl:
   setting_allow_tracking_start_and_end_times: Begin- en eindtijden toestaan
   setting_costs_currency: Valuta
   setting_costs_currency_caption: This is the unit of currency. It can be a three-letter ISO code like EUR, USD or JPY or a symbol like €, $ or ¥.
-  setting_costs_currency_format: Currency format
+  setting_costs_currency_format: Valutaformaat
   setting_costs_currency_format_prefix: Before the number (e.g. EUR 100)
   setting_costs_currency_format_suffix: After the number (e.g. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Begin- en eindtijden vereisen
@@ -230,15 +234,37 @@ nl:
     errors:
       validation:
         start_time_different_date: Het datumgedeelte van start tijd (%{start_time}) moet hetzelfde zijn als de uitgegeven op (%{spent_on}) datum.
+  label_available_cost_types_projects: Available cost types projects
+  cost_types:
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: This cost type is enabled in all projects
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+        no_projects:
+          heading: No projects assigned
+          description: Add projects so this cost type can be used in them.
+      rates:
+        title: Rate history
+    settings:
+      time_and_costs: Time & Costs
+      cost_types:
+        heading: Cost types
+        none_active: No cost types are currently active in this project.
+        for_all_projects_hint: This cost type is enabled in all projects.
   costs:
     widgets:
       actual_costs:
-        title: Actual costs by month
+        title: Werkelijke kosten per maand
         blankslate:
           heading: Start tracking your time and costs
           description: Get an overview of your costs and logged time to monitor progress of your project. Make sure that work packages are associated with the correct budget.
-          action: Log time
-        view_details: View actual costs details
+          action: Registreer tijd
+        view_details: Bekijk de details van de werkelijke kosten
   ee:
     features:
       time_entry_time_restrictions: Exacte tijdsregistratie vereisen

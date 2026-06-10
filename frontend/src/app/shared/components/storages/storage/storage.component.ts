@@ -26,18 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   combineLatest,
@@ -113,6 +102,18 @@ import {
   standalone: false,
 })
 export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  private readonly i18n = inject(I18nService);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly toastService = inject(ToastService);
+  private readonly uploadService = inject(OpUploadService);
+  private readonly opModalService = inject(OpModalService);
+  private readonly timezoneService = inject(TimezoneService);
+  private readonly pathHelperService = inject(PathHelperService);
+  private readonly storagesResourceService = inject(StoragesResourceService);
+  private readonly fileLinkResourceService = inject(FileLinksResourceService);
+  private readonly storageInformationService = inject(StorageInformationService);
+  private readonly storageFilesResourceService = inject(StorageFilesResourceService);
+
   @Input() public resource:HalResource;
 
   @Input() public projectStorage:IProjectStorage;
@@ -216,22 +217,6 @@ export class StorageComponent extends UntilDestroyedMixin implements OnInit, OnD
 
   public get openStorageLink() {
     return this.projectStorage._links.open?.href;
-  }
-
-  constructor(
-    private readonly i18n:I18nService,
-    private readonly cdRef:ChangeDetectorRef,
-    private readonly toastService:ToastService,
-    private readonly uploadService:OpUploadService,
-    private readonly opModalService:OpModalService,
-    private readonly timezoneService:TimezoneService,
-    private readonly pathHelperService:PathHelperService,
-    private readonly storagesResourceService:StoragesResourceService,
-    private readonly fileLinkResourceService:FileLinksResourceService,
-    private readonly storageInformationService:StorageInformationService,
-    private readonly storageFilesResourceService:StorageFilesResourceService,
-  ) {
-    super();
   }
 
   ngOnInit():void {

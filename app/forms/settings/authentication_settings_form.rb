@@ -97,7 +97,8 @@ module Settings
 
       f.text_field(
         name: :after_login_default_redirect_url,
-        caption: helpers.t(:setting_after_login_default_redirect_url_text_html),
+        caption: helpers.t(:setting_after_login_default_redirect_url_example_html,
+                           example_code: helpers.content_tag(:code, "/my/page")),
         input_width: :large
       )
 

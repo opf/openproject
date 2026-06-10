@@ -139,6 +139,35 @@ RSpec.describe "API v3 Recurring Meeting Occurrences", content_type: :json do
       response
       expect(recurring_meeting.meetings.not_templated.where(recurrence_start_time: start_time)).to exist
     end
+
+    context "without create_meetings permission" do
+      let(:permissions) { %i[view_meetings] }
+
+      before { response }
+
+      it_behaves_like "unauthorized access"
+    end
+
+    context "when restoring a cancelled occurrence with only view_meetings permission" do
+      let(:permissions) { %i[view_meetings] }
+      let!(:cancelled_occurrence) do
+        create(:meeting,
+               project:,
+               author: current_user,
+               recurring_meeting:,
+               start_time:,
+               recurrence_start_time: start_time,
+               state: :cancelled)
+      end
+
+      before { response }
+
+      it_behaves_like "unauthorized access"
+
+      it "does not restore the cancelled occurrence" do
+        expect(cancelled_occurrence.reload).to be_cancelled
+      end
+    end
   end
 
   describe "DELETE .../occurrences/:start_time" do

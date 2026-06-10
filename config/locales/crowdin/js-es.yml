@@ -200,16 +200,7 @@ es:
           text: "[Placeholder] Calendario insertado"
     admin:
       type_form:
-        custom_field: Campo personalizado
-        inactive: Inactivo
-        drag_to_activate: Arrastre campos desde aquí para activarlos
-        add_group: Agregar grupo de atributos
-        add_table: Agregar tabla de paquetes de trabajo relacionados
         edit_query: Editar consulta
-        new_group: Nuevo grupo
-        delete_group: Eliminar grupo
-        remove_attribute: Eliminar del grupo
-        reset_to_defaults: Restablecer valores predeterminados
       working_days:
         calendar:
           empty_state_header: Días no laborables
@@ -217,13 +208,6 @@ es:
           new_date: "(nuevo)"
         add_non_working_day: Día no laborable
         already_added_error: Ya existe un día no laborable para esta fecha. Solo puede haber un día no laborable creado para cada fecha.
-        change_button: Guardar y reprogramar
-        change_title: Cambiar los días laborables
-        removed_title: 'Eliminará los siguientes días de la lista de días no laborables:'
-        change_description: Cambiar qué días de la semana se consideran laborables y cuáles no, puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo y ciclos de vida en todos los proyectos de esta instancia.
-        warning: 'Los cambios pueden tardar algún tiempo en surtir efecto. Se le notificará cuando todos los paquetes de trabajo pertinentes se hayan actualizado. ¿Seguro que desea continuar?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Cambiar el modo de cálculo del progreso de basado en el estado a basado en el trabajo hará que el campo <i>% completado</i> se pueda editar libremente. Si introduce opcionalmente valores para <i>Trabajo</i> o <i>Trabajo restante</i>, también se vincularán a <i>% completado</i>. Cambiar <i>Trabajo restante</i> puede entonces actualizar <i>% completado</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: El cambio del modo de cálculo del progreso de basado en el trabajo a basado en el estado hará que todos los valores existentes de <i>% completado</i> se pierdan y se sustituyan por valores asociados a cada estado. Los valores existentes para <i>Trabajo restante</i> también pueden recalcularse para reflejar este cambio. Esta acción no es reversible.
@@ -416,7 +400,6 @@ es:
     label_per_page: 'Por pagina:'
     label_please_wait: Por favor, espere
     label_project: Proyecto
-    label_project_list: Listas de proyectos
     label_project_plural: Proyectos
     label_visibility_settings: Configuración de visibilidad
     label_quote_comment: Citar este comentario
@@ -612,18 +595,6 @@ es:
     breadcrumb: Ruta de navegación
     text_data_lost: Todos los datos introducidos se perderán.
     text_user_wrote: "%{value} escribió:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: El nombre %{group} se ha usado más de una vez. Los nombres de grupos deben ser únicos.
-        error_no_table_configured: Configure una tabla para %{group}.
-        reset_title: Restablecer la configuración del formulario
-        confirm_reset: 'Advertencia: ¿Está seguro de que quiere restablecer la configuración del formulario? Se restablecerán los atributos al grupo predeterminado y se deshabilitarán TODOS los campos personalizados.
-
-          '
-        upgrade_to_ee: Actualizar a Enterprise On-Premises
-        upgrade_to_ee_text: "¡Vaya! Si necesita está extensión, entonces ¡es un usuario experto! ¿Le importaría apoyar a los desarrolladores de código abierto convirtiéndose en cliente de Enterprise?"
-        more_information: Más información
-        nevermind: No importa
     time_entry:
       work_package_required: Es necesario seleccionar primero un paquete de trabajo.
       title: Registro de tiempo
@@ -1072,16 +1043,13 @@ es:
         all: Todos los proyectos
         selected: Solo seleccionados
       search_placeholder: Buscar proyectos...
-      search_placeholder_favorites: Buscar favoritos...
       include_subprojects: Incluir todos los subproyectos
       tooltip:
         include_all_selected: Proyecto ya incluido, ya que "Incluir todos los subproyectos" está activada.
         current_project: Este es el proyecto actual.
         does_not_match_search: El proyecto no coincide con los criterios de búsqueda.
       no_results: Ningún producto coincide con tu criterio de búsqueda
-      no_favorite_results: Ningún proyecto favorito coincide con sus criterios de búsqueda.
     include_workspaces:
-      search_placeholder: Buscar…
       types:
         program: Programa
         portfolio: Cartera

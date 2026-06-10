@@ -2,7 +2,7 @@
 nl:
   plugin_openproject_webhooks:
     name: OpenProject Webhooks
-    description: Provides a plug-in API to support OpenProject webhooks for better 3rd party integration.
+    description: Biedt een plug-in API om OpenProject webhooks te ondersteunen voor een betere integratie van derden.
   activerecord:
     attributes:
       webhooks/webhook:

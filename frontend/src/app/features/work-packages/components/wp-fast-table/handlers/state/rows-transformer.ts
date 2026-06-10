@@ -4,18 +4,18 @@ import { States } from 'core-app/core/states/states.service';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { WorkPackageTable } from '../../wp-fast-table';
 
 export class RowsTransformer {
-  @InjectField() querySpace:IsolatedQuerySpace;
+  @LazyInject() querySpace:IsolatedQuerySpace;
 
-  @InjectField() wpTableSortBy:WorkPackageViewSortByService;
+  @LazyInject() wpTableSortBy:WorkPackageViewSortByService;
 
-  @InjectField() wpTableOrder:WorkPackageViewOrderService;
+  @LazyInject() wpTableOrder:WorkPackageViewOrderService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
   constructor(public readonly injector:Injector,
     public table:WorkPackageTable) {

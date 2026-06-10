@@ -87,22 +87,22 @@ RSpec.describe Meetings::Widgets::Meetings, type: :component do
         let!(:meeting_other) { create(:meeting, project: project_red, author:, start_time: 3.weeks.from_now) }
 
         it "does not render meetings the user is not participating in" do
-          expect(rendered_component).to have_list_item(count: 3) # 2 participating + "View all"
+          expect(rendered_component).to have_list_item(count: 2)
           expect(rendered_component).to have_no_link href: project_meeting_path(project_red, meeting_other)
         end
       end
 
       it "renders meetings items from all projects", :aggregate_failures do
-        expect(rendered_component).to have_list_item(count: 3)
+        expect(rendered_component).to have_list_item(count: 2)
+        expect(rendered_component).to have_link href: project_meeting_path(project_red, meeting_red)
         expect(rendered_component).to have_list_item(position: 2) do |item|
           expect(item).to have_link href: project_meeting_path(project_blue, meeting_blue)
-          expect(item).to have_content("2 hrs") # Duration is formatted
-          expect(item).to have_content("Project: #{project_blue.name}")
+          expect(item).to have_text("2 hrs")
+          expect(item).to have_text("Project: #{project_blue.name}")
         end
 
-        expect(rendered_component).to have_list_item(position: 3) do |item|
-          expect(item).to have_link href: meetings_path
-          expect(item).to have_content("View all meetings")
+        expect(rendered_component).to have_css(".op-widget-box--footer") do |footer|
+          expect(footer).to have_link "View all meetings", href: meetings_path
         end
       end
     end
@@ -129,16 +129,15 @@ RSpec.describe Meetings::Widgets::Meetings, type: :component do
       end
 
       it "renders only this project’s meetings which the user participates in" do
-        expect(rendered_component).to have_list_item(count: 2)
+        expect(rendered_component).to have_list_item(count: 1)
         expect(rendered_component).to have_list_item(position: 1) do |item|
           expect(item).to have_link href: project_meeting_path(project_red, meeting_red)
-          expect(item).to have_content("1 hr")
-          expect(item).to have_no_content("Project: #{project_red.name}") # Project is not repeated
+          expect(item).to have_text("1 hr")
+          expect(item).to have_no_text("Project: #{project_red.name}") # Project is not repeated
         end
 
-        expect(rendered_component).to have_list_item(position: 2) do |item|
-          expect(item).to have_link href: project_meetings_path(project_red)
-          expect(item).to have_content("View all meetings")
+        expect(rendered_component).to have_css(".op-widget-box--footer") do |footer|
+          expect(footer).to have_link "View all meetings", href: project_meetings_path(project_red)
         end
       end
     end

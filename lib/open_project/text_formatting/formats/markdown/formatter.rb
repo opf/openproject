@@ -31,11 +31,45 @@ require "task_list/filter"
 
 module OpenProject::TextFormatting::Formats::Markdown
   class Formatter < OpenProject::TextFormatting::Formats::BaseFormatter
+    RICH_FILTERS = [
+      OpenProject::TextFormatting::Filters::SettingMacrosFilter,
+      OpenProject::TextFormatting::Filters::MarkdownFilter,
+      OpenProject::TextFormatting::Filters::SanitizationFilter,
+      OpenProject::TextFormatting::Filters::TaskListFilter,
+      OpenProject::TextFormatting::Filters::TableOfContentsFilter,
+      OpenProject::TextFormatting::Filters::MacroFilter,
+      OpenProject::TextFormatting::Filters::MentionFilter,
+      OpenProject::TextFormatting::Filters::PatternMatcherFilter,
+      OpenProject::TextFormatting::Filters::SyntaxHighlightFilter,
+      OpenProject::TextFormatting::Filters::AttachmentFilter,
+      OpenProject::TextFormatting::Filters::AutolinkFilter,
+      OpenProject::TextFormatting::Filters::AutolinkCustomProtocolsFilter,
+      OpenProject::TextFormatting::Filters::RelativeLinkFilter,
+      OpenProject::TextFormatting::Filters::LinkAttributeFilter,
+      OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter,
+      OpenProject::TextFormatting::Filters::FigureWrappedFilter,
+      OpenProject::TextFormatting::Filters::BemCssFilter
+    ].freeze
+
+    # `text/plain` mailer bodies share the matcher and mention stages so
+    # work-package references resolve consistently with the HTML channel,
+    # then `PlainTextOutputFilter` collapses the DOM to text. Filters that
+    # only shape HTML (TOC, syntax highlight, autolink, link-attribute,
+    # figure, BEM) are omitted because `doc.text` would discard their work.
+    TEXT_FILTERS = [
+      OpenProject::TextFormatting::Filters::SettingMacrosFilter,
+      OpenProject::TextFormatting::Filters::MarkdownFilter,
+      OpenProject::TextFormatting::Filters::SanitizationFilter,
+      OpenProject::TextFormatting::Filters::MentionFilter,
+      OpenProject::TextFormatting::Filters::PatternMatcherFilter,
+      OpenProject::TextFormatting::Filters::PlainTextOutputFilter
+    ].freeze
+
     def to_html(text)
       result = pipeline.call(text, context)
       output = result[:output].to_s
 
-      output.html_safe
+      context[:plain_text] ? output : output.html_safe # rubocop:disable Rails/OutputSafety
     end
 
     def to_document(text)
@@ -43,25 +77,7 @@ module OpenProject::TextFormatting::Formats::Markdown
     end
 
     def filters
-      [
-        OpenProject::TextFormatting::Filters::SettingMacrosFilter,
-        OpenProject::TextFormatting::Filters::MarkdownFilter,
-        OpenProject::TextFormatting::Filters::SanitizationFilter,
-        OpenProject::TextFormatting::Filters::TaskListFilter,
-        OpenProject::TextFormatting::Filters::TableOfContentsFilter,
-        OpenProject::TextFormatting::Filters::MacroFilter,
-        OpenProject::TextFormatting::Filters::MentionFilter,
-        OpenProject::TextFormatting::Filters::PatternMatcherFilter,
-        OpenProject::TextFormatting::Filters::SyntaxHighlightFilter,
-        OpenProject::TextFormatting::Filters::AttachmentFilter,
-        OpenProject::TextFormatting::Filters::AutolinkFilter,
-        OpenProject::TextFormatting::Filters::AutolinkCustomProtocolsFilter,
-        OpenProject::TextFormatting::Filters::RelativeLinkFilter,
-        OpenProject::TextFormatting::Filters::LinkAttributeFilter,
-        OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter,
-        OpenProject::TextFormatting::Filters::FigureWrappedFilter,
-        OpenProject::TextFormatting::Filters::BemCssFilter
-      ]
+      context[:plain_text] ? TEXT_FILTERS : RICH_FILTERS
     end
 
     def self.format

@@ -133,6 +133,24 @@ RSpec.describe WorkPackageTypes::FormConfigurationTabController do
           expect(response).to render_template(:edit)
         end
       end
+
+      context "with malformed attribute group JSON" do
+        let(:params) do
+          {
+            type_id: type.id,
+            type: {
+              attribute_groups: "{"
+            }
+          }
+        end
+
+        it "renders the edit tab instead of raising" do
+          put :update, params: params
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response).to render_template(:edit)
+        end
+      end
     end
   end
 end

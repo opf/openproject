@@ -39,6 +39,8 @@ tr:
           other: "%{count} Katılımcı"
         participants_attended: Katılımcılar
         participants_invited: Davetliler
+        participants_added: 'Participants added:'
+        participants_removed: 'Participants removed:'
         project: Proje
         start_date: Tarih
         start_time: Başlama tarihi
@@ -54,16 +56,19 @@ tr:
         description: Notlar
         presenter: Sunucu
         item_type: Type
-        position: Position
+        position: Konum
         lock_version: Lock version
         notes: Notes
       meeting_section:
         title: Başlık
-        position: Position
+        position: Konum
       recurring_meeting:
-        title: Title
+        title: Başlık
         frequency: Sıklık
         interval: Zaman aralığı
+        monthly_day: Day of month
+        monthly_ordinal: Konum
+        monthly_weekday: Weekday
         start_date: Başlama zamanı
         start_time: Başlama tarihi
         start_time_hour: Başlama saati
@@ -133,12 +138,12 @@ tr:
   error_notification_with_errors: 'Bildirim hatalı. Aşağıdaki alıcılar bilgilendirilemedi: %{recipients}'
   label_meeting: Toplantı
   label_meeting_plural: Toplantılar
-  label_meeting_templates: Templates
-  label_meeting_template: Template
-  label_meeting_template_new: New template
-  label_meeting_template_create: Create template
-  label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
+  label_meeting_templates: Şablonlar
+  label_meeting_template: Şablon
+  label_meeting_template_new: Yeni şablon
+  label_meeting_template_create: Şablon oluştur
+  label_meeting_template_delete: Şablonu sil
+  label_meeting_template_edit: Şablonu düzenle
   label_meeting_create_from_template: Create meeting from template
   label_meeting_new: Yeni Toplantı
   label_meeting_new_dynamic: Tek seferlik yeni toplantı
@@ -210,6 +215,7 @@ tr:
   label_time_zone: Saat dilim
   label_start_date: Başlama tarihi
   label_subscribe_icalendar: Takvime abone ol
+  label_recurring_filter: Recurring filter
   caption_meeting_template_select: Select a template to automatically copy its agenda items
   caption_template_project_select: Please select the project in which to create this meeting template
   placeholder_meeting_template_select_project_first: Select a project first
@@ -272,16 +278,6 @@ tr:
         summary_series: Toplantı serisi '%{title}' %{actor}tarafından iptal edildi veya katılımcı olarak çıkarıldınız
         summary: "'%{title}' %{actor}tarafından iptal edildi veya katılımcı olarak çıkarıldınız"
         date_time: Planlanan tarih/saat
-      participant_added:
-        header: Toplantı '%{title}' - Katılımcı eklendi
-        header_series: Toplantı serisi '%{title}' - Katılımcı eklendi
-        summary: "%{actor} toplantıya %{participant} eklendi '%{title}'"
-        summary_series: "%{actor} '%{title}' toplantı serisine %{participant} eklendi"
-      participant_removed:
-        header: Toplantı '%{title}' - Katılımcı kaldırıldı
-        header_series: Toplantı serisi '%{title}' - Katılımcı kaldırıldı
-        summary: "%{actor} %{participant} adresini toplantıdan kaldırdı '%{title}'"
-        summary_series: "%{actor} %{participant} adresini '%{title}' toplantı serisinden kaldırdı"
       ended:
         header_series: 'Sona erdi: Toplantı serisi ''%{title}'''
         summary_series: "'%{title}' toplantısı serisi %{actor} tarafından sonlandırıldı."
@@ -295,6 +291,8 @@ tr:
         new_date_time: Yeni tarih/saat
         old_location: Eski konum
         new_location: Yeni konum
+        added_participants: Eklendi
+        removed_participants: Kaldırıldı
     label_mail_all_participants: Katılımcılara e-posta daveti gönder
     types:
       one_time: Tek seferlik
@@ -311,7 +309,7 @@ tr:
 
           '
         template:
-          title: Delete template
+          title: Şablonu sil
           heading: Delete this template?
           confirmation_message_html: 'This action is not reversible. Please proceed with caution. Existing meetings that were created using this template will not be affected.
 
@@ -323,6 +321,13 @@ tr:
 
           '
         confirm_button: Bu toplantıyı iptal et
+      occurrence_past:
+        title: Delete occurrence
+        heading: Delete this occurrence?
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        confirm_button: Delete occurrence
     blankslate:
       title: Gösterilecek toplantı yok
       desc: Yeni bir toplantı oluşturabilir veya filtre kriterlerini değiştirebilirsiniz
@@ -369,56 +374,22 @@ tr:
         caption: Bu metin her sayfada altbilginin ortasında görünecektir.
       submit_button: İndir
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: E-posta takvim güncellemeleri
         description:
-          disabled: Katılımcılara değişiklikleri bildiren bir e-posta gönderilmeyecektir.
-          enabled: Tüm katılımcılar, değişiklikleri bildiren güncellenmiş takvim davetiyelerini e-posta yoluyla alacaktır.
           change_via_template: Bunu değiştirmek için seri şablonunu düzenleyin.
       dialog:
         title:
           enable: E-posta takvim güncellemeleri etkinleştirilsin mi?
           disable: E-posta takvim güncellemeleri devre dışı bırakılsın mı?
         message:
-          enable: 'Toplantı tarihi, saati, konumu veya katılımcılarında herhangi bir değişiklik olduğunda, tüm katılımcılara e-posta yoluyla güncellenmiş takvim davetleri gönderilir. Bu özellik etkinleştirildiğinde, tüm katılımcılara anında bir e-posta gönderilir.
-
-            '
-          disable: 'Toplantı tarihi, saati, yeri veya katılımcılarında değişiklik olduğunda katılımcılar artık e-posta yoluyla güncellenmiş takvim davetleri almayacaktır. Bu toplantı için zaten bir davetleri varsa, artık doğru olmayabilir.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: E-posta güncellemelerini etkinleştir
           disable: E-posta güncellemelerini devre dışı bırak
-      banner:
-        participants:
-          enabled: 'Katılımcı eklediğinizde veya çıkardığınızda tüm katılımcılar e-posta yoluyla güncellenmiş takvim davetiyeleri alacaktır.
-
-            '
-          disabled: 'E-posta takvim güncellemeleri devre dışı bırakılmıştır. Katılımcılar, katılımcı eklediğinizde veya çıkardığınızda onları bilgilendiren bir e-posta almayacaktır.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'Katılımcı eklediğinizde veya çıkardığınızda tüm katılımcılar e-posta yoluyla güncellenmiş takvim davetiyeleri alacaktır.
-
-            '
-          disabled: 'Katılımcılara toplantı tarihi, saati veya katılımcılarla ilgili değişiklikleri bildiren bir e-posta gönderilmeyecektir.
-
-            '
-        occurrence:
-          enabled: ''
-          disabled: 'Toplantı serisi için e-posta takvimi güncellemeleri devre dışı bırakılmıştır. Katılımcılar, bu olayda yaptığınız değişiklikleri bildiren bir e-posta almayacaktır.
-
-            '
-        template:
-          enabled: 'Toplantı serisi için e-posta takvimi güncellemeleri etkinleştirilmiştir. Tüm katılımcılar, bu şablonda veya münferit olaylarda yaptığınız değişiklikleri bildiren güncellenmiş takvim davetiyeleri alacaktır.
-
-            '
-          disabled: 'Toplantı serisi için e-posta takvimi güncellemeleri devre dışı bırakılmıştır. Katılımcılar, bu şablonda veya münferit olaylarda yaptığınız değişiklikleri bildiren bir e-posta almayacaktır.
-
-            '
     presentation_mode:
       title: Sunum modu
       button_present: Sunumu başlat
@@ -435,7 +406,7 @@ tr:
     widgets:
       blankslate:
         heading: No upcoming meetings
-        description: Upcoming meetings where you are the organizer or a participant will appear here.
+        description: Upcoming meetings you are participating in will appear here.
       view_details: View all meetings
   meeting_section:
     untitled_title: İsimsiz bölüm
@@ -487,18 +458,42 @@ tr:
       x_weekly:
         one: Her hafta
         other: Her %{count} haftada bir
+      x_monthly:
+        one: Her ay
+        other: Her %{count} ayında
+      monthly_day_of_month: Ayın günü
+      monthly_nth_weekday: Monthly on a weekday
       every_weekday: Her %{day_of_the_week}
       working_days: Her iş günü
+    monthly:
+      inflected_ordinal:
+        first: ilk
+        second: ikinci
+        third: third
+        fourth: fourth
+        last: last
+      ordinal_options:
+        first: First
+        second: Second
+        third: Third
+        fourth: Fourth
+        last: Last
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     end_after:
-      never: hiçbir zaman
-      specific_date: belirli bir tarihten sonra
-      iterations: birkaç tekrardan sonra
+      never: Never
+      specific_date: After a specific date
+      iterations: After a number of occurrences
     starts: Başlama zamanı
     in_words:
       daily_interval: Her %{interval} günde
       working_days: Her iş günü
       weekly: Her hafta %{weekday} günü
       weekly_interval: Her %{interval} haftada bir %{weekday} günleri
+      monthly_day: Every month on the %{day}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
       frequency: "%{base} ve %{time}"
       full: "%{base} %{time} saatinde, %{end_date} tarihinde sona erdi"
       full_past: "%{base} %{time} saatinde, %{end_date} tarihinde sona erer"
@@ -601,6 +596,7 @@ tr:
   label_agenda_item_duplicate_in_next_title: Bir sonraki toplantıda tekrarlansın mı?
   label_agenda_item_add_notes: Not ekle
   label_agenda_item_add_outcome: Sonuç ekle
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: İş paketi ekle
   label_agenda_item_work_package: Gündem maddesinin iş parçası
   label_section_rename: Seçimi yeniden adlandır

@@ -33,6 +33,7 @@ module My
     class ListComponent < ApplicationComponent
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include My::TimeTrackingHelper
 
       options time_entries: [],
               mode: :week,
@@ -67,7 +68,7 @@ module My
 
       def date_title(date)
         if mode == :month
-          I18n.t(:label_specific_week, week: week_number(date))
+          week_date_range(date)
         else
           I18n.l(date, format: "%A %d")
         end
@@ -82,13 +83,6 @@ module My
         date.all_month.map(&:beginning_of_week).uniq
       end
 
-      def week_number(date)
-        if Setting.start_of_week == 1 # monday
-          I18n.l(date, format: "%W")
-        else # 6 saturday, 7 sunday
-          I18n.l(date, format: "%U")
-        end
-      end
 
       def week_start_day
         case Setting.start_of_week

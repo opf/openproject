@@ -6,7 +6,7 @@ uk:
     description: Цей плагін OpenProject упроваджує функції BIM і BCF.
   bim:
     label_bim: BIM
-    error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_failed: Не вдалося виконати пряме завантаження.
   bcf:
     label_bcf: BCF
     label_imported_failed: Не вдалося імпортувати BFC теми
@@ -73,6 +73,9 @@ uk:
   project_module_bim: BCF
   permission_view_linked_issues: Проглянути BCF помилки
   permission_manage_bcf: Імпорт помилок BCF і керування ними
+  permission_manage_bcf_explanation: |
+    Дозволяє керувати помилками BCF, зокрема виконувати масовий імпорт і оновлення.
+    BCF імпортує метадані файлів карт у ресурси проєктів і може створювати й оновлювати пакети робіт, а також коментарі, використовуючи значення автора й мітки часу з імпортованого файлу, фактично діючи від імені користувачів.
   permission_delete_bcf: Видалити помилки BCF
   oauth:
     scopes:

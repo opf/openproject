@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module MyPage
   class GridRegistration < ::Grids::Configuration::Registration
     grid_class "Grids::MyPage"

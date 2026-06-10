@@ -51,7 +51,7 @@ pt-BR:
   text_github_webhook_secret_missing_warning: 'Não há nenhum segredo de webhook configurado. Qualquer solicitação enviada ao ponto de extremidade do webhook do GitHub será aceita sem verificação, o que pode permitir que pessoas não autorizadas falsifiquem eventos. É altamente recomendável definir um segredo.
 
     '
-  text_github_webhook_secret_info: 'Um token secreto compartilhado com o GitHub durante a configuração do webhook. Quando definido, o OpenProject verifica o cabeçalho X-Hub-Signature-256 em todas as solicitações recebidas, rejeitando as cargas que não corresponderem. Deixe em branco para ignorar a verificação (não recomendado).
+  text_github_webhook_secret_info: 'Um token secreto compartilhado com o GitHub ao configurar o webhook. Quando definido, o OpenProject verifica o cabeçalho X-Hub-Signature-256 em cada solicitação recebida, rejeitando cargas úteis que não correspondam. Deixe em branco para ignorar a verificação (não recomendado).
 
     '
   plugin_openproject_github_integration:

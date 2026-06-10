@@ -32,6 +32,8 @@ module Import
   class JiraUser < ApplicationRecord
     self.table_name = "jira_users"
 
+    FALLBACK_NAME_KEY = "admin.jira.user.unknown_name"
+
     belongs_to :jira, class_name: "Import::Jira"
     belongs_to :jira_import, class_name: "Import::JiraImport"
 
@@ -40,8 +42,8 @@ module Import
       {
         login: payload["name"],
         password: OpenProject::Passwords::Generator.random_password,
-        firstname:,
-        lastname:,
+        firstname: firstname.presence || I18n.t(FALLBACK_NAME_KEY),
+        lastname: lastname.presence || I18n.t(FALLBACK_NAME_KEY),
         mail: payload["emailAddress"],
         status: :locked
       }
@@ -56,8 +58,12 @@ module Import
 
     private
 
+    def sanitize_name(name)
+      name.gsub(User::INVALID_NAME_REGEX, "").strip
+    end
+
     def split_display_name(display_name)
-      parts = display_name.split
+      parts = sanitize_name(display_name).split
       parts.length > 1 ? [parts[0..-2].join(" "), parts[-1]] : [parts[0], parts[0]]
     end
   end

@@ -140,6 +140,10 @@ $widget-box--enumeration-width: 20px
       overflow-y: auto
       @include styled-scroll-bar
 
+  &.op-widget-box--empty
+    align-items: center
+    justify-content: center
+
   // styles specific to the custom-text widget
   &.-custom-text
     a.inplace-editing--trigger-link
@@ -216,6 +220,11 @@ $widget-box--enumeration-width: 20px
   &:last-of-type
     border-bottom-right-radius: var(--borderRadius-medium)
     border-bottom-left-radius: var(--borderRadius-medium)
+
+.op-widget-box--footer
+  margin-top: auto
+  padding: var(--stack-padding-normal)
+  border-top: var(--borderWidth-thin) solid var(--borderColor-muted)
 
 .widget-box--arrow-links
   list-style: none

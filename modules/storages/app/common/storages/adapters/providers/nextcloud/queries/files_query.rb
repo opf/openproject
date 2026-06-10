@@ -88,7 +88,7 @@ module Storages
                 last = list.last
                 prefix = last.nil? || last.location[-1] != "/" ? "/" : ""
                 location = "#{last&.location}#{prefix}#{item}"
-                list.append(forge_ancestor(CGI.unescape(location)))
+                list.append(forge_ancestor(location))
               end
             end
 
@@ -99,7 +99,7 @@ module Storages
             end
 
             def name(location)
-              location == "/" ? "Root" : CGI.unescape(location.split("/").last)
+              location == "/" ? "Root" : location.split("/").last
             end
 
             def storage_file_transformer

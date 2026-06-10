@@ -28,7 +28,7 @@ fr:
     gitlab_avatar_url: URL de l'avatar
     gitlab_email: E-mail GitLab
     gitlab_html_url: URL HTML GitLab
-    gitlab_merge_request: Demande de fusion
+    gitlab_merge_request: Requête de fusion
     gitlab_name: Nom GitLab
     gitlab_updated_at: Mise à jour à
     gitlab_user_avatar_url: URL d'avatar GitLab
@@ -64,19 +64,19 @@ fr:
   project_module_gitlab: GitLab
   permission_show_gitlab_content: Afficher le contenu GitLab
   gitlab_integration:
-    merge_request_opened_comment: "**MR ouverte :** La demande de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été ouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_closed_comment: "**MR fermée :** La demande de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fermée par [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_merged_comment: "**MR fusionnée :** La demande de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fusionnée par [%{gitlab_user}](%{gitlab_user_url}).\n"
-    merge_request_reopened_comment: "**MR rouverte :** La demande de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été rouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_opened_comment: "**MR ouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été ouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_closed_comment: "**MR fermée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fermée par [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_merged_comment: "**MR fusionnée :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été fusionnée par [%{gitlab_user}](%{gitlab_user_url}).\n"
+    merge_request_reopened_comment: "**MR rouverte :** La requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) pour [%{repository}](%{repository_url}) a été rouverte par [%{gitlab_user}](%{gitlab_user_url}).\n"
     note_commit_referenced_comment: "**Mentionné dans un commit :** [%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans une note de commit [%{commit_id}](%{commit_url}) sur [%{repository}](%{repository_url}) : %{commit_note}\n"
     note_mr_referenced_comment: "**Mentionné dans une MR :**[%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans la demande de fusion %{mr_number} [%{mr_title}](%{mr_url}) sur [%{repository}](%{repository_url}) : %{mr_note}\n"
-    note_mr_commented_comment: "**Commentaire dans une MR :**[%{gitlab_user}](%{gitlab_user_url}) a commenté ce WP dans la demande de fusion %{mr_number} [%{mr_title}](%{mr_url}) sur [%{repository}](%{repository_url}) : %{mr_note}\n"
-    note_issue_referenced_comment: "**Mentionné dans un problème :**[%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans le problème %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
-    note_issue_commented_comment: "**Commentaire dans un problème :**[%{gitlab_user}](%{gitlab_user_url}) a commenté ce WP dans le problème %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
+    note_mr_commented_comment: "**Commentaire dans une MR :**[%{gitlab_user}](%{gitlab_user_url}) a commenté ce WP dans la requête de fusion %{mr_number} [%{mr_title}](%{mr_url}) sur [%{repository}](%{repository_url}) : %{mr_note}\n"
+    note_issue_referenced_comment: "**Mentionné dans un ticket :**[%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans le ticket %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
+    note_issue_commented_comment: "**Commentaire dans un ticket :**[%{gitlab_user}](%{gitlab_user_url}) a commenté ce WP dans le ticket %{issue_number} [%{issue_title}](%{issue_url}) sur [%{repository}](%{repository_url}) : %{issue_note}\n"
     note_snippet_referenced_comment: "**Mentionné dans un extrait :**[%{gitlab_user}](%{gitlab_user_url}) a mentionné ce WP dans l'extrait %{snippet_number} [%{snippet_title}](%{snippet_url}) sur [%{repository}](%{repository_url}) : %{snippet_note}\n"
-    issue_opened_referenced_comment: "**Problème ouvert :** Le problème %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été ouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_closed_referenced_comment: "**Problème fermé :** Le problème %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été fermé par [%{gitlab_user}](%{gitlab_user_url}).\n"
-    issue_reopened_referenced_comment: "**Problème rouvert :** Le problème %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été rouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_opened_referenced_comment: "**Ticket ouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été ouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_closed_referenced_comment: "**Ticket fermé :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été fermé par [%{gitlab_user}](%{gitlab_user_url}).\n"
+    issue_reopened_referenced_comment: "**Ticket rouvert :** Le ticket %{issue_number} [%{issue_title}](%{issue_url}) pour [%{repository}](%{repository_url}) a été rouvert par [%{gitlab_user}](%{gitlab_user_url}).\n"
     push_single_commit_comment: "**Push en MR :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}\n"
     push_single_commit_comment_with_ref: "**Push dans %{reference} :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}\n"
     push_multiple_commits_comment: "**Push en MR :** [%{gitlab_user}](%{gitlab_user_url}) a fait un push de plusieurs commits [%{commit_number}](%{commit_url}) vers [%{repository}](%{repository_url}) à %{commit_timestamp} : %{commit_note}\n"

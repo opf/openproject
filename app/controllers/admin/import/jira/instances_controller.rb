@@ -129,12 +129,15 @@ module Admin::Import::Jira
 
     def handle_test_error(error)
       message = case error
+                when Import::JiraClient::SsrfError
+                  link_translate("admin.jira.client.ssrf_block_doc_link",
+                                 links: { docs_url: %i[sysadmin_docs ssrf_protection] }).prepend("#{error.message} ")
                 when Import::JiraClient::ConnectionError then t(:"admin.jira.test.connection_error", message: error.message)
                 when Import::JiraClient::ParseError then t(:"admin.jira.test.parse_error")
                 when Import::JiraClient::ApiError then t(:"admin.jira.test.api_error", status: error.status)
                 else
                   Rails.logger.error("Unexpected error testing Jira configuration: #{error.class} - #{error.message}")
-                  t(:"admin.jira.test.error")
+                  "#{t(:"admin.jira.test.error")}: #{error.message}"
                 end
       render_error_flash_message_via_turbo_stream(message:)
     end

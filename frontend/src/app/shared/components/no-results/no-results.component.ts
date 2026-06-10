@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostBinding, Input, inject } from '@angular/core';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
 
@@ -37,6 +37,8 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   standalone: false,
 })
 export class NoResultsComponent {
+  readonly elementRef = inject(ElementRef);
+
   @Input() title:string;
 
   @Input() description:string;
@@ -45,9 +47,7 @@ export class NoResultsComponent {
 
   @HostBinding('class.generic-table--no-results-container') setHostClass = true;
 
-  constructor(
-    readonly elementRef:ElementRef,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 }

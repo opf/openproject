@@ -98,6 +98,12 @@ module API
 
         property :frequency
 
+        property :monthly_day
+
+        property :monthly_ordinal
+
+        property :monthly_weekday
+
         property :interval
 
         property :end_after

@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, Output, inject } from '@angular/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -54,23 +46,21 @@ import { WorkPackageViewFiltersService } from 'core-app/features/work-packages/r
   standalone: false,
 })
 export class AddAssigneeComponent {
+  protected elementRef = inject(ElementRef);
+  protected halResourceService = inject(HalResourceService);
+  protected I18n = inject(I18nService);
+  protected halNotification = inject(HalResourceNotificationService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly injector = inject(Injector);
+  readonly currentProjectService = inject(CurrentProjectService);
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+
   @Output() public selectAssignee = new EventEmitter<HalResource>();
 
   @Input() alreadySelected:string[] = [];
 
   public getOptionsFn = (query:string):Observable<unknown[]> => this.autocomplete(query);
-
-  constructor(
-    protected elementRef:ElementRef,
-    protected halResourceService:HalResourceService,
-    protected I18n:I18nService,
-    protected halNotification:HalResourceNotificationService,
-    readonly pathHelper:PathHelperService,
-    readonly apiV3Service:ApiV3Service,
-    readonly injector:Injector,
-    readonly currentProjectService:CurrentProjectService,
-    readonly wpTableFilters:WorkPackageViewFiltersService,
-  ) { }
 
   public autocomplete(term:string|null):Observable<HalResource[]> {
     const filters = new ApiV3FilterBuilder();

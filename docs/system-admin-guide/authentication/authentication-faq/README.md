@@ -52,7 +52,7 @@ For context: The connection of custom SSO providers is also described [here](../
 ## I want to connect AD and LDAP to OpenProject. Which attribute for authentication sources does OpenProject use?
 
 You can freely define the attributes that are taken from LDAP sources [in the LDAP auth source configuration screen](../ldap-connections/).
-For group synchronization, OpenProject supports the AD/LDAP standard for groups via "member / memberOf". The attribute cannot be configured at this time.
+For group synchronization, OpenProject defaults to reverse lookup via the `memberOf` attribute on user entries (Active Directory, OpenLDAP with memberof overlay). If your LDAP server does not maintain `memberOf` on user entries, you can configure forward lookup by setting the **Group member attribute** on a synchronized filter (e.g. `uniqueMember` for `groupOfUniqueNames`, or `member` for `groupOfNames`). See [LDAP group synchronization](../ldap-connections/ldap-group-synchronization/) for details.
 
 ## Is there an option to mass-create users in OpenProject via the LDAP?
 

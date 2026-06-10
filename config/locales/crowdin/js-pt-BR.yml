@@ -202,16 +202,7 @@ pt-BR:
           text: "[Marcador de posição] Calendário embutido"
     admin:
       type_form:
-        custom_field: Campo personalizado
-        inactive: Inativo
-        drag_to_activate: Arraste campos daqui para ativá-los
-        add_group: Adicionar grupo de atributo
-        add_table: Adicionar tabela de pacotes de trabalho relacionados
         edit_query: Editar consulta
-        new_group: Novo grupo
-        delete_group: Excluir grupo
-        remove_attribute: Remover do grupo
-        reset_to_defaults: Voltar à configuração original
       working_days:
         calendar:
           empty_state_header: Dias não úteis
@@ -219,13 +210,6 @@ pt-BR:
           new_date: "(novo)"
         add_non_working_day: Dia não útil
         already_added_error: Já existe um dia não útil para esta data. Só pode haver um dia não útil criado para cada data única.
-        change_button: Salvar e reagendar
-        change_title: Alterar dias úteis
-        removed_title: 'Você removerá os seguintes dias da lista de dias não úteis:'
-        change_description: Alterar quais dias da semana são considerados dias úteis ou não úteis pode afetar as datas de início e término de todos os pacotes de trabalho e ciclos de vida em todos os projetos desta instância.
-        warning: 'As alterações podem levar algum tempo para entrar em vigor. Você será notificado quando todos os pacotes de trabalho e ciclos de vida dos projetos relevantes forem atualizados. Tem certeza de que deseja continuar?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Alterar o modo de cálculo de progresso de baseado em status para baseado em trabalho tornará o campo <i>% de conclusão</i> editável livremente. Se você optar por inserir valores para <i>Trabalho</i> ou <i>Trabalho restante</i>, eles também estarão vinculados ao <i>% de conclusão</i>. Alterar <i>Trabalho restante</i> pode, então, atualizar <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Alterar o modo de cálculo do progresso de "baseado em trabalho" para "baseado em status" resultará na perda de todos os valores existentes de <i>% de conclusão</i>, que serão substituídos pelos valores associados a cada status. Os valores existentes de <i>Trabalho restante</i> também podem ser recalculados para refletir essa mudança. Essa ação é irreversível.
@@ -418,7 +402,6 @@ pt-BR:
     label_per_page: 'Por página:'
     label_please_wait: Por favor, aguarde
     label_project: Projeto
-    label_project_list: Listas de projeto
     label_project_plural: Projetos
     label_visibility_settings: Configurações de visibilidade
     label_quote_comment: Citar este comentário
@@ -505,7 +488,7 @@ pt-BR:
       show_modal: Exibir texto de ajuda
     onboarding:
       buttons:
-        skip: Pular
+        skip: Ignorar
         next: Próxima
         got_it: Entendi
       steps:
@@ -520,7 +503,7 @@ pt-BR:
           lists_kanban: Aqui você pode criar várias listas (colunas) dentro do seu painel. Este recurso permite que você crie um <b>Quadro Kanban</b>, por exemplo.
           lists_basic: Aqui você pode criar várias listas (colunas) em seu quadro ágil.
           add: Clique no ícone mais (+) para <b>criar um novo cartão</b> ou <b>adicionar um cartão existente</b> à lista no quadro.
-          drag: Arraste e solte suas cartas dentro de uma determinada lista para reordená-las, ou para movê-las para outra lista. <br> Você pode clicar no ícone informativo (i) no canto superior direito ou clicar duas vezes em um cartão para abrir seus detalhes.
+          drag: Arraste e solte seus cartões dentro de uma lista para reordená-los ou movê-los para outra lista. <br> Você pode clicar no ícone de informações (i) no canto superior direito ou clicar duas vezes em um cartão para abrir seus detalhes.
         wp:
           toggler: Agora vamos dar uma olhada na seção <b>pacote de trabalho</b> , que permitirá que você tenha uma visão mais detalhada de seu trabalho.
           list: Esta visão geral do pacote <b>de trabalho</b> fornece uma lista de todo o trabalho em seu projeto, como tarefas, marcos, fases e muito mais. <br> Os pacotes de trabalho podem ser criados e editados diretamente nesta visualização. Para acessar os detalhes de um determinado pacote de trabalho, basta clicar duas vezes na sua linha.
@@ -541,8 +524,8 @@ pt-BR:
       reasons:
         mentioned: Mencionado
         watched: Observador
-        assigned: Cessionário
-        responsible: Responsável
+        assigned: Responsável
+        responsible: Encarregado
         created: Criado
         scheduled: Planejado
         commented: Comentado
@@ -588,7 +571,7 @@ pt-BR:
         title: Configurações de notificação
     pagination:
       no_other_page: Você está na página única.
-      pages_skipped: Páginas puladas.
+      pages_skipped: Páginas ignoradas.
       page_navigation: Navegação de página
       per_page_navigation: Itens por seleção de página
       pages:
@@ -614,18 +597,6 @@ pt-BR:
     breadcrumb: Trilha de navegação
     text_data_lost: Todos os dados inseridos serão perdidos.
     text_user_wrote: "%{value} escreveu:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: O nome %{group} foi usado mais de uma vez. Nomes de Grupos devem ser únicos.
-        error_no_table_configured: Por favor, configure uma tabela para %{group}.
-        reset_title: Voltar para a configuração padrão do formulário
-        confirm_reset: 'Aviso: Tem certeza de que deseja redefinir a configuração de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar TODOS os campos personalizados.
-
-          '
-        upgrade_to_ee: Atualizar para a edição Enterprise local
-        upgrade_to_ee_text: Uau! Se você precisa deste complemento, é porque é um super profissional! Gostaria de mostrar seu suporte aos desenvolvedores de código aberto tornando-se um cliente da edição Enterprise?
-        more_information: Mais informações
-        nevermind: Deixa pra lá
     time_entry:
       work_package_required: É necessário selecionar primeiro um pacote de trabalho.
       title: Registro de tempo
@@ -854,9 +825,9 @@ pt-BR:
         shared_with_me: Compartilhados comigo
       jump_marks:
         pagination: Pular para a tabela de paginação
-        label_pagination: Clique aqui para pular a tabela de pacotes de trabalho e ir para a paginação
+        label_pagination: Clique aqui para ignorar a tabela de pacotes de trabalho e ir para a paginação
         content: Pular para o conteúdo
-        label_content: Clique aqui para pular o menu e ir para o conteúdo
+        label_content: Clique aqui para ignorar o menu e ir para o conteúdo
       placeholders:
         default: "-"
         date: Selecionar data
@@ -1074,16 +1045,13 @@ pt-BR:
         all: Todos os projetos
         selected: Somente selecionados
       search_placeholder: Buscar projetos...
-      search_placeholder_favorites: Pesquisar favoritos...
       include_subprojects: Incluir todos os subprojetos
       tooltip:
         include_all_selected: Como a opção Incluir todos os sub-projetos está habilitada, o projeto já foi incluído.
         current_project: Este é o projeto atual em que você está.
         does_not_match_search: O projeto não corresponde ao critério de pesquisa
       no_results: Nenhum projeto corresponde ao seu critério de busca.
-      no_favorite_results: Nenhum projeto favorito corresponde aos seus critérios de busca.
     include_workspaces:
-      search_placeholder: Pesquisar...
       types:
         program: Programa
         portfolio: Portfólio

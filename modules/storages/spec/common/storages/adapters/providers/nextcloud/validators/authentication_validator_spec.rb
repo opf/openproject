@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          RSpec.describe AuthenticationValidator, :webmock do
+          RSpec.describe AuthenticationValidator, :disable_ssrf_filter, :webmock do
             subject(:validator) { described_class.new(storage) }
 
             context "when using OAuth2" do

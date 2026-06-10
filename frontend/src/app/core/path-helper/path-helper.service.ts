@@ -472,4 +472,11 @@ export class PathHelperService {
   public externalRedirectPath(url:string) {
     return `${this.staticBase}/external_redirect?url=${encodeURIComponent(url)}`;
   }
+
+  public wikiPageLinkMacro(providerId:string, pageIdentifier:string, turboFrameId:string) {
+    const providerIdQuery = `provider_id=${encodeURIComponent(providerId)}`;
+    const pageIdentifierQuery = `page_identifier=${encodeURIComponent(pageIdentifier)}`;
+    const frameIdQuery = `turbo_frame_id=${encodeURIComponent(turboFrameId)}`;
+    return `${this.staticBase}/wiki_page_link_macro/load?${providerIdQuery}&${pageIdentifierQuery}&${frameIdQuery}`;
+  }
 }

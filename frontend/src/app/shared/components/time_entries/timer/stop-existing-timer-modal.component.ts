@@ -26,19 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Inject,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { ChangeDetectionStrategy, Component, HostBinding, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import {
   Observable,
@@ -59,6 +48,9 @@ import { StateService } from '@uirouter/core';
   standalone: false,
 })
 export class StopExistingTimerModalComponent extends OpModalComponent implements OnInit {
+  readonly state = inject(StateService);
+  readonly I18n = inject(I18nService);
+
   @HostBinding('class.op-timer-stop-modal') className = true;
 
   public active:TimeEntryResource;
@@ -79,16 +71,6 @@ export class StopExistingTimerModalComponent extends OpModalComponent implements
     timer_already_running: this.I18n.t('js.timer.timer_already_running'),
     tracking_time: this.I18n.t('js.timer.tracking_time'),
   };
-
-  constructor(
-    readonly elementRef:ElementRef,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly cdRef:ChangeDetectorRef,
-    readonly state:StateService,
-    readonly I18n:I18nService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
 
   ngOnInit() {
     super.ngOnInit();

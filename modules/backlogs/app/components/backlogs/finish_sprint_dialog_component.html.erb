@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
 
     d.with_body do
       primer_form_with(
-        url: finish_project_backlogs_sprint_path(project, sprint),
+        url: finish_project_backlogs_sprint_path(project, sprint, all_backlogs_params),
         method: :post,
         id: FORM_ID,
         data: { controller: "show-when-value-selected" }

@@ -34,13 +34,19 @@ module Pages
   module Admin
     module Users
       class Index < ::Pages::Page
+        include ::Components::Common::Filters
+
         def path
           "/users"
         end
 
         def expect_listed(*users)
-          rows = page.all "td.username a", count: users.count
-          expect(rows.map(&:text)).to include(*users.map(&:login))
+          # Wait for each expected user to appear (have_css auto-waits, page.all does not),
+          # then assert the total row count to catch unexpected extras.
+          users.each do |user|
+            expect(page).to have_css("td.username a", text: user.login)
+          end
+          expect(page).to have_css("td.username a", count: users.count)
         end
 
         def expect_order(*users)
@@ -56,29 +62,79 @@ module Pages
             .to have_css("tr.generic-table--empty-row", text: "There is currently nothing to display.")
         end
 
+        def expect_not_listed(*users)
+          users.each do |user|
+            expect(page).to have_no_css("td.username a", text: user.login)
+          end
+        end
+
         def expect_user_locked(user)
           expect(page)
             .to have_css("tr.user.locked td.username", text: user.login)
         end
 
         def filter_by_status(value)
-          select value, from: "Status:"
-          click_button "Apply"
+          open_filter_panel
+          unless page.has_css?(".advanced-filters--filter[data-filter-name='status']")
+            select "Status", from: "add_filter_select"
+          end
+          within(".advanced-filters--filter[data-filter-name='status']") do
+            set_autocomplete_filter([value])
+          end
 
           wait_for_network_idle
         end
 
         def filter_by_name(value)
-          fill_in "Name", with: value
-          click_button "Apply"
+          fill_in "Search", with: value
 
           wait_for_network_idle
         end
 
-        def clear_filters
-          click_link "Clear"
+        def filter_by_group(value)
+          open_filter_panel
+          unless page.has_css?(".advanced-filters--filter[data-filter-name='group']:not([hidden])")
+            select "Group", from: "add_filter_select"
+          end
+
+          within_filter("group") do
+            select_autocomplete find('[data-filter-autocomplete="true"]'),
+                                query: value,
+                                results_selector: "body"
+          end
 
           wait_for_network_idle
+        end
+
+        def expect_group_filter(value)
+          open_filter_panel
+
+          within_filter("group") do
+            expect_current_autocompleter_value find('[data-filter-autocomplete="true"]'), value
+          end
+        end
+
+        def clear_filters
+          find_by_id("user-filters-form-clear-button").click
+
+          wait_for_network_idle
+        end
+
+        def open_filter_panel
+          return if filter_panel_open?
+
+          find("[data-test-selector='filter-component-toggle']").click
+          # Wait for the toggle's Stimulus action to actually expand the panel —
+          # otherwise subsequent selectors run against still-collapsed (hidden) UI.
+          expect(page).to have_css(".op-filters-form.-expanded")
+        end
+
+        def filter_panel_open?
+          page.has_css?(".op-filters-form.-expanded", wait: 0)
+        end
+
+        def within_filter(name, &)
+          within(".advanced-filters--filter[data-filter-name='#{name}']:not([hidden])", &)
         end
 
         def order_by(key)

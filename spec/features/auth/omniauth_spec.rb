@@ -90,7 +90,7 @@ RSpec.describe "Omniauth authentication" do
     end
 
     context "with direct login",
-            with_config: { omniauth_direct_login_provider: "developer" } do
+            with_settings: { omniauth_direct_login_provider: "developer" } do
       it "goes directly to the developer sign in and then redirect to the back url" do
         visit my_account_path
         # requires login, redirects to developer login which is why we see the login form now
@@ -110,7 +110,7 @@ RSpec.describe "Omniauth authentication" do
   end
 
   describe "sign out a user with direct login and login required",
-           with_config: { omniauth_direct_login_provider: "developer", login_required: true } do
+           with_settings: { omniauth_direct_login_provider: "developer", login_required: true } do
     it "shows a notice that the user has been logged out" do
       visit signout_path
 
@@ -217,13 +217,29 @@ RSpec.describe "Omniauth authentication" do
     end
 
     context "with direct login enabled and login required",
-            with_config: { omniauth_direct_login_provider: "developer" } do
-      before do
-        allow(Setting).to receive(:login_required?).and_return(true)
-      end
-
+            with_settings: { omniauth_direct_login_provider: "developer", login_required: true } do
       it_behaves_like "registration with registration by email" do
         let(:login_path) { "/auth/developer" }
+      end
+
+      context "when authorizing an external OAuth app" do
+        let(:oauth_client) { create(:oauth_application, redirect_uri: "https://rp.example.com/callback") }
+
+        it "logs in and registers successfully" do
+          visit oauth_authorization_path(
+            client_id: oauth_client.uid,
+            redirect_uri: oauth_client.redirect_uri,
+            response_type: "code",
+            prompt: "login"
+          )
+
+          SeleniumHubWaiter.wait
+          fill_in "email", with: user.mail # login form developer strategy
+
+          click_link_or_button "Sign In"
+
+          expect(page).to have_current_path(oauth_authorization_path, ignore_query: true)
+        end
       end
     end
   end
@@ -255,11 +271,7 @@ RSpec.describe "Omniauth authentication" do
     end
 
     context "with direct login and login required",
-            with_config: { omniauth_direct_login_provider: "developer" } do
-      before do
-        allow(Setting).to receive(:login_required?).and_return(true)
-      end
-
+            with_settings: { omniauth_direct_login_provider: "developer", login_required: true } do
       it_behaves_like "omniauth signin error" do
         let(:login_path) { signin_path }
         let(:instructions) { "You can try to sign in again by clicking" }

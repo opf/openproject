@@ -29,15 +29,8 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
+import type { FrameElement, TurboBeforeFrameRenderEvent } from '@hotwired/turbo';
 import { Idiomorph } from 'idiomorph';
-
-interface TurboBeforeFrameRenderEventDetail {
-  render:(currentElement:HTMLElement, newElement:HTMLElement) => void;
-}
-
-interface HTMLTurboFrameElement extends HTMLElement {
-  src:string;
-}
 
 export abstract class DialogPreviewController extends Controller {
   static targets = [
@@ -52,7 +45,7 @@ export abstract class DialogPreviewController extends Controller {
   declare readonly initialValueInputTargets:HTMLInputElement[];
   declare readonly touchedFieldInputTargets:HTMLInputElement[];
 
-  protected frameMorphRenderer:(event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => void;
+  protected frameMorphRenderer:(event:TurboBeforeFrameRenderEvent) => void;
   protected targetFieldName:string;
   protected touchedFields:Set<string>;
 
@@ -73,17 +66,17 @@ export abstract class DialogPreviewController extends Controller {
     // new ids, the ids referenced by `aria-describedby` are stale. This makes
     // caption and validation message unaccessible for screen readers and other
     // assistive technologies. This is why morph cannot be used here.
-    this.frameMorphRenderer = (event:CustomEvent<TurboBeforeFrameRenderEventDetail>) => {
-      const target = event.target as HTMLTurboFrameElement;
+    this.frameMorphRenderer = (event:TurboBeforeFrameRenderEvent) => {
+      const target = event.target as FrameElement;
       const requestUrl = new URL(target.src || '', window.location.origin);
       // Do not replace the angular datepicker unless the schedule_manually flag is changed.
       const schedulingChanged = requestUrl.searchParams.has('schedule_manually');
 
-      event.detail.render = (currentElement:HTMLElement, newElement:HTMLElement) => {
+      event.detail.render = (currentElement, newElement) => {
         Idiomorph.morph(currentElement, newElement, {
           ignoreActiveValue: this.ignoreActiveValueWhenMorphing(),
           callbacks: {
-            beforeNodeMorphed: (oldNode:Element, newNode:Element) => {
+            beforeNodeMorphed: (oldNode, newNode) => {
               // In case the element is an OpenProject custom dom element, prevent morphing and
               // replace the angular tag with the new version.
               if (oldNode.tagName?.startsWith('OPCE-')) {
@@ -106,15 +99,13 @@ export abstract class DialogPreviewController extends Controller {
       }
     });
 
-    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
-    turboFrame.addEventListener('turbo:before-frame-render', this.frameMorphRenderer);
+    const turboFrame = this.formTarget.closest('turbo-frame');
+    turboFrame?.addEventListener('turbo:before-frame-render', this.frameMorphRenderer);
   }
 
   disconnect() {
-    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
-    if (turboFrame) {
-      turboFrame.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
-    }
+    const turboFrame = this.formTarget.closest('turbo-frame');
+    turboFrame?.removeEventListener('turbo:before-frame-render', this.frameMorphRenderer);
   }
 
   protected cancel():void {
@@ -147,7 +138,7 @@ export abstract class DialogPreviewController extends Controller {
     }
 
     const previewUrl = `${form.action}/preview?${new URLSearchParams(wpParams).toString()}`;
-    const turboFrame = this.formTarget.closest('turbo-frame') as HTMLTurboFrameElement;
+    const turboFrame = this.formTarget.closest('turbo-frame');
 
     if (turboFrame) {
       turboFrame.src = previewUrl;

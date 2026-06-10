@@ -36,6 +36,7 @@ vi:
         subject: Chủ đề
         type: Loại chi phí
         labor_budget: Chi phí lao động dự kiến
+        labor_budget_items: Planned labor costs
         material_budget: Chi phí đơn vị dự kiến
         base_amount: Số tiền cơ bản
       work_package:
@@ -48,6 +49,7 @@ vi:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Ngân sách
+      labor_budget_item: Planned labor cost
       material_budget_item: Đơn vị
   activity:
     filter:

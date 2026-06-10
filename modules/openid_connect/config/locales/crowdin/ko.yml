@@ -53,7 +53,7 @@ ko:
     delete_warning:
       input_delete_confirmation_html: 삭제를 확인하려면 공급자 이름 %{name}(을)를 입력하세요.
       irreversible_notice: SSO 공급자를 삭제하면 되돌릴 수 없습니다.
-      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'
+      provider_html: 'SSO 공급자 %{name}을(를) 삭제하시겠습니까? 이렇게 하면 다음과 같이 된다는 점에 유의하세요:'
       delete_result_1: 사용 가능한 공급자 목록에서 공급자를 제거합니다.
       delete_result_user_count:
         zero: 현재 이 공급자를 사용하는 사용자가 없습니다. 추가 조치가 필요하지 않습니다.
@@ -63,7 +63,7 @@ ko:
   openid_connect:
     menu_title: OpenID 공급자
     delete_title: OpenID Connect 공급자 삭제
-    delete_heading: Delete this OpenID Connect provider?
+    delete_heading: 이 OpenID Connect 공급자를 삭제하시겠습니까?
     group_links_heading: OpenID Connect 그룹 링크
     groups:
       match_preview_component:

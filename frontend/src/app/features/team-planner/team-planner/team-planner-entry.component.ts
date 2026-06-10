@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnDestroy, inject } from '@angular/core';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
@@ -16,7 +11,9 @@ import {
   standalone: false,
 })
 export class TeamPlannerEntryComponent implements OnDestroy {
-  constructor(readonly elementRef:ElementRef) {
+  readonly elementRef = inject(ElementRef);
+
+  constructor() {
     populateInputsFromDataset(this);
     document.body.classList.add('router--team-planner');
   }

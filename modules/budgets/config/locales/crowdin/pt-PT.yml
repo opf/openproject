@@ -36,6 +36,7 @@ pt-PT:
         subject: Assunto
         type: Tipo de custo
         labor_budget: Custos planeados do trabalho
+        labor_budget_items: Custos planeados do trabalho
         material_budget: Custos planeados da unidade
         base_amount: Valor base
       work_package:
@@ -48,6 +49,7 @@ pt-PT:
               not_a_member_of_budget_project: não é membro do projeto do orçamento
     models:
       budget: Orçamento
+      labor_budget_item: Custo planeado do trabalho
       material_budget_item: Unidade
   activity:
     filter:

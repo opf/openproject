@@ -1,92 +1,804 @@
 {
-  "id": "10100",
-  "key": "DYX-1",
-  "self": "https://jira-software.local/rest/api/2/issue/10100",
+  "id": "10405",
+  "key": "DPPP-6",
+  "self": "https://jira-dc.openproject.org/rest/api/2/issue/10405",
+  "expand": "operations,versionedRepresentations,editmeta,changelog,renderedFields",
   "fields": {
-    "summary": "Kanban cards represent work items",
-    "description": "*About Kanban*\n\nKanban is part of the Toyota Lean Manufacturing methodology.",
-    "created": "2026-02-04T09:51:03.000+0000",
-    "updated": "2026-03-10T12:00:59.000+0000",
-    "creator": {
-      "key": "JIRAUSER10000",
-      "name": "p.balashou",
-      "displayName": "Pavel Balashou",
-      "emailAddress": "p.balashou@openproject.com",
-      "active": true
+    "votes": {
+      "self": "https://jira-dc.openproject.org/rest/api/2/issue/DPPP-6/votes",
+      "votes": 0,
+      "hasVoted": false
     },
-    "assignee": {
-      "key": "JIRAUSER10000",
-      "name": "p.balashou",
-      "displayName": "Pavel Balashou",
-      "emailAddress": "p.balashou@openproject.com",
-      "active": true
-    },
-    "issuetype": {
-      "id": "10100",
-      "name": "Task",
-      "description": "A task that needs to be done.",
-      "subtask": false
-    },
+    "labels": [],
     "status": {
       "id": "3",
       "name": "In Progress",
-      "description": "This issue is being actively worked on."
-    },
-    "priority": {
-      "id": "1",
-      "name": "Highest"
+      "self": "https://jira-dc.openproject.org/rest/api/2/status/3",
+      "iconUrl": "https://jira-dc.openproject.org/images/icons/statuses/inprogress.png",
+      "description": "This issue is being actively worked on at the moment by the assignee.",
+      "statusCategory": {
+        "id": 4,
+        "key": "indeterminate",
+        "name": "In Progress",
+        "self": "https://jira-dc.openproject.org/rest/api/2/statuscategory/4",
+        "colorName": "inprogress"
+      }
     },
     "comment": {
-      "total": 1,
+      "total": 4,
+      "startAt": 0,
       "comments": [
         {
-          "id": "10100",
-          "body": "Created 2 hours 36 minutes ago",
+          "id": "10006",
+          "body": "Demo comment 1\r\n",
+          "self": "https://jira-dc.openproject.org/rest/api/2/issue/10405/comment/10006",
           "author": {
             "key": "JIRAUSER10000",
-            "name": "p.balashou",
+            "name": "pavel.balashou",
+            "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+            "active": true,
+            "timeZone": "Etc/UTC",
+            "avatarUrls": {
+              "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+              "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+              "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+              "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+            },
             "displayName": "Pavel Balashou",
             "emailAddress": "p.balashou@openproject.com"
           },
-          "created": "2026-02-04T09:51:03.503+0000",
-          "updated": "2026-02-04T09:51:03.503+0000"
+          "created": "2026-03-12T12:17:37.149+0000",
+          "updated": "2026-03-12T12:17:37.149+0000",
+          "updateAuthor": {
+            "key": "JIRAUSER10000",
+            "name": "pavel.balashou",
+            "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+            "active": true,
+            "timeZone": "Etc/UTC",
+            "avatarUrls": {
+              "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+              "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+              "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+              "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+            },
+            "displayName": "Pavel Balashou",
+            "emailAddress": "p.balashou@openproject.com"
+          }
+        },
+        {
+          "id": "10007",
+          "body": "Demo comment 2",
+          "self": "https://jira-dc.openproject.org/rest/api/2/issue/10405/comment/10007",
+          "author": {
+            "key": "JIRAUSER10000",
+            "name": "pavel.balashou",
+            "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+            "active": true,
+            "timeZone": "Etc/UTC",
+            "avatarUrls": {
+              "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+              "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+              "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+              "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+            },
+            "displayName": "Pavel Balashou",
+            "emailAddress": "p.balashou@openproject.com"
+          },
+          "created": "2026-03-12T12:17:41.981+0000",
+          "updated": "2026-03-12T12:17:41.981+0000",
+          "updateAuthor": {
+            "key": "JIRAUSER10000",
+            "name": "pavel.balashou",
+            "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+            "active": true,
+            "timeZone": "Etc/UTC",
+            "avatarUrls": {
+              "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+              "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+              "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+              "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+            },
+            "displayName": "Pavel Balashou",
+            "emailAddress": "p.balashou@openproject.com"
+          }
+        },
+        {
+          "id": "10008",
+          "body": "Parampampam",
+          "self": "https://jira-dc.openproject.org/rest/api/2/issue/10405/comment/10008",
+          "author": {
+            "key": "JIRAUSER10000",
+            "name": "pavel.balashou",
+            "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+            "active": true,
+            "timeZone": "Etc/UTC",
+            "avatarUrls": {
+              "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+              "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+              "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+              "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+            },
+            "displayName": "Pavel Balashou",
+            "emailAddress": "p.balashou@openproject.com"
+          },
+          "created": "2026-03-12T12:18:05.851+0000",
+          "updated": "2026-03-12T12:18:05.851+0000",
+          "updateAuthor": {
+            "key": "JIRAUSER10000",
+            "name": "pavel.balashou",
+            "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+            "active": true,
+            "timeZone": "Etc/UTC",
+            "avatarUrls": {
+              "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+              "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+              "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+              "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+            },
+            "displayName": "Pavel Balashou",
+            "emailAddress": "p.balashou@openproject.com"
+          }
+        },
+        {
+          "id": "10100",
+          "body": "h2. Environment\r\n|| Field       || Details          ||\r\n|| Environment || Production       ||\r\n|| Browser     || Chrome 120.0     ||\r\n|| OS          || Windows 11       ||\r\n|| App Version || v3.2.1           ||",
+          "self": "https://jira-dc.openproject.org/rest/api/2/issue/10405/comment/10100",
+          "author": {
+            "key": "JIRAUSER10000",
+            "name": "pavel.balashou",
+            "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+            "active": true,
+            "timeZone": "Etc/UTC",
+            "avatarUrls": {
+              "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+              "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+              "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+              "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+            },
+            "displayName": "Pavel Balashou",
+            "emailAddress": "p.balashou@openproject.com"
+          },
+          "created": "2026-03-18T11:47:34.750+0000",
+          "updated": "2026-03-18T11:47:34.750+0000",
+          "updateAuthor": {
+            "key": "JIRAUSER10000",
+            "name": "pavel.balashou",
+            "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+            "active": true,
+            "timeZone": "Etc/UTC",
+            "avatarUrls": {
+              "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+              "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+              "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+              "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+            },
+            "displayName": "Pavel Balashou",
+            "emailAddress": "p.balashou@openproject.com"
+          }
         }
-      ]
+      ],
+      "maxResults": 1000
     },
+    "created": "2026-03-12T12:16:54.000+0000",
+    "creator": {
+      "key": "JIRAUSER10000",
+      "name": "pavel.balashou",
+      "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+      "active": true,
+      "timeZone": "Etc/UTC",
+      "avatarUrls": {
+        "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+        "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+        "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+        "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+      },
+      "displayName": "Pavel Balashou",
+      "emailAddress": "p.balashou@openproject.com"
+    },
+    "duedate": "2031-05-29",
+    "timetracking": {"timeSpent":"2d 5h","originalEstimate":"3w","timeSpentSeconds":75600,"remainingEstimate":"1d 3h","originalEstimateSeconds":432000,"remainingEstimateSeconds":39600},
+    "project": {
+      "id": "10012",
+      "key": "DPPP",
+      "name": "Demo project",
+      "self": "https://jira-dc.openproject.org/rest/api/2/project/10012",
+      "avatarUrls": {
+        "16x16": "https://jira-dc.openproject.org/secure/projectavatar?size=xsmall&avatarId=10324",
+        "24x24": "https://jira-dc.openproject.org/secure/projectavatar?size=small&avatarId=10324",
+        "32x32": "https://jira-dc.openproject.org/secure/projectavatar?size=medium&avatarId=10324",
+        "48x48": "https://jira-dc.openproject.org/secure/projectavatar?avatarId=10324"
+      },
+      "projectTypeKey": "software"
+    },
+    "summary": "Demo bug",
+    "updated": "2026-05-04T15:53:30.000+0000",
+    "watches": {
+      "self": "https://jira-dc.openproject.org/rest/api/2/issue/DPPP-6/watchers",
+      "isWatching": true,
+      "watchCount": 1
+    },
+    "worklog": {
+      "total": 0,
+      "startAt": 0,
+      "worklogs": [],
+      "maxResults": 20
+    },
+    "assignee": {
+      "key": "JIRAUSER10000",
+      "name": "pavel.balashou",
+      "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+      "active": true,
+      "timeZone": "Etc/UTC",
+      "avatarUrls": {
+        "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+        "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+        "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+        "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+      },
+      "displayName": "Pavel Balashou",
+      "emailAddress": "p.balashou@openproject.com"
+    },
+    "priority": {
+      "id": "1",
+      "name": "Highest",
+      "self": "https://jira-dc.openproject.org/rest/api/2/priority/1",
+      "iconUrl": "https://jira-dc.openproject.org/images/icons/priorities/highest.svg"
+    },
+    "progress": {
+      "total": 0,
+      "progress": 0
+    },
+    "reporter": {
+      "key": "JIRAUSER10000",
+      "name": "pavel.balashou",
+      "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+      "active": true,
+      "timeZone": "Etc/UTC",
+      "avatarUrls": {
+        "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+        "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+        "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+        "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+      },
+      "displayName": "Pavel Balashou",
+      "emailAddress": "p.balashou@openproject.com"
+    },
+    "subtasks": [],
+    "versions": [],
+    "issuetype": {
+      "id": "10004",
+      "name": "Bug",
+      "self": "https://jira-dc.openproject.org/rest/api/2/issuetype/10004",
+      "iconUrl": "https://jira-dc.openproject.org/secure/viewavatar?size=xsmall&avatarId=10303&avatarType=issuetype",
+      "subtask": false,
+      "avatarId": 10303,
+      "description": "(ou défaut) Imperfection dans un composant ou un système qui peut conduire à ce qu’un composant ou un système n’exécute pas les fonctions requises, par exemple une instruction ou une définition de données incorrecte. Un défaut, si rencontré lors de l’exécution, peut causer la défaillance d’un composant ou d’un système."
+    },
+    "timespent": null,
+    "workratio": -1,
     "attachment": [
       {
-        "id": "10000",
-        "filename": "solid-color-image.png",
-        "content": "https://jira-software.local/secure/attachment/10000/solid-color-image.png",
-        "mimeType": "image/png",
-        "size": 38697,
+        "id": "10100",
+        "self": "https://jira-dc.openproject.org/rest/api/2/attachment/10100",
+        "size": 136426,
         "author": {
           "key": "JIRAUSER10000",
-          "name": "p.balashou",
+          "name": "pavel.balashou",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+            "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+            "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+            "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+          },
           "displayName": "Pavel Balashou",
           "emailAddress": "p.balashou@openproject.com"
         },
-        "created": "2026-02-05T12:29:19.045+0000"
+        "content": "https://jira-dc.openproject.org/secure/attachment/10100/airplane-wing-over-cloudy-sky.jpg",
+        "created": "2026-03-18T11:46:15.981+0000",
+        "filename": "airplane-wing-over-cloudy-sky.jpg",
+        "mimeType": "image/jpeg",
+        "thumbnail": "https://jira-dc.openproject.org/secure/thumbnail/10100/_thumb_10100.png"
       }
-    ]
+    ],
+    "components": [],
+    "issuelinks": [
+      {
+        "id": "10200",
+        "self": "https://jira-dc.openproject.org/rest/api/2/issueLink/10200",
+        "type": {
+          "id": "10300",
+          "name": "Tests",
+          "self": "https://jira-dc.openproject.org/rest/api/2/issueLinkType/10300",
+          "inward": "tested by",
+          "outward": "tests"
+        },
+        "inwardIssue": {
+          "id": "10019",
+          "key": "KIWNEU1-1",
+          "self": "https://jira-dc.openproject.org/rest/api/2/issue/10019",
+          "fields": {
+            "status": {
+              "id": "10000",
+              "name": "Backlog",
+              "self": "https://jira-dc.openproject.org/rest/api/2/status/10000",
+              "iconUrl": "https://jira-dc.openproject.org/",
+              "description": "",
+              "statusCategory": {
+                "id": 2,
+                "key": "new",
+                "name": "To Do",
+                "self": "https://jira-dc.openproject.org/rest/api/2/statuscategory/2",
+                "colorName": "default"
+              }
+            },
+            "summary": "Gather kiwi recipes",
+            "priority": {
+              "id": "3",
+              "name": "Medium",
+              "self": "https://jira-dc.openproject.org/rest/api/2/priority/3",
+              "iconUrl": "https://jira-dc.openproject.org/images/icons/priorities/medium.svg"
+            },
+            "issuetype": {
+              "id": "10001",
+              "name": "Story",
+              "self": "https://jira-dc.openproject.org/rest/api/2/issuetype/10001",
+              "iconUrl": "https://jira-dc.openproject.org/images/icons/issuetypes/story.svg",
+              "subtask": false,
+              "description": "Created by Jira Software - do not edit or delete. Issue type for a user story."
+            }
+          }
+        }
+      }
+    ],
+    "lastViewed": "2026-05-07T08:16:16.927+0000",
+    "resolution": null,
+    "description": "h1. Demo Issue\r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#ff0000}*High Priority*{color} — Affects all users attempting to access account settings.",
+    "environment": null,
+    "fixVersions": [],
+    "timeestimate": null,
+    "resolutiondate": null,
+    "aggregateprogress": {
+      "total": 0,
+      "progress": 0
+    },
+    "customfield_10000": "{summaryBean=com.atlassian.jira.plugin.devstatus.rest.SummaryBean@6e006973[summary={pullrequest=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@7428d95b[byInstanceType={},overall=PullRequestOverallBean{stateCount=0, state='OPEN', details=PullRequestOverallDetails{openCount=0, mergedCount=0, declinedCount=0}}], build=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@10582713[byInstanceType={},overall=com.atlassian.jira.plugin.devstatus.summary.beans.BuildOverallBean@c87dd6b[failedBuildCount=0,successfulBuildCount=0,unknownBuildCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>]], review=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@68fd80e7[byInstanceType={},overall=com.atlassian.jira.plugin.devstatus.summary.beans.ReviewsOverallBean@62a2721b[dueDate=<null>,overDue=false,state=<null>,stateCount=0,count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>]], deployment-environment=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@3393a1e3[byInstanceType={},overall=com.atlassian.jira.plugin.devstatus.summary.beans.DeploymentOverallBean@1cd4e7f[showProjects=false,successfulCount=0,topEnvironments=[],count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>]], repository=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@5330c19[byInstanceType={},overall=com.atlassian.jira.plugin.devstatus.summary.beans.CommitOverallBean@7470940e[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>]], branch=com.atlassian.jira.plugin.devstatus.rest.SummaryItemBean@5a42bfda[byInstanceType={},overall=com.atlassian.jira.plugin.devstatus.summary.beans.BranchOverallBean@3197ac5b[count=0,lastUpdated=<null>,lastUpdatedTimestamp=<null>]]},configErrors=[],errors=[]], devSummaryJson={\"cachedValue\":{\"errors\":[],\"configErrors\":[],\"summary\":{\"pullrequest\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":\"OPEN\",\"details\":{\"openCount\":0,\"mergedCount\":0,\"declinedCount\":0,\"total\":0},\"open\":true},\"byInstanceType\":{}},\"build\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"failedBuildCount\":0,\"successfulBuildCount\":0,\"unknownBuildCount\":0},\"byInstanceType\":{}},\"review\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"stateCount\":0,\"state\":null,\"dueDate\":null,\"overDue\":false,\"completed\":false},\"byInstanceType\":{}},\"deployment-environment\":{\"overall\":{\"count\":0,\"lastUpdated\":null,\"topEnvironments\":[],\"showProjects\":false,\"successfulCount\":0},\"byInstanceType\":{}},\"repository\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}},\"branch\":{\"overall\":{\"count\":0,\"lastUpdated\":null},\"byInstanceType\":{}}}},\"isStale\":false}}",
+    "customfield_10100": null,
+    "customfield_10104": "0|i002h3:",
+    "customfield_10105": null,
+    "customfield_10106": null,
+    "customfield_10107": null,
+    "customfield_10108": null,
+    "customfield_10109": null,
+    "customfield_10110": null,
+    "customfield_10111": null,
+    "customfield_10200": "{}",
+    "customfield_10201": null,
+    "customfield_10232": null,
+    "customfield_10235": null,
+    "customfield_10245": null,
+    "customfield_10246": null,
+    "customfield_10247": null,
+    "customfield_10248": null,
+    "customfield_10249": null,
+    "customfield_10250": null,
+    "customfield_10251": null,
+    "customfield_10252": null,
+    "customfield_10253": null,
+    "customfield_10258": null,
+    "customfield_10261": "2026-05-03",
+    "customfield_10300": null,
+    "customfield_10301": null,
+    "customfield_10400": [],
+    "customfield_10401": null,
+    "customfield_10402": null,
+    "customfield_10403": null,
+    "customfield_10404": null,
+    "customfield_10405": null,
+    "customfield_10406": null,
+    "customfield_10407": null,
+    "customfield_10408": null,
+    "aggregatetimespent": null,
+    "timeoriginalestimate": null,
+    "aggregatetimeestimate": null,
+    "aggregatetimeoriginalestimate": null
   },
   "changelog": {
-    "total": 1,
+    "total": 11,
+    "startAt": 0,
     "histories": [
       {
-        "id": "10133",
+        "id": "10201",
         "items": [
           {
-            "field": "Attachment",
-            "toString": "solid-color-image.png"
+            "to": "3",
+            "from": "10003",
+            "field": "status",
+            "toString": "In Progress",
+            "fieldtype": "jira",
+            "fromString": "To Do"
           }
         ],
         "author": {
           "key": "JIRAUSER10000",
-          "name": "p.balashou"
+          "name": "pavel.balashou",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+            "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+            "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+            "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+          },
+          "displayName": "Pavel Balashou",
+          "emailAddress": "p.balashou@openproject.com"
         },
-        "created": "2026-02-05T12:29:19.257+0000"
+        "created": "2026-03-18T11:27:28.653+0000"
+      },
+      {
+        "id": "10204",
+        "items": [
+          {
+            "to": "10100",
+            "from": null,
+            "field": "Attachment",
+            "toString": "airplane-wing-over-cloudy-sky.jpg",
+            "fieldtype": "jira",
+            "fromString": null
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10000",
+          "name": "pavel.balashou",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+            "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+            "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+            "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+          },
+          "displayName": "Pavel Balashou",
+          "emailAddress": "p.balashou@openproject.com"
+        },
+        "created": "2026-03-18T11:46:16.160+0000"
+      },
+      {
+        "id": "10305",
+        "items": [
+          {
+            "to": "1",
+            "from": "3",
+            "field": "priority",
+            "toString": "Highest",
+            "fieldtype": "jira",
+            "fromString": "Medium"
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10000",
+          "name": "pavel.balashou",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+            "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+            "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+            "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+          },
+          "displayName": "Pavel Balashou",
+          "emailAddress": "p.balashou@openproject.com"
+        },
+        "created": "2026-03-18T12:30:45.922+0000"
+      },
+      {
+        "id": "10326",
+        "items": [
+          {
+            "to": "10100",
+            "from": null,
+            "field": "RemoteIssueLink",
+            "toString": "This issue links to \"123123123 (Web Link)\"",
+            "fieldtype": "jira",
+            "fromString": null
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10000",
+          "name": "pavel.balashou",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+            "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+            "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+            "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+          },
+          "displayName": "Pavel Balashou",
+          "emailAddress": "p.balashou@openproject.com"
+        },
+        "created": "2026-03-31T10:50:48.128+0000"
+      },
+      {
+        "id": "10327",
+        "items": [
+          {
+            "to": null,
+            "from": null,
+            "field": "description",
+            "toString": "h1.  \r\nh1. Demo Issue\r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#FF0000}*High Priority*{color} — Affects all users attempting to access account settings.",
+            "fieldtype": "jira",
+            "fromString": "h1. Demo Issue\r\n\r\nh2. Summary\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\n\r\nh2. Description\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\n\r\nh2. Steps to Reproduce\r\n# Navigate to the application homepage\r\n# Log in with valid credentials\r\n# Click on the *Settings* icon in the top-right corner\r\n# Select _Account Preferences_ from the dropdown menu\r\n# Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\n\r\nh2. Actual Behavior\r\nThe page fails to load and displays the following error:\r\n{code}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\n\r\nh2. Environment\r\n|| Field       || Details          ||\r\n|| Environment || Production       ||\r\n|| Browser     || Chrome 120.0     ||\r\n|| OS          || Windows 11       ||\r\n|| App Version || v3.2.1           ||\r\n\r\nh2. Attachments / Notes\r\n* Screenshot of the error has been attached\r\n* Issue occurs *consistently* — reproduced 5/5 times\r\n* Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n{color:red}*High Priority*{color} — Affects all users attempting to access account settings."
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10102",
+          "name": "d.braeunlein",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=d.braeunlein",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=16",
+            "24x24": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=24",
+            "32x32": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=32",
+            "48x48": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=48"
+          },
+          "displayName": "Dominic Bräunlein",
+          "emailAddress": "d.braeunlein@openproject.com"
+        },
+        "created": "2026-03-31T11:27:24.122+0000"
+      },
+      {
+        "id": "10328",
+        "items": [
+          {
+            "to": null,
+            "from": null,
+            "field": "description",
+            "toString": "h1. Demo Issue\r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#ff0000}*High Priority*{color} — Affects all users attempting to access account settings.",
+            "fieldtype": "jira",
+            "fromString": "h1.  \r\nh1. Demo Issue\r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#FF0000}*High Priority*{color} — Affects all users attempting to access account settings."
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10102",
+          "name": "d.braeunlein",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=d.braeunlein",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=16",
+            "24x24": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=24",
+            "32x32": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=32",
+            "48x48": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=48"
+          },
+          "displayName": "Dominic Bräunlein",
+          "emailAddress": "d.braeunlein@openproject.com"
+        },
+        "created": "2026-03-31T11:27:46.271+0000"
+      },
+      {
+        "id": "10329",
+        "items": [
+          {
+            "to": null,
+            "from": null,
+            "field": "description",
+            "toString": "h1. Demo Issue\r\n\r\n \r\n\r\n \r\n\r\n \r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#ff0000}*High Priority*{color} — Affects all users attempting to access account settings.",
+            "fieldtype": "jira",
+            "fromString": "h1. Demo Issue\r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#ff0000}*High Priority*{color} — Affects all users attempting to access account settings."
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10102",
+          "name": "d.braeunlein",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=d.braeunlein",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=16",
+            "24x24": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=24",
+            "32x32": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=32",
+            "48x48": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=48"
+          },
+          "displayName": "Dominic Bräunlein",
+          "emailAddress": "d.braeunlein@openproject.com"
+        },
+        "created": "2026-03-31T12:55:38.512+0000"
+      },
+      {
+        "id": "10330",
+        "items": [
+          {
+            "to": null,
+            "from": null,
+            "field": "description",
+            "toString": "h1. Demo Issue\r\n\r\n \r\n\r\n \r\n\r\n[link title|http://example.com]\r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#ff0000}*High Priority*{color} — Affects all users attempting to access account settings.",
+            "fieldtype": "jira",
+            "fromString": "h1. Demo Issue\r\n\r\n \r\n\r\n \r\n\r\n \r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#ff0000}*High Priority*{color} — Affects all users attempting to access account settings."
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10102",
+          "name": "d.braeunlein",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=d.braeunlein",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=16",
+            "24x24": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=24",
+            "32x32": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=32",
+            "48x48": "https://www.gravatar.com/avatar/b0dded0ef26c4a578b139f806f976b2e?d=mm&s=48"
+          },
+          "displayName": "Dominic Bräunlein",
+          "emailAddress": "d.braeunlein@openproject.com"
+        },
+        "created": "2026-03-31T12:56:08.996+0000"
+      },
+      {
+        "id": "10440",
+        "items": [
+          {
+            "to": null,
+            "from": null,
+            "field": "description",
+            "toString": "h1. Demo Issue\r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#ff0000}*High Priority*{color} — Affects all users attempting to access account settings.",
+            "fieldtype": "jira",
+            "fromString": "h1. Demo Issue\r\n\r\n \r\n\r\n \r\n\r\n[link title|http://example.com]\r\nh2. Summary\r\n\r\nThis is a demonstration issue created to showcase the structure and formatting of a typical Jira ticket using wiki markup.\r\nh2. Description\r\n\r\nThis issue serves as a *template* and _reference example_ for how to write well-structured Jira descriptions.\r\nh2. Steps to Reproduce\r\n # Navigate to the application homepage\r\n # Log in with valid credentials\r\n # Click on the *Settings* icon in the top-right corner\r\n # Select _Account Preferences_ from the dropdown menu\r\n # Observe the unexpected behavior\r\n\r\nh2. Expected Behavior\r\n\r\nThe application should display the account preferences page with all user settings loaded correctly.\r\nh2. Actual Behavior\r\n\r\nThe page fails to load and displays the following error:\r\n{code:java}\r\nError 500: Internal Server Error\r\nFailed to retrieve user preferences. Please try again later.\r\n{code}\r\nh2. Environment\r\n||Field||Details||\r\n||Environment||Production||\r\n||Browser||Chrome 120.0||\r\n||OS||Windows 11||\r\n||App Version||v3.2.1||\r\nh2. Attachments / Notes\r\n * Screenshot of the error has been attached\r\n * Issue occurs *consistently* — reproduced 5/5 times\r\n * Related to ticket: [DEMO-101]\r\n\r\nh2. Priority & Impact\r\n\r\n{color:#ff0000}*High Priority*{color} — Affects all users attempting to access account settings."
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10000",
+          "name": "pavel.balashou",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+            "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+            "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+            "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+          },
+          "displayName": "Pavel Balashou",
+          "emailAddress": "p.balashou@openproject.com"
+        },
+        "created": "2026-04-15T13:31:15.144+0000"
+      },
+      {
+        "id": "10444",
+        "items": [
+          {
+            "to": "KIWNEU-1",
+            "from": null,
+            "field": "Link",
+            "toString": "This issue tested by KIWNEU-1",
+            "fieldtype": "jira",
+            "fromString": null
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10000",
+          "name": "pavel.balashou",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+            "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+            "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+            "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+          },
+          "displayName": "Pavel Balashou",
+          "emailAddress": "p.balashou@openproject.com"
+        },
+        "created": "2026-04-17T07:53:58.001+0000"
+      },
+      {
+        "id": "10456",
+        "items": [
+          {
+            "to": "10006",
+            "from": "10012",
+            "field": "project",
+            "toString": "Kiwi",
+            "fieldtype": "jira",
+            "fromString": "Demo project"
+          },
+          {
+            "to": null,
+            "from": null,
+            "field": "Key",
+            "toString": "KIWNEU1-8",
+            "fieldtype": "jira",
+            "fromString": "DPPP-1"
+          },
+          {
+            "to": "10706",
+            "from": "10407",
+            "field": "Workflow",
+            "toString": "Software Simplified Workflow for Project KIWI",
+            "fieldtype": "jira",
+            "fromString": "Software Simplified Workflow for Project DP"
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10000",
+          "name": "pavel.balashou",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+            "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+            "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+            "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+          },
+          "displayName": "Pavel Balashou",
+          "emailAddress": "p.balashou@openproject.com"
+        },
+        "created": "2026-05-04T15:52:54.029+0000"
+      },
+      {
+        "id": "10457",
+        "items": [
+          {
+            "to": "10012",
+            "from": "10006",
+            "field": "project",
+            "toString": "Demo project",
+            "fieldtype": "jira",
+            "fromString": "Kiwi"
+          },
+          {
+            "to": null,
+            "from": null,
+            "field": "Key",
+            "toString": "DPPP-6",
+            "fieldtype": "jira",
+            "fromString": "KIWNEU1-8"
+          },
+          {
+            "to": "10707",
+            "from": "10706",
+            "field": "Workflow",
+            "toString": "Software Simplified Workflow for Project DP",
+            "fieldtype": "jira",
+            "fromString": "Software Simplified Workflow for Project KIWI"
+          },
+          {
+            "to": "2026-05-03",
+            "from": null,
+            "field": "Jira CF Date",
+            "toString": "3/May/2026",
+            "fieldtype": "custom",
+            "fromString": null
+          }
+        ],
+        "author": {
+          "key": "JIRAUSER10000",
+          "name": "pavel.balashou",
+          "self": "https://jira-dc.openproject.org/rest/api/2/user?username=pavel.balashou",
+          "active": true,
+          "timeZone": "Etc/UTC",
+          "avatarUrls": {
+            "16x16": "https://jira-dc.openproject.org/secure/useravatar?size=xsmall&avatarId=10335",
+            "24x24": "https://jira-dc.openproject.org/secure/useravatar?size=small&avatarId=10335",
+            "32x32": "https://jira-dc.openproject.org/secure/useravatar?size=medium&avatarId=10335",
+            "48x48": "https://jira-dc.openproject.org/secure/useravatar?avatarId=10335"
+          },
+          "displayName": "Pavel Balashou",
+          "emailAddress": "p.balashou@openproject.com"
+        },
+        "created": "2026-05-04T15:53:30.835+0000"
       }
-    ]
-  }
+    ],
+    "maxResults": 14
+  },
+  "renderedFields": null
 }

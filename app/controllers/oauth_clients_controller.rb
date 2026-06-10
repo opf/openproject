@@ -74,8 +74,8 @@ class OAuthClientsController < ApplicationController
   # rubocop:disable Metrics/AbcSize
   def ensure_connection
     client_id = params.fetch(:oauth_client_id)
-    storage_id = params.fetch(:storage_id)
-    oauth_client = OAuthClient.find_by(client_id:, integration_id: storage_id)
+    integration_id = params.fetch(:integration_id)
+    oauth_client = OAuthClient.find_by(client_id:, integration_id:)
 
     return handle_absent_oauth_client unless oauth_client
 
@@ -89,7 +89,8 @@ class OAuthClientsController < ApplicationController
       redirect_to(destination_url)
     else
       nonce = SecureRandom.uuid
-      cookies["oauth_state_#{nonce}"] = { value: { href: destination_url, storageId: storage_id }.to_json, expires: 1.hour }
+      cookies["oauth_state_#{nonce}"] = { value: { href: destination_url, integrationId: integration_id }.to_json,
+                                          expires: 1.hour }
       redirect_to(configuration.authorization_uri(state: nonce), allow_other_host: true)
     end
   end
@@ -199,7 +200,7 @@ class OAuthClientsController < ApplicationController
       # This must be fixed in #50872.
       state_value = MultiJson.load(cookie, symbolize_keys: true)
       @oauth_client = OAuthClient.find_by(client_id: params[:oauth_client_id],
-                                          integration_id: state_value[:storageId])
+                                          integration_id: state_value[:integrationId])
     end
 
     @oauth_client = oauth_client_from_cookie.call

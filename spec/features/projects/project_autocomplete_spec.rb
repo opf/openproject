@@ -104,9 +104,8 @@ RSpec.describe "Projects autocomplete page", :js do
     # Filter for projects
     top_menu.search "<strong"
 
-    # Expect highlights
+    # Expect result is shown and HTML in the project name is escaped, not rendered
     within(top_menu.search_results) do
-      expect(page).to have_css(".op-search-highlight", text: "<strong")
       expect(page).to have_no_css("strong")
     end
 
@@ -178,16 +177,12 @@ RSpec.describe "Projects autocomplete page", :js do
     end
 
     # Filter for projects
-    top_menu.search "<strong"
-
-    # Visit a project
-    top_menu.autocompleter.send_keys :enter
+    top_menu.search_and_select "<strong"
 
     top_menu.expect_current_project project2.name
   end
 
-  it "displays workspace type badges for portfolios and programs",
-     with_flag: { portfolio_models: true } do
+  it "displays workspace type badges for portfolios and programs" do
     retry_block do
       top_menu.toggle unless top_menu.open?
       top_menu.expect_open

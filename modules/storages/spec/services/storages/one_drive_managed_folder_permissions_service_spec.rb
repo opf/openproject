@@ -32,7 +32,7 @@ require "spec_helper"
 require_module_spec_helper
 
 module Storages
-  RSpec.describe OneDriveManagedFolderPermissionsService, :webmock do
+  RSpec.describe OneDriveManagedFolderPermissionsService, :disable_ssrf_filter, :webmock do
     shared_let(:admin) { create(:admin) }
     shared_let(:storage) do
       # Automatically Managed Project Folder Drive
@@ -277,6 +277,24 @@ module Storages
             .to include({ write: %w[248aeb72-b231-4e71-a466-67fa7df2a285 33db2c84-275d-46af-afb0-c26eb786b194] })
 
           expect(remote_permissions_for(inactive_project_storage)).to be_empty
+        end
+
+        context "and when two project storages have the same project_folder_id (regression #75022)" do
+          before do
+            create(:project_storage, storage:, project_folder_id: project_storage.project_folder_id)
+          end
+
+          it "fails with an appropriate error", vcr: "one_drive/sync_service_set_permissions" do
+            result = service.call
+            expect(result).to be_failure
+            expect(result.errors.details[:set_folder_permission]).to contain_exactly(
+              error: :folder_id_collision,
+              folder: project_storage.project_folder_id
+            )
+
+            # Ensure presence of a translation
+            expect(result.errors.full_messages).to all(be_a(String))
+          end
         end
       end
 

@@ -27,17 +27,7 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResourceSortingService } from 'core-app/features/hal/services/hal-resource-sorting.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -55,6 +45,14 @@ import { compareByHref } from 'core-app/shared/helpers/angular/tracking-function
   standalone: false,
 })
 export class FilterToggledMultiselectValueComponent implements OnInit, AfterViewInit {
+  readonly halResourceService = inject(HalResourceService);
+  readonly halSorting = inject(HalResourceSortingService);
+  readonly PathHelper = inject(PathHelperService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly currentUser = inject(CurrentUserService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly I18n = inject(I18nService);
+
   @Input() public shouldFocus = false;
 
   @Input() public filter:QueryFilterInstanceResource;
@@ -72,17 +70,6 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   readonly text = {
     placeholder: this.I18n.t('js.placeholders.selection'),
   };
-
-  constructor(
-    readonly halResourceService:HalResourceService,
-    readonly halSorting:HalResourceSortingService,
-    readonly PathHelper:PathHelperService,
-    readonly apiV3Service:ApiV3Service,
-    readonly currentUser:CurrentUserService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-  ) {
-  }
 
   ngOnInit():void {
     const values = (this.filter.currentSchema!.values!.allowedValues as HalResource[]);

@@ -5,7 +5,6 @@ require "spec_helper"
 RSpec.describe "Work package table semantic ID navigation",
                :js,
                :with_cuprite,
-               with_flag: { semantic_work_package_ids: true },
                with_settings: { work_packages_identifier: "semantic" } do
   let(:user) { create(:admin) }
   let(:project) { create(:project, identifier: "NAVTEST") }

@@ -28,33 +28,31 @@
 
 import { StateService } from '@uirouter/core';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading-indicator.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
 
 @Injectable()
 export class HalResourceNotificationService {
-  @InjectField() protected I18n:I18nService;
+  injector = inject(Injector);
 
-  @InjectField() protected $state:StateService;
+  protected readonly I18n = inject(I18nService);
 
-  @InjectField() protected halResourceService:HalResourceService;
+  protected readonly $state = inject(StateService);
 
-  @InjectField() protected ToastService:ToastService;
+  protected readonly halResourceService = inject(HalResourceService);
 
-  @InjectField() protected loadingIndicator:LoadingIndicatorService;
+  protected readonly ToastService = inject(ToastService);
 
-  @InjectField() protected schemaCache:SchemaCacheService;
+  protected readonly loadingIndicator = inject(LoadingIndicatorService);
 
-  constructor(public injector:Injector) {
-  }
+  protected readonly schemaCache = inject(SchemaCacheService);
 
   public showSave(resource:HalResource, isCreate = false) {
     const message:any = {

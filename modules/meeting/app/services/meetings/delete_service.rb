@@ -33,6 +33,7 @@ module Meetings
     protected
 
     def after_validate(call)
+      Meetings::NotificationDebounceJob.cancel_pending(model)
       send_cancellation_mail(model) if model.notify?
 
       call

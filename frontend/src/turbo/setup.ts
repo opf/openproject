@@ -8,7 +8,7 @@ import { registerInputCaptionStreamAction } from './input-caption-stream-action'
 import { addTurboGlobalListeners } from './turbo-global-listeners';
 import { applyTurboNavigationPatch } from './turbo-navigation-patch';
 import { debugLog, whenDebugging } from 'core-app/shared/helpers/debug_output';
-import { TURBO_EVENTS } from './constants';
+import { getTurboEvents } from './utils';
 import { StreamActions } from '@hotwired/turbo';
 import { addTurboAngularWrapper } from 'core-turbo/turbo-angular-wrapper';
 import { registerActionMenuMorphRemount } from './action-menu-morph-remount';
@@ -21,13 +21,13 @@ Turbo.start();
 
 // Register logging of events
 whenDebugging(() => {
-  TURBO_EVENTS
+  getTurboEvents()
     .filter((name) => name !== 'turbo:before-stream-render')
     .forEach((name:string) => {
-    document.addEventListener(name, (event) => {
-      debugLog(`[TURBO EVENT ${name}] %O`, event);
+      document.addEventListener(name, (event) => {
+        debugLog(`[TURBO EVENT ${name}] %O`, event);
+      });
     });
-  });
 
   document.addEventListener('turbo:before-stream-render', (event) => {
     const { detail: { newStream:stream } } = event;
@@ -53,12 +53,21 @@ StreamActions.reloadPage = function reloadPage() {
 // https://github.com/hotwired/turbo/issues/1300
 applyTurboNavigationPatch();
 
-// Register turbo power actions
-TurboPower.initialize(Turbo.StreamActions);
+// Register only the turbo-power stream actions we actually use
+TurboPower.register('push_state', TurboPower.Actions.push_state, StreamActions);
+TurboPower.register('turbo_frame_set_src', TurboPower.Actions.turbo_frame_set_src, StreamActions);
+TurboPower.register('redirect_to', TurboPower.Actions.redirect_to, StreamActions);
+TurboPower.register('set_dataset_attribute', TurboPower.Actions.set_dataset_attribute, StreamActions);
+TurboPower.register('set_title', TurboPower.Actions.set_title, StreamActions);
 
 // Error handling when "Content missing" returned
 document.addEventListener('turbo:frame-missing', (event) => {
   const { detail: { response, visit } } = event;
   event.preventDefault();
+  whenDebugging(() => {
+    const frameId = event.target instanceof Element ? event.target.id : undefined;
+    const message = frameId ? `no turbo-frame#${frameId} in` : 'destination frame id missing for';
+    console.error(`${message} response from ${response.url}`);
+  });
   void visit(response.url, {});
 });

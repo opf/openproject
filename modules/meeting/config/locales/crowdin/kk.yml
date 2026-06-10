@@ -39,6 +39,8 @@ kk:
           other: "%{count} Participants"
         participants_attended: Attendees
         participants_invited: Invitees
+        participants_added: 'Participants added:'
+        participants_removed: 'Participants removed:'
         project: Project
         start_date: Date
         start_time: Start time
@@ -64,6 +66,9 @@ kk:
         title: Title
         frequency: Frequency
         interval: Interval
+        monthly_day: Day of month
+        monthly_ordinal: Position
+        monthly_weekday: Weekday
         start_date: Starts on
         start_time: Start time
         start_time_hour: Start time
@@ -210,6 +215,7 @@ kk:
   label_time_zone: Time zone
   label_start_date: Start date
   label_subscribe_icalendar: Subscribe to calendar
+  label_recurring_filter: Recurring filter
   caption_meeting_template_select: Select a template to automatically copy its agenda items
   caption_template_project_select: Please select the project in which to create this meeting template
   placeholder_meeting_template_select_project_first: Select a project first
@@ -272,16 +278,6 @@ kk:
         summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
         date_time: Scheduled date/time
-      participant_added:
-        header: Meeting '%{title}' - Participant added
-        header_series: Meeting series '%{title}' - Participant added
-        summary: "%{actor} added %{participant} to the meeting '%{title}'"
-        summary_series: "%{actor} added %{participant} to the meeting series '%{title}'"
-      participant_removed:
-        header: Meeting '%{title}' - Participant removed
-        header_series: Meeting series '%{title}' - Participant removed
-        summary: "%{actor} removed %{participant} from the meeting '%{title}'"
-        summary_series: "%{actor} removed %{participant} from the meeting series '%{title}'"
       ended:
         header_series: 'Ended: Meeting series ''%{title}'''
         summary_series: Meeting series '%{title}' has been ended by %{actor}
@@ -295,6 +291,8 @@ kk:
         new_date_time: New date/time
         old_location: Old location
         new_location: New location
+        added_participants: Added
+        removed_participants: Removed
     label_mail_all_participants: Send email invite to participants
     types:
       one_time: One-time
@@ -323,6 +321,13 @@ kk:
 
           '
         confirm_button: Cancel occurrence
+      occurrence_past:
+        title: Delete occurrence
+        heading: Delete this occurrence?
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        confirm_button: Delete occurrence
     blankslate:
       title: There are no meetings to display
       desc: You can create a new meeting or change filter criteria
@@ -369,58 +374,22 @@ kk:
         caption: This text will appear on every page at the center of the footer.
       submit_button: Download
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: Email calendar updates
         description:
-          disabled: Participants will not receive an email informing them of changes.
-          enabled: All participants will receive updated calendar invites via email informing them of changes.
           change_via_template: To change this, edit the series template.
       dialog:
         title:
           enable: Enable email calendar updates?
           disable: Disable email calendar updates?
         message:
-          enable: 'All participants will receive updated calendar invites via email every time there is a change to the meeting date, time, location or participants. Once enabled, an email will be sent out immediately to all participants.
-
-            '
-          disable: 'Participants will no longer receive updated calendar invites via email when there are changes to the meeting date, time, location or participants. If they already had an invite for this meeting, it might no longer be accurate.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: Enable email updates
           disable: Disable email updates
-      banner:
-        participants:
-          enabled: 'All participants will receive updated calendar invites via email when you add or remove participants.
-
-            '
-          disabled: 'Email calendar updates are disabled. Participants will not receive an email informing them when you add or remove participants.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'All participants will receive updated calendar invites via email when you add or remove participants.
-
-            '
-          disabled: 'Participants will not receive an email informing them of changes to meeting date, time or participants.
-
-            '
-        occurrence:
-          enabled: 'Email calendar updates are enabled for the meeting series. All participants will receive updated calendar invites informing them of your changes to this occurrence.
-
-            '
-          disabled: 'Email calendar updates are disabled for the meeting series. Participants will not receive an email informing them of your changes to this occurrence.
-
-            '
-        template:
-          enabled: 'Email calendar updates are enabled for the meeting series. All participants will receive updated calendar invites informing them of your changes to this template or to individual occurrences.
-
-            '
-          disabled: 'Email calendar updates are disabled for the meeting series. Participants will not receive an email informing them of your changes to this template or to individual occurrences.
-
-            '
     presentation_mode:
       title: Presentation Mode
       button_present: Present
@@ -437,7 +406,7 @@ kk:
     widgets:
       blankslate:
         heading: No upcoming meetings
-        description: Upcoming meetings where you are the organizer or a participant will appear here.
+        description: Upcoming meetings you are participating in will appear here.
       view_details: View all meetings
   meeting_section:
     untitled_title: Untitled section
@@ -489,18 +458,42 @@ kk:
       x_weekly:
         one: Every week
         other: Every %{count} weeks
+      x_monthly:
+        one: Every month
+        other: Every %{count} months
+      monthly_day_of_month: Day of month
+      monthly_nth_weekday: Monthly on a weekday
       every_weekday: Every %{day_of_the_week}
       working_days: Every working day
+    monthly:
+      inflected_ordinal:
+        first: first
+        second: second
+        third: third
+        fourth: fourth
+        last: last
+      ordinal_options:
+        first: First
+        second: Second
+        third: Third
+        fourth: Fourth
+        last: Last
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     end_after:
-      never: never
-      specific_date: after a specific date
-      iterations: after a number of occurrences
+      never: Never
+      specific_date: After a specific date
+      iterations: After a number of occurrences
     starts: Starts
     in_words:
       daily_interval: Every %{interval} days
       working_days: Every working day
       weekly: Every week on %{weekday}
       weekly_interval: Every %{interval} weeks on %{weekday}
+      monthly_day: Every month on the %{day}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
       frequency: "%{base} at %{time}"
       full: "%{base} at %{time}, ends on %{end_date}"
       full_past: "%{base} at %{time}, ended on %{end_date}"
@@ -609,6 +602,7 @@ kk:
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
   label_agenda_item_add_notes: Add notes
   label_agenda_item_add_outcome: Add outcome
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: Add work package
   label_agenda_item_work_package: Agenda item work package
   label_section_rename: Rename section

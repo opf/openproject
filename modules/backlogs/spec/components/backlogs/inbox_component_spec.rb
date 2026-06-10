@@ -59,7 +59,41 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
 
   describe "container" do
     it "renders a Primer::Beta::BorderBox with the inbox DOM id" do
-      expect(page).to have_css(".Box#inbox_#{project.id}")
+      expect(page).to have_css(".Box#inbox_project_#{project.id}")
+    end
+
+    it "wires drop-target data attributes for the inbox" do
+      expect(page).to have_css(".Box#inbox_project_#{project.id}") do |box|
+        expect(box["data-generic-drag-and-drop-target"]).to eq("container")
+        expect(box["data-target-id"]).to eq("inbox")
+        expect(box["data-target-allowed-drag-type"]).to eq("story")
+      end
+    end
+
+    it "announces dynamic empty-state updates" do
+      expect(page).to have_role(:status, aria: { live: "polite" })
+    end
+  end
+
+  describe "header" do
+    let(:work_packages) do
+      [
+        create(:work_package, subject: "First item", project:, story_points: 2, position: 1),
+        create(:work_package, subject: "Second item", project:, story_points: 4, position: 2)
+      ]
+    end
+
+    it "renders the inbox title" do
+      expect(page).to have_heading "Inbox", level: 4
+      expect(page).to have_css("h4.f4", text: "Inbox")
+    end
+
+    it "renders the work-package count" do
+      expect(page).to have_css(
+        ".Counter",
+        text: "2",
+        aria: { label: I18n.t(:label_x_items, count: 2) }
+      )
     end
   end
 
@@ -75,8 +109,8 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
   describe "with work packages" do
     let(:work_packages) do
       [
-        create(:work_package, subject: "First item", project:, position: 1),
-        create(:work_package, subject: "Second item", project:, position: 2)
+        create(:work_package, subject: "First item", project:, story_points: 2, position: 1),
+        create(:work_package, subject: "Second item", project:, story_points: 4, position: 2)
       ]
     end
 
@@ -90,39 +124,61 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       # does not show the blankslate
       expect(page).to have_no_css("h4", text: "Backlog inbox is empty")
     end
+
+    it "renders story points on each work package card" do
+      expect(page).to have_css("span", text: "2", aria: { hidden: true })
+      expect(page).to have_css(".sr-only", text: "2 story points")
+      expect(page).to have_css("span", text: "4", aria: { hidden: true })
+      expect(page).to have_css(".sr-only", text: "4 story points")
+    end
   end
 
   describe "pagination" do
-    let(:threshold) { described_class::PAGINATION_THRESHOLD }
-    let(:first_page_size) { described_class::FIRST_PAGE_SIZE }
-    let(:last_page_size) { described_class::LAST_PAGE_SIZE }
+    # The inbox derives tail = max(truncate_middle / 5, 1) and the threshold to
+    # truncate as truncate_middle + tail*2.
+    let(:truncate_middle) { described_class::TRUNCATE_MIDDLE }
+    let(:tail_size) { [truncate_middle / 5, 1].max }
+    let(:threshold) { truncate_middle + (tail_size * 2) }
+    let(:show_more_id) { "inbox_project_#{project.id}_show_more" }
 
     context "when work packages do not exceed the threshold" do
       let(:work_packages) { create_list(:work_package, threshold, project:) }
 
       it "renders all items without pagination" do
         expect(page).to have_css(".Box-row", count: threshold)
-        # does not show a 'show more' link
-        expect(page).to have_no_css("#inbox-more-row-#{project.id}")
+        expect(page).to have_no_css("##{show_more_id}")
       end
     end
 
     context "when work packages exceed the threshold" do
       let(:total) { threshold + 8 }
-      let(:middle_count) { total - first_page_size - last_page_size }
+      let(:middle_count) { total - truncate_middle - tail_size }
       let(:work_packages) { create_list(:work_package, total, project:) }
 
       it "renders only the first page and last page items (not all)" do
-        expect(page).to have_css(".Box-row", count: first_page_size + last_page_size + 1) # +1 for "show more" row
-        # shows a 'show more' link with the count of hidden items
-        expect(page).to have_css("#inbox-more-row-#{project.id}")
+        expect(page).to have_css(".Box-row", count: truncate_middle + tail_size + 1) # +1 for "show more" row
+        expect(page).to have_css("##{show_more_id}")
         expect(page).to have_text("Show #{middle_count} more items")
       end
 
+      it "renders the full work-package count in the header" do
+        expect(page).to have_css(
+          ".Counter",
+          text: total.to_s,
+          aria: { label: I18n.t(:label_x_items, count: total) }
+        )
+      end
+
       it "renders show-more targeting the full backlog turbo frame with all=1" do
-        show_link = page.find("#inbox-more-row-#{project.id} a")
+        show_link = page.find("##{show_more_id}")
         expect(show_link[:href]).to include("all=1")
         expect(show_link["data-turbo-frame"]).to eq("backlogs_container")
+      end
+
+      it "renders the show-more row with the last omitted work package id" do
+        last_omitted = work_packages.sort_by(&:position)[-(tail_size + 1)]
+
+        expect(page).to have_css("[data-draggable-id='#{last_omitted.id}']")
       end
     end
 
@@ -133,8 +189,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
 
       it "renders all items without pagination" do
         expect(page).to have_css(".Box-row", count: total)
-        # does not show a 'show more' link
-        expect(page).to have_no_css("#inbox-more-row-#{project.id}")
+        expect(page).to have_no_css("##{show_more_id}")
       end
     end
   end

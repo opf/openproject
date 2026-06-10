@@ -24,7 +24,7 @@ module Flash
 
     def expect_no_flash(type: :success, message: nil, exact_message: nil, wait: 10)
       if type.nil?
-        expect(page).not_to have_test_selector("op-primer-flash-message")
+        expect(page).to have_no_test_selector("op-primer-flash-message")
       else
         expected_css = expected_flash_css(type)
         expect(page).to have_no_css(expected_css, wait:, **{ text: message, exact_text: exact_message }.compact)

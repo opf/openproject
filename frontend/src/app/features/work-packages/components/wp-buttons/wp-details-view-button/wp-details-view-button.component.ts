@@ -28,9 +28,7 @@
 
 import { WorkPackageViewFocusService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-focus.service';
 import { StateService, TransitionService } from '@uirouter/core';
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, inject } from '@angular/core';
 import { AbstractWorkPackageButtonComponent } from 'core-app/features/work-packages/components/wp-buttons/wp-buttons.module';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
@@ -44,6 +42,14 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
   standalone: false,
 })
 export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageButtonComponent implements OnDestroy {
+  readonly $state = inject(StateService);
+  readonly I18n:I18nService;
+  readonly transitions = inject(TransitionService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  states = inject(States);
+  wpTableFocus = inject(WorkPackageViewFocusService);
+  keepTab = inject(KeepTabService);
+
   public projectIdentifier:string;
 
   public accessKey = 8;
@@ -64,16 +70,12 @@ export class WorkPackageDetailsViewButtonComponent extends AbstractWorkPackageBu
 
   private transitionListener:Function;
 
-  constructor(
-    readonly $state:StateService,
-    readonly I18n:I18nService,
-    readonly transitions:TransitionService,
-    readonly cdRef:ChangeDetectorRef,
-    public states:States,
-    public wpTableFocus:WorkPackageViewFocusService,
-    public keepTab:KeepTabService,
-  ) {
+  constructor() {
+    const I18n = inject(I18nService);
+
     super(I18n);
+    this.I18n = I18n;
+
 
     this.activateLabel = I18n.t('js.button_open_details');
     this.deactivateLabel = I18n.t('js.button_close_details');

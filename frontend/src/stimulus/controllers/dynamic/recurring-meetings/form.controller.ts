@@ -15,6 +15,9 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
       'start_time_hour',
       'frequency',
       'interval',
+      'monthly_day',
+      'monthly_ordinal',
+      'monthly_weekday',
       'time_zone',
     ].forEach((name) => {
       const key = `meeting[${name}]`;

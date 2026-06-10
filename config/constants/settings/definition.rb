@@ -81,6 +81,11 @@ module Settings
       organization_name: {
         default: "My Organization"
       },
+      attachment_default_charset: {
+        description: "Fallback charset used when serving text attachments whose encoding was not detected on upload",
+        format: :string,
+        default: "utf-8"
+      },
       attachment_max_size: {
         default: 5120
       },
@@ -311,6 +316,10 @@ module Settings
       cross_project_work_package_relations: {
         default: true
       },
+      csv_escape_formulas: {
+        default: true,
+        description: "Escapes cells with single quote in CSV exports that begin with a spreadsheet formula character (e.g., =,@)"
+      },
       database_cipher_key: {
         description: "Encryption key for repository credentials",
         format: :string,
@@ -470,12 +479,14 @@ module Settings
       emails_footer: {
         default: {
           "en" => ""
-        }
+        },
+        string_values: true
       },
       emails_header: {
         default: {
           "en" => ""
-        }
+        },
+        string_values: true
       },
       # use email address as login, hide login in registration form
       email_login: {
@@ -655,6 +666,11 @@ module Settings
         description: "Hide menu items in the menu sidebar for each main menu (such as Administration and Projects).",
         default: {},
         writable: false # cached in global variable
+      },
+      ical_feed_keep_closed_meetings_days: {
+        description: "Number of days to keep closed and in-progress one-time meetings in iCal feeds",
+        format: :integer,
+        default: 30
       },
       impressum_link: {
         description: "Impressum link to be set, hidden by default",

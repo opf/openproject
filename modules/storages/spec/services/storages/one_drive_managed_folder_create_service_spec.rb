@@ -32,7 +32,7 @@ require "spec_helper"
 require_module_spec_helper
 
 module Storages
-  RSpec.describe OneDriveManagedFolderCreateService, :webmock do
+  RSpec.describe OneDriveManagedFolderCreateService, :disable_ssrf_filter, :webmock do
     shared_let(:admin) { create(:admin) }
     shared_let(:storage) do
       # Automatically Managed Project Folder Drive

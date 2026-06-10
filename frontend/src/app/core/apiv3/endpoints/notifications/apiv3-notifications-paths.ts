@@ -38,13 +38,13 @@ import {
   listParamsString,
 } from 'core-app/core/apiv3/paths/apiv3-list-resource.interface';
 import { ApiV3NotificationPaths } from 'core-app/core/apiv3/endpoints/notifications/apiv3-notification-paths';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { IHALCollection } from 'core-app/core/apiv3/types/hal-collection.type';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
 
 export class ApiV3NotificationsPaths
   extends ApiV3ResourceCollection<INotification, ApiV3NotificationPaths> {
-  @InjectField() http:HttpClient;
+  @LazyInject() http:HttpClient;
 
   constructor(
     protected apiRoot:ApiV3Service,

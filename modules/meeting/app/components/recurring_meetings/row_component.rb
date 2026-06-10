@@ -189,7 +189,7 @@ module RecurringMeetings
       return unless delete_allowed? && !cancelled? && instantiated?
 
       menu.with_item(
-        label: past? ? I18n.t(:label_recurring_meeting_delete) : I18n.t(:label_recurring_meeting_cancel),
+        label: meeting.past? ? I18n.t(:label_recurring_meeting_delete) : I18n.t(:label_recurring_meeting_cancel),
         scheme: :danger,
         href: delete_dialog_project_meeting_path(project, meeting),
         tag: :a,
@@ -247,8 +247,5 @@ module RecurringMeetings
       instantiated? && meeting.start_time != occurrence_time
     end
 
-    def past?
-      occurrence_time < Time.current
-    end
   end
 end

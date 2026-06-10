@@ -25,7 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -42,6 +42,9 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SubprojectBoardHeaderComponent {
+  readonly pathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+
   @Input() public resource:HalResource;
 
   idFromLink = idFromLink;
@@ -49,8 +52,4 @@ export class SubprojectBoardHeaderComponent {
   text = {
     project: this.I18n.t('js.label_project'),
   };
-
-  constructor(readonly pathHelper:PathHelperService,
-    readonly I18n:I18nService) {
-  }
 }

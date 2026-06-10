@@ -27,7 +27,7 @@
 //++
 
 import {
-  ChangeDetectionStrategy, Component, EventEmitter, Output,
+  ChangeDetectionStrategy, Component, EventEmitter, Output, inject,
 } from '@angular/core';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
 import {
@@ -36,7 +36,6 @@ import {
 import {
   TimeEntriesCurrentUserConfigurationModalComponent,
 } from 'core-app/shared/components/grids/widgets/time-entries/current-user/configuration-modal/configuration.modal';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
 
 @Component({
@@ -49,7 +48,7 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WidgetTimeEntriesCurrentUserMenuComponent extends WidgetAbstractMenuComponent {
-  @InjectField() opModalService:OpModalService;
+  readonly opModalService = inject(OpModalService);
 
   @Output() onConfigured = new EventEmitter<any>();
 

@@ -202,16 +202,7 @@ lt:
           text: "[Placeholder] Įterptinis kalendorius"
     admin:
       type_form:
-        custom_field: Savas laukas
-        inactive: Neaktyvus
-        drag_to_activate: Vilkite laukelius iš čia, kad juos aktyvuotumėte
-        add_group: Pridėti atributų grupę
-        add_table: Pridėti susijusių darbų paketų lentelę
         edit_query: Keisti užklausą
-        new_group: Nauja grupė
-        delete_group: Delete group
-        remove_attribute: Remove from group
-        reset_to_defaults: Atstatyti į numatytuosius
       working_days:
         calendar:
           empty_state_header: Nedarbo dienos
@@ -219,13 +210,6 @@ lt:
           new_date: "(nauja)"
         add_non_working_day: Nedarbo diena
         already_added_error: Nedarbo diena šiai datai jau yra. Kiekvienai unikaliai datai galima sukurti tik vieną nedarbo dieną.
-        change_button: Įrašyti ir perplanuoti
-        change_title: Keisti darbo dienas
-        removed_title: 'Jūs išimsite šias dienas iš nedarbo dienų sąrašo:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -418,7 +402,6 @@ lt:
     label_per_page: 'Puslapyje:'
     label_please_wait: Prašome palaukti
     label_project: Projektas
-    label_project_list: Projektų sąrašai
     label_project_plural: Projektai
     label_visibility_settings: Matomumo nustatymai
     label_quote_comment: Cituoti šį komentarą
@@ -616,18 +599,6 @@ lt:
     breadcrumb: Susijusi informacija
     text_data_lost: Visa įvesta informacija bus prarasta.
     text_user_wrote: "%{value} parašė:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: "%{group} grupės pavadinimas naudotas daugiau nei kartą. Grupių pavadinimai privalo būti unikalūs."
-        error_no_table_configured: Prašome sukonfigūruoti lentelę, skirtą grupei %{group}.
-        reset_title: Atstatyti formos konfigūraciją
-        confirm_reset: 'Įspėjimas: Ar tikrai norite atstatyti pradinę formos konfigūraciją? Atributai bus perkelti į jų numatytąsias grupes ir VISUS savi laukeliai bus išjungti.
-
-          '
-        upgrade_to_ee: Patobulinkite į Enteprise vietinę versiją
-        upgrade_to_ee_text: Oho! Jei Jums reikia šio priedo, esate super pro! Ar nenorėtumėte paremti mus, OpenSource (atviro kodo) kūrėjus, tapdami Enterprise versijos klientu?
-        more_information: Daugiau informacijos
-        nevermind: Nesvarbu
     time_entry:
       work_package_required: Reikia pirma pasirinkti darbo paketą.
       title: Registruoti laiką
@@ -1082,16 +1053,13 @@ lt:
         all: Visi projektai
         selected: Tik pasirinktus
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Įtraukti visus sub-projektus
       tooltip:
         include_all_selected: Projektas jau įtrauktas, nes įjungta parinktis įtraukti visus sub-projektus.
         current_project: Tai dabartinis projektas, kuriame jūs esate.
         does_not_match_search: Projektas neatitinka paieškos kriterijaus.
       no_results: Nei vienas projektas neatitinka jūsų paieškos kriterijaus.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

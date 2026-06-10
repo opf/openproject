@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -49,6 +49,12 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin implements OnInit {
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly PathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() public workPackage:WorkPackageResource;
 
   @Input() public relationType:string;
@@ -64,16 +70,6 @@ export class WorkPackageRelationsHierarchyComponent extends UntilDestroyedMixin 
   public canAddRelation:boolean;
 
   public childrenQueryProps:any;
-
-  constructor(
-    readonly apiV3Service:ApiV3Service,
-    readonly PathHelper:PathHelperService,
-    readonly I18n:I18nService,
-    readonly schemaCache:SchemaCacheService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   public text = {
     parentHeadline: this.I18n.t('js.relations_hierarchy.parent_headline'),

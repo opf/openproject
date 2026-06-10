@@ -155,7 +155,7 @@ The only exception to this rule are single commit pull requests, which can be ap
 
 ## Citations
 
-[Things everyone should do: code review](https://blog.csdn.net/zhangmike/article/details/30198411)
+[Things everyone should do: code review](https://goodmath.scientopia.org/2011/07/06/things-everyone-should-do-code-review/)
 
 [Why code reviews are good for you](https://beust.com/weblog/2006/06/22/why-code-reviews-are-good-for-you/)
 

@@ -31,163 +31,136 @@
 module Backlogs
   class WorkPackagesController < BaseController
     include OpTurbo::ComponentStream
-    include Backlogs::Move
+    include Backlogs::Concerns::ContainerLoading
 
-    before_action :load_story
+    before_action :load_work_package
 
     # Deferred ActionMenu items (Primer include-fragment).
     def menu
-      max_position = @allowed_stories.maximum(:position) || 0
-      open_sprints_exist = Sprint.for_project(@project).visible.not_completed.where.not(id: @sprint.id).exists?
-
-      render(Backlogs::StoryMenuListComponent.new(
-               story: @story,
-               sprint: @sprint,
+      render(Backlogs::WorkPackageCardMenuComponent.new(
                project: @project,
-               max_position:,
-               open_sprints_exist:,
+               work_package: work_package_with_backlog_neighbours,
+               open_sprints_exist: target_open_sprints.exists?,
+               other_buckets_exist: target_buckets.exists?,
                current_user:
              ),
              layout: false)
     end
 
-    # Move a story from an Sprint to another Sprint, or the Inbox.
-    def move
-      # The update service reloads the story internally (via #move_after),
-      # so we memoize the previous sprint_id before the call.
-      sprint_id_was = @story.sprint_id
-
-      move_attributes = move_attributes_from_target
-      unless move_work_package(move_attributes).success?
-        return respond_with_turbo_streams(status: :unprocessable_entity)
-      end
-
-      if target_inbox?(move_attributes)
-        moved_to_inbox
-      elsif target_sprint?(move_attributes) && @story.sprint_id != sprint_id_was
-        moved_to_sprint
-      end
-
-      respond_with_turbo_streams
-    end
-
     def move_to_sprint_dialog
       respond_with_dialog Backlogs::MoveToSprintDialogComponent.new(
-        work_package: @story,
+        work_package: @work_package,
         project: @project,
-        move_action: move_project_backlogs_work_package_path(
-          @project, @sprint, @story, helpers.all_backlogs_params
-        )
+        move_action: move_project_backlogs_work_package_path(@project, @work_package, helpers.all_backlogs_params)
       )
     end
 
-    def reorder
-      call = Stories::UpdateService
-        .new(user: current_user, story: @story)
-        .call(attributes: { move_to: reorder_param })
+    def move_to_bucket_dialog
+      respond_with_dialog Backlogs::MoveToBucketDialogComponent.new(
+        work_package: @work_package,
+        project: @project,
+        move_action: move_project_backlogs_work_package_path(@project, @work_package, helpers.all_backlogs_params)
+      )
+    end
 
-      unless call.success?
+    def move # rubocop:disable Metrics/AbcSize
+      # Capture the source before the call; the service reloads @work_package internally via #move_after.
+      source = @work_package.sprint
+
+      call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, story: @work_package)
+                                   .call(**move_params.to_h.symbolize_keys)
+
+      if call.success?
+        move_work_package_to_target_component_via_turbo_stream(source:, target: call.result.sprint)
+
+        if work_package_invisible_after_move?(call.result)
+          backlog_name = call.result.backlog_bucket&.name || I18n.t(:label_inbox)
+          render_flash_message_via_turbo_stream(
+            message: I18n.t(:notice_work_package_invisible_after_move, backlog: backlog_name)
+          )
+        end
+      else
         render_error_flash_message_via_turbo_stream(
           message: I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
         )
-        return respond_with_turbo_streams(status: :unprocessable_entity)
       end
 
-      replace_sprint_component_via_turbo_stream(sprint: @sprint)
-
-      respond_with_turbo_streams
+      respond_with_turbo_streams(status: call)
     end
 
     private
 
-    def move_work_package(move_attributes)
-      call = update_story_with_target_and_position(attributes: move_attributes)
-
-      if call.success?
-        # Update source component so that the moved story disappears
-        replace_sprint_component_via_turbo_stream(sprint: @sprint)
-      else
-        render_error_flash_message_via_turbo_stream(
-          message: I18n.t(:notice_unsuccessful_update_with_reason, reason: call.message)
-        )
+    def move_work_package_to_target_component_via_turbo_stream(source:, target:)
+      if source != target
+        replace_component_via_turbo_stream(source)
       end
 
-      call
+      replace_component_via_turbo_stream(target)
     end
 
-    def update_story_with_target_and_position(attributes:)
-      Stories::UpdateService
-        .new(user: current_user, story: @story)
-        .call(attributes:, **position_attributes)
+    def replace_component_via_turbo_stream(container)
+      component = if container
+                    sprint_component(sprint: container)
+                  else
+                    backlog_component
+                  end
+
+      replace_via_turbo_stream(component:, method: :morph)
     end
 
-    def moved_to_inbox
-      render_success_flash_message_via_turbo_stream(
-        message: I18n.t(:notice_successful_move, from: @sprint.name, to: I18n.t(:label_inbox))
-      )
-      inbox_work_packages = WorkPackage.backlogs_inbox_for(project: @project)
-      backlog_buckets = if OpenProject::FeatureDecisions.backlog_buckets_active?
-                          BacklogBucket.for_project(@project)
-                        end
-
-      replace_via_turbo_stream(
-        component: Backlogs::BacklogsComponent.new(inbox_work_packages:,
-                                                   backlog_buckets:,
-                                                   project: @project),
-        method: :morph
-      )
+    def sprint_component(sprint:)
+      Backlogs::SprintComponent.new(sprint:, project: @project)
     end
 
-    def moved_to_sprint
-      moved_to(new_sprint: @story.sprint)
+    def backlog_component
+      load_backlog_data
+
+      Backlogs::BacklogComponent.new(buckets: @backlog_buckets,
+                                     work_packages_by_backlog_id: @work_packages_by_backlog_id,
+                                     project: @project)
     end
 
-    def moved_to(new_sprint:)
-      render_success_flash_message_via_turbo_stream(
-        message: I18n.t(:notice_successful_move, from: @sprint.name, to: new_sprint.name)
-      )
-
-      # Update the target component so that the moved story shows up
-      replace_sprint_component_via_turbo_stream(sprint: new_sprint)
-    end
-
-    def target_sprint?(move_attributes)
-      move_attributes[:sprint_id].present?
-    end
-
-    def target_inbox?(move_attributes)
-      move_attributes.key?(:sprint_id) && move_attributes[:sprint_id].nil?
-    end
-
-    def replace_sprint_component_via_turbo_stream(sprint:)
-      replace_via_turbo_stream(
-        component: Backlogs::SprintComponent.new(sprint:, project: @project),
-        method: :morph
-      )
-    end
-
-    def load_story
-      @allowed_stories = WorkPackage.visible.where(sprint: @sprint, project: @project)
-      @story = @allowed_stories.find(params[:id])
+    def load_work_package
+      @work_packages = WorkPackage.visible.where(project: @project).order_by_position
+      @work_package = @work_packages.find(params.expect(:id))
     end
 
     def move_params
-      params.require(%i[target_id])
-      params.permit(:position, :prev_id, :target_id)
+      params.permit(:position, :prev_id, :target_id, :direction)
     end
 
-    def position_attributes
-      if move_params.has_key?(:prev_id)
-        { prev_id: move_params[:prev_id].to_i }
-      elsif move_params.has_key?(:position)
-        { position: move_params[:position].to_i }
+    def displayed_work_packages
+      if @work_package.sprint_id?
+        @work_packages.where(sprint_id: @work_package.sprint_id)
+      elsif @work_package.backlog_bucket_id?
+        @work_packages.merge(@work_package.backlog_bucket.displayed_work_packages)
       else
-        {}
+        @work_packages.merge(WorkPackage.in_inbox_for(project: @project))
       end
     end
 
-    def reorder_param
-      params.expect(:direction)
+    def work_package_with_backlog_neighbours
+      displayed_work_packages.with_backlogs_neighbours.find(@work_package.id)
+    end
+
+    def target_open_sprints
+      Sprint.for_project(@project)
+            .visible.not_completed
+            .where.not(id: @work_package.sprint_id)
+    end
+
+    def target_buckets
+      BacklogBucket.where(project: @project)
+                   .where.not(id: @work_package.backlog_bucket_id)
+    end
+
+    # After a work package is moved to the backlog, it might no longer be visible due to
+    # the project settings for excluded types and statuses.
+    def work_package_invisible_after_move?(work_package)
+      return false if work_package.sprint_id?
+
+      @project.backlog_excluded_type_ids.include?(work_package.type_id) ||
+        @project.done_status_ids.include?(work_package.status_id)
     end
   end
 end

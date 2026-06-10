@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridAreaService } from 'core-app/shared/components/grids/grid/area.service';
 
 @Injectable()
 export class GridMoveService {
-  constructor(private layout:GridAreaService) {}
+  private layout = inject(GridAreaService);
+
 
   public down(movedArea:GridWidgetArea|null, ignoreArea:GridWidgetArea) {
     const movedAreas:GridWidgetArea[] = [];

@@ -27,7 +27,7 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -51,6 +51,13 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
   standalone: false,
 })
 export class WorkPackageShareButtonComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly opModalService = inject(OpModalService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly bannersService = inject(BannersService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly actions$ = inject(ActionsService);
+
   @Input() public workPackage:WorkPackageResource;
 
   showEnterpriseIcon = !this.bannersService.allowsTo('work_package_sharing');
@@ -60,17 +67,6 @@ export class WorkPackageShareButtonComponent extends UntilDestroyedMixin impleme
   public text = {
     share: this.I18n.t('js.sharing.share'),
   };
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly opModalService:OpModalService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly bannersService:BannersService,
-    readonly apiV3Service:ApiV3Service,
-    readonly actions$:ActionsService,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this.shareCount$ = this

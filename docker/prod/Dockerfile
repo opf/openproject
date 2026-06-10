@@ -141,7 +141,7 @@ ENV PGDATA=/var/openproject/pgdata
 COPY --from=openproject/gosu /go/bin/gosu /usr/local/bin/gosu
 RUN chmod +x /usr/local/bin/gosu && gosu nobody true
 
-COPY --from=openproject/hocuspocus:17.3.1 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
+COPY --from=openproject/hocuspocus:17.4.0 --chown=$APP_USER:$APP_USER /app /opt/hocuspocus
 # Keep node/npm in all-in-one for bundled hocuspocus even when BIM support is disabled.
 COPY --from=build-base /usr/local/bin/node /usr/local/bin/node
 COPY --from=build-base /usr/local/lib/node_modules /usr/local/lib/node_modules

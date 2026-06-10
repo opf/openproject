@@ -29,9 +29,8 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { WorkPackageViewRelationColumns } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-relation-columns';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { RelationsStateValue, WorkPackageRelationsService } from 'core-app/features/work-packages/components/wp-relations/wp-relations.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   QueryColumn,
   queryColumnTypes,
@@ -48,15 +47,10 @@ export type RelationColumnType = 'toType'|'ofType'|'children';
 
 @Injectable()
 export class WorkPackageViewRelationColumnsService extends WorkPackageViewBaseService<WorkPackageViewRelationColumns> {
-  constructor(
-public querySpace:IsolatedQuerySpace,
-    public wpTableColumns:WorkPackageViewColumnsService,
-    public halResourceService:HalResourceService,
-    public apiV3Service:ApiV3Service,
-    public wpRelations:WorkPackageRelationsService,
-) {
-    super(querySpace);
-  }
+  wpTableColumns = inject(WorkPackageViewColumnsService);
+  halResourceService = inject(HalResourceService);
+  apiV3Service = inject(ApiV3Service);
+  wpRelations = inject(WorkPackageRelationsService);
 
   public valueFromQuery(_query:QueryResource):WorkPackageViewRelationColumns {
     // Take over current expanded values

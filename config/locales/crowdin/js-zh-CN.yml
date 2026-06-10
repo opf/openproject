@@ -71,7 +71,7 @@ zh-CN:
     button_back_to_list_view: 返回列表视图
     button_cancel: 取消
     button_close: 关闭
-    button_change_project: 移动到另一个项目
+    button_change_project: 移至另一个项目
     button_check_all: 全选
     button_configure-form: 配置表单
     button_confirm: 确认
@@ -202,16 +202,7 @@ zh-CN:
           text: "[Placeholder]嵌入式日历"
     admin:
       type_form:
-        custom_field: 自定义字段
-        inactive: 非活动
-        drag_to_activate: 从此处拖动字段将其激活
-        add_group: 增加属性组
-        add_table: 添加相关工作包表
         edit_query: 编辑查询
-        new_group: 新建组
-        delete_group: 删除群组
-        remove_attribute: 从群组中移除
-        reset_to_defaults: 重置为默认值
       working_days:
         calendar:
           empty_state_header: 非工作日
@@ -219,13 +210,6 @@ zh-CN:
           new_date: "(新)"
         add_non_working_day: 非工作日
         already_added_error: 该日期已存在非工作日。每个唯一日期只能创建一个非工作日。
-        change_button: 保存并重新安排
-        change_title: 更改工作日
-        removed_title: 您将从非工作日列表中删除以下日期：
-        change_description: 在这种情况下，更改一周中哪几天被视为工作日或非工作日会影响所有项目中所有工作包和生命周期的开始日期和结束日期。
-        warning: '更改可能需要一些时间才能生效。在所有相关工作包和项目生命周期更新后，您将收到通知。 确定要继续吗？
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: 将进度计算模式从基于状态改为基于工时，将使<i>完成 %</i>字段可自由编辑。如果您选择输入<i>工时</i>或<i>剩余工时</i>的值，它们也将与<i>完成 %</i>相关联。更改<i>剩余工时</i>就可以更新<i>完成 %</i>。
         warning_progress_calculation_mode_change_from_field_to_status_html: 将进度计算模式从基于工时的方式改为基于状态，将会导致所有现有的 <i>%完整的</i> 值丢失，并被与每个状态相关的值所替代。 <i>剩余工时</i> 的现有值也可能被重新计算，以反映这种变化。此操作不可逆转。
@@ -418,7 +402,6 @@ zh-CN:
     label_per_page: 每页：
     label_please_wait: 请稍等
     label_project: 项目
-    label_project_list: 项目列表
     label_project_plural: 项目
     label_visibility_settings: 可见性设置
     label_quote_comment: 引用这个评论
@@ -520,7 +503,7 @@ zh-CN:
           lists_kanban: 在此，您可以在面板中创建多个列表（列）。例如，此功使让您可以创建<b>看板面板</b>。
           lists_basic: 在这里，您可以在敏捷面板内创建多个列表（列）。
           add: 点击加号 (+) 图标可<b>创建新卡片</b>或<b>添加现有卡片</b>到面板上的列表中。
-          drag: 在给定列表中拖放您的卡片以重新排序，或者将卡片移动到其他列表中。<br>您可以点击右上角的信息 (i) 图标或双击卡片可打开其详细信息。
+          drag: 在给定列表中拖放您的卡片以重新排序，或者将卡片移至其他列表中。<br>您可以点击右上角的信息 (i) 图标或双击卡片可打开其详细信息。
         wp:
           toggler: 现在我们来看一下<b>工作包</b>部分，工作包提供了更详细的工作视图。
           list: 此<b>工作</b>包概览提供了包含项目中所有工作的列表，例如任务、里程碑、阶段等。<br>可以直接从此视图创建和编辑工作包。要访问特定工作包的详细信息，只需双击该行即可。
@@ -613,18 +596,6 @@ zh-CN:
     breadcrumb: 面包屑导航
     text_data_lost: 输入的所有数据将全部丢失。
     text_user_wrote: "%{value} 写道："
-    types:
-      attribute_groups:
-        error_duplicate_group_name: 名称 %{group} 已多次使用。组名不能重复。
-        error_no_table_configured: 请为 %{group} 配置一个表。
-        reset_title: 重置表单配置
-        confirm_reset: '警告：确定想要重置表单配置吗？这会将属性重置为它们的默认组，并禁用所有自定义字段。
-
-          '
-        upgrade_to_ee: 升级到本地部署的 Enterprise edition
-        upgrade_to_ee_text: 哇！如果您需要此插件，那么您是位超级行家！您是否考虑成为我们的企业版客户，以支持我们这些开源开发者？
-        more_information: 更多信息
-        nevermind: 我愿意
     time_entry:
       work_package_required: 需要先选择一个工作包。
       title: 记录时间
@@ -1070,16 +1041,13 @@ zh-CN:
         all: 所有项目
         selected: 仅限所选
       search_placeholder: 搜索项目…
-      search_placeholder_favorites: 搜索收藏夹…
       include_subprojects: 包含所有子项目
       tooltip:
         include_all_selected: 自启用“包含所有子项目”后已包含的项目。
         current_project: 这是您当前所在的项目。
         does_not_match_search: 项目不符合搜索条件。
       no_results: 没有项目符合您的搜索条件。
-      no_favorite_results: 没有收藏的项目符合您的搜索条件。
     include_workspaces:
-      search_placeholder: 搜索…
       types:
         program: 项目群
         portfolio: 项目组合

@@ -440,17 +440,6 @@
     };
     version = "1.0.0";
   };
-  bootsnap = {
-    dependencies = ["msgpack"];
-    groups = ["default"];
-    platforms = [];
-    source = {
-      remotes = ["https://rubygems.org"];
-      sha256 = "1qnh58f5n3yppmpqj555pp9qbppmgrjay17y9pvg5dfhvmix08kl";
-      type = "gem";
-    };
-    version = "1.7.2";
-  };
   brakeman = {
     groups = ["development" "test"];
     platforms = [];

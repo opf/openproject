@@ -1,37 +1,55 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DebugElement } from '@angular/core';
-import { GitHubTabComponent } from "core-app/features/plugins/linked/openproject-github_integration/github-tab/github-tab.component";
-import { TabPrsComponent } from "core-app/features/plugins/linked/openproject-github_integration/tab-prs/tab-prs.component";
-import { TabHeaderComponent } from "core-app/features/plugins/linked/openproject-github_integration/tab-header/tab-header.component";
-import { By } from "@angular/platform-browser";
-import { I18nService } from "core-app/core/i18n/i18n.service";
-import { PathHelperService } from "core-app/core/path-helper/path-helper.service";
+import { Component, DebugElement, Input } from '@angular/core';
+import { GitHubTabComponent } from 'core-app/features/plugins/linked/openproject-github_integration/github-tab/github-tab.component';
+import { By } from '@angular/platform-browser';
+import { I18nService } from 'core-app/core/i18n/i18n.service';
+import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
+@Component({
+  selector: 'tab-header',
+  template: '',
+  standalone: false,
+})
+class TabHeaderStubComponent {
+  @Input() workPackage:WorkPackageResource;
+}
+
+@Component({
+  selector: 'op-tab-prs',
+  template: '',
+  standalone: false,
+})
+class TabPrsStubComponent {
+  @Input() workPackage:WorkPackageResource;
+}
 
 describe('GitHubTabComponent.', () => {
   let component:GitHubTabComponent;
   let fixture:ComponentFixture<GitHubTabComponent>;
   let element:DebugElement;
+  const workPackage = { id: 'testId' } as WorkPackageResource;
   const apiV3Base = 'http://www.openproject.com/api/v3/';
-  const IPathHelperServiceStub = { api:{ v3: { apiV3Base }}};
+  const IPathHelperServiceStub = { api: { v3: { apiV3Base } } };
   const I18nServiceStub = {
-    t: function(key:string) {
+    t: function (key:string) {
       return 'test translation';
     }
-  }
+  };
 
   beforeEach(async () => {
     await TestBed
       .configureTestingModule({
-        declarations: [
-          TabPrsComponent,
-          TabHeaderComponent,
-        ],
-        providers: [
-          { provide: I18nService, useValue: I18nServiceStub },
-          { provide: PathHelperService, useValue: IPathHelperServiceStub },
-        ],
-      })
+      declarations: [
+        GitHubTabComponent,
+        TabHeaderStubComponent,
+        TabPrsStubComponent,
+      ],
+      providers: [
+        { provide: I18nService, useValue: I18nServiceStub },
+        { provide: PathHelperService, useValue: IPathHelperServiceStub },
+      ],
+    })
       .compileComponents();
   });
 
@@ -39,6 +57,7 @@ describe('GitHubTabComponent.', () => {
     fixture = TestBed.createComponent(GitHubTabComponent);
     component = fixture.componentInstance;
     element = fixture.debugElement;
+    component.workPackage = workPackage;
 
     fixture.detectChanges();
   });
@@ -53,5 +72,13 @@ describe('GitHubTabComponent.', () => {
 
     expect(tabHeader).toBeTruthy();
     expect(tabPrs).toBeTruthy();
+  });
+
+  it('should pass the work package to the child components', () => {
+    const tabHeader = fixture.debugElement.query(By.directive(TabHeaderStubComponent));
+    const tabPrs = fixture.debugElement.query(By.directive(TabPrsStubComponent));
+
+    expect(tabHeader.componentInstance.workPackage).toBe(workPackage);
+    expect(tabPrs.componentInstance.workPackage).toBe(workPackage);
   });
 });

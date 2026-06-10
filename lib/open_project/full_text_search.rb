@@ -39,10 +39,8 @@ module OpenProject
 
         language = OpenProject::Configuration.main_content_language
 
-        ActiveRecord::Base.send(
-          :sanitize_sql_array, ["#{column} @@ to_tsquery(?, ?)",
-                                language,
-                                query]
+        OpenProject::SqlSanitization.sanitize(
+          "#{column} @@ to_tsquery(?, ?)", language, query
         )
       end
     end

@@ -33,7 +33,7 @@ pt-BR:
           title: Subitens
         project_favorites:
           title: Projetos favoritos
-          no_results: No momento, você não possui projetos favoritos. Clique no ícone de estrela no painel do projeto para adicionar um aos seus favoritos.
+          no_results: Você ainda não tem projetos favoritos. Adicione um ou mais projetos como favoritos através da visão geral ou em uma lista de projetos.
         time_entries_current_user:
           title: Meu tempo gasto
           displayed_days: 'Dias exibidos no widget:'
@@ -41,7 +41,7 @@ pt-BR:
           title: Tempo gasto (últimos 7 dias)
           no_results: Não há entradas de tempo nos últimos 7 dias.
         work_packages_accountable:
-          title: Pacotes de trabalho sob minha responsabilidade
+          title: Pacotes de trabalho pelos quais sou encarregado
         work_packages_assigned:
           title: Pacotes de trabalho atribuídos a mim
         work_packages_created:

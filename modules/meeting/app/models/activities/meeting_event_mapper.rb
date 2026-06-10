@@ -177,7 +177,7 @@ class Activities::MeetingEventMapper < Activities::EventMapper
       )
   end
 
-  def filtered_meeting_details(details)
+  def filtered_meeting_details(details) # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
     details
       .reject { |key, _| key.start_with?("agenda_items_") && !key.end_with?("_position") }
       .reject { |key, value| key.end_with?("_position") && value.first.nil? }
@@ -212,7 +212,7 @@ class Activities::MeetingEventMapper < Activities::EventMapper
   end
 
   def journals_includes
-    super + %i[agenda_item_journals]
+    super + [{ participant_journals: :user }, :agenda_item_journals]
   end
 
   def url_helpers

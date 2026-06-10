@@ -51,6 +51,26 @@ hr:
           description: Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?
           confirm_button_text: Make public
   admin:
+    reserved_identifiers:
+      title: Reserved project identifiers
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
+      col_identifier: Identifier
+      col_project: Project
+      col_reserved: Reserved
+      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
+      filter_label: Search identifiers
+      btn_release: Release
+      released_notice: Identifier "%{identifier}" has been released.
+      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
+      dialog:
+        title: Release identifier
+        heading: Release "%{identifier}"?
+        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        checkbox_label: I understand that this cannot be undone.
+        confirm_button: Release identifier
+      empty_heading: No reserved identifiers
+      reserved_ago: "%{time} ago"
+      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
     plugins:
       no_results_title_text: There are currently no plugins installed.
       no_results_content_text: See our integrations and plugins page for more information.
@@ -119,6 +139,9 @@ hr:
       errors:
         cannot_delete_with_imports: Cannot delete Jira host with existing imports
         custom_field_creation_failed: 'Failed to create custom field ''%{name}'': %{message}'
+        semantic_identifiers_must_be_enabled:
+          title: Project-based semantic identifiers must be enabled.
+          description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
       blank:
         title: No Jira hosts configured yet
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
@@ -157,9 +180,13 @@ hr:
       client:
         connection_error: 'Failed to connect to Jira server: %{message}'
         connection_timeout: 'Connection to Jira server timed out: %{message}'
+        ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        ssrf_block_doc_link: Please see our [documentation](docs_url).
+        ssl_error: 'SSL error connecting to Jira server: %{message}'
         parse_error: 'Failed to parse Jira API response: %{message}'
         api_error: Jira API returned error status %{status}
         401_error: Jira API returned a 401 error. Your authentication token may have expired or lack the required permissions. Please ensure the token belongs to a Jira administrator.
+        429_error: Jira API returned a 429 error. It means token owner has been rate limited by the Jira instance. Please disable rate limiting for this user.
       columns:
         projects: Projects
         last_change: Last change
@@ -253,8 +280,8 @@ hr:
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_comming_soon: Comming soon (Q2 2026)
-              label_comming_later: Comming later
+              label_coming_soon: Coming soon (Q2 2026)
+              label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
               button_continue: Continue
@@ -265,7 +292,7 @@ hr:
               elements:
                 relations: Relations between issues
                 project_ids: Project identifiers
-                issue_ids: Issues identifiers
+                issue_ids: Issue identifiers
                 sprints: Sprint assignments
                 workflows: Project-level workflows
                 schemes: Schemas
@@ -319,6 +346,8 @@ hr:
             confirm_button: Understood
           select_projects:
             title: Select projects
+      user:
+        unknown_name: Unknown
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -410,10 +439,11 @@ hr:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         banner:
-          existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Autofix and save'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
+          existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
 
             '
         box_header:
+          table_title: Projects with identifiers to update
           label_project: Project
           label_previous_identifier: Previous identifier
           label_autofixed_suggestion: Future identifier
@@ -432,19 +462,21 @@ hr:
             one: "... 1 more project"
             few: "... %{count} more projects"
             other: "... %{count} more projects"
-        button_autofix: Autofix and save
+        button_autofix: Convert identifiers
+        button_save: Convert identifiers
         dialog:
           title: Change work package identifiers
           heading: Enable project-based work package IDs?
-          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to redirect properly. This change will take some time to complete.
+          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to work. This change will take some time to complete.
 
             '
           confirm_button: Change identifiers
           checkbox_label: I understand that this will permanently change all work package IDs
         success_banner: Successfully updated work package identifier format.
         in_progress:
-          converting_banner_message: Project identifiers are currently being converted to semantic format. This may take some time.
-          reverting_banner_message: Project identifiers are currently being reverted to classic format. This may take some time.
+          header_semantic: Converting to project-based identifiers
+          header_classic: Converting to numeric identifiers
+          footer_message: Background conversion is in progress. You can safely leave this page.
     workflows:
       tabs:
         default_transitions: Default transitions
@@ -473,7 +505,7 @@ hr:
         label: 'Role: %{role}'
         no_role: Select role
         roles:
-          one: "%{count} role selected"
+          one: One role selected
           few: "%{count} roles selected"
           other: "%{count} roles selected"
       blankslate:
@@ -894,6 +926,7 @@ hr:
         text: This action will not delete any project the list contains. Are you sure you want to delete this project list?
     settings:
       header_details: Basic details
+      header_identifier: Identifier
       header_status: Status
       header_relations: Project relations
       button_update_details: Update details
@@ -918,7 +951,7 @@ hr:
       change_identifier_dialog_title: Change project identifier
       change_identifier_format_hint_semantic: Only uppercase letters (A–Z), numbers or underscores. Max 10 characters. Must start with a letter.
       change_identifier_format_hint_legacy: Only lowercase letters (a–z), numbers, dashes or underscores.
-      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifier and URLs will nevertheless continue to redirect properly.
+      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifiers and URLs will nevertheless continue to work.
 
         '
       subitems:
@@ -1357,6 +1390,38 @@ hr:
     edit:
       form_configuration:
         tab: Form configuration
+        label_group: Section
+        reset_to_defaults: Reset form
+        add_attribute_group: Section
+        add_query_group: Related work packages table
+        delete_group: Delete section
+        remove_attribute: Remove from section
+        drag_to_activate: Drag fields from here to activate them
+        drag_to_reorder: Drag to reorder
+        edit_query: Edit query
+        custom_field: Custom field
+        filter_inactive: Filter attributes
+        inactive_attributes_heading: Inactive attributes
+        no_inactive_attributes: No inactive attributes
+        blankslate_title: No groups yet
+        blankslate_description: Add groups using the button above or drag attributes from the left panel.
+        group_actions: Section actions
+        rename_group: Rename section
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        group_name_label: Section name
+        row_actions: Row actions
+        query_group_label: Related work packages table
+        empty_group_hint: Drag attributes here
+        invalid_attribute_groups: The form configuration payload is invalid.
+        invalid_query: The embedded query configuration is invalid.
+        not_found: The requested form configuration item could not be found.
+        untitled_group: Untitled group
+        reset_title: Reset form configuration
+        confirm_reset: Are you sure you want to reset the form configuration?
+        builtin_field: Built-in field
+        reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
+
+          '
       projects:
         tab: Projekti
         enable_all: Enable for all projects
@@ -1459,8 +1524,8 @@ hr:
     bulk_delete_dialog:
       title: Delete %{count} work packages
       heading: Permanently delete these %{count} work packages?
-      description: 'The following work packages, including children and all associated data, will permanently be deleted:'
-      description_with_children: 'The following work packages, including child work packages, and all associated data will be permanently deleted:'
+      description: 'The following work packages and all associated data will be permanently deleted:'
+      description_with_children: 'The following work packages, including children and all associated data, will be permanently deleted:'
       confirm_children_deletion: I acknowledge that all selected work packages and their children will be permanently deleted.
       cross_project_warning: 'These work packages span multiple projects: %{projects}'
       children_label: 'The following children will also be deleted:'
@@ -1677,6 +1742,7 @@ hr:
       attachment:
         attachment_content: Attachment content
         attachment_file_name: Attachment file name
+        charset: Character set
         content_type: Content-type
         downloads: Preuzimanja
         file: Datoteka
@@ -1771,6 +1837,7 @@ hr:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Role
       notification:
         read_ian: Read in-app
@@ -2016,6 +2083,7 @@ hr:
         priority: Prioritet
         progress: "% Complete"
         readonly: Read only
+        relatable: Relatable to
         remaining_hours: Remaining work
         remaining_time: Remaining work
         sequence_number: Sequence number
@@ -2060,17 +2128,14 @@ hr:
         before: mora biti prije %{date}.
         before_or_equal_to: mora biti prije ili jednako %{date}.
         blank: ne može biti prazan unos.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: needs to have the property '%{property}' set.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Radni paket ne može biti pridružen podređenim radnim zadacima.
         circular_dependency: Ova relacija izraditi će skupnu odnosno cirkularnu ovisnost.
         confirmation: ne odgovara %{attribute}.
         could_not_be_copied: "%{dependency} could not be (fully) copied."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: ne postoji.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: may not be accessed.
         error_readonly: was attempted to be written but is not writable.
@@ -2091,36 +2156,38 @@ hr:
         greater_than_or_equal_to: mora biti veće od ili jednako %{count}.
         greater_than_or_equal_to_start_date: must be greater than or equal to the start date.
         greater_than_start_date: must be greater than the start date.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: nije postavljeno na jednu od dozvoljenih vrijednosti.
         inclusion_nested: is not set to one of the allowed values at path '%{path}'.
         invalid: je nevažeće.
         invalid_uri: must be a valid URI.
         invalid_url: nije valjani URL.
         invalid_url_scheme: 'nije podržani protokol (dozvoljeno: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: mora biti manji od ili jednak %{count}.
         not_available: is not available due to a system configuration.
+        not_before_start_date: must not be before the start date.
         not_deletable: cannot be deleted.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: is not the current user.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
         not_a_number: nije tip podataka number.
         not_allowed: is invalid because of missing permissions.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: nije tip podatka integer.
         not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: ne pripada istom projektu.
-        datetime_must_be_in_future: must be in the future.
         odd: mora biti neparan.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: could not be validated with the associated regular expression.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: mora biti manje od ili jednako maksimalnom trajanju.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: već je zauzeto.
         too_long: je predugo (maksimalno %{count} znakova).
         too_short: je prekratko (minimalno %{count} znakova).
@@ -2133,6 +2200,7 @@ hr:
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: je krive duljine (mora biti %{count} znakova).
       models:
         group:
@@ -2436,7 +2504,7 @@ hr:
               attribute_unknown_name: 'Invalid work package attribute used: %{attribute}'
               duplicate_group: The group name '%{group}' is used more than once. Group names must be unique.
               query_invalid: 'The embedded query ''%{group}'' is invalid: %{details}'
-              group_without_name: Unnamed groups are not allowed.
+              group_without_name: Group name can't be blank.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         user:
@@ -2522,6 +2590,7 @@ hr:
         other: Priorities
       meeting_participant: Meeting participant
       member: Član
+      message: Message
       news: Vijesti
       notification:
         one: Notification
@@ -2584,6 +2653,7 @@ hr:
       unsupported_storage_type: is not a supported storage type.
       storage_error: There was an error with the storage connection.
       invalid_input: The input is invalid.
+      invalid_child_for_parent: is not allowed as a parent for this view type.
   activity:
     item:
       created_by_on: created by %{user} on %{datetime}
@@ -2815,6 +2885,7 @@ hr:
   button_login: Prijavi se
   button_move: Premjesti
   button_move_and_follow: Premjesti i slijedi
+  button_next: Next
   button_print: Ispis
   button_quote: Citiraj
   button_remove: Ukloni
@@ -3153,8 +3224,8 @@ hr:
       edit_attribute_groups:
         description: 'Customize form configuration with these additional add-ons:'
         features:
-          groups: Add new attribute groups
-          rename: Rename attribute groups
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: Add a table of related work packages
       readonly_work_packages:
         description: Mark work packages as read-only for specific statuses.
@@ -3465,6 +3536,12 @@ hr:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3481,10 +3558,35 @@ hr:
   general_text_false: lažno
   gui_validation_error: 1 pogreška
   gui_validation_error_plural: "%{count} pogreški"
+  health_reports:
+    common:
+      checks:
+        failures:
+          one: "%{count} check failed"
+          few: "%{count} checks failed"
+          other: "%{count} checks failed"
+        success: All checks passed
+        warnings:
+          one: "%{count} check returned a warning"
+          few: "%{count} checks returned a warning"
+          other: "%{count} checks returned a warning"
+      summary:
+        failure: Some checks failed and the system does not work as expected.
+        success: All connections and systems are working as expected.
+        warning: Some checks returned a warning. This can lead to unexpected behaviour.
+    result_component:
+      status:
+        failed: Failed
+        passed: Passed
+        skipped: Skipped
+        warning: Warning
   homescreen:
     additional:
       projects: Najnoviji vidljivi projekti unutar ove instance.
       no_visible_projects: There are no visible projects in this instance.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Najnoviji registrirani korisnik unutar ove instance.
     blocks:
       community: OpenProject Zajednica
@@ -3494,17 +3596,19 @@ hr:
         header: Informirajte se o novim značajkama i ažuriranjima proizvoda.
         learn_about: Learn more about all new features
         missing: There are no highlighted features yet.
-        '17_4':
+        '17_5':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Jira Migrator with support for basic custom fields.
-            line_1: Backlog buckets for structuring and prioritizing work packages during backlog refinement.
-            line_2: Easier drag and drop and improved move options in the Backlogs module.
-            line_3: Sprint Start and Complete buttons in the sprint header.
-            line_4: Copy workflow settings between roles.
-            line_5: "'My Meetings' widget on the Home and Project Overview pages."
+            line_0: Project-based work package identifiers for clearer references.
+            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
+            line_2: Option to exclude work package types from Backlogs.
+            line_3: Redesigned sprint views.
+            line_4: Improved work package linking across Documents and text editors.
+            line_5: More flexible meeting schedules and reduced email notification noise.
+            line_6: Nested groups for organizational structures and inherited permissions.
+            line_7: Improved administration interfaces for workflows, users, and type configuration.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise edition
       postgres_migration: Migrating your installation to PostgreSQL
@@ -3782,6 +3886,7 @@ hr:
   label_age: Dob
   label_ago: dana ranije
   label_all: sve
+  label_all_uppercase: All
   label_all_time: sve vrijeme
   label_all_words: Sve riječi
   label_all_open_wps: Svi otvoreni
@@ -4017,7 +4122,7 @@ hr:
   label_home: Početna
   label_subject_or_id: Subject or ID
   label_calendar_subscriptions: Calendar subscriptions
-  label_identifier: Identifikator
+  label_identifier: Identifiers
   label_project_identifier: Project identifier
   label_in: u
   label_in_less_than: u manje od
@@ -4050,6 +4155,7 @@ hr:
   label_journal_diff: Opis uspoređivanja
   label_language: Jezik
   label_languages: Languages
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Pređi na projekt...
@@ -4246,6 +4352,7 @@ hr:
   label_project_new: Novi projekt
   label_project_plural: Projekti
   label_project_list_plural: Project lists
+  label_reserved_identifiers: Reserved project identifiers
   label_project_life_cycle: Project life cycle
   label_project_attributes_plural: Project attributes
   label_project_custom_field_plural: Project attributes
@@ -4458,6 +4565,10 @@ hr:
     one: 1 komentar
     other: "%{count} komentara"
     zero: no comments
+  label_x_items:
+    one: 1 item
+    other: "%{count} items"
+    zero: no items
   label_x_open_work_packages_abbr:
     one: 1 započet
     other: "%{count} započeta"
@@ -4486,6 +4597,10 @@ hr:
     one: 'Time off: 1 working day'
     few: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: jučer
   label_zen_mode: Zen mode
   label_role_type: Tip
@@ -4512,6 +4627,7 @@ hr:
   label_total_days_off: Total days off
   macro_execution_error: Došlo je do pogreške tijekom izvođenja makroa %{macro_name}
   macro_unavailable: Makro %{macro_name} ne možete biti prikazan.
+  macro_unknown: Unknown or unsupported macro.
   macros:
     placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
@@ -4539,7 +4655,7 @@ hr:
       you_have: You have
     logo_alt_text: Logo
     mention:
-      subject: "%{user_name} mentioned you in #%{id} - %{subject}"
+      subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: To notification center
       see_in_center: See comment in notification center
@@ -4578,7 +4694,7 @@ hr:
         allowed_actions_html: 'You have the following permissions on this work package: %{allowed_actions}. This can change depending on your project role and permissions.'
         create_account: To access this work package, you will need to create and activate an account on %{instance}.
         open_work_package: Open work package
-        subject: 'Work package #%{id} was shared with you'
+        subject: Work package %{id} was shared with you
         enterprise_text: Share work packages with users who are not members of the project.
         summary:
           user: "%{user} shared a work package with you with %{role_rights} rights"
@@ -4678,9 +4794,9 @@ hr:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'To allow the user to sign in you can either: '
       a: Upgrade your payment plan ([here](upgrade_url))
       b: Lock or delete an existing user ([here](users_url))
+      label: 'To allow the user to sign in you can either: '
   more_actions: Više funkcija
   noscript_description: Morate omogućiti korištenje JavaScripta da bi ste mogli korisiti OpenProject!
   noscript_heading: JavaScript onemogućen
@@ -4744,7 +4860,6 @@ hr:
   notice_successful_delete: Brisanje uspješno.
   notice_successful_cancel: Successful cancellation.
   notice_successful_update: Ažuriranje je uspješno završeno.
-  notice_successful_move: Successful move from %{from} to %{to}.
   notice_unsuccessful_create: Creation failed.
   notice_unsuccessful_create_with_reason: 'Creation failed: %{reason}'
   notice_unsuccessful_update: Update failed.
@@ -4790,6 +4905,15 @@ hr:
     text_getting_started_description: Get a quick overview of project management and team collaboration with OpenProject. You can restart this video from the help menu.
     welcome: Welcome to %{app_title}
     select_language: Please select your language
+  open_project:
+    common:
+      work_package_card_component:
+        drag_handle:
+          label: Drag to reorder
+        menu:
+          label_actions: Work package actions
+        parent: Parent
+        undisclosed: Undisclosed
   permission_add_work_package_comments: Add comments
   permission_add_work_packages: Dodaj radne pakete
   permission_add_messages: Pošalji poruke
@@ -4807,7 +4931,6 @@ hr:
   permission_add_work_package_watchers: Dodaj nadglednike
   permission_assign_versions: Assign versions
   permission_browse_repository: Read-only pristup repozitoriju (pregledavanje i provjera)
-  permission_change_wiki_parent_page: Promijeni nadređenu wiki stranicu
   permission_change_work_package_status: Change work package status
   permission_change_work_package_status_explanation: Allows changing status without Edit work packages permission
   permission_comment_news: Komentirajte vijest
@@ -4822,8 +4945,6 @@ hr:
   permission_delete_own_messages: Obriši vlastite poruke
   permission_delete_reportings: Izbriši izvještaje
   permission_delete_timelines: Izbriši kronologiju
-  permission_delete_wiki_pages: Izbriši wiki stranice
-  permission_delete_wiki_pages_attachments: Izbriši priloge
   permission_edit_work_package_comments: Moderate comments
   permission_edit_work_package_comments_explanation: 'Caution: Users with this permission are able to edit anyone''s comment.'
   permission_edit_work_packages: Uredi radne pakete
@@ -4843,12 +4964,10 @@ hr:
   permission_edit_wiki_pages: Uredi wiki stranice
   permission_export_work_packages: Izvez radnih paketa
   permission_export_projects: Export projects
-  permission_export_wiki_pages: Izvezi Wiki stranice
   permission_invite_members_by_email: Invite members by email
   permission_invite_members_by_email_explanation: 'Allows users to invite new members by email. Invited users will receive an email with a link to set their password and activate their account. Depends on the permission to manage members
 
     '
-  permission_list_attachments: Izlistaj sve privitke
   permission_log_own_time: Log own time
   permission_log_time: Log time for other users
   permission_manage_forums: Upravljanje Forumima
@@ -4863,7 +4982,6 @@ hr:
   permission_manage_subtasks: Manage work package hierarchies
   permission_manage_versions: Upravljanje verzijama
   permission_manage_wiki: Uredi wiki
-  permission_manage_wiki_menu: Upravljanje wiki izbornikom
   permission_manage_own_working_times: Manage own working times
   permission_manage_own_working_times_explanation: 'Allows users to manage their own working times, and personal non-working days.
 
@@ -4873,8 +4991,6 @@ hr:
 
     '
   permission_move_work_packages: Premjesti radne pakete
-  permission_protect_wiki_pages: Zaštiti wiki stranice
-  permission_rename_wiki_pages: Preimenuj wiki stranice
   permission_save_queries: Save views
   permission_search_project: Search project
   permission_select_custom_fields: Select custom fields
@@ -5120,7 +5236,7 @@ hr:
 
     '
   setting_after_login_default_redirect_url: After login redirect
-  setting_after_login_default_redirect_url_text_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: <code>/my/page</code>
+  setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
   setting_apiv3_cors_title: Cross-Origin Resource Sharing (CORS)
@@ -5199,6 +5315,10 @@ hr:
   setting_consent_required: Potrebna suglasnost
   setting_consent_decline_mail: E-mail kontakta za suglasnost
   setting_cross_project_work_package_relations: Omogući relacije između unakrsnih projekata
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: First week in year contains
   setting_date_format: Datum
   setting_default_language: Zadani jezik
@@ -5239,6 +5359,9 @@ hr:
   setting_work_package_properties: Postavke radnih paketa
   setting_work_package_startdate_is_adddate: Koristite današanji datum kao početni datum novih radnih paketa
   setting_work_packages_projects_export_limit: Work packages / Projects export limit
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Zabilježite korisnički pristup, ime, i email adresu za sve zahtjeve
   setting_login_required: Potrebna autentifikacija
@@ -5325,13 +5448,9 @@ hr:
   setting_welcome_title: Naslov dobrodošlice
   setting_welcome_on_homescreen: Prikaži tekst dobrodošlice na početnoj stranici
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
-  setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 and incremented with every new one. The numbers are unique within this instance so they remain the same even if work packages are moved between projects.
-
-    '
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers
-  setting_work_packages_identifier_semantic_caption: 'Every project has a unique identifier that is prefixed to the work package ID. If a work package moved to another project, a new identifier is generated but the old one continues to function.
-
-    '
+  setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
+  setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
   setting_work_package_list_default_highlighting_mode: Default highlighting mode
   setting_work_package_list_default_highlighted_attributes: Default inline highlighted attributes
   setting_working_days: Working days
@@ -5513,7 +5632,7 @@ hr:
       section_work_week: Work week
       section_holidays_and_closures: Holidays and closures
     work_packages:
-      work_package_identifier: Work package identifier
+      work_package_identifier: Work package identifiers
       not_allowed_text: You do not have the necessary permissions to view this page.
       activities:
         enable_internal_comments: Enable internal comments
@@ -5668,6 +5787,7 @@ hr:
   text_project_identifier_format: Must start with a lowercase letter. Only lowercase letters (a-z), numbers, dashes and underscores are allowed.
   text_reassign: 'Dodijeli radnom paketu:'
   text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
+  text_rename_wiki_page: Rename wiki page
   text_repository_usernames_mapping: |-
     Select or update the OpenProject user mapped to each username found in the repository log.
     Users with the same OpenProject and repository username or email are automatically mapped.
@@ -5942,6 +6062,17 @@ hr:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
@@ -6016,6 +6147,7 @@ hr:
       ancestor: Undisclosed - The ancestor is invisible because of lacking permissions.
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
+      workPackage: Undisclosed - The work package is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: Pre-authorization
@@ -6102,10 +6234,6 @@ hr:
       scopes: Dozvole
       successful_application_revocation: Revocation of application %{application_name} successful.
       none_given: No OAuth applications have been granted access to your user account.
-    x_active_tokens:
-      one: one active token
-      few: "%{count} active token"
-      other: "%{count} active token"
     flows:
       authorization_code: Authorization code flow
       client_credentials: Client credentials flow
@@ -6115,8 +6243,11 @@ hr:
     client_credentials_impersonation_html: 'By default, OpenProject provides OAuth 2.0 authorization via %{authorization_code_flow_link}. You can optionally enable %{client_credentials_flow_link}, but you must provide a user on whose behalf requests will be performed.
 
       '
+    confirm_revoke_my_application:
+      one: Do you really want to remove this application? This will revoke one token active for it.
+      few: Do you really want to remove this application? This will revoke %{count} tokens active for it.
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     authorization_error: An authorization error has occurred.
-    revoke_my_application_confirmation: Do you really want to remove this application? This will revoke %{token_count} active for it.
     my_registered_applications: Registered OAuth applications
   oauth_client:
     urn_connection_status:

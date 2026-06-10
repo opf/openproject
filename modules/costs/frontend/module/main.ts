@@ -24,7 +24,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
 import { CostsByTypeDisplayField } from './wp-display/costs-by-type-display-field.module';
 import { CurrencyDisplayField } from './wp-display/currency-display-field.module';
@@ -64,7 +64,9 @@ export function initializeCostsPlugin(injector:Injector) {
   ],
 })
 export class PluginModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     initializeCostsPlugin(injector);
   }
 }

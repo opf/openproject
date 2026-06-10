@@ -1,0 +1,159 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+---
+hy:
+  plugin_openproject_documents:
+    name: OpenProject Documents
+    description: An OpenProject plugin to allow creation of documents in projects.
+  attributes:
+    collaborative_editing_hocuspocus_url: Hocuspocus server URL
+  activerecord:
+    errors:
+      models:
+        document_type:
+          one_or_more_required: Cannot delete the last document type
+    models:
+      document: Document
+      documents: Documents
+    attributes:
+      document:
+        content_binary: Content binary
+        title: Title
+  activity:
+    filter:
+      document: Documents
+  default_doc_category_tech: Technical documentation
+  default_doc_category_user: User documentation
+  enumeration_doc_categories: Document categories
+  documents:
+    page_header:
+      heading: All documents
+      action_menu:
+        document_actions: Document actions
+        edit_title: Edit title
+    subheader:
+      filter:
+        label: Document name filter
+        placeholder: Type here to search document names
+    documents_list_blank_slate:
+      heading: There are no documents yet
+      description: There are no documents in this view. You can click the button below to add one.
+    document_categories_deprecation_notice:
+      heading: File categories are now called 'Document types'
+      description: |-
+        Your existing file categories have been converted to document types with the introduction of the new Documents module.
+        All existing documents have also been migrated to these new types.
+      primary_action: Configure document types
+      secondary_action: Learn more about the Documents module
+    document_type_actions: Document type actions
+    text_collaboration_disabled_notice:
+      description: |-
+        Unable to open document because real-time text collaboration is disabled.
+        Please contact your administrator to enable real-time text collaboration if you want to access this document.
+    show_edit_view:
+      connection_error_notice:
+        description_server_unavailable: |-
+          Unable to open document because the real-time text collaboration server is unreachable.
+          Please contact the administrator if the problem persists.
+        action: Try again
+      tabs: Document tabs
+    index_page:
+      name: Name
+      type: Type
+      updated_at: Last edited
+      label_legacy: Legacy
+    menu:
+      all: All documents
+      types: Types
+      collaboration_settings: Real-time collaboration
+    last_updated_at: Last saved %{time}.
+    info_line:
+      currently_offline: You are currently offline.
+      connection_restored: You are now back online.
+    active_editors: Active editors
+    active_editors_count:
+      one: 1 active editor
+      other: "%{count} active editors"
+    label_attachment_author: Attachment author
+    label_categories: Categories
+    new_category: New category
+    new_type: New type
+    delete_dialog:
+      title: Delete document
+      heading: Delete this document?
+      confirmation_message_html: This will permanently delete this document and all file attachments. Are you sure you want to do this?
+    delete_document_type_dialog:
+      title: Delete document type
+      heading: Delete this document type?
+      confirmation_message: The type "%{type_name}" is currently unused. Deleting this type will have no effect on existing documents.
+      select_reassign_to_label: Reassign documents to
+      reassign_message:
+        one: The type "%{type_name}" is currently being used in %{document_count} document. Please select which type to reassign them to.
+        other: The type "%{type_name}" is currently being used in %{document_count} documents. Please select which type to reassign them to.
+      at_least_one_type_required:
+        title: Cannot delete document type
+        heading: Cannot delete the last document type
+        message: There must always be at least one document type configured. Create another one first if you want to delete this one.
+    admin:
+      collaboration_settings:
+        page_header:
+          description: |-
+            When enabled, real-time collaboration allows multiple users to edit a document at the same time.
+            It requires a working %{hocuspocus_server_link} to function.
+        banner:
+          none_writable: These values are configured via environment variables and cannot be edited here.
+          some_unwritable: Some values are configured via environment variables and cannot be edited here.
+        hocuspocus_server_url:
+          label: Hocuspocus server URL
+          caption: The WebSocket address of a working Hocuspocus server.
+          invalid_scheme: Must use a WebSocket protocol (ws:// or wss://).
+        hocuspocus_server_secret:
+          label: Client secret
+          caption: Paste the secret provided by the Hocuspocus server.
+        hocuspocus_server: Hocuspocus server
+      enable_text_collaboration:
+        heading: Real-time collaboration is not enabled
+        description: |-
+          Once enabled, multiple users will be able to work together on a document at the same time.
+          All new documents will be based on a new editor (BlockNote) and will require a working connection to a
+          Hocuspocus server.
+        primary_action: Enable real-time collaboration
+        success: Real-time collaboration has been enabled.
+      disable_text_collaboration_dialog:
+        title: Disable real-time collaboration
+        heading: Disable real-time collaboration?
+        confirmation_message: |-
+          All existing documents may become inaccessible. Please only do this if you are certain you want to disable
+          real-time collaboration and the BlockNote editor in this instance.
+        confirmation_checkbox_message: I understand that I might permanently lose data
+        success: Real-time collaboration has been disabled.
+  label_document_added: Document added
+  label_document_new: New document
+  label_document_plural: Documents
+  label_documents: Documents
+  label_document_title: Title
+  label_document_description: Description
+  label_document_category: Category
+  label_document_type: Type
+  permission_manage_documents: Manage documents
+  permission_view_documents: View documents
+  project_module_documents: Documents

@@ -676,6 +676,9 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       end
 
       it "resets an only_changes filter if a comment is added by the user" do
+        activity_tab.expect_journal_notes(text: "First comment by admin")
+        activity_tab.expect_journal_notes(text: "Second comment by admin")
+
         activity_tab.filter_journals(:only_changes)
 
         # expect only the changes
@@ -1070,6 +1073,15 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
             page.find(:xpath, "//*[text()='created this on']").click
             expect(page).to have_no_css(".--anchor-highlighted")
           end
+
+          it "rewrites the legacy activity anchor to the resolved comment in the URL" do
+            wait_for_auto_scrolling_to_finish
+
+            initial_journal = work_package.journals.order(:version).first
+            expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{initial_journal.id}")
+            # The rewrite must keep the work package path, not collapse it to "/".
+            expect(page.evaluate_script("window.location.pathname")).to include("/work_packages/#{work_package.id}")
+          end
         end
 
         context "with #comment- anchor" do
@@ -1456,10 +1468,6 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
     context "when the current user does not have the activity tab open the whole time" do
       it "raises a conflict warning when the work package is updated by another user while the current user is editing" do
-        pending "This has become obselete with the removal of uiRouter (#67007), because switching tabs now result in a
-               hard reload and no conflict appears like described in these examples.
-               Before removing this, please check the polling controller for possible cleanups.
-               Ticket: https://community.openproject.org/wp/68630"
         using_session(:admin) do
           login_as(admin)
 

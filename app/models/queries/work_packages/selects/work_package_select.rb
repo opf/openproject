@@ -81,7 +81,8 @@ class Queries::WorkPackages::Selects::WorkPackageSelect
   end
 
   def sortable
-    name_or_value_or_false(@sortable)
+    resolved = @sortable.respond_to?(:call) ? @sortable.call : @sortable
+    name_or_value_or_false(resolved)
   end
 
   def groupable

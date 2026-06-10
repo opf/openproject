@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import {
   WorkPackageViewFiltersService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-filters.service';
@@ -55,6 +47,11 @@ import { WorkPackagesListService } from 'core-app/features/work-packages/compone
   standalone: false,
 })
 export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly wpFiltersService = inject(WorkPackageFiltersService);
+  readonly wpListService = inject(WorkPackagesListService);
+
   @Input() showFilterButton = false;
 
   @Input() filterButtonText:string = I18n.t('js.button_filter');
@@ -67,12 +64,7 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
 
   public loaded = false;
 
-  constructor(
-    readonly wpTableFilters:WorkPackageViewFiltersService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly wpFiltersService:WorkPackageFiltersService,
-    readonly wpListService:WorkPackagesListService,
-  ) {
+  constructor() {
     super();
     this.visible$ = this.wpFiltersService.observeUntil(componentDestroyed(this));
   }

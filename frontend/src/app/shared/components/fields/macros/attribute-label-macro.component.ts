@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++    Ng1FieldControlsWrapper,
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Injector,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, OnInit, inject } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import {
@@ -60,6 +52,14 @@ import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
   standalone: false,
 })
 export class AttributeLabelMacroComponent implements OnInit {
+  readonly elementRef = inject(ElementRef);
+  readonly injector = inject(Injector);
+  readonly resourceLoader = inject(AttributeModelLoaderService);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly displayField = inject(DisplayFieldService);
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   // Whether the value could not be loaded
   error:string|null = null;
 
@@ -82,17 +82,6 @@ export class AttributeLabelMacroComponent implements OnInit {
 
   // The label to render
   label:string|undefined;
-
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly injector:Injector,
-    readonly resourceLoader:AttributeModelLoaderService,
-    readonly schemaCache:SchemaCacheService,
-    readonly displayField:DisplayFieldService,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-  }
 
   ngOnInit():void {
     const element = this.elementRef.nativeElement as HTMLElement;

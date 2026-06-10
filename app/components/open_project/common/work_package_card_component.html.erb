@@ -1,0 +1,123 @@
+<%# -- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++# %>
+
+<%= grid_layout(
+      "op-work-package-card",
+      tag: :article,
+      classes: layout_classes
+    ) do |grid| %>
+  <% if show_drag_handle %>
+    <% grid.with_area(:drag_handle, classes: "hide-when-print") do %>
+      <%= render(Primer::OpenProject::DragHandle.new) %>
+    <% end %>
+  <% end %>
+
+  <% grid.with_area(:info_line) do %>
+    <%= render(WorkPackages::InfoLineComponent.new(work_package:, status_scheme:, wrap: false)) %>
+  <% end %>
+
+  <% grid.with_area(:actions) do %>
+    <% if show_assignee && work_package.assigned_to %>
+      <%= render(
+            Users::AvatarComponent.new(
+              user: work_package.assigned_to, size: "mini", link: false, show_name: true,
+              name_classes: "op-work-package-card--assignee-name"
+            )
+          ) %>
+    <% end %>
+
+    <% if metric? %>
+      <span class="op-work-package-card--metric"><%= metric %></span>
+    <% end %>
+
+    <% if show_priority && work_package.priority %>
+      <%= render(
+            Primer::Beta::Text.new(
+              tag: :span,
+              classes: "__hl_inline_priority_#{work_package.priority.id} __hl_inline__small_dot no-wrap"
+            )
+          ) do %>
+        <span class="op-work-package-card--priority-name"><%= work_package.priority.name %></span>
+      <% end %>
+    <% end %>
+
+    <% if menu? %>
+      <%= menu %>
+    <% else %>
+      <%= render(
+            OpenProject::Common::WorkPackageCardComponent::Menu.new(
+              work_package:,
+              src: menu_src,
+              button_aria_label: t(".menu.label_actions")
+            )
+          ) %>
+    <% end %>
+  <% end %>
+
+  <% grid.with_area(:subject) do %>
+    <% if link_subject %>
+      <%= render(Primer::Beta::Link.new(href: work_package_path(work_package), font_weight: :semibold)) { work_package.subject } %>
+    <% else %>
+      <%= render(Primer::Beta::Text.new(font_weight: :semibold)) { work_package.subject } %>
+    <% end %>
+  <% end %>
+
+  <% if show_footer? %>
+    <% grid.with_area(:footer) do %>
+      <% flex_layout do |flex| %>
+        <% if show_parent? %>
+          <% flex.with_row(classes: "ellipsis") do %>
+            <%= render(Primer::Beta::Text.new(color: :muted, font_size: :small)) do %>
+              <%= "#{t('.parent')}: " %>
+              <% if parent_visible? %>
+                <%= render(
+                      Primer::Beta::Link.new(
+                        href: work_package_path(work_package.parent),
+                        underline: false,
+                        color: :default
+                      )
+                    ) do %>
+                  <%= work_package.parent.subject %>
+                <% end %>
+              <% else %>
+                <%= t(".undisclosed") %>
+              <% end %>
+            <% end %>
+          <% end %>
+        <% end %>
+
+        <% if additional_details? %>
+          <% flex.with_row do %>
+            <%= additional_details %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

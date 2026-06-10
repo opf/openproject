@@ -30,7 +30,7 @@ import {
   combine, deriveRaw, InputState, multiInput, State, StatesGroup,
 } from '@openproject/reactivestates';
 import { filter, map } from 'rxjs/operators';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
 import { ChangeMap } from 'core-app/shared/components/fields/changeset/changeset';
@@ -92,12 +92,14 @@ export type ResourceChangesetClass = new(...args:any[]) => ResourceChangeset;
 
 @Injectable()
 export class HalResourceEditingService extends StateCacheService<ResourceChangeset> {
+  protected readonly injector = inject(Injector);
+  protected readonly halEvents = inject(HalEventsService);
+  protected readonly hook = inject(HookService);
+
   /** Committed / saved changes to work packages observable */
   public committedChanges = new Subject<ResourceChangesetCommit>();
 
-  constructor(protected readonly injector:Injector,
-    protected readonly halEvents:HalEventsService,
-    protected readonly hook:HookService) {
+  constructor() {
     super(new ChangesetStates().changesets);
   }
 

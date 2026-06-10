@@ -51,6 +51,26 @@ ja:
           description: あなたのコメントは、このワークパッケージにアクセスできる人なら誰でも見ることができます。本当によろしいですか？
           confirm_button_text: Public にする
   admin:
+    reserved_identifiers:
+      title: Reserved project identifiers
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
+      col_identifier: Identifier
+      col_project: Project
+      col_reserved: Reserved
+      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
+      filter_label: Search identifiers
+      btn_release: Release
+      released_notice: Identifier "%{identifier}" has been released.
+      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
+      dialog:
+        title: Release identifier
+        heading: Release "%{identifier}"?
+        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        checkbox_label: I understand that this cannot be undone.
+        confirm_button: Release identifier
+      empty_heading: No reserved identifiers
+      reserved_ago: "%{time} ago"
+      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
     plugins:
       no_results_title_text: 現在、プラグインはインストールされていません。
       no_results_content_text: 詳しくは統合とプラグインのページをご覧ください。
@@ -119,6 +139,9 @@ ja:
       errors:
         cannot_delete_with_imports: Cannot delete Jira host with existing imports
         custom_field_creation_failed: 'Failed to create custom field ''%{name}'': %{message}'
+        semantic_identifiers_must_be_enabled:
+          title: Project-based semantic identifiers must be enabled.
+          description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
       blank:
         title: No Jira hosts configured yet
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
@@ -157,9 +180,13 @@ ja:
       client:
         connection_error: 'Failed to connect to Jira server: %{message}'
         connection_timeout: 'Connection to Jira server timed out: %{message}'
+        ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        ssrf_block_doc_link: Please see our [documentation](docs_url).
+        ssl_error: 'SSL error connecting to Jira server: %{message}'
         parse_error: 'Failed to parse Jira API response: %{message}'
         api_error: Jira API returned error status %{status}
         401_error: Jira API returned a 401 error. Your authentication token may have expired or lack the required permissions. Please ensure the token belongs to a Jira administrator.
+        429_error: Jira API returned a 429 error. It means token owner has been rate limited by the Jira instance. Please disable rate limiting for this user.
       columns:
         projects: プロジェクト
         last_change: Last change
@@ -241,8 +268,8 @@ ja:
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_comming_soon: Comming soon (Q2 2026)
-              label_comming_later: Comming later
+              label_coming_soon: Coming soon (Q2 2026)
+              label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
               button_continue: Continue
@@ -253,7 +280,7 @@ ja:
               elements:
                 relations: Relations between issues
                 project_ids: Project identifiers
-                issue_ids: Issues identifiers
+                issue_ids: Issue identifiers
                 sprints: Sprint assignments
                 workflows: Project-level workflows
                 schemes: Schemas
@@ -307,6 +334,8 @@ ja:
             confirm_button: Understood
           select_projects:
             title: Select projects
+      user:
+        unknown_name: Unknown
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -398,10 +427,11 @@ ja:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         banner:
-          existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Autofix and save'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
+          existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
 
             '
         box_header:
+          table_title: Projects with identifiers to update
           label_project: Project
           label_previous_identifier: Previous identifier
           label_autofixed_suggestion: Future identifier
@@ -418,19 +448,21 @@ ja:
           error_unknown: Needs manual review
           remaining_projects:
             other: "... %{count} more projects"
-        button_autofix: Autofix and save
+        button_autofix: Convert identifiers
+        button_save: Convert identifiers
         dialog:
           title: Change work package identifiers
           heading: Enable project-based work package IDs?
-          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to redirect properly. This change will take some time to complete.
+          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to work. This change will take some time to complete.
 
             '
           confirm_button: Change identifiers
           checkbox_label: I understand that this will permanently change all work package IDs
         success_banner: Successfully updated work package identifier format.
         in_progress:
-          converting_banner_message: Project identifiers are currently being converted to semantic format. This may take some time.
-          reverting_banner_message: Project identifiers are currently being reverted to classic format. This may take some time.
+          header_semantic: Converting to project-based identifiers
+          header_classic: Converting to numeric identifiers
+          footer_message: Background conversion is in progress. You can safely leave this page.
     workflows:
       tabs:
         default_transitions: Default transitions
@@ -874,6 +906,7 @@ ja:
         text: この操作では、リストに含まれるプロジェクトは削除されません。本当にこのプロジェクトリストを削除しますか？
     settings:
       header_details: 基本情報
+      header_identifier: Identifier
       header_status: Status
       header_relations: プロジェクトの関係
       button_update_details: 基本情報の更新
@@ -898,7 +931,7 @@ ja:
       change_identifier_dialog_title: Change project identifier
       change_identifier_format_hint_semantic: Only uppercase letters (A–Z), numbers or underscores. Max 10 characters. Must start with a letter.
       change_identifier_format_hint_legacy: Only lowercase letters (a–z), numbers, dashes or underscores.
-      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifier and URLs will nevertheless continue to redirect properly.
+      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifiers and URLs will nevertheless continue to work.
 
         '
       subitems:
@@ -1322,6 +1355,38 @@ ja:
     edit:
       form_configuration:
         tab: フォームの設定
+        label_group: Section
+        reset_to_defaults: Reset form
+        add_attribute_group: Section
+        add_query_group: Related work packages table
+        delete_group: Delete section
+        remove_attribute: Remove from section
+        drag_to_activate: Drag fields from here to activate them
+        drag_to_reorder: Drag to reorder
+        edit_query: Edit query
+        custom_field: Custom field
+        filter_inactive: Filter attributes
+        inactive_attributes_heading: Inactive attributes
+        no_inactive_attributes: No inactive attributes
+        blankslate_title: No groups yet
+        blankslate_description: Add groups using the button above or drag attributes from the left panel.
+        group_actions: Section actions
+        rename_group: Rename section
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        group_name_label: Section name
+        row_actions: Row actions
+        query_group_label: Related work packages table
+        empty_group_hint: Drag attributes here
+        invalid_attribute_groups: The form configuration payload is invalid.
+        invalid_query: The embedded query configuration is invalid.
+        not_found: The requested form configuration item could not be found.
+        untitled_group: Untitled group
+        reset_title: Reset form configuration
+        confirm_reset: Are you sure you want to reset the form configuration?
+        builtin_field: Built-in field
+        reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
+
+          '
       projects:
         tab: プロジェクト
         enable_all: すべてのプロジェクトで有効
@@ -1420,8 +1485,8 @@ ja:
     bulk_delete_dialog:
       title: Delete %{count} work packages
       heading: Permanently delete these %{count} work packages?
-      description: 'The following work packages, including children and all associated data, will permanently be deleted:'
-      description_with_children: 'The following work packages, including child work packages, and all associated data will be permanently deleted:'
+      description: 'The following work packages and all associated data will be permanently deleted:'
+      description_with_children: 'The following work packages, including children and all associated data, will be permanently deleted:'
       confirm_children_deletion: I acknowledge that all selected work packages and their children will be permanently deleted.
       cross_project_warning: 'These work packages span multiple projects: %{projects}'
       children_label: 'The following children will also be deleted:'
@@ -1636,6 +1701,7 @@ ja:
       attachment:
         attachment_content: 添付ファイルのコンテンツ
         attachment_file_name: 添付ファイル名
+        charset: Character set
         content_type: コンテンツタイプ
         downloads: ダウンロード数
         file: ファイル
@@ -1730,6 +1796,7 @@ ja:
         title: Title
         description: 説明
       member:
+        blocked: Blocked
         roles: ロール
       notification:
         read_ian: アプリ内の読み取り
@@ -1977,6 +2044,7 @@ ja:
         priority: 優先度
         progress: 進捗度(%)
         readonly: 読み取り専用
+        relatable: Relatable to
         remaining_hours: 残時間
         remaining_time: 残時間
         sequence_number: Sequence number
@@ -2021,17 +2089,14 @@ ja:
         before: は%{date}の前にしてください。
         before_or_equal_to: は%{date}より以前にしてください。
         blank: は空白にすることができません。
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: プロパティ '%{property}' が設定されている必要があります。
         cannot_delete_mapping: 必須です。削除できません。
-        is_for_all_cannot_modify: はすべてのプロジェクトで使用されているため、変更できません。
         cant_link_a_work_package_with_a_descendant: 親子関係にあるワークパッケージ間で関係の設定はできません。
         circular_dependency: この関係は循環依存になります。
         confirmation: は%{attribute} と一致しません。
         could_not_be_copied: "%{dependency} を（完全に）コピーできませんでした。"
+        datetime_must_be_in_future: 未来に違いないわ。
         does_not_exist: は存在しません。
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: アクセスできません。
         error_readonly: 書けませんでした。
@@ -2052,36 +2117,38 @@ ja:
         greater_than_or_equal_to: は%{count}以上の値にしてください。
         greater_than_or_equal_to_start_date: は開始日以後にしてください。
         greater_than_start_date: は開始日より後にしてください。
+        hexcode_invalid: は有効な6桁の16進カラーコードではない。
         inclusion: は許可されている値ではありません。
         inclusion_nested: はパス '%{path}' で許可されている値のいずれかに設定されていません。
         invalid: は不正な値です。
         invalid_uri: must be a valid URI.
         invalid_url: は有効な URL ではありません。
         invalid_url_scheme: 'はサポートされたプロトコルではありません (可能: %{allowed_schemes})。'
+        is_for_all_cannot_modify: はすべてのプロジェクトで使用されているため、変更できません。
         less_than_or_equal_to: は%{count}以下の値にしてください。
         not_available: はシステム構成のため使用できません。
+        not_before_start_date: must not be before the start date.
         not_deletable: 削除できません。
         not_editable: cannot be edited because it is already in effect.
         not_current_user: 現在のユーザーではありません。
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: 見つかりません。
         not_a_date: は有効な日付ではありません。
         not_a_datetime: は有効な日時ではありません。
         not_a_number: は数値にしてください。
         not_allowed: 権限がないため無効です。
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: は整数にしてください。
         not_an_iso_date: 'は有効な日付ではありません。必要な形式: YYYY-MM-dd。'
         not_same_project: は同じプロジェクトに属していません。
-        datetime_must_be_in_future: 未来に違いないわ。
         odd: は奇数にしてください。
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: 正規表現 %{expression}と一致しません。
         regex_invalid: 関連付けられた正規表現を検証できませんでした。
         regex_list_invalid: "%{invalid_lines}行は正規表現として解析できませんでした。"
-        hexcode_invalid: は有効な6桁の16進カラーコードではない。
         smaller_than_or_equal_to_max_length: は最大長さより以下でなければなりません。
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: は既に使用されています。
         too_long: は%{count}文字以内を入力してください。
         too_short: は%{count}文字以上を入力してください。
@@ -2094,6 +2161,7 @@ ja:
         url_not_secure_context: 'は「セキュアコンテキスト」を提供していません。HTTPSを使用するか、localhostのようなループバックアドレスを使用してください。
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: は%{count}文字を入力してください。
       models:
         group:
@@ -2395,7 +2463,7 @@ ja:
               attribute_unknown_name: '無効なワークパッケージの属性が使用されています: %{attribute}'
               duplicate_group: グループ名 '%{group}' は複数回使用されています。グループ名は一意でなければなりません。
               query_invalid: 埋め込みクエリ '%{group}' は無効です： %{details}
-              group_without_name: 名前のないグループは指定できません。
+              group_without_name: Group name can't be blank.
             patterns:
               invalid_tokens: フィールド内の1つ以上の属性が無効です。保存する前に属性を修正してください。
         user:
@@ -2469,6 +2537,7 @@ ja:
         other: 優先度
       meeting_participant: Meeting participant
       member: メンバー
+      message: Message
       news: ニュース
       notification:
         other: 通知
@@ -2511,6 +2580,7 @@ ja:
       unsupported_storage_type: is not a supported storage type.
       storage_error: There was an error with the storage connection.
       invalid_input: The input is invalid.
+      invalid_child_for_parent: is not allowed as a parent for this view type.
   activity:
     item:
       created_by_on: "%{user} によって %{datetime} に作成されました"
@@ -2738,6 +2808,7 @@ ja:
   button_login: ログイン
   button_move: 移動
   button_move_and_follow: 移動後表示
+  button_next: Next
   button_print: 印刷
   button_quote: 引用
   button_remove: 削除
@@ -3036,8 +3107,8 @@ ja:
       edit_attribute_groups:
         description: これらの追加機能でフォームの設定をカスタマイズします：
         features:
-          groups: 新しい属性グループを追加
-          rename: 属性グループの名前を変更
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: 関連するワークパッケージのテーブルを追加
       readonly_work_packages:
         description: 特定のステータスのワークパッケージを読み取り専用としてマークします。
@@ -3346,6 +3417,12 @@ ja:
       selected: 選択済み
     include_sub_items: サブアイテムを含める
     no_results_text: 結果がありません
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3362,10 +3439,31 @@ ja:
   general_text_false: 偽
   gui_validation_error: 1つエラー
   gui_validation_error_plural: "%{count}つエラー"
+  health_reports:
+    common:
+      checks:
+        failures:
+          other: "%{count} checks failed"
+        success: All checks passed
+        warnings:
+          other: "%{count} checks returned a warning"
+      summary:
+        failure: Some checks failed and the system does not work as expected.
+        success: All connections and systems are working as expected.
+        warning: Some checks returned a warning. This can lead to unexpected behaviour.
+    result_component:
+      status:
+        failed: Failed
+        passed: Passed
+        skipped: Skipped
+        warning: Warning
   homescreen:
     additional:
       projects: このサイトの最新の可視化プロジェクト。
       no_visible_projects: このサイトに表示されているプロジェクトはありません。
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: このサイトの最新の登録ユーザー。
     blocks:
       community: OpenProject コミュニティ
@@ -3375,17 +3473,19 @@ ja:
         header: 新機能と製品のアップデートについて読む。
         learn_about: すべての新機能の詳細
         missing: There are no highlighted features yet.
-        '17_4':
+        '17_5':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Jira Migrator with support for basic custom fields.
-            line_1: Backlog buckets for structuring and prioritizing work packages during backlog refinement.
-            line_2: Easier drag and drop and improved move options in the Backlogs module.
-            line_3: Sprint Start and Complete buttons in the sprint header.
-            line_4: Copy workflow settings between roles.
-            line_5: "'My Meetings' widget on the Home and Project Overview pages."
+            line_0: Project-based work package identifiers for clearer references.
+            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
+            line_2: Option to exclude work package types from Backlogs.
+            line_3: Redesigned sprint views.
+            line_4: Improved work package linking across Documents and text editors.
+            line_5: More flexible meeting schedules and reduced email notification noise.
+            line_6: Nested groups for organizational structures and inherited permissions.
+            line_7: Improved administration interfaces for workflows, users, and type configuration.
     links:
       upgrade_enterprise_edition: エンタープライズ版にアップグレード
       postgres_migration: PostgreSQL にインストールを移行しています
@@ -3663,6 +3763,7 @@ ja:
   label_age: 経過
   label_ago: "○日前"
   label_all: 全て
+  label_all_uppercase: All
   label_all_time: 全期間
   label_all_words: 全ての単語
   label_all_open_wps: 全ての未完了
@@ -3898,7 +3999,7 @@ ja:
   label_home: ホーム
   label_subject_or_id: タイトルまたはID
   label_calendar_subscriptions: カレンダーのサブスクリプション
-  label_identifier: 識別子
+  label_identifier: Identifiers
   label_project_identifier: Project identifier
   label_in: 今日から○日後
   label_in_less_than: 今日から○日後以前
@@ -3931,6 +4032,7 @@ ja:
   label_journal_diff: 説明の比較
   label_language: 言語
   label_languages: 言語
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: 言語と地域
   label_jump_to_a_project: プロジェクトへ移動...
@@ -4127,6 +4229,7 @@ ja:
   label_project_new: 新規プロジェクト
   label_project_plural: プロジェクト
   label_project_list_plural: プロジェクト一覧
+  label_reserved_identifiers: Reserved project identifiers
   label_project_life_cycle: プロジェクトのライフ サイクル
   label_project_attributes_plural: プロジェクトの属性
   label_project_custom_field_plural: プロジェクトの属性
@@ -4339,6 +4442,10 @@ ja:
     one: 1件のコメント
     other: "%{count}件のコメント"
     zero: コメントがありません
+  label_x_items:
+    one: 1 item
+    other: "%{count} items"
+    zero: no items
   label_x_open_work_packages_abbr:
     one: 1件未完了
     other: "%{count}件未完了"
@@ -4361,6 +4468,8 @@ ja:
     other: "%{count} working days"
   label_x_working_days_time_off:
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: 昨日
   label_zen_mode: 禅モード
   label_role_type: 種別
@@ -4387,6 +4496,7 @@ ja:
   label_total_days_off: Total days off
   macro_execution_error: マクロ%{macro_name}を実行中にエラーが発生しました。
   macro_unavailable: マクロ%{macro_name}を表示できません。
+  macro_unknown: Unknown or unsupported macro.
   macros:
     placeholder: "[Placeholder] マクロ %{macro_name}"
     errors:
@@ -4414,7 +4524,7 @@ ja:
       you_have: あなたへの
     logo_alt_text: ロゴ
     mention:
-      subject: "%{user_name} さんが #%{id} - %{subject} であなたをメンションしました"
+      subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: 通知センターへ
       see_in_center: 通知センターにコメントを表示
@@ -4451,7 +4561,7 @@ ja:
         allowed_actions_html: 'You have the following permissions on this work package: %{allowed_actions}. This can change depending on your project role and permissions.'
         create_account: このワークパッケージにアクセスするには、 %{instance} のアカウントを作成して有効化する必要があります。
         open_work_package: ワークパッケージを開く
-        subject: ワークパッケージ%{id} があなたと共有されました
+        subject: Work package %{id} was shared with you
         enterprise_text: プロジェクトのメンバーではないユーザーとワークパッケージを共有します。
         summary:
           user: "%{user} がワークパッケージを %{role_rights} 権限で共有しました"
@@ -4551,9 +4661,9 @@ ja:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'ユーザーがサインインできるようにするには、次のいずれかを行います: '
       a: お支払いプランをアップグレードします。 ([ここ](upgrade_url))
       b: 既存のユーザーをロックまたは削除する ([ここ](users_url))
+      label: 'ユーザーがサインインできるようにするには、次のいずれかを行います: '
   more_actions: 他の機能
   noscript_description: OpenProjectを使用するためにJavaScriptを有効にする必要があります！
   noscript_heading: JavaScriptは無効されています。
@@ -4617,7 +4727,6 @@ ja:
   notice_successful_delete: 正常に削除しました。
   notice_successful_cancel: キャンセルしました。
   notice_successful_update: 正常に更新しました。
-  notice_successful_move: Successful move from %{from} to %{to}.
   notice_unsuccessful_create: 作成に失敗しました
   notice_unsuccessful_create_with_reason: 作成失敗： %{reason}
   notice_unsuccessful_update: 更新に失敗しました。
@@ -4659,6 +4768,15 @@ ja:
     text_getting_started_description: OpenProject とのプロジェクト管理とチームのコラボレーションの概要を簡単に取得します。ヘルプメニューからこのビデオを再起動できます。
     welcome: "%{app_title} へようこそ"
     select_language: 言語を選択してください
+  open_project:
+    common:
+      work_package_card_component:
+        drag_handle:
+          label: Drag to reorder
+        menu:
+          label_actions: Work package actions
+        parent: Parent
+        undisclosed: Undisclosed
   permission_add_work_package_comments: コメントの追加
   permission_add_work_packages: ワークパッケージの追加
   permission_add_messages: メッセージの投稿
@@ -4676,7 +4794,6 @@ ja:
   permission_add_work_package_watchers: ウォッチャーの追加
   permission_assign_versions: バージョンの割り当て
   permission_browse_repository: リポジトリに読み取り専用のアクセス (参照およびチェックアウト)
-  permission_change_wiki_parent_page: 親Wikiページの変更
   permission_change_work_package_status: ワークパッケージのステータス変更
   permission_change_work_package_status_explanation: ワークパッケージの編集権限なしで状態を変更できます
   permission_comment_news: ニュースへのコメント
@@ -4691,8 +4808,6 @@ ja:
   permission_delete_own_messages: 自身が投稿したメッセージの削除
   permission_delete_reportings: レポートの削除
   permission_delete_timelines: タイムラインの削除
-  permission_delete_wiki_pages: Wikiページの削除
-  permission_delete_wiki_pages_attachments: 添付ファイルの削除
   permission_edit_work_package_comments: コメントの承認
   permission_edit_work_package_comments_explanation: '注意: この権限を持つユーザは誰のコメントも編集できます。'
   permission_edit_work_packages: ワークパッケージの編集
@@ -4712,12 +4827,10 @@ ja:
   permission_edit_wiki_pages: Wikiページの編集
   permission_export_work_packages: ワークパッケージのエクスポート
   permission_export_projects: Export projects
-  permission_export_wiki_pages: Wikiページのエクスポート
   permission_invite_members_by_email: Invite members by email
   permission_invite_members_by_email_explanation: 'Allows users to invite new members by email. Invited users will receive an email with a link to set their password and activate their account. Depends on the permission to manage members
 
     '
-  permission_list_attachments: 添付ファイルの一覧表
   permission_log_own_time: 作業時間の記録
   permission_log_time: 他のユーザーの作業時間
   permission_manage_forums: フォーラムの管理
@@ -4732,7 +4845,6 @@ ja:
   permission_manage_subtasks: ワークパッケージ階層の管理
   permission_manage_versions: バージョンの管理
   permission_manage_wiki: Wiki の管理
-  permission_manage_wiki_menu: Wikiメニューの管理
   permission_manage_own_working_times: Manage own working times
   permission_manage_own_working_times_explanation: 'Allows users to manage their own working times, and personal non-working days.
 
@@ -4742,8 +4854,6 @@ ja:
 
     '
   permission_move_work_packages: ワークパッケージの移動
-  permission_protect_wiki_pages: Wikiページの凍結
-  permission_rename_wiki_pages: Wikiページ名の変更
   permission_save_queries: ビューを保存
   permission_search_project: プロジェクトを検索
   permission_select_custom_fields: カスタムフィールドの選択
@@ -4989,7 +5099,7 @@ ja:
 
     '
   setting_after_login_default_redirect_url: ログインリダイレクト後
-  setting_after_login_default_redirect_url_text_html: 'バックリンクが指定されていない場合、ログイン後にユーザーをリダイレクトするデフォルトのパスを設定します。 設定されていない場合はホームページにリダイレクトします。 <br/> 例: <code>/my/page</code>
+  setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
   setting_apiv3_cors_title: クロスオリジン資源共有 (CORS)
@@ -5068,6 +5178,10 @@ ja:
   setting_consent_required: 同意を求める
   setting_consent_decline_mail: 連絡先メールアドレスに同意します。
   setting_cross_project_work_package_relations: 他プロジェクトとの間にワークパッケージの関連付けを許可する
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: 年の最初の週に含む
   setting_date_format: 日付
   setting_default_language: デフォルトの言語
@@ -5106,6 +5220,9 @@ ja:
   setting_work_package_properties: 項目名
   setting_work_package_startdate_is_adddate: 今日の日付を新しいワークパッケージの開始日とする
   setting_work_packages_projects_export_limit: ワークパッケージ/プロジェクトのエクスポート制限
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: 全てのリクエストに対し、ユーザのログイン名、名前、メールアドレスをログに記録する
   setting_login_required: 認証が必要
@@ -5192,13 +5309,9 @@ ja:
   setting_welcome_title: ようこそブロックのタイトル
   setting_welcome_on_homescreen: ホーム画面にようこそブロックを表示
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
-  setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 and incremented with every new one. The numbers are unique within this instance so they remain the same even if work packages are moved between projects.
-
-    '
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers
-  setting_work_packages_identifier_semantic_caption: 'Every project has a unique identifier that is prefixed to the work package ID. If a work package moved to another project, a new identifier is generated but the old one continues to function.
-
-    '
+  setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
+  setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
   setting_work_package_list_default_highlighting_mode: デフォルトの強調表示モード
   setting_work_package_list_default_highlighted_attributes: デフォルトのインライン強調表示属性
   setting_working_days: 営業日
@@ -5380,7 +5493,7 @@ ja:
       section_work_week: 作業週
       section_holidays_and_closures: 休日と休業日
     work_packages:
-      work_package_identifier: Work package identifier
+      work_package_identifier: Work package identifiers
       not_allowed_text: このページを表示するために必要な権限がありません。
       activities:
         enable_internal_comments: 内部コメントを有効にする
@@ -5537,6 +5650,7 @@ ja:
   text_project_identifier_format: Must start with a lowercase letter. Only lowercase letters (a-z), numbers, dashes and underscores are allowed.
   text_reassign: 'ワークパッケージへの再割り当て:'
   text_regexp_multiline: 正規表現は、複数行モードで適用されます。例えば、^---\s+
+  text_rename_wiki_page: Rename wiki page
   text_repository_usernames_mapping: |-
     リポジトリのログから検出されたユーザ名をどのOpenProjectユーザに関連づけるかを選択してください。
     ログ上のユーザ名またはメールアドレスがOpenProjectのユーザと一致する場合は自動的に関連づけます。
@@ -5809,6 +5923,17 @@ ja:
     warning: '営業日とみなす曜日を変更すると、このサイト内のすべてのプロジェクトのすべてのワークパッケージの開始日と終了日に影響を与える可能性があります。
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**営業日**変更（%{changes}）_
       days:
@@ -5883,6 +6008,7 @@ ja:
       ancestor: 未公開 - アクセス許可がないため、祖先は見えません。
       definingProject: Undisclosed - The project is invisible because of lacking permissions.
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
+      workPackage: Undisclosed - The work package is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 事前承認
@@ -5969,8 +6095,6 @@ ja:
       scopes: 権限
       successful_application_revocation: アプリケーション %{application_name} の取り消しに成功しました。
       none_given: ユーザーアカウントへのアクセスがOAuthアプリケーションに許可されていません。
-    x_active_tokens:
-      other: "%{count}つの有効なトークン"
     flows:
       authorization_code: 認証コードの流れ
       client_credentials: クライアントの資格情報のフロー
@@ -5980,8 +6104,9 @@ ja:
     client_credentials_impersonation_html: 'デフォルトでは、OpenProjectは %{authorization_code_flow_link} を介してOAuth 2.0認証を提供します。 オプションで %{client_credentials_flow_link} を有効にすることもできますが、その代わりにユーザーに代わってリクエストが実行されるようにする必要があります。
 
       '
+    confirm_revoke_my_application:
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     authorization_error: 認証エラーが発生しました。
-    revoke_my_application_confirmation: 本当にこのアプリケーションを削除しますか？ これにより %{token_count} が無効になります。
     my_registered_applications: 登録済みのOAuthアプリケーション
   oauth_client:
     urn_connection_status:

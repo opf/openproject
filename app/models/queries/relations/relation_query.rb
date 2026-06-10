@@ -41,7 +41,6 @@ module Queries
       def results
         # Filters marked to already check visibility free us from the need
         # to check it here.
-
         if filters.any?(&:visibility_checked?)
           super
         else

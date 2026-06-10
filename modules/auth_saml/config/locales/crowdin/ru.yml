@@ -12,6 +12,7 @@ ru:
         sp_entity_id: Идентификатор объекта обслуживания
         metadata_url: URL метаданных провайдера идентификации
         name_identifier_format: Формат идентификатора имени
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Конечная точка входа провайдера идентификации
         idp_slo_service_url: Конечная точка выхода провайдера идентификации
         idp_cert: Публичный сертификат провайдера идентификации
@@ -44,6 +45,10 @@ ru:
       success: Конфигурация успешно обновлена с использованием метаданных провайдера идентификации.
       invalid_url: Предоставленный URL-адрес метаданных недействителен. Укажите URL-адрес HTTP(s).
       error: 'Не удалось получить метаданные провайдера идентификации: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Провайдеры SAML еще не настроены.
       label_empty_description: Добавьте провайдера, чтобы увидеть его здесь.
@@ -109,6 +114,9 @@ ru:
 
         '
       metadata_url: 'Ваш провайдер идентификации предоставляет URL-адрес метаданных.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Ваш провайдер идентификации предоставляет XML-загрузку метаданных.

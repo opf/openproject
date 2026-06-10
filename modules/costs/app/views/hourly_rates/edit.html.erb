@@ -105,10 +105,19 @@ See COPYRIGHT and LICENSE files for more details.
     </div>
   </div>
   <div class="wp-inline-create-button">
-    <a href="#" class="add-row-button wp-inline-create--add-link" data-action="subform#addRow">
-      <%= op_icon("icon icon-add") %>
-        <%= t(:button_add_rate) %>
-    </a>
+    <%=
+      render(
+        Primer::Beta::Button.new(
+          scheme: :link,
+          type: :button,
+          classes: "add-row-button wp-inline-create--add-link",
+          data: { action: "subform#addRow" }
+        )
+      ) do |button|
+        button.with_leading_visual_icon(icon: :plus)
+        t(:button_add_rate)
+      end
+    %>
   </div>
   <div class="generic-table--action-buttons">
     <%= styled_button_tag t(:button_save), class: "-with-icon icon-checkmark" %>

@@ -19,10 +19,12 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          persist-credentials: false
 
       - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@afeafc3d1ab54a631816aba4c914a0081c12ff2f # v1
 
       - name: Verify linked version matches core version
         id: version-check
@@ -32,7 +34,7 @@ jobs:
 
       - name: Add comment if versions differ
         if: steps.version-check.outputs.version_mismatch == 'true'
-        uses: marocchino/sticky-pull-request-comment@v3
+        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
         with:
           header: version-mismatch-comment
           message: |
@@ -50,7 +52,7 @@ jobs:
              - The work package version OR your pull request target branch is correct
       - name: Version check passed
         if: steps.version-check.outputs.version_mismatch != 'true'
-        uses: marocchino/sticky-pull-request-comment@v3
+        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
         with:
           header: version-mismatch-comment
           delete: true

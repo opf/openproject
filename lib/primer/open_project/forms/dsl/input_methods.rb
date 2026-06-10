@@ -36,6 +36,10 @@ module Primer
             add_input AutocompleterInput.new(builder:, form:, **decorate_options(**), &)
           end
 
+          def segmented_control(**, &)
+            add_input SegmentedControlInput.new(builder:, form:, **decorate_options(**), &)
+          end
+
           def block_note_editor(**, &)
             add_input BlockNoteEditorInput.new(builder:, form:, **decorate_options(**), &)
           end

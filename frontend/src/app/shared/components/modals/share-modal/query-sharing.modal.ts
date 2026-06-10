@@ -32,11 +32,7 @@ import { HalResourceNotificationService } from 'core-app/features/hal/services/h
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Inject, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { QuerySharingChange } from 'core-app/shared/components/modals/share-modal/query-sharing-form.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
@@ -50,6 +46,13 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class QuerySharingModalComponent extends OpModalComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly states = inject(States);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly wpListService = inject(WorkPackagesListService);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly toastService = inject(ToastService);
+
   public query:QueryResource;
 
   public isStarred = false;
@@ -68,20 +71,6 @@ export class QuerySharingModalComponent extends OpModalComponent implements OnIn
     button_cancel: this.I18n.t('js.button_cancel'),
     close_popup: this.I18n.t('js.close_popup_title'),
   };
-
-  constructor(
-    readonly elementRef:ElementRef,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly I18n:I18nService,
-    readonly states:States,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly cdRef:ChangeDetectorRef,
-    readonly wpListService:WorkPackagesListService,
-    readonly halNotification:HalResourceNotificationService,
-    readonly toastService:ToastService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
 
   ngOnInit():void {
     super.ngOnInit();

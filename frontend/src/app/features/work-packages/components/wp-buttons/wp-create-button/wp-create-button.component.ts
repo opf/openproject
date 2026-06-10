@@ -27,7 +27,7 @@
 //++
 
 import { StateService, TransitionService } from '@uirouter/core';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnDestroy, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { Observable } from 'rxjs';
@@ -43,6 +43,14 @@ import { CurrentUserService } from 'core-app/core/current-user/current-user.serv
   standalone: false,
 })
 export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  readonly $state = inject(StateService);
+  readonly currentUser = inject(CurrentUserService);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly authorisationService = inject(AuthorisationService);
+  readonly transition = inject(TransitionService);
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @Input() stateName$:Observable<string>;
 
   @Input() routedFromAngular = true;
@@ -63,18 +71,6 @@ export class WorkPackageCreateButtonComponent extends UntilDestroyedMixin implem
     createButton: this.I18n.t('js.label_work_package'),
     explanation: this.I18n.t('js.label_create_work_package'),
   };
-
-  constructor(
-    readonly $state:StateService,
-    readonly currentUser:CurrentUserService,
-    readonly currentProject:CurrentProjectService,
-    readonly authorisationService:AuthorisationService,
-    readonly transition:TransitionService,
-    readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit() {
     this.projectIdentifier = this.currentProject.identifier;

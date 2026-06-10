@@ -26,16 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnChanges, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import { NgSelectComponent } from '@ng-select/ng-select';
@@ -59,6 +50,13 @@ const ADD_FILTER_SELECT_INDEX = -1;
   standalone: false,
 })
 export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit, OnChanges {
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
+  readonly wpFiltersService = inject(WorkPackageFiltersService);
+  readonly I18n = inject(I18nService);
+  readonly alternativeSearchService = inject(AlternativeSearchService);
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
   @Input() public filters:QueryFilterInstanceResource[];
@@ -87,17 +85,6 @@ export class QueryFiltersComponent extends UntilDestroyedMixin implements OnInit
     filter_by_text: this.I18n.t('js.work_packages.label_filter_by_text'),
     baseline_warning: this.I18n.t('js.work_packages.filters.baseline_warning'),
   };
-
-  constructor(
-    readonly wpTableFilters:WorkPackageViewFiltersService,
-    readonly wpTableBaseline:WorkPackageViewBaselineService,
-    readonly wpFiltersService:WorkPackageFiltersService,
-    readonly I18n:I18nService,
-    readonly alternativeSearchService:AlternativeSearchService,
-    readonly cdRef:ChangeDetectorRef,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     this.wpTableFilters.live$()

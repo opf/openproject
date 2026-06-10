@@ -80,7 +80,7 @@
 
   // Hide the header, when the content-bodyRight is shown, because it has it's own header.
   // Otherwise, the sticky header would lay on top of the split screen
-  #content:has(#content-bodyRight > *)
+  @include split-pane-active
     page-header,
     sub-header
       display: none
@@ -107,7 +107,7 @@
   #main
     grid-template-columns: auto
 
-  #content:has(#content-bodyRight > *)
+  @include split-pane-active
     grid-template-columns: 1fr auto
 
   // As soon as the split screen has content (so basically when its opened), it takes the available whole space

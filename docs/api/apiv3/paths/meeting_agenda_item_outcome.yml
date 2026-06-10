@@ -1,0 +1,50 @@
+# /api/v3/meetings/{meeting_id}/agenda_items/{agenda_item_id}/outcomes/{id}
+---
+get:
+  summary: Get a meeting outcome
+  operationId: get_meeting_outcome_by_agenda_item
+  tags:
+    - Meetings
+  description: Retrieve an individual outcome of a meeting agenda item.
+  parameters:
+    - description: Meeting identifier
+      example: 1
+      in: path
+      name: meeting_id
+      required: true
+      schema:
+        type: integer
+    - description: Agenda item identifier
+      example: 1
+      in: path
+      name: agenda_item_id
+      required: true
+      schema:
+        type: integer
+    - description: Outcome identifier
+      example: 1
+      in: path
+      name: id
+      required: true
+      schema:
+        type: integer
+  responses:
+    '200':
+      description: OK
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/meeting_outcome_model.yml"
+    '404':
+      content:
+        application/hal+json:
+          schema:
+            $ref: "../components/schemas/error_response.yml"
+          examples:
+            response:
+              value:
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
+                message: The requested resource could not be found.
+      description: |-
+        Returned if the outcome, agenda item, or meeting does not exist or the client does not have sufficient permissions.

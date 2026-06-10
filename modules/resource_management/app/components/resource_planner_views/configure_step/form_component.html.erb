@@ -1,0 +1,57 @@
+<%=
+  component_wrapper do
+    content_tag(:div, data: { controller: "show-when-value-selected" }) do
+      primer_form_with(
+        model: @view,
+        scope: :view,
+        url: @url,
+        method: @method,
+        html: {
+          data: { turbo_stream: true },
+          id: @form_id
+        }
+      ) do |f|
+        flex_layout do |body|
+          if @view.errors[:base].present?
+            body.with_row(mb: 3) do
+              render(Primer::Alpha::Banner.new(mb: 3, icon: :stop, scheme: :danger)) { @view.errors[:base].join("\n") }
+            end
+          end
+
+          @hidden_fields.each do |name, value|
+            body.with_row do
+              concat(hidden_field_tag(name, value))
+            end
+          end
+
+          body.with_row do
+            render(ResourcePlannerViews::Forms::ConfigureForm.new(f))
+          end
+
+          if has_filter_query?
+            body.with_row(
+              mt: 3,
+              data: {
+                target_name: "filter_mode",
+                value: "automatic",
+                "show-when-value-selected-target": "effect"
+              },
+              hidden: !initial_filter_mode_automatic?
+            ) do
+              render(
+                ::Filters::FilterFormComponent.new(
+                  builder: f,
+                  query: @filter_query,
+                  wrap_with_controller: true,
+                  hidden_input_name: "filters",
+                  output_format: :json,
+                  autocomplete_append_to: "##{@dialog_id}"
+                )
+              )
+            end
+          end
+        end
+      end
+    end
+  end
+%>

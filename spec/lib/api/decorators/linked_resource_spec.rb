@@ -43,6 +43,76 @@ RSpec.describe API::Decorators::LinkedResource do
   let(:represented) { {} }
   let(:current_user) { create(:user) }
 
+  describe ".associated_visible_resource" do
+    include API::V3::Utilities::PathHelper
+
+    let(:thing_representer_class) do
+      Class.new(API::Decorators::Single) do
+        property :id
+        def _type = "Thing"
+      end
+    end
+
+    let(:representer_class) do
+      klass = thing_representer_class
+      Class.new(API::Decorators::Single) do
+        include API::Decorators::LinkedResource
+        associated_visible_resource :thing, v3_path: :thing, representer: klass,
+                                          undisclosed_title: :"api_v3.undisclosed.parent"
+      end
+    end
+
+    let(:thing_id) { 42 }
+    let(:thing) { double("thing", id: thing_id, name: "Thing Name") }
+    let(:model) { Struct.new(:thing_id, :thing).new(thing_id, thing) }
+
+    before do
+      without_partial_double_verification do
+        allow(api_v3_paths).to receive(:thing).with(thing_id).and_return("/api/v3/things/#{thing_id}")
+      end
+    end
+
+    subject(:json) { representer_class.new(model, current_user:, embed_links: true).to_json }
+
+    context "when the resource is visible" do
+      before { allow(thing).to receive(:visible?).with(current_user).and_return(true) }
+
+      it "renders the link href and title" do
+        expect(json).to be_json_eql("/api/v3/things/42".to_json).at_path("_links/thing/href")
+        expect(json).to be_json_eql("Thing Name".to_json).at_path("_links/thing/title")
+      end
+
+      it "embeds the resource" do
+        expect(json).to have_json_path("_embedded/thing")
+      end
+    end
+
+    context "when the resource is not visible" do
+      before { allow(thing).to receive(:visible?).with(current_user).and_return(false) }
+
+      it "renders the link href as undisclosed" do
+        expect(json).to be_json_eql(::API::V3::URN_UNDISCLOSED.to_json).at_path("_links/thing/href")
+      end
+
+      it "does not embed the resource" do
+        expect(json).not_to have_json_path("_embedded/thing")
+      end
+    end
+
+    context "when the resource id is nil" do
+      let(:thing_id) { nil }
+      let(:thing) { nil }
+
+      it "renders no link" do
+        expect(json).not_to have_json_path("_links/thing")
+      end
+
+      it "does not embed the resource" do
+        expect(json).not_to have_json_path("_embedded/thing")
+      end
+    end
+  end
+
   describe "#from_hash" do
     subject { representer.new(represented, current_user:).from_hash(input_hash) }
 

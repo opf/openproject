@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe "API v3 storage files", :storage_server_helpers, :webmock, content_type: :json do
+RSpec.describe "API v3 storage files", :disable_ssrf_filter, :storage_server_helpers, :webmock, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:permissions) { %i(view_work_packages view_file_links) }

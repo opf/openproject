@@ -26,16 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DayElement } from 'flatpickr/dist/types/instance';
@@ -65,6 +56,15 @@ export type DateMode = 'single'|'range';
   standalone: false,
 })
 export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin implements AfterViewInit {
+  readonly injector = inject(Injector);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly I18n = inject(I18nService);
+  readonly timezoneService = inject(TimezoneService);
+  readonly deviceService = inject(DeviceService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly elementRef = inject(ElementRef);
+
   @Input() public ignoreNonWorkingDays:boolean;
   @Input() public scheduleManually:boolean;
 
@@ -89,16 +89,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   private minimalSchedulingDate:Date|null;
   private onFlatpickrSetValuesBound = this.onFlatpickrSetValues.bind(this);
 
-  constructor(
-    readonly injector:Injector,
-    readonly cdRef:ChangeDetectorRef,
-    readonly apiV3Service:ApiV3Service,
-    readonly I18n:I18nService,
-    readonly timezoneService:TimezoneService,
-    readonly deviceService:DeviceService,
-    readonly pathHelper:PathHelperService,
-    readonly elementRef:ElementRef,
-  ) {
+  constructor() {
     super();
     populateInputsFromDataset(this);
     this.startDateValue = this.toDate(this.startDate);

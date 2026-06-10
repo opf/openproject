@@ -1,0 +1,69 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+---
+hy:
+  attributes:
+    additions_count: Number of additions
+    deletions_count: Number of deletions
+    comments_count: Comments count
+    github_html_url: Pull Request URL
+    github_app_owner_avatar_url: Owner avatar URL
+    review_comments_count: Review comments count
+    github: GitHub identifer
+    github_avatar_url: Avatar URL
+    github_updated_at: Updated at
+    github_login: GitHub login
+    host: Host
+    labels: Labels
+    repository: Repository
+    changed_files_count: Changed files
+  button_add_deploy_target: Add deploy target
+  label_deploy_target: Deploy target
+  label_deploy_target_new: New deploy target
+  label_deploy_target_plural: Deploy targets
+  label_github_integration: GitHub Integration
+  notice_deploy_target_created: Deploy target created
+  notice_deploy_target_destroyed: Deploy target deleted
+  label_github_comment_user: GitHub actor
+  label_github_webhook_secret: Webhook secret
+  text_github_comment_user_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated deploy-status comments on work packages. Defaults to the system user when not set.
+
+    '
+  text_github_webhook_secret_missing_warning: 'No webhook secret is configured. Any request to the GitHub webhook endpoint will be accepted without verification, which may allow unauthorized actors to forge events. It is strongly recommended to set a secret.
+
+    '
+  text_github_webhook_secret_info: 'A secret token shared with GitHub when configuring the webhook. When set, OpenProject verifies the X-Hub-Signature-256 header on every incoming request, rejecting payloads that do not match. Leave blank to skip verification (not recommended).
+
+    '
+  plugin_openproject_github_integration:
+    name: OpenProject GitHub Integration
+    description: Integrates OpenProject and GitHub for a better workflow
+  project_module_github: GitHub
+  permission_show_github_content: Show GitHub content
+  permission_introspection: Read running OpenProject core version and build SHA
+  text_deploy_target_type_info: 'So far we only support OpenProject itself.
+
+    '
+  text_deploy_target_api_key_info: 'An OpenProject [API key](docs_url) belonging to a user who has the global introspection permission.
+
+    '
+  text_pull_request_deployed_to: "%{pr_link} deployed to %{deploy_target_link}"

@@ -95,9 +95,11 @@ module Import
     # rubocop:disable Metrics/PerceivedComplexity
     # rubocop:disable Metrics/AbcSize
     def import_user(jira_user)
+      user_attrs = jira_user.to_op_attributes
+      user_attrs_without_password = user_attrs.except(:password)
       call = Users::CreateService
                .new(user: User.system, contract_class: EmptyContract)
-               .call(jira_user.to_op_attributes)
+               .call(user_attrs)
 
       call.on_success do |_result|
         create_reference!(
@@ -119,10 +121,10 @@ module Import
             )
           else
             raise "Existing User is expected to be found, because there was an email " \
-                  "or login collision. See attributes: #{jira_user.to_op_attributes}"
+                  "or login collision. See attributes: #{user_attrs_without_password}"
           end
         else
-          raise call.message
+          raise "Error creating a user (#{user_attrs_without_password}): #{call.message}"
         end
       end
 
@@ -155,7 +157,7 @@ module Import
               raise "Existing Group is expected to be found. Group name: #{group_name}"
             end
           else
-            raise call.message
+            raise "Error creating a group #{group_name}: #{call.message}"
           end
         end
         member_id = Import::JiraOpenProjectReference.where(

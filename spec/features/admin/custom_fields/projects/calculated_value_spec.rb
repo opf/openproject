@@ -31,10 +31,7 @@
 require "spec_helper"
 require_relative "shared_context"
 
-RSpec.describe "Edit project custom field calculated value",
-               :js,
-               with_ee: %i[calculated_values weighted_item_lists],
-               with_flag: { calculated_value_project_attribute: true } do
+RSpec.describe "Edit project custom field calculated value", :js, with_ee: %i[calculated_values weighted_item_lists] do
   include_context "with seeded project custom fields"
 
   shared_let(:weighted_item_list_project_custom_field) do

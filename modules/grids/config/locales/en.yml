@@ -1,3 +1,4 @@
+---
 en:
   grids:
     label_widget_in_grid: "Widget contained in Grid %{grid_name}"

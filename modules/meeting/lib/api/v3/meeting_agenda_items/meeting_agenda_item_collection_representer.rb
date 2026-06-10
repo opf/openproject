@@ -32,6 +32,18 @@ module API
   module V3
     module MeetingAgendaItems
       class MeetingAgendaItemCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        # Force `embed_links` on the elements so that their associated resources
+        # (most notably the outcomes) are embedded by default, mirroring the
+        # single agenda item endpoint. All of these associations are already
+        # eager loaded by the element representer, so this adds no extra queries.
+        collection :elements,
+                   getter: ->(*) {
+                     represented.map do |model|
+                       element_decorator.create(model, current_user:, embed_links: true)
+                     end
+                   },
+                   exec_context: :decorator,
+                   embedded: true
       end
     end
   end

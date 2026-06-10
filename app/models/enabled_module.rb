@@ -54,6 +54,8 @@ class EnabledModule < ApplicationRecord
         create_managed_repository
       end
     end
+
+    OpenProject::Notifications.send(OpenProject::Events::MODULE_ENABLED, enabled_module: self)
   end
 
   def create_managed_repository

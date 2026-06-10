@@ -202,16 +202,7 @@ ms:
           text: "[Placeholder] Kalendar yang tersemat"
     admin:
       type_form:
-        custom_field: Ruang tersuai
-        inactive: Tidak aktif
-        drag_to_activate: Tarik ruangan dari sini untuk mengaktifkan mereka
-        add_group: Tambah kumpulan atribut
-        add_table: Tambah jadual pakej kerja yang berkaitan
         edit_query: Edit pertanyaan
-        new_group: Kumpulan baharu
-        delete_group: Delete group
-        remove_attribute: Remove from group
-        reset_to_defaults: Set semula ke default
       working_days:
         calendar:
           empty_state_header: Hari tidak bekerja
@@ -219,13 +210,6 @@ ms:
           new_date: "(baharu)"
         add_non_working_day: Hari tidak bekerja
         already_added_error: Hari tidak bekerja untuk tarikh ini sudah ada. Hanya boleh mempunyai satu hari tidak bekerja dicipta untuk setiap tarikh yang unik.
-        change_button: Simpan dan jadualkan semula
-        change_title: Tukar hari bekerja
-        removed_title: 'Anda akan mengeluarkan hari berikut dari senarai hari tidak bekerja:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Menukar mod pengiraan kemajuan daripada berasaskan status kepada berasaskan kerja akan menjadikan medan <i>% Selesai</i> boleh diedit secara bebas. Jika anda secara pilihan memasukkan nilai untuk <i>Kerja</i> atau <i>Kerja yang tinggal</i>, nilai tersebut juga akan dipautkan kepada <i>% Selesai</i>. Menukar <i>Baki kerja</i> kemudian boleh mengemas kini <i>% Selesai</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Mengubah mod pengiraan perkembangan daripada berasaskan-kerja kepada berasaskan-status akan menjadikan semua nilai <i>% Selesai</i> yang sedia ada hilang dan digantikan dengan nilai yang berkaitan dengan setiap status. Nilai sedia ada bagi <i>Kerja yang berbaki</i> juga akan dikira semula untuk menggambarkan perubahan ini. Tindakan ini tidak boleh dipulihkan.
@@ -418,7 +402,6 @@ ms:
     label_per_page: 'Setiap halaman:'
     label_please_wait: Sila tunggu
     label_project: Projek
-    label_project_list: Senarai projek
     label_project_plural: Projek-projek
     label_visibility_settings: Tetapan keterlihatan
     label_quote_comment: Petik komen ini
@@ -613,18 +596,6 @@ ms:
     breadcrumb: Breadcrumb
     text_data_lost: Semua data yang dimasukkan akan hilang.
     text_user_wrote: "%{value} menulis:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: Nama %{group} digunakan lebih dari sekali. Nama kumpulan mestilah unik.
-        error_no_table_configured: Sila konfigurasi jadual untuk %{group}.
-        reset_title: Set semula konfigurasi borang
-        confirm_reset: 'Amaran: Adakah anda pasti anda ingin set semula konfigurasi borang? Ini akan set semula atribut kumpulan asal mereka dan menyahdayakan SEMUA ruang tersuai.
-
-          '
-        upgrade_to_ee: Naik taraf edisi Enterprise di premis
-        upgrade_to_ee_text: Wah! Jika anda perlukan tambahan ini anda sungguh pro! Bolehkah anda menyokong kami, pembangun OpenProject, dengan menjadi pelanggan edisi Enterprise?
-        more_information: Maklumat lanjut
-        nevermind: Tidak mengapa
     time_entry:
       work_package_required: Memerlukan pemilihan pakej kerja dahulu.
       title: Masa log
@@ -1070,16 +1041,13 @@ ms:
         all: Semua projek
         selected: Hanya terpilih
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Termasuk semua sub-projek
       tooltip:
         include_all_selected: Projek sudah disertakan sejak Sertakan semua sub-projek didayakan.
         current_project: Ini adalah projek yang anda terlibat dalam sekarang.
         does_not_match_search: Projek tidak sepadan dengan kriteria carian.
       no_results: Tiada projek yang sepadan dengan kriteria carian anda.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

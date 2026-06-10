@@ -12,6 +12,7 @@ fa:
         sp_entity_id: شناسه سرویس
         metadata_url: آدرس فراداده سرور احراز هویت
         name_identifier_format: قالب متغیر نام
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: مسیر ورود سرور احراز هویت
         idp_slo_service_url: مسیر خروج سرور احراز هویت
         idp_cert: مدرک عمومی سرور احراز هویت
@@ -44,6 +45,10 @@ fa:
       success: ارتقای تنظیمات بوسیله فراداده سرویس احراز هویت با موفقیت انجام شد.
       invalid_url: مسیر فراداده صحیح نیست. لطفا آدرس صحیح HTTP(S) ارائه دهید.
       error: 'فراداده ارائه دهنده هویت بازیابی نشد: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: هیچ سخت‌افزار احراز هویتی پیکربندی نشده است.
       label_empty_description: یک ارائه دهنده اضافه کنید تا آن را در اینجا ببینید.
@@ -109,6 +114,9 @@ fa:
 
         '
       metadata_url: 'ارائه دهنده هویت شما یک URL فراداده ارائه می دهد.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'ارائه دهنده هویت شما یک دانلود XML فراداده ارائه می دهد.

@@ -36,6 +36,7 @@ uk:
         subject: Тема
         type: Тип вартості
         labor_budget: Планові витрати на працю
+        labor_budget_items: Планові витрати на працю
         material_budget: Планові витрати на одиницю продукції
         base_amount: Базова сума
       work_package:
@@ -48,6 +49,7 @@ uk:
               not_a_member_of_budget_project: не є учасником проєкту бюджету
     models:
       budget: Бюджет
+      labor_budget_item: Планова вартість праці
       material_budget_item: Одиниця
   activity:
     filter:

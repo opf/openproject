@@ -79,8 +79,8 @@
       } @else {
         <a
           class="global-search--option"
-          [href]="wpPath(item.id)"
-          (click)="redirectToWp(item.id, $event)"
+          [href]="wpPath(item.displayId)"
+          (click)="redirectToWp(item.displayId, $event)"
           style="line-height: 1"
           >
           <div class="global-search--option-meta">

@@ -33,41 +33,37 @@ require "spec_helper"
 RSpec.describe Backlogs::WorkPackagesController do
   describe "routing" do
     it {
-      expect(put("/projects/project_42/backlogs/sprints/21/work_packages/85/move")).to route_to(
-        controller: "backlogs/work_packages",
-        action: "move",
-        project_id: "project_42",
-        sprint_id: "21",
-        id: "85"
-      )
-    }
-
-    it {
-      expect(post("/projects/project_42/backlogs/sprints/21/work_packages/85/reorder")).to route_to(
-        controller: "backlogs/work_packages",
-        action: "reorder",
-        project_id: "project_42",
-        sprint_id: "21",
-        id: "85"
-      )
-    }
-
-    it {
-      expect(get("/projects/project_42/backlogs/sprints/21/work_packages/85/menu")).to route_to(
+      expect(get("/projects/project_42/backlogs/work_packages/85/menu")).to route_to(
         controller: "backlogs/work_packages",
         action: "menu",
         project_id: "project_42",
-        sprint_id: "21",
         id: "85"
       )
     }
 
     it {
-      expect(get("/projects/project_42/backlogs/sprints/21/work_packages/85/move_to_sprint_dialog")).to route_to(
+      expect(put("/projects/project_42/backlogs/work_packages/85/move")).to route_to(
+        controller: "backlogs/work_packages",
+        action: "move",
+        project_id: "project_42",
+        id: "85"
+      )
+    }
+
+    it {
+      expect(get("/projects/project_42/backlogs/work_packages/85/move_to_sprint_dialog")).to route_to(
         controller: "backlogs/work_packages",
         action: "move_to_sprint_dialog",
         project_id: "project_42",
-        sprint_id: "21",
+        id: "85"
+      )
+    }
+
+    it {
+      expect(get("/projects/project_42/backlogs/work_packages/85/move_to_bucket_dialog")).to route_to(
+        controller: "backlogs/work_packages",
+        action: "move_to_bucket_dialog",
+        project_id: "project_42",
         id: "85"
       )
     }

@@ -1,0 +1,43 @@
+<%=
+  component_wrapper(
+    id: "type-form-configuration-inactive-container",
+    data: container_data
+  ) do
+    render(
+      Primer::Alpha::ActionList.new(
+        role: :list,
+        classes: "type-form-configuration-page--inactive-list",
+        data: { "test-selector": "type-form-configuration-inactive-list" }
+      )
+    ) do |list|
+      if @inactive_attributes.empty?
+        list.with_item(
+          label: t("types.edit.form_configuration.no_inactive_attributes"),
+          disabled: true,
+          classes: "type-form-configuration-page--inactive-empty",
+          content_arguments: { tag: :div },
+          data: { "empty-list-item": true, "filter--filter-list-target": "searchItem" }
+        )
+      else
+        @inactive_attributes.each do |attribute|
+          list.with_item(
+            label: attribute[:translation],
+            classes: "type-form-configuration-page--inactive-item",
+            content_arguments: { tag: :div },
+            data: item_data(attribute).merge("filter--filter-list-target": "searchItem")
+          ) do |item|
+            item.with_leading_visual_raw_content do
+              render(
+                Primer::OpenProject::DragHandle.new(
+                  classes: "attribute-handle",
+                  "aria-label": t("types.edit.form_configuration.drag_to_reorder"),
+                  test_selector: "type-form-configuration-attribute-handle-#{attribute[:key]}"
+                )
+              )
+            end
+          end
+        end
+      end
+    end
+  end
+%>

@@ -2,7 +2,7 @@ import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
 import { TableEventComponent, TableEventHandler } from 'core-app/features/work-packages/components/wp-fast-table/handlers/table-handler-registry';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { ClickOrEnterHandler } from '../click-or-enter-handler';
@@ -10,9 +10,9 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @LazyInject() public wpTableHierarchies:WorkPackageViewHierarchiesService;
 
   constructor(public readonly injector:Injector) {
     super();

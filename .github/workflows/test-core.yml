@@ -26,19 +26,19 @@ jobs:
     name: Units + Features
     if: github.repository_owner == 'opf'
     runs-on:
-      labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m7+c7+r7+i7+r8/ram=128+256/cpu=32"
+      labels: "runs-on=${{ github.run_id }}/image=ubuntu24-full-x64/family=m8azn+m8+m7+i7+r8/ram=128+256/cpu=24+32/volume=50gb"
     timeout-minutes: 40
     env:
       DOCKER_BUILDKIT: 1
       CI_RETRY_COUNT: 3
     steps:
-    - uses: runs-on/action@v2
+    - uses: runs-on/action@d141ef83eb66d096ce8afc767e09115a65c63b60 # v2.1.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       with:
-        metrics: cpu,memory,disk,io,network
-    - uses: actions/checkout@v6
+        persist-credentials: false
     - name: Cache DOCKER
       id: cache_docker
-      uses: runs-on/cache@v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/docker
         # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
@@ -47,28 +47,28 @@ jobs:
       if: steps.cache_docker.outputs.cache-hit == 'true'
       run: docker load -i cache/docker/image.tar
     - name: Cache GEM
-      uses: runs-on/cache@v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           gem-trixie-${{ hashFiles('.ruby-version') }}-
     - name: Cache NPM
-      uses: runs-on/cache@v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/node
         key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           node-
     - name: Cache ANGULAR
-      uses: runs-on/cache@v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/angular
         key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           angular-
     - name: Cache TEST RUNTIME
-      uses: runs-on/cache@v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/runtime-logs
         key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}

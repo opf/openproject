@@ -29,7 +29,7 @@
 /**
  * Shared utilities for external link handling. Used by both
  * ExternalLinksController (DOM rewriting for server-rendered pages) and
- * ProseMirrorExternalLinksController (click interception for BlockNote editors).
+ * BlockNote editor extensions (click interception and accessibility).
  */
 
 /**
@@ -42,23 +42,32 @@ export function isLinkBlank(link:HTMLAnchorElement) {
 }
 
 /**
- * Returns true when the link points to a different origin than the current page.
- * External links receive special treatment for security (noopener/noreferrer)
- * and, when capture is enabled, are routed through `/external_redirect` for
- * phishing prevention.
+ * Returns true when the given href string points to a different origin than
+ * the current page. Works with plain URL strings (e.g. from ProseMirror mark
+ * attrs) where no HTMLAnchorElement is available.
  *
  * Only considers http/https URLs — non-web protocols (mailto:, tel:,
  * javascript:, etc.) return false because they don't navigate to an
  * external origin.
  */
-export function isLinkExternal(link:HTMLAnchorElement) {
+export function isHrefExternal(href:string):boolean {
   try {
-    const linkUrl = new URL(link.href, window.location.origin);
+    const linkUrl = new URL(href, window.location.origin);
     if (!linkUrl.protocol.startsWith('http')) return false;
     return linkUrl.origin !== window.location.origin;
   } catch {
     return false;
   }
+}
+
+/**
+ * Returns true when the link points to a different origin than the current page.
+ * External links receive special treatment for security (noopener/noreferrer)
+ * and, when capture is enabled, are routed through `/external_redirect` for
+ * phishing prevention.
+ */
+export function isLinkExternal(link:HTMLAnchorElement) {
+  return isHrefExternal(link.href);
 }
 
 /**
@@ -76,8 +85,8 @@ export function isExternalLinkCandidate(link:HTMLAnchorElement) {
 /**
  * Builds the `/external_redirect` URL that the server uses for external link
  * capture. The ExternalLinksController rewrites hrefs directly; the
- * ProseMirrorExternalLinksController passes this URL to `window.open` on click
- * to avoid corrupting the ProseMirror document model.
+ * ExternalLinkCaptureExtension passes this URL to `window.open` on click
+ * to avoid corrupting the BlockNote/ProseMirror document model.
  */
 export function buildExternalRedirectUrl(href:string):string {
   const basePath = window.appBasePath ?? '';

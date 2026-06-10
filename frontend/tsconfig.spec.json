@@ -3,15 +3,20 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "jasmine"
-     ]
+      "vitest/globals",
+      "@testing-library/jest-dom/vitest"
+    ]
   },
   "files": [
-    "src/test.ts",
+    "src/test-browser-polyfills.ts",
+    "src/test-setup.ts",
+    "src/test-providers.ts",
     "src/polyfills.ts"
   ],
   "include": [
     "src/**/*.spec.ts",
-    "src/**/*.d.ts"
+    "src/**/*.d.ts",
+    "src/main.ts",
+    "src/app/**/*.module.ts"
   ]
 }

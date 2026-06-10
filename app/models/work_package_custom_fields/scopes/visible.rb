@@ -33,11 +33,11 @@ module WorkPackageCustomFields::Scopes
     extend ActiveSupport::Concern
 
     class_methods do
-      def visible(user = User.current)
+      def visible(user = User.current, project: nil)
         if user.allowed_in_any_project?(:select_custom_fields)
           all
         else
-          on_visible_type_and_project(user)
+          on_visible_type_and_project(user, project:)
         end
       end
     end

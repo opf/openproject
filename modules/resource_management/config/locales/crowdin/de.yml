@@ -1,0 +1,132 @@
+---
+de:
+  activerecord:
+    attributes:
+      resource_allocation:
+        allocated_time: Zugewiesene Zeit
+        end_date: Endtermin
+        entity: Entität
+        principal: Zugewiesen an
+        start_date: Anfangstermin
+        state: Status
+        user_filter: Benutzerfilter
+      resource_planner:
+        default_view_class_name: Standardansicht
+        end_date: Endtermin
+        favorite: Favorit
+        name: Name
+        public: Öffentlich
+        start_date: Anfangstermin
+    errors:
+      models:
+        resource_allocation:
+          attributes:
+            end_date:
+              greater_than_start_date: muss nach dem Anfangstermin liegen.
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: muss nach dem Anfangstermin liegen.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: muss mit einer Arbeitspaket-Abfrage verbunden sein.
+    models:
+      resource_allocation: Ressourcenzuteilung
+      resource_planner: Ressourcenplanung
+      resource_work_package_list: Liste von Arbeitspaketen
+      user_card: Benutzer-Karten
+  button_next: Weiter
+  label_resource_management: Ressourcenplanung
+  permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
+  permission_allocate_user_resources_explanation: 'Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
+
+    '
+  permission_manage_public_resource_planners: Öffentliche Ressourcenplaner verwalten
+  permission_manage_public_resource_planners_explanation: 'Ermöglicht Benutzern das Erstellen und Verwalten von öffentlichen Ressourcenplanern. Sie können damit ihre eigenen Ressourcenplaner anzeigen, erstellen, verwalten und veröffentlichen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
+
+    '
+  permission_view_resource_planners: Ressourcenplaner anzeigen
+  permission_view_resource_planners_explanation: 'Ermöglicht Benutzern den Zugang zu Ressourcenplanern. Sie können damit eigenen Ressourcenplaner erstellen, verwalten und öffentliche Ressourcenplaner einsehen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
+
+    '
+  plugin_openproject_resource_management:
+    description: Bietet Ressourcenmanagement und Kapazitätsplanung.
+    name: OpenProject Ressourcenmanagement
+  project_module_resource_management: Ressourcen Management
+  resource_management:
+    action:
+      delete: Löschen
+      favorite: Zu Favoriten hinzufügen
+      make_private: Als Privat festlegen
+      make_public: Veröffentlichen
+      unfavorite: Aus Favoriten entfernen
+    blankslate:
+      desc: Erstellen Sie einen Ressourcenplaner, um Kapazitäten für dieses Projekt zu planen.
+      title: Keine Ressourcenplaner vorhanden
+    configure_view_dialog:
+      delete_confirmation: Sind Sie sicher, dass Sie diese Ansicht löschen möchten? Dies kann nicht rückgängig gemacht werden.
+      filter_mode:
+        automatic:
+          caption: Eine automatisch generierte Liste, die Arbeitspakete anzeigt, die den von ihnen definierten Kriterien entsprechen.
+          label: Automatisch gefiltert
+        label: Auswahl
+        manual:
+          caption: Eine benutzerdefinierte Liste von Artikeln, die Sie manuell hinzufügen und entfernen. Eine Filterung ist nicht möglich.
+          label: Manuell ausgewählt
+      title: Ansicht konfigurieren
+    favorite_caption: 'Machen Sie diese Ansicht zu einem Favoriten, um sie im oberen Bereich des Seitenleistenmenüs hinzuzufügen.
+
+      '
+    label_new_resource_planner: Ressourcenplaner erstellen
+    label_resource_planner: Ressourcenplaner
+    label_resource_planner_plural: Ressourcenplaner
+    new_view_dialog:
+      title: Ansicht hinzufügen
+    public_caption: 'Machen Sie diese Ansicht für alle Mitglieder des Projekts öffentlich. Dies hat keine Auswirkungen auf die Sichtbarkeit von Arbeitspaketen, die immer noch von den jeweiligen Benutzerrechten abhängt.
+
+      '
+    show:
+      placeholder: Die detaillierte Ansicht für diesen Ressourcenplaner wird in Kürze erscheinen.
+    sidebar:
+      private: Privat
+      public: Öffentlich
+    sub_views: Ansichten in dieser Ressourcenplanung
+    view_types:
+      resource_work_package_list:
+        caption: Erstellen Sie eine Ansicht auf Basis von Arbeitspaketen und sehen Sie deren Details und Zuweisungen in einer Liste
+        label: Liste von Arbeitspaketen
+      user_card:
+        caption: Erstellen Sie eine Ansicht auf der Basis von Benutzern und sehen Sie deren Details und Zuordnung in einer Kachelansicht von Benutzerkarten
+        label: Benutzer-Karten
+    work_package_list:
+      add_work_package_dialog:
+        title: Arbeitspaket hinzufügen
+      allocation_placeholder: "—"
+      blank:
+        description: Es gibt noch keine Arbeitspakete, die den Filtern dieser Ansicht entsprechen.
+        title: Keine Arbeitspakete anzuzeigen
+      columns:
+        allocated_members: Zugewiesene Benutzer
+        allocation: Zuweisung
+        dates: Daten
+      context_menu:
+        add_filter_criteria: Filter hinzufügen
+        add_user_group: Benutzergruppe hinzufügen
+        edit_total_work: Gesamte Arbeit bearbeiten
+        label: Weitere Aktionen
+        move: Verschieben
+        move_down: Nach unten verschieben
+        move_to_bottom: Nach ganz unten verschieben
+        move_to_top: Nach ganz oben verschieben
+        move_up: Nach oben verschieben
+        remove: Entfernen
+        remove_confirmation: Dieses Arbeitspaket aus der Ansicht entfernen?
+        see_allocation: Zuteilung anzeigen
+      mobile_title: Arbeitspakete
+      query_name: 'Arbeitspakete zur Ressourcenverwaltung: %{name}'
+      subheader:
+        add: Hinzufügen
+        add_work_package: Arbeitspaket hinzufügen
+        allocate: Zuweisen
+        settings: Ansicht konfigurieren

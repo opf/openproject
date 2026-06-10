@@ -65,8 +65,8 @@ module API
                                 mime_type: "text/csv"
         end
 
-        def paged_models(models)
-          ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(super)
+        def eager_loaded_paged_models(models)
+          ::API::V3::Projects::ProjectEagerLoadingWrapper.wrap(models)
         end
       end
     end

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { QueryFormResource } from 'core-app/features/hal/resources/query-form-resource';
 import {
   QueryFilterInstanceSchemaResource,
@@ -11,8 +11,8 @@ import { CollectionResource } from 'core-app/features/hal/resources/collection-r
 
 @Injectable()
 export class QueryFiltersService {
-  constructor(protected schemaCache:SchemaCacheService) {
-  }
+  protected schemaCache = inject(SchemaCacheService);
+
 
   /**
    * Get the matching schema of the filter resource

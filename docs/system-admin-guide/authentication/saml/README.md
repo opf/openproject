@@ -78,7 +78,9 @@ Request signing means that the service provider (OpenProject in this case) uses 
 
 With request signing enabled, the certificate will be added to the identity provider to validate the signature of the service provider's request.
 
-Fill out the respective fields, or if you do not need these features, simply leave this section empty and click **Continue**.
+**Require signed responses** should always be checked to ensure that signatures on all assertions provided by the identity provider are verified by OpenProject, unless your identity provider does not allow this for some reason.
+
+Fill out the respective fields, or if you do not need these features, simply leave the rest of this section empty and click **Continue**.
 
 ![Encryption and Signature of Requests and Assertions](./saml-encryption.png)
 
@@ -237,7 +239,8 @@ For request signing and assertion encryption, these attributes are available
 # When true, OpenProject will sign AuthnRequests using the above certificate and private key pair
 OPENPROJECT_SAML_SAML_SECURITY_AUTHN__REQUESTS__SIGNED="false"
 # When true, OpenProject will require assertions to be signed using a private key matching the provided IDP__CERT
-OPENPROJECT_SAML_SAML_SECURITY_WANT_ASSERTIONS_SIGNED="false"
+# This setting SHOULD always be true to ensure integrity of the idP assertions
+OPENPROJECT_SAML_SAML_SECURITY_WANT_ASSERTIONS_SIGNED="true"
 # When true, OpenProject will require assertiations to be encrypted using the public key from CERTIFICATE
 OPENPROJECT_SAML_SAML_SECURITY_WANT_ASSERTIONS_ENCRYPTED="false"
 # Whether to embed the signature in the request.
@@ -313,6 +316,10 @@ Using environment variables, you could also set this in the following way
 OPENPROJECT_OMNIAUTH__DIRECT__LOGIN__PROVIDER="saml" # This value should be the 'name' property of your configuration
 ```
 
+With the direct login feature activated, accessing the page without authentication will immediately redirect the user to your Single Sign-On (SSO) portal.
+
+A dedicated route `/login/internal` is available for internal authentication, which does not redirect to the SSO portal.
+**We strongly advise** you to maintain an internal administrative login, as you won’t be able to access the application otherwise.
 
 
 ## Instructions for common SAML providers

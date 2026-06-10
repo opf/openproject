@@ -26,16 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { StatusResource } from 'core-app/features/hal/resources/status-resource';
 
 @Injectable({ providedIn: 'root' })
 export class ExcludedIconHelperService {
-  constructor(
-    private apiV3Service:ApiV3Service,
-  ) {}
+  private apiV3Service = inject(ApiV3Service);
+
 
   public addIconIfExcludedFromTotals(element:HTMLElement, resource:WorkPackageResource):void {
     if (resource?.status) {

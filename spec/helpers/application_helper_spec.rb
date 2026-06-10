@@ -290,6 +290,30 @@ RSpec.describe ApplicationHelper do
     end
   end
 
+  describe "#back_url_to_current_page" do
+    context "when back_url param is provided" do
+      it "returns the provided back_url" do
+        allow(helper).to receive(:params).and_return(ActionController::Parameters.new(back_url: "/work_packages"))
+
+        expect(helper.back_url_to_current_page).to eq("/work_packages")
+      end
+    end
+
+    context "when back_url param is missing" do
+      it "returns nil" do
+        allow(helper)
+          .to(
+            receive_messages(
+              params: ActionController::Parameters.new,
+              request: instance_double(ActionDispatch::Request, get?: true, url: "http://test.host/")
+            )
+          )
+
+        expect(helper.back_url_to_current_page).to be_nil
+      end
+    end
+  end
+
   describe "#link_to_content_update" do
     let(:options) { { controller: "work_packages", action: "show", id: 10 } }
 

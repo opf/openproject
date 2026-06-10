@@ -23,7 +23,7 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
@@ -56,10 +56,12 @@ module Import
 
           op_user = ref.op_leg
           Journal::NotificationConfiguration.with(false) do
-            Users::UpdateService
-              .new(model: op_user, user: User.system, contract_class: Users::JiraImportUpdateContract)
-              .call(status: :active)
-              .on_failure { |result| raise result.message }
+            Journal::EventConfiguration.with(false) do
+              Users::UpdateService
+                .new(model: op_user, user: User.system, contract_class: Users::JiraImportUpdateContract)
+                .call(status: :active)
+                .on_failure { |result| raise result.message }
+            end
           end
         end
     end

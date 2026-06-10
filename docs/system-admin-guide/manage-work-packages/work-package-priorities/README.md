@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: Priorities
-  priority: 966
+  priority: 600
 description: Work package priorities in OpenProject.
 keywords: work package priorities, work package configuration
 ---

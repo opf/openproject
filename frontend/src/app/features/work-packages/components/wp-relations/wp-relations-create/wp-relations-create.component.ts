@@ -1,10 +1,5 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -21,6 +16,12 @@ import { WorkPackageRelationsService } from '../wp-relations.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageRelationsCreateComponent {
+  readonly I18n = inject(I18nService);
+  protected wpRelations = inject(WorkPackageRelationsService);
+  protected notificationService = inject(WorkPackageNotificationService);
+  protected halEvents = inject(HalEventsService);
+  protected cdRef = inject(ChangeDetectorRef);
+
   @Input() readonly workPackage:WorkPackageResource;
 
   public showRelationsCreateForm = false;
@@ -38,15 +39,6 @@ export class WorkPackageRelationsCreateComponent {
     relationType: this.I18n.t('js.relation_buttons.relation_type'),
     addNewRelation: this.I18n.t('js.relation_buttons.add_new_relation'),
   };
-
-  constructor(
-    readonly I18n:I18nService,
-    protected wpRelations:WorkPackageRelationsService,
-    protected notificationService:WorkPackageNotificationService,
-    protected halEvents:HalEventsService,
-    protected cdRef:ChangeDetectorRef,
-  ) {
-  }
 
   public onSelected(workPackage?:WorkPackageResource) {
     if (workPackage) {

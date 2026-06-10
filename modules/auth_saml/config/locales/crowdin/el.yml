@@ -12,6 +12,7 @@ el:
         sp_entity_id: ID Οντότητας Παρόχου Υπηρεσίας (SP)
         metadata_url: URL Μεταδεδομένων Παρόχου Ταυτότητας (IdP)
         name_identifier_format: Μορφή αναγνωριστικού ονόματος
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Τερματικό σημείο σύνδεσης Παρόχου Ταυτότητας (IdP Login)
         idp_slo_service_url: Τερματικό σημείο αποσύνδεσης Παρόχου Ταυτότητας (IdP Logout)
         idp_cert: Δημόσιο πιστοποιητικό του Παρόχου Ταυτότητας (IdP)
@@ -44,6 +45,10 @@ el:
       success: Η διαμόρφωση ενημερώθηκε επιτυχώς με χρήση των μεταδεδομένων του παρόχου ταυτότητας.
       invalid_url: Το παρεχόμενο URL μεταδεδομένων δεν είναι έγκυρο. Παρακαλούμε δώστε ένα HTTP(s) URL.
       error: 'Αποτυχία ανάκτησης μεταδεδομένων παρόχου ταυτότητας: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Δεν έχουν ρυθμιστεί ακόμη πάροχοι SAML.
       label_empty_description: Προσθέστε έναν πάροχο για να τον δείτε εδώ.
@@ -109,6 +114,9 @@ el:
 
         '
       metadata_url: 'Ο πάροχος ταυτότητάς σας παρέχει ένα URL μεταδεδομένων.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Ο πάροχος ταυτότητάς σας παρέχει ένα αρχείο XML μεταδεδομένων προς λήψη.

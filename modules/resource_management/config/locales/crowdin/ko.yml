@@ -1,0 +1,132 @@
+---
+ko:
+  activerecord:
+    attributes:
+      resource_allocation:
+        allocated_time: 할당된 시간
+        end_date: 완료 날짜
+        entity: 엔티티
+        principal: 담당자
+        start_date: 시작 날짜
+        state: 상태
+        user_filter: 사용자 필터
+      resource_planner:
+        default_view_class_name: 기본 보기
+        end_date: 완료 날짜
+        favorite: 즐겨찾기
+        name: 이름
+        public: 공개
+        start_date: 시작 날짜
+    errors:
+      models:
+        resource_allocation:
+          attributes:
+            end_date:
+              greater_than_start_date: "- 시작 날짜 후여야 합니다."
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: "- 시작 날짜 후여야 합니다."
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: "- 작업 패키지 쿼리여야 합니다."
+    models:
+      resource_allocation: 리소스 할당
+      resource_planner: 리소스 플래너
+      resource_work_package_list: 작업 패키지 목록
+      user_card: 사용자 카드
+  button_next: 다음
+  label_resource_management: 리소스 계획
+  permission_allocate_user_resources: 사용자 리소스 할당
+  permission_allocate_user_resources_explanation: '사용자가 리소스 플래너 내에서 리소스 할당을 만들고, 업데이트하고, 삭제할 수 있습니다. 여기에는 플래너에 사용자(또는 사용자 필터)를 할당하고 할당된 시간 및 날짜 범위를 조정하는 것이 포함됩니다.
+
+    '
+  permission_manage_public_resource_planners: 공개 리소스 플래너 관리
+  permission_manage_public_resource_planners_explanation: '사용자가 리소스 플래너를 만들고 관리하도록 허용합니다. 사용자는 고유한 리소스 플래너를 보고 만들고 관리하며 게시할 수 있습니다. 다른 사용자가 만든 공개적으로 공유되지 않은 리소스 플래너는 볼 수 없습니다.
+
+    '
+  permission_view_resource_planners: 리소스 플래너 보기
+  permission_view_resource_planners_explanation: '사용자가 리소스 플래너에 액세스하도록 허용합니다. 사용자는 고유한 리소스 플래너를 만들고 관리하며 공개 리소스 플래너를 볼 수 있습니다. 다른 사용자가 만든 공개적으로 공유되지 않은 리소스 플래너는 볼 수 없습니다.
+
+    '
+  plugin_openproject_resource_management:
+    description: 리소스 관리 및 용량 계획을 제공합니다.
+    name: OpenProject 리소스 관리
+  project_module_resource_management: 리소스 관리
+  resource_management:
+    action:
+      delete: 삭제
+      favorite: 즐겨찾기에 추가
+      make_private: 비공개로 설정
+      make_public: 공개로 설정
+      unfavorite: 즐겨찾기에서 제거
+    blankslate:
+      desc: 리소스 플래너를 만들어 이 프로젝트의 용량 계획을 시작하세요.
+      title: 아직 리소스 플래너 없음
+    configure_view_dialog:
+      delete_confirmation: 이 보기를 삭제하시겠습니까? 이 작업은 취소할 수 없습니다.
+      filter_mode:
+        automatic:
+          caption: 정의한 기준을 충족하는 항목이 표시되는 자동 생성 목록입니다.
+          label: 자동으로 필터링됨
+        label: 항목 선택
+        manual:
+          caption: 수동으로 추가 및 제거하는 항목의 사용자 지정 목록입니다. 필터링은 불가능합니다.
+          label: 수동으로 직접 선택함
+      title: 보기 구성
+    favorite_caption: '이 보기를 즐겨찾기로 지정하여 사이드바 메뉴의 상단 섹션에 추가합니다.
+
+      '
+    label_new_resource_planner: 새로운 리소스 플래너
+    label_resource_planner: 리소스 플래너
+    label_resource_planner_plural: 리소스 플래너
+    new_view_dialog:
+      title: 보기 추가
+    public_caption: '이 보기를 프로젝트의 모든 멤버에게 공개로 설정합니다. 이렇게 해도 여전히 각 사용자 권한에 따라 달라지는 작업 패키지의 표시 여부에는 영향을 미치지 않습니다.
+
+      '
+    show:
+      placeholder: 이 리소스 플래너에 대한 자세한 보기가 곧 제공될 예정입니다.
+    sidebar:
+      private: 비공개
+      public: 공개
+    sub_views: 이 리소스 플래너의 보기
+    view_types:
+      resource_work_package_list:
+        caption: 작업 패키지를 기반으로 보기를 만들고 목록에서 해당 세부 정보 및 할당을 확인하세요
+        label: 작업 패키지 목록
+      user_card:
+        caption: 사용자에 기반한 보기를 만들고 사용자 카드 목록에서 해당 세부 정보 및 할당을 확인하세요
+        label: 사용자 카드 목록
+    work_package_list:
+      add_work_package_dialog:
+        title: 작업 패키지 추가
+      allocation_placeholder: "—"
+      blank:
+        description: 아직 이 보기의 필터와 일치하는 작업 패키지가 없습니다.
+        title: 표시할 작업 패키지 없음
+      columns:
+        allocated_members: 할당된 멤버
+        allocation: 할당
+        dates: 날짜
+      context_menu:
+        add_filter_criteria: 필터 기준 추가
+        add_user_group: 사용자 그룹 추가
+        edit_total_work: 총 작업 편집
+        label: 추가 작업
+        move: 이동
+        move_down: 아래로 이동
+        move_to_bottom: 맨 아래로 이동
+        move_to_top: 맨 위로 이동
+        move_up: 위로 이동
+        remove: 제거
+        remove_confirmation: 보기에서 이 작업 패키지를 제거하시겠습니까?
+        see_allocation: 할당 보기
+      mobile_title: 작업 패키지
+      query_name: '리소스 관리 작업 패키지: %{name}'
+      subheader:
+        add: 추가
+        add_work_package: 작업 패키지 추가
+        allocate: 할당
+        settings: 보기 구성

@@ -90,6 +90,22 @@ RSpec.describe CostQuery::Operator, :reporting_query_helper do
     expect(cost_query("projects", "id", ">=", project1.id + 1).size).to eq(1)
   end
 
+  it "does not raise for >d with nil" do
+    expect { cost_query("projects", "created_at", ">d", nil) }.not_to raise_error
+  end
+
+  it "does not raise for <d with nil" do
+    expect { cost_query("projects", "created_at", "<d", nil) }.not_to raise_error
+  end
+
+  it "does not raise for =d with nil" do
+    expect { cost_query("projects", "created_at", "=d", nil) }.not_to raise_error
+  end
+
+  it "does not raise for >=d with nil" do
+    expect { cost_query("projects", "created_at", ">=d", nil) }.not_to raise_error
+  end
+
   it "does !" do
     expect(cost_query("projects", "id", "!", project1.id).size).to eq(1)
   end

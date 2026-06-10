@@ -214,16 +214,7 @@ hu:
           text: "[Placeholder] Beágyazott naptár"
     admin:
       type_form:
-        custom_field: Választható mező
-        inactive: Inaktív
-        drag_to_activate: Innen húzza a mezőket, hogy aktiválja
-        add_group: Tulajdonságcsoport
-        add_table: Táblázat hozzáadása a kapcsolódó munkacsomagokhoz
         edit_query: Lekérdezés módosítása
-        new_group: Új csoport
-        delete_group: Delete group
-        remove_attribute: Remove from group
-        reset_to_defaults: Alapbeállítások visszaállítása
       working_days:
         calendar:
           empty_state_header: Non-working days
@@ -231,13 +222,6 @@ hu:
           new_date: "(new)"
         add_non_working_day: Non-working day
         already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
-        change_button: Save and reschedule
-        change_title: Change working days
-        removed_title: 'You will remove the following days from the non-working days list:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -430,7 +414,6 @@ hu:
     label_per_page: 'Oldalanként:'
     label_please_wait: Kérem várjon
     label_project: Projekt
-    label_project_list: Projekt listák
     label_project_plural: Projektek
     label_visibility_settings: Láthatósági beállítások
     label_quote_comment: Hozzászólás idézése
@@ -644,18 +627,6 @@ hu:
     breadcrumb: Breadcrumb
     text_data_lost: Az összes adat elveszhet
     text_user_wrote: "%{value} írta:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: A %{group} név már használatban van. A csoport névnek egyedinek kell lennie.
-        error_no_table_configured: Kérem konfigurálja a táblát a %{group}
-        reset_title: Űrlap konfiguráció visszaállítása
-        confirm_reset: 'Figyelmeztetés: Biztosan visszaállítja az alap űrlap beállítást? Az attribútumok az alapértelmezett csoportba kerülnek, a láthatósági beállítások elvesznek és MINDEN egyéni mező deaktiválódik.
-
-          '
-        upgrade_to_ee: Upgrade to Enterprise on-premises edition
-        upgrade_to_ee_text: Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?
-        more_information: További információ
-        nevermind: Mindegy
     time_entry:
       work_package_required: Először ki kell választania egy munkacsomagot.
       title: Eltöltött idő rögzítése
@@ -1116,16 +1087,13 @@ hu:
         all: Minden projekt
         selected: Csak a kijelölt
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Összes alprojekt bevonása
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.
         current_project: Ez a jelenlegi projekt, amiben vagyunk.
         does_not_match_search: Project does not match the search criteria.
       no_results: No project matches your search criteria.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

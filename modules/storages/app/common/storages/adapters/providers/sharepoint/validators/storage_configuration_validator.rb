@@ -33,7 +33,9 @@ module Storages
     module Providers
       module Sharepoint
         module Validators
-          class StorageConfigurationValidator < ConnectionValidators::BaseValidatorGroup
+          class StorageConfigurationValidator < HealthReports::ValidatorGroup
+            include TaggedLogging
+
             def self.key = :base_configuration
 
             private
@@ -55,7 +57,7 @@ module Storages
             end
 
             def storage_configuration_status
-              if @storage.configured?
+              if subject.configured?
                 pass_check(:storage_configured)
               else
                 fail_check(:storage_configured, :not_configured)
@@ -64,11 +66,7 @@ module Storages
 
             def diagnostic_request
               if query_result.failure? && query_result.failure.code == :error
-                error "Connection validation failed with unknown error:\n" \
-                      "\tstorage: ##{@storage.id} #{@storage.name}\n" \
-                      "\tstatus: #{query_result.failure}\n" \
-                      "\tresponse: #{query_result.failure.payload}"
-
+                log_unknown_error
                 fail_check(:diagnostic_request, :unknown_error)
               else
                 pass_check :diagnostic_request
@@ -76,7 +74,7 @@ module Storages
             end
 
             def check_host
-              if @storage.host.present?
+              if subject.host.present?
                 pass_check(:host)
               else
                 fail_check(:host, :sp_host_missing)
@@ -86,7 +84,7 @@ module Storages
             def check_tenant_id
               return pass_check(:tenant_id) if query_result.success?
 
-              tenant_id_regex = /tenant (?:identifier )?'#{@storage.tenant_id}' (?:not found|is neither)/i
+              tenant_id_regex = /tenant (?:identifier )?'#{subject.tenant_id}' (?:not found|is neither)/i
 
               if error_payload[:error] == "invalid_request" && error_payload[:error_description].match?(tenant_id_regex)
                 fail_check(:tenant_id, :sp_tenant_id_invalid)
@@ -117,8 +115,15 @@ module Storages
 
             def query_result
               @query_result ||= Input::Files.build(folder: "/").bind do |input_data|
-                Registry["#{@storage}.queries.files"].call(storage: @storage, auth_strategy:, input_data:)
+                Registry["#{subject}.queries.files"].call(storage: subject, auth_strategy:, input_data:)
               end
+            end
+
+            def log_unknown_error
+              error "Connection validation failed with unknown error:\n" \
+                    "\tstorage: ##{subject.id} #{subject.name}\n" \
+                    "\tstatus: #{query_result.failure}\n" \
+                    "\tresponse: #{query_result.failure.payload}"
             end
 
             def auth_strategy = Registry["sharepoint.authentication.userless"].call

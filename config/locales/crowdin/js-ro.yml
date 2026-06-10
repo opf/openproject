@@ -202,16 +202,7 @@ ro:
           text: "[Placeholder] Tabelul pachetului de lucru inserat"
     admin:
       type_form:
-        custom_field: Câmp personalizat
-        inactive: Inactiv
-        drag_to_activate: Mutați câmpuri de aici pentru a le activa
-        add_group: Adaugă grup atribut
-        add_table: Adaugă pachet de lucru asociat
         edit_query: Editează interogare
-        new_group: Grupare nouă
-        delete_group: Șterge grup
-        remove_attribute: Elimină din grup
-        reset_to_defaults: Resetare AVATAR implicit
       working_days:
         calendar:
           empty_state_header: Zile nelucrătoare
@@ -219,13 +210,6 @@ ro:
           new_date: "(nou)"
         add_non_working_day: Zi nelucrătoare
         already_added_error: O zi nelucrătoare pentru această dată există deja. Poate fi doar o zi nelucrătoare creată pentru fiecare dată unică.
-        change_button: Salvează și reprogramează
-        change_title: Modifică zilelor lucrătoare
-        removed_title: 'Veţi elimina următoarele zile din lista de zile nelucrătoare:'
-        change_description: Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și de încheiere a tuturor pachetelor de lucru și ciclurilor de viață în toate proiectele, în acest caz.
-        warning: 'Modificările ar putea dura ceva timp pentru a produce efecte. Vei fi notificat când toate pachetele de lucru relevante și ciclurile de viață ale proiectului au fost actualizate. Ești sigur că vrei să continui?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -418,7 +402,6 @@ ro:
     label_per_page: 'Pe pagină:'
     label_please_wait: Așteptați
     label_project: Proiect
-    label_project_list: Listă proiecte
     label_project_plural: Proiecte
     label_visibility_settings: Setări vizibilitate
     label_quote_comment: Citare comentariu
@@ -615,18 +598,6 @@ ro:
     breadcrumb: Breadcrumb
     text_data_lost: Toate datele introduse vor fi pierdute.
     text_user_wrote: "%{value} a scris:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: Numele %{group} este utilizat de mai multe ori. Fiecare grup trebuie să aibă un nume unic.
-        error_no_table_configured: Vă rugăm să configurați un tabel pentru %{group}.
-        reset_title: Resetare configurare formular
-        confirm_reset: 'Atenție: Ești sigur că vrei să resetați conjurația formularului? Această acțiune va reseta toate atributele înapoi la grupul implicit și va dezactiva TOATE câmpurile personalizate.
-
-          '
-        upgrade_to_ee: Actualizare la ediția Enterprise on-premise
-        upgrade_to_ee_text: Wow! Dacă ai nevoie de acest add-on ești un super profesionist! Vrei să ne sprijini pe noi, dezvoltatorii OpenSource, devenind client al ediției Enterprise?
-        more_information: Mai multe informatii
-        nevermind: Asta e...
     time_entry:
       work_package_required: Necesită să se selecteze mai întâi un pachet de lucru.
       title: Registru timp
@@ -1078,16 +1049,13 @@ ro:
         all: Toate Proiectele
         selected: Numai selecția
       search_placeholder: Caută proiecte...
-      search_placeholder_favorites: Caută favorite...
       include_subprojects: Include toate subproiectele
       tooltip:
         include_all_selected: Proiectul este deja inclus, din moment ce opțiunea Include toate subproiectele este activată.
         current_project: Acesta este proiectul curent în care vă aflați.
         does_not_match_search: Proiectul nu corespunde criteriilor de căutare.
       no_results: Niciun proiect nu corespunde criteriilor de căutare.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

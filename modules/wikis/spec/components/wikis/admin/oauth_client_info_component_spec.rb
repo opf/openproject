@@ -38,9 +38,9 @@ RSpec.describe Wikis::Admin::OAuthClientInfoComponent, type: :component do
   context "without an oauth client" do
     before { allow(wiki_provider).to receive(:oauth_client).and_return(nil) }
 
-    it "renders the pending label" do
+    it "renders the incomplete label" do
       render_inline(described_class.new(wiki_provider))
-      expect(page).to have_text(I18n.t("wikis.admin.oauth_client_info_component.label_pending"))
+      expect(page).to have_text(I18n.t(:label_incomplete))
     end
 
     it "renders the description" do
@@ -63,9 +63,11 @@ RSpec.describe Wikis::Admin::OAuthClientInfoComponent, type: :component do
       expect(page).to have_text(I18n.t(:label_completed))
     end
 
-    it "renders the description" do
+    it "renders the oauth client id" do
       render_inline(described_class.new(wiki_provider))
-      expect(page).to have_text(I18n.t("wikis.admin.wiki_providers.xwiki.oauth.provider_oauth_description"))
+      expect(page).to have_text(
+        "#{I18n.t('wikis.admin.oauth_client_info_component.label_oauth_client_id')}: #{oauth_client.client_id}"
+      )
     end
 
     it "renders a sync icon button with a confirm dialog" do

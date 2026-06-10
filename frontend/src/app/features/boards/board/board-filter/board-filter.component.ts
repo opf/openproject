@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { Board } from 'core-app/features/boards/board/board';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
@@ -23,21 +23,19 @@ import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BoardFilterComponent extends UntilDestroyedMixin implements AfterViewInit {
+  private readonly currentProjectService = inject(CurrentProjectService);
+  private readonly querySpace = inject(IsolatedQuerySpace);
+  private readonly apiV3Service = inject(ApiV3Service);
+  private readonly halResourceService = inject(HalResourceService);
+  private readonly wpStatesInitialization = inject(WorkPackageStatesInitializationService);
+  private readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  private readonly urlParamsHelper = inject(UrlParamsHelperService);
+  private readonly boardFilters = inject(BoardFiltersService);
+
   /** Current active */
   @Input() public board$:Observable<Board>;
 
   initialized = false;
-
-  constructor(private readonly currentProjectService:CurrentProjectService,
-    private readonly querySpace:IsolatedQuerySpace,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly halResourceService:HalResourceService,
-    private readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-    private readonly wpTableFilters:WorkPackageViewFiltersService,
-    private readonly urlParamsHelper:UrlParamsHelperService,
-    private readonly boardFilters:BoardFiltersService) {
-    super();
-  }
 
   ngAfterViewInit():void {
     if (!this.board$) {

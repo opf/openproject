@@ -37,6 +37,23 @@ module Queries
             true
           end
 
+          def autocomplete_options
+            items = allowed_values.map do |name, id|
+              path = name.split(" / ")
+              { name: path.last, id:, depth: path.length - 1 }
+            end
+
+            {
+              component: "opce-autocompleter",
+              bindValue: "id",
+              bindLabel: "name",
+              hideSelected: true,
+              defaultData: false,
+              items:,
+              model: items.select { |item| values.include?(item[:id]) }
+            }
+          end
+
           def value_objects
             CustomField::Hierarchy::Item
               .where(id: @values)

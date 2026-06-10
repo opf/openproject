@@ -132,7 +132,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
   def work_package_columns(work_package)
     [
-      work_package.id.to_s,
+      work_package.display_id.to_s,
       work_package.subject,
       work_package.status.name,
       work_package.story_points.to_s,
@@ -148,7 +148,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
   def work_package_details(work_package, index, ltfs = [])
     result = [
       "#{index}.", work_package.subject,
-      column_title(:id), work_package.id.to_s,
+      column_title(:id), work_package.display_id.to_s,
       column_title(:status), work_package.status.name,
       column_title(:story_points), work_package.story_points.to_s,
       column_title(:done_ratio), work_package_done_ratio(work_package),
@@ -250,12 +250,12 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
             project_phase_with_gates.name,
             *column_titles - ["Project phase"],
-            work_package_parent.id.to_s,
+            work_package_parent.display_id.to_s,
             work_package_parent.subject,
 
             project_phase.name,
             *column_titles - ["Project phase"],
-            work_package_child.id.to_s,
+            work_package_child.display_id.to_s,
             work_package_child.subject
           ]
           strings = pdf_strings_without_footers(1)
@@ -453,7 +453,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
 
     def relation_table_row(work_package)
       [
-        work_package.id.to_s,
+        work_package.display_id.to_s,
         work_package.type.name,
         work_package.subject,
         work_package.status.name
@@ -463,7 +463,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageListToPdf do
     def detail_attributes(work_package, index)
       [
         "#{index}.", work_package.subject,
-        column_title(:id), work_package.id.to_s,
+        column_title(:id), work_package.display_id.to_s,
         column_title(:status), work_package.status.name
       ]
     end

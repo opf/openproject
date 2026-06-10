@@ -52,8 +52,8 @@ module OpenProject::TextFormatting
           remove_contents: Array(base[:remove_contents]) | %w[svg style],
 
           attributes: base_attrs.deep_merge(
-            # Whitelist class and data-* attributes on all macros
-            "macro" => ["class", :data],
+            # Explicit allowlist of data-* attributes used by registered macros.
+            "macro" => %w[class data-type data-classes data-page data-include-parent data-macro-name data-query-props data-pull-request-id data-pull-request-state],
             # mentions
             "mention" => %w[data-type data-text data-id class],
             # add styles to tables

@@ -30,7 +30,9 @@ module OpenProject::GithubIntegration
   module NotificationHandler
     module Helper
       ##
-      # Parses the given `text` and returns a list of work_package ids mentioned in that text.
+      # Parses the given `text` and returns a list of work package display identifiers mentioned
+      # in that text. Returns strings (e.g. "1234" or "PROJ-42") supporting both classic and
+      # semantic identifier modes.
       def extract_work_package_ids(text)
         # matches the following things (given that `Setting.host_name` equals 'www.openproject.org')
         #  - http://www.openproject.org/wp/1234
@@ -40,29 +42,33 @@ module OpenProject::GithubIntegration
         #  - https://www.openproject.org/projects/:identifier/wp/1234
         #  - https://www.openproject.org/any/sub/directories/work_packages/1234
         # Or with the following prefix: OP#
-        # e.g.,: This is a reference to OP#1234
+        # e.g.,: This is a reference to OP#1234 or OP#PROJ-42
         host_name = Regexp.escape(Setting.host_name)
-        wp_regex = /OP#(\d+)|http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/([0-9]+)/
+        wp_id     = WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT
+        wp_regex  = /
+          OP\#(#{wp_id})
+          |
+          http(?:s?):\/\/#{host_name}\/(?:\S+?\/)*(?:work_packages|wp)\/(#{wp_id})
+        /x
 
         String(text)
           .scan(wp_regex)
-          .map { |first, second| (first || second).to_i }
-          .select(&:positive?)
+          .filter_map { |first, second| first || second }
           .uniq
       end
 
       ##
-      # Given a list of work package ids, this methods returns all work packages that match those ids
-      # and are visible by the given user.
+      # Given a list of work package display identifiers (numeric strings or semantic IDs like
+      # "PROJ-42"), returns all work packages that match and are visible by the given user.
       # Params:
-      #  - Array<int>: An list of WorkPackage ids
+      #  - Array<String>: A list of WorkPackage display identifiers
       #  - User: The user who may (or may not) see those WorkPackages
       # Returns:
       #  - Array<WorkPackage>
       def find_visible_work_packages(ids, user)
         WorkPackage
           .includes(:project)
-          .where(id: ids)
+          .where_display_id_in(ids)
           .select { |wp| user.allowed_in_work_package?(:add_work_package_comments, wp) }
       end
 

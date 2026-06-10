@@ -73,6 +73,10 @@ de:
   project_module_bim: BCF
   permission_view_linked_issues: BCF-Fälle anzeigen
   permission_manage_bcf: BCF-Fälle importieren und verwalten
+  permission_manage_bcf_explanation: |
+    Ermöglicht die Verwaltung von BCF-Projekten, einschließlich Massenimport und Aktualisierungen.
+    Der BCF-Import ordnet die Datei-Metadaten den Projektressourcen zu und kann Arbeitspakete
+    und Kommentare unter Verwendung von Autoren- und Zeitstempelwerten aus der importierten Datei erstellen oder aktualisieren, wobei er effektiv im Namen der Benutzer handelt.
   permission_delete_bcf: BCF-Fälle löschen
   oauth:
     scopes:

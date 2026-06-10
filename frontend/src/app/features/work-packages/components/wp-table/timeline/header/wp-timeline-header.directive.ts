@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, inject } from '@angular/core';
 import { WorkPackageTimelineTableController } from 'core-app/features/work-packages/components/wp-table/timeline/container/wp-timeline-container.directive';
 import moment, { Moment } from 'moment';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -50,16 +50,19 @@ import {
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageTimelineHeaderController implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly wpTimelineService = inject(WorkPackageViewTimelineService);
+  readonly workPackageTimelineTableController = inject(WorkPackageTimelineTableController);
+
   public element:HTMLElement;
 
   private activeZoomLevel:TimelineZoomLevel;
 
   private innerHeader:HTMLElement;
 
-  constructor(elementRef:ElementRef,
-    readonly I18n:I18nService,
-    readonly wpTimelineService:WorkPackageViewTimelineService,
-    readonly workPackageTimelineTableController:WorkPackageTimelineTableController) {
+  constructor() {
+    const elementRef = inject(ElementRef);
+
     this.element = elementRef.nativeElement;
   }
 

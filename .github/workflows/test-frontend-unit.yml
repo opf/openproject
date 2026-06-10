@@ -26,29 +26,37 @@ defaults:
     working-directory: ./frontend
 
 jobs:
-  units:
-    name: Units
+  unit:
+    name: Units (${{ matrix.browser }})
     runs-on: ubuntu-latest
-  
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           fetch-depth: 0
-          
-      - uses: actions/setup-node@v6
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: '22.15'
-          cache: npm
-          cache-dependency-path: frontend/package-lock.json
+          package-manager-cache: false
 
       - name: Install Dependencies
-        id: npm-i
-        run: npm i
+        run: npm ci
 
       - name: Register plugins
-        id: npm-run-ci-plugins-register-frontend
         run: npm run ci:plugins:register_frontend
 
-      - name: Test (Angular)
-        id: npm-test
-        run: npm test -- --code-coverage
+      - name: Install Playwright dependencies
+        timeout-minutes: 5
+        run: npx playwright install-deps ${{ matrix.browser }}
+
+      - name: Install Playwright Browser
+        timeout-minutes: 5
+        run: npx playwright install --only-shell ${{ matrix.browser }}
+
+      - name: Test
+        run: npm test -- --browsers ${{ matrix.browser }} --reporters dot --reporters github-actions

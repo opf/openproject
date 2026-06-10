@@ -238,7 +238,7 @@ module OpenProject::Bim
 
       OpenProject::Authentication.update_strategies(OpenProject::Authentication::Scope::BCF_V2_1,
                                                     store: false) do |_strategies|
-        %i[oauth session]
+        %i[oauth session anonymous_fallback]
       end
     end
     config.to_prepare do

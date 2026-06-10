@@ -267,9 +267,7 @@ RSpec.describe(
           end
         end
 
-        context "with calculated custom fields",
-                with_ee: %i[calculated_values],
-                with_flag: { calculated_value_project_attribute: true } do
+        context "with calculated custom fields", with_ee: %i[calculated_values] do
           using CustomFieldFormulaReferencing
           let(:integer_custom_field) { create(:integer_project_custom_field, projects: [source]) }
           let(:calculated_custom_field) do
@@ -315,9 +313,7 @@ RSpec.describe(
             expect(calculated_cv.value).to eq "16"
           end
 
-          context "with calculation errors",
-                  with_ee: %i[calculated_values],
-                  with_flag: { calculated_value_project_attribute: true } do
+          context "with calculation errors", with_ee: %i[calculated_values] do
             let(:calculated_custom_field) do
               create(:calculated_value_project_custom_field, :skip_validations,
                      projects: [source],
@@ -378,6 +374,20 @@ RSpec.describe(
             expect(project_copy.work_package_custom_fields).to match_array(source.work_package_custom_fields)
           end
         end
+      end
+    end
+
+    context "when source project has a non-zero wp_sequence_counter",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:target_project_params) { { name: "Target Project Name", identifier: "COPY1" } }
+
+      before do
+        source.update_column(:wp_sequence_counter, 5)
+      end
+
+      it "succeeds and resets wp_sequence_counter to 0 on the copy" do
+        expect(subject).to be_success
+        expect(project_copy.wp_sequence_counter).to eq(0)
       end
     end
 

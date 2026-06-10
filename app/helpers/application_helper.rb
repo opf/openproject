@@ -340,14 +340,7 @@ module ApplicationHelper
   end
 
   def back_url_to_current_page
-    back_url = params[:back_url] if params.present?
-    if back_url.present?
-      back_url = back_url.to_s
-    elsif request.get? && params.present?
-      back_url = request.url
-    end
-
-    back_url
+    params[:back_url].presence&.to_s
   end
 
   def check_all_links(form_id = nil, &)

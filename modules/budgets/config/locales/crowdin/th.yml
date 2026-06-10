@@ -36,6 +36,7 @@ th:
         subject: หัวข้อ
         type: ประเภทต้นทุน
         labor_budget: ต้นทุนแรงงานที่วางแผนไว้
+        labor_budget_items: Planned labor costs
         material_budget: ต้นทุนหน่วยที่วางแผนไว้
         base_amount: จำนวนฐาน
       work_package:
@@ -48,6 +49,7 @@ th:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: งบประมาณ
+      labor_budget_item: Planned labor cost
       material_budget_item: หน่วย
   activity:
     filter:

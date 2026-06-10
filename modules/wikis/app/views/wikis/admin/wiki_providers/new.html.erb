@@ -27,17 +27,18 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_administration), t(:project_module_wiki_platforms), t("wikis.admin.wiki_providers.label_new_xwiki_instance") %>
+<% html_title t(:label_administration), t(:project_module_wiki_platforms), t("wikis.admin.wiki_providers.label_new_provider") %>
 
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
   <% header.with_title(test_selector: "wiki-provider-new-page-header--title") do %>
-    <%= t("wikis.admin.wiki_providers.label_new_xwiki_instance") %>
+    <%= t("wikis.admin.wiki_providers.label_new_provider") %>
   <% end %>
 
   <% header.with_breadcrumbs([
     { href: admin_index_path, text: t(:label_administration) },
+    { href: admin_settings_wiki_providers_path, text: t("menus.admin.wikis") },
     { href: admin_settings_wiki_providers_path, text: t(:project_module_wiki_platforms) },
-    t("wikis.admin.wiki_providers.label_new_xwiki_instance")
+    t("wikis.admin.wiki_providers.label_new_provider")
   ]) %>
 
   <% header.with_description(test_selector: "wiki-provider-new-page-header--description") do %>

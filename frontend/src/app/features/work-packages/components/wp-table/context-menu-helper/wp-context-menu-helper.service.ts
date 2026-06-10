@@ -27,7 +27,7 @@
 //++
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -47,6 +47,13 @@ export interface WorkPackageAction {
 
 @Injectable()
 export class WorkPackageContextMenuHelperService {
+  private HookService = inject(HookService);
+  private UrlParamsHelper = inject(UrlParamsHelperService);
+  private wpViewRepresentation = inject(WorkPackageViewDisplayRepresentationService);
+  private wpViewTimeline = inject(WorkPackageViewTimelineService);
+  private wpViewIndent = inject(WorkPackageViewHierarchyIdentationService);
+  private PathHelper = inject(PathHelperService);
+
   private BULK_ACTIONS = [
     {
       text: I18n.t('js.work_packages.bulk_actions.edit'),
@@ -73,14 +80,6 @@ export class WorkPackageContextMenuHelperService {
       href: this.PathHelper.workPackagesBulkDeletePath(),
     },
   ];
-
-  constructor(private HookService:HookService,
-    private UrlParamsHelper:UrlParamsHelperService,
-    private wpViewRepresentation:WorkPackageViewDisplayRepresentationService,
-    private wpViewTimeline:WorkPackageViewTimelineService,
-    private wpViewIndent:WorkPackageViewHierarchyIdentationService,
-    private PathHelper:PathHelperService) {
-  }
 
   public getPermittedActionLinks(workPackage:WorkPackageResource, permittedActionConstants:any, allowSplitScreenActions:boolean):WorkPackageAction[] {
     const singularPermittedActions:any[] = [];

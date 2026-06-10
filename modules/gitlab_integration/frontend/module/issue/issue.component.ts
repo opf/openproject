@@ -27,7 +27,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {IGitlabIssueResource} from 'core-app/features/plugins/linked/openproject-gitlab_integration/typings';
@@ -43,6 +43,9 @@ import {IGitlabIssueResource} from 'core-app/features/plugins/linked/openproject
 })
 
 export class IssueComponent {
+  readonly PathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+
   @Input() public gitlabIssue:IGitlabIssueResource;
 
   public text = {
@@ -50,10 +53,6 @@ export class IssueComponent {
     label_last_updated_on: this.I18n.t('js.gitlab_integration.updated_on'),
     label_details: this.I18n.t('js.label_details'),
   };
-
-  constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService) {
-  }
 
   get state() {
 

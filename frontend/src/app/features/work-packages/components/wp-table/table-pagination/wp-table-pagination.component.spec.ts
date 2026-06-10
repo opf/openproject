@@ -52,14 +52,11 @@ function setupMocks(paginationService:PaginationService) {
     optionsTruncationSize: 6,
   };
 
-  // eslint-disable-next-line jasmine/no-unsafe-spy
-  spyOn(paginationService, 'getMaxVisiblePageOptions').and.callFake(() => options.maxVisiblePageOptions);
+  vi.spyOn(paginationService, 'getMaxVisiblePageOptions').mockImplementation(() => options.maxVisiblePageOptions);
 
-  // eslint-disable-next-line jasmine/no-unsafe-spy
-  spyOn(paginationService, 'getOptionsTruncationSize').and.callFake(() => options.optionsTruncationSize);
+  vi.spyOn(paginationService, 'getOptionsTruncationSize').mockImplementation(() => options.optionsTruncationSize);
 
-  // eslint-disable-next-line jasmine/no-unsafe-spy
-  spyOn(paginationService, 'getPaginationOptions').and.callFake(() => options);
+  vi.spyOn(paginationService, 'getPaginationOptions').mockImplementation(() => options);
 }
 
 function pageString(element:HTMLElement) {
@@ -75,12 +72,12 @@ describe('wpTablePagination Directive', () => {
     };
 
     await TestBed.configureTestingModule({
-    declarations: [
+      declarations: [
         WorkPackageTablePaginationComponent,
         OpIconComponent,
-    ],
-    imports: [],
-    providers: [
+      ],
+      imports: [],
+      providers: [
         States,
         PaginationService,
         WorkPackageViewSortByService,
@@ -92,80 +89,77 @@ describe('wpTablePagination Directive', () => {
         IsolatedQuerySpace,
         I18nService,
         provideHttpClient(withInterceptorsFromDi()),
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
   });
 
   describe('page ranges and links', () => {
-    it('should display the correct page range',
-      inject([PaginationService], (paginationService:PaginationService) => {
-        setupMocks(paginationService);
-        const fixture = TestBed.createComponent(WorkPackageTablePaginationComponent);
-        const app:WorkPackageTablePaginationComponent = fixture.debugElement.componentInstance;
-        const element = fixture.elementRef.nativeElement;
+    it('should display the correct page range', inject([PaginationService], (paginationService:PaginationService) => {
+      setupMocks(paginationService);
+      const fixture = TestBed.createComponent(WorkPackageTablePaginationComponent);
+      const app:WorkPackageTablePaginationComponent = fixture.debugElement.componentInstance;
+      const element = fixture.elementRef.nativeElement;
 
-        app.pagination = new PaginationInstance(1, 0, 10);
-        app.update();
-        fixture.detectChanges();
+      app.pagination = new PaginationInstance(1, 0, 10);
+      app.update();
+      fixture.detectChanges();
 
-        expect(pageString(element)).toEqual('');
+      expect(pageString(element)).toEqual('');
 
-        app.pagination = new PaginationInstance(1, 11, 10);
-        app.update();
-        fixture.detectChanges();
+      app.pagination = new PaginationInstance(1, 11, 10);
+      app.update();
+      fixture.detectChanges();
 
-        expect(pageString(element)).toEqual('(1 - 10/11)');
-      }));
+      expect(pageString(element)).toEqual('(1 - 10/11)');
+    }));
 
     describe('"next" link', () => {
-      it('hidden on the last page',
-        inject([PaginationService], (paginationService:PaginationService) => {
-          setupMocks(paginationService);
-          const fixture = TestBed.createComponent(WorkPackageTablePaginationComponent);
-          const app:WorkPackageTablePaginationComponent = fixture.debugElement.componentInstance;
-          const element = fixture.elementRef.nativeElement;
-
-          app.pagination = new PaginationInstance(2, 11, 10);
-          app.update();
-          fixture.detectChanges();
-
-          const liWithNextLink = element.querySelector('.op-pagination--item-link_next')?.parentElement;
-
-          expect(liWithNextLink?.matches('li')).toBeTrue();
-          const attrHidden = liWithNextLink.getAttribute('hidden');
-
-          expect(attrHidden).toBeDefined();
-        }));
-    });
-
-    it('should display correct number of page number links',
-      inject([PaginationService], (paginationService:PaginationService) => {
+      it('hidden on the last page', inject([PaginationService], (paginationService:PaginationService) => {
         setupMocks(paginationService);
         const fixture = TestBed.createComponent(WorkPackageTablePaginationComponent);
         const app:WorkPackageTablePaginationComponent = fixture.debugElement.componentInstance;
         const element = fixture.elementRef.nativeElement;
 
-        function numberOfPageNumberLinks() {
-          return element.querySelectorAll('button[data-rel="next"]').length;
-        }
-
-        app.pagination = new PaginationInstance(1, 1, 10);
+        app.pagination = new PaginationInstance(2, 11, 10);
         app.update();
         fixture.detectChanges();
 
-        expect(numberOfPageNumberLinks()).toEqual(1);
+        const liWithNextLink = element.querySelector('.op-pagination--item-link_next')?.parentElement;
 
-        app.pagination = new PaginationInstance(1, 11, 10);
-        app.update();
-        fixture.detectChanges();
+        expect(liWithNextLink?.matches('li')).toBe(true);
+        const attrHidden = liWithNextLink.getAttribute('hidden');
 
-        expect(numberOfPageNumberLinks()).toEqual(2);
-
-        app.pagination = new PaginationInstance(1, 59, 10);
-        app.update();
-        fixture.detectChanges();
-
-        expect(numberOfPageNumberLinks()).toEqual(6);
+        expect(attrHidden).toBeDefined();
       }));
+    });
+
+    it('should display correct number of page number links', inject([PaginationService], (paginationService:PaginationService) => {
+      setupMocks(paginationService);
+      const fixture = TestBed.createComponent(WorkPackageTablePaginationComponent);
+      const app:WorkPackageTablePaginationComponent = fixture.debugElement.componentInstance;
+      const element = fixture.elementRef.nativeElement;
+
+      function numberOfPageNumberLinks() {
+        return element.querySelectorAll('button[data-rel="next"]').length;
+      }
+
+      app.pagination = new PaginationInstance(1, 1, 10);
+      app.update();
+      fixture.detectChanges();
+
+      expect(numberOfPageNumberLinks()).toEqual(1);
+
+      app.pagination = new PaginationInstance(1, 11, 10);
+      app.update();
+      fixture.detectChanges();
+
+      expect(numberOfPageNumberLinks()).toEqual(2);
+
+      app.pagination = new PaginationInstance(1, 59, 10);
+      app.update();
+      fixture.detectChanges();
+
+      expect(numberOfPageNumberLinks()).toEqual(6);
+    }));
   });
 });

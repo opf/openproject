@@ -37,7 +37,7 @@ module WorkPackageTypes
         [
           [:name, { caption: Type.human_attribute_name(:name) }],
           [:color, { caption: Type.human_attribute_name(:color) }],
-          [:workflow_warning, { caption: "Workflow" }],
+          [:workflow_warning, { caption: I18n.t(:label_workflow) }],
           [:default, { caption: I18n.t(:label_active_in_new_projects) }],
           [:milestone, { caption: Type.human_attribute_name(:is_milestone) }],
           [:sort, { caption: I18n.t(:button_sort) }]

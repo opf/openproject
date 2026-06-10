@@ -3,10 +3,10 @@ import { WorkPackageAction } from 'core-app/features/work-packages/components/wp
 import { WorkPackageTable } from 'core-app/features/work-packages/components/wp-fast-table/wp-fast-table';
 import { PositionArgs, WorkPackageViewContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-view-context-menu.directive';
 import { WorkPackageViewHierarchyIdentationService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy-indentation.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
 export class WorkPackageTableContextMenu extends WorkPackageViewContextMenu {
-  @InjectField() wpViewIndentation:WorkPackageViewHierarchyIdentationService;
+  @LazyInject() wpViewIndentation:WorkPackageViewHierarchyIdentationService;
 
   constructor(public injector:Injector,
     protected workPackageId:string,

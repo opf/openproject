@@ -110,7 +110,9 @@ module OpenProject::Backlogs::Burndown
       open_status_ids = non_closed_statuses - done_statuses_for_project
 
       if open_status_ids.empty?
-        ""
+        # No work packages count as remaining, so force the LEFT JOIN to
+        # produce no matches, making the SUM evaluate to 0 (via COALESCE).
+        "AND 1=0"
       else
         "AND (#{Journal::WorkPackageJournal.table_name}.status_id IN (#{open_status_ids.join(',')}))"
       end

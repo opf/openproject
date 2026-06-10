@@ -89,7 +89,7 @@ splice = (s, c, ...y) => x => [...x.slice(0, s), ...y, ...x.slice(s + c)];
 
 * In Javascript, Objects can be [edited by reference](https://javascript.info/object-copy), opening the door to unpredictable mutations that can have unintended effects on other parts of the app.
 * Makes code easier to understand because data changes become explicit and obvious.
-* Avoids a set of [hard to detect bugs](https://2ality.com/2019/10/shared-mutable-state.html).
+* Avoids a set of hard to detect bugs
 * Enables unidirectional data flow.
 * Enables performance improvements through ChangeDetectionStrategy.OnPush
 
@@ -148,7 +148,7 @@ To reduce server requests, side effects **should be** be calculated in the front
 
 Angular also follows the unidirectional data flow pattern in the view to improve the performance and simplify the state distribution:
 
-* When the state could have been updated (an async operation happens), Angular performs [Change Detection](https://indepth.dev/posts/1058/a-gentle-introduction-into-change-detection-in-angular) in one way, from top to bottom, from the root component all the tree down checking every child component for changes.
+* When the state could have been updated (an async operation happens), Angular performs change detection in one way, from top to bottom, from the root component all the tree down checking every child component for changes.
 * Every component that receives state updates (@Input, Services, UI...), updates itself, renders its view and then triggers Change Detection for its child components.
 * If the children would trigger state changes up to the parent (bidirectional data flow (two way data binding)), the parent should update itself and then trigger Change Detection for the children, which could trigger changes up to the parent…  causing a loop.
 * This is why unidirectional data flow is enforced in development mode (ExpressionChangedAfterItHasBeenCheckedError) and encouraged in the Components Architecture.
@@ -282,5 +282,5 @@ Clean code is easily readable, understandable, changeable, extensible, scalable 
 
 Do follow BEM directives:
 
-* [https://en.bem.info/methodology/css/](https://en.bem.info/methodology/css/)
-* [https://en.bem.info/methodology/html/](https://en.bem.info/methodology/html/)
+* <https://bem.info/en/methodology/css/>
+* <https://bem.info/en/methodology/html/>

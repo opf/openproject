@@ -91,6 +91,10 @@ class CustomField < ApplicationRecord
 
   after_destroy :destroy_help_text
 
+  def visible?(usr = User.current, **)
+    self.class.visible(usr).exists?(id: id)
+  end
+
   # make sure int, float, date, and bool are not searchable
   def check_searchability
     self.searchable = false if %w(int float date bool user version).include?(field_format)
@@ -119,10 +123,13 @@ class CustomField < ApplicationRecord
   end
 
   def validate_field_format_inclusion
-    available = OpenProject::CustomFieldFormat.available_formats
     # When creating a new custom field, only the available formats are allowed.
     # But you can edit and update existing custom fields, even if they have a field format that is disabled.
-    allowed = new_record? ? available : (available + OpenProject::CustomFieldFormat.disabled_formats).uniq
+    allowed = if new_record?
+                OpenProject::CustomFieldFormat.available_formats
+              else
+                OpenProject::CustomFieldFormat.registered_formats
+              end
 
     unless allowed.include?(field_format)
       errors.add(:field_format, :inclusion)

@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  widget_wrapper do
+  widget_wrapper do |container|
     if can_view_members?
       if members_by_role.any?
         flex_layout(style: "gap: var(--base-size-8, 8px)") do |flex|
@@ -41,29 +41,30 @@ See COPYRIGHT and LICENSE files for more details.
 
             flex.with_row(mb: 2) do
               concat render(
-                         Users::AvatarComponent
-                         .with_collection(
-                           role_data[:members],
-                           size: :mini,
-                           link: false,
-                           show_name: true,
-                           spacer_component:
-                         )
-                     )
+                Users::AvatarComponent
+                  .with_collection(
+                    role_data[:members],
+                    size: :mini,
+                    link: false,
+                    show_name: true,
+                    spacer_component:
+                  )
+              )
 
               if role_data[:has_more]
                 concat render(
-                         Primer::Beta::Link.new(
-                           href: project_members_path(@project, role_id: role_data[:role].id),
-                           ml: 1,
-                           font_weight: :semibold,
-                           classes: "op-principal"
-                         ).with_content(t(".x_more", count: role_data[:remaining])))
+                  Primer::Beta::Link.new(
+                    href: project_members_path(@project, role_id: role_data[:role].id),
+                    ml: 1,
+                    font_weight: :semibold,
+                    classes: "op-principal"
+                  ).with_content(t(".x_more", count: role_data[:remaining]))
+                )
               end
             end
           end
 
-          flex.with_row(mt: 4) do
+          container.with_footer(test_selector: "members-widget-footer") do
             render Primer::Beta::Link.new(href: project_members_path(@project)) do
               t(".view_all_members")
             end

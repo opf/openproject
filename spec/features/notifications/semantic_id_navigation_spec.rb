@@ -5,7 +5,6 @@ require "spec_helper"
 RSpec.describe "Notification center uses displayId when navigating to the work package",
                :js,
                :with_cuprite,
-               with_flag: { semantic_work_package_ids: true },
                with_settings: { work_packages_identifier: "semantic" } do
   # Classic mode is a behavioural no-op: the URL helpers and the
   # resolveRoutingId bridge both collapse to the numeric id when semantic
@@ -43,6 +42,7 @@ RSpec.describe "Notification center uses displayId when navigating to the work p
     expect(page).to have_current_path(
       "/notifications/details/#{semantic_id}/activity"
     )
+    center.expect_item_selected(notification)
   end
 
   it "renders the notification's WP link with the semantic identifier in its href" do

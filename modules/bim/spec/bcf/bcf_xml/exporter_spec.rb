@@ -58,4 +58,24 @@ RSpec.describe OpenProject::Bim::BcfXml::Exporter do
       expect(subject.work_packages.count).to be(1)
     end
   end
+
+  describe "#topic_folder_for" do
+    let(:dir) { Dir.mktmpdir }
+
+    after { FileUtils.remove_entry(dir) }
+
+    it "creates a folder for a valid uuid" do
+      issue = instance_double(Bim::Bcf::Issue, uuid: SecureRandom.uuid)
+      folder = subject.send(:topic_folder_for, dir, issue)
+      expect(File.directory?(folder)).to be(true)
+      expect(folder).to eq(File.join(dir, issue.uuid))
+    end
+
+    it "raises rather than creating a folder for an invalid uuid" do
+      issue = instance_double(Bim::Bcf::Issue, uuid: "../../../../tmp/")
+      expect { subject.send(:topic_folder_for, dir, issue) }
+        .to raise_error(ArgumentError, /invalid uuid/)
+      expect(Dir.children(dir)).to be_empty
+    end
+  end
 end

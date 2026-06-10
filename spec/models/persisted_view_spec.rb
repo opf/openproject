@@ -65,7 +65,7 @@ RSpec.describe PersistedView do
 
     describe ".private_views" do
       it "returns private views for the given principal" do
-        expect(described_class.private_views(principal: user)).to contain_exactly(own_private_view)
+        expect(described_class.private_views(user)).to contain_exactly(own_private_view)
       end
 
       it "defaults to User.current when no principal is given" do
@@ -76,11 +76,11 @@ RSpec.describe PersistedView do
 
     describe ".visible" do
       it "returns public views and the principal's own private views" do
-        expect(described_class.visible(principal: user)).to contain_exactly(public_view, own_private_view)
+        expect(described_class.visible(user)).to contain_exactly(public_view, own_private_view)
       end
 
       it "excludes other principals' private views" do
-        expect(described_class.visible(principal: user)).not_to include(other_private_view)
+        expect(described_class.visible(user)).not_to include(other_private_view)
       end
 
       it "defaults to User.current when no principal is given" do
@@ -131,6 +131,17 @@ RSpec.describe PersistedView do
   describe "#effective_query" do
     let(:query) { PersistedQuery.create!(name: "Q", filters: [], orders: [], selects: []) }
 
+    # The parent/child class validation requires the parent to declare its
+    # children class. PersistedView is its own parent and child here, so we
+    # allow it for the duration of these examples.
+    around do |example|
+      previous = described_class.allowed_children
+      described_class.allowed_children = previous + [described_class.name]
+      example.run
+    ensure
+      described_class.allowed_children = previous
+    end
+
     it "returns its own query when set" do
       view = described_class.create!(name: "V", query:)
       expect(view.effective_query).to eq(query)
@@ -159,9 +170,79 @@ RSpec.describe PersistedView do
   describe "parent/children lifecycle" do
     it "destroys children when the parent is destroyed" do
       parent = described_class.create!(name: "Parent")
+      described_class.allowed_children = [described_class.name]
       described_class.create!(name: "Child", parent:)
 
       expect { parent.destroy }.to change(described_class, :count).by(-2)
+    ensure
+      described_class.allowed_children = []
+    end
+  end
+
+  describe "parent/child class validation" do
+    let(:parent_class) do
+      Class.new(described_class) { self.allowed_children = ["AllowedChild"] }
+    end
+    let(:allowed_child_class) do
+      klass = Class.new(described_class)
+      stub_const("AllowedChild", klass)
+      klass
+    end
+    let(:disallowed_child_class) do
+      klass = Class.new(described_class)
+      stub_const("DisallowedChild", klass)
+      klass
+    end
+
+    it "is valid when the parent's allowed_children includes this class" do
+      parent_class
+      parent = parent_class.new(name: "Parent")
+      child = allowed_child_class.new(name: "Child", parent:)
+      expect(child).to be_valid
+    end
+
+    it "is invalid when the parent's allowed_children does not include this class" do
+      parent_class
+      parent = parent_class.new(name: "Parent")
+      child = disallowed_child_class.new(name: "Child", parent:)
+      expect(child).not_to be_valid
+      expect(child.errors.symbols_for(:parent)).to include(:invalid_child_for_parent)
+    end
+
+    it "is valid when no parent is set, regardless of allowed_children" do
+      view = described_class.new(name: "Top-level")
+      expect(view).to be_valid
+    end
+  end
+
+  describe "#visible?" do
+    it "raises SubclassResponsibilityError on the abstract base class" do
+      view = described_class.new(name: "V")
+      expect { view.visible?(build(:user)) }.to raise_error(SubclassResponsibilityError)
+    end
+  end
+
+  describe ".allowed_children" do
+    let(:base_class) { Class.new(described_class) }
+    let(:other_class) { Class.new(described_class) }
+
+    it "defaults to an empty array" do
+      expect(base_class.allowed_children).to eq([])
+    end
+
+    it "is isolated per subclass when mutated" do
+      base_class.allowed_children << "Foo"
+
+      expect(base_class.allowed_children).to eq(["Foo"])
+      expect(other_class.allowed_children).to eq([])
+      expect(described_class.allowed_children).to eq([])
+    end
+
+    it "can be assigned per subclass without leaking to siblings" do
+      base_class.allowed_children = %w[Foo Bar]
+
+      expect(base_class.allowed_children).to eq(%w[Foo Bar])
+      expect(described_class.allowed_children).to eq([])
     end
   end
 end

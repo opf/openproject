@@ -33,7 +33,7 @@ eu:
           title: Subitems
         project_favorites:
           title: Favorite projects
-          no_results: You currently have no favorite projects. Click on the star icon in the project dashboard to add one to your favorites.
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: My spent time
           displayed_days: 'Days displayed in the widget:'

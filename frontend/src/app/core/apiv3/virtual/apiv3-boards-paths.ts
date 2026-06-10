@@ -33,7 +33,7 @@ import { ApiV3ListParameters, listParamsString } from 'core-app/core/apiv3/paths
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { Board, BoardType } from 'core-app/features/boards/board/board';
 import { map, switchMap, tap } from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { ApiV3Collection } from 'core-app/core/apiv3/cache/cachable-apiv3-collection';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -42,9 +42,9 @@ import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service
 import { MAGIC_PAGE_NUMBER } from 'core-app/core/apiv3/helpers/get-paginated-results';
 
 export class ApiV3BoardsPaths extends ApiV3Collection<Board, ApiV3BoardPath> {
-  @InjectField() private authorisationService:AuthorisationService;
+  @LazyInject() private authorisationService:AuthorisationService;
 
-  @InjectField() private PathHelper:PathHelperService;
+  @LazyInject() private PathHelper:PathHelperService;
 
   constructor(protected apiRoot:ApiV3Service,
     protected basePath:string) {

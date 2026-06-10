@@ -126,7 +126,7 @@ module Projects
     end
 
     def skipped_attributes
-      %w[id created_at updated_at name identifier active templated lft rgt]
+      %w[id created_at updated_at name identifier active templated lft rgt wp_sequence_counter]
     end
 
     def source_attributes

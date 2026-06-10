@@ -1,0 +1,128 @@
+#-- copyright
+#OpenProject is an open source project management software.
+#Copyright (C) the OpenProject GmbH
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License version 3.
+#OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+#Copyright (C) 2006-2013 Jean-Philippe Lang
+#Copyright (C) 2010-2013 the ChiliProject Team
+#This program is free software; you can redistribute it and/or
+#modify it under the terms of the GNU General Public License
+#as published by the Free Software Foundation; either version 2
+#of the License, or (at your option) any later version.
+#This program is distributed in the hope that it will be useful,
+#but WITHOUT ANY WARRANTY; without even the implied warranty of
+#MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#GNU General Public License for more details.
+#You should have received a copy of the GNU General Public License
+#along with this program; if not, write to the Free Software
+#Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#See COPYRIGHT and LICENSE files for more details.
+#++
+---
+hy:
+  plugin_budgets_engine:
+    name: Budgets
+  activerecord:
+    attributes:
+      budget:
+        author: Author
+        available: Available
+        budget: Planned
+        budget_ratio: Spent (ratio)
+        description: Description
+        spent: Spent
+        status: Status
+        subject: Subject
+        type: Cost type
+        labor_budget: Planned labor costs
+        labor_budget_items: Planned labor costs
+        material_budget: Planned unit costs
+        base_amount: Base amount
+      work_package:
+        budget_subject: Budget title
+    errors:
+      models:
+        labor_budget_item:
+          attributes:
+            principal:
+              not_a_member_of_budget_project: is not a member of the budget's project
+    models:
+      budget: Budget
+      labor_budget_item: Planned labor cost
+      material_budget_item: Unit
+  activity:
+    filter:
+      budget: Budgets
+  attributes:
+    budget: Budget
+  button_add_budget_item: Add planned costs
+  button_add_budget: Add budget
+  button_add_cost_type: Add cost type
+  button_cancel_edit_budget: Cancel editing budget
+  button_cancel_edit_costs: Cancel editing costs
+  caption_labor: Labor
+  caption_labor_costs: Actual labor costs
+  caption_material_costs: Actual unit costs
+  budgets_title: Budgets
+  budgets:
+    widgets:
+      budget_totals:
+        title: Budget totals
+        remaining_budget: Remaining budget
+        spent_budget: Spent budget
+        total_actual_costs: Total actual costs
+        total_planned_budget: Total planned budget
+      budget_by_cost_type:
+        title: Budget by cost type
+        blankslate:
+          heading: Start project controlling
+          description: Get an overview of your budgets and costs to efficiently track the health status of your project
+        blankslate_zero:
+          heading: Budget details missing
+          description: Add details about your planned budget to see data here
+        count_caption:
+          zero: No budget data.
+          one: Data aggregated from %{count} budget
+          other: Data aggregated from %{count} budgets
+        count_caption_with_subitems:
+          project:
+            zero: No budget data.
+            one: Data aggregated from %{count} budget included in this project and its subitems.
+            other: Data aggregated from %{count} budgets included in this project and its subitems.
+          program:
+            zero: No budget data.
+            one: Data aggregated from %{count} budget included in this program and its subitems.
+            other: Data aggregated from %{count} budgets included in this program and its subitems.
+          portfolio:
+            zero: No budget data.
+            one: Data aggregated from %{count} budget included in this portfolio and its subitems.
+            other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
+        view_details: View budget details
+  events:
+    budget: Budget edited
+  help_click_to_edit: Click here to edit.
+  help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit.
+  help_override_rate: Enter a value here to override the default rate.
+  label_budget: Budget
+  label_budget_available: Budget available
+  label_budget_id: 'Budget #%{id}'
+  label_budget_new: New budget
+  label_budget_planned: Budget planned
+  label_budget_plural: Budgets
+  label_budget_spent: Budget spent
+  label_budget_spent_ratio: Budget spent ratio
+  label_deliverable: Budget
+  label_example_placeholder: e.g., %{decimal}
+  label_view_all_budgets: View all budgets
+  label_yes: 'Yes'
+  label_budget_totals: Totals
+  label_budget_details: Budget details
+  notice_budget_conflict: Work packages must be of the same project.
+  notice_no_budgets_available: No budgets available.
+  permission_edit_budgets: Edit budgets
+  permission_view_budgets: View budgets
+  project_module_budgets: Budgets
+  text_budget_reassign_to: 'Reassign them to this budget:'
+  text_budget_delete: Delete the budget from all work packages
+  text_budget_destroy_assigned_wp: There are %{count} work packages assigned to this budget. What do you want to do?

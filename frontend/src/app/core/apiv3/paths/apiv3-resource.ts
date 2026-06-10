@@ -6,7 +6,7 @@ import {
   SimpleResource,
   SimpleResourceCollection,
 } from 'core-app/core/apiv3/paths/path-resources';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { HalResourceService } from 'core-app/features/hal/services/hal-resource.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -18,7 +18,7 @@ import { addFiltersToPath } from 'core-app/core/apiv3/helpers/add-filters-to-pat
 export class ApiV3ResourcePath<T = HalResource> extends SimpleResource {
   readonly injector = this.apiRoot.injector;
 
-  @InjectField() halResourceService:HalResourceService;
+  @LazyInject() halResourceService:HalResourceService;
 
   constructor(
     protected apiRoot:ApiV3Service,
@@ -70,9 +70,9 @@ export class ApiV3GettableResourceCollection<T = HalResource, V = CollectionReso
 export class ApiV3ResourceCollection<V, T extends ApiV3GettableResource<V>> extends SimpleResourceCollection {
   readonly injector = this.apiRoot.injector;
 
-  @InjectField() http:HttpClient;
+  @LazyInject() http:HttpClient;
 
-  @InjectField() halResourceService:HalResourceService;
+  @LazyInject() halResourceService:HalResourceService;
 
   constructor(
     protected apiRoot:ApiV3Service,

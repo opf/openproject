@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injector, NgModule } from '@angular/core';
+import { Injector, NgModule, inject } from '@angular/core';
 import { OpenprojectWorkPackagesModule } from 'core-app/features/work-packages/openproject-work-packages.module';
 import { GlobalSearchInputComponent } from 'core-app/core/global_search/input/global-search-input.component';
 import { GlobalSearchWorkPackagesComponent } from 'core-app/core/global_search/global-search-work-packages.component';
@@ -53,6 +53,5 @@ import { RecentItemsService } from 'core-app/core/recent-items.service';
   ],
 })
 export class OpenprojectGlobalSearchModule {
-  constructor(readonly injector:Injector) {
-  }
+  readonly injector = inject(Injector);
 }

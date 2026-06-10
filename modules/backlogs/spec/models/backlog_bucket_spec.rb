@@ -60,13 +60,39 @@ RSpec.describe BacklogBucket do
       backlog_bucket.destroy!
       expect(WorkPackage.find(work_package_id).backlog_bucket_id).to be_nil
     end
+  end
 
-    it "orders work packages by position" do
-      work_package_nil = create(:work_package, project:, backlog_bucket:).tap { it.update_columns(position: nil) }
-      work_package2 = create(:work_package, project:, backlog_bucket:, position: 2)
-      work_package1 = create(:work_package, project:, backlog_bucket:, position: 1)
+  describe "#displayed_work_packages" do
+    shared_let(:bucket) { create(:backlog_bucket, project:) }
+    shared_let(:bucket_work_package1) { create(:work_package, project:, backlog_bucket: bucket, position: 1) }
+    shared_let(:closed_status) { create(:status, is_closed: true) }
+    shared_let(:closed_bucket_work_package) do
+      create(:work_package, project:, backlog_bucket: bucket, status: closed_status, position: 2)
+    end
+    shared_let(:bucket_work_package2) { create(:work_package, project:, backlog_bucket: bucket, position: 3) }
+    shared_let(:non_bucket_work_package) { create(:work_package, project:) }
+    shared_let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+    shared_let(:user) { create(:user, member_with_roles: { project => role }) }
 
-      expect(backlog_bucket.work_packages.reload.to_a).to eq([work_package1, work_package2, work_package_nil])
+    before do
+      login_as user
+      project.done_statuses << closed_status
+    end
+
+    context "when the user is allowed to view work packages" do
+      it "returns the work open work packages in the bucket ordered by position" do
+        expect(bucket.displayed_work_packages.reload).to eq([bucket_work_package1, bucket_work_package2])
+      end
+    end
+
+    context "when the user is not allowed to view work packages" do
+      before do
+        role.remove_permission! :view_work_packages
+      end
+
+      it "returns an empty list" do
+        expect(bucket.displayed_work_packages).to be_empty
+      end
     end
   end
 
@@ -90,8 +116,12 @@ RSpec.describe BacklogBucket do
     shared_let(:wp_nil_in_bucket1) do
       create(:work_package, project:, backlog_bucket: bucket1).tap { it.update_columns(position: nil) }
     end
-    shared_let(:wp2_in_bucket1) { create(:work_package, project:, backlog_bucket: bucket1, position: 2) }
-    shared_let(:wp1_in_bucket1_first) { create(:work_package, project:, backlog_bucket: bucket1, position: 1) }
+    shared_let(:wp2_in_bucket1) { create(:work_package, project:, backlog_bucket: bucket1, position: 3) }
+    shared_let(:wp1_in_bucket1) { create(:work_package, project:, backlog_bucket: bucket1, position: 2) }
+    shared_let(:closed_status) { create(:status, is_closed: true) }
+    shared_let(:closed_wp_in_bucket1) do
+      create(:work_package, project:, backlog_bucket: bucket1, position: 1, status: closed_status)
+    end
 
     shared_let(:wp_in_bucket2) { create(:work_package, project:, backlog_bucket: bucket2) }
 
@@ -104,6 +134,13 @@ RSpec.describe BacklogBucket do
     shared_let(:wp_other_project) { create(:work_package, project: other_project, backlog_bucket: other_bucket) }
     shared_let(:wp_other_project_unbucketed) { create(:work_package, project: other_project, backlog_bucket: nil) }
 
+    shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
+
+    before do
+      login_as user
+      project.done_statuses << closed_status
+    end
+
     subject(:result) { described_class.for_project(project) }
 
     it "returns the project buckets" do
@@ -115,7 +152,15 @@ RSpec.describe BacklogBucket do
     end
 
     it "orders work packages within a bucket by position, with nil position last" do
-      expect(bucket1.work_packages.reload).to eq([wp1_in_bucket1_first, wp2_in_bucket1, wp_nil_in_bucket1])
+      expect(result.first.displayed_work_packages.count).to eq(3)
+      expect(result.first.displayed_work_packages).to eq([wp1_in_bucket1, wp2_in_bucket1, wp_nil_in_bucket1])
+    end
+
+    it "eager loads the displayed work packages" do
+      result.to_a
+
+      expect { result.first.displayed_work_packages }.to have_a_query_limit(0)
+      expect { result.last.displayed_work_packages }.to have_a_query_limit(0)
     end
   end
 end

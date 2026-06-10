@@ -147,6 +147,12 @@ RSpec.describe OpenProject::TextFormatting,
         it { is_expected.to be_html_eql("<p class='op-uc-p'>#{version_link}</p>") }
       end
 
+      context "with a leading-zero version id" do
+        subject { format_text("version#0#{version.id}") }
+
+        it { is_expected.to be_html_eql("<p class='op-uc-p'>#{version_link}</p>") }
+      end
+
       context "Link with version" do
         subject { format_text("version:1.0") }
 
@@ -304,7 +310,7 @@ RSpec.describe OpenProject::TextFormatting,
         let(:work_package_link) do
           content_tag "opce-macro-wp-quickinfo",
                       "",
-                      data: { id: "1234", detailed: "false" }
+                      data: { id: "1234", display_id: "1234", detailed: "false" }
         end
 
         subject { format_text("foo (bar ##1234)") }
@@ -316,7 +322,7 @@ RSpec.describe OpenProject::TextFormatting,
         let(:work_package_link) do
           content_tag "opce-macro-wp-quickinfo",
                       "",
-                      data: { id: "1234", detailed: "true" }
+                      data: { id: "1234", display_id: "1234", detailed: "true" }
         end
 
         subject { format_text("foo (bar ###1234)") }

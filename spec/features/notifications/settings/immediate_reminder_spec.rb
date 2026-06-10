@@ -104,7 +104,7 @@ RSpec.describe "Immediate reminder settings", :js do
       expect(ActionMailer::Base.deliveries.first.subject)
         .to eql I18n.t(:"mail.mention.subject",
                        user_name: current_user.name,
-                       id: work_package.id,
+                       id: "##{work_package.id}",
                        subject: work_package.subject)
     end
   end

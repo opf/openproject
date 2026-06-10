@@ -207,7 +207,7 @@ We want to thank Community member [@cheezzz](https://github.com/cheezzz) for con
 - Bugfix: Sharing permission dependencies are not migrated \[[#72801](https://community.openproject.org/wp/72801)\]
 - Bugfix: Attribute help text not shown on project home page (overview tab) \[[#72807](https://community.openproject.org/wp/72807)\]
 - Bugfix: Provide more details when project with identifier exists in OpenProject \[[#72809](https://community.openproject.org/wp/72809)\]
-- Bugfix: No line break in table cells after ordered/undordered/task list \[[#72846](https://community.openproject.org/wp/72846)\]
+- Bugfix: No line break in table cells after ordered/unordered/task list \[[#72846](https://community.openproject.org/wp/72846)\]
 - Bugfix: Right side bar from Overview page is read out before main page content \[[#72850](https://community.openproject.org/wp/72850)\]
 - Bugfix: Cannot accept meeting series invite (because newer version of the appointment already exists) \[[#72865](https://community.openproject.org/wp/72865)\]
 - Bugfix: Template drop-down is not showing if user starts meeting creation from global meeting index \[[#72873](https://community.openproject.org/wp/72873)\]

@@ -26,11 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 export type BreadcrumbItem =
@@ -45,12 +41,10 @@ export type BreadcrumbItem =
   standalone: false,
 })
 export class OpBreadcrumbsComponent {
+  readonly I18n = inject(I18nService);
+
   @Input() items:BreadcrumbItem[] = [];
   @Input() lastItemSection?:string | null = null;
-
-  constructor(
-    readonly I18n:I18nService,
-  ) { }
 
   text = {
     breadcrumb: this.I18n.t('js.breadcrumb'),
@@ -72,5 +66,13 @@ export class OpBreadcrumbsComponent {
 
   getHref(item:BreadcrumbItem):string | null {
     return this.isLink(item) ? item.href : null;
+  }
+
+  trackBreadcrumbItem(index:number, item:BreadcrumbItem):string {
+    if (this.isLink(item)) {
+      return `link:${item.href}:${index}`;
+    }
+
+    return `text:${item}:${index}`;
   }
 }

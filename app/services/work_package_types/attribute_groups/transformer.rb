@@ -37,15 +37,23 @@ module WorkPackageTypes
       end
 
       def call
-        return [] if groups.blank?
+        return ServiceResult.success(result: []) if groups.blank?
 
-        groups.map do |group|
-          if group[:type] == "query"
-            transform_query_group(group)
-          else
-            transform_attribute_group(group)
-          end
+        transformed_groups = []
+
+        groups.each do |group|
+          transformed_group = if group[:type] == "query"
+                                transform_query_group(group)
+                              else
+                                transform_attribute_group(group)
+                              end
+
+          return transformed_group if transformed_group.is_a?(ServiceResult)
+
+          transformed_groups << transformed_group
         end
+
+        ServiceResult.success(result: transformed_groups)
       end
 
       private
@@ -53,28 +61,43 @@ module WorkPackageTypes
       attr_reader :groups, :user
 
       def transform_attribute_group(group)
-        name = group[:key]&.to_sym || group[:name]
         attributes = group[:attributes].pluck(:key)
 
-        [name, attributes]
+        return [group[:name], attributes] if group[:key].blank?
+
+        build_default_attribute_group(group, attributes)
       end
 
       def transform_query_group(group)
         name = group[:name]
-        props = JSON.parse(group[:query])
+        result = ::WorkPackageTypes::FormConfiguration::EmbeddedQueryBuilder.build(
+          query_props: group[:query],
+          name: "Embedded table: #{name}",
+          user:
+        )
 
-        query = Query.new_default(name: "Embedded table: #{name}")
-        query.extend(OpenProject::ChangedBySystem)
-        query.change_by_system { query.user = User.system }
+        return result if result.failure?
 
-        result = ::API::V3::UpdateQueryFromV3ParamsService
-          .new(query, user)
-          .call(props.with_indifferent_access)
+        [name, [result.result]]
+      end
 
-        if result.success?
-          query.show_hierarchies = false
-          [name, [query]]
-        end
+      def build_default_attribute_group(group, attributes)
+        key = group[:key].to_sym
+        display_name = customized_display_name(group, key)
+        result = [key, attributes]
+        result << display_name if display_name.present?
+        result
+      end
+
+      def customized_display_name(group, key)
+        return if group[:name].blank?
+
+        group[:name] unless group[:name] == default_group_name(key)
+      end
+
+      def default_group_name(key)
+        label = Type.default_groups[key]
+        label ? I18n.t(label, default: key.to_s) : key.to_s
       end
     end
   end

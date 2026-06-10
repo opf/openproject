@@ -1,4 +1,4 @@
-import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, inject } from '@angular/core';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { OpContextMenuHandler } from 'core-app/shared/components/op-context-menu/op-context-menu-handler';
 import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
@@ -10,15 +10,19 @@ import { computePosition, ComputePositionReturn, flip, shift } from '@floating-u
   standalone: false,
 })
 export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterViewInit {
+  readonly elementRef = inject(ElementRef);
+  readonly opContextMenu:OPContextMenuService;
+
   protected element:HTMLElement;
 
   protected items:OpContextMenuItem[] = [];
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-  ) {
+  constructor() {
+    const opContextMenu = inject(OPContextMenuService);
+
     super(opContextMenu);
+
+    this.opContextMenu = opContextMenu;
   }
 
   ngAfterViewInit():void {

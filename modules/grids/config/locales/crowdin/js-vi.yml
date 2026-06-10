@@ -33,7 +33,7 @@ vi:
           title: mục phụ
         project_favorites:
           title: dự án yêu thích
-          no_results: Hiện tại bạn chưa có dự án yêu thích nào. Nhấp vào biểu tượng ngôi sao trong bảng điều khiển dự án để thêm một biểu tượng vào mục yêu thích của bạn.
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: Thời gian hiện tại (My spent time)
           displayed_days: 'Ngày hiển thị trong widget:'

@@ -50,5 +50,15 @@ RSpec.describe "Meeting requests",
 
       expect(meeting.reload).to be_in_progress
     end
+
+    it "handles a stale object gracefully (Bug #68703)" do
+      allow_any_instance_of(Meeting).to receive(:in_progress!).and_raise(ActiveRecord::StaleObjectError) # rubocop:disable RSpec/AnyInstance
+
+      put change_state_project_meeting_path(project, meeting, state: "in_progress"),
+          as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(meeting.reload).to be_open
+    end
   end
 end

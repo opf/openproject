@@ -2,6 +2,7 @@ import { environment } from '../environments/environment';
 import { OpApplicationController } from './controllers/op-application.controller';
 import MainMenuController from './controllers/dynamic/menus/main.controller';
 import OpDisableWhenCheckedController from './controllers/disable-when-checked.controller';
+import OpDisableWhenValueSelectedController from './controllers/disable-when-value-selected.controller';
 import PrintController from './controllers/print.controller';
 import RefreshOnFormChangesController from './controllers/refresh-on-form-changes.controller';
 import FormPreviewController from './controllers/form-preview.controller';
@@ -28,6 +29,7 @@ import LazyPageController from './controllers/dynamic/work-packages/activities-t
 import EditablePageHeaderTitleController from './controllers/dynamic/editable-page-header-title.controller';
 import WorkingHoursFormController from './controllers/dynamic/users/working-hours-form.controller';
 import DailyRemindersController from './controllers/dynamic/my/daily-reminders.controller';
+import HeaderProjectSelectController from './controllers/header-project-select.controller';
 import NonWorkingTimesController from './controllers/dynamic/users/non-working-times.controller';
 import NonWorkingTimesFormController from './controllers/dynamic/users/non-working-times-form.controller';
 import OpPasswordForceChangeController from './controllers/password-force-change.controller';
@@ -57,6 +59,7 @@ OpenProjectStimulusApplication.preregister('application', OpApplicationControlle
 OpenProjectStimulusApplication.preregister('async-dialog', AsyncDialogController);
 OpenProjectStimulusApplication.preregister('disable-when-checked', OpDisableWhenCheckedController);
 OpenProjectStimulusApplication.preregister('disable-when-clicked', DisableWhenClickedController);
+OpenProjectStimulusApplication.preregister('disable-when-value-selected', OpDisableWhenValueSelectedController);
 OpenProjectStimulusApplication.preregister('flash', FlashController);
 OpenProjectStimulusApplication.preregister('menus--main', MainMenuController);
 OpenProjectStimulusApplication.preregister('require-password-confirmation', RequirePasswordConfirmationController);
@@ -95,6 +98,7 @@ OpenProjectStimulusApplication.preregister('users--non-working-times', NonWorkin
 OpenProjectStimulusApplication.preregister('users--non-working-times-form', NonWorkingTimesFormController);
 OpenProjectStimulusApplication.preregister('password-force-change', OpPasswordForceChangeController);
 OpenProjectStimulusApplication.preregister('check-all', CheckAllController);
+OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjectSelectController);
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);
 OpenProjectStimulusApplication.preregister('truncation', TruncationController);
 

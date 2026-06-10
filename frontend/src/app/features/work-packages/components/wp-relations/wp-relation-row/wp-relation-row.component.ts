@@ -1,8 +1,6 @@
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, OnInit, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
@@ -23,6 +21,14 @@ import { Highlighting } from 'core-app/features/work-packages/components/wp-fast
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageRelationRowComponent extends UntilDestroyedMixin implements OnInit {
+  protected apiV3Service = inject(ApiV3Service);
+  protected notificationService = inject(WorkPackageNotificationService);
+  protected wpRelations = inject(WorkPackageRelationsService);
+  protected halEvents = inject(HalEventsService);
+  protected I18n = inject(I18nService);
+  protected cdRef = inject(ChangeDetectorRef);
+  protected PathHelper = inject(PathHelperService);
+
   @Input() public workPackage:WorkPackageResource;
 
   @Input() public relatedWorkPackage:WorkPackageResource;
@@ -69,16 +75,6 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
       description: this.I18n.t('js.placeholders.relation_description'),
     },
   };
-
-  constructor(protected apiV3Service:ApiV3Service,
-    protected notificationService:WorkPackageNotificationService,
-    protected wpRelations:WorkPackageRelationsService,
-    protected halEvents:HalEventsService,
-    protected I18n:I18nService,
-    protected cdRef:ChangeDetectorRef,
-    protected PathHelper:PathHelperService) {
-    super();
-  }
 
   ngOnInit() {
     this.relation = this.relatedWorkPackage.relatedBy!;

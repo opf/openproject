@@ -27,9 +27,7 @@
 //++
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import {
-  ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostBinding, Input, Output, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
@@ -42,6 +40,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageRelationsGroupComponent {
+  readonly I18n = inject(I18nService);
+
   @HostBinding('class.attributes-group') className = true;
 
   @Input() public relatedWorkPackages:WorkPackageResource[];
@@ -62,11 +62,6 @@ export class WorkPackageRelationsGroupComponent {
     groupByType: this.I18n.t('js.relation_buttons.group_by_wp_type'),
     groupByRelation: this.I18n.t('js.relation_buttons.group_by_relation_type'),
   };
-
-  constructor(
-    readonly I18n:I18nService,
-  ) {
-  }
 
   public get togglerText() {
     if (this.groupByWorkPackageType) {

@@ -256,6 +256,8 @@ module OpenProject::Storages
 
     # This hook is executed when the module is loaded.
     config.to_prepare do
+      Journals::CreateService::Association.register(:Storable)
+
       # Load Storages::Storage descendants due to STI
       Storages::Storage::InexistentStorage
       Storages::OneDriveStorage

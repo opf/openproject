@@ -37,6 +37,7 @@ module RecurringMeetings
     end
 
     def after_validate(call)
+      Meetings::NotificationDebounceJob.cancel_pending(model.template)
       send_cancellation_mail(model) if model.notify?
 
       call

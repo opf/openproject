@@ -18,6 +18,9 @@
       display: flex
       align-items: center
 
+  :has(.op-ian-item_selected:first-child)
+    border-top-color: var(--box-list-item-pressed-border-color)
+
   &--viewport
     height: 100%
     // Avoid infinite horizontal scrolling on mobile iOS (#39849)

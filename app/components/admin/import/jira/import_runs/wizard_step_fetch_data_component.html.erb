@@ -40,20 +40,6 @@ See COPYRIGHT and LICENSE files for more details.
           })
         end
       end
-      if model.in_state?(:instance_meta_done, :configuring)
-        row.with_column do
-          render(
-            Primer::Beta::IconButton.new(
-              icon: :"op-reload",
-              tag: :a,
-              scheme: :invisible,
-              href: continue_admin_import_jira_run_path(jira_id: model.jira.id, id: model.id, step: 'fetch_instance_meta'),
-              aria: { label: "Back to fetch data" },
-              data: { turbo_stream: true }
-            )
-          )
-        end
-      end
     end
   end
   if model.in_state?(:initial)

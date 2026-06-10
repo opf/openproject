@@ -28,17 +28,16 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageLinkedResourceCache } from 'core-app/features/work-packages/components/wp-single-view-tabs/wp-linked-resource-cache.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Injectable()
 export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<HalResource[]> {
-  constructor(public ConfigurationService:ConfigurationService,
-    readonly timezoneService:TimezoneService) {
-    super();
-  }
+  ConfigurationService = inject(ConfigurationService);
+  readonly timezoneService = inject(TimezoneService);
+
 
   public get order() {
     return this.isReversed ? 'desc' : 'asc';

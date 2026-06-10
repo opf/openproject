@@ -1,5 +1,5 @@
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   ICKEditorContext,
   ICKEditorStatic,
@@ -21,17 +21,14 @@ declare global {
 
 @Injectable()
 export class CKEditorSetupService {
+  readonly PathHelper = inject(PathHelperService);
+  readonly configurationService = inject(ConfigurationService);
+
   /** The language CKEditor was able to load, falls back to 'en' */
   private loadedLocale = 'en';
 
   /** Prefetch ckeditor when browser is idle */
   private prefetch:Promise<unknown>;
-
-  constructor(
-    readonly PathHelper:PathHelperService,
-    readonly configurationService:ConfigurationService,
-    ) {
-  }
 
   public initialize() {
     this.prefetch = this.load();
@@ -61,8 +58,11 @@ export class CKEditorSetupService {
     const editorClass = type === 'constrained' ? window.OPConstrainedEditor : window.OPClassicEditor;
     wrapper.classList.add(`ckeditor-type-${type}`);
 
-    const toolbarWrapper = wrapper.querySelector('.document-editor__toolbar')!;
-    const contentWrapper = wrapper.querySelector('.document-editor__editable') as HTMLElement;
+    const toolbarWrapper = wrapper.querySelector<HTMLElement>('.document-editor__toolbar');
+    const contentWrapper = wrapper.querySelector<HTMLElement>('.document-editor__editable');
+    if (!toolbarWrapper || !contentWrapper) {
+      throw new Error('Missing CKEditor wrapper elements.');
+    }
     const config = this.createConfig(context, initialData);
 
     return this

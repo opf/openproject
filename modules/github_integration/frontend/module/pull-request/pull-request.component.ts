@@ -26,12 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
@@ -51,6 +46,9 @@ import {
 })
 
 export class PullRequestComponent {
+  readonly PathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+
   @HostBinding('class.op-pull-request') className = true;
 
   @Input() public pullRequest:IGithubPullRequest;
@@ -61,12 +59,6 @@ export class PullRequestComponent {
     label_details: this.I18n.t('js.label_details'),
     label_actions: this.I18n.t('js.github_integration.github_actions'),
   };
-
-  constructor(
-    readonly PathHelper:PathHelperService,
-    readonly I18n:I18nService,
-  ) {
-  }
 
   get state():string {
     if (this.pullRequest.state === 'open') {

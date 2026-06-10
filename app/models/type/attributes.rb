@@ -153,7 +153,8 @@ module Type::Attributes
           required: field.is_required,
           has_default: field.default_value.present?,
           is_cf: true,
-          display_name: field.name
+          display_name: field.name,
+          field_format: field.field_format
         }
       end
     end

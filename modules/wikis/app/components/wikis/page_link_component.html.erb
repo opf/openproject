@@ -28,24 +28,29 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do %>
-  <%= render(Primer::Beta::Octicon.new(icon: :"op-file-doc")) %>
+  <%=
+    if error?
+      render(Primer::Beta::Octicon.new(icon: :alert, color: :muted))
+    else
+      render(Primer::Beta::Octicon.new(icon: :"op-file-doc"))
+    end
+  %>
 
   <%=
     render(Primer::Alpha::StackItem.new(grow: true, classes: "ellipsis")) do
-      render(Primer::Beta::Link.new(href: page_href, scheme: :primary)) { page_title }
+      if error?
+        render(Primer::Beta::Text.new(color: :muted)) { page_title }
+      else
+        render(Primer::Beta::Link.new(href: page_href, scheme: :primary)) { page_title }
+      end
     end
   %>
 
   <%=
     if show_action_menu?
-      render(Primer::Alpha::ActionMenu.new) do |menu|
+      render(Primer::Alpha::ActionMenu.new(test_selector: "wiki-page-link-action-menu")) do |menu|
         menu.with_show_button(icon: :"kebab-horizontal", "aria-label": t(:label_more), scheme: :invisible)
-
-        if actions.include?(:remove)
-          menu.with_item(label: t(".remove"), scheme: :danger) do |item|
-            item.with_leading_visual_icon(icon: :trash)
-          end
-        end
+        menu_items(menu)
       end
     end
   %>

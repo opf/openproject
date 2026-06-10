@@ -26,17 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -46,14 +36,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   standalone: false,
 })
 export class DynamicContentModalComponent extends OpModalComponent implements OnInit, OnDestroy {
-  constructor(
-    readonly elementRef:ElementRef,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
+  readonly I18n = inject(I18nService);
 
   ngOnInit():void {
     super.ngOnInit();

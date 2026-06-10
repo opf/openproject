@@ -31,9 +31,7 @@
 require "spec_helper"
 
 RSpec.describe CustomFields::RecalculateValuesJob, type: :model do
-  describe "#perform",
-           with_ee: %i[calculated_values],
-           with_flag: { calculated_value_project_attribute: true } do
+  describe "#perform", with_ee: %i[calculated_values] do
     using CustomFieldFormulaReferencing
 
     shared_let(:user) { create(:admin) }

@@ -27,12 +27,7 @@
 //++
 
 import { UIRouterGlobals } from '@uirouter/core';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { Observable } from 'rxjs';
@@ -51,6 +46,11 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WpTabWrapperComponent implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly uiRouterGlobals = inject(UIRouterGlobals);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly wpTabsService = inject(WorkPackageTabsService);
+
   @Input() public workPackageId:string;
   @Input() public tabIdentifier:string;
 
@@ -60,13 +60,6 @@ export class WpTabWrapperComponent implements OnInit {
     workPackage:WorkPackageResource;
     tab:WpTabDefinition | undefined;
   }>;
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly uiRouterGlobals:UIRouterGlobals,
-    readonly apiV3Service:ApiV3Service,
-    readonly wpTabsService:WorkPackageTabsService
-  ) {}
 
   ngOnInit() {
     if (this.workPackageId === undefined) {

@@ -606,4 +606,16 @@ RSpec.describe Project do
       end
     end
   end
+
+  describe "projects.identifier unique database constraint" do
+    let!(:other_project) { create(:project, identifier: "my-app") }
+    let(:project) { build(:project, identifier: "my-app") }
+
+    it "ensures uniqueness with disabled validation" do
+      expect { project.save!(validate: false) }.to raise_error(
+        ActiveRecord::RecordNotUnique,
+        /PG::UniqueViolation: ERROR:  duplicate key value violates unique constraint "index_projects_on_lower_identifier"\n/
+      )
+    end
+  end
 end

@@ -27,17 +27,16 @@
 //++
 
 import { input } from '@openproject/reactivestates';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HelpTextResource } from 'core-app/features/hal/resources/help-text-resource';
 import { firstValueFrom, map } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AttributeHelpTextsService {
-  private helpTexts = input<HelpTextResource[]>();
+  private apiV3Service = inject(ApiV3Service);
 
-  constructor(private apiV3Service:ApiV3Service) {
-  }
+  private helpTexts = input<HelpTextResource[]>();
 
   /**
    * Search for a given attribute help text

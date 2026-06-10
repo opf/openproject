@@ -159,9 +159,10 @@ module ::Calendar
       # In that case @view remains nil and split_view_base_route handles it.
       return if params[:id].blank?
 
-      @view = Query
-                .visible(current_user)
-                .find(params[:id])
+      query_scope = Query.visible(current_user)
+      query_scope = query_scope.where(project_id: @project.id) if @project
+
+      @view = query_scope.find(params[:id])
     end
   end
 end

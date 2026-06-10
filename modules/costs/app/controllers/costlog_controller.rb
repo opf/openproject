@@ -37,6 +37,12 @@ class CostlogController < ApplicationController
   include CostlogHelper
 
   def new
+    unless @project&.cost_types_available?
+      flash[:error] = I18n.t("cost_types.errors.no_cost_types_available") # rubocop:disable Rails/ActionControllerFlashBeforeRender
+      redirect_back_or_default(@work_package ? polymorphic_path(@work_package) : project_path(@project))
+      return
+    end
+
     new_default_cost_entry
 
     render action: "edit"
@@ -140,7 +146,7 @@ class CostlogController < ApplicationController
       ce.entity = @work_package
       ce.user = User.current
       ce.spent_on = Time.zone.today
-      # notice that cost_type is set to default cost_type in the model
+      ce.cost_type = CostType.default_for_project(@project) if @project
     end
   end
 

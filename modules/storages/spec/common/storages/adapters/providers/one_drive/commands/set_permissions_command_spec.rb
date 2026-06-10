@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Commands
-          RSpec.describe SetPermissionsCommand, :webmock do
+          RSpec.describe SetPermissionsCommand, :disable_ssrf_filter, :webmock do
             let(:storage) do
               create(:one_drive_sandbox_storage,
                      drive_id: "b!dmVLG22QlE2PSW0AqVB7UOhZ8n7tjkVGkgqLNnuw2ODRDvn3haLiQIhB5UYNdqMy")

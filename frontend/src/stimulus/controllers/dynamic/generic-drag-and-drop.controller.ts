@@ -43,12 +43,10 @@ interface TargetConfig {
 }
 
 export default class GenericDragAndDropController extends Controller {
-  static targets = ['container', 'scrollContainer', 'mirrorContainer'];
+  static targets = ['container', 'scrollContainer'];
 
   containerTargets:HTMLElement[];
   scrollContainerTargets:HTMLElement[];
-  declare readonly hasMirrorContainerTarget:boolean;
-  declare readonly mirrorContainerTarget:HTMLElement;
 
   static values = {
     handle: { type: Boolean, default: true },
@@ -129,7 +127,6 @@ export default class GenericDragAndDropController extends Controller {
         moves: (el, _source, handle, _sibling) => this.canStartDrag(el, handle),
         accepts: (el:Element, target:Element, source:Element, sibling:Element) => this.accepts(el, target, source, sibling),
         revertOnSpill: true, // enable reverting of elements if they are dropped outside of a valid target
-        mirrorContainer: this.resolveMirrorContainer(),
       },
     )
       .on('cloned', (clone, _original, type) => {
@@ -258,10 +255,6 @@ export default class GenericDragAndDropController extends Controller {
     const container = target.querySelector<HTMLElement>(accessor);
     invariant(container, `Expected container element matching "${accessor}"`);
     return container;
-  }
-
-  private resolveMirrorContainer():Element {
-    return this.hasMirrorContainerTarget ? this.mirrorContainerTarget : document.body;
   }
 
   // Returns the data-draggable-id of the element preceding el in its container,

@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit, Directive, ElementRef, Injector, Input,
-} from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, Injector, Input, inject } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
@@ -51,6 +49,15 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
   standalone: false,
 })
 export class WorkPackageTableSumsRowController implements AfterViewInit {
+  readonly injector = inject(Injector);
+  readonly elementRef = inject(ElementRef);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly states = inject(States);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly wpTableColumns = inject(WorkPackageViewColumnsService);
+  readonly wpTableSums = inject(WorkPackageViewSumService);
+  readonly I18n = inject(I18nService);
+
   @Input('wpTableSumsRow-table') workPackageTable:WorkPackageTable;
 
   public isHidden = true;
@@ -61,14 +68,9 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   private groupSumsBuilder:GroupSumsBuilder;
 
-  constructor(readonly injector:Injector,
-    readonly elementRef:ElementRef,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly states:States,
-    readonly schemaCache:SchemaCacheService,
-    readonly wpTableColumns:WorkPackageViewColumnsService,
-    readonly wpTableSums:WorkPackageViewSumService,
-    readonly I18n:I18nService) {
+  constructor() {
+    const I18n = this.I18n;
+
     this.text = {
       sum: I18n.t('js.label_total_sum'),
     };

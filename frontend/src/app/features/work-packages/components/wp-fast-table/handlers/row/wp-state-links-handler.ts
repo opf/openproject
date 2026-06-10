@@ -4,7 +4,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { States } from 'core-app/core/states/states.service';
 import { StateService } from '@uirouter/core';
 import { WorkPackageViewSelectionService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-selection.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { KeepTabService } from '../../../wp-single-view-tabs/keep-tab/keep-tab.service';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { uiStateLinkClass } from '../../builders/ui-state-link-builder';
@@ -13,15 +13,15 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
   // Injections
-  @InjectField() public $state:StateService;
+  @LazyInject() public $state:StateService;
 
-  @InjectField() public keepTab:KeepTabService;
+  @LazyInject() public keepTab:KeepTabService;
 
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() public wpTableSelection:WorkPackageViewSelectionService;
 
-  @InjectField() public wpTableFocus:WorkPackageViewFocusService;
+  @LazyInject() public wpTableFocus:WorkPackageViewFocusService;
 
   constructor(public readonly injector:Injector) {
   }
@@ -50,7 +50,9 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
     // Locate the details link from event
     const target = evt.target as HTMLElement;
-    const element = target.closest(this.SELECTOR) as HTMLElement;
+    const element = target.closest<HTMLElement>(this.SELECTOR);
+    if (!element) { return true; }
+
     const state = element.dataset.wpState;
     const workPackageId = element.dataset.workPackageId;
 
@@ -66,7 +68,9 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
     // Locate the row from event
-    const row = target.closest(`.${tableRowClassName}`) as HTMLElement;
+    const row = target.closest<HTMLElement>(`.${tableRowClassName}`);
+    if (!row) { return true; }
+
     const classIdentifier = row.dataset.classIdentifier!;
     const [index] = view.workPackageTable.findRenderedRow(classIdentifier);
 

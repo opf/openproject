@@ -26,20 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { fromEvent, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
@@ -69,6 +56,16 @@ function containsFiles(dataTransfer:DataTransfer):boolean {
   standalone: false,
 })
 export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
+  elementRef = inject(ElementRef);
+  protected readonly I18n = inject(I18nService);
+  protected readonly states = inject(States);
+  protected readonly toastService = inject(ToastService);
+  private readonly uploadService = inject(OpUploadService);
+  protected readonly halResourceService = inject(HalResourceService);
+  protected readonly attachmentsResourceService = inject(AttachmentsResourceService);
+  protected readonly timezoneService = inject(TimezoneService);
+  protected readonly cdRef = inject(ChangeDetectorRef);
+
   @HostBinding('attr.data-test-selector') public testSelector = 'op-attachments';
 
   @HostBinding('class.op-file-section') public className = true;
@@ -135,17 +132,7 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
     this.cdRef.detectChanges();
   };
 
-  constructor(
-    public elementRef:ElementRef,
-    protected readonly I18n:I18nService,
-    protected readonly states:States,
-    protected readonly toastService:ToastService,
-    private readonly uploadService:OpUploadService,
-    protected readonly halResourceService:HalResourceService,
-    protected readonly attachmentsResourceService:AttachmentsResourceService,
-    protected readonly timezoneService:TimezoneService,
-    protected readonly cdRef:ChangeDetectorRef,
-  ) {
+  constructor() {
     super();
 
     populateInputsFromDataset(this);

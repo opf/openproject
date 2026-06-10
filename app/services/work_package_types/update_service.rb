@@ -36,7 +36,11 @@ module WorkPackageTypes
 
     def validate_params
       # Only set attribute groups when it exists (Regression #28400)
-      set_attribute_groups(params) if params[:attribute_groups]
+      if params[:attribute_groups]
+        result = set_attribute_groups(params)
+        return result if result.failure?
+      end
+
       set_active_custom_fields
       set_active_custom_fields_for_project_ids(params[:project_ids]) if params[:project_ids].present?
 
@@ -48,14 +52,49 @@ module WorkPackageTypes
     def default_contract_class = UpdateSettingsContract
 
     def set_attribute_groups(params)
-      if params[:attribute_groups].empty?
+      normalize_result = normalize_attribute_groups_param(params[:attribute_groups])
+      return normalize_result if normalize_result.failure?
+
+      assign_result = assign_attribute_groups(normalize_result.result)
+      return assign_result if assign_result.failure?
+
+      params.delete(:attribute_groups)
+      ServiceResult.success(result: model)
+    end
+
+    def normalize_attribute_groups_param(attribute_groups)
+      parsed_groups = case attribute_groups
+                      when String
+                        JSON.parse(attribute_groups)
+                      else
+                        attribute_groups
+                      end
+
+      return invalid_attribute_groups_result unless parsed_groups.is_a?(Array)
+
+      ServiceResult.success(result: parsed_groups.map(&:deep_symbolize_keys))
+    rescue JSON::ParserError
+      invalid_attribute_groups_result
+    end
+
+    def assign_attribute_groups(attribute_groups)
+      if attribute_groups.empty?
         model.reset_attribute_groups
       else
-        # FIXME: We lost the ability to react to errors on the transformation. Might not be a big issue on day to day, but still
-        #   a regression - 2025-08-07 noted by @mereghost
-        model.attribute_groups = AttributeGroups::Transformer.new(groups: params[:attribute_groups], user: user).call
-        params.delete(:attribute_groups)
+        transform_result = AttributeGroups::Transformer.new(groups: attribute_groups, user: user).call
+        return transform_result if transform_result.failure?
+
+        model.attribute_groups = transform_result.result
       end
+
+      ServiceResult.success(result: model)
+    end
+
+    def invalid_attribute_groups_result
+      model.errors.clear
+      model.errors.add(:attribute_groups, I18n.t("types.edit.form_configuration.invalid_attribute_groups"))
+
+      ServiceResult.failure(result: model, errors: model.errors)
     end
 
     ##

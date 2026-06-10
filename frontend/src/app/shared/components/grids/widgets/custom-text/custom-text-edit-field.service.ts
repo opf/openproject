@@ -1,5 +1,5 @@
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { ElementRef, Injectable, Injector } from '@angular/core';
+import { ElementRef, Injectable, Injector, inject } from '@angular/core';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { GridWidgetResource } from 'core-app/features/hal/resources/grid-widget-resource';
@@ -13,6 +13,11 @@ import { HalSource } from 'core-app/features/hal/interfaces';
 
 @Injectable()
 export class CustomTextEditFieldService extends EditFieldHandler {
+  protected elementRef = inject(ElementRef);
+  protected injector = inject(Injector);
+  protected halResource = inject(HalResourceService);
+  protected schemaCache = inject(SchemaCacheService);
+
   public fieldName = 'text';
 
   public valueChanged$:BehaviorSubject<string>;
@@ -22,15 +27,6 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   public changeset:ResourceChangeset;
 
   public active:boolean;
-
-  constructor(
-    protected elementRef:ElementRef,
-    protected injector:Injector,
-    protected halResource:HalResourceService,
-    protected schemaCache:SchemaCacheService,
-  ) {
-    super();
-  }
 
   public initialize(value:GridWidgetResource) {
     this.initializeChangeset(value);

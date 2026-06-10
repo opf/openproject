@@ -35,7 +35,9 @@ class WorkPackages::InfoLineComponent < ApplicationComponent
                  show_project: false,
                  show_subject: false,
                  show_status: true,
+                 status_scheme: :default,
                  font_size: :small,
+                 wrap: true,
                  **system_arguments)
     super
 
@@ -44,7 +46,15 @@ class WorkPackages::InfoLineComponent < ApplicationComponent
     @show_project = show_project
     @show_subject = show_subject
     @show_status = show_status
+    @status_scheme = status_scheme
+    @wrap = wrap
 
     @system_arguments = system_arguments
+    @system_arguments[:classes] = class_names(
+      @system_arguments[:classes],
+      "op-wp-info-line"
+    )
+    @system_arguments[:flex_wrap] = @wrap ? :wrap : :nowrap
+    @system_arguments[:overflow] = :hidden unless @wrap
   end
 end

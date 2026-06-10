@@ -62,14 +62,14 @@ gem "warden-basic_auth", "~> 0.2.1"
 gem "pagy"
 gem "will_paginate", "~> 4.0.0"
 
-gem "friendly_id", "~> 5.6.0"
+gem "friendly_id", "~> 5.7.0"
 
 gem "scimitar", "~> 2.13"
 
 gem "acts_as_list", "~> 1.2.6"
 gem "acts_as_tree", "~> 2.9.0"
 gem "awesome_nested_set", "~> 3.9.0"
-gem "closure_tree", "~> 9.6.1"
+gem "closure_tree", "~> 9.7.0"
 gem "rubytree", "~> 2.2.0"
 
 gem "addressable", "~> 2.9.0"
@@ -87,7 +87,7 @@ gem "htmldiff"
 gem "stringex", "~> 2.8.5"
 
 # CommonMark markdown parser with GFM extension
-gem "commonmarker", "~> 2.8.0"
+gem "commonmarker", "~> 2.8.2"
 
 # HTML pipeline for transformations on text formatter output
 # such as sanitization or additional features
@@ -113,6 +113,7 @@ gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
 gem "ruby-duration", "~> 3.2.0"
+gem "msgpack", "~> 1.8.0"
 
 gem "mail", "2.9.0"
 
@@ -124,10 +125,10 @@ gem "sys-filesystem", "~> 1.5.0", require: false
 gem "bcrypt", "~> 3.1.22"
 
 gem "multi_json", "~> 1.20.0"
-gem "oj", "~> 3.17.0"
+gem "oj", "~> 3.17.3"
 
 gem "daemons"
-gem "good_job", "~> 4.18.1" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.0" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -161,7 +162,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.14.0"
+gem "mcp", "~> 0.17.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -193,22 +194,22 @@ gem "rails-i18n", "~> 8.1.0"
 gem "sprockets", "~> 3.7.2" # lock sprockets below 4.0
 gem "sprockets-rails", "~> 3.5.1"
 
-gem "puma", "~> 7.1"
+gem "puma", "~> 8.0"
 gem "puma-plugin-statsd", "~> 2.7"
 gem "rack-timeout", "~> 0.7.0", require: "rack/timeout/base"
 
 gem "nokogiri", "~> 1.19.2"
 
-gem "carrierwave", "~> 2.2.6"
+gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
-gem "ssrf_filter", "~> 1.3"
 gem "fog-aws"
+gem "ssrf_filter", "~> 1.3"
 
 gem "aws-sdk-core", "~> 3.244"
 # File upload via fog + screenshots on travis
 gem "aws-sdk-s3", "~> 1.217"
 
-gem "openproject-token", "~> 8.8.2"
+gem "openproject-token", "~> 8.9.0"
 
 gem "plaintext", "~> 0.3.7"
 
@@ -219,7 +220,7 @@ gem "mini_magick", "~> 5.3.0", require: false
 gem "validate_url"
 
 # Storages support code
-gem "dry-container"
+gem "dry-core"
 gem "dry-monads"
 gem "dry-validation"
 
@@ -236,18 +237,18 @@ gem "yabeda-puma-plugin"
 gem "yabeda-rails"
 
 # opentelemetry
-gem "opentelemetry-exporter-otlp", "~> 0.33.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.93.0", require: false
+gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
 gem "opentelemetry-sdk", "~> 1.10", require: false
 
-gem "view_component", "~> 4.8.0"
+gem "view_component", "~> 4.11.0"
 # Lookbook
 gem "lookbook", "2.3.14"
 
 gem "inline_svg", "~> 1.10.0"
 
 # Require factory_bot for usage with openproject plugins testing
-gem "factory_bot", "~> 6.5.6", require: false
+gem "factory_bot", "~> 6.6.0", require: false
 # require factory_bot_rails for convenience in core development
 gem "factory_bot_rails", "~> 6.5.0", require: false
 
@@ -275,7 +276,7 @@ group :test do
   gem "rspec-rails", "~> 8.0.4", group: :development
 
   # Retry failures within the same environment
-  gem "retriable", "~> 3.4.1"
+  gem "retriable", "~> 3.8.0"
   gem "rspec-retry", "~> 0.6.1"
 
   # Accessibility tests
@@ -294,7 +295,7 @@ group :test do
   gem "rails-controller-testing", "~> 1.0.2"
 
   gem "capybara", "~> 3.40.0"
-  gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.15.0"
+  gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.16.0"
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.17.0"
   gem "rspec-wait"
@@ -366,7 +367,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.34.2"
+  gem "rubocop-rails", "~> 2.35.2"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
@@ -383,8 +384,6 @@ group :development, :test do
   # Active Record Doctor helps to keep the database in good shape.
   gem "active_record_doctor", "~> 2.0.1"
 end
-
-gem "bootsnap", "~> 1.24.0", require: false
 
 # API gems
 gem "grape", "~> 3.2.0"
@@ -430,6 +429,6 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.34.0"
-gem "openproject-octicons_helper", "~>19.34.0"
-gem "openproject-primer_view_components", "~>0.84.5"
+gem "openproject-octicons", "~>19.35.0"
+gem "openproject-octicons_helper", "~>19.35.0"
+gem "openproject-primer_view_components", "~>0.86.2"

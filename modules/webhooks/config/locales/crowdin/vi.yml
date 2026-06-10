@@ -1,7 +1,7 @@
 ---
 vi:
   plugin_openproject_webhooks:
-    name: Webhooks dự án mở
+    name: Webhooks OpenProject
     description: Cung cấp API plug-in để hỗ trợ webhooks OpenProject để tích hợp bên thứ 3 tốt hơn.
   activerecord:
     attributes:
@@ -37,7 +37,7 @@ vi:
         updated: đã cập nhật
         comment: bình luận
         internal_comment: Bình luận nội bộ
-      explanation_html: 'Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
+      explanation_html: 'Upon the occurrence of an event like the creation of a gói công việc (work package) or an update on a project, OpenProject will send a POST request to the configured web endpoints. Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
 
         '
       status:

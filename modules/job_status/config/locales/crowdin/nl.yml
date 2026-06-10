@@ -2,8 +2,8 @@
 nl:
   label_job_status_plural: Baanstatussen
   plugin_openproject_job_status:
-    name: OpenProject Job status
-    description: Listing and status of background jobs.
+    name: OpenProject status Taak
+    description: Lijst en status van achtergrondtaken.
   job_status_dialog:
     download_starts: De download zou automatisch moeten starten.
     click_to_download: Or [click here](download_url) to download.

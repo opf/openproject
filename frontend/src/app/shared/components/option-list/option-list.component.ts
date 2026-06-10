@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  forwardRef,
-  HostBinding,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, forwardRef, HostBinding, Input, Output, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface IOpOptionListOption<T> {
@@ -35,9 +26,9 @@ export type IOpOptionListValue<T> = T|null;
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class OpOptionListComponent<T> implements ControlValueAccessor {
-  @HostBinding('class.op-option-list') className = true;
+  private cdRef = inject(ChangeDetectorRef);
 
-  constructor(private cdRef:ChangeDetectorRef) {}
+  @HostBinding('class.op-option-list') className = true;
 
   @Input() options:IOpOptionListOption<T>[] = [];
 

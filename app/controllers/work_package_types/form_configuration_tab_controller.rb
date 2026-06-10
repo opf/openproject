@@ -30,15 +30,23 @@
 
 module WorkPackageTypes
   class FormConfigurationTabController < BaseTabController
-    include PaginationHelper
+    include TypesHelper
+    include OpTurbo::ComponentStream
+    include WorkPackageTypes::FormConfigurationComponentStreams
 
     layout "admin"
 
-    current_menu_item [:edit, :update] do
+    current_menu_item [:edit, :update, :reset_dialog, :move, :drop, :destroy] do
       :types
     end
 
     def edit; end
+
+    def reset_dialog
+      respond_with_dialog(
+        WorkPackageTypes::FormConfiguration::ResetDialogComponent.new(type: @type)
+      )
+    end
 
     def update
       result = WorkPackageTypes::UpdateService
@@ -46,18 +54,75 @@ module WorkPackageTypes
         .call(permitted_type_params)
 
       if result.success?
-        redirect_to edit_type_form_configuration_path(@type), notice: t(:notice_successful_update)
+        respond_to_update_success
       else
-        flash.now[:error] = result.errors[:attribute_groups].to_sentence
-        render :edit, status: :unprocessable_entity
+        respond_to_update_failure(result)
       end
+    end
+
+    def move
+      call = ::WorkPackageTypes::FormConfigurationRows::UpdateService
+        .new(user: current_user, type: @type, row_key: row_key_param)
+        .call(move_to: params[:move_to])
+
+      handle_row_update_response(call)
+    end
+
+    def drop
+      call = ::WorkPackageTypes::FormConfigurationRows::UpdateService
+        .new(user: current_user, type: @type, row_key: row_key_param)
+        .call(target_id: params[:target_id], position: params[:position])
+
+      handle_row_update_response(call)
+    end
+
+    def destroy
+      call = ::WorkPackageTypes::FormConfigurationRows::DeleteService
+        .new(user: current_user, type: @type, row_key: row_key_param)
+        .call
+
+      handle_row_update_response(call)
     end
 
     private
 
+    def respond_to_update_success
+      respond_to do |format|
+        format.html { redirect_to edit_type_form_configuration_path(@type), notice: t(:notice_successful_update) }
+        format.turbo_stream do
+          update_form_configuration_via_turbo_stream
+          respond_with_turbo_streams
+        end
+      end
+    end
+
+    def respond_to_update_failure(result)
+      respond_to do |format|
+        format.html do
+          flash.now[:error] = result.errors[:attribute_groups].to_sentence
+          render :edit, status: :unprocessable_entity
+        end
+        format.turbo_stream { head :unprocessable_entity }
+      end
+    end
+
+    def handle_row_update_response(call)
+      if call.success?
+        update_form_configuration_via_turbo_stream
+      else
+        render_form_configuration_error(call)
+      end
+
+      respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)
+    end
+
     def find_type
       @type = ::Type.includes(:projects, :custom_fields).find(params[:type_id])
       show_error_not_found unless @type
+    end
+
+    def row_key_param
+      params[:row_key] || params[:id]
     end
 
     def permitted_type_params

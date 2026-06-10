@@ -27,11 +27,11 @@
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 export class DaysDurationDisplayField extends DisplayField {
-  @InjectField() timezoneService:TimezoneService;
+  @LazyInject() timezoneService:TimezoneService;
 
   public get valueString() {
     return this.timezoneService.formattedDuration(this.value, 'days');

@@ -1,0 +1,7 @@
+<%=
+  render(Primer::Beta::Blankslate.new(border: true, test_selector: "type-form-configuration-blankslate")) do |blankslate|
+    blankslate.with_visual_icon(icon: :rows)
+    blankslate.with_heading(tag: :h3) { t("types.edit.form_configuration.blankslate_title") }
+    blankslate.with_description { t("types.edit.form_configuration.blankslate_description") }
+  end
+%>

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { debounceTime, defaultIfEmpty, distinctUntilChanged, map, mapTo, switchMap, take, tap } from 'rxjs/operators';
 import { forkJoin, from, Observable, Subject } from 'rxjs';
 import { ID, Query } from '@datorama/akita';
@@ -71,6 +71,18 @@ export interface INotificationPageQueryParameters {
 @Injectable({ providedIn: 'root' })
 @EffectHandler
 export class IanCenterService extends UntilDestroyedMixin {
+  readonly I18n = inject(I18nService);
+  readonly injector = inject(Injector);
+  readonly resourceService = inject(InAppNotificationsResourceService);
+  readonly actions$ = inject(ActionsService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly toastService = inject(ToastService);
+  readonly urlParams = inject(UrlParamsService);
+  readonly state = inject(StateService);
+  readonly deviceService = inject(DeviceService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly ianBellService = inject(IanBellService);
+
   readonly id = 'ian-center';
 
   readonly store = new IanCenterStore();
@@ -182,19 +194,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   selectedWorkPackage$ = this.urlParams.pathMatching$(/\/details\/(\d+)/);
 
-  constructor(
-    readonly I18n:I18nService,
-    readonly injector:Injector,
-    readonly resourceService:InAppNotificationsResourceService,
-    readonly actions$:ActionsService,
-    readonly apiV3Service:ApiV3Service,
-    readonly toastService:ToastService,
-    readonly urlParams:UrlParamsService,
-    readonly state:StateService,
-    readonly deviceService:DeviceService,
-    readonly pathHelper:PathHelperService,
-    readonly ianBellService:IanBellService,
-  ) {
+  constructor() {
     super();
     this.reload.subscribe();
 

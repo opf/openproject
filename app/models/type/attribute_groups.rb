@@ -190,14 +190,15 @@ module Type::AttributeGroups
       attributes = group[1]
       first_attribute = attributes[0]
       key = group[0]
+      display_name = group[2] if group.length > 2
 
       if first_attribute.is_a?(Query)
-        new_query_group(key, first_attribute)
+        new_query_group(key, first_attribute, display_name:)
       elsif first_attribute.is_a?(Symbol) && Type::QueryGroup.query_attribute?(first_attribute)
         query = Query.find_by(id: Type::QueryGroup.query_attribute_id(first_attribute))
-        new_query_group(key, query)
+        new_query_group(key, query, display_name:)
       else
-        new_attribute_group(key, attributes)
+        new_attribute_group(key, attributes, display_name:)
       end
     end
   end
@@ -213,16 +214,18 @@ module Type::AttributeGroups
                    else
                      group.attributes
                    end
-      [group.key, attributes]
+      result = [group.key, attributes]
+      result << group.display_name if group.display_name.present?
+      result
     end
   end
 
-  def new_attribute_group(key, attributes)
-    Type::AttributeGroup.new(self, key, attributes)
+  def new_attribute_group(key, attributes, display_name: nil)
+    Type::AttributeGroup.new(self, key, attributes, display_name:)
   end
 
-  def new_query_group(key, query)
-    Type::QueryGroup.new(self, key, query)
+  def new_query_group(key, query, display_name: nil)
+    Type::QueryGroup.new(self, key, query, display_name:)
   end
 
   def cleanup_query_groups_queries
@@ -231,7 +234,7 @@ module Type::AttributeGroups
     new_groups = self[:attribute_groups]
     old_groups = attribute_groups_was
 
-    ids = (old_groups.map(&:last).flatten - new_groups.map(&:last).flatten)
+    ids = (old_groups.map { |g| g[1] }.flatten - new_groups.map { |g| g[1] }.flatten)
           .filter_map { |k| ::Type::QueryGroup.query_attribute_id(k) }
 
     Query.where(id: ids).destroy_all

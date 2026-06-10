@@ -36,6 +36,7 @@ fi:
         subject: Aihe
         type: Kustannustyyppi
         labor_budget: Suunnitellut työvoimakustannukset
+        labor_budget_items: Planned labor costs
         material_budget: Suunnitellut yksikkökustannukset
         base_amount: Base amount
       work_package:
@@ -48,6 +49,7 @@ fi:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Budjetti
+      labor_budget_item: Planned labor cost
       material_budget_item: Yksikkö
   activity:
     filter:

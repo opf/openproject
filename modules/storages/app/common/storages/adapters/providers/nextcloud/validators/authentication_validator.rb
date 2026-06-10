@@ -33,7 +33,7 @@ module Storages
     module Providers
       module Nextcloud
         module Validators
-          class AuthenticationValidator < ConnectionValidators::BaseValidatorGroup
+          class AuthenticationValidator < HealthReports::ValidatorGroup
             def self.key = :authentication
 
             def initialize(storage)
@@ -44,7 +44,7 @@ module Storages
             private
 
             def validate
-              @storage.authenticate_via_idp? ? validate_sso : validate_oauth
+              subject.authenticate_via_idp? ? validate_sso : validate_oauth
             end
 
             def validate_oauth
@@ -55,7 +55,7 @@ module Storages
             end
 
             def oauth_token
-              if OAuthClientToken.for_user_and_client(@user, @storage.oauth_client).exists?
+              if OAuthClientToken.for_user_and_client(@user, subject.oauth_client).exists?
                 pass_check(:existing_token)
               else
                 warn_check(:existing_token, :nc_oauth_token_missing, halt_validation: true)
@@ -64,13 +64,13 @@ module Storages
 
             def user_bound_request
               Registry["nextcloud.queries.user"]
-                .call(storage: @storage, auth_strategy:)
+                .call(storage: subject, auth_strategy:)
                 .or { fail_check(:user_bound_request, :"nc_oauth_request_#{it.code}") }
 
               pass_check(:user_bound_request)
             end
 
-            def auth_strategy = Registry["nextcloud.authentication.user_bound"].call(@user, @storage)
+            def auth_strategy = Registry["nextcloud.authentication.user_bound"].call(@user, subject)
 
             def validate_sso
               register_checks(
@@ -107,7 +107,7 @@ module Storages
             end
 
             def provider_capabilities
-              if !@storage.exchanges_token? || @user.authentication_provider.token_exchange_capable?
+              if !subject.exchanges_token? || @user.authentication_provider.token_exchange_capable?
                 pass_check(:provider_capabilities)
               else
                 fail_check(:provider_capabilities, :oidc_provider_cant_exchange)
@@ -115,9 +115,9 @@ module Storages
             end
 
             def token_negotiable
-              service = OpenIDConnect::UserTokens::FetchService.new(user: @user, exchange_scope: @storage.token_exchange_scope)
+              service = OpenIDConnect::UserTokens::FetchService.new(user: @user, exchange_scope: subject.token_exchange_scope)
 
-              result = service.access_token_for(audience: @storage.audience)
+              result = service.access_token_for(audience: subject.audience)
               return pass_check(:token_negotiable) if result.success?
 
               error_code =

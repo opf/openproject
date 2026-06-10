@@ -31,10 +31,8 @@ import { States } from 'core-app/core/states/states.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, inject,
+  ChangeDetectionStrategy, Component, OnInit, inject,
 } from '@angular/core';
 import {
   UntypedFormGroup,
@@ -59,12 +57,9 @@ interface TokenNameFormValue {
   standalone: false,
 })
 export class QueryGetIcalUrlModalComponent extends OpModalComponent implements OnInit {
-  public readonly elementRef = inject(ElementRef);
-  public locals:OpModalLocalsMap = inject(OpModalLocalsToken);
   public readonly I18n = inject(I18nService);
   public readonly states = inject(States);
   public readonly querySpace = inject(IsolatedQuerySpace);
-  public readonly cdRef = inject(ChangeDetectorRef);
   public readonly wpListService = inject(WorkPackagesListService);
   public readonly halNotification = inject(HalResourceNotificationService);
   public readonly toastService = inject(ToastService);
@@ -101,15 +96,6 @@ export class QueryGetIcalUrlModalComponent extends OpModalComponent implements O
 
   get nameControl():AbstractControl|null {
     return this.tokenNameForm.get('name');
-  }
-
-  constructor() {
-    // Pass required deps to the base class using inject()
-    super(
-      inject(OpModalLocalsToken),
-      inject(ChangeDetectorRef),
-      inject(ElementRef),
-    );
   }
 
   ngOnInit():void {

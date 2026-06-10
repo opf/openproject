@@ -45,7 +45,6 @@ RSpec.describe Widget::Filters::WorkPackage do
 
   describe "#map_filter_values" do
     context "in classic mode",
-            with_flag: { semantic_work_package_ids: false },
             with_settings: { work_packages_identifier: "classic" } do
       let(:project) { create(:project) }
 
@@ -61,7 +60,6 @@ RSpec.describe Widget::Filters::WorkPackage do
     end
 
     context "in semantic mode",
-            with_flag: { semantic_work_package_ids: true },
             with_settings: { work_packages_identifier: "semantic" } do
       let(:project) { create(:project, identifier: "MYPROJ") }
 

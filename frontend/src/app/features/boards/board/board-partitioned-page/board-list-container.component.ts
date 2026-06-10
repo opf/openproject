@@ -54,6 +54,24 @@ import { resolveRoutingId } from 'core-app/features/work-packages/helpers/work-p
   standalone: false,
 })
 export class BoardListContainerComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly state = inject(StateService);
+  readonly toastService = inject(ToastService);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly boardComponent = inject(BoardPartitionedPageComponent);
+  readonly BoardList = inject(BoardListsService);
+  readonly boardActionRegistry = inject(BoardActionsRegistryService);
+  readonly opModalService = inject(OpModalService);
+  readonly injector = inject(Injector);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly Boards = inject(BoardService);
+  readonly boardListCrossSelectionService = inject(BoardListCrossSelectionService);
+  readonly Drag = inject(DragAndDropService);
+  readonly apiv3Service = inject(ApiV3Service);
+  readonly QueryUpdated = inject(QueryUpdatedService);
+  readonly pathHelper = inject(PathHelperService);
+  readonly currentProject = inject(CurrentProjectService);
+
   @Input() boardId:string;
   text = {
     delete: this.I18n.t('js.button_delete'),
@@ -95,28 +113,6 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   private currentQueryUpdatedMonitoring:Subscription;
 
   private readonly wpStates = inject(States);
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly state:StateService,
-    readonly toastService:ToastService,
-    readonly halNotification:HalResourceNotificationService,
-    readonly boardComponent:BoardPartitionedPageComponent,
-    readonly BoardList:BoardListsService,
-    readonly boardActionRegistry:BoardActionsRegistryService,
-    readonly opModalService:OpModalService,
-    readonly injector:Injector,
-    readonly apiV3Service:ApiV3Service,
-    readonly Boards:BoardService,
-    readonly boardListCrossSelectionService:BoardListCrossSelectionService,
-    readonly Drag:DragAndDropService,
-    readonly apiv3Service:ApiV3Service,
-    readonly QueryUpdated:QueryUpdatedService,
-    readonly pathHelper:PathHelperService,
-    readonly currentProject:CurrentProjectService,
-) {
-    super();
-  }
 
   ngOnInit():void {
     const id:string = this.boardId || this.state.params.board_id?.toString();

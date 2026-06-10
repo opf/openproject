@@ -1,0 +1,12 @@
+<%= render(
+      OpPrimer::QuickFilter::SelectPanelComponent.new(
+        name: "Project",
+        query: query,
+        filter_key: :project_id,
+        path_args: [:meetings]
+      )
+    ) do |component|
+      Project.visible.each do |project|
+        component.with_item(label: project.name, value: project.id)
+      end
+    end %>

@@ -87,17 +87,17 @@ RSpec.describe "Work Package boards spec", :js, :selenium do
     expect(page).to have_css(".__hl_inline_type_#{type2.id}")
 
     # Highlight whole card by priority
-    board_page.change_board_highlighting "inline", "Priority"
+    board_page.change_board_highlighting "Entire card by", "Priority"
     expect(page).to have_css(".__hl_background_priority_#{priority.id}")
     expect(page).to have_css(".__hl_background_priority_#{priority2.id}")
 
     # Highlight whole card by type
-    board_page.change_board_highlighting "inline", "Type"
+    board_page.change_board_highlighting "Entire card by", "Type"
     expect(page).to have_css(".__hl_background_type_#{type.id}")
     expect(page).to have_css(".__hl_background_type_#{type2.id}")
 
     # Disable highlighting
-    board_page.change_board_highlighting "none"
+    board_page.change_board_highlighting "No highlighting"
     expect(page).to have_no_css(".__hl_background_type_#{type.id}")
     expect(page).to have_no_css(".__hl_background_type_#{type2.id}")
 

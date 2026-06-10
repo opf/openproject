@@ -27,8 +27,7 @@
 //++
 
 import { StateService } from '@uirouter/core';
-import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
-import { Directive, ElementRef, Input } from '@angular/core';
+import { Directive, Input, inject } from '@angular/core';
 import {
   OpContextMenuTrigger
 } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
@@ -56,18 +55,15 @@ import { HalError } from 'core-app/features/hal/services/hal-error';
   standalone: false,
 })
 export class WorkPackageStatusDropdownDirective extends OpContextMenuTrigger {
-  @Input('wpStatusDropdown-workPackage') public workPackage:WorkPackageResource;
+  readonly $state = inject(StateService);
+  protected workPackageNotificationService = inject(WorkPackageNotificationService);
+  protected halEditing = inject(HalResourceEditingService);
+  protected toastService = inject(ToastService);
+  protected I18n = inject(I18nService);
+  protected halEvents = inject(HalEventsService);
 
-  constructor(readonly elementRef:ElementRef,
-    readonly opContextMenu:OPContextMenuService,
-    readonly $state:StateService,
-    protected workPackageNotificationService:WorkPackageNotificationService,
-    protected halEditing:HalResourceEditingService,
-    protected toastService:ToastService,
-    protected I18n:I18nService,
-    protected halEvents:HalEventsService) {
-    super(elementRef, opContextMenu);
-  }
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('wpStatusDropdown-workPackage') public workPackage:WorkPackageResource;
 
   protected open(evt:Event) {
     const change = this.halEditing.changeFor(this.workPackage);

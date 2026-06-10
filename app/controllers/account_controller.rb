@@ -356,10 +356,9 @@ class AccountController < ApplicationController
   end
 
   def direct_login(user)
-    if flash.empty?
-      ps = {}.tap do |p|
-        p[:origin] = params[:back_url] if params[:back_url]
-      end
+    if !flash_message_pending?
+      ps = {}
+      ps[:origin] = params[:back_url] if params[:back_url]
 
       redirect_to direct_login_provider_url(ps)
     elsif Setting.login_required?
@@ -445,6 +444,12 @@ class AccountController < ApplicationController
     flash[:error] = I18n.t(:notice_account_invalid_token)
 
     redirect_to signin_path
+  end
+
+  def flash_message_pending?
+    # confirm that the flash contains a message to be rendered, but ignore
+    # other flash content (such as _csp_appends)
+    flash.keys.map(&:to_s).intersect?(%w[notice warning error])
   end
 
   def apply_csp_appends

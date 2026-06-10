@@ -36,6 +36,7 @@ ro:
         subject: Subiect
         type: Tipul de cost
         labor_budget: Costurile planificate ale forței de muncă
+        labor_budget_items: Planned labor costs
         material_budget: Planificat
         base_amount: Suma de bază
       work_package:
@@ -48,6 +49,7 @@ ro:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Buget
+      labor_budget_item: Planned labor cost
       material_budget_item: Unitate
   activity:
     filter:

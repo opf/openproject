@@ -20,7 +20,7 @@ pt-BR:
       free: Básico
       action: Quadro de ações (%{attribute})
     board_type_attributes:
-      assignee: Atribuição
+      assignee: Responsável
       status: Kanban
       version: Versão
       subproject: Subprojeto

@@ -19,7 +19,6 @@ RSpec.describe WorkPackages::Details::TabComponent, type: :component do
 
   describe "full-screen link" do
     context "in semantic mode",
-            with_flag: { semantic_work_package_ids: true },
             with_settings: { work_packages_identifier: "semantic" } do
       let(:project) { create(:project, identifier: "MYPROJ") }
 
@@ -34,7 +33,6 @@ RSpec.describe WorkPackages::Details::TabComponent, type: :component do
     end
 
     context "in classic mode",
-            with_flag: { semantic_work_package_ids: false },
             with_settings: { work_packages_identifier: "classic" } do
       let(:project) { create(:project, identifier: "myproj") }
 

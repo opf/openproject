@@ -34,31 +34,36 @@ module Wikis
       module Internal
         module Queries
           class PageInfo < BaseQuery
-            def call(input_data)
-              # TODO: should we accept implicit User.current or do we want to pass in a user explicitly?
-              wiki_page = WikiPage.visible.find_by(id: input_data.identifier)
-              return failure(code: :not_found) if wiki_page.nil?
-
-              success(
+            class << self
+              def wiki_page_to_page_info(wiki_page, provider:)
                 Results::PageInfo.new(
-                  identifier: input_data.identifier,
-                  provider:,
+                  identifier: wiki_page.id.to_s,
                   title: wiki_page.title,
+                  provider:,
                   href: url_for(only_path: true,
                                 controller: "/wiki",
                                 action: "show",
                                 project_id: wiki_page.project.identifier,
                                 id: wiki_page.slug)
                 )
-              )
+              end
+
+              private
+
+              delegate :url_for, to: :url_helpers
+
+              def url_helpers
+                @url_helpers ||= OpenProject::StaticRouting::StaticRouter.new.url_helpers
+              end
             end
 
-            private
+            def call(input_data:, auth_strategy:)
+              Adapters::Authentication[auth_strategy].call do |user|
+                wiki_page = WikiPage.visible(user).find_by(id: input_data.identifier)
+                return failure(code: :not_found) if wiki_page.nil?
 
-            delegate :url_for, to: :url_helpers
-
-            def url_helpers
-              OpenProject::StaticRouting::StaticRouter.new.url_helpers
+                success(self.class.wiki_page_to_page_info(wiki_page, provider:))
+              end
             end
           end
         end

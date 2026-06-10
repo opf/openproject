@@ -25,6 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
+@import mixins
 
 a
   text-decoration: var(--link-text-decoration)
@@ -129,3 +130,6 @@ a
 
 .-error-font
   color: var(--content-form-error-color) !important
+
+:focus-visible
+  @include focus

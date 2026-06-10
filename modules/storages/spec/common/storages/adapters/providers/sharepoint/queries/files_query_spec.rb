@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Queries
-          RSpec.describe FilesQuery, :webmock do
+          RSpec.describe FilesQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:admin) }
             let(:storage) { create(:sharepoint_storage, :sandbox, oauth_client_token_user: user) }
 

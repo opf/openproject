@@ -49,7 +49,7 @@ gem 'stackprof'
 Start thin via:
 
 ```shell
-SECRET_KEY_BASE='abcd' RAILS_ENV=production CUSTOM_PLUGIN_GEMFILE=gemfile.profiling OPENPROJECT_RACK_PROFILER_ENABLED=true thin start
+SECRET_KEY_BASE="$(openssl rand -hex 64)" RAILS_ENV=production CUSTOM_PLUGIN_GEMFILE=gemfile.profiling OPENPROJECT_RACK_PROFILER_ENABLED=true thin start
 ```
 
 ## Using the profiling tools

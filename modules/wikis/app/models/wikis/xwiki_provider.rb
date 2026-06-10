@@ -45,11 +45,34 @@ module Wikis
 
     class << self
       def registry_prefix = "xwiki"
-      def generate_client_id = SecureRandom.uuid
+      def generate_client_id = "openproject-#{SecureRandom.hex(8)}"
+      def generate_client_secret = SecureRandom.alphanumeric(32)
+    end
+
+    def configured?
+      url.present? &&
+        oauth_client.present? &&
+        oauth_application.present?
+    end
+
+    def non_confidential_configuration
+      super.merge(
+        url:,
+        oauth_client_id: oauth_client&.client_id,
+        oauth_application_client_id: oauth_application&.uid
+      )
+    end
+
+    def user_connected?(user)
+      return true if oauth_client.blank?
+
+      OAuthClientToken.for_user_and_client(user, oauth_client).exists?
     end
 
     def extract_origin_user_id(token)
-      resolve("queries.user").call(Wikis::Adapters::Input::UserQuery.new(access_token: token.access_token))
+      auth_strategy_for(token.user).bind do |auth_strategy|
+        resolve("queries.user").call(auth_strategy:)
+      end
     end
 
     def authenticate_via_two_way_oauth2?

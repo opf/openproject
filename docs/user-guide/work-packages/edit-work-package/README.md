@@ -116,6 +116,9 @@ Starting with OpenProject 13.0 you can add emojis to all text editors. Type a co
 
 ![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
 
+### Linking work packages
+To learn more about how to link work packages within the text editor, please consult this page [Rich text editor in OpenProject](../../wysiwyg/).
+
 ## Attach files to work packages
 
 > [!IMPORTANT]
@@ -196,7 +199,7 @@ It is also possible to add oneself as watcher (if you have sufficient permission
 ### How to remove watchers from a work package
 
 To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#full-screen-view) and select the *Watchers* tab. Hover over the name of the watcher you want to remove and click the cross icon next to the watcher name.
-The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../user-guide/account-settings/#notifications-settings) for more information.
+The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../user-guide/account-settings/#notification-settings) for more information.
 
 ![Remove watchers from OpenProject work packages](openproject_user_guide_wp_watchers_remove.png)
 

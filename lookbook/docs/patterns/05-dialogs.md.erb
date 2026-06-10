@@ -23,6 +23,20 @@ end
 %>
 ```
 
+By default, the trigger element is disabled (via `aria-disabled`) while the request is in flight, preventing double-clicks from opening the dialog twice. This is especially useful when the dialog content is expensive to render. To opt out of this behaviour, set the `data-async-dialog-disable-during-load-value` attribute to `false`:
+
+```erb
+<%%= render(Primer::Beta::Button.new(
+  tag: :a,
+  href: link_to_dialog_path,
+  data: { controller: "async-dialog", async_dialog_disable_during_load_value: false }
+)) do |button|
+  button.with_leading_visual_icon(icon: :edit)
+  "Edit something"
+end
+%>
+```
+
 On the Rails controller you wish to render the dialog, you need to respond to the request with the dialog content.
 The async-controller stimulus controller will ensure that a loading progress bar will be shown on the top of the page.
 

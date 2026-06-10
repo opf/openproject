@@ -1,24 +1,19 @@
-import {
-  AfterViewChecked,
-  Directive,
-  ElementRef,
-  Input,
-} from '@angular/core';
+import { AfterViewChecked, Directive, ElementRef, Input, inject } from '@angular/core';
 
 @Directive({
   selector: '[opSearchHighlight]',
   standalone: false,
 })
 export class OpSearchHighlightDirective implements AfterViewChecked {
-  @Input('opSearchHighlight') public query = '';
+  readonly elementRef = inject(ElementRef);
 
-  constructor(readonly elementRef:ElementRef) { }
+  @Input('opSearchHighlight') public query = '';
 
   ngAfterViewChecked():void {
     let el = this.elementRef.nativeElement as HTMLElement;
     const highlightedElement = el.querySelector('.op-search-highlight');
 
-    if (!!highlightedElement && this.query && highlightedElement.innerHTML.toLocaleLowerCase() === this.query.toLocaleLowerCase()) {
+    if (!!highlightedElement && highlightedElement.innerHTML.toLocaleLowerCase() === this.query?.toLocaleLowerCase()) {
       return;
     }
 

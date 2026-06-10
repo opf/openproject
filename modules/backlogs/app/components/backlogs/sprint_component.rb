@@ -31,30 +31,23 @@
 module Backlogs
   class SprintComponent < ApplicationComponent
     include Primer::AttributesHelper
+    include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
+    include Redmine::I18n
 
-    attr_reader :sprint, :project, :stories, :current_user, :active_sprint_ids
+    attr_reader :sprint, :project, :work_packages, :current_user, :active_sprint_ids
 
-    def initialize(sprint:, project:, stories: nil, current_user: User.current,
-                   active_sprint_ids: nil, **system_arguments)
+    def initialize(sprint:, project:, work_packages: nil, current_user: User.current,
+                   active_sprint_ids: nil)
       super()
 
       @sprint = sprint
       @project = project
       @current_user = current_user
       @active_sprint_ids = active_sprint_ids
-      @stories = stories || sprint.work_packages_for(project).includes(:status, :type)
-
-      @system_arguments = system_arguments
-      @system_arguments[:id] = dom_id(sprint)
-      @system_arguments[:list_id] = "#{@system_arguments[:id]}-list"
-      @system_arguments[:padding] = :condensed
-      @system_arguments[:data] = merge_data(
-        @system_arguments,
-        { data: drop_target_config },
-        { data: { test_selector: "sprint-#{sprint.id}" } }
-      )
+      @work_packages = work_packages || sprint.work_packages_for(project)
+                                              .includes(:status, :type, :assigned_to, :priority, :parent)
     end
 
     def wrapper_uniq_by
@@ -63,69 +56,69 @@ module Backlogs
 
     private
 
-    def folded?
-      current_user.pref[:backlogs_versions_default_fold_state] == "closed"
+    def show_start_sprint_action?
+      sprint.in_planning? && ::Backlogs::Sprints::StartContract.can_start?(user: current_user, sprint:, project:)
     end
 
-    def drop_target_config
+    def show_finish_sprint_action?
+      sprint.active? && ::Backlogs::Sprints::StartContract.can_start_or_complete?(user: current_user, sprint:)
+    end
+
+    def disable_start_sprint_action?
+      sprint.in_planning? && (!sprint.date_range_set? || project_has_another_active_sprint?)
+    end
+
+    def start_sprint_button_arguments
+      base_arguments = { id: dom_target(sprint, :start_button) }
+
+      if disable_start_sprint_action?
+        base_arguments.merge(tag: :button, inactive: true, aria: { disabled: true })
+      else
+        base_arguments.merge(
+          tag: :a,
+          href: start_project_backlogs_sprint_path(project, sprint),
+          data: { turbo_method: :post }
+        )
+      end
+    end
+
+    def finish_sprint_button_arguments
       {
-        generic_drag_and_drop_target: "container",
-        target_container_accessor: ":scope > ul",
-        target_id: "sprint:#{sprint.id}",
-        target_allowed_drag_type: "story"
+        id: dom_target(sprint, :finish_button),
+        tag: :a,
+        href: finish_project_backlogs_sprint_path(project, sprint, all_backlogs_params),
+        data: { turbo_method: :post }
       }
     end
 
-    def story_classes_attribute
-      class_names(
-        "Box-row--hover-blue",
-        "Box-row--focus-gray",
-        "Box-row--clickable",
-        "Box-row--draggable": work_package_draggable?
-      )
+    def story_points_total
+      work_packages.filter_map(&:story_points).sum
     end
 
-    def story_data_attribute(story)
-      draggable_item_config(story).merge(
-        story: true,
-        controller: "backlogs--story",
-        backlogs__story_id_value: story.id,
-        backlogs__story_display_id_value: story.display_id,
-        backlogs__story_split_url_value: split_url(story),
-        backlogs__story_full_url_value: full_url(story),
-        backlogs__story_selected_class: "Box-row--blue",
-        test_selector: card_test_selector(story)
-      )
+    def project_has_another_active_sprint?
+      (resolved_active_sprint_ids - [sprint.id]).any?
     end
 
-    def draggable_item_config(story)
-      return {} unless work_package_draggable?
+    def start_sprint_disabled_reason
+      return unless disable_start_sprint_action?
 
-      {
-        draggable_id: story.id,
-        draggable_type: "story",
-        drop_url: drop_url(story)
-      }
+      if sprint.date_range_set?
+        t(".start_sprint_disabled_reason_active_sprint")
+      else
+        t(".start_sprint_disabled_reason_missing_dates")
+      end
     end
 
-    def drop_url(story)
-      move_project_backlogs_work_package_path(project, sprint, story, all_backlogs_params)
+    def resolved_active_sprint_ids
+      active_sprint_ids || Sprint.for_project(sprint.project).active.pluck(:id)
     end
 
-    def split_url(story)
-      project_backlogs_backlog_details_path(project, story, all_backlogs_params)
+    def show_task_board_link?
+      sprint.task_board_for(project).present?
     end
 
-    def full_url(story)
-      work_package_path(story)
-    end
-
-    def card_test_selector(story)
-      "work-package-#{story.id}"
-    end
-
-    def work_package_draggable?
-      current_user.allowed_in_project?(:manage_sprint_items, project)
+    def show_burndown_link?
+      sprint.active?
     end
   end
 end

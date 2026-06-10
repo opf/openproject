@@ -41,20 +41,12 @@ export class TimeEntriesCurrentUserConfigurationModalService {
   }
 
   getOriginalIndex(offsetToApply:number, currentIndex:number, arrayLength:number):number {
-    let originalIndex = currentIndex + offsetToApply;
-
-    if (originalIndex < 0) {
-      originalIndex = arrayLength - 1;
-    } else if (originalIndex >= arrayLength) {
-      originalIndex = 0;
-    }
-
-    return originalIndex;
+    return ((currentIndex + offsetToApply) % arrayLength + arrayLength) % arrayLength;
   }
 
   getCheckedValuesInOriginalOrder(days:IDayData[]) {
     const configuredDays = days
-      .sort((a, b) => (a.originalIndex < b.originalIndex ? -1 : 1))
+      .sort((a, b) => a.originalIndex - b.originalIndex)
       .map((localeDayData) => localeDayData.checked);
 
     return this.validDays(configuredDays as DisplayedDays);

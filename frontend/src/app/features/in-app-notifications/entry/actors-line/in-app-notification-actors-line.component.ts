@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { INotification } from 'core-app/core/state/in-app-notifications/in-app-notification.model';
@@ -13,6 +13,9 @@ import { PrincipalLike } from 'core-app/shared/components/principal/principal-ty
   standalone: false,
 })
 export class InAppNotificationActorsLineComponent implements OnInit {
+  readonly deviceService = inject(DeviceService);
+  private I18n = inject(I18nService);
+
   @HostBinding('class.op-ian-actors') className = true;
 
   @Input() aggregatedNotifications:INotification[];
@@ -33,11 +36,6 @@ export class InAppNotificationActorsLineComponent implements OnInit {
     placeholder: this.I18n.t('js.placeholders.default'),
     mark_as_read: this.I18n.t('js.notifications.center.mark_as_read'),
   };
-
-  constructor(
-    readonly deviceService:DeviceService,
-    private I18n:I18nService,
-  ) { }
 
   ngOnInit():void {
     // Don't show the actor if the first item is actor-less (date alert)

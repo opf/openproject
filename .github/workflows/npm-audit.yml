@@ -1,0 +1,224 @@
+name: npm audit fix
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "23 4 * * 1"
+
+env:
+  BASE_BRANCH: dev
+  BRANCH_PREFIX: npm-audit-fix
+
+permissions: {}
+
+concurrency:
+  group: npm-audit-fix
+  cancel-in-progress: false
+
+jobs:
+  audit-fix:
+    name: npm audit fix
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    if: github.repository == 'opf/openproject' && (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+
+    permissions:
+      contents: write # for git push
+      pull-requests: write # for creating pull requests
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+        with:
+          ref: ${{ env.BASE_BRANCH }}
+          token: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: '22.21'
+          package-manager-cache: false
+
+      - name: Required git config
+        run: |
+          git config user.name "OpenProject Actions CI"
+          git config user.email "operations+ci@openproject.com"
+
+      - name: Run npm audit fix
+        id: audit_fix
+        run: |
+          set -euo pipefail
+
+          mkdir -p reports
+
+          print_audit_report() {
+            local report="$1"
+            local label="$2"
+
+            node - "$report" "$label" <<'NODE'
+          const fs = require('fs');
+
+          const reportPath = process.argv[2];
+          const label = process.argv[3];
+          const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+          const vulnerabilities = Object.entries(report.vulnerabilities || {});
+          const counts = report.metadata?.vulnerabilities || {};
+
+          console.log(`${label}: ${vulnerabilities.length} vulnerable package(s)`);
+          console.log(`severity counts: ${JSON.stringify(counts)}`);
+
+          for (const [name, details] of vulnerabilities) {
+            const via = (details.via || [])
+              .map((finding) => typeof finding === 'string' ? finding : finding.title)
+              .filter(Boolean)
+              .join('; ');
+
+            console.log([
+              `- ${name}`,
+              `severity: ${details.severity}`,
+              `range: ${details.range || 'n/a'}`,
+              `fixAvailable: ${JSON.stringify(details.fixAvailable)}`,
+              via ? `via: ${via}` : null
+            ].filter(Boolean).join(' | '));
+          }
+          NODE
+          }
+
+          run_for_package() {
+            local name="$1"
+            local directory="$2"
+            local before_report="$GITHUB_WORKSPACE/reports/npm-audit-${name}-before.json"
+            local after_report="$GITHUB_WORKSPACE/reports/npm-audit-${name}-after.json"
+
+            echo "::group::npm audit before fix (${name})"
+            set +e
+            npm --prefix "$directory" audit --audit-level=high --json > "$before_report"
+            audit_before_exit=$?
+            set -e
+            print_audit_report "$before_report" "${name} before fix"
+            echo "npm audit before fix exited with ${audit_before_exit}"
+            echo "::endgroup::"
+
+            echo "::group::npm audit fix (${name})"
+            set +e
+            npm --prefix "$directory" audit fix --package-lock-only --ignore-scripts --audit-level=high
+            audit_fix_exit=$?
+            set -e
+            echo "npm audit fix exited with ${audit_fix_exit}"
+            echo "::endgroup::"
+
+            echo "::group::npm audit after fix (${name})"
+            set +e
+            npm --prefix "$directory" audit --audit-level=high --json > "$after_report"
+            audit_after_exit=$?
+            set -e
+            print_audit_report "$after_report" "${name} after fix"
+            echo "npm audit after fix exited with ${audit_after_exit}"
+            echo "::endgroup::"
+          }
+
+          run_for_package root .
+          run_for_package frontend frontend
+
+          if git diff --quiet -- package.json package-lock.json frontend/package.json frontend/package-lock.json; then
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+            echo "npm audit fix produced no package or lockfile changes."
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+            echo "npm audit fix produced package or lockfile changes."
+          fi
+
+      - name: Show diff
+        if: steps.audit_fix.outputs.has_changes == 'true'
+        run: git diff -- package.json package-lock.json frontend/package.json frontend/package-lock.json
+
+      - name: Create pull request
+        if: steps.audit_fix.outputs.has_changes == 'true'
+        env:
+          GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
+        run: |
+          set -euo pipefail
+
+          pr_numbers=$(gh pr list \
+            --base "$BASE_BRANCH" \
+            --state open \
+            --limit 100 \
+            --json number,headRefName \
+            --jq '.[] | select(.headRefName | startswith("'"$BRANCH_PREFIX"'-")) | .number')
+
+          for pr_number in $pr_numbers; do
+            gh pr close "$pr_number" --delete-branch
+          done
+
+          pr_body_file=$(mktemp)
+
+          {
+            echo 'Created by GitHub action.'
+            echo
+            echo '## Impacted packages'
+          } > "$pr_body_file"
+
+          node <<'NODE' >> "$pr_body_file"
+          const fs = require('fs');
+
+          const reports = [
+            ['root', 'reports/npm-audit-root-before.json'],
+            ['frontend', 'reports/npm-audit-frontend-before.json']
+          ];
+          let foundPackages = false;
+
+          for (const [label, reportPath] of reports) {
+            if (!fs.existsSync(reportPath)) {
+              continue;
+            }
+
+            const report = JSON.parse(fs.readFileSync(reportPath, 'utf8'));
+            const vulnerabilities = Object.entries(report.vulnerabilities || {})
+              .sort(([left], [right]) => left.localeCompare(right));
+
+            if (vulnerabilities.length === 0) {
+              continue;
+            }
+
+            foundPackages = true;
+            console.log('');
+            console.log(`### ${label}`);
+
+            for (const [name, details] of vulnerabilities) {
+              console.log(`- \`${name}\` (${details.severity})`);
+            }
+          }
+
+          if (!foundPackages) {
+            console.log('');
+            console.log('No vulnerable packages were reported before the fix.');
+          }
+          NODE
+
+          {
+            for pr_number in $pr_numbers; do
+              if [ "$pr_number" = "$(echo "$pr_numbers" | head -1)" ]; then
+                echo
+                echo '## Replaced PRs'
+                echo
+              fi
+              echo "Replaces #$pr_number"
+            done
+          } >> "$pr_body_file"
+
+          temp_branch="$BRANCH_PREFIX-$(date "+%Y%m%d%H%M%S")"
+
+          git switch -c "$temp_branch"
+          git add package.json package-lock.json frontend/package.json frontend/package-lock.json
+          git commit -m "Run npm audit fix"
+          gh auth setup-git
+          git push origin "$temp_branch"
+
+          gh pr create \
+            --base "$BASE_BRANCH" \
+            --head "$temp_branch" \
+            --title "Run npm audit fix" \
+            --body-file "$pr_body_file"
+
+          echo "Created a PR with npm audit fixes (${temp_branch}) against ${BASE_BRANCH}"

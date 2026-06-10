@@ -14,13 +14,13 @@ import {
 import { indicatorCollapsedClass } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/hierarchy/single-hierarchy-row-builder';
 import { tableRowClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/rows/single-row-builder';
 import { WorkPackageViewHierarchies } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-table-hierarchies';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { getNodeIndex } from 'core-app/shared/helpers/dom-helpers';
 
 export class HierarchyTransformer {
-  @InjectField() public wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @LazyInject() public wpTableHierarchies:WorkPackageViewHierarchiesService;
 
-  @InjectField() public querySpace:IsolatedQuerySpace;
+  @LazyInject() public querySpace:IsolatedQuerySpace;
 
   constructor(public readonly injector:Injector,
     table:WorkPackageTable) {

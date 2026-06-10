@@ -54,12 +54,15 @@ module Meetings
       return unless User.current.logged?
 
       my_meetings_href = polymorphic_path([project, :meetings])
+      filters = params[:filters].to_s
       menu_item(title: I18n.t(:label_my_meetings),
-                selected: params[:current_href] == my_meetings_href && params[:filters].blank?)
+                selected: params[:current_href] == my_meetings_href &&
+                  (filters.blank? || (filters.include?("invited_user_id") && filters.exclude?('"*"'))))
     end
 
     def templates_menu_item
       return unless User.current.logged?
+      return unless can_create_meetings?
 
       templates_href = if project
                          templates_project_meetings_path(project)
@@ -125,7 +128,6 @@ module Meetings
 
     def involvement_sidebar_menu_items
       [
-        invitations_menu_item,
         attended_menu_item,
         created_by_me_menu_item
       ]
@@ -139,15 +141,11 @@ module Meetings
       end
     end
 
-    def past_filter
-      [
-        { time: { operator: "=", values: ["past"] } },
-        { invited_user_id: { operator: "=", values: [User.current.id.to_s] } }
-      ].to_json
-    end
-
     def attendee_filter
-      [{ attended_user_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
+      [
+        { attended_user_id: { operator: "=", values: [User.current.id.to_s] } },
+        { time: { operator: "=", values: ["past"] } }
+      ].to_json
     end
 
     def author_filter
@@ -174,19 +172,10 @@ module Meetings
 
     private
 
-    def invitations_menu_item
-      invitation_filter = [{ invited_user_id: { operator: "=", values: [User.current.id.to_s] } }].to_json
-      menu_item(
-        title: I18n.t(:label_invitations),
-        query_params: { filters: invitation_filter, sort: "start_time" },
-        selected: params[:filters].to_s.include?("invited_user_id")
-      )
-    end
-
     def attended_menu_item
       menu_item(
         title: I18n.t(:label_attended),
-        query_params: { filters: attendee_filter, upcoming: false },
+        query_params: { filters: attendee_filter },
         selected: params[:filters].to_s.include?("attended_user_id")
       )
     end
@@ -197,6 +186,14 @@ module Meetings
         query_params: { filters: author_filter },
         selected: params[:filters].to_s.include?("author_id")
       )
+    end
+
+    def can_create_meetings?
+      if project
+        User.current.allowed_in_project?(:create_meetings, project)
+      else
+        User.current.allowed_in_any_project?(:create_meetings)
+      end
     end
   end
 end

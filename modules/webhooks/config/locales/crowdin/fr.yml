@@ -37,7 +37,7 @@ fr:
         updated: Mis à jour
         comment: Commentaire
         internal_comment: Commentaire interne
-      explanation_html: 'Lors de l''occurrence d''un événement comme la création d''un lot de travail ou une mise à jour de projet, OpenProject enverra une requête POST aux points de terminaison web configurés. Souvent, l''événement est envoyé après que la [période d''agrégation configurée] (aggregation_path) se soit écoulée.
+      explanation_html: 'Lors de l''occurrence d''un événement comme la création d''un lot de travaux ou une mise à jour de projet, OpenProject envoie une requête POST aux points de terminaison web configurés. Souvent, l''événement est envoyé au terme de la [période d''agrégation configurée](aggregation_path).
 
         '
       status:

@@ -45,12 +45,12 @@ module Storages
       end
 
       def show
-        @report = Rails.cache.read(validator.report_cache_key)
+        @report = @storage.health_reports.order(created_at: :asc).last
 
         respond_to do |format|
           format.html
           format.text do
-            timestamp = (@report&.latest_timestamp || Time.zone.now).iso8601
+            timestamp = (@report&.created_at || Time.zone.now).iso8601
             filename = "#{@storage.name.underscore}_health_report_#{timestamp}.txt"
             send_data text_report(timestamp), filename:, type: "text/plain", disposition: :attachment
           end
@@ -58,13 +58,13 @@ module Storages
       end
 
       def create
-        create_and_cache_report
+        create_and_store_report
 
         redirect_to admin_settings_storage_health_status_report_path(@storage), status: :see_other
       end
 
       def create_health_status_report
-        report = create_and_cache_report
+        report = create_and_store_report
 
         update_via_turbo_stream(component: SidePanel::ValidationResultComponent.new(storage: @storage, result: report))
         respond_to_with_turbo_streams
@@ -77,18 +77,18 @@ module Storages
           storage: @storage.name,
           storage_type: @storage.to_s,
           configuration: @storage.non_confidential_configuration,
-          ran_at: timestamp
-        }.merge(@report.to_h).to_yaml(stringify_names: true)
+          ran_at: timestamp,
+          results: @report ? @report.results.map(&:to_h) : []
+        }.to_yaml(stringify_names: true)
       end
 
       def find_storage
         @storage = ::Storages::Storage.visible.find(params[:storage_id])
       end
 
-      def create_and_cache_report
+      def create_and_store_report
         report = validator.call
-        Rails.cache.write(validator.report_cache_key, report, expires_in: 6.hours)
-
+        report.save!
         report
       end
 

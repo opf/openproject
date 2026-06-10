@@ -26,13 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 import { StateService, UIRouterGlobals } from '@uirouter/core';
 import { from, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import {
   SelectAutocompleterRegisterService,
 } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-autocompleter-register.service';
@@ -57,17 +56,17 @@ export interface ValueOption {
   standalone: false,
 })
 export class SelectEditFieldComponent extends EditFieldComponent implements OnInit {
-  @InjectField() selectAutocompleterRegister:SelectAutocompleterRegisterService;
+  readonly selectAutocompleterRegister = inject(SelectAutocompleterRegisterService);
 
-  @InjectField() halNotification:HalResourceNotificationService;
+  readonly halNotification = inject(HalResourceNotificationService);
 
-  @InjectField() halSorting:HalResourceSortingService;
+  readonly halSorting = inject(HalResourceSortingService);
 
-  @InjectField() $state:StateService;
+  readonly $state = inject(StateService);
 
-  @InjectField() uiRouterGlobals:UIRouterGlobals;
+  readonly uiRouterGlobals = inject(UIRouterGlobals);
 
-  @InjectField(EditFormComponent, null, { optional: true }) editFormComponent:EditFormComponent;
+  readonly editFormComponent = inject(EditFormComponent, { optional: true });
 
   public availableOptions:any[];
 
@@ -129,7 +128,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
           });
       });
 
-    this._syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent?.editMode);
+    this.syncUrlParamsOnChangeIfNeeded(this.handler.fieldName, this.editFormComponent?.editMode);
   }
 
   protected initialize() {
@@ -303,7 +302,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     return _.find(this.availableOptions, (el) => el.name === this.text.placeholder);
   }
 
-  private _syncUrlParamsOnChangeIfNeeded(fieldName:string, editMode:boolean) {
+  private syncUrlParamsOnChangeIfNeeded(fieldName:string, editMode?:boolean) {
     // Work package type changes need to be synced with the type url param
     // in order to keep the form changes (changeset) between route/state changes
     if (fieldName === 'type' && editMode) {

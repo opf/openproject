@@ -49,6 +49,14 @@ RSpec.describe Backlogs::SprintsController do
     }
 
     it {
+      expect(get("/projects/project_42/backlogs/sprints")).to route_to(
+        controller: "backlogs/sprints",
+        action: "index",
+        project_id: "project_42"
+      )
+    }
+
+    it {
       expect(post("/projects/project_42/backlogs/sprints")).to route_to(
         controller: "backlogs/sprints",
         action: "create",

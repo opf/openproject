@@ -221,4 +221,30 @@ RSpec.describe ApplicationController do
       end
     end
   end
+
+  describe "#require_login redirect target", with_settings: { login_required: true } do
+    before do
+      allow(controller).to receive(:current_user).and_return(User.anonymous)
+    end
+
+    context "when back_url points to home" do
+      it "redirects to signin without back_url" do
+        allow(controller).to receive(:login_back_url).and_return(controller.home_url)
+
+        get :index
+
+        expect(response).to redirect_to(signin_path)
+      end
+    end
+
+    context "when back_url points to another page" do
+      it "redirects to signin with back_url" do
+        allow(controller).to receive(:login_back_url).and_return("http://test.host/projects")
+
+        get :index
+
+        expect(response).to redirect_to(signin_path(back_url: "http://test.host/projects"))
+      end
+    end
+  end
 end

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
@@ -34,10 +34,9 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   providedIn: 'root',
 })
 export class CopyToClipboardService {
-  constructor(
-    readonly toastService:ToastService,
-    readonly I18n:I18nService,
-  ) { }
+  readonly toastService = inject(ToastService);
+  readonly I18n = inject(I18nService);
+
 
   copy(content:string, successMessage?:string) {
     if (!navigator.clipboard) {

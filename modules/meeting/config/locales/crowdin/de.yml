@@ -39,6 +39,8 @@ de:
           other: "%{count} Teilnehmer"
         participants_attended: Anwesend
         participants_invited: Eingeladen
+        participants_added: 'Hinzugefügte Teilnehmer:'
+        participants_removed: 'Entfernte Teilnehmer:'
         project: Projekt
         start_date: Datum
         start_time: Startzeit
@@ -64,6 +66,9 @@ de:
         title: Titel
         frequency: Häufigkeit
         interval: Intervall
+        monthly_day: Tag im Monat
+        monthly_ordinal: Position
+        monthly_weekday: Wochentag
         start_date: Startet am
         start_time: Startdatum
         start_time_hour: Uhrzeit
@@ -210,6 +215,7 @@ de:
   label_time_zone: Zeitzone
   label_start_date: Beginn
   label_subscribe_icalendar: Im Kalender abonnieren
+  label_recurring_filter: Wiederkehrender Filter
   caption_meeting_template_select: Wählen Sie eine Vorlage, um deren Tagesordnungspunkte automatisch zu kopieren
   caption_template_project_select: Bitte wählen Sie das Projekt aus, in dem Sie diese Besprechungsvorlage erstellen möchten
   placeholder_meeting_template_select_project_first: Wählen Sie zuerst ein Projekt aus
@@ -272,16 +278,6 @@ de:
         summary_series: Terminserie '%{title}' wurde von %{actor} gelöscht, oder Sie wurden als Teilnehmer entfernt
         summary: "'%{title}' wurde von %{actor} abgesagt, oder Sie wurden als Teilnehmer entfernt"
         date_time: Geplanter Zeitpunkt
-      participant_added:
-        header: Besprechung '%{title}' - Teilnehmer hinzugefügt
-        header_series: Terminserie '%{title}' - Teilnehmer hinzugefügt
-        summary: "%{actor} hat %{participant} zur Besprechung '%{title}' hinzugefügt"
-        summary_series: "%{actor} hat %{participant} zur Terminserie '%{title}' hinzugefügt"
-      participant_removed:
-        header: Besprechung '%{title}' - Teilnehmer entfernt
-        header_series: Terminserie '%{title}' - Teilnehmer hinzugefügt
-        summary: "%{actor} hat %{participant} aus Besprechung '%{title}' entfernt"
-        summary_series: "%{actor} hat %{participant} aus Terminserie '%{title}' entfernt"
       ended:
         header_series: 'Beendet: Terminserie ''%{title}'''
         summary_series: Die Terminserie '%{title}' wurde von %{actor} beendet
@@ -295,6 +291,8 @@ de:
         new_date_time: Neue(s) Datum/Zeit
         old_location: Alter Ort
         new_location: Neuer Ort
+        added_participants: Hinzugefügt
+        removed_participants: Entfernt
     label_mail_all_participants: E-Mail Einladung an alle Teilnehmenden versenden
     types:
       one_time: Einmalig
@@ -323,6 +321,13 @@ de:
 
           '
         confirm_button: Besprechung absagen
+      occurrence_past:
+        title: Besprechung löschen
+        heading: Dieses Vorkommen löschen?
+        confirmation_message_html: 'Diese Aktion kann nicht rückgängig gemacht werden. Bitte prüfen Sie die Angaben, bevor Sie fortfahren.
+
+          '
+        confirm_button: Besprechung löschen
     blankslate:
       title: Es sind keine Besprechungen vorhanden
       desc: Sie können eine neue Besprechung erstellen oder Filterkriterien ändern
@@ -369,58 +374,22 @@ de:
         caption: Dieser Text wird auf jeder Seite in der Mitte der Fußzeile angezeigt.
       submit_button: Download
     notifications:
+      disabled: Die Teilnehmenden erhalten keine E-Mail, die sie über Änderungen des Datums, der Uhrzeit oder der Teilnehmer der Besprechung informiert.
+      enabled: Alle Teilnehmer erhalten aktualisierte Kalendereinladungen, die sie über Änderungen von Datum, Uhrzeit oder Teilnehmerliste informieren.
       sidepanel:
         title: E-Mail-Kalender-Aktualisierungen
         description:
-          disabled: Teilnehmende erhalten keine E-Mail bei Änderungen an der Besprechung.
-          enabled: Alle Teilnehmenden erhalten aktualisierte Kalendereinladungen per E-Mail bei wesentlichen Änderungen der Besprechung.
           change_via_template: Bearbeiten Sie die Vorlage der Terminserie, um diese Einstellung zu ändern.
       dialog:
         title:
           enable: E-Mail-Kalender-Aktualisierungen aktivieren?
           disable: E-Mail-Kalender-Aktualisierungen deaktivieren?
         message:
-          enable: 'Alle Teilnehmenden erhalten aktualisierte Kalendereinladungen per E-Mail, wenn sich das Datum, die Uhrzeit, der Ort oder die Teilnehmenden der Besprechung geändert haben. Sobald die Funktion aktiviert ist, wird sofort eine E-Mail an alle Teilnehmenden gesendet.
-
-            '
-          disable: 'Teilnehmende erhalten keine aktualisierten Kalendereinladungen mehr per E-Mail, wenn sich Datum, Uhrzeit, Ort oder Teilnehmende der Besprechung ändern. Wenn sie bereits eine Einladung für diese Besprechung erhalten haben, wird diese nicht mehr aktualisiert und könnte veraltete Informationen enthalten.
-
-            '
+          enable: Nach der Aktivierung wird sofort eine E-Mail an alle Teilnehmer verschickt.
+          disable: Wenn sie bereits eine Einladung für dieses Treffen hatten, ist diese möglicherweise nicht mehr korrekt.
         confirm_label:
           enable: E-Mail-Aktualisierungen aktivieren
           disable: E-Mail-Aktualisierungen deaktivieren
-      banner:
-        participants:
-          enabled: 'Alle Teilnehmenden erhalten aktualisierte Kalendereinladungen per E-Mail, wenn Sie Teilnehmende hinzufügen oder entfernen.
-
-            '
-          disabled: 'E-Mail-Benachrichtigungen zu Kalenderänderungen sind deaktiviert. Die Teilnehmenden erhalten keine E-Mail, wenn Sie Teilnehmende hinzufügen oder entfernen.
-
-            '
-          draft_disabled: 'Die Teilnehmer erhalten keine E-Mail, die sie über Änderungen des Datums, der Uhrzeit oder der Teilnehmer der Besprechung informiert.
-
-            '
-        onetime:
-          enabled: 'Alle Teilnehmenden erhalten aktualisierte Kalendereinladungen per E-Mail, wenn Sie Teilnehmende hinzufügen oder entfernen.
-
-            '
-          disabled: 'Die Teilnehmended erhalten keine E-Mail, die sie über Änderungen des Datums, der Uhrzeit oder der Teilnehmer der Besprechung informiert.
-
-            '
-        occurrence:
-          enabled: 'E-Mail-Kalenderaktualisierungen sind für die Terminserie aktiviert. Alle Teilnehmenden erhalten aktualisierte Kalendereinladungen, die sie über Ihre Änderungen an dieser Besprechung informieren.
-
-            '
-          disabled: 'E-Mail-Kalenderaktualisierungen sind für die Terminserie deaktiviert. Die Teilnehmenden erhalten keine E-Mail, die sie über Ihre Änderungen informiert.
-
-            '
-        template:
-          enabled: 'E-Mail-Kalenderaktualisierungen sind für die Terminserie aktiviert. Alle Teilnehmenden erhalten aktualisierte Kalendereinladungen, die sie über Ihre Änderungen an dieser Vorlage oder an einzelnen Ereignissen vornehmen.
-
-            '
-          disabled: 'E-Mail-Kalenderaktualisierungen sind für die Terminserie deaktiviert. Die Teilnehmenden erhalten keine E-Mail, die sie über Ihre Änderungen an dieser Vorlage oder Ereignisse der Serie informiert.
-
-            '
     presentation_mode:
       title: Präsentationsmodus
       button_present: Präsentieren
@@ -437,7 +406,7 @@ de:
     widgets:
       blankslate:
         heading: Keine anstehenden Besprechungen
-        description: Anstehende Besprechungen, bei denen Sie der Organisator oder ein Teilnehmer sind, werden hier angezeigt.
+        description: Kommende Besprechungen, an denen Sie teilnehmen, werden hier erscheinen.
       view_details: Alle Besprechungen ansehen
   meeting_section:
     untitled_title: Unbenannter Abschnitt
@@ -489,18 +458,42 @@ de:
       x_weekly:
         one: Jede Woche
         other: alle %{count} Wochen
+      x_monthly:
+        one: Jeden Monat
+        other: Alle %{count} Monate
+      monthly_day_of_month: Tag im Monat
+      monthly_nth_weekday: Monatlich an einem Wochentag
       every_weekday: Jeden %{day_of_the_week}
       working_days: An Arbeitstagen
+    monthly:
+      inflected_ordinal:
+        first: ersten
+        second: zweiten
+        third: dritten
+        fourth: vierten
+        last: letzten
+      ordinal_options:
+        first: Erster
+        second: Zweiter
+        third: Dritter
+        fourth: Vierter
+        last: Letzter
+    actual_first_occurrence_mismatch_html: 'Das erste Vorkommen dieses Serientermins wird sein: %{first_occurrence}'
+    day_of_month_skipping_info: Monate mit weniger als %{monthly_day} Tagen werden übersprungen
     end_after:
-      never: nie
-      specific_date: nach einem bestimmten Datum
-      iterations: nach einer Reihe von Ereignissen
+      never: Niemals
+      specific_date: Nach einem bestimmten Datum
+      iterations: Nach einer Reihe von Ereignissen
     starts: Beginnt
     in_words:
       daily_interval: Alle %{interval} Tage
       working_days: Jeden Arbeitstag
       weekly: Jede Woche am %{weekday}
       weekly_interval: Alle %{interval} Wochen am %{weekday}
+      monthly_day: Jeden Monat am %{day}
+      monthly_day_interval: Alle %{interval} Monate am %{day}
+      monthly_nth_weekday: Jeden Monat am %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Alle %{interval} Monate am %{ordinal} %{weekday}
       frequency: "%{base} um %{time}"
       full: "%{base} um %{time}, endet %{end_date}"
       full_past: "%{base} um %{time}, endet am %{end_date}"
@@ -609,6 +602,7 @@ de:
   label_agenda_item_duplicate_in_next_title: In die nächste Besprechung duplizieren?
   label_agenda_item_add_notes: Notiz hinzufügen
   label_agenda_item_add_outcome: Ergebnis hinzufügen
+  label_agenda_item_convert_to_work_package: In Arbeitspaket umwandeln
   label_agenda_item_work_package_add: Arbeitspaket hinzufügen
   label_agenda_item_work_package: Tagesordnungspunkt Arbeitspaket
   label_section_rename: Abschnitt umbenennen

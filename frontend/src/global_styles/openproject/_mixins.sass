@@ -263,6 +263,10 @@ $scrollbar-size: 10px
     .work-packages--filters-optional-container
       margin-right: 15px
 
+@mixin split-pane-active
+  #content:has(#content-bodyRight > *)
+    @content
+
 @mixin modifying--placeholder
   border: 1px dashed var(--accent-color)
   pointer-events: none
@@ -341,6 +345,10 @@ $scrollbar-size: 10px
   background: var(--bgColor-accent-emphasis)
   color: white
   flex-shrink: 0
+
+@mixin focus
+  outline: var(--focus-outline, 2px solid #0969da)
+  outline-offset: -2px
 
 @mixin show-on-focus
   position: absolute

@@ -150,7 +150,12 @@ module Meetings
       return unless delete_allowed?
 
       back_url = current_project ? nil : meetings_path
-      menu.with_item(label: recurring_meeting.present? ? I18n.t(:label_recurring_meeting_delete) : I18n.t(:label_meeting_delete),
+      label = if recurring_meeting.present?
+                model.past? ? I18n.t(:label_recurring_meeting_delete) : I18n.t(:label_recurring_meeting_cancel)
+              else
+                I18n.t(:label_meeting_delete)
+              end
+      menu.with_item(label:,
                      scheme: :danger,
                      href: delete_dialog_project_meeting_path(project, model, back_url:),
                      tag: :a,

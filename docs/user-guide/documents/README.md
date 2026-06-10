@@ -62,7 +62,7 @@ A document has:
 
 1. A title, a category, number of active editors and last saved date
 2. *More* menu with with options to edit, copy link and delete a document
-3. The he document text itself
+3. The document text itself
 4. Attachments
 
 ## Add a new document to the project 
@@ -102,9 +102,34 @@ Take a look at this example for an illustration.
 
 ### Link work packages to documents
 
-You can link an existing work package to a document. To do that, start editing a document, type **/**, scroll down the list of available options and select *Link to existing work package*.
+You can link existing work packages to a document in two ways:
+
+1. **Using the slash menu**
+
+Start editing a document, type **/** to open the slash menu, then select **Link to existing work package** from the list of available options.
 
 ![Link a document to an existing work package in OpenProject](openproject_user_guide_documents_module_add_work_package.png)
+
+2. **Using inline work package links**
+
+You can also link work packages directly within a line of text or a paragraph. Type **#**, **##**, or **###**, followed by a work package ID or part of the subject. Matching work packages will be suggested automatically.
+
+![Example of linking a work package inline in OpenProject documents module](openproject_user_guide_documents_link_wp_inline.png)
+
+The amount of work package information shown depends on the display format used:
+
+- **#** displays the work package identifier.
+- **##** displays the work package type, identifier, and subject.
+- **###** displays the work package status, type, identifier, and subject.
+
+![Work package linked three times inline in OpenProject documents module, showing different amounts of information depending on how many hashtags are used](openproject_user_guide_documents_link_wp_inline_examples.png) 
+
+Inline work package links behave like regular links and can be placed naturally within a paragraph, without adding a line break. Alternatively, work packages can be displayed as separate block-style cards.
+
+Click the work package title to open it in a new browser tab. To change the display style of the linked work package, click the work package ID on the left to open the context menu. You can choose one of the available display options: **Tiny**, **Compact**, **Regular**, or **Compact card**.
+
+![Context menu to change display options for a linked work package in OpenProject Documents module](openproject_user_guide_documents_link_wp_inline_menu.png)
+
 
 ## Delete a project document
 

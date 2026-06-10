@@ -33,7 +33,6 @@ import {
   ViewChild,
   inject,
 } from '@angular/core';
-import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IAutocompleterTemplateComponent } from 'core-app/shared/components/autocompleter/op-autocompleter/op-autocompleter.component';
 
@@ -47,7 +46,4 @@ export class ProjectAutocompleterTemplateComponent implements IAutocompleterTemp
   @ViewChild('labelTemplate') labelTemplate?:TemplateRef<Element>;
 
   readonly I18n = inject(I18nService);
-  readonly configuration = inject(ConfigurationService);
-
-  public portfolioModelsEnabled = this.configuration.activeFeatureFlags.includes('portfolioModels');
 }

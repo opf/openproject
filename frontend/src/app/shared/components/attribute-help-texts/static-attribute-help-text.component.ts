@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  HostBinding,
-  Injector,
-  Input,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, Input, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
@@ -48,6 +40,12 @@ import { StaticAttributeHelpTextModalComponent } from './static-attribute-help-t
   standalone: false,
 })
 export class StaticAttributeHelpTextComponent {
+  readonly elementRef = inject(ElementRef);
+  protected opModalService = inject(OpModalService);
+  protected cdRef = inject(ChangeDetectorRef);
+  protected injector = inject(Injector);
+  protected I18n = inject(I18nService);
+
   // Attribute pass the modal title and content
   @Input() public title:string;
 
@@ -59,13 +57,7 @@ export class StaticAttributeHelpTextComponent {
     open_dialog: this.I18n.t('js.help_texts.show_modal'),
   };
 
-  constructor(
-    readonly elementRef:ElementRef,
-    protected opModalService:OpModalService,
-    protected cdRef:ChangeDetectorRef,
-    protected injector:Injector,
-    protected I18n:I18nService,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 

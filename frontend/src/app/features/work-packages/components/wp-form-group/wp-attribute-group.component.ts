@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, HostBinding, Injector, Input, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Injector, Input, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-form/edit-form.component';
@@ -48,20 +48,16 @@ import {
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageFormAttributeGroupComponent extends UntilDestroyedMixin {
+  readonly I18n = inject(I18nService);
+  wpEditForm = inject(EditFormComponent);
+  protected injector = inject(Injector);
+
   @HostBinding('class.wp-attribute-group') className = true;
   @HostBinding('class.attributes-group--attributes') parentClassName = true;
 
   @Input() public workPackage:WorkPackageResource;
 
   @Input() public group:GroupDescriptor;
-
-  constructor(
-    readonly I18n:I18nService,
-    public wpEditForm:EditFormComponent,
-    protected injector:Injector,
-  ) {
-    super();
-  }
 
   /**
    * Hide read-only fields, but only when in the create mode

@@ -36,6 +36,7 @@ fa:
         subject: موضوع
         type: نوع هزینه
         labor_budget: هزینه های نیروی کار برنامه‌ریزی شده
+        labor_budget_items: Planned labor costs
         material_budget: هزینه‌های واحد برنامه‌ریزی شده
         base_amount: مبلغ پایه
       work_package:
@@ -48,6 +49,7 @@ fa:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: بودجه
+      labor_budget_item: Planned labor cost
       material_budget_item: واحد
   activity:
     filter:

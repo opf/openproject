@@ -33,14 +33,8 @@ require "features/page_objects/notification"
 require "features/work_packages/shared_contexts"
 require "features/work_packages/work_packages_page"
 
-RSpec.describe "Wiki menu items",
-               :js do
-  let(:user) do
-    create(:user,
-           member_with_permissions: { project => %i[view_wiki_pages
-                                                    manage_wiki_menu
-                                                    delete_wiki_pages] })
-  end
+RSpec.describe "Wiki menu items", :js do
+  let(:user) { create(:user, member_with_permissions: { project => %i[view_wiki_pages manage_wiki] }) }
   let(:project) { create(:project, enabled_module_names: %w[wiki]) }
   let(:wiki) { project.wiki }
   let(:parent_menu) { wiki.wiki_menu_items.find_by(name: "wiki") }

@@ -79,7 +79,7 @@ module WorkPackage::Journalized
 
       def self.event_url
         Proc.new do |o|
-          { controller: :work_packages, action: :show, id: o.id }
+          { controller: :work_packages, action: :show, id: o.display_id }
         end
       end
     end

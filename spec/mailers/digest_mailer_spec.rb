@@ -89,11 +89,23 @@ RSpec.describe DigestMailer do
       expected_notification_subject = "#{work_package.type.name.upcase} #{work_package.subject}"
       expect(mail_body).to have_text(expected_notification_subject, normalize_ws: true)
 
-      expected_notification_header = "#{work_package.status.name} ##{work_package.id} - #{work_package.project}"
-      expect(mail_body).to have_text(expected_notification_header, normalize_ws: true)
-
       expected_text = "#{journal.initial? ? 'Created' : 'Updated'} at #{time_stamp} by #{recipient.name}"
       expect(mail_body).to have_text(expected_text, normalize_ws: true)
+    end
+
+    context "with classic mode", with_settings: { work_packages_identifier: "classic" } do
+      it "shows the # prefixed numeric id in the notification header" do
+        expected = "#{work_package.status.name} ##{work_package.id} - #{work_package.project}"
+        expect(mail_body).to have_text(expected, normalize_ws: true)
+      end
+    end
+
+    context "with semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      it "shows the semantic identifier without # prefix in the notification header" do
+        expected = "#{work_package.status.name} #{work_package.identifier} - #{work_package.project}"
+        expect(mail_body).to have_text(expected, normalize_ws: true)
+      end
     end
 
     it "includes a reference to the notification center if there are more than the maximum number of shown work packages" do

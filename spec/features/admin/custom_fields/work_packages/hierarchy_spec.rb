@@ -144,7 +144,7 @@ RSpec.describe "work package custom fields of type hierarchy", :js do
 
     # Finally, we delete the custom field ... I'm done with this ...
     custom_field_index_page.visit!
-    expect(page).to have_list_item(hierarchy_name)
+    expect(page).to have_row(hierarchy_name)
     within("tr", text: hierarchy_name) { accept_prompt { click_on "Delete" } }
     expect(page).to have_no_text(hierarchy_name)
 

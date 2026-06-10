@@ -119,6 +119,27 @@ See COPYRIGHT and LICENSE files for more details.
               <%= @series.author %>
             </td>
           </tr>
+
+          <% if @added_participants.any? %>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: "30%") %>">
+                <%= I18n.t("meeting.email.updated.added_participants") %>
+              </td>
+              <td style="<%= placeholder_text_styles(color: "#1f2328", "font-weight": "bold") %>">
+                <%= @added_participants.join(", ") %>
+              </td>
+            </tr>
+          <% end %>
+          <% if @removed_participants.any? %>
+            <tr>
+              <td style="<%= placeholder_text_styles(width: "30%") %>">
+                <%= I18n.t("meeting.email.updated.removed_participants") %>
+              </td>
+              <td style="<%= placeholder_text_styles %>">
+                <s><%= @removed_participants.join(", ") %></s>
+              </td>
+            </tr>
+          <% end %>
         </table>
       </td>
     </tr>

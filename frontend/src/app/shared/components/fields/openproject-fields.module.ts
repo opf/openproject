@@ -131,6 +131,4 @@ import { FormsModule } from '@angular/forms';
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OpenprojectFieldsModule {
-  constructor(injector:Injector) {
-  }
 }

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { from } from 'rxjs';
 import { StateService } from '@uirouter/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
@@ -64,13 +64,13 @@ import {
   providedIn: 'root',
 })
 export class WorkPackageTabsService {
+  private $state = inject(StateService);
+  private I18n = inject(I18nService);
+  private injector = inject(Injector);
+
   private registeredTabs:WpTabDefinition[];
 
-  constructor(
-    private $state:StateService,
-    private I18n:I18nService,
-    private injector:Injector,
-  ) {
+  constructor() {
     this.registeredTabs = this.buildDefaultTabs();
   }
 

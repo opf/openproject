@@ -56,8 +56,7 @@ RSpec.describe "Subproject creation", :js do
   end
 
   it "can create a subproject" do
-    click_on "New subproject"
-
+    wait_for_turbo { click_on "New subproject" }
     expect(page).to have_heading "New project"
 
     # Step 1: Select workspace type (blank project)

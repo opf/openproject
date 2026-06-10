@@ -28,9 +28,7 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Highlighting } from 'core-app/features/work-packages/components/wp-fast-table/builders/highlighting/highlighting.functions';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -48,6 +46,11 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly halEditing = inject(HalResourceEditingService);
+
   @Input() public workPackage:WorkPackageResource;
 
   @Input() public small = false;
@@ -57,13 +60,6 @@ export class WorkPackageStatusButtonComponent extends UntilDestroyedMixin implem
     workPackageReadOnly: this.I18n.t('js.work_packages.message_work_package_read_only'),
     workPackageStatusBlocked: this.I18n.t('js.work_packages.message_work_package_status_blocked'),
   };
-
-  constructor(readonly I18n:I18nService,
-    readonly cdRef:ChangeDetectorRef,
-    readonly schemaCache:SchemaCacheService,
-    readonly halEditing:HalResourceEditingService) {
-    super();
-  }
 
   ngOnInit() {
     this.halEditing

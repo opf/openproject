@@ -26,17 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable, of } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -66,6 +56,18 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
+  private readonly querySpace = inject(IsolatedQuerySpace);
+  private readonly pathHelper = inject(PathHelperService);
+  private readonly apiV3Service = inject(ApiV3Service);
+  private readonly urlParamsHelper = inject(UrlParamsHelperService);
+  private readonly notificationService = inject(WorkPackageNotificationService);
+  private readonly CurrentProject = inject(CurrentProjectService);
+  private readonly halResourceService = inject(HalResourceService);
+  private readonly schemaCacheService = inject(SchemaCacheService);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly I18n = inject(I18nService);
+  private readonly wpCardDragDrop = inject(WorkPackageCardDragAndDropService);
+
   readonly text = {
     placeholder: this.I18n.t('js.relations_autocomplete.placeholder'),
   };
@@ -118,19 +120,6 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
   @Output() onCancel = new EventEmitter<undefined>();
 
   @Output() onReferenced = new EventEmitter<WorkPackageResource>();
-
-  constructor(private readonly querySpace:IsolatedQuerySpace,
-    private readonly pathHelper:PathHelperService,
-    private readonly apiV3Service:ApiV3Service,
-    private readonly urlParamsHelper:UrlParamsHelperService,
-    private readonly notificationService:WorkPackageNotificationService,
-    private readonly CurrentProject:CurrentProjectService,
-    private readonly halResourceService:HalResourceService,
-    private readonly schemaCacheService:SchemaCacheService,
-    private readonly cdRef:ChangeDetectorRef,
-    private readonly I18n:I18nService,
-    private readonly wpCardDragDrop:WorkPackageCardDragAndDropService) {
-  }
 
   ngAfterViewInit():void {
     if (!this.ngSelectComponent.ngSelectInstance) {

@@ -7,7 +7,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { DisplayFieldContext } from 'core-app/shared/components/fields/display/display-field.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
-import { Injector } from '@angular/core';
 
 describe('WorkPackageIdDisplayField', () => {
   let field:WorkPackageIdDisplayField;
@@ -37,7 +36,7 @@ describe('WorkPackageIdDisplayField', () => {
 
     const mockInjector = {
       get: (token:unknown, notFoundValue?:unknown) => serviceMap.get(token) ?? notFoundValue ?? {},
-    } as unknown as Injector;
+    };
 
     field = new WorkPackageIdDisplayField('id', {
       injector: mockInjector,

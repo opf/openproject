@@ -1,13 +1,13 @@
 ---
 sidebar_navigation:
-  title: Settings
-  priority: 999
-description: Work package settings in OpenProject.
+  title: General
+  priority: 900
+description: Work package general settings in OpenProject.
 keywords: work package settings, work package configuration
 ---
 # Work package settings
 
-To change basic settings for work package tracking in OpenProject, navigate to **Administration → Work packages → Work packages settings**.
+To change basic settings for work package tracking in OpenProject, navigate to **Administration → Work packages → General**.
 
 ![work-package-settings-administration](openproject_system_guide_work_package_settings.png)
 

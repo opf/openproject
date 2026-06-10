@@ -41,8 +41,12 @@ module OpenProject::TextFormatting
 
       def call # rubocop:disable Metrics/AbcSize
         doc.search("macro").each do |macro|
+          matched = false
+
           registered.each do |macro_class|
             next unless macro_applies?(macro_class, macro)
+
+            matched = true
 
             # If requested to skip macro expansion, do that
             if context[:disable_macro_expansion]
@@ -60,12 +64,21 @@ module OpenProject::TextFormatting
               break
             end
           end
+
+          macro.replace unknown_macro_placeholder unless matched
         end
 
         doc
       end
 
       private
+
+      def unknown_macro_placeholder
+        ApplicationController.helpers.content_tag :macro,
+                                                  I18n.t(:macro_unknown),
+                                                  class: "macro-unavailable",
+                                                  data: { macro_name: "unknown" }
+      end
 
       def macro_error_placeholder(macro_class, message)
         ApplicationController.helpers.content_tag :macro,

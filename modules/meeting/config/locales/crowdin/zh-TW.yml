@@ -38,6 +38,8 @@ zh-TW:
           other: "%{count} 位參與者"
         participants_attended: 出席人員
         participants_invited: 受邀人員
+        participants_added: 'Participants added:'
+        participants_removed: 'Participants removed:'
         project: 專案
         start_date: 日期
         start_time: 開始時間
@@ -63,6 +65,9 @@ zh-TW:
         title: Title
         frequency: 頻率
         interval: 間隔
+        monthly_day: Day of month
+        monthly_ordinal: Position
+        monthly_weekday: Weekday
         start_date: 開始於
         start_time: 開始時間
         start_time_hour: 開始時間
@@ -207,6 +212,7 @@ zh-TW:
   label_time_zone: 時區
   label_start_date: 開始日期
   label_subscribe_icalendar: 訂閱行事曆
+  label_recurring_filter: Recurring filter
   caption_meeting_template_select: Select a template to automatically copy its agenda items
   caption_template_project_select: Please select the project in which to create this meeting template
   placeholder_meeting_template_select_project_first: Select a project first
@@ -269,16 +275,6 @@ zh-TW:
         summary_series: 會議系列 '%{title}' 已被 %{actor}取消, 或您已被移除為參與者
         summary: "%{title}' 已被 %{actor}取消，或者您已被刪除為參賽者"
         date_time: 排定日期/時間
-      participant_added:
-        header: 會議 '%{title}' - 與會者
-        header_series: 系列會議 '%{title}' - 與會者
-        summary: "%{actor} 加入 %{participant} 至會議 '%{title}'"
-        summary_series: "%{actor} 加入 %{participant} 至會議系列 '%{title}'"
-      participant_removed:
-        header: 會議 '%{title}' - 參與者已移除
-        header_series: 會議系列 '%{title}' - 已移除參與者
-        summary: "%{actor} 從會議中移除 %{participant} '%{title}'"
-        summary_series: "%{actor} 從會議系列中移除 %{participant} '%{title}'"
       ended:
         header_series: 結束：會議系列 '%{title}'
         summary_series: 會議系列 '%{title}' 已由 %{actor}結束
@@ -292,6 +288,8 @@ zh-TW:
         new_date_time: 新日期/時間
         old_location: 舊位置
         new_location: 新位置
+        added_participants: Added
+        removed_participants: Removed
     label_mail_all_participants: 發送電子郵件邀請參加者
     types:
       one_time: 一次性
@@ -320,6 +318,13 @@ zh-TW:
 
           '
         confirm_button: 取消事件
+      occurrence_past:
+        title: Delete occurrence
+        heading: Delete this occurrence?
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        confirm_button: Delete occurrence
     blankslate:
       title: 沒有會議要顯示
       desc: 您可以建立新的會議或變更篩選條件
@@ -366,58 +371,22 @@ zh-TW:
         caption: 此文字將出現在每頁的頁尾中央。
       submit_button: 下載
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: 電子郵件行事曆更新
         description:
-          disabled: 參與者不會收到通知變更的電子郵件。
-          enabled: 所有與會者都會透過電子郵件收到更新的行事曆邀請，通知他們相關變更。
           change_via_template: 若要變更，請編輯系列範本。
       dialog:
         title:
           enable: 啟用電子郵件行事曆更新？
           disable: 停用電子郵件行事曆更新？
         message:
-          enable: '每次會議日期、時間、地點或與會者有變更時，所有與會者都會透過電子郵件收到更新的行事曆邀請。啟用後，電子郵件會立即傳送給所有與會者。
-
-            '
-          disable: '當會議日期、時間、地點或與會者有變更時，與會者將不會再透過電子郵件收到更新的行事曆邀請。如果他們已經有這個會議的邀請，則可能不再準確。
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: 啟用電子郵件更新
           disable: 停用電子郵件更新
-      banner:
-        participants:
-          enabled: '當您新增或移除參與者時，所有參與者都會透過電子郵件收到更新的行事曆邀請。
-
-            '
-          disabled: '電子郵件行事曆更新已停用。當您新增或移除參與者時，參與者將不會收到通知他們的電子郵件。
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: '當您新增或移除參與者時，所有參與者都會透過電子郵件收到更新的行事曆。
-
-            '
-          disabled: '參與者將不會收到有關會議日期、時間或參與者變更的通知電子郵件。
-
-            '
-        occurrence:
-          enabled: '已啟用系列會議的電子郵件行事曆更新。所有與會者都會收到更新的行事曆邀請，通知他們您對此事件所做的變更。
-
-            '
-          disabled: '系列會議的電子郵件行事曆更新已停用。與會者將不會收到電子郵件，通知他們您對此發生的變更。
-
-            '
-        template:
-          enabled: '已為會議系列啟用電子郵件行事曆更新。所有與會者都會收到更新的行事曆邀請，通知他們您對此範本或個別事件所做的變更。
-
-            '
-          disabled: '會議系列的電子郵件行事曆更新已停用。與會者將不會收到電子郵件，通知他們您對此範本或個別事件所做的變更。
-
-            '
     presentation_mode:
       title: 簡報模式
       button_present: 顯示按鈕
@@ -434,7 +403,7 @@ zh-TW:
     widgets:
       blankslate:
         heading: No upcoming meetings
-        description: Upcoming meetings where you are the organizer or a participant will appear here.
+        description: Upcoming meetings you are participating in will appear here.
       view_details: View all meetings
   meeting_section:
     untitled_title: 無標題章節
@@ -484,18 +453,41 @@ zh-TW:
         other: 每 %{count} 天
       x_weekly:
         other: 每 %{count} 週
+      x_monthly:
+        other: Every %{count} months
+      monthly_day_of_month: Day of month
+      monthly_nth_weekday: Monthly on a weekday
       every_weekday: 每個 %{day_of_the_week}
       working_days: 每個工作天
+    monthly:
+      inflected_ordinal:
+        first: first
+        second: second
+        third: third
+        fourth: fourth
+        last: last
+      ordinal_options:
+        first: First
+        second: Second
+        third: Third
+        fourth: Fourth
+        last: Last
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     end_after:
-      never: 永不
-      specific_date: 特定日期之後
-      iterations: 經過多次發生
+      never: Never
+      specific_date: After a specific date
+      iterations: After a number of occurrences
     starts: 開始
     in_words:
       daily_interval: 每 %{interval} 天
       working_days: 每個工作天
       weekly: 每週 %{weekday}
       weekly_interval: 每 %{interval} 週 %{weekday}
+      monthly_day: Every month on the %{day}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
       frequency: "%{base} 在 %{time}"
       full: "%{base} 於 %{time}, 結束於 %{end_date}"
       full_past: "%{base} 於 %{time}, 結束於 %{end_date}"
@@ -604,6 +596,7 @@ zh-TW:
   label_agenda_item_duplicate_in_next_title: 在下次會議中重複？
   label_agenda_item_add_notes: 新增註記
   label_agenda_item_add_outcome: 新增結果
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: 新增工作套件
   label_agenda_item_work_package: 議程項目工作套件
   label_section_rename: 重新命名區段

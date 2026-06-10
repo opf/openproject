@@ -98,7 +98,6 @@ RSpec.shared_examples_for "provides a single WP context menu" do
     end
 
     context "with semantic identifiers enabled",
-            with_flag: { semantic_work_package_ids: true },
             with_settings: { work_packages_identifier: "semantic" } do
       # The shared project is created classic-style (lowercase identifier), but
       # semantic mode requires the uppercase format. Rewrite it before any
@@ -112,8 +111,8 @@ RSpec.shared_examples_for "provides a single WP context menu" do
       end
 
       it "uses numeric parent_id in the URL and sets the parent correctly" do
-        expect(Setting::WorkPackageIdentifier.semantic_mode_active?)
-          .to be(true), "expected semantic mode to be active via with_settings + with_flag metadata"
+        expect(Setting::WorkPackageIdentifier.semantic?)
+          .to be(true), "expected semantic mode to be active via with_settings metadata"
 
         work_package.allocate_and_register_semantic_id if work_package.identifier.blank?
 

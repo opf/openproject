@@ -70,8 +70,8 @@ describe('WorkPackage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-    imports: [OpenprojectHalModule],
-    providers: [
+      imports: [OpenprojectHalModule],
+      providers: [
         HalResourceService,
         States,
         TimezoneService,
@@ -89,8 +89,8 @@ describe('WorkPackage', () => {
         { provide: SchemaCacheService, useValue: {} },
         provideHttpClient(withInterceptorsFromDi()),
         provideHttpClientTesting(),
-    ]
-}).compileComponents();
+      ]
+    }).compileComponents();
     halResourceService = TestBed.inject(HalResourceService);
     injector = TestBed.inject(Injector);
     halResourceNotification = injector.get(HalResourceNotificationService);
@@ -109,7 +109,7 @@ describe('WorkPackage', () => {
     beforeEach(createWorkPackage);
 
     it('should have an attachments property of type `AttachmentCollectionResource`', () => {
-      expect(workPackage.attachments).toEqual(jasmine.any(AttachmentCollectionResource));
+      expect(workPackage.attachments).toEqual(expect.any(AttachmentCollectionResource));
     });
 
     it('should return true for `isNewResource`', () => {
@@ -190,11 +190,12 @@ describe('WorkPackage', () => {
 
       it('surfaces the semantic displayId on each ancestor resource', () => {
         const ancestor = (workPackage as any).ancestors[0] as WorkPackageResource;
+
         expect(ancestor.displayId).toEqual('ACSMT-15');
       });
     });
 
-});
+  });
 
   describe('formattedId', () => {
     afterEach(() => {
@@ -215,7 +216,7 @@ describe('WorkPackage', () => {
       expect(workPackage.formattedId).toEqual('#42');
     });
 
-});
+  });
 
   describe('subjectWithId', () => {
     afterEach(() => {

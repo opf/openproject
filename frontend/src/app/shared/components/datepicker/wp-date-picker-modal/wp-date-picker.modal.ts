@@ -26,18 +26,9 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
 @Component({
@@ -46,18 +37,11 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   standalone: false,
 })
 export class OpWpDatePickerModalComponent extends OpModalComponent implements OnInit {
+  readonly pathHelper = inject(PathHelperService);
+
   turboFrameSrc:string;
 
   showCloseButton = false;
-
-  constructor(
-    readonly elementRef:ElementRef,
-    @Inject(OpModalLocalsToken) public locals:OpModalLocalsMap,
-    readonly cdRef:ChangeDetectorRef,
-    readonly pathHelper:PathHelperService,
-  ) {
-    super(locals, cdRef, elementRef);
-  }
 
   ngOnInit() {
     super.ngOnInit();

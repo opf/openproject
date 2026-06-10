@@ -53,19 +53,23 @@ module Queries
 
         private
 
-        def visibility_checked_sql(operator_string, values, visible_sql)
-          concatenation = if operator == "="
-                            "OR"
-                          else
-                            "AND"
-                          end
+        def visibility_checked_sql(_operator, values, visible_sql)
+          case operator
+          when "="
+            sql = <<~SQL.squish
+              from_id IN (#{visible_sql}) AND to_id IN (#{visible_sql})
+              AND (from_id IN (?) OR to_id IN (?))
+            SQL
 
-          sql = <<~SQL.squish
-            (from_id #{operator_string} (?) AND to_id IN (#{visible_sql}))
-             #{concatenation} (to_id #{operator_string} (?) AND from_id IN (#{visible_sql}))
-          SQL
+            [sql, values, values]
+          when "!"
+            sql = <<~SQL.squish
+              from_id IN (#{visible_sql}) AND to_id IN (#{visible_sql})
+              AND from_id NOT IN (?) AND to_id NOT IN (?)
+            SQL
 
-          [sql, values, values]
+            [sql, values, values]
+          end
         end
       end
     end

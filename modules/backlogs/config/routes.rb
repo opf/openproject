@@ -67,17 +67,18 @@ Rails.application.routes.draw do
           constraints: { work_package_id: WorkPackage::SemanticIdentifier::ID_ROUTE_CONSTRAINT },
           defaults: { tab: :overview }
 
-      resources :backlog_buckets, only: %i[create update destroy] do
+      resources :buckets, only: %i[create update destroy] do
         collection do
           get :new_dialog
         end
 
         member do
           get :edit_dialog
+          get :destroy_dialog
         end
       end
 
-      resources :sprints, param: :sprint_id, only: %i[create update] do
+      resources :sprints, param: :sprint_id, only: %i[index create update] do
         collection do
           get :new_dialog
           get :refresh_form
@@ -90,28 +91,20 @@ Rails.application.routes.draw do
         end
       end
 
-      scope "sprints/:sprint_id" do
-        resources :work_packages, controller: :work_packages, only: [] do
-          member do
-            get :menu
-            put :move
-            post :reorder
-            get :move_to_sprint_dialog
-          end
+      resources :work_packages, controller: :work_packages, only: [] do
+        member do
+          get :menu
+          put :move
+          get :move_to_sprint_dialog
+          get :move_to_bucket_dialog
         end
+      end
 
+      scope "sprints/:sprint_id" do
         get "taskboard", to: "taskboard#show", as: :sprint_taskboard
         get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
       end
 
-      resources :inbox, only: [] do
-        member do
-          get :menu
-          put :move
-          post :reorder
-          get :move_to_sprint_dialog
-        end
-      end
     end
   end
 

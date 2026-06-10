@@ -229,43 +229,65 @@ The connection can be set with the following options. Please note that "EXAMPLE"
 
 The name of the LDAP connection is derived from the ENV key behind `SEED_LDAP_`, so you need to take care to use only valid characters. If you need to place an underscore, use a double underscore to encode it e.g., `my__ldap`.
 
-The following options are possible
+#### Naming rule for option keys
+
+The same encoding applies to **option keys** (the part of the env var after the connection name):
+
+- A single underscore (`_`) separates path segments.
+- A double underscore (`__`) encodes a literal underscore inside a single key.
+
+For example, the attribute mapping for the login attribute must be passed as `LOGIN__MAPPING`. Writing `LOGIN_MAPPING` would create a nested `login.mapping` hash and would have been silently wrong in OpenProject versions earlier than 17.5.
+
+Starting with OpenProject 17.5 the seeder validates the keys it sees and raises an error listing any unknown key, so typos no longer go unnoticed. Use exactly the keys shown below.
+
+#### Full example
+
+The example below shows every supported option for a connection named `EXAMPLE`.
 
 ```shell
 # Host name of the connection
-OPENPROJECT_SEED_LDAP_EXAMPLE_HOST="localhost"
+OPENPROJECT_SEED_LDAP_EXAMPLE_HOST="ldap.example.com"
+
 # Port of the connection
 OPENPROJECT_SEED_LDAP_EXAMPLE_PORT="389"
-# LDAP security options. One of the following
-# plain_ldap: Unencrypted connection, no TLS/SSL
-# simple_tls: Using deprecated LDAPS/SSL (often in combination with port 636)
-# start_tls: LDAPv3 start_tls call using standard unencrypted port (e.g., 389) before upgrading connection
+
+# LDAP security mode. One of:
+#   plain_ldap: Unencrypted connection, no TLS/SSL
+#   simple_tls: Deprecated LDAPS/SSL (often combined with port 636)
+#   start_tls:  LDAPv3 STARTTLS on the standard unencrypted port (e.g., 389)
 OPENPROJECT_SEED_LDAP_EXAMPLE_SECURITY="start_tls"
-# Whether to verify the certificate/chain of the LDAP connection. true/false (True by default)
+
+# Whether to verify the LDAP server's certificate chain. true/false (true by default).
 OPENPROJECT_SEED_LDAP_EXAMPLE_TLS__VERIFY="true"
-# Optionally, provide a certificate of the connection
+
+# Optionally pin a server certificate (PEM-encoded).
 OPENPROJECT_SEED_LDAP_EXAMPLE_TLS__CERTIFICATE="-----BEGIN CERTIFICATE-----\nMII....\n-----END CERTIFICATE-----"
-# The admin LDAP bind account with read access
+
+# Bind DN (the LDAP account used for read access during search/bind).
 OPENPROJECT_SEED_LDAP_EXAMPLE_BINDUSER="uid=admin,ou=system"
-# Password for the bind account
+
+# Password for the bind account.
 OPENPROJECT_SEED_LDAP_EXAMPLE_BINDPASSWORD="secret"
-# BASE DN of the connection
+
+# Base DN of the directory subtree used for user search.
 OPENPROJECT_SEED_LDAP_EXAMPLE_BASEDN="dc=example,dc=com"
-# Optional filter string to restrict which users may log in to OpenProject
-# (relevant when for automatic creation of users is active)
+
+# Optional LDAP filter restricting which users may log in to OpenProject
+# (used when automatic user creation is active).
 OPENPROJECT_SEED_LDAP_EXAMPLE_FILTER="(uid=*)"
-# Whether to create found and matching users automatically when they log in
+
+# Whether to create matching users on the fly when they log in for the first time.
 OPENPROJECT_SEED_LDAP_EXAMPLE_SYNC__USERS="true"
-# Attribute mapping for the OpenProject login attribute
+
+# Attribute mappings: which LDAP attribute should populate each OpenProject field.
+# Remember the double underscore in these keys.
 OPENPROJECT_SEED_LDAP_EXAMPLE_LOGIN__MAPPING="uid"
-# Attribute mapping for the OpenProject first name attribute
 OPENPROJECT_SEED_LDAP_EXAMPLE_FIRSTNAME__MAPPING="givenName"
-# Attribute mapping for the OpenProject last name attribute
 OPENPROJECT_SEED_LDAP_EXAMPLE_LASTNAME__MAPPING="sn"
-# Attribute mapping for the OpenProject mail attribute
 OPENPROJECT_SEED_LDAP_EXAMPLE_MAIL__MAPPING="mail"
-# Attribute mapping for the OpenProject admin attribute
-# Leave empty or remove to not derive admin status from an attribute
+
+# Optional: derive admin status from an LDAP attribute. Leave empty or remove
+# to keep admin status managed manually in OpenProject.
 OPENPROJECT_SEED_LDAP_EXAMPLE_ADMIN__MAPPING=""
 ```
 
@@ -630,13 +652,61 @@ OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enum
 
 #### Rate limiting
 
-OpenProject provides some rate limiting protections. The default configuration protects against repeated access to authentication credential resets (e.g., lost password functionality).
+OpenProject includes HTTP-layer rate limiting via Rack::Attack. The rules below are configured through the `rate_limiting` setting and take effect without a restart when set via environment variable.
 
-You can optionally enable additional rules on API rate limiting as follows:
+In addition to these application-level rules, consider applying rate limiting at your load balancer or reverse proxy (e.g. `ngx_http_limit_req_module`, `mod_security`) for IP-level protection.
 
-`OPENPROJECT_RATE_LIMITING_API__V3=true`
+##### Login brute-force protection (enabled by default)
 
-Additional application-level rate limiting rules will be added in the future. Additionally to these application level rules, use your load balancer / proxying web server to apply individual rate limiting rules using modules such as `ngx_http_limit_req_module` or `mod_security`.
+OpenProject blocks repeated login attempts per account at the HTTP layer. After **20 POST `/login` requests for the same username within one minute**, that account is blocked for **30 minutes**. This works alongside the application-level lockout (`brute_force_block_after_failed_logins` / `brute_force_block_minutes` settings).
+
+This rule is **enabled by default**. To disable it:
+
+```shell
+OPENPROJECT_RATE_LIMITING_LOGIN="false"
+```
+
+The thresholds can be tuned independently:
+
+| Variable | Default | Description |
+|---|---|---|
+| `OPENPROJECT_RATE_LIMITING_LOGIN_BURST__LIMIT` | `20` | Number of attempts allowed before the ban is triggered |
+| `OPENPROJECT_RATE_LIMITING_LOGIN_BURST__PERIOD` | `60` | Detection window in seconds |
+| `OPENPROJECT_RATE_LIMITING_LOGIN_BAN__PERIOD` | `1800` | Ban duration in seconds |
+
+Example: Stricter limits (10 attempts per minute, 1-hour ban):
+
+```shell
+OPENPROJECT_RATE_LIMITING_LOGIN_BURST__LIMIT="10"
+OPENPROJECT_RATE_LIMITING_LOGIN_BURST__PERIOD="60"
+OPENPROJECT_RATE_LIMITING_LOGIN_BAN__PERIOD="3600"
+```
+
+> [!NOTE]
+> This rule and the application-level brute-force protection (`brute_force_block_after_failed_logins` /
+> `brute_force_block_minutes`) are independent controls that operate at different layers. The HTTP-layer
+> rule counts **all** login attempts (including successful ones) within its burst window, while the
+> application-level setting counts only **failed** attempts and operates over a longer rolling window.
+> If you lower `brute_force_block_after_failed_logins` below `BURST_LIMIT` (default 20), the
+> application-level lockout will fire before this rule does. Keep the two thresholds consistent to
+> avoid surprising behaviour. For example, set `BURST_LIMIT` to match or be lower than
+> `brute_force_block_after_failed_logins`.
+
+##### Lost password rate limiting (disabled by default)
+
+Limits password-reset requests per email address to 3 per hour.
+
+```shell
+OPENPROJECT_RATE_LIMITING_LOST__PASSWORD="true"
+```
+
+##### API v3 rate limiting (disabled by default)
+
+Limits API form endpoint requests per session to 6 per 3 seconds.
+
+```shell
+OPENPROJECT_RATE_LIMITING_API__V3="true"
+```
 
 #### Blacklisted routes
 

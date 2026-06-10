@@ -5,7 +5,6 @@ require "spec_helper"
 RSpec.describe "Work package card ID link uses displayId",
                :js,
                :with_cuprite,
-               with_flag: { semantic_work_package_ids: true },
                with_settings: { work_packages_identifier: "semantic" } do
   # Classic mode is a behavioural no-op here: the card href is built via
   # `workPackage.displayId`, which returns the numeric id in classic mode — i.e.

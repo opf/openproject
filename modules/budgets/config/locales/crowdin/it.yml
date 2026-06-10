@@ -36,6 +36,7 @@ it:
         subject: Soggetto
         type: Tipo di costo
         labor_budget: Costo del lavoro pianificato
+        labor_budget_items: Costi del lavoro pianificati
         material_budget: Costi pianificati per unità
         base_amount: Importo base
       work_package:
@@ -48,6 +49,7 @@ it:
               not_a_member_of_budget_project: non è un membro del progetto di budget
     models:
       budget: Bilancio
+      labor_budget_item: Costo del lavoro pianificato
       material_budget_item: Unità
   activity:
     filter:

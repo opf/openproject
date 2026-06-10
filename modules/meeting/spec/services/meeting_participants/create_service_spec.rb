@@ -53,6 +53,33 @@ RSpec.describe MeetingParticipants::CreateService do
         expect(subject.result.invited).to be true
         expect(subject.result.attended).to be false
       end
+
+      it "triggers the notification debounce job with since_invited_ids" do
+        allow(Meetings::NotificationDebounceJob).to receive(:debounce)
+        subject
+        expect(Meetings::NotificationDebounceJob).to have_received(:debounce).with(meeting, since_invited_ids: anything)
+      end
+
+      context "when notify: false" do
+        subject do
+          described_class.new(user: current_user, notify: false).call(meeting:, user_id:, invited: true, attended: false)
+        end
+
+        it "creates the participant" do
+          expect { subject }.to change { meeting.participants.count }.by(1)
+        end
+
+        it "does not trigger the notification debounce job" do
+          allow(Meetings::NotificationDebounceJob).to receive(:debounce)
+          subject
+          expect(Meetings::NotificationDebounceJob).not_to have_received(:debounce)
+        end
+      end
+
+      it "saves a new journal for the meeting",
+         with_settings: { journal_aggregation_time_minutes: 0 } do
+        expect { subject }.to change { meeting.journals.count }
+      end
     end
 
     context "when user does not have meeting permissions" do

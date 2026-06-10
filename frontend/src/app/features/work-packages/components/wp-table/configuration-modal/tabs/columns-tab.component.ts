@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injector, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
 import {
@@ -20,6 +20,10 @@ import {
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WpTableConfigurationColumnsTabComponent implements TabComponent, OnInit {
+  readonly injector = inject(Injector);
+  readonly I18n = inject(I18nService);
+  readonly wpTableColumns = inject(WorkPackageViewColumnsService);
+
   public availableColumnsOptions = this.wpTableColumns.all.map((c) => this.column2Like(c));
 
   public availableColumns = this.wpTableColumns.all;
@@ -39,13 +43,6 @@ export class WpTableConfigurationColumnsTabComponent implements TabComponent, On
     inputLabel: this.I18n.t('js.label_add_columns'),
     inputDragLabel: this.I18n.t('js.label_manage_columns'),
   };
-
-  constructor(
-    readonly injector:Injector,
-    readonly I18n:I18nService,
-    readonly wpTableColumns:WorkPackageViewColumnsService,
-) {
-  }
 
   public onSave() {
     this.wpTableColumns.setColumnsById(this.selectedColumns.map((c) => c.id));

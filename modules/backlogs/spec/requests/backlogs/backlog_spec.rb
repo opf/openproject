@@ -98,32 +98,11 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         end
 
         it "still renders the sprint planning container for turbo-frame requests" do
-          get "/projects/#{project.identifier}/backlogs/backlog",
-              headers: { "Turbo-Frame" => "backlogs_container" }
+          get "/projects/#{project.identifier}/backlogs/backlog", headers: { "Turbo-Frame" => "backlogs_container" }
 
           expect(response).to have_http_status(:ok)
           expect(response.body).to include('id="owner_backlogs_container"')
           expect(response.body).to include('id="sprint_backlogs_container"')
-        end
-      end
-
-      it "uses the inbox border box as the drag mirror container" do
-        get "/projects/#{project.identifier}/backlogs/backlog", headers: { "Turbo-Frame" => "backlogs_container" }
-
-        expect(response).to have_http_status(:ok)
-        expect(response.body).to include(%(id="inbox_#{project.id}"))
-        expect(response.body).to include('data-generic-drag-and-drop-target="container mirrorContainer"')
-      end
-
-      context "with backlog buckets enabled", with_flag: { backlog_buckets: true } do
-        shared_let(:backlog_bucket) { create(:backlog_bucket, project:) }
-
-        it "uses each backlog bucket border box as the drag mirror container" do
-          get "/projects/#{project.identifier}/backlogs/backlog", headers: { "Turbo-Frame" => "backlogs_container" }
-
-          expect(response).to have_http_status(:ok)
-          expect(response.body).to include(%(data-test-selector="backlog-bucket-#{backlog_bucket.id}"))
-          expect(response.body).to include('data-generic-drag-and-drop-target="container mirrorContainer"')
         end
       end
     end

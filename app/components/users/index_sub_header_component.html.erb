@@ -1,5 +1,5 @@
 <%=
-  render(Primer::OpenProject::SubHeader.new) do |subheader|
+  render(Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)) do |subheader|
     subheader.with_action_button(
       scheme: :primary,
       leading_icon: :plus,
@@ -10,8 +10,21 @@
       t("activerecord.models.user")
     end
 
+    subheader.with_filter_input(
+      name: "any_name_attribute",
+      label: t(:label_search),
+      value: filter_input_value,
+      placeholder: t(:label_search),
+      clear_button_id: clear_button_id,
+      data: filter_input_data_attributes
+    )
+
+    subheader.with_filter_component do
+      render Users::UserFilterButtonComponent.new(query: @query)
+    end
+
     subheader.with_bottom_pane_component do
-      render Users::UserFilterComponent.new(@params, groups: @groups, status: @status)
+      render Users::UserFiltersComponent.new(query: @query, initially_expanded: filters_expanded?)
     end
   end
 %>

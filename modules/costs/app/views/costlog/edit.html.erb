@@ -130,13 +130,12 @@ See COPYRIGHT and LICENSE files for more details.
     <label for="cost_entry_costs_edit" class="form--label"><%= CostEntry.human_attribute_name(:costs) %></label>
     <% if User.current.allowed_in_project?(:view_cost_rates, @cost_entry.project) %>
     <span class="form--field-container">
-      <a href="#"
-         id="cost_entry_costs"
-         class="costs--edit-planned-costs-btn icon-context icon-edit"
-         role="button"
-         title="<%= t(:help_click_to_edit) %>">
-            <%= number_to_currency(@cost_entry.real_costs) %>
-        </a>
+      <button type="button"
+              id="cost_entry_costs"
+              class="costs--edit-planned-costs-btn icon-context icon-edit button--link no-decoration-on-hover"
+              aria-label="<%= t(:help_click_to_edit) %>">
+        <%= number_to_currency(@cost_entry.real_costs) %>
+      </button>
       <%= render partial: "/budgets/items/budget_override_cost_form",
                  locals: {
                    field_name: "cost_entry[overridden_costs]",

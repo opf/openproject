@@ -42,5 +42,50 @@ FactoryBot.define do
 
   factory :xwiki_provider, class: "Wikis::XWikiProvider", parent: :wiki_provider do
     url { "https://xwiki.example.com/" }
+
+    transient do
+      oauth_client_id { "openproject-#{SecureRandom.hex(8)}" }
+      oauth_client_secret { SecureRandom.alphanumeric(20) }
+    end
+
+    trait :with_oauth_client do
+      after(:create) do |provider, evaluator|
+        create :oauth_client, integration: provider,
+                              client_id: evaluator.oauth_client_id,
+                              client_secret: evaluator.oauth_client_secret
+      end
+    end
+
+    trait :with_connected_user do
+      with_oauth_client
+
+      transient do
+        connected_user { association :user }
+        connected_user_token { "user-bearer-token" }
+      end
+
+      after(:create) do |provider, evaluator|
+        create(:oauth_client_token,
+               oauth_client: provider.oauth_client,
+               user: evaluator.connected_user,
+               access_token: evaluator.connected_user_token)
+      end
+    end
+
+    trait :for_local_connection do
+      with_connected_user
+
+      url { "https://xwiki.local" }
+      connected_user_token { ENV.fetch("XWIKI_LOCAL_OAUTH_CLIENT_ACCESS_TOKEN", "TOKEN_NOT_CONFIGURED") }
+      oauth_client_id { ENV.fetch("XWIKI_LOCAL_OAUTH_CLIENT_ID", "CLIENT_ID_NOT_CONFIGURED") }
+      oauth_client_secret { ENV.fetch("XWIKI_LOCAL_OAUTH_CLIENT_SECRET", "CLIENT_SECRET_NOT_CONFIGURED") }
+    end
+
+    trait :with_oauth_configured do
+      after(:create) do |provider, _evaluator|
+        create(:oauth_client, integration: provider)
+        create(:oauth_application, integration: provider)
+      end
+    end
   end
 end

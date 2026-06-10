@@ -41,15 +41,18 @@ jobs:
           fi
 
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           ref: ${{ steps.use_input_or_find_latest_release.outputs.ref }}
+          persist-credentials: false
 
       - name: Print ref to summary
         run: |
           SHA=$(git rev-parse HEAD)
           SHORT_SHA=$(git rev-parse --short HEAD)
-          echo "Testing seeding on **${{ steps.use_input_or_find_latest_release.outputs.ref }}** ([$SHORT_SHA](https://github.com/opf/openproject/commit/$SHA))" >> "$GITHUB_STEP_SUMMARY"
+          echo "Testing seeding on **${STEPS_USE_INPUT_OR_FIND_LATEST_RELEASE_OUTPUTS_REF}** ([$SHORT_SHA](https://github.com/opf/openproject/commit/$SHA))" >> "$GITHUB_STEP_SUMMARY"
+        env:
+          STEPS_USE_INPUT_OR_FIND_LATEST_RELEASE_OUTPUTS_REF: ${{ steps.use_input_or_find_latest_release.outputs.ref }}
 
       - name: List available locales
         id: list
@@ -86,15 +89,16 @@ jobs:
       RAILS_ENV: development
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           ref: ${{ needs.prepare.outputs.ref }}
+          persist-credentials: false
 
       - name: Install system dependencies
         run: sudo apt-get update && sudo apt-get install -y libpq-dev
 
       - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
+        uses: ruby/setup-ruby@afeafc3d1ab54a631816aba4c914a0081c12ff2f # v1
         with:
           bundler-cache: true
 
@@ -109,7 +113,8 @@ jobs:
         env:
           SILENCE_SQL_LOGS: 1
           OPENPROJECT_EDITION: ${{ matrix.edition }}
-        run: ruby script/i18n/test_seed_all_locales ${{ matrix.locale }}
+          MATRIX_LOCALE: ${{ matrix.locale }}
+        run: ruby script/i18n/test_seed_all_locales ${MATRIX_LOCALE}
 
   notify-failure:
     needs: [prepare, seed]

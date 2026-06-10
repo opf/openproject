@@ -889,7 +889,7 @@ The purpose of this quick start guide is to help you get started with applying P
 
 The Centre of Excellence in PM² (CoEPM²) provides a central location for downloading all PM² information, publications, translations, etc. To study PM² in more detail you can download and review the free PM² Methodology Guide and artefact templates, and explore the online resources:
 
-- PM² Website: https://pm2.europa.eu/downloads en
+- PM² Website: https://pm2.europa.eu/
 - EU Bookshop: https://op.europa.eu/en
 - PM² on EU Academy: https://ec.europa.eu/newsroom/login?univers=informatics
 

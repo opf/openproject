@@ -25,7 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { VersionResource } from 'core-app/features/hal/resources/version-resource';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -41,11 +41,11 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class VersionBoardHeaderComponent {
-  @Input('resource') public version:VersionResource;
+  readonly I18n = inject(I18nService);
+  readonly pathHelper = inject(PathHelperService);
 
-  constructor(readonly I18n:I18nService,
-    readonly pathHelper:PathHelperService) {
-  }
+  // eslint-disable-next-line @angular-eslint/no-input-rename
+  @Input('resource') public version:VersionResource;
 
   public text = {
     isLocked: this.I18n.t('js.boards.version.is_locked'),

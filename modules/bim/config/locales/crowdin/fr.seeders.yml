@@ -138,13 +138,13 @@ fr:
                     7.  _Vous utilisez la méthode Agile ? Consultez nos tout nouveaux tableaux :_ → Accédez à [Tableaux]({{opSetting:base_url}}/projects/demo-construction-project/boards)
 
                     Vous trouverez ici nos [Guides de l'utilisateur](https://www.openproject.org/docs/user-guide/).
-                    Si vous avez des questions ou si vous avez besoin d'aide, n’hésitez pas à nous contacter : [support [at ]openproject.com](mailto:support@openproject.com).
+                    Si vous avez des questions ou si vous avez besoin d'aide, n'hésitez pas à nous contacter : [support [at ]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Membres
               item_5:
                 options:
-                  name: Lots de Travaux
+                  name: Lots de travaux
               item_6:
                 options:
                   name: Étapes
@@ -199,7 +199,7 @@ fr:
                   name: Membres
               item_5:
                 options:
-                  name: Lots de Travaux
+                  name: Lots de travaux
               item_6:
                 options:
                   name: Étapes
@@ -450,13 +450,13 @@ fr:
                     9.  _Vous utilisez la méthode Agile ? Créez un nouveau tableau :_ Accédez à [Tableaux]({{opSetting:base_url}}/projects/demo-bim-project/boards)
 
                     Vous trouverez ici nos [Guides de l'utilisateur](https://www.openproject.org/docs/user-guide/).
-                    Si vous avez des questions ou si vous avez besoin d'aide, n’hésitez pas à nous contacter : [support [at ]openproject.com](mailto:support@openproject.com).
+                    Si vous avez des questions ou si vous avez besoin d'aide, n'hésitez pas à nous contacter : [support [at ]openproject.com](mailto:support@openproject.com).
               item_4:
                 options:
                   name: Membres
               item_5:
                 options:
-                  name: Lots de Travaux
+                  name: Lots de travaux
               item_6:
                 options:
                   name: Étapes
@@ -731,4 +731,4 @@ fr:
                   name: Membres
               item_5:
                 options:
-                  name: Lots de Travaux
+                  name: Lots de travaux

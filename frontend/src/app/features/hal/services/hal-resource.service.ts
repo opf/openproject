@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { catchError, map } from 'rxjs/operators';
 import { Observable, throwError } from 'rxjs';
@@ -59,16 +59,13 @@ interface ErrorWithType {
 
 @Injectable({ providedIn: 'root' })
 export class HalResourceService {
+  readonly injector = inject(Injector);
+  readonly http = inject(HttpClient);
+
   /**
    * List of all known hal resources, extendable.
    */
   private config:Record<string, HalResourceFactoryConfigInterface> = {};
-
-  constructor(
-    readonly injector:Injector,
-    readonly http:HttpClient,
-  ) {
-  }
 
   /**
    * Perform a HTTP request and return a HalResource promise.

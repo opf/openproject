@@ -22,6 +22,7 @@ zh-TW:
         group_name_attribute: 群組名字屬性
         sync_users: 同步使用者
         base_dn: 搜尋基礎 DN
+        member_lookup_attribute: Group member attribute
     models:
       ldap_groups/synchronized_group: LDAP 同步群組
       ldap_groups/synchronized_filter: LDAP群組同步篩選
@@ -32,7 +33,7 @@ zh-TW:
   ldap_groups:
     label_menu_item: LDAP 群組同步
     label_group_key: LDAP 組篩選條件
-    label_synchronize: 同步
+    label_synchronize: Discover LDAP groups
     settings:
       name_attribute: LDAP群組名屬性
       name_attribute_text: LDAP篩選出的屬性名稱當作OpenProject群組
@@ -56,6 +57,9 @@ zh-TW:
         base_dn_text: '輸入用於此篩選器的搜尋基礎 DN，它必須在所選的 LDAP 連接的基礎 DN 之下。將此選項留空以使用連接的基礎 DN
 
           '
+        member_lookup_attribute_text: 'Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN. This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay). Set this to the attribute name on group entries that lists member DNs to use forward lookup instead. Examples: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Use this for LDAP servers that do not maintain the memberOf attribute on user entries.
+
+          '
     synchronized_groups:
       add_new: 新增 LDAP 同步群組
       destroy:
@@ -65,7 +69,12 @@ zh-TW:
         info: The OpenProject group itself and members added outside this LDAP synchronization will not be removed.
       help_text_html: |
         This module allows you to set up a synchronization between LDAP and OpenProject groups.
-        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        <br/>
+        By default, OpenProject uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
+        This requires the <em>memberOf</em> attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
+        <br/>
+        If your LDAP server does not maintain <em>memberOf</em> on user entries (e.g. it uses <em>groupOfUniqueNames</em> with <em>uniqueMember</em>),
+        you can configure <strong>forward lookup</strong> by setting the <em>Group member attribute</em> on the synchronization filter.
         <br/>
         Groups are synchronized hourly through a cron job.
         [Please see our documentation on this topic](docs_url).

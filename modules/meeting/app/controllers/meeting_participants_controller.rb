@@ -125,7 +125,7 @@ class MeetingParticipantsController < ApplicationController
       next unless participant
 
       MeetingParticipants::DeleteService
-        .new(user: User.current, model: participant)
+        .new(user: User.current, model: participant, notify: false)
         .call
     end
   end
@@ -136,7 +136,7 @@ class MeetingParticipantsController < ApplicationController
         next if meeting.participants.exists?(user_id:)
 
         MeetingParticipants::CreateService
-          .new(user: User.current)
+          .new(user: User.current, notify: false)
           .call(meeting:, user_id:, invited: true, attended: false)
       end
     end

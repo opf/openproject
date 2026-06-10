@@ -202,16 +202,7 @@ vi:
           text: "[Placeholder] Lịch nhúng"
     admin:
       type_form:
-        custom_field: Tùy chỉnh mục
-        inactive: Không hoạt động
-        drag_to_activate: Kéo các trường từ đây để kích hoạt chúng
-        add_group: Thêm 1 nhóm thuộc tính
-        add_table: Thêm bảng các gói công việc liên quan
         edit_query: Chỉnh sửa truy vấn
-        new_group: Nhóm mới
-        delete_group: Xóa nhóm
-        remove_attribute: Xóa khỏi nhóm
-        reset_to_defaults: Đặt lại về mặc định
       working_days:
         calendar:
           empty_state_header: Những ngày không làm việc
@@ -219,13 +210,6 @@ vi:
           new_date: "(mới)"
         add_non_working_day: Ngày không làm việc
         already_added_error: Ngày không làm việc cho ngày này đã tồn tại. Chỉ có thể có một ngày không làm việc được tạo cho mỗi ngày duy nhất.
-        change_button: Lưu và lên lịch lại
-        change_title: Thay đổi ngày làm việc
-        removed_title: 'Bạn sẽ xóa những ngày sau khỏi danh sách những ngày không làm việc:'
-        change_description: Việc thay đổi ngày trong tuần được coi là ngày làm việc hay ngày không làm việc có thể ảnh hưởng đến ngày bắt đầu và ngày kết thúc của tất cả các gói công việc và vòng đời trong tất cả các dự án trong trường hợp này.
-        warning: 'Những thay đổi có thể mất một thời gian để có hiệu lực. Bạn sẽ được thông báo khi tất cả các gói công việc có liên quan và vòng đời dự án đã được cập nhật. Bạn có chắc chắn muốn tiếp tục không?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Việc thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ làm cho trường <i>% Hoàn thành</i> có thể chỉnh sửa tự do. Nếu bạn tùy ý nhập các giá trị cho <i>Work</i> hoặc <i>Công việc còn lại</i>, thì chúng cũng sẽ được liên kết với <i>% Hoàn thành</i>. Việc thay đổi <i>Công việc còn lại</i> sau đó có thể cập nhật <i>% Hoàn thành</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Việc thay đổi chế độ tính toán tiến độ từ dựa trên công việc sang dựa trên trạng thái sẽ khiến tất cả các giá trị <i>% Hoàn thành</i> hiện có bị mất và được thay thế bằng các giá trị được liên kết với từng trạng thái. Các giá trị hiện tại cho <i>Công việc còn lại</i> cũng có thể được tính toán lại để phản ánh sự thay đổi này. Hành động này không thể đảo ngược.
@@ -418,7 +402,6 @@ vi:
     label_per_page: 'Mỗi trang:'
     label_please_wait: Vui lòng chờ
     label_project: dự án
-    label_project_list: Danh sách dự án
     label_project_plural: dự án
     label_visibility_settings: Cài đặt hiển thị
     label_quote_comment: Trích bình luận này
@@ -613,18 +596,6 @@ vi:
     breadcrumb: vụn bánh mì
     text_data_lost: Tất cả dữ liệu đã nhập sẽ bị mất.
     text_user_wrote: "%{value} đã viết:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: Tên %{group} được sử dụng nhiều lần. Tên nhóm phải là duy nhất.
-        error_no_table_configured: Vui lòng định cấu hình bảng cho %{group}.
-        reset_title: Đặt lại cấu hình biểu mẫu
-        confirm_reset: 'Cảnh báo: Bạn có chắc chắn muốn đặt lại cấu hình biểu mẫu không? Điều này sẽ đặt lại các thuộc tính về nhóm mặc định của chúng và vô hiệu hóa TẤT CẢ các trường tùy chỉnh.
-
-          '
-        upgrade_to_ee: Nâng cấp lên phiên bản Enterprise tại chỗ
-        upgrade_to_ee_text: Ồ! Nếu bạn cần tiện ích bổ sung này thì bạn là một siêu chuyên nghiệp! Bạn có phiền khi hỗ trợ các nhà phát triển OpenSource của chúng tôi bằng cách trở thành khách hàng phiên bản Enterprise không?
-        more_information: Thêm thông tin
-        nevermind: bỏ qua
     time_entry:
       work_package_required: Yêu cầu chọn gói công việc trước tiên.
       title: Đăng nhập thời gian
@@ -1070,16 +1041,13 @@ vi:
         all: Tất cả dự án
         selected: Chỉ được chọn
       search_placeholder: Tìm kiếm dự án...
-      search_placeholder_favorites: Tìm kiếm yêu thích...
       include_subprojects: Bao gồm tất cả các tiểu dự án
       tooltip:
         include_all_selected: Dự án đã được đưa vào kể từ khi tính năng Bao gồm tất cả các dự án con được bật.
         current_project: Đây là dự án hiện tại bạn đang tham gia.
         does_not_match_search: Dự án không phù hợp với tiêu chí tìm kiếm.
       no_results: Không có dự án nào phù hợp với tiêu chí tìm kiếm của bạn.
-      no_favorite_results: Không có dự án yêu thích nào phù hợp với tiêu chí tìm kiếm của bạn.
     include_workspaces:
-      search_placeholder: Tìm kiếm...
       types:
         program: chương trình
         portfolio: danh mục đầu tư

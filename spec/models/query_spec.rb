@@ -65,6 +65,49 @@ RSpec.describe Query,
     end
   end
 
+  describe "#find_active_filter" do
+    let(:query) { described_class.new }
+
+    it "returns the active filter matching the given name" do
+      query.add_filter("status_id", "=", ["1"])
+
+      expect(query.find_active_filter(:status_id))
+        .to be_a(Queries::WorkPackages::Filter::StatusFilter)
+    end
+
+    it "returns nil when no filter with that name is active" do
+      expect(query.find_active_filter(:status_id)).to be_nil
+    end
+
+    it "matches by symbol, like Queries::BaseQuery#find_active_filter" do
+      query.add_filter("status_id", "=", ["1"])
+
+      expect(query.find_active_filter("status_id")).to be_nil
+      expect(query.find_active_filter(:status_id)).not_to be_nil
+    end
+  end
+
+  describe "#available_advanced_filters" do
+    let(:query) { described_class.new }
+
+    it "excludes the ManualSortFilter so it doesn't appear in the FilterForm picker" do
+      classes = query.available_advanced_filters.map(&:class)
+
+      expect(classes).not_to include(Queries::WorkPackages::Filter::ManualSortFilter)
+    end
+
+    it "still exposes regular work-package filters" do
+      classes = query.available_advanced_filters.map(&:class)
+
+      # Sanity: a couple of well-known WP filters are still advertised.
+      # Picked ones whose `available?` doesn't depend on DB records (Status
+      # / Priority would require seeding statuses/priorities first).
+      expect(classes).to include(Queries::WorkPackages::Filter::SubjectFilter,
+                                 Queries::WorkPackages::Filter::CreatedAtFilter,
+                                 Queries::WorkPackages::Filter::DueDateFilter)
+    end
+  end
+
   describe "include_subprojects" do
     let(:query) { described_class.new name: "foo" }
 

@@ -1,15 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  forwardRef,
-  HostBinding,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, HostBinding, Input, Output, ViewChild, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 
@@ -28,6 +17,9 @@ export type SpotSwitchState = boolean;
   standalone: false,
 })
 export class SpotSwitchComponent implements ControlValueAccessor {
+  elementRef = inject(ElementRef);
+  cdRef = inject(ChangeDetectorRef);
+
   @HostBinding('class.spot-switch') public className = true;
 
   @ViewChild('input') public input:ElementRef;
@@ -60,10 +52,7 @@ export class SpotSwitchComponent implements ControlValueAccessor {
    */
   @Output() checkedChange = new EventEmitter<boolean>();
 
-  constructor(
-    public elementRef:ElementRef,
-    public cdRef:ChangeDetectorRef,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Directive, ElementRef } from '@angular/core';
+import { Directive, ElementRef, inject } from '@angular/core';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import {
   OpTableActionsService,
@@ -196,10 +196,11 @@ import {
   ],
 })
 export class WorkPackageIsolatedQuerySpaceDirective {
-  constructor(
-    public querySpace:IsolatedQuerySpace,
-    elementRef:ElementRef,
-  ) {
+  querySpace = inject(IsolatedQuerySpace);
+
+  constructor() {
+    const elementRef = inject(ElementRef);
+
     debugLog('Opening isolated query space in %O', elementRef.nativeElement);
   }
 }

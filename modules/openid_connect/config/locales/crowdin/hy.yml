@@ -1,0 +1,166 @@
+---
+hy:
+  plugin_openproject_openid_connect:
+    name: OpenProject OpenID Connect
+    description: Adds OmniAuth OpenID Connect strategy providers to OpenProject.
+  logout_warning: 'You have been logged out. The contents of any form you submit may be lost. Please [log in].
+
+    '
+  activerecord:
+    attributes:
+      openid_connect/group_link:
+        oidc_group_name: OpenID group identifier
+      openid_connect/provider:
+        name: Name
+        slug: Unique identifier
+        display_name: Display name
+        client_id: Client ID
+        client_secret: Client secret
+        groups_claim: Groups claim
+        group_regexes: Patterns (regular expressions)
+        secret: Secret
+        scope: Scope
+        sync_groups: Synchronize groups
+        grant_types_supported: Supported grant types
+        limit_self_registration: Limit self registration
+        authorization_endpoint: Authorization endpoint
+        userinfo_endpoint: User information endpoint
+        token_endpoint: Token endpoint
+        end_session_endpoint: End session endpoint
+        post_logout_redirect_uri: Post logout redirect URI
+        jwks_uri: JWKS URI
+        issuer: Issuer
+        tenant: Tenant
+        metadata_url: Metadata URL
+        icon: Custom icon
+        claims: Claims
+        acr_values: ACR values
+        redirect_url: Redirect URL
+    errors:
+      models:
+        openid_connect/provider:
+          attributes:
+            metadata_url:
+              format: Discovery endpoint URL %{message}
+              response_is_not_successful: " responds with %{status}."
+              response_is_not_json: " does not return JSON body."
+              response_misses_required_attributes: " does not return required attributes. Missing attributes are: %{missing_attributes}."
+          invalid_claims_essential: does not define a boolean at %{attribute}.
+          invalid_claims_location: 'contain unsupported locations: %{invalid}. Supported locations are: %{supported}.'
+          invalid_claims_values: does not define an array at %{attribute}.
+          non_object_attribute: does not define a JSON object at %{attribute}.
+  provider:
+    delete_warning:
+      input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.
+      irreversible_notice: Deleting an SSO provider is an irreversible action.
+      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'
+      delete_result_1: Remove the provider from the list of available providers.
+      delete_result_user_count:
+        zero: No users are currently using this provider. No further action is required.
+        one: One user is currently still using this provider. They will need to be re-invited or logging in with another provider.
+        other: "%{count} users are currently still using this provider. They will need to be re-invited or logging in with another provider."
+      delete_result_direct: This provider is marked as a direct login provider. The setting will be removed and users will no longer be redirected to the provider for login.
+  openid_connect:
+    menu_title: OpenID providers
+    delete_title: Delete OpenID Connect provider
+    delete_heading: Delete this OpenID Connect provider?
+    group_links_heading: OpenID Connect group links
+    groups:
+      match_preview_component:
+        title: Extracted group names
+        placeholder_none: No groups currently match the pattern.
+      match_preview_dialog_component:
+        description: This allows you to test your regular expression pattern against sample data to verify that the group names you want extracted are indeed extracted properly. You can modify your pattern here but the test string and matches themselves will not be saved with the configuration.
+        group_names_label: Test group names
+        group_names_description: Enter one group name per line as it would appear in the OIDC claim, to see how your regular expression patterns affect them.
+        show_button: Test pattern
+        title: Test regular expressions
+    instructions:
+      endpoint_url: The endpoint URL given to you by the OpenID Connect provider
+      group_regexes: One regular expression pattern per line. Please read [the documentation](docs_url) for more information on how to do this.
+      group_regexes_detail: Optionally define patterns using regular expressions to match group names from the groups claim. For example, entering a pattern like <code>^Level1/Level2/([\w/]+)$</code> will extract the group “Groupname/SubGroup” from a response including “Level1/Level2/GroupName/SubGroup”. If no pattern matches, the group is ignored. Leave empty to synchronize all groups using their full group name.
+      group_regexes_testing: Click on 'Test pattern' to test your regular expression pattern against sample OIDC userinfo.
+      group_sync: Automatically extract and synchronise group membership information from the identity provider.
+      groups_claim: Specify the name of the claim that's expected to indicate the group names that the user is a member of.
+      metadata_none: I don't have this information
+      metadata_url: I have a discovery endpoint URL
+      oidc_information: These values are needed to configure the OpenID Connect provider.
+      client_id: This is the client ID given to you by your OpenID Connect provider
+      client_secret: This is the client secret given to you by your OpenID Connect provider
+      limit_self_registration: If enabled, users can only register using this provider if configuration on the provider's end allows it.
+      display_name: The name of the provider. This will be displayed as the login button and in the list of providers.
+      tenant: Please replace the default tenant with your own if applicable. See <a href=" https://learn.microsoft.com/en-us/entra/identity-platform/v2-protocols-oidc#find-your-apps-openid-configuration-document-uri">this</a>.
+      scope: If you want to request custom scopes, you can add one or multiple scope values separated by spaces here. For more information, see the [OpenID Connect documentation](docs_url).
+      post_logout_redirect_uri: The URL the OpenID Connect provider should redirect to after a logout request.
+      claims: 'You can request additional claims for the userinfo and id token endpoints. Please see [our OpenID connect documentation](docs_url) for more information.
+
+        '
+      acr_values: 'Request non-essential claims in an easier format. See [our documentation on acr_values](docs_url) for more information.
+
+        '
+      mapping_login: 'Provide a custom mapping in the userinfo response to be used for the login attribute.
+
+        '
+      mapping_email: 'Provide a custom mapping in the userinfo response to be used for the email attribute.
+
+        '
+      mapping_first_name: 'Provide a custom mapping in the userinfo response to be used for the first name.
+
+        '
+      mapping_last_name: 'Provide a custom mapping in the userinfo response to be used for the last name.
+
+        '
+      mapping_admin: 'Provide a custom mapping in the userinfo response to be used for the admin status. It expects a boolean attribute to be returned.
+
+        '
+    settings:
+      metadata_none: I don't have this information
+      metadata_url: I have a discovery endpoint URL
+      endpoint_url: Endpoint URL
+    providers:
+      label_providers: Providers
+      seeded_from_env: This provider was seeded from the environment configuration. It cannot be edited.
+      google:
+        name: Google
+      microsoft_entra:
+        name: Microsoft Entra
+      custom:
+        name: Custom
+      upsell:
+        title: Single Sign-On (SSO) with OpenID connect
+        description: Connect OpenProject to an OpenID connect identity provider
+      label_add_new: Add a new OpenID provider
+      label_edit: Edit OpenID provider %{name}
+      label_empty_title: No OpenID providers configured yet.
+      label_empty_description: Add a provider to see them here.
+      label_group_mapping: Group mapping
+      label_metadata: OpenID Connect Discovery Endpoint
+      label_automatic_configuration: Automatic configuration
+      label_optional_configuration: Optional configuration
+      label_advanced_configuration: Advanced configuration
+      label_configuration_details: Metadata
+      label_client_details: Client details
+      label_attribute_mapping: Attribute mapping
+      notice_created: A new OpenID provider was successfully created.
+      client_details_description: Configuration details of OpenProject as an OIDC client
+      no_results_table: No providers have been defined yet.
+      plural: OpenID providers
+      singular: OpenID provider
+      section_texts:
+        group_mapping: Map group names provided by the identity provider to groups in OpenProject.
+        metadata: Pre-fill configuration using an OpenID Connect discovery endpoint URL
+        metadata_form_banner: Editing the discovery endpoint may override existing pre-filled metadata values.
+        metadata_form_title: OpenID Connect Discovery endpoint
+        metadata_form_description: If your identity provider has a discovery endpoint URL. Use it below to pre-fill configuration.
+        configuration_metadata: The information has been pre-filled using the supplied discovery endpoint. In most cases, they do not require editing.
+        configuration: Configuration details of the OpenID Connect provider
+        display_name: The display name visible to users.
+        attribute_mapping: Configure the mapping of attributes between OpenProject and the OpenID Connect provider.
+        claims: Request additional claims for the ID token or userinfo response.
+      side_panel:
+        information_component:
+          backchannel_logout_url: Backchannel logout URL
+    setting_instructions:
+      limit_self_registration: 'If enabled users can only register using this provider if the self registration setting allows for it.
+
+        '

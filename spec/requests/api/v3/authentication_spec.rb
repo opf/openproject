@@ -42,6 +42,67 @@ RSpec.describe "API V3 Authentication" do
   end
   let(:resource_metadata) { 'resource_metadata="http://test.host/.well-known/oauth-protected-resource"' }
 
+  describe "session auth" do
+    let(:user) { create(:admin) }
+    let(:session_data) { ActiveSupport::HashWithIndifferentAccess.new(user_id: user.id, updated_at: Time.current) }
+
+    before do
+      # rubocop:disable RSpec/AnyInstance
+      allow_any_instance_of(OpenProject::Authentication::Strategies::Warden::Session)
+        .to receive(:session)
+        .and_return(session_data)
+      # rubocop:enable RSpec/AnyInstance
+    end
+
+    context "when making a GET request" do
+      before do
+        get resource
+      end
+
+      it "authenticates successfully" do
+        expect(last_response).to have_http_status :ok
+      end
+    end
+
+    context "when making a POST request" do
+      let(:add_additional_headers) { nil }
+
+      before do
+        header "Content-Type", "application/json"
+        add_additional_headers
+        post resource, { name: "Test" }.to_json
+      end
+
+      it "is not authenticated" do
+        expect(last_response).to have_http_status :unauthorized
+      end
+
+      context "and when the Sec-Fetch-Site header indicates a same-origin request" do
+        let(:add_additional_headers) { header "Sec-Fetch-Site", "same-origin" }
+
+        it "authenticates successfully" do
+          expect(last_response).to have_http_status :created
+        end
+      end
+
+      context "and when the Sec-Fetch-Site header indicates a cross-site request" do
+        let(:add_additional_headers) { header "Sec-Fetch-Site", "cross-site" }
+
+        it "is not authenticated" do
+          expect(last_response).to have_http_status :unauthorized
+        end
+      end
+
+      context "and when the Sec-Fetch-Site header indicates a same-site request" do
+        let(:add_additional_headers) { header "Sec-Fetch-Site", "same-site" }
+
+        it "is not authenticated" do
+          expect(last_response).to have_http_status :unauthorized
+        end
+      end
+    end
+  end
+
   describe "oauth" do
     let(:oauth_access_token) { "" }
     let(:expected_message) { "You did not provide the correct credentials." }

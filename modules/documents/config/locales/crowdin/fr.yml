@@ -100,7 +100,7 @@ fr:
     delete_dialog:
       title: Supprimer le document
       heading: Supprimer le document ?
-      confirmation_message_html: Cette opération supprimera définitivement ce document et toutes les pièces jointes. Êtes-vous sûr de vouloir faire cela ?
+      confirmation_message_html: Cette opération supprimera définitivement ce document et toutes les pièces jointes. Voulez-vous vraiment continuer ?
     delete_document_type_dialog:
       title: Supprimer un type de document
       heading: Supprimer ce type de document ?

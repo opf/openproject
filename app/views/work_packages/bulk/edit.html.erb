@@ -42,7 +42,7 @@ See COPYRIGHT and LICENSE files for more details.
 <ul>
   <% @work_packages.each do |wp| %>
     <li>
-      <%= link_to(h("#{wp.type} ##{wp.id}"), work_package_path(wp)) %>:
+      <%= link_to(h("#{wp.type} #{wp.formatted_id}"), work_package_path(wp)) %>:
       <%= wp.subject %>
     </li>
   <% end %>

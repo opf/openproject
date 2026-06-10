@@ -98,9 +98,7 @@ RSpec.describe "show default model", :js, with_config: { edition: "bim" } do
     end
 
     it "renders a notification" do
-      show_default_page
-        .expect_toast(type: :info,
-                      message: I18n.t(:"ifc_models.processing_notice.processing_default"))
+      expect(page).to have_css(".Banner", text: I18n.t(:"ifc_models.processing_notice.processing_default"))
     end
   end
 end

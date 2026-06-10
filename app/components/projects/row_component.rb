@@ -80,26 +80,10 @@ module Projects
       send(column.attribute)
     end
 
-    def custom_field_column(column) # rubocop:disable Metrics/AbcSize
+    def custom_field_column(column)
       return nil unless user_can_view_project_attributes?
 
-      cf = column.custom_field
-      custom_value = project.formatted_custom_value_for(cf)
-
-      if cf.field_format == "text" && custom_value.present?
-        render OpenProject::Common::AttributeComponent.new(
-          "dialog-#{project.id}-cf-#{cf.id}",
-          cf.name,
-          custom_value,
-          format: false # already formatted
-        )
-      elsif custom_value.is_a?(Array)
-        safe_join(Array(custom_value).compact_blank, ", ")
-      elsif cf.calculated_value?
-        render_calculated_value(cf, custom_value)
-      else
-        custom_value
-      end
+      super
     end
 
     def render_calculated_value(custom_field, custom_value)
@@ -188,7 +172,6 @@ module Projects
     end
 
     def workspace_type_badge
-      return unless OpenProject::FeatureDecisions.portfolio_models_active?
       # Only show icon and type for non-project workspaces
       return unless project.workspace_type.in?(["portfolio", "program"])
 
@@ -449,6 +432,25 @@ module Projects
 
     def user_can_view_project_phases?
       User.current.allowed_in_project?(:view_project_phases, project)
+    end
+
+    def custom_field_column_subject
+      project
+    end
+
+    def format_custom_field_value(cf, custom_value)
+      if cf.field_format == "text" && custom_value.present?
+        render OpenProject::Common::AttributeComponent.new(
+          "dialog-#{project.id}-cf-#{cf.id}",
+          cf.name,
+          custom_value,
+          format: false
+        )
+      elsif cf.calculated_value?
+        render_calculated_value(cf, custom_value)
+      else
+        super
+      end
     end
 
     def custom_field_column?(column)

@@ -34,7 +34,7 @@ You have probably unchecked the option “show as menu item in project navigatio
 
 ## What is the markup language of the wiki in OpenProject?
 
-The wiki syntax used in OpenProject is Textile.
+The wiki syntax that is used internally in OpenProject is GitHub-flavored Markdown (GFM) + HTML for specific widgets. Prior to OpenProject 8.0, the platform used Textile. However, any legacy Textile content is automatically migrated to the GFM Markdown format during system upgrades.
 
 ## I am not used to Textile - is there any documentation where I can get help?
 

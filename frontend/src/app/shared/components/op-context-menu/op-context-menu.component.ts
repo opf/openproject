@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import {
   OpContextMenuItem,
   OpContextMenuLocalsMap,
@@ -15,11 +15,13 @@ import { OPContextMenuService } from 'core-app/shared/components/op-context-menu
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class OPContextMenuComponent {
+  locals = inject<OpContextMenuLocalsMap>(OpContextMenuLocalsToken);
+
   public items:OpContextMenuItem[];
 
   public service:OPContextMenuService;
 
-  constructor(@Inject(OpContextMenuLocalsToken) public locals:OpContextMenuLocalsMap) {
+  constructor() {
     this.items = this.locals.items.filter((item) => !item?.hidden);
     this.service = this.locals.service;
   }

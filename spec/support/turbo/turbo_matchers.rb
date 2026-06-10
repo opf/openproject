@@ -31,7 +31,7 @@
 # Adapted for RSpec from turbo-rails
 # See: https://github.com/hotwired/turbo-rails/blob/main/lib/turbo/test_assertions.rb
 #
-RSpec::Matchers.define :have_turbo_stream do |action:, target: nil, targets: nil, url: nil, count: 1|
+RSpec::Matchers.define :have_turbo_stream do |action:, target: nil, targets: nil, url: nil, method: nil, count: 1|
   description { "contain a `<turbo-stream>` element" }
   failure_message { rescued_exception.message }
   failure_message_when_negated do
@@ -47,6 +47,7 @@ RSpec::Matchers.define :have_turbo_stream do |action:, target: nil, targets: nil
     @selector << %([target="#{target.respond_to?(:to_key) ? dom_id(target) : target}"]) if target
     @selector << %([targets="#{targets}"]) if targets
     @selector << %([url="#{url}"]) if url
+    @selector << %([method="#{method}"]) if method
 
     assert_select(@selector, count:, &block_arg)
   end

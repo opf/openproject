@@ -37,7 +37,7 @@ import {
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
@@ -174,19 +174,19 @@ export class WorkPackageBaseResource extends HalResource {
 
   public attributesByTimestamp?:IWorkPackageTimestamp[];
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() I18n!:I18nService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() wpActivity:WorkPackagesActivityService;
+  @LazyInject() wpActivity:WorkPackagesActivityService;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
-  @InjectField() ToastService:ToastService;
+  @LazyInject() ToastService:ToastService;
 
-  @InjectField() workPackageNotificationService:WorkPackageNotificationService;
+  @LazyInject() workPackageNotificationService:WorkPackageNotificationService;
 
-  @InjectField() pathHelper:PathHelperService;
+  @LazyInject() pathHelper:PathHelperService;
 
   readonly attachmentsBackend = true;
 

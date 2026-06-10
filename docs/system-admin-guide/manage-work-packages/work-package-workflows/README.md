@@ -2,7 +2,7 @@
 
 sidebar_navigation:
   title: Workflows
-  priority: 960
+  priority: 300
 description: Manage Work package workflows.
 keywords: work package workflows
 ---
@@ -17,7 +17,7 @@ This means, a certain type of work package, e.g. a Task, can have the following 
 
 To edit a workflow, navigate to *Administration → Work packages → Workflows*. You will see an overview of all available work package types.
 
-![List of work packages types under Workflows editing in OpenProject administration](openproject_system_guide_wp_workflows_list.png)
+![List of work packages types under Workflows editing in OpenProject administration](openproject_system_guide_wp_workflows_menu.png)
 
 Select the type of work package for which you want to edit the workflow, e.g. *Task*. 
 
@@ -25,9 +25,15 @@ Once opened, you can configure workflows for this type:
 
 1. Choose whether you want to edit default transitions, or transitions when a user is the **author** or **assignee** using the tabs at the top of the page.
 
-![Tabs to select between default transitions, when the user is the author or when the user is the assignee](admin_workflow_tabs.png)
+   ![Menu list of work packages types under Workflows editing in OpenProject administration](openproject_system_guide_wp_workflows_menu_edit.png)
 
-2. Select the **role** for which you want to configure the workflow. The workflow table will update automatically when switching roles.
+   
+
+![Tabs to select between default transitions, when the user is the author or when the user is the assignee](openproject_system_guide_wp_workflows_role_list.png)
+
+2. Select the **role** or **roles** for which you want to configure the workflow from the select panel. The workflow table will update automatically when switching roles. The role panel will also update to reflect the selected number of roles. When multiple roles are selected, the checkboxes of the workflow table assign transitions for all. When only some of the selected roles have the transition, the checkboxes are marked as partial.
+
+   ![Panel to select roles for a work package type in default transitions](openproject_system_guide_wp_workflows_select_role.png)
 
 3. Define which **statuses** are available for this type:
    - Click **+ Status** to add or remove statuses.
@@ -62,11 +68,18 @@ You can copy an existing workflow by clicking **Copy** in the workflow overview.
 
 ![Copy work package workflow in OpenProject administration](System-admin-guide-work-package-workflows_copy.png)
 
-You will then be able to determine which existing workflow should be copied to which other workflow.
+You will then be able to select which existing workflow should be copied to selected types. Here, you can select as many target types as you wish.
 
-For example, select the source type (e.g. 'Task') and source role (e.g. 'Member') to copy the workflow from. Afterwards, select the target (e.g. 'Task') and lastly the role which will be 'Work package editor' to copy the workflow for:
 
-![Example for copying a work package workflow in OpenProject administration](System-admin-guide-work-package-workflows_copy_form.png)
+
+![Example for copying a work package workflow from one type to another in OpenProject administration](System-admin-guide-work-package-workflows_copy_type.png)
+
+You can also copy to other roles by selecting a role or multiple target roles from the drop-down list.
+
+![Example for copying a work package workflow to other roles in OpenProject administration](System-admin-guide-work-package-workflows_copy_to_roles.png)
+
+![Example for copying a work package workflow in OpenProject administration,copy button highlighted](
+System-admin-guide-work-package-workflows_copy_to_roles_save.png)
 
 You can also choose to use the workflows for the source type and role as the blueprint for multiple target types at the same time.
 
@@ -76,11 +89,11 @@ The copy of a workflow can later on be altered to better reflect the desired tra
 
 You can get a summary of the allowed status transitions of a work package type for a role by clicking on **Summary** in the workflow overview.
 
-![Summary of work package workflows in OpenProject administration](System-admin-guide-work-package-workflows_summary.png)
+![Summary of work package workflows in OpenProject administration](System-admin-guide-work-package-workflows_overview.png)
 
 You will then view a summary of all the workflows. The number of possible status transitions for each type and role are shown in a matrix.
 
-![Overview of work package workflow summary in OpenProject administration](System-admin-guide-work-package-workflows_overview.png)
+![Overview of work package workflow summary in OpenProject administration](System-admin-guide-work-package-workflows_summary.png)
 
 > [!TIP]
 > For more examples on using workflows in OpenProject take a look at [this blog article](https://www.openproject.org/blog/status-and-workflows/).

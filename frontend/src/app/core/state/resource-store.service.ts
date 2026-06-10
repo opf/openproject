@@ -58,10 +58,7 @@ import {
   HttpClient,
   HttpErrorResponse,
 } from '@angular/common/http';
-import {
-  Injectable,
-  Injector,
-} from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
@@ -76,17 +73,14 @@ export type ResourceKeyInput = ApiV3ListParameters|string;
 
 @Injectable()
 export abstract class ResourceStoreService<T extends { id:ID }> {
+  readonly injector = inject(Injector);
+  readonly http = inject(HttpClient);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly toastService = inject(ToastService);
+
   protected store:ResourceStore<T> = this.createStore();
 
   protected query = new QueryEntity(this.store);
-
-  constructor(
-    readonly injector:Injector,
-    readonly http:HttpClient,
-    readonly apiV3Service:ApiV3Service,
-    readonly toastService:ToastService,
-  ) {
-  }
 
   /**
    * Require the results for the given filter params

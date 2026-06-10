@@ -31,6 +31,7 @@
 require "spec_helper"
 
 RSpec.describe EnvData::CustomDesignSeeder, :webmock do
+  let(:safe_public_ip) { "93.184.216.34" }
   let(:seed_data) { Source::SeedData.new({}) }
   let(:base64_image) do
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/wQACfsD/QqnFgAAAABJRU5ErkJggg=="
@@ -52,10 +53,12 @@ RSpec.describe EnvData::CustomDesignSeeder, :webmock do
         body: Rails.root.join("spec/fixtures/files/icon_logo.svg").read
       )
   end
-
   subject(:seeder) { described_class.new(seed_data) }
 
   before do
+    # CarrierWave remote URL downloading resolves hostnames with SsrfFilter.
+    allow(Resolv).to receive(:getaddresses).with("test.foobar.com").and_return([safe_public_ip])
+
     png_stub
     svg_stub
   end

@@ -28,49 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# Workaround to support role filters in component specs. This should be fixed upstream.
-Capybara::Node::Simple.class_eval do
-  def role
-    self[:role]
-  end
+CapybaraAccessibleSelectors.add_role_selector(:list, within: true) do
+  filter_set(:capybara_accessible_selectors, %i[aria described_by])
 end
 
-Capybara.add_selector(:list) do
-  xpath do |*|
-    XPath.descendant[[
-      XPath.self(:ul),
-      XPath.self(:ol)
-    ].reduce(:|)]
-  end
-
-  locator_filter skip_if: nil do |node, locator, exact:, **|
-    method = exact ? :eql? : :include?
-    if node[:"aria-labelledby"]
-      CapybaraAccessibleSelectors::Helpers.element_labelledby(node).public_send(method, locator)
-    elsif node[:"aria-label"]
-      node[:"aria-label"].public_send(method, locator.to_s)
-    end
-  end
-
-  filter_set(:capybara_accessible_selectors, %i[aria role described_by])
-end
-
-Capybara.add_selector(:list_item) do
-  label "list item"
-
-  xpath do |*|
-    XPath.descendant[XPath.self(:li)]
-  end
-
-  expression_filter(:position) do |xpath, position|
-    position ? "#{xpath}[#{position}]" : xpath
+CapybaraAccessibleSelectors.add_role_selector(:list_item, role: :listitem, within: true, content_fallback: true) do
+  expression_filter(:position, skip_if: nil) do |xpath, position|
+    xpath[position]
   end
 
   describe_expression_filters do |position: nil, **|
     position ? " at position #{position}" : ""
   end
 
-  filter_set(:capybara_accessible_selectors, %i[aria role described_by])
+  filter_set(:capybara_accessible_selectors, %i[aria described_by])
 end
 
 module Capybara

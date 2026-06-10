@@ -80,13 +80,6 @@ Rails.application.config.after_initialize do
         connect_src += ["https://appsignal-endpoint.net"]
       end
 
-      # Allow connections to S3 for BIM
-      if OpenProject::Configuration.fog_directory.present?
-        connect_src += [
-          OpenProject::Configuration.fog_s3_upload_host
-        ]
-      end
-
       # Add proxy configuration for Angular CLI to csp
       if FrontendAssetHelper.assets_proxied?
         proxied = ["ws://#{Setting.host_name}", "http://#{Setting.host_name}",
@@ -117,6 +110,12 @@ Rails.application.config.after_initialize do
       if Rails.env.test?
         connect_src += ["test-bucket.s3.amazonaws.com"]
         form_action += ["test-bucket.s3.amazonaws.com"]
+      end
+
+      # Allow connections to S3 for BIM
+      if OpenProject::Configuration.fog_directory.present?
+        connect_src += [OpenProject::Configuration.fog_s3_upload_host]
+        form_action += [OpenProject::Configuration.fog_s3_upload_host]
       end
 
       # Configure CSP directives

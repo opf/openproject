@@ -7,8 +7,8 @@ import { ID } from '@datorama/akita';
 export interface ISnippet {
   id:string;
   name:string;
-  textToDisplay:() => string;
-  textToCopy:() => string
+  multiline?:boolean;
+  text:() => string;
 }
 
 export interface IGithubUserResource {

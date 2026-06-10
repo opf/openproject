@@ -85,8 +85,12 @@ module Import
     def project_browsable?(project_key)
       @client.issues(jql: "project = '#{project_key}'", max_results: 0, fields: "id")
       true
-    rescue Import::JiraClient::ApiError
-      false
+    rescue Import::JiraClient::ApiError => e
+      if e.status == 400
+        false
+      else
+        raise e
+      end
     end
   end
 end

@@ -185,6 +185,14 @@ module API
                    represented.password = represented.password_confirmation = fragment
                  }
 
+        property :current_password,
+                 as: :currentPassword,
+                 getter: ->(*) {},
+                 render_nil: false,
+                 setter: ->(fragment:, represented:, **) {
+                   represented.current_password_input = fragment
+                 }
+
         ##
         # Used while parsing JSON to initialize `ldap_auth_source_id` through the given link.
         def initialize_embedded_links!(data)

@@ -67,7 +67,10 @@ module Costs
                    require: :member
 
         permission :manage_project_activities,
-                   { "projects/settings/time_entry_activities": %i[show update] },
+                   {
+                     "projects/settings/time_entry_activities": %i[show update],
+                     "projects/settings/cost_types": %i[index toggle]
+                   },
                    permissible_on: :project,
                    require: :member
 
@@ -222,6 +225,7 @@ module Costs
              current_user.allowed_in_project?(:log_own_costs, represented.project)
            } do
         next unless represented.costs_enabled? && represented.persisted?
+        next unless represented.project&.cost_types_available?
 
         {
           href: new_work_packages_cost_entry_path(represented),
@@ -348,6 +352,10 @@ module Costs
 
       ::Queries::Register.register(::Query) do
         select Costs::QueryCurrencySelect
+      end
+
+      ::Queries::Register.register(::ProjectQuery) do
+        filter ::Queries::Projects::Filters::AvailableCostTypesProjectsFilter
       end
     end
   end

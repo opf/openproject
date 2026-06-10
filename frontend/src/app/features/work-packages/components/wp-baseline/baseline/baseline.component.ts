@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output, inject } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
@@ -71,6 +63,15 @@ const DEFAULT_SELECTED_TIME = '08:00';
   standalone: false,
 })
 export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
+  readonly I18n = inject(I18nService);
+  readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
+  readonly halResourceService = inject(HalResourceService);
+  readonly weekdaysService = inject(WeekdayService);
+  readonly daysService = inject(DayResourceService);
+  readonly timezoneService = inject(TimezoneService);
+  readonly configuration = inject(ConfigurationService);
+  readonly Banner = inject(BannersService);
+
   @HostBinding('class.op-baseline') className = true;
 
   @Output() submitted = new EventEmitter<void>();
@@ -161,19 +162,6 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
       title: this.I18n.t('js.baseline.drop_down.between_two_specific_dates'),
     },
   ];
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly wpTableBaseline:WorkPackageViewBaselineService,
-    readonly halResourceService:HalResourceService,
-    readonly weekdaysService:WeekdayService,
-    readonly daysService:DayResourceService,
-    readonly timezoneService:TimezoneService,
-    readonly configuration:ConfigurationService,
-    readonly Banner:BannersService,
-  ) {
-    super();
-  }
 
   public ngOnInit():void {
     this.userTimezone = this.timezoneService.userTimezone();

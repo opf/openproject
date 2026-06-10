@@ -543,6 +543,20 @@ module OpenProject
       end
     end
 
+    describe "#ordinalize" do
+      it "uses german default ordinal formatting for day numbers" do
+        described_class.with_locale :de do
+          expect(ordinalize(16)).to eq("16.")
+        end
+      end
+
+      it "falls back to inflector output when no locale-specific key exists" do
+        described_class.with_locale :en do
+          expect(ordinalize(16)).to eq("16th")
+        end
+      end
+    end
+
     describe ".l" do
       valid_languages.each do |lang|
         context "for locale #{lang}" do

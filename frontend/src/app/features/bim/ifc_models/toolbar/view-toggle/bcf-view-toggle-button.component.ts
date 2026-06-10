@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bcf-view.service';
 
@@ -50,7 +50,8 @@ import { BcfViewService } from 'core-app/features/bim/ifc_models/pages/viewer/bc
   standalone: false,
 })
 export class BcfViewToggleButtonComponent {
-  view$ = this.bcfView.live$();
+  readonly I18n = inject(I18nService);
+  readonly bcfView = inject(BcfViewService);
 
-  constructor(readonly I18n:I18nService, readonly bcfView:BcfViewService) { }
+  view$ = this.bcfView.live$();
 }

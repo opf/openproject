@@ -80,6 +80,51 @@ RSpec.describe JournalsController do
 
         it { expect(response).to have_http_status(:forbidden) }
       end
+
+      describe "with a restricted/internal journal" do
+        before do
+          work_package.last_journal.update_columns(restricted: true)
+        end
+
+        describe "with a user having :view_work_packages but no :view_internal_comments" do
+          it { expect(response).to have_http_status(:forbidden) }
+        end
+
+        describe "with a user also having :view_internal_comments" do
+          let(:user) do
+            create(:user, member_with_permissions: { project => %i[view_work_packages view_internal_comments] })
+          end
+
+          include_examples "the diff is shown", "description<br/>more changes"
+        end
+      end
+    end
+
+    context "for work package not visible to the current user" do
+      shared_let(:private_project) { create(:project_with_types) }
+      shared_let(:visible_work_package) do
+        create(:work_package, type: private_project.types.first, project: private_project)
+      end
+      shared_let(:hidden_work_package) do
+        create(:work_package, type: private_project.types.first, project: private_project, description: "")
+      end
+      shared_let(:wp_role) { create(:view_work_package_role) }
+      shared_let(:shared_user) do
+        create(:user).tap do |u|
+          create(:member, project: private_project, entity: visible_work_package, principal: u, roles: [wp_role])
+        end
+      end
+
+      before do
+        hidden_work_package.update_attribute(:description, "hidden content")
+      end
+
+      let(:user) { shared_user }
+      let(:params) { { id: hidden_work_package.last_journal.id.to_s, field: :description, format: "js" } }
+
+      describe "with a user having access only to a different work package in the same project" do
+        it { expect(response).to have_http_status(:forbidden) }
+      end
     end
 
     context "for work package custom field" do
@@ -149,8 +194,9 @@ RSpec.describe JournalsController do
 
         context "when visible to everyone" do
           let(:admin_only) { false }
+          let(:user) { create(:user, member_with_permissions: { project => %i[view_project_attributes] }) }
 
-          describe "with a user being project member" do
+          describe "with a user having :view_project_attributes" do
             include_examples "the diff is shown", "bar"
 
             context "when field gets deleted" do
@@ -158,6 +204,12 @@ RSpec.describe JournalsController do
 
               it { expect(response).to have_http_status(:forbidden) }
             end
+          end
+
+          describe "with a user lacking :view_project_attributes" do
+            let(:user) { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+            it { expect(response).to have_http_status(:forbidden) }
           end
 
           describe "with a user not being project member" do
@@ -217,6 +269,7 @@ RSpec.describe JournalsController do
       context "with format string" do
         let(:factory_name) { :string_project_custom_field }
         let(:admin_only) { false }
+        let(:user) { create(:user, member_with_permissions: { project => %i[view_project_attributes] }) }
 
         it { expect(response).to have_http_status(:not_found) }
       end
@@ -232,8 +285,9 @@ RSpec.describe JournalsController do
 
       context "when visible to everyone" do
         let(:admin_only) { false }
+        let(:user) { create(:user, member_with_permissions: { project => %i[view_project_attributes] }) }
 
-        describe "with a user being project member" do
+        describe "with a user having :view_project_attributes" do
           include_examples "the diff is shown", "baz"
 
           context "when field gets deleted" do
@@ -241,6 +295,12 @@ RSpec.describe JournalsController do
 
             it { expect(response).to have_http_status(:forbidden) }
           end
+        end
+
+        describe "with a user lacking :view_project_attributes" do
+          let(:user) { create(:user, member_with_permissions: { project => %i[view_project] }) }
+
+          it { expect(response).to have_http_status(:forbidden) }
         end
 
         describe "with a user not being project member" do
@@ -354,7 +414,7 @@ RSpec.describe JournalsController do
       describe "even with a user having all permissions" do
         let(:user) { build_stubbed(:admin) }
 
-        it { expect(response).to have_http_status(:forbidden) }
+        it { expect(response).to have_http_status(:bad_request) }
       end
     end
 

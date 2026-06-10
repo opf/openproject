@@ -39,6 +39,48 @@ RSpec.describe "index users", :js do
     login_as current_user
   end
 
+  describe "filtering", :js do
+    let!(:alice) { create(:user, login: "alice", firstname: "Alice", lastname: "Smith") }
+    let!(:bob)   { create(:user, login: "bob",   firstname: "Bob",   lastname: "Jones") }
+    let!(:my_group) { create(:group, lastname: "My group", members: [alice]) }
+
+    it "filters by name via the search input and updates without a page reload" do
+      index_page.visit!
+      index_page.expect_listed(current_user, alice, bob)
+
+      index_page.filter_by_name("Alice")
+      index_page.expect_listed(alice)
+    end
+
+    it "allows changing the status filter away from the default active-only view" do
+      registered = create(:user, login: "charlie", status: User.statuses[:registered])
+
+      index_page.visit!
+      # Default: only active users
+      index_page.expect_listed(current_user, alice, bob)
+      expect(page).to have_no_css("td.username a", text: registered.login)
+
+      index_page.filter_by_status(I18n.t(:status_registered))
+      index_page.expect_listed(registered)
+    end
+
+    it "filters by group and keeps that filter after reload" do
+      index_page.visit!
+      expect(page).to have_css("td.username a", text: alice.login)
+      expect(page).to have_css("td.username a", text: bob.login)
+
+      index_page.filter_by_group("My group")
+      index_page.expect_listed(alice)
+      index_page.expect_not_listed(bob)
+
+      page.refresh
+
+      index_page.expect_group_filter("My group")
+      index_page.expect_listed(alice)
+      index_page.expect_not_listed(bob)
+    end
+  end
+
   describe "with some sortable users" do
     let!(:a_user) { create(:user, login: "aa_login", firstname: "aa_first", lastname: "xxx_a") }
     let!(:b_user) { create(:user, login: "bb_login", firstname: "bb_first", lastname: "nnn_b") }
@@ -68,94 +110,78 @@ RSpec.describe "index users", :js do
     shared_let(:registered_user) { create(:user, status: User.statuses[:registered]) }
     shared_let(:invited_user) { create(:user, status: User.statuses[:invited]) }
 
-    it "shows the users by status and allows status manipulations",
+    it "shows active users by default and allows status filtering and manipulations",
        with_settings: { brute_force_block_after_failed_logins: 5,
                         brute_force_block_minutes: 10 } do
       index_page.visit!
 
-      # Order is by id, asc
-      # so first ones created are on top.
-      index_page.expect_listed(current_user, active_user, registered_user, invited_user)
-
-      index_page.order_by("Created on")
-      index_page.expect_order(invited_user, registered_user, active_user, current_user)
-
-      index_page.order_by("Created on")
-      index_page.expect_order(current_user, active_user, registered_user, invited_user)
+      # Default filter: active users only
+      index_page.expect_listed(current_user, active_user)
 
       index_page.lock_user(active_user)
-      index_page.expect_listed(current_user, active_user, registered_user, invited_user)
+      expect(active_user.reload).to be_locked
+
+      index_page.filter_by_status(I18n.t(:status_locked))
+      index_page.expect_listed(active_user)
       index_page.expect_user_locked(active_user)
 
-      expect(active_user.reload)
-        .to be_locked
-
-      index_page.filter_by_status("locked permanently")
-      index_page.expect_listed(active_user)
-
-      index_page.filter_by_status("active")
+      index_page.filter_by_status(I18n.t(:status_active))
       index_page.expect_listed(current_user)
 
-      index_page.filter_by_status("locked permanently")
+      index_page.filter_by_status(I18n.t(:status_locked))
       index_page.unlock_user(active_user)
       index_page.expect_non_listed
 
-      index_page.filter_by_status("active")
+      index_page.filter_by_status(I18n.t(:status_active))
       index_page.expect_listed(current_user, active_user)
 
       index_page.filter_by_name(active_user.lastname[0..-3])
       index_page.expect_listed(active_user)
 
-      # temporarily block user
+      # temporarily block user — reset via action, no filter needed
       active_user.update(failed_login_count: 6,
                          last_failed_login_on: 9.minutes.ago)
       index_page.clear_filters
-      index_page.expect_listed(current_user, active_user, registered_user, invited_user)
-
-      index_page.filter_by_status("locked temporarily")
-      index_page.expect_listed(active_user)
+      # after clear, default active filter is restored
+      index_page.expect_listed(current_user, active_user)
 
       index_page.reset_failed_logins(active_user)
-      index_page.expect_non_listed
+      # still listed — reset doesn't change status
+      index_page.expect_listed(current_user, active_user)
 
-      # temporarily block user and lock permanently
-      active_user.reload
-      active_user.update(failed_login_count: 6,
-                         last_failed_login_on: 9.minutes.ago)
-      index_page.clear_filters
-
-      index_page.filter_by_status("locked temporarily")
-      index_page.expect_listed(active_user)
-
+      # Lock and unlock — failed logins were reset above, so the user is locked
+      # but not blocked, and the row exposes the plain "Unlock" action.
       index_page.lock_user(active_user)
+      index_page.filter_by_status(I18n.t(:status_locked))
       index_page.expect_listed(active_user)
 
-      index_page.filter_by_status("locked permanently")
-      index_page.expect_listed(active_user)
-
-      index_page.unlock_and_reset_user(active_user)
+      index_page.unlock_user(active_user)
       index_page.expect_non_listed
 
-      index_page.filter_by_status("active")
+      index_page.filter_by_status(I18n.t(:status_active))
       index_page.expect_listed(current_user, active_user)
 
       # activate registered user
-      index_page.filter_by_status("registered")
+      index_page.filter_by_status(I18n.t(:status_registered))
       index_page.expect_listed(registered_user)
 
       index_page.activate_user(registered_user)
-      index_page.filter_by_status("active")
-
+      index_page.filter_by_status(I18n.t(:status_active))
       index_page.expect_listed(current_user, active_user, registered_user)
     end
 
     context "as global user" do
-      shared_let(:global_manage_user) { create(:user, global_permissions: [:manage_user]) }
+      # :manage_user declares :view_all_principals as a dependency in the
+      # access-control map; the factory does not auto-expand dependencies, so we
+      # add it explicitly to match real-world role configuration.
+      shared_let(:global_manage_user) do
+        create(:user, global_permissions: %i[manage_user view_all_principals])
+      end
       let(:current_user) { global_manage_user }
 
       it "can too visit the page" do
         index_page.visit!
-        index_page.expect_listed(admin, current_user, active_user, registered_user, invited_user)
+        index_page.expect_listed(admin, current_user, active_user)
       end
     end
   end

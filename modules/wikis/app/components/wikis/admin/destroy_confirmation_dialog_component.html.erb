@@ -27,14 +27,12 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= render(Primer::OpenProject::DangerDialog.new(title: t(".title"),
-                                                  form_arguments:,
-                                                  size: :large)) do |dialog| %>
-  <% dialog.with_confirmation_message do |message|
-       message.with_heading(tag: :h2) { t(".title") }
-     end %>
-  <% dialog.with_additional_details do %>
-    <%= t(".warning_html", wiki_provider: content_tag(:strong, @wiki_provider.name)) %>
-  <% end %>
-  <% dialog.with_confirmation_check_box_content(t(:text_permanent_delete_confirmation_checkbox_label)) %>
-<% end %>
+<%=
+  render(Primer::OpenProject::DangerDialog.new(title: t(".title"), form_arguments:, size: :large)) do |dialog|
+    dialog.with_confirmation_message do |message|
+      message.with_heading(tag: :h2) { t(".heading") }
+      message.with_description_content(t(".description_html", wiki_provider: content_tag(:strong, @wiki_provider.name)))
+    end
+    dialog.with_confirmation_check_box_content(t(:text_permanent_delete_confirmation_checkbox_label))
+  end
+%>

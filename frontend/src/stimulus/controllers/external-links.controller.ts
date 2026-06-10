@@ -112,7 +112,9 @@ export default class ExternalLinksController extends ApplicationController {
   }
 
   private updateExternalLink(link:HTMLAnchorElement) {
-    link.target = '_blank';
+    if (!link.dataset.skipExternalLinkBlank) {
+      link.target = '_blank';
+    }
     attributeTokenList(link, 'rel').add('noopener', 'noreferrer');
 
     // Capture external links through redirect page

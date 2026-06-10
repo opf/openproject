@@ -44,13 +44,25 @@ RSpec.describe Backlogs::SprintsController do
 
     current_user { user }
 
+    describe "GET #index" do
+      it "responds with success", :aggregate_failures do
+        get :index, params: { project_id: project.id }
+
+        expect(response).to be_successful
+        expect(response).to have_http_status :ok
+        expect(assigns(:project)).to eq(project)
+        expect(assigns(:sprints)).not_to be_nil
+        expect(assigns(:work_package_counts)).to be_a(Hash)
+      end
+    end
+
     describe "GET #new_dialog" do
       it "responds with success", :aggregate_failures do
         get :new_dialog, params: { project_id: project.id }, format: :turbo_stream
 
         expect(response).to be_successful
         expect(response).to have_http_status :ok
-        expect(response).to have_turbo_stream action: "dialog", target: "backlogs-new-sprint-dialog-component"
+        expect(response).to have_turbo_stream action: "dialog", target: "backlogs-sprint-dialog-component"
         expect(assigns(:project)).to eq(project)
       end
 
@@ -74,7 +86,7 @@ RSpec.describe Backlogs::SprintsController do
 
         expect(response).to be_successful
         expect(response).to have_http_status :ok
-        expect(response).to have_turbo_stream action: "dialog", target: "backlogs-new-sprint-dialog-component"
+        expect(response).to have_turbo_stream action: "dialog", target: "backlogs-sprint-dialog-component"
         expect(assigns(:project)).to eq(project)
         expect(assigns(:sprint)).to eq(sprint)
       end
@@ -150,8 +162,8 @@ RSpec.describe Backlogs::SprintsController do
         expect(response).to be_successful
         expect(response).to have_http_status :ok
         expect(response.body).to have_turbo_stream action: "flash"
-        expect(response.body).to have_turbo_stream action: "update", target: "backlogs-sprint-header-component-#{sprint.id}"
-        assert_select %(turbo-stream[action="update"][target="backlogs-sprint-header-component-#{sprint.id}"][method="morph"])
+        expect(response.body).to have_turbo_stream action: "update", target: "backlogs-sprint-component-#{sprint.id}"
+        assert_select %(turbo-stream[action="update"][target="backlogs-sprint-component-#{sprint.id}"][method="morph"])
         expect(response.body).to include("Successful update.")
         expect(sprint.reload.name).to eq("Changed sprint name")
         expect(controller.controller_path).to eq("backlogs/sprints")
@@ -173,11 +185,11 @@ RSpec.describe Backlogs::SprintsController do
     describe "POST #start" do
       let!(:sprint) { create(:sprint, project:) }
       let(:service_result) { ServiceResult.success(result: sprint.tap { it.status = "active" }) }
-      let(:service) { instance_double(Sprints::StartService, call: service_result) }
+      let(:service) { instance_double(Backlogs::Sprints::StartService, call: service_result) }
       let(:request_params) { { project_id: project.id, sprint_id: sprint.id } }
 
       before do
-        allow(Sprints::StartService)
+        allow(Backlogs::Sprints::StartService)
           .to receive(:new)
           .with(user:, model: sprint)
           .and_return(service)
@@ -344,10 +356,10 @@ RSpec.describe Backlogs::SprintsController do
           result: sprint.tap { |finished_sprint| finished_sprint.status = "completed" }
         )
       end
-      let(:service) { instance_double(Sprints::FinishService, call: service_result) }
+      let(:service) { instance_double(Backlogs::Sprints::FinishService, call: service_result) }
 
       before do
-        allow(Sprints::FinishService)
+        allow(Backlogs::Sprints::FinishService)
           .to receive(:new)
           .with(user:, model: sprint)
           .and_return(service)
@@ -495,7 +507,7 @@ RSpec.describe Backlogs::SprintsController do
 
         expect(response).to be_successful
         expect(response).to have_http_status :ok
-        expect(response).to have_turbo_stream action: "update", target: "backlogs-new-sprint-form-component"
+        expect(response).to have_turbo_stream action: "update", target: "backlogs-sprint-form-component"
         expect(assigns(:sprint)).to be_nil
       end
 
@@ -524,7 +536,7 @@ RSpec.describe Backlogs::SprintsController do
 
           expect(response).to be_successful
           expect(response).to have_http_status :ok
-          expect(response).to have_turbo_stream action: "update", target: "backlogs-new-sprint-form-component"
+          expect(response).to have_turbo_stream action: "update", target: "backlogs-sprint-form-component"
         end
       end
     end

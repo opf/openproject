@@ -7,7 +7,7 @@ import { BoardListsService } from 'core-app/features/boards/board/board-list/boa
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
@@ -25,15 +25,15 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 
 @Injectable()
 export abstract class BoardActionService {
-  constructor(readonly injector:Injector,
-    protected boardListsService:BoardListsService,
-    protected I18n:I18nService,
-    protected halResourceService:HalResourceService,
-    protected pathHelper:PathHelperService,
-    protected currentProject:CurrentProjectService,
-    protected apiV3Service:ApiV3Service,
-    protected schemaCache:SchemaCacheService) {
-  }
+  readonly injector = inject(Injector);
+  protected boardListsService = inject(BoardListsService);
+  protected I18n = inject(I18nService);
+  protected halResourceService = inject(HalResourceService);
+  protected pathHelper = inject(PathHelperService);
+  protected currentProject = inject(CurrentProjectService);
+  protected apiV3Service = inject(ApiV3Service);
+  protected schemaCache = inject(SchemaCacheService);
+
 
   /**
    * Get the attribute name

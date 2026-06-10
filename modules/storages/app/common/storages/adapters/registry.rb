@@ -28,12 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "dry/container"
+require "dry/core/container"
 
 module Storages
   module Adapters
     class Registry
-      extend Dry::Container::Mixin
+      extend Dry::Core::Container::Mixin
 
       # Extracts the known_providers from the registered keys
       # @return [Array<String>]
@@ -41,7 +41,7 @@ module Storages
         keys.map { it.split(".").first }.uniq
       end
 
-      class Resolver < Dry::Container::Resolver
+      class Resolver < Dry::Core::Container::Resolver
         include TaggedLogging
 
         def call(container, key)
@@ -49,7 +49,7 @@ module Storages
             info "Resolving #{key}"
             super
           end
-        rescue Dry::Container::KeyError
+        rescue Dry::Core::Container::KeyError
           error = Errors.registry_error_for(key)
 
           with_tagged_logger("Storages::Adapters::Registry") { error error.message }

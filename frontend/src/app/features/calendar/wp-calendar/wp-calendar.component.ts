@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import {
   CalendarOptions,
   DateSelectArg,
@@ -103,6 +95,29 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
   standalone: false,
 })
 export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implements OnInit {
+  readonly actions$ = inject(ActionsService);
+  readonly states = inject(States);
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
+  readonly wpListService = inject(WorkPackagesListService);
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly schemaCache = inject(SchemaCacheService);
+  private element = inject(ElementRef);
+  readonly i18n = inject(I18nService);
+  readonly toastService = inject(ToastService);
+  private sanitizer = inject(DomSanitizer);
+  private I18n = inject(I18nService);
+  private configuration = inject(ConfigurationService);
+  readonly calendar = inject(OpCalendarService);
+  readonly workPackagesCalendar = inject(OpWorkPackagesCalendarService);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly halEditing = inject(HalResourceEditingService);
+  readonly halNotification = inject(HalResourceNotificationService);
+  readonly weekdayService = inject(WeekdayService);
+  readonly dayService = inject(DayResourceService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly pathHelper = inject(PathHelperService);
+  readonly timezoneService = inject(TimezoneService);
+
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @ViewChild('ucCalendar', { read: ElementRef })
@@ -122,33 +137,6 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
     cannot_drag_to_non_working_day: this.I18n.t('js.team_planner.cannot_drag_to_non_working_day'),
     today: this.I18n.t('js.team_planner.today'),
   };
-
-  constructor(
-    readonly actions$:ActionsService,
-    readonly states:States,
-    readonly wpTableFilters:WorkPackageViewFiltersService,
-    readonly wpListService:WorkPackagesListService,
-    readonly querySpace:IsolatedQuerySpace,
-    readonly schemaCache:SchemaCacheService,
-    private element:ElementRef,
-    readonly i18n:I18nService,
-    readonly toastService:ToastService,
-    private sanitizer:DomSanitizer,
-    private I18n:I18nService,
-    private configuration:ConfigurationService,
-    readonly calendar:OpCalendarService,
-    readonly workPackagesCalendar:OpWorkPackagesCalendarService,
-    readonly currentProject:CurrentProjectService,
-    readonly halEditing:HalResourceEditingService,
-    readonly halNotification:HalResourceNotificationService,
-    readonly weekdayService:WeekdayService,
-    readonly dayService:DayResourceService,
-    readonly apiV3Service:ApiV3Service,
-    readonly pathHelper:PathHelperService,
-    readonly timezoneService:TimezoneService,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     registerEffectCallbacks(this, this.untilDestroyed());
@@ -229,7 +217,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
             allDay: false,
             className: 'fc-event-clickable op-wp-calendar--meeting-resource',
             meeting,
-          } as EventInput;
+          };
         });
 
         successCallback(events);
@@ -274,7 +262,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       ],
       // DnD configuration
       selectable: true,
-      select: this.handleDateClicked.bind(this) as unknown,
+      select: this.handleDateClicked.bind(this),
       eventResizableFromStart: true,
       editable: true,
       displayEventTime: true,

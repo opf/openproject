@@ -35,6 +35,7 @@ RSpec.describe MeetingSections::UpdateContract do
   include_context "ModelContract shared context"
 
   shared_let(:project) { create(:project) }
+  shared_let(:other_project) { create(:project) }
   shared_let(:meeting) { create(:meeting, project:) }
   shared_let(:section) { create(:meeting_section, meeting:) }
   let(:contract) { described_class.new(section, user) }
@@ -57,6 +58,14 @@ RSpec.describe MeetingSections::UpdateContract do
 
   context "without permission" do
     let(:user) { build_stubbed(:user) }
+
+    it_behaves_like "contract is invalid", base: :error_unauthorized
+  end
+
+  context "with permission in another project" do
+    let(:user) do
+      create(:user, member_with_permissions: { other_project => %i[view_meetings manage_agendas] })
+    end
 
     it_behaves_like "contract is invalid", base: :error_unauthorized
   end

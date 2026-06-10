@@ -6,7 +6,7 @@ pt-BR:
     description: Listagem e situação dos trabalhos em segundo plano.
   job_status_dialog:
     download_starts: O download deverá começar automaticamente.
-    click_to_download: Or [click here](download_url) to download.
+    click_to_download: Ou [clique aqui](download_url) para baixar.
     title: Status do trabalho em segundo plano
     redirect: Você está sendo redirecionado.
     redirect_link: Clique aqui para continuar.

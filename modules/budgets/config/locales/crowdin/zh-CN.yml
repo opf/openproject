@@ -36,6 +36,7 @@ zh-CN:
         subject: 主题
         type: 成本类型
         labor_budget: 计划人工成本
+        labor_budget_items: 计划劳动力成本
         material_budget: 计划单位成本
         base_amount: 基础金额
       work_package:
@@ -48,6 +49,7 @@ zh-CN:
               not_a_member_of_budget_project: 不属于预算的项目
     models:
       budget: 预算
+      labor_budget_item: 计划劳动力成本
       material_budget_item: 单位
   activity:
     filter:

@@ -33,7 +33,7 @@ pl:
           title: Podpozycje
         project_favorites:
           title: Ulubione projekty
-          no_results: Obecnie nie masz żadnych ulubionych projektów. Kliknij ikonę gwiazdki na pulpicie nawigacyjnym projektu, aby dodać go do ulubionych.
+          no_results: Obecnie nie masz żadnych ulubionych projektów. Dodaj co najmniej jeden projekt jako ulubiony w ich przeglądzie lub na liście projektów.
         time_entries_current_user:
           title: Mój spędzony czas
           displayed_days: 'Dni wyświetlane w widżecie:'

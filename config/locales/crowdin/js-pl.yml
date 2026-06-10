@@ -202,16 +202,7 @@ pl:
           text: "[Placeholder] Wbudowany kalendarz"
     admin:
       type_form:
-        custom_field: Pola niestandardowe
-        inactive: Nieaktywny
-        drag_to_activate: Aby aktywować pola, przeciągaj je stąd
-        add_group: Dodaj grupę atrybutów
-        add_table: Dodaj tabelę powiązanych pakietów roboczych
         edit_query: Edytuj zapytanie
-        new_group: Nowa Grupa
-        delete_group: Usuń grupę
-        remove_attribute: Usuń z grupy
-        reset_to_defaults: Resetuj do ustawień domyślnych
       working_days:
         calendar:
           empty_state_header: Dni nierobocze
@@ -219,13 +210,6 @@ pl:
           new_date: "(nowe)"
         add_non_working_day: Dzień nieroboczy
         already_added_error: Dzień nieroboczy dla tej daty już istnieje. Można utworzyć tylko jeden dzień nieroboczy dla każdej unikalnej daty.
-        change_button: Zapisz i zmień harmonogram
-        change_title: Zmień dni robocze
-        removed_title: 'Z listy dni nieroboczych usuniesz następujące dni:'
-        change_description: Zmiana dni tygodnia, które są uważane za dni robocze lub nierobocze, może wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych i cykli życia we wszystkich projektach w tym wystąpieniu.
-        warning: 'Zmiany mogą wejść w życie po pewnym czasie. Gdy wszystkie odpowiednie pakiety robocze i cykle życia projektów zostaną zaktualizowane, otrzymasz powiadomienie. Czy na pewno chcesz kontynuować?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Zmiana trybu obliczania postępu z opartego na statusie na oparty na pracy spowoduje, że pole <i>% ukończenia</i> będzie można dowolnie edytować. Jeśli opcjonalnie wprowadzisz wartości <i>Praca</i> lub <i>Pozostała praca</i>, zostaną one również powiązane z wartością <i>% ukończenia</i>. Zmiana wartości <i>Pozostała praca</i> może wówczas skutkować zaktualizowaniem wartości <i>% ukończenia</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Zmiana trybu obliczania postępu z opartego na pracy na oparty na statusie spowoduje, że wszystkie istniejące wartości <i>% ukończenia</i> zostaną utracone i zastąpione wartościami powiązanymi z poszczególnymi statusami. Istniejące wartości <i>Pozostała praca</i> mogą również zostać obliczone ponownie w celu odzwierciedlenia tej zmiany. Działanie to jest nieodwracalne.
@@ -418,7 +402,6 @@ pl:
     label_per_page: 'Na stronie:'
     label_please_wait: Zaczekaj
     label_project: Projekt
-    label_project_list: Listy projektów
     label_project_plural: Projekty
     label_visibility_settings: Ustawienia widoczności
     label_quote_comment: Cytuj komentarz
@@ -616,18 +599,6 @@ pl:
     breadcrumb: Ścieżka
     text_data_lost: Wszystkie wprowadzone dane zostaną utracone.
     text_user_wrote: "%{value} napisał(a):"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: Nazwa  %{group} jest użyta więcej niż raz. Nazwy grup muszą być unikalne.
-        error_no_table_configured: Skonfiguruj tabelę grupy %{group}.
-        reset_title: Zresetuj konfigurację formularza
-        confirm_reset: 'Ostrzeżenie: czy na pewno chcesz zresetować konfigurację formularza? Przywróci to atrybuty do ich grupy domyślnej i wyłączy WSZYSTKIE pola niestandardowe.
-
-          '
-        upgrade_to_ee: Zaktualizuj do wersji Enterprise On-Premises
-        upgrade_to_ee_text: Znakomicie! Jeśli potrzebujesz tego dodatku, jesteś superprofesjonalistą! Może wesprzesz nas jako deweloperów OpenSource, zostając nabywcą wersji Enterprise?
-        more_information: Więcej informacji
-        nevermind: Nieważne
     time_entry:
       work_package_required: Wymaga wybrania najpierw pakietu roboczego.
       title: Rejestruj czas pracy
@@ -1082,16 +1053,13 @@ pl:
         all: Wszystkie projekty
         selected: Tylko zaznaczone
       search_placeholder: Wyszukaj projekty...
-      search_placeholder_favorites: Wyszukaj ulubione...
       include_subprojects: Uwzględnij wszystkie podprojekty
       tooltip:
         include_all_selected: Projekt już uwzględniony, ponieważ włączenie wszystkich podprojektów jest włączone.
         current_project: To jest bieżący projekt, w którym jesteś.
         does_not_match_search: Projekt nie spełnia kryteriów wyszukiwania.
       no_results: Żaden projekt nie spełnia kryteriów wyszukiwania.
-      no_favorite_results: Żaden ulubiony projekt nie spełnia kryteriów wyszukiwania.
     include_workspaces:
-      search_placeholder: Wyszukaj...
       types:
         program: Program
         portfolio: Portfolio

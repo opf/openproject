@@ -56,6 +56,10 @@ class WorkPackageCustomField < CustomField
     %w[int float].include?(field_format)
   end
 
+  def visible?(usr = User.current, project: nil)
+    self.class.visible(usr, project:).exists?(id: id)
+  end
+
   def type_name
     :label_work_package_plural
   end

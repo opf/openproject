@@ -736,15 +736,15 @@ RSpec.describe UsersController do
       expect(response).to have_rendered("index")
     end
 
-    it "assigns users" do
-      expect(assigns(:users)).to contain_exactly(user, admin, user_manager)
+    it "assigns a query" do
+      expect(assigns(:query).results).to contain_exactly(user, admin, user_manager)
     end
 
     context "with a name filter" do
-      let(:params) { { name: user.firstname } }
+      let(:params) { { filters: %(any_name_attribute ~ "#{user.firstname}") } }
 
-      it "assigns users" do
-        expect(assigns(:users)).to contain_exactly(user)
+      it "assigns a query filtered by name" do
+        expect(assigns(:query).results).to contain_exactly(user)
       end
     end
 
@@ -752,11 +752,11 @@ RSpec.describe UsersController do
       let(:group) { create(:group, members: [user]) }
 
       let(:params) do
-        { group_id: group.id }
+        { filters: %(group = "#{group.id}") }
       end
 
-      it "assigns users" do
-        expect(assigns(:users)).to contain_exactly(user)
+      it "assigns a query filtered by group" do
+        expect(assigns(:query).results).to contain_exactly(user)
       end
     end
 
@@ -764,7 +764,7 @@ RSpec.describe UsersController do
       let!(:deleted_user) { create(:user_marked_for_deletion) }
 
       it "does not include this user to the users list" do
-        expect(assigns(:users)).to contain_exactly(user, admin, user_manager)
+        expect(assigns(:query).results).to contain_exactly(user, admin, user_manager)
       end
     end
   end
@@ -806,14 +806,13 @@ RSpec.describe UsersController do
 
     context "enabled" do
       before do
-        allow(Setting).to receive(:session_ttl_enabled?).and_return(true)
-        allow(Setting).to receive(:session_ttl).and_return("120")
+        allow(Setting).to receive_messages(session_ttl_enabled?: true, session_ttl: "120")
         @controller.send(:logged_user=, admin)
       end
 
       context "before 120 min of inactivity" do
         before do
-          session[:updated_at] = Time.now - 1.hour
+          session[:updated_at] = 1.hour.ago
           get :index
         end
 
@@ -822,7 +821,7 @@ RSpec.describe UsersController do
 
       context "after 120 min of inactivity" do
         before do
-          session[:updated_at] = Time.now - 3.hours
+          session[:updated_at] = 3.hours.ago
           get :index
         end
 
@@ -842,7 +841,7 @@ RSpec.describe UsersController do
       context "with ttl = 0" do
         before do
           allow(Setting).to receive(:session_ttl).and_return("0")
-          session[:updated_at] = Time.now - 1.hour
+          session[:updated_at] = 1.hour.ago
           get :index
         end
 
@@ -852,7 +851,7 @@ RSpec.describe UsersController do
       context "with ttl < 0" do
         before do
           allow(Setting).to receive(:session_ttl).and_return("-60")
-          session[:updated_at] = Time.now - 1.hour
+          session[:updated_at] = 1.hour.ago
           get :index
         end
 
@@ -862,7 +861,7 @@ RSpec.describe UsersController do
       context "with ttl < 5 > 0" do
         before do
           allow(Setting).to receive(:session_ttl).and_return("4")
-          session[:updated_at] = Time.now - 1.hour
+          session[:updated_at] = 1.hour.ago
           get :index
         end
 

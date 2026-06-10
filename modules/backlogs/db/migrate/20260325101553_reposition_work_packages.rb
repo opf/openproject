@@ -4,8 +4,9 @@ class RepositionWorkPackages < ActiveRecord::Migration[8.1]
   def change
     reversible do |direction|
       direction.up do
-        # Copied 1:1 from modules/backlogs/app/services/work_packages/rebuild_positions_service.rb.
-        # The service could also have been called. But this way, there is no dependency between the two.
+        # Used to be copied 1:1 from modules/backlogs/app/services/work_packages/rebuild_positions_service.rb.
+        # In the meantime, the implementation of the service changed to accommodate backlog buckets.
+        # But those did not exist at the time this migration represents.
         execute <<~SQL.squish
           UPDATE work_packages
           SET position = mapping.new_position

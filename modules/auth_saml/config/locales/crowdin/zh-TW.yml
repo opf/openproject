@@ -12,6 +12,7 @@ zh-TW:
         sp_entity_id: 服務實體 ID
         metadata_url: 身分提供商後設資料 URL
         name_identifier_format: 名稱識別碼格式
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: 身分提供商登入端點
         idp_slo_service_url: 身分提供商登出端點
         idp_cert: 身分提供商的公開證書
@@ -44,6 +45,10 @@ zh-TW:
       success: 已成功使用身分提供者元資料更新配置設定。
       invalid_url: 提供的元資料 URL 無效。提供 HTTP(s) URL。
       error: 擷取身分提供者元資料失敗： %{error}
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: 尚未設定 SAML 提供商。
       label_empty_description: 增加可供查詢之提供商
@@ -109,6 +114,9 @@ zh-TW:
 
         '
       metadata_url: '您的身分提供者會提供一個 metadata URL。
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: '您的身分提供者會提供一個 metadata URL。

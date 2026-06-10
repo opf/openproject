@@ -51,6 +51,26 @@ zh-TW:
           description: 您的評論將對任何可以存取此工作單元的人皆可見。您確定要這樣做嗎？
           confirm_button_text: 設為公開
   admin:
+    reserved_identifiers:
+      title: Reserved project identifiers
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
+      col_identifier: Identifier
+      col_project: Project
+      col_reserved: Reserved
+      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
+      filter_label: Search identifiers
+      btn_release: Release
+      released_notice: Identifier "%{identifier}" has been released.
+      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
+      dialog:
+        title: Release identifier
+        heading: Release "%{identifier}"?
+        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        checkbox_label: I understand that this cannot be undone.
+        confirm_button: Release identifier
+      empty_heading: No reserved identifiers
+      reserved_ago: "%{time} ago"
+      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
     plugins:
       no_results_title_text: 目前沒有安裝任何外掛程式
       no_results_content_text: 請參閱我們的整合和外掛頁面以獲取更多資訊。
@@ -119,6 +139,9 @@ zh-TW:
       errors:
         cannot_delete_with_imports: Cannot delete Jira host with existing imports
         custom_field_creation_failed: 'Failed to create custom field ''%{name}'': %{message}'
+        semantic_identifiers_must_be_enabled:
+          title: Project-based semantic identifiers must be enabled.
+          description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
       blank:
         title: No Jira hosts configured yet
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
@@ -157,9 +180,13 @@ zh-TW:
       client:
         connection_error: 'Failed to connect to Jira server: %{message}'
         connection_timeout: 'Connection to Jira server timed out: %{message}'
+        ssrf_blocked: 'Connection blocked: the Jira host resolves to a private IP address. If your Jira instance runs on an internal network, allow its IP via the OPENPROJECT_SSRF__PROTECTION__IP__ALLOWLIST environment variable.'
+        ssrf_block_doc_link: Please see our [documentation](docs_url).
+        ssl_error: 'SSL error connecting to Jira server: %{message}'
         parse_error: 'Failed to parse Jira API response: %{message}'
         api_error: Jira API returned error status %{status}
         401_error: Jira API returned a 401 error. Your authentication token may have expired or lack the required permissions. Please ensure the token belongs to a Jira administrator.
+        429_error: Jira API returned a 429 error. It means token owner has been rate limited by the Jira instance. Please disable rate limiting for this user.
       columns:
         projects: Projects
         last_change: Last change
@@ -241,8 +268,8 @@ zh-TW:
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_comming_soon: Comming soon (Q2 2026)
-              label_comming_later: Comming later
+              label_coming_soon: Coming soon (Q2 2026)
+              label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
               button_continue: Continue
@@ -253,7 +280,7 @@ zh-TW:
               elements:
                 relations: Relations between issues
                 project_ids: Project identifiers
-                issue_ids: Issues identifiers
+                issue_ids: Issue identifiers
                 sprints: Sprint assignments
                 workflows: Project-level workflows
                 schemes: Schemas
@@ -307,6 +334,8 @@ zh-TW:
             confirm_button: Understood
           select_projects:
             title: Select projects
+      user:
+        unknown_name: Unknown
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -398,10 +427,11 @@ zh-TW:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
         banner:
-          existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Autofix and save'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
+          existing_identifiers_notice: 'Existing identifiers for %{project_count} projects don''t meet requirements for project-based semantic identifiers. OpenProject can automatically update these so that they are valid as in the examples below. Click on ''Convert identifiers'' to update identifiers for all projects in this manner and enable project-based semantic identifiers.
 
             '
         box_header:
+          table_title: Projects with identifiers to update
           label_project: Project
           label_previous_identifier: Previous identifier
           label_autofixed_suggestion: Future identifier
@@ -418,19 +448,21 @@ zh-TW:
           error_unknown: Needs manual review
           remaining_projects:
             other: "... %{count} more projects"
-        button_autofix: Autofix and save
+        button_autofix: Convert identifiers
+        button_save: Convert identifiers
         dialog:
           title: Change work package identifiers
           heading: Enable project-based work package IDs?
-          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to redirect properly. This change will take some time to complete.
+          description: 'This will change IDs for all work packages in all projects in this instance. Previous identifiers and URLs will continue to work. This change will take some time to complete.
 
             '
           confirm_button: Change identifiers
           checkbox_label: I understand that this will permanently change all work package IDs
         success_banner: Successfully updated work package identifier format.
         in_progress:
-          converting_banner_message: Project identifiers are currently being converted to semantic format. This may take some time.
-          reverting_banner_message: Project identifiers are currently being reverted to classic format. This may take some time.
+          header_semantic: Converting to project-based identifiers
+          header_classic: Converting to numeric identifiers
+          footer_message: Background conversion is in progress. You can safely leave this page.
     workflows:
       tabs:
         default_transitions: 預設轉換
@@ -874,6 +906,7 @@ zh-TW:
         text: 此動作不會刪除清單中包含的任何專案。您確定要刪除此專案清單？
     settings:
       header_details: 基本訊息
+      header_identifier: Identifier
       header_status: 狀態
       header_relations: 專案關係
       button_update_details: 更新
@@ -898,7 +931,7 @@ zh-TW:
       change_identifier_dialog_title: Change project identifier
       change_identifier_format_hint_semantic: Only uppercase letters (A–Z), numbers or underscores. Max 10 characters. Must start with a letter.
       change_identifier_format_hint_legacy: Only lowercase letters (a–z), numbers, dashes or underscores.
-      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifier and URLs will nevertheless continue to redirect properly.
+      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifiers and URLs will nevertheless continue to work.
 
         '
       subitems:
@@ -1319,6 +1352,38 @@ zh-TW:
     edit:
       form_configuration:
         tab: 表單設置
+        label_group: Section
+        reset_to_defaults: Reset form
+        add_attribute_group: Section
+        add_query_group: Related work packages table
+        delete_group: Delete section
+        remove_attribute: Remove from section
+        drag_to_activate: Drag fields from here to activate them
+        drag_to_reorder: Drag to reorder
+        edit_query: Edit query
+        custom_field: Custom field
+        filter_inactive: Filter attributes
+        inactive_attributes_heading: Inactive attributes
+        no_inactive_attributes: No inactive attributes
+        blankslate_title: No groups yet
+        blankslate_description: Add groups using the button above or drag attributes from the left panel.
+        group_actions: Section actions
+        rename_group: Rename section
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        group_name_label: Section name
+        row_actions: Row actions
+        query_group_label: Related work packages table
+        empty_group_hint: Drag attributes here
+        invalid_attribute_groups: The form configuration payload is invalid.
+        invalid_query: The embedded query configuration is invalid.
+        not_found: The requested form configuration item could not be found.
+        untitled_group: Untitled group
+        reset_title: Reset form configuration
+        confirm_reset: Are you sure you want to reset the form configuration?
+        builtin_field: Built-in field
+        reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
+
+          '
       projects:
         tab: 專案
         enable_all: 在所有專案中啟用
@@ -1417,8 +1482,8 @@ zh-TW:
     bulk_delete_dialog:
       title: Delete %{count} work packages
       heading: Permanently delete these %{count} work packages?
-      description: 'The following work packages, including children and all associated data, will permanently be deleted:'
-      description_with_children: 'The following work packages, including child work packages, and all associated data will be permanently deleted:'
+      description: 'The following work packages and all associated data will be permanently deleted:'
+      description_with_children: 'The following work packages, including children and all associated data, will be permanently deleted:'
       confirm_children_deletion: I acknowledge that all selected work packages and their children will be permanently deleted.
       cross_project_warning: 'These work packages span multiple projects: %{projects}'
       children_label: 'The following children will also be deleted:'
@@ -1631,6 +1696,7 @@ zh-TW:
       attachment:
         attachment_content: 附件內容
         attachment_file_name: 附件檔案名稱
+        charset: Character set
         content_type: 檔案類型
         downloads: 下載
         file: 檔案
@@ -1725,6 +1791,7 @@ zh-TW:
         title: 標題
         description: 說明
       member:
+        blocked: Blocked
         roles: 角色
       notification:
         read_ian: 在應用程式內閱讀
@@ -1970,6 +2037,7 @@ zh-TW:
         priority: 優先等級
         progress: 完成度(%)
         readonly: 唯讀
+        relatable: Relatable to
         remaining_hours: 剩餘工作
         remaining_time: 剩餘工作
         sequence_number: Sequence number
@@ -2014,17 +2082,14 @@ zh-TW:
         before: 必須在 %{date} 之前
         before_or_equal_to: 必須在 %{date} 以前
         blank: 不可空白
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: '需要設置屬性  ''%{property}'' '
         cannot_delete_mapping: 必需項，不能刪除
-        is_for_all_cannot_modify: 適用於所有專案，因此無法修改。
         cant_link_a_work_package_with_a_descendant: 工作套件不能聯結到自己的子套件。
         circular_dependency: 這個關係會建立一個循環依賴
         confirmation: 不吻合 %{attribute}。
         could_not_be_copied: "%{dependency} 無法完整複製."
+        datetime_must_be_in_future: 必須是未來時間。
         does_not_exist: 不存在
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} 只適用於 OpenProject 企業版。"
         error_unauthorized: 無法被存取。
         error_readonly: 被嘗試寫入但是無法寫入。
@@ -2045,36 +2110,38 @@ zh-TW:
         greater_than_or_equal_to: 必須大於或等於 %{count}。
         greater_than_or_equal_to_start_date: 必須晚於或等於開始日期。
         greater_than_start_date: 必須晚於開始日期。
+        hexcode_invalid: 不是有效的六位數十六進位顏色代碼。
         inclusion: 沒有被設置為一個允許的值。
         inclusion_nested: 未設置為路徑“%{path}”中允許的值之一
         invalid: 不正確。
         invalid_uri: must be a valid URI.
         invalid_url: 不是有效的 URL。
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
+        is_for_all_cannot_modify: 適用於所有專案，因此無法修改。
         less_than_or_equal_to: 必須少於或者等於 %{count}。
         not_available: 由於系統配置所以不可用
+        not_before_start_date: must not be before the start date.
         not_deletable: 無法刪除
         not_editable: cannot be edited because it is already in effect.
         not_current_user: 不是目前使用者。
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: 未找到
         not_a_date: 不是有效的日期。
         not_a_datetime: 不是有效的日期時間。
         not_a_number: 不是數字
         not_allowed: 是無效的因為缺少權限
-        host_not_allowed: is not an allowed host.
         not_json: 無法解析為 JSON。
         not_json_object: 不是 JSON 物件。
         not_an_integer: 不是整數
         not_an_iso_date: 不是有效日期。所需格式：YYYY-MM-DD。
         not_same_project: 不屬於相同的專案
-        datetime_must_be_in_future: 必須是未來時間。
         odd: 必須是奇數
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: 與正則表達式 %{expression} 不匹配。
         regex_invalid: 不能被相關聯的正則運算式驗證。
         regex_list_invalid: "%{invalid_lines} 行無法解析為正規表示式。"
-        hexcode_invalid: 不是有效的六位數十六進位顏色代碼。
         smaller_than_or_equal_to_max_length: 必須小於或等於最大長度。
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: 已經被使用
         too_long: 太長 (最長是 %{count} 個字元)
         too_short: 太短 (最少 %{count} 個字元)
@@ -2087,6 +2154,7 @@ zh-TW:
         url_not_secure_context: '未提供「安全上下文」。使用 HTTPS 或環回地址，例如 localhost。
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: 長度錯誤 (應該要有 %{count} 個字元)
       models:
         group:
@@ -2388,7 +2456,7 @@ zh-TW:
               attribute_unknown_name: '使用了無效的工作套件屬性: %{attribute}'
               duplicate_group: 群組名稱 %{group} 已被使用，群組名稱不可重複。
               query_invalid: '這個遷入的查詢 ''%{group}'' 是無效的: %{details}'
-              group_without_name: 不允許未命名的群組。
+              group_without_name: Group name can't be blank.
             patterns:
               invalid_tokens: 欄位內的一個或多個屬性不正確。請在儲存前修正屬性。
         user:
@@ -2462,6 +2530,7 @@ zh-TW:
         other: 優先權
       meeting_participant: 與會者
       member: 成員
+      message: Message
       news: 最新消息
       notification:
         other: 通知
@@ -2504,6 +2573,7 @@ zh-TW:
       unsupported_storage_type: 不是支援的儲存類型。
       storage_error: 儲存連線出錯。
       invalid_input: 輸入無效。
+      invalid_child_for_parent: is not allowed as a parent for this view type.
   activity:
     item:
       created_by_on: 由 %{user} 於 %{datetime} 新增
@@ -2731,6 +2801,7 @@ zh-TW:
   button_login: 登入
   button_move: 移動
   button_move_and_follow: 移動並跟隨
+  button_next: Next
   button_print: 列印
   button_quote: 引言
   button_remove: 刪除
@@ -3029,8 +3100,8 @@ zh-TW:
       edit_attribute_groups:
         description: 使用以下額外附加元件自訂表單設定：
         features:
-          groups: 增加新的屬性群組
-          rename: 重新命名群组屬性
+          groups: Add new attribute sections
+          rename: Rename attribute sections
           related: 新增相關工作套件表
       readonly_work_packages:
         description: 將特定狀態的工作套件標記為唯讀。
@@ -3337,6 +3408,12 @@ zh-TW:
       selected: 已選取
     include_sub_items: 包含子項目
     no_results_text: 查無結果
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 開啟
     label_off: 關閉
@@ -3353,10 +3430,31 @@ zh-TW:
   general_text_false: 否
   gui_validation_error: 1 錯誤
   gui_validation_error_plural: "%{count} 個錯誤"
+  health_reports:
+    common:
+      checks:
+        failures:
+          other: "%{count} checks failed"
+        success: All checks passed
+        warnings:
+          other: "%{count} checks returned a warning"
+      summary:
+        failure: Some checks failed and the system does not work as expected.
+        success: All connections and systems are working as expected.
+        warning: Some checks returned a warning. This can lead to unexpected behaviour.
+    result_component:
+      status:
+        failed: Failed
+        passed: Passed
+        skipped: Skipped
+        warning: Warning
   homescreen:
     additional:
       projects: 最新的可見專案
       no_visible_projects: 最新的可見專案
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: 最新註冊的使用者
     blocks:
       community: OpenProject 社群
@@ -3366,17 +3464,19 @@ zh-TW:
         header: 閱讀關於新功能和產品更新的資訊。
         learn_about: 進一步瞭解所有新功能
         missing: 目前還沒有突出顯示的功能。
-        '17_4':
+        '17_5':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Jira Migrator with support for basic custom fields.
-            line_1: Backlog buckets for structuring and prioritizing work packages during backlog refinement.
-            line_2: Easier drag and drop and improved move options in the Backlogs module.
-            line_3: Sprint Start and Complete buttons in the sprint header.
-            line_4: Copy workflow settings between roles.
-            line_5: "'My Meetings' widget on the Home and Project Overview pages."
+            line_0: Project-based work package identifiers for clearer references.
+            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
+            line_2: Option to exclude work package types from Backlogs.
+            line_3: Redesigned sprint views.
+            line_4: Improved work package linking across Documents and text editors.
+            line_5: More flexible meeting schedules and reduced email notification noise.
+            line_6: Nested groups for organizational structures and inherited permissions.
+            line_7: Improved administration interfaces for workflows, users, and type configuration.
     links:
       upgrade_enterprise_edition: 升級到企業版
       postgres_migration: 將您的安裝遷移到 PostgreSQL
@@ -3654,6 +3754,7 @@ zh-TW:
   label_age: 年齡
   label_ago: 天前
   label_all: 所有
+  label_all_uppercase: All
   label_all_time: 所有的時間
   label_all_words: 所以的詞
   label_all_open_wps: 所有「未關閉」工作套件
@@ -3889,7 +3990,7 @@ zh-TW:
   label_home: Home
   label_subject_or_id: 主旨或 id
   label_calendar_subscriptions: 訂閱行事曆
-  label_identifier: 識別碼
+  label_identifier: Identifiers
   label_project_identifier: Project identifier
   label_in: 在
   label_in_less_than: 少於
@@ -3922,6 +4023,7 @@ zh-TW:
   label_journal_diff: 內容對比
   label_language: 語言
   label_languages: 語言
+  label_export_plural: Exports
   label_external_links: 外部連結
   label_locale: 語言和地區
   label_jump_to_a_project: 前往一個專案...
@@ -4118,6 +4220,7 @@ zh-TW:
   label_project_new: 新增專案
   label_project_plural: 專案
   label_project_list_plural: 專案列表
+  label_reserved_identifiers: Reserved project identifiers
   label_project_life_cycle: 專案生命週期
   label_project_attributes_plural: 專案屬性
   label_project_custom_field_plural: 專案屬性
@@ -4330,6 +4433,10 @@ zh-TW:
     one: 1 則留言
     other: "%{count} 個留言"
     zero: 沒有留言
+  label_x_items:
+    one: 1 item
+    other: "%{count} items"
+    zero: no items
   label_x_open_work_packages_abbr:
     one: 1 開啟中
     other: "%{count} 個未完成"
@@ -4352,6 +4459,8 @@ zh-TW:
     other: "%{count} working days"
   label_x_working_days_time_off:
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: 昨天
   label_zen_mode: 禪意模式
   label_role_type: 類型
@@ -4378,6 +4487,7 @@ zh-TW:
   label_total_days_off: Total days off
   macro_execution_error: 執行巨集 (%{macro_name}) 錯誤
   macro_unavailable: 巨集 "%{macro_name}" 無法顯示
+  macro_unknown: Unknown or unsupported macro.
   macros:
     placeholder: "[Placeholder] 巨集 %{macro_name}"
     errors:
@@ -4405,7 +4515,7 @@ zh-TW:
       you_have: 你擁有
     logo_alt_text: 商標
     mention:
-      subject: "%{user_name} 在「 #%{id} - %{subject} 」提到您"
+      subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
       center: 顯示通知中心
       see_in_center: 詳見通知中心留言
@@ -4445,7 +4555,7 @@ zh-TW:
         allowed_actions_html: 'You have the following permissions on this work package: %{allowed_actions}. This can change depending on your project role and permissions.'
         create_account: 要存取此工作套件，您需要建立一個 %{instance} 帳戶。
         open_work_package: 開啟工作套件
-        subject: '有個工作套件 #%{id} 與您共同參與'
+        subject: Work package %{id} was shared with you
         enterprise_text: 與不是專案成員的使用者共同參與工作套件。
         summary:
           user: '%{user} 將一個工作套件邀請您參與，權限：%{role_rights}"'
@@ -4545,9 +4655,9 @@ zh-TW:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: '要允許用戶登錄，您可以： '
       a: "([在這裏](upgrade_url)) 升級付款計劃"
       b: "([在這裏](users_url)) 鎖定或刪除現有用戶"
+      label: '要允許用戶登錄，您可以： '
   more_actions: 更多功能
   noscript_description: 您必須啟用 Javascript 才能使用 OpenProject!
   noscript_heading: JavaScript 已停用
@@ -4613,7 +4723,6 @@ zh-TW:
   notice_successful_delete: 刪除成功
   notice_successful_cancel: 取消成功
   notice_successful_update: 更新成功
-  notice_successful_move: 成功從 %{from} 移至 %{to}.
   notice_unsuccessful_create: 建立失敗。
   notice_unsuccessful_create_with_reason: 建立失敗：%{reason}
   notice_unsuccessful_update: 更新失敗。
@@ -4657,6 +4766,15 @@ zh-TW:
     text_getting_started_description: 快速瞭解 OpenProject 的項目管理和團隊協作。您可以從幫助菜單重新啓動此視頻。
     welcome: 歡迎使用 %{app_title}
     select_language: 請選擇您的語言
+  open_project:
+    common:
+      work_package_card_component:
+        drag_handle:
+          label: Drag to reorder
+        menu:
+          label_actions: Work package actions
+        parent: Parent
+        undisclosed: Undisclosed
   permission_add_work_package_comments: 增加留言
   permission_add_work_packages: 新增工作套件
   permission_add_messages: 張貼訊息
@@ -4674,7 +4792,6 @@ zh-TW:
   permission_add_work_package_watchers: 新增監看者
   permission_assign_versions: 指派版本
   permission_browse_repository: 唯讀版本庫 (瀏覽和 Checkout)
-  permission_change_wiki_parent_page: 更改上層 Wiki 頁面
   permission_change_work_package_status: 變更工作套件狀態
   permission_change_work_package_status_explanation: 允許在無編輯工作套件權限的情況下更改狀態
   permission_comment_news: 在「最新消息」留言
@@ -4689,8 +4806,6 @@ zh-TW:
   permission_delete_own_messages: 刪除自己張貼的訊息
   permission_delete_reportings: 刪除報表
   permission_delete_timelines: 刪除時間軸
-  permission_delete_wiki_pages: 刪除維基頁面
-  permission_delete_wiki_pages_attachments: 刪除附件
   permission_edit_work_package_comments: 審閱留言
   permission_edit_work_package_comments_explanation: 注意：擁有此權限的使用者可以編輯任何人的註解。
   permission_edit_work_packages: 編輯工作套件
@@ -4710,12 +4825,10 @@ zh-TW:
   permission_edit_wiki_pages: 編輯維基頁面
   permission_export_work_packages: 匯出工作套件
   permission_export_projects: 匯出專案
-  permission_export_wiki_pages: 匯出維基頁面
   permission_invite_members_by_email: 透過電子郵件邀請會員
   permission_invite_members_by_email_explanation: '允許使用者透過電子郵件邀請新會員。受邀的使用者會收到一封電子郵件，內含設定密碼和啟動帳戶的連結。取決於管理會員的權限
 
     '
-  permission_list_attachments: 列出附件
   permission_log_own_time: 記錄個人耗時
   permission_log_time: 紀錄他人耗時
   permission_manage_forums: 管理討論區
@@ -4730,7 +4843,6 @@ zh-TW:
   permission_manage_subtasks: 管理工作套件階層
   permission_manage_versions: 管理版本
   permission_manage_wiki: 管理維基
-  permission_manage_wiki_menu: 管理維基選單
   permission_manage_own_working_times: Manage own working times
   permission_manage_own_working_times_explanation: 'Allows users to manage their own working times, and personal non-working days.
 
@@ -4740,8 +4852,6 @@ zh-TW:
 
     '
   permission_move_work_packages: 移動工作套件
-  permission_protect_wiki_pages: 專案維基頁面
-  permission_rename_wiki_pages: 重新命名維基頁面
   permission_save_queries: 儲存版面
   permission_search_project: 搜尋專案
   permission_select_custom_fields: 選擇客製欄位
@@ -4985,7 +5095,7 @@ zh-TW:
 
     '
   setting_after_login_default_redirect_url: 登入重新導向
-  setting_after_login_default_redirect_url_text_html: '如果沒有提供後向連結，設定使用者登入後重新導向的預設路徑。如果未設定，則會重導向到首頁。 <br/> 範例：<code>/my/page</code>
+  setting_after_login_default_redirect_url_example_html: 'Set a default path to redirect users after login, if no back link was provided. Redirects to home page if not set. <br/> Example: %{example_code}
 
     '
   setting_apiv3_cors_title: 跨原始來源資源共用 (CORS, Cross-Origin Resource Sharing)
@@ -5064,6 +5174,10 @@ zh-TW:
   setting_consent_required: 是否需要使用者允許
   setting_consent_decline_mail: 同意郵件列在通訊錄
   setting_cross_project_work_package_relations: 允許將跨專案之工作套件關聯起來
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: 一年的第一週從哪一天開始
   setting_date_format: 日期
   setting_default_language: 預設語言
@@ -5104,6 +5218,9 @@ zh-TW:
   setting_work_package_properties: 工作套件屬性
   setting_work_package_startdate_is_adddate: 使用目前日期作為新工作套件的開始日期
   setting_work_packages_projects_export_limit: 工作套件/專案匯出數量限制
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: 記錄所有使用者登入、姓名和郵件地址等資料
   setting_login_required: 需要身份驗證
@@ -5190,13 +5307,9 @@ zh-TW:
   setting_welcome_title: 歡迎區塊標題
   setting_welcome_on_homescreen: 在主頁面上顯示歡迎區塊
   setting_work_packages_identifier_classic: Instance-wide numerical sequence (default)
-  setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 and incremented with every new one. The numbers are unique within this instance so they remain the same even if work packages are moved between projects.
-
-    '
-  setting_work_packages_identifier_semantic: Project-based semantic identifiers
-  setting_work_packages_identifier_semantic_caption: 'Every project has a unique identifier that is prefixed to the work package ID. If a work package moved to another project, a new identifier is generated but the old one continues to function.
-
-    '
+  setting_work_packages_identifier_classic_caption: 'Every work package gets a sequential number starting with 1 (for example, #1234). The numbers are unique within the instance and remain the same even if work packages are moved between projects.'
+  setting_work_packages_identifier_semantic: Project-based semantic identifiers (Beta)
+  setting_work_packages_identifier_semantic_caption: Every project has a unique project identifier prefixed to a number (for example, PROJ-11). The numbering of each project starts at 1. If a work package is moved to another project, a new identifier is generated but the old one will continue to function.
   setting_work_package_list_default_highlighting_mode: 預設顯示模式
   setting_work_package_list_default_highlighted_attributes: 預設顯眼屬性
   setting_working_days: 工作日
@@ -5382,7 +5495,7 @@ zh-TW:
       section_work_week: 工作週
       section_holidays_and_closures: 假日和休息日
     work_packages:
-      work_package_identifier: Work package identifier
+      work_package_identifier: Work package identifiers
       not_allowed_text: 您沒有查看此頁面的必要權限。
       activities:
         enable_internal_comments: 啟用內部備註
@@ -5539,6 +5652,7 @@ zh-TW:
   text_project_identifier_format: Must start with a lowercase letter. Only lowercase letters (a-z), numbers, dashes and underscores are allowed.
   text_reassign: 重新指派到工作套件：
   text_regexp_multiline: 這個正規表達式套用在多行模式。 e.g., ^---\s+
+  text_rename_wiki_page: Rename wiki page
   text_repository_usernames_mapping: |-
     選擇或更新與版本庫中的帳號所對應的OpenProject使用者。
     版本庫中與OpenProject的使用者具有相同名稱或email將被自動對應。
@@ -5811,6 +5925,17 @@ zh-TW:
     warning: '變更一週中哪些天為工作日或非工作日，可能會影響此實例中所有專案的工作套件與生命週期的開始及結束日期。
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**工作日**已更改 (%{changes})。_
       days:
@@ -5891,6 +6016,7 @@ zh-TW:
       ancestor: 未公開 - 由於缺少權限，上級不可見。
       definingProject: Undisclosed - 專案因缺乏權限而不見。
       definingWorkspace: Undisclosed - The workspace is invisible because of lacking permissions.
+      workPackage: Undisclosed - The work package is invisible because of lacking permissions.
   doorkeeper:
     pre_authorization:
       status: 提前授權
@@ -5977,8 +6103,6 @@ zh-TW:
       scopes: 權限
       successful_application_revocation: 已成功撤銷應用程序 %{application_name}。
       none_given: 沒有 OAuth 應用程序已獲得訪問您的用戶帳戶的權限。
-    x_active_tokens:
-      other: "%{count} 已啟用令牌(Token)"
     flows:
       authorization_code: 授權碼流程
       client_credentials: 客戶端憑據流
@@ -5988,8 +6112,9 @@ zh-TW:
     client_credentials_impersonation_html: '默認情況下，OpenProject 通過 %{authorization_code_flow_link} 提供 OAuth 2.0 授權。您可以選擇啓用 %{client_credentials_flow_link}，但您必須提供代其執行請求的用戶。
 
       '
+    confirm_revoke_my_application:
+      other: Do you really want to remove this application? This will revoke %{count} tokens active for it.
     authorization_error: 授權錯誤。
-    revoke_my_application_confirmation: 確定想要移除此應用程序嗎？這將撤銷對其有效的 %{token_count}。
     my_registered_applications: 已註冊的 OAuth 應用程式
   oauth_client:
     urn_connection_status:

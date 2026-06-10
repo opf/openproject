@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, inject } from '@angular/core';
 import { slideDown, slideUp } from 'es6-slide-up-down';
 
 
@@ -40,6 +40,8 @@ import { slideDown, slideUp } from 'es6-slide-up-down';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class PersistentToggleComponent implements OnInit {
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
+
   /** Unique identifier of the toggle */
   private identifier:string;
 
@@ -50,9 +52,6 @@ export class PersistentToggleComponent implements OnInit {
   private element:HTMLElement;
 
   private targetNotification:HTMLElement|null;
-
-  constructor(private elementRef:ElementRef<HTMLElement>) {
-  }
 
   ngOnInit():void {
     this.element = this.elementRef.nativeElement;
@@ -89,7 +88,7 @@ export class PersistentToggleComponent implements OnInit {
     window.OpenProject.guardedLocalStorage(this.identifier, (!!isNowHidden).toString());
 
     const targetNotification = this.targetNotification;
-    if (!targetNotification) return; 
+    if (!targetNotification) return;
 
     if (isNowHidden) {
       slideUp(targetNotification, 400);

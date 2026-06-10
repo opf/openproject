@@ -31,6 +31,8 @@
 module Components
   module Common
     module Filters
+      include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+
       def expect_filters_container_toggled
         expect(page).to have_css(".op-filters-form")
       end
@@ -43,12 +45,12 @@ module Components
         if filter_name == "name_and_identifier"
           expect(page.find_by_id(filter_name).value).not_to be_empty
         elsif value
-          within("li[data-filter-name='#{filter_name}']") do
+          within(".advanced-filters--filter[data-filter-name='#{filter_name}']") do
             expect(page).to have_css(".advanced-filters--filter-value", text: value, visible: :all)
           end
         else
           expect(page)
-            .to have_css("li[data-filter-name='#{filter_name}']")
+            .to have_css(".advanced-filters--filter[data-filter-name='#{filter_name}']")
         end
       end
 
@@ -80,11 +82,11 @@ module Components
           if boolean_filter?(name)
             set_toggle_filter(values)
           elsif autocomplete_filter?(selected_filter)
-            select(human_operator, from: "operator")
+            select(human_operator, from: "operator_#{name}")
             set_autocomplete_filter(values)
           elsif name == "created_at"
-            select(human_operator, from: "operator")
-            set_created_at_filter(human_operator, values, send_keys:)
+            select(human_operator, from: "operator_#{name}")
+            set_datetime_filter(name, human_operator, values, send_keys:)
           elsif date_filter?(selected_filter) && human_operator == "on"
             set_date_filter(values, send_keys)
           end
@@ -114,35 +116,32 @@ module Components
       end
 
       def apply_operator(name, human_operator)
-        select(human_operator, from: "operator") unless boolean_filter?(name)
+        select(human_operator, from: "operator_#{name}") unless boolean_filter?(name)
       end
 
       def select_filter(name, human_name)
         select human_name, from: "add_filter_select"
-        page.find("li[data-filter-name='#{name}']")
+        page.find(".advanced-filters--filter[data-filter-name='#{name}']")
       end
 
       def remove_filter(name)
         if name == "name_and_identifier"
           page.find_by_id("name_and_identifier").find(:xpath, "following-sibling::button").click
         else
-          page.find("li[data-filter-name='#{name}'] .filter_rem").click
+          page.find(".advanced-filters--filter[data-filter-name='#{name}'] .advanced-filters--remove-filter").click
         end
       end
 
       def set_toggle_filter(values)
         should_active = values.first == "yes"
-        is_active = page.has_selector? '[data-test-selector="spot-switch-handle"][data-qa-active]'
+        label = should_active ? I18n.t("general_text_Yes") : I18n.t("general_text_No")
+        hidden = page.find('input[type="hidden"]', visible: :all)
+        is_active = hidden.value == "t"
 
-        if should_active != is_active
-          page.find('[data-test-selector="spot-switch-handle"]').click
-        end
+        click_button(label, exact: true) unless should_active == is_active
 
-        if should_active
-          expect(page).to have_css('[data-test-selector="spot-switch-handle"][data-qa-active]')
-        else
-          expect(page).to have_css('[data-test-selector="spot-switch-handle"]:not([data-qa-active])')
-        end
+        expected_value = should_active ? "t" : "f"
+        expect(page).to have_field(hidden["name"], with: expected_value, type: :hidden)
       end
 
       def set_name_and_identifier_filter(values, send_keys: false)
@@ -153,21 +152,23 @@ module Components
         end
       end
 
-      def set_created_at_filter(human_operator, values, send_keys: false)
+      def set_datetime_filter(filter_name, human_operator, values, send_keys: false)
         case human_operator
         when "on", "less than days ago", "more than days ago", "days ago"
           if send_keys
-            find_field("value").send_keys values.first
+            find_field(filter_name).send_keys values.first
           else
-            fill_in "value", with: values.first
+            fill_in filter_name, with: values.first
           end
         when "between"
           if send_keys
-            find_field("from_value").send_keys values.first
-            find_field("to_value").send_keys values.second
+            value = values.join(" - ")
+            find_field(filter_name).send_keys value
           else
-            fill_in "from_value", with: values.first
-            fill_in "to_value", with: values.second
+            find_field(filter_name).click
+            datepicker = ::Components::RangeDatepicker.new
+            datepicker.set_date values.first
+            datepicker.set_date values.last
           end
         end
       end

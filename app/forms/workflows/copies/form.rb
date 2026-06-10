@@ -81,6 +81,7 @@ class Workflows::Copies::Form < ApplicationForm
           decorated: true,
           closeOnSelect: false,
           appendTo: @append_to,
+          dropdownPosition: "top",
           data: {
             "test-selector": "target_types_autocomplete"
           }
@@ -117,6 +118,7 @@ class Workflows::Copies::Form < ApplicationForm
           multiple: true,
           decorated: true,
           closeOnSelect: false,
+          dropdownPosition: "top",
           appendTo: @append_to,
           data: {
             "test-selector": "target_roles_autocomplete"

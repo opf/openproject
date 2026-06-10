@@ -30,10 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe CustomFields::Inputs::CalculatedValue,
-               type: :forms,
-               with_ee: %i[calculated_values],
-               with_flag: { calculated_value_project_attribute: true } do
+RSpec.describe CustomFields::Inputs::CalculatedValue, type: :forms, with_ee: %i[calculated_values] do
   include_context "with rendered custom field input form"
 
   let(:custom_field) { create(:calculated_value_project_custom_field, name: "Calculated value field", formula: "1 + 1") }

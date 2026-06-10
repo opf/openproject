@@ -26,11 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Component({
@@ -40,6 +36,8 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
   standalone: false,
 })
 export class OpBaselineModalComponent {
+  readonly I18n = inject(I18nService);
+
   @HostBinding('class.op-baseline-modal') className = true;
 
   public opened = false;
@@ -51,10 +49,6 @@ export class OpBaselineModalComponent {
     apply: this.I18n.t('js.baseline.apply'),
 
   };
-
-  constructor(
-    readonly I18n:I18nService,
-  ) {}
 
   public toggleOpen():void {
     this.opened = !this.opened;

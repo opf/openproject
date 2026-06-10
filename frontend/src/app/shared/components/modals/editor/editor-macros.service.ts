@@ -27,7 +27,7 @@
 //++
 
 import { OpModalService } from 'core-app/shared/components/modal/modal.service';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import {
   WpButtonMacroModalComponent,
 } from 'core-app/shared/components/modals/editor/macro-wp-button-modal/wp-button-macro.modal';
@@ -44,11 +44,9 @@ import { PortalOutletTarget } from 'core-app/shared/components/modal/portal-outl
 
 @Injectable()
 export class EditorMacrosService {
-  constructor(
-    readonly opModalService:OpModalService,
-    readonly injector:Injector,
-  ) {
-  }
+  readonly opModalService = inject(OpModalService);
+  readonly injector = inject(Injector);
+
 
   /**
    * Show a modal to edit the work package button macro settings.

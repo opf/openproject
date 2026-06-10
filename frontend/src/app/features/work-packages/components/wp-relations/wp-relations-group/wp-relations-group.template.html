@@ -26,7 +26,7 @@
   <div
     class="relation-container"
     >
-    @for (relatedWorkPackage of relatedWorkPackages; track relatedWorkPackage) {
+    @for (relatedWorkPackage of relatedWorkPackages; track relatedWorkPackage.href) {
       <wp-relation-row [workPackage]="workPackage"
         [groupByWorkPackageType]="groupByWorkPackageType"
         [relatedWorkPackage]="relatedWorkPackage"

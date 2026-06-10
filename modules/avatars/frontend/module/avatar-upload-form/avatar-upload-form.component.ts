@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, inject } from '@angular/core';
 
 import { resizeFile } from 'core-app/shared/helpers/images/resizer';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -44,6 +44,12 @@ import { HttpErrorResponse } from '@angular/common/http';
   standalone: false,
 })
 export class AvatarUploadFormComponent implements OnInit {
+  protected I18n = inject(I18nService);
+  protected elementRef = inject(ElementRef);
+  protected cdRef = inject(ChangeDetectorRef);
+  protected toastService = inject(ToastService);
+  protected uploadService = inject(OpUploadService);
+
   public form:any;
 
   public target:string;
@@ -70,14 +76,6 @@ export class AvatarUploadFormComponent implements OnInit {
     uploading: this.I18n.t('js.avatars.uploading_avatar'),
     preview: this.I18n.t('js.label_preview'),
   };
-
-  public constructor(
-    protected I18n:I18nService,
-    protected elementRef:ElementRef,
-    protected cdRef:ChangeDetectorRef,
-    protected toastService:ToastService,
-    protected uploadService:OpUploadService,
-  ) { }
 
   public ngOnInit() {
     const element = this.elementRef.nativeElement as HTMLElement;

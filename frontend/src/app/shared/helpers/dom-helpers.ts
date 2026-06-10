@@ -243,3 +243,45 @@ export function attributeTokenList(element:HTMLElement, attribute:string):DOMTok
   return list as DOMTokenList;
 }
 /* eslint-enable */
+
+/**
+ * Toggles the enabled/disabled state of form elements.
+ * For fieldsets, recursively applies to all child elements.
+ *
+ * @param element the element to toggle
+ * @param value force state (optional): `true` to enable/`false` to disable
+ * @param toggleHidden optionally toggle element.hidden inversely with disabled state
+ */
+export function toggleEnabled(element:HTMLElement, value?:boolean, toggleHidden?:boolean) {
+  // Handle hidden property if requested
+  if (toggleHidden) {
+    if (typeof value === 'undefined') {
+      element.hidden = !element.hidden;
+    } else {
+      element.hidden = !value;
+    }
+  }
+
+  if (
+    element instanceof HTMLInputElement ||
+    element instanceof HTMLSelectElement ||
+    element instanceof HTMLTextAreaElement ||
+    element instanceof HTMLButtonElement ||
+    element instanceof HTMLFieldSetElement
+  ) {
+    if (typeof value === 'undefined') {
+      element.disabled = !element.disabled;
+    } else {
+      element.disabled = !value;
+    }
+  }
+
+  if (element instanceof HTMLFieldSetElement) {
+    Array.from(element.elements).forEach((child) => {
+      toggleEnabled(child as HTMLElement, !element.disabled, toggleHidden);
+    });
+  }
+}
+
+export const enableElement = (element:HTMLElement) => toggleEnabled(element, true);
+export const disableElement = (element:HTMLElement) => toggleEnabled(element, false);

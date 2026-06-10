@@ -202,16 +202,7 @@ fil:
           text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
-        custom_field: Pasadyang patlang
-        inactive: Hindi aktibo
-        drag_to_activate: I-drag ang mga patlang mula dito upang paganahin sila
-        add_group: Add attribute group
-        add_table: Add table of related work packages
         edit_query: Edit query
-        new_group: Bagong grupo
-        delete_group: Delete group
-        remove_attribute: Remove from group
-        reset_to_defaults: I-reset sa mga default
       working_days:
         calendar:
           empty_state_header: Non-working days
@@ -219,13 +210,6 @@ fil:
           new_date: "(new)"
         add_non_working_day: Non-working day
         already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
-        change_button: Save and reschedule
-        change_title: Change working days
-        removed_title: 'You will remove the following days from the non-working days list:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -418,7 +402,6 @@ fil:
     label_per_page: 'Bawat pahina:'
     label_please_wait: Pakiusap maghantay
     label_project: Proyekto
-    label_project_list: Project lists
     label_project_plural: Mga proyekto
     label_visibility_settings: Ang mga setting ng katanyagan
     label_quote_comment: I-quote ang komentong ito
@@ -614,18 +597,6 @@ fil:
     breadcrumb: Breadcrumb
     text_data_lost: All entered data will be lost.
     text_user_wrote: "%{value} isinulat:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: Ang pangalan ng %{group} ay ginamit higit pa sa isang beses. Ang mga pangalan ng grupo ay dapat nakakakatangi.
-        error_no_table_configured: Please configure a table for %{group}.
-        reset_title: Reset form configuration
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration? This will reset the attributes to their default group and disable ALL custom fields.
-
-          '
-        upgrade_to_ee: Upgrade to Enterprise on-premises edition
-        upgrade_to_ee_text: Wow! If you need this add-on you are a super pro! Would you mind supporting us OpenSource developers by becoming an Enterprise edition client?
-        more_information: Karagdagang impornasyon
-        nevermind: Hindi bale
     time_entry:
       work_package_required: Requires selecting a work package first.
       title: Ang oras ng tala
@@ -1074,16 +1045,13 @@ fil:
         all: All projects
         selected: Only selected
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Include all sub-projects
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.
         current_project: This is the current project you are in.
         does_not_match_search: Project does not match the search criteria.
       no_results: No project matches your search criteria.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

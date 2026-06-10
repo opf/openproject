@@ -41,7 +41,7 @@ RSpec.describe "POST /projects/:project_id/ifc_models/set_direct_upload_file_nam
   context "when user is not logged in" do
     it "requires login" do
       post set_direct_upload_file_name_bcf_project_ifc_models_path(project_id: project.id)
-      expect(last_response).to have_http_status(:not_acceptable)
+      expect(last_response).to have_http_status(:found)
     end
   end
 

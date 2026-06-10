@@ -202,16 +202,7 @@
           text: "[Placeholder] Innbygget kalender"
     admin:
       type_form:
-        custom_field: Egendefinert felt
-        inactive: Inaktiv
-        drag_to_activate: Dra feltene herfra for å aktivere dem
-        add_group: Legg til egenskapsgruppe
-        add_table: Legg til tabell over tilknyttede arbeidspakker
         edit_query: Rediger spørring
-        new_group: Ny gruppe
-        delete_group: Delete group
-        remove_attribute: Remove from group
-        reset_to_defaults: Tilbakestill til standard
       working_days:
         calendar:
           empty_state_header: Arbeidsfrie dager
@@ -219,13 +210,6 @@
           new_date: "(ny)"
         add_non_working_day: Arbeidsfri dag
         already_added_error: En arbeidsfri dag for denne datoen finnes allerede. Det kan bare være en arbeidsfri dag som er opprettet for hver unike dato.
-        change_button: Lagre og endre
-        change_title: Endre arbeidsdager
-        removed_title: 'Du fjerner de følgende dagene fra listen over arbeidsfrie dager:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -418,7 +402,6 @@
     label_per_page: 'Pr. side:'
     label_please_wait: Vennligst vent
     label_project: Prosjekt
-    label_project_list: Prosjektlister
     label_project_plural: Prosjekter
     label_visibility_settings: Innstillinger for synlighet
     label_quote_comment: Siter denne kommentaren
@@ -614,18 +597,6 @@
     breadcrumb: Brødsmule
     text_data_lost: Alle angitte data vil gå tapt.
     text_user_wrote: "%{value} skrev:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: Navnet %{group} brukes flere ganger. Gruppenavn må være unike.
-        error_no_table_configured: Vennligst konfigurer en tabell for %{group}.
-        reset_title: Tilbakestill konfigurasjon for skjema
-        confirm_reset: 'Advarsel: Er du sikker på at du vil tilbakestille skjemakonfigurasjonen? Dette vil tilbakestille egenskaper til deres standard gruppe og deaktivere ALLE egendefinerte felt.
-
-          '
-        upgrade_to_ee: Oppgradere til Enterprise on-premises-utgave
-        upgrade_to_ee_text: Wow! Hvis du trenger dette tillegget er en superpro! Vil du støtte oss OpenSource-utviklere ved å bli en Enterpris-utgave-kunde?
-        more_information: Mer informasjon
-        nevermind: Glem det
     time_entry:
       work_package_required: Valg av arbeidspakke er påkrevd
       title: Logg tid
@@ -1074,16 +1045,13 @@
         all: Alle prosjekter
         selected: Kun valgte
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Inkluder alle underprosjekter
       tooltip:
         include_all_selected: Prosjektet er allerede inkludert siden det alle underprosjekter er aktivert.
         current_project: Dette er det nåværende prosjektet du er i.
         does_not_match_search: Prosjektet samsvarer ikke med søkekriteriene.
       no_results: Ingen treff på dine søkekriterier.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

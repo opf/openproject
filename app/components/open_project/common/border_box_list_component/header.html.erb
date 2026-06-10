@@ -1,0 +1,87 @@
+<%# -- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++# %>
+
+<%= grid_layout(
+      "op-border-box-list-header",
+      tag: :div,
+      classes: { "op-border-box-list-header_collapsible" => collapsible? }
+    ) do |grid| %>
+  <% if collapsible? %>
+    <% grid.with_area(:heading) do %>
+      <%=
+        render(
+          Primer::OpenProject::BorderBox::CollapsibleHeader.new(
+            collapsible_id:,
+            collapsed:,
+            multi_line: true
+          )
+        ) do |collapsible|
+      %>
+        <% collapsible.with_title(**title_arguments, tag: title_tag) { title } %>
+        <% if render_count? %>
+          <% collapsible.with_count(**counter_arguments) %>
+        <% end %>
+        <% if description? %>
+          <% collapsible.with_description do %>
+            <%= description %>
+          <% end %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <% grid.with_area(:heading) do %>
+      <%= render(Primer::BaseComponent.new(tag: :div, classes: "op-border-box-list-header--heading-line")) do %>
+        <%= render(Primer::Beta::Truncate.new(**title_arguments, tag: title_tag, classes: title_classes)) { title } %>
+        <% if render_count? %>
+          <%= render(Primer::Beta::Counter.new(**counter_arguments)) %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if description? && !collapsible? %>
+    <% grid.with_area(:description) do %>
+      <%= description %>
+    <% end %>
+  <% end %>
+
+  <% if actions? %>
+    <% grid.with_area(:actions) do %>
+      <% actions.each do |action| %>
+        <%= action %>
+      <% end %>
+    <% end %>
+  <% end %>
+
+  <% if menu? %>
+    <% grid.with_area(:menu) do %>
+      <%= menu %>
+    <% end %>
+  <% end %>
+<% end %>

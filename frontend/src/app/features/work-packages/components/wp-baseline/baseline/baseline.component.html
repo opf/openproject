@@ -1,5 +1,5 @@
 <div class="op-baseline--header"
-  [class.op-baseline--header_banner-active]="!available"
+  [class.op-baseline--header_banner-active]="Banner.showBannerFor('baseline_comparison')"
   [class.op-baseline_tab]="!showActionBar">
 
   <op-enterprise-banner-frame feature="baseline_comparison"
@@ -29,7 +29,7 @@
           <option [textContent]="text.drop_down_none_option"
             [selected]="!filterSelected"
           [value]="'-'"></option>
-          @for (availableValue of baselineAvailableValues; track availableValue) {
+          @for (availableValue of baselineAvailableValues; track availableValue.value) {
             <option
               [value]="availableValue.value"
               [selected]="availableValue.value === selectedFilter"
@@ -201,4 +201,3 @@
 } @else {
   <op-baseline-loading />
 }
-

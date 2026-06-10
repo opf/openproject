@@ -1,0 +1,61 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(
+      Primer::Alpha::Overlay.new(
+        title: t(".title"),
+        visually_hide_title: true,
+        anchor_side: :outside_bottom,
+        anchor_align: :start,
+        size: :medium_portrait,
+        padding: :none
+      )
+    ) do |overlay| %>
+  <% overlay.with_show_button(
+       id: "projects-menu",
+       classes: "op-project-select--trigger-button",
+       scheme: :invisible,
+       data: { "test-selector": "op-projects-menu" },
+       accesskey: "5"
+     ) do |button| %>
+     <%= trigger_label %>
+    <% button.with_trailing_visual_icon(icon: :"triangle-down") %>
+  <% end %>
+
+  <% overlay.with_body(
+       classes: "op-project-select--body", data: { controller: "header-project-select",
+                                                   test_selector: "op-header-project-select" }
+     ) do %>
+    <%= helpers.turbo_frame_tag "op-header-project-frame",
+                                src: tree_src,
+                                loading: :lazy,
+                                target: "_top",
+                                class: "op-project-select--frame" %>
+  <% end %>
+<% end %>

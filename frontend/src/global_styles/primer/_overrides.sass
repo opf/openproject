@@ -38,7 +38,8 @@
   &-input-wrap[invalid='true'] input:not(:focus)
     border-color: var(--control-borderColor-danger)
 
-  &-spacingWrapper > :empty
+  &-spacingWrapper > :empty,
+  &-spacingWrapper:not(:has(> :not([hidden])))
     display: none
 
 .UnderlineNav
@@ -218,3 +219,12 @@ ul.SegmentedControl,
   &:before
     animation: none
     clip-path: inset(0)
+
+// At some point in time, this needs to be extracted into a proper component,
+// something like `FilterableTreeViewSelectPanel`
+.op-project-select--body
+  .FilterableTreeViewLayout
+    > .Stack
+      padding-right: var(--base-size-16)
+    .FilterableTreeViewTreeContainer
+      scrollbar-gutter: stable

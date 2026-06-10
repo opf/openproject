@@ -36,6 +36,7 @@ ko:
         subject: 제목
         type: 비용 유형
         labor_budget: 계획된 노동 비용
+        labor_budget_items: 계획된 노동 비용
         material_budget: 계획된 단위 비용
         base_amount: 기본 금액
       work_package:
@@ -48,6 +49,7 @@ ko:
               not_a_member_of_budget_project: "- 예산 프로젝트의 멤버가 아닙니다"
     models:
       budget: 예산
+      labor_budget_item: 계획된 노동 비용
       material_budget_item: 단위
   activity:
     filter:

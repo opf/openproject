@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { OPContextMenuService } from 'core-app/shared/components/op-context-menu/op-context-menu.service';
 import { WorkPackageTableContextMenu } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-table-context-menu.directive';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { tableRowClassName } from '../../builders/rows/single-row-builder';
 import { WorkPackageTable } from '../../wp-fast-table';
 import { TableEventComponent, TableEventHandler } from '../table-handler-registry';
@@ -10,7 +10,7 @@ import { EventType } from 'core-app/features/work-packages/routing/wp-view-base/
 
 export abstract class ContextMenuHandler implements TableEventHandler {
   // Injections
-  @InjectField() public opContextMenu:OPContextMenuService;
+  @LazyInject() public opContextMenu:OPContextMenuService;
 
   constructor(public readonly injector:Injector) {
   }

@@ -36,6 +36,7 @@ lt:
         subject: Tema
         type: Kaštų tipas
         labor_budget: Suplanuoti darbo kaštai
+        labor_budget_items: Planned labor costs
         material_budget: Suplanuoti vienetų kaštai
         base_amount: Base amount
       work_package:
@@ -48,6 +49,7 @@ lt:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Biudžetas
+      labor_budget_item: Planned labor cost
       material_budget_item: Vienetas
   activity:
     filter:

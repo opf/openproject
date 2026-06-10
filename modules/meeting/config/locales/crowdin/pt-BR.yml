@@ -32,20 +32,22 @@ pt-BR:
         location: Local
         duration: Duração
         notes: Anotações
-        recurrence_start_time: Scheduled start time
+        recurrence_start_time: Horário de início programado
         participants: Participantes
         participant:
           one: 1 participante
           other: "%{count} participantes"
         participants_attended: Presentes
         participants_invited: Convidados
+        participants_added: 'Participantes adicionados:'
+        participants_removed: 'Participantes removidos:'
         project: Projeto
         start_date: Data
         start_time: Hora de início
         start_time_hour: Hora de início
-        end_time: End time
-        template: Template
-        notify: Send notifications
+        end_time: Hora de término
+        template: Modelo
+        notify: Enviar notificações
         sharing: Compartilhamento
       meeting_agenda_item:
         title: Título
@@ -53,27 +55,30 @@ pt-BR:
         duration_in_minutes: Duração
         description: Anotações
         presenter: Apresentador
-        item_type: Type
-        position: Position
-        lock_version: Lock version
-        notes: Notes
+        item_type: Tipo
+        position: Posição
+        lock_version: Bloquear versão
+        notes: Anotações
       meeting_section:
         title: Título
-        position: Position
+        position: Posição
       recurring_meeting:
-        title: Title
+        title: Título
         frequency: Frequência
         interval: Intervalo
+        monthly_day: Dia do mês
+        monthly_ordinal: Posição
+        monthly_weekday: Dia da semana
         start_date: Começa em
         start_time: Hora de início
         start_time_hour: Hora de início
         end_after: Série de reuniões termina
         end_date: Data de término
         iterations: Ocorrências
-        time_zone: Time zone
-        location: Location
-        duration: Duration
-        notify: Send notifications
+        time_zone: Fuso horário
+        location: Localização
+        duration: Duração
+        notify: Enviar notificações
       recurring_meeting_interim_response:
         start_time: Hora de início
       meeting_participant:
@@ -210,6 +215,7 @@ pt-BR:
   label_time_zone: Fuso horário
   label_start_date: Data de início
   label_subscribe_icalendar: Assinar calendário
+  label_recurring_filter: Filtro recorrente
   caption_meeting_template_select: Selecione um modelo para copiar automaticamente os itens da pauta
   caption_template_project_select: Selecione o projeto no qual deseja criar este modelo de reunião
   placeholder_meeting_template_select_project_first: Primeiro, selecionar um projeto
@@ -272,16 +278,6 @@ pt-BR:
         summary_series: A série de reuniões "%{title}" foi cancelada por %{actor}, ou você foi removido como participante
         summary: '"%{title}" foi cancelada por %{actor}, ou você foi removido como participante'
         date_time: Data/hora programada
-      participant_added:
-        header: Reunião "%{title}" - Participante adicionado
-        header_series: Série de reuniões "%{title}" - Participante adicionado
-        summary: '%{actor} adicionou %{participant} à reunião "%{title}"'
-        summary_series: '%{actor} adicionou %{participant} à série de reuniões "%{title}"'
-      participant_removed:
-        header: Reunião "%{title}" - Participante removido
-        header_series: Série de reuniões "%{title}" - Participante removido
-        summary: '%{actor} removeu %{participant} da reunião "%{title}"'
-        summary_series: '%{actor} removeu %{participant} da série de reuniões "%{title}"'
       ended:
         header_series: 'Encerrada: série de reuniões "%{title}"'
         summary_series: A série de reuniões "%{title}" foi encerrada por %{actor}
@@ -295,6 +291,8 @@ pt-BR:
         new_date_time: Nova data/hora
         old_location: Localização antiga
         new_location: Nova localização
+        added_participants: Adicionado
+        removed_participants: Removido
     label_mail_all_participants: Enviar convite por e-mail para todos os participantes
     types:
       one_time: Única
@@ -323,6 +321,13 @@ pt-BR:
 
           '
         confirm_button: Cancelar ocorrência
+      occurrence_past:
+        title: Excluir ocorrência
+        heading: Excluir esta ocorrência?
+        confirmation_message_html: 'Esta ação não pode ser revertida. Prossiga com cuidado.
+
+          '
+        confirm_button: Excluir ocorrência
     blankslate:
       title: Não há reuniões para exibir
       desc: Você pode criar uma nova reunião ou mudar o critério de filtro
@@ -369,58 +374,22 @@ pt-BR:
         caption: Este texto aparecerá centralizado no rodapé de todas as páginas.
       submit_button: Baixar
     notifications:
+      disabled: Os participantes não receberão notificações por e-mail sobre alterações na data, horário ou lista de participantes.
+      enabled: Todos os participantes receberão convites de calendário atualizados informando sobre alterações na data, horário ou lista de participantes.
       sidepanel:
         title: Atualizações do calendário por e-mail
         description:
-          disabled: Os participantes não receberão um e-mail informando sobre as alterações.
-          enabled: Todos os participantes receberão convites de calendário atualizados por e-mail, informando sobre as alterações.
           change_via_template: Para alterar isso, edite o modelo da série.
       dialog:
         title:
           enable: Habilitar atualizações de calendário por e-mail?
           disable: Desabilitar atualizações de calendário por e-mail?
         message:
-          enable: 'Todos os participantes receberão, por e-mail, convites de calendário atualizados sempre que houver mudança na data, hora, local ou lista de participantes da reunião. Ao ativar essa opção, o envio é feito imediatamente para todos.
-
-            '
-          disable: 'Os participantes deixarão de receber convites de calendário atualizados por e-mail sempre que houver alterações na data, horário, local ou participantes da reunião. Caso já tenham recebido um convite anterior, ele pode estar desatualizado.
-
-            '
+          enable: Uma vez ativado, um e-mail será enviado imediatamente a todos os participantes.
+          disable: Se já tiverem um convite para esta reunião, ele pode não estar mais válido.
         confirm_label:
           enable: Habilitar atualizações por e-mail
           disable: Desabilitar atualizações por e-mail
-      banner:
-        participants:
-          enabled: 'Todos os participantes receberão convites de calendário atualizados por e-mail quando você adicionar ou remover participantes.
-
-            '
-          disabled: 'As atualizações de calendário por e-mail estão desativadas. Os participantes não receberão e-mails quando você adicionar ou remover participantes.
-
-            '
-          draft_disabled: 'Os participantes não receberão e-mail informando quando você adicionar ou remover participantes.
-
-            '
-        onetime:
-          enabled: 'Todos os participantes receberão atualização do convite de calendário via e-mail quando você adicionar ou remover participantes.
-
-            '
-          disabled: 'Os participantes não receberão um e-mail os informando sobre mudanças de data de reunião, tempo ou participantes.
-
-            '
-        occurrence:
-          enabled: 'As atualizações de calendário por e-mail estão ativadas para a série de reuniões. Todos os participantes receberão convites atualizados informando sobre suas alterações nesta ocorrência.
-
-            '
-          disabled: 'As atualizações de calendário por e-mail estão desativadas para a série de reuniões. Os participantes não receberão um e-mail informando sobre suas alterações nesta ocorrência.
-
-            '
-        template:
-          enabled: 'As atualizações de calendário por e-mail estão ativadas para a série de reuniões. Todos os participantes receberão convites atualizados informando sobre suas alterações neste modelo ou em ocorrências individuais.
-
-            '
-          disabled: 'As atualizações de calendário por e-mail estão desativadas para a série de reuniões. Os participantes não receberão um e-mail informando sobre suas alterações neste modelo ou em ocorrências individuais.
-
-            '
     presentation_mode:
       title: Modo de apresentação
       button_present: Presente
@@ -436,9 +405,9 @@ pt-BR:
       meeting_not_found: Reunião não encontrada por UID.
     widgets:
       blankslate:
-        heading: No upcoming meetings
-        description: Upcoming meetings where you are the organizer or a participant will appear here.
-      view_details: View all meetings
+        heading: Nenhuma reunião futura
+        description: Próximas reuniões nas quais você participar aparecerão aqui.
+      view_details: Visualizar todas as reuniões
   meeting_section:
     untitled_title: Seção sem título
     delete_confirmation: Excluir a seção também excluirá todos os itens da pauta. Tem certeza de que deseja fazer isso?
@@ -489,18 +458,42 @@ pt-BR:
       x_weekly:
         one: Todas as semanas
         other: A cada %{count} semanas
+      x_monthly:
+        one: A cada mês
+        other: A cada %{count} meses
+      monthly_day_of_month: Dia do mês
+      monthly_nth_weekday: Mensalmente em um dia da semana
       every_weekday: Todos os %{day_of_the_week}
       working_days: Todos os dias úteis
+    monthly:
+      inflected_ordinal:
+        first: primeiro
+        second: segundo
+        third: terceiro
+        fourth: quarto
+        last: último
+      ordinal_options:
+        first: Primeiro
+        second: Segundo
+        third: Terceira
+        fourth: Quarto
+        last: Última
+    actual_first_occurrence_mismatch_html: A primeira ocorrência desta série será %{first_occurrence}
+    day_of_month_skipping_info: Meses com menos de %{monthly_day} dias serão ignorados
     end_after:
-      never: nunca
-      specific_date: após uma data específica
-      iterations: após um número de ocorrências
+      never: Nunca
+      specific_date: Após uma data específica
+      iterations: Após um número de ocorrências
     starts: Começa
     in_words:
       daily_interval: A cada %{interval} dias
       working_days: Todos os dias úteis
       weekly: Todas as semanas na %{weekday}
       weekly_interval: Todas as %{interval} semanas em %{weekday}
+      monthly_day: Todo mês no dia %{day}
+      monthly_day_interval: A cada %{interval} meses no dia %{day}
+      monthly_nth_weekday: Todo mês na %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: A cada %{interval} meses na %{ordinal} %{weekday}
       frequency: "%{base} em %{time}"
       full: "%{base} em %{time}, termina em %{end_date}"
       full_past: "%{base} em %{time}, terminou em %{end_date}"
@@ -611,6 +604,7 @@ pt-BR:
   label_agenda_item_duplicate_in_next_title: Duplicar na próxima reunião?
   label_agenda_item_add_notes: Adicionar anotações
   label_agenda_item_add_outcome: Adicionar resultado
+  label_agenda_item_convert_to_work_package: Converter para pacote de trabalho
   label_agenda_item_work_package_add: Adicionar pacote de trabalho
   label_agenda_item_work_package: Pacote de trabalho do Item da pauta
   label_section_rename: Renomear seção
@@ -657,7 +651,7 @@ pt-BR:
   label_meeting_state_agenda_created: Agenda criada
   label_meeting_state_planned: Planejado
   label_meeting_state_cancelled: Cancelada
-  label_meeting_state_skipped: Pulada
+  label_meeting_state_skipped: Ignorado
   label_meeting_state_in_progress: Em andamento
   label_meeting_reopen_action: Reabrir reunião
   label_meeting_close_action: Fechar reunião
@@ -679,9 +673,9 @@ pt-BR:
   text_exit_draft_mode_dialog_template_title: Abrir a primeira ocorrência desta série de reuniões?
   text_exit_draft_mode_dialog_template_subtitle: Você não pode retornar ao modo rascunho após isto.
   label_meeting_template_sharing: Compartilhamento
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_system: With all projects
+  label_meeting_template_sharing_none: Apenas neste projeto
+  label_meeting_template_sharing_descendants: Com subprojetos
+  label_meeting_template_sharing_system: Com todos os projetos
   text_meeting_template_sharing_description: Este modelo pode ser compartilhado com subprojetos ou outros projetos nesta instância. Apenas os itens de pauta e os anexos serão copiados.
   text_meeting_not_editable_anymore: A reunião não pode mais ser editada.
   text_meeting_not_present_anymore: Esta reunião foi excluída. Selecione outra reunião.
@@ -700,12 +694,12 @@ pt-BR:
   text_agenda_item_duplicate_in_next_meeting: Tem certeza de que deseja adicionar uma cópia deste item da pauta à próxima reunião, em %{date} às %{time}? Os resultados não serão duplicados.
   text_agenda_item_duplicated_in_next_meeting: Item da pauta duplicado na próxima reunião, em %{date}
   text_work_package_has_no_upcoming_meeting_agenda_items: Este pacote de trabalho ainda não está programado na agenda de uma reunião futura.
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
-  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
-  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
+  text_agenda_item_no_available_occurrence: Não há ocorrências futuras disponíveis.
+  text_agenda_item_dialog_skipping_note: 'Observação: Ignorando %{details}.'
+  text_agenda_item_dialog_skipping_cancelled_one: reunião cancelada em %{date}
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} reuniões canceladas"
+  text_agenda_item_dialog_skipping_closed_one: reunião encerrada em %{date}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} reuniões encerradas"
   text_work_package_add_to_meeting_hint: Use o botão "Adicionar à reunião" para adicionar este pacote de trabalho a uma próxima reunião.
   text_work_package_has_no_past_meeting_agenda_items: Este pacote de trabalho não foi adicionado como item da pauta em uma reunião anterior.
   text_email_updates_muted: As atualizações de calendário por e-mail estão silenciadas. Os participantes não receberão convites atualizados por e-mail quando você fizer alterações.

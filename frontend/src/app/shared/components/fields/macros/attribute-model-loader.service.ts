@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++    Ng1FieldControlsWrapper,
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import {
   firstValueFrom,
@@ -39,18 +39,27 @@ import {
   map,
   shareReplay,
   take,
-  tap,
 } from 'rxjs/operators';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { multiInput } from '@openproject/reactivestates';
 import { TransitionService } from '@uirouter/core';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
 
 export type SupportedAttributeModels = 'project'|'workPackage';
 
+// Matches a work package reference that is a numeric ID ("1234") or a semantic
+// identifier ("PROJ-42"). Anything else is treated as a subject reference.
+const WP_ID_OR_SEMANTIC = new RegExp(`^(?:${WP_ID_URL_PATTERN})$`);
+
 @Injectable({ providedIn: 'root' })
 export class AttributeModelLoaderService {
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly transitions = inject(TransitionService);
+  readonly currentProject = inject(CurrentProjectService);
+  readonly I18n = inject(I18nService);
+
   text = {
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
   };
@@ -59,10 +68,9 @@ export class AttributeModelLoaderService {
   // we may need to expensively filter for them
   private cache$ = multiInput<HalResource>();
 
-  constructor(readonly apiV3Service:ApiV3Service,
-    readonly transitions:TransitionService,
-    readonly currentProject:CurrentProjectService,
-    readonly I18n:I18nService) {
+  constructor() {
+    const transitions = this.transitions;
+
     // Clear cached values whenever leaving the page
     transitions.onStart({}, () => {
       this.cache$.clear();
@@ -90,7 +98,7 @@ export class AttributeModelLoaderService {
           shareReplay(1),
         );
 
-      state.clearAndPutFromPromise(firstValueFrom(observable) as PromiseLike<HalResource>);
+      state.clearAndPutFromPromise(firstValueFrom(observable));
 
       return observable;
     }
@@ -99,7 +107,6 @@ export class AttributeModelLoaderService {
       .values$()
       .pipe(
         take(1),
-        tap({ next: (val) => console.log(`VAL ${val}`), error: (err) => console.error(`ERR ${err}`) }),
       );
   }
 
@@ -136,8 +143,9 @@ export class AttributeModelLoaderService {
       return throwError(this.text.not_found);
     }
 
-    // Return global reference to the subject
-    if (/^[1-9]\d*$/.test(id)) {
+    // Resolve a numeric ID or semantic identifier globally; the API show
+    // endpoint resolves both forms transparently.
+    if (WP_ID_OR_SEMANTIC.test(id)) {
       return this
         .apiV3Service
         .work_packages
@@ -148,7 +156,7 @@ export class AttributeModelLoaderService {
         );
     }
 
-    // Otherwise, look for subject IN the current project (if we're in project context)
+    // Otherwise, treat the reference as a subject and look it up in the current project
     return this
       .apiV3Service
       .withOptionalProject(this.currentProject.id)

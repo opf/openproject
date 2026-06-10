@@ -1,0 +1,98 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<% if empty? %>
+  <%=
+    render Primer::Beta::Blankslate.new(border: true) do |c|
+      c.with_visual_icon(icon: :checklist)
+      c.with_heading(tag: :h2).with_content(I18n.t("cost_types.settings.cost_types.heading"))
+      c.with_description { I18n.t("cost_types.admin.cost_type_projects.no_projects.description") }
+    end
+  %>
+<% else %>
+  <%= render(Primer::Beta::BorderBox.new(test_selector: "op-project-settings-cost-types")) do |box| %>
+    <% box.with_header do %>
+      <%= render(Primer::Beta::Text.new(font_weight: :bold)) { CostType.model_name.human(count: 2) } %>
+    <% end %>
+
+    <% cost_types.each do |cost_type| %>
+      <% box.with_row do %>
+        <%=
+          flex_layout(
+            align_items: :center, justify_content: :space_between,
+            classes: "op-project-cost-type",
+            data: { test_selector: "project-cost-type-#{cost_type.id}" }
+          ) do |row|
+            row.with_column(flex: 1) do
+              if User.current.admin?
+                render(Primer::Beta::Link.new(font_weight: :bold,
+                                              href: edit_admin_cost_type_path(cost_type))) { cost_type.name }
+              else
+                render(Primer::Beta::Text.new) { cost_type.name }
+              end
+            end
+
+            row.with_column(py: 1, mr: 2) do
+              concat(
+                render(
+                  Primer::Alpha::ToggleSwitch.new(
+                    src: toggle_path(cost_type),
+                    csrf_token: form_authenticity_token,
+                    data: toggle_data_attributes(cost_type),
+                    checked: toggle_checked?(cost_type),
+                    enabled: !toggle_disabled?(cost_type),
+                    size: :small,
+                    status_label_position: :start,
+                    classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
+                  )
+                )
+              )
+
+              if toggle_disabled?(cost_type)
+                concat(
+                  content_tag(:template, id: unique_hovercard_id(cost_type)) do
+                    flex_layout(
+                      classes: "op-project-cost-type--popover",
+                      data: { test_selector: "op-project-cost-type--hover-card-#{cost_type.id}" }
+                    ) do |hover_card|
+                      hover_card.with_column do
+                        render(Primer::Beta::Text.new) do
+                          t("cost_types.settings.cost_types.for_all_projects_hint")
+                        end
+                      end
+                    end
+                  end
+                )
+              end
+            end
+          end
+        %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

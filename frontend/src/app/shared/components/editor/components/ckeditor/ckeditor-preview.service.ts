@@ -26,16 +26,14 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector } from '@angular/core';
+import { ApplicationRef, ComponentFactoryResolver, ComponentRef, Injectable, Injector, inject } from '@angular/core';
 
 @Injectable()
 export class CKEditorPreviewService {
-  constructor(
-    private readonly componentFactoryResolver:ComponentFactoryResolver,
-    private readonly appRef:ApplicationRef,
-    private readonly injector:Injector,
-  ) {
-  }
+  private readonly componentFactoryResolver = inject(ComponentFactoryResolver);
+  private readonly appRef = inject(ApplicationRef);
+  private readonly injector = inject(Injector);
+
 
   /**
    * Render preview into the given element, return a remover function to disconnect all

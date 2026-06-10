@@ -97,6 +97,8 @@ RSpec.describe "Dragging work packages in the inbox",
     let(:closed_status) { create(:closed_status) }
 
     before do
+      project.done_statuses << closed_status
+
       inbox_wp2.update!(status: closed_status)
       inbox_wp3.update!(status: closed_status)
     end

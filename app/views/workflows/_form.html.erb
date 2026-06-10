@@ -139,8 +139,7 @@ See COPYRIGHT and LICENSE files for more details.
                   Primer::BaseComponent.new(
                     tag: :div,
                     display: :flex,
-                    align_items: :center,
-                    data: { controller: "truncation" },
+                    align_items: :flex_start,
                     classes: "gap-1",
                     ml: 1,
                     mr: 3
@@ -165,25 +164,9 @@ See COPYRIGHT and LICENSE files for more details.
                     )
                   )
                 %>
-                <%=
-                  render(
-                    Primer::Beta::Truncate.new(
-                      data: { truncation_target: "truncate" },
-                      flex: 1
-                    )
-                  ) do
-                    old_status.name
-                  end
-                %>
-                <%=
-                  render(
-                    Primer::Alpha::HiddenTextExpander.new(
-                      hidden: true,
-                      aria: { label: t(:"js.label_expand_text") },
-                      data: { truncation_target: "expander" }
-                    )
-                  )
-                %>
+                <%= render(OpPrimer::ExpandableTextComponent.new(flex: 1)) do %>
+                  <%= old_status.name %>
+                <% end %>
               <% end %>
             </th>
             <% @statuses.each do |new_status| -%>

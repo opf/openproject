@@ -115,7 +115,7 @@ module Storages
               path_elements[0..-2].map do |component|
                 next root if component.blank?
 
-                Results::StorageFileAncestor.new(name: component, location: component)
+                Results::StorageFileAncestor.new(name: component, location: "/#{component}")
               end
             end
 

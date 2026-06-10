@@ -36,6 +36,7 @@ ms:
         subject: Subjek
         type: Jenis kos
         labor_budget: Kos buruh terancang
+        labor_budget_items: Planned labor costs
         material_budget: Kos unit yang dirancang
         base_amount: Base amount
       work_package:
@@ -48,6 +49,7 @@ ms:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Anggaran
+      labor_budget_item: Planned labor cost
       material_budget_item: Unit
   activity:
     filter:

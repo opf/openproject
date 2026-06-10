@@ -14,12 +14,14 @@ describe('AttributeHelpTextComponent', () => {
   let element:DebugElement;
 
   const serviceStub = {};
-  let modalServiceStub:jasmine.SpyObj<AttributeHelpTextModalService>;
-  const i18nStub = { t: (_scope:string|string[], _options?:Record<string, any>) => 'Show help text' };
+  let modalServiceStub:{ show:ReturnType<typeof vi.fn> };
+  const i18nStub = { t: (_scope:string | string[], _options?:Record<string, any>) => 'Show help text' };
 
   beforeEach(async () => {
-    modalServiceStub = jasmine.createSpyObj('AttributeHelpTextModalService', ['show']);
-    modalServiceStub.show.and.resolveTo();
+    modalServiceStub = {
+      show: vi.fn().mockName('AttributeHelpTextModalService.show')
+    };
+    modalServiceStub.show.mockResolvedValue(undefined);
 
     await TestBed
       .configureTestingModule({
@@ -59,7 +61,7 @@ describe('AttributeHelpTextComponent', () => {
     const button = element.query(By.css("[role='button']"));
 
     expect(button).toBeTruthy();
-    expect(button.nativeElement).toHaveClass('spot-link');
+    expect(button.nativeElement.classList.contains('spot-link')).toBe(true);
   });
 
   it('renders a tooltip', () => {
@@ -68,7 +70,7 @@ describe('AttributeHelpTextComponent', () => {
     expect(tooltip).toBeTruthy();
     expect(tooltip.nativeElement.textContent).toEqual('Show help text');
     expect(tooltip.nativeElement.getAttribute('for')).toMatch(/attribute-help-text-component-\d+/);
-    expect(tooltip.nativeElement.popover).toEqual('manual');
+    expect(tooltip.nativeElement.getAttribute('popover')).toEqual('manual');
     expect(tooltip.nativeElement.dataset.direction).toEqual('sw');
     expect(tooltip.nativeElement.dataset.type).toEqual('label');
   });
@@ -82,7 +84,7 @@ describe('AttributeHelpTextComponent', () => {
   it('applies .help-text--entry class', () => {
     const button = element.query(By.css("[role='button']"));
 
-    expect(button.nativeElement).toHaveClass('help-text--entry');
+    expect(button.nativeElement.classList.contains('help-text--entry')).toBe(true);
   });
 
   it('applies an ID', () => {
@@ -106,11 +108,13 @@ describe('AttributeHelpTextComponent', () => {
     expect(button.nativeElement.ariaDisabled).toEqual('true');
 
     await Promise.resolve();
-    await modalServiceStub.show.calls.mostRecent().returnValue;
+    await modalServiceStub.show.mock.results.at(-1)!.value;
     await new Promise(resolve => setTimeout(resolve, 0));
     fixture.detectChanges();
 
-    expect(modalServiceStub.show).toHaveBeenCalledOnceWith('1');
+    expect(modalServiceStub.show).toHaveBeenCalledTimes(1);
+
+    expect(modalServiceStub.show).toHaveBeenCalledWith('1');
     expect(button.nativeElement.ariaDisabled).toEqual('false');
   });
 
@@ -128,11 +132,13 @@ describe('AttributeHelpTextComponent', () => {
 
     fixture.detectChanges();
     await Promise.resolve();
-    await modalServiceStub.show.calls.mostRecent().returnValue;
+    await modalServiceStub.show.mock.results.at(-1)!.value;
     await new Promise(resolve => setTimeout(resolve, 0));
     fixture.detectChanges();
 
-    expect(modalServiceStub.show).toHaveBeenCalledOnceWith('1');
+    expect(modalServiceStub.show).toHaveBeenCalledTimes(1);
+
+    expect(modalServiceStub.show).toHaveBeenCalledWith('1');
     expect(button.nativeElement.ariaDisabled).toEqual('false');
   });
 });

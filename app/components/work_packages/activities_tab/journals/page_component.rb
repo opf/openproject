@@ -36,7 +36,7 @@ module WorkPackages
         include OpTurbo::Streamable
         include WorkPackages::ActivitiesTab::SharedHelpers
 
-        def initialize(journals:, emoji_reactions:, page:, filter: :all)
+        def initialize(journals:, emoji_reactions:, page:, filter: Filters::ALL)
           super
 
           @journals = journals

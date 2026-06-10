@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { colorModes, ColorsService } from 'core-app/shared/components/colors/colors.service';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
@@ -28,12 +28,10 @@ export interface NameOptions {
 
 @Injectable({ providedIn: 'root' })
 export class PrincipalRendererService {
-  constructor(
-    private pathHelper:PathHelperService,
-    private apiV3Service:ApiV3Service,
-    private colors:ColorsService,
-  ) {
-  }
+  private pathHelper = inject(PathHelperService);
+  private apiV3Service = inject(ApiV3Service);
+  private colors = inject(ColorsService);
+
 
   renderAbbreviated(
     container:HTMLElement,

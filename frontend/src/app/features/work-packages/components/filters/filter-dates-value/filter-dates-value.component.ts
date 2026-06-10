@@ -26,13 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding, Input, Output, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DebouncedEventEmitter } from 'core-app/shared/helpers/rxjs/debounced-event-emitter';
 import moment from 'moment';
@@ -51,6 +45,9 @@ import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/que
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class FilterDatesValueComponent extends UntilDestroyedMixin {
+  readonly timezoneService = inject(TimezoneService);
+  readonly I18n = inject(I18nService);
+
   @HostBinding('id') get id() {
     return `div-values-${this.filter.id}`;
   }
@@ -66,13 +63,6 @@ export class FilterDatesValueComponent extends UntilDestroyedMixin {
   readonly text = {
     spacer: this.I18n.t('js.filter.value_spacer'),
   };
-
-  constructor(
-    readonly timezoneService:TimezoneService,
-    readonly I18n:I18nService,
-  ) {
-    super();
-  }
 
   public get value():string[] {
     return (this.filter.values || []) as string[];

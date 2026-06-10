@@ -6,7 +6,7 @@ es:
     description: Este plugin OpenProject introduce funcionalidades BIM y BCF.
   bim:
     label_bim: BIM
-    error_direct_upload_failed: Direct upload failed.
+    error_direct_upload_failed: La carga directa ha fallado.
   bcf:
     label_bcf: BCF
     label_imported_failed: No se pudieron importar los temas de BCF
@@ -73,6 +73,10 @@ es:
   project_module_bim: BCF
   permission_view_linked_issues: Ver incidencias de BCF
   permission_manage_bcf: Importar y administrar incidencias de BCF
+  permission_manage_bcf_explanation: |
+    Permite gestionar incidencias de BCF, incluyendo la importación y actualización en masa.
+    La importación de BCF asigna los metadatos del archivo a los recursos del proyecto y puede crear o actualizar paquetes de trabajo
+    y comentarios utilizando los valores de autor y marca de tiempo del archivo importado, actuando así en nombre de los usuarios.
   permission_delete_bcf: Eliminar incidencias BCF
   oauth:
     scopes:

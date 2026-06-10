@@ -28,7 +28,7 @@
 
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpEvent } from '@angular/common/http';
 
 import { IUploadFile, OpUploadService } from 'core-app/core/upload/upload.service';
@@ -39,11 +39,8 @@ export interface AvatarUploadFile extends IUploadFile {
 
 @Injectable()
 export class AvatarUploadService extends OpUploadService {
-  constructor(
-    private readonly http:HttpClient,
-  ) {
-    super();
-  }
+  private readonly http = inject(HttpClient);
+
 
   public upload<T>(
     href:string,

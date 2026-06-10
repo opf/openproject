@@ -1,7 +1,7 @@
 import eslint from '@eslint/js';
 import globals from 'globals';
 import tseslint from 'typescript-eslint';
-import jasmine from 'eslint-plugin-jasmine';
+import vitest from '@vitest/eslint-plugin';
 import angular from 'angular-eslint';
 import stylistic from '@stylistic/eslint-plugin';
 
@@ -159,17 +159,11 @@ export default defineConfig([
   },
   {
     files: ['**/*.spec.ts'],
-    plugins: { jasmine },
-    extends: [
-      jasmine.configs.recommended,
-    ],
+    ...vitest.configs.recommended,
     rules: {
-      /**
-       * Any template/HTML related rules you wish to use/reconfigure over and above the
-       * recommended set provided by the @angular-eslint project would go here.
-       */
+      ...vitest.configs.recommended.rules,
 
-      // jasmine is unusable with unsafe member access, as expect(...) is always any
+      // vitest expect(...) is always any
       '@typescript-eslint/no-unsafe-member-access': 'off',
       '@typescript-eslint/no-unsafe-call': 'off',
 

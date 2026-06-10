@@ -57,7 +57,6 @@ RSpec.describe "Meeting index menu",
       expect(page).to have_css(".op-submenu--item-action.selected", text: "My meetings")
       expect(page).to have_text "All meetings"
       expect(page).to have_text "Involvement"
-      expect(page).to have_text "Invitations"
       expect(page).to have_text "Created by me"
       expect(page).to have_text "Attended"
     end
@@ -82,7 +81,6 @@ RSpec.describe "Meeting index menu",
         expect(page).to have_css(".op-submenu--item-action.selected", text: "All meetings")
         expect(page).to have_no_text "My meetings"
         expect(page).to have_no_text "Involvement"
-        expect(page).to have_no_text "Invitations"
         expect(page).to have_no_text "Created by me"
         expect(page).to have_no_text "Attended"
       end

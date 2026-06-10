@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { ApiV3GettableResource, ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { Constructor } from 'core-app/core/util-types';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -65,6 +65,9 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class ApiV3Service {
+  readonly injector = inject(Injector);
+  readonly pathHelper = inject(PathHelperService);
+
   // /api/v3/attachments
   public readonly attachments = this.apiV3CollectionEndpoint('attachments');
 
@@ -172,11 +175,6 @@ export class ApiV3Service {
 
   // VIRTUAL boards are /api/v3/grids + a scope filter
   public readonly boards = this.apiV3CustomEndpoint(ApiV3BoardsPaths);
-
-  constructor(
-    readonly injector:Injector,
-    readonly pathHelper:PathHelperService,
-  ) { }
 
   /**
    * Returns the part of the API that exists both

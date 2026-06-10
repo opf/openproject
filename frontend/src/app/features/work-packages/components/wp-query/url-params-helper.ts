@@ -31,7 +31,7 @@ import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isPersistedResource from 'core-app/features/hal/helpers/is-persisted-resource';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { ApiV3Filter, ApiV3FilterBuilder, FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { PaginationService } from 'core-app/shared/components/table-pagination/pagination-service';
@@ -102,8 +102,8 @@ export interface QueryRequestParams {
 
 @Injectable({ providedIn: 'root' })
 export class UrlParamsHelperService {
-  public constructor(public paginationService:PaginationService) {
-  }
+  paginationService = inject(PaginationService);
+
 
   // copied more or less from angular buildUrl
   public buildQueryString(params:any) {
@@ -373,7 +373,7 @@ export class UrlParamsHelperService {
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
     queryData.timestamps = query.timestamps.join(',');
 
-    return _.extend(additionalParams, queryData) as Partial<QueryRequestParams>;
+    return _.extend(additionalParams, queryData);
   }
 
   public queryFilterValueToParam(value:HalResource|string|boolean):string {

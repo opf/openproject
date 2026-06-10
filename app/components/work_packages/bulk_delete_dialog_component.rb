@@ -94,7 +94,10 @@ module WorkPackages
     end
 
     def projects
-      @projects ||= work_packages.filter_map(&:project).uniq
+      @projects ||= begin
+        all_work_packages = work_packages + descendants_by_work_package.values.flatten
+        all_work_packages.filter_map(&:project).uniq
+      end
     end
 
     def descendants_by_work_package

@@ -34,11 +34,12 @@ module Exports
   class ExportJob < ::ApplicationJob
     queue_with_priority :above_normal
 
-    def perform(export:, user:, mime_type:, query:, **options)
+    def perform(export:, user:, mime_type:, query:, query_attributes: nil, options: {})
       self.export = export
       self.current_user = user
       self.mime_type = mime_type
       self.query = query
+      self.job_query_attributes = query_attributes
       self.options = options.with_indifferent_access
 
       User.execute_as(user) do
@@ -63,7 +64,7 @@ module Exports
 
     class_attribute :model
 
-    attr_accessor :export, :current_user, :mime_type, :query, :options
+    attr_accessor :export, :current_user, :mime_type, :query, :options, :job_query_attributes
 
     def prepare!
       raise SubclassResponsibilityError

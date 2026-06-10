@@ -193,6 +193,47 @@ module API
                    skip_render:)
         end
 
+        # Like associated_resource, but skips rendering and shows an undisclosed
+        # link when the associated record exists but is not visible to the current user.
+        # Requires the associated model to implement +visible?(user)+.
+        def associated_visible_resource(name,
+                                        as: nil,
+                                        representer: nil,
+                                        v3_path: name,
+                                        link_title_attribute: :name,
+                                        undisclosed_title: :"api_v3.undisclosed.#{name.to_s.camelize(:lower)}")
+          associated_resource(
+            name,
+            as:,
+            representer:,
+            v3_path:,
+            skip_render: ->(*) {
+              represented.public_send(:"#{name}_id").nil? ||
+                !represented.public_send(name)&.visible?(current_user)
+            },
+            link: associated_visible_resource_link_lambda(name,
+                                                          v3_path:,
+                                                          link_title_attribute:,
+                                                          undisclosed_title:)
+          )
+        end
+
+        def associated_visible_resource_link_lambda(name, v3_path:, link_title_attribute:, undisclosed_title:)
+          ->(*) do
+            id = represented.public_send(:"#{name}_id")
+            next if id.nil?
+
+            resource = represented.public_send(name)
+            if resource&.visible?(current_user)
+              { href: api_v3_paths.public_send(v3_path, id),
+                title: resource.public_send(link_title_attribute) }
+            else
+              { href: ::API::V3::URN_UNDISCLOSED,
+                title: I18n.t(undisclosed_title) }
+            end
+          end
+        end
+
         def link_attr(name, uncacheable, link_cache_if)
           links_attr = { rel: name.to_s.camelize(:lower) }
           links_attr[:uncacheable] = true if uncacheable

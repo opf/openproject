@@ -141,7 +141,7 @@ export default class StoryController extends Controller<HTMLElement> implements 
   }
 
   private onKeydown(event:KeyboardEvent):void {
-    if (event.key !== 'Enter') return;
+    if (event.key !== 'Enter' && event.key !== ' ') return;
 
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
@@ -149,6 +149,8 @@ export default class StoryController extends Controller<HTMLElement> implements 
     if (this.shouldIgnoreKeyboardTarget(target)) return;
 
     event.preventDefault();
+    if (event.key === ' ') return;
+
     if (event.shiftKey) {
       this.openFullPane();
     } else {

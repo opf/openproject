@@ -28,7 +28,7 @@
 
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import {
   uiStateLinkClass,
@@ -40,13 +40,13 @@ import { ExcludedIconHelperService } from 'core-app/shared/components/fields/dis
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 
 export class CompoundProgressDisplayField extends DisplayField {
-  @InjectField() PathHelper:PathHelperService;
+  @LazyInject() PathHelper:PathHelperService;
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
-  @InjectField() excludedIconHelperService:ExcludedIconHelperService;
+  @LazyInject() excludedIconHelperService:ExcludedIconHelperService;
 
-  @InjectField() hierarchyQueryLinkHelper:HierarchyQueryLinkHelperService;
+  @LazyInject() hierarchyQueryLinkHelper:HierarchyQueryLinkHelperService;
 
   private derivedText = this.I18n.t('js.label_value_derived_from_children');
 

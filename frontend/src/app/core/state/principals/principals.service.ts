@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { Injectable, inject } from '@angular/core';
 import { EffectHandler } from 'core-app/core/state/effects/effect-handler.decorator';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { PrincipalsStore } from './principals.store';
@@ -8,14 +7,11 @@ import {
   ResourceStore,
   ResourceStoreService,
 } from 'core-app/core/state/resource-store.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
-@EffectHandler
 @Injectable()
+@EffectHandler
 export class PrincipalsResourceService extends ResourceStoreService<IPrincipal> {
-  @InjectField() actions$:ActionsService;
-
-  @InjectField() toastService:ToastService;
+  readonly actions$ = inject(ActionsService);
 
   protected createStore():ResourceStore<IPrincipal> {
     return new PrincipalsStore();

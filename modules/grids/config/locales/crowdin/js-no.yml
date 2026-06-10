@@ -33,7 +33,7 @@
           title: Subitems
         project_favorites:
           title: Favorittprosjekter
-          no_results: Du har ingen prosjektfavoritter. Klikk på stjerneikonet i prosjektdashbordet for å legge til en i favorittene dine.
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: Min tidsbruk
           displayed_days: 'Dager vist i widgetet:'

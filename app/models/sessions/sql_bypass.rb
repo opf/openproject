@@ -82,27 +82,37 @@ module Sessions
 
     def insert!
       @new_record = false
-      connection.update <<~SQL, "Create session"
-         INSERT INTO sessions (session_id, data, user_id, updated_at)
-         VALUES (
-           #{connection.quote(session_id)},
-           #{connection.quote(self.class.serialize(data))},
-           #{connection.quote(user_id)},
-           (now() at time zone 'utc')
-        )
-      SQL
+      sql = OpenProject::SqlSanitization.sanitize(
+        <<~SQL.squish,
+          INSERT INTO sessions (session_id, data, user_id, updated_at)
+          VALUES (?, ?, ?, (now() at time zone 'utc'))
+        SQL
+        session_id,
+        self.class.serialize(data),
+        user_id
+      )
+
+      connection.update sql, "Create session"
     end
 
     def update!
-      connection.update <<~SQL, "Update session"
-        UPDATE sessions
-        SET
-          data=#{connection.quote(self.class.serialize(data))},
-          session_id=#{connection.quote(session_id)},
-          user_id=#{connection.quote(user_id)},
-          updated_at=(now() at time zone 'utc')
-        WHERE session_id=#{connection.quote(@retrieved_by)}
-      SQL
+      sql = OpenProject::SqlSanitization.sanitize(
+        <<~SQL.squish,
+          UPDATE sessions
+          SET
+            data = ?,
+            session_id = ?,
+            user_id = ?,
+            updated_at = (now() at time zone 'utc')
+          WHERE session_id = ?
+        SQL
+        self.class.serialize(data),
+        session_id,
+        user_id,
+        @retrieved_by
+      )
+
+      connection.update sql, "Update session"
     end
   end
 end

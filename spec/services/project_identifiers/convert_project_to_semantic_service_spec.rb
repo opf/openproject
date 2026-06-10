@@ -67,6 +67,40 @@ RSpec.describe ProjectIdentifiers::ConvertProjectToSemanticService,
       end
     end
 
+    context "when saving the generated identifier fails due to a race condition" do
+      let!(:project) do
+        create(:project).tap { |p| p.update_columns(identifier: "my-app", wp_sequence_counter: 0) }
+      end
+
+      before do
+        allow(project).to receive(:previous_semantic_identifier).and_return("MYAPP")
+        raised = false
+        allow(project).to receive(:save!).and_wrap_original do |original, *args, **kwargs|
+          unless raised
+            raised = true
+            raise ActiveRecord::RecordNotUnique, "stubbed"
+          end
+          original.call(*args, **kwargs)
+        end
+      end
+
+      it "does not raise" do
+        expect { described_class.new(project).call }.not_to raise_error
+      end
+
+      it "assigns a random P-NNNNN fallback identifier" do
+        described_class.new(project).call
+        expect(project.reload.identifier).to match(/\AP[A-Z0-9]{5}\z/)
+      end
+
+      it "logs a warning containing the project id and the conflicting identifier" do
+        allow(Rails.logger).to receive(:warn)
+        described_class.new(project).call
+        expect(Rails.logger).to have_received(:warn)
+          .with(a_string_including(project.id.to_s, "MYAPP"))
+      end
+    end
+
     context "when the suggested identifier case-insensitively matches a historical classic identifier" do
       let!(:project_one) do
         create(:project, name: "Project 1", identifier: "project_one").tap do |p|
@@ -112,6 +146,12 @@ RSpec.describe ProjectIdentifiers::ConvertProjectToSemanticService,
 
       it "backfills WPs using the new identifier" do
         expect(wp.reload.identifier).to eq("#{project.reload.identifier}-1")
+      end
+
+      it "does not enqueue Notifications::WorkflowJob for the identifier change" do
+        project2 = create(:project, name: "Another Project")
+        expect { described_class.new(project2).call }
+          .not_to have_enqueued_job(Notifications::WorkflowJob)
       end
     end
 

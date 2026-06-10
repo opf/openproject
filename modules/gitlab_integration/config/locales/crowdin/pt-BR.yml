@@ -55,7 +55,7 @@ pt-BR:
   text_gitlab_actor_info: 'O usuário do OpenProject cuja chave de API deve ser usada para autenticar requisições de webhook recebidas. Quando definido, requisições autenticadas com credenciais de qualquer outro usuário são rejeitadas. Este usuário também publica comentários automatizados em pacotes de trabalho. O padrão é o usuário do sistema quando não for definido.
 
     '
-  text_gitlab_webhook_secret_info: 'Um token secreto compartilhado com o GitLab ao configurar o webhook. Quando definido, o OpenProject verifica o cabeçalho X-Gitlab-Token em cada requisição recebida, rejeitando payloads que não correspondam. Deixe em branco para pular a verificação (não recomendado).
+  text_gitlab_webhook_secret_info: 'Um token secreto compartilhado com o GitLab ao configurar o webhook. Quando definido, o OpenProject verifica o cabeçalho X-Gitlab-Token em cada solicitação recebida, rejeitando cargas úteis que não correspondam. Deixe em branco para ignorar a verificação (não recomendado).
 
     '
   text_gitlab_webhook_secret_missing_warning: 'Nenhum segredo de webhook está configurado. Qualquer requisição ao endpoint de webhook do GitLab será aceita sem verificação, o que pode permitir que agentes não autorizados falsifiquem eventos. É altamente recomendado definir um segredo.

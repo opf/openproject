@@ -1,0 +1,132 @@
+---
+pl:
+  activerecord:
+    attributes:
+      resource_allocation:
+        allocated_time: Przydzielony czas
+        end_date: Data zakończenia
+        entity: Pole
+        principal: Przypisana osoba
+        start_date: Data rozpoczęcia
+        state: Stan
+        user_filter: Filtr użytkownika
+      resource_planner:
+        default_view_class_name: Widok domyślny
+        end_date: Data zakończenia
+        favorite: Ulubione
+        name: Nazwa
+        public: Publiczny
+        start_date: Data rozpoczęcia
+    errors:
+      models:
+        resource_allocation:
+          attributes:
+            end_date:
+              greater_than_start_date: musi być późniejsza niż data rozpoczęcia.
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: musi być późniejsza niż data rozpoczęcia.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: musi być zapytaniem pakietu roboczego.
+    models:
+      resource_allocation: Przydział zasobów
+      resource_planner: Planista zasobów
+      resource_work_package_list: Lista pakietów roboczych
+      user_card: Karty użytkowników
+  button_next: Dalej
+  label_resource_management: Planowanie zasobów
+  permission_allocate_user_resources: Przydziel zasoby użytkownika
+  permission_allocate_user_resources_explanation: 'Umożliwia użytkownikom tworzenie, aktualizowanie i usuwanie przydziałów zasobów w planiście zasobów. Obejmuje to przypisywanie użytkowników (lub filtrów użytkowników) do planisty oraz dostosowywanie przydzielonego czasu i zakresu dat.
+
+    '
+  permission_manage_public_resource_planners: Zarządzaj publicznymi planistami zasobów
+  permission_manage_public_resource_planners_explanation: 'Umożliwia użytkownikom tworzenie planistów zasobów oraz zarządzanie nimi. Pozwala im na przeglądanie, tworzenie, zarządzanie i publikowanie własnych planistów zasobów. Nie pozwala użytkownikom przeglądać nieudostępnionych publicznie planistów zasobów utworzonych przez innych użytkowników.
+
+    '
+  permission_view_resource_planners: Wyświetl planistów zasobów
+  permission_view_resource_planners_explanation: 'Umożliwia użytkownikom dostęp do planistów zasobów. Pozwala im tworzyć własnych planistów zasobów i zarządzać nimi oraz wyświetlać publicznych planistów zasobów. Nie pozwala użytkownikom na przeglądanie nieudostępnionych publicznie planistów zasobów utworzonych przez innych użytkowników.
+
+    '
+  plugin_openproject_resource_management:
+    description: Zapewnia zarządzanie zasobami i planowanie obciążeń.
+    name: Zarządzanie zasobami OpenProject
+  project_module_resource_management: Zarządzanie zasobami
+  resource_management:
+    action:
+      delete: Usuń
+      favorite: Dodaj do ulubionych
+      make_private: Ustaw jako prywatny
+      make_public: Ustaw jako publiczny
+      unfavorite: Usuń z ulubionych
+    blankslate:
+      desc: Utwórz planistę zasobów, aby rozpocząć planowanie obciążeń dla tego projektu.
+      title: Nie ma jeszcze planistów zasobów
+    configure_view_dialog:
+      delete_confirmation: Czy na pewno chcesz usunąć ten widok? Nie można tego cofnąć.
+      filter_mode:
+        automatic:
+          caption: Automatycznie generowana lista wyświetlająca elementy spełniające zdefiniowane przez Ciebie kryteria.
+          label: Automatyczne filtrowanie
+        label: Wybór elementów
+        manual:
+          caption: Niestandardowa lista elementów dodawanych i usuwanych ręcznie. Filtrowanie nie jest możliwe.
+          label: Ręczny wybór
+      title: Konfiguruj widok
+    favorite_caption: 'Ustaw ten widok jako ulubiony, aby dodać go do górnej części menu paska bocznego.
+
+      '
+    label_new_resource_planner: Nowy planista zasobów
+    label_resource_planner: Planista zasobów
+    label_resource_planner_plural: Planiści zasobów
+    new_view_dialog:
+      title: Dodaj widok
+    public_caption: 'Ustaw ten widok jako publiczny dla wszystkich członków projektu. Nie ma to wpływu na widoczność pakietów roboczych, która nadal zależy od uprawnień poszczególnych użytkowników.
+
+      '
+    show:
+      placeholder: Szczegółowy widok tego planisty zasobów będzie dostępny wkrótce.
+    sidebar:
+      private: Prywatny
+      public: Publiczny
+    sub_views: Widoki w tym planiście zasobów
+    view_types:
+      resource_work_package_list:
+        caption: Utwórz widok oparty na pakietach roboczych i zobacz jego szczegóły i przydział na liście
+        label: Lista pakietów roboczych
+      user_card:
+        caption: Utwórz widok w oparciu o użytkowników i zobacz ich szczegóły i przydział na liście kart użytkowników
+        label: Lista kart użytkowników
+    work_package_list:
+      add_work_package_dialog:
+        title: Dodaj pakiet roboczy
+      allocation_placeholder: "—"
+      blank:
+        description: Nie ma jeszcze pakietów roboczych pasujących do filtrów tego widoku.
+        title: Brak pakietów roboczych do wyświetlenia
+      columns:
+        allocated_members: Przydzieleni członkowie
+        allocation: Przydział
+        dates: Daty
+      context_menu:
+        add_filter_criteria: Dodaj kryteria filtrowania
+        add_user_group: Dodaj grupę użytkowników
+        edit_total_work: Edytuj całkowitą pracę
+        label: Więcej działań
+        move: Przenieś
+        move_down: Przenieś w dół
+        move_to_bottom: Przenieś na sam dół
+        move_to_top: Przenieś na samą górę
+        move_up: Przenieś w górę
+        remove: Usuń
+        remove_confirmation: Usunąć ten pakiet roboczy z widoku?
+        see_allocation: Zobacz przydział
+      mobile_title: Pakiety robocze
+      query_name: 'Pakiety robocze zarządzania zasobami: %{name}'
+      subheader:
+        add: Dodaj
+        add_work_package: Dodaj pakiet roboczy
+        allocate: Przydziel
+        settings: Konfiguruj widok

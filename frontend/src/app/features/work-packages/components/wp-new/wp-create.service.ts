@@ -26,10 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  Injectable,
-  Injector,
-} from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import {
   firstValueFrom,
   Observable,
@@ -62,29 +59,29 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { ResourceChangeset } from 'core-app/shared/components/fields/changeset/resource-changeset';
 import { AttachmentsResourceService } from 'core-app/core/state/attachments/attachments.service';
 import { AttachmentCollectionResource } from 'core-app/features/hal/resources/attachment-collection-resource';
-import { HalSource, HalSourceLink } from 'core-app/features/hal/interfaces';
+import { HalSource } from 'core-app/features/hal/interfaces';
 
 export const newWorkPackageHref = '/api/v3/work_packages/new';
 
 @Injectable()
 export class WorkPackageCreateService extends UntilDestroyedMixin {
+  protected injector = inject(Injector);
+  protected hooks = inject(HookService);
+  protected apiV3Service = inject(ApiV3Service);
+  protected halResourceService = inject(HalResourceService);
+  protected querySpace = inject(IsolatedQuerySpace);
+  protected authorisationService = inject(AuthorisationService);
+  protected halEditing = inject(HalResourceEditingService);
+  protected schemaCache = inject(SchemaCacheService);
+  protected halEvents = inject(HalEventsService);
+  protected attachmentsService = inject(AttachmentsResourceService);
+
   protected form:Promise<FormResource>|undefined;
 
   // Allow callbacks to happen on newly created work packages
   protected newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
 
-  constructor(
-    protected injector:Injector,
-    protected hooks:HookService,
-    protected apiV3Service:ApiV3Service,
-    protected halResourceService:HalResourceService,
-    protected querySpace:IsolatedQuerySpace,
-    protected authorisationService:AuthorisationService,
-    protected halEditing:HalResourceEditingService,
-    protected schemaCache:SchemaCacheService,
-    protected halEvents:HalEventsService,
-    protected attachmentsService:AttachmentsResourceService,
-  ) {
+  constructor() {
     super();
 
     this.halEditing
@@ -374,7 +371,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
       } else if (!value) {
         payload._links[attribute] = { href: null };
       } else {
-        payload._links[attribute] = value as unknown as HalSourceLink;
+        payload._links[attribute] = value;
       }
       delete payload[attribute];
     });

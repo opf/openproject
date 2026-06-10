@@ -26,14 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, inject } from '@angular/core';
 import {
   WorkPackageIsolatedQuerySpaceDirective,
 } from 'core-app/features/work-packages/directives/query-space/wp-isolated-query-space.directive';
@@ -57,10 +50,12 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageSplitCreateEntryComponent implements AfterViewInit, OnDestroy {
+  readonly elementRef = inject(ElementRef);
+
   @Input() projectIdentifier?:string;
   @Input() type?:string;
 
-  constructor(readonly elementRef:ElementRef) {
+  constructor() {
     populateInputsFromDataset(this);
     document.body.classList.add('router--work-packages-partitioned-split-view-new');
   }

@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
 <% unless @pages.empty? %>
   <%= other_formats_links do |f| %>
     <%= f.link_to "Atom", url: { controller: "/activities", action: "index", show_wiki_edits: 1, key: User.current.rss_key } %>
-    <%= f.link_to("HTML", url: { action: "export" }) if User.current.allowed_in_project?(:export_wiki_pages, @project) %>
+    <%= f.link_to("HTML", url: { action: "export" }) if User.current.allowed_in_project?(:view_wiki_pages, @project) %>
   <% end %>
 <% else %>
   <%= no_results_box(

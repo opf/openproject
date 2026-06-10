@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, HostListener } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, HostListener, inject } from '@angular/core';
 import { combineLatest, merge, Observable, timer } from 'rxjs';
 import { filter, map, shareReplay, switchMap, throttleTime } from 'rxjs/operators';
 import { ActiveWindowService } from 'core-app/core/active-window/active-window.service';
@@ -15,6 +15,12 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   standalone: false,
 })
 export class InAppNotificationBellComponent implements OnInit {
+  readonly elementRef = inject(ElementRef);
+  readonly storeService = inject(IanBellService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly activeWindow = inject(ActiveWindowService);
+  readonly pathHelper = inject(PathHelperService);
+
   @Input() interval = 50000;
 
   polling$:Observable<number>;
@@ -25,13 +31,7 @@ export class InAppNotificationBellComponent implements OnInit {
 
   public bellDisplayLimit = 99;
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly storeService:IanBellService,
-    readonly apiV3Service:ApiV3Service,
-    readonly activeWindow:ActiveWindowService,
-    readonly pathHelper:PathHelperService,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 

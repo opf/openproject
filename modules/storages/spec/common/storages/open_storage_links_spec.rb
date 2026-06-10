@@ -50,7 +50,7 @@ RSpec.describe Storages::OpenStorageLinks do
         it "returns the 'ensure connections' link" do
           expect(subject).to end_with("/oauth_clients/#{oauth_client.client_id}/ensure_connection?" \
                                       "destination_url=%2Fapi%2Fv3%2Fstorages%2F#{storage.id}%2Fopen&" \
-                                      "storage_id=#{storage.id}")
+                                      "integration_id=#{storage.id}")
         end
       end
 

@@ -36,6 +36,7 @@ zh-TW:
         subject: 名稱
         type: 費用類別
         labor_budget: 規劃人工成本
+        labor_budget_items: Planned labor costs
         material_budget: 規畫單位成本
         base_amount: 基本金額
       work_package:
@@ -48,6 +49,7 @@ zh-TW:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: 預算
+      labor_budget_item: Planned labor cost
       material_budget_item: 單位
   activity:
     filter:

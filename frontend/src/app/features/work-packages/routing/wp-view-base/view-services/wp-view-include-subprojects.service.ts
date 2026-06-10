@@ -28,18 +28,12 @@
 
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
 
 @Injectable()
 export class WorkPackageViewIncludeSubprojectsService extends WorkPackageQueryStateService<boolean> {
-  public constructor(
-    readonly states:States,
-    readonly querySpace:IsolatedQuerySpace,
-  ) {
-    super(querySpace);
-  }
+  readonly states = inject(States);
 
   public hasChanged(query:QueryResource):boolean {
     return this.current !== query.includeSubprojects;

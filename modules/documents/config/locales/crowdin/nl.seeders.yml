@@ -7,14 +7,14 @@ nl:
     common:
       document_types:
         item_0:
-          name: Note
+          name: Opmerking
         item_1:
-          name: Idea
+          name: Idee
         item_2:
-          name: Proposal
+          name: Voorstel
         item_3:
-          name: Specification
+          name: Specificatie
         item_4:
-          name: Report
+          name: Rapportage
         item_5:
-          name: Documentation
+          name: Documentatie

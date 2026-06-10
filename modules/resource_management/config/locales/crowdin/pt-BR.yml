@@ -1,0 +1,132 @@
+---
+pt-BR:
+  activerecord:
+    attributes:
+      resource_allocation:
+        allocated_time: Tempo alocado
+        end_date: Data de término
+        entity: Entidade
+        principal: Atribuição
+        start_date: Data de início
+        state: Estado
+        user_filter: Filtro de usuários
+      resource_planner:
+        default_view_class_name: Visualização padrão
+        end_date: Data de término
+        favorite: Favorito
+        name: Nome
+        public: Público
+        start_date: Data de início
+    errors:
+      models:
+        resource_allocation:
+          attributes:
+            end_date:
+              greater_than_start_date: deve ser após a data de início.
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: deve ser após a data de início.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: deve ser uma consulta de pacote de trabalho.
+    models:
+      resource_allocation: Alocação de recursos
+      resource_planner: Planejador de recursos
+      resource_work_package_list: Lista de Pacotes de trabalho
+      user_card: Cartões de usuário
+  button_next: Próximo
+  label_resource_management: Planejamento de recursos
+  permission_allocate_user_resources: Alocar recursos do usuário
+  permission_allocate_user_resources_explanation: 'Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
+
+    '
+  permission_manage_public_resource_planners: Gerenciar planejadores de recursos públicos
+  permission_manage_public_resource_planners_explanation: 'Permite que os usuários criem e gerenciem planejadores de recursos públicos. Permite visualizar, criar, gerenciar e publicar seus próprios planejadores de recursos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
+
+    '
+  permission_view_resource_planners: Ver planejadores de recursos
+  permission_view_resource_planners_explanation: 'Permite que os usuários acessem planejadores de recursos. Permite criar e gerenciar seus próprios planejadores de recursos e visualizar planejadores de recursos públicos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
+
+    '
+  plugin_openproject_resource_management:
+    description: Fornece gerenciamento de recursos e planejamento de capacidade.
+    name: Gerenciamento de recursos do OpenProject
+  project_module_resource_management: Gerenciamento de recursos
+  resource_management:
+    action:
+      delete: Excluir
+      favorite: Adicionar aos favoritos
+      make_private: Tornar privado
+      make_public: Tornar público
+      unfavorite: Remover dos favoritos
+    blankslate:
+      desc: Criar um planejador de recursos para iniciar o planejamento de capacidade deste projeto.
+      title: Ainda não há planejadores de recursos
+    configure_view_dialog:
+      delete_confirmation: Tem certeza que quer excluir esta visualização? Esta ação é irreversível.
+      filter_mode:
+        automatic:
+          caption: Uma lista gerada automaticamente que exibe itens que atendem aos critérios que você define.
+          label: Filtrado automaticamente
+        label: Seleção do item
+        manual:
+          caption: Uma lista personalizada de itens que você adiciona e remove manualmente. Não é possível aplicar filtros.
+          label: Selecionado manualmente
+      title: Configurar exibição
+    favorite_caption: 'Adicionar esta visualização aos favoritos para exibi-la na seção superior do menu lateral.
+
+      '
+    label_new_resource_planner: Novo planejador de recursos
+    label_resource_planner: Planejador de recursos
+    label_resource_planner_plural: Planejadores de recursos
+    new_view_dialog:
+      title: Adicionar Visualização
+    public_caption: 'Tornar esta visualização pública para todos os membros do projeto. Isso não afeta a visibilidade dos pacotes de trabalho, que ainda depende das permissões de cada usuário.
+
+      '
+    show:
+      placeholder: A visualização detalhada deste planejador de recursos estará disponível em breve.
+    sidebar:
+      private: Privado
+      public: Público
+    sub_views: Visualizações neste planejador de recursos
+    view_types:
+      resource_work_package_list:
+        caption: Criar uma visualização baseada em pacotes de trabalho e ver os seus detalhes e alocação numa lista
+        label: Lista de pacotes de trabalho
+      user_card:
+        caption: Criar uma visualização baseada em utilizadores e ver os seus detalhes e alocação numa lista de cartões de utilizador
+        label: Lista de cartões de utilizadores
+    work_package_list:
+      add_work_package_dialog:
+        title: Adicionar pacote de trabalho
+      allocation_placeholder: "—"
+      blank:
+        description: Ainda não existem pacotes de trabalho que correspondam aos filtros desta visualização.
+        title: Não há pacotes de trabalho para exibir
+      columns:
+        allocated_members: Membros alocados
+        allocation: Alocação
+        dates: Datas
+      context_menu:
+        add_filter_criteria: Adicionar critérios de filtro
+        add_user_group: Adicionar grupo de usuários
+        edit_total_work: Editar trabalho total
+        label: Mais ações
+        move: Mover
+        move_down: Mover para baixo
+        move_to_bottom: Mover para o final
+        move_to_top: Mover para o topo
+        move_up: Mover para cima
+        remove: Remover
+        remove_confirmation: Remover este pacote de trabalho da visualização?
+        see_allocation: Ver alocação
+      mobile_title: Pacotes de trabalho
+      query_name: 'Pacotes de trabalho de gestão de recursos: %{name}'
+      subheader:
+        add: Adicionar
+        add_work_package: Adicionar pacote de trabalho
+        allocate: Alocar
+        settings: Configurar exibição

@@ -1,0 +1,7 @@
+<%=
+  component_wrapper do
+    render(Primer::OpenProject::SidePanel.new) do |panel|
+      panel.with_section(Wikis::Admin::SidePanel::HealthStatusComponent.new(wiki_provider))
+    end
+  end
+%>

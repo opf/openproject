@@ -1,5 +1,5 @@
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend" title="<%= @device.name %>"><%= @device.name %></legend>
+  <legend class="form--fieldset-legend"><%= @device.name %></legend>
 
   <p><%= t("two_factor_authentication.devices.sms.description") %></p>
 
@@ -22,7 +22,7 @@
 <% available_channels = @device.class.available_channels_in_strategy %>
 <% if available_channels.length > 1 %>
   <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend" title="<%= t(:label_otp_channel) %>"><%= t(:label_otp_channel) %></legend>
+    <legend class="form--fieldset-legend"><%= t(:label_otp_channel) %></legend>
 
     <% available_channels.each do |channel| %>
         <div class="form--field">

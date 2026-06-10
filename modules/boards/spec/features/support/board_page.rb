@@ -374,9 +374,8 @@ module Pages
     def change_board_highlighting(mode, attribute = nil)
       click_dropdown_entry "Configure view"
 
-      if attribute.nil?
-        choose(option: mode)
-      else
+      choose mode
+      unless attribute.nil?
         select attribute, from: "selected_attribute"
       end
 

@@ -235,7 +235,7 @@ class PermittedParams
     whitelisted = type_params.permit(*permitted)
 
     if type_params[:attribute_groups]
-      whitelisted[:attribute_groups] = JSON.parse(type_params[:attribute_groups])
+      whitelisted[:attribute_groups] = type_params[:attribute_groups]
     end
 
     whitelisted

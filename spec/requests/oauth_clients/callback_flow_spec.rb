@@ -62,7 +62,7 @@ RSpec.describe "OAuthClient callback endpoint" do
   context "when user is not logged in" do
     it "requires login" do
       get uri.to_s
-      expect(last_response).to have_http_status(:unauthorized)
+      expect(last_response).to have_http_status(:found)
     end
   end
 
@@ -72,13 +72,13 @@ RSpec.describe "OAuthClient callback endpoint" do
 
       allow(Rack::OAuth2::Client).to receive(:new).and_return(rack_oauth2_client)
       allow(rack_oauth2_client)
-        .to receive(:access_token!)
+        .to(receive(:access_token!))
         .with(:body)
         .and_return(Rack::OAuth2::AccessToken::Bearer.new(access_token: "xyzaccesstoken",
                                                           refresh_token: "xyzrefreshtoken",
                                                           user_id: "g-root"))
       allow(rack_oauth2_client).to receive(:authorization_code=)
-      state_cookie = CGI.escape({ href: redirect_uri, storageId: oauth_client.integration_id }.to_json)
+      state_cookie = CGI.escape({ href: redirect_uri, integrationId: oauth_client.integration_id }.to_json)
       set_cookie "oauth_state_asdf1234=#{state_cookie}"
     end
 

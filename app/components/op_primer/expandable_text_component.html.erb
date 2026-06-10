@@ -1,0 +1,15 @@
+<%= render(Primer::BaseComponent.new(**@system_arguments)) do %>
+  <%= render Primer::Beta::Truncate.new(
+        data: { truncation_target: "truncate" },
+        flex: 1
+      ) do %>
+    <%= content %>
+  <% end %>
+
+  <%= render Primer::Alpha::HiddenTextExpander.new(
+        hidden: true,
+        mt: 1,
+        aria: { label: t(:"js.label_expand_text") },
+        data: { truncation_target: "expander" }
+      ) %>
+<% end %>

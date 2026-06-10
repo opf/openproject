@@ -459,5 +459,29 @@ RSpec.describe Import::JiraImport do
         )
       end
     end
+
+    context "when importing a user without email(can happen in case of LDAP)" do
+      let!(:jira_user) do
+        create(:jira_user,
+               jira:,
+               jira_import:,
+               payload: jira_user_payload(
+                 key: "JIRAUSER10109",
+                 name: "jvd@example.com",
+                 display_name: "Jean Van Der Berg",
+                 email: nil,
+                 groups: []
+               ))
+      end
+
+      it "raises useful error message" do
+        expect do
+          jira_import.import_users
+        end.to raise_error(
+          'Error creating a user ({login: "jvd@example.com", firstname: "Jean Van Der", lastname: "Berg", ' \
+          "mail: nil, status: :locked}): Email can't be blank."
+        )
+      end
+    end
   end
 end

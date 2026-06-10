@@ -1,0 +1,82 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.op-border-box-list_transparent
+  > .Box-header
+    background-color: transparent
+    border-bottom: none
+    padding-bottom: var(--stack-padding-condensed)
+
+  > ul > .Box-row:first-of-type
+    border-top: none
+
+.op-border-box-list
+  --op-border-box-list-header-row-gap: calc(var(--stack-gap-condensed) / 2)
+
+  &.Box--condensed
+    --op-border-box-list-header-row-gap: 0
+
+  &.Box--spacious
+    --op-border-box-list-header-row-gap: var(--stack-gap-condensed)
+
+  &.op-border-box-list_header-padding-condensed
+    --op-border-box-list-header-row-gap: 0
+
+    > .Box-header
+      padding-block: var(--stack-padding-condensed)
+
+  &.op-border-box-list_header-padding-default
+    --op-border-box-list-header-row-gap: calc(var(--stack-gap-condensed) / 2)
+
+    > .Box-header
+      padding-block: var(--stack-padding-normal)
+
+  &.op-border-box-list_header-padding-spacious
+    --op-border-box-list-header-row-gap: var(--stack-gap-condensed)
+
+    > .Box-header
+      padding-block: var(--stack-padding-spacious)
+
+    .Box-title
+      font-size: var(--text-title-size-medium)
+
+  &.op-border-box-list_transparent
+    &.op-border-box-list_header-padding-default,
+    &.op-border-box-list_header-padding-spacious
+      > .Box-header
+        padding-bottom: var(--stack-padding-condensed)
+
+.op-border-box-list-header
+  display: grid
+  grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
+  grid-template-areas: "heading actions menu" "description description description"
+  align-items: center
+  row-gap: var(--op-border-box-list-header-row-gap)
+
+  &_collapsible
+    grid-template-areas: "heading actions menu"
+
+  &--heading
+    min-width: 0
+
+  &--actions,
+  &--menu
+    margin-left: var(--stack-gap-normal)
+    align-self: flex-start
+    // Unfortunately, the invisible button style bites us here again.
+    margin-top: -6px
+
+  &--heading-line
+    display: flex
+    align-items: center
+    gap: var(--stack-gap-condensed)
+
+    .Box-title
+      min-width: 0

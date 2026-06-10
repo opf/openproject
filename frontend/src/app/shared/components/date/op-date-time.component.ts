@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, inject } from '@angular/core';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 
 @Component({
@@ -45,14 +45,13 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class OpDateTimeComponent implements OnInit {
+  readonly timezoneService = inject(TimezoneService);
+
   @Input() dateTimeValue:any;
 
   public date:any;
 
   public time:any;
-
-  constructor(readonly timezoneService:TimezoneService) {
-  }
 
   ngOnInit() {
     const c = this.timezoneService.formattedDatetimeComponents(this.dateTimeValue);

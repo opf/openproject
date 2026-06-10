@@ -1,3 +1,4 @@
+---
 en:
   plugin_openproject_webhooks:
     name: "OpenProject Webhooks"
@@ -37,7 +38,7 @@ en:
         updated: "Updated"
         comment: "Comment"
         internal_comment: "Internal comment"
-      explanation_html: > 
+      explanation_html: >
         Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints.
         Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
       status:

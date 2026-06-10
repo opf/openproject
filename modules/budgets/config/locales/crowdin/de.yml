@@ -36,6 +36,7 @@ de:
         subject: Thema
         type: Kostentyp
         labor_budget: Geplante Personaleinzelkosten
+        labor_budget_items: Geplante Personaleinzelkosten
         material_budget: Geplante Stückkosten
         base_amount: Grundbetrag
       work_package:
@@ -48,6 +49,7 @@ de:
               not_a_member_of_budget_project: ist kein Mitglied des Budgetprojekts
     models:
       budget: Budget
+      labor_budget_item: Geplante Personaleinzelkosten
       material_budget_item: Stück
   activity:
     filter:

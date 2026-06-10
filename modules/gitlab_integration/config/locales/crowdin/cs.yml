@@ -36,7 +36,7 @@ cs:
   activerecord:
     attributes:
       gitlab_pipeline:
-        ci_details: CI Details
+        ci_details: Podrobnosti o CI
       gitlab_merge_request:
         labels: Štítky
     errors:
@@ -49,8 +49,8 @@ cs:
           attributes:
             labels:
               invalid_schema: 'musí být pole hashů s klíči: barva, název'
-  label_gitlab_integration: GitLab Integration
-  label_gitlab_actor: GitLab actor
+  label_gitlab_integration: Integrace s GitLabem
+  label_gitlab_actor: Aktér GitLabu
   label_gitlab_webhook_secret: Webhook secret
   text_gitlab_actor_info: 'The OpenProject user whose API key must be used to authenticate incoming webhook requests. When set, requests authenticated with any other user''s credentials are rejected. This user also posts automated comments on work packages. Defaults to the system user when not set.
 

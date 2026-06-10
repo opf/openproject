@@ -34,6 +34,40 @@ require_relative "base_contract"
 # Model contract for AR records that
 # support change tracking
 class ModelContract < BaseContract
+  # Declares an attribute backed by the `store_attribute` gem (a virtual
+  # accessor for a key inside a JSONB column). store_attribute marks both the
+  # virtual attribute and the underlying column as dirty, which would otherwise
+  # trip the readonly check on the column. This DSL registers the virtual
+  # attribute as writable and, on first use per store column, declares the
+  # column itself as writable iff every dirty key in it is one that has been
+  # registered via `stored_attribute`.
+  def self.stored_attribute(name, store:)
+    store = store.to_sym
+    register_store_column(store) unless stored_keys_per_store.key?(store)
+    stored_keys_per_store[store] << name.to_s
+
+    attribute name
+  end
+
+  def self.register_store_column(store)
+    contract_class = self
+    attribute store, writable: -> {
+      allowed = contract_class.allowed_stored_keys_for(store)
+      model.public_send(:"#{store}_change")&.none? { |hash| hash.except(*allowed).any? }
+    }
+  end
+
+  def self.stored_keys_per_store
+    @stored_keys_per_store ||= Hash.new { |h, k| h[k] = Set.new }
+  end
+
+  def self.allowed_stored_keys_for(store)
+    ancestors
+      .select { |a| a.respond_to?(:stored_keys_per_store, true) }
+      .flat_map { |a| a.stored_keys_per_store.key?(store) ? a.stored_keys_per_store[store].to_a : [] }
+      .uniq
+  end
+
   # Runs all the specified validations and returns +true+ if no errors were
   # added otherwise +false+.
   # Validations on the model as well as on the contract are run.

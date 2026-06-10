@@ -33,7 +33,9 @@ module Storages
     module Providers
       module Sharepoint
         module Validators
-          class AmpfConfigurationValidator < ConnectionValidators::BaseValidatorGroup
+          class AmpfConfigurationValidator < HealthReports::ValidatorGroup
+            include TaggedLogging
+
             TEST_FOLDER_NAME = "OpenProjectConnectionValidationFolder"
 
             def self.key = :ampf_configuration
@@ -67,8 +69,8 @@ module Storages
             end
 
             def find_and_delete_folder
-              Input::Files.build(folder: "/#{@storage.managed_drive_name}").bind do |input_data|
-                Registry["sharepoint.queries.files"].call(storage: @storage, auth_strategy:,
+              Input::Files.build(folder: "/#{subject.managed_drive_name}").bind do |input_data|
+                Registry["sharepoint.queries.files"].call(storage: subject, auth_strategy:,
                                                           input_data:).bind do |files_collection|
                   folder = files_collection.find { it.name == TEST_FOLDER_NAME }
                   delete_folder(folder) if folder
@@ -79,7 +81,7 @@ module Storages
             def delete_folder(folder)
               Input::DeleteFolder.build(location: folder.id).bind do |input_data|
                 Registry["sharepoint.commands.delete_folder"]
-                  .call(storage: @storage, auth_strategy:, input_data:)
+                  .call(storage: subject, auth_strategy:, input_data:)
                   .either(->(_) { pass_check(:client_folder_removal) },
                           ->(_) { fail_check(:client_folder_removal, :sp_client_cant_delete_folder) })
               end
@@ -87,9 +89,9 @@ module Storages
 
             def create_folder
               Input::CreateFolder.build(folder_name: TEST_FOLDER_NAME,
-                                        parent_location: @storage.managed_drive_id).bind do |input_data|
+                                        parent_location: subject.managed_drive_id).bind do |input_data|
                 folder_result = Registry["sharepoint.commands.create_folder"]
-                                .call(storage: @storage, auth_strategy:, input_data:)
+                                .call(storage: subject, auth_strategy:, input_data:)
 
                 handle_folder_creation_result(folder_result)
 
@@ -118,14 +120,14 @@ module Storages
             end
 
             def managed_project_folder_ids
-              @managed_project_folder_ids ||= ProjectStorage.automatic.where(storage: @storage)
+              @managed_project_folder_ids ||= ProjectStorage.automatic.where(storage: subject)
                                                             .pluck(:project_folder_id).to_set
             end
 
             def files_query
               Input::Files
-                .build(folder: "/#{@storage.managed_drive_name}")
-                .bind { Registry["sharepoint.queries.files"].call(storage: @storage, auth_strategy:, input_data: it) }
+                .build(folder: "/#{subject.managed_drive_name}")
+                .bind { Registry["sharepoint.queries.files"].call(storage: subject, auth_strategy:, input_data: it) }
             end
 
             def auth_strategy = Registry["sharepoint.authentication.userless"].call

@@ -56,6 +56,21 @@ Once the user is created you need to generate an OpenProject API token for this 
 
 You can then configure the necessary webhook in GitHub. 
 
+### Configure GitHub integration settings
+
+Go to **Administration → Integrations → GitHub** and configure the GitHub integration settings.
+
+You can optionally define which OpenProject user is used to authenticate incoming webhook requests. When configured, only requests authenticated with that user’s API token are accepted. This user is also used for automated deploy-status comments on work packages. If no user is selected, OpenProject falls back to the system user.
+
+You can also define a webhook secret shared between GitHub and OpenProject. When a secret is configured, OpenProject validates the `X-Hub-Signature-256` header for every incoming webhook request and rejects requests with invalid signatures.
+
+> [!IMPORTANT]
+> If no webhook secret is configured, webhook requests are accepted without signature verification. This may allow unauthorized actors to forge events. We strongly recommend configuring a webhook secret.
+
+Click **Save**.
+
+![Administration settings to specify webhook secret for GitHub integration in OpenProject](openproject-system-guide-github-webhook-secret.png)
+
 Finally you will need to activate the GitHub module under [Project settings](../../../user-guide/projects/project-settings/modules/) so that all information pulling through from GitHub will be shown in the work packages.
 
 ![GitHub module is activated under Project settings -> Modules in OpenProject project](openproject-system-guide-github-integation-github-module.png)

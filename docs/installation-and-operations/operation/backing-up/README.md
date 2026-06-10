@@ -59,7 +59,7 @@ If you are using the all-in-one container, then you can simply backup any local 
 ```shell
 sudo mkdir -p /var/lib/openproject/{pgdata,assets}
 
-docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=secret \
+docker run -d -p 8080:80 --name openproject -e SECRET_KEY_BASE=<your-secret-key-base> \
   -v /var/lib/openproject/pgdata:/var/openproject/pgdata \
   -v /var/lib/openproject/assets:/var/openproject/assets \
   openproject/openproject:17

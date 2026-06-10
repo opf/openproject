@@ -67,7 +67,7 @@ module WorkPackages
         attr_reader :changeset, :filter
 
         def render?
-          filter != :only_comments
+          filter != Filters::ONLY_COMMENTS
         end
 
         def user_name

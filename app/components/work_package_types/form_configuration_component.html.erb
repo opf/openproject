@@ -1,0 +1,67 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= component_wrapper(
+      class: "type-form-configuration-page--wrapper",
+      data: wrapper_data
+    ) do %>
+  <%= render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, overflow: :hidden, h: :full, classes: "type-form-configuration-page")) do |content| %>
+    <% content.with_sidebar(row_placement: :start, col_placement: :start, border: true, border_bottom: 0, p: 3, overflow: :auto, classes: "type-form-configuration-page--sidebar") do %>
+      <%= render(
+            WorkPackageTypes::FormConfiguration::InactiveAttributesSidebarComponent.new(
+              type: @type,
+              inactive_attributes: @inactive_attributes
+            )
+          ) %>
+    <% end %>
+
+    <% content.with_main(classes: "type-form-configuration-page--main") do %>
+      <%= tag.div(
+            class: "type-form-configuration-page--active-list",
+            data: active_list_data
+          ) do %>
+        <%= render(EnterpriseEdition::BannerComponent.new(:edit_attribute_groups, mb: 3)) %>
+
+        <% unless ee_available? %>
+          <%= render(Primer::Alpha::Banner.new(scheme: :default, icon: :info, mb: 3)) do %>
+            <%= t("text_form_configuration") %> <%= t("text_custom_field_hint_activate_per_project") %>
+          <% end %>
+        <% end %>
+
+        <%= render(
+              WorkPackageTypes::FormConfiguration::MainContentComponent.new(
+                type: @type,
+                group_components: group_components,
+                ee_available: ee_available?
+              )
+            ) %>
+      <% end %>
+    <% end %>
+  <% end %>
+<% end %>

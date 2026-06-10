@@ -6,9 +6,13 @@ on:
     - cron: "20 2 * * *" # Daily at 02:20
   workflow_dispatch: # Allow manual trigger
 
+permissions: {}
+
 jobs:
   build-dev:
     if: github.repository == 'opf/openproject'
+    permissions:
+      contents: read
     uses: ./.github/workflows/docker.yml
     with:
       branch: dev
@@ -20,12 +24,15 @@ jobs:
       OPS_MAIL_SMTP_TOKEN: ${{ secrets.OPS_MAIL_SMTP_TOKEN }}
   build-release-candidate:
     if: github.repository == 'opf/openproject'
+    permissions:
+      contents: read
     # References to release/X.Y and X.Y-rc are being
     # updated from the devkit (UpdateWorkflows step) whenever a new release branch is created
-    uses: opf/openproject/.github/workflows/docker.yml@release/17.4
+    # Ignore unpinned uses as we reference the latest release branch and change it
+    uses: opf/openproject/.github/workflows/docker.yml@release/17.5 # zizmor: ignore[unpinned-uses]
     with:
-      branch: release/17.4
-      tag: 17.4-rc
+      branch: release/17.5
+      tag: 17.5-rc
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

@@ -28,7 +28,7 @@
 
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import {
   RelationsStateValue,
   WorkPackageRelationsService,
@@ -51,17 +51,15 @@ import { firstValueFrom } from 'rxjs';
 
 @Injectable()
 export class WorkPackageViewAdditionalElementsService {
-  constructor(
-    readonly querySpace:IsolatedQuerySpace,
-    readonly wpTableHierarchies:WorkPackageViewHierarchiesService,
-    readonly wpTableColumns:WorkPackageViewColumnsService,
-    readonly notificationService:WorkPackageNotificationService,
-    readonly halResourceService:HalResourceService,
-    readonly apiV3Service:ApiV3Service,
-    readonly schemaCache:SchemaCacheService,
-    readonly wpRelations:WorkPackageRelationsService,
-  ) {
-  }
+  readonly querySpace = inject(IsolatedQuerySpace);
+  readonly wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
+  readonly wpTableColumns = inject(WorkPackageViewColumnsService);
+  readonly notificationService = inject(WorkPackageNotificationService);
+  readonly halResourceService = inject(HalResourceService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly schemaCache = inject(SchemaCacheService);
+  readonly wpRelations = inject(WorkPackageRelationsService);
+
 
   public initialize(query:QueryResource, results:WorkPackageCollectionResource):void {
     const rows = results.elements;

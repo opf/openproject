@@ -98,6 +98,23 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
         let(:href) { api_v3_paths.work_package work_package.id }
         let(:title) { work_package.subject }
       end
+
+      it "includes displayId in the entity link (classic mode numeric id)" do
+        expect(subject)
+          .to be_json_eql(work_package.display_id.to_s.to_json)
+          .at_path("_links/entity/displayId")
+      end
+
+      context "with semantic identifier mode active",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:work_package) { build_stubbed(:work_package, identifier: "PROJ-42", project: workspace) }
+
+        it "includes the semantic displayId in the entity link" do
+          expect(subject)
+            .to be_json_eql("PROJ-42".to_json)
+            .at_path("_links/entity/displayId")
+        end
+      end
     end
 
     context "with a time entry logged on a meeting" do
@@ -113,6 +130,10 @@ RSpec.describe API::V3::TimeEntries::TimeEntryRepresenter, "rendering" do
 
       it_behaves_like "has no link" do
         let(:link) { "workPackage" }
+      end
+
+      it "does not include displayId in the entity link" do
+        expect(subject).not_to have_json_path("_links/entity/displayId")
       end
     end
 

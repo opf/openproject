@@ -1,9 +1,7 @@
 /**
  * A CDK portal implementation to wrap edit-fields in non-angular contexts.
  */
-import {
-  ApplicationRef, Injectable, Injector,
-} from '@angular/core';
+import { ApplicationRef, Injectable, Injector, inject } from '@angular/core';
 import { ComponentPortal, DomPortalOutlet } from '@angular/cdk/portal';
 import { EditFormPortalComponent } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.component';
 import { createLocalInjector } from 'core-app/shared/components/fields/edit/editing-portal/edit-form-portal.injector';
@@ -16,10 +14,9 @@ import { HalResourceEditFieldHandler } from 'core-app/shared/components/fields/e
 
 @Injectable({ providedIn: 'root' })
 export class EditingPortalService {
-  constructor(private readonly appRef:ApplicationRef,
-    private readonly pathHelper:PathHelperService) {
+  private readonly appRef = inject(ApplicationRef);
+  private readonly pathHelper = inject(PathHelperService);
 
-  }
 
   public create(container:HTMLElement,
     injector:Injector,

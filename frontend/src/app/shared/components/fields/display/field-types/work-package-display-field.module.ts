@@ -55,38 +55,35 @@ export class WorkPackageDisplayField extends DisplayField {
       return this.value.id;
     }
 
-    // Read WP ID from href
     return this.value.href.match(/(\d+)$/)[0];
   }
 
   /**
-   * Returns the identifier for URL routing when the linked WP is loaded,
-   * falling back to the numeric ID extracted from the href.
-   *
-   * Unlike `WorkPackageBaseResource.displayId`, this handles the case
-   * where the related resource is only a HAL link (not yet fetched).
+   * Returns the identifier for URL routing.
+   * Reads `displayId` from the linked resource whether or not it is fully
+   * loaded — the API now includes `displayId` on HAL link objects (e.g.
+   * the parent link), so `WorkPackageResource#displayId` resolves
+   * correctly from `$source._links.self.displayId` even for stubs.
    */
   public get wpRoutingId():string {
     const linkedWp = this.value as WorkPackageResource | undefined;
-    if (linkedWp?.$loaded) {
+    if (linkedWp) {
       return linkedWp.displayId;
     }
-    return this.wpId as string;
+    return (this.wpId as string | null) ?? '';
   }
 
   /**
    * Returns the work package ID formatted for display.
    * Classic mode: `#123` (hash-prefixed), Semantic mode: `PROJ-42` (no prefix).
    *
-   * Delegates to `WorkPackageResource#formattedId` when the linked resource
-   * is loaded. When unloaded, falls back to the numeric ID extracted from
-   * the self-link href — an unloaded HAL link carries only the href, not
-   * the resource's properties (the API always populates `displayId`, but
-   * we can't reach it until the link is fetched).
+   * Delegates to `WorkPackageResource#formattedId` for both loaded and
+   * unloaded stubs. The API includes `displayId` on HAL link objects so
+   * `formattedId` resolves the semantic identifier without a fetch.
    */
   public get wpFormattedId():string {
     const linkedWp = this.value as WorkPackageResource | undefined;
-    if (linkedWp?.$loaded) {
+    if (linkedWp) {
       return linkedWp.formattedId;
     }
 

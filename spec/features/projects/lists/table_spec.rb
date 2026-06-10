@@ -663,7 +663,7 @@ RSpec.describe "Projects lists table display and actions", :js, with_settings: {
     end
   end
 
-  describe "workspace type badges", with_flag: { portfolio_models: true } do
+  describe "workspace type badges" do
     shared_let(:portfolio_project) { create(:portfolio, name: "Test Portfolio") }
     shared_let(:program_project) { create(:program, name: "Test Program") }
     shared_let(:regular_project) { project }

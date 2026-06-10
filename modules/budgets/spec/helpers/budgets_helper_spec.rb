@@ -52,6 +52,24 @@ RSpec.describe BudgetsHelper do
         expect(budgets_to_csv([budget]).include?(expected)).to be_truthy
       end
 
+      context "with a formula-injection payload in user-controlled fields",
+              with_settings: { csv_escape_formulas: true } do
+        let(:budget) do
+          build(:budget,
+                project:,
+                subject: "=1+1",
+                description: '=HYPERLINK("https://example.com","x")')
+        end
+
+        it "escapes the formula value by prepending a single quote" do
+          csv = budgets_to_csv([budget])
+
+          expect(csv).to include("'=1+1")
+          expect(csv).to include(%('=HYPERLINK))
+          expect(csv).not_to match(/(?<!')=1\+1/)
+        end
+      end
+
       it "starts with a header explaining the fields" do
         expected = [
           "#",

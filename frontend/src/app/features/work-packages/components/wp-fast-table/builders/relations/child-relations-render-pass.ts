@@ -2,7 +2,7 @@ import { RowRenderInfo } from '../primary-render-pass';
 import {
   RelationsRenderPass,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/relations/relations-render-pass';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 
 export class ChildRelationsRenderPass extends RelationsRenderPass {
@@ -10,7 +10,7 @@ export class ChildRelationsRenderPass extends RelationsRenderPass {
 
   label = this.I18n.t('js.relation_labels.child');
 
-  @InjectField() apiV3Service:ApiV3Service;
+  @LazyInject() apiV3Service:ApiV3Service;
 
   private loadingMissingTargets = false;
 

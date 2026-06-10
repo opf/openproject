@@ -58,8 +58,7 @@
       <section class="hide-section"
                data-hide-sections-target="section"
                data-name="<%= action.key %>"
-               <%= tag.attributes(data: { section_name: action.key }, hidden: active_section_keys.include?(action.key) ? nil : true) %>
-      >
+               <%= tag.attributes(data: { section_name: action.key }, hidden: active_section_keys.exclude?(action.key)) %>>
         <div class="form--field">
           <%= styled_label_tag("custom_action_actions_#{action.key}", action.human_name, class: "-top") %>
 
@@ -157,12 +156,18 @@
                                           step: 1 %>
             </div>
           <% end %>
-          <button type="button"
-                  class="spot-link"
-                  title="<%= t(:button_close) %>"
-                  data-action="click->hide-sections#hide">
-            <%= op_icon("icon-close icon-small") %>
-          </button>
+          <%=
+            render(
+              Primer::Beta::IconButton.new(
+                icon: :x,
+                size: :small,
+                scheme: :invisible,
+                type: :button,
+                aria: { label: t(:button_close) },
+                data: { action: "click->hide-sections#hide" }
+              )
+            )
+          %>
         </div>
       </section>
     <% end %>
@@ -172,7 +177,7 @@
 
   <div class="form--field">
     <label class="form--label" for="add-custom-action-select">
-      <%= op_icon("icon-add icon4") %>
+      <%= render(Primer::Beta::Octicon.new(icon: :plus, size: :small)) %>
       <%= I18n.t(:"custom_actions.actions.add") %>
     </label>
     <span class="form--field-container">

@@ -210,4 +210,44 @@ RSpec.describe OpenProject::Internationalization::Date do
       end
     end
   end
+
+  describe ".ordered_weekdays" do
+    context "when the first day of the week is Sunday", with_settings: { start_of_week: 7 } do
+      it "returns weekdays starting with sunday" do
+        expect(described_class.ordered_weekdays).to eq(%w[sunday monday tuesday wednesday thursday friday saturday])
+      end
+    end
+
+    context "when the first day of the week is Monday", with_settings: { start_of_week: 1 } do
+      it "returns weekdays starting with monday" do
+        expect(described_class.ordered_weekdays).to eq(%w[monday tuesday wednesday thursday friday saturday sunday])
+      end
+    end
+
+    context "when the first day of the week is Saturday", with_settings: { start_of_week: 6 } do
+      it "returns weekdays starting with saturday" do
+        expect(described_class.ordered_weekdays).to eq(%w[saturday sunday monday tuesday wednesday thursday friday])
+      end
+    end
+
+    context "when the first day of the week is not set and I18n states Monday", with_settings: { start_of_week: nil } do
+      before do
+        allow(I18n).to receive(:t).with(:general_first_day_of_week).and_return("1")
+      end
+
+      it "returns weekdays starting with monday" do
+        expect(described_class.ordered_weekdays).to eq(%w[monday tuesday wednesday thursday friday saturday sunday])
+      end
+    end
+
+    context "when the first day of the week is not set and I18n states Sunday", with_settings: { start_of_week: nil } do
+      before do
+        allow(I18n).to receive(:t).with(:general_first_day_of_week).and_return("7")
+      end
+
+      it "returns weekdays starting with sunday" do
+        expect(described_class.ordered_weekdays).to eq(%w[sunday monday tuesday wednesday thursday friday saturday])
+      end
+    end
+  end
 end

@@ -45,7 +45,7 @@ cs:
         merged_message: 'Pull request #%{pr_number} %{pr_link} pro %{repository_link} byl %{pr_state} od %{github_user_link}.'
         referenced_message: 'Pull request #%{pr_number} %{pr_link} pro %{repository_link} od autora %{github_user_link} odkázal na tento pracovní balíček.'
         states:
-          opened: otevřeno
+          opened: otevřen
           closed: zavřeno
           draft: navrženo
           merged: sloučeno

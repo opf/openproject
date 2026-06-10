@@ -138,12 +138,12 @@ class DocsChecker
   end
 
   def add_virtual_pages
-    # these pages are added by the website from other sources
+    # these pages are added to the website from other sources
     @docs.push(
       { path: "#{@root_path}/docs/api/v3/spec.json", anchors: [], links: [] },
       { path: "#{@root_path}/docs/api/v3/spec.yml", anchors: [], links: [] },
       { path: "#{@root_path}/docs/installation-and-operations/installation/docker-compose", anchors: [], links: [] },
-      { path: "#{@root_path}/docs/installation-and-operations/installation/helm-chart", anchors: [], links: [] },
+      { path: "#{@root_path}/docs/installation-and-operations/installation/helm-chart", anchors: ['secrets'], links: [] },
       { path: "#{@root_path}/docs/development/security", anchors: [], links: [] },
       { path: "#{@root_path}/docs/development/translate-openproject/fair-language", anchors: [], links: [] }
     )
@@ -184,9 +184,19 @@ class DocsChecker
     uri unless %w[mailto https http].include?(uri.scheme)
   end
 
+  def readme_link_error(uri, link, doc)
+    return unless uri.path&.end_with?("/README.md") || uri.path == "README.md"
+
+    suggested = uri.path.delete_suffix("README.md")
+    suggested += "##{uri.fragment}" unless uri.fragment.nil?
+    { error: "ReadmeLink", message: "Link to README.md not allowed, use `#{suggested}` instead of `#{link[:url]}`", link:, doc: }
+  end
+
   def check_doc_link(link, doc)
     uri = parse_uri(link, doc)
-    error = check_link(uri, link, doc) unless uri.nil?
+    return if uri.nil?
+
+    error = readme_link_error(uri, link, doc) || check_link(uri, link, doc)
     @errors.push(error) unless error.nil?
   end
 
@@ -203,11 +213,12 @@ class DocsChecker
   def report
     @errors.each do |error|
       pos = error[:link][:pos]
+      message = error[:message] || "#{error[:error]} not found for link address `#{error[:link][:url]}`"
       report_item(
         "error",
         error[:doc][:filename],
         pos[:start_line], pos[:start_column], pos[:end_line], pos[:end_column],
-        "#{error[:error]} not found for link address `#{error[:link][:url]}`"
+        message
       )
     end
     puts "Done. No broken references found." if @errors.empty?

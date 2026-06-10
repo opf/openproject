@@ -34,7 +34,6 @@
 # projects in these cases.
 class PortfoliosController < ProjectsController
   before_action :authorize_portfolio_access, only: %i[index]
-  before_action :not_authorized_on_feature_flag_inactive
 
   skip_before_action :load_query_or_deny_access # skip using the superclass's before action because the next must be called first
   before_action :set_default_query, only: %i[index] # Must be called before `load_query_or_deny_access`

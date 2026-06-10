@@ -2,7 +2,7 @@
 
 sidebar_navigation:
   title: Progress tracking
-  priority: 965
+  priority: 400
 description: Manage Work package progress tracking.
 keywords: work package progress tracking, percentage complete, % complete
 ---

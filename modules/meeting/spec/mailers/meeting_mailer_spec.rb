@@ -369,62 +369,46 @@ RSpec.describe MeetingMailer do
     end
   end
 
-  describe "participant_added" do
-    let(:added_participant_name) { "New Participant" }
-    let(:mail) { described_class.participant_added(meeting, watcher1, author, added_participant: added_participant_name) }
-
-    it "renders the headers" do
-      expect(mail.subject).to include(meeting.project.name)
-      expect(mail.subject).to include("Participant added")
-      expect(mail.to).to contain_exactly(watcher1.mail)
-      expect(mail.from).to eq([ApplicationMailer.reply_to_address])
+  describe "updated with participant changes" do
+    let(:meeting) do
+      create(:meeting,
+             author:,
+             project:,
+             start_time: "2021-11-09T23:00:00 +0100".to_datetime.utc)
+    end
+    let(:changes) do
+      { old_start: meeting.start_time,
+        new_start: meeting.start_time,
+        old_duration: 1,
+        new_duration: 1,
+        old_location: nil,
+        new_location: nil }
+    end
+    let(:added_names) { ["Added Person"] }
+    let(:removed_names) { ["Removed Person"] }
+    let(:mail) do
+      described_class.updated(meeting, watcher1, author,
+                              changes:,
+                              added_participants: added_names,
+                              removed_participants: removed_names)
     end
 
-    it "renders the text body with participant info" do
+    it "renders added participants bold in the html body" do
       User.execute_as(watcher1) do
-        expect(mail.text_part.body).to include(meeting.project.name)
-        expect(mail.text_part.body).to include(meeting.title)
-        expect(mail.text_part.body).to include(added_participant_name)
-        expect(mail.text_part.body).to include(author.name)
+        expect(mail.html_part.body).to include(added_names.first)
       end
     end
 
-    it "renders the html body with participant info" do
+    it "renders removed participants with strikethrough in the html body" do
       User.execute_as(watcher1) do
-        expect(mail.html_part.body).to include(meeting.project.name)
-        expect(mail.html_part.body).to include(meeting.title)
-        expect(mail.html_part.body).to include(added_participant_name)
-        expect(mail.html_part.body).to include(author.name)
-      end
-    end
-  end
-
-  describe "participant_removed" do
-    let(:removed_participant_name) { "Removed Participant" }
-    let(:mail) { described_class.participant_removed(meeting, watcher1, author, removed_participant: removed_participant_name) }
-
-    it "renders the headers" do
-      expect(mail.subject).to include(meeting.project.name)
-      expect(mail.subject).to include("Participant removed")
-      expect(mail.to).to contain_exactly(watcher1.mail)
-      expect(mail.from).to eq([ApplicationMailer.reply_to_address])
-    end
-
-    it "renders the text body with participant info" do
-      User.execute_as(watcher1) do
-        expect(mail.text_part.body).to include(meeting.project.name)
-        expect(mail.text_part.body).to include(meeting.title)
-        expect(mail.text_part.body).to include(removed_participant_name)
-        expect(mail.text_part.body).to include(author.name)
+        expect(mail.html_part.body).to include("<s>#{removed_names.first}</s>")
       end
     end
 
-    it "renders the html body with participant info" do
+    it "renders added and removed participants in the text body" do
       User.execute_as(watcher1) do
-        expect(mail.html_part.body).to include(meeting.project.name)
-        expect(mail.html_part.body).to include(meeting.title)
-        expect(mail.html_part.body).to include(removed_participant_name)
-        expect(mail.html_part.body).to include(author.name)
+        expect(mail.text_part.body).to include(added_names.first)
+        expect(mail.text_part.body).to include(removed_names.first)
       end
     end
   end

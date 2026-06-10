@@ -76,7 +76,7 @@ RSpec.describe Projects::Settings::General::ShowComponent, type: :component do
     end
   end
 
-  describe "Identifier", with_flag: { semantic_work_package_ids: true } do
+  describe "Identifier" do
     it_behaves_like "section with heading", "Identifier"
 
     it "renders a Change identifier button" do

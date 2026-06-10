@@ -25,7 +25,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 //++
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
@@ -41,13 +41,12 @@ import { UserResource } from 'core-app/features/hal/resources/user-resource';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class AssigneeBoardHeaderComponent {
+  readonly pathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
+
   @Input('resource') public user:UserResource;
 
   text = {
     assignee: this.I18n.t('js.work_packages.properties.assignee'),
   };
-
-  constructor(readonly pathHelper:PathHelperService,
-    readonly I18n:I18nService) {
-  }
 }

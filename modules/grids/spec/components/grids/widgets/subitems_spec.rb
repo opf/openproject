@@ -166,10 +166,13 @@ RSpec.describe Grids::Widgets::Subitems, type: :component do
       context "and a limit less than the number of all subitems" do
         let(:params) { { limit: 2 } }
 
-        it "renders specified subitems, along with a 'view all' item", :aggregate_failures do
+        it "renders specified subitems and a footer link to view all subitems", :aggregate_failures do
           expect(rendered_component).to have_list "Subitems" do |list|
             expect(list).to have_list_item count: 2, text: /My Project No. \d+/
-            expect(list).to have_list_item text: "View all subitems"
+          end
+
+          expect(rendered_component).to have_css(".op-widget-box--footer") do |footer|
+            expect(footer).to have_link "View all subitems"
           end
         end
 

@@ -28,17 +28,22 @@ fr:
         name: Nom
         site: Identifiant du site
       storages/storage:
-        authentication_method: Méthode d’authentification
+        authentication_method: Méthode d'authentification
         creator: Créateur
         drive: ID du lecteur
+        file_link_origin: ID d'origine du lien de fichier
         host: Hôte
+        linkable_to_storage: Élément pouvant être lié à un espace de stockage
+        linkable_to_storage_url: URL de l'élément pouvant être lié à un espace de stockage
         name: Nom
         password: Mot de passe de l'application
         provider_type: Type de fournisseur
+        storage: Espace de stockage
+        storage_url: URL de l'espace de stockage
         tenant: ID du répertoire (locataire)
     errors:
       messages:
-        invalid_host_url: n’est pas une URL valide.
+        invalid_host_url: n'est pas une URL valide.
         invalid_sharepoint_url: n'est pas une URL valide de site, de bibliothèque ou de document SharePoint.
         not_linked_to_project: n'est pas lié au projet.
       models:
@@ -108,21 +113,25 @@ fr:
         remote_folders: 'Lisez le contenu du dossier de l''équipe :'
         remove_user_from_group: 'Retirer l''utilisateur de ce groupe :'
         rename_project_folder: 'Renommer le dossier du projet géré :'
+        set_folder_permission: 'Définir les autorisations du dossier de projet géré :'
       one_drive_sync_service:
         create_folder: 'Création du dossier du projet géré :'
         ensure_root_folder_permissions: 'Définir les autorisations du dossier de base :'
         hide_inactive_folders: 'Masquer l''étape des dossiers inactifs :'
         remote_folders: 'Lire le contenu du dossier racine du lecteur :'
         rename_project_folder: 'Renommer le dossier du projet géré :'
+        set_folder_permission: 'Définir les autorisations du dossier de projet géré :'
       sharepoint_sync_service:
         create_folder: 'Création du dossier du projet géré :'
         ensure_root_folder_permissions: 'Définir les autorisations du dossier de base :'
         hide_inactive_folders: 'Masquer l''étape des dossiers inactifs :'
         remote_folders: 'Lire le contenu du dossier racine du lecteur :'
         rename_project_folder: 'Renommer le dossier du projet géré :'
+        set_folder_permission: 'Définir les autorisations du dossier de projet géré :'
     errors:
       messages:
         error: Une erreur inattendue s'est produite. Veuillez consulter les journaux d'OpenProject pour obtenir plus d'informations ou contactez un administrateur
+        folder_id_collision: Plusieurs espaces de stockage de projet tentent de gérer le dossier de projet %{folder}. Sa synchronisation a été ignorée.
         forbidden: OpenProject n'a pas pu accéder à la ressource demandée. Veuillez vérifier la configuration de vos permissions sur le fournisseur de stockage.
         unauthorized: OpenProject n'a pas pu s'authentifier auprès du fournisseur de stockage. Veuillez vous assurer que vous y avez accès.
       models:
@@ -224,16 +233,16 @@ fr:
       redirect_uri_incomplete:
         one_drive: Complétez la configuration avec la redirection de l'URI correcte.
         sharepoint: Complétez la configuration avec la redirection de l'URI correcte.
-    confirm_replace_oauth_application: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir de nouvelles informations d'identification auprès du fournisseur de stockage et tous les utilisateurs devront à nouveau s'authentifier sur OpenProject. Êtes-vous sûr de vouloir continuer ?
-    confirm_replace_oauth_client: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir de nouvelles informations d'identification auprès du fournisseur de stockage et tous les utilisateurs devront à nouveau s'authentifier auprès de %{provider_type} . Êtes-vous sûr de vouloir continuer ?
+    confirm_replace_oauth_application: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir de nouvelles informations d'identification auprès du fournisseur de stockage et tous les utilisateurs devront à nouveau s'authentifier sur OpenProject. Voulez-vous vraiment continuer ?
+    confirm_replace_oauth_client: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir de nouvelles informations d'identification auprès du fournisseur de stockage et tous les utilisateurs devront à nouveau s'authentifier auprès de %{provider_type} . Voulez-vous vraiment continuer ?
     delete_warning:
       project_storage_delete_result_1: Tous les liens vers les fichiers et dossiers correspondants seront supprimés
       project_storage_delete_result_2: Le dossier du projet géré automatiquement et tous les fichiers qu'il contient seront supprimés
-      project_storage_html: Êtes-vous sûr de vouloir retirer %{file_storage} de ce projet ?
+      project_storage_html: Voulez-vous vraiment retirer %{file_storage} de ce projet ?
       storage_delete_result_1: Le stockage sera retiré de tous les projets qui l'utilisent actuellement.
       storage_delete_result_2: Tous les liens vers les fichiers et dossiers correspondants seront supprimés
       storage_delete_result_3: Le dossier du projet géré automatiquement et tous les fichiers qu'il contient seront supprimés.
-      storage_html: Êtes-vous sûr de vouloir supprimer %{file_storage} en tant que stockage de fichiers externes ?
+      storage_html: Voulez-vous vraiment supprimer %{file_storage} en tant que stockage de fichiers externes ?
     dependencies:
       nextcloud:
         group_folders_app: Dossiers d'équipe
@@ -314,74 +323,59 @@ fr:
           host_url_accessible: URL de l'hôte accessible
           storage_configured: Configuration terminée
           tenant_id: ID du tenant
-        failures:
-          one: "%{count} vérification a échoué"
-          other: "%{count} vérifications ont échoué"
-        success: Toutes les vérifications ont été validées
-        warnings:
-          one: "%{count} vérification a renvoyé un avertissement"
-          other: "%{count} vérifications ont renvoyé un avertissement"
-      connection_validation:
-        client_id_invalid: L'identifiant du client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
-        client_secret_invalid: La clé secrète du client OAuth 2 configurée n'est pas valable. Veuillez vérifier la configuration.
-        nc_dependency_missing: 'Une dépendance requise est manquante dans l''espace de stockage de fichiers. Veuillez ajouter la dépendance suivante : %{dependency}.'
-        nc_dependency_version_mismatch: La version de l'application %{dependency} n'est pas prise en charge. Veuillez mettre à jour votre serveur Nextcloud.
-        nc_host_not_found: Aucun serveur Nextcloud n'a été trouvé à l'adresse configurée. Veuillez vérifier la configuration.
-        nc_oauth_request_not_found: Le point de terminaison pour récupérer l'utilisateur actuellement connecté n'a pas été trouvé. Veuillez vérifier les journaux du serveur pour obtenir plus d'informations.
-        nc_oauth_request_unauthorized: L'utilisateur actuel n'est pas autorisé à accéder à l'espace de stockage de fichiers distant. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
-        nc_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau utilisateur avec Nextcloud, car l'utilisateur n'a pas encore lié son compte Nextcloud.
-        nc_project_folder_missing: Le dossier de projet précédemment créé pour le projet "%{project}" n'a pas pu être trouvé.
-        nc_team_folder_not_found: Le dossier de l'équipe est introuvable.
-        nc_unexpected_files: 'Fichiers inattendus trouvés dans le dossier de l''équipe gérée. Par exemple : %{sample}'
-        nc_unlinked_project_folders: Tous les dossiers de projet n'ont pas encore été créés (%{actual} / %{expected}). Cela peut indiquer des erreurs lors de la synchronisation en arrière-plan de l'AMPF.
-        nc_userless_access_denied: Le mot de passe de l'application configurée n'est pas valide.
-        not_configured: La connexion n'a pas pu être validée. Veuillez d'abord terminer la configuration.
-        od_client_cant_delete_folder: Le client rencontre des difficultés pour supprimer des dossiers. Veuillez consulter la documentation d'installation de votre espace de stockage.
-        od_client_write_permission_missing: Le client semble ne pas avoir les autorisations d'écriture. Veuillez vérifier la documentation d'installation de votre espace de stockage.
-        od_drive_id_invalid: L'identifiant du lecteur configuré ne semble pas valide. Veuillez vérifier la configuration.
-        od_drive_id_not_found: L'identifiant du lecteur configuré est introuvable. Veuillez vérifier la configuration.
-        od_oauth_request_not_found: Le point de terminaison pour récupérer l'utilisateur actuellement connecté n'a pas été trouvé. Veuillez vérifier les journaux du serveur pour obtenir plus d'informations.
-        od_oauth_request_unauthorized: L'utilisateur actuel n'est pas autorisé à accéder à l'espace de stockage de fichiers distant. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
-        od_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau utilisateur avec OneDrive/SharePoint, car l'utilisateur n'a pas encore lié son compte Microsoft.
-        od_tenant_id_wrong: L'identifiant du répertoire (locataire) configuré n'est pas valide. Veuillez vérifier la configuration.
-        od_test_folder_exists: Le dossier %{folder_name} requis pour le test existe déjà. Veuillez le supprimer et réessayer.
-        od_unexpected_content: Contenu inattendu trouvé dans le lecteur.
-        offline_access_scope_missing: Il est recommandé de configurer le fournisseur OpenID Connect pour demander la portée offline_access. L'intégration peut néanmoins fonctionner, mais assurez-vous que les jetons d'actualisation n'expirent pas.
-        oidc_cant_refresh_token: Une erreur s'est produite lors de la vérification de votre accès à l'espace de stockage. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
-        oidc_non_oidc_user: L'utilisateur actuel, même s'il est provisionné, n'a pas été provisionné par un fournisseur d'identité OpenID Connect (OIDC). Veuillez refaire la vérification avec un utilisateur OIDC provisionné.
-        oidc_non_provisioned_user: L'utilisateur actuel n'est pas fourni par un fournisseur d'identité OpenID Connect. Veuillez réexécuter la vérification avec un utilisateur fourni.
-        oidc_provider_cant_exchange: Le fournisseur OpenID Connect ne semble pas prendre en charge l'échange de jetons, mais l'échange de jetons a été configuré pour le stockage.
-        oidc_token_acquisition_failed: Votre configuration OpenID Connect ne fournit pas l'audience nécessaire, ni les capacités d'échange de jetons. Veuillez consulter notre documentation pour obtenir plus d'informations.
-        oidc_token_exchange_failed: Il semble y avoir un problème avec la configuration de l'échange de jetons sur votre fournisseur OpenID Connect. Veuillez vérifier sa configuration et réessayer.
-        oidc_token_refresh_failed: Une erreur s'est produite lors de la vérification de votre accès à l'espace de stockage. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
-        sp_client_cant_delete_folder: Le client rencontre des difficultés pour supprimer des dossiers. Veuillez consulter la documentation d'installation de votre espace de stockage.
-        sp_client_id_missing: L'identifiant du client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
-        sp_client_secret_missing: L'identifiant du client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
-        sp_client_write_permission_missing: Le client semble ne pas avoir les autorisations d'écriture. Veuillez vérifier la documentation d'installation de votre espace de stockage.
-        sp_existing_test_folder: Le dossier %{folder_name} requis pour le test existe déjà. Veuillez le supprimer et réessayer.
-        sp_oauth_request_error: La requête liée à l'utilisateur vers SharePoint a échoué. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
-        sp_oauth_request_unauthorized: L'utilisateur actuel n'est pas autorisé à accéder au stockage de fichiers à distance. Veuillez consulter les journaux du serveur pour plus d'informations.
-        sp_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau utilisateur avec OneDrive/SharePoint, car l'utilisateur n'a pas encore lié son compte Microsoft.
-        sp_tenant_id_missing: L'identifiant de répertoire (locataire) configuré est manquant pour SharePoint. Veuillez vérifier la configuration.
-        sp_unexpected_content: Contenu inattendu trouvé dans la bibliothèque de documents SharePoint.
-        unknown_error: La connexion n'a pas pu être validée. Une erreur inconnue s'est produite. Veuillez consulter les journaux du serveur pour en savoir plus.
+        errors:
+          client_id_invalid: L'identifiant du client OAuth 2 configuré n'est pas valide. Veuillez vérifier la configuration.
+          client_secret_invalid: La clé secrète du client OAuth 2 configurée n'est pas valable. Veuillez vérifier la configuration.
+          nc_dependency_missing: 'Une dépendance requise est manquante dans l''espace de stockage de fichiers. Veuillez ajouter la dépendance suivante : %{dependency}.'
+          nc_dependency_version_mismatch: La version de l'application %{dependency} n'est pas prise en charge. Veuillez mettre à jour votre serveur Nextcloud.
+          nc_host_not_found: Aucun serveur Nextcloud n'a été trouvé à l'adresse configurée. Veuillez vérifier la configuration.
+          nc_oauth_request_not_found: Le point de terminaison pour récupérer l'utilisateur actuellement connecté n'a pas été trouvé. Veuillez vérifier les journaux du serveur pour obtenir plus d'informations.
+          nc_oauth_request_unauthorized: L'utilisateur actuel n'est pas autorisé à accéder à l'espace de stockage de fichiers distant. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
+          nc_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau utilisateur avec Nextcloud, car l'utilisateur n'a pas encore lié son compte Nextcloud.
+          nc_project_folder_missing: Le dossier de projet précédemment créé pour le projet « %{project} » est introuvable.
+          nc_team_folder_not_found: Le dossier de l'équipe est introuvable.
+          nc_unexpected_files: 'Fichiers inattendus trouvés dans le dossier de l''équipe gérée. Par exemple : %{sample}'
+          nc_unlinked_project_folders: Tous les dossiers de projet n'ont pas encore été créés (%{actual}/%{expected}). Cela peut indiquer des erreurs lors de la synchronisation en arrière-plan de l'AMPF.
+          nc_userless_access_denied: Le mot de passe de l'application configurée n'est pas valide.
+          not_configured: La connexion n'a pas pu être validée. Veuillez d'abord terminer la configuration.
+          od_client_cant_delete_folder: Le client rencontre des difficultés pour supprimer des dossiers. Veuillez consulter la documentation d'installation de votre espace de stockage.
+          od_client_write_permission_missing: Le client semble ne pas avoir les autorisations d'écriture. Veuillez vérifier la documentation d'installation de votre espace de stockage.
+          od_drive_id_invalid: L'identifiant du lecteur configuré ne semble pas valide. Veuillez vérifier la configuration.
+          od_drive_id_not_found: L'identifiant du lecteur configuré est introuvable. Veuillez vérifier la configuration.
+          od_oauth_request_not_found: Le point de terminaison pour récupérer l'utilisateur actuellement connecté n'a pas été trouvé. Veuillez vérifier les journaux du serveur pour obtenir plus d'informations.
+          od_oauth_request_unauthorized: L'utilisateur actuel n'est pas autorisé à accéder à l'espace de stockage de fichiers distant. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
+          od_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau utilisateur avec OneDrive, car l'utilisateur n'a pas encore lié son compte Microsoft.
+          od_tenant_id_wrong: L'identifiant du répertoire (locataire) configuré n'est pas valide. Veuillez vérifier la configuration.
+          od_test_folder_exists: Le dossier %{folder_name} requis pour le test existe déjà. Veuillez le supprimer et réessayer.
+          od_unexpected_content: Contenu inattendu trouvé dans le lecteur.
+          offline_access_scope_missing: Il est recommandé de configurer le fournisseur OpenID Connect pour demander la portée offline_access. L'intégration peut néanmoins fonctionner, mais assurez-vous que les jetons d'actualisation n'expirent pas.
+          oidc_cant_refresh_token: Une erreur s'est produite lors de la vérification de votre accès à l'espace de stockage. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
+          oidc_non_oidc_user: L'utilisateur actuel, même s'il est provisionné, n'a pas été provisionné par un fournisseur d'identité OpenID Connect (OIDC). Veuillez refaire la vérification avec un utilisateur OIDC provisionné.
+          oidc_non_provisioned_user: L'utilisateur actuel n'est pas fourni par un fournisseur d'identité OpenID Connect. Veuillez réexécuter la vérification avec un utilisateur fourni.
+          oidc_provider_cant_exchange: Le fournisseur OpenID Connect ne semble pas prendre en charge l'échange de jetons, mais l'échange de jetons a été configuré pour le stockage.
+          oidc_token_acquisition_failed: Votre configuration OpenID Connect ne fournit pas l'audience nécessaire, ni les capacités d'échange de jetons. Veuillez consulter notre documentation pour obtenir plus d'informations.
+          oidc_token_exchange_failed: Il semble y avoir un problème avec la configuration de l'échange de jetons sur votre fournisseur OpenID Connect. Veuillez vérifier sa configuration et réessayer.
+          oidc_token_refresh_failed: Une erreur s'est produite lors de la vérification de votre accès à l'espace de stockage. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
+          sp_client_cant_delete_folder: Le client rencontre des difficultés pour supprimer des dossiers. Veuillez consulter la documentation d'installation de votre espace de stockage.
+          sp_client_id_missing: L'identifiant du client OAuth 2 configuré est manquant pour SharePoint. Veuillez vérifier la configuration.
+          sp_client_secret_missing: Le secret du client OAuth 2 configuré est manquant pour SharePoint. Veuillez vérifier la configuration.
+          sp_client_write_permission_missing: Le client semble avoir des autorisations d'écriture manquantes dans SharePoint. Veuillez vérifier la documentation de configuration de votre espace de stockage.
+          sp_existing_test_folder: Le dossier %{folder_name} requis pour le test existe déjà dans SharePoint. Veuillez le supprimer et réessayer.
+          sp_oauth_request_error: La requête liée à l'utilisateur vers SharePoint a échoué. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
+          sp_oauth_request_unauthorized: L'utilisateur actuel n'est pas autorisé à accéder à l'espace de stockage de fichiers distant. Veuillez consulter les journaux du serveur pour obtenir plus d'informations.
+          sp_oauth_token_missing: OpenProject ne peut pas tester la communication au niveau de l'utilisateur avec SharePoint, car l'utilisateur n'a pas encore lié son compte SharePoint.
+          sp_tenant_id_missing: L'identifiant du répertoire (locataire) configuré est manquant pour SharePoint. Veuillez vérifier la configuration.
+          sp_unexpected_content: Contenu inattendu trouvé dans la bibliothèque de documents SharePoint.
+          unknown_error: La connexion n'a pas pu être validée. Une erreur inconnue s'est produite. Veuillez consulter les journaux du serveur pour en savoir plus.
       label_error: Erreur
-      label_failed: Échec
       label_healthy: Sain
-      label_passed: Approuvé
       label_pending: En attente
-      label_skipped: Ignorée
-      label_warning: Avertissement
       no_report: Aucun rapport disponible
       no_report_description: Exécutez les vérifications maintenant pour obtenir un rapport complet sur l'état de santé de ce stockage de fichiers.
       open_report: Ouvrir le rapport complet sur l'état de santé
       project_folders:
         subtitle: Dossiers de projets gérés automatiquement
       since: depuis %{datetime}
-      summary:
-        failure: Certaines vérifications ont échoué et le système ne fonctionne pas comme prévu.
-        success: Toutes les connexions et les systèmes fonctionnent comme prévu.
-        warning: Certaines vérifications ont renvoyé un avertissement. Cela peut entraîner un comportement inattendu.
       synced: 'Dernière synchronisation : %{datetime}'
       title: Rapport sur l'état de santé
     health_email_notifications:
@@ -560,8 +554,8 @@ fr:
     upsell:
       one_drive:
         description: |-
-          Intégrez votre disque OneDrive en tant que stockage de fichiers avec OpenProject. Téléchargez des fichiers et liez-les directement à
-          work packages dans un projet.
+          Intégrez votre disque OneDrive en tant qu'espace de stockage de fichiers avec OpenProject. Importez des fichiers et liez-les directement à
+          des lots de travaux dans un projet.
         title: Intégration de OneDrive
       sharepoint:
         description: Intégrez votre OneDrive/SharePoint en tant qu'espace de stockage de fichiers avec OpenProject. Téléversez des fichiers et liez-les directement aux lots de travaux d'un projet.

@@ -1,15 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  EventEmitter,
-  forwardRef,
-  HostBinding,
-  Input,
-  Output,
-  ViewChild,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, HostBinding, Input, Output, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -29,6 +18,8 @@ export type SpotCheckboxState = true|false|null;
   standalone: false,
 })
 export class SpotCheckboxComponent implements ControlValueAccessor {
+  readonly cdRef = inject(ChangeDetectorRef);
+
   @HostBinding('class.spot-checkbox') public className = true;
 
   @ViewChild('input') public input:ElementRef;
@@ -60,10 +51,6 @@ export class SpotCheckboxComponent implements ControlValueAccessor {
    * Emits when the checked state changes.
    */
   @Output() checkedChange = new EventEmitter<boolean>();
-
-  constructor(
-    readonly cdRef:ChangeDetectorRef,
-  ) {}
 
   onStateChange():void {
     const value = (this.input.nativeElement as HTMLInputElement).checked;

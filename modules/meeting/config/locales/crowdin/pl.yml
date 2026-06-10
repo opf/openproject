@@ -32,7 +32,7 @@ pl:
         location: Lokalizacja
         duration: Czas trwania
         notes: Notatki
-        recurrence_start_time: Scheduled start time
+        recurrence_start_time: Zaplanowany czas uruchomienia
         participants: Uczestnicy
         participant:
           one: 1 uczestnik
@@ -41,13 +41,15 @@ pl:
           other: "%{count} uczestnika"
         participants_attended: Uczestnicy
         participants_invited: Zaproszone osoby
+        participants_added: 'Dodani uczestnicy:'
+        participants_removed: 'Usunięci uczestnicy:'
         project: Projekt
         start_date: Data
         start_time: Data rozpoczęcia
         start_time_hour: Godzina rozpoczęcia
-        end_time: End time
-        template: Template
-        notify: Send notifications
+        end_time: Czas zakończenia
+        template: Szablon
+        notify: Wysyłaj powiadomienia
         sharing: Udostępnianie
       meeting_agenda_item:
         title: Tytuł
@@ -55,27 +57,30 @@ pl:
         duration_in_minutes: Czas trwania
         description: Notatki
         presenter: Prezenter
-        item_type: Type
-        position: Position
-        lock_version: Lock version
-        notes: Notes
+        item_type: Typ
+        position: Pozycja
+        lock_version: Zablokuj wersję
+        notes: Notatki
       meeting_section:
         title: Tytuł
-        position: Position
+        position: Pozycja
       recurring_meeting:
-        title: Title
+        title: Tytuł
         frequency: Częstotliwość
         interval: Interwał
+        monthly_day: Dzień miesiąca
+        monthly_ordinal: Pozycja
+        monthly_weekday: Dzień powszedni
         start_date: Rozpoczyna się
         start_time: Czas rozpoczęcia
         start_time_hour: Czas rozpoczęcia
         end_after: Seria spotkań kończy się
         end_date: Data zakończenia
         iterations: Wystąpienia
-        time_zone: Time zone
-        location: Location
-        duration: Duration
-        notify: Send notifications
+        time_zone: Strefa czasowa
+        location: Lokalizacja
+        duration: Czas trwania
+        notify: Wysyłaj powiadomienia
       recurring_meeting_interim_response:
         start_time: Czas rozpoczęcia
       meeting_participant:
@@ -220,6 +225,7 @@ pl:
   label_time_zone: Strefa czasowa
   label_start_date: Data rozpoczęcia
   label_subscribe_icalendar: Subskrybuj kalendarz
+  label_recurring_filter: Filtr cykliczny
   caption_meeting_template_select: Wybierz szablon, aby automatycznie skopiować z niego punkty planu spotkania
   caption_template_project_select: Wybierz projekt, w którym ma zostać utworzony ten szablon spotkania
   placeholder_meeting_template_select_project_first: Najpierw wybierz projekt
@@ -235,7 +241,7 @@ pl:
         manage_participants: Zarządzaj uczestnikami
         no_participants: Brak uczestników
         show_all: Pokaż wszystkie
-        apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
+        apply_to_upcoming_meetings: Zastosuj te zmiany do wszystkich nadchodzących spotkań w tej serii
       text:
         template: Uczestnicy ci będą automatycznie zapraszani na wszystkie przyszłe spotkania w miarę ich tworzenia.
         manage_participants: Wyszukaj członków projektu i dodaj ich jako uczestników tego spotkania.
@@ -282,16 +288,6 @@ pl:
         summary_series: Seria spotkań „%{title}” została anulowana przez użytkownika %{actor} lub usunięto Cię jako uczestnika
         summary: "„%{title}” anulował użytkownik %{actor} lub usunięto Cię jako uczestnika"
         date_time: Zaplanowana data/godzina
-      participant_added:
-        header: Spotkanie „%{title}” — dodano uczestnika
-        header_series: Seria spotkań „%{title}” — dodano uczestnika
-        summary: Użytkownik %{actor} dodał uczestnika %{participant} do spotkania „%{title}”
-        summary_series: Użytkownik %{actor} dodał uczestnika %{participant} do serii spotkań „%{title}”
-      participant_removed:
-        header: Spotkanie „%{title}” — usunięto uczestnika
-        header_series: Seria spotkań „%{title}” — usunięto uczestnika
-        summary: Użytkownik %{actor} usunął uczestnika %{participant} ze spotkania „%{title}”
-        summary_series: Użytkownik %{actor} usunął uczestnika %{participant} z serii spotkań „%{title}”
       ended:
         header_series: 'Zakończono: serię spotkań „%{title}”'
         summary_series: Seria spotkań „%{title}” została zakończona przez użytkownika %{actor}
@@ -305,6 +301,8 @@ pl:
         new_date_time: Nowa data/godzina
         old_location: Stara lokalizacja
         new_location: Nowa lokalizacja
+        added_participants: Dodano
+        removed_participants: Usunięto
     label_mail_all_participants: Wyślij zaproszenie w wiadomości e-mail do uczestników
     types:
       one_time: Jednorazowe
@@ -333,6 +331,13 @@ pl:
 
           '
         confirm_button: Anuluj wystąpienie
+      occurrence_past:
+        title: Usuń wystąpienie
+        heading: Usunąć to wystąpienie?
+        confirmation_message_html: 'To działanie jest nieodwracalne. Postępuj ostrożnie.
+
+          '
+        confirm_button: Usuń wystąpienie
     blankslate:
       title: Nie ma żadnych spotkań do wyświetlenia
       desc: Możesz utworzyć nowe spotkanie lub zmienić kryteria filtrowania
@@ -379,58 +384,22 @@ pl:
         caption: Ten tekst będzie wyświetlany na każdej stronie pośrodku stopki.
       submit_button: Pobierz
     notifications:
+      disabled: Uczestnicy nie będą otrzymywać wiadomości e-mail informujących o zmianach daty, godziny lub listy uczestników.
+      enabled: Wszyscy uczestnicy będą otrzymywać zaktualizowane zaproszenia z kalendarza informujące o zmianach daty, godziny lub listy uczestników.
       sidepanel:
         title: Wysyłaj aktualizacje kalendarza pocztą elektroniczną
         description:
-          disabled: Uczestnicy nie będą otrzymywać wiadomości e-mail z informacjami o zmianach.
-          enabled: Wszyscy uczestnicy będą otrzymywać aktualizowane zaproszenia do kalendarza pocztą elektroniczną z informacjami o zmianach.
           change_via_template: Aby to zmienić, edytuj szablon serii.
       dialog:
         title:
           enable: Włączyć wysyłanie aktualizacji kalendarza pocztą elektroniczną?
           disable: Wyłączyć wysyłanie aktualizacji kalendarza pocztą elektroniczną?
         message:
-          enable: 'Wszyscy uczestnicy będą otrzymywać zaktualizowane zaproszenia do kalendarza pocztą elektroniczną za każdym razem, gdy nastąpi zmiana daty, godziny, lokalizacji lub uczestników spotkania. Po włączeniu wiadomości e-mail zostaną natychmiast wysłane do wszystkich uczestników.
-
-            '
-          disable: 'Uczestnicy nie będą już otrzymywać zaktualizowanych zaproszeń do kalendarza w wiadomościach e-mail, gdy nastąpi zmiana daty, godziny, lokalizacji lub uczestników spotkania. Jeśli mieli już zaproszenie na to spotkanie, może ono być już nieaktualne.
-
-            '
+          enable: Po włączeniu tej funkcji wiadomość e-mail zostanie natychmiast wysłana do wszystkich uczestników.
+          disable: Jeśli mieli już zaproszenie na to spotkanie, może ono być już nieaktualne.
         confirm_label:
           enable: Włącz wysyłanie aktualizacji pocztą elektroniczną
           disable: Wyłącz wysyłanie aktualizacji pocztą elektroniczną
-      banner:
-        participants:
-          enabled: 'Po dodaniu lub usunięciu uczestników wszyscy uczestnicy otrzymają zaktualizowane zaproszenia do kalendarza za pośrednictwem wiadomości e-mail.
-
-            '
-          disabled: 'Aktualizacje kalendarza pocztą elektroniczną są wyłączone. Uczestnicy nie będą otrzymywać wiadomości e-mail z informacją o dodaniu lub usunięciu uczestników.
-
-            '
-          draft_disabled: 'Uczestnicy nie otrzymają wiadomości e-mail z informacją o dodaniu lub usunięciu przez Ciebie uczestników.
-
-            '
-        onetime:
-          enabled: 'Po dodaniu lub usunięciu uczestników wszyscy uczestnicy otrzymają zaktualizowane zaproszenia do kalendarza za pośrednictwem wiadomości e-mail.
-
-            '
-          disabled: 'Uczestnicy nie będą otrzymywać wiadomości e-mail z informacją o zmianie daty, godziny lub uczestników spotkania.
-
-            '
-        occurrence:
-          enabled: 'Wysyłanie aktualizacji kalendarza pocztą elektroniczną jest włączone dla serii spotkań. Wszyscy uczestnicy będą otrzymywać zaktualizowane zaproszenia do kalendarza z informacjami o zmianach tego wystąpienia.
-
-            '
-          disabled: 'Wysyłanie aktualizacji kalendarza pocztą elektroniczną jest wyłączone dla serii spotkań. Uczestnicy nie będą otrzymywać wiadomości e-mail z informacjami o zmianach tego wystąpienia.
-
-            '
-        template:
-          enabled: 'Wysyłanie aktualizacji kalendarza pocztą elektroniczną jest włączone dla serii spotkań. Wszyscy uczestnicy będą otrzymywać zaktualizowane zaproszenia do kalendarza z informacjami o zmianach tego szablonu lub poszczególnych wystąpień.
-
-            '
-          disabled: 'Wysyłanie aktualizacji kalendarza pocztą elektroniczną jest wyłączone dla serii spotkań. Uczestnicy nie będą otrzymywać wiadomości e-mail z informacjami o zmianach tego szablonu lub poszczególnych wystąpień.
-
-            '
     presentation_mode:
       title: Tryb prezentacji
       button_present: Prezentuj
@@ -446,9 +415,9 @@ pl:
       meeting_not_found: Nie znaleziono spotkania dla podanego identyfikatora UID.
     widgets:
       blankslate:
-        heading: No upcoming meetings
-        description: Upcoming meetings where you are the organizer or a participant will appear here.
-      view_details: View all meetings
+        heading: Brak nadchodzących spotkań
+        description: Nadchodzące spotkania, w których bierzesz udział, pojawią się tutaj.
+      view_details: Wyświetl wszystkie spotkanie
   meeting_section:
     untitled_title: Sekcja bez nazwy
     delete_confirmation: Usunięcie sekcji spowoduje również usunięcie wszystkich jej elementów punktów planu spotkania. Czy na pewno chcesz to zrobić?
@@ -503,18 +472,44 @@ pl:
         few: Co %{count} tygodnie
         many: Co %{count} tygodni
         other: Co %{count} tygodnia
+      x_monthly:
+        one: Co miesiąc
+        few: Co %{count} miesiące
+        many: Co %{count} miesięcy
+        other: Co %{count} miesiąca
+      monthly_day_of_month: Dzień miesiąca
+      monthly_nth_weekday: Co miesiąc w dzień powszedni
       every_weekday: Co %{day_of_the_week}
       working_days: W każdy dzień roboczy
+    monthly:
+      inflected_ordinal:
+        first: pierwszy
+        second: drugi
+        third: trzeci
+        fourth: czwarty
+        last: ostatni
+      ordinal_options:
+        first: Pierwszy
+        second: Drugi
+        third: Trzeci
+        fourth: Czwarty
+        last: Ostatni
+    actual_first_occurrence_mismatch_html: Pierwszym wystąpieniem tej serii będzie %{first_occurrence}
+    day_of_month_skipping_info: Miesiące z liczbą dni mniejszą niż %{monthly_day} zostaną pominięte
     end_after:
-      never: nigdy
-      specific_date: po określonej dacie
-      iterations: po określonej liczbie wystąpień
+      never: Nigdy
+      specific_date: Po określonej dacie
+      iterations: Po określonej liczbie wystąpień
     starts: Zaczyna się
     in_words:
       daily_interval: Co %{interval} dni
       working_days: W każdy dzień roboczy
       weekly: Co tydzień w %{weekday}
       weekly_interval: Co %{interval} tyg. w %{weekday}
+      monthly_day: Co miesiąc w dniu %{day}
+      monthly_day_interval: Co %{interval} mies. w %{day}
+      monthly_nth_weekday: Co miesiąc w %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Co %{interval} mies. w %{ordinal} %{weekday}
       frequency: "%{base} o %{time}"
       full: "%{base} o %{time}, kończy się %{end_date}"
       full_past: "%{base} o %{time}, zakończone %{end_date}"
@@ -623,6 +618,7 @@ pl:
   label_agenda_item_duplicate_in_next_title: Zduplikować w następnym spotkaniu?
   label_agenda_item_add_notes: Dodawanie notatek
   label_agenda_item_add_outcome: Dodaj wynik
+  label_agenda_item_convert_to_work_package: Przekonwertuj na pakiet roboczy
   label_agenda_item_work_package_add: Dodaj pakiet roboczy
   label_agenda_item_work_package: Pakiet roboczy punktu planu spotkania
   label_section_rename: Zmień nazwę sekcji
@@ -691,9 +687,9 @@ pl:
   text_exit_draft_mode_dialog_template_title: Otworzyć pierwsze wystąpienie z tej serii spotkań?
   text_exit_draft_mode_dialog_template_subtitle: Po tym nie możesz powrócić do trybu wersji roboczej.
   label_meeting_template_sharing: Udostępnianie
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_system: With all projects
+  label_meeting_template_sharing_none: Tylko z tym projektem
+  label_meeting_template_sharing_descendants: Z podprojektami
+  label_meeting_template_sharing_system: Ze wszystkimi projektami
   text_meeting_template_sharing_description: Ten szablon można udostępniać podprojektom lub innym projektom w tym wystąpieniu. Skopiowane zostaną tylko pozycje planu spotkania i załączniki.
   text_meeting_not_editable_anymore: Tego spotkania nie można już edytować.
   text_meeting_not_present_anymore: To spotkanie zostało usunięte. Wybierz inne spotkanie.
@@ -712,12 +708,12 @@ pl:
   text_agenda_item_duplicate_in_next_meeting: Czy na pewno chcesz dodać kopię tego punktu planu spotkania do następnego spotkania w dniu %{date} o godzinie %{time}? Wyniki nie będą duplikowane.
   text_agenda_item_duplicated_in_next_meeting: Pozycję planu spotkania zduplikowano w następnym spotkaniu w dniu %{date}
   text_work_package_has_no_upcoming_meeting_agenda_items: Ten pakiet roboczy nie został jeszcze zaplanowany w planie nadchodzącego spotkania.
-  text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
-  text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
-  text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
-  text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
-  text_agenda_item_dialog_skipping_closed_many: "%{count} closed meetings"
+  text_agenda_item_no_available_occurrence: Nie są dostępne żadne nadchodzące wystąpienia.
+  text_agenda_item_dialog_skipping_note: 'Uwaga: pomijanie %{details}.'
+  text_agenda_item_dialog_skipping_cancelled_one: anulowanego spotkania w dniu %{date}
+  text_agenda_item_dialog_skipping_cancelled_many: "%{count} anulowanych spotkań"
+  text_agenda_item_dialog_skipping_closed_one: spotkania zamkniętego w dniu %{date}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} zamkniętych spotkań"
   text_work_package_add_to_meeting_hint: Użyj przycisku „Dodaj do spotkania”, aby dodać ten pakiet roboczy do nadchodzącego spotkania.
   text_work_package_has_no_past_meeting_agenda_items: Ten pakiet roboczy nie został dodany jako pozycja planu spotkania w poprzednim spotkaniu.
   text_email_updates_muted: Wysyłanie aktualizacji kalendarza pocztą elektroniczną jest wyciszone. Po wprowadzeniu zmian uczestnicy nie będą otrzymywać zaktualizowanych zaproszeń pocztą elektroniczną.

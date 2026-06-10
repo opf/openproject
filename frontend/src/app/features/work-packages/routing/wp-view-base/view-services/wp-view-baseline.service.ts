@@ -26,9 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
-import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { States } from 'core-app/core/states/states.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { WorkPackageQueryStateService } from './wp-view-base.service';
@@ -66,17 +65,12 @@ export const BASELINE_INCOMPATIBLE_COLUMNS = [
 
 @Injectable()
 export class WorkPackageViewBaselineService extends WorkPackageQueryStateService<string[]> {
-  constructor(
-    protected readonly states:States,
-    protected readonly querySpace:IsolatedQuerySpace,
-    protected readonly pathHelper:PathHelperService,
-    protected readonly configurationService:ConfigurationService,
-    protected readonly timezoneService:TimezoneService,
-    protected readonly weekdaysService:WeekdayService,
-    protected readonly daysService:DayResourceService,
-  ) {
-    super(querySpace);
-  }
+  protected readonly states = inject(States);
+  protected readonly pathHelper = inject(PathHelperService);
+  protected readonly configurationService = inject(ConfigurationService);
+  protected readonly timezoneService = inject(TimezoneService);
+  protected readonly weekdaysService = inject(WeekdayService);
+  protected readonly daysService = inject(DayResourceService);
 
   public nonWorkingDays:IDay[] = [];
 

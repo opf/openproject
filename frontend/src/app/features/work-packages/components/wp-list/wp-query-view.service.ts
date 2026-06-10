@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Observable } from 'rxjs';
@@ -8,10 +8,9 @@ import { ConfigurationService } from 'core-app/core/config/configuration.service
 
 @Injectable()
 export class WorkPackagesQueryViewService {
-  constructor(
-    protected $state:StateService,
-    protected apiV3Service:ApiV3Service,
-  ) { }
+  protected $state = inject(StateService);
+  protected apiV3Service = inject(ApiV3Service);
+
 
   create(query:QueryResource):Observable<IView> {
     if (!query.href) {

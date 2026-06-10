@@ -1,5 +1,5 @@
 <% resend_supported = @strategy.mobile_token? %>
-<% has_other_devices = @active_devices.count > 1 %>
+<% has_other_devices = @active_devices.many? %>
 <% has_backup_codes = @authenticated_user.otp_backup_codes.exists? %>
 <% html_title t(:field_otp) %>
 <div id="login-form"
@@ -25,7 +25,7 @@
       <div class="form--field -wide-label">
         <%= styled_label_tag "otp", t(:field_otp) %>
         <div class="form--field-container">
-          <%= styled_text_field_tag "otp", nil, autocomplete: "off", size: 6, maxlength: 6, tabindex: 1, autofocus: true %>
+          <%= styled_text_field_tag "otp", nil, autocomplete: "off", size: 6, maxlength: 6, autofocus: true %>
         </div>
       </div>
     <% else %>
@@ -45,7 +45,7 @@
       </div>
     <% end %>
     <div class="login-form--footer">
-      <input type="submit" name="login" value="<%= t(:button_login) %>" class="button -primary button_no-margin" tabindex="2">
+      <input type="submit" name="login" value="<%= t(:button_login) %>" class="button -primary button_no-margin">
       <% if resend_supported || has_other_devices || has_backup_codes %>
         <div class="login-options-container">
           <div class="login-links">
@@ -53,7 +53,6 @@
                   t(:text_otp_not_receive),
                   "#",
                   id: "toggle_resend_form",
-                  tabindex: 3,
                   data: { action: "two-factor-authentication#toggleResendOptions" },
                   class: "login-form--footer-link"
                 ) %>
@@ -74,7 +73,8 @@
             id: "resend_otp",
             data: {
               turbo: false
-            }) do %>
+            }
+          ) do %>
         <%= hidden_field_tag "use_device", @service.device.id %>
         <hr>
         <div class="resend-header"><%= t(:text_send_otp_again) %></div>

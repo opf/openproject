@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++    Ng1FieldControlsWrapper,
 
-import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Injector, Input, OnInit, inject } from '@angular/core';
 import {
   HalResourceEditingService
 } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -48,6 +48,11 @@ import { PullRequestState } from './pull-request-state.component';
   standalone: false,
 })
 export class PullRequestMacroComponent implements OnInit {
+  readonly elementRef = inject(ElementRef);
+  readonly injector = inject(Injector);
+  readonly pullRequests = inject(GithubPullRequestResourceService);
+  readonly I18n = inject(I18nService);
+
   @Input() pullRequestId:string;
 
   @Input() pullRequestState:PullRequestState;
@@ -56,12 +61,7 @@ export class PullRequestMacroComponent implements OnInit {
 
   displayText$:Observable<string|null>;
 
-  constructor(
-    readonly elementRef:ElementRef,
-    readonly injector:Injector,
-    readonly pullRequests:GithubPullRequestResourceService,
-    readonly I18n:I18nService,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 

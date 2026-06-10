@@ -197,6 +197,43 @@ RSpec.describe WorkPackages::AutoCompletesController do
       end
     end
 
+    describe "displayId JSON contract" do
+      # The CKEditor mention plugin reads `displayId` (camelCase, stringified)
+      # off each entry to insert `#PROJ-7` or `#1234` into the editor and to
+      # build the mention's link URL. The contract must hold in both modes
+      # so the frontend doesn't have to branch on identifier shape.
+      render_views
+
+      let(:expected_values) { work_package1 }
+      let(:json) { response.parsed_body }
+      let(:entry) { json.find { |e| e["id"] == work_package1.id } }
+
+      before do
+        get :index,
+            params: { project_id: project.id, q: work_package1.id },
+            format: :json
+      end
+
+      context "in classic mode",
+              with_settings: { work_packages_identifier: "classic" } do
+        it "exposes displayId as the stringified numeric id" do
+          expect(entry).to include("displayId" => work_package1.id.to_s)
+        end
+      end
+
+      context "in semantic mode",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:project) { create(:project, identifier: "MENTPROJ") }
+
+        before { work_package1.allocate_and_register_semantic_id }
+
+        it "exposes displayId as the semantic identifier string" do
+          expect(entry["displayId"]).to start_with("MENTPROJ-")
+          expect(entry["displayId"]).to be_a(String)
+        end
+      end
+    end
+
     describe "in different projects" do
       let(:project2) do
         create(:project,

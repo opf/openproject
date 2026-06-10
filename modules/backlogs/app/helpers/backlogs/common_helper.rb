@@ -30,17 +30,21 @@
 
 module Backlogs
   module CommonHelper
-    def allow_backlog_bucket_creation?(project)
-      current_user.allowed_in_project?(:create_sprints, project)
+    def user_allowed?(permission)
+      current_user.allowed_in_project?(permission, project)
     end
 
-    def allow_sprint_creation?(project)
-      allow_backlog_bucket_creation?(project) &&
+    def backlog_bucket_creation_allowed?
+      user_allowed?(:create_sprints)
+    end
+
+    def sprint_creation_allowed?
+      user_allowed?(:create_sprints) &&
         !project.receive_shared_sprints?
     end
 
-    def allow_sprint_management?(project)
-      current_user.allowed_in_project?(:share_sprint, project)
+    def sprint_management_allowed?
+      user_allowed?(:share_sprint)
     end
 
     def show_all_backlog

@@ -12,7 +12,7 @@ services:
       - POSTGRES_PASSWORD=keycloak
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.2
+    image: quay.io/keycloak/keycloak:26.6
     command:
     - "start-dev"
     - "--proxy-headers"

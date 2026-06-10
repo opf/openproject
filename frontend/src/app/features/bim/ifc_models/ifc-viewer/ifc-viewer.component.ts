@@ -26,16 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { IFCViewerService } from 'core-app/features/bim/ifc_models/ifc-viewer/ifc-viewer.service';
 import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/viewer/ifc-models-data.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -56,6 +47,12 @@ import { filter, take } from 'rxjs/operators';
   standalone: false,
 })
 export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
+  ifcData = inject(IfcModelsDataService);
+  private I18n = inject(I18nService);
+  private ifcViewerService = inject(IFCViewerService);
+  private currentUserService = inject(CurrentUserService);
+  private currentProjectService = inject(CurrentProjectService);
+
   private viewInitialized$ = new Subject<void>();
 
   modelCount:number = this.ifcData.models.length;
@@ -85,14 +82,6 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('inspectorPane') inspectorElement:ElementRef;
 
   @ViewChild('xeokitToolbarIcons') xeokitToolbarIcons:ElementRef;
-
-  constructor(
-    public ifcData:IfcModelsDataService,
-    private I18n:I18nService,
-    private ifcViewerService:IFCViewerService,
-    private currentUserService:CurrentUserService,
-    private currentProjectService:CurrentProjectService,
-  ) { }
 
   ngOnInit():void {
     if (this.modelCount === 0) {

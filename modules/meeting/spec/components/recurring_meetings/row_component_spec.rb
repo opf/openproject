@@ -135,6 +135,40 @@ RSpec.describe RecurringMeetings::RowComponent, type: :component do
           end
         end
       end
+
+      context "with an ongoing instantiated meeting" do
+        let(:meeting) do
+          build_stubbed(:meeting,
+                        project:,
+                        recurring_meeting:,
+                        recurrence_start_time: 30.minutes.ago,
+                        start_time: 30.minutes.ago,
+                        duration: 2)
+        end
+        let(:row_model) { meeting }
+
+        it "shows cancel menu item" do
+          expect(subject).to have_link "Cancel this occurrence",
+                                       href: delete_dialog_project_meeting_path(project, meeting)
+        end
+      end
+
+      context "with a past instantiated meeting" do
+        let(:meeting) do
+          build_stubbed(:meeting,
+                        project:,
+                        recurring_meeting:,
+                        recurrence_start_time: 2.days.ago,
+                        start_time: 2.days.ago,
+                        duration: 1)
+        end
+        let(:row_model) { meeting }
+
+        it "shows delete menu item" do
+          expect(subject).to have_link "Delete occurrence",
+                                       href: delete_dialog_project_meeting_path(project, meeting)
+        end
+      end
     end
   end
 end

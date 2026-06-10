@@ -33,7 +33,9 @@ require "digest/sha1"
 class User < Principal
   ScimEmail = Struct.new("ScimEmail", :value, :primary, :type)
 
-  VALID_NAME_REGEX = /\A[\d\p{Alpha}\p{Mark}\p{Space}\p{Emoji}'’´\-_.,@()+&*–]+\z/
+  VALID_NAME_CHARS = "\\d\\p{Alpha}\\p{Mark}\\p{Space}\\p{Emoji}'\\u{2019}´\\-_.,@()+&*–"
+  INVALID_NAME_REGEX = /[^#{VALID_NAME_CHARS}]/
+  VALID_NAME_REGEX   = /\A[#{VALID_NAME_CHARS}]+\z/
   CURRENT_USER_LOGIN_ALIAS = "me"
   USER_FORMATS_STRUCTURE = {
     firstname_lastname: %i[firstname lastname],
@@ -112,6 +114,18 @@ class User < Principal
   has_many :reminders, foreign_key: "creator_id", dependent: :destroy, inverse_of: :creator
   has_many :remote_identities, dependent: :destroy
 
+  # Resource allocations assigned to this user. Normal user-deletion goes
+  # through Principals::DeleteJob, which rewrites principal_id to a
+  # DeletedUser placeholder before destroy fires (registered in the
+  # resource_management engine). The `dependent: :nullify` here is a
+  # defensive fallback if a user is destroyed outside that flow — the column
+  # is already nullable for the unassigned/filter-only state.
+  has_many :resource_allocations,
+           class_name: "ResourceAllocation",
+           foreign_key: :principal_id,
+           dependent: :nullify,
+           inverse_of: :principal
+
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }
@@ -140,7 +154,7 @@ class User < Principal
 
   acts_as_customizable admin_only_allowed: true
 
-  attr_accessor :password, :password_confirmation, :last_before_login_on
+  attr_accessor :password, :password_confirmation, :last_before_login_on, :current_password_input
 
   validates :login,
             :firstname,

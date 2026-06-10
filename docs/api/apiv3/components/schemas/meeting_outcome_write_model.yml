@@ -1,0 +1,26 @@
+# Schema: MeetingOutcomeWriteModel
+---
+type: object
+properties:
+  kind:
+    type: string
+    description: |-
+      The type of this outcome. Possible values:
+
+      - *information*: an informational outcome with notes
+      - *work_package*: an outcome linked to a work package
+    enum:
+      - information
+      - work_package
+  notes:
+    $ref: "./formattable.yml"
+  _links:
+    type: object
+    properties:
+      workPackage:
+        allOf:
+          - $ref: "./link.yml"
+          - description: |-
+              The linked work package (for work_package type outcomes)
+
+              **Resource**: WorkPackage

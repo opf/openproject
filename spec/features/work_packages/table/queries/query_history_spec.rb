@@ -121,6 +121,7 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
     wp_table.expect_title(version_query.name)
     wp_table.expect_work_package_listed work_package_3
     filters.expect_filter_count 2
+    filters.ensure_open
     filters.expect_filter_by("Status", "open", nil)
     filters.expect_filter_by("Version", "is (OR)", version.name)
 
@@ -128,7 +129,7 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
 
     wp_table.expect_title(assignee_query.name)
     wp_table.expect_work_package_listed work_package_2
-    filters.open
+    filters.ensure_open
     filters.expect_filter_by("Status", "open", nil)
     filters.expect_filter_by("Assignee", "is (OR)", user.name)
 
@@ -138,14 +139,14 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
     wp_table.expect_work_package_listed work_package_1
     wp_table.expect_work_package_listed work_package_2
     wp_table.expect_work_package_listed work_package_3
-    filters.open
+    filters.ensure_open
     filters.expect_filter_by("Status", "open", nil)
 
     page.execute_script("window.history.forward()")
 
     wp_table.expect_title(assignee_query.name)
     wp_table.expect_work_package_listed work_package_2
-    filters.open
+    filters.ensure_open
     filters.expect_filter_by("Status", "open", nil)
     filters.expect_filter_by("Assignee", "is (OR)", user.name)
 
@@ -153,7 +154,7 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
 
     wp_table.expect_title(version_query.name)
     wp_table.expect_work_package_listed work_package_3
-    filters.open
+    filters.ensure_open
     filters.expect_filter_by("Status", "open", nil)
     filters.expect_filter_by("Version", "is (OR)", version.name)
 
@@ -161,7 +162,7 @@ RSpec.describe "Going back and forth through the browser history", :js, :seleniu
 
     wp_table.expect_title(version_query.name)
     wp_table.expect_no_work_package_listed
-    filters.open
+    filters.ensure_open
     filters.expect_filter_by("Status", "open", nil)
     filters.expect_filter_by("Version", "is (OR)", version.name)
     filters.expect_filter_by("Assignee", "is (OR)", user.name)

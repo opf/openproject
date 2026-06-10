@@ -36,6 +36,7 @@ sl:
         subject: Zadeva
         type: Vrsta stroška
         labor_budget: Načrtovani stroški dela
+        labor_budget_items: Planned labor costs
         material_budget: Načrtovani stroški enote
         base_amount: Base amount
       work_package:
@@ -48,6 +49,7 @@ sl:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Proračun
+      labor_budget_item: Planned labor cost
       material_budget_item: Enota
   activity:
     filter:

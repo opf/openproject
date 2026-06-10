@@ -27,12 +27,12 @@
 //++
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { BcfPathHelperService } from 'core-app/features/bim/bcf/helper/bcf-path-helper.service';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
 
 export class BcfThumbnailDisplayField extends DisplayField {
-  @InjectField() bcfPathHelper:BcfPathHelperService;
+  @LazyInject() bcfPathHelper:BcfPathHelperService;
 
   public render(element:HTMLElement, _displayText:string):void {
     const viewpoints = this.resource.bcfViewpoints as HalLink[];

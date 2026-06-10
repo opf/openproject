@@ -41,174 +41,228 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
   current_user { user }
 
   let(:project) { create(:project, types: [type_feature, type_task]) }
-  let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date: Date.yesterday, finish_date: Date.tomorrow) }
+  let(:sprint) do
+    create(:sprint, project:, name: "Sprint 1",
+                    start_date: Date.yesterday, finish_date: Date.tomorrow)
+  end
 
-  def render_component
+  subject(:rendered_component) do
     render_inline(described_class.new(sprint:, project:, current_user: user))
   end
 
+  def menu_items
+    page.all(:role, :menuitem).map { it.text.squish }
+  end
+
   describe "rendering" do
-    context "with stories" do
-      let!(:story1) do
-        create(:work_package,
-               project:,
-               type: type_feature,
-               status: default_status,
-               priority: default_priority,
-               story_points: 5,
-               position: 1,
-               sprint:)
+    context "with work packages" do
+      let!(:work_package1) do
+        create(:work_package, project:, type: type_feature, status: default_status,
+                              priority: default_priority, story_points: 5, position: 1, sprint:)
       end
-      let!(:story2) do
-        create(:work_package,
-               project:,
-               type: type_feature,
-               status: default_status,
-               priority: default_priority,
-               story_points: 3,
-               position: 2,
-               sprint:)
+      let!(:work_package2) do
+        create(:work_package, project:, type: type_feature, status: default_status,
+                              priority: default_priority, story_points: 3, position: 2, sprint:)
       end
 
-      it "renders a Primer::Beta::BorderBox" do
-        render_component
+      it_behaves_like "rendering Box", row_count: 2, header: true, footer: false
 
-        expect(page).to have_css(".Box")
+      it "renders a Primer::Beta::BorderBox with the sprint id" do
+        expect(rendered_component).to have_css(".Box#sprint_#{sprint.id}")
       end
 
-      it "has the sprint ID in the DOM id" do
-        render_component
-
-        expect(page).to have_css(".Box#sprint_#{sprint.id}")
+      it "renders the sprint title in the header" do
+        expect(rendered_component).to have_heading "Sprint 1", level: 4
+        expect(rendered_component).to have_css("h4.f4", text: "Sprint 1")
       end
 
-      it "renders SprintHeaderComponent in header" do
-        render_component
-
-        expect(page).to have_css(".Box-header h3", text: "Sprint 1")
+      it "renders the story points total in the header description" do
+        expect(rendered_component).to have_text("8 points", normalize_ws: true)
       end
 
-      it "renders a stable id on the sprint header" do
-        render_component
-
-        expect(page).to have_element(:div, class: "Box-header", id: /\Asprint_#{sprint.id}_header\z/)
+      it "renders the inferred work-package count in the header" do
+        expect(rendered_component).to have_css(
+          ".Counter",
+          text: "2",
+          aria: { label: I18n.t(:label_x_work_packages, count: 2), live: "polite" }
+        )
       end
 
-      it "renders StoryComponent for each story" do
-        render_component
-
-        expect(page).to have_css(".Box-row", count: 2) # 2 stories
-        expect(page).to have_text(story1.subject)
-        expect(page).to have_text(story2.subject)
+      it "renders story points on each work package card" do
+        expect(rendered_component).to have_css("span", text: "5", aria: { hidden: true })
+        expect(rendered_component).to have_css(".sr-only", text: "5 story points")
+        expect(rendered_component).to have_css("span", text: "3", aria: { hidden: true })
+        expect(rendered_component).to have_css(".sr-only", text: "3 story points")
       end
 
-      it "has drop target data attributes" do
-        render_component
-
-        box = page.find(".Box")
-        expect(box["data-generic-drag-and-drop-target"]).to eq("container")
-        expect(box["data-target-container-accessor"]).to eq(":scope > ul")
-        expect(box["data-target-id"]).to eq("sprint:#{sprint.id}")
-        expect(box["data-target-allowed-drag-type"]).to eq("story")
+      it "renders one Box-row per work package" do
+        expect(rendered_component).to have_css(".Box-row", count: 2)
+        expect(rendered_component).to have_text(work_package1.subject)
+        expect(rendered_component).to have_text(work_package2.subject)
       end
 
-      it "has draggable data attributes on story rows" do
-        render_component
-
-        story_row = page.find(".Box-row[id='work_package_#{story1.id}']")
-        expect(story_row["data-draggable-id"]).to eq(story1.id.to_s)
-        expect(story_row["data-draggable-type"]).to eq("story")
-        expected_path = move_project_backlogs_work_package_path(project, sprint_id: sprint.id, id: story1.id)
-        expect(story_row["data-drop-url"]).to end_with(expected_path)
+      it "wires drop-target data attributes for the sprint" do
+        expect(rendered_component).to have_css(".Box") do |box|
+          expect(box["data-generic-drag-and-drop-target"]).to eq("container")
+          expect(box["data-target-container-accessor"]).to eq(":scope > ul")
+          expect(box["data-target-id"]).to eq("sprint:#{sprint.id}")
+          expect(box["data-target-allowed-drag-type"]).to eq("story")
+        end
       end
 
-      it "builds split-view and full-view URLs from the numeric id in classic mode" do
-        render_component
-
-        story_row = page.find(".Box-row[id='work_package_#{story1.id}']")
-        expect(story_row["data-backlogs--story-id-value"]).to eq(story1.id.to_s)
-        expect(story_row["data-backlogs--story-display-id-value"]).to eq(story1.id.to_s)
-        expect(story_row["data-backlogs--story-split-url-value"])
-          .to end_with(project_backlogs_backlog_details_path(project, story1.id))
-        expect(story_row["data-backlogs--story-full-url-value"])
-          .to end_with(work_package_path(story1.id))
+      it "passes an explicit sprint test selector to the shared box" do
+        expect(rendered_component).to have_css(".Box[data-test-selector='sprint-#{sprint.id}']")
       end
 
-      context "in semantic mode",
-              with_flag: { semantic_work_package_ids: true },
-              with_settings: { work_packages_identifier: "semantic" } do
-        let(:project) { create(:project, types: [type_feature, type_task], identifier: "SPRINT") }
-
-        it "builds split-view and full-view URLs from the semantic displayId" do
-          render_component
-
-          semantic_id = story1.reload.identifier
-          expect(semantic_id).to start_with("SPRINT-")
-
-          story_row = page.find(".Box-row[id='work_package_#{story1.id}']")
-          expect(story_row["data-backlogs--story-display-id-value"]).to eq(semantic_id)
-          expect(story_row["data-backlogs--story-split-url-value"])
-            .to end_with(project_backlogs_backlog_details_path(project, semantic_id))
-          expect(story_row["data-backlogs--story-split-url-value"])
-            .not_to include("/details/#{story1.id}")
-          expect(story_row["data-backlogs--story-full-url-value"])
-            .to end_with(work_package_path(semantic_id))
-          expect(story_row["data-backlogs--story-full-url-value"])
-            .not_to include("/work_packages/#{story1.id}")
+      it "wires draggable data on work package rows" do
+        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
+          expect(row["data-draggable-id"]).to eq(work_package1.id.to_s)
+          expect(row["data-draggable-type"]).to eq("story")
+          expect(row["data-backlogs--story-display-id-value"]).to eq(work_package1.display_id.to_s)
+          expect(row["data-drop-url"])
+            .to end_with(move_project_backlogs_work_package_path(project, work_package1))
         end
       end
 
       context "when params[:all] is true" do
-        before { vc_test_controller.params[:all] = "1" }
+        before do
+          vc_test_controller.params[:all] = "1"
+        end
 
-        it "includes the all param on story drop URLs" do
-          render_component
-
-          expect(page).to have_css(%(.Box-row#work_package_#{story1.id}[data-drop-url*="all=1"]))
+        it "propagates ?all=1 to the work package drop URL" do
+          expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
+            expect(row["data-drop-url"])
+              .to eq(move_project_backlogs_work_package_path(project, work_package1, all: "1"))
+          end
         end
       end
 
-      it "renders story rows with proper classes" do
-        render_component
-
-        story_row = page.find(".Box-row[id='work_package_#{story1.id}']")
-        expect(story_row[:class]).to include("Box-row--hover-blue")
-        expect(story_row[:class]).to include("Box-row--focus-gray")
-        expect(story_row[:class]).to include("Box-row--clickable")
+      it "renders the sprint kebab menu in the header" do
+        expect(rendered_component).to have_element :"action-menu"
       end
     end
 
     context "when the user lacks the manage_sprint_items permission" do
       let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages]) }
       let(:user) { create(:user, member_with_roles: { project => role }) }
-      let!(:story1) do
-        create(:work_package,
-               project:,
-               type: type_feature,
-               status: default_status,
-               priority: default_priority,
-               story_points: 5,
-               position: 1,
-               sprint: sprint)
+      let!(:work_package1) do
+        create(:work_package, project:, type: type_feature, status: default_status,
+                              priority: default_priority, story_points: 5, position: 1, sprint:)
       end
 
-      it "does not mark story rows as draggable" do
-        render_component
-
-        story_row = page.find(".Box-row[id='work_package_#{story1.id}']")
-        expect(story_row[:class]).to include("Box-row--hover-blue", "Box-row--focus-gray",
-                                             "Box-row--clickable")
-        expect(story_row[:class]).not_to include("Box-row--draggable")
-        expect(story_row["data-draggable-id"]).to be_nil
-        expect(story_row["data-draggable-type"]).to be_nil
-        expect(story_row["data-drop-url"]).to be_nil
+      it "does not mark work package rows as draggable" do
+        expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}")
+        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}.Box-row--draggable")
+        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[data-draggable-id]")
+        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[data-drop-url]")
       end
     end
 
-    context "without stories" do
-      let(:rendered_component) { render_component }
-
+    context "without work packages" do
+      it_behaves_like "rendering Box", row_count: 1, header: true, footer: false
       it_behaves_like "rendering Blank Slate", heading: "Sprint 1 is empty"
+
+      it "renders the empty-state blankslate" do
+        expect(rendered_component).to have_text("Sprint 1 is empty")
+      end
+    end
+
+    describe "sprint status badge in header description" do
+      context "when the sprint is in planning" do
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
+                          status: "in_planning")
+        end
+
+        it "renders the status badge" do
+          expect(rendered_component).to have_css(".Label", text: "In planning")
+        end
+      end
+
+      context "when the sprint is active" do
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: Date.yesterday, finish_date: Date.tomorrow,
+                          status: "active")
+        end
+
+        it "renders the status badge" do
+          expect(rendered_component).to have_css(".Label", text: "Active")
+        end
+      end
+
+      context "when the sprint is completed" do
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: 2.weeks.ago, finish_date: 1.week.ago,
+                          status: "completed")
+        end
+
+        it "renders the status badge" do
+          expect(rendered_component).to have_css(".Label", text: "Completed")
+        end
+      end
+    end
+
+    describe "sprint actions in header" do
+      context "when the sprint is in planning with date range set" do
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: Date.tomorrow, finish_date: Date.tomorrow + 7,
+                          status: "in_planning")
+        end
+
+        it "renders the start-sprint link enabled" do
+          expect(rendered_component).to have_link("Start sprint")
+        end
+      end
+
+      context "when the sprint is in planning without start date" do
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: nil,
+                          status: "in_planning")
+        end
+
+        it "renders the start-sprint button as disabled" do
+          expect(rendered_component).to have_selector(:link_or_button, "Start sprint", aria: { disabled: true })
+        end
+      end
+
+      context "when the sprint is active" do
+        let(:sprint) do
+          create(:sprint, project:, name: "Sprint 1",
+                          start_date: Date.yesterday, finish_date: Date.tomorrow,
+                          status: "active")
+        end
+        let!(:task_board) { create(:board_grid_with_query, project:, linked: sprint) }
+
+        it "renders the complete-sprint link" do
+          expect(rendered_component).to have_link("Complete sprint")
+        end
+
+        context "when params[:all] is true" do
+          before do
+            vc_test_controller.params[:all] = "1"
+          end
+
+          it "preserves ?all=1 on the complete-sprint link" do
+            expect(rendered_component).to have_link(
+              "Complete sprint",
+              href: finish_project_backlogs_sprint_path(project, sprint, all: 1)
+            )
+          end
+        end
+
+        it "preserves the grouped sprint action-menu structure" do
+          rendered_component
+
+          expect(menu_items).to eq(["Edit sprint", "Add work package", "Sprint board", "Burndown chart"])
+          # The three item groups are separated by presentation-only dividers.
+          expect(page).to have_css("li[role='presentation']", count: 2)
+        end
+      end
     end
   end
 end

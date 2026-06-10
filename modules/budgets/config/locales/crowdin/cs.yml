@@ -36,6 +36,7 @@ cs:
         subject: Předmět
         type: Typ nákladu
         labor_budget: Plánované mzdové náklady
+        labor_budget_items: Planned labor costs
         material_budget: Plánované jednotkové náklady
         base_amount: Základní částka
       work_package:
@@ -48,6 +49,7 @@ cs:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Rozpočet
+      labor_budget_item: Planned labor cost
       material_budget_item: Jednotka
   activity:
     filter:

@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Component, DebugElement, Input } from '@angular/core';
-import { By } from "@angular/platform-browser";
-import { PullRequestComponent } from "./pull-request.component";
+import { By } from '@angular/platform-browser';
+import { PullRequestComponent } from './pull-request.component';
 import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { IGithubCheckRunResource, IGithubPullRequest, IGithubUserResource } from '../state/github-pull-request.model';
 import { PullRequestStateComponent } from './pull-request-state.component';
 
 @Component({
   selector: 'op-date-time',
-  template: ``,
+  template: '',
   standalone: false,
 })
 class OpDateTimeComponent {
-  @Input('dateTimeValue') dateTimeValue:any;
+  @Input()
+  dateTimeValue:any;
 }
 
 describe('PullRequestComponent', () => {
@@ -39,10 +40,10 @@ describe('PullRequestComponent', () => {
   const pullRequestStub:IGithubPullRequest = {
     id: 3,
     additionsCount: 3,
-    body:{
+    body: {
       format: '',
       raw: 'test raw',
-      html:'<p>test</p>',
+      html: '<p>test</p>',
     },
     changedFilesCount: 3,
     commentsCount: 3,
@@ -74,20 +75,20 @@ describe('PullRequestComponent', () => {
     _embedded: {
       githubUser,
       mergedBy: githubUser,
-      checkRuns:[checkRun],
+      checkRuns: [checkRun],
     }
-  }
+  };
 
   beforeEach(async () => {
     await TestBed
       .configureTestingModule({
-        declarations: [
-          PullRequestComponent,
-          OpDateTimeComponent,
-          OpIconComponent,
-          PullRequestStateComponent,
-        ],
-      })
+      declarations: [
+        PullRequestComponent,
+        OpDateTimeComponent,
+        OpIconComponent,
+        PullRequestStateComponent,
+      ],
+    })
       .compileComponents();
   });
 

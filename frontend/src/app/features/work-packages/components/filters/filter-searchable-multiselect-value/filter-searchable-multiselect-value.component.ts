@@ -10,16 +10,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { take } from 'rxjs/internal/operators/take';
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ApiV3FilterBuilder } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
@@ -44,6 +35,14 @@ import { MAGIC_FILTER_AUTOCOMPLETE_PAGE_SIZE } from 'core-app/core/apiv3/helpers
   standalone: false,
 })
 export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMixin implements OnInit {
+  readonly halResourceService = inject(HalResourceService);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly I18n = inject(I18nService);
+  protected currentProject = inject(CurrentProjectService);
+  protected currentUser = inject(CurrentUserService);
+  readonly halNotification = inject(HalResourceNotificationService);
+
   @Input() public filter:QueryFilterInstanceResource;
 
   @Input() public shouldFocus = false;
@@ -84,18 +83,6 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   @ViewChild('ngSelectInstance', { static: true }) ngSelectInstance:NgSelectComponent;
-
-  constructor(
-    readonly halResourceService:HalResourceService,
-    readonly apiV3Service:ApiV3Service,
-    readonly cdRef:ChangeDetectorRef,
-    readonly I18n:I18nService,
-    protected currentProject:CurrentProjectService,
-    protected currentUser:CurrentUserService,
-    readonly halNotification:HalResourceNotificationService,
-  ) {
-    super();
-  }
 
   ngOnInit():void {
     if (this.filter.id === 'id') {

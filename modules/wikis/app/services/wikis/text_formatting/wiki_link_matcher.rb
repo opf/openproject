@@ -60,16 +60,11 @@ module Wikis
       end
 
       def process
-        provider = Wikis::Provider.find_by(id: @provider_id)
+        provider = Provider.find_by(id: @provider_id)
         view_context = ApplicationController.new.view_context
-        OpPrimer::InlineMacroComponent.new.render_in(view_context) do |component|
-          component.with_leading_visual_icon(icon: :"op-file-doc")
+        page_info_result = resolve_page(provider, @identifier)
 
-          resolve_page(provider, @identifier).either(
-            ->(page_info) { render_page_info_macro(view_context, page_info) },
-            ->(error) { render_error_macro(view_context, error) }
-          )
-        end
+        InlinePageLinkMacroComponent.new(page_info_result).render_in(view_context)
       end
 
       private
@@ -77,17 +72,11 @@ module Wikis
       def resolve_page(provider, identifier)
         return Failure() if provider.nil?
 
-        Wikis::Adapters::Input::PageInfo.build(identifier:).bind do |input|
-          provider.resolve("queries.page_info").call(input)
+        Adapters::Input::PageInfo.build(identifier:).bind do |input_data|
+          provider.auth_strategy_for(User.current).bind do |auth_strategy|
+            provider.resolve("queries.page_info").call(input_data:, auth_strategy:)
+          end
         end
-      end
-
-      def render_page_info_macro(view_context, page_info)
-        Primer::Beta::Link.new(href: page_info.href).render_in(view_context) { page_info.title }
-      end
-
-      def render_error_macro(view_context, _error)
-        Primer::Beta::Text.new(color: :muted).render_in(view_context) { I18n.t("wikis.macro.page_not_found") }
       end
     end
   end

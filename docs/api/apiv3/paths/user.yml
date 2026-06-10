@@ -8,13 +8,13 @@ delete:
     - Users
     - Principals
   parameters:
-    - description: User id
+    - description: User id. Use `me` to reference current user, if any.
       example: 1
       in: path
       name: id
       required: true
       schema:
-        type: integer
+        type: string
   responses:
     '202':
       description: |-
@@ -94,14 +94,16 @@ patch:
   description: |-
     Updates the user's writable attributes.
     When calling this endpoint the client provides a single object, containing at least the properties and links that are required, in the body.
+
+    Password updates for self-service account changes require both `password` and `currentPassword`.
   parameters:
-    - description: User id
+    - description: User id. Use `me` to reference current user, if any.
       example: 1
       in: path
       name: id
       required: true
       schema:
-        type: integer
+        type: string
   requestBody:
     content:
       application/json:
@@ -151,13 +153,23 @@ patch:
         application/hal+json:
           schema:
             $ref: '../components/schemas/error_response.yml'
-          example:
-            _embedded:
-              details:
-                attribute: email
-            _type: Error
-            errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
-            message: The email address is already taken.
+          examples:
+            email constraint violation:
+              value:
+                _embedded:
+                  details:
+                    attribute: email
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: The email address is already taken.
+            invalid current password:
+              value:
+                _embedded:
+                  details:
+                    attribute: currentPassword
+                _type: Error
+                errorIdentifier: urn:openproject-org:api:v3:errors:PropertyConstraintViolation
+                message: Current password is invalid.
       description: |-
         Returned if:
 

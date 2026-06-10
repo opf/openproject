@@ -1,4 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
+import { toggleEnabled } from 'core-app/shared/helpers/dom-helpers';
 
 export default class UsersController extends Controller {
   static targets = [
@@ -34,10 +35,8 @@ export default class UsersController extends Controller {
   }
 
   private toggleHiddenAndDisabled(target:HTMLElement, hiddenAndDisabled:boolean) {
-    target.hidden = hiddenAndDisabled;
+    toggleEnabled(target, !hiddenAndDisabled, true);
     target.querySelectorAll('input')
-      .forEach((el:HTMLInputElement) => {
-        el.disabled = hiddenAndDisabled;
-      });
+      .forEach((el:HTMLInputElement) => toggleEnabled(el, !hiddenAndDisabled));
   }
 }

@@ -82,9 +82,7 @@ RSpec.describe Projects::UpdateService, type: :model do
       end
     end
 
-    describe "calculated custom fields",
-             with_ee: %i[calculated_values],
-             with_flag: { calculated_value_project_attribute: true } do
+    describe "calculated custom fields", with_ee: %i[calculated_values] do
       let(:project) { create(:project) }
       let!(:model_instance) { project }
       # Remove the set_attributes_service mocking to use the real service.

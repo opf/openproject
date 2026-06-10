@@ -2,7 +2,7 @@ import { States } from 'core-app/core/states/states.service';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { AuthorisationService } from 'core-app/core/model-auth/model-auth.service';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
 import { take } from 'rxjs/operators';
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
@@ -29,29 +29,28 @@ import { WorkPackageViewBaselineService } from 'core-app/features/work-packages/
 
 @Injectable()
 export class WorkPackageStatesInitializationService {
-  constructor(
-    protected states:States,
-    protected querySpace:IsolatedQuerySpace,
-    protected wpTableColumns:WorkPackageViewColumnsService,
-    protected wpTableGroupBy:WorkPackageViewGroupByService,
-    protected wpTableGroupFold:WorkPackageViewCollapsedGroupsService,
-    protected wpTableSortBy:WorkPackageViewSortByService,
-    protected wpTableFilters:WorkPackageViewFiltersService,
-    protected wpTableSum:WorkPackageViewSumService,
-    protected wpTableTimeline:WorkPackageViewTimelineService,
-    protected wpTableHierarchies:WorkPackageViewHierarchiesService,
-    protected wpTableHighlighting:WorkPackageViewHighlightingService,
-    protected wpTableRelationColumns:WorkPackageViewRelationColumnsService,
-    protected wpTablePagination:WorkPackageViewPaginationService,
-    protected wpTableOrder:WorkPackageViewOrderService,
-    protected wpTableAdditionalElements:WorkPackageViewAdditionalElementsService,
-    protected apiV3Service:ApiV3Service,
-    protected wpListChecksumService:WorkPackagesListChecksumService,
-    protected authorisationService:AuthorisationService,
-    protected wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService,
-    protected wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService,
-    protected wpTimestamps:WorkPackageViewBaselineService,
-  ) { }
+  protected states = inject(States);
+  protected querySpace = inject(IsolatedQuerySpace);
+  protected wpTableColumns = inject(WorkPackageViewColumnsService);
+  protected wpTableGroupBy = inject(WorkPackageViewGroupByService);
+  protected wpTableGroupFold = inject(WorkPackageViewCollapsedGroupsService);
+  protected wpTableSortBy = inject(WorkPackageViewSortByService);
+  protected wpTableFilters = inject(WorkPackageViewFiltersService);
+  protected wpTableSum = inject(WorkPackageViewSumService);
+  protected wpTableTimeline = inject(WorkPackageViewTimelineService);
+  protected wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
+  protected wpTableHighlighting = inject(WorkPackageViewHighlightingService);
+  protected wpTableRelationColumns = inject(WorkPackageViewRelationColumnsService);
+  protected wpTablePagination = inject(WorkPackageViewPaginationService);
+  protected wpTableOrder = inject(WorkPackageViewOrderService);
+  protected wpTableAdditionalElements = inject(WorkPackageViewAdditionalElementsService);
+  protected apiV3Service = inject(ApiV3Service);
+  protected wpListChecksumService = inject(WorkPackagesListChecksumService);
+  protected authorisationService = inject(AuthorisationService);
+  protected wpDisplayRepresentation = inject(WorkPackageViewDisplayRepresentationService);
+  protected wpIncludeSubprojects = inject(WorkPackageViewIncludeSubprojectsService);
+  protected wpTimestamps = inject(WorkPackageViewBaselineService);
+
 
   /**
    * Initialize the query and table states from the given query and results.
@@ -90,7 +89,7 @@ export class WorkPackageStatesInitializationService {
     const schema:QuerySchemaResource = form.schema as any;
 
     _.each(schema.filtersSchemas.elements, (schema) => {
-      this.states.schemas.get(schema.href!).putValue(schema as any);
+      this.states.schemas.get(schema.href!).putValue(schema);
     });
 
     this.wpTableFilters.initializeFilters(query, schema);

@@ -566,7 +566,9 @@ module Journals
     end
 
     def within_aggregation_time?(predecessor)
-      predecessor.updated_at >= (Time.zone.now - Setting.journal_aggregation_time_minutes.to_i.minutes)
+      minutes = journable.class.try(:journal_aggregation_time_minutes) ||
+                Setting.journal_aggregation_time_minutes.to_i
+      predecessor.updated_at >= (Time.zone.now - minutes.minutes)
     end
 
     def same_user?(predecessor)

@@ -46,11 +46,11 @@ RSpec.describe ProjectIdentifiers::ConvertInstanceToSemanticIdsJob,
         expect(GoodJob::Job.where(job_class: ProjectIdentifiers::ConvertProjectToSemanticIdsJob.name).count).to eq(2)
       end
 
-      it "sets FinishSemanticConversionJob as the on_success callback" do
+      it "sets FinishSemanticConversionJob as the on_finish callback" do
         allow(GoodJob::Batch).to receive(:enqueue).and_call_original
         job.perform
         expect(GoodJob::Batch).to have_received(:enqueue)
-          .with(hash_including(on_success: ProjectIdentifiers::FinishSemanticConversionJob))
+          .with(hash_including(on_finish: ProjectIdentifiers::FinishSemanticConversionJob))
       end
     end
 

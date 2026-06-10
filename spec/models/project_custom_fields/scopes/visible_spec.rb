@@ -106,4 +106,28 @@ RSpec.describe ProjectCustomFields::Scopes::Visible do
       end
     end
   end
+
+  describe ".visible with project:" do
+    context "when user has view_project_attributes in one project but project: is a different project" do
+      let(:role) { create(:project_role, permissions: %i(view_project_attributes)) }
+      let(:current_user) { create(:user, member_with_roles: { project => role }) }
+
+      subject { ProjectCustomField.visible(current_user, project: other_project) }
+
+      it "returns nothing (CF not active in the specified project)" do
+        expect(subject).to be_empty
+      end
+    end
+
+    context "when user has view_project_attributes and project: matches their project" do
+      let(:role) { create(:project_role, permissions: %i(view_project_attributes)) }
+      let(:current_user) { create(:user, member_with_roles: { project => role }) }
+
+      subject { ProjectCustomField.visible(current_user, project:) }
+
+      it "returns only CFs active in that project" do
+        expect(subject).to contain_exactly(project_cf)
+      end
+    end
+  end
 end

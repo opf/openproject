@@ -47,7 +47,7 @@ class WorkPackageMailer < ApplicationMailer
       send_localized_mail(recipient) do
         I18n.t(:"mail.mention.subject",
                user_name: author.name,
-               id: @work_package.id,
+               id: @work_package.formatted_id,
                subject: @work_package.subject)
       end
     end
@@ -73,7 +73,7 @@ class WorkPackageMailer < ApplicationMailer
 
   def subject_for_work_package(work_package)
     "#{work_package.project.name} - #{work_package.status.name} #{work_package.type.name} " +
-      "##{work_package.id}: #{work_package.subject}"
+      "#{work_package.formatted_id}: #{work_package.subject}"
   end
 
   def set_work_package_headers(work_package)

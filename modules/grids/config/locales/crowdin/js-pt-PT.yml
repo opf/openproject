@@ -33,7 +33,7 @@ pt-PT:
           title: Sub-elementos
         project_favorites:
           title: Projetos favoritos
-          no_results: Atualmente, não tem projetos favoritos. Clique no ícone da estrela no painel do projeto para adicionar um projeto aos seus favoritos.
+          no_results: Não tem nenhum projeto favorito. Adicione um ou vários projetos aos favoritos a partir da respetiva página de síntese ou numa lista de projetos.
         time_entries_current_user:
           title: O meu tempo gasto
           displayed_days: 'Dias exibidos no widget:'

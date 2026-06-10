@@ -44,10 +44,10 @@ RSpec.describe "Backlog pagination state", :js do
   current_user { create(:admin) }
 
   before do
-    # Stub thresholds so only 6 work packages are needed to trigger pagination
-    stub_const("Backlogs::InboxComponent::PAGINATION_THRESHOLD", 5)
-    stub_const("Backlogs::InboxComponent::FIRST_PAGE_SIZE", 3)
-    stub_const("Backlogs::InboxComponent::LAST_PAGE_SIZE", 2)
+    # Stub the threshold so only 6 work packages are needed to trigger pagination.
+    # The inbox derives tail = max(truncate_middle / 5, 1) and the truncation
+    # threshold as truncate_middle + tail*2 = 5; 6 > 5 triggers the show-more row.
+    stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 3)
 
     backlogs_page.visit!
     backlogs_page.expect_inbox_show_more
@@ -55,8 +55,7 @@ RSpec.describe "Backlog pagination state", :js do
     backlogs_page.expect_no_inbox_show_more
   end
 
-  it "preserves the expanded backlog state after sprint and backlog bucket actions",
-     with_flag: { backlog_buckets: true } do
+  it "preserves the expanded backlog state after sprint and backlog bucket actions" do
     # Create sprint
     backlogs_page.open_create_sprint_dialog
 
@@ -71,7 +70,7 @@ RSpec.describe "Backlog pagination state", :js do
     backlogs_page.expect_no_inbox_show_more
 
     # Create backlog bucket
-    backlogs_page.open_create_backlog_bucket_dialog
+    backlogs_page.open_create_bucket_dialog
 
     within_dialog "New backlog bucket" do
       fill_in "Name", with: "New bucket"
@@ -95,10 +94,9 @@ RSpec.describe "Backlog pagination state", :js do
     backlogs_page.expect_no_inbox_show_more
 
     # Delete backlog bucket
-    accept_confirm do
-      sleep 0.5
-      backlogs_page.click_in_backlog_bucket_menu(bucket, "Delete backlog bucket")
-    end
+    backlogs_page.click_in_backlog_bucket_menu(bucket, "Delete backlog bucket")
+
+    backlogs_page.expect_and_confirm_backlog_bucket_delete_modal
 
     expect_and_dismiss_flash type: :success, exact_message: "Successful deletion."
     backlogs_page.expect_no_inbox_show_more

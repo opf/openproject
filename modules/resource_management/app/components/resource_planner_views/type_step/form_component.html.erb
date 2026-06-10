@@ -1,0 +1,14 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      url: new_project_resource_planner_view_path(@project, @resource_planner),
+      method: :get,
+      html: {
+        data: { turbo_stream: true },
+        id: ResourcePlannerViews::NewDialogComponent::FORM_ID
+      }
+    ) do |f|
+      render(ResourcePlannerViews::Forms::TypeSelectForm.new(f))
+    end
+  end
+%>

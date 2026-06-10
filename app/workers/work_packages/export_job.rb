@@ -41,7 +41,7 @@ module WorkPackages
     private
 
     def prepare!
-      self.query = set_query_props(query || Query.new, options[:query_attributes])
+      self.query = set_query_props(query || Query.new, job_query_attributes)
     end
 
     def set_query_props(query, query_attributes)

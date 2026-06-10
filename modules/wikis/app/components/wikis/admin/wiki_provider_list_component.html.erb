@@ -29,7 +29,7 @@
             end
 
             grid.with_area(:provider, tag: :div, color: :subtle, mr: 3, hide: :sm) do
-              render(Primer::Beta::Text.new(color: :subtle)) { wiki_provider.model_name.human }
+              render(Primer::Beta::Text.new(color: :subtle)) { t("wikis.provider_types.#{wiki_provider}.name") }
             end
 
             grid.with_area(:time, tag: :div, color: :subtle, hide: :sm) do

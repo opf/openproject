@@ -202,16 +202,7 @@ de:
           text: "[Platzhalter] Eingebetteter Kalender"
     admin:
       type_form:
-        custom_field: Benutzerdefiniertes Feld
-        inactive: Inaktiv
-        drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
-        add_group: Attributgruppe hinzufügen
-        add_table: Tabelle mit zugehörigen Arbeitspaketen hinzufügen
         edit_query: Abfrage bearbeiten
-        new_group: Neue Gruppe
-        delete_group: Gruppe löschen
-        remove_attribute: Aus Gruppe entfernen
-        reset_to_defaults: Auf Standardwerte zurücksetzen
       working_days:
         calendar:
           empty_state_header: Arbeitsfreie Tage
@@ -219,13 +210,6 @@ de:
           new_date: "(neu)"
         add_non_working_day: Arbeitsfreier Tag
         already_added_error: Für dieses Datum existiert bereits ein arbeitsfreier Tag. Für jedes einzelne Datum kann nur ein arbeitsfreier Tag erstellt werden.
-        change_button: Speichern und neu planen
-        change_title: Arbeitstage ändern
-        removed_title: 'Sie werden die folgenden Tage aus der Liste der arbeitsfreien Tage entfernen:'
-        change_description: Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich auf die Start- und Endtage aller Arbeitspakete und Projektphasen in allen Projekten auswirken.
-        warning: 'Es kann einige Zeit dauern, bis die Änderungen wirksam werden. Sie werden benachrichtigt, wenn alle relevanten Arbeitspakete und Projektphasen aktualisiert worden sind. Sind Sie sicher, dass Sie fortfahren möchten?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Wenn Sie den Modus der Fortschrittsberechnung von statusbasiert auf arbeitsbasiert ändern, ist das Feld <i>% abgeschlossen</i> frei editierbar. Wenn Sie optional Werte für <i>Aufwand</i> oder <i>Verbleibenden Aufwand</i> eingeben, werden diese auch mit <i>% abgeschlossen</i> verknüpft. Eine Änderung des <i>verbleibenden Aufwands</i> aktualisiert dann <i>% abgschlossen</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Wenn Sie den Modus der Fortschrittsberechnung von aufwandsbezogen auf statusbezogen ändern, gehen alle bestehenden Werte für <i>% Fertigstellung</i> verloren und werden durch Werte ersetzt, die mit dem jeweiligen Status verbunden sind. Bestehende Werte für <i>Verbleibender Aufwand</i> können ebenfalls neu berechnet werden, um diese Änderung widerzuspiegeln. Diese Aktion ist nicht umkehrbar.
@@ -418,7 +402,6 @@ de:
     label_per_page: 'Pro Seite:'
     label_please_wait: Bitte warten
     label_project: Projekt
-    label_project_list: Projektlisten
     label_project_plural: Projekte
     label_visibility_settings: Sichtbarkeits-Einstellungen
     label_quote_comment: Diesen Kommentar zitieren
@@ -616,18 +599,6 @@ de:
     breadcrumb: Navigationspfad
     text_data_lost: Alle eingegebenen Daten gehen verloren.
     text_user_wrote: "%{value} schrieb:"
-    types:
-      attribute_groups:
-        error_duplicate_group_name: Der Name %{group} wird mehr als einmal verwendet. Gruppen-Namen müssen eindeutig sein.
-        error_no_table_configured: Bitte konfigurieren Sie eine Tabelle für %{group}.
-        reset_title: Formularkonfiguration zurücksetzen
-        confirm_reset: 'Achtung: Wollen Sie die Formkonfiguration wirklich zurücksetzen? Alle Attribute und Gruppen werden auf ihre Standardwerte zurück gesetzt und ALLE benutzerdefinierten Felder entfernt.
-
-          '
-        upgrade_to_ee: Enterprise on-premises bestellen
-        upgrade_to_ee_text: Wow! Wenn du dieses Add-on benötigst, bist du ein super Pro! Würdest du uns OpenProject-Entwickler unterstützen, indem du ein Enterprise Edition-Kunde wirst?
-        more_information: Weitere Informationen
-        nevermind: Nein danke
     time_entry:
       work_package_required: Benötigt zuerst die Auswahl eines Arbeitspakets.
       title: Zeit buchen
@@ -1076,16 +1047,13 @@ de:
         all: Alle Projekte
         selected: Nur ausgewählte
       search_placeholder: Projekte durchsuchen...
-      search_placeholder_favorites: Favoriten durchsuchen...
       include_subprojects: Alle Unterprojekte einbeziehen
       tooltip:
         include_all_selected: Das Projekt ist bereits enthalten, da alle Unterprojekte einbezogen sind.
         current_project: Dies ist das aktuelle Projekt, in dem Sie sich befinden.
         does_not_match_search: Projekt entspricht nicht den Suchkriterien.
       no_results: Kein Projekt entspricht Ihren Suchkriterien.
-      no_favorite_results: Kein favorisiertes Projekt entspricht Ihren Suchkriterien.
     include_workspaces:
-      search_placeholder: Suchen...
       types:
         program: Programm
         portfolio: Portfolio

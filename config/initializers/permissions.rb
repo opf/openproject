@@ -42,14 +42,12 @@ Rails.application.reloader.to_prepare do
                      { portfolios: %i[new create] },
                      permissible_on: :global,
                      require: :loggedin,
-                     visible: -> { OpenProject::FeatureDecisions.portfolio_models_active? },
                      contract_actions: { portfolios: %i[create] }
 
       map.permission :add_programs,
                      { programs: %i[new create] },
                      permissible_on: :global,
                      require: :loggedin,
-                     visible: -> { OpenProject::FeatureDecisions.portfolio_models_active? },
                      contract_actions: { programs: %i[create] }
 
       map.permission :archive_project,
@@ -70,7 +68,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :create_user,
                      {
-                       users: %i[index show new create resend_invitation],
+                       users: %i[index show new create resend_invitation configure_view_modal],
                        "users/memberships": %i[create],
                        admin: %i[index]
                      },
@@ -85,7 +83,8 @@ Rails.application.reloader.to_prepare do
                                  update_reminders update_email_alerts update_workdays
                                  update_participating update_non_participating update_date_alerts
                                  new_project_settings create_project_settings
-                                 edit_project_settings update_project_settings destroy_project_settings],
+                                 edit_project_settings update_project_settings destroy_project_settings
+                                 configure_view_modal],
                        "users/memberships": %i[create update destroy],
                        admin: %i[index]
                      },
@@ -96,7 +95,7 @@ Rails.application.reloader.to_prepare do
 
       map.permission :view_all_principals,
                      {
-                       users: %i[index show]
+                       users: %i[index show configure_view_modal]
                      },
                      permissible_on: :global,
                      require: :loggedin,
@@ -539,57 +538,26 @@ Rails.application.reloader.to_prepare do
 
     map.project_module :wiki do |wiki|
       wiki.permission :view_wiki_pages,
-                      { wiki: %i[index show special menu] },
-                      permissible_on: :project
-
-      wiki.permission :list_attachments,
-                      { wiki: :list_attachments },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :manage_wiki,
-                      { wikis: %i[edit destroy] },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :manage_wiki_menu,
-                      { wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item] },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :rename_wiki_pages,
-                      { wiki: :rename },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :change_wiki_parent_page,
-                      { wiki: %i[edit_parent_page update_parent_page] },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :delete_wiki_pages,
-                      { wiki: :destroy },
-                      permissible_on: :project,
-                      require: :member
-
-      wiki.permission :export_wiki_pages,
-                      { wiki: [:export] },
+                      { wiki: %i[index show special menu export] },
                       permissible_on: :project
 
       wiki.permission :view_wiki_edits,
                       { wiki: %i[history diff annotate] },
+                      dependencies: :view_wiki_pages,
                       permissible_on: :project
 
       wiki.permission :edit_wiki_pages,
-                      { wiki: %i[edit update preview add_attachment new new_child create] },
+                      { wiki: %i[edit update preview add_attachment new new_child create rename] },
+                      dependencies: :view_wiki_pages,
                       permissible_on: :project
 
-      wiki.permission :delete_wiki_pages_attachments,
-                      {},
-                      permissible_on: :project
-
-      wiki.permission :protect_wiki_pages,
-                      { wiki: :protect },
+      wiki.permission :manage_wiki,
+                      {
+                        wiki: %i[destroy protect edit_parent_page update_parent_page],
+                        wikis: %i[edit destroy],
+                        wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item]
+                      },
+                      dependencies: :edit_wiki_pages,
                       permissible_on: :project,
                       require: :member
     end

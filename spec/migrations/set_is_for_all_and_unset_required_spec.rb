@@ -31,9 +31,7 @@
 require "spec_helper"
 require Rails.root.join("db/migrate/20251211160744_set_is_for_all_and_unset_required")
 
-RSpec.describe SetIsForAllAndUnsetRequired, type: :model,
-                                            with_ee: %i[calculated_values],
-                                            with_flag: { calculated_value_project_attribute: true } do
+RSpec.describe SetIsForAllAndUnsetRequired, type: :model, with_ee: %i[calculated_values] do
   # Project custom fields to be migrated
   shared_let(:required_project_cf) { create(:project_custom_field, :integer, is_required: true, is_for_all: false) }
   shared_let(:optional_project_cf) { create(:project_custom_field, :integer, is_required: false, is_for_all: false) }

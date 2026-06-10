@@ -33,6 +33,8 @@ class Report::Operator
 
   #############################################################################################
   # Wrapped so we can place this at the top of the file.
+  # rubocop:disable Lint/NestedMethodDefinition, Metrics/AbcSize, Metrics/PerceivedComplexity
+  # The operator DSL intentionally defines #modify on each operator's singleton.
   def self.define_operators # :nodoc:
     # Defaults
     defaults do
@@ -108,7 +110,7 @@ class Report::Operator
     new "!~", arity: 1, label: :label_not_contains do
       def modify(query, field, *values)
         value = values.first || ""
-        query.where "LOWER(#{field}) NOT LIKE '%#{quote_string(value.to_s.downcase)}%'"
+        query.where ["LOWER(#{field}) NOT LIKE ?", "%#{value.to_s.downcase}%"]
         query
       end
     end
@@ -129,7 +131,7 @@ class Report::Operator
     new "~", arity: 1, label: :label_contains do
       def modify(query, field, *values)
         value = values.first || ""
-        query.where "LOWER(#{field}) LIKE '%#{quote_string(value.to_s.downcase)}%'"
+        query.where ["LOWER(#{field}) LIKE ?", "%#{value.to_s.downcase}%"]
         query
       end
     end
@@ -246,6 +248,7 @@ class Report::Operator
       end
     end
   end
+  # rubocop:enable Lint/NestedMethodDefinition, Metrics/AbcSize, Metrics/PerceivedComplexity
   #############################################################################################
 
   module CoreExt

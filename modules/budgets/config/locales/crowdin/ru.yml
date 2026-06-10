@@ -36,6 +36,7 @@ ru:
         subject: Тема
         type: Тип затрат
         labor_budget: Запланированные трудозатраты
+        labor_budget_items: Запланированные трудозатраты
         material_budget: Запланированные расходы
         base_amount: Базовая стоимость
       work_package:
@@ -48,6 +49,7 @@ ru:
               not_a_member_of_budget_project: не является участником бюджета проекта
     models:
       budget: Бюджет
+      labor_budget_item: Запланированная стоимость труда
       material_budget_item: Единица
   activity:
     filter:

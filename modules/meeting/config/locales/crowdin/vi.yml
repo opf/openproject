@@ -38,6 +38,8 @@ vi:
           other: "%{count} Người tham gia"
         participants_attended: Người dự khán
         participants_invited: Khách mời
+        participants_added: 'Participants added:'
+        participants_removed: 'Participants removed:'
         project: dự án
         start_date: ngày
         start_time: Thời gian bắt đầu
@@ -45,7 +47,7 @@ vi:
         end_time: End time
         template: Template
         notify: Send notifications
-        sharing: Sharing
+        sharing: Chia sẻ
       meeting_agenda_item:
         title: tiêu đề
         author: tác giả
@@ -63,6 +65,9 @@ vi:
         title: Title
         frequency: tần số
         interval: khoảng thời gian
+        monthly_day: Day of month
+        monthly_ordinal: Position
+        monthly_weekday: Weekday
         start_date: Bắt đầu vào
         start_time: Thời gian bắt đầu
         start_time_hour: Thời gian bắt đầu
@@ -71,7 +76,7 @@ vi:
         iterations: lần xuất hiện
         time_zone: Time zone
         location: Location
-        duration: Duration
+        duration: Thời lượng
         notify: Send notifications
       recurring_meeting_interim_response:
         start_time: Start time
@@ -205,6 +210,7 @@ vi:
   label_time_zone: Múi giờ
   label_start_date: Ngày bắt đầu
   label_subscribe_icalendar: Đăng ký lịch
+  label_recurring_filter: Recurring filter
   caption_meeting_template_select: Select a template to automatically copy its agenda items
   caption_template_project_select: Please select the project in which to create this meeting template
   placeholder_meeting_template_select_project_first: Select a project first
@@ -267,16 +273,6 @@ vi:
         summary_series: Chuỗi cuộc họp '%{title}' đã bị hủy bởi %{actor}, hoặc bạn đã bị loại khỏi danh sách tham gia
         summary: "'%{title}' đã bị hủy bởi ' %{actor}' hoặc bạn đã bị loại khỏi danh sách người tham gia"
         date_time: Ngày/giờ dự kiến
-      participant_added:
-        header: Họp '%{title}' - Thành viên tham gia đã được thêm vào
-        header_series: Chuỗi hội thảo '%{title}' - Thêm người tham gia
-        summary: "%{actor} Thêm %{participant} vào cuộc họp '%{title}'"
-        summary_series: '%{actor} Thêm " %{participant} " vào chuỗi sự kiện "%{title}"'
-      participant_removed:
-        header: Cuộc họp '%{title}' - Người tham gia đã bị loại bỏ
-        header_series: Chuỗi hội thảo '%{title}' - Người tham gia đã bị loại bỏ
-        summary: "%{actor} Đã loại bỏ ' %{participant} ' khỏi cuộc họp '%{title}'"
-        summary_series: '%{actor} Đã loại bỏ " %{participant} " khỏi chuỗi cuộc họp "%{title}"'
       ended:
         header_series: 'Đã kết thúc: Chuỗi cuộc họp ''%{title}'''
         summary_series: Chuỗi hội thảo '%{title}' đã kết thúc bởi %{actor}
@@ -290,6 +286,8 @@ vi:
         new_date_time: Ngày/giờ mới
         old_location: Vị trí cũ
         new_location: Vị trí mới
+        added_participants: Added
+        removed_participants: Removed
     label_mail_all_participants: Gửi email mời đến người tham gia
     types:
       one_time: Một lần
@@ -318,6 +316,13 @@ vi:
 
           '
         confirm_button: Hủy lần xuất hiện
+      occurrence_past:
+        title: Delete occurrence
+        heading: Delete this occurrence?
+        confirmation_message_html: 'This action is not reversible. Please proceed with caution.
+
+          '
+        confirm_button: Delete occurrence
     blankslate:
       title: Không có cuộc họp nào để hiển thị
       desc: Bạn có thể tạo cuộc họp mới hoặc thay đổi tiêu chí lọc
@@ -354,8 +359,8 @@ vi:
         label: Bao gồm danh sách các tệp đính kèm
         caption: Một danh sách chứa tên tệp đính kèm sẽ được thêm vào cuối.
       include_backlog:
-        label: Bao gồm tồn đọng
-        caption: Các thành phần tồn đọng thường không được coi là một phần của cuộc họp nhưng bạn có thể chọn đưa chúng vào.
+        label: Bao gồm Backlog
+        caption: Các các hạng mục Backlog thường không được coi là một phần của cuộc họp nhưng bạn có thể chọn đưa chúng vào.
       include_outcomes:
         label: Bao gồm các kết quả chương trình nghị sự
         caption: Nếu kết quả chương trình nghị sự của bạn chứa thông tin bí mật, bạn có thể chọn không đưa chúng vào khi xuất.
@@ -364,58 +369,22 @@ vi:
         caption: Văn bản này sẽ xuất hiện trên mỗi trang ở giữa chân trang.
       submit_button: tải về
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: Cập nhật lịch qua email
         description:
-          disabled: Những người tham gia sẽ không nhận được email thông báo về những thay đổi.
-          enabled: Tất cả những người tham gia sẽ nhận được lời mời lịch cập nhật qua email thông báo cho họ về những thay đổi.
           change_via_template: Để thay đổi điều này, hãy chỉnh sửa mẫu chuỗi.
       dialog:
         title:
           enable: Bật cập nhật lịch email?
           disable: Tắt cập nhật lịch email?
         message:
-          enable: 'Tất cả những người tham gia sẽ nhận được lời mời lịch cập nhật qua email mỗi khi có thay đổi về ngày, giờ, địa điểm hoặc người tham gia cuộc họp. Sau khi được bật, một email sẽ được gửi ngay lập tức đến tất cả người tham gia.
-
-            '
-          disable: 'Người tham gia sẽ không còn nhận được lời mời lịch cập nhật qua email khi có thay đổi về ngày, giờ, địa điểm hoặc người tham gia cuộc họp. Nếu họ đã có lời mời tham dự cuộc họp này thì lời mời đó có thể không còn chính xác nữa.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: Kích hoạt cập nhật email
           disable: Vô hiệu hóa cập nhật email
-      banner:
-        participants:
-          enabled: 'Tất cả người tham gia sẽ nhận được lời mời lịch cập nhật qua email khi bạn thêm hoặc xóa người tham gia.
-
-            '
-          disabled: 'Cập nhật lịch email bị vô hiệu hóa. Người tham gia sẽ không nhận được email thông báo cho họ khi bạn thêm hoặc xóa người tham gia.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'Tất cả người tham gia sẽ nhận được lời mời lịch cập nhật qua email khi bạn thêm hoặc xóa người tham gia.
-
-            '
-          disabled: 'Những người tham gia sẽ không nhận được email thông báo về những thay đổi về ngày, giờ họp hoặc người tham gia.
-
-            '
-        occurrence:
-          enabled: 'Cập nhật lịch email được bật cho chuỗi cuộc họp. Tất cả những người tham gia sẽ nhận được lời mời cập nhật trên lịch thông báo cho họ về những thay đổi của bạn đối với lần xuất hiện này.
-
-            '
-          disabled: 'Cập nhật lịch email bị vô hiệu hóa cho chuỗi cuộc họp. Những người tham gia sẽ không nhận được email thông báo cho họ về những thay đổi của bạn đối với lần xuất hiện này.
-
-            '
-        template:
-          enabled: 'Cập nhật lịch email được bật cho chuỗi cuộc họp. Tất cả những người tham gia sẽ nhận được lời mời lịch cập nhật thông báo cho họ về những thay đổi của bạn đối với mẫu này hoặc đối với các lần xuất hiện riêng lẻ.
-
-            '
-          disabled: 'Cập nhật lịch email bị vô hiệu hóa cho chuỗi cuộc họp. Những người tham gia sẽ không nhận được email thông báo cho họ về những thay đổi của bạn đối với mẫu này hoặc đối với các lần xuất hiện riêng lẻ.
-
-            '
     presentation_mode:
       title: Chế độ trình bày
       button_present: hiện tại
@@ -432,7 +401,7 @@ vi:
     widgets:
       blankslate:
         heading: No upcoming meetings
-        description: Upcoming meetings where you are the organizer or a participant will appear here.
+        description: Upcoming meetings you are participating in will appear here.
       view_details: View all meetings
   meeting_section:
     untitled_title: Phần không có tiêu đề
@@ -482,18 +451,41 @@ vi:
         other: Cứ %{count} ngày
       x_weekly:
         other: Mỗi %{count} tuần
+      x_monthly:
+        other: Every %{count} months
+      monthly_day_of_month: Day of month
+      monthly_nth_weekday: Monthly on a weekday
       every_weekday: Mọi %{day_of_the_week}
       working_days: Mỗi ngày làm việc
+    monthly:
+      inflected_ordinal:
+        first: first
+        second: second
+        third: third
+        fourth: fourth
+        last: last
+      ordinal_options:
+        first: First
+        second: Second
+        third: Third
+        fourth: Fourth
+        last: Last
+    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
+    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
     end_after:
-      never: không bao giờ
-      specific_date: sau một ngày cụ thể
-      iterations: sau một số lần xuất hiện
+      never: Never
+      specific_date: After a specific date
+      iterations: After a number of occurrences
     starts: bắt đầu
     in_words:
       daily_interval: Cứ %{interval} ngày
       working_days: Mỗi ngày làm việc
       weekly: Hàng tuần vào %{weekday}
       weekly_interval: Cứ %{interval} tuần vào %{weekday}
+      monthly_day: Every month on the %{day}
+      monthly_day_interval: Every %{interval} months on the %{day}
+      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
       frequency: "%{base} tại %{time}"
       full: "%{base} lúc %{time}, kết thúc vào %{end_date}"
       full_past: "%{base} lúc %{time}, đã kết thúc vào %{end_date}"
@@ -583,14 +575,14 @@ vi:
   label_agenda_items_reordered: sắp xếp lại
   label_agenda_item_add: Thêm mục chương trình nghị sự
   label_agenda_item_remove_from_agenda: Xóa khỏi chương trình nghị sự
-  label_agenda_item_remove_from_backlog: Xóa khỏi hồ sơ tồn đọng
+  label_agenda_item_remove_from_backlog: Xóa khỏi Backlog
   label_agenda_item_undisclosed_wp: 'Gói công việc #%{id} không hiển thị'
   label_agenda_item_deleted_wp: Đã xóa tham chiếu gói công việc
   label_agenda_item_actions: Hành động của mục chương trình nghị sự
   label_agenda_item_move_to_next_title: Chuyển sang cuộc họp tiếp theo?
   label_agenda_item_move: Di chuyển
   label_agenda_item_move_to_next: Chuyển sang cuộc họp tiếp theo
-  label_agenda_item_move_to_backlog: Chuyển sang tồn đọng
+  label_agenda_item_move_to_backlog: Chuyển sang Backlog
   label_agenda_item_move_to_current_meeting: Di chuyển đến cuộc họp hiện tại
   label_agenda_item_move_to_section: Di chuyển đến phần
   label_agenda_item_move_to_top: Di chuyển lên trên cùng
@@ -602,6 +594,7 @@ vi:
   label_agenda_item_duplicate_in_next_title: Có lặp lại trong cuộc họp tiếp theo không?
   label_agenda_item_add_notes: Thêm ghi chú
   label_agenda_item_add_outcome: Thêm kết quả
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: Thêm gói công việc
   label_agenda_item_work_package: Gói công việc mục chương trình nghị sự
   label_section_rename: Đổi tên phần
@@ -615,23 +608,23 @@ vi:
   label_existing_work_package: Gói công việc hiện có
   text_outcome_not_editable_anymore: Kết quả này không thể chỉnh sửa được nữa.
   text_outcome_cannot_be_added: Một kết quả không còn có thể được thêm vào.
-  label_backlog_clear: Xóa tồn đọng
+  label_backlog_clear: Xóa Backlog
   label_backlog_clear_button: Xóa tất cả
-  text_backlog_clear_error: Đã xảy ra một hoặc nhiều lỗi khi cố gắng xóa hồ sơ tồn đọng.
-  label_agenda_backlog: tồn đọng chương trình làm việc
-  text_agenda_backlog: 'Việc tồn đọng này là duy nhất cho cuộc họp một lần này. Bạn có thể kéo các mục vào và ra để thêm hoặc xóa chúng khỏi chương trình cuộc họp.
+  text_backlog_clear_error: Đã xảy ra một hoặc nhiều lỗi khi cố gắng xóa Backlog.
+  label_agenda_backlog: Backlog chương trình họp
+  text_agenda_backlog: 'Backlog này là duy nhất cho cuộc họp một lần này. Bạn có thể kéo các mục vào và ra để thêm hoặc xóa chúng khỏi chương trình cuộc họp.
 
     '
-  label_agenda_backlog_clear_title: Xóa lịch trình tồn đọng?
-  text_agenda_backlog_clear_description: 'Bạn có chắc chắn muốn xóa tất cả các mục hiện có trong lịch trình tồn đọng không? Hành động này không thể đảo ngược.
+  label_agenda_backlog_clear_title: Xóa Backlog cuộc họp?
+  text_agenda_backlog_clear_description: 'Bạn có chắc chắn muốn xóa tất cả các mục hiện có trong Backlog cuộc họp không? Hành động này không thể đảo ngược.
 
     '
-  label_series_backlog: tồn đọng hàng loạt
-  text_series_backlog: 'Việc tồn đọng được chia sẻ với tất cả các lần xuất hiện của loạt bài này. Bạn có thể kéo các mục vào và ra để thêm hoặc xóa chúng khỏi một cuộc họp cụ thể.
+  label_series_backlog: Backlog của chuỗi cuộc họp
+  text_series_backlog: 'Backlog được chia sẻ với tất cả các lần xuất hiện của loạt bài này. Bạn có thể kéo các mục vào và ra để thêm hoặc xóa chúng khỏi một cuộc họp cụ thể.
 
     '
-  label_series_backlog_clear_title: Xóa số tồn đọng của loạt phim?
-  text_series_backlog_clear_description: 'Thao tác này sẽ xóa tất cả các mục trong chuỗi tồn đọng, được chia sẻ với tất cả các cuộc họp trong chuỗi. Bạn có chắc chắn muốn tiếp tục không? Hành động này không thể đảo ngược.
+  label_series_backlog_clear_title: Xóa Backlog của chuỗi cuộc họp?
+  text_series_backlog_clear_description: 'Thao tác này sẽ xóa tất cả các mục trong Backlog của chuỗi cuộc họp, được chia sẻ với tất cả các cuộc họp trong chuỗi. Bạn có chắc chắn muốn tiếp tục không? Hành động này không thể đảo ngược.
 
     '
   text_agenda_item_title: Mục chương trình nghị sự "%{title}"
@@ -669,7 +662,7 @@ vi:
   text_exit_draft_mode_dialog_subtitle: Bạn không thể quay lại chế độ nháp sau khi lên lịch cuộc họp.
   text_exit_draft_mode_dialog_template_title: Mở lần xuất hiện đầu tiên của chuỗi cuộc họp này?
   text_exit_draft_mode_dialog_template_subtitle: Bạn không thể quay lại chế độ nháp sau này.
-  label_meeting_template_sharing: Sharing
+  label_meeting_template_sharing: Chia sẻ
   label_meeting_template_sharing_none: Only with this project
   label_meeting_template_sharing_descendants: With subprojects
   label_meeting_template_sharing_system: With all projects
@@ -680,9 +673,9 @@ vi:
   label_add_work_package_to_meeting_section_label: phần
   label_add_work_package_to_meeting_dialog_button: Thêm vào cuộc họp
   label_meeting_selection_caption: Chỉ có thể thêm gói công việc này vào cuộc họp sắp tới hoặc đang diễn ra.
-  label_section_selection_caption: Chọn một phần cụ thể của chương trình nghị sự hoặc thêm nó vào hồ sơ tồn đọng.
+  label_section_selection_caption: Chọn một phần cụ thể của chương trình nghị sự hoặc thêm nó vào Backlog.
   placeholder_section_select_meeting_first: Lựa chọn cuộc họp là bắt buộc trước tiên
-  text_add_work_package_to_meeting_form: Gói công việc sẽ được thêm vào cuộc họp đã chọn hoặc hồ sơ tồn đọng dưới dạng mục chương trình nghị sự.
+  text_add_work_package_to_meeting_form: Gói công việc sẽ được thêm vào cuộc họp đã chọn hoặc Backlog dưới dạng mục chương trình nghị sự.
   text_add_work_package_to_meeting_description: Một gói công việc có thể được thêm vào một hoặc nhiều cuộc họp để thảo luận. Bất kỳ ghi chú nào liên quan đến nó cũng có thể nhìn thấy ở đây.
   text_agenda_item_no_notes: Không có ghi chú nào được cung cấp
   text_agenda_item_not_editable_anymore: Mục chương trình nghị sự này không thể chỉnh sửa được nữa.

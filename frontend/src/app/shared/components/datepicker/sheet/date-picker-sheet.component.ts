@@ -26,22 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Injector,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, Injector, Input, OnChanges, Output, SimpleChanges, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { onDayCreate } from 'core-app/shared/components/datepicker/helpers/date-modal.helpers';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -61,6 +46,13 @@ import { DeviceService } from 'core-app/core/browser/device.service';
   standalone: false,
 })
 export class OpDatePickerSheetComponent implements AfterViewInit, OnChanges {
+  readonly I18n = inject(I18nService);
+  readonly timezoneService = inject(TimezoneService);
+  readonly injector = inject(Injector);
+  readonly cdRef = inject(ChangeDetectorRef);
+  readonly elementRef = inject(ElementRef);
+  readonly deviceService = inject(DeviceService);
+
   @HostBinding('class.op-datepicker-sheet') className = true;
 
   @Input() dates:string[];
@@ -76,16 +68,6 @@ export class OpDatePickerSheetComponent implements AfterViewInit, OnChanges {
   @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef<HTMLElement>;
 
   datePickerInstance:DatePicker;
-
-  constructor(
-    readonly I18n:I18nService,
-    readonly timezoneService:TimezoneService,
-    readonly injector:Injector,
-    readonly cdRef:ChangeDetectorRef,
-    readonly elementRef:ElementRef,
-    readonly deviceService:DeviceService,
-  ) {
-  }
 
   ngAfterViewInit():void {
     this.initializeDatepicker();

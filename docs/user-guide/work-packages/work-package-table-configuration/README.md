@@ -119,7 +119,9 @@ If you want to view all work packages across all projects, you can either select
 
 ### Filter by ID or work package name
 
-If you want to [create a work package view](#save-work-package-views) that includes only specific work packages, you can use the **ID** filter. By entering the ID or subject of the work packages, you can select them individually.
+If you want to [create a work package view](#save-work-package-views) that includes only specific work packages, you can use the **ID** filter. By entering the work package ID or subject, you can select work packages individually.
+
+Depending on your OpenProject configuration, work package IDs can be numerical (for example, 12345) or project-based (for example, PROJ-123).
 
 Another use case is *excluding* specific work packages — for example, if you want to display all milestones except one. To do this, use the **is not** option next to the filter name on the left.
 
@@ -176,11 +178,13 @@ To gain even more insight, you can group the work packages by project phase. Thi
 
 ### Automatic sorting of the work package table
 
-By default, the work package table will be sorted by work package ID.
+By default, the work package table will be sorted by work package ID. 
+
+If your OpenProject instance uses project-based work package identifiers, the **ID** column displays the project-based identifier (for example, `PROJ-123`) instead of the numerical database ID. Sorting by **ID** is performed first by project identifier and then by sequence number. 
 
 <div class="glossary">
 
-The **ID** is unique for a work package within OpenProject. It will be set automatically from the system. With the ID you can reference a specific work package in OpenProject.
+The **ID** uniquely identifies a work package within OpenProject. Depending on the configuration of your OpenProject instance, it may be displayed as a numerical identifier (for example, 12345) or a project-based identifier (for example, PROJ-123). IDs are assigned automatically and can be used to reference, search for, and link to work packages.
 
 </div>
 

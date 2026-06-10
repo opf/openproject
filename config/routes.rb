@@ -67,7 +67,7 @@ Rails.application.routes.draw do
   get "/wp(/)" => redirect("#{rails_relative_url_root}/work_packages")
   get "/wp/*rest" => redirect { |params, _req|
     "#{rails_relative_url_root}/work_packages/#{URI::RFC2396_Parser.new.escape(params[:rest])}"
-  }
+  }, as: :work_package_short
 
   # Add catch method for Rack OmniAuth to allow route helpers
   # Note: This renders a 404 in rails but is caught by omniauth in Rack before
@@ -75,8 +75,12 @@ Rails.application.routes.draw do
   get "/auth/:provider", to: proc { [404, {}, [""]] }, as: "omni_auth_start"
   match "/auth/:provider/callback", to: "omni_auth_login#callback", as: "omni_auth_callback", via: %i[get post]
 
-  get "/.well-known/oauth-authorization-server", to: "oauth_metadata#authorization_server", as: :authorization_server_metadata
-  get "/.well-known/oauth-protected-resource", to: "oauth_metadata#protected_resource", as: :protected_resource_metadata
+  scope ".well-known" do
+    get "oauth-authorization-server", to: "oauth_metadata#authorization_server", as: :authorization_server_metadata
+    get "oauth-protected-resource", to: "oauth_metadata#protected_resource", as: :protected_resource_metadata
+
+    get "openproject-metadata", to: "openproject_metadata#show"
+  end
 
   # In case assets are actually delivered by a node server (e.g. in test env)
   # forward requests to the proxy
@@ -149,7 +153,27 @@ Rails.application.routes.draw do
   get "/roles/workflow/:id/:role_id/:type_id" => "roles#workflow"
 
   resources :types, module: "work_package_types", except: [:update] do
-    resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab"
+    resource :form_configuration, only: %i[edit update], controller: "form_configuration_tab" do
+      get :reset_dialog
+      resources :groups, only: %i[create edit update destroy], controller: "form_configuration_groups_tab", param: :key do
+        collection do
+          post :add_group
+        end
+
+        member do
+          post :cancel_edit
+          put :drop
+          put :move
+          patch :update_query
+        end
+      end
+      resources :rows, only: %i[destroy], controller: "form_configuration_tab", param: :row_key do
+        member do
+          put :drop
+          put :move
+        end
+      end
+    end
     resource :projects, controller: "projects_tab", only: %i[update edit] do
       collection do
         post :enable_all, to: "projects_tab#enable_all_projects"
@@ -284,6 +308,14 @@ Rails.application.routes.draw do
     resource :menu, only: %i[show]
     resource :filters, only: %i[show]
     resource :identifier_suggestion, only: %i[show], controller: "identifier_suggestion"
+  end
+
+  namespace :header do
+    resources :projects, only: :index do
+      collection do
+        get :frame
+      end
+    end
   end
 
   %w[portfolio project program].each do |workspace_type|
@@ -645,6 +677,7 @@ Rails.application.routes.draw do
       resource :general, controller: "/admin/settings/general_settings", only: %i[show update]
       resource :languages, controller: "/admin/settings/languages_settings", only: %i[show update]
       resource :external_links, controller: "/admin/settings/external_links_settings", only: %i[show update]
+      resource :exports, controller: "/admin/settings/exports_settings", only: %i[show update]
       resource :repositories, controller: "/admin/settings/repositories_settings", only: %i[show update]
       resource :experimental, controller: "/admin/settings/experimental_settings", only: %i[show update]
 
@@ -730,10 +763,21 @@ Rails.application.routes.draw do
           get :new_link
         end
       end
-      resource :working_days_and_hours, controller: "/admin/settings/working_days_and_hours_settings", only: %i[show update]
+      resource :working_days_and_hours, controller: "/admin/settings/working_days_and_hours_settings", only: %i[show update] do
+        post :confirm_changes
+      end
       resource :users, controller: "/admin/settings/users_settings", only: %i[show update]
       resource :date_format, controller: "/admin/settings/date_format_settings", only: %i[show update]
       resource :icalendar, controller: "/admin/settings/icalendar_settings", only: %i[show update]
+
+      resources :project_reserved_identifiers, only: %i[index destroy] do
+        collection do
+          get :search, defaults: { format: :turbo_stream }
+        end
+        member do
+          get :confirm_dialog, defaults: { format: :turbo_stream }
+        end
+      end
 
       # Redirect /settings to general settings
       get "/", to: redirect("/admin/settings/general")
@@ -968,6 +1012,9 @@ Rails.application.routes.draw do
   end
 
   resources :users, constraints: { id: /(\d+|me)/ }, except: :edit do
+    collection do
+      get :configure_view_modal
+    end
     resources :memberships, controller: "users/memberships", only: %i[update create destroy]
     resources :working_hours, controller: "users/working_hours", except: [:index]
     resources :non_working_times, controller: "users/non_working_times", except: [:index] do

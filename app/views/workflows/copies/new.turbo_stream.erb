@@ -27,54 +27,55 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 <%= turbo_stream.dialog do
-  title = t(".title", source_type: @source_type.name)
-  dialog_id = "copy_from_type_dialog"
-  another_type_at_first = @source_role.nil?
+      title = t(".title", source_type: @source_type.name)
+      dialog_id = "copy_from_type_dialog"
+      another_type_at_first = @source_role.nil?
 
-  render(Primer::Alpha::Dialog.new(title:, size: :large, classes: "Overlay--size-large-portrait",  id: dialog_id, data: { controller: "show-when-value-selected" })) do |d|
-    d.with_header(variant: :large)
-    d.with_body(classes: "Overlay-body_autocomplete_height--lg") do
-      settings_primer_form_with(id: "copy_form") do |f|
-        render(Workflows::Copies::Form.new(f, source_type: @source_type, source_role: @source_role, other_types: @other_types, all_roles: @all_roles, append_to: "##{dialog_id}"))
+      render(Primer::Alpha::Dialog.new(title:, size: :large, classes: "Overlay--size-large-portrait", id: dialog_id, data: { controller: "show-when-value-selected" })) do |d|
+        d.with_header(variant: :large)
+        d.with_body do
+          settings_primer_form_with(id: "copy_form") do |f|
+            render(Workflows::Copies::Form.new(f, source_type: @source_type, source_role: @source_role, other_types: @other_types, all_roles: @all_roles, append_to: "##{dialog_id}"))
+          end
+        end
+        d.with_footer do
+          render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } +
+          render(
+            Primer::Beta::Button.new(
+              hidden: !another_type_at_first,
+              scheme: :primary,
+              tag: :button,
+              type: :submit,
+              form: "copy_form",
+              formaction: workflow_copy_from_type_path(@source_type),
+              data: {
+                target_name: "mode",
+                value: "from_type",
+                "show-when-value-selected-target": "effect",
+                turbo: true
+              }
+            )
+          ) do
+            t(:button_copy)
+          end +
+          render(
+            Primer::Beta::Button.new(
+              hidden: another_type_at_first,
+              scheme: :primary,
+              tag: :button,
+              type: :submit,
+              form: "copy_form",
+              formaction: workflow_copy_from_role_path(@source_type, source_role_id: @source_role&.id),
+              data: {
+                target_name: "mode",
+                value: "from_role",
+                "show-when-value-selected-target": "effect",
+                turbo: true
+              }
+            )
+          ) do
+            t(:button_copy)
+          end
+        end
       end
-    end
-    d.with_footer do
-      render(Primer::Beta::Button.new(data: { "close-dialog-id": dialog_id })) { t(:button_cancel) } +
-
-      render(Primer::Beta::Button.new(
-        hidden: !another_type_at_first,
-        scheme: :primary,
-        tag: :button,
-        type: :submit,
-        form: "copy_form",
-        formaction: workflow_copy_from_type_path(@source_type),
-        data: {
-           target_name: "mode",
-           value: "from_type",
-           "show-when-value-selected-target": "effect",
-           turbo: true
-         }
-      )) do
-        t(:button_copy)
-      end +
-
-      render(Primer::Beta::Button.new(
-        hidden: another_type_at_first,
-        scheme: :primary,
-        tag: :button,
-        type: :submit,
-        form: "copy_form",
-        formaction: workflow_copy_from_role_path(@source_type, source_role_id: @source_role&.id),
-        data: {
-           target_name: "mode",
-           value: "from_role",
-           "show-when-value-selected-target": "effect",
-           turbo: true
-         }
-      )) do
-        t(:button_copy)
-      end
-    end
-  end
-end
-%>
+    end %>

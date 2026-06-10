@@ -26,9 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  TestBed,
-} from '@angular/core/testing';
+import { TestBed, } from '@angular/core/testing';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { States } from 'core-app/core/states/states.service';
@@ -58,7 +56,7 @@ describe('APIv3Service', () => {
       expect(service.projects.id(projectIdentifier).path).toEqual('/api/v3/projects/majora');
     });
 
-    it('should provide a path to work package query on subject or ID ', () => {
+    it('should provide a path to work package query on subject or ID', () => {
       let params = {
         filters: '[{"typeahead":{"operator":"**","values":["bogus"]}}]',
         sortBy: '[["updatedAt","desc"]]',
@@ -66,9 +64,7 @@ describe('APIv3Service', () => {
         pageSize: '10',
       };
 
-      expect(
-        service.work_packages.filterByTypeaheadOrId('bogus').path,
-      ).toEqual(`/api/v3/work_packages?${encodeParams(params)}`);
+      expect(service.work_packages.filterByTypeaheadOrId('bogus').path).toEqual(`/api/v3/work_packages?${encodeParams(params)}`);
 
       params = {
         filters: '[{"id":{"operator":"=","values":["1234"]}}]',
@@ -77,9 +73,7 @@ describe('APIv3Service', () => {
         pageSize: '10',
       };
 
-      expect(
-        service.work_packages.filterByTypeaheadOrId('1234', true).path,
-      ).toEqual(`/api/v3/work_packages?${encodeParams(params)}`);
+      expect(service.work_packages.filterByTypeaheadOrId('1234', true).path).toEqual(`/api/v3/work_packages?${encodeParams(params)}`);
     });
   });
 });

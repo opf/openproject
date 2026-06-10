@@ -158,4 +158,7 @@ Wiki systems contain all the answers !#42
 
 ### Autocompletion for work packages
 
-For work packages, typing # will open an autocompleter for visible work packages. This means when you type e.g. #3 or #Market, a list of work packages matching the description will be shown. Then you can either continue typing or choose a work package from the list.
+For work packages, typing `#` will open an autocompleter for visible work packages. This means when you type e.g. #3 or #Market, a list of work packages matching the description will be shown. Then you can either continue typing or choose a work package from the list.
+
+> [!TIP]
+> To show more details when linking a work package, type either  `##` or `###` followed by the work package ID, subject, type or a keyword.

@@ -32,9 +32,9 @@ module Wikis
   module Adapters
     module Providers
       module XWiki
-        Registry = Dry::Container::Namespace.new("xwiki") do
+        Registry = Dry::Core::Container::Namespace.new("xwiki") do
           namespace("authentication") do
-            # ...
+            register(:user_bound, Authentication::UserBound)
           end
 
           namespace("commands") do
@@ -60,10 +60,15 @@ module Wikis
           end
 
           namespace("queries") do
-            register(:user, Queries::UserQuery)
-            register(:page_info, Queries::PageInfo)
+            register(:user, Queries::User)
+            register(:page_info, Queries::StablePageInfo)
             register(:referencing_pages, Queries::ReferencingPages)
             register(:relation_page_links, Queries::RelationPageLinks)
+            register(:search_pages, Queries::SearchPages)
+          end
+
+          namespace("validators") do
+            register("connection", Validators::ConnectionValidator)
           end
         end
       end

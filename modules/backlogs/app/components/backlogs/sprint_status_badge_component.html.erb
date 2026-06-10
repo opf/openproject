@@ -1,0 +1,5 @@
+<%=
+  render(Primer::Beta::Label.new(size: :medium, font_weight: :bold, **@system_arguments)) do
+    I18n.t(:"activerecord.attributes.sprint.statuses.#{@sprint.status}")
+  end
+%>

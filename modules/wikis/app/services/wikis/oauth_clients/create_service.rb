@@ -32,7 +32,7 @@ module Wikis
   module OAuthClients
     class CreateService < ::OAuthClients::CreateService
       def initialize(**)
-        super(contract_class: Wikis::OAuthClients::XWikiCreateContract, **)
+        super(contract_class: ::OAuthClients::CreateContract, **)
       end
 
       def attributes_service_class

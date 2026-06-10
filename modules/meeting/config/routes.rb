@@ -36,6 +36,10 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :meetings do
+    resource :filters, only: %i[show]
+  end
+
   # Global route to show meetings over all projects and create form from the global view
   resources :meetings, only: %i[index show new create] do
     collection do
@@ -43,6 +47,7 @@ Rails.application.routes.draw do
       get "menu" => "meetings/menus#show"
       get :fetch_timezone
       get :fetch_templates
+      get :project_items
 
       get "ical/:token", controller: "meetings/ical", action: :index, as: "ical_feed"
 
@@ -101,6 +106,9 @@ Rails.application.routes.draw do
           post :duplicate_in_next, action: :duplicate_in_next_meeting
           put :move_to_section_dialog
           post :move_to_section
+          get :convert_to_work_package_dialog
+          post :convert_to_work_package
+          post :refresh_convert_to_work_package_dialog
         end
 
         resources :outcomes, controller: "meeting_outcomes", except: %i[index show] do

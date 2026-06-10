@@ -36,6 +36,7 @@ fil:
         subject: Paksa
         type: Uri ng Gastos
         labor_budget: Planned labor costs
+        labor_budget_items: Planned labor costs
         material_budget: Planned unit costs
         base_amount: Base amount
       work_package:
@@ -48,6 +49,7 @@ fil:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Budget
+      labor_budget_item: Planned labor cost
       material_budget_item: Unit
   activity:
     filter:

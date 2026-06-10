@@ -34,6 +34,40 @@ RSpec.describe EnabledModule do
   # Force reload, as association is not always(?) showing
   let(:project) { create(:project, enabled_module_names: modules).reload }
 
+  describe "MODULE_ENABLED event" do
+    let(:modules) { [] }
+
+    it "fires the event when a module is added" do
+      project # force evaluation before the stub is set up
+
+      allow(OpenProject::Notifications)
+        .to receive(:send)
+        .with(OpenProject::Events::MODULE_ENABLED, enabled_module: anything)
+
+      project.enabled_module_names = ["wiki"]
+
+      expect(OpenProject::Notifications)
+        .to have_received(:send)
+        .with(OpenProject::Events::MODULE_ENABLED, enabled_module: anything)
+        .once
+    end
+
+    it "does not fire the event when removing a module" do
+      project.enabled_module_names = ["wiki"]
+
+      allow(OpenProject::Notifications).to receive(:send).and_call_original # Consume journal events
+      allow(OpenProject::Notifications)
+        .to receive(:send)
+        .with(OpenProject::Events::MODULE_ENABLED, enabled_module: anything)
+
+      project.enabled_module_names = []
+
+      expect(OpenProject::Notifications)
+        .not_to have_received(:send)
+        .with(OpenProject::Events::MODULE_ENABLED, enabled_module: anything)
+    end
+  end
+
   describe "MODULE_DISABLED event" do
     let(:modules) { %w[wiki] }
 
@@ -55,13 +89,16 @@ RSpec.describe EnabledModule do
     it "does not fire the event when creating a module" do
       project.enabled_module_names = []
 
+      allow(OpenProject::Notifications).to receive(:send).and_call_original
       allow(OpenProject::Notifications)
         .to receive(:send)
         .with(OpenProject::Events::MODULE_DISABLED, disabled_module: anything)
 
       project.enabled_module_names = ["wiki"]
 
-      expect(OpenProject::Notifications).not_to have_received(:send)
+      expect(OpenProject::Notifications)
+        .not_to have_received(:send)
+        .with(OpenProject::Events::MODULE_DISABLED, disabled_module: anything)
     end
   end
 

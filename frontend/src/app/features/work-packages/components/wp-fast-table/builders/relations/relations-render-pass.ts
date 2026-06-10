@@ -12,7 +12,7 @@ import {
   RelationColumnType,
   WorkPackageViewRelationColumnsService,
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-relation-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { RelationResource } from 'core-app/features/hal/resources/relation-resource';
 import { relationGroupClass, RelationRowBuilder } from './relation-row-builder';
 import { PrimaryRenderPass, RowRenderInfo } from '../primary-render-pass';
@@ -28,15 +28,15 @@ export interface RelationRenderInfo extends RowRenderInfo {
 }
 
 export class RelationsRenderPass {
-  @InjectField() wpRelations:WorkPackageRelationsService;
+  @LazyInject() wpRelations:WorkPackageRelationsService;
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
+  @LazyInject() wpTableRelationColumns:WorkPackageViewRelationColumnsService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() I18n:I18nService;
+  @LazyInject() I18n:I18nService;
 
   public relationRowBuilder:RelationRowBuilder;
 

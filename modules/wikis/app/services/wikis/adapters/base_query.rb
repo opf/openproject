@@ -38,7 +38,7 @@ module Wikis::Adapters
       @provider = model
     end
 
-    def call(_input_data)
+    def call(auth_strategy:, **) # rubocop:disable Lint/UnusedMethodArgument
       raise SubclassResponsibilityError
     end
 
@@ -50,6 +50,12 @@ module Wikis::Adapters
 
     def failure(code:)
       Failure(Results::Error.new(source: self.class, code:))
+    end
+
+    def page_info(identifier:, auth_strategy:)
+      Input::PageInfo.build(identifier:).bind do |input|
+        provider.resolve("queries.page_info").call(input_data: input, auth_strategy:)
+      end
     end
   end
 end

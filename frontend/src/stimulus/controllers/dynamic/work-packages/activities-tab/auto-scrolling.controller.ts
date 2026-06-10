@@ -39,6 +39,13 @@ interface CustomEventWithIdParam extends Event {
 }
 
 export default class AutoScrollingController extends BaseController {
+  static values = {
+    resolvedCommentId: Number,
+  };
+
+  declare readonly resolvedCommentIdValue:number;
+  declare readonly hasResolvedCommentIdValue:boolean;
+
   connect() {
     super.connect();
 
@@ -116,16 +123,35 @@ export default class AutoScrollingController extends BaseController {
   }
 
   private handleInitialScroll() {
-    const hash = window.location.hash;
-    const anchorInfo = UrlHelpers.extractActivityAnchor(hash);
+    const anchorInfo = UrlHelpers.extractActivityAnchor(window.location.hash);
 
     if (anchorInfo) {
-      const activityElement = this.getActivityAnchorElement(anchorInfo);
-      this.brieflyHighlightAndResetUrl(activityElement, hash);
+      const anchor = this.canonicalizeActivityAnchor(anchorInfo);
+      // A still-legacy activity anchor is one the server could not resolve to a
+      // comment; no element carries it anymore, so there is nothing to scroll to.
+      if (anchor.type === ActivityAnchorType.Activity) { return; }
+
+      const activityElement = this.getActivityAnchorElement(anchor);
+      this.brieflyHighlightAndResetUrl(activityElement, window.location.hash);
       this.scrollToActivity(activityElement);
     } else if (this.indexOutlet.sortingAscending && (!this.isMobile() || this.isWithinNotificationCenter())) {
       this.scrollToBottom();
     }
+  }
+
+  private canonicalizeActivityAnchor(anchorInfo:ActivityAnchor):ActivityAnchor {
+    const resolvedCommentId = this.hasResolvedCommentIdValue ? this.resolvedCommentIdValue : null;
+    const canonical = UrlHelpers.canonicalActivityAnchor(anchorInfo, resolvedCommentId);
+
+    if (canonical.type !== anchorInfo.type || canonical.id !== anchorInfo.id) {
+      // Rewrite via the full href: a bare "#…" would resolve against the page's
+      // <base href> and drop the work package path.
+      const url = new URL(window.location.href);
+      url.hash = `${canonical.type}-${canonical.id}`;
+      window.history.replaceState(null, '', url);
+    }
+
+    return canonical;
   }
 
   private scrollToActivity(activityElement:HTMLElement|null) {

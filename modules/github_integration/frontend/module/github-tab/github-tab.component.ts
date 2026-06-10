@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { TabComponent } from "core-app/features/work-packages/components/wp-tabs/components/wp-tab-wrapper/tab";
 import { I18nService } from "core-app/core/i18n/i18n.service";
@@ -38,9 +38,8 @@ import { PathHelperService } from "core-app/core/path-helper/path-helper.service
   standalone: false,
 })
 export class GitHubTabComponent implements TabComponent {
-  @Input() public workPackage:WorkPackageResource;
+  readonly PathHelper = inject(PathHelperService);
+  readonly I18n = inject(I18nService);
 
-  constructor(readonly PathHelper:PathHelperService,
-              readonly I18n:I18nService) {
-  }
+  @Input() public workPackage:WorkPackageResource;
 }

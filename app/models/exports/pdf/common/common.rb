@@ -428,9 +428,9 @@ module Exports::PDF::Common::Common
     "<color rgb='#{styles.link_color}'>#{make_link_href(href, caption)}</color>"
   end
 
-  def get_id_column_cell(work_package, value)
+  def get_id_column_cell(work_package)
     href = url_helpers.work_package_url(work_package)
-    make_link_href_cell(href, value)
+    make_link_href_cell(href, work_package.display_id)
   end
 
   def get_subject_column_cell(work_package, value)
@@ -469,7 +469,7 @@ module Exports::PDF::Common::Common
   def get_value_cell_by_column(work_package, column_name, format_subject)
     value = get_column_value(work_package, column_name)
     return get_cf_link_cell(value) if value.is_a?(::Exports::Formatters::LinkFormatter)
-    return get_id_column_cell(work_package, value) if column_name == :id
+    return get_id_column_cell(work_package) if column_name == :id
     return get_subject_column_cell(work_package, value) if format_subject && column_name == :subject
 
     escape_tags(value)

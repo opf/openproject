@@ -24,7 +24,7 @@
 //
 // See COPYRIGHT and LICENSE files for more details.
 
-import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, Injector, NgModule, inject } from '@angular/core';
 import { OpSharedModule } from 'core-app/shared/shared.module';
 import { OpenprojectTabsModule } from 'core-app/shared/components/tabs/openproject-tabs.module';
 import {
@@ -104,7 +104,9 @@ export function initializeMeetingPlugin(injector:Injector) {
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PluginModule {
-  constructor(injector:Injector) {
+  constructor() {
+    const injector = inject(Injector);
+
     initializeMeetingPlugin(injector);
   }
 }

@@ -1,6 +1,6 @@
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { WpGraphConfigurationService } from 'core-app/shared/components/work-package-graphs/configuration/wp-graph-configuration.service';
 import { WorkPackageStatesInitializationService } from 'core-app/features/work-packages/components/wp-list/wp-states-initialization.service';
 import { TabComponent } from 'core-app/features/work-packages/components/wp-table/configuration-modal/tab-portal-outlet';
@@ -23,6 +23,12 @@ interface OpChartType {
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class WpGraphConfigurationSettingsTabInnerComponent extends QuerySpacedTabComponent implements TabComponent, OnInit {
+  readonly I18n:I18nService;
+  readonly wpTableGroupBy = inject(WorkPackageViewGroupByService);
+  readonly wpStatesInitialization:WorkPackageStatesInitializationService;
+  readonly wpGraphConfiguration:WpGraphConfigurationService;
+  private cdRef = inject(ChangeDetectorRef);
+
   // Grouping
   public availableGroups:QueryGroupByResource[] = [];
 
@@ -35,12 +41,16 @@ export class WpGraphConfigurationSettingsTabInnerComponent extends QuerySpacedTa
     chart_type: this.I18n.t('js.chart.type'),
   };
 
-  constructor(readonly I18n:I18nService,
-    readonly wpTableGroupBy:WorkPackageViewGroupByService,
-    readonly wpStatesInitialization:WorkPackageStatesInitializationService,
-    readonly wpGraphConfiguration:WpGraphConfigurationService,
-    private cdRef:ChangeDetectorRef) {
+  constructor() {
+    const I18n = inject(I18nService);
+    const wpStatesInitialization = inject(WorkPackageStatesInitializationService);
+    const wpGraphConfiguration = inject(WpGraphConfigurationService);
+
     super(I18n, wpStatesInitialization, wpGraphConfiguration);
+
+    this.I18n = I18n;
+    this.wpStatesInitialization = wpStatesInitialization;
+    this.wpGraphConfiguration = wpGraphConfiguration;
   }
 
   public onSave() {

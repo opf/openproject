@@ -49,5 +49,9 @@ module Costs::Patches::ProjectPatch
     def costs_enabled?
       module_enabled?(:costs)
     end
+
+    def cost_types_available?
+      CostType.available_for_project(self).active.exists?
+    end
   end
 end

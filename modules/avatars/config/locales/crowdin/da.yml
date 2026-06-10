@@ -26,18 +26,18 @@ da:
       '
     text_upload_instructions: |
       Upload egen tilpasset avatar på 128 x 128 pixels. Større filer nedskaleres og beskæres for at passe.
-      Når man har valgt et billede, ses en forhåndsvisning af avataren, inden den uploades.
+      Når et billede er valgt, ses en prævisning af avataren inden upload.
     text_change_gravatar_html: For at ændre eller tilføje gravataren til sin mailadresse, gå til %{gravatar_url}.
     text_your_local_avatar: 'OpenProject muliggør upload af egen tilpasset avatar.
 
       '
-    text_local_avatar_over_gravatar: 'Indstiller man én, bruges denne tilpasset avatar fremfor gravataren ovenfor.
+    text_local_avatar_over_gravatar: 'Indstilles en tilpasset avatar, benyttes denne fremfor gravataren ovenfor.
 
       '
     text_your_current_gravatar: |
-      Har man registrere en gravatar, brugerOpenProject denne, eller et standardbillede eller -ikon, hvis det findes.
+      Registreres en gravatar, benytter OpenProject denne, eller et standardbillede eller -ikon, hvis det findes.
       Den aktuelle gravatar er som følger:
     settings:
       enable_gravatars: Aktivér bruger-gravatarer
-      gravatar_default: Forhåndsvalgt Gravatar billede
-      enable_local_avatars: Aktivér brugerdefinerede avatarer
+      gravatar_default: Standard gravatar-billede
+      enable_local_avatars: Aktivér tilpassede avatarer

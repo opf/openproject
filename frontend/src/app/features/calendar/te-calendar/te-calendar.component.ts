@@ -1,17 +1,4 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  Injector,
-  Input,
-  OnDestroy,
-  Output,
-  SecurityContext,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, SecurityContext, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { States } from 'core-app/core/states/states.service';
 import moment, { Moment } from 'moment';
@@ -32,7 +19,7 @@ import {
   SlotLaneContentArg,
 } from '@fullcalendar/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
-import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
+import { TimeEntryResource, formatTimeEntryEntityName } from 'core-app/features/hal/resources/time-entry-resource';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import interactionPlugin from '@fullcalendar/interaction';
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
@@ -43,7 +30,6 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { HalResourceNotificationService } from 'core-app/features/hal/services/hal-resource-notification.service';
-import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { OpCalendarService } from 'core-app/features/calendar/op-calendar.service';
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
@@ -115,6 +101,25 @@ const ADD_ENTRY_PROHIBITED_CLASS_NAME = '-prohibited';
   standalone: false,
 })
 export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
+  readonly states = inject(States);
+  readonly apiV3Service = inject(ApiV3Service);
+  readonly $state = inject(StateService);
+  private element = inject(ElementRef);
+  readonly i18n = inject(I18nService);
+  readonly injector = inject(Injector);
+  readonly notifications = inject(HalResourceNotificationService);
+  private sanitizer = inject(DomSanitizer);
+  private configuration = inject(ConfigurationService);
+  private timezone = inject(TimezoneService);
+  private schemaCache = inject(SchemaCacheService);
+  private colors = inject(ColorsService);
+  private browserDetector = inject(BrowserDetector);
+  private calendar = inject(OpCalendarService);
+  readonly weekdayService = inject(WeekdayService);
+  readonly dayService = inject(DayResourceService);
+  readonly turboRequests = inject(TurboRequestsService);
+  readonly pathHelper = inject(PathHelperService);
+
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @Input() projectIdentifier:string;
@@ -202,27 +207,6 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  constructor(
-    readonly states:States,
-    readonly apiV3Service:ApiV3Service,
-    readonly $state:StateService,
-    private element:ElementRef,
-    readonly i18n:I18nService,
-    readonly injector:Injector,
-    readonly notifications:HalResourceNotificationService,
-    private sanitizer:DomSanitizer,
-    private configuration:ConfigurationService,
-    private timezone:TimezoneService,
-    private schemaCache:SchemaCacheService,
-    private colors:ColorsService,
-    private browserDetector:BrowserDetector,
-    private calendar:OpCalendarService,
-    readonly weekdayService:WeekdayService,
-    readonly dayService:DayResourceService,
-    readonly turboRequests:TurboRequestsService,
-    readonly pathHelper:PathHelperService,
-  ) { }
-
   ngAfterViewInit():void {
     document.addEventListener('dialog:close', this.closeDialogHandler);
   }
@@ -254,6 +238,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   }
 
   protected fetchTimeEntries(start:Moment, end:Moment):Promise<CollectionResource<TimeEntryResource>> {
+    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     if (!this.memoizedTimeEntries
       || this.memoizedTimeEntries.start.valueOf() !== start.valueOf()
       || this.memoizedTimeEntries.end.valueOf() !== end.valueOf()) {
@@ -633,8 +618,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   }
 
   private entityName(entry:TimeEntryResource):string {
-    const entity = entry.entity;
-    return `#${idFromLink(entity.href)}: ${entity.name}`;
+    return formatTimeEntryEntityName(entry.entity);
   }
 
   private popoverHtml(

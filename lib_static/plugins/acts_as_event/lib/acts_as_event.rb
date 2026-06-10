@@ -28,9 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# This now only seems to be used when rendering atom responses.
-# Search as well as activities do not rely on it.
-# Thus, whenever an atom link is removed for a resource, acts_as_event within that model can also be removed.
+# The event_* methods defined here power the server-rendered search results page
+# and atom feeds. The Activities subsystem renders through its own providers, so
+# a model can drop acts_as_event only once neither search nor atom references it.
 
 module Redmine
   module Acts

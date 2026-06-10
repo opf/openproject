@@ -258,7 +258,7 @@ module Import
           is_for_all: false,
           **builder.custom_field_parameters
         }
-        service_call = CustomFields::CreateService.new(user: @user).call(**params)
+        service_call = CustomFields::CreateService.new(user: @system_user).call(**params)
         unless service_call.success?
           raise I18n.t(
             "admin.jira.errors.custom_field_creation_failed",

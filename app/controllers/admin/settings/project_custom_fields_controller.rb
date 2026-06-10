@@ -123,7 +123,7 @@ module Admin::Settings
         )
       end
 
-      respond_to_with_turbo_streams(status: create_service.success? ? :ok : :unprocessable_entity)
+      respond_to_with_turbo_streams(status: create_service)
     end
 
     def unlink
@@ -139,7 +139,7 @@ module Admin::Settings
         )
       end
 
-      respond_to_with_turbo_streams(status: delete_service.success? ? :ok : :unprocessable_entity)
+      respond_to_with_turbo_streams(status: delete_service)
     end
 
     def move

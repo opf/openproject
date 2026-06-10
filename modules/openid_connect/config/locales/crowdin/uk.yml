@@ -53,7 +53,7 @@ uk:
     delete_warning:
       input_delete_confirmation_html: Введіть ім’я постачальника послуг %{name}, щоб підтвердити видалення.
       irreversible_notice: Видалення постачальника послуг SSO не можна скасувати.
-      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'
+      provider_html: 'Справді видалити постачальника SSO %{name}? Майте на увазі, що це призведе до таких наслідків:'
       delete_result_1: Вилучіть постачальника послуг зі списку доступних постачальників.
       delete_result_user_count:
         zero: Зараз у цього постачальника послуг немає користувачів. Нічого робити не потрібно.
@@ -63,7 +63,7 @@ uk:
   openid_connect:
     menu_title: Постачальники OpenID
     delete_title: Видалити постачальника послуг OpenID Connect
-    delete_heading: Delete this OpenID Connect provider?
+    delete_heading: Видалити цього постачальника послуг OpenID Connect?
     group_links_heading: Посилання на групи OpenID Connect
     groups:
       match_preview_component:

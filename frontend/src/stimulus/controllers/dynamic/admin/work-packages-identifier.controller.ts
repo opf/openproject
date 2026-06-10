@@ -33,18 +33,30 @@ import { Controller } from '@hotwired/stimulus';
 export default class WorkPackagesIdentifierController extends Controller {
   static values = {
     hasProblematicProjects: Boolean,
+    currentValue: String,
   };
 
   static targets = ['autofixSection', 'saveButton', 'autofixButton'];
 
   declare readonly hasProblematicProjectsValue:boolean;
+  declare readonly currentValueValue:string;
 
   declare readonly autofixSectionTarget:HTMLElement;
   declare readonly saveButtonTarget:HTMLButtonElement;
   declare readonly autofixButtonTarget:HTMLButtonElement;
+  declare readonly hasSaveButtonTarget:boolean;
+
+  private readonly resetBeforeCache = ():void => {
+    if (this.hasSaveButtonTarget) this.saveButtonTarget.hidden = true;
+  };
 
   connect() {
+    document.addEventListener('turbo:before-cache', this.resetBeforeCache);
     this.updateVisibility();
+  }
+
+  disconnect() {
+    document.removeEventListener('turbo:before-cache', this.resetBeforeCache);
   }
 
   handleChange() {
@@ -52,17 +64,18 @@ export default class WorkPackagesIdentifierController extends Controller {
   }
 
   private updateVisibility() {
-    const showAutofix = this.isSemanticSelected() && this.hasProblematicProjectsValue;
+    const selectedValue = this.selectedValue();
+    const showAutofix   = selectedValue === 'semantic' && this.hasProblematicProjectsValue;
+    const isDirty       = selectedValue !== this.currentValueValue;
 
     this.autofixSectionTarget.hidden = !showAutofix;
-    this.saveButtonTarget.hidden     =  showAutofix;
+    this.saveButtonTarget.hidden     =  showAutofix || !isDirty;
     this.autofixButtonTarget.hidden  = !showAutofix;
   }
 
-  private isSemanticSelected():boolean {
-    const checked = this.element.querySelector<HTMLInputElement>(
+  private selectedValue():string | undefined {
+    return this.element.querySelector<HTMLInputElement>(
       'input[name="settings[work_packages_identifier]"]:checked',
-    );
-    return checked?.value === 'semantic';
+    )?.value;
   }
 }

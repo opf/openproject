@@ -196,4 +196,45 @@ RSpec.describe Meetings::CopyService, "integration", type: :model do
       end
     end
   end
+
+  context "with a work_package agenda item whose work package was deleted" do
+    before do
+      item = create(:wp_meeting_agenda_item, meeting:)
+      # Simulate the work package being destroyed (dependent: :nullify)
+      item.update_columns(work_package_id: nil)
+    end
+
+    it "copies the deleted-WP agenda item preserving its type and nil work_package_id" do
+      expect(service_result).to be_success
+      deleted_item = copy.reload.agenda_items.find_by(item_type: :work_package, work_package_id: nil)
+      expect(deleted_item).to be_present
+      expect(deleted_item).to be_work_package
+      expect(deleted_item.work_package_id).to be_nil
+    end
+  end
+
+  context "with a mix of valid and deleted work_package agenda items" do
+    let(:work_package) { create(:work_package, project:) }
+
+    before do
+      create(:wp_meeting_agenda_item, meeting:, work_package:)
+      deleted_item = create(:wp_meeting_agenda_item, meeting:)
+      # Simulate the work package being destroyed (dependent: :nullify)
+      deleted_item.update_columns(work_package_id: nil)
+    end
+
+    it "copies both the valid and deleted-WP agenda items" do
+      expect(service_result).to be_success
+      agenda_items = copy.reload.agenda_items
+      expect(agenda_items.count).to eq(2)
+
+      valid_item = agenda_items.find_by(item_type: :work_package, work_package_id: work_package.id)
+      expect(valid_item).to be_present
+      expect(valid_item.work_package_id).to eq(work_package.id)
+
+      deleted_item = agenda_items.find_by(item_type: :work_package, work_package_id: nil)
+      expect(deleted_item).to be_present
+      expect(deleted_item.work_package_id).to be_nil
+    end
+  end
 end

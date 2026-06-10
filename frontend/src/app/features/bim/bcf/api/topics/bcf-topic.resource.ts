@@ -40,25 +40,25 @@ export class BcfTopicAuthorizationMap {
 
 @jsonObject
 export class BcfTopicResource {
-  @jsonMember
+  @jsonMember(String)
   guid:string;
 
-  @jsonMember
+  @jsonMember(String)
   topic_type:string;
 
-  @jsonMember
+  @jsonMember(String)
   topic_status:string;
 
-  @jsonMember
+  @jsonMember(String)
   priority:string;
 
   @jsonArrayMember(String)
   reference_links:string[];
 
-  @jsonMember
+  @jsonMember(String)
   title:string;
 
-  @jsonMember({ preserveNull: true })
+  @jsonMember(Number, { preserveNull: true })
   index:number|null;
 
   @jsonArrayMember(String)
@@ -67,22 +67,22 @@ export class BcfTopicResource {
   @jsonMember({ deserializer: (value) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
   creation_date:Moment;
 
-  @jsonMember
+  @jsonMember(String)
   creation_author:string;
 
   @jsonMember({ deserializer: (value) => moment(value), serializer: (timestamp:Moment) => timestamp.toISOString() })
   modified_date:Moment;
 
-  @jsonMember({ preserveNull: true })
+  @jsonMember(String, { preserveNull: true })
   modified_author:string|null;
 
-  @jsonMember
+  @jsonMember(String)
   assigned_to:string;
 
-  @jsonMember({ preserveNull: true })
+  @jsonMember(String, { preserveNull: true })
   stage:string|null;
 
-  @jsonMember
+  @jsonMember(String)
   description:string;
 
   @jsonMember({
@@ -91,6 +91,6 @@ export class BcfTopicResource {
   })
   due_date:Moment;
 
-  @jsonMember
+  @jsonMember(BcfTopicAuthorizationMap)
   authorization:BcfTopicAuthorizationMap;
 }

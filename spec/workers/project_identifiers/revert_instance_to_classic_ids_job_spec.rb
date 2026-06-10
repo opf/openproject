@@ -109,7 +109,54 @@ RSpec.describe ProjectIdentifiers::RevertInstanceToClassicIdsJob do
 
         it "generates a valid classic identifier when no classic history exists" do
           expect(project_without_classic_history.reload.identifier)
-            .to match(Projects::Identifier::CLASSIC_IDENTIFIER_FORMAT)
+            .to match(Projects::Identifier::CLASSIC_FORMAT)
+        end
+      end
+
+      context "when one project has a conflicting restored identifier" do
+        # project_before and project_after bracket the conflict project to confirm
+        # the find_each loop is not aborted — both must be processed.
+        let!(:project_before) do
+          create(:project).tap do |p|
+            p.update_columns(identifier: "BEFORE1")
+            FriendlyId::Slug.create!(sluggable: p, slug: "project-before")
+          end
+        end
+
+        # Holds "conflict-slug" as its current identifier, blocking project_conflict
+        # from reclaiming it.
+        let!(:blocking_project) { create(:project, identifier: "conflict-slug") }
+
+        let!(:project_conflict) do
+          create(:project).tap do |p|
+            p.update_columns(identifier: "CONFLICT1")
+            FriendlyId::Slug.where(sluggable_id: p.id, sluggable_type: "Project").delete_all
+            FriendlyId::Slug.where(slug: "conflict-slug", sluggable_type: "Project").update_all(sluggable_id: p.id)
+          end
+        end
+
+        let!(:project_after) do
+          create(:project).tap do |p|
+            p.update_columns(identifier: "AFTER1")
+            FriendlyId::Slug.create!(sluggable: p, slug: "project-after")
+          end
+        end
+
+        before do
+          allow(Setting::WorkPackageIdentifier).to receive_messages(classic?: true, semantic?: false)
+          described_class.new.perform
+        end
+
+        it "still reverts project_before (loop not aborted before the conflict)" do
+          expect(project_before.reload.identifier).to eq("project-before")
+        end
+
+        it "still reverts project_after (loop not aborted after the conflict)" do
+          expect(project_after.reload.identifier).to eq("project-after")
+        end
+
+        it "assigns project_conflict a project-NNNNN fallback identifier" do
+          expect(project_conflict.reload.identifier).to match(/\Aproject-[a-z0-9]{5}\z/)
         end
       end
     end

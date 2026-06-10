@@ -39,6 +39,8 @@ fr:
           other: "%{count} participants"
         participants_attended: Présent(s)
         participants_invited: Invités
+        participants_added: 'Participants ajoutés:'
+        participants_removed: 'Participants retirés :'
         project: Projet
         start_date: Date
         start_time: Heure de début
@@ -64,6 +66,9 @@ fr:
         title: Titre
         frequency: Fréquence
         interval: Intervalle
+        monthly_day: Jour du mois
+        monthly_ordinal: Position
+        monthly_weekday: En semaine
         start_date: Commence le
         start_time: Heure de début
         start_time_hour: Heure de début
@@ -95,7 +100,7 @@ fr:
             other: Il y a %{count} réunions ouvertes dans la série qui ne sont pas couvertes par le nouvel horaire. Modifiez l'horaire pour inclure toutes les réunions existantes.
             format: "%{message}"
       messages:
-        invalid_time_format: 'n’est pas une heure valide. Format requis : HH:MM'
+        invalid_time_format: 'n''est pas une heure valide. Format requis : HH:MM'
     models:
       recurring_meeting: Réunion récurrente
       meeting: Réunion ponctuelle
@@ -156,8 +161,8 @@ fr:
   label_meeting_date_time: Date/Heure
   label_meeting_date_and_time: Date et heure
   label_meeting_diff: Différence
-  label_meeting_send_updates: Envoi d'invitations et de mises à jour du calendrier par courrier électronique
-  label_meeting_send_updates_caption: Envoyez des invitations par courrier électronique à tous les participants à cette réunion.
+  label_meeting_send_updates: Envoi d'invitations et de mises à jour du calendrier par e-mail
+  label_meeting_send_updates_caption: Envoyez des invitations par e-mail à tous les participants à cette réunion.
   label_recurring_meeting: Réunion récurrente
   label_recurring_meeting_part_of: Partie d'une série de réunions
   label_recurring_meeting_new: Nouvelle réunion récurrente
@@ -210,6 +215,7 @@ fr:
   label_time_zone: Fuseau horaire
   label_start_date: Date de début
   label_subscribe_icalendar: S'abonner au calendrier
+  label_recurring_filter: Filtre récurrent
   caption_meeting_template_select: Sélectionnez un modèle pour copier automatiquement ses points de l'ordre du jour
   caption_template_project_select: Veuillez sélectionner le projet dans lequel vous souhaitez créer ce modèle de réunion
   placeholder_meeting_template_select_project_first: Sélectionnez d'abord un projet
@@ -235,7 +241,7 @@ fr:
         description: Il n'y a pas encore de participants.
     attachments:
       onetime_template: Ces fichiers joints seront inclus dans toutes les futures réunions de la série.
-      series_template: Ces fichiers joints seront inclus dans toutes les futures réunions de la série.
+      series_template: Ces fichiers joints seront inclus dans toutes les réunions futures de la série.
       text: Les fichiers joints sont accessibles à tous les participants à la réunion. Vous pouvez également les glisser-déposer dans les notes relatives aux points de l'ordre du jour.
     copy:
       title: 'Copier la réunion : %{title}'
@@ -272,16 +278,6 @@ fr:
         summary_series: La série de réunions « %{title} » a été annulée par %{actor}, ou vous avez été supprimé(e) en tant que participant(e)
         summary: "« %{title} » a été annulé par %{actor}, ou vous avez été supprimé(e) en tant que participant(e)"
         date_time: Date/heure prévue
-      participant_added:
-        header: Réunion « %{title} » - Participant ajouté
-        header_series: Série de réunions « %{title} » - Participant ajouté
-        summary: "%{actor} a ajouté %{participant} à la réunion « %{title} »"
-        summary_series: "%{actor} a ajouté %{participant} à la série de réunions « %{title} »"
-      participant_removed:
-        header: Réunion « %{title} » - Participant supprimé
-        header_series: Série de réunions « %{title} » - Participant supprimé
-        summary: "%{actor} a supprimé %{participant} de la réunion « %{title} »"
-        summary_series: "%{actor} a supprimé %{participant} de la série de réunions « %{title} »"
       ended:
         header_series: 'Terminé : Série de rencontres ''%{title}'''
         summary_series: La série de réunions « %{title} » a été clôturée par %{actor}
@@ -295,6 +291,8 @@ fr:
         new_date_time: Nouvelle date/heure
         old_location: Ancien emplacement
         new_location: Nouvel emplacement
+        added_participants: Ajouté
+        removed_participants: Retiré
     label_mail_all_participants: Envoyer une invitation par e-mail aux participants
     types:
       one_time: Ponctuelle
@@ -323,6 +321,13 @@ fr:
 
           '
         confirm_button: Annuler l'occurrence
+      occurrence_past:
+        title: Supprimer l'occurrence
+        heading: Supprimer cette occurrence ?
+        confirmation_message_html: 'Cette action est irréversible. Veuillez procéder avec prudence.
+
+          '
+        confirm_button: Supprimer l'occurrence
     blankslate:
       title: Il n'y a pas de réunions à afficher
       desc: Vous pouvez créer une nouvelle réunion ou modifier les critères de filtrage
@@ -369,58 +374,22 @@ fr:
         caption: Ce texte apparaîtra sur chaque page au centre du pied de page.
       submit_button: Télécharger
     notifications:
+      disabled: Les participants ne recevront pas de mises à jour par courriel les informant des modifications apportées à la date, à l'heure ou à la liste des participants.
+      enabled: Tous les participants recevront des invitations de calendrier mises à jour les informant des modifications apportées à la date, à l'heure ou à la liste des participants.
       sidepanel:
         title: Mises à jour du calendrier par e-mail
         description:
-          disabled: Les participants ne recevront aucun e-mail pour les informer des modifications.
-          enabled: Tous les participants recevront des invitations de calendrier mises à jour par e-mail les informant des modifications.
           change_via_template: Pour modifier cela, éditez le modèle de la série.
       dialog:
         title:
           enable: Activer les mises à jour du calendrier par e-mail ?
           disable: Désactiver les mises à jour du calendrier par e-mail ?
         message:
-          enable: 'Tous les participants recevront des invitations actualisées par e-mail chaque fois que la date, l''heure, le lieu ou les participants de la réunion seront modifiés. Une fois l''option activée, un e-mail sera immédiatement envoyé à tous les participants.
-
-            '
-          disable: 'Les participants ne recevront plus d''invitations actualisées par e-mail lorsque la date, l''heure, le lieu ou les participants de la réunion seront modifiés. S''ils ont déjà reçu une invitation pour cette réunion, il se peut qu''elle ne soit plus exacte.
-
-            '
+          enable: Une fois cette option activée, un e-mail sera immédiatement envoyé à tous les participants.
+          disable: S'ils avaient déjà reçu une invitation pour cette réunion, celle-ci pourrait ne plus être exacte.
         confirm_label:
           enable: Activer les mises à jour par e-mail
           disable: Désactiver les mises à jour par e-mail
-      banner:
-        participants:
-          enabled: 'Tous les participants recevront des invitations de calendrier mises à jour par e-mail lorsque vous ajouterez ou supprimerez des participants.
-
-            '
-          disabled: 'Les mises à jour du calendrier par e-mail sont désactivées. Les participants ne recevront pas d''e-mail les informant de l''ajout ou de la suppression de participants.
-
-            '
-          draft_disabled: 'Les participants ne recevront pas d''e-mail les informant de l''ajout ou de la suppression de participants.
-
-            '
-        onetime:
-          enabled: 'Tous les participants recevront des invitations de calendrier mises à jour par e-mail lorsque vous ajouterez ou supprimerez des participants.
-
-            '
-          disabled: 'Les participants ne recevront pas d''e-mail les informant des changements de date, d''heure ou de participants.
-
-            '
-        occurrence:
-          enabled: 'Les mises à jour du calendrier par e-mail sont activées pour la série de réunions. Tous les participants recevront des invitations de calendrier mises à jour les informant des modifications que vous avez apportées à cet événement.
-
-            '
-          disabled: 'Les mises à jour du calendrier par e-mail sont désactivées pour la série de réunions. Les participants ne recevront pas d''e-mail les informant des modifications apportées à cet événement.
-
-            '
-        template:
-          enabled: 'Les mises à jour du calendrier par e-mail sont activées pour la série de réunions. Tous les participants recevront des invitations de calendrier mises à jour les informant des changements que vous avez apportés à ce modèle ou à des occurrences individuelles.
-
-            '
-          disabled: 'Les mises à jour du calendrier par e-mail sont désactivées pour la série de réunions. Les participants ne recevront pas d''e-mail les informant des modifications que vous avez apportées à ce modèle ou aux événements individuels.
-
-            '
     presentation_mode:
       title: Mode de Présentation
       button_present: Présenter
@@ -437,7 +406,7 @@ fr:
     widgets:
       blankslate:
         heading: Aucune réunion à venir
-        description: Les prochaines réunions où vous êtes l'organisateur ou un participant apparaîtront ici.
+        description: Les prochaines réunions auxquelles vous participerez apparaîtront ici.
       view_details: Voir toutes les réunions
   meeting_section:
     untitled_title: Section sans titre
@@ -479,7 +448,7 @@ fr:
       banner_html: 'Vous êtes en train d''éditer le modèle d''une série de réunions : %{link}. Chaque nouvelle occurrence d''une réunion dans la série utilisera ce modèle. Les modifications n''affecteront pas les réunions antérieures ou déjà créées.
 
         '
-      draft_banner_html: 'Vous êtes en train d''éditer le modèle d''une série de réunions : %{link}. Chaque nouvelle occurrence d''une réunion dans la série utilisera ce modèle. Les modifications n''affecteront pas les réunions antérieures ou déjà créées. Aucune invitation par courrier électronique ne sera envoyée dans ce mode brouillon jusqu''à ce que vous ouvriez la première réunion.
+      draft_banner_html: 'Vous êtes en train d''éditer le modèle d''une série de réunions : %{link}. Chaque nouvelle occurrence d''une réunion dans la série utilisera ce modèle. Les modifications n''affecteront pas les réunions antérieures ou déjà créées. Aucune invitation par e-mail ne sera envoyée dans ce mode brouillon jusqu''à ce que vous ouvriez la première réunion.
 
         '
     frequency:
@@ -489,18 +458,42 @@ fr:
       x_weekly:
         one: Toutes les semaines
         other: Toutes les %{count} semaines
+      x_monthly:
+        one: Chaque mois
+        other: Tous les %{count} mois
+      monthly_day_of_month: Jour du mois
+      monthly_nth_weekday: Tous les mois, un jour de semaine
       every_weekday: Chaque %{day_of_the_week}
       working_days: Chaque jour ouvrable
+    monthly:
+      inflected_ordinal:
+        first: premier
+        second: deuxième
+        third: troisième
+        fourth: quatrième
+        last: dernier
+      ordinal_options:
+        first: Premier
+        second: Deuxième
+        third: Troisième
+        fourth: Quatrième
+        last: Dernier
+    actual_first_occurrence_mismatch_html: La première occurrence de cette série sera %{first_occurrence}
+    day_of_month_skipping_info: Les mois comportant moins de %{monthly_day} jours seront ignorés
     end_after:
-      never: jamais
-      specific_date: après une date précise
-      iterations: après un certain nombre d'occurrences
+      never: Jamais
+      specific_date: Après une date spécifique
+      iterations: Après un nombre d'occurrences
     starts: Début
     in_words:
       daily_interval: Tous les %{interval} jours
       working_days: Chaque jour ouvrable
       weekly: Chaque semaine le %{weekday}
       weekly_interval: Toutes les %{interval} semaines le %{weekday}
+      monthly_day: Chaque mois, le %{day}
+      monthly_day_interval: Toutes les %{interval} semaines, le %{day}
+      monthly_nth_weekday: Chaque mois, le %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Tous les %{interval} mois, le %{ordinal} %{weekday}
       frequency: "%{base} à %{time}"
       full: "%{base} à %{time}, se termine le %{end_date}"
       full_past: "%{base} à %{time}, terminée le %{end_date}"
@@ -609,6 +602,7 @@ fr:
   label_agenda_item_duplicate_in_next_title: Duplication lors de la prochaine réunion ?
   label_agenda_item_add_notes: Ajouter des notes
   label_agenda_item_add_outcome: Ajouter un résultat
+  label_agenda_item_convert_to_work_package: Convertir en lot de travaux
   label_agenda_item_work_package_add: Ajouter lot de travaux
   label_agenda_item_work_package: Lot de travaux du point de l'ordre du jour
   label_section_rename: Renommer la section
@@ -695,17 +689,17 @@ fr:
   text_agenda_item_not_editable_anymore: Ce point d'ordre du jour n'est plus modifiable.
   text_agenda_item_move_next_meeting: Ce point sera reporté à la prochaine réunion le %{date} à %{time}.
   text_agenda_item_moved_to_next_meeting: L'ordre du jour a été déplacé vers la prochaine réunion, le %{date}
-  text_agenda_item_duplicate_in_next_meeting: Êtes-vous sûr de vouloir ajouter une copie de ce point de l'ordre du jour à la prochaine réunion, sur %{date} à %{time}? Les résultats ne seront pas dupliqués.
+  text_agenda_item_duplicate_in_next_meeting: Voulez-vous vraiment ajouter une copie de ce point de l'ordre du jour à la prochaine réunion, sur %{date} à %{time}? Les résultats ne seront pas dupliqués.
   text_agenda_item_duplicated_in_next_meeting: L'ordre du jour a été déplacé vers la prochaine réunion, le %{date}
   text_work_package_has_no_upcoming_meeting_agenda_items: Ce lot de travaux n'est pas encore inclus dans l'ordre du jour d'une prochaine réunion.
   text_agenda_item_no_available_occurrence: Aucune occurrence à venir n'est disponible.
-  text_agenda_item_dialog_skipping_note: 'Note : Passer %{details}.'
+  text_agenda_item_dialog_skipping_note: 'Note : passer %{details}.'
   text_agenda_item_dialog_skipping_cancelled_one: réunion annulée le %{date}
   text_agenda_item_dialog_skipping_cancelled_many: "%{count} réunions annulées"
   text_agenda_item_dialog_skipping_closed_one: réunion clôturée le %{date}
-  text_agenda_item_dialog_skipping_closed_many: Réunions clôturées %{count}
+  text_agenda_item_dialog_skipping_closed_many: "%{count} réunions clôturées"
   text_work_package_add_to_meeting_hint: Utilisez le bouton "Ajouter à la réunion" pour ajouter ce lot de travaux à une réunion à venir.
-  text_work_package_has_no_past_meeting_agenda_items: Ce work package n'a pas été ajouté comme point à l'ordre du jour lors d'une réunion précédente.
+  text_work_package_has_no_past_meeting_agenda_items: Ce lot de travaux n'a pas été ajouté comme point à l'ordre du jour lors d'une réunion précédente.
   text_email_updates_muted: Les mises à jour du calendrier par e-mail sont désactivées. Les participants ne recevront pas d'invitations actualisées par e-mail lorsque vous effectuerez des modifications.
   text_email_updates_enabled: Les mises à jour du calendrier par e-mail sont activées. Tous les participants recevront des invitations actualisées par e-mail lorsque vous apporterez des modifications.
   my_account:

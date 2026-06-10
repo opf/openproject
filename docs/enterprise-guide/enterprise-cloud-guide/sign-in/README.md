@@ -44,4 +44,4 @@ Click the link in the email to get directed to your installation. If you are mem
 
 Watch this video about sign in and registration:
 
-<video src="https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Sign-in-and-Registration-2.mp4"></video>
+[Video](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject-Sign-in-and-Registration.mp4)

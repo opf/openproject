@@ -40,14 +40,21 @@ export default class extends Controller {
         debounce: {type: Number, default: 500},
     };
 
+    static targets = ['submitButton', 'spinnerButton'];
     static metaNames = ['csrf-token'];
 
     declare readonly csrfToken:string;
-    declare toggleUrlValue:string;
-    declare filterUrlValue:string;
-    declare debounceValue:number;
+    declare readonly toggleUrlValue:string;
+    declare readonly filterUrlValue:string;
+    declare readonly debounceValue:number;
+    declare readonly submitButtonTarget:HTMLElement;
+    declare readonly hasSubmitButtonTarget:boolean;
+    declare readonly spinnerButtonTarget:HTMLElement;
+    declare readonly hasSpinnerButtonTarget:boolean;
 
     private debouncedFilter:DebouncedFunc<(filter:string) => Promise<void>> | null = null;
+    private requestQueue:(() => Promise<void>)[] = [];
+    private drainingQueue = false;
 
     connect():void {
         useMeta(this, {suffix: false});
@@ -59,26 +66,84 @@ export default class extends Controller {
 
     disconnect():void {
         this.debouncedFilter?.cancel();
+        this.requestQueue = [];
     }
 
-    async toggleProject(event:Event):Promise<void> {
+    toggleProject(event:Event):void {
         const checkbox = event.currentTarget as HTMLInputElement;
         const projectId = checkbox.value;
         const url = this.toggleUrlValue.replace('PROJECT_ID', projectId);
 
-        const response = await fetch(url, {
-            headers: {
-                Accept: 'text/vnd.turbo-stream.html',
-            },
+        this.enqueue(async () => {
+            const response = await fetch(url, {
+                headers: {
+                    Accept: 'text/vnd.turbo-stream.html',
+                },
+            });
+            const html = await response.text();
+            renderStreamMessage(html);
         });
+    }
 
-        const html = await response.text();
-        renderStreamMessage(html);
+    checkAll(event:Event):void {
+        event.preventDefault();
+        const link = event.currentTarget as HTMLAnchorElement;
+        this.enqueue(() => this.submitBulkAction(link.href));
+    }
+
+    uncheckAll(event:Event):void {
+        event.preventDefault();
+        const link = event.currentTarget as HTMLAnchorElement;
+        this.enqueue(() => this.submitBulkAction(link.href));
     }
 
     filterProjects(event:Event):void {
         const input = event.currentTarget as HTMLInputElement;
         void this.debouncedFilter?.(input.value);
+    }
+
+    private enqueue(task:() => Promise<void>):void {
+        this.requestQueue.push(task);
+        this.setSpinner(true);
+        if (!this.drainingQueue) {
+            this.drainingQueue = true;
+            this.processNextTask();
+        }
+    }
+
+    private processNextTask():void {
+        if (this.requestQueue.length === 0) {
+            this.setSpinner(false);
+            this.drainingQueue = false;
+            return;
+        }
+
+        const task = this.requestQueue.shift()!;
+        task()
+            .then(() => {
+                setTimeout(() => {
+                    this.setSpinner(this.requestQueue.length > 0);
+                    this.processNextTask();
+                }, 0);
+            })
+            .catch((e:unknown) => {
+                console.warn(`Failed to change the project selection: ${e as string}`);
+            });
+    }
+
+    private setSpinner(visible:boolean):void {
+        if (this.hasSubmitButtonTarget) this.submitButtonTarget.hidden = visible;
+        if (this.hasSpinnerButtonTarget) this.spinnerButtonTarget.hidden = !visible;
+    }
+
+    private async submitBulkAction(url:string):Promise<void> {
+        const response = await fetch(url, {
+            headers: {
+                Accept: 'text/vnd.turbo-stream.html',
+            },
+        });
+        const html = await response.text();
+        renderStreamMessage(html);
     }
 
     private async submitFilter(filter:string):Promise<void> {

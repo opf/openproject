@@ -1,18 +1,27 @@
+import type { Mock } from 'vitest';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { States } from 'core-app/core/states/states.service';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { ChangeDetectionStrategy, Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { of, map } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { OpAutocompleterComponent } from './op-autocompleter.component';
-import { TOpAutocompleterResource } from './typings';
 import { By } from '@angular/platform-browser';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 
+@Component({
+  selector: 'op-test-autocompleter',
+  template: '',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: false,
+})
+class TestAutocompleterComponent extends OpAutocompleterComponent {
+}
+
 describe('autocompleter', () => {
   let fixture:ComponentFixture<OpAutocompleterComponent>;
-  let getOptionsFnSpy:jasmine.Spy;
+  let getOptionsFnSpy:Mock;
   const workPackagesStub = [
     {
       id: 1,
@@ -60,7 +69,11 @@ describe('autocompleter', () => {
     },
   ];
 
-  type WindowWithOpenProject = Omit<Window, 'OpenProject'> & { OpenProject?:{ environment:string } };
+  type WindowWithOpenProject = Omit<Window, 'OpenProject'> & {
+    OpenProject?:{
+      environment:string;
+    };
+  };
 
   beforeEach(() => {
     (window as WindowWithOpenProject).OpenProject = { environment: 'test' };
@@ -79,13 +92,11 @@ describe('autocompleter', () => {
     }).compileComponents();
 
     fixture = TestBed.createComponent(OpAutocompleterComponent);
-    getOptionsFnSpy = jasmine.createSpy('getOptionsFn').and.callFake((searchTerm:string) => {
-      return of(workPackagesStub).pipe(
-        map((wps) => wps.filter((wp) => searchTerm !== '' && wp.subject.includes(searchTerm)))
-      );
+    getOptionsFnSpy = vi.fn().mockImplementation((searchTerm:string) => { // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+      return of(workPackagesStub).pipe(map((wps) => wps.filter((wp) => searchTerm !== '' && wp.subject.includes(searchTerm))));
     });
 
-    fixture.componentInstance.resource = 'work_packages' as TOpAutocompleterResource;
+    fixture.componentInstance.resource = 'work_packages';
     fixture.componentInstance.filters = [];
     fixture.componentInstance.searchKey = 'typeahead';
     fixture.componentInstance.appendTo = 'body';
@@ -98,35 +109,36 @@ describe('autocompleter', () => {
   });
 
   it('should load the ng-select correctly', () => {
-    jasmine.clock().install();
+    vi.useFakeTimers();
     try {
       fixture.detectChanges();
-      jasmine.clock().tick(0);
+      vi.advanceTimersByTime(0);
 
       const autocompleter = document.querySelector('.ng-select-container');
 
       expect(document.contains(autocompleter)).toBeTruthy();
-    } finally {
-      jasmine.clock().uninstall();
+    }
+    finally {
+      vi.useRealTimers();
     }
   });
 
   describe('without debounce', () => {
     it('should load items', () => {
-      jasmine.clock().install();
+      vi.useFakeTimers();
       try {
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
         fixture.detectChanges();
         fixture.componentInstance.ngAfterViewInit();
-        jasmine.clock().tick(1000);
+        vi.advanceTimersByTime(1000);
         fixture.detectChanges();
         const select = fixture.componentInstance.ngSelectInstance;
 
-        expect(select.isOpen()).toBeFalse();
+        expect(select.isOpen()).toBe(false);
         select.open();
         select.focus();
 
-        expect(select.isOpen()).toBeTrue();
+        expect(select.isOpen()).toBe(true);
 
         expect(select.itemsList.items.length).toEqual(0);
 
@@ -134,14 +146,14 @@ describe('autocompleter', () => {
         const inputElement = inputDebugElement.nativeElement as HTMLInputElement;
 
         fixture.detectChanges();
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
 
         expect(getOptionsFnSpy).toHaveBeenCalledWith('');
 
         inputElement.value = 'Wor';
         inputElement.dispatchEvent(new Event('input'));
         fixture.detectChanges();
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
 
         expect(getOptionsFnSpy).toHaveBeenCalledWith('Wor');
 
@@ -152,27 +164,28 @@ describe('autocompleter', () => {
         inputElement.value = 'package 2';
         inputElement.dispatchEvent(new Event('input'));
         fixture.detectChanges();
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
 
         expect(getOptionsFnSpy).toHaveBeenCalledWith('package 2');
 
         fixture.detectChanges();
 
         expect(select.itemsList.items.length).toEqual(1);
-      } finally {
-        jasmine.clock().uninstall();
+      }
+      finally {
+        vi.useRealTimers();
       }
     });
   });
 
   describe('work package option rendering', () => {
     it('should display formattedId in dropdown options', () => {
-      jasmine.clock().install();
+      vi.useFakeTimers();
       try {
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
         fixture.detectChanges();
         fixture.componentInstance.ngAfterViewInit();
-        jasmine.clock().tick(1000);
+        vi.advanceTimersByTime(1000);
         fixture.detectChanges();
         const select = fixture.componentInstance.ngSelectInstance;
 
@@ -185,7 +198,7 @@ describe('autocompleter', () => {
         inputElement.value = 'Wor';
         inputElement.dispatchEvent(new Event('input'));
         fixture.detectChanges();
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
         fixture.detectChanges();
 
         const wpIdElements = document.querySelectorAll('.op-autocompleter--wp-id');
@@ -195,18 +208,19 @@ describe('autocompleter', () => {
         const renderedIds = Array.from(wpIdElements).map(el => el.textContent?.trim());
 
         expect(renderedIds).toContain('#1');
-      } finally {
-        jasmine.clock().uninstall();
+      }
+      finally {
+        vi.useRealTimers();
       }
     });
 
     it('should display classic formattedId in selected value label', () => {
-      jasmine.clock().install();
+      vi.useFakeTimers();
       try {
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
         fixture.detectChanges();
         fixture.componentInstance.ngAfterViewInit();
-        jasmine.clock().tick(1000);
+        vi.advanceTimersByTime(1000);
         fixture.detectChanges();
         const select = fixture.componentInstance.ngSelectInstance;
 
@@ -219,7 +233,7 @@ describe('autocompleter', () => {
         inputElement.value = 'Wor';
         inputElement.dispatchEvent(new Event('input'));
         fixture.detectChanges();
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
         fixture.detectChanges();
 
         // Select the first item (classic mode: #1)
@@ -232,18 +246,19 @@ describe('autocompleter', () => {
         expect(labelElement).toBeTruthy();
         expect(labelElement!.textContent).toContain('#1');
         expect(labelElement!.textContent).toContain('Workpackage 1');
-      } finally {
-        jasmine.clock().uninstall();
+      }
+      finally {
+        vi.useRealTimers();
       }
     });
 
     it('should display semantic formattedId in selected value label', () => {
-      jasmine.clock().install();
+      vi.useFakeTimers();
       try {
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
         fixture.detectChanges();
         fixture.componentInstance.ngAfterViewInit();
-        jasmine.clock().tick(1000);
+        vi.advanceTimersByTime(1000);
         fixture.detectChanges();
         const select = fixture.componentInstance.ngSelectInstance;
 
@@ -256,7 +271,7 @@ describe('autocompleter', () => {
         inputElement.value = 'package 2';
         inputElement.dispatchEvent(new Event('input'));
         fixture.detectChanges();
-        jasmine.clock().tick(0);
+        vi.advanceTimersByTime(0);
         fixture.detectChanges();
 
         // Select the semantic mode item (PROJ-2)
@@ -270,8 +285,9 @@ describe('autocompleter', () => {
         expect(labelElement!.textContent).toContain('PROJ-2');
         expect(labelElement!.textContent).not.toContain('#PROJ-2');
         expect(labelElement!.textContent).toContain('Workpackage 2');
-      } finally {
-        jasmine.clock().uninstall();
+      }
+      finally {
+        vi.useRealTimers();
       }
     });
   });
@@ -290,11 +306,11 @@ describe('autocompleter', () => {
       fixture.detectChanges();
       const select = fixture.componentInstance.ngSelectInstance;
 
-      expect(select.isOpen()).toBeFalse();
+      expect(select.isOpen()).toBe(false);
       select.open();
       select.focus();
 
-      expect(select.isOpen()).toBeTrue();
+      expect(select.isOpen()).toBe(true);
 
       expect(select.itemsList.items.length).toEqual(0);
 
@@ -307,7 +323,7 @@ describe('autocompleter', () => {
       await new Promise(resolve => setTimeout(resolve, 100));
 
       expect(getOptionsFnSpy).toHaveBeenCalledWith('');
-      getOptionsFnSpy.calls.reset();
+      getOptionsFnSpy.mockClear();
 
       inputElement.value = 'Wor';
       inputElement.dispatchEvent(new Event('input'));
@@ -320,5 +336,20 @@ describe('autocompleter', () => {
 
       expect(getOptionsFnSpy).toHaveBeenCalledWith('Wor');
     });
+  });
+});
+
+describe('derived autocompleter', () => {
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [TestAutocompleterComponent],
+      providers: [States, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
+    }).compileComponents();
+  });
+
+  it('provides shared autocompleter dependencies to subclasses', () => {
+    const fixture = TestBed.createComponent(TestAutocompleterComponent);
+
+    expect(fixture.componentInstance.opAutocompleterService).toBeDefined();
   });
 });

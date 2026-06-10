@@ -145,6 +145,7 @@ module API
             OpenProject::Cache.fetch(*section_cache_key(section)) do
               ::API::V3::Projects::Schemas::ProjectCustomFieldSectionRepresenter
                 .new(section, current_user:)
+                .to_hash
             end
           end
 

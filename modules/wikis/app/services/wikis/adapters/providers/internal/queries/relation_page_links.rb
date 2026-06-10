@@ -34,19 +34,16 @@ module Wikis
       module Internal
         module Queries
           class RelationPageLinks < BaseQuery
-            def call(input_data)
-              page_link_infos = provider.page_links
-                                        .merge(RelationPageLink.all)
-                                        .where(linkable: input_data.linkable)
-                                        .map { |page_link| page_info(page_link.identifier) }
+            def call(input_data:, auth_strategy:)
+              page_links = provider.page_links
+                                   .merge(RelationPageLink.all)
+                                   .where(linkable: input_data.linkable)
+                                   .map do |page_link|
+                page_info_result = page_info(identifier: page_link.identifier, auth_strategy:)
+                Results::PageLinkAggregate.new(page_info_result:, page_link:)
+              end
 
-              success(page_link_infos)
-            end
-
-            private
-
-            def page_info(identifier)
-              Input::PageInfo.build(identifier:).bind { provider.resolve("queries.page_info").call(it) }
+              success(page_links)
             end
           end
         end

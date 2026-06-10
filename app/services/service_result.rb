@@ -246,6 +246,19 @@ class ServiceResult
   end
 
   ##
+  # Chains a subsequent service call if this result is successful, short-circuiting on failure.
+  # Useful for composing several potentially-failing operations, returning the last successful
+  # ServiceResult or the first failing one.
+  #
+  # @yield block to be called on success.
+  # @yieldparam result [Object, nil] the result of the service call.
+  # @yieldreturn [ServiceResult] the next ServiceResult in the chain.
+  # @return [ServiceResult] the block's ServiceResult on success, or self on failure.
+  def bind
+    success? ? yield(result) : self
+  end
+
+  ##
   # Iterates exactly once, passing the result to the block, if the service call
   # succeeded.
   #

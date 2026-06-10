@@ -48,13 +48,21 @@ module API
           describe "self" do
             it_behaves_like "has a titled link" do
               let(:link) { "self" }
-              let(:href) { "/api/v3/wiki_providers/#{represented.id}" }
+              let(:href) { "/api/v3/wiki_providers/#{represented.universal_identifier}" }
               let(:title) { represented.name }
             end
           end
         end
 
         describe "properties" do
+          it_behaves_like "property", :name do
+            let(:value) { represented.name }
+          end
+
+          it_behaves_like "property", :universalIdentifier do
+            let(:value) { represented.universal_identifier }
+          end
+
           it_behaves_like "datetime property", :createdAt do
             let(:value) { represented.created_at }
           end

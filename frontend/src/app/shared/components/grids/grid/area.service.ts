@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GridWidgetArea } from 'core-app/shared/components/grids/areas/grid-widget-area';
 import { GridArea } from 'core-app/shared/components/grids/areas/grid-area';
 import { GridGap } from 'core-app/shared/components/grids/areas/grid-gap';
@@ -26,6 +26,10 @@ interface GridPatchPayload {
 
 @Injectable()
 export class GridAreaService {
+  private apiV3Service = inject(ApiV3Service);
+  private toastService = inject(ToastService);
+  private i18n = inject(I18nService);
+
   private resource:GridResource;
 
   public schema:SchemaResource;
@@ -49,13 +53,6 @@ export class GridAreaService {
   public $mousedOverArea = new BehaviorSubject(this.mousedOverArea);
 
   public helpMode = false;
-
-  constructor(
-    private apiV3Service:ApiV3Service,
-    private toastService:ToastService,
-    private i18n:I18nService,
-  ) {
-  }
 
   public set gridResource(value:GridResource) {
     this.resource = value;
@@ -402,7 +399,7 @@ export class GridAreaService {
   }
 
   public resetAreas(ignoredArea:GridWidgetArea|null = null) {
-    this.widgetAreas.filter((area) => !ignoredArea || area.guid !== ignoredArea.guid).forEach((area) => area.reset());
+    this.widgetAreas.filter((area) => area.guid !== ignoredArea?.guid).forEach((area) => area.reset());
 
     this.numRows = this.resource.rowCount;
     this.numColumns = this.resource.columnCount;

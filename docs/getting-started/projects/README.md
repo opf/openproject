@@ -89,7 +89,15 @@ Click **Continue** to proceed.
 
 ### Define project details
 
-Next, enter the **name** and an optional **description** for your project.  You can also integrate the project into your existing project hierarchy by selecting a **parent project**, which will make the new project a **subproject**.
+Next, enter the **name**  for your project. 
+
+Based on the project name, OpenProject automatically suggests an **identifier**. You can edit the suggested identifier manually if needed. The identifier is validated automatically to ensure it follows the required rules.
+
+> [!NOTE]
+> The identifier suggestion updates automatically when you change the project name.
+> If you manually edit the identifier and later go back to change the project name again, OpenProject updates the identifier suggestion once more.
+
+You can also optionally enter a **description** for your project.  You can also integrate the project into your existing project hierarchy by selecting a **parent project**, which will make the new project a **subproject**.
 
 Click **Complete** to finish the setup.
 

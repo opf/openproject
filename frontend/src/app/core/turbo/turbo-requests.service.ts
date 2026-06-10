@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { renderStreamMessage } from '@hotwired/turbo';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
@@ -7,13 +7,9 @@ import { getMetaContent } from '../setup/globals/global-helpers';
 
 @Injectable({ providedIn: 'root' })
 export class TurboRequestsService {
+  private toast = inject(ToastService);
+
   #controllers = new Map<string, AbortController>();
-
-  constructor(
-    private toast:ToastService,
-  ) {
-
-  }
 
   public request(
     url:string,

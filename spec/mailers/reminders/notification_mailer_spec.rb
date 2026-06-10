@@ -81,5 +81,23 @@ RSpec.describe Reminders::NotificationMailer do
     it "mail body includes the reminder note" do
       expect(mail_body).to include("Note: “This is an important reminder”")
     end
+
+    context "with classic mode", with_settings: { work_packages_identifier: "classic" } do
+      it "shows the # prefixed numeric id in the mail body" do
+        expect(mail_body).to include("##{work_package.id}")
+      end
+    end
+
+    context "with semantic mode",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:work_package) do
+        build_stubbed(:work_package, identifier: "PROJ-42", sequence_number: 42)
+      end
+
+      it "shows the semantic identifier without # prefix in the mail body" do
+        expect(mail_body).to include("PROJ-42")
+        expect(mail_body).not_to include("#PROJ-42")
+      end
+    end
   end
 end

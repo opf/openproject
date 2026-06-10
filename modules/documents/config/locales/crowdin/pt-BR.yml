@@ -58,9 +58,9 @@ pt-BR:
       heading: Ainda não há documentos
       description: Não há documentos nesta visualização. Você pode clicar no botão abaixo para adicionar um.
     document_categories_deprecation_notice:
-      heading: As categorias de arquivos agora são chamadas 'Tipos de Documento'
-      description: "Suas categorias de arquivos existente foram convertidas em tipos de documento com a introdução do novo módulo Documentos. \nTodos os documentos existentes também foram migrados para esses novos tipos."
-      primary_action: Configure o tipo do documento
+      heading: As categorias de arquivos agora são chamadas de “Tipos de documento”
+      description: As suas categorias de arquivos existentes foram convertidas em tipos de documento com a introdução do novo módulo de Documentos. Todos os documentos existentes também foram migrados para esses novos tipos.
+      primary_action: Configurar tipos de documento
       secondary_action: Saiba mais sobre o módulo Documentos
     document_type_actions: Ações do tipo de Documento
     text_collaboration_disabled_notice:

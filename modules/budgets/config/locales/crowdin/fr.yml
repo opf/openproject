@@ -36,6 +36,7 @@ fr:
         subject: Sujet
         type: Types de coût
         labor_budget: Coûts de main d'œuvre planifiés
+        labor_budget_items: Coûts de main d'œuvre planifiés
         material_budget: Coûts unitaires estimés
         base_amount: Montant de base
       work_package:
@@ -48,6 +49,7 @@ fr:
               not_a_member_of_budget_project: n'est pas membre du projet du budget
     models:
       budget: Budget
+      labor_budget_item: Coût de main-d'œuvre prévu
       material_budget_item: Unité
   activity:
     filter:

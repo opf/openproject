@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Validators
-          RSpec.describe AmpfConfigurationValidator, :webmock do
+          RSpec.describe AmpfConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) do
               create(:sharepoint_storage, :sandbox, :as_automatically_managed,
                      managed_drive_id: "b!FeOZEMfQx0eGQKqVBLcP__BG8mq-4-9FuRqOyk3MXY-uqLcDyJy5Rp1j0luD0b1v",
@@ -47,10 +47,10 @@ module Storages
 
             subject(:validator) { described_class.new(storage) }
 
-            it "returns a GroupValidationResult", vcr: "sharepoint/validator_ampf_clean_run" do
+            it "returns a ResultGroup", vcr: "sharepoint/validator_ampf_clean_run" do
               results = validator.call
 
-              expect(results).to be_a(ConnectionValidators::ValidationGroupResult)
+              expect(results).to be_a(HealthReport::ResultGroup)
               expect(results).to be_success
             end
 

@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnInit, inject } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -43,15 +43,15 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   standalone: false,
 })
 export class StorageLoginButtonComponent implements OnInit {
+  elementRef = inject(ElementRef);
+  private readonly i18n = inject(I18nService);
+  private readonly cookieService = inject(CookieService);
+
   @Input() input:IStorageLoginInput;
 
   label:string;
 
-  constructor(
-    public elementRef:ElementRef,
-    private readonly i18n:I18nService,
-    private readonly cookieService:CookieService,
-  ) {
+  constructor() {
     populateInputsFromDataset(this);
   }
 
@@ -69,7 +69,7 @@ export class StorageLoginButtonComponent implements OnInit {
   private setAuthorizationCallbackCookie(nonce:string):void {
     this.cookieService.set(
       `oauth_state_${nonce}`,
-      JSON.stringify({ href: window.location.href, storageId: this.input.storageId }),
+      JSON.stringify({ href: window.location.href, integrationId: this.input.storageId }),
       {
         path: '/',
         expires: 1/24, // roughly 1 hour

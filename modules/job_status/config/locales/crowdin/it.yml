@@ -6,7 +6,7 @@ it:
     description: Elenco e stato dei job in background.
   job_status_dialog:
     download_starts: Il download dovrebbe iniziare automaticamente.
-    click_to_download: Or [click here](download_url) to download.
+    click_to_download: Oppure [clicca qui](download_url) per scaricare.
     title: Stato del lavoro in background
     redirect: È in corso il reindirizzamento.
     redirect_link: Clicca qui per continuare.

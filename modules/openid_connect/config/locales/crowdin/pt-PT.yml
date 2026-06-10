@@ -53,7 +53,7 @@ pt-PT:
     delete_warning:
       input_delete_confirmation_html: Insira o nome do fornecedor %{name} para confirmar a eliminação.
       irreversible_notice: A eliminação de um fornecedor SSO é uma ação irreversível.
-      provider_html: 'Are you sure you want to delete the SSO provider %{name}? Be aware, that this will:'
+      provider_html: 'Tem a certeza de que quer eliminar o fornecedor de SSO %{name}? Tenha em atenção que:'
       delete_result_1: Remova o fornecedor da lista de fornecedores disponíveis.
       delete_result_user_count:
         zero: Nenhum utilizador está atualmente a utilizar este fornecedor. Não é necessária mais nenhuma ação.
@@ -63,7 +63,7 @@ pt-PT:
   openid_connect:
     menu_title: Fornecedores de OpenID
     delete_title: Eliminar o fornecedor OpenID Connect
-    delete_heading: Delete this OpenID Connect provider?
+    delete_heading: Eliminar este fornecedor OpenID Connect?
     group_links_heading: Ligações de grupos OpenID Connect
     groups:
       match_preview_component:

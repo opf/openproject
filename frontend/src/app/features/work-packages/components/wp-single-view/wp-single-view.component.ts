@@ -26,15 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ElementRef,
-  Injector,
-  Input,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, inject } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { distinctUntilChanged, first, map } from 'rxjs/operators';
@@ -99,6 +91,23 @@ export const overflowingContainerAttribute = 'overflowingIdentifier';
   standalone: false,
 })
 export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implements OnInit {
+  protected readonly injector = inject(Injector);
+  private readonly states = inject(States);
+  private readonly I18n = inject(I18nService);
+  private readonly hook = inject(HookService);
+  private readonly $state = inject(StateService);
+  private readonly elementRef = inject(ElementRef);
+  private readonly cdRef = inject(ChangeDetectorRef);
+  private readonly PathHelper = inject(PathHelperService);
+  private readonly schemaCache = inject(SchemaCacheService);
+  private readonly currentProject = inject(CurrentProjectService);
+  private readonly halEditing = inject(HalResourceEditingService);
+  private readonly halResourceService = inject(HalResourceService);
+  private readonly currentUserService = inject(CurrentUserService);
+  private readonly displayFieldService = inject(DisplayFieldService);
+  private readonly projectsResourceService = inject(ProjectsResourceService);
+  private readonly projectStoragesService = inject(ProjectStoragesResourceService);
+
   @Input() public workPackage:WorkPackageResource;
 
   /** Should we show the project field */
@@ -144,27 +153,6 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   element:HTMLElement;
 
   projectStorages = new BehaviorSubject<IProjectStorage[]>([]);
-
-  constructor(
-    protected readonly injector:Injector,
-    private readonly states:States,
-    private readonly I18n:I18nService,
-    private readonly hook:HookService,
-    private readonly $state:StateService,
-    private readonly elementRef:ElementRef,
-    private readonly cdRef:ChangeDetectorRef,
-    private readonly PathHelper:PathHelperService,
-    private readonly schemaCache:SchemaCacheService,
-    private readonly currentProject:CurrentProjectService,
-    private readonly halEditing:HalResourceEditingService,
-    private readonly halResourceService:HalResourceService,
-    private readonly currentUserService:CurrentUserService,
-    private readonly displayFieldService:DisplayFieldService,
-    private readonly projectsResourceService:ProjectsResourceService,
-    private readonly projectStoragesService:ProjectStoragesResourceService,
-  ) {
-    super();
-  }
 
   public ngOnInit():void {
     this.element = this.elementRef.nativeElement as HTMLElement;

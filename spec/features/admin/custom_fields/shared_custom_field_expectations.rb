@@ -80,7 +80,7 @@ RSpec.shared_examples_for "list custom fields" do |type|
     within all(".custom-option-row").last do
       find(".custom-option-value input").set "Solaris"
 
-      click_link accessible_name: "Move to top"
+      click_on accessible_name: "Move to top"
     end
 
     click_on "Save"

@@ -43,12 +43,7 @@ module My
         end
 
         def integration_type
-          integration_class_name = client_token.oauth_client.integration_type
-          integration_class = begin
-            integration_class_name.constantize
-          rescue NameError
-            nil
-          end
+          integration_class = client_token.oauth_client.integration&.class
 
           return I18n.t("my_account.access_tokens.oauth_client.unknown_integration") unless integration_class
 

@@ -1,0 +1,113 @@
+//-- copyright
+// OpenProject is an open source project management software.
+// Copyright (C) the OpenProject GmbH
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See COPYRIGHT and LICENSE files for more details.
+//++
+
+.op-work-package-card
+  display: grid
+  grid-template-columns: minmax(8rem, 1fr) auto
+  grid-template-rows: auto auto
+  grid-template-areas: "info_line actions" "subject subject"
+  align-items: center
+  column-gap: var(--stack-gap-condensed)
+  row-gap: var(--base-size-4)
+  margin-top: var(--base-size-4)
+  margin-bottom: var(--base-size-4)
+  container-type: inline-size
+
+  &_with-footer
+    grid-template-rows: auto auto auto
+    grid-template-areas: "info_line actions" "subject subject" "footer footer"
+
+  &_with-drag-handle
+    grid-template-columns: auto minmax(8rem, 1fr) auto
+    grid-template-areas: "drag_handle info_line actions" ". subject subject"
+
+    &.op-work-package-card_with-footer
+      grid-template-rows: auto auto auto
+      grid-template-areas: "drag_handle info_line actions" ". subject subject" ". footer footer"
+
+  // --------- START: Menu positioning ---------
+  // This is a hack to avoid that the IconButton of the menu blows up the height of the first row
+  // resulting in different spacing between the rows.
+  // By positioning the menu absolutely, we can ensure that the height of the first row is not affected.
+  &_with-menu
+    .op-work-package-card--actions
+      position: relative
+      // 1rem column gap + 2rem button width - 0.5rem visual gap of the invisible button to it's icon
+      padding-right: 2.5rem
+
+  &--menu
+    position: absolute
+    right: 0
+  // --------- END: Menu positioning ---------
+
+  &--drag_handle
+    align-self: center
+    padding-right: var(--stack-gap-condensed)
+    cursor: grab
+    color: var(--fgColor-muted)
+
+  &--actions
+    display: flex
+    align-items: center
+    gap: var(--stack-gap-normal)
+    color: var(--fgColor-muted)
+
+  &--metric
+    font-variant-numeric: tabular-nums
+    text-align: right
+
+  // parent_link and additional_details auto-place into implicit rows, spanning full width
+  &--parent_link,
+  &--additional_details
+    grid-column: 1 / -1
+    padding-top: var(--base-size-4)
+
+  &_with-drag-handle
+    .op-work-package-card--parent_link,
+    .op-work-package-card--additional_details
+      grid-column: 2 / -1
+
+  &--subject
+    align-self: start
+    word-wrap: break-word
+    overflow-wrap: break-word
+
+  // < 768px: hide text labels, show only icons
+  @container (width < 768px)
+    .op-work-package-card--assignee-name
+      display: none
+
+  // < 350px: hide priority label as well
+  @container (width < 350px)
+    .op-work-package-card--priority-name
+      display: none
+
+  // On mobile, hide the priority label as well
+  @media screen and (max-width: $breakpoint-sm)
+    .op-work-package-card--priority-name
+      display: none

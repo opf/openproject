@@ -38,7 +38,7 @@ class Widget::Filters::RemoveButton < Widget::Filters::Base
       href: "#",
       class: "filter_rem",
       data: {
-        action: "click->reporting--page#removeFilter keydown->reporting--page#filterKeydown"
+        action: "keydown->reporting--page#filterKeydown"
       }
     ) do
       icon_wrapper("icon-close advanced-filters--remove-filter-icon", I18n.t(:description_remove_filter))
@@ -46,6 +46,9 @@ class Widget::Filters::RemoveButton < Widget::Filters::Base
 
     write(content_tag(:div, hidden_field + button,
                       id: "rm_box_#{filter_class.underscore_name}",
-                      class: "advanced-filters--remove-filter"))
+                      class: "advanced-filters--remove-filter",
+                      data: {
+                        action: "click->reporting--page#removeFilter"
+                      }))
   end
 end

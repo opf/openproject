@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import moment, { Moment } from 'moment-timezone';
@@ -34,10 +34,9 @@ import { outputChronicDuration } from '../../shared/helpers/chronic_duration';
 
 @Injectable({ providedIn: 'root' })
 export class TimezoneService {
-  constructor(
-    readonly configurationService:ConfigurationService,
-    readonly I18n:I18nService,
-  ) { }
+  readonly configurationService = inject(ConfigurationService);
+  readonly I18n = inject(I18nService);
+
 
   /**
    * Returns the user's configured timezone or guesses it through moment

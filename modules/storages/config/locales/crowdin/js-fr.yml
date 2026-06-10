@@ -67,7 +67,7 @@ fr:
         open: Ouvrir le fichier sur le stockage
         open_location: Ouvrir le fichier à l'emplacement
         remove: Supprimer le lien de fichier
-        remove_confirmation: 'Êtes-vous sûr de vouloir dissocier le fichier de ce lot de travaux ? La suppression du lien n''affecte pas le fichier original et supprime seulement la connexion à ce lot de travaux.
+        remove_confirmation: 'Voulez-vous vraiment dissocier le fichier de ce lot de travaux ? La suppression du lien n''affecte pas le fichier original et supprime seulement la connexion à ce lot de travaux.
 
           '
         remove_short: Supprimer le lien

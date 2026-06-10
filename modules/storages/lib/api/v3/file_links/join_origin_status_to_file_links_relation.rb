@@ -35,8 +35,8 @@ module API
         # @param [Hash] id_status_map A hash mapping file link IDs to their origin status
         # in the format { 137: "view_allowed", 142: "error" }
         def self.create(id_status_map)
-          sanitized_sql = ActiveRecord::Base.sanitize_sql_array(
-            [origin_status_join(id_status_map.size), *id_status_map.flatten]
+          sanitized_sql = OpenProject::SqlSanitization.sanitize(
+            origin_status_join(id_status_map.size), *id_status_map.flatten
           )
 
           ::Storages::FileLink.where(id: id_status_map.keys)

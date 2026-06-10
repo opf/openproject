@@ -29,9 +29,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 module EnvData
   class LdapSeeder < Seeder
+    KNOWN_CONNECTION_KEYS = %w[
+      host port security tls_verify tls_certificate sync_users
+      filter basedn binduser bindpassword
+      login_mapping firstname_mapping lastname_mapping mail_mapping admin_mapping
+      groupfilter
+    ].freeze
+
+    KNOWN_FILTER_KEYS = %w[base filter sync_users group_attribute].freeze
+
     def seed_data!
       print_status "    ↳ Creating LDAP connection" do
         Setting.seed_ldap.each do |name, options|
+          validate_options!(name, options)
+
           ldap = LdapAuthSource.find_or_initialize_by(name:)
 
           print_ldap_status(ldap)
@@ -50,6 +61,34 @@ module EnvData
     end
 
     private
+
+    def validate_options!(name, options)
+      check_unknown_keys!(options, KNOWN_CONNECTION_KEYS,
+                          scope: "LDAP connection '#{name}'")
+
+      filters = options["groupfilter"]
+      return if filters.blank?
+
+      filters.each do |filter_name, filter_options|
+        check_unknown_keys!(filter_options, KNOWN_FILTER_KEYS,
+                            scope: "LDAP group filter '#{filter_name}' (connection '#{name}')")
+      end
+    end
+
+    def check_unknown_keys!(options, known_keys, scope:)
+      unknown = options.keys - known_keys
+      return if unknown.empty?
+
+      raise <<~MSG.strip
+        #{scope}: unknown configuration key(s): #{unknown.map { |k| env_form(k) }.join(', ')}.
+        Accepted keys: #{known_keys.map { |k| env_form(k) }.join(', ')}.
+        Note: in environment variable names, single underscores split path segments and double underscores encode a literal underscore (e.g. LOGIN__MAPPING, not LOGIN_MAPPING).
+      MSG
+    end
+
+    def env_form(key)
+      key.gsub("_", "__").upcase
+    end
 
     # rubocop:disable Metrics/AbcSize
     def upsert_settings(ldap, options)

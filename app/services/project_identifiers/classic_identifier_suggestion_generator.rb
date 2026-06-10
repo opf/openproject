@@ -29,12 +29,13 @@
 #++
 
 module ProjectIdentifiers
-  # Generates a unique classic-format (acts_as_url-style) identifier from a project name,
-  # mirroring acts_as_url's own duplicate loop: appends -1, -2, … until a free slug is found.
+  # Generates a unique classic-format identifier from a project name.
+  # Appends -1, -2, … until a free slug is found.
   #
   # Instantiate once to load the taken-identifier set from the DB, then call +suggest_identifier+.
   class ClassicIdentifierSuggestionGenerator
     FALLBACK_BASE = "project"
+    BLANK_SLUG_SUBSTITUTIONS = { "." => "dot", "!" => "bang" }.freeze
 
     def initialize(project: nil)
       @exclude = taken_identifiers(project:)
@@ -49,9 +50,9 @@ module ProjectIdentifiers
              .find { |slug| Project.classic_identifier_format?(slug) }
     end
 
-    # Generates a unique classic-format identifier from +name+, mirroring acts_as_url's
-    # duplicate loop: appends -1, -2, … until a slug not in the taken set is found.
-    # Falls back to a randomised +FALLBACK_BASE+ slug when +name+ produces a blank slug.
+    # Generates a unique classic-format identifier from +name+.
+    # Appends -1, -2, … until a slug not in the taken set is found.
+    # Falls back to a randomised +FALLBACK_BASE+ slug when +name+ produces no valid slug.
     def suggest_identifier(name)
       base = slugify(name) || fallback_base
 
@@ -68,7 +69,9 @@ module ProjectIdentifiers
     private
 
     def slugify(name)
-      name.to_url.first(Projects::Identifier::CLASSIC_IDENTIFIER_MAX_LENGTH).presence
+      slug = name.to_url.first(Projects::Identifier::CLASSIC_IDENTIFIER_MAX_LENGTH).presence
+      slug ||= BLANK_SLUG_SUBSTITUTIONS[name]
+      slug if slug && Projects::Identifier::CLASSIC_FORMAT.match?(slug)
     end
 
     def fallback_base

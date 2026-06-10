@@ -49,9 +49,8 @@ See COPYRIGHT and LICENSE files for more details.
       label: t("admin.jira.configuration.title"),
       scheme: :primary,
       tag: :a,
-      href: new_admin_import_jira_path) {
-      t("admin.jira.configuration.title")
-    }
+      href: new_admin_import_jira_path
+    ) { t("admin.jira.configuration.title") }
   end
 %>
 
@@ -72,6 +71,20 @@ See COPYRIGHT and LICENSE files for more details.
           })
         }
     end
+    unless Setting::WorkPackageIdentifier.semantic?
+      container.with_row do
+        render(Primer::Alpha::Banner.new(scheme: :danger, icon: :stop, mb: 3)) {
+          concat(render(Primer::Beta::Text.new(tag: :p, font_weight: :bold)) {
+            I18n.t("admin.jira.errors.semantic_identifiers_must_be_enabled.title")
+          })
+          concat(render(Primer::Beta::Text.new(tag: :p)) {
+            link_translate("admin.jira.errors.semantic_identifiers_must_be_enabled.description",
+                          links: { link: admin_settings_work_packages_identifier_path },
+                          external: true)
+          })
+        }
+      end
+    end
     container.with_row(pb: 3) do
       flex_layout do |flex|
         flex.with_column(flex: 1, mr: 1) do
@@ -79,7 +92,9 @@ See COPYRIGHT and LICENSE files for more details.
             title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_supported_data"),
             list: [
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.projects"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.project_ids"),
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.issues"),
+              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.issue_ids"),
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.issue_details"),
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.custom_fields"),
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.users"),
@@ -91,10 +106,8 @@ See COPYRIGHT and LICENSE files for more details.
         end
         flex.with_column(flex: 1, ml: 1) do
           render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
-            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_comming_soon"),
+            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_coming_soon"),
             list: [
-              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.project_ids"),
-              I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.issue_ids"),
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.relations"),
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.sprints"),
             ].map { |label| { label:, checked: false } },
@@ -103,7 +116,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
         flex.with_column(flex: 1, ml: 1) do
           render(Admin::Import::Jira::ImportRuns::InfoListBoxComponent.new(
-            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_comming_later"),
+            title: I18n.t(:"admin.jira.run.wizard.sections.import_scope.label_coming_later"),
             list: [
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.workflows"),
               I18n.t(:"admin.jira.run.wizard.sections.import_scope.elements.permissions"),

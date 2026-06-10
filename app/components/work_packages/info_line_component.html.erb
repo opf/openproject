@@ -1,14 +1,14 @@
 <%=
-  flex_layout(flex_wrap: :wrap, **@system_arguments) do |flex|
+  flex_layout(**@system_arguments) do |flex|
     if @show_project && !@show_subject
       flex.with_column(mr: 2) do
         render(Primer::Beta::Text.new(font_size: @font_size)) { "#{@work_package.project.name}: " }
       end
     end
-    flex.with_column(mr: 2) do
+    flex.with_column(mr: 2, classes: "op-wp-info-line--type") do
       render(WorkPackages::HighlightedTypeComponent.new(work_package: @work_package, font_size: :small))
     end
-    flex.with_column do
+    flex.with_column(classes: "op-wp-info-line--id") do
       render(
         Primer::Beta::Link.new(
           href: url_for(controller: "/work_packages", action: "show", id: @work_package),
@@ -20,13 +20,13 @@
     end
 
     if @show_status
-      flex.with_column(ml: 2) do
-        render WorkPackages::StatusBadgeComponent.new(status: @work_package.status)
+      flex.with_column(ml: 2, classes: "op-wp-info-line--status") do
+        render WorkPackages::StatusBadgeComponent.new(status: @work_package.status, scheme: @status_scheme)
       end
     end
 
     if @show_subject
-      flex.with_column(classes: "ellipsis", ml: 1) do
+      flex.with_column(classes: "ellipsis", ml: 2) do
         render(Primer::Beta::Text.new(font_size: @font_size)) do
           if @show_project
             "#{@work_package.project.name}: #{@work_package.subject}"

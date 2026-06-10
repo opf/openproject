@@ -31,14 +31,14 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { Injectable, Injector } from '@angular/core';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { CustomActionResource } from 'core-app/features/hal/resources/custom-action-resource';
 
 @Injectable()
 export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
-  @InjectField() private schemaCacheService:SchemaCacheService;
+  @LazyInject() private schemaCacheService:SchemaCacheService;
 
   constructor(
     readonly injector:Injector,

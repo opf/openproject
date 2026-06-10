@@ -62,9 +62,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           ref: ${{ inputs.branch }}
+          persist-credentials: false
       - name: Set version outputs and convert tags
         id: extract_version
         env:
@@ -85,23 +86,27 @@ jobs:
           fi
       - name: Verify outputs
         run: |
-          if [ -z "${{ steps.extract_version.outputs.version }}" ]; then
+          if [ -z "${STEPS_EXTRACT_VERSION_OUTPUTS_VERSION}" ]; then
             echo "Error: version output is empty"
             exit 1
           fi
-          if [ -z "${{ steps.extract_version.outputs.docker_tags }}" ]; then
+          if [ -z "${STEPS_EXTRACT_VERSION_OUTPUTS_DOCKER_TAGS}" ]; then
             echo "Error: docker_tags output is empty"
             exit 1
           fi
-          if [ -z "${{ steps.extract_version.outputs.registry_image }}" ]; then
+          if [ -z "${STEPS_EXTRACT_VERSION_OUTPUTS_REGISTRY_IMAGE}" ]; then
             echo "Error: registry_image output is empty"
             exit 1
           fi
-          echo "✓ version: ${{ steps.extract_version.outputs.version }}"
-          echo "✓ docker_tags: ${{ steps.extract_version.outputs.docker_tags }}"
-          echo "✓ registry_image: ${{ steps.extract_version.outputs.registry_image }}"
+          echo "✓ version: ${STEPS_EXTRACT_VERSION_OUTPUTS_VERSION}"
+          echo "✓ docker_tags: ${STEPS_EXTRACT_VERSION_OUTPUTS_DOCKER_TAGS}"
+          echo "✓ registry_image: ${STEPS_EXTRACT_VERSION_OUTPUTS_REGISTRY_IMAGE}"
+        env:
+          STEPS_EXTRACT_VERSION_OUTPUTS_VERSION: ${{ steps.extract_version.outputs.version }}
+          STEPS_EXTRACT_VERSION_OUTPUTS_DOCKER_TAGS: ${{ steps.extract_version.outputs.docker_tags }}
+          STEPS_EXTRACT_VERSION_OUTPUTS_REGISTRY_IMAGE: ${{ steps.extract_version.outputs.registry_image }}
       - name: Cache NPM
-        uses: runs-on/cache@v5
+        uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
         with:
           path: |
             frontend/node_modules
@@ -109,17 +114,18 @@ jobs:
           key: nodejs-x64-${{ hashFiles('**/package-lock.json') }}
           restore-keys: nodejs-x64-
       - name: Cache angular
-        uses: runs-on/cache@v5
+        uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
         with:
           path: frontend/.angular
           key: angular-${{ github.ref }}
           restore-keys: angular-
-      - uses: ruby/setup-ruby@v1
+      - uses: ruby/setup-ruby@afeafc3d1ab54a631816aba4c914a0081c12ff2f # v1
         with:
           bundler-cache: true
-      - uses: actions/setup-node@v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: 22.15
+          package-manager-cache: false
           cache: npm
           cache-dependency-path: |
             package-lock.json
@@ -129,7 +135,7 @@ jobs:
           ./docker/prod/setup/precompile-assets.sh
           # public/assets will be saved as artifact, so temporarily copying config file there as well
           cp config/frontend_assets.manifest.json public/assets/frontend_assets.manifest.json
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           path: public/
           name: public-assets-${{ inputs.tag }}-${{ github.sha }}
@@ -146,7 +152,7 @@ jobs:
     needs:
       - setup
     runs-on:
-      labels: "runs-on=${{ github.run_id }}/ssh=false/${{ matrix.runner }}/volume=100g"
+      labels: "runs-on=${{ github.run_id }}/ssh=false/${{ matrix.runner }}/volume=200g"
     strategy:
       matrix:
         include:
@@ -177,14 +183,15 @@ jobs:
             runner: runner=4cpu-linux-arm64
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
         with:
           ref: ${{ inputs.branch }}
+          persist-credentials: false
       - name: Prepare docker files
         run: |
           cp ./docker/prod/Dockerfile ./Dockerfile
       - name: Download precompiled public assets
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: public-assets-${{ inputs.tag }}-${{ github.sha }}
           path: public/
@@ -198,23 +205,25 @@ jobs:
           echo '!/public/assets' >> .dockerignore
           echo '!/config/frontend_assets.manifest.json' >> .dockerignore
       - name: Add build information
+        env:
+          INPUTS_BRANCH: ${{ inputs.branch }}
         run: |
-          echo "${{ inputs.branch }}" > PRODUCT_VERSION
-          echo "https://github.com/opf/openproject/commits/${{ inputs.branch }}" > PRODUCT_URL
+          echo "$INPUTS_BRANCH" > PRODUCT_VERSION
+          echo "https://github.com/opf/openproject/commits/$INPUTS_BRANCH" > PRODUCT_URL
           date -u +"%Y-%m-%dT%H:%M:%SZ" > RELEASE_DATE
       - name: Set up QEMU
-        uses: docker/setup-qemu-action@v4
+        uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@v4
+        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4
       - name: Login to Docker Hub
-        uses: docker/login-action@v4
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v6
+        uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6
         with:
           context: git
           labels: |
@@ -229,7 +238,7 @@ jobs:
             ${{ needs.setup.outputs.registry_image }}
       - name: Restore vendor/bundle
         id: restore-vendor-bundle
-        uses: actions/cache/restore@v5
+        uses: actions/cache/restore@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: |
             vendor/bundle
@@ -239,7 +248,7 @@ jobs:
           sed -i 's/vendor\/bundle//g' .dockerignore
       - name: Build image
         id: build
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
         with:
           context: .
           platforms: ${{ matrix.platform }}
@@ -254,8 +263,10 @@ jobs:
           cache-from: type=s3,blobs_prefix=cache/${{ github.repository }}/trixie,manifests_prefix=cache/${{ github.repository }}/trixie,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
           cache-to: type=s3,blobs_prefix=cache/${{ github.repository }}/trixie,manifests_prefix=cache/${{ github.repository }}/trixie,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }},mode=max
       - name: Extract vendor/bundle from container
+        env:
+          STEPS_BUILD_OUTPUTS_IMAGEID: ${{ steps.build.outputs.imageid }}
         run: |
-          docker create --name bundle ${{ steps.build.outputs.imageid }}
+          docker create --name bundle $STEPS_BUILD_OUTPUTS_IMAGEID
           if [ -d vendor/bundle ]; then
             mv vendor/bundle vendor/bundle.bak
           fi
@@ -263,7 +274,7 @@ jobs:
           docker rm bundle
       - name: Save vendor/bundle
         id: save-vendor-bundle
-        uses: actions/cache/save@v5
+        uses: actions/cache/save@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5
         with:
           path: |
             vendor/bundle
@@ -276,14 +287,16 @@ jobs:
             mv vendor/bundle.bak vendor/bundle
           fi
       - name: Validate image
+        env:
+          STEPS_BUILD_OUTPUTS_IMAGEID: ${{ steps.build.outputs.imageid }}
         run: |
           ./script/ci/docker_validate_image.sh \
-            --image "${{ steps.build.outputs.imageid }}" \
+            --image "$STEPS_BUILD_OUTPUTS_IMAGEID" \
             --target "${{ matrix.target }}" \
             --platform "${{ matrix.platform }}"
       - name: Push image
         id: push
-        uses: docker/build-push-action@v7
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7
         with:
           context: .
           platforms: ${{ matrix.platform }}
@@ -295,12 +308,14 @@ jobs:
           cache-from: type=s3,blobs_prefix=cache/${{ github.repository }}/trixie,manifests_prefix=cache/${{ github.repository }}/trixie,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }}
           cache-to: type=s3,blobs_prefix=cache/${{ github.repository }}/trixie,manifests_prefix=cache/${{ github.repository }}/trixie,region=${{ env.RUNS_ON_AWS_REGION }},bucket=${{ env.RUNS_ON_S3_BUCKET_CACHE }},mode=max
       - name: Export digest
+        env:
+          STEPS_PUSH_OUTPUTS_DIGEST: ${{ steps.push.outputs.digest }}
         run: |
           mkdir -p /tmp/digests
-          digest="${{ steps.push.outputs.digest }}"
+          digest="$STEPS_PUSH_OUTPUTS_DIGEST"
           touch "/tmp/digests/${digest#sha256:}"
       - name: Upload digest
-        uses: actions/upload-artifact@v7
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: digests-${{ inputs.tag }}-${{ matrix.target }}--${{ matrix.digest }}
           path: /tmp/digests/*
@@ -316,13 +331,13 @@ jobs:
       - build
     steps:
       - name: Merge digests
-        uses: actions/upload-artifact/merge@v7
+        uses: actions/upload-artifact/merge@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           pattern: "digests-${{ inputs.tag }}-${{ matrix.target }}--*"
           overwrite: true
           name: "merged-digests-${{ inputs.tag }}-${{ matrix.target }}-${{ github.run_number }}-${{ github.run_attempt }}"
       - name: Download digests
-        uses: actions/download-artifact@v8
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
         with:
           name: "merged-digests-${{ inputs.tag }}-${{ matrix.target }}-${{ github.run_number }}-${{ github.run_attempt }}"
           path: /tmp/digests
@@ -333,10 +348,10 @@ jobs:
           if [ "$suffix" = "-all-in-one" ]; then suffix="" ; fi
           echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4
+        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4
       - name: Docker meta
         id: meta
-        uses: docker/metadata-action@v6
+        uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6
         with:
           images: ${{ needs.setup.outputs.registry_image }}
           labels: |
@@ -351,18 +366,23 @@ jobs:
           tags: |
             ${{ needs.setup.outputs.docker_tags }}
       - name: Login to Docker Hub
-        uses: docker/login-action@v4
+        uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Create manifest list and push
         working-directory: /tmp/digests
+        env:
+          NEEDS_SETUP_OUTPUTS_REGISTRY_IMAGE: ${{ needs.setup.outputs.registry_image }}
         run: |
           docker buildx imagetools create $(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON") \
-            $(printf '${{ needs.setup.outputs.registry_image }}@sha256:%s ' *)
+            $(printf "${NEEDS_SETUP_OUTPUTS_REGISTRY_IMAGE}@sha256:%s " *)
       - name: Inspect image
+        env:
+          NEEDS_SETUP_OUTPUTS_REGISTRY_IMAGE: ${{ needs.setup.outputs.registry_image }}
+          STEPS_META_OUTPUTS_VERSION: ${{ steps.meta.outputs.version }}
         run: |
-          docker buildx imagetools inspect ${{ needs.setup.outputs.registry_image }}:${{ steps.meta.outputs.version }}
+          docker buildx imagetools inspect "${NEEDS_SETUP_OUTPUTS_REGISTRY_IMAGE}:${STEPS_META_OUTPUTS_VERSION}"
   notify-failure:
     needs: [setup, build, merge]
     if: ${{ always() && contains(needs.*.result, 'failure') }}

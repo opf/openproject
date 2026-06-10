@@ -88,11 +88,11 @@ RSpec.describe Roles::SetAttributesService, type: :model do
         expect(model_instance.permissions).to match_array(OpenProject::AccessControl.public_permissions.map(&:name) + permissions)
       end
 
-      context "when no permissions are given" do
-        let(:permissions) { [] }
+      context "when permissions are explicitly set to empty" do
+        let(:permissions) { [""] }
 
-        it "assigns the permissions the non member role has" do
-          expect(model_instance.permissions).to match_array(ProjectRole.non_member.permissions) # public permissions are included via the factory
+        it "assigns only the public permissions" do
+          expect(model_instance.permissions).to match_array(OpenProject::AccessControl.public_permissions.map(&:name))
         end
       end
     end

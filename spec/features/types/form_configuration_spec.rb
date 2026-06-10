@@ -47,7 +47,7 @@ RSpec.describe "form configuration", :js, :selenium do
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:form) { Components::Admin::TypeConfigurationForm.new }
 
-  describe "with EE token", with_ee: %i[edit_attribute_groups] do
+  describe "query group actions with EE token", with_ee: %i[edit_attribute_groups] do
     describe "default configuration" do
       let(:dialog) { Components::ConfirmationDialog.new }
 
@@ -56,31 +56,38 @@ RSpec.describe "form configuration", :js, :selenium do
         visit edit_type_form_configuration_path(type)
       end
 
+      def persisted_group_order(type)
+        type.reload.attribute_groups.reject { |group| group.key == :__empty }.map(&:translated_key)
+      end
+
+      def persisted_attribute_order(type, group_key)
+        type.reload.attribute_groups.find { |group| group.key.to_s == group_key.to_s }&.attributes
+      end
+
       it "resets the form properly after changes" do
         form.rename_group("Details", "Whatever")
         form.expect_attribute(key: :assignee)
 
         # Reset and cancel
         form.reset_button.click
-        dialog.expect_open
-        dialog.cancel
+        dialog = find_test_selector("type-form-configuration-reset-dialog", visible: :all)
+        within(dialog) do
+          click_button I18n.t("js.button_cancel")
+        end
 
-        expect(page).to have_css(".group-edit-handler", text: "WHATEVER")
+        form.expect_group("Whatever", "Whatever")
 
-        # Click the dialog again after some time
-        # Otherwise this may cause issues due to the animation,
-        # which is why sleep is okay.
-        sleep 1
+        # Wait for dialog close animation to finish before opening it again
+        expect(page).to have_no_css("dialog[open]")
 
         # Reset and confirm
         form.reset_button.click
-        dialog.expect_open
-        dialog.confirm
+        dialog = find_test_selector("type-form-configuration-reset-dialog", visible: :all)
+        within(dialog) do
+          click_button I18n.t("button_reset")
+        end
 
-        # Wait for page reload
-        sleep 1
-
-        expect(page).to have_no_css(".group-head", text: "WHATEVER")
+        expect(page).to have_no_css("[data-group-key]", text: /\bWhatever\b/)
         form.expect_group("details", "Details")
         form.expect_attribute(key: :assignee)
       end
@@ -91,10 +98,6 @@ RSpec.describe "form configuration", :js, :selenium do
         form.remove_group "People"
         form.remove_group "Costs"
         form.remove_group "Other"
-
-        # Save configuration
-        form.save_changes
-        expect_flash(message: "Successful update.")
 
         form.expect_empty
 
@@ -153,17 +156,19 @@ RSpec.describe "form configuration", :js, :selenium do
         form.drag_and_drop(form.find_attribute_handle(:version), form.inactive_group)
         form.expect_inactive(:version)
 
-        # Rename group
+        # Rename section
         form.rename_group("Details", "Whatever")
         form.rename_group("People", "Cool Stuff")
 
         # Start renaming, but cancel
-        find(".group-edit-handler", text: "COOL STUFF").click
-        input = find(".group-edit-in-place--input")
+        group_key = form.send(:find_group, "Cool Stuff")["data-group-key"]
+        form.send(:open_group_menu, "Cool Stuff")
+        page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
+        input = find_test_selector("type-form-configuration-group-name-input", wait: 10)
         input.set("FOOBAR")
-        input.send_keys(:escape)
-        expect(page).to have_css(".group-edit-handler", text: "COOL STUFF")
-        expect(page).to have_no_css(".group-edit-handler", text: "FOOBAR")
+        page.find_test_selector("type-form-configuration-group-cancel", wait: 10).click
+        form.expect_group("Cool Stuff", "Cool Stuff")
+        expect(page).to have_no_css("[data-group-key]", text: /\bFOOBAR\b/)
 
         # Create new group
         form.add_attribute_group("New Group")
@@ -171,10 +176,6 @@ RSpec.describe "form configuration", :js, :selenium do
 
         # Delete attribute from group
         form.remove_attribute("assignee")
-
-        # Save configuration
-        form.save_changes
-        expect_flash(message: "Successful update.")
 
         # Expect configuration to be correct now
         form.expect_no_attribute("assignee", "Cool Stuff")
@@ -203,7 +204,9 @@ RSpec.describe "form configuration", :js, :selenium do
         # Test the actual type backend
         type.reload
         expect(type.attribute_groups.map(&:key))
-          .to include("Cool Stuff", :estimates_and_progress, "Whatever", "New Group")
+          .to include(:people, :estimates_and_progress, :details, "New Group")
+        expect(type.attribute_groups.detect { |g| g.key == :people }&.display_name).to eq("Cool Stuff")
+        expect(type.attribute_groups.detect { |g| g.key == :details }&.display_name).to eq("Whatever")
 
         # Visit work package with that type
         wp_page.visit!
@@ -246,6 +249,215 @@ RSpec.describe "form configuration", :js, :selenium do
         expect(wp_page).not_to have_alert_dialog
         loading_indicator_saveguard
       end
+
+      context "with field format labels" do
+        let!(:custom_field) { create(:issue_custom_field, :integer, name: "MyNumber") }
+
+        before do
+          visit edit_type_form_configuration_path(type)
+        end
+
+        it "shows field format labels beside attributes" do
+          builtin_label = I18n.t("types.edit.form_configuration.builtin_field")
+
+          expect(page.find(form.attribute_selector(:assignee))).to have_text(builtin_label)
+          expect(page.find(form.attribute_selector(:date))).to have_text(builtin_label)
+
+          form.move_to(custom_field.attribute_name, "Details")
+          expect(page.find(form.attribute_selector(custom_field.attribute_name))).to have_text(I18n.t(:label_integer))
+        end
+      end
+
+      it "removes a newly added unsaved custom group when canceling edit" do
+        initial_order = form.group_order
+
+        form.add_button_dropdown.click
+
+        expect(page).to have_text(I18n.t("types.edit.form_configuration.add_attribute_group"))
+        expect(page).to have_text(I18n.t("types.edit.form_configuration.add_query_group"))
+
+        click_on I18n.t("types.edit.form_configuration.add_attribute_group")
+
+        expect(page.find_test_selector("type-form-configuration-group-name-input", wait: 10).value).to eq("")
+
+        page.find_test_selector("type-form-configuration-group-cancel", wait: 10).click
+        expect(page).to have_no_test_selector("type-form-configuration-group-name-input")
+
+        expect(form.group_order).to eq(initial_order)
+      end
+
+      it "keeps a saved custom group when canceling rename" do
+        form.add_attribute_group("Saved custom group")
+
+        visit edit_type_form_configuration_path(type)
+
+        group_key = form.send(:find_group, "Saved custom group")["data-group-key"]
+        form.send(:open_group_menu, "Saved custom group")
+        page.find_test_selector("type-form-configuration-group-rename-#{group_key}", visible: :all).click
+
+        input = page.find_test_selector("type-form-configuration-group-name-input", wait: 10)
+        expect(input.value).to eq("Saved custom group")
+
+        input.set("Renamed group")
+        page.find_test_selector("type-form-configuration-group-cancel", wait: 10).click
+
+        form.expect_group("Saved custom group", "Saved custom group")
+        expect(page).to have_no_css("[data-group-key]", text: /\bRenamed group\b/)
+      end
+
+      it "shows only the edit action for query rows" do
+        form.add_query_group("Subtasks", :children)
+
+        menu_id = form.open_query_menu("Subtasks")
+        menu_selector = "##{menu_id}"
+
+        expect(page).to have_selector(menu_selector, text: I18n.t("types.edit.form_configuration.edit_query"))
+        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_top"))
+        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_up"))
+        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_down"))
+        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_bottom"))
+        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("button_delete"))
+      end
+
+      it "shows only delete for a single attribute row" do
+        form.add_attribute_group("New Group")
+        form.move_to(:category, "New Group")
+
+        menu_id = form.open_attribute_menu(:category)
+        menu_selector = "##{menu_id}"
+
+        expect(page).to have_selector(menu_selector, text: I18n.t("button_delete"))
+        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_top"))
+        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_up"))
+        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_down"))
+        expect(page).to have_no_selector("#{menu_selector} [role='menuitem']", text: I18n.t("label_agenda_item_move_to_bottom"))
+      end
+
+      it "shows move actions only where valid for multi-row groups" do
+        details_order = form.attribute_order("Details")
+
+        first_row_menu_id = form.open_attribute_menu(details_order.first)
+
+        within "##{first_row_menu_id}" do
+          expect(page).to have_text(I18n.t("label_agenda_item_move_down"))
+          expect(page).to have_text(I18n.t("label_agenda_item_move_to_bottom"))
+          expect(page).to have_no_text(I18n.t("label_agenda_item_move_to_top"))
+          expect(page).to have_no_text(I18n.t("label_agenda_item_move_up"))
+          expect(page).to have_text(I18n.t("button_delete"))
+        end
+
+        find("body").click
+
+        last_row_menu_id = form.open_attribute_menu(details_order.last)
+
+        within "##{last_row_menu_id}" do
+          expect(page).to have_text(I18n.t("label_agenda_item_move_to_top"))
+          expect(page).to have_text(I18n.t("label_agenda_item_move_up"))
+          expect(page).to have_no_text(I18n.t("label_agenda_item_move_down"))
+          expect(page).to have_no_text(I18n.t("label_agenda_item_move_to_bottom"))
+          expect(page).to have_text(I18n.t("button_delete"))
+        end
+      end
+
+      it "opens the query editor from the query row action" do
+        form.add_query_group("Subtasks", :children)
+
+        menu_id = form.open_query_menu("Subtasks")
+
+        within "##{menu_id}" do
+          click_button I18n.t("types.edit.form_configuration.edit_query")
+        end
+
+        expect(page).to have_css(".wp-table--configuration-modal")
+      end
+
+      it "reorders and deletes groups via group actions" do
+        expected_order = persisted_group_order(type)
+        moving_group = expected_order.second
+        initial_updated_at = type.updated_at
+
+        form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_up"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        index = expected_order.index(moving_group)
+        expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
+        expect(persisted_group_order(type)).to eq(expected_order)
+
+        initial_updated_at = type.updated_at
+        form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_to_bottom"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        expected_order.delete(moving_group)
+        expected_order << moving_group
+        expect(persisted_group_order(type)).to eq(expected_order)
+
+        initial_updated_at = type.updated_at
+        form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_up"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        index = expected_order.index(moving_group)
+        expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
+        expect(persisted_group_order(type)).to eq(expected_order)
+
+        initial_updated_at = type.updated_at
+        form.invoke_group_action(moving_group, I18n.t("label_agenda_item_move_to_top"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        expected_order.delete(moving_group)
+        expected_order.unshift(moving_group)
+        expect(persisted_group_order(type)).to eq(expected_order)
+
+        deleted_group = expected_order.last
+        initial_updated_at = type.updated_at
+        accept_confirm I18n.t("types.edit.form_configuration.confirm_delete_group") do
+          form.invoke_group_action(deleted_group, I18n.t("button_delete"))
+        end
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        expected_order.delete(deleted_group)
+        expect(persisted_group_order(type)).to eq(expected_order)
+      end
+
+      it "reorders and deletes attribute rows via row actions" do
+        expected_order = persisted_attribute_order(type, :details)
+        moving_attribute = expected_order.second
+        initial_updated_at = type.updated_at
+
+        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_up"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        index = expected_order.index(moving_attribute)
+        expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
+        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+
+        initial_updated_at = type.updated_at
+        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_down"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        index = expected_order.index(moving_attribute)
+        expected_order[index], expected_order[index + 1] = expected_order[index + 1], expected_order[index]
+        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+
+        initial_updated_at = type.updated_at
+        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_to_bottom"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        expected_order.delete(moving_attribute)
+        expected_order << moving_attribute
+        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+
+        initial_updated_at = type.updated_at
+        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_up"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        index = expected_order.index(moving_attribute)
+        expected_order[index], expected_order[index - 1] = expected_order[index - 1], expected_order[index]
+        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+
+        initial_updated_at = type.updated_at
+        form.invoke_attribute_action(moving_attribute, I18n.t("label_agenda_item_move_to_top"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        expected_order.delete(moving_attribute)
+        expected_order.unshift(moving_attribute)
+        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+
+        initial_updated_at = type.updated_at
+        form.invoke_attribute_action(moving_attribute, I18n.t("button_delete"))
+        wait_for { type.reload.updated_at }.not_to eq(initial_updated_at)
+        expected_order.delete(moving_attribute)
+        expect(persisted_attribute_order(type, :details)).to eq(expected_order)
+      end
     end
 
     describe "required custom field" do
@@ -265,14 +477,12 @@ RSpec.describe "form configuration", :js, :selenium do
       it "shows the field" do
         # Should be initially disabled
         form.expect_inactive(cf_identifier)
+        form.expect_attribute(key: cf_identifier, translation: "MyNumber")
 
         # Add into new group
         form.add_attribute_group("New Group")
         form.move_to(cf_identifier, "New Group")
-        form.expect_attribute(key: cf_identifier)
-
-        form.save_changes
-        expect_flash(message: "Successful update.")
+        form.expect_attribute(key: cf_identifier, translation: "MyNumber")
       end
     end
 
@@ -300,9 +510,6 @@ RSpec.describe "form configuration", :js, :selenium do
 
         # Make visible
         form.expect_attribute(key: cf_identifier)
-
-        form.save_changes
-        expect_flash(message: "Successful update.")
       end
 
       context "if inactive in project" do
@@ -322,7 +529,7 @@ RSpec.describe "form configuration", :js, :selenium do
           expect(page).to have_css(".custom-field-#{custom_field.id} td", text: "MyNumber")
           expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
 
-          id_checkbox = find("#project_work_package_custom_field_ids_#{custom_field.id}")
+          id_checkbox = find("input[name='project[work_package_custom_field_ids][]'][value='#{custom_field.id}']")
           expect(id_checkbox).not_to be_checked
           id_checkbox.set(true)
 
@@ -362,32 +569,58 @@ RSpec.describe "form configuration", :js, :selenium do
           project_cf_settings_page.visit!
           expect(page).to have_css(".custom-field-#{custom_field.id} td", text: "MyNumber")
           expect(page).to have_css(".custom-field-#{custom_field.id} td", text: type.name)
-          expect(page).to have_css("#project_work_package_custom_field_ids_#{custom_field.id}[checked]")
+          expect(page).to have_css("input[name='project[work_package_custom_field_ids][]'][value='#{custom_field.id}'][checked]")
         end
       end
     end
   end
 
   describe "without EE token", with_ee: false do
-    let(:dialog) { Components::ConfirmationDialog.new }
-
-    it "must disable adding and renaming groups" do
+    it "hides protected group actions" do
       login_as(admin)
       visit edit_type_form_configuration_path(type)
 
-      find(".group-edit-handler", text: "DETAILS").click
-      dialog.expect_open
+      expect(page).to have_no_test_selector("type-form-configuration-add-button")
+
+      menu_id = form.send(:open_group_menu, "Details")
+      within "##{menu_id}" do
+        expect(page).to have_no_text(I18n.t("types.edit.form_configuration.rename_group"))
+        expect(page).to have_no_text(I18n.t("button_delete"))
+      end
+    end
+
+    it "hides protected query group actions" do
+      query = build(:global_query, user_id: 0)
+      type.attribute_groups = [["Subtasks", [query]]]
+      type.save!
+
+      login_as(admin)
+      visit edit_type_form_configuration_path(type)
+
+      expect(page).to have_no_test_selector("type-form-configuration-query-actions-Subtasks")
+    end
+  end
+
+  describe "with EE token", with_ee: %i[edit_attribute_groups] do
+    it "shows protected group actions" do
+      login_as(admin)
+      visit edit_type_form_configuration_path(type)
+
+      menu_id = form.send(:open_group_menu, "Details")
+      within "##{menu_id}" do
+        expect(page).to have_text(I18n.t("types.edit.form_configuration.rename_group"))
+        expect(page).to have_text(I18n.t("button_delete"))
+      end
     end
   end
 
   describe "form submission", :js, with_ee: %i[edit_attribute_groups] do
-    # Regression test for double form submission happening on the form configuration page
-    it "only submits the form once (Regression#70297)" do
+    it "only creates one group per add action" do
       call_count = 0
       subscription =
         ActiveSupport::Notifications.subscribe("process_action.action_controller") do |*, payload|
           payload => { controller:, action: }
-          if controller == "WorkPackageTypes::FormConfigurationTabController" && action == "update"
+          if controller == "WorkPackageTypes::FormConfigurationGroupsTabController" && action == "create"
             call_count += 1
           end
         end
@@ -395,24 +628,11 @@ RSpec.describe "form configuration", :js, :selenium do
       login_as(admin)
       visit edit_type_form_configuration_path(type)
 
-      # Wait for form to load
       form.expect_group("details", "Details")
-
-      # Simulate native mousedown -> mouseup -> click sequence
-      # Including some sleep time to simulate the user actually
-      # holding the mouse button for > 50ms then releasing it.
-      save_button = find(".form-configuration--save")
-
-      save_button.execute_script("this.dispatchEvent(new MouseEvent('mousedown', { bubbles: true }))")
-      sleep 0.1
-      save_button.execute_script("this.dispatchEvent(new MouseEvent('mouseup', { bubbles: true }))")
-      sleep 0.1
-      save_button.execute_script("this.dispatchEvent(new MouseEvent('click', { bubbles: true }))")
-
-      expect_flash(message: "Successful update.")
+      form.add_attribute_group("New Group")
 
       ActiveSupport::Notifications.unsubscribe(subscription)
-      expect(call_count).to eq(1), "Expected 1 form submission but got #{call_count}"
+      expect(call_count).to eq(1), "Expected 1 group creation but got #{call_count}"
     end
   end
 end

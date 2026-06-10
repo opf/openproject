@@ -27,11 +27,9 @@
 //++
 
 import {
-  AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, ViewChild, inject,
+  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, ViewChild, inject,
 } from '@angular/core';
-import { OpModalLocalsMap } from 'core-app/shared/components/modal/modal.types';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
-import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { CodeMirrorLoaderService } from 'core-app/shared/components/editor/components/ckeditor/codemirror-loader.service';
 import type { Editor as CodeMirrorEditor } from 'codemirror';
@@ -66,9 +64,6 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
 
   @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef;
 
-  readonly elementRef = inject(ElementRef);
-  public locals = inject(OpModalLocalsToken) as OpModalLocalsMap;
-  readonly cdRef = inject(ChangeDetectorRef);
   readonly I18n = inject(I18nService);
   readonly codeMirrorLoader = inject(CodeMirrorLoaderService);
 
@@ -82,11 +77,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   };
 
   constructor() {
-    super(
-      inject(OpModalLocalsToken) as OpModalLocalsMap,
-      inject(ChangeDetectorRef),
-      inject(ElementRef),
-    );
+    super();
     this.languageClass = (this.locals.languageClass as string | undefined) ?? 'language-text';
     this.content = this.locals.content as string;
 

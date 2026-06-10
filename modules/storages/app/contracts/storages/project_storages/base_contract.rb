@@ -48,6 +48,11 @@ module Storages::ProjectStorages
     attribute :project_folder_id
     validates :project_folder_id, presence: true, if: :project_folder_mode_manual?
 
+    # For automatically managed folders, the project_folder_id should not even be choosable by the user, but in any case
+    # we have to make sure to not introduce duplicates, because this could lead to one project taking ownership of a folder
+    # that already belongs to another project
+    validate :project_folder_id_unique, if: :project_folder_mode_automatic?
+
     attribute :project_folder_mode do
       if Storages::ProjectStorage.project_folder_modes.keys.exclude?(@model.project_folder_mode)
         errors.add :project_folder_mode, :invalid
@@ -62,10 +67,26 @@ module Storages::ProjectStorages
       @model.project_folder_manual?
     end
 
+    def project_folder_mode_automatic?
+      @model.project_folder_automatic?
+    end
+
     def project_folder_mode_available_for_storage
       if storage&.available_project_folder_modes&.exclude?(@model.project_folder_mode)
         errors.add :project_folder_mode, :mode_unavailable
       end
+    end
+
+    def project_folder_id_unique
+      return if @model.project_folder_id.blank?
+      return if @model.storage.blank?
+
+      collision = ::Storages::ProjectStorage
+                    .where(storage_id: @model.storage_id, project_folder_id: @model.project_folder_id)
+                    .where.not(id: @model.id)
+                    .exists?
+
+      errors.add(:project_folder_id, :taken) if collision
     end
   end
 end

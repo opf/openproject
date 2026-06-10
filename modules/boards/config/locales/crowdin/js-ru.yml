@@ -9,7 +9,7 @@ ru:
     boards:
       create_new: Создать новую доску
       label_unnamed_board: Безымянная доска
-      label_unnamed_list: Список досок без имени
+      label_unnamed_list: Безымянный список
       label_board_type: Тип доски
       lists:
         delete: Удалить список
