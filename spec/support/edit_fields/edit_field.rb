@@ -33,7 +33,7 @@ class EditField
     @field_type = derive_field_type
     @create_form = create_form
 
-    @selector = selector || ".inline-edit--container.#{property_name.to_s.camelize(:lower)}"
+    @selector = selector || ".inline-edit--container.#{@property_name.camelize(:lower)}"
   end
 
   def create_form?
