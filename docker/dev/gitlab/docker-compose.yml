@@ -1,20 +1,31 @@
 services:
+  # Omnibus GitLab trusts every .crt in /etc/gitlab/trusted-certs during
+  # reconfigure, but it also rewrites permissions and rehash symlinks in that
+  # directory, so the step-ca root certificate is copied in rather than the
+  # CA volume being mounted there directly.
+  trusted-certs:
+    image: alpine:latest
+    restart: no
+    volumes:
+      - gitlab-etc:/etc/gitlab
+      - type: volume
+        source: step
+        target: /step-certs
+        read_only: true
+        volume:
+          subpath: certs
+    command: install -D -m 644 /step-certs/root_ca.crt /etc/gitlab/trusted-certs/root_ca.crt
+
   gitlab:
     image: gitlab/gitlab-ce:latest
     restart: no
+    depends_on:
+      trusted-certs:
+        condition: service_completed_successfully
     volumes:
       - gitlab-etc:/etc/gitlab
       - gitlab-logs:/var/log/gitlab
       - gitlab-opt:/var/opt/gitlab
-      # Omnibus GitLab trusts every .crt in /etc/gitlab/trusted-certs during
-      # reconfigure, so mounting the step-ca certs there lets webhooks reach the
-      # TLS-encrypted OpenProject host without freezing a full CA bundle.
-      - type: volume
-        source: step
-        target: /etc/gitlab/trusted-certs
-        read_only: true
-        volume:
-          subpath: certs
     environment:
       # Seeds the root password on first boot only; existing instances keep
       # their password (reset via gitlab-rake "gitlab:password:reset[root]")
