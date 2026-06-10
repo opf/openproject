@@ -29,11 +29,13 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= turbo_frame_tag "backlogs_container",
                     refresh: :morph,
-                    class: "op-backlogs-page" do %>
-  <div class="op-sprint-planning-container"
-       data-controller="backlogs--list-refresh sortable-lists"
-       data-sortable-lists-accepted-type-value="work_package"
-       data-sortable-lists-move-url-template-value="<%= backlogs_move_url_template(@project) %>">
+                    class: "op-backlogs-page",
+                    data: {
+                      controller: "backlogs--list-refresh sortable-lists",
+                      sortable_lists_accepted_type_value: "work_package",
+                      sortable_lists_move_url_template_value: backlogs_move_url_template(@project)
+                    } do %>
+  <div class="op-sprint-planning-container">
     <div id="owner_backlogs_container" class="op-sprint-planning-lists" data-sortable-lists-target="scrollable">
       <%=
         render Backlogs::BacklogComponent.new(

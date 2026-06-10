@@ -27,7 +27,7 @@
 //++
 
 import { Controller } from '@hotwired/stimulus';
-import { FrameElement } from '@hotwired/turbo';
+import type { FrameElement } from '@hotwired/turbo';
 import { filter, Subscription } from 'rxjs';
 import type { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { useServices, type ServiceKey } from 'core-stimulus/mixins/use-services';
@@ -37,7 +37,9 @@ import { useServices, type ServiceKey } from 'core-stimulus/mixins/use-services'
 // split pane or by the Angular layer. Those edits emit HAL events rather than a
 // Turbo stream targeting this frame, so subscribe to them and reload the frame
 // to keep the cards (and sprint point totals) in sync.
-export default class ListRefreshController extends Controller<HTMLElement> {
+//
+// Declared on the turbo-frame tag itself, so `this.element` is the frame.
+export default class ListRefreshController extends Controller<FrameElement> {
   static services:ServiceKey[] = ['halEvents'];
 
   declare halEvents:HalEventsService;
@@ -52,15 +54,11 @@ export default class ListRefreshController extends Controller<HTMLElement> {
     this.subscription = this.halEvents
       .aggregated$('WorkPackage')
       .pipe(filter((events) => events.some((event) => event.eventType === 'updated')))
-      .subscribe(() => { void this.frame?.reload(); });
+      .subscribe(() => { void this.element.reload(); });
   }
 
   disconnect() {
     this.subscription?.unsubscribe();
     this.subscription = null;
-  }
-
-  private get frame():FrameElement|null {
-    return this.element.closest<FrameElement>('turbo-frame');
   }
 }

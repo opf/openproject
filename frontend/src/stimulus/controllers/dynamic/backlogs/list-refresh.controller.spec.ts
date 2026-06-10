@@ -27,6 +27,7 @@
 //++
 
 import { waitFor } from '@testing-library/dom';
+import { Idiomorph } from 'idiomorph';
 import { Subject } from 'rxjs';
 import { vi, type Mock } from 'vitest';
 
@@ -83,21 +84,6 @@ describe('Backlogs list-refresh controller', () => {
     return { frame, reload };
   }
 
-  async function renderFrameContent() {
-    await ctx.mount(`
-      <turbo-frame id="backlogs-list">
-        <div data-controller="backlogs--list-refresh"></div>
-      </turbo-frame>
-    `);
-    const frame = ctx.container.querySelector<HTMLElement>('turbo-frame')!;
-    const reload = vi.fn();
-    (frame as unknown as { reload:() => void }).reload = reload;
-
-    await waitFor(() => { expect(aggregated$).toHaveBeenCalledWith('WorkPackage'); });
-
-    return { frame, reload };
-  }
-
   it('subscribes to aggregated WorkPackage events', async () => {
     await renderFrame();
 
@@ -112,20 +98,44 @@ describe('Backlogs list-refresh controller', () => {
     expect(reload).toHaveBeenCalledTimes(1);
   });
 
-  it('reloads the containing frame when mounted on loaded frame content', async () => {
-    const { reload } = await renderFrameContent();
-
-    events$.next([{ eventType: 'updated' }]);
-
-    expect(reload).toHaveBeenCalledTimes(1);
-  });
-
   it('ignores aggregated events without an updated entry', async () => {
     const { reload } = await renderFrame();
 
     events$.next([{ eventType: 'created' }, { eventType: 'removed' }]);
 
     expect(reload).not.toHaveBeenCalled();
+  });
+
+  it('keeps its single subscription across a morph refresh', async () => {
+    await ctx.mount(`
+      <turbo-frame id="backlogs-list" refresh="morph" data-controller="backlogs--list-refresh">
+        <ul><li>one</li></ul>
+      </turbo-frame>
+    `);
+    const frame = ctx.container.querySelector<HTMLElement>('turbo-frame')!;
+    const reload = vi.fn();
+    (frame as unknown as { reload:() => void }).reload = reload;
+
+    await waitFor(() => { expect(aggregated$).toHaveBeenCalledWith('WorkPackage'); });
+
+    // Emulate a Turbo morph refresh: the response frame carries the same
+    // attributes (they are declared identically on both frame tags) and new
+    // children, so idiomorph keeps the live element and morphs the content.
+    Idiomorph.morph(
+      frame,
+      `<turbo-frame id="backlogs-list" refresh="morph" data-controller="backlogs--list-refresh">
+        <ul><li>two</li></ul>
+      </turbo-frame>`,
+      { morphStyle: 'outerHTML' },
+    );
+    await ctx.nextFrame();
+
+    expect(frame.isConnected).toBe(true);
+    expect(aggregated$).toHaveBeenCalledTimes(1);
+
+    events$.next([{ eventType: 'updated' }]);
+
+    expect(reload).toHaveBeenCalledTimes(1);
   });
 
   it('stops reloading after the controller disconnects', async () => {
