@@ -24,5 +24,9 @@ export const openProjectWorkPackageInlineSpec = createReactInlineContentSpec(
     },
 
     parse: (element) => parseWorkPackageInlineExternalHTML(element),
+    
+    meta: {
+      draggable: true,
+    },
   }
 );

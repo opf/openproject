@@ -17,7 +17,7 @@ import { defaultWpVariables } from "../WorkPackage/atoms";
 import { formatWorkPackageId } from "../../utils/id";
 import { useIsNodeInSelection } from "../../hooks/useIsNodeInSelection";
 
-interface InlineWorkPackageChipProps {
+export interface InlineWorkPackageChipProps {
   inlineContent: { props: { wpid: string; size: string; instanceId: string } };
   contentRef: (node: HTMLElement | null) => void;
   editor?: any;
@@ -40,6 +40,10 @@ const InlineChip = styled.span.attrs({
   position: relative;
   max-width: 100%;
   line-height: 1;
+
+  &:active {
+    cursor: grabbing;
+  }
 `;
 
 export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: InlineWorkPackageChipProps) => {
@@ -99,7 +103,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
   // Loading
   if (wpid && loading) {
     return (
-      <InlineChip ref={setRef} selected={isEditorSelected}>
+      <InlineChip ref={setRef} selected={isEditorSelected} data-drag-handle>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}…</WorkPackageId>
         </ChipBase>
@@ -111,6 +115,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
   if (wpid && wp) {
     return (
       <InlineChip
+        data-drag-handle
         role="button"
         aria-label={t("options.chipAriaLabel", { id: formatWorkPackageId(wp.displayId) })}
         ref={setRef}
@@ -122,8 +127,8 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
         }}
       >
         {size === "xxs" && <WpChipXXS wp={wp} />}
-        {size === "xs"  && <WpChipXS  wp={wp} />}
-        {size === "s"   && <WpChipS   wp={wp} />}
+        {size === "xs" && <WpChipXS wp={wp} />}
+        {size === "s" && <WpChipS wp={wp} />}
 
         {isSelected && (
           <WpOptionsPopover
@@ -150,7 +155,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
   // Error / unknown
   if (wpid) {
     return (
-      <InlineChip ref={setRef} selected={isEditorSelected} style={{ opacity: 0.6 }}>
+      <InlineChip ref={setRef} data-drag-handle selected={isEditorSelected} style={{ opacity: 0.6 }}>
         <ChipBase>
           <WorkPackageId as="span" $compact>#{wpid}</WorkPackageId>
         </ChipBase>

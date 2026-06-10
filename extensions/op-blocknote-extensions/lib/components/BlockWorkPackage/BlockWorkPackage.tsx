@@ -1,4 +1,4 @@
-import { BlockNoteEditor } from "@blocknote/core";
+import { BlockNoteEditor, SideMenuExtension } from "@blocknote/core";
 import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
@@ -17,7 +17,8 @@ import { moveCursorAfterBlock } from "../../utils/cursor";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })`
   ${defaultWpVariables}
-  background-color: var(--op-chip-bg);
+  background-color: var(--op-chip-bg);  
+  user-select: all; 
   border-radius: var(--bn-border-radius);
 `;
 
@@ -25,6 +26,8 @@ const BlockCardWrapper = styled.div`
   position: relative;
   display: inline-block;
 `;
+
+type SideMenuInstance = NonNullable<ReturnType<ReturnType<typeof SideMenuExtension>>>;
 
 interface BlockProps {
   id: string;
@@ -61,6 +64,13 @@ export const BlockWorkPackageComponent = ({
       props: { ...block.props, wpid: wp.id, initialized: true },
     });
     requestAnimationFrame(() => moveCursorAfterBlock(editor, block.id));
+  };
+
+  // Delegate the drag to the same mechanism the side menu uses internally,
+  // so dragging the block directly behaves identically to dragging via the handle.
+  const handleBlockDragStart = (e: React.DragEvent) => {
+    const sideMenu = editor.extensions.get("sideMenu") as SideMenuInstance | undefined;
+    sideMenu?.blockDragStart(e.nativeEvent, block as any);
   };
 
   useEffect(() => {
@@ -110,6 +120,8 @@ export const BlockWorkPackageComponent = ({
     <Block
       tabIndex={disableFocus ? -1 : 0}
       style={disableFocus ? { pointerEvents: "none" } : undefined}
+      draggable="true"
+      onDragStart={handleBlockDragStart}
     >
       <div contentEditable={false} style={{ userSelect: "none" }}>
         {!block.props.wpid && !block.props.initialized && isActive && (
