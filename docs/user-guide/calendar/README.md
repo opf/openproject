@@ -42,7 +42,7 @@ When you open a new calendar, all work packages within the current project are d
 
 The current month is automatically selected.
 
-![Calendar time controls](openproject_user_guide_Calendar_time_controls.png)
+![Calendar time controls](openproject_user_guide_calendar_time_controls.png)
 
 - You can use the previews/next arrow controls **(←, →)** in the top left corner to move forwards or backwards in time.
 - The **today** button brings you back to the current date.
