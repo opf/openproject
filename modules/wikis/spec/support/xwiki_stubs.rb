@@ -41,21 +41,21 @@ module XWikiStubs
                  headers: { "Content-Type" => "application/json" })
   end
 
-  def search_endpoint(wiki_name, linkable, provider:, number: 25)
-    "#{provider.url}rest/wikis/#{wiki_name}/openproject/links/workPackages/#{linkable.id}?number=#{number}"
+  def search_endpoint(linkable, provider:, number: 25)
+    "#{provider.url}rest/openproject/links/workPackages/#{linkable.id}?number=#{number}"
   end
 
   def stub_canonical_page_info(identifier, title:, href:, provider:, token: "user-bearer-token")
-    stub_request(:put, "#{provider.url}rest/openproject/documents")
+    stub_request(:get, "#{provider.url}rest/openproject/documents")
       .with(query: { "docRef" => identifier },
-            headers: { "Authorization" => "Bearer #{token}", "Content-Type" => "application/json" })
+            headers: { "Authorization" => "Bearer #{token}" })
       .to_return(status: 200,
                  body: { "id" => identifier, "title" => title, "xwikiAbsoluteUrl" => href }.to_json,
                  headers: { "Content-Type" => "application/json" })
   end
 
-  def stub_search(wiki_name, search_results, provider:, linkable:, number: 25, token: "user-bearer-token")
-    stub_request(:get, search_endpoint(wiki_name, linkable, provider:, number:))
+  def stub_search(search_results, provider:, linkable:, number: 25, token: "user-bearer-token")
+    stub_request(:get, search_endpoint(linkable, provider:, number:))
       .with(headers: { "Authorization" => "Bearer #{token}" })
       .to_return(status: 200,
                  body: { "searchResults" => search_results }.to_json,

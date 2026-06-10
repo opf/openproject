@@ -52,14 +52,12 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
 
     subject(:result) { query.call(input_data:, auth_strategy:) }
 
-    context "when a single wiki returns results" do
+    context "when results are returned" do
       let(:page_identifier) { "xwiki:Main.Eric's Space.WebHome" }
       let(:page_absolute_url) { "https://xwiki.example.com/bin/view/Main/Eric%27s%20Space/" }
 
       before do
-        stub_wiki_list(["xwiki"], provider: wiki_provider)
-        stub_search("xwiki",
-                    [{ "id" => page_identifier, "title" => "Eric's Space #2" }],
+        stub_search([{ "id" => page_identifier, "title" => "Eric's Space #2" }],
                     provider: wiki_provider,
                     linkable:)
         stub_canonical_page_info(page_identifier,
@@ -79,43 +77,13 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       end
     end
 
-    context "when a farm has multiple wikis with results" do
-      let(:page_id_wiki1) { "xwiki:Main.WebHome" }
-      let(:page_id_wiki2) { "myfarm:Docs.Index" }
-
-      before do
-        stub_wiki_list(%w[xwiki myfarm], provider: wiki_provider)
-        stub_search("xwiki", [{ "id" => page_id_wiki1, "title" => "Home" }],
-                    provider: wiki_provider, linkable:)
-        stub_search("myfarm", [{ "id" => page_id_wiki2, "title" => "Docs Index" }],
-                    provider: wiki_provider, linkable:)
-        stub_canonical_page_info(page_id_wiki1,
-                                 title: "Home",
-                                 href: "https://xwiki.example.com/bin/view/Main/",
-                                 provider: wiki_provider)
-        stub_canonical_page_info(page_id_wiki2,
-                                 title: "Docs Index",
-                                 href: "https://xwiki.example.com/bin/view/Docs/",
-                                 provider: wiki_provider)
-      end
-
-      it { is_expected.to be_success }
-
-      it "aggregates results from all wikis" do
-        page_results = result.value!
-        expect(page_results).to all(be_success)
-        expect(page_results.map { it.value!.identifier }).to contain_exactly(page_id_wiki1, page_id_wiki2)
-      end
-    end
-
     context "when the same page appears multiple times in results" do
       let(:page_identifier) { "xwiki:Main.WebHome" }
       let(:page_absolute_url) { "https://xwiki.example.com/bin/view/Main/" }
       let(:duplicate_result) { { "id" => page_identifier, "title" => "Home" } }
 
       before do
-        stub_wiki_list(["xwiki"], provider: wiki_provider)
-        stub_search("xwiki", [duplicate_result, duplicate_result], provider: wiki_provider, linkable:)
+        stub_search([duplicate_result, duplicate_result], provider: wiki_provider, linkable:)
         stub_canonical_page_info(page_identifier,
                                  title: "Home",
                                  href: page_absolute_url,
@@ -130,11 +98,8 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       end
     end
 
-    context "when no pages are found across all wikis" do
-      before do
-        stub_wiki_list(["xwiki"], provider: wiki_provider)
-        stub_search("xwiki", [], provider: wiki_provider, linkable:)
-      end
+    context "when no pages are found" do
+      before { stub_search([], provider: wiki_provider, linkable:) }
 
       it { is_expected.to be_success }
 
@@ -143,11 +108,9 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       end
     end
 
-    context "when one wiki's search fails" do
+    context "when the search request fails" do
       before do
-        stub_wiki_list(%w[xwiki broken_wiki], provider: wiki_provider)
-        stub_search("xwiki", [], provider: wiki_provider, linkable:)
-        stub_request(:get, search_endpoint("broken_wiki", linkable, provider: wiki_provider))
+        stub_request(:get, search_endpoint(linkable, provider: wiki_provider))
           .to_return(status: 500, body: "Internal Server Error")
       end
 
@@ -160,14 +123,14 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :missing_token)) }
     end
 
-    context "when the wikis preflight fails with unauthorized" do
-      before { stub_request(:get, wikis_endpoint(wiki_provider)).to_return(status: 401, body: "") }
+    context "when the search request returns unauthorized" do
+      before { stub_request(:get, search_endpoint(linkable, provider: wiki_provider)).to_return(status: 401, body: "") }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :unauthorized)) }
     end
 
-    context "when the wikis preflight fails with a network error" do
-      before { stub_request(:get, wikis_endpoint(wiki_provider)).to_timeout }
+    context "when the search request times out" do
+      before { stub_request(:get, search_endpoint(linkable, provider: wiki_provider)).to_timeout }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :connection_error)) }
     end
