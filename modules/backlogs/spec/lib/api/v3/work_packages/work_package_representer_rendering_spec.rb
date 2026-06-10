@@ -67,9 +67,11 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
   current_user { build_stubbed(:user) }
 
   before do
-    mock_permissions_for(current_user) do |mock|
-      permissions.each do |permission|
-        mock.allow_in_project(*permission, project:) if project
+    if project.present?
+      mock_permissions_for(current_user) do |mock|
+        permissions.each do |permission|
+          mock.allow_in_project(*permission, project:)
+        end
       end
     end
   end
@@ -118,6 +120,14 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
         let(:project) { nil }
 
         it_behaves_like "has no link"
+      end
+
+      context "when the work package has no backlog bucket assigned" do
+        let(:sprint) { nil }
+
+        it_behaves_like "has an empty link" do
+          let(:link) { "sprint" }
+        end
       end
     end
 
@@ -176,6 +186,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
 
       context "when lacking the permission" do
         let(:permissions) { [] }
+
+        it_behaves_like "has the resource not embedded"
+      end
+
+      context "when the work package has no sprint assigned" do
+        let(:sprint) { nil }
 
         it_behaves_like "has the resource not embedded"
       end
