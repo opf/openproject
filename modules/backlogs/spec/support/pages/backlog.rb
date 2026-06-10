@@ -418,9 +418,8 @@ module Pages
           pick_up_and_release_backlogs_item(moved_element)
           return
         rescue Capybara::Cuprite::ObsoleteNode
-          next
-        ensure
           stop_backlogs_move_request_probe
+          next
         end
       end
     end
@@ -446,7 +445,8 @@ module Pages
       JS
 
       expect(drop_summary.fetch("handled")).to be(true)
-      expect(drop_summary.fetch("dropTargetTypes")).not_to include("item")
+      expect(drop_summary.fetch("dropTargetTypes")).to include("backlog_bucket")
+      expect(drop_summary.fetch("dropTargetTypes")).not_to include("work_package")
     end
 
     def drag_work_package(moved, before: nil, into: nil)
