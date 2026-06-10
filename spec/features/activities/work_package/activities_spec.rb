@@ -919,6 +919,9 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
 
         # expect the quoted comment to be shown
         activity_tab.ckeditor.expect_include_value("@A Member wrote:\nFirst comment by member")
+
+        # expect the editor to be focused so the user can type immediately
+        activity_tab.expect_focus_on_editor
       end
     end
 
@@ -937,8 +940,11 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
         # quote other user's comment
         activity_tab.quote_comment(first_comment_by_member)
 
-        # expect the original comment and quote are shown
+        # expect the original comment and quote are shown (quote appended after existing content)
         activity_tab.ckeditor.expect_include_value("Partial message:\n@A Member wrote:\nFirst comment by member")
+
+        # expect the editor to be focused so the user can type immediately
+        activity_tab.expect_focus_on_editor
       end
     end
   end

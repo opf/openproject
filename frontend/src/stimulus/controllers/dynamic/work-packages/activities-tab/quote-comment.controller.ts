@@ -65,19 +65,19 @@ export default class QuoteCommentController extends Controller {
       .join('');
 
     // if we ever change CKEditor or how @mentions work this will break
-    return `<mention class="mention" data-id="${userId}" data-type="user" data-text="@${userName}">@${userName}</mention> ${textWrote}:\n\n${quoted}`;
+    return `<mention class="mention" data-id="${userId}" data-type="user" data-text="@${userName}">@${userName}</mention> ${textWrote}:\n\n${quoted}\n\n`;
   }
 
   private insertQuoteOnExistingEditor(quotedText:string) {
-    if (this.ckEditorInstance) {
-      const editorData = this.ckEditorInstance.getData({ trim: false });
+    const editor = this.ckEditorInstance;
+    if (!editor) return;
 
-      if (editorData.endsWith('<br>') || editorData.endsWith('\n')) {
-        this.ckEditorInstance.setData(`${editorData}${quotedText}`);
-      } else {
-        this.ckEditorInstance.setData(`${editorData}\n\n${quotedText}`);
-      }
-    }
+    // insert at the current cursor position (preserved by CKEditor across blur/focus),
+    // then place focus so the user can type immediately after the blockquote
+    const fragment = editor.data.parse(quotedText);
+    editor.model.insertContent(fragment);
+
+    this.workPackagesActivitiesTabEditorOutlet.focusEditor();
   }
 
   private setCommentRestriction(isInternal:boolean) {

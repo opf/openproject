@@ -20,6 +20,10 @@ export interface CKEditorDomEventData {
   keyCode:number;
 }
 
+// Opaque handle for a parsed CKEditor model fragment (DocumentFragment).
+// We never inspect its internals, only pass it from data.parse to model.insertContent.
+export type CKEditorModelFragment = unknown;
+
 export interface ICKEditorInstance {
   id:string;
 
@@ -39,9 +43,13 @@ export interface ICKEditorInstance {
 
   listenTo(node:unknown, key:string, callback:(evt:CKEditorEvent, data:CKEditorDomEventData) => unknown, options:CKEditorListenOptions):void;
 
+  data:{
+    parse(data:string):CKEditorModelFragment;
+  };
   model:{
     on(ev:string, callback:() => unknown):void
     fire(ev:string, data:unknown):void
+    insertContent(content:CKEditorModelFragment):void
     document:{
       on(ev:string, callback:() => unknown):void
     };
