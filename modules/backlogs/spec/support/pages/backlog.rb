@@ -1071,11 +1071,13 @@ module Pages
       return unless page.has_css?(selector, visible: true, wait: 0)
       return if page.has_selector?(:modal, wait: 0)
 
-      find(selector).click
-    rescue Selenium::WebDriver::Error::ElementNotInteractableError
-      # Menu actions can open a modal before the overlay is removed; once the
-      # modal owns focus the stale overlay is unclickable and dismissal moot.
-      raise unless page.has_selector?(:modal, wait: 0)
+      find(selector, wait: 0).click
+    rescue Capybara::ElementNotFound, Selenium::WebDriver::Error::ElementNotInteractableError
+      # Menu actions can close the menu or open a modal between the checks
+      # above and the click; once the menu is gone or a modal owns focus,
+      # dismissal is moot.
+      raise unless page.has_selector?(:modal, wait: 0) ||
+        page.has_no_css?(selector, visible: true, wait: 0)
     end
 
     def sprint_names_in_order
