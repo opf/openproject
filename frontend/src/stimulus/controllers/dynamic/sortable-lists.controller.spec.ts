@@ -30,6 +30,7 @@
 
 import type { autoScrollForElements as autoScrollForElementsFn } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import type { dropTargetForElements as dropTargetForElementsFn, monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { waitFor } from '@testing-library/dom';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
 import type {
@@ -519,9 +520,11 @@ describe('Sortable lists controller', () => {
     await dropCurrentItemOnList(firstSourceItem, targetList);
     await flushPromises();
 
-    expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
-    expect(itemIds(targetList)).toEqual(['4', '5']);
-    expect(renderStreamMessageMock).toHaveBeenCalledOnce();
+    await waitFor(() => {
+      expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
+      expect(itemIds(targetList)).toEqual(['4', '5']);
+      expect(renderStreamMessageMock).toHaveBeenCalledOnce();
+    });
     expect(toastEvents).toHaveLength(0);
 
     window.removeEventListener('op:toasters:add', onToast);
