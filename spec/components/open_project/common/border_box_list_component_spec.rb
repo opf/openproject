@@ -522,14 +522,9 @@ RSpec.describe OpenProject::Common::BorderBoxListComponent, type: :component do
         )
       end
 
-      it "applies clickable row classes" do
-        expect(rendered_component).to have_css(
-          ".Box-row.Box-row--clickable"
-        )
-      end
-
-      it "applies the Box-card class to the work-package card" do
-        expect(rendered_component).to have_css(".op-work-package-card.Box-card")
+      it "applies the Box-card class and the clickable modifier to the work-package card" do
+        expect(rendered_component).to have_css(".op-work-package-card.Box-card.Box-card--clickable")
+        expect(rendered_component).to have_no_css(".Box-card--draggable")
       end
 
       it "sets the test selector" do

@@ -75,7 +75,6 @@ describe('Backlogs story controller', () => {
         data-backlogs--story-display-id-value="SP-42"
         data-backlogs--story-split-url-value="/projects/demo/backlogs/details/SP-42"
         data-backlogs--story-full-url-value="/work_packages/42"
-        data-backlogs--story-selected-class="Box-row--blue"
         tabindex="0"
       >
         Story
@@ -137,5 +136,59 @@ describe('Backlogs story controller', () => {
     expect(event.defaultPrevented).toBe(false);
     expect(navigation.openSplitPane).not.toHaveBeenCalled();
     expect(navigation.openFullPane).not.toHaveBeenCalled();
+  });
+
+  it('marks the card as selected immediately on click, before the pane opens', async () => {
+    const story = renderStory();
+
+    await nextFrame();
+    story.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(story.hasAttribute('data-selected')).toBe(true);
+    expect(story.hasAttribute('aria-current')).toBe(false);
+    expect(navigation.openSplitPane).not.toHaveBeenCalled();
+  });
+
+  it('marks the card as selected when Enter opens the split pane', async () => {
+    const story = renderStory();
+
+    await nextFrame();
+    keydown(story, 'Enter');
+
+    expect(story.hasAttribute('data-selected')).toBe(true);
+    expect(navigation.openSplitPane).toHaveBeenCalledTimes(1);
+  });
+
+  it('clears the selection of other stories when a card is selected', async () => {
+    const story = renderStory();
+    const other = document.createElement('article');
+    other.setAttribute('data-controller', 'backlogs--story');
+    fixture.appendChild(other);
+
+    await nextFrame();
+    other.setAttribute('data-selected', '');
+    story.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+    expect(other.hasAttribute('data-selected')).toBe(false);
+    expect(story.hasAttribute('data-selected')).toBe(true);
+  });
+
+  it('syncs selection and aria-current from the visited URL', async () => {
+    const story = renderStory();
+
+    await nextFrame();
+    document.dispatchEvent(new CustomEvent('turbo:visit', {
+      detail: { url: '/projects/demo/backlogs/details/SP-42' },
+    }));
+
+    expect(story.getAttribute('aria-current')).toBe('true');
+    expect(story.hasAttribute('data-selected')).toBe(true);
+
+    document.dispatchEvent(new CustomEvent('turbo:visit', {
+      detail: { url: '/projects/demo/backlogs' },
+    }));
+
+    expect(story.hasAttribute('aria-current')).toBe(false);
+    expect(story.hasAttribute('data-selected')).toBe(false);
   });
 });

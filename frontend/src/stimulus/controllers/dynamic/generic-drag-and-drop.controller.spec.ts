@@ -44,7 +44,7 @@ describe('GenericDragAndDropController', () => {
 
   function draggableRow() {
     const row = document.createElement('li');
-    row.className = 'Box-row Box-row--draggable';
+    row.className = 'Box-row';
     row.tabIndex = 0;
     row.dataset.draggableId = '42';
     row.dataset.draggableType = 'story';

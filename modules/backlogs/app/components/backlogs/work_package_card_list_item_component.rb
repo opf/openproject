@@ -60,7 +60,7 @@ module Backlogs
 
     def card_arguments
       {
-        classes: "Box-card",
+        classes: card_classes,
         tabindex: 0,
         data: card_data
       }
@@ -73,8 +73,7 @@ module Backlogs
         backlogs__story_id_value: work_package.id,
         backlogs__story_display_id_value: work_package.display_id,
         backlogs__story_split_url_value: split_url,
-        backlogs__story_full_url_value: full_url,
-        backlogs__story_selected_class: "Box-row--blue"
+        backlogs__story_full_url_value: full_url
       }
 
       return data unless draggable?
@@ -94,7 +93,6 @@ module Backlogs
 
     def row_args
       arguments = super
-      arguments.delete(:tabindex)
       arguments[:draggable] = true if draggable?
       arguments
     end

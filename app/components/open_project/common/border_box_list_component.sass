@@ -81,55 +81,87 @@
     .Box-title
       min-width: 0
 
-.Box-row--focus-gray
-  &:focus-visible
-    background-color: var(--bgColor-muted)
-
-.Box-row--focus-blue
-  &:focus-visible
-    background-color: var(--bgColor-accent-muted)
-
-.Box-row--clickable
+.Box-card--clickable
   cursor: pointer
 
-.Box-row--draggable
+.Box-card--draggable
   cursor: grab
 
   &:active
     cursor: grabbing
 
+// Rows wrapping a card delegate their padding to the card and take their
+// colors from the box-list-item state variables.
 .Box-row:has(> .Box-card)
   padding: 0
+  background-color: var(--box-list-item-bg-color)
+  border-top-color: var(--box-list-item-border-color)
 
-.Box-row:is(.Box-row--draggable)
+  &:hover
+    background-color: var(--box-list-item-bg-hover-color)
+
+  &:has(> .Box-card:focus-visible)
+    background-color: var(--bgColor-muted)
+
+// Edge borders for row states. The top edge is the row's own top border, the
+// bottom edge is the following row's top border; the last row draws its own
+// bottom border, overlapping the Box border like the upstream
+// Box-body:last-of-type rule.
+@mixin op-box-list-item-edge-borders($color)
+  border-top-color: $color
+
+  & + .Box-row
+    border-top-color: $color
+
+  &:last-child
+    margin-bottom: calc(var(--borderWidth-thin) * -1)
+    border-bottom: var(--borderWidth-thin) solid $color
+
+// Selected state: applied synchronously on activation by the backlogs--story
+// controller (single selection), so the list reacts before the split screen
+// has loaded.
+.Box-row:has(> .Box-card[data-selected])
+  background-color: var(--box-list-item-selected-bg-color)
+  @include op-box-list-item-edge-borders(var(--box-list-item-selected-border-color))
+
+  &:hover,
+  &:has(> .Box-card:focus-visible)
+    background-color: var(--box-list-item-selected-bg-hover-color)
+
+// Current state: the card is open in the split screen. aria-current is
+// maintained by the backlogs--story controller once the URL reflects the
+// details pane; the strong border wins over a simultaneous selected state.
+.Box-row:has(> .Box-card[aria-current="true"])
+  @include op-box-list-item-edge-borders(var(--box-list-item-pressed-border-color))
+
+.Box-row[data-dragging="source"]
+  opacity: 0.4
+  background-color: var(--bgColor-inset)
+  box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
+
+.Box-row[data-drop-position]
   --op-backlogs-drop-gap-border-width: 2px
   --op-backlogs-drop-gap-height: 8px
 
-  &[data-dragging="source"]
-    opacity: 0.4
-    background-color: var(--bgColor-inset)
-    box-shadow: inset 0 0 0 var(--borderWidth-default) var(--borderColor-muted)
+  position: relative
 
-  &[data-drop-position]
-    position: relative
-
-    &::before,
-    &::after
-      position: absolute
-      left: 0
-      right: 0
-      height: var(--op-backlogs-drop-gap-height)
-      background: linear-gradient(
-        to bottom,
-        var(--bgColor-accent-muted) 0,
-        var(--bgColor-accent-muted) calc(50% - var(--op-backlogs-drop-gap-border-width) / 2),
-        var(--fgColor-accent) calc(50% - var(--op-backlogs-drop-gap-border-width) / 2),
-        var(--fgColor-accent) calc(50% + var(--op-backlogs-drop-gap-border-width) / 2),
-        var(--bgColor-accent-muted) calc(50% + var(--op-backlogs-drop-gap-border-width) / 2),
-        var(--bgColor-accent-muted) 100%
-      )
-      pointer-events: none
-      z-index: 1
+  &::before,
+  &::after
+    position: absolute
+    left: 0
+    right: 0
+    height: var(--op-backlogs-drop-gap-height)
+    background: linear-gradient(
+      to bottom,
+      var(--bgColor-accent-muted) 0,
+      var(--bgColor-accent-muted) calc(50% - var(--op-backlogs-drop-gap-border-width) / 2),
+      var(--fgColor-accent) calc(50% - var(--op-backlogs-drop-gap-border-width) / 2),
+      var(--fgColor-accent) calc(50% + var(--op-backlogs-drop-gap-border-width) / 2),
+      var(--bgColor-accent-muted) calc(50% + var(--op-backlogs-drop-gap-border-width) / 2),
+      var(--bgColor-accent-muted) 100%
+    )
+    pointer-events: none
+    z-index: 1
 
   &[data-drop-position="top"]::before
     content: ''

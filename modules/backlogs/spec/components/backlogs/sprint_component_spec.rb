@@ -143,13 +143,13 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
 
       it "does not mark work package rows as draggable" do
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}")
-        expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}.Box-row--draggable")
         expect(rendered_component)
           .to have_no_css(".Box-row#work_package_#{work_package1.id}[data-sortable-lists--item-id-value]")
         expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package1.id}[draggable='true']")
         expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-id-value]")
         expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-target]")
         expect(rendered_component).to have_no_css(".op-work-package-card[draggable='true']")
+        expect(rendered_component).to have_no_css(".op-work-package-card.Box-card--draggable")
       end
     end
 

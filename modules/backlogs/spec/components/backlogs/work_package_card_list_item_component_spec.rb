@@ -64,12 +64,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
   end
 
   describe "#row_args" do
-    it "marks the row as clickable and wires it as the Backlogs draggable item" do
-      expect(item.row_args[:classes]).to include(
-        "Box-row--hover-gray",
-        "Box-row--focus-gray",
-        "Box-row--clickable"
-      )
+    it "wires the row as the Backlogs draggable item" do
       expect(item.row_args[:test_selector]).to eq("work-package-#{work_package.id}")
       expect(item.row_args[:data]).to include(
         controller: "sortable-lists--item",
@@ -80,11 +75,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       expect(item.row_args).not_to include(:tabindex)
     end
 
-    it "marks the row as draggable for users allowed to manage sprint items" do
-      expect(item.row_args[:classes]).to include("Box-row--draggable")
-      expect(item.row_args[:data]).not_to include(:sortable_lists_prev_item_id)
-    end
-
     context "when the user cannot manage sprint items" do
       let(:role) { create(:project_role, permissions: %i[view_sprints view_work_packages]) }
       let(:limited_user) { create(:user, member_with_roles: { project => role }) }
@@ -93,7 +83,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       end
 
       it "does not mark the row as draggable" do
-        expect(item.row_args[:classes]).not_to include("Box-row--draggable")
         expect(item.row_args[:data]).not_to include(:sortable_lists_prev_item_id)
         expect(item.row_args).not_to include(:draggable)
         expect(item.row_args).not_to include(:tabindex)
@@ -101,6 +90,11 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
 
       it "keeps the card focusable so keyboard users can interact with it" do
         expect(render_inline(item.card)).to have_css(".op-work-package-card[tabindex='0']")
+      end
+
+      it "does not mark the card as draggable" do
+        expect(render_inline(item.card)).to have_css(".op-work-package-card.Box-card--clickable")
+        expect(page).to have_no_css(".Box-card--draggable")
       end
     end
   end
@@ -134,8 +128,10 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       expect(rendered_card).to have_css(".sr-only", text: "5 story points")
     end
 
-    it "applies the Box-card class to the card" do
-      expect(rendered_card).to have_css(".op-work-package-card.Box-card")
+    it "applies the Box-card class and cursor modifiers to the card" do
+      expect(rendered_card).to have_css(
+        ".op-work-package-card.Box-card.Box-card--clickable.Box-card--draggable"
+      )
     end
 
     it "wires the card as a Backlogs story" do
@@ -144,7 +140,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         "[data-backlogs--story-id-value='#{work_package.id}']" \
         "[data-backlogs--story-display-id-value='#{work_package.display_id}']" \
         "[data-backlogs--story-full-url-value='#{work_package_path(work_package)}']" \
-        "[data-backlogs--story-selected-class='Box-row--blue']" \
         "[data-sortable-lists--item-target='preview handle']" \
         "[tabindex='0']"
       )

@@ -60,6 +60,8 @@ const PREVIEW_STRIPPED_ATTRIBUTES = [
   'data-dragging',
   'data-drop-position',
   'data-drop-position-owner',
+  'data-selected',
+  'aria-current',
   'aria-describedby',
   'aria-disabled',
   'aria-roledescription',

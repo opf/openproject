@@ -46,9 +46,6 @@ export default class StoryController extends Controller<HTMLElement> implements 
   declare splitUrlValue:string;
   declare fullUrlValue:string;
 
-  static classes = ['selected'];
-  declare readonly selectedClass:string;
-
   private abortController:AbortController|null = null;
   private clickTimeout:number|null = null;
 
@@ -83,18 +80,38 @@ export default class StoryController extends Controller<HTMLElement> implements 
     // switch to semantic mode, so accept either form here.
     if (id !== undefined && (id === this.idValue.toString() || id === this.displayIdValue)) {
       this.markAsSelected();
+      this.markAsCurrent();
     } else {
       this.unmarkAsSelected();
+      this.unmarkAsCurrent();
     }
   }
 
+  // Selection is applied synchronously on activation, before the split screen
+  // has loaded, so the list reacts immediately. With single selection any
+  // previously selected story is cleared right away instead of waiting for
+  // its own URL sync.
   markAsSelected():void {
-    this.element.classList.add(this.selectedClass);
-    this.element.setAttribute('aria-current', 'true');
+    document
+      .querySelectorAll('[data-controller~="backlogs--story"][data-selected]')
+      .forEach((other) => {
+        if (other !== this.element) {
+          other.removeAttribute('data-selected');
+        }
+      });
+
+    this.element.setAttribute('data-selected', '');
   }
 
   unmarkAsSelected():void {
-    this.element.classList.remove(this.selectedClass);
+    this.element.removeAttribute('data-selected');
+  }
+
+  markAsCurrent():void {
+    this.element.setAttribute('aria-current', 'true');
+  }
+
+  unmarkAsCurrent():void {
     this.element.removeAttribute('aria-current');
   }
 
@@ -119,6 +136,8 @@ export default class StoryController extends Controller<HTMLElement> implements 
     if (this.shouldIgnoreMouseTarget(target)) return;
 
     if (this.clickTimeout !== null) return;
+
+    this.markAsSelected();
 
     this.clickTimeout = window.setTimeout(() => {
       this.clickTimeout = null;
@@ -154,6 +173,7 @@ export default class StoryController extends Controller<HTMLElement> implements 
     if (event.shiftKey) {
       this.openFullPane();
     } else {
+      this.markAsSelected();
       this.openSplitPane();
     }
   }
