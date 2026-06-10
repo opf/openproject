@@ -418,8 +418,9 @@ module Pages
           pick_up_and_release_backlogs_item(moved_element)
           return
         rescue Capybara::Cuprite::ObsoleteNode
-          stop_backlogs_move_request_probe
           next
+        ensure
+          stop_backlogs_move_request_probe
         end
       end
     end

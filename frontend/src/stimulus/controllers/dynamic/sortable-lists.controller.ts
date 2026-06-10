@@ -236,7 +236,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
     }
 
     if (this.hasMoveUrlTemplateValue) {
-      return URI.expand?.(this.moveUrlTemplateValue, { id: data.itemId }).toString() ?? null;
+      return URI.expand?.(this.moveUrlTemplateValue, { id: data.itemId })?.toString() ?? null;
     }
 
     return null;
