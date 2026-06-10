@@ -4,7 +4,11 @@ x-op-env-override: &environment
   OPENPROJECT_DEV_EXTRA_HOSTS: "${OPENPROJECT_DEV_HOST}"
   OPENPROJECT_HOST__NAME: "${OPENPROJECT_DEV_HOST}"
   OPENPROJECT_HTTPS: true
-  SSL_CERT_FILE: /etc/ssl/certs/ca-certificates.crt
+  # The Debian base image keeps its public CA bundle in the default hashed cert
+  # directory, which OpenSSL still consults alongside SSL_CERT_FILE. Pointing
+  # SSL_CERT_FILE at the mounted step-ca root adds the local CA without losing
+  # public trust.
+  SSL_CERT_FILE: /step/certs/root_ca.crt
   # uncomment and set all the envs below to integrate keycloak with OpenProject
   # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_DISPLAY__NAME: Keycloak
   # OPENPROJECT_OPENID__CONNECT_KEYCLOAK_HOST: keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}
@@ -34,13 +38,16 @@ services:
     networks:
       - external
     volumes:
-      # Debian/Arch
-      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-      # Fedora
-      - /etc/pki/tls/certs/ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro
-      # Mac OS
-      # - ~/.step/certs:/etc/ssl/certs
-      # - ~/.step/certs:/usr/local/share/ca-certificates
+      # OpenSSL reads SSL_CERT_FILE in addition to the image's public CA bundle,
+      # so mounting the step-ca certs here adds local-CA trust without dropping
+      # public trust. The step container writes these certs owned by uid 1000,
+      # so the dev user must share that uid to read them.
+      - type: volume
+        source: step
+        target: /step/certs
+        read_only: true
+        volume:
+          subpath: certs
     labels:
     - "traefik.enable=true"
     - "traefik.http.routers.openproject.rule=Host(`openproject.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
@@ -52,30 +59,42 @@ services:
     networks:
       - external
     volumes:
-      # Debian/Arch
-      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-      # Fedora
-      - /etc/pki/tls/certs/ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro
-      # Mac OS
-      # - ~/.step/certs:/etc/ssl/certs
-      # - ~/.step/certs:/usr/local/share/ca-certificates
+      - type: volume
+        source: step
+        target: /step/certs
+        read_only: true
+        volume:
+          subpath: certs
 
   backend-test:
+    environment:
+      SSL_CERT_FILE: /step/certs/root_ca.crt
     # Connect the backend-test container to the same network as the backend for nextcloud HTTP interactions
     networks:
       - external
     volumes:
-      # Debian/Arch
-      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
-      # Fedora
-      - /etc/pki/tls/certs/ca-bundle.crt:/etc/ssl/certs/ca-certificates.crt:ro
-      # Mac OS
-      # - ~/.step/certs:/etc/ssl/certs
-      # - ~/.step/certs:/usr/local/share/ca-certificates
+      - type: volume
+        source: step
+        target: /step/certs
+        read_only: true
+        volume:
+          subpath: certs
 
   frontend:
+    environment:
+      # Node appends NODE_EXTRA_CA_CERTS to its built-in roots, so the local CA
+      # is trusted alongside the public ones. Node is the only TLS client in this
+      # container, so it needs no OpenSSL bundle.
+      NODE_EXTRA_CA_CERTS: /step/certs/root_ca.crt
     networks:
       - external
+    volumes:
+      - type: volume
+        source: step
+        target: /step/certs
+        read_only: true
+        volume:
+          subpath: certs
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.openproject-assets.rule=Host(`openproject-assets.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
@@ -86,4 +105,11 @@ services:
 networks:
   external:
     name: gateway
+    external: true
+
+# The step-ca certs live in the tls_step volume created by the TLS stack
+# (docker/dev/tls/docker-compose.yml), so bring that stack up first.
+volumes:
+  step:
+    name: tls_step
     external: true

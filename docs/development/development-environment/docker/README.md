@@ -415,6 +415,12 @@ You need to specify, for each service, the `traefik` labels that define its HTTP
 An example configuration is provided in `docker/dev/tls/docker-compose.core-override.example.yml`.
 Copy its contents into your own `docker-compose.override.yml` in the repository root, and adjust hostnames if necessary.
 
+The example also makes the backend, worker, and frontend trust the local CA by mounting the `tls_step` volume's
+`certs` subpath read-only: the Ruby services read it through `SSL_CERT_FILE` and the frontend through
+`NODE_EXTRA_CA_CERTS`, both of which add the local CA on top of the public roots. The step container writes these
+certs as uid 1000, so your dev user needs the same uid to read them; otherwise trust the root CA on the host as
+described above.
+
 Ensure that both the `backend` and `frontend` services:
 - are attached to the same `networks` as `traefik`
 - have the appropriate `traefik` labels
@@ -458,8 +464,9 @@ docker compose up -d backend
 Some development tasks require you to run separate services that interact with OpenProject. For example, you might want
 to have Nextcloud running to test the Nextcloud-OpenProject integration. To do this, you'll need to follow some steps:
 
-1. Add the Nextcloud service to your `docker-compose.override.yml`, with the appropriate traefik labels, network, and
-   ca-bundle mounted.
+1. Add the Nextcloud service to your `docker-compose.override.yml`, with the appropriate traefik labels and network. If
+   the service needs to trust the local CA, mount the `tls_step` volume's `certs` subpath read-only and point the
+   service at it through its native trust mechanism (see the core and Keycloak overrides for examples).
 2. Make sure step-ca can reach it to validate it for SSH. In `docker/dev/tls/docker-compose.override.yml`, add the host
    to the `aliases` section of the traefik networking.
 

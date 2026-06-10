@@ -37,8 +37,17 @@ services:
       - KC_DB_SCHEMA=public
       - KC_HOSTNAME=keycloak.${OPENPROJECT_DOCKER_DEV_TLD:-local}
       - KC_TRANSACTION_XA_ENABLED=false
+      # Keycloak scans this directory for PEM/PKCS12 truststore files on boot,
+      # so pointing it at the mounted step-ca certs lets it trust the local CA
+      # when talking to the TLS-encrypted OpenProject host.
+      - KC_TRUSTSTORE_PATHS=/etc/keycloak/trusted-certs
     volumes:
-      - /etc/ssl/certs/ca-certificates.crt:/etc/ssl/certs/ca-certificates.crt:ro
+      - type: volume
+        source: step
+        target: /etc/keycloak/trusted-certs
+        read_only: true
+        volume:
+          subpath: certs
       - keycloak-data:/opt/keycloak/data/
       - ./themes/:/opt/keycloak/themes/
     labels:
@@ -51,6 +60,9 @@ services:
 volumes:
   keycloak-data:
   pgdata:
+  step:
+    name: tls_step
+    external: true
 
 networks:
   external:
