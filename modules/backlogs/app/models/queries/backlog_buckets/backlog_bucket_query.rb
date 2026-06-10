@@ -29,17 +29,17 @@
 # ++
 
 module Queries
-  module Sprints
-    class Query
+  module BacklogBuckets
+    class BacklogBucketQuery
       include ::Queries::BaseQuery
       include ::Queries::UnpersistedQuery
 
       def self.model
-        ::Sprint
+        ::BacklogBucket
       end
 
       def default_scope
-        ::Sprint.visible(User.current)
+        ::BacklogBucket.visible(User.current)
       end
     end
   end
