@@ -35,6 +35,7 @@ module Wikis
         module Queries
           class ReferencingPages < BaseQuery
             include Concerns::XWikiQuery
+            include Concerns::XWikiPageQueries
 
             MAXIMUM_RESULTS = 25
 

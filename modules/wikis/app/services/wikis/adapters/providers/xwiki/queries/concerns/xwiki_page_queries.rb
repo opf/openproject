@@ -33,37 +33,19 @@ module Wikis
     module Providers
       module XWiki
         module Queries
-          class SearchPages < BaseQuery
-            include Concerns::XWikiQuery
-            include Concerns::XWikiPageQueries
-
-            # Limiting result size rather strictly, because each result will cause another HTTP call to XWiki, this does not
-            # scale well. A stricter limit improves the worst case latency.
-            MAXIMUM_RESULTS = 20
-
-            def call(input_data:, auth_strategy:)
-              query = { q: "\"#{escape_quotes input_data.query}\"", number: MAXIMUM_RESULTS }
-
-              authenticated(auth_strategy) do |http|
-                handle_response(http.get(rest_url("wikis/query", query:))) do |json|
-                  success(
-                    fetch_json(json, "searchResults")
-                      .uniq { |r| fetch_json(r, "id") }
-                      .map do |r|
-                        result = canonical_page_info(identifier: fetch_json(r, "id"), auth_strategy:)
-                        return result if result.failure?
-
-                        result.value!
-                      end
-                  )
+          module Concerns
+            module XWikiPageQueries
+              def page_info(identifier:, auth_strategy:)
+                Input::PageInfo.build(identifier:).bind do |input|
+                  provider.resolve("queries.page_info").call(input_data: input, auth_strategy:)
                 end
               end
-            end
 
-            private
-
-            def escape_quotes(string)
-              string.gsub("\\", "\\\\").gsub('"', '\"')
+              def canonical_page_info(identifier:, auth_strategy:)
+                Input::PageInfo.build(identifier:).bind do |input_data|
+                  Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
+                end
+              end
             end
           end
         end
