@@ -29,6 +29,8 @@
 import { Controller } from '@hotwired/stimulus';
 import { FrameElement } from '@hotwired/turbo';
 import { filter, Subscription } from 'rxjs';
+import type { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { useServices, type ServiceKey } from 'core-stimulus/mixins/use-services';
 
 // The Backlogs lists are server-rendered and updated via Turbo streams on drag
 // moves, but a work package can also change outside a drag — e.g. edited in the
@@ -36,34 +38,26 @@ import { filter, Subscription } from 'rxjs';
 // Turbo stream targeting this frame, so subscribe to them and reload the frame
 // to keep the cards (and sprint point totals) in sync.
 export default class ListRefreshController extends Controller<HTMLElement> {
+  static services:ServiceKey[] = ['halEvents'];
+
+  declare halEvents:HalEventsService;
+
   private subscription:Subscription|null = null;
-  private currentConnectionToken?:symbol;
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  async connect() {
-    const connectionToken = Symbol('backlogs-list-refresh');
-    this.currentConnectionToken = connectionToken;
+  initialize() {
+    useServices(this);
+  }
 
-    const { services: { halEvents } } = await window.OpenProject.getPluginContext();
-
-    if (!this.isCurrentConnection(connectionToken)) {
-      return;
-    }
-
-    this.subscription = halEvents
+  servicesConnected() {
+    this.subscription = this.halEvents
       .aggregated$('WorkPackage')
       .pipe(filter((events) => events.some((event) => event.eventType === 'updated')))
       .subscribe(() => { void this.frame?.reload(); });
   }
 
   disconnect() {
-    this.currentConnectionToken = undefined;
     this.subscription?.unsubscribe();
     this.subscription = null;
-  }
-
-  private isCurrentConnection(connectionToken:symbol):boolean {
-    return this.element.isConnected && this.currentConnectionToken === connectionToken;
   }
 
   private get frame():FrameElement|null {
