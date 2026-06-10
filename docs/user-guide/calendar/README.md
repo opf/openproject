@@ -23,7 +23,7 @@ You must first enable the Calendar module in your [project settings](../projects
 
 Once enabled, clicking on the **Calendars** entry on the left sidebar takes you to the Calendar module with a list of all existing calendars. Initially, it will be empty.
 
-![Calendar overview](calendar-overview.png)
+![Calendar overview](openproject_user_guide_calendar_overview.png)
 
 - You can create a new calendar by clicking on either the **+ Calendar** button at the top right corner near your avatar or at the bottom of the sidebar on the left.
 - Click on an existing (saved) calendar to view it.
@@ -36,21 +36,21 @@ Once enabled, clicking on the **Calendars** entry on the left sidebar takes you 
 
 ### View work packages
 
-![Calendar module month view](calendar-month.png)
+![Calendar module month view](openproject_user_guide_calendar_month.png)
 
 When you open a new calendar, all work packages within the current project are displayed as horizontal strips that span all dates between the start and finish dates (inclusive). The color represents the [work package type](../../system-admin-guide/manage-work-packages/work-package-types). The subject or title displayed on the strip (insomuch as the length allows).
 
 The current month is automatically selected.
 
-![Calendar time controls](Calendar-timeControls.png)
+![Calendar time controls](openproject_user_guide_Calendar_time_controls.png)
 
-1. You can use the previews/next arrow controls (←, →) in the top left corner to move forwards or backwards in time.
-2. The **today** button brings you back to the current date.
-3. You can use the month/week toggle on the top right corner to switch between either a month view or a week view.
+- You can use the previews/next arrow controls **(←, →)** in the top left corner to move forwards or backwards in time.
+- The **today** button brings you back to the current date.
+- You can use the **month/week** toggle on the top right corner to switch between either a month view or a week view.
 
-If multiple work packages are scheduled on the same day, they are displayed in a vertical stack.m 
+If multiple work packages are scheduled on the same day, they are displayed in a vertical stack. 
 
-Click on a work package strip to view the work package in split screen mode.
+Click on a work package strip to view the work package in split screen mode. The drag handle between the calendar and work package panel can be used to adjust their widths. 
 
 ![Work package details in split screen view](openproject_user_guide_calendar_splitscreen.png)
 
@@ -58,7 +58,7 @@ Click on a work package strip to view the work package in split screen mode.
 
 You can create new work packages directly on the calendar. To do so, either click on a single date or click and drag across a date range. A new work package form will open in a split screen with the selected date(s) pre-filled.
 
-![ ](openproject_user_guide_calendar_create_wp.png)
+![Create new work package in calendar](openproject_user_guide_calendar_create_wp.png)
 
 ### Modify work packages
 
@@ -68,9 +68,10 @@ You can make basic date modifications simply by manipulating the work package st
 - Change the finish date by grabbing the drag handle on the right edge of the strip and extending or shortening it.
 - Drag an entire strip to move the work package forwards or backwards in time whilst preserving duration.
 
-![Use drag handles to change start and finish dates](Calendar-dragHandle-modifyDate.png)
+![Use drag handles to change start and finish dates](openproject_user_guide_calendar_modify_dates.png)
 
-> **Note**: The calendar will highlight non-working days with a darker background color. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the “Working days only” switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
+> [!NOTE]
+> The calendar will highlight non-working days with a darker background color. By default, a work package cannot be dragged or resized such that it begins or ends on these days unless the “Working days only” switch is turned off for that work package. To learn how to do this, refer to the documentation on [Working days and duration](../work-packages/set-change-dates/#working-days-and-duration).
 >
 > Work packages can also expand and retract in width depending on how many non-working days are spanned. For example, a 3-day task starting on Thursday and ending on Monday will spread across 5 calendar days. Dragging that same work package so that it starts on a Tuesday and ends on a Thursday means that it will spread across 3 calendar days. In both cases, the duration remains 3 days.
 
@@ -82,7 +83,8 @@ Click the **Filter** button on the top right above the calendar to open the filt
 
 ![Calendar filters in openproject user guide](openproject_user_guide_calendar_filters.png)
 
-> **Note:** OpenProject also offers a module called **Team planner** that allows you to view modules in a calendar by assignee. [Learn more about Team planner](../team-planner "Documentation about Team planner").
+> [!NOTE]
+> OpenProject also offers a module called **Team planner** that allows you to view modules in a calendar by assignee. [Learn more about Team planner](../team-planner "Documentation about Team planner").
 
 ### Include other projects
 
@@ -115,4 +117,5 @@ To subscribe to a calendar:
 
 ![Subscribe to calendar modal](openproject_user_guide_calendar_subscribe.png)
 
-> **Important:** Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password. 
+> [!IMPORTANT]
+> Please don't share this URL with other users. Anyone with this link will be able to view work package details without an account or password. 
