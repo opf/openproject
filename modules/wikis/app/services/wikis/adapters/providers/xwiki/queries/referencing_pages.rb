@@ -44,7 +44,7 @@ module Wikis
                 handle_response(http.get(url, params: { number: MAXIMUM_RESULTS })) do |data|
                   success(
                     (data["searchResults"] || [])
-                      .uniq { |r| r["id"] }
+                      .uniq { |r| fetch_json(r, "id") }
                       .map { canonical_page_info(identifier: it["id"], auth_strategy:) }
                   )
                 end
