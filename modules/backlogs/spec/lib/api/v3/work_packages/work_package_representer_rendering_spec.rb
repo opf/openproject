@@ -67,11 +67,9 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
   current_user { build_stubbed(:user) }
 
   before do
-    if project.present?
-      mock_permissions_for(current_user) do |mock|
-        permissions.each do |permission|
-          mock.allow_in_project(*permission, project:)
-        end
+    mock_permissions_for(current_user) do |mock|
+      permissions.each do |permission|
+        mock.allow_in_project(*permission, project:) if project
       end
     end
   end
