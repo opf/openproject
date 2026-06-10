@@ -321,6 +321,19 @@ docker compose --project-directory docker/dev/tls cp step:/home/step/certs/root_
 The installation of the certificate into the browser depends on the browser you are using, so you should check the docs
 for that specific browser.
 
+#### macOS
+
+On macOS, you need to add the generated root CA to the system keychain.
+
+```shell
+# Copy the root certificate out of the step container, then trust it system-wide.
+docker compose --project-directory docker/dev/tls cp step:/home/step/certs/root_ca.crt /tmp/root_ca.crt
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain /tmp/root_ca.crt
+```
+
+This covers Safari, Chrome, and host CLI tools. Firefox keeps its own trust store, so import the certificate there
+separately as described under [Browser](#browser).
+
 #### Debian/Ubuntu
 
 On Debian, you need to add the generated root CA to system certificates bundle.

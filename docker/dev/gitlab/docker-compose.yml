@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   gitlab:
     image: gitlab/gitlab-ce:latest
@@ -8,14 +6,15 @@ services:
       - gitlab-etc:/etc/gitlab
       - gitlab-logs:/var/log/gitlab
       - gitlab-opt:/var/opt/gitlab
-      # Linux
-      - /etc/ssl/certs:/etc/ssl/certs:ro
-      - /usr/local/share/ca-certificates:/usr/local/share/ca-certificates:ro
-      # In case of MacOS, you need to mount the certs from the host machine
-      # having them previously bundled via `sudo update-ca-certificates`
-      #
-      # - ~/.step/certs:/etc/ssl/certs
-      # - ~/.step/certs:/usr/local/share/ca-certificates
+      # Omnibus GitLab trusts every .crt in /etc/gitlab/trusted-certs during
+      # reconfigure, so mounting the step-ca certs there lets webhooks reach the
+      # TLS-encrypted OpenProject host without freezing a full CA bundle.
+      - type: volume
+        source: step
+        target: /etc/gitlab/trusted-certs
+        read_only: true
+        volume:
+          subpath: certs
     networks:
       - external
     extra_hosts:
@@ -30,6 +29,9 @@ volumes:
   gitlab-etc:
   gitlab-logs:
   gitlab-opt:
+  step:
+    name: tls_step
+    external: true
 
 networks:
   external:
