@@ -33,12 +33,12 @@ module XWikiStubs
     "#{provider.url}rest/openproject/links/workPackages/#{linkable.id}?number=#{number}"
   end
 
-  def stub_canonical_page_info(identifier, title:, href:, provider:, token: "user-bearer-token")
+  def stub_canonical_page_info(identifier, uid:, title:, href:, provider:, token: "user-bearer-token")
     stub_request(:get, "#{provider.url}rest/openproject/documents")
       .with(query: { "docRef" => identifier },
             headers: { "Authorization" => "Bearer #{token}" })
       .to_return(status: 200,
-                 body: { "id" => identifier, "title" => title, "xwikiAbsoluteUrl" => href }.to_json,
+                 body: { "id" => uid, "title" => title, "xwikiAbsoluteUrl" => href }.to_json,
                  headers: { "Content-Type" => "application/json" })
   end
 

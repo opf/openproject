@@ -73,10 +73,12 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
           linkable:
         )
         stub_canonical_page_info(duplicate_id,
+                                 uid: "aaa111",
                                  title: "Home",
                                  href: "https://xwiki.example.com/bin/view/Main/",
                                  provider: wiki_provider)
         stub_canonical_page_info(same_title_different_id,
+                                 uid: "bbb222",
                                  title: "Home",
                                  href: "https://xwiki.example.com/bin/view/Other/",
                                  provider: wiki_provider)
@@ -85,7 +87,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
       it { is_expected.to be_success }
 
       it "deduplicates by page identifier, not by title" do
-        expect(result.value!.map { it.value!.identifier }).to contain_exactly(duplicate_id, same_title_different_id)
+        expect(result.value!.map { it.value!.identifier }).to contain_exactly("aaa111", "bbb222")
       end
     end
 
