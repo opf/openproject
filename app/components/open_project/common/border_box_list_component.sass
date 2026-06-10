@@ -14,8 +14,17 @@
     border-bottom: none
     padding-bottom: var(--stack-padding-condensed)
 
+  // A transparent (not absent) border keeps the first row's height stable
+  // when a state recolors it. These recolors repeat the state rules from
+  // further down because this selector outweighs them.
   > ul > .Box-row:first-of-type
-    border-top: none
+    border-top-color: transparent
+
+    &:has(> .Box-card[data-selected])
+      border-top-color: var(--box-list-item-selected-border-color)
+
+    &:has(> .Box-card[aria-current="true"])
+      border-top-color: var(--box-list-item-pressed-border-color)
 
 .op-border-box-list
   --op-border-box-list-header-row-gap: calc(var(--stack-gap-condensed) / 2)
