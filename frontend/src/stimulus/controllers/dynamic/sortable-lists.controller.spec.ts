@@ -86,26 +86,21 @@ describe('Sortable lists controller', () => {
     };
   }
 
-  function itemRow(id:string, { moveUrl = '/move' }:{ moveUrl?:string|null } = {}):HTMLLIElement {
+  function itemRow(id:string):HTMLLIElement {
     const row = document.createElement('li');
 
     row.setAttribute('data-sortable-lists--item-id-value', id);
     row.setAttribute('data-sortable-lists--item-type-value', 'work_package');
-    if (moveUrl) {
-      row.setAttribute('data-sortable-lists--item-move-url-value', moveUrl);
-    }
 
     return row;
   }
 
   function renderFixture({
     acceptedType = null,
-    moveUrlTemplate = null,
-    itemMoveUrl = '/move',
+    moveUrlTemplate = '/move/{id}',
   }:{
     acceptedType?:string|null;
     moveUrlTemplate?:string|null;
-    itemMoveUrl?:string|null;
   } = {}) {
     fixture.innerHTML = `
       <div
@@ -121,8 +116,8 @@ describe('Sortable lists controller', () => {
     const [sourceList, targetList] = Array.from(fixture.querySelectorAll<HTMLElement>('[data-sortable-lists-target="list"]'));
     const root = fixture.querySelector<HTMLElement>('[data-controller="sortable-lists"]')!;
 
-    sourceList.append(itemRow('1', { moveUrl: itemMoveUrl }), itemRow('2', { moveUrl: itemMoveUrl }), itemRow('3', { moveUrl: itemMoveUrl }));
-    targetList.append(itemRow('4', { moveUrl: itemMoveUrl }), itemRow('5', { moveUrl: itemMoveUrl }));
+    sourceList.append(itemRow('1'), itemRow('2'), itemRow('3'));
+    targetList.append(itemRow('4'), itemRow('5'));
 
     return {
       root,
@@ -158,11 +153,7 @@ describe('Sortable lists controller', () => {
     await monitorOptions?.onDrop?.({
       source: sourcePayload(
         sourceElement,
-        itemData(
-          sourceElement.getAttribute('data-sortable-lists--item-id-value')!,
-          'work_package',
-          sourceElement.getAttribute('data-sortable-lists--item-move-url-value') ?? undefined,
-        ),
+        itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!),
       ),
       location: {
         initial: {
@@ -188,8 +179,8 @@ describe('Sortable lists controller', () => {
     });
   }
 
-  function itemData(itemId = '1', type = 'work_package', moveUrl?:string) {
-    return sortableItemData({ itemId, moveUrl, type });
+  function itemData(itemId = '1', type = 'work_package') {
+    return sortableItemData({ itemId, type });
   }
 
   function sourcePayload(element:HTMLElement, data:Record<string|symbol, unknown> = itemData()) {
@@ -259,18 +250,22 @@ describe('Sortable lists controller', () => {
 
   it('ignores drops that belong to another sortable lists root', async () => {
     fixture.innerHTML = `
-      <div data-controller="sortable-lists" data-sortable-lists-accepted-type-value="work_package">
+      <div
+        data-controller="sortable-lists"
+        data-sortable-lists-accepted-type-value="work_package"
+        data-sortable-lists-move-url-template-value="/move/{id}"
+      >
         <ul data-sortable-lists-target="list" data-sortable-lists-list-type="sprint" data-sortable-lists-list-id="1">
           <li data-sortable-lists--item-id-value="1" data-sortable-lists--item-type-value="work_package"></li>
         </ul>
       </div>
-      <div data-controller="sortable-lists" data-sortable-lists-accepted-type-value="work_package">
+      <div
+        data-controller="sortable-lists"
+        data-sortable-lists-accepted-type-value="work_package"
+        data-sortable-lists-move-url-template-value="/move/{id}"
+      >
         <ul data-sortable-lists-target="list" data-sortable-lists-list-type="sprint" data-sortable-lists-list-id="2">
-          <li
-            data-sortable-lists--item-id-value="10"
-            data-sortable-lists--item-type-value="work_package"
-            data-sortable-lists--item-move-url-value="/move-10"
-          ></li>
+          <li data-sortable-lists--item-id-value="10" data-sortable-lists--item-type-value="work_package"></li>
           <li data-sortable-lists--item-id-value="11" data-sortable-lists--item-type-value="work_package"></li>
         </ul>
       </div>
@@ -283,7 +278,7 @@ describe('Sortable lists controller', () => {
     const secondRootTarget = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="11"]')!;
 
     await firstRootMonitor?.onDrop?.({
-      source: sourcePayload(secondRootSource, itemData('10', 'work_package', '/move-10')),
+      source: sourcePayload(secondRootSource, itemData('10', 'work_package')),
       location: {
         initial: {
           dropTargets: [],
@@ -311,7 +306,7 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
 
     await vi.mocked(monitorForElements).mock.lastCall?.[0].onDrop?.({
-      source: sourcePayload(firstSourceItem, itemData('1', 'meeting_agenda_item', '/move')),
+      source: sourcePayload(firstSourceItem, itemData('1', 'meeting_agenda_item')),
       location: {
         initial: {
           dropTargets: [],
@@ -350,7 +345,6 @@ describe('Sortable lists controller', () => {
   it('builds the move URL from the controller URI template', async () => {
     const { targetList, firstSourceItem } = renderFixture({
       moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
-      itemMoveUrl: null,
     });
 
     await ctx.nextFrame();
@@ -362,31 +356,13 @@ describe('Sortable lists controller', () => {
     );
   });
 
-  it('uses the sortable item move URL before the controller URI template', async () => {
-    const { targetList, firstSourceItem } = renderFixture({
-      moveUrlTemplate: '/projects/demo/backlogs/work_packages/{id}/move',
-      itemMoveUrl: '/custom/move',
-    });
+  it('does nothing when the controller has no move URL template', async () => {
+    const { targetList, firstSourceItem } = renderFixture({ moveUrlTemplate: null });
 
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    expect(fetchMock).toHaveBeenCalledWith(
-      '/custom/move',
-      expect.objectContaining({ method: 'PUT' }),
-    );
-  });
-
-  it('falls back to the sortable item move URL while item-specific endpoints still exist', async () => {
-    const { targetList, firstSourceItem } = renderFixture();
-
-    await ctx.nextFrame();
-    await dropCurrentItemOnList(firstSourceItem, targetList);
-
-    expect(fetchMock).toHaveBeenCalledWith(
-      '/move',
-      expect.objectContaining({ method: 'PUT' }),
-    );
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('marks the sortable lists root and global loading indicator while moving an item', async () => {

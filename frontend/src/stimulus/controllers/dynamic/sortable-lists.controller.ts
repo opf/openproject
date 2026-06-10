@@ -229,11 +229,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
     }
   }
 
-  private resolveMoveUrl(data:{ itemId:string; moveUrl?:string }):string|null {
-    if (data.moveUrl) {
-      return data.moveUrl;
-    }
-
+  private resolveMoveUrl(data:{ itemId:string }):string|null {
     if (this.hasMoveUrlTemplateValue) {
       return parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
     }

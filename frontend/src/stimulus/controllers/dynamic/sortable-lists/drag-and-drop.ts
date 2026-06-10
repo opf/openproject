@@ -48,7 +48,6 @@ export interface SortableItemData extends Record<string|symbol, unknown> {
   [sortableItemDataKey]:true;
   type:string;
   itemId:string;
-  moveUrl?:string;
 }
 
 export interface SortableListData extends Record<string|symbol, unknown> {
@@ -75,17 +74,14 @@ export function isSortableListData(data:Record<string|symbol, unknown>):data is 
 export function sortableItemData({
   type,
   itemId,
-  moveUrl,
 }:{
   type:string;
   itemId:string;
-  moveUrl?:string;
 }):SortableItemData {
   return {
     [sortableItemDataKey]: true,
     type,
     itemId,
-    ...(moveUrl ? { moveUrl } : {}),
   };
 }
 

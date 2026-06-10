@@ -95,7 +95,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       it "does not mark the row as draggable" do
         expect(item.row_args[:classes]).not_to include("Box-row--draggable")
         expect(item.row_args[:data]).not_to include(:sortable_lists_prev_item_id)
-        expect(item.row_args[:data]).not_to include(:sortable_lists__item_move_url_value)
         expect(item.row_args).not_to include(:draggable)
         expect(item.row_args).not_to include(:tabindex)
       end
@@ -156,7 +155,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         ".op-work-package-card[data-controller~='backlogs--story']"
       )
       expect(rendered_card).to have_no_css(".op-work-package-card[data-controller~='sortable-lists--item']")
-      expect(rendered_card).to have_no_css(".op-work-package-card[data-sortable-lists--item-move-url-value]")
       expect(rendered_card).to have_no_css(".op-work-package-card[draggable='true']")
     end
 

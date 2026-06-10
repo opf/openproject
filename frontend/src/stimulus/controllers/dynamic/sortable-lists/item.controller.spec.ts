@@ -401,7 +401,6 @@ describe('Sortable lists item controller', () => {
           class="Box-row"
           data-controller="sortable-lists--item"
           data-test-selector="work-package-${itemId}"
-          data-sortable-lists--item-move-url-value="/move"
           data-sortable-lists--item-id-value="${itemId}"
           data-sortable-lists--item-type-value="work_package"
         >
@@ -473,14 +472,13 @@ describe('Sortable lists item controller', () => {
       expect(row.hasAttribute('data-dragging')).toBe(false);
     });
 
-    it('includes the optional move URL in the sortable item data', async () => {
+    it('builds the sortable item data for the drag payload', async () => {
       const { article } = renderBacklogsRow();
 
       await ctx.nextFrame();
 
       expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(article))).toEqual(expect.objectContaining({
         itemId: '123',
-        moveUrl: '/move',
         type: 'work_package',
       }));
     });

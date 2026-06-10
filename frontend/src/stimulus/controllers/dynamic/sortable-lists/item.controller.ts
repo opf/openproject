@@ -70,12 +70,10 @@ export default class ItemController extends Controller<HTMLElement> {
 
   static values = {
     id: String,
-    moveUrl: String,
     type: { type: String, default: 'item' },
   };
 
   declare idValue:string;
-  declare moveUrlValue:string;
   declare typeValue:string;
 
   declare readonly handleTarget:HTMLElement;
@@ -186,7 +184,6 @@ export default class ItemController extends Controller<HTMLElement> {
   private getItemData():SortableItemData {
     return sortableItemData({
       itemId: this.idValue,
-      moveUrl: this.moveUrlValue || undefined,
       type: this.typeValue,
     });
   }

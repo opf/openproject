@@ -233,12 +233,9 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}.Box-row--draggable")
       expect(rendered_component)
         .to have_no_css(".Box-row#work_package_#{work_package.id}[data-sortable-lists--item-id-value]")
-      expect(rendered_component)
-        .to have_no_css(".Box-row#work_package_#{work_package.id}[data-sortable-lists--item-move-url-value]")
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[draggable='true']")
       expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-id-value]")
       expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-target]")
-      expect(rendered_component).to have_no_css(".op-work-package-card[data-sortable-lists--item-move-url-value]")
       expect(rendered_component).to have_no_css(".op-work-package-card[draggable='true']")
     end
   end

@@ -131,14 +131,6 @@ describe('sortable lists drag and drop helpers', () => {
       expect(data.itemId).toEqual('42');
       expect(isSortableItemData(data)).toBe(true);
     });
-
-    it('includes a move URL when the sortable item has one', () => {
-      expect(sortableItemData({ type: 'work_package', itemId: '42', moveUrl: '/move' })).toEqual(expect.objectContaining({
-        itemId: '42',
-        moveUrl: '/move',
-        type: 'work_package',
-      }));
-    });
   });
 
   describe('acceptsSortableItemType', () => {
