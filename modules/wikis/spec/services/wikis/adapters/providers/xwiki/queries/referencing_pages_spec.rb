@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :webmock do
+RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :disable_ssrf_filter, :webmock do
   include XWikiStubs
 
   it "is registered" do
@@ -149,6 +149,21 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :we
       before { stub_request(:get, search_endpoint(linkable, provider: wiki_provider)).to_timeout }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :connection_error)) }
+    end
+
+    context "with real XWiki responses", vcr: "xwiki/referencing_pages" do
+      let(:wiki_provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
+      let(:linkable) { create(:work_package, id: 14) }
+      let(:auth_strategy) { wiki_provider.auth_strategy_for(user).value! }
+
+      it "returns PageInfo for all linked pages" do
+        expect(result).to be_success
+        expect(result.value!.map { it.value!.to_h.except(:provider) }).to contain_exactly(
+          { identifier: "48944", title: "OpenProject integration", href: "https://xwiki.local/bin/view/test/" },
+          { identifier: "42f2f", title: "Def New Page", href: "https://xwiki.local/bin/view/test/Def%20New%20Page/" },
+          { identifier: "a3739", title: "Just a normal page", href: "https://xwiki.local/bin/view/Just%20a%20normal%20page/" }
+        )
+      end
     end
   end
 end
