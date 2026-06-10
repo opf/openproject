@@ -33,6 +33,7 @@ import {
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { combine } from '@atlaskit/pragmatic-drag-and-drop/combine';
 import { draggable, dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { preserveOffsetOnSource } from '@atlaskit/pragmatic-drag-and-drop/element/preserve-offset-on-source';
 import { setCustomNativeDragPreview } from '@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview';
 import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
 import { Controller } from '@hotwired/stimulus';
@@ -118,13 +119,17 @@ export default class ItemController extends Controller<HTMLElement> {
         this.clearDropIndicator();
         this.element.removeAttribute('data-dragging');
       },
-      onGenerateDragPreview: ({ nativeSetDragImage }) => {
+      onGenerateDragPreview: ({ location, nativeSetDragImage }) => {
         if (!this.hasPreviewTarget) {
           return;
         }
 
         setCustomNativeDragPreview({
           nativeSetDragImage,
+          getOffset: preserveOffsetOnSource({
+            element: this.previewTarget,
+            input: location.current.input,
+          }),
           render: ({ container }) => this.renderPreview(container),
         });
       },
