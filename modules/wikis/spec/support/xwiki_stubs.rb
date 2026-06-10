@@ -29,18 +29,6 @@
 #++
 
 module XWikiStubs
-  def wikis_endpoint(provider)
-    "#{provider.url}rest/wikis"
-  end
-
-  def stub_wiki_list(wiki_names, provider:, token: "user-bearer-token")
-    stub_request(:get, wikis_endpoint(provider))
-      .with(headers: { "Authorization" => "Bearer #{token}" })
-      .to_return(status: 200,
-                 body: { "wikis" => wiki_names.map { |id| { "id" => id } } }.to_json,
-                 headers: { "Content-Type" => "application/json" })
-  end
-
   def search_endpoint(linkable, provider:, number: 25)
     "#{provider.url}rest/openproject/links/workPackages/#{linkable.id}?number=#{number}"
   end
