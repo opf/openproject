@@ -58,31 +58,6 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
 
     subject(:result) { query.call(input_data:, auth_strategy:) }
 
-    context "when results are returned" do
-      let(:page_identifier) { "xwiki:Main.Eric's Space.WebHome" }
-      let(:page_absolute_url) { "https://xwiki.example.com/bin/view/Main/Eric%27s%20Space/" }
-
-      before do
-        stub_search([{ "id" => page_identifier, "title" => "Eric's Space #2" }],
-                    provider: wiki_provider,
-                    linkable:)
-        stub_canonical_page_info(page_identifier,
-                                 title: "Eric's Space #2",
-                                 href: page_absolute_url,
-                                 provider: wiki_provider)
-      end
-
-      it { is_expected.to be_success }
-
-      it "returns page infos resolved via canonical_page_info" do
-        page_results = result.value!
-        expect(page_results).to all(be_success)
-        expect(page_results.map { it.value!.to_h.except(:provider) }).to contain_exactly(
-          { identifier: page_identifier, title: "Eric's Space #2", href: page_absolute_url }
-        )
-      end
-    end
-
     context "when the same page appears multiple times in results" do
       let(:duplicate_id) { "xwiki:Main.WebHome" }
       let(:same_title_different_id) { "xwiki:Other.WebHome" }
@@ -111,16 +86,6 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
 
       it "deduplicates by page identifier, not by title" do
         expect(result.value!.map { it.value!.identifier }).to contain_exactly(duplicate_id, same_title_different_id)
-      end
-    end
-
-    context "when no pages are found" do
-      before { stub_search([], provider: wiki_provider, linkable:) }
-
-      it { is_expected.to be_success }
-
-      it "returns an empty list" do
-        expect(result.value!).to eq([])
       end
     end
 
@@ -163,6 +128,17 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
           { identifier: "42f2f", title: "Def New Page", href: "https://xwiki.local/bin/view/test/Def%20New%20Page/" },
           { identifier: "a3739", title: "Just a normal page", href: "https://xwiki.local/bin/view/Just%20a%20normal%20page/" }
         )
+      end
+    end
+
+    context "with no linked pages in XWiki (VCR)", vcr: "xwiki/referencing_pages_empty" do
+      let(:wiki_provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
+      let(:linkable) { create(:work_package, id: 21) }
+      let(:auth_strategy) { wiki_provider.auth_strategy_for(user).value! }
+
+      it "returns an empty list" do
+        expect(result).to be_success
+        expect(result.value!).to eq([])
       end
     end
   end
