@@ -272,11 +272,14 @@ export default class EditorController extends BaseController {
     }
   }
 
-  private handleTurboSubmitStart(_event:TurboSubmitStartEvent) {
+  private handleTurboSubmitStart(event:TurboSubmitStartEvent) {
+    if (event.target !== this.formTarget) return;
     this.setCKEditorReadonlyMode(true);
   }
 
   private handleTurboSubmitEnd(event:TurboSubmitEndEvent) {
+    if (event.target !== this.formTarget) return;
+
     const formSubmitResponse = event.detail.fetchResponse;
 
     this.setCKEditorReadonlyMode(false);

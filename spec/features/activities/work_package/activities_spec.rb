@@ -1203,6 +1203,36 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
         end
       end
 
+      context "when editing an existing comment" do
+        it "preserves scroll position and does not close the new comment editor" do
+          sleep 1 # wait for initial auto scrolling to finish
+
+          # open the new comment editor so we can assert it stays open after the inline edit
+          activity_tab.open_new_comment_editor
+          activity_tab.expect_input_field
+
+          # scroll the tab container to a mid-page position (not the bottom)
+          page.execute_script('document.querySelector(".tabcontent").scrollTop = 200')
+          sleep 0.5
+
+          scroll_position_before = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+          expect(scroll_position_before).to be > 0
+
+          # edit an existing comment via the inline edit form — this must not trigger the
+          # editor controller's submit-end handler that resets scroll and closes the new-comment form
+          activity_tab.edit_comment(comment_1, text: "Comment 1 edited")
+
+          sleep 1 # wait for any potential undesired auto scrolling to settle
+
+          # the new comment editor must still be open — closeForm must not have fired
+          activity_tab.expect_input_field
+
+          # the scroll position must not have jumped to the bottom or back to zero
+          scroll_position_after = page.evaluate_script('document.querySelector(".tabcontent").scrollTop')
+          expect(scroll_position_after).to be_within(50).of(scroll_position_before)
+        end
+      end
+
       context "when on narrow desktop screen size" do
         before do
           page.current_window.resize_to(900, 1200)
