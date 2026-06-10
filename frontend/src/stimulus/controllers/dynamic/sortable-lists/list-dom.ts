@@ -55,10 +55,6 @@ export function resolveItemId(element:Element):string|null {
   return element.getAttribute('data-sortable-lists--item-id-value');
 }
 
-export function resolveItemType(element:Element):string {
-  return element.getAttribute('data-sortable-lists--item-type-value') ?? 'item';
-}
-
 export function resolveClosestItemElement(element:Element):HTMLElement|null {
   if (element instanceof HTMLElement && element.matches(sortableItemSelector)) {
     return element;

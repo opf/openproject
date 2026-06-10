@@ -98,20 +98,6 @@ export default class ItemController extends Controller<HTMLElement> {
     this.cleanupFn = undefined;
   }
 
-  // Re-run setup after a Turbo morph re-applies the static markup and drops the
-  // Pragmatic DnD attributes/listeners this controller added. The root
-  // sortable-lists controller calls this from a single morph listener. Skip
-  // while an interaction is in flight so an active drag is not torn down
-  // underneath the user.
-  refresh():void {
-    if (this.element.hasAttribute('data-dragging')) {
-      return;
-    }
-
-    this.disconnect();
-    this.connect();
-  }
-
   private registerDraggable():CleanupFn {
     return draggable({
       element: this.element,

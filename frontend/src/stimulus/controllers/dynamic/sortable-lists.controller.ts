@@ -51,7 +51,6 @@ import {
   captureRowPositions,
   reorderRows,
   restoreRowPositions,
-  sortableItemSelector,
   sortableListSelector,
   sortableListsMovingAttribute,
 } from './sortable-lists/list-dom';
@@ -88,7 +87,6 @@ export default class SortableListsController extends Controller<HTMLElement> {
   private monitorCleanupFn?:CleanupFn;
   private listCleanupFns = new Map<HTMLElement, CleanupFn>();
   private scrollableCleanupFns = new Map<HTMLElement, CleanupFn>();
-  private readonly handleMorphBound = this.handleMorph.bind(this);
 
   connect():void {
     this.monitorCleanupFn = monitorForElements({
@@ -97,13 +95,11 @@ export default class SortableListsController extends Controller<HTMLElement> {
         void this.handleDrop(args);
       },
     });
-    document.addEventListener('turbo:morph-element', this.handleMorphBound);
   }
 
   disconnect():void {
     this.monitorCleanupFn?.();
     this.monitorCleanupFn = undefined;
-    document.removeEventListener('turbo:morph-element', this.handleMorphBound);
     this.listCleanupFns.forEach((cleanup) => cleanup());
     this.listCleanupFns.clear();
     this.scrollableCleanupFns.forEach((cleanup) => cleanup());
@@ -148,20 +144,6 @@ export default class SortableListsController extends Controller<HTMLElement> {
   scrollableTargetDisconnected(element:HTMLElement):void {
     this.scrollableCleanupFns.get(element)?.();
     this.scrollableCleanupFns.delete(element);
-  }
-
-  // A Turbo morph can strip the Pragmatic DnD attributes/listeners an item
-  // controller applied to its row. One root-level listener refreshes the
-  // affected item, instead of every item registering its own document listener.
-  private handleMorph(event:Event):void {
-    const target = event.target;
-
-    if (!(target instanceof HTMLElement) || !target.matches(sortableItemSelector) || !this.element.contains(target)) {
-      return;
-    }
-
-    const controller = this.application.getControllerForElementAndIdentifier(target, 'sortable-lists--item');
-    (controller as { refresh?:() => void }|null)?.refresh?.();
   }
 
   private get allowedAxis():AutoScrollAllowedAxis {

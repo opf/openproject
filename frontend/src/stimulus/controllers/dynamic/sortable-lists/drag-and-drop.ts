@@ -27,16 +27,13 @@
 //++
 
 import {
-  attachClosestEdge,
   type Edge,
   extractClosestEdge,
 } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
-import { type DragLocationHistory, type Input } from '@atlaskit/pragmatic-drag-and-drop/types';
+import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
-  resolveClosestItemElement,
   resolveItemElement,
   resolveItemId,
-  resolveItemType,
   resolveListAppendPreviousItemId,
   resolvePreviousItemId,
   sortableListSelector,
@@ -58,12 +55,6 @@ export interface SortableListData extends Record<string|symbol, unknown> {
   [sortableListDataKey]:true;
   type:string;
   listId:string|null;
-}
-
-export interface FallbackDropTarget {
-  element:HTMLElement;
-  data:Record<string|symbol, unknown>;
-  isItem:boolean;
 }
 
 export function isSortableItemData(data:Record<string|symbol, unknown>):data is SortableItemData {
@@ -167,69 +158,6 @@ export function isSourceListTarget({
   targetElement:Element;
 }):boolean {
   return sourceElement.closest(sortableListSelector) === targetElement;
-}
-
-function elementsFromPoint(document:Document, clientX:number, clientY:number):Element[] {
-  const elements = document.elementsFromPoint?.(clientX, clientY) ?? [];
-  const element = document.elementFromPoint(clientX, clientY);
-
-  if (element && !elements.includes(element)) {
-    return [...elements, element];
-  }
-
-  return elements;
-}
-
-export function resolveFallbackDropTarget({
-  input,
-  root,
-  sourceElement,
-}:{
-  input:Input;
-  root:HTMLElement;
-  sourceElement?:HTMLElement;
-}):FallbackDropTarget|null {
-  const elementsAtPoint = elementsFromPoint(root.ownerDocument, input.clientX, input.clientY);
-
-  for (const elementAtPoint of elementsAtPoint) {
-    if (!(elementAtPoint instanceof HTMLElement) || !root.contains(elementAtPoint)) {
-      continue;
-    }
-
-    const item = resolveClosestItemElement(elementAtPoint);
-    if (item && item !== sourceElement && root.contains(item)) {
-      const itemId = resolveItemId(item);
-
-      if (itemId) {
-        return {
-          element: item,
-          data: attachClosestEdge(sortableItemData({ itemId, type: resolveItemType(item) }), {
-            element: item,
-            input,
-            allowedEdges: ['top', 'bottom'],
-          }),
-          isItem: true,
-        };
-      }
-    }
-
-    const list = elementAtPoint.closest<HTMLElement>(sortableListSelector);
-    if (list && root.contains(list)) {
-      const listData = resolveListData(list);
-
-      if (!listData) {
-        continue;
-      }
-
-      return {
-        element: list,
-        data: listData,
-        isItem: false,
-      };
-    }
-  }
-
-  return null;
 }
 
 export function resolvePreviousSortableItemId({

@@ -28,8 +28,6 @@
 
 /* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
 
-import { Controller } from '@hotwired/stimulus';
-
 import type { autoScrollForElements as autoScrollForElementsFn } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import type { dropTargetForElements as dropTargetForElementsFn, monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import type { FetchRequest as FetchRequestFn } from '@rails/request.js';
@@ -676,58 +674,5 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
 
     expect(scrollableCleanup).toHaveBeenCalledOnce();
-  });
-
-  describe('Turbo morph coordination', () => {
-    const refresh = vi.fn();
-
-    function renderListWithItem() {
-      class ItemStub extends Controller {
-        refresh = refresh;
-      }
-      ctx.application.register('sortable-lists--item', ItemStub);
-
-      fixture.innerHTML = `
-        <div data-controller="sortable-lists">
-          <ul data-sortable-lists-target="list" data-sortable-lists-list-type="backlog" data-sortable-lists-list-id="">
-            <li
-              data-controller="sortable-lists--item"
-              data-sortable-lists--item-id-value="1"
-              data-sortable-lists--item-type-value="work_package"
-              data-sortable-lists--item-move-url-value="/move"
-            ></li>
-          </ul>
-        </div>
-      `;
-    }
-
-    it('refreshes only the morphed sortable item from a single root-level listener', async () => {
-      renderListWithItem();
-      await ctx.nextFrame();
-
-      const list = fixture.querySelector<HTMLElement>('[data-sortable-lists-target="list"]')!;
-      const item = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!;
-
-      // A morph on a non-item element under the root is ignored.
-      list.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
-      expect(refresh).not.toHaveBeenCalled();
-
-      // A morph on the item refreshes that item exactly once.
-      item.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
-      expect(refresh).toHaveBeenCalledTimes(1);
-    });
-
-    it('stops handling morph events once the root disconnects', async () => {
-      renderListWithItem();
-      await ctx.nextFrame();
-
-      const item = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!;
-
-      fixture.innerHTML = '';
-      await ctx.nextFrame();
-
-      item.dispatchEvent(new CustomEvent('turbo:morph-element', { bubbles: true }));
-      expect(refresh).not.toHaveBeenCalled();
-    });
   });
 });

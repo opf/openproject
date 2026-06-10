@@ -29,7 +29,6 @@
 import {
   captureRowPositions,
   reorderRows,
-  resolveItemType,
   resolveListAppendPreviousItemId,
   restoreRowPositions,
 } from './list-dom';
@@ -65,20 +64,6 @@ describe('sortable lists DOM helpers', () => {
     return Array.from(list.querySelectorAll('[data-sortable-lists--item-id-value]'))
       .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
   }
-
-  describe('resolveItemType', () => {
-    it('reads the item type Stimulus value', () => {
-      const item = itemRow('1');
-
-      item.setAttribute('data-sortable-lists--item-type-value', 'work_package');
-
-      expect(resolveItemType(item)).toEqual('work_package');
-    });
-
-    it('uses a generic item type when no item type value is present', () => {
-      expect(resolveItemType(itemRow('1'))).toEqual('item');
-    });
-  });
 
   describe('resolveListAppendPreviousItemId', () => {
     it('returns the last item in a list while skipping the source and truncation marker rows', () => {

@@ -540,36 +540,5 @@ describe('Sortable lists item controller', () => {
       expect(preview.querySelector('[data-backlogs--story-target]')).toBeNull();
     });
 
-    it('re-registers the row when refreshed after a Turbo morph drops the Pragmatic DnD attributes', async () => {
-      const { row } = renderBacklogsRow();
-
-      await ctx.nextFrame();
-      expect(row.dataset.dropTargetForElement).toEqual('true');
-
-      row.removeAttribute('data-drop-target-for-element');
-
-      const controller = ctx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', row);
-      controller.refresh();
-
-      expect(row.dataset.dropTargetForElement).toEqual('true');
-      expect(vi.mocked(draggable)).toHaveBeenCalledTimes(2);
-      expect(vi.mocked(dropTargetForElements)).toHaveBeenCalledTimes(2);
-      expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0]).toEqual(expect.objectContaining({
-        element: row,
-      }));
-    });
-
-    it('skips refreshing while a drag is in flight', async () => {
-      const { row } = renderBacklogsRow();
-
-      await ctx.nextFrame();
-      row.setAttribute('data-dragging', 'source');
-
-      const controller = ctx.getController<InstanceType<typeof ItemControllerType>>('sortable-lists--item', row);
-      controller.refresh();
-
-      expect(vi.mocked(draggable)).toHaveBeenCalledTimes(1);
-      expect(vi.mocked(dropTargetForElements)).toHaveBeenCalledTimes(1);
-    });
   });
 });

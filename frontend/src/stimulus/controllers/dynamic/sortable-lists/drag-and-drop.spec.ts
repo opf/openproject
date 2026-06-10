@@ -28,7 +28,7 @@
 
 import { vi } from 'vitest';
 
-import { attachClosestEdge, extractClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
+import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge';
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
   acceptsSortableItemType,
@@ -36,7 +36,6 @@ import {
   isSortableItemData,
   isSortableListData,
   resolveDropIntent,
-  resolveFallbackDropTarget,
   resolveListData,
   resolvePreviousSortableItemId,
   sortableItemData,
@@ -89,20 +88,6 @@ describe('sortable lists drag and drop helpers', () => {
       y: 0,
       toJSON: () => ({}),
     };
-  }
-
-  function stubElementFromPoint(element:Element) {
-    Object.defineProperty(document, 'elementFromPoint', {
-      configurable: true,
-      value: vi.fn(() => element),
-    });
-  }
-
-  function stubElementsFromPoint(elements:Element[]) {
-    Object.defineProperty(document, 'elementsFromPoint', {
-      configurable: true,
-      value: vi.fn(() => elements),
-    });
   }
 
   afterEach(() => {
@@ -287,148 +272,6 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
-  describe('resolveFallbackDropTarget', () => {
-    it('resolves an item at the drop coordinates', () => {
-      const root = document.createElement('div');
-      const list = document.createElement('div');
-      const row = itemRow('42');
-      const item = row.querySelector<HTMLElement>('article')!;
-
-      list.setAttribute('data-sortable-lists-target', 'list');
-      list.setAttribute('data-sortable-lists-list-type', 'backlog_bucket');
-      list.setAttribute('data-sortable-lists-list-id', '7');
-      list.appendChild(row);
-      root.appendChild(list);
-      document.body.appendChild(root);
-      stubElementFromPoint(item);
-      vi.spyOn(row, 'getBoundingClientRect').mockReturnValue(rect());
-
-      const target = resolveFallbackDropTarget({
-        input: input({ clientY: 90 }),
-        root,
-      });
-
-      expect(target?.element).toBe(row);
-      expect(target?.isItem).toBe(true);
-      expect(target?.data.itemId).toEqual('42');
-      expect(extractClosestEdge(target!.data)).toEqual('bottom');
-    });
-
-    it('skips drag overlay elements and resolves the underlying item', () => {
-      const root = document.createElement('div');
-      const list = document.createElement('div');
-      const row = itemRow('42');
-      const item = row.querySelector<HTMLElement>('article')!;
-      const dragOverlay = document.createElement('div');
-
-      list.setAttribute('data-sortable-lists-target', 'list');
-      list.setAttribute('data-sortable-lists-list-type', 'backlog_bucket');
-      list.setAttribute('data-sortable-lists-list-id', '7');
-      list.appendChild(row);
-      root.appendChild(list);
-      document.body.append(root, dragOverlay);
-      stubElementFromPoint(dragOverlay);
-      stubElementsFromPoint([dragOverlay, item]);
-      vi.spyOn(row, 'getBoundingClientRect').mockReturnValue(rect());
-
-      const target = resolveFallbackDropTarget({
-        input: input({ clientY: 90 }),
-        root,
-      });
-
-      expect(target?.element).toBe(row);
-      expect(target?.isItem).toBe(true);
-      expect(target?.data.itemId).toEqual('42');
-    });
-
-    it('resolves a list at the drop coordinates when no item is under the pointer', () => {
-      const root = document.createElement('div');
-      const list = document.createElement('div');
-      const header = document.createElement('div');
-
-      list.setAttribute('data-sortable-lists-target', 'list');
-      list.setAttribute('data-sortable-lists-list-type', 'backlog_bucket');
-      list.setAttribute('data-sortable-lists-list-id', '7');
-      list.appendChild(header);
-      root.appendChild(list);
-      document.body.appendChild(root);
-      stubElementFromPoint(header);
-
-      const target = resolveFallbackDropTarget({
-        input: input(),
-        root,
-      });
-
-      expect(target?.element).toBe(list);
-      expect(target?.isItem).toBe(false);
-      expect(isSortableListData(target!.data)).toBe(true);
-      expect(target?.data.type).toEqual('backlog_bucket');
-      expect(target?.data.listId).toEqual('7');
-    });
-
-    it('resolves a list when the pointer lands on list whitespace above its items', () => {
-      const root = document.createElement('div');
-      const list = document.createElement('div');
-
-      list.setAttribute('data-sortable-lists-target', 'list');
-      list.setAttribute('data-sortable-lists-list-type', 'backlog_bucket');
-      list.setAttribute('data-sortable-lists-list-id', '7');
-      list.appendChild(itemRow('42'));
-      root.appendChild(list);
-      document.body.appendChild(root);
-      stubElementFromPoint(list);
-
-      const target = resolveFallbackDropTarget({
-        input: input(),
-        root,
-      });
-
-      expect(target?.element).toBe(list);
-      expect(target?.isItem).toBe(false);
-      expect(isSortableListData(target!.data)).toBe(true);
-    });
-
-    it('resolves the containing list instead of the dragged source item', () => {
-      const root = document.createElement('div');
-      const list = document.createElement('div');
-      const row = itemRow('42');
-      const item = row.querySelector<HTMLElement>('article')!;
-
-      list.setAttribute('data-sortable-lists-target', 'list');
-      list.setAttribute('data-sortable-lists-list-type', 'backlog_bucket');
-      list.setAttribute('data-sortable-lists-list-id', '7');
-      list.appendChild(row);
-      root.appendChild(list);
-      document.body.appendChild(root);
-      stubElementFromPoint(item);
-
-      const target = resolveFallbackDropTarget({
-        input: input(),
-        root,
-        sourceElement: row,
-      });
-
-      expect(target?.element).toBe(list);
-      expect(target?.isItem).toBe(false);
-      expect(isSortableListData(target!.data)).toBe(true);
-      expect(target?.data.type).toEqual('backlog_bucket');
-      expect(target?.data.listId).toEqual('7');
-    });
-
-    it('returns null when the drop coordinates are outside the backlogs root', () => {
-      const root = document.createElement('div');
-      const outside = document.createElement('div');
-
-      document.body.append(root, outside);
-      stubElementFromPoint(outside);
-
-      expect(resolveFallbackDropTarget({
-        input: input(),
-        root,
-      })).toBeNull();
-    });
-  });
-
   describe('resolveDropIntent', () => {
     function dropLocation({
       dropTargets = [],
@@ -534,7 +377,6 @@ describe('sortable lists drag and drop helpers', () => {
 
       list.append(source, target);
       document.body.appendChild(root);
-      stubElementFromPoint(target.querySelector('article')!);
 
       const intent = resolveDropIntent({
         location: dropLocation({ clientY: 90 }),
@@ -577,7 +419,6 @@ describe('sortable lists drag and drop helpers', () => {
       const outside = document.createElement('div');
 
       document.body.append(root, outside);
-      stubElementFromPoint(outside);
 
       const intent = resolveDropIntent({
         location: dropLocation(),
