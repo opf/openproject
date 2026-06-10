@@ -1069,8 +1069,13 @@ module Pages
       selector = "##{overlay_id}"
 
       return unless page.has_css?(selector, visible: true, wait: 0)
+      return if page.has_selector?(:modal, wait: 0)
 
       find(selector).click
+    rescue Selenium::WebDriver::Error::ElementNotInteractableError
+      # Menu actions can open a modal before the overlay is removed; once the
+      # modal owns focus the stale overlay is unclickable and dismissal moot.
+      raise unless page.has_selector?(:modal, wait: 0)
     end
 
     def sprint_names_in_order
