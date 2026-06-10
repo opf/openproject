@@ -30,6 +30,15 @@ services:
       # Seeds the root password on first boot only; existing instances keep
       # their password (reset via gitlab-rake "gitlab:password:reset[root]")
       GITLAB_ROOT_PASSWORD: "${GITLAB_ROOT_PASSWORD:-openproject}"
+      # Without an external_url GitLab derives URLs from the ephemeral container
+      # hostname, which changes on every recreate and breaks all stored links
+      # (e.g. OpenProject integration records). TLS terminates at traefik, so
+      # nginx stays on plain HTTP.
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url "https://gitlab.${OPENPROJECT_DOCKER_DEV_TLD:-local}"
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+        letsencrypt['enable'] = false
     networks:
       - external
     extra_hosts:
