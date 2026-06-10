@@ -30,7 +30,6 @@
 
 import type { autoScrollForElements as autoScrollForElementsFn } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import type { dropTargetForElements as dropTargetForElementsFn, monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
-import type { FetchRequest as FetchRequestFn } from '@rails/request.js';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
 import type {
@@ -41,7 +40,6 @@ import type {
 describe('Sortable lists controller', () => {
   const flushPromises = () => new Promise<void>((resolve) => setTimeout(resolve));
 
-  let FetchRequest:typeof FetchRequestFn;
   let dropTargetForElements:typeof dropTargetForElementsFn;
   let monitorForElements:typeof monitorForElementsFn;
   let autoScrollForElements:typeof autoScrollForElementsFn;
@@ -51,17 +49,11 @@ describe('Sortable lists controller', () => {
 
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
+  let fetchMock:ReturnType<typeof vi.fn>;
   let loadingIndicator:HTMLElement;
+  let renderStreamMessageMock:ReturnType<typeof vi.fn>;
 
   beforeAll(async () => {
-    vi.doMock('@rails/request.js', () => ({
-      FetchRequest: vi.fn(function FetchRequest() {
-        return {
-          perform: vi.fn(() => Promise.resolve({ ok: true })),
-        };
-      }),
-    }));
-
     vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
       draggable: vi.fn(() => vi.fn()),
       dropTargetForElements: vi.fn(() => vi.fn()),
@@ -72,7 +64,6 @@ describe('Sortable lists controller', () => {
       autoScrollForElements: vi.fn(() => vi.fn()),
     }));
 
-    ({ FetchRequest } = await import('@rails/request.js'));
     ({ dropTargetForElements, monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ autoScrollForElements } = await import('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
@@ -229,6 +220,14 @@ describe('Sortable lists controller', () => {
   beforeEach(async () => {
     vi.clearAllMocks();
 
+    fetchMock = vi.fn(() => Promise.resolve(new Response('', { status: 200 })));
+    renderStreamMessageMock = vi.fn(() => Promise.resolve());
+    vi.stubGlobal('fetch', fetchMock);
+    vi.stubGlobal('Turbo', {
+      fetch: fetchMock,
+      renderStreamMessage: renderStreamMessageMock,
+    });
+
     loadingIndicator = document.createElement('div');
     loadingIndicator.id = 'global-loading-indicator';
     loadingIndicator.hidden = true;
@@ -245,6 +244,7 @@ describe('Sortable lists controller', () => {
   afterEach(() => {
     ctx.dispose();
     loadingIndicator.remove();
+    vi.unstubAllGlobals();
   });
 
   it('does not turn a list-only drop onto the source list into an append move', async () => {
@@ -253,7 +253,7 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, sourceList);
 
-    expect(FetchRequest).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('ignores drops that belong to another sortable lists root', async () => {
@@ -300,7 +300,7 @@ describe('Sortable lists controller', () => {
       },
     });
 
-    expect(FetchRequest).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('ignores drops whose source type does not match the root accepted type', async () => {
@@ -328,7 +328,7 @@ describe('Sortable lists controller', () => {
       },
     });
 
-    expect(FetchRequest).not.toHaveBeenCalled();
+    expect(fetchMock).not.toHaveBeenCalled();
   });
 
   it('appends the item when list-only dropping onto another list', async () => {
@@ -337,9 +337,9 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    expect(FetchRequest).toHaveBeenCalledOnce();
+    expect(fetchMock).toHaveBeenCalledOnce();
 
-    const options = vi.mocked(FetchRequest).mock.lastCall?.[2] as { body:FormData };
+    const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
 
     expect(options.body.get('list_type')).toEqual('sprint');
     expect(options.body.get('list_id')).toEqual('1');
@@ -355,10 +355,9 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    expect(FetchRequest).toHaveBeenCalledWith(
-      'put',
+    expect(fetchMock).toHaveBeenCalledWith(
       '/projects/demo/backlogs/work_packages/1/move',
-      expect.any(Object),
+      expect.objectContaining({ method: 'PUT' }),
     );
   });
 
@@ -371,10 +370,9 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    expect(FetchRequest).toHaveBeenCalledWith(
-      'put',
+    expect(fetchMock).toHaveBeenCalledWith(
       '/custom/move',
-      expect.any(Object),
+      expect.objectContaining({ method: 'PUT' }),
     );
   });
 
@@ -384,22 +382,19 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
-    expect(FetchRequest).toHaveBeenCalledWith(
-      'put',
+    expect(fetchMock).toHaveBeenCalledWith(
       '/move',
-      expect.any(Object),
+      expect.objectContaining({ method: 'PUT' }),
     );
   });
 
   it('marks the sortable lists root and global loading indicator while moving an item', async () => {
-    let resolveMove:(response:{ ok:boolean }) => void;
+    let resolveMove:(response:Response) => void;
 
-    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
-      return {
-        perform: vi.fn(() => new Promise<{ ok:boolean }>((resolve) => {
-          resolveMove = resolve;
-        })),
-      };
+    fetchMock.mockImplementationOnce(() => {
+      return new Promise<Response>((resolve) => {
+        resolveMove = resolve;
+      });
     });
 
     const { root, targetList, firstSourceItem } = renderFixture();
@@ -411,7 +406,7 @@ describe('Sortable lists controller', () => {
     expect(root.getAttribute('aria-busy')).toEqual('true');
     expect(loadingIndicator.hidden).toBe(false);
 
-    resolveMove!({ ok: true });
+    resolveMove!(new Response('', { status: 200 }));
     await flushPromises();
 
     expect(root.hasAttribute('data-sortable-lists-moving')).toBe(false);
@@ -420,14 +415,12 @@ describe('Sortable lists controller', () => {
   });
 
   it('rejects new sortable-list drags and drops while a move is pending', async () => {
-    let resolveMove:(response:{ ok:boolean }) => void;
+    let resolveMove:(response:Response) => void;
 
-    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
-      return {
-        perform: vi.fn(() => new Promise<{ ok:boolean }>((resolve) => {
-          resolveMove = resolve;
-        })),
-      };
+    fetchMock.mockImplementationOnce(() => {
+      return new Promise<Response>((resolve) => {
+        resolveMove = resolve;
+      });
     });
 
     const { targetList, firstSourceItem } = renderFixture();
@@ -445,7 +438,7 @@ describe('Sortable lists controller', () => {
       source: sourcePayload(firstSourceItem),
     })).toBe(false);
 
-    resolveMove!({ ok: true });
+    resolveMove!(new Response('', { status: 200 }));
     await flushPromises();
   });
 
@@ -454,11 +447,7 @@ describe('Sortable lists controller', () => {
     const onToast = (event:Event) => toastEvents.push(event as CustomEvent);
 
     window.addEventListener('op:toasters:add', onToast);
-    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
-      return {
-        perform: vi.fn(() => Promise.reject(new Error('Network failure'))),
-      };
-    });
+    fetchMock.mockRejectedValueOnce(new Error('Network failure'));
 
     const { root, targetList, firstSourceItem } = renderFixture();
 
@@ -478,14 +467,12 @@ describe('Sortable lists controller', () => {
   });
 
   it('moves the dropped row into the target list before the move request resolves', async () => {
-    let resolveMove:(response:{ ok:boolean }) => void;
+    let resolveMove:(response:Response) => void;
 
-    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
-      return {
-        perform: vi.fn(() => new Promise<{ ok:boolean }>((resolve) => {
-          resolveMove = resolve;
-        })),
-      };
+    fetchMock.mockImplementationOnce(() => {
+      return new Promise<Response>((resolve) => {
+        resolveMove = resolve;
+      });
     });
 
     const { sourceList, targetList, firstSourceItem } = renderFixture();
@@ -497,18 +484,14 @@ describe('Sortable lists controller', () => {
     expect(itemIds(targetList)).toEqual(['4', '5', '1']);
     expect(itemIds(sourceList)).toEqual(['2', '3']);
 
-    resolveMove!({ ok: true });
+    resolveMove!(new Response('', { status: 200 }));
     await flushPromises();
 
     expect(itemIds(targetList)).toEqual(['4', '5', '1']);
   });
 
   it('rolls the dropped row back to its original position when the move request fails', async () => {
-    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
-      return {
-        perform: vi.fn(() => Promise.reject(new Error('Network failure'))),
-      };
-    });
+    fetchMock.mockRejectedValueOnce(new Error('Network failure'));
 
     const { sourceList, targetList, firstSourceItem } = renderFixture();
 
@@ -525,11 +508,10 @@ describe('Sortable lists controller', () => {
     const onToast = (event:Event) => toastEvents.push(event as CustomEvent);
 
     window.addEventListener('op:toasters:add', onToast);
-    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
-      return {
-        perform: vi.fn(() => Promise.resolve({ ok: false, statusCode: 422 })),
-      };
-    });
+    fetchMock.mockResolvedValueOnce(new Response('', {
+      headers: { 'Content-Type': 'text/vnd.turbo-stream.html' },
+      status: 422,
+    }));
 
     const { sourceList, targetList, firstSourceItem } = renderFixture();
 
@@ -539,6 +521,7 @@ describe('Sortable lists controller', () => {
 
     expect(itemIds(sourceList)).toEqual(['1', '2', '3']);
     expect(itemIds(targetList)).toEqual(['4', '5']);
+    expect(renderStreamMessageMock).toHaveBeenCalledOnce();
     expect(toastEvents).toHaveLength(0);
 
     window.removeEventListener('op:toasters:add', onToast);
@@ -549,11 +532,7 @@ describe('Sortable lists controller', () => {
     const onToast = (event:Event) => toastEvents.push(event as CustomEvent);
 
     window.addEventListener('op:toasters:add', onToast);
-    vi.mocked(FetchRequest).mockImplementationOnce(function FetchRequest() {
-      return {
-        perform: vi.fn(() => Promise.resolve({ ok: false, statusCode: 500 })),
-      };
-    });
+    fetchMock.mockResolvedValueOnce(new Response('', { status: 500 }));
 
     const { sourceList, targetList, firstSourceItem } = renderFixture();
 
