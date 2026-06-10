@@ -38,7 +38,7 @@ import { WorkPackageCreateService } from 'core-app/features/work-packages/compon
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -94,7 +94,7 @@ describe('WorkPackageFilterValues', () => {
         WorkPackageCreateService,
         HalResourceEditingService,
         WorkPackagesActivityService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
       ]
     }).compileComponents();
 

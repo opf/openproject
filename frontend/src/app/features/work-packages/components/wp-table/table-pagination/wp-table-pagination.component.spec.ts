@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { inject, TestBed } from '@angular/core/testing';
 import { States } from 'core-app/core/states/states.service';
@@ -88,7 +88,7 @@ describe('wpTablePagination Directive', () => {
         ConfigurationService,
         IsolatedQuerySpace,
         I18nService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
       ]
     }).compileComponents();
   });

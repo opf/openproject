@@ -4527,8 +4527,8 @@ de:
     one: 'Freie Zeit: 1 Arbeitstag'
     other: 'Freie Zeit: %{count} Arbeitstage'
   label_x_items_selected:
-    one: One item selected
-    other: "%{count} items selected"
+    one: Ein Element ausgewählt
+    other: "%{count} Elemente ausgewählt"
   label_yesterday: gestern
   label_zen_mode: Zen-Modus
   label_role_type: Typ

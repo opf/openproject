@@ -38,5 +38,11 @@ module ResourcePlannerViews::WorkPackageList
       @resource_planner = resource_planner
       @view = view
     end
+
+    private
+
+    def allowed_to_allocate?
+      User.current.allowed_in_project?(:allocate_user_resources, @project)
+    end
   end
 end

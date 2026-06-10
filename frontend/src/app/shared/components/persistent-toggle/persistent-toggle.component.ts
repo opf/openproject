@@ -37,7 +37,7 @@ import { slideDown, slideUp } from 'es6-slide-up-down';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class PersistentToggleComponent implements OnInit {
   private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);

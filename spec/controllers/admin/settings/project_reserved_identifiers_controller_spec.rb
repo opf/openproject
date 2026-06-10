@@ -73,11 +73,29 @@ RSpec.describe Admin::Settings::ProjectReservedIdentifiersController do
     end
   end
 
-  describe "GET #search", with_settings: { work_packages_identifier: "classic" } do
+  describe "GET #search", with_settings: { work_packages_identifier: "classic", per_page_options: "1 5 10" } do
+    render_views
+
     it "responds with turbo stream" do
       get :search, format: :turbo_stream
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+    end
+
+    context "with multiple reserved slugs triggering pagination" do
+      let!(:project1) { create(:project, identifier: "proj-a") }
+      let!(:project2) { create(:project, identifier: "proj-b") }
+
+      before do
+        FriendlyId::Slug.create!(sluggable: project1, slug: "old-a")
+        FriendlyId::Slug.create!(sluggable: project2, slug: "old-b")
+      end
+
+      it "renders pagination links that target the index action, not the search action (regression #STC-811)" do
+        get :search, params: { per_page: 1 }, format: :turbo_stream
+
+        expect(response.body).not_to include("#{search_admin_settings_project_reserved_identifiers_path}?")
+      end
     end
 
     context "with a reserved slug" do

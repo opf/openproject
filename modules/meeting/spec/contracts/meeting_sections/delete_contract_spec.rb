@@ -62,6 +62,12 @@ RSpec.describe MeetingSections::DeleteContract do
 
       it_behaves_like "contract is valid"
     end
+
+    context "when the section is the backlog" do
+      let(:section) { meeting.backlog }
+
+      it_behaves_like "contract is invalid", base: :error_readonly
+    end
   end
 
   context "without permission" do

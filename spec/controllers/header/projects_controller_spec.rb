@@ -103,6 +103,13 @@ RSpec.describe Header::ProjectsController do
           make_request
           expect(assigns(:favorited_ids)).to include(child_project.id)
         end
+
+        it "marks parent nodes as expanded" do
+          make_request
+          tree = assigns(:tree)
+          parent_node = tree.find { |n| n[:project] == parent_project }
+          expect(parent_node[:expanded]).to be(true)
+        end
       end
 
       context "when the user has no favorites" do

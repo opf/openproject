@@ -35,10 +35,10 @@ RSpec.describe ResourceAllocations::UpdateService, type: :model do
   shared_let(:owner) do
     create(:user, member_with_permissions: { project => %i[view_resource_planners allocate_user_resources] })
   end
-  shared_let(:planner) { create(:resource_planner, project:, principal: owner) }
+  shared_let(:work_package) { create(:work_package, project:) }
 
   let!(:resource_allocation) do
-    create(:resource_allocation, entity: planner, principal: owner, state: "requested", allocated_time: 8)
+    create(:resource_allocation, entity: work_package, principal: owner, state: "requested", allocated_time: 8)
   end
 
   subject(:service_call) do
@@ -52,13 +52,13 @@ RSpec.describe ResourceAllocations::UpdateService, type: :model do
   end
 
   context "when attempting to change the entity" do
-    let(:other_planner) { create(:resource_planner, project:, principal: owner) }
+    let(:other_work_package) { create(:work_package, project:) }
 
     it "fails because entity is not writable" do
-      result = described_class.new(user: owner, model: resource_allocation).call(entity: other_planner)
+      result = described_class.new(user: owner, model: resource_allocation).call(entity: other_work_package)
       expect(result).not_to be_success
       expect(result.errors.symbols_for(:entity_id)).to include(:error_readonly)
-      expect(resource_allocation.reload.entity).to eq(planner)
+      expect(resource_allocation.reload.entity).to eq(work_package)
     end
   end
 

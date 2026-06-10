@@ -248,7 +248,7 @@ cs:
       no_cost_types_available: No cost types are available in this project. Please contact an administrator.
     admin:
       columns:
-        active_projects: Active projects
+        active_projects: Aktivní projekty
       cost_type_projects:
         for_all_projects_blank_slate:
           heading: This cost type is enabled in all projects

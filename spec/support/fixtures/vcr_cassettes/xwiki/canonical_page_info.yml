@@ -1,11 +1,11 @@
 ---
 http_interactions:
 - request:
-    method: put
+    method: get
     uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Main.WebHome
     body:
-      encoding: UTF-8
-      string: "{}"
+      encoding: US-ASCII
+      string: ''
     headers:
       User-Agent:
       - OpenProject 17.6.0 HTTPX Client
@@ -15,14 +15,12 @@ http_interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      Content-Length:
-      - '2'
       Authorization:
       - Bearer <SECRET>
   response:
     status:
-      code: 202
-      message: Accepted
+      code: 200
+      message: OK
     headers:
       Content-Language:
       - en
@@ -31,11 +29,11 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 05 Jun 2026 06:30:56 GMT
+      - Wed, 10 Jun 2026 06:33:47 GMT
       Set-Cookie:
-      - JSESSIONID=E1711FFA64B3AFE5CBB3FA5881A7138D; Path=/; HttpOnly
+      - JSESSIONID=CF23A6F34156F21FFE50CB86F0F6138C; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - ON8xsHlEpixyujzpUPNupg
+      - L5DY6HB46AhTFvPuxIu0Cg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
@@ -69,5 +67,5 @@ http_interactions:
         creating //your// own applications with [[App Within Minutes>>AppWithinMinutes]]
         (AWM). \n\nAWM will take care of making it easy for you and your users to
         create and manage the data.\n)))\n)))","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Main","name":"Main","type":"space","url":"https://xwiki.local/bin/view/Main/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Main/"}]},"rights":[],"renderedContent":null}'
-  recorded_at: Fri, 05 Jun 2026 06:30:56 GMT
+  recorded_at: Wed, 10 Jun 2026 06:33:47 GMT
 recorded_with: VCR 6.4.0

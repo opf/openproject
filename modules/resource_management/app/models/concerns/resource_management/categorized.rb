@@ -29,9 +29,8 @@
 #++
 
 module ResourceManagement
-  # Tags persisted views that belong to the resource management area with the
-  # matching `category` so they can be told apart from work-package or project
-  # views. Applies to the planner and every view type nested below it.
+  # Tags the planner and its nested views with a `category` so they can be told
+  # apart from work-package or project views.
   module Categorized
     extend ActiveSupport::Concern
 

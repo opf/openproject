@@ -36,9 +36,9 @@ RSpec.describe ResourceAllocations::DeleteContract do
 
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
   shared_let(:owner) { create(:user) }
-  shared_let(:planner) { create(:resource_planner, project:, principal: owner) }
+  shared_let(:work_package) { create(:work_package, project:) }
 
-  let(:resource_allocation) { build_stubbed(:resource_allocation, entity: planner, principal: owner) }
+  let(:resource_allocation) { build_stubbed(:resource_allocation, entity: work_package, principal: owner) }
   let(:contract) { described_class.new(resource_allocation, current_user) }
 
   context "when user has allocate_user_resources" do

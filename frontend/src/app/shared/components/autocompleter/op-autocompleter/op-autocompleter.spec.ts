@@ -8,7 +8,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
 
 import { OpAutocompleterComponent } from './op-autocompleter.component';
 import { By } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 @Component({
   selector: 'op-test-autocompleter',
@@ -88,7 +88,7 @@ describe('autocompleter', () => {
       declarations: [OpAutocompleterComponent],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [NgSelectModule],
-      providers: [States, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
+      providers: [States, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OpAutocompleterComponent);
@@ -343,7 +343,7 @@ describe('derived autocompleter', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TestAutocompleterComponent],
-      providers: [States, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
+      providers: [States, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()],
     }).compileComponents();
   });
 

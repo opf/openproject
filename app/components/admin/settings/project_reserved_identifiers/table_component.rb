@@ -47,5 +47,7 @@ module Admin::Settings::ProjectReservedIdentifiers
     def blank_title       = t("admin.reserved_identifiers.empty_heading")
     def blank_description = t("admin.reserved_identifiers.empty_body")
     def blank_icon        = :"check-circle"
+
+    def pagination_params = { params: { action: "index" } }
   end
 end

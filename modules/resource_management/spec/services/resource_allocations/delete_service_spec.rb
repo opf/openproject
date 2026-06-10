@@ -35,9 +35,9 @@ RSpec.describe ResourceAllocations::DeleteService, type: :model do
   shared_let(:owner) do
     create(:user, member_with_permissions: { project => %i[view_resource_planners allocate_user_resources] })
   end
-  shared_let(:planner) { create(:resource_planner, project:, principal: owner) }
+  shared_let(:work_package) { create(:work_package, project:) }
 
-  let!(:resource_allocation) { create(:resource_allocation, entity: planner, principal: owner) }
+  let!(:resource_allocation) { create(:resource_allocation, entity: work_package, principal: owner) }
 
   subject(:service_call) do
     described_class.new(user:, model: resource_allocation).call

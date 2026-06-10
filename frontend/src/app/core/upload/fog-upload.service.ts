@@ -118,7 +118,8 @@ export class FogUploadService extends OpUploadService {
         observe: 'events',
         headers: { [EXTERNAL_REQUEST_HEADER]: 'true' },
         responseType: 'text',
-        reportProgress: true,
+        reportUploadProgress: true,
+        reportDownloadProgress: true,
       },
     );
   }

@@ -40,7 +40,7 @@ module OpenProject::ResourceManagement
       OpenProject::FeatureDecisions.add :resource_management, allow_enabling: Rails.env.local?
     end
 
-    replace_principal_references "ResourceAllocation" => :principal_id
+    replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id]
 
     register "openproject-resource_management",
              author_url: "https://www.openproject.org",
@@ -64,20 +64,17 @@ module OpenProject::ResourceManagement
                    },
                    permissible_on: :project
 
-        # `manage_public_resource_planners` adds the publish-flip action. The
-        # contract additionally requires the planner itself to be public.
+        # Beyond this permission, the contract additionally requires the planner
+        # itself to be public.
         permission :manage_public_resource_planners,
                    { "resource_management/resource_planners": %i[toggle_public] },
                    permissible_on: :project,
                    dependencies: %i[view_resource_planners]
 
-        # `allocate_user_resources` gates create/update/delete on
-        # ResourceAllocation records. No controller actions yet — the
-        # ResourceAllocations::*Contract classes consume this directly via
-        # `allowed_in_project?`. The `contract_actions` map keeps the
-        # permission discoverable for API contracts.
+        # The `contract_actions` map keeps the permission discoverable for the
+        # API contracts that consume it via `allowed_in_project?`.
         permission :allocate_user_resources,
-                   {},
+                   { "resource_management/resource_allocations": %i[new step refresh_form create edit update destroy] },
                    permissible_on: :project,
                    dependencies: %i[view_resource_planners],
                    contract_actions: { resource_allocation: %i[create update destroy] }

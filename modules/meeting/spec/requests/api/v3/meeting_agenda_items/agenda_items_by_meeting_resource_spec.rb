@@ -83,6 +83,64 @@ RSpec.describe "API v3 Meeting Agenda Items sub-resource", content_type: :json d
         .at_path("_embedded/elements/0/_links/section/href")
     end
 
+    it "only embeds outcomes and sections for the agenda items" do
+      expect(last_response.body)
+        .to have_json_path("_embedded/elements/0/_embedded/outcomes")
+
+      expect(last_response.body)
+        .to be_json_eql(section.id.to_json)
+        .at_path("_embedded/elements/0/_embedded/section/id")
+
+      expect(last_response.body)
+        .not_to have_json_path("_embedded/elements/0/_embedded/meeting")
+
+      expect(last_response.body)
+        .not_to have_json_path("_embedded/elements/0/_embedded/author")
+    end
+
+    context "with an agenda item in the meeting backlog" do
+      let(:backlog) { meeting.backlog }
+      let!(:backlog_agenda_item) do
+        create(:meeting_agenda_item,
+               meeting:,
+               meeting_section: backlog,
+               author: current_user,
+               title: "Backlog agenda item")
+      end
+
+      before do
+        get path
+      end
+
+      it "embeds and links the backlog section" do
+        elements = JSON.parse(last_response.body).dig("_embedded", "elements")
+        element = elements.find { |item| item["id"] == backlog_agenda_item.id }
+        embedded_section = element.dig("_embedded", "section")
+
+        expect(element.dig("_links", "section", "href"))
+          .to eq(api_v3_paths.meeting_section(backlog.id))
+        expect(element.dig("_links", "section", "title")).to eq(backlog.title)
+        expect(embedded_section["id"]).to eq(backlog.id)
+        expect(embedded_section["backlog"]).to be(true)
+      end
+
+      it "uses a retrievable backlog section link with canonical meeting ownership" do
+        elements = JSON.parse(last_response.body).dig("_embedded", "elements")
+        backlog_section_href = elements
+          .find { |item| item["id"] == backlog_agenda_item.id }
+          .dig("_links", "section", "href")
+
+        get backlog_section_href
+
+        expect(last_response).to have_http_status(:ok)
+        expect(last_response.body).to be_json_eql(backlog.id.to_json).at_path("id")
+        expect(last_response.body).to be_json_eql(true.to_json).at_path("backlog")
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting(meeting.id).to_json)
+          .at_path("_links/meeting/href")
+      end
+    end
+
     context "without view_meetings permission" do
       let(:permissions) { [] }
 
@@ -200,6 +258,42 @@ RSpec.describe "API v3 Meeting Agenda Items sub-resource", content_type: :json d
 
       it "returns 404" do
         expect(last_response).to have_http_status(:not_found)
+      end
+    end
+
+    context "when the agenda item is part of the backlog" do
+      let(:backlog) { meeting.backlog }
+      let!(:backlog_agenda_item) do
+        create(:meeting_agenda_item,
+               meeting:,
+               meeting_section: backlog,
+               author: current_user,
+               title: "Backlog agenda item")
+      end
+      let(:path) { api_v3_paths.meeting_agenda_item(backlog_agenda_item.id, meeting_id: meeting.id) }
+
+      it "renders the backlog section correctly" do
+        expect(last_response).to have_http_status(:ok)
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting_section(backlog.id).to_json)
+          .at_path("_links/section/href")
+
+        expect(last_response.body)
+          .to be_json_eql(backlog.title.to_json)
+          .at_path("_links/section/title")
+
+        expect(last_response.body)
+          .to be_json_eql(backlog.id.to_json)
+          .at_path("_embedded/section/id")
+
+        expect(last_response.body)
+          .to be_json_eql(true.to_json)
+          .at_path("_embedded/section/backlog")
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting(meeting.id).to_json)
+          .at_path("_embedded/section/_links/meeting/href")
       end
     end
 

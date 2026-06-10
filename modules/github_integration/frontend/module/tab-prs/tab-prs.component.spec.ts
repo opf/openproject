@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChangeDetectorRef, Component, DebugElement, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, DebugElement, Input, ChangeDetectionStrategy } from '@angular/core';
 import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { GitActionsMenuDirective } from 'core-app/features/plugins/linked/openproject-github_integration/git-actions-menu/git-actions-menu.directive';
 import { TabPrsComponent } from 'core-app/features/plugins/linked/openproject-github_integration/tab-prs/tab-prs.component';
@@ -15,6 +15,7 @@ import { PullRequestStateComponent } from '../pull-request/pull-request-state.co
 @Component({
   selector: 'op-date-time',
   template: '<p>OpDateTimeComponent </p>',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class OpDateTimeComponent {

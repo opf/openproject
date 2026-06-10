@@ -27,7 +27,7 @@
 //++
 
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { firstValueFrom } from 'rxjs';
 
@@ -54,7 +54,7 @@ describe('OpAutocompleterService', () => {
         States,
         OpAutocompleterService,
         { provide: SchemaCacheService, useValue: { ensureLoaded: () => Promise.resolve() } },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ],
     });

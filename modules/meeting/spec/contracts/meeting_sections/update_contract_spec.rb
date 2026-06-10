@@ -54,6 +54,12 @@ RSpec.describe MeetingSections::UpdateContract do
 
       it_behaves_like "contract is invalid", base: I18n.t(:text_agenda_item_not_editable_anymore)
     end
+
+    context "when the section is the backlog" do
+      let(:section) { meeting.backlog }
+
+      it_behaves_like "contract is invalid", base: :error_readonly
+    end
   end
 
   context "without permission" do

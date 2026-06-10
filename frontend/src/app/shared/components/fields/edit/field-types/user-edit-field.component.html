@@ -1,7 +1,7 @@
 @if (url) {
   <op-user-autocompleter class="inline-edit--field {{ handler.fieldName }}"
     [url]="url"
-    [inviteUserToProject]="resource.project?.id"
+    [inviteUserToProject]="$safeNavigationMigration(resource.project?.id)"
     [focusDirectly]="!(handler.inEditMode || isNew)"
     [openDirectly]="!(handler.inEditMode || isNew)"
     appendTo="body"

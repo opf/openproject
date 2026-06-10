@@ -18,5 +18,8 @@
     "src/**/*.d.ts",
     "src/main.ts",
     "src/app/**/*.module.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "strictTemplates": false
+  }
 }

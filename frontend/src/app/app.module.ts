@@ -28,7 +28,7 @@
 
 import { ApplicationRef, DoBootstrap, inject, Injector, NgModule, provideAppInitializer } from '@angular/core';
 import { A11yModule } from '@angular/cdk/a11y';
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   OpContextMenuTrigger,
@@ -353,7 +353,7 @@ export function runBootstrap(appRef:ApplicationRef) {
     ConfirmDialogService,
     RevitAddInSettingsButtonService,
     CopyToClipboardService,
-    provideHttpClient(withInterceptorsFromDi()),
+    provideHttpClient(withXhr(), withInterceptorsFromDi()),
   ],
 })
 export class OpenProjectModule implements DoBootstrap {

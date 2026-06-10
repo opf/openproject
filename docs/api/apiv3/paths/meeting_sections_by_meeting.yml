@@ -5,7 +5,11 @@ get:
   operationId: list_meeting_sections
   tags:
     - Meetings
-  description: Lists all sections for the given meeting.
+  description: |-
+    Lists all sections for the given meeting, including the backlog section as the last element.
+
+    The backlog section is read-only and its `_links.meeting` points to the owning meeting (the
+    series template for recurring meeting occurrences, otherwise the meeting itself).
   parameters:
     - description: Meeting identifier
       example: 1

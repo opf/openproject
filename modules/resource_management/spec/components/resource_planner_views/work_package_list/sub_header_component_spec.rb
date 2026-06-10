@@ -34,7 +34,15 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::SubHeaderComponent, type: 
   include Rails.application.routes.url_helpers
 
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
-  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_resource_planners view_work_packages] }) }
+  shared_let(:user) do
+    create(:user,
+           member_with_permissions: {
+             project => %i[view_resource_planners view_work_packages allocate_user_resources]
+           })
+  end
+  shared_let(:viewer) do
+    create(:user, member_with_permissions: { project => %i[view_resource_planners view_work_packages] })
+  end
   shared_let(:resource_planner) { create(:resource_planner, project:, principal: user) }
 
   let(:i18n_ns) { "resource_management.work_package_list.subheader" }
@@ -68,6 +76,14 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::SubHeaderComponent, type: 
       expect(rendered).to have_text(I18n.t("#{i18n_ns}.allocate"))
       expect(rendered).to have_no_text(I18n.t("#{i18n_ns}.add_work_package"))
     end
+
+    context "without permission to allocate" do
+      before { login_as(viewer) }
+
+      it "hides the allocate button" do
+        expect(rendered).to have_no_text(I18n.t("#{i18n_ns}.allocate"))
+      end
+    end
   end
 
   context "with a manually hand-picked view" do
@@ -89,6 +105,15 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::SubHeaderComponent, type: 
       expect(rendered).to have_link(
         href: new_work_package_project_resource_planner_view_path(project, resource_planner, view)
       )
+    end
+
+    context "without permission to allocate" do
+      before { login_as(viewer) }
+
+      it "hides the allocate option but keeps add-work-package" do
+        expect(rendered).to have_no_text(I18n.t("#{i18n_ns}.allocate"))
+        expect(rendered).to have_text(I18n.t("#{i18n_ns}.add_work_package"))
+      end
     end
   end
 end

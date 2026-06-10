@@ -31,22 +31,20 @@
 class ResourceWorkPackageList < PersistedView
   include ResourceManagement::Categorized
 
-  # Restricts the result set to the query's `ordered_work_packages` (operator
-  # `ow`) — i.e. a manually hand-picked selection.
+  # The `ow` ("ordered work packages") filter restricts the result set to a
+  # manually hand-picked selection.
   MANUAL_FILTER_NAME = "manual_sort"
 
   validate :query_must_be_work_package_query
 
-  # `new_default` applies the standard defaults (status filter, sort, …) so the
-  # query validates. The `::` prefix disambiguates from
+  # The `::` prefix disambiguates the top-level `Query` from
   # `ActiveRecord::AttributeMethods::Query`.
   def build_default_query
     ::Query.new_default(project:, user: principal)
   end
 
-  # Translates the configure form's filter selection and automatic/manual
-  # toggle into the backing query. The change is persisted alongside the view
-  # via the `autosave` association.
+  # The mutated query is persisted alongside the view via the `autosave`
+  # association.
   def apply_query_configuration(filters_json:, filter_mode:)
     query = effective_query
     return if query.nil?
@@ -61,7 +59,6 @@ class ResourceWorkPackageList < PersistedView
     end
   end
 
-  # Whether this view's items are hand-picked rather than filtered.
   def manually_picked?
     effective_query&.manually_sorted? || false
   end

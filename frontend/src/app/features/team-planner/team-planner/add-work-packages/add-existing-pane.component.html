@@ -37,7 +37,7 @@
           [src]="image.empty_state" class="op-add-existing-pane--empty-state-image" alt=""/>
       }
       <span
-        [innerHTML]="(noResultsFound$ | async)?.text"
+        [innerHTML]="$safeNavigationMigration((noResultsFound$ | async)?.text)"
         class="op-add-existing-pane--empty-state-text"
       ></span>
     </div>

@@ -36,7 +36,7 @@ $arrow-left-width: 36px
   border-radius: var(--borderRadius-medium)
   @if $main-item
     border-width: 1px 1px 1px 5px
-    padding-left: 8px !important
+    padding-left: 8px
   @else
     border-width: 1px
 
@@ -90,17 +90,10 @@ $arrow-left-width: 36px
 
     // -------------------- MAIN menu items ---------------------------
     li a:not(.Button)
-      // work around due to dom manipulation on document: ready:
-      // this isn't scoped to .main-item-wrapper to avoid flickering
-      padding-left: var(--main-menu-x-spacing)
 
       &.toggler
         // explicitly reset to zero to avoid selector precedence problems
         padding-left: 0
-
-    .main-menu--children li a:not(.Button)
-      // children have no icon so we need to push them right.
-      padding-left: var(--main-menu-x-spacing) !important
 
   a:not(.Button):not(.TreeViewItemContent)
     text-decoration: none

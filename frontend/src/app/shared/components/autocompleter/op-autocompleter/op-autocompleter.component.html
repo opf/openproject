@@ -171,7 +171,7 @@
         <div class="op-autocompleter--wp-content">
           <span
             [ngOptionHighlight]="search"
-            [textContent]="item.project?.name"
+            [textContent]="$safeNavigationMigration(item.project?.name)"
             class="op-autocompleter--wp-project"
           ></span>
           <span
@@ -179,8 +179,8 @@
             [ngOptionHighlight]="search"
           >{{ item.formattedId }}</span>
           <span
-            [textContent]="item.status?.name"
-            [ngClass]="highlighting('status',item.status?.id)"
+            [textContent]="$safeNavigationMigration(item.status?.name)"
+            [ngClass]="highlighting('status',$safeNavigationMigration(item.status?.id))"
             class="op-autocompleter--wp-status"
           ></span>
         </div>

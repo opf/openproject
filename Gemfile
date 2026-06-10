@@ -125,10 +125,10 @@ gem "sys-filesystem", "~> 1.5.0", require: false
 gem "bcrypt", "~> 3.1.22"
 
 gem "multi_json", "~> 1.20.0"
-gem "oj", "~> 3.17.0"
+gem "oj", "~> 3.17.3"
 
 gem "daemons"
-gem "good_job", "~> 4.18.2" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.0" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -276,7 +276,7 @@ group :test do
   gem "rspec-rails", "~> 8.0.4", group: :development
 
   # Retry failures within the same environment
-  gem "retriable", "~> 3.5.1"
+  gem "retriable", "~> 3.8.0"
   gem "rspec-retry", "~> 0.6.1"
 
   # Accessibility tests

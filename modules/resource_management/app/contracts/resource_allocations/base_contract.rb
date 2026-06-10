@@ -35,11 +35,13 @@ module ResourceAllocations
     end
 
     attribute :principal
+    attribute :principal_explicit
     attribute :state
     attribute :start_date
     attribute :end_date
     attribute :allocated_time
     attribute :user_filter
+    attribute :filter_name
 
     validate :user_allowed_to_allocate
 

@@ -250,6 +250,138 @@ RSpec.describe "API v3 Meeting Sections sub-resource", content_type: :json do
     end
   end
 
+  describe "backlog section" do
+    let(:backlog) { meeting.backlog }
+
+    describe "GET /api/v3/meetings/:meeting_id/sections" do
+      let(:path) { api_v3_paths.meeting_sections(meeting_id: meeting.id) }
+
+      before { get path }
+
+      it "includes the backlog as the last section" do
+        elements = JSON.parse(last_response.body).dig("_embedded", "elements")
+
+        expect(elements.pluck("id")).to eq([section.id, backlog.id])
+        expect(elements.last).to include("backlog" => true)
+        expect(elements.first).to include("backlog" => false)
+      end
+    end
+
+    describe "GET /api/v3/meetings/:meeting_id/sections/:id" do
+      let(:path) { api_v3_paths.meeting_section(backlog.id, meeting_id: meeting.id) }
+
+      before { get path }
+
+      it "returns the backlog with canonical links" do
+        expect(last_response).to have_http_status(:ok)
+
+        expect(last_response.body)
+          .to be_json_eql(backlog.id.to_json)
+          .at_path("id")
+
+        expect(last_response.body)
+          .to be_json_eql(true.to_json)
+          .at_path("backlog")
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting_section(backlog.id).to_json)
+          .at_path("_links/self/href")
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting(meeting.id).to_json)
+          .at_path("_links/meeting/href")
+      end
+    end
+
+    describe "PATCH /api/v3/meeting_sections/:id" do
+      let(:path) { api_v3_paths.meeting_section(backlog.id) }
+      let(:original_title) { backlog.title }
+      let(:body) { { title: "Updated Backlog Title" }.to_json }
+
+      subject(:response) { patch path, body }
+
+      it "responds with 422 and does not change the title" do
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(backlog.reload.title).to eq(original_title)
+      end
+    end
+
+    describe "DELETE /api/v3/meeting_sections/:id" do
+      let(:path) { api_v3_paths.meeting_section(backlog.id) }
+
+      before { delete path }
+
+      it "responds with 422 and keeps the backlog" do
+        expect(last_response).to have_http_status(:unprocessable_entity)
+        expect(MeetingSection).to exist(backlog.id)
+      end
+    end
+  end
+
+  describe "backlog section for a recurring meeting occurrence" do
+    let(:recurring_meeting) { create(:recurring_meeting, project:, author: current_user) }
+    let(:template) { recurring_meeting.template }
+    let(:occurrence) do
+      create(:recurring_meeting_occurrence, recurring_meeting:, project:, author: current_user)
+    end
+    let!(:occurrence_section) { create(:meeting_section, meeting: occurrence, title: "Occurrence Section") }
+    let(:backlog) { template.backlog }
+
+    describe "GET /api/v3/meetings/:meeting_id/sections" do
+      let(:path) { api_v3_paths.meeting_sections(meeting_id: occurrence.id) }
+
+      before { get path }
+
+      it "includes the backlog with canonical links to the template meeting" do
+        elements = JSON.parse(last_response.body).dig("_embedded", "elements")
+        backlog_element = elements.find { |element| element["id"] == backlog.id }
+
+        expect(elements.pluck("id")).to eq([occurrence_section.id, backlog.id])
+        expect(backlog_element).to include("backlog" => true)
+        expect(backlog_element.dig("_links", "self", "href"))
+          .to eq(api_v3_paths.meeting_section(backlog.id))
+        expect(backlog_element.dig("_links", "meeting", "href"))
+          .to eq(api_v3_paths.meeting(template.id))
+      end
+    end
+
+    describe "GET /api/v3/meetings/:meeting_id/sections/:id" do
+      let(:path) { api_v3_paths.meeting_section(backlog.id, meeting_id: occurrence.id) }
+
+      before { get path }
+
+      it "returns the backlog with canonical links to the template meeting" do
+        expect(last_response).to have_http_status(:ok)
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting_section(backlog.id).to_json)
+          .at_path("_links/self/href")
+
+        expect(last_response.body)
+          .to be_json_eql(api_v3_paths.meeting(template.id).to_json)
+          .at_path("_links/meeting/href")
+      end
+    end
+
+    describe "agenda item section link consistency" do
+      let!(:agenda_item) do
+        create(:meeting_agenda_item,
+               meeting: occurrence,
+               meeting_section: backlog,
+               author: current_user,
+               title: "Backlog item")
+      end
+      let(:path) { api_v3_paths.meeting_section(backlog.id) }
+
+      before { get path }
+
+      it "resolves the section referenced by the agenda item" do
+        expect(last_response).to have_http_status(:ok)
+        expect(last_response.body).to be_json_eql(backlog.id.to_json).at_path("id")
+      end
+    end
+  end
+
   describe "DELETE /api/v3/meeting_sections/:id" do
     let(:path) { api_v3_paths.meeting_section(section.id) }
 

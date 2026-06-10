@@ -175,6 +175,7 @@ run_features() {
 			exit 1
 		elif [ "$failed_count" -le 10 ]; then
 			echo "retrying $failed_count failed examples"
+			awk '$3 == "failed" {print "- `rspec " $1 "`"}' tmp/spec_examples.txt > tmp/retried_specs.txt
 			execute "bundle exec rspec --only-failures --format documentation {,modules/*/}spec/features/**/*_spec.rb"
 		else
 			echo "too many failures ($failed_count), not retrying"

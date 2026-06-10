@@ -40,9 +40,8 @@ module ::ResourceManagement
                   only: %i[show edit update destroy
                            new_work_package add_work_package remove_work_package
                            move_work_package reorder_work_package]
-    # `view_resource_planners` (the controller-level :authorize) only grants
-    # read access. Changing a view's contents requires owning the planner, or
-    # the manage-public permission on a public planner.
+    # The controller-level :authorize only grants read access; mutating a view's
+    # contents additionally requires ownership or manage-public.
     before_action :authorize_manage_contents,
                   only: %i[new_work_package add_work_package remove_work_package
                            move_work_package reorder_work_package]
@@ -96,8 +95,6 @@ module ::ResourceManagement
         flash[:error] = call.message
       end
 
-      # The deleted view was a tab; navigate back to the planner, which falls
-      # back to a remaining view (or the blank slate).
       redirect_to project_resource_planner_path(@project, @resource_planner), status: :see_other
     end
 
@@ -136,7 +133,6 @@ module ::ResourceManagement
       respond_with_turbo_streams
     end
 
-    # `direction` is one of top/up/down/bottom (from the row's Move sub-menu).
     def move_work_package
       move_to_index(params[:work_package_id]) do |index, count|
         case params[:direction].to_s
@@ -151,8 +147,7 @@ module ::ResourceManagement
       respond_with_turbo_streams
     end
 
-    # Drag-and-drop drop target. The generic-drag-and-drop controller posts the
-    # 1-based index the row was dropped at; convert it to a 0-based target.
+    # The drag-and-drop controller posts a 1-based drop index; convert to 0-based.
     def reorder_work_package
       move_to_index(params[:work_package_id]) { params[:position].to_i - 1 }
 
@@ -170,10 +165,8 @@ module ::ResourceManagement
       query.ordered_work_packages.create!(work_package:, position: next_position)
     end
 
-    # The block receives the current index and total count and returns the
-    # desired index. Positions are re-packed 1..n afterwards, which keeps menu
-    # moves and drag-drop drops consistent and tolerates sparse positions left
-    # by the work-package table.
+    # Positions are re-packed 1..n afterwards so menu moves and drag-drop stay
+    # consistent and sparse positions left by the work-package table are tolerated.
     def move_to_index(work_package_id)
       ordered = @view.effective_query.ordered_work_packages.order(:position).to_a
       from = ordered.index { |owp| owp.work_package_id == work_package_id.to_i }
@@ -223,8 +216,7 @@ module ::ResourceManagement
       respond_with_turbo_streams
     end
 
-    # Re-renders the edit dialog's form in place when the update fails
-    # validation. The footer is static, so only the form is replaced.
+    # The edit dialog's footer is static, so only the form is replaced.
     def render_edit_step(view, status: :ok)
       replace_via_turbo_stream(
         component: ResourcePlannerViews::ConfigureStep::FormComponent.new(
@@ -240,8 +232,6 @@ module ::ResourceManagement
       respond_with_turbo_streams
     end
 
-    # Closes the dialog and replaces the tab nav (the name may have changed)
-    # and content in place rather than navigating away.
     def render_update_success(view)
       # The cached children association still holds the pre-update name.
       @resource_planner.children.reload
@@ -268,10 +258,9 @@ module ::ResourceManagement
                      name: default_view_name(view_class))
     end
 
-    # Pre-fills the view name so the configure step is not a second blank
-    # "Name" field after naming the planner. Falls back to the view type's
-    # label (e.g. "Work packages list"); the user can still rename it. On
-    # create the submitted name overrides this.
+    # Pre-fill the name with the view type's label so the configure step is not
+    # a second blank "Name" field after naming the planner. A submitted name
+    # overrides it.
     def default_view_name(view_class)
       I18n.t("resource_management.view_types.#{view_class.model_name.i18n_key}.label",
              default: view_class.model_name.human)
@@ -281,7 +270,6 @@ module ::ResourceManagement
       params.expect(view: %i[name]).to_h.merge(query_configuration_params)
     end
 
-    # `filters` and `filter_mode` configure the backing query, not the view.
     # The radio is scoped to the `:view` form (`view[filter_mode]`) while the
     # filters JSON is top-level, so read the toggle from either place.
     def query_configuration_params

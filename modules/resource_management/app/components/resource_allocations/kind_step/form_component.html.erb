@@ -1,0 +1,14 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      url: step_project_resource_allocations_path(@project),
+      method: :get,
+      html: {
+        data: { turbo_stream: true },
+        id: ResourceAllocations::NewDialogComponent::FORM_ID
+      }
+    ) do |f|
+      render(ResourceAllocations::Forms::KindSelectForm.new(f, work_package: @work_package))
+    end
+  end
+%>

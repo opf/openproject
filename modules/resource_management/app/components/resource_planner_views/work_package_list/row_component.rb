@@ -32,14 +32,13 @@ module ResourcePlannerViews::WorkPackageList
   class RowComponent < ::OpPrimer::BorderBoxRowComponent
     alias_method :work_package, :model
 
-    # Drag type shared with the container in ContentComponent so the
-    # generic-drag-and-drop controller only accepts rows from this list.
+    # Must match the container's accepted type in ContentComponent so the
+    # drag-and-drop controller only accepts rows from this list.
     DRAGGABLE_TYPE = "resource-work-package"
 
-    # Drag-and-drop attributes for the generic-drag-and-drop controller (manual
-    # lists only). `row_data` runs while the parent table builds the row, before
-    # this component enters the render pipeline, so `helpers` is unavailable —
-    # hence the direct route-helpers call.
+    # `row_data` runs while the parent table builds the row, before this
+    # component enters the render pipeline, so `helpers` is unavailable — hence
+    # the direct route-helpers call.
     def row_data
       return {} unless manual?
 
@@ -56,9 +55,8 @@ module ResourcePlannerViews::WorkPackageList
       "resource-work-package-row-#{work_package.id}" if manual?
     end
 
-    # The type / id / status info line stacked above the linked subject. For
-    # manual lists a drag handle is prepended — the generic-drag-and-drop
-    # controller only starts a drag from a `.DragHandle` (handle: true).
+    # Manual lists prepend a drag handle — the drag-and-drop controller only
+    # starts a drag from a `.DragHandle`.
     def subject
       return subject_content unless manual?
 
@@ -100,12 +98,10 @@ module ResourcePlannerViews::WorkPackageList
       render(WorkPackages::HighlightedDateComponent.new(work_package:))
     end
 
-    # Placeholder until allocation data is available.
     def allocation
       render(Primer::Beta::Text.new(color: :muted)) { allocation_placeholder }
     end
 
-    # Placeholder until allocated members are available.
     def allocated_members
       render(Primer::Beta::Text.new(color: :muted)) { allocation_placeholder }
     end
@@ -120,8 +116,6 @@ module ResourcePlannerViews::WorkPackageList
       I18n.t("resource_management.work_package_list.allocation_placeholder")
     end
 
-    # Most items are still stubs. Reorder + remove apply only to manual views;
-    # automatic views offer the filter-criteria shortcut instead.
     def context_menu
       render(Primer::Alpha::ActionMenu.new) do |menu|
         menu.with_show_button(icon: "kebab-horizontal",
@@ -169,8 +163,6 @@ module ResourcePlannerViews::WorkPackageList
       end
     end
 
-    # Reorder sub-menu. Edge moves are omitted when the row already sits at the
-    # top/bottom, mirroring the agenda-item and phase-definition menus.
     def move_item(menu)
       menu.with_sub_menu_item(label: t("resource_management.work_package_list.context_menu.move")) do |submenu|
         submenu.with_leading_visual_icon(icon: :"arrow-right")
@@ -219,8 +211,6 @@ module ResourcePlannerViews::WorkPackageList
       table.manual?
     end
 
-    # Position of this row within the manually ordered list, used to drop the
-    # edge move actions.
     def position_index
       @position_index ||= table.rows.index { |wp| wp.id == work_package.id }
     end

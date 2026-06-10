@@ -32,9 +32,17 @@ module API
   module V3
     module MeetingSections
       class SectionsByMeetingAPI < ::API::OpenProjectAPI
+        helpers do
+          def find_backlog_section(id)
+            backlog = @meeting.backlog
+            backlog if backlog&.id == id
+          end
+        end
+
         resources :sections do
           get do
-            sections = @meeting.sections
+            sections = @meeting.sections.to_a
+            sections << @meeting.backlog if @meeting.backlog.present?
             MeetingSectionCollectionRepresenter.new(sections,
                                                     self_link: api_v3_paths.meeting_sections(meeting_id: @meeting.id),
                                                     current_user:)
@@ -42,7 +50,9 @@ module API
 
           route_param :section_id, type: Integer, desc: "Section ID" do
             after_validation do
-              @meeting_section = @meeting.sections.find(declared_params[:section_id])
+              @meeting_section = @meeting.sections.find_by(id: declared_params[:section_id]) ||
+                                 find_backlog_section(declared_params[:section_id])
+              raise API::Errors::NotFound.new unless @meeting_section
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: MeetingSection).mount

@@ -43,8 +43,8 @@ RSpec.describe ResourceAllocations::UpdateContract do
     let(:current_user) do
       create(:user, member_with_permissions: { project => %i[view_resource_planners allocate_user_resources] })
     end
-    let(:planner) { create(:resource_planner, project:, principal: current_user) }
-    let(:resource_allocation) { build_stubbed(:resource_allocation, entity: planner, principal: current_user) }
+    let(:work_package) { create(:work_package, project:) }
+    let(:resource_allocation) { build_stubbed(:resource_allocation, entity: work_package, principal: current_user) }
     let(:contract) { described_class.new(resource_allocation, current_user) }
 
     it "does not allow entity to be set" do
@@ -52,7 +52,7 @@ RSpec.describe ResourceAllocations::UpdateContract do
     end
 
     it "allows principal, state, dates, allocated_time, and user_filter" do
-      %i[principal state start_date end_date allocated_time user_filter].each do |attr|
+      %i[principal principal_explicit state start_date end_date allocated_time user_filter].each do |attr|
         expect(contract.writable?(attr)).to be(true), "expected #{attr} to be writable"
       end
     end

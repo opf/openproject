@@ -3,9 +3,11 @@ en:
   activerecord:
     attributes:
       resource_allocation:
+        allocated_hours: Hours
         allocated_time: Allocated time
         end_date: Finish date
         entity: Entity
+        filter_name: Resource filter name
         principal: Assignee
         start_date: Start date
         state: State
@@ -39,22 +41,17 @@ en:
   button_next: Next
   label_resource_management: Resource planning
   permission_allocate_user_resources: Allocate user resources
-  permission_allocate_user_resources_explanation: >
-    Allows users to create, update, and delete resource allocations within a
-    resource planner. This includes assigning users (or user filters) to a
-    planner and adjusting the allocated time and date range.
+  permission_allocate_user_resources_explanation: >-
+    Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users
+    (or user filters) to a planner and adjusting the allocated time and date range.
   permission_manage_public_resource_planners: Manage public resource planners
-  permission_manage_public_resource_planners_explanation: >
-    Allows users to create and manage public resource planners. It allows them
-    to view, create, manage and publish their own resource planners. It does not
-    allow users to view resource planners created by other users that are not
-    shared publicly.
+  permission_manage_public_resource_planners_explanation: >-
+    Allows users to create and manage public resource planners. It allows them to view, create, manage and publish their own
+    resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
   permission_view_resource_planners: View resource planners
-  permission_view_resource_planners_explanation: >
-    Allows users to access resource planners. It allows them to create and
-    manage their own resource planners and view public resource planners. It
-    does not allow users to view resource planners created by other users that
-    are not shared publicly.
+  permission_view_resource_planners_explanation: >-
+    Allows users to access resource planners. It allows them to create and manage their own resource planners and view public
+    resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
   plugin_openproject_resource_management:
     description: Provides resource management and capacity planning.
     name: OpenProject Resource Management
@@ -66,6 +63,31 @@ en:
       make_private: Make private
       make_public: Make public
       unfavorite: Remove from favorites
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          label: Filter criteria
+        label: Allocation type
+        principal:
+          caption: Allocate hours for a specific user.
+          label: User
+      outside_dates:
+        description: >-
+          The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        description: >-
+          The selected user, %{user}, would be allocated beyond their working hours during this period.
+        hidden_work: Other allocations
+        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        schedule_change: until %{date}, then %{schedule}
+        schedule_note: This user works %{schedule}.
+        submit: Allocate overtime
+        title: Do you want to allocate overtime to the user?
+      submit: Allocate
+      success_message: Resource allocated.
+      title: Allocate resource
     blankslate:
       desc: Create a resource planner to start planning capacity for this project.
       title: No resource planners yet
@@ -74,28 +96,24 @@ en:
       filter_mode:
         automatic:
           caption: >-
-            An automatically-generated list that displays items that meet
-            criteria you define.
+            An automatically-generated list that displays items that meet criteria you define.
           label: Automatically filtered
         label: Item selection
         manual:
           caption: >-
-            A custom list of items you manually add and remove. Filtering is not
-            possible.
+            A custom list of items you manually add and remove. Filtering is not possible.
           label: Manually hand-picked
       title: Configure view
-    favorite_caption: >
-      Make this view a favorite to add it on the top section of the sidebar
-      menu.
+    favorite_caption: >-
+      Make this view a favorite to add it on the top section of the sidebar menu.
     label_new_resource_planner: New resource planner
     label_resource_planner: Resource planner
     label_resource_planner_plural: Resource planners
     new_view_dialog:
       title: Add View
-    public_caption: >
-      Make this view public to all members of the project. This does not affect
-      the visibility of work packages which still depends on each user
-      permission.
+    public_caption: >-
+      Make this view public to all members of the project. This does not affect the visibility of work packages which still
+      depends on each user permission.
     show:
       placeholder: The detailed view for this resource planner is coming soon.
     sidebar:
@@ -105,13 +123,11 @@ en:
     view_types:
       resource_work_package_list:
         caption: >-
-          Create a view based on work packages and see its details and
-          allocation in a list
+          Create a view based on work packages and see its details and allocation in a list
         label: Work packages list
       user_card:
         caption: >-
-          Create a view based on users and see their details and allocation in a
-          list of user cards
+          Create a view based on users and see their details and allocation in a list of user cards
         label: Users card list
     work_package_list:
       add_work_package_dialog:

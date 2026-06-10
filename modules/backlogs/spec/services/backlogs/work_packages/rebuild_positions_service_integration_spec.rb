@@ -75,55 +75,53 @@ RSpec.describe Backlogs::WorkPackages::RebuildPositionsService, "integration", t
   shared_let(:bucket2_wp2) { create_work_package(subject: "Bucket 2 WorkPackage 2", backlog_bucket: bucket2, position: nil) }
   shared_let(:bucket2_wp3) { create_work_package(subject: "Bucket 2 WorkPackage 3", backlog_bucket: bucket2, position: nil) }
 
+  def have_positions(**) # rubocop:disable Naming/PredicatePrefix
+    pluck(:position).eq(**)
+  end
+
   context "with the project provided" do
     before do
       described_class.new(project: project1).call
     end
 
     it "fixes the positions in that project while keeping those that have some in the same order" do # rubocop:disable RSpec/ExampleLength
-      expect(WorkPackage.where(sprint: sprint1).to_h { [it.subject, it.position] })
-        .to eql(
-          sprint1_wp2.subject => 1,
-          sprint1_wp3.subject => 2,
-          sprint1_wp4.subject => 3,
-          sprint1_wp1.subject => 4,
-          sprint1_wp5.subject => 5
-        )
+      expect(WorkPackage.where(sprint: sprint1)).to have_positions(
+        sprint1_wp2 => 1,
+        sprint1_wp3 => 2,
+        sprint1_wp4 => 3,
+        sprint1_wp1 => 4,
+        sprint1_wp5 => 5
+      )
 
-      expect(WorkPackage.where(sprint: sprint2).to_h { [it.subject, it.position] })
-        .to eql(
-          sprint2_wp3.subject => 1,
-          sprint2_wp2.subject => 2,
-          sprint2_wp1.subject => 3
-        )
+      expect(WorkPackage.where(sprint: sprint2)).to have_positions(
+        sprint2_wp3 => 1,
+        sprint2_wp2 => 2,
+        sprint2_wp1 => 3
+      )
 
-      expect(WorkPackage.where(sprint: nil, backlog_bucket: nil, project: project1).to_h { [it.subject, it.position] })
-        .to eql(
-          inbox_wp1.subject => 1,
-          inbox_wp2.subject => 2,
-          inbox_wp3.subject => 3
-        )
+      expect(WorkPackage.where(sprint: nil, backlog_bucket: nil, project: project1)).to have_positions(
+        inbox_wp1 => 1,
+        inbox_wp2 => 2,
+        inbox_wp3 => 3
+      )
 
-      expect(WorkPackage.where(sprint: sprint3).to_h { [it.subject, it.position] })
-        .to eql(
-          sprint3_wp1.subject => nil,
-          sprint3_wp2.subject => nil,
-          sprint3_wp3.subject => nil
-        )
+      expect(WorkPackage.where(sprint: sprint3)).to have_positions(
+        sprint3_wp1 => nil,
+        sprint3_wp2 => nil,
+        sprint3_wp3 => nil
+      )
 
-      expect(WorkPackage.where(backlog_bucket: bucket1).to_h { [it.subject, it.position] })
-        .to eql(
-          bucket1_wp3.subject => 1,
-          bucket1_wp2.subject => 2,
-          bucket1_wp1.subject => 3
-        )
+      expect(WorkPackage.where(backlog_bucket: bucket1)).to have_positions(
+        bucket1_wp3 => 1,
+        bucket1_wp2 => 2,
+        bucket1_wp1 => 3
+      )
 
-      expect(WorkPackage.where(backlog_bucket: bucket2).to_h { [it.subject, it.position] })
-        .to eql(
-          bucket2_wp1.subject => nil,
-          bucket2_wp2.subject => nil,
-          bucket2_wp3.subject => nil
-        )
+      expect(WorkPackage.where(backlog_bucket: bucket2)).to have_positions(
+        bucket2_wp1 => nil,
+        bucket2_wp2 => nil,
+        bucket2_wp3 => nil
+      )
     end
   end
 
@@ -133,49 +131,43 @@ RSpec.describe Backlogs::WorkPackages::RebuildPositionsService, "integration", t
     end
 
     it "fixes only the work packages in the other project" do # rubocop:disable RSpec/ExampleLength
-      expect(WorkPackage.where(sprint: sprint1).to_h { [it.subject, it.position] })
-        .to eql(
-          sprint1_wp1.subject => nil,
-          sprint1_wp2.subject => 1,
-          sprint1_wp3.subject => 2,
-          sprint1_wp4.subject => 2,
-          sprint1_wp5.subject => nil
-        )
+      expect(WorkPackage.where(sprint: sprint1)).to have_positions(
+        sprint1_wp1 => nil,
+        sprint1_wp2 => 1,
+        sprint1_wp3 => 2,
+        sprint1_wp4 => 2,
+        sprint1_wp5 => nil
+      )
 
-      expect(WorkPackage.where(sprint: sprint2).to_h { [it.subject, it.position] })
-        .to eql(
-          sprint2_wp3.subject => 1,
-          sprint2_wp2.subject => 2,
-          sprint2_wp1.subject => 3
-        )
+      expect(WorkPackage.where(sprint: sprint2)).to have_positions(
+        sprint2_wp3 => 1,
+        sprint2_wp2 => 2,
+        sprint2_wp1 => 3
+      )
 
-      expect(WorkPackage.where(sprint: nil, backlog_bucket: nil, project: project1).to_h { [it.subject, it.position] })
-        .to eql(
-          inbox_wp1.subject => nil,
-          inbox_wp2.subject => nil,
-          inbox_wp3.subject => nil
-        )
+      expect(WorkPackage.where(sprint: nil, backlog_bucket: nil, project: project1)).to have_positions(
+        inbox_wp1 => nil,
+        inbox_wp2 => nil,
+        inbox_wp3 => nil
+      )
 
-      expect(WorkPackage.where(sprint: sprint3).to_h { [it.subject, it.position] })
-        .to eql(
-          sprint3_wp1.subject => 1,
-          sprint3_wp2.subject => 2,
-          sprint3_wp3.subject => 3
-        )
+      expect(WorkPackage.where(sprint: sprint3)).to have_positions(
+        sprint3_wp1 => 1,
+        sprint3_wp2 => 2,
+        sprint3_wp3 => 3
+      )
 
-      expect(WorkPackage.where(backlog_bucket: bucket1).to_h { [it.subject, it.position] })
-        .to eql(
-          bucket1_wp1.subject => nil,
-          bucket1_wp2.subject => 2,
-          bucket1_wp3.subject => 1
-        )
+      expect(WorkPackage.where(backlog_bucket: bucket1)).to have_positions(
+        bucket1_wp1 => nil,
+        bucket1_wp2 => 2,
+        bucket1_wp3 => 1
+      )
 
-      expect(WorkPackage.where(backlog_bucket: bucket2).to_h { [it.subject, it.position] })
-        .to eql(
-          bucket2_wp1.subject => 1,
-          bucket2_wp2.subject => 2,
-          bucket2_wp3.subject => 3
-        )
+      expect(WorkPackage.where(backlog_bucket: bucket2)).to have_positions(
+        bucket2_wp1 => 1,
+        bucket2_wp2 => 2,
+        bucket2_wp3 => 3
+      )
     end
   end
 
@@ -185,49 +177,43 @@ RSpec.describe Backlogs::WorkPackages::RebuildPositionsService, "integration", t
     end
 
     it "fixes the positions while keeping those that have some in the same order in all projects" do # rubocop:disable RSpec/ExampleLength
-      expect(WorkPackage.where(sprint: sprint1).to_h { [it.subject, it.position] })
-        .to eql(
-          sprint1_wp2.subject => 1,
-          sprint1_wp3.subject => 2,
-          sprint1_wp4.subject => 3,
-          sprint1_wp1.subject => 4,
-          sprint1_wp5.subject => 5
-        )
+      expect(WorkPackage.where(sprint: sprint1)).to have_positions(
+        sprint1_wp2 => 1,
+        sprint1_wp3 => 2,
+        sprint1_wp4 => 3,
+        sprint1_wp1 => 4,
+        sprint1_wp5 => 5
+      )
 
-      expect(WorkPackage.where(sprint: sprint2).to_h { [it.subject, it.position] })
-        .to eql(
-          sprint2_wp3.subject => 1,
-          sprint2_wp2.subject => 2,
-          sprint2_wp1.subject => 3
-        )
+      expect(WorkPackage.where(sprint: sprint2)).to have_positions(
+        sprint2_wp3 => 1,
+        sprint2_wp2 => 2,
+        sprint2_wp1 => 3
+      )
 
-      expect(WorkPackage.where(sprint: nil, backlog_bucket: nil, project: project1).to_h { [it.subject, it.position] })
-        .to eql(
-          inbox_wp1.subject => 1,
-          inbox_wp2.subject => 2,
-          inbox_wp3.subject => 3
-        )
+      expect(WorkPackage.where(sprint: nil, backlog_bucket: nil, project: project1)).to have_positions(
+        inbox_wp1 => 1,
+        inbox_wp2 => 2,
+        inbox_wp3 => 3
+      )
 
-      expect(WorkPackage.where(sprint: sprint3).to_h { [it.subject, it.position] })
-        .to eql(
-          sprint3_wp1.subject => 1,
-          sprint3_wp2.subject => 2,
-          sprint3_wp3.subject => 3
-        )
+      expect(WorkPackage.where(sprint: sprint3)).to have_positions(
+        sprint3_wp1 => 1,
+        sprint3_wp2 => 2,
+        sprint3_wp3 => 3
+      )
 
-      expect(WorkPackage.where(backlog_bucket: bucket1).to_h { [it.subject, it.position] })
-        .to eql(
-          bucket1_wp3.subject => 1,
-          bucket1_wp2.subject => 2,
-          bucket1_wp1.subject => 3
-        )
+      expect(WorkPackage.where(backlog_bucket: bucket1)).to have_positions(
+        bucket1_wp3 => 1,
+        bucket1_wp2 => 2,
+        bucket1_wp1 => 3
+      )
 
-      expect(WorkPackage.where(backlog_bucket: bucket2).to_h { [it.subject, it.position] })
-        .to eql(
-          bucket2_wp1.subject => 1,
-          bucket2_wp2.subject => 2,
-          bucket2_wp3.subject => 3
-        )
+      expect(WorkPackage.where(backlog_bucket: bucket2)).to have_positions(
+        bucket2_wp1 => 1,
+        bucket2_wp2 => 2,
+        bucket2_wp3 => 3
+      )
     end
   end
 end

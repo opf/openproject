@@ -43,9 +43,9 @@ See COPYRIGHT and LICENSE files for more details.
   )
 %>
 <% if @view.manually_picked? %>
-  <%# `target-container-accessor` points the drag controller at the body
-      rowgroup (the header one carries .Box-header), as the BorderBox markup
-      offers no hook on the list element itself. %>
+  <%# `target-container-accessor` selects the body rowgroup (the header one
+      carries .Box-header); the BorderBox markup offers no hook on the list
+      element itself. %>
   <%= content_tag(
         :div,
         data: { controller: "generic-drag-and-drop", "generic-drag-and-drop-position-mode-value": "position" }

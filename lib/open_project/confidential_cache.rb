@@ -36,15 +36,20 @@ module OpenProject
     class << self
       delegate :delete, :clear, to: Cache
 
-      def fetch(*, **)
-        ciphertext = Cache.fetch(*, **) { token_encryptor.encrypt_and_sign(yield) }
-
-        token_encryptor.decrypt_and_verify(ciphertext)
+      # Rubocop wants to convert this to ... but we need the first positional args
+      # for the delete case.
+      # rubocop:disable Style/ArgumentsForwarding
+      def fetch(*, **, &)
+        fetch_and_decrypt(*, **, &)
       rescue ActiveSupport::MessageEncryptor::InvalidMessage
-        # Drop values that can't be read, ensuring the cache heals from unreadable values
+        # Drop the unreadable value and recompute once. The recompute is a guaranteed
+        # cache miss, so the second attempt returns the freshly computed plaintext
+        # without decrypting. If it still raises, the error propagates rather than
+        # looping, since this second attempt is not rescued.
         delete(*)
-        retry
+        fetch_and_decrypt(*, **, &)
       end
+      # rubocop:enable Style/ArgumentsForwarding
 
       def read(name, **)
         ciphertext = Cache.read(name, **)
@@ -64,10 +69,31 @@ module OpenProject
 
       private
 
+      # Reads the cached ciphertext and decrypts it, computing and storing an
+      # encrypted value on a cache miss. On a miss we already hold the plaintext,
+      # so we return it directly instead of decrypting what we just encrypted.
+      def fetch_and_decrypt(*, **)
+        recomputed = false
+        value = nil
+
+        ciphertext = Cache.fetch(*, **) do
+          recomputed = true
+          value = yield
+          token_encryptor.encrypt_and_sign(value)
+        end
+
+        return value if recomputed
+
+        token_encryptor.decrypt_and_verify(ciphertext)
+      end
+
       def token_encryptor
         @token_encryptor ||= begin
           key = Rails.application.key_generator.generate_key("op-cache:confidential-values:v1", 32)
-          ActiveSupport::MessageEncryptor.new(key, cipher: "aes-256-gcm", serializer: YAML)
+          # MessagePack avoids YAML's alias emission (which broke decryption for hashes
+          # that reuse the same object for multiple keys, e.g. Saml::Provider#to_h) and,
+          # unlike :message_pack_allow_marshal, never falls back to Marshal on load.
+          ActiveSupport::MessageEncryptor.new(key, cipher: "aes-256-gcm", serializer: :message_pack)
         end
       end
     end

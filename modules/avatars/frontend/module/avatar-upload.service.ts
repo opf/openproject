@@ -62,7 +62,8 @@ export class AvatarUploadService extends OpUploadService {
         observe: 'events',
         withCredentials: true,
         responseType: 'text',
-        reportProgress: true,
+        reportUploadProgress: true,
+        reportDownloadProgress: true,
       },
     ).pipe(share()) as Observable<HttpEvent<T>>;
   }

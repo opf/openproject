@@ -27,11 +27,11 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 05 Jun 2026 06:33:33 GMT
+      - Wed, 10 Jun 2026 06:31:21 GMT
       Set-Cookie:
-      - JSESSIONID=20FFAE29A62BFE6CEC0152BB7FC0ADB6; Path=/; HttpOnly
+      - JSESSIONID=39C7519D8EAC0C8BA141B8F2519873C0; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - ON8xsHlEpixyujzpUPNupg
+      - L5DY6HB46AhTFvPuxIu0Cg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
@@ -46,5 +46,5 @@ http_interactions:
         URL Shortener.","content":"This is a test page that I created with my own
         hands.","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Test
         Page","name":"Test Page","type":"space","url":"https://xwiki.local/bin/view/Test%20Page/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Test%20Page/"}]},"rights":[],"renderedContent":null}'
-  recorded_at: Fri, 05 Jun 2026 06:33:33 GMT
+  recorded_at: Wed, 10 Jun 2026 06:31:21 GMT
 recorded_with: VCR 6.4.0

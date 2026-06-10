@@ -29,10 +29,9 @@
 #++
 
 module ResourcePlannerViews
-  # Authorizes changing a view's contents (picking, removing, and reordering
-  # work packages). This only mutates the view's ordered work packages, not the
-  # view model itself, so we reuse BaseContract's owner/public rule but skip
-  # model validation.
+  # Reuses BaseContract's owner/public authorization but skips model validation:
+  # mutating a view's contents only touches its ordered work packages, not the
+  # view model itself.
   class ManageContentsContract < BaseContract
     protected
 

@@ -35,6 +35,7 @@ module Wikis
         module Queries
           class SearchPages < BaseQuery
             include Concerns::XWikiQuery
+            include Concerns::XWikiPageQueries
 
             # Limiting result size rather strictly, because each result will cause another HTTP call to XWiki, this does not
             # scale well. A stricter limit improves the worst case latency.
@@ -63,12 +64,6 @@ module Wikis
 
             def escape_quotes(string)
               string.gsub("\\", "\\\\").gsub('"', '\"')
-            end
-
-            def canonical_page_info(identifier:, auth_strategy:)
-              Input::PageInfo.build(identifier:).bind do |input_data|
-                Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
-              end
             end
           end
         end

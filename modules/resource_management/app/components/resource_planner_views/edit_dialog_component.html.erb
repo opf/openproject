@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
       id: DIALOG_ID,
       title:,
       size: :large,
-      position: :right,
+      classes: "Overlay--size-large-portrait",
       data: { "keep-open-on-submit": true }
     )
   ) do |dialog|
@@ -53,8 +53,8 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     dialog.with_footer do
-      # `mr: :auto` pushes the destructive action to the left; the dialog
-      # footer's flex layout right-aligns the remaining buttons.
+      # `mr: :auto` pushes the destructive action to the left of the footer's
+      # flex row, leaving the remaining buttons right-aligned.
       concat(
         render(
           Primer::Beta::Button.new(

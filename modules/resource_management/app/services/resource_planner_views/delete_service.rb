@@ -34,8 +34,6 @@ module ResourcePlannerViews
   class DeleteService < ::BaseServices::Delete
     private
 
-    # Keep the parent planner consistent: if the deleted view was its default,
-    # repoint the default at a remaining view (or clear it).
     def after_perform(call)
       return call unless call.success?
 

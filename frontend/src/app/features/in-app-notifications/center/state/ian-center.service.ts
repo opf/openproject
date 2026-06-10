@@ -62,6 +62,9 @@ import { FrameElement } from '@hotwired/turbo';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UrlParamsService } from 'core-app/core/navigation/url-params.service';
 import { IanBellService } from 'core-app/features/in-app-notifications/bell/state/ian-bell.service';
+import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-pattern';
+
+const DETAILS_URL_PATTERN = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/|$)`);
 
 export interface INotificationPageQueryParameters {
   filter?:string|null;
@@ -192,7 +195,7 @@ export class IanCenterService extends UntilDestroyedMixin {
 
   public selectedNotification:INotification;
 
-  selectedWorkPackage$ = this.urlParams.pathMatching$(/\/details\/(\d+)/);
+  selectedWorkPackage$ = this.urlParams.pathMatching$(DETAILS_URL_PATTERN);
 
   constructor() {
     super();

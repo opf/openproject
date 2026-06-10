@@ -32,8 +32,8 @@ module ResourcePlannerViews
   class SetAttributesService < ::BaseServices::SetAttributes
     private
 
-    # `filters` and `filter_mode` are not view attributes; pull them out before
-    # `super` calls `model.attributes=`, then apply them to the query.
+    # `filters`/`filter_mode` are not view attributes; pull them out before
+    # `super` runs `model.attributes=`, then apply them to the query.
     def set_attributes(params)
       filters = params.delete(:filters)
       filter_mode = params.delete(:filter_mode)
@@ -49,9 +49,6 @@ module ResourcePlannerViews
       end
     end
 
-    # Builds the query if missing and lets the view type translate the filter
-    # selection and mode into query filters. Non-configurable view types are
-    # left untouched.
     def configure_query(filters:, filter_mode:)
       return unless model.respond_to?(:apply_query_configuration)
 
@@ -67,9 +64,8 @@ module ResourcePlannerViews
       query = model.build_default_query
       return if query.nil?
 
-      # `query=` touches `query_id`/`query_type`; on create the model has been
-      # extended with ChangedBySystem so the contract does not flag them as
-      # user-written readonly attributes.
+      # `query=` touches `query_id`/`query_type`; mark them system-made so the
+      # contract does not flag them as user-written readonly attributes.
       if model.respond_to?(:change_by_system)
         model.change_by_system { model.query = query }
       else

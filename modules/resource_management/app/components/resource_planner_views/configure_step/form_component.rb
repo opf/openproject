@@ -30,13 +30,10 @@
 
 module ResourcePlannerViews
   module ConfigureStep
-    # Renders the "Configure view" form (name + filter mode). Used both for
-    # the new-view dialog (step 2) and for the edit dialog. Callers
-    # pass the form `url`, HTTP `method`, and the model to bind to. The
-    # `form_id` lets the surrounding dialog wire its submit button to this
-    # form via `<button form="...">`. `wrapper_key` is overridable so this
-    # component can be slotted into different dialog bodies — each dialog
-    # has its own replaceable body wrapper.
+    # Shared by the new-view and edit dialogs. `form_id` lets the surrounding
+    # dialog wire its submit button to this form via `<button form="...">`, and
+    # `wrapper_key` is overridable so it can be slotted into either dialog's
+    # (separately replaceable) body.
     class FormComponent < ApplicationComponent
       include ApplicationHelper
       include OpTurbo::Streamable
@@ -65,8 +62,8 @@ module ResourcePlannerViews
 
       private
 
-      # Hidden on first render for manual views to match the initially-checked
-      # radio; the show-when-value-selected controller takes over after that.
+      # Matches the initially-checked radio on first render; the
+      # show-when-value-selected controller takes over after that.
       def initial_filter_mode_automatic?
         !(@view.respond_to?(:manually_picked?) && @view.manually_picked?)
       end

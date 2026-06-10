@@ -39,7 +39,9 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
   context "with a resource allocation assigned to the principal" do
     let!(:allocation) { create(:resource_allocation, principal:) }
     let!(:other_allocation) { create(:resource_allocation, principal: create(:user)) }
-    let!(:unassigned_allocation) { create(:resource_allocation, principal: nil) }
+    let!(:unassigned_allocation) do
+      create(:resource_allocation, principal: nil, principal_explicit: false, filter_name: "Devs")
+    end
 
     it "rewrites the principal to the deleted user placeholder" do
       job
@@ -53,6 +55,23 @@ RSpec.describe Principals::DeleteJob, "ResourceAllocation", type: :model do
 
     it "does not affect unassigned allocations" do
       expect { job }.not_to change { unassigned_allocation.reload.principal_id }
+    end
+  end
+
+  context "with a resource allocation requested or reviewed by the principal" do
+    let!(:requested_allocation) { create(:resource_allocation, requested_by: principal) }
+    let!(:reviewed_allocation) { create(:resource_allocation, reviewed_by: principal) }
+
+    it "rewrites requested_by to the deleted user placeholder" do
+      job
+
+      expect(requested_allocation.reload.requested_by).to eq deleted_user
+    end
+
+    it "rewrites reviewed_by to the deleted user placeholder" do
+      job
+
+      expect(reviewed_allocation.reload.reviewed_by).to eq deleted_user
     end
   end
 end

@@ -30,10 +30,6 @@
 
 module ResourcePlannerViews
   module WorkPackageList
-    # Single-field form used inside the "add existing work package" dialog of a
-    # manually hand-picked view. The autocompleter is scoped to the current
-    # project, excludes work packages already on the list, and its dropdown is
-    # appended to the dialog so it is not clipped.
     class AddWorkPackageForm < ApplicationForm
       form do |f|
         f.work_package_autocompleter(
@@ -59,8 +55,8 @@ module ResourcePlannerViews
 
       private
 
-      # Scope the typeahead to the project and hide work packages already on
-      # the list (`id` is a list filter, so `!` excludes the given ids).
+      # `id` is a list filter, so the `!` operator excludes the given ids
+      # (work packages already on the list).
       def autocomplete_filters
         filters = [{ name: "project_id", operator: "=", values: [@project.id] }]
 

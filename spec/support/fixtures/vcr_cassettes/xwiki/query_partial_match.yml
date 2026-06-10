@@ -27,11 +27,11 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 05 Jun 2026 08:53:31 GMT
+      - Wed, 10 Jun 2026 06:23:07 GMT
       Set-Cookie:
-      - JSESSIONID=61B575D9D2898F806A6569BC6F465501; Path=/; HttpOnly
+      - JSESSIONID=948F6FD6FE46127D21A904F5B4B572C4; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - ON8xsHlEpixyujzpUPNupg
+      - L5DY6HB46AhTFvPuxIu0Cg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
@@ -42,14 +42,14 @@ http_interactions:
       encoding: UTF-8
       string: '{"links":[],"searchResults":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20Page/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"type":"page","id":"xwiki:Test
         Page.WebHome","pageFullName":"Test Page.WebHome","title":"Test Page for RSpec","wiki":"xwiki","space":"Test
-        Page","pageName":"WebHome","modified":1780386902000,"author":"xwiki:XWiki.admin","authorName":null,"version":"4.1","language":null,"className":null,"objectNumber":null,"filename":null,"score":15.390617,"object":null,"hierarchy":null}],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
-  recorded_at: Fri, 05 Jun 2026 08:53:31 GMT
+        Page","pageName":"WebHome","modified":1780386902000,"author":"xwiki:XWiki.admin","authorName":null,"version":"4.1","language":null,"className":null,"objectNumber":null,"filename":null,"score":16.572105,"object":null,"hierarchy":null}],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
+  recorded_at: Wed, 10 Jun 2026 06:23:07 GMT
 - request:
-    method: put
+    method: get
     uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Test%20Page.WebHome
     body:
-      encoding: UTF-8
-      string: "{}"
+      encoding: US-ASCII
+      string: ''
     headers:
       User-Agent:
       - OpenProject 17.6.0 HTTPX Client
@@ -59,14 +59,12 @@ http_interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      Content-Length:
-      - '2'
       Authorization:
       - Bearer <SECRET>
   response:
     status:
-      code: 202
-      message: Accepted
+      code: 200
+      message: OK
     headers:
       Content-Language:
       - en
@@ -75,11 +73,11 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 05 Jun 2026 08:53:32 GMT
+      - Wed, 10 Jun 2026 06:23:07 GMT
       Set-Cookie:
-      - JSESSIONID=753A9D110C6DC9393E3350EA056BBC05; Path=/; HttpOnly
+      - JSESSIONID=53060762864FA5DFC002D5F089BD0319; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - ON8xsHlEpixyujzpUPNupg
+      - L5DY6HB46AhTFvPuxIu0Cg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
@@ -94,5 +92,5 @@ http_interactions:
         URL Shortener.","content":"This is a test page that I created with my own
         hands.","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Test
         Page","name":"Test Page","type":"space","url":"https://xwiki.local/bin/view/Test%20Page/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Test%20Page/"}]},"rights":[],"renderedContent":null}'
-  recorded_at: Fri, 05 Jun 2026 08:53:32 GMT
+  recorded_at: Wed, 10 Jun 2026 06:23:07 GMT
 recorded_with: VCR 6.4.0

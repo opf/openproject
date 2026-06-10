@@ -41,7 +41,7 @@ import { validDate } from 'core-app/shared/components/datepicker/helpers/date-mo
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class FilterDateTimesValueComponent extends AbstractDateTimeValueController implements OnInit {
   @HostBinding('id') get id() {

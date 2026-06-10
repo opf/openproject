@@ -28,7 +28,7 @@
 //++
 
 import copy from 'copy-text-to-clipboard';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { GitActionsService } from '../git-actions/git-actions.service';
 import { ISnippet } from "core-app/features/plugins/linked/openproject-gitlab_integration/typings";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
@@ -41,6 +41,8 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
   styleUrls: [
     './styles/git-actions-menu.sass'
   ],
+  host: { 'data-component-id': 'gitlab-actions-menu' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class GitLabActionsMenuComponent extends OPContextMenuComponent {

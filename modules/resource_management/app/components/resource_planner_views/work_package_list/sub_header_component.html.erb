@@ -39,8 +39,6 @@ See COPYRIGHT and LICENSE files for more details.
     )
 
     if @view.manually_picked?
-      # Hand-picked views can both allocate and pull in existing work packages,
-      # so the primary action becomes a dropdown.
       subheader.with_action_menu(
         leading_icon: :plus,
         trailing_icon: :"triangle-down",
@@ -51,8 +49,15 @@ See COPYRIGHT and LICENSE files for more details.
           "aria-label": t("resource_management.work_package_list.subheader.add")
         }
       ) do |menu|
-        menu.with_item(label: t("resource_management.work_package_list.subheader.allocate")) do |item|
-          item.with_leading_visual_icon(icon: :people)
+        if allowed_to_allocate?
+          menu.with_item(
+            label: t("resource_management.work_package_list.subheader.allocate"),
+            tag: :a,
+            href: new_project_resource_allocation_path(@project),
+            content_arguments: { data: { controller: "async-dialog" } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :people)
+          end
         end
 
         menu.with_item(
@@ -64,11 +69,14 @@ See COPYRIGHT and LICENSE files for more details.
           item.with_leading_visual_icon(icon: :"op-relations")
         end
       end
-    else
+    elsif allowed_to_allocate?
       subheader.with_action_button(
         leading_icon: :plus,
         scheme: :primary,
-        label: t("resource_management.work_package_list.subheader.allocate")
+        label: t("resource_management.work_package_list.subheader.allocate"),
+        tag: :a,
+        href: new_project_resource_allocation_path(@project),
+        data: { controller: "async-dialog" }
       ) do
         t("resource_management.work_package_list.subheader.allocate")
       end

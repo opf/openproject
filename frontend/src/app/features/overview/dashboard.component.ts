@@ -45,7 +45,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   providers: GRID_PROVIDERS,
   standalone: true,
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class DashboardComponent extends GridPageComponent implements OnInit {
   @Input() projectIdentifier:string;

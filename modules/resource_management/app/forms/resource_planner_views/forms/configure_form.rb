@@ -38,10 +38,9 @@ module ResourcePlannerViews
           required: true
         )
 
-        # `filter_mode` is a UI-only toggle (not persisted on the view); the
-        # `show-when-value-selected` controller toggles the filter form. The
-        # checked radio reflects the persisted query so editing a hand-picked
-        # view does not silently revert it to automatic.
+        # `filter_mode` is a UI-only toggle, not a view attribute. Seed the
+        # checked radio from the persisted query so editing a hand-picked view
+        # does not silently revert it to automatic.
         manual = model.respond_to?(:manually_picked?) && model.manually_picked?
 
         f.advanced_radio_button_group(

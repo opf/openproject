@@ -68,10 +68,8 @@ module ResourcePlannerViews
 
       private
 
-      # When a `cancel_href` is passed, Cancel becomes a link that navigates
-      # away — used by the new-planner flow so dismissing step 2 lands the
-      # user on a page that reflects the just-created planner. Without one,
-      # Cancel just dismisses the dialog (standalone "+ Add view" flow).
+      # The new-planner flow passes a `cancel_href` so dismissing step 2 still
+      # lands on the just-created planner rather than just closing the dialog.
       def cancel_button
         if @cancel_href
           Primer::Beta::Button.new(tag: :a, href: @cancel_href, mr: 1)

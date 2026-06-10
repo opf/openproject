@@ -162,7 +162,9 @@ class Header::ProjectsController < ApplicationController
   def sort_nodes(nodes)
     nodes.sort_by { |n| n[:project].name.downcase }.each do |node|
       node[:children] = sort_nodes(node[:children])
-      node[:expanded] = node[:children].any? { |c| c[:project].id == @current_project_id || c[:expanded] }
+      node[:expanded] = filter_mode == "favorited" || node[:children].any? do |c|
+        c[:project].id == @current_project_id || c[:expanded]
+      end
     end
   end
 end

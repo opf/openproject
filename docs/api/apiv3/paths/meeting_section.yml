@@ -5,7 +5,12 @@ get:
   operationId: get_meeting_section
   tags:
     - Meetings
-  description: Retrieve an individual meeting section.
+  description: |-
+    Retrieve an individual meeting section.
+
+    The backlog section can be retrieved via this endpoint even though it is not part of the regular
+    `meeting.sections` association. Its `_links.meeting` points to the owning meeting (the series
+    template for recurring meeting occurrences).
   parameters:
     - description: Section identifier
       example: 1
@@ -34,7 +39,10 @@ patch:
   operationId: update_meeting_section
   tags:
     - Meetings
-  description: Updates the given meeting section.
+  description: |-
+    Updates the given meeting section.
+
+    The backlog section cannot be updated and will return `422 Unprocessable Entity`.
   parameters:
     - description: Section identifier
       example: 1
@@ -88,7 +96,10 @@ delete:
   operationId: delete_meeting_section
   tags:
     - Meetings
-  description: Deletes the meeting section.
+  description: |-
+    Deletes the meeting section and all its agenda items.
+
+    The backlog section cannot be deleted and will return `422 Unprocessable Entity`.
   parameters:
     - description: Section identifier
       example: 1

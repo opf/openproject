@@ -55,9 +55,6 @@ class UserCard < PersistedView
     effective_query&.results
   end
 
-  # Returns a fresh, unsaved UserQuery suitable for this view. Used by the
-  # create flow (saved and linked to the view) and by the configure-view
-  # dialog (rendered against the FilterComponent without being saved).
   def build_default_query
     UserQuery.new(project:, principal:)
   end

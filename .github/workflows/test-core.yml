@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   all:
@@ -87,6 +88,18 @@ jobs:
         CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
         CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
       run: bin/ci run-features
+    - name: Report flaky specs
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        if [ -f tmp/retried_specs.txt ]; then
+          echo "## Flaky specs" >> "$GITHUB_STEP_SUMMARY"
+          cat tmp/retried_specs.txt >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body "$(printf '> [!WARNING]\n> Flaky specs\n\n'; cat tmp/retried_specs.txt)"
+          fi
+        fi
     - name: Save CI image to cache
       if: steps.cache_docker.outputs.cache-hit != 'true'
       run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar

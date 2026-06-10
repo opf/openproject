@@ -1,4 +1,4 @@
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { TestBed } from '@angular/core/testing';
@@ -40,7 +40,7 @@ describe('WpTabsService', () => {
       imports: [],
       providers: [
         { provide: StateService, useValue: { includes: () => false } },
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
       ]
     });
     service = TestBed.inject(WorkPackageTabsService);

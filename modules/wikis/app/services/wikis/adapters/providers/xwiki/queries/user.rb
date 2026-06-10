@@ -34,29 +34,28 @@ module Wikis
       module XWiki
         module Queries
           class User < BaseQuery
+            include Concerns::XWikiQuery
+
             def call(auth_strategy:)
-              url = "#{provider.url.chomp('/')}/rest/wikis/xwiki/user"
-              Adapters::Authentication[auth_strategy].call do |http|
-                handle_response(http.get(url))
+              authenticated(auth_strategy) do |http|
+                handle_response(http.get(rest_url("wikis/xwiki/user")))
               end
             end
 
             private
 
+            # Overrides the concern's handle_response: User reads a response header,
+            # not a JSON body, so JSON parsing is not applicable here.
             def handle_response(response)
               return failure(code: :connection_error) if response.is_a?(HTTPX::ErrorResponse)
 
               case response
               in { status: 200..299 }
-                handle_success_response(response)
+                xwiki_user = response.headers["xwiki-user"]
+                xwiki_user.present? ? success(xwiki_user) : failure(code: :unauthorized)
               else
                 failure(code: :request_failed)
               end
-            end
-
-            def handle_success_response(response)
-              xwiki_user = response.headers["xwiki-user"]
-              xwiki_user.present? ? success(xwiki_user) : failure(code: :unauthorized)
             end
           end
         end

@@ -46,6 +46,8 @@ module API
 
         property :position
 
+        property :backlog
+
         associated_resource :meeting,
                             link: ->(*) {
                               {

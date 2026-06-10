@@ -68,9 +68,9 @@ cs:
         title: Title
         frequency: Frekvence
         interval: Interval
-        monthly_day: Day of month
-        monthly_ordinal: Position
-        monthly_weekday: Weekday
+        monthly_day: Den v měsíci
+        monthly_ordinal: Pozice
+        monthly_weekday: Pracovní den
         start_date: Začíná v
         start_time: Čas zahájení
         start_time_hour: Čas zahájení
@@ -80,7 +80,7 @@ cs:
         time_zone: Časová zóna
         location: Poloha
         duration: Doba trvání
-        notify: Send notifications
+        notify: Posílat oznámení
       recurring_meeting_interim_response:
         start_time: Čas zahájení
       meeting_participant:

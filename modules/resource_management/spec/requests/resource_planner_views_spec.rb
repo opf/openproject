@@ -143,16 +143,13 @@ RSpec.describe "ResourcePlannerViews requests",
     it "closes the dialog and replaces the tab nav and content in place" do
       perform
 
-      # Dialog is closed via a CSS selector target (not a bare id).
       expect(response.body).to include('action="closeDialog"')
       expect(response.body).to include('target="#edit-resource-planner-view-dialog"')
 
-      # Tab nav and the view content are replaced rather than redirecting.
       expect(response.body).to include('action="replace"')
       expect(response.body).to include('target="resource-planners-sub-views-component"')
       expect(response.body).to include('target="resource-planner-views-content-component"')
 
-      # The replaced tab nav reflects the new name.
       expect(response.body).to include("Renamed view")
     end
 

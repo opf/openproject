@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
+    "rootDir": "..",
     "jsx": "react-jsx",
     "types": []
   },
@@ -20,6 +21,9 @@
   "exclude": [
     "src/stimulus/controllers/**/*.spec.ts"
   ],
+  "angularCompilerOptions": {
+    "strictTemplates": false
+  },
   "types": [
     "node",
     "react"

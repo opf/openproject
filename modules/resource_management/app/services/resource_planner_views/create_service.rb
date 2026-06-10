@@ -32,10 +32,9 @@ module ResourcePlannerViews
   class CreateService < ::BaseServices::Create
     protected
 
-    # Same trick as ResourcePlanners::CreateService: STI sets `type` during
-    # `.new`, before the model is extended with ChangedBySystem. Treat that
-    # initial change as a system change so the contract does not flag `type`
-    # as a user-written readonly attribute.
+    # STI sets `type` during `.new`, before the model is extended with
+    # ChangedBySystem; mark that initial change as system-made so the contract
+    # does not flag `type` as a user-written readonly attribute.
     def instance(_params)
       view = model || PersistedView.new
       view.extend(OpenProject::ChangedBySystem) unless view.is_a?(OpenProject::ChangedBySystem)
@@ -43,10 +42,8 @@ module ResourcePlannerViews
       view
     end
 
-    # Saves the view together with a freshly built query of the type
-    # appropriate for the view subclass (UserQuery for UserCard, work-package
-    # Query for ResourceWorkPackageList). Both records are saved inside a
-    # transaction so a failed view validation rolls back the query as well.
+    # View and query are saved in one transaction so a failed view validation
+    # rolls back the query as well.
     def persist(service_result)
       view = service_result.result
       ApplicationRecord.transaction do
@@ -55,11 +52,8 @@ module ResourcePlannerViews
       end
     end
 
-    # When the parent planner has no default view yet, treat the first
-    # created child as the default. Covers both the "+" dialog (sets the
-    # default if none was picked) and the new-planner flow (the planner's
-    # `default_view_id` is intentionally unset at creation time and is
-    # filled in here once the chosen view exists).
+    # The new-planner flow intentionally leaves `default_view_id` unset at
+    # creation; fill it from the first created child here.
     def after_perform(call)
       return call unless call.success?
 

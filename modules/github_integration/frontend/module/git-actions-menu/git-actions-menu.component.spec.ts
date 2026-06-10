@@ -1,11 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DebugElement } from '@angular/core';
 import { GitHubActionsMenuComponent } from './git-actions-menu.component';
+import { GitLabActionsMenuComponent } from 'core-app/features/plugins/linked/openproject-gitlab_integration/git-actions-menu/git-actions-menu.component';
 import { GitActionsService } from '../git-actions/git-actions.service';
 import { By } from '@angular/platform-browser';
 import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { OpContextMenuLocalsToken } from 'core-app/shared/components/op-context-menu/op-context-menu.types';
+
+interface ComponentWithId {
+  ɵcmp:{
+    id:string;
+  };
+}
 
 describe('GitHubActionsMenuComponent', () => {
   let component:GitHubActionsMenuComponent;
@@ -62,6 +69,13 @@ describe('GitHubActionsMenuComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('has a distinct Angular component id from the GitLab actions menu', () => {
+    const githubComponent = GitHubActionsMenuComponent as unknown as ComponentWithId;
+    const gitlabComponent = GitLabActionsMenuComponent as unknown as ComponentWithId;
+
+    expect(githubComponent.ɵcmp.id).not.toEqual(gitlabComponent.ɵcmp.id);
   });
 
   it('should generate the branch name on copy button click', () => {

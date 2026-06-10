@@ -27,7 +27,7 @@
 //++
 
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
@@ -56,7 +56,7 @@ describe('TimezoneService', () => {
         { provide: ConfigurationService, useValue: ConfigurationServiceStub },
         PathHelperService,
         TimezoneService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
       ],
     });
 
