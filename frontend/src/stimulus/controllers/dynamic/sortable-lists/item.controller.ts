@@ -65,6 +65,11 @@ const PREVIEW_STRIPPED_ATTRIBUTES = [
   'aria-roledescription',
 ] as const;
 
+// Box density variant classes copied onto the drag-preview container. The preview is
+// mounted outside the originating Box, so variant-scoped card styles (e.g.
+// `.Box--condensed .Box-card`) would not apply to it otherwise.
+const BOX_DENSITY_VARIANT_CLASSES = ['Box--condensed', 'Box--spacious'] as const;
+
 export default class ItemController extends Controller<HTMLElement> {
   static targets = ['handle', 'preview'];
 
@@ -198,6 +203,14 @@ export default class ItemController extends Controller<HTMLElement> {
     if (previewWidth > 0) {
       preview.style.width = `${previewWidth}px`;
     }
+
+    const box = this.element.closest('.Box');
+
+    BOX_DENSITY_VARIANT_CLASSES.forEach((variant) => {
+      if (box?.classList.contains(variant)) {
+        container.classList.add(variant);
+      }
+    });
 
     container.append(preview);
   }

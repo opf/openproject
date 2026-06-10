@@ -395,8 +395,8 @@ describe('Sortable lists item controller', () => {
       ctx.dispose();
     });
 
-    function renderBacklogsRow(itemId = '123') {
-      fixture.innerHTML = `
+    function renderBacklogsRow(itemId = '123', { boxClasses = '' } = {}) {
+      const rowHtml = `
         <li
           class="Box-row"
           data-controller="sortable-lists--item"
@@ -421,6 +421,8 @@ describe('Sortable lists item controller', () => {
           </article>
         </li>
       `;
+
+      fixture.innerHTML = boxClasses ? `<ul class="${boxClasses}">${rowHtml}</ul>` : rowHtml;
 
       return {
         row: fixture.querySelector<HTMLElement>('.Box-row')!,
@@ -538,5 +540,43 @@ describe('Sortable lists item controller', () => {
       expect(preview.querySelector('[data-backlogs--story-target]')).toBeNull();
     });
 
+    function generatePreview(article:HTMLElement):HTMLElement {
+      const previewContainer = document.createElement('div');
+
+      vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
+        ...dragEventPayload(article),
+        nativeSetDragImage: vi.fn(),
+      });
+
+      const previewOptions = vi.mocked(setCustomNativeDragPreview).mock.lastCall?.[0] as {
+        render:({ container }:{ container:HTMLElement }) => void;
+      };
+
+      previewOptions.render({ container: previewContainer });
+
+      return previewContainer;
+    }
+
+    it('copies the Box density variant class onto the preview container', async () => {
+      const { article } = renderBacklogsRow('123', { boxClasses: 'Box Box--condensed' });
+
+      await ctx.nextFrame();
+
+      const container = generatePreview(article);
+
+      expect(container.classList.contains('Box--condensed')).toBe(true);
+      expect(container.classList.contains('Box--spacious')).toBe(false);
+    });
+
+    it('does not add density variant classes for a default-density Box', async () => {
+      const { article } = renderBacklogsRow('123', { boxClasses: 'Box' });
+
+      await ctx.nextFrame();
+
+      const container = generatePreview(article);
+
+      expect(container.classList.contains('Box--condensed')).toBe(false);
+      expect(container.classList.contains('Box--spacious')).toBe(false);
+    });
   });
 });
