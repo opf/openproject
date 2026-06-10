@@ -63,8 +63,9 @@ module OpenProject::Backlogs
                                                               [{ status: { operator: "!",
                                                                            values: [Sprint.statuses["completed"]] } }]
                                                             ))
+                                       query = "filters=#{filters}&pageSize=-1"
 
-                                       "#{api_v3_paths.project_sprints(represented.project_id)}?filters=#{filters}&pageSize=-1"
+                                       "#{api_v3_paths.project_sprints(represented.project_id)}?#{query}"
                                      }
 
             schema_with_allowed_link :backlog_bucket,
