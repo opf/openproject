@@ -529,6 +529,26 @@ RSpec.describe WorkPackages::ActivitiesTab::Paginator, with_settings: { journal_
         expect(records.map(&:id)).to include(initial_journal.id)
       end
 
+      context "with changesets" do
+        let(:repository) { create(:repository_subversion, project:) }
+        let!(:changeset) do
+          create(:changeset,
+                 repository:,
+                 committed_on: 1.day.ago,
+                 revision: "rev1")
+        end
+
+        before do
+          work_package.changesets << changeset
+        end
+
+        it "includes changesets (commits are activity, not attribute-diffable journals)" do
+          _pagy, records = paginator.call
+
+          expect(records).to include(changeset)
+        end
+      end
+
       context "with attribute changes" do
         let!(:journal_with_attribute_change) do
           work_package.subject = "Updated subject"

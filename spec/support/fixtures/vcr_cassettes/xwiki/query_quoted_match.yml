@@ -27,29 +27,29 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 05 Jun 2026 08:53:32 GMT
+      - Wed, 10 Jun 2026 06:23:06 GMT
       Set-Cookie:
-      - JSESSIONID=0A832E95AF62319A728E2D94FF402FD2; Path=/; HttpOnly
+      - JSESSIONID=53DEB144D1160E37FDBE016C6783652A; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - ON8xsHlEpixyujzpUPNupg
+      - L5DY6HB46AhTFvPuxIu0Cg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
       - 18.3.0
       Content-Length:
-      - '891'
+      - '892'
     body:
       encoding: UTF-8
       string: '{"links":[],"searchResults":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/%22Quoted%22%20pages%20can%20be%20tricky/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"type":"page","id":"xwiki:\"Quoted\"
         pages can be tricky.WebHome","pageFullName":"\"Quoted\" pages can be tricky.WebHome","title":"\"Quoted\"
-        pages can be tricky","wiki":"xwiki","space":"\"Quoted\" pages can be tricky","pageName":"WebHome","modified":1780387197000,"author":"xwiki:XWiki.admin","authorName":null,"version":"1.1","language":null,"className":null,"objectNumber":null,"filename":null,"score":46.0744,"object":null,"hierarchy":null}],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
-  recorded_at: Fri, 05 Jun 2026 08:53:32 GMT
+        pages can be tricky","wiki":"xwiki","space":"\"Quoted\" pages can be tricky","pageName":"WebHome","modified":1780387197000,"author":"xwiki:XWiki.admin","authorName":null,"version":"1.1","language":null,"className":null,"objectNumber":null,"filename":null,"score":47.94951,"object":null,"hierarchy":null}],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
+  recorded_at: Wed, 10 Jun 2026 06:23:06 GMT
 - request:
-    method: put
+    method: get
     uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:%22Quoted%22%20pages%20can%20be%20tricky.WebHome
     body:
-      encoding: UTF-8
-      string: "{}"
+      encoding: US-ASCII
+      string: ''
     headers:
       User-Agent:
       - OpenProject 17.6.0 HTTPX Client
@@ -59,14 +59,12 @@ http_interactions:
       - gzip, deflate
       Content-Type:
       - application/json
-      Content-Length:
-      - '2'
       Authorization:
       - Bearer <SECRET>
   response:
     status:
-      code: 202
-      message: Accepted
+      code: 200
+      message: OK
     headers:
       Content-Language:
       - en
@@ -75,11 +73,11 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 05 Jun 2026 08:53:32 GMT
+      - Wed, 10 Jun 2026 06:23:06 GMT
       Set-Cookie:
-      - JSESSIONID=8074F7A06BEFB236927D7E9858A4D266; Path=/; HttpOnly
+      - JSESSIONID=F53BDBC8DBB650A2E09E519DDCFF22D9; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - ON8xsHlEpixyujzpUPNupg
+      - L5DY6HB46AhTFvPuxIu0Cg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
@@ -95,5 +93,5 @@ http_interactions:
         URL Shortener.","content":"When the page title contains quotes, it''s harder
         to exactly match their page title.","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"\"Quoted\"
         pages can be tricky","name":"\"Quoted\" pages can be tricky","type":"space","url":"https://xwiki.local/bin/view/%22Quoted%22%20pages%20can%20be%20tricky/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/%22Quoted%22%20pages%20can%20be%20tricky/"}]},"rights":[],"renderedContent":null}'
-  recorded_at: Fri, 05 Jun 2026 08:53:32 GMT
+  recorded_at: Wed, 10 Jun 2026 06:23:06 GMT
 recorded_with: VCR 6.4.0

@@ -57,14 +57,8 @@ module Wikis
               def perform_request(reference, auth_strategy:, &)
                 authenticated(auth_strategy) do |http|
                   handle_response(
-                    # This query is implemented as a PUT on the XWiki side, because it dynamically creates the
-                    # stable identifier that it returns. Passing an empty JSON body is also required for the
-                    # endpoint to not raise an error 🤷
                     http.with(headers: { "Content-Type": "application/json" })
-                        .put(
-                          rest_url("openproject/documents", query: { docRef: reference.to_s }),
-                          body: "{}"
-                        ),
+                        .get(rest_url("openproject/documents", query: { docRef: reference.to_s })),
                     &
                   )
                 end

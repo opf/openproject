@@ -4664,6 +4664,11 @@ sk:
     few: 'Time off: %{count} working days'
     many: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: včera
   label_zen_mode: Zen mode
   label_role_type: Typ

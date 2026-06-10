@@ -40,7 +40,7 @@ cs:
         unit_plural: Název Pluralizované jednotky
         default: Typ nákladů ve výchozím nastavení
         for_all_projects: Pro všechny projekty
-        rates: Rates
+        rates: Sazby
       work_package:
         costs_by_type: Strávené jednotky
         labor_costs: Náklady práce
@@ -69,32 +69,32 @@ cs:
         entity_gid: Přihlášen
     models:
       time_entry:
-        one: Vstup času
-        few: Time entries
-        many: Time entries
-        other: Time entries
+        one: Časová položka
+        few: Časové položky
+        many: Časové položky
+        other: Časové položky
       cost_entry:
         one: Nákladová položka
-        few: Cost entries
-        many: Cost entries
-        other: Cost entries
+        few: Nákladové položky
+        many: Nákladových položek
+        other: Nákladových položek
       cost_type:
         one: Druh nákladů
         few: Typy nákladů
         many: Typy nákladů
         other: Typy nákladů
       time_entry_activity:
-        one: Time tracking activity
-        few: Sledování času
-        many: Sledování času
-        other: Sledování času
+        one: Položka výkazu
+        few: Položek výkazu
+        many: Položek výkazu
+        other: Položek výkazu
       rate: Sazba
     errors:
       models:
         time_entry:
           invalid_time: musí být mezi 00:00 a 23:59.
-          cannot_log_for_this_work_package: Cannot log time for this work package.
-          duplicate_ongoing: An ongoing time entry already exists for this user.
+          cannot_log_for_this_work_package: Nelze zaznamenat čas pro tento pracovní balíček.
+          duplicate_ongoing: Pro tohoto uživatele již existuje průběžný časový záznam.
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Pracovní balíček #%{id} není platný cíl pro přeřazení nákladových položek.'
           nullify_is_not_valid_for_cost_entries: K projektu nelze přiřadit položky nákladů.
@@ -130,8 +130,8 @@ cs:
   caption_show_locked: Zobrazit uzamčené typy
   caption_log_time_dialog: Čas logu
   description_date_for_new_rate: Datum pro nový kurz
-  description_costs_settings: Define the desired format for the costs in all projects.
-  description_time_settings: Define which fields are mandatory to fill when logging time in all projects.
+  description_costs_settings: Definujte požadovaný formát nákladů ve všech projektech.
+  description_time_settings: Definujte, která pole jsou povinná při zaznamenávání času ve všech projektech.
   group_by_others: není v žádné skupině
   label_between: mezi
   label_cost_filter_add: Přidat filtr nákladového vstupu
@@ -157,7 +157,7 @@ cs:
   label_kind: Typ
   label_less_or_equal: "<="
   label_log_costs: Logovat jednotkové náklady
-  label_new_time_entry_activity: New time entry activity
+  label_new_time_entry_activity: Nová časová položka
   label_time_entry_activity_form_description: Changes to this time entry activity will be reflected in all projects where it is enabled.
   label_no: Ne
   label_option_plural: Možnosti
@@ -193,7 +193,7 @@ cs:
   label_day: Den
   label_today_capitalized: Dnes
   label_view_mode_switcher: Změnit zobrazení
-  label_timer_since: Started at %{time}
+  label_timer_since: Začalo v %{time}
   placeholder_activity_select_work_package_first: Nejprve je nutné vybrat pracovní balíček
   notice_something_wrong: Něco se pokazilo. Zkuste to prosím znovu.
   notice_successful_restore: Úspěšně obnoveno.
@@ -248,7 +248,7 @@ cs:
       no_cost_types_available: No cost types are available in this project. Please contact an administrator.
     admin:
       columns:
-        active_projects: Active projects
+        active_projects: Aktivní projekty
       cost_type_projects:
         for_all_projects_blank_slate:
           heading: This cost type is enabled in all projects
@@ -259,7 +259,7 @@ cs:
       rates:
         title: Rate history
     settings:
-      time_and_costs: Time & Costs
+      time_and_costs: Čas & náklady
       cost_types:
         heading: Cost types
         none_active: No cost types are currently active in this project.

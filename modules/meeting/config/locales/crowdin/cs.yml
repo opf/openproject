@@ -32,7 +32,7 @@ cs:
         location: Místo
         duration: Doba trvání
         notes: Poznámky
-        recurrence_start_time: Scheduled start time
+        recurrence_start_time: Plánovaný čas zahájení
         participants: Účastníci
         participant:
           one: 1 Účastník
@@ -41,14 +41,14 @@ cs:
           other: "%{count} Účastníků"
         participants_attended: Účastníci
         participants_invited: Pozvaní
-        participants_added: 'Participants added:'
-        participants_removed: 'Participants removed:'
+        participants_added: 'Přidaní účastníci:'
+        participants_removed: 'Odebraní účastníci:'
         project: Projekt
         start_date: Datum
         start_time: Čas zahájení
         start_time_hour: Čas zahájení
-        end_time: End time
-        template: Template
+        end_time: Čas ukončení
+        template: Šablona
         notify: Send notifications
         sharing: Sdílení
       meeting_agenda_item:
@@ -68,19 +68,19 @@ cs:
         title: Title
         frequency: Frekvence
         interval: Interval
-        monthly_day: Day of month
-        monthly_ordinal: Position
-        monthly_weekday: Weekday
+        monthly_day: Den v měsíci
+        monthly_ordinal: Pozice
+        monthly_weekday: Pracovní den
         start_date: Začíná v
         start_time: Čas zahájení
         start_time_hour: Čas zahájení
         end_after: Řada schůzek končí
         end_date: Datum ukončení
         iterations: Výskyty
-        time_zone: Time zone
-        location: Location
-        duration: Duration
-        notify: Send notifications
+        time_zone: Časová zóna
+        location: Poloha
+        duration: Doba trvání
+        notify: Posílat oznámení
       recurring_meeting_interim_response:
         start_time: Čas zahájení
       meeting_participant:
@@ -220,7 +220,7 @@ cs:
   label_notify: Odeslat k posouzení
   label_icalendar: Odeslat iCalendar
   label_icalendar_download: Stáhnout událost iCalendar
-  label_view_meeting: View meeting
+  label_view_meeting: Zobrazit schůzku
   label_view_meeting_series: Zobrazit sérii schůzek
   label_meeting_series: Řada schůzek
   label_version: Verze
@@ -246,7 +246,7 @@ cs:
         apply_to_upcoming_meetings: Apply these changes to all upcoming meetings in this series
       text:
         template: Tito účastníci budou automaticky pozváni na všechna budoucí zasedání po jejich vytvoření.
-        manage_participants: Search for and add project members as participants to this meeting.
+        manage_participants: Vyhledejte a přidejte členy projektu jako účastníky této schůzky.
         search_for_members: Vyhledávání členů projektu
       blankslate:
         heading: Nikdo tu není
@@ -303,8 +303,8 @@ cs:
         new_date_time: Nové datum/čas
         old_location: Stará lokace
         new_location: Nová lokace
-        added_participants: Added
-        removed_participants: Removed
+        added_participants: Přidáni
+        removed_participants: Odebráni
     label_mail_all_participants: Poslat e-mailovou pozvánku všem účastníkům
     types:
       one_time: Jednorázový
@@ -440,7 +440,7 @@ cs:
         '
     ended_blankslate:
       title: Řada schůzek skončila
-      message: 'This meeting series has come to an end. There are no upcoming meetings. '
+      message: 'Tato série schůzek skončila a žádná nadcházející setkání se nekonají. '
       action: You can still view past occurrences or edit the meeting series to extend it.
     occurrence:
       infoline: Tato schůzka je součástí opakované série schůzek.
@@ -466,64 +466,64 @@ cs:
     frequency:
       x_daily:
         one: Každý den
-        few: Every %{count} days
-        many: Every %{count} days
+        few: Každých %{count} dní
+        many: Každých %{count} dní
         other: Každých %{count} dní
       x_weekly:
         one: Každý týden
-        few: Every %{count} weeks
-        many: Every %{count} weeks
+        few: Každých %{count} týdnů
+        many: Každých %{count} týdnů
         other: Každých %{count} týdnů
       x_monthly:
-        one: Every month
-        few: Every %{count} months
-        many: Every %{count} months
-        other: Every %{count} months
-      monthly_day_of_month: Day of month
-      monthly_nth_weekday: Monthly on a weekday
+        one: Každý měsíc
+        few: Každých %{count} měsíců
+        many: Každých %{count} měsíců
+        other: Každých %{count} měsíců
+      monthly_day_of_month: Den v měsíci
+      monthly_nth_weekday: Měsíčně ve všední den
       every_weekday: Každý %{day_of_the_week}
       working_days: Každý pracovní den
     monthly:
       inflected_ordinal:
-        first: first
-        second: second
-        third: third
-        fourth: fourth
-        last: last
+        first: první
+        second: druhý
+        third: třetí
+        fourth: čtvrtý
+        last: poslední
       ordinal_options:
-        first: First
-        second: Second
-        third: Third
-        fourth: Fourth
-        last: Last
-    actual_first_occurrence_mismatch_html: The first occurrence of this series will be %{first_occurrence}
-    day_of_month_skipping_info: Months with fewer than %{monthly_day} days will be skipped
+        first: První
+        second: Druhý
+        third: Třetí
+        fourth: Čtvrtý
+        last: Poslední
+    actual_first_occurrence_mismatch_html: První výskyt této série bude %{first_occurrence}
+    day_of_month_skipping_info: Měsíce s méně než %{monthly_day} dny budou vynechány
     end_after:
-      never: Never
-      specific_date: After a specific date
-      iterations: After a number of occurrences
+      never: Nikdy
+      specific_date: Po určitém datu
+      iterations: Po několika událostech
     starts: Začíná
     in_words:
       daily_interval: Každé %{interval} dny
       working_days: Každý pracovní den
       weekly: Každý týden na %{weekday}
       weekly_interval: Každý %{interval} týdny v %{weekday}
-      monthly_day: Every month on the %{day}
-      monthly_day_interval: Every %{interval} months on the %{day}
-      monthly_nth_weekday: Every month on the %{ordinal} %{weekday}
-      monthly_nth_weekday_interval: Every %{interval} months on the %{ordinal} %{weekday}
+      monthly_day: Každý měsíc na %{day}
+      monthly_day_interval: Každých %{interval} měsíců na %{day}
+      monthly_nth_weekday: Každý měsíc na %{ordinal} %{weekday}
+      monthly_nth_weekday_interval: Každých %{interval} měsíců na %{ordinal} %{weekday}
       frequency: "%{base} v %{time}"
       full: "%{base} v %{time}, končí %{end_date}"
-      full_past: "%{base} at %{time}, ended on %{end_date}"
+      full_past: "%{base} v %{time}, skončila %{end_date}"
       never_ending: "%{base} v %{time}"
     open:
       title: Program byl otevřen
-      subtitle: 'Open meetings have agendas that can be edited and show up in individual users’ ‘My meetings’ section. Changes to the meeting series template do not affect already-open meeting occurrences.
+      subtitle: 'Otevřené schůzky mají programy, které lze upravovat a které se zobrazují v sekci "Moje schůzky" jednotlivých uživatelů. Změny šablony série schůzek nemají vliv na již otevřené schůzky.
 
         '
       blankslate:
         title: Momentálně žádné otevřené schůzky
-        desc: You can manually open a planned meeting by clicking on the 'Open' button below
+        desc: Plánovanou schůzku můžete otevřít ručně kliknutím na tlačítko "Otevřít" níže
     planned:
       title: Plánováno
       subtitle: 'Následující schůzky jsou plánovány v harmonogramu opakovaných schůzek, ale zatím nejsou otevřeny. Pokaždé, když začne plánovaná schůzka, automaticky se vám otevře další. Naplánované schůzky můžete otevřít také ručně, abyste mohli importovat šablonu a začít upravovat program.
@@ -531,7 +531,7 @@ cs:
         '
       blankslate:
         title: Žádné další plánované schůzky
-        desc: 'There are no additional meetings planned in this series. To schedule additional meetings or extend the series, go to the template and edit meeting details to change the end date, frequency or interval.
+        desc: 'V této sérii nejsou plánována žádné další schůzky. Chcete-li naplánovat další schůzky nebo sérii prodloužit, přejděte do šablony a upravte podrobnosti o schůzce, abyste změnili datum ukončení, frekvenci nebo interval.
 
           '
     delete_dialog:
@@ -567,7 +567,7 @@ cs:
   permission_delete_meetings: Smazat schůzku
   permission_view_meetings: Zobrazit schůzky
   permission_manage_agendas: Správa zápisů
-  permission_manage_agendas_explanation: Allows creating, editing and removing agenda items
+  permission_manage_agendas_explanation: Umožňuje vytvářet, upravovat a odebírat položky agendy
   permission_manage_outcomes: Spravovat výsledky
   permission_send_meeting_invites_and_outcomes: Odeslat pozvánky a výsledky všem účastníkům této schůzky
   project_module_meetings: Schůzky
@@ -613,28 +613,28 @@ cs:
   label_agenda_item_move: Přesunout
   label_agenda_item_move_to_next: Přesunout na příští schůzi
   label_agenda_item_move_to_backlog: Přesunout do backlogu
-  label_agenda_item_move_to_current_meeting: Move to current meeting
-  label_agenda_item_move_to_section: Move to section
+  label_agenda_item_move_to_current_meeting: Přesunout do aktuální schůze
+  label_agenda_item_move_to_section: Přesun do sekce
   label_agenda_item_move_to_top: Přesunout nahoru
   label_agenda_item_move_to_bottom: Přesunout na konec
   label_agenda_item_move_up: Přesunout výš
   label_agenda_item_move_down: Přesunout níž
-  label_agenda_item_duplicate: Duplicate
+  label_agenda_item_duplicate: Kopírovat
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
   label_agenda_item_add_notes: Přidat poznámky
   label_agenda_item_add_outcome: Přidat výsledek
-  label_agenda_item_convert_to_work_package: Convert to work package
+  label_agenda_item_convert_to_work_package: Zkonvertovat na pracovní balíček
   label_agenda_item_work_package_add: Přidat pracovní balíček
   label_agenda_item_work_package: Pracovní balíček k bodu programu
   label_section_rename: Přejmenovat sekci
   label_agenda_outcome: Výsledek
   label_agenda_new_outcome: Nový výsledek
-  label_agenda_outcome_actions: Agenda outcome actions
+  label_agenda_outcome_actions: Výsledné akce programu
   label_agenda_outcome_edit: Upravit výsledek
   label_agenda_outcome_delete: Odstranit výsledek
-  label_added_as_outcome: Added as outcome
-  label_write_outcome: Write outcome
+  label_added_as_outcome: Přidáno jako výsledek
+  label_write_outcome: Napište výsledek
   label_existing_work_package: Stávající pracovní balíček
   text_outcome_not_editable_anymore: Tento výsledek již nelze upravovat.
   text_outcome_cannot_be_added: Výsledek již nelze přidat.
@@ -693,9 +693,9 @@ cs:
   text_exit_draft_mode_dialog_template_title: Otevřít první výskyt této série schůzek?
   text_exit_draft_mode_dialog_template_subtitle: Poté se již nelze vrátit do režimu návrhu.
   label_meeting_template_sharing: Sdílení
-  label_meeting_template_sharing_none: Only with this project
-  label_meeting_template_sharing_descendants: With subprojects
-  label_meeting_template_sharing_system: With all projects
+  label_meeting_template_sharing_none: Pouze s tímto projektem
+  label_meeting_template_sharing_descendants: S podprojekty
+  label_meeting_template_sharing_system: Se všemi projekty
   text_meeting_template_sharing_description: Tuto šablonu lze sdílet s podprojekty nebo jinými projekty v této instanci. Budou zkopírovány pouze body a přílohy pořadu jednání.
   text_meeting_not_editable_anymore: Tato schůzka již není upravitelná.
   text_meeting_not_present_anymore: Tato schůzka byla odstraněna. Vyberte prosím jinou schůzku.
@@ -715,7 +715,7 @@ cs:
   text_agenda_item_duplicated_in_next_meeting: Agenda item duplicated in the next meeting, on %{date}
   text_work_package_has_no_upcoming_meeting_agenda_items: Tento pracovní balíček ještě není naplánován na nadcházející program schůzky.
   text_agenda_item_no_available_occurrence: No upcoming occurrences are available.
-  text_agenda_item_dialog_skipping_note: 'Note: Skipping %{details}.'
+  text_agenda_item_dialog_skipping_note: 'Poznámka: Přeskočení %{details}.'
   text_agenda_item_dialog_skipping_cancelled_one: cancelled meeting on %{date}
   text_agenda_item_dialog_skipping_cancelled_many: "%{count} cancelled meetings"
   text_agenda_item_dialog_skipping_closed_one: closed meeting on %{date}
@@ -738,9 +738,9 @@ cs:
     access_token:
       dialog:
         token/ical_meeting:
-          dialog_title: New iCal subscription token for meetings
+          dialog_title: Nový token pro přihlášení k odběru iCal
           dialog_body: This token will generate an iCal subscription URL that lets you view all your meetings in an external calendar application.
-          create_button: Create subscription
+          create_button: Vytvořit odběr
           name_label: Název tokenu
           name_caption: You can name it after where you will use it, such as "My phone" or "Work computer".
       created_dialog:

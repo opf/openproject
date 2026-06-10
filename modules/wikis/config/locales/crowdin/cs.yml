@@ -3,15 +3,15 @@ cs:
   activerecord:
     attributes:
       wikis/page_link:
-        identifier: Identifier
-        provider: Wiki Provider
+        identifier: Identifikátor
+        provider: Poskytovatel Wiki
       wikis/provider:
-        name: Name
-        universal_identifier: Universal identifier
+        name: Název
+        universal_identifier: Univerzální identifikátor
       wikis/xwiki_provider:
         authentication_method: Způsob ověření
         authentication_methods:
-          oauth2_sso: Single-Sign-On through OpenID Connect Identity Provider
+          oauth2_sso: Jednotné přihlášení prostřednictvím poskytovatele identit OpenID Connect
           two_way_oauth2: Two-way OAuth 2.0 authorization code flow
         token_exchange_scope: XWiki Scope
         url: Adresa URL instance

@@ -27,11 +27,11 @@ http_interactions:
       Content-Type:
       - application/json;charset=UTF-8
       Date:
-      - Fri, 05 Jun 2026 08:53:31 GMT
+      - Wed, 10 Jun 2026 06:23:07 GMT
       Set-Cookie:
-      - JSESSIONID=732467DE0A76FD79B8958EC80B2E9BB2; Path=/; HttpOnly
+      - JSESSIONID=6653CAF1A1F9B748F41B143F534D9C38; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - ON8xsHlEpixyujzpUPNupg
+      - L5DY6HB46AhTFvPuxIu0Cg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
@@ -41,5 +41,5 @@ http_interactions:
     body:
       encoding: UTF-8
       string: '{"links":[],"searchResults":[],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
-  recorded_at: Fri, 05 Jun 2026 08:53:31 GMT
+  recorded_at: Wed, 10 Jun 2026 06:23:07 GMT
 recorded_with: VCR 6.4.0

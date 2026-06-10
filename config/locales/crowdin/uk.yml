@@ -4665,6 +4665,11 @@ uk:
     few: 'Вільний час: %{count} робочих дні'
     many: 'Вільний час: %{count} робочих днів'
     other: 'Вільний час: %{count} робочого дня'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: вчора
   label_zen_mode: Режим «Дзен»
   label_role_type: Тип

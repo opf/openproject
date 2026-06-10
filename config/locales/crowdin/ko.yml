@@ -4481,6 +4481,8 @@ ko:
     other: 근무일 %{count}일
   label_x_working_days_time_off:
     other: '휴가: 근무일 %{count}일'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: 어제
   label_zen_mode: 젠 모드
   label_role_type: 유형

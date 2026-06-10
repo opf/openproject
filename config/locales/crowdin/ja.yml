@@ -4468,6 +4468,8 @@ ja:
     other: "%{count} working days"
   label_x_working_days_time_off:
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: 昨日
   label_zen_mode: 禅モード
   label_role_type: 種別

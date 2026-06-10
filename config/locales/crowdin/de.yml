@@ -141,7 +141,7 @@ de:
         custom_field_creation_failed: 'Das nutzerdefinierte Feld ''%{name}'' konnte nicht erstellt werden: %{message}'
         semantic_identifiers_must_be_enabled:
           title: Projektspezifische semantische Kennungen müssen aktiviert sein.
-          description: Jira uses issue identifiers consisting of a project key and a sequence number (PRJ-123). OpenProject also supports it, but it needs to be enabled [here](link).
+          description: Jira verwendet Ticketkennungen, die aus einem Projektschlüssel und einer Sequenznummer bestehen (PRJ-123). OpenProject unterstützt dies ebenfalls, die Funktion muss aber [hier aktiviert werden](link).
       blank:
         title: Noch keine Jira-Hosts konfiguriert
         description: Konfigurieren Sie einen Jira-Host, um mit dem Import von Elementen aus Jira in diese OpenProject-Instanz zu beginnen.
@@ -1396,7 +1396,7 @@ de:
         untitled_group: Unbenannte Gruppe
         reset_title: Formularkonfiguration zurücksetzen
         confirm_reset: Sind Sie sicher, dass Sie die Konfiguration des Formulars zurücksetzen möchten?
-        builtin_field: Built-in field
+        builtin_field: Internes Attribut
         reset_description: 'Dadurch werden die Attribute auf ihre Standardgruppe zurückgesetzt und ALLE benutzerdefinierten Felder deaktiviert.
 
           '
@@ -2058,7 +2058,7 @@ de:
         priority: Priorität
         progress: "% abgeschlossen"
         readonly: Nur Lesezugriff
-        relatable: Relatable to
+        relatable: Beziehbar auf
         remaining_hours: Verbleibender Aufwand
         remaining_time: Verbleibender Aufwand
         sequence_number: Sequenznummer
@@ -2421,7 +2421,7 @@ de:
               cannot_add_child_because_of_lack_of_permission: Sie können keine Unteraufgabe hinzufügen, weil Sie keine Berechtigung haben, das ausgewählte Arbeitspaket zu bearbeiten.
               blank: ID darf nicht leer sein.
             identifier:
-              semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+              semantic_identifier_incomplete: und sequence_number müssen beide gleichzeitig gesetzt werden.
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -2610,7 +2610,7 @@ de:
       unsupported_storage_type: ist kein unterstützter Speichertyp.
       storage_error: Es ist ein Fehler bei der Speicherverbindung aufgetreten.
       invalid_input: Die Eingabe ist ungültig.
-      invalid_child_for_parent: is not allowed as a parent for this view type.
+      invalid_child_for_parent: ist als übergeordnetes Element für diesen Ansichtstyp nicht zulässig.
   activity:
     item:
       created_by_on: erstellt von %{user} am %{datetime}
@@ -4526,6 +4526,9 @@ de:
   label_x_working_days_time_off:
     one: 'Freie Zeit: 1 Arbeitstag'
     other: 'Freie Zeit: %{count} Arbeitstage'
+  label_x_items_selected:
+    one: Ein Element ausgewählt
+    other: "%{count} Elemente ausgewählt"
   label_yesterday: gestern
   label_zen_mode: Zen-Modus
   label_role_type: Typ
@@ -4840,7 +4843,7 @@ de:
         menu:
           label_actions: Arbeitspaket-Aktionen
         parent: Übergeordnetes Arbeitspaket
-        undisclosed: Undisclosed
+        undisclosed: Nicht sichtbar
   permission_add_work_package_comments: Kommentare hinzufügen
   permission_add_work_packages: Arbeitspakete hinzufügen
   permission_add_messages: Forenbeiträge hinzufügen

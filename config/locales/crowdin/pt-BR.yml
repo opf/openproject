@@ -4529,6 +4529,9 @@ pt-BR:
   label_x_working_days_time_off:
     one: 'Dia de folga: 1 dia útil'
     other: 'Dia de folga: %{count} dias úteis'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: ontem
   label_zen_mode: Modo Zen
   label_role_type: Tipo

@@ -4532,6 +4532,9 @@ it:
   label_x_working_days_time_off:
     one: 'Assenza: 1 giorno lavorativo'
     other: 'Assenza: %{count} giorni lavorativi'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: ieri
   label_zen_mode: Modalità Zen
   label_role_type: Tipo

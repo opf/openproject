@@ -4523,6 +4523,9 @@ es:
   label_x_working_days_time_off:
     one: 'Tiempo libre: 1 día laborable'
     other: 'Tiempo libre: %{count} días laborables'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: ayer
   label_zen_mode: Modo zen
   label_role_type: Tipo

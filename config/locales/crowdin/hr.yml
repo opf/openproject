@@ -4597,6 +4597,10 @@ hr:
     one: 'Time off: 1 working day'
     few: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: jučer
   label_zen_mode: Zen mode
   label_role_type: Tip

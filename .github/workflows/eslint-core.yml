@@ -33,6 +33,7 @@ jobs:
       - name: Run ESLint
         uses: reviewdog/action-eslint@556a3fdaf8b4201d4d74d406013386aa4f7dab96 # v1
         with:
-          reporter: github-pr-check
+          reporter: github-pr-annotations
+          fail_level: any
           workdir: 'frontend/'
           eslint_flags: 'src/'

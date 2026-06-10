@@ -56,12 +56,12 @@ cs:
       lede_html: Při přejmenování identifikátoru projektu zůstane předchozí identifikátor rezervován, aby stávající odkazy a integrace fungovaly i nadále.<br>Zde můžete rezervované identifikátory uvolnit, aby je mohly využít jiné projekty.
       col_identifier: Identifikátor
       col_project: Projekt
-      col_reserved: Reserved
-      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
-      filter_label: Search identifiers
+      col_reserved: Rezervován
+      not_available_in_semantic_mode: Rezervované identifikátory projektu jsou k dispozici pouze v numerickém režimu.
+      filter_label: Hledat identifikátory
       btn_release: Uvolnit
       released_notice: Identifikátor "%{identifier}" byl uvolněn.
-      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
+      identifier_not_found: Rezervovaný identifikátor nebyl nalezen. Možná již byl uvolněn nebo projekt byl odstraněn. Obnovte prosím stránku.
       dialog:
         title: Uvolnit identifikátor
         heading: Uvolnit "%{identifier}"?
@@ -69,8 +69,8 @@ cs:
         checkbox_label: Beru na vědomí, že tento úkon nelze vzít zpět.
         confirm_button: Uvolnit identifikátor
       empty_heading: Žádné rezervované identifikátory
-      reserved_ago: "%{time} ago"
-      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
+      reserved_ago: "%{time} nazpět"
+      empty_body: Když se identifikátor projektu změní, předchozí se objeví zde, abyste jej mohli uvolnit, jakmile je to bezpečné.
     plugins:
       no_results_title_text: V současné době nejsou nainstalovány žádné pluginy.
       no_results_content_text: Pro více informací se podívejte na stránku pro integraci a pluginy.
@@ -99,14 +99,14 @@ cs:
       theme_warning: Změna motivu přepíše váš vlastní styl. Vzhled pak bude ztracen. Jste si jisti, že chcete pokračovat?
     enterprise:
       delete_dialog:
-        title: Delete enterprise token
-        heading: Delete this enterprise token?
-        confirmation: Are you sure you want to delete this Enterprise edition support token?
+        title: Odstranit Enterprise token
+        heading: Odstranit tento Enterprise token?
+        confirmation: Jste si jisti, že chcete odstranit tento Enterprise token?
       create_dialog:
-        title: Add Enterprise token
-        type_token_text: Your Enterprise token text
-        token_placeholder: Paste your Enterprise edition support token here
-        token_caption: To learn more about how to activate Enterprise edition check our [documentation](docs_url).
+        title: Přidat Enterprise token
+        type_token_text: Váš Enterprise token
+        token_placeholder: Zde vložte svůj Enterprise token
+        token_caption: Další informace o aktivaci edice Enterprise najdete v naší [dokumentaci](docs_url).
       add_token: Nahrát  podpůrný token Enterprise Edition
       replace_token: Nahradit aktuální podpůrný token
       order: Objednat Enterprise Edici
@@ -125,7 +125,7 @@ cs:
         in_grace_period: In grace period
         invalid_domain: Neplatná doména
         not_active: Neaktivní
-        trial: Trial
+        trial: Zkušební verze
     jemalloc_allocator: Jemalloc alokátor paměti
     journal_aggregation:
       caption: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays.
@@ -146,7 +146,7 @@ cs:
         title: No Jira hosts configured yet
         description: Configure a Jira host to start importing items from Jira to this OpenProject instance.
       configuration:
-        title: Jira configuration
+        title: Konfigurace Jira
         new: Nová konfigurace
       banner:
         title: Beta verze - Vyzkoušejte si ji!
@@ -157,7 +157,7 @@ cs:
         supported_versions: ''
       form:
         fields:
-          name: Name
+          name: Název
           url: Jira Server/Data Center URL
           personal_access_token: Personal Access Token
         button_add: Přidat konfiguraci
@@ -190,12 +190,12 @@ cs:
       columns:
         projects: Projekty
         last_change: Poslední změna
-        added: Added
-        label_ago: "%{amount} ago"
+        added: Přidáno
+        label_ago: před %{amount}
       run:
-        title: Import run
+        title: Běh importu
         history: Historie
-        remove_error: A Jira import run cannot be removed while it is running
+        remove_error: Běh Jira importu nemůže být odstraněn za běhu
         import_blocked_error: Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         blank:
@@ -203,8 +203,8 @@ cs:
           description: Create an import run to start importing information from this Jira instance
         index:
           description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
-          button_import_run: Import run
-          button_edit_configuration: Edit configuration
+          button_import_run: Běh importu
+          button_edit_configuration: Upravit konfiguraci
         status:
           initial: Start
           instance_meta_fetching: Fetching meta data
@@ -212,11 +212,11 @@ cs:
           instance_meta_done: Meta data fetched
           import_scope: Zvolte rozsah
           configuring: Select scope
-          projects_meta_fetching: Fetching project data
-          projects_meta_error: Error fetching project data
-          projects_meta_done: Data gathered
+          projects_meta_fetching: Načítání dat projektu
+          projects_meta_error: Chyba při načítání dat projektu
+          projects_meta_done: Shromážděná data
           importing: Probíhá
-          import_error: Error during import
+          import_error: Chyba při importu
           imported: Review mode
           reverting: Reverting
           revert_error: Error during revert
@@ -230,10 +230,10 @@ cs:
           button_retry: Retry
           parts:
             projects:
-              one: 1 project
-              few: "%{count} projects"
-              many: "%{count} projects"
-              other: "%{count} projects"
+              one: 1 projekt
+              few: "%{count} projektů"
+              many: "%{count} projektů"
+              other: "%{count} projektů"
             issues:
               one: 1 issue
               few: "%{count} issues"
@@ -241,65 +241,65 @@ cs:
               other: "%{count} issues"
             work_packages:
               one: 1 pracovní balíček
-              few: "%{count} work packages"
-              many: "%{count} work packages"
-              other: "%{count} work packages"
+              few: "%{count} pracovních balíčků"
+              many: "%{count} pracovních balíčků"
+              other: "%{count} pracovních balíčků"
             types:
-              one: 1 type
-              few: "%{count} types"
-              many: "%{count} types"
-              other: "%{count} types"
+              one: 1 typ
+              few: "%{count} typy"
+              many: "%{count} typy"
+              other: "%{count} typy"
             statuses:
               one: 1 status
-              few: "%{count} statuses"
-              many: "%{count} statuses"
-              other: "%{count} statuses"
+              few: "%{count} stavů"
+              many: "%{count} stavů"
+              other: "%{count} stavů"
             users:
               one: 1 uživatel
-              few: "%{count} users"
-              many: "%{count} users"
-              other: "%{count} users"
+              few: "%{count} uživatelů"
+              many: "%{count} uživatelů"
+              other: "%{count} uživatelů"
           groups:
             fetch:
-              title: Get base data
+              title: Získat základní data
             groups_and_users:
-              title: Groups and Users
+              title: Skupiny a uživatelé
             configuration:
-              title: Configure import
+              title: Nastavit import
             confirming:
-              title: Confirm and import
+              title: Potvrdit a importovat
             review:
               title: Review import
           sections:
             fetch_data:
-              title: Fetch instance meta data
-              caption_done: Completed
+              title: Načíst metadata instance
+              caption_done: Dokončeno
               description: Check what data is available for import in the host Jira instance.
               button_fetch: Check available data
-              label_progress: Fetching data from Jira...
+              label_progress: Načítání dat z Jira...
             groups_and_users:
-              title: Groups and Users
+              title: Skupiny a uživatelé
             import_scope:
-              title: Import scope
-              caption: Choose what you want to import into OpenProject
-              caption_done: Completed
+              title: Rozsah importu
+              caption: Vyberte, co chcete importovat do OpenProjectu
+              caption_done: Dokončeno
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
-              label_coming_soon: Coming soon (Q2 2026)
+              label_coming_soon: Již brzy (Q2 2026)
               label_coming_later: Coming later
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
-              button_continue: Continue
+              button_continue: Pokračovat
               label_import: Select which projects you would like to import.
-              button_select: Select projects
-              label_selected_data: Selected data for import
-              label_progress: Fetching data from Jira...
+              button_select: Vybrat projekty
+              label_selected_data: Vybraná data pro import
+              label_progress: Načítání dat z Jira...
               elements:
-                relations: Relations between issues
+                relations: Vztahy mezi issues
                 project_ids: Project identifiers
-                issue_ids: Issue identifiers
-                sprints: Sprint assignments
+                issue_ids: Identifikátory issues
+                sprints: Přiřazení sprintu
                 workflows: Project-level workflows
                 schemes: Schémata
                 permissions: Permissions
@@ -311,27 +311,27 @@ cs:
             confirm_import:
               title: Import dat
               caption: Review your import settings and start the import
-              caption_done: Completed
+              caption_done: Dokončeno
               label_available_data: Data k importu
-              label_users_import_explanation: Users that are involved in selected projects (group memberships included)
-              button_start: Start import
-              description: You are about to start an import run with the following settings.
-              label_progress: Import in progress...
-              label_import_data: Currently importing
+              label_users_import_explanation: Uživatelé, kteří jsou zapojeni do vybraných projektů (včetně členství ve skupinách)
+              button_start: Spustit import
+              description: Chystáte se spustit import s následujícím. nastavením.
+              label_progress: Probíhá import...
+              label_import_data: Momentálně importováno
             import_result:
-              title: Import run results
-              caption: Review import run or revert import
+              title: Výsledky importu
+              caption: Zkontrolovat spuštění importu nebo revertovat import
               info: Import proběhl úspěšně.
               label_results: Importováno
-              label_revert: Revert import
-              button_revert: Revert import
+              label_revert: Revert importu
+              button_revert: Revertovat import
               button_done: Schválit import
               preview_description: The imported data is currently in review mode. Click "Approve import" to make the import permanent or "Revert import" to undo all changes made in this import run.
               label_finalize_import: Approve import
               label_finalizing: Approving import...
               label_finalizing_done: Import approved.
-              label_revert_progress: Reverting import...
-              label_reverted: Import reverted.
+              label_revert_progress: Revertování importu...
+              label_reverted: Import byl revertován.
           select_dialog:
             filter_projects: Filtrovat podle textu
           import_dialog:
@@ -342,18 +342,18 @@ cs:
               '
             confirm: I understand and have a backup
           revert_dialog:
-            title: Permanently revert this import?
+            title: Trvale revertovat tento import?
             description: This will delete all imported objects (including whole projects).
-            confirm: I understand that this reversion will delete data permanently
+            confirm: Chápu, že tento revert trvale odstraní data
           finalize_dialog:
             title: Approve this import?
             description: Once approved, this import can no longer be reverted. All imported data will become permanent.
             confirm: Beru na vědomí, že tento úkon nelze vzít zpět
             confirm_button: Rozumím
           select_projects:
-            title: Select projects
+            title: Výběr projektů
       user:
-        unknown_name: Unknown
+        unknown_name: Neznámý
     mcp_configurations:
       index:
         description: The model context protocol allows AI agents to provide its users with tools and resources exposed by this OpenProject instance. This feature is still in beta.
@@ -440,7 +440,7 @@ cs:
     settings:
       new_project:
         project_creation: Project creation
-        notification_text_default: "<p>Hello,</p> <p>A new project has been created: projectValue:name</p> <p>Thank you</p>\n"
+        notification_text_default: "<p>Dobrý den,</p> <p>Byl vytvořen nový projekt: projectValue:name</p> <p>Děkujeme</p>\n"
       work_packages_identifier:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
@@ -497,10 +497,10 @@ cs:
       statuses_removal_dialog:
         title: Remove statuses
         heading:
-          one: Remove 1 status?
-          few: Remove %{count} statuses?
-          many: Remove %{count} statuses?
-          other: Remove %{count} statuses?
+          one: Odstranit 1 stav?
+          few: Odstranit %{count} stavy?
+          many: Odstranit %{count} stavů?
+          other: Odstranit %{count} stavů?
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
         confirm: Odstranit
       leave_confirmation:
@@ -716,7 +716,7 @@ cs:
         all: Allows the user to assign multiple values to this custom field.
         project: Allows the user to assign multiple values to this attribute.
       searchable:
-        all: Include the field values when using the global search functionality.
+        all: Zahrnout hodnoty polí při použití globální funkce vyhledávání.
         project: Check to make this attribute available as a filter in project lists.
       editable:
         all: Allow the field to be editable by users themselves.
@@ -754,36 +754,36 @@ cs:
     confirmation_live_message_checked: The button to proceed is now active.
     confirmation_live_message_unchecked: The button to proceed is now inactive. You need to tick the checkbox to continue.
   departments:
-    edit: Edit department
-    add_user: Add user
-    add_department: Add department
+    edit: Upravit oddělení
+    add_user: Přidat uživatele
+    add_department: Přidat oddělení
     blankslate:
-      heading: Your organization has no departments
-      description: 'Start by adding departments or users to the organization. Each department can be used to create a hierarchy below it, to navigate and create sub-department inside a hierarchy click on the created item.
+      heading: Vaše organizace nemá žádná oddělení
+      description: 'Začněte přidáním oddělení nebo uživatelů do organizace. Každé oddělení lze použít k vytvoření hierarchie pod ním, pro navigaci a vytvoření pododdělení uvnitř hierarchie klikněte na vytvořenou položku.
 
         '
-      add_button: Add
+      add_button: Přidat
     detail_blankslate:
-      heading: This department doesn’t have any hierarchy level below
+      heading: Toto oddělení nemá žádnou úroveň hierarchie pod ním
       description: Add departments or users to create sub-items inside another one.
-      add_button: Add
+      add_button: Přidat
     add_department_form:
-      name_label: Department name
-      name_placeholder: Enter department name
+      name_label: Název oddělení
+      name_placeholder: Zadejte název oddělení
     move_user_dialog:
-      title: User already in a department
-      heading: Move user to this department?
-      description: "%{user} is currently a member of %{from_department}. Moving them will remove them from that department."
-      confirm: Move user
+      title: Uživatel je již v oddělení
+      heading: Přesunout uživatele do tohoto oddělení?
+      description: "%{user} je v současné době členem %{from_department}. Jejich přesunutím dojde k jejich odstranění z tohoto oddělení."
+      confirm: Přesunout uživatele
     context_menu:
-      add_sub_department: Add sub-department
-      add_user: Add user
+      add_sub_department: Přidat dílčí oddělení
+      add_user: Přidat uživatele
     flash:
-      user_added: User was successfully added to the department.
-      user_removed: User was successfully removed from the department.
-      department_created: Department was successfully created.
+      user_added: Uživatel byl úspěšně přidán do oddělení.
+      user_removed: Uživatel byl úspěšně odstraněn z oddělení.
+      department_created: Oddělení bylo úspěšně vytvořeno.
     errors:
-      move_user_failed: Failed to move user between departments.
+      move_user_failed: Přesun uživatele mezi odděleními se nezdařil.
   pagination:
     label: Stránkování
     prev: Předchozí
@@ -819,9 +819,9 @@ cs:
       respond_to?: neimplementuje požadovanou metodu.
       rules:
         copy_workflow_from:
-          workflow_missing: has no own workflow.
+          workflow_missing: nemá vlastní pracovní postup.
         custom_field:
-          format_not_supported: format '%{field_format}' is unsupported.
+          format_not_supported: formát '%{field_format}' není podporován.
         item:
           root_item: nemůže být kořenová položka.
           not_persisted: musí být již existující položka.
@@ -857,13 +857,13 @@ cs:
       wiki_pages: Wiki
   groups:
     edit:
-      synchronized_groups: Synchronized groups
+      synchronized_groups: Synchronizované skupiny
     index:
       description: Seskupováním uživatelů je můžete přidat jako členy do stejných projektů nebo jim přiřadit stejné globální role.
     table_component:
       blank_slate:
         description: You can define named groups of users with specific permissions.
-        title: No groups set up yet
+        title: Zatím nebyly vytvořeny žádné skupiny
       user_count: User count
     users:
       no_results_title_text: Momentálně nejsou žádní uživatelé součástí této skupiny.
@@ -882,12 +882,12 @@ cs:
     index:
       search:
         label: Filtr názvů portfolia
-        placeholder: Search portfolios
+        placeholder: Hledat portfolia
       sub_items_html:
-        one: "<strong>1</strong> sub-item"
-        few: "<strong>%{count}</strong> sub-items"
-        many: "<strong>%{count}</strong> sub-items"
-        other: "<strong>%{count}</strong> sub-items"
+        one: "<strong>1</strong> dílčí položka"
+        few: "<strong>%{count}</strong> dílčích položek"
+        many: "<strong>%{count}</strong> dílčích položek"
+        other: "<strong>%{count}</strong> dílčích položek"
     lists:
       active: Aktivní portfolia
       my: Moje portfolia
@@ -936,7 +936,7 @@ cs:
         text: Tato akce neodstraní žádný projekt, který seznam obsahuje. Opravdu chcete tento seznam projektů smazat?
     settings:
       header_details: Základní údaje
-      header_identifier: Identifier
+      header_identifier: Identifikátor
       header_status: Stav
       header_relations: Vztahy projektu
       button_update_details: Aktualizovat podrobnosti
@@ -954,14 +954,14 @@ cs:
       private_confirmation:
         checkbox: Chápu, že tím se dříve veřejný obsah stane soukromým.
         title: Nastavit tento projekt jako soukromý?
-        description: 'The project will only be visible to project members depending on their role and associated permissions. Sub-projects are not affected and have their own settings.
+        description: 'Projekt bude viditelný pouze pro členy projektu v závislosti na jejich úloze a souvisejících povoleních. Dílčí projekty nejsou ovlivněny a mají vlastní nastavení.
 
           '
       change_identifier: Změnit identifikátor
       change_identifier_dialog_title: Změnit identifikátor projektu
       change_identifier_format_hint_semantic: Pouze velká písmena (A-Z), číslice nebo podtržítka. Maximálně 10 znaků. Musí začínat písmenem.
       change_identifier_format_hint_legacy: Pouze malá písmena (a-z), číslice, pomlčky nebo podtržítka.
-      change_identifier_warning: 'This will permanently change identifiers and URLs of all work packages in this project. The previous identifiers and URLs will nevertheless continue to work.
+      change_identifier_warning: 'Tímto se trvale změní identifikátory a adresy URL všech pracovních balíčků v tomto projektu. Předchozí identifikátory a adresy URL budou nicméně nadále správně přesměrovány.
 
         '
       subitems:
@@ -1877,7 +1877,7 @@ cs:
         identifier: Identifikátor
         latest_activity_at: Poslední aktivita
         parent: Podprojekt
-        project_creation_wizard_enabled: Project initiation request
+        project_creation_wizard_enabled: Zahajovatel projektu
         public_value:
           title: Viditelnost
           true: veřejný
@@ -2109,7 +2109,7 @@ cs:
         relatable: Relatable to
         remaining_hours: Zbývající práce
         remaining_time: Zbývající práce
-        sequence_number: Sequence number
+        sequence_number: Sekvenční číslo
         shared_with_users: Sdíleno s
         schedule_manually: Manuální plánování
         spent_hours: Strávený čas
@@ -2120,13 +2120,13 @@ cs:
         version: Verze
         watcher: Sledující
       ordered_persisted_query_entity:
-        persisted_query: Persisted query
-        entity: Entity
-        position: Position
+        persisted_query: Trvalý dotaz
+        entity: Entita
+        position: Pozice
       persisted_query:
-        name: Name
-        views: Views
-        filters: Filters
+        name: Název
+        views: Pohledy
+        filters: Filtry
         orders: Orders
         selects: Selects
       persisted_view:
@@ -2528,7 +2528,7 @@ cs:
               attribute_unknown_name: 'Použitý neplatný atribut pracovního balíčku: %{attribute}'
               duplicate_group: Název skupiny '%{group}' je použit více než jednou. Názvy skupin musí být jedinečné.
               query_invalid: 'Vložený dotaz ''%{group}'' je neplatný: %{details}'
-              group_without_name: Group name can't be blank.
+              group_without_name: Název skupiny nesmí být prázdný.
             patterns:
               invalid_tokens: One or more attributes inside the field are not valid. Please, fix the attributes before saving.
         user:
@@ -2620,7 +2620,7 @@ cs:
         other: Priorities
       meeting_participant: Účastník schůzky
       member: Člen
-      message: Message
+      message: Zpráva
       news: Novinky
       notification:
         one: Oznámení
@@ -2646,10 +2646,10 @@ cs:
         many: Role
         other: Role
       scim_client:
-        one: SCIM client
-        few: SCIM clients
-        many: SCIM clients
-        other: SCIM clients
+        one: Klient SCIM
+        few: Klienti SCIM
+        many: Klienti SCIM
+        other: Klienti SCIM
       jira:
         one: Jira
         few: Jira
@@ -2667,10 +2667,10 @@ cs:
         many: RSS tokenů
         other: RSS tokenů
       type:
-        one: Type
-        few: Types
-        many: Types
-        other: Types
+        one: Typ
+        few: Typy
+        many: Typy
+        other: Typy
       user: Uživatel
       version: Verze
       workflow: Pracovní postup
@@ -2696,7 +2696,7 @@ cs:
       unsupported_storage_type: není podporovaným typem úložiště.
       storage_error: Došlo k chybě při připojení k úložišti.
       invalid_input: Vstup je neplatný.
-      invalid_child_for_parent: is not allowed as a parent for this view type.
+      invalid_child_for_parent: není pro tento typ zobrazení povolen jako nadřazený.
   activity:
     item:
       created_by_on: vytvořil %{user} dne %{datetime}
@@ -2743,9 +2743,9 @@ cs:
       changed_date: změněno z %{from} na %{to}
       deactivated: Deaktivováno
       deleted_project_phase: Smazaná fáze projektu
-      phase_and_both_gates: "%{phase_message}. %{start_gate_message}, and %{finish_gate_message}"
+      phase_and_both_gates: "%{phase_message}. %{start_gate_message}, a %{finish_gate_message}"
       phase_and_one_gate: "%{phase_message}. %{gate_message}"
-      removed_date: date deleted %{date}
+      removed_date: datum smazání %{date}
   attributes:
     active: Aktivní
     assigned_to: Řešitel
@@ -2811,8 +2811,8 @@ cs:
     priority: Priorita
     project: Projekt
     project_ids: ID Projektu
-    project_phase: Project phase
-    project_phase_definition: Project phase
+    project_phase: Fáze projektu
+    project_phase_definition: Fáze projektu
     reason: Důvod
     responsible: Odpovědný
     required: Požadováno
@@ -2975,7 +2975,7 @@ cs:
   button_revoke_all: Zrušit vše
   button_revoke_only: Zrušit pouze %{shared_role_name}
   button_publish: Zveřejnit
-  button_unpublish: Nastavit jako soukromé
+  button_unpublish: Nastavit jako soukromý
   consent:
     checkbox_label: Zaznamenal(a) jsem a souhlasím s výše uvedeným.
     failure_message: Souhlas se nezdařil, nelze pokračovat.
@@ -3086,9 +3086,9 @@ cs:
     distance_in_words:
       about_x_hours:
         one: přibližně 1 hodinu
-        few: přibližně %{count} hodin
-        many: přibližně %{count} hodin
-        other: přibližně %{count} hodin
+        few: přibližně %{count} hodinami
+        many: přibližně %{count} hodinami
+        other: přibližně %{count} hodinami
       about_x_months:
         one: přibližně 1 měsíc
         few: přibližně %{count} měsíce
@@ -3223,7 +3223,7 @@ cs:
       board_view: Advanced Boards
       calculated_values: Calculated values
       capture_external_links: Capture External Links
-      internal_comments: Internal Comments
+      internal_comments: Interní komentáře
       custom_actions: Custom Actions
       custom_field_hierarchies: Hierarchie
       customize_life_cycle: Přizpůsobit životní cyklus
@@ -3254,14 +3254,14 @@ cs:
       plans_title: Podnikové plány
       title: Doplňky podnikových plánů
       plan_title: Enterprise %{plan} add-on
-      plan_name: "%{plan} enterprise plan"
-      trial_text: This feature is included in your active Enterprise trial.
+      plan_name: Enterprise plán %{plan}
+      trial_text: Tato funkce je zahrnuta v aktivní zkušební verzi Enterprise.
       plan_text_html: K dispozici od plánu %{plan_name}.
       unlimited: Bez omezení
-      already_have_token: 'Already have a token? Add it using the button below to upgrade to the booked Enterprise plan.
+      already_have_token: 'Už máte token? Přidejte jej pomocí níže uvedeného tlačítka a přejděte na rezervovaný plán Enterprise.
 
         '
-      hide_banner: Hide this banner
+      hide_banner: Skrýt tento banner
       homescreen_description: 'Plán Enterprise rozšiřuje komunitní edici OpenProject o další [Enterprise doplňky](enterprise_url) a profesionální podporu, což je ideální pro organizace provozující OpenProject v kritickém prostředí.
 
         '
@@ -3321,10 +3321,10 @@ cs:
         title: Jednotné přihlášení (SSO) pro úložiště Nextcloud
         description: Enable seamless and secure authentication for your Nextcloud storage with Single Sign-On. Simplify access management and enhance user convenience.
       scim_api:
-        title: SCIM clients
+        title: Klienti SCIM
         description: Automatizujte správu uživatelů v OpenProject pomocí integrace externích služeb identit, jako je Microsoft Entra nebo Keycloak, prostřednictvím našeho SCIM Server API. K dispozici od plánu Enterprise.
       sso_auth_providers:
-        title: Single Sign-On (SSO)
+        title: Jednotné přihlášení (SSO)
         description: Enable users to log in via external SSO providers using SAML or OpenID Connect for seamless access and integration with existing identity systems.
       virus_scanning:
         description: Zajistěte, aby nahrané soubory v OpenProjectu byly před zpřístupněním ostatním uživatelům zkontrolovány na přítomnost virů.
@@ -3349,15 +3349,15 @@ cs:
         few: "%{count} days left of %{trial_plan} trial token"
         many: "%{count} days left of %{trial_plan} trial token"
         other: "%{count} days left of %{trial_plan} trial token"
-      description_html: You have access to all %{trial_plan} features.
+      description_html: Máte přístup ke všem funkcím %{trial_plan}.
     trial:
-      not_found: You have requested a trial token, but that request is no longer available. Please try again.
-      wait_for_confirmation: We sent you an email to confirm your address in order to retrieve a trial token.
-      already_retrieved: 'Your trial enterprise token was already retrieved. Please check your emails for the token being attached. Please reach out to our support team if you need a new one.
+      not_found: Požádali jste o zkušební token, ale tento požadavek již není k dispozici. Zkuste to prosím znovu.
+      wait_for_confirmation: Poslali jsme vám e-mail s žádostí o potvrzení vaší adresy, abyste mohli získat zkušební token.
+      already_retrieved: 'Váš zkušební Enterprise token byl již načten. Zkontrolujte prosím své e-maily, zda je token přiložen. Pokud potřebujete nový, obraťte se na náš tým podpory.
 
         '
-      successfully_saved: Your trial enterprise token has been successfully retrieved.
-      token_sent: Trial token requested
+      successfully_saved: Váš zkušební Enterprise token byl úspěšně načten.
+      token_sent: Enterprise token vyžádán
       request_again: Znovu požádat
       resend_action: Znovu odeslat potvrzovací e‑mail
       welcome_title: Stručný přehled funkcí
@@ -3365,7 +3365,7 @@ cs:
       confirmation_info: 'We sent you an email on %{date} to %{email} with all the information to start the free trial of OpenProject Enterprise. Please check your inbox and click the confirmation link provided to start your 14-day free trial.
 
         '
-      confirmation_subline: 'Please, check your inbox and follow the steps to start your 14-day free trial.
+      confirmation_subline: 'Zkontrolujte prosím svou doručenou poštu a postupujte podle kroků, abyste zahájili 14-denní bezplatnou zkušební verzi.
 
         '
       domain_caption: The token will be valid for your currently configured host name.
@@ -3672,7 +3672,7 @@ cs:
             line_0: Project-based work package identifiers for clearer references.
             line_1: Jira Migrator support for Jira identifiers, due dates, and more.
             line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
+            line_3: Přepracované zobrazení sprintu.
             line_4: Improved work package linking across Documents and text editors.
             line_5: More flexible meeting schedules and reduced email notification noise.
             line_6: Nested groups for organizational structures and inherited permissions.
@@ -3709,7 +3709,7 @@ cs:
         header: změny od %{author}
         field_changed: "%{field} změněno z %{old_value} na %{new_value}"
         field_set: "%{field} nastaveno na %{value}"
-        field_removed: "%{field} removed"
+        field_removed: "%{field} odstraněno"
         field_updated: "%{field} aktualizováno"
         deleted_with_diff: "%{field} deleted (%{link})"
         changed_with_diff: "%{field} changed (%{link})"
@@ -3741,7 +3741,7 @@ cs:
         progress_calculation_adjusted: Progress calculation automatically <a href="%{href}" target="_blank">adjusted with version update</a>.
         scheduling_mode_adjusted: Scheduling mode automatically adjusted with version update.
         totals_removed_from_childless_work_packages: Work and progress totals automatically removed for non-parent work packages with <a href="%{href}" target="_blank">version update</a>. This is a maintenance task and can be safely ignored.
-        sprint_migration: Version '%{version_name}' has been copied as a sprint.
+        sprint_migration: Verze '%{version_name}' byla zkopírována jako sprint.
       total_percent_complete_mode_changed_to_work_weighted_average: Podřízené pracovní balíčky bez položky Práce jsou ignorovány.
       total_percent_complete_mode_changed_to_simple_average: Pracovní hodnoty podřízených pracovních balíčků jsou ignorovány.
   links:
@@ -3844,8 +3844,8 @@ cs:
         title: Receive email reminders on these days
         submit_button: Update reminder days
       pause_reminders:
-        title: Pause email notifications
-        enabled: Temporarily pause daily email reminders
+        title: Pozastavit e-mailová oznámení
+        enabled: Dočasně pozastavit e-mailová oznámení
         date_range: Pause period
       email_alerts:
         title: Email alerts for other items that are not work packages
@@ -3854,7 +3854,7 @@ cs:
         news_commented: Comment on a news item
         document_added: Document added
         forum_messages: Forum message posted
-        wiki_page_added: Wiki page added
+        wiki_page_added: Přidána wiki stránka
         wiki_page_updated: Wiki stránka aktualizována
         membership_added: Membership added
         membership_updated: Členství bylo aktualizováno
@@ -3878,14 +3878,14 @@ cs:
         overdue: Overdue
         times:
           same_day: On the same day
-          one_day_before: 1 day before
-          three_days_before: 3 days before
-          seven_days_before: 7 days before
-          one_day_after: 1 day after
-          three_days_after: 3 days after
-          seven_days_after: 7 days after
+          one_day_before: 1 den předem
+          three_days_before: 3 dny předem
+          seven_days_before: 7 dní předem
+          one_day_after: 1 den po
+          three_days_after: 3 dny po
+          seven_days_after: 7 dní po
       non_participating:
-        title: Non-participating
+        title: Neúčastnící se
         description: Additional notifications for activities in all projects.
         submit_button: Update preferences
         work_package_created: New work packages
@@ -3954,7 +3954,7 @@ cs:
   label_age: Věk
   label_ago: dnů před
   label_all: vše
-  label_all_uppercase: All
+  label_all_uppercase: Vše
   label_all_time: celkový čas
   label_all_words: Všechna slova
   label_all_open_wps: Všechny otevřené
@@ -3972,7 +3972,7 @@ cs:
   label_ical_access_key_generation_hint: Automaticky vygenerováno při odebírání kalendáře.
   label_ical_access_key_latest: poslední
   label_ical_access_key_revoke: Revoke
-  label_integrations: Integrations
+  label_integrations: Integrace
   label_add_column: Přidat sloupec
   label_applied_status: Přiřazený stav
   label_archive_project: Archivovat projekt
@@ -4056,7 +4056,7 @@ cs:
   label_commits_per_month: Commitů za měsíc
   label_confirmation: Potvrzení
   label_contains: obsahuje
-  label_starts_with: starts with
+  label_starts_with: začíná na
   label_content: Obsah
   label_color_plural: Barvy
   label_copied: zkopírováno
@@ -4064,8 +4064,8 @@ cs:
   label_copy_source: Zdroj
   label_copy_target: Cíl
   label_copy_workflow_from: Kopírovat pracovní postup z
-  label_copy_workflow_from_type: Copy to another type
-  label_copy_workflow_from_role: Copy to other roles
+  label_copy_workflow_from_type: Kopírovat do jiného typu
+  label_copy_workflow_from_role: Kopírovat do dalších rolí
   label_copy_project: Kopírovat projekt
   label_core_version: Verze jádra
   label_core_build: Build jádra
@@ -4190,7 +4190,7 @@ cs:
   label_home: Domů
   label_subject_or_id: Předmět nebo ID
   label_calendar_subscriptions: Odběr kalendáře
-  label_identifier: Identifiers
+  label_identifier: Identifikátory
   label_project_identifier: Identifikátor projektu
   label_in: v
   label_in_less_than: za méně než
@@ -4223,11 +4223,11 @@ cs:
   label_journal_diff: Popis porovnání
   label_language: Jazyk
   label_languages: Jazyky
-  label_export_plural: Exports
+  label_export_plural: Exporty
   label_external_links: Externí odkazy
   label_locale: Jazyk a region
   label_jump_to_a_project: Přejít na projekt...
-  label_jira_import: Jira Migrator
+  label_jira_import: Jira Migrátor
   label_keyword_plural: Klíčová slova
   label_language_based: Na základě jazyka uživatele
   label_last_activity: Poslední aktivita
@@ -4256,16 +4256,16 @@ cs:
   label_custom_export_logo: Vlastní logo exportu
   label_custom_export_cover: Vlastní exportní obal pozadí
   label_custom_export_footer: Custom export footer image
-  label_custom_export_font_regular: Regular
-  label_custom_export_font_bold: Bold
+  label_custom_export_font_regular: Běžný
+  label_custom_export_font_bold: Tučný
   label_custom_export_font_italic: Kurzíva
-  label_custom_export_font_bold_italic: Bold Italic
+  label_custom_export_font_bold_italic: Tučná kurzíva
   label_custom_export_cover_overlay: Překrytí obalu vlastního exportu
   label_custom_export_cover_text_color: Barva textu
   label_custom_pdf_export_settings: Vlastní nastavení exportu PDF
   label_custom_favicon: Vlastní favicon
   label_custom_touch_icon: Vlastní ikona dotyku
-  label_departments: Organization
+  label_departments: Organizace
   label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP group synchronisation](ldap_docs_article).
 
     '
@@ -4275,7 +4275,7 @@ cs:
   label_manage: Spravovat
   label_manage_groups: Spravovat skupiny
   label_managed_repositories_vendor: Spravováno %{vendor} repozitářů
-  label_mathematical_operators: Mathematical operators
+  label_mathematical_operators: Matematické operátory
   label_max_size: Maximální velikost
   label_me: já
   label_member_new: Nový člen
@@ -4336,7 +4336,7 @@ cs:
   label_no_due_date: žádné datum dokončení
   label_no_start_date: žádné datum začátku
   label_no_parent_page: Žádná nadřazená stránka
-  label_no_parent_group: "(No parent group)"
+  label_no_parent_group: "(Žádná nadřazená skupina)"
   label_notification_center_plural: Notifikace
   label_nothing_display: Nic k zobrazení
   label_nobody: nikdo
@@ -4398,7 +4398,7 @@ cs:
   label_preview_not_available: Náhled není k dispozici
   label_previous: Předchozí
   label_previous_week: Předchozí týden
-  label_previous_year: Previous year
+  label_previous_year: Předchozí rok
   label_principal_invite_via_email: " nebo pozvat nové uživatele e-mailem"
   label_principal_search: Přidat existující uživatele nebo skupiny
   label_privacy_policy: Zásady ochrany soukromí a bezpečnosti údajů
@@ -4412,7 +4412,7 @@ cs:
   label_project_attribute_manage_link: Správa atributů produktu
   label_project_count: Celkový počet projektů
   label_project_copy_notifications: Během kopie projektu odeslat oznámení e-mailem
-  label_project_initiation_export_pdf: Export PDF for %{project_creation_name}
+  label_project_initiation_export_pdf: Export PDF pro %{project_creation_name}
   label_project_latest: Nejnovější projekty
   label_project_default_type: Povolit prázdný typ
   label_project_hierarchy: Hierarchie projektu
@@ -4420,14 +4420,14 @@ cs:
   label_project_new: Nový projekt
   label_project_plural: Projekty
   label_project_list_plural: Seznamy projektů
-  label_reserved_identifiers: Reserved project identifiers
+  label_reserved_identifiers: Rezervované identifikátory projektů
   label_project_life_cycle: Životní cyklus projektu
   label_project_attributes_plural: Atributy projektu
   label_project_custom_field_plural: Atributy projektu
   label_project_settings: Nastavení projektu
   label_project_attributes_settings: ''
   label_project_storage_plural: Úložiště souborů
-  label_project_storage_project_folder: 'File storages: Project folders'
+  label_project_storage_project_folder: 'Úložiště souborů: Složky projektů'
   label_projects_disk_usage_information: "%{count} projekty využívající diskový prostor %{used_disk_space}"
   label_project_view_all: Zobrazit všechny projekty - seznam
   label_project_show_details: Zobrazit detail projektu
@@ -4461,7 +4461,7 @@ cs:
   label_report: Hlášení
   label_report_bug: Nahlásit chybu
   label_report_plural: Hlášení
-  label_reported_work_packages: Nahlášené pracovní balíčky
+  label_reported_work_packages: Hlášené pracovní balíčky
   label_reporting: Hlášení
   label_reporting_plural: Hlášení
   label_repository: Repozitář
@@ -4484,7 +4484,7 @@ cs:
   label_role_new: Nová role
   label_role_grantable: Udělitelná role
   label_role_plural: Role
-  label_role_missing_permissions: "%{role} (missing required permissions)"
+  label_role_missing_permissions: "%{role} (chybí požadovaná oprávnění)"
   label_role_search: Přiřadit roli novým členům
   label_scm: SCM
   label_scroll_left: Rolovat vlevo
@@ -4587,7 +4587,7 @@ cs:
   label_what_is_this: Co to je?
   label_week: Týden
   label_widget: Widget
-  label_widget_new: New widget
+  label_widget_new: Nový widget
   label_wiki_content_added: Přidána stránka wiki
   label_wiki_content_updated: Wiki stránka aktualizována
   label_wiki_toc: Obsah
@@ -4634,9 +4634,9 @@ cs:
     other: "%{count} komentáře"
     zero: žádné komentáře
   label_x_items:
-    one: 1 item
-    other: "%{count} items"
-    zero: no items
+    one: 1 položka
+    other: "%{count} položek"
+    zero: žádné položky
   label_x_open_work_packages_abbr:
     one: 1 otevřený
     other: "%{count} otevřených"
@@ -4654,20 +4654,25 @@ cs:
     other: "%{count} souborů"
     zero: žádné soubory
   label_x_days:
-    one: 1 day
-    few: "%{count} days"
-    many: "%{count} days"
-    other: "%{count} days"
+    one: 1 den
+    few: "%{count} dny"
+    many: "%{count} dní"
+    other: "%{count} dní"
   label_x_working_days:
-    one: 1 working day
-    few: "%{count} working days"
-    many: "%{count} working days"
-    other: "%{count} working days"
+    one: 1 pracovní den
+    few: "%{count} pracovních dnů"
+    many: "%{count} pracovních dnů"
+    other: "%{count} pracovních dnů"
   label_x_working_days_time_off:
-    one: 'Time off: 1 working day'
-    few: 'Time off: %{count} working days'
-    many: 'Time off: %{count} working days'
-    other: 'Time off: %{count} working days'
+    one: 'Volno: 1 pracovní den'
+    few: 'Volno: %{count} pracovních dní'
+    many: 'Volno: %{count} pracovních dní'
+    other: 'Volno: %{count} pracovních dní'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: včera
   label_zen_mode: Zen mód
   label_role_type: Typ
@@ -4675,7 +4680,7 @@ cs:
   label_global_role: Globální role
   label_not_changeable: "(neměnitelné)"
   label_global: Globální
-  label_seeded_from_env_warning: This record has been created through a setting environment variable. It is not editable through UI.
+  label_seeded_from_env_warning: Tento záznam byl vytvořen prostřednictvím proměnné prostředí. Nelze jej upravovat prostřednictvím uživatelského rozhraní.
   label_schedule_and_availability: Rozvrh a dostupnost
   label_working_hours: Pracovní rozvrh
   label_non_working_days: Kalendář dostupnosti
@@ -4685,8 +4690,8 @@ cs:
   button_edit_non_working_time: Upravit volno
   label_continued_from_previous_year: pokračování z předchozího roku
   label_continues_into_next_year: pokračování do dalšího roku
-  label_end_date: Finish date
-  label_working_days: Working days
+  label_end_date: Datum ukončení
+  label_working_days: Pracovní dny
   label_non_working_times_with_count: Volna v roce %{year} (%{count})
   label_non_working_times_summary: Souhrn roku %{year}
   label_total_user_non_working_times: Osobní nepracovní dny
@@ -4694,7 +4699,7 @@ cs:
   label_total_days_off: Celkový počet dnů volna
   macro_execution_error: Chyba při provádění makra %{macro_name}
   macro_unavailable: Makro %{macro_name} nelze zobrazit.
-  macro_unknown: Unknown or unsupported macro.
+  macro_unknown: Neznámé nebo nepodporované makro.
   macros:
     placeholder: "[Placeholder] Macro %{macro_name}"
     errors:
@@ -4762,7 +4767,7 @@ cs:
         allowed_actions_html: 'You have the following permissions on this work package: %{allowed_actions}. This can change depending on your project role and permissions.'
         create_account: Pro přístup k tomuto pracovnímu balíčku musíte vytvořit a aktivovat účet na %{instance}.
         open_work_package: Otevřít pracovní balíček
-        subject: Work package %{id} was shared with you
+        subject: Pracovní balíček %{id} byl s vámi sdílen
         enterprise_text: Sdílejte pracovní balíčky s uživateli, kteří nejsou členy projektu.
         summary:
           user: "%{user} s vámi sdílel pracovní balíček s právy %{role_rights}"
@@ -4777,12 +4782,12 @@ cs:
             recommendation: Budeme i nadále monitorovat systém, abychom zajistili, že zůstane v dobrém stavu. V případě jakýchkoli nesrovnalostí vás budeme informovat.
             details: Pro více podrobností nebo pro provedení nezbytných změn můžete navštívit konfiguraci úložiště
           unhealthy:
-            summary: The status of your storage, %{storage_name}, is currently displaying as "Error". We've detected an issue that might require your attention.
+            summary: Stav vašeho úložiště, %{storage_name}, se aktuálně zobrazuje jako "Chybný". Zjistili jsme problém, který by mohl vyžadovat vaši pozornost.
             error-details: Podrobnosti o chybě
             error-message: ''
             error-occurred-on: Vyskytlo se
-            recommendation: We recommend heading over to the storage configuration page to address this issue
-            unsubscribe: If you would no longer like to receive these notifications, you can unsubscribe at any time. To unsubscribe, please follow the instructions on this page
+            recommendation: Doporučujeme přejít na stránku konfigurace úložiště a tento problém vyřešit
+            unsubscribe: Pokud si již nepřejete dostávat tato oznámení, můžete se z odběru kdykoli odhlásit. Chcete-li se odhlásit, postupujte podle pokynů na této stránce
         email_notification_settings: Nastavení e-mailových oznámení o úložišti
         see_storage_settings: Zobrazit nastavení úložiště
         healthy:
@@ -4978,11 +4983,11 @@ cs:
     common:
       work_package_card_component:
         drag_handle:
-          label: Drag to reorder
+          label: Přesuňte tažením
         menu:
-          label_actions: Work package actions
-        parent: Parent
-        undisclosed: Undisclosed
+          label_actions: Operace na pracovním balíčku
+        parent: Nadřazený
+        undisclosed: Nezveřejněno
   permission_add_work_package_comments: Přidat komentáře
   permission_add_work_packages: Přidat pracovní balíčky
   permission_add_messages: Odesílat zprávy
@@ -5018,12 +5023,12 @@ cs:
   permission_edit_work_package_comments_explanation: 'Caution: Users with this permission are able to edit anyone''s comment.'
   permission_edit_work_packages: Upravit pracovní balíčky
   permission_edit_messages: Upravit zprávy
-  permission_edit_own_internal_comments: Edit own internal comments
+  permission_edit_own_internal_comments: Úprava vlastních interních komentářů
   permission_edit_own_work_package_comments: Upravit vlastní komentáře
   permission_edit_own_messages: Upravit vlastní zprávy
   permission_edit_own_time_entries: Upravit vlastní časové záznamy
-  permission_edit_others_internal_comments: Moderate internal comments
-  permission_edit_others_internal_comments_explanation: 'Caution: Users with this permission are able to edit other users'' internal comments.'
+  permission_edit_others_internal_comments: Moderování interních komentářů
+  permission_edit_others_internal_comments_explanation: 'Upozornění: Uživatelé s tímto oprávněním mohou upravovat interní komentáře jiných uživatelů.'
   permission_edit_project: Upravit projekt
   permission_edit_project_attributes: Úprava atributů projektu
   permission_edit_project_phases: Upravit fáze projektu
@@ -5145,9 +5150,9 @@ cs:
       warning_one: Členové projektu budou muset přemístit úložiště projektu.
       warning_two: Existující odkazy na projekt nebudou nadále fungovat.
       title: Změnit identifikátor projektu
-    not_available: Project N/A
+    not_available: Projekt N/A
     template:
-      copying_title: Applying template
+      copying_title: Aplikování šablony
       copying: 'Váš projekt se vytváří z vybranéhé šablony. Budete upozorněni e-mailem, jakmile bude projekt k dispozici.
 
         '
@@ -5160,7 +5165,7 @@ cs:
   project_module_news: Novinky
   project_module_repository: Repozitář
   project_module_wiki: Wiki
-  permission_header_for_project_module_work_package_tracking: Pracovní balíčky a Gantt diagramy
+  permission_header_for_project_module_work_package_tracking: Pracovní balíčky a Ganttovy diagramy
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -5624,7 +5629,7 @@ cs:
               label: Boční panel
               description: Add all the project attributes in a section inside the right side panel in the project overview.
     project_initiation_request:
-      header_description: 'OpenProject can generate a step-by-step wizard to help project managers fill out a project initiation request. You can choose which project attributes should be included and create a PDF artifact as a result.
+      header_description: 'OpenProject umí vygenerovat průvodce krok za krokem, který projektovým manažerům pomůže vyplnit žádost o zahájení projektu. Můžete si vybrat, které atributy projektu se mají zahrnout, a jako výstup vytvořit PDF dokument.
 
         '
       status:
@@ -5706,8 +5711,8 @@ cs:
       work_package_identifier: Work package identifiers
       not_allowed_text: You do not have the necessary permissions to view this page.
       activities:
-        enable_internal_comments: Enable internal comments
-        helper_text_html: 'Internal comments allow an internal team to communicate amongst themselves privately. These are only visible to selected roles that have the necessary permissions and will not be visible publicly. [Click here to learn more](docs_url)
+        enable_internal_comments: Povolit interní komentáře
+        helper_text_html: 'Interní komentáře umožňují internímu týmu komunikovat mezi sebou soukromě. Jsou viditelné pouze pro vybrané role, které mají potřebná oprávnění, a nejsou viditelné veřejně. [Klikněte zde pro více informací](docs_url)
 
           '
   text_formatting:
@@ -5854,13 +5859,13 @@ cs:
   text_plugin_assets_writable: Zapisovatelný adresář aktiv pluginu
   text_powered_by: Běží na %{link}
   text_project_identifier_info: Jsou povolena pouze malá písmena (a-z), číslice, pomlčky a podtržítka. Musí začínat malým písmenem.
-  text_project_identifier_description: The project identifier is prepended to all work package IDs. If the identifier is "PROJ" for example, the work package identifier will be "PROJ-12" or "PROJ-246".
+  text_project_identifier_description: Identifikátor projektu je připojen ke všem ID pracovních balíčků. Např. Pokud je identifikátor "PROJ", bude identifikátor pracovního balíčku "PROJ-12" nebo "PROJ-246".
   text_project_identifier_url_description: The project identifier is included in the URL of the project.
   text_project_identifier_handle_format: Must start with a letter and contain only uppercase letters, numbers, and underscores (max 10 characters).
   text_project_identifier_format: Must start with a lowercase letter. Only lowercase letters (a-z), numbers, dashes and underscores are allowed.
   text_reassign: 'Přiřadit k pracovnímu balíčku:'
   text_regexp_multiline: 'regex je použit v režimu více řádků. např.: ^---\s+'
-  text_rename_wiki_page: Rename wiki page
+  text_rename_wiki_page: Přejmenovat wiki stránku
   text_repository_usernames_mapping: |-
     Vyberte nebo aktualizujte mapovaný uživatel OpenProject ke každému uživatelskému jménu nalezenému v protokolu repozitáře.
     Uživatelé se stejným OpenProject a repozitářovým jménem nebo e-mailem jsou automaticky mapováni.

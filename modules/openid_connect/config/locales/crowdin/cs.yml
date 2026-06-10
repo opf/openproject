@@ -9,15 +9,15 @@ cs:
   activerecord:
     attributes:
       openid_connect/group_link:
-        oidc_group_name: OpenID group identifier
+        oidc_group_name: Identifikátor skupiny OpenID
       openid_connect/provider:
         name: Název
         slug: Jedinečný identifikátor
         display_name: Zobrazovaný název
         client_id: ID klienta
         client_secret: Tajný klíč klienta
-        groups_claim: Groups claim
-        group_regexes: Patterns (regular expressions)
+        groups_claim: Atribut skupiny
+        group_regexes: Vzory (regulární výrazy)
         secret: Tajné
         scope: Rozsah
         sync_groups: Synchronizovat skupiny
@@ -45,10 +45,10 @@ cs:
               response_is_not_successful: " odpovídá s %{status}."
               response_is_not_json: " nevrací JSON obsah."
               response_misses_required_attributes: " does not return required attributes. Missing attributes are: %{missing_attributes}."
-          invalid_claims_essential: does not define a boolean at %{attribute}.
+          invalid_claims_essential: nedefinuje boolean u %{attribute}.
           invalid_claims_location: 'contain unsupported locations: %{invalid}. Supported locations are: %{supported}.'
           invalid_claims_values: does not define an array at %{attribute}.
-          non_object_attribute: does not define a JSON object at %{attribute}.
+          non_object_attribute: nedefinuje objekt JSON u %{attribute}.
   provider:
     delete_warning:
       input_delete_confirmation_html: Enter the provider name %{name} to confirm deletion.

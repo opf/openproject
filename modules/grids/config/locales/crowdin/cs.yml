@@ -16,10 +16,10 @@ cs:
         view_all_members: Zobrazit všechny členy
         show_members_count: Zobrazit všech %{count} členů
         x_more:
-          one: and one more member.
-          few: and %{count} more members.
-          many: and %{count} more members.
-          other: and %{count} more members.
+          one: a ještě jeden člen.
+          few: a ještě %{count} členů.
+          many: a ještě %{count} členů.
+          other: a ještě %{count} členů.
       news:
         no_results: Žádné novinky.
   activerecord:

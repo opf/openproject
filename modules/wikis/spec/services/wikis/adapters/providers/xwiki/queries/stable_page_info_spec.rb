@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::StablePageInfo, :webmock do
+RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::StablePageInfo, :disable_ssrf_filter, :webmock do
   it "is registered" do
     expect(Wikis::Adapters::Registry.resolve("xwiki.queries.page_info")).to eq(described_class)
   end

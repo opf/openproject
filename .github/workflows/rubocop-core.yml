@@ -22,7 +22,8 @@ jobs:
       - name: Run RuboCop
         uses: reviewdog/action-rubocop@b6d5e953a5fc0bf3ab65254e77730ea2174d6d6d # v2
         with:
-          reporter: github-pr-check
+          reporter: github-pr-annotations
+          fail_level: any
           rubocop_version: gemfile
           rubocop_extensions: >
             rubocop-capybara:gemfile

@@ -4658,6 +4658,11 @@ pl:
     few: 'Czas wolny: %{count} dni robocze'
     many: 'Czas wolny: %{count} dni roboczych'
     other: 'Czas wolny: %{count} dnia roboczego'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: wczoraj
   label_zen_mode: Tryb Zen
   label_role_type: Typ

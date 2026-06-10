@@ -4465,6 +4465,8 @@ zh-CN:
     other: "%{count} 个工作日"
   label_x_working_days_time_off:
     other: 休息时间：%{count} 个工作日
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: 昨天
   label_zen_mode: 极简模式
   label_role_type: 类型

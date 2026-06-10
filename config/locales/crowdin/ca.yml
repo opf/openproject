@@ -4529,6 +4529,9 @@ ca:
   label_x_working_days_time_off:
     one: 'Time off: 1 working day'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: ahir
   label_zen_mode: Zen mode
   label_role_type: Classe

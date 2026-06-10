@@ -33,7 +33,7 @@ cs:
   ldap_groups:
     label_menu_item: Synchronizace skupiny LDAP
     label_group_key: LDAP skupinový klíč filtru
-    label_synchronize: Discover LDAP groups
+    label_synchronize: Zjištění skupin LDAP
     settings:
       name_attribute: Atribut názvu LDAP skupin
       name_attribute_text: LDAP atribut používaný pro pojmenování skupiny OpenProject při vytváření filtrem

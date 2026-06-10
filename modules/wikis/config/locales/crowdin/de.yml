@@ -33,8 +33,8 @@ de:
         other: XWiki-Anbieter
   menus:
     admin:
-      external_wiki_providers: Wiki providers
-      internal_wiki_provider: Internal wiki
+      external_wiki_providers: Wiki-Anbieter
+      internal_wiki_provider: Internes Wiki
       wikis: Wikis
   permission_manage_wiki_page_links: Wiki-Seitenlinks verwalten
   project_module_wiki_platforms: Wiki-Anbieter
@@ -66,11 +66,11 @@ de:
           no_health_report_description: Führen Sie jetzt die Prüfungen für einen vollständigen Statusbericht dieses Dateispeichers durch.
           title: Systemstatusbericht
       internal_provider_form:
-        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
-        checkbox_label: Enable the internal OpenProject wiki
+        checkbox_caption: Erlauben Sie Projekten, das interne OpenProject-Wiki zusammen mit externen Wiki-Anbietern zu verwenden
+        checkbox_label: Aktivieren Sie das interne OpenProject-Wiki
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable the internal OpenProject wiki
+          description: Aktivieren oder deaktivieren Sie das interne OpenProject-Wiki
       oauth_application_info_component:
         confirm_replace_oauth_application: Diese Aktion setzt die aktuellen OAuth-Anmeldedaten zurück. Nach der Bestätigung müssen Sie die Anmeldedaten erneut in Ihre XWiki-Instanz eingeben und alle Konten müssen sich erneut autorisieren. Sind Sie sicher, dass Sie fortfahren möchten?
         label_oauth_client_id: OAuth-Client-ID
@@ -122,9 +122,9 @@ de:
       save_and_continue: Speichern und fortsetzen
       wiki_page: Wiki-Seite
     create_new_wiki_page_dialog:
-      page_title: Title
-      parent_help_text: Select a parent for this new wiki page.
-      title: Create new wiki page
+      page_title: Titel
+      parent_help_text: Wählen Sie eine übergeordnete Seite für diese neue Wikiseite.
+      title: Neue Wikiseite anlegen
     delete_relation_page_link_confirmation_dialog:
       heading: Link zur verknüpften Wikiseite löschen?
       title: Link zur verknüpften Wikiseite löschen

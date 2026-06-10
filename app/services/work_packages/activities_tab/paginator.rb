@@ -114,9 +114,7 @@ class WorkPackages::ActivitiesTab::Paginator
   # package's journals plus the journals written for its changesets — changesets
   # are journalized, so each carries a journal timestamped with its committed_on.
   def activities_scope(filter: self.filter)
-    scope = filtered_journals(filter)
-    scope = scope.or(changeset_journals) if include_changesets?(filter)
-    scope.reorder(created_at: :desc, id: :desc)
+    filtered_journals(filter).reorder(created_at: :desc, id: :desc)
   end
 
   def pagy_options
@@ -160,8 +158,8 @@ class WorkPackages::ActivitiesTab::Paginator
   def filtered_journals(filter)
     case filter
     when Filters::ONLY_COMMENTS then apply_comments_only_filter(visible_journals)
-    when Filters::ONLY_CHANGES then apply_changes_only_filter(visible_journals)
-    else visible_journals
+    when Filters::ONLY_CHANGES then apply_changes_only_filter(with_changesets(visible_journals))
+    else with_changesets(visible_journals)
     end
   end
 
@@ -170,11 +168,12 @@ class WorkPackages::ActivitiesTab::Paginator
                   journable_id: work_package.changesets.except(:order).select(:id))
   end
 
-  # Most work packages have no changesets (revisions are a legacy feature), so
-  # the changeset leg is merged in only when one exists — keeping the common
-  # query scoped to the work package's own journals.
-  def include_changesets?(filter)
-    filter != Filters::ONLY_COMMENTS && work_package.changesets.exists?
+  # Most work packages have no changesets (revisions are a legacy feature). Merging
+  # the changeset leg in only when one exists keeps the common query scoped to the
+  # work package's own journals; always merging the empty leg pushes the planner
+  # onto a slower global scan.
+  def with_changesets(scope)
+    work_package.changesets.exists? ? scope.or(changeset_journals) : scope
   end
 
   def page_journals(page_relation)

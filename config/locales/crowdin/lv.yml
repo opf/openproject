@@ -4599,6 +4599,10 @@ lv:
     zero: 'Time off: %{count} working days'
     one: 'Time off: 1 working day'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    zero: "%{count} items selected"
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: yesterday
   label_zen_mode: Zen mode
   label_role_type: Veids

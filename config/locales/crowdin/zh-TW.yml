@@ -4459,6 +4459,8 @@ zh-TW:
     other: "%{count} working days"
   label_x_working_days_time_off:
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: 昨天
   label_zen_mode: 禪意模式
   label_role_type: 類型

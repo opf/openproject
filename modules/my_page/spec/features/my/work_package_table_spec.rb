@@ -53,7 +53,7 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
            project:,
            type: other_type,
            author: user,
-           responsible: user)
+           assigned_to: user)
   end
 
   let(:permissions) { %i[view_work_packages add_work_packages save_queries] }
@@ -85,16 +85,16 @@ RSpec.describe "Arbitrary WorkPackage query table widget on my page",
       expect(created_by_me_area.area)
         .to have_css(".subject", text: type_work_package.subject)
       assigned_to_me_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")
-
+      expect(assigned_to_me_area.area)
+        .to have_css(".subject", text: other_type_work_package.subject)
       my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
       my_page.add_widget(1, 3, :column, "Work packages table")
-
       my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
       created_by_me_area.remove
+      my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
       assigned_to_me_area.remove
-
       my_page.expect_and_dismiss_toaster message: I18n.t("js.notice_successful_update")
 
       filter_area = Components::Grids::GridArea.new(".grid--area.-widgeted:nth-of-type(1)")

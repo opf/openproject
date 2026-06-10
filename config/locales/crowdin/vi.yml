@@ -4467,6 +4467,8 @@ vi:
     other: "%{count} working days"
   label_x_working_days_time_off:
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: ngày hôm qua
   label_zen_mode: Chế độ Zen
   label_role_type: loại

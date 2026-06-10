@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::CanonicalPageInfo, :webmock do
+RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::CanonicalPageInfo, :disable_ssrf_filter, :webmock do
   it "is not registered" do
     expect(Wikis::Adapters::Registry.resolve("xwiki.queries.page_info")).not_to eq(described_class)
   end
@@ -69,7 +69,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::CanonicalPa
       let(:absolute_url) { "https://xwiki.local/bin/view/MySpace/SubSpace/PageName" }
 
       before do
-        stub_request(:put, page_url)
+        stub_request(:get, page_url)
           .to_return(status: 200, body: { id: "foo", title: "Nested Page", xwikiAbsoluteUrl: absolute_url }.to_json,
                      headers: { "Content-Type" => "application/json" })
       end
@@ -93,38 +93,38 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::CanonicalPa
     end
 
     context "when the page is not found" do
-      before { stub_request(:put, page_url).to_return(status: 404, body: "") }
+      before { stub_request(:get, page_url).to_return(status: 404, body: "") }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :not_found)) }
     end
 
     context "when access is unauthorized" do
-      before { stub_request(:put, page_url).to_return(status: 401, body: "") }
+      before { stub_request(:get, page_url).to_return(status: 401, body: "") }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :unauthorized)) }
     end
 
     context "when access is forbidden" do
-      before { stub_request(:put, page_url).to_return(status: 403, body: "") }
+      before { stub_request(:get, page_url).to_return(status: 403, body: "") }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :unauthorized)) }
     end
 
     context "when XWiki returns a non-2xx status" do
-      before { stub_request(:put, page_url).to_return(status: 500, body: "Internal Server Error") }
+      before { stub_request(:get, page_url).to_return(status: 500, body: "Internal Server Error") }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :request_failed)) }
     end
 
     context "when a network error occurs" do
-      before { stub_request(:put, page_url).to_timeout }
+      before { stub_request(:get, page_url).to_timeout }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :connection_error)) }
     end
 
     context "when the response body is not valid JSON" do
       before do
-        stub_request(:put, page_url)
+        stub_request(:get, page_url)
           .to_return(status: 200, body: "not json", headers: { "Content-Type" => "application/json" })
       end
 
@@ -133,7 +133,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::Internal::CanonicalPa
 
     context "when the response body is unexpected JSON" do
       before do
-        stub_request(:put, page_url)
+        stub_request(:get, page_url)
           .to_return(status: 200, body: { error: "An error occured" }.to_json, headers: { "Content-Type" => "application/json" })
       end
 

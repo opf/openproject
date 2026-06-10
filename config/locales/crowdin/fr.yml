@@ -4525,6 +4525,9 @@ fr:
   label_x_working_days_time_off:
     one: 'Temps libre : 1 jour ouvrable'
     other: 'Temps libre : %{count} jours ouvrables'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: hier
   label_zen_mode: Mode zen
   label_role_type: Type

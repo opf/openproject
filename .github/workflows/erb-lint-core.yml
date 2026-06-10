@@ -26,5 +26,6 @@ jobs:
       - name: Run ERB lint
         uses: opf/action-erblint@49c54b56c60d0c50885065468cf149b61d5c2a60 # main
         with:
-          reporter: github-pr-check
+          reporter: github-pr-annotations
+          fail_level: any
           use_bundler: true
