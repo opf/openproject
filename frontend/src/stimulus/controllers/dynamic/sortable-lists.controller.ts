@@ -37,8 +37,7 @@ import { FetchRequest } from '@rails/request.js';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
 import { withLoadingIndicator } from 'core-stimulus/helpers/request-helpers';
-import URI from 'urijs';
-import 'urijs/src/URITemplate';
+import { parseTemplate } from 'url-template';
 import {
   acceptsSortableItemType,
   buildMoveFormData,
@@ -236,7 +235,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
     }
 
     if (this.hasMoveUrlTemplateValue) {
-      return URI.expand?.(this.moveUrlTemplateValue, { id: data.itemId })?.toString() ?? null;
+      return parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
     }
 
     return null;
