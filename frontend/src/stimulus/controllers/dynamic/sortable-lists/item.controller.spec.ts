@@ -116,7 +116,7 @@ describe('Sortable lists item controller', () => {
 
   function dragEventPayload(element = document.createElement('article')) {
     return {
-      location: {} as never,
+      location: { current: { input: { clientX: 0, clientY: 0 } } } as never,
       source: {
         data: {},
         dragHandle: null,
@@ -538,6 +538,49 @@ describe('Sortable lists item controller', () => {
       expect(preview.querySelector('[data-controller]')).toBeNull();
       expect(preview.querySelector('[data-action]')).toBeNull();
       expect(preview.querySelector('[data-backlogs--story-target]')).toBeNull();
+    });
+
+    it('offsets the preview so the pointer keeps its grab position on the card', async () => {
+      const { article } = renderBacklogsRow();
+
+      vi.spyOn(article, 'getBoundingClientRect').mockReturnValue({
+        x: 100,
+        y: 200,
+        top: 200,
+        left: 100,
+        right: 420,
+        bottom: 264,
+        width: 320,
+        height: 64,
+        toJSON: vi.fn(),
+      });
+
+      await ctx.nextFrame();
+
+      vi.mocked(draggable).mock.lastCall?.[0].onGenerateDragPreview?.({
+        ...dragEventPayload(article),
+        location: { current: { input: { clientX: 140, clientY: 230 } } } as never,
+        nativeSetDragImage: vi.fn(),
+      });
+
+      const previewOptions = vi.mocked(setCustomNativeDragPreview).mock.lastCall?.[0] as {
+        getOffset:(args:{ container:HTMLElement }) => { x:number; y:number };
+      };
+      const container = document.createElement('div');
+
+      vi.spyOn(container, 'getBoundingClientRect').mockReturnValue({
+        x: 0,
+        y: 0,
+        top: 0,
+        left: 0,
+        right: 320,
+        bottom: 64,
+        width: 320,
+        height: 64,
+        toJSON: vi.fn(),
+      });
+
+      expect(previewOptions.getOffset({ container })).toEqual({ x: 40, y: 30 });
     });
 
     function generatePreview(article:HTMLElement):HTMLElement {
