@@ -15,6 +15,10 @@ services:
         read_only: true
         volume:
           subpath: certs
+    environment:
+      # Seeds the root password on first boot only; existing instances keep
+      # their password (reset via gitlab-rake "gitlab:password:reset[root]")
+      GITLAB_ROOT_PASSWORD: "${GITLAB_ROOT_PASSWORD:-openproject}"
     networks:
       - external
     extra_hosts:

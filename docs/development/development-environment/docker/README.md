@@ -545,13 +545,11 @@ docker compose --project-directory docker/dev/gitlab up -d
 
 ### Initial password
 
-Once the GitLab service is started and running, you can access the initial `root` user password as follows:
+On first boot the `root` user password is seeded to `openproject` (configurable through the `GITLAB_ROOT_PASSWORD`
+environment variable, e.g. via an `.env` file next to the compose file). The seed only applies to fresh instances —
+GitLab instances initialized before this variable was set keep their generated password.
 
-```shell
-docker compose --project-directory docker/dev/gitlab exec -it gitlab grep 'Password:' /etc/gitlab/initial_root_password
-```
-
-Should you need to reset your root password, execute the following command:
+Should you need to reset your root password (for example on a pre-existing instance), execute the following command:
 
 ```shell
 docker compose --project-directory docker/dev/gitlab exec -it gitlab gitlab-rake "gitlab:password:reset[root]"
