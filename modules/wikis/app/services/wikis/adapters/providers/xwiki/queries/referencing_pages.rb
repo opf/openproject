@@ -43,7 +43,7 @@ module Wikis
                 url = rest_url("openproject/links/workPackages/#{input_data.linkable.id}")
                 handle_response(http.get(url, params: { number: MAXIMUM_RESULTS })) do |data|
                   success(
-                    (data["searchResults"] || [])
+                    fetch_json(data, "searchResults")
                       .uniq { |r| fetch_json(r, "id") }
                       .map { canonical_page_info(identifier: fetch_json(it, "id"), auth_strategy:) }
                   )
