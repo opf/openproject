@@ -55,7 +55,10 @@ module WorkPackages
 
         def wrapper_data_attributes
           {
-            internal_comment_stimulus_controller("-is-internal-value") => journal.internal?
+            internal_comment_stimulus_controller("-is-internal-value") => journal.internal?,
+            controller: "ckeditor-focus",
+            "ckeditor-focus-autofocus-value": true,
+            "ckeditor-focus-target": "editor"
           }
         end
       end

@@ -139,6 +139,25 @@ RSpec.describe "Work package activity tab comment editor",
     end
   end
 
+  describe "Editing a comment" do
+    let!(:journal) { create(:work_package_journal, journable: work_package, notes: "Original text", user: admin, version: 2) }
+
+    current_user { admin }
+
+    before do
+      wp_page.visit!
+      wp_page.wait_for_activity_tab
+    end
+
+    it "places focus on the editor when edit is clicked" do
+      activity_tab.within_journal_entry(journal) do
+        page.find_test_selector("op-wp-journal-#{journal.id}-action-menu").click
+        page.find_test_selector("op-wp-journal-#{journal.id}-edit").click
+      end
+      activity_tab.expect_focus_on_editor
+    end
+  end
+
   describe "Attachments" do
     let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
     let(:editor) { Components::WysiwygEditor.new }

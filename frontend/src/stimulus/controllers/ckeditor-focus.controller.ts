@@ -38,14 +38,48 @@ export default class extends Controller {
   static targets = ['editor'];
   declare readonly editorTarget:HTMLElement;
 
+  private focusObserver?:MutationObserver;
+
   connect():void {
     if (this.autofocusValue) {
-      setTimeout(() => { this.focusInput(); }, 100);
+      this.tryFocusOrObserve();
     }
+  }
+
+  disconnect():void {
+    this.focusObserver?.disconnect();
+    this.focusObserver = undefined;
   }
 
   focusInput():void {
     this.element.scrollIntoView({ block: 'center' });
     retrieveCkEditorInstance(this.editorTarget)?.editing.view.focus();
+  }
+
+  private tryFocusOrObserve():void {
+    setTimeout(() => {
+      if (this.tryFocus()) return;
+
+      const observer = new MutationObserver(() => {
+        if (this.tryFocus()) {
+          observer.disconnect();
+          if (this.focusObserver === observer) {
+            this.focusObserver = undefined;
+          }
+        }
+      });
+      this.focusObserver = observer;
+      observer.observe(this.editorTarget, { childList: true, subtree: true });
+    }, 100);
+  }
+
+  private tryFocus():boolean {
+    const instance = retrieveCkEditorInstance(this.editorTarget);
+    if (!instance) return false;
+    setTimeout(() => {
+      this.element.scrollIntoView({ block: 'center' });
+      retrieveCkEditorInstance(this.editorTarget)?.editing.view.focus();
+    });
+    return true;
   }
 }
