@@ -51,9 +51,11 @@ class Backlogs::WorkPackages::UpdateService
   private
 
   def resolve_required_attributes(direction:, list_type:, list_id:)
-    if list_type.present? && direction
+    list_given = list_type.present? || list_id.present?
+
+    if list_given && direction
       ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.ambiguous_target"))
-    elsif list_type.present?
+    elsif list_given
       attributes_result_from_list(list_type, list_id)
     elsif direction
       attributes_result_from_direction(direction)
