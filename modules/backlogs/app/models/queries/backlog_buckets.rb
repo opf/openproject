@@ -29,7 +29,7 @@
 # ++
 
 module Queries::BacklogBuckets
-  ::Queries::Register.register(BacklogBucketQuery) do
+  ::Queries::Register.register(Query) do
     order Orders::DefaultOrder
   end
 end

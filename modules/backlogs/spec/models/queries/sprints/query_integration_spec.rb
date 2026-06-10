@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Queries::Sprints::SprintQuery, "integration" do
+RSpec.describe Queries::Sprints::Query, "integration" do
   shared_let(:project) { create(:project, public: false) }
   shared_let(:other_project) { create(:project, public: false) }
   shared_let(:project_without_permission) { create(:project, public: false) }

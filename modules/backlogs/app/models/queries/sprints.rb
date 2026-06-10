@@ -29,7 +29,7 @@
 # ++
 
 module Queries::Sprints
-  ::Queries::Register.register(SprintQuery) do
+  ::Queries::Register.register(Query) do
     filter Filters::NameFilter
     filter Filters::ProjectFilter
     filter Filters::StatusFilter
