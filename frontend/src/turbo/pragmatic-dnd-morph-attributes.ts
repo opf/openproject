@@ -26,6 +26,10 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { sortableListsRootSelector } from '../stimulus/controllers/dynamic/sortable-lists/list-dom';
+
+// `data-dragging` is shared with the legacy generic-drag-and-drop controller,
+// so preservation is scoped to elements inside a sortable-lists root.
 const preservedAttributes = new Set([
   'data-dragging',
   'data-drop-target-for-element',
@@ -40,7 +44,11 @@ export function registerPragmaticDndMorphAttributePreservation():void {
 
   registered = true;
   document.addEventListener('turbo:before-morph-attribute', (event) => {
-    if (!preservedAttributes.has(event.detail?.attributeName)) {
+    if (!preservedAttributes.has(event.detail.attributeName)) {
+      return;
+    }
+
+    if (!(event.target instanceof Element) || event.target.closest(sortableListsRootSelector) === null) {
       return;
     }
 

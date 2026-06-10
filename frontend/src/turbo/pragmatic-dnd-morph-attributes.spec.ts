@@ -37,6 +37,17 @@ describe('Pragmatic DnD morph attribute preservation', () => {
     });
   }
 
+  function appendSortableRow():HTMLElement {
+    const root = document.createElement('div');
+    const element = document.createElement('li');
+
+    root.setAttribute('data-controller', 'sortable-lists');
+    root.appendChild(element);
+    document.body.appendChild(root);
+
+    return element;
+  }
+
   beforeEach(() => {
     registerPragmaticDndMorphAttributePreservation();
   });
@@ -46,31 +57,39 @@ describe('Pragmatic DnD morph attribute preservation', () => {
   });
 
   it('preserves Pragmatic DnD drop target markers during Turbo morphs', () => {
-    const element = document.createElement('li');
+    const element = appendSortableRow();
     const event = beforeMorphAttributeEvent('data-drop-target-for-element');
 
     element.setAttribute('data-drop-target-for-element', 'true');
-    document.body.appendChild(element);
     element.dispatchEvent(event);
 
     expect(event.defaultPrevented).toBe(true);
   });
 
   it('preserves the active drag marker during Turbo morphs', () => {
-    const element = document.createElement('li');
+    const element = appendSortableRow();
     const event = beforeMorphAttributeEvent('data-dragging');
 
     element.setAttribute('data-dragging', 'source');
-    document.body.appendChild(element);
     element.dispatchEvent(event);
 
     expect(event.defaultPrevented).toBe(true);
   });
 
   it('lets unrelated attributes continue morphing', () => {
-    const element = document.createElement('li');
+    const element = appendSortableRow();
     const event = beforeMorphAttributeEvent('class');
 
+    element.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+  });
+
+  it('lets marker attributes morph outside sortable lists roots', () => {
+    const element = document.createElement('li');
+    const event = beforeMorphAttributeEvent('data-dragging');
+
+    element.setAttribute('data-dragging', 'source');
     document.body.appendChild(element);
     element.dispatchEvent(event);
 
