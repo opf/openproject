@@ -1,8 +1,8 @@
 export const en = {
   translation: {
     "slashMenu": {
-      "title": "Link existing work package",
-      "subtext": "Add a dynamic link to a single work package",
+      "title": "Додати наявні пакети робіт",
+      "subtext": "Додати динамічне посилання на окремий робочий пакет",
       "aliases": {
         "workpackage": "робочий пакет",
         "work package": "пакет робіт",
@@ -30,45 +30,45 @@ export const en = {
       }
     },
     "options": {
-      "openInNewTab": "Open in new tab",
-      "open": "Open",
-      "changeSize": "Change size",
-      "remove": "Remove",
-      "removeAriaLabel": "Remove work package",
-      "openAriaLabel": "Open work package {{id}} in new tab",
-      "inlineSizeLabel": "Inline size",
-      "blockSizeLabel": "Block size",
-      "chipAriaLabel": "Work package {{id}}"
+      "openInNewTab": "Відкрити у новій вкладці",
+      "open": "Відкрити",
+      "changeSize": "Змінити розмір",
+      "remove": "Видалити",
+      "removeAriaLabel": "Видалити робочий пакет",
+      "openAriaLabel": "Відкрити робочий пакет {{id}} у новій вкладці",
+      "inlineSizeLabel": "Вбудований розмір",
+      "blockSizeLabel": "Розмір блоку",
+      "chipAriaLabel": "Робочий пакет {{id}}"
     },
     "sizes": {
       "xxs": {
-        "label": "Tiny",
-        "desc": "Identifier"
+        "label": "Крихітний",
+        "desc": "Ідентифікатор"
       },
       "xs": {
-        "label": "Compact",
-        "desc": "Type, Identifier, Subject"
+        "label": "Компактний",
+        "desc": "Тип, Ідентифікатор, Тема"
       },
       "s": {
-        "label": "Regular",
-        "desc": "Status, Type, Identifier, Subject"
+        "label": "Звичайний",
+        "desc": "Статус, Тип, Ідентифікатор, Тема"
       },
       "m": {
-        "label": "Compact card",
-        "desc": "Status, Type, Identifier, Subject"
+        "label": "Компактна картка",
+        "desc": "Статус, Тип, Ідентифікатор, Тема"
       },
       "l": {
-        "label": "Regular card",
-        "desc": "Identifier, Subject, Type, Status, Parent, Project"
+        "label": "Звичайна картка",
+        "desc": "Ідентифікатор, Тема, Тип, Статус, Батьківський, Проєкт"
       },
       "xl": {
-        "label": "Full card",
-        "desc": "Identifier, Subject, Type, Status, Parent, Project, Description"
+        "label": "Повна картка",
+        "desc": "Ідентифікатор, Тема, Тип, Статус, Батьківський, Проєкт, Опис"
       }
     },
     "hashMenu": {
-      "typeToSearch": "Type to search work packages…",
-      "noResults": "No results for \"{{query}}\""
+      "typeToSearch": "Введіть для пошуку робочих пакетів…",
+      "noResults": "Немає результатів для \"{{query}}\""
     }
   }
 };
