@@ -30,45 +30,45 @@ export const en = {
       }
     },
     "options": {
-      "openInNewTab": "Open in new tab",
-      "open": "Open",
-      "changeSize": "Change size",
-      "remove": "Remove",
-      "removeAriaLabel": "Remove work package",
-      "openAriaLabel": "Open work package {{id}} in new tab",
-      "inlineSizeLabel": "Inline size",
-      "blockSizeLabel": "Block size",
-      "chipAriaLabel": "Work package {{id}}"
+      "openInNewTab": "In neuer Registerkarte öffnen",
+      "open": "Öffnen",
+      "changeSize": "Größe ändern",
+      "remove": "Entfernen",
+      "removeAriaLabel": "Arbeitspaket entfernen",
+      "openAriaLabel": "Öffnen Sie das Arbeitspaket {{id}} in einer neuen Registerkarte",
+      "inlineSizeLabel": "Inline Größe",
+      "blockSizeLabel": "Blockgröße",
+      "chipAriaLabel": "Arbeitspaket {{id}}"
     },
     "sizes": {
       "xxs": {
-        "label": "Tiny",
-        "desc": "Identifier"
+        "label": "Winzig",
+        "desc": "Kennung"
       },
       "xs": {
-        "label": "Compact",
-        "desc": "Type, Identifier, Subject"
+        "label": "Kompakt",
+        "desc": "Typ, Kennung, Betreff"
       },
       "s": {
-        "label": "Regular",
-        "desc": "Status, Type, Identifier, Subject"
+        "label": "Regulär",
+        "desc": "Status, Typ, Kennung, Betreff"
       },
       "m": {
-        "label": "Compact card",
-        "desc": "Status, Type, Identifier, Subject"
+        "label": "Kompakte Karte",
+        "desc": "Status, Typ, Kennung, Betreff"
       },
       "l": {
-        "label": "Regular card",
-        "desc": "Identifier, Subject, Type, Status, Parent, Project"
+        "label": "Reguläre Karte",
+        "desc": "Kennung, Betreff, Typ, Status, Übergeordnetes Arbeitspaket, Projekt"
       },
       "xl": {
-        "label": "Full card",
-        "desc": "Identifier, Subject, Type, Status, Parent, Project, Description"
+        "label": "Vollständige Karte",
+        "desc": "Kennung, Betreff, Typ, Status, Übergeordnetes Arbeitspaket, Projekt, Beschreibung"
       }
     },
     "hashMenu": {
-      "typeToSearch": "Type to search work packages…",
-      "noResults": "No results for \"{{query}}\""
+      "typeToSearch": "Nach Arbeitspaketen suchen…",
+      "noResults": "Keine Suchergebnisse für \"{{query}}\""
     }
   }
 };
