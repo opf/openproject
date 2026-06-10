@@ -78,7 +78,7 @@ module Bim
       end
 
       def direct_upload_finished # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
-        attachment_id = attachment_id_from_key(request.params[:key])
+        attachment_id = session[:pending_ifc_model_attachment_id]
         unless callback_context_valid?(attachment_id)
           fail_direct_upload
           return
@@ -262,10 +262,6 @@ module Bim
         actual_payload = payload.with_indifferent_access.slice(:attachment_id, :project_id, :user_id, :nonce).with_indifferent_access
 
         actual_payload == expected_payload
-      end
-
-      def attachment_id_from_key(key)
-        key.to_s.match(%r{\Auploads/[^/]+/file/(\d+)/[^/]+\z})&.captures&.first
       end
 
       def fail_direct_upload
