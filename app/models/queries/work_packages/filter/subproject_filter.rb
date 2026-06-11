@@ -68,7 +68,7 @@ class Queries::WorkPackages::Filter::SubprojectFilter <
   end
 
   def where
-    "#{Project.table_name}.id IN (%s)" % ids_for_where.join(",")
+    "#{WorkPackage.table_name}.project_id IN (%s)" % ids_for_where.join(",")
   end
 
   protected
