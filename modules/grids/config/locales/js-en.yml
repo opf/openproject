@@ -3,60 +3,60 @@ en:
   js:
     grid:
       add_widget: 'Add widget'
-      widget_menu_label: 'Show menu options for %{widgetName} widget'
-      remove: 'Remove widget'
       configure: 'Configure widget'
+      remove: 'Remove widget'
+      widget_menu_label: 'Show menu options for %{widgetName} widget'
       widgets:
-        missing_permission: "You don't have the necessary permissions to view this widget."
-        not_available: "This widget is currently unavailable."
         custom_text:
           title: 'Custom text'
         documents:
-          title: 'Documents'
           no_results: 'No documents yet.'
+          title: 'Documents'
         members:
           title: 'Members'
+        missing_permission: "You don't have the necessary permissions to view this widget."
         news:
           title: 'News'
+        not_available: "This widget is currently unavailable."
         project_description:
           title: 'Description'
-        project_status:
-          title: 'Status'
-          not_started: 'Not started'
-          on_track: 'On track'
-          off_track: 'Off track'
-          at_risk: 'At risk'
-          not_set: 'Not set'
-          finished: 'Finished'
-          discontinued: 'Discontinued'
-        subprojects:
-          title: 'Subitems'
         project_favorites:
-          title: 'Favorite projects'
           no_results: >-
             You currently have no favorite projects. Add one or multiple projects
             as favorite through their overview or in a project list.
+          title: 'Favorite projects'
+        project_status:
+          at_risk: 'At risk'
+          discontinued: 'Discontinued'
+          finished: 'Finished'
+          not_set: 'Not set'
+          not_started: 'Not started'
+          off_track: 'Off track'
+          on_track: 'On track'
+          title: 'Status'
+        subprojects:
+          title: 'Subitems'
         time_entries_current_user:
-          title: 'My spent time'
           displayed_days: 'Days displayed in the widget:'
+          title: 'My spent time'
         time_entries_list:
-          title: 'Spent time (last 7 days)'
           no_results: 'No time entries for the last 7 days.'
+          title: 'Spent time (last 7 days)'
         work_packages_accountable:
           title: "Work packages I am accountable for"
         work_packages_assigned:
           title: 'Work packages assigned to me'
-        work_packages_created:
-          title: 'Work packages created by me'
-        work_packages_watched:
-          title: 'Work packages watched by me'
-        work_packages_table:
-          title: 'Work packages table'
-        work_packages_graph:
-          title: 'Work packages graph'
-          summary: "%{chartType} chart showing work packages which are %{description}."
         work_packages_calendar:
           title: 'Calendar'
+        work_packages_created:
+          title: 'Work packages created by me'
+        work_packages_graph:
+          summary: "%{chartType} chart showing work packages which are %{description}."
+          title: 'Work packages graph'
         work_packages_overview:
-          title: 'Work packages overview'
           placeholder: 'Click to edit ...'
+          title: 'Work packages overview'
+        work_packages_table:
+          title: 'Work packages table'
+        work_packages_watched:
+          title: 'Work packages watched by me'

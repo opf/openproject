@@ -28,15 +28,11 @@
 
 ---
 en:
-  plugin_openproject_backlogs:
-    name: "OpenProject Backlogs"
-    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
-
   activerecord:
     attributes:
       project:
-        sprint_sharing: "Sprint sharing"
         backlog_excluded_types: "Excluded work package types"
+        sprint_sharing: "Sprint sharing"
         statuses_considered_closed: "Statuses considered closed"
       sprint:
         duration: "Duration"
@@ -45,9 +41,9 @@ en:
         name: "Sprint name"
         sharing: "Sharing"
         statuses:
-          in_planning: "In planning"
           active: "Active"
           completed: "Completed"
+          in_planning: "In planning"
         work_packages: "Work packages"
       work_package:
         backlog_bucket: "Backlog Bucket"
@@ -58,87 +54,87 @@ en:
 
     errors:
       messages:
+        dates_required: "Start and finish dates are required in order to start the sprint."
         must_be_in_planning: "must be in planning to start."
         only_one_active_sprint_allowed: "only one active sprint is allowed per project."
-        dates_required: "Start and finish dates are required in order to start the sprint."
       models:
         project:
-          receiving_sprints: "is receiving shared sprints. Own sprints cannot be created."
           attributes:
             sprint_sharing:
               share_all_projects_already_taken: "cannot be set because project \"%{name}\" is already sharing with all projects."
               share_all_projects_already_taken_anonymous: "cannot be set because another project is already sharing with all projects."
+          receiving_sprints: "is receiving shared sprints. Own sprints cannot be created."
         sprint:
           attributes:
             base:
+              format: "%{message}"
               unfinished_work_packages:
                 one: "There is one work package that was not completed in this sprint."
                 other: "There are %{count} work packages that were not completed in this sprint."
-              format: "%{message}"
             status:
               not_active: "is not active so it cannot be closed."
         work_package:
-          backlog_bucket_xor_sprint: "cannot be assigned to both a sprint and a backlog bucket."
           attributes:
             backlog_bucket:
               backlog_bucket_from_another_project: "must belong to the same project as the work package."
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "can only contain IDs of work packages in the current sprint."
               must_block_at_least_one_work_package: "must contain the ID of at least one ticket."
-            version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             sprint:
               not_assignable: "is not assignable since it is either not shared with the project or already finished."
               not_eligible_for_moving: "is not an active sprint in the project which holds the sprint the work package is moved out of."
 
+            version_id:
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+          backlog_bucket_xor_sprint: "cannot be assigned to both a sprint and a backlog bucket."
     models:
       sprint: "Sprint"
 
   backlogs:
     administration_blankslate:
-      title: "Backlog admin settings are evolving"
       text: "We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available."
 
-    bucket_destroy_modal_component:
-      title: "Delete backlog bucket?"
-      details: "The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted."
-
+      title: "Backlog admin settings are evolving"
     bucket_component:
-      blankslate_title: "Backlog bucket is empty"
-      blankslate_description: "Drag items here to add them."
-      label_actions: "Backlog bucket actions"
       action_menu:
-        edit_backlog_bucket: "Edit backlog bucket"
         delete_backlog_bucket: "Delete backlog bucket"
 
+        edit_backlog_bucket: "Edit backlog bucket"
+      blankslate_description: "Drag items here to add them."
+      blankslate_title: "Backlog bucket is empty"
+      label_actions: "Backlog bucket actions"
+    bucket_destroy_modal_component:
+      details: "The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted."
+
+      title: "Delete backlog bucket?"
     burndown_chart:
       show:
-        blankslate_title: "No burndown data available"
         blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
 
+        blankslate_title: "No burndown data available"
     excluded_work_package_types_caption: >
       Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically,
       keeping it focused on the work that matters to your team.
       For example, types like Epics or Milestones that are managed at a higher level can be hidden to keep the backlog focused on actionable items.
     finish_sprint_dialog_component:
-      title: "There are work in progress items"
-      body: "%{message} What would you like to do with these?"
-      legend: "Action for unfinished work packages"
       actions:
-        move_to_top_of_backlog: "Move them to the top of the backlog"
         move_to_bottom_of_backlog: "Move them to the bottom of the backlog"
         move_to_sprint: "Move them to another sprint"
-      select_sprint_label: "Select sprint"
+        move_to_top_of_backlog: "Move them to the top of the backlog"
+      body: "%{message} What would you like to do with these?"
       button_complete_sprint: "Complete sprint"
 
+      legend: "Action for unfinished work packages"
+      select_sprint_label: "Select sprint"
+      title: "There are work in progress items"
     inbox_component:
-      title: "Inbox"
-      blankslate_title: "Backlog inbox is empty"
       blankslate_description: "All open work packages in this project will automatically appear here."
+      blankslate_title: "Backlog inbox is empty"
       show_more:
         one: "Show 1 more item"
         other: "Show %{count} more items"
 
+      title: "Inbox"
     label_burndown_chart: "Burndown chart"
     label_is_done_status: "Status %{status_name} means done"
     label_sprint_board: "Sprint board"
@@ -147,9 +143,9 @@ en:
       title: "Move to backlog bucket"
 
     move_to_sprint_dialog_component:
-      title: "Move to sprint"
       label_sprint: "Sprint"
 
+      title: "Move to sprint"
     points_label:
       one: "point"
       other: "points"
@@ -163,50 +159,50 @@ en:
     show_burndown_chart: "Burndown chart"
 
     sprint_component:
-      blankslate_title: "%{name} is empty"
-      blankslate_description: "No items planned yet. Drag items here to add them."
-      label_actions: "Sprint actions"
-      label_start_sprint: "Start sprint"
-      label_complete_sprint: "Complete sprint"
-      start_sprint_disabled_reason_active_sprint: "Another sprint is already active."
-      start_sprint_disabled_reason_missing_dates: "Start and finish dates are required in order to start the sprint."
       action_menu:
-        edit_sprint: "Edit sprint"
         add_work_package: "Add work package"
 
+        edit_sprint: "Edit sprint"
+      blankslate_description: "No items planned yet. Drag items here to add them."
+      blankslate_title: "%{name} is empty"
+      label_actions: "Sprint actions"
+      label_complete_sprint: "Complete sprint"
+      label_start_sprint: "Start sprint"
+      start_sprint_disabled_reason_active_sprint: "Another sprint is already active."
+      start_sprint_disabled_reason_missing_dates: "Start and finish dates are required in order to start the sprint."
     sprints_component:
       blankslate:
-        title: "No sprints present yet"
-        settings_link_text: "project settings"
-        receive_and_manage_description_html: "This project receives sprints from a different project. Manage this in the %{settings_link}."
-        receive_description_text: "This project receives shared sprints from a different project, but none are available right now."
         create_and_manage_description_html: "To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project."
         create_description_text: "To start planning your sprint, create one here."
         manage_description_html: "To start planning your sprint, go to the %{settings_link} to receive sprints from a different project."
         no_actions_description_text: "No sprints are available for this project yet."
 
-    story_points:
-      one: "%{count} story point"
-      other: "%{count} story points"
+        receive_and_manage_description_html: "This project receives sprints from a different project. Manage this in the %{settings_link}."
+        receive_description_text: "This project receives shared sprints from a different project, but none are available right now."
+        settings_link_text: "project settings"
+        title: "No sprints present yet"
     statuses_considered_closed_caption: >
       Choose the statuses that represent a closed or finished state in your workflow.
       These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning.
       For example, statuses like Done, Resolved, or Won't Fix may all represent a closed work item in your process.
+    stories:
+      update_service:
+        ambiguous_target: "target_id and direction cannot both be present."
+        invalid_direction: "direction must be one of: higher, highest, lower, lowest."
+
+        invalid_target_type: "target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox."
+        missing_target: "target_id or direction must be present."
+    story_points:
+      one: "%{count} story point"
+      other: "%{count} story points"
     types_and_statuses: "Types and statuses"
 
     unassigned: "Unassigned"
 
     user_preference:
-      header_backlogs: "Backlogs module"
       button_update_backlogs: "Update backlogs module"
 
-    stories:
-      update_service:
-        missing_target: "target_id or direction must be present."
-        ambiguous_target: "target_id and direction cannot both be present."
-        invalid_target_type: "target_type must be one of: backlog_bucket:<backlog_bucket_id>, sprint:<sprint_id>, inbox."
-        invalid_direction: "direction must be one of: higher, highest, lower, lowest."
-
+      header_backlogs: "Backlogs module"
     work_package_card_menu_component:
       action_menu:
         copy_url_to_clipboard: "Copy URL to clipboard"
@@ -231,24 +227,24 @@ en:
 
   label_all_sprints: "All sprints"
   label_backlog: "Backlog"
-  label_backlogs: "Backlogs"
   label_backlog_and_sprints: "Backlog and sprints"
   label_backlog_bucket_edit: "Edit backlog bucket"
   label_backlog_bucket_new: "New backlog bucket"
+  label_backlogs: "Backlogs"
   label_burndown_chart: "Burndown chart"
   label_inbox: "Inbox"
-  label_sprint_board: "Sprint board"
   label_points_burn_down: "Down"
   label_points_burn_up: "Up"
+  label_sprint_board: "Sprint board"
   label_sprint_edit: "Edit sprint"
   label_sprint_new: "New sprint"
   label_task_board: "Task board"
-  notice_successful_start: "The sprint was started."
   notice_successful_finish: "The sprint was completed."
-  notice_unsuccessful_start: "The sprint could not be started."
-  notice_unsuccessful_start_with_reason: "The sprint could not be started: %{reason}"
+  notice_successful_start: "The sprint was started."
   notice_unsuccessful_finish: "The sprint could not be completed."
   notice_unsuccessful_finish_with_reason: "The sprint could not be completed: %{reason}"
+  notice_unsuccessful_start: "The sprint could not be started."
+  notice_unsuccessful_start_with_reason: "The sprint could not be started: %{reason}"
   notice_work_package_invisible_after_move: >
     The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
   permission_create_sprints: "Create sprints"
@@ -261,6 +257,10 @@ en:
   permission_start_complete_sprint: "Start/complete sprint"
   permission_view_sprints: "View sprints"
 
+  plugin_openproject_backlogs:
+    description: "This module adds features enabling agile teams to work with OpenProject in Scrum projects."
+
+    name: "OpenProject Backlogs"
   project_module_backlogs: "Backlogs"
 
   projects:
@@ -268,21 +268,21 @@ en:
       backlog_sharing:
         options:
           no_sharing:
-            label: "Don't share"
             caption: "Sprints created in this project will only be available and visible to this project. They will also not be visible to subprojects."
+            label: "Don't share"
           receive_shared:
-            label: "Receive shared sprints"
             caption: "This project can only use sprints shared by other projects."
+            label: "Receive shared sprints"
             warning: "This project can only use sprints shared by other projects. Unused sprints created in this project in the past, will no longer be visible."
           share_all_projects:
-            label: "All projects"
             caption: "Sprints created in this project will be available to all projects in this instance. If you select this option, it will no longer be available to other projects."
             disabled_caption: "Option not available since project \"%{name}\" is currently sharing with all projects and only one project can do this."
             disabled_caption_anonymous: "Option not available since another project is currently sharing with all projects and only one project can do this."
+            label: "All projects"
           share_subprojects:
-            label: "Subprojects"
             caption: "Sprints created in this project will be available to all subprojects of the current project."
             info: "Sharing a sprint will share the name, status and the start and finish dates in all projects. These cannot be modified in projects that receive and use these sprints."
+            label: "Subprojects"
         sprint_sharing: Share sprints
 
       backlogs:

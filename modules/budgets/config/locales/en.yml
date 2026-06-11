@@ -28,25 +28,22 @@
 
 ---
 en:
-  plugin_budgets_engine:
-    name: "Budgets"
-
   activerecord:
     attributes:
       budget:
         author: "Author"
         available: "Available"
+        base_amount: "Base amount"
         budget: "Planned"
         budget_ratio: "Spent (ratio)"
         description: "Description"
+        labor_budget: "Planned labor costs"
+        labor_budget_items: "Planned labor costs"
+        material_budget: "Planned unit costs"
         spent: "Spent"
         status: "Status"
         subject: "Subject"
         type: "Cost type"
-        labor_budget: "Planned labor costs"
-        labor_budget_items: "Planned labor costs"
-        material_budget: "Planned unit costs"
-        base_amount: "Base amount"
       work_package:
         budget_subject: "Budget title"
     errors:
@@ -67,8 +64,45 @@ en:
   attributes:
     budget: "Budget"
 
-  button_add_budget_item: "Add planned costs"
+  budgets:
+    widgets:
+      budget_by_cost_type:
+        blankslate:
+          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
+          heading: "Start project controlling"
+        blankslate_zero:
+          description: "Add details about your planned budget to see data here"
+          heading: "Budget details missing"
+        count_caption:
+          one: "Data aggregated from %{count} budget"
+          other: "Data aggregated from %{count} budgets"
+          zero: "No budget data."
+        count_caption_with_subitems:
+          portfolio:
+            one: "Data aggregated from %{count} budget included in this portfolio and its subitems."
+            other: "Data aggregated from %{count} budgets included in this portfolio and its subitems."
+            zero: "No budget data."
+          program:
+            one: "Data aggregated from %{count} budget included in this program and its subitems."
+            other: "Data aggregated from %{count} budgets included in this program and its subitems."
+            zero: "No budget data."
+          project:
+            one: "Data aggregated from %{count} budget included in this project and its subitems."
+            other: "Data aggregated from %{count} budgets included in this project and its subitems."
+            zero: "No budget data."
+        title: "Budget by cost type"
+        view_details: "View budget details"
+
+      budget_totals:
+        remaining_budget: "Remaining budget"
+        spent_budget: "Spent budget"
+        title: "Budget totals"
+        total_actual_costs: "Total actual costs"
+        total_planned_budget: "Total planned budget"
+  budgets_title: "Budgets"
+
   button_add_budget: "Add budget"
+  button_add_budget_item: "Add planned costs"
   button_add_cost_type: "Add cost type"
   button_cancel_edit_budget: "Cancel editing budget"
   button_cancel_edit_costs: "Cancel editing costs"
@@ -76,43 +110,6 @@ en:
   caption_labor: "Labor"
   caption_labor_costs: "Actual labor costs"
   caption_material_costs: "Actual unit costs"
-  budgets_title: "Budgets"
-
-  budgets:
-    widgets:
-      budget_totals:
-        title: "Budget totals"
-        remaining_budget: "Remaining budget"
-        spent_budget: "Spent budget"
-        total_actual_costs: "Total actual costs"
-        total_planned_budget: "Total planned budget"
-      budget_by_cost_type:
-        title: "Budget by cost type"
-        blankslate:
-          heading: "Start project controlling"
-          description: "Get an overview of your budgets and costs to efficiently track the health status of your project"
-        blankslate_zero:
-          heading: "Budget details missing"
-          description: "Add details about your planned budget to see data here"
-        count_caption:
-          zero: "No budget data."
-          one: "Data aggregated from %{count} budget"
-          other: "Data aggregated from %{count} budgets"
-        count_caption_with_subitems:
-          project:
-            zero: "No budget data."
-            one: "Data aggregated from %{count} budget included in this project and its subitems."
-            other: "Data aggregated from %{count} budgets included in this project and its subitems."
-          program:
-            zero: "No budget data."
-            one: "Data aggregated from %{count} budget included in this program and its subitems."
-            other: "Data aggregated from %{count} budgets included in this program and its subitems."
-          portfolio:
-            zero: "No budget data."
-            one: "Data aggregated from %{count} budget included in this portfolio and its subitems."
-            other: "Data aggregated from %{count} budgets included in this portfolio and its subitems."
-        view_details: "View budget details"
-
   events:
     budget: "Budget edited"
 
@@ -122,26 +119,29 @@ en:
 
   label_budget: "Budget"
   label_budget_available: "Budget available"
+  label_budget_details: "Budget details"
+
   label_budget_id: "Budget #%{id}"
   label_budget_new: "New budget"
   label_budget_planned: "Budget planned"
   label_budget_plural: "Budgets"
   label_budget_spent: "Budget spent"
   label_budget_spent_ratio: "Budget spent ratio"
+  label_budget_totals: "Totals"
   label_deliverable: "Budget"
   label_example_placeholder: "e.g., %{decimal}"
   label_view_all_budgets: "View all budgets"
   label_yes: "Yes"
-  label_budget_totals: "Totals"
-  label_budget_details: "Budget details"
-
   notice_budget_conflict: "Work packages must be of the same project."
   notice_no_budgets_available: "No budgets available."
 
   permission_edit_budgets: "Edit budgets"
   permission_view_budgets: "View budgets"
+  plugin_budgets_engine:
+    name: "Budgets"
+
   project_module_budgets: "Budgets"
 
-  text_budget_reassign_to: "Reassign them to this budget:"
   text_budget_delete: "Delete the budget from all work packages"
   text_budget_destroy_assigned_wp: "There are %{count} work packages assigned to this budget. What do you want to do?"
+  text_budget_reassign_to: "Reassign them to this budget:"

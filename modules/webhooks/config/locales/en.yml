@@ -1,59 +1,39 @@
 ---
 en:
-  plugin_openproject_webhooks:
-    name: "OpenProject Webhooks"
-    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
-
   activerecord:
     attributes:
-      webhooks/webhook:
-        url: 'Payload URL'
-        secret: 'Signature secret'
-        events: 'Events'
-        enabled: 'Enabled'
-        projects: 'Enabled projects'
       webhooks/log:
         event_name: 'Event name'
-        url: 'Payload URL'
-        response_code: 'Response code'
         response_body: 'Response'
+        response_code: 'Response code'
+        url: 'Payload URL'
+      webhooks/webhook:
+        enabled: 'Enabled'
+        events: 'Events'
+        projects: 'Enabled projects'
+        secret: 'Signature secret'
+        url: 'Payload URL'
     models:
       webhooks/outgoing_webhook: "Outgoing webhook"
+  plugin_openproject_webhooks:
+    description: "Provides a plug-in API to support OpenProject webhooks for better 3rd party integration."
+
+    name: "OpenProject Webhooks"
   webhooks:
-    singular: Webhook
-    plural: Webhooks
-    resources:
-      time_entry:
-        name: "Time entry"
     outgoing:
-      no_results_table: No webhooks have been defined yet.
-      label_add_new: Add new webhook
-      label_edit: Edit webhook
-      label_x_events:
-        one: "1 event"
-        other: "%{count} events"
-        zero: "No events"
+      deliveries:
+        no_results_table: No deliveries have been made for this webhook in the past days.
+        time: 'Delivery time'
+        title: 'Recent deliveries'
       events:
-        created: "Created"
-        updated: "Updated"
         comment: "Comment"
+        created: "Created"
         internal_comment: "Internal comment"
+        updated: "Updated"
       explanation_html: >
         Upon the occurrence of an event like the creation of a work package or an update on a project, OpenProject will send a POST request to the configured web endpoints.
         Oftentimes, the event is sent after the [configured aggregation period](aggregation_path) has passed.
-      status:
-        enabled: 'Webhook is enabled'
-        disabled: 'Webhook is disabled'
-        enabled_text: 'The webhook will emit payloads for the defined events below.'
-        disabled_text: 'Click the edit button to activate the webhook.'
-      deliveries:
-        no_results_table: No deliveries have been made for this webhook in the past days.
-        title: 'Recent deliveries'
-        time: 'Delivery time'
       form:
-        introduction: >
-          Send a POST request to the payload URL below for any event in the project you're subscribed to.
-          Payload will correspond to the APIv3 representation of the object being modified.
         apiv3_doc_url: For more information, visit the API documentation
         description:
           placeholder: 'Optional description for the webhook.'
@@ -62,13 +42,33 @@ en:
             When checked, the webhook will trigger on the selected events. Uncheck to disable the webhook.
         events:
           title: 'Enabled events'
+        introduction: >
+          Send a POST request to the payload URL below for any event in the project you're subscribed to.
+          Payload will correspond to the APIv3 representation of the object being modified.
         project_ids:
-          title: 'Enabled projects'
-          description: 'Select for which projects this webhook should be executed for.'
           all: 'All projects'
+          description: 'Select for which projects this webhook should be executed for.'
           selected: 'Selected projects only'
-        selected_project_ids:
-          title: 'Selected projects'
+          title: 'Enabled projects'
         secret:
           description: >
             If set, this secret value is used by OpenProject to sign the webhook payload.
+        selected_project_ids:
+          title: 'Selected projects'
+      label_add_new: Add new webhook
+      label_edit: Edit webhook
+      label_x_events:
+        one: "1 event"
+        other: "%{count} events"
+        zero: "No events"
+      no_results_table: No webhooks have been defined yet.
+      status:
+        disabled: 'Webhook is disabled'
+        disabled_text: 'Click the edit button to activate the webhook.'
+        enabled: 'Webhook is enabled'
+        enabled_text: 'The webhook will emit payloads for the defined events below.'
+    plural: Webhooks
+    resources:
+      time_entry:
+        name: "Time entry"
+    singular: Webhook
