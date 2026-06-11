@@ -35,10 +35,11 @@ module Wikis
 
     alias_method :page_info_result, :model
 
-    attr_reader :actions
+    attr_reader :actions, :badge
 
-    def initialize(model = nil, actions: [], page_link: nil, **)
+    def initialize(model = nil, actions: [], badge: nil, page_link: nil, **)
       @actions = actions
+      @badge = badge
       @page_link = page_link
 
       super(model, **)

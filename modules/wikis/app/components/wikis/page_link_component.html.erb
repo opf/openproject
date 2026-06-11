@@ -46,6 +46,8 @@ See COPYRIGHT and LICENSE files for more details.
     end
   %>
 
+  <%= render(Primer::Beta::Label.new(scheme: :accent)) { badge } if badge.present? %>
+
   <%=
     if show_action_menu?
       render(Primer::Alpha::ActionMenu.new(test_selector: "wiki-page-link-action-menu")) do |menu|

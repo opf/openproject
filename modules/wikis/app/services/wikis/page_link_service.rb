@@ -37,7 +37,8 @@ module Wikis
 
       relation_page_links +
         inline_page_link_infos_for(linkable:).size +
-        referencing_wiki_page_infos_for(linkable:).size
+        referencing_wiki_page_infos_for(linkable:).size +
+        mentioning_wiki_page_infos_for(linkable:).size
     end
 
     def relation_page_links_for(provider:, linkable:)
@@ -74,6 +75,27 @@ module Wikis
       end
 
       referenced_in
+    end
+
+    def mentioning_wiki_page_infos_for(linkable:)
+      mentioned_in = []
+
+      Adapters::Input::MentioningPages.build(linkable:).bind do |input|
+        Provider.enabled.each do |provider|
+          begin
+            query = provider.resolve("queries.mentioning_pages")
+          rescue Adapters::Registry::OperationNotSupported
+            next
+          end
+
+          provider.auth_strategy_for(User.current).bind do |auth_strategy|
+            query.call(input_data: input, auth_strategy:)
+                 .fmap { mentioned_in.concat(it) }
+          end
+        end
+      end
+
+      mentioned_in
     end
 
     private

@@ -36,6 +36,8 @@ module Wikis
 
     TURBO_FRAME_ID = "work-package-wikis-tab-content"
 
+    PageLinkEntry = Data.define(:result, :badge)
+
     alias_method :work_package, :model
 
     def providers
@@ -48,13 +50,25 @@ module Wikis
 
     def inline_page_links
       @inline_page_links ||= page_link_service.inline_page_link_infos_for(linkable: work_package)
+                                              .map { PageLinkEntry.new(result: it, badge: nil) }
     end
 
     def referencing_wiki_pages
-      @referencing_wiki_pages ||= page_link_service.referencing_wiki_page_infos_for(linkable: work_package)
+      @referencing_wiki_pages ||= (referenced_page_entries + mentioning_page_entries)
+        .uniq { |e| e.result.success? ? e.result.value!.identifier : e.result.object_id }
     end
 
     private
+
+    def referenced_page_entries
+      page_link_service.referencing_wiki_page_infos_for(linkable: work_package)
+                       .map { PageLinkEntry.new(result: it, badge: t(".linked_badge")) }
+    end
+
+    def mentioning_page_entries
+      page_link_service.mentioning_wiki_page_infos_for(linkable: work_package)
+                       .map { PageLinkEntry.new(result: it, badge: nil) }
+    end
 
     def page_link_service
       @page_link_service ||= PageLinkService.new
