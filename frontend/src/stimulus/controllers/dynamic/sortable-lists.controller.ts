@@ -171,13 +171,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
       return;
     }
 
-    if (
-      !this.element.contains(source.element) ||
-      !acceptsSortableItemType({
-        acceptedType: this.acceptedType,
-        type: source.data.type,
-      })
-    ) {
+    if (!this.element.contains(source.element)) {
       return;
     }
 

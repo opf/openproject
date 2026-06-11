@@ -299,34 +299,6 @@ describe('Sortable lists controller', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('ignores drops whose source type does not match the root accepted type', async () => {
-    const { targetList, firstSourceItem } = renderFixture({ acceptedType: 'work_package' });
-    const targetItem = targetList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="4"]')!;
-
-    await ctx.nextFrame();
-
-    await vi.mocked(monitorForElements).mock.lastCall?.[0].onDrop?.({
-      source: sourcePayload(firstSourceItem, itemData('1', 'meeting_agenda_item')),
-      location: {
-        initial: {
-          dropTargets: [],
-          input: input(),
-        },
-        current: {
-          dropTargets: [
-            dropTargetRecord(targetItem, itemData('4', 'work_package')),
-          ],
-          input: input(),
-        },
-        previous: {
-          dropTargets: [],
-        },
-      },
-    });
-
-    expect(fetchMock).not.toHaveBeenCalled();
-  });
-
   it('appends the item when list-only dropping onto another list', async () => {
     const { targetList, firstSourceItem } = renderFixture();
 
