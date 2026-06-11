@@ -35,6 +35,7 @@ module Wikis
         Registry = Dry::Core::Container::Namespace.new("xwiki") do
           namespace("authentication") do
             register(:user_bound, Authentication::UserBound)
+            register(:noop, Authentication::Noop)
           end
 
           namespace("commands") do

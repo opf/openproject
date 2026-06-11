@@ -30,17 +30,15 @@
 
 module Wikis
   module Adapters
-    class Authentication
-      class << self
-        # @param strategy [Input::AuthStrategy]
-        def [](strategy)
-          case strategy.key
-          when :bearer_token
-            AuthenticationStrategies::BearerToken.new(strategy.user, strategy.provider)
-          when :internal
-            AuthenticationStrategies::InternalUser.new(strategy.user)
-          when :noop
-            AuthenticationStrategies::Noop.new
+    module Providers
+      module XWiki
+        module Authentication
+          class Noop
+            def initialize(*); end
+
+            def call
+              Input::AuthStrategy.build(key: :noop)
+            end
           end
         end
       end

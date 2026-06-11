@@ -30,18 +30,11 @@
 
 module Wikis
   module Adapters
-    class Authentication
-      class << self
-        # @param strategy [Input::AuthStrategy]
-        def [](strategy)
-          case strategy.key
-          when :bearer_token
-            AuthenticationStrategies::BearerToken.new(strategy.user, strategy.provider)
-          when :internal
-            AuthenticationStrategies::InternalUser.new(strategy.user)
-          when :noop
-            AuthenticationStrategies::Noop.new
-          end
+    module AuthenticationStrategies
+      # Used for public endpoints that do not require authentication.
+      class Noop
+        def call(http_options: {}, **)
+          yield OpenProject.httpx.with(http_options)
         end
       end
     end
