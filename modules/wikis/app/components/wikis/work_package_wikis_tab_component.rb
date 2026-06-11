@@ -62,7 +62,7 @@ module Wikis
 
     def referenced_page_entries
       page_link_service.referencing_wiki_page_infos_for(linkable: work_package)
-                       .map { PageLinkEntry.new(result: it, badge: t(".linked_badge")) }
+                       .map { PageLinkEntry.new(result: it, badge: t(".badge_as_parent")) }
     end
 
     def mentioning_page_entries

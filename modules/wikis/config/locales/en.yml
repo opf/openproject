@@ -174,5 +174,5 @@ en:
       link_new: New wiki page
     work_package_wikis_tab_component:
       inline_page_links: Inline page links
-      linked_badge: As parent
+      badge_as_parent: As parent
       referencing_pages: Referenced in
