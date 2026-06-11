@@ -2,6 +2,9 @@ import { ApplicationController } from 'stimulus-use';
 import { announce } from '@primer/live-region-element';
 
 export const SUCCESS_AUTOHIDE_TIMEOUT = 5000;
+// Match Primer's live-region registration delay. Manual screen reader
+// testing showed the first announcement can be missed without this pause.
+export const LIVE_REGION_ANNOUNCEMENT_DELAY = 150;
 
 export default class FlashController extends ApplicationController {
   static values = {
@@ -70,14 +73,14 @@ export default class FlashController extends ApplicationController {
     // Determine politeness level: 'assertive' for errors/alerts, 'polite' for other messages
     const politeness = element.dataset.politeness === 'assertive' ? 'assertive' : 'polite';
 
-    // Defer announcement until after the flash has been connected to the DOM.
+    // Defer announcement so screen readers can observe the live region before it changes.
     window.setTimeout(() => {
       if (!element.isConnected) {
         return;
       }
 
       void announce(message, { politeness, from: element });
-    });
+    }, LIVE_REGION_ANNOUNCEMENT_DELAY);
   }
 
   /**
@@ -85,11 +88,7 @@ export default class FlashController extends ApplicationController {
    * Clears any existing timer without restarting it.
    */
   private pauseAutohideTimer(element:HTMLElement) {
-    const timeoutId = this.autohideTimers.get(element);
-    if (timeoutId) {
-      window.clearTimeout(timeoutId);
-      this.autohideTimers.delete(element);
-    }
+    this.clearAutohideTimer(element);
   }
 
   /**
