@@ -6,7 +6,7 @@ import { InlineWorkPackageChip } from '../../../../lib/components/InlineWorkPack
 import { wpBridge } from '../../../../lib/services/wpBridge';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
-  insertInlineChipViaSlashMenu,
+  insertInlineWorkPackageViaSlashMenu,
   convertToCompactCard,
   openBlockCardPopover,
 } from '../../../helpers/editorHelpers';
@@ -139,7 +139,7 @@ describe('Options popover portal', () => {
 
   it('block card: popover is rendered outside the block DOM so it is not clipped by overflow', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardPopover();

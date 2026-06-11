@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { insertInlineChipViaSlashMenu, convertToCompactCard } from '../../../helpers/editorHelpers';
+import { insertInlineWorkPackageViaSlashMenu, convertToCompactCard } from '../../../helpers/editorHelpers';
 
 describe('Drag and drop - inline chip', () => {
   it('chip has data-drag-handle and is not independently draggable', async () => {
@@ -10,7 +10,7 @@ describe('Drag and drop - inline chip', () => {
     const editor = page.getByRole('textbox');
     await userEvent.click(editor);
     await userEvent.type(editor, 'Before ');
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
 
     await expect.element(page.getByText('#123')).toBeVisible();
 
@@ -27,7 +27,7 @@ describe('Drag and drop - inline chip', () => {
     await userEvent.click(editor);
     await userEvent.type(editor, 'First line');
     await userEvent.keyboard('{Enter}');
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await userEvent.keyboard('{Enter}');
     await userEvent.type(editor, 'Last line');
 
@@ -56,7 +56,7 @@ describe('Drag and drop - block card', () => {
 
     const editor = page.getByRole('textbox');
     await userEvent.click(editor);
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();

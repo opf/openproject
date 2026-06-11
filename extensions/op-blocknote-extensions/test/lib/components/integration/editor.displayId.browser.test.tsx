@@ -2,21 +2,21 @@ import { describe, it, expect } from 'vitest';
 import { page } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
-  insertInlineChipViaSlashMenu,
+  insertInlineWorkPackageViaSlashMenu,
   convertToCompactCard,
 } from '../../../helpers/editorHelpers';
 
 describe('displayId - classic (numeric)', () => {
   it('inline chip shows #123 for numeric displayId', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu('123');
+    await insertInlineWorkPackageViaSlashMenu('123');
 
     await expect.element(page.getByText('#123')).toBeVisible();
   });
 
   it('block card shows #123 for numeric displayId', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu('123');
+    await insertInlineWorkPackageViaSlashMenu('123');
     await convertToCompactCard();
 
     await expect.element(page.getByText('#123')).toBeVisible();
@@ -27,7 +27,7 @@ describe('displayId - classic (numeric)', () => {
 describe('displayId - semantic (alphanumeric)', () => {
   it('inline chip shows DWPS-1 without # for semantic displayId', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu('DWPS-1', 'Semantic');
+    await insertInlineWorkPackageViaSlashMenu('DWPS-1', 'Semantic');
 
     await expect.element(page.getByText('DWPS-1')).toBeVisible();
     await expect.element(page.getByText('#DWPS-1')).not.toBeInTheDocument();
@@ -36,7 +36,7 @@ describe('displayId - semantic (alphanumeric)', () => {
 
   it('block card shows DWPS-1 without # for semantic displayId', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu('DWPS-1', 'Semantic');
+    await insertInlineWorkPackageViaSlashMenu('DWPS-1', 'Semantic');
     await convertToCompactCard('DWPS-1');
 
     await expect.element(page.getByText('DWPS-1')).toBeVisible();

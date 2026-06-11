@@ -1,12 +1,12 @@
 import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { insertInlineChipViaSlashMenu } from '../../../helpers/editorHelpers';
+import { insertInlineWorkPackageViaSlashMenu } from '../../../helpers/editorHelpers';
 
 describe('Inline chip - copy/paste independence', () => {
   it('resizing the original does not affect the copy', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
 
     await userEvent.keyboard('{Control>}a{/Control}');
     await userEvent.keyboard('{Control>}c{/Control}');
@@ -27,7 +27,7 @@ describe('Inline chip - copy/paste independence', () => {
 
   it('resizing the copy does not affect the original', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
 
     await userEvent.keyboard('{Control>}a{/Control}');
     await userEvent.keyboard('{Control>}c{/Control}');
@@ -48,7 +48,7 @@ describe('Inline chip - copy/paste independence', () => {
 
   it('removing the copy does not remove the original', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
 
     await userEvent.keyboard('{Control>}a{/Control}');
     await userEvent.keyboard('{Control>}c{/Control}');
@@ -67,7 +67,7 @@ describe('Inline chip - copy/paste independence', () => {
 
   it('removing the original does not remove the copy', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
 
     await userEvent.keyboard('{Control>}a{/Control}');
     await userEvent.keyboard('{Control>}c{/Control}');

@@ -2,18 +2,18 @@ import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
-  insertInlineChipViaSlashMenu,
-  insertInlineChipViaHash,
-  insertInlineChipViaHashWithTextBefore,
+  insertInlineWorkPackageViaSlashMenu,
+  insertInlineWorkPackageViaHash,
+  insertInlineWorkPackageViaHashWithTextBefore,
   convertToCompactCard,
-  openInlineChipSizeMenu,
+  openInlineWorkPackageSizeMenu,
   openBlockCardSizeMenu,
 } from '../../../helpers/editorHelpers';
 
 describe('Inline chip - convert to block card', () => {
   it('inline -> Compact card replaces chip with block card', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
 
     await convertToCompactCard();
 
@@ -25,9 +25,9 @@ describe('Inline chip - convert to block card', () => {
 
   // it('inline → Regular card replaces chip with block card', async () => {
   //   renderEditor();
-  //   await insertInlineChipViaSlashMenu();
+  //   await insertInlineWorkPackageViaSlashMenu();
 
-  //   await openInlineChipSizeMenu();
+  //   await openInlineWorkPackageSizeMenu();
   //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
 
   //   await expect.element(page.getByTestId('block-card')).toBeVisible();
@@ -39,7 +39,7 @@ describe('Inline chip - convert to block card', () => {
 describe('Block card - convert to inline chip', () => {
   it('block -> Tiny replaces card with XXS chip', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
@@ -53,7 +53,7 @@ describe('Block card - convert to inline chip', () => {
 
   it('block -> Compact (inline) replaces card with XS chip', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
@@ -68,7 +68,7 @@ describe('Block card - convert to inline chip', () => {
 
   it('block -> Regular (inline) replaces card with S chip', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
@@ -83,10 +83,10 @@ describe('Block card - convert to inline chip', () => {
 describe('Inline chip -> block: surrounding text is split at chip position', () => {
   it('WP - text: text after chip moves to new paragraph below block', async () => {
     renderEditor();
-    await insertInlineChipViaHash('#');
+    await insertInlineWorkPackageViaHash('#');
     await userEvent.keyboard(' World');
 
-    await openInlineChipSizeMenu();
+    await openInlineWorkPackageSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
@@ -102,10 +102,10 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
 
   it('text - WP - text: surrounding sentence is split into two paragraphs around the block', async () => {
     renderEditor();
-    await insertInlineChipViaHashWithTextBefore('Hello ');
+    await insertInlineWorkPackageViaHashWithTextBefore('Hello ');
     await userEvent.keyboard(' World');
 
-    await openInlineChipSizeMenu();
+    await openInlineWorkPackageSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
@@ -126,9 +126,9 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
 
   it('text - WP: text before chip stays in paragraph above block', async () => {
     renderEditor();
-    await insertInlineChipViaHashWithTextBefore('Hello ');
+    await insertInlineWorkPackageViaHashWithTextBefore('Hello ');
 
-    await openInlineChipSizeMenu();
+    await openInlineWorkPackageSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
@@ -146,7 +146,7 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
 describe('Round-trip conversion', () => {
   it('inline chip survives block card round-trip and retains WP data', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
 
     // block
     await convertToCompactCard();
@@ -164,10 +164,10 @@ describe('Round-trip conversion', () => {
 
   it('XXS chip inserted via # survives block card round-trip', async () => {
     renderEditor();
-    await insertInlineChipViaHash('#');
+    await insertInlineWorkPackageViaHash('#');
 
     // block
-    await openInlineChipSizeMenu();
+    await openInlineWorkPackageSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
     await expect.element(page.getByTestId('block-card')).toBeVisible();
 
