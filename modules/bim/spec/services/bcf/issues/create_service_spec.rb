@@ -50,4 +50,63 @@ RSpec.describe Bim::Bcf::Issues::CreateService, type: :model do
       end
     end
   end
+
+  describe "resolving work packages from reference_links" do
+    include API::V3::Utilities::PathHelper
+
+    let(:project) { create(:project, enabled_module_names: %i[bim work_package_tracking]) }
+    let(:user) do
+      create(:user,
+             member_with_permissions: { project => %i[manage_bcf
+                                                      view_linked_issues
+                                                      view_work_packages
+                                                      edit_work_packages] })
+    end
+    let(:work_package) { create(:work_package, project:) }
+    let(:instance) { described_class.new(user:) }
+
+    subject(:service_call) { instance.call(reference_links:) }
+
+    context "with a link containing the numeric id" do
+      let(:reference_links) { [api_v3_paths.work_package(work_package.id)] }
+
+      it "links the topic to the referenced work package" do
+        expect(service_call).to be_success
+        expect(service_call.result.work_package).to eq work_package
+      end
+    end
+
+    context "with semantic work package identifiers",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:project) { create(:project, identifier: "SEMID", enabled_module_names: %i[bim work_package_tracking]) }
+
+      context "with a link containing the semantic identifier" do
+        let(:reference_links) { [api_v3_paths.work_package(work_package.display_id)] }
+
+        it "links the topic to the referenced work package" do
+          expect(work_package.display_id).to start_with "SEMID-"
+          expect(service_call).to be_success
+          expect(service_call.result.work_package).to eq work_package
+        end
+      end
+
+      context "with a link containing the numeric id" do
+        let(:reference_links) { [api_v3_paths.work_package(work_package.id)] }
+
+        it "links the topic to the referenced work package" do
+          expect(service_call).to be_success
+          expect(service_call.result.work_package).to eq work_package
+        end
+      end
+
+      context "with a link to an unknown semantic identifier" do
+        let(:reference_links) { [api_v3_paths.work_package("SEMID-9999")] }
+
+        it "fails with a not found error" do
+          expect(service_call).to be_failure
+          expect(service_call.errors.symbols_for(:base)).to include :error_not_found
+        end
+      end
+    end
+  end
 end

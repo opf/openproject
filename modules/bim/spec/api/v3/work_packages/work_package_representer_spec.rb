@@ -150,6 +150,19 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             .to be_json_eql({ reference_links: ["/api/v3/work_packages/#{work_package.id}"] }.to_json)
             .at_path("_links/convertBCF/payload")
         end
+
+        context "with semantic work package identifiers",
+                with_settings: { work_packages_identifier: "semantic" } do
+          let(:work_package) do
+            build_stubbed(:work_package, bcf_issue: bcf_topic, identifier: "PROJ-7", sequence_number: 7)
+          end
+
+          it "uses the semantic identifier in the payload" do
+            expect(subject)
+              .to be_json_eql({ reference_links: ["/api/v3/work_packages/PROJ-7"] }.to_json)
+              .at_path("_links/convertBCF/payload")
+          end
+        end
       end
 
       context "if a bcf issue is assigned" do

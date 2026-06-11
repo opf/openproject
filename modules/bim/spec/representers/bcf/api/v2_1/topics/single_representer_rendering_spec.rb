@@ -124,6 +124,29 @@ RSpec.describe Bim::Bcf::API::V2_1::Topics::SingleRepresenter, "rendering" do
         let(:value) { [api_v3_paths.work_package(work_package.id)] }
         let(:path) { "reference_links" }
       end
+
+      context "with semantic work package identifiers",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:work_package) do
+          build_stubbed(:work_package,
+                        identifier: "PROJ-42",
+                        sequence_number: 42,
+                        assigned_to: assignee,
+                        due_date: Time.zone.today,
+                        status:,
+                        priority:,
+                        type:).tap do |wp|
+            allow(wp)
+              .to receive(:journals)
+              .and_return(journals)
+          end
+        end
+
+        it_behaves_like "attribute" do
+          let(:value) { [api_v3_paths.work_package("PROJ-42")] }
+          let(:path) { "reference_links" }
+        end
+      end
     end
 
     context "title" do

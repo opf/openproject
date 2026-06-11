@@ -163,7 +163,7 @@ module OpenProject::Bim
         {
           href: bcf_v2_1_paths.topics(represented.project.identifier),
           title: "Convert to BCF",
-          payload: { reference_links: [api_v3_paths.work_package(represented.id)] },
+          payload: { reference_links: [api_v3_paths.work_package(represented.display_id)] },
           method: :post
         }
       end

@@ -127,7 +127,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
             modified_author: current_user.mail,
             modified_date: work_package.updated_at.iso8601(3),
             reference_links: [
-              api_v3_paths.work_package(work_package.id)
+              api_v3_paths.work_package(work_package.display_id)
             ],
             stage: bcf_issue.stage,
             title: work_package.subject,
@@ -175,7 +175,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
               modified_author: current_user.mail,
               modified_date: work_package.updated_at.iso8601(3),
               reference_links: [
-                api_v3_paths.work_package(work_package.id)
+                api_v3_paths.work_package(work_package.display_id)
               ],
               stage: bcf_issue.stage,
               title: work_package.subject,
@@ -220,7 +220,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
           modified_author: current_user.mail,
           modified_date: work_package.updated_at.iso8601(3),
           reference_links: [
-            api_v3_paths.work_package(work_package.id)
+            api_v3_paths.work_package(work_package.display_id)
           ],
           stage: bcf_issue.stage,
           title: work_package.subject,
@@ -231,6 +231,19 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
             topic_actions: []
           }
         }
+      end
+    end
+
+    context "with semantic work package identifiers",
+            with_settings: { work_packages_identifier: "semantic" } do
+      it "renders the semantic identifier in the reference_links" do
+        work_package.reload
+
+        expect(response).to have_http_status :ok
+        expect(work_package.display_id).to match(/\A#{project.identifier}-\d+\z/)
+        expect(response.body)
+          .to be_json_eql([api_v3_paths.work_package(work_package.display_id)].to_json)
+          .at_path("reference_links")
       end
     end
 
@@ -272,7 +285,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
             modified_author: current_user.mail,
             modified_date: work_package.updated_at.iso8601(3),
             reference_links: [
-              api_v3_paths.work_package(work_package.id)
+              api_v3_paths.work_package(work_package.display_id)
             ],
             stage: bcf_issue.stage,
             title: work_package.subject,
@@ -558,7 +571,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
           labels:,
           index:,
           reference_links: [
-            api_v3_paths.work_package(work_package&.id)
+            api_v3_paths.work_package(work_package&.display_id)
           ],
           assigned_to: view_only_user.mail,
           due_date: Date.today.iso8601,
@@ -597,7 +610,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
         labels: [],
         index: nil,
         reference_links: [
-          api_v3_paths.work_package(work_package&.id)
+          api_v3_paths.work_package(work_package&.display_id)
         ],
         assigned_to: assigned_to || base&.assigned_to&.mail,
         due_date: due_date || base&.due_date,
@@ -658,6 +671,68 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
             modified_author_mail: edit_member_user.mail,
             base: existing_work_package
           )
+        end
+      end
+
+      context "with semantic work package identifiers",
+              with_settings: { work_packages_identifier: "semantic" } do
+        let(:params) do
+          {
+            title: "BCF topic #{existing_work_package.display_id}",
+            reference_links: [
+              api_v3_paths.work_package(existing_work_package.display_id)
+            ]
+          }
+        end
+
+        it_behaves_like "bcf api successful response" do
+          let(:expected_status) { 201 }
+          let(:expected_body) do
+            expected_body_for_bcf_issue(
+              Bim::Bcf::Issue.last.reload,
+              title: params[:title],
+              creation_author_mail: existing_work_package.author.mail,
+              modified_author_mail: edit_member_user.mail,
+              base: existing_work_package
+            )
+          end
+        end
+
+        context "with a link using the numeric id" do
+          let(:params) do
+            {
+              title: "BCF topic ##{existing_work_package.id}",
+              reference_links: [
+                api_v3_paths.work_package(existing_work_package.id)
+              ]
+            }
+          end
+
+          it_behaves_like "bcf api successful response" do
+            let(:expected_status) { 201 }
+            let(:expected_body) do
+              expected_body_for_bcf_issue(
+                Bim::Bcf::Issue.last.reload,
+                title: params[:title],
+                creation_author_mail: existing_work_package.author.mail,
+                modified_author_mail: edit_member_user.mail,
+                base: existing_work_package
+              )
+            end
+          end
+        end
+
+        context "with a link to a non-existing semantic identifier" do
+          let(:params) do
+            {
+              title: "A new BCF topic",
+              reference_links: [
+                api_v3_paths.work_package("#{project.identifier}-99999")
+              ]
+            }
+          end
+
+          it_behaves_like "bcf api not found response"
         end
       end
 
@@ -807,7 +882,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
           labels: [],
           index:,
           reference_links: [
-            api_v3_paths.work_package(work_package&.id)
+            api_v3_paths.work_package(work_package&.display_id)
           ],
           assigned_to: view_only_user.mail,
           due_date: Date.today.iso8601,
@@ -846,7 +921,7 @@ RSpec.describe "BCF 2.1 topics resource", content_type: :json do
             labels: [],
             index: nil,
             reference_links: [
-              api_v3_paths.work_package(work_package&.id)
+              api_v3_paths.work_package(work_package&.display_id)
             ],
             assigned_to: nil,
             due_date: nil,
