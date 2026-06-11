@@ -31,3 +31,8 @@ pre-commit:
       files: git diff --name-only --staged
       glob: "{Gemfile.lock,frontend/package.json}"
       run: script/check_same_primer_view_components_version_everywhere
+    sort-locales:
+      files: git diff --name-only --staged
+      glob: "**/config/locales/{en,js-en}.yml"
+      run: python3 script/i18n/sort_locales.py {files}
+      stage_fixed: true

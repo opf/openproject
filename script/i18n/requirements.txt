@@ -1,0 +1,6 @@
+# Runtime dependency for script/i18n/sort_locales.py and the lefthook pre-commit hook.
+# Install with: pip install -r script/i18n/requirements.txt
+ruamel.yaml==0.18.10
+
+# Running the tests additionally needs pytest (a dev-only tool, intentionally
+# not pinned here): pip install pytest && python3 -m pytest script/i18n/
