@@ -36,7 +36,9 @@ import {
   resolveItemId,
   resolveListAppendPreviousItemId,
   resolvePreviousItemId,
+  sortableListIdAttribute,
   sortableListSelector,
+  sortableListTypeAttribute,
 } from './list-dom';
 
 // The Pragmatic DnD payloads exchanged between the sortable-lists root and
@@ -117,14 +119,8 @@ export function buildMoveFormData({
   return data;
 }
 
-export function resolveListData(element:Element):SortableListData|null {
-  const list = element.closest<HTMLElement>(sortableListSelector);
-
-  if (!list) {
-    return null;
-  }
-
-  const type = list.getAttribute('data-sortable-lists-list-type');
+export function resolveListTargetData(element:Element):SortableListData|null {
+  const type = element.getAttribute(sortableListTypeAttribute);
 
   if (!type) {
     return null;
@@ -132,7 +128,7 @@ export function resolveListData(element:Element):SortableListData|null {
 
   return sortableListData({
     type,
-    listId: list.getAttribute('data-sortable-lists-list-id'),
+    listId: element.getAttribute(sortableListIdAttribute),
   });
 }
 
@@ -188,13 +184,13 @@ export function resolvePreviousSortableItemId({
 }
 
 export interface DropIntent {
-  targetElement:HTMLElement;
+  listElement:HTMLElement;
   listData:SortableListData;
   previousItemId:string|null;
 }
 
-// Resolve where a dropped item should land: the element under the drop, the
-// list it belongs to and the item the dropped one should be inserted after.
+// Resolve where a dropped item should land: the list it was dropped into and
+// the item the dropped one should be inserted after.
 // Returns null when the drop does not amount to a move (outside the root, no
 // list metadata, or dropped back onto its own list without a target item).
 export function resolveDropIntent({
@@ -214,18 +210,17 @@ export function resolveDropIntent({
   const targetList = location.current.dropTargets.find(({ data, element }) => (
     isSortableListData(data) && element instanceof HTMLElement && root.contains(element)
   ));
-  const targetElement = targetItem?.element ?? targetList?.element;
-
-  if (!(targetElement instanceof HTMLElement)) {
+  if (!(targetList?.element instanceof HTMLElement)) {
     return null;
   }
 
-  const listData = resolveListData(targetElement);
-  if (!listData) {
+  const listElement = targetList.element;
+  const listData = targetList.data;
+  if (!isSortableListData(listData)) {
     return null;
   }
 
-  if (!targetItem && isSourceListTarget({ sourceElement, targetElement })) {
+  if (!targetItem && isSourceListTarget({ sourceElement, targetElement: listElement })) {
     return null;
   }
 
@@ -237,8 +232,8 @@ export function resolveDropIntent({
     })
     : resolveListAppendPreviousItemId({
       sourceItemId: sourceData.itemId,
-      list: targetElement,
+      list: listElement,
     });
 
-  return { targetElement, listData, previousItemId };
+  return { listElement, listData, previousItemId };
 }

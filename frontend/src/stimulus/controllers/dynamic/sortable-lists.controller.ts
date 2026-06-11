@@ -43,14 +43,13 @@ import {
   buildMoveFormData,
   isSortableItemData,
   resolveDropIntent,
-  resolveListData,
+  resolveListTargetData,
   type SortableListData,
 } from './sortable-lists/drag-and-drop';
 import {
   captureRowPositions,
   reorderRows,
   restoreRowPositions,
-  sortableListSelector,
   sortableListsMovingAttribute,
 } from './sortable-lists/list-dom';
 
@@ -106,7 +105,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
   }
 
   listTargetConnected(element:HTMLElement):void {
-    const listData = resolveListData(element);
+    const listData = resolveListTargetData(element);
     if (!listData) {
       return;
     }
@@ -198,8 +197,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
     }
 
     const sourceRow = source.element.closest('li');
-    const listElement = intent.targetElement.closest(sortableListSelector);
-    if (!(sourceRow instanceof HTMLElement) || !(listElement instanceof HTMLElement)) {
+    if (!(sourceRow instanceof HTMLElement)) {
       return;
     }
 
@@ -208,7 +206,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
     // back to where it started.
     const rows = [sourceRow];
     const rollback = captureRowPositions(rows);
-    reorderRows({ rows, list: listElement, previousItemId: intent.previousItemId });
+    reorderRows({ rows, list: intent.listElement, previousItemId: intent.previousItemId });
 
     const result = await this.moveItem({
       listData: intent.listData,

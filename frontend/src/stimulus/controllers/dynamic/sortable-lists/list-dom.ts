@@ -38,6 +38,8 @@ export const sortableListsMovingAttribute = 'data-sortable-lists-moving';
 export const sortableListsRootSelector = '[data-controller~="sortable-lists"]';
 export const sortableItemSelector = '[data-sortable-lists--item-id-value]';
 export const sortableListSelector = '[data-sortable-lists-target~="list"]';
+export const sortableListTypeAttribute = 'data-sortable-lists-list-type';
+export const sortableListIdAttribute = 'data-sortable-lists-list-id';
 export const sortablePreviousItemIdAttribute = 'data-sortable-lists-prev-item-id';
 
 // Rows can sit directly under the list element or inside a nested <ul>.

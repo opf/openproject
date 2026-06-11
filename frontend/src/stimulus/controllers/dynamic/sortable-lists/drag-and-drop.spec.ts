@@ -36,7 +36,7 @@ import {
   isSortableItemData,
   isSortableListData,
   resolveDropIntent,
-  resolveListData,
+  resolveListTargetData,
   resolvePreviousSortableItemId,
   sortableItemData,
   sortableListData,
@@ -240,27 +240,26 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
-  describe('resolveListData', () => {
-    it('reads the nearest list type and id', () => {
+  describe('resolveListTargetData', () => {
+    it('reads the list type and id from the list element', () => {
       const list = document.createElement('ul');
-      const row = itemRow('1');
-      const item = row.querySelector<HTMLElement>('article')!;
 
-      list.setAttribute('data-sortable-lists-target', 'list');
       list.setAttribute('data-sortable-lists-list-type', 'sprint');
       list.setAttribute('data-sortable-lists-list-id', '12');
-      list.appendChild(row);
 
-      expect(resolveListData(item)).toEqual(expect.objectContaining({ type: 'sprint', listId: '12' }));
+      expect(resolveListTargetData(list)).toEqual(expect.objectContaining({ type: 'sprint', listId: '12' }));
     });
 
     it('uses null as the list id for lists without an id', () => {
       const list = document.createElement('ul');
 
-      list.setAttribute('data-sortable-lists-target', 'list');
       list.setAttribute('data-sortable-lists-list-type', 'inbox');
 
-      expect(resolveListData(list)).toEqual(expect.objectContaining({ type: 'inbox', listId: null }));
+      expect(resolveListTargetData(list)).toEqual(expect.objectContaining({ type: 'inbox', listId: null }));
+    });
+
+    it('returns null for elements without a list type', () => {
+      expect(resolveListTargetData(document.createElement('ul'))).toBeNull();
     });
   });
 
@@ -307,15 +306,45 @@ describe('sortable lists drag and drop helpers', () => {
       });
 
       const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [
+            { data, element: target },
+            { data: sortableListData({ type: 'backlog_bucket', listId: '7' }), element: list },
+          ],
+        }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent?.listElement).toBe(list);
+      expect(intent?.listData).toEqual(expect.objectContaining({ type: 'backlog_bucket', listId: '7' }));
+      expect(intent?.previousItemId).toEqual('2');
+    });
+
+    it('returns null when an item drop has no list target data', () => {
+      const { root, list } = buildList();
+      const source = itemRow('1');
+      const target = itemRow('2');
+
+      list.append(source, target);
+      document.body.appendChild(root);
+      vi.spyOn(target, 'getBoundingClientRect').mockReturnValue(rect());
+
+      const data = attachClosestEdge(sortableItemData({ type: 'work_package', itemId: '2' }), {
+        element: target,
+        input: input({ clientY: 90 }),
+        allowedEdges: ['top', 'bottom'],
+      });
+
+      const intent = resolveDropIntent({
         location: dropLocation({ dropTargets: [{ data, element: target }] }),
         root,
         sourceElement: source,
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
-      expect(intent?.targetElement).toBe(target);
-      expect(intent?.listData).toEqual(expect.objectContaining({ type: 'backlog_bucket', listId: '7' }));
-      expect(intent?.previousItemId).toEqual('2');
+      expect(intent).toBeNull();
     });
 
     it('appends to the list when the drop target is the list itself', () => {
@@ -339,7 +368,7 @@ describe('sortable lists drag and drop helpers', () => {
         sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
       });
 
-      expect(intent?.targetElement).toBe(list);
+      expect(intent?.listElement).toBe(list);
       expect(intent?.listData).toEqual(expect.objectContaining({ type: 'backlog_bucket', listId: '7' }));
       expect(intent?.previousItemId).toEqual('5');
     });
