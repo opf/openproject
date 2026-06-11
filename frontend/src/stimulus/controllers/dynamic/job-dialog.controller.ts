@@ -32,20 +32,25 @@ import { ApplicationController } from 'stimulus-use';
 import { renderStreamMessage } from '@hotwired/turbo';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TurboHelpers } from 'core-turbo/helpers';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { useServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-services';
 
 export default class AsyncJobDialogController extends ApplicationController {
+    static services:ServiceKey[] = ['pathHelperService', 'notifications'];
+
     static values = {
         closeDialogId: String,
     };
 
-    declare closeDialogIdValue:string;
-    protected pathHelper:PathHelperService;
+    declare services:Promise<PickedServices<'pathHelperService'|'notifications'>>;
 
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    async connect(){
-        const context = await window.OpenProject.getPluginContext();
-        this.pathHelper = context.services.pathHelperService;
+    declare closeDialogIdValue:string;
+
+    initialize() {
+        super.initialize();
+        useServices(this);
+    }
+
+    connect() {
         this.element.addEventListener('click', (e) => {
             e.preventDefault();
             TurboHelpers.showProgressBar();
@@ -55,11 +60,11 @@ export default class AsyncJobDialogController extends ApplicationController {
                     if (job_id) {
                         return this.showJobModal(job_id);
                     }
-                    this.handleError(I18n.t('js.no_job_id'));
+                    void this.handleError(I18n.t('js.no_job_id'));
                     return null;
                 })
                 .catch((error:unknown) => {
-                    this.handleError(error);
+                    void this.handleError(error);
                 })
                 .finally(() => {
                     TurboHelpers.hideProgressBar();
@@ -92,7 +97,8 @@ export default class AsyncJobDialogController extends ApplicationController {
     }
 
     async showJobModal(job_id:string) {
-        const response = await fetch(this.pathHelper.jobStatusModalPath(job_id), {
+        const { pathHelperService } = await this.services;
+        const response = await fetch(pathHelperService.jobStatusModalPath(job_id), {
             method: 'GET',
             headers: { Accept: 'text/vnd.turbo-stream.html' },
         });
@@ -103,10 +109,9 @@ export default class AsyncJobDialogController extends ApplicationController {
         }
     }
 
-    handleError(error:unknown):void {
-        void window.OpenProject.getPluginContext().then((pluginContext) => {
-            pluginContext.services.notifications.addError(error as string | HttpErrorResponse);
-        });
+    async handleError(error:unknown) {
+        const { notifications } = await this.services;
+        notifications.addError(error as string | HttpErrorResponse);
     }
 
     get href() {
