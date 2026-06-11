@@ -141,6 +141,54 @@ describe('Inline chip -> block: surrounding text is split at chip position', () 
     expect(helloEl.compareDocumentPosition(blockCardEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
     expect(blockCardEl.contains(helloEl)).toBe(false);
   });
+
+  it('text - WP1 WP2 WP3 - text: converting the middle chip splits correctly, leaving adjacent chips intact', async () => {
+    renderEditor();
+    const editorEl = page.getByRole('textbox');
+    await expect.element(editorEl).toBeVisible();
+    await userEvent.click(editorEl);
+
+    // "Hello <#123><#456><#123> World"
+    await userEvent.type(editorEl, 'Hello #Fix');
+    await expect.element(page.getByText('Fix login bug').first()).toBeVisible();
+    await userEvent.click(page.getByText('Fix login bug').first()); // WP1: #123
+
+    await userEvent.type(editorEl, '#dark');
+    await expect.element(page.getByText('Add dark mode')).toBeVisible();
+    await userEvent.click(page.getByText('Add dark mode')); // WP2: #456
+
+    await userEvent.type(editorEl, '#Fix');
+    await expect.element(page.getByText('Fix login bug').first()).toBeVisible();
+    await userEvent.click(page.getByText('Fix login bug').first()); // WP3: #123
+
+    await userEvent.keyboard(' World');
+
+    // Convert middle chip (#456) to block card
+    await openInlineWorkPackageSizeMenu('#456');
+    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Add dark mode')).toBeVisible();
+    await expect.element(page.getByText('Hello')).toBeVisible();
+    await expect.element(page.getByText('World')).toBeVisible();
+
+    expect(page.getByText('#123').all().length).toBe(2);
+
+    // DOM order: Hello+WP1 -> block wp -> WP3+World
+    const helloEl = page.getByText('Hello').element();
+    const blockCardEl = page.getByTestId('block-card').element();
+    const worldEl = page.getByText('World').element();
+    expect(helloEl.compareDocumentPosition(blockCardEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.compareDocumentPosition(worldEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.contains(helloEl)).toBe(false);
+    expect(blockCardEl.contains(worldEl)).toBe(false);
+
+    // WP1 (#123) precedes the block wp; WP3 (#123) follows it
+    const wp1El = page.getByText('#123').nth(0).element();
+    const wp3El = page.getByText('#123').nth(1).element();
+    expect(wp1El.compareDocumentPosition(blockCardEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.compareDocumentPosition(wp3El) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
 });
 
 describe('Round-trip conversion', () => {
