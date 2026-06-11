@@ -2,9 +2,6 @@ import { ApplicationController } from 'stimulus-use';
 import { announce } from '@primer/live-region-element';
 
 export const SUCCESS_AUTOHIDE_TIMEOUT = 5000;
-// Delay announcement to avoid competing with Turbo-cached preview rendering,
-// which briefly has data-turbo-preview set before clearing it
-export const FLASH_ANNOUNCEMENT_DELAY = 500;
 
 export default class FlashController extends ApplicationController {
   static values = {
@@ -73,16 +70,14 @@ export default class FlashController extends ApplicationController {
     // Determine politeness level: 'assertive' for errors/alerts, 'polite' for other messages
     const politeness = element.dataset.politeness === 'assertive' ? 'assertive' : 'polite';
 
-    // Delay announcement to avoid competing with Turbo's preview rendering
+    // Defer announcement until after the flash has been connected to the DOM.
     window.setTimeout(() => {
-      // Check element still exists in DOM (may have been removed quickly)
       if (!element.isConnected) {
         return;
       }
 
-      // Announce to screen readers via global live region
       void announce(message, { politeness, from: element });
-    }, FLASH_ANNOUNCEMENT_DELAY);
+    });
   }
 
   /**

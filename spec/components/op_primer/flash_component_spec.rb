@@ -62,6 +62,22 @@ RSpec.describe OpPrimer::FlashComponent, type: :component do
       it "marks the flash for assertive announcement" do
         expect(rendered_component).to have_css '[data-announcement="Flash Error"][data-politeness="assertive"]'
       end
+
+      context "with description" do
+        subject(:rendered_component) do
+          render_component(
+            content,
+            scheme: :danger,
+            description: "There was a problem with the following field:<br>Name can't be blank.".html_safe
+          )
+        end
+
+        it "includes the description in the announcement" do
+          expect(rendered_component).to have_css(
+            "[data-announcement=\"Flash Error There was a problem with the following field: Name can't be blank.\"]"
+          )
+        end
+      end
     end
 
     context "with success scheme" do
@@ -134,12 +150,12 @@ RSpec.describe OpPrimer::FlashComponent, type: :component do
     end
 
     context "with HTML content" do
-      let(:content) { "First line<br />Second line".html_safe }
+      let(:content) { "First line<br />Second line<ul><li>First item</li><li>Second item</li></ul>".html_safe }
 
       it "provides a text-only live region message" do
         component = described_class.new.with_content(content)
 
-        expect(component.live_region_message).to eq "First line Second line"
+        expect(component.live_region_message).to eq "First line Second line First item Second item"
       end
     end
 

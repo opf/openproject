@@ -37,6 +37,7 @@ module OpPrimer
       @unique_key = system_arguments.delete(:unique_key)
       @scheme = system_arguments[:scheme]&.to_sym
       @autohide = success? && system_arguments[:dismiss_scheme] != :none
+      @description = system_arguments[:description]
 
       apply_accessibility_defaults(system_arguments)
 
@@ -50,8 +51,12 @@ module OpPrimer
     end
 
     def live_region_message
-      # Preserve word boundaries for line breaks before stripping HTML.
-      strip_tags(trimmed_content.to_s.gsub(%r{<br\s*/?>}i, " ")).squish
+      # Join text nodes with spaces so formatting elements do not concatenate words.
+      [trimmed_content, @description]
+        .compact_blank
+        .flat_map { |content| Nokogiri::HTML5.fragment(content.to_s).xpath(".//text()").map(&:text) }
+        .join(" ")
+        .squish
     end
 
     def live_region_politeness
@@ -68,13 +73,9 @@ module OpPrimer
       )
       # Live region announcements are handled by the controller via @primer/live-region-element
       # to avoid duplicate announcements from the visible banner and the global live region.
-      apply_flash_data_attributes(system_arguments[:data] ||= {})
-    end
-
-    def apply_flash_data_attributes(data)
-      data.merge!(
-        "flash-target" => "flash",
-        "autohide" => @autohide
+      system_arguments[:data] = merge_data(
+        system_arguments,
+        data: { "flash-target" => "flash", autohide: @autohide }
       )
     end
 

@@ -29,7 +29,7 @@
  */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import FlashController, { FLASH_ANNOUNCEMENT_DELAY, SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
+import FlashController, { SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
 interface LiveRegionTestElement extends HTMLElement {
@@ -73,7 +73,6 @@ describe('FlashController', () => {
 
   describe('announcements', () => {
     it('announces flash items politely by default', async () => {
-      // The controller announces after a short delay, so use timers to keep the test deterministic.
       vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
       renderFlash('data-announcement="Saved"', 'Saved');
       const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
@@ -81,7 +80,8 @@ describe('FlashController', () => {
       await ctx.nextFrame();
 
       const item = ctx.screen.getByText('Saved');
-      vi.advanceTimersByTime(FLASH_ANNOUNCEMENT_DELAY);
+      // Keep the deferred live-region update deterministic.
+      vi.runOnlyPendingTimers();
 
       expect(announceSpy).toHaveBeenCalledWith('Saved', { politeness: 'polite', from: item });
     });
@@ -94,7 +94,7 @@ describe('FlashController', () => {
       await ctx.nextFrame();
 
       const item = ctx.screen.getByText('Invalid input');
-      vi.advanceTimersByTime(FLASH_ANNOUNCEMENT_DELAY);
+      vi.runOnlyPendingTimers();
 
       expect(announceSpy).toHaveBeenCalledWith('Invalid input', { politeness: 'assertive', from: item });
     });
@@ -106,13 +106,12 @@ describe('FlashController', () => {
       const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
       stubLiveRegionAnnouncement(announceSpy);
       await ctx.nextFrame();
-
-      vi.advanceTimersByTime(FLASH_ANNOUNCEMENT_DELAY);
+      vi.runOnlyPendingTimers();
 
       expect(announceSpy).not.toHaveBeenCalled();
     });
 
-    it('does not announce flash items that were removed before the announcement delay', async () => {
+    it('does not announce flash items that were removed before the deferred announcement', async () => {
       vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
       renderFlash('data-announcement="Saved"', 'Saved');
       const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
@@ -120,7 +119,7 @@ describe('FlashController', () => {
       await ctx.nextFrame();
 
       ctx.screen.getByText('Saved').remove();
-      vi.advanceTimersByTime(FLASH_ANNOUNCEMENT_DELAY);
+      vi.runOnlyPendingTimers();
 
       expect(announceSpy).not.toHaveBeenCalled();
     });
