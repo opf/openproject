@@ -61,6 +61,7 @@ module Wikis
 
           namespace("queries") do
             register(:user, Queries::User)
+            register(:instance_id, Queries::InstanceId)
             register(:page_info, Queries::StablePageInfo)
             register(:referencing_pages, Queries::ReferencingPages)
             register(:relation_page_links, Queries::RelationPageLinks)
