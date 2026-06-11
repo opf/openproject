@@ -14,7 +14,6 @@ import { SearchContainer, SearchLabel } from "../Search/SearchContainer";
 import { SearchDropdown } from "../Search/SearchDropdown";
 import { defaultWpVariables } from "../WorkPackage/atoms";
 import { moveCursorAfterBlock } from "../../utils/cursor";
-import { formatWorkPackageId } from "../../utils/id";
 import { pendingBlockRegistry } from "./pendingBlockRegistry";
 
 const Block = styled.div.attrs({ className: "op-bn-extensions" })<{ $pending?: boolean }>`
@@ -22,6 +21,7 @@ const Block = styled.div.attrs({ className: "op-bn-extensions" })<{ $pending?: b
   background-color: ${({ $pending }) => ($pending ? "transparent" : "var(--op-chip-bg)")};
   user-select: all;
   border-radius: var(--bn-border-radius);
+  ${({ $pending }) => $pending && "position: relative;"}
 `;
 
 const BlockCardWrapper = styled.div`
@@ -35,9 +35,6 @@ interface BlockProps {
   id: string;
   props: {
     wpid?: number;
-    // Not used for render logic - only written on select so the spec serialises
-    // data-initialized="true" in toExternalHTML.
-    initialized?: boolean;
     size?: BlockWpSize;
   };
 }
@@ -77,7 +74,7 @@ export const BlockWorkPackageComponent = ({
   const handleSelectWorkPackage = (wp: WorkPackage) => {
     pendingBlockRegistry.delete(block.id);
     editor.updateBlock(block, {
-      props: { ...block.props, wpid: wp.id, displayId: wp.displayId, initialized: true },
+      props: { ...block.props, wpid: wp.id },
     });
     requestAnimationFrame(() => moveCursorAfterBlock(editor, block.id));
   };
@@ -123,7 +120,7 @@ export const BlockWorkPackageComponent = ({
     <Block $pending={isPending} draggable="true" onDragStart={handleBlockDragStart}>
       <div contentEditable={false} style={{ userSelect: "none" }}>
         {isPending && (
-          <SearchContainer>
+          <SearchContainer $floating>
             <SearchLabel>
               {t("search.label")}
             </SearchLabel>

@@ -6,6 +6,7 @@ import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } fr
 import { makeInstanceId } from "../utils/id.ts";
 import { placeCursorAfterInlineNode } from "../utils/cursor.ts";
 import { pendingBlockRegistry } from "./BlockWorkPackage/pendingBlockRegistry";
+import { isCurrentBlockEmpty } from "../utils/blockContent.ts";
 
 type AnyEditor = BlockNoteEditor<any, any, any>;
 type AnyInlineNode = InlineContentFromConfig<any, any>;
@@ -77,20 +78,13 @@ function buildOnCancel(
   };
 }
 
-function isCurrentBlockEmpty(editor: AnyEditor): boolean {
-  const block = editor.getTextCursorPosition()?.block;
-  if (!block) return false;
-  const content = (block as any).content;
-  return Array.isArray(content) && content.length === 0;
-}
-
-function handleBlockWorkPackageClick(editor: AnyEditor): void {
+function insertBlockWorkPackage(editor: AnyEditor): void {
   const blockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
   if (!blockId) return;
 
   const block = {
     type: "openProjectWorkPackageBlock" as const,
-    props: { initialized: false },
+    props: {},
   } as Parameters<typeof editor.insertBlocks>[0][number];
 
   const [insertedBlock] = editor.insertBlocks([block], blockId, "after");
@@ -100,7 +94,7 @@ function handleBlockWorkPackageClick(editor: AnyEditor): void {
   editor.removeBlocks([blockId]);
 }
 
-function handleInlineWorkPackageClick(editor: AnyEditor): void {
+function insertInlineWorkPackage(editor: AnyEditor): void {
   const instanceId = makeInstanceId();
   const pendingWpid = makePendingWpid(instanceId);
 
@@ -127,9 +121,9 @@ export const workPackageSlashMenu = (editor: BlockNoteEditor<any>) => ({
   title: i18n.t("slashMenu.title"),
   onItemClick: () => {
     if (isCurrentBlockEmpty(editor)) {
-      handleBlockWorkPackageClick(editor);
+      insertBlockWorkPackage(editor);
     } else {
-      handleInlineWorkPackageClick(editor);
+      insertInlineWorkPackage(editor);
     }
   },
   aliases: [...getAliases()],
