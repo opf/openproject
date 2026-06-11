@@ -161,6 +161,23 @@ RSpec.describe "Backlog bucket displayed and selectable on work package table", 
     end
   end
 
+  context "when sorting by bucket and sprint at the same time" do
+    let(:sort_criteria) { [%w[sprint asc], %w[backlog_bucket asc]] }
+
+    let!(:sprint) { create(:sprint, project:) }
+
+    before do
+      wp_without_bucket.sprint = sprint
+      wp_without_bucket.save!
+
+      visit_page!
+    end
+
+    it "does not throw an error (regression)" do
+      wp_table.expect_work_package_order(wp_without_bucket, work_package, other_wp)
+    end
+  end
+
   context "without the necessary permissions to view sprints in some other projects" do
     let!(:query) { build(:global_query, user: current_user) }
     let(:another_project_permissions) { all_permissions - [:view_sprints] }

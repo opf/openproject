@@ -87,7 +87,6 @@ module OpenProject::Backlogs
     #    sharer when the user only has permission in the receiver.
     def sprint_join_with_permissions
       <<~SQL.squish
-        LEFT OUTER JOIN "projects" ON "projects"."id" = "work_packages"."project_id"
         LEFT OUTER JOIN (
           #{visible_sprints.to_sql}
         ) AS visible_sprints

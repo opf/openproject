@@ -77,7 +77,6 @@ module OpenProject::Backlogs
     # work packages.
     def bucket_join_with_permissions
       <<~SQL.squish
-        LEFT OUTER JOIN "projects" ON "projects"."id" = "work_packages"."project_id"
         LEFT OUTER JOIN (
           #{visible_buckets.to_sql}
         ) AS visible_buckets
