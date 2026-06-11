@@ -278,7 +278,9 @@ $scrollbar-size: 10px
 
 @mixin macro--text-style
   @media screen
-    display: inline
+    display: inline-flex
+    align-items: center
+    vertical-align: middle
     background: var(--bgColor-muted)
     border-radius: var(--borderRadius-default)
     // 2px vertical ensures that line-height is not overflowed excessively
