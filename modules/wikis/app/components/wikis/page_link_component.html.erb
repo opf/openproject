@@ -37,13 +37,19 @@ See COPYRIGHT and LICENSE files for more details.
   %>
 
   <%=
-    render(Primer::Alpha::StackItem.new(grow: true, classes: "ellipsis")) do
-      if error?
-        concat render(Primer::Beta::Text.new(color: :muted)) { page_title }
-      else
-        concat render(Primer::Beta::Link.new(href: page_href, scheme: :primary)) { page_title }
+    render(Primer::Alpha::StackItem.new(grow: true)) do
+      render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do
+        concat(
+          render(Primer::Alpha::StackItem.new(grow: true, classes: "ellipsis")) do
+            if error?
+              render(Primer::Beta::Text.new(color: :muted)) { page_title }
+            else
+              render(Primer::Beta::Link.new(href: page_href, scheme: :primary)) { page_title }
+            end
+          end
+        )
+        concat(render(Primer::Beta::Label.new(scheme: :secondary)) { badge }) if badge.present?
       end
-      concat render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { badge } if badge.present?
     end
   %>
 

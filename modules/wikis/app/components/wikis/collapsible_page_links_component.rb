@@ -33,6 +33,8 @@ module Wikis
     include ApplicationHelper
     include OpPrimer::ComponentHelpers
 
+    Entry = Data.define(:result, :badge)
+
     attr_reader :heading
 
     alias_method :page_links, :model
