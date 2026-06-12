@@ -31,18 +31,6 @@
 module Wikis
   module XWikiProviders
     class SetAttributesService < ::BaseServices::SetAttributes
-      private
-
-      def ensure_default_attributes(_params)
-        assign_universal_identifier if model.url.present? && (model.new_record? || model.url_changed?)
-      end
-
-      def assign_universal_identifier
-        model.resolve("authentication.noop").call.bind do |auth_strategy|
-          result = model.resolve("queries.instance_id").call(auth_strategy:)
-          model.universal_identifier = result.value! if result.success?
-        end
-      end
     end
   end
 end

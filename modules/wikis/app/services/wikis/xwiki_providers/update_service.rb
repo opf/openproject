@@ -31,6 +31,21 @@
 module Wikis
   module XWikiProviders
     class UpdateService < ::BaseServices::Update
+      private
+
+      def after_validate(service_call)
+        model = service_call.result
+        return service_call if model.url.blank? || !model.url_changed?
+
+        FetchInstanceIdService.new(provider: model).call
+          .fmap { |id| model.universal_identifier = id }
+          .or do
+            service_call.errors.add(:url, :xwiki_unreachable)
+            service_call.success = false
+          end
+
+        service_call
+      end
     end
   end
 end

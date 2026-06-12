@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 require "services/base_services/behaves_like_create_service"
 
@@ -37,5 +38,33 @@ RSpec.describe Wikis::XWikiProviders::CreateService, type: :model do
     let(:factory) { :xwiki_provider }
     let(:call_attributes) { { name: "My XWiki", url: "https://xwiki.example.com" } }
     let!(:model_instance) { build_stubbed(factory, name: "My XWiki", url: "https://xwiki.example.com") }
+
+    before do
+      allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new)
+        .and_return(double(call: ServiceResult.success(result: "test-id")))
+    end
+  end
+
+  describe "#call" do
+    let(:current_user) { build_stubbed(:admin) }
+    let(:service) { described_class.new(user: current_user) }
+
+    context "when XWiki responds successfully", vcr: "xwiki/instance_id" do
+      it "stores the universal_identifier" do
+        result = service.call(name: "My Wiki", url: "https://xwiki.local/")
+        expect(result).to be_success
+        expect(result.result.universal_identifier).to eq("xwiki-instance-abc123")
+      end
+    end
+
+    context "when XWiki is unreachable", :webmock do
+      before { stub_request(:get, /openproject\/metadata/).to_return(status: 500) }
+
+      it "fails with a url error" do
+        result = service.call(name: "My Wiki", url: "https://xwiki.local/")
+        expect(result).not_to be_success
+        expect(result.errors[:url]).to include("could not be reached")
+      end
+    end
   end
 end

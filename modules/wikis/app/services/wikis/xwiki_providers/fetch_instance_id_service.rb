@@ -30,21 +30,14 @@
 
 module Wikis
   module XWikiProviders
-    class CreateService < ::BaseServices::Create
-      private
+    class FetchInstanceIdService
+      def initialize(provider:)
+        @provider = provider
+      end
 
-      def after_validate(service_call)
-        model = service_call.result
-        return service_call if model.url.blank?
-
-        FetchInstanceIdService.new(provider: model).call
-          .fmap { |id| model.universal_identifier = id }
-          .or do
-            service_call.errors.add(:url, :xwiki_unreachable)
-            service_call.success = false
-          end
-
-        service_call
+      def call
+        auth_strategy = @provider.resolve("authentication.noop").call.value!
+        @provider.resolve("queries.instance_id").call(auth_strategy:)
       end
     end
   end
