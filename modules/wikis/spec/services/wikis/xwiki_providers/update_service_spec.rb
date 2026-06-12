@@ -44,8 +44,15 @@ RSpec.describe Wikis::XWikiProviders::UpdateService, type: :model do
     let(:current_user) { build_stubbed(:admin) }
     let(:provider) { create(:xwiki_provider, url: "https://old.example.com/", universal_identifier: "old-id") }
     let(:service) { described_class.new(user: current_user, model: provider) }
+    let(:fetch_service) { instance_double(Wikis::XWikiProviders::FetchInstanceIdService) }
 
-    context "when the URL changes", vcr: "xwiki/instance_id" do
+    before do
+      allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new).and_return(fetch_service)
+    end
+
+    context "when the URL changes" do
+      before { allow(fetch_service).to receive(:call).and_return(Dry::Monads::Success("xwiki-instance-abc123")) }
+
       it "re-fetches and updates the universal_identifier" do
         result = service.call(url: "https://xwiki.local/")
         expect(result).to be_success
@@ -53,23 +60,17 @@ RSpec.describe Wikis::XWikiProviders::UpdateService, type: :model do
       end
     end
 
-    context "when the URL is unchanged", :webmock do
-      let(:fetch_service_spy) { instance_spy(Wikis::XWikiProviders::FetchInstanceIdService) }
-
-      before do
-        allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new).and_return(fetch_service_spy)
-      end
-
+    context "when the URL is unchanged" do
       it "skips the fetch and preserves the universal_identifier" do
         result = service.call(name: "Renamed Wiki")
         expect(result).to be_success
-        expect(fetch_service_spy).not_to have_received(:call)
+        expect(fetch_service).not_to have_received(:call)
         expect(result.result.universal_identifier).to eq("old-id")
       end
     end
 
-    context "when XWiki is unreachable", :webmock do
-      before { stub_request(:get, /openproject\/metadata/).to_return(status: 500) }
+    context "when XWiki is unreachable" do
+      before { allow(fetch_service).to receive(:call).and_return(Dry::Monads::Failure(:connection_error)) }
 
       it "fails with a url error" do
         result = service.call(url: "https://xwiki.local/")

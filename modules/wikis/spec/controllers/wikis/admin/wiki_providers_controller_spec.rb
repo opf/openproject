@@ -82,6 +82,11 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
     let(:invalid_params) { { wikis_xwiki_provider: { name: "", url: "https://xwiki.example.com" } } }
 
     context "with valid params" do
+      before do
+        allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new)
+          .and_return(double(call: Dry::Monads::Success("xwiki-test-id")))
+      end
+
       it "creates a provider and redirects to the wizard" do
         expect { post :create, params: valid_params }
           .to change(Wikis::XWikiProvider, :count).by(1)

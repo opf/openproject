@@ -41,15 +41,22 @@ RSpec.describe Wikis::XWikiProviders::CreateService, type: :model do
 
     before do
       allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new)
-        .and_return(double(call: ServiceResult.success(result: "test-id")))
+        .and_return(double(call: Dry::Monads::Success("test-id")))
     end
   end
 
   describe "#call" do
     let(:current_user) { build_stubbed(:admin) }
     let(:service) { described_class.new(user: current_user) }
+    let(:fetch_service) { instance_double(Wikis::XWikiProviders::FetchInstanceIdService) }
 
-    context "when XWiki responds successfully", vcr: "xwiki/instance_id" do
+    before do
+      allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new).and_return(fetch_service)
+    end
+
+    context "when XWiki responds successfully" do
+      before { allow(fetch_service).to receive(:call).and_return(Dry::Monads::Success("xwiki-instance-abc123")) }
+
       it "stores the universal_identifier" do
         result = service.call(name: "My Wiki", url: "https://xwiki.local/")
         expect(result).to be_success
@@ -57,8 +64,8 @@ RSpec.describe Wikis::XWikiProviders::CreateService, type: :model do
       end
     end
 
-    context "when XWiki is unreachable", :webmock do
-      before { stub_request(:get, /openproject\/metadata/).to_return(status: 500) }
+    context "when XWiki is unreachable" do
+      before { allow(fetch_service).to receive(:call).and_return(Dry::Monads::Failure(:connection_error)) }
 
       it "fails with a url error" do
         result = service.call(name: "My Wiki", url: "https://xwiki.local/")
