@@ -16,7 +16,7 @@ en:
         token_exchange_scope: XWiki Scope
         url: Instance URL
         wiki_audience: XWiki Audience
-    errors: { }
+    errors: {}
     models:
       wikis/inline_page_link:
         one: Inline page link
@@ -173,6 +173,6 @@ en:
       link_existing: Existing wiki page
       link_new: New wiki page
     work_package_wikis_tab_component:
-      inline_page_links: Inline page links
       badge_as_parent: As parent
+      inline_page_links: Inline page links
       referencing_pages: Referenced in
