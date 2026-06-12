@@ -73,6 +73,22 @@ RSpec.describe OpenProject::JournalFormatter::MeetingWorkPackageId do
       end
     end
 
+    context "when one side of the change is blank" do
+      # Regression for an activities-page crash: a work-package association
+      # journal holds a blank value for the absent side when the link is added
+      # or removed, and resolving it must not trip the find_by semantic-id guard.
+      before do
+        allow(WorkPackage).to receive(:visible).and_return(WorkPackage.where(id: new_work_package.id))
+      end
+
+      it "renders the visible side and an undisclosed label for the blank side" do
+        result = instance.render("work_package_id", ["", new_work_package.id], html: true)
+
+        expect(result).to include("New task")
+        expect(result).to include(I18n.t(:label_agenda_item_undisclosed_wp, id: ""))
+      end
+    end
+
     context "when work package names contain HTML" do
       let(:old_work_package) { create(:work_package, project:, subject: "Safe task") }
       let(:new_work_package) { create(:work_package, project:, subject: "<img src=x onerror=alert(1)>") }
