@@ -59,8 +59,11 @@ module XWikiStubs
   private
 
   def stub_xwiki_get(url, token:, body:, query: nil)
+    with_options = { headers: { "Authorization" => "Bearer #{token}" } }
+    with_options[:query] = query if query
+
     stub_request(:get, url)
-      .with(query:, headers: { "Authorization" => "Bearer #{token}" })
+      .with(**with_options)
       .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
   end
 end
