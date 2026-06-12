@@ -87,9 +87,7 @@ Repeat this step until all relevant team members are added, rename *Unnamed team
 
 If you need to remove a member from this list, hover over their name and click on the **X button** that appears next to their name. (This action simply removes the row and does not affect the user's status in the project).
 
-Once you are finished adding members to the team planner, click on the floppy disk icon in the top header to save.
-
-For more save options, click on the menu **(...)**
+For more save options, click on the menu **(...)**. Other options such as Rename view, Delete, and Visibility settings become enabled after you save your new team planner.
 
 ![More options to save in the menu](openproject_user_guide_teamplanner_save_options.png)
 
