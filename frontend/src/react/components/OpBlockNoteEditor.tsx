@@ -100,22 +100,20 @@ export function OpBlockNoteEditor({
   const editorParams = useMemo<Partial<BlockNoteEditorOptions<typeof schema.blockSchema, typeof schema.inlineContentSchema, typeof schema.styleSchema>>>(() => {
     return {
       schema,
-      // BlockNote 0.51 tightened `collaboration.provider` to a non-null shape
-      // and `awareness: Awareness | undefined` (vs Hocuspocus's
-      // `Awareness | null`). Omit the whole `collaboration` block when no
-      // provider is wired up; cast the provider at the boundary otherwise.
-      ...(hocuspocusProvider && {
-        collaboration: {
-          fragment: doc.getXmlFragment('document-store'),
-          user: {
-            name: activeUser.username,
-            color: generateRandomColor(),
-            id: activeUser.id,
-          } as unknown as CollaborativeUser,
-          provider: hocuspocusProvider as unknown as { awareness?:NonNullable<HocuspocusProvider['awareness']> },
-          showCursorLabels: 'activity' as const,
-        },
-      }),
+      // Always wire up the collaboration fragment so BlockNote loads content
+      // from the Y.Doc. When no live provider is available (e.g. version history
+      // read-only view), pass a no-op provider. BlockNote's yCursor extension
+      // guards all awareness accesses with typeof checks, so undefined is safe.
+      collaboration: {
+        fragment: doc.getXmlFragment('document-store'),
+        user: {
+          name: activeUser.username,
+          color: generateRandomColor(),
+          id: activeUser.id,
+        } as unknown as CollaborativeUser,
+        provider: (hocuspocusProvider ?? { awareness: undefined }) as unknown as { awareness?:NonNullable<HocuspocusProvider['awareness']> },
+        showCursorLabels: 'activity' as const,
+      },
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [

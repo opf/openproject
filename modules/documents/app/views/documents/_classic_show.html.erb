@@ -39,45 +39,58 @@
        document.title]
     )
 
-    if authorize_for(:documents, :edit)
-      header.with_action_button(
-        tag: :a,
-        scheme: :default,
-        mobile_icon: :pencil,
-        mobile_label: t(:button_edit),
-        size: :medium,
-        href: url_for({ controller: "/documents", action: "edit", id: document }),
-        aria: { label: t(:button_edit) },
-        title: t(:button_edit)
-      ) do |button|
-        button.with_leading_visual_icon(icon: :pencil)
-        t(:button_edit)
+    unless version_journal
+      if authorize_for(:documents, :edit)
+        header.with_action_button(
+          tag: :a,
+          scheme: :default,
+          mobile_icon: :pencil,
+          mobile_label: t(:button_edit),
+          size: :medium,
+          href: url_for({ controller: "/documents", action: "edit", id: document }),
+          aria: { label: t(:button_edit) },
+          title: t(:button_edit)
+        ) do |button|
+          button.with_leading_visual_icon(icon: :pencil)
+          t(:button_edit)
+        end
       end
-    end
-    if authorize_for(:documents, :destroy)
-      header.with_action_button(
-        tag: :a,
-        scheme: :danger,
-        mobile_icon: :trash,
-        mobile_label: t(:button_delete),
-        size: :medium,
-        href: url_for({ controller: "/documents", action: "destroy", id: document }),
-        aria: { label: I18n.t(:button_delete) },
-        data: {
-          turbo_confirm: I18n.t(:text_are_you_sure),
-          turbo_method: :delete
-        },
-        title: I18n.t(:button_delete)
-      ) do |button|
-        button.with_leading_visual_icon(icon: :trash)
-        t(:button_delete)
+      if authorize_for(:documents, :destroy)
+        header.with_action_button(
+          tag: :a,
+          scheme: :danger,
+          mobile_icon: :trash,
+          mobile_label: t(:button_delete),
+          size: :medium,
+          href: url_for({ controller: "/documents", action: "destroy", id: document }),
+          aria: { label: I18n.t(:button_delete) },
+          data: {
+            turbo_confirm: I18n.t(:text_are_you_sure),
+            turbo_method: :delete
+          },
+          title: I18n.t(:button_delete)
+        ) do |button|
+          button.with_leading_visual_icon(icon: :trash)
+          t(:button_delete)
+        end
       end
     end
   end
 %>
+
+<% if version_journal %>
+  <%= render Documents::ShowEditView::VersionBannerComponent.new(document, version_journal:, project:) %>
+<% end %>
 
 <div class="wiki op-uc-container">
   <%= format_text document.description, attachments: document.attachments %>
 </div>
 
 <%= list_attachments(api_v3_document_resource(document)) %>
+
+<div class="op-document-versions-section">
+  <h3 class="spot-subheader-small"><%= I18n.t("documents.versions.tab_title") %></h3>
+  <%= turbo_frame_tag(dom_id(document, :versions), src: document_versions_path(document), loading: :lazy) do %>
+    <%= tag.div(class: "loading-indicator -compact") %>
+  <% end %>
+</div>

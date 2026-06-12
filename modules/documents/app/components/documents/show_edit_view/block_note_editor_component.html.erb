@@ -29,16 +29,18 @@
   ++#
 %>
 
-<%
-  helpers.content_controller(
-    "documents--init-yjs-provider",
-    "documents--init-yjs-provider-hocuspocus-url-value": Setting.collaborative_editing_hocuspocus_url,
-    "documents--init-yjs-provider-token-payload-value": token_payload,
-    "documents--init-yjs-provider-document-name-value": resource_url,
-    "documents--init-yjs-provider-token-expires-in-seconds-value": token_expires_in_seconds,
-    "documents--init-yjs-provider-refresh-url-value": refresh_token_url
-  )
-%>
+<% unless readonly %>
+  <%
+    helpers.content_controller(
+      "documents--init-yjs-provider",
+      "documents--init-yjs-provider-hocuspocus-url-value": Setting.collaborative_editing_hocuspocus_url,
+      "documents--init-yjs-provider-token-payload-value": token_payload,
+      "documents--init-yjs-provider-document-name-value": resource_url,
+      "documents--init-yjs-provider-token-expires-in-seconds-value": token_expires_in_seconds,
+      "documents--init-yjs-provider-refresh-url-value": refresh_token_url
+    )
+  %>
+<% end %>
 
 <%=
   render(
@@ -50,7 +52,34 @@
     )
   ) do |layout|
     layout.with_header do
-      render Documents::ShowEditView::PageHeaderComponent.new(document, project:, state:)
+      safe_join([
+        render(Documents::ShowEditView::PageHeaderComponent.new(document, project:, state:, version_journal:)),
+        if version_journal && User.current.allowed_in_project?(:manage_documents, document.project)
+          render(Primer::OpenProject::SubHeader.new) do |subheader|
+            subheader.with_action_button(
+              tag: :a,
+              scheme: :default,
+              href: save_copy_document_path(document, version_id: version_journal.id),
+              data: { turbo_method: :post },
+              leading_icon: :copy,
+              label: I18n.t("documents.versions.save_copy"),
+              mobile_icon: :copy,
+              mobile_label: I18n.t("documents.versions.save_copy")
+            ) { I18n.t("documents.versions.save_copy") }
+
+            subheader.with_action_button(
+              tag: :a,
+              scheme: :primary,
+              href: restore_version_document_path(document, version_id: version_journal.id),
+              data: { turbo_method: :post, turbo_confirm: I18n.t("documents.versions.restore_confirm") },
+              leading_icon: :history,
+              label: I18n.t("documents.versions.restore"),
+              mobile_icon: :history,
+              mobile_label: I18n.t("documents.versions.restore")
+            ) { I18n.t("documents.versions.restore") }
+          end
+        end
+      ].compact)
     end
 
     layout.with_tab(name: I18n.t("activerecord.models.document"), show_left: true) do
@@ -69,13 +98,30 @@
               data: { "documents--editor-connection-target": "error" }
             ),
             tag.div(data: { "documents--editor-connection-target": "editor" }) do
-              primer_form_with(
-                model: document,
-                url: document_path(document),
-                method: :patch,
-                data: { turbo: false }
-              ) do |form|
-                render Documents::BlockNoteEditorForm.new(form, token_payload:, readonly:)
+              if version_journal && version_content_binary.present?
+                render(
+                  Primer::BaseComponent.new(
+                    tag: "op-block-note", mt: 1, mb: 1,
+                    "collaboration-enabled": false,
+                    "active-user": { id: helpers.current_user.id, username: helpers.current_user.name }.to_json,
+                    "read-only": true,
+                    "initial-content": version_content_binary,
+                    "open-project-url": helpers.root_url,
+                    "attachments-upload-url": "",
+                    "attachments-collection-key": "",
+                    "blocknote-stylesheet-url": helpers.variable_asset_path("blocknote.css"),
+                    "shadow-dom-stylesheet-url": helpers.variable_asset_path("styles.css")
+                  )
+                )
+              else
+                primer_form_with(
+                  model: document,
+                  url: document_path(document),
+                  method: :patch,
+                  data: { turbo: false }
+                ) do |form|
+                  render Documents::BlockNoteEditorForm.new(form, token_payload:, readonly:)
+                end
               end
             end
           ]
@@ -83,8 +129,15 @@
       end
     end
 
-    layout.with_tab(name: t(:label_attachment_plural), active: true) do
+    layout.with_tab(name: t(:label_attachment_plural), active: !version_journal && tab_param != "versions") do
       render Documents::ShowEditView::AttachmentsSidePanelComponent.new(document, readonly:)
+    end
+
+    layout.with_tab(name: I18n.t("documents.versions.tab_title"), active: !!version_journal || tab_param == "versions") do
+      versions_src = document_versions_path(document, scroll_to: version_journal&.id)
+      helpers.turbo_frame_tag(helpers.dom_id(document, :versions), src: versions_src, loading: :lazy) do
+        tag.div(class: "loading-indicator -compact")
+      end
     end
   end
 %>

@@ -1,0 +1,104 @@
+<%#
+  -- copyright
+  OpenProject is an open source project management software.
+  Copyright (C) the OpenProject GmbH
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License version 3.
+
+  OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+  Copyright (C) 2006-2013 Jean-Philippe Lang
+  Copyright (C) 2010-2013 the ChiliProject Team
+
+  This program is free software; you can redistribute it and/or
+  modify it under the terms of the GNU General Public License
+  as published by the Free Software Foundation; either version 2
+  of the License, or (at your option) any later version.
+
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with this program; if not, write to the Free Software
+  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+  See COPYRIGHT and LICENSE files for more details.
+
+  ++#
+%>
+
+<%=
+  is_active = active_journal_id && active_journal_id == journal.id
+  wrapper_attrs = { id: "journal-#{journal.id}", class: "documents-versions-tab--item" }
+  wrapper_attrs[:style] = "background-color: var(--bgColor-accent-muted, #ddf4ff); border-radius: 4px;" if is_active
+  component_wrapper(**wrapper_attrs) do
+    # Details container: margin-left: 19px + border-left mirrors WP activity timeline
+    concat(
+      content_tag(:div,
+                  style: "margin-left: 19px; border-left: var(--borderWidth-thin, 1px) solid var(--borderColor-default); min-height: 20px;") do
+        # Header row: margin-left: -14px pulls avatar back over the vertical line
+        concat(
+          content_tag(:div, style: "margin-left: -14px;") do
+            flex_layout(align_items: :center, mt: 2, mb: 1) do |row|
+              row.with_column(mr: 2) do
+                render Users::AvatarComponent.new(user: author, show_name: false, size: :mini)
+              end
+
+              row.with_column(mr: 2, classes: "ellipsis hidden-for-mobile") do
+                helpers.primer_link_to_user(author, scheme: :primary, font_weight: :bold)
+              end
+
+              if content_changed?
+                row.with_column(mr: 2) do
+                  render(Primer::Beta::Button.new(
+                    tag: :a,
+                    href: version_url,
+                    size: :small,
+                    scheme: :default,
+                    data: { turbo_frame: "_top" }
+                  )) { I18n.t("documents.versions.view") }
+                end
+              end
+
+              row.with_column do
+                render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+                  format_time(journal.created_at)
+                end
+              end
+            end
+          end
+        )
+
+        simple_changes.each do |text|
+          concat(
+            flex_layout(align_items: :baseline, pl: 1, pb: 1) do |detail|
+              detail.with_column(mr: 2, classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-stem-line") do
+                ""
+              end
+              detail.with_column do
+                render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) { text }
+              end
+            end
+          )
+        end
+
+        attribute_changes.each do |change|
+          concat(
+            flex_layout(align_items: :baseline, pl: 1, pb: 1) do |detail|
+              detail.with_column(mr: 2, classes: "work-packages-activities-tab-journals-item-component-details--journal-detail-stem-line") do
+                ""
+              end
+              detail.with_column do
+                render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+                  format_attribute_change(**change)
+                end
+              end
+            end
+          )
+        end
+      end
+    )
+  end
+%>

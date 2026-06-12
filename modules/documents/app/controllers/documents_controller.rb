@@ -58,9 +58,45 @@ class DocumentsController < ApplicationController
   def show
     @attachments = @document.attachments.order(Arel.sql("created_at DESC"))
 
+    load_version_journal if params[:version].present?
+
     if @document.collaborative? && Setting.real_time_text_collaboration_enabled?
-      setup_collaboration_context
+      setup_collaboration_context unless @version_journal
       derive_show_edit_state_from_params
+    end
+  end
+
+  def restore_version
+    journal = find_version_journal_for_manage
+    return unless journal
+
+    call = Documents::RestoreVersionService
+      .new(user: current_user, document: @document)
+      .call(journal:)
+
+    if call.success?
+      flash[:notice] = I18n.t("documents.versions.restore_success")
+      redirect_to document_path(@document)
+    else
+      flash[:error] = call.errors.full_messages.join(", ")
+      redirect_back_or_to document_path(@document)
+    end
+  end
+
+  def save_copy
+    journal = find_version_journal_for_manage
+    return unless journal
+
+    call = Documents::SaveCopyService
+      .new(user: current_user, document: @document)
+      .call(journal:)
+
+    if call.success?
+      flash[:notice] = I18n.t("documents.versions.save_copy_success")
+      redirect_to document_path(call.result)
+    else
+      flash[:error] = call.errors.full_messages.join(", ")
+      redirect_back_or_to document_path(@document)
     end
   end
 
@@ -235,5 +271,33 @@ class DocumentsController < ApplicationController
 
   def derive_show_edit_state_from_params
     @state = params[:state] == "edit" ? :edit : :show
+  end
+
+  def load_version_journal
+    journal = @document.journals.find_by(id: params[:version])
+    return unless journal
+
+    @version_journal = journal
+    @document.description = journal.data.description
+    if @document.collaborative?
+      @version_content_binary = journal.data.content_binary
+      @document.content_binary = @version_content_binary
+    end
+    @readonly = true
+  end
+
+  def find_version_journal_for_manage
+    unless current_user.allowed_in_project?(:manage_documents, @project)
+      render_403
+      return nil
+    end
+
+    journal = @document.journals.find_by(id: params[:version_id])
+    unless journal
+      render_404
+      return nil
+    end
+
+    journal
   end
 end

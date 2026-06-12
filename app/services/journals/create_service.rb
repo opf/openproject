@@ -552,6 +552,8 @@ module Journals
     end
 
     def aggregatable?(predecessor, notes, internal, cause)
+      return false if journable.try(:skip_journal_aggregation)
+
       predecessor.present? &&
         aggregation_active? &&
         within_aggregation_time?(predecessor) &&

@@ -27,32 +27,30 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
 module Documents
-  module ShowEditView
-    module PageHeader
-      class InfoLineComponent < ApplicationComponent
-        include OpPrimer::ComponentHelpers
-        include OpPrimer::FormHelpers
-        include OpTurbo::Streamable
-        include Redmine::I18n
-        include AvatarHelper
+  class RestoreVersionService
+    def initialize(user:, document:)
+      @user = user
+      @document = document
+    end
 
-        alias_method :document, :model
+    def call(journal:)
+      attrs = {
+        title: journal.data.title,
+        description: journal.data.description
+      }
+      attrs[:type_id] = journal.data.type_id if journal.data.type_id.present?
+      attrs[:content_binary] = journal.data.content_binary if @document.collaborative?
 
-        options version_journal: nil
+      # Prevent aggregation so restore always appends a new journal entry.
+      @document.skip_journal_aggregation = true
+      @document.journal_cause = CauseOfChange::Base.new("document_version_restored",
+                                                         "restored_journal_id" => journal.id)
 
-        private
-
-        def other_document_types
-          DocumentType.where.not(id: document.type_id).pluck(:name, :id)
-        end
-
-        def allowed_to_manage_documents?
-          User.current.allowed_in_project?(:manage_documents, document.project)
-        end
-      end
+      Documents::UpdateService
+        .new(user: @user, model: @document)
+        .call(attrs)
     end
   end
 end

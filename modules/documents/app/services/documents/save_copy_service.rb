@@ -27,31 +27,43 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
 module Documents
-  module ShowEditView
-    module PageHeader
-      class InfoLineComponent < ApplicationComponent
-        include OpPrimer::ComponentHelpers
-        include OpPrimer::FormHelpers
-        include OpTurbo::Streamable
-        include Redmine::I18n
-        include AvatarHelper
+  class SaveCopyService
+    def initialize(user:, document:)
+      @user = user
+      @document = document
+    end
 
-        alias_method :document, :model
+    def call(journal:)
+      attrs = {
+        title: "#{journal.data.title} (copy)",
+        description: journal.data.description,
+        project: @document.project,
+        type_id: journal.data.type_id,
+        kind: @document.kind
+      }
+      attrs[:content_binary] = journal.data.content_binary if @document.collaborative?
 
-        options version_journal: nil
+      result = Documents::CreateService
+        .new(user: @user)
+        .call(attrs)
 
-        private
+      copy_attachments(result.result) if result.success?
 
-        def other_document_types
-          DocumentType.where.not(id: document.type_id).pluck(:name, :id)
-        end
+      result
+    end
 
-        def allowed_to_manage_documents?
-          User.current.allowed_in_project?(:manage_documents, document.project)
-        end
+    private
+
+    def copy_attachments(new_document)
+      @document.attachments.each do |source|
+        copy = source.copy
+        copy.container = new_document
+        copy.author = @user
+        copy.save!
+      rescue StandardError => e
+        Rails.logger.error("Failed to copy attachment #{source.id} to document #{new_document.id}: #{e.message}")
       end
     end
   end

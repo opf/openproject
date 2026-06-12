@@ -29,35 +29,38 @@
   ++#
 %>
 
-<% html_title(t(:label_document_plural), @document.title) %>
+<%= render(Primer::Alpha::Banner.new(scheme: :warning, icon: :history)) do |banner| %>
+  <div class="document-version-banner--content">
+    <span>
+      <%= I18n.t(
+            "documents.versions.banner_text",
+            datetime: helpers.format_time(created_at),
+            user: helpers.link_to_user(author)
+          ).html_safe %>
+    </span>
 
-<% if @document.collaborative? %>
-  <% if Setting.real_time_text_collaboration_enabled? %>
-    <%=
-      render(
-        Documents::ShowEditView::BlockNoteEditorComponent.new(
-          @document,
-          project: @project,
-          token_payload: @token_payload,
-          state: @state,
-          resource_url: @resource_url,
-          token_expires_in_seconds: @token_expires_in_seconds,
-          readonly: @readonly,
-          version_journal: @version_journal,
-          version_content_binary: @version_content_binary,
-          tab_param: params[:tab]
-        )
-      )
-    %>
-  <% else %>
-    <%=
-      render(
-        Documents::ShowEditView::CollaborationDisabledNoticeComponent.new(
-          @document, project: @project, state: :show
-        )
-      )
-    %>
-  <% end %>
-<% else %>
-  <%= render partial: "classic_show", locals: { document: @document, project: @project, attachments: @attachments, version_journal: @version_journal } %>
+    <% if can_manage? %>
+      <div class="document-version-banner--actions">
+        <%= render(Primer::Beta::Button.new(
+              tag: :a,
+              href: save_copy_path,
+              data: { turbo_method: :post },
+              size: :small,
+              scheme: :default
+            )) do %>
+          <%= I18n.t("documents.versions.save_copy") %>
+        <% end %>
+
+        <%= render(Primer::Beta::Button.new(
+              tag: :a,
+              href: restore_path,
+              data: { turbo_method: :post, turbo_confirm: I18n.t("documents.versions.restore_confirm") },
+              size: :small,
+              scheme: :primary
+            )) do %>
+          <%= I18n.t("documents.versions.restore") %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 <% end %>

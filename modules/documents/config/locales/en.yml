@@ -58,6 +58,27 @@ en:
   enumeration_doc_categories: "Document categories"
 
   documents:
+    versions:
+      tab_title: "Versions"
+      version_label: "Version %{version}"
+      current: "current"
+      load_more: "Load more versions"
+      banner_text: "You are viewing an older version of this document, saved on %{datetime} by %{user}."
+      restore: "Restore this version"
+      save_copy: "Save as copy"
+      restore_confirm: "Are you sure you want to restore this version? The current version will remain accessible via the version history."
+      restore_success: "Document version has been restored successfully."
+      save_copy_success: "A copy of this document version has been created."
+      aria_version_entry: "Version entry"
+      created: "Document created"
+      content_updated: "Content updated"
+      description_updated: "Description updated"
+      title_updated: "Title updated"
+      type_updated: "Type updated"
+      restored: "Restored from earlier version"
+      saved_at: "Saved"
+      view: "View"
+
     page_header:
       heading: "All documents"
       action_menu:

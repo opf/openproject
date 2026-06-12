@@ -27,31 +27,34 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
 module Documents
   module ShowEditView
-    module PageHeader
-      class InfoLineComponent < ApplicationComponent
-        include OpPrimer::ComponentHelpers
-        include OpPrimer::FormHelpers
-        include OpTurbo::Streamable
-        include Redmine::I18n
-        include AvatarHelper
+    class VersionBannerComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
 
-        alias_method :document, :model
+      alias_method :document, :model
 
-        options version_journal: nil
+      options :version_journal, :project
 
-        private
+      def author
+        version_journal.user
+      end
 
-        def other_document_types
-          DocumentType.where.not(id: document.type_id).pluck(:name, :id)
-        end
+      def created_at
+        version_journal.created_at
+      end
 
-        def allowed_to_manage_documents?
-          User.current.allowed_in_project?(:manage_documents, document.project)
-        end
+      def can_manage?
+        User.current.allowed_in_project?(:manage_documents, project)
+      end
+
+      def restore_path
+        restore_version_document_path(document, version_id: version_journal.id)
+      end
+
+      def save_copy_path
+        save_copy_document_path(document, version_id: version_journal.id)
       end
     end
   end

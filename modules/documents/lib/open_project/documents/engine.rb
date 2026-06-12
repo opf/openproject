@@ -59,13 +59,15 @@ module OpenProject::Documents
                        render_avatars render_last_saved_at
                      ],
                      "documents/menus": %i[show],
-                     "documents/refresh_tokens": %i[create]
+                     "documents/refresh_tokens": %i[create],
+                     "documents/versions": %i[index]
                    },
                    permissible_on: :project
         permission :manage_documents,
                    {
                      documents: %i[
                        new create edit edit_title cancel_title_edit update update_title update_type delete_dialog destroy
+                       restore_version save_copy
                      ]
                    },
                    permissible_on: :project,

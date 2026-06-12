@@ -33,7 +33,13 @@
   component_wrapper do
     flex_layout(tag: :div, align_items: :center, test_selector: "document-info-line") do |flex|
       flex.with_column(hide: :sm, mr: 3) do
-        if allowed_to_manage_documents?
+        if version_journal
+          version_type = DocumentType.find_by(id: version_journal.data.type_id)
+          render(Primer::Beta::Button.new(disabled: true)) do |button|
+            button.with_trailing_visual_icon(icon: :"triangle-down")
+            version_type&.name || document.type.name
+          end
+        elsif allowed_to_manage_documents?
           render(Primer::Alpha::ActionMenu.new(select_variant: :single)) do |menu|
             menu.with_show_button do |button|
               button.with_trailing_visual_icon(icon: :"triangle-down")
@@ -59,8 +65,35 @@
         end
       end
 
-      flex.with_column do
-        render(Documents::ShowEditView::PageHeader::ConnectionStatusComponent.new(document))
+      if version_journal
+        flex.with_column do
+          flex_layout(align_items: :center) do |author_row|
+            author_row.with_column(mr: 2) do
+              render Users::AvatarComponent.new(user: version_journal.user, show_name: false, size: :mini)
+            end
+
+            author_row.with_column(mr: 2, classes: "hidden-for-mobile") do
+              helpers.primer_link_to_user(version_journal.user, scheme: :primary)
+            end
+
+            author_row.with_column do
+              render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+                safe_join([
+                  I18n.t("documents.versions.saved_at"),
+                  " ",
+                  OpPrimer::RelativeTimeComponent.new(
+                    datetime: in_user_zone(version_journal.created_at),
+                    month: :long
+                  ).render_in(view_context)
+                ])
+              end
+            end
+          end
+        end
+      else
+        flex.with_column do
+          render(Documents::ShowEditView::PageHeader::ConnectionStatusComponent.new(document))
+        end
       end
     end
   end

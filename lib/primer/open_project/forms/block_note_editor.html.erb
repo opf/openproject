@@ -36,6 +36,7 @@
       "collaboration-enabled": collaboration_enabled,
       "active-user": active_user.to_json,
       "read-only": readonly,
+      "initial-content": (readonly && value.present? ? value : nil),
       "open-project-url": root_url,
       "attachments-upload-url": attachments_upload_url,
       "attachments-collection-key": attachments_collection_key,

@@ -36,7 +36,8 @@ module Documents
 
       alias_method :document, :model
 
-      options :project, :token_payload, :resource_url, :token_expires_in_seconds, :state, :readonly
+      options :project, :token_payload, :resource_url, :token_expires_in_seconds, :state, :readonly, :version_journal, :version_content_binary
+      options tab_param: nil
 
       private
 

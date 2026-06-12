@@ -38,6 +38,7 @@ module Documents
 
       options :project
       options state: :show
+      options version_journal: nil
 
       def page_header_attributes
         {
@@ -69,7 +70,7 @@ module Documents
       end
 
       def allowed_to_manage_documents?
-        User.current.allowed_in_project?(:manage_documents, project)
+        version_journal.nil? && User.current.allowed_in_project?(:manage_documents, project)
       end
     end
   end

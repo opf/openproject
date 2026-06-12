@@ -29,35 +29,32 @@
   ++#
 %>
 
-<% html_title(t(:label_document_plural), @document.title) %>
+<%= turbo_frame_tag dom_id(@document, :versions) do %>
+  <div style="position: relative;">
+    <ul id="<%= dom_id(@document, :versions_list) %>"
+        class="op-activity-list"
+        style="position: relative; z-index: 10;"
+        data-controller="documents--versions-scroll"
+        data-documents--versions-scroll-target-id-value="<%= @scroll_to_id %>">
+      <% @journals.each do |journal| %>
+        <%= render Documents::VersionsTab::ItemComponent.new(
+              journal,
+              document: @document,
+              max_version: @max_version,
+              active_journal_id: @scroll_to_id
+            ) %>
+      <% end %>
+    </ul>
 
-<% if @document.collaborative? %>
-  <% if Setting.real_time_text_collaboration_enabled? %>
-    <%=
-      render(
-        Documents::ShowEditView::BlockNoteEditorComponent.new(
-          @document,
-          project: @project,
-          token_payload: @token_payload,
-          state: @state,
-          resource_url: @resource_url,
-          token_expires_in_seconds: @token_expires_in_seconds,
-          readonly: @readonly,
-          version_journal: @version_journal,
-          version_content_binary: @version_content_binary,
-          tab_param: params[:tab]
-        )
-      )
-    %>
-  <% else %>
-    <%=
-      render(
-        Documents::ShowEditView::CollaborationDisabledNoticeComponent.new(
-          @document, project: @project, state: :show
-        )
-      )
-    %>
+    <div class="work-packages-activities-tab-journals-index-component--stem-connection"></div>
+  </div>
+
+  <% if @has_more %>
+    <div id="<%= dom_id(@document, :versions_load_more) %>">
+      <%= link_to I18n.t("documents.versions.load_more"),
+                  document_versions_path(@document, offset: @next_offset),
+                  data: { turbo_stream: true },
+                  class: "button -secondary" %>
+    </div>
   <% end %>
-<% else %>
-  <%= render partial: "classic_show", locals: { document: @document, project: @project, attachments: @attachments, version_journal: @version_journal } %>
 <% end %>

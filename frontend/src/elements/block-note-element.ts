@@ -35,7 +35,9 @@ import { ShadowDomWrapper } from 'op-blocknote-extensions';
 import React from 'react';
 import type { Root } from 'react-dom/client';
 import { createRoot } from 'react-dom/client';
+import * as Y from 'yjs';
 import OpBlockNoteContainer from '../react/OpBlockNoteContainer';
+import { OpBlockNoteEditor } from '../react/components/OpBlockNoteEditor';
 
 class BlockNoteElement extends HTMLElement {
   private editorRoot:HTMLDivElement;
@@ -77,6 +79,19 @@ class BlockNoteElement extends HTMLElement {
 
   connectedCallback() {
     const collaborationEnabled = this.getAttribute('collaboration-enabled') === 'true';
+    const readOnly = this.getAttribute('read-only') === 'true';
+    const initialContent = this.getAttribute('initial-content');
+
+    // Standalone read-only mode: render from stored Y.Doc binary without Hocuspocus.
+    if (readOnly && initialContent) {
+      this.reactRoot = createRoot(this.editorMount);
+      const doc = this.loadYDocFromBase64(initialContent);
+      this.reactRoot.render(
+        React.createElement(React.StrictMode, null, this.BlockNoteReadOnlyContainer(doc))
+      );
+      return;
+    }
+
     if (!collaborationEnabled) return;
 
     this.reactRoot = createRoot(this.editorMount);
@@ -122,6 +137,40 @@ class BlockNoteElement extends HTMLElement {
           attachmentsCollectionKey: this.getAttribute('attachments-collection-key') ?? '',
           captureExternalLinks: document.body.dataset.externalLinksEnabledValue === 'true',
           hocuspocusProvider,
+        }
+      )
+    );
+  };
+
+  private loadYDocFromBase64(base64:string):Y.Doc {
+    const doc = new Y.Doc();
+    try {
+      const binaryString = atob(base64);
+      const bytes = new Uint8Array(binaryString.length);
+      for (let i = 0; i < binaryString.length; i++) {
+        bytes[i] = binaryString.charCodeAt(i);
+      }
+      Y.applyUpdate(doc, bytes);
+    } catch (e) {
+      console.error('Failed to load Y.Doc from base64 content:', e);
+    }
+    return doc;
+  }
+
+  private BlockNoteReadOnlyContainer = (doc:Y.Doc) => {
+    return React.createElement(
+      ShadowDomWrapper,
+      { target: this.editorMount },
+      React.createElement(
+        OpBlockNoteEditor,
+        {
+          activeUser: this.parseActiveUser()!,
+          readOnly: true,
+          openProjectUrl: this.getAttribute('open-project-url') ?? '',
+          attachmentsUploadUrl: this.getAttribute('attachments-upload-url') ?? '',
+          attachmentsCollectionKey: this.getAttribute('attachments-collection-key') ?? '',
+          captureExternalLinks: document.body.dataset.externalLinksEnabledValue === 'true',
+          doc,
         }
       )
     );

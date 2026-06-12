@@ -49,7 +49,11 @@ Rails.application.routes.draw do
       get :delete_dialog
       get :render_avatars, defaults: { format: :turbo_stream }
       get :render_last_saved_at, defaults: { format: :turbo_stream }
+      post :restore_version
+      post :save_copy
     end
+
+    resources :versions, only: [:index], controller: "documents/versions"
   end
 
   scope module: :documents do

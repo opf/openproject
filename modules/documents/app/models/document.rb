@@ -41,6 +41,9 @@ class Document < ApplicationRecord
                      add_permission: :manage_documents
 
   acts_as_journalized
+
+  attr_accessor :skip_journal_aggregation
+
   acts_as_event title: Proc.new { |o| "#{Document.model_name.human}: #{o.title}" },
                 url: Proc.new { |o| { controller: "/documents", action: "show", id: o.id } },
                 author: Proc.new { |o|

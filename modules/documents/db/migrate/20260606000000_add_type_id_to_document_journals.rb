@@ -27,31 +27,22 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-#
 
-module Documents
-  module ShowEditView
-    module PageHeader
-      class InfoLineComponent < ApplicationComponent
-        include OpPrimer::ComponentHelpers
-        include OpPrimer::FormHelpers
-        include OpTurbo::Streamable
-        include Redmine::I18n
-        include AvatarHelper
+class AddTypeIdToDocumentJournals < ActiveRecord::Migration[8.0]
+  def change
+    add_reference :document_journals, :type, foreign_key: { to_table: :document_types }, null: true
 
-        alias_method :document, :model
-
-        options version_journal: nil
-
-        private
-
-        def other_document_types
-          DocumentType.where.not(id: document.type_id).pluck(:name, :id)
-        end
-
-        def allowed_to_manage_documents?
-          User.current.allowed_in_project?(:manage_documents, document.project)
-        end
+    # Backfill type_id from the corresponding document's current type
+    reversible do |dir|
+      dir.up do
+        execute <<~SQL.squish
+          UPDATE document_journals
+          SET type_id = documents.type_id
+          FROM journals
+          JOIN documents ON documents.id = journals.journable_id
+          WHERE journals.data_type = 'Journal::DocumentJournal'
+            AND journals.data_id = document_journals.id
+        SQL
       end
     end
   end
