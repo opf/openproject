@@ -29,7 +29,7 @@
 #++
 
 module OpenProject::Backlogs
-  class WorkPackageBacklogBucketSelect < Queries::WorkPackages::Selects::WorkPackageSelect
+  class WorkPackageBucketSelect < Queries::WorkPackages::Selects::WorkPackageSelect
     attr_reader :project
 
     def self.instances(context = nil)

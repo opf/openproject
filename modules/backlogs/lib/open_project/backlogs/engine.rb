@@ -248,7 +248,7 @@ module OpenProject::Backlogs
 
         select OpenProject::Backlogs::QueryBacklogsSelect
         select OpenProject::Backlogs::WorkPackageSprintSelect
-        select OpenProject::Backlogs::WorkPackageBacklogBucketSelect
+        select OpenProject::Backlogs::WorkPackageBucketSelect
       end
     end
   end
