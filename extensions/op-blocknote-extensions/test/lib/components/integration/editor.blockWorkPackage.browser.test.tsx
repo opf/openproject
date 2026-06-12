@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
-  insertInlineChipViaSlashMenu,
+  insertInlineWorkPackageViaSlashMenu,
   convertToCompactCard,
   openBlockCardPopover,
   openBlockCardSizeMenu,
@@ -11,7 +11,7 @@ import {
 describe('Block card - resize', () => {
   // it('Compact card -> Regular card: both show title and status', async () => {
   //   renderEditor();
-  //   await insertInlineChipViaSlashMenu();
+  //   await insertInlineWorkPackageViaSlashMenu();
   //   await convertToCompactCard();
 
   //   await openBlockCardSizeMenu();
@@ -24,7 +24,7 @@ describe('Block card - resize', () => {
 
   // it('Regular card -> Full card shows extended content', async () => {
   //   renderEditor();
-  //   await insertInlineChipViaSlashMenu();
+  //   await insertInlineWorkPackageViaSlashMenu();
 
   //   await openBlockCardSizeMenu();
   //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
@@ -40,7 +40,7 @@ describe('Block card - resize', () => {
 
   it('size button label reflects current card size', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardPopover();
@@ -49,7 +49,7 @@ describe('Block card - resize', () => {
 
   it('size menu shows all 4 options for a block card', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
@@ -66,7 +66,7 @@ describe('Block card - resize', () => {
 
   it('size menu closes after selecting a size', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
@@ -79,7 +79,7 @@ describe('Block card - resize', () => {
 describe('Block card - popover UX', () => {
   it('popover is not visible before clicking the card', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await expect.element(page.getByTestId('popover-content')).not.toBeInTheDocument();
@@ -87,7 +87,7 @@ describe('Block card - popover UX', () => {
 
   it('clicking the card opens the popover', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardPopover();
@@ -97,7 +97,7 @@ describe('Block card - popover UX', () => {
   it('"Open" button opens the work package in a new tab', async () => {
     const openSpy = vi.spyOn(window, 'open').mockReturnValue(null);
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardPopover();
@@ -115,7 +115,7 @@ describe('Block card - popover UX', () => {
 describe('Block card - remove', () => {
   it('removing a block card removes it from the editor', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardPopover();

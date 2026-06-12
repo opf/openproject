@@ -2,17 +2,18 @@ import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
-  insertInlineChipViaSlashMenu,
-  insertInlineChipViaHash,
+  insertInlineWorkPackageViaSlashMenu,
+  insertInlineWorkPackageViaHash,
+  insertInlineWorkPackageViaHashWithTextBefore,
   convertToCompactCard,
-  openInlineChipSizeMenu,
+  openInlineWorkPackageSizeMenu,
   openBlockCardSizeMenu,
 } from '../../../helpers/editorHelpers';
 
 describe('Inline chip - convert to block card', () => {
   it('inline -> Compact card replaces chip with block card', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
 
     await convertToCompactCard();
 
@@ -24,9 +25,9 @@ describe('Inline chip - convert to block card', () => {
 
   // it('inline → Regular card replaces chip with block card', async () => {
   //   renderEditor();
-  //   await insertInlineChipViaSlashMenu();
+  //   await insertInlineWorkPackageViaSlashMenu();
 
-  //   await openInlineChipSizeMenu();
+  //   await openInlineWorkPackageSizeMenu();
   //   await userEvent.click(page.getByRole('button', { name: 'Regular card', exact: true }));
 
   //   await expect.element(page.getByTestId('block-card')).toBeVisible();
@@ -38,7 +39,7 @@ describe('Inline chip - convert to block card', () => {
 describe('Block card - convert to inline chip', () => {
   it('block -> Tiny replaces card with XXS chip', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
@@ -52,7 +53,7 @@ describe('Block card - convert to inline chip', () => {
 
   it('block -> Compact (inline) replaces card with XS chip', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
@@ -67,7 +68,7 @@ describe('Block card - convert to inline chip', () => {
 
   it('block -> Regular (inline) replaces card with S chip', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await openBlockCardSizeMenu();
@@ -79,10 +80,121 @@ describe('Block card - convert to inline chip', () => {
   });
 });
 
+describe('Inline chip -> block: surrounding text is split at chip position', () => {
+  it('WP - text: text after chip moves to new paragraph below block', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaHash('#');
+    await userEvent.keyboard(' World');
+
+    await openInlineWorkPackageSizeMenu();
+    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('World')).toBeVisible();
+
+    const blockCardEl = page.getByTestId('block-card').element();
+    const worldEl = page.getByText('World').element();
+    // World must follow the block card in the DOM and not be inside it
+    expect(blockCardEl.compareDocumentPosition(worldEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.contains(worldEl)).toBe(false);
+  });
+
+  it('text - WP - text: surrounding sentence is split into two paragraphs around the block', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaHashWithTextBefore('Hello ');
+    await userEvent.keyboard(' World');
+
+    await openInlineWorkPackageSizeMenu();
+    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('Hello')).toBeVisible();
+    await expect.element(page.getByText('World')).toBeVisible();
+    await expect.element(page.getByText('Hello World')).not.toBeInTheDocument();
+
+    const helloEl = page.getByText('Hello').element();
+    const blockCardEl = page.getByTestId('block-card').element();
+    const worldEl = page.getByText('World').element();
+    // DOM order must be: Hello paragraph -> block card -> World paragraph
+    expect(helloEl.compareDocumentPosition(blockCardEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.compareDocumentPosition(worldEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.contains(helloEl)).toBe(false);
+    expect(blockCardEl.contains(worldEl)).toBe(false);
+  });
+
+  it('text - WP: text before chip stays in paragraph above block', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaHashWithTextBefore('Hello ');
+
+    await openInlineWorkPackageSizeMenu();
+    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Fix login bug')).toBeVisible();
+    await expect.element(page.getByText('Hello')).toBeVisible();
+
+    const helloEl = page.getByText('Hello').element();
+    const blockCardEl = page.getByTestId('block-card').element();
+    // Hello must precede the block card in the DOM and not be inside it
+    expect(helloEl.compareDocumentPosition(blockCardEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.contains(helloEl)).toBe(false);
+  });
+
+  it('text - WP1 WP2 WP3 - text: converting the middle chip splits correctly, leaving adjacent chips intact', async () => {
+    renderEditor();
+    const editorEl = page.getByRole('textbox');
+    await expect.element(editorEl).toBeVisible();
+    await userEvent.click(editorEl);
+
+    // "Hello <#123><#456><#123> World"
+    await userEvent.type(editorEl, 'Hello #Fix');
+    await expect.element(page.getByText('Fix login bug').first()).toBeVisible();
+    await userEvent.click(page.getByText('Fix login bug').first()); // WP1: #123
+
+    await userEvent.type(editorEl, '#dark');
+    await expect.element(page.getByText('Add dark mode')).toBeVisible();
+    await userEvent.click(page.getByText('Add dark mode')); // WP2: #456
+
+    await userEvent.type(editorEl, '#Fix');
+    await expect.element(page.getByText('Fix login bug').first()).toBeVisible();
+    await userEvent.click(page.getByText('Fix login bug').first()); // WP3: #123
+
+    await userEvent.keyboard(' World');
+
+    // Convert middle chip (#456) to block card
+    await openInlineWorkPackageSizeMenu('#456');
+    await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
+
+    await expect.element(page.getByTestId('block-card')).toBeVisible();
+    await expect.element(page.getByText('Add dark mode')).toBeVisible();
+    await expect.element(page.getByText('Hello')).toBeVisible();
+    await expect.element(page.getByText('World')).toBeVisible();
+
+    expect(page.getByText('#123').all().length).toBe(2);
+
+    // DOM order: Hello+WP1 -> block wp -> WP3+World
+    const helloEl = page.getByText('Hello').element();
+    const blockCardEl = page.getByTestId('block-card').element();
+    const worldEl = page.getByText('World').element();
+    expect(helloEl.compareDocumentPosition(blockCardEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.compareDocumentPosition(worldEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.contains(helloEl)).toBe(false);
+    expect(blockCardEl.contains(worldEl)).toBe(false);
+
+    // WP1 (#123) precedes the block wp; WP3 (#123) follows it
+    const wp1El = page.getByText('#123').nth(0).element();
+    const wp3El = page.getByText('#123').nth(1).element();
+    expect(wp1El.compareDocumentPosition(blockCardEl) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+    expect(blockCardEl.compareDocumentPosition(wp3El) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy();
+  });
+});
+
 describe('Round-trip conversion', () => {
   it('inline chip survives block card round-trip and retains WP data', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
 
     // block
     await convertToCompactCard();
@@ -100,10 +212,10 @@ describe('Round-trip conversion', () => {
 
   it('XXS chip inserted via # survives block card round-trip', async () => {
     renderEditor();
-    await insertInlineChipViaHash('#');
+    await insertInlineWorkPackageViaHash('#');
 
     // block
-    await openInlineChipSizeMenu();
+    await openInlineWorkPackageSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Compact card', exact: true }));
     await expect.element(page.getByTestId('block-card')).toBeVisible();
 

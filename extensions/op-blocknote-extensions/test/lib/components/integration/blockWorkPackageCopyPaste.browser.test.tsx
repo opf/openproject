@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { insertInlineChipViaSlashMenu, convertToCompactCard } from '../../../helpers/editorHelpers';
+import { insertInlineWorkPackageViaSlashMenu, convertToCompactCard } from '../../../helpers/editorHelpers';
 import {
   computeWorkPackageBlockExternalData,
   buildWorkPackageBlockExternalDOM,
@@ -25,7 +25,7 @@ function pasteBlockCardHtml(wpid: number) {
 describe('Block card - copy/paste independence', () => {
   it('removing the pasted copy does not remove the original', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
@@ -43,7 +43,7 @@ describe('Block card - copy/paste independence', () => {
 
   it('removing the original does not remove the pasted copy', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
@@ -61,7 +61,7 @@ describe('Block card - copy/paste independence', () => {
 
   it('resizing the original does not affect the pasted copy', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
@@ -76,12 +76,13 @@ describe('Block card - copy/paste independence', () => {
     await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
 
     // The pasted copy still shows the status
+    await expect.element(page.getByText('In Progress')).toBeVisible();
     expect((await page.getByText('In Progress').all()).length).toBe(1);
   });
 
   it('resizing the pasted copy does not affect the original', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();

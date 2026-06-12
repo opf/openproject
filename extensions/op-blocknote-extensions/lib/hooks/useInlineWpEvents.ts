@@ -124,21 +124,49 @@ function handlePromoteToBlock(
   const wpid = Number(found.chip.props.wpid);
   if (Number.isNaN(wpid) || wpid <= 0) return;
 
-  updateInlineChip(editor, instanceId, () => null);
+  const chipIndex = found.content.findIndex(
+    (node) => isInlineWpNode(node) && node.props.instanceId === instanceId
+  );
+  if (chipIndex === -1) return;
 
-  const block = {
-    type:'openProjectWorkPackageBlock',
-    props:{ wpid, initialized:true, size },
+  const contentBefore = found.content.slice(0, chipIndex);
+  const contentAfter  = found.content.slice(chipIndex + 1);
+
+  const blockNode = {
+    type: 'openProjectWorkPackageBlock',
+    props: { wpid, initialized: true, size },
   } as Parameters<typeof editor.insertBlocks>[0][number];
 
-  const [insertedBlock] = editor.insertBlocks(
-    [block],
-    found.blockId,
-    'after'
-  );
+  if (contentBefore.length > 0) {
+    editor.updateBlock(found.blockId, { content: contentBefore });
+    const [insertedBlock] = editor.insertBlocks([blockNode], found.blockId, 'after');
+    if (!insertedBlock?.id) return;
+    placeAfterContent(editor, insertedBlock.id, contentAfter);
+  } else {
+    const [insertedBlock] = editor.insertBlocks([blockNode], found.blockId, 'before');
+    editor.removeBlocks([found.blockId]);
+    if (!insertedBlock?.id) return;
+    placeAfterContent(editor, insertedBlock.id, contentAfter);
+  }
+}
 
-  if (insertedBlock?.id) {
-    requestAnimationFrame(() => moveCursorAfterBlock(editor, insertedBlock.id));
+function placeAfterContent(
+  editor: AnyEditor,
+  anchorBlockId: string,
+  content: AnyInlineNode[]
+): void {
+  if (content.length > 0) {
+    const [afterParagraph] = editor.insertBlocks(
+      [{ type: 'paragraph', content }],
+      anchorBlockId,
+      'after'
+    );
+    requestAnimationFrame(() => {
+      editor.focus();
+      editor.setTextCursorPosition(afterParagraph.id, 'start');
+    });
+  } else {
+    moveCursorAfterBlock(editor, anchorBlockId);
   }
 }
 
