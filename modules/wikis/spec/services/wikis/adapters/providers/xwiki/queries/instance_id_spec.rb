@@ -41,9 +41,8 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::InstanceId, :disable_
     let(:wiki_provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
     let(:metadata_url) { "https://xwiki.local/rest/openproject/metadata" }
     let(:auth_strategy) { Wikis::Adapters::Input::AuthStrategy.build(key: :noop).value! }
-    let(:query) { described_class.new(model: wiki_provider) }
 
-    subject(:result) { query.call(auth_strategy:) }
+    subject(:result) { described_class.new(model: wiki_provider).call(auth_strategy:) }
 
     context "when the request succeeds", vcr: "xwiki/instance_id" do
       it "returns Success with the instance id" do

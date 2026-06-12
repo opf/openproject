@@ -31,13 +31,15 @@
 module Wikis
   module XWikiProviders
     class FetchInstanceIdService
+      attr_reader :provider
+
       def initialize(provider:)
         @provider = provider
       end
 
       def call
-        auth_strategy = @provider.resolve("authentication.noop").call.value!
-        @provider.resolve("queries.instance_id").call(auth_strategy:)
+        auth_strategy = provider.resolve("authentication.noop").call.value!
+        provider.resolve("queries.instance_id").call(auth_strategy:)
       end
     end
   end
