@@ -13,8 +13,6 @@ http_interactions:
       - application/json
       Accept-Encoding:
       - gzip, deflate
-      Authorization:
-      - Bearer <SECRET>
   response:
     status:
       code: 200

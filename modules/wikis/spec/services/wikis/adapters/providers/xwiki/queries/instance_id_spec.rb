@@ -40,7 +40,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::InstanceId, :disable_
     let(:user) { create(:user) }
     let(:wiki_provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
     let(:metadata_url) { "https://xwiki.local/rest/openproject/metadata" }
-    let(:auth_strategy) { wiki_provider.auth_strategy_for(user).value! }
+    let(:auth_strategy) { Wikis::Adapters::Input::AuthStrategy.build(key: :noop).value! }
     let(:query) { described_class.new(model: wiki_provider) }
 
     subject(:result) { query.call(auth_strategy:) }
@@ -54,6 +54,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::InstanceId, :disable_
 
     context "when no OAuth token exists for the user" do
       let(:wiki_provider) { create(:xwiki_provider, :with_oauth_client, url: "https://xwiki.local/") }
+      let(:auth_strategy) { wiki_provider.auth_strategy_for(user).value! }
 
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :missing_token)) }
     end

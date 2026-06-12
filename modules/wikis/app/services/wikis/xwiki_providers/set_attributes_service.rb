@@ -38,9 +38,10 @@ module Wikis
       end
 
       def assign_universal_identifier
-        auth_strategy = model.resolve("authentication.noop").call.value!
-        result = model.resolve("queries.instance_id").call(auth_strategy:)
-        model.universal_identifier = result.value! if result.success?
+        model.resolve("authentication.noop").call.bind do |auth_strategy|
+          result = model.resolve("queries.instance_id").call(auth_strategy:)
+          model.universal_identifier = result.value! if result.success?
+        end
       end
     end
   end

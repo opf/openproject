@@ -34,7 +34,7 @@ module Wikis
       module XWiki
         module Authentication
           class Noop
-            def initialize(*); end
+            def initialize(**); end
 
             def call
               Input::AuthStrategy.build(key: :noop)
