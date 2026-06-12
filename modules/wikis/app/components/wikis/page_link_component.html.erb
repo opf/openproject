@@ -39,14 +39,13 @@ See COPYRIGHT and LICENSE files for more details.
   <%=
     render(Primer::Alpha::StackItem.new(grow: true, classes: "ellipsis")) do
       if error?
-        render(Primer::Beta::Text.new(color: :muted)) { page_title }
+        concat render(Primer::Beta::Text.new(color: :muted)) { page_title }
       else
-        render(Primer::Beta::Link.new(href: page_href, scheme: :primary)) { page_title }
+        concat render(Primer::Beta::Link.new(href: page_href, scheme: :primary)) { page_title }
       end
+      concat render(Primer::Beta::Label.new(scheme: :secondary, ml: 2)) { badge } if badge.present?
     end
   %>
-
-  <%= render(Primer::Beta::Label.new(scheme: :accent)) { badge } if badge.present? %>
 
   <%=
     if show_action_menu?
