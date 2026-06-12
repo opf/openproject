@@ -201,29 +201,40 @@ export class CKEditorSetupService {
   }
 
   private watchTopLayer() {
-    const targetClassNames = ['ck-body-wrapper', 'ck-inspector-'];
+    const floatingUi = () => document.querySelectorAll<HTMLElement>('.ck-body-wrapper, [class*="ck-inspector-"]');
 
-    const observer = new MutationObserver((mutations) => {
-      const dialog = document.querySelector('dialog[open]');
-      if (!dialog) {
-        return;
-      }
+    // querySelectorAll preserves document order
+    const frontMostOpenDialog = ():HTMLElement|null => {
+      const open = document.querySelectorAll<HTMLDialogElement>('dialog[open]');
+      return open.length ? open[open.length - 1] : null;
+    };
 
-      mutations.forEach((mutation) => {
-        mutation.addedNodes.forEach((node) => {
-          if (!(node instanceof HTMLElement)) {
-            return;
-          }
-
-          if (targetClassNames.some((className) => node.classList.contains(className))) {
-            dialog.append(node);
-          }
-        });
+    // wrapper lives inside the modal while one is open and returns to document.body afterwards
+    const place = () => {
+      const target = frontMostOpenDialog() ?? document.body;
+      floatingUi().forEach((node) => {
+        if (node.parentElement !== target) {
+          target.appendChild(node);
+        }
       });
-    });
+    };
 
-    observer.observe(document.body, {
-      childList: true,
+    // wrapper and <dialog-helper> are child of document.body
+    const isRelevantChild = (nodes:NodeList):boolean => Array.from(nodes).some((node) => (
+      node instanceof HTMLElement
+      && node.matches('.ck-body-wrapper, [class*="ck-inspector-"], dialog, dialog-helper')
+    ));
+    const childObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => isRelevantChild(mutation.addedNodes) || isRelevantChild(mutation.removedNodes))) {
+        place();
+      }
     });
+    childObserver.observe(document.body, { childList: true });
+
+    // `open` attribute toggled by dialog opening/closing
+    const openAttrObserver = new MutationObserver(place);
+    openAttrObserver.observe(document.body, { attributes: true, attributeFilter: ['open'], subtree: true });
+
+    place();
   }
 }
