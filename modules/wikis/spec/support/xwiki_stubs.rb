@@ -38,27 +38,29 @@ module XWikiStubs
   end
 
   def stub_canonical_page_info(identifier, uid:, title:, href:, provider:, token: "user-bearer-token")
-    stub_request(:get, "#{provider.url}rest/openproject/documents")
-      .with(query: { "docRef" => identifier },
-            headers: { "Authorization" => "Bearer #{token}" })
-      .to_return(status: 200,
-                 body: { "id" => uid, "title" => title, "xwikiAbsoluteUrl" => href }.to_json,
-                 headers: { "Content-Type" => "application/json" })
+    stub_xwiki_get("#{provider.url}rest/openproject/documents",
+                   token:,
+                   query: { "docRef" => identifier },
+                   body: { "id" => uid, "title" => title, "xwikiAbsoluteUrl" => href })
   end
 
   def stub_search(search_results, provider:, linkable:, number: 25, token: "user-bearer-token")
-    stub_request(:get, search_endpoint(linkable, provider:, number:))
-      .with(headers: { "Authorization" => "Bearer #{token}" })
-      .to_return(status: 200,
-                 body: { "searchResults" => search_results }.to_json,
-                 headers: { "Content-Type" => "application/json" })
+    stub_xwiki_get(search_endpoint(linkable, provider:, number:),
+                   token:,
+                   body: { "searchResults" => search_results })
   end
 
   def stub_mentions(search_results, provider:, linkable:, token: "user-bearer-token")
-    stub_request(:get, mentions_endpoint(linkable, provider:))
-      .with(headers: { "Authorization" => "Bearer #{token}" })
-      .to_return(status: 200,
-                 body: { "searchResults" => search_results }.to_json,
-                 headers: { "Content-Type" => "application/json" })
+    stub_xwiki_get(mentions_endpoint(linkable, provider:),
+                   token:,
+                   body: { "searchResults" => search_results })
+  end
+
+  private
+
+  def stub_xwiki_get(url, token:, body:, query: nil)
+    stub_request(:get, url)
+      .with(query:, headers: { "Authorization" => "Bearer #{token}" })
+      .to_return(status: 200, body: body.to_json, headers: { "Content-Type" => "application/json" })
   end
 end
