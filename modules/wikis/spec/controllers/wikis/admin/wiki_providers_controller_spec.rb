@@ -84,7 +84,7 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
     context "with valid params" do
       before do
         allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new)
-          .and_return(double(call: Dry::Monads::Success("xwiki-test-id")))
+          .and_return(instance_double(Wikis::XWikiProviders::FetchInstanceIdService, call: Dry::Monads::Success("xwiki-test-id")))
       end
 
       it "creates a provider and redirects to the wizard" do

@@ -28,20 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module XWikiProviders
-    class FetchInstanceIdService
-      attr_reader :provider
+module Wikis::XWikiProviders::Concerns::FetchesInstanceId
+  private
 
-      def initialize(provider:)
-        @provider = provider
-      end
+  def after_validate(service_call)
+    model = service_call.result
+    return service_call unless should_fetch_instance_id?(model)
 
-      def call
-        provider.resolve("authentication.noop").call.bind do |auth_strategy|
-          provider.resolve("queries.instance_id").call(auth_strategy:)
-        end
-      end
+    result = Wikis::XWikiProviders::FetchInstanceIdService.new(provider: model).call
+    if result.success?
+      model.universal_identifier = result.value!
+    else
+      service_call.errors.add(:url, :xwiki_unreachable)
+      service_call.success = false
     end
+
+    service_call
   end
 end

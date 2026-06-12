@@ -41,7 +41,7 @@ RSpec.describe Wikis::XWikiProviders::CreateService, type: :model do
 
     before do
       allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new)
-        .and_return(double(call: Dry::Monads::Success("test-id")))
+        .and_return(instance_double(Wikis::XWikiProviders::FetchInstanceIdService, call: Dry::Monads::Success("test-id")))
     end
   end
 

@@ -44,7 +44,7 @@ RSpec.describe Wikis::XWikiProviders::UpdateService, type: :model do
     let(:current_user) { build_stubbed(:admin) }
     let(:provider) { create(:xwiki_provider, url: "https://old.example.com/", universal_identifier: "old-id") }
     let(:service) { described_class.new(user: current_user, model: provider) }
-    let(:fetch_service) { instance_double(Wikis::XWikiProviders::FetchInstanceIdService) }
+    let(:fetch_service) { instance_spy(Wikis::XWikiProviders::FetchInstanceIdService) }
 
     before do
       allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new).and_return(fetch_service)

@@ -31,21 +31,11 @@
 module Wikis
   module XWikiProviders
     class UpdateService < ::BaseServices::Update
+      include Concerns::FetchesInstanceId
+
       private
 
-      def after_validate(service_call)
-        model = service_call.result
-        return service_call if model.url.blank? || !model.url_changed?
-
-        FetchInstanceIdService.new(provider: model).call
-          .fmap { |id| model.universal_identifier = id }
-          .or do
-            service_call.errors.add(:url, :xwiki_unreachable)
-            service_call.success = false
-          end
-
-        service_call
-      end
+      def should_fetch_instance_id?(model) = model.url.present? && model.url_changed?
     end
   end
 end
