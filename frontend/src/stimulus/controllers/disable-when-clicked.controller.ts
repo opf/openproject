@@ -6,6 +6,7 @@ export default class DisableWhenClickedController extends Controller<HTMLInputEl
   };
 
   declare textValue:string;
+  private alreadyClicked = false;
   private clickListener = this.toggleDisabled.bind(this);
 
   connect() {
@@ -17,7 +18,14 @@ export default class DisableWhenClickedController extends Controller<HTMLInputEl
     this.element.removeEventListener('click', this.clickListener);
   }
 
-  private toggleDisabled():void {
+  private toggleDisabled(event:Event):void {
+    if (this.alreadyClicked) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      return;
+    }
+
+    this.alreadyClicked = true;
     setTimeout(() => {
       this.element.disabled = true;
 

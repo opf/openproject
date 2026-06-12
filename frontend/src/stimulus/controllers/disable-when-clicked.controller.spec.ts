@@ -74,4 +74,22 @@ describe('DisableWhenClickedController', () => {
     expect(button).toHaveTextContent('Processing...');
     expect(button).toBeDisabled();
   });
+
+  it('prevents default on a second click for anchor elements', async () => {
+    await ctx.mount(`
+      <a href="/documents/new" data-controller="disable-when-clicked">
+        + Document
+      </a>
+    `);
+
+    const link = ctx.screen.getByRole('link', { name: '+ Document' });
+
+    const firstEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+    link.dispatchEvent(firstEvent);
+    expect(firstEvent.defaultPrevented).toBe(false);
+
+    const secondEvent = new MouseEvent('click', { bubbles: true, cancelable: true });
+    link.dispatchEvent(secondEvent);
+    expect(secondEvent.defaultPrevented).toBe(true);
+  });
 });

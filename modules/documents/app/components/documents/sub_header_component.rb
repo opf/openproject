@@ -72,11 +72,12 @@ module Documents
     def new_document_path_options
       if Setting.real_time_text_collaboration_enabled?
         {
-          data: { turbo_method: :post },
+          data: { turbo_method: :post, controller: "disable-when-clicked" },
           href: project_documents_path(project)
         }
       else
         {
+          data: { controller: "disable-when-clicked" },
           href: new_project_document_path(project)
         }
       end
