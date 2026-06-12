@@ -37,8 +37,9 @@ module Wikis
 
       relation_page_links +
         inline_page_link_infos_for(linkable:).size +
-        referencing_wiki_page_infos_for(linkable:).size +
-        mentioning_wiki_page_infos_for(linkable:).size
+        (referencing_wiki_page_infos_for(linkable:) + mentioning_wiki_page_infos_for(linkable:))
+          .uniq { |r| r.success? ? r.value!.identifier : r.object_id }
+          .size
     end
 
     def relation_page_links_for(provider:, linkable:)
@@ -65,11 +66,12 @@ module Wikis
 
       Adapters::Input::ReferencingPages.build(linkable:).bind do |input|
         Provider.enabled.each do |provider|
+          query = resolve_query(provider, "queries.referencing_pages")
+          next if query.nil?
+
           provider.auth_strategy_for(User.current).bind do |auth_strategy|
-            provider.resolve("queries.referencing_pages")
-                    .call(input_data: input, auth_strategy:)
-                    # Only return page infos for successful results
-                    .fmap { referenced_in.concat(it) }
+            query.call(input_data: input, auth_strategy:)
+                 .fmap { referenced_in.concat(it) }
           end
         end
       end
@@ -82,11 +84,8 @@ module Wikis
 
       Adapters::Input::MentioningPages.build(linkable:).bind do |input|
         Provider.enabled.each do |provider|
-          begin
-            query = provider.resolve("queries.mentioning_pages")
-          rescue Adapters::Registry::OperationNotSupported
-            next
-          end
+          query = resolve_query(provider, "queries.mentioning_pages")
+          next if query.nil?
 
           provider.auth_strategy_for(User.current).bind do |auth_strategy|
             query.call(input_data: input, auth_strategy:)
@@ -99,6 +98,12 @@ module Wikis
     end
 
     private
+
+    def resolve_query(provider, name)
+      provider.resolve(name)
+    rescue Adapters::Registry::OperationNotSupported
+      nil
+    end
 
     def page_info(provider:, identifier:)
       Adapters::Input::PageInfo.build(identifier:).bind do |input|
