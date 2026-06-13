@@ -36,7 +36,7 @@ import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
-import { withLoadingIndicator } from 'core-stimulus/helpers/request-helpers';
+import { withProgressBar } from 'core-stimulus/helpers/request-helpers';
 import { parseTemplate } from 'url-template';
 import {
   acceptsSortableItemType,
@@ -253,7 +253,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
 
     this.setMoving(true);
     try {
-      const response = await withLoadingIndicator(request.perform());
+      const response = await withProgressBar(request.perform());
 
       if (!response.ok) {
         debugLog(`Failed to move sortable list item: ${response.statusCode}`);
@@ -273,10 +273,10 @@ export default class SortableListsController extends Controller<HTMLElement> {
   private setMoving(moving:boolean):void {
     if (moving) {
       this.element.setAttribute(sortableListsMovingAttribute, 'true');
-      this.element.setAttribute('aria-busy', 'true');
+      this.listTargets.forEach((list) => list.setAttribute('aria-busy', 'true'));
     } else {
       this.element.removeAttribute(sortableListsMovingAttribute);
-      this.element.removeAttribute('aria-busy');
+      this.listTargets.forEach((list) => list.removeAttribute('aria-busy'));
     }
   }
 

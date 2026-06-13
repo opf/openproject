@@ -51,7 +51,7 @@ describe('Sortable lists controller', () => {
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
   let fetchMock:ReturnType<typeof vi.fn>;
-  let loadingIndicator:HTMLElement;
+  let turboHelpers:typeof import('core-turbo/helpers');
   let renderStreamMessageMock:ReturnType<typeof vi.fn>;
 
   beforeAll(async () => {
@@ -69,6 +69,8 @@ describe('Sortable lists controller', () => {
     ({ autoScrollForElements } = await import('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
     ({ sortableItemData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
+
+    turboHelpers = await import('core-turbo/helpers');
   });
 
   function input() {
@@ -220,10 +222,8 @@ describe('Sortable lists controller', () => {
       renderStreamMessage: renderStreamMessageMock,
     });
 
-    loadingIndicator = document.createElement('div');
-    loadingIndicator.id = 'global-loading-indicator';
-    loadingIndicator.hidden = true;
-    document.body.appendChild(loadingIndicator);
+    vi.spyOn(turboHelpers.TurboHelpers, 'showProgressBar').mockImplementation(() => undefined);
+    vi.spyOn(turboHelpers.TurboHelpers, 'hideProgressBar').mockImplementation(() => undefined);
 
     ctx = await setupStimulusTest({
       controllers: {
@@ -235,7 +235,7 @@ describe('Sortable lists controller', () => {
 
   afterEach(() => {
     ctx.dispose();
-    loadingIndicator.remove();
+    vi.restoreAllMocks();
     vi.unstubAllGlobals();
   });
 
@@ -337,7 +337,7 @@ describe('Sortable lists controller', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('marks the sortable lists root and global loading indicator while moving an item', async () => {
+  it('marks the moving state and busy lists and shows the progress bar while moving an item', async () => {
     let resolveMove:(response:Response) => void;
 
     fetchMock.mockImplementationOnce(() => {
@@ -352,15 +352,15 @@ describe('Sortable lists controller', () => {
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
     expect(root.dataset.sortableListsMoving).toEqual('true');
-    expect(root.getAttribute('aria-busy')).toEqual('true');
-    expect(loadingIndicator.hidden).toBe(false);
+    expect(targetList.getAttribute('aria-busy')).toEqual('true');
+    expect(turboHelpers.TurboHelpers.showProgressBar).toHaveBeenCalled();
 
     resolveMove!(new Response('', { status: 200 }));
     await flushPromises();
 
     expect(root.hasAttribute('data-sortable-lists-moving')).toBe(false);
-    expect(root.hasAttribute('aria-busy')).toBe(false);
-    expect(loadingIndicator.hidden).toBe(true);
+    expect(targetList.hasAttribute('aria-busy')).toBe(false);
+    expect(turboHelpers.TurboHelpers.hideProgressBar).toHaveBeenCalled();
   });
 
   it('rejects new sortable-list drags and drops while a move is pending', async () => {
@@ -410,7 +410,7 @@ describe('Sortable lists controller', () => {
       type: 'error',
     }));
     expect(root.hasAttribute('data-sortable-lists-moving')).toBe(false);
-    expect(loadingIndicator.hidden).toBe(true);
+    expect(turboHelpers.TurboHelpers.hideProgressBar).toHaveBeenCalled();
 
     window.removeEventListener('op:toasters:add', onToast);
   });

@@ -30,6 +30,7 @@
 
 import { FetchRequest, FetchResponse, Options } from '@rails/request.js';
 import { hideElement, showElement } from 'core-app/shared/helpers/dom-helpers';
+import { TurboHelpers } from 'core-turbo/helpers';
 import invariant from 'tiny-invariant';
 
 export function post(url:string|URL, options?:Options) {
@@ -44,6 +45,14 @@ export function withLoadingIndicator(request:Promise<FetchResponse>) {
 
   return request.finally(() => {
     hideElement(loadingIndicator);
+  });
+}
+
+export function withProgressBar(request:Promise<FetchResponse>) {
+  TurboHelpers.showProgressBar();
+
+  return request.finally(() => {
+    TurboHelpers.hideProgressBar();
   });
 }
 

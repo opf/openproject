@@ -49,6 +49,15 @@
   container-name: backlogsListsContainer
   container-type: inline-size
 
+  [data-sortable-lists-target~="list"][aria-busy="true"]
+    cursor: progress
+
+    .Box-list
+      opacity: 0.7
+
+      @media (prefers-reduced-motion: no-preference)
+        transition: opacity 0.1s ease-in-out
+
 .op-sprint-planning-container
   display: flex
   flex-direction: row

@@ -27,8 +27,9 @@
 //++
 
 import type { FetchResponse } from '@rails/request.js';
+import { TurboHelpers } from 'core-turbo/helpers';
 
-import { withLoadingIndicator } from './request-helpers';
+import { withLoadingIndicator, withProgressBar } from './request-helpers';
 
 describe('withLoadingIndicator', () => {
   let indicator:HTMLElement|null;
@@ -73,5 +74,39 @@ describe('withLoadingIndicator', () => {
 
   it('throws when the loading indicator is absent', () => {
     expect(() => withLoadingIndicator(Promise.resolve({} as FetchResponse))).toThrow();
+  });
+});
+
+describe('withProgressBar', () => {
+  beforeEach(() => {
+    vi.spyOn(TurboHelpers, 'showProgressBar').mockImplementation(() => undefined);
+    vi.spyOn(TurboHelpers, 'hideProgressBar').mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('shows the progress bar while the request is pending and hides it on success', async () => {
+    let resolveRequest!:(response:FetchResponse) => void;
+    const request = new Promise<FetchResponse>((resolve) => { resolveRequest = resolve; });
+
+    const wrapped = withProgressBar(request);
+    expect(TurboHelpers.showProgressBar).toHaveBeenCalledOnce();
+    expect(TurboHelpers.hideProgressBar).not.toHaveBeenCalled();
+
+    resolveRequest({} as FetchResponse);
+    await wrapped;
+
+    expect(TurboHelpers.hideProgressBar).toHaveBeenCalledOnce();
+  });
+
+  it('hides the progress bar when the request rejects and propagates the rejection', async () => {
+    const error = new Error('boom');
+
+    const wrapped = withProgressBar(Promise.reject(error));
+
+    await expect(wrapped).rejects.toBe(error);
+    expect(TurboHelpers.hideProgressBar).toHaveBeenCalledOnce();
   });
 });
