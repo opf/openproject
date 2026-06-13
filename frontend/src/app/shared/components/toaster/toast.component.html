@@ -45,7 +45,7 @@
                     <op-toasters-upload-progress [file]="upload[0]"
                       [upload]="upload[1]"
                       (uploadSuccess)="onUploadSuccess()"
-                      (uploadError)="remove()" />
+                      (uploadError)="onUploadError($event)" />
                   }
                 </ul>
               }

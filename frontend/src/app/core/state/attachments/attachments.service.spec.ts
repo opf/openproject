@@ -27,11 +27,19 @@
 //++
 
 import { TestBed } from '@angular/core/testing';
-import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
+import {
+  HttpErrorResponse,
+  provideHttpClient,
+  withInterceptorsFromDi,
+  withXhr,
+} from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
+import { Observable, throwError } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OpUploadService } from 'core-app/core/upload/upload.service';
+import { ToastService } from 'core-app/shared/components/toaster/toast.service';
+import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { AttachmentsResourceService } from './attachments.service';
 
 describe('AttachmentsResourceService', () => {
@@ -50,5 +58,68 @@ describe('AttachmentsResourceService', () => {
 
   it('initialises via dependency injection', () => {
     expect(TestBed.inject(AttachmentsResourceService)).toBeTruthy();
+  });
+});
+
+describe('AttachmentsResourceService upload error handling', () => {
+  const halMessage = "The file was rejected by an automatic filter. 'image/webp' is not allowed for upload.";
+
+  function setupWithUploadError(uploadObservable:Observable<never>) {
+    TestBed.configureTestingModule({
+      imports: [OpenprojectHalModule],
+      providers: [
+        AttachmentsResourceService,
+        { provide: States, useValue: new States() },
+        { provide: ConfigurationService, useValue: {} },
+        { provide: OpUploadService, useValue: { upload: () => [uploadObservable] } },
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
+        provideHttpClientTesting(),
+      ],
+    });
+  }
+
+  it('re-emits the HAL error message as a plain Error when the upload fails with a HAL error body', (done) => {
+    const httpError = new HttpErrorResponse({
+      status: 422,
+      error: {
+        _type: 'Error',
+        errorIdentifier: 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation',
+        message: halMessage,
+      },
+    });
+
+    setupWithUploadError(throwError(() => httpError));
+
+    const service = TestBed.inject(AttachmentsResourceService);
+    spyOn(TestBed.inject(ToastService), 'addUpload').and.returnValue({ message: '', type: 'upload' });
+
+    service.addAttachments('key', '/api/v3/attachments', [{ file: new File([], 'test.webp') }])
+      .subscribe({
+        next: () => done.fail('Expected an error, not a value'),
+        error: (err:Error) => {
+          expect(err).toBeInstanceOf(Error);
+          expect(err.message).toEqual(halMessage);
+          done();
+        },
+      });
+  });
+
+  it('re-emits the raw HTTP message as a plain Error when no HAL body is present', (done) => {
+    const httpError = new HttpErrorResponse({ status: 500, statusText: 'Internal Server Error' });
+
+    setupWithUploadError(throwError(() => httpError));
+
+    const service = TestBed.inject(AttachmentsResourceService);
+    spyOn(TestBed.inject(ToastService), 'addUpload').and.returnValue({ message: '', type: 'upload' });
+
+    service.addAttachments('key', '/api/v3/attachments', [{ file: new File([], 'test.webp') }])
+      .subscribe({
+        next: () => done.fail('Expected an error, not a value'),
+        error: (err:Error) => {
+          expect(err).toBeInstanceOf(Error);
+          expect(err.message).toBeTruthy();
+          done();
+        },
+      });
   });
 });

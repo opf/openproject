@@ -33,7 +33,7 @@ import {
   HttpHeaders,
 } from '@angular/common/http';
 import { applyTransaction } from '@datorama/akita';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import {
   catchError,
   map,
@@ -50,6 +50,7 @@ import {
   IUploadFile,
   OpUploadService,
 } from 'core-app/core/upload/upload.service';
+import { isHalError } from 'core-app/features/hal/resources/error-resource';
 import { removeEntityFromCollectionAndState } from 'core-app/core/state/resource-store';
 import {
   ResourceStore,
@@ -162,6 +163,10 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
           responses
             .map((response) => response.body)
             .filter((body) => body !== null)),
+        catchError((error:HttpErrorResponse) => {
+          const message = isHalError(error.error) ? error.error.message : error.message;
+          return throwError(() => new Error(message));
+        }),
       );
   }
 
