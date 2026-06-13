@@ -63,21 +63,23 @@ describe('ToastComponent', () => {
   describe('#onUploadError', () => {
     it('calls toastService.addError with the HttpErrorResponse', () => {
       const error = new HttpErrorResponse({ status: 422, error: { message: 'image/webp is not allowed' } });
-      spyOn(toastService, 'addError');
-      spyOn(toastService, 'remove');
+      vi.spyOn(toastService, 'addError').mockReturnValue(null);
+      vi.spyOn(toastService, 'remove').mockReturnValue(undefined);
 
       component.onUploadError(error);
 
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(toastService.addError).toHaveBeenCalledWith(error);
     });
 
     it('removes the upload toast after showing the error', () => {
       const error = new HttpErrorResponse({ status: 422, error: { message: 'image/webp is not allowed' } });
-      spyOn(toastService, 'addError');
-      spyOn(toastService, 'remove');
+      vi.spyOn(toastService, 'addError').mockReturnValue(null);
+      vi.spyOn(toastService, 'remove').mockReturnValue(undefined);
 
       component.onUploadError(error);
 
+      // eslint-disable-next-line @typescript-eslint/unbound-method
       expect(toastService.remove).toHaveBeenCalledWith(mockToast);
     });
   });

@@ -34,7 +34,7 @@ import {
   withXhr,
 } from '@angular/common/http';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { Observable, throwError } from 'rxjs';
+import { firstValueFrom, Observable, throwError } from 'rxjs';
 import { States } from 'core-app/core/states/states.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { OpUploadService } from 'core-app/core/upload/upload.service';
@@ -78,7 +78,7 @@ describe('AttachmentsResourceService upload error handling', () => {
     });
   }
 
-  it('re-emits the HAL error message as a plain Error when the upload fails with a HAL error body', (done) => {
+  it('re-emits the HAL error message as a plain Error when the upload fails with a HAL error body', async () => {
     const httpError = new HttpErrorResponse({
       status: 422,
       error: {
@@ -91,35 +91,23 @@ describe('AttachmentsResourceService upload error handling', () => {
     setupWithUploadError(throwError(() => httpError));
 
     const service = TestBed.inject(AttachmentsResourceService);
-    spyOn(TestBed.inject(ToastService), 'addUpload').and.returnValue({ message: '', type: 'upload' });
+    vi.spyOn(TestBed.inject(ToastService), 'addUpload').mockReturnValue({ message: '', type: 'upload' });
 
-    service.addAttachments('key', '/api/v3/attachments', [{ file: new File([], 'test.webp') }])
-      .subscribe({
-        next: () => done.fail('Expected an error, not a value'),
-        error: (err:Error) => {
-          expect(err).toBeInstanceOf(Error);
-          expect(err.message).toEqual(halMessage);
-          done();
-        },
-      });
+    await expect(
+      firstValueFrom(service.addAttachments('key', '/api/v3/attachments', [{ file: new File([], 'test.webp') }])),
+    ).rejects.toThrow(halMessage);
   });
 
-  it('re-emits the raw HTTP message as a plain Error when no HAL body is present', (done) => {
+  it('re-emits the raw HTTP message as a plain Error when no HAL body is present', async () => {
     const httpError = new HttpErrorResponse({ status: 500, statusText: 'Internal Server Error' });
 
     setupWithUploadError(throwError(() => httpError));
 
     const service = TestBed.inject(AttachmentsResourceService);
-    spyOn(TestBed.inject(ToastService), 'addUpload').and.returnValue({ message: '', type: 'upload' });
+    vi.spyOn(TestBed.inject(ToastService), 'addUpload').mockReturnValue({ message: '', type: 'upload' });
 
-    service.addAttachments('key', '/api/v3/attachments', [{ file: new File([], 'test.webp') }])
-      .subscribe({
-        next: () => done.fail('Expected an error, not a value'),
-        error: (err:Error) => {
-          expect(err).toBeInstanceOf(Error);
-          expect(err.message).toBeTruthy();
-          done();
-        },
-      });
+    await expect(
+      firstValueFrom(service.addAttachments('key', '/api/v3/attachments', [{ file: new File([], 'test.webp') }])),
+    ).rejects.toThrow(Error);
   });
 });
