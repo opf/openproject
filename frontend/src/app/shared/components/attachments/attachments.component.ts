@@ -42,7 +42,6 @@ import { OpUploadService } from 'core-app/core/upload/upload.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { IAttachment } from 'core-app/core/state/attachments/attachment.model';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
-import { HttpErrorResponse } from '@angular/common/http';
 
 function containsFiles(dataTransfer:DataTransfer):boolean {
   return dataTransfer.types.includes('Files');
@@ -253,7 +252,9 @@ export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnIni
       .attachFiles(this.resource, filesWithoutFolders)
       .subscribe({
         next: () => { this.attachmentAdded.emit(); },
-        error: (error:HttpErrorResponse) => this.toastService.addError(error),
+        // Upload errors are surfaced by the upload-progress toast
+        // (see ToastComponent#onUploadError); avoid showing a duplicate error here.
+        error: () => undefined,
       });
   }
 

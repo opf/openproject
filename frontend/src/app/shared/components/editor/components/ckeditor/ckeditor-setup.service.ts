@@ -1,7 +1,9 @@
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { Injectable, inject } from '@angular/core';
 import {
+  CKEditorEvent,
   ICKEditorContext,
+  ICKEditorInstance,
   ICKEditorStatic,
   ICKEditorWatchdog,
 } from 'core-app/shared/components/editor/components/ckeditor/ckeditor.types';
@@ -69,6 +71,7 @@ export class CKEditorSetupService {
       .createWatchdog(editorClass, contentWrapper, config)
       .then((watchdog:ICKEditorWatchdog) => {
         const { editor } = watchdog;
+        this.suppressUploadNotifications(editor);
         const updateLastUpdated = () => {
           const editable = wrapper.querySelector<HTMLElement>('.ck-editor__editable_inline');
           if (!editable) {
@@ -98,6 +101,21 @@ export class CKEditorSetupService {
 
         return watchdog;
       });
+  }
+
+  /**
+   * Attachment upload failures are surfaced to the user through OpenProject's
+   * own error toast (see ToastComponent#onUploadError). Stop CKEditor's
+   * built-in "Upload failed" notification so the same error is not shown twice.
+   */
+  private suppressUploadNotifications(editor:ICKEditorInstance):void {
+    if (!editor.plugins.has('Notification')) {
+      return;
+    }
+
+    editor.plugins
+      .get('Notification')
+      .on('show:warning:upload', (evt:CKEditorEvent) => evt.stop(), { priority: 'high' });
   }
 
   private createConfig(context:ICKEditorContext, initialData:string|null) {
