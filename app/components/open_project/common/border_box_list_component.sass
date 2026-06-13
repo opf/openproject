@@ -8,6 +8,20 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+// Edge borders for row states. The top edge is the row's own top border, the
+// bottom edge is the following row's top border; the last row draws its own
+// bottom border, overlapping the Box border like the upstream
+// Box-body:last-of-type rule.
+@mixin op-box-list-item-edge-borders($color)
+  border-top-color: $color
+
+  & + .Box-row
+    border-top-color: $color
+
+  &:last-child
+    margin-bottom: calc(var(--borderWidth-thin) * -1)
+    border-bottom: var(--borderWidth-thin) solid $color
+
 .op-border-box-list_transparent
   > .Box-header
     background-color: transparent
@@ -122,20 +136,6 @@
 
   &:has(> .Box-card:focus-visible)
     background-color: var(--bgColor-muted)
-
-// Edge borders for row states. The top edge is the row's own top border, the
-// bottom edge is the following row's top border; the last row draws its own
-// bottom border, overlapping the Box border like the upstream
-// Box-body:last-of-type rule.
-@mixin op-box-list-item-edge-borders($color)
-  border-top-color: $color
-
-  & + .Box-row
-    border-top-color: $color
-
-  &:last-child
-    margin-bottom: calc(var(--borderWidth-thin) * -1)
-    border-bottom: var(--borderWidth-thin) solid $color
 
 // Selected state: applied synchronously on activation by the backlogs--story
 // controller (single selection), so the list reacts before the split screen
