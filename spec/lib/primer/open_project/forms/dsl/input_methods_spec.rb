@@ -279,6 +279,13 @@ RSpec.describe Primer::OpenProject::Forms::Dsl::InputMethods, type: :forms do
       it_behaves_like "supporting help texts"
     end
 
+    describe "#filterable_tree_view" do
+      let(:field_group) { form_dsl.filterable_tree_view(name:, label:, **options) }
+
+      include_examples "input class", Primer::OpenProject::Forms::Dsl::FilterableTreeViewInput
+      it_behaves_like "supporting help texts"
+    end
+
     describe "#segmented_control" do
       let(:field_group) do
         form_dsl.segmented_control(name:, label:, value: "a", items: [{ value: "a", label: "A" }], **options)

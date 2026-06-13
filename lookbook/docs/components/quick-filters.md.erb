@@ -36,9 +36,24 @@ Note: Clicking on buttons in the above preview will break it and redirect to the
 
 ## SelectPanelComponent
 
-A multiselect select panel based quick filter. Select panel items are provided via `with_item` slots.
-Navigation happens when items are checked and the "Apply" button is clicked.
+A select panel based quick filter. Items are provided via `with_item` slots or loaded asynchronously via `src`.
+By default, in multiselect mode, navigation happens when items are checked and the "Apply" button is clicked.
+When the query has a matching active filter, the corresponding items are checked, the show button gets a counter,
+and a "Clear" button is rendered in the panel footer.
 
 <%= embed OpPrimer::QuickFilterPreview, :select_panel_with_active_filter, panels: %i[source] %>
 
 Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
+
+### Single select
+
+With `select_variant: :single`, each item navigates immediately on click and there are no footer buttons.
+
+<%= embed OpPrimer::QuickFilterPreview, :select_panel_single_select, panels: %i[source] %>
+
+Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
+
+### Async loading
+
+Pass `src` to lazily load the panel items from an endpoint instead of providing them inline.
+The filter must implement `#value_objects`, and `src` cannot be combined with inline items or `select_variant: :single`.

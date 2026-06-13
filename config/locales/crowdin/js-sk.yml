@@ -155,7 +155,6 @@ sk:
         manual: Prepnúť na zdroj Markdown
         wysiwyg: Prepnúť na WYSIWYG editor
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
@@ -175,9 +174,14 @@ sk:
           title: Vložiť / upraviť fragment kódu
           language: Jazyk pre zvýrazňovanie syntaxe
           language_hint: Zadajte jazyk pre zvýrazňovanie syntaxe, ktorý sa používa pre zvýraznenie časti kódu (ak je podporovaný).
-        dropdown:
-          macros: Makrá
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Vložený kalendár"
+        embedded_table:
+          button: Vložiť tabuľku pracovného balíčku
+          text: "[Placeholder] Vložená tabuľka pracovného balíčku"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Obsah
         toolbar_help: Kliknutím vyberte miniaplikáciu, a zobrazenie panela nástrojov.. Dvojitým kliknutím upravíte miniaplikáciu
         wiki_page_include:
@@ -195,11 +199,6 @@ sk:
           button_style_hint: 'Voliteľné: Skontrolujte, či sa makro zobrazí ako tlačidlo, nie ako odkaz.'
           without_type: Vytvoriť pracovný balíček
           with_type: 'Vytvoriť pracovný balíček (Typ: %{typename})'
-        embedded_table:
-          button: Vložiť tabuľku pracovného balíčku
-          text: "[Placeholder] Vložená tabuľka pracovného balíčku"
-        embedded_calendar:
-          text: "[Placeholder] Vložený kalendár"
     admin:
       type_form:
         edit_query: Edit query

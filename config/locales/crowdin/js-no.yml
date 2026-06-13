@@ -155,7 +155,6 @@
         manual: Bytt til Markdown-kilde
         wysiwyg: Bytt til WYSIWYG editor
       macro:
-        error: 'Kan ikke utvide makro: %{message}'
         attribute_reference:
           macro_help_tooltip: Dette tekstsegmentet er dynamisk gjengitt av en makro.
           not_found: Finner ikke forespurt ressurs
@@ -175,9 +174,14 @@
           title: Sett inn / rediger Code snippet
           language: Formaterer språk
           language_hint: Angi formateringsspråket som vil bli brukt til å fremheve (hvis støttet).
-        dropdown:
-          macros: Makroer
-          chose_macro: Velg makro
+        embedded_calendar:
+          text: "[Placeholder] Innbygget kalender"
+        embedded_table:
+          button: Bygg inn arbeidspakker
+          text: "[Placeholder] Innebygd arbeidspakke-tabell"
+        error: 'Kan ikke utvide makro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Innholdsfortegnelse
         toolbar_help: Klikk for å velge widget og vise verktøylinjen. Dobbelklikk for å redigere widgeten.
         wiki_page_include:
@@ -195,11 +199,6 @@
           button_style_hint: 'Valgfritt: Huk av om makroen skal vises som en knapp, ikke som en lenke.'
           without_type: Opprett arbeidspakke
           with_type: 'Opprett arbeidspakke (ype: %{typename})'
-        embedded_table:
-          button: Bygg inn arbeidspakker
-          text: "[Placeholder] Innebygd arbeidspakke-tabell"
-        embedded_calendar:
-          text: "[Placeholder] Innbygget kalender"
     admin:
       type_form:
         edit_query: Rediger spørring

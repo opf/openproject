@@ -31,8 +31,8 @@ cs:
           label: Git snippets
           description: Kopírovat úryvky gitu do schránky
         git_actions:
-          branch_name: Název pobočky
-          commit_message: odevzdat zprávu
+          branch_name: Název větve
+          commit_message: Zpráva commitu
           cmd: Vytvořit větev s prázdným commitem
           title: Rychlé snippety pro Git
           copy_success: "✅ zkopírováno!"

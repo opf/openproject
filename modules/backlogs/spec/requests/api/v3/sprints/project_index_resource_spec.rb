@@ -71,5 +71,11 @@ RSpec.describe "API v3 Sprint resource on project", content_type: :json do
 
       it_behaves_like "unauthorized access"
     end
+
+    context "for a user being not a project member at all" do
+      let(:get_path) { api_v3_paths.project_sprints(project_without_permission.id) }
+
+      it_behaves_like "not found"
+    end
   end
 end

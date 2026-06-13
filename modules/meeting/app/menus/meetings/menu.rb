@@ -78,7 +78,7 @@ module Meetings
     end
 
     def all_meetings_item
-      all_filter = [{ invited_user_id: { operator: "*", values: [] } }].to_json
+      all_filter = [].to_json
       my_meetings_href = polymorphic_path([project, :meetings])
       query_params = { filters: all_filter }
 

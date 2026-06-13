@@ -155,7 +155,6 @@ ms:
         manual: Tukar ke sumber Markdown
         wysiwyg: Tukar ke editor WYSIWYG
       macro:
-        error: 'Tidak dapat kembangkan makro: %{message}'
         attribute_reference:
           macro_help_tooltip: Bahagian teks ini sedang dihasilkan secara dinamik oleh makro.
           not_found: Sumber yang diminta tidak dapat ditemui
@@ -175,9 +174,14 @@ ms:
           title: Masukkan / edit Kod snippet
           language: Bahasa pemformatan
           language_hint: Masukkan pemformatan bahasa yang akan digunakan untuk penyorotan (jika disokong).
-        dropdown:
-          macros: Makro-makro
-          chose_macro: Pilih makro
+        embedded_calendar:
+          text: "[Placeholder] Kalendar yang tersemat"
+        embedded_table:
+          button: 'Sematkan jadual pakej kerja '
+          text: "[Placeholder] Jadual pakej kerja yang tersemat"
+        error: 'Tidak dapat kembangkan makro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Jadual kandungan
         toolbar_help: Klik untuk memilih widget dan paparkan toolbar. Klik dua kali untuk edit widget
         wiki_page_include:
@@ -195,11 +199,6 @@ ms:
           button_style_hint: 'Pilihan: Tanda untuk membuat makro muncul sebagai butang, bukan sebagai pautan.'
           without_type: Cipta pakej kerja
           with_type: 'Cipta pakej kerja (Jenis: %{typename})'
-        embedded_table:
-          button: 'Sematkan jadual pakej kerja '
-          text: "[Placeholder] Jadual pakej kerja yang tersemat"
-        embedded_calendar:
-          text: "[Placeholder] Kalendar yang tersemat"
     admin:
       type_form:
         edit_query: Edit pertanyaan

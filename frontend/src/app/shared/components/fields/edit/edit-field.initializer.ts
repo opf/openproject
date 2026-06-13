@@ -100,6 +100,7 @@ export function initializeCoreEditFields(editFieldService:EditFieldService, sele
         'Version',
         'TimeEntriesActivity',
         'Category',
+        'BacklogBucket',
         'Sprint',
         'CustomOption',
         'CustomField::Hierarchy::Item',

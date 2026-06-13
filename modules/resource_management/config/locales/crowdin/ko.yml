@@ -3,9 +3,11 @@ ko:
   activerecord:
     attributes:
       resource_allocation:
+        allocated_hours: Hours
         allocated_time: 할당된 시간
         end_date: 완료 날짜
         entity: 엔티티
+        filter_name: Resource filter name
         principal: 담당자
         start_date: 시작 날짜
         state: 상태
@@ -39,17 +41,11 @@ ko:
   button_next: 다음
   label_resource_management: 리소스 계획
   permission_allocate_user_resources: 사용자 리소스 할당
-  permission_allocate_user_resources_explanation: '사용자가 리소스 플래너 내에서 리소스 할당을 만들고, 업데이트하고, 삭제할 수 있습니다. 여기에는 플래너에 사용자(또는 사용자 필터)를 할당하고 할당된 시간 및 날짜 범위를 조정하는 것이 포함됩니다.
-
-    '
+  permission_allocate_user_resources_explanation: 사용자가 리소스 플래너 내에서 리소스 할당을 만들고, 업데이트하고, 삭제할 수 있습니다. 여기에는 플래너에 사용자(또는 사용자 필터)를 할당하고 할당된 시간 및 날짜 범위를 조정하는 것이 포함됩니다.
   permission_manage_public_resource_planners: 공개 리소스 플래너 관리
-  permission_manage_public_resource_planners_explanation: '사용자가 리소스 플래너를 만들고 관리하도록 허용합니다. 사용자는 고유한 리소스 플래너를 보고 만들고 관리하며 게시할 수 있습니다. 다른 사용자가 만든 공개적으로 공유되지 않은 리소스 플래너는 볼 수 없습니다.
-
-    '
+  permission_manage_public_resource_planners_explanation: 사용자가 리소스 플래너를 만들고 관리하도록 허용합니다. 사용자는 고유한 리소스 플래너를 보고 만들고 관리하며 게시할 수 있습니다. 다른 사용자가 만든 공개적으로 공유되지 않은 리소스 플래너는 볼 수 없습니다.
   permission_view_resource_planners: 리소스 플래너 보기
-  permission_view_resource_planners_explanation: '사용자가 리소스 플래너에 액세스하도록 허용합니다. 사용자는 고유한 리소스 플래너를 만들고 관리하며 공개 리소스 플래너를 볼 수 있습니다. 다른 사용자가 만든 공개적으로 공유되지 않은 리소스 플래너는 볼 수 없습니다.
-
-    '
+  permission_view_resource_planners_explanation: 사용자가 리소스 플래너에 액세스하도록 허용합니다. 사용자는 고유한 리소스 플래너를 만들고 관리하며 공개 리소스 플래너를 볼 수 있습니다. 다른 사용자가 만든 공개적으로 공유되지 않은 리소스 플래너는 볼 수 없습니다.
   plugin_openproject_resource_management:
     description: 리소스 관리 및 용량 계획을 제공합니다.
     name: OpenProject 리소스 관리
@@ -61,6 +57,33 @@ ko:
       make_private: 비공개로 설정
       make_public: 공개로 설정
       unfavorite: 즐겨찾기에서 제거
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          label: Filter criteria
+        label: Allocation type
+        principal:
+          caption: Allocate hours for a specific user.
+          label: User
+      outside_dates:
+        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
+        hidden_work: Other allocations
+        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        schedule_change: until %{date}, then %{schedule}
+        schedule_note: This user works %{schedule}.
+        submit: Allocate overtime
+        title: Do you want to allocate overtime to the user?
+      submit: Allocate
+      success_message: Resource allocated.
+      title: Allocate resource
     blankslate:
       desc: 리소스 플래너를 만들어 이 프로젝트의 용량 계획을 시작하세요.
       title: 아직 리소스 플래너 없음
@@ -75,17 +98,17 @@ ko:
           caption: 수동으로 추가 및 제거하는 항목의 사용자 지정 목록입니다. 필터링은 불가능합니다.
           label: 수동으로 직접 선택함
       title: 보기 구성
-    favorite_caption: '이 보기를 즐겨찾기로 지정하여 사이드바 메뉴의 상단 섹션에 추가합니다.
-
-      '
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
+    favorite_caption: 이 보기를 즐겨찾기로 지정하여 사이드바 메뉴의 상단 섹션에 추가합니다.
     label_new_resource_planner: 새로운 리소스 플래너
     label_resource_planner: 리소스 플래너
     label_resource_planner_plural: 리소스 플래너
     new_view_dialog:
       title: 보기 추가
-    public_caption: '이 보기를 프로젝트의 모든 멤버에게 공개로 설정합니다. 이렇게 해도 여전히 각 사용자 권한에 따라 달라지는 작업 패키지의 표시 여부에는 영향을 미치지 않습니다.
-
-      '
+    public_caption: 이 보기를 프로젝트의 모든 멤버에게 공개로 설정합니다. 이렇게 해도 여전히 각 사용자 권한에 따라 달라지는 작업 패키지의 표시 여부에는 영향을 미치지 않습니다.
     show:
       placeholder: 이 리소스 플래너에 대한 자세한 보기가 곧 제공될 예정입니다.
     sidebar:
@@ -99,9 +122,22 @@ ko:
       user_card:
         caption: 사용자에 기반한 보기를 만들고 사용자 카드 목록에서 해당 세부 정보 및 할당을 확인하세요
         label: 사용자 카드 목록
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
     work_package_list:
       add_work_package_dialog:
         title: 작업 패키지 추가
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          other: "%{count} users"
+        unassigned: Unassigned
       allocation_placeholder: "—"
       blank:
         description: 아직 이 보기의 필터와 일치하는 작업 패키지가 없습니다.

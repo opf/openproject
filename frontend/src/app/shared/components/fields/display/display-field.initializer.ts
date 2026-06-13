@@ -107,6 +107,7 @@ export function initializeCoreDisplayFields(displayFieldService:DisplayFieldServ
         'TimeEntriesActivity',
         'Version',
         'Category',
+        'BacklogBucket',
         'Sprint',
         'CustomField::Hierarchy::Item',
         'CustomOption',

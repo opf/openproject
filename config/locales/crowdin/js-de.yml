@@ -155,7 +155,6 @@ de:
         manual: Wechseln zu reinem Markdown-Text
         wysiwyg: Wechseln zu WYSIWYG-Editor
       macro:
-        error: 'Kann Makro nicht anzeigen: %{message}'
         attribute_reference:
           macro_help_tooltip: Dieser Textabschnitt wird dynamisch durch ein Makro erzeugt.
           not_found: Die angeforderte Ressource konnte nicht gefunden werden
@@ -175,9 +174,14 @@ de:
           title: Code-Snippet einfügen / bearbeiten
           language: Sprache für Syntaxhervorhebung
           language_hint: Geben Sie eine Sprache für Syntaxhervorhebung ein, die für das Hervorheben des Code-Snippets verwendet wird (sofern unterstützt).
-        dropdown:
-          macros: Makros
-          chose_macro: Makro auswählen
+        embedded_calendar:
+          text: "[Platzhalter] Eingebetteter Kalender"
+        embedded_table:
+          button: Arbeitspaket-Tabelle einbetten
+          text: "[Platzhalter] Eingebettete Arbeitspaket-Tabelle"
+        error: 'Kann Makro nicht anzeigen: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Inhaltsverzeichnis
         toolbar_help: Klicken Sie auf das Widget zum Auswählen und Anzeigen der Symbolleiste. Doppelklicken zum Editieren des Makros
         wiki_page_include:
@@ -195,11 +199,6 @@ de:
           button_style_hint: 'Optional: Haken setzen, um das Makro nicht als Link, sondern als Schaltfläche erscheinen zu lassen.'
           without_type: Arbeitspaket erstellen
           with_type: 'Arbeitspaket erstellen (Typ: %{typename})'
-        embedded_table:
-          button: Arbeitspaket-Tabelle einbetten
-          text: "[Platzhalter] Eingebettete Arbeitspaket-Tabelle"
-        embedded_calendar:
-          text: "[Platzhalter] Eingebetteter Kalender"
     admin:
       type_form:
         edit_query: Abfrage bearbeiten

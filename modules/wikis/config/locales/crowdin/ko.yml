@@ -145,6 +145,7 @@ ko:
     link_existing_wiki_page_dialog:
       title: 기존 위키 페이지 추가
     link_existing_wiki_page_form:
+      label: Wiki page
       no_results: No wiki pages found
       placeholder: Search for a wiki page
     oauth_login_component:

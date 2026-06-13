@@ -158,6 +158,15 @@ module OpTurbo
       turbo_streams << OpTurbo::StreamComponent.new(action: :reloadPage, target: nil).render_in(view_context)
     end
 
+    # Dispatches a `CustomEvent` on `document` from a turbo stream, letting the
+    # server signal a client-side change without knowing which listeners (if
+    # any) react to it. `detail` is serialized and exposed as the event's detail.
+    def dispatch_event_via_turbo_stream(name, detail: {})
+      turbo_streams << OpTurbo::StreamComponent
+        .new(action: :dispatchEvent, target: nil, "event-name": name, detail: detail.to_json)
+        .render_in(view_context)
+    end
+
     def turbo_streams
       @turbo_streams ||= []
     end

@@ -134,6 +134,30 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
     end
   end
 
+  context "with semantic work package identifiers",
+          with_settings: { work_packages_identifier: "semantic" } do
+    let(:semantic_project) do
+      create(:project,
+             identifier: "CSVPROJ",
+             member_with_permissions: { user => %i[view_work_packages] })
+    end
+    let!(:work_package) { create(:work_package, project: semantic_project) }
+    let(:options) { {} }
+    let(:query) do
+      create(:query, project: semantic_project, user:, column_names: %i(id subject))
+    end
+
+    it "exports the semantic identifier in the ID column" do
+      headers, values = CSV.parse instance.export!.content
+      pairs = headers.zip(values).to_h
+
+      expect(work_package.identifier).to match(/\ACSVPROJ-\d+\z/)
+      # the leading ID header is downcased by the exporter to avoid SYLK detection
+      expect(pairs["#{byte_order_mark}id"]).to eq work_package.identifier
+      expect(pairs["Subject"]).to eq work_package.subject
+    end
+  end
+
   context "with multiple work packages" do
     shared_let(:wp1) { create(:work_package, project:, done_ratio: 25, subject: "WP1", type: type_a, id: 1) }
     shared_let(:wp2) { create(:work_package, project:, done_ratio: 0, subject: "WP2", type: type_a, id: 2) }

@@ -155,7 +155,6 @@ tr:
         manual: Markdown kaynağına geç
         wysiwyg: WYSIWYG düzenleyiciye geç
       macro:
-        error: 'Makro genişletilemiyor: %{message}'
         attribute_reference:
           macro_help_tooltip: Bu metin parçası bir makro tarafından dinamik olarak işleniyor.
           not_found: İstenen kaynak bulunamadı
@@ -175,9 +174,14 @@ tr:
           title: Kod parçacığını ekle / düzenle
           language: Biçimlendirme dili
           language_hint: Vurgulamak için kullanılacak formatlama dilini girin (destekleniyorsa).
-        dropdown:
-          macros: Makrolar
-          chose_macro: Makro seçin
+        embedded_calendar:
+          text: "[Placeholder] Göümülü takvim"
+        embedded_table:
+          button: Gömülü iş paketi tablosu
+          text: "[Yer Tutucu] Gömülü iş paketi tablosu"
+        error: 'Makro genişletilemiyor: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: İçindekiler
         toolbar_help: Bileşeni seçmek ve araç çubuğunu göstermek için tıklayın. Bileşeni düzenlemek için çift tıklayın
         wiki_page_include:
@@ -195,11 +199,6 @@ tr:
           button_style_hint: 'İsteğe bağlı: Makronun bağlantı olarak değil, düğme olarak görünmesini sağlayın.'
           without_type: İş paketini oluştur
           with_type: İş paketini oluştur (Tür %{typename})
-        embedded_table:
-          button: Gömülü iş paketi tablosu
-          text: "[Yer Tutucu] Gömülü iş paketi tablosu"
-        embedded_calendar:
-          text: "[Placeholder] Göümülü takvim"
     admin:
       type_form:
         edit_query: Sorguyu düzenle

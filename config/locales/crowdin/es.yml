@@ -437,7 +437,7 @@ es:
 
             '
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: Proyectos con identificadores para actualizar
           label_project: Proyecto
           label_previous_identifier: Identificador anterior
           label_autofixed_suggestion: Identificador futuro
@@ -2160,7 +2160,7 @@ es:
         regex_invalid: no se pudo validar con la expresión regular asociada.
         regex_list_invalid: Las líneas %{invalid_lines} no se pudieron analizar como expresión regular.
         smaller_than_or_equal_to_max_length: Debe ser menor o igual que el tamaño maximo.
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: viola la política SSRF de esta instancia de OpenProject.
         system_wide_non_working_day_exists: entra en conflicto con un día no laborable ya establecido para todo el sistema en esta fecha.
         taken: Ya se ha tomado.
         too_long: es demasiado largo (el máximo de caracteres es %{count}).
@@ -3157,7 +3157,7 @@ es:
         description: 'Personalice la configuración del formulario con estas extensiones:'
         features:
           groups: Add new attribute sections
-          rename: Rename attribute sections
+          rename: Renombrar secciones de atributos
           related: Añadir una tabla de paquetes de trabajo relacionados
       readonly_work_packages:
         description: Marque los paquetes de trabajo como de solo lectura para estados específicos.
@@ -3469,10 +3469,10 @@ es:
     no_results_text: No hay resultados
   header:
     project_select_component:
-      all_projects: All projects
-      favorites: Favorites
+      all_projects: Todos los proyectos
+      favorites: Favoritos
       leave_project: Leave project
-      title: Projects
+      title: Proyectos
   toggle_switch:
     label_on: Encendido
     label_off: Apagado
@@ -4524,8 +4524,8 @@ es:
     one: 'Tiempo libre: 1 día laborable'
     other: 'Tiempo libre: %{count} días laborables'
   label_x_items_selected:
-    one: One item selected
-    other: "%{count} items selected"
+    one: Un elemento seleccionado
+    other: "%{count} elementos seleccionados"
   label_yesterday: ayer
   label_zen_mode: Modo zen
   label_role_type: Tipo

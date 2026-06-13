@@ -155,7 +155,6 @@ ja:
         manual: Markdownソースに切り替える
         wysiwyg: WYSIWYGエディタに切り替えます
       macro:
-        error: 'マクロを展開できません: %{message}'
         attribute_reference:
           macro_help_tooltip: このテキストセグメントはマクロによって動的にレンダリングされています。
           not_found: 要求されたリソースが見つかりませんでした
@@ -175,9 +174,14 @@ ja:
           title: コードスニペットの挿入/編集
           language: 言語の書式設定
           language_hint: 強調表示に使用する言語の書式を入力します（サポートされている場合）。
-        dropdown:
-          macros: マクロ
-          chose_macro: マクロを選択
+        embedded_calendar:
+          text: "[Placeholder] 埋め込みカレンダー"
+        embedded_table:
+          button: ワークパッケージ表を埋め込む
+          text: "[Placeholder] 埋め込まれたワークパッケージ表"
+        error: 'マクロを展開できません: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: 目次
         toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
         wiki_page_include:
@@ -195,11 +199,6 @@ ja:
           button_style_hint: 'オプション: マクロをリンクではなくボタンとして表示するかどうかをチェックします。'
           without_type: ワークパッケージを作成
           with_type: 'ワークパッケージを作成 (種類: %{typename})'
-        embedded_table:
-          button: ワークパッケージ表を埋め込む
-          text: "[Placeholder] 埋め込まれたワークパッケージ表"
-        embedded_calendar:
-          text: "[Placeholder] 埋め込みカレンダー"
     admin:
       type_form:
         edit_query: クエリの編集

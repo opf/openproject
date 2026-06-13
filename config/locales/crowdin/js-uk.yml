@@ -155,7 +155,6 @@ uk:
         manual: Перейдіть до джерела Markdown
         wysiwyg: Перейти до редактора WYSIWYG
       macro:
-        error: 'Неможливо розгорнути макрос: %{message}'
         attribute_reference:
           macro_help_tooltip: Цей текстовий фрагмент динамічно візуалізується макросом.
           not_found: Не вдалося знайти потрібний ресурс
@@ -175,9 +174,14 @@ uk:
           title: Вставити / відредагувати фрагмент коду
           language: Мова форматування
           language_hint: Введіть мову форматування, яка буде використана для виділення (якщо підтримується).
-        dropdown:
-          macros: Макроси
-          chose_macro: Виберіть макрос
+        embedded_calendar:
+          text: "[Placeholder] вбудований календар"
+        embedded_table:
+          button: Вставити таблицю робочих пакетів
+          text: "[Placeholder] Вбудована таблиця робочих пакетів"
+        error: 'Неможливо розгорнути макрос: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Зміст
         toolbar_help: Натисніть, щоб вибрати віджет і показати панель інструментів. Двічі клацніть, щоб відредагувати віджет
         wiki_page_include:
@@ -195,11 +199,6 @@ uk:
           button_style_hint: 'Необов’язково: позначте пункт Перевірити, щоб макрос відображався як кнопка, а не як посилання.'
           without_type: Створити робочий пакет
           with_type: 'Створити робочий пакет (тип: %{typename})'
-        embedded_table:
-          button: Вставити таблицю робочих пакетів
-          text: "[Placeholder] Вбудована таблиця робочих пакетів"
-        embedded_calendar:
-          text: "[Placeholder] вбудований календар"
     admin:
       type_form:
         edit_query: Редагувати запит

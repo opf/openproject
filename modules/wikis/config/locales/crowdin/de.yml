@@ -149,6 +149,7 @@ de:
     link_existing_wiki_page_dialog:
       title: Vorhandene Wikiseite hinzufügen
     link_existing_wiki_page_form:
+      label: Wiki page
       no_results: Keine Wikiseiten gefunden
       placeholder: Suche nach einer Wikiseite
     oauth_login_component:

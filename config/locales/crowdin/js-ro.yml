@@ -155,7 +155,6 @@ ro:
         manual: Comută la sursa Markdown
         wysiwyg: Comută la editorul WYSIWYG
       macro:
-        error: 'Nu se poate extinde macroul: %{message}'
         attribute_reference:
           macro_help_tooltip: Acest segment de text este redat în mod dinamic de o macro.
           not_found: Resursa solicitată nu a fost găsită.
@@ -175,9 +174,14 @@ ro:
           title: Inserați/Editați fragmentul de cod
           language: Limbaj de formatare
           language_hint: Introdu limbajul de formatare care va fi utilizat pentru evidențiere (dacă există suport pentru acesta).
-        dropdown:
-          macros: Macro
-          chose_macro: Alege macro
+        embedded_calendar:
+          text: "[Placeholder] Tabelul pachetului de lucru inserat"
+        embedded_table:
+          button: Inserează tabel pachet de lucru
+          text: "[Placeholder] Tabelul pachetului de lucru inserat"
+        error: 'Nu se poate extinde macroul: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Cuprins
         toolbar_help: Clic pentru a selecta piesa și pentru a afișa bara de instrumente. Dublu clic pentru a edita piesa
         wiki_page_include:
@@ -195,11 +199,6 @@ ro:
           button_style_hint: 'Opțional: Bifează pentru a vedea comenzile macro sub formă de butoane, nu sub formă de link.'
           without_type: Creați pachet de lucru
           with_type: 'Creați pachet de lucru (Tip: %{typename})'
-        embedded_table:
-          button: Inserează tabel pachet de lucru
-          text: "[Placeholder] Tabelul pachetului de lucru inserat"
-        embedded_calendar:
-          text: "[Placeholder] Tabelul pachetului de lucru inserat"
     admin:
       type_form:
         edit_query: Editează interogare

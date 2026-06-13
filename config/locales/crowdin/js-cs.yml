@@ -155,7 +155,6 @@ cs:
         manual: Přepněte do Markdown zdroje
         wysiwyg: Přepnout na WYSIWYG Editor
       macro:
-        error: Nelze rozšířit makro %{message}
         attribute_reference:
           macro_help_tooltip: Tento textový segment je dynamicky rendrován makrem.
           not_found: Požadovaný zdroj nebyl nalezen.
@@ -175,9 +174,14 @@ cs:
           title: Insert / edit Code snippet
           language: Formátování jazyka
           language_hint: Zadejte jazyk, který bude použit pro zvýraznění (pokud je podporováno).
-        dropdown:
-          macros: Makra
-          chose_macro: Vybrat makro
+        embedded_calendar:
+          text: "[Placeholder] Vložený kalendář"
+        embedded_table:
+          button: Vložit tabulku pracovního balíčku
+          text: "[Placeholder] Vložený tabulka pracovního balíčku"
+        error: Nelze rozšířit makro %{message}
+        macro_dropdown:
+          caption: Insert
         toc: Obsah
         toolbar_help: Klikněte pro výběr widgetu a zobrazení panelu nástrojů. Dvojklikem upravíte widget
         wiki_page_include:
@@ -195,11 +199,6 @@ cs:
           button_style_hint: 'Volitelné: Zkontrolujte, zda se makro zobrazí jako tlačítko, ne jako odkaz.'
           without_type: Vytvořit pracovní balíček
           with_type: 'Vytvořit pracovní balíček (typ: %{typename})'
-        embedded_table:
-          button: Vložit tabulku pracovního balíčku
-          text: "[Placeholder] Vložený tabulka pracovního balíčku"
-        embedded_calendar:
-          text: "[Placeholder] Vložený kalendář"
     admin:
       type_form:
         edit_query: Upravit dotaz

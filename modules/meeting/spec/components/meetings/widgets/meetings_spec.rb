@@ -50,6 +50,8 @@ RSpec.describe Meetings::Widgets::Meetings, type: :component do
 
   subject(:rendered_component) { render_component(project) }
 
+  before { login_as user }
+
   shared_examples "empty-state without action" do
     it "renders empty blankslate without action" do
       expect(rendered_component).to have_test_selector("meetings-widget-empty")
@@ -162,5 +164,14 @@ RSpec.describe Meetings::Widgets::Meetings, type: :component do
 
     # User has only view_meetings permission now
     it_behaves_like "empty-state without action"
+  end
+
+  context "when being an anonymous user" do
+    let(:project) { project_red }
+    let(:user) { create(:anonymous) }
+
+    it "renders nothing" do
+      expect(rendered_component.to_s).to be_empty
+    end
   end
 end

@@ -155,7 +155,6 @@ zh-TW:
         manual: 切換到Markdown模式
         wysiwyg: 切換到所見即所得編輯器
       macro:
-        error: 無法展開巨集(macro)：%{message}
         attribute_reference:
           macro_help_tooltip: 此文本段正由macro動態呈現。
           not_found: 無法找到請求的資源
@@ -175,9 +174,14 @@ zh-TW:
           title: 插入/編輯程式碼片段
           language: 格式化語言
           language_hint: 輸入可用來突顯之格式化語言 (如果支援)。
-        dropdown:
-          macros: 巨集
-          chose_macro: 選擇macro
+        embedded_calendar:
+          text: "[Placeholder] 嵌入式日曆"
+        embedded_table:
+          button: 嵌入工作套件表
+          text: "[預留位置] 工作套件明細表"
+        error: 無法展開巨集(macro)：%{message}
+        macro_dropdown:
+          caption: Insert
         toc: 目錄
         toolbar_help: 按一下以選擇小部件並顯示工具列。按兩下以編輯小部件
         wiki_page_include:
@@ -195,11 +199,6 @@ zh-TW:
           button_style_hint: '可選: 檢查以使巨集顯示為按鈕, 而不是連結。'
           without_type: 建立工作套件
           with_type: '新增工作套件 (類型: %{typename})'
-        embedded_table:
-          button: 嵌入工作套件表
-          text: "[預留位置] 工作套件明細表"
-        embedded_calendar:
-          text: "[Placeholder] 嵌入式日曆"
     admin:
       type_form:
         edit_query: 編輯查詢

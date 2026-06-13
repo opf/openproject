@@ -33,8 +33,8 @@ es:
         other: Proveedores de XWiki
   menus:
     admin:
-      external_wiki_providers: Wiki providers
-      internal_wiki_provider: Internal wiki
+      external_wiki_providers: Proveedores de Wiki
+      internal_wiki_provider: Wiki interna
       wikis: Wikis
   permission_manage_wiki_page_links: Gestionar enlaces de páginas wiki
   project_module_wiki_platforms: Proveedores de Wiki
@@ -66,11 +66,11 @@ es:
           no_health_report_description: Ejecuta ahora las comprobaciones para obtener un informe completo del estado de este proveedor de wiki.
           title: Informe de salud
       internal_provider_form:
-        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
-        checkbox_label: Enable the internal OpenProject wiki
+        checkbox_caption: Permitir a los proyectos usar la wiki interna de OpenProject en conjunto con los proveedores externos de Wiki
+        checkbox_label: Habilitar la wiki interna de OpenProject
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable the internal OpenProject wiki
+          description: Elija habilitar o deshabilitar la wiki interna de OpenProject
       oauth_application_info_component:
         confirm_replace_oauth_application: Esta acción restablecerá las credenciales de OAuth actuales. Una vez confirmada, deberá volver a introducir las credenciales en su instancia de XWiki y todos los usuarios deberán volver a autorizarse. ¿Seguro que desea continuar?
         label_oauth_client_id: ID de cliente OAuth
@@ -97,7 +97,7 @@ es:
         label_edit: Editar proveedor XWiki
         label_new_provider: Nuevo proveedor XWiki
         label_wiki_platform: Proveedor Wiki
-        name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
+        name_caption: Dé un nombre a su proveedor de wikis para que los usuarios puedan distinguir entre múltiples plataformas de wiki.
         name_placeholder: Base de conocimientos XWiki
         new_provider_html: Lee nuestra documentación sobre [configuración de una integración XWiki](docs_url) para obtener más información.
         oauth:
@@ -105,13 +105,13 @@ es:
         sections:
           general_information: Información general
           oauth_configuration: Configuración de OAuth
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+        url_caption: Dirección de host de su plataforma wiki, incluyendo el prefijo de protocolo https://. Máximo de 255 caracteres.
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
+            openproject_oauth_description: Permitir a XWiki acceder a los datos de OpenProject utilizando una aplicación OAuth.
             provider_oauth: OAuth de wiki
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
+            provider_oauth_configuration: Copie estos valores en el [Cliente de conexión XWiki OIDC](xwiki_oidc_link).
+            provider_oauth_description: Permitir que OpenProject acceda a los datos de XWiki utilizando OAuth.
           openproject_oauth_description: Permita que XWiki acceda a los datos de OpenProject utilizando un OAuth.
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: Permita que OpenProject acceda a los datos de XWiki mediante OAuth.
@@ -122,9 +122,9 @@ es:
       save_and_continue: Guardar y continuar
       wiki_page: Página wiki
     create_new_wiki_page_dialog:
-      page_title: Title
-      parent_help_text: Select a parent for this new wiki page.
-      title: Create new wiki page
+      page_title: Título
+      parent_help_text: Seleccione un padre para esta nueva página de wiki.
+      title: Crear nueva página de wiki
     delete_relation_page_link_confirmation_dialog:
       heading: "¿Eliminar el enlace a la página wiki relacionada?"
       title: Eliminar el enlace a la página wiki relacionada
@@ -149,8 +149,9 @@ es:
     link_existing_wiki_page_dialog:
       title: Añadir una página wiki ya existente
     link_existing_wiki_page_form:
-      no_results: No wiki pages found
-      placeholder: Search for a wiki page
+      label: Wiki page
+      no_results: No se han encontrado páginas de wiki
+      placeholder: Buscar una página de wiki
     oauth_login_component:
       connect_button: Conectar cuenta de %{provider}
       description: Inicie sesión en %{provider} para ver y gestionar las páginas wiki relacionadas desde esta instancia de OpenProject.

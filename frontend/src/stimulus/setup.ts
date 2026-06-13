@@ -19,6 +19,7 @@ import KeepScrollPositionController from './controllers/keep-scroll-position.con
 import PatternInputController from './controllers/pattern-input.controller';
 import HoverCardTriggerController from './controllers/hover-card-trigger.controller';
 import ScrollIntoViewController from './controllers/scroll-into-view.controller';
+import ReloadFrameOnEventController from './controllers/reload-frame-on-event.controller';
 import CkeditorFocusController from './controllers/ckeditor-focus.controller';
 import IndexController from './controllers/dynamic/work-packages/activities-tab/index.controller';
 import AutoScrollingController from './controllers/dynamic/work-packages/activities-tab/auto-scrolling.controller';
@@ -77,6 +78,7 @@ OpenProjectStimulusApplication.preregister('work-packages--date-picker--preview'
 OpenProjectStimulusApplication.preregister('keep-scroll-position', KeepScrollPositionController);
 OpenProjectStimulusApplication.preregister('pattern-input', PatternInputController);
 OpenProjectStimulusApplication.preregister('scroll-into-view', ScrollIntoViewController);
+OpenProjectStimulusApplication.preregister('reload-frame-on-event', ReloadFrameOnEventController);
 OpenProjectStimulusApplication.preregister('ckeditor-focus', CkeditorFocusController);
 OpenProjectStimulusApplication.preregister('auto-submit', AutoSubmit);
 OpenProjectStimulusApplication.preregister('reveal', RevealController);

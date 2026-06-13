@@ -84,8 +84,8 @@
 
       body.with_row(w: :full) do
         form_with(
-          url: project_resource_allocations_path(@project),
-          method: :post,
+          url: form_url,
+          method: form_method,
           id: ResourceAllocations::NewDialogComponent::FORM_ID,
           data: { turbo_stream: true }
         ) do

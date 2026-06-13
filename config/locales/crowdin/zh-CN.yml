@@ -3416,10 +3416,10 @@ zh-CN:
     no_results_text: 无结果
   header:
     project_select_component:
-      all_projects: All projects
-      favorites: Favorites
-      leave_project: Leave project
-      title: Projects
+      all_projects: 所有项目
+      favorites: 收藏夹
+      leave_project: 退出项目
+      title: 项目
   toggle_switch:
     label_on: 开启
     label_off: 关闭
@@ -4466,7 +4466,7 @@ zh-CN:
   label_x_working_days_time_off:
     other: 休息时间：%{count} 个工作日
   label_x_items_selected:
-    other: "%{count} items selected"
+    other: 已选%{count}项
   label_yesterday: 昨天
   label_zen_mode: 极简模式
   label_role_type: 类型

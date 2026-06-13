@@ -155,7 +155,6 @@ vi:
         manual: Chuyển sang nguồn Markdown
         wysiwyg: Chuyển sang trình soạn thảo WYSIWYG
       macro:
-        error: 'Không thể mở rộng macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Đoạn văn bản này đang được macro hiển thị động.
           not_found: Không thể tìm thấy tài nguyên được yêu cầu
@@ -175,9 +174,14 @@ vi:
           title: Chèn/sửa đoạn mã
           language: Định dạng ngôn ngữ
           language_hint: Nhập ngôn ngữ định dạng sẽ được sử dụng để đánh dấu (nếu được hỗ trợ).
-        dropdown:
-          macros: Macro
-          chose_macro: Chọn vĩ mô
+        embedded_calendar:
+          text: "[Placeholder] Lịch nhúng"
+        embedded_table:
+          button: Nhúng bảng gói công việc
+          text: "[Placeholder] Bảng gói công việc được nhúng"
+        error: 'Không thể mở rộng macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Mục lục
         toolbar_help: Bấm để chọn widget và hiển thị thanh công cụ. Nhấp đúp để chỉnh sửa tiện ích
         wiki_page_include:
@@ -195,11 +199,6 @@ vi:
           button_style_hint: 'Tùy chọn: Chọn để làm cho macro xuất hiện dưới dạng nút chứ không phải dưới dạng liên kết.'
           without_type: Tạo gói công việc
           with_type: 'Tạo gói công việc (Loại: %{typename})'
-        embedded_table:
-          button: Nhúng bảng gói công việc
-          text: "[Placeholder] Bảng gói công việc được nhúng"
-        embedded_calendar:
-          text: "[Placeholder] Lịch nhúng"
     admin:
       type_form:
         edit_query: Chỉnh sửa truy vấn

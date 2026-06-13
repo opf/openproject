@@ -155,7 +155,6 @@ sl:
         manual: Preklopite na Markdown vir
         wysiwyg: Preklopi na WYSIWYG urejevalnik
       macro:
-        error: 'razširitev makroprograma ni možna: %{message}'
         attribute_reference:
           macro_help_tooltip: Ta del besedla je izveden dinamično s pomočjo makroprograma.
           not_found: Zahtevanega vira ni mogoče najti
@@ -175,9 +174,14 @@ sl:
           title: Dodaj / uredi kodo
           language: Urejanje jezika
           language_hint: 'Vstavite jezik, ki bo uporabljen za povdarjanje (če je podprt). '
-        dropdown:
-          macros: Makri
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Vdelan koledar"
+        embedded_table:
+          button: Vdelajte tabelo delovnega paketa
+          text: "[Placeholder] Vdelana tabela delovnega paketa"
+        error: 'razširitev makroprograma ni možna: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Kazalo vsebine
         toolbar_help: Kliknite za izbor gradnika in prikaz orodne vrstice. Kliknite dvakrat za urejanje gradnika
         wiki_page_include:
@@ -195,11 +199,6 @@ sl:
           button_style_hint: 'Pomožno: Potrdite, da se makro prikazuje kot gumb, ne kot povezava.'
           without_type: Ustvari delovni paket
           with_type: 'Ustvari delovni paket (Vrsta: %{typename})'
-        embedded_table:
-          button: Vdelajte tabelo delovnega paketa
-          text: "[Placeholder] Vdelana tabela delovnega paketa"
-        embedded_calendar:
-          text: "[Placeholder] Vdelan koledar"
     admin:
       type_form:
         edit_query: Uredi poizvedbo

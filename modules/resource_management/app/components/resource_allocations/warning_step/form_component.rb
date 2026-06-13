@@ -59,6 +59,20 @@ module ResourceAllocations
 
       private
 
+      # A confirmed resubmit goes back to where the values came from: the
+      # update of a persisted allocation or the create flow for a new one.
+      def form_url
+        if @allocation.persisted?
+          project_resource_allocation_path(@project, @allocation)
+        else
+          project_resource_allocations_path(@project)
+        end
+      end
+
+      def form_method
+        @allocation.persisted? ? :patch : :post
+      end
+
       def overbooking_heading
         t("resource_management.allocate_resource_dialog.overbooking.title")
       end

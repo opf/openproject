@@ -35,11 +35,16 @@ module ResourceAllocations
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(allocation:, project:, allocation_kind:)
+      # `dialog_id` names the dialog hosting the form (autocompleter dropdowns
+      # attach to it): the create wizard's by default, the edit dialog's when
+      # editing a persisted allocation.
+      def initialize(allocation:, project:, allocation_kind:,
+                     dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID)
         super
         @allocation = allocation
         @project = project
         @allocation_kind = allocation_kind
+        @dialog_id = dialog_id
       end
 
       def wrapper_key
@@ -48,12 +53,24 @@ module ResourceAllocations
 
       private
 
+      attr_reader :dialog_id
+
       def filter_based?
         @allocation_kind.to_s == "filter"
       end
 
-      def dialog_id
-        ResourceAllocations::NewDialogComponent::DIALOG_ID
+      # A persisted allocation submits an update to itself; a new one goes
+      # through the create flow (with its confirmation step).
+      def form_url
+        if @allocation.persisted?
+          project_resource_allocation_path(@project, @allocation)
+        else
+          project_resource_allocations_path(@project)
+        end
+      end
+
+      def form_method
+        @allocation.persisted? ? :patch : :post
       end
 
       def form_list_component(form)

@@ -157,6 +157,7 @@ uk:
     link_existing_wiki_page_dialog:
       title: Додати наявну сторінку Wiki
     link_existing_wiki_page_form:
+      label: Wiki page
       no_results: Не знайдено сторінок Wiki
       placeholder: Шукати сторінку Wiki
     oauth_login_component:

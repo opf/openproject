@@ -155,7 +155,6 @@ ru:
         manual: Перейти к источнику уценок
         wysiwyg: Перейти к WYSIWYG-редактору
       macro:
-        error: 'Невозможно развернуть макрос: %{message}'
         attribute_reference:
           macro_help_tooltip: Этот текстовый сегмент динамически отображается макросом.
           not_found: Запрошенный ресурс не найден
@@ -175,9 +174,14 @@ ru:
           title: Вставить / Редактировать фрагмент кода
           language: Язык форматирования
           language_hint: Введите язык форматирования, который будет использоваться для выделения (если поддерживается).
-        dropdown:
-          macros: Макрос
-          chose_macro: Выберите макрос
+        embedded_calendar:
+          text: "[Placeholder] Встроенный календарь"
+        embedded_table:
+          button: Вложить таблицу пакетов работ
+          text: "[Placeholder] Таблица внедренных пакетов работ"
+        error: 'Невозможно развернуть макрос: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Содержание
         toolbar_help: Кликните для выбора виджета и показа панели инструментов. Кликните дважды для редактирования виджета
         wiki_page_include:
@@ -195,11 +199,6 @@ ru:
           button_style_hint: 'Дополнительно: Проверьте, чтобы макрос выглядел как кнопка, а не как ссылка.'
           without_type: Создать пакет работ
           with_type: 'Создать пакет работ (Тип: %{typename})'
-        embedded_table:
-          button: Вложить таблицу пакетов работ
-          text: "[Placeholder] Таблица внедренных пакетов работ"
-        embedded_calendar:
-          text: "[Placeholder] Встроенный календарь"
     admin:
       type_form:
         edit_query: Редактировать запрос

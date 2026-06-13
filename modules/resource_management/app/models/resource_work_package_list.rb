@@ -63,6 +63,11 @@ class ResourceWorkPackageList < PersistedView
     effective_query&.manually_sorted? || false
   end
 
+  # The work packages selected by this view's query.
+  def work_packages
+    effective_query&.results&.work_packages || WorkPackage.none
+  end
+
   private
 
   def manual_mode?(filter_mode)

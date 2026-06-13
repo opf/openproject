@@ -181,9 +181,9 @@ eo:
       action_menu:
         copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy work package ID
-        move_menu: Move
+        move_menu: Move to position
         move_to_backlog_bucket: Move to backlog bucket
-        move_to_inbox: Move to inbox
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Move to sprint
     work_package_is_closed: Work package is done, when
   burndown:

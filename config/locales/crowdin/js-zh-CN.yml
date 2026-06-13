@@ -155,7 +155,6 @@ zh-CN:
         manual: '切换到 Markdown '
         wysiwyg: 切换到 WYSIWYG 编辑器
       macro:
-        error: 无法展开宏：%{message}
         attribute_reference:
           macro_help_tooltip: 此文本段正由宏动态呈现。
           not_found: 无法找到请求的资源
@@ -175,9 +174,14 @@ zh-CN:
           title: 插入/编辑代码片段
           language: 格式化语言
           language_hint: 输入将用于突出显示（如果支持）的格式化语言。
-        dropdown:
-          macros: 宏
-          chose_macro: 选择宏
+        embedded_calendar:
+          text: "[Placeholder]嵌入式日历"
+        embedded_table:
+          button: 嵌入工作包表
+          text: "[Placeholder] 嵌入式工作包表"
+        error: 无法展开宏：%{message}
+        macro_dropdown:
+          caption: Insert
         toc: 目录
         toolbar_help: 单击可以选择微件并显示工具栏。双击可以编辑微件
         wiki_page_include:
@@ -195,11 +199,6 @@ zh-CN:
           button_style_hint: 可选：选中以使宏显示为按钮，而不是链接。
           without_type: 创建工作包
           with_type: 创建工作包（类型：%{typename}）
-        embedded_table:
-          button: 嵌入工作包表
-          text: "[Placeholder] 嵌入式工作包表"
-        embedded_calendar:
-          text: "[Placeholder]嵌入式日历"
     admin:
       type_form:
         edit_query: 编辑查询

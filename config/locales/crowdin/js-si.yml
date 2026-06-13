@@ -155,7 +155,6 @@ si:
         manual: මාර්ක්ඩවුන් ප්රභවයට මාරු වන්න
         wysiwyg: WYSIWYG සංස්කාරකය වෙත මාරු වන්න
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
@@ -175,9 +174,14 @@ si:
           title: ඇතුලත් කරන්න/සංස්කරණය කේතය ස්නිපෙට්
           language: හැඩතල භාෂාව
           language_hint: අවධාරණය කිරීම සඳහා භාවිතා කරනු ලබන ආකෘතිකරණ භාෂාව ඇතුළත් කරන්න (සහාය දක්වන්නේ නම්).
-        dropdown:
-          macros: මැක්රෝස්
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] කාවැද්දූ දින දර්ශනය"
+        embedded_table:
+          button: කාවැද්දූ වැඩ පැකේජය වගුව
+          text: "[Placeholder] කාවැද්දූ වැඩ පැකේජය වගුව"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: අන්තර්ගත වගුව
         toolbar_help: විජට් තෝරා ගැනීමට ක්ලික් කරන්න සහ මෙවලම් තීරුව පෙන්වන්න. විජට් සංස්කරණය කිරීමට ද්වි-ක්ලික් කරන්න
         wiki_page_include:
@@ -195,11 +199,6 @@ si:
           button_style_hint: 'විකල්ප: සාර්ව සබැඳියක් ලෙස නොව බොත්තමක් ලෙස පෙනී සිටීමට පරීක්ෂා කරන්න.'
           without_type: වැඩ පැකේජයක් සාදන්න
           with_type: 'වැඩ පැකේජය සාදන්න (වර්ගය: %{typename})'
-        embedded_table:
-          button: කාවැද්දූ වැඩ පැකේජය වගුව
-          text: "[Placeholder] කාවැද්දූ වැඩ පැකේජය වගුව"
-        embedded_calendar:
-          text: "[Placeholder] කාවැද්දූ දින දර්ශනය"
     admin:
       type_form:
         edit_query: විමසුම සංස්කරණය කරන්න

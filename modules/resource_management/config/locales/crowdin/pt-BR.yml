@@ -3,9 +3,11 @@ pt-BR:
   activerecord:
     attributes:
       resource_allocation:
+        allocated_hours: Hours
         allocated_time: Tempo alocado
         end_date: Data de término
         entity: Entidade
+        filter_name: Resource filter name
         principal: Atribuição
         start_date: Data de início
         state: Estado
@@ -39,17 +41,11 @@ pt-BR:
   button_next: Próximo
   label_resource_management: Planejamento de recursos
   permission_allocate_user_resources: Alocar recursos do usuário
-  permission_allocate_user_resources_explanation: 'Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
-
-    '
+  permission_allocate_user_resources_explanation: Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
   permission_manage_public_resource_planners: Gerenciar planejadores de recursos públicos
-  permission_manage_public_resource_planners_explanation: 'Permite que os usuários criem e gerenciem planejadores de recursos públicos. Permite visualizar, criar, gerenciar e publicar seus próprios planejadores de recursos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
-
-    '
+  permission_manage_public_resource_planners_explanation: Permite que os usuários criem e gerenciem planejadores de recursos públicos. Permite visualizar, criar, gerenciar e publicar seus próprios planejadores de recursos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
   permission_view_resource_planners: Ver planejadores de recursos
-  permission_view_resource_planners_explanation: 'Permite que os usuários acessem planejadores de recursos. Permite criar e gerenciar seus próprios planejadores de recursos e visualizar planejadores de recursos públicos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
-
-    '
+  permission_view_resource_planners_explanation: Permite que os usuários acessem planejadores de recursos. Permite criar e gerenciar seus próprios planejadores de recursos e visualizar planejadores de recursos públicos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
   plugin_openproject_resource_management:
     description: Fornece gerenciamento de recursos e planejamento de capacidade.
     name: Gerenciamento de recursos do OpenProject
@@ -61,6 +57,33 @@ pt-BR:
       make_private: Tornar privado
       make_public: Tornar público
       unfavorite: Remover dos favoritos
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          label: Filter criteria
+        label: Allocation type
+        principal:
+          caption: Allocate hours for a specific user.
+          label: User
+      outside_dates:
+        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
+        hidden_work: Other allocations
+        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        schedule_change: until %{date}, then %{schedule}
+        schedule_note: This user works %{schedule}.
+        submit: Allocate overtime
+        title: Do you want to allocate overtime to the user?
+      submit: Allocate
+      success_message: Resource allocated.
+      title: Allocate resource
     blankslate:
       desc: Criar um planejador de recursos para iniciar o planejamento de capacidade deste projeto.
       title: Ainda não há planejadores de recursos
@@ -75,17 +98,17 @@ pt-BR:
           caption: Uma lista personalizada de itens que você adiciona e remove manualmente. Não é possível aplicar filtros.
           label: Selecionado manualmente
       title: Configurar exibição
-    favorite_caption: 'Adicionar esta visualização aos favoritos para exibi-la na seção superior do menu lateral.
-
-      '
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
+    favorite_caption: Adicionar esta visualização aos favoritos para exibi-la na seção superior do menu lateral.
     label_new_resource_planner: Novo planejador de recursos
     label_resource_planner: Planejador de recursos
     label_resource_planner_plural: Planejadores de recursos
     new_view_dialog:
       title: Adicionar Visualização
-    public_caption: 'Tornar esta visualização pública para todos os membros do projeto. Isso não afeta a visibilidade dos pacotes de trabalho, que ainda depende das permissões de cada usuário.
-
-      '
+    public_caption: Tornar esta visualização pública para todos os membros do projeto. Isso não afeta a visibilidade dos pacotes de trabalho, que ainda depende das permissões de cada usuário.
     show:
       placeholder: A visualização detalhada deste planejador de recursos estará disponível em breve.
     sidebar:
@@ -99,9 +122,23 @@ pt-BR:
       user_card:
         caption: Criar uma visualização baseada em utilizadores e ver os seus detalhes e alocação numa lista de cartões de utilizador
         label: Lista de cartões de utilizadores
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
     work_package_list:
       add_work_package_dialog:
         title: Adicionar pacote de trabalho
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} user"
+          other: "%{count} users"
+        unassigned: Unassigned
       allocation_placeholder: "—"
       blank:
         description: Ainda não existem pacotes de trabalho que correspondam aos filtros desta visualização.

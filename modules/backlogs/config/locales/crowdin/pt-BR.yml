@@ -181,9 +181,9 @@ pt-BR:
       action_menu:
         copy_url_to_clipboard: Copiar URL para a área de transferência
         copy_work_package_id: Copiar ID do pacotes de trabalho
-        move_menu: Mover
+        move_menu: Move to position
         move_to_backlog_bucket: Mover para grupo de backlog
-        move_to_inbox: Mover para caixa de entrada
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Mover para sprint
     work_package_is_closed: Pacote de trabalho está pronto, quando
   burndown:

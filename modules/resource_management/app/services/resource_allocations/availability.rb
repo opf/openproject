@@ -40,8 +40,12 @@ module ResourceAllocations
     # checking a not-yet-persisted allocation.
     CANDIDATE_ID = :candidate
 
-    def initialize(user:)
+    # `allocations` takes the user's `allocated` allocations when the caller
+    # already loaded them (e.g. in bulk for several users); they are queried
+    # lazily otherwise.
+    def initialize(user:, allocations: nil)
       @user = user
+      @allocations = allocations
     end
 
     def overbooked?

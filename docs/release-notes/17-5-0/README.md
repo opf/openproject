@@ -49,9 +49,9 @@ Existing integrations such as GitHub and GitLab already support the new identifi
 
 [See our system admin guide for detailed information on how to manage work package identifiers](../../system-admin-guide/manage-work-packages/work-package-identifiers/).
 
-#### Releasing unused numerical identifiers
+#### Releasing unused project identifiers
 
-When switching from the default numerical sequence to project-based work package identifiers, previously reserved numerical identifiers can be released again if they are no longer needed. This helps administrators avoid unnecessary gaps and keep numerical identifiers available if they later revert to the default sequence.
+OpenProject allows administrators to release reserved project identifiers that are no longer needed. Please note that this option is currently only available when numerical work package identifiers are enabled.
 
 > [!NOTE]
 > Releasing an identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.

@@ -497,7 +497,7 @@ GEM
     disposable (0.6.3)
       declarative (>= 0.0.9, < 1.0.0)
       representable (>= 3.1.1, < 4)
-    doorkeeper (5.9.1)
+    doorkeeper (5.9.2)
       railties (>= 5)
     dotenv (3.2.0)
     dotenv-rails (3.2.0)
@@ -1612,7 +1612,7 @@ DEPENDENCIES
   deckar01-task_list (~> 2.3.1)
   dentaku (~> 3.5)
   disposable (~> 0.6.2)
-  doorkeeper (~> 5.9.0)
+  doorkeeper (~> 5.9.2)
   dotenv-rails
   dry-core
   dry-monads
@@ -1685,10 +1685,10 @@ DEPENDENCIES
   openproject-job_status!
   openproject-ldap_groups!
   openproject-meeting!
-  openproject-octicons (~> 19.35.0)
-  openproject-octicons_helper (~> 19.35.0)
+  openproject-octicons (~> 19.35.0)!
+  openproject-octicons_helper (~> 19.35.0)!
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.86.2)
+  openproject-primer_view_components (~> 0.86.2)!
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
@@ -1849,7 +1849,7 @@ CHECKSUMS
   browser (6.2.0) sha256=281d5295788825c9396427c292c2d2be0a5c91875c93c390fde6e5d61a5ace2d
   budgets (1.0.0)
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
-  bundler (4.0.13) sha256=19f08be7f27022cf0b89f27da0b044ae075e8270a9ef44ad248a932614e1ca3b
+  bundler (4.0.14) sha256=d09a0a965cf772266a7e49e83610be7c2f4e49e61134c42a56804bb383cc24b8
   byebug (13.0.0) sha256=d2263efe751941ca520fa29744b71972d39cbc41839496706f5d9b22e92ae05d
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   capybara-screenshot (1.0.27) sha256=afa1896cc23df77be1774e8d3b3ce3953bf060aeaa04ff87607b5daf689174f2
@@ -1894,7 +1894,7 @@ CHECKSUMS
   descendants_tracker (0.0.4) sha256=e9c41dd4cfbb85829a9301ea7e7c48c2a03b26f09319db230e6479ccdc780897
   diff-lcs (1.6.2) sha256=9ae0d2cba7d4df3075fe8cd8602a8604993efc0dfa934cff568969efb1909962
   disposable (0.6.3) sha256=7f2a3fb251bff6cd83f25b164043d4ec3531209b51b066ed476a9df9c2d384cc
-  doorkeeper (5.9.1) sha256=f74a35af9da40e59cac7cfd72c6d927421ef171b6d6d9ca0babf66e3fa8b9c90
+  doorkeeper (5.9.2) sha256=cd4a43e0085f12afe36a8f0fc59d7f7d9ed2cb9d5c3d8a00cb9d5d845622d3f7
   dotenv (3.2.0) sha256=e375b83121ea7ca4ce20f214740076129ab8514cd81378161f11c03853fe619d
   dotenv-rails (3.2.0) sha256=657e25554ba622ffc95d8c4f1670286510f47f2edda9f68293c3f661b303beab
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
@@ -2331,4 +2331,4 @@ RUBY VERSION
   ruby 4.0.2
 
 BUNDLED WITH
-  4.0.13
+  4.0.14

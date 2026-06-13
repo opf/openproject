@@ -165,6 +165,7 @@ ar:
     link_existing_wiki_page_dialog:
       title: Add existing wiki page
     link_existing_wiki_page_form:
+      label: Wiki page
       no_results: No wiki pages found
       placeholder: Search for a wiki page
     oauth_login_component:

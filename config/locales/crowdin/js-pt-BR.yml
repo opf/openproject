@@ -155,7 +155,6 @@ pt-BR:
         manual: Alternar para fonte Markdown
         wysiwyg: Alternar para editor WYSIWYG
       macro:
-        error: 'Não é possível expandir a macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Esse segmento de texto está sendo dinamicamente renderizado por uma macro.
           not_found: Não foi possível encontrar o recurso solicitado
@@ -175,9 +174,14 @@ pt-BR:
           title: Inserir / editar Trecho de código
           language: Linguagem de formatação
           language_hint: Informe a linguagem de formatação que será usada para destacar (se suportado).
-        dropdown:
-          macros: Macros
-          chose_macro: Escolher macro
+        embedded_calendar:
+          text: "[Marcador de posição] Calendário embutido"
+        embedded_table:
+          button: Embutir tabela de pacote de trabalho
+          text: "[Marcador de posição] Tabela embutida de pacote de trabalho"
+        error: 'Não é possível expandir a macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Tabela de conteúdos
         toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget
         wiki_page_include:
@@ -195,11 +199,6 @@ pt-BR:
           button_style_hint: 'Opcional: Marque para fazer a macro aparecer como um botão, não como um link.'
           without_type: Criar pacote de trabalho
           with_type: 'Criar pacote de trabalho (Tipo: %{typename})'
-        embedded_table:
-          button: Embutir tabela de pacote de trabalho
-          text: "[Marcador de posição] Tabela embutida de pacote de trabalho"
-        embedded_calendar:
-          text: "[Marcador de posição] Calendário embutido"
     admin:
       type_form:
         edit_query: Editar consulta

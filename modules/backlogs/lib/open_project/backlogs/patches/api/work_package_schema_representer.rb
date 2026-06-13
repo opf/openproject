@@ -63,8 +63,23 @@ module OpenProject::Backlogs
                                                               [{ status: { operator: "!",
                                                                            values: [Sprint.statuses["completed"]] } }]
                                                             ))
+                                       query = "filters=#{filters}&pageSize=-1"
 
-                                       "#{api_v3_paths.project_sprints(represented.project_id)}?filters=#{filters}&pageSize=-1"
+                                       "#{api_v3_paths.project_sprints(represented.project_id)}?#{query}"
+                                     }
+
+            schema_with_allowed_link :backlog_bucket,
+                                     has_default: false,
+                                     required: false,
+                                     show_if: ->(*) {
+                                       current_user.allowed_in_project?(:view_sprints, represented.project) &&
+                                         backlogs_constraint_passed?(:backlog_bucket)
+                                     },
+                                     href_callback: ->(*) {
+                                       filters = CGI.escape(JSON.dump([]))
+                                       query = "filters=#{filters}&pageSize=-1"
+
+                                       "#{api_v3_paths.project_backlog_buckets(represented.project_id)}?#{query}"
                                      }
 
             define_method :backlogs_constraint_passed? do |attribute|

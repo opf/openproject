@@ -155,7 +155,6 @@ fr:
         manual: Basculer en mode source Markdown
         wysiwyg: Basculer vers l'éditeur WYSIWYG
       macro:
-        error: 'Impossible d''étendre la macro : %{message}'
         attribute_reference:
           macro_help_tooltip: Ce segment de texte est rendu dynamiquement par une macro.
           not_found: La ressource demandée est introuvable
@@ -175,9 +174,14 @@ fr:
           title: Insérer/modifier le fragment de code
           language: Langage de formatage
           language_hint: Entrez le langage de formatage qui sera utilisé pour mettre en évidence (si pris en charge).
-        dropdown:
-          macros: Macros
-          chose_macro: Choisir une macro
+        embedded_calendar:
+          text: "[Placeholder] Calendrier embarqué"
+        embedded_table:
+          button: Intégrer le tableau du lot de travaux
+          text: "[Placeholder] Tableau du lot de travaux intégré"
+        error: 'Impossible d''étendre la macro : %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Table des matières
         toolbar_help: Cliquez pour sélectionner le widget et afficher la barre d'outils. Double-cliquez pour modifier le widget
         wiki_page_include:
@@ -195,11 +199,6 @@ fr:
           button_style_hint: 'Facultatif : Cocher pour que la macro apparaisse sous forme de bouton et non de lien.'
           without_type: Créer un lot de travaux
           with_type: 'Créer un lot de travaux (Type : %{typename})'
-        embedded_table:
-          button: Intégrer le tableau du lot de travaux
-          text: "[Placeholder] Tableau du lot de travaux intégré"
-        embedded_calendar:
-          text: "[Placeholder] Calendrier embarqué"
     admin:
       type_form:
         edit_query: Modifier la requête
