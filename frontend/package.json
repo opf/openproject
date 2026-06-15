@@ -91,7 +91,7 @@
     "@fullcalendar/resource-timeline": "^6.1.20",
     "@fullcalendar/timegrid": "^6.1.20",
     "@github/webauthn-json": "^2.1.1",
-    "@hocuspocus/provider": "^3.4.4",
+    "@hocuspocus/provider": "^4.0.0",
     "@hotwired/stimulus": "^3.2.2",
     "@hotwired/turbo": "^8.0.23",
     "@hotwired/turbo-rails": "^8.0.23",
