@@ -38,16 +38,15 @@
   margin-bottom: var(--base-size-4)
   container-type: inline-size
 
-  .op-work-package-card--priority
+  &--priority
     display: inline-flex
     align-items: center
 
-    &-name
-      display: inline-block
-      width: 90px
-      overflow: hidden
-      text-overflow: ellipsis
-      white-space: nowrap
+  &--priority-name
+    display: inline-block
+    margin-left: 4px
+    width: 5rem
+    @include text_shortener
 
   &_with-footer
     grid-template-rows: auto auto auto
