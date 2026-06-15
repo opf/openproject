@@ -50,6 +50,19 @@ module OpenProject::Backlogs::Patches::SetAttributesServicePatch
           model.sprint = nil
         end
       end
+
+      clear_conflicting_sprint_or_bucket
+    end
+
+    # A work package may only have either a sprint *or* a bucket assigned. Not both at the
+    # same time. Instead of throwing a validation error and making the user resolve it,
+    # we resolve it implicitly: whichever attribute was just changed wins, the other is cleared.
+    def clear_conflicting_sprint_or_bucket # rubocop:disable Metrics/AbcSize
+      if model.backlog_bucket_id_changed? && model.backlog_bucket_id.present? && model.sprint_id.present?
+        model.sprint = nil
+      elsif model.sprint_id_changed? && model.sprint_id.present? && model.backlog_bucket_id.present?
+        model.backlog_bucket = nil
+      end
     end
 
     def moved_to_another_project?
