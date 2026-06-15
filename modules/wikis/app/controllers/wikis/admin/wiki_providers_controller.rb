@@ -38,6 +38,7 @@ module Wikis
 
       before_action :require_admin
       before_action :find_wiki_provider, only: %i[edit update destroy confirm_destroy edit_general_info replace_oauth_application]
+      before_action :require_ee_token, only: %i[index new create]
 
       menu_item :external_wiki_providers
 
@@ -45,7 +46,13 @@ module Wikis
         @wiki_providers = editable_wiki_providers
       end
 
+      def upsell
+        @wiki_providers = editable_wiki_providers
+      end
+
       def new
+        redirect_to action: :index if @upsell
+
         @wiki_provider = continue_from_wizard_params || Wikis::XWikiProvider.new
 
         @wizard = wiki_provider_wizard(@wiki_provider)
@@ -123,6 +130,10 @@ module Wikis
       end
 
       private
+
+      def require_ee_token
+        redirect_to(action: :upsell) unless EnterpriseToken.allows_to?(:xwiki_integration)
+      end
 
       def update_success
         if params[:continue_wizard]

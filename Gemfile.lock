@@ -914,7 +914,7 @@ GEM
       activesupport (>= 7.2.0)
       openproject-octicons (>= 19.34.0)
       view_component (>= 3.1, < 5.0)
-    openproject-token (8.9.0)
+    openproject-token (8.10.0)
       activemodel
     openssl (4.0.2)
     openssl-signature_algorithm (1.3.0)
@@ -1694,7 +1694,7 @@ DEPENDENCIES
   openproject-resource_management!
   openproject-storages!
   openproject-team_planner!
-  openproject-token (~> 8.9.0)
+  openproject-token (~> 8.10.0)
   openproject-two_factor_authentication!
   openproject-webhooks!
   openproject-wikis!
@@ -2076,7 +2076,7 @@ CHECKSUMS
   openproject-resource_management (1.0.0)
   openproject-storages (1.0.0)
   openproject-team_planner (1.0.0)
-  openproject-token (8.9.0) sha256=aa08c144889010750de4edaf61f8614ccb82ac6c63beef1d3a21c6a222358605
+  openproject-token (8.10.0) sha256=fc007fee7e3677c77a7e7b9618678f0af7d934d29eca36fe7349380e1a57e37a
   openproject-two_factor_authentication (1.0.0)
   openproject-webhooks (1.0.0)
   openproject-wikis (1.0.0)
