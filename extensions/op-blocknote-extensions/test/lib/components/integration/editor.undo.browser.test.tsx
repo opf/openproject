@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
 import {
-  insertInlineChipViaSlashMenu,
-  insertInlineChipViaHash,
+  insertInlineWorkPackageViaSlashMenu,
+  insertInlineWorkPackageViaHash,
   convertToCompactCard,
-  openInlineChipSizeMenu,
+  openInlineWorkPackageSizeMenu,
   openBlockCardSizeMenu,
 } from '../../../helpers/editorHelpers';
 
@@ -42,7 +42,7 @@ describe('Undo (Ctrl+Z)', () => {
 
   it('undoes chip inserted via slash menu — chip is gone', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
 
@@ -54,7 +54,7 @@ describe('Undo (Ctrl+Z)', () => {
 
   it('undoes chip inserted via ### hash — chip is gone', async () => {
     renderEditor();
-    await insertInlineChipViaHash('###');
+    await insertInlineWorkPackageViaHash('###');
     await expect.element(page.getByText('#123')).toBeVisible();
     await expect.element(page.getByTestId('op-bn-work-package--type')).toBeVisible();
 
@@ -66,7 +66,7 @@ describe('Undo (Ctrl+Z)', () => {
 
   it('undoes inline -> block conversion — block card is gone, inline chip is restored', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     // ProseMirror's newGroupDelay defaults to 500ms - pause longer to keep insertion and conversion as separate undo steps
     await new Promise(r => setTimeout(r, 600));
     await convertToCompactCard();
@@ -81,7 +81,7 @@ describe('Undo (Ctrl+Z)', () => {
 
   it('undoes block -> inline conversion — inline chip is gone, block card is restored', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await convertToCompactCard();
     await expect.element(page.getByTestId('block-card')).toBeVisible();
 
@@ -97,10 +97,10 @@ describe('Undo (Ctrl+Z)', () => {
 
   it('undoes inline size change (S -> XS) — status is visible again', async () => {
     renderEditor();
-    await insertInlineChipViaSlashMenu();
+    await insertInlineWorkPackageViaSlashMenu();
     await expect.element(page.getByText('In Progress')).toBeVisible();
     await new Promise(r => setTimeout(r, 600));
-    await openInlineChipSizeMenu();
+    await openInlineWorkPackageSizeMenu();
     await userEvent.click(page.getByRole('button', { name: 'Compact', exact: true }));
     await expect.element(page.getByText('In Progress')).not.toBeInTheDocument();
 
