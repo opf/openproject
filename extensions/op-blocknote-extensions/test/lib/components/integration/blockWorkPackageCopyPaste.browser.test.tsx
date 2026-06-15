@@ -37,7 +37,8 @@ describe('Block card - copy/paste independence', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTestId('remove-btn'));
 
-    expect((await page.getByTestId('block-card').all()).length).toBe(1);
+    await expect.element(page.getByTestId('block-card').nth(0)).toBeVisible();
+    await expect.element(page.getByTestId('block-card').nth(1)).not.toBeInTheDocument();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
   });
 
@@ -55,7 +56,8 @@ describe('Block card - copy/paste independence', () => {
     await expect.element(page.getByTestId('popover-content')).toBeVisible();
     await userEvent.click(page.getByTestId('remove-btn'));
 
-    expect((await page.getByTestId('block-card').all()).length).toBe(1);
+    await expect.element(page.getByTestId('block-card').nth(0)).toBeVisible();
+    await expect.element(page.getByTestId('block-card').nth(1)).not.toBeInTheDocument();
     await expect.element(page.getByText('Fix login bug')).toBeVisible();
   });
 
@@ -76,8 +78,8 @@ describe('Block card - copy/paste independence', () => {
     await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
 
     // The pasted copy still shows the status
-    await expect.element(page.getByText('In Progress')).toBeVisible();
-    expect((await page.getByText('In Progress').all()).length).toBe(1);
+    await expect.element(page.getByText('In Progress').nth(0)).toBeVisible();
+    await expect.element(page.getByText('In Progress').nth(1)).not.toBeInTheDocument();
   });
 
   it('resizing the pasted copy does not affect the original', async () => {
@@ -97,6 +99,7 @@ describe('Block card - copy/paste independence', () => {
     await userEvent.click(page.getByRole('button', { name: 'Tiny', exact: true }));
 
     // The original still shows the status
-    expect((await page.getByText('In Progress').all()).length).toBe(1);
+    await expect.element(page.getByText('In Progress').nth(0)).toBeVisible();
+    await expect.element(page.getByText('In Progress').nth(1)).not.toBeInTheDocument();
   });
 });
