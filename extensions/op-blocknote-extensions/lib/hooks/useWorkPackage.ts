@@ -4,6 +4,12 @@ import { OpenProjectApiError, fetchWorkPackage } from "../services/openProjectAp
 
 const workPackageCache: Record<number, WorkPackage> = {};
 
+export function clearWorkPackageCache(): void {
+  for (const key in workPackageCache) {
+    delete workPackageCache[key as unknown as number];
+  }
+}
+
 export function useWorkPackage(wpid: number|undefined) {
   const [workPackage, setWorkPackage] = useState<WorkPackage | null>(
     () => (wpid != null ? workPackageCache[wpid] ?? null : null)
