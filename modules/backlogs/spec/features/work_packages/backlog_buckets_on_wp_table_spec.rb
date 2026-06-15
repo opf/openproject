@@ -37,6 +37,7 @@ RSpec.describe "Backlog bucket displayed and selectable on work package table", 
   let(:bucket_from_another_project) { create(:backlog_bucket, project: another_project, name: "Bucket from other project") }
   let(:project) { create(:project, name: "Project", enabled_module_names:) }
   let(:another_project) { create(:project, name: "Another project", enabled_module_names:) }
+  let(:project_without_backlogs) { create(:project, name: "Project without backlogs") }
   let(:all_permissions) do
     %i[
       view_work_packages
@@ -82,6 +83,12 @@ RSpec.describe "Backlog bucket displayed and selectable on work package table", 
            subject: "wp with bucket from another project",
            author: current_user)
   end
+  let!(:wp_without_backlogs_module) do
+    create(:work_package,
+           project: project_without_backlogs,
+           subject: "wp without backlogs module",
+           author: current_user)
+  end
   let!(:wp_table) { Pages::WorkPackagesTable.new(work_package.project) }
   let(:sort_criteria) { nil }
   let(:group_by) { nil }
@@ -89,11 +96,13 @@ RSpec.describe "Backlog bucket displayed and selectable on work package table", 
     create(:user,
            member_with_permissions: {
              project => project_permissions,
-             another_project => another_project_permissions
+             another_project => another_project_permissions,
+             project_without_backlogs => disabled_module_permissions
            })
   end
   let(:project_permissions) { all_permissions }
   let(:another_project_permissions) { all_permissions }
+  let(:disabled_module_permissions) { all_permissions - %i[view_sprints] }
   let!(:query) do
     build(:public_query, user: current_user, project: work_package.project)
   end
@@ -151,12 +160,51 @@ RSpec.describe "Backlog bucket displayed and selectable on work package table", 
     context "when grouping by backlog bucket" do
       let(:group_by) { :backlog_bucket }
 
+      let!(:other_other_wp) do
+        create(:work_package,
+               project:,
+               backlog_bucket: other_bucket,
+               subject: "other other wp",
+               author: current_user)
+      end
+
+      before do
+        visit_page!
+      end
+
       it "groups by backlog bucket" do
         wp_table.expect_groups({
                                  bucket.name => 1,
-                                 other_bucket.name => 1,
+                                 other_bucket.name => 2,
                                  "-" => 1
                                })
+      end
+
+      context "when sorting by backlog bucket DESC" do
+        let(:sort_criteria) { [%w[backlog_bucket desc]] }
+
+        it "allows grouping and sorting at the same time" do
+          wp_table.expect_groups({
+                                   bucket.name => 1,
+                                   other_bucket.name => 2,
+                                   "-" => 1
+                                 })
+
+          wp_table.expect_work_package_order(wp_without_bucket, other_other_wp, other_wp, work_package)
+        end
+      end
+    end
+
+    context "with global query" do
+      let!(:query) { build(:global_query, user: current_user) }
+
+      context "when sorting by backlog bucket ASC" do
+        let(:sort_criteria) { [%w[backlog_bucket asc]] }
+
+        it "sorts by backlog bucket ASC" do
+          wp_table.expect_work_package_order(work_package, wp_with_bucket_from_another_project, other_wp,
+                                             wp_without_backlogs_module, wp_from_another_project, wp_without_bucket)
+        end
       end
     end
   end
@@ -195,8 +243,9 @@ RSpec.describe "Backlog bucket displayed and selectable on work package table", 
       let(:sort_criteria) { [%w[backlog_bucket asc]] }
 
       it "sorts work packages from projects you don't have permission to like work packages without a bucket" do
-        wp_table.expect_work_package_order(work_package, other_wp, wp_with_bucket_from_another_project,
-                                           wp_from_another_project, wp_without_bucket)
+        wp_table.expect_work_package_order(work_package, other_wp, wp_without_backlogs_module,
+                                           wp_with_bucket_from_another_project, wp_from_another_project,
+                                           wp_without_bucket)
       end
     end
 
@@ -207,7 +256,7 @@ RSpec.describe "Backlog bucket displayed and selectable on work package table", 
         wp_table.expect_groups({
                                  bucket.name => 1,
                                  other_bucket.name => 1,
-                                 "-" => 3
+                                 "-" => 4
                                })
       end
     end
@@ -230,7 +279,7 @@ RSpec.describe "Backlog bucket displayed and selectable on work package table", 
                                  bucket.name => 1,
                                  other_bucket.name => 1,
                                  bucket_from_another_project.name => 1,
-                                 "-" => 2 # There are 3 work packages here, but the user only sees 2
+                                 "-" => 3 # There are 4 work packages here, but the user only sees 3
                                })
       end
     end

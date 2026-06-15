@@ -68,6 +68,13 @@ RSpec.describe OpenProject::Backlogs::WorkPackageBucketSelect do # rubocop:disab
         expect(instances.size).to eq(1)
         expect(instances.first.name).to eq(:backlog_bucket)
       end
+
+      it "does not return an instance if a project without permission is passed" do
+        instances = described_class.instances(build_stubbed(:project))
+
+        expect(instances).to be_an(Array)
+        expect(instances).to be_empty
+      end
     end
 
     context "when user lacks permission to view sprints in a(ny) project" do
