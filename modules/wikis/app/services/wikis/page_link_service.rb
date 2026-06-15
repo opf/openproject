@@ -58,39 +58,19 @@ module Wikis
     end
 
     def referencing_wiki_page_infos_for(linkable:)
-      referenced_in = []
-
-      Adapters::Input::ReferencingPages.build(linkable:).bind do |input|
-        Provider.enabled.each do |provider|
-          query = resolve_query(provider, "queries.referencing_pages")
-          next if query.nil?
-
-          provider.auth_strategy_for(User.current).bind do |auth_strategy|
-            query.call(input_data: input, auth_strategy:)
-                 .fmap { referenced_in.concat(it) }
-          end
-        end
-      end
-
-      referenced_in
+      wiki_page_infos_for(
+        linkable:,
+        input_class: Adapters::Input::ReferencingPages,
+        query_name: "queries.referencing_pages"
+      )
     end
 
     def mentioning_wiki_page_infos_for(linkable:)
-      mentioned_in = []
-
-      Adapters::Input::MentioningPages.build(linkable:).bind do |input|
-        Provider.enabled.each do |provider|
-          query = resolve_query(provider, "queries.mentioning_pages")
-          next if query.nil?
-
-          provider.auth_strategy_for(User.current).bind do |auth_strategy|
-            query.call(input_data: input, auth_strategy:)
-                 .fmap { mentioned_in.concat(it) }
-          end
-        end
-      end
-
-      mentioned_in
+      wiki_page_infos_for(
+        linkable:,
+        input_class: Adapters::Input::MentioningPages,
+        query_name: "queries.mentioning_pages"
+      )
     end
 
     private
@@ -105,6 +85,24 @@ module Wikis
         .size
     end
 
+    def wiki_page_infos_for(linkable:, input_class:, query_name:)
+      results = []
+
+      input_class.build(linkable:).bind do |input|
+        Provider.enabled.each do |provider|
+          query = resolve_query(provider, query_name)
+          next if query.nil?
+
+          provider.auth_strategy_for(User.current).bind do |auth_strategy|
+            query.call(input_data: input, auth_strategy:)
+                 .fmap { results.concat(it) }
+          end
+        end
+      end
+
+      results
+    end
+
     def resolve_query(provider, name)
       provider.resolve(name)
     rescue Adapters::Registry::OperationNotSupported
@@ -117,10 +115,6 @@ module Wikis
           provider.resolve("queries.page_info").call(input_data: input, auth_strategy:)
         end
       end
-    end
-
-    def page_title_service
-      @page_title_service ||= PageTitleService.new
     end
   end
 end
