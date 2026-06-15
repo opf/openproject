@@ -40,11 +40,13 @@ See COPYRIGHT and LICENSE files for more details.
     render(Primer::Alpha::StackItem.new(grow: true)) do
       render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do
         concat(
-          render(Primer::Alpha::StackItem.new(classes: "ellipsis op-page-link--title")) do
-            if error?
-              render(Primer::Beta::Text.new(color: :muted)) { page_title }
-            else
-              render(Primer::Beta::Link.new(href: page_href, scheme: :primary)) { page_title }
+          render(Primer::Beta::Truncate.new) do |truncate|
+            truncate.with_item(priority: true) do
+              if error?
+                render(Primer::Beta::Text.new(color: :muted)) { page_title }
+              else
+                render(Primer::Beta::Link.new(href: page_href, scheme: :primary)) { page_title }
+              end
             end
           end
         )
