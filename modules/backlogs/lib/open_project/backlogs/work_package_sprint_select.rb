@@ -56,21 +56,16 @@ module OpenProject::Backlogs
       super(:sprint,
             sortable: SORT_ORDER,
             groupable_join: sprint_join_with_permissions,
-            groupable: group_by_statement,
-            groupable_select: groupable_select)
+            groupable: group_by_statement)
     end
 
     def sortable_join_statement(_query)
       sprint_join_with_permissions
     end
 
-    def groupable_select
-      group_by_statement
-    end
+    def groupable_select = group_by_statement
 
-    def group_by_statement
-      "visible_sprints.id"
-    end
+    def group_by_statement = "visible_sprints.id"
 
     private
 
@@ -96,12 +91,13 @@ module OpenProject::Backlogs
     end
 
     def visible_sprints
-      if @project
-        Sprint.for_project(@project)
-      else
-        Sprint
-      end
-        .visible
+      scope = if @project
+                Sprint.for_project(@project)
+              else
+                Sprint
+              end
+
+      scope.visible
     end
 
     def projects_with_view_sprints

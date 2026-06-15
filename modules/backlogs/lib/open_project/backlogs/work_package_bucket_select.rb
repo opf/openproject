@@ -54,21 +54,16 @@ module OpenProject::Backlogs
       super(:backlog_bucket,
             sortable: %w[visible_buckets.name],
             groupable_join: bucket_join_with_permissions,
-            groupable: group_by_statement,
-            groupable_select: groupable_select)
+            groupable: group_by_statement)
     end
 
     def sortable_join_statement(_query)
       bucket_join_with_permissions
     end
 
-    def groupable_select
-      group_by_statement
-    end
+    def groupable_select = group_by_statement
 
-    def group_by_statement
-      "visible_buckets.id"
-    end
+    def group_by_statement = "visible_buckets.id"
 
     private
 
@@ -86,12 +81,13 @@ module OpenProject::Backlogs
     end
 
     def visible_buckets
-      if project
-        BacklogBucket.where(project:)
-      else
-        BacklogBucket
-      end
-        .visible
+      scope = if project
+                BacklogBucket.where(project:)
+              else
+                BacklogBucket
+              end
+
+      scope.visible
     end
 
     def projects_with_view_sprints
