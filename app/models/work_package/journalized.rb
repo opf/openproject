@@ -110,7 +110,7 @@ module WorkPackage::Journalized
                                       :assigned_to_id, :priority_id,
                                       :category_id, :version_id,
                                       :author_id, :responsible_id,
-                                      :sprint_id,
+                                      :sprint_id, :backlog_bucket_id,
                                       formatter_key: :named_association
     register_journal_formatted_fields :start_date, :due_date, formatter_key: :datetime
     register_journal_formatted_fields :subject, formatter_key: :plaintext
