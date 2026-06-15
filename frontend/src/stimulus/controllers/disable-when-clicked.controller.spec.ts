@@ -92,4 +92,20 @@ describe('DisableWhenClickedController', () => {
     link.dispatchEvent(secondEvent);
     expect(secondEvent.defaultPrevented).toBe(true);
   });
+
+  it('marks anchor elements as aria-disabled instead of using the disabled attribute', async () => {
+    await ctx.mount(`
+      <a href="/documents/new" data-controller="disable-when-clicked">
+        + Document
+      </a>
+    `);
+
+    const link = ctx.screen.getByRole('link', { name: '+ Document' });
+
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    // setTimeout(fn) defers by one task; nextFrame (rAF) fires after
+    await ctx.nextFrame();
+
+    expect(link).toHaveAttribute('aria-disabled', 'true');
+  });
 });

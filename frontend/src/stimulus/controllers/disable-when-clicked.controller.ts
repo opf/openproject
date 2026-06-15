@@ -1,13 +1,13 @@
 import { Controller } from '@hotwired/stimulus';
 
-export default class DisableWhenClickedController extends Controller<HTMLInputElement> {
+export default class DisableWhenClickedController extends Controller<HTMLElement> {
   static values = {
     text: String,
   };
 
   declare textValue:string;
   private alreadyClicked = false;
-  private clickListener = this.toggleDisabled.bind(this);
+  private clickListener = this.handleClick.bind(this);
 
   connect() {
     super.connect();
@@ -18,7 +18,7 @@ export default class DisableWhenClickedController extends Controller<HTMLInputEl
     this.element.removeEventListener('click', this.clickListener);
   }
 
-  private toggleDisabled(event:Event):void {
+  private handleClick(event:Event):void {
     if (this.alreadyClicked) {
       event.preventDefault();
       event.stopImmediatePropagation();
@@ -26,12 +26,24 @@ export default class DisableWhenClickedController extends Controller<HTMLInputEl
     }
 
     this.alreadyClicked = true;
-    setTimeout(() => {
-      this.element.disabled = true;
+    setTimeout(() => this.disable());
+  }
 
-      if (this.textValue) {
-        this.element.textContent = this.textValue;
-      }
-    });
+  private disable():void {
+    const el = this.element;
+
+    // Only form elements support the `disabled` attribute. For other elements
+    // (e.g. anchors) fall back to `aria-disabled`, which keeps them focusable
+    // for assistive tech. Actual click prevention is handled by the
+    // `alreadyClicked` guard.
+    if (el instanceof HTMLButtonElement || el instanceof HTMLInputElement) {
+      el.disabled = true;
+    } else {
+      el.setAttribute('aria-disabled', 'true');
+    }
+
+    if (this.textValue) {
+      el.textContent = this.textValue;
+    }
   }
 }
