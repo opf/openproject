@@ -48,8 +48,6 @@ module OpenProject::Backlogs
       bucket_join_with_permissions
     end
 
-    def groupable_select = group_by_statement
-
     def group_by_statement = "visible_buckets.id"
 
     private

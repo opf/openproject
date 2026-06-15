@@ -52,8 +52,6 @@ module OpenProject::Backlogs
       sprint_join_with_permissions
     end
 
-    def groupable_select = group_by_statement
-
     def group_by_statement = "visible_sprints.id"
 
     private
