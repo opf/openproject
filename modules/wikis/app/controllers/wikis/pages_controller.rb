@@ -31,7 +31,6 @@
 module Wikis
   class PagesController < ApplicationController
     include OpTurbo::ComponentStream
-    include Dry::Monads[:result]
 
     before_action :authorize, except: %i[search]
 
@@ -69,13 +68,7 @@ module Wikis
     private
 
     def search_pages(query, provider)
-      return Success([]) if query.blank?
-
-      Adapters::Input::SearchPages.build(query:).bind do |input_data|
-        provider.auth_strategy_for(current_user).bind do |auth_strategy|
-          provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
-        end
-      end
+      PageSearchService.new(provider:, user: current_user).search_pages(query)
     end
 
     def create_new_page_params

@@ -367,6 +367,7 @@ sk:
     label_in_more_than: vo viac ako
     label_incoming_emails: Prichádzajúce e-maily
     label_information_plural: Informácie
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Import
     label_latest_activity: Posledná aktivita
@@ -391,6 +392,7 @@ sk:
     label_no_value: Žiadna hodnota
     label_none: žiadne
     label_not_contains: neobsahuje
+    label_not_available: Not available
     label_not_equals: nie je
     label_on: dňa
     label_open_menu: Otvorte menu

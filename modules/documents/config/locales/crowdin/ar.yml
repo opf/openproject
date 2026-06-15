@@ -45,6 +45,7 @@ ar:
   default_doc_category_user: توثيق المستخدم
   enumeration_doc_categories: فئات الوثائق
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

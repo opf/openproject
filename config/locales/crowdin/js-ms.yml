@@ -367,6 +367,7 @@ ms:
     label_in_more_than: dalam lebih daripada
     label_incoming_emails: E-mel masuk
     label_information_plural: Maklumat
+    label_infinity: Infinity
     label_invalid: Tidak sah
     label_import: Import
     label_latest_activity: Aktiviti terkini
@@ -391,6 +392,7 @@ ms:
     label_no_value: Tiada nilai
     label_none: tiada
     label_not_contains: tidak mengandungi
+    label_not_available: Not available
     label_not_equals: adalah tidak
     label_on: pada
     label_open_menu: Buka menu

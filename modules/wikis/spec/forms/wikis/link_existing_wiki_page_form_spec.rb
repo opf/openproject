@@ -48,6 +48,6 @@ RSpec.describe Wikis::LinkExistingWikiPageForm, type: :forms do
     expect(page).to have_element :"filterable-tree-view",
                                  src: search_wiki_pages_path(provider_id: model.provider_id,
                                                              name: "wiki_page_selection")
-    expect(page).to have_field "Filter", type: :search, placeholder: "Search for a wiki page"
+    expect(page).to have_field "Filter", type: :search, placeholder: "Search for a wiki page (or enter its URL)"
   end
 end

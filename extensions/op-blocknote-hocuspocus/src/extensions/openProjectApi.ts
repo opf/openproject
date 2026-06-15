@@ -122,7 +122,6 @@ export class OpenProjectApi implements Extension {
     Y.applyUpdate(tempYdoc, Y.encodeStateAsUpdate(data.document));
     const tempFragment = tempYdoc.getXmlFragment("document-store");
     const editorData = editor.yXmlFragmentToBlocks(tempFragment);
-    // @ts-expect-error BlockNote types are complicated
     const markdownData = await editor.blocksToMarkdownLossy(editorData);
 
     const response = await fetchResource(resourceUrl, data.context.token, {

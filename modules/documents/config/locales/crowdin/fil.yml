@@ -45,6 +45,7 @@ fil:
   default_doc_category_user: Dokumento para sa mga gagamit
   enumeration_doc_categories: Mga kategorya ng dokumento
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

@@ -47,7 +47,7 @@ module Backlogs
     end
 
     def load_project
-      @project = Project.visible.find(params[:project_id])
+      @project = Project.visible.find(params.expect(:project_id))
     end
 
     def load_sprint

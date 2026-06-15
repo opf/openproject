@@ -37,12 +37,12 @@
           subheader.with_action_button(
             scheme: :primary,
             leading_icon: :plus,
-            label: t(:button_add),
+            label: t("documents.button_add_type"),
             tag: :a,
             href: helpers.url_for(action: :new),
             test_selector: "add-document-type-button"
           ) do
-            I18n.t(:button_add)
+            I18n.t("documents.button_add_type")
           end
         end
       end

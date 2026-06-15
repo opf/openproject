@@ -287,11 +287,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: "/my", action: "interface" },
             caption: :label_interface,
             icon: "device-desktop"
-  menu.push :password,
-            { controller: "/my", action: "password" },
-            caption: :button_change_password,
-            if: ->(_) { User.current.change_password_allowed? },
-            icon: "lock"
+  menu.push :security,
+            { controller: "/my", action: "security" },
+            caption: :label_my_security,
+            icon: "shield-lock"
   menu.push :access_tokens,
             { controller: "/my/access_tokens", action: "index" },
             caption: I18n.t("my_account.access_tokens.access_tokens"),

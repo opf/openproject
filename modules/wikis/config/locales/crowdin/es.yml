@@ -149,7 +149,7 @@ es:
     link_existing_wiki_page_dialog:
       title: Añadir una página wiki ya existente
     link_existing_wiki_page_form:
-      label: Wiki page
+      label: Página wiki
       no_results: No se han encontrado páginas de wiki
       placeholder: Buscar una página de wiki
     oauth_login_component:

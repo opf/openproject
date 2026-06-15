@@ -55,6 +55,7 @@ class MyController < ApplicationController
                              :password,
                              :change_password,
                              :password_confirmation_dialog,
+                             :security,
                              :notifications,
                              :non_working_times,
                              :working_hours,
@@ -68,6 +69,7 @@ class MyController < ApplicationController
   menu_item :locale, only: [:locale]
   menu_item :interface, only: [:interface]
   menu_item :password, only: [:password]
+  menu_item :security, only: [:security]
   menu_item :notifications, only: [:notifications]
   menu_item :working_hours, only: %i[working_hours non_working_times]
 
@@ -101,6 +103,10 @@ class MyController < ApplicationController
 
   def interface; end
 
+  def security
+    @username = @user.login
+  end
+
   # Manage user's password
   def password
     @username = @user.login
@@ -110,7 +116,7 @@ class MyController < ApplicationController
   # When making changes here, also check AccountController.change_password
   def change_password
     change_password_flow(user: @user, params:, update_legacy: false) do
-      redirect_to action: "password"
+      redirect_to action: "security"
     end
   end
 
@@ -145,6 +151,11 @@ class MyController < ApplicationController
   end
 
   private
+
+  def render_password_change(_user, message, show_user_name: false) # rubocop:disable Lint/UnusedMethodArgument
+    flash[:error] = message unless message.nil?
+    redirect_to action: "security"
+  end
 
   def redirect_if_password_change_not_allowed_for(user)
     unless user.change_password_allowed?

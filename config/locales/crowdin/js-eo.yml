@@ -367,6 +367,7 @@ eo:
     label_in_more_than: in more than
     label_incoming_emails: Envenaj retpoŝtoj
     label_information_plural: Informo
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Importi
     label_latest_activity: Lastaj aktivecoj
@@ -391,6 +392,7 @@ eo:
     label_no_value: No value
     label_none: neniu
     label_not_contains: ne enhavas
+    label_not_available: Not available
     label_not_equals: ne estas
     label_on: je
     label_open_menu: Malfermi menuon

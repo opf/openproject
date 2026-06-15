@@ -367,6 +367,7 @@ af:
     label_in_more_than: in meer as
     label_incoming_emails: Inkomende e-pos
     label_information_plural: Inligting
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Invoer
     label_latest_activity: Latest activity
@@ -391,6 +392,7 @@ af:
     label_no_value: No value
     label_none: geen
     label_not_contains: bevat nie
+    label_not_available: Not available
     label_not_equals: is nie
     label_on: 'on'
     label_open_menu: Maak kieslys oop

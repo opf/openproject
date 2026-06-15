@@ -829,7 +829,7 @@ GEM
     marcel (1.0.4)
     markly (0.16.0)
     matrix (0.4.3)
-    mcp (0.17.0)
+    mcp (0.18.0)
       json-schema (>= 4.1)
     messagebird-rest (5.0.0)
       jwt (< 4)
@@ -909,7 +909,7 @@ GEM
       actionview
       openproject-octicons (= 19.35.0)
       railties
-    openproject-primer_view_components (0.86.2)
+    openproject-primer_view_components (0.87.0)
       actionview (>= 7.2.0)
       activesupport (>= 7.2.0)
       openproject-octicons (>= 19.34.0)
@@ -1361,7 +1361,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
-    rubocop-rails (2.35.3)
+    rubocop-rails (2.35.4)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -1656,7 +1656,7 @@ DEPENDENCIES
   mail (= 2.9.0)
   markly (~> 0.15)
   matrix (~> 0.4.3)
-  mcp (~> 0.17.0)
+  mcp (~> 0.18.0)
   md_to_pdf!
   meta-tags (~> 2.23.0)
   mini_magick (~> 5.3.0)
@@ -1688,7 +1688,7 @@ DEPENDENCIES
   openproject-octicons (~> 19.35.0)!
   openproject-octicons_helper (~> 19.35.0)!
   openproject-openid_connect!
-  openproject-primer_view_components (~> 0.86.2)!
+  openproject-primer_view_components (~> 0.87.0)!
   openproject-recaptcha!
   openproject-reporting!
   openproject-resource_management!
@@ -1746,7 +1746,7 @@ DEPENDENCIES
   rubocop-factory_bot
   rubocop-openproject
   rubocop-performance
-  rubocop-rails (~> 2.35.2)
+  rubocop-rails (~> 2.35.4)
   rubocop-rspec
   rubocop-rspec_rails
   ruby-duration (~> 3.2.0)
@@ -2014,7 +2014,7 @@ CHECKSUMS
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
   markly (0.16.0) sha256=6f70d79e385b1efc9e171f74c81628826259039fe6c778e03c3924c71dac5511
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
-  mcp (0.17.0) sha256=a66b71254cd8c49c471cfa55f11a9f050817ab7168cadf961555784d365b8474
+  mcp (0.18.0) sha256=4d8ec572c1536f53370196539d5272355fb6480ed969ea58a8d24917ee2562c8
   md_to_pdf (0.2.6)
   messagebird-rest (5.0.0) sha256=da4cc1efba3d5e4aa021fad07426c2cb6b326ce5670da5104bb8f6056a39d59c
   meta-tags (2.23.0) sha256=ffe78b5bee398de4ff5ac3316f5a786049538a651643b8476def06c3acc762c1
@@ -2070,7 +2070,7 @@ CHECKSUMS
   openproject-octicons (19.35.0) sha256=a5033550d0961b4a8cb0993512a899716d633e17c2b5147bc6a9ed74f3952b38
   openproject-octicons_helper (19.35.0) sha256=c32d142a4bb7fda739b16768aa8846fd88ffc1750509d8056f516056e8767361
   openproject-openid_connect (1.0.0)
-  openproject-primer_view_components (0.86.2) sha256=1725bb2f0b636045a9bc9ff0ab1791d9a9a0341f1d3a0bd06727100120f29cba
+  openproject-primer_view_components (0.87.0) sha256=df8dfbe765bab12d608e86f428e5e87258ae3be351e88a8701352d7369dbe3b1
   openproject-recaptcha (1.0.0)
   openproject-reporting (1.0.0)
   openproject-resource_management (1.0.0)
@@ -2237,7 +2237,7 @@ CHECKSUMS
   rubocop-factory_bot (2.28.0) sha256=4b17fc02124444173317e131759d195b0d762844a71a29fe8139c1105d92f0cb
   rubocop-openproject (0.5.0) sha256=564d4a0d240bec8543c96d1cb38facba9afd3fbe7e91ff28d254d3ebf329c323
   rubocop-performance (1.26.1) sha256=cd19b936ff196df85829d264b522fd4f98b6c89ad271fa52744a8c11b8f71834
-  rubocop-rails (2.35.3) sha256=6edd45410866912b9b2e90ae3aeafd31d576df2bb2a9c9408f1667a50c32c7de
+  rubocop-rails (2.35.4) sha256=3aeaa325439c89950e8327565682ea794065d08e2ecbbfe95032bfa295a35df5
   rubocop-rspec (3.9.0) sha256=8fa70a3619408237d789aeecfb9beef40576acc855173e60939d63332fdb55e2
   rubocop-rspec_rails (2.32.0) sha256=4a0d641c72f6ebb957534f539d9d0a62c47abd8ce0d0aeee1ef4701e892a9100
   ruby-duration (3.2.3) sha256=eb3d13b1df85067a015a8fb2ed8f1eec842a3b721e47c9b6fd74d2f356069784

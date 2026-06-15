@@ -367,6 +367,7 @@ fa:
     label_in_more_than: in more than
     label_incoming_emails: Incoming emails
     label_information_plural: اطلاعات
+    label_infinity: Infinity
     label_invalid: نا معتبر
     label_import: درون‌ریزی
     label_latest_activity: آخرین فعالیت
@@ -391,6 +392,7 @@ fa:
     label_no_value: No value
     label_none: هیچ کدام
     label_not_contains: حاوی این مقدار نیست
+    label_not_available: Not available
     label_not_equals: نیست
     label_on: برخط
     label_open_menu: باز کردن منو

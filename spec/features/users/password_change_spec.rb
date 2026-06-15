@@ -76,7 +76,7 @@ RSpec.describe "random password generation", :js do
       fill_in "password", with: old_password
       fill_in "new_password", with: new_password
       fill_in "new_password_confirmation", with: new_password
-      click_on "Save"
+      click_button "Change password"
 
       expect(page).to have_content "Invalid user or password"
 
@@ -91,7 +91,7 @@ RSpec.describe "random password generation", :js do
 
       expect(Sessions::UserSession.for_user(user.id).count).to be >= 1
 
-      click_on "Save"
+      click_button "Change password"
       wait_for_network_idle
       expect_flash(type: :info, message: I18n.t(:notice_account_password_updated))
 

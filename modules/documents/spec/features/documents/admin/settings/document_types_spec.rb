@@ -51,7 +51,7 @@ RSpec.describe "Document types admin", :js do
       end
 
       within_test_selector("admin-document-types-subheader") do
-        click_on "Add"
+        click_on "Type"
       end
 
       fill_in "Name", with: "Documentation"

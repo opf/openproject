@@ -153,7 +153,7 @@ en:
     link_existing_wiki_page_form:
       label: Wiki page
       no_results: No wiki pages found
-      placeholder: Search for a wiki page
+      placeholder: Search for a wiki page (or enter its URL)
     oauth_login_component:
       connect_button: Connect %{provider} account
       description: Log in to %{provider} to view and manage related wiki pages from this OpenProject instance.

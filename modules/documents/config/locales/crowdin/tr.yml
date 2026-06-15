@@ -45,6 +45,7 @@ tr:
   default_doc_category_user: Kullanıcı belgeleri
   enumeration_doc_categories: Belge kategorileri
   documents:
+    button_add_type: Type
     page_header:
       heading: Tüm belgeler
       action_menu:

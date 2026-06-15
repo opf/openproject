@@ -367,6 +367,7 @@ fi:
     label_in_more_than: suurempi kuin
     label_incoming_emails: Saapuvat sähköpostiviestit
     label_information_plural: Tieto
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Tuo
     label_latest_activity: Viimeisimmät tapahtumat
@@ -391,6 +392,7 @@ fi:
     label_no_value: Ei arvoa
     label_none: ei mitään
     label_not_contains: ei sisällä
+    label_not_available: Not available
     label_not_equals: ei ole
     label_on: päälle
     label_open_menu: Avaa valikko

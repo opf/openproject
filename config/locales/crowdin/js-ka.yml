@@ -367,6 +367,7 @@ ka:
     label_in_more_than: მეტია, ვიდრე
     label_incoming_emails: Incoming emails
     label_information_plural: ინფორმაცია
+    label_infinity: Infinity
     label_invalid: არასწორი
     label_import: შემოტანა
     label_latest_activity: Latest activity
@@ -391,6 +392,7 @@ ka:
     label_no_value: მნიშვნელობის გარეშე
     label_none: არა
     label_not_contains: doesn't contain
+    label_not_available: Not available
     label_not_equals: არაა
     label_on: დრო
     label_open_menu: მენიუს გახსნა

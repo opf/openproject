@@ -179,7 +179,7 @@ es:
           text: "[Placeholder] Tabla de paquetes de trabajo insertada"
         error: 'No se puede expandir la macro: %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: Insertar
         toc: Índice
         toolbar_help: Haga clic para seleccionar un widget y mostrar la barra de herramientas. Haga doble clic para editar un widget
         wiki_page_include:
@@ -365,6 +365,7 @@ es:
     label_in_more_than: en más de
     label_incoming_emails: Correos electrónicos entrantes
     label_information_plural: Información
+    label_infinity: Infinity
     label_invalid: Inválido
     label_import: Importar
     label_latest_activity: Actividad reciente
@@ -389,6 +390,7 @@ es:
     label_no_value: Sin valor
     label_none: ninguno
     label_not_contains: no contiene
+    label_not_available: Not available
     label_not_equals: no es
     label_on: en
     label_open_menu: Abrir menú

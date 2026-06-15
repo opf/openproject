@@ -193,7 +193,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
     context "when specifying a target sprint" do
       let(:call_params) { { unfinished_action: "move_to_sprint", move_to_sprint_id: target_sprint.id } }
 
-      it "moves only open work packages to their correct position across project borders and completes the sprint", # rubocop:disable RSpec/ExampleLength
+      it "moves only open work packages to their correct position across project borders and completes the sprint",
          :aggregate_failures do
         expect(result).to be_success
         expect(sprint.reload).to be_completed
@@ -220,7 +220,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
     context "when specifying to move to the backlog's top" do
       let(:call_params) { { unfinished_action: "move_to_top_of_backlog" } }
 
-      it "moves only open work packages to their correct position across project borders and completes the sprint", # rubocop:disable RSpec/ExampleLength
+      it "moves only open work packages to their correct position across project borders and completes the sprint",
          :aggregate_failures do
         expect(result).to be_success
         expect(sprint.reload).to be_completed
@@ -247,7 +247,7 @@ RSpec.describe Backlogs::Sprints::FinishService do
     context "when specifying to move to the backlog's bottom" do
       let(:call_params) { { unfinished_action: "move_to_bottom_of_backlog" } }
 
-      it "moves only open work packages to their correct position across project borders and completes the sprint", # rubocop:disable RSpec/ExampleLength
+      it "moves only open work packages to their correct position across project borders and completes the sprint",
          :aggregate_failures do
         expect(result).to be_success
         expect(sprint.reload).to be_completed

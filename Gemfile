@@ -162,7 +162,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.17.0"
+gem "mcp", "~> 0.18.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -367,7 +367,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.35.2"
+  gem "rubocop-rails", "~> 2.35.4"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
@@ -433,5 +433,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.35.0"
   gem "openproject-octicons_helper", "~>19.35.0"
-  gem "openproject-primer_view_components", "~>0.86.2"
+  gem "openproject-primer_view_components", "~>0.87.0"
 end

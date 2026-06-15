@@ -367,6 +367,7 @@ th:
     label_in_more_than: ในมากกว่า
     label_incoming_emails: อีเมลขาเข้า
     label_information_plural: ข้อมูล
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Import
     label_latest_activity: Latest activity
@@ -391,6 +392,7 @@ th:
     label_no_value: ไม่มีค่า
     label_none: ไม่มี
     label_not_contains: ไม่ประกอบด้วยการ
+    label_not_available: Not available
     label_not_equals: ไม่
     label_on: 'on'
     label_open_menu: เปิดเมนู

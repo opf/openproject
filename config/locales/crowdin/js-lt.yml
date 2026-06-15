@@ -367,6 +367,7 @@ lt:
     label_in_more_than: daugiau nei
     label_incoming_emails: Gauti el. laiškai
     label_information_plural: Informacija
+    label_infinity: Infinity
     label_invalid: Netinkamas
     label_import: Importuoti
     label_latest_activity: Paskutinė veikla
@@ -391,6 +392,7 @@ lt:
     label_no_value: Nenurodytas dydis
     label_none: joks
     label_not_contains: neturi
+    label_not_available: Not available
     label_not_equals: nėra
     label_on: įjungta
     label_open_menu: Atidaryti meniu

@@ -367,6 +367,7 @@
     label_in_more_than: i mer enn
     label_incoming_emails: Inkommende e-post
     label_information_plural: Informasjon
+    label_infinity: Infinity
     label_invalid: Ugyldig
     label_import: Importer
     label_latest_activity: Siste aktivitet
@@ -391,6 +392,7 @@
     label_no_value: Ingen verdi
     label_none: ingen
     label_not_contains: inneholder ikke
+    label_not_available: Not available
     label_not_equals: er ikke
     label_on: på
     label_open_menu: Åpne meny

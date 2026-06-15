@@ -1,0 +1,15 @@
+<%=
+  render(Primer::Alpha::ActionMenu::List.new(menu_id:)) do |menu|
+    menu_items.each do |item|
+      item => { scheme:, label:, icon:, **button_options }
+      menu.with_item(
+        scheme:,
+        label:,
+        test_selector: "project-list-row--action-menu-item",
+        content_arguments: button_options
+      ) do |list_item|
+        list_item.with_leading_visual_icon(icon:) if icon
+      end
+    end
+  end
+%>

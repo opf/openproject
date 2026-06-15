@@ -36,10 +36,10 @@ RSpec.describe Backlogs::Sprints::CreateContract do
 
   let(:sprint) do
     Sprint.new(name: sprint_name,
-                      project: sprint_project,
-                      start_date: sprint_start_date,
-                      finish_date: sprint_finish_date,
-                      status: sprint_status)
+               project: sprint_project,
+               start_date: sprint_start_date,
+               finish_date: sprint_finish_date,
+               status: sprint_status)
   end
 
   describe "validation" do

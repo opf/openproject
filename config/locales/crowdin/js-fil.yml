@@ -367,6 +367,7 @@ fil:
     label_in_more_than: mahigit sa
     label_incoming_emails: Papasok na mga email
     label_information_plural: Impormasyon
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Import
     label_latest_activity: Latest activity
@@ -391,6 +392,7 @@ fil:
     label_no_value: Walang halaga
     label_none: wala
     label_not_contains: hindi naglalaman
+    label_not_available: Not available
     label_not_equals: ay hindi
     label_on: sa
     label_open_menu: Buksan ang pagpipilian

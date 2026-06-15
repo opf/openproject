@@ -367,6 +367,7 @@ ca:
     label_in_more_than: en més de
     label_incoming_emails: Correu electrònics d'entrada
     label_information_plural: Informació
+    label_infinity: Infinity
     label_invalid: Invàlid
     label_import: Importar
     label_latest_activity: Última activitat
@@ -391,6 +392,7 @@ ca:
     label_no_value: Cap valor
     label_none: cap
     label_not_contains: no conté
+    label_not_available: Not available
     label_not_equals: no és
     label_on: en
     label_open_menu: Obrir menú

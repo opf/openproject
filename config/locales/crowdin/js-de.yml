@@ -367,6 +367,7 @@ de:
     label_in_more_than: in mehr als
     label_incoming_emails: Eingehende E-Mails
     label_information_plural: Information
+    label_infinity: Infinity
     label_invalid: Ungültig
     label_import: Import
     label_latest_activity: Letzte Änderungen
@@ -391,6 +392,7 @@ de:
     label_no_value: Kein Wert
     label_none: keine
     label_not_contains: enthält nicht
+    label_not_available: Not available
     label_not_equals: ist nicht
     label_on: am
     label_open_menu: Menü öffnen

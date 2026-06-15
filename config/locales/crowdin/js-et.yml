@@ -367,6 +367,7 @@ et:
     label_in_more_than: on suurem kui
     label_incoming_emails: Sissetulevad e-postisõnumid
     label_information_plural: Teave
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Impordi
     label_latest_activity: Latest activity
@@ -391,6 +392,7 @@ et:
     label_no_value: No value
     label_none: pole
     label_not_contains: ei sisalda
+    label_not_available: Not available
     label_not_equals: ei ole
     label_on: 'on'
     label_open_menu: Ava menüü

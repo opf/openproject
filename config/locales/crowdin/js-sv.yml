@@ -367,6 +367,7 @@ sv:
     label_in_more_than: i mer än
     label_incoming_emails: Inkommande E-post
     label_information_plural: Information
+    label_infinity: Infinity
     label_invalid: Ogiltig
     label_import: Importera
     label_latest_activity: Senaste aktivitet
@@ -391,6 +392,7 @@ sv:
     label_no_value: Inget värde
     label_none: inga
     label_not_contains: innehåller inte
+    label_not_available: Not available
     label_not_equals: är inte
     label_on: på
     label_open_menu: Öppna meny

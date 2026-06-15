@@ -369,6 +369,7 @@ ru:
     label_in_more_than: более чем
     label_incoming_emails: Входящие письма
     label_information_plural: Информация
+    label_infinity: Infinity
     label_invalid: Неверно
     label_import: Импорт
     label_latest_activity: Последние действия
@@ -393,6 +394,7 @@ ru:
     label_no_value: Нет значения
     label_none: Ничего
     label_not_contains: не содержит
+    label_not_available: Not available
     label_not_equals: не
     label_on: на
     label_open_menu: Открыть меню

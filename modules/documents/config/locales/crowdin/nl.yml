@@ -45,6 +45,7 @@ nl:
   default_doc_category_user: Gebruikersdocumentatie
   enumeration_doc_categories: Document categorieën
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

@@ -367,6 +367,7 @@ bg:
     label_in_more_than: в повече от
     label_incoming_emails: Входящи имейли
     label_information_plural: Информация
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Импортиране
     label_latest_activity: Latest activity
@@ -391,6 +392,7 @@ bg:
     label_no_value: Няма стойност
     label_none: никой
     label_not_contains: doesn't contain
+    label_not_available: Not available
     label_not_equals: is not
     label_on: на
     label_open_menu: Open menu

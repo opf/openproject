@@ -37,7 +37,7 @@ module API
                  .new(model: BacklogBucket)
                  .mount
 
-          route_param :id, type: Integer, desc: "Backlog Bucket ID" do
+          route_param :id, type: Integer, desc: "Backlog bucket ID" do
             after_validation do
               @backlog_bucket = BacklogBucket.visible(current_user).find(params[:id])
             end

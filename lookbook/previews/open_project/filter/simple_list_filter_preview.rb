@@ -29,10 +29,11 @@
 # ++
 
 module OpenProject
-  module Common
-    # @logical_path OpenProject/Common
+  module Filter
+    # @logical_path OpenProject/Filter
     # @display min_height 250px
-    class QuickFilterPreview < Lookbook::Preview
+    # @label Simple list filtering with stimulus
+    class SimpleListFilterPreview < Lookbook::Preview
       def default
         render_with_template
       end

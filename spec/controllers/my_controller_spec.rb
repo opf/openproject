@@ -38,6 +38,18 @@ RSpec.describe MyController do
   end
 
   describe "password change" do
+    describe "security" do
+      render_views
+
+      before do
+        get :security
+      end
+
+      it "does render 'Change password' section" do
+        expect(response.body).to have_css(".Subhead-heading", text: "Change password")
+      end
+    end
+
     describe "#password" do
       before do
         get :password
@@ -71,8 +83,7 @@ RSpec.describe MyController do
       end
 
       it "shows an error message" do
-        expect(response).to have_http_status :unprocessable_entity
-        assert_template "password"
+        expect(response).to redirect_to action: "security"
         expect(user.errors.attribute_names).to eq([:password_confirmation])
         expect(user.errors.map(&:message).flatten)
           .to contain_exactly("Password confirmation does not match password.")
@@ -80,7 +91,6 @@ RSpec.describe MyController do
     end
 
     describe "with wrong password" do
-      render_views
       before do
         @current_password = user.current_password.id
         post :change_password,
@@ -92,8 +102,7 @@ RSpec.describe MyController do
       end
 
       it "shows an error message" do
-        expect(response).to have_http_status :unprocessable_entity
-        assert_template "password"
+        expect(response).to redirect_to action: "security"
         expect(flash[:error]).to eq("Wrong password")
       end
 
@@ -112,8 +121,8 @@ RSpec.describe MyController do
              }
       end
 
-      it "redirects to the my password page" do
-        expect(response).to redirect_to("/my/password")
+      it "redirects to the security page" do
+        expect(response).to redirect_to(my_security_path)
       end
 
       it "allows the user to login with the new password" do
@@ -139,7 +148,7 @@ RSpec.describe MyController do
         end
 
         it "blocks the attempt even with correct password" do
-          expect(response).to have_http_status :unprocessable_entity
+          expect(response).to redirect_to action: "security"
         end
 
         it "does not change the password" do
@@ -229,10 +238,6 @@ RSpec.describe MyController do
       render_views
       it "renders editable custom fields" do
         expect(response.body).to have_content(custom_field.name)
-      end
-
-      it "renders the 'Change password' menu entry" do
-        expect(response.body).to have_css("#menu-sidebar li a", text: "Change password")
       end
     end
   end
@@ -351,14 +356,14 @@ RSpec.describe MyController do
     before do
       allow(OpenProject::Configuration).to receive(:disable_password_login?).and_return(true)
       as_logged_in_user user do
-        get :account
+        get :security
       end
     end
 
     render_views
 
-    it "does not render 'Change password' menu entry" do
-      expect(response.body).to have_no_css("#menu-sidebar li a", text: "Change password")
+    it "does not render 'Change password' section" do
+      expect(response.body).to have_no_css(".Subhead-heading", text: "Change password")
     end
   end
 

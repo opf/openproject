@@ -367,6 +367,7 @@ hi:
     label_in_more_than: से अधिक में
     label_incoming_emails: आने वाली ईमेल
     label_information_plural: जानकारी
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Import
     label_latest_activity: Latest activity
@@ -391,6 +392,7 @@ hi:
     label_no_value: No value
     label_none: कुछ नहीं
     label_not_contains: शामिल नहीं है
+    label_not_available: Not available
     label_not_equals: नहीं है
     label_on: पर
     label_open_menu: मेनू खोलें

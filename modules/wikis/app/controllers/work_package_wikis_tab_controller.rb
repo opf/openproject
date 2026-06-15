@@ -49,6 +49,6 @@ class WorkPackageWikisTabController < ApplicationController
   private
 
   def set_work_package
-    @work_package = @project.work_packages.visible.find(params[:work_package_id])
+    @work_package = @project.work_packages.visible.find(params.expect(:work_package_id))
   end
 end

@@ -367,6 +367,7 @@ zh-CN:
     label_in_more_than: 在多于
     label_incoming_emails: 传入电子邮件
     label_information_plural: 信息
+    label_infinity: Infinity
     label_invalid: 无效
     label_import: 导入
     label_latest_activity: 最新活动
@@ -391,6 +392,7 @@ zh-CN:
     label_no_value: 无值
     label_none: 无
     label_not_contains: 不包含
+    label_not_available: Not available
     label_not_equals: 不是
     label_on: 于
     label_open_menu: 打开菜单

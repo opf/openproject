@@ -367,6 +367,7 @@ si:
     label_in_more_than: වඩා වැඩි
     label_incoming_emails: ලැබෙන විද්යුත් තැපැල්
     label_information_plural: තොරතුරු
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: ආනයන
     label_latest_activity: නවතම ක්රියාකාරකම්
@@ -391,6 +392,7 @@ si:
     label_no_value: වටිනාකමක් නැත
     label_none: කිසිවක් නැත
     label_not_contains: අඩංගු නොවේ
+    label_not_available: Not available
     label_not_equals: නැත
     label_on: මත
     label_open_menu: මෙනුව විවෘත කරන්න

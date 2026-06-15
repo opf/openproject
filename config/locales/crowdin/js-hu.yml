@@ -379,6 +379,7 @@ hu:
     label_in_more_than: több mint
     label_incoming_emails: Bejövő e-mailek
     label_information_plural: Információk
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Importálás
     label_latest_activity: Utolsó aktivitás
@@ -403,6 +404,7 @@ hu:
     label_no_value: Nincs érték
     label_none: Egyik sem
     label_not_contains: nem tartalmaz
+    label_not_available: Not available
     label_not_equals: nem
     label_on: be
     label_open_menu: Menü megnyitása
