@@ -60,7 +60,7 @@
     "@angular/cdk": "^22.0.0",
     "@angular/cli": "^22.0.0",
     "@angular/common": "^22.0.0",
-    "@angular/compiler": "^22.0.0",
+    "@angular/compiler": "^22.0.1",
     "@angular/compiler-cli": "^22.0.0",
     "@angular/core": "^22.0.1",
     "@angular/elements": "^22.0.0",
