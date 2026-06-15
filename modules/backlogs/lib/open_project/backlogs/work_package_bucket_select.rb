@@ -30,22 +30,9 @@
 
 module OpenProject::Backlogs
   class WorkPackageBucketSelect < Queries::WorkPackages::Selects::WorkPackageSelect
+    include WorkPackageSelectConcern
+
     attr_reader :project
-
-    def self.instances(context = nil)
-      return [] if context && !context.backlogs_enabled?
-      return [] unless user_allowed_to_select_bucket?(context)
-
-      [new(context)]
-    end
-
-    def self.user_allowed_to_select_bucket?(context)
-      if context
-        User.current.allowed_in_project?(:view_sprints, context)
-      else
-        User.current.allowed_in_any_project?(:view_sprints)
-      end
-    end
 
     def initialize(project = nil)
       @project = project
@@ -88,14 +75,6 @@ module OpenProject::Backlogs
               end
 
       scope.visible
-    end
-
-    def projects_with_view_sprints
-      if project
-        Project.where(id: project)
-      else
-        Project.allowed_to(User.current, :view_sprints)
-      end
     end
   end
 end

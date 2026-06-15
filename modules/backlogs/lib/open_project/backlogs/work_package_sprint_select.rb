@@ -30,24 +30,13 @@
 
 module OpenProject::Backlogs
   class WorkPackageSprintSelect < Queries::WorkPackages::Selects::WorkPackageSelect
+    include WorkPackageSelectConcern
+
+    attr_reader :project
+
     SORT_ORDER = %w[visible_sprints.name
                     visible_sprints.start_date
                     visible_sprints.finish_date].freeze
-
-    def self.instances(context = nil)
-      return [] if context && !context.backlogs_enabled?
-      return [] unless user_allowed_to_select_sprint?(context)
-
-      [new(context)]
-    end
-
-    def self.user_allowed_to_select_sprint?(context)
-      if context
-        User.current.allowed_in_project?(:view_sprints, context)
-      else
-        User.current.allowed_in_any_project?(:view_sprints)
-      end
-    end
 
     def initialize(project = nil)
       @project = project
@@ -91,21 +80,13 @@ module OpenProject::Backlogs
     end
 
     def visible_sprints
-      scope = if @project
-                Sprint.for_project(@project)
+      scope = if project
+                Sprint.for_project(project)
               else
                 Sprint
               end
 
       scope.visible
-    end
-
-    def projects_with_view_sprints
-      if @project
-        Project.where(id: @project)
-      else
-        Project.allowed_to(User.current, :view_sprints)
-      end
     end
   end
 end
