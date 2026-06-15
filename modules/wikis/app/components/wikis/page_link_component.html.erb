@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
     render(Primer::Alpha::StackItem.new(grow: true)) do
       render(Primer::Alpha::Stack.new(direction: :horizontal, gap: :condensed, align: :center)) do
         concat(
-          render(Primer::Alpha::StackItem.new(classes: "ellipsis", style: "min-width: 0")) do
+          render(Primer::Alpha::StackItem.new(classes: "ellipsis op-page-link--title")) do
             if error?
               render(Primer::Beta::Text.new(color: :muted)) { page_title }
             else
