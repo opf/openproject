@@ -202,6 +202,13 @@
     box-shadow: var(--shadow-floating-medium)
     opacity: 1
 
+    // Firefox folds a card's box-shadow ink overflow into the native drag-image
+    // snapshot, shifting the snapshot origin off the border box so the grab
+    // offset no longer lines up under the pointer. Drop the lift shadow on
+    // Firefox only; other browsers snapshot the border box and are unaffected.
+    .-browser-firefox &
+      box-shadow: none
+
 .Box--condensed .Box-card
   padding: var(--stack-padding-condensed) var(--stack-padding-normal)
 
