@@ -33,13 +33,9 @@ module Wikis
     include Dry::Monads[:result]
 
     def count(linkable)
-      relation_page_links = Provider.enabled.sum { |provider| relation_page_links_for(provider:, linkable:).size }
-
-      relation_page_links +
+      relation_page_link_count(linkable) +
         inline_page_link_infos_for(linkable:).size +
-        (referencing_wiki_page_infos_for(linkable:) + mentioning_wiki_page_infos_for(linkable:))
-          .uniq { |r| r.success? ? r.value!.identifier : r.object_id }
-          .size
+        wiki_page_reference_count(linkable)
     end
 
     def relation_page_links_for(provider:, linkable:)
@@ -98,6 +94,16 @@ module Wikis
     end
 
     private
+
+    def relation_page_link_count(linkable)
+      Provider.enabled.sum { |provider| relation_page_links_for(provider:, linkable:).size }
+    end
+
+    def wiki_page_reference_count(linkable)
+      (referencing_wiki_page_infos_for(linkable:) + mentioning_wiki_page_infos_for(linkable:))
+        .uniq { |r| r.success? ? r.value!.identifier : r.object_id }
+        .size
+    end
 
     def resolve_query(provider, name)
       provider.resolve(name)
