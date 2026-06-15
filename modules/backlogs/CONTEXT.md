@@ -20,6 +20,12 @@ _Avoid_: Container, target
 A user-controlled ordinal value that determines where a work package appears within an ordered list.
 _Avoid_: Priority order, sort order
 
+**Reorder**:
+Changing a work package's Position within a single Backlogs list.
+
+**Move**:
+Relocating a work package from one Backlogs list to another (an Inbox backlog, a Backlog bucket, or a Sprint). Contrast Reorder, which stays within one list.
+
 **Highlighted gap drop indicator**:
 An accent-tinted gap between work package cards that marks the candidate position for a dragged work package.
 _Avoid_: Placeholder, drop placeholder
