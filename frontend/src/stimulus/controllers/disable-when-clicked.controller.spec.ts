@@ -76,8 +76,9 @@ describe('DisableWhenClickedController', () => {
   });
 
   it('prevents default on a second click for anchor elements', async () => {
+    // href="#" so the unprevented first click can't navigate the test iframe
     await ctx.mount(`
-      <a href="/documents/new" data-controller="disable-when-clicked">
+      <a href="#" data-controller="disable-when-clicked">
         + Document
       </a>
     `);
@@ -94,8 +95,9 @@ describe('DisableWhenClickedController', () => {
   });
 
   it('marks anchor elements as aria-disabled instead of using the disabled attribute', async () => {
+    // href="#" so the unprevented first click can't navigate the test iframe
     await ctx.mount(`
-      <a href="/documents/new" data-controller="disable-when-clicked">
+      <a href="#" data-controller="disable-when-clicked">
         + Document
       </a>
     `);
