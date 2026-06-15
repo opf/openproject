@@ -279,17 +279,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   }
 
   /*
-   * Returns the work package label, e.g. "DPNEW-15 (#123)" in semantic mode
-   * or "#123" in classic mode, where the identifier is the numeric ID already.
+   * Returns the work package label
    */
   public get idLabel():string {
-    const { formattedId, id } = this.workPackage;
-
-    if (id && this.workPackage.displayId !== id.toString()) {
-      return `${formattedId} (#${id})`;
-    }
-
-    return formattedId;
+    return this.workPackage.formattedId;
   }
 
   public showSwitchToProjectBanner():boolean {

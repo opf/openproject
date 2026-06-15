@@ -118,6 +118,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         this.copyToClipboardService.copy(url.toString());
         break;
       }
+      case 'copy_id_to_clipboard':
+        this.copyToClipboardService.copy(`${this.workPackage.id!}`);
+        break;
       default:
         window.location.href = link!;
         break;
@@ -151,6 +154,13 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
     // Add the available actions on timers
     actions = this.addTimerAction(actions);
+
+    // Copying the numeric ID is only useful in semantic mode, where the
+    // displayed identifier (e.g. "PROJ-42") is not the numeric ID itself.
+    const copyIdAction = actions.find((action) => action.key === 'copy_id_to_clipboard');
+    if (copyIdAction) {
+      copyIdAction.hidden = this.workPackage.displayId === this.workPackage.id?.toString();
+    }
 
     // Splice plugin actions onto the core actions
     _.each(this.getPermittedPluginActions(authorization), (action:WorkPackageAction) => {
