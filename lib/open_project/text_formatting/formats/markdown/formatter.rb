@@ -44,6 +44,7 @@ module OpenProject::TextFormatting::Formats::Markdown
       OpenProject::TextFormatting::Filters::AttachmentFilter,
       OpenProject::TextFormatting::Filters::AutolinkFilter,
       OpenProject::TextFormatting::Filters::AutolinkCustomProtocolsFilter,
+      OpenProject::TextFormatting::Filters::LinkReplacementFilter,
       OpenProject::TextFormatting::Filters::RelativeLinkFilter,
       OpenProject::TextFormatting::Filters::LinkAttributeFilter,
       OpenProject::TextFormatting::Filters::ExternalLinkCaptureFilter,

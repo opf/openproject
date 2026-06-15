@@ -60,6 +60,7 @@ module OpenProject::Wikis
       )
 
       OpenProject::TextFormatting::Filters::PatternMatcherFilter.append_matcher ::Wikis::TextFormatting::WikiLinkMatcher
+      OpenProject::TextFormatting::Filters::LinkReplacementFilter.register_handler ::Wikis::TextFormatting::WikiUrlHandler
 
       # Registering queries and filters
       ::Queries::Register.register(::Queries::Wikis::PageLinks::PageLinkQuery) do
