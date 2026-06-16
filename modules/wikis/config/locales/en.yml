@@ -21,7 +21,7 @@ en:
         wikis/xwiki_provider:
           attributes:
             url:
-              xwiki_already_registered: "is already used by another XWiki provider called \"%{name}\""
+              already_taken: "is already used by another wiki provider called \"%{name}\""
               xwiki_unreachable: could not be reached
     models:
       wikis/inline_page_link:

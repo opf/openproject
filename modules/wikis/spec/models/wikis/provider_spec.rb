@@ -31,16 +31,16 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Wikis::XWikiProvider do
+RSpec.describe Wikis::Provider do
   describe "validations" do
-    describe "unique_xwiki_instance" do
+    describe "unique_universal_identifier" do
       let(:existing) { create(:xwiki_provider, universal_identifier: "xwiki-instance-abc123") }
       let(:duplicate) { build(:xwiki_provider, universal_identifier: existing.universal_identifier) }
 
       it "is invalid when universal_identifier is already taken" do
         expect(duplicate).not_to be_valid
         expect(duplicate.errors[:url]).to include(
-          "is already used by another XWiki provider called \"#{existing.name}\""
+          "is already used by another wiki provider called \"#{existing.name}\""
         )
       end
 

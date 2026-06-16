@@ -43,8 +43,6 @@ module Wikis
     store_attribute :options, :wiki_audience, :string
     store_attribute :options, :token_exchange_scope, :string
 
-    validate :unique_xwiki_instance, if: -> { universal_identifier.present? }
-
     class << self
       def registry_prefix = "xwiki"
       def generate_client_id = "openproject-#{SecureRandom.hex(8)}"
@@ -83,15 +81,6 @@ module Wikis
 
     def oauth_configuration
       Wikis::Adapters::Providers::XWiki::OAuthConfiguration.new(self)
-    end
-
-    private
-
-    def unique_xwiki_instance
-      existing = self.class.where(universal_identifier:).where.not(id:).first
-      return unless existing
-
-      errors.add(:url, :xwiki_already_registered, name: existing.name)
     end
   end
 end
