@@ -105,9 +105,10 @@ jobs:
               printf '<details>\n<summary>🤖 Ask Copilot to investigate</summary>\n\n'
               printf 'Copy the prompt below into a new comment on this PR to delegate the investigation to GitHub Copilot. It will look into the flakiness and open a separate pull request with you as reviewer.\n\n'
               printf '```\n'
-              printf '@copilot The following spec(s) were detected as flaky on PR #%s:\n\n' "$PR_NUMBER"
+              printf '@copilot The following spec(s) are flaky in CI (first seen on PR #%s, linked for reference only):\n\n' "$PR_NUMBER"
               printf '%s\n\n' "$specs"
-              printf 'Follow the playbook in docs/development/testing/handling-flaky-tests/README.md to investigate the root cause and apply a fix. Open a separate pull request with the change and request a review from @%s.\n' "$PR_AUTHOR"
+              printf 'Treat this as a standalone task, unrelated to PR #%s. Create a new branch from origin/dev and open a new pull request targeting dev — do not stack it on PR #%s or reuse that branch.\n\n' "$PR_NUMBER" "$PR_NUMBER"
+              printf 'Follow the playbook in docs/development/testing/handling-flaky-tests/README.md to find the root cause and fix the flakiness. Title the PR after the spec(s) it fixes, and use the PR description to explain the root cause and how the change resolves it. Request a review from @%s.\n' "$PR_AUTHOR"
               printf '```\n\n'
               printf '</details>\n'
             } > tmp/flaky_comment.md
