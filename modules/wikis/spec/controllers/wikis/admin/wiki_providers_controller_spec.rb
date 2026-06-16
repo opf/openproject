@@ -40,10 +40,9 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
     let!(:wiki_provider) { create(:xwiki_provider) }
 
     context "when the enterprise token doesn't allow xwiki_integration" do
-      it "redirects to the upsell page" do
+      it "redirects to the index page" do
         get :index
-        expect(response).to be_redirect
-        expect(response).to redirect_to(upsell_admin_settings_wiki_providers_path)
+        expect(assigns(:ee_token_allows_wiki_integration)).to be_falsey
       end
     end
 
@@ -66,17 +65,6 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
     end
   end
 
-  describe "GET #upsell" do
-    let!(:wiki_provider) { create(:xwiki_provider) }
-
-    it "renders the index template and assigns providers" do
-      get :upsell
-      expect(response).to be_successful
-      expect(response).to render_template :upsell
-      expect(assigns(:wiki_providers)).to include(wiki_provider)
-    end
-  end
-
   describe "GET #new" do
     context "with a token that includes the xwiki integration", with_ee: [:xwiki_integration] do
       it "renders the new template with an unpersisted provider" do
@@ -89,10 +77,11 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
     end
 
     context "when the enterprise token doesn't allow xwiki_integration" do
-      it "redirects to the upsell page" do
+      it "redirects to the index page" do
         get :new
         expect(response).to be_redirect
-        expect(response).to redirect_to(upsell_admin_settings_wiki_providers_path)
+        expect(assigns(:ee_token_allows_wiki_integration)).to be_falsey
+        expect(response).to redirect_to(admin_settings_wiki_providers_path)
       end
     end
   end
@@ -131,10 +120,11 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
     end
 
     context "when the enterprise token doesn't allow xwiki_integration" do
-      it "redirects to the upsell page and does not create the provider" do
+      it "redirects to the index page and does not create the provider" do
         expect { post :create, params: valid_params }.not_to change(Wikis::XWikiProvider, :count)
         expect(response).to be_redirect
-        expect(response).to redirect_to(upsell_admin_settings_wiki_providers_path)
+        expect(assigns(:ee_token_allows_wiki_integration)).to be_falsey
+        expect(response).to redirect_to(admin_settings_wiki_providers_path)
       end
     end
   end
