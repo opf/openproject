@@ -98,23 +98,9 @@ jobs:
           echo "## Flaky specs" >> "$GITHUB_STEP_SUMMARY"
           cat tmp/retried_specs.txt >> "$GITHUB_STEP_SUMMARY"
           if [ -n "$PR_NUMBER" ]; then
-            specs="$(cat tmp/retried_specs.txt)"
-            {
-              printf '> [!WARNING]\n> Flaky specs\n\n'
-              printf '%s\n\n' "$specs"
-              printf '<details>\n<summary>🤖 Ask Copilot to investigate</summary>\n\n'
-              printf 'Copy the prompt below into a new comment on this PR to delegate the investigation to GitHub Copilot. It will look into the flakiness and open a separate pull request with you as reviewer.\n\n'
-              printf '```\n'
-              printf '@copilot The following spec(s) are flaky in CI (first seen on PR #%s, linked for reference only):\n\n' "$PR_NUMBER"
-              printf '%s\n\n' "$specs"
-              printf 'Treat this as a standalone task, unrelated to PR #%s. Create a new branch from origin/dev and open a new pull request targeting dev — do not stack it on PR #%s or reuse that branch.\n\n' "$PR_NUMBER" "$PR_NUMBER"
-              printf 'Follow the playbook in docs/development/testing/handling-flaky-tests/README.md to find the root cause and fix the underlying race — do not skip, delete, or weaken the spec to make it pass; disabling is a last resort per the playbook, and only with a bug ticket. Verify the fix by running the spec(s) repeatedly (e.g. `script/bulk_run_rspec --run-count 10`).\n\n'
-              printf 'If you cannot reproduce the flake or are not confident in a fix after reasonable investigation, do not fabricate a change or skip the spec to force CI green. Instead, leave the pull request in draft and document what you tried, the suspected cause, and any leads in its description, then assign @%s to take over.\n\n' "$PR_AUTHOR"
-              printf 'Once the fix is verified, title the PR after the spec(s) it fixes, and use the PR description to explain the root cause, how the change resolves it, and the before/after results. Label the PR `flaky-spec`, assign @%s, and request a review from @%s.\n' "$PR_AUTHOR" "$PR_AUTHOR"
-              printf 'On every commit, set @%s as the sole co-author with a `Co-authored-by:` trailer (use their GitHub no-reply email so it links to their account), so it is traceable who dispatched the fix.\n' "$PR_AUTHOR"
-              printf '```\n\n'
-              printf '</details>\n'
-            } > tmp/flaky_comment.md
+            SPECS="$(cat tmp/retried_specs.txt)" \
+              envsubst '$SPECS $PR_NUMBER $PR_AUTHOR' \
+              < .github/flaky-spec-copilot-comment.md > tmp/flaky_comment.md
             gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file tmp/flaky_comment.md
           fi
         fi
