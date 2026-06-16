@@ -27,7 +27,7 @@ jobs:
 
       - name: Add comment if versions skew
         if: steps.skew.outputs.skew == 'true'
-        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3
         with:
           header: hocuspocus-version-skew
           message: |
@@ -45,7 +45,7 @@ jobs:
             supported. Please confirm this skew is intentional, or bump the lagging side.
       - name: Skew check passed
         if: steps.skew.outputs.skew != 'true'
-        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        uses: marocchino/sticky-pull-request-comment@0ea0beb66eb9baf113663a64ec522f60e49231c0 # v3
         with:
           header: hocuspocus-version-skew
           delete: true
