@@ -33,7 +33,7 @@ de:
           title: Unterelemente
         project_favorites:
           title: Favorisierte Projekte
-          no_results: Sie haben derzeit keine favorisierten Projekte. Klicken Sie auf den Stern auf der Projektübersicht, um ein Projekt zu Ihren Favoriten hinzuzufügen.
+          no_results: Sie haben derzeit keine favorisierten Projekte. Fügen Sie ein oder mehrere Projekte in der Übersicht oder in einer Projektliste als Favoriten hinzu.
         time_entries_current_user:
           title: Meine gebuchte Zeit
           displayed_days: 'Dargestellte Tage im Widget:'

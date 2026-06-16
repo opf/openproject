@@ -36,7 +36,7 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { OpenprojectHalModule } from 'core-app/features/hal/openproject-hal.module';
 import { HalLink, HalLinkInterface } from 'core-app/features/hal/hal-link/hal-link';
 import { provideHttpClientTesting } from '@angular/common/http/testing';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import type { Mock } from 'vitest';
 type Spy = Mock;
 
@@ -57,7 +57,7 @@ describe('HalResource', () => {
         HalResourceService,
         States,
         I18nService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
         provideHttpClientTesting(),
       ]
     }).compileComponents();

@@ -38,7 +38,9 @@ RSpec.describe Backlogs::BacklogController do
   shared_let(:status) { create(:status, name: "status 1", is_default: true) }
   shared_let(:sprint) { create(:sprint, project:) }
   shared_let(:backlog_bucket) { create(:backlog_bucket, project:) }
-  shared_let(:work_package) { create(:work_package, project:, status:) }
+  shared_let(:inbox_work_package) { create(:work_package, project:, status:) }
+  shared_let(:bucket_work_package) { create(:work_package, project:, status:, backlog_bucket:) }
+  shared_let(:sprint_work_package) { create(:work_package, project:, status:, sprint:) }
 
   current_user { user }
 
@@ -63,9 +65,11 @@ RSpec.describe Backlogs::BacklogController do
         expect(response).to render_template("backlogs/backlog/_backlog_list")
         expect(response).to render_template(layout: false)
         expect(assigns(:project)).to eq(project)
-        expect(assigns(:backlog_buckets)).to be_present
-        expect(assigns(:inbox_work_packages)).to match [work_package]
-        expect(assigns(:sprints)).to be_present
+        expect(assigns(:backlog_buckets)).to match [backlog_bucket]
+        expect(assigns(:sprints)).to match [sprint]
+        expect(assigns(:work_packages_by_sprint_id)).to eq({ sprint.id => [sprint_work_package] })
+        expect(assigns(:work_packages_by_backlog_id)).to eq({ nil => [inbox_work_package],
+                                                              backlog_bucket.id => [bucket_work_package] })
       end
     end
   end

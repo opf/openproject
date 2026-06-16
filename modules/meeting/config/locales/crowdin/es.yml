@@ -374,58 +374,22 @@ es:
         caption: Este texto aparecerá en cada página en el centro del pie de página.
       submit_button: Descargar
     notifications:
+      disabled: Los participantes no recibirán notificaciones por correo electrónico sobre cambios en la fecha, la hora o la lista de participantes.
+      enabled: Todos los participantes recibirán invitaciones actualizadas en el calendario para informarles de cualquier cambio en la fecha, la hora o la lista de participantes.
       sidepanel:
         title: Enviar actualizaciones de calendario por correo electrónico
         description:
-          disabled: Los participantes no recibirán un correo electrónico informándoles de los cambios.
-          enabled: Todos los participantes recibirán por correo electrónico invitaciones de calendario actualizadas en las que se les informará de los cambios.
           change_via_template: Para cambiar esto, edite la plantilla de la serie.
       dialog:
         title:
           enable: "¿Habilitar actualizaciones de calendario por correo electrónico?"
           disable: "¿Deshabilitar actualizaciones de calendario por correo electrónico?"
         message:
-          enable: 'Todos los participantes recibirán invitaciones de calendario actualizadas por correo electrónico cada vez que se produzca un cambio en la fecha, hora, lugar o participantes de la reunión. Una vez habilitada, se enviará inmediatamente un correo electrónico a todos los participantes.
-
-            '
-          disable: 'Los participantes ya no recibirán invitaciones de calendario actualizadas por correo electrónico cuando se produzcan cambios en la fecha, hora, lugar o participantes de la reunión. Si ya tenían una invitación a esta reunión, es posible que ya no sea precisa.
-
-            '
+          enable: Una vez activado, se enviará inmediatamente un correo electrónico a todos los participantes.
+          disable: Si ya tenían una invitación para esta reunión, es posible que ya no sea válida.
         confirm_label:
           enable: Habilitar actualizaciones por correo electrónico
           disable: Deshabilitar actualizaciones por correo electrónico
-      banner:
-        participants:
-          enabled: 'Todos los participantes recibirán por correo electrónico invitaciones actualizadas del calendario cuando usted añada o elimine participantes.
-
-            '
-          disabled: 'Las actualizaciones de calendario por correo electrónico están deshabilitadas. Los participantes no recibirán un correo electrónico informándoles cuando usted añada o elimine participantes.
-
-            '
-          draft_disabled: 'Los participantes no recibirán un correo electrónico en el que se les informe de que has añadido o eliminado a alguien.
-
-            '
-        onetime:
-          enabled: 'Todos los participantes recibirán por correo electrónico invitaciones actualizadas del calendario cuando usted añada o elimine participantes.
-
-            '
-          disabled: 'Los participantes no recibirán un correo electrónico informándoles de los cambios en la fecha, la hora o los participantes de la reunión.
-
-            '
-        occurrence:
-          enabled: 'Las actualizaciones de calendario por correo electrónico están habilitadas para la serie de reuniones. Todos los participantes recibirán invitaciones de calendario actualizadas en las que se les informará de los cambios en esta reunión.
-
-            '
-          disabled: 'Las actualizaciones de calendario por correo electrónico están deshabilitadas para la serie de reuniones. Los participantes no recibirán un correo electrónico informándoles de los cambios en esta reunión.
-
-            '
-        template:
-          enabled: 'Las actualizaciones de calendario por correo electrónico están habilitadas para la serie de reuniones. Todos los participantes recibirán invitaciones de calendario actualizadas en las que se les informará de los cambios en esta plantilla o en reuniones individuales.
-
-            '
-          disabled: 'Las actualizaciones de calendario por correo electrónico están deshabilitadas para la serie de reuniones. Los participantes no recibirán un correo electrónico informándoles de los cambios en esta plantilla o en reuniones individuales.
-
-            '
     presentation_mode:
       title: Modo de presentación
       button_present: Presente
@@ -638,6 +602,7 @@ es:
   label_agenda_item_duplicate_in_next_title: "¿Duplicar en la próxima reunión?"
   label_agenda_item_add_notes: Añadir notas
   label_agenda_item_add_outcome: Añadir resultado
+  label_agenda_item_convert_to_work_package: Convertir a paquete de trabajo
   label_agenda_item_work_package_add: Añadir paquete de trabajo
   label_agenda_item_work_package: Paquete de trabajo del punto del orden del día
   label_section_rename: Renombrar sección

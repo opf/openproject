@@ -31,10 +31,15 @@ tr:
         authentication_method: Kimlik Doğrulama Metodu
         creator: Oluşturan
         drive: Sürücü Kimliği
+        file_link_origin: File link origin ID
         host: Sunucu
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: İsim
         password: Uygulama şifresi
         provider_type: Sağlayıcı türü
+        storage: Storage
+        storage_url: Storage URL
         tenant: Dizin (kiracı) Kimliği
     errors:
       messages:

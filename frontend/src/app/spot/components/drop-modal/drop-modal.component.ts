@@ -183,7 +183,7 @@ export class SpotDropModalComponent implements OnDestroy {
     (this.focusGrabber.nativeElement as HTMLElement).focus();
   }
 
-  private onGlobalClick = this.close.bind(this) as () => void;
+  private onGlobalClick = this.close.bind(this);
 
   ngOnDestroy():void {
     if (this.opened) {

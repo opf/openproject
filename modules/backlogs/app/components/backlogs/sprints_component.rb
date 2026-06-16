@@ -52,7 +52,7 @@ module Backlogs
     private
 
     def blankslate_description
-      if allow_sprint_management?(project)
+      if sprint_management_allowed?
         description_with_settings_link
       else
         description
@@ -67,7 +67,7 @@ module Backlogs
 
       if project.receive_shared_sprints?
         t(".blankslate.receive_and_manage_description_html", settings_link:)
-      elsif allow_sprint_creation?(project)
+      elsif sprint_creation_allowed?
         t(".blankslate.create_and_manage_description_html", settings_link:)
       else
         t(".blankslate.manage_description_html", settings_link:)
@@ -77,7 +77,7 @@ module Backlogs
     def description
       if project.receive_shared_sprints?
         t(".blankslate.receive_description_text")
-      elsif allow_sprint_creation?(project)
+      elsif sprint_creation_allowed?
         t(".blankslate.create_description_text")
       else
         t(".blankslate.no_actions_description_text")

@@ -30,7 +30,7 @@ import { StateService } from '@uirouter/core';
 import { KeepTabService } from 'core-app/features/work-packages/components/wp-single-view-tabs/keep-tab/keep-tab.service';
 import { UiStateLinkBuilder } from 'core-app/features/work-packages/components/wp-fast-table/builders/ui-state-link-builder';
 import { WorkPackageDisplayField } from 'core-app/shared/components/fields/display/field-types/work-package-display-field.module';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 
@@ -40,13 +40,13 @@ export class LinkedWorkPackageDisplayField extends WorkPackageDisplayField {
     none: this.I18n.t('js.filter.noneElement'),
   };
 
-  @InjectField() $state!:StateService;
+  @LazyInject() $state!:StateService;
 
-  @InjectField() keepTab!:KeepTabService;
+  @LazyInject() keepTab!:KeepTabService;
 
-  @InjectField() currentProject!:CurrentProjectService;
+  @LazyInject() currentProject!:CurrentProjectService;
 
-  @InjectField() pathHelper!:PathHelperService;
+  @LazyInject() pathHelper!:PathHelperService;
 
   private uiStateBuilder:UiStateLinkBuilder = new UiStateLinkBuilder(this.$state, this.keepTab, this.currentProject, this.pathHelper);
 

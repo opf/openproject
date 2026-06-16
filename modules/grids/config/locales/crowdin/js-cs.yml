@@ -33,7 +33,7 @@ cs:
           title: Dílčí položky
         project_favorites:
           title: Oblíbené projekty
-          no_results: Momentálně nemáte žádné oblíbené projekty. Klikněte na ikonu hvězdičky v nástěnce projektu pro přidání jednoho do oblíbených.
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: Můj strávený čas
           displayed_days: 'Dny zobrazené ve widgetu:'

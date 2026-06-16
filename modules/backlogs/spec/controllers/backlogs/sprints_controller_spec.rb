@@ -44,6 +44,18 @@ RSpec.describe Backlogs::SprintsController do
 
     current_user { user }
 
+    describe "GET #index" do
+      it "responds with success", :aggregate_failures do
+        get :index, params: { project_id: project.id }
+
+        expect(response).to be_successful
+        expect(response).to have_http_status :ok
+        expect(assigns(:project)).to eq(project)
+        expect(assigns(:sprints)).not_to be_nil
+        expect(assigns(:work_package_counts)).to be_a(Hash)
+      end
+    end
+
     describe "GET #new_dialog" do
       it "responds with success", :aggregate_failures do
         get :new_dialog, params: { project_id: project.id }, format: :turbo_stream
@@ -173,11 +185,11 @@ RSpec.describe Backlogs::SprintsController do
     describe "POST #start" do
       let!(:sprint) { create(:sprint, project:) }
       let(:service_result) { ServiceResult.success(result: sprint.tap { it.status = "active" }) }
-      let(:service) { instance_double(Sprints::StartService, call: service_result) }
+      let(:service) { instance_double(Backlogs::Sprints::StartService, call: service_result) }
       let(:request_params) { { project_id: project.id, sprint_id: sprint.id } }
 
       before do
-        allow(Sprints::StartService)
+        allow(Backlogs::Sprints::StartService)
           .to receive(:new)
           .with(user:, model: sprint)
           .and_return(service)
@@ -344,10 +356,10 @@ RSpec.describe Backlogs::SprintsController do
           result: sprint.tap { |finished_sprint| finished_sprint.status = "completed" }
         )
       end
-      let(:service) { instance_double(Sprints::FinishService, call: service_result) }
+      let(:service) { instance_double(Backlogs::Sprints::FinishService, call: service_result) }
 
       before do
-        allow(Sprints::FinishService)
+        allow(Backlogs::Sprints::FinishService)
           .to receive(:new)
           .with(user:, model: sprint)
           .and_return(service)

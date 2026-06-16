@@ -155,7 +155,6 @@ lt:
         manual: Perjungti į Markdown išeities kodą
         wysiwyg: Perjungti į WYSIWYG (ką matai, tą ir turi) redaktorių
       macro:
-        error: 'Nepavyksta išskleisti makrokomandos: %{message}'
         attribute_reference:
           macro_help_tooltip: Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos.
           not_found: Reikalaujamas resursas nerastas
@@ -175,9 +174,14 @@ lt:
           title: Įterpti / redaguoti kodo fragmentą
           language: Formatavimo kalba
           language_hint: Įveskite formatavimo kalbą, kuri bus naudojama elementų išryškinimui (jei tai palaikoma).
-        dropdown:
-          macros: Makrokomandos
-          chose_macro: Parinkite makrokomandą
+        embedded_calendar:
+          text: "[Placeholder] Įterptinis kalendorius"
+        embedded_table:
+          button: Įterpti darbo paketų lentelę
+          text: "[Placeholder] Įterpta darbo paketų lentelė"
+        error: 'Nepavyksta išskleisti makrokomandos: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Turinys
         toolbar_help: Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui
         wiki_page_include:
@@ -195,11 +199,6 @@ lt:
           button_style_hint: 'Pasirinktinai: įjunkite, kad makro būtų rodomas kaip mygtukas, o ne kaip nuoroda.'
           without_type: Kurti darbo paketą
           with_type: 'Kurti darbo paketą (Tipas: %{typename})'
-        embedded_table:
-          button: Įterpti darbo paketų lentelę
-          text: "[Placeholder] Įterpta darbo paketų lentelė"
-        embedded_calendar:
-          text: "[Placeholder] Įterptinis kalendorius"
     admin:
       type_form:
         edit_query: Keisti užklausą
@@ -210,13 +209,6 @@ lt:
           new_date: "(nauja)"
         add_non_working_day: Nedarbo diena
         already_added_error: Nedarbo diena šiai datai jau yra. Kiekvienai unikaliai datai galima sukurti tik vieną nedarbo dieną.
-        change_button: Įrašyti ir perplanuoti
-        change_title: Keisti darbo dienas
-        removed_title: 'Jūs išimsite šias dienas iš nedarbo dienų sąrašo:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -375,6 +367,7 @@ lt:
     label_in_more_than: daugiau nei
     label_incoming_emails: Gauti el. laiškai
     label_information_plural: Informacija
+    label_infinity: Infinity
     label_invalid: Netinkamas
     label_import: Importuoti
     label_latest_activity: Paskutinė veikla
@@ -399,6 +392,7 @@ lt:
     label_no_value: Nenurodytas dydis
     label_none: joks
     label_not_contains: neturi
+    label_not_available: Not available
     label_not_equals: nėra
     label_on: įjungta
     label_open_menu: Atidaryti meniu
@@ -409,7 +403,6 @@ lt:
     label_per_page: 'Puslapyje:'
     label_please_wait: Prašome palaukti
     label_project: Projektas
-    label_project_list: Projektų sąrašai
     label_project_plural: Projektai
     label_visibility_settings: Matomumo nustatymai
     label_quote_comment: Cituoti šį komentarą
@@ -1061,16 +1054,13 @@ lt:
         all: Visi projektai
         selected: Tik pasirinktus
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Įtraukti visus sub-projektus
       tooltip:
         include_all_selected: Projektas jau įtrauktas, nes įjungta parinktis įtraukti visus sub-projektus.
         current_project: Tai dabartinis projektas, kuriame jūs esate.
         does_not_match_search: Projektas neatitinka paieškos kriterijaus.
       no_results: Nei vienas projektas neatitinka jūsų paieškos kriterijaus.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

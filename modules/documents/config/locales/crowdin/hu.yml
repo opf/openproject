@@ -45,6 +45,7 @@ hu:
   default_doc_category_user: Felhasználói dokumentáció
   enumeration_doc_categories: Dokumentum kategóriák
   documents:
+    button_add_type: Type
     page_header:
       heading: Összes dokumentum
       action_menu:

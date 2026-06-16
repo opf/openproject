@@ -83,12 +83,6 @@ module Admin
         )
 
         sf.text_field(
-          name: :work_packages_projects_export_limit,
-          type: :number,
-          input_width: :xsmall
-        )
-
-        sf.text_field(
           name: :file_max_size_displayed,
           type: :number,
           input_width: :xsmall,

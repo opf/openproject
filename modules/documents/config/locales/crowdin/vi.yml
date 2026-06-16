@@ -45,6 +45,7 @@ vi:
   default_doc_category_user: Tài liệu người dùng
   enumeration_doc_categories: Danh mục tài liệu
   documents:
+    button_add_type: Type
     page_header:
       heading: Tất cả tài liệu
       action_menu:

@@ -1,12 +1,14 @@
 <%=
   component_wrapper do
     flex_layout(flex_items: :center) do |credentials_row|
-      credentials_row.with_row do
-        render(Primer::Beta::Text.new(font_weight: :bold)) { t("wikis.admin.wiki_providers.oauth.openproject_oauth") }
-      end
-
       credentials_row.with_row(mb: 3) do
-        render(Primer::Beta::Text.new(color: :subtle)) { t("wikis.admin.wiki_providers.#{wiki_provider}.oauth.openproject_oauth_description") }
+        render(Primer::Alpha::Banner.new(icon: :alert, scheme: :warning)) do
+          helpers.link_translate(
+            "wikis.instructions.xwiki.oauth_application_details_html",
+            links: { xwiki_admin_link: xwiki_admin_url },
+            external: true
+          )
+        end
       end
 
       credentials_row.with_row(mb: 3) do

@@ -31,10 +31,15 @@ ru:
         authentication_method: Метод аутентификации
         creator: Автор
         drive: ID диска
+        file_link_origin: File link origin ID
         host: Хост
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: Имя
         password: Пароль приложения
         provider_type: Тип поставщика
+        storage: Storage
+        storage_url: Storage URL
         tenant: ID каталога (арендатора)
     errors:
       messages:

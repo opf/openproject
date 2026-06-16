@@ -107,12 +107,12 @@ module OpTurbo
       turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :before)
     end
 
-    def render_success_flash_message_via_turbo_stream(**)
-      render_flash_message_via_turbo_stream(**, scheme: :success)
+    def render_success_flash_message_via_turbo_stream(message:, **)
+      render_flash_message_via_turbo_stream(message:, scheme: :success, **)
     end
 
-    def render_error_flash_message_via_turbo_stream(**)
-      render_flash_message_via_turbo_stream(**, scheme: :danger, icon: :stop)
+    def render_error_flash_message_via_turbo_stream(message:, **)
+      render_flash_message_via_turbo_stream(message:, scheme: :danger, icon: :stop, **)
     end
 
     def render_live_region_update_message(message:, politeness: "polite", delay: nil)
@@ -156,6 +156,15 @@ module OpTurbo
 
     def reload_page_via_turbo_stream
       turbo_streams << OpTurbo::StreamComponent.new(action: :reloadPage, target: nil).render_in(view_context)
+    end
+
+    # Dispatches a `CustomEvent` on `document` from a turbo stream, letting the
+    # server signal a client-side change without knowing which listeners (if
+    # any) react to it. `detail` is serialized and exposed as the event's detail.
+    def dispatch_event_via_turbo_stream(name, detail: {})
+      turbo_streams << OpTurbo::StreamComponent
+        .new(action: :dispatchEvent, target: nil, "event-name": name, detail: detail.to_json)
+        .render_in(view_context)
     end
 
     def turbo_streams

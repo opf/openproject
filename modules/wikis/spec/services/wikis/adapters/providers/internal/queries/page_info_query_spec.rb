@@ -35,7 +35,7 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::PageInfo do
 
   let(:provider) { create(:internal_wiki_provider) }
   let(:input_data) { Wikis::Adapters::Input::PageInfo.build(identifier:).value! }
-  let(:auth_strategy) { provider.auth_strategy_for(current_user).value! }
+  let(:auth_strategy) { provider.auth_strategy_for(user).value! }
   let(:identifier) { wiki_page.id.to_s }
 
   let(:wiki_page) { create(:wiki_page) }
@@ -43,10 +43,10 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::PageInfo do
   let(:other_wiki_page) { create(:wiki_page) }
   let(:permissions) { %i[view_work_packages view_wiki_pages] }
 
-  current_user { create(:user) }
+  let(:user) { create(:user) }
 
   before do
-    create(:member, project:, user: current_user, roles: [create(:project_role, permissions:)])
+    create(:member, project:, user:, roles: [create(:project_role, permissions:)])
   end
 
   it { is_expected.to be_success }

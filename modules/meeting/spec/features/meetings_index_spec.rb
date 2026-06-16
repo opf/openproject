@@ -114,10 +114,8 @@ RSpec.describe "Meetings", "Index", :js do
   end
 
   def setup_meeting_involvement
-    invite_to_meeting(tomorrows_meeting)
-    invite_to_meeting(yesterdays_meeting)
-    create(:meeting_participant, :attendee, user:, meeting: yesterdays_meeting)
-    create(:meeting_participant, :attendee, user:, meeting: tomorrows_meeting)
+    create(:meeting_participant, :invitee, :attendee, user:, meeting: yesterdays_meeting)
+    create(:meeting_participant, :invitee, :attendee, user:, meeting: tomorrows_meeting)
     meeting.update!(author: user)
   end
 
@@ -132,6 +130,13 @@ RSpec.describe "Meetings", "Index", :js do
 
   shared_examples "sidebar filtering" do |context:|
     context "when showing all meetings without invitations" do
+      let!(:meeting_without_participants) do
+        create(:meeting,
+               project:,
+               title: "Meeting without any participants!",
+               start_time: business_day_at_noon + 3.hours).tap { |m| m.participants.delete_all }
+      end
+
       it "does not show under My meetings, but in All meetings" do
         meetings_page.visit!
         meetings_page.expect_no_meetings_listed
@@ -139,12 +144,15 @@ RSpec.describe "Meetings", "Index", :js do
 
         meetings_page.set_sidebar_filter "All meetings"
 
-        # It now includes the ongoing meeting I'm not invited to
-        if context == :global
-          [ongoing_meeting, meeting, tomorrows_meeting, other_project_meeting]
-        else
-          [ongoing_meeting, meeting, tomorrows_meeting]
-        end
+        # It now includes the ongoing meeting I'm not invited to,
+        # as well as meetings without any invited participants
+        expected_meetings =
+          if context == :global
+            [ongoing_meeting, meeting, meeting_without_participants, tomorrows_meeting, other_project_meeting]
+          else
+            [ongoing_meeting, meeting, meeting_without_participants, tomorrows_meeting]
+          end
+        meetings_page.expect_meetings_listed(*expected_meetings)
       end
     end
 
@@ -184,11 +192,14 @@ RSpec.describe "Meetings", "Index", :js do
         it "show all past meetings" do
           meetings_page.expect_meetings_listed_in_table(yesterdays_meeting, meeting, ongoing_meeting)
           meetings_page.expect_meetings_not_listed(tomorrows_meeting)
+        end
 
-          # keeps the past filter selected when changing advanced filters (Regression #61875)" do
+        it "keeps the past filter selected when changing advanced filters (Regression #61875)" do
+          meetings_page.set_sidebar_filter "My meetings"
+          meetings_page.set_quick_filter upcoming: false
+
           meetings_page.open_filters
           meetings_page.remove_filter "invited_user_id"
-          click_on "Apply"
 
           wait_for_network_idle
 
@@ -377,6 +388,24 @@ RSpec.describe "Meetings", "Index", :js do
       end
     end
 
+    context 'with the "Project" quick filter' do
+      before do
+        meetings_page.visit!
+        meetings_page.set_sidebar_filter "All meetings"
+      end
+
+      it "shows only meetings from the selected projects" do
+        meetings_page.set_project_filter(project)
+
+        meetings_page.expect_meetings_listed(meeting, tomorrows_meeting)
+        meetings_page.expect_meetings_not_listed(other_project_meeting)
+
+        meetings_page.set_project_filter(project, other_project)
+
+        meetings_page.expect_meetings_listed(meeting, tomorrows_meeting, other_project_meeting)
+      end
+    end
+
     include_examples "sidebar filtering", context: :global
   end
 
@@ -408,6 +437,11 @@ RSpec.describe "Meetings", "Index", :js do
         meetings_page.visit!
         meetings_page.expect_no_create_new_button
       end
+    end
+
+    it 'does not show the "Project" quick filter' do
+      meetings_page.visit!
+      expect(page).to have_no_button I18n.t(:label_project), exact: true
     end
 
     include_examples "sidebar filtering", context: :project

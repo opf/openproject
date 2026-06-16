@@ -34,23 +34,22 @@ module Wikis
       module XWiki
         module Queries
           class ReferencingPages < BaseQuery
-            def call(input_data:, **)
-              # TODO: use real API endpoints once available
+            include Concerns::XWikiQuery
+            include Concerns::XWikiPageQueries
 
-              title = [
-                "What makes XWiki special?",
-                "API documentation",
-                "A brief introduction on configuring your own XWiki instance and connect it to OpenProject."
-              ]
+            MAXIMUM_RESULTS = 25
 
-              results = []
-
-              if input_data.linkable.id % 2 == 0
-                results << Success(Results::PageInfo.new(identifier: "1337", title: title.sample, href: "#", provider:))
-                results << Success(Results::PageInfo.new(identifier: "1338", title: title.sample, href: "#", provider:))
+            def call(input_data:, auth_strategy:)
+              authenticated(auth_strategy) do |http|
+                url = rest_url("openproject/links/workPackages/#{input_data.linkable.id}")
+                handle_response(http.get(url, params: { number: MAXIMUM_RESULTS })) do |data|
+                  success(
+                    fetch_json(data, "searchResults")
+                      .uniq { |r| fetch_json(r, "id") }
+                      .map { canonical_page_info(identifier: fetch_json(it, "id"), auth_strategy:) }
+                  )
+                end
               end
-
-              success(results)
             end
           end
         end

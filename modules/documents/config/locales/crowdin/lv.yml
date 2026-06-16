@@ -45,6 +45,7 @@ lv:
   default_doc_category_user: Lietotāja dokumentācija
   enumeration_doc_categories: Dokumentu kategorijas
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

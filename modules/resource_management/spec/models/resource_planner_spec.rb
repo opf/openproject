@@ -141,4 +141,26 @@ RSpec.describe ResourcePlanner do
       end
     end
   end
+
+  describe ".allowed_child_class" do
+    it "resolves an allowed child name to its class" do
+      expect(described_class.allowed_child_class("ResourceWorkPackageList")).to eq(ResourceWorkPackageList)
+      expect(described_class.allowed_child_class("UserCard")).to eq(UserCard)
+    end
+
+    it "returns nil for a real but disallowed constant" do
+      expect(described_class.allowed_child_class("User")).to be_nil
+      expect(described_class.allowed_child_class("Kernel")).to be_nil
+    end
+
+    it "returns nil for unknown, blank or nil names" do
+      expect(described_class.allowed_child_class("DoesNotExist")).to be_nil
+      expect(described_class.allowed_child_class("")).to be_nil
+      expect(described_class.allowed_child_class(nil)).to be_nil
+    end
+
+    it "is scoped per view type: a leaf view allows no children" do
+      expect(ResourceWorkPackageList.allowed_child_class("UserCard")).to be_nil
+    end
+  end
 end

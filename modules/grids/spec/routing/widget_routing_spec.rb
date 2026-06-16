@@ -139,6 +139,24 @@ RSpec.describe Grids::WidgetController do
     end
   end
 
+  describe "project_favorites routing" do
+    describe "GET #show" do
+      it do
+        expect(get("/widgets/project_favorites"))
+          .to route_to(controller: "grids/widgets/favorite_projects", action: "show")
+      end
+    end
+  end
+
+  describe "project_favorites named routing" do
+    describe "GET #show" do
+      it do
+        expect(get(widgets_project_favorites_path))
+          .to route_to(controller: "grids/widgets/favorite_projects", action: "show")
+      end
+    end
+  end
+
   describe "subitems routing" do
     describe "GET #show" do
       it do

@@ -27,122 +27,105 @@
  * See COPYRIGHT and LICENSE files for more details.
  * ++
  */
-import { Application } from '@hotwired/stimulus';
+import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import CheckAllController from './check-all.controller';
 import CheckableController from './checkable.controller';
 
-const nextFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+const checkAllTemplate = `
+  <div data-controller="check-all" data-check-all-checkable-outlet="#checkables">
+    <button id="check-all" data-action="check-all#checkAll">Check all</button>
+    <button id="uncheck-all" data-action="check-all#uncheckAll">Uncheck all</button>
+  </div>
+`;
+
+const checkableTemplate = `
+  <div id="checkables" data-controller="checkable">
+    <input type="checkbox" data-checkable-target="checkbox">
+    <input type="checkbox" data-checkable-target="checkbox">
+    <input type="checkbox" data-checkable-target="checkbox">
+  </div>
+`;
 
 describe('CheckAllController', () => {
-  let Stimulus:Application;
-  let fixturesElement:HTMLElement;
-
-  beforeEach(() => {
-    fixturesElement = document.createElement('div');
-    document.body.appendChild(fixturesElement);
-  });
+  let ctx:StimulusTestContext;
 
   beforeEach(async () => {
-    Stimulus = Application.start();
-    // Stimulus.debug = true;
-    Stimulus.handleError = (error, message, detail) => {
-      console.error(error, message, detail);
-    };
-    Stimulus.register('checkable', CheckableController);
-    Stimulus.register('check-all', CheckAllController);
-    await nextFrame();
+    ctx = await setupStimulusTest({
+      controllers: {
+        'check-all': CheckAllController,
+        checkable: CheckableController,
+      },
+    });
   });
 
-  const checkAllTemplate = `
-  <div data-controller="check-all" data-check-all-checkable-outlet="#checkables">
-   <button id="check-all" data-action="check-all#checkAll">Check all</button>
-   <button id="uncheck-all" data-action="check-all#uncheckAll">Uncheck all</button>
-  </div>
- `;
-
-  const checkableTemplate = `
-  <div id="checkables" data-controller="checkable">
-   <input type="checkbox" data-checkable-target="checkbox">
-   <input type="checkbox" data-checkable-target="checkbox">
-   <input type="checkbox" data-checkable-target="checkbox">
-  </div>
- `;
-
-  function appendTemplate(html:string) {
-    const template = document.createElement('template');
-    template.innerHTML = html.trim();
-    fixturesElement.appendChild(template.content.cloneNode(true));
-  }
+  afterEach(() => ctx.dispose());
 
   describe('without checkable controller', () => {
     beforeEach(async () => {
-      appendTemplate(checkAllTemplate);
-      await nextFrame();
+      await ctx.mount(checkAllTemplate);
     });
 
     it('does nothing and does not error', () => {
       expect(() => {
-        document.getElementById('check-all')!.click();
-        document.getElementById('uncheck-all')!.click();
+        ctx.screen.getByRole('button', { name: 'Check all' }).click();
+        ctx.screen.getByRole('button', { name: 'Uncheck all' }).click();
       }).not.toThrow();
     });
   });
 
   describe('with checkable controller', () => {
     beforeEach(async () => {
-      appendTemplate(checkableTemplate);
-      appendTemplate(checkAllTemplate);
-      await nextFrame();
+      await ctx.mount(`
+        ${checkableTemplate}
+        ${checkAllTemplate}
+      `);
     });
 
     it('toggles checkboxes', async () => {
-      const inputs = Array.from(document.querySelectorAll<HTMLInputElement>('input[type="checkbox"]'));
+      const inputs = ctx.screen.getAllByRole('checkbox');
 
       expect(inputs).toHaveLength(3);
-      expect(inputs.every((i) => !i.checked)).toBe(true);
+      inputs.forEach((input) => {
+        expect(input).not.toBeChecked();
+      });
 
-      document.getElementById('check-all')!.click();
-      await nextFrame();
+      ctx.screen.getByRole('button', { name: 'Check all' }).click();
+      await ctx.nextFrame();
 
-      expect(inputs.every((i) => i.checked)).toBe(true);
+      inputs.forEach((input) => {
+        expect(input).toBeChecked();
+      });
 
-      document.getElementById('uncheck-all')!.click();
-      await nextFrame();
+      ctx.screen.getByRole('button', { name: 'Uncheck all' }).click();
+      await ctx.nextFrame();
 
-      expect(inputs.every((i) => !i.checked)).toBe(true);
+      inputs.forEach((input) => {
+        expect(input).not.toBeChecked();
+      });
     });
 
     it('applies aria-controls for connected outlet', () => {
-      const checkAllEl = document.querySelector('[data-controller="check-all"]')!;
+      const checkAllEl = ctx.container.querySelector('[data-controller="check-all"]')!;
 
-      expect(checkAllEl).toBeDefined();
+      expect(checkAllEl).toHaveAttribute('aria-controls');
 
-      const ariaControls = checkAllEl.getAttribute('aria-controls');
+      const ariaControls = checkAllEl.getAttribute('aria-controls')!;
 
-      expect(ariaControls).toBeTruthy();
-      expect(ariaControls!.split(/\s+/)).toContain('checkables');
+      expect(ariaControls.split(/\s+/)).toContain('checkables');
     });
 
     it('removes aria-controls entry when outlet disconnects', async () => {
-      const checkAllEl = document.querySelector('[data-controller="check-all"]')!;
+      const checkAllEl = ctx.container.querySelector('[data-controller="check-all"]')!;
       const ariaBefore = checkAllEl.getAttribute('aria-controls') ?? '';
-      // Scenarios with connected checkable outlets
+
       expect(ariaBefore.split(/\s+/)).toContain('checkables');
 
-      // Remove the outlet element to trigger outlet disconnect
-      document.getElementById('checkables')!.remove();
-
-      await nextFrame();
+      ctx.container.querySelector('#checkables')!.remove();
+      await ctx.nextFrame();
 
       const ariaAfter = checkAllEl.getAttribute('aria-controls') ?? '';
 
       expect(ariaAfter.split(/\s+/)).not.toContain('checkables');
     });
-  });
-
-  afterEach(() => {
-    fixturesElement.remove();
-
-    Stimulus.stop();
   });
 });

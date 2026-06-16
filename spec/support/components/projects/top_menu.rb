@@ -27,7 +27,7 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-require "support/components/autocompleter/autocomplete_helpers"
+require "support/finders/test_selector_finders"
 
 module Components
   module Projects
@@ -35,7 +35,7 @@ module Components
       include Capybara::DSL
       include Capybara::RSpecMatchers
       include RSpec::Matchers
-      include ::Components::Autocompleter::AutocompleteHelpers
+      include ::TestSelectorFinders
 
       def toggle
         page.find_by_id("projects-menu").click
@@ -49,18 +49,19 @@ module Components
       end
 
       def open?
-        page.has_selector?(autocompleter_selector)
+        page.has_selector?(search_selector)
       end
 
       def switch_mode(mode)
-        within(".op-project-list-modal--header") do
-          find('[data-test-selector="spot-toggle--option"]', text: mode).click
+        within_test_selector("op-header-project-select") do
+          find_button(mode).click
         end
       end
 
       def expect_current_mode(mode)
-        expect(page).to have_css('[data-test-selector="spot-toggle--option"][data-qa-active-toggle="true"]',
-                                 text: mode)
+        within_test_selector("op-header-project-select") do
+          expect(page).to have_css(".SegmentedControl-item--selected", text: mode)
+        end
       end
 
       def expect_current_project(name)
@@ -68,107 +69,110 @@ module Components
       end
 
       def expect_open
-        page.find(autocompleter_selector)
+        page.find(search_selector)
       end
 
       def expect_closed
-        expect(page).to have_no_selector(autocompleter_selector)
+        expect(page).to have_no_selector(search_selector)
       end
 
       def search(query)
-        search_autocomplete(autocompleter, query:, results_selector: autocompleter_results_selector)
+        search_field.set query
       end
 
       def clear_search
-        autocompleter.set ""
-        autocompleter.send_keys :backspace
+        search_field.set ""
+        search_field.send_keys :backspace
       end
 
       def search_and_select(query)
-        select_autocomplete autocompleter,
-                            results_selector: autocompleter_results_selector,
-                            item_selector: autocompleter_item_title_selector,
-                            query:
+        search query
+        wait_for_network_idle
+        selector = "#{results_selector} #{item_selector}"
+        item = page.first(selector, text: query, wait: 5) || page.find(selector, wait: 5)
+        item.click
       end
 
       def search_results
-        page.find autocompleter_results_selector, wait: 10
+        page.find results_selector, wait: 10
       end
 
-      def autocompleter
-        page.find autocompleter_selector, wait: 10
+      def search_field
+        page.find search_selector, wait: 10
+      end
+
+      def expand_node_for(name)
+        item = page.find("#{results_selector} #{item_selector}", text: name, wait: 10)
+        item.find(:xpath, "preceding-sibling::*[contains(@class, 'TreeViewItemToggle')]").click
       end
 
       def expect_result(name, disabled: false, workspace_badge: nil)
-        within search_results do
-          selector = disabled ? autocompleter_item_disabled_title_selector : autocompleter_item_title_selector
-          item = page.find(selector, text: name)
+        selector = disabled ? item_disabled_selector : item_selector
+        item = page.find("#{results_selector} #{selector}", text: name, wait: 10)
 
-          # Skip badge verification when workspace badge is not set
-          next if workspace_badge.nil?
+        return if workspace_badge.nil?
 
-          if workspace_badge
-            expect(item).to have_octicon
-            expect(item).to have_primer_text(workspace_badge, class: "description")
-          else
-            expect(item).to have_no_octicon
-            expect(item).to have_no_primer_text(class: "description")
-          end
+        if workspace_badge
+          expect(item).to have_octicon
+          expect(item).to have_primer_text(workspace_badge, class: "description")
+        else
+          expect(item).to have_no_octicon
+          expect(item).to have_no_primer_text(class: "description")
         end
       end
 
       def expect_no_result(name)
-        within search_results do
-          expect(page).to have_no_selector(autocompleter_item_title_selector, text: name)
-        end
+        expect(page).to have_no_selector("#{results_selector} #{item_selector}", text: name, wait: 5)
       end
 
       def expect_blankslate
-        expect(page).not_to have_test_selector("op-project-list-modal--no-results", wait: 0)
+        expect(page).not_to have_test_selector("op-header-project-select--no-results", wait: 0)
       end
 
       def expect_item_with_hierarchy_level(hierarchy_level:, item_name:)
-        within search_results do
-          hierarchy_selector  = hierarchy_level.times.collect { autocompleter_item_selector }.join(" ")
-          expect(page)
-            .to have_css("#{hierarchy_selector} #{autocompleter_item_title_selector}", text: item_name)
-        end
+        hierarchy_selector = ".TreeViewItemContainer[style*='--level: #{hierarchy_level};']"
+        expect(page)
+          .to have_css("#{results_selector} #{hierarchy_selector} #{item_selector}", text: item_name, wait: 10)
       end
 
       def expect_project_create_button
-        expect(page).to have_css(".spot-action-bar--action.-primary", text: "Project")
+        expect(page).to have_test_selector("create-project-btn")
       end
 
       def expect_no_project_create_button
-        expect(page).to have_no_css(".spot-action-bar--action.-primary", text: "Project")
+        expect(page).to have_no_test_selector("create-project-btn")
       end
 
       def expect_project_list_button
-        expect(page).to have_css(".spot-action-bar--action", text: "Project lists")
+        expect(page).to have_test_selector("list-project-btn")
       end
 
       def expect_no_project_list_button
-        expect(page).to have_no_css(".spot-action-bar--action.-primary", text: "Project lists")
+        expect(page).to have_no_test_selector("list-project-btn")
       end
 
-      def autocompleter_item_selector
+      def item_selector
         '[data-test-selector="op-header-project-select--item"]'
       end
 
-      def autocompleter_item_title_selector
-        '[data-test-selector="op-header-project-select--item-title"]'
+      def item_disabled_selector
+        "#{item_selector}[aria-disabled='true']"
       end
 
-      def autocompleter_item_disabled_title_selector
-        '[data-test-selector="op-header-project-select--item-disabled-title"]'
-      end
-
-      def autocompleter_results_selector
+      def results_selector
         '[data-test-selector="op-header-project-select--list"]'
       end
 
-      def autocompleter_selector
-        '[data-test-selector="op-header-project-select--search"] input'
+      def active_item_selector
+        "#{item_selector}[aria-current='true']"
+      end
+
+      def remove_item_selector
+        "[data-test-selector='op-header-project-select--remove-item']"
+      end
+
+      def search_selector
+        "[data-test-selector='op-header-project-select--search']"
       end
     end
   end

@@ -1,19 +1,17 @@
-# /api/v3/meetings/{meeting_id}/sections/{id}
+# /api/v3/meeting_sections/{id}
 ---
 get:
   summary: Get a meeting section
   operationId: get_meeting_section
   tags:
     - Meetings
-  description: Retrieve an individual section of a meeting.
+  description: |-
+    Retrieve an individual meeting section.
+
+    The backlog section can be retrieved via this endpoint even though it is not part of the regular
+    `meeting.sections` association. Its `_links.meeting` points to the owning meeting (the series
+    template for recurring meeting occurrences).
   parameters:
-    - description: Meeting identifier
-      example: 1
-      in: path
-      name: meeting_id
-      required: true
-      schema:
-        type: integer
     - description: Section identifier
       example: 1
       in: path
@@ -33,29 +31,19 @@ get:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
       description: |-
-        Returned if the section or meeting does not exist or the client does not have sufficient permissions.
+        Returned if the section does not exist or the client does not have sufficient permissions.
 
 patch:
   summary: Update a meeting section
   operationId: update_meeting_section
   tags:
     - Meetings
-  description: Updates the given section.
+  description: |-
+    Updates the given meeting section.
+
+    The backlog section cannot be updated and will return `422 Unprocessable Entity`.
   parameters:
-    - description: Meeting identifier
-      example: 1
-      in: path
-      name: meeting_id
-      required: true
-      schema:
-        type: integer
     - description: Section identifier
       example: 1
       in: path
@@ -82,12 +70,6 @@ patch:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
 
@@ -97,14 +79,8 @@ patch:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
       description: |-
-        Returned if the section or meeting does not exist.
+        Returned if the section does not exist or the client does not have sufficient permissions.
     '406':
       $ref: "../components/responses/missing_content_type.yml"
     '415':
@@ -120,15 +96,11 @@ delete:
   operationId: delete_meeting_section
   tags:
     - Meetings
-  description: Deletes the section and all its agenda items.
+  description: |-
+    Deletes the meeting section and all its agenda items.
+
+    The backlog section cannot be deleted and will return `422 Unprocessable Entity`.
   parameters:
-    - description: Meeting identifier
-      example: 1
-      in: path
-      name: meeting_id
-      required: true
-      schema:
-        type: integer
     - description: Section identifier
       example: 1
       in: path
@@ -144,12 +116,6 @@ delete:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:MissingPermission
-                message: You are not authorized to access this resource.
       description: |-
         Returned if the client does not have sufficient permissions.
 
@@ -159,11 +125,5 @@ delete:
         application/hal+json:
           schema:
             $ref: "../components/schemas/error_response.yml"
-          examples:
-            response:
-              value:
-                _type: Error
-                errorIdentifier: urn:openproject-org:api:v3:errors:NotFound
-                message: The requested resource could not be found.
       description: |-
-        Returned if the section or meeting does not exist.
+        Returned if the section does not exist or the client does not have sufficient permissions.

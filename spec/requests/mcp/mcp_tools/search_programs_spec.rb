@@ -179,7 +179,7 @@ RSpec.describe McpTools::SearchPrograms do
     context "when passing an invalid program status" do
       let(:call_args) { { status_code: "blubb" } }
 
-      it_behaves_like "MCP error response"
+      it_behaves_like "MCP tool execution error response"
     end
 
     context "when user can't see programs" do

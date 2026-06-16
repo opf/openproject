@@ -106,7 +106,7 @@ jobs:
           STEPS_EXTRACT_VERSION_OUTPUTS_DOCKER_TAGS: ${{ steps.extract_version.outputs.docker_tags }}
           STEPS_EXTRACT_VERSION_OUTPUTS_REGISTRY_IMAGE: ${{ steps.extract_version.outputs.registry_image }}
       - name: Cache NPM
-        uses: runs-on/cache@bd330c5a5f6cbb837823ee25864f3c71a211c2e3 # v5
+        uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
         with:
           path: |
             frontend/node_modules
@@ -114,17 +114,17 @@ jobs:
           key: nodejs-x64-${{ hashFiles('**/package-lock.json') }}
           restore-keys: nodejs-x64-
       - name: Cache angular
-        uses: runs-on/cache@bd330c5a5f6cbb837823ee25864f3c71a211c2e3 # v5
+        uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
         with:
           path: frontend/.angular
           key: angular-${{ github.ref }}
           restore-keys: angular-
-      - uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1
+      - uses: ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1
         with:
           bundler-cache: true
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
-          node-version: 22.15
+          node-version: 22.22.3
           package-manager-cache: false
           cache: npm
           cache-dependency-path: |
@@ -215,7 +215,7 @@ jobs:
         uses: docker/setup-qemu-action@ce360397dd3f832beb865e1373c09c0e9f86d70a # v4
       - name: Set up Docker Buildx
         id: buildx
-        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4
+        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4
       - name: Login to Docker Hub
         uses: docker/login-action@4907a6ddec9925e35a0a9e82d7399ccc52663121 # v4
         with:
@@ -348,7 +348,7 @@ jobs:
           if [ "$suffix" = "-all-in-one" ]; then suffix="" ; fi
           echo "suffix=$suffix" >> "$GITHUB_OUTPUT"
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@4d04d5d9486b7bd6fa91e7baf45bbb4f8b9deedd # v4
+        uses: docker/setup-buildx-action@d7f5e7f509e45cec5c76c4d5afdd7de93d0b3df5 # v4
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@030e881283bb7a6894de51c315a6bfe6a94e05cf # v6

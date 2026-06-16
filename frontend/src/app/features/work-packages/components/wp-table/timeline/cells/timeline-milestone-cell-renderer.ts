@@ -30,7 +30,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   public isEmpty(wp:WorkPackageResource) {
-    const date = moment(wp.date as any);
+    const date = moment(wp.date);
     return _.isNaN(date.valueOf());
   }
 

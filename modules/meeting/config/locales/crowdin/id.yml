@@ -369,58 +369,22 @@ id:
         caption: Teks ini akan muncul di setiap halaman di tengah footer.
       submit_button: Download
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: Pembaruan kalender email
         description:
-          disabled: Peserta tidak akan menerima email yang memberitahukan mereka tentang perubahan.
-          enabled: Seluruh peserta akan menerima undangan kalender yang diperbarui melalui email yang memberitahukan mereka tentang perubahan.
           change_via_template: Untuk mengubahnya, sunting templat serinya.
       dialog:
         title:
           enable: Aktifkan pembaruan kalender melalui email?
           disable: Nonaktifkan pembaruan kalender melalui email?
         message:
-          enable: 'All participants will receive updated calendar invites via email every time there is a change to the meeting date, time, location or participants. Once enabled, an email will be sent out immediately to all participants.
-
-            '
-          disable: 'Peserta tidak lagi akan menerima undangan kalender yang diperbarui melalui email ketika ada perubahan pada tanggal, waktu, lokasi, atau peserta rapat. Jika mereka sudah menerima undangan untuk rapat ini, undangan tersebut mungkin tidak lagi akurat.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: Aktifkan pembaruan email
           disable: Nonaktifkan pembaruan email
-      banner:
-        participants:
-          enabled: 'Seluruh peserta akan menerima undangan kalender yang diperbarui melalui email saat Anda menambahkan atau menghapus peserta.
-
-            '
-          disabled: 'Pembaruan kalender melalui email telah dinonaktifkan. Peserta tidak akan menerima email pemberitahuan ketika Anda menambahkan atau menghapus peserta.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'Seluruh peserta akan menerima undangan kalender yang diperbarui melalui email saat Anda menambahkan atau menghapus peserta.
-
-            '
-          disabled: 'Peserta tidak akan menerima email yang memberitahukan perubahan tanggal, waktu, atau peserta rapat.
-
-            '
-        occurrence:
-          enabled: 'Pembaruan kalender melalui email telah diaktifkan untuk rangkaian pertemuan ini. Semua peserta akan menerima undangan kalender yang diperbarui yang memberitahukan mereka tentang perubahan yang Anda lakukan pada pertemuan ini.
-
-            '
-          disabled: 'Pembaruan kalender melalui email dinonaktifkan untuk seri pertemuan ini. Peserta tidak akan menerima email yang memberitahukan mereka tentang perubahan yang Anda lakukan pada pertemuan ini.
-
-            '
-        template:
-          enabled: 'Pembaruan kalender melalui email telah diaktifkan untuk rangkaian pertemuan ini. Semua peserta akan menerima undangan kalender yang diperbarui yang memberitahukan mereka tentang perubahan yang Anda lakukan pada templat ini atau pada acara individu.
-
-            '
-          disabled: 'Pembaruan kalender melalui email dinonaktifkan untuk seri pertemuan ini. Peserta tidak akan menerima email yang memberitahukan mereka tentang perubahan yang Anda lakukan pada templat ini atau pada kejadian individu.
-
-            '
     presentation_mode:
       title: Mode Presentasi
       button_present: Presentasikan
@@ -630,6 +594,7 @@ id:
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
   label_agenda_item_add_notes: Tambahkan catatan
   label_agenda_item_add_outcome: Tambahkan hasil
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: Tambahkan paket kerja
   label_agenda_item_work_package: Paket kerja item agenda
   label_section_rename: Ganti nama bagian

@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Nextcloud
         module Queries
-          RSpec.describe FilesInfoQuery, :webmock do
+          RSpec.describe FilesInfoQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:user) }
             let(:auth_strategy) { Registry["nextcloud.authentication.user_bound"].call(user, storage) }
             let(:storage) do

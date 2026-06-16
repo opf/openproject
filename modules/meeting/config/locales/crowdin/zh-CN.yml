@@ -369,58 +369,22 @@ zh-CN:
         caption: 此文本将出现在每一页的页脚中心。
       submit_button: 下载
     notifications:
+      disabled: 参与者不会收到向其通知日期、时间或参与者名单更改的电子邮件更新。
+      enabled: 所有参与者都将收到通知其日期、时间或参与者名单更改的更新日历邀请。
       sidepanel:
         title: 电子邮件日历更新
         description:
-          disabled: 与会者不会收到向其通知更改的电子邮件。
-          enabled: 所有与会者都将通过电子邮件收到更新的日历邀请，向其通知相关更改。
           change_via_template: 要更改此设置，请编辑系列模板。
       dialog:
         title:
           enable: 启用电子邮件日历更新？
           disable: 禁用电子邮件日历更新？
         message:
-          enable: '每次会议日期、时间、地点或与会者更改时，所有与会者都将通过电子邮件收到更新日历的邀请。 一旦启用，将立即向所有参与者发送一封电子邮件。
-
-            '
-          disable: '当会议日期、时间、地点或与会者发生更改时，与会者将不再通过电子邮件收到更新的日历邀请。如果他们已经收到过此次会议的邀请，则该邀请可能不再准确。
-
-            '
+          enable: 启用后，将立即向所有参与者发送电子邮件。
+          disable: 如果他们已经收到这次会议的邀请，该邀请的信息可能不再准确。
         confirm_label:
           enable: 启用电子邮件更新
           disable: 禁用电子邮件更新
-      banner:
-        participants:
-          enabled: '当您添加或移除参与者时，所有参与者都将通过电子邮件收到更新的日历邀请。
-
-            '
-          disabled: '电子邮件日历更新已禁用。在您添加或移除参与者时，参与者不会收到电子邮件通知。
-
-            '
-          draft_disabled: '在您添加或移除参与者时，参与者不会收到电子邮件通知。
-
-            '
-        onetime:
-          enabled: '当您添加或移除参与者时，所有参与者都将通过电子邮件收到更新后的日历邀请。
-
-            '
-          disabled: '参与者不会收到向其通知会议日期、时间或参与者更改的电子邮件。
-
-            '
-        occurrence:
-          enabled: '已对会议系列启用电子邮件日历更新。所有与会者都会收到更新的日历邀请，向其通知您对此次事件所做的更改。
-
-            '
-          disabled: '已对会议系列禁用电子邮件日历更新。与会者将不会收到向其通知您对此次事件所做更改的电子邮件。
-
-            '
-        template:
-          enabled: '已对会议系列启用电子邮件日历更新。所有与会者都会收到更新的日历邀请，向其通知您对此模板或各个事件所做的更改。
-
-            '
-          disabled: '已对会议系列禁用电子邮件日历更新。与会者将不会收到向其通知您对此模板或各个事件所做更改的电子邮件。
-
-            '
     presentation_mode:
       title: 演示模式
       button_present: 演示
@@ -634,6 +598,7 @@ zh-CN:
   label_agenda_item_duplicate_in_next_title: 是否在下次会议中重复？
   label_agenda_item_add_notes: 添加备注
   label_agenda_item_add_outcome: 添加成果
+  label_agenda_item_convert_to_work_package: 转换为工作包
   label_agenda_item_work_package_add: 添加工作包
   label_agenda_item_work_package: 议程项目工作包
   label_section_rename: 重命名章节

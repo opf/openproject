@@ -1,0 +1,191 @@
+The `BorderBoxListComponent` displays compact, structured list items with
+optional section headers, item actions, empty states, and a footer.
+
+## Overview
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :default %>
+
+## Anatomy
+
+The list is structured in up to four parts:
+
+**Header** *(optional)*
+Names the list section. It can show a count, description, action buttons, an
+action menu, and an optional collapse toggle. In static headers, the description
+renders below the heading line. In collapsible headers, the description is part
+of the collapsible header and is hidden when the list is collapsed.
+
+**Items**
+The list rows. Items can render generic row content or a work package card.
+
+**Empty state** *(optional)*
+Shown when the list has no items.
+
+**Footer** *(optional)*
+Shown below the items. Use it for summary or follow-up content.
+
+If a page shows multiple Border Box Lists and one list has a header, all
+comparable lists should use headers.
+
+## Parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `container` | `String`, `Symbol`, `Class`, `Object` | required | Seed used to derive stable DOM ids for the list, header, and footer |
+| `scheme` | `Symbol` | `:default` | Visual scheme. Use `:transparent` for list containers that should blend into their surrounding surface |
+| `padding` | `Symbol` | `:default` | Row padding forwarded to the underlying `Primer::Beta::BorderBox`. Supports Primer BorderBox padding values such as `:condensed`, `:default`, and `:spacious` |
+| `header_padding` | `Symbol` | `:inherit` | Header-only vertical padding override. Supports `:inherit`, `:condensed`, `:default`, and `:spacious` |
+| `interactive` | `Boolean` | `false` | Enables polite ARIA live-region announcements for counter and configured empty-state updates |
+| `collapsible` | `Boolean` | `false` | Renders the header as a collapsible toggle when a header is present |
+| `current_user` | `User` | `User.current` | User context forwarded to work package item rows |
+| `system_arguments` | `Hash` | `{}` | Forwarded to the underlying `Primer::Beta::BorderBox` |
+
+## Slots
+
+| Slot | Description |
+|---|---|
+| `with_header` | Optional section header. See [Header parameters](#header-parameters) and [Header slots](#header-slots) below |
+| `with_item` | Generic list row that renders the provided block content |
+| `with_work_package_item` | Work package row that renders a work package card |
+| `with_empty_state` | Empty-state content rendered when no items are present |
+| `with_footer` | Optional footer row below the list items |
+
+## Header
+
+### Header parameters
+
+| Parameter | Type | Default | Description |
+|---|---|---|---|
+| `title` | `String` | required | Header title |
+| `title_tag` | `Symbol` | `:h4` | HTML tag for the title heading |
+| `title_arguments` | `Hash` | `{}` | Forwarded to the title heading element |
+| `count` | `Integer`, `Boolean`, `nil` | `nil` | Pass `true` to infer the rendered item count, an integer for an explicit value, or `nil`/`false` to hide it |
+| `count_arguments` | `Hash` | `{}` | Forwarded to `Primer::Beta::Counter`. Merged over defaults (`scheme: :primary`, `hide_if_zero: true`) |
+| `collapsed` | `Boolean` | `false` | Whether a collapsible header starts closed |
+
+### Header slots
+
+| Slot | Description |
+|---|---|
+| `with_description` | Secondary content below the title, wrapped in `Primer::Beta::Text` with muted color by default. Accepts Primer system arguments |
+| `with_action_button` | Button rendered in the header actions area |
+| `with_menu` | Action menu rendered in the header actions area. Pass `button_aria_label:` for the trigger button |
+
+### Collapsible headers
+
+Collapsible headers add:
+
+- an **arrow indicator** next to the title to show whether the section is
+  collapsed or expanded.
+- an optional **header description** that gives more context to the section and
+  is hidden when the list is collapsed.
+- an optional **counter** that displays the number of items in the section.
+
+When collapsed, the bottom border is slightly thicker to indicate that content
+is hidden.
+
+Both static and collapsible headers can include additional actions. For example,
+a menu button can offer contextual actions such as edit, delete, move up, or
+move down.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :default, params: { collapsible: true } %>
+
+## Variants
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :playground, panels: %i[params source] %>
+
+### Transparent scheme
+
+Use the transparent scheme for list containers that should not render a visible
+header background or separator, such as Backlogs sprint and inbox containers.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :transparent, panels: %i[params source] %>
+
+### Work package items
+
+Use `with_work_package_item` for rows that should render a work package card.
+It renders `OpenProject::Common::WorkPackageCardComponent` by default. See the
+[Work Package Card documentation](/lookbook/pages/components/work_packages/card)
+for card-specific layout, parameters, and slots.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :with_work_package_items, panels: %i[source] %>
+
+### Empty state
+
+Use `with_empty_state` when the list can be rendered without items. It renders a
+`Primer::Beta::Blankslate` under the hood, accepting `title:`, `description:`,
+and `icon:` keywords.
+
+<%= embed OpenProject::Common::BorderBoxListComponentPreview, :empty_state, panels: %i[source] %>
+
+## Usage guidelines
+
+Use the Border Box List for compact item collections such as:
+
+- meeting agenda items.
+- project attributes in project settings.
+- configured OAuth applications.
+- work package lists with card-style rows.
+
+If the content needs table structure with columns and column headers, use the
+[Border Box Table](./tables/border_box_table) component instead.
+
+### Best practices
+
+**Do**
+
+- Use section headers when the items have logical categories, such as open and
+  planned meetings.
+- Use the built-in header actions and item menus instead of composing raw
+  BorderBox rows by hand.
+- Make headers and items draggable when users need to reorder sections or move
+  items between sections.
+
+**Don't**
+
+- Don't mix sections with and without headers. If one section has a header, they must all have headers.
+- Don't make sections collapsible when users benefit from seeing all content at
+  once.
+- Don't use the Border Box List for data that needs column alignment, sorting,
+  or column headers.
+
+## Technical notes
+
+Use `OpenProject::Common::BorderBoxListComponent` instead of composing
+`Primer::Beta::BorderBox` directly when rendering OpenProject lists.
+Header descriptions are wrapped in `Primer::Beta::Text` with muted text color by
+default, and can receive Primer system arguments through `with_description`.
+
+## Code structure
+
+```ruby
+render OpenProject::Common::BorderBoxListComponent.new(
+  container: "project-attributes",
+  scheme: :transparent,
+  header_padding: :default,
+  padding: :condensed,
+  collapsible: true
+) do |list|
+  list.with_header(title: "Project attributes", count: true) do |header|
+    header.with_description(id: "project-attributes-description", font_size: :small) do
+      "Visible in the project overview"
+    end
+    header.with_menu(button_aria_label: "Project attribute actions") do |menu|
+      menu.with_item(label: "Edit", href: edit_project_path(@project))
+    end
+  end
+
+  @project_attributes.each do |attribute|
+    list.with_item { attribute.name }
+  end
+
+  list.with_empty_state(
+    title: "No attributes yet",
+    description: "Add attributes to describe this project."
+  )
+
+  list.with_footer { "Last updated: #{format_date(@project.updated_at)}" }
+end
+```
+
+For lower-level details, see the [Primer BorderBox preview examples](/lookbook/inspect/primer/beta/border_box/playground).

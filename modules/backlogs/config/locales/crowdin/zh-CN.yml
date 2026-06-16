@@ -40,8 +40,9 @@ zh-CN:
           in_planning: 计划中
           active: 激活
           completed: 已完成
+        work_packages: 工作包
       work_package:
-        backlog_bucket: 积压工作存储桶
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: 待办清单类型
         position: 位置
         sprint: 冲刺
@@ -121,6 +122,8 @@ zh-CN:
     label_burndown_chart: 燃尽图
     label_is_done_status: 状态 %{status_name} 表示已完成
     label_sprint_board: 冲刺面板
+    move_to_bucket_dialog_component:
+      title: 移至积压工作存储桶
     move_to_sprint_dialog_component:
       title: 移至冲刺
       label_sprint: 冲刺
@@ -174,7 +177,9 @@ zh-CN:
       action_menu:
         copy_url_to_clipboard: 将 URL 复制到剪贴板
         copy_work_package_id: 复制工作包 ID
-        move_menu: 移动
+        move_menu: Move to position
+        move_to_backlog_bucket: 移至积压工作存储桶
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: 移至冲刺
     work_package_is_closed: 工作包已完成，当
   burndown:
@@ -186,18 +191,19 @@ zh-CN:
     upsell:
       sprint_sharing:
         description: 跨项目共享冲刺，以便在规模化敏捷设置 (SAFe) 中调整团队和协调工作。
+  label_all_sprints: 所有冲刺
   label_backlog: 积压工作
+  label_backlogs: 待办清单
+  label_backlog_and_sprints: 积压工作和冲刺
   label_backlog_bucket_edit: 编辑积压工作存储桶
   label_backlog_bucket_new: 新建积压工作存储桶
-  label_inbox: 收件箱
-  label_backlogs: 待办清单
   label_burndown_chart: 燃尽图
+  label_inbox: 收件箱
   label_sprint_board: 冲刺面板
   label_points_burn_down: 减少
   label_points_burn_up: 增加
   label_sprint_edit: 编辑冲刺
   label_sprint_new: 新冲刺
-  label_backlog_and_sprints: 积压工作和冲刺
   label_task_board: 任务板
   notice_successful_start: 该冲刺已开始。
   notice_successful_finish: 该冲刺已完成。
@@ -205,6 +211,9 @@ zh-CN:
   notice_unsuccessful_start_with_reason: 无法开始该冲刺：%{reason}
   notice_unsuccessful_finish: 无法完成该冲刺。
   notice_unsuccessful_finish_with_reason: 无法完成该冲刺：%{reason}
+  notice_work_package_invisible_after_move: '工作包已移至 %{backlog} ，但不可见，因为其类型或状态已从积压工作中排除。
+
+    '
   permission_create_sprints: 创建冲刺
   permission_manage_sprint_items: 管理冲刺条目
   permission_select_backlog_types_and_statuses: 选择积压工作类型和状态

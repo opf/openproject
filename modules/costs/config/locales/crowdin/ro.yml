@@ -39,6 +39,8 @@ ro:
         unit: Denumirea unității
         unit_plural: Numele unității pluralizate
         default: Tip cost implicit
+        for_all_projects: For all projects
+        rates: Rates
       work_package:
         costs_by_type: Unități consumate
         labor_costs: Costurile cu forța de muncă
@@ -92,6 +94,10 @@ ro:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru.'
           nullify_is_not_valid_for_cost_entries: Înregistrările de costuri nu pot fi atribuite unui proiect.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
   attributes:
     comment: Comentariu
     cost_type: Tip cost
@@ -133,7 +139,6 @@ ro:
   label_current_default_rate: Tarif implicit actual
   label_date_on: pe
   label_deleted_cost_types: Tipuri de costuri șterse
-  label_locked_cost_types: Tipuri de costuri blocate
   label_display_cost_entries: Afișarea costurilor unitare
   label_display_time_entries: Afișarea orelor raportate
   label_display_types: Tipuri de afișare
@@ -233,6 +238,28 @@ ro:
     errors:
       validation:
         start_time_different_date: Partea de dată din startTime (%{start_time}) trebuie să fie aceeași cu data spentOn (%{spent_on}).
+  label_available_cost_types_projects: Available cost types projects
+  cost_types:
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: This cost type is enabled in all projects
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+        no_projects:
+          heading: No projects assigned
+          description: Add projects so this cost type can be used in them.
+      rates:
+        title: Rate history
+    settings:
+      time_and_costs: Time & Costs
+      cost_types:
+        heading: Cost types
+        none_active: No cost types are currently active in this project.
+        for_all_projects_hint: This cost type is enabled in all projects.
   costs:
     widgets:
       actual_costs:

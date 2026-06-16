@@ -109,7 +109,7 @@ vi:
     button_save: lưu lại
     button_settings: cài đặt
     button_uncheck_all: Bỏ chọn tất cả
-    button_update: cập nhật
+    button_update: Cập Nhật
     button_export-atom: Tải xuống nguyên tử
     button_generate_pdf: Tạo PDF
     button_create: Tạo mới
@@ -155,7 +155,6 @@ vi:
         manual: Chuyển sang nguồn Markdown
         wysiwyg: Chuyển sang trình soạn thảo WYSIWYG
       macro:
-        error: 'Không thể mở rộng macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Đoạn văn bản này đang được macro hiển thị động.
           not_found: Không thể tìm thấy tài nguyên được yêu cầu
@@ -175,9 +174,14 @@ vi:
           title: Chèn/sửa đoạn mã
           language: Định dạng ngôn ngữ
           language_hint: Nhập ngôn ngữ định dạng sẽ được sử dụng để đánh dấu (nếu được hỗ trợ).
-        dropdown:
-          macros: Macro
-          chose_macro: Chọn vĩ mô
+        embedded_calendar:
+          text: "[Placeholder] Lịch nhúng"
+        embedded_table:
+          button: Nhúng bảng gói công việc
+          text: "[Placeholder] Bảng gói công việc được nhúng"
+        error: 'Không thể mở rộng macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Mục lục
         toolbar_help: Bấm để chọn widget và hiển thị thanh công cụ. Nhấp đúp để chỉnh sửa tiện ích
         wiki_page_include:
@@ -195,11 +199,6 @@ vi:
           button_style_hint: 'Tùy chọn: Chọn để làm cho macro xuất hiện dưới dạng nút chứ không phải dưới dạng liên kết.'
           without_type: Tạo gói công việc
           with_type: 'Tạo gói công việc (Loại: %{typename})'
-        embedded_table:
-          button: Nhúng bảng gói công việc
-          text: "[Placeholder] Bảng gói công việc được nhúng"
-        embedded_calendar:
-          text: "[Placeholder] Lịch nhúng"
     admin:
       type_form:
         edit_query: Chỉnh sửa truy vấn
@@ -210,13 +209,6 @@ vi:
           new_date: "(mới)"
         add_non_working_day: Ngày không làm việc
         already_added_error: Ngày không làm việc cho ngày này đã tồn tại. Chỉ có thể có một ngày không làm việc được tạo cho mỗi ngày duy nhất.
-        change_button: Lưu và lên lịch lại
-        change_title: Thay đổi ngày làm việc
-        removed_title: 'Bạn sẽ xóa những ngày sau khỏi danh sách những ngày không làm việc:'
-        change_description: Việc thay đổi ngày trong tuần được coi là ngày làm việc hay ngày không làm việc có thể ảnh hưởng đến ngày bắt đầu và ngày kết thúc của tất cả các gói công việc và vòng đời trong tất cả các dự án trong trường hợp này.
-        warning: 'Những thay đổi có thể mất một thời gian để có hiệu lực. Bạn sẽ được thông báo khi tất cả các gói công việc có liên quan và vòng đời dự án đã được cập nhật. Bạn có chắc chắn muốn tiếp tục không?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Việc thay đổi chế độ tính toán tiến độ từ dựa trên trạng thái sang dựa trên công việc sẽ làm cho trường <i>% Hoàn thành</i> có thể chỉnh sửa tự do. Nếu bạn tùy ý nhập các giá trị cho <i>Work</i> hoặc <i>Công việc còn lại</i>, thì chúng cũng sẽ được liên kết với <i>% Hoàn thành</i>. Việc thay đổi <i>Công việc còn lại</i> sau đó có thể cập nhật <i>% Hoàn thành</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Việc thay đổi chế độ tính toán tiến độ từ dựa trên công việc sang dựa trên trạng thái sẽ khiến tất cả các giá trị <i>% Hoàn thành</i> hiện có bị mất và được thay thế bằng các giá trị được liên kết với từng trạng thái. Các giá trị hiện tại cho <i>Công việc còn lại</i> cũng có thể được tính toán lại để phản ánh sự thay đổi này. Hành động này không thể đảo ngược.
@@ -375,6 +367,7 @@ vi:
     label_in_more_than: trong hơn
     label_incoming_emails: Các thư đến
     label_information_plural: thông tin
+    label_infinity: Infinity
     label_invalid: không hợp lệ
     label_import: nhập khẩu
     label_latest_activity: Hoạt động mới nhất
@@ -399,6 +392,7 @@ vi:
     label_no_value: Không có giá trị
     label_none: không
     label_not_contains: không chứa
+    label_not_available: Not available
     label_not_equals: không phải
     label_on: trên
     label_open_menu: Mở trình đơn
@@ -409,7 +403,6 @@ vi:
     label_per_page: 'Mỗi trang:'
     label_please_wait: Vui lòng chờ
     label_project: dự án
-    label_project_list: Danh sách dự án
     label_project_plural: dự án
     label_visibility_settings: Cài đặt hiển thị
     label_quote_comment: Trích bình luận này
@@ -1049,16 +1042,13 @@ vi:
         all: Tất cả dự án
         selected: Chỉ được chọn
       search_placeholder: Tìm kiếm dự án...
-      search_placeholder_favorites: Tìm kiếm yêu thích...
       include_subprojects: Bao gồm tất cả các tiểu dự án
       tooltip:
         include_all_selected: Dự án đã được đưa vào kể từ khi tính năng Bao gồm tất cả các dự án con được bật.
         current_project: Đây là dự án hiện tại bạn đang tham gia.
         does_not_match_search: Dự án không phù hợp với tiêu chí tìm kiếm.
       no_results: Không có dự án nào phù hợp với tiêu chí tìm kiếm của bạn.
-      no_favorite_results: Không có dự án yêu thích nào phù hợp với tiêu chí tìm kiếm của bạn.
     include_workspaces:
-      search_placeholder: Tìm kiếm...
       types:
         program: chương trình
         portfolio: danh mục đầu tư

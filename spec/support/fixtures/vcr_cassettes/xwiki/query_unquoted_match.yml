@@ -1,0 +1,97 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://xwiki.local/rest/wikis/query?number=20&q=%22Quoted%20pages%20can%20be%20tricky%22
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 10 Jun 2026 06:23:06 GMT
+      Set-Cookie:
+      - JSESSIONID=E76D665AE92EA9DECFE756E8101CE2BD; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - L5DY6HB46AhTFvPuxIu0Cg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '892'
+    body:
+      encoding: UTF-8
+      string: '{"links":[],"searchResults":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/%22Quoted%22%20pages%20can%20be%20tricky/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"type":"page","id":"xwiki:\"Quoted\"
+        pages can be tricky.WebHome","pageFullName":"\"Quoted\" pages can be tricky.WebHome","title":"\"Quoted\"
+        pages can be tricky","wiki":"xwiki","space":"\"Quoted\" pages can be tricky","pageName":"WebHome","modified":1780387197000,"author":"xwiki:XWiki.admin","authorName":null,"version":"1.1","language":null,"className":null,"objectNumber":null,"filename":null,"score":47.94951,"object":null,"hierarchy":null}],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
+  recorded_at: Wed, 10 Jun 2026 06:23:06 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:%22Quoted%22%20pages%20can%20be%20tricky.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 10 Jun 2026 06:23:06 GMT
+      Set-Cookie:
+      - JSESSIONID=ABB17E4169B041D4223B7F1C381AD0BE; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - L5DY6HB46AhTFvPuxIu0Cg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '2769'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/%22Quoted%22%20pages%20can%20be%20tricky","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/%22Quoted%22%20pages%20can%20be%20tricky/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/%22Quoted%22%20pages%20can%20be%20tricky/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/%22Quoted%22%20pages%20can%20be%20tricky/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/%22Quoted%22%20pages%20can%20be%20tricky.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"1a013","fullName":"\"Quoted\"
+        pages can be tricky.WebHome","wiki":"xwiki","space":"\"Quoted\" pages can
+        be tricky","name":"WebHome","title":"\"Quoted\" pages can be tricky","rawTitle":"\"Quoted\"
+        pages can be tricky","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"1.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/%22Quoted%22%20pages%20can%20be%20tricky/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/%22Quoted%22%20pages%20can%20be%20tricky/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1780387197000,"creator":"XWiki.admin","creatorName":null,"modified":1780387197000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"When the page title contains quotes, it''s harder
+        to exactly match their page title.","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"\"Quoted\"
+        pages can be tricky","name":"\"Quoted\" pages can be tricky","type":"space","url":"https://xwiki.local/bin/view/%22Quoted%22%20pages%20can%20be%20tricky/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/%22Quoted%22%20pages%20can%20be%20tricky/"}]},"rights":[],"renderedContent":null}'
+  recorded_at: Wed, 10 Jun 2026 06:23:06 GMT
+recorded_with: VCR 6.4.0

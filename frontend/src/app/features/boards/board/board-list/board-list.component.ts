@@ -184,7 +184,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     this.resource.isNewWidget = false;
 
     // Set initial selection if split view open
-    const detailsMatch = window.location.pathname.match(/\/details\/(\d+)/);
+    const detailsMatch = /\/details\/(\d+)/.exec(window.location.pathname);
     if (detailsMatch) {
       this.wpViewSelectionService.initializeSelection([detailsMatch[1]]);
     }

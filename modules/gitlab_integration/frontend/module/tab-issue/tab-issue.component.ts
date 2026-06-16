@@ -27,7 +27,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { ChangeDetectorRef, Component, Input, OnInit, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit, inject, ChangeDetectionStrategy } from '@angular/core';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResourceService } from "core-app/features/hal/services/hal-resource.service";
 import { CollectionResource } from "core-app/features/hal/resources/collection-resource";
@@ -39,6 +39,7 @@ import {ApiV3Service} from "core-app/core/apiv3/api-v3.service";
   selector: 'tab-issue',
   templateUrl: './tab-issue.template.html',
   host: { class: 'op-issue' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 export class TabIssueComponent implements OnInit {

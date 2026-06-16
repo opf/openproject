@@ -33,6 +33,15 @@ module API
     module PageLinks
       class PageLinkCollectionRepresenter < Decorators::OffsetPaginatedCollection
         def _type = "WikiPageLinkCollection"
+
+        collection :elements,
+                   getter: ->(*) { represented.map { decorator_for(it).create(it, current_user:) } },
+                   exec_context: :decorator,
+                   embedded: true
+
+        def decorator_for(model)
+          model.relation? ? RelationPageLinkRepresenter : PageLinkRepresenter
+        end
       end
     end
   end

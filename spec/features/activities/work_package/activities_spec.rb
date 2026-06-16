@@ -1073,6 +1073,15 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
             page.find(:xpath, "//*[text()='created this on']").click
             expect(page).to have_no_css(".--anchor-highlighted")
           end
+
+          it "rewrites the legacy activity anchor to the resolved comment in the URL" do
+            wait_for_auto_scrolling_to_finish
+
+            initial_journal = work_package.journals.order(:version).first
+            expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{initial_journal.id}")
+            # The rewrite must keep the work package path, not collapse it to "/".
+            expect(page.evaluate_script("window.location.pathname")).to include("/work_packages/#{work_package.id}")
+          end
         end
 
         context "with #comment- anchor" do

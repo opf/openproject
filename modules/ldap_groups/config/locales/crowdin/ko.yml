@@ -22,6 +22,7 @@ ko:
         group_name_attribute: 그룹 이름 특성
         sync_users: 사용자 동기화
         base_dn: 기본 DN 검색
+        member_lookup_attribute: 그룹 멤버 특성
     models:
       ldap_groups/synchronized_group: 동기화된 LDAP 그룹
       ldap_groups/synchronized_filter: LDAP 그룹 동기화 필터
@@ -32,7 +33,7 @@ ko:
   ldap_groups:
     label_menu_item: LDAP 그룹 동기화
     label_group_key: LDAP 그룹 필터 키
-    label_synchronize: 동기화
+    label_synchronize: LDAP 그룹 검색
     settings:
       name_attribute: LDAP 그룹 이름 특성
       name_attribute_text: 필터에 의해 생성될 때 OpenProject 그룹 명명에 사용되는 LDAP 특성입니다.
@@ -56,6 +57,9 @@ ko:
         base_dn_text: '이 필터에 사용할 검색 기본 DN을 입력하세요. 이 DN은 선택한 LDAP 연결의 기본 DN 아래에 있어야 합니다. 연결의 기본 DN을 재사용하려면 이 옵션을 비워두세요.
 
           '
+        member_lookup_attribute_text: '기본 역방향 조회를 사용하려면 비워 두세요: OpenProject는 memberOf 특성이 그룹 DN과 일치하는 사용자를 검색합니다. 이를 위해서는 사용자 항목에 memberOf 특성이 있어야 합니다(Active Directory, memberof 오버레이가 있는 OpenLDAP). 대신 정방향 조회를 사용하려면 멤버 DN이 나열되는 그룹 항목의 특성 이름으로 이 옵션을 설정하세요. 예: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). 사용자 항목의 memberOf 특성을 유지 관리하지 않는 LDAP 서버에 이 옵션을 사용하세요.
+
+          '
     synchronized_groups:
       add_new: 동기화된 LDAP 그룹 추가
       destroy:
@@ -64,8 +68,13 @@ ko:
         confirmation: 계속하는 경우, 동기화된 그룹 %{name} 및 이를 통해 동기화된 %{users_count}명의 사용자 모두가 제거됩니다.
         info: OpenProject 그룹 자체 그리고 이 LDAP 동기화 외부에서 추가된 멤버는 제거되지 않습니다.
       help_text_html: |
-        이 모듈을 통해 LDAP 및 OpenProject 그룹 간에 동기화를 설정할 수 있습니다..
-        OpenProject와 연동하려면 LDAP 그룹이 <em>groupOfNames / memberOf</em> 특성 집합을 사용해야 합니다.
+        이 모듈에서는 LDAP와 OpenProject 그룹 간 동기화를 설정할 수 있습니다.
+        <br/>
+        기본적으로 OpenProject는 <strong>역방향 조회</strong>를 사용합니다: <em>memberOf</em> 특성이 그룹 DN과 일치하는 사용자를 검색합니다.
+        이를 위해서는 사용자 항목에 <em>memberOf</em> 특성이 있어야 합니다(Active Directory, memberof 오버레이가 있는 OpenLDAP).
+        <br/>
+        LDAP 서버가 사용자 항목의 <em>memberOf</em>를 유지 관리하지 않는 경우(예: <em>groupOfUniqueNames</em>와 <em>uniqueMember</em> 사용),
+        <strong>정방향 조회</strong>는 동기화 필터에서 <em>그룹 멤버 특성</em>을 설정하여 구성할 수 있습니다.
         <br/>
         그룹은 cron 작업을 통해 시간별로 동기화됩니다.
         [이 항목은 설명서를 참조하세요](docs_url).

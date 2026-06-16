@@ -12,6 +12,7 @@ sv:
         sp_entity_id: ID för serviceenhet
         metadata_url: Identitetsleverantör metadata URL
         name_identifier_format: Format för namnidentifierare
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Identitetsleverantörens inloggningsändpunkt
         idp_slo_service_url: Utloggningsslutpunkt för identitetsleverantör
         idp_cert: Offentligt certifikat för identitetsleverantör
@@ -44,6 +45,10 @@ sv:
       success: Uppdaterade konfigurationen med hjälp av identitetsleverantörens metadata.
       invalid_url: Tillhandahållen metadata URL är ogiltig. Ange en HTTP(s) URL.
       error: 'Misslyckades med att hämta metadata för identitetsleverantören: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Inga SAML-leverantörer har konfigurerats ännu.
       label_empty_description: Lägg till en leverantör för att se dem här.
@@ -109,6 +114,9 @@ sv:
 
         '
       metadata_url: 'Din identitetsleverantör tillhandahåller en URL för metadata.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Din identitetsleverantör tillhandahåller en XML-nedladdning av metadata.

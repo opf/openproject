@@ -33,7 +33,7 @@ ms:
           title: Subitems
         project_favorites:
           title: Projek kegemaran
-          no_results: Kini anda tiada projek kegemaran. Tekan ikon bintang di papan pemuka projek untuk tambahkan ke kegemaran anda.
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: Masa yang saya gunakan
           displayed_days: 'Hari yang dipaparkan dalam widget:'

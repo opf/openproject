@@ -62,6 +62,9 @@ Rails.application.routes.draw do
   scope "projects/:project_id", as: "project", module: "projects" do
     namespace "settings" do
       resource :time_entry_activities, only: %i[show update]
+      resources :cost_types, only: %i[index] do
+        member { post :toggle }
+      end
     end
   end
 
@@ -92,6 +95,12 @@ Rails.application.routes.draw do
         # TODO: check if this can be replaced with update method
         put :set_rate
         patch :restore
+        get :rates
+      end
+
+      scope module: :cost_types do
+        resources :projects, controller: :cost_type_projects, only: %i[index new create]
+        resource :project, controller: :cost_type_projects, only: :destroy
       end
     end
 

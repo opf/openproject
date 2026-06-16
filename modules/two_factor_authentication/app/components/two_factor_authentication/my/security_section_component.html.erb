@@ -1,0 +1,85 @@
+<%= render(Primer::Beta::Subhead.new(my: 3)) do |subhead|
+      subhead.with_heading(tag: :h3, size: :medium) { t "two_factor_authentication.label_devices" }
+    end %>
+
+<section class="admin--edit-section">
+  <% if @has_remember_token_for_user %>
+    <%= render(
+          Primer::Alpha::Banner.new(
+            scheme: :default, dismiss_scheme: :none, mb: 3,
+            id: "two_factor_authentication_remember_cookie"
+          )
+        ) do |banner|
+          banner.with_action_button(
+            tag: :a,
+            href: helpers.my_2fa_remember_cookie_path,
+            test_selector: "two-factor-authentication--remove-remember-cookie-link",
+            data: { turbo_method: :delete }
+          ) do
+            t("two_factor_authentication.remember.clear_cookie")
+          end
+
+          if @remember_token
+            t(
+              "two_factor_authentication.remember.active_session_notice",
+              expires_on: helpers.format_date(@remember_token.expires_on)
+            )
+          else
+            t("two_factor_authentication.remember.other_active_session_notice")
+          end
+        end %>
+  <% end %>
+
+  <%= render partial: "two_factor_authentication/my/two_factor_devices/two_factor_status", locals: { device: @default_device } %>
+</section>
+
+<section class="admin--edit-section">
+  <%= render ::TwoFactorAuthentication::Devices::TableComponent.new(rows: @two_factor_devices, admin_table: false) %>
+
+  <%= render(Primer::Alpha::ActionMenu.new(anchor_align: :end)) do |menu|
+        menu.with_show_button(
+          test_selector: "two_factor_authentication_devices_button",
+          aria: { label: t("two_factor_authentication.label_device") },
+          mt: 3
+        ) do |button|
+          button.with_leading_visual_icon(icon: :plus)
+          button.with_trailing_visual_icon(icon: :"triangle-down")
+          t("two_factor_authentication.label_device")
+        end
+
+        @available_devices.each_key do |key|
+          menu.with_item(
+            label: t("two_factor_authentication.devices.#{key}.title"),
+            href: helpers.new_my_2fa_device_path(type: key),
+            test_selector: "two_factor_authentication_devices_#{key}"
+          ) do |item|
+            item.with_description.with_content(t("two_factor_authentication.devices.#{key}.description"))
+          end
+        end
+      end %>
+</section>
+
+<%= render(Primer::Beta::Subhead.new(mt: 5)) do |subhead|
+      subhead.with_heading(tag: :h3, size: :medium) { t "two_factor_authentication.backup_codes.plural" }
+      subhead.with_description do
+        safe_join(
+          [
+            t("two_factor_authentication.backup_codes.overview_description"),
+            tag.br,
+            tag.strong(t("two_factor_authentication.backup_codes.generate.regenerate_warning"))
+          ]
+        )
+      end
+    end %>
+
+<%= helpers.form_tag(
+      { controller: "two_factor_authentication/my/backup_codes", action: :create },
+      method: :post,
+      id: "two_factor_backup_codes_form",
+      data: helpers.password_confirmation_data_attribute({})
+    ) do %>
+  <%= render(Primer::Beta::Button.new(type: :submit)) do |button| %>
+    <% button.with_leading_visual_icon(icon: :"op-server-key") %>
+    <%= t("two_factor_authentication.backup_codes.generate.title") %>
+  <% end %>
+<% end %>

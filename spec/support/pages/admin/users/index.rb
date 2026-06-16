@@ -34,7 +34,7 @@ module Pages
   module Admin
     module Users
       class Index < ::Pages::Page
-        include ::Components::Autocompleter::NgSelectAutocompleteHelpers
+        include ::Components::Common::Filters
 
         def path
           "/users"
@@ -75,13 +75,11 @@ module Pages
 
         def filter_by_status(value)
           open_filter_panel
-          unless page.has_css?("li.advanced-filters--filter[data-filter-name='status']:not(.hidden)")
+          unless page.has_css?(".advanced-filters--filter[data-filter-name='status']")
             select "Status", from: "add_filter_select"
           end
-          # Status renders a single-select and a hidden multi-select side by side;
-          # both share id="status_value". Scope to the visible single-select to disambiguate.
-          within("li.advanced-filters--filter[data-filter-name='status']:not(.hidden) .single-select") do
-            select value, from: "status_value"
+          within(".advanced-filters--filter[data-filter-name='status']") do
+            set_autocomplete_filter([value])
           end
 
           wait_for_network_idle
@@ -95,7 +93,7 @@ module Pages
 
         def filter_by_group(value)
           open_filter_panel
-          unless page.has_css?("li.advanced-filters--filter[data-filter-name='group']:not(.hidden)")
+          unless page.has_css?(".advanced-filters--filter[data-filter-name='group']:not([hidden])")
             select "Group", from: "add_filter_select"
           end
 
@@ -136,7 +134,7 @@ module Pages
         end
 
         def within_filter(name, &)
-          within("li.advanced-filters--filter[data-filter-name='#{name}']:not(.hidden)", &)
+          within(".advanced-filters--filter[data-filter-name='#{name}']:not([hidden])", &)
         end
 
         def order_by(key)

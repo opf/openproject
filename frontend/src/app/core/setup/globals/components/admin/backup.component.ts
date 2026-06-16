@@ -27,7 +27,6 @@
 //++
 
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Injector, ViewChild, inject } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
@@ -75,7 +74,7 @@ export class BackupComponent implements AfterViewInit {
 
   public backupToken = '';
 
-  @InjectField() opBackup:OpenProjectBackupService;
+  readonly opBackup = inject(OpenProjectBackupService);
 
   @ViewChild('backupTokenInput') backupTokenInput:ElementRef<HTMLInputElement>;
 

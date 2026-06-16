@@ -368,13 +368,13 @@ ja:
         success: MCP configuration was updated successfully.
     scim_clients:
       authentication_methods:
-        sso: IDプロバイダーからのJWT
-        oauth2_client: OAuth 2.0クライアント認証情報
+        sso: アイデンティティプロバイダからのJWT
+        oauth2_client: OAuth 2.0 クライアント資格情報
         oauth2_token: 静的アクセストークン
       created_client_credentials_dialog_component:
-        title: クライアント認証情報の作成
-        heading: クライアント認証情報が生成されました
-        one_time_hint: クライアント・シークレットが表示されるのはこの時だけです。必ずコピーしてください。
+        title: クライアントの資格情報が作成されました
+        heading: クライアントの資格情報が生成されました
+        one_time_hint: クライアントのシークレットが表示される唯一の時間です。今すぐコピーしてください。
       created_token_dialog_component:
         title: トークンを作成しました
         heading: トークンが生成されました
@@ -387,21 +387,21 @@ ja:
       edit:
         label_delete_scim_client: SCIM クライアントを削除
       form:
-        auth_provider_description: これは、SCIM プロバイダによって追加されたユーザが OpenProject で認証するために使用するサービスです。
-        authentication_method_description_html: これは SCIM クライアントが OpenProject で認証する方法です。OAuth トークンに<code>scim_v2</code>スコープが含まれていることを確認してください。
-        description: これらの設定オプションの詳細については、[SCIMクライアントの設定に関する文書](docs_url)を参照してください。
+        auth_provider_description: これは、SCIMプロバイダが追加したユーザーがOpenProjectでの認証に使用するサービスです。
+        authentication_method_description_html: これは SCIM クライアントが OpenProject で認証する方法です。OAuth トークンに <code>scim_v2</code> スコープが含まれていることを確認してください。
+        description: 設定オプションの詳細については、[SCIM クライアントの設定に関するドキュメント](docs_url)を参照してください。
         jwt_sub_description: 例えば、Keycloakの場合、これはSCIMクライアントに関連付けられたサービスアカウントのUUIDです。あなたのユースケースにあった Subject claim を見つける方法については [ドキュメント](docs_url) を参照してください。
-        name_description: このクライアントが設定された理由を他の管理者が理解しやすい名前を選んでください。
+        name_description: 他の管理者がこのクライアントが設定された理由を理解するのに役立つ名前を選択してください。
       index:
-        description: ここで設定された SCIM クライアントは、OpenProject SCIM サーバ API と対話し、ユーザアカウントやグループのプロビジョニング、更新、デプロビジョニングを行うことができます。
-        label_create_button: SCIMクライアントの追加
+        description: ここで設定されたSCIMクライアントは、OpenProjectのSCIMサーバー APIと相互作用して、ユーザーアカウントとグループのプロビジョニング、更新、およびデプロビジョニングを行うことができます。
+        label_create_button: SCIMクライアントを追加
       new:
         title: 新しいSCIMクライアント
       revoke_static_token_dialog_component:
         confirm_button: 取り消す
-        title: 静的トークンの失効
-        heading: このトークンを本当に取り消しますか？
-        description: このトークンを使っている SCIM クライアントは、OpenProject の SCIM サーバ API にアクセスできなくなります。
+        title: 静的トークンを取り消す
+        heading: このトークンを取り消してもよろしいですか？
+        description: このトークンを使用する SCIM クライアントは、OpenProject の SCIM サーバ API にアクセスできなくなります。
       table_component:
         blank_slate:
           title: SCIMクライアントがまだ設定されていません
@@ -1080,26 +1080,26 @@ ja:
         other: また、 %{shared_work_packages_link} はこのユーザーと共有されています。
       remove_project_membership_or_work_package_shares_too: 直接のメンバーとしてのユーザーだけを削除したい（および共有を維持したい）、またはワークパッケージの共有も削除しますか？
       will_remove_all_user_access_priveleges: このメンバーを削除すると、プロジェクトへのユーザーのすべてのアクセス権が削除されます。ユーザーはまだサイトの一部として存在します。
-      will_remove_all_group_access_priveleges: このメンバを削除すると、プロジェクトに対するグループのすべてのアクセス権が削除されます。グループはサイトの一部としてまだ存在します。
-      cannot_delete_inherited_membership: このプロジェクトのメンバーであるグループに所属しているため、このメンバーを削除することはできません。
-      cannot_delete_inherited_membership_note_admin_html: "%{administration_settings_link}で、プロジェクトのメンバーとしてグループを削除することも、特定のメンバーをグループから削除することもできます。"
-      cannot_delete_inherited_membership_note_non_admin: プロジェクトのメンバーとしてグループを削除するか、管理者に連絡してこの特定のメンバーをグループから削除することができます。
+      will_remove_all_group_access_priveleges: このメンバーを削除すると、グループのすべてのアクセス権がプロジェクトに削除されます。グループはサイトの一部として存在します。
+      cannot_delete_inherited_membership: このメンバーはこのプロジェクトのメンバーであるグループに属しているため、削除できません。
+      cannot_delete_inherited_membership_note_admin_html: プロジェクトのメンバーとしてグループを削除するか、 %{administration_settings_link} のグループからこの特定のメンバーを削除することができます。
+      cannot_delete_inherited_membership_note_non_admin: プロジェクトのメンバーとしてグループを削除するか、管理者に問い合わせてグループから特定のメンバーを削除することができます。
     delete_work_package_shares_dialog:
-      title: ワーク・パッケージ・シェアの破棄
+      title: ワークパッケージの共有の取り消し
       shared_with_this_user_html:
         other: "%{all_shared_work_packages_link} はこのユーザーと共有されています。"
       shared_with_this_group_html:
         other: "%{all_shared_work_packages_link} はこのグループと共有されています。"
       shared_with_permission_html:
         other: "%{shared_work_packages_link} のみが %{shared_role_name} 権限と共有されています。"
-      revoke_all_or_with_role: すべての共有ワークパッケージ、または %{shared_role_name} 権限を持つワークパッケージのみへのアクセス権を剥奪しますか？
-      will_not_affect_inherited_shares: "(これは、そのグループと共有しているワークパッケージには影響しません）。"
-      cannot_remove_inherited: グループで共有されたワークパッケージの共有は削除できません。
-      cannot_remove_inherited_with_role: ロール %{shared_role_name} で共有されるワークパッケージは、グループを介して共有され、削除することはできません。
-      cannot_remove_inherited_note_admin_html: "%{administration_settings_link}、グループへの共有を取り消すか、グループからこの特定のメンバーを削除することができます。"
-      cannot_remove_inherited_note_non_admin: グループへの共有を取り消すか、管理者に連絡して特定のメンバーをグループから削除することができます。
-      will_revoke_directly_granted_access: このアクションは、グループと共有されているワークパッケージ以外の、すべてのワークパッケージへのアクセス権を剥奪する。
-      will_revoke_access_to_all: このアクションは、すべてのアクセス権を剥奪する。
+      revoke_all_or_with_role: 共有されたワークパッケージ、または %{shared_role_name} 権限を持つワークパッケージのみへのアクセスを取り消しますか？
+      will_not_affect_inherited_shares: "(これはグループと共有されているワークパッケージには影響しません)。"
+      cannot_remove_inherited: グループ間で共有されるワークパッケージは削除できません。
+      cannot_remove_inherited_with_role: ワークパッケージとロール %{shared_role_name} が共有されているため、削除できません。
+      cannot_remove_inherited_note_admin_html: あなたは、グループへの共有を取り消すか、 %{administration_settings_link} のグループからこの特定のメンバーを削除することができます。
+      cannot_remove_inherited_note_non_admin: 共有をグループに取り消すか、管理者に問い合わせてグループから特定のメンバーを削除することができます。
+      will_revoke_directly_granted_access: このアクションは、すべてのユーザーへのアクセスを取り消しますが、グループと共有されているワークパッケージです。
+      will_revoke_access_to_all: このアクションは、すべてのユーザーへのアクセスを取り消します。
   my:
     access_token:
       dialog:
@@ -1123,7 +1123,7 @@ ja:
       no_results_title_text: 現在、有効なアクセス トークンはありません。
       notice_api_token_revoked: APIトークンが削除されました。新しいトークンを作成するには、APIセクションの作成ボタンを使用してください。
       notice_rss_token_revoked: RSSトークンが削除されました。新しいトークンを作成するには、RSSセクションのリンクを使用してください。
-      notice_ical_token_revoked: プロジェクト "%{project_name}" のカレンダー "%{calendar_name}" の iCalendar トークン "%{token_name}" が失効しました。このトークンを持つiCalendar URLは無効になりました。
+      notice_ical_token_revoked: プロジェクト "%{token_name}" のカレンダー "%{calendar_name}" の iCalendar トークン "%{project_name}" が取り消されました。 このトークンのiCalendar URLは無効です。
     password_confirmation_dialog:
       confirmation_required: You need to enter your account password to confirm this change.
       title: Confirm your password to continue
@@ -1148,7 +1148,7 @@ ja:
     force_password_change_hint: The user must set a new password on their next login. Automatically enabled when sending credentials via email.
     send_information_hint: Emails the password in plain text. When checked, the user will be required to change their password on first login.
     autologins:
-      prompt: ログインしたまま %{num_days}
+      prompt: "%{num_days} のログインを維持"
     sessions:
       session_name: "%{browser_name} %{browser_version} の %{os_name}"
       browser: ブラウザ
@@ -1162,17 +1162,17 @@ ja:
       current: Current (this device)
       title: セッション管理
       instructions: You are logged in to your account through the following devices. Revoke sessions that you do not recognise or from devices you do not control.
-      may_not_delete_current: 現在のセッションを削除することはできません。
+      may_not_delete_current: 現在のセッションは削除できません。
       deletion_warning: Are you sure you want to revoke this session? You will be logged out on this device.
     groups:
       member_in_these_groups: このユーザーは現在以下のグループのメンバーです：
       no_results_title_text: このユーザーは現在どのグループのメンバーでもありません。
       summary_with_more_html: Member of %{names} and %{count_link}.
-      more: "%{count} もっと見る"
+      more: "%{count} 以上"
       summary_html: Member of %{names}.
     memberships:
       no_results_title_text: このユーザは現在プロジェクトのメンバーではありません。
-    open_profile: プロフィール
+    open_profile: プロファイルを開く
     invite_user_modal:
       invite: 招待
       title:
@@ -1289,7 +1289,7 @@ ja:
     right_to_manage_members_missing: 'プレースホルダーユーザを削除する権限がありません。 プレースホルダー ユーザーがメンバーであるすべてのプロジェクトのメンバーを管理する権利はありません。
 
       '
-    delete_tooltip: プレースホルダー・ユーザーの削除
+    delete_tooltip: プレースホルダー ユーザーを削除
     deletion_info:
       heading_html: Delete placeholder user %{name}
       data_consequences: 'プレースホルダー ユーザのすべての発生(担当者、担当者、その他のユーザ値など)は、「削除されたユーザー」というアカウントに再割り当てられます。 削除されたすべてのアカウントのデータがこのアカウントに再割り当てられるため、ユーザーが作成したデータと別の削除されたアカウントのデータを区別することはできません。
@@ -1308,11 +1308,11 @@ ja:
   reactions:
     action_title: リアクト
     add_reaction: リアクションを追加
-    react_with: "%{reaction} と リアクト"
-    and_user: および %{user}
+    react_with: "%{reaction} で反応する"
+    and_user: と %{user}
     and_others:
       other: と %{count} その他
-    reaction_by: "%{reaction} によって"
+    reaction_by: "%{reaction} による"
   reportings:
     index:
       no_results_title_text: 現在、ステータス報告はありません。
@@ -1322,19 +1322,20 @@ ja:
       status_color_text: |
         このステータスの色を割り当てたり変更する場合にクリックします。
         ステータスボタンに表示され、テーブル内のワークパッケージを強調表示するために使用できます。
-      status_default_text: 新しいワークパッケージは、デフォルトでこのタイプに設定される。読み取り専用にはできない。
+      status_default_text: 新しいワークパッケージはデフォルトでこのタイプに設定されています。読み取り専用にすることはできません。
       status_excluded_from_totals_text: |-
-        このステータスを持つワークパッケージを、階層内の「作業」、「
-        残作業」、「完了率」の合計から除外するには、このオプションをオンにします。
+        このオプションをオンにすると、このステータスのワークパッケージを合計作業量、
+        残作業量、および階層構造で完了させることができます。
       status_percent_complete_text_html: |-
         In [status-based progress calculation mode](setting_url), the % Complete of a work
         package is automatically set to this value when this status is selected.
         Ignored in work-based mode.
       status_readonly_html: |
-        このステータスを持つワークパッケージを読み取り専用としてマークするには、このオプションをチェックする。
-        ステータス以外の属性は変更できません。
+        ワークパッケージを読み取り専用としてマークするには、このオプションをオンにしてください。
+        ステータスを除いて変更することはできません。
+
         <br>
-        <strong>注意</strong>: 継承された値 (子やリレーションなど) は適用されます。
+        <strong>メモ</strong>: 継承された値 (例えば、子や関連) が適用されます。
     index:
       no_results_title_text: 現在、ワークパッケージのステータスはありません。
       no_results_content_text: 新しいステータスを追加
@@ -1344,7 +1345,7 @@ ja:
         is_readonly: 読み取り専用
         excluded_from_totals: 合計から除外
   themes:
-    dark: 暗い
+    dark: ダーク
     light: ライト
     sync_with_os: 自動(OSのテーマ設定に追従)
   types:
@@ -1539,15 +1540,15 @@ ja:
       could_not_be_saved: '次のワークパッケージを保存できませんでした:'
       none_could_be_saved: "%{total} ワークパッケージのどれも更新できませんでした。"
       x_out_of_y_could_be_saved: "%{failing} の %{total} ワークパッケージのうち、 %{success} を更新できませんでした。"
-      selected_because_descendants: "%{selected} のワークパッケージが選択されたが、合計 %{total} のワークパッケージが影響を受け、その中には子孫も含まれる。"
-      descendant: 選択された子孫
+      selected_because_descendants: "%{selected} ワークパッケージが選択されている間、合計で %{total} ワークパッケージが子孫を含む影響を受けます。"
+      descendant: 選択された子孫です
     move:
       no_common_statuses_exists: 選択されたすべてのワークパッケージに利用できるステータスはありません。 それらの状態は変更できません。
       unsupported_for_multiple_projects: 複数のプロジェクトからのワークパッケージの一括移動 / コピーはサポートされていません
-      current_type_not_available_in_target_project: 'ワークパッケージの現在のタイプがターゲットプロジェクトで有効になっていません。変更しない場合は、ターゲットプロジェクトでタイプを有効にしてください。そうでない場合は、リストからターゲットプロジェクトで使用可能なタイプを選択してください。
+      current_type_not_available_in_target_project: 'ターゲット プロジェクトで現在のワークパッケージのタイプが有効になっていません。 変更を行わないようにしたい場合は、対象プロジェクトのタイプを有効にしてください。 それ以外の場合は、リストからターゲット プロジェクトで使用可能なタイプを選択します。
 
         '
-      bulk_current_type_not_available_in_target_project: 'ワークパッケージの現在のタイプがターゲットプロジェクトで有効になっていません。変更しない場合は、ターゲットプロジェクトでタイプを有効にしてください。そうでない場合は、リストからターゲットプロジェクトで使用可能なタイプを選択してください。
+      bulk_current_type_not_available_in_target_project: '現在のタイプのワークパッケージはターゲット プロジェクトで有効になっていません。 変更を行わないようにしたい場合は、対象プロジェクトのタイプを有効にしてください。 それ以外の場合は、リストからターゲット プロジェクトで使用可能なタイプを選択します。
 
         '
     sharing:
@@ -1573,9 +1574,9 @@ ja:
           no_results_title_text: 現在、有効なバージョンはありません。
   work_package_relations_tab:
     index:
-      action_bar_title: 他のワークパッケージとのリレーションを追加して、それらの間にリンクを作成する。
-      no_results_title_text: 現在、利用可能な関係はない。
-      blankslate_heading: 関係なし
+      action_bar_title: 他のワークパッケージにリレーションを追加して、その間にリンクを作成します。
+      no_results_title_text: 現在利用可能なリレーションはありません。
+      blankslate_heading: リレーションなし
       blankslate_description: このワークパッケージにはまだリレーションがありません。
     label_add_child_button: 子要素
     label_add_x: "%{x} を追加"
@@ -1700,6 +1701,7 @@ ja:
       attachment:
         attachment_content: 添付ファイルのコンテンツ
         attachment_file_name: 添付ファイル名
+        charset: Character set
         content_type: コンテンツタイプ
         downloads: ダウンロード数
         file: ファイル
@@ -1794,6 +1796,7 @@ ja:
         title: Title
         description: 説明
       member:
+        blocked: Blocked
         roles: ロール
       notification:
         read_ian: アプリ内の読み取り
@@ -2041,6 +2044,7 @@ ja:
         priority: 優先度
         progress: 進捗度(%)
         readonly: 読み取り専用
+        relatable: Relatable to
         remaining_hours: 残時間
         remaining_time: 残時間
         sequence_number: Sequence number
@@ -2085,17 +2089,14 @@ ja:
         before: は%{date}の前にしてください。
         before_or_equal_to: は%{date}より以前にしてください。
         blank: は空白にすることができません。
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: プロパティ '%{property}' が設定されている必要があります。
         cannot_delete_mapping: 必須です。削除できません。
-        is_for_all_cannot_modify: はすべてのプロジェクトで使用されているため、変更できません。
         cant_link_a_work_package_with_a_descendant: 親子関係にあるワークパッケージ間で関係の設定はできません。
         circular_dependency: この関係は循環依存になります。
         confirmation: は%{attribute} と一致しません。
         could_not_be_copied: "%{dependency} を（完全に）コピーできませんでした。"
+        datetime_must_be_in_future: 未来に違いないわ。
         does_not_exist: は存在しません。
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: アクセスできません。
         error_readonly: 書けませんでした。
@@ -2116,36 +2117,38 @@ ja:
         greater_than_or_equal_to: は%{count}以上の値にしてください。
         greater_than_or_equal_to_start_date: は開始日以後にしてください。
         greater_than_start_date: は開始日より後にしてください。
+        hexcode_invalid: は有効な6桁の16進カラーコードではない。
         inclusion: は許可されている値ではありません。
         inclusion_nested: はパス '%{path}' で許可されている値のいずれかに設定されていません。
         invalid: は不正な値です。
         invalid_uri: must be a valid URI.
         invalid_url: は有効な URL ではありません。
         invalid_url_scheme: 'はサポートされたプロトコルではありません (可能: %{allowed_schemes})。'
+        is_for_all_cannot_modify: はすべてのプロジェクトで使用されているため、変更できません。
         less_than_or_equal_to: は%{count}以下の値にしてください。
         not_available: はシステム構成のため使用できません。
+        not_before_start_date: must not be before the start date.
         not_deletable: 削除できません。
         not_editable: cannot be edited because it is already in effect.
         not_current_user: 現在のユーザーではありません。
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: 見つかりません。
         not_a_date: は有効な日付ではありません。
         not_a_datetime: は有効な日時ではありません。
         not_a_number: は数値にしてください。
         not_allowed: 権限がないため無効です。
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: は整数にしてください。
         not_an_iso_date: 'は有効な日付ではありません。必要な形式: YYYY-MM-dd。'
         not_same_project: は同じプロジェクトに属していません。
-        datetime_must_be_in_future: 未来に違いないわ。
         odd: は奇数にしてください。
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: 正規表現 %{expression}と一致しません。
         regex_invalid: 関連付けられた正規表現を検証できませんでした。
         regex_list_invalid: "%{invalid_lines}行は正規表現として解析できませんでした。"
-        hexcode_invalid: は有効な6桁の16進カラーコードではない。
         smaller_than_or_equal_to_max_length: は最大長さより以下でなければなりません。
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: は既に使用されています。
         too_long: は%{count}文字以内を入力してください。
         too_short: は%{count}文字以上を入力してください。
@@ -2158,6 +2161,7 @@ ja:
         url_not_secure_context: 'は「セキュアコンテキスト」を提供していません。HTTPSを使用するか、localhostのようなループバックアドレスを使用してください。
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: は%{count}文字を入力してください。
       models:
         group:
@@ -2804,6 +2808,7 @@ ja:
   button_login: ログイン
   button_move: 移動
   button_move_and_follow: 移動後表示
+  button_next: Next
   button_print: 印刷
   button_quote: 引用
   button_remove: 削除
@@ -3412,6 +3417,12 @@ ja:
       selected: 選択済み
     include_sub_items: サブアイテムを含める
     no_results_text: 結果がありません
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3450,6 +3461,9 @@ ja:
     additional:
       projects: このサイトの最新の可視化プロジェクト。
       no_visible_projects: このサイトに表示されているプロジェクトはありません。
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: このサイトの最新の登録ユーザー。
     blocks:
       community: OpenProject コミュニティ
@@ -3824,6 +3838,7 @@ ja:
   label_send_invitation: 招待状を送信
   label_calculated_value: Calculated value
   label_change_parent: 親タスクの変更
+  label_change_password: Change password
   label_change_plural: 変更
   label_change_properties: プロパティの変更
   label_change_status: ステータスの変更
@@ -4018,6 +4033,7 @@ ja:
   label_journal_diff: 説明の比較
   label_language: 言語
   label_languages: 言語
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: 言語と地域
   label_jump_to_a_project: プロジェクトへ移動...
@@ -4109,6 +4125,7 @@ ja:
   label_my_account_data: アカウントのデータ
   label_my_avatar: 自分のアバター
   label_my_queries: 個人のクエリ
+  label_my_security: Security
   label_name: 名称
   label_never: なし
   label_new: 新しく作成
@@ -4453,6 +4470,8 @@ ja:
     other: "%{count} working days"
   label_x_working_days_time_off:
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: 昨日
   label_zen_mode: 禅モード
   label_role_type: 種別
@@ -4644,9 +4663,9 @@ ja:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'ユーザーがサインインできるようにするには、次のいずれかを行います: '
       a: お支払いプランをアップグレードします。 ([ここ](upgrade_url))
       b: 既存のユーザーをロックまたは削除する ([ここ](users_url))
+      label: 'ユーザーがサインインできるようにするには、次のいずれかを行います: '
   more_actions: 他の機能
   noscript_description: OpenProjectを使用するためにJavaScriptを有効にする必要があります！
   noscript_heading: JavaScriptは無効されています。
@@ -5161,6 +5180,10 @@ ja:
   setting_consent_required: 同意を求める
   setting_consent_decline_mail: 連絡先メールアドレスに同意します。
   setting_cross_project_work_package_relations: 他プロジェクトとの間にワークパッケージの関連付けを許可する
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: 年の最初の週に含む
   setting_date_format: 日付
   setting_default_language: デフォルトの言語
@@ -5199,6 +5222,9 @@ ja:
   setting_work_package_properties: 項目名
   setting_work_package_startdate_is_adddate: 今日の日付を新しいワークパッケージの開始日とする
   setting_work_packages_projects_export_limit: ワークパッケージ/プロジェクトのエクスポート制限
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: 全てのリクエストに対し、ユーザのログイン名、名前、メールアドレスをログに記録する
   setting_login_required: 認証が必要
@@ -5899,6 +5925,17 @@ ja:
     warning: '営業日とみなす曜日を変更すると、このサイト内のすべてのプロジェクトのすべてのワークパッケージの開始日と終了日に影響を与える可能性があります。
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**営業日**変更（%{changes}）_
       days:

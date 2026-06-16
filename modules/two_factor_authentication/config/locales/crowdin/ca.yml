@@ -160,7 +160,7 @@ ca:
         '
       other_active_session_notice: El teu compte té una galeta web de record activada d'una sessió anterior.
       label: Recorda
-      clear_cookie: Fes clic aquí per eliminar totes les sessions 2FA recordades.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: S'han eliminat totes les sessions 2FA recordades.
       dont_ask_again: Crea una galeta web per tal de recordar l'autentificació 2FA per aquest client per %{days} dies.
   field_otp: Contrasenya d'un sol ús
@@ -171,6 +171,7 @@ ca:
   notice_account_has_no_phone: No hi ha cap número de telèfon mòbil associat al teu compte.
   label_confirmed: Confirmat
   button_continue: Continua
+  button_make_active: Activate
   button_make_default: Marca per defecte
   notice_phone_number_format: 'Si us plau, entra el número en el següent format: +XX XXXXXXXX.'
   text_otp_not_receive: Altres mètodes de verificació

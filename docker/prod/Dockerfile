@@ -6,7 +6,7 @@ ARG BUILDKIT_SBOM_SCAN_STAGE=true
 FROM ruby:${RUBY_VERSION}-slim-trixie AS runtime-base
 LABEL maintainer="operations@openproject.com"
 
-ARG NODE_VERSION="22.21.0"
+ARG NODE_VERSION="22.22.3"
 ARG BIM_SUPPORT=true
 ENV USE_JEMALLOC=false
 ENV DEBIAN_FRONTEND=noninteractive
@@ -61,7 +61,7 @@ COPY ./docker/prod/setup/preinstall-common.sh ./docker/prod/setup/preinstall-com
 RUN ./docker/prod/setup/preinstall-common.sh
 
 FROM runtime-base AS build-base
-ARG NODE_VERSION="22.21.0"
+ARG NODE_VERSION="22.22.3"
 
 # build-only dependencies
 COPY ./docker/prod/setup/preinstall-build.sh ./docker/prod/setup/preinstall-build.sh

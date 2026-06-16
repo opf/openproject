@@ -374,58 +374,22 @@ pt-BR:
         caption: Este texto aparecerá centralizado no rodapé de todas as páginas.
       submit_button: Baixar
     notifications:
+      disabled: Os participantes não receberão notificações por e-mail sobre alterações na data, horário ou lista de participantes.
+      enabled: Todos os participantes receberão convites de calendário atualizados informando sobre alterações na data, horário ou lista de participantes.
       sidepanel:
         title: Atualizações do calendário por e-mail
         description:
-          disabled: Os participantes não receberão um e-mail informando sobre as alterações.
-          enabled: Todos os participantes receberão convites de calendário atualizados por e-mail, informando sobre as alterações.
           change_via_template: Para alterar isso, edite o modelo da série.
       dialog:
         title:
           enable: Habilitar atualizações de calendário por e-mail?
           disable: Desabilitar atualizações de calendário por e-mail?
         message:
-          enable: 'Todos os participantes receberão, por e-mail, convites de calendário atualizados sempre que houver mudança na data, hora, local ou lista de participantes da reunião. Ao ativar essa opção, o envio é feito imediatamente para todos.
-
-            '
-          disable: 'Os participantes deixarão de receber convites de calendário atualizados por e-mail sempre que houver alterações na data, horário, local ou participantes da reunião. Caso já tenham recebido um convite anterior, ele pode estar desatualizado.
-
-            '
+          enable: Uma vez ativado, um e-mail será enviado imediatamente a todos os participantes.
+          disable: Se já tiverem um convite para esta reunião, ele pode não estar mais válido.
         confirm_label:
           enable: Habilitar atualizações por e-mail
           disable: Desabilitar atualizações por e-mail
-      banner:
-        participants:
-          enabled: 'Todos os participantes receberão convites de calendário atualizados por e-mail quando você adicionar ou remover participantes.
-
-            '
-          disabled: 'As atualizações de calendário por e-mail estão desativadas. Os participantes não receberão e-mails quando você adicionar ou remover participantes.
-
-            '
-          draft_disabled: 'Os participantes não receberão e-mail informando quando você adicionar ou remover participantes.
-
-            '
-        onetime:
-          enabled: 'Todos os participantes receberão atualização do convite de calendário via e-mail quando você adicionar ou remover participantes.
-
-            '
-          disabled: 'Os participantes não receberão um e-mail os informando sobre mudanças de data de reunião, tempo ou participantes.
-
-            '
-        occurrence:
-          enabled: 'As atualizações de calendário por e-mail estão ativadas para a série de reuniões. Todos os participantes receberão convites atualizados informando sobre suas alterações nesta ocorrência.
-
-            '
-          disabled: 'As atualizações de calendário por e-mail estão desativadas para a série de reuniões. Os participantes não receberão um e-mail informando sobre suas alterações nesta ocorrência.
-
-            '
-        template:
-          enabled: 'As atualizações de calendário por e-mail estão ativadas para a série de reuniões. Todos os participantes receberão convites atualizados informando sobre suas alterações neste modelo ou em ocorrências individuais.
-
-            '
-          disabled: 'As atualizações de calendário por e-mail estão desativadas para a série de reuniões. Os participantes não receberão um e-mail informando sobre suas alterações neste modelo ou em ocorrências individuais.
-
-            '
     presentation_mode:
       title: Modo de apresentação
       button_present: Presente
@@ -640,6 +604,7 @@ pt-BR:
   label_agenda_item_duplicate_in_next_title: Duplicar na próxima reunião?
   label_agenda_item_add_notes: Adicionar anotações
   label_agenda_item_add_outcome: Adicionar resultado
+  label_agenda_item_convert_to_work_package: Converter para pacote de trabalho
   label_agenda_item_work_package_add: Adicionar pacote de trabalho
   label_agenda_item_work_package: Pacote de trabalho do Item da pauta
   label_section_rename: Renomear seção

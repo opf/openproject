@@ -29,7 +29,7 @@
 import { StateDeclaration, StateService, Transition, TransitionService, UIRouter } from '@uirouter/core';
 import { IToast, ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
-import { ApplicationRef, Injector } from '@angular/core';
+import { Injector } from '@angular/core';
 import { FirstRouteService } from 'core-app/core/routing/first-route-service';
 import { Ng2StateDeclaration, StatesModule } from '@uirouter/angular';
 import { appBaseSelector, ApplicationBaseComponent } from 'core-app/core/routing/base/application-base.component';
@@ -276,13 +276,5 @@ export function initializeUiRouterListeners(injector:Injector) {
     window.OpenProject.pageState = 'pristine';
 
     return true;
-  });
-
-  // In zoneless mode, UIRouter transitions complete in microtasks but
-  // Angular's change detection doesn't run automatically afterwards.
-  // Force a CD cycle after every successful transition so that the new
-  // view is rendered and Stimulus controllers properly disconnect/connect.
-  $transitions.onSuccess({}, () => {
-    injector.get(ApplicationRef).tick();
   });
 }

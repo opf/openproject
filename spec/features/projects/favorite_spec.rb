@@ -85,7 +85,7 @@ RSpec.describe "Favorite projects", :js do
       visit home_path
 
       expect(page).to have_text "Favorite projects"
-      expect(page).to have_test_selector "favorite-project", text: "My favorite!"
+      expect(page).to have_test_selector "favorite-projects-widget--project-name", text: "My favorite!"
 
       retry_block do
         top_menu.toggle unless top_menu.open?
@@ -127,7 +127,7 @@ RSpec.describe "Favorite projects", :js do
         visit home_path
 
         expect(page).to have_text "Favorite projects"
-        expect(page).to have_test_selector "favorite-project", text: "My favorite!"
+        expect(page).to have_test_selector "favorite-projects-widget--project-name", text: "My favorite!"
         expect(page).to have_no_text "Other project"
 
         my_page.visit!
@@ -146,15 +146,16 @@ RSpec.describe "Favorite projects", :js do
         visit home_path
 
         expect(page).to have_text "Favorite projects"
-        expect(page).to have_test_selector "favorite-project", text: "My favorite!"
+        expect(page).to have_test_selector "favorite-projects-widget--project-name", text: "My favorite!"
 
         retry_block do
           top_menu.toggle unless top_menu.open?
           top_menu.expect_open
 
           # projects are displayed initially
-          top_menu.expect_result project.name
           top_menu.expect_result other_project.name
+          top_menu.expand_node_for other_project.name
+          top_menu.expect_result project.name
         end
 
         top_menu.switch_mode "Favorites"
@@ -173,17 +174,15 @@ RSpec.describe "Favorite projects", :js do
       ProjectRole.anonymous.update permissions: [:view_project]
     end
 
-    it "does not shows favorited projects" do
+    it "does not show the favorites filter" do
       visit project_path(project)
 
       retry_block do
         top_menu.toggle unless top_menu.open?
         top_menu.expect_open
-
-        within(".op-project-list-modal--header") do
-          expect(page).to have_no_css("[data-test-selector=\"spot-toggle--option\"]", text: "Favorites")
-        end
       end
+
+      expect(page).to have_no_button("Favorites")
     end
   end
 end

@@ -2,72 +2,170 @@
 ru:
   activerecord:
     attributes:
-      resource_planner:
-        name: Название
-        start_date: Дата начала
-        end_date: Дата окончания
-        default_view_class_name: Представление по умолчанию
-        public: Публичный
-        favorite: Избранное
       resource_allocation:
-        entity: Сущность
-        principal: Исполнитель
-        state: Состояние
-        start_date: Дата начала
-        end_date: Дата окончания
+        allocated_hours: Hours
         allocated_time: Распределенное время
+        end_date: Дата окончания
+        entity: Сущность
+        filter_name: Resource filter name
+        principal: Исполнитель
+        start_date: Дата начала
+        state: Состояние
         user_filter: Фильтры пользователей
+      resource_planner:
+        default_view_class_name: Представление по умолчанию
+        end_date: Дата окончания
+        favorite: Избранное
+        name: Название
+        public: Публичный
+        start_date: Дата начала
     errors:
       models:
-        resource_planner:
-          attributes:
-            end_date:
-              greater_than_start_date: должно быть после даты начала.
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: должно быть после даты начала.
-  plugin_openproject_resource_management:
-    name: Управление ресурсами OpenProject
-    description: Обеспечивает управление ресурсами и планирование возможностей.
-  project_module_resource_management: Управление ресурсами
-  permission_view_resource_planners: Просмотр планировщиков ресурсов
-  permission_view_resource_planners_explanation: 'Позволяет пользователям получить доступ к планировщику ресурсов. Это позволяет создавать и управлять своими собственными планировщиками ресурсов и просматривать общедоступные планировщики ресурсов. Он не позволяет пользователям просматривать планировщики ресурсов, созданные другими пользователями, которые не являются общедоступными.
-
-    '
-  permission_manage_public_resource_planners: Управление общедоступными планировщиками ресурсов
-  permission_manage_public_resource_planners_explanation: 'Позволяет пользователям создавать и управлять общедоступными планировщиками ресурсов. Это позволяет просматривать, создавать, управлять и публиковать свои собственные планировщики ресурсов. Он не позволяет пользователям просматривать планировщики ресурсов, созданные другими пользователями, которые не являются общедоступными.
-
-    '
-  permission_allocate_user_resources: Распределение пользовательских ресурсов
-  permission_allocate_user_resources_explanation: 'Позволяет пользователям создавать, обновлять и удалять распределение ресурсов в планировщике ресурсов. Сюда входит назначение пользователей (или фильтров) на планировщик и корректировка выделенного времени и диапазона дат.
-
-    '
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: должно быть после даты начала.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: must be a work package query.
+    models:
+      resource_allocation: Resource Allocation
+      resource_planner: Resource Planner
+      resource_work_package_list: Work packages list
+      user_card: User cards
+  button_next: Next
   label_resource_management: Планирование ресурсов
-  button_next: Сохранить
+  permission_allocate_user_resources: Распределение пользовательских ресурсов
+  permission_allocate_user_resources_explanation: Позволяет пользователям создавать, обновлять и удалять распределение ресурсов в планировщике ресурсов. Сюда входит назначение пользователей (или фильтров) на планировщик и корректировка выделенного времени и диапазона дат.
+  permission_manage_public_resource_planners: Управление общедоступными планировщиками ресурсов
+  permission_manage_public_resource_planners_explanation: Позволяет пользователям создавать и управлять общедоступными планировщиками ресурсов. Это позволяет просматривать, создавать, управлять и публиковать свои собственные планировщики ресурсов. Он не позволяет пользователям просматривать планировщики ресурсов, созданные другими пользователями, которые не являются общедоступными.
+  permission_view_resource_planners: Просмотр планировщиков ресурсов
+  permission_view_resource_planners_explanation: Позволяет пользователям получить доступ к планировщику ресурсов. Это позволяет создавать и управлять своими собственными планировщиками ресурсов и просматривать общедоступные планировщики ресурсов. Он не позволяет пользователям просматривать планировщики ресурсов, созданные другими пользователями, которые не являются общедоступными.
+  plugin_openproject_resource_management:
+    description: Обеспечивает управление ресурсами и планирование возможностей.
+    name: Управление ресурсами OpenProject
+  project_module_resource_management: Управление ресурсами
   resource_management:
+    action:
+      delete: Удалить
+      favorite: Добавить в избранное
+      make_private: Сделать личным
+      make_public: Сделать общедоступным
+      unfavorite: Удалить из избранного
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          label: Filter criteria
+        label: Allocation type
+        principal:
+          caption: Allocate hours for a specific user.
+          label: User
+      outside_dates:
+        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
+        hidden_work: Other allocations
+        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        schedule_change: until %{date}, then %{schedule}
+        schedule_note: This user works %{schedule}.
+        submit: Allocate overtime
+        title: Do you want to allocate overtime to the user?
+      submit: Allocate
+      success_message: Resource allocated.
+      title: Allocate resource
+    blankslate:
+      desc: Создать планировщик ресурсов, чтобы начать планировать этот проект.
+      title: Нет планировщиков ресурсов
+    configure_view_dialog:
+      delete_confirmation: Are you sure you want to delete this view? This cannot be undone.
+      filter_mode:
+        automatic:
+          caption: An automatically-generated list that displays items that meet criteria you define.
+          label: Automatically filtered
+        label: Item selection
+        manual:
+          caption: A custom list of items you manually add and remove. Filtering is not possible.
+          label: Manually hand-picked
+      title: Configure view
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
+    favorite_caption: Сделайте это представление избранным, чтобы добавить его в верхний раздел меню боковой панели.
+    label_new_resource_planner: Новый планировщик ресурсов
     label_resource_planner: Планировщик ресурсов
     label_resource_planner_plural: Планировщики ресурсов
-    label_new_resource_planner: Новый планировщик ресурсов
-    public_caption: 'Сделать публичным для всех участников проекта. Это не влияет на видимость пакетов работ, которые все еще зависят от разрешения каждого пользователя.
-
-      '
-    favorite_caption: 'Сделайте это представление избранным, чтобы добавить его в верхний раздел меню боковой панели.
-
-      '
-    view_types:
-      UserCardView: Карточки пользователей
-    action:
-      favorite: Добавить в избранное
-      unfavorite: Удалить из избранного
-      make_public: Сделать общедоступным
-      make_private: Сделать личным
-      delete: Удалить
-    sidebar:
-      public: Общий
-      private: Личный
-    blankslate:
-      title: Нет планировщиков ресурсов
-      desc: Создать планировщик ресурсов, чтобы начать планировать этот проект.
+    new_view_dialog:
+      title: Add View
+    public_caption: Сделать публичным для всех участников проекта. Это не влияет на видимость пакетов работ, которые все еще зависят от разрешения каждого пользователя.
     show:
       placeholder: Подробный обзор для этого планировщика ресурсов скоро будет доступен.
+    sidebar:
+      private: Личный
+      public: Общий
+    sub_views: Views in this resource planner
+    view_types:
+      resource_work_package_list:
+        caption: Create a view based on work packages and see its details and allocation in a list
+        label: Work packages list
+      user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
+    work_package_list:
+      add_work_package_dialog:
+        title: Add work package
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} user"
+          few: "%{count} users"
+          many: "%{count} users"
+          other: "%{count} users"
+        unassigned: Unassigned
+      allocation_placeholder: "—"
+      blank:
+        description: There are no work packages matching this view's filters yet.
+        title: No work packages to display
+      columns:
+        allocated_members: Allocated members
+        allocation: Allocation
+        dates: Dates
+      context_menu:
+        add_filter_criteria: Add filter criteria
+        add_user_group: Add user group
+        edit_total_work: Edit total work
+        label: More actions
+        move: Move
+        move_down: Move down
+        move_to_bottom: Move to bottom
+        move_to_top: Move to top
+        move_up: Move up
+        remove: Remove
+        remove_confirmation: Remove this work package from the view?
+        see_allocation: See allocation
+      mobile_title: Work packages
+      query_name: 'Resource management work packages: %{name}'
+      subheader:
+        add: Add
+        add_work_package: Add work package
+        allocate: Allocate
+        settings: Configure view

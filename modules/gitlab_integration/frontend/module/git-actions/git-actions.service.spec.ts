@@ -60,16 +60,16 @@ describe('GitActionsService', function () {
     expect(service.branchName(wp)).toEqual('user-story/42-find-the-question-or-don-t');
     expect(service.commitMessage(wp)).toEqual(`OP#42 Find the question, or don't
 
-${origin}/work_packages/42`);
+${origin}/wp/42`);
 
-    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-find-the-question-or-don-t' && git commit --allow-empty -m 'OP#42 Find the question, or don'\\''t' -m '${origin}/work_packages/42'`);
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-find-the-question-or-don-t' && git commit --allow-empty -m 'OP#42 Find the question, or don'\\''t' -m '${origin}/wp/42'`);
   });
 
   it('shell-escapes output for the git-command', () => {
     const wp = createWorkPackage({ subject: "' && rm -rf / #" });
     const origin = window.location.origin;
 
-    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-and-and-rm-rf' && git commit --allow-empty -m 'OP#42 '\\'' && rm -rf / #' -m '${origin}/work_packages/42'`);
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/42-and-and-rm-rf' && git commit --allow-empty -m 'OP#42 '\\'' && rm -rf / #' -m '${origin}/wp/42'`);
   });
 
   it('uses semantic identifiers when in semantic mode', () => {
@@ -77,7 +77,7 @@ ${origin}/work_packages/42`);
     const origin = window.location.origin;
 
     expect(service.branchName(wp)).toEqual('user-story/proj-42-find-the-question-or-don-t');
-    expect(service.commitMessage(wp)).toEqual(`OP#PROJ-42 Find the question, or don't\n\n${origin}/work_packages/PROJ-42`);
-    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/proj-42-find-the-question-or-don-t' && git commit --allow-empty -m 'OP#PROJ-42 Find the question, or don'\\''t' -m '${origin}/work_packages/PROJ-42'`);
+    expect(service.commitMessage(wp)).toEqual(`OP#PROJ-42 Find the question, or don't\n\n${origin}/wp/PROJ-42`);
+    expect(service.gitCommand(wp)).toEqual(`git checkout -b 'user-story/proj-42-find-the-question-or-don-t' && git commit --allow-empty -m 'OP#PROJ-42 Find the question, or don'\\''t' -m '${origin}/wp/PROJ-42'`);
   });
 });

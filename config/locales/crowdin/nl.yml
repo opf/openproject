@@ -1719,6 +1719,7 @@ nl:
       attachment:
         attachment_content: Inhoud van de bijlage
         attachment_file_name: Naam bijlage
+        charset: Character set
         content_type: Content-type
         downloads: Downloads
         file: Bestand
@@ -1813,6 +1814,7 @@ nl:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Rollen
       notification:
         read_ian: Read in-app
@@ -2058,6 +2060,7 @@ nl:
         priority: Prioriteit
         progress: "% Voltooid"
         readonly: Alleen lezen
+        relatable: Relatable to
         remaining_hours: Resterend werk
         remaining_time: Resterend werk
         sequence_number: Sequence number
@@ -2102,17 +2105,14 @@ nl:
         before: moet voor %{date} zijn.
         before_or_equal_to: moet voor of gelijk zijn aan %{date}.
         blank: mag niet leeg zijn.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: moet de eigenschap '%{property}' ingesteld hebben.
         cannot_delete_mapping: is vereist. Kan niet worden verwijderd.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden gekoppeld aan een van de bijbehorende subtaken.
         circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
         confirmation: komt niet overeen met %{attribute}.
         could_not_be_copied: "%{dependency} kon niet (volledig) worden gekopieerd."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: bestaat niet.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: geen toegang.
         error_readonly: werd geprobeerd te schrijven maar is niet schrijfbaar.
@@ -2133,36 +2133,38 @@ nl:
         greater_than_or_equal_to: moet groter dan of gelijk zijn aan %{count}.
         greater_than_or_equal_to_start_date: moet groter of gelijk zijn aan startdatum.
         greater_than_start_date: moet groter zijn dan startdatum.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: is niet ingesteld op één van de toegestane waarden.
         inclusion_nested: is niet ingesteld op een van de toegestane waarden op pad '%{path}'.
         invalid: is ongeldig.
         invalid_uri: must be a valid URI.
         invalid_url: is geen geldige URL.
         invalid_url_scheme: 'is geen ondersteunde protocol (toegestaan: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: moet kleiner zijn dan of gelijk aan %{count}.
         not_available: is niet beschikbaar vanwege een systeemconfiguratie.
+        not_before_start_date: must not be before the start date.
         not_deletable: kan niet worden verwijderd.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: is niet de huidige gebruiker.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: niet gevonden.
         not_a_date: is geen geldige datum.
         not_a_datetime: is geen geldige datum tijd.
         not_a_number: is geen getal.
         not_allowed: is ongeldig vanwege ontbrekende machtigingen.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: is niet een geheel getal.
         not_an_iso_date: 'is geen geldige datum. Vereist formaat: JJJJ-MM-DD.'
         not_same_project: hoort niet bij hetzelfde project.
-        datetime_must_be_in_future: must be in the future.
         odd: moet oneven zijn.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: moet kleiner zijn dan of even groot zijn als de maximale lengte.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: is al in gebruik.
         too_long: is te lang (maximaal %{count} karakters).
         too_short: is te kort (minimum is %{count} karakters).
@@ -2175,6 +2177,7 @@ nl:
         url_not_secure_context: 'bevat geen "Secure Context". Gebruik HTTPS of een loopbackadres, zoals localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
       models:
         group:
@@ -2839,6 +2842,7 @@ nl:
   button_login: Aanmelden
   button_move: Verplaatsen
   button_move_and_follow: Verplaatsen en volgen
+  button_next: Next
   button_print: Afdrukken
   button_quote: Citeer
   button_remove: Verwijder
@@ -3468,6 +3472,12 @@ nl:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3508,6 +3518,9 @@ nl:
     additional:
       projects: Nieuwste zichtbare projecten in deze instantie.
       no_visible_projects: Er zijn geen zichtbare projecten binnen deze instantie.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Nieuwste geregistreerde gebruikers in deze instantie.
     blocks:
       community: OpenProject gemeenschap
@@ -3882,6 +3895,7 @@ nl:
   label_send_invitation: Verstuur uitnodiging
   label_calculated_value: Calculated value
   label_change_parent: Wijzig bovenliggende pagina
+  label_change_password: Change password
   label_change_plural: Wijzigingen
   label_change_properties: Eigenschappen wijzigen
   label_change_status: Status wijzigen
@@ -4076,6 +4090,7 @@ nl:
   label_journal_diff: Beschrijving vergelijking
   label_language: Taal
   label_languages: Talen
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Ga naar een project...
@@ -4167,6 +4182,7 @@ nl:
   label_my_account_data: Mijn accountgegevens
   label_my_avatar: Mijn avatar
   label_my_queries: Mijn aangepaste query 's
+  label_my_security: Security
   label_name: Naam
   label_never: Nooit
   label_new: Nieuw
@@ -4514,6 +4530,9 @@ nl:
   label_x_working_days_time_off:
     one: 'Time off: 1 working day'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: gisteren
   label_zen_mode: Zen mode
   label_role_type: Type
@@ -4706,9 +4725,9 @@ nl:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'Als u wilt dat de gebruiker ja inloggen kunt in u: '
       a: Upgrade uw abbonement ([here](upgrade_url))
       b: Vergrendelen of verwijderen van een bestaande gebruiker ([here](users_url))
+      label: 'Als u wilt dat de gebruiker ja inloggen kunt in u: '
   more_actions: Meer functies
   noscript_description: U moet JavaScript activeren om OpenProject te kunnen gebruiken!
   noscript_heading: JavaScript uitgeschakeld
@@ -5218,6 +5237,10 @@ nl:
   setting_consent_required: Toestemming vereist
   setting_consent_decline_mail: Toestemming contact e-mailadres
   setting_cross_project_work_package_relations: Sta werkpakketten over meerdere projecten toe
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: De eerste week in het jaar bevat
   setting_date_format: Datum
   setting_default_language: Standaard taal
@@ -5258,6 +5281,9 @@ nl:
   setting_work_package_properties: Werkpakketeigenschappen
   setting_work_package_startdate_is_adddate: Huidige datum als begindatum voor nieuwe werkpakketten gebruiken
   setting_work_packages_projects_export_limit: Werkpakketten / Projecten exportlimiet
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Gebruikerslogin, naam en e-mailadres voor alle aanvragen vastleggen
   setting_login_required: Verificatie vereist
@@ -5957,6 +5983,17 @@ nl:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Werkdagen** veranderd (%{changes})._
       days:

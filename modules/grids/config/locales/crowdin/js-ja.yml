@@ -33,7 +33,7 @@ ja:
           title: Subitems
         project_favorites:
           title: お気に入りプロジェクト
-          no_results: 現在、お気に入りのプロジェクトはありません。プロジェクトダッシュボードの星アイコンをクリックして、お気に入りに追加してください。
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: 自分の作業時間
           displayed_days: 'ウィジェットに表示される日数:'

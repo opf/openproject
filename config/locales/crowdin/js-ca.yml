@@ -109,7 +109,7 @@ ca:
     button_save: Desa
     button_settings: Configuració
     button_uncheck_all: Desmarca-ho tot
-    button_update: Actualitzar
+    button_update: Actualitza
     button_export-atom: Descarregar Atom
     button_generate_pdf: Generate PDF
     button_create: Crear
@@ -155,7 +155,6 @@ ca:
         manual: Canviar a la font Markdown
         wysiwyg: Canviar a l'editor WYSIWYG
       macro:
-        error: 'No es pot expandir la macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Aquest segment de text s'està presentant dinàmicament per una macro.
           not_found: El recurs sol·licitat no s'ha trobat
@@ -175,9 +174,14 @@ ca:
           title: Inserir / editar un fragment de codi
           language: Llenguatge formatat
           language_hint: Introdueix el llenguatge formatat que serà utilitzat per a ressaltar (si està suportat).
-        dropdown:
-          macros: Macros
-          chose_macro: Escollir macro
+        embedded_calendar:
+          text: "[Placeholder] Calendari incrustat"
+        embedded_table:
+          button: Incrustar la taula de paquets de treball
+          text: "[Placeholder] Taula de paquets de treball incrustada"
+        error: 'No es pot expandir la macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Taula de continguts
         toolbar_help: Fes clic per seleccionar el widget i mostrar la barra d'eines. Fes doble clic per editar el widget
         wiki_page_include:
@@ -195,11 +199,6 @@ ca:
           button_style_hint: 'Opcional: marca per fer que la macro aparegui com a botó, no com enllaç.'
           without_type: Crear paquet de treball
           with_type: 'Crear paquet de treball (Classe: %{typename})'
-        embedded_table:
-          button: Incrustar la taula de paquets de treball
-          text: "[Placeholder] Taula de paquets de treball incrustada"
-        embedded_calendar:
-          text: "[Placeholder] Calendari incrustat"
     admin:
       type_form:
         edit_query: Editar consulta
@@ -210,13 +209,6 @@ ca:
           new_date: "(nou)"
         add_non_working_day: Dia no laborable
         already_added_error: Ja existeix un dia no laborable per aquesta data. Només hi pot haver un dia no laborable creat per a cada data.
-        change_button: Guarda i reprograma
-        change_title: Canvia els dies laborals
-        removed_title: 'Eliminaràs els següents dies de la llista de dies no laborals:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -375,6 +367,7 @@ ca:
     label_in_more_than: en més de
     label_incoming_emails: Correu electrònics d'entrada
     label_information_plural: Informació
+    label_infinity: Infinity
     label_invalid: Invàlid
     label_import: Importar
     label_latest_activity: Última activitat
@@ -399,6 +392,7 @@ ca:
     label_no_value: Cap valor
     label_none: cap
     label_not_contains: no conté
+    label_not_available: Not available
     label_not_equals: no és
     label_on: en
     label_open_menu: Obrir menú
@@ -409,7 +403,6 @@ ca:
     label_per_page: 'Per pàgina:'
     label_please_wait: Espereu, si us plau
     label_project: Projecte
-    label_project_list: Llistes de projectes
     label_project_plural: Projectes
     label_visibility_settings: Configuració de visualització
     label_quote_comment: Citar aquest comentari
@@ -1053,16 +1046,13 @@ ca:
         all: Tots els projectes
         selected: Només seleccionats
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Inclou tots els subprojectes
       tooltip:
         include_all_selected: Projecte ja inclòs, ja que "Inclou tots els subprojectes" està activat.
         current_project: Aquest és el projecte actual.
         does_not_match_search: El projecte no coincideix amb la cerca.
       no_results: Cap projecte s'ajusta a la teva cerca.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

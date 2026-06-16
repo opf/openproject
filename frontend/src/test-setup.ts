@@ -1,8 +1,14 @@
 import { I18n } from 'i18n-js';
 import lodash from 'lodash';
+import '@testing-library/jest-dom/vitest';
+import { afterEach, vi } from 'vitest';
 import { registerDialogStreamAction } from 'core-turbo/dialog-stream-action';
 
 registerDialogStreamAction();
+
+afterEach(() => {
+  vi.useRealTimers();
+});
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
 (window as any).global = window;

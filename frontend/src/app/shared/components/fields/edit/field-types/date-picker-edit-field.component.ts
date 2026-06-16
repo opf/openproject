@@ -27,7 +27,6 @@
  */
 
 import { Directive, OnDestroy, OnInit, inject } from '@angular/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
   EditFieldComponent,
@@ -42,9 +41,9 @@ export abstract class DatePickerEditFieldComponent extends EditFieldComponent im
   readonly pathHelper = inject(PathHelperService);
   readonly opModalService = inject(OpModalService);
 
-  @InjectField() readonly timezoneService:TimezoneService;
+  readonly timezoneService = inject(TimezoneService);
 
-  @InjectField() deviceService:DeviceService;
+  readonly deviceService = inject(DeviceService);
 
   opened = false;
 

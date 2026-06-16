@@ -57,8 +57,8 @@ elif [[ "$@" = "run" ]]; then
   $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm backend rm -f tmp/pids/server.pid # delete if necessary so new server can come up
   $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm -p ${PORT:-3000}:3000 --name rails backend # run backend in TTY so you can debug using pry for instance
 elif [[ "$1" = "setup" ]]; then
-  $DOCKER_COMPOSE -f $COMPOSE_FILE run backend setup
-  yes no | $DOCKER_COMPOSE -f $COMPOSE_FILE run frontend npm install
+  $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm backend setup
+  yes no | $DOCKER_COMPOSE -f $COMPOSE_FILE run --rm frontend npm install
 elif [[ "$1" = "restart" ]]; then
   $DOCKER_COMPOSE -f $COMPOSE_FILE restart "${@:2}"
 elif [[ "$1" = "reset" ]]; then

@@ -33,7 +33,7 @@ lt:
           title: Subitems
         project_favorites:
           title: Mėgstami projektai
-          no_results: Jūs šiuo metu neturite mėgiamų projektų. Spauskite žvaigždutės piktogramą projekto skydelyje, kad pridėtumėte prie jūsų mėgstamų.
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: Mano sugaištas laikas
           displayed_days: 'Valdiklyje rodomos dienos:'

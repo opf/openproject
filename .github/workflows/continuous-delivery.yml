@@ -5,6 +5,8 @@ on:
       - dev
       - release/*
       - stable/*
+    tags:
+      - 'v*.*.*'
 permissions:
   contents: read
 
@@ -12,7 +14,7 @@ jobs:
   trigger_downstream_workflow:
     permissions:
       contents: none
-    if: github.repository == 'opf/openproject'
+    if: github.repository == 'opf/openproject' && github.ref_type == 'branch'
     runs-on: ubuntu-latest
     steps:
       - name: Trigger Flavours workflow
@@ -25,6 +27,33 @@ jobs:
         run: |
           PAYLOAD=$(jq -n --arg ref "$REF_NAME" --arg triggered_by_url "$THIS_RUN_URL" \
             '{"ref": "dev", "inputs": {"ref": $ref, "triggered_by_url": $triggered_by_url}}')
+          curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
+            -XPOST -H"Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \
+            -d "$PAYLOAD"
+
+  trigger_stable_tag_workflow:
+    permissions:
+      contents: none
+    if: github.repository == 'opf/openproject' && github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Flavours stable workflow for tag
+        env:
+          TOKEN: ${{ secrets.OPENPROJECTCI_FLAVOUR_TRIGGER_TOKEN }}
+          REPOSITORY: opf/openproject-flavours
+          WORKFLOW_ID: ci-stable.yml
+          TAG_NAME: ${{ github.ref_name }}
+          THIS_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          TAG="${TAG_NAME#v}"           # strip leading 'v': 17.3.1
+          MINOR="${TAG%.*}"             # strip patch: 17.3
+          BRANCH="release/$MINOR"      # release/17.3
+          PAYLOAD=$(jq -n \
+            --arg ref "$BRANCH" \
+            --arg tag "$TAG" \
+            --arg triggered_by_url "$THIS_RUN_URL" \
+            '{"ref": "dev", "inputs": {"ref": $ref, "tag": $tag, "triggered_by_url": $triggered_by_url}}')
           curl -i --fail-with-body -H"authorization: Bearer $TOKEN" \
             -XPOST -H"Accept: application/vnd.github.v3+json" \
             https://api.github.com/repos/$REPOSITORY/actions/workflows/$WORKFLOW_ID/dispatches \

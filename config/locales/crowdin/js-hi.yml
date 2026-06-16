@@ -155,7 +155,6 @@ hi:
         manual: Markdown स्रोत पर स्विच करें
         wysiwyg: WYSIWYG संपादक पर जाएं
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
@@ -175,9 +174,14 @@ hi:
           title: कोड स्निपेट संमिलित करें/
           language: स्वरूपण भाषा
           language_hint: वह स्वरूपण भाषा दर्ज करें जिसका उपयोग हाइलाइटिंग (यदि समर्थित हो) के लिए किया जाएगा.
-        dropdown:
-          macros: मैक्रो
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: विषय सूची
         toolbar_help: Click to select widget and show the toolbar. Double-click to edit widget
         wiki_page_include:
@@ -195,11 +199,6 @@ hi:
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: Create work package
           with_type: 'Create work package (Type: %{typename})'
-        embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
         edit_query: Edit query
@@ -210,13 +209,6 @@ hi:
           new_date: "(new)"
         add_non_working_day: Non-working day
         already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
-        change_button: Save and reschedule
-        change_title: Change working days
-        removed_title: 'You will remove the following days from the non-working days list:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -375,6 +367,7 @@ hi:
     label_in_more_than: से अधिक में
     label_incoming_emails: आने वाली ईमेल
     label_information_plural: जानकारी
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Import
     label_latest_activity: Latest activity
@@ -399,6 +392,7 @@ hi:
     label_no_value: No value
     label_none: कुछ नहीं
     label_not_contains: शामिल नहीं है
+    label_not_available: Not available
     label_not_equals: नहीं है
     label_on: पर
     label_open_menu: मेनू खोलें
@@ -409,7 +403,6 @@ hi:
     label_per_page: प्रति पृष्ठ
     label_please_wait: Please wait
     label_project: परियोजना
-    label_project_list: Project lists
     label_project_plural: Projects
     label_visibility_settings: दृश्यता settings
     label_quote_comment: Quote this comment
@@ -1053,16 +1046,13 @@ hi:
         all: All projects
         selected: Only selected
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Include all sub-projects
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.
         current_project: This is the current project you are in.
         does_not_match_search: Project does not match the search criteria.
       no_results: No project matches your search criteria.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

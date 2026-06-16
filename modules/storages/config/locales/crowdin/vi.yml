@@ -31,10 +31,15 @@ vi:
         authentication_method: Phương thức xác thực
         creator: Người sáng tạo
         drive: ID ổ đĩa
+        file_link_origin: File link origin ID
         host: chủ nhà
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: tên
         password: Mật khẩu ứng dụng
         provider_type: Loại nhà cung cấp
+        storage: Storage
+        storage_url: Storage URL
         tenant: ID thư mục (đối tượng thuê)
     errors:
       messages:

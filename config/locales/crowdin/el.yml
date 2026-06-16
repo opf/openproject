@@ -1720,6 +1720,7 @@ el:
       attachment:
         attachment_content: Περιεχόμενο συνημμένου
         attachment_file_name: Όνομα συνημμένου αρχείου
+        charset: Character set
         content_type: Content-type
         downloads: Λήψεις
         file: Aρχείο
@@ -1814,6 +1815,7 @@ el:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Ρόλοι
       notification:
         read_ian: Read in-app
@@ -2059,6 +2061,7 @@ el:
         priority: Προτεραιότητα
         progress: "% Complete"
         readonly: Read only
+        relatable: Relatable to
         remaining_hours: Υπολειπόμενες Ώρες
         remaining_time: Υπολειπόμενες Ώρες
         sequence_number: Sequence number
@@ -2103,17 +2106,14 @@ el:
         before: πρέπει να είναι πριν από %{date}.
         before_or_equal_to: πρέπει να είναι πριν ή ίσο με %{date}.
         blank: δεν πρέπει να είναι κενό.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: needs to have the property '%{property}' set.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Ένα πακέτο εργασίας δεν μπορεί να συνδεθεί με μια από τις υποεργασίες του.
         circular_dependency: Αυτή η σχέση θα δημιουργήσει κυκλική εξάρτηση.
         confirmation: δεν ταιριάζει με %{attribute}.
         could_not_be_copied: "%{dependency} δεν μπόρεσε να αντιγραφεί (πλήρως)."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: δεν υπάρχει.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: δεν είναι δυνατή η πρόσβαση.
         error_readonly: επιχειρήθηκε να εγγραφεί αλλά δεν ήταν εγγράψιμο.
@@ -2134,36 +2134,38 @@ el:
         greater_than_or_equal_to: πρέπει να είναι μεγαλύτερο ή ίσο με %{count}.
         greater_than_or_equal_to_start_date: πρέπει να είναι μεγαλύτερη ή ίση με τη ημερομηνία έναρξης.
         greater_than_start_date: πρέπει να είναι μεγαλύτερη από τη ημερομηνία έναρξης.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: δεν έχει οριστεί σε μια από τις επιτρεπόμενες τιμές.
         inclusion_nested: is not set to one of the allowed values at path '%{path}'.
         invalid: δεν είναι έγκυρο.
         invalid_uri: must be a valid URI.
         invalid_url: δεν είναι μια έγκυρη διεύθυνση URL.
         invalid_url_scheme: 'δεν είναι υποστηριζόμενο πρωτόκολλο (επιτρεπόμενα: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: πρέπει να είναι μικρότερο ή ίσο με %{count}.
         not_available: is not available due to a system configuration.
+        not_before_start_date: must not be before the start date.
         not_deletable: δεν μπορεί να διαγραφεί.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: δεν είναι ο τρέχων χρήστης.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: δεν είναι έγκυρη ημερομηνία.
         not_a_datetime: δεν είναι έγκυρη ημερομηνία και ώρα.
         not_a_number: δεν είναι αριθμός.
         not_allowed: δεν είναι έγκυρο επειδή λείπουν δικαιώματα.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: δεν είναι ακέραιος αριθμός.
         not_an_iso_date: 'δεν είναι έγκυρη ημερομηνία. Απαιτούμενη μορφοποίηση: ΕΕΕΕ-ΜΜ-ΗΗ.'
         not_same_project: δεν ανήκει στο ίδιο έργο.
-        datetime_must_be_in_future: must be in the future.
         odd: πρέπει να είναι μονός.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: δεν ήταν δυνατή η επικύρωση με τη συσχετιζόμενη κανονική έκφραση.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: πρέπει να είναι μικρότερο ή ίσο με το μέγιστο μήκος.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: έχει ήδη κατοχυρωθεί.
         too_long: είναι πολύ μεγάλο (το μέγιστο είναι %{count} χαρακτήρες).
         too_short: είναι πολύ μικρό (το ελάχιστο είναι %{count} χαρακτήρες).
@@ -2176,6 +2178,7 @@ el:
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: έχει λάθος μέγεθος (πρέπει να είναι %{count} χαρακτήρες).
       models:
         group:
@@ -2842,6 +2845,7 @@ el:
   button_login: Σύνδεση
   button_move: Μετακίνηση
   button_move_and_follow: Μετακίνηση και ακολούθηση
+  button_next: Next
   button_print: Εκτύπωση
   button_quote: Παράθεση
   button_remove: Αφαίρεση
@@ -3471,6 +3475,12 @@ el:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3511,6 +3521,9 @@ el:
     additional:
       projects: Νεότερα ορατά έργα σε αυτό το στιγμιότυπο της εφαρμογής.
       no_visible_projects: Δεν υπάρχουν ορατά έργα σε αυτό το στιγμιότυπο της εφαρμογής.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Νεότεροι εγγεγραμμένοι χρήστες αυτού του στιγμιότυπου της εφαρμογής.
     blocks:
       community: Κοινότητα OpenProject
@@ -3885,6 +3898,7 @@ el:
   label_send_invitation: Αποστολή πρόσκλησης
   label_calculated_value: Calculated value
   label_change_parent: Αλλαγή γονέα
+  label_change_password: Change password
   label_change_plural: Αλλαγές
   label_change_properties: Αλλαγή ιδιοτήτων
   label_change_status: Αλλαγή κατάστασης
@@ -4079,6 +4093,7 @@ el:
   label_journal_diff: Σύγκριση Περιγραφών
   label_language: Γλώσσα
   label_languages: Languages
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Μεταβείτε σε ένα έργο...
@@ -4170,6 +4185,7 @@ el:
   label_my_account_data: Τα δεδομένα του λογαριασμού μου
   label_my_avatar: My avatar
   label_my_queries: Οι προσαρμοσμένες αναζητήσεις μου
+  label_my_security: Security
   label_name: Όνομα
   label_never: Ποτέ
   label_new: Νέο
@@ -4517,6 +4533,9 @@ el:
   label_x_working_days_time_off:
     one: 'Time off: 1 working day'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: χθες
   label_zen_mode: Zen mode
   label_role_type: Τύπος
@@ -4709,9 +4728,9 @@ el:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'Για να επιτρέψετε στο χρήστη να συνδεθεί μπορείτε είτε να: '
       a: Αναβαθμίστε το σχέδιο πληρωμής σας ([εδώ](upgrade_url))
       b: Κλειδώστε ή διαγράψτε έναν υπάρχων χρήστη ([εδώ](users_url))
+      label: 'Για να επιτρέψετε στο χρήστη να συνδεθεί μπορείτε είτε να: '
   more_actions: Περισσότερες λειτουργίες
   noscript_description: Πρέπει να ενεργοποιήσετε την JavaScript για να χρησιμοποιήσετε το OpenProject!
   noscript_heading: Η JavaScript είναι απενεργοποιημένη
@@ -5227,6 +5246,10 @@ el:
   setting_consent_required: Απαιτείται συγκατάθεση
   setting_consent_decline_mail: Συγκατάθεση επικοινωνίας διεύθυνσης email
   setting_cross_project_work_package_relations: Επιτρέψτε συσχετισμό πακέτων εργασίας μεταξύ έργων
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: Η πρώτη εβδομάδα του έτους περιέχει
   setting_date_format: Ημερομηνία
   setting_default_language: Προεπιλεγμένη γλώσσα
@@ -5267,6 +5290,9 @@ el:
   setting_work_package_properties: Ιδιότητες πακέτου εργασίας
   setting_work_package_startdate_is_adddate: Χρήση σημερινής ημερομηνίας ως ημερομηνία έναρξης για νέα πακέτα εργασίας
   setting_work_packages_projects_export_limit: Work packages / Projects export limit
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Καταγραφή των στοιχείων εισόδου, του ονόματος και της διεύθυνσης email του χρήστη για όλα τα αιτήματα
   setting_login_required: Απαιτείται ταυτοποίηση
@@ -5968,6 +5994,17 @@ el:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

@@ -12,6 +12,7 @@ OpenProject offers different APIs:
 * SCIM (System for Cross-domain Identity Management)
 * MCP (Model Context Protocol)
 * BCF API v2.1 api targeted towards BIM use cases
+* .well-known endpoints
 
 Please note that we intend to keep this specification as accurate and stable as possible, however work on APIs is still ongoing
 and not all resources and actions in OpenProject are yet accessible through the APIs.
@@ -53,3 +54,19 @@ This API supports BCF management in the context of BIM projects.
 While this API supports way less use cases than the more generic *API v3* it is compatible with the generic specification of a BCF API as [defined by the standard](https://github.com/buildingSMART/BCF-API/blob/release_2_1/README.md). Clients implementing the specification can manage topics and viewpoints.
 
 ➔ [Go to BCF API](./bcf-rest-api/)
+
+## .well-known endpoints
+
+Each OpenProject installation exposes some endpoints under the `/.well-known/` path:
+
+* `/.well-known/oauth-authorization-server`: [RFC 8414](https://datatracker.ietf.org/doc/html/rfc8414): OAuth 2.0 Authorization Server Metadata
+* `/.well-known/oauth-protected-resource`: [RFC 9728](https://datatracker.ietf.org/doc/html/rfc9728): OAuth 2.0 Protected Resource Metadata
+* `/.well-known/openproject-metadata`: Exposing non-confidential metadata about the OpenProject installation
+
+### OpenProject Metadata
+
+The `/.well-known/openproject-metadata` endpoint exposes some non-confidential metadata about the OpenProject instance in JSON format. This endpoint is accessible without authentication.
+
+The following keys are exposed:
+
+* `installation_uuid`: A unique identifier that's different per installation of OpenProject

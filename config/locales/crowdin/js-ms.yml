@@ -155,7 +155,6 @@ ms:
         manual: Tukar ke sumber Markdown
         wysiwyg: Tukar ke editor WYSIWYG
       macro:
-        error: 'Tidak dapat kembangkan makro: %{message}'
         attribute_reference:
           macro_help_tooltip: Bahagian teks ini sedang dihasilkan secara dinamik oleh makro.
           not_found: Sumber yang diminta tidak dapat ditemui
@@ -175,9 +174,14 @@ ms:
           title: Masukkan / edit Kod snippet
           language: Bahasa pemformatan
           language_hint: Masukkan pemformatan bahasa yang akan digunakan untuk penyorotan (jika disokong).
-        dropdown:
-          macros: Makro-makro
-          chose_macro: Pilih makro
+        embedded_calendar:
+          text: "[Placeholder] Kalendar yang tersemat"
+        embedded_table:
+          button: 'Sematkan jadual pakej kerja '
+          text: "[Placeholder] Jadual pakej kerja yang tersemat"
+        error: 'Tidak dapat kembangkan makro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Jadual kandungan
         toolbar_help: Klik untuk memilih widget dan paparkan toolbar. Klik dua kali untuk edit widget
         wiki_page_include:
@@ -195,11 +199,6 @@ ms:
           button_style_hint: 'Pilihan: Tanda untuk membuat makro muncul sebagai butang, bukan sebagai pautan.'
           without_type: Cipta pakej kerja
           with_type: 'Cipta pakej kerja (Jenis: %{typename})'
-        embedded_table:
-          button: 'Sematkan jadual pakej kerja '
-          text: "[Placeholder] Jadual pakej kerja yang tersemat"
-        embedded_calendar:
-          text: "[Placeholder] Kalendar yang tersemat"
     admin:
       type_form:
         edit_query: Edit pertanyaan
@@ -210,13 +209,6 @@ ms:
           new_date: "(baharu)"
         add_non_working_day: Hari tidak bekerja
         already_added_error: Hari tidak bekerja untuk tarikh ini sudah ada. Hanya boleh mempunyai satu hari tidak bekerja dicipta untuk setiap tarikh yang unik.
-        change_button: Simpan dan jadualkan semula
-        change_title: Tukar hari bekerja
-        removed_title: 'Anda akan mengeluarkan hari berikut dari senarai hari tidak bekerja:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Menukar mod pengiraan kemajuan daripada berasaskan status kepada berasaskan kerja akan menjadikan medan <i>% Selesai</i> boleh diedit secara bebas. Jika anda secara pilihan memasukkan nilai untuk <i>Kerja</i> atau <i>Kerja yang tinggal</i>, nilai tersebut juga akan dipautkan kepada <i>% Selesai</i>. Menukar <i>Baki kerja</i> kemudian boleh mengemas kini <i>% Selesai</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Mengubah mod pengiraan perkembangan daripada berasaskan-kerja kepada berasaskan-status akan menjadikan semua nilai <i>% Selesai</i> yang sedia ada hilang dan digantikan dengan nilai yang berkaitan dengan setiap status. Nilai sedia ada bagi <i>Kerja yang berbaki</i> juga akan dikira semula untuk menggambarkan perubahan ini. Tindakan ini tidak boleh dipulihkan.
@@ -375,6 +367,7 @@ ms:
     label_in_more_than: dalam lebih daripada
     label_incoming_emails: E-mel masuk
     label_information_plural: Maklumat
+    label_infinity: Infinity
     label_invalid: Tidak sah
     label_import: Import
     label_latest_activity: Aktiviti terkini
@@ -399,6 +392,7 @@ ms:
     label_no_value: Tiada nilai
     label_none: tiada
     label_not_contains: tidak mengandungi
+    label_not_available: Not available
     label_not_equals: adalah tidak
     label_on: pada
     label_open_menu: Buka menu
@@ -409,7 +403,6 @@ ms:
     label_per_page: 'Setiap halaman:'
     label_please_wait: Sila tunggu
     label_project: Projek
-    label_project_list: Senarai projek
     label_project_plural: Projek-projek
     label_visibility_settings: Tetapan keterlihatan
     label_quote_comment: Petik komen ini
@@ -1049,16 +1042,13 @@ ms:
         all: Semua projek
         selected: Hanya terpilih
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Termasuk semua sub-projek
       tooltip:
         include_all_selected: Projek sudah disertakan sejak Sertakan semua sub-projek didayakan.
         current_project: Ini adalah projek yang anda terlibat dalam sekarang.
         does_not_match_search: Projek tidak sepadan dengan kriteria carian.
       no_results: Tiada projek yang sepadan dengan kriteria carian anda.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

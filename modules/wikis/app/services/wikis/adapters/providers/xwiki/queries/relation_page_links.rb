@@ -34,24 +34,16 @@ module Wikis
       module XWiki
         module Queries
           class RelationPageLinks < BaseQuery
-            def call(input_data:, **) # rubocop:disable Metrics/AbcSize
-              # TODO: use real API endpoints once available
-
-              title = [
-                "What makes XWiki special?",
-                "API documentation",
-                "A brief introduction on configuring your own XWiki instance and connect it to OpenProject."
-              ]
-
-              results = []
-
-              if input_data.linkable.id % 2 == 1
-                results << Success(Results::PageInfo.new(identifier: "1337", provider:, title: title.sample, href: "#"))
-                results << Success(Results::PageInfo.new(identifier: "1338", provider:, title: title.sample, href: "#"))
-                results << Success(Results::PageInfo.new(identifier: "1338", provider:, title: title.sample, href: "#"))
+            def call(input_data:, auth_strategy:)
+              page_links = provider.page_links
+                                   .merge(RelationPageLink.all)
+                                   .where(linkable: input_data.linkable)
+                                   .map do |page_link|
+                page_info_result = page_info(identifier: page_link.identifier, auth_strategy:)
+                Results::PageLinkAggregate.new(page_info_result:, page_link:)
               end
 
-              success(results)
+              success(page_links)
             end
           end
         end

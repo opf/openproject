@@ -45,6 +45,7 @@ de:
   default_doc_category_user: Benutzerdokumentation
   enumeration_doc_categories: Dokumentenkategorien
   documents:
+    button_add_type: Type
     page_header:
       heading: Alle Dokumente
       action_menu:

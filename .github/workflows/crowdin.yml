@@ -17,9 +17,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-            jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
+          BRANCH=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" --jq '.[].name' | \
+            grep '^release/' | sort --version-sort | tail -1
           )
           if [ "$BRANCH" = "" ]; then
             echo "Invalid release branch found: $BRANCH"
@@ -46,7 +46,7 @@ jobs:
         with:
           ref: ${{ matrix.branch }}
           fetch-depth: 1
-      - uses: ruby/setup-ruby@c4e5b1316158f92e3d49443a9d58b31d25ac0f8f # v1
+      - uses: ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1
         with:
           bundler-cache: true
       - name: "Set crowdin branch name"

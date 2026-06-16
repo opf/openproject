@@ -41,7 +41,7 @@ import { AbstractDateTimeValueController } from '../abstract-filter-date-time-va
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class FilterDateTimeValueComponent extends AbstractDateTimeValueController implements OnInit {
   @HostBinding('id') get id() {
@@ -60,13 +60,13 @@ export class FilterDateTimeValueComponent extends AbstractDateTimeValueControlle
     return this.filter.values[0];
   }
 
-  public get valueString() {
-    return this.filter.values[0].toString();
+  public set value(val) {
+    this.filter.values = [val as string]; // eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
+    this.filterChanged.emit(this.filter);
   }
 
-  public set value(val) {
-    this.filter.values = [val as string];
-    this.filterChanged.emit(this.filter);
+  public get valueString() {
+    return this.filter.values[0].toString();
   }
 
   public get lowerBoundary():Moment|null {

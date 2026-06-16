@@ -7,9 +7,9 @@ RSpec.describe "ResourcePlanner nesting", type: :model do
   let(:owner) { create(:user, member_with_permissions: { project => %i[view_resource_planners] }) }
   let(:planner) { ResourcePlanner.create!(name: "Planner", project:, principal: owner) }
 
-  describe "UserCardView" do
+  describe "UserCard" do
     it "is allowed as a child of a ResourcePlanner" do
-      card = UserCardView.new(name: "Members", parent: planner)
+      card = UserCard.new(name: "Members", parent: planner)
 
       expect(card).to be_valid
     end

@@ -31,10 +31,15 @@ uk:
         authentication_method: Метод автентифікації
         creator: Автор
         drive: ID диска
+        file_link_origin: Ідентифікатор походження посилання на файл
         host: Хост
+        linkable_to_storage: Можна прив’язати до сховища
+        linkable_to_storage_url: Можна прив’язати до URL-адреси сховища
         name: Назва
         password: Пароль додатка
         provider_type: Тип постачальника
+        storage: Сховище
+        storage_url: URL-адреса сховища
         tenant: ID каталогу (клієнта)
     errors:
       messages:

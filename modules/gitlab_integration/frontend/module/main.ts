@@ -41,7 +41,7 @@ import { TabHeaderIssueComponent } from './tab-header-issue/tab-header-issue.com
 import { TabMrsComponent } from './tab-mrs/tab-mrs.component';
 import { TabIssueComponent } from './tab-issue/tab-issue.component';
 import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.directive';
-import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
+import { GitLabActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
 import { WorkPackagesGitlabMrsService } from './tab-mrs/wp-gitlab-mrs.service';
 import { WorkPackagesGitlabIssueService } from './tab-issue/wp-gitlab-issue.service';
 import { MergeRequestComponent } from './merge-request/merge-request.component';
@@ -101,7 +101,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
     TabMrsComponent,
     TabIssueComponent,
     GitActionsMenuDirective,
-    GitActionsMenuComponent,
+    GitLabActionsMenuComponent,
     MergeRequestComponent,
     IssueComponent,
   ],
@@ -112,7 +112,7 @@ export function initializeGitlabIntegrationPlugin(injector:Injector) {
     TabMrsComponent,
     TabIssueComponent,
     GitActionsMenuDirective,
-    GitActionsMenuComponent,
+    GitLabActionsMenuComponent,
   ],
 })
 export class PluginModule {

@@ -92,18 +92,18 @@ module OpenProject
       @filename = filename
     end
 
-    # Returns a String describing the file's content type
-    def detect
-      if blank_name?
-        SENSIBLE_DEFAULT
-      elsif empty_file?
-        EMPTY_TYPE
-      elsif calculated_type_matches.any?
-        calculated_type_matches.first
-      else
-        type_from_file_command || SENSIBLE_DEFAULT
-      end.to_s
+    # Returns [mime_type, charset_or_nil], running the file command once.
+    def detect_with_charset
+      return [SENSIBLE_DEFAULT, nil] if blank_name?
+      return [EMPTY_TYPE, nil] if empty_file?
+
+      raw_mime, charset = FileCommandContentTypeDetector.new(@filename).detect
+      [resolve_mime(raw_mime), charset]
     end
+
+    # Detecting only the mime type is effectively the
+    # first argument of +detect_with_charset+
+    def detect = detect_with_charset.first
 
     private
 
@@ -121,12 +121,9 @@ module OpenProject
       MIME::Types.type_for(@filename).map(&:content_type)
     end
 
-    def calculated_type_matches
-      possible_types.select { |content_type| content_type == type_from_file_command }
-    end
-
-    def type_from_file_command
-      @type_from_file_command ||= FileCommandContentTypeDetector.new(@filename).detect
+    def resolve_mime(raw_mime)
+      matches = possible_types.select { |ct| ct == raw_mime }
+      (matches.first || raw_mime || SENSIBLE_DEFAULT).to_s
     end
   end
 end

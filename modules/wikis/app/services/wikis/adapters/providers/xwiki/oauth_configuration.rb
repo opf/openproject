@@ -35,8 +35,6 @@ module Wikis
         # OAuth2 configuration for XWiki's OIDC Provider extension.
         #
         # Deviations from a standard OAuth2 confidential client:
-        # - Public client: no client_secret; token_endpoint_auth_method is :none.
-        # - No pre-registration: XWiki accepts any client_id/redirect_uri; consent is stored on first auth.
         # - No refresh tokens: tokens are long-lived; re-auth via ensure_connection if revoked.
         # - No expires_in: tokens do not expire; expires_in is stored as nil.
         #
@@ -69,9 +67,9 @@ module Wikis
           def basic_rack_oauth_client
             uri = provider_uri
 
-            # XWiki is a public client — no secret is used.
             Rack::OAuth2::Client.new(
               identifier: @oauth_client.client_id,
+              secret: @oauth_client.client_secret,
               redirect_uri: @oauth_client.redirect_uri,
               scheme: uri.scheme,
               host: uri.host,

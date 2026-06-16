@@ -249,6 +249,7 @@ RSpec.describe WorkPackage::PDFExport::WorkPackageToPdf do
       "Details",
       "Priority", "Normal",
       *(work_package.sprint.present? ? ["Sprint", work_package.sprint] : ["Sprint"]),
+      *(work_package.backlog_bucket.present? ? ["Backlog bucket", work_package.backlog_bucket] : ["Backlog bucket"]),
       "Version", work_package.version,
       "Category", work_package.category,
       "Project phase",

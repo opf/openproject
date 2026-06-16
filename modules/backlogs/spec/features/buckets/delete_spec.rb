@@ -65,7 +65,7 @@ RSpec.describe "Backlog bucket deletion", :js do
     expect_and_dismiss_flash type: :success, exact_message: "Successful deletion."
     backlogs_page.expect_no_backlog_bucket(bucket)
 
-    backlogs_page.expect_work_packages_in_backlog_inbox_in_order(work_packages: [inbox_wp1, inbox_wp2, bucket_wp1, bucket_wp2])
+    backlogs_page.expect_work_packages_in_inbox_in_order(work_packages: [inbox_wp1, inbox_wp2, bucket_wp1, bucket_wp2])
 
     expect(BacklogBucket.where(id: bucket.id)).to be_empty
     expect(bucket_wp1.reload.backlog_bucket_id).to be_nil

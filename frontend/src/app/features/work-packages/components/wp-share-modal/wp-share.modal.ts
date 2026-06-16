@@ -5,6 +5,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { shareModalUpdated } from 'core-app/features/work-packages/components/wp-share-modal/sharing.actions';
+import { type FrameElement } from '@hotwired/turbo';
 
 @Component({
   templateUrl: './wp-share.modal.html',
@@ -17,7 +18,7 @@ export class WorkPackageShareModalComponent extends OpModalComponent implements 
   readonly pathHelper = inject(PathHelperService);
   readonly actions$ = inject(ActionsService);
 
-  @ViewChild('frameElement') frameElement:ElementRef<HTMLIFrameElement>|undefined;
+  @ViewChild('frameElement') frameElement:ElementRef<FrameElement>|undefined;
 
   // Hide close button so it's not duplicated in primer (WP#51699)
   showCloseButton = false;

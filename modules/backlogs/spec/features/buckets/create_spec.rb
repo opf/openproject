@@ -49,7 +49,7 @@ RSpec.describe "Backlog bucket creation", :js do
 
   it "creates a new backlog bucket via the dialog" do
     backlogs_page.visit!
-    backlogs_page.open_create_backlog_bucket_dialog
+    backlogs_page.open_create_bucket_dialog
 
     within_dialog "New backlog bucket" do
       fill_in "Name", with: "Discovery work"
@@ -66,7 +66,7 @@ RSpec.describe "Backlog bucket creation", :js do
   it "validates that the name is present" do
     backlogs_page.visit!
 
-    backlogs_page.open_create_backlog_bucket_dialog
+    backlogs_page.open_create_bucket_dialog
 
     within_dialog "New backlog bucket" do
       fill_in "Name", with: ""

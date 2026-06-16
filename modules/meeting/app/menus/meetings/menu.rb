@@ -62,6 +62,7 @@ module Meetings
 
     def templates_menu_item
       return unless User.current.logged?
+      return unless can_create_meetings?
 
       templates_href = if project
                          templates_project_meetings_path(project)
@@ -77,7 +78,7 @@ module Meetings
     end
 
     def all_meetings_item
-      all_filter = [{ invited_user_id: { operator: "*", values: [] } }].to_json
+      all_filter = [].to_json
       my_meetings_href = polymorphic_path([project, :meetings])
       query_params = { filters: all_filter }
 
@@ -185,6 +186,14 @@ module Meetings
         query_params: { filters: author_filter },
         selected: params[:filters].to_s.include?("author_id")
       )
+    end
+
+    def can_create_meetings?
+      if project
+        User.current.allowed_in_project?(:create_meetings, project)
+      else
+        User.current.allowed_in_any_project?(:create_meetings)
+      end
     end
   end
 end

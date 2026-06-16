@@ -89,7 +89,7 @@ export class WorkPackageStatesInitializationService {
     const schema:QuerySchemaResource = form.schema as any;
 
     _.each(schema.filtersSchemas.elements, (schema) => {
-      this.states.schemas.get(schema.href!).putValue(schema as any);
+      this.states.schemas.get(schema.href!).putValue(schema);
     });
 
     this.wpTableFilters.initializeFilters(query, schema);

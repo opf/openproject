@@ -373,7 +373,7 @@ export class UrlParamsHelperService {
     queryData.sortBy = this.buildV3GetSortByFromQuery(query);
     queryData.timestamps = query.timestamps.join(',');
 
-    return _.extend(additionalParams, queryData) as Partial<QueryRequestParams>;
+    return _.extend(additionalParams, queryData);
   }
 
   public queryFilterValueToParam(value:HalResource|string|boolean):string {

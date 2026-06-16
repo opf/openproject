@@ -17,6 +17,8 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
 
   @HostBinding('style.grid-row-end') gridRowEnd:number;
 
+  @HostBinding('class.grid--widget-host') gridWidgetHost = true;
+
   @Input() resource:GridWidgetResource;
 
   @Output() resourceChanged = new EventEmitter<WidgetChangeset>();
@@ -45,6 +47,7 @@ export abstract class AbstractWidgetComponent extends UntilDestroyedMixin {
    * We arbitrarily restrict this for some resources however,
    * whose component classes will set this to false.
    */
+  // eslint-disable-next-line @typescript-eslint/class-literal-property-style
   public get isEditable() {
     return true;
   }

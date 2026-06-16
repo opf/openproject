@@ -155,7 +155,6 @@ tr:
         manual: Markdown kaynağına geç
         wysiwyg: WYSIWYG düzenleyiciye geç
       macro:
-        error: 'Makro genişletilemiyor: %{message}'
         attribute_reference:
           macro_help_tooltip: Bu metin parçası bir makro tarafından dinamik olarak işleniyor.
           not_found: İstenen kaynak bulunamadı
@@ -175,9 +174,14 @@ tr:
           title: Kod parçacığını ekle / düzenle
           language: Biçimlendirme dili
           language_hint: Vurgulamak için kullanılacak formatlama dilini girin (destekleniyorsa).
-        dropdown:
-          macros: Makrolar
-          chose_macro: Makro seçin
+        embedded_calendar:
+          text: "[Placeholder] Göümülü takvim"
+        embedded_table:
+          button: Gömülü iş paketi tablosu
+          text: "[Yer Tutucu] Gömülü iş paketi tablosu"
+        error: 'Makro genişletilemiyor: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: İçindekiler
         toolbar_help: Bileşeni seçmek ve araç çubuğunu göstermek için tıklayın. Bileşeni düzenlemek için çift tıklayın
         wiki_page_include:
@@ -195,11 +199,6 @@ tr:
           button_style_hint: 'İsteğe bağlı: Makronun bağlantı olarak değil, düğme olarak görünmesini sağlayın.'
           without_type: İş paketini oluştur
           with_type: İş paketini oluştur (Tür %{typename})
-        embedded_table:
-          button: Gömülü iş paketi tablosu
-          text: "[Yer Tutucu] Gömülü iş paketi tablosu"
-        embedded_calendar:
-          text: "[Placeholder] Göümülü takvim"
     admin:
       type_form:
         edit_query: Sorguyu düzenle
@@ -210,13 +209,6 @@ tr:
           new_date: "(yeni)"
         add_non_working_day: Çalışılmayan günler
         already_added_error: Bu tarih için çalışılmayan bir gün zaten var. Her benzersiz tarih için yalnızca bir çalışılmayan gün oluşturulabilir.
-        change_button: Kaydet ve yeniden planla
-        change_title: İş günlerini değiştir
-        removed_title: 'Aşağıdaki günleri çalışılmayan günler listesinden çıkaracaksınız:'
-        change_description: Haftanın hangi günlerinin iş günü veya iş günü olmayan günler olarak kabul edileceğinin değiştirilmesi, bu sistemdeki tüm projelerdeki tüm iş paketlerinin ve yaşam döngülerinin başlangıç ve bitiş günlerini etkileyebilir.
-        warning: 'Değişikliklerin yürürlüğe girmesi biraz zaman alabilir. İlgili tüm iş paketleri ve proje yaşam döngüleri güncellendiğinde size bildirilecektir. Devam etmek istediğinizden emin misiniz?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: İlerleme hesaplama modunu durum bazlıdan iş bazlıya değiştirmek <i>% Tamamlandı</i> alanını serbestçe düzenlenebilir hale getirecektir. <i>İş</i> veya <i>Kalan iş</i> için isteğe bağlı olarak değerler girerseniz, bunlar da <i>%</i> Tamamlandı ile bağlantılı olacaktır. <i>Kalan işin</i> değiştirilmesi <i>%</i> Tamamlanan'ı güncelleyebilir.
         warning_progress_calculation_mode_change_from_field_to_status_html: İlerleme hesaplama modunun iş bazlıdan durum bazlıya değiştirilmesi, mevcut tüm <i>% Tamamlandı</i> değerlerinin kaybolmasına ve her bir durumla ilişkili değerlerle değiştirilmesine neden olacaktır. <i>Kalan iş</i> için mevcut değerler de bu değişikliği yansıtacak şekilde yeniden hesaplanabilir. Bu eylem geri döndürülemez.
@@ -375,6 +367,7 @@ tr:
     label_in_more_than: daha fazla
     label_incoming_emails: Gelen e-postalar
     label_information_plural: Bilgi
+    label_infinity: Infinity
     label_invalid: Geçersiz
     label_import: İçeri aktar
     label_latest_activity: En son etkinlik
@@ -399,6 +392,7 @@ tr:
     label_no_value: Değer yok
     label_none: hiçbiri
     label_not_contains: içermiyor
+    label_not_available: Not available
     label_not_equals: değildir
     label_on: açık
     label_open_menu: Menüyü Aç
@@ -409,7 +403,6 @@ tr:
     label_per_page: 'Sayfa başına:'
     label_please_wait: Lütfen bekleyin
     label_project: Proje
-    label_project_list: Proje listesi
     label_project_plural: Projeler
     label_visibility_settings: Görünürlük ayarları
     label_quote_comment: Yorumu alıntıla
@@ -1053,16 +1046,13 @@ tr:
         all: Tüm projeler
         selected: Sadece seçilen
       search_placeholder: Projeleri ara...
-      search_placeholder_favorites: Favorileri ara...
       include_subprojects: Tüm alt projeleri dahil et
       tooltip:
         include_all_selected: Tüm alt projeleri dahil et etkinleştirildiğinden, proje zaten dahil edilmiştir.
         current_project: Bu, içinde bulunduğunuz mevcut projedir.
         does_not_match_search: Proje arama kriterleriyle eşleşmiyor.
       no_results: Arama kriterleriniz ile eşleşen proje yok
-      no_favorite_results: Arama kriterleriniz ile eşleşen favori proje yok.
     include_workspaces:
-      search_placeholder: Arama...
       types:
         program: Program
         portfolio: Portföy

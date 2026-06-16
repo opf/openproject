@@ -94,6 +94,17 @@ module API
         end
       end
 
+      def embed_link?(name)
+        case embed_links
+        when true
+          true
+        when false, nil
+          false
+        else
+          embed_links.include?(name)
+        end
+      end
+
       # If a subclass does not depend on a model being passed to this class, it can override
       # this method and return false. Otherwise it will be enforced that the model of each
       # representer is non-nil.

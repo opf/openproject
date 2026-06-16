@@ -86,12 +86,18 @@ end
 #   wait_for_turbo_stream { click_button "Save" }
 #   expect(page).to have_text("Saved")
 #
-def wait_for_turbo_stream(timeout: 10, &block)
+def wait_for_turbo_stream(wait: 10, &block)
   unless using_cuprite?
     yield if block
     return
   end
 
+  unless wait
+    yield if block
+    return
+  end
+
+  timeout = wait == true ? 10 : wait
   timeout_ms = timeout * 1000
   page.execute_script(<<~JS, timeout_ms)
     window.__opTurboStreamRendered = new Promise((resolve, reject) => {
@@ -124,12 +130,18 @@ end
 #   wait_for_turbo { click_link_or_button "Save" }
 #   expect(page).to have_text("Saved")
 #
-def wait_for_turbo(timeout: 10, &block)
+def wait_for_turbo(wait: 10, &block)
   unless using_cuprite?
     yield if block
     return
   end
 
+  unless wait
+    yield if block
+    return
+  end
+
+  timeout = wait == true ? 10 : wait
   timeout_ms = timeout * 1000
   page.execute_script(<<~JS, timeout_ms)
     window.__opTurboLoaded = new Promise((resolve, reject) => {
@@ -162,12 +174,18 @@ end
 #   wait_for_turbo_frame { click_link "Remove column" }
 #   expect(page).to have_text("Updated")
 #
-def wait_for_turbo_frame(timeout: 10, &block)
+def wait_for_turbo_frame(wait: 10, &block)
   unless using_cuprite?
     yield if block
     return
   end
 
+  unless wait
+    yield if block
+    return
+  end
+
+  timeout = wait == true ? 10 : wait
   timeout_ms = timeout * 1000
   page.execute_script(<<~JS, timeout_ms)
     window.__opTurboFrameLoaded = new Promise((resolve, reject) => {
@@ -205,8 +223,8 @@ end
 #   wait_for_ckeditor
 #   wait_for_turbo_stream { description_field.fill_and_submit_value(...) }
 #
-def wait_for_ckeditor(timeout: 20)
-  expect(page).to have_css(".ck-content", wait: timeout)
+def wait_for_ckeditor(wait: 20)
+  expect(page).to have_css(".ck-content", wait:)
 end
 
 def using_cuprite?

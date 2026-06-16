@@ -44,7 +44,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       allow(p).to receive(:backlogs_enabled?).and_return(backlogs_enabled)
     end
   end
-  let(:work_package_type) { build_stubbed(:type, attribute_groups: [["Agile", %w[position sprint story_points]]]) }
+  let(:work_package_type) { build_stubbed(:type, attribute_groups: [["Agile", %w[position sprint story_points backlog_bucket]]]) }
   let(:work_package) { build_stubbed(:work_package, type: work_package_type) }
 
   let(:current_user) { build_stubbed(:user) }
@@ -135,10 +135,46 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
     end
   end
 
+  describe "backlogBucket" do
+    let(:path) { "backlogBucket" }
+
+    it_behaves_like "has basic schema properties" do
+      let(:type) { "BacklogBucket" }
+      let(:name) { I18n.t("activerecord.attributes.work_package.backlog_bucket") }
+      let(:required) { false }
+      let(:writable) { true }
+      let(:location) { "_links" }
+    end
+
+    it_behaves_like "links to allowed values via collection link" do
+      let(:href) { "#{api_v3_paths.project_backlog_buckets(project.id)}?filters=%5B%5D&pageSize=-1" }
+    end
+
+    context "when lacking permission to see the sprints (or if backlogs is disabled)" do
+      let(:permissions) { %i(view_work_packages edit_work_packages) }
+
+      it "has no reference to the backlog bucket" do
+        expect(subject).not_to have_json_path(path)
+      end
+    end
+
+    context "when lacking permission to set the backlog bucket" do
+      let(:permissions) { %i(view_work_packages edit_work_packages view_sprints) }
+
+      it_behaves_like "has basic schema properties" do
+        let(:type) { "BacklogBucket" }
+        let(:name) { I18n.t("activerecord.attributes.work_package.backlog_bucket") }
+        let(:required) { false }
+        let(:writable) { false }
+        let(:location) { "_links" }
+      end
+    end
+  end
+
   describe "attribute_groups" do
     context "with backlogs enabled" do
       it "has backlogs properties listed in the right group" do
-        expect(subject).to be_json_eql(%w[position sprint storyPoints])
+        expect(subject).to be_json_eql(%w[position sprint storyPoints backlogBucket])
                              .at_path("_attributeGroups/0/attributes")
       end
     end
@@ -147,7 +183,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
       let(:permissions) { %i(view_work_packages edit_work_packages) }
 
       it "has backlogs properties listed in the right group" do
-        expect(subject).to be_json_eql(%w[position sprint storyPoints])
+        expect(subject).to be_json_eql(%w[position sprint storyPoints backlogBucket])
                              .at_path("_attributeGroups/0/attributes")
       end
     end

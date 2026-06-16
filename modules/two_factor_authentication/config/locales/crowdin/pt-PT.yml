@@ -160,7 +160,7 @@ pt-PT:
         '
       other_active_session_notice: A sua conta tem um cookie ativo para relembrar outra sessão.
       label: Lembrar
-      clear_cookie: Clique aqui para remover todas as sessões 2FA lembradas.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Todas as sessões 2FA lembradas foram removidas.
       dont_ask_again: Criar cookie para lembrar a autenticação 2FA neste cliente durante %{days} dias.
   field_otp: Palavra-passe de utilização única
@@ -171,6 +171,7 @@ pt-PT:
   notice_account_has_no_phone: Nenhum número de telefone celular está associado à sua conta.
   label_confirmed: Confirmado
   button_continue: Continuar
+  button_make_active: Activate
   button_make_default: Marque como padrão
   notice_phone_number_format: 'Digite o número no seguinte formato: + XX XXXXXXXX.'
   text_otp_not_receive: Outros métodos de verificação

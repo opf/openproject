@@ -374,58 +374,22 @@ it:
         caption: Questo testo apparirà in ogni pagina al centro del piè di pagina.
       submit_button: Scarica
     notifications:
+      disabled: I partecipanti non riceveranno aggiornamenti via email sulle modifiche a data, ora o elenco dei partecipanti.
+      enabled: Tutti i partecipanti riceveranno inviti del calendario aggiornati che li informeranno delle modifiche a data, ora o elenco dei partecipanti.
       sidepanel:
         title: Aggiornamenti del calendario via email
         description:
-          disabled: I partecipanti non riceveranno un'email che li informerà delle modifiche.
-          enabled: Tutti i partecipanti riceveranno via email inviti aggiornati al calendario per informarli delle modifiche.
           change_via_template: Per cambiare l'impostazione, modifica il modello della serie.
       dialog:
         title:
           enable: Abilitare gli aggiornamenti del calendario via email?
           disable: Disabilitare gli aggiornamenti del calendario via email?
         message:
-          enable: 'Tutti i partecipanti riceveranno inviti aggiornati tramite email ogni volta che si verificherà una modifica alla data, all''ora, al luogo o ai partecipanti della riunione. Una volta attivata, un''email verrà inviata immediatamente a tutti i partecipanti.
-
-            '
-          disable: 'I partecipanti non riceveranno più inviti aggiornati al calendario via email in caso di modifiche alla data, all''ora, al luogo o ai partecipanti della riunione. Se avevano già un invito per questa riunione, potrebbe non essere più corretto.
-
-            '
+          enable: Una volta attivata, verrà immediatamente inviata un'email a tutti i partecipanti.
+          disable: Se avevano già ricevuto un invito a questa riunione, potrebbe non essere più aggiornato.
         confirm_label:
           enable: Abilita gli aggiornamenti via email
           disable: Disabilita gli aggiornamenti via email
-      banner:
-        participants:
-          enabled: 'Tutti i partecipanti riceveranno via e-mail inviti di calendario aggiornati quando aggiungi o rimuovi partecipanti.
-
-            '
-          disabled: 'Gli aggiornamenti del calendario via e-mail sono disattivati. I partecipanti non riceveranno un''e-mail quando aggiungi o rimuovi partecipanti.
-
-            '
-          draft_disabled: 'I partecipanti non riceveranno un''e-mail quando aggiungi o rimuovi partecipanti.
-
-            '
-        onetime:
-          enabled: 'Tutti i partecipanti riceveranno via e-mail inviti di calendario aggiornati quando aggiungi o rimuovi partecipanti.
-
-            '
-          disabled: 'I partecipanti non riceveranno un''email che li informa delle modifiche alla data, all''orario o ai partecipanti della riunione.
-
-            '
-        occurrence:
-          enabled: 'Gli aggiornamenti del calendario via email sono abilitati per la serie di riunioni. Tutti i partecipanti riceveranno inviti aggiornati al calendario, che li informeranno delle modifiche apportate a questo evento.
-
-            '
-          disabled: 'Gli aggiornamenti del calendario via email sono disabilitati per la serie di riunioni. I partecipanti non riceveranno un''email che li informerà delle modifiche apportate a questo evento.
-
-            '
-        template:
-          enabled: 'Gli aggiornamenti del calendario via e-mail sono abilitati per la serie di riunioni. Tutti i partecipanti riceveranno inviti al calendario aggiornati che li informeranno delle modifiche apportate a questo modello o ai singoli eventi.
-
-            '
-          disabled: 'Gli aggiornamenti del calendario via email sono disabilitati per la serie di riunioni. I partecipanti non riceveranno un''email che li informerà delle modifiche apportate a questo modello o ai singoli eventi.
-
-            '
     presentation_mode:
       title: Modalità Presentazione
       button_present: Presenta
@@ -638,6 +602,7 @@ it:
   label_agenda_item_duplicate_in_next_title: Duplicare nella prossima riunione?
   label_agenda_item_add_notes: Aggiungi nota
   label_agenda_item_add_outcome: Aggiungi risultato
+  label_agenda_item_convert_to_work_package: Converti in macro-attività
   label_agenda_item_work_package_add: Aggiungi macro-attività
   label_agenda_item_work_package: Macro-attività nei punti all'ordine del giorno
   label_section_rename: Rinomina sezione

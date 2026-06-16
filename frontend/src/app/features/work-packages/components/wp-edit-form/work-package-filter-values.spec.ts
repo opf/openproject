@@ -38,7 +38,7 @@ import { WorkPackageCreateService } from 'core-app/features/work-packages/compon
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { TypeResource } from 'core-app/features/hal/resources/type-resource';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 import { States } from 'core-app/core/states/states.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -94,7 +94,7 @@ describe('WorkPackageFilterValues', () => {
         WorkPackageCreateService,
         HalResourceEditingService,
         WorkPackagesActivityService,
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withXhr(), withInterceptorsFromDi()),
       ]
     }).compileComponents();
 
@@ -135,12 +135,12 @@ describe('WorkPackageFilterValues', () => {
         setupTestBed();
       });
 
-      it('it should not apply the first value (Regression #30817)', (() => {
+      it('should not apply the first value (Regression #30817)', () => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/1');
-      }));
+      });
     });
 
     describe('with the second type applied', () => {
@@ -158,12 +158,12 @@ describe('WorkPackageFilterValues', () => {
         setupTestBed();
       });
 
-      it('it should not keep the second value (Regression #30817)', (() => {
+      it('should not keep the second value (Regression #30817)', () => {
         subject.applyDefaultsFromFilters(changeset);
 
         expect(changeset.changedAttributes.length).toEqual(0);
         expect(changeset.value<HalResource>('type').href).toEqual('/api/v3/types/2');
-      }));
+      });
     });
   });
 });

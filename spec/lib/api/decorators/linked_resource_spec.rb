@@ -43,6 +43,112 @@ RSpec.describe API::Decorators::LinkedResource do
   let(:represented) { {} }
   let(:current_user) { create(:user) }
 
+  describe "embedded links" do
+    let(:thing_representer_class) do
+      Class.new(API::Decorators::Single) do
+        property :id
+        def _type = "Thing"
+      end
+    end
+
+    let(:representer_class) do
+      klass = thing_representer_class
+      Class.new(API::Decorators::Single) do
+        include API::Decorators::LinkedResource
+
+        associated_resource :included_thing, v3_path: :user, representer: klass
+        associated_resource :excluded_thing, v3_path: :user, representer: klass
+      end
+    end
+
+    let(:included_thing) { Struct.new(:id, :name).new(1, "Included thing") }
+    let(:excluded_thing) { Struct.new(:id, :name).new(2, "Excluded thing") }
+    let(:model) do
+      Struct
+        .new(:included_thing_id, :included_thing, :excluded_thing_id, :excluded_thing)
+        .new(included_thing.id, included_thing, excluded_thing.id, excluded_thing)
+    end
+
+    subject(:json) do
+      representer_class
+        .new(model, current_user:, embed_links: %i[included_thing])
+        .to_json
+    end
+
+    it "embeds only the selected links" do
+      expect(json).to have_json_path("_embedded/includedThing")
+      expect(json).not_to have_json_path("_embedded/excludedThing")
+    end
+
+    context "when an excluded embedded resource has no readable association" do
+      let(:representer_class) do
+        klass = thing_representer_class
+        Class.new(API::Decorators::Single) do
+          include API::Decorators::LinkedResource
+
+          associated_resource :included_thing, v3_path: :user, representer: klass
+          associated_resource :excluded_thing,
+                              v3_path: :user,
+                              representer: klass,
+                              link: ->(*) {
+                                {
+                                  href: "/api/v3/users/#{represented.excluded_thing_id}",
+                                  title: "Excluded thing"
+                                }
+                              }
+        end
+      end
+
+      let(:model) do
+        Class.new do
+          attr_reader :included_thing_id, :included_thing, :excluded_thing_id
+
+          def initialize(included_thing, excluded_thing)
+            @included_thing_id = included_thing.id
+            @included_thing = included_thing
+            @excluded_thing_id = excluded_thing.id
+          end
+
+          def excluded_thing
+            raise "excluded association should not be read"
+          end
+        end.new(included_thing, excluded_thing)
+      end
+
+      it "does not call the excluded association getter" do
+        expect { json }.not_to raise_error
+      end
+    end
+
+    context "with plural associated resources" do
+      let(:representer_class) do
+        klass = thing_representer_class
+        Class.new(API::Decorators::Single) do
+          include API::Decorators::LinkedResource
+
+          associated_resources :included_things, v3_path: :user, representer: klass
+          associated_resources :excluded_things, v3_path: :user, representer: klass
+        end
+      end
+      let(:model) do
+        Struct
+          .new(:included_things, :excluded_things)
+          .new([included_thing], [excluded_thing])
+      end
+
+      subject(:json) do
+        representer_class
+          .new(model, current_user:, embed_links: %i[included_things])
+          .to_json
+      end
+
+      it "embeds only the selected collection links" do
+        expect(json).to have_json_path("_embedded/includedThings")
+        expect(json).not_to have_json_path("_embedded/excludedThings")
+      end
+    end
+  end
+
   describe ".associated_visible_resource" do
     include API::V3::Utilities::PathHelper
 

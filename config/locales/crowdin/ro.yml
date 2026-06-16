@@ -1742,6 +1742,7 @@ ro:
       attachment:
         attachment_content: Conținutul anexei
         attachment_file_name: Numele fișierului atașat
+        charset: Character set
         content_type: Tip conținut
         downloads: Descărcări
         file: Fișier
@@ -1836,6 +1837,7 @@ ro:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Roluri
       notification:
         read_ian: Read in-app
@@ -2081,6 +2083,7 @@ ro:
         priority: Prioritate
         progress: "% finalizat"
         readonly: Doar citire
+        relatable: Relatable to
         remaining_hours: Muncă rămasă
         remaining_time: Muncă rămasă
         sequence_number: Sequence number
@@ -2125,17 +2128,14 @@ ro:
         before: trebuie să fie înainte de %{date}.
         before_or_equal_to: trebuie să fie înainte sau în %{date}.
         blank: nu poate fi gol.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: trebuie să aibă setul '%{property}' al proprietății.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Un pachet de lucru nu poate fi legat de una din sub-activitățile sale.
         circular_dependency: Această relație ar crea o dependință circulară.
         confirmation: nu se potrivește cu %{attribute}.
         could_not_be_copied: "%{dependency} nu a putut fi copiat (integral)."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: nu există.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: nu pot fi accesate.
         error_readonly: a fost încercat să fie scris, dar nu este inscriptibil.
@@ -2156,36 +2156,38 @@ ro:
         greater_than_or_equal_to: trebuie să fie mai mare sau egal cu %{count}.
         greater_than_or_equal_to_start_date: trebuie să fie mai mare sau egală cu dată început.
         greater_than_start_date: trebuie să fie mai mare decât dată început
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: nu este setată la una din valorile permise.
         inclusion_nested: nu este setată la una dintre valorile permise la calea '%{path}'.
         invalid: este invalid.
         invalid_uri: must be a valid URI.
         invalid_url: nu este o adresa URL validă.
         invalid_url_scheme: 'nu este un protocol permis (allowed: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: trebuie să fie mai mic sau egal cu %{count}.
         not_available: nu este disponibil din cauza unei configurații a sistemului.
+        not_before_start_date: must not be before the start date.
         not_deletable: "%s nu poate fi șters."
         not_editable: cannot be edited because it is already in effect.
         not_current_user: nu este utilizatorul curent.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: nu a fost găsit.
         not_a_date: Acest câmp trebuie să conțină o dată validă.
         not_a_datetime: nu este o dată-ora validă.
         not_a_number: nu este un număr.
         not_allowed: nu este valabilă din cauza lipsei de permisiuni.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: nu este un întreg.
         not_an_iso_date: 'nu este o dată validă. Formatul necesar: AAAA-MM-ZZ.'
         not_same_project: nu aparține aceluiași proiect.
-        datetime_must_be_in_future: must be in the future.
         odd: trebuie să fie impar.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: nu a putut fi validată cu expresia regulată asociată.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: trebuie să fie mai mic sau egal cu lungimea maximă.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: este deja utilizat
         too_long: este prea lung (maximul admis este de %{count} caractere).
         too_short: este prea scurt (minimum admis este de %{count} caractere).
@@ -2198,6 +2200,7 @@ ro:
         url_not_secure_context: 'nu oferă un "Context securizat". Folosește fie HTTPS sau o adresă de tip buclă, cum ar fi localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: nu are lungimea corectă (ar trebui să fie de %{count} characters).
       models:
         group:
@@ -2884,6 +2887,7 @@ ro:
   button_login: Autentificare
   button_move: Mutare
   button_move_and_follow: Mutare și continuare
+  button_next: Next
   button_print: Tipărește
   button_quote: Citare
   button_remove: Eliminare
@@ -3534,6 +3538,12 @@ ro:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3576,6 +3586,9 @@ ro:
     additional:
       projects: Proiecte vizibile noi.
       no_visible_projects: Nu există proiecte vizibile.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Cei mai noi utilizatori înregistrați.
     blocks:
       community: Comunitatea OpenProject
@@ -3950,6 +3963,7 @@ ro:
   label_send_invitation: Trimite invitație
   label_calculated_value: Calculated value
   label_change_parent: Modifică părinte
+  label_change_password: Change password
   label_change_plural: Modificări
   label_change_properties: Modificare proprietăţi
   label_change_status: Modificare stare
@@ -4040,7 +4054,7 @@ ro:
   label_duplicated_by: dublat de
   label_duplicate: duplicat
   label_duplicates: dublează
-  label_edit: Editează
+  label_edit: Editare
   label_edit_x: 'Editare: %{x}'
   label_view_x: 'View: %{x}'
   label_enable_multi_select: Comutare selecție multiplă
@@ -4097,7 +4111,7 @@ ro:
   label_global_roles: Roluri globale
   label_git_path: Calea catre directorul .git
   label_greater_or_equal: ">="
-  label_group_by: Grupează după
+  label_group_by: Grupare după
   label_group_new: Grupare nouă
   label_group: Grup
   label_group_named: Grup %{name}
@@ -4144,6 +4158,7 @@ ro:
   label_journal_diff: Comparare descriere
   label_language: Limbă
   label_languages: Languages
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Salt la un proiect...
@@ -4235,6 +4250,7 @@ ro:
   label_my_account_data: Datele din contul meu
   label_my_avatar: My avatar
   label_my_queries: Interogările mele
+  label_my_security: Security
   label_name: Nume
   label_never: Niciodată
   label_new: Nou
@@ -4585,6 +4601,10 @@ ro:
     one: 'Time off: 1 working day'
     few: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: ieri
   label_zen_mode: Zen mode
   label_role_type: Tip
@@ -4778,9 +4798,9 @@ ro:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'Pentru a permite utilizatorului să se conecteze, puteți: '
       a: Actualizați planul de plată ([here](upgrade_url))
       b: Blocați sau ștergeți un utilizator existent ([aici](users_url))
+      label: 'Pentru a permite utilizatorului să se conecteze, puteți: '
   more_actions: Mai multe acțiuni
   noscript_description: Trebuie să activaţi JavaScript pentru a utiliza OpenProject!
   noscript_heading: JavaScript dezactivat
@@ -5299,6 +5319,10 @@ ro:
   setting_consent_required: Consimțământ necesar
   setting_consent_decline_mail: Consimțământ adresa de e-mail de contact
   setting_cross_project_work_package_relations: Permiteți legături între pachetele de lucru din proiecte diferite
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: Prima săptămână din an conține
   setting_date_format: Dată
   setting_default_language: Limbă implicită
@@ -5339,6 +5363,9 @@ ro:
   setting_work_package_properties: Proprietăți pachet de lucru
   setting_work_package_startdate_is_adddate: Folosire data curentă ca dată de început pentru pachetele de lucru noi
   setting_work_packages_projects_export_limit: Limita de export a pachetelor de lucru / proiectelor
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Auditare utilizator, nume și adresă de email pentru toate cererile
   setting_login_required: Autentificare obligatorie
@@ -6039,6 +6066,17 @@ ro:
     warning: 'Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și de încheiere a tuturor pachetelor de lucru și ciclurilor de viață în toate proiectele, în acest caz.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Zile lucrătoare** schimbate (%{changes})._
       days:

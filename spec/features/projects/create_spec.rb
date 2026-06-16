@@ -30,8 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Projects", "creation",
-               :js do
+RSpec.describe "Projects", "creation", :js do
   shared_let(:project_custom_field_section) { create(:project_custom_field_section, name: "Section A") }
 
   current_user { create(:admin) }
@@ -46,7 +45,7 @@ RSpec.describe "Projects", "creation",
 
   context "with the button on the toolbar items" do
     it "can navigate to the create project page" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
 
       expect(page).to have_heading "New project"
 
@@ -55,7 +54,7 @@ RSpec.describe "Projects", "creation",
   end
 
   it "can create a project" do
-    projects_page.create_new_workspace
+    projects_page.create_new_workspace :project, open_menu: true
 
     expect(page).to have_heading "New project"
 
@@ -123,7 +122,7 @@ RSpec.describe "Projects", "creation",
   end
 
   it "does not create a project with an already existing identifier" do
-    projects_page.create_new_workspace
+    projects_page.create_new_workspace :project, open_menu: true
 
     expect(page).to have_heading "New project"
 
@@ -143,7 +142,7 @@ RSpec.describe "Projects", "creation",
   end
 
   it "does not create a project when the name is not present" do
-    projects_page.create_new_workspace
+    projects_page.create_new_workspace :project, open_menu: true
 
     expect(page).to have_heading "New project"
 
@@ -177,7 +176,7 @@ RSpec.describe "Projects", "creation",
     end
 
     it "can create a project" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
 
       expect(page).to have_heading "New project"
 
@@ -240,7 +239,7 @@ RSpec.describe "Projects", "creation",
     end
 
     it "can create a project" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
 
       expect(page).to have_heading "New project"
 
@@ -530,7 +529,7 @@ RSpec.describe "Projects", "creation",
     end
 
     it "does not show the project attributes step" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
 
       expect(page).to have_heading "New project"
 
@@ -562,7 +561,7 @@ RSpec.describe "Projects", "creation",
 
   context "with semantic identifiers", with_settings: { work_packages_identifier: "semantic" } do
     it "auto-suggests an identifier when the name field is blurred" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
       click_on "Continue"
 
       fill_in "Name", with: "Flight Planning Algorithm"
@@ -572,7 +571,7 @@ RSpec.describe "Projects", "creation",
     end
 
     it "allows overriding the auto-suggested identifier" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
       click_on "Continue"
 
       fill_in "Name", with: "Flight Planning Algorithm"
@@ -587,7 +586,7 @@ RSpec.describe "Projects", "creation",
     end
 
     it "shows a validation error for identifiers not starting with a letter" do
-      projects_page.create_new_workspace
+      projects_page.create_new_workspace :project, open_menu: true
       click_on "Continue"
 
       fill_in "Name", with: "Flight Planning Algorithm"
@@ -602,7 +601,7 @@ RSpec.describe "Projects", "creation",
     end
   end
 
-  context "with workspace type badges in parent field", with_flag: { portfolio_models: true } do
+  context "with workspace type badges in parent field" do
     include_context "ng-select-autocomplete helpers"
 
     shared_let(:portfolio) { create(:portfolio, name: "Parent Portfolio") }

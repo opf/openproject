@@ -30,6 +30,7 @@
 
 module Backlogs
   class InboxComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
     include CommonHelper
 
@@ -68,11 +69,7 @@ module Backlogs
     end
 
     def last_omitted_id
-      if work_packages.respond_to?(:reverse_order)
-        work_packages.reverse_order.offset(tail_size).limit(1).pick(:id)
-      else
-        work_packages[-(tail_size + 1)]&.id
-      end
+      work_packages[-(tail_size + 1)]&.id
     end
 
     private

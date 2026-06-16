@@ -37,24 +37,70 @@ module Wikis
 
     attr_reader :actions
 
-    def initialize(model = nil, actions: [], **)
+    def initialize(model = nil, actions: [], page_link: nil, **)
       @actions = actions
+      @page_link = page_link
 
       super(model, **)
     end
 
     def page_title
-      # TODO: Define behaviour for errors
-      page_info_result.either(->(pi) { pi.title }, ->(_) { "Nothing to see here" })
+      page_info_result.either(
+        ->(pi) { pi.title },
+        ->(error) do
+          case error
+          in { code: :not_found }
+            I18n.t("wikis.page_links.errors.page_not_found")
+          in { code: :forbidden }
+            I18n.t("wikis.page_links.errors.page_access_forbidden")
+          else
+            I18n.t("wikis.page_links.errors.unexpected")
+          end
+        end
+      )
     end
 
     def page_href
-      # TODO: Define behaviour for errors
-      page_info_result.either(->(pi) { pi.href }, ->(_) { "#" })
+      page_info_result.value!.href
+    end
+
+    def error?
+      page_info_result.failure?
     end
 
     def show_action_menu?
       actions.any?
+    end
+
+    def menu_items(menu)
+      if actions.include?(:remove)
+        deletion_action_item(menu)
+      end
+    end
+
+    private
+
+    def project
+      @page_link&.linkable&.project
+    end
+
+    def deletion_action_item(menu)
+      return if @page_link.nil?
+      return unless user_allowed_to_delete?
+
+      href = url_helpers.confirm_delete_dialog_relation_wiki_page_link_path(@page_link)
+
+      menu.with_item(label: t(".remove"),
+                     scheme: :danger,
+                     tag: :a,
+                     href:,
+                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
+        item.with_leading_visual_icon(icon: :trash)
+      end
+    end
+
+    def user_allowed_to_delete?
+      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, project)
     end
   end
 end

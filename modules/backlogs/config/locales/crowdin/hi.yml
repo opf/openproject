@@ -40,8 +40,9 @@ hi:
           in_planning: In planning
           active: Active
           completed: Completed
+        work_packages: Work packages
       work_package:
-        backlog_bucket: Backlog Bucket
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: बैकलॉग प्रकार
         position: स्थिति
         sprint: Sprint
@@ -123,6 +124,8 @@ hi:
     label_burndown_chart: Burndown chart
     label_is_done_status: स्थिति %{status_name} का अर्थ हो गया
     label_sprint_board: Sprint board
+    move_to_bucket_dialog_component:
+      title: Move to backlog bucket
     move_to_sprint_dialog_component:
       title: Move to sprint
       label_sprint: Sprint
@@ -178,7 +181,9 @@ hi:
       action_menu:
         copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy work package ID
-        move_menu: Move
+        move_menu: Move to position
+        move_to_backlog_bucket: Move to backlog bucket
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Move to sprint
     work_package_is_closed: काम का पैकेज हो गया, जब
   burndown:
@@ -190,18 +195,19 @@ hi:
     upsell:
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
+  label_all_sprints: All sprints
   label_backlog: Backlog
+  label_backlogs: Backlogs
+  label_backlog_and_sprints: Backlog and sprints
   label_backlog_bucket_edit: Edit backlog bucket
   label_backlog_bucket_new: New backlog bucket
-  label_inbox: Inbox
-  label_backlogs: Backlogs
   label_burndown_chart: Burndown chart
+  label_inbox: Inbox
   label_sprint_board: Sprint board
   label_points_burn_down: Down
   label_points_burn_up: Up
   label_sprint_edit: Edit sprint
   label_sprint_new: New sprint
-  label_backlog_and_sprints: Backlog and sprints
   label_task_board: Task board
   notice_successful_start: The sprint was started.
   notice_successful_finish: The sprint was completed.
@@ -209,6 +215,9 @@ hi:
   notice_unsuccessful_start_with_reason: 'The sprint could not be started: %{reason}'
   notice_unsuccessful_finish: The sprint could not be completed.
   notice_unsuccessful_finish_with_reason: 'The sprint could not be completed: %{reason}'
+  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+
+    '
   permission_create_sprints: Create sprints
   permission_manage_sprint_items: Manage sprint items
   permission_select_backlog_types_and_statuses: Select backlog types and statuses

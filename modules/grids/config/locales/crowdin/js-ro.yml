@@ -33,7 +33,7 @@ ro:
           title: Subelemente
         project_favorites:
           title: Proiecte favorite
-          no_results: Nu ai niciun proiect favorit. Clic pe pictograma cu steluță din tabloul de bord al proiectului pentru a adăuga unul la favorite.
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: Timpul meu consumat
           displayed_days: Zile afișate în lista de activități a proiectului

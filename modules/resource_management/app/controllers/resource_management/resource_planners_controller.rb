@@ -27,10 +27,10 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
 module ::ResourceManagement
   class ResourcePlannersController < BaseController
     include OpTurbo::ComponentStream
+    include PlannerViewContent
 
     menu_item :resource_management
 
@@ -46,7 +46,11 @@ module ::ResourceManagement
                              .order(:name)
     end
 
-    def show; end
+    def show
+      @view = default_view
+      @content_component = work_package_list_content(@view)
+      render "resource_management/resource_planner_views/show"
+    end
 
     def overview; end
 
@@ -115,11 +119,17 @@ module ::ResourceManagement
       @resource_planner = ResourcePlanner
                             .visible(current_user)
                             .where(project: @project)
+                            .with_children
                             .find(params[:id])
     end
 
     def build_resource_planner
       @resource_planner = ResourcePlanner.new(project: @project, principal: current_user)
+    end
+
+    def default_view
+      children = @resource_planner.children
+      children.find { |c| c.id == @resource_planner.default_view_id } || children.first
     end
 
     def create_params
@@ -144,9 +154,49 @@ module ::ResourceManagement
     end
 
     def render_create_success
+      view_class = chosen_default_view_class
+      return render_create_success_redirect if view_class.nil?
+
+      advance_dialog_to_configure_view(view_class)
+    end
+
+    def render_create_success_redirect
       flash[:notice] = I18n.t(:notice_successful_create)
-      # TODO: Let's check if we can do a proper turbo update here
-      redirect_to project_resource_planners_path(@project)
+      redirect_to project_resource_planner_path(@project, @resource_planner)
+    end
+
+    def advance_dialog_to_configure_view(view_class)
+      view = view_class.new(parent: @resource_planner, project: @project, principal: current_user)
+      dialog = ResourcePlanners::NewDialogComponent
+
+      update_dialog_title_via_turbo_stream(
+        dialog::DIALOG_ID,
+        new_title: I18n.t("resource_management.configure_view_dialog.title")
+      )
+      replace_via_turbo_stream(
+        component: ResourcePlannerViews::ConfigureStep::FormComponent.new(
+          view:,
+          url: project_resource_planner_views_path(@project, @resource_planner),
+          hidden_fields: { view_class_name: view_class.name },
+          form_id: dialog::FORM_ID,
+          dialog_id: dialog::DIALOG_ID,
+          wrapper_key: ResourcePlanners::FormComponent.wrapper_key,
+          filter_query: view.build_default_query
+        )
+      )
+      replace_via_turbo_stream(
+        component: ResourcePlannerViews::ConfigureStep::FooterComponent.new(
+          dialog_id: dialog::DIALOG_ID,
+          form_id: dialog::FORM_ID,
+          footer_id: dialog::FOOTER_ID,
+          cancel_href: project_resource_planners_path(@project)
+        )
+      )
+      respond_with_turbo_streams
+    end
+
+    def chosen_default_view_class
+      ResourcePlanner.allowed_child_class(params.dig(:resource_planner, :default_view_class_name))
     end
 
     def render_create_failure(call)

@@ -133,4 +133,12 @@
   --gantt-split-width: 50%;
   --enterprise-upsell-color: #CE4C00;
   --enterprise-upsell-text-color: #CE4C00;
+
+  --box-list-item-bg-color: var(--body-background);
+  --box-list-item-bg-hover-color: #f6f8fa;
+  --box-list-item-border-color: #d1d9e0;
+  --box-list-item-selected-bg-color: hsl(from #d1f0ff h calc(s - 30) calc(l + 2));
+  --box-list-item-selected-bg-hover-color: #d1f0ff;
+  --box-list-item-selected-border-color: #54aeff66;
+  --box-list-item-pressed-border-color: #0969da;
 }

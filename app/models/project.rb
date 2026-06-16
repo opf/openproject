@@ -85,6 +85,8 @@ class Project < ApplicationRecord
   }, dependent: :destroy
   has_many :time_entries, dependent: :delete_all
   has_many :time_entry_activities_projects, dependent: :delete_all
+  has_many :cost_types_projects, dependent: :delete_all
+  has_many :cost_types, through: :cost_types_projects
   has_many :queries, dependent: :destroy
   has_many :news, -> { includes(:author) }, dependent: :destroy
   has_many :categories, -> { order("#{Category.table_name}.name") }, dependent: :delete_all
@@ -193,7 +195,8 @@ class Project < ApplicationRecord
   scope :templated, -> { where(templated: true) }
 
   scopes :activated_time_activity,
-         :visible_with_activated_time_activity
+         :visible_with_activated_time_activity,
+         :available_cost_types
 
   enum :status_code, {
     on_track: 0,

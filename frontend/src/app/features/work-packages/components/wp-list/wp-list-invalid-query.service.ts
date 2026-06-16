@@ -36,23 +36,42 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { QueryGroupByResource } from 'core-app/features/hal/resources/query-group-by-resource';
 import { QueryColumn } from '../wp-query/query-column';
+import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { SchemaAttributeObject } from 'core-app/features/hal/resources/schema-attribute-object';
+import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
+
+interface QueryFormSchemaProperties {
+  columns:SchemaAttributeObject<QueryColumn>;
+  sortBy:SchemaAttributeObject<QuerySortByResource>;
+  groupBy:SchemaAttributeObject<QueryGroupByResource>;
+  filtersSchemas:{ elements:QueryFilterInstanceSchemaResource[] };
+}
+
+type QueryFormSchema = SchemaResource & QueryFormSchemaProperties;
 
 @Injectable()
 export class WorkPackagesListInvalidQueryService {
   protected halResourceService = inject(HalResourceService);
 
-
   public restoreQuery(query:QueryResource, form:QueryFormResource) {
-    this.restoreFilters(query, form.payload, form.schema);
-    this.restoreColumns(query, form.payload, form.schema);
-    this.restoreSortBy(query, form.payload, form.schema);
-    this.restoreGroupBy(query, form.payload, form.schema);
-    this.restoreOtherProperties(query, form.payload);
+    const payload = form.payload as QueryResource;
+    const schema = form.schema as QueryFormSchema;
+    // The form's filter schemas are embedded under the schema, not at the
+    // form's top level (`form.filtersSchemas` returns undefined). The
+    // `QueryFormResource#filtersSchemas` getter is misleading — see
+    // `apiv3-query-form.ts`, which also reads via `form.$embedded.schema...`.
+    this.restoreFilters(query, payload, schema.filtersSchemas.elements);
+    this.restoreColumns(query, payload, schema);
+    this.restoreSortBy(query, payload, schema);
+    this.restoreGroupBy(query, payload, schema);
+    this.restoreOtherProperties(query, payload);
   }
 
-  private restoreFilters(query:QueryResource, payload:QueryResource, querySchema:SchemaResource) {
-    let filters = _.map((payload.filters), (filter) => {
-      const filterInstanceSchema = _.find(querySchema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.filter.href);
+  private restoreFilters(query:QueryResource, payload:QueryResource, filtersSchemas:QueryFilterInstanceSchemaResource[]) {
+    const filters = payload.filters.map((filter) => {
+      const filterInstanceSchema = filtersSchemas.find(
+        (schema) => (schema.filter.allowedValues as QueryFilterResource[])[0].href === filter.filter.href,
+      );
 
       if (!filterInstanceSchema) {
         return null;
@@ -60,56 +79,64 @@ export class WorkPackagesListInvalidQueryService {
 
       const recreatedFilter = filterInstanceSchema.getFilter();
 
-      const operator = _.find(filterInstanceSchema.operator.allowedValues, (operator) => operator.href === filter.operator.href);
+      const operator = (filterInstanceSchema.operator.allowedValues as HalResource[]).find(
+        (op) => op.href === filter.operator.href,
+      );
 
       if (operator) {
-        recreatedFilter.operator = operator;
+        recreatedFilter.operator = operator as typeof recreatedFilter.operator;
       }
 
-      recreatedFilter.values.length = 0;
-      _.each(filter.values, (value) => recreatedFilter.values.push(value));
+      recreatedFilter.values = filter.values.slice();
 
       return recreatedFilter;
-    });
-
-    filters = _.compact(filters);
+    }).filter((f):f is QueryFilterInstanceResource => f != null);
 
     // clear filters while keeping reference
     query.filters.length = 0;
-    _.each(filters, (filter) => query.filters.push(filter));
+    filters.forEach((filter) => query.filters.push(filter));
   }
 
-  private restoreColumns(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
-    let columns = _.map(stubQuery.columns, (column) => _.find((schema.columns.allowedValues as QueryColumn[]), (candidate) => candidate.href === column.href));
-
-    columns = _.compact(columns);
+  private restoreColumns(query:QueryResource, stubQuery:QueryResource, schema:QueryFormSchema) {
+    const columns = stubQuery.columns
+      .map((column) => (schema.columns.allowedValues as QueryColumn[]).find((candidate) => candidate.href === column.href))
+      .filter((column):column is QueryColumn => column != null);
 
     query.columns.length = 0;
-    _.each(columns, (column) => query.columns.push(column!));
+    columns.forEach((column) => query.columns.push(column));
   }
 
-  private restoreSortBy(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
-    let sortBys = _.map((stubQuery.sortBy), (sortBy) => _.find((schema.sortBy.allowedValues as QuerySortByResource[]), (candidate) => candidate.href === sortBy.href)!);
-
-    sortBys = _.compact(sortBys);
+  private restoreSortBy(query:QueryResource, stubQuery:QueryResource, schema:QueryFormSchema) {
+    const sortBys = stubQuery.sortBy
+      .map((sortBy) => (schema.sortBy.allowedValues as QuerySortByResource[]).find((candidate) => candidate.href === sortBy.href))
+      .filter((sortBy):sortBy is QuerySortByResource => sortBy != null);
 
     query.sortBy.length = 0;
-    _.each(sortBys, (sortBy) => query.sortBy.push(sortBy));
+    sortBys.forEach((sortBy) => query.sortBy.push(sortBy));
   }
 
-  private restoreGroupBy(query:QueryResource, stubQuery:QueryResource, schema:SchemaResource) {
-    const groupBy = _.find((schema.groupBy.allowedValues as QueryGroupByResource[]), (candidate) => stubQuery.groupBy && stubQuery.groupBy.href === candidate.href) as any;
+  private restoreGroupBy(query:QueryResource, stubQuery:QueryResource, schema:QueryFormSchema) {
+    const groupBy = (schema.groupBy.allowedValues as QueryGroupByResource[]).find(
+      (candidate) => stubQuery.groupBy?.href === candidate.href,
+    );
 
     query.groupBy = groupBy;
   }
 
   private restoreOtherProperties(query:QueryResource, stubQuery:QueryResource) {
-    _.without(Object.keys(stubQuery.$source), '_links', 'filters').forEach((property:any) => {
-      query[property] = stubQuery[property];
-    });
+    const source = stubQuery.$source as Record<string, unknown>;
+    const links = (source._links ?? {}) as Record<string, unknown>;
 
-    _.without(Object.keys(stubQuery.$source._links), 'columns', 'groupBy', 'sortBy').forEach((property:any) => {
-      query[property] = stubQuery[property];
-    });
+    Object.keys(source)
+      .filter((key) => key !== '_links' && key !== 'filters')
+      .forEach((property) => {
+        (query as Record<string, unknown>)[property] = (stubQuery as Record<string, unknown>)[property];
+      });
+
+    Object.keys(links)
+      .filter((key) => key !== 'columns' && key !== 'groupBy' && key !== 'sortBy')
+      .forEach((property) => {
+        (query as Record<string, unknown>)[property] = (stubQuery as Record<string, unknown>)[property];
+      });
   }
 }

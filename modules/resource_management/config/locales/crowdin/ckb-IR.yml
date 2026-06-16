@@ -2,72 +2,168 @@
 ckb-IR:
   activerecord:
     attributes:
-      resource_planner:
-        name: Name
-        start_date: Start date
-        end_date: Finish date
-        default_view_class_name: Default view
-        public: Public
-        favorite: Favorite
       resource_allocation:
-        entity: Entity
-        principal: Assignee
-        state: State
-        start_date: Start date
-        end_date: Finish date
+        allocated_hours: Hours
         allocated_time: Allocated time
+        end_date: Finish date
+        entity: Entity
+        filter_name: Resource filter name
+        principal: Assignee
+        start_date: Start date
+        state: State
         user_filter: User filter
+      resource_planner:
+        default_view_class_name: Default view
+        end_date: Finish date
+        favorite: Favorite
+        name: Name
+        public: Public
+        start_date: Start date
     errors:
       models:
-        resource_planner:
-          attributes:
-            end_date:
-              greater_than_start_date: must be after the start date.
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: must be after the start date.
-  plugin_openproject_resource_management:
-    name: OpenProject Resource Management
-    description: Provides resource management and capacity planning.
-  project_module_resource_management: Resource management
-  permission_view_resource_planners: View resource planners
-  permission_view_resource_planners_explanation: 'Allows users to access resource planners. It allows them to create and manage their own resource planners and view public resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
-
-    '
-  permission_manage_public_resource_planners: Manage public resource planners
-  permission_manage_public_resource_planners_explanation: 'Allows users to create and manage public resource planners. It allows them to view, create, manage and publish their own resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
-
-    '
-  permission_allocate_user_resources: Allocate user resources
-  permission_allocate_user_resources_explanation: 'Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users (or user filters) to a planner and adjusting the allocated time and date range.
-
-    '
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: must be after the start date.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: must be a work package query.
+    models:
+      resource_allocation: Resource Allocation
+      resource_planner: Resource Planner
+      resource_work_package_list: Work packages list
+      user_card: User cards
+  button_next: Next
   label_resource_management: Resource planning
-  button_next: Save
+  permission_allocate_user_resources: Allocate user resources
+  permission_allocate_user_resources_explanation: Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users (or user filters) to a planner and adjusting the allocated time and date range.
+  permission_manage_public_resource_planners: Manage public resource planners
+  permission_manage_public_resource_planners_explanation: Allows users to create and manage public resource planners. It allows them to view, create, manage and publish their own resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
+  permission_view_resource_planners: View resource planners
+  permission_view_resource_planners_explanation: Allows users to access resource planners. It allows them to create and manage their own resource planners and view public resource planners. It does not allow users to view resource planners created by other users that are not shared publicly.
+  plugin_openproject_resource_management:
+    description: Provides resource management and capacity planning.
+    name: OpenProject Resource Management
+  project_module_resource_management: Resource management
   resource_management:
+    action:
+      delete: Delete
+      favorite: Add to favorites
+      make_private: Make private
+      make_public: Make public
+      unfavorite: Remove from favorites
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          label: Filter criteria
+        label: Allocation type
+        principal:
+          caption: Allocate hours for a specific user.
+          label: User
+      outside_dates:
+        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
+        hidden_work: Other allocations
+        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        schedule_change: until %{date}, then %{schedule}
+        schedule_note: This user works %{schedule}.
+        submit: Allocate overtime
+        title: Do you want to allocate overtime to the user?
+      submit: Allocate
+      success_message: Resource allocated.
+      title: Allocate resource
+    blankslate:
+      desc: Create a resource planner to start planning capacity for this project.
+      title: No resource planners yet
+    configure_view_dialog:
+      delete_confirmation: Are you sure you want to delete this view? This cannot be undone.
+      filter_mode:
+        automatic:
+          caption: An automatically-generated list that displays items that meet criteria you define.
+          label: Automatically filtered
+        label: Item selection
+        manual:
+          caption: A custom list of items you manually add and remove. Filtering is not possible.
+          label: Manually hand-picked
+      title: Configure view
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
+    favorite_caption: Make this view a favorite to add it on the top section of the sidebar menu.
+    label_new_resource_planner: New resource planner
     label_resource_planner: Resource planner
     label_resource_planner_plural: Resource planners
-    label_new_resource_planner: New resource planner
-    public_caption: 'Make this view public to all members of the project. This does not affect the visibility of work packages which still depends on each user permission.
-
-      '
-    favorite_caption: 'Make this view a favorite to add it on the top section of the sidebar menu.
-
-      '
-    view_types:
-      UserCardView: Users cards
-    action:
-      favorite: Add to favorites
-      unfavorite: Remove from favorites
-      make_public: Make public
-      make_private: Make private
-      delete: Delete
-    sidebar:
-      public: Public
-      private: Private
-    blankslate:
-      title: No resource planners yet
-      desc: Create a resource planner to start planning capacity for this project.
+    new_view_dialog:
+      title: Add View
+    public_caption: Make this view public to all members of the project. This does not affect the visibility of work packages which still depends on each user permission.
     show:
       placeholder: The detailed view for this resource planner is coming soon.
+    sidebar:
+      private: Private
+      public: Public
+    sub_views: Views in this resource planner
+    view_types:
+      resource_work_package_list:
+        caption: Create a view based on work packages and see its details and allocation in a list
+        label: Work packages list
+      user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
+    work_package_list:
+      add_work_package_dialog:
+        title: Add work package
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} user"
+          other: "%{count} users"
+        unassigned: Unassigned
+      allocation_placeholder: "—"
+      blank:
+        description: There are no work packages matching this view's filters yet.
+        title: No work packages to display
+      columns:
+        allocated_members: Allocated members
+        allocation: Allocation
+        dates: Dates
+      context_menu:
+        add_filter_criteria: Add filter criteria
+        add_user_group: Add user group
+        edit_total_work: Edit total work
+        label: More actions
+        move: Move
+        move_down: Move down
+        move_to_bottom: Move to bottom
+        move_to_top: Move to top
+        move_up: Move up
+        remove: Remove
+        remove_confirmation: Remove this work package from the view?
+        see_allocation: See allocation
+      mobile_title: Work packages
+      query_name: 'Resource management work packages: %{name}'
+      subheader:
+        add: Add
+        add_work_package: Add work package
+        allocate: Allocate
+        settings: Configure view

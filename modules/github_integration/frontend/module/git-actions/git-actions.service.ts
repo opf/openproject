@@ -72,10 +72,6 @@ export class GitActionsService {
     return this.commitMessageParts(workPackage).join("\n\n");
   }
 
-  public commitMessageDisplayText(workPackage:WorkPackageResource):string {
-    return this.commitMessageParts(workPackage).join(' ');
-  }
-
   public gitCommand(workPackage:WorkPackageResource):string {
     const branch = this.branchName(workPackage);
     const messageParts = this.commitMessageParts(workPackage);

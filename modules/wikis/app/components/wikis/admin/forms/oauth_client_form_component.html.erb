@@ -6,27 +6,53 @@
       method: form_method
     ) do |form|
       flex_layout do |oauth_client_row|
-        oauth_client_row.with_row do
-          render(Primer::Beta::Text.new(font_weight: :bold)) { t("wikis.admin.wiki_providers.#{wiki_provider}.oauth.provider_oauth") }
+        oauth_client_row.with_row(mb: 3) do
+          render(Primer::Beta::Text.new) do
+            helpers.link_translate(
+              "wikis.admin.wiki_providers.#{wiki_provider}.oauth.provider_oauth_configuration",
+              links: { xwiki_oidc_link: xwiki_oidc_admin_url },
+              external: true
+            )
+          end
         end
 
         oauth_client_row.with_row(mb: 3) do
-          render(Primer::Beta::Text.new(color: :subtle)) { t("wikis.admin.wiki_providers.#{wiki_provider}.oauth.provider_oauth_description") }
+          render(Primer::Alpha::TextField.new(
+            name: "oauth_client[client_id]",
+            label: t(".client_id"),
+            visually_hide_label: false,
+            value: resolved_oauth_client.client_id,
+            input_width: :large,
+            required: true,
+            validation_message: validation_message_for(:client_id)
+          ))
+        end
+
+        oauth_client_row.with_row(mb: 3) do
+          render(Primer::Alpha::TextField.new(
+            name: "oauth_client[client_secret]",
+            label: t(".client_secret"),
+            visually_hide_label: false,
+            value: resolved_oauth_client.client_secret,
+            input_width: :large,
+            required: true,
+            validation_message: validation_message_for(:client_secret)
+          ))
         end
 
         oauth_client_row.with_row(mb: 3) do
           render(Primer::OpenProject::InputGroup.new(input_width: :large)) do |input_group|
             input_group.with_text_input(
-              name: "oauth_client[client_id]",
-              label: t(".client_id"),
+              name: "oauth_client[redirect_uri]",
+              label: t(".redirect_uri"),
               visually_hide_label: false,
-              value: resolved_oauth_client.client_id,
-              readonly: true
+              value: resolved_oauth_client.redirect_uri
             )
             input_group.with_trailing_action_clipboard_copy_button(
-              value: resolved_oauth_client.client_id,
+              value: resolved_oauth_client.redirect_uri,
               aria: { label: t("button_copy_to_clipboard") }
             )
+            input_group.with_caption { t(".redirect_uri_caption") }
           end
         end
 

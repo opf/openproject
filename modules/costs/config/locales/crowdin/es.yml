@@ -39,6 +39,8 @@ es:
         unit: Nombre de la unidad
         unit_plural: Nombre de la unidad pluralizado
         default: Tipo de coste por defecto
+        for_all_projects: Para todos los proyectos
+        rates: Tasas
       work_package:
         costs_by_type: Unidades usadas
         labor_costs: Costos de mano de obra
@@ -88,6 +90,10 @@ es:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de costo.'
           nullify_is_not_valid_for_cost_entries: Las entradas de costo  no pueden ser asignadas a un proyecto.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Selecciona un proyecto.
   attributes:
     comment: Comentario
     cost_type: Tipo de costo
@@ -129,7 +135,6 @@ es:
   label_current_default_rate: tasa de morosidad actual
   label_date_on: en
   label_deleted_cost_types: Eliminar tipos de costo
-  label_locked_cost_types: Tipos de costo bloqueados
   label_display_cost_entries: Mostrar los costos unitarios
   label_display_time_entries: Mostrar horas reportadas
   label_display_types: Mostrar tipos
@@ -229,6 +234,28 @@ es:
     errors:
       validation:
         start_time_different_date: La parte de fecha de startTime (%{start_time}) debe ser la misma que la fecha de spentOn (%{spent_on}).
+  label_available_cost_types_projects: Proyectos con tipos de coste disponibles
+  cost_types:
+    errors:
+      no_cost_types_available: En este proyecto no hay tipos de coste disponibles. Ponte en contacto con un administrador.
+    admin:
+      columns:
+        active_projects: Proyectos activos
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: Este tipo de coste está habilitado en todos los proyectos
+          description: Desmarca la casilla «Para todos los proyectos» en la pestaña de detalles para limitar este tipo de coste a proyectos específicos.
+        no_projects:
+          heading: No hay proyectos asignados
+          description: Añade proyectos para que se pueda utilizar este tipo de coste en ellos.
+      rates:
+        title: Historial de tasas
+    settings:
+      time_and_costs: Tiempo y costos
+      cost_types:
+        heading: Tipos de costos
+        none_active: Actualmente no hay tipos de coste activos en este proyecto.
+        for_all_projects_hint: Este tipo de coste está habilitado en todos los proyectos.
   costs:
     widgets:
       actual_costs:

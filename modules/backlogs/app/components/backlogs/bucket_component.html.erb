@@ -28,50 +28,52 @@ See COPYRIGHT and LICENSE files for more details.
 ++# %>
 
 <%= component_wrapper(tag: :section) do %>
-  <%= render(
-        Backlogs::WorkPackageCardListComponent.new(
-          work_packages:,
-          project:,
-          container: backlog_bucket,
-          drag_and_drop: {
-            target_id: "backlog_bucket:#{backlog_bucket.id}",
-            allowed_drag_type: "story"
-          },
-          params: all_backlogs_params,
-          current_user:,
-          test_selector: "backlog-bucket-#{backlog_bucket.id}"
-        )
-      ) do |list| %>
-    <% list.with_header(title: backlog_bucket.name) do |header| %>
-      <% if show_menu? %>
-        <% header.with_menu(button_aria_label: t(".label_actions")) do |menu| %>
-          <% with_item_group(menu) do %>
-            <% menu.with_item(
-                 id: dom_target(backlog_bucket, :menu, :edit_backlog_bucket),
-                 label: t(".action_menu.edit_backlog_bucket"),
-                 href: edit_dialog_project_backlogs_backlog_bucket_path(project, backlog_bucket, all_backlogs_params),
-                 content_arguments: { data: { controller: "async-dialog" } }
-               ) do |item| %>
-              <% item.with_leading_visual_icon(icon: :pencil) %>
-            <% end %>
+  <%=
+    render(
+      Backlogs::WorkPackageCardListComponent.new(
+        work_packages:,
+        project:,
+        container: backlog_bucket,
+        drag_and_drop: {
+          target_id: "backlog_bucket:#{backlog_bucket.id}",
+          allowed_drag_type: "story"
+        },
+        params: all_backlogs_params,
+        current_user:,
+        test_selector: "backlog-bucket-#{backlog_bucket.id}"
+      )
+    ) do |list|
+      list.with_header(title: backlog_bucket.name) do |header|
+        if show_menu?
+          header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+            with_item_group(menu) do
+              menu.with_item(
+                id: dom_target(backlog_bucket, :menu, :edit_backlog_bucket),
+                label: t(".action_menu.edit_backlog_bucket"),
+                href: edit_dialog_project_backlogs_bucket_path(project, backlog_bucket, all_backlogs_params),
+                content_arguments: { data: { controller: "async-dialog" } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :pencil)
+              end
 
-            <% menu.with_item(
-                 id: dom_target(backlog_bucket, :menu, :delete_backlog_bucket),
-                 label: t(".action_menu.delete_backlog_bucket"),
-                 scheme: :danger,
-                 href: destroy_dialog_project_backlogs_backlog_bucket_path(project, backlog_bucket, all_backlogs_params),
-                 content_arguments: { data: { controller: "async-dialog" } }
-               ) do |item| %>
-              <% item.with_leading_visual_icon(icon: :trash) %>
-            <% end %>
-          <% end %>
-        <% end %>
-      <% end %>
-    <% end %>
+              menu.with_item(
+                id: dom_target(backlog_bucket, :menu, :delete_backlog_bucket),
+                label: t(".action_menu.delete_backlog_bucket"),
+                scheme: :danger,
+                href: destroy_dialog_project_backlogs_bucket_path(project, backlog_bucket, all_backlogs_params),
+                content_arguments: { data: { controller: "async-dialog" } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :trash)
+              end
+            end
+          end
+        end
+      end
 
-    <% list.with_empty_state(
-         title: t(".blankslate_title"),
-         description: t(".blankslate_description")
-       ) %>
-  <% end %>
+      list.with_empty_state(
+        title: t(".blankslate_title"),
+        description: t(".blankslate_description")
+      )
+    end
+  %>
 <% end %>

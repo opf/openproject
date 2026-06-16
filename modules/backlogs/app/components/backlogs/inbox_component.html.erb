@@ -28,65 +28,66 @@ See COPYRIGHT and LICENSE files for more details.
 ++# %>
 
 <%= component_wrapper(tag: :section) do %>
-  <% inbox_container = dom_target(:inbox, project) %>
-  <%= render(
-        OpenProject::Common::BorderBoxListComponent.new(
-          container: inbox_container,
-          current_user:,
-          interactive: true,
-          scheme: :transparent,
-          padding: :condensed,
-          header_padding: :default,
-          test_selector: "backlog-inbox",
-          data: {
-            generic_drag_and_drop_target: "container",
-            target_container_accessor: ":scope > ul",
-            target_id: "inbox",
-            target_allowed_drag_type: "story"
-          }
+  <%=
+    render(
+      OpenProject::Common::BorderBoxListComponent.new(
+        container: dom_target(:inbox, project),
+        current_user:,
+        interactive: true,
+        scheme: :transparent,
+        padding: :condensed,
+        header_padding: :default,
+        test_selector: "backlog-inbox",
+        data: {
+          generic_drag_and_drop_target: "container",
+          target_container_accessor: ":scope > ul",
+          target_id: "inbox",
+          target_allowed_drag_type: "story"
+        }
+      )
+    ) do |list|
+      list.with_header(title: t(".title"), count: work_packages.size, title_arguments: { font_size: 4 })
+
+      list.with_empty_state(
+        title: t(".blankslate_title"),
+        description: t(".blankslate_description"),
+        icon: :"op-backlogs",
+        spacious: true
+      )
+
+      visible_work_packages.each.with_index do |work_package, index|
+        list.with_work_package_item(
+          work_package:,
+          project:,
+          params: all_backlogs_params,
+          component_klass: Backlogs::WorkPackageCardListItemComponent
         )
-      ) do |list| %>
-    <% list.with_header(title: t(".title"), count: work_packages.size, title_arguments: { font_size: 4 }) %>
 
-    <% list.with_empty_state(
-         title: t(".blankslate_title"),
-         description: t(".blankslate_description"),
-         icon: :"op-backlogs",
-         spacious: true
-       ) %>
-
-    <% visible_work_packages.each.with_index do |work_package, index| %>
-      <% list.with_work_package_item(
-           work_package:,
-           project:,
-           params: all_backlogs_params,
-           component_klass: Backlogs::WorkPackageCardListItemComponent
-         ) %>
-
-      <% if truncated? && index == TRUNCATE_MIDDLE - 1 %>
-        <% list.with_item(
-             scheme: :neutral,
-             classes: "op-work-package-card-list--show-more-row",
-             data: { draggable_id: last_omitted_id }
-           ) do %>
-          <%= render(
-                Primer::Beta::Button.new(
-                  id: show_more_id,
-                  scheme: :link,
-                  tag: :a,
-                  size: :large,
-                  block: true,
-                  align_content: :start,
-                  underline: true,
-                  href: project_backlogs_backlog_path(project, all: 1),
-                  data: {
-                    turbo_frame: "backlogs_container",
-                    turbo_action: :advance
-                  }
-                )
-              ) { show_more_label } %>
-        <% end %>
-      <% end %>
-    <% end %>
-  <% end %>
+        if truncated? && index == TRUNCATE_MIDDLE - 1
+          list.with_item(
+            scheme: :neutral,
+            classes: "op-work-package-card-list--show-more-row",
+            data: { draggable_id: last_omitted_id }
+          ) do
+            render(
+              Primer::Beta::Button.new(
+                id: show_more_id,
+                scheme: :link,
+                tag: :a,
+                size: :large,
+                block: true,
+                align_content: :start,
+                underline: true,
+                href: project_backlogs_backlog_path(project, all: 1),
+                data: {
+                  turbo_frame: "backlogs_container",
+                  turbo_action: :advance
+                }
+              )
+            ) { show_more_label }
+          end
+        end
+      end
+    end
+  %>
 <% end %>

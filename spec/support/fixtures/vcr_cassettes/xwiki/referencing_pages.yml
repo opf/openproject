@@ -1,0 +1,193 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/links/workPackages/14?number=25
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 10 Jun 2026 13:09:46 GMT
+      Set-Cookie:
+      - JSESSIONID=976A8D0872AE6EC68937149CE6F6191C; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - QVVZtN1gchKDZcFGGdo7Rg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '1892'
+    body:
+      encoding: UTF-8
+      string: '{"links":[],"searchResults":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"type":"page","id":"xwiki:test.WebHome","pageFullName":"test.WebHome","title":"OpenProject
+        integration","wiki":"xwiki","space":"test","pageName":"WebHome","modified":1780562303000,"author":"xwiki:XWiki.admin","authorName":null,"version":"5.1","language":null,"className":null,"objectNumber":null,"filename":null,"score":0.33462277,"object":null,"hierarchy":null},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/spaces/Def%20New%20Page/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"type":"page","id":"xwiki:test.Def
+        New Page.WebHome","pageFullName":"test.Def New Page.WebHome","title":"Def
+        New Page","wiki":"xwiki","space":"test.Def New Page","pageName":"WebHome","modified":1780583786000,"author":"xwiki:XWiki.admin","authorName":null,"version":"1.4","language":null,"className":null,"objectNumber":null,"filename":null,"score":0.33462277,"object":null,"hierarchy":null},{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Just%20a%20normal%20page/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"type":"page","id":"xwiki:Just
+        a normal page.WebHome","pageFullName":"Just a normal page.WebHome","title":"Just
+        a normal page","wiki":"xwiki","space":"Just a normal page","pageName":"WebHome","modified":1781077754000,"author":"xwiki:XWiki.admin","authorName":null,"version":"2.4","language":null,"className":null,"objectNumber":null,"filename":null,"score":0.33462277,"object":null,"hierarchy":null}],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
+  recorded_at: Wed, 10 Jun 2026 13:09:46 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:test.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 10 Jun 2026 13:09:46 GMT
+      Set-Cookie:
+      - JSESSIONID=213131400A5E972D47A5D58CA6592C66; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - QVVZtN1gchKDZcFGGdo7Rg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '2308'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/test.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"48944","fullName":"test.WebHome","wiki":"xwiki","space":"test","name":"WebHome","title":"OpenProject
+        integration","rawTitle":"OpenProject integration","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"5.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/test/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/test/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":5,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1779288739000,"creator":"XWiki.admin","creatorName":null,"modified":1780562303000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"","content":"{{openproject
+        instance=\"OpenProject\"/}}","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"test","name":"test","type":"space","url":"https://xwiki.local/bin/view/test/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/test/"}]},"rights":[],"renderedContent":null}'
+  recorded_at: Wed, 10 Jun 2026 13:09:46 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:test.Def%20New%20Page.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 10 Jun 2026 13:09:46 GMT
+      Set-Cookie:
+      - JSESSIONID=99DBB4EF48A0F8D8F2D058206A385953; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - QVVZtN1gchKDZcFGGdo7Rg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '2509'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/spaces/Def%20New%20Page","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/spaces/Def%20New%20Page/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/spaces/Def%20New%20Page/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/test/spaces/Def%20New%20Page/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/test.Def%20New%20Page.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"42f2f","fullName":"test.Def
+        New Page.WebHome","wiki":"xwiki","space":"test.Def New Page","name":"WebHome","title":"Def
+        New Page","rawTitle":"Def New Page","parent":"test.WebHome","parentId":"xwiki:test.WebHome","version":"1.4","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/test/Def%20New%20Page/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/test/Def%20New%20Page/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":4,"hidden":false,"enforceRequiredRights":false,"created":1780583563000,"creator":"XWiki.admin","creatorName":null,"modified":1780583563000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Update
+        property ProjectManagement.Code.RelationClass[0].workItem","content":"{{openproject
+        instance=\"OpenProject\"/}}","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"test","name":"test","type":"space","url":"https://xwiki.local/bin/view/test/"},{"label":"Def
+        New Page","name":"Def New Page","type":"space","url":"https://xwiki.local/bin/view/test/Def%20New%20Page/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/test/Def%20New%20Page/"}]},"rights":[],"renderedContent":null}'
+  recorded_at: Wed, 10 Jun 2026 13:09:46 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Just%20a%20normal%20page.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 10 Jun 2026 13:09:46 GMT
+      Set-Cookie:
+      - JSESSIONID=0A4B7316C9694C7744851A772202504B; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - QVVZtN1gchKDZcFGGdo7Rg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '2403'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Just%20a%20normal%20page","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Just%20a%20normal%20page/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Just%20a%20normal%20page/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Just%20a%20normal%20page/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Just%20a%20normal%20page.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"a3739","fullName":"Just
+        a normal page.WebHome","wiki":"xwiki","space":"Just a normal page","name":"WebHome","title":"Just
+        a normal page","rawTitle":"Just a normal page","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"2.4","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Just%20a%20normal%20page/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Just%20a%20normal%20page/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":2,"minorVersion":4,"hidden":false,"enforceRequiredRights":false,"created":1780583835000,"creator":"XWiki.admin","creatorName":null,"modified":1781015081000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"{{openproject instance=\"OpenProject\"/}}","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Just
+        a normal page","name":"Just a normal page","type":"space","url":"https://xwiki.local/bin/view/Just%20a%20normal%20page/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Just%20a%20normal%20page/"}]},"rights":[],"renderedContent":null}'
+  recorded_at: Wed, 10 Jun 2026 13:09:46 GMT
+recorded_with: VCR 6.4.0

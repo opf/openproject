@@ -158,7 +158,7 @@ ko:
         '
       other_active_session_notice: 사용자 계정에 다른 세션의 활성 저장 쿠키가 있습니다.
       label: 저장
-      clear_cookie: 저장된 모든 2FA 세션을 제거하려면 여기를 클릭하세요.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: 저장된 모든 2FA 세션이 제거되었습니다.
       dont_ask_again: "%{days}일간 이 클라이언트에서 2FA 인증을 저장하는 쿠키를 만듭니다."
   field_otp: 일회용 암호
@@ -169,6 +169,7 @@ ko:
   notice_account_has_no_phone: 휴대폰 번호가 계정과 연결되지 않았습니다.
   label_confirmed: 확인됨
   button_continue: 계속
+  button_make_active: Activate
   button_make_default: 기본값으로 표시
   notice_phone_number_format: '다음과 같은 형식으로 번호를 입력하세요: + XX XXXXXXXX.'
   text_otp_not_receive: 기타 확인 방법

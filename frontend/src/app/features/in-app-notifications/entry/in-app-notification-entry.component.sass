@@ -1,11 +1,15 @@
 @import "helpers"
 
-$ian-bg-color: var(--body-background)
-$ian-bg-hover-color: var(--bgColor-neutral-muted)
+$ian-bg-color: var(--box-list-item-bg-color)
+$ian-bg-hover-color: var(--box-list-item-bg-hover-color)
+$ian-border-color: var(--box-list-item-border-color)
 $ian-bg-read-color: var(--bgColor-muted)
-$ian-bg-read-hover-color: hsl(from var(--bgColor-neutral-muted) h s calc(l - 0.5))
-$ian-bg-selected-color: var(--codeMirror-selection-bgColor)
-$ian-bg-selected-hover-color: hsl(from var(--codeMirror-selection-bgColor) h calc(s - 30) l)
+$ian-bg-read-hover-color: hsl(from var(--bgColor-muted) h s calc(l - 3.5))
+$ian-bg-selected-color: var(--box-list-item-selected-bg-color)
+$ian-bg-selected-hover-color: var(--box-list-item-selected-bg-hover-color)
+// Notification center is special as it does not allow multi-select. So the selected element is always the pressed one.
+// We can therefore direclty set the pressed border color on the selected element
+$ian-active-border-color: var(--box-list-item-pressed-border-color)
 // This needs to be set in the itemSize of
 // the virtual scroller
 $ian-height: 100px
@@ -17,7 +21,7 @@ $subject-font-size: 14px
   margin: 0
   padding: 15px 10px
   font-size: 0.9rem
-  border-top: 1px solid var(--borderColor-default)
+  border-top: 1px solid $ian-border-color
   height: $ian-height
 
   &:hover
@@ -27,12 +31,21 @@ $subject-font-size: 14px
     border-top: none
 
   &:last-of-type
-    border-bottom: 1px solid var(--borderColor-default)
+    border-bottom: 1px solid $ian-border-color
 
   &_selected
     background: $ian-bg-selected-color
+    border-color: $ian-active-border-color
     &:hover
       background: $ian-bg-selected-hover-color
+
+    // Since the ian only have a top border, we need to highlight the next sibling as well to
+    // create the impression that the selected ian has a top and bottom border
+    & + .op-ian-item
+      border-top-color: $ian-active-border-color
+
+    &:last-of-type
+      border-bottom-color: $ian-active-border-color
 
   &_read
     background: $ian-bg-read-color
@@ -90,7 +103,6 @@ $subject-font-size: 14px
 
   &--reason-count
     grid-area: count
-    @include indicator-bubble
     justify-self: flex-end
     margin-right: 5px
 

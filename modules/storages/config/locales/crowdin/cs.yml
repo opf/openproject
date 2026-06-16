@@ -31,10 +31,15 @@ cs:
         authentication_method: Authentication Method
         creator: Autor
         drive: ID disku
+        file_link_origin: File link origin ID
         host: Hostitel
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: Název
         password: Heslo aplikace
         provider_type: Typ poskytovatele
+        storage: Storage
+        storage_url: Storage URL
         tenant: ID adresáře (tenant)
     errors:
       messages:

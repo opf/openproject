@@ -89,8 +89,12 @@ class RowComponent < ApplicationComponent
     :default
   end
 
-  def checkmark(condition)
-    if condition
+  def checkmark(condition, primerized: false)
+    return unless condition
+
+    if primerized
+      render(Primer::Beta::Octicon.new(icon: :check))
+    else
       helpers.op_icon "icon icon-checkmark"
     end
   end

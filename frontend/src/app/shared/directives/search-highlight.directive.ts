@@ -13,7 +13,7 @@ export class OpSearchHighlightDirective implements AfterViewChecked {
     let el = this.elementRef.nativeElement as HTMLElement;
     const highlightedElement = el.querySelector('.op-search-highlight');
 
-    if (!!highlightedElement && this.query && highlightedElement.innerHTML.toLocaleLowerCase() === this.query.toLocaleLowerCase()) {
+    if (!!highlightedElement && highlightedElement.innerHTML.toLocaleLowerCase() === this.query?.toLocaleLowerCase()) {
       return;
     }
 

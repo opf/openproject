@@ -48,7 +48,6 @@ import {
 import {
   take,
 } from 'rxjs/operators';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -74,45 +73,45 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
 
   @Input() activeTab = 'activity';
 
-  @InjectField() states:States;
+  readonly states = inject(States);
 
-  @InjectField() $state:StateService;
+  readonly $state = inject(StateService);
 
-  @InjectField() i18n:I18nService;
+  readonly i18n = inject(I18nService);
 
-  @InjectField() keepTab:KeepTabService;
+  readonly keepTab = inject(KeepTabService);
 
-  @InjectField() PathHelper:PathHelperService;
+  readonly PathHelper = inject(PathHelperService);
 
-  @InjectField() halEditing:HalResourceEditingService;
+  readonly halEditing = inject(HalResourceEditingService);
 
-  @InjectField() wpTableFocus:WorkPackageViewFocusService;
+  readonly wpTableFocus = inject(WorkPackageViewFocusService);
 
-  @InjectField() notificationService:WorkPackageNotificationService;
+  readonly notificationService = inject(WorkPackageNotificationService);
 
-  @InjectField() authorisationService:AuthorisationService;
+  readonly authorisationService = inject(AuthorisationService);
 
-  @InjectField() private readonly attachmentsResourceService:AttachmentsResourceService;
+  private readonly attachmentsResourceService = inject(AttachmentsResourceService);
 
-  @InjectField() private readonly fileLinkResourceService:FileLinksResourceService;
+  private readonly fileLinkResourceService = inject(FileLinksResourceService);
 
-  @InjectField() private readonly projectsResourceService:ProjectsResourceService;
+  private readonly projectsResourceService = inject(ProjectsResourceService);
 
-  @InjectField() private readonly storages:StoragesResourceService;
+  private readonly storages = inject(StoragesResourceService);
 
-  @InjectField() private readonly toastService:ToastService;
+  private readonly toastService = inject(ToastService);
 
-  @InjectField() cdRef:ChangeDetectorRef;
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @InjectField() readonly titleService:OpTitleService;
+  readonly titleService = inject(OpTitleService);
 
-  @InjectField() readonly apiV3Service:ApiV3Service;
+  readonly apiV3Service = inject(ApiV3Service);
 
-  @InjectField() readonly hooks:HookService;
+  readonly hooks = inject(HookService);
 
-  @InjectField() readonly actions$:ActionsService;
+  readonly actions$ = inject(ActionsService);
 
-  @InjectField() readonly storeService:WpSingleViewService;
+  readonly storeService = inject(WpSingleViewService);
 
   // Work package resource to be loaded from the cache
   public workPackage:WorkPackageResource;

@@ -82,7 +82,7 @@ RSpec.describe "Work Package table configuration modal columns spec", :js do
         expect(page).to have_selector :columnheader, text: /.+/, count: 3
         expect(page).to have_selector :columnheader, "ID"
         expect(page).to have_selector :columnheader, "Subject"
-        expect(page).to have_selector :columnheader, "Project", colindex: 2
+        expect(page).to have_selector :columnheader, "Project", colindex: 4
       end
     end
   end

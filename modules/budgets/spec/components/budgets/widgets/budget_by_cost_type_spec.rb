@@ -31,6 +31,8 @@
 require "spec_helper"
 
 RSpec.describe Budgets::Widgets::BudgetByCostType, type: :component do
+  include Rails.application.routes.url_helpers
+
   def render_component(...)
     render_inline(described_class.new(...))
   end
@@ -63,6 +65,12 @@ RSpec.describe Budgets::Widgets::BudgetByCostType, type: :component do
 
     it "renders angular component" do
       expect(rendered_component).to have_css("opce-budget-by-cost-type")
+    end
+
+    it "renders view details link in the widget footer" do
+      expect(rendered_component).to have_test_selector("budget-by-cost-type-widget-footer") do |footer|
+        expect(footer).to have_link(href: projects_budgets_path(project))
+      end
     end
 
     it "displays caption with workspace type (no subitems for leaf project)" do

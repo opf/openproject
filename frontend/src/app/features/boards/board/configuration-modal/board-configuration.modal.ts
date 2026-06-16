@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectionStrategy, Component, ComponentFactoryResolver, ElementRef, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import {
   ActiveTabInterface,
@@ -17,7 +17,7 @@ import { Board } from 'core-app/features/boards/board/board';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class BoardConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   readonly I18n = inject(I18nService);
@@ -25,7 +25,6 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
   readonly boardConfigurationService = inject(BoardConfigurationService);
   readonly injector = inject(Injector);
   readonly appRef = inject(ApplicationRef);
-  readonly componentFactoryResolver = inject(ComponentFactoryResolver);
 
   public text = {
     title: this.I18n.t('js.boards.configuration_modal.title'),
@@ -47,7 +46,6 @@ export class BoardConfigurationModalComponent extends OpModalComponent implement
     this.tabPortalHost = new TabPortalOutlet(
       this.boardConfigurationService.tabs,
       this.tabContentOutlet.nativeElement,
-      this.componentFactoryResolver,
       this.appRef,
       this.injector,
     );

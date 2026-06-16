@@ -33,7 +33,7 @@ ru:
           title: Подпроекты
         project_favorites:
           title: Избранные проекты
-          no_results: В настоящее время у вас нет избранных проектов. Нажмите на значок звезды в панели управления проекта, чтобы добавить его в избранное.
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: Затраченное мной время
           displayed_days: 'Дни, отображаемые в виджете:'

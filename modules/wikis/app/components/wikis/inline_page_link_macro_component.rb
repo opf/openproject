@@ -34,5 +34,16 @@ module Wikis
     include OpPrimer::ComponentHelpers
 
     alias_method :page_info_result, :model
+
+    def error_text(error)
+      case error
+      in { code: :not_found }
+        I18n.t("wikis.page_links.errors.page_not_found")
+      in { code: :forbidden }
+        I18n.t("wikis.page_links.errors.page_access_forbidden")
+      else
+        I18n.t("wikis.page_links.errors.unexpected")
+      end
+    end
   end
 end

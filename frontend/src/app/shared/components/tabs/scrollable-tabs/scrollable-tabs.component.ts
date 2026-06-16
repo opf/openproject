@@ -8,7 +8,6 @@ import {
 import { Observable } from 'rxjs';
 import { share } from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 @Component({
   templateUrl: 'scrollable-tabs.component.html',
@@ -42,7 +41,7 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
 
   @Output() public tabSelected = new EventEmitter<TabDefinition>();
 
-  @InjectField() uiRouterGlobals:UIRouterGlobals;
+  readonly uiRouterGlobals = inject(UIRouterGlobals);
 
   counters:Record<string, Observable<number>> = {};
 

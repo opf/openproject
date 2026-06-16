@@ -31,10 +31,15 @@ bg:
         authentication_method: Authentication Method
         creator: Създател
         drive: Drive ID
+        file_link_origin: File link origin ID
         host: Хост
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: Име
         password: Application password
         provider_type: Provider type
+        storage: Storage
+        storage_url: Storage URL
         tenant: Directory (tenant) ID
     errors:
       messages:

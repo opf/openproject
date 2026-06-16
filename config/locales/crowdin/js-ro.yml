@@ -109,7 +109,7 @@ ro:
     button_save: Salvează
     button_settings: Setări
     button_uncheck_all: Deselectează tot
-    button_update: Actualizează
+    button_update: Actualizare
     button_export-atom: Descarcă Atom
     button_generate_pdf: Generează PDF
     button_create: Creează
@@ -155,7 +155,6 @@ ro:
         manual: Comută la sursa Markdown
         wysiwyg: Comută la editorul WYSIWYG
       macro:
-        error: 'Nu se poate extinde macroul: %{message}'
         attribute_reference:
           macro_help_tooltip: Acest segment de text este redat în mod dinamic de o macro.
           not_found: Resursa solicitată nu a fost găsită.
@@ -175,9 +174,14 @@ ro:
           title: Inserați/Editați fragmentul de cod
           language: Limbaj de formatare
           language_hint: Introdu limbajul de formatare care va fi utilizat pentru evidențiere (dacă există suport pentru acesta).
-        dropdown:
-          macros: Macro
-          chose_macro: Alege macro
+        embedded_calendar:
+          text: "[Placeholder] Tabelul pachetului de lucru inserat"
+        embedded_table:
+          button: Inserează tabel pachet de lucru
+          text: "[Placeholder] Tabelul pachetului de lucru inserat"
+        error: 'Nu se poate extinde macroul: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Cuprins
         toolbar_help: Clic pentru a selecta piesa și pentru a afișa bara de instrumente. Dublu clic pentru a edita piesa
         wiki_page_include:
@@ -195,11 +199,6 @@ ro:
           button_style_hint: 'Opțional: Bifează pentru a vedea comenzile macro sub formă de butoane, nu sub formă de link.'
           without_type: Creați pachet de lucru
           with_type: 'Creați pachet de lucru (Tip: %{typename})'
-        embedded_table:
-          button: Inserează tabel pachet de lucru
-          text: "[Placeholder] Tabelul pachetului de lucru inserat"
-        embedded_calendar:
-          text: "[Placeholder] Tabelul pachetului de lucru inserat"
     admin:
       type_form:
         edit_query: Editează interogare
@@ -210,13 +209,6 @@ ro:
           new_date: "(nou)"
         add_non_working_day: Zi nelucrătoare
         already_added_error: O zi nelucrătoare pentru această dată există deja. Poate fi doar o zi nelucrătoare creată pentru fiecare dată unică.
-        change_button: Salvează și reprogramează
-        change_title: Modifică zilelor lucrătoare
-        removed_title: 'Veţi elimina următoarele zile din lista de zile nelucrătoare:'
-        change_description: Schimbarea zilelor din săptămână care sunt considerate zile lucrătoare sau zile nelucrătoare poate afecta zilele de începere și de încheiere a tuturor pachetelor de lucru și ciclurilor de viață în toate proiectele, în acest caz.
-        warning: 'Modificările ar putea dura ceva timp pentru a produce efecte. Vei fi notificat când toate pachetele de lucru relevante și ciclurile de viață ale proiectului au fost actualizate. Ești sigur că vrei să continui?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -375,6 +367,7 @@ ro:
     label_in_more_than: în mai mult de
     label_incoming_emails: E-mailuri primite
     label_information_plural: Informații
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Importă
     label_latest_activity: Activitate recentă
@@ -399,6 +392,7 @@ ro:
     label_no_value: Nici o valoare
     label_none: niciunul
     label_not_contains: nu conține
+    label_not_available: Not available
     label_not_equals: nu este
     label_on: pe
     label_open_menu: Deschide meniu
@@ -409,7 +403,6 @@ ro:
     label_per_page: 'Pe pagină:'
     label_please_wait: Așteptați
     label_project: Proiect
-    label_project_list: Listă proiecte
     label_project_plural: Proiecte
     label_visibility_settings: Setări vizibilitate
     label_quote_comment: Citare comentariu
@@ -1057,16 +1050,13 @@ ro:
         all: Toate Proiectele
         selected: Numai selecția
       search_placeholder: Caută proiecte...
-      search_placeholder_favorites: Caută favorite...
       include_subprojects: Include toate subproiectele
       tooltip:
         include_all_selected: Proiectul este deja inclus, din moment ce opțiunea Include toate subproiectele este activată.
         current_project: Acesta este proiectul curent în care vă aflați.
         does_not_match_search: Proiectul nu corespunde criteriilor de căutare.
       no_results: Niciun proiect nu corespunde criteriilor de căutare.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

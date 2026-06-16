@@ -12,6 +12,7 @@ id:
         sp_entity_id: ID entitas layanan
         metadata_url: URL metadata penyedia identitas
         name_identifier_format: Format pengenal nama
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Titik akhir masuk penyedia identitas
         idp_slo_service_url: Titik akhir masuk penyedia identitas
         idp_cert: Sertifikat publik penyedia identitas
@@ -44,6 +45,10 @@ id:
       success: Berhasil memperbarui konfigurasi menggunakan metadata penyedia identitas.
       invalid_url: URL metadata yang diberikan tidak valid. Berikan URL HTTP.
       error: 'Gagal mengambil metadata penyedia identitas: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Belum ada penyedia SAML yang dikonfigurasi.
       label_empty_description: Tambahkan penyedia untuk melihatnya di sini.
@@ -109,6 +114,9 @@ id:
 
         '
       metadata_url: 'Penyedia identitas Anda menyediakan URL metadata.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Penyedia identitas Anda menyediakan unduhan metadata XML.

@@ -107,11 +107,12 @@ RSpec.describe "Open the Gitlab tab", :js do
         expect_clipboard_content("#{work_package.type.name.downcase}/#{work_package.id}-a-test-work_package")
       end
 
-      it "shows a commit message with space between title and link" do
+      it "shows a commit message with newlines between title and link" do
         gitlab_tab.git_actions_menu_button.click
 
         commit_message_input_text = page.find_field("Commit message").value
-        expect(commit_message_input_text).to include("A test work_package http://")
+        expect(commit_message_input_text)
+          .to eq("OP##{work_package.id} A test work_package\n\n#{work_package_short_url(work_package)}")
       end
 
       it "allows the user to copy a commit message with newlines between title and link to the clipboard" do

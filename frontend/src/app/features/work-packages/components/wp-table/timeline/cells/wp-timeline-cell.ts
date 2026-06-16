@@ -33,7 +33,7 @@ import { LoadingIndicatorService } from 'core-app/core/loading-indicator/loading
 import { HalResourceEditingService } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { WorkPackageNotificationService } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { registerWorkPackageMouseHandler } from './wp-timeline-cell-mouse-handler';
 import { TimelineMilestoneCellRenderer } from './timeline-milestone-cell-renderer';
@@ -43,17 +43,17 @@ import { RenderInfo } from '../wp-timeline';
 import { WorkPackageTimelineTableController } from '../container/wp-timeline-container.directive';
 
 export class WorkPackageTimelineCell {
-  @InjectField() halEditing:HalResourceEditingService;
+  @LazyInject() halEditing:HalResourceEditingService;
 
-  @InjectField() halEvents:HalEventsService;
+  @LazyInject() halEvents:HalEventsService;
 
-  @InjectField() notificationService:WorkPackageNotificationService;
+  @LazyInject() notificationService:WorkPackageNotificationService;
 
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
-  @InjectField() loadingIndicator:LoadingIndicatorService;
+  @LazyInject() loadingIndicator:LoadingIndicatorService;
 
-  @InjectField() schemaCache:SchemaCacheService;
+  @LazyInject() schemaCache:SchemaCacheService;
 
   private wpElement:HTMLDivElement|null = null;
 

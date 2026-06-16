@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { commonRowClassName, SingleRowBuilder, tableRowClassName } from '../rows/single-row-builder';
 import { tdClassName } from '../cell-builder';
@@ -19,9 +19,9 @@ export function relationIdentifier(targetId:string, workPackageId:string) {
 export const relationCellClassName = 'wp-table--relation-cell-td';
 
 export class RelationRowBuilder extends SingleRowBuilder {
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public I18n:I18nService;
+  @LazyInject() public I18n:I18nService;
 
   constructor(
 public readonly injector:Injector,

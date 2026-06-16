@@ -1764,6 +1764,7 @@ sl:
       attachment:
         attachment_content: Vsebina priloge
         attachment_file_name: Ime priponke
+        charset: Character set
         content_type: Content-type
         downloads: Prenosi
         file: Datoteka
@@ -1858,6 +1859,7 @@ sl:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Vloge
       notification:
         read_ian: Read in-app
@@ -2103,6 +2105,7 @@ sl:
         priority: Prioriteta
         progress: "% Complete"
         readonly: Read only
+        relatable: Relatable to
         remaining_hours: Remaining work
         remaining_time: Remaining work
         sequence_number: Sequence number
@@ -2147,17 +2150,14 @@ sl:
         before: mora biti pred %{date}.
         before_or_equal_to: mora biti pred ali enako %{date}.
         blank: ne sme biti prazno.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: mora imeti nastavljeno lastnost '%{property}'.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Zahtevek ne more biti povezan s svojo podnalogo
         circular_dependency: Ta povezava bi ustvarila krožno odvisnost.
         confirmation: se ne ujema %{attribute}
         could_not_be_copied: "%{dependency} ni bilo mogoče (v celoti) kopirati."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: ne obstaja
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: morda ni mogoče dostopati.
         error_readonly: poskušano je bilo napisati, vendar ni mogoče pisati.
@@ -2178,36 +2178,38 @@ sl:
         greater_than_or_equal_to: mora biti večje ali enako %{count}.
         greater_than_or_equal_to_start_date: mora biti večji ali enak začetnemu datumu.
         greater_than_start_date: mora biti večje od začetnega datuma.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: ni nastavljeno na eno od dovoljenih vrednosti.
         inclusion_nested: ni nastavljena na eno od dovoljenih vrednosti na poti '%{path}'.
         invalid: ni pravo.
         invalid_uri: must be a valid URI.
         invalid_url: 'ni veljaven URL. '
         invalid_url_scheme: ni podprt protokol (dovoljeno:%{allowed_schemes}).
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: 'mora biti manjše ali enako %{count}. '
         not_available: is not available due to a system configuration.
+        not_before_start_date: must not be before the start date.
         not_deletable: se ne da izbrisati.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: ni trenutni uporabnik.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: ni veljaven datum
         not_a_datetime: ni veljaven datum.
         not_a_number: ni število.
         not_allowed: 'ni veljavno, saj manjka dovoljenje. '
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: 'ni celo število. '
         not_an_iso_date: 'neveljaven čas. Potreben format: YYYY-MM-DD.'
         not_same_project: ne pripada istemu projektu
-        datetime_must_be_in_future: must be in the future.
         odd: 'mora biti liho. '
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: ni bilo mogoče potrditi s pripadajočim stalnim izrazom.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: mora biti manjše ali enako največji dolžini.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: je že zasedeno.
         too_long: je predolgo (največ %{count} znakov).
         too_short: je prekrateko (najmanj %{count} znakov).
@@ -2220,6 +2222,7 @@ sl:
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: 'je napačna dolžina (mora biti %{count} znakov). '
       models:
         group:
@@ -2932,6 +2935,7 @@ sl:
   button_login: Prijava
   button_move: Premakni
   button_move_and_follow: Premakni in sledi
+  button_next: Next
   button_print: Natisni
   button_quote: Citiraj
   button_remove: Odstrani
@@ -3077,8 +3081,8 @@ sl:
     - avgust
     - september
     - oktober
-    - november
-    - december
+    - November
+    - December
     order:
     - :leto
     - :mesec
@@ -3605,6 +3609,12 @@ sl:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3649,6 +3659,9 @@ sl:
     additional:
       projects: Najnovejši vidni projekti v tem primeru.
       no_visible_projects: V tem primeru ni vidnih projektov.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Najnovejši registrirani uporabniki v tem primeru.
     blocks:
       community: Skupnost OpenProject
@@ -4025,6 +4038,7 @@ sl:
   label_send_invitation: Pošlji povabilo
   label_calculated_value: Calculated value
   label_change_parent: Zamenjaj nadrejenega
+  label_change_password: Change password
   label_change_plural: Spremembe
   label_change_properties: Sprememba lastnosti
   label_change_status: Spremeni status
@@ -4219,6 +4233,7 @@ sl:
   label_journal_diff: Opisna Primerjava
   label_language: Jezik
   label_languages: Languages
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Skoči na projekt...
@@ -4310,6 +4325,7 @@ sl:
   label_my_account_data: Podatki mojega računa
   label_my_avatar: My avatar
   label_my_queries: Moje poizvedbe po meri
+  label_my_security: Security
   label_name: Ime
   label_never: Nikoli
   label_new: Novo
@@ -4665,6 +4681,11 @@ sl:
     two: 'Time off: %{count} working days'
     few: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    two: "%{count} items selected"
+    few: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: včeraj
   label_zen_mode: Zen mode
   label_role_type: Vrsta
@@ -4859,9 +4880,9 @@ sl:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'Da uporabniku dovolite, da se prijavi lahko:'
       a: Nadgradite svoj naročniški plan ([here](upgrade_url))
       b: Zaklenite ali izbrišite obstoječega uporabnika ([here](users_url))
+      label: 'Da uporabniku dovolite, da se prijavi lahko:'
   more_actions: Več funkcij
   noscript_description: Aktivirati morate JavaScript, če želite uporabljati OpenProject!
   noscript_heading: JavaScript onemogočen
@@ -5387,6 +5408,10 @@ sl:
   setting_consent_required: Soglasje potrebno
   setting_consent_decline_mail: Kontaktni naslov elektronske pošte
   setting_cross_project_work_package_relations: Dovoli povezave delovnih paketov od različnih projektov
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: Prvi teden v letu vsebuje
   setting_date_format: Datum
   setting_default_language: Privzeti jezik
@@ -5429,6 +5454,9 @@ sl:
     52/5000
     Uporabite trenutni datum kot datum začetka za nove delovne pakete
   setting_work_packages_projects_export_limit: Work packages / Projects export limit
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Prijavite uporabniško ime, ime in e-poštni naslov za vse zahteve
   setting_login_required: Zahtevano overovljanje
@@ -6138,6 +6166,17 @@ sl:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

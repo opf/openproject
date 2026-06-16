@@ -374,56 +374,22 @@ tr:
         caption: Bu metin her sayfada altbilginin ortasında görünecektir.
       submit_button: İndir
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: E-posta takvim güncellemeleri
         description:
-          disabled: Katılımcılara değişiklikleri bildiren bir e-posta gönderilmeyecektir.
-          enabled: Tüm katılımcılar, değişiklikleri bildiren güncellenmiş takvim davetiyelerini e-posta yoluyla alacaktır.
           change_via_template: Bunu değiştirmek için seri şablonunu düzenleyin.
       dialog:
         title:
           enable: E-posta takvim güncellemeleri etkinleştirilsin mi?
           disable: E-posta takvim güncellemeleri devre dışı bırakılsın mı?
         message:
-          enable: 'Toplantı tarihi, saati, konumu veya katılımcılarında herhangi bir değişiklik olduğunda, tüm katılımcılara e-posta yoluyla güncellenmiş takvim davetleri gönderilir. Bu özellik etkinleştirildiğinde, tüm katılımcılara anında bir e-posta gönderilir.
-
-            '
-          disable: 'Toplantı tarihi, saati, yeri veya katılımcılarında değişiklik olduğunda katılımcılar artık e-posta yoluyla güncellenmiş takvim davetleri almayacaktır. Bu toplantı için zaten bir davetleri varsa, artık doğru olmayabilir.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: E-posta güncellemelerini etkinleştir
           disable: E-posta güncellemelerini devre dışı bırak
-      banner:
-        participants:
-          enabled: 'Katılımcı eklediğinizde veya çıkardığınızda tüm katılımcılar e-posta yoluyla güncellenmiş takvim davetiyeleri alacaktır.
-
-            '
-          disabled: 'E-posta takvim güncellemeleri devre dışı bırakılmıştır. Katılımcılar, katılımcı eklediğinizde veya çıkardığınızda onları bilgilendiren bir e-posta almayacaktır.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'Katılımcı eklediğinizde veya çıkardığınızda tüm katılımcılar e-posta yoluyla güncellenmiş takvim davetiyeleri alacaktır.
-
-            '
-          disabled: 'Katılımcılara toplantı tarihi, saati veya katılımcılarla ilgili değişiklikleri bildiren bir e-posta gönderilmeyecektir.
-
-            '
-        occurrence:
-          enabled: ''
-          disabled: 'Toplantı serisi için e-posta takvimi güncellemeleri devre dışı bırakılmıştır. Katılımcılar, bu olayda yaptığınız değişiklikleri bildiren bir e-posta almayacaktır.
-
-            '
-        template:
-          enabled: 'Toplantı serisi için e-posta takvimi güncellemeleri etkinleştirilmiştir. Tüm katılımcılar, bu şablonda veya münferit olaylarda yaptığınız değişiklikleri bildiren güncellenmiş takvim davetiyeleri alacaktır.
-
-            '
-          disabled: 'Toplantı serisi için e-posta takvimi güncellemeleri devre dışı bırakılmıştır. Katılımcılar, bu şablonda veya münferit olaylarda yaptığınız değişiklikleri bildiren bir e-posta almayacaktır.
-
-            '
     presentation_mode:
       title: Sunum modu
       button_present: Sunumu başlat
@@ -630,6 +596,7 @@ tr:
   label_agenda_item_duplicate_in_next_title: Bir sonraki toplantıda tekrarlansın mı?
   label_agenda_item_add_notes: Not ekle
   label_agenda_item_add_outcome: Sonuç ekle
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: İş paketi ekle
   label_agenda_item_work_package: Gündem maddesinin iş parçası
   label_section_rename: Seçimi yeniden adlandır

@@ -83,7 +83,6 @@ import {
 } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-include-subprojects.service';
 import { HalEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import {
@@ -96,63 +95,63 @@ import { tableRefreshRequest } from 'core-app/features/work-packages/routing/wp-
 export abstract class WorkPackagesViewBase extends UntilDestroyedMixin implements OnInit, OnDestroy {
   injector = inject(Injector);
 
-  @InjectField() $state:StateService;
+  readonly $state = inject(StateService);
 
-  @InjectField() states:States;
+  readonly states = inject(States);
 
-  @InjectField() querySpace:IsolatedQuerySpace;
+  readonly querySpace = inject(IsolatedQuerySpace);
 
-  @InjectField() authorisationService:AuthorisationService;
+  readonly authorisationService = inject(AuthorisationService);
 
-  @InjectField() wpTableColumns:WorkPackageViewColumnsService;
+  readonly wpTableColumns = inject(WorkPackageViewColumnsService);
 
-  @InjectField() wpTableHighlighting:WorkPackageViewHighlightingService;
+  readonly wpTableHighlighting = inject(WorkPackageViewHighlightingService);
 
-  @InjectField() wpTableSortBy:WorkPackageViewSortByService;
+  readonly wpTableSortBy = inject(WorkPackageViewSortByService);
 
-  @InjectField() wpTableGroupBy:WorkPackageViewGroupByService;
+  readonly wpTableGroupBy = inject(WorkPackageViewGroupByService);
 
-  @InjectField() wpTableFilters:WorkPackageViewFiltersService;
+  readonly wpTableFilters = inject(WorkPackageViewFiltersService);
 
-  @InjectField() wpTableSum:WorkPackageViewSumService;
+  readonly wpTableSum = inject(WorkPackageViewSumService);
 
-  @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
+  readonly wpTableTimeline = inject(WorkPackageViewTimelineService);
 
-  @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
+  readonly wpTableHierarchies = inject(WorkPackageViewHierarchiesService);
 
-  @InjectField() wpTablePagination:WorkPackageViewPaginationService;
+  readonly wpTablePagination = inject(WorkPackageViewPaginationService);
 
-  @InjectField() wpTableOrder:WorkPackageViewOrderService;
+  readonly wpTableOrder = inject(WorkPackageViewOrderService);
 
-  @InjectField() wpListService:WorkPackagesListService;
+  readonly wpListService = inject(WorkPackagesListService);
 
-  @InjectField() wpListChecksumService:WorkPackagesListChecksumService;
+  readonly wpListChecksumService = inject(WorkPackagesListChecksumService);
 
-  @InjectField() loadingIndicatorService:LoadingIndicatorService;
+  readonly loadingIndicatorService = inject(LoadingIndicatorService);
 
-  @InjectField() $transitions:TransitionService;
+  readonly $transitions = inject(TransitionService);
 
-  @InjectField() I18n!:I18nService;
+  readonly I18n = inject(I18nService);
 
-  @InjectField() opStaticQueries:StaticQueriesService;
+  readonly opStaticQueries = inject(StaticQueriesService);
 
-  @InjectField() wpStatesInitialization:WorkPackageStatesInitializationService;
+  readonly wpStatesInitialization = inject(WorkPackageStatesInitializationService);
 
-  @InjectField() cdRef:ChangeDetectorRef;
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @InjectField() wpDisplayRepresentation:WorkPackageViewDisplayRepresentationService;
+  readonly wpDisplayRepresentation = inject(WorkPackageViewDisplayRepresentationService);
 
-  @InjectField() wpIncludeSubprojects:WorkPackageViewIncludeSubprojectsService;
+  readonly wpIncludeSubprojects = inject(WorkPackageViewIncludeSubprojectsService);
 
-  @InjectField() wpTableBaseline:WorkPackageViewBaselineService;
+  readonly wpTableBaseline = inject(WorkPackageViewBaselineService);
 
-  @InjectField() halEvents:HalEventsService;
+  readonly halEvents = inject(HalEventsService);
 
-  @InjectField() deviceService:DeviceService;
+  readonly deviceService = inject(DeviceService);
 
-  @InjectField() currentProject:CurrentProjectService;
+  readonly currentProject = inject(CurrentProjectService);
 
-  @InjectField() actions$:ActionsService;
+  readonly actions$ = inject(ActionsService);
 
   /** Determine when query is initially loaded */
   queryLoaded = false;

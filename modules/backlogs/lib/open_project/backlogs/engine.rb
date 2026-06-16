@@ -57,6 +57,7 @@ module OpenProject::Backlogs
                      "backlogs/work_packages": %i[index show menu],
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,
+                     "backlogs/sprints": :index,
                      "backlogs/taskboard": :show },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages show_board_views]
@@ -69,7 +70,7 @@ module OpenProject::Backlogs
                    require: :member
 
         permission :create_sprints,
-                   { "backlogs/backlog_buckets": %i[new_dialog create edit_dialog update destroy_dialog destroy],
+                   { "backlogs/buckets": %i[new_dialog create edit_dialog update destroy_dialog destroy],
                      "backlogs/sprints": %i[new_dialog refresh_form create edit_dialog update] },
                    permissible_on: :project,
                    require: :member,
@@ -82,7 +83,7 @@ module OpenProject::Backlogs
                    dependencies: %i[view_sprints manage_board_views manage_sprint_items]
 
         permission :manage_sprint_items,
-                   { "backlogs/work_packages": %i[move move_to_sprint_dialog] },
+                   { "backlogs/work_packages": %i[move move_to_sprint_dialog move_to_bucket_dialog] },
                    permissible_on: :project,
                    require: :member,
                    dependencies: %i[view_sprints edit_work_packages]
@@ -115,6 +116,13 @@ module OpenProject::Backlogs
            { controller: "/backlogs/backlog", action: :show },
            if: Proc.new { |project| project.module_enabled?(:backlogs) },
            caption: :label_backlog_and_sprints,
+           parent: :backlogs
+
+      menu :project_menu,
+           :all_sprints,
+           { controller: "/backlogs/sprints", action: :index },
+           if: Proc.new { |project| project.module_enabled?(:backlogs) },
+           caption: :label_all_sprints,
            parent: :backlogs
 
       # Menu items that are always present
@@ -165,12 +173,26 @@ module OpenProject::Backlogs
       "#{root}/projects/#{id}/sprints"
     end
 
+    add_api_path :backlog_buckets do
+      "#{root}/backlog_buckets"
+    end
+
+    add_api_path :backlog_bucket do |id|
+      "#{root}/backlog_buckets/#{id}"
+    end
+
+    add_api_path :project_backlog_buckets do |id|
+      "#{root}/projects/#{id}/backlog_buckets"
+    end
+
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::Sprints::SprintsAPI
+      mount ::API::V3::BacklogBuckets::BacklogBucketsAPI
     end
 
     add_api_endpoint "API::V3::Projects::ProjectsAPI", :id do
       mount ::API::V3::Sprints::SprintsByProjectAPI
+      mount ::API::V3::BacklogBuckets::BacklogBucketsByProjectAPI
     end
 
     initializer "openproject_backlogs.event_subscriptions" do
@@ -212,13 +234,14 @@ module OpenProject::Backlogs
     end
 
     config.to_prepare do
-      %i[position story_points sprint].each do |attribute|
+      %i[position story_points sprint backlog_bucket].each do |attribute|
         ::Type.add_constraint attribute, ->(_type, project: nil) { project.nil? || project.backlogs_enabled? }
       end
 
       ::Type.add_default_mapping(:estimates_and_progress, :story_points)
       ::Type.add_default_mapping(:other, :position)
       ::Type.add_default_mapping(:details, :sprint)
+      ::Type.add_default_mapping(:details, :backlog_bucket)
 
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::SprintFilter

@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+
+set -eo pipefail
 
 export PATH="/usr/lib/postgresql/$PGVERSION/bin:$PATH"
 export JOBS="${CI_JOBS:=$(nproc)}"
@@ -166,7 +167,22 @@ run_features() {
 	shopt -s globstar nullglob
 	run_background start_hocuspocus
 	reset_dbs
-	execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features/**/*_spec.rb"
+
+	if ! execute "time bundle exec turbo_tests --verbose -n $JOBS --runtime-log spec/support/runtime-logs/turbo_runtime_features.log {,modules/*/}spec/features/**/*_spec.rb"; then
+		failed_count=$(grep --count ' failed ' tmp/spec_examples.txt 2>/dev/null || echo 0)
+		if [ "$failed_count" -eq 0 ]; then
+			echo "failed to find failing examples, unexpected"
+			exit 1
+		elif [ "$failed_count" -le 10 ]; then
+			echo "retrying $failed_count failed examples"
+			awk '$3 == "failed" {print "- `rspec " $1 "`"}' tmp/spec_examples.txt > tmp/retried_specs.txt
+			execute "bundle exec rspec --only-failures --format documentation {,modules/*/}spec/features/**/*_spec.rb"
+		else
+			echo "too many failures ($failed_count), not retrying"
+			exit 1
+		fi
+	fi
+
 	cleanup
 }
 

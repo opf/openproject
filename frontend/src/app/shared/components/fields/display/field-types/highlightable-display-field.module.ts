@@ -28,11 +28,11 @@
 
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { WorkPackageViewHighlightingService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-highlighting.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
 export class HighlightableDisplayField extends DisplayField {
   /** Optionally test if we can inject highlighting service */
-  @InjectField(WorkPackageViewHighlightingService, null) viewHighlighting:WorkPackageViewHighlightingService;
+  @LazyInject(WorkPackageViewHighlightingService, null) viewHighlighting:WorkPackageViewHighlightingService;
 
   // DisplayFieldRenderer.attributeName returns the 'date' name for the
   // 'dueDate' field because it is its schema.mappedName (that allows to display

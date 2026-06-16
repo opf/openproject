@@ -73,6 +73,9 @@ it:
   project_module_bim: BCF
   permission_view_linked_issues: Mostra problemi BCF
   permission_manage_bcf: Importa e gestisci problemi BCF
+  permission_manage_bcf_explanation: |
+    Consente di gestire le problematiche BCF, inclusa l'importazione e l'aggiornamento massivi.
+    L'importazione BCF associa i metadati dei file alle risorse del progetto e può creare o aggiornare macro-attività e commenti utilizzando gli autori e le marche temporali presenti nel file importato, operando di fatto per conto degli utenti.
   permission_delete_bcf: Elimina i problemi BCF
   oauth:
     scopes:

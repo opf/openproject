@@ -374,58 +374,22 @@ sv:
         caption: Denna text visas på varje sida i mitten av sidfoten.
       submit_button: Ladda ner
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: E-posta kalenderuppdateringar
         description:
-          disabled: Deltagarna kommer inte att få något e-postmeddelande med information om ändringarna.
-          enabled: Alla deltagare kommer att få uppdaterade kalenderinbjudningar via e-post med information om ändringar.
           change_via_template: För att ändra detta, redigera seriemallen.
       dialog:
         title:
           enable: Aktivera kalenderuppdateringar via e-post?
           disable: Inaktivera kalenderuppdateringar via e-post?
         message:
-          enable: 'Alla deltagare kommer att få uppdaterade kalenderinbjudningar via e-post varje gång det sker en ändring av mötesdatum, tid, plats eller deltagare. När detta är aktiverat kommer ett mail att skickas ut direkt till alla deltagare.
-
-            '
-          disable: 'Deltagarna får inte längre uppdaterade kalenderinbjudningar via e-post när mötesdatum, tid, plats eller deltagare har ändrats. Om de redan hade en inbjudan till detta möte kanske det inte längre är korrekt.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: Aktivera e-postuppdateringar
           disable: Inaktivera e-postuppdateringar
-      banner:
-        participants:
-          enabled: 'Alla deltagare får uppdaterade kalenderinbjudningar via e-post när du lägger till eller tar bort deltagare.
-
-            '
-          disabled: 'Kalenderuppdateringar via e-post är inaktiverade. Deltagarna kommer inte att få ett e-postmeddelande när du lägger till eller tar bort deltagare.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'Alla deltagare får uppdaterade kalenderinbjudningar via e-post när du lägger till eller tar bort deltagare.
-
-            '
-          disabled: 'Deltagarna kommer inte att få ett e-postmeddelande med information om ändringar av mötesdatum, tid eller deltagare.
-
-            '
-        occurrence:
-          enabled: 'Uppdateringar av e-postkalendern är aktiverade för mötesserien. Alla deltagare kommer att få uppdaterade kalenderinbjudningar som informerar dem om dina ändringar av denna händelse.
-
-            '
-          disabled: 'Uppdateringar av e-postkalendern är inaktiverade för mötesserien. Deltagarna kommer inte att få ett e-postmeddelande med information om dina ändringar av denna händelse.
-
-            '
-        template:
-          enabled: 'Uppdateringar av e-postkalendern är aktiverade för mötesserien. Alla deltagare kommer att få uppdaterade kalenderinbjudningar med information om dina ändringar i den här mallen eller i enskilda händelser.
-
-            '
-          disabled: 'Uppdateringar av e-postkalender är inaktiverade för mötesserien. Deltagarna kommer inte att få ett e-postmeddelande som informerar dem om dina ändringar i denna mall eller enskilda händelser.
-
-            '
     presentation_mode:
       title: Presentationsläge
       button_present: Presentera
@@ -638,6 +602,7 @@ sv:
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
   label_agenda_item_add_notes: Lägg till anteckningar
   label_agenda_item_add_outcome: Lägg till resultat
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: Lägg till arbetspaket
   label_agenda_item_work_package: Dagordningspunkt arbetspaket
   label_section_rename: Döp om sektion

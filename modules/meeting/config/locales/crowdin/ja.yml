@@ -272,7 +272,7 @@ ja:
         summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
-        date_time: 予定日時
+        date_time: スケジュールされた日時
       ended:
         header_series: 'Ended: Meeting series ''%{title}'''
         summary_series: Meeting series '%{title}' has been ended by %{actor}
@@ -312,7 +312,7 @@ ja:
       occurrence:
         title: 会議のキャンセル
         heading: この会議をキャンセルしますか？
-        confirmation_message_html: 'テンプレートにない会議情報は失われます。 続行しますか？
+        confirmation_message_html: 'テンプレートにない会議情報は失われます。 続けますか？
 
           '
         confirm_button: 発生をキャンセル
@@ -369,58 +369,22 @@ ja:
         caption: このテキストはフッターの中央にあるすべてのページに表示されます。
       submit_button: ダウンロード
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: カレンダーの更新をメールする
         description:
-          disabled: 参加者は変更を通知するメールを受信しません。
-          enabled: すべての参加者は、変更を通知する電子メールで更新されたカレンダー招待を受け取ります。
           change_via_template: これを変更するには、シリーズテンプレートを編集します。
       dialog:
         title:
           enable: メールカレンダーの更新を有効にしますか？
           disable: メールカレンダーの更新を無効にしますか？
         message:
-          enable: 'すべての参加者は、会議の日時、場所、参加者に変更があるたびに、更新されたカレンダーの招待メールを受け取ります。有効にすると、参加者全員にすぐにメールが送信されます。
-
-            '
-          disable: '会議の日付、時間、場所または参加者に変更があった場合、参加者はメールで更新されたカレンダー招待を受信できなくなります。 彼らがすでにこの会議のための招待を持っていた場合、それはもはや正確ではないかもしれません。
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: メールアドレスの更新を有効にする
           disable: メールアドレスの更新を無効にする
-      banner:
-        participants:
-          enabled: '参加者を追加または削除すると、すべての参加者に最新のカレンダー招待メールが送信されます。
-
-            '
-          disabled: '電子メールによるカレンダーの更新は無効になっています。参加者を追加または削除しても、参加者に通知メールは送信されません。
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: '参加者を追加または削除すると、すべての参加者にメールで更新されたカレンダー招待状が届きます。
-
-            '
-          disabled: '参加者は、会議の日付、時間、参加者への変更を知らせるメールを受信しません。
-
-            '
-        occurrence:
-          enabled: '一連の会議のメールカレンダーの更新が有効になっています．すべての参加者は，この発生に対するあなたの変更を通知する更新されたカレンダー招待を受け取ります。
-
-            '
-          disabled: '一連の会議のメールカレンダーの更新は無効になっています。出席者はこの出来事に対するあなたの変更を通知するメールを受信しません。
-
-            '
-        template:
-          enabled: '一連の会議では，メールカレンダーの更新が有効になります． すべての参加者は、更新されたカレンダー招待状を受け取り、このテンプレートまたは個々のオカレンダーへの変更を通知します。
-
-            '
-          disabled: '一連の会議のメールカレンダーの更新は無効になっています． 参加者は、このテンプレートまたは個々のオカレンスへの変更を通知するメールを受信しません。
-
-            '
     presentation_mode:
       title: プレゼンテーションモード
       button_present: プレゼント
@@ -562,7 +526,7 @@ ja:
       confirm_button: この予定をキャンセル
     end_series_dialog:
       title: 一連の会議を終了
-  notice_successful_notification: 参加者全員にカレンダー更新の電子メールを送信
+  notice_successful_notification: すべての出席者にカレンダーの更新をメールしました
   notice_meeting_template_created: Template successfully created
   notice_timezone_missing: タイムゾーンが設定されていない場合、%{zone} が使用されます。タイムゾーンを選択するには、ここをクリックしてください。
   notice_meeting_updated: このページは他の誰かによって更新されました。変更を表示するには再読み込みしてください。
@@ -626,6 +590,7 @@ ja:
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
   label_agenda_item_add_notes: 注記の追加
   label_agenda_item_add_outcome: 結果を追加
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: ワークパッケージの追加
   label_agenda_item_work_package: 議題項目のワークパッケージ
   label_section_rename: セクション名を変更
@@ -647,7 +612,7 @@ ja:
 
     '
   label_agenda_backlog_clear_title: 議題のバックログをクリアしますか？
-  text_agenda_backlog_clear_description: '現在アジェンダバックログにあるすべての項目を削除してもよろしいですか？このアクションは元に戻せません。
+  text_agenda_backlog_clear_description: '議題のバックログ内のすべての項目を削除してもよろしいですか？この操作は取り消せません。
 
     '
   label_series_backlog: シリーズバックログ
@@ -683,7 +648,7 @@ ja:
   text_meeting_closed_description: この会議は終了しています。これ以上、議題項目の追加/削除はできません。
   text_meeting_in_progress_description: 議題を変更したり、各項目のアウトカムを記録したり、参加者の出席を追跡することができます。 会議が完了すると、会議をクローズとしてマークしてロックできます。
   text_meeting_open_dropdown_description: 既存の結果は残りますが、ユーザーは新しい結果を追加することはできません。
-  text_meeting_in_progress_dropdown_description: 会議中に必要な情報や決定事項などの成果を文書化する。
+  text_meeting_in_progress_dropdown_description: 会議中に取られた情報のニーズや意思決定などの成果を記録します。
   text_meeting_closed_dropdown_description: この会議は終了しました。これ以上、議題や結果を変更することはできません。
   text_meeting_draft_banner: 現在下書きモードです。 会議の詳細を変更したり出席者を追加/削除したりしても，この会議はカレンダーの更新や招待状を送信しません。
   text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.

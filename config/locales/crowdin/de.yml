@@ -107,11 +107,11 @@ de:
         type_token_text: Ihr Enterprise-Token-Text
         token_placeholder: Enterprise-Token Text hier einfügen
         token_caption: Weitere Informationen über die Aktivierung der Enterprise Edition finden Sie in unserer [Dokumentation](docs_url).
-      add_token: Enterprise-Edition Support Token hochladen
+      add_token: Enterprise edition Support Token hochladen
       replace_token: Aktuellen Enterprise edition Support Token ersetzen
       order: Enterprise on-premises bestellen
-      paste: Enterprise-Edition Support Token hier einfügen
-      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise-Edition Support-Token verfügbar.
+      paste: Enterprise edition Support Token hier einfügen
+      required_for_feature: Dieses Add-on ist nur mit einem aktiven Enterprise edition Support-Token verfügbar.
       enterprise_link: Klicken Sie hier für weitere Informationen.
       start_trial: Kostenlose Testversion starten
       book_now: Jetzt buchen
@@ -1414,10 +1414,10 @@ de:
         tab: Titel konfigurieren
         manually_editable_subjects:
           label: Manuell bearbeitbare Titel
-          caption: Nutzer:innen können die Titel der Arbeitspakete ohne Einschränkungen manuell eingeben und bearbeiten.
+          caption: Benutzer können die Titel der Arbeitspakete ohne Einschränkungen manuell eingeben und bearbeiten.
         automatically_generated_subjects:
           label: Automatisch generierte Titel
-          caption: Definieren Sie ein Schema aus referenzierten Attributen und Freitext für die automatische Generierung von Arbeitspakettiteln. Nutzer:innen können diese nicht manuell editieren.
+          caption: Definieren Sie ein Schema aus referenzierten Attributen und Freitext für die automatische Generierung von Arbeitspakettiteln. Nutzer können diese nicht manuell editieren.
         token:
           label_with_context: "%{attribute_context}: %{attribute_label}"
           context:
@@ -1518,7 +1518,7 @@ de:
           manual_with_children: Hat Unteraufgaben aber ihre Startdaten werden ignoriert.
         title:
           automatic_mobile: Automatisch geplant.
-          automatic_with_children: Unteraufgaben bestimmen Termine.
+          automatic_with_children: Die Termine sind durch untergeordnete Arbeitspakete bestimmt.
           automatic_with_predecessor: Der Anfangstermin wird von einem Vorgänger festgelegt.
           manual_mobile: Manuell geplant.
           manually_scheduled: Manuell geplant – Daten unabhängig von Beziehungen.
@@ -1621,7 +1621,7 @@ de:
       label_child_plural: Unteraufgaben
       new_child: Neue Unteraufgabe
       new_child_description: Erstellt ein zugehöriges Arbeitspaket als Unteraufgabe des aktuellen (übergeordneten) Arbeitspakets
-      child: Unteraufgabe
+      child: Kind
       child_description: Macht das zugehörige Arbeitspaket zu einer Unteraufgabe des aktuellen (übergeordneten) Arbeitspakets
       parent: Übergeordnetes Arbeitspaket
       parent_description: Wandelt das verknüpfte in ein übergeordnetes Arbeitspaket dieses Arbeitspakets um
@@ -1717,6 +1717,7 @@ de:
       attachment:
         attachment_content: Inhalt des Anhangs
         attachment_file_name: Dateiname des Anhangs
+        charset: Zeichensatz
         content_type: Medien-Typ
         downloads: Downloads
         file: Datei
@@ -1811,6 +1812,7 @@ de:
         title: Titel
         description: Beschreibung
       member:
+        blocked: Gesperrt
         roles: Rollen
       notification:
         read_ian: In-App lesen
@@ -1881,7 +1883,7 @@ de:
         column_names: Spalten
         relations_to_type_column: Beziehungen zu %{type}
         relations_of_type_column: 'Beziehungen der Art: %{type}'
-        child_work_packages: Unteraufgaben
+        child_work_packages: Kinder
         group_by: Gruppiere Ergebnisse nach
         sort_by: Ergebnisse sortieren nach
         filters: Filter
@@ -2056,6 +2058,7 @@ de:
         priority: Priorität
         progress: "% abgeschlossen"
         readonly: Nur Lesezugriff
+        relatable: Beziehbar auf
         remaining_hours: Verbleibender Aufwand
         remaining_time: Verbleibender Aufwand
         sequence_number: Sequenznummer
@@ -2100,17 +2103,14 @@ de:
         before: muss vor %{date} sein.
         before_or_equal_to: muss vor oder gleich %{date} sein.
         blank: muss ausgefüllt werden.
-        not_before_start_date: darf nicht vor dem Startdatum liegen.
-        overlapping_range: überschneidet sich mit einem bereits existierenden arbeitsfreien Zeitraum.
         blank_nested: muss die Eigenschaft '%{property}' gesetzt haben.
         cannot_delete_mapping: ist erforderlich. Kann nicht gelöscht werden.
-        is_for_all_cannot_modify: gilt für alle Projekte und kann daher nicht geändert werden.
         cant_link_a_work_package_with_a_descendant: Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden.
         circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen.
         confirmation: stimmt nicht mit %{attribute} überein.
         could_not_be_copied: "%{dependency} konnte nicht (vollständig) kopiert werden."
+        datetime_must_be_in_future: muss in der Zukunft liegen.
         does_not_exist: existiert nicht.
-        user_already_in_department: Der Benutzer %{user_id} ist bereits Mitglied der Abteilung %{department_id}.
         error_enterprise_only: "%{action} ist nur in der OpenProject Enterprise Edition verfügbar."
         error_unauthorized: kann nicht zugegriffen werden.
         error_readonly: wurde versucht zu beschreiben, ist aber nicht beschreibbar.
@@ -2131,36 +2131,38 @@ de:
         greater_than_or_equal_to: muss größer oder gleich %{count} sein.
         greater_than_or_equal_to_start_date: muss größer als oder gleich dem Anfangsdatum sein.
         greater_than_start_date: muss größer als das Anfangsdatum sein.
+        hexcode_invalid: ist kein gültiger 6-stelliger hexadezimaler Farbcode.
         inclusion: ist nicht auf einen erlaubten Wert gesetzt.
         inclusion_nested: ist nicht auf einen der erlaubten Werte im Pfad '%{path} ' gesetzt.
         invalid: ist ungültig.
         invalid_uri: muss eine gültige URI sein.
         invalid_url: ist keine gültige URL.
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
+        is_for_all_cannot_modify: gilt für alle Projekte und kann daher nicht geändert werden.
         less_than_or_equal_to: muss kleiner oder gleich %{count} sein.
         not_available: ist aufgrund einer Systemkonfiguration nicht verfügbar.
+        not_before_start_date: darf nicht vor dem Startdatum liegen.
         not_deletable: kann nicht entfernt werden.
         not_editable: kann nicht bearbeitet werden, da sie bereits in Kraft ist.
         not_current_user: ist nicht der aktuelle Benutzer.
-        system_wide_non_working_day_exists: widerspricht einem systemweiten Nicht-Arbeitstag für dieses Datum.
         not_found: nicht gefunden.
         not_a_date: ist kein gültiges Datum.
         not_a_datetime: ist kein gültiges Datum.
         not_a_number: ist keine Zahl.
         not_allowed: ist ungültig aufgrund fehlender Berechtigungen.
-        host_not_allowed: ist kein erlaubter Host.
         not_json: konnte nicht als JSON gelsen werden.
         not_json_object: ist kein gültiges JSON-Objekt.
         not_an_integer: ist keine ganzzahlige Zahl.
         not_an_iso_date: 'ist kein gültiges Datum - Erwartetes Format: YYY-MM-DD.'
         not_same_project: gehört nicht zum selben Projekt.
-        datetime_must_be_in_future: muss in der Zukunft liegen.
         odd: muss ungerade sein.
+        overlapping_range: überschneidet sich mit einem bereits existierenden arbeitsfreien Zeitraum.
         regex_match_failed: stimmt nicht mit dem regulären Ausdruck %{expression} überein.
         regex_invalid: konnte nicht mit dem zugehörigen regulären Ausdruck überprüft werden.
         regex_list_invalid: Die Zeilen %{invalid_lines} konnten nicht als regulärer Ausdruck gelesen werden.
-        hexcode_invalid: ist kein gültiger 6-stelliger hexadezimaler Farbcode.
         smaller_than_or_equal_to_max_length: muss kleiner als oder gleich der maximalen Länge sein.
+        ssrf_filtered: verstößt gegen die SSRF-Richtlinien dieser OpenProject Instanz.
+        system_wide_non_working_day_exists: widerspricht einem systemweiten Nicht-Arbeitstag für dieses Datum.
         taken: ist bereits vergeben.
         too_long: ist zu lang (nicht mehr als %{count} Zeichen).
         too_short: ist zu kurz (nicht weniger als %{count} Zeichen).
@@ -2173,6 +2175,7 @@ de:
         url_not_secure_context: 'stellt keinen "Secure Context" zur Verfügung: Benutzen Sie entweder HTTPS oder eine Loopback-Adresse, wie z.B. localhost.
 
           '
+        user_already_in_department: Der Benutzer %{user_id} ist bereits Mitglied der Abteilung %{department_id}.
         wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben).
       models:
         group:
@@ -2450,7 +2453,7 @@ de:
               status_transition_invalid: ist ungültig, da kein valider Übergang vom alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
               status_invalid_in_type: ist ungültig, da der aktuelle Status nicht in diesem Typ vorhanden ist.
             type:
-              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unteraufgaben besitzt.
+              cannot_be_milestone_due_to_children: kann kein Meilenstein werden, da dieses Arbeitspaket Unterelemente besitzt.
             priority_id:
               only_active_priorities_allowed: muss aktiv sein.
             category:
@@ -2837,6 +2840,7 @@ de:
   button_login: Anmelden
   button_move: Verschieben
   button_move_and_follow: Verschieben und Arbeitspaket anzeigen
+  button_next: Weiter
   button_print: Drucken
   button_quote: Zitieren
   button_remove: Entfernen
@@ -3271,7 +3275,7 @@ de:
   error_custom_option_not_found: Option ist nicht vorhanden.
   error_enterprise_plan_needed: Sie benötigen den Enterprise-Plan %{plan}, um diese Aktion durchzuführen.
   error_enterprise_activation_user_limit: Ihr Konto konnte nicht aktiviert werden (Nutzerlimit erreicht). Bitte kontaktieren Sie Ihren Administrator um Zugriff zu erhalten.
-  error_enterprise_token_invalid_domain: Die Enterprise-Edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
+  error_enterprise_token_invalid_domain: Die Enterprise edition ist nicht aktiv. Die aktuelle Domain (%{actual}) entspricht nicht dem erwarteten Hostnamen (%{expected}).
   error_failed_to_delete_entry: Fehler beim Löschen dieses Eintrags.
   error_in_dependent: 'Fehler beim Versuch, abhängiges Objekt zu ändern: %{dependent_class} #%{related_id} - %{related_subject}: %{error}'
   error_in_new_dependent: 'Fehler beim Versuch, abhängiges Objekt zu erstellen: %{dependent_class} - %{related_subject}: %{error}'
@@ -3466,6 +3470,12 @@ de:
       selected: Ausgewählt
     include_sub_items: Unterelemente einbeziehen
     no_results_text: Keine Ergebnisse
+  header:
+    project_select_component:
+      all_projects: Alle Projekte
+      favorites: Favoriten
+      leave_project: Projekt verlassen
+      title: Projekte
   toggle_switch:
     label_on: Ein
     label_off: Aus
@@ -3506,6 +3516,9 @@ de:
     additional:
       projects: Neueste sichtbare Projekte in dieser Instanz.
       no_visible_projects: Es gibt keine sichtbaren Projekte in dieser OpenProject-Umgebung.
+      favorite_projects:
+        no_results: Sie haben keine favorisierten Projekte
+        no_results_subtext: Fügen Sie ein oder mehrere Projekte als Favorit in ihrer Übersicht oder in einer Projektliste hinzu.
       users: Neueste registrierte Benutzer in dieser Instanz.
     blocks:
       community: OpenProject Community
@@ -3580,7 +3593,7 @@ de:
         dates:
           working: "%{date} ist jetzt ein Arbeitstag"
           non_working: "%{date} ist jetzt ein arbeitsfreier Tag"
-      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-bezogen gesetzt
+      progress_mode_changed_to_status_based: Fortschrittberechnung wurde auf Status-basiert gesetzt
       status_excluded_from_totals_set_to_false_message: jetzt in den Gesamtwerten der Hierarchie enthalten
       status_excluded_from_totals_set_to_true_message: jetzt von den Hierarchie-Gesamtwerten ausgeschlossen
       status_percent_complete_changed: "% abgeschlossen von %{old_value}% auf %{new_value} % geändert"
@@ -3880,6 +3893,7 @@ de:
   label_send_invitation: Einladung senden
   label_calculated_value: Berechneter Wert
   label_change_parent: Übergeordnetes Arbeitspaket ändern
+  label_change_password: Change password
   label_change_plural: Änderungen
   label_change_properties: Eigenschaften ändern
   label_change_status: Statuswechsel
@@ -3984,7 +3998,7 @@ de:
   label_enumerations: Aufzählungen
   label_enterprise: Enterprise
   label_enterprise_active_users: "%{current}/%{limit} gebuchte aktive Nutzer"
-  label_enterprise_edition: Enterprise Edition
+  label_enterprise_edition: Enterprise edition
   label_enterprise_support: Enterprise Support
   label_environment: Umgebung
   label_estimates_and_progress: Schätzungen und Fortschritt
@@ -4074,6 +4088,7 @@ de:
   label_journal_diff: Beschreibungsvergleich
   label_language: Sprache
   label_languages: Sprachen
+  label_export_plural: Exporte
   label_external_links: Externe Links
   label_locale: Sprache und Region
   label_jump_to_a_project: Zu einem Projekt springen...
@@ -4165,6 +4180,7 @@ de:
   label_my_account_data: Meine Kontodaten
   label_my_avatar: Mein Avatar
   label_my_queries: Meine Berichte
+  label_my_security: Security
   label_name: Name
   label_never: Nie
   label_new: Neu
@@ -4512,6 +4528,9 @@ de:
   label_x_working_days_time_off:
     one: 'Freie Zeit: 1 Arbeitstag'
     other: 'Freie Zeit: %{count} Arbeitstage'
+  label_x_items_selected:
+    one: Ein Element ausgewählt
+    other: "%{count} Elemente ausgewählt"
   label_yesterday: gestern
   label_zen_mode: Zen-Modus
   label_role_type: Typ
@@ -4704,9 +4723,9 @@ de:
       Ein neuer Benutzer (%{email}) hat versucht, ein Konto in einer OpenProject-Umgebung zu erstellen, die Sie verwalten (%{host}).
       Der Benutzer kann sein Konto nicht aktivieren, da das Benutzerlimit erreicht wurde.
     steps:
-      label: 'Folgendes kannst du tuen um dem Nutzer das einloggen zu ermöglichen: '
       a: Upgraden Sie Ihren Zahlungsplan ([here](upgrade_url))
       b: Sprerren oder löschen eines bestehenden Nutzers ([here](users_url))
+      label: 'Folgendes kannst du tuen um dem Nutzer das einloggen zu ermöglichen: '
   more_actions: Weitere Funktionen
   noscript_description: Sie müssen JavaScript aktiveren, um OpenProject nutzen zu können!
   noscript_heading: JavaScript deaktiviert
@@ -5109,7 +5128,7 @@ de:
         Erhöhen Sie diesen Wert zur Verbesserung der Performance, da die Erfassung des genutzten Festplattenspeichers Ressourcen-intensiv ist.
       oauth_application_details_html: 'Der Client Geheimcode wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die Nextcloud OpenProject Integrationseinstellungen:'
       oauth_application_details_link_text: Zu den Einstellungen gehen
-      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Dateispeichers benötigen, konsultieren Sie bitte die Dokumentation: '
+      setup_documentation_details: 'Wenn Sie Hilfe bei der Konfiguration eines neuen Datei-Speichers benötigen, konsultieren Sie bitte die Dokumentation: '
       setup_documentation_details_link_text: Dateispeicher einrichten
       show_warning_details: Um diesen Dateispeicher nutzen zu können, müssen Sie das Modul und den spezifischen Speicher in den Projekteinstellungen jedes gewünschten Projekts aktivieren.
     subversion:
@@ -5228,6 +5247,10 @@ de:
   setting_consent_required: Einwilligung erforderlich
   setting_consent_decline_mail: Kontaktadresse bei Rückfragen zur Einwilligung
   setting_cross_project_work_package_relations: Arbeitspaket-Beziehungen zwischen Projekten erlauben
+  setting_csv_escape_formulas: Formeln in CSV-Exporten maskieren
+  setting_csv_escape_formulas_text: 'Tabellenkalkulationsformeln in CSV-Exporten maskieren, indem Zellen, die mit Zeichen wie =, +, - oder @ beginnen, ein einfaches Anführungszeichen vorangestellt wird. Dies verhindert CSV-Formelinjektionen, wenn exportierte Dateien in Tabellenkalkulationsanwendungen wie Excel geöffnet werden. Der Nachteil ist, dass dadurch die Zeichenkettenwerte in der CSV verändert werden. Diese Option sollte daher deaktiviert werden, wenn nachgelagerte Tools die exakten, unmaskierten Zellwerte benötigen.
+
+    '
   setting_first_week_of_year: Die erste Woche im Jahr enthält
   setting_date_format: Datum
   setting_default_language: Standard-Sprache
@@ -5268,6 +5291,9 @@ de:
   setting_work_package_properties: Arbeitspaket-Eigenschaften
   setting_work_package_startdate_is_adddate: Neue Arbeitspakete haben "Heute" als Anfangsdatum
   setting_work_packages_projects_export_limit: Arbeitspakete / Exportlimit für Projekte
+  setting_work_packages_projects_export_limit_text: 'Maximale Anzahl von Arbeitspaketen oder Projekten, die in einem einzelnen Export enthalten sein können. Größere Exporte werden auf diesen Grenzwert gekürzt.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregationszeitraum
   setting_log_requesting_user: Logge Benutzer Login, Name und Mailadresse für alle Anfragen
   setting_login_required: Authentifizierung erforderlich
@@ -5819,7 +5845,7 @@ de:
   warning_user_limit_reached_admin_html: 'Das Hinzufügen zusätzlicher Benutzer überschreitet das aktuelle Benutzerlimit. Bitte [aktualisieren Sie Ihr Abonnement](upgrade_url) um sicherzustellen, dass externe Benutzer auf diese Instanz zugreifen können.
 
     '
-  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise Edition Plan upzugraden und weitere Nutzer hinzuzufügen.
+  warning_user_limit_reached_instructions: 'Du hast dein Nutzerlimit erreicht (%{current}/%{max} active users). Bitte kontaktiere sales@openproject.com um deinen Enterprise edition Plan upzugraden und weitere Nutzer hinzuzufügen.
 
     '
   warning_protocol_mismatch_html: ''
@@ -5967,6 +5993,17 @@ de:
     warning: 'Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich auf die Start- und Endtage aller Arbeitspakete und Projektphasen in allen Projekten auswirken.
 
       '
+    dialog:
+      title: Arbeitstage ändern
+      description: 'Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich auf die Start- und Endtage aller Arbeitspakete und Projektphasen in allen Projekten auswirken.
+
+        '
+      removed_title: 'Sie werden die folgenden Tage aus der Liste der arbeitsfreien Tage entfernen:'
+      warning: 'Es kann einige Zeit dauern, bis die Änderungen wirksam werden. Sie werden benachrichtigt, wenn alle relevanten Arbeitspakete und Projektphasen aktualisiert worden sind.
+
+        '
+      heading: Arbeitstage ändern?
+      confirm_button: Speichern und verschieben
     journal_note:
       changed: _**Arbeitstage** geändert (%{changes})._
       days:

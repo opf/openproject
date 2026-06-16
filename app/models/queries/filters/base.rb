@@ -182,6 +182,10 @@ class Queries::Filters::Base
     errors.full_message(human_name, messages)
   end
 
+  def autocomplete_options
+    {}
+  end
+
   protected
 
   def type_strategy

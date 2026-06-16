@@ -652,13 +652,61 @@ OPENPROJECT_HIDDEN__MENU__ITEMS_ADMIN__MENU="roles types statuses workflows enum
 
 #### Rate limiting
 
-OpenProject provides some rate limiting protections. The default configuration protects against repeated access to authentication credential resets (e.g., lost password functionality).
+OpenProject includes HTTP-layer rate limiting via Rack::Attack. The rules below are configured through the `rate_limiting` setting and take effect without a restart when set via environment variable.
 
-You can optionally enable additional rules on API rate limiting as follows:
+In addition to these application-level rules, consider applying rate limiting at your load balancer or reverse proxy (e.g. `ngx_http_limit_req_module`, `mod_security`) for IP-level protection.
 
-`OPENPROJECT_RATE_LIMITING_API__V3=true`
+##### Login brute-force protection (enabled by default)
 
-Additional application-level rate limiting rules will be added in the future. Additionally to these application level rules, use your load balancer / proxying web server to apply individual rate limiting rules using modules such as `ngx_http_limit_req_module` or `mod_security`.
+OpenProject blocks repeated login attempts per account at the HTTP layer. After **20 POST `/login` requests for the same username within one minute**, that account is blocked for **30 minutes**. This works alongside the application-level lockout (`brute_force_block_after_failed_logins` / `brute_force_block_minutes` settings).
+
+This rule is **enabled by default**. To disable it:
+
+```shell
+OPENPROJECT_RATE_LIMITING_LOGIN="false"
+```
+
+The thresholds can be tuned independently:
+
+| Variable | Default | Description |
+|---|---|---|
+| `OPENPROJECT_RATE_LIMITING_LOGIN_BURST__LIMIT` | `20` | Number of attempts allowed before the ban is triggered |
+| `OPENPROJECT_RATE_LIMITING_LOGIN_BURST__PERIOD` | `60` | Detection window in seconds |
+| `OPENPROJECT_RATE_LIMITING_LOGIN_BAN__PERIOD` | `1800` | Ban duration in seconds |
+
+Example: Stricter limits (10 attempts per minute, 1-hour ban):
+
+```shell
+OPENPROJECT_RATE_LIMITING_LOGIN_BURST__LIMIT="10"
+OPENPROJECT_RATE_LIMITING_LOGIN_BURST__PERIOD="60"
+OPENPROJECT_RATE_LIMITING_LOGIN_BAN__PERIOD="3600"
+```
+
+> [!NOTE]
+> This rule and the application-level brute-force protection (`brute_force_block_after_failed_logins` /
+> `brute_force_block_minutes`) are independent controls that operate at different layers. The HTTP-layer
+> rule counts **all** login attempts (including successful ones) within its burst window, while the
+> application-level setting counts only **failed** attempts and operates over a longer rolling window.
+> If you lower `brute_force_block_after_failed_logins` below `BURST_LIMIT` (default 20), the
+> application-level lockout will fire before this rule does. Keep the two thresholds consistent to
+> avoid surprising behaviour. For example, set `BURST_LIMIT` to match or be lower than
+> `brute_force_block_after_failed_logins`.
+
+##### Lost password rate limiting (disabled by default)
+
+Limits password-reset requests per email address to 3 per hour.
+
+```shell
+OPENPROJECT_RATE_LIMITING_LOST__PASSWORD="true"
+```
+
+##### API v3 rate limiting (disabled by default)
+
+Limits API form endpoint requests per session to 6 per 3 seconds.
+
+```shell
+OPENPROJECT_RATE_LIMITING_API__V3="true"
+```
 
 #### Blacklisted routes
 

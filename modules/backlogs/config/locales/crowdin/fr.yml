@@ -40,8 +40,9 @@ fr:
           in_planning: En cours de planification
           active: Actif
           completed: Terminé
+        work_packages: Lots de travaux
       work_package:
-        backlog_bucket: Bucket de backlog
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Type de backlog
         position: Position
         sprint: Sprint
@@ -123,6 +124,8 @@ fr:
     label_burndown_chart: Graphique burndown
     label_is_done_status: Le statut %{status_name} signifie fait
     label_sprint_board: Tableau de sprint
+    move_to_bucket_dialog_component:
+      title: Déplacer vers un bucket de backlog
     move_to_sprint_dialog_component:
       title: Passer au sprint
       label_sprint: Sprint
@@ -178,7 +181,9 @@ fr:
       action_menu:
         copy_url_to_clipboard: Copier l'URL dans le presse-papier
         copy_work_package_id: Copier l'ID du lot de travaux
-        move_menu: Déplacer
+        move_menu: Déplacer vers la position
+        move_to_backlog_bucket: Déplacer vers un bucket de backlog
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Déplacer dans le sprint
     work_package_is_closed: Le lot de travaux est fait lorsque
   burndown:
@@ -190,18 +195,19 @@ fr:
     upsell:
       sprint_sharing:
         description: Partager les sprints entre les projets afin d'aligner les équipes et de coordonner le travail dans des configurations agiles à grande échelle (SAFe).
+  label_all_sprints: Tous les sprints
   label_backlog: Backlog
+  label_backlogs: Backlogs
+  label_backlog_and_sprints: Backlog et sprints
   label_backlog_bucket_edit: Modifier le bucket de backlog
   label_backlog_bucket_new: Nouveau bucket de backlog
-  label_inbox: Boîte de réception
-  label_backlogs: Backlogs
   label_burndown_chart: Graphique burndown
+  label_inbox: Boîte de réception
   label_sprint_board: Tableau de sprint
   label_points_burn_down: Vers le bas
   label_points_burn_up: Vers le haut
   label_sprint_edit: Modifier le sprint
   label_sprint_new: Nouveau sprint
-  label_backlog_and_sprints: Backlog et sprints
   label_task_board: Tableau des tâches
   notice_successful_start: Le sprint a commencé.
   notice_successful_finish: Le sprint est terminé.
@@ -209,6 +215,9 @@ fr:
   notice_unsuccessful_start_with_reason: 'Le sprint n''a pas pu être démarré : %{reason}'
   notice_unsuccessful_finish: Le sprint n'a pas pu être terminé.
   notice_unsuccessful_finish_with_reason: 'Le sprint n''a pas pu être achevé : %{reason}'
+  notice_work_package_invisible_after_move: 'Le lot de travaux a été déplacé vers %{backlog} mais n''est pas visible car son type ou son statut est exclu de l''arriéré.
+
+    '
   permission_create_sprints: Créer des sprints
   permission_manage_sprint_items: Gérer les éléments du sprint
   permission_select_backlog_types_and_statuses: Sélectionner les types et les statuts du backlog

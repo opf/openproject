@@ -41,7 +41,8 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
                   project:,
                   story_points:,
                   position:,
-                  sprint:)
+                  sprint:,
+                  backlog_bucket:)
   end
   let(:type) { build_stubbed(:type) }
   let(:enabled_module_names) { %w[backlogs] }
@@ -52,6 +53,7 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
   let(:story_points) { 23 }
   let(:position) { 123 }
   let(:sprint) { build_stubbed(:sprint) }
+  let(:backlog_bucket) { build_stubbed(:backlog_bucket) }
   let(:embed_links) { true }
   let(:representer) do
     described_class.create(work_package, current_user:, embed_links:)
@@ -117,6 +119,42 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
 
         it_behaves_like "has no link"
       end
+
+      context "when the work package has no backlog bucket assigned" do
+        let(:sprint) { nil }
+
+        it_behaves_like "has an empty link" do
+          let(:link) { "sprint" }
+        end
+      end
+    end
+
+    describe "backlogBucket" do
+      let(:link) { "backlogBucket" }
+      let(:href) { api_v3_paths.backlog_bucket(backlog_bucket.id) }
+      let(:title) { backlog_bucket.name }
+
+      it_behaves_like "has a titled link"
+
+      context "when lacking the permission" do
+        let(:permissions) { [] }
+
+        it_behaves_like "has no link"
+      end
+
+      context "when the project is empty (because the work package is not persisted yet)" do
+        let(:project) { nil }
+
+        it_behaves_like "has no link"
+      end
+
+      context "when the work package has no backlog bucket assigned" do
+        let(:backlog_bucket) { nil }
+
+        it_behaves_like "has an empty link" do
+          let(:link) { "backlogBucket" }
+        end
+      end
     end
 
     describe "update links" do
@@ -146,6 +184,32 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter, "rendering" do
 
       context "when lacking the permission" do
         let(:permissions) { [] }
+
+        it_behaves_like "has the resource not embedded"
+      end
+
+      context "when the work package has no sprint assigned" do
+        let(:sprint) { nil }
+
+        it_behaves_like "has the resource not embedded"
+      end
+    end
+
+    describe "backlogBucket" do
+      let(:embedded_path) { "_embedded/backlogBucket" }
+      let(:embedded_resource) { backlog_bucket }
+      let(:embedded_resource_type) { "BacklogBucket" }
+
+      it_behaves_like "has the resource embedded"
+
+      context "when lacking the permission" do
+        let(:permissions) { [] }
+
+        it_behaves_like "has the resource not embedded"
+      end
+
+      context "when the work package has no backlog bucket assigned" do
+        let(:backlog_bucket) { nil }
 
         it_behaves_like "has the resource not embedded"
       end

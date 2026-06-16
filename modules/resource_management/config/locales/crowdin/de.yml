@@ -2,72 +2,168 @@
 de:
   activerecord:
     attributes:
-      resource_planner:
-        name: Name
-        start_date: Anfangstermin
-        end_date: Endtermin
-        default_view_class_name: Standardansicht
-        public: Öffentlich
-        favorite: Favorit
       resource_allocation:
-        entity: Entität
-        principal: Zugewiesen an
-        state: Status
-        start_date: Anfangstermin
-        end_date: Endtermin
+        allocated_hours: Hours
         allocated_time: Zugewiesene Zeit
+        end_date: Endtermin
+        entity: Entität
+        filter_name: Resource filter name
+        principal: Zugewiesen an
+        start_date: Anfangstermin
+        state: Status
         user_filter: Benutzerfilter
+      resource_planner:
+        default_view_class_name: Standardansicht
+        end_date: Endtermin
+        favorite: Favorit
+        name: Name
+        public: Öffentlich
+        start_date: Anfangstermin
     errors:
       models:
-        resource_planner:
-          attributes:
-            end_date:
-              greater_than_start_date: muss nach dem Anfangstermin liegen.
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: muss nach dem Anfangstermin liegen.
-  plugin_openproject_resource_management:
-    name: OpenProject Ressourcenmanagement
-    description: Bietet Ressourcenmanagement und Kapazitätsplanung.
-  project_module_resource_management: Ressourcen Management
-  permission_view_resource_planners: Ressourcenplaner anzeigen
-  permission_view_resource_planners_explanation: 'Ermöglicht Benutzern den Zugang zu Ressourcenplanern. Sie können damit eigenen Ressourcenplaner erstellen, verwalten und öffentliche Ressourcenplaner einsehen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
-
-    '
-  permission_manage_public_resource_planners: Öffentliche Ressourcenplaner verwalten
-  permission_manage_public_resource_planners_explanation: 'Ermöglicht Benutzern das Erstellen und Verwalten von öffentlichen Ressourcenplanern. Sie können damit ihre eigenen Ressourcenplaner anzeigen, erstellen, verwalten und veröffentlichen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
-
-    '
-  permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
-  permission_allocate_user_resources_explanation: 'Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
-
-    '
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: muss nach dem Anfangstermin liegen.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: muss mit einer Arbeitspaket-Abfrage verbunden sein.
+    models:
+      resource_allocation: Ressourcenzuteilung
+      resource_planner: Ressourcenplanung
+      resource_work_package_list: Liste von Arbeitspaketen
+      user_card: Benutzer-Karten
+  button_next: Weiter
   label_resource_management: Ressourcenplanung
-  button_next: Speichern
+  permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
+  permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
+  permission_manage_public_resource_planners: Öffentliche Ressourcenplaner verwalten
+  permission_manage_public_resource_planners_explanation: Ermöglicht Benutzern das Erstellen und Verwalten von öffentlichen Ressourcenplanern. Sie können damit ihre eigenen Ressourcenplaner anzeigen, erstellen, verwalten und veröffentlichen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
+  permission_view_resource_planners: Ressourcenplaner anzeigen
+  permission_view_resource_planners_explanation: Ermöglicht Benutzern den Zugang zu Ressourcenplanern. Sie können damit eigenen Ressourcenplaner erstellen, verwalten und öffentliche Ressourcenplaner einsehen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
+  plugin_openproject_resource_management:
+    description: Bietet Ressourcenmanagement und Kapazitätsplanung.
+    name: OpenProject Ressourcenmanagement
+  project_module_resource_management: Ressourcen Management
   resource_management:
+    action:
+      delete: Löschen
+      favorite: Zu Favoriten hinzufügen
+      make_private: Als Privat festlegen
+      make_public: Veröffentlichen
+      unfavorite: Aus Favoriten entfernen
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          label: Filter criteria
+        label: Allocation type
+        principal:
+          caption: Allocate hours for a specific user.
+          label: User
+      outside_dates:
+        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
+        hidden_work: Other allocations
+        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        schedule_change: until %{date}, then %{schedule}
+        schedule_note: This user works %{schedule}.
+        submit: Allocate overtime
+        title: Do you want to allocate overtime to the user?
+      submit: Allocate
+      success_message: Resource allocated.
+      title: Allocate resource
+    blankslate:
+      desc: Erstellen Sie einen Ressourcenplaner, um Kapazitäten für dieses Projekt zu planen.
+      title: Keine Ressourcenplaner vorhanden
+    configure_view_dialog:
+      delete_confirmation: Sind Sie sicher, dass Sie diese Ansicht löschen möchten? Dies kann nicht rückgängig gemacht werden.
+      filter_mode:
+        automatic:
+          caption: Eine automatisch generierte Liste, die Arbeitspakete anzeigt, die den von ihnen definierten Kriterien entsprechen.
+          label: Automatisch gefiltert
+        label: Auswahl
+        manual:
+          caption: Eine benutzerdefinierte Liste von Artikeln, die Sie manuell hinzufügen und entfernen. Eine Filterung ist nicht möglich.
+          label: Manuell ausgewählt
+      title: Ansicht konfigurieren
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
+    favorite_caption: Machen Sie diese Ansicht zu einem Favoriten, um sie im oberen Bereich des Seitenleistenmenüs hinzuzufügen.
+    label_new_resource_planner: Ressourcenplaner erstellen
     label_resource_planner: Ressourcenplaner
     label_resource_planner_plural: Ressourcenplaner
-    label_new_resource_planner: Ressourcenplaner erstellen
-    public_caption: 'Machen Sie diese Ansicht für alle Mitglieder des Projekts öffentlich. Dies hat keine Auswirkungen auf die Sichtbarkeit von Arbeitspaketen, die immer noch von den jeweiligen Benutzerrechten abhängt.
-
-      '
-    favorite_caption: 'Machen Sie diese Ansicht zu einem Favoriten, um sie im oberen Bereich des Seitenleistenmenüs hinzuzufügen.
-
-      '
-    view_types:
-      UserCardView: Benutzer-Karten
-    action:
-      favorite: Zu Favoriten hinzufügen
-      unfavorite: Aus Favoriten entfernen
-      make_public: Veröffentlichen
-      make_private: Als Privat festlegen
-      delete: Löschen
-    sidebar:
-      public: Öffentlich
-      private: Privat
-    blankslate:
-      title: Keine Ressourcenplaner vorhanden
-      desc: Erstellen Sie einen Ressourcenplaner, um Kapazitäten für dieses Projekt zu planen.
+    new_view_dialog:
+      title: Ansicht hinzufügen
+    public_caption: Machen Sie diese Ansicht für alle Mitglieder des Projekts öffentlich. Dies hat keine Auswirkungen auf die Sichtbarkeit von Arbeitspaketen, die immer noch von den jeweiligen Benutzerrechten abhängt.
     show:
       placeholder: Die detaillierte Ansicht für diesen Ressourcenplaner wird in Kürze erscheinen.
+    sidebar:
+      private: Privat
+      public: Öffentlich
+    sub_views: Ansichten in dieser Ressourcenplanung
+    view_types:
+      resource_work_package_list:
+        caption: Erstellen Sie eine Ansicht auf Basis von Arbeitspaketen und sehen Sie deren Details und Zuweisungen in einer Liste
+        label: Liste von Arbeitspaketen
+      user_card:
+        caption: Erstellen Sie eine Ansicht auf der Basis von Benutzern und sehen Sie deren Details und Zuordnung in einer Kachelansicht von Benutzerkarten
+        label: Benutzer-Karten
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
+    work_package_list:
+      add_work_package_dialog:
+        title: Arbeitspaket hinzufügen
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} user"
+          other: "%{count} users"
+        unassigned: Unassigned
+      allocation_placeholder: "—"
+      blank:
+        description: Es gibt noch keine Arbeitspakete, die den Filtern dieser Ansicht entsprechen.
+        title: Keine Arbeitspakete anzuzeigen
+      columns:
+        allocated_members: Zugewiesene Benutzer
+        allocation: Zuweisung
+        dates: Daten
+      context_menu:
+        add_filter_criteria: Filter hinzufügen
+        add_user_group: Benutzergruppe hinzufügen
+        edit_total_work: Gesamte Arbeit bearbeiten
+        label: Weitere Aktionen
+        move: Verschieben
+        move_down: Nach unten verschieben
+        move_to_bottom: Nach ganz unten verschieben
+        move_to_top: Nach ganz oben verschieben
+        move_up: Nach oben verschieben
+        remove: Entfernen
+        remove_confirmation: Dieses Arbeitspaket aus der Ansicht entfernen?
+        see_allocation: Zuteilung anzeigen
+      mobile_title: Arbeitspakete
+      query_name: 'Arbeitspakete zur Ressourcenverwaltung: %{name}'
+      subheader:
+        add: Hinzufügen
+        add_work_package: Arbeitspaket hinzufügen
+        allocate: Zuweisen
+        settings: Ansicht konfigurieren

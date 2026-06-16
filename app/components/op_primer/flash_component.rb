@@ -27,7 +27,6 @@
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
-
 module OpPrimer
   class FlashComponent < Primer::Alpha::Banner
     include ApplicationHelper
@@ -36,14 +35,11 @@ module OpPrimer
 
     def initialize(**system_arguments)
       @unique_key = system_arguments.delete(:unique_key)
+      @scheme = system_arguments[:scheme]&.to_sym
+      @autohide = success? && system_arguments[:dismiss_scheme] != :none
+      @description = system_arguments[:description]
 
-      system_arguments[:test_selector] ||= "op-primer-flash-message"
-      system_arguments[:dismiss_scheme] ||= :remove
-      system_arguments[:dismiss_label] ||= I18n.t(:button_close)
-      system_arguments[:data] ||= {}
-      system_arguments[:data]["flash-target"] = "flash"
-
-      @autohide = system_arguments[:scheme] == :success && system_arguments[:dismiss_scheme] != :none
+      apply_accessibility_defaults(system_arguments)
 
       super
     end
@@ -54,10 +50,45 @@ module OpPrimer
       super
     end
 
+    def live_region_message
+      # Join text nodes with spaces so formatting elements do not concatenate words.
+      [trimmed_content, @description]
+        .compact_blank
+        .flat_map { |content| Nokogiri::HTML5.fragment(content.to_s).xpath(".//text()").map(&:text) }
+        .join(" ")
+        .squish
+    end
+
+    def live_region_politeness
+      urgent? ? "assertive" : "polite"
+    end
+
     private
+
+    def apply_accessibility_defaults(system_arguments)
+      system_arguments.reverse_merge!(
+        test_selector: "op-primer-flash-message",
+        dismiss_scheme: :remove,
+        dismiss_label: I18n.t(:button_close)
+      )
+      # Live region announcements are handled by the controller via @primer/live-region-element
+      # to avoid duplicate announcements from the visible banner and the global live region.
+      system_arguments[:data] = merge_data(
+        system_arguments,
+        data: { "flash-target" => "flash", autohide: @autohide }
+      )
+    end
 
     def render?
       trimmed_content.present?
+    end
+
+    def success?
+      @scheme == :success
+    end
+
+    def urgent?
+      @scheme == :danger
     end
   end
 end

@@ -132,7 +132,10 @@ RSpec.describe CostlogController do
     end
 
     describe "WHEN user allowed to create new cost_entry" do
+      let(:expected_cost_type) { cost_type }
+
       before do
+        cost_type.save!
         grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
       end
 
@@ -154,7 +157,10 @@ RSpec.describe CostlogController do
     end
 
     describe "WHEN user is allowed to create new own cost_entry" do
+      let(:expected_cost_type) { cost_type }
+
       before do
+        cost_type.save!
         grant_current_user_permissions user, %i[view_project view_work_packages log_own_costs]
       end
 
@@ -171,6 +177,53 @@ RSpec.describe CostlogController do
 
     describe "WHEN user is not a project member" do
       it_behaves_like "not_found new"
+    end
+
+    describe "WHEN no cost type is available in the project" do
+      let(:scoped_cost_type) { create(:cost_type, for_all_projects: false) }
+
+      before do
+        CostType.destroy_all
+        scoped_cost_type # only project-scoped cost type, not mapped to this project
+        grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
+        get :new, params:
+      end
+
+      it "redirects with an error flash explaining no cost types are available" do
+        expect(response).to be_redirect
+        expect(flash[:error]).to eq(I18n.t("cost_types.errors.no_cost_types_available"))
+      end
+    end
+
+    describe "WHEN the project's default cost type is global" do
+      let(:expected_cost_type) { cost_type }
+
+      before do
+        CostType.destroy_all
+        cost_type.for_all_projects = true
+        cost_type.default = true
+        cost_type.save!
+        grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
+      end
+
+      it_behaves_like "successful new"
+    end
+
+    describe "WHEN the global default cost type is unavailable in the project, " \
+             "but another non-global cost type is enabled" do
+      let(:scoped_cost_type) { create(:cost_type, for_all_projects: false) }
+      let(:global_default) { create(:cost_type, for_all_projects: false, default: true) }
+      let(:expected_cost_type) { scoped_cost_type }
+
+      before do
+        CostType.destroy_all
+        global_default
+        scoped_cost_type
+        CostTypesProject.create!(project:, cost_type: scoped_cost_type)
+        grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
+      end
+
+      it_behaves_like "successful new"
     end
   end
 

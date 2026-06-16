@@ -37,8 +37,7 @@ Redmine::MenuManager.map :top_menu do |menu|
             caption: I18n.t("label_portfolio_plural"),
             icon: "briefcase",
             if: ->(_) {
-              OpenProject::FeatureDecisions.portfolio_models_active? &&
-                (User.current.logged? || !Setting.login_required?) &&
+              (User.current.logged? || !Setting.login_required?) &&
                 (User.current.allowed_globally?(:add_portfolios) ||
                   Project.portfolio.allowed_to(User.current, :view_project).any?)
             },
@@ -198,8 +197,7 @@ Redmine::MenuManager.map :global_menu do |menu|
             icon: "briefcase",
             after: :my_page,
             if: ->(_) {
-              OpenProject::FeatureDecisions.portfolio_models_active? &&
-                (User.current.logged? || !Setting.login_required?) &&
+              (User.current.logged? || !Setting.login_required?) &&
                 (User.current.allowed_globally?(:add_portfolios) ||
                   Project.portfolio.allowed_to(User.current, :view_project).any?)
             },
@@ -289,11 +287,10 @@ Redmine::MenuManager.map :my_menu do |menu|
             { controller: "/my", action: "interface" },
             caption: :label_interface,
             icon: "device-desktop"
-  menu.push :password,
-            { controller: "/my", action: "password" },
-            caption: :button_change_password,
-            if: ->(_) { User.current.change_password_allowed? },
-            icon: "lock"
+  menu.push :security,
+            { controller: "/my", action: "security" },
+            caption: :label_my_security,
+            icon: "shield-lock"
   menu.push :access_tokens,
             { controller: "/my/access_tokens", action: "index" },
             caption: I18n.t("my_account.access_tokens.access_tokens"),
@@ -551,6 +548,12 @@ Redmine::MenuManager.map :admin_menu do |menu|
             caption: :label_external_links,
             parent: :settings
 
+  menu.push :settings_exports,
+            { controller: "/admin/settings/exports_settings", action: :show },
+            if: ->(_) { User.current.admin? },
+            caption: :label_export_plural,
+            parent: :settings
+
   menu.push :settings_repositories,
             { controller: "/admin/settings/repositories_settings", action: :show },
             if: ->(_) { User.current.admin? },
@@ -790,15 +793,21 @@ Redmine::MenuManager.map :project_menu do |menu|
     },
     versions: { caption: :label_version_plural },
     repository: { caption: :label_repository },
-    time_entry_activities: { caption: :enumeration_activities },
+    time_and_costs: {
+      caption: :"cost_types.settings.time_and_costs",
+      controller: "/projects/settings/time_entry_activities"
+    },
     storage: { caption: :label_required_disk_storage }
   }
 
   project_menu_items.each do |key, options|
     menu.push :"settings_#{key}",
-              { controller: "/projects/settings/#{key}", action: "show" }.merge(options.slice(:action)),
+              {
+                controller: options[:controller] || "/projects/settings/#{key}",
+                action: options[:action] || "show"
+              },
               parent: :settings,
-              **options.except(:action)
+              **options.except(:action, :controller)
   end
 end
 

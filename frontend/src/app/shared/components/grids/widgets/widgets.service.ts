@@ -26,8 +26,8 @@ import {
 } from 'core-app/shared/components/grids/widgets/project-status/project-status.component';
 import { WidgetSubprojectsComponent } from 'core-app/shared/components/grids/widgets/subprojects/subprojects.component';
 import {
-  WidgetProjectFavoritesComponent,
-} from 'core-app/shared/components/grids/widgets/project-favorites/widget-project-favorites.component';
+  WidgetFavoriteProjectsComponent,
+} from 'core-app/shared/components/grids/widgets/favorite-projects/widget-favorite-projects.component';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 
 @Injectable()
@@ -237,7 +237,7 @@ export class GridWidgetsService {
       },
       {
         identifier: 'project_favorites',
-        component: WidgetProjectFavoritesComponent,
+        component: WidgetFavoriteProjectsComponent,
         title: this.I18n.t('js.grid.widgets.project_favorites.title'),
         properties: {
           name: this.I18n.t('js.grid.widgets.project_favorites.title'),

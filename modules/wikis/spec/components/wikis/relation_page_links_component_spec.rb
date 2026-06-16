@@ -37,7 +37,7 @@ RSpec.describe Wikis::RelationPageLinksComponent, type: :component do
   let(:provider) { create(:xwiki_provider) }
   let(:oauth_client) { create(:oauth_client, integration: provider) }
 
-  let(:page_link_service) { instance_double(Wikis::PageLinkService, relation_page_link_infos_for: []) }
+  let(:page_link_service) { instance_double(Wikis::PageLinkService, relation_page_links_for: []) }
 
   subject(:render_component) { render_inline(described_class.new(provider, work_package:)) }
 
@@ -87,6 +87,7 @@ RSpec.describe Wikis::RelationPageLinksComponent, type: :component do
   end
 
   context "when the user has a token and there are page links" do
+    let(:page_link) { create(:relation_wiki_page_link, provider:, linkable: work_package) }
     let(:page_info) do
       Wikis::Adapters::Results::PageInfo.new(
         identifier: "MyPage",
@@ -95,11 +96,13 @@ RSpec.describe Wikis::RelationPageLinksComponent, type: :component do
         provider:
       )
     end
+    let(:page_link_aggregate) do
+      Wikis::Adapters::Results::PageLinkAggregate.new(page_link:, page_info_result: Dry::Monads::Success(page_info))
+    end
 
     before do
       allow(provider).to receive(:user_connected?).and_return(true)
-      allow(page_link_service).to receive(:relation_page_link_infos_for)
-        .and_return([Dry::Monads::Success(page_info)])
+      allow(page_link_service).to receive(:relation_page_links_for).and_return([page_link_aggregate])
       render_component
     end
 

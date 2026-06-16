@@ -12,6 +12,7 @@ ja:
         sp_entity_id: サービス・エンティティID
         metadata_url: ID プロバイダのメタデータ URL
         name_identifier_format: 名前識別子の形式
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: アイデンティティ・プロバイダのログイン・エンドポイント
         idp_slo_service_url: アイデンティティプロバイダのログアウトエンドポイント
         idp_cert: ID プロバイダの公開証明書
@@ -44,6 +45,10 @@ ja:
       success: ID プロバイダのメタデータを使用した構成の更新に成功しました。
       invalid_url: 提供されたメタデータの URL が無効です。HTTP(s) URLを指定してください。
       error: ID プロバイダのメタデータの取得に失敗しました： %{error}
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: SAML プロバイダはまだ構成されていない。
       label_empty_description: プロバイダーを追加して、ここでご覧ください。
@@ -109,6 +114,9 @@ ja:
 
         '
       metadata_url: 'ID プロバイダはメタデータ URL を提供する。
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'ID プロバイダがメタデータ XML をダウンロードする。

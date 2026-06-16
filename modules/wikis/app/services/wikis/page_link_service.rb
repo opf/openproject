@@ -33,20 +33,20 @@ module Wikis
     include Dry::Monads[:result]
 
     def count(linkable)
-      relation_page_links = Provider.enabled.sum { |provider| relation_page_link_infos_for(provider:, linkable:).size }
+      relation_page_links = Provider.enabled.sum { |provider| relation_page_links_for(provider:, linkable:).size }
 
       relation_page_links +
         inline_page_link_infos_for(linkable:).size +
         referencing_wiki_page_infos_for(linkable:).size
     end
 
-    def relation_page_link_infos_for(provider:, linkable:)
-      Adapters::Input::RelationPageLinks.build(linkable:).bind do |input|
+    def relation_page_links_for(provider:, linkable:)
+      Adapters::Input::RelationPageLinks.build(linkable:).bind do |input_data|
         provider.auth_strategy_for(User.current).bind do |auth_strategy|
           provider.resolve("queries.relation_page_links")
-                  .call(input_data: input, auth_strategy:)
+                  .call(input_data:, auth_strategy:)
                   .either(
-                    ->(page_link_infos) { page_link_infos },
+                    ->(page_links) { page_links },
                     -> { [] }
                   )
         end

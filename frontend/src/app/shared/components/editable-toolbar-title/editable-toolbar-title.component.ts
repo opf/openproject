@@ -28,7 +28,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostBinding, Injector, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { whenOutside } from 'core-app/shared/directives/focus/contain-helpers';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 
 export const triggerEditingEvent = 'op:selectableTitle:trigger';
 export const selectableTitleIdentifier = 'editable-toolbar-title';
@@ -41,7 +40,7 @@ export const selectableTitleIdentifier = 'editable-toolbar-title';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class EditableToolbarTitleComponent implements OnInit, OnChanges {
   readonly injector = inject(Injector);
@@ -76,9 +75,9 @@ export class EditableToolbarTitleComponent implements OnInit, OnChanges {
 
   public selectableTitleIdentifier = selectableTitleIdentifier;
 
-  @InjectField() protected readonly elementRef:ElementRef;
+  protected readonly elementRef = inject(ElementRef);
 
-  @InjectField() I18n!:I18nService;
+  readonly I18n = inject(I18nService);
 
   public text = {
     click_to_edit: this.I18n.t('js.work_packages.query.click_to_edit_query_name'),

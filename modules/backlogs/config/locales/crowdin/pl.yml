@@ -40,8 +40,9 @@ pl:
           in_planning: W planowaniu
           active: Aktywne
           completed: Ukończone
+        work_packages: Pakiety robocze
       work_package:
-        backlog_bucket: Kategoria backlogu
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Typ backlogu
         position: Pozycja
         sprint: Sprint
@@ -127,6 +128,8 @@ pl:
     label_burndown_chart: Wykres spalania (burndown)
     label_is_done_status: Status %{status_name} oznacza zrobiony
     label_sprint_board: Tablica sprintu
+    move_to_bucket_dialog_component:
+      title: Przenieś do kategorii backlogu
     move_to_sprint_dialog_component:
       title: Przenieś do sprintu
       label_sprint: Sprint
@@ -186,7 +189,9 @@ pl:
       action_menu:
         copy_url_to_clipboard: Skopiuj adres URL do schowka
         copy_work_package_id: Skopiuj identyfikator pakietu roboczego
-        move_menu: Przenieś
+        move_menu: Move to position
+        move_to_backlog_bucket: Przenieś do kategorii backlogu
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Przenieś do sprintu
     work_package_is_closed: Zestaw Zadań będzie gotowy, kiedy
   burndown:
@@ -198,18 +203,19 @@ pl:
     upsell:
       sprint_sharing:
         description: Udostępnianie sprintów między projektami w celu dostosowania zespołów i koordynowania pracy w skalowanych konfiguracjach zwinnych (SAFe).
+  label_all_sprints: Wszystkie sprinty
   label_backlog: Backlog
+  label_backlogs: Backlogi
+  label_backlog_and_sprints: Backlog i sprinty
   label_backlog_bucket_edit: Edytuj kategorię backlogu
   label_backlog_bucket_new: Nowa kategoria backlogu
-  label_inbox: Skrzynka odbiorcza
-  label_backlogs: Backlogi
   label_burndown_chart: Wykres spalania (burndown)
+  label_inbox: Skrzynka odbiorcza
   label_sprint_board: Tablica sprintu
   label_points_burn_down: W dół
   label_points_burn_up: W górę
   label_sprint_edit: Edytuj sprint
   label_sprint_new: Nowy sprint
-  label_backlog_and_sprints: Backlog i sprinty
   label_task_board: Panel zadań
   notice_successful_start: Sprint został rozpoczęty.
   notice_successful_finish: Sprint został ukończony.
@@ -217,6 +223,9 @@ pl:
   notice_unsuccessful_start_with_reason: 'Nie można rozpocząć sprintu: %{reason}'
   notice_unsuccessful_finish: Nie można ukończyć sprintu.
   notice_unsuccessful_finish_with_reason: 'Nie można ukończyć sprintu: %{reason}'
+  notice_work_package_invisible_after_move: 'Pakiet roboczy został przeniesiony do %{backlog}, ale nie jest widoczny, ponieważ jego typ lub status są wykluczone z backlogu.
+
+    '
   permission_create_sprints: Utwórz sprinty
   permission_manage_sprint_items: Zarządzaj elementami sprintu
   permission_select_backlog_types_and_statuses: Wybierz typy i statusy backlogu

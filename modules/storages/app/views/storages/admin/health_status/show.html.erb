@@ -65,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
           label: download_label,
           tag: :a,
           href: admin_settings_storage_health_status_report_path(@storage, format: :txt),
-          data: { turbo: true },
+          data: { turbo: true }
         ) do
           download_label
         end
@@ -76,7 +76,7 @@ See COPYRIGHT and LICENSE files for more details.
           label: button_label,
           tag: :a,
           href: admin_settings_storage_health_status_report_path(@storage),
-          data: { turbo_method: :post, turbo: true },
+          data: { turbo_method: :post, turbo: true }
         ) do
           button_label
         end
@@ -87,26 +87,27 @@ See COPYRIGHT and LICENSE files for more details.
   <%=
     render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |page|
       page.with_sidebar(col_placement: :end, row_placement: :end)
-      page.with_main do %>
+      page.with_main do
+  %>
 
-        <% if @report.present? %>
-          <%= render(HealthReports::ReportComponent.new(@report, i18n_scope: "storages.health.checks")) %>
-        <% else %>
-          <%=
-            render(Primer::Beta::Blankslate.new(border: true)) do |placeholder|
-              placeholder.with_visual_icon(icon: :meter)
-              placeholder.with_heading(tag: :h3) { I18n.t("storages.health.no_report") }
-              placeholder.with_description { I18n.t("storages.health.no_report_description") }
-              placeholder.with_primary_action(
-                href: admin_settings_storage_health_status_report_path(@storage),
-                data: { turbo_method: :post, turbo: true },
-                aria: { label: I18n.t("storages.health.actions.run_checks") }
-              ) do
-                I18n.t("storages.health.actions.run_checks")
-              end
+      <% if @report.present? %>
+        <%= render(HealthReports::ReportComponent.new(@report, i18n_scope: "storages.health.checks")) %>
+      <% else %>
+        <%=
+          render(Primer::Beta::Blankslate.new(border: true)) do |placeholder|
+            placeholder.with_visual_icon(icon: :meter)
+            placeholder.with_heading(tag: :h3) { I18n.t("storages.health.no_report") }
+            placeholder.with_description { I18n.t("storages.health.no_report_description") }
+            placeholder.with_primary_action(
+              href: admin_settings_storage_health_status_report_path(@storage),
+              data: { turbo_method: :post, turbo: true },
+              aria: { label: I18n.t("storages.health.actions.run_checks") }
+            ) do
+              I18n.t("storages.health.actions.run_checks")
             end
-          %>
-        <% end %>
+          end
+        %>
       <% end %>
+    <% end %>
   <% end %>
 <% end %>

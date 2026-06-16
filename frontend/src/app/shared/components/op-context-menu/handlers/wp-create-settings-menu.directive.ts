@@ -41,7 +41,7 @@ export class WorkPackageCreateSettingsMenuDirective extends OpContextMenuTrigger
   readonly halEditing = inject(HalResourceEditingService);
 
   override readonly placement = 'bottom-end';
-  
+
   protected open(evt:Event) {
     const wp = this.states.workPackages.get('new').value;
 

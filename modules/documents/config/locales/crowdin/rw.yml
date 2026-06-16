@@ -45,6 +45,7 @@ rw:
   default_doc_category_user: User documentation
   enumeration_doc_categories: Document categories
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

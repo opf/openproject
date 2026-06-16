@@ -34,15 +34,15 @@ module WorkPackages::Scopes::WithoutExcludedType
   class_methods do
     def without_excluded_type
       type_subquery = <<~SQL.squish
-        work_packages.type_id NOT IN (
-          SELECT type_id
+        NOT EXISTS (
+          SELECT 1
           FROM backlog_excluded_types
           WHERE project_id = work_packages.project_id
+            AND type_id = work_packages.type_id
         )
       SQL
 
       where(type_subquery)
-        .includes(:type)
     end
   end
 end

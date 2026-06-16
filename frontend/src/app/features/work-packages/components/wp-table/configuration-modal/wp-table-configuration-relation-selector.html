@@ -7,7 +7,7 @@
       [(ngModel)]="selectedRelationFilter"
       (ngModelChange)="onRelationFilterSelected()"
       [compareWith]="compareRelationFilters">
-      @for (filter of availableRelationFilters; track filter) {
+      @for (filter of availableRelationFilters; track filter.id) {
         <option
           [textContent]="text[filter.id]"
           [ngValue]="filter">

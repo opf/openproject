@@ -73,6 +73,10 @@ ko:
   project_module_bim: BCF
   permission_view_linked_issues: BCF 이슈 보기
   permission_manage_bcf: BCF 이슈 가져오기 및 관리
+  permission_manage_bcf_explanation: |
+    대량 가져오기 및 업데이트를 포함한 BCF 이슈를 관리할 수 있습니다.
+    BCF 가져오기는 파일 메타데이터를 프로젝트 리소스에 매핑하고, 가져온 파일의
+    작성자 및 타임스탬프 값을 사용하여 작업 패키지 및 코멘트를 생성하거나 업데이트하므로, 사용자를 대신하여 효과적으로 작업을 수행할 수 있습니다.
   permission_delete_bcf: BCF 이슈 삭제
   oauth:
     scopes:

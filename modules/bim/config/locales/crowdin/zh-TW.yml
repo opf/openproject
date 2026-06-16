@@ -73,6 +73,10 @@ zh-TW:
   project_module_bim: BCF
   permission_view_linked_issues: 查看 BCF 問題
   permission_manage_bcf: 匯入及管理 BCF 問題集
+  permission_manage_bcf_explanation: |
+    Allows managing BCF issues, including bulk import and updates.
+    BCF import maps file metadata to project resources and can create or update work packages
+    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
   permission_delete_bcf: 刪除 BCF 問題集
   oauth:
     scopes:

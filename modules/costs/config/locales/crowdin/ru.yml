@@ -39,6 +39,8 @@ ru:
         unit: Наименование количественного показателя
         unit_plural: Множественное наименование количественного показателя
         default: Тип затрат по умолчанию
+        for_all_projects: Для всех проектов
+        rates: Ставки
       work_package:
         costs_by_type: Затраченное количество
         labor_costs: Трудовые расходы
@@ -96,6 +98,10 @@ ru:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Пакет работ #%{id} не является допустимым объектом для назначения стимостей.'
           nullify_is_not_valid_for_cost_entries: Записи о стоимостях не могут быть присвоены проекту.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Пожалуйста, выберите проект.
   attributes:
     comment: Комментарий
     cost_type: Тип затрат
@@ -137,7 +143,6 @@ ru:
   label_current_default_rate: Текущий тариф по умолчанию
   label_date_on: на
   label_deleted_cost_types: Типы удаленных расходов
-  label_locked_cost_types: Заблокированные типы стоимостей
   label_display_cost_entries: Отображать расходы на единицу
   label_display_time_entries: Отображать часы по отчету
   label_display_types: Отображение типов
@@ -237,6 +242,28 @@ ru:
     errors:
       validation:
         start_time_different_date: Дата startTime (%{start_time}) должна быть такой же, как дата spentOn (%{spent_on}).
+  label_available_cost_types_projects: Available cost types projects
+  cost_types:
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    admin:
+      columns:
+        active_projects: Активные проекты
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: Этот тип затрат включен во всех проектах
+          description: Снимите флажок "Для всех проектов" на вкладке "Детали", чтобы ограничить этот тип затрат конкретными проектами.
+        no_projects:
+          heading: Проекты не назначены
+          description: Добавьте проекты, чтобы в них можно было использовать этот тип расходов.
+      rates:
+        title: История ставок
+    settings:
+      time_and_costs: Время и затраты
+      cost_types:
+        heading: Типы затрат
+        none_active: No cost types are currently active in this project.
+        for_all_projects_hint: This cost type is enabled in all projects.
   costs:
     widgets:
       actual_costs:

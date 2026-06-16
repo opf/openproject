@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { ChangeDetectorRef, Component, ElementRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Observable, config, throwError } from 'rxjs';
 import { OpModalLocalsToken } from 'core-app/shared/components/modal/modal.service';
@@ -37,8 +37,14 @@ import { FilePickerBaseModalComponent, } from 'core-app/shared/components/storag
 import { StorageFileListItem } from 'core-app/shared/components/storages/storage-file-list-item/storage-file-list-item';
 import type { Mock } from 'vitest';
 
-// eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection,@angular-eslint/component-selector
-@Component({ selector: 'test-file-picker', template: '', standalone: false })
+@Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
+  selector: 'test-file-picker',
+  template: '',
+  // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
+  changeDetection: ChangeDetectionStrategy.Eager,
+  standalone: false,
+})
 class TestFilePickerBaseModalComponent extends FilePickerBaseModalComponent {
   public loadDirectory(directory:IStorageFile):void {
     this.changeLevel(directory);

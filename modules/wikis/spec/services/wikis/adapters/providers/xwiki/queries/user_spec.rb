@@ -35,7 +35,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::User, :webmock do
   let(:user) { build_stubbed(:user) }
   let(:oauth_client) { build_stubbed(:oauth_client) }
   let(:wiki_provider) { build_stubbed(:xwiki_provider, url: "https://xwiki.local/") }
-  let(:rest_url) { "https://xwiki.local/rest/" }
+  let(:user_url) { "https://xwiki.local/rest/wikis/xwiki/user" }
   let(:auth_strategy) { Wikis::Adapters::Input::AuthStrategy.build(key: :bearer_token, user:, provider: wiki_provider).value! }
 
   subject(:query) { described_class.new(model: wiki_provider) }
@@ -51,9 +51,9 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::User, :webmock do
   end
 
   describe "#call" do
-    context "when the request succeeds with xwiki-user header" do
+    context "when the request succeeds with an xwiki-user header" do
       before do
-        stub_request(:get, rest_url)
+        stub_request(:get, user_url)
           .with(headers: { "Authorization" => "Bearer some-token" })
           .to_return(status: 200, body: "", headers: { "xwiki-user" => "XWiki.admin" })
       end
@@ -65,10 +65,10 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::User, :webmock do
       end
     end
 
-    context "when the token is absent or invalid (XWiki returns 200 without xwiki-user header)" do
+    context "when the response is missing the xwiki-user header" do
       before do
-        stub_request(:get, rest_url)
-          .to_return(status: 200, body: "", headers: {})
+        stub_request(:get, user_url)
+          .to_return(status: 200, body: "")
       end
 
       it "returns Failure with :unauthorized code" do
@@ -80,7 +80,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::User, :webmock do
 
     context "when XWiki returns a non-2xx status" do
       before do
-        stub_request(:get, rest_url).to_return(status: 500, body: "Internal Server Error")
+        stub_request(:get, user_url).to_return(status: 401, body: "Unauthorized")
       end
 
       it "returns Failure with :request_failed code" do
@@ -91,7 +91,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::User, :webmock do
     end
 
     context "when a network error occurs" do
-      before { stub_request(:get, rest_url).to_timeout }
+      before { stub_request(:get, user_url).to_timeout }
 
       it "returns Failure with :connection_error code" do
         result = query.call(auth_strategy:)

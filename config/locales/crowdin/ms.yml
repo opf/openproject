@@ -1698,6 +1698,7 @@ ms:
       attachment:
         attachment_content: Kandungan lampiran
         attachment_file_name: Nama fail lampiran
+        charset: Character set
         content_type: Content-type
         downloads: Muat turun
         file: Fail
@@ -1792,6 +1793,7 @@ ms:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: 'Peranan
 
           '
@@ -2039,6 +2041,7 @@ ms:
         priority: Keutamaan
         progress: "% Selesai"
         readonly: Baca sahaja
+        relatable: Relatable to
         remaining_hours: Kerja yang berbaki
         remaining_time: Kerja yang berbaki
         sequence_number: Sequence number
@@ -2083,17 +2086,14 @@ ms:
         before: mesti sebelum %{date}.
         before_or_equal_to: mesti sebelum atau sama dengan %{date}.
         blank: tidak boleh dibiarkan kosong.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: perlu ada ciri-ciri '%{property}' yang ditetapkan.
         cannot_delete_mapping: diperlukan. Tidak boleh dipadam.
-        is_for_all_cannot_modify: adalah untuk semua projek dan oleh itu tidak boleh diubah suai.
         cant_link_a_work_package_with_a_descendant: Pakej kerja tidak boleh dipautkan ke salah satu subtugasnya.
         circular_dependency: Hubungan ini akan mencipta kebergantungan bulat.
         confirmation: tidak sepadan dengan %{attribute}.
         could_not_be_copied: "%{dependency} tidak dapat disalin (sepenuhnya)."
+        datetime_must_be_in_future: mestilah pada masa hadapan.
         does_not_exist: tidak wujud.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: tidak boleh diakses.
         error_readonly: telah cuba untuk menulis tetapi tidak dapat ditulis.
@@ -2114,36 +2114,38 @@ ms:
         greater_than_or_equal_to: perlu lebih besar atau sama dengan %{count}.
         greater_than_or_equal_to_start_date: perlu lebih besar atau sama dengan tarikh mula.
         greater_than_start_date: perlu lebih besar dari tarikh mula.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: tidak ditetapkan pada salah satu nilai yang dibenarkan.
         inclusion_nested: tidak ditetapkan pada salah satu nilai yang dibenarkan pada laluan '%{path}'.
         invalid: adalah tidak sah.
         invalid_uri: must be a valid URI.
         invalid_url: bukan URL yang sah.
         invalid_url_scheme: 'adalah bukan protokol yang disokong (dibenarkan: %{allowed_schemes}).'
+        is_for_all_cannot_modify: adalah untuk semua projek dan oleh itu tidak boleh diubah suai.
         less_than_or_equal_to: perlu kurang daripada atau sama dengan %{count}.
         not_available: adalah tidak tersedia kerana konfigurasi sistem.
+        not_before_start_date: must not be before the start date.
         not_deletable: tidak dapat dipadamkan.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: adalah bukan pengguna semasa.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: tidak dijumpai.
         not_a_date: bukan tarikh yang sah.
         not_a_datetime: bukan tarikh masa yang sah.
         not_a_number: bukan nombor.
         not_allowed: adalah tidak sah kerana kekurangan kebenaran.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: bukan sebuah integer.
         not_an_iso_date: 'bukan tarikh yang sah. Format yang diperlukan: TTTT-BB-HH.'
         not_same_project: tidak tergolong dalam projek yang sama.
-        datetime_must_be_in_future: mestilah pada masa hadapan.
         odd: mesti ganjil.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: tidak padan dengan ungkapan biasa %{expression}.
         regex_invalid: tidak dapat disahkan dengan ungkapan biasa yang berkaitan.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: perlu kurang daripada atau sama dengan panjang maksima.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: sudah diguna pakai.
         too_long: adalah terlalu panjang (maksimum adalah %{count} karakter).
         too_short: adalah terlalu pendek (minimum adalah %{count} karakter).
@@ -2156,6 +2158,7 @@ ms:
         url_not_secure_context: 'tidak menyediakan "Konteks Selamat". Gunakan antara HTTPS atau alamat gelung-balik, seperti localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: adalah panjang yang salah (sepatutnya %{count} karakter).
       models:
         group:
@@ -2808,6 +2811,7 @@ ms:
   button_login: Daftar masuk
   button_move: Alih
   button_move_and_follow: Alih dan ikut
+  button_next: Next
   button_print: Cetak
   button_quote: Petikan
   button_remove: Keluarkan
@@ -3418,6 +3422,12 @@ ms:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3456,6 +3466,9 @@ ms:
     additional:
       projects: Projek terbaru yang dapat dilihat dalam contoh ini.
       no_visible_projects: Tiada projek yang dapat dilihat dalam contoh ini.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Pengguna berdaftar terbaru dalam contoh ini
     blocks:
       community: Komuniti OpenProject
@@ -3830,6 +3843,7 @@ ms:
   label_send_invitation: Hantar jemputan
   label_calculated_value: Calculated value
   label_change_parent: Ubah induk
+  label_change_password: Change password
   label_change_plural: Perubahan
   label_change_properties: Tukar ciri-ciri
   label_change_status: Tukar status
@@ -4026,6 +4040,7 @@ ms:
   label_journal_diff: Perbandingan Deskripsi
   label_language: Bahasa
   label_languages: Bahasa-bahasa
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Lompat ke projek...
@@ -4117,6 +4132,7 @@ ms:
   label_my_account_data: Data akaun saya
   label_my_avatar: Avatar saya
   label_my_queries: Pertanyaan tersuai saya
+  label_my_security: Security
   label_name: Nama
   label_never: Tidak akan
   label_new: Baharu
@@ -4463,6 +4479,8 @@ ms:
     other: "%{count} working days"
   label_x_working_days_time_off:
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: semalam
   label_zen_mode: Mod Zen
   label_role_type: Jenis
@@ -4654,9 +4672,9 @@ ms:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'Untuk membenarkan pengguna untuk daftar masuk, anda juga boleh: '
       a: Naik taraf pelan pembayaran anda ([di sini](upgrade_url))
       b: Kunci atau padam pengguna sedia ada ([di sini](users_url))
+      label: 'Untuk membenarkan pengguna untuk daftar masuk, anda juga boleh: '
   more_actions: Lebih banyak fungsi
   noscript_description: Anda perlu mengaktifkan JavaScript untuk menggunakan OpenProject!
   noscript_heading: JavaScript dinyahdayakan
@@ -5173,6 +5191,10 @@ ms:
   setting_consent_required: Persetujuan yang diperlukan
   setting_consent_decline_mail: Alamat mel hubungan pemberi persetujuan
   setting_cross_project_work_package_relations: Benarkan hubungan pakej kerja rentas projek
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: 'Minggu pertama dalam tahun mengandungi '
   setting_date_format: Tarikh
   setting_default_language: Bahasa default
@@ -5213,6 +5235,9 @@ ms:
   setting_work_package_properties: Ciri-ciri pakej kerja
   setting_work_package_startdate_is_adddate: Guna tarikh semasa sebagai tarikh mula untuk pakej kerja baharu
   setting_work_packages_projects_export_limit: Pakej kerja / Had eksport projek
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Log masuk pengguna yang direkodkan, nama, dan alamat mel untuk semua permintaan
   setting_login_required: Pengesahan diperlukan
@@ -5911,6 +5936,17 @@ ms:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Hari bekerja** telah diubah (%{changes})._
       days:

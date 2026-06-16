@@ -29,12 +29,13 @@
  */
 
 import GenericDragAndDropController from './generic-drag-and-drop.controller';
+import { createControllerInstance } from 'core-stimulus/test-helpers';
 
 describe('GenericDragAndDropController', () => {
   let controller:GenericDragAndDropController;
 
   beforeEach(() => {
-    controller = Object.create(GenericDragAndDropController.prototype) as GenericDragAndDropController;
+    controller = createControllerInstance(GenericDragAndDropController);
   });
 
   function setValue(name:'handleValue' | 'handleSelectorValue', value:boolean | string) {

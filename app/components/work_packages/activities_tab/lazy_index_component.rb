@@ -37,7 +37,7 @@ module WorkPackages
       include WorkPackages::ActivitiesTab::SharedHelpers
       include WorkPackages::ActivitiesTab::StimulusControllers
 
-      def initialize(work_package:, journals:, paginator:, last_server_timestamp:, filter: :all)
+      def initialize(work_package:, journals:, paginator:, last_server_timestamp:, filter: Filters::ALL, resolved_anchor: nil)
         super
 
         @work_package = work_package
@@ -45,6 +45,7 @@ module WorkPackages
         @paginator = paginator
         @last_server_timestamp = last_server_timestamp
         @filter = filter
+        @resolved_anchor = resolved_anchor
       end
 
       def self.wrapper_key = "work-package-activities-tab-content"
@@ -59,7 +60,7 @@ module WorkPackages
 
       private
 
-      attr_reader :work_package, :journals, :paginator, :filter, :last_server_timestamp
+      attr_reader :work_package, :journals, :paginator, :filter, :last_server_timestamp, :resolved_anchor
 
       def wrapper_data_attributes # rubocop:disable Metrics/AbcSize
         stimulus_controllers = {
@@ -83,6 +84,11 @@ module WorkPackages
           polling_stimulus_controller("-show-conflict-flash-message-url-value") => show_conflict_flash_message_work_packages_path,
           polling_stimulus_controller("-update-streams-path-value") => update_streams_work_package_activities_path(work_package)
         }
+        # Only a legacy activity-N deep link sets this; it tells the client which
+        # comment anchor the activity number resolved to so it can scroll there.
+        if resolved_anchor
+          stimulus_controller_values[auto_scrolling_stimulus_controller("-resolved-comment-id-value")] = resolved_anchor
+        end
         stimulus_controller_outlets = {
           editor_stimulus_controller("-#{auto_scrolling_stimulus_controller}-outlet") => index_component_dom_selector,
           editor_stimulus_controller("-#{polling_stimulus_controller}-outlet") => index_component_dom_selector,

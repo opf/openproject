@@ -39,6 +39,8 @@ pl:
         unit: Nazwa jednostki
         unit_plural: Liczba mnoga jednostki
         default: Domyślny typ kosztu
+        for_all_projects: Dla wszystkich projektów
+        rates: Stawki
       work_package:
         costs_by_type: Zużyte jednostki
         labor_costs: Koszty pracy
@@ -96,6 +98,10 @@ pl:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Zestaw zadań #%{id} nie jest poprawnym celem do ponownego rozpisania kosztów.'
           nullify_is_not_valid_for_cost_entries: Pozycje kosztów nie mogą być przypisane do projektu.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Wybierz projekt.
   attributes:
     comment: Typ kosztu
     cost_type: Jednostki
@@ -137,7 +143,6 @@ pl:
   label_current_default_rate: Aktualne stawki domyślne
   label_date_on: na
   label_deleted_cost_types: Usunięte typy kosztów
-  label_locked_cost_types: Zablokowane typy kosztów
   label_display_cost_entries: Pokaż koszty jednostkowe
   label_display_time_entries: Wyświetl zgłoszone godziny
   label_display_types: Wyświetl typy
@@ -237,6 +242,28 @@ pl:
     errors:
       validation:
         start_time_different_date: Część daty startTime (%{start_time}) musi być taka sama jak data spentOn (%{spent_on}).
+  label_available_cost_types_projects: Dostępne projekty typów kosztów
+  cost_types:
+    errors:
+      no_cost_types_available: W tym projekcie nie są dostępne żadne typy kosztów. Skontaktuj się z administratorem.
+    admin:
+      columns:
+        active_projects: Aktywne projekty
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: Ten typ kosztów jest włączony we wszystkich projektach
+          description: Wyczyść opcję „Dla wszystkich projektów” na karcie szczegółów, aby ograniczyć ten typ kosztów do określonych projektów.
+        no_projects:
+          heading: Nie przydzielono żadnych projektów
+          description: Dodaj projekty, aby ten typ kosztu mógł być w nich używany.
+      rates:
+        title: Historia stawek
+    settings:
+      time_and_costs: Czas i koszty
+      cost_types:
+        heading: Typy kosztów
+        none_active: Żadne typy kosztów nie są obecnie aktywne w tym projekcie.
+        for_all_projects_hint: Ten typ kosztów jest włączony we wszystkich projektach.
   costs:
     widgets:
       actual_costs:

@@ -81,6 +81,30 @@ RSpec.describe ProjectArtifactsMailer do
       end
     end
 
+    context "with notification text referencing a work package" do
+      shared_let(:persisted_project) { create(:project, identifier: "wizardproj") }
+      shared_let(:persisted_user) { create(:admin) }
+      shared_let(:referenced_wp) { create(:work_package, project: persisted_project) }
+
+      subject(:mail) { described_class.creation_wizard_submitted(persisted_user, persisted_project, referenced_wp) }
+
+      before do
+        allow(persisted_project).to receive_messages(
+          project_creation_wizard_notification_text: "see ##{referenced_wp.id}",
+          project_creation_wizard_enabled?: false
+        )
+      end
+
+      let(:rendered_html) do
+        User.execute_as(persisted_user) { mail.html_part.body.encoded }
+      end
+
+      it "rewrites work-package links to absolute URLs",
+         with_settings: { work_packages_identifier: "classic" } do
+        expect(rendered_html).to match(%r{href="http[^"]*/work_packages/#{referenced_wp.id}"})
+      end
+    end
+
     context "with work package" do
       it "includes a link to the work package" do
         expect(mail.html_part.body.encoded)

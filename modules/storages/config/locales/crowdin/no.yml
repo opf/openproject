@@ -31,10 +31,15 @@
         authentication_method: Authentication Method
         creator: Skaper
         drive: Stasjon ID
+        file_link_origin: File link origin ID
         host: Vert
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: Navn
         password: Applikasjonspassord
         provider_type: Tjenestetype
+        storage: Storage
+        storage_url: Storage URL
         tenant: Katalog (leietaker) ID
     errors:
       messages:

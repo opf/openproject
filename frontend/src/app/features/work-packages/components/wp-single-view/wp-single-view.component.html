@@ -145,7 +145,7 @@
         }
       </div>
     }
-    @for (storage of projectStorages | async; track storage) {
+    @for (storage of projectStorages | async; track storage.id) {
       <op-storage [resource]="workPackage"
         [projectStorage]="storage"
         [allowLinking]="true"

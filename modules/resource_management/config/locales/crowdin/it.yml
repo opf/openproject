@@ -2,72 +2,168 @@
 it:
   activerecord:
     attributes:
-      resource_planner:
-        name: Nome
-        start_date: Data di inizio
-        end_date: Data di fine
-        default_view_class_name: Vista predefinita
-        public: Pubblico
-        favorite: Preferito
       resource_allocation:
-        entity: Entità
-        principal: Assegnatario
-        state: Stato
-        start_date: Data di inizio
-        end_date: Data di fine
+        allocated_hours: Hours
         allocated_time: Tempo assegnato
+        end_date: Data di fine
+        entity: Entità
+        filter_name: Resource filter name
+        principal: Assegnatario
+        start_date: Data di inizio
+        state: Stato
         user_filter: Filtro utente
+      resource_planner:
+        default_view_class_name: Vista predefinita
+        end_date: Data di fine
+        favorite: Preferito
+        name: Nome
+        public: Pubblico
+        start_date: Data di inizio
     errors:
       models:
-        resource_planner:
-          attributes:
-            end_date:
-              greater_than_start_date: deve essere successiva alla data di inizio.
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: deve essere successiva alla data di inizio.
-  plugin_openproject_resource_management:
-    name: Gestione delle risorse di OpenProject
-    description: Fornisce funzionalità di gestione delle risorse e pianificazione della capacità.
-  project_module_resource_management: Gestione risorse
-  permission_view_resource_planners: Visualizza i pianificatori di risorse
-  permission_view_resource_planners_explanation: 'Consente agli utenti di accedere ai pianificatori delle risorse. Permette loro di creare e gestire i propri pianificatori delle risorse e di visualizzare quelli pubblici. Non consente di visualizzare i pianificatori delle risorse creati da altri utenti che non sono condivisi pubblicamente.
-
-    '
-  permission_manage_public_resource_planners: Gestire i pianificatori di risorse pubbliche
-  permission_manage_public_resource_planners_explanation: 'Consente agli utenti di creare e gestire pianificatori delle risorse pubblici. Permette loro di visualizzare, creare, gestire e pubblicare i propri pianificatori delle risorse. Non consente di visualizzare i pianificatori delle risorse creati da altri utenti che non sono condivisi pubblicamente.
-
-    '
-  permission_allocate_user_resources: Assegnazione delle risorse utente
-  permission_allocate_user_resources_explanation: 'Consente di creare, aggiornare ed eliminare allocazioni delle risorse all''interno di un pianificatore risorse. Ciò include l''assegnazione di utenti o filtri utente a un pianificatore e la regolazione del tempo allocato e dell''intervallo di date.
-
-    '
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: deve essere successiva alla data di inizio.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: deve essere una query di macro-attività.
+    models:
+      resource_allocation: Allocazione delle risorse
+      resource_planner: Pianificatore di risorse
+      resource_work_package_list: Elenco macro-attività
+      user_card: Schede utente
+  button_next: Avanti
   label_resource_management: Pianificazione delle risorse
-  button_next: Salva
+  permission_allocate_user_resources: Assegnazione delle risorse utente
+  permission_allocate_user_resources_explanation: Consente di creare, aggiornare ed eliminare allocazioni delle risorse all'interno di un pianificatore risorse. Ciò include l'assegnazione di utenti o filtri utente a un pianificatore e la regolazione del tempo allocato e dell'intervallo di date.
+  permission_manage_public_resource_planners: Gestire i pianificatori di risorse pubbliche
+  permission_manage_public_resource_planners_explanation: Consente agli utenti di creare e gestire pianificatori delle risorse pubblici. Permette loro di visualizzare, creare, gestire e pubblicare i propri pianificatori delle risorse. Non consente di visualizzare i pianificatori delle risorse creati da altri utenti che non sono condivisi pubblicamente.
+  permission_view_resource_planners: Visualizza i pianificatori di risorse
+  permission_view_resource_planners_explanation: Consente agli utenti di accedere ai pianificatori delle risorse. Permette loro di creare e gestire i propri pianificatori delle risorse e di visualizzare quelli pubblici. Non consente di visualizzare i pianificatori delle risorse creati da altri utenti che non sono condivisi pubblicamente.
+  plugin_openproject_resource_management:
+    description: Fornisce funzionalità di gestione delle risorse e pianificazione della capacità.
+    name: Gestione delle risorse di OpenProject
+  project_module_resource_management: Gestione risorse
   resource_management:
+    action:
+      delete: Elimina
+      favorite: Aggiungi ai preferiti
+      make_private: Rendi privato
+      make_public: Rendi pubblico
+      unfavorite: Rimuovi dai preferiti
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          label: Filter criteria
+        label: Allocation type
+        principal:
+          caption: Allocate hours for a specific user.
+          label: User
+      outside_dates:
+        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
+        hidden_work: Other allocations
+        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        schedule_change: until %{date}, then %{schedule}
+        schedule_note: This user works %{schedule}.
+        submit: Allocate overtime
+        title: Do you want to allocate overtime to the user?
+      submit: Allocate
+      success_message: Resource allocated.
+      title: Allocate resource
+    blankslate:
+      desc: Crea un pianificatore di risorse per iniziare a pianificare la capacità di questo progetto.
+      title: Ancora nessun pianificatore di risorse
+    configure_view_dialog:
+      delete_confirmation: Vuoi davvero eliminare questa vista? Questa azione è irreversibile.
+      filter_mode:
+        automatic:
+          caption: Un elenco generato automaticamente che mostra gli elementi che soddisfano i criteri definiti.
+          label: Filtrato automaticamente
+        label: Selezione elementi
+        manual:
+          caption: Un elenco personalizzato di elementi che puoi aggiungere e rimuovere manualmente. Il filtraggio non è disponibile.
+          label: Selezionato manualmente
+      title: Configura vista
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
+    favorite_caption: Aggiungi questa vista ai preferiti per mostrarla nella sezione superiore del menu laterale.
+    label_new_resource_planner: Nuovo pianificatore di risorse
     label_resource_planner: Pianificatore di risorse
     label_resource_planner_plural: Pianificatori di risorse
-    label_new_resource_planner: Nuovo pianificatore di risorse
-    public_caption: 'Rendi questa vista pubblica per tutti i membri del progetto. Questo non influisce sulla visibilità delle macro-attività, che continua a dipendere dalle autorizzazioni di ciascun utente.
-
-      '
-    favorite_caption: 'Aggiungi questa vista ai preferiti per mostrarla nella sezione superiore del menu laterale.
-
-      '
-    view_types:
-      UserCardView: Schede utente
-    action:
-      favorite: Aggiungi ai preferiti
-      unfavorite: Rimuovi dai preferiti
-      make_public: Rendi pubblico
-      make_private: Rendi privato
-      delete: Elimina
-    sidebar:
-      public: Pubblico
-      private: Privato
-    blankslate:
-      title: Ancora nessun pianificatore di risorse
-      desc: Crea un pianificatore di risorse per iniziare a pianificare la capacità di questo progetto.
+    new_view_dialog:
+      title: Aggiungi vista
+    public_caption: Rendi questa vista pubblica per tutti i membri del progetto. Questo non influisce sulla visibilità delle macro-attività, che continua a dipendere dalle autorizzazioni di ciascun utente.
     show:
       placeholder: La vista dettagliata per questo pianificatore delle risorse sarà disponibile a breve.
+    sidebar:
+      private: Privato
+      public: Pubblico
+    sub_views: Viste in questo pianificatore di risorse
+    view_types:
+      resource_work_package_list:
+        caption: Crea una vista basata su macro-attività e visualizza i dettagli e l'allocazione in un elenco
+        label: Elenco macro-attività
+      user_card:
+        caption: Crea una vista basata sugli utenti per consultare i loro dettagli e le allocazioni in un elenco di schede utente
+        label: Elenco di schede utenti
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
+    work_package_list:
+      add_work_package_dialog:
+        title: Aggiungi macro-attività
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} user"
+          other: "%{count} users"
+        unassigned: Unassigned
+      allocation_placeholder: "—"
+      blank:
+        description: Non ci sono ancora macro-attività che corrispondono ai filtri di questa vista.
+        title: Nessuna macro-attività da visualizzare
+      columns:
+        allocated_members: Membri assegnati
+        allocation: Allocazione
+        dates: Date
+      context_menu:
+        add_filter_criteria: Aggiungi criteri di filtro
+        add_user_group: Aggiungi gruppo utente
+        edit_total_work: Modifica lavoro totale
+        label: Altre azioni
+        move: Sposta
+        move_down: Sposta giu
+        move_to_bottom: Sposta in fondo
+        move_to_top: Sposta in cima
+        move_up: Sposta in alto
+        remove: Rimuovi
+        remove_confirmation: Rimuovere questa macro-attività dalla vista?
+        see_allocation: Vedi l'assegnazione
+      mobile_title: Macro-attività
+      query_name: 'Pacchetti di lavoro per la gestione delle risorse: %{name}'
+      subheader:
+        add: Aggiungi
+        add_work_package: Aggiungi macro-attività
+        allocate: Alloca
+        settings: Configura vista

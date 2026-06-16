@@ -39,6 +39,8 @@ fr:
         unit: Nom de l'unité
         unit_plural: Nom pluriel de l'unité
         default: Type de coût par défaut
+        for_all_projects: Pour tous les projets
+        rates: Tarifs
       work_package:
         costs_by_type: Unités consommées
         labor_costs: Coûts de main d'œuvre
@@ -88,6 +90,10 @@ fr:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Le lot de travaux #%{id} n''est pas une cible valide pour réaffecter les entrées de coût.'
           nullify_is_not_valid_for_cost_entries: Des entrées de coût ne peuvent pas être assignées à un projet.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Veuillez sélectionner un projet.
   attributes:
     comment: Commentaire
     cost_type: Types de coût
@@ -129,7 +135,6 @@ fr:
   label_current_default_rate: Taux par défaut actuel
   label_date_on: le
   label_deleted_cost_types: Types de coût effacés
-  label_locked_cost_types: Types de coût bloqués
   label_display_cost_entries: Afficher les coûts unitaires
   label_display_time_entries: Afficher les heures consignées
   label_display_types: Afficher les types
@@ -229,6 +234,28 @@ fr:
     errors:
       validation:
         start_time_different_date: La partie date de startTime (%{start_time}) doit être identique à la date de spentOn (%{spent_on}).
+  label_available_cost_types_projects: Projets de types de coûts disponibles
+  cost_types:
+    errors:
+      no_cost_types_available: Aucun type de coût n'est disponible dans ce projet. Veuillez contacter un administrateur.
+    admin:
+      columns:
+        active_projects: Projets actifs
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: Ce type de coût est activé dans tous les projets
+          description: Décochez la case "Pour tous les projets" dans l'onglet "Détails" pour limiter ce type de coût à des projets spécifiques.
+        no_projects:
+          heading: Aucun projet assigné
+          description: Ajoutez des projets pour que ce type de coût puisse y être utilisé.
+      rates:
+        title: Historique des tarifs
+    settings:
+      time_and_costs: Temps et coûts
+      cost_types:
+        heading: Types de coûts
+        none_active: Aucun type de coût n'est actuellement actif dans ce projet.
+        for_all_projects_hint: Ce type de coût est activé dans tous les projets.
   costs:
     widgets:
       actual_costs:

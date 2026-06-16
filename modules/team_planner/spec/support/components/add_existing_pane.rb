@@ -69,7 +69,9 @@ module Components
 
     def drag_wp_to_date(work_package, date)
       wp_card = card(work_package)
-      day_header = page.find(:columnheader, exact_text: date.strftime("%02d %A"))
+      # The FullCalendar timeline day headers are not exposed as columnheaders
+      # (their table has a presentation role), so target the labelled slot by date.
+      day_header = page.find(".fc-timeline-slot-label[data-date='#{date.iso8601}']")
       drag_n_drop_element(from: wp_card, to: day_header, offset_y: day_header.native.size.height)
     end
 

@@ -1,10 +1,10 @@
 import 'reflect-metadata';
+import { Injectable, OnDestroy } from '@angular/core';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { ActionsService } from 'core-app/core/state/actions/actions.service';
 import { ActionCreator } from 'ts-action/action';
 import { Action } from 'ts-action';
 import { takeWhile } from 'rxjs/operators';
-import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { Observable } from 'rxjs';
 
 /**
@@ -71,16 +71,20 @@ export function registerEffectCallbacks(instance:EffectClass, untilDestroyed:(so
 
 /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
 export function EffectHandler<T extends new(...args:any[]) => EffectClass>(constructor:T):any {
-  return class extends constructor {
+  @Injectable()
+  class EffectHandlerDecorator extends constructor implements OnDestroy {
     private serviceDestroyed = false;
 
-    /* The class decorator requires any[] args to it to function */
-    /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
-    constructor(...args:any[]) {
-      super(...args);
-
+    // Registered from a field initializer, not a constructor, on purpose: an
+    // explicit constructor on this @Injectable() subclass of a generic base
+    // (`extends constructor`) breaks the ngtsc AOT compiler, which cannot
+    // analyse the `super(...args)` injection parameters. With
+    // useDefineForClassFields:false this initializer still runs in the
+    // constructor body after super(), so the wrapped service (and its actions$)
+    // is fully constructed before effect callbacks bind to it.
+    private effectRegistration = (() => {
       registerEffectCallbacks(this, takeWhile(() => !this.serviceDestroyed));
-    }
+    })();
 
     ngOnDestroy():void {
       this.serviceDestroyed = true;
@@ -88,7 +92,9 @@ export function EffectHandler<T extends new(...args:any[]) => EffectClass>(const
         super.ngOnDestroy();
       }
     }
-  };
+  }
+
+  return EffectHandlerDecorator;
 }
 
 /**

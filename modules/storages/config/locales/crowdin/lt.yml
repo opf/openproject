@@ -31,10 +31,15 @@ lt:
         authentication_method: Authentication Method
         creator: Kūrėjas
         drive: Disko ID
+        file_link_origin: File link origin ID
         host: Serveris
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: Vardas
         password: Aplikacijos slaptažpdis
         provider_type: Tiekėjo tipas
+        storage: Storage
+        storage_url: Storage URL
         tenant: Direktorijos (savininko) ID
     errors:
       messages:

@@ -1,0 +1,31 @@
+name: ERB lint
+
+on:
+  pull_request:
+    paths:
+      - '**/*.erb'
+      - '.erb_lint.yml'
+      - '.erb_linters/**'
+
+jobs:
+  erb-lint:
+    name: ERB lint
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      checks: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          persist-credentials: false
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@12fd324f1d0b43274fdc8130f6980590a667c455 # v1
+        with:
+          bundler-cache: true
+      - name: Run ERB lint
+        uses: opf/action-erblint@49c54b56c60d0c50885065468cf149b61d5c2a60 # main
+        with:
+          reporter: github-pr-annotations
+          fail_level: any
+          use_bundler: true

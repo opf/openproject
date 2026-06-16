@@ -155,7 +155,6 @@ ko:
         manual: Markdown 소스로 전환
         wysiwyg: WYSIWYG 편집기로 전환
       macro:
-        error: '매크로를 확장할 수 없습니다: %{message}'
         attribute_reference:
           macro_help_tooltip: 이 텍스트 세그먼트는 매크로에 의해 동적으로 렌더링되고 있습니다.
           not_found: 요청한 리소스를 찾을 수 없습니다.
@@ -175,9 +174,14 @@ ko:
           title: 코드 조각 삽입/편집
           language: 서식 언어
           language_hint: 강조 표시(지원되는 경우)에 사용할 서식 언어를 입력하세요.
-        dropdown:
-          macros: 매크로
-          chose_macro: 매크로 선택
+        embedded_calendar:
+          text: "[Placeholder] 포함 달력"
+        embedded_table:
+          button: 작업 패키지 테이블 포함
+          text: "[Placeholder] 포함 작업 패키지 테이블"
+        error: '매크로를 확장할 수 없습니다: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: 목차
         toolbar_help: 위젯을 선택하고 도구 모음을 표시하려면 클릭하세요. 위젯을 편집하려면 두 번 클릭하세요.
         wiki_page_include:
@@ -195,11 +199,6 @@ ko:
           button_style_hint: '옵션: 링크가 아니라 버튼으로 매크로가 나타나게 하려면 선택하세요.'
           without_type: 작업 패키지 만들기
           with_type: '작업 패키지 만들기(유형: %{typename})'
-        embedded_table:
-          button: 작업 패키지 테이블 포함
-          text: "[Placeholder] 포함 작업 패키지 테이블"
-        embedded_calendar:
-          text: "[Placeholder] 포함 달력"
     admin:
       type_form:
         edit_query: 쿼리 편집
@@ -210,13 +209,6 @@ ko:
           new_date: "(신규)"
         add_non_working_day: 휴무일
         already_added_error: 이 날짜의 휴무일이 이미 존재합니다. 고유한 날짜 각각에 대해 하나의 휴무일만 생성할 수 있습니다.
-        change_button: 저장하고 다시 예약
-        change_title: 근무일 변경
-        removed_title: 휴무일 목록에서 다음 날짜를 제거합니다.
-        change_description: 근무일 또는 휴무일로 간주되는 요일을 변경하면 이 인스턴스의 모든 프로젝트에 있는 모든 작업 패키지와 수명 주기의 시작 날짜 및 완료 날짜에 영향을 미칠 수 있습니다.
-        warning: '변경 사항이 적용되는 데 시간이 걸릴 수 있습니다. 모든 관련 작업 패키지와 프로젝트 수명 주기가 업데이트되면 알림이 전송됩니다. 계속하시겠습니까?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: 진행률 계산 모드를 상태 기반에서 작업 기반으로 변경하면 <i>완료 %</i> 필드를 자유롭게 편집할 수 있습니다. 선택적으로 <i>작업</i> 또는 <i>남은 작업</i>에 대한 값을 입력하면 해당 값도 <i>완료 %</i>에 링크됩니다. <i>남은 작업</i>을 변경하면 <i>완료 %</i>가 업데이트될 수 있습니다.
         warning_progress_calculation_mode_change_from_field_to_status_html: 진행률 계산 모드를 작업 기반에서 상태 기반으로 변경하면 기존의 모든 <i>완료 %</i> 값이 손실되고 각 상태와 관련된 값으로 대체됩니다. <i>남은 작업</i>의 기존 값도 이 변경 사항을 반영하기 위해 다시 계산될 수 있습니다. 이 작업은 되돌릴 수 없습니다.
@@ -375,6 +367,7 @@ ko:
     label_in_more_than: 보다 큼
     label_incoming_emails: 들어오는 이메일
     label_information_plural: 정보
+    label_infinity: Infinity
     label_invalid: 유효하지 않음
     label_import: 가져오기
     label_latest_activity: 최근 활동
@@ -399,6 +392,7 @@ ko:
     label_no_value: 값 없음
     label_none: 없음
     label_not_contains: 포함하지 않음
+    label_not_available: Not available
     label_not_equals: 일치하지 않음
     label_on: 에
     label_open_menu: 메뉴 열기
@@ -409,7 +403,6 @@ ko:
     label_per_page: '페이지 당:'
     label_please_wait: 잠시 기다려 주세요.
     label_project: 프로젝트
-    label_project_list: 프로젝트 목록
     label_project_plural: 프로젝트
     label_visibility_settings: 표시 여부 설정
     label_quote_comment: 코멘트 인용
@@ -1049,16 +1042,13 @@ ko:
         all: 모든 프로젝트
         selected: 선택한 항목만
       search_placeholder: 프로젝트 검색...
-      search_placeholder_favorites: 즐겨찾기 검색...
       include_subprojects: 모든 하위 프로젝트 포함
       tooltip:
         include_all_selected: "'모든 하위 프로젝트 포함'이 활성화되어 있으므로 프로젝트가 이미 포함되어 있습니다."
         current_project: 작업 중인 현재 프로젝트입니다.
         does_not_match_search: 프로젝트가 검색 기준과 일치하지 않습니다.
       no_results: 검색 기준과 일치하는 프로젝트가 없습니다.
-      no_favorite_results: 검색 기준과 일치하는 프로젝트 즐겨찾기가 없습니다.
     include_workspaces:
-      search_placeholder: 검색...
       types:
         program: 프로그램
         portfolio: 포트폴리오

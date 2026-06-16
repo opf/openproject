@@ -59,6 +59,24 @@ module Queries::Filters::Shared
         :list_optional
       end
 
+      def autocomplete_options # rubocop:disable Metrics/AbcSize
+        all_items = if custom_field.version?
+                      allowed_values.map { |name, id, project_name| { name:, id:, project_name: } }
+                    else
+                      allowed_values.map { |name, id| { name:, id: } }
+                    end
+        options = { items: all_items }
+        options[:groupBy] = "project_name" if custom_field.version?
+
+        {
+          component: "opce-autocompleter",
+          bindValue: "id",
+          bindLabel: "name",
+          hideSelected: true,
+          defaultData: false
+        }.merge(options).merge(model: all_items.select { |item| values.include?(item[:id]) })
+      end
+
       protected
 
       def condition
@@ -75,8 +93,7 @@ module Queries::Filters::Shared
       end
 
       def customized_strategy?
-        operator_strategy == Queries::Operators::CustomFields::EqualsAll ||
-          operator_strategy == Queries::Operators::CustomFields::NotEqualsAll
+        [Queries::Operators::CustomFields::EqualsAll, Queries::Operators::CustomFields::NotEqualsAll].include?(operator_strategy)
       end
 
       def type_strategy_class

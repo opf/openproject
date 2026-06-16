@@ -28,12 +28,10 @@
 
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { Component, ChangeDetectionStrategy, OnInit, ViewChild } from '@angular/core';
+import { Component, ChangeDetectionStrategy, OnInit, ViewChild, inject } from '@angular/core';
 import { EditFieldComponent } from 'core-app/shared/components/fields/edit/edit-field.component';
 import { ValueOption } from 'core-app/shared/components/fields/edit/field-types/select-edit-field/select-edit-field.component';
 import { NgSelectComponent } from '@ng-select/ng-select';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { UserResource } from 'core-app/features/hal/resources/user-resource';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
@@ -46,9 +44,7 @@ import { repositionDropdownBugfix } from 'core-app/shared/components/autocomplet
 export class MultiSelectEditFieldComponent extends EditFieldComponent implements OnInit {
   @ViewChild(NgSelectComponent, { static: true }) public ngSelectComponent:NgSelectComponent;
 
-  @InjectField() I18n!:I18nService;
-
-  @InjectField() pathHelperService:PathHelperService;
+  readonly pathHelperService = inject(PathHelperService);
 
   groupByFn = (item:HalResource):string|null => {
     if (!this.isVersionResource) return null;

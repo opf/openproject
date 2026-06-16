@@ -33,7 +33,7 @@ id:
           title: Subitem
         project_favorites:
           title: Proyek favorit
-          no_results: Saat ini, Anda tidak memiliki proyek favorit. Klik ikon bintang di dasbor proyek untuk menambahkan proyek ke daftar favorit Anda.
+          no_results: You currently have no favorite projects. Add one or multiple projects as favorite through their overview or in a project list.
         time_entries_current_user:
           title: Waktu yang saya habiskan
           displayed_days: 'Hari yang ditampilkan di widget:'

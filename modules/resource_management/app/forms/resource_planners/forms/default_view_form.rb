@@ -11,9 +11,10 @@ module ResourcePlanners
           input_width: :large
         ) do |select|
           ResourcePlanner.allowed_children.each do |class_name|
+            i18n_key = class_name.constantize.model_name.i18n_key
             select.option(
               value: class_name,
-              label: I18n.t("resource_management.view_types.#{class_name}", default: class_name.underscore.humanize)
+              label: I18n.t("resource_management.view_types.#{i18n_key}.label", default: class_name.underscore.humanize)
             )
           end
         end

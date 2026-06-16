@@ -26,7 +26,15 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { toggleElement, toggleElementByClass, toggleElementByVisibility, attributeTokenList, } from './dom-helpers';
+import {
+  toggleElement,
+  toggleElementByClass,
+  toggleElementByVisibility,
+  attributeTokenList,
+  toggleEnabled,
+  enableElement,
+  disableElement,
+} from './dom-helpers';
 
 describe('dom-helpers', () => {
   describe('toggleElement', () => {
@@ -326,6 +334,207 @@ describe('dom-helpers', () => {
       }
 
       expect(tokens).toEqual(['alpha', 'beta', 'gamma']);
+    });
+  });
+
+  describe('toggleEnabled', () => {
+    describe('basic disabled toggling', () => {
+      it('toggles disabled property on input element when no value provided', () => {
+        const input = document.createElement('input');
+
+        expect(input.disabled).toBe(false);
+
+        toggleEnabled(input);
+
+        expect(input.disabled).toBe(true);
+
+        toggleEnabled(input);
+
+        expect(input.disabled).toBe(false);
+      });
+
+      it('enables element when value is true', () => {
+        const input = document.createElement('input');
+        input.disabled = true;
+
+        toggleEnabled(input, true);
+
+        expect(input.disabled).toBe(false);
+      });
+
+      it('disables element when value is false', () => {
+        const input = document.createElement('input');
+        input.disabled = false;
+
+        toggleEnabled(input, false);
+
+        expect(input.disabled).toBe(true);
+      });
+
+      it('works with select elements', () => {
+        const select = document.createElement('select');
+        toggleEnabled(select, false);
+
+        expect(select.disabled).toBe(true);
+
+        toggleEnabled(select, true);
+
+        expect(select.disabled).toBe(false);
+      });
+
+      it('works with textarea elements', () => {
+        const textarea = document.createElement('textarea');
+        toggleEnabled(textarea, false);
+
+        expect(textarea.disabled).toBe(true);
+      });
+
+      it('works with button elements', () => {
+        const button = document.createElement('button');
+        toggleEnabled(button, false);
+
+        expect(button.disabled).toBe(true);
+      });
+    });
+
+    describe('with toggleHidden parameter', () => {
+      it('toggles both hidden and disabled when toggleHidden is true', () => {
+        const input = document.createElement('input');
+
+        expect(input.hidden).toBe(false);
+        expect(input.disabled).toBe(false);
+
+        toggleEnabled(input, false, true);
+
+        expect(input.hidden).toBe(true);
+        expect(input.disabled).toBe(true);
+
+        toggleEnabled(input, true, true);
+
+        expect(input.hidden).toBe(false);
+        expect(input.disabled).toBe(false);
+      });
+
+      it('toggles both properties when no value provided and toggleHidden is true', () => {
+        const input = document.createElement('input');
+
+        expect(input.hidden).toBe(false);
+        expect(input.disabled).toBe(false);
+
+        toggleEnabled(input, undefined, true);
+
+        expect(input.hidden).toBe(true);
+        expect(input.disabled).toBe(true);
+
+        toggleEnabled(input, undefined, true);
+
+        expect(input.hidden).toBe(false);
+        expect(input.disabled).toBe(false);
+      });
+
+      it('only toggles disabled when toggleHidden is false', () => {
+        const input = document.createElement('input');
+        input.hidden = true;
+
+        toggleEnabled(input, false, false);
+
+        expect(input.hidden).toBe(true); // unchanged
+        expect(input.disabled).toBe(true);
+      });
+
+      it('only toggles disabled when toggleHidden is omitted', () => {
+        const input = document.createElement('input');
+        input.hidden = true;
+
+        toggleEnabled(input, false);
+
+        expect(input.hidden).toBe(true); // unchanged
+        expect(input.disabled).toBe(true);
+      });
+
+      it('toggles hidden on non-form elements when toggleHidden is true', () => {
+        const div = document.createElement('div') as HTMLElement;
+
+        expect(div.hidden).toBe(false);
+
+        toggleEnabled(div, false, true);
+
+        expect(div.hidden).toBe(true);
+
+        toggleEnabled(div, true, true);
+
+        expect(div.hidden).toBe(false);
+      });
+    });
+
+    describe('fieldset recursion', () => {
+      it('recursively disables all child elements in a fieldset', () => {
+        const fieldset = document.createElement('fieldset');
+        const input1 = document.createElement('input');
+        const input2 = document.createElement('input');
+        const select = document.createElement('select');
+
+        fieldset.appendChild(input1);
+        fieldset.appendChild(input2);
+        fieldset.appendChild(select);
+
+        toggleEnabled(fieldset, false);
+
+        expect(fieldset.disabled).toBe(true);
+        expect(input1.disabled).toBe(true);
+        expect(input2.disabled).toBe(true);
+        expect(select.disabled).toBe(true);
+      });
+
+      it('recursively enables all child elements in a fieldset', () => {
+        const fieldset = document.createElement('fieldset');
+        const input = document.createElement('input');
+        fieldset.appendChild(input);
+
+        // First disable
+        toggleEnabled(fieldset, false);
+
+        expect(fieldset.disabled).toBe(true);
+        expect(input.disabled).toBe(true);
+
+        // Then enable
+        toggleEnabled(fieldset, true);
+
+        expect(fieldset.disabled).toBe(false);
+        expect(input.disabled).toBe(false);
+      });
+
+      it('passes toggleHidden parameter to child elements', () => {
+        const fieldset = document.createElement('fieldset');
+        const input = document.createElement('input');
+        fieldset.appendChild(input);
+
+        toggleEnabled(fieldset, false, true);
+
+        expect(fieldset.hidden).toBe(true);
+        expect(fieldset.disabled).toBe(true);
+        expect(input.disabled).toBe(true);
+      });
+    });
+
+    describe('convenience functions', () => {
+      it('enableElement sets disabled to false', () => {
+        const input = document.createElement('input');
+        input.disabled = true;
+
+        enableElement(input);
+
+        expect(input.disabled).toBe(false);
+      });
+
+      it('disableElement sets disabled to true', () => {
+        const input = document.createElement('input');
+        input.disabled = false;
+
+        disableElement(input);
+
+        expect(input.disabled).toBe(true);
+      });
     });
   });
 });

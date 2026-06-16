@@ -20,7 +20,7 @@ import { ExternalQueryConfigurationComponent } from 'core-app/features/work-pack
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class ExternalRelationQueryConfigurationComponent extends ExternalQueryConfigurationComponent {
 }

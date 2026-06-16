@@ -49,8 +49,6 @@ module FrontendAssetHelper
   # or referencing the running CLI proxy that hosts the assets in memory.
   def include_frontend_assets
     capture do
-      concat nonced_javascript_include_tag variable_asset_path("jquery.js"), skip_pipeline: true
-
       %w(polyfills.js main.js).each do |file|
         concat nonced_javascript_include_tag variable_asset_path(file), skip_pipeline: true, type: "module"
       end

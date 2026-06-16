@@ -39,6 +39,8 @@ de:
         unit: Einheit
         unit_plural: Einheit plural
         default: Standardkostentyp
+        for_all_projects: Für alle Projekte
+        rates: Preise
       work_package:
         costs_by_type: Gebuchte Einheiten
         labor_costs: Personaleinzelkosten
@@ -88,6 +90,10 @@ de:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnug der Stückkosteneinträge.'
           nullify_is_not_valid_for_cost_entries: Stückkosten können keinem Projekt zugeordnet werden.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Bitte wählen Sie ein Projekt aus.
   attributes:
     comment: Kommentar
     cost_type: Kostentyp
@@ -129,7 +135,6 @@ de:
   label_current_default_rate: Aktueller Standardsatz
   label_date_on: am
   label_deleted_cost_types: Gelöschte Kostentypen
-  label_locked_cost_types: Gesperrte Kostentypen
   label_display_cost_entries: Stückkosten anzeigen
   label_display_time_entries: Personaleinzelkosten anzeigen
   label_display_types: Angezeigte Eintragsarten
@@ -210,7 +215,7 @@ de:
   setting_costs_currency_format_prefix: Vor der Zahl (z.B. EUR 100)
   setting_costs_currency_format_suffix: Nach der Zahl (z.B. 100 EUR)
   setting_enforce_tracking_start_and_end_times: Start- und Endzeiten erforderlich
-  setting_enforce_without_allow: Start- und Endzeiten können nicht verpflichtend erfasst werden, ohne die Erfassung zu erlauben
+  setting_enforce_without_allow: Start und Endzeiten können nur erforderlich sein, wenn ihre Angabe erlaubt ist
   setting_allow_tracking_start_and_end_times_caption: Erlaubt es bei der Zeitbuchung die genaue Start- und Endzeiten der Buchung zu erfassen.
   setting_enforce_tracking_start_and_end_times_caption: Erfordert, dass bei Zeitbuchungen genaue Start- und Endzeiten erfasst werden.
   text_assign_time_and_cost_entries_to_project: Gebuchte Aufwände dem Projekt zuweisen
@@ -229,6 +234,28 @@ de:
     errors:
       validation:
         start_time_different_date: Der Datumsteil der Startzeit (%{start_time}) muss mit dem Datum (%{spent_on}) übereinstimmen.
+  label_available_cost_types_projects: Verfügbare Kostenarten in Projekten
+  cost_types:
+    errors:
+      no_cost_types_available: In diesem Projekt sind keine Kostenarten verfügbar. Bitte kontaktieren Sie einen Administrator.
+    admin:
+      columns:
+        active_projects: Aktive Projekte
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: Diese Kostenart ist in allen Projekten aktiviert
+          description: Deaktivieren Sie auf der Registerkarte "Details" die Option "Für alle Projekte", um diese Kostenart auf bestimmte Projekte zu beschränken.
+        no_projects:
+          heading: Keine zugewiesenen Projekte
+          description: Fügen Sie Projekte hinzu, damit diese Kostenart in ihnen verwendet werden kann.
+      rates:
+        title: Stückpreise-Historie
+    settings:
+      time_and_costs: Zeit und Kosten
+      cost_types:
+        heading: Kostentypen
+        none_active: In diesem Projekt sind derzeit keine Kostenarten aktiv.
+        for_all_projects_hint: Diese Kostenart ist in allen Projekten aktiviert.
   costs:
     widgets:
       actual_costs:

@@ -7,7 +7,7 @@ zh-CN:
         description: 与 OpenProject 组同步 LDAP 组以管理用户，更改他们的权限以便不同组的用户管理。
   plugin_openproject_ldap_groups:
     name: OpenProject LDAP 组
-    description: LDAP组成员同步。
+    description: LDAP 组成员同步。
   activerecord:
     attributes:
       ldap_groups/synchronized_group:
@@ -22,6 +22,7 @@ zh-CN:
         group_name_attribute: 组名称属性
         sync_users: 同步用户
         base_dn: 搜索基础 DN
+        member_lookup_attribute: 群组成员特性
     models:
       ldap_groups/synchronized_group: 同步的 LDAP 组
       ldap_groups/synchronized_filter: LDAP 组同步筛选器
@@ -32,7 +33,7 @@ zh-CN:
   ldap_groups:
     label_menu_item: LDAP 组同步
     label_group_key: LDAP 组筛选器密钥
-    label_synchronize: 同步
+    label_synchronize: 发现 LDAP 群组
     settings:
       name_attribute: LDAP 组名称属性
       name_attribute_text: 由筛选器创建时用于为 OpenProject 组命名的 LDAP 属性
@@ -56,6 +57,9 @@ zh-CN:
         base_dn_text: '输入用于此筛选器的搜索基础 DN。它必须低于所选 LDAP 连接的基础 DN。 将此选项留空以重复使用连接的基础 DN
 
           '
+        member_lookup_attribute_text: '留空可使用默认反向查找：OpenProject 会搜索其 memberOf 特性与群组 DN 匹配的用户。这要求用户条目上存在 memberOf 特性（Active Directory，具有 memberof 叠加的 OpenLDAP）。 将此项设置为群组条目上列出成员 DN 的特性名称，以改为使用正向查找。示例：“uniqueMember”(groupOfUniqueNames)、“member”(groupOfNames)。为不在用户条目上保留 memberOf 特性的 LDAP 服务器使用此设置。
+
+          '
     synchronized_groups:
       add_new: 添加同步的 LDAP 组
       destroy:
@@ -64,8 +68,12 @@ zh-CN:
         confirmation: 如果您继续，将移除同步组 %{name} 和通过该组同步的全部 %{users_count} 个用户。
         info: OpenProject 群组本身以及在此 LDAP 同步之外添加的成员将不会被移除。
       help_text_html: |
-        此模块允许您在 LDAP 与 OpenProject 群组之间建立同步。
-        它会根据 LDAP 群组的需求使用 <em>groupOfNames / memberOf</em> 特性集来与 OpenProject 协同工作。
+        此模块允许您设置 LDAP 与 OpenProject 群组之间的同步。
+        <br/>
+        默认情况下，OpenProject 使用<strong>反向查找</strong>：它会搜索其 <em>memberOf</em> 特性与群组 DN 匹配的用户。
+        这要求用户条目上存在 <em>memberOf</em> 特性（Active Directory，具有 memberof 叠加的 OpenLDAP）。
+        <br/>
+        如果 LDAP 服务器不在用户条目上保留 <em>memberOf</em>（例如将 <em>groupOfUniqueNames</em> 与 <em>uniqueMember</em> 配合使用），则可配置<strong>正向查找</strong>（在同步筛选条件上设置<em>群组成员特性</em>即可）。
         <br/>
         群组通过 cron 作业每小时同步一次。
         [请参阅我们关于此主题的文档](docs_url)。

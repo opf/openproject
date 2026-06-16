@@ -39,6 +39,8 @@ sv:
         unit: Enhetsnamn
         unit_plural: Enhetsnamn plural
         default: Kostnadstyp som standard
+        for_all_projects: For all projects
+        rates: Rates
       work_package:
         costs_by_type: Bokade enheter
         labor_costs: Personalkostnader
@@ -88,6 +90,10 @@ sv:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Arbetspaket #%{id} är inte ett giltigt mål för omfördelning av kostnadsposterna.'
           nullify_is_not_valid_for_cost_entries: Kostnadsposterna kan inte tilldelas till ett projekt.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
   attributes:
     comment: Kommentar
     cost_type: Kostnadstyp
@@ -129,7 +135,6 @@ sv:
   label_current_default_rate: Nuvarande standardtimpris
   label_date_on: den
   label_deleted_cost_types: Borttagna kostnadstyper
-  label_locked_cost_types: Låsta kostnadstyper
   label_display_cost_entries: Visa enhetskostnader
   label_display_time_entries: Visa rapporterade timmar
   label_display_types: Visa typer
@@ -229,6 +234,28 @@ sv:
     errors:
       validation:
         start_time_different_date: Datum del av startTime (%{start_time}) måste vara samma som datumet för spentOn (%{spent_on}).
+  label_available_cost_types_projects: Available cost types projects
+  cost_types:
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: This cost type is enabled in all projects
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+        no_projects:
+          heading: No projects assigned
+          description: Add projects so this cost type can be used in them.
+      rates:
+        title: Rate history
+    settings:
+      time_and_costs: Time & Costs
+      cost_types:
+        heading: Cost types
+        none_active: No cost types are currently active in this project.
+        for_all_projects_hint: This cost type is enabled in all projects.
   costs:
     widgets:
       actual_costs:

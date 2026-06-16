@@ -12,6 +12,7 @@ ca:
         sp_entity_id: ID de l'entitat de servei
         metadata_url: URL de metadades del proveïdor d'identitat
         name_identifier_format: Format de l'identificador de nom
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Punt d'inici de sessió del proveïdor d'identitat
         idp_slo_service_url: Punt final de sortida del proveïdor d'identitat
         idp_cert: Certificat públic del proveïdor d'identitat
@@ -44,6 +45,10 @@ ca:
       success: S'ha actualitzat correctament la configuració utilitzant les metadades del proveïdor d'identitat.
       invalid_url: L'URL de les metadades proporcionades no és vàlid. Proporciona un URL HTTP(s).
       error: 'Ha fallat en recuperar les metadades del proveïdor d''identitat: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Encara no s'ha configurat cap proveïdor SAML.
       label_empty_description: Afegiu un proveïdor per veure'ls aquí.
@@ -109,6 +114,9 @@ ca:
 
         '
       metadata_url: 'El vostre proveïdor d''identitat proporciona un URL de metadades.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'El vostre proveïdor d''identitat proporciona una baixada XML de metadades.

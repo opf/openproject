@@ -155,7 +155,6 @@ pl:
         manual: Przełącz na źródło Markdown
         wysiwyg: Przełącz na edytor WYSIWYG
       macro:
-        error: 'Nie można rozwinąć makra: %{message}'
         attribute_reference:
           macro_help_tooltip: Ten segment tekstowy jest renderowany dynamicznie przez makro.
           not_found: Nie można znaleźć żądanego zasobu
@@ -175,9 +174,14 @@ pl:
           title: Wstaw/edytuj fragment kodu
           language: Język formatowania
           language_hint: Wprowadź język formatowania, który będzie używany do wyróżniania (jeśli jest obsługiwany).
-        dropdown:
-          macros: Makra
-          chose_macro: Wybierz makro
+        embedded_calendar:
+          text: "[Placeholder] Wbudowany kalendarz"
+        embedded_table:
+          button: Osadź tabelę pakietów roboczych
+          text: "[Placeholder] Osadzona tabela pakietów roboczych"
+        error: 'Nie można rozwinąć makra: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Spis treści
         toolbar_help: Kliknij, aby wybrać widżet i wyświetlić pasek narzędzi. Kliknij dwukrotnie, aby edytować widżet
         wiki_page_include:
@@ -195,11 +199,6 @@ pl:
           button_style_hint: 'Opcjonalnie: zaznacz, aby wyświetlać makro jako łącze, a nie przycisk.'
           without_type: Utwórz pakiet roboczy
           with_type: 'Utwórz pakiet roboczy (typ: %{typename})'
-        embedded_table:
-          button: Osadź tabelę pakietów roboczych
-          text: "[Placeholder] Osadzona tabela pakietów roboczych"
-        embedded_calendar:
-          text: "[Placeholder] Wbudowany kalendarz"
     admin:
       type_form:
         edit_query: Edytuj zapytanie
@@ -210,13 +209,6 @@ pl:
           new_date: "(nowe)"
         add_non_working_day: Dzień nieroboczy
         already_added_error: Dzień nieroboczy dla tej daty już istnieje. Można utworzyć tylko jeden dzień nieroboczy dla każdej unikalnej daty.
-        change_button: Zapisz i zmień harmonogram
-        change_title: Zmień dni robocze
-        removed_title: 'Z listy dni nieroboczych usuniesz następujące dni:'
-        change_description: Zmiana dni tygodnia, które są uważane za dni robocze lub nierobocze, może wpłynąć na dni rozpoczęcia i zakończenia wszystkich pakietów roboczych i cykli życia we wszystkich projektach w tym wystąpieniu.
-        warning: 'Zmiany mogą wejść w życie po pewnym czasie. Gdy wszystkie odpowiednie pakiety robocze i cykle życia projektów zostaną zaktualizowane, otrzymasz powiadomienie. Czy na pewno chcesz kontynuować?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Zmiana trybu obliczania postępu z opartego na statusie na oparty na pracy spowoduje, że pole <i>% ukończenia</i> będzie można dowolnie edytować. Jeśli opcjonalnie wprowadzisz wartości <i>Praca</i> lub <i>Pozostała praca</i>, zostaną one również powiązane z wartością <i>% ukończenia</i>. Zmiana wartości <i>Pozostała praca</i> może wówczas skutkować zaktualizowaniem wartości <i>% ukończenia</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Zmiana trybu obliczania postępu z opartego na pracy na oparty na statusie spowoduje, że wszystkie istniejące wartości <i>% ukończenia</i> zostaną utracone i zastąpione wartościami powiązanymi z poszczególnymi statusami. Istniejące wartości <i>Pozostała praca</i> mogą również zostać obliczone ponownie w celu odzwierciedlenia tej zmiany. Działanie to jest nieodwracalne.
@@ -375,6 +367,7 @@ pl:
     label_in_more_than: w ponad
     label_incoming_emails: Przychodzące e-maile
     label_information_plural: Informacje
+    label_infinity: Infinity
     label_invalid: Niewłaściwy
     label_import: Importuj
     label_latest_activity: Ostatnia aktywność
@@ -399,6 +392,7 @@ pl:
     label_no_value: Brak wartości
     label_none: Brak
     label_not_contains: nie zawierają
+    label_not_available: Not available
     label_not_equals: nie jest
     label_on: wł
     label_open_menu: Otwórz menu
@@ -409,7 +403,6 @@ pl:
     label_per_page: 'Na stronie:'
     label_please_wait: Zaczekaj
     label_project: Projekt
-    label_project_list: Listy projektów
     label_project_plural: Projekty
     label_visibility_settings: Ustawienia widoczności
     label_quote_comment: Cytuj komentarz
@@ -1061,16 +1054,13 @@ pl:
         all: Wszystkie projekty
         selected: Tylko zaznaczone
       search_placeholder: Wyszukaj projekty...
-      search_placeholder_favorites: Wyszukaj ulubione...
       include_subprojects: Uwzględnij wszystkie podprojekty
       tooltip:
         include_all_selected: Projekt już uwzględniony, ponieważ włączenie wszystkich podprojektów jest włączone.
         current_project: To jest bieżący projekt, w którym jesteś.
         does_not_match_search: Projekt nie spełnia kryteriów wyszukiwania.
       no_results: Żaden projekt nie spełnia kryteriów wyszukiwania.
-      no_favorite_results: Żaden ulubiony projekt nie spełnia kryteriów wyszukiwania.
     include_workspaces:
-      search_placeholder: Wyszukaj...
       types:
         program: Program
         portfolio: Portfolio

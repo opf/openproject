@@ -158,7 +158,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
    * @param update
    */
   private modify(update:Partial<WorkPackageTimelineState>) {
-    this.update({ ...this.current, ...update } as WorkPackageTimelineState);
+    this.update({ ...this.current, ...update });
   }
 
   /**

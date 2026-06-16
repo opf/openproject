@@ -44,20 +44,21 @@ module OpenProject::Meeting
         permission :view_meetings,
                    {
                      meetings: %i[index show check_for_updates download_ics
-                                  presentation generate_pdf_dialog history],
+                                  presentation generate_pdf_dialog history project_items],
+                     "meetings/filters": %i[show],
                      "meetings/menus": %i[show],
                      work_package_meetings_tab: %i[index count],
-                     recurring_meetings: %i[index show new create download_ics],
-                     meeting_templates: %i[index]
+                     recurring_meetings: %i[index show new create download_ics]
                    },
-                   permissible_on: :project
+                   permissible_on: :project,
+                   contract_actions: { meetings: %i[read] }
         permission :create_meetings,
                    {
                      meetings: %i[new create copy new_dialog fetch_timezone fetch_templates],
                      recurring_meetings: %i[new create copy init template_completed],
                      "recurring_meetings/schedule": %i[update_text],
                      "meetings/menus": %i[show],
-                     meeting_templates: %i[new create new_dialog]
+                     meeting_templates: %i[index new create new_dialog]
                    },
                    dependencies: :view_meetings,
                    permissible_on: :project,
@@ -74,7 +75,8 @@ module OpenProject::Meeting
                    },
                    permissible_on: :project,
                    dependencies: :view_meetings,
-                   require: :member
+                   require: :member,
+                   contract_actions: { meetings: %i[update] }
         permission :delete_meetings,
                    {
                      meetings: %i[delete_dialog destroy],
@@ -82,7 +84,8 @@ module OpenProject::Meeting
                    },
                    permissible_on: :project,
                    dependencies: :view_meetings,
-                   require: :member
+                   require: :member,
+                   contract_actions: { meetings: %i[destroy] }
         permission :send_meeting_invites_and_outcomes,
                    { meetings: %i[notify icalendar] },
                    permissible_on: :project,
@@ -99,14 +102,16 @@ module OpenProject::Meeting
                    },
                    permissible_on: :project, # TODO: Change this to :meeting when MeetingRoles are available
                    dependencies: :view_meetings,
-                   require: :member
+                   require: :member,
+                   contract_actions: { meeting_agenda_items: %i[create update destroy] }
         permission :manage_outcomes,
                    {
                      meeting_outcomes: %i[new cancel_new create edit cancel_edit update destroy]
                    },
                    permissible_on: :project,
                    dependencies: :view_meetings,
-                   require: :member
+                   require: :member,
+                   contract_actions: { meeting_outcomes: %i[create update destroy] }
       end
 
       Redmine::Search.map do |search|
@@ -236,20 +241,52 @@ module OpenProject::Meeting
       "#{root}/meetings/#{id}/form"
     end
 
-    add_api_path :meeting_agenda_items do |meeting_id|
-      "#{meeting(meeting_id)}/agenda_items"
+    add_api_path :meeting_agenda_items do |meeting_id: nil|
+      if meeting_id
+        "#{meeting(meeting_id)}/agenda_items"
+      else
+        "#{root}/meeting_agenda_items"
+      end
     end
 
-    add_api_path :meeting_agenda_item do |meeting_id, id|
-      "#{meeting(meeting_id)}/agenda_items/#{id}"
+    add_api_path :meeting_agenda_item do |id, meeting_id: nil|
+      if meeting_id
+        "#{meeting(meeting_id)}/agenda_items/#{id}"
+      else
+        "#{root}/meeting_agenda_items/#{id}"
+      end
     end
 
-    add_api_path :meeting_sections do |meeting_id|
-      "#{meeting(meeting_id)}/sections"
+    add_api_path :meeting_agenda_item_outcomes do |agenda_item_id, meeting_id: nil|
+      "#{meeting_agenda_item(agenda_item_id, meeting_id:)}/outcomes"
     end
 
-    add_api_path :meeting_section do |meeting_id, id|
-      "#{meeting(meeting_id)}/sections/#{id}"
+    add_api_path :meeting_outcomes do
+      "#{root}/meeting_outcomes"
+    end
+
+    add_api_path :meeting_outcome do |id|
+      "#{root}/meeting_outcomes/#{id}"
+    end
+
+    add_api_path :meeting_agenda_item_outcome do |id, agenda_item_id:, meeting_id: nil|
+      "#{meeting_agenda_item_outcomes(agenda_item_id, meeting_id:)}/#{id}"
+    end
+
+    add_api_path :meeting_sections do |meeting_id: nil|
+      if meeting_id
+        "#{meeting(meeting_id)}/sections"
+      else
+        "#{root}/meeting_sections"
+      end
+    end
+
+    add_api_path :meeting_section do |id, meeting_id: nil|
+      if meeting_id
+        "#{meeting(meeting_id)}/sections/#{id}"
+      else
+        "#{root}/meeting_sections/#{id}"
+      end
     end
 
     add_api_path :recurring_meetings do

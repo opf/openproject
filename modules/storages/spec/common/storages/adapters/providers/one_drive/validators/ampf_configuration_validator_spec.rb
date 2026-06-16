@@ -36,7 +36,7 @@ module Storages
     module Providers
       module OneDrive
         module Validators
-          RSpec.describe AmpfConfigurationValidator, :webmock do
+          RSpec.describe AmpfConfigurationValidator, :disable_ssrf_filter, :webmock do
             let(:storage) { create(:one_drive_sandbox_storage, :as_automatically_managed) }
             let(:auth_strategy) { Registry["one_drive.authentication.userless"].call }
             let(:folder_name) { described_class::TEST_FOLDER_NAME }

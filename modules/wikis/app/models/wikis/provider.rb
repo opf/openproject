@@ -65,6 +65,10 @@ module Wikis
       Adapters::Registry["#{self.class.registry_prefix}.#{registry_path}"].new(model: self, **init_options)
     end
 
+    def inspect
+      "#<#{self.class.name} id: #{id} name: #{name}>"
+    end
+
     private
 
     def generate_universal_identifier

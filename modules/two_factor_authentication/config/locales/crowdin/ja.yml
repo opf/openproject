@@ -160,7 +160,7 @@ ja:
         '
       other_active_session_notice: あなたのアカウントは別のセッションで有効と記憶されているクッキーを持っています。
       label: 記憶する
-      clear_cookie: 記憶されている2FAのセッションをすべて削除するには、ここをクリックしてください。
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: 記憶されていた2FAのセッションはすべて削除されました。
       dont_ask_again: "%{days} 日間このクライアントの2FA認証を記憶するためのクッキーを作成します。"
   field_otp: ワンタイムパスワード
@@ -171,6 +171,7 @@ ja:
   notice_account_has_no_phone: あなたのアカウントには携帯電話番号は関連付けられていません。
   label_confirmed: 確認済み
   button_continue: 続行
+  button_make_active: Activate
   button_make_default: デフォルトにする
   notice_phone_number_format: '次の形式で番号を入力してください: +XX XXXXXXXX.'
   text_otp_not_receive: その他の確認方法

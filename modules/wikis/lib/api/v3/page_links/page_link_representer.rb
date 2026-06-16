@@ -46,7 +46,7 @@ module API
 
         property :id
         property :identifier
-        property :wiki_page_link_type, exec_context: :decorator
+        property :wiki_page_link_type, getter: ->(*) { URN_INLINE_PAGE_LINK }
 
         date_time_property :created_at
         date_time_property :updated_at
@@ -54,37 +54,53 @@ module API
         # Title being the identifier is kind of a placeholder until we have actual page names
         self_link(path: :wiki_page_link, title_getter: ->(*) { represented.identifier })
 
-        link :delete, cache_if: ->(*) { user_allowed_to_manage?(represented) } do
-          {
-            href: api_v3_paths.wiki_page_link(represented.id),
-            method: :delete
-          }
-        end
-
-        link :author do
-          next unless represented.render_author?
-
-          {
-            href: api_v3_paths.user(represented.author_id),
-            title: represented.author.name
-          }
-        end
-
-        associated_resource :provider, v3_path: :wiki_provider, link: ->(*) {
-          { href: api_v3_paths.wiki_provider(represented.provider.universal_identifier), title: represented.provider.name }
-        }
+        associated_resource :provider,
+                            v3_path: :wiki_provider,
+                            link: ->(*) {
+                              {
+                                href: api_v3_paths.wiki_provider(represented.provider.universal_identifier),
+                                title: represented.provider.name
+                              }
+                            },
+                            setter: ->(fragment:, **) { provider_setter(fragment) }
 
         # TODO: Make this truly polymorphic - @mereghost 2026-04-13
         associated_resource :linkable,
                             v3_path: :work_package,
                             representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
-                            skip_render: ->(*) { represented.linkable_id.nil? || represented.linkable_type != "WorkPackage" }
+                            skip_render: ->(*) { represented.linkable_id.nil? || represented.linkable_type != "WorkPackage" },
+                            setter: ->(fragment:, **) { linkable_setter(fragment) }
 
         def _type = "WikiPageLink"
 
         def wiki_page_link_type = URN_PAGE_LINK_TYPE[represented.class.name]
 
+        def wiki_page_link_type=(value)
+          represented.type = URN_PAGE_LINK_TYPE.invert[value]
+        end
+
         private
+
+        def linkable_setter(fragment)
+          work_package_id = extract_id_from_resource_link(fragment["href"], :linkable, :work_packages)
+          represented.linkable = WorkPackage.find_by(id: work_package_id) ||
+                                 WorkPackage::InexistentWorkPackage.new(id: work_package_id)
+        rescue API::Errors::InvalidResourceLink
+          represented.linkable = nil
+        end
+
+        def provider_setter(fragment)
+          provider_id = extract_id_from_resource_link(fragment["href"], :provider, :wiki_providers)
+
+          represented.provider = Wikis::Provider.find_by(universal_identifier: provider_id) ||
+                                 Wikis::InexistentProvider.new(universal_identifier: provider_id)
+        rescue API::Errors::InvalidResourceLink
+          represented.provider = nil
+        end
+
+        def extract_id_from_resource_link(href, property, expected_namespace)
+          API::Utilities::ResourceLinkParser.parse_id(href, property:, expected_version: "3", expected_namespace:)
+        end
 
         def user_allowed_to_manage?(model)
           if model.linkable.present?

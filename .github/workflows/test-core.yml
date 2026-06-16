@@ -20,6 +20,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   all:
@@ -38,7 +39,7 @@ jobs:
         persist-credentials: false
     - name: Cache DOCKER
       id: cache_docker
-      uses: runs-on/cache@bd330c5a5f6cbb837823ee25864f3c71a211c2e3 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/docker
         # Note: no restore keys since whenever the files below change, we want to rebuild the full image from scratch
@@ -47,28 +48,28 @@ jobs:
       if: steps.cache_docker.outputs.cache-hit == 'true'
       run: docker load -i cache/docker/image.tar
     - name: Cache GEM
-      uses: runs-on/cache@bd330c5a5f6cbb837823ee25864f3c71a211c2e3 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/bundle
         key: gem-trixie-${{ hashFiles('.ruby-version') }}-${{ hashFiles('Gemfile.lock') }}
         restore-keys: |
           gem-trixie-${{ hashFiles('.ruby-version') }}-
     - name: Cache NPM
-      uses: runs-on/cache@bd330c5a5f6cbb837823ee25864f3c71a211c2e3 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/node
         key: node-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           node-
     - name: Cache ANGULAR
-      uses: runs-on/cache@bd330c5a5f6cbb837823ee25864f3c71a211c2e3 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/angular
         key: angular-${{ hashFiles('package.json', 'frontend/package-lock.json') }}
         restore-keys: |
           angular-
     - name: Cache TEST RUNTIME
-      uses: runs-on/cache@bd330c5a5f6cbb837823ee25864f3c71a211c2e3 # v5
+      uses: runs-on/cache@88d90644011a3a9957fd141a106f5a94f9794203 # v5
       with:
         path: cache/runtime-logs
         key: runtime-logs-${{ github.head_ref || github.ref }}-${{ github.sha }}
@@ -87,6 +88,18 @@ jobs:
         CAPYBARA_AWS_ACCESS_KEY_ID: "${{ secrets.CAPYBARA_AWS_ACCESS_KEY_ID }}"
         CAPYBARA_AWS_SECRET_ACCESS_KEY: "${{ secrets.CAPYBARA_AWS_SECRET_ACCESS_KEY }}"
       run: bin/ci run-features
+    - name: Report flaky specs
+      env:
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      run: |
+        if [ -f tmp/retried_specs.txt ]; then
+          echo "## Flaky specs" >> "$GITHUB_STEP_SUMMARY"
+          cat tmp/retried_specs.txt >> "$GITHUB_STEP_SUMMARY"
+          if [ -n "$PR_NUMBER" ]; then
+            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body "$(printf '> [!WARNING]\n> Flaky specs\n\n'; cat tmp/retried_specs.txt)"
+          fi
+        fi
     - name: Save CI image to cache
       if: steps.cache_docker.outputs.cache-hit != 'true'
       run: mkdir -p cache/docker && docker save openproject/ci:v1 -o cache/docker/image.tar

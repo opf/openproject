@@ -231,22 +231,37 @@ RSpec.describe Saml::UpdateMetadataService do
     let(:metadata_url) { "https://example.com/metadata" }
     let(:provider) { Saml::Provider.new(metadata_url:) }
     let(:parser_instance) { instance_double(OneLogin::RubySaml::IdpMetadataParser) }
+    let(:http_response) { instance_double(Net::HTTPSuccess) }
 
     before do
       allow(OneLogin::RubySaml::IdpMetadataParser).to receive(:new).and_return(parser_instance)
-      allow(parser_instance).to receive(:parse_remote_to_hash).and_return({})
+      allow(parser_instance).to receive(:parse_to_hash).and_return({})
+      allow(Saml::MetadataDocument).to receive(:prepare).and_return("<xml/>")
+      allow(http_response).to receive(:is_a?).with(Net::HTTPSuccess).and_return(true)
+      allow(http_response).to receive(:read_body).and_yield("<metadata/>")
+      allow(OpenProject::SsrfProtection).to receive(:get)
     end
 
     context "when the URL host resolves to a safe IP" do
       before do
         allow(OpenProject::SsrfProtection).to receive(:safe_ip?).with("example.com").and_return(IPAddr.new("93.184.216.34"))
+        allow(OpenProject::SsrfProtection).to receive(:get).and_yield(http_response)
       end
 
-      it "checks the host and fetches metadata remotely" do
+      it "checks the host, fetches metadata via MetadataFetcher, and cleans up the tempfile" do
+        fetched_file = nil
+        allow(Saml::MetadataDocument).to receive(:prepare) do |file, **|
+          fetched_file = file
+          "<xml/>"
+        end
+
         parse_metadata
 
         expect(OpenProject::SsrfProtection).to have_received(:safe_ip?).with("example.com")
-        expect(parser_instance).to have_received(:parse_remote_to_hash).with(metadata_url)
+        expect(OpenProject::SsrfProtection).to have_received(:get).with(metadata_url)
+        expect(Saml::MetadataDocument).to have_received(:prepare).with(instance_of(File), entity_id: nil)
+        expect(parser_instance).to have_received(:parse_to_hash).with("<xml/>")
+        expect(fetched_file).to be_closed
       end
     end
 
@@ -261,7 +276,7 @@ RSpec.describe Saml::UpdateMetadataService do
         expect(result).not_to be_success
         expect(result.message).to include("MetadataHostNotAllowedError")
         expect(OpenProject::SsrfProtection).to have_received(:safe_ip?).with("example.com")
-        expect(parser_instance).not_to have_received(:parse_remote_to_hash)
+        expect(OpenProject::SsrfProtection).not_to have_received(:get)
       end
     end
   end

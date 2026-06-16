@@ -39,6 +39,8 @@ ja:
         unit: 単位名
         unit_plural: 単位名
         default: デフォルトのコストタイプ
+        for_all_projects: For all projects
+        rates: Rates
       work_package:
         costs_by_type: 消費した予算
         labor_costs: 作業員コスト
@@ -84,6 +86,10 @@ ja:
         work_package:
           is_not_a_valid_target_for_cost_entries: コストを再割り当てるには、ワークパッケージ#%{id}は対象外である。
           nullify_is_not_valid_for_cost_entries: コストエントリをプロジェクトに割り当てることはできません。
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
   attributes:
     comment: コメント
     cost_type: コスト種類
@@ -125,7 +131,6 @@ ja:
   label_current_default_rate: 現在のデフォルトレート
   label_date_on: オン
   label_deleted_cost_types: 削除されたコストタイプ
-  label_locked_cost_types: ロックされたコストタイプ
   label_display_cost_entries: ユニットのコストを表示
   label_display_time_entries: 報告された時間を表示する
   label_display_types: 表示タイプ
@@ -208,7 +213,7 @@ ja:
   setting_enforce_tracking_start_and_end_times: 開始/終了時間を必須とする
   setting_enforce_without_allow: 開始時間と終了時間を要求することは許可されていないとできません
   setting_allow_tracking_start_and_end_times_caption: 時間を記録する際に、開始時間と終了時間を入力できるようにする。
-  setting_enforce_tracking_start_and_end_times_caption: 時間を記録する際、開始時間と終了時間の入力を必須にします。
+  setting_enforce_tracking_start_and_end_times_caption: 時間を記録する際、開始時間と終了時間の入力が必須となる。
   text_assign_time_and_cost_entries_to_project: 報告された時間とコストをプロジェクトに割り当てる
   text_destroy_cost_entries_question: 削除しようとしているワークパッケージが%{cost_entries} 件報告されました。どうしますか？
   text_destroy_time_and_cost_entries: 報告された時間とコストを削除する
@@ -225,6 +230,28 @@ ja:
     errors:
       validation:
         start_time_different_date: 開始日(%{start_time})は消費日(%{spent_on})と同じである必要があります。
+  label_available_cost_types_projects: Available cost types projects
+  cost_types:
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: This cost type is enabled in all projects
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+        no_projects:
+          heading: No projects assigned
+          description: Add projects so this cost type can be used in them.
+      rates:
+        title: Rate history
+    settings:
+      time_and_costs: Time & Costs
+      cost_types:
+        heading: Cost types
+        none_active: No cost types are currently active in this project.
+        for_all_projects_hint: This cost type is enabled in all projects.
   costs:
     widgets:
       actual_costs:

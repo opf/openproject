@@ -42,7 +42,7 @@ import { IfcModelsDataService } from 'core-app/features/bim/ifc_models/pages/vie
         aria-hidden="true"></span>
       </a>
     }
-    
+
     `,
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'op-bcf-manage-ifc-button',

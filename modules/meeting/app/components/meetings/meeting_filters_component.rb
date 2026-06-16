@@ -28,33 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 # ++
 module Meetings
-  # rubocop:disable OpenProject/AddPreviewForViewComponent
   class MeetingFiltersComponent < Filter::FilterComponent
-    # rubocop:enable OpenProject/AddPreviewForViewComponent
     options :project
+
+    def turbo_requests? = true
 
     def allowed_filters
       super
         .select { |f| allowed_filter?(f) }
         .sort_by(&:human_name)
-    end
-
-    protected
-
-    def additional_filter_attributes(filter)
-      case filter
-      when Queries::Meetings::Filters::AuthorFilter,
-           Queries::Meetings::Filters::AttendedUserFilter,
-           Queries::Meetings::Filters::InvitedUserFilter
-        {
-          autocomplete_options: {
-            component: "opce-user-autocompleter",
-            resource: "principals"
-          }
-        }
-      else
-        super
-      end
     end
 
     private

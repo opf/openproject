@@ -29,7 +29,7 @@
           <option [textContent]="text.drop_down_none_option"
             [selected]="!filterSelected"
           [value]="'-'"></option>
-          @for (availableValue of baselineAvailableValues; track availableValue) {
+          @for (availableValue of baselineAvailableValues; track availableValue.value) {
             <option
               [value]="availableValue.value"
               [selected]="availableValue.value === selectedFilter"
@@ -201,4 +201,3 @@
 } @else {
   <op-baseline-loading />
 }
-

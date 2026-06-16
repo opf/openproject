@@ -155,7 +155,6 @@ el:
         manual: Αλλαγή σε Markdown source
         wysiwyg: Αλλαγή σε επεξεργαστή WYSIWYG
       macro:
-        error: 'Αδυναμία επέκτασης μακροεντολής: %{message}'
         attribute_reference:
           macro_help_tooltip: Αυτό το τμήμα κειμένου δημιουργείται δυναμικά από μια μακροεντολή.
           not_found: Ο ζητούμενος πόρος δεν βρέθηκε.
@@ -175,9 +174,14 @@ el:
           title: Εισαγωγή / επεξεργασία αποσπάσματος κώδικα
           language: Μορφοποίηση γλώσσας
           language_hint: Εισάγετε την γλώσσα μορφοποίησης που θα χρησιμοποιηθεί για επισημάνσεις (αν υποστηρίζεται).
-        dropdown:
-          macros: Μακροεντολές
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Ενσωματωμένο ημερολόγιο"
+        embedded_table:
+          button: Ενσωμάτωση πίνακα πακέτων εργασίας
+          text: "[Placeholder] Ενσωματωμένος πίνακας πακέτων εργασίας"
+        error: 'Αδυναμία επέκτασης μακροεντολής: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Πίνακας περιεχομένων
         toolbar_help: Κάντε κλικ για να επιλέξετε widget και να εμφανίσετε τη γραμμή εργαλείων. Κάντε διπλό κλικ για να επεξεργαστείτε το widget
         wiki_page_include:
@@ -195,11 +199,6 @@ el:
           button_style_hint: 'Προαιρετικό: Επιλέξτε για να κάνετε την μακροεντολή να εμφανίζεται ως κουμπί και όχι ως σύνδεσμος.'
           without_type: Δημιουργήστε πακέτο εργασίας
           with_type: 'Δημιουργήστε πακέτο εργασίας (Τύπου: %{typename})'
-        embedded_table:
-          button: Ενσωμάτωση πίνακα πακέτων εργασίας
-          text: "[Placeholder] Ενσωματωμένος πίνακας πακέτων εργασίας"
-        embedded_calendar:
-          text: "[Placeholder] Ενσωματωμένο ημερολόγιο"
     admin:
       type_form:
         edit_query: Επεξεργασία αναζήτησης
@@ -210,13 +209,6 @@ el:
           new_date: "(new)"
         add_non_working_day: Non-working day
         already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
-        change_button: Save and reschedule
-        change_title: Change working days
-        removed_title: 'You will remove the following days from the non-working days list:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -375,6 +367,7 @@ el:
     label_in_more_than: σε περισσότερο από
     label_incoming_emails: Εισερχόμενα email
     label_information_plural: Πληροφορίες
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Εισαγωγή
     label_latest_activity: Τελευταία δραστηριότητα
@@ -399,6 +392,7 @@ el:
     label_no_value: Καμία τιμή
     label_none: κανένα
     label_not_contains: δεν περιέχει
+    label_not_available: Not available
     label_not_equals: δεν είναι
     label_on: σε
     label_open_menu: Άνοιγμα μενού
@@ -409,7 +403,6 @@ el:
     label_per_page: 'Ανά σελίδα:'
     label_please_wait: Παρακαλώ περιμένετε
     label_project: Έργο
-    label_project_list: Project lists
     label_project_plural: Έργα
     label_visibility_settings: Ρυθμίσεις ορατότητας
     label_quote_comment: Παραθέστε αυτό το σχόλιο
@@ -1053,16 +1046,13 @@ el:
         all: Όλα τα έργα
         selected: Only selected
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Include all sub-projects
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.
         current_project: This is the current project you are in.
         does_not_match_search: Project does not match the search criteria.
       no_results: No project matches your search criteria.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

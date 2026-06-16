@@ -51,8 +51,10 @@ module Wikis
 
           namespace("queries") do
             register(:page_info, Queries::PageInfo)
+            register(:page_info_for_url, Queries::PageInfoForUrl)
             register(:referencing_pages, Queries::ReferencingPages)
             register(:relation_page_links, Queries::RelationPageLinks)
+            register(:search_pages, Queries::SearchPages)
           end
         end
       end

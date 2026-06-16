@@ -6,7 +6,7 @@ import {
   rowGroupClassName,
 } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { GroupObject } from 'core-app/features/hal/resources/wp-collection-resource';
 import { WorkPackageTable } from '../../../wp-fast-table';
@@ -19,13 +19,13 @@ import { getNodeIndex } from 'core-app/shared/helpers/dom-helpers';
 
 export class GroupedRowsBuilder extends RowsBuilder {
   // Injections
-  @InjectField() private readonly querySpace:IsolatedQuerySpace;
+  @LazyInject() private readonly querySpace:IsolatedQuerySpace;
 
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
-  @InjectField() public wpTableColumns:WorkPackageViewColumnsService;
+  @LazyInject() public wpTableColumns:WorkPackageViewColumnsService;
 
-  @InjectField() public I18n:I18nService;
+  @LazyInject() public I18n:I18nService;
 
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);

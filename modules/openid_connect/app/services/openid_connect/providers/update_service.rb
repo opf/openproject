@@ -114,7 +114,7 @@ module OpenIDConnect
         if host.present? && OpenProject::SsrfProtection.safe_ip?(host)
           true
         else
-          call.errors.add(:metadata_url, :host_not_allowed)
+          call.errors.add(:metadata_url, :ssrf_filtered)
           call.success = false
           false
         end

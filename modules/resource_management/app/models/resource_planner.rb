@@ -29,7 +29,7 @@
 #++
 
 class ResourcePlanner < PersistedView
-  self.allowed_children = %w[UserCardView]
+  self.allowed_children = %w[UserCard ResourceWorkPackageList]
 
   # Virtual attributes used by the new-planner form. They are not persisted on
   # the planner itself: `default_view_class_name` is consumed when creating the
@@ -38,6 +38,7 @@ class ResourcePlanner < PersistedView
 
   store_attribute :options, :start_date, :date
   store_attribute :options, :end_date, :date
+  store_attribute :options, :default_view_id, :integer
 
   # resource planner cannot be nested, queries are assigned to the sub-views
   validates :parent, absence: true
@@ -49,7 +50,7 @@ class ResourcePlanner < PersistedView
 
   validate :end_date_after_start_date
 
-  after_initialize :set_default_category
+  include ResourceManagement::Categorized
 
   def visible?(user)
     return false if project.nil?
@@ -59,10 +60,6 @@ class ResourcePlanner < PersistedView
   end
 
   private
-
-  def set_default_category
-    self.category ||= "resource_management" if new_record?
-  end
 
   def end_date_after_start_date
     return if start_date.blank? || end_date.blank?

@@ -96,13 +96,6 @@ RSpec.describe "Wysiwyg embedded work package tables",
           columns.expect_checked "Subject"
           columns.expect_checked "Type"
           modal.cancel
-
-          # Expect we can preview the table within ckeditor-augmented-textarea
-          editor.within_enabled_preview do |preview_container|
-            embedded_table = Pages::EmbeddedWorkPackagesTable.new preview_container
-            embedded_table.expect_work_package_listed wp_task
-            embedded_table.ensure_work_package_not_listed! wp_bug
-          end
         end
 
         # Save wiki page

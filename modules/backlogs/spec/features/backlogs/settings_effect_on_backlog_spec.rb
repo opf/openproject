@@ -195,8 +195,8 @@ RSpec.describe "Backlogs settings effect on backlog and sprints", :js do
   end
 
   def expect_sprint_items_unaffected
-    backlog_page.expect_story_in_sprint(sprint_done_work_package, active_sprint)
-    backlog_page.expect_story_in_sprint(sprint_excluded_type_work_package, active_sprint)
-    backlog_page.expect_story_in_sprint(sprint_visible_work_package, active_sprint)
+    backlog_page.expect_work_package_in_sprint(sprint_done_work_package, active_sprint)
+    backlog_page.expect_work_package_in_sprint(sprint_excluded_type_work_package, active_sprint)
+    backlog_page.expect_work_package_in_sprint(sprint_visible_work_package, active_sprint)
   end
 end

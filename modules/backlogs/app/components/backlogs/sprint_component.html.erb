@@ -28,20 +28,22 @@ See COPYRIGHT and LICENSE files for more details.
 ++# %>
 
 <%= component_wrapper(tag: :section) do %>
-  <%= render(
-        Backlogs::WorkPackageCardListComponent.new(
-          work_packages:,
-          project:,
-          container: sprint,
-          drag_and_drop: {
-            target_id: "sprint:#{sprint.id}",
-            allowed_drag_type: "story"
-          },
-          params: all_backlogs_params,
-          current_user:,
-          test_selector: "sprint-#{sprint.id}"
-        )
-      ) do |list| %>
+  <%=
+    render(
+      Backlogs::WorkPackageCardListComponent.new(
+        work_packages:,
+        project:,
+        container: sprint,
+        drag_and_drop: {
+          target_id: "sprint:#{sprint.id}",
+          allowed_drag_type: "story"
+        },
+        params: all_backlogs_params,
+        current_user:,
+        test_selector: "sprint-#{sprint.id}"
+      )
+    ) do |list|
+  %>
     <% list.with_header(title: sprint.name) do |header| %>
       <% header.with_description(display: :flex, direction: :column, classes: "row-gap-2") do %>
         <%= render(Primer::Alpha::Stack.new(direction: :horizontal, align: :center)) do %>
@@ -60,80 +62,84 @@ See COPYRIGHT and LICENSE files for more details.
         <% end %>
       <% end %>
 
-      <% if show_start_sprint_action? %>
-        <% header.with_action_button(**start_sprint_button_arguments) do |button| %>
-          <% button.with_leading_visual_icon(icon: :rocket) %>
-          <% if start_sprint_disabled_reason.present? %>
-            <% button.with_tooltip(
-                 text: start_sprint_disabled_reason,
-                 type: :description,
-                 direction: :sw
-               ) %>
-          <% end %>
-          <%= t(".label_start_sprint") %>
-        <% end %>
-      <% elsif show_finish_sprint_action? %>
-        <% header.with_action_button(**finish_sprint_button_arguments) do |button| %>
-          <% button.with_leading_visual_icon(icon: :"op-flag") %>
-          <%= t(".label_complete_sprint") %>
-        <% end %>
-      <% end %>
+      <%
+        if show_start_sprint_action?
+          header.with_action_button(**start_sprint_button_arguments) do |button|
+            button.with_leading_visual_icon(icon: :rocket)
+            if start_sprint_disabled_reason.present?
+              button.with_tooltip(
+                text: start_sprint_disabled_reason,
+                type: :description,
+                direction: :sw
+              )
+            end
+            t(".label_start_sprint")
+          end
+        elsif show_finish_sprint_action?
+          header.with_action_button(**finish_sprint_button_arguments) do |button|
+            button.with_leading_visual_icon(icon: :"op-flag")
+            t(".label_complete_sprint")
+          end
+        end
 
-      <% header.with_menu(button_aria_label: t(".label_actions")) do |menu| %>
-        <% with_item_group(menu) do %>
-          <% if user_allowed?(:create_sprints) %>
-            <% menu.with_item(
-                 id: dom_target(sprint, :menu, :edit_sprint),
-                 label: t(".action_menu.edit_sprint"),
-                 href: edit_dialog_project_backlogs_sprint_path(project, sprint),
-                 content_arguments: { data: { controller: "async-dialog" } }
-               ) do |item| %>
-              <% item.with_leading_visual_icon(icon: :pencil) %>
-            <% end %>
-          <% end %>
-        <% end %>
+        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+          with_item_group(menu) do
+            if user_allowed?(:create_sprints)
+              menu.with_item(
+                id: dom_target(sprint, :menu, :edit_sprint),
+                label: t(".action_menu.edit_sprint"),
+                href: edit_dialog_project_backlogs_sprint_path(project, sprint),
+                content_arguments: { data: { controller: "async-dialog" } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :pencil)
+              end
+            end
+          end
 
-        <% with_item_group(menu) do %>
-          <% if user_allowed?(:manage_sprint_items) %>
-            <% menu.with_item(
-                 id: dom_target(sprint, :menu, :new_story),
-                 label: t(".action_menu.add_work_package"),
-                 href: new_project_work_packages_dialog_path(project, sprint_id: sprint.id),
-                 content_arguments: { data: { turbo_stream: true } }
-               ) do |item| %>
-              <% item.with_leading_visual_icon(icon: :plus) %>
-            <% end %>
-          <% end %>
-        <% end %>
+          with_item_group(menu) do
+            if user_allowed?(:manage_sprint_items)
+              menu.with_item(
+                id: dom_target(sprint, :menu, :new_story),
+                label: t(".action_menu.add_work_package"),
+                href: new_project_work_packages_dialog_path(project, sprint_id: sprint.id),
+                content_arguments: { data: { turbo_stream: true } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :plus)
+              end
+            end
+          end
 
-        <% with_item_group(menu) do %>
-          <% if show_task_board_link? %>
-            <% menu.with_item(
-                 label: t("backlogs.label_sprint_board"),
-                 tag: :a,
-                 href: project_backlogs_sprint_taskboard_path(project, sprint)
-               ) do |item| %>
-              <% item.with_leading_visual_icon(icon: :"op-view-cards") %>
-            <% end %>
-          <% end %>
+          with_item_group(menu) do
+            if show_task_board_link?
+              menu.with_item(
+                label: t("backlogs.label_sprint_board"),
+                tag: :a,
+                href: project_backlogs_sprint_taskboard_path(project, sprint)
+              ) do |item|
+                item.with_leading_visual_icon(icon: :"op-view-cards")
+              end
+            end
 
-          <% if show_burndown_link? %>
-            <% menu.with_item(
-                 label: t("backlogs.label_burndown_chart"),
-                 tag: :a,
-                 href: project_backlogs_sprint_burndown_chart_path(project, sprint),
-                 disabled: !sprint.date_range_set?
-               ) do |item| %>
-              <% item.with_leading_visual_icon(icon: :graph) %>
-            <% end %>
-          <% end %>
-        <% end %>
-      <% end %>
+            if show_burndown_link?
+              menu.with_item(
+                label: t("backlogs.label_burndown_chart"),
+                tag: :a,
+                href: project_backlogs_sprint_burndown_chart_path(project, sprint),
+                disabled: !sprint.date_range_set?
+              ) do |item|
+                item.with_leading_visual_icon(icon: :graph)
+              end
+            end
+          end
+        end
+      %>
     <% end %>
 
-    <% list.with_empty_state(
-         title: t(".blankslate_title", name: sprint.name),
-         description: t(".blankslate_description")
-       ) %>
+    <%
+      list.with_empty_state(
+        title: t(".blankslate_title", name: sprint.name),
+        description: t(".blankslate_description")
+      )
+    %>
   <% end %>
 <% end %>

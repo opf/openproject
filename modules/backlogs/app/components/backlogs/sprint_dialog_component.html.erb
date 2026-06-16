@@ -54,12 +54,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
 
         buttons.with_component(
-          Primer::Beta::Button.new(
-            scheme: :primary,
-            form: FORM_ID,
-            data: { turbo: true },
-            type: :submit
-          )
+          Primer::Beta::Button.new(scheme: :primary, form: FORM_ID, type: :submit)
         ) do
           button_caption
         end

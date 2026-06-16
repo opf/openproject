@@ -32,47 +32,61 @@ See COPYRIGHT and LICENSE files for more details.
 <% html_title t(:label_administration), t(:project_module_wiki_platforms), page_title %>
 
 <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
-  <% header.with_title { page_title } %>
+  <% header.with_title do %>
+    <%= page_title %>
+    <%= render(Primer::Beta::Text.new(tag: :span, font_weight: :light, color: :muted)) do %>
+      (<%= t("wikis.provider_types.#{@wiki_provider}.name") %>)
+    <% end %>
+  <% end %>
 
-  <% header.with_breadcrumbs([
-    { href: admin_index_path, text: t(:label_administration) },
-    { href: admin_settings_wiki_providers_path, text: t(:project_module_wiki_platforms) },
-    page_title
-  ]) %>
+  <%
+    header.with_breadcrumbs(
+      [
+        { href: admin_index_path, text: t(:label_administration) },
+        { href: admin_settings_wiki_providers_path, text: t("menus.admin.wikis") },
+        { href: admin_settings_wiki_providers_path, text: t(:project_module_wiki_platforms) },
+        page_title
+      ]
+    )
+  %>
 
   <%# TODO: temp — move to a dedicated per-user connection status component once designed %>
   <% if current_user_xwiki_token_missing?(@wiki_provider) %>
-    <% header.with_action_button(
-      tag: :a,
-      scheme: :default,
-      mobile_icon: :plug,
-      mobile_label: t("wikis.buttons.connect_account", provider: @wiki_provider.name),
-      size: :medium,
-      href: oauth_clients_ensure_connection_url(
-        oauth_client_id: @wiki_provider.oauth_client.client_id,
-        integration_id: @wiki_provider.id,
-        destination_url: edit_admin_settings_wiki_provider_url(@wiki_provider)
-      )
-    ) do |button|
-      button.with_trailing_visual_icon(icon: :"link-external")
-      t("wikis.buttons.connect_account", provider: @wiki_provider.name)
-    end %>
+    <%
+      header.with_action_button(
+        tag: :a,
+        scheme: :default,
+        mobile_icon: :plug,
+        mobile_label: t("wikis.buttons.connect_account", provider: @wiki_provider.name),
+        size: :medium,
+        href: oauth_clients_ensure_connection_url(
+          oauth_client_id: @wiki_provider.oauth_client.client_id,
+          integration_id: @wiki_provider.id,
+          destination_url: edit_admin_settings_wiki_provider_url(@wiki_provider)
+        )
+      ) do |button|
+        button.with_trailing_visual_icon(icon: :"link-external")
+        t("wikis.buttons.connect_account", provider: @wiki_provider.name)
+      end
+    %>
   <% end %>
 
-  <% header.with_action_button(
-    tag: :a,
-    scheme: :danger,
-    mobile_icon: :trash,
-    mobile_label: t(:button_delete),
-    size: :medium,
-    href: confirm_destroy_admin_settings_wiki_provider_path(@wiki_provider),
-    aria: { label: I18n.t(:button_delete) },
-    title: I18n.t(:button_delete),
-    data: { "turbo-frame": "_top", controller: "async-dialog" }
-  ) do |button|
-    button.with_leading_visual_icon(icon: :trash)
-    t(:button_delete)
-  end %>
+  <%
+    header.with_action_button(
+      tag: :a,
+      scheme: :danger,
+      mobile_icon: :trash,
+      mobile_label: t(:button_delete),
+      size: :medium,
+      href: confirm_destroy_admin_settings_wiki_provider_path(@wiki_provider),
+      aria: { label: I18n.t(:button_delete) },
+      title: I18n.t(:button_delete),
+      data: { "turbo-frame": "_top", controller: "async-dialog" }
+    ) do |button|
+      button.with_leading_visual_icon(icon: :trash)
+      t(:button_delete)
+    end
+  %>
 <% end %>
 
 <%= content_tag("turbo-frame", id: "wiki_provider_content") do %>
@@ -82,7 +96,7 @@ See COPYRIGHT and LICENSE files for more details.
         render(Wikis::Admin::WikiProviderViewComponent.new(@wiki_provider, wizard: @wizard))
       end
 
-      page.with_sidebar(col_placement: :end, row_placement: :start) do
+      page.with_sidebar(col_placement: :end, row_placement: :end) do
         render(Wikis::Admin::SidePanelComponent.new(@wiki_provider))
       end
     end

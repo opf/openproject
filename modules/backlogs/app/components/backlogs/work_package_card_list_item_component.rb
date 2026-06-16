@@ -30,6 +30,8 @@
 
 module Backlogs
   class WorkPackageCardListItemComponent < OpenProject::Common::BorderBoxListComponent::WorkPackageItem
+    include CommonHelper
+
     private
 
     def build_card
@@ -37,7 +39,7 @@ module Backlogs
     end
 
     def draggable?
-      current_user.allowed_in_project?(:manage_sprint_items, project)
+      user_allowed?(:manage_sprint_items)
     end
 
     def split_url

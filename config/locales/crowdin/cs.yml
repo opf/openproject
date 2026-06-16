@@ -1763,6 +1763,7 @@ cs:
       attachment:
         attachment_content: Obsah přílohy
         attachment_file_name: Název souboru přílohy
+        charset: Character set
         content_type: Content-type
         downloads: Ke stažení
         file: Soubor
@@ -1859,6 +1860,7 @@ cs:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Role
       notification:
         read_ian: Read in-app
@@ -1874,7 +1876,7 @@ cs:
         enabled_modules: Povolené moduly
         identifier: Identifikátor
         latest_activity_at: Poslední aktivita
-        parent: Nadřazený projekt
+        parent: Podprojekt
         project_creation_wizard_enabled: Zahajovatel projektu
         public_value:
           title: Viditelnost
@@ -2104,6 +2106,7 @@ cs:
         priority: Priorita
         progress: "% Dokončeno"
         readonly: Pouze pro čtení
+        relatable: Relatable to
         remaining_hours: Zbývající práce
         remaining_time: Zbývající práce
         sequence_number: Sekvenční číslo
@@ -2148,17 +2151,14 @@ cs:
         before: musí být před %{date}.
         before_or_equal_to: musí být před nebo rovno %{date}.
         blank: nemůže být prázdné.
-        not_before_start_date: nesmí být před datem zahájení.
-        overlapping_range: se překrývá se stávajícím rozsahem nepracovního dne.
         blank_nested: musí mít nastavenou vlastnost '%{property}'.
         cannot_delete_mapping: je povinné. Nelze odstranit.
-        is_for_all_cannot_modify: je pro všechny projekty, a proto je nelze měnit.
         cant_link_a_work_package_with_a_descendant: Pracovní balíček nemůže být propojen s jedním z jeho podúkolů.
         circular_dependency: Tento vztah by vytvořil kruhovou závislost.
         confirmation: neshoduje se s %{attribute}.
         could_not_be_copied: "%{dependency} nemůže být (zcela) zkopírován."
+        datetime_must_be_in_future: musí být v budoucnosti.
         does_not_exist: neexistuje.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: není přístupný.
         error_readonly: se pokusil být napsán, ale není zapisovatelný.
@@ -2179,36 +2179,38 @@ cs:
         greater_than_or_equal_to: musí být větší než nebo rovno %{count}.
         greater_than_or_equal_to_start_date: musí být větší nebo rovno počátečnímu datu.
         greater_than_start_date: musí být větší než počáteční datum.
+        hexcode_invalid: není platným 6-místným hexadecimálním barevným kódem.
         inclusion: není nastavena na jednu z povolených hodnot.
         inclusion_nested: není nastavena na jednu z povolených hodnot na cestě '%{path}'.
         invalid: je neplatné.
         invalid_uri: must be a valid URI.
         invalid_url: není platná adresa URL.
         invalid_url_scheme: 'není podporovaný protokol (povoleny: %{allowed_schemes}).'
+        is_for_all_cannot_modify: je pro všechny projekty, a proto je nelze měnit.
         less_than_or_equal_to: musí být menší než nebo rovno %{count}.
         not_available: není k dispozici kvůli konfiguraci systému.
+        not_before_start_date: nesmí být před datem zahájení.
         not_deletable: nelze odstranit
         not_editable: nelze upravit, protože již platí.
         not_current_user: není aktuální uživatel.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: nenalezeno.
         not_a_date: není platné datum.
         not_a_datetime: není platný čas.
         not_a_number: není číslo.
         not_allowed: je neplatný z důvodu chybějících oprávnění.
-        host_not_allowed: is not an allowed host.
         not_json: nelze přečíst jako JSON.
         not_json_object: není platným JSON objektem.
         not_an_integer: není celé číslo.
         not_an_iso_date: 'není platné datum. Požadovaný formát: RRRR-MM-DD.'
         not_same_project: nepatří do stejného projektu.
-        datetime_must_be_in_future: musí být v budoucnosti.
         odd: musí být liché.
+        overlapping_range: se překrývá se stávajícím rozsahem nepracovního dne.
         regex_match_failed: neodpovídá regulárnímu výrazu %{expression}.
         regex_invalid: nelze ověřit s přidruženým regulárním výrazem.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: není platným 6-místným hexadecimálním barevným kódem.
         smaller_than_or_equal_to_max_length: musí být menší než nebo rovno maximální délce.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: je již použito.
         too_long: je příliš dlouhý (maximum je %{count} znaků).
         too_short: je příliš krátký (minimum je %{count} znaků).
@@ -2221,6 +2223,7 @@ cs:
         url_not_secure_context: 'neposkytuje "bezpečný kontext". Buď použijte HTTPS nebo adresu pro smyčku, jako je localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: má chybnou délku (měla by být %{count} znaků).
       models:
         group:
@@ -2309,7 +2312,7 @@ cs:
         message:
           cannot_move_message_to_forum_of_different_project: A message cannot be moved to a forum of a different project.
         notifications:
-          at_least_one_channel: Pro odesílání notifikací musí být specifikován alespoň jeden kanál
+          at_least_one_channel: Alespoň jeden kanál pro odesílání oznámení musí být specifikován.
           attributes:
             read_ian:
               read_on_creation: 'nelze nastavit na pravdivé při vytváření oznámení '
@@ -2620,11 +2623,11 @@ cs:
       message: Zpráva
       news: Novinky
       notification:
-        one: Notifikace
-        few: Notifikací
-        many: Notifikací
-        other: Notifikace
-      placeholder_user: Placeholder uživatel
+        one: Oznámení
+        few: Oznámení
+        many: Oznámení
+        other: Oznámení
+      placeholder_user: placeholder uživatel
       project:
         one: Projekt
         few: Projekty
@@ -2927,6 +2930,7 @@ cs:
   button_login: Přihlásit se
   button_move: Přesunout
   button_move_and_follow: Přesunout a pokračovat
+  button_next: Next
   button_print: Tisk
   button_quote: Citovat
   button_remove: Odstranit
@@ -3598,6 +3602,12 @@ cs:
       selected: Vybráno
     include_sub_items: Zahrnout dílčí položky
     no_results_text: Žádné výsledky
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: Zap.
     label_off: Vyp.
@@ -3642,6 +3652,9 @@ cs:
     additional:
       projects: Nejnovější projekty v systému
       no_visible_projects: V této instanci nejsou žádné viditelné projekty.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Poslední registrovaní uživatelé v této instalaci.
     blocks:
       community: OpenProject komunita
@@ -3742,7 +3755,7 @@ cs:
       ai: Umělá Inteligence (AI)
       aggregation: Agregace
       api_and_webhooks: API & Webhooky
-      mail_notification: E-mailové notifikace
+      mail_notification: E-mailová upozornění
       mails_and_notifications: E-maily a oznámení
       mcp_configurations: Protokol MCP (Model Context Protocol)
     quick_add:
@@ -3904,7 +3917,7 @@ cs:
       by_project: Nepřečteno dle projektu
       by_reason: Důvod
       inbox: Doručená pošta
-    send_notifications: Pro tuto akci odeslat notifikaci
+    send_notifications: Odeslat oznámení pro tuto akci
     work_packages:
       subject:
         created: Pracovní balíček byl vytvořen.
@@ -4016,6 +4029,7 @@ cs:
   label_send_invitation: Odeslat pozvánku
   label_calculated_value: Vypočtená hodnota
   label_change_parent: Změnit nadřazený
+  label_change_password: Change password
   label_change_plural: Změny
   label_change_properties: Změnit vlastnosti
   label_change_status: Změnit stav
@@ -4210,6 +4224,7 @@ cs:
   label_journal_diff: Popis porovnání
   label_language: Jazyk
   label_languages: Jazyky
+  label_export_plural: Exporty
   label_external_links: Externí odkazy
   label_locale: Jazyk a region
   label_jump_to_a_project: Přejít na projekt...
@@ -4301,6 +4316,7 @@ cs:
   label_my_account_data: Data mého účtu
   label_my_avatar: Můj avatar
   label_my_queries: Moje vlastní dotazy
+  label_my_security: Security
   label_name: Název
   label_never: Nikdy
   label_new: Nový
@@ -4370,9 +4386,9 @@ cs:
   label_permissions: Práva
   label_permissions_report: Přehled oprávnění
   label_personalize_page: Přizpůsobit tuto stránku
-  label_placeholder_user: Placeholder uživatel
+  label_placeholder_user: placeholder uživatel
   label_placeholder_user_new: ''
-  label_placeholder_user_plural: Placeholder uživatelé
+  label_placeholder_user_plural: placeholder uživatelé
   label_planning: Plánování
   label_please_login: Přihlaste se prosím
   label_plugins: Pluginy
@@ -4397,7 +4413,7 @@ cs:
   label_project_attribute_plural: Atributy projektu
   label_project_attribute_manage_link: Správa atributů produktu
   label_project_count: Celkový počet projektů
-  label_project_copy_notifications: Během kopírování projektu odeslat notifikace e-mailem
+  label_project_copy_notifications: Během kopie projektu odeslat oznámení e-mailem
   label_project_initiation_export_pdf: Export PDF pro %{project_creation_name}
   label_project_latest: Nejnovější projekty
   label_project_default_type: Povolit prázdný typ
@@ -4560,7 +4576,7 @@ cs:
   label_version_new: Nová verze
   label_version_edit: Upravit verzi
   label_version_plural: Verze
-  label_version_sharing_descendants: S podprojekty
+  label_version_sharing_descendants: S Podprojekty
   label_version_sharing_hierarchy: S hierarchií projektu
   label_version_sharing_none: Není sdíleno
   label_version_sharing_system: Se všemi projekty
@@ -4654,6 +4670,11 @@ cs:
     few: 'Volno: %{count} pracovních dní'
     many: 'Volno: %{count} pracovních dní'
     other: 'Volno: %{count} pracovních dní'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: včera
   label_zen_mode: Zen mód
   label_role_type: Typ
@@ -4703,28 +4724,28 @@ cs:
     digests:
       including_mention_singular: včetně zmínky
       including_mention_plural: včetně %{number_mentioned} zmínění
-      unread_notification_singular: 1 nepřečtená notifikace
-      unread_notification_plural: "%{number_unread} nepřečtených notifikací"
+      unread_notification_singular: 1 nepřečtené oznámení
+      unread_notification_plural: "%{number_unread} nepřečtených oznámení"
       you_have: Máte
     logo_alt_text: Logo
     mention:
       subject: "%{user_name} mentioned you in %{id} - %{subject}"
     notification:
-      center: Centrum notifikací
+      center: Centrum oznámení
       see_in_center: Zobrazit komentář v oznamovacím centru
       settings: Změnit nastavení e-mailu
     salutation: Dobrý den, %{user},
     salutation_full_name: Jméno a příjmení
     work_packages:
       created_at: 'Vytvořeno v %{timestamp} uživatelem %{user} '
-      login_to_see_all: Přihlaste se pro zobrazení všech notifikací.
+      login_to_see_all: Přihlaste se pro zobrazení všech oznámení.
       mentioned: Byli jste <b>zmíněni v komentáři</b>
       mentioned_by: "%{user} vás zmínil v komentáři OpenProject"
       more_to_see:
-        one: Existuje ještě 1 pracovní balíček s notifikací.
-        few: Existuje ještě %{count} pracovních balíčků s notifikacema.
-        many: Existuje ještě %{count} pracovních balíčků s notifikacema.
-        other: Existuje ještě %{count} pracovních balíčků s notifikacema.
+        one: Máte ještě 1 pracovní balíček s notifikací.
+        few: Existuje ještě  %{count}  pracovních balíčků s oznámeními.
+        many: Máte ještě  %{count}  pracovních balíčků s notifikacemi.
+        other: Existuje ještě  %{count}  pracovních balíčků s oznámeními.
       open_in_browser: Otevřít v prohlížeči
       reason:
         watched: Sledováno
@@ -4733,7 +4754,7 @@ cs:
         mentioned: Zmíněné
         shared: Sdílené
         subscribed: vše
-        prefix: 'Obdrženo z důvodu nastavení notifikací: %{reason}'
+        prefix: 'Obdrženo z důvodu nastavení oznámení: %{reason}'
         date_alert_start_date: Upozornění na datum
         date_alert_due_date: Upozornění na datum
         reminder: Připomínka
@@ -4848,9 +4869,9 @@ cs:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'Chcete-li umožnit uživateli přihlášení můžete buď: '
       a: Upgrade plánu plateb ([here](upgrade_url))
       b: Zamknutí nebo odstranění existujícího uživatele ([here](users_url))
+      label: 'Chcete-li umožnit uživateli přihlášení můžete buď: '
   more_actions: Další funkce
   noscript_description: Musíte aktivovat JavaScript pro použití OpenProject!
   noscript_heading: Javascript zakázán
@@ -5046,7 +5067,7 @@ cs:
 
     '
   permission_move_work_packages: Přesun pracovních balíčků
-  permission_save_queries: Uložit zobrazení
+  permission_save_queries: Uložit pohled
   permission_search_project: Hledat projekt
   permission_select_custom_fields: Vybrat vlastní pole
   permission_select_project_custom_fields: Vyberte atributy projektu
@@ -5372,6 +5393,10 @@ cs:
   setting_consent_required: Souhlas vyžadován
   setting_consent_decline_mail: Kontaktní e-mailová adresa pro souhlas
   setting_cross_project_work_package_relations: Povolit vztahy mezi projekty a pracovními balíčky
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: První týden v roce obsahuje
   setting_date_format: Datum
   setting_default_language: Výchozí jazyk
@@ -5412,6 +5437,9 @@ cs:
   setting_work_package_properties: Vlastnosti pracovního balíčku
   setting_work_package_startdate_is_adddate: Použít aktuální datum jako počáteční datum pro nové úkoly
   setting_work_packages_projects_export_limit: Limit exportu pracovních balíčků / projektů
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Logovat uživatelský login a emailovou adresu pro všechny požadavky
   setting_login_required: Vyžadována autentizace
@@ -5573,7 +5601,7 @@ cs:
       enable_subscriptions_text_html: Umožňuje uživatelům s nezbytnými oprávněními přihlásit se do OpenProject kalendářů a získat přístup k informacím o pracovním balíčku prostřednictvím externího klienta kalendáře. <strong>Poznámka:</strong> Před povolením si prosím přečtěte <a href="%{link}" target="_blank">podrobnosti o odběru</a>.
     language_name_being_default: "%{language_name} (výchozí)"
     notifications:
-      events_explanation: Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože notifikace pro ně mohou být nastavena speciálně pro každého uživatele.
+      events_explanation: Určuje, pro kterou událost je odeslán e-mail. Pracovní balíčky jsou z tohoto seznamu vyloučeny, protože oznámení pro ně mohou být nastavena speciálně pro každého uživatele.
       delay_minutes_explanation: Odesílání e-mailu může být pozdrženo, aby bylo uživatelům s nakonfigurovaným v oznámení aplikace před odesláním pošty potvrzeno oznámení. Uživatelé, kteří si přečtou oznámení v aplikaci, nedostanou e-mail pro již přečtené oznámení.
     other: Ostatní
     passwords: Hesla
@@ -5778,7 +5806,7 @@ cs:
   text_destroy_what_to_do: Co chcete udělat?
   text_diff_truncated: "... Toto rozlišení bylo zkráceno, protože přesahuje maximální velikost, kterou lze zobrazit."
   text_email_delivery_not_configured: |-
-    Doručení e-mailu není nakonfigurováno a notifikace jsou zakázány.
+    Doručení e-mailu není nakonfigurováno a oznámení jsou zakázána.
     Nakonfigurujte váš SMTP server pro jejich povolení.
   text_enumeration_category_reassign_to: 'Přiřadit je k této hodnotě:'
   text_enumeration_destroy_question: "%{count} objektů je přiřazeno k této hodnotě."
@@ -6115,6 +6143,17 @@ cs:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Pracovní dny** změněny (%{changes})._
       days:

@@ -52,6 +52,18 @@
   </div>
 </fieldset>
 <fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%= @filter.class.human_attribute_name :member_lookup_attribute %></legend>
+
+  <div class="form--field">
+    <%= f.text_field :member_lookup_attribute,
+                     container_class: "-middle" %>
+    <div class="form--field-instructions">
+      <%= t("ldap_groups.synchronized_filters.form.member_lookup_attribute_text") %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset">
   <legend class="form--fieldset-legend"><%= @filter.class.human_attribute_name :filter_string %></legend>
   <div class="form--field -required">
     <%= f.text_area :filter_string,

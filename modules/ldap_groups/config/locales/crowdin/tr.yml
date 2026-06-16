@@ -22,6 +22,7 @@ tr:
         group_name_attribute: Grup adı özelliği
         sync_users: Kullanıcıları senkronize et
         base_dn: Arama tabanı DN
+        member_lookup_attribute: Group member attribute
     models:
       ldap_groups/synchronized_group: Senkronize LDAP grubu
       ldap_groups/synchronized_filter: LDAP Grubu senkronizasyon filtresi
@@ -32,7 +33,7 @@ tr:
   ldap_groups:
     label_menu_item: LDAP grup senkronizasyonu
     label_group_key: LDAP grubu filtre anahtarı
-    label_synchronize: Senkronize et
+    label_synchronize: Discover LDAP groups
     settings:
       name_attribute: LDAP grupları ad özelliği
       name_attribute_text: Bir filtre tarafından oluşturulduğunda OpenProject grubunu adlandırmak için kullanılan LDAP özelliği
@@ -56,6 +57,9 @@ tr:
         base_dn_text: 'Bu filtre için kullanmak üzere arama tabanı DN''sini girin. Seçilen LDAP bağlantısının temel DN''sinin altında olması gerekir. Bağlantının temel DN''sini yeniden kullanmak için bu seçeneği boş bırakın
 
           '
+        member_lookup_attribute_text: 'Leave empty to use the default reverse lookup: OpenProject searches for users whose memberOf attribute matches the group DN. This requires the memberOf attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay). Set this to the attribute name on group entries that lists member DNs to use forward lookup instead. Examples: "uniqueMember" (groupOfUniqueNames), "member" (groupOfNames). Use this for LDAP servers that do not maintain the memberOf attribute on user entries.
+
+          '
     synchronized_groups:
       add_new: Senkronize LDAP grubu ekle
       destroy:
@@ -65,7 +69,12 @@ tr:
         info: OpenProject grubunun kendisi ve bu LDAP senkronizasyonunun dışına eklenen üyeler kaldırılmaz.
       help_text_html: |
         This module allows you to set up a synchronization between LDAP and OpenProject groups.
-        It depends on LDAP groups need to use the <em>groupOfNames / memberOf</em> attribute set to be working with OpenProject.
+        <br/>
+        By default, OpenProject uses <strong>reverse lookup</strong>: it searches for users whose <em>memberOf</em> attribute matches the group DN.
+        This requires the <em>memberOf</em> attribute to be present on user entries (Active Directory, OpenLDAP with memberof overlay).
+        <br/>
+        If your LDAP server does not maintain <em>memberOf</em> on user entries (e.g. it uses <em>groupOfUniqueNames</em> with <em>uniqueMember</em>),
+        you can configure <strong>forward lookup</strong> by setting the <em>Group member attribute</em> on the synchronization filter.
         <br/>
         Groups are synchronized hourly through a cron job.
         [Please see our documentation on this topic](docs_url).

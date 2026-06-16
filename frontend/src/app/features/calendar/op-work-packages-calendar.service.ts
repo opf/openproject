@@ -171,7 +171,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
 
     let queryId:string|null = null;
     if (this.urlParams.query_id) {
-      queryId = this.urlParams.query_id as string;
+      queryId = this.urlParams.query_id;
     }
     // We derive the necessary props in the following cases
     // 1. We load a queryId with no props
@@ -199,7 +199,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
       // There might also be a query_id but the settings persisted in it are overwritten by the props.
       if (this.urlParams.query_props) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-        const oldQueryProps:Record<string, unknown> = JSON.parse(this.urlParams.query_props as string);
+        const oldQueryProps:Record<string, unknown> = JSON.parse(this.urlParams.query_props);
 
         // Update the date period of the calendar in the filter
         const newQueryProps = {
@@ -254,7 +254,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   public get initialView():string|undefined {
-    return this.urlParams.cview as string|undefined;
+    return this.urlParams.cview;
   }
 
   dateEditable(wp:WorkPackageResource):boolean {
@@ -425,7 +425,7 @@ export class OpWorkPackagesCalendarService extends UntilDestroyedMixin {
   }
 
   private get initialDate():string|undefined {
-    const date = this.urlParams.cdate as string|undefined;
+    const date = this.urlParams.cdate;
     if (date) {
       return this.timezoneService.formattedISODate(date);
     }

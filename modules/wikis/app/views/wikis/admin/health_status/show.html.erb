@@ -65,7 +65,7 @@ See COPYRIGHT and LICENSE files for more details.
           label: download_label,
           tag: :a,
           href: admin_settings_wiki_provider_health_status_report_path(@provider, format: :txt),
-          data: { turbo: true },
+          data: { turbo: true }
         ) do
           download_label
         end
@@ -76,7 +76,7 @@ See COPYRIGHT and LICENSE files for more details.
           label: rerun_label,
           tag: :a,
           href: admin_settings_wiki_provider_health_status_report_path(@provider),
-          data: { turbo_method: :post, turbo: true },
+          data: { turbo_method: :post, turbo: true }
         ) do
           rerun_label
         end
@@ -87,27 +87,27 @@ See COPYRIGHT and LICENSE files for more details.
   <%=
     render(Primer::Alpha::Layout.new(stacking_breakpoint: :lg)) do |page|
       page.with_sidebar(col_placement: :end, row_placement: :end)
-      page.with_main do %>
+      page.with_main do
+  %>
 
-        <% if @report.present? %>
-          <%= render(HealthReports::ReportComponent.new(@report, i18n_scope: "wikis.health_checks")) %>
-        <% else %>
-          <%=
-            render(Primer::Beta::Blankslate.new(border: true)) do |placeholder|
-              placeholder.with_visual_icon(icon: :meter)
-              placeholder.with_heading(tag: :h3) { t(".no_health_report") }
-              placeholder.with_description { t(".no_health_report_description") }
-              placeholder.with_primary_action(
-                href: admin_settings_wiki_provider_health_status_report_path(@provider),
-                data: { turbo_method: :post, turbo: true },
-                aria: { label: t(".actions.run_checks") }
-              ) do
-                t(".actions.run_checks")
-              end
+      <% if @report.present? %>
+        <%= render(HealthReports::ReportComponent.new(@report, i18n_scope: "wikis.health_checks")) %>
+      <% else %>
+        <%=
+          render(Primer::Beta::Blankslate.new(border: true)) do |placeholder|
+            placeholder.with_visual_icon(icon: :meter)
+            placeholder.with_heading(tag: :h3) { t(".no_health_report") }
+            placeholder.with_description { t(".no_health_report_description") }
+            placeholder.with_primary_action(
+              href: admin_settings_wiki_provider_health_status_report_path(@provider),
+              data: { turbo_method: :post, turbo: true },
+              aria: { label: t(".actions.run_checks") }
+            ) do
+              t(".actions.run_checks")
             end
-          %>
-        <% end %>
+          end
+        %>
       <% end %>
+    <% end %>
   <% end %>
 <% end %>
-

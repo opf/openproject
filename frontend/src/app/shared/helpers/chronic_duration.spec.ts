@@ -118,7 +118,7 @@ describe('parseChronicDuration', () => {
   });
 
   /* The cecile case */
-  it('it parses 2h15 correctly to 2h 15 minutes even when the default unit is hours', () => {
+  it('parses 2h15 correctly to 2h 15 minutes even when the default unit is hours', () => {
     expect(parseChronicDuration('2h15', { defaultUnit: 'hours' })).toBe(2 * 3600 + 15 * 60);
   });
 

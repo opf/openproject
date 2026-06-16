@@ -2,72 +2,168 @@
 pt-PT:
   activerecord:
     attributes:
-      resource_planner:
-        name: Nome
-        start_date: Data de início
-        end_date: Data de término
-        default_view_class_name: Vista padrão
-        public: Público
-        favorite: Favorito
       resource_allocation:
-        entity: Entidade
-        principal: Encarregado
-        state: Estado
-        start_date: Data de início
-        end_date: Data de término
+        allocated_hours: Hours
         allocated_time: Tempo atribuído
+        end_date: Data de término
+        entity: Entidade
+        filter_name: Resource filter name
+        principal: Encarregado
+        start_date: Data de início
+        state: Estado
         user_filter: Filtro de utilizador
+      resource_planner:
+        default_view_class_name: Vista padrão
+        end_date: Data de término
+        favorite: Favorito
+        name: Nome
+        public: Público
+        start_date: Data de início
     errors:
       models:
-        resource_planner:
-          attributes:
-            end_date:
-              greater_than_start_date: deve ser após a data de início.
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: deve ser posterior à data de início.
-  plugin_openproject_resource_management:
-    name: Gestão de recursos do OpenProject
-    description: Fornece gestão de recursos e planeamento de capacidades.
-  project_module_resource_management: Gestão de recursos
-  permission_view_resource_planners: Ver planeadores de recursos
-  permission_view_resource_planners_explanation: 'Permite que os utilizadores acedam aos planeadores de recursos. Permite criar e gerir os seus próprios planeadores de recursos e ver planeadores de recursos públicos. Não permite que os utilizadores vejam os planeadores de recursos criados por outros utilizadores que não estejam partilhados publicamente.
-
-    '
-  permission_manage_public_resource_planners: Gerir os planeadores de recursos públicos
-  permission_manage_public_resource_planners_explanation: 'Permite aos utilizadores criar e gerir planeadores de recursos públicos. Permite ver, criar, gerir e publicar os seus próprios planeadores de recursos. Não permite que os utilizadores vejam os planeadores de recursos criados por outros utilizadores que não estejam partilhados publicamente.
-
-    '
-  permission_allocate_user_resources: Alocar recursos do utilizador
-  permission_allocate_user_resources_explanation: 'Permite aos utilizadores criar, atualizar e eliminar atribuições de recursos dentro de um planeador de recursos. Isto inclui atribuir utilizadores (ou filtros de utilizadores) a um planeador e ajustar o tempo e o intervalo de datas alocados.
-
-    '
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: deve ser após a data de início.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: deve ser uma consulta sobre um pacote de trabalho.
+    models:
+      resource_allocation: Alocação de recursos
+      resource_planner: Planeador de recursos
+      resource_work_package_list: Lista de pacotes de trabalho
+      user_card: Cartões de utilizador
+  button_next: Seguinte
   label_resource_management: Planeamento de recursos
-  button_next: Guardar
+  permission_allocate_user_resources: Alocar recursos do utilizador
+  permission_allocate_user_resources_explanation: Permite aos utilizadores criar, atualizar e eliminar atribuições de recursos dentro de um planeador de recursos. Isto inclui atribuir utilizadores (ou filtros de utilizadores) a um planeador e ajustar o tempo e o intervalo de datas alocados.
+  permission_manage_public_resource_planners: Gerir os planeadores de recursos públicos
+  permission_manage_public_resource_planners_explanation: Permite aos utilizadores criar e gerir planeadores de recursos públicos. Permite ver, criar, gerir e publicar os seus próprios planeadores de recursos. Não permite que os utilizadores vejam os planeadores de recursos criados por outros utilizadores que não estejam partilhados publicamente.
+  permission_view_resource_planners: Ver planeadores de recursos
+  permission_view_resource_planners_explanation: Permite que os utilizadores acedam aos planeadores de recursos. Permite criar e gerir os seus próprios planeadores de recursos e ver planeadores de recursos públicos. Não permite que os utilizadores vejam os planeadores de recursos criados por outros utilizadores que não estejam partilhados publicamente.
+  plugin_openproject_resource_management:
+    description: Fornece gestão de recursos e planeamento de capacidades.
+    name: Gestão de recursos do OpenProject
+  project_module_resource_management: Gestão de recursos
   resource_management:
+    action:
+      delete: Eliminar
+      favorite: Adicionar aos favoritos
+      make_private: Tornar privado
+      make_public: Tornar público
+      unfavorite: Remover dos favoritos
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          label: Filter criteria
+        label: Allocation type
+        principal:
+          caption: Allocate hours for a specific user.
+          label: User
+      outside_dates:
+        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
+        hidden_work: Other allocations
+        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        schedule_change: until %{date}, then %{schedule}
+        schedule_note: This user works %{schedule}.
+        submit: Allocate overtime
+        title: Do you want to allocate overtime to the user?
+      submit: Allocate
+      success_message: Resource allocated.
+      title: Allocate resource
+    blankslate:
+      desc: Crie um planeador de recursos para começar a planear a capacidade para este projeto.
+      title: Ainda não há planeadores de recursos
+    configure_view_dialog:
+      delete_confirmation: Tem a certeza de que quer eliminar esta vista? Esta ação não pode ser anulada.
+      filter_mode:
+        automatic:
+          caption: Uma lista gerada automaticamente que apresenta os elementos correspondentes aos critérios que definir.
+          label: Filtrado automaticamente
+        label: Seleção de elemento
+        manual:
+          caption: Uma lista personalizada de elementos que pode adicionar e remover manualmente. Não é possível filtrar.
+          label: Seleção manual
+      title: Configurar vista
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
+    favorite_caption: Torne esta vista num favorito para a adicionar à secção superior do menu da barra lateral.
+    label_new_resource_planner: Novo planeador de recursos
     label_resource_planner: Planeador de recursos
     label_resource_planner_plural: Planeadores de recursos
-    label_new_resource_planner: Novo planeador de recursos
-    public_caption: 'Torne esta vista pública para todos os membros do projeto. Não afeta a visibilidade dos pacotes de trabalho, que continua a depender da permissão de cada utilizador.
-
-      '
-    favorite_caption: 'Torne esta vista num favorito para a adicionar à secção superior do menu da barra lateral.
-
-      '
-    view_types:
-      UserCardView: Cartões de utilizador
-    action:
-      favorite: Adicionar aos favoritos
-      unfavorite: Remover dos favoritos
-      make_public: Tornar público
-      make_private: Tornar privado
-      delete: Eliminar
-    sidebar:
-      public: Público
-      private: Privado
-    blankslate:
-      title: Ainda não há planeadores de recursos
-      desc: Crie um planeador de recursos para começar a planear a capacidade para este projeto.
+    new_view_dialog:
+      title: Adicionar vista
+    public_caption: Torne esta vista pública para todos os membros do projeto. Não afeta a visibilidade dos pacotes de trabalho, que continua a depender da permissão de cada utilizador.
     show:
       placeholder: A vista detalhada deste planeador de recursos fica disponível em breve.
+    sidebar:
+      private: Privado
+      public: Público
+    sub_views: Vistas neste planeador de recursos
+    view_types:
+      resource_work_package_list:
+        caption: Crie uma vista com base nos pacotes de trabalho e veja os seus detalhes e a sua atribuição numa lista
+        label: Lista de pacotes de trabalho
+      user_card:
+        caption: Crie uma vista baseada nos utilizadores e veja os seus detalhes e atribuição numa lista de cartões de utilizador
+        label: Lista de cartões de utilizadores
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
+    work_package_list:
+      add_work_package_dialog:
+        title: Adicionar pacote de trabalho
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} user"
+          other: "%{count} users"
+        unassigned: Unassigned
+      allocation_placeholder: "—"
+      blank:
+        description: Ainda não existem pacotes de trabalho correspondentes aos filtros desta vista.
+        title: Não há pacotes de trabalho a apresentar
+      columns:
+        allocated_members: Membros alocados
+        allocation: Alocação
+        dates: Datas
+      context_menu:
+        add_filter_criteria: Adicionar critérios de filtragem
+        add_user_group: Adicionar grupo de utilizador
+        edit_total_work: Editar trabalho total
+        label: Mais ações
+        move: Mover
+        move_down: Mover para baixo
+        move_to_bottom: Mover para a base
+        move_to_top: Mover para o topo
+        move_up: Mover para cima
+        remove: Remover
+        remove_confirmation: Remover este pacote de trabalho da vista?
+        see_allocation: Ver alocação
+      mobile_title: Pacotes de trabalho
+      query_name: 'Pacotes de trabalho de gestão de recursos: %{name}'
+      subheader:
+        add: Adicionar
+        add_work_package: Adicionar pacote de trabalho
+        allocate: Alocar
+        settings: Configurar vista

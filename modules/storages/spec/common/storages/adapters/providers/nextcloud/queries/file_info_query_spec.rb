@@ -35,7 +35,7 @@ module Storages
     module Providers
       module Nextcloud
         module Queries
-          RSpec.describe FileInfoQuery, :webmock do
+          RSpec.describe FileInfoQuery, :disable_ssrf_filter, :webmock do
             let(:user) { create(:user) }
             let(:storage) do
               create(:nextcloud_storage_with_local_connection, :as_not_automatically_managed, oauth_client_token_user: user)

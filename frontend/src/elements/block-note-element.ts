@@ -49,15 +49,9 @@ class BlockNoteElement extends HTMLElement {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     this.editorRoot = document.createElement('div');
-    const browserSpecificClasses = this.getAttribute('browser-specific-classes')?.split(' ') ?? [];
+    const browserSpecificClasses = this.getAttribute('browser-specific-classes')?.split(' ').filter(Boolean) ?? [];
     if (browserSpecificClasses.length > 0) {
       this.editorRoot.classList.add(...browserSpecificClasses);
-    }
-    // Clone the blank-target link description into the shadow DOM
-    // so aria-describedby references resolve for links inside the editor
-    const blankLinkDesc = document.getElementById('open-blank-target-link-description');
-    if (blankLinkDesc) {
-      this.editorRoot.appendChild(blankLinkDesc.cloneNode(true));
     }
 
     this.editorMount = document.createElement('div');

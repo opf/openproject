@@ -6,7 +6,7 @@ import { Highlighting } from 'core-app/features/work-packages/components/wp-fast
 import { HierarchyRenderPass } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/hierarchy/hierarchy-render-pass';
 import { WorkPackageViewTimelineService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-timeline.service';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WeekdayService } from 'core-app/core/days/weekday.service';
@@ -46,13 +46,13 @@ export const classNameRightHandle = 'rightHandle';
 export const classNameBarLabel = 'bar-label';
 
 export class TimelineCellRenderer {
-  @InjectField() wpTableTimeline:WorkPackageViewTimelineService;
+  @LazyInject() wpTableTimeline:WorkPackageViewTimelineService;
 
-  @InjectField() weekdayService:WeekdayService;
+  @LazyInject() weekdayService:WeekdayService;
 
-  @InjectField() schemaCache:SchemaCacheService;
+  @LazyInject() schemaCache:SchemaCacheService;
 
-  @InjectField() I18n!:I18nService;
+  @LazyInject() I18n!:I18nService;
 
   public text = {
     label_children_derived_duration: this.I18n.t('js.label_children_derived_duration'),
@@ -83,8 +83,8 @@ export class TimelineCellRenderer {
   }
 
   public isEmpty(wp:WorkPackageResource) {
-    const start = moment(wp.startDate as any);
-    const due = moment(wp.dueDate as any);
+    const start = moment(wp.startDate);
+    const due = moment(wp.dueDate);
     const noStartAndDueValues = _.isNaN(start.valueOf()) && _.isNaN(due.valueOf());
     return noStartAndDueValues;
   }
@@ -240,7 +240,9 @@ export class TimelineCellRenderer {
    */
   public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo):boolean {
     const { change } = renderInfo;
-    const bar = element.querySelector(`.${timelineBackgroundElementClass}`) as HTMLElement;
+    const bar = element.querySelector<HTMLElement>(`.${timelineBackgroundElementClass}`);
+    if (!bar) { return false; }
+
     let start = moment(change.projectedResource.startDate);
     let due = moment(change.projectedResource.dueDate);
 

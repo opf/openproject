@@ -41,15 +41,9 @@
  * morph, frame morph, and full-page morph alike.
  */
 
-interface TurboMorphElementDetail {
-  currentElement:HTMLElement;
-  newElement:HTMLElement;
-}
-
 export function registerActionMenuMorphRemount():void {
-  document.addEventListener('turbo:morph-element', (event:Event) => {
-    const { detail } = event as CustomEvent<TurboMorphElementDetail>;
-    const currentElement = detail?.currentElement;
+  document.addEventListener('turbo:morph-element', (event) => {
+    const currentElement = event.detail?.currentElement;
     if (!currentElement?.matches('action-menu:has(include-fragment[src])')) {
       return;
     }

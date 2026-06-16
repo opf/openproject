@@ -112,7 +112,7 @@ RSpec.describe "Create work package in sprint", :js do
       page.driver.refresh
 
       expect(page)
-        .to have_no_content "Another story"
+        .to have_no_text "Another story"
 
       backlogs_page
         .expect_work_packages_in_sprint_in_order(sprint1,
@@ -121,7 +121,7 @@ RSpec.describe "Create work package in sprint", :js do
                                                                  created_work_package])
 
       # created with the selected type (HighlightedTypeComponent renders type name in uppercase)
-      backlogs_page.within_work_package_row(created_work_package) do
+      backlogs_page.within_work_package(created_work_package) do
         expect(page).to have_text(type2.name.upcase)
       end
     end

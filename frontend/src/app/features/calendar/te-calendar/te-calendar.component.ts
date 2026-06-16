@@ -238,6 +238,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   }
 
   protected fetchTimeEntries(start:Moment, end:Moment):Promise<CollectionResource<TimeEntryResource>> {
+    // eslint-disable-next-line @typescript-eslint/prefer-optional-chain
     if (!this.memoizedTimeEntries
       || this.memoizedTimeEntries.start.valueOf() !== start.valueOf()
       || this.memoizedTimeEntries.end.valueOf() !== end.valueOf()) {

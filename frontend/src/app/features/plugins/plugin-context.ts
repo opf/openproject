@@ -15,7 +15,7 @@ import { CKEditorPreviewService } from 'core-app/shared/components/editor/compon
 import {
   ExternalRelationQueryConfigurationService,
 } from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { EditorMacrosService } from 'core-app/shared/components/modals/editor/editor-macros.service';
@@ -98,7 +98,7 @@ export class OpenProjectPluginContext {
   };
 
   // Angular application reference
-  @InjectField() public readonly appRef:ApplicationRef;
+  @LazyInject() public readonly appRef:ApplicationRef;
 
   // Angular2 global injector reference
   constructor(public readonly injector:Injector) {

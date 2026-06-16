@@ -29,14 +29,14 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(OpPrimer::InlineMacroComponent.new) do |inline_macro|
-    inline_macro.with_leading_visual_icon(icon: :"op-file-doc")
-
     page_info_result.either(
       ->(page_info) do
+        inline_macro.with_leading_visual_icon(icon: :"op-file-doc")
         render(Primer::Beta::Link.new(href: page_info.href)) { page_info.title }
       end,
-      ->(_error) do
-        render(Primer::Beta::Text.new(color: :muted)) { I18n.t("wikis.macro.page_not_found") }
+      ->(error) do
+        inline_macro.with_leading_visual_icon(icon: :alert)
+        render(Primer::Beta::Text.new(color: :muted)) { error_text(error) }
       end
     )
   end

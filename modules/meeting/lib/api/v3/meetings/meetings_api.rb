@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -58,6 +59,10 @@ module API
             mount ::API::V3::MeetingSections::SectionsByMeetingAPI
           end
         end
+
+        mount ::API::V3::MeetingAgendaItems::MeetingAgendaItemsAPI
+        mount ::API::V3::MeetingSections::MeetingSectionsAPI
+        mount ::API::V3::MeetingOutcomes::MeetingOutcomesAPI
       end
     end
   end

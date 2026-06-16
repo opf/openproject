@@ -39,6 +39,8 @@ hu:
         unit: Egység neve
         unit_plural: Többes számú egység neve
         default: Költségtípus alapértelmezés szerint
+        for_all_projects: For all projects
+        rates: Rates
       work_package:
         costs_by_type: Elköltött egység
         labor_costs: Munkaerő költségek
@@ -88,6 +90,10 @@ hu:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Munkacsomag #%{id} nem érvényes cél a költség újrahozzárendeléséhez.'
           nullify_is_not_valid_for_cost_entries: Költségek nem hozzárendelhetőek a projekthez.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
   attributes:
     comment: Komment
     cost_type: Költségtípus
@@ -129,7 +135,6 @@ hu:
   label_current_default_rate: Jelenlegi alapértelmezett díj
   label_date_on: mikor
   label_deleted_cost_types: Törölt költségnemek
-  label_locked_cost_types: Zárolt költségnemek
   label_display_cost_entries: Fajlagos költségek megjelenítése
   label_display_time_entries: Jelentett órák megjelenítése
   label_display_types: Nemek megjelenítése
@@ -229,6 +234,28 @@ hu:
     errors:
       validation:
         start_time_different_date: A startTime (%{start_time}) dátumrészének meg kell egyeznie a spentOn (%{spent_on}) dátummal.
+  label_available_cost_types_projects: Available cost types projects
+  cost_types:
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: This cost type is enabled in all projects
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+        no_projects:
+          heading: No projects assigned
+          description: Add projects so this cost type can be used in them.
+      rates:
+        title: Rate history
+    settings:
+      time_and_costs: Time & Costs
+      cost_types:
+        heading: Cost types
+        none_active: No cost types are currently active in this project.
+        for_all_projects_hint: This cost type is enabled in all projects.
   costs:
     widgets:
       actual_costs:

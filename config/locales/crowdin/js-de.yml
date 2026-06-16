@@ -143,7 +143,7 @@ de:
     description_available_columns: Verfügbare Spalten
     description_current_position: 'Sie sind hier: '
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
-    description_subwork_package: 'Unteraufgabe von Arbeitspaket #%{id}'
+    description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
       revisions: Lokale Änderungen anzeigen
       no_revisions: Keine lokalen Änderungen gefunden
@@ -155,7 +155,6 @@ de:
         manual: Wechseln zu reinem Markdown-Text
         wysiwyg: Wechseln zu WYSIWYG-Editor
       macro:
-        error: 'Kann Makro nicht anzeigen: %{message}'
         attribute_reference:
           macro_help_tooltip: Dieser Textabschnitt wird dynamisch durch ein Makro erzeugt.
           not_found: Die angeforderte Ressource konnte nicht gefunden werden
@@ -175,9 +174,14 @@ de:
           title: Code-Snippet einfügen / bearbeiten
           language: Sprache für Syntaxhervorhebung
           language_hint: Geben Sie eine Sprache für Syntaxhervorhebung ein, die für das Hervorheben des Code-Snippets verwendet wird (sofern unterstützt).
-        dropdown:
-          macros: Makros
-          chose_macro: Makro auswählen
+        embedded_calendar:
+          text: "[Platzhalter] Eingebetteter Kalender"
+        embedded_table:
+          button: Arbeitspaket-Tabelle einbetten
+          text: "[Platzhalter] Eingebettete Arbeitspaket-Tabelle"
+        error: 'Kann Makro nicht anzeigen: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Inhaltsverzeichnis
         toolbar_help: Klicken Sie auf das Widget zum Auswählen und Anzeigen der Symbolleiste. Doppelklicken zum Editieren des Makros
         wiki_page_include:
@@ -195,11 +199,6 @@ de:
           button_style_hint: 'Optional: Haken setzen, um das Makro nicht als Link, sondern als Schaltfläche erscheinen zu lassen.'
           without_type: Arbeitspaket erstellen
           with_type: 'Arbeitspaket erstellen (Typ: %{typename})'
-        embedded_table:
-          button: Arbeitspaket-Tabelle einbetten
-          text: "[Platzhalter] Eingebettete Arbeitspaket-Tabelle"
-        embedded_calendar:
-          text: "[Platzhalter] Eingebetteter Kalender"
     admin:
       type_form:
         edit_query: Abfrage bearbeiten
@@ -210,13 +209,6 @@ de:
           new_date: "(neu)"
         add_non_working_day: Arbeitsfreier Tag
         already_added_error: Für dieses Datum existiert bereits ein arbeitsfreier Tag. Für jedes einzelne Datum kann nur ein arbeitsfreier Tag erstellt werden.
-        change_button: Speichern und neu planen
-        change_title: Arbeitstage ändern
-        removed_title: 'Sie werden die folgenden Tage aus der Liste der arbeitsfreien Tage entfernen:'
-        change_description: Die Änderung der Wochentage, die als Arbeitstage oder arbeitsfreie Tage gelten, kann sich auf die Start- und Endtage aller Arbeitspakete und Projektphasen in allen Projekten auswirken.
-        warning: 'Es kann einige Zeit dauern, bis die Änderungen wirksam werden. Sie werden benachrichtigt, wenn alle relevanten Arbeitspakete und Projektphasen aktualisiert worden sind. Sind Sie sicher, dass Sie fortfahren möchten?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Wenn Sie den Modus der Fortschrittsberechnung von statusbasiert auf arbeitsbasiert ändern, ist das Feld <i>% abgeschlossen</i> frei editierbar. Wenn Sie optional Werte für <i>Aufwand</i> oder <i>Verbleibenden Aufwand</i> eingeben, werden diese auch mit <i>% abgeschlossen</i> verknüpft. Eine Änderung des <i>verbleibenden Aufwands</i> aktualisiert dann <i>% abgschlossen</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Wenn Sie den Modus der Fortschrittsberechnung von aufwandsbezogen auf statusbezogen ändern, gehen alle bestehenden Werte für <i>% Fertigstellung</i> verloren und werden durch Werte ersetzt, die mit dem jeweiligen Status verbunden sind. Bestehende Werte für <i>Verbleibender Aufwand</i> können ebenfalls neu berechnet werden, um diese Änderung widerzuspiegeln. Diese Aktion ist nicht umkehrbar.
@@ -375,6 +367,7 @@ de:
     label_in_more_than: in mehr als
     label_incoming_emails: Eingehende E-Mails
     label_information_plural: Information
+    label_infinity: Infinity
     label_invalid: Ungültig
     label_import: Import
     label_latest_activity: Letzte Änderungen
@@ -399,6 +392,7 @@ de:
     label_no_value: Kein Wert
     label_none: keine
     label_not_contains: enthält nicht
+    label_not_available: Not available
     label_not_equals: ist nicht
     label_on: am
     label_open_menu: Menü öffnen
@@ -409,7 +403,6 @@ de:
     label_per_page: 'Pro Seite:'
     label_please_wait: Bitte warten
     label_project: Projekt
-    label_project_list: Projektlisten
     label_project_plural: Projekte
     label_visibility_settings: Sichtbarkeits-Einstellungen
     label_quote_comment: Diesen Kommentar zitieren
@@ -451,7 +444,7 @@ de:
     label_total_progress: "%{percent}% Gesamtfortschritt"
     label_total_amount: 'Gesamt: %{amount}'
     label_updated_on: aktualisiert am
-    label_value_derived_from_children: "(aggregierter Wert von Unteraufgaben)"
+    label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
     label_children_derived_duration: Aggregierte Dauer der Unteraufgaben
     label_warning: Warnung
     label_work_package: Arbeitspaket
@@ -769,7 +762,7 @@ de:
         title: Neues Arbeitspaket
         header: 'Neu: %{type}'
         header_no_type: Neues Arbeitspaket (Typ noch nicht gesetzt)
-        header_with_parent: 'Neu: %{type} (Unteraufgabe von %{parent_type} #%{id})'
+        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         button: Erstellen
       duplicate:
         title: Arbeitspaket duplizieren
@@ -1055,16 +1048,13 @@ de:
         all: Alle Projekte
         selected: Nur ausgewählte
       search_placeholder: Projekte durchsuchen...
-      search_placeholder_favorites: Favoriten durchsuchen...
       include_subprojects: Alle Unterprojekte einbeziehen
       tooltip:
         include_all_selected: Das Projekt ist bereits enthalten, da alle Unterprojekte einbezogen sind.
         current_project: Dies ist das aktuelle Projekt, in dem Sie sich befinden.
         does_not_match_search: Projekt entspricht nicht den Suchkriterien.
       no_results: Kein Projekt entspricht Ihren Suchkriterien.
-      no_favorite_results: Kein favorisiertes Projekt entspricht Ihren Suchkriterien.
     include_workspaces:
-      search_placeholder: Suchen...
       types:
         program: Programm
         portfolio: Portfolio

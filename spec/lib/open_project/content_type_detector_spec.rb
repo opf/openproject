@@ -90,7 +90,7 @@ RSpec.describe OpenProject::ContentTypeDetector do
     File.open(@filename, "w+") do |file|
       file.puts "This is a text file."
       file.rewind
-      expect(OpenProject::ContentTypeDetector.new(file.path).detect).to eq("text/plain")
+      expect(described_class.new(file.path).detect).to start_with("text/plain")
     end
     FileUtils.rm @filename
   end

@@ -13,7 +13,7 @@ import { reinsert } from 'core-app/shared/helpers/drag-and-drop/drag-and-drop.he
 import { WorkPackageViewOrderService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-order.service';
 import { BrowserDetector } from 'core-app/core/browser/browser-detector.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { isInsideCollapsedGroup } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-row-helpers';
 import { collapsedGroupClass } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
@@ -21,27 +21,27 @@ import { WorkPackageTable } from '../../wp-fast-table';
 import { firstValueFrom } from 'rxjs';
 
 export class DragAndDropTransformer {
-  @InjectField() private readonly states:States;
+  @LazyInject() private readonly states:States;
 
-  @InjectField() private readonly querySpace:IsolatedQuerySpace;
+  @LazyInject() private readonly querySpace:IsolatedQuerySpace;
 
-  @InjectField() private readonly inlineCreateService:WorkPackageInlineCreateService;
+  @LazyInject() private readonly inlineCreateService:WorkPackageInlineCreateService;
 
-  @InjectField() private readonly halNotification:HalResourceNotificationService;
+  @LazyInject() private readonly halNotification:HalResourceNotificationService;
 
-  @InjectField() private readonly wpTableSortBy:WorkPackageViewSortByService;
+  @LazyInject() private readonly wpTableSortBy:WorkPackageViewSortByService;
 
-  @InjectField() private readonly wpTableOrder:WorkPackageViewOrderService;
+  @LazyInject() private readonly wpTableOrder:WorkPackageViewOrderService;
 
-  @InjectField() private readonly browserDetector:BrowserDetector;
+  @LazyInject() private readonly browserDetector:BrowserDetector;
 
-  @InjectField() private readonly apiV3Service:ApiV3Service;
+  @LazyInject() private readonly apiV3Service:ApiV3Service;
 
-  @InjectField() private readonly wpListService:WorkPackagesListService;
+  @LazyInject() private readonly wpListService:WorkPackagesListService;
 
-  @InjectField() private readonly dragActionRegistry:TableDragActionsRegistryService;
+  @LazyInject() private readonly dragActionRegistry:TableDragActionsRegistryService;
 
-  @InjectField(DragAndDropService, null) private readonly dragService:DragAndDropService|null;
+  @LazyInject(DragAndDropService, null) private readonly dragService:DragAndDropService|null;
 
   constructor(public readonly injector:Injector,
     public table:WorkPackageTable) {

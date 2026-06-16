@@ -1,4 +1,4 @@
-<%# -- copyright
+<%#-- copyright
 OpenProject is an open source project management software.
 Copyright (C) the OpenProject GmbH
 
@@ -21,120 +21,24 @@ GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
+++#%>
 
-++# %>
-
-<% if(@cost_type.id) %>
+<% if @cost_type.id %>
   <% html_title t(:label_cost_type_specific, id: @cost_type.id, name: @cost_type.name) %>
-  <% title = @cost_type.name %>
 <% else %>
   <% html_title t(:label_administration), t(:label_cost_type_plural) %>
-  <% title = "#{t(:label_new)} #{I18n.t('activerecord.models.cost_type.one')}" %>
 <% end %>
 
 <%=
-  render(Primer::OpenProject::PageHeader.new) do |header|
-    header.with_title { title }
-    header.with_breadcrumbs(
-      [
-        { href: admin_index_path, text: t("label_administration") },
-        { href: admin_time_settings_path, text: t(:project_module_costs) },
-        { href: admin_cost_types_path, text: t(:label_cost_type_plural) },
-        title
-      ]
+  render(
+    Admin::CostTypes::EditFormHeaderComponent.new(
+      cost_type: @cost_type,
+      selected: :edit
     )
-  end
+  )
 %>
 
-<%= labelled_tabular_form_for @cost_type,
-                              url: @cost_type.persisted? ? admin_cost_type_path(@cost_type) : admin_cost_types_path,
-                              data: { controller: "subform" } do |f| %>
-  <%= error_messages_for "cost_type" %>
-  <%= back_url_hidden_field_tag %>
-
-  <div class="form--field -required">
-    <%= f.text_field :name, required: true, container_class: "-wide" %>
-  </div>
-  <div class="form--field -required">
-    <%= f.text_field :unit, required: true, container_class: "-middle" %>
-  </div>
-  <div class="form--field -required">
-    <%= f.text_field :unit_plural, required: true, container_class: "-middle" %>
-  </div>
-  <div class="form--field">
-    <%= f.check_box :default %>
-  </div>
-
-  <h3><%= t :caption_rate_history %></h3>
-  <div class="generic-table--container">
-    <div class="generic-table--results-container">
-      <table class="generic-table" data-controller="table-highlighting">
-        <colgroup>
-          <col>
-          <col>
-          <col data-highlight="false">
-        </colgroup>
-        <thead>
-          <tr>
-            <th>
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Rate.human_attribute_name(:valid_from) %>
-                  </span>
-                </div>
-              </div>
-            </th>
-            <th class="currency">
-              <div class="generic-table--sort-header-outer">
-                <div class="generic-table--sort-header">
-                  <span>
-                    <%= Rate.model_name.human %>
-                  </span>
-                </div>
-              </div>
-            </th>
-            <th><div class="generic-table--empty-header"></div></th>
-          </tr>
-        </thead>
-        <tbody id="rates_body" class="subform-container" data-subform-target="table">
-          <%= render partial: "rate", object: CostRate.new(valid_from: Date.current), locals: { templated: true } %>
-          <% @cost_type.rates.sort do |a, b|
-               if !a.valid? && !b.valid?
-                 0
-               elsif !a.valid?
-                 -1
-               elsif !b.valid?
-                 1
-               else
-                 b.valid_from <=> a.valid_from
-               end
-             end.each_with_index do |rate, index| %>
-            <%= render partial: "rate", object: rate, locals: { index: index } %>
-          <%- end -%>
-        </tbody>
-      </table>
-
-    </div>
-  </div>
-  <div class="wp-inline-create-button">
-    <label class="sr-only" for="add_rate_date"> <%= t(:description_date_for_new_rate) %></label>
-    <%=
-      render(
-        Primer::Beta::IconButton.new(
-          icon: :plus,
-          id: "add_rate_date",
-          scheme: :invisible,
-          type: :button,
-          classes: "add-row-button wp-inline-create--add-link",
-          aria: { label: t(:button_add_rate) },
-          data: { action: "subform#addRow" }
-        )
-      )
-    %>
-  </div>
-  <%= styled_button_tag t(:button_save), class: "-with-icon icon-checkmark" %>
-<% end %>
+<%= render(Admin::CostTypes::DetailsComponent.new(@cost_type)) %>

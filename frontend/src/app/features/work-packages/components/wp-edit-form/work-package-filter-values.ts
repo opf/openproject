@@ -4,17 +4,17 @@ import { HalResourceService } from 'core-app/features/hal/services/hal-resource.
 import { Injector } from '@angular/core';
 import { compareByHrefOrString } from 'core-app/shared/helpers/angular/tracking-functions';
 import { WorkPackageChangeset } from 'core-app/features/work-packages/components/wp-edit/work-package-changeset';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { FilterOperator } from 'core-app/shared/helpers/api-v3/api-v3-filter-builder';
 import { QueryFilterInstanceResource } from 'core-app/features/hal/resources/query-filter-instance-resource';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
 
 export class WorkPackageFilterValues {
-  @InjectField() currentUser:CurrentUserService;
+  @LazyInject() currentUser:CurrentUserService;
 
-  @InjectField() halResourceService:HalResourceService;
+  @LazyInject() halResourceService:HalResourceService;
 
-  @InjectField() currentProject:CurrentProjectService;
+  @LazyInject() currentProject:CurrentProjectService;
 
   handlers:Partial<Record<FilterOperator, (change:WorkPackageChangeset|Record<string, unknown>, filter:QueryFilterInstanceResource) => void>> = {
     '=': this.applyFirstValue.bind(this),

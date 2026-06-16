@@ -155,7 +155,6 @@ cs:
         manual: Přepněte do Markdown zdroje
         wysiwyg: Přepnout na WYSIWYG Editor
       macro:
-        error: Nelze rozšířit makro %{message}
         attribute_reference:
           macro_help_tooltip: Tento textový segment je dynamicky rendrován makrem.
           not_found: Požadovaný zdroj nebyl nalezen.
@@ -175,9 +174,14 @@ cs:
           title: Insert / edit Code snippet
           language: Formátování jazyka
           language_hint: Zadejte jazyk, který bude použit pro zvýraznění (pokud je podporováno).
-        dropdown:
-          macros: Makra
-          chose_macro: Vybrat makro
+        embedded_calendar:
+          text: "[Placeholder] Vložený kalendář"
+        embedded_table:
+          button: Vložit tabulku pracovního balíčku
+          text: "[Placeholder] Vložený tabulka pracovního balíčku"
+        error: Nelze rozšířit makro %{message}
+        macro_dropdown:
+          caption: Insert
         toc: Obsah
         toolbar_help: Klikněte pro výběr widgetu a zobrazení panelu nástrojů. Dvojklikem upravíte widget
         wiki_page_include:
@@ -195,11 +199,6 @@ cs:
           button_style_hint: 'Volitelné: Zkontrolujte, zda se makro zobrazí jako tlačítko, ne jako odkaz.'
           without_type: Vytvořit pracovní balíček
           with_type: 'Vytvořit pracovní balíček (typ: %{typename})'
-        embedded_table:
-          button: Vložit tabulku pracovního balíčku
-          text: "[Placeholder] Vložený tabulka pracovního balíčku"
-        embedded_calendar:
-          text: "[Placeholder] Vložený kalendář"
     admin:
       type_form:
         edit_query: Upravit dotaz
@@ -210,13 +209,6 @@ cs:
           new_date: "(nové)"
         add_non_working_day: Nepracovní den
         already_added_error: Nepracovní den pro toto datum již existuje. Pro každý jedinečný datum může být vytvořen pouze jeden nepracovní den.
-        change_button: Uložit a přeplánovat
-        change_title: Změnit pracovní dny
-        removed_title: 'Následující dny odeberete ze seznamu nepracovních dnů:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'Změny se mohou projevit až po určité době. Po aktualizaci všech příslušných pracovních balíčků a životních cyklů projektu budete informováni. Jste si jisti, že chcete pokračovat?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -375,6 +367,7 @@ cs:
     label_in_more_than: za více než
     label_incoming_emails: Příchozí e-maily
     label_information_plural: Informace
+    label_infinity: Infinity
     label_invalid: Neplatné
     label_import: Import
     label_latest_activity: Poslední aktivita
@@ -399,6 +392,7 @@ cs:
     label_no_value: Žádná hodnota
     label_none: žádný
     label_not_contains: neobsahuje
+    label_not_available: Not available
     label_not_equals: není
     label_on: ''
     label_open_menu: Otevřít nabídku
@@ -409,7 +403,6 @@ cs:
     label_per_page: 'Na stránku:'
     label_please_wait: Čekejte prosím
     label_project: Projekt
-    label_project_list: Seznamy projektů
     label_project_plural: Projekty
     label_visibility_settings: Viditelnost zobrazení
     label_quote_comment: Citovat tento komentář
@@ -1065,16 +1058,13 @@ cs:
         all: Všechny projekty
         selected: Pouze vybrané
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Zahrnout všechny podprojekty
       tooltip:
         include_all_selected: Projekt je již zahrnut, protože Zahrnout všechny podprojekty je povoleno.
         current_project: Toto je aktuální projekt, ve kterém se nacházíte.
         does_not_match_search: Projekt neodpovídá kritériím vyhledávání.
       no_results: Žádný projekt neodpovídá vašim kritériím vyhledávání.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Hledat...
       types:
         program: Program
         portfolio: Portfolio

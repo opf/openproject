@@ -21,7 +21,7 @@ import {
   PERMITTED_CONTEXT_MENU_ACTIONS,
 } from 'core-app/shared/components/op-context-menu/wp-context-menu/wp-static-context-menu-actions';
 import { StateService } from '@uirouter/core';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { CopyToClipboardService } from 'core-app/shared/components/copy-to-clipboard/copy-to-clipboard.service';
 import { splitViewRoute } from 'core-app/features/work-packages/routing/split-view-routes.helper';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
@@ -34,21 +34,21 @@ import { Placement } from '@floating-ui/dom';
 export interface PositionArgs { placement?:Placement, reference?:HTMLElement }
 
 export class WorkPackageViewContextMenu extends OpContextMenuHandler {
-  @InjectField() protected states!:States;
+  @LazyInject() protected states!:States;
 
-  @InjectField() protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService;
+  @LazyInject() protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService;
 
-  @InjectField() protected $state!:StateService;
+  @LazyInject() protected $state!:StateService;
 
-  @InjectField() protected wpTableSelection:WorkPackageViewSelectionService;
+  @LazyInject() protected wpTableSelection:WorkPackageViewSelectionService;
 
-  @InjectField() protected WorkPackageContextMenuHelper!:WorkPackageContextMenuHelperService;
+  @LazyInject() protected WorkPackageContextMenuHelper!:WorkPackageContextMenuHelperService;
 
-  @InjectField() protected currentProject:CurrentProjectService;
+  @LazyInject() protected currentProject:CurrentProjectService;
 
-  @InjectField() protected pathHelper:PathHelperService;
+  @LazyInject() protected pathHelper:PathHelperService;
 
-  @InjectField() protected turboRequests:TurboRequestsService;
+  @LazyInject() protected turboRequests:TurboRequestsService;
 
   protected workPackage = this.states.workPackages.get(this.workPackageId).value!;
 

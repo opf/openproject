@@ -35,6 +35,7 @@ RSpec.describe "External links in BlockNote editor",
                :selenium,
                with_settings: { real_time_text_collaboration_enabled: true } do
   include_context "with hocuspocus"
+  include FormFields::Primerized::BlockNoteEditorBrowserActions
 
   let(:admin) { create(:admin) }
   let(:document) { create(:document, :collaborative) }
@@ -78,20 +79,68 @@ RSpec.describe "External links in BlockNote editor",
     expect(link[:rel]).to include("noreferrer")
   end
 
-  it "does not set aria-describedby inside contenteditable to avoid ProseMirror re-render loop" do
+  it "embeds the 'opens in new tab' hint inside external links for screen readers" do
     editor.paste_links(text: "Accessible Link", url: "https://example.com")
 
+    # The hint is a ProseMirror widget decoration wrapped in the link mark, so
+    # it is rendered as a sr-only child of the <a>. This makes it part of the
+    # link's accessible name, which screen readers announce reliably even
+    # inside contenteditable — unlike aria-describedby, which VoiceOver/NVDA
+    # ignore in edit mode.
     link = editor.shadow_root.find("a[target='_blank']", text: "Accessible Link", wait: 5)
-    expect(link[:"aria-describedby"]).to be_nil.or eq("")
+    hint = link.find("span.sr-only", visible: :all)
+    # The widget text is prefixed with a separator (NBSP) so the link's
+    # computed accessible name doesn't concatenate as "Accessible LinkOpen…".
+    # We assert containment rather than equality so the separator detail
+    # stays an implementation concern of the extension, not the spec.
+    expect(hint.text(:all)).to include(I18n.t(:open_link_in_a_new_tab))
   end
 
   it_behaves_like "does not freeze when pasting multiple external links"
 
-  it "does not rewrite internal links" do
+  it "leaves no orphan hint when a linked range is deleted in one transaction" do
+    editor.paste_links(text: "Doomed Link", url: "https://example.com")
+    link = editor.shadow_root.find("a[target='_blank']", text: "Doomed Link", wait: 5)
+    expect(link).to have_css("span.sr-only", visible: :all)
+
+    # Deleting an entire link must leave no orphan widget at the deletion
+    # seam. The apply gate reseats the widget set on any range deletion, so
+    # buildDecorations runs on the post-delete doc, finds no link, and emits
+    # no widget. A regression here would render a phantom empty <a> hosting
+    # the sr-only hint, and screen readers would announce a link to nowhere.
+    select_text_in_external_link
+    send_forward_delete
+
+    expect(editor.element).to have_no_css("a[target='_blank']", visible: :all)
+    expect(editor.element).to have_no_css("span.sr-only", visible: :all)
+  end
+
+  it "preserves the hint when text is deleted from the end of a surviving link" do
+    editor.paste_links(text: "Trim Me Tail", url: "https://example.com/tail")
+    link = editor.shadow_root.find("a[target='_blank']", text: "Trim Me Tail", wait: 5)
+    expect(link).to have_css("span.sr-only", visible: :all)
+
+    # Tail-deletion inside a link must leave exactly one hint at the new
+    # link end. Mapping the existing widget through the deletion is unsafe:
+    # PM treats the widget's position as deleted when it coincides with the
+    # deletion's right edge. The apply gate's deletion rule reseats the
+    # widget on the post-delete doc instead.
+    select_text_in_external_link(start_offset: -4)
+    send_forward_delete
+
+    surviving = editor.shadow_root.find("a[target='_blank']", text: "Trim Me", wait: 5)
+    hints = surviving.all("span.sr-only", visible: :all)
+    expect(hints.size).to eq(1)
+    expect(hints.first.text(:all)).to include(I18n.t(:open_link_in_a_new_tab))
+  end
+
+  it "does not rewrite internal links or attach the sr-only hint" do
     editor.paste_links(text: "Internal Link", url: root_url)
 
     link = editor.shadow_root.find("a", text: "Internal Link", wait: 5)
     expect(link.native.property("href")).not_to include("/external_redirect")
+    # Internal links should not receive the "opens in new tab" hint.
+    expect(link).to have_no_css("span.sr-only", visible: :all)
   end
 
   context "with capture enabled",

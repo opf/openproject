@@ -2,7 +2,7 @@
   [notification]="notification"
   />
 <div class="op-ian-actors--container">
-  @for (actor of actors | slice:0:3; track actor; let idx = $index; let last = $last) {
+  @for (actor of actors | slice:0:3; track actor.href; let idx = $index; let last = $last) {
     @if (last && actors.length > 1 && actors.length < 4) {
       <span textContent=" {{ text.and }} "></span>
     }

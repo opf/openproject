@@ -109,7 +109,7 @@ ru:
     button_save: Сохранить
     button_settings: Настройки
     button_uncheck_all: Снять все отметки
-    button_update: Обновить
+    button_update: Обновление
     button_export-atom: Скачать Atom
     button_generate_pdf: Создать PDF
     button_create: Создать
@@ -155,7 +155,6 @@ ru:
         manual: Перейти к источнику уценок
         wysiwyg: Перейти к WYSIWYG-редактору
       macro:
-        error: 'Невозможно развернуть макрос: %{message}'
         attribute_reference:
           macro_help_tooltip: Этот текстовый сегмент динамически отображается макросом.
           not_found: Запрошенный ресурс не найден
@@ -175,9 +174,14 @@ ru:
           title: Вставить / Редактировать фрагмент кода
           language: Язык форматирования
           language_hint: Введите язык форматирования, который будет использоваться для выделения (если поддерживается).
-        dropdown:
-          macros: Макрос
-          chose_macro: Выберите макрос
+        embedded_calendar:
+          text: "[Placeholder] Встроенный календарь"
+        embedded_table:
+          button: Вложить таблицу пакетов работ
+          text: "[Placeholder] Таблица внедренных пакетов работ"
+        error: 'Невозможно развернуть макрос: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Содержание
         toolbar_help: Кликните для выбора виджета и показа панели инструментов. Кликните дважды для редактирования виджета
         wiki_page_include:
@@ -195,11 +199,6 @@ ru:
           button_style_hint: 'Дополнительно: Проверьте, чтобы макрос выглядел как кнопка, а не как ссылка.'
           without_type: Создать пакет работ
           with_type: 'Создать пакет работ (Тип: %{typename})'
-        embedded_table:
-          button: Вложить таблицу пакетов работ
-          text: "[Placeholder] Таблица внедренных пакетов работ"
-        embedded_calendar:
-          text: "[Placeholder] Встроенный календарь"
     admin:
       type_form:
         edit_query: Редактировать запрос
@@ -210,13 +209,6 @@ ru:
           new_date: "(новый)"
         add_non_working_day: Нерабочий день
         already_added_error: Нерабочий день для этой даты уже существует. Может быть только один нерабочий день для каждой уникальной даты.
-        change_button: Сохранить и перенести
-        change_title: Изменить рабочие дни
-        removed_title: 'Следующие дни будут удалены из списка нерабочих дней:'
-        change_description: Изменение дней недели, считающихся рабочими или нерабочими днями, может повлиять на начало и завершение всех пакетов работ и жизненных циклов во всех проектах.
-        warning: 'Для вступления изменений в силу может потребоваться некоторое время. Вы будете уведомлены, когда все соответствующие пакеты работ и жизненные циклы проектов будут обновлены. Хотите продолжить?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: При изменении расчета прогресса с режима "На основе статуса" на режим "На основе трудозатрат" поле <i>% завершения</i> станет редактируемым. Если Вы дополнительно введете значения для <i>Предполагаемого времени</i> или <i>Оставшихся часов</i>, они также будут связаны с <i>% завершения</i>. Изменение значения <i>Оставшихся часов</i> может привести к обновлению <i>% завершения</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: При изменении расчета прогресса с режима На основе трудозатрат на режим На основе статуса все существующие значения <i>% завершения</i> будут потеряны и заменены значениями, связанными с каждым статусом. Существующие значения параметра <i>Оставшиеся часы</i> также могут быть пересчитаны с учетом этого изменения. Это действие необратимо.
@@ -377,6 +369,7 @@ ru:
     label_in_more_than: более чем
     label_incoming_emails: Входящие письма
     label_information_plural: Информация
+    label_infinity: Infinity
     label_invalid: Неверно
     label_import: Импорт
     label_latest_activity: Последние действия
@@ -401,6 +394,7 @@ ru:
     label_no_value: Нет значения
     label_none: Ничего
     label_not_contains: не содержит
+    label_not_available: Not available
     label_not_equals: не
     label_on: на
     label_open_menu: Открыть меню
@@ -411,7 +405,6 @@ ru:
     label_per_page: 'На странице:'
     label_please_wait: Пожалуйста, подождите
     label_project: Проект
-    label_project_list: Списки проектов
     label_project_plural: Проекты
     label_visibility_settings: Параметры видимости
     label_quote_comment: Цитировать этот комментарий
@@ -1063,16 +1056,13 @@ ru:
         all: Все проекты
         selected: Только выбранные
       search_placeholder: Поиск проектов...
-      search_placeholder_favorites: Поиск в избранном...
       include_subprojects: Включить все подпроекты
       tooltip:
         include_all_selected: Проект уже включен, поскольку разрешено включение всех подпроектов.
         current_project: Это текущий проект, в котором вы находитесь.
         does_not_match_search: Ни один проект не соответствует критериям поиска.
       no_results: Ни один проект не соответствует критериям поиска.
-      no_favorite_results: Ни один избранный проект не соответствует критериям поиска.
     include_workspaces:
-      search_placeholder: Поиск...
       types:
         program: Программа
         portfolio: Портфолио

@@ -10,40 +10,28 @@ jobs:
     if: github.repository == 'opf/openproject'
     runs-on: ubuntu-latest
     outputs:
-      previous_release_branch: ${{ steps.find_previous_release.outputs.branch }}
-      latest_release_branch: ${{ steps.find_latest_release.outputs.branch }}
+      previous_release_branch: ${{ steps.find_release_branches.outputs.previous_branch }}
+      latest_release_branch: ${{ steps.find_release_branches.outputs.latest_branch }}
     steps:
-      - id: find_previous_release
+      - id: find_release_branches
         env:
           GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-            jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -2 | head -1
+          LATEST_BRANCHES=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" \
+            --jq '.[].name' | grep '^release/' | sort --version-sort | tail -2
           )
-          if [ "$BRANCH" = "" ]; then
-            echo "Invalid release branch found: $BRANCH"
+          LATEST_BRANCH=$(echo "$LATEST_BRANCHES" | tail -1)
+          PREVIOUS_BRANCH=$(echo "$LATEST_BRANCHES" | head -1)
+          if [ -z "$LATEST_BRANCH" ] || [ -z "$PREVIOUS_BRANCH" ]; then
+            echo "Invalid release branches found: latest=$LATEST_BRANCH, previous=$PREVIOUS_BRANCH"
             exit 1
           fi
-          echo "Found previous release branch: $BRANCH"
-          echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
-      - id: find_latest_release
-        env:
-          GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
-        run: |
-          BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-            jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
-          )
-          if [ "$BRANCH" = "" ]; then
-            echo "Invalid release branch found: $BRANCH"
-            exit 1
-          fi
-
-          echo "Found current release branch: $BRANCH"
-          echo "branch=${BRANCH}" >> $GITHUB_OUTPUT
+          echo "Found previous release branch: $PREVIOUS_BRANCH"
+          echo "previous_branch=${PREVIOUS_BRANCH}" >> $GITHUB_OUTPUT
+          echo "Found latest release branch: $LATEST_BRANCH"
+          echo "latest_branch=${LATEST_BRANCH}" >> $GITHUB_OUTPUT
   merge-or-create-pr:
     if: github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref_name == needs.setup.outputs.previous_release_branch)
     env:

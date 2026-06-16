@@ -27,7 +27,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {IGitlabIssueResource} from 'core-app/features/plugins/linked/openproject-gitlab_integration/typings';
@@ -39,6 +39,7 @@ import {IGitlabIssueResource} from 'core-app/features/plugins/linked/openproject
     './issue.component.sass',
   ],
   host: { class: 'op-issue' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 

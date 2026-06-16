@@ -45,6 +45,7 @@ eo:
   default_doc_category_user: Dokumentado por la uzanto
   enumeration_doc_categories: Kategorioj de dokumentoj
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

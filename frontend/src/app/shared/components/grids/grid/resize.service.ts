@@ -88,7 +88,7 @@ export class GridResizeService {
   }
 
   public isResized(area:GridWidgetArea) {
-    return this.resizedArea && this.resizedArea.guid === area.guid;
+    return this.resizedArea?.guid === area.guid;
   }
 
   public isPassive(area:GridWidgetArea) {

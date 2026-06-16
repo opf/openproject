@@ -39,6 +39,8 @@ vi:
         unit: Tên đơn vị
         unit_plural: Tên đơn vị đa năng
         default: Loại chi phí theo mặc định
+        for_all_projects: For all projects
+        rates: Rates
       work_package:
         costs_by_type: Đơn vị đã chi
         labor_costs: Chi phí nhân công
@@ -84,6 +86,10 @@ vi:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Gói công việc #%{id} không phải là mục tiêu hợp lệ để chỉ định lại các mục chi phí.'
           nullify_is_not_valid_for_cost_entries: Các mục chi phí không thể được phân bổ cho một dự án.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
   attributes:
     comment: bình luận
     cost_type: Loại chi phí
@@ -125,7 +131,6 @@ vi:
   label_current_default_rate: Tỷ lệ mặc định hiện tại
   label_date_on: trên
   label_deleted_cost_types: Các loại chi phí đã xóa
-  label_locked_cost_types: Các loại chi phí bị khóa
   label_display_cost_entries: Chi phí đơn vị hiển thị
   label_display_time_entries: Hiển thị số giờ được báo cáo
   label_display_types: Các loại màn hình
@@ -225,6 +230,28 @@ vi:
     errors:
       validation:
         start_time_different_date: Phần ngày của thời gian bắt đầu (%{start_time}) phải giống với ngày chi tiêu (%{spent_on}).
+  label_available_cost_types_projects: Available cost types projects
+  cost_types:
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: This cost type is enabled in all projects
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+        no_projects:
+          heading: No projects assigned
+          description: Add projects so this cost type can be used in them.
+      rates:
+        title: Rate history
+    settings:
+      time_and_costs: Time & Costs
+      cost_types:
+        heading: Cost types
+        none_active: No cost types are currently active in this project.
+        for_all_projects_hint: This cost type is enabled in all projects.
   costs:
     widgets:
       actual_costs:

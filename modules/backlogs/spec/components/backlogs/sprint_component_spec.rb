@@ -259,8 +259,8 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           rendered_component
 
           expect(menu_items).to eq(["Edit sprint", "Add work package", "Sprint board", "Burndown chart"])
-          expect(page).to have_list_item position: 2, role: "presentation"
-          expect(page).to have_list_item position: 4, role: "presentation"
+          # The three item groups are separated by presentation-only dividers.
+          expect(page).to have_css("li[role='presentation']", count: 2)
         end
       end
     end

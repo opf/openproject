@@ -39,6 +39,8 @@ cs:
         unit: Název jednotky
         unit_plural: Název Pluralizované jednotky
         default: Typ nákladů ve výchozím nastavení
+        for_all_projects: Pro všechny projekty
+        rates: Sazby
       work_package:
         costs_by_type: Strávené jednotky
         labor_costs: Náklady práce
@@ -96,6 +98,10 @@ cs:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Pracovní balíček #%{id} není platný cíl pro přeřazení nákladových položek.'
           nullify_is_not_valid_for_cost_entries: K projektu nelze přiřadit položky nákladů.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Prosím vyberte projekt.
   attributes:
     comment: Komentář
     cost_type: Typ nákladu
@@ -137,7 +143,6 @@ cs:
   label_current_default_rate: Aktuální výchozí sazba
   label_date_on: ''
   label_deleted_cost_types: Odstraněné typy nákladů
-  label_locked_cost_types: Uzamčené typy nákladů
   label_display_cost_entries: Zobrazit jednotkové náklady
   label_display_time_entries: Zobrazit nahlášené hodiny
   label_display_types: Typy zobrazení
@@ -237,6 +242,28 @@ cs:
     errors:
       validation:
         start_time_different_date: Date part of startTime (%{start_time}) must be the same as the spentOn (%{spent_on}) date.
+  label_available_cost_types_projects: Available cost types projects
+  cost_types:
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    admin:
+      columns:
+        active_projects: Aktivní projekty
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: This cost type is enabled in all projects
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+        no_projects:
+          heading: No projects assigned
+          description: Add projects so this cost type can be used in them.
+      rates:
+        title: Rate history
+    settings:
+      time_and_costs: Čas & náklady
+      cost_types:
+        heading: Cost types
+        none_active: No cost types are currently active in this project.
+        for_all_projects_hint: This cost type is enabled in all projects.
   costs:
     widgets:
       actual_costs:

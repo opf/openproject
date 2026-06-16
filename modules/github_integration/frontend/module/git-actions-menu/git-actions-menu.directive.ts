@@ -30,7 +30,7 @@ import { OpContextMenuItem } from 'core-app/shared/components/op-context-menu/op
 import { Directive, Input } from '@angular/core';
 import { OpContextMenuTrigger } from 'core-app/shared/components/op-context-menu/handlers/op-context-menu-trigger.directive';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
-import { GitActionsMenuComponent } from './git-actions-menu.component';
+import { GitHubActionsMenuComponent } from './git-actions-menu.component';
 
 @Directive({
   selector: '[gitActionsCopyDropdown]',
@@ -40,7 +40,7 @@ export class GitActionsMenuDirective extends OpContextMenuTrigger {
   @Input('gitActionsCopyDropdown-workPackage') public workPackage:WorkPackageResource;
 
   protected open(evt:Event) {
-    this.opContextMenu.show(this, evt, GitActionsMenuComponent);
+    this.opContextMenu.show(this, evt, GitHubActionsMenuComponent);
   }
 
   public get locals():{ showAnchorRight?:boolean, contextMenuId?:string, items:OpContextMenuItem[], workPackage:WorkPackageResource } {
@@ -51,4 +51,3 @@ export class GitActionsMenuDirective extends OpContextMenuTrigger {
     };
   }
 }
-

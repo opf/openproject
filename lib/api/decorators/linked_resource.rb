@@ -120,7 +120,7 @@ module API
                    getter:,
                    setter:,
                    if: show_if,
-                   skip_render: ->(*) { !embed_links || (skip_render && instance_exec(&skip_render)) },
+                   skip_render: ->(*) { !embed_link?(name) || (skip_render && instance_exec(&skip_render)) },
                    linked_resource: true,
                    embedded:,
                    uncacheable: true
@@ -142,7 +142,7 @@ module API
                    getter:,
                    setter:,
                    if: show_if,
-                   skip_render: ->(*) { !embed_links || (skip_render && instance_exec(&skip_render)) },
+                   skip_render: ->(*) { !embed_link?(name) || (skip_render && instance_exec(&skip_render)) },
                    linked_resource: true,
                    embedded:,
                    uncacheable: true
@@ -177,7 +177,7 @@ module API
                                 link_getter: :"#{name}_id",
                                 link_property_name: nil,
                                 uncacheable_link: false,
-                                getter: associated_resource_default_getter(name, representer),
+                                getter: associated_resource_default_getter(name, representer, as || name),
                                 setter: associated_resource_default_setter(name, as, v3_path),
                                 link: associated_resource_default_link_lambda(link_property_name || name,
                                                                               v3_path:,
@@ -243,11 +243,12 @@ module API
         end
 
         def associated_resource_default_getter(name,
-                                               representer)
+                                               representer,
+                                               embed_name)
           representer ||= default_representer(name)
 
           ->(*) do
-            if embed_links && represented.send(name)
+            if embed_link?(embed_name) && represented.send(name)
               representer.create(represented.send(name), current_user:)
             end
           end
@@ -290,7 +291,7 @@ module API
                                  skip_link: skip_render,
                                  link_title_attribute: :name,
                                  uncacheable_link: false,
-                                 getter: associated_resources_default_getter(name, representer),
+                                 getter: associated_resources_default_getter(name, representer, as),
                                  setter: associated_resources_default_setter(name, v3_path),
                                  link: associated_resources_default_link(name,
                                                                          v3_path:,
@@ -305,10 +306,13 @@ module API
         end
 
         def associated_resources_default_getter(name,
-                                                representer)
+                                                representer,
+                                                embed_name)
           representer ||= default_representer(name.to_s.singularize)
 
           ->(*) do
+            next unless embed_link?(embed_name)
+
             represented.send(name)&.map do |associated|
               representer.create(associated, current_user:)
             end

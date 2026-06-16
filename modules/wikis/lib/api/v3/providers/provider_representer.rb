@@ -32,14 +32,13 @@ module API
   module V3
     module Providers
       class ProviderRepresenter < Decorators::Single
-        include Decorators::LinkedResource
         include Decorators::DateProperty
 
-        property :universal_identifier
+        property :universal_identifier, writeable: false
         property :name
 
-        date_time_property :created_at
-        date_time_property :updated_at
+        date_time_property :created_at, writeable: false
+        date_time_property :updated_at, writeable: false
 
         self_link(path: :wiki_provider, id_attribute: :universal_identifier)
       end

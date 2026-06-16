@@ -29,5 +29,4 @@
 # ++
 
 class ProgramsController < ProjectsController
-  before_action :not_authorized_on_feature_flag_inactive
 end

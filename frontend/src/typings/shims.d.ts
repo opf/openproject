@@ -5,8 +5,6 @@
 // Active issue
 // https://github.com/Microsoft/TypeScript/issues/10178
 
-/// <reference path="../../node_modules/@types/jquery/index.d.ts" />
-/// <reference path="../../node_modules/@types/jqueryui/index.d.ts" />
 /// <reference path="../../node_modules/@types/mousetrap/index.d.ts" />
 /// <reference path="../../node_modules/@types/moment-timezone/index.d.ts" />
 /// <reference path="../../node_modules/@types/urijs/index.d.ts" />
@@ -24,33 +22,6 @@ import { I18n } from 'i18n-js';
 declare module 'observable-array';
 declare module 'dom-autoscroller';
 declare module 'core-vendor/enjoyhint';
-
-declare module '@hotwired/turbo' {
-  interface BrowserAdapter {
-    formSubmissionStarted:() => void;
-    formSubmissionFinished:() => void;
-  }
-
-  export const session:{
-    drive:boolean;
-    adapter:BrowserAdapter;
-  };
-
-  export const config:{
-    drive:{ progressBarDelay:number }
-  };
-
-  export const navigator:{
-    submitForm:(form:HTMLFormElement, submitter?:HTMLElement) => void;
-  };
-
-  export interface StreamElement {
-    templateElement:HTMLTemplateElement;
-    templateContent:DocumentFragment;
-  }
-
-  export function start():void;
-}
 
 declare global {
   const _:typeof TLodash;

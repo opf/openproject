@@ -34,10 +34,10 @@ require "contracts/shared/model_contract_shared_context"
 RSpec.shared_examples_for "resource allocation contract" do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
   shared_let(:owner) { create(:user) }
-  shared_let(:planner) { create(:resource_planner, project:, principal: owner) }
+  shared_let(:work_package) { create(:work_package, project:) }
 
   let(:resource_allocation) do
-    build_stubbed(:resource_allocation, entity: planner, principal: owner)
+    build_stubbed(:resource_allocation, entity: work_package, principal: owner)
   end
 
   context "when user has the allocate_user_resources permission" do

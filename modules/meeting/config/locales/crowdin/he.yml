@@ -384,58 +384,22 @@ he:
         caption: This text will appear on every page at the center of the footer.
       submit_button: הורד
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: Email calendar updates
         description:
-          disabled: Participants will not receive an email informing them of changes.
-          enabled: All participants will receive updated calendar invites via email informing them of changes.
           change_via_template: To change this, edit the series template.
       dialog:
         title:
           enable: Enable email calendar updates?
           disable: Disable email calendar updates?
         message:
-          enable: 'All participants will receive updated calendar invites via email every time there is a change to the meeting date, time, location or participants. Once enabled, an email will be sent out immediately to all participants.
-
-            '
-          disable: 'Participants will no longer receive updated calendar invites via email when there are changes to the meeting date, time, location or participants. If they already had an invite for this meeting, it might no longer be accurate.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: Enable email updates
           disable: Disable email updates
-      banner:
-        participants:
-          enabled: 'All participants will receive updated calendar invites via email when you add or remove participants.
-
-            '
-          disabled: 'Email calendar updates are disabled. Participants will not receive an email informing them when you add or remove participants.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'All participants will receive updated calendar invites via email when you add or remove participants.
-
-            '
-          disabled: 'Participants will not receive an email informing them of changes to meeting date, time or participants.
-
-            '
-        occurrence:
-          enabled: 'Email calendar updates are enabled for the meeting series. All participants will receive updated calendar invites informing them of your changes to this occurrence.
-
-            '
-          disabled: 'Email calendar updates are disabled for the meeting series. Participants will not receive an email informing them of your changes to this occurrence.
-
-            '
-        template:
-          enabled: 'Email calendar updates are enabled for the meeting series. All participants will receive updated calendar invites informing them of your changes to this template or to individual occurrences.
-
-            '
-          disabled: 'Email calendar updates are disabled for the meeting series. Participants will not receive an email informing them of your changes to this template or to individual occurrences.
-
-            '
     presentation_mode:
       title: Presentation Mode
       button_present: Present
@@ -654,6 +618,7 @@ he:
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
   label_agenda_item_add_notes: הוסף הערות
   label_agenda_item_add_outcome: Add outcome
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: Add work package
   label_agenda_item_work_package: Agenda item work package
   label_section_rename: Rename section

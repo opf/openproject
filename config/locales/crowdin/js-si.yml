@@ -155,7 +155,6 @@ si:
         manual: මාර්ක්ඩවුන් ප්රභවයට මාරු වන්න
         wysiwyg: WYSIWYG සංස්කාරකය වෙත මාරු වන්න
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
@@ -175,9 +174,14 @@ si:
           title: ඇතුලත් කරන්න/සංස්කරණය කේතය ස්නිපෙට්
           language: හැඩතල භාෂාව
           language_hint: අවධාරණය කිරීම සඳහා භාවිතා කරනු ලබන ආකෘතිකරණ භාෂාව ඇතුළත් කරන්න (සහාය දක්වන්නේ නම්).
-        dropdown:
-          macros: මැක්රෝස්
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] කාවැද්දූ දින දර්ශනය"
+        embedded_table:
+          button: කාවැද්දූ වැඩ පැකේජය වගුව
+          text: "[Placeholder] කාවැද්දූ වැඩ පැකේජය වගුව"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: අන්තර්ගත වගුව
         toolbar_help: විජට් තෝරා ගැනීමට ක්ලික් කරන්න සහ මෙවලම් තීරුව පෙන්වන්න. විජට් සංස්කරණය කිරීමට ද්වි-ක්ලික් කරන්න
         wiki_page_include:
@@ -195,11 +199,6 @@ si:
           button_style_hint: 'විකල්ප: සාර්ව සබැඳියක් ලෙස නොව බොත්තමක් ලෙස පෙනී සිටීමට පරීක්ෂා කරන්න.'
           without_type: වැඩ පැකේජයක් සාදන්න
           with_type: 'වැඩ පැකේජය සාදන්න (වර්ගය: %{typename})'
-        embedded_table:
-          button: කාවැද්දූ වැඩ පැකේජය වගුව
-          text: "[Placeholder] කාවැද්දූ වැඩ පැකේජය වගුව"
-        embedded_calendar:
-          text: "[Placeholder] කාවැද්දූ දින දර්ශනය"
     admin:
       type_form:
         edit_query: විමසුම සංස්කරණය කරන්න
@@ -210,13 +209,6 @@ si:
           new_date: "(new)"
         add_non_working_day: Non-working day
         already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
-        change_button: Save and reschedule
-        change_title: Change working days
-        removed_title: 'You will remove the following days from the non-working days list:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -375,6 +367,7 @@ si:
     label_in_more_than: වඩා වැඩි
     label_incoming_emails: ලැබෙන විද්යුත් තැපැල්
     label_information_plural: තොරතුරු
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: ආනයන
     label_latest_activity: නවතම ක්රියාකාරකම්
@@ -399,6 +392,7 @@ si:
     label_no_value: වටිනාකමක් නැත
     label_none: කිසිවක් නැත
     label_not_contains: අඩංගු නොවේ
+    label_not_available: Not available
     label_not_equals: නැත
     label_on: මත
     label_open_menu: මෙනුව විවෘත කරන්න
@@ -409,7 +403,6 @@ si:
     label_per_page: 'එක් පිටුවකට:'
     label_please_wait: කරුණාකර රැඳී සිටින්න
     label_project: ව්යාපෘති
-    label_project_list: Project lists
     label_project_plural: ව්‍යාපෘති
     label_visibility_settings: දෘශ්යතා සැකසුම්
     label_quote_comment: මෙම අදහස උපුටා දක්වන්න
@@ -1053,16 +1046,13 @@ si:
         all: All projects
         selected: Only selected
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Include all sub-projects
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.
         current_project: This is the current project you are in.
         does_not_match_search: Project does not match the search criteria.
       no_results: No project matches your search criteria.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

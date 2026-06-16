@@ -12,6 +12,7 @@ vi:
         sp_entity_id: ID thực thể dịch vụ
         metadata_url: URL siêu dữ liệu của nhà cung cấp danh tính
         name_identifier_format: Định dạng nhận dạng tên
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Điểm cuối đăng nhập của nhà cung cấp danh tính
         idp_slo_service_url: Điểm cuối đăng xuất của nhà cung cấp danh tính
         idp_cert: Giấy chứng nhận công khai của nhà cung cấp danh tính
@@ -44,6 +45,10 @@ vi:
       success: Đã cập nhật thành công cấu hình bằng siêu dữ liệu của nhà cung cấp danh tính.
       invalid_url: URL siêu dữ liệu được cung cấp không hợp lệ. Cung cấp (các) URL HTTP.
       error: 'Không truy xuất được siêu dữ liệu của nhà cung cấp danh tính: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Chưa có nhà cung cấp SAML nào được định cấu hình.
       label_empty_description: Thêm nhà cung cấp để xem chúng ở đây.
@@ -109,6 +114,9 @@ vi:
 
         '
       metadata_url: 'Nhà cung cấp danh tính của bạn cung cấp URL siêu dữ liệu.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Nhà cung cấp danh tính của bạn cung cấp bản tải xuống XML siêu dữ liệu.

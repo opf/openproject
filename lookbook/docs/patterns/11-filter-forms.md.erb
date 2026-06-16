@@ -1,0 +1,176 @@
+Filters in OpenProject are driven by query objects (subclasses of
+`Queries::BaseQuery`). Each query exposes the filters that are available for
+its target model and the ones that are currently active. There are two
+building blocks for rendering those filters as a UI:
+
+* **`Filter::FilterComponent`** — the full filter panel as it appears on
+  index pages: a turbo frame, a `BorderBox`, lazy loading, action buttons
+  (Apply / Close), and the filter rows themselves. Use this when you want
+  the standard OpenProject filter dropdown experience.
+* **`Filters::FilterFormComponent`** — just the filter rows plus the "Add
+  filter" select, rendered as a ViewComponent. Use this when you want
+  filters inside *your own* form (e.g. a configuration dialog) or when the
+  surrounding chrome of `FilterComponent` doesn't fit.
+
+Internally `FilterComponent` delegates to `FilterFormComponent`, so the two
+stay in lockstep — `FilterFormComponent` is the single source of truth for
+which inputs to render, and `FilterComponent` adds the wrapping chrome on
+top.
+
+## Filter::FilterComponent
+
+The component takes a query and renders the complete filter UI. The
+surrounding host (typically a sub-header component) is responsible for
+attaching the `filter--filters-form` Stimulus controller because it needs
+to coordinate with co-located quick filter inputs.
+
+```erb
+<%%= render(::Projects::ProjectsFiltersComponent.new(
+  query: @query,
+  lazy_loaded_path: :projects_filters_path,
+  initially_expanded: filters_expanded?
+)) %>
+```
+
+To restrict or reorder the advertised filters, subclass `Filter::FilterComponent`
+and override `allowed_filters`:
+
+```ruby
+class MyFiltersComponent < Filter::FilterComponent
+  def allowed_filters
+    super
+      .grep_v(SomeNoisyFilter)
+      .sort_by(&:human_name)
+  end
+end
+```
+
+`turbo_requests?` toggles whether changes auto-submit via a turbo stream or
+require an explicit Apply click. `lazy_loaded_path` defers the actual filter
+rendering until the dropdown is opened (a skeleton is shown in the meantime).
+
+<%= embed OpenProject::Filter::FiltersComponentPreview, :default, panels: %i[preview source] %>
+
+## Filters::FilterFormComponent
+
+For everything that isn't a standard filter dropdown, render
+`FilterFormComponent` inside any `primer_form_with` block. It accepts the
+parent's primer form builder so its inputs sit at the top level of the
+surrounding form (field names like `operator_<filter>` and `<filter>_value`
+— same as `FilterComponent`).
+
+### Default usage
+
+`wrap_with_controller: true` makes the component emit its own
+`<div class="op-filters-form -expanded" data-controller="filter--filters-form">`
+wrapper. Use this in any standalone embed (a dialog body, a settings page,
+etc.) where there's no surrounding sub-header attaching the controller for
+you.
+
+<%= embed OpenProject::Filter::FilterFormPreview, :default, panels: %i[preview source] %>
+
+### With an active filter
+
+Pre-populate the query and the corresponding row is rendered visible with
+its operator/values filled in. Inactive filters still render but stay
+hidden until the user picks them from the "Add filter" select.
+
+<%= embed OpenProject::Filter::FilterFormPreview, :with_active_filter, panels: %i[preview source] %>
+
+### Submitting via a hidden field
+
+By default the component relies on the Stimulus controller to redirect via
+`sendForm` (the projects-index style). Inside a regular form you usually
+want the filter state to ride along with a normal submit instead. Pass
+`hidden_input_name:` and the component renders a hidden input whose value
+is kept in sync with the serialized filter selections.
+
+`output_format:` controls the serialization:
+
+* `:params` (default) — URL-style: `name ~ "foo"&login ! "bar"`.
+* `:json` — JSON array of `{name: {operator, values}}` objects, easier to
+  parse server-side.
+
+The host server receives the canonical string in
+`params[:<hidden_input_name>]` — no special routing or interception needed.
+
+<%= embed OpenProject::Filter::FilterFormPreview, :with_hidden_input, panels: %i[preview params] %>
+
+### Combining with non-filter inputs
+
+`FilterFormComponent` is rendered next to normal Primer form objects, not
+inside `Primer::Forms::FormList`. Render any regular form objects through
+a `FormList`, then render `FilterFormComponent` with the same builder. All
+fields still submit through the same surrounding `<form>`.
+
+<%= embed OpenProject::Filter::FilterFormPreview, :combined_with_other_inputs, panels: %i[preview source] %>
+
+### Inside a clipping container (dialogs)
+
+ng-select dropdowns are positioned by their parent; if the component lives
+inside a Primer dialog or any other overflow-clipping container, the
+dropdown gets cut off. Pass `autocomplete_append_to:` with a CSS selector
+that ng-select can resolve (typically the dialog id, or `"body"`) — the
+component forwards it as `appendTo` to every autocompleter it renders.
+
+```erb
+<%%= primer_form_with(...) do |f| %>
+  <%%= render(
+    Filters::FilterFormComponent.new(
+      builder: f,
+      query: @query,
+      wrap_with_controller: true,
+      hidden_input_name: "filters",
+      autocomplete_append_to: "#my-dialog"
+    )
+  ) %>
+<%% end %>
+```
+
+## When to use which
+
+| You want…                                                | Use                       |
+|----------------------------------------------------------|---------------------------|
+| The standard OpenProject filter panel on an index page   | `Filter::FilterComponent` |
+| Filters inside a dialog or a non-filter form             | `Filters::FilterFormComponent` + `hidden_input_name:`   |
+
+## Stimulus controller placement
+
+The `filter--filters-form` controller has to sit on a **common ancestor**
+of every filter UI that should coordinate. It does two things callers tend
+to forget about:
+
+1. `parseFilters()` collects values from both the inline quick filter
+   (`simpleFilter` targets) and the advanced filter rows (`filter`
+   targets). If they live under different controller instances, typing in
+   the quick input won't include active advanced filters in the URL.
+2. The clear-button on a quick filter (`clearButtonIdValue`) hooks back
+   into the same controller.
+
+That's why `Filter::FilterComponent` does *not* attach the controller
+itself — the surrounding `IndexSubHeaderComponent` does, so quick filter
+and advanced form share one. For standalone embeds without a co-located
+quick filter, `FilterFormComponent`'s `wrap_with_controller: true` is the
+right default.
+
+## Compatibility with the legacy `Query` (work packages)
+
+`Filters::FilterFormComponent` reads three things off the query:
+`available_advanced_filters`, `filters`, and `find_active_filter(name)`.
+The first two come from the `Queries::Filters::AvailableFilters` concern,
+which the legacy work-package `Query` model also includes.
+`find_active_filter` is defined directly on `Queries::BaseQuery` and used
+to live only there — `Query` now mirrors it with the same signature, so
+passing a `Query` (or any of its subclasses) to `FilterFormComponent` works
+exactly like passing a `BaseQuery` subclass.
+
+<%= embed OpenProject::Filter::FilterFormPreview, :for_a_work_package_query, panels: %i[preview source] %>
+
+What `FilterFormComponent` does *not* do for you on the legacy side:
+parsing the form submission back into a `Query#filters` collection. The
+work-package filter pipeline still uses its own serialization (URL
+`filters=[...]` JSON / YAML in the DB), so a controller receiving a
+`FilterFormComponent` submit either needs to use `hidden_input_name:` with
+a format the existing parser understands, or translate the
+`operator_<name>` / `<name>_value` fields by hand. The component renders
+fine either way; what to do with the submitted values is the caller's call.

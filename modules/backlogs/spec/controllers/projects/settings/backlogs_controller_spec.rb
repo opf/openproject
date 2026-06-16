@@ -49,7 +49,7 @@ RSpec.describe Projects::Settings::BacklogsController do
     before do
       allow(Projects::UpdateService)
         .to receive(:new)
-        .with(model: project, user:, contract_class: Projects::BacklogsTypesAndStatusesContract)
+        .with(model: project, user:, contract_class: Backlogs::Projects::BacklogsTypesAndStatusesContract)
         .and_return(update_service)
 
       patch :update, params: { project_id: project.identifier, project: project_params }

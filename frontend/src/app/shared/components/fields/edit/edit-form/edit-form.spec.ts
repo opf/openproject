@@ -30,7 +30,7 @@ import { ApplicationRef, Injector } from '@angular/core';
 import { EditForm } from 'core-app/shared/components/fields/edit/edit-form/edit-form';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { EditFieldHandler } from 'core-app/shared/components/fields/edit/editing-portal/edit-field-handler';
-import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
+import { vi } from 'vitest';
 
 class TestEditForm extends EditForm<HalResource> {
   constructor(injector:Injector, private readonly requireVisibleSpy:(fieldName:string) => Promise<void>, private readonly activateFieldSpy:() => Promise<EditFieldHandler>, private readonly resetSpy:(fieldName:string, focus?:boolean) => void) {
@@ -58,7 +58,7 @@ describe('EditForm', () => {
   it('does not require visibility twice for newly erroneous inactive fields', async () => {
     const tick = vi.fn();
     const requireVisible = vi.fn().mockResolvedValue(undefined);
-    const activateField = vi.fn().mockResolvedValue({} as EditFieldHandler);
+    const activateField = vi.fn().mockResolvedValue({});
     const reset = vi.fn();
     const injector = {
       get: vi.fn().mockImplementation((token:unknown) => {
@@ -68,7 +68,7 @@ describe('EditForm', () => {
 
         throw new Error(`Unexpected token: ${String(token)}`);
       }),
-    } as unknown as Injector;
+    };
 
     const form = new TestEditForm(injector, requireVisible, activateField, reset);
     const change = {
@@ -77,7 +77,7 @@ describe('EditForm', () => {
         ofProperty: vi.fn().mockReturnValue({
           writable: true,
           name: 'Foo',
-        } as IFieldSchema),
+        }),
       },
       getForm: vi.fn().mockResolvedValue(undefined),
     };

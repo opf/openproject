@@ -246,6 +246,25 @@ RSpec.describe XlsExport::WorkPackage::Exporter::XLS do
     end
   end
 
+  context "with semantic work package identifiers",
+          with_settings: { work_packages_identifier: "semantic" } do
+    let(:project) { create(:project, identifier: "XLSPROJ") }
+    let(:work_package) do
+      create(:work_package,
+             project:,
+             type: project.types.first)
+    end
+    let(:work_packages) { [work_package] }
+    let(:column_names) { %w[id subject] }
+
+    it "exports the semantic identifier in the ID column" do
+      expect(sheet.rows.size).to eq(1 + 1)
+
+      expect(work_package.identifier).to match(/\AXLSPROJ-\d+\z/)
+      expect(sheet.rows[1][0]).to eq work_package.identifier
+    end
+  end
+
   context "with underscore in subject" do
     let(:work_package) do
       create(:work_package,

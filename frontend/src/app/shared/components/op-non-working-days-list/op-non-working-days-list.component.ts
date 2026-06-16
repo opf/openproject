@@ -1,21 +1,14 @@
-import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Injector, Input, OnInit, ViewChild, ViewEncapsulation, inject } from '@angular/core';
-import { BannersService } from 'core-app/core/enterprise/banners.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnInit, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { OpModalService } from '../modal/modal.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { CalendarOptions, EventInput, EventSourceFuncArg } from '@fullcalendar/core';
 import listPlugin from '@fullcalendar/list';
-import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DayResourceService } from 'core-app/core/state/days/day.service';
 import { IDay } from 'core-app/core/state/days/day.model';
 import { CalendarViewEvent } from 'core-app/features/calendar/op-work-packages-calendar.service';
 import { opIconElement } from 'core-app/shared/helpers/op-icon-builder';
-import { ConfirmDialogService } from 'core-app/shared/components/modals/confirm-dialog/confirm-dialog.service';
-import { ConfirmDialogOptions } from '../modals/confirm-dialog/confirm-dialog.modal';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import moment from 'moment-timezone';
 import allLocales from '@fullcalendar/core/locales-all';
 
 
@@ -34,16 +27,10 @@ export interface INonWorkingDay {
   templateUrl: './op-non-working-days-list.component.html',
   standalone: false,
 })
-export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
+export class OpNonWorkingDaysListComponent implements OnInit {
   readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected I18n = inject(I18nService);
-  readonly bannersService = inject(BannersService);
-  readonly opModalService = inject(OpModalService);
-  readonly injector = inject(Injector);
-  readonly pathHelper = inject(PathHelperService);
-  readonly apiV3Service = inject(ApiV3Service);
   readonly dayService = inject(DayResourceService);
-  readonly confirmDialogService = inject(ConfirmDialogService);
   readonly toast = inject(ToastService);
   readonly cdRef = inject(ChangeDetectorRef);
 
@@ -59,21 +46,12 @@ export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
     already_added_error: this.I18n.t('js.admin.working_days.already_added_error'),
     new_date: this.I18n.t('js.admin.working_days.calendar.new_date'),
     add_non_working_day: this.I18n.t('js.admin.working_days.add_non_working_day'),
-    change_description: this.I18n.t('js.admin.working_days.change_description'),
-    warning: this.I18n.t('js.admin.working_days.warning'),
-    change_button: this.I18n.t('js.admin.working_days.change_button'),
-    change_title: this.I18n.t('js.admin.working_days.change_title'),
-    removed_title: this.I18n.t('js.admin.working_days.removed_title'),
     non_working_day_name: this.I18n.t('js.modals.label_name'),
     add: this.I18n.t('js.button_add'),
   };
 
-  form_submitted = false;
-
   originalNonWorkingDays:INonWorkingDay[] = [];
   nonWorkingDays:INonWorkingDay[] = [];
-
-  originalWorkingDays:string[] = [];
 
   datepickerOpened = false;
 
@@ -100,15 +78,10 @@ export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
       anchor.classList.add('fc-list-day-side-text', 'op-non-working-days-list--delete-icon');
       anchor.appendChild(opIconElement('icon', 'icon-delete'));
 
-      anchor.addEventListener('click', () => {
-        // Create 4 hidden inputs(id, name, date, _destroy) for the deleted NWD
-        this.nonWorkingDays = this.nonWorkingDays.map((item) => {
-          if (item.date === event.id) {
-            return { ...item, _destroy: true };
-          }
+      anchor.addEventListener('click', (clickEvent:Event) => {
+        clickEvent.preventDefault();
 
-          return item;
-        });
+        this.markNonWorkingDayForRemoval(event.id);
         event.remove();
         this.cdRef.detectChanges();
       });
@@ -121,36 +94,15 @@ export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
 
   constructor() {
     populateInputsFromDataset(this);
-    this.listenToFormSubmit();
   }
 
-  private listenToFormSubmit() {
-    const form = this.elementRef.nativeElement.closest('form')!;
-    form.addEventListener('submit', (evt:Event) => {
-      if (!this.form_submitted
-        && (this.nonWorkingDaysModified() || this.workingDaysModified())) {
-        this.form_submitted = true;
-        const target = evt.target as HTMLFormElement;
-        const options:ConfirmDialogOptions = {
-          text: {
-            text: this.text.change_description,
-            title: this.text.change_title,
-            button_continue: this.text.change_button,
-          },
-          dangerHighlighting: true,
-          divideContent: true,
-          refreshOnCancel: true,
-          showListData: this.removedNonWorkingDays.length > 0,
-          warningText: this.text.warning,
-          passedData: this.removedNonWorkingDays,
-          listTitle: this.text.removed_title,
-        };
-        evt.preventDefault();
-        void this.confirmDialogService.confirm(options).then(() => {
-          this.form_submitted = false;
-          target.submit();
-        });
+  private markNonWorkingDayForRemoval(date:string):void {
+    this.nonWorkingDays = this.nonWorkingDays.map((item) => {
+      if (item.date === date) {
+        return { ...item, _destroy: true };
       }
+
+      return item;
     });
   }
 
@@ -161,23 +113,6 @@ export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
         this.nonWorkingDays.push({ ...el });
       });
     this.cdRef.detectChanges();
-  }
-
-  ngAfterViewInit():void {
-    const form = this.elementRef.nativeElement.closest('form')!;
-    const workingDayCheckboxes = Array.from(form.querySelectorAll('input[name="settings[working_days][]"]'));
-    workingDayCheckboxes.forEach((checkbox:HTMLInputElement) => {
-      if (checkbox.checked) {
-        this.originalWorkingDays.push(checkbox.value);
-      }
-    });
-  }
-
-  public get removedNonWorkingDays():string[] {
-    return this
-      .nonWorkingDays
-      .filter((el) => el._destroy)
-      .map((el) => moment(el.date).format('MMMM DD, YYYY'));
   }
 
   // Initializes nonWorkingDays from the API
@@ -238,28 +173,4 @@ export class OpNonWorkingDaysListComponent implements OnInit, AfterViewInit {
     api.addEvent({ ...day, id: date });
   }
 
-  private get workingDays():string[] {
-    const workingDays:string[] = [];
-
-    const form = this.elementRef.nativeElement.closest('form')!;
-    const workingDayCheckboxes = Array.from(form.querySelectorAll('input[name="settings[working_days][]"]'));
-    workingDayCheckboxes.forEach((checkbox:HTMLInputElement) => {
-      if (checkbox.checked) {
-        workingDays.push(checkbox.value);
-      }
-    });
-
-    return workingDays;
-  }
-
-  private nonWorkingDaysModified():boolean {
-    return this.removedNonWorkingDays.length > 0
-      || this.modifiedNonWorkingDays.length > 0
-      || this.nonWorkingDays.length > this.originalNonWorkingDays.length;
-  }
-
-  private workingDaysModified():boolean {
-    return _.difference(this.workingDays, this.originalWorkingDays).length > 0
-      || _.difference(this.originalWorkingDays, this.workingDays).length > 0;
-  }
 }

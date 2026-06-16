@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, Input, ChangeDetectionStrategy } from '@angular/core';
 import { By } from '@angular/platform-browser';
 import { PullRequestComponent } from './pull-request.component';
 import { OpIconComponent } from 'core-app/shared/components/icon/icon.component';
@@ -9,6 +9,7 @@ import { PullRequestStateComponent } from './pull-request-state.component';
 @Component({
   selector: 'op-date-time',
   template: '',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class OpDateTimeComponent {

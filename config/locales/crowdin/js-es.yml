@@ -153,7 +153,6 @@ es:
         manual: Cambiar a la fuente Markdown
         wysiwyg: Cambiar a editor WYSIWYG
       macro:
-        error: 'No se puede expandir la macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Este segmento de texto está siendo renderizado dinámicamente por una macro.
           not_found: No se encuentra el recurso solicitado
@@ -173,9 +172,14 @@ es:
           title: Insertar o editar fragmento de código
           language: Lenguaje de formato
           language_hint: Especifique el lenguaje de formato que se usará para resaltar (si se admite).
-        dropdown:
-          macros: Macros
-          chose_macro: Seleccionar macro
+        embedded_calendar:
+          text: "[Placeholder] Calendario insertado"
+        embedded_table:
+          button: Insertar tabla de paquetes de trabajo
+          text: "[Placeholder] Tabla de paquetes de trabajo insertada"
+        error: 'No se puede expandir la macro: %{message}'
+        macro_dropdown:
+          caption: Insertar
         toc: Índice
         toolbar_help: Haga clic para seleccionar un widget y mostrar la barra de herramientas. Haga doble clic para editar un widget
         wiki_page_include:
@@ -193,11 +197,6 @@ es:
           button_style_hint: 'Opcional: active esta opción para que la macro se muestre como un botón y no como un vínculo.'
           without_type: Crear paquete de trabajo
           with_type: 'Crear paquete de trabajo (escriba: %{typename})'
-        embedded_table:
-          button: Insertar tabla de paquetes de trabajo
-          text: "[Placeholder] Tabla de paquetes de trabajo insertada"
-        embedded_calendar:
-          text: "[Placeholder] Calendario insertado"
     admin:
       type_form:
         edit_query: Editar consulta
@@ -208,13 +207,6 @@ es:
           new_date: "(nuevo)"
         add_non_working_day: Día no laborable
         already_added_error: Ya existe un día no laborable para esta fecha. Solo puede haber un día no laborable creado para cada fecha.
-        change_button: Guardar y reprogramar
-        change_title: Cambiar los días laborables
-        removed_title: 'Eliminará los siguientes días de la lista de días no laborables:'
-        change_description: Cambiar qué días de la semana se consideran laborables y cuáles no, puede afectar a las fechas de inicio y fin de todos los paquetes de trabajo y ciclos de vida en todos los proyectos de esta instancia.
-        warning: 'Los cambios pueden tardar algún tiempo en surtir efecto. Se le notificará cuando todos los paquetes de trabajo pertinentes se hayan actualizado. ¿Seguro que desea continuar?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Cambiar el modo de cálculo del progreso de basado en el estado a basado en el trabajo hará que el campo <i>% completado</i> se pueda editar libremente. Si introduce opcionalmente valores para <i>Trabajo</i> o <i>Trabajo restante</i>, también se vincularán a <i>% completado</i>. Cambiar <i>Trabajo restante</i> puede entonces actualizar <i>% completado</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: El cambio del modo de cálculo del progreso de basado en el trabajo a basado en el estado hará que todos los valores existentes de <i>% completado</i> se pierdan y se sustituyan por valores asociados a cada estado. Los valores existentes para <i>Trabajo restante</i> también pueden recalcularse para reflejar este cambio. Esta acción no es reversible.
@@ -373,6 +365,7 @@ es:
     label_in_more_than: en más de
     label_incoming_emails: Correos electrónicos entrantes
     label_information_plural: Información
+    label_infinity: Infinito
     label_invalid: Inválido
     label_import: Importar
     label_latest_activity: Actividad reciente
@@ -397,6 +390,7 @@ es:
     label_no_value: Sin valor
     label_none: ninguno
     label_not_contains: no contiene
+    label_not_available: No disponible
     label_not_equals: no es
     label_on: en
     label_open_menu: Abrir menú
@@ -407,7 +401,6 @@ es:
     label_per_page: 'Por pagina:'
     label_please_wait: Por favor, espere
     label_project: Proyecto
-    label_project_list: Listas de proyectos
     label_project_plural: Proyectos
     label_visibility_settings: Configuración de visibilidad
     label_quote_comment: Citar este comentario
@@ -1051,16 +1044,13 @@ es:
         all: Todos los proyectos
         selected: Solo seleccionados
       search_placeholder: Buscar proyectos...
-      search_placeholder_favorites: Buscar favoritos...
       include_subprojects: Incluir todos los subproyectos
       tooltip:
         include_all_selected: Proyecto ya incluido, ya que "Incluir todos los subproyectos" está activada.
         current_project: Este es el proyecto actual.
         does_not_match_search: El proyecto no coincide con los criterios de búsqueda.
       no_results: Ningún producto coincide con tu criterio de búsqueda
-      no_favorite_results: Ningún proyecto favorito coincide con sus criterios de búsqueda.
     include_workspaces:
-      search_placeholder: Buscar…
       types:
         program: Programa
         portfolio: Cartera

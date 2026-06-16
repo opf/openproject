@@ -35,6 +35,10 @@ class MeetingAgendaItemsController < ApplicationController
   include Meetings::AgendaComponentStreams
 
   load_and_authorize_with_permission_in_project :manage_agendas
+  authorize_with_permission :add_work_packages,
+                            only: %i[convert_to_work_package_dialog
+                                     convert_to_work_package
+                                     refresh_convert_to_work_package_dialog]
 
   before_action :set_meeting
   before_action :set_agenda_item_type, only: %i[new create]
@@ -42,7 +46,8 @@ class MeetingAgendaItemsController < ApplicationController
                 except: %i[new cancel_new create]
   before_action :set_current_occurrence,
                 :set_presentation_mode,
-                only: %i[new cancel_new edit cancel_edit create update destroy drop move move_to_section_dialog]
+                only: %i[new cancel_new edit cancel_edit create update destroy drop move move_to_section_dialog
+                         convert_to_work_package]
   before_action :check_recurring_meeting_param,
                 only: %i[move_to_next_meeting move_to_next_meeting_dialog duplicate_in_next_meeting
                          duplicate_in_next_meeting_dialog]
@@ -291,6 +296,58 @@ class MeetingAgendaItemsController < ApplicationController
     )
   end
 
+  def convert_to_work_package_dialog
+    work_package = convert_to_work_package_service
+      .build_work_package(meeting_agenda_item: @meeting_agenda_item)
+
+    respond_with_dialog MeetingAgendaItems::ConvertToWorkPackage::CreateDialogComponent.new(
+      work_package:,
+      project: @project,
+      meeting: @meeting,
+      meeting_agenda_item: @meeting_agenda_item
+    )
+  end
+
+  def refresh_convert_to_work_package_dialog
+    work_package = convert_to_work_package_service
+      .build_work_package(meeting_agenda_item: @meeting_agenda_item, params: permitted_params.update_work_package)
+
+    form_component = MeetingAgendaItems::ConvertToWorkPackage::CreateFormComponent.new(
+      work_package:,
+      project: @project,
+      meeting: @meeting,
+      meeting_agenda_item: @meeting_agenda_item
+    )
+
+    update_via_turbo_stream(component: form_component)
+    respond_with_turbo_streams
+  end
+
+  def convert_to_work_package
+    call = convert_to_work_package_service.call(
+      meeting_agenda_item: @meeting_agenda_item,
+      work_package_params: permitted_params.update_work_package
+    )
+
+    if call.success?
+      reset_meeting_from_agenda_item
+      update_item_via_turbo_stream(current_occurrence: @current_occurrence,
+                                   presentation_mode: @presentation_mode)
+      update_header_component_via_turbo_stream
+      update_sidebar_details_component_via_turbo_stream
+    else
+      form_component = MeetingAgendaItems::ConvertToWorkPackage::CreateFormComponent.new(
+        work_package: call.result,
+        project: @project,
+        meeting: @meeting,
+        meeting_agenda_item: @meeting_agenda_item
+      )
+      update_via_turbo_stream(component: form_component, status: :bad_request)
+    end
+
+    respond_with_turbo_streams
+  end
+
   def move_to_section
     section_scope = if @meeting.recurring_meeting_id.present?
                       MeetingSection.joins(:meeting).where(meetings: { recurring_meeting_id: @meeting.recurring_meeting_id })
@@ -306,6 +363,11 @@ class MeetingAgendaItemsController < ApplicationController
   end
 
   private
+
+  def convert_to_work_package_service
+    @convert_to_work_package_service ||=
+      ::MeetingAgendaItems::ConvertToWorkPackageService.new(user: current_user, project: @project)
+  end
 
   def update_agenda_item(params)
     ::MeetingAgendaItems::UpdateService

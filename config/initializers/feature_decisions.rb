@@ -49,10 +49,6 @@ OpenProject::FeatureDecisions.add :minutes_styling_meeting_pdf,
                                   description: "Allow exporting a meeting with FITKO styling. " \
                                                "See #65124 for details."
 
-OpenProject::FeatureDecisions.add :portfolio_models,
-                                  description: "Enables the creation and management of portfolio and program work spaces.",
-                                  force_active: true
-
 OpenProject::FeatureDecisions.add :user_working_times,
                                   description: "Enables tracking of user working hours and non-working days."
 

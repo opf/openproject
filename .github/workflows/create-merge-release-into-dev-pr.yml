@@ -20,9 +20,9 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.OPENPROJECTCI_GH_CORE_PAT }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         run: |
-          BRANCH=$(curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/repos/$GITHUB_REPOSITORY/branches?protected=true | \
-            jq -r '.[].name' | grep '^release/' | sort --version-sort | tail -1
+          BRANCH=$(gh api --paginate \
+            "repos/$GITHUB_REPOSITORY/branches?protected=true&per_page=100" --jq '.[].name' | \
+            grep '^release/' | sort --version-sort | tail -1
           )
           if [ "$BRANCH" = "" ]; then
             echo "Invalid release branch found: $BRANCH"

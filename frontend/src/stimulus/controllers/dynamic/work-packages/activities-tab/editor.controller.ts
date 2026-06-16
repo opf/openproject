@@ -36,6 +36,7 @@ import type AutoScrollingController from './auto-scrolling.controller';
 import BaseController from './base.controller';
 import type PollingController from './polling.controller';
 import type StemsController from './stems.controller';
+import type { TurboSubmitEndEvent, TurboSubmitStartEvent } from '@hotwired/turbo';
 
 export default class EditorController extends BaseController {
   static outlets = [
@@ -157,8 +158,8 @@ export default class EditorController extends BaseController {
 
     const handlers = {
       beforeUnload: () => { void this.rescueEditorContent(); },
-      turboSubmitStart: (event:Event) => { void this.handleTurboSubmitStart(event); },
-      turboSubmitEnd: (event:Event) => { void this.handleTurboSubmitEnd(event); },
+      turboSubmitStart: (event:TurboSubmitStartEvent) => { void this.handleTurboSubmitStart(event); },
+      turboSubmitEnd: (event:TurboSubmitEndEvent) => { void this.handleTurboSubmitEnd(event); },
     };
 
     document.addEventListener('beforeunload', handlers.beforeUnload, { signal });
@@ -271,16 +272,16 @@ export default class EditorController extends BaseController {
     }
   }
 
-  private handleTurboSubmitStart(_event:Event) {
+  private handleTurboSubmitStart(_event:TurboSubmitStartEvent) {
     this.setCKEditorReadonlyMode(true);
   }
 
-  private handleTurboSubmitEnd(event:Event) {
-    const formSubmitResponse = (event as CustomEvent<{ fetchResponse:{ succeeded:boolean; response:{ headers:Headers } } }>).detail.fetchResponse;
+  private handleTurboSubmitEnd(event:TurboSubmitEndEvent) {
+    const formSubmitResponse = event.detail.fetchResponse;
 
     this.setCKEditorReadonlyMode(false);
 
-    if (formSubmitResponse.succeeded) {
+    if (formSubmitResponse?.succeeded) {
       // extract server timestamp from response headers in order to be in sync with the server
       this.pollingOutlet.setLastServerTimestampViaHeaders(formSubmitResponse.response.headers);
 

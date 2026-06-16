@@ -371,58 +371,22 @@ zh-TW:
         caption: 此文字將出現在每頁的頁尾中央。
       submit_button: 下載
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: 電子郵件行事曆更新
         description:
-          disabled: 參與者不會收到通知變更的電子郵件。
-          enabled: 所有與會者都會透過電子郵件收到更新的行事曆邀請，通知他們相關變更。
           change_via_template: 若要變更，請編輯系列範本。
       dialog:
         title:
           enable: 啟用電子郵件行事曆更新？
           disable: 停用電子郵件行事曆更新？
         message:
-          enable: '每次會議日期、時間、地點或與會者有變更時，所有與會者都會透過電子郵件收到更新的行事曆邀請。啟用後，電子郵件會立即傳送給所有與會者。
-
-            '
-          disable: '當會議日期、時間、地點或與會者有變更時，與會者將不會再透過電子郵件收到更新的行事曆邀請。如果他們已經有這個會議的邀請，則可能不再準確。
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: 啟用電子郵件更新
           disable: 停用電子郵件更新
-      banner:
-        participants:
-          enabled: '當您新增或移除參與者時，所有參與者都會透過電子郵件收到更新的行事曆邀請。
-
-            '
-          disabled: '電子郵件行事曆更新已停用。當您新增或移除參與者時，參與者將不會收到通知他們的電子郵件。
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: '當您新增或移除參與者時，所有參與者都會透過電子郵件收到更新的行事曆。
-
-            '
-          disabled: '參與者將不會收到有關會議日期、時間或參與者變更的通知電子郵件。
-
-            '
-        occurrence:
-          enabled: '已啟用系列會議的電子郵件行事曆更新。所有與會者都會收到更新的行事曆邀請，通知他們您對此事件所做的變更。
-
-            '
-          disabled: '系列會議的電子郵件行事曆更新已停用。與會者將不會收到電子郵件，通知他們您對此發生的變更。
-
-            '
-        template:
-          enabled: '已為會議系列啟用電子郵件行事曆更新。所有與會者都會收到更新的行事曆邀請，通知他們您對此範本或個別事件所做的變更。
-
-            '
-          disabled: '會議系列的電子郵件行事曆更新已停用。與會者將不會收到電子郵件，通知他們您對此範本或個別事件所做的變更。
-
-            '
     presentation_mode:
       title: 簡報模式
       button_present: 顯示按鈕
@@ -632,6 +596,7 @@ zh-TW:
   label_agenda_item_duplicate_in_next_title: 在下次會議中重複？
   label_agenda_item_add_notes: 新增註記
   label_agenda_item_add_outcome: 新增結果
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: 新增工作套件
   label_agenda_item_work_package: 議程項目工作套件
   label_section_rename: 重新命名區段

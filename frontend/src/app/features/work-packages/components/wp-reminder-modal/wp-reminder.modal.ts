@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { CollectionResource } from 'core-app/features/hal/resources/collection-resource';
+import type { FrameElement, TurboSubmitEndEvent } from '@hotwired/turbo';
 
 @Component({
   templateUrl: './wp-reminder.modal.html',
@@ -23,7 +24,7 @@ export class WorkPackageReminderModalComponent extends OpModalComponent implemen
   readonly actions$ = inject(ActionsService);
   readonly apiV3Service = inject(ApiV3Service);
 
-  @ViewChild('frameElement') frameElement:ElementRef<HTMLIFrameElement>;
+  @ViewChild('frameElement') frameElement:ElementRef<FrameElement>;
 
   // Hide close button so it's not duplicated in primer (WP#51699)
   showCloseButton = false;
@@ -88,12 +89,10 @@ export class WorkPackageReminderModalComponent extends OpModalComponent implemen
     this.frameSrc = url.toString();
   }
 
-  private turboSubmitEndListener(event:CustomEvent) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  private turboSubmitEndListener(event:TurboSubmitEndEvent) {
     const { fetchResponse } = event.detail;
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    if (fetchResponse.succeeded) {
+    if (fetchResponse?.succeeded) {
       this.closeMe();
       this.onClose();
     }

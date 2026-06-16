@@ -84,7 +84,7 @@ RSpec.describe FlashMessagesHelper do
 
     context "with an empty flash message" do
       before do
-        flash[:info] = "" # rubocop:disable Rails/I18nLocaleTexts
+        flash[:info] = ""
       end
 
       it_behaves_like "rendering nothing"
@@ -100,7 +100,7 @@ RSpec.describe FlashMessagesHelper do
 
     context "with an :info flash message" do
       before do
-        flash[:info] = "zu deiner Information" # rubocop:disable Rails/I18nLocaleTexts
+        flash[:info] = "zu deiner Information"
       end
 
       it_behaves_like "rendering a banner", "flash", :bell, "zu deiner Information"
@@ -108,15 +108,19 @@ RSpec.describe FlashMessagesHelper do
 
     context "with a :notice flash message" do
       before do
-        flash[:notice] = "For your information" # rubocop:disable Rails/I18nLocaleTexts
+        flash[:notice] = "For your information"
       end
 
       it_behaves_like "rendering a banner", "flash-success", :"check-circle", "For your information"
+
+      it "renders a polite announcement" do
+        expect(subject).to have_css '[data-announcement="For your information"][data-politeness="polite"]'
+      end
     end
 
     context "with a :success flash message" do
       before do
-        flash[:success] = "Congratulazioni! Sei arrivato" # rubocop:disable Rails/I18nLocaleTexts
+        flash[:success] = "Congratulazioni! Sei arrivato"
       end
 
       it_behaves_like "rendering a banner", "flash-success", :"check-circle", "Congratulazioni! Sei arrivato"
@@ -124,18 +128,26 @@ RSpec.describe FlashMessagesHelper do
 
     context "with a :warning flash message" do
       before do
-        flash[:warning] = "You will be logged out!" # rubocop:disable Rails/I18nLocaleTexts
+        flash[:warning] = "You will be logged out!"
       end
 
       it_behaves_like "rendering a banner", "flash-warn", :alert, "You will be logged out!"
+
+      it "renders a polite announcement" do
+        expect(subject).to have_css '[data-announcement="You will be logged out!"][data-politeness="polite"]'
+      end
     end
 
     context "with an :error flash message" do
       before do
-        flash[:error] = "A Moderat(ely) New Error" # rubocop:disable Rails/I18nLocaleTexts
+        flash[:error] = "A Moderat(ely) New Error"
       end
 
       it_behaves_like "rendering a banner", "flash-error", :stop, "A Moderat(ely) New Error"
+
+      it "renders an assertive announcement" do
+        expect(subject).to have_css '[data-announcement="A Moderat(ely) New Error"][data-politeness="assertive"]'
+      end
     end
   end
 
@@ -148,7 +160,7 @@ RSpec.describe FlashMessagesHelper do
 
     context "with an empty flash message" do
       before do
-        flash[:info] = "" # rubocop:disable Rails/I18nLocaleTexts
+        flash[:info] = ""
       end
 
       it_behaves_like "rendering nothing"
@@ -164,7 +176,7 @@ RSpec.describe FlashMessagesHelper do
 
     context "with an :info flash message" do
       before do
-        flash[:info] = "zu deiner Information" # rubocop:disable Rails/I18nLocaleTexts
+        flash[:info] = "zu deiner Information"
       end
 
       it "renders turbo streams" do
@@ -173,12 +185,39 @@ RSpec.describe FlashMessagesHelper do
         end
       end
 
+      it "renders a flash configured for polite announcement" do
+        expect(subject).to include 'data-announcement="zu deiner Information"'
+        expect(subject).to include 'data-politeness="polite"'
+        expect(subject).not_to include 'action="liveRegion"'
+      end
+
       # N.B. Capybara does not consider <template> contents as part of the document.
       # As such, the following is not possible:
       #
       # it_behaves_like "rendering a banner", "flash", :bell, "zu deiner Information"
       #
       # See https://github.com/teamcapybara/capybara/issues/2510
+    end
+
+    context "with an :error flash message" do
+      before do
+        flash[:error] = "A Moderat(ely) New Error"
+      end
+
+      it "renders a flash configured for assertive announcement" do
+        expect(subject).to include 'data-announcement="A Moderat(ely) New Error"'
+        expect(subject).to include 'data-politeness="assertive"'
+      end
+    end
+
+    context "with an HTML flash message" do
+      before do
+        flash[:info] = "First line<br />Second line".html_safe
+      end
+
+      it "renders a text-only announcement" do
+        expect(subject).to include 'data-announcement="First line Second line"'
+      end
     end
   end
 

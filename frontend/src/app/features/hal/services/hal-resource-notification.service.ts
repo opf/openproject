@@ -34,7 +34,6 @@ import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
 import { ErrorResource } from 'core-app/features/hal/resources/error-resource';
 import { HalError } from 'core-app/features/hal/services/hal-error';
@@ -43,17 +42,17 @@ import { HalError } from 'core-app/features/hal/services/hal-error';
 export class HalResourceNotificationService {
   injector = inject(Injector);
 
-  @InjectField() protected I18n:I18nService;
+  protected readonly I18n = inject(I18nService);
 
-  @InjectField() protected $state:StateService;
+  protected readonly $state = inject(StateService);
 
-  @InjectField() protected halResourceService:HalResourceService;
+  protected readonly halResourceService = inject(HalResourceService);
 
-  @InjectField() protected ToastService:ToastService;
+  protected readonly ToastService = inject(ToastService);
 
-  @InjectField() protected loadingIndicator:LoadingIndicatorService;
+  protected readonly loadingIndicator = inject(LoadingIndicatorService);
 
-  @InjectField() protected schemaCache:SchemaCacheService;
+  protected readonly schemaCache = inject(SchemaCacheService);
 
   public showSave(resource:HalResource, isCreate = false) {
     const message:any = {

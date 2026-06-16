@@ -13,16 +13,40 @@ updates:
     groups:
       angular:
         patterns:
-          - '@angular*'
+          - '@angular/*'
+          - '@angular-devkit/*'
+          - '@angular-builders/*'
+      angular-eslint:
+        patterns:
+          - 'angular-eslint'
+          - '@angular-eslint/*'
       blocknote:
         patterns:
           - '@blocknote/*'
       fullcalendar:
         patterns:
           - '@fullcalendar/*'
+      eslint:
+        patterns:
+          - 'eslint'
+          - 'eslint-plugin-*'
+          - '@eslint/*'
+          - '@stylistic/eslint-plugin'
+          - 'globals'
       html-eslint:
         patterns:
           - '@html-eslint/*'
+      hotwired:
+        patterns:
+          - '@hotwired/turbo'
+          - '@hotwired/turbo-rails'
+      jquery:
+        patterns:
+          - 'jquery'
+          - 'jquery-migrate'
+      mantine:
+        patterns:
+          - '@mantine/*'
       ng-select:
         patterns:
           - '@ng-select/*'
@@ -35,8 +59,30 @@ updates:
           - 'react-dom'
           - '@types/react'
           - '@types/react-dom'
+      testing-library:
+        patterns:
+          - '@testing-library/*'
+      typescript-eslint:
+        patterns:
+          - 'typescript-eslint'
+          - '@typescript-eslint/*'
+      uirouter:
+        patterns:
+          - '@uirouter/*'
+      vitest:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
     ignore:
-      - dependency-name: "@angular*"
+      - dependency-name: "@angular/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-builders/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-devkit/*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "angular-eslint"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@angular-eslint/*"
         update-types: ["version-update:semver-major"]
       - dependency-name: "@openproject/octicons"
       - dependency-name: "@openproject/primer-view-components"

@@ -31,11 +31,7 @@
 class WorkPackages::ProgressController < ApplicationController
   include OpTurbo::ComponentStream
   include FlashMessagesHelper
-
-  ERROR_PRONE_ATTRIBUTES = %i[status_id
-                              estimated_hours
-                              remaining_hours
-                              done_ratio].freeze
+  include WorkPackages::Progress::ModalParams
 
   layout false
   authorization_checked! :new, :edit, :preview, :create, :update
@@ -132,22 +128,6 @@ class WorkPackages::ProgressController < ApplicationController
            }
   end
 
-  def progress_modal_component
-    modal_class.new(@work_package, focused_field:, touched_field_map:)
-  end
-
-  def modal_class
-    if WorkPackage.status_based_mode?
-      WorkPackages::Progress::StatusBased::ModalBodyComponent
-    else
-      WorkPackages::Progress::WorkBased::ModalBodyComponent
-    end
-  end
-
-  def focused_field
-    params[:field]
-  end
-
   def find_work_package
     @work_package = WorkPackage.visible.find(params[:work_package_id])
   end
@@ -160,63 +140,7 @@ class WorkPackages::ProgressController < ApplicationController
     @work_package.clear_changes_information
   end
 
-  def touched_field_map
-    params.require(:work_package)
-          .slice("estimated_hours_touched",
-                 "remaining_hours_touched",
-                 "done_ratio_touched",
-                 "status_id_touched")
-          .transform_values { it == "true" }
-          .permit!
-  end
-
-  def work_package_progress_params
-    params.require(:work_package)
-          .slice(*allowed_touched_params)
-          .permit!
-  end
-
-  def allowed_touched_params
-    allowed_params.filter { touched?(it) }
-  end
-
-  def allowed_params
-    if WorkPackage.status_based_mode?
-      %i[estimated_hours status_id]
-    else
-      %i[estimated_hours remaining_hours done_ratio]
-    end
-  end
-
-  def touched?(field)
-    touched_field_map[:"#{field}_touched"]
-  end
-
-  def set_progress_attributes_to_work_package
-    WorkPackages::SetAttributesService
-      .new(user: current_user,
-           model: @work_package,
-           contract_class:)
-      .call(work_package_progress_params)
-  end
-
-  def contract_class
-    if @work_package.new_record?
-      WorkPackages::CreateContract
-    else
-      WorkPackages::UpdateContract
-    end
-  end
-
   def formatted_duration(hours)
     API::V3::Utilities::DateTimeFormatter.format_duration_from_hours(hours, allow_nil: true)
-  end
-
-  def extra_error_messages(service_call)
-    errors_not_handled_by_progress_modal = service_call.errors.reject do |error|
-      ERROR_PRONE_ATTRIBUTES.include?(error.attribute)
-    end
-
-    join_flash_messages(errors_not_handled_by_progress_modal.map(&:full_message))
   end
 end

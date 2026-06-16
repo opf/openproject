@@ -212,20 +212,30 @@ RSpec.describe "Onetime templates CRUD", :js do
         visit templates_meetings_path
       end
 
-      it "can view templates but cannot see create button or action menu" do
+      it "sees a 403 error" do
+        expect(page).to have_text("You are not authorized to access this page.")
+      end
+    end
+
+    context "as user with create_meetings permission" do
+      let(:user_with_create) do
+        create(:user, member_with_permissions: { project => %i[view_meetings create_meetings] })
+      end
+
+      before do
+        logout
+        login_as(user_with_create)
+        visit templates_meetings_path
+      end
+
+      it "can access templates page and see templates" do
         expect(page).to have_text("Permission test template")
-
-        expect(page).to have_no_css("#add-template-button")
-
-        within_row("Permission test template") do
-          expect(page).to have_no_css('[data-test-selector="more-button"]')
-        end
       end
     end
 
     context "as user with edit_meetings permission" do
       let(:user_with_edit) do
-        create(:user, member_with_permissions: { project => %i[view_meetings edit_meetings] })
+        create(:user, member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings] })
       end
 
       before do
@@ -248,7 +258,7 @@ RSpec.describe "Onetime templates CRUD", :js do
 
     context "as user with delete_meetings permission" do
       let(:user_with_delete) do
-        create(:user, member_with_permissions: { project => %i[view_meetings delete_meetings] })
+        create(:user, member_with_permissions: { project => %i[view_meetings create_meetings delete_meetings] })
       end
 
       before do
@@ -271,7 +281,7 @@ RSpec.describe "Onetime templates CRUD", :js do
 
     context "as user with both edit and delete permissions" do
       let(:user_with_both) do
-        create(:user, member_with_permissions: { project => %i[view_meetings edit_meetings delete_meetings] })
+        create(:user, member_with_permissions: { project => %i[view_meetings create_meetings edit_meetings delete_meetings] })
       end
 
       before do

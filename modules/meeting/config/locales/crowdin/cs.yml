@@ -386,58 +386,22 @@ cs:
         caption: Tento text se zobrazí na každé stránce uprostřed zápatí.
       submit_button: Stáhnout
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: E-mailové aktualizace kalendářů
         description:
-          disabled: Participants will not receive an email informing them of changes.
-          enabled: All participants will receive updated calendar invites via email informing them of changes.
           change_via_template: Chcete-li provést změnu, upravte šablonu série.
       dialog:
         title:
           enable: Povolit e-mailové aktualizace kalendáře?
           disable: Zakázat e-mailové aktualizace kalendáře?
         message:
-          enable: 'Všichni účastníci obdrží e-mailem aktualizované pozvánky do kalendáře vždy, když dojde ke změně data, času, místa nebo účastníků schůzky. Po aktivaci bude všem účastníkům okamžitě odeslán e-mail.
-
-            '
-          disable: 'Participants will no longer receive updated calendar invites via email when there are changes to the meeting date, time, location or participants. If they already had an invite for this meeting, it might no longer be accurate.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: Povolit aktualizací e-mailem
           disable: Zakázat aktualizací e-mailem
-      banner:
-        participants:
-          enabled: 'Všichni účastníci obdrží e-mailem aktualizované pozvánky do kalendáře, když přidáte nebo odeberete účastníky.
-
-            '
-          disabled: 'E-mailové aktualizace kalendářů jsou zakázány. Účastníci nedostanou e-mail s informacemi o přidání nebo odebrání účastníků.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'Všichni účastníci obdrží e-mailem aktualizované pozvánky do kalendáře, když přidáte nebo odeberete účastníky.
-
-            '
-          disabled: 'Participants will not receive an email informing them of changes to meeting date, time or participants.
-
-            '
-        occurrence:
-          enabled: 'E-mailové aktualizace kalendářů jsou povoleny pro tuto sérii schůzek. Účastníci dostanou e-mail s informacemi, když provedete změny.
-
-            '
-          disabled: 'E-mailové aktualizace kalendářů jsou zakázány pro tuto sérii schůzek. Účastníci nedostanou e-mail s informacemi, když provedete změny.
-
-            '
-        template:
-          enabled: 'E-mailové aktualizace kalendářů jsou povoleny. Účastníci budou dostávat aktualizované pozvánky e-mailem, když upravíte tuto šablonu či individuální výskyty.
-
-            '
-          disabled: 'E-mailové aktualizace kalendářů jsou zakázány pro tuto sérii schůzek. Účastníci nebudou dostávat aktualizované pozvánky e-mailem, když upravíte tuto šablonu či individuální výskyty.
-
-            '
     presentation_mode:
       title: Prezentační mód
       button_present: Prezentovat
@@ -600,7 +564,7 @@ cs:
 
     '
   permission_edit_meetings: Upravit schůzku
-  permission_delete_meetings: Odstranit schůzky
+  permission_delete_meetings: Smazat schůzku
   permission_view_meetings: Zobrazit schůzky
   permission_manage_agendas: Správa zápisů
   permission_manage_agendas_explanation: Umožňuje vytvářet, upravovat a odebírat položky agendy
@@ -660,6 +624,7 @@ cs:
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
   label_agenda_item_add_notes: Přidat poznámky
   label_agenda_item_add_outcome: Přidat výsledek
+  label_agenda_item_convert_to_work_package: Zkonvertovat na pracovní balíček
   label_agenda_item_work_package_add: Přidat pracovní balíček
   label_agenda_item_work_package: Pracovní balíček k bodu programu
   label_section_rename: Přejmenovat sekci

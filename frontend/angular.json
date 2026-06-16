@@ -23,7 +23,6 @@
               "moment-timezone",
               "observable-array",
               "dragula",
-              "jquery",
               "contra/emitter",
               "crossvent",
               "create-point-cb",
@@ -54,9 +53,6 @@
               },
               "src/styles.scss",
               "node_modules/codemirror/lib/codemirror.css",
-              "src/vendor/jquery-ui-1.14.1/jquery-ui.css",
-              "src/vendor/jquery-ui-1.14.1/jquery-ui.structure.css",
-              "src/vendor/jquery-ui-1.14.1/jquery-ui.theme.css",
               "node_modules/flatpickr/dist/flatpickr.min.css",
               "src/vendor/ckeditor/ckeditor.css"
             ],
@@ -73,11 +69,6 @@
               }
             },
             "scripts": [
-              {
-                "input": "node_modules/jquery/dist/jquery.min.js",
-                "inject": false,
-                "bundleName": "jquery"
-              },
               {
                 "input": "node_modules/openapi-explorer/dist/browser/openapi-explorer.min.js",
                 "inject": false,
@@ -151,7 +142,7 @@
             "tsConfig": "tsconfig.spec.json",
             "buildTarget": "OpenProject:build",
             "providersFile": "src/test-providers.ts",
-            "setupFiles": ["src/test-setup.ts"],
+            "setupFiles": ["src/test-browser-polyfills.ts", "src/test-setup.ts"],
             "browsers": ["chromium", "firefox", "webkit"],
             "reporters": ["dot"]
           }

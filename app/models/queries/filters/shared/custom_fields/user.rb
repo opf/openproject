@@ -48,6 +48,22 @@ module Queries::Filters::Shared
         vals + user_groups_added(vals)
       end
 
+      def autocomplete_options
+        {
+          component: "opce-user-autocompleter",
+          hideSelected: true,
+          defaultData: false,
+          placeholder: I18n.t(:label_user_search),
+          resource: "principals",
+          url: ::API::V3::Utilities::PathHelper::ApiV3Path.principals,
+          filters: [
+            { name: "status", operator: "!", values: [Principal.statuses["locked"].to_s] }
+          ],
+          searchKey: "any_name_attribute",
+          focusDirectly: false
+        }
+      end
+
       private
 
       def group_members_added(vals)

@@ -33,7 +33,6 @@ import { CurrentProjectService } from 'core-app/core/current-project/current-pro
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { Subject } from 'rxjs';
 import { compareByHref } from 'core-app/shared/helpers/angular/tracking-functions';
 import { repositionDropdownBugfix } from 'core-app/shared/components/autocompleter/op-autocompleter/autocompleter.helper';
@@ -92,13 +91,13 @@ export class CreateAutocompleterComponent extends UntilDestroyedMixin implements
 
   @ViewChild(NgSelectComponent) public ngSelectComponent:NgSelectComponent;
 
-  @InjectField() readonly I18n:I18nService;
+  readonly I18n = inject(I18nService);
 
-  @InjectField() readonly cdRef:ChangeDetectorRef;
+  readonly cdRef = inject(ChangeDetectorRef);
 
-  @InjectField() readonly currentProject:CurrentProjectService;
+  readonly currentProject = inject(CurrentProjectService);
 
-  @InjectField() readonly pathHelper:PathHelperService;
+  readonly pathHelper = inject(PathHelperService);
 
   public compareByHref = compareByHref;
 

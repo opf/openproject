@@ -1766,6 +1766,7 @@ ru:
       attachment:
         attachment_content: Вложенный контент
         attachment_file_name: Название вложенного файла
+        charset: Кодировка
         content_type: Тип содержимого
         downloads: Загрузки
         file: Файл
@@ -1860,6 +1861,7 @@ ru:
         title: Название
         description: Описание
       member:
+        blocked: Заблокирован
         roles: Роль
       notification:
         read_ian: Читайте в приложении
@@ -2105,6 +2107,7 @@ ru:
         priority: Приоритет
         progress: "% завершения"
         readonly: Только для чтения
+        relatable: Relatable to
         remaining_hours: Оставшиеся часы
         remaining_time: Оставшиеся часы
         sequence_number: Порядковый номер
@@ -2149,17 +2152,14 @@ ru:
         before: должны быть до %{date}.
         before_or_equal_to: должны быть до или ровно %{date}.
         blank: не может быть пустым.
-        not_before_start_date: должно быть после даты начала.
-        overlapping_range: пересекается с существующим диапазоном нерабочих дней.
         blank_nested: должно быть установлено свойство '%{property}'.
         cannot_delete_mapping: требуется. Невозможно удалить.
-        is_for_all_cannot_modify: предназначено для всех проектов и поэтому не может быть изменено.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
         confirmation: не совпадает со значением поля %{attribute}.
         could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
+        datetime_must_be_in_future: должно быть в будущем.
         does_not_exist: не существует.
-        user_already_in_department: Пользователь %{user_id} уже является членом департамента %{department_id}.
         error_enterprise_only: "%{action} доступно только в корпоративной версии OpenProject."
         error_unauthorized: не доступен.
         error_readonly: запись не разрешена.
@@ -2180,36 +2180,38 @@ ru:
         greater_than_or_equal_to: должен быть больше или равно %{count}.
         greater_than_or_equal_to_start_date: должна быть позднее даты начала или совпадать с ней.
         greater_than_start_date: должна быть позднее даты начала.
+        hexcode_invalid: неверный 6-значный шестнадцатеричный код цвета.
         inclusion: не задано ни одно из допустимых значений.
         inclusion_nested: не задано одно из допустимых значений в пути '%{path}'.
         invalid: неверно.
         invalid_uri: должен быть допустимым URI.
         invalid_url: не является допустимым URL-адресом.
         invalid_url_scheme: 'не является поддерживаемым протоколом (разрешены следующие: %{allowed_schemes}).'
+        is_for_all_cannot_modify: предназначено для всех проектов и поэтому не может быть изменено.
         less_than_or_equal_to: должно быть меньше или равно %{count}.
         not_available: недоступно из-за конфигурации системы.
+        not_before_start_date: должно быть после даты начала.
         not_deletable: не может быть удален.
         not_editable: не может быть отредактирован, поскольку он уже действует.
         not_current_user: не является текущим пользователем.
-        system_wide_non_working_day_exists: конфликтует с существующим общесистемным нерабочим днем для этой даты.
         not_found: не найдено.
         not_a_date: не является допустимой датой.
         not_a_datetime: дата и время не являются допустимыми.
         not_a_number: не является числом.
         not_allowed: неверно, ввиду отсутствия прав.
-        host_not_allowed: не является разрешенным хостом.
         not_json: не может быть разобран как JSON.
         not_json_object: не является объектом JSON.
         not_an_integer: не является целым числом.
         not_an_iso_date: 'недопустимая дата. Требуемый формат: гггг-мм-дд.'
         not_same_project: не принадлежит тому же проекту.
-        datetime_must_be_in_future: должно быть в будущем.
         odd: должно быть нечетным.
+        overlapping_range: пересекается с существующим диапазоном нерабочих дней.
         regex_match_failed: не соответствует регулярному выражению %{expression}.
         regex_invalid: не может быть проверен связанным регулярным выражением.
         regex_list_invalid: Строки %{invalid_lines} не могут быть проанализированы как регулярное выражение.
-        hexcode_invalid: неверный 6-значный шестнадцатеричный код цвета.
         smaller_than_or_equal_to_max_length: должно быть меньше или равно максимальной длине.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: конфликтует с существующим общесистемным нерабочим днем для этой даты.
         taken: уже принято.
         too_long: слишком длинно (максимум — %{count} знаков).
         too_short: слишком коротко (минимум — %{count} знаков).
@@ -2222,6 +2224,7 @@ ru:
         url_not_secure_context: 'не предоставляет "Secure Context". Используйте HTTPS или обратный адрес, например localhost.
 
           '
+        user_already_in_department: Пользователь %{user_id} уже является членом департамента %{department_id}.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
         group:
@@ -2928,6 +2931,7 @@ ru:
   button_login: Войти
   button_move: Переместить
   button_move_and_follow: Переместить и следовать
+  button_next: Next
   button_print: Печать
   button_quote: Цитата
   button_remove: Удалить
@@ -3599,6 +3603,12 @@ ru:
       selected: Выбрано
     include_sub_items: Включить подпроекты
     no_results_text: Нет результатов
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: Включено
     label_off: Выключено
@@ -3643,6 +3653,9 @@ ru:
     additional:
       projects: Новые видимые проекты в данном экземпляре.
       no_visible_projects: Не видимые проекты в данном экземпляре.
+      favorite_projects:
+        no_results: У вас нет избранных проектов
+        no_results_subtext: Добавьте один или несколько проектов в избранное через их обзор или в списке проектов.
       users: Новые зарегистрированные пользователи в данном экземпляре.
     blocks:
       community: OpenProject сообщество
@@ -4017,6 +4030,7 @@ ru:
   label_send_invitation: Отправить приглашение
   label_calculated_value: Рассчитываемое значение
   label_change_parent: Изменить родителя
+  label_change_password: Change password
   label_change_plural: Изменения
   label_change_properties: Изменить свойства
   label_change_status: Изменить статус
@@ -4211,6 +4225,7 @@ ru:
   label_journal_diff: Описание сравнения
   label_language: Язык
   label_languages: Языки
+  label_export_plural: Exports
   label_external_links: Внешние ссылки
   label_locale: Язык и регион
   label_jump_to_a_project: Перейти к проекту...
@@ -4302,6 +4317,7 @@ ru:
   label_my_account_data: Данные моей учетной записи
   label_my_avatar: Мой аватар
   label_my_queries: Мои пользовательские запросы
+  label_my_security: Security
   label_name: Имя
   label_never: Никогда
   label_new: Новое
@@ -4655,6 +4671,11 @@ ru:
     few: 'Время отдыха: %{count} рабочих дней'
     many: 'Время отдыха: %{count} рабочих дней'
     other: 'Время отдыха: %{count} рабочих дней'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: вчера
   label_zen_mode: Режим «Дзен» (только доска и часы)
   label_role_type: Тип
@@ -4849,9 +4870,9 @@ ru:
 
       '
     steps:
-      label: 'Для разрешения пользователю подписаться к вам необходимо: '
       a: Обновите ваш платежный план ([here](upgrade_url))
       b: Заблокировать или удалить существующего пользователя ([here](users_url))
+      label: 'Для разрешения пользователю подписаться к вам необходимо: '
   more_actions: Больше функций
   noscript_description: Для правильной работы OpenProject JavaScript должен быть включён!
   noscript_heading: JavaScript отключён
@@ -5359,6 +5380,10 @@ ru:
   setting_consent_required: Требуется согласие
   setting_consent_decline_mail: Контактный почтовый адрес для согласия
   setting_cross_project_work_package_relations: Разрешить перекрестные связи пакетов работ проекта
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: Первая неделя в году содержит
   setting_date_format: Дата
   setting_default_language: Язык по умолчанию
@@ -5399,6 +5424,9 @@ ru:
   setting_work_package_properties: Свойства пакета работ
   setting_work_package_startdate_is_adddate: Использовать текущую дату как дату начала для новых пакетов работ
   setting_work_packages_projects_export_limit: Ограничение экспорта пакетов работ / проектов
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Период агрегации
   setting_log_requesting_user: Журналировать входное имя, имя и адрес электронной почты для всех запросов
   setting_login_required: Требуется аутентификация
@@ -6096,6 +6124,17 @@ ru:
     warning: 'Изменение дней недели, считающихся рабочими или нерабочими днями, может повлиять на начало и завершение всех пакетов работ и жизненных циклов во всех проектах.
 
       '
+    dialog:
+      title: Изменение рабочих дней
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Рабочие дни** изменены (%{changes})._
       days:

@@ -70,5 +70,39 @@ RSpec.describe AnnouncementMailer do
         expect(mail.to).to be_nil
       end
     end
+
+    describe "rendering a body that references a work package" do
+      shared_let(:persisted_project) { create(:project, identifier: "announceproj") }
+      shared_let(:persisted_recipient) { create(:admin) }
+      shared_let(:referenced_wp) { create(:work_package, project: persisted_project) }
+
+      let(:html_body) do
+        User.execute_as(persisted_recipient) do
+          described_class.announce(persisted_recipient,
+                                   subject: announcement_subject,
+                                   body: "see ##{referenced_wp.id}")
+                         .html_part.body.to_s
+        end
+      end
+
+      context "with classic mode",
+              with_settings: { work_packages_identifier: "classic" } do
+        it "renders the numeric reference as an absolute work-package link" do
+          expect(html_body).to match(%r{href="http[^"]*/work_packages/#{referenced_wp.id}"})
+        end
+      end
+
+      context "with semantic mode",
+              with_settings: { work_packages_identifier: "semantic" } do
+        before do
+          referenced_wp.update_columns(identifier: "ANNOUNCEPROJ-1", sequence_number: 1)
+        end
+
+        it "renders the formatted_id as an absolute work-package link" do
+          expect(html_body).to include("ANNOUNCEPROJ-1")
+          expect(html_body).to match(%r{href="http[^"]*/work_packages/ANNOUNCEPROJ-1"})
+        end
+      end
+    end
   end
 end

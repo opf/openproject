@@ -31,10 +31,15 @@ ca:
         authentication_method: Authentication Method
         creator: Autor
         drive: Drive ID
+        file_link_origin: File link origin ID
         host: Servidor
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: Nom
         password: Application password
         provider_type: Tipus de proveïdor
+        storage: Storage
+        storage_url: Storage URL
         tenant: Directory (tenant) ID
     errors:
       messages:

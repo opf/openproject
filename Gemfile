@@ -28,7 +28,7 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-source "https://rubygems.org"
+source "https://rubygems.org", cooldown: 7
 
 # TODO: Once packager.io and heroku buildpacks support bundler 2.4.22,
 # then we can use the new bundler syntax `ruby file: '.ruby-version'`.
@@ -50,7 +50,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.0"
+gem "doorkeeper", "~> 5.9.2"
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem "omniauth", git: "https://github.com/opf/omniauth", ref: "7eb21563ba047ef86d71f099975587b5ec88f9c9"
@@ -125,10 +125,10 @@ gem "sys-filesystem", "~> 1.5.0", require: false
 gem "bcrypt", "~> 3.1.22"
 
 gem "multi_json", "~> 1.20.0"
-gem "oj", "~> 3.17.0"
+gem "oj", "~> 3.17.3"
 
 gem "daemons"
-gem "good_job", "~> 4.18.2" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.0" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
@@ -162,7 +162,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.14.0"
+gem "mcp", "~> 0.18.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -200,7 +200,7 @@ gem "rack-timeout", "~> 0.7.0", require: "rack/timeout/base"
 
 gem "nokogiri", "~> 1.19.2"
 
-gem "carrierwave", "~> 2.2.6"
+gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.3"
@@ -238,10 +238,10 @@ gem "yabeda-rails"
 
 # opentelemetry
 gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
-gem "opentelemetry-instrumentation-all", "~> 0.93.0", require: false
+gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
 gem "opentelemetry-sdk", "~> 1.10", require: false
 
-gem "view_component", "~> 4.10.0"
+gem "view_component", "~> 4.11.0"
 # Lookbook
 gem "lookbook", "2.3.14"
 
@@ -265,11 +265,10 @@ group :test do
   gem "rack-test", "~> 2.2.0"
   gem "shoulda-context", "~> 2.0"
 
-  gem "parallel_tests", "~> 5.7"
   # Test prof provides factories from code
   # and other niceties
   gem "test-prof", "~> 1.6.0"
-  gem "turbo_tests", github: "opf/turbo_tests", ref: "2_2_5_with_patches"
+  gem "turbo_tests", github: "opf/turbo_tests", ref: "with-patches"
 
   gem "rack_session_access"
   gem "rspec", "~> 3.13.2"
@@ -277,7 +276,7 @@ group :test do
   gem "rspec-rails", "~> 8.0.4", group: :development
 
   # Retry failures within the same environment
-  gem "retriable", "~> 3.4.1"
+  gem "retriable", "~> 3.8.0"
   gem "rspec-retry", "~> 0.6.1"
 
   # Accessibility tests
@@ -296,7 +295,7 @@ group :test do
   gem "rails-controller-testing", "~> 1.0.2"
 
   gem "capybara", "~> 3.40.0"
-  gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.15.0"
+  gem "capybara_accessible_selectors", git: "https://github.com/citizensadvice/capybara_accessible_selectors", tag: "v0.16.0"
   gem "capybara-screenshot", "~> 1.0.17"
   gem "cuprite", "~> 0.17.0"
   gem "rspec-wait"
@@ -318,6 +317,8 @@ group :test do
   gem "equivalent-xml", "~> 0.6"
   gem "json_spec", "~> 1.1.4"
   gem "shoulda-matchers", "~> 7.0", require: nil
+
+  gem "parallel_tests", "~> 4.0"
 end
 
 group :ldap do
@@ -366,7 +367,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.35.1"
+  gem "rubocop-rails", "~> 2.35.4"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
@@ -428,6 +429,9 @@ gemfiles.each do |file|
   send(:eval_gemfile, file) if File.readable?(file)
 end
 
-gem "openproject-octicons", "~>19.35.0"
-gem "openproject-octicons_helper", "~>19.35.0"
-gem "openproject-primer_view_components", "~>0.86.2"
+# Set cooldown 0 for our own gems
+source "https://rubygems.org", cooldown: 0 do
+  gem "openproject-octicons", "~>19.35.0"
+  gem "openproject-octicons_helper", "~>19.35.0"
+  gem "openproject-primer_view_components", "~>0.87.0"
+end

@@ -31,10 +31,15 @@ sv:
         authentication_method: Autentiseringsmetod
         creator: Skapare
         drive: Drive ID
+        file_link_origin: File link origin ID
         host: Host
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: Namn
         password: Applikationens lösenord
         provider_type: Typ av leverantör
+        storage: Storage
+        storage_url: Storage URL
         tenant: Katalog (hyresgäst) ID
     errors:
       messages:

@@ -155,7 +155,6 @@ zh-TW:
         manual: 切換到Markdown模式
         wysiwyg: 切換到所見即所得編輯器
       macro:
-        error: 無法展開巨集(macro)：%{message}
         attribute_reference:
           macro_help_tooltip: 此文本段正由macro動態呈現。
           not_found: 無法找到請求的資源
@@ -175,9 +174,14 @@ zh-TW:
           title: 插入/編輯程式碼片段
           language: 格式化語言
           language_hint: 輸入可用來突顯之格式化語言 (如果支援)。
-        dropdown:
-          macros: 巨集
-          chose_macro: 選擇macro
+        embedded_calendar:
+          text: "[Placeholder] 嵌入式日曆"
+        embedded_table:
+          button: 嵌入工作套件表
+          text: "[預留位置] 工作套件明細表"
+        error: 無法展開巨集(macro)：%{message}
+        macro_dropdown:
+          caption: Insert
         toc: 目錄
         toolbar_help: 按一下以選擇小部件並顯示工具列。按兩下以編輯小部件
         wiki_page_include:
@@ -195,11 +199,6 @@ zh-TW:
           button_style_hint: '可選: 檢查以使巨集顯示為按鈕, 而不是連結。'
           without_type: 建立工作套件
           with_type: '新增工作套件 (類型: %{typename})'
-        embedded_table:
-          button: 嵌入工作套件表
-          text: "[預留位置] 工作套件明細表"
-        embedded_calendar:
-          text: "[Placeholder] 嵌入式日曆"
     admin:
       type_form:
         edit_query: 編輯查詢
@@ -210,13 +209,6 @@ zh-TW:
           new_date: "（新）"
         add_non_working_day: 非工作日
         already_added_error: 該日期已存在非工作日。每個唯一日期只能創建一個非工作日。
-        change_button: 儲存後重新編排
-        change_title: 修改工作日
-        removed_title: 您將從非工作日列表中刪除以下日期：
-        change_description: 變更一週中哪些天為工作日或非工作日，可能會影響此實例中所有專案的所有工作套件與生命週期的開始和結束日期。
-        warning: '變更可能需要一些時間才能生效。當所有相關的工作套件與專案生命週期更新完成後，您將會收到通知。 您確定要繼續嗎？
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: 將進度計算模式從基於狀態變更為基於工作將使<i>完成百分比</i>欄位可自由編輯。如果您選擇輸入<i>工時</i>或<i>剩餘工時</i>，它們也會連結到<i>完成百分比</i>。更改<i>剩餘工作</i>可以更新<i>完成百分比</i>。
         warning_progress_calculation_mode_change_from_field_to_status_html: 將進度計算模式從基於工時的方式改為基於狀態，將會導致所有現有的 <i>%完整的</i> 值丟失，並被與每個狀態相關的值所替代。 <i>剩餘工時</i> 的現有值也可能被重新計算，以反映這種變化。此操作不可逆轉。
@@ -375,6 +367,7 @@ zh-TW:
     label_in_more_than: 多於
     label_incoming_emails: 接收到的電子郵件
     label_information_plural: 資訊
+    label_infinity: Infinity
     label_invalid: 無效
     label_import: 匯入
     label_latest_activity: 最新活動
@@ -399,6 +392,7 @@ zh-TW:
     label_no_value: 無值
     label_none: 無
     label_not_contains: 不包含
+    label_not_available: Not available
     label_not_equals: 不是
     label_on: 開啟
     label_open_menu: 開啟選單
@@ -409,7 +403,6 @@ zh-TW:
     label_per_page: 每頁：
     label_please_wait: 請稍候
     label_project: 專案
-    label_project_list: 列出專案
     label_project_plural: 專案
     label_visibility_settings: 公開設定
     label_quote_comment: 引述這個留言
@@ -1049,16 +1042,13 @@ zh-TW:
         all: 所有專案
         selected: 僅所選專案
       search_placeholder: 搜尋專案...
-      search_placeholder_favorites: 搜尋我的收藏...
       include_subprojects: 包含子專案
       tooltip:
         include_all_selected: 自啓用“包含所有子項目”後已包含的項目。
         current_project: 這是您當前所在的專案。
         does_not_match_search: 沒有符合搜尋條件
       no_results: 沒有符合搜尋條件
-      no_favorite_results: 沒有符合您搜尋條件的收藏專案。
     include_workspaces:
-      search_placeholder: 搜尋……
       types:
         program: 方案
         portfolio: 專案組合

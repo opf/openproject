@@ -29,7 +29,7 @@
 #++
 
 class Projects::Settings::TimeEntryActivitiesController < Projects::SettingsController
-  menu_item :settings_time_entry_activities
+  menu_item :settings_time_and_costs
 
   def update
     TimeEntryActivitiesProject.upsert_all(update_params, unique_by: %i[project_id activity_id])

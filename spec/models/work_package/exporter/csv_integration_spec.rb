@@ -114,6 +114,48 @@ RSpec.describe WorkPackage::Exports::CSV, "integration" do
         ]
       end
     end
+
+    context "with a formula-injection payload in user-controlled fields",
+            with_settings: { csv_escape_formulas: true } do
+      shared_let(:work_package) do
+        create(:work_package,
+               subject: "=1+1",
+               description: '=HYPERLINK("https://example.com","x")',
+               type: type_a,
+               project:)
+      end
+
+      it "escapes the formula cell by prepending a single quote" do
+        pairs = header_value_pairs.to_h
+
+        expect(pairs["Subject"]).to eq("'=1+1")
+        expect(pairs["Description"]).to eq(%('=HYPERLINK("https://example.com","x")))
+      end
+    end
+  end
+
+  context "with semantic work package identifiers",
+          with_settings: { work_packages_identifier: "semantic" } do
+    let(:semantic_project) do
+      create(:project,
+             identifier: "CSVPROJ",
+             member_with_permissions: { user => %i[view_work_packages] })
+    end
+    let!(:work_package) { create(:work_package, project: semantic_project) }
+    let(:options) { {} }
+    let(:query) do
+      create(:query, project: semantic_project, user:, column_names: %i(id subject))
+    end
+
+    it "exports the semantic identifier in the ID column" do
+      headers, values = CSV.parse instance.export!.content
+      pairs = headers.zip(values).to_h
+
+      expect(work_package.identifier).to match(/\ACSVPROJ-\d+\z/)
+      # the leading ID header is downcased by the exporter to avoid SYLK detection
+      expect(pairs["#{byte_order_mark}id"]).to eq work_package.identifier
+      expect(pairs["Subject"]).to eq work_package.subject
+    end
   end
 
   context "with multiple work packages" do

@@ -33,7 +33,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { UrlParamsHelperService } from 'core-app/features/work-packages/components/wp-query/url-params-helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
-import { HalDeletedEvent, HalEventsService } from 'core-app/features/hal/services/hal-events.service';
+import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { States } from 'core-app/core/states/states.service';
 import { resolveNumericId } from 'core-app/features/work-packages/helpers/work-package-id-resolvers';
 
@@ -69,7 +69,7 @@ export class WorkPackageService {
         .then(() => {
           this.toastService.addSuccess(this.text.successful_delete);
 
-          ids.forEach((id) => this.halEvents.push({ _type: 'WorkPackage', id }, { eventType: 'deleted' } as HalDeletedEvent));
+          ids.forEach((id) => this.halEvents.push({ _type: 'WorkPackage', id }, { eventType: 'deleted' }));
 
           const routeWpId = this.$state.params.workPackageId as string;
           const numericId = resolveNumericId(this.states, routeWpId);

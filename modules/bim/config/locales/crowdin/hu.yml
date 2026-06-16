@@ -73,6 +73,10 @@ hu:
   project_module_bim: BCF
   permission_view_linked_issues: Nézd BCF eredmény
   permission_manage_bcf: Import és manage BCF eredmények
+  permission_manage_bcf_explanation: |
+    Allows managing BCF issues, including bulk import and updates.
+    BCF import maps file metadata to project resources and can create or update work packages
+    and comments using author and timestamp values from the imported file, effectively acting on behalf of users.
   permission_delete_bcf: Törölje a BCF -problémákat
   oauth:
     scopes:

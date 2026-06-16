@@ -2,72 +2,170 @@
 uk:
   activerecord:
     attributes:
-      resource_planner:
-        name: Назва
-        start_date: Дата початку
-        end_date: Дата завершення
-        default_view_class_name: Типове подання
-        public: Загальнодоступне
-        favorite: Вибране
       resource_allocation:
-        entity: Сутність
-        principal: Виконавець
-        state: Стан
-        start_date: Дата початку
-        end_date: Дата завершення
+        allocated_hours: Hours
         allocated_time: Виділений час
+        end_date: Дата завершення
+        entity: Сутність
+        filter_name: Resource filter name
+        principal: Виконавець
+        start_date: Дата початку
+        state: Стан
         user_filter: Фільтр користувачів
+      resource_planner:
+        default_view_class_name: Типове подання
+        end_date: Дата завершення
+        favorite: Вибране
+        name: Назва
+        public: Загальнодоступне
+        start_date: Дата початку
     errors:
       models:
-        resource_planner:
-          attributes:
-            end_date:
-              greater_than_start_date: не має передувати даті початку.
         resource_allocation:
           attributes:
             end_date:
               greater_than_start_date: не має передувати даті початку.
-  plugin_openproject_resource_management:
-    name: Керування ресурсами OpenProject
-    description: Забезпечує керування ресурсами й планування завантаження.
-  project_module_resource_management: Керування ресурсами
-  permission_view_resource_planners: Переглядати планувальники ресурсів
-  permission_view_resource_planners_explanation: 'Дає змогу користувачам отримувати доступ до планувальників ресурсів. Дозволяє їм створювати власні планувальники ресурсів і керувати ними, а також переглядати загальнодоступні. Не дозволяє переглядати планувальники ресурсів інших користувачів, які не є загальнодоступними.
-
-    '
-  permission_manage_public_resource_planners: Керувати загальнодоступними планувальниками ресурсів
-  permission_manage_public_resource_planners_explanation: 'Дає змогу користувачам створювати загальнодоступні планувальники ресурсів і керувати ними. Дозволяє їм переглядати, створювати й публікувати власні планувальники ресурсів, а також керувати ними. Не дозволяє переглядати планувальники ресурсів інших користувачів, які не є загальнодоступними.
-
-    '
-  permission_allocate_user_resources: Призначати ресурси користувачів
-  permission_allocate_user_resources_explanation: 'Дозволяє користувачам створювати, оновлювати й видаляти призначення ресурсів у планувальнику ресурсів. Це, зокрема, стосується призначення користувачів (або фільтрів користувачів) планувальнику й коригування виділеного часу й діапазону дат.
-
-    '
+        resource_planner:
+          attributes:
+            end_date:
+              greater_than_start_date: не має передувати даті початку.
+        resource_work_package_list:
+          attributes:
+            query:
+              must_be_work_package_query: має бути запитом до робочого пакету.
+    models:
+      resource_allocation: Призначення ресурсів
+      resource_planner: Планувальник ресурсів
+      resource_work_package_list: Список пакетів робіт
+      user_card: Картки користувачів
+  button_next: Далі
   label_resource_management: Планування ресурсів
-  button_next: Зберегти
+  permission_allocate_user_resources: Призначати ресурси користувачів
+  permission_allocate_user_resources_explanation: Дозволяє користувачам створювати, оновлювати й видаляти призначення ресурсів у планувальнику ресурсів. Це, зокрема, стосується призначення користувачів (або фільтрів користувачів) планувальнику й коригування виділеного часу й діапазону дат.
+  permission_manage_public_resource_planners: Керувати загальнодоступними планувальниками ресурсів
+  permission_manage_public_resource_planners_explanation: Дає змогу користувачам створювати загальнодоступні планувальники ресурсів і керувати ними. Дозволяє їм переглядати, створювати й публікувати власні планувальники ресурсів, а також керувати ними. Не дозволяє переглядати планувальники ресурсів інших користувачів, які не є загальнодоступними.
+  permission_view_resource_planners: Переглядати планувальники ресурсів
+  permission_view_resource_planners_explanation: Дає змогу користувачам отримувати доступ до планувальників ресурсів. Дозволяє їм створювати власні планувальники ресурсів і керувати ними, а також переглядати загальнодоступні. Не дозволяє переглядати планувальники ресурсів інших користувачів, які не є загальнодоступними.
+  plugin_openproject_resource_management:
+    description: Забезпечує керування ресурсами й планування завантаження.
+    name: Керування ресурсами OpenProject
+  project_module_resource_management: Керування ресурсами
   resource_management:
+    action:
+      delete: Видалити
+      favorite: Додати у вибране
+      make_private: Зробити приватним
+      make_public: Зробити загальнодоступним
+      unfavorite: Вилучити з вибраного
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
+    allocate_resource_dialog:
+      kind:
+        filter:
+          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          label: Filter criteria
+        label: Allocation type
+        principal:
+          caption: Allocate hours for a specific user.
+          label: User
+      outside_dates:
+        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+      overbooking:
+        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
+        hidden_work: Other allocations
+        schedule_availability: "%{schedule} (%{factor}% available for project work)"
+        schedule_change: until %{date}, then %{schedule}
+        schedule_note: This user works %{schedule}.
+        submit: Allocate overtime
+        title: Do you want to allocate overtime to the user?
+      submit: Allocate
+      success_message: Resource allocated.
+      title: Allocate resource
+    blankslate:
+      desc: Створіть планувальник ресурсів, щоб почати планувати завантаження для цього проєкту.
+      title: Ще немає планувальників ресурсів
+    configure_view_dialog:
+      delete_confirmation: Справді видалити подання? Цю дію неможливо скасувати.
+      filter_mode:
+        automatic:
+          caption: Автоматично згенерований список елементів, що відповідають визначеним вами критеріям.
+          label: Автоматична фільтрація
+        label: Вибір елементів
+        manual:
+          caption: Користувацький список елементів, які потрібно додавати й видаляти вручну. Фільтрація неможлива.
+          label: Вибране вручну
+      title: Налаштувати подання
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
+    favorite_caption: Якщо додати це подання у вибране, воно з’явиться у верхній частині меню бічної панелі.
+    label_new_resource_planner: Новий планувальник ресурсів
     label_resource_planner: Планувальник ресурсів
     label_resource_planner_plural: Планувальники ресурсів
-    label_new_resource_planner: Новий планувальник ресурсів
-    public_caption: 'Якщо зробити це подання загальнодоступним, доступ до нього отримають усі учасники проєкту. Це не вплине на видимість пакетів робіт, яка все ще залежить від того, чи є в користувача відповідний дозвіл.
-
-      '
-    favorite_caption: 'Якщо додати це подання у вибране, воно з’явиться у верхній частині меню бічної панелі.
-
-      '
-    view_types:
-      UserCardView: Картки користувачів
-    action:
-      favorite: Додати у вибране
-      unfavorite: Вилучити з вибраного
-      make_public: Зробити загальнодоступним
-      make_private: Зробити приватним
-      delete: Видалити
-    sidebar:
-      public: Загальнодоступні
-      private: Приватні
-    blankslate:
-      title: Ще немає планувальників ресурсів
-      desc: Створіть планувальник ресурсів, щоб почати планувати завантаження для цього проєкту.
+    new_view_dialog:
+      title: Додати подання
+    public_caption: Якщо зробити це подання загальнодоступним, доступ до нього отримають усі учасники проєкту. Це не вплине на видимість пакетів робіт, яка все ще залежить від того, чи є в користувача відповідний дозвіл.
     show:
       placeholder: Детальний огляд цього планувальника ресурсів з’явиться незабаром.
+    sidebar:
+      private: Приватні
+      public: Загальнодоступні
+    sub_views: Подання в цьому планувальнику ресурсів
+    view_types:
+      resource_work_package_list:
+        caption: Створіть подання на основі пакетів робіт, щоб переглядати інформацію про них і дані про призначення в списку
+        label: Список пакетів робіт
+      user_card:
+        caption: Створіть подання на основі користувачів, щоб переглядати інформацію про них і дані про призначення в списку карток користувачів
+        label: Список карток користувачів
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
+    work_package_list:
+      add_work_package_dialog:
+        title: Додати пакет робіт
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} user"
+          few: "%{count} users"
+          many: "%{count} users"
+          other: "%{count} users"
+        unassigned: Unassigned
+      allocation_placeholder: "—"
+      blank:
+        description: Ще немає пакетів робіт, які відповідають фільтрам цього подання.
+        title: Немає пакетів робіт для відображення
+      columns:
+        allocated_members: Призначені учасники
+        allocation: Призначення
+        dates: Дати
+      context_menu:
+        add_filter_criteria: Додати критерії фільтрації
+        add_user_group: Додати групу користувачів
+        edit_total_work: Змінити загальну роботу
+        label: Інші дії
+        move: Перемістити
+        move_down: Перемістити вниз
+        move_to_bottom: Перемістити в кінець
+        move_to_top: Перемістити на верх
+        move_up: Перемістити вгору
+        remove: Вилучити
+        remove_confirmation: Вилучити цей пакет робіт із подання?
+        see_allocation: Переглянути призначення
+      mobile_title: Пакети робіт
+      query_name: 'Пакети робіт з управління ресурсами: %{name}'
+      subheader:
+        add: Додати
+        add_work_package: Додати пакет робіт
+        allocate: Призначити
+        settings: Налаштувати подання

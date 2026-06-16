@@ -3,15 +3,17 @@ de:
   activerecord:
     attributes:
       wikis/page_link:
+        identifier: Kennung
         provider: Wiki-Anbieter
+      wikis/provider:
+        name: Name
+        universal_identifier: Universelle Kennung
       wikis/xwiki_provider:
         authentication_method: Authentifizierungsmethode
         authentication_methods:
           oauth2_sso: Single-Sign-On über OpenID Connect Identity Provider
           two_way_oauth2: Zwei-Wege OAuth 2.0 Authorization-Code-Flow
-        name: Name
         token_exchange_scope: XWiki Scope
-        universal_identifier: Eindeutige Kennung
         url: Instanz-URL
         wiki_audience: XWiki Audience
     errors: {}
@@ -29,53 +31,30 @@ de:
       wikis/xwiki_provider:
         one: XWiki-Anbieter
         other: XWiki-Anbieter
+  menus:
+    admin:
+      external_wiki_providers: Wiki-Anbieter
+      internal_wiki_provider: Internes Wiki
+      wikis: Wikis
   permission_manage_wiki_page_links: Wiki-Seitenlinks verwalten
   project_module_wiki_platforms: Wiki-Anbieter
   wikis:
-    buttons:
-      connect_account: "%{provider}-Konto verbinden"
-      done_continue: Fertig, fortfahren
-      save_and_continue: Speichern und fortsetzen
-      wiki_page: Wiki-Seite
-    health_checks:
-      authentication:
-        existing_token: Benutzer Token
-        header: Authentifizierung
-        user_bound_request: Benutzerbasierte Anfrageauthentifizierung
-      base_configuration:
-        header: Konfiguration
-        provider_configured: Konfiguration abgeschlossen
-      errors:
-        not_configured: Die Verbindung konnte nicht validiert werden. Bitte schließen Sie zuerst die Konfiguration ab.
-        xwiki_oauth_connection_error: OpenProject konnte sich nicht mit der konfigurierten XWiki-Instanz verbinden.
-        xwiki_oauth_request_error: Beim Versuch, mit der XWiki-Instanz zu kommunizieren, ist ein unerwarteter Fehler aufgetreten.
-        xwiki_oauth_token_missing: OpenProject kann die Kommunikation auf Benutzerebene mit XWiki nicht testen, da noch kein XWiki-Konto verknüpft wurde.
-        xwiki_oauth_unauthorized: Das Benutzer-Token wurde von XWiki nicht erkannt.
-    work_package_wikis_tab_component:
-      inline_page_links: Inline-Seitenlinks
-      referencing_pages: Referenziert in
-    page_link_component:
-      remove: Seitenlink entfernen
-    relation_page_links_component:
-      empty_heading: Keine verwandten Seiten
-      empty_text: Fügen Sie manuell Links zu anderen verwandten Wikiseiten hinzu.
-    oauth_login_component:
-      heading: Nicht verbunden mit %{provider}
-      description: Melden Sie sich bei %{provider} an, um verwandte Wiki-Seiten aus dieser OpenProject-Instanz anzuzeigen und zu verwalten.
-      connect_button: "%{provider}-Konto verbinden"
     admin:
       destroy_confirmation_dialog_component:
-        title: Wiki-Anbieter löschen
-        heading: Diesen Wiki-Anbieter dauerhaft löschen?
         description_html: Der Wiki-Anbieter %{wiki_provider} und alle zugehörigen Wikiseiten-Links werden gelöscht. Zusätzlich wird jeder Inline-Wiki-Link nicht mehr zugänglich sein. Diese Aktion kann nicht rückgängig gemacht werden.
+        heading: Diesen Wiki-Anbieter dauerhaft löschen?
+        title: Wiki-Anbieter löschen
       forms:
         general_info_form_component:
-          xwiki_instance_description: Vergewissern Sie sich, dass Sie über Administratorrechte in Ihrer XWiki-Instanz verfügen, bevor Sie diese Einrichtung starten.
+          provider_description: Vergewissern Sie sich, dass Sie über Administratorrechte in Ihrer XWiki-Instanz verfügen, bevor Sie diese Einrichtung starten.
         oauth_application_form_component:
-          application_id: Anwendungs-ID
-          application_secret: Anwendungsgeheimnis
+          application_id: OpenProject OAuth Anwendungs-ID
+          application_secret: OpenProject OAuth-Anwendungsgeheimnis
         oauth_client_form_component:
-          client_id: Client-ID
+          client_id: Wiki OAuth-Client-ID
+          client_secret: Wiki OAuth-Client Geheimnis
+          redirect_uri: Umleitungs-URI
+          redirect_uri_caption: Kopieren Sie diesen Wert in das Redirect URI Feld Ihrer XWiki OIDC Client-Registrierung.
       health_status:
         show:
           actions:
@@ -86,13 +65,19 @@ de:
           no_health_report: Kein Bericht verfügbar
           no_health_report_description: Führen Sie jetzt die Prüfungen für einen vollständigen Statusbericht dieses Dateispeichers durch.
           title: Systemstatusbericht
+      internal_provider_form:
+        checkbox_caption: Erlauben Sie Projekten, das interne OpenProject-Wiki zusammen mit externen Wiki-Anbietern zu verwenden
+        checkbox_label: Aktivieren Sie das interne OpenProject-Wiki
+      internal_wiki_provider:
+        show:
+          description: Aktivieren oder deaktivieren Sie das interne OpenProject-Wiki
       oauth_application_info_component:
         confirm_replace_oauth_application: Diese Aktion setzt die aktuellen OAuth-Anmeldedaten zurück. Nach der Bestätigung müssen Sie die Anmeldedaten erneut in Ihre XWiki-Instanz eingeben und alle Konten müssen sich erneut autorisieren. Sind Sie sicher, dass Sie fortfahren möchten?
-        label_pending: Ausstehend
+        label_oauth_client_id: OAuth-Client-ID
         replace_oauth_application: OpenProject OAuth-Anwendung ersetzen
       oauth_client_info_component:
         confirm_replace_oauth_client: Diese Aktion setzt die aktuellen XWiki OAuth-Zugangsdaten zurück. Alle Konten müssen sich erneut gegenüber XWiki autorisieren. Sind Sie sicher, dass Sie fortfahren möchten?
-        label_pending: Ausstehend
+        label_oauth_client_id: OAuth-Client-ID
         replace_oauth_client: XWiki OAuth-Anwendung ersetzen
       side_panel:
         health_status_component:
@@ -110,9 +95,9 @@ de:
         index_description: Fügen Sie einen externen Wiki-Dienst hinzu, um Arbeitspakete mit bestehenden Wiki-Seiten zu verknüpfen oder neue Seiten direkt von OpenProject aus zu erstellen.
         label_add_new: Neuen Wiki-Anbieter hinzufügen
         label_edit: XWiki-Anbieter bearbeiten
-        label_new_xwiki_instance: XWiki-Anbieter
+        label_new_provider: Neuer XWiki-Anbieter
         label_wiki_platform: Wiki-Anbieter
-        name_caption: Geben Sie Ihrem Anbieter einen Namen, damit Benutzer zwischen mehreren Speichern unterscheiden können.
+        name_caption: Geben Sie Ihrem Wiki-Provider einen Namen, damit Benutzer zwischen mehreren Wiki-Plattformen unterscheiden können.
         name_placeholder: XWiki Wissensdatenbank
         new_provider_html: Lesen Sie unsere Dokumentation über das [Einrichten einer XWiki-Integration](docs_url) für weitere Informationen.
         oauth:
@@ -120,15 +105,72 @@ de:
         sections:
           general_information: Allgemeine Informationen
           oauth_configuration: OAuth-Konfiguration
-        url_caption: Bitte ergänzen Sie die Host-Adresse Ihres Wiki-Anbieters (einschließlich https://). Sie sollte nicht länger als 255 Zeichen sein.
-        xwiki_instance: XWiki Instanz
+        url_caption: Die Host-Adresse Ihrer Wiki-Plattform einschließlich der https://. Sie sollte nicht länger als 255 Zeichen sein.
         xwiki:
           oauth:
-            openproject_oauth_description: Erlauben Sie XWiki den Zugriff auf OpenProject-Daten über eine OAuth-Anwendung. Kopieren Sie die unten stehenden Anmeldeinformationen in Ihre XWiki-Instanz.
-            provider_oauth: XWiki OAuth
-            provider_oauth_description: Erlauben Sie OpenProject den Zugriff auf XWiki-Daten mit OAuth. Eine Client-ID wird automatisch generiert, um OpenProject bei XWiki zu identifizieren - eine manuelle Konfiguration auf der XWiki-Seite ist nicht erforderlich.
+            openproject_oauth_description: Erlauben Sie XWiki den Zugriff auf OpenProject Daten über OAuth.
+            provider_oauth: Wiki OAuth
+            provider_oauth_configuration: Kopieren Sie diese Werte in den [XWiki OIDC Connection Client](xwiki_oidc_link).
+            provider_oauth_description: Erlauben Sie OpenProject Zugriff auf XWiki Daten über OAuth.
           openproject_oauth_description: Erlauben Sie XWiki den Zugriff auf OpenProject Daten über OAuth.
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: Erlauben Sie OpenProject Zugriff auf XWiki Daten über OAuth.
-    macro:
-      page_not_found: Verlinkte Wikiseite nicht mehr verfügbar
+    buttons:
+      connect_account: "%{provider}-Konto verbinden"
+      done_continue: Fertig, fortfahren
+      open_wiki: Wiki öffnen
+      save_and_continue: Speichern und fortsetzen
+      wiki_page: Wiki-Seite
+    create_new_wiki_page_dialog:
+      page_title: Titel
+      parent_help_text: Wählen Sie eine übergeordnete Seite für diese neue Wikiseite.
+      title: Neue Wikiseite anlegen
+    delete_relation_page_link_confirmation_dialog:
+      heading: Link zur verknüpften Wikiseite löschen?
+      title: Link zur verknüpften Wikiseite löschen
+    health_checks:
+      authentication:
+        existing_token: Benutzer Token
+        header: Authentifizierung
+        user_bound_request: Benutzerbasierte Anfrageauthentifizierung
+      base_configuration:
+        header: Konfiguration
+        provider_configured: Konfiguration abgeschlossen
+      errors:
+        not_configured: Die Verbindung konnte nicht validiert werden. Bitte schließen Sie zuerst die Konfiguration ab.
+        xwiki_oauth_connection_error: OpenProject konnte sich nicht mit der konfigurierten XWiki-Instanz verbinden.
+        xwiki_oauth_request_error: Beim Versuch, mit der XWiki-Instanz zu kommunizieren, ist ein unerwarteter Fehler aufgetreten.
+        xwiki_oauth_token_missing: OpenProject kann die Kommunikation auf Benutzerebene mit XWiki nicht testen, da noch kein XWiki-Konto verknüpft wurde.
+        xwiki_oauth_unauthorized: Das Benutzer-Token wurde von XWiki nicht erkannt.
+    instructions:
+      xwiki:
+        integration: XWiki Administration
+        oauth_application_details_html: Das Client Secret wird nach dem Schließen dieses Fensters nicht mehr zugänglich sein. Bitte kopieren Sie diese Werte in die [XWiki OpenProject Integrationseinstellungen](xwiki_admin_link).
+    link_existing_wiki_page_dialog:
+      title: Vorhandene Wikiseite hinzufügen
+    link_existing_wiki_page_form:
+      label: Wiki page
+      no_results: Keine Wikiseiten gefunden
+      placeholder: Search for a wiki page (or enter its URL)
+    oauth_login_component:
+      connect_button: "%{provider}-Konto verbinden"
+      description: Melden Sie sich bei %{provider} an, um verwandte Wiki-Seiten aus dieser OpenProject-Instanz anzuzeigen und zu verwalten.
+      heading: Nicht verbunden mit %{provider}
+    page_link_component:
+      remove: Seitenlink entfernen
+    page_links:
+      errors:
+        page_access_forbidden: Sie haben keine Berechtigung, auf diese Wikiseite zuzugreifen
+        page_not_found: Verlinkte Wikiseite nicht mehr verfügbar
+        unexpected: Ein unbekannter Fehler ist aufgetreten
+    provider_types:
+      xwiki:
+        name: XWiki
+    relation_page_links_component:
+      empty_heading: Keine verwandten Seiten
+      empty_text: Fügen Sie manuell Links zu anderen verwandten Wikiseiten hinzu.
+      link_existing: Vorhandene Wikiseite
+      link_new: Neue Wikiseite
+    work_package_wikis_tab_component:
+      inline_page_links: Inline-Seitenlinks
+      referencing_pages: Referenziert in

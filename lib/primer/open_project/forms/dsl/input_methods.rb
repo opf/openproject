@@ -36,6 +36,10 @@ module Primer
             add_input AutocompleterInput.new(builder:, form:, **decorate_options(**), &)
           end
 
+          def segmented_control(**, &)
+            add_input SegmentedControlInput.new(builder:, form:, **decorate_options(**), &)
+          end
+
           def block_note_editor(**, &)
             add_input BlockNoteEditorInput.new(builder:, form:, **decorate_options(**), &)
           end
@@ -78,6 +82,10 @@ module Primer
 
           def select_panel(**, &)
             add_input SelectPanelInput.new(builder:, form:, **decorate_options(**), &)
+          end
+
+          def filterable_tree_view(**, &)
+            add_input FilterableTreeViewInput.new(builder:, form:, **decorate_options(**), &)
           end
 
           def decorate_options(include_help_text: true, help_text_options: {}, **options)

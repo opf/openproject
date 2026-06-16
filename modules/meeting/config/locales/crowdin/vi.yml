@@ -369,58 +369,22 @@ vi:
         caption: Văn bản này sẽ xuất hiện trên mỗi trang ở giữa chân trang.
       submit_button: tải về
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: Cập nhật lịch qua email
         description:
-          disabled: Những người tham gia sẽ không nhận được email thông báo về những thay đổi.
-          enabled: Tất cả những người tham gia sẽ nhận được lời mời lịch cập nhật qua email thông báo cho họ về những thay đổi.
           change_via_template: Để thay đổi điều này, hãy chỉnh sửa mẫu chuỗi.
       dialog:
         title:
           enable: Bật cập nhật lịch email?
           disable: Tắt cập nhật lịch email?
         message:
-          enable: 'Tất cả những người tham gia sẽ nhận được lời mời lịch cập nhật qua email mỗi khi có thay đổi về ngày, giờ, địa điểm hoặc người tham gia cuộc họp. Sau khi được bật, một email sẽ được gửi ngay lập tức đến tất cả người tham gia.
-
-            '
-          disable: 'Người tham gia sẽ không còn nhận được lời mời lịch cập nhật qua email khi có thay đổi về ngày, giờ, địa điểm hoặc người tham gia cuộc họp. Nếu họ đã có lời mời tham dự cuộc họp này thì lời mời đó có thể không còn chính xác nữa.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: Kích hoạt cập nhật email
           disable: Vô hiệu hóa cập nhật email
-      banner:
-        participants:
-          enabled: 'Tất cả người tham gia sẽ nhận được lời mời lịch cập nhật qua email khi bạn thêm hoặc xóa người tham gia.
-
-            '
-          disabled: 'Cập nhật lịch email bị vô hiệu hóa. Người tham gia sẽ không nhận được email thông báo cho họ khi bạn thêm hoặc xóa người tham gia.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'Tất cả người tham gia sẽ nhận được lời mời lịch cập nhật qua email khi bạn thêm hoặc xóa người tham gia.
-
-            '
-          disabled: 'Những người tham gia sẽ không nhận được email thông báo về những thay đổi về ngày, giờ họp hoặc người tham gia.
-
-            '
-        occurrence:
-          enabled: 'Cập nhật lịch email được bật cho chuỗi cuộc họp. Tất cả những người tham gia sẽ nhận được lời mời cập nhật trên lịch thông báo cho họ về những thay đổi của bạn đối với lần xuất hiện này.
-
-            '
-          disabled: 'Cập nhật lịch email bị vô hiệu hóa cho chuỗi cuộc họp. Những người tham gia sẽ không nhận được email thông báo cho họ về những thay đổi của bạn đối với lần xuất hiện này.
-
-            '
-        template:
-          enabled: 'Cập nhật lịch email được bật cho chuỗi cuộc họp. Tất cả những người tham gia sẽ nhận được lời mời lịch cập nhật thông báo cho họ về những thay đổi của bạn đối với mẫu này hoặc đối với các lần xuất hiện riêng lẻ.
-
-            '
-          disabled: 'Cập nhật lịch email bị vô hiệu hóa cho chuỗi cuộc họp. Những người tham gia sẽ không nhận được email thông báo cho họ về những thay đổi của bạn đối với mẫu này hoặc đối với các lần xuất hiện riêng lẻ.
-
-            '
     presentation_mode:
       title: Chế độ trình bày
       button_present: hiện tại
@@ -630,6 +594,7 @@ vi:
   label_agenda_item_duplicate_in_next_title: Có lặp lại trong cuộc họp tiếp theo không?
   label_agenda_item_add_notes: Thêm ghi chú
   label_agenda_item_add_outcome: Thêm kết quả
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: Thêm gói công việc
   label_agenda_item_work_package: Gói công việc mục chương trình nghị sự
   label_section_rename: Đổi tên phần

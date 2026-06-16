@@ -31,14 +31,14 @@
 
 import { ActionEvent } from '@hotwired/stimulus';
 import CheckableController from './checkable.controller';
+import { createControllerInstance } from 'core-stimulus/test-helpers';
 
 describe('CheckableController', () => {
   let controller:any;
   let inputs:HTMLInputElement[];
 
   beforeEach(() => {
-    // Create a plain object that uses the controller prototype so we can call methods
-    controller = Object.create(CheckableController.prototype);
+    controller = createControllerInstance(CheckableController);
 
     inputs = [0, 1, 2].map(() => {
       const input = document.createElement('input');
@@ -103,7 +103,6 @@ describe('CheckableController', () => {
   });
 
   describe('toggleSelection', () => {
-    // Helper to create an ActionEvent-like object with params
     function createActionEvent(params:ActionEvent['params']):ActionEvent {
       const event = new Event('click') as ActionEvent;
       event.params = params;
@@ -129,7 +128,6 @@ describe('CheckableController', () => {
     });
 
     it('toggles only checkboxes matching the key/value pair', () => {
-      // Add data attributes to checkboxes
       inputs[0].dataset.role = 'admin';
       inputs[1].dataset.role = 'member';
       inputs[2].dataset.role = 'admin';
@@ -138,7 +136,6 @@ describe('CheckableController', () => {
 
       controller.toggleSelection(event);
 
-      // Only admin checkboxes should be checked
       expect(inputs[0].checked).toBe(true);
       expect(inputs[1].checked).toBe(false);
       expect(inputs[2].checked).toBe(true);
@@ -156,7 +153,6 @@ describe('CheckableController', () => {
 
       controller.toggleSelection(event);
 
-      // Only admin checkboxes should be unchecked
       expect(inputs[0].checked).toBe(false);
       expect(inputs[1].checked).toBe(true); // member stays checked
       expect(inputs[2].checked).toBe(false);

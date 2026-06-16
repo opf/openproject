@@ -43,5 +43,9 @@ module Wikis::Admin::Forms
         url_helpers.edit_admin_settings_wiki_provider_path(wiki_provider)
       end
     end
+
+    def xwiki_admin_url
+      Wikis::Admin::XWikiAdminUrlHelper.url(base_url: wiki_provider.url, section: "OpenProject")
+    end
   end
 end

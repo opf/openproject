@@ -46,6 +46,7 @@ import { EditFormRoutingService } from 'core-app/shared/components/fields/edit/e
 import { ResourceChangesetCommit } from 'core-app/shared/components/fields/edit/services/hal-resource-editing.service';
 import { GlobalEditFormChangesTrackerService } from 'core-app/shared/components/fields/edit/services/global-edit-form-changes-tracker/global-edit-form-changes-tracker.service';
 import { firstValueFrom } from 'rxjs';
+import * as Turbo from '@hotwired/turbo';
 
 @Component({
   selector: 'edit-form,[edit-form]',
@@ -54,7 +55,7 @@ import { firstValueFrom } from 'rxjs';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class EditFormComponent extends EditForm<HalResource> implements OnInit, OnDestroy {
   readonly injector:Injector;
@@ -103,6 +104,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
       // that's not within the edit mode.
       if (!this.editFormRouting || this.editFormRouting.blockedTransition(transition)) {
         if (requiresConfirmation && !window.confirm(confirmText)) {
+          this.undoCanceledBrowserBackTransition(transition);
           return false;
         }
 
@@ -111,6 +113,31 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
 
       return true;
     });
+  }
+
+  private undoCanceledBrowserBackTransition(transition:Transition) {
+    if (transition.options().source !== 'url') {
+      return;
+    }
+
+    const fromUrl = transition
+      .router
+      .stateService
+      .href(transition.from(), transition.params('from'));
+
+    if (!fromUrl) {
+      return;
+    }
+
+    // Restore the canceled Back URL without firing a real forward navigation,
+    // which would make Turbo restore a stale snapshot of the split view.
+    Turbo.session
+      .history
+      .push(new URL(fromUrl, window.location.origin));
+
+    // Keep UI-Router from replacing the restored browser history entry while
+    // it rolls back the aborted Back navigation.
+    transition.router.urlRouter.update(true);
   }
 
   ngOnInit() {

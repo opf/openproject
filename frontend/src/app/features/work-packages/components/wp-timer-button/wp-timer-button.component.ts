@@ -42,7 +42,6 @@ import { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/services/time-entry-timer.service';
 import { formatElapsedTime } from 'core-app/features/work-packages/components/wp-timer-button/time-formatter.helper';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 
@@ -65,8 +64,8 @@ export class WorkPackageTimerButtonComponent extends UntilDestroyedMixin {
   readonly cdRef = inject(ChangeDetectorRef);
 
   @Input() public workPackage:WorkPackageResource;
-  @InjectField() PathHelper:PathHelperService;
-  @InjectField() TurboRequests:TurboRequestsService;
+  readonly PathHelper = inject(PathHelperService);
+  readonly TurboRequests = inject(TurboRequestsService);
 
   timer$ = this.timeEntryService.activeTimer$;
 

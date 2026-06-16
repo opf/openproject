@@ -37,7 +37,7 @@ class Projects::Settings::BacklogsController < Projects::SettingsController
     call = Projects::UpdateService
       .new(model: @project,
            user: current_user,
-           contract_class: Projects::BacklogsTypesAndStatusesContract)
+           contract_class: ::Backlogs::Projects::BacklogsTypesAndStatusesContract)
       .call(backlogs_settings_params)
 
     if call.success?
@@ -50,7 +50,7 @@ class Projects::Settings::BacklogsController < Projects::SettingsController
   end
 
   def rebuild_positions
-    WorkPackages::RebuildPositionsService.new(project: @project).call
+    ::Backlogs::WorkPackages::RebuildPositionsService.new(project: @project).call
     flash[:notice] = I18n.t("backlogs.positions_rebuilt_successfully")
 
     redirect_back_or_to_backlogs_settings

@@ -1721,6 +1721,7 @@ eo:
       attachment:
         attachment_content: Enhavo de la aldonaĵo
         attachment_file_name: Nomo de la aldonaĵo
+        charset: Character set
         content_type: Content-type
         downloads: Elŝutoj
         file: Dosiero
@@ -1815,6 +1816,7 @@ eo:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Roloj
       notification:
         read_ian: Read in-app
@@ -2060,6 +2062,7 @@ eo:
         priority: Prioritato
         progress: "% Complete"
         readonly: Read only
+        relatable: Relatable to
         remaining_hours: Remaining work
         remaining_time: Remaining work
         sequence_number: Sequence number
@@ -2104,17 +2107,14 @@ eo:
         before: devas esti antaŭ la %{date}.
         before_or_equal_to: devas esti antaŭ aŭ egale al %{date}.
         blank: ne povas esti malplena.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: needs to have the property '%{property}' set.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Laborpakaĵo ne povis esti ligita al unu el siaj subtaskoj.
         circular_dependency: Tiu ĉi rilato povus krei cirklan dependon.
         confirmation: ne kongruas kun %{attribute}
         could_not_be_copied: "%{dependency} could not be (fully) copied."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: ne ekzistas.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: ne povas esti atingita.
         error_readonly: was attempted to be written but is not writable.
@@ -2135,36 +2135,38 @@ eo:
         greater_than_or_equal_to: devas esti pli granda aŭ egala al %{count}.
         greater_than_or_equal_to_start_date: devas esti pli granda aŭ egala al la startdato.
         greater_than_start_date: devas esti pli granda ol la startdato.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: is not set to one of the allowed values.
         inclusion_nested: is not set to one of the allowed values at path '%{path}'.
         invalid: Ĝi ne estas valida.
         invalid_uri: must be a valid URI.
         invalid_url: Ĝi ne estas valida URL.
         invalid_url_scheme: 'ne estas subtenita protokolo (permesitaj: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: devas esti malpli aŭ egala al %{count}.
         not_available: is not available due to a system configuration.
+        not_before_start_date: must not be before the start date.
         not_deletable: cannot be deleted.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: ne estas la nuna uzanto.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: Ĝi ne estas valida dato.
         not_a_datetime: Ĝi ne estas valida dato/horo.
         not_a_number: Ĝi ne estas numero.
         not_allowed: nevalida pro manko de permesoj.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: ĝi ne estas entjero.
         not_an_iso_date: 'Ĝi ne estas valida dato. Deviga datumo estas: JJJJ-MM-TT.'
         not_same_project: doesn't belong to the same project.
-        datetime_must_be_in_future: must be in the future.
         odd: devas esti nepara.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: could not be validated with the associated regular expression.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum length.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: jam prenita.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
@@ -2177,6 +2179,7 @@ eo:
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: la longeco estas malĝusta (devus esti %{count} signoj).
       models:
         group:
@@ -2843,6 +2846,7 @@ eo:
   button_login: Ensaluti
   button_move: Movi
   button_move_and_follow: Movi kaj daŭrigi
+  button_next: Next
   button_print: Printi
   button_quote: Citi
   button_remove: Forigi
@@ -3472,6 +3476,12 @@ eo:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3512,6 +3522,9 @@ eo:
     additional:
       projects: Pli novaj videblaj projektoj en tiu ĉi loko.
       no_visible_projects: Ne estas videblaj projektoj en tiu ĉi loko.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Pli novaj registritaj uzantoj en tiu ĉi loko.
     blocks:
       community: OpenProject komunumo
@@ -3886,6 +3899,7 @@ eo:
   label_send_invitation: Sendi inviton
   label_calculated_value: Calculated value
   label_change_parent: Change parent
+  label_change_password: Change password
   label_change_plural: Ŝanĝoj
   label_change_properties: Ŝanĝi ecaron
   label_change_status: Ŝanĝi staton
@@ -4080,6 +4094,7 @@ eo:
   label_journal_diff: Komparo de la priskribo
   label_language: Lingvo
   label_languages: Languages
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Iri al la projekto...
@@ -4171,6 +4186,7 @@ eo:
   label_my_account_data: Mia konta datumaro
   label_my_avatar: My avatar
   label_my_queries: Miaj propraj informpetoj
+  label_my_security: Security
   label_name: Nomo
   label_never: Neniam
   label_new: Nova
@@ -4518,6 +4534,9 @@ eo:
   label_x_working_days_time_off:
     one: 'Time off: 1 working day'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: hieraŭ
   label_zen_mode: Zen mode
   label_role_type: Tipo
@@ -4710,9 +4729,9 @@ eo:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'To allow the user to sign in you can either: '
       a: Upgrade your payment plan ([here](upgrade_url))
       b: Lock or delete an existing user ([here](users_url))
+      label: 'To allow the user to sign in you can either: '
   more_actions: More functions
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript disabled
@@ -5232,6 +5251,10 @@ eo:
   setting_consent_required: Consent required
   setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: First week in year contains
   setting_date_format: Dato
   setting_default_language: Default language
@@ -5272,6 +5295,9 @@ eo:
   setting_work_package_properties: Work package properties
   setting_work_package_startdate_is_adddate: Use current date as start date for new work packages
   setting_work_packages_projects_export_limit: Work packages / Projects export limit
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
@@ -5973,6 +5999,17 @@ eo:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

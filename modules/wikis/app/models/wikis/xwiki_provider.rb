@@ -45,7 +45,8 @@ module Wikis
 
     class << self
       def registry_prefix = "xwiki"
-      def generate_client_id = SecureRandom.uuid
+      def generate_client_id = "openproject-#{SecureRandom.hex(8)}"
+      def generate_client_secret = SecureRandom.alphanumeric(32)
     end
 
     def configured?

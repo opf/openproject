@@ -109,7 +109,7 @@
     button_save: Lagre
     button_settings: Innstillinger
     button_uncheck_all: Avmerk alle
-    button_update: Oppdater
+    button_update: Oppdatèr
     button_export-atom: Last ned Atom
     button_generate_pdf: Generate PDF
     button_create: Opprett
@@ -155,7 +155,6 @@
         manual: Bytt til Markdown-kilde
         wysiwyg: Bytt til WYSIWYG editor
       macro:
-        error: 'Kan ikke utvide makro: %{message}'
         attribute_reference:
           macro_help_tooltip: Dette tekstsegmentet er dynamisk gjengitt av en makro.
           not_found: Finner ikke forespurt ressurs
@@ -175,9 +174,14 @@
           title: Sett inn / rediger Code snippet
           language: Formaterer språk
           language_hint: Angi formateringsspråket som vil bli brukt til å fremheve (hvis støttet).
-        dropdown:
-          macros: Makroer
-          chose_macro: Velg makro
+        embedded_calendar:
+          text: "[Placeholder] Innbygget kalender"
+        embedded_table:
+          button: Bygg inn arbeidspakker
+          text: "[Placeholder] Innebygd arbeidspakke-tabell"
+        error: 'Kan ikke utvide makro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Innholdsfortegnelse
         toolbar_help: Klikk for å velge widget og vise verktøylinjen. Dobbelklikk for å redigere widgeten.
         wiki_page_include:
@@ -195,11 +199,6 @@
           button_style_hint: 'Valgfritt: Huk av om makroen skal vises som en knapp, ikke som en lenke.'
           without_type: Opprett arbeidspakke
           with_type: 'Opprett arbeidspakke (ype: %{typename})'
-        embedded_table:
-          button: Bygg inn arbeidspakker
-          text: "[Placeholder] Innebygd arbeidspakke-tabell"
-        embedded_calendar:
-          text: "[Placeholder] Innbygget kalender"
     admin:
       type_form:
         edit_query: Rediger spørring
@@ -210,13 +209,6 @@
           new_date: "(ny)"
         add_non_working_day: Arbeidsfri dag
         already_added_error: En arbeidsfri dag for denne datoen finnes allerede. Det kan bare være en arbeidsfri dag som er opprettet for hver unike dato.
-        change_button: Lagre og endre
-        change_title: Endre arbeidsdager
-        removed_title: 'Du fjerner de følgende dagene fra listen over arbeidsfrie dager:'
-        change_description: Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
-        warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated. Are you sure you want to continue?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -375,6 +367,7 @@
     label_in_more_than: i mer enn
     label_incoming_emails: Inkommende e-post
     label_information_plural: Informasjon
+    label_infinity: Infinity
     label_invalid: Ugyldig
     label_import: Importer
     label_latest_activity: Siste aktivitet
@@ -399,6 +392,7 @@
     label_no_value: Ingen verdi
     label_none: ingen
     label_not_contains: inneholder ikke
+    label_not_available: Not available
     label_not_equals: er ikke
     label_on: på
     label_open_menu: Åpne meny
@@ -409,7 +403,6 @@
     label_per_page: 'Pr. side:'
     label_please_wait: Vennligst vent
     label_project: Prosjekt
-    label_project_list: Prosjektlister
     label_project_plural: Prosjekter
     label_visibility_settings: Innstillinger for synlighet
     label_quote_comment: Siter denne kommentaren
@@ -1053,16 +1046,13 @@
         all: Alle prosjekter
         selected: Kun valgte
       search_placeholder: Search projects...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Inkluder alle underprosjekter
       tooltip:
         include_all_selected: Prosjektet er allerede inkludert siden det alle underprosjekter er aktivert.
         current_project: Dette er det nåværende prosjektet du er i.
         does_not_match_search: Prosjektet samsvarer ikke med søkekriteriene.
       no_results: Ingen treff på dine søkekriterier.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

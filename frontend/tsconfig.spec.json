@@ -3,10 +3,12 @@
   "compilerOptions": {
     "outDir": "./out-tsc/spec",
     "types": [
-      "vitest/globals"
+      "vitest/globals",
+      "@testing-library/jest-dom/vitest"
     ]
   },
   "files": [
+    "src/test-browser-polyfills.ts",
     "src/test-setup.ts",
     "src/test-providers.ts",
     "src/polyfills.ts"
@@ -16,5 +18,8 @@
     "src/**/*.d.ts",
     "src/main.ts",
     "src/app/**/*.module.ts"
-  ]
+  ],
+  "angularCompilerOptions": {
+    "strictTemplates": false
+  }
 }

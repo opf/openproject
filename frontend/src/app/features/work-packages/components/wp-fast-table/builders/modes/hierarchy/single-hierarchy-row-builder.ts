@@ -9,7 +9,7 @@ import {
   hierarchyRootClass,
 } from 'core-app/features/work-packages/components/wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -19,9 +19,9 @@ export const hierarchyBaseIndentation = 25;
 
 export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   // Injected
-  @InjectField() public wpTableHierarchies:WorkPackageViewHierarchiesService;
+  @LazyInject() public wpTableHierarchies:WorkPackageViewHierarchiesService;
 
-  @InjectField() public states:States;
+  @LazyInject() public states:States;
 
   // Retain a map of hierarchy elements present in the table
   // with at least a visible child

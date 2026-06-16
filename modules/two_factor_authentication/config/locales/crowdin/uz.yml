@@ -160,7 +160,7 @@ uz:
         '
       other_active_session_notice: Your account has an active remember cookie on another session.
       label: Remember
-      clear_cookie: Click here to remove all remembered 2FA sessions.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: All remembered 2FA sessions have been removed.
       dont_ask_again: Create cookie to remember 2FA authentication on this client for %{days} days.
   field_otp: One-time password
@@ -171,6 +171,7 @@ uz:
   notice_account_has_no_phone: No cell phone number is associated with your account.
   label_confirmed: Confirmed
   button_continue: Continue
+  button_make_active: Activate
   button_make_default: Mark as default
   notice_phone_number_format: 'Please enter the number in the following format: +XX XXXXXXXX.'
   text_otp_not_receive: Other verification methods

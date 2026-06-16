@@ -155,7 +155,6 @@ uk:
         manual: Перейдіть до джерела Markdown
         wysiwyg: Перейти до редактора WYSIWYG
       macro:
-        error: 'Неможливо розгорнути макрос: %{message}'
         attribute_reference:
           macro_help_tooltip: Цей текстовий фрагмент динамічно візуалізується макросом.
           not_found: Не вдалося знайти потрібний ресурс
@@ -175,9 +174,14 @@ uk:
           title: Вставити / відредагувати фрагмент коду
           language: Мова форматування
           language_hint: Введіть мову форматування, яка буде використана для виділення (якщо підтримується).
-        dropdown:
-          macros: Макроси
-          chose_macro: Виберіть макрос
+        embedded_calendar:
+          text: "[Placeholder] вбудований календар"
+        embedded_table:
+          button: Вставити таблицю робочих пакетів
+          text: "[Placeholder] Вбудована таблиця робочих пакетів"
+        error: 'Неможливо розгорнути макрос: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Зміст
         toolbar_help: Натисніть, щоб вибрати віджет і показати панель інструментів. Двічі клацніть, щоб відредагувати віджет
         wiki_page_include:
@@ -195,11 +199,6 @@ uk:
           button_style_hint: 'Необов’язково: позначте пункт Перевірити, щоб макрос відображався як кнопка, а не як посилання.'
           without_type: Створити робочий пакет
           with_type: 'Створити робочий пакет (тип: %{typename})'
-        embedded_table:
-          button: Вставити таблицю робочих пакетів
-          text: "[Placeholder] Вбудована таблиця робочих пакетів"
-        embedded_calendar:
-          text: "[Placeholder] вбудований календар"
     admin:
       type_form:
         edit_query: Редагувати запит
@@ -210,13 +209,6 @@ uk:
           new_date: "(нова)"
         add_non_working_day: Неробочий день
         already_added_error: Неробочий день із цією датою вже існує. Для кожної унікальної дати можна створити лише один неробочий день.
-        change_button: Зберегти й перепланувати
-        change_title: Змінення робочих днів
-        removed_title: 'Ви вилучите ці дні зі списку неробочих:'
-        change_description: Якщо змінити дні тижня, які вважаються робочими чи неробочими, це може вплинути на дати початку й завершення всіх пакетів робіт і життєвих циклів проєктів в усіх проєктах цього екземпляра.
-        warning: 'Застосування змін може тривати деякий час. Ви отримаєте сповіщення, коли всі відповідні пакети робіт і життєві цикли проєктів буде оновлено. Продовжити?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Якщо перейти з режиму обчислення прогресу на основі статусу на режим на основі роботи, атрибут <i>% завершення</i> стане доступним для редагування полем. Якщо визначено атрибути <i>Робота</i> й <i>Залишок роботи</i>, їх значення буде також пов’язано з атрибутом <i>% завершення</i>. Змінення значення атрибута <i>Залишок роботи</i> призводить до оновлення атрибута <i>% завершення</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Якщо перейти з режиму обчислення прогресу на основі робіт на режим на основі статусу, усі наявні значення атрибута <i>% завершення</i> буде втрачено й замінено значеннями, пов’язаними з кожним статусом. Наявні значення атрибута <i>Залишок роботи</i> може бути також переобчислено з урахуванням цієї зміни. Цю дію не можна скасувати.
@@ -375,6 +367,7 @@ uk:
     label_in_more_than: більше ніж
     label_incoming_emails: Вхідні повідомлення
     label_information_plural: Інформація
+    label_infinity: Infinity
     label_invalid: Неприпустимо
     label_import: Імпортувати
     label_latest_activity: Останні дії
@@ -399,6 +392,7 @@ uk:
     label_no_value: Значення відсутнє
     label_none: нічого
     label_not_contains: не містить
+    label_not_available: Not available
     label_not_equals: немає
     label_on: на
     label_open_menu: Відкрити меню
@@ -409,7 +403,6 @@ uk:
     label_per_page: 'К-сть на сторінку:'
     label_please_wait: Будь ласка, зачекайте
     label_project: Проєкт
-    label_project_list: Списки проєктів
     label_project_plural: Проєкти
     label_visibility_settings: Налаштування видимості ...
     label_quote_comment: Цитувати цей коментар
@@ -1061,16 +1054,13 @@ uk:
         all: Усі проєкти
         selected: Тільки вибране
       search_placeholder: Пошук проєктів…
-      search_placeholder_favorites: Пошук серед вибраного…
       include_subprojects: Включити всі підпроєкти
       tooltip:
         include_all_selected: Проєкт уже включено, оскільки ввімкнено параметр «Включати всі вкладені проєкти».
         current_project: Це поточний проєкт, який зараз відкрито.
         does_not_match_search: Проєкт не відповідає критеріям пошуку.
       no_results: Жоден проєкт не відповідає вашим критеріям пошуку.
-      no_favorite_results: Немає вибраних проєктів, які відповідають критеріям пошуку.
     include_workspaces:
-      search_placeholder: Пошук…
       types:
         program: Програма
         portfolio: Портфель

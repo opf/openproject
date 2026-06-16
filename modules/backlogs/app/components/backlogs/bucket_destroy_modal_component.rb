@@ -54,9 +54,9 @@ module Backlogs
 
     def form_arguments
       {
-        action: project_backlogs_backlog_bucket_path(backlog_bucket.project,
-                                                     backlog_bucket,
-                                                     helpers.all_backlogs_params),
+        action: project_backlogs_bucket_path(backlog_bucket.project,
+                                             backlog_bucket,
+                                             helpers.all_backlogs_params),
         method: :delete
       }
     end

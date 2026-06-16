@@ -1762,6 +1762,7 @@ lt:
       attachment:
         attachment_content: Prisegto failo turinys
         attachment_file_name: Prisegto failo vardas
+        charset: Character set
         content_type: Content-type
         downloads: Atsisiuntimai
         file: Failas
@@ -1856,6 +1857,7 @@ lt:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Vaidmenys
       notification:
         read_ian: Read in-app
@@ -2101,6 +2103,7 @@ lt:
         priority: Pirmenybė
         progress: "% baigta"
         readonly: Tik skaitymui
+        relatable: Relatable to
         remaining_hours: Liko darbo
         remaining_time: Liko darbo
         sequence_number: Sequence number
@@ -2145,17 +2148,14 @@ lt:
         before: turi eiti prieš %{date}.
         before_or_equal_to: turi eiti prieš arba būti lygu %{date}.
         blank: negali būti tuščia.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: reikalauja, kad savybė '%{property}' būtų nustatyta.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Darbų paketas negali būti susietas su viena iš savo vidinių užduočių.
         circular_dependency: Šis ryšys sukurtų ciklinę priklausomybę.
         confirmation: nesutampa su %{attribute}.
         could_not_be_copied: "%{dependency} negali (pilnai) būti nukopijuota(s)."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: neegzistuoja.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: negali būti pasiektas.
         error_readonly: bandytas įrašyti, bet įrašyti nebuvo galima.
@@ -2176,36 +2176,38 @@ lt:
         greater_than_or_equal_to: turi būti didesnis arba lygus %{count}.
         greater_than_or_equal_to_start_date: turi būti didesnis arba lygus už pradžios datą.
         greater_than_start_date: turi būti didesnis už pradžios datą.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: nenustatyta kaip viena iš leidžiamų reikšmių.
         inclusion_nested: nėra nustatytas į vieną iš leidžiamų reikšmių kelyje „%{path}“.
         invalid: " neteisingas."
         invalid_uri: must be a valid URI.
         invalid_url: nėra tinkamas URL.
         invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: turi būti mažesnis arba lygus %{count}.
         not_available: yra nepasiekiamas dėl sistemos konfigūracijos
+        not_before_start_date: must not be before the start date.
         not_deletable: negali būti pašalintas.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: nėra dabartinis naudotojas
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: nėra tinkama data.
         not_a_datetime: nėra tinkama data ir laikas.
         not_a_number: nėra skaičius.
         not_allowed: netinkamas dėl trūkstamų teisių.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: nėra sveikasis skaičius.
         not_an_iso_date: 'nėra tinkama data. Reikalingas formatas: YYYY-MM-DD.'
         not_same_project: nepriklauso tam pačiam projektui.
-        datetime_must_be_in_future: must be in the future.
         odd: turi būti nelyginis.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: neatitinka reguliariosios išraiškos %{expression}.
         regex_invalid: negalėjo būti patvirtintas su susieta reguliaria išraiška.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: turi būti mažesnis arba lygus didžiausiam ilgiui.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: jau užimtas.
         too_long: yra per ilgas (daugiausiai galima %{count} simbolių).
         too_short: yra per trumpas (mažiausiai %{count} simbolių).
@@ -2218,6 +2220,7 @@ lt:
         url_not_secure_context: 'neteikia „Saugaus konteksto“. Arba naudokite HTTPS, arba atgalinį adresą, tokį kaip localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: yra neteisingo ilgio (turi būti %{count} simbolių).
       models:
         group:
@@ -2924,6 +2927,7 @@ lt:
   button_login: Prisijungti
   button_move: Perkelti
   button_move_and_follow: Perkelti ir sekti
+  button_next: Next
   button_print: Spausdinti
   button_quote: Cituoti
   button_remove: Pašalinti
@@ -3595,6 +3599,12 @@ lt:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3639,6 +3649,9 @@ lt:
     additional:
       projects: Naujausi matomi projektai.
       no_visible_projects: Šiame egzemplioriuje nėra matomų projektų.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Naujausi registruoti naudotojai.
     blocks:
       community: OpenProject community
@@ -4013,6 +4026,7 @@ lt:
   label_send_invitation: Siųsti pakvietimą
   label_calculated_value: Calculated value
   label_change_parent: Keisti pirmtaką
+  label_change_password: Change password
   label_change_plural: Pakeitimai
   label_change_properties: Pakeisti nustatymus
   label_change_status: Pakeisti būseną
@@ -4207,6 +4221,7 @@ lt:
   label_journal_diff: Aprašymų palyginimas
   label_language: Kalba
   label_languages: Kalbos
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Peršokti į projektą...
@@ -4298,6 +4313,7 @@ lt:
   label_my_account_data: Mano paskyros duomenys
   label_my_avatar: Mano avataras
   label_my_queries: Mano sukurtos užklausos
+  label_my_security: Security
   label_name: Vardas
   label_never: Niekada
   label_new: Naujas
@@ -4651,6 +4667,11 @@ lt:
     few: 'Time off: %{count} working days'
     many: 'Time off: %{count} working days'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: vakar
   label_zen_mode: "„Zen“ režimas"
   label_role_type: Tipas
@@ -4845,9 +4866,9 @@ lt:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'Norėdami leisti vartotojui prisijungti jūs galite: '
       a: Atnaujinti savo mokėjimo planą ([here](upgrade_url))
       b: Užrakinti arba panaikinti esamo naudotojo paskyrą ([here](users_url))
+      label: 'Norėdami leisti vartotojui prisijungti jūs galite: '
   more_actions: Daugiau funkcijų
   noscript_description: Jums reikia įjungti JavaScript, kad galėtumėte naudoti OpenProject!
   noscript_heading: JavaScript išjungta
@@ -5365,6 +5386,10 @@ lt:
   setting_consent_required: Reikia sutikimo
   setting_consent_decline_mail: Sutikimo kontaktinis pašto adresas
   setting_cross_project_work_package_relations: Leisti tarp-projektinius darbų paketo ryšius
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: Pirma metų savaitė turi
   setting_date_format: Data
   setting_default_language: Numatytoji kalba
@@ -5405,6 +5430,9 @@ lt:
   setting_work_package_properties: Darbų paketo ypatybės
   setting_work_package_startdate_is_adddate: Naudoti dabartinę datą kaip naujų darbų paketų pradžios datą
   setting_work_packages_projects_export_limit: Darbo paketų / Projektų eksporto limitas
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Įrašyti vartotojo vardą, prisijungimo vardą, e. pašto adresą visiems prašymams
   setting_login_required: Reikalinga autentifikacija
@@ -6106,6 +6134,17 @@ lt:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Darbo dienos** pakeistos (%{changes})._
       days:

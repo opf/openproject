@@ -40,8 +40,9 @@ ru:
           in_planning: В планировании
           active: Активен
           completed: Завершён
+        work_packages: Пакеты работ
       work_package:
-        backlog_bucket: Раздел бэклога
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Тип невыполненной работы
         position: Позиция
         sprint: Спринт
@@ -127,6 +128,8 @@ ru:
     label_burndown_chart: Диаграмма выгорания
     label_is_done_status: Статус %{status_name} означает завершение,
     label_sprint_board: Доска для спринта
+    move_to_bucket_dialog_component:
+      title: Move to backlog bucket
     move_to_sprint_dialog_component:
       title: Переместить в спринт
       label_sprint: Спринт
@@ -186,7 +189,9 @@ ru:
       action_menu:
         copy_url_to_clipboard: Скопировать URL в буфер обмена
         copy_work_package_id: Скопировать ID пакета работ
-        move_menu: Переместить
+        move_menu: Move to position
+        move_to_backlog_bucket: Move to backlog bucket
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Переместить в спринт
     work_package_is_closed: Пакет работ завершен, когда
   burndown:
@@ -198,18 +203,19 @@ ru:
     upsell:
       sprint_sharing:
         description: Share sprints across projects to align teams and coordinate work in scaled agile setups (SAFe).
+  label_all_sprints: All sprints
   label_backlog: Бэклог
+  label_backlogs: Бэклоги
+  label_backlog_and_sprints: Бэклог и спринты
   label_backlog_bucket_edit: Редактировать раздел бэклога
   label_backlog_bucket_new: Новый раздел бэклога
-  label_inbox: Входящие
-  label_backlogs: Бэклоги
   label_burndown_chart: Диаграмма выгорания
+  label_inbox: Входящие
   label_sprint_board: Доска для спринта
   label_points_burn_down: Вниз
   label_points_burn_up: Вверх
   label_sprint_edit: Редактировать спринт
   label_sprint_new: Новый спринт
-  label_backlog_and_sprints: Бэклог и спринты
   label_task_board: Панель задач
   notice_successful_start: Спринт запущен.
   notice_successful_finish: Спринт завершен.
@@ -217,6 +223,9 @@ ru:
   notice_unsuccessful_start_with_reason: 'Спринт не может быть запущен: %{reason}'
   notice_unsuccessful_finish: Спринт не может быть завершен.
   notice_unsuccessful_finish_with_reason: 'Спринт не может быть завершён: %{reason}'
+  notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
+
+    '
   permission_create_sprints: Создание спринтов
   permission_manage_sprint_items: Управление пунктами спринта
   permission_select_backlog_types_and_statuses: Выберите типы и статусы бэклога

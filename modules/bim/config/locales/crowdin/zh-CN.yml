@@ -73,6 +73,10 @@ zh-CN:
   project_module_bim: BCF
   permission_view_linked_issues: 查看 BCF 问题
   permission_manage_bcf: 导入和管理 BCF 问题
+  permission_manage_bcf_explanation: |
+    允许管理 BCF 问题，包括批量导入和更新。
+    BCF 导入可以将文件元数据映射到项目资源，并使用导入文件中的作者和时间戳值创建或更新工作包
+    和注释，从而有效地代表用户执行操作。
   permission_delete_bcf: 删除 BCF 问题
   oauth:
     scopes:

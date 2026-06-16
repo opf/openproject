@@ -1758,6 +1758,7 @@ uk:
       attachment:
         attachment_content: Вміст вкладення
         attachment_file_name: Назва файлу вкладеного файлу
+        charset: Набір символів
         content_type: Тип контенту
         downloads: Завантаження
         file: Файл
@@ -1852,6 +1853,7 @@ uk:
         title: Заголовок
         description: Опис
       member:
+        blocked: Заблоковано
         roles: Роль
       notification:
         read_ian: Читайте в додатку
@@ -2097,6 +2099,7 @@ uk:
         priority: Пріоритет
         progress: "% завершення"
         readonly: Лише читання
+        relatable: Можна пов’язати з
         remaining_hours: Залишок роботи
         remaining_time: Залишок роботи
         sequence_number: Порядковий номер
@@ -2141,17 +2144,14 @@ uk:
         before: має бути раніше %{date}
         before_or_equal_to: має бути до або  %{date}
         blank: не може бути порожнім.
-        not_before_start_date: не має передувати даті початку.
-        overlapping_range: збігається з наявним діапазоном неробочих днів.
         blank_nested: "– потрібно встановити властивість «%{property}»."
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
-        is_for_all_cannot_modify: призначений для всіх проєктів, тому його не можна бути змінити.
         cant_link_a_work_package_with_a_descendant: Робочий пакет не може бути пов'язаний з одним з підзадач.
         circular_dependency: Це співвідношення створить кругову залежність.
         confirmation: не збігається %{attribute}
         could_not_be_copied: "%{dependency} не вдалося скопіювати (повністю)."
+        datetime_must_be_in_future: має бути в майбутньому.
         does_not_exist: не існує.
-        user_already_in_department: Користувач %{user_id} уже є членом відділу «%{department_id}».
         error_enterprise_only: "%{action} можна лише у версії OpenProject Enterprise."
         error_unauthorized: "– можливо, немає доступу."
         error_readonly: "– було здійснено спробу запису, але елемент недоступний для запису."
@@ -2172,36 +2172,38 @@ uk:
         greater_than_or_equal_to: має бути більшим або рівним %{count}
         greater_than_or_equal_to_start_date: має бути більшою або дорівнювати даті початку.
         greater_than_start_date: має бути більше дати початку.
+        hexcode_invalid: не є дійсним 6-значним шістнадцятковим кодом кольору.
         inclusion: не встановлено в одному з допустимих значень
         inclusion_nested: "– не призначено одне з дозволених значень за шляхом «%{path}»."
         invalid: зазначено невірно
         invalid_uri: має бути дійсною URL-адресою.
         invalid_url: не є дійсною URL-адресою.
         invalid_url_scheme: 'не є підтримуваним протоколом (дозволено: %{allowed_schemes}).'
+        is_for_all_cannot_modify: призначений для всіх проєктів, тому його не можна бути змінити.
         less_than_or_equal_to: має бути меншим або рівним %{count}
         not_available: "– недоступно через налаштування системи."
+        not_before_start_date: не має передувати даті початку.
         not_deletable: не можна видалити.
         not_editable: уже використовується, тому вносити зміни не можна.
         not_current_user: не поточний користувач.
-        system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
         not_found: не знайдено.
         not_a_date: не є дійсною датою.
         not_a_datetime: не є дійсним датою.
         not_a_number: не є числом
         not_allowed: недійсний через відсутність дозволів.
-        host_not_allowed: не є дозволеним хостом.
         not_json: не аналізується як JSON.
         not_json_object: не є об’єктом JSON.
         not_an_integer: не є цілим числом
         not_an_iso_date: 'не є дійсною датою. Необхідний формат: YYYY-MM-DD.'
         not_same_project: не належить до одного проекту.
-        datetime_must_be_in_future: має бути в майбутньому.
         odd: має бути непарним.
+        overlapping_range: збігається з наявним діапазоном неробочих днів.
         regex_match_failed: не збігається з регулярним виразом %{expression}.
         regex_invalid: неможливо перевірити з відповідним регулярним виразом.
         regex_list_invalid: Неможливо проаналізувати рядки %{invalid_lines} як регулярний вираз.
-        hexcode_invalid: не є дійсним 6-значним шістнадцятковим кодом кольору.
         smaller_than_or_equal_to_max_length: має бути меншою або дорівнює максимальній довжині.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: конфліктує з наявним загальним неробочим днем, указаним для цієї дати.
         taken: вже прийнято.
         too_long: 'занадто довгий (максимум - %{count} characters).
 
@@ -2216,6 +2218,7 @@ uk:
         url_not_secure_context: 'не надає контекст безпеки. Використовуйте HTTPS або адресу loopback, наприклад localhost.
 
           '
+        user_already_in_department: Користувач %{user_id} уже є членом відділу «%{department_id}».
         wrong_length: неправильна довжина (повинна бути %{count} символів).
       models:
         group:
@@ -2924,6 +2927,7 @@ uk:
   button_login: Увійти
   button_move: Перемістити
   button_move_and_follow: Перемістити і перейти
+  button_next: Далі
   button_print: Друкувати
   button_quote: Цитата
   button_remove: Видалити
@@ -3595,6 +3599,12 @@ uk:
       selected: Вибрано
     include_sub_items: Включити піделементи
     no_results_text: Немає результатів
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: Увімкнено
     label_off: Вимкнено
@@ -3639,6 +3649,9 @@ uk:
     additional:
       projects: Нові видимі проекти в цьому екземплярі.
       no_visible_projects: У цьому випадку немає видимих проектів.
+      favorite_projects:
+        no_results: У вас немає вибраних проєктів
+        no_results_subtext: 'Додайте один або кілька проєктів у вибране: це можна зробити на сторінці огляду або в списку проєктів.'
       users: Нові зареєстровані користувачі в цьому екземплярі.
     blocks:
       community: Спільнота OpenProject
@@ -4013,6 +4026,7 @@ uk:
   label_send_invitation: Надіслати запрошення
   label_calculated_value: Розраховане значення
   label_change_parent: Змінити батьківський об’єкт
+  label_change_password: Change password
   label_change_plural: Зміни
   label_change_properties: Змінити властивості
   label_change_status: Змінити статус
@@ -4188,7 +4202,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції із встановлення
+  label_installation_guides: Інструкції зі встановлення
   label_integer: Ціле число
   label_interface: Інтерфейс
   label_internal: Власне
@@ -4207,6 +4221,7 @@ uk:
   label_journal_diff: Опис Порівняння
   label_language: Мова
   label_languages: Мови
+  label_export_plural: Експорти
   label_external_links: Зовнішні посилання
   label_locale: Мова й регіон
   label_jump_to_a_project: Перейти до проекту...
@@ -4298,6 +4313,7 @@ uk:
   label_my_account_data: Мої дані облікового запису
   label_my_avatar: Мій аватар
   label_my_queries: Мої збережені запити
+  label_my_security: Security
   label_name: Назва
   label_never: Ніколи
   label_new: Нові
@@ -4651,6 +4667,11 @@ uk:
     few: 'Вільний час: %{count} робочих дні'
     many: 'Вільний час: %{count} робочих днів'
     other: 'Вільний час: %{count} робочого дня'
+  label_x_items_selected:
+    one: One item selected
+    few: "%{count} items selected"
+    many: "%{count} items selected"
+    other: "%{count} items selected"
   label_yesterday: вчора
   label_zen_mode: Режим «Дзен»
   label_role_type: Тип
@@ -4844,9 +4865,9 @@ uk:
       Новий користувач (%{email}) намагалися створити обліковий запис на середовищі OpenProject, яким ви керуєте (%{host}).
       Користувач не може активувати свій обліковий запис після досягнення ліміту користувача.
     steps:
-      label: 'To allow the user to sign in you can either: '
       a: Оновіть план платежів ([here](upgrade_url))
       b: Блокування або видалення існуючого користувача ([here](users_url))
+      label: 'To allow the user to sign in you can either: '
   more_actions: Додаткові функції
   noscript_description: Щоб використовувати OpenProject, потрібно ввімкнути підтримку JavaScript у Вашому браузері!
   noscript_heading: JavaScript відключений
@@ -5368,6 +5389,10 @@ uk:
   setting_consent_required: Потрібна згода
   setting_consent_decline_mail: Згода на контактну пошту
   setting_cross_project_work_package_relations: Дозволити взаємозв'язок між робочими пакетами і проектами
+  setting_csv_escape_formulas: Екранування формул при експорті в CSV
+  setting_csv_escape_formulas_text: 'При експорті у формат CSV екрануйте формули в електронних таблицях, додаючи до клітинок, які починаються із символів =, +, - або @, префікс з однією лапкою. Так ви зменшите ймовірність ін’єкції формул CSV під час відкриття експортованих файлів у програмах для роботи з електронними таблицями, наприклад в Excel. Однак це може призвести до зміни рядкових значень у файлі CSV, тому це налаштування можна вимкнути, якщо для роботи в подальших інструментах потрібні точні значення клітинок без екранування.
+
+    '
   setting_first_week_of_year: Перший тиждень у році містить
   setting_date_format: Дата
   setting_default_language: Мова за замовчуванням
@@ -5408,6 +5433,9 @@ uk:
   setting_work_package_properties: Властивості робочого пакета
   setting_work_package_startdate_is_adddate: Використовувати поточну дату в якості дати початку роботи для нових пакетів
   setting_work_packages_projects_export_limit: Ліміт експорту пакетів робіт / проєктів
+  setting_work_packages_projects_export_limit_text: 'Максимальна кількість пакетів робіт або проєктів, які можна включити в один експорт. Більші експорти обрізаються до цього ліміту.
+
+    '
   setting_journal_aggregation_time_minutes: Період агрегації
   setting_log_requesting_user: Запишіть логін користувача, ім'я та поштову адресу для всіх запитів
   setting_login_required: Необхідна аутентифікація
@@ -6111,6 +6139,17 @@ uk:
     warning: 'Якщо змінити дні тижня, які вважаються робочими чи неробочими, це може вплинути на дати початку й завершення всіх пакетів робіт і життєвих циклів проєктів в усіх проєктах цього екземпляра.
 
       '
+    dialog:
+      title: Змінити робочі дні
+      description: 'Якщо змінити дні тижня, які вважаються робочими чи неробочими, це може вплинути на дати початку й завершення всіх пакетів робіт і життєвих циклів в усіх проєктах цього екземпляра.
+
+        '
+      removed_title: 'Ви вилучите ці дні зі списку неробочих:'
+      warning: 'Застосування змін може тривати деякий час. Ви отримаєте сповіщення, коли всі відповідні пакети робіт і життєві цикли проєктів буде оновлено.
+
+        '
+      heading: Змінити робочі дні?
+      confirm_button: Зберегти й перепланувати
     journal_note:
       changed: _**Робочі дні** змінено (%{changes})._
       days:

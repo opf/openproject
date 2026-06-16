@@ -12,6 +12,7 @@ bg:
         sp_entity_id: Идентификатор на обслужващата единица
         metadata_url: URL на метаданните на доставчика на идентичност
         name_identifier_format: Формат на идентификатора на името
+        idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Крайна точка за вход на доставчик на идентичности
         idp_slo_service_url: Крайна точка за вход на доставчик на идентичности
         idp_cert: Публично удостоверение на доставчика на идентификация
@@ -44,6 +45,10 @@ bg:
       success: Успешно е актуализирана конфигурацията, като са използвани метаданните на доставчика на идентичност.
       invalid_url: Предоставеният URL адрес на метаданни е невалиден. Предоставете HTTP(s) URL адрес.
       error: 'Не се получи извличане на метаданните на доставчика на идентичност: %{error}'
+      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+
+        '
+      metadata_too_large: The metadata file exceeds the maximum allowed size.
     providers:
       label_empty_title: Все още няма конфигурирани доставчици на SAML.
       label_empty_description: Добавете доставчик, за да ги видите тук.
@@ -109,6 +114,9 @@ bg:
 
         '
       metadata_url: 'Your identity provider provides a metadata URL.
+
+        '
+      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
 
         '
       metadata_xml: 'Your identity provider provides a metadata XML download.

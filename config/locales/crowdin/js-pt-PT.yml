@@ -155,7 +155,6 @@ pt-PT:
         manual: Alterar para fonte Markdown
         wysiwyg: Alternar para o editor do WYSIWYG
       macro:
-        error: 'Não é possível expandir a macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Este segmento de texto está a ser dinamicamente processado por uma macro.
           not_found: Não foi possível encontrar o recurso solicitado
@@ -175,9 +174,14 @@ pt-PT:
           title: Inserir / editar o trecho de código
           language: A formatar idioma
           language_hint: Insira a linguagem de formatação que será usada para destacar (se suportado).
-        dropdown:
-          macros: Macros
-          chose_macro: Escolher macro
+        embedded_calendar:
+          text: "[Placeholder] Calendário embutido"
+        embedded_table:
+          button: Incorporar a tabela de pacote de trabalho
+          text: "[Placeholder] Tabela de pacote de trabalho incorporada"
+        error: 'Não é possível expandir a macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Índice
         toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget
         wiki_page_include:
@@ -195,11 +199,6 @@ pt-PT:
           button_style_hint: 'Opcional: Verifique para que a macro apareça como um botão, não como um link.'
           without_type: Criar tarefa
           with_type: 'Criar o pacote de trabalho (tipo: %{typename})'
-        embedded_table:
-          button: Incorporar a tabela de pacote de trabalho
-          text: "[Placeholder] Tabela de pacote de trabalho incorporada"
-        embedded_calendar:
-          text: "[Placeholder] Calendário embutido"
     admin:
       type_form:
         edit_query: Editar consulta
@@ -210,13 +209,6 @@ pt-PT:
           new_date: "(novo)"
         add_non_working_day: Dia não-útil
         already_added_error: Já existe um dia não-útil para esta data. Só pode haver um dia não útil criado para cada data única.
-        change_button: Guardar e reagendar
-        change_title: Alterar dias úteis
-        removed_title: 'Removerá os seguintes dias da lista de dias não-úteis:'
-        change_description: Mudar quais dias da semana considerados dias úteis ou não úteis pode afetar os dias de início e de término de todos os pacotes de trabalho em todos os projetos nesta instância.
-        warning: 'As alterações podem demorar algum tempo a entrar em vigor. Receberá uma notificação quando todos os pacotes de trabalho relevantes forem atualizados. Tem a certeza que quer continuar?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Se alterar o modo de cálculo do progresso de baseado no estado para baseado no trabalho, o campo <i>% de conclusão</i> poderá ser editado livremente. Se, opcionalmente, introduzir valores para <i>Trabalho</i> ou <i>Trabalho restante</i>, estes também serão associado a <i>% de conclusão</i>. Se alterar o <i>Trabalho restante</i>, pode atualizar a <i>% de conclusão</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Se alterar o modo de cálculo do progresso de "baseado no trabalho" para "baseado no estado", todos os valores <i>% Completo</i> existentes serão perdidos e substituídos por valores associados a cada estado. Os valores existentes para <i>Trabalho restante</i> também podem ser recalculados para refletir esta alteração. Esta ação não é reversível.
@@ -375,6 +367,7 @@ pt-PT:
     label_in_more_than: em mais de
     label_incoming_emails: E-mails recebidos
     label_information_plural: Informação
+    label_infinity: Infinity
     label_invalid: Inválido
     label_import: Importar
     label_latest_activity: Atividade mais recente
@@ -399,6 +392,7 @@ pt-PT:
     label_no_value: Sem valor
     label_none: nenhum
     label_not_contains: não contém
+    label_not_available: Not available
     label_not_equals: não é
     label_on: 'on'
     label_open_menu: Abrir menu
@@ -409,7 +403,6 @@ pt-PT:
     label_per_page: 'Por página:'
     label_please_wait: Aguarde, por favor
     label_project: Projecto
-    label_project_list: Lista de projetos
     label_project_plural: Projetos
     label_visibility_settings: Configurações de visibilidade
     label_quote_comment: Citar este comentário
@@ -1053,16 +1046,13 @@ pt-PT:
         all: Todos os projetos
         selected: Apenas os selecionados
       search_placeholder: Procurar projetos...
-      search_placeholder_favorites: Procurar favoritos...
       include_subprojects: Incluir todos os subprojetos
       tooltip:
         include_all_selected: Projeto já incluído porque todos os subprojetos estão ativados.
         current_project: Este é o projeto atual em que está.
         does_not_match_search: O projeto não corresponde aos critérios de pesquisa.
       no_results: Nenhum projeto corresponde aos seus critérios de pesquisa.
-      no_favorite_results: Nenhum projeto favorito corresponde aos seus critérios de pesquisa.
     include_workspaces:
-      search_placeholder: Pesquisar...
       types:
         program: Programa
         portfolio: Carteira

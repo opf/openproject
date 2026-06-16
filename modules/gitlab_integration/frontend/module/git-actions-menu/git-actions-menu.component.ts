@@ -28,7 +28,7 @@
 //++
 
 import copy from 'copy-text-to-clipboard';
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, ChangeDetectionStrategy } from '@angular/core';
 import { GitActionsService } from '../git-actions/git-actions.service';
 import { ISnippet } from "core-app/features/plugins/linked/openproject-gitlab_integration/typings";
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
@@ -37,14 +37,15 @@ import { I18nService } from "core-app/core/i18n/i18n.service";
 
 
 @Component({
-  selector: 'op-git-actions-menu',
   templateUrl: './git-actions-menu.template.html',
   styleUrls: [
     './styles/git-actions-menu.sass'
   ],
+  host: { 'data-component-id': 'gitlab-actions-menu' },
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
-export class GitActionsMenuComponent extends OPContextMenuComponent {
+export class GitLabActionsMenuComponent extends OPContextMenuComponent {
   readonly I18n = inject(I18nService);
   readonly gitActions = inject(GitActionsService);
 
@@ -67,20 +68,19 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
     {
       id: 'branch',
       name: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.branch_name'),
-      textToDisplay: () => this.gitActions.branchName(this.workPackage),
-      textToCopy: () => this.gitActions.branchName(this.workPackage)
+      text: () => this.gitActions.branchName(this.workPackage),
     },
     {
       id: 'message',
       name: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.commit_message'),
-      textToDisplay: () => this.gitActions.commitMessageDisplayText(this.workPackage),
-      textToCopy: () => this.gitActions.commitMessage(this.workPackage)
+      multiline: true,
+      text: () => this.gitActions.commitMessage(this.workPackage),
     },
     {
       id: 'command',
       name: this.I18n.t('js.gitlab_integration.tab_header_mr.git_actions.cmd'),
-      textToDisplay: () => this.gitActions.gitCommand(this.workPackage),
-      textToCopy: () => this.gitActions.gitCommand(this.workPackage)
+      multiline: true,
+      text: () => this.gitActions.gitCommand(this.workPackage),
     },
   ];
 
@@ -90,7 +90,7 @@ export class GitActionsMenuComponent extends OPContextMenuComponent {
   }
 
   public onCopyButtonClick(snippet:ISnippet):void {
-    const success = copy(snippet.textToCopy());
+    const success = copy(snippet.text());
 
     if (success) {
       this.lastCopyResult = this.text.copyResult.success;

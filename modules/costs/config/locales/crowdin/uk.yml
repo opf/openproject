@@ -39,6 +39,8 @@ uk:
         unit: Назва одиниці
         unit_plural: Назва плуралізованої одиниці
         default: Тип витрат за замовчуванням
+        for_all_projects: Для всіх проєктів
+        rates: Ставки
       work_package:
         costs_by_type: Витрачені частини
         labor_costs: Витрати на оплату праці
@@ -96,6 +98,10 @@ uk:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'Робочий пакет #%{id}  не є дійсною ціллю для перепризначення записів витрат.'
           nullify_is_not_valid_for_cost_entries: Записи витрат не можуть бути призначені проекту.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Виберіть проєкт.
   attributes:
     comment: Коментар
     cost_type: Тип вартості
@@ -137,7 +143,6 @@ uk:
   label_current_default_rate: Поточна ставка за промовчанням
   label_date_on: на
   label_deleted_cost_types: Видалені типи витрат
-  label_locked_cost_types: Заблоковані типи витрат
   label_display_cost_entries: Відображення одиничних витрат
   label_display_time_entries: Відображати зареєстровані години
   label_display_types: Типи відображення
@@ -237,6 +242,28 @@ uk:
     errors:
       validation:
         start_time_different_date: Частина дати в значенні startTime (%{start_time}) має збігатися зі значенням дати spentOn (%{spent_on}).
+  label_available_cost_types_projects: Доступні проєкти з типами витрат
+  cost_types:
+    errors:
+      no_cost_types_available: У цьому проєкті немає типів витрат. Зверніться до адміністратора.
+    admin:
+      columns:
+        active_projects: Активні проєкти
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: Цей тип витрат увімкнено у всіх проєктах
+          description: Зніміть прапорець «Для всіх проєктів» на вкладці з деталями, щоб цей тип витрат був доступний лише конкретним проєктам.
+        no_projects:
+          heading: Немає призначених проєктів
+          description: Додайте проєкти, щоб у них можна було використовувати цей тип витрат.
+      rates:
+        title: Історія ставок
+    settings:
+      time_and_costs: Час і витрати
+      cost_types:
+        heading: Типи витрат
+        none_active: Зараз у цьому проєкті немає активних типів витрат.
+        for_all_projects_hint: Цей тип витрат увімкнено у всіх проєктах.
   costs:
     widgets:
       actual_costs:

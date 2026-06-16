@@ -53,7 +53,7 @@ RSpec.describe "Show burndown chart", :js do
     expect(page)
       .to have_heading(sprint.name, level: 2)
     expect(page)
-      .to have_content "#{sprint.start_date.strftime('%m/%d/%Y')} – #{sprint.finish_date.strftime('%m/%d/%Y')}"
+      .to have_text "#{sprint.start_date.strftime('%m/%d/%Y')} – #{sprint.finish_date.strftime('%m/%d/%Y')}"
     expect(page)
       .to have_element :"opce-burndown-chart"
   end

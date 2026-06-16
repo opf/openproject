@@ -31,10 +31,15 @@ zh-TW:
         authentication_method: 驗證方式
         creator: 建立者
         drive: Drive ID
+        file_link_origin: File link origin ID
         host: 主機
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: 名稱
         password: 應用程式密碼
         provider_type: 提供商類型
+        storage: Storage
+        storage_url: Storage URL
         tenant: 目錄 (租戶) ID
     errors:
       messages:

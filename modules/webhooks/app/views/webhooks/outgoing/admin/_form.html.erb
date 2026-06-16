@@ -70,7 +70,7 @@
   <% end %>
 </fieldset>
 
-<fieldset class="form--fieldset">
+<fieldset class="form--fieldset" data-controller="disable-when-value-selected">
   <legend class="form--fieldset-legend">
     <%= t "webhooks.outgoing.form.project_ids.title" %>
   </legend>
@@ -80,14 +80,22 @@
                          "all",
                          checked: @webhook.all_projects?,
                          label: t("webhooks.outgoing.form.project_ids.all"),
-                         container_class: "-wide" %>
+                         container_class: "-wide",
+                         data: {
+                           disable_when_value_selected_target: "cause",
+                           target_name: "webhook_project_ids"
+                         } %>
   </div>
   <div class="form--field">
       <%= f.radio_button :project_ids,
                          "selection",
                          checked: !@webhook.all_projects?,
                          label: t("webhooks.outgoing.form.project_ids.selected"),
-                         container_class: "-wide" %>
+                         container_class: "-wide",
+                         data: {
+                           disable_when_value_selected_target: "cause",
+                           target_name: "webhook_project_ids"
+                         } %>
   </div>
 
   <div class="form--field">
@@ -99,23 +107,15 @@
                                    id,
                                    !@webhook.all_projects? && @webhook.project_ids.include?(id),
                                    disabled: @webhook.all_projects?,
-                                   class: "webhooks--selected-project-ids" -%>
+                                   class: "webhooks--selected-project-ids",
+                                   data: {
+                                     disable_when_value_selected_target: "effect",
+                                     target_name: "webhook_project_ids",
+                                     value: "selection"
+                                   } -%>
           <%= name %>
         </label>
       <% end %>
     </div>
   </div>
 </fieldset>
-
-<%= nonced_javascript_tag do %>
-  (function($) {
-    // Toggle selector for new/edit webhooks projects
-    $('input[name="webhook[project_ids]"]').change(function(){
-      $('.webhooks--selected-project-ids').prop('disabled', $(this).val() === 'all');
-    });
-
-    $('input[name="webhook[type_ids]"]').change(function(){
-      $('.webhooks--selected-type-ids').prop('disabled', $(this).val() === 'all');
-    });
-  }(jQuery));
-<% end %>

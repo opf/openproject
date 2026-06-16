@@ -1,0 +1,103 @@
+<%=
+  component_wrapper do
+    flex_layout(align_items: :center, text_align: :center, p: 3) do |body|
+      if overbooked?
+        body.with_row(mb: 2) do
+          render(Primer::Beta::Octicon.new(:hourglass, size: :medium, color: :danger))
+        end
+
+        body.with_row(mb: 2) do
+          render(Primer::Beta::Heading.new(tag: :h2, font_size: 4)) { overbooking_heading }
+        end
+
+        body.with_row(mb: working_schedule? ? 1 : 3) do
+          render(Primer::Beta::Text.new(tag: :p, color: :muted, m: 0)) { overbooking_description }
+        end
+
+        if working_schedule?
+          body.with_row(mb: 3) do
+            render(Primer::Beta::Text.new(tag: :p, color: :muted, m: 0)) { schedule_note }
+          end
+        end
+
+        @overbooked_ranges.each do |range|
+          body.with_row(w: :full, mb: 2) do
+            render(Primer::Box.new(border: true, border_radius: 2, p: 3, text_align: :left, bg: :subtle)) do
+              flex_layout do |box|
+                box.with_row do
+                  render(Primer::Beta::Text.new(font_weight: :bold)) { "#{date_range(range.start_date, range.end_date)}:" }
+                end
+
+                box.with_row(mb: 2) do
+                  render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { capacity_summary(range) }
+                end
+
+                visible_items(range).each do |item|
+                  box.with_row(mt: 1) do
+                    flex_layout(align_items: :center) do |row|
+                      row.with_column(flex: 1, mr: 2) do
+                        render(
+                          WorkPackages::InfoLineComponent.new(
+                            work_package: work_package_for(item),
+                            show_subject: true,
+                            show_status: true,
+                            wrap: false
+                          )
+                        )
+                      end
+
+                      row.with_column do
+                        render(Primer::Beta::Text.new(font_weight: :bold, color: candidate?(item) ? :danger : :default)) do
+                          format_hours(item.minutes)
+                        end
+                      end
+
+                      if candidate?(item)
+                        row.with_column(ml: 1) do
+                          render(Primer::Beta::Octicon.new(:alert, color: :danger))
+                        end
+                      end
+                    end
+                  end
+                end
+
+                if hidden_minutes(range).positive?
+                  box.with_row(mt: 1) do
+                    flex_layout(align_items: :center) do |row|
+                      row.with_column(flex: 1, mr: 2) do
+                        render(Primer::Beta::Text.new(color: :muted)) do
+                          t("resource_management.allocate_resource_dialog.overbooking.hidden_work")
+                        end
+                      end
+
+                      row.with_column do
+                        render(Primer::Beta::Text.new(font_weight: :bold, color: :muted)) { format_hours(hidden_minutes(range)) }
+                      end
+                    end
+                  end
+                end
+              end
+            end
+          end
+        end
+      end
+
+      body.with_row(w: :full) do
+        form_with(
+          url: form_url,
+          method: form_method,
+          id: ResourceAllocations::NewDialogComponent::FORM_ID,
+          data: { turbo_stream: true }
+        ) do
+          safe_join(
+            [
+              hidden_field_tag("allocation_kind", @allocation_kind),
+              (hidden_field_tag("filters", @filters) if @filters.present?),
+              *@form_values.map { |name, value| hidden_field_tag("resource_allocation[#{name}]", value) }
+            ].compact
+          )
+        end
+      end
+    end
+  end
+%>

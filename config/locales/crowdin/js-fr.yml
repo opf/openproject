@@ -155,7 +155,6 @@ fr:
         manual: Basculer en mode source Markdown
         wysiwyg: Basculer vers l'éditeur WYSIWYG
       macro:
-        error: 'Impossible d''étendre la macro : %{message}'
         attribute_reference:
           macro_help_tooltip: Ce segment de texte est rendu dynamiquement par une macro.
           not_found: La ressource demandée est introuvable
@@ -175,9 +174,14 @@ fr:
           title: Insérer/modifier le fragment de code
           language: Langage de formatage
           language_hint: Entrez le langage de formatage qui sera utilisé pour mettre en évidence (si pris en charge).
-        dropdown:
-          macros: Macros
-          chose_macro: Choisir une macro
+        embedded_calendar:
+          text: "[Placeholder] Calendrier embarqué"
+        embedded_table:
+          button: Intégrer le tableau du lot de travaux
+          text: "[Placeholder] Tableau du lot de travaux intégré"
+        error: 'Impossible d''étendre la macro : %{message}'
+        macro_dropdown:
+          caption: Insérer
         toc: Table des matières
         toolbar_help: Cliquez pour sélectionner le widget et afficher la barre d'outils. Double-cliquez pour modifier le widget
         wiki_page_include:
@@ -195,11 +199,6 @@ fr:
           button_style_hint: 'Facultatif : Cocher pour que la macro apparaisse sous forme de bouton et non de lien.'
           without_type: Créer un lot de travaux
           with_type: 'Créer un lot de travaux (Type : %{typename})'
-        embedded_table:
-          button: Intégrer le tableau du lot de travaux
-          text: "[Placeholder] Tableau du lot de travaux intégré"
-        embedded_calendar:
-          text: "[Placeholder] Calendrier embarqué"
     admin:
       type_form:
         edit_query: Modifier la requête
@@ -210,13 +209,6 @@ fr:
           new_date: "(nouveau)"
         add_non_working_day: Jour non travaillé
         already_added_error: Un jour non travaillé pour cette date existe déjà. Il ne peut y avoir qu'un seul jour non travaillé créé pour chaque date unique.
-        change_button: Enregistrer et reprogrammer
-        change_title: Changer les jours travaillés
-        removed_title: 'Vous supprimerez les jours suivants de la liste des jours non travaillés :'
-        change_description: La modification des jours de la semaine considérés comme des jours ouvrables ou des jours non ouvrables peut affecter les jours de début et de fin de tous les lots de travaux et les cycles de vie de tous les projets dans ce cas.
-        warning: 'Les modifications peuvent prendre un certain temps avant de prendre effet. Vous serez informé(e) lorsque tous les lots de travaux et cycles de vie des projets concernés auront été mis à jour. Voulez-vous continuer ?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Passer du mode de calcul de la progression basé sur le statut au mode basé sur le travail transformera <i>% réalisé</i> en champ librement modifiable. Si vous complétez les champs <i>Travail</i> et <i>Travail restant</i>, ils seront également liés à <i>% réalisé</i>. Changer le champ <i>Travail restant</i> peut alors changer le <i>% réalisé</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Passer du mode de calcul de la progression basé sur le travail au mode basé sur le statut entraînera la perte de toutes les valeurs de <i>% réalisé</i> existantes et leur remplacement par les valeurs associées à chaque statut. Les valeurs existantes pour <i>Travail restant</i> peuvent également être recalculées pour refléter ce changement. Cette action est irréversible.
@@ -375,6 +367,7 @@ fr:
     label_in_more_than: dans plus de
     label_incoming_emails: E-mails entrants
     label_information_plural: Information
+    label_infinity: Infinity
     label_invalid: Non valide
     label_import: Importer
     label_latest_activity: Dernière activité
@@ -399,6 +392,7 @@ fr:
     label_no_value: Aucune valeur
     label_none: aucune
     label_not_contains: ne contient pas
+    label_not_available: Not available
     label_not_equals: n'est pas
     label_on: le
     label_open_menu: Ouvrir le menu
@@ -409,7 +403,6 @@ fr:
     label_per_page: 'Par page:'
     label_please_wait: Veuillez patienter
     label_project: Projet
-    label_project_list: Listes de projets
     label_project_plural: Projets
     label_visibility_settings: Paramètres de visibilité
     label_quote_comment: Citer ce commentaire
@@ -1053,16 +1046,13 @@ fr:
         all: Tous les projets
         selected: Uniquement la sélection
       search_placeholder: Recherche de projets...
-      search_placeholder_favorites: Recherche de favoris...
       include_subprojects: inclure tous les sous-projets
       tooltip:
         include_all_selected: Projet déjà inclus puisque Include tous les sous-projets sont activés.
         current_project: Ceci est le projet dans lequel vous vous trouvez actuellement.
         does_not_match_search: Le projet ne correspond pas aux critères de recherche.
       no_results: Aucun projet ne correspond à vos critères de recherche.
-      no_favorite_results: Aucun projet favori ne correspond à vos critères de recherche.
     include_workspaces:
-      search_placeholder: Rechercher...
       types:
         program: Programme
         portfolio: Portefeuille

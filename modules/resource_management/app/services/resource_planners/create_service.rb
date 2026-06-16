@@ -33,8 +33,8 @@ module ResourcePlanners
     protected
 
     # STI sets `type` during `.new`, before the model is extended with
-    # ChangedBySystem. Treat that initial change as a system change so the
-    # contract does not flag `type` as a user-written readonly attribute.
+    # ChangedBySystem; mark that initial change as system-made so the contract
+    # does not flag `type` as a user-written readonly attribute.
     def instance(_params)
       planner = model || ResourcePlanner.new
       planner.extend(OpenProject::ChangedBySystem) unless planner.is_a?(OpenProject::ChangedBySystem)
@@ -52,16 +52,14 @@ module ResourcePlanners
       ServiceResult.failure(errors:)
     end
 
-    # Strip service-only params before they reach SetAttributesService /
-    # the model, since they are not planner attributes.
     def set_attributes_params(params)
       super.except(:default_view_class_name, :favorite)
     end
 
     def after_perform(call)
-      # The initial child view will be created here using
-      # `params[:default_view_class_name]`. The view classes themselves are
-      # not yet implemented, so we only validate the value at this stage.
+      # No default view is set here: the initial child view (and the planner's
+      # `default_view_id`) is created in a second dialog step by
+      # ResourcePlannerViews::CreateService.
       call.result.add_favoriting_user(user) if call.success? && params[:favorite]
       call
     end

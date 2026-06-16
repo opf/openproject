@@ -7,9 +7,8 @@ import { of, map } from 'rxjs';
 import { NgSelectModule } from '@ng-select/ng-select';
 
 import { OpAutocompleterComponent } from './op-autocompleter.component';
-import { TOpAutocompleterResource } from './typings';
 import { By } from '@angular/platform-browser';
-import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi, withXhr } from '@angular/common/http';
 
 @Component({
   selector: 'op-test-autocompleter',
@@ -89,15 +88,15 @@ describe('autocompleter', () => {
       declarations: [OpAutocompleterComponent],
       schemas: [NO_ERRORS_SCHEMA],
       imports: [NgSelectModule],
-      providers: [States, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
+      providers: [States, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(OpAutocompleterComponent);
-    getOptionsFnSpy = vi.fn().mockImplementation((searchTerm:string) => {
+    getOptionsFnSpy = vi.fn().mockImplementation((searchTerm:string) => { // eslint-disable-line @typescript-eslint/no-unsafe-assignment
       return of(workPackagesStub).pipe(map((wps) => wps.filter((wp) => searchTerm !== '' && wp.subject.includes(searchTerm))));
-    }) as unknown as Mock;
+    });
 
-    fixture.componentInstance.resource = 'work_packages' as TOpAutocompleterResource;
+    fixture.componentInstance.resource = 'work_packages';
     fixture.componentInstance.filters = [];
     fixture.componentInstance.searchKey = 'typeahead';
     fixture.componentInstance.appendTo = 'body';
@@ -344,7 +343,7 @@ describe('derived autocompleter', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [TestAutocompleterComponent],
-      providers: [States, provideHttpClient(withInterceptorsFromDi()), provideHttpClientTesting()],
+      providers: [States, provideHttpClient(withXhr(), withInterceptorsFromDi()), provideHttpClientTesting()],
     }).compileComponents();
   });
 

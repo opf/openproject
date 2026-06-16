@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Component, DebugElement, Input } from '@angular/core';
+import { Component, DebugElement, Input, ChangeDetectionStrategy } from '@angular/core';
 import { GitHubTabComponent } from 'core-app/features/plugins/linked/openproject-github_integration/github-tab/github-tab.component';
 import { By } from '@angular/platform-browser';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -9,6 +9,7 @@ import { WorkPackageResource } from 'core-app/features/hal/resources/work-packag
 @Component({
   selector: 'tab-header',
   template: '',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TabHeaderStubComponent {
@@ -18,6 +19,7 @@ class TabHeaderStubComponent {
 @Component({
   selector: 'op-tab-prs',
   template: '',
+  changeDetection: ChangeDetectionStrategy.Eager,
   standalone: false,
 })
 class TabPrsStubComponent {

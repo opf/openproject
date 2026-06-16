@@ -35,6 +35,7 @@ import {
   debounce,
   DebouncedFunc,
 } from 'lodash';
+import { type TurboBeforeMorphAttributeEvent } from '@hotwired/turbo';
 
 export default class ProjectLifeCycleFormController extends FormPreviewController {
   private timezoneService:TimezoneService;
@@ -128,7 +129,7 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
     this.previewForm();
   }
 
-  preventValueMorphingActiveElement(event:CustomEvent<{ attributeName:string }>) {
+  preventValueMorphingActiveElement(event:TurboBeforeMorphAttributeEvent) {
     const target = event.target as HTMLInputElement;
     const { attributeName } = event.detail;
     const isActiveElement = this.highlightedField?.id === target?.id;

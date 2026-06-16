@@ -31,10 +31,15 @@ ro:
         authentication_method: Authentication Method
         creator: Creator
         drive: Drive ID
+        file_link_origin: File link origin ID
         host: Server gazdă
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: Nume
         password: Application password
         provider_type: Tip furnizor
+        storage: Storage
+        storage_url: Storage URL
         tenant: Directory (tenant) ID
     errors:
       messages:

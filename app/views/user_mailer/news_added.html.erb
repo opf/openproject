@@ -30,4 +30,4 @@ See COPYRIGHT and LICENSE files for more details.
 <h1><%= link_to @news.title, project_news_url(@news.project, @news) %></h1>
 <em><%= @news.author&.name %></em>
 
-<%= format_text @news.description, only_path: false %>
+<%= format_mail_html @news.description %>

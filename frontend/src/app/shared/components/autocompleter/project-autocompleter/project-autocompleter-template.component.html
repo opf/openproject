@@ -15,20 +15,18 @@
     >×</span>
     <span class="ng-value-label d-flex gap-2">
       <span class="ellipsis">{{ item.name }}</span>
-      @if (portfolioModelsEnabled) {
-        @switch (item._type) {
-          @case ('Portfolio') {
-            <span class="description">
-              <svg briefcase-icon size="xsmall" />
-              {{ this.I18n.t('js.include_workspaces.types.portfolio') }}
-            </span>
-          }
-          @case ('Program') {
-            <span class="description">
-              <svg versions-icon size="xsmall" />
-              {{ this.I18n.t('js.include_workspaces.types.program') }}
-            </span>
-          }
+      @switch (item._type) {
+        @case ('Portfolio') {
+          <span class="description">
+            <svg briefcase-icon size="xsmall" />
+            {{ this.I18n.t('js.include_workspaces.types.portfolio') }}
+          </span>
+        }
+        @case ('Program') {
+          <span class="description">
+            <svg versions-icon size="xsmall" />
+            {{ this.I18n.t('js.include_workspaces.types.program') }}
+          </span>
         }
       }
     </span>
@@ -50,20 +48,18 @@
         class="ellipsis"
         [opSearchHighlight]="search"
       >{{ item.name }}</span>
-      @if (portfolioModelsEnabled) {
-        @switch (item._type) {
-          @case ('Portfolio') {
-            <span class="description">
-              <svg briefcase-icon size="xsmall" />
-              {{ this.I18n.t('js.include_workspaces.types.portfolio') }}
-            </span>
-          }
-          @case ('Program') {
-            <span class="description">
-              <svg versions-icon size="xsmall" />
-              {{ this.I18n.t('js.include_workspaces.types.program') }}
-            </span>
-          }
+      @switch (item._type) {
+        @case ('Portfolio') {
+          <span class="description">
+            <svg briefcase-icon size="xsmall" />
+            {{ this.I18n.t('js.include_workspaces.types.portfolio') }}
+          </span>
+        }
+        @case ('Program') {
+          <span class="description">
+            <svg versions-icon size="xsmall" />
+            {{ this.I18n.t('js.include_workspaces.types.program') }}
+          </span>
         }
       }
     </span>

@@ -37,10 +37,12 @@ module API
         include API::Decorators::FormattableProperty
         include ::API::Caching::CachedRepresenter
 
-        self.to_eager_load = %i[author presenter work_package meeting_section meeting]
+        self.to_eager_load = [
+          :author, :presenter, :work_package, :meeting_section, :meeting,
+          { outcomes: %i[author work_package] }
+        ]
 
-        self_link id_attribute: ->(*) { [represented.meeting_id, represented.id] },
-                  title_getter: ->(*) { represented.title }
+        self_link title_getter: ->(*) { represented.title }
 
         property :id
 
@@ -85,10 +87,25 @@ module API
                               next if represented.meeting_section_id.nil?
 
                               {
-                                href: api_v3_paths.meeting_section(represented.meeting_id, represented.meeting_section_id),
+                                href: api_v3_paths.meeting_section(represented.meeting_section_id),
                                 title: represented.meeting_section&.title
                               }
                             }
+
+        associated_resources :outcomes,
+                             getter: ->(*) {
+                               represented.outcomes.map do |outcome|
+                                 ::API::V3::MeetingOutcomes::MeetingOutcomeRepresenter.new(outcome, current_user:)
+                               end
+                             },
+                             link: ->(*) {
+                               represented.outcomes.map do |outcome|
+                                 {
+                                   href: api_v3_paths.meeting_outcome(outcome.id),
+                                   title: outcome.id.to_s
+                                 }
+                               end
+                             }
 
         date_time_property :created_at
         date_time_property :updated_at

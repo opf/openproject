@@ -34,7 +34,7 @@ import { GitHubTabComponent } from './github-tab/github-tab.component';
 import { TabHeaderComponent } from './tab-header/tab-header.component';
 import { TabPrsComponent } from './tab-prs/tab-prs.component';
 import { GitActionsMenuDirective } from './git-actions-menu/git-actions-menu.directive';
-import { GitActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
+import { GitHubActionsMenuComponent } from './git-actions-menu/git-actions-menu.component';
 import { PullRequestComponent } from './pull-request/pull-request.component';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Observable } from 'rxjs';
@@ -83,7 +83,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     TabHeaderComponent,
     TabPrsComponent,
     GitActionsMenuDirective,
-    GitActionsMenuComponent,
+    GitHubActionsMenuComponent,
     PullRequestComponent,
     PullRequestMacroComponent,
     PullRequestStateComponent,
@@ -93,7 +93,7 @@ export function initializeGithubIntegrationPlugin(injector:Injector) {
     TabHeaderComponent,
     TabPrsComponent,
     GitActionsMenuDirective,
-    GitActionsMenuComponent,
+    GitHubActionsMenuComponent,
     PullRequestMacroComponent,
   ],
 })

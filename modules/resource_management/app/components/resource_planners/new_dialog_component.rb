@@ -35,6 +35,7 @@ module ResourcePlanners
 
     DIALOG_ID = "new-resource-planner-dialog"
     FORM_ID = "new-resource-planner-form"
+    FOOTER_ID = "new-resource-planner-footer"
 
     def initialize(resource_planner:, project:)
       super

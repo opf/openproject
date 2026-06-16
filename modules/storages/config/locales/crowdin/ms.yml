@@ -31,10 +31,15 @@ ms:
         authentication_method: Kaedah Pengesahan
         creator: Pencipta
         drive: ID Pemacu
+        file_link_origin: File link origin ID
         host: Hos
+        linkable_to_storage: Linkable to storage
+        linkable_to_storage_url: Linkable to storage URL
         name: Nama
         password: Kata laluan aplikasi
         provider_type: Jenis penyedia
+        storage: Storage
+        storage_url: Storage URL
         tenant: ID Direktori (penyewa)
     errors:
       messages:

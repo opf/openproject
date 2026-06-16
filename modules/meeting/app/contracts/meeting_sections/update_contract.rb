@@ -30,6 +30,7 @@
 module MeetingSections
   class UpdateContract < BaseContract
     validate :user_allowed_to_edit
+    validate :backlog_not_editable
 
     # We allow an empty title internally via create to mark an untitled/implicit section
     # but users should not be able to update it with an empty title through this contract
@@ -43,6 +44,10 @@ module MeetingSections
       unless user.allowed_in_project?(:manage_agendas, model.project)
         errors.add :base, :error_unauthorized
       end
+    end
+
+    def backlog_not_editable
+      errors.add :base, :error_readonly if model.backlog?
     end
   end
 end

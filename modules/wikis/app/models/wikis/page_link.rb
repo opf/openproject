@@ -35,10 +35,10 @@ module Wikis
     belongs_to :provider
     belongs_to :linkable, polymorphic: true
 
+    delegate :project, to: :linkable
+
     def relation? = false
 
     def inline? = false
-
-    def render_author? = false
   end
 end

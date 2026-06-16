@@ -91,6 +91,6 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
 
   public isCurrentlyGroupedBy(column:QueryColumn):boolean {
     const cur = this.current;
-    return !!(cur && cur.id === column.id);
+    return cur?.id === column.id;
   }
 }

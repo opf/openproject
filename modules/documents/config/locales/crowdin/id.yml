@@ -45,6 +45,7 @@ id:
   default_doc_category_user: Dokumentasi pengguna
   enumeration_doc_categories: Kategori dokumen
   documents:
+    button_add_type: Type
     page_header:
       heading: Semua dokumen
       action_menu:

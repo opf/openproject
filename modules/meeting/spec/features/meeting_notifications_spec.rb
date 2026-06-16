@@ -83,8 +83,8 @@ RSpec.describe "Meeting notifications", :js do
     let(:show_page) { Pages::Meetings::Show.new(meeting) }
     let(:meetings_page) { Pages::Meetings::Index.new(project:) }
 
-    let(:enabled_text) { I18n.t("meeting.notifications.banner.onetime.enabled") }
-    let(:disabled_text) { I18n.t("meeting.notifications.banner.onetime.disabled") }
+    let(:enabled_text) { I18n.t("meeting.notifications.enabled") }
+    let(:disabled_text) { I18n.t("meeting.notifications.disabled") }
 
     before do
       meetings_page.visit!
@@ -117,7 +117,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Enabled.")
-        expect(page).to have_text("All participants will receive updated calendar invites via email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
         expect(page).to have_selector(:link_or_button, "Disable")
       end
 
@@ -157,7 +157,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Disabled.")
-        expect(page).to have_text("Participants will not receive an email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.disabled"))
         expect(page).to have_selector(:link_or_button, "Enable")
       end
 
@@ -225,8 +225,8 @@ RSpec.describe "Meeting notifications", :js do
     let(:current_user) { user }
     let(:meetings_page) { Pages::Meetings::Index.new(project:) }
 
-    let(:enabled_text) { I18n.t("meeting.notifications.banner.template.enabled") }
-    let(:disabled_text) { I18n.t("meeting.notifications.banner.template.disabled") }
+    let(:enabled_text) { I18n.t("meeting.notifications.enabled") }
+    let(:disabled_text) { I18n.t("meeting.notifications.disabled") }
 
     before do
       meetings_page.visit!
@@ -278,7 +278,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Enabled.")
-        expect(page).to have_text("All participants will receive updated calendar invites via email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
         expect(page).to have_selector(:link_or_button, "Disable")
       end
 
@@ -290,7 +290,7 @@ RSpec.describe "Meeting notifications", :js do
 
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
-        expect(page).to have_text(I18n.t("meeting.notifications.banner.template.enabled"))
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
         template_page.set_start_time "12:00"
         wait_for_network_idle
         click_on "Save"
@@ -308,7 +308,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Enabled.")
-        expect(page).to have_text("All participants will receive updated calendar invites via email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
         expect(page).to have_no_selector(:link_or_button, "Disable")
         expect(page).to have_text("To change this, edit the series template.")
       end
@@ -321,7 +321,7 @@ RSpec.describe "Meeting notifications", :js do
 
       page.within(".Overlay") do
         expect(page).to have_test_selector("notifications-banner")
-        expect(page).to have_text(I18n.t("meeting.notifications.banner.occurrence.enabled"))
+        expect(page).to have_text(I18n.t("meeting.notifications.enabled"))
         occurrence_page.set_start_time "13:00"
         wait_for_network_idle
         click_on "Save"
@@ -355,7 +355,7 @@ RSpec.describe "Meeting notifications", :js do
       page.within("[data-test-selector='email-updates-mode-selector']") do
         expect(page).to have_text("Email calendar updates")
         expect(page).to have_text("Disabled.")
-        expect(page).to have_text("Participants will not receive an email informing them of changes.")
+        expect(page).to have_text(I18n.t("meeting.notifications.disabled"))
         expect(page).to have_no_selector(:link_or_button, "Enable")
         expect(page).to have_text("To change this, edit the series template.")
       end

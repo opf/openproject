@@ -1719,6 +1719,7 @@ it:
       attachment:
         attachment_content: Contenuto allegato
         attachment_file_name: Nome del file allegato
+        charset: Set di caratteri
         content_type: Tipo di contenuto
         downloads: Scaricati
         file: File
@@ -1813,6 +1814,7 @@ it:
         title: Titolo
         description: Descrizione
       member:
+        blocked: Bloccato
         roles: Ruoli
       notification:
         read_ian: Leggi in app
@@ -2058,6 +2060,7 @@ it:
         priority: Priorità
         progress: "% completamento"
         readonly: Sola lettura
+        relatable: Relativo a
         remaining_hours: Lavoro rimanente
         remaining_time: Lavoro rimanente
         sequence_number: Numero progressivo
@@ -2102,17 +2105,14 @@ it:
         before: deve essere precedente al %{date}.
         before_or_equal_to: deve essere precedente o uguale al %{date}.
         blank: non può essere lasciato vuoto.
-        not_before_start_date: non deve essere prima della data di inizio.
-        overlapping_range: si sovrappone a un intervallo di giorni non lavorativi esistente.
         blank_nested: deve avere la proprietà '%{property}' impostata.
         cannot_delete_mapping: è necessario. Non può essere cancellato.
-        is_for_all_cannot_modify: è per tutti i progetti e non può quindi essere modificato.
         cant_link_a_work_package_with_a_descendant: Una macro-attività non può essere collegato a una delle sue sottoattività.
         circular_dependency: Questa relazione creerebbe una dipendenza circolare.
         confirmation: non coincide con %{attribute}.
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
+        datetime_must_be_in_future: deve essere nel futuro.
         does_not_exist: non esiste.
-        user_already_in_department: L'utente %{user_id} è già membro del reparto %{department_id}.
         error_enterprise_only: "%{action} è disponibile solo in OpenProject Enterprise edition."
         error_unauthorized: potrebbe non essere accessibile.
         error_readonly: è in sola lettura, pertanto non è stato possibile modificarlo.
@@ -2133,36 +2133,38 @@ it:
         greater_than_or_equal_to: deve essere maggiore o uguale di %{count}.
         greater_than_or_equal_to_start_date: deve essere successivo o uguale alla data di inizio.
         greater_than_start_date: deve essere successivo alla data di inizio.
+        hexcode_invalid: non è un codice colore esadecimale a 6 cifre valido.
         inclusion: non è impostata su uno dei valori consentiti.
         inclusion_nested: non è impostato su uno dei valori consentiti al percorso '%{path}'.
         invalid: non è valido.
         invalid_uri: deve essere un URI valido.
         invalid_url: non è un URL valido.
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
+        is_for_all_cannot_modify: è per tutti i progetti e non può quindi essere modificato.
         less_than_or_equal_to: deve essere inferiore o uguale a %{count}.
         not_available: non è disponibile a causa di una configurazione di sistema.
+        not_before_start_date: non deve essere prima della data di inizio.
         not_deletable: non può essere eliminato.
         not_editable: non può essere modificato perché è già in vigore.
         not_current_user: non è l'utente attuale.
-        system_wide_non_working_day_exists: È in conflitto con un giorno non lavorativo già definito a livello di sistema per questa data.
         not_found: non trovato.
         not_a_date: non è una data valida.
         not_a_datetime: non è un'orario valido.
         not_a_number: non è un numero.
         not_allowed: non è valido a causa di autorizzazioni assenti.
-        host_not_allowed: non è un host consentito.
         not_json: non è analizzabile come JSON.
         not_json_object: non è un oggetto JSON.
         not_an_integer: non è un numero intero.
         not_an_iso_date: 'non è una data valida. Formato richiesto: AAAA-MM-GG.'
         not_same_project: non appartiene allo stesso progetto.
-        datetime_must_be_in_future: deve essere nel futuro.
         odd: deve essere dispari.
+        overlapping_range: si sovrappone a un intervallo di giorni non lavorativi esistente.
         regex_match_failed: non corrisponde all'espressione regolare %{expression}.
         regex_invalid: non può essere convalidato con l'espressione regolare associata.
         regex_list_invalid: Le righe %{invalid_lines} non possono essere analizzate come espressione regolare.
-        hexcode_invalid: non è un codice colore esadecimale a 6 cifre valido.
         smaller_than_or_equal_to_max_length: deve essere minore o uguale alla lunghezza massima.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: È in conflitto con un giorno non lavorativo già definito a livello di sistema per questa data.
         taken: è già stato usato.
         too_long: è troppo lungo (il massimo è %{count} caratteri).
         too_short: è troppo breve (il minimo è %{count} caratteri).
@@ -2175,6 +2177,7 @@ it:
         url_not_secure_context: 'non fornisce un "Contesto sicuro". Usa HTTPS o un indirizzo di loopback, come localhost.
 
           '
+        user_already_in_department: L'utente %{user_id} è già membro del reparto %{department_id}.
         wrong_length: è della lunghezza sbagliata (dovrebbe essere %{count} caratteri).
       models:
         group:
@@ -2843,6 +2846,7 @@ it:
   button_login: Accedi
   button_move: Sposta
   button_move_and_follow: Sposta e segui
+  button_next: Avanti
   button_print: Stampa
   button_quote: Cita
   button_remove: Rimuovi
@@ -3472,6 +3476,12 @@ it:
       selected: Selezionati
     include_sub_items: Includi sottovoci
     no_results_text: Nessun risultato
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3512,6 +3522,9 @@ it:
     additional:
       projects: Progetti visibili più recenti in questa istanza.
       no_visible_projects: Non ci sono progetti visibili in questa istanza.
+      favorite_projects:
+        no_results: Non hai progetti preferiti
+        no_results_subtext: Aggiungi uno o più progetti come preferiti dalla rispettiva panoramica o da una lista di progetti.
       users: Utenti registrati più recenti in questa istanza.
     blocks:
       community: Comunità di OpenProject
@@ -3886,6 +3899,7 @@ it:
   label_send_invitation: Invia invito
   label_calculated_value: Valore calcolato
   label_change_parent: Cambia genitore
+  label_change_password: Change password
   label_change_plural: Modifiche
   label_change_properties: Cambia proprietà
   label_change_status: Cambia stato
@@ -4080,6 +4094,7 @@ it:
   label_journal_diff: Confronto Descrizione
   label_language: Lingua
   label_languages: Lingue
+  label_export_plural: Esportazioni
   label_external_links: Link esterni
   label_locale: Lingua e paese
   label_jump_to_a_project: Salta ad altro progetto...
@@ -4171,6 +4186,7 @@ it:
   label_my_account_data: I miei dati dell'account
   label_my_avatar: Il mio avatar
   label_my_queries: Le mie query personalizzate
+  label_my_security: Security
   label_name: Nome
   label_never: Mai
   label_new: Nuovo
@@ -4518,6 +4534,9 @@ it:
   label_x_working_days_time_off:
     one: 'Assenza: 1 giorno lavorativo'
     other: 'Assenza: %{count} giorni lavorativi'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: ieri
   label_zen_mode: Modalità Zen
   label_role_type: Tipo
@@ -4710,9 +4729,9 @@ it:
       Un nuovo utente (%{email}) ha tentato di creare un account su un ambiente OpenProject che gestisci (%{host}).
       L'utente non può attivare il proprio account dal momento che è stato raggiunto il limite di utente.
     steps:
-      label: 'Per consentire all''utente di registrarsi puoi: '
       a: Aggiorna il tuo piano di pagamento ([here](upgrade_url))
       b: Bloccare o eliminare un utente esistente ([here](users_url))
+      label: 'Per consentire all''utente di registrarsi puoi: '
   more_actions: Altre funzioni
   noscript_description: È necessario attivare JavaScript per poter usare OpenProject!
   noscript_heading: JavaScript disabilitato
@@ -5230,6 +5249,10 @@ it:
   setting_consent_required: Consenso richiesto
   setting_consent_decline_mail: Indirizzo mail del contatto di consenso
   setting_cross_project_work_package_relations: Consenti di correlare macro-attività tra più progetti
+  setting_csv_escape_formulas: Esegui l'escape delle formule nelle esportazioni CSV
+  setting_csv_escape_formulas_text: 'Esegue l''escape delle formule dei fogli di calcolo nelle esportazioni CSV anteponendo un apostrofo alle celle che iniziano con caratteri come =, +, - o @. Questo riduce il rischio di iniezione di formule CSV quando i file esportati vengono aperti in applicazioni per fogli di calcolo come Excel. Lo svantaggio è che i valori testuali nel CSV vengono modificati, quindi potresti voler disattivare questa opzione se gli strumenti a valle richiedono i valori originali delle celle senza escape.
+
+    '
   setting_first_week_of_year: La prima settimana dell'anno contiene
   setting_date_format: Data
   setting_default_language: Lingua predefinita
@@ -5270,6 +5293,9 @@ it:
   setting_work_package_properties: Proprietà della macro-attività
   setting_work_package_startdate_is_adddate: Usa la data corrente come data di inizio per le nuove macro-attività
   setting_work_packages_projects_export_limit: Limite di esportazione di macro-attività/progetti
+  setting_work_packages_projects_export_limit_text: 'Numero massimo di macro-attività o progetti che possono essere inclusi in una singola esportazione. Le esportazioni che superano questo limite verranno troncate.
+
+    '
   setting_journal_aggregation_time_minutes: Periodo di aggregazione
   setting_log_requesting_user: Registra il nome d'accesso, il nome utente, e l'indirizzo mail per tutte le richieste
   setting_login_required: Autenticazione richiesta
@@ -5967,6 +5993,17 @@ it:
     warning: 'Cambiare quali giorni della settimana sono considerati giorni lavorativi o giorni non lavorativi può influenzare l''inizio e la fine di tutte le macro-attività e i cicli di vita in tutti i progetti in questo caso.
 
       '
+    dialog:
+      title: Cambia giorni lavorativi
+      description: 'Cambiare quali giorni della settimana sono considerati giorni lavorativi o giorni non lavorativi può influenzare l''inizio e la fine di tutte le macro-attività e i cicli di vita in tutti i progetti in questo caso.
+
+        '
+      removed_title: 'Rimuoverai i seguenti giorni dall''elenco dei giorni non lavorativi:'
+      warning: 'L''applicazione delle modifiche potrebbe richiedere del tempo. Riceverai una notifica quando tutte le macro-attività e i cicli di vita dei progetti pertinenti saranno aggiornati.
+
+        '
+      heading: Cambiare i giorni lavorativi?
+      confirm_button: Salva e riprogramma
     journal_note:
       changed: _**Giorni lavorativi** cambiati (%{changes})._
       days:

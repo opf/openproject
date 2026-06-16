@@ -43,9 +43,45 @@ Rails.application.routes.draw do
         post :toggle_public
       end
 
+      resources :views,
+                controller: "resource_management/resource_planner_views",
+                only: %i[show new create edit update destroy] do
+        member do
+          get :new_work_package
+          post :work_packages, action: :add_work_package
+          put "work_packages/:work_package_id/move", action: :move_work_package, as: :move_work_package
+          put "work_packages/:work_package_id/reorder", action: :reorder_work_package, as: :reorder_work_package
+
+          delete "work_packages/:work_package_id", action: :remove_work_package, as: :remove_work_package
+        end
+
+        resources :work_packages, only: [] do
+          resource :progress,
+                   only: %i[edit update],
+                   controller: "resource_management/work_package_progress" do
+            get :preview, on: :member
+          end
+        end
+      end
+
       collection do
         get "menu" => "resource_management/menus#show"
       end
+    end
+
+    resources :resource_allocations,
+              controller: "resource_management/resource_allocations",
+              only: %i[new create edit update destroy] do
+      collection do
+        get :step
+        get :refresh_form
+      end
+    end
+
+    resources :work_packages, only: [] do
+      resources :resource_allocations,
+                controller: "resource_management/work_package_resource_allocations",
+                only: :index
     end
   end
 end

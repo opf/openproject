@@ -36,7 +36,7 @@ module Storages
     module Providers
       module Sharepoint
         module Queries
-          RSpec.describe FilesInfoQuery, :vcr, :webmock do
+          RSpec.describe FilesInfoQuery, :disable_ssrf_filter, :vcr, :webmock do
             let(:user) { create(:user) }
             let(:storage) { create(:sharepoint_storage, :sandbox, oauth_client_token_user: user) }
             let(:auth_strategy) { Registry["sharepoint.authentication.user_bound"].call(user, storage) }

@@ -49,12 +49,12 @@ See COPYRIGHT and LICENSE files for more details.
         )
       end
 
-      if allow_backlog_bucket_creation?(project)
+      if backlog_bucket_creation_allowed?
         head.with_actions do
           render Primer::Beta::Button.new(
             tag: :a,
             label: BacklogBucket.human_model_name,
-            href: new_dialog_project_backlogs_backlog_buckets_path(project, all_backlogs_params),
+            href: new_dialog_project_backlogs_buckets_path(project, all_backlogs_params),
             data: {
               controller: "async-dialog",
               test_selector: "op-backlog-buckets--new-backlog-bucket-button"
@@ -64,7 +64,7 @@ See COPYRIGHT and LICENSE files for more details.
             BacklogBucket.human_model_name
           end
         end
-      elsif allow_sprint_creation?(project)
+      elsif sprint_creation_allowed?
         # Ugly hack:
         # This button will not be rendered, but still takes up space to push the left side down a bit.
         # Remove as soon as the `+ Sprint` button moves from the Subhead into a SubHeader.
@@ -75,11 +75,18 @@ See COPYRIGHT and LICENSE files for more details.
     end
   %>
 
-  <%= render Backlogs::BucketComponent.with_collection(buckets, project:) %>
-
+  <% buckets.each do |bucket| %>
+    <%=
+      render Backlogs::BucketComponent.new(
+        project:,
+        backlog_bucket: bucket,
+        work_packages: work_packages_for(bucket)
+      )
+    %>
+  <% end %>
   <%=
     render Backlogs::InboxComponent.new(
-      work_packages: inbox_work_packages,
+      work_packages: work_packages_for_inbox,
       project: project
     )
   %>

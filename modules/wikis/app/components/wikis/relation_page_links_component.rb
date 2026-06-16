@@ -35,23 +35,39 @@ module Wikis
 
     alias_method :provider, :model
 
+    attr_reader :work_package
+
     def initialize(model = nil, work_package: nil, **)
       @work_package = work_package
       super(model, **)
     end
 
-    def page_link_infos
-      @page_link_infos ||= page_link_service.relation_page_link_infos_for(provider:, linkable: @work_package)
+    def page_links
+      @page_links ||= page_link_service.relation_page_links_for(provider:, linkable: work_package)
     end
 
     def user_connected?
       provider.user_connected?(User.current)
     end
 
+    def create_new_page_parameters
+      {
+        wikis_forms_create_new_wiki_page_form_model: {
+          linkable_id: work_package.id,
+          linkable_type: work_package.class.name,
+          provider_id: provider.id
+        }
+      }
+    end
+
     private
 
     def page_link_service
       @page_link_service ||= PageLinkService.new
+    end
+
+    def can_manage_links?
+      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, work_package.project)
     end
   end
 end

@@ -40,8 +40,9 @@ it:
           in_planning: In pianificazione
           active: Attivo
           completed: Completato
+        work_packages: Macro-attività
       work_package:
-        backlog_bucket: Bucket del backlog
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Tipo di backlog
         position: Posizione
         sprint: Sprint
@@ -123,6 +124,8 @@ it:
     label_burndown_chart: Grafico Burndown
     label_is_done_status: Lo stato %{status_name} vuol dire completato
     label_sprint_board: Bacheca sprint
+    move_to_bucket_dialog_component:
+      title: Sposta nel bucket del backlog
     move_to_sprint_dialog_component:
       title: Sposta nello sprint
       label_sprint: Sprint
@@ -178,7 +181,9 @@ it:
       action_menu:
         copy_url_to_clipboard: Copia URL negli appunti
         copy_work_package_id: Copia ID macro-attività
-        move_menu: Sposta
+        move_menu: Move to position
+        move_to_backlog_bucket: Sposta nel bucket del backlog
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Sposta nello sprint
     work_package_is_closed: Il pacchetto di lavoro è fatto, quando
   burndown:
@@ -190,18 +195,19 @@ it:
     upsell:
       sprint_sharing:
         description: Condividi gli sprint tra progetti per allineare i team e coordinare il lavoro in contesti Agile scalati (SAFe).
+  label_all_sprints: Tutti gli sprint
   label_backlog: Backlog
+  label_backlogs: Backlog
+  label_backlog_and_sprints: Backlog e sprint
   label_backlog_bucket_edit: Modifica il bucket del backlog
   label_backlog_bucket_new: Nuovo bucket del backlog
-  label_inbox: Posta in arrivo
-  label_backlogs: Backlog
   label_burndown_chart: Grafico Burndown
+  label_inbox: Posta in arrivo
   label_sprint_board: Bacheca sprint
   label_points_burn_down: Verso il basso
   label_points_burn_up: Verso l'alto
   label_sprint_edit: Modifica sprint
   label_sprint_new: Nuovo sprint
-  label_backlog_and_sprints: Backlog e sprint
   label_task_board: Pannello delle attività
   notice_successful_start: Lo sprint è stato avviato.
   notice_successful_finish: Lo sprint è stato completato.
@@ -209,6 +215,9 @@ it:
   notice_unsuccessful_start_with_reason: 'Impossibile avviare lo sprint: %{reason}'
   notice_unsuccessful_finish: Impossibile completare lo sprint.
   notice_unsuccessful_finish_with_reason: 'Impossibile completare lo sprint: %{reason}'
+  notice_work_package_invisible_after_move: 'La macro-attività è stata spostata in %{backlog}, ma non è visibile perché il suo tipo o stato è escluso dal backlog.
+
+    '
   permission_create_sprints: Crea gli sprint
   permission_manage_sprint_items: Gestisci gli elementi dello sprint
   permission_select_backlog_types_and_statuses: Seleziona tipi e stati del backlog

@@ -40,6 +40,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
 
   let(:project) { create(:project, types: [type_feature, type_task]) }
   let(:sprint) { create(:sprint, project:, name: "Sprint 1", start_date: Date.yesterday, finish_date: Date.tomorrow) }
+  let(:bucket) { nil }
   let!(:first_story) { create_story(position: 1) }
   let!(:second_story) { create_story(position: 2) }
   let!(:third_story) { create_story(position: 3) }
@@ -60,14 +61,16 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
            priority: default_priority,
            story_points:,
            position:,
-           sprint:)
+           sprint:,
+           backlog_bucket: bucket)
   end
 
-  def render_component(work_package: self.work_package, open_sprints_exist: true)
+  def render_component(work_package: self.work_package, open_sprints_exist: true, other_buckets_exist: true)
     render_inline(described_class.new(
                     work_package:,
                     project:,
                     open_sprints_exist:,
+                    other_buckets_exist:,
                     current_user: user
                   ))
   end
@@ -177,10 +180,10 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_css(".ActionList-sectionDivider")
     end
 
-    it "shows the Move submenu with incoming-arrow icon" do
+    it "shows the Move to position submenu with incoming-arrow icon" do
       render_component
 
-      expect(page).to have_selector(:menuitem, text: "Move")
+      expect(page).to have_selector(:menuitem, text: "Move to position")
       expect(page).to have_octicon(:"op-arrow-in")
     end
   end
@@ -294,24 +297,51 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         expect(page).to have_no_text(I18n.t(:label_sort_lowest))
       end
 
-      it "hides the Move submenu when no other open sprints exist" do
-        render_component(open_sprints_exist: false)
+      context "when the work package is already in the inbox" do
+        let(:sprint) { nil }
 
-        expect(page).to have_no_selector(:menuitem, text: "Move")
+        it "hides the Move to position submenu entirely" do
+          render_component(open_sprints_exist: false, other_buckets_exist: false)
+
+          expect(page).to have_no_selector(:menuitem, text: "Move to position")
+        end
       end
     end
   end
 
   describe "Move to sprint item" do
-    it "is shown when other open sprints exist and the user can manage sprint items" do
-      render_component(open_sprints_exist: true)
+    context "when work package is in a sprint" do
+      it "is shown with zap icon" do
+        render_component(open_sprints_exist: true)
 
-      expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
-      expect(page).to have_octicon(:zap)
-      expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_sprint"))
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+        expect(page).to have_octicon(:zap)
+        expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_sprint"))
+      end
     end
 
-    it "is hidden when no other open sprints exist" do
+    context "when work package is in a bucket" do
+      let(:sprint) { nil }
+      let(:bucket) { create(:backlog_bucket, project:) }
+
+      it "is shown" do
+        render_component(open_sprints_exist: true)
+
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+      end
+    end
+
+    context "when work package is in the inbox" do
+      let(:sprint) { nil }
+
+      it "is shown" do
+        render_component(open_sprints_exist: true)
+
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
+      end
+    end
+
+    it "is hidden when open_sprints_exist is false" do
       render_component(open_sprints_exist: false)
 
       expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
@@ -324,6 +354,98 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         render_component(open_sprints_exist: true)
 
         expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_sprint[href*="all=1"]))
+      end
+    end
+  end
+
+  describe "Move to backlog inbox item" do
+    context "when work package is in a sprint" do
+      it "is shown with inbox icon" do
+        render_component
+
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
+        expect(page).to have_octicon(:inbox)
+        expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_inbox"))
+      end
+    end
+
+    context "when work package is in a bucket" do
+      let(:sprint) { nil }
+      let(:bucket) { create(:backlog_bucket, project:) }
+
+      it "is shown" do
+        render_component
+
+        expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
+      end
+    end
+
+    context "when work package is already in the inbox (no sprint, no bucket)" do
+      let(:sprint) { nil }
+
+      it "is hidden" do
+        render_component
+
+        expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
+      end
+    end
+
+    context "when params[:all] is true" do
+      before { vc_test_controller.params[:all] = "1" }
+
+      it "adds the all param to the form action for the inbox move" do
+        render_component
+
+        expect(page).to have_css(%(form[action*="all=1"]))
+      end
+    end
+  end
+
+  describe "Move to backlog bucket item" do
+    context "when work package is in a sprint" do
+      it "is shown with package icon" do
+        render_component(other_buckets_exist: true)
+
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+        expect(page).to have_octicon(:package)
+        expect(page).to have_text(I18n.t(:"backlogs.work_package_card_menu_component.action_menu.move_to_backlog_bucket"))
+      end
+    end
+
+    context "when work package is in a bucket" do
+      let(:sprint) { nil }
+      let(:bucket) { create(:backlog_bucket, project:) }
+
+      it "is shown" do
+        render_component(other_buckets_exist: true)
+
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+      end
+    end
+
+    context "when work package is in the inbox" do
+      let(:sprint) { nil }
+
+      it "is shown" do
+        render_component(other_buckets_exist: true)
+
+        expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+      end
+    end
+
+    it "is hidden when other_buckets_exist is false" do
+      render_component(other_buckets_exist: false)
+
+      expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
+    end
+
+    context "when params[:all] is true" do
+      before { vc_test_controller.params[:all] = "1" }
+
+      it "adds the all param to the dialog href" do
+        render_component(other_buckets_exist: true)
+
+        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_backlog_bucket[href*="all=1"]))
       end
     end
   end

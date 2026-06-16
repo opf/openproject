@@ -59,7 +59,7 @@
                     id="modal-timelines-label-{{key}}"
                     (change)="updateLabels(key, $event.target.value)"
                     class="form--select">
-                    @for (column of availableAttributes; track column) {
+                    @for (column of availableAttributes; track column.id) {
                       <option
                         [textContent]="column.name"
                         [value]="column.id"

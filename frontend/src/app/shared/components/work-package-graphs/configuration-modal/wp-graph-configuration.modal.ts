@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectionStrategy, Component, ComponentFactoryResolver, ElementRef, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { OpModalComponent } from 'core-app/shared/components/modal/modal.component';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import {
@@ -26,7 +26,6 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
   readonly I18n = inject(I18nService);
   readonly injector = inject(Injector);
   readonly appRef = inject(ApplicationRef);
-  readonly componentFactoryResolver = inject(ComponentFactoryResolver);
   readonly loadingIndicator = inject(LoadingIndicatorService);
   readonly notificationService = inject(WorkPackageNotificationService);
   readonly configurationService = inject(ConfigurationService);
@@ -56,7 +55,6 @@ export class WpGraphConfigurationModalComponent extends OpModalComponent impleme
         this.tabPortalHost = new TabPortalOutlet(
           this.graphConfiguration.tabs,
           this.tabContentOutlet.nativeElement,
-          this.componentFactoryResolver,
           this.appRef,
           this.injector,
         );

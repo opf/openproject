@@ -1700,6 +1700,7 @@ th:
       attachment:
         attachment_content: Attachment content
         attachment_file_name: Attachment file name
+        charset: Character set
         content_type: Content-type
         downloads: ดาวน์โหลด
         file: ไฟล์
@@ -1794,6 +1795,7 @@ th:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: บทบาท
       notification:
         read_ian: Read in-app
@@ -2039,6 +2041,7 @@ th:
         priority: ระดับความสำคัญ
         progress: "% Complete"
         readonly: Read only
+        relatable: Relatable to
         remaining_hours: Remaining work
         remaining_time: Remaining work
         sequence_number: Sequence number
@@ -2083,17 +2086,14 @@ th:
         before: must be before %{date}.
         before_or_equal_to: must be before or equal to %{date}.
         blank: can't be blank.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: needs to have the property '%{property}' set.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked to one of its subtasks.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
         could_not_be_copied: "%{dependency} could not be (fully) copied."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: does not exist.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: may not be accessed.
         error_readonly: was attempted to be written but is not writable.
@@ -2114,36 +2114,38 @@ th:
         greater_than_or_equal_to: must be greater than or equal to %{count}.
         greater_than_or_equal_to_start_date: must be greater than or equal to the start date.
         greater_than_start_date: must be greater than the start date.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: is not set to one of the allowed values.
         inclusion_nested: is not set to one of the allowed values at path '%{path}'.
         invalid: is invalid.
         invalid_uri: must be a valid URI.
         invalid_url: is not a valid URL.
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_available: is not available due to a system configuration.
+        not_before_start_date: must not be before the start date.
         not_deletable: cannot be deleted.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: is not the current user.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
         not_a_number: is not a number.
         not_allowed: is invalid because of missing permissions.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: is not an integer.
         not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_same_project: doesn't belong to the same project.
-        datetime_must_be_in_future: must be in the future.
         odd: must be odd.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: could not be validated with the associated regular expression.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum length.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: has already been taken.
         too_long: is too long (maximum is %{count} characters).
         too_short: is too short (minimum is %{count} characters).
@@ -2156,6 +2158,7 @@ th:
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: is the wrong length (should be %{count} characters).
       models:
         group:
@@ -2802,6 +2805,7 @@ th:
   button_login: ลงชื่อเข้าใช้
   button_move: ย้าย
   button_move_and_follow: ย้าย และทำตาม
+  button_next: Next
   button_print: Print
   button_quote: อ้างถึง
   button_remove: Remove
@@ -3410,6 +3414,12 @@ th:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3448,6 +3458,9 @@ th:
     additional:
       projects: Newest visible projects in this instance.
       no_visible_projects: There are no visible projects in this instance.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Newest registered users in this instance.
     blocks:
       community: OpenProject community
@@ -3822,6 +3835,7 @@ th:
   label_send_invitation: Send invitation
   label_calculated_value: Calculated value
   label_change_parent: Change parent
+  label_change_password: Change password
   label_change_plural: การเปลี่ยนแปลง
   label_change_properties: เปลี่ยนแปลงคุณสมบัติ
   label_change_status: เปลี่ยนสถานะ
@@ -4016,6 +4030,7 @@ th:
   label_journal_diff: เปรียบเทียบคำอธิบาย
   label_language: ภาษา
   label_languages: Languages
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: ไปยังโครงการ...
@@ -4107,6 +4122,7 @@ th:
   label_my_account_data: ข้อมูลบัญชีของฉัน
   label_my_avatar: My avatar
   label_my_queries: แบบสอบถามแบบกำหนดเองของฉัน
+  label_my_security: Security
   label_name: ชื่อ
   label_never: Never
   label_new: ใหม่
@@ -4451,6 +4467,8 @@ th:
     other: "%{count} working days"
   label_x_working_days_time_off:
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: เมื่อวานนี้
   label_zen_mode: Zen mode
   label_role_type: ประเภท
@@ -4642,9 +4660,9 @@ th:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'To allow the user to sign in you can either: '
       a: Upgrade your payment plan ([here](upgrade_url))
       b: Lock or delete an existing user ([here](users_url))
+      label: 'To allow the user to sign in you can either: '
   more_actions: ฟังก์ชันเพิ่มเติม
   noscript_description: คุณจำเป็นต้องเปิดใช้ JavaSript เพื่อใช้งาน OpenProject ก่อน!
   noscript_heading: ไม่ได้เปิดใช้ JavaScript
@@ -5163,6 +5181,10 @@ th:
   setting_consent_required: Consent required
   setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: อนุญาติให้มีความเกี่ยวข้องกันระหว่างชุดภารกิจในโครงการ
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: สัปดาห์แรกของปี ประกอบด้วย
   setting_date_format: วันที่
   setting_default_language: ภาษาเริ่มต้น
@@ -5203,6 +5225,9 @@ th:
   setting_work_package_properties: คุณสมบัติของชุดภารกิจ
   setting_work_package_startdate_is_adddate: ใช้วันปัจจุบันเป็นวันเริ่มต้นสำหรับชุดภารกิจใหม่
   setting_work_packages_projects_export_limit: Work packages / Projects export limit
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: เก็บข้อมูลการล็อกอิน ชื่อ และอีเมล์ของผู้ใช้สำหรับทุกคำขอ
   setting_login_required: จำเป็นต้องระบุตัวตนผู้ใช้
@@ -5903,6 +5928,17 @@ th:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

@@ -374,58 +374,22 @@ hu:
         caption: Ez a szöveg minden oldalon, a fejléc közepén fog megjelenni.
       submit_button: Letöltés
     notifications:
+      disabled: Participants will not receive email updates informing them of changes to the date, time or list of participants.
+      enabled: All participants will receive updated calendar invites informing them of changes to date, time or list of participants.
       sidepanel:
         title: E-mail naptárfrissítések
         description:
-          disabled: A résztvevők nem fognak e-mailt kapni a módosításokról.
-          enabled: Minden résztvevő e-mail meghívót fog kapni az új módosításokkal.
           change_via_template: Az elem szerkesztéséhez a sorozat sablont kell szerkeszteni.
       dialog:
         title:
           enable: E-mail naptárfrissítések engedélyezése?
           disable: E-mail naptárfrissítések letiltása?
         message:
-          enable: 'All participants will receive updated calendar invites via email every time there is a change to the meeting date, time, location or participants. Once enabled, an email will be sent out immediately to all participants.
-
-            '
-          disable: 'A résztvevők nem fognak új naptármeghívót kapni e-mailben az alábbiak módosításakor: megbeszélés dátuma, ideje, helye vagy résztvevői. Amennyiben már kaptak meghívót, az pontatlanná válaht.
-
-            '
+          enable: Once enabled, an email will be sent out immediately to all participants.
+          disable: If they already had an invite for this meeting, it might no longer be accurate.
         confirm_label:
           enable: E-mail frissítések engedélyezése
           disable: E-mail frissítések tiltása
-      banner:
-        participants:
-          enabled: 'Minden résztvevő e-mail meghívót fog kapni az új módosításokkal amikor a résztvevőket módosították.
-
-            '
-          disabled: 'E-mail naptárfrissítések letiltva. A résztvevők nemkapnak e-mailt a résztvevők módisításáról.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'A résztvevők hozzáadásakor vagy eltávolításakor minden résztvevő frissített naptármeghívókat kap e-mailben.
-
-            '
-          disabled: 'Participants will not receive an email informing them of changes to meeting date, time or participants.
-
-            '
-        occurrence:
-          enabled: 'E-mail naptárfrissítések engedélyezve az ismétlődő megbeszélésnek. Minden résztvevő frissített naptármeghívót kap, amelyben tájékoztatják őket az eseményre vonatkozó változtatásokról.
-
-            '
-          disabled: 'E-mail naptárfrissítések le vannak tiltva az ismétlődő megbeszéléshez. A résztvevők nem fognak frissített naptármeghívót kapni, amelyben tájékoztatják őket az eseményre vonatkozó változtatásokról.
-
-            '
-        template:
-          enabled: 'E-mail naptárfrissítések engedélyezve az ismétlődő megbeszélésnek. Minden résztvevő frissített naptármeghívót kap, amelyben tájékoztatják őket a sablon, vagy egyedi esemény változásairól.
-
-            '
-          disabled: 'E-mail naptárfrissítések le vannak tiltva az ismétlődő megbeszéléshez. A résztvevők nem fognak e-mail értesítőt kapni a sablon, vagy egyedi esemény változásairól.
-
-            '
     presentation_mode:
       title: Presentation Mode
       button_present: Megbeszélés indítása
@@ -638,6 +602,7 @@ hu:
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
   label_agenda_item_add_notes: Megjegyzések hozzáadása
   label_agenda_item_add_outcome: Add outcome
+  label_agenda_item_convert_to_work_package: Convert to work package
   label_agenda_item_work_package_add: Add work package
   label_agenda_item_work_package: Napirendi ponthoz kapcsolódó feladatcsoport
   label_section_rename: Rename section

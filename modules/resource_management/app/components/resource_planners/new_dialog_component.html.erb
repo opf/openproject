@@ -28,7 +28,15 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%=
-  render(Primer::Alpha::Dialog.new(title:, size: :medium_portrait, id: DIALOG_ID)) do |d|
+  render(
+    Primer::Alpha::Dialog.new(
+      title:,
+      size: :large,
+      classes: "Overlay--size-large-portrait",
+      id: DIALOG_ID,
+      data: { "keep-open-on-submit": true }
+    )
+  ) do |d|
     d.with_header(variant: :large)
 
     d.with_body do
@@ -41,26 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     d.with_footer do
-      component_collection do |buttons|
-        buttons.with_component(
-          Primer::Beta::Button.new(
-            data: { close_dialog_id: DIALOG_ID }
-          )
-        ) do
-          t("button_cancel")
-        end
-
-        buttons.with_component(
-          Primer::Beta::Button.new(
-            scheme: :primary,
-            form: FORM_ID,
-            data: { turbo: true },
-            type: :submit
-          )
-        ) do
-          t("button_next")
-        end
-      end
+      render(ResourcePlanners::FooterComponent.new)
     end
   end
 %>

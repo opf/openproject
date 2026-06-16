@@ -35,7 +35,7 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::ReferencingPages d
 
   let(:provider) { create(:internal_wiki_provider) }
   let(:input_data) { Wikis::Adapters::Input::ReferencingPages.build(linkable:).value! }
-  let(:auth_strategy) { provider.auth_strategy_for(current_user).value! }
+  let(:auth_strategy) { provider.auth_strategy_for(user).value! }
   let(:linkable) { create(:work_package) }
 
   let(:wiki_page) { create(:wiki_page) }
@@ -48,11 +48,11 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::ReferencingPages d
     ]
   end
 
-  current_user { create(:user) }
+  let(:user) { create(:user) }
 
   before do
     create(:member, project: wiki_project,
-                    user: current_user,
+                    user:,
                     roles: [create(:project_role, permissions: wiki_project_permissions)])
 
     reverse_page_links.each(&:save!)

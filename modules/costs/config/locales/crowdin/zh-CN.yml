@@ -39,6 +39,8 @@ zh-CN:
         unit: 单位名称
         unit_plural: 单位名称（复数）
         default: 默认成本类型
+        for_all_projects: 适用于所有项目
+        rates: 费率
       work_package:
         costs_by_type: 支出单位
         labor_costs: 人工成本
@@ -84,6 +86,10 @@ zh-CN:
         work_package:
           is_not_a_valid_target_for_cost_entries: '工作包 #%{id} 不是重新分配成本条目的有效目标。'
           nullify_is_not_valid_for_cost_entries: 无法将成本条目分配到项目。
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: 请选择项目。
   attributes:
     comment: 注释
     cost_type: 成本类型
@@ -125,7 +131,6 @@ zh-CN:
   label_current_default_rate: 当前基本费率
   label_date_on: 日期
   label_deleted_cost_types: 已删除的成本类型
-  label_locked_cost_types: 锁定成本类型
   label_display_cost_entries: 显示单位成本
   label_display_time_entries: 显示已上报工时
   label_display_types: 显示类型
@@ -225,6 +230,28 @@ zh-CN:
     errors:
       validation:
         start_time_different_date: 开始时间 (%{start_time}) 的日期部分必须与 支出日期(%{spent_on})相同。
+  label_available_cost_types_projects: 可用的成本类型项目
+  cost_types:
+    errors:
+      no_cost_types_available: 此项目中没有可用的成本类型。请联系管理员。
+    admin:
+      columns:
+        active_projects: 有效项目
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: 此成本类型已在所有项目中启用
+          description: 取消选中“详细信息”选项卡上的“适用于所有项目”，将此成本类型限制为特定项目。
+        no_projects:
+          heading: 未分配项目
+          description: 添加项目，以便在其中使用此成本类型。
+      rates:
+        title: 费率历史记录
+    settings:
+      time_and_costs: 时间和成本
+      cost_types:
+        heading: 成本类型
+        none_active: 此项目中目前没有有效成本类型。
+        for_all_projects_hint: 此成本类型已在所有项目中启用。
   costs:
     widgets:
       actual_costs:

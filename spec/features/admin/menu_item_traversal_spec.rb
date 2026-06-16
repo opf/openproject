@@ -83,7 +83,7 @@ RSpec.describe "Menu item traversal" do
       visit admin_index_path
 
       # Get all admin links from there
-      links = all("#menu-sidebar a[href]:not([data-test-selector='main-menu--arrow-left-to-project'])", visible: :all)
+      links = all("#menu-sidebar .menu_root a[href]:not([data-test-selector='main-menu--arrow-left-to-project'])", visible: :all)
         .map { |node| node["href"] }
         .reject { |link| link.end_with? "/#" }
         .compact

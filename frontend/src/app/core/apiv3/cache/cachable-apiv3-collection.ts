@@ -27,7 +27,7 @@
 //++
 
 import { ApiV3GettableResource, ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
+import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
 import { States } from 'core-app/core/states/states.service';
 import { HasId, StateCacheService } from 'core-app/core/apiv3/cache/state-cache.service';
 import { Observable } from 'rxjs';
@@ -41,7 +41,7 @@ export abstract class ApiV3Collection<
   X extends StateCacheService<T> = StateCacheService<T>,
   >
   extends ApiV3ResourceCollection<T, V> {
-  @InjectField() states:States;
+  @LazyInject() states:States;
 
   readonly cache:X = this.createCache();
 

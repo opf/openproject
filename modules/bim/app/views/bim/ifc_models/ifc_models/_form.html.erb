@@ -54,87 +54,112 @@ See COPYRIGHT and LICENSE files for more details.
 <% if OpenProject::Configuration.direct_uploads? %>
 
 <%= nonced_javascript_tag do %>
-  jQuery(document).ready(function() {
-    var setDirectUploadFileName = function () {
-      var fileNameField = jQuery('input[type=file]')
-      var fileName = '';
-      if (fileNameField.length > 0 && fileNameField[0].files && fileNameField[0].files[0]) {
-        fileName = fileNameField[0].files[0].name;
+  document.addEventListener('DOMContentLoaded', function() {
+    const setDirectUploadFileName = function () {
+      const fileNameField = document.querySelector('input[type=file]');
+      const selectedFile = fileNameField?.files?.[0];
+      let fileName = '';
+      if (selectedFile) {
+        fileName = selectedFile.name;
       }
       if (fileName.length === 0) {
-        return jQuery.Deferred().resolve().promise();
+        return Promise.resolve();
       }
 
       <%# Reset the form validity %>
       <%# See: https://developer.mozilla.org/en-US/docs/Web/API/HTMLObjectElement/setCustomValidity %>
-      fileNameField[0].setCustomValidity('');
+      fileNameField?.setCustomValidity('');
 
-      var titleField = jQuery("#bim_ifc_models_ifc_model_title");
+      if (!fileNameField || !selectedFile) {
+        return Promise.resolve();
+      }
+
+      const titleField = document.getElementById('bim_ifc_models_ifc_model_title');
 
       <%# When creating a new model, there is no titleField. %>
-      var titleFieldValue = '';
-      if (titleField.length > 0) {
-        titleFieldValue = jQuery("#bim_ifc_models_ifc_model_title").val();
-      };
-
-      var title = '';
-      if (titleFieldValue.length > 0) {
-        title = titleFieldValue;
-      } else {
-        title = fileName;
+      let titleFieldValue = '';
+      if (titleField) {
+        titleFieldValue = titleField.value;
       }
-      var csrfToken = jQuery('meta[name="csrf-token"]').attr("content");
 
-      return jQuery.ajax({
-        type: "post",
-        url: "<%= set_direct_upload_file_name_bcf_project_ifc_models_path %>",
-        dataType: "json",
-        xhrFields: {
-          withCredentials: true
+      const title = titleFieldValue.length > 0 ? titleFieldValue : fileName;
+
+      const isDefaultCheckbox = document.getElementById('bim_ifc_models_ifc_model_is_default');
+      const body = new URLSearchParams({
+        title: title,
+        isDefault: isDefaultCheckbox?.checked ? 1 : 0,
+        filesize: selectedFile.size
+      });
+
+      return fetch("<%= set_direct_upload_file_name_bcf_project_ifc_models_path %>", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') ?? ''
         },
-        data: {
-          authenticity_token: csrfToken,
-          title: title,
-          isDefault: jQuery("#bim_ifc_models_ifc_model_is_default").is(":checked") ? 1 : 0,
-          filesize: fileNameField[0].files[0].size
-        },
-        statusCode: {
-          401: function(resp, status, error) {
-            document.location.reload(); // reload to make user login again
-          }
-        },
-        error: function(jqXHR, ajaxOptions, errorThrown) {
-          if (jqXHR.status == 422) {
-            var errorMessage = jqXHR.responseJSON.error;
-            fileNameField[0].setCustomValidity(errorMessage);
-            fileNameField[0].reportValidity();
-          }
+        credentials: 'same-origin',
+        body: body
+      }).then(response => {
+        if (response.status === 401) {
+          document.location.reload(); // reload to make user login again
+          return Promise.reject();
         }
+        if (response.status === 422) {
+          return response.json().then(data => {
+            const errorMessage = data.error;
+            fileNameField.setCustomValidity(errorMessage);
+            fileNameField.reportValidity();
+            return Promise.reject(errorMessage);
+          });
+        }
+        return;
       });
     };
-    jQuery("#bim_ifc_models_ifc_model_is_default").change(function(e){
-      setDirectUploadFileName();
-    });
-    jQuery("input[type=file]").change(function(e){
-      setDirectUploadFileName();
 
-      <%# rebuild form to post to S3 directly %>
-      if (jQuery("input[name=authenticity_token]").length === 1) {
-        jQuery("input[name=authenticity_token]").remove();
-        jQuery("input[name=_method]").remove();
+    const isDefaultCheckbox = document.getElementById('bim_ifc_models_ifc_model_is_default');
+    if (isDefaultCheckbox) {
+      isDefaultCheckbox.addEventListener('change', function(e) {
+        void setDirectUploadFileName().catch(() => {});
+      });
+    }
 
-        var url = jQuery("input[name=uri]").val();
+    const fileInput = document.querySelector('input[type=file]');
+    if (fileInput) {
+      fileInput.addEventListener('change', function(e) {
+        void setDirectUploadFileName().catch(() => {});
 
-        jQuery("form").attr("action", url);
-        jQuery("form").attr("enctype", "multipart/form-data");
+        <%# rebuild form to post to S3 directly %>
+        const form = fileInput.form;
+        if (form) {
+          const authenticityToken = form.querySelector('input[name=authenticity_token]');
+          const uriInput = form.querySelector('input[name=uri]');
+          if (!authenticityToken || !(uriInput instanceof HTMLInputElement)) {
+            return;
+          }
 
-        jQuery("input[name=uri]").remove();
+          authenticityToken.remove();
+          const methodInput = form.querySelector('input[name=_method]');
+          if (methodInput) {
+            methodInput.remove();
+          }
 
-        jQuery("form").submit(function() {
-          jQuery("#bim_ifc_models_ifc_model_title").prop("disabled", "disabled");
-        });
-      }
-    });
+          const url = uriInput.value;
+
+          form.setAttribute('action', url);
+          form.setAttribute('enctype', 'multipart/form-data');
+
+          uriInput.remove();
+
+          form.addEventListener('submit', function() {
+            const titleField = document.getElementById('bim_ifc_models_ifc_model_title');
+            if (titleField) {
+              titleField.disabled = true;
+            }
+          });
+        }
+      });
+    }
+
     <% unless @ifc_model.new_record? %>
       <%# The titleField might have changed AFTER selecting a file. Therefore,
           we need to intercept form submits to first send the file name etc and
@@ -142,15 +167,21 @@ See COPYRIGHT and LICENSE files for more details.
 
           Also, we need take care not to end up in a submit loop. So prevent it to
           be submitted several times. %>
-      var submitted = false;
-      var form = jQuery("form#edit_bim_ifc_models_ifc_model_<%= @ifc_model.id %>")
-      form.submit((e) => {
-        if (submitted) { return };
+      let submitted = false;
+      const form = document.getElementById('edit_bim_ifc_models_ifc_model_<%= @ifc_model.id %>');
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          if (submitted) { return; }
 
-        e.preventDefault();
-        setDirectUploadFileName().always(() => form.submit());
-        submitted = true;
-      });
+          e.preventDefault();
+          setDirectUploadFileName()
+            .then(() => {
+              submitted = true;
+              form.submit();
+            })
+            .catch(() => {});
+        });
+      }
     <% end %>
   });
 <% end %>

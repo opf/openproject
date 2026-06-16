@@ -384,58 +384,22 @@ pl:
         caption: Ten tekst będzie wyświetlany na każdej stronie pośrodku stopki.
       submit_button: Pobierz
     notifications:
+      disabled: Uczestnicy nie będą otrzymywać wiadomości e-mail informujących o zmianach daty, godziny lub listy uczestników.
+      enabled: Wszyscy uczestnicy będą otrzymywać zaktualizowane zaproszenia z kalendarza informujące o zmianach daty, godziny lub listy uczestników.
       sidepanel:
         title: Wysyłaj aktualizacje kalendarza pocztą elektroniczną
         description:
-          disabled: Uczestnicy nie będą otrzymywać wiadomości e-mail z informacjami o zmianach.
-          enabled: Wszyscy uczestnicy będą otrzymywać aktualizowane zaproszenia do kalendarza pocztą elektroniczną z informacjami o zmianach.
           change_via_template: Aby to zmienić, edytuj szablon serii.
       dialog:
         title:
           enable: Włączyć wysyłanie aktualizacji kalendarza pocztą elektroniczną?
           disable: Wyłączyć wysyłanie aktualizacji kalendarza pocztą elektroniczną?
         message:
-          enable: 'Wszyscy uczestnicy będą otrzymywać zaktualizowane zaproszenia do kalendarza pocztą elektroniczną za każdym razem, gdy nastąpi zmiana daty, godziny, lokalizacji lub uczestników spotkania. Po włączeniu wiadomości e-mail zostaną natychmiast wysłane do wszystkich uczestników.
-
-            '
-          disable: 'Uczestnicy nie będą już otrzymywać zaktualizowanych zaproszeń do kalendarza w wiadomościach e-mail, gdy nastąpi zmiana daty, godziny, lokalizacji lub uczestników spotkania. Jeśli mieli już zaproszenie na to spotkanie, może ono być już nieaktualne.
-
-            '
+          enable: Po włączeniu tej funkcji wiadomość e-mail zostanie natychmiast wysłana do wszystkich uczestników.
+          disable: Jeśli mieli już zaproszenie na to spotkanie, może ono być już nieaktualne.
         confirm_label:
           enable: Włącz wysyłanie aktualizacji pocztą elektroniczną
           disable: Wyłącz wysyłanie aktualizacji pocztą elektroniczną
-      banner:
-        participants:
-          enabled: 'Po dodaniu lub usunięciu uczestników wszyscy uczestnicy otrzymają zaktualizowane zaproszenia do kalendarza za pośrednictwem wiadomości e-mail.
-
-            '
-          disabled: 'Aktualizacje kalendarza pocztą elektroniczną są wyłączone. Uczestnicy nie będą otrzymywać wiadomości e-mail z informacją o dodaniu lub usunięciu uczestników.
-
-            '
-          draft_disabled: 'Uczestnicy nie otrzymają wiadomości e-mail z informacją o dodaniu lub usunięciu przez Ciebie uczestników.
-
-            '
-        onetime:
-          enabled: 'Po dodaniu lub usunięciu uczestników wszyscy uczestnicy otrzymają zaktualizowane zaproszenia do kalendarza za pośrednictwem wiadomości e-mail.
-
-            '
-          disabled: 'Uczestnicy nie będą otrzymywać wiadomości e-mail z informacją o zmianie daty, godziny lub uczestników spotkania.
-
-            '
-        occurrence:
-          enabled: 'Wysyłanie aktualizacji kalendarza pocztą elektroniczną jest włączone dla serii spotkań. Wszyscy uczestnicy będą otrzymywać zaktualizowane zaproszenia do kalendarza z informacjami o zmianach tego wystąpienia.
-
-            '
-          disabled: 'Wysyłanie aktualizacji kalendarza pocztą elektroniczną jest wyłączone dla serii spotkań. Uczestnicy nie będą otrzymywać wiadomości e-mail z informacjami o zmianach tego wystąpienia.
-
-            '
-        template:
-          enabled: 'Wysyłanie aktualizacji kalendarza pocztą elektroniczną jest włączone dla serii spotkań. Wszyscy uczestnicy będą otrzymywać zaktualizowane zaproszenia do kalendarza z informacjami o zmianach tego szablonu lub poszczególnych wystąpień.
-
-            '
-          disabled: 'Wysyłanie aktualizacji kalendarza pocztą elektroniczną jest wyłączone dla serii spotkań. Uczestnicy nie będą otrzymywać wiadomości e-mail z informacjami o zmianach tego szablonu lub poszczególnych wystąpień.
-
-            '
     presentation_mode:
       title: Tryb prezentacji
       button_present: Prezentuj
@@ -654,6 +618,7 @@ pl:
   label_agenda_item_duplicate_in_next_title: Zduplikować w następnym spotkaniu?
   label_agenda_item_add_notes: Dodawanie notatek
   label_agenda_item_add_outcome: Dodaj wynik
+  label_agenda_item_convert_to_work_package: Przekonwertuj na pakiet roboczy
   label_agenda_item_work_package_add: Dodaj pakiet roboczy
   label_agenda_item_work_package: Pakiet roboczy punktu planu spotkania
   label_section_rename: Zmień nazwę sekcji

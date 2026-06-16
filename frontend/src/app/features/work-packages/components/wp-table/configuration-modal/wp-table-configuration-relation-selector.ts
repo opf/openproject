@@ -15,7 +15,7 @@ import { SchemaCacheService } from 'core-app/core/schemas/schema-cache.service';
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpTableConfigurationRelationSelectorComponent implements OnInit {
   readonly injector = inject(Injector);
@@ -69,7 +69,7 @@ export class WpTableConfigurationRelationSelectorComponent implements OnInit {
 
   private async initializeRelationFilters():Promise<void> {
     await this.wpTableFilters.onReady();
-    this.availableRelationFilters = this.relationFiltersOf(this.wpTableFilters.availableFilters) as QueryFilterResource[];
+    this.availableRelationFilters = this.relationFiltersOf(this.wpTableFilters.availableFilters);
     this.setSelectedRelationFilter();
     this.cdRef.markForCheck();
   }

@@ -155,7 +155,6 @@ id:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
@@ -175,9 +174,14 @@ id:
           title: Sisipkan / edit cuplikan kode
           language: Memformat bahasa
           language_hint: Masukan format bahasa yang akan digunakan untuk menyorot(jika didukung).
-        dropdown:
-          macros: Makro
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Daftar isi
         toolbar_help: Klik untuk memilih widget dan menampilkan toolbar. klik dua kali untuk mengedit widget
         wiki_page_include:
@@ -195,11 +199,6 @@ id:
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: Create work package
           with_type: 'Create work package (Type: %{typename})'
-        embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
         edit_query: Edit query
@@ -210,13 +209,6 @@ id:
           new_date: "(new)"
         add_non_working_day: Non-working day
         already_added_error: A non-working day for this date exists already. There can only be one non-working day created for each unique date.
-        change_button: Save and reschedule
-        change_title: Ubah hari kerja
-        removed_title: 'You will remove the following days from the non-working days list:'
-        change_description: Perubahan hari dalam seminggu yang dianggap sebagai hari kerja atau hari libur dapat memengaruhi tanggal mulai dan selesai dari semua paket kerja dan siklus hidup dalam semua proyek pada kasus ini.
-        warning: 'Perubahan tersebut mungkin memerlukan waktu untuk berlaku. Anda akan diberitahu ketika semua paket kerja yang relevan dan siklus hidup proyek telah diperbarui. Apakah Anda yakin ingin melanjutkan?
-
-          '
       work_packages_settings:
         warning_progress_calculation_mode_change_from_status_to_field_html: Changing progress calculation mode from status-based to work-based will make the <i>% Complete</i> field freely editable. If you optionally enter values for <i>Work</i> or <i>Remaining work</i>, they will also be linked to <i>% Complete</i>. Changing <i>Remaining work</i> can then update <i>% Complete</i>.
         warning_progress_calculation_mode_change_from_field_to_status_html: Changing progress calculation mode from work-based to status-based will result in all existing <i>% Complete</i> values to be lost and replaced with values associated with each status. Existing values for <i>Remaining work</i> may also be recalculated to reflect this change. This action is not reversible.
@@ -375,6 +367,7 @@ id:
     label_in_more_than: lebih dari
     label_incoming_emails: Email masuk
     label_information_plural: Informasi
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Impor
     label_latest_activity: Latest activity
@@ -399,6 +392,7 @@ id:
     label_no_value: Kosongkan
     label_none: kosong
     label_not_contains: tidak berisi
+    label_not_available: Not available
     label_not_equals: tidak
     label_on: pada
     label_open_menu: Buka menu
@@ -409,7 +403,6 @@ id:
     label_per_page: 'Per halaman:'
     label_please_wait: Please wait
     label_project: Project
-    label_project_list: Project lists
     label_project_plural: Project
     label_visibility_settings: Seting penampakan
     label_quote_comment: Quote this comment
@@ -1049,16 +1042,13 @@ id:
         all: Semua proyek
         selected: Only selected
       search_placeholder: Cari proyek...
-      search_placeholder_favorites: Search favorites...
       include_subprojects: Include all sub-projects
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.
         current_project: This is the current project you are in.
         does_not_match_search: Project does not match the search criteria.
       no_results: No project matches your search criteria.
-      no_favorite_results: No favorite project matches your search criteria.
     include_workspaces:
-      search_placeholder: Search...
       types:
         program: Program
         portfolio: Portfolio

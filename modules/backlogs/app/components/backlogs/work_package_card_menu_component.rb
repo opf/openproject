@@ -35,14 +35,15 @@ module Backlogs
     include OpPrimer::ComponentHelpers
     include CommonHelper
 
-    attr_reader :work_package, :project, :open_sprints_exist, :current_user
+    attr_reader :work_package, :project, :open_sprints_exist, :other_buckets_exist, :current_user
 
-    def initialize(work_package:, project:, open_sprints_exist:, current_user: User.current)
+    def initialize(work_package:, project:, open_sprints_exist:, other_buckets_exist:, current_user: User.current)
       super()
 
       @work_package = work_package
       @project = project
       @open_sprints_exist = open_sprints_exist
+      @other_buckets_exist = other_buckets_exist
       @current_user = current_user
     end
 
@@ -57,16 +58,24 @@ module Backlogs
         !(first_item? && last_item?)
     end
 
+    def show_move_to_inbox?
+      allowed_to_manage_sprint_items? && (work_package.sprint_id? || work_package.backlog_bucket_id?)
+    end
+
+    def show_move_to_backlog_bucket?
+      allowed_to_manage_sprint_items? && other_buckets_exist
+    end
+
     def show_move_to_sprint?
       allowed_to_manage_sprint_items? && open_sprints_exist
     end
 
     def show_move_submenu?
-      show_move_items? || show_move_to_sprint?
+      show_move_items? || show_move_to_sprint? || show_move_to_inbox? || show_move_to_backlog_bucket?
     end
 
     def allowed_to_manage_sprint_items?
-      current_user.allowed_in_project?(:manage_sprint_items, project)
+      user_allowed?(:manage_sprint_items)
     end
 
     def build_move_menu(menu)

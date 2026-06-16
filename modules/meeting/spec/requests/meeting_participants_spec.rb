@@ -84,6 +84,31 @@ RSpec.describe "MeetingParticipants requests",
     end
 
     context "when inviting multiple participants" do
+      let(:yet_another_user) do
+        create(:user, member_with_permissions: { project => %i[view_meetings] })
+      end
+      let(:params) do
+        base_params.deep_merge(
+          meeting_participant: {
+            user_id: [user_with_meeting_permissions.id, yet_another_user.id]
+          }
+        )
+      end
+
+      it "creates a participant for each distinct user" do
+        expect do
+          post project_meeting_participants_path(project, meeting), params: params, as: :turbo_stream
+        end.to change { meeting.participants.count }.by(2)
+
+        expect(response).to have_http_status(:ok)
+
+        participants = meeting.participants.reload.last(2)
+        expect(participants.map(&:user)).to contain_exactly(user_with_meeting_permissions, yet_another_user)
+        expect(participants.map(&:attended)).to all(be false)
+      end
+    end
+
+    context "when the same user is submitted twice" do
       let(:params) do
         base_params.deep_merge(
           meeting_participant: {
@@ -92,16 +117,13 @@ RSpec.describe "MeetingParticipants requests",
         )
       end
 
-      it "creates multiple participants" do
+      it "creates only one participant" do
         expect do
           post project_meeting_participants_path(project, meeting), params: params, as: :turbo_stream
-        end.to change { meeting.participants.count }.by(2)
+        end.to change { meeting.participants.count }.by(1)
 
         expect(response).to have_http_status(:ok)
-
-        participants = meeting.participants.reload.last(2)
-        expect(participants.map(&:user)).to all(eq(user_with_meeting_permissions))
-        expect(participants.map(&:attended)).to all(be false)
+        expect(meeting.participants.reload.where(user_id: user_with_meeting_permissions.id).count).to eq(1)
       end
     end
 

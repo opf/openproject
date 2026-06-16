@@ -160,7 +160,7 @@ fr:
         '
       other_active_session_notice: Votre compte a un cookie de mémorisation actif sur une autre session.
       label: Mémoriser
-      clear_cookie: Cliquez ici pour supprimer toutes les sessions 2FA mémorisées.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Toutes les sessions 2FA mémorisées ont été supprimées.
       dont_ask_again: Créer le cookie de mémorisation de l'authentification 2FA sur ce client pour %{days} jours.
   field_otp: Mot de passe à usage unique
@@ -171,6 +171,7 @@ fr:
   notice_account_has_no_phone: Aucun numéro de téléphone cellulaire n'est associé à votre compte.
   label_confirmed: Confirmé
   button_continue: Continuer
+  button_make_active: Activate
   button_make_default: Marquer par défaut
   notice_phone_number_format: 'Veuillez entrer le nombre dans le format suivant : +XX XXXXXXXX.'
   text_otp_not_receive: Autres méthodes de vérification

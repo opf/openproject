@@ -31,7 +31,7 @@
 require "spec_helper"
 require_module_spec_helper
 
-RSpec.describe Storages::Adapters::Providers::Sharepoint::Validators::AuthenticationValidator, :webmock do
+RSpec.describe Storages::Adapters::Providers::Sharepoint::Validators::AuthenticationValidator, :disable_ssrf_filter, :webmock do
   subject(:validator) { described_class.new(storage) }
 
   context "when using OAuth2" do

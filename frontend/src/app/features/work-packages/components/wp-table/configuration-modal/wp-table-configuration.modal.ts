@@ -1,4 +1,4 @@
-import { ApplicationRef, ChangeDetectionStrategy, Component, ComponentFactoryResolver, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ApplicationRef, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, InjectionToken, Injector, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { ConfigurationService } from 'core-app/core/config/configuration.service';
 import { WorkPackageViewColumnsService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-columns.service';
 import { WpTableConfigurationService } from 'core-app/features/work-packages/components/wp-table/configuration-modal/wp-table-configuration.service';
@@ -28,14 +28,13 @@ export const WpTableConfigurationModalPrependToken = new InjectionToken<Componen
   // TODO: This component has been partially migrated to be zoneless-compatible.
   // After testing, this should be updated to ChangeDetectionStrategy.OnPush.
   // eslint-disable-next-line @angular-eslint/prefer-on-push-component-change-detection
-  changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.Eager,
 })
 export class WpTableConfigurationModalComponent extends OpModalComponent implements OnInit, OnDestroy {
   prependModalComponent = inject<ComponentType<unknown> | null>(WpTableConfigurationModalPrependToken, { optional: true });
   readonly I18n = inject(I18nService);
   readonly injector = inject(Injector);
   readonly appRef = inject(ApplicationRef);
-  readonly componentFactoryResolver = inject(ComponentFactoryResolver);
   readonly loadingIndicator = inject(LoadingIndicatorService);
   readonly querySpace = inject(IsolatedQuerySpace);
   readonly wpStatesInitialization = inject(WorkPackageStatesInitializationService);
@@ -79,7 +78,6 @@ export class WpTableConfigurationModalComponent extends OpModalComponent impleme
     this.tabPortalHost = new TabPortalOutlet(
       this.wpTableConfigurationService.tabs,
       this.tabContentOutlet.nativeElement,
-      this.componentFactoryResolver,
       this.appRef,
       this.injector,
     );

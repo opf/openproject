@@ -31,6 +31,7 @@
 module OpenProject
   module Common
     # @logical_path OpenProject/Common
+    # @display min_height 400px
     class BorderBoxListComponentPreview < ViewComponent::Preview
       DEFAULT_DESCRIPTION = "Coordinate launch work and keep stakeholders aligned."
       TRANSPARENT_DESCRIPTION = "Sprint goals, scope, and timing for the next iteration."
@@ -128,7 +129,7 @@ module OpenProject
         interactive: false,
         collapsible: false
       )
-        work_packages = WorkPackage.includes(:project).limit(2).to_a
+        work_packages = WorkPackage.includes(:project).limit(3).to_a
         return preview_message("No work packages in the database.") if work_packages.empty?
 
         render OpenProject::Common::BorderBoxListComponent.new(

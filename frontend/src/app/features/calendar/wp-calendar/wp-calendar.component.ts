@@ -217,7 +217,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
             allDay: false,
             className: 'fc-event-clickable op-wp-calendar--meeting-resource',
             meeting,
-          } as EventInput;
+          };
         });
 
         successCallback(events);
@@ -262,7 +262,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
       ],
       // DnD configuration
       selectable: true,
-      select: this.handleDateClicked.bind(this) as unknown,
+      select: this.handleDateClicked.bind(this),
       eventResizableFromStart: true,
       editable: true,
       displayEventTime: true,

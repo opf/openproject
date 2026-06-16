@@ -39,10 +39,13 @@ module Storages::ProjectStorages::Projects
       I18n.t("project_storages.project_folder_mode.#{project_folder_mode}")
     end
 
-    def more_menu_items
-      return [] unless can_view_more_menu_items?
-
-      @more_menu_items ||= [more_menu_edit_project_storage, more_menu_detach_project].compact
+    def menu_items
+      @menu_items ||=
+        if can_view_more_menu_items?
+          [more_menu_edit_project_storage, more_menu_detach_project].compact
+        else
+          []
+        end
     end
 
     private

@@ -45,6 +45,7 @@ cs:
   default_doc_category_user: Dokumentace uživatele
   enumeration_doc_categories: Kategorie dokumentů
   documents:
+    button_add_type: Type
     page_header:
       heading: Všechny dokumenty
       action_menu:

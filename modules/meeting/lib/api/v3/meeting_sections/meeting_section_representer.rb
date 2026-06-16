@@ -38,14 +38,15 @@ module API
 
         self.to_eager_load = [:meeting]
 
-        self_link id_attribute: ->(*) { [represented.meeting_id, represented.id] },
-                  title_getter: ->(*) { represented.title }
+        self_link title_getter: ->(*) { represented.title }
 
         property :id
 
         property :title
 
         property :position
+
+        property :backlog
 
         associated_resource :meeting,
                             link: ->(*) {

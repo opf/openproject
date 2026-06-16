@@ -1,0 +1,21 @@
+<%=
+  component_wrapper do
+    primer_form_with(
+      model: @allocation,
+      scope: :resource_allocation,
+      url: form_url,
+      method: form_method,
+      html: {
+        data: {
+          turbo_stream: true,
+          controller: "refresh-on-form-changes",
+          "refresh-on-form-changes-target": "form",
+          "refresh-on-form-changes-turbo-stream-url-value": refresh_form_project_resource_allocations_path(@project)
+        },
+        id: ResourceAllocations::NewDialogComponent::FORM_ID
+      }
+    ) do |f|
+      render(form_list_component(f))
+    end
+  end
+%>

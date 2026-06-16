@@ -33,7 +33,7 @@ require "rack/test"
 require_relative "../workspaces/update_form_resource_examples"
 
 RSpec.describe "API v3 Program resource update form", content_type: :json do
-  describe "POST /api/v3/programs/:id/form", with_flag: { portfolio_models: true } do
+  describe "POST /api/v3/programs/:id/form" do
     include_examples "APIv3 workspace update form" do
       shared_let(:workspace, reload: true) { create(:program) }
 
@@ -43,10 +43,6 @@ RSpec.describe "API v3 Program resource update form", content_type: :json do
       context "with a portfolio id" do
         let(:workspace) { create(:portfolio, public: true) }
 
-        it_behaves_like "not found"
-      end
-
-      context "without the feature flag enabled", with_flag: { portfolio_models: false } do
         it_behaves_like "not found"
       end
     end

@@ -39,6 +39,8 @@ tr:
         unit: Birim adı
         unit_plural: Birimin çoğul adı
         default: Varsayılan maliyet türü
+        for_all_projects: For all projects
+        rates: Rates
       work_package:
         costs_by_type: Harcanan birimler
         labor_costs: İş gücü maliyetleri
@@ -88,6 +90,10 @@ tr:
         work_package:
           is_not_a_valid_target_for_cost_entries: 'İş numarası # {id}, maliyet girişlerini yeniden atamak için geçerli bir hedef değil.%{id}.'
           nullify_is_not_valid_for_cost_entries: Maliyet girdileri bir projeye atanamaz.
+        cost_types_project:
+          attributes:
+            project_ids:
+              blank: Please select a project.
   attributes:
     comment: Yorum
     cost_type: Maliyet türü
@@ -129,7 +135,6 @@ tr:
   label_current_default_rate: Güncel varsayılan oran
   label_date_on: tarihinde
   label_deleted_cost_types: Silinmiş maliyet türleri
-  label_locked_cost_types: Kilitli maliyet türleri
   label_display_cost_entries: Birim maliyetlerini göster
   label_display_time_entries: Raporlanan saatleri göster
   label_display_types: Ekran türleri
@@ -229,6 +234,28 @@ tr:
     errors:
       validation:
         start_time_different_date: StartTime (%{start_time}) öğesinin tarih kısmı, spentOn (%{spent_on}) tarihi ile aynı olmalıdır.
+  label_available_cost_types_projects: Available cost types projects
+  cost_types:
+    errors:
+      no_cost_types_available: No cost types are available in this project. Please contact an administrator.
+    admin:
+      columns:
+        active_projects: Active projects
+      cost_type_projects:
+        for_all_projects_blank_slate:
+          heading: This cost type is enabled in all projects
+          description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
+        no_projects:
+          heading: No projects assigned
+          description: Add projects so this cost type can be used in them.
+      rates:
+        title: Rate history
+    settings:
+      time_and_costs: Time & Costs
+      cost_types:
+        heading: Cost types
+        none_active: No cost types are currently active in this project.
+        for_all_projects_hint: This cost type is enabled in all projects.
   costs:
     widgets:
       actual_costs:

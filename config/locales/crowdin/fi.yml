@@ -1721,6 +1721,7 @@ fi:
       attachment:
         attachment_content: Liitteen sisältö
         attachment_file_name: Liitteen tiedoston nimi
+        charset: Character set
         content_type: Content-type
         downloads: Lataukset
         file: Tiedosto
@@ -1815,6 +1816,7 @@ fi:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Roolit
       notification:
         read_ian: Read in-app
@@ -2060,6 +2062,7 @@ fi:
         priority: Prioriteetti
         progress: "% Complete"
         readonly: Read only
+        relatable: Relatable to
         remaining_hours: Remaining work
         remaining_time: Remaining work
         sequence_number: Sequence number
@@ -2104,17 +2107,14 @@ fi:
         before: on oltava ennen %{date}.
         before_or_equal_to: on oltava %{date} tai sitä ennen.
         blank: ei voi olla sisällötön.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: needs to have the property '%{property}' set.
         cannot_delete_mapping: is required. Cannot be deleted.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Tehtävää ei voida yhdistää alitehtäviin.
         circular_dependency: Tämä riippuvuus loisi kehän.
         confirmation: ei vastaa %{attribute}.
         could_not_be_copied: "%{dependency} could not be (fully) copied."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: ei ole olemassa.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: may not be accessed.
         error_readonly: was attempted to be written but is not writable.
@@ -2135,36 +2135,38 @@ fi:
         greater_than_or_equal_to: täytyy olla suurempi tai yhtä suuri kuin%{count}.
         greater_than_or_equal_to_start_date: on oltava suurempi tai yhtä suuri kuin alkamispäivä.
         greater_than_start_date: tulee olla aloituspäivän jälkeinen.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: ei löydy listauksesta.
         inclusion_nested: is not set to one of the allowed values at path '%{path}'.
         invalid: ei kelpaa.
         invalid_uri: must be a valid URI.
         invalid_url: ei ole kelvollinen URL.
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: täytyy olla pienempi tai yhtä suuri kuin %{count}.
         not_available: is not available due to a system configuration.
+        not_before_start_date: must not be before the start date.
         not_deletable: cannot be deleted.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: is not the current user.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: ei ole kelvollinen päivämäärä.
         not_a_datetime: ei ole kelvollinen aika.
         not_a_number: ei ole numero.
         not_allowed: is invalid because of missing permissions.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: ei ole kokonaisluku.
         not_an_iso_date: 'ei ole kelvollinen päivämäärä. Vaadittava muoto: VVVV-KK-PP.'
         not_same_project: ei kuulu samaan projektiin.
-        datetime_must_be_in_future: must be in the future.
         odd: täytyy olla pariton.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: does not match the regular expression %{expression}.
         regex_invalid: could not be validated with the associated regular expression.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: on oltava pienempi tai yhtä suuri kuin suurin sallittu pituus.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: on jo käytössä.
         too_long: on liian pitkä (maksimi on %{count} merkkiä).
         too_short: on liian lyhyt (minimi on %{count} merkkiä).
@@ -2177,6 +2179,7 @@ fi:
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: on väärän pituinen (täytyy olla täsmälleen %{count} merkkiä).
       models:
         group:
@@ -2841,6 +2844,7 @@ fi:
   button_login: Kirjaudu
   button_move: Siirrä
   button_move_and_follow: Siirrä ja seuraa
+  button_next: Next
   button_print: Tulosta
   button_quote: Siteeraa
   button_remove: Poista
@@ -3470,6 +3474,12 @@ fi:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3510,6 +3520,9 @@ fi:
     additional:
       projects: Uusimmat projektit.
       no_visible_projects: Ei nähtävissä olevia projekteja.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Uusimmat rekisteröityneet käyttäjät.
     blocks:
       community: OpenProject yhteisö
@@ -3884,6 +3897,7 @@ fi:
   label_send_invitation: Lähetä kutsu
   label_calculated_value: Calculated value
   label_change_parent: Vaihda pääkohdetta
+  label_change_password: Change password
   label_change_plural: Muutokset
   label_change_properties: Vaihda asetuksia
   label_change_status: Muuta tila
@@ -4078,6 +4092,7 @@ fi:
   label_journal_diff: Kuvauksen vertailu
   label_language: Kieli
   label_languages: Languages
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Siirry projektiin...
@@ -4169,6 +4184,7 @@ fi:
   label_my_account_data: Tilini tiedot
   label_my_avatar: My avatar
   label_my_queries: Omat hakuni
+  label_my_security: Security
   label_name: Nimi
   label_never: Ei koskaan
   label_new: Uusi
@@ -4516,6 +4532,9 @@ fi:
   label_x_working_days_time_off:
     one: 'Time off: 1 working day'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: eilen
   label_zen_mode: Zen mode
   label_role_type: Tyyppi
@@ -4708,9 +4727,9 @@ fi:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'To allow the user to sign in you can either: '
       a: Upgrade your payment plan ([here](upgrade_url))
       b: Lock or delete an existing user ([here](users_url))
+      label: 'To allow the user to sign in you can either: '
   more_actions: Enemmän toimintoja
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript pois käytöstä
@@ -5230,6 +5249,10 @@ fi:
   setting_consent_required: Suostumus vaaditaan
   setting_consent_decline_mail: Suostumukseen liittyvien lisätietojen sähköpostiosoite
   setting_cross_project_work_package_relations: Salli projektien väliset tehtävien riippuvuudet
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: First week in year contains
   setting_date_format: Päivämäärä
   setting_default_language: Vakiokieli
@@ -5270,6 +5293,9 @@ fi:
   setting_work_package_properties: Tehtävän ominaisuudet
   setting_work_package_startdate_is_adddate: Käytä nykyistä päivämäärää uuden tehtävän aloistuspäivänä
   setting_work_packages_projects_export_limit: Work packages / Projects export limit
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Kirjaa lokiin käyttäjien kirjautumiset, nimet ja sähköpostiosoitteet kaikista pyynnöistä
   setting_login_required: Pakollinen kirjautuminen
@@ -5969,6 +5995,17 @@ fi:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:

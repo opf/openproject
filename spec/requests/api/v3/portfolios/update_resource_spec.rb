@@ -33,7 +33,7 @@ require "rack/test"
 require_relative "../workspaces/update_resource_examples"
 
 RSpec.describe "API v3 Portfolio resource update", content_type: :json do
-  describe "PATCH /api/v3/programs/:id", with_flag: { portfolio_models: true } do
+  describe "PATCH /api/v3/portfolios/:id" do
     include_examples "APIv3 workspace update" do
       let(:path) { api_v3_paths.portfolio(workspace.id) }
       let(:workspace_factory_key) { :portfolio }
@@ -44,10 +44,6 @@ RSpec.describe "API v3 Portfolio resource update", content_type: :json do
           create(:program, public: true)
         end
 
-        it_behaves_like "not found"
-      end
-
-      context "without the feature flag enabled", with_flag: { portfolio_models: false } do
         it_behaves_like "not found"
       end
     end

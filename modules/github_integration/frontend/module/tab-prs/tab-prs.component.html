@@ -5,7 +5,7 @@
   ></p>
 }
 
-@for (pullRequest of (pullRequests$ | async); track pullRequest) {
+@for (pullRequest of (pullRequests$ | async); track pullRequest.id) {
   <op-github-pull-request [pullRequest]="pullRequest"
    />
 }

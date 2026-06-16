@@ -28,12 +28,11 @@
  * ++
  */
 
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CreateAutocompleterComponent } from '../create-autocompleter/create-autocompleter.component';
 import { opPhaseIconData, toDOMString } from '@openproject/octicons-angular';
 import { ProjectPhaseResource } from 'core-app/features/hal/resources/project-phase-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
-import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
@@ -45,7 +44,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 // Project phase here. But the OpAutocompleter does not satisfy the interface the template of the
 // SelectEditFieldComponent is calling.
 export class ProjectPhaseAutocompleterComponent extends CreateAutocompleterComponent {
-  @InjectField() sanitizer:DomSanitizer;
+  readonly sanitizer = inject(DomSanitizer);
 
   public phaseIcon:SafeHtml;
 

@@ -46,8 +46,8 @@ module Meetings
         enabled: @meeting.notify?,
         path: toggle_notifications_dialog_project_meeting_path(@meeting.project, @meeting),
         title: I18n.t("meeting.notifications.sidepanel.title"),
-        enabled_description: I18n.t("meeting.notifications.sidepanel.description.enabled"),
-        disabled_description: I18n.t("meeting.notifications.sidepanel.description.disabled"),
+        enabled_description: I18n.t("meeting.notifications.enabled"),
+        disabled_description: I18n.t("meeting.notifications.disabled"),
         alt_text: I18n.t("meeting.notifications.sidepanel.description.change_via_template"),
         show_button: !@meeting.recurring? || @meeting.templated?
       )

@@ -55,6 +55,14 @@ module Components
         expect_open
       end
 
+      def ensure_open
+        SeleniumHubWaiter.wait
+        expect_loaded
+        return if page.has_selector?(filters_selector, visible: :visible, wait: false)
+
+        open
+      end
+
       def expect_filter_count(num)
         expect(filter_button).to have_css(".badge", text: num, wait: 10)
       end

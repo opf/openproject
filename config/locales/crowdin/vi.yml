@@ -1702,6 +1702,7 @@ vi:
       attachment:
         attachment_content: Số lượng Tệp đính kèm
         attachment_file_name: Tên tập tin đính kèm
+        charset: Character set
         content_type: Loại nội dung
         downloads: Những mục đã tải xuống
         file: tập tin
@@ -1796,6 +1797,7 @@ vi:
         title: Tiêu đề
         description: Mô tả
       member:
+        blocked: Blocked
         roles: Vai trò
       notification:
         read_ian: Đọc trong ứng dụng
@@ -2041,6 +2043,7 @@ vi:
         priority: Độ ưu tiên
         progress: "% Hoàn thành"
         readonly: Chỉ đọc
+        relatable: Relatable to
         remaining_hours: Công việc còn lại
         remaining_time: Công việc còn lại
         sequence_number: Sequence number
@@ -2085,17 +2088,14 @@ vi:
         before: phải trước khi %{date}
         before_or_equal_to: phải có trước hay tương đương với %{date}
         blank: không được để trống
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: cần phải đặt thuộc tính '%{property}'.
         cannot_delete_mapping: được yêu cầu. Không thể xóa được.
-        is_for_all_cannot_modify: dành cho tất cả các dự án và do đó không thể sửa đổi được.
         cant_link_a_work_package_with_a_descendant: Một gói công việc không thể được liên kết với một trong các nhiệm vụ con của nó.
         circular_dependency: Mối quan hệ này sẽ tạo ra sự phụ thuộc vòng tròn.
         confirmation: không khớp %{attribute}.
         could_not_be_copied: "%{dependency} không thể sao chép (đầy đủ)."
+        datetime_must_be_in_future: phải ở tương lai.
         does_not_exist: không tồn tại
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} chỉ có trong phiên bản OpenProject Enterprise."
         error_unauthorized: Có thể không được truy cập.
         error_readonly: đã được cố gắng viết nhưng không thể ghi được.
@@ -2116,36 +2116,38 @@ vi:
         greater_than_or_equal_to: phải lớn hơn hoặc bằng %{count}
         greater_than_or_equal_to_start_date: phải lớn hơn hoặc bằng ngày bắt đầu.
         greater_than_start_date: phải lớn hơn ngày bắt đầu.
+        hexcode_invalid: không phải là mã màu thập lục phân 6 chữ số hợp lệ.
         inclusion: không nằm trong các giá trị cho phép
         inclusion_nested: không được đặt thành một trong các giá trị được phép tại đường dẫn '%{path}'.
         invalid: không hợp lệ
         invalid_uri: must be a valid URI.
         invalid_url: không phải là một URL hợp lệ.
         invalid_url_scheme: 'không phải là giao thức được hỗ trợ  (được phép: %{allowed_schemes}).'
+        is_for_all_cannot_modify: dành cho tất cả các dự án và do đó không thể sửa đổi được.
         less_than_or_equal_to: phải nhỏ hơn hoặc bằng %{count}
         not_available: không khả dụng do cấu hình hệ thống.
+        not_before_start_date: must not be before the start date.
         not_deletable: không thể xóa được.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: không phải là người dùng hiện tại.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: không tìm thấy.
         not_a_date: không phải là ngày hợp lệ
         not_a_datetime: không phải là thời gian hợp lệ
         not_a_number: không phải là số
         not_allowed: không hợp lệ vì thiếu quyền.
-        host_not_allowed: is not an allowed host.
         not_json: không thể phân tích cú pháp dưới dạng JSON.
         not_json_object: không phải là một đối tượng JSON.
         not_an_integer: không phải là một số nguyên
         not_an_iso_date: 'không phải là một ngày hợp lệ. Yêu cầu định dạng: YYYY-MM-DD.'
         not_same_project: không thuộc cùng dự án.
-        datetime_must_be_in_future: phải ở tương lai.
         odd: phải là số lẻ
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: không khớp với biểu thức chính quy %{expression}.
         regex_invalid: có thể không được xác nhận với các biểu hiện thường xuyên liên kết.
         regex_list_invalid: Không thể phân tích cú pháp các dòng %{invalid_lines} dưới dạng biểu thức chính quy.
-        hexcode_invalid: không phải là mã màu thập lục phân 6 chữ số hợp lệ.
         smaller_than_or_equal_to_max_length: phải nhỏ hơn hoặc bằng với chiều dài tối đa
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: đã bị dùng rồi.
         too_long: quá dài (tối đa %{count} ký tự).
         too_short: quá ngắn (tối thiểu %{count} ký tự).
@@ -2158,6 +2160,7 @@ vi:
         url_not_secure_context: 'không cung cấp "Bối cảnh an toàn". Sử dụng HTTPS hoặc địa chỉ loopback, chẳng hạn như localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: độ dài không đúng (phải là %{count} ký tự).
       models:
         group:
@@ -2633,7 +2636,7 @@ vi:
     base: 'Lỗi tổng quan:'
     body: cơ thể
     category: thể loại
-    comment: bình luận
+    comment: Nhận xét
     comments: bình luận
     content: Nội dung
     color: màu sắc
@@ -2804,6 +2807,7 @@ vi:
   button_login: Đăng nhập
   button_move: Di chuyển
   button_move_and_follow: Di chuyển và thực hiện theo
+  button_next: Next
   button_print: In
   button_quote: Trích dẫn
   button_remove: Xoá
@@ -3412,6 +3416,12 @@ vi:
       selected: đã chọn
     include_sub_items: Bao gồm các mục phụ
     no_results_text: Không có kết quả
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: trên
     label_off: Tắt
@@ -3450,6 +3460,9 @@ vi:
     additional:
       projects: Các dự án có thể nhìn thấy mới nhất trong trường hợp này.
       no_visible_projects: Không có không có thể nhìn thấy các dự án trong trường hợp này.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Người dùng đã đăng ký mới nhất trong trường hợp này.
     blocks:
       community: Cộng đồng OpenProject
@@ -3824,6 +3837,7 @@ vi:
   label_send_invitation: Gửi lời mời
   label_calculated_value: Giá trị tính toán
   label_change_parent: Thay đổi cha mẹ
+  label_change_password: Change password
   label_change_plural: Thay đổi
   label_change_properties: Thay đổi những thuộc tính
   label_change_status: Đổi trạng thái
@@ -4018,6 +4032,7 @@ vi:
   label_journal_diff: So sánh mô tả
   label_language: ngôn ngữ
   label_languages: ngôn ngữ
+  label_export_plural: Exports
   label_external_links: Liên kết ngoài
   label_locale: Ngôn ngữ và khu vực
   label_jump_to_a_project: Chuyển đến một dự án...
@@ -4109,6 +4124,7 @@ vi:
   label_my_account_data: Dữ liệu tài khoản của tôi
   label_my_avatar: Hình đại diện của tôi
   label_my_queries: Các truy vấn tùy biến của tôi
+  label_my_security: Security
   label_name: tên
   label_never: không bao giờ
   label_new: Mới
@@ -4353,7 +4369,7 @@ vi:
   label_used_by: Được dùng bởi
   label_used_by_types: Được sử dụng bởi các loại
   label_used_in_projects: Được sử dụng trong các dự án
-  label_user: người dùng
+  label_user: Người dùng
   label_user_and_permission: Người dùng và quyền
   label_user_named: Người dùng %{name}
   label_user_activity_html: "%{value}'s activity"
@@ -4453,6 +4469,8 @@ vi:
     other: "%{count} working days"
   label_x_working_days_time_off:
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    other: "%{count} items selected"
   label_yesterday: ngày hôm qua
   label_zen_mode: Chế độ Zen
   label_role_type: loại
@@ -4652,9 +4670,9 @@ vi:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'Để cho phép người dùng đăng nhập, bạn có thể:'
       a: Nâng cấp gói thanh toán của bạn ([here](upgrade_url))
       b: Khóa hoặc xóa người dùng hiện tại ([here](users_url))
+      label: 'Để cho phép người dùng đăng nhập, bạn có thể:'
   more_actions: Nhiều chức năng hơn
   noscript_description: Bạn cần kích hoạt JavaScript để sử dụng OpenProject!
   noscript_heading: Đã tắt JavaScript
@@ -5173,6 +5191,10 @@ vi:
   setting_consent_required: Cần có sự đồng ý
   setting_consent_decline_mail: Địa chỉ email liên hệ đồng ý
   setting_cross_project_work_package_relations: Cho phép quan hệ gói công việc giữa các dự án
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: Tuần đầu tiên trong năm
   setting_date_format: ngày
   setting_default_language: Ngôn ngữ mặc định
@@ -5213,6 +5235,9 @@ vi:
   setting_work_package_properties: Thuộc tính gói công việc
   setting_work_package_startdate_is_adddate: Sử dụng ngày hiện tại làm ngày bắt đầu cho các gói công việc mới
   setting_work_packages_projects_export_limit: Gói công việc / Giới hạn xuất dự án
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Ghi nhật ký thông tin đăng nhập, tên và địa chỉ thư của người dùng cho tất cả các yêu cầu
   setting_login_required: Yêu cầu xác thực
@@ -5915,6 +5940,17 @@ vi:
     warning: 'Việc thay đổi ngày trong tuần được coi là ngày làm việc hay ngày không làm việc có thể ảnh hưởng đến ngày bắt đầu và ngày kết thúc của tất cả các gói công việc và vòng đời trong tất cả các dự án trong trường hợp này.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Ngày làm việc** đã thay đổi (%{changes})._
       days:

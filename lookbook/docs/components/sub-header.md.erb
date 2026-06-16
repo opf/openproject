@@ -13,8 +13,10 @@ The SubHeader accepts a number of additional components. **All buttons** within 
 On the left side:
 
 - **Search filter**: (Optional) A basic [text input](https://primer.style/components/text-input) with a [search icon](https://primer.style/components/text-input#with-leading-and-trailing-visuals) which is mostly used on index pages to filter the elements below.
-- **Filter button:** (Optional) A button which is shown next to the filter input (or on the very left, if there is no filter input)
-- **Segmented controls** (optional) to switch two pre-filtered views
+- **Sort action** (Optional) A generic slot for a sort button component. It is recommended to use IconButtons here.
+- **Group action** (Optional) A generic slot for a group button component. It is recommended to use IconButtons here.
+- **Quick filters** (Optional) Up to 5 QuickFilter can be rendered here. When using more then one quick filter, an `All Filter` button is required.
+- **All Filter button:** (Optional) A button which is shown next to the filter input (or on the very left, if there is no filter input)
 
 At the center of the SubHeader:
 
@@ -33,6 +35,7 @@ The SubHeader automatically adapts to mobile screens:
 
 - All actions on both sides (including Buttons, SegmentedControls, ButtonGroups, etc) always turn into icon only variants without labels.
 - There is a search IconButton; on click, it reveals the search input takes the full length (hiding all other actions), with a cancel button to go back to the previous state
+- When using more than one QuickFilter, they are hidden on mobile. The "All filters" button remains visible to preserve functionality.
 
 ## Best practices
 
@@ -41,6 +44,7 @@ The SubHeader automatically adapts to mobile screens:
 - Restrict SubHeader actions to the page's content-specific actions (e.g. filtering or creating a new object).
 - Use IconButtons instead of Buttons for actions only when the icon is clear enough to describe the action.
 - When more actions are necessary, or if a menu is needed, use an ActionMenu instead of the ActionButtons.
+- Use IconButtons for the sort and group components.
 
 **Don't**
 
@@ -118,6 +122,47 @@ We currently only allow async dialogs to be rendered from the SubHeader. So you 
                                   href: "show_dialog_path",
                                   data: { controller: "async-dialog" }) do
         "Open Dialog"
+      end
+    end
+  %&gt;
+```
+
+### Sorting and grouping
+
+The sort and group actions are always displayed after the search but before the quick filters.
+
+```html
+  &lt;%=
+    render(Primer::OpenProject::SubHeader.new) do |component|
+        component.with_quick_sort do
+          render(Foo::BarSortComponent.new(..))
+        end
+
+        component.with_quick_group do
+          render(Foo::BarGroupComponent.new(..))
+        end
+    end
+  %&gt;
+```
+
+### QuickFilters
+
+The `with_quick_filter` slot only offers a generic slot for a quick filter taking care of placement, responsiveness and mobile behaviour. The logic is part of the actual [QuickFilter components](../patterns/quick_filters).
+
+```html
+  &lt;%=
+    render(Primer::OpenProject::SubHeader.new) do |component|
+      component.with_quick_filter do
+        render(Foo::BarFilterComponent.new(query: @query, project: @project))
+      end
+      component.with_quick_filter do
+        render(Foo::OtherFilterComponent.new(query: @query, project: @project))
+      end
+
+
+      # The all filters button is required when using more than one quick filter
+      component.with_filter_button(mobile_label: "All filters") do
+        render(Foo::AllFilterComponent.new(query: @query, project: @project))
       end
     end
   %&gt;

@@ -34,6 +34,8 @@ module Wikis
     include OpPrimer::ComponentHelpers
     include OpTurbo::Streamable
 
+    TURBO_FRAME_ID = "work-package-wikis-tab-content"
+
     alias_method :work_package, :model
 
     def providers

@@ -72,6 +72,48 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
       end
     end
 
+    context "with multiple participants" do
+      let(:other_user) do
+        create(:user, member_with_permissions: { project => [:view_meetings] })
+      end
+
+      before do
+        create(:meeting_participant, meeting:, user: current_user, invited: true)
+        create(:meeting_participant, meeting:, user: other_user, invited: true)
+        get get_path
+      end
+
+      it "_links.participants count matches _embedded.participants count" do
+        expect(last_response.body)
+          .to have_json_size(2)
+          .at_path("_links/participants")
+
+        expect(last_response.body)
+          .to have_json_size(2)
+          .at_path("_embedded/participants")
+      end
+
+      context "when a further participant is added after the response is cached" do
+        let(:third_user) do
+          create(:user, member_with_permissions: { project => [:view_meetings] })
+        end
+
+        it "returns updated _links.participants consistent with _embedded.participants" do
+          create(:meeting_participant, meeting:, user: third_user, invited: true)
+
+          get get_path
+
+          expect(last_response.body)
+            .to have_json_size(3)
+            .at_path("_links/participants")
+
+          expect(last_response.body)
+            .to have_json_size(3)
+            .at_path("_embedded/participants")
+        end
+      end
+    end
+
     context "without view_meetings permission" do
       let(:permissions) { [] }
 
@@ -231,6 +273,65 @@ RSpec.describe "API v3 Meeting resource", content_type: :json do
       expect(response.body)
         .to be_json_eql("Updated Title".to_json)
         .at_path("title")
+    end
+
+    context "when PATCHing the same participants multiple times" do
+      let(:participant_user) do
+        create(:user, member_with_permissions: { project => [:view_meetings] })
+      end
+      let(:body_with_participants) do
+        {
+          lockVersion: meeting.lock_version,
+          _links: {
+            participants: [{ href: api_v3_paths.user(participant_user.id) }]
+          }
+        }.to_json
+      end
+
+      it "does not create duplicate participant records" do
+        patch path, body_with_participants
+        expect(last_response).to have_http_status(:ok)
+
+        updated_lock = JSON.parse(last_response.body)["lockVersion"]
+        second_body = { lockVersion: updated_lock,
+                        _links: { participants: [{ href: api_v3_paths.user(participant_user.id) }] } }.to_json
+        patch path, second_body
+        expect(last_response).to have_http_status(:ok)
+
+        expect(meeting.participants.reload.where(user_id: participant_user.id).count).to eq(1)
+        expect(last_response.body).to have_json_size(1).at_path("_embedded/participants")
+      end
+    end
+
+    context "when sending a smaller list of participants to _links.participants" do
+      let(:participant_user) do
+        create(:user, member_with_permissions: { project => [:view_meetings] })
+      end
+      let(:other_participant_user) do
+        create(:user, member_with_permissions: { project => [:view_meetings] })
+      end
+
+      before do
+        create(:meeting_participant, meeting:, user: participant_user, invited: true)
+        create(:meeting_participant, meeting:, user: other_participant_user, invited: true)
+      end
+
+      it "removes unlisted participants" do
+        expect(meeting.participants.count).to eq(2)
+
+        body = {
+          lockVersion: meeting.lock_version,
+          _links: {
+            participants: [{ href: api_v3_paths.user(participant_user.id) }]
+          }
+        }.to_json
+
+        patch path, body
+
+        expect(last_response).to have_http_status(:ok)
+        expect(meeting.participants.reload.map(&:user_id)).to contain_exactly(participant_user.id)
+        expect(last_response.body).to have_json_size(1).at_path("_embedded/participants")
+      end
     end
 
     context "without edit_meetings permission" do

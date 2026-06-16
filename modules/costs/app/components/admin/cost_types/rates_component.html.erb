@@ -1,0 +1,87 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+++#%>
+
+<%= settings_primer_form_with(
+      model: cost_type,
+      url: admin_cost_type_path(cost_type),
+      method: :put,
+      data: { controller: "subform" }
+    ) do |f| %>
+  <%= helpers.error_messages_for "cost_type" %>
+
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table" data-controller="table-highlighting">
+        <colgroup>
+          <col>
+          <col>
+          <col data-highlight="false">
+        </colgroup>
+        <thead>
+          <tr>
+            <th><%= Rate.human_attribute_name(:valid_from) %></th>
+            <th class="currency"><%= Rate.model_name.human %></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="rates_body" class="subform-container" data-subform-target="table">
+          <%= render partial: "admin/cost_types/rate",
+                     object: CostRate.new(valid_from: Date.current),
+                     locals: { templated: true } %>
+          <% sorted_rates.each_with_index do |rate, index| %>
+            <%= render partial: "admin/cost_types/rate", object: rate, locals: { index: index } %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="wp-inline-create-button">
+    <label class="sr-only" for="add_rate_date"><%= t(:description_date_for_new_rate) %></label>
+    <%= render(
+          Primer::Beta::IconButton.new(
+            icon: :plus,
+            id: "add_rate_date",
+            scheme: :invisible,
+            type: :button,
+            classes: "add-row-button wp-inline-create--add-link",
+            aria: { label: t(:button_add_rate) },
+            data: { action: "subform#addRow" }
+          )
+        ) %>
+  </div>
+
+  <%= render(
+        Primer::Beta::Button.new(
+          scheme: :primary,
+          type: :submit,
+          mt: 3,
+          test_selector: "op-cost-type-rates--submit"
+        )
+      ) { t(:button_save) } %>
+<% end %>

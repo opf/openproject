@@ -142,7 +142,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       load_and_open_filters admin
 
       # value selection defaults to "active"'
-      expect(page).to have_css('li[data-filter-name="active"]')
+      expect(page).to have_css('.advanced-filters--filter[data-filter-name="active"]')
 
       projects_page.expect_projects_listed(parent_project,
                                            child_project,
@@ -601,7 +601,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       projects_page.expect_projects_listed(project)
 
       # switching to multiselect keeps the current selection
-      cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
+      cf_filter = page.find(".advanced-filters--filter[data-filter-name='#{list_custom_field.column_name}']")
 
       select_value_id = "#{list_custom_field.column_name}_value"
 
@@ -614,7 +614,7 @@ RSpec.describe "Projects list filters", :js, with_settings: { login_required?: f
       projects_page.expect_projects_not_listed(development_project)
       projects_page.expect_projects_listed(project)
 
-      cf_filter = page.find("li[data-filter-name='#{list_custom_field.column_name}']")
+      cf_filter = page.find(".advanced-filters--filter[data-filter-name='#{list_custom_field.column_name}']")
       within(cf_filter) do
         # Query has two values for that filter.
         projects_page.expect_ng_value_label(select_value_id,

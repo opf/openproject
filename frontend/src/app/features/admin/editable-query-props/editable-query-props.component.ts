@@ -54,7 +54,7 @@ export class EditableQueryPropsComponent implements OnInit {
     })();
 
     this.externalQuery.show({
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       currentQuery: queryProperties,
       urlParams: this.urlParams,
       callback: (queryProps:string) => {

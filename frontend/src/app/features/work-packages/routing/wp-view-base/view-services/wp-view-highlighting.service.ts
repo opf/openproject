@@ -40,7 +40,7 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
   }
 
   public get current():WorkPackageViewHighlight {
-    const value = this.lastUpdatedState.getValueOr({ mode: 'inline' } as WorkPackageViewHighlight);
+    const value = this.lastUpdatedState.getValueOr({ mode: 'inline' } as WorkPackageViewHighlight); // eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
     return this.filteredValue(value);
   }
 

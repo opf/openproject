@@ -1,4 +1,4 @@
-The `FilterableTreeView` is an extended `TreeView` implementation for scenarios where filtering and managing selections within a large tree structure is required. It extends the `TreeView` by introducing filtering and view control options, making it particularly useful for workflows that require selection of nodes from hierarchies.
+The `FilterableTreeView` is an extended `TreeView` implementation for scenarios where filtering within a large tree structure is required. It extends the `TreeView` by introducing filtering and view control options, making it useful for workflows that require searching and either selecting nodes from hierarchies or navigating to them via links.
 
 ## Overview
 
@@ -10,8 +10,8 @@ The `FilterableTreeView` consists of the following UI elements:
 
 1. **Segmented Control (optional)**: Allows toggling between viewing all items and only selected ones. Labels and filter logic are configurable
 2. **Search Field**: A text field with a leading search icon used to filter the tree content via text
-3. **Checkbox "Include sub-nodes" (optional)**: When enabled, checking a parent node will also include its descendants
-4. **TreeView**: An embedded `TreeView` component with multi-select enabled and static loading strategy
+3. **Checkbox "Include sub-nodes" (optional)**: When enabled, checking a parent node will also include its descendants. Hidden automatically when using `select_variant: :single` or `select_variant: :none`.
+4. **TreeView**: An embedded `TreeView` component. Supports `select_variant: :multiple` (default), `:single`, or `:none` (link nodes).
 
 ## Features
 
@@ -19,8 +19,7 @@ The `FilterableTreeView` consists of the following UI elements:
 
 The embedded `TreeView` behaves according to its specification, with a few notable constraints and extensions:
 
-- **Loading strategy**: Only supports `static` loading.
-- **Multi-select support**: Enabled by default.
+- **Multi-select support**: Enabled by default (`select_variant: :multiple`).
 
 For details on the `TreeView` itself, refer to the [TreeView documentation](./tree_view).
 
@@ -37,12 +36,12 @@ The search field enables text-based filtering of the tree.
 - Non-matching nodes in a visible path are **greyed out and disabled** (not clickable).
 - Matching characters in results are **highlighted**.
 
-**Single-select considerations:**
+**Single-select considerations (`select_variant: :single`):**
 
 - Selections made **before** filtering are preserved, even if they are not visible in the current filter.
-- On form submission, **the selected item** is submitted, even if it is currently not shown (e.g filtered out).
+- On form submission, **the selected item** is submitted, even if it is currently not shown (e.g. filtered out).
 
-**Multi-select considerations:**
+**Multi-select considerations (`select_variant: :multiple`):**
 
 - Selections made **before** filtering are preserved, even if they are not visible in the current filter.
 - If **"Include sub-nodes"** is enabled:
@@ -68,7 +67,9 @@ A segmented control toggles the visible tree scope:
 
 The labels as well as the logic for the segmented control are configurable. For details, please check the technical notes section at the bottom.
 
-The segmented control can be disabled and hidden by passing `hidden: true` as `filter_mode_control_arguments`. Please have a look at [this preview](../../../inspect/primer/open_project/filterable_tree_view/hide_segmented_control) for details.
+The segmented control is visible by default for all `select_variant` values, including `:none`. It can be hidden by passing `hidden: true` as `filter_mode_control_arguments`. Please have a look at [this preview](../../../inspect/primer/open_project/filterable_tree_view/hide_segmented_control) for details.
+
+> **Note:** The "Selected" mode in the segmented control only makes sense when nodes are selectable (`:multiple` or `:single`). When using `select_variant: :none`, it is recommended to either hide the segmented control or replace the default filter modes with custom ones relevant to your use case.
 
 ---
 
@@ -84,7 +85,162 @@ This checkbox controls whether checking a parent node selects all of its childre
 - When **unchecked again**:
   - The component does **remember** how a selection was made (manual vs. auto). Previously auto-selected descendants get unselected while manually selected items remain selected.
 
-The checkbox can be visually hidden by passing `hidden: true` to the `include_sub_items_check_box_arguments`. The logic remains however. Please have a look at [this preview](../../../inspect/primer/open_project/filterable_tree_view/hide_checkbox) for details.
+The checkbox is **automatically hidden** when `select_variant: :single` or `select_variant: :none` is used, since sub-item inclusion only makes sense in multi-select mode.
+
+It can also be visually hidden manually by passing `hidden: true` to the `include_sub_items_check_box_arguments`. The logic remains however. Please have a look at [this preview](../../../inspect/primer/open_project/filterable_tree_view/hide_checkbox) for details.
+
+---
+
+### Async (server-side) filtering
+
+By default, `FilterableTreeView` filters the tree client-side. When the tree is too large to load at once, or when filtering requires server knowledge (e.g. database queries), **async mode** can be activated by passing a `src:` URL to the component.
+
+#### Behavior summary
+
+- On initial rendering, the component fetches a tree from `src`.
+- Every change to the filter input triggers a debounced (300 ms) GET request to `src`.
+- Switching the segmented control triggers a fetch for all modes except `"selected"`, which is handled client-side.
+- Toggling **"Include sub-items"** does **not** immediately trigger a server request. The current `include_sub_items` value is sent on the next fetch (query or filter-mode change), and the server must return the appropriate descendants at that point.
+- After a filtered response is received, the client automatically expands all sub-trees.
+- When the filter is cleared, the expansion state from before filtering started is restored.
+- When the form is submitted, the component sends all nodes that have been checked at **some point in time** (no matter whether the current filter shows them or not).
+- On form submit: The form receives the complete selection regardless of the current filter state:
+   - Nodes currently visible and checked are submitted via the `TreeView`'s normal form inputs.
+   - Nodes that were checked but are currently filtered out (not in the DOM) are submitted via hidden inputs injected by the component directly.
+   - The `include_sub_items` checkbox value is included in the form submission so that the server knows whether to include all descendants or not.
+
+#### Selection persistence
+
+Checked nodes are identified by `data-node-id` and preserved across tree replacements. Nodes that are checked but absent from the current response are submitted via hidden inputs injected by the component, so the form payload is always complete regardless of what is currently visible.
+
+#### Using async mode with a form
+
+Pass `form_arguments:` to the component as usual. In async mode, the `include_sub_items` value is automatically included in the form submission (unlike client-side mode, where it is a purely visual control).
+
+```erb
+<%= form_with(url: my_path) do |f| %>
+  <%= render(Primer::OpenProject::FilterableTreeView.new(
+    src: my_items_path,
+    form_arguments: { builder: f, name: "items" }
+  )) %>
+<% end %>
+```
+
+When using forms, pass `form_arguments:` to the `TreeView` in your endpoint fragment as well, so node checkboxes are wired to the form. The component sends `name` as a query parameter automatically, so your controller can reconstruct a `FormBuilder`:
+
+```ruby
+# app/controllers/my_items_controller.rb
+def index
+  name    = params[:name].presence || "items"
+  builder = ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
+
+  render layout: false, locals: { builder: builder, name: name, ... }
+end
+```
+
+```erb
+<%# app/views/my_items/index.html.erb – with form support %>
+<%= render(Primer::Alpha::TreeView.new(
+  data: { target: "filterable-tree-view.treeViewList" },
+  form_arguments: { builder: builder, name: name }
+)) do |tree| %>
+  ...
+<% end %>
+```
+
+#### How to use the component in OpenProject
+
+##### Step 1 – Render the component
+
+Pass a `src:` URL pointing to your server endpoint. The component fetches and renders the tree on mount, and re-fetches on every filter change.
+
+```erb
+<%= render(Primer::OpenProject::FilterableTreeView.new(src: my_items_path)) %>
+```
+
+> **Note:** Do not pass `tree_view_arguments:` alongside `src:`. The initial tree shell is replaced by the first fetch, so those arguments would be lost. Configure the `TreeView` inside your endpoint instead.
+
+##### Step 2 – Create the server endpoint
+
+The endpoint must respond to `GET` and return a `<tree-view>` HTML fragment (no layout, no surrounding HTML). The component sends the following query parameters with every request:
+
+| Parameter | Type | Description |
+|:---|:---|:---|
+| `query` | `String` | Current text from the filter input (empty string when unfiltered). |
+| `filter_mode` | `String` | Active segmented-control tab name, e.g. `"all"`, `"selected"`, or a custom mode. Note: `"selected"` mode is handled client-side and never triggers a server request. |
+| `include_sub_items` | `"true"` / `"false"` | Whether the "Include sub-items" checkbox is checked. The server must use this to expand the result — toggling the checkbox does not trigger a server request on its own. |
+| `checked_ids[]` | `Array<String>` | One entry per currently checked node ID. Required so the server can include all descendants of checked nodes when `include_sub_items=true`, even if those nodes do not match the query. |
+
+Minimal Rails wiring:
+
+```ruby
+# config/routes.rb
+resources :my_items, only: [:index]
+```
+
+```ruby
+# app/controllers/my_items_controller.rb
+def index
+  query             = params[:query].to_s.strip
+  include_sub_items = params[:include_sub_items] == "true"
+  checked_ids       = Array(params["checked_ids[]"]).map(&:to_s)
+
+  @nodes = MyItem.filter(query, include_sub_items:, checked_ids:)
+
+  render layout: false
+end
+```
+
+**What the server should do with `include_sub_items` and `checked_ids[]`:**
+
+When `include_sub_items` is `"true"`, the server should include all descendants of every node in `checked_ids[]` in the response — even if they don't match the query string — so the client can check and disable them visually. The client does not expand sub-trees on its own when `include_sub_items` is toggled; it relies entirely on what the server returns on the next filter request.
+
+##### Step 3 – Return the tree fragment
+
+The response must be a single `<tree-view>` element with `data-target="filterable-tree-view.treeViewList"`. Use `Primer::Alpha::TreeView` to render it.
+
+```erb
+<%# app/views/my_items/index.html.erb %>
+<%= render(Primer::Alpha::TreeView.new(
+  data: { target: "filterable-tree-view.treeViewList" }
+)) do |tree| %>
+  <% @nodes.each do |node| %>
+    <%= render partial: "my_items/node", locals: { component: tree, node: node, query: query } %>
+  <% end %>
+<% end %>
+```
+
+###### Node partial requirements
+
+Each node **must** carry a stable `data-node-id` so the component can preserve selections across tree replacements. The client automatically expands all sub-trees after a filtered response, so you do not need to set `expanded:` in the partial.
+
+**Leaf nodes:**
+
+```erb
+<%# app/views/my_items/_node.html.erb (leaf) %>
+<% component.with_leaf(
+  label: node.label,
+  data: { node_id: node.id }
+) %>
+```
+
+**Sub-tree (branch) nodes:**
+
+```erb
+<%# app/views/my_items/_node.html.erb (branch) %>
+<% component.with_sub_tree(
+  label: node.label,
+  sub_tree_component_klass: Primer::OpenProject::FilterableTreeView::SubTree,
+  select_strategy: :self,
+  data: { node_id: node.id }
+) do |sub| %>
+  <% node.children.each do |child| %>
+    <%= render partial: "my_items/node", locals: { component: sub, node: child, query: query } %>
+  <% end %>
+<% end %>
+```
+
+> **Important:** Pass `sub_tree_component_klass:` and `select_strategy:` only at the **top-level** `TreeView`. `FilterableTreeView::SubTree#with_sub_tree` already forwards them to nested levels — passing them again will raise a `keyword argument duplicated` error.
 
 ---
 
@@ -93,15 +249,17 @@ The checkbox can be visually hidden by passing `hidden: true` to the `include_su
 **Do:**
 
 - Use this component when users need to **search and selectively choose** items in a tree.
+- Use `select_variant: :none` with `node_variant: :anchor` when nodes should act as **navigation links** rather than selectable items.
 - Enable **"Include sub-nodes"** if selecting a parent should automatically include all descendants.
+- Hide the segmented control (`filter_mode_control_arguments: { hidden: true }`) when using `select_variant: :none` unless you provide a custom segmented control.
 
 **Don't:**
 
-- Don’t use `FilterableTreeView` with a dynamic loading strategy – only static loading is supported.
 - Don't use the component for simple hierarchies which don't need filtering; instead use `TreeView`.
 
 ## Used in
 
+- The global project selector
 - (Planned) In the admin settings as a way of selecting projects in which to enable a certain object, like a project attribute, type or custom field.
 
 ## Examples

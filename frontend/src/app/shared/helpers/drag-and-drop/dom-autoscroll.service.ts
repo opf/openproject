@@ -120,9 +120,9 @@ export class DomAutoscrollService {
   public getElementsUnderPoint():HTMLElement[] {
     const underPoint = [];
 
-    for (let i = 0; i < this.elements.length; i++) {
-      if (this.inside(this.point, this.elements[i])) {
-        underPoint.push(this.elements[i] as HTMLElement);
+    for (const element of this.elements) {
+      if (this.inside(this.point, element)) {
+        underPoint.push(element as HTMLElement); // eslint-disable-line @typescript-eslint/no-unnecessary-type-assertion
       }
     }
 

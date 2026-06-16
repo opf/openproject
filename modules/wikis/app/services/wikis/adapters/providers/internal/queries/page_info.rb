@@ -34,32 +34,36 @@ module Wikis
       module Internal
         module Queries
           class PageInfo < BaseQuery
+            class << self
+              def wiki_page_to_page_info(wiki_page, provider:)
+                Results::PageInfo.new(
+                  identifier: wiki_page.id.to_s,
+                  title: wiki_page.title,
+                  provider:,
+                  href: url_for(only_path: true,
+                                controller: "/wiki",
+                                action: "show",
+                                project_id: wiki_page.project.identifier,
+                                id: wiki_page.slug)
+                )
+              end
+
+              private
+
+              delegate :url_for, to: :url_helpers
+
+              def url_helpers
+                @url_helpers ||= OpenProject::StaticRouting::StaticRouter.new.url_helpers
+              end
+            end
+
             def call(input_data:, auth_strategy:)
               Adapters::Authentication[auth_strategy].call do |user|
                 wiki_page = WikiPage.visible(user).find_by(id: input_data.identifier)
                 return failure(code: :not_found) if wiki_page.nil?
 
-                success(
-                  Results::PageInfo.new(
-                    identifier: input_data.identifier,
-                    title: wiki_page.title,
-                    provider:,
-                    href: url_for(only_path: true,
-                                  controller: "/wiki",
-                                  action: "show",
-                                  project_id: wiki_page.project.identifier,
-                                  id: wiki_page.slug)
-                  )
-                )
+                success(self.class.wiki_page_to_page_info(wiki_page, provider:))
               end
-            end
-
-            private
-
-            delegate :url_for, to: :url_helpers
-
-            def url_helpers
-              OpenProject::StaticRouting::StaticRouter.new.url_helpers
             end
           end
         end

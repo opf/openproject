@@ -70,7 +70,7 @@ RSpec.describe "Backlog pagination state", :js do
     backlogs_page.expect_no_inbox_show_more
 
     # Create backlog bucket
-    backlogs_page.open_create_backlog_bucket_dialog
+    backlogs_page.open_create_bucket_dialog
 
     within_dialog "New backlog bucket" do
       fill_in "Name", with: "New bucket"

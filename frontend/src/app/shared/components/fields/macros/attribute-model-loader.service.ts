@@ -98,7 +98,7 @@ export class AttributeModelLoaderService {
           shareReplay(1),
         );
 
-      state.clearAndPutFromPromise(firstValueFrom(observable) as PromiseLike<HalResource>);
+      state.clearAndPutFromPromise(firstValueFrom(observable));
 
       return observable;
     }

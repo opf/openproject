@@ -31,7 +31,7 @@
 class PersistedView < ApplicationRecord
   belongs_to :project, optional: true
   belongs_to :principal, optional: true, inverse_of: :persisted_views
-  belongs_to :query, polymorphic: true, optional: true
+  belongs_to :query, polymorphic: true, optional: true, autosave: true
 
   belongs_to :parent, class_name: "PersistedView", optional: true
   has_many :children, class_name: "PersistedView", foreign_key: "parent_id", dependent: :destroy, inverse_of: :parent
@@ -49,6 +49,7 @@ class PersistedView < ApplicationRecord
 
   scope :public_views, -> { where(public: true) }
   scope :private_views, ->(principal = User.current) { where(public: false, principal_id: principal.id) }
+  scope :with_children, -> { includes(:children) }
 
   scope :visible, (lambda do |principal = User.current|
     public_views.or(private_views(principal))
@@ -66,6 +67,13 @@ class PersistedView < ApplicationRecord
 
   class << self
     attr_writer :allowed_children
+  end
+
+  # Resolves a (potentially user-supplied) class name to a view class, but only
+  # if it is an allowed child of this view. Returns nil for any unknown or
+  # forbidden name.
+  def self.allowed_child_class(name)
+    allowed_children.index_with(&:constantize)[name.to_s]
   end
 
   # Returns the query of this view or, if not set, the query of the parent view.

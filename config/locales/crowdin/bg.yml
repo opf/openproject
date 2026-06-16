@@ -1721,6 +1721,7 @@ bg:
       attachment:
         attachment_content: Attachment content
         attachment_file_name: Attachment file name
+        charset: Character set
         content_type: Content-type
         downloads: Файлове за изтегляне
         file: Файл
@@ -1815,6 +1816,7 @@ bg:
         title: Title
         description: Description
       member:
+        blocked: Blocked
         roles: Роли
       notification:
         read_ian: Read in-app
@@ -2060,6 +2062,7 @@ bg:
         priority: Приоритет
         progress: "% Завършено"
         readonly: Само за четене
+        relatable: Relatable to
         remaining_hours: Оставаща работа
         remaining_time: Оставаща работа
         sequence_number: Sequence number
@@ -2104,17 +2107,14 @@ bg:
         before: трябва да бъде преди %{date}.
         before_or_equal_to: трябва да бъде преди или е равно на %{date}.
         blank: не може да бъде празно.
-        not_before_start_date: must not be before the start date.
-        overlapping_range: overlaps with an existing non-working day range.
         blank_nested: трябва да бъде зададено свойството '%{property}'.
         cannot_delete_mapping: е необходимо. Не може да бъде изтрит.
-        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         cant_link_a_work_package_with_a_descendant: Работния пакет не може да бъде свързан с една от неговите подзадачи.
         circular_dependency: Тази връзка ще доведе до циклична зависимост.
         confirmation: не съвпада с %{attribute}.
         could_not_be_copied: "%{dependency} не може да бъде (напълно) копирана."
+        datetime_must_be_in_future: must be in the future.
         does_not_exist: не съществува.
-        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         error_enterprise_only: "%{action} is only available in the OpenProject Enterprise edition."
         error_unauthorized: не може да бъде осъществен достъп.
         error_readonly: направен е неуспешен опит за запис
@@ -2135,36 +2135,38 @@ bg:
         greater_than_or_equal_to: трябва да бъде по-голямо от или равно на %{count}.
         greater_than_or_equal_to_start_date: трябва да бъде по-голяма от или равна на началната дата.
         greater_than_start_date: трябва да бъде по-голяма от началната дата.
+        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         inclusion: не е зададена, като позволена стойност.
         inclusion_nested: не е зададена на една от разрешените стойности в пътя '%{path}'.
         invalid: е невалиден.
         invalid_uri: must be a valid URI.
         invalid_url: невалиден URL адрес.
         invalid_url_scheme: 'не е поддържан протокол (разрешен: %{allowed_schemes}).'
+        is_for_all_cannot_modify: is for all projects and can therefore not be modified.
         less_than_or_equal_to: трябва да бъде по-малка или равна на %{count}.
         not_available: не е наличен поради системна конфигурация.
+        not_before_start_date: must not be before the start date.
         not_deletable: не може да бъде изтрито.
         not_editable: cannot be edited because it is already in effect.
         not_current_user: не е текущият потребител.
-        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         not_found: not found.
         not_a_date: е невалидна дата
         not_a_datetime: не е валидна дата и час.
         not_a_number: не е число.
         not_allowed: е невалиден поради липса на достъп.
-        host_not_allowed: is not an allowed host.
         not_json: is not parseable as JSON.
         not_json_object: is not a JSON object.
         not_an_integer: не е цяло число.
         not_an_iso_date: 'не е валидна дата. Изискван формат: ГГГГ-ММ-ДД.'
         not_same_project: не принадлежат към един и същ проект.
-        datetime_must_be_in_future: must be in the future.
         odd: трябва да бъде нечетен.
+        overlapping_range: overlaps with an existing non-working day range.
         regex_match_failed: не съответства на регулярния израз %{expression}.
         regex_invalid: не може да бъде валидиран със съответния регулярен израз.
         regex_list_invalid: Lines %{invalid_lines} could not be parsed as regular expression.
-        hexcode_invalid: is not a valid 6-digit hexadecimal color code.
         smaller_than_or_equal_to_max_length: трябва да бъде по-малка от или равна на максималната дължина.
+        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        system_wide_non_working_day_exists: conflicts with an existing system-wide non-working day for this date.
         taken: вече съществува.
         too_long: е твърде дълго (максимума е %{count} знаци).
         too_short: е твърде кратък (минимум е %{count} знаци).
@@ -2177,6 +2179,7 @@ bg:
         url_not_secure_context: 'is not providing a "Secure Context". Either use HTTPS or a loopback address, such as localhost.
 
           '
+        user_already_in_department: User %{user_id} is already a member of department %{department_id}.
         wrong_length: е грешна дължина (трябва да бъде %{count} знаци).
       models:
         group:
@@ -2841,6 +2844,7 @@ bg:
   button_login: Влизане
   button_move: Премести
   button_move_and_follow: Преместване и последване
+  button_next: Next
   button_print: Отпечатване
   button_quote: Цитат
   button_remove: Премахване
@@ -3470,6 +3474,12 @@ bg:
       selected: Selected
     include_sub_items: Include sub-items
     no_results_text: No results
+  header:
+    project_select_component:
+      all_projects: All projects
+      favorites: Favorites
+      leave_project: Leave project
+      title: Projects
   toggle_switch:
     label_on: 'On'
     label_off: 'Off'
@@ -3510,6 +3520,9 @@ bg:
     additional:
       projects: Най-новите проекти, видими в този случай.
       no_visible_projects: There are no visible projects in this instance.
+      favorite_projects:
+        no_results: You have no favorite projects
+        no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Най-новите регистрирани потребители в този случай.
     blocks:
       community: OpenProject Общността
@@ -3884,6 +3897,7 @@ bg:
   label_send_invitation: Send invitation
   label_calculated_value: Calculated value
   label_change_parent: Смяна на главният работен пакет
+  label_change_password: Change password
   label_change_plural: Промени
   label_change_properties: Промяна на свойствата
   label_change_status: Промяна на статуса
@@ -4078,6 +4092,7 @@ bg:
   label_journal_diff: Сравнение на описание
   label_language: Език
   label_languages: Езици
+  label_export_plural: Exports
   label_external_links: External links
   label_locale: Language and region
   label_jump_to_a_project: Отиди на проект...
@@ -4169,6 +4184,7 @@ bg:
   label_my_account_data: Данни за моят акаунт
   label_my_avatar: Моят аватар
   label_my_queries: Моите потребителски заявки
+  label_my_security: Security
   label_name: Име
   label_never: Никога
   label_new: Нов
@@ -4516,6 +4532,9 @@ bg:
   label_x_working_days_time_off:
     one: 'Time off: 1 working day'
     other: 'Time off: %{count} working days'
+  label_x_items_selected:
+    one: One item selected
+    other: "%{count} items selected"
   label_yesterday: вчера
   label_zen_mode: Режим Дзен
   label_role_type: Тип
@@ -4708,9 +4727,9 @@ bg:
       A new user (%{email}) tried to create an account on an OpenProject environment that you manage (%{host}).
       The user cannot activate their account since the user limit has been reached.
     steps:
-      label: 'За да разрешите на потребителя да влезе, можете да: '
       a: Актуализирайте плана си за плащане ([тук](upgrade_url))
       b: Заключване или изтриване на съществуващ потребител ([тук](users_url))
+      label: 'За да разрешите на потребителя да влезе, можете да: '
   more_actions: Още функции
   noscript_description: Трябва да активирате JavaScript за да ползвате OpenProject!
   noscript_heading: JavaScript е изключен
@@ -5226,6 +5245,10 @@ bg:
   setting_consent_required: Consent required
   setting_consent_decline_mail: Consent contact mail address
   setting_cross_project_work_package_relations: Allow cross-project work package relations
+  setting_csv_escape_formulas: Escape formulas in CSV exports
+  setting_csv_escape_formulas_text: 'Escape spreadsheet formulas in CSV exports by prefixing cells that begin with characters such as =, +, -, or @ with a single quote. This mitigates CSV formula injection when exported files are opened in spreadsheet applications such as Excel. This comes at the downside of modifying the string values inside the CSV, so you may want to disable this if downstream tools require the exact, unescaped cell values.
+
+    '
   setting_first_week_of_year: First week in year contains
   setting_date_format: Дата
   setting_default_language: Език по подразбиране
@@ -5266,6 +5289,9 @@ bg:
   setting_work_package_properties: Work package properties
   setting_work_package_startdate_is_adddate: Use current date as start date for new work packages
   setting_work_packages_projects_export_limit: Work packages / Projects export limit
+  setting_work_packages_projects_export_limit_text: 'Maximum number of work packages or projects that can be included in a single export. Larger exports are truncated to this limit.
+
+    '
   setting_journal_aggregation_time_minutes: Aggregation period
   setting_log_requesting_user: Log user login, name, and mail address for all requests
   setting_login_required: Authentication required
@@ -5967,6 +5993,17 @@ bg:
     warning: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
 
       '
+    dialog:
+      title: Change working days
+      description: 'Changing which days of the week are considered working days or non-working days can affect the start and finish days of all work packages and life cycles in all projects in this instance.
+
+        '
+      removed_title: 'You will remove the following days from the non-working days list:'
+      warning: 'The changes might take some time to take effect. You will be notified when all relevant work packages and project life cycles have been updated.
+
+        '
+      heading: Change the working days?
+      confirm_button: Save and reschedule
     journal_note:
       changed: _**Working days** changed (%{changes})._
       days:
