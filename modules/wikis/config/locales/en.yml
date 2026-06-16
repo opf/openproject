@@ -22,7 +22,7 @@ en:
           attributes:
             url:
               already_taken: "belongs to the wiki provider that's already known as \"%{name}\"."
-              xwiki_unreachable: could not be reached
+              wiki_provider_unreachable: could not be reached
     models:
       wikis/inline_page_link:
         one: Inline page link

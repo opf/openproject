@@ -28,21 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis::XWikiProviders::Concerns::FetchesInstanceId
-  private
+module Wikis
+  module XWikiProviders
+    module Concerns
+      module FetchesInstanceId
+        private
 
-  def after_validate(service_call)
-    model = service_call.result
-    return service_call unless should_fetch_instance_id?(model)
+        def after_validate(service_call)
+          call = super
+          return call unless call.success?
 
-    result = Wikis::XWikiProviders::FetchInstanceIdService.new(provider: model).call
-    if result.success?
-      model.universal_identifier = result.value!
-    else
-      service_call.errors.add(:url, :xwiki_unreachable)
-      service_call.success = false
+          model = call.result
+          return call unless should_fetch_instance_id?(model)
+
+          result = Wikis::XWikiProviders::FetchInstanceIdService.new(provider: model).call
+          if result.success?
+            model.universal_identifier = result.value!
+          else
+            call.errors.add(:url, :wiki_provider_unreachable)
+            call.success = false
+          end
+
+          call
+        end
+
+        def should_fetch_instance_id?(_model)
+          raise SubclassResponsibilityError
+        end
+      end
     end
-
-    service_call
   end
 end
