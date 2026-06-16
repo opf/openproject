@@ -135,7 +135,7 @@ function handlePromoteToBlock(
 
   const blockNode = {
     type: 'openProjectWorkPackageBlock',
-    props: { wpid, initialized: true, size, displayId },
+    props: { wpid, size, displayId },
   } as Parameters<typeof editor.insertBlocks>[0][number];
 
   if (contentBefore.length > 0) {
