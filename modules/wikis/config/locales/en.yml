@@ -176,7 +176,7 @@ en:
     upsell:
       xwiki:
         description: |-
-          Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place
+          Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
         title: XWiki Integration
 
     work_package_wikis_tab_component:
