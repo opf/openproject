@@ -287,6 +287,33 @@ Get flaky fixes with:
 git log --grep=flaky --no-merges
 ```
 
+### Common feature-spec flake patterns and their fixes
+
+The most frequent root cause is **Turbo's asynchronous rendering**. `wait_for_network_idle` only waits for the HTTP response to arrive, but Turbo updates the DOM *after* that:
+
+1. HTTP response received → network idle
+2. Turbo dispatches `turbo:before-stream-render` (or `turbo:before-render` for Drive)
+3. Turbo awaits the next repaint
+4. DOM is updated
+
+An assertion running between steps 1 and 4 sees stale content and fails intermittently. The helpers below (in `spec/support/shared/cuprite_helpers.rb` and `spec/support/toasts/expectations.rb`) register their JS event listeners *before* yielding the block, so they are race-condition-safe. Wrap only the triggering action — never the assertion.
+
+| Helper | Use when the action triggers… | Example |
+|--------|-------------------------------|---------|
+| `wait_for_turbo_stream { action }` | a **Turbo Stream** response (partial DOM replacement: dialog updates, list item changes). Waits for `op:turbo-stream-rendered`. | `wait_for_turbo_stream { share_dialog.toggle_public }` |
+| `wait_for_turbo { action }` | a **Turbo Drive** navigation (form submit, POST → redirect). Waits for `turbo:load`. | `wait_for_turbo { click_on "Complete" }` |
+| `wait_for_turbo_frame { action }` | a **Turbo Frame** load/update. Waits for `turbo:frame-load`. | `wait_for_turbo_frame { projects_page.remove_column("Status") }` |
+| `wait_for_network_idle` | a plain AJAX/Angular request with **no** Turbo rendering to wait for. | `columns.remove("Priority"); wait_for_network_idle` |
+| `dismiss_specific_toaster!(message:)` | **multiple** toasts may appear in sequence and `dismiss_toaster!` could close the wrong one. | `dismiss_specific_toaster!(message: "Saved successfully")` |
+| `have_test_selector(sel, text:)` | the container itself may be **replaced** by a Turbo Stream (stale node). Re-queries the DOM on each retry, unlike `within_test_selector`. | `expect(page).to have_test_selector("agenda-items-list", text: "No notes")` |
+| `retry_block { action }` | page state is **non-deterministic** after navigation (e.g. `go_back` re-initialises asynchronously). | `retry_block { click_on "Calendar event" }` |
+| `have_button("Label", wait: 20)` | an Angular custom element sets its label asynchronously in `ngOnInit` and the default wait is too short on slow CI. | `expect(page).to have_button("Nextcloud login", wait: 20)` |
+| `expect_active!` (not `activate!`) | a field is **already** in edit mode (e.g. auto-opened after a failed save). | `subject_field.expect_active!` |
+
+A frequent trap: a helper method call (`field.open_field`) followed by a bare `wait_for_network_idle` on the next line. The HTTP request finishes but Turbo hasn't applied the stream yet — replace it with `wait_for_turbo_stream { field.open_field }`. Wrapping a helper that internally calls `wait_for_network_idle` is safe, because the outer listener is registered before the block runs.
+
+To pick the right wait when unsure, check the controller action: `render turbo_stream:` / `format.turbo_stream` → `wait_for_turbo_stream`; `redirect_to` → `wait_for_turbo`; a `<turbo-frame>` update → `wait_for_turbo_frame`.
+
 ### Is the failure authentic?
 
 Flakiness can also be reversed: a test passes sometimes, but actually, given the code state, it should always fail.

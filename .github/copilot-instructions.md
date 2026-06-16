@@ -28,7 +28,7 @@ See [AGENTS.md](../AGENTS.md) for all agent instructions.
 #### Parallel Test Failures
 - Tests run in parallel on CI with different random seeds per group
 - Check `tmp/parallel_runtime.log` for execution times
-- **Flaky specs**: Some tests may fail randomly; see `docs/development/running-tests/` for handling flaky tests
+- **Flaky specs**: Some tests may fail randomly; see [`docs/development/testing/handling-flaky-tests/README.md`](../docs/development/testing/handling-flaky-tests/README.md) for the full playbook, including the Turbo-aware waiting helpers and a pattern→fix table for feature specs
   - Use `script/bulk_run_rspec` to run tests multiple times to identify flaky behavior
 
 ### Extended Details
