@@ -45,6 +45,20 @@ module Wikis
 
       it_behaves_like "contract is valid"
 
+      describe "validates the uniqueness of identifier" do
+        context "when the identifier already exists for the linkable" do
+          before { create(:relation_wiki_page_link, identifier: relation_page_link.identifier, linkable:) }
+
+          include_examples "contract is invalid", identifier: :taken
+        end
+
+        context "when the identifier already exists in another linkable" do
+          before { create(:relation_wiki_page_link, identifier: relation_page_link.identifier) }
+
+          include_examples "contract is valid"
+        end
+      end
+
       context "when creator is not the current user" do
         let(:author) { create(:user, member_with_permissions: { project => %i(manage_wiki_page_links view_work_packages) }) }
         let(:relation_page_link) { build_stubbed(:relation_wiki_page_link, author:, linkable:) }
