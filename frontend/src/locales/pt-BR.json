@@ -1439,6 +1439,12 @@
         },
         "label_two_factor_authentication": "Autenticação de dois fatores"
       },
+      "type_quick_filter": {
+        "active_label": "Type: %{types}",
+        "label": "Type",
+        "placeholder": "Filter by type...",
+        "show_all": "Show all"
+      },
       "types": {
         "attribute_groups": {
           "confirm_reset": "Aviso: Tem certeza de que deseja redefinir a configuração de formulário? Isto irá redefinir os atributos para o grupo padrão e desativar TODOS os campos personalizados.\n",

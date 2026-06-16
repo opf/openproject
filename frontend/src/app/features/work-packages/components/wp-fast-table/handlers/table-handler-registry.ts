@@ -33,6 +33,9 @@ import { TimelineTransformer } from './state/timeline-transformer';
 import {
   SharingTransformer,
 } from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/sharing-transformer';
+import {
+  TypeFilterTransformer,
+} from 'core-app/features/work-packages/components/wp-fast-table/handlers/state/type-filter-transformer';
 
 // noinspection JSUnusedLocalSymbols
 type StateTransformers = new(injector:Injector, table:WorkPackageTable) => any;
@@ -75,6 +78,7 @@ export class TableHandlerRegistry extends WorkPackageViewHandlerRegistry<TableEv
     GroupFoldTransformer,
     TimelineTransformer,
     HierarchyTransformer,
+    TypeFilterTransformer,
     RelationsTransformer,
     SharingTransformer,
     HighlightingTransformer,

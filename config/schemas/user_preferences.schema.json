@@ -55,6 +55,16 @@
                 },
                 "pause_reminders": {
                   "$ref": "#/definitions/PauseReminders"
+                },
+                "type_quick_filter": {
+                    "type": ["object", "null"],
+                    "properties": {
+                        "boards":        { "type": ["array", "null"], "items": { "type": "string" } },
+                        "work_packages": { "type": ["array", "null"], "items": { "type": "string" } },
+                        "gantt":         { "type": ["array", "null"], "items": { "type": "string" } },
+                        "kanban":        { "type": ["array", "null"], "items": { "type": "string" } }
+                    },
+                    "additionalProperties": false
                 }
             },
             "title": "UserPreferences"

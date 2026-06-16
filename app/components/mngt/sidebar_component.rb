@@ -4,7 +4,7 @@ class Mngt::SidebarComponent < ApplicationComponent
   PALETTE = %w[#7c3aed #2563eb #059669 #dc2626 #d97706 #0891b2 #be185d #65a30d].freeze
 
   ASSIGNED_FILTER = CGI.escape(
-    { "f" => [{ "n" => "responsible", "o" => "=", "v" => ["me"] }, { "n" => "status", "o" => "o", "v" => [] }] }.to_json
+    { "f" => [{ "n" => "responsible", "o" => "=", "v" => ["me"] }, { "n" => "status", "o" => "o", "v" => [] }], "hi" => true }.to_json
   ).freeze
 
   OVERDUE_FILTER = CGI.escape(

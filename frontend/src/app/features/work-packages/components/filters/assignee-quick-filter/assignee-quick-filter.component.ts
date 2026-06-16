@@ -118,7 +118,6 @@ export class AssigneeQuickFilterComponent extends UntilDestroyedMixin implements
   }
 
   public toggleDropdown(event:MouseEvent):void {
-    event.stopPropagation();
     if (this.isOpen) {
       this.close();
     } else {

@@ -14,6 +14,15 @@ export interface ImmediateRemindersSettings {
   personalReminder:boolean;
 }
 
+export type ITypeQuickFilterView = 'boards'|'work_packages'|'gantt'|'kanban';
+
+export interface ITypeQuickFilterSettings {
+  boards?:string[]|null;
+  work_packages?:string[]|null;
+  gantt?:string[]|null;
+  kanban?:string[]|null;
+}
+
 export interface IUserPreference {
   autoHidePopups:boolean;
   commentSortDescending:boolean;
@@ -25,4 +34,5 @@ export interface IUserPreference {
   dailyReminders:DailyRemindersSettings;
   immediateReminders:ImmediateRemindersSettings;
   pauseReminders:Partial<PauseRemindersSettings>;
+  typeQuickFilter?:ITypeQuickFilterSettings|null;
 }

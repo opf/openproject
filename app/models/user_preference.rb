@@ -218,6 +218,14 @@ class UserPreference < ApplicationRecord
     self.settings = settings.merge("pause_reminders" => pause_reminders_hash(hash))
   end
 
+  def type_quick_filter
+    settings.fetch(:type_quick_filter, {})
+  end
+
+  def type_quick_filter=(value)
+    settings[:type_quick_filter] = value
+  end
+
   def dismissed_banner?(feature)
     dismissed_enterprise_banners.key?(feature.to_s)
   end

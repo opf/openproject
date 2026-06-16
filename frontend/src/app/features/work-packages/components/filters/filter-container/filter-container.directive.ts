@@ -47,6 +47,9 @@ import {
   WorkPackageFiltersService,
 } from 'core-app/features/work-packages/components/filters/wp-filters/wp-filters.service';
 import { WorkPackagesListService } from 'core-app/features/work-packages/components/wp-list/wp-list.service';
+import {
+  ITypeQuickFilterView,
+} from 'core-app/features/user-preferences/state/user-preferences.model';
 
 @Component({
   templateUrl: './filter-container.directive.html',
@@ -58,6 +61,8 @@ export class WorkPackageFilterContainerComponent extends UntilDestroyedMixin imp
   @Input() showFilterButton = false;
 
   @Input() filterButtonText:string = I18n.t('js.button_filter');
+
+  @Input() typeFilterViewKey:ITypeQuickFilterView|null = null;
 
   @Output() public filtersChanged = new DebouncedEventEmitter<QueryFilterInstanceResource[]>(componentDestroyed(this));
 

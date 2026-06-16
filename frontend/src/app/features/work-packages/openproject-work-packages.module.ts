@@ -353,6 +353,9 @@ import {
   AssigneeQuickFilterComponent,
 } from 'core-app/features/work-packages/components/filters/assignee-quick-filter/assignee-quick-filter.component';
 import {
+  TypeQuickFilterComponent,
+} from 'core-app/features/work-packages/components/filters/type-quick-filter/type-quick-filter.component';
+import {
   FilterBooleanValueComponent,
 } from 'core-app/features/work-packages/components/filters/filter-boolean-value/filter-boolean-value.component';
 import {
@@ -536,6 +539,7 @@ import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packag
     WorkPackageFilterContainerComponent,
     WorkPackageFilterButtonComponent,
     AssigneeQuickFilterComponent,
+    TypeQuickFilterComponent,
 
     // Context menus
     OpTypesContextMenuDirective,
@@ -658,6 +662,7 @@ import { WorkPackageFullViewEntryComponent } from 'core-app/features/work-packag
     WorkPackageFilterButtonComponent,
     WorkPackageFilterContainerComponent,
     AssigneeQuickFilterComponent,
+    TypeQuickFilterComponent,
     QueryFiltersComponent,
 
     WpResizerComponent,

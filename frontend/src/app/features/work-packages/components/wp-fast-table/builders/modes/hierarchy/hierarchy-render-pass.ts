@@ -13,6 +13,7 @@ import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/q
 import { WorkPackageViewHierarchiesService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-hierarchy.service';
 import { InjectField } from 'core-app/shared/helpers/angular/inject-field.decorator';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
+import { TypeQuickFilterStateService } from 'core-app/features/work-packages/components/filters/type-quick-filter/type-quick-filter-state.service';
 import { additionalHierarchyRowClassName, SingleHierarchyRowBuilder } from './single-hierarchy-row-builder';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
@@ -23,6 +24,8 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   @InjectField() apiV3Service:ApiV3Service;
 
   @InjectField() wpTableHierarchies:WorkPackageViewHierarchiesService;
+
+  @InjectField() typeQuickFilterState:TypeQuickFilterStateService;
 
   // Remember which rows were already rendered
   readonly rendered:Record<string, boolean> = {};
@@ -90,7 +93,9 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         const [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
         row.element = tr;
         this.tableBody.appendChild(tr);
-        this.markRendered(tr, workPackage, hidden);
+        // If the type quick filter is active, hide root-level WPs whose type is not selected
+        const hiddenByTypeFilter = this.isHiddenByTypeFilter(workPackage);
+        this.markRendered(tr, workPackage, hidden || hiddenByTypeFilter);
       }
 
       // Render all potentially deferred rows
@@ -264,6 +269,22 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     );
 
     this.rendered[workPackage.id!] = true;
+  }
+
+  private isHiddenByTypeFilter(workPackage:WorkPackageResource):boolean {
+    if (!this.typeQuickFilterState.isActive()) return false;
+
+    const selected = this.typeQuickFilterState.current;
+
+    // Show if own type matches
+    const typeHref = (workPackage.type as { href?:string }|undefined)?.href;
+    if (typeHref && selected.has(typeHref)) return false;
+
+    // Show if any ancestor's type matches (this WP is beneath a virtual root)
+    return !workPackage.getAncestors().some((a) => {
+      const aHref = ((a as WorkPackageResource).type as { href?:string }|undefined)?.href;
+      return !!aHref && selected.has(aHref);
+    });
   }
 
   private buildRenderInfo(row:HTMLTableRowElement, workPackage:WorkPackageResource, hidden:boolean, isAncestor:boolean):RowRenderInfo {

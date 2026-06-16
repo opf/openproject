@@ -52,6 +52,7 @@ function createInitialState():IUserPreference {
     pauseReminders: {
       enabled: false,
     },
+    typeQuickFilter: null,
   };
 }
 

@@ -754,6 +754,12 @@ Redmine::MenuManager.map :project_menu do |menu|
             partial: "members/menus/menu",
             caption: :label_member_plural
 
+  menu.push :sprints,
+            { controller: "/backlogs/backlog", action: :show },
+            caption: "Sprints",
+            before: :settings,
+            icon: "op-backlogs"
+
   menu.push :settings,
             { controller: "/projects/settings/general", action: :show },
             caption: :label_project_settings,

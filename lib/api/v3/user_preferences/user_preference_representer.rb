@@ -99,6 +99,9 @@ module API
 
         property :workdays
 
+        property :type_quick_filter,
+                 render_nil: true
+
         property :notification_settings,
                  as: :notifications,
                  exec_context: :decorator,

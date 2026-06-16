@@ -131,6 +131,7 @@ export class PartitionedQuerySpacePageComponent extends WorkPackagesViewBase imp
   /** Which filter container component to mount */
   filterContainerDefinition:DynamicComponentDefinition = {
     component: WorkPackageFilterContainerComponent,
+    inputs: { typeFilterViewKey: 'work_packages' },
   };
 
   ngOnInit():void {

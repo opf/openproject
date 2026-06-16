@@ -2,6 +2,10 @@
   <op-assignee-quick-filter></op-assignee-quick-filter>
 }
 
+@if (loaded && typeFilterViewKey) {
+  <op-type-quick-filter [viewKey]="typeFilterViewKey"></op-type-quick-filter>
+}
+
 @if (showFilterButton) {
   <button
     class="button -small advanced-filters--toggle"

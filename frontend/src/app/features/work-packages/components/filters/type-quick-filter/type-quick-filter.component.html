@@ -1,0 +1,46 @@
+<div class="op-type-filter" [class.-open]="isOpen">
+  <button
+    class="button -small op-type-filter--trigger"
+    [class.-active]="isActive"
+    (click)="toggleDropdown($event)"
+  >
+    <i class="button--icon icon-types"></i>
+    <span class="button--text">{{ label }}</span>
+    <i class="button--icon icon-small icon-arrow-down2"></i>
+  </button>
+
+  @if (isOpen) {
+    <div class="op-type-filter--dropdown" (click)="$event.stopPropagation()">
+
+      @if (isActive) {
+        <div class="op-type-filter--actions">
+          <button class="op-type-filter--clear" (click)="clearAll()">
+            <i class="icon-close"></i> {{ text.clearFilter }}
+          </button>
+        </div>
+        <hr class="op-type-filter--divider" />
+      }
+
+      @if (typesLoading) {
+        <div class="op-type-filter--loading">{{ text.loading }}</div>
+      } @else {
+        <ul class="op-type-filter--list">
+
+          @for (type of types; track type.href) {
+            <li
+              class="op-type-filter--item"
+              [class.-selected]="isSelected(type)"
+              (click)="toggleType(type)"
+            >
+              <span class="op-type-filter--name">{{ type.name }}</span>
+              @if (isSelected(type)) {
+                <i class="icon-checkmark op-type-filter--check"></i>
+              }
+            </li>
+          }
+
+        </ul>
+      }
+    </div>
+  }
+</div>
