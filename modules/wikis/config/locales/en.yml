@@ -174,7 +174,7 @@ en:
         name: XWiki
     relation_page_links_component:
       empty_heading: No related pages
-      empty_text: Manually add links to other related wiki pages.
+      empty_text: Add wiki pages that are relevant to this work package.
       link_existing: Existing wiki page
       link_new: New wiki page
     upsell:
@@ -184,5 +184,5 @@ en:
         title: XWiki Integration
 
     work_package_wikis_tab_component:
-      inline_page_links: Inline page links
+      mentioned_in_description: Mentioned in description
       referencing_pages: Referenced in

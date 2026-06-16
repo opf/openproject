@@ -39,7 +39,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         if inline_page_links.any?
           container.with_row(mb: 3) do
-            render(::Wikis::CollapsiblePageLinksComponent.new(inline_page_links, heading: t(".inline_page_links")))
+            render(::Wikis::CollapsiblePageLinksComponent.new(inline_page_links, heading: t(".mentioned_in_description")))
           end
         end
 
