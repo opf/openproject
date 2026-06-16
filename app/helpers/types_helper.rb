@@ -45,6 +45,11 @@ module ::TypesHelper
         label: I18n.t("types.edit.form_configuration.tab")
       },
       {
+        name: "project_attributes",
+        path: edit_type_project_attributes_path(@type),
+        label: I18n.t("types.edit.project_attributes.tab")
+      },
+      {
         name: "subject_configuration",
         path: edit_type_subject_configuration_path(type_id: @type.id),
         label: I18n.t("types.edit.subject_configuration.tab"),

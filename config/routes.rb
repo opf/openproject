@@ -179,6 +179,11 @@ Rails.application.routes.draw do
         post :enable_all, to: "projects_tab#enable_all_projects"
       end
     end
+    resource :project_attributes, controller: "project_attributes_tab", only: %i[edit] do
+      post :toggle
+      put :enable_all_of_section
+      put :disable_all_of_section
+    end
     resource :settings, controller: "settings_tab", only: %i[update edit]
     resource :subject_configuration, controller: "subject_configuration_tab", only: %i[update edit]
 
