@@ -38,7 +38,7 @@ module Wikis
 
       before_action :require_admin
       before_action :find_wiki_provider, only: %i[edit update destroy confirm_destroy edit_general_info replace_oauth_application]
-      before_action :ee_token_allows_wiki_integration?
+      before_action :ee_token_allows_wiki_integration
 
       menu_item :external_wiki_providers
 
@@ -129,7 +129,7 @@ module Wikis
 
       private
 
-      def ee_token_allows_wiki_integration?
+      def ee_token_allows_wiki_integration
         @ee_token_allows_wiki_integration = EnterpriseToken.allows_to?(:xwiki_integration)
       end
 
