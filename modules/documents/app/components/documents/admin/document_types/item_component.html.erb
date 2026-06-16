@@ -67,9 +67,15 @@
         end
 
         grid.with_area(:"documents-count", tag: :div, hide: :sm) do
-          render(Primer::Beta::Text.new(color: :subtle, test_selector: "documents-count")) do
-            document_type.documents_count.to_s
-          end
+          render(
+            Primer::Beta::Counter.new(
+              count: document_type.documents_count,
+              round: true,
+              limit: 1_000,
+              hide_if_zero: true,
+              test_selector: "documents-count"
+            )
+          )
         end
 
         grid.with_area(:actions, tag: :div, classes: "hide-when-print") do

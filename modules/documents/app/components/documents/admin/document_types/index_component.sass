@@ -1,15 +1,16 @@
-.op-documents-types-list--header,
 .op-documents-types-list--item
   display: grid
-  grid-template-columns: 20px 2fr 1fr 1fr
+  grid-template-columns: auto auto 1fr auto
   grid-template-areas: "drag-handle name documents-count actions"
+  column-gap: var(--stack-gap-condensed)
 
-  &--actions
-    justify-self: end
+  &--drag-handle
+    align-self: center
+    padding-right: var(--stack-gap-condensed)
+    cursor: grab
+    color: var(--fgColor-muted)
 
 @media screen and (max-width: $breakpoint-sm)
-  .op-documents-types-list--header,
   .op-documents-types-list--item
-    grid-template-columns: 20px 1fr 1fr
+    grid-template-columns: auto 1fr auto
     grid-template-areas: "drag-handle name actions"
-    column-gap: 5px

@@ -41,6 +41,9 @@ en:
         document_type:
           one_or_more_required: "Cannot delete the last document type"
     models:
+      document_type:
+        one: "Type"
+        other: "Types"
       document: "Document"
       documents: "Documents"
     attributes:
