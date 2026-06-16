@@ -36,6 +36,7 @@ import {
   timeout,
 } from 'rxjs/operators';
 import { take } from 'rxjs/internal/operators/take';
+import { HttpErrorResponse } from '@angular/common/http';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { IToast, ToastService, ToastType } from 'core-app/shared/components/toaster/toast.service';
@@ -119,6 +120,11 @@ export class ToastComponent implements OnInit {
 
   public onUploadSuccess():void {
     this.uploadCount += 1;
+  }
+
+  public onUploadError(error:HttpErrorResponse):void {
+    this.toastService.addError(error);
+    this.remove();
   }
 
   public get uploadText():string {

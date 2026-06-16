@@ -58,12 +58,9 @@ export function useBlockNoteAttachments(
       );
 
       return result?.[0]._links.staticDownloadLocation.href ?? '';
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
-      const toastService = pluginContext.services.notifications;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      toastService.addError(error);
-
+    } catch {
+      // Upload errors are surfaced by the upload-progress toast
+      // (see ToastComponent#onUploadError); avoid showing a duplicate error here.
       return '';
     }
   }, [attachmentsCollectionKey, attachmentsUploadUrl]);

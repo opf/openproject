@@ -55,6 +55,12 @@ export interface ICKEditorInstance {
   config:any;
   ui:any;
   element:HTMLElement;
+  plugins:{
+    has(name:string):boolean;
+    get(name:string):{
+      on(event:string, callback:(evt:CKEditorEvent) => unknown, options?:CKEditorListenOptions):void;
+    };
+  };
 }
 
 export interface ICKEditorStatic {
