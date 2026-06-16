@@ -355,7 +355,7 @@ module Components
 
       def dismiss_comment_editor_with_cancel_button
         page.within_test_selector("op-work-package-journal-form") do
-          click_on "Cancel"
+          click_on "Dismiss"
         end
       end
 

@@ -31,6 +31,7 @@
 module Wikis
   class RelationPageLinksController < ApplicationController
     include PageSelectionFormInput
+    include Concerns::LinkableRedirect
     include OpTurbo::ComponentStream
 
     before_action :authorize
@@ -79,20 +80,6 @@ module Wikis
     def relation_page_link_params
       params.expect(wikis_relation_page_link: %i[provider_id linkable_type linkable_id])
             .merge(author_id: current_user.id, identifier: parse_identifier(params[:wiki_page_selection]))
-    end
-
-    def turbo_redirect_for_linkable(linkable)
-      path = derive_path_from_linkable(linkable)
-      return redirect_to path, status: :see_other if path
-
-      head :no_content
-    end
-
-    def derive_path_from_linkable(linkable)
-      case linkable
-      when WorkPackage
-        project_work_package_wikis_tab_index_path(work_package_id: linkable.id, project_id: linkable.project_id)
-      end
     end
   end
 end

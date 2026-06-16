@@ -40,6 +40,7 @@ en:
         label_activity_show_all: "Show everything"
         label_activity_show_only_comments: "Show comments only"
         label_activity_show_only_changes: "Show changes only"
+        label_dismiss_comment: "Dismiss"
         label_sort_asc: "Newest at the bottom"
         label_sort_desc: "Newest on top"
         label_type_to_comment: "Add a comment. Type @ to notify people."
@@ -52,7 +53,7 @@ en:
         commented: "commented"
         internal_comment: Internal comment
         internal_journal: Internal comments are visible to a limited group of members.
-        unsaved_changes_confirmation_message: You have unsaved changes. Are you sure you want to close the editor?
+        unsaved_changes_confirmation_message: "Are you sure you want to dismiss your comment? The content that you have written will be lost."
         internal_comment_confirmation:
           title: "Make this comment public?"
           heading: "Make this comment public?"

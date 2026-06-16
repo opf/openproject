@@ -23,32 +23,39 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Providers
-      module Internal
-        Registry = Dry::Core::Container::Namespace.new("internal") do
-          namespace("authentication") do
-            register(:user_bound, Authentication::UserBound)
-          end
+module OpenProject::Backlogs
+  module WorkPackageSelectConcern
+    extend ActiveSupport::Concern
 
-          namespace("commands") do
-            register(:create_page, Commands::CreatePage)
-          end
+    class_methods do
+      def instances(context = nil)
+        return [] if context && !context.backlogs_enabled?
+        return [] unless user_allowed_to_select?(context)
 
-          namespace("queries") do
-            register(:page_info, Queries::PageInfo)
-            register(:page_info_for_url, Queries::PageInfoForUrl)
-            register(:referencing_pages, Queries::ReferencingPages)
-            register(:relation_page_links, Queries::RelationPageLinks)
-            register(:search_pages, Queries::SearchPages)
-          end
+        [new(context)]
+      end
+
+      def user_allowed_to_select?(context)
+        if context
+          User.current.allowed_in_project?(:view_sprints, context)
+        else
+          User.current.allowed_in_any_project?(:view_sprints)
         end
+      end
+    end
+
+    private
+
+    def projects_with_view_sprints
+      if project
+        Project.where(id: project)
+      else
+        Project.allowed_to(User.current, :view_sprints)
       end
     end
   end

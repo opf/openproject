@@ -30,24 +30,14 @@
 
 module Wikis
   module Adapters
-    module Providers
-      module Internal
-        Registry = Dry::Core::Container::Namespace.new("internal") do
-          namespace("authentication") do
-            register(:user_bound, Authentication::UserBound)
-          end
+    module Input
+      class CreatePageContract < DryApplicationContract
+        params do
+          required(:title).filled(:string)
 
-          namespace("commands") do
-            register(:create_page, Commands::CreatePage)
-          end
-
-          namespace("queries") do
-            register(:page_info, Queries::PageInfo)
-            register(:page_info_for_url, Queries::PageInfoForUrl)
-            register(:referencing_pages, Queries::ReferencingPages)
-            register(:relation_page_links, Queries::RelationPageLinks)
-            register(:search_pages, Queries::SearchPages)
-          end
+          # TODO: This only works for pages as parents right now, we'll need to change some things around to support
+          # creating "root" pages that are direct children of a wiki. E.g. right now there is no data type to represent a wiki
+          required(:parent_identifier).filled(:string)
         end
       end
     end

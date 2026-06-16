@@ -44,6 +44,16 @@ en:
       wikis: Wikis
   permission_manage_wiki_page_links: Manage Wiki Page Links
   project_module_wiki_platforms: Wiki providers
+  services:
+    attributes:
+      wikis/create_linked_page_service:
+        wiki_page: Wiki page
+    errors:
+      models:
+        wikis/create_linked_page_service:
+          forbidden: was not allowed to be created.
+          not_found: was not found.
+          token_missing: Page creation not possible, user account is not connected to the wiki provider.
   wikis:
     admin:
       destroy_confirmation_dialog_component:

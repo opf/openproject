@@ -31,22 +31,14 @@
 module Wikis
   module Adapters
     module Providers
-      module Internal
-        Registry = Dry::Core::Container::Namespace.new("internal") do
-          namespace("authentication") do
-            register(:user_bound, Authentication::UserBound)
-          end
-
-          namespace("commands") do
-            register(:create_page, Commands::CreatePage)
-          end
-
-          namespace("queries") do
-            register(:page_info, Queries::PageInfo)
-            register(:page_info_for_url, Queries::PageInfoForUrl)
-            register(:referencing_pages, Queries::ReferencingPages)
-            register(:relation_page_links, Queries::RelationPageLinks)
-            register(:search_pages, Queries::SearchPages)
+      module XWiki
+        module Concerns
+          module XWikiPageQueries
+            def canonical_page_info(identifier:, auth_strategy:)
+              Input::PageInfo.build(identifier:).bind do |input_data|
+                Queries::Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
+              end
+            end
           end
         end
       end

@@ -39,7 +39,7 @@ module Wikis
           end
 
           namespace("commands") do
-            # ...
+            register(:create_page, Commands::CreatePage)
           end
 
           namespace("components") do

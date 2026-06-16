@@ -28,28 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Providers
-      module Internal
-        Registry = Dry::Core::Container::Namespace.new("internal") do
-          namespace("authentication") do
-            register(:user_bound, Authentication::UserBound)
-          end
+module Wikis::Adapters::Input
+  CreatePage = Data.define(:title, :parent_identifier) do
+    private_class_method :new
 
-          namespace("commands") do
-            register(:create_page, Commands::CreatePage)
-          end
-
-          namespace("queries") do
-            register(:page_info, Queries::PageInfo)
-            register(:page_info_for_url, Queries::PageInfoForUrl)
-            register(:referencing_pages, Queries::ReferencingPages)
-            register(:relation_page_links, Queries::RelationPageLinks)
-            register(:search_pages, Queries::SearchPages)
-          end
-        end
-      end
+    def self.build(title:, parent_identifier:, contract: CreatePageContract.new)
+      contract.call(title:, parent_identifier:).to_monad.fmap { new(**it.to_h) }
     end
   end
 end

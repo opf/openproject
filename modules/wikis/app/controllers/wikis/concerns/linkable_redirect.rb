@@ -29,25 +29,19 @@
 #++
 
 module Wikis
-  module Adapters
-    module Providers
-      module Internal
-        Registry = Dry::Core::Container::Namespace.new("internal") do
-          namespace("authentication") do
-            register(:user_bound, Authentication::UserBound)
-          end
+  module Concerns
+    module LinkableRedirect
+      def turbo_redirect_for_linkable(linkable)
+        path = derive_path_from_linkable(linkable)
+        return redirect_to path, status: :see_other if path
 
-          namespace("commands") do
-            register(:create_page, Commands::CreatePage)
-          end
+        head :no_content
+      end
 
-          namespace("queries") do
-            register(:page_info, Queries::PageInfo)
-            register(:page_info_for_url, Queries::PageInfoForUrl)
-            register(:referencing_pages, Queries::ReferencingPages)
-            register(:relation_page_links, Queries::RelationPageLinks)
-            register(:search_pages, Queries::SearchPages)
-          end
+      def derive_path_from_linkable(linkable)
+        case linkable
+        when WorkPackage
+          project_work_package_wikis_tab_index_path(work_package_id: linkable.id, project_id: linkable.project_id)
         end
       end
     end

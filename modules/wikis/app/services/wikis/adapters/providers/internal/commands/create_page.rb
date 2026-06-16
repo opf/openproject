@@ -31,39 +31,40 @@
 module Wikis
   module Adapters
     module Providers
-      module XWiki
-        module Queries
-          class SearchPages < BaseQuery
-            include Concerns::XWikiRequest
-            include Concerns::XWikiPageQueries
-
-            # Limiting result size rather strictly, because each result will cause another HTTP call to XWiki, this does not
-            # scale well. A stricter limit improves the worst case latency.
-            MAXIMUM_RESULTS = 20
-
+      module Internal
+        module Commands
+          class CreatePage < BaseCommand
             def call(input_data:, auth_strategy:)
-              query = { q: "\"#{escape_quotes input_data.query}\"", number: MAXIMUM_RESULTS }
+              Adapters::Authentication[auth_strategy].call do |user|
+                parent = find_parent(input_data.parent_identifier, user:)
+                return failure(code: :not_found) if parent.nil?
 
-              authenticated(auth_strategy) do |http|
-                handle_response(http.get(rest_url("wikis/query", query:))) do |json|
-                  success(
-                    fetch_json(json, "searchResults")
-                      .uniq { |r| fetch_json(r, "id") }
-                      .map do |r|
-                        result = canonical_page_info(identifier: fetch_json(r, "id"), auth_strategy:)
-                        return result if result.failure?
-
-                        result.value!
-                      end
+                service_result_to_monad(
+                  WikiPages::CreateService.new(user:).call(
+                    title: input_data.title,
+                    parent:,
+                    wiki: parent.wiki
                   )
-                end
+                )
               end
             end
 
             private
 
-            def escape_quotes(string)
-              string.gsub("\\", "\\\\").gsub('"', '\"')
+            def find_parent(identifier, user:)
+              WikiPage.visible(user).find_by(id: identifier)
+            end
+
+            def service_result_to_monad(result)
+              if result.success?
+                success(Queries::PageInfo.wiki_page_to_page_info(result.result, provider:))
+              elsif result.errors.details.values.flatten.any? { |e| e.fetch(:error) == :error_unauthorized }
+                failure(code: :forbidden)
+              else
+                # for now simplifying to a single error code, since there is not really any
+                # error case expected to crop up during real usage, due to previous validations in upstream code
+                failure(code: :invalid)
+              end
             end
           end
         end

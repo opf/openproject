@@ -28,22 +28,28 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Providers
-      module XWiki
-        module Queries
-          module Concerns
-            module XWikiPageQueries
-              def canonical_page_info(identifier:, auth_strategy:)
-                Input::PageInfo.build(identifier:).bind do |input_data|
-                  Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
-                end
-              end
-            end
-          end
-        end
-      end
+module Wikis::Adapters
+  class BaseCommand
+    include Dry::Monads[:result]
+
+    attr_reader :provider
+
+    def initialize(model:)
+      @provider = model
+    end
+
+    def call(input_data:, auth_strategy:) # rubocop:disable Lint/UnusedMethodArgument
+      raise SubclassResponsibilityError
+    end
+
+    private
+
+    def success(result)
+      Success(result)
+    end
+
+    def failure(code:)
+      Failure(Results::Error.new(source: self.class, code:))
     end
   end
 end

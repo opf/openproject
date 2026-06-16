@@ -31,6 +31,7 @@
 module Wikis
   class PagesController < ApplicationController
     include PageSelectionFormInput
+    include Concerns::LinkableRedirect
     include OpTurbo::ComponentStream
 
     before_action :authorize, except: %i[search]
@@ -39,12 +40,23 @@ module Wikis
     # the permissions set in each wiki.
     no_authorization_required! :search
 
-    def create_and_link
-      # TODO: implement service to create page and link
-      render_error_flash_message_via_turbo_stream(
-        message: "Not implemented yet. Trying to create a new page with #{create_new_page_params.to_h}"
-      )
-      respond_to_with_turbo_streams
+    def create_and_link # rubocop:disable Metrics/AbcSize
+      provider = Provider.visible.find(create_new_page_params[:provider_id])
+      result = CreateLinkedPageService.new(provider:, user: current_user)
+                                      .call(
+                                        title: create_new_page_params[:page_title],
+                                        parent_identifier: create_new_page_params[:parent_page_identifier],
+                                        linkable_type: create_new_page_params[:linkable_type],
+                                        linkable_id: create_new_page_params[:linkable_id]
+                                      )
+
+      if result.success?
+        turbo_redirect_for_linkable(result.result.linkable)
+      else
+        message = result.errors.full_messages.join(" ")
+        render_error_flash_message_via_turbo_stream(message:)
+        respond_to_with_turbo_streams
+      end
     end
 
     def create_new_page_dialog

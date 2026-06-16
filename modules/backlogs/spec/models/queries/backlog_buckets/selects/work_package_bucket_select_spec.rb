@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe OpenProject::Backlogs::WorkPackageSprintSelect do # rubocop:disable RSpec/SpecFilePathFormat
+RSpec.describe OpenProject::Backlogs::WorkPackageBucketSelect do # rubocop:disable RSpec/SpecFilePathFormat
   describe ".instances" do
     context "when user has permission to view sprints in a project" do
       let(:project) { build_stubbed(:project, enabled_module_names: %w[backlogs]) }
@@ -43,12 +43,12 @@ RSpec.describe OpenProject::Backlogs::WorkPackageSprintSelect do # rubocop:disab
         end
       end
 
-      it "returns sprint select instances" do
+      it "returns backlog bucket select instances" do
         instances = described_class.instances(project)
 
         expect(instances).to be_an(Array)
         expect(instances.size).to eq(1)
-        expect(instances.first.name).to eq(:sprint)
+        expect(instances.first.name).to eq(:backlog_bucket)
       end
     end
 
@@ -61,12 +61,19 @@ RSpec.describe OpenProject::Backlogs::WorkPackageSprintSelect do # rubocop:disab
         end
       end
 
-      it "returns sprint select instances when no context provided" do
+      it "returns backlog bucket select instances when no context provided" do
         instances = described_class.instances
 
         expect(instances).to be_an(Array)
         expect(instances.size).to eq(1)
-        expect(instances.first.name).to eq(:sprint)
+        expect(instances.first.name).to eq(:backlog_bucket)
+      end
+
+      it "does not return an instance if a project without permission is passed" do
+        instances = described_class.instances(build_stubbed(:project))
+
+        expect(instances).to be_an(Array)
+        expect(instances).to be_empty
       end
     end
 

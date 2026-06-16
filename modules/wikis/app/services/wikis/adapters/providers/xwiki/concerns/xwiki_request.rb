@@ -32,30 +32,68 @@ module Wikis
   module Adapters
     module Providers
       module XWiki
-        module Queries
-          class User < BaseQuery
-            include Concerns::XWikiRequest
+        module Concerns
+          module XWikiRequest
+            ACCEPT_HEADERS = { "Accept" => "application/json" }.freeze
 
-            def call(auth_strategy:)
-              authenticated(auth_strategy) do |http|
-                handle_response(http.get(rest_url("wikis/xwiki/user")))
+            def self.included(base)
+              base.prepend Prepended
+              base.extend ClassMethods
+            end
+
+            module Prepended
+              def call(**)
+                catch(:xwiki_error) { super }
+              end
+            end
+
+            module ClassMethods
+              include Dry::Monads[:result]
+
+              def fetch_json(json_hash, key)
+                json_hash.fetch(key) { throw :xwiki_error, Failure(Results::Error.new(source: self, code: :invalid_response)) }
               end
             end
 
             private
 
-            # Overrides the concern's handle_response: User reads a response header,
-            # not a JSON body, so JSON parsing is not applicable here.
+            def authenticated(auth_strategy)
+              Adapters::Authentication[auth_strategy].call do |http|
+                yield http.with(headers: ACCEPT_HEADERS)
+              end
+            end
+
+            def rest_url(path, query: nil)
+              # TODO: we might be able to extract a common URL formatting helper from Storages::UrlBuilder
+              url = "#{provider.url.chomp('/')}/rest/#{path.delete_prefix('/')}"
+              return url if query.nil?
+
+              "#{url}?#{query.to_query}"
+            end
+
             def handle_response(response)
               return failure(code: :connection_error) if response.is_a?(HTTPX::ErrorResponse)
 
               case response
               in { status: 200..299 }
-                xwiki_user = response.headers["xwiki-user"]
-                xwiki_user.present? ? success(xwiki_user) : failure(code: :unauthorized)
+                begin
+                  json = response.json
+                rescue MultiJson::ParseError
+                  return failure(code: :invalid_response)
+                end
+
+                yield json
+              in { status: 401 | 403 }
+                failure(code: :unauthorized)
+              in { status: 404 }
+                failure(code: :not_found)
               else
                 failure(code: :request_failed)
               end
+            end
+
+            def fetch_json(json_hash, key)
+              self.class.fetch_json(json_hash, key)
             end
           end
         end

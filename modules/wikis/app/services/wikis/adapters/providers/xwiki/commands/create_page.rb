@@ -32,30 +32,48 @@ module Wikis
   module Adapters
     module Providers
       module XWiki
-        module Queries
-          # Fetch page information using a stable XWiki identifier
-          class StablePageInfo < BaseQuery
+        module Commands
+          class CreatePage < BaseCommand
             include Concerns::XWikiRequest
 
             class << self
-              def json_to_page_info(data, provider:)
-                Results::PageInfo.new(
-                  identifier: fetch_json(data, "id"),
-                  title: fetch_json(data, "title"),
-                  href: fetch_json(data, "xwikiAbsoluteUrl"),
-                  provider:
-                )
+              # We have to manually derive a useful ID from the title that's both valid, but also makes for a nice XWiki URL
+              def derive_page_id(title)
+                title.tr("\\", "").gsub(/[.:]/, { ":" => "\\:", "." => "\\." })
               end
             end
 
             def call(input_data:, auth_strategy:)
-              ref = StablePageReference.parse(input_data.identifier)
+              parent_result = fetch_canonical_parent(identifier: input_data.parent_identifier, auth_strategy:)
+              parent_result.bind do |canonical_parent|
+                identifier = "#{canonical_parent}.#{self.class.derive_page_id(input_data.title)}.WebHome"
+
+                create_page_request(identifier, title: input_data.title, auth_strategy:) do |data|
+                  success(Queries::StablePageInfo.json_to_page_info(data, provider:))
+                end
+              end
+            end
+
+            private
+
+            def fetch_canonical_parent(identifier:, auth_strategy:)
+              ref = StablePageReference.parse(identifier)
               return failure(code: :not_found) unless ref
 
               authenticated(auth_strategy) do |http|
                 handle_response(http.get(rest_url(ref.rest_path))) do |data|
-                  success(self.class.json_to_page_info(data, provider:))
+                  success("#{fetch_json(data, 'wiki')}:#{fetch_json(data, 'space')}")
                 end
+              end
+            end
+
+            def create_page_request(reference, title:, auth_strategy:, &)
+              authenticated(auth_strategy) do |http|
+                handle_response(
+                  http.with(headers: { "Content-Type": "application/json" })
+                      .put(rest_url("openproject/documents", query: { docRef: reference.to_s }), body: { title: }.to_json),
+                  &
+                )
               end
             end
           end

@@ -54,4 +54,8 @@ class BacklogBucket < ApplicationRecord
   def self.for_project(project)
     where(project:).order_alphabetically
   end
+
+  def to_s
+    name
+  end
 end

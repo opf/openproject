@@ -28,28 +28,23 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Providers
-      module Internal
-        Registry = Dry::Core::Container::Namespace.new("internal") do
-          namespace("authentication") do
-            register(:user_bound, Authentication::UserBound)
-          end
-
-          namespace("commands") do
-            register(:create_page, Commands::CreatePage)
-          end
-
-          namespace("queries") do
-            register(:page_info, Queries::PageInfo)
-            register(:page_info_for_url, Queries::PageInfoForUrl)
-            register(:referencing_pages, Queries::ReferencingPages)
-            register(:relation_page_links, Queries::RelationPageLinks)
-            register(:search_pages, Queries::SearchPages)
-          end
-        end
-      end
-    end
+# Allows to use the service as a source for ActiveModel::Errors, i.e.
+#
+#     ActiveModel::Errors.new(self)
+#
+# It adds neccessary translation and naming helpers to the service.
+module ServiceAsErrorSource
+  def self.included(base)
+    base.extend ActiveModel::Naming
+    base.extend ActiveModel::Translation
+    base.extend ClassMethods
   end
+
+  module ClassMethods
+    def i18n_scope = "services"
+
+    def model_name = ActiveModel::Name.new(self)
+  end
+
+  def read_attribute_for_validation(attr) = attr
 end

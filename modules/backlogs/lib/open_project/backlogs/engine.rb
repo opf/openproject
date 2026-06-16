@@ -247,6 +247,7 @@ module OpenProject::Backlogs
         filter Queries::WorkPackages::Filter::SprintFilter
 
         select OpenProject::Backlogs::QueryBacklogsSelect
+        select OpenProject::Backlogs::WorkPackageBucketSelect
         select OpenProject::Backlogs::WorkPackageSprintSelect
       end
     end
