@@ -110,4 +110,34 @@ describe('DisableWhenClickedController', () => {
 
     expect(link).toHaveAttribute('aria-disabled', 'true');
   });
+
+  it('resets its state when the element is disconnected and reconnected', async () => {
+    // href="#" so the unprevented first click can't navigate the test iframe
+    await ctx.mount(`
+      <a href="#" data-controller="disable-when-clicked">
+        + Document
+      </a>
+    `);
+
+    const link = ctx.screen.getByRole('link', { name: '+ Document' });
+    const parent = link.parentElement as HTMLElement;
+
+    link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
+    await ctx.nextFrame();
+    expect(link).toHaveAttribute('aria-disabled', 'true');
+
+    // Detach and reattach to trigger disconnect() then connect() again, as
+    // would happen during a Turbo cache/restore.
+    link.remove();
+    await ctx.nextFrame();
+    expect(link).not.toHaveAttribute('aria-disabled');
+
+    parent.appendChild(link);
+    await ctx.nextFrame();
+
+    // The first click after reconnect should go through, not be cancelled.
+    const event = new MouseEvent('click', { bubbles: true, cancelable: true });
+    link.dispatchEvent(event);
+    expect(event.defaultPrevented).toBe(false);
+  });
 });

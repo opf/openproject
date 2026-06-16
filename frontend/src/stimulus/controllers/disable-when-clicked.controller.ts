@@ -16,6 +16,12 @@ export default class DisableWhenClickedController extends Controller<HTMLElement
 
   disconnect() {
     this.element.removeEventListener('click', this.clickListener);
+
+    // Reset state so a reconnect (e.g. Turbo cache/restore, or the element
+    // being removed and reinserted) starts fresh rather than treating the
+    // first click as an already-clicked one.
+    this.alreadyClicked = false;
+    this.enable();
   }
 
   private handleClick(event:Event):void {
@@ -44,6 +50,16 @@ export default class DisableWhenClickedController extends Controller<HTMLElement
 
     if (this.textValue) {
       el.textContent = this.textValue;
+    }
+  }
+
+  private enable():void {
+    const el = this.element;
+
+    if (el instanceof HTMLButtonElement || el instanceof HTMLInputElement) {
+      el.disabled = false;
+    } else {
+      el.removeAttribute('aria-disabled');
     }
   }
 }
