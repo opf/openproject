@@ -34,7 +34,7 @@ module Wikis
       module XWiki
         module Queries
           class InstanceId < BaseQuery
-            include Concerns::XWikiQuery
+            include Concerns::XWikiRequest
 
             def call(auth_strategy:)
               authenticated(auth_strategy) do |http|
