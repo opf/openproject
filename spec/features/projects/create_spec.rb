@@ -392,11 +392,13 @@ RSpec.describe "Projects", "creation", :js do
         # Step 1: Select workspace type
         click_on "Continue"
 
-        # Step 2: Fill in project details
+        # Step 2: Fill in project details; wait to ensure Turbo has fully rendered step 2
+        expect(page).to have_text("2 of") # rubocop:disable RSpec/ExpectInHook
         fill_in "Name", with: "Foo bar"
         click_on "Continue"
 
-        # Step 3: Fill in required custom field
+        # Step 3: Fill in required custom field; wait to ensure Turbo has fully rendered step 3
+        expect(page).to have_text("3 of") # rubocop:disable RSpec/ExpectInHook
         fill_in "Required Foo", with: "Required value"
       end
 
