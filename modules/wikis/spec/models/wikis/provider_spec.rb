@@ -37,10 +37,12 @@ RSpec.describe Wikis::Provider do
       let(:existing) { create(:xwiki_provider, universal_identifier: "xwiki-instance-abc123") }
       let(:duplicate) { build(:xwiki_provider, universal_identifier: existing.universal_identifier) }
 
+      before { existing }
+
       it "is invalid when universal_identifier is already taken" do
         expect(duplicate).not_to be_valid
         expect(duplicate.errors[:url]).to include(
-          "belongs to the wiki provider that's already known as \"#{existing.name}\""
+          "belongs to the wiki provider that's already known as \"#{existing.name}\"."
         )
       end
 
@@ -55,7 +57,6 @@ RSpec.describe Wikis::Provider do
       end
 
       it "does not flag itself as a duplicate on update" do
-        existing
         expect(existing).to be_valid
       end
     end
