@@ -32,71 +32,71 @@ nl:
         location: Locatie
         duration: Duur
         notes: Notities
-        recurrence_start_time: Scheduled start time
+        recurrence_start_time: Geplande begintijd
         participants: Deelnemers
         participant:
           one: 1 Deelnemer
           other: "%{count} Deelnemers"
         participants_attended: Aanwezigen
         participants_invited: Genodigden
-        participants_added: 'Participants added:'
-        participants_removed: 'Participants removed:'
+        participants_added: 'Deelnemers toegevoegd:'
+        participants_removed: 'Deelnemers verwijderd:'
         project: Project
         start_date: Datum
         start_time: Starttijd
         start_time_hour: Starttijd
-        end_time: End time
-        template: Template
-        notify: Send notifications
-        sharing: Sharing
+        end_time: Eindtijd
+        template: Sjabloon
+        notify: Verstuur meldingen
+        sharing: Delen
       meeting_agenda_item:
         title: Titel
         author: Auteur
         duration_in_minutes: Duur
         description: Notities
         presenter: Presentator
-        item_type: Type
-        position: Position
-        lock_version: Lock version
-        notes: Notes
+        item_type: Soort
+        position: Positie
+        lock_version: Versie vergrendelen
+        notes: Notities
       meeting_section:
         title: Titel
-        position: Position
+        position: Positie
       recurring_meeting:
-        title: Title
+        title: Titel
         frequency: Frequentie
         interval: Interval
-        monthly_day: Day of month
-        monthly_ordinal: Position
-        monthly_weekday: Weekday
+        monthly_day: Dag van de maand
+        monthly_ordinal: Positie
+        monthly_weekday: Weekdag
         start_date: Begint op
         start_time: Starttijd
         start_time_hour: Starttijd
         end_after: Vergaderreeks eindigt
         end_date: Einddatum
         iterations: Gebeurtenissen
-        time_zone: Time zone
-        location: Location
-        duration: Duration
-        notify: Send notifications
+        time_zone: Tijdzone
+        location: Locatie
+        duration: Duur
+        notify: Verstuur meldingen
       recurring_meeting_interim_response:
         start_time: Start time
       meeting_participant:
         invited: Uitgenodigd
         attended: Deelgenomen
-        participation_status: Participation status
+        participation_status: Deelname status
     errors:
       models:
         meeting_participant:
-          user_invalid: is not a valid participant.
+          user_invalid: is geen geldige deelnemer.
         meeting_agenda_item:
-          section_not_belong_to_meeting: Section does not belong to the same meeting.
-          user_invalid: is not a valid participant.
+          section_not_belong_to_meeting: Sectie behoort niet tot dezelfde vergadering.
+          user_invalid: is geen geldige deelnemer.
         recurring_meeting_interim_response:
           not_an_occurrence: is not a valid occurrence time for this recurring meeting
         recurring_meeting:
           must_cover_existing_meetings:
-            one: There is one open meeting in the series that is not covered by the new schedule. Adjust the schedule to include all existing meetings.
+            one: Er is één openstaande vergadering in de reeks die niet in het nieuwe schema is opgenomen. Pas het schema aan zodat alle bestaande vergaderingen erin zijn opgenomen.
             other: There are %{count} open meetings in the series that are not covered by the new schedule. Adjust the schedule to include all existing meetings.
             format: "%{message}"
       messages:

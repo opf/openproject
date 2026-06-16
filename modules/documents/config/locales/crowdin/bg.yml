@@ -45,6 +45,7 @@ bg:
   default_doc_category_user: Документация за потребителя
   enumeration_doc_categories: Категории документи
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

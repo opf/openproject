@@ -103,7 +103,7 @@ module Backlogs
     end
 
     def find_backlog_bucket
-      @backlog_bucket = BacklogBucket.where(project: @project).find(params[:id])
+      @backlog_bucket = BacklogBucket.where(project: @project).find(params.expect(:id))
     end
 
     def backlog_bucket_params

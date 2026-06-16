@@ -3,8 +3,8 @@
     primer_form_with(
       model: @allocation,
       scope: :resource_allocation,
-      url: project_resource_allocations_path(@project),
-      method: :post,
+      url: form_url,
+      method: form_method,
       html: {
         data: {
           turbo_stream: true,

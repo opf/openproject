@@ -176,7 +176,7 @@ hu:
         '
       other_active_session_notice: Fiókjában aktív emlékeztető cookie található egy másik munkamenet során.
       label: Megjegyez
-      clear_cookie: Kattintson ide hogy törölje az összes 2FA munkamenetet
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Az összes 2FA kapcsolatot eltávolítottuk
       dont_ask_again: Hozzon létre egy cookie -t, hogy emlékezzen a 2FA hitelesítésre ezen az felhasználón%{days} napig.
   field_otp: Egyszeri jelszó
@@ -187,6 +187,7 @@ hu:
   notice_account_has_no_phone: A fiókjához nincs mobiltelefonszám társítva.
   label_confirmed: Megerősítve
   button_continue: Folytatás
+  button_make_active: Activate
   button_make_default: Megjelölés alapértelmezettként
   notice_phone_number_format: A következő módon add meg a telefonszámot +XX XXXXXXXXX
   text_otp_not_receive: Másik hitelesítési módszer használata

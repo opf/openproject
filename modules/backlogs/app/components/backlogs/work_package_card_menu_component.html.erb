@@ -69,52 +69,51 @@ See COPYRIGHT and LICENSE files for more details.
 
     if show_move_submenu?
       list.with_divider
-      list.with_item(
-        component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
-        label: t(".action_menu.move_menu"),
-        select_variant: :none,
-        form_arguments: {}
-      ) do |move_menu|
-        move_menu.with_leading_visual_icon(icon: :"op-arrow-in")
 
-        with_item_group(move_menu) do
-          build_move_menu(move_menu)
+      if show_move_to_inbox?
+        list.with_item(
+          id: dom_target(work_package, :menu, :move_to_inbox),
+          label: t(".action_menu.move_to_inbox"),
+          tag: :button,
+          href: move_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
+          form_arguments: { method: :put, inputs: [{ name: "target_id", value: "inbox" }] }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :inbox)
         end
+      end
 
-        with_item_group(move_menu) do
-          if show_move_to_inbox?
-            move_menu.with_item(
-              id: dom_target(work_package, :menu, :move_to_inbox),
-              label: t(".action_menu.move_to_inbox"),
-              tag: :button,
-              href: move_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
-              form_arguments: { method: :put, inputs: [{ name: "target_id", value: "inbox" }] }
-            ) do |item|
-              item.with_leading_visual_icon(icon: :inbox)
-            end
-          end
+      if show_move_to_backlog_bucket?
+        list.with_item(
+          id: dom_target(work_package, :menu, :move_to_backlog_bucket),
+          label: t(".action_menu.move_to_backlog_bucket"),
+          href: move_to_bucket_dialog_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :package)
+        end
+      end
 
-          if show_move_to_backlog_bucket?
-            move_menu.with_item(
-              id: dom_target(work_package, :menu, :move_to_backlog_bucket),
-              label: t(".action_menu.move_to_backlog_bucket"),
-              href: move_to_bucket_dialog_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
-              content_arguments: { data: { controller: "async-dialog" } }
-            ) do |item|
-              item.with_leading_visual_icon(icon: :package)
-            end
-          end
+      if show_move_to_sprint?
+        list.with_item(
+          id: dom_target(work_package, :menu, :move_to_sprint),
+          label: t(".action_menu.move_to_sprint"),
+          href: move_to_sprint_dialog_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :zap)
+        end
+      end
 
-          if show_move_to_sprint?
-            move_menu.with_item(
-              id: dom_target(work_package, :menu, :move_to_sprint),
-              label: t(".action_menu.move_to_sprint"),
-              href: move_to_sprint_dialog_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
-              content_arguments: { data: { controller: "async-dialog" } }
-            ) do |item|
-              item.with_leading_visual_icon(icon: :zap)
-            end
-          end
+      if show_move_items?
+        list.with_item(
+          component_klass: Primer::Alpha::ActionMenu::SubMenuItem,
+          label: t(".action_menu.move_menu"),
+          select_variant: :none,
+          form_arguments: {}
+        ) do |move_menu|
+          move_menu.with_leading_visual_icon(icon: :"op-arrow-in")
+
+          build_move_menu(move_menu)
         end
       end
     end

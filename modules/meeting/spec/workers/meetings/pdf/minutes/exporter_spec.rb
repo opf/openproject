@@ -258,6 +258,50 @@ RSpec.describe Meetings::PDF::Minutes::Exporter do
         expect(subject).to eq expected_document
       end
     end
+
+    context "with semantic work package identifiers",
+            with_settings: { work_packages_identifier: "semantic" } do
+      let(:options) do
+        default_options.merge(
+          {
+            first_page_header_left: "",
+            outcomes: "0",
+            author: ""
+          }
+        )
+      end
+      let(:wp_agenda_item) do
+        create(:wp_meeting_agenda_item,
+               meeting:,
+               meeting_section: meeting_section_second,
+               work_package:,
+               duration_in_minutes: 10,
+               notes: "<mention class=\"mention\" data-id=\"#{work_package.id}\" data-type=\"work_package\" " \
+                      "data-text=\"##{work_package.id}\">##{work_package.id}</mention>")
+      end
+
+      before do
+        work_package.update_columns(identifier: "MEET-1", sequence_number: 1)
+      end
+
+      it "renders the semantic identifier for the agenda item and the mention in its notes" do
+        expected_document = [
+          meeting.title,
+          *meeting_info,
+          "1. Untitled section", "  ", "15 mins",
+          "1.1. Agenda Item TOP 1",
+          "foo",
+
+          "2. Second section", "  ", "10 mins",
+          "2.1. Task", "MEET-1", "Important task", " (Workin' on it)",
+          "MEET-1",
+
+          *expected_footer
+        ].join(" ")
+
+        expect(subject).to eq expected_document
+      end
+    end
   end
 
   context "with a meeting with special work package agenda item" do
@@ -351,6 +395,29 @@ RSpec.describe Meetings::PDF::Minutes::Exporter do
         ].join(" ")
 
         expect(subject).to eq expected_document
+      end
+
+      context "with semantic work package identifiers",
+              with_settings: { work_packages_identifier: "semantic" } do
+        before do
+          outcome_work_package.update_columns(identifier: "MEET-1", sequence_number: 1)
+        end
+
+        it "renders the work package outcome with the semantic identifier" do
+          expected_document = [
+            meeting.title,
+            *meeting_info,
+            *meeting_info_custom,
+            "1. Section with outcomes", "  ", "15 mins",
+            "1.1. Agenda Item",
+            "Agenda item notes",
+            "✓   Outcome",
+            "Task", "MEET-1", "Outcome WP", " (In Progress)",
+            *expected_header_footer
+          ].join(" ")
+
+          expect(subject).to eq expected_document
+        end
       end
     end
 

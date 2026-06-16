@@ -1,0 +1,59 @@
+Quick filters are lightweight controls that let users toggle a single filter without opening the full filter panel. Each click or selection navigates to a new URL with updated `filters` and `sortBy` params,
+preserving any other active filters.
+
+There are currently three variants:
+* SegmentedControlComponent
+* BooleanComponent
+* SelectPanelComponent
+
+## SegmentedControlComponent
+
+A general purpose segmented control that accepts any number of items via `with_item` slots.
+Each item has a label and a filter value (`nil` means "no filter" and is useful for an "All" option).
+
+<%= embed OpPrimer::QuickFilterPreview, :segmented_control, panels: %i[source] %>
+
+Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
+
+### With an active filter or order overrides
+
+When the query already has a matching filter value, the corresponding item is rendered as selected.
+You can also pass `orders` to define the sort order per value.
+
+<%= embed OpPrimer::QuickFilterPreview, :segmented_control_with_active_filter, panels: %i[source] %>
+
+Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
+
+## BooleanComponent
+
+A specialized subclass of `SegmentedControlComponent` for boolean (true/false) filters.
+It always renders exactly two items using `t` and `f` as filter values.
+Labels are provided via `true_label` and `false_label`.
+
+<%= embed OpPrimer::QuickFilterPreview, :boolean, panels: %i[source] %>
+
+Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
+
+## SelectPanelComponent
+
+A select panel based quick filter. Items are provided via `with_item` slots or loaded asynchronously via `src`.
+By default, in multiselect mode, navigation happens when items are checked and the "Apply" button is clicked.
+When the query has a matching active filter, the corresponding items are checked, the show button gets a counter,
+and a "Clear" button is rendered in the panel footer.
+
+<%= embed OpPrimer::QuickFilterPreview, :select_panel_with_active_filter, panels: %i[source] %>
+
+Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
+
+### Single select
+
+With `select_variant: :single`, each item navigates immediately on click and there are no footer buttons.
+
+<%= embed OpPrimer::QuickFilterPreview, :select_panel_single_select, panels: %i[source] %>
+
+Note: Clicking on buttons in the above preview will break it and redirect to the meetings index page.
+
+### Async loading
+
+Pass `src` to lazily load the panel items from an endpoint instead of providing them inline.
+The filter must implement `#value_objects`, and `src` cannot be combined with inline items or `select_variant: :single`.

@@ -4026,6 +4026,7 @@ uk:
   label_send_invitation: Надіслати запрошення
   label_calculated_value: Розраховане значення
   label_change_parent: Змінити батьківський об’єкт
+  label_change_password: Change password
   label_change_plural: Зміни
   label_change_properties: Змінити властивості
   label_change_status: Змінити статус
@@ -4312,6 +4313,7 @@ uk:
   label_my_account_data: Мої дані облікового запису
   label_my_avatar: Мій аватар
   label_my_queries: Мої збережені запити
+  label_my_security: Security
   label_name: Назва
   label_never: Ніколи
   label_new: Нові

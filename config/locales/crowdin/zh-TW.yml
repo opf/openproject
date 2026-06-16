@@ -3829,6 +3829,7 @@ zh-TW:
   label_send_invitation: 發送邀請
   label_calculated_value: 計算值
   label_change_parent: 變更父項
+  label_change_password: Change password
   label_change_plural: 更改
   label_change_properties: 更改屬性
   label_change_status: 更改狀態
@@ -4115,6 +4116,7 @@ zh-TW:
   label_my_account_data: 我的帳號資料
   label_my_avatar: 我的大頭貼
   label_my_queries: 我的自訂查詢
+  label_my_security: Security
   label_name: 名稱
   label_never: 無
   label_new: 新增

@@ -155,7 +155,6 @@ ca:
         manual: Canviar a la font Markdown
         wysiwyg: Canviar a l'editor WYSIWYG
       macro:
-        error: 'No es pot expandir la macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Aquest segment de text s'està presentant dinàmicament per una macro.
           not_found: El recurs sol·licitat no s'ha trobat
@@ -175,9 +174,14 @@ ca:
           title: Inserir / editar un fragment de codi
           language: Llenguatge formatat
           language_hint: Introdueix el llenguatge formatat que serà utilitzat per a ressaltar (si està suportat).
-        dropdown:
-          macros: Macros
-          chose_macro: Escollir macro
+        embedded_calendar:
+          text: "[Placeholder] Calendari incrustat"
+        embedded_table:
+          button: Incrustar la taula de paquets de treball
+          text: "[Placeholder] Taula de paquets de treball incrustada"
+        error: 'No es pot expandir la macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Taula de continguts
         toolbar_help: Fes clic per seleccionar el widget i mostrar la barra d'eines. Fes doble clic per editar el widget
         wiki_page_include:
@@ -195,11 +199,6 @@ ca:
           button_style_hint: 'Opcional: marca per fer que la macro aparegui com a botó, no com enllaç.'
           without_type: Crear paquet de treball
           with_type: 'Crear paquet de treball (Classe: %{typename})'
-        embedded_table:
-          button: Incrustar la taula de paquets de treball
-          text: "[Placeholder] Taula de paquets de treball incrustada"
-        embedded_calendar:
-          text: "[Placeholder] Calendari incrustat"
     admin:
       type_form:
         edit_query: Editar consulta
@@ -368,6 +367,7 @@ ca:
     label_in_more_than: en més de
     label_incoming_emails: Correu electrònics d'entrada
     label_information_plural: Informació
+    label_infinity: Infinity
     label_invalid: Invàlid
     label_import: Importar
     label_latest_activity: Última activitat
@@ -392,6 +392,7 @@ ca:
     label_no_value: Cap valor
     label_none: cap
     label_not_contains: no conté
+    label_not_available: Not available
     label_not_equals: no és
     label_on: en
     label_open_menu: Obrir menú

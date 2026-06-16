@@ -155,7 +155,6 @@ nl:
         manual: Schakel naar de bron van het Markdown
         wysiwyg: Schakel over naar de WYSIWYG-Editor
       macro:
-        error: 'Macro: %{message} kan niet worden uitgebreid'
         attribute_reference:
           macro_help_tooltip: Dit tekstsegment wordt dynamisch weergegeven door een macro.
           not_found: Gevraagde bron kan niet worden gevonden
@@ -175,9 +174,14 @@ nl:
           title: Insert / codefragment bewerken
           language: Opmaaktaal
           language_hint: Voer de opmaaktaal die wordt gebruikt voor het benadrukken(indien ondersteund).
-        dropdown:
-          macros: Macro's
-          chose_macro: Kies macro
+        embedded_calendar:
+          text: "[Placeholder] ingesloten kalender"
+        embedded_table:
+          button: Werk pakket tabel insluiten
+          text: "[Placeholder] ingesloten werkpakket tabel"
+        error: 'Macro: %{message} kan niet worden uitgebreid'
+        macro_dropdown:
+          caption: Insert
         toc: Inhoudsopgave
         toolbar_help: Klik op widget en geef de werkbalk weer. Dubbelklikken om de widget te bewerken
         wiki_page_include:
@@ -195,11 +199,6 @@ nl:
           button_style_hint: 'Optioneel: Controleer of de macro wordt weergegeven als een knop, niet als een link.'
           without_type: Nieuw werkpakket maken
           with_type: 'Werkpakket maken (Type: %{typename})'
-        embedded_table:
-          button: Werk pakket tabel insluiten
-          text: "[Placeholder] ingesloten werkpakket tabel"
-        embedded_calendar:
-          text: "[Placeholder] ingesloten kalender"
     admin:
       type_form:
         edit_query: Zoekopdracht bewerken
@@ -368,6 +367,7 @@ nl:
     label_in_more_than: in meer dan
     label_incoming_emails: Inkomende e-mails
     label_information_plural: Informatie
+    label_infinity: Infinity
     label_invalid: Ongeldig
     label_import: Importeren
     label_latest_activity: Laatste Activiteit
@@ -392,6 +392,7 @@ nl:
     label_no_value: Geen waarde
     label_none: geen
     label_not_contains: bevat geen
+    label_not_available: Not available
     label_not_equals: is niet
     label_on: op
     label_open_menu: Menu openen

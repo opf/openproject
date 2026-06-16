@@ -161,6 +161,14 @@ RSpec.describe "ResourceAllocations requests",
         expect(allocation.user_filter).to eq([])
         expect(allocation.requested_by).to eq(user)
       end
+
+      it "refreshes the open allocations list and announces the change for the planner table" do
+        perform
+
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('target="resource-allocations-list-component"')
+        expect_allocation_change_announced_for(work_package)
+      end
     end
 
     context "for a filter-criteria placeholder" do
@@ -451,13 +459,202 @@ RSpec.describe "ResourceAllocations requests",
     end
   end
 
+  describe "GET edit" do
+    shared_let(:allocation) { create(:resource_allocation, entity: work_package, principal: assignee) }
+
+    it "opens the edit dialog with the allocation form" do
+      get edit_project_resource_allocation_path(project, allocation), as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(I18n.t("resource_management.edit_allocation_dialog.title"))
+      expect(response.body).to include("resource_allocation[allocated_hours]")
+    end
+
+    context "for an allocation of another project's work package" do
+      let(:other_allocation) { create(:resource_allocation) }
+
+      it "is not found" do
+        get edit_project_resource_allocation_path(project, other_allocation), as: :turbo_stream
+
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  describe "PATCH update" do
+    let!(:allocation) do
+      create(:resource_allocation, entity: work_package, principal: assignee, allocated_time: 600)
+    end
+
+    def perform(allocated_hours: "16h")
+      patch project_resource_allocation_path(project, allocation),
+            params: {
+              allocation_kind: "principal",
+              resource_allocation: {
+                principal_id: assignee.id,
+                entity_type: "WorkPackage",
+                entity_id: work_package.id,
+                start_date: "2026-03-02",
+                end_date: "2026-03-06",
+                allocated_hours:
+              }
+            },
+            as: :turbo_stream
+    end
+
+    it "updates the allocation and confirms it" do
+      perform
+
+      expect(response).to have_http_status(:ok)
+      expect(allocation.reload.allocated_time).to eq(16 * 60)
+      expect(allocation.start_date).to eq(Date.new(2026, 3, 2))
+      expect(allocation.end_date).to eq(Date.new(2026, 3, 6))
+      expect(response.body).to include(I18n.t("resource_management.edit_allocation_dialog.success_message"))
+    end
+
+    it "announces the change so the planner table can refresh" do
+      perform
+
+      expect_allocation_change_announced_for(work_package)
+    end
+
+    context "with invalid input" do
+      it "re-renders the form unprocessable and keeps the allocation unchanged" do
+        perform(allocated_hours: "")
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(allocation.reload.allocated_time).to eq(600)
+      end
+
+      # Regression: an absurdly large value used to overflow the integer column
+      # and raise ActiveModel::RangeError (500) instead of failing validation.
+      it "rejects a value above the maximum with an hours-formatted message" do
+        perform(allocated_hours: "999999999999h")
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(allocation.reload.allocated_time).to eq(600)
+        expect(response.body).to include(
+          DurationConverter.output(ResourceAllocation::MAX_ALLOCATED_TIME / 60.0)
+        )
+      end
+    end
+
+    context "when the update would overbook the assigned user" do
+      shared_let(:working_assignee) do
+        create(:user, member_with_permissions: { project => %i[view_work_packages] }).tap do |member|
+          # Mon-Fri 8h => 480 minutes/day of capacity.
+          create(:user_working_hours, user: member, valid_from: Date.new(2025, 1, 1))
+        end
+      end
+
+      # Books 10h across Mon-Tue (16h of capacity).
+      let!(:allocation) do
+        create(:resource_allocation,
+               entity: work_package, principal: working_assignee,
+               start_date: Date.new(2026, 3, 2), end_date: Date.new(2026, 3, 3), allocated_time: 600)
+      end
+
+      def perform(extra = {})
+        patch project_resource_allocation_path(project, allocation),
+              params: {
+                allocation_kind: "principal",
+                resource_allocation: {
+                  principal_id: working_assignee.id,
+                  entity_type: "WorkPackage",
+                  entity_id: work_package.id,
+                  start_date: "2026-03-02",
+                  end_date: "2026-03-03",
+                  allocated_hours: "40h"
+                }
+              }.deep_merge(extra),
+              as: :turbo_stream
+      end
+
+      it "does not save yet and renders the overbooking confirmation step" do
+        perform
+
+        expect(response).to have_http_status(:ok)
+        expect(allocation.reload.allocated_time).to eq(600)
+        expect(response.body).to include(I18n.t("resource_management.allocate_resource_dialog.overbooking.title"))
+        expect(response.body).to include('name="confirmed"')
+      end
+
+      it "applies the update once confirmed" do
+        perform(confirmed: "1")
+
+        expect(allocation.reload.allocated_time).to eq(40 * 60)
+        expect(response.body).to include(I18n.t("resource_management.edit_allocation_dialog.success_message"))
+      end
+
+      it "returns to the pre-filled edit form when going back from the confirmation" do
+        perform(back: "1")
+
+        expect(response).to have_http_status(:ok)
+        expect(allocation.reload.allocated_time).to eq(600)
+        expect(response.body).to include("resource_allocation[allocated_hours]")
+      end
+
+      it "does not count the allocation's previous booking against its own update" do
+        # 16h exactly fills Mon-Tue only if the allocation's persisted 10h are
+        # excluded from the check; no confirmation step expected.
+        perform(resource_allocation: { allocated_hours: "16h" })
+
+        expect(allocation.reload.allocated_time).to eq(16 * 60)
+        expect(response.body).to include(I18n.t("resource_management.edit_allocation_dialog.success_message"))
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    let!(:allocation) { create(:resource_allocation, entity: work_package, principal: assignee) }
+
+    it "deletes the allocation and confirms it" do
+      expect do
+        delete project_resource_allocation_path(project, allocation), as: :turbo_stream
+      end.to change(ResourceAllocation, :count).by(-1)
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include(I18n.t("resource_management.work_package_allocations_dialog.delete_success"))
+    end
+
+    it "refreshes the open allocations list and announces the change for the planner table" do
+      delete project_resource_allocation_path(project, allocation), as: :turbo_stream
+
+      expect(response.body).to include('target="resource-allocations-list-component"')
+      expect_allocation_change_announced_for(work_package)
+    end
+  end
+
   context "without the allocate_user_resources permission" do
     shared_let(:viewer) { create(:user, member_with_permissions: { project => %i[view_resource_planners] }) }
+    shared_let(:allocation) { create(:resource_allocation, entity: work_package, principal: assignee) }
 
     before { login_as viewer }
 
     it "denies access to the new dialog" do
       get new_project_resource_allocation_path(project), as: :turbo_stream
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "denies access to the edit dialog" do
+      get edit_project_resource_allocation_path(project, allocation), as: :turbo_stream
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "denies updating an allocation" do
+      patch project_resource_allocation_path(project, allocation),
+            params: { allocation_kind: "principal", resource_allocation: { allocated_hours: "1h" } },
+            as: :turbo_stream
+
+      expect(response).to have_http_status(:forbidden)
+    end
+
+    it "denies deleting an allocation" do
+      expect do
+        delete project_resource_allocation_path(project, allocation), as: :turbo_stream
+      end.not_to change(ResourceAllocation, :count)
 
       expect(response).to have_http_status(:forbidden)
     end
@@ -481,5 +678,15 @@ RSpec.describe "ResourceAllocations requests",
 
       expect(response).to have_http_status(:forbidden)
     end
+  end
+
+  # The controller emits a `dispatchEvent` turbo stream carrying the changed
+  # work package so an open resource planner table can reload it.
+  def expect_allocation_change_announced_for(work_package)
+    event = Nokogiri::HTML5.fragment(response.body).at_css('turbo-stream[action="dispatchEvent"]')
+
+    expect(event).to be_present
+    expect(event["event-name"]).to eq("resource-allocations:changed")
+    expect(JSON.parse(event["detail"])).to eq("work_package_id" => work_package.id)
   end
 end

@@ -34,6 +34,14 @@ module ResourceAllocations
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
+      # `dialog_id` names the dialog the cancel button closes: the create
+      # wizard's by default, the edit dialog's when confirming an update.
+      def initialize(dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID)
+        super
+
+        @dialog_id = dialog_id
+      end
+
       def wrapper_key
         ResourceAllocations::NewDialogComponent::FOOTER_ID
       end
@@ -58,7 +66,7 @@ module ResourceAllocations
           footer.with_column(mr: 1) do
             render(
               Primer::Beta::Button.new(
-                data: { "close-dialog-id": ResourceAllocations::NewDialogComponent::DIALOG_ID }
+                data: { "close-dialog-id": @dialog_id }
               )
             ) { I18n.t(:button_cancel) }
           end

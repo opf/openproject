@@ -30,6 +30,7 @@
 module ::ResourceManagement
   class ResourcePlannerViewsController < BaseController
     include OpTurbo::ComponentStream
+    include PlannerViewContent
 
     menu_item :resource_management
 
@@ -46,7 +47,9 @@ module ::ResourceManagement
                   only: %i[new_work_package add_work_package remove_work_package
                            move_work_package reorder_work_package]
 
-    def show; end
+    def show
+      @content_component = work_package_list_content(@view)
+    end
 
     def new
       if params[:view_class_name].present?
@@ -188,13 +191,7 @@ module ::ResourceManagement
     end
 
     def replace_work_package_list
-      replace_via_turbo_stream(
-        component: ResourcePlannerViews::ContentComponent.new(
-          view: @view,
-          project: @project,
-          resource_planner: @resource_planner
-        )
-      )
+      replace_via_turbo_stream(component: work_package_list_content(@view))
     end
 
     def render_configure_step(view, status: :ok)
@@ -242,13 +239,7 @@ module ::ResourceManagement
           selected_view: view
         )
       )
-      replace_via_turbo_stream(
-        component: ResourcePlannerViews::ContentComponent.new(
-          view:,
-          project: @project,
-          resource_planner: @resource_planner
-        )
-      )
+      replace_via_turbo_stream(component: work_package_list_content(view))
       close_dialog_via_turbo_stream("##{ResourcePlannerViews::EditDialogComponent::DIALOG_ID}")
       respond_with_turbo_streams
     end

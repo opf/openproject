@@ -160,7 +160,7 @@ zh-CN:
         '
       other_active_session_notice: 您的帐户在另一个会话上存在一个有效的记住 Cookie。
       label: 记住
-      clear_cookie: 单击此处移除所有记住的双因子认证会话。
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: 所有记住的双因子认证会话已移除。
       dont_ask_again: 创建 Cookie，在此客户端上记住双因子认证 %{days} 天。
   field_otp: 一次性密码
@@ -171,6 +171,7 @@ zh-CN:
   notice_account_has_no_phone: 您的帐户没有关联任何手机号码。
   label_confirmed: 已确认
   button_continue: 继续
+  button_make_active: Activate
   button_make_default: 标记为默认
   notice_phone_number_format: 请按以下格式输入号码：+XX XXXXXXXX。
   text_otp_not_receive: 其他验证方法

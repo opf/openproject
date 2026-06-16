@@ -41,4 +41,25 @@ See COPYRIGHT and LICENSE files for more details.
     end %>
 
 <%= render(ResourcePlanners::SubViewsComponent.new(resource_planner: @resource_planner, selected_view: @view)) %>
-<%= render(ResourcePlannerViews::ContentComponent.new(view: @view, project: @project, resource_planner: @resource_planner)) %>
+<%#
+  Reloadable frame so allocation changes made in the dialogs refresh the table
+  in place. The frame has no `src`, so it is not fetched on load — it just holds
+  the server-rendered content. The reload-frame-on-event controller points its
+  `src` at this same view and morphs it in when an allocation of any listed work
+  package changes.
+%>
+<%
+  # When the planner does not have a view yet, we cannot add frame data
+  frame_data = if @view
+                 {
+                   controller: "reload-frame-on-event",
+                   "reload-frame-on-event-event-name-value": "resource-allocations:changed",
+                   "reload-frame-on-event-url-value": project_resource_planner_view_path(@project, @resource_planner, @view)
+                 }
+               else
+                 {}
+               end
+%>
+<%= turbo_frame_tag("resource-planner-view-content", refresh: :morph, data: frame_data) do %>
+  <%= render(@content_component) %>
+<% end %>

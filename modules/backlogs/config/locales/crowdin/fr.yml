@@ -42,7 +42,7 @@ fr:
           completed: Terminé
         work_packages: Lots de travaux
       work_package:
-        backlog_bucket: Bucket de backlog
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Type de backlog
         position: Position
         sprint: Sprint
@@ -181,9 +181,9 @@ fr:
       action_menu:
         copy_url_to_clipboard: Copier l'URL dans le presse-papier
         copy_work_package_id: Copier l'ID du lot de travaux
-        move_menu: Déplacer
+        move_menu: Déplacer vers la position
         move_to_backlog_bucket: Déplacer vers un bucket de backlog
-        move_to_inbox: Déplacer vers la boîte de réception
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Déplacer dans le sprint
     work_package_is_closed: Le lot de travaux est fait lorsque
   burndown:

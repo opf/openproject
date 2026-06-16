@@ -3835,6 +3835,7 @@ th:
   label_send_invitation: Send invitation
   label_calculated_value: Calculated value
   label_change_parent: Change parent
+  label_change_password: Change password
   label_change_plural: การเปลี่ยนแปลง
   label_change_properties: เปลี่ยนแปลงคุณสมบัติ
   label_change_status: เปลี่ยนสถานะ
@@ -4121,6 +4122,7 @@ th:
   label_my_account_data: ข้อมูลบัญชีของฉัน
   label_my_avatar: My avatar
   label_my_queries: แบบสอบถามแบบกำหนดเองของฉัน
+  label_my_security: Security
   label_name: ชื่อ
   label_never: Never
   label_new: ใหม่

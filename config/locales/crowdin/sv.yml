@@ -3899,6 +3899,7 @@ sv:
   label_send_invitation: Skicka inbjudan
   label_calculated_value: Calculated value
   label_change_parent: Ändra överordnad
+  label_change_password: Change password
   label_change_plural: Förändringar
   label_change_properties: Ändra egenskaper
   label_change_status: Ändra status
@@ -4185,6 +4186,7 @@ sv:
   label_my_account_data: Min kontoinformation
   label_my_avatar: Min avatar
   label_my_queries: Min anpassade frågor
+  label_my_security: Security
   label_name: Namn
   label_never: Aldrig
   label_new: Ny

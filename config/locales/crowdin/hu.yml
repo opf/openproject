@@ -3963,6 +3963,7 @@ hu:
   label_send_invitation: Meghívó küldése
   label_calculated_value: Calculated value
   label_change_parent: Szülő módosítása
+  label_change_password: Change password
   label_change_plural: Változtat
   label_change_properties: A tulajdonságok megváltoztatása
   label_change_status: Az állapot megváltoztatása
@@ -4249,6 +4250,7 @@ hu:
   label_my_account_data: Az én fiók adataim
   label_my_avatar: My avatar
   label_my_queries: Az én egyéni lekérdezéseim
+  label_my_security: Security
   label_name: Név
   label_never: Soha
   label_new: Új

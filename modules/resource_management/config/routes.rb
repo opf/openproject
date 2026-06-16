@@ -54,6 +54,14 @@ Rails.application.routes.draw do
 
           delete "work_packages/:work_package_id", action: :remove_work_package, as: :remove_work_package
         end
+
+        resources :work_packages, only: [] do
+          resource :progress,
+                   only: %i[edit update],
+                   controller: "resource_management/work_package_progress" do
+            get :preview, on: :member
+          end
+        end
       end
 
       collection do
@@ -68,6 +76,12 @@ Rails.application.routes.draw do
         get :step
         get :refresh_form
       end
+    end
+
+    resources :work_packages, only: [] do
+      resources :resource_allocations,
+                controller: "resource_management/work_package_resource_allocations",
+                only: :index
     end
   end
 end

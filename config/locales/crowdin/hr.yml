@@ -3961,6 +3961,7 @@ hr:
   label_send_invitation: Pošalji pozivnicu
   label_calculated_value: Calculated value
   label_change_parent: Promijeni nadređenog
+  label_change_password: Change password
   label_change_plural: Promjene
   label_change_properties: Promjeni značajke
   label_change_status: Promijeni status
@@ -4247,6 +4248,7 @@ hr:
   label_my_account_data: Moji korisnički podaci
   label_my_avatar: My avatar
   label_my_queries: Moji prilagođeni upiti
+  label_my_security: Security
   label_name: Naziv
   label_never: Nikad
   label_new: Novi

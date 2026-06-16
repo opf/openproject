@@ -3,11 +3,11 @@ zh-CN:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
+        allocated_hours: 小时
         allocated_time: 分配时间
         end_date: 结束日期
         entity: 实体
-        filter_name: Resource filter name
+        filter_name: 资源过滤器名称
         principal: 受理人
         start_date: 开始日期
         state: 地区
@@ -57,29 +57,33 @@ zh-CN:
       make_private: 设为私有
       make_public: 设为公开
       unfavorite: 取消收藏
+    allocation:
+      hours: "%{value}h"
+      no_work: 此工作包没有计划的工作
+      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: 基于用户属性设置过滤条件以创建占位符资源。
+          label: 过滤器条件
+        label: 分配类型
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: 为特定用户分配小时数。
+          label: 用户
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: 所选资源日期 %{resource_dates}在工作包日期 %{work_package_dates} 之外。
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
+        capacity_summary: "%{available} 可用 - %{scheduled} 预定"
         description: The selected user, %{user}, would be allocated beyond their working hours during this period.
         hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
+        schedule_availability: "%{schedule} (%{factor}% 可用于项目工作)"
+        schedule_change: 直到 %{date}，然后 %{schedule}
+        schedule_note: 该用户工作 %{schedule}。
         submit: Allocate overtime
         title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+      submit: 分配
+      success_message: 资源分配。
+      title: 分配资源
     blankslate:
       desc: 创建资源规划工具以开始规划此项目的容量。
       title: 暂无资源规划工具
@@ -94,6 +98,10 @@ zh-CN:
           caption: 您手动添加和移除的自定义项目列表。无法进行筛选。
           label: 人工挑选
       title: 配置视图
+    edit_allocation_dialog:
+      submit: 保存
+      success_message: Resource allocation updated.
+      title: Edit allocation
     favorite_caption: 将此视图标记为收藏项，并添加到边栏菜单的顶部。
     label_new_resource_planner: 新建资源规划工具
     label_resource_planner: 资源规划工具
@@ -114,9 +122,22 @@ zh-CN:
       user_card:
         caption: 基于用户创建视图，并在用户卡列表中查看其详细信息和分配情况
         label: 用户卡列表
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
     work_package_list:
       add_work_package_dialog:
         title: 添加工作包
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          other: "%{count} users"
+        unassigned: Unassigned
       allocation_placeholder: "—"
       blank:
         description: 还没有与此视图的筛选条件相符的工作包。

@@ -155,7 +155,6 @@ zh-CN:
         manual: '切换到 Markdown '
         wysiwyg: 切换到 WYSIWYG 编辑器
       macro:
-        error: 无法展开宏：%{message}
         attribute_reference:
           macro_help_tooltip: 此文本段正由宏动态呈现。
           not_found: 无法找到请求的资源
@@ -175,9 +174,14 @@ zh-CN:
           title: 插入/编辑代码片段
           language: 格式化语言
           language_hint: 输入将用于突出显示（如果支持）的格式化语言。
-        dropdown:
-          macros: 宏
-          chose_macro: 选择宏
+        embedded_calendar:
+          text: "[Placeholder]嵌入式日历"
+        embedded_table:
+          button: 嵌入工作包表
+          text: "[Placeholder] 嵌入式工作包表"
+        error: 无法展开宏：%{message}
+        macro_dropdown:
+          caption: Insert
         toc: 目录
         toolbar_help: 单击可以选择微件并显示工具栏。双击可以编辑微件
         wiki_page_include:
@@ -195,11 +199,6 @@ zh-CN:
           button_style_hint: 可选：选中以使宏显示为按钮，而不是链接。
           without_type: 创建工作包
           with_type: 创建工作包（类型：%{typename}）
-        embedded_table:
-          button: 嵌入工作包表
-          text: "[Placeholder] 嵌入式工作包表"
-        embedded_calendar:
-          text: "[Placeholder]嵌入式日历"
     admin:
       type_form:
         edit_query: 编辑查询
@@ -368,6 +367,7 @@ zh-CN:
     label_in_more_than: 在多于
     label_incoming_emails: 传入电子邮件
     label_information_plural: 信息
+    label_infinity: Infinity
     label_invalid: 无效
     label_import: 导入
     label_latest_activity: 最新活动
@@ -392,6 +392,7 @@ zh-CN:
     label_no_value: 无值
     label_none: 无
     label_not_contains: 不包含
+    label_not_available: Not available
     label_not_equals: 不是
     label_on: 于
     label_open_menu: 打开菜单

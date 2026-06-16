@@ -1,0 +1,8 @@
+<span
+  class="Counter"
+  [class.Counter--primary]="scheme() === 'primary'"
+  [class.Counter--secondary]="scheme() === 'secondary'"
+  [title]="titleText()"
+  [hidden]="hidden()"
+  [textContent]="value()"
+></span>

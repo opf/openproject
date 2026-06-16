@@ -160,7 +160,7 @@
         '
       other_active_session_notice: Kontoen din har en aktiv (husk) cookie på en annen sesjon.
       label: Husk
-      clear_cookie: Klikk her for å fjerne alle huskede 2FA-økter.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Alle huskede 2FA-økter har blitt fjernet.
       dont_ask_again: Opprette informasjonskapsel for å huske 2FA-autentisering på denne klienten i %{days} dager.
   field_otp: Engangspassord
@@ -171,6 +171,7 @@
   notice_account_has_no_phone: Ingen mobilnummer er knyttet til kontoen din.
   label_confirmed: Bekreftet
   button_continue: Fortsette
+  button_make_active: Activate
   button_make_default: Merk som standard
   notice_phone_number_format: 'Vennligst skriv inn nummeret i følgende format: + XX XXXXXXXX.'
   text_otp_not_receive: Andre verifikasjonsmetoder

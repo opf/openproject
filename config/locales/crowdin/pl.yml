@@ -4019,6 +4019,7 @@ pl:
   label_send_invitation: Wyślij zaproszenie
   label_calculated_value: Obliczona wartość
   label_change_parent: Zmień element nadrzędny
+  label_change_password: Change password
   label_change_plural: Zmiany
   label_change_properties: Zmiana właściwości
   label_change_status: Zmiana stanu
@@ -4305,6 +4306,7 @@ pl:
   label_my_account_data: Moje dane konta
   label_my_avatar: Mój awatar
   label_my_queries: Moje zapytania niestandardowe
+  label_my_security: Security
   label_name: Nazwa
   label_never: Nigdy
   label_new: Nowy

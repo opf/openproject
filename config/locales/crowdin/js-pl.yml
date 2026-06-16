@@ -155,7 +155,6 @@ pl:
         manual: Przełącz na źródło Markdown
         wysiwyg: Przełącz na edytor WYSIWYG
       macro:
-        error: 'Nie można rozwinąć makra: %{message}'
         attribute_reference:
           macro_help_tooltip: Ten segment tekstowy jest renderowany dynamicznie przez makro.
           not_found: Nie można znaleźć żądanego zasobu
@@ -175,9 +174,14 @@ pl:
           title: Wstaw/edytuj fragment kodu
           language: Język formatowania
           language_hint: Wprowadź język formatowania, który będzie używany do wyróżniania (jeśli jest obsługiwany).
-        dropdown:
-          macros: Makra
-          chose_macro: Wybierz makro
+        embedded_calendar:
+          text: "[Placeholder] Wbudowany kalendarz"
+        embedded_table:
+          button: Osadź tabelę pakietów roboczych
+          text: "[Placeholder] Osadzona tabela pakietów roboczych"
+        error: 'Nie można rozwinąć makra: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Spis treści
         toolbar_help: Kliknij, aby wybrać widżet i wyświetlić pasek narzędzi. Kliknij dwukrotnie, aby edytować widżet
         wiki_page_include:
@@ -195,11 +199,6 @@ pl:
           button_style_hint: 'Opcjonalnie: zaznacz, aby wyświetlać makro jako łącze, a nie przycisk.'
           without_type: Utwórz pakiet roboczy
           with_type: 'Utwórz pakiet roboczy (typ: %{typename})'
-        embedded_table:
-          button: Osadź tabelę pakietów roboczych
-          text: "[Placeholder] Osadzona tabela pakietów roboczych"
-        embedded_calendar:
-          text: "[Placeholder] Wbudowany kalendarz"
     admin:
       type_form:
         edit_query: Edytuj zapytanie
@@ -368,6 +367,7 @@ pl:
     label_in_more_than: w ponad
     label_incoming_emails: Przychodzące e-maile
     label_information_plural: Informacje
+    label_infinity: Infinity
     label_invalid: Niewłaściwy
     label_import: Importuj
     label_latest_activity: Ostatnia aktywność
@@ -392,6 +392,7 @@ pl:
     label_no_value: Brak wartości
     label_none: Brak
     label_not_contains: nie zawierają
+    label_not_available: Not available
     label_not_equals: nie jest
     label_on: wł
     label_open_menu: Otwórz menu

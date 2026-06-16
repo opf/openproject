@@ -4026,6 +4026,7 @@ lt:
   label_send_invitation: Siųsti pakvietimą
   label_calculated_value: Calculated value
   label_change_parent: Keisti pirmtaką
+  label_change_password: Change password
   label_change_plural: Pakeitimai
   label_change_properties: Pakeisti nustatymus
   label_change_status: Pakeisti būseną
@@ -4312,6 +4313,7 @@ lt:
   label_my_account_data: Mano paskyros duomenys
   label_my_avatar: Mano avataras
   label_my_queries: Mano sukurtos užklausos
+  label_my_security: Security
   label_name: Vardas
   label_never: Niekada
   label_new: Naujas

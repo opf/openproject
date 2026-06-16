@@ -118,7 +118,7 @@ Rails.application.reloader.to_prepare do
                      require: :loggedin
 
       map.permission :view_project,
-                     { projects: %i[show] },
+                     { projects: %i[show list_row_menu] },
                      permissible_on: :project,
                      public: true
 

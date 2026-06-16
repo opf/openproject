@@ -155,7 +155,6 @@ kk:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
@@ -175,9 +174,14 @@ kk:
           title: Insert / edit Code snippet
           language: Formatting language
           language_hint: Enter the formatting language that will be used for highlighting (if supported).
-        dropdown:
-          macros: Macros
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Table of contents
         toolbar_help: Click to select widget and show the toolbar. Double-click to edit widget
         wiki_page_include:
@@ -195,11 +199,6 @@ kk:
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: Create work package
           with_type: 'Create work package (Type: %{typename})'
-        embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
         edit_query: Edit query
@@ -368,6 +367,7 @@ kk:
     label_in_more_than: in more than
     label_incoming_emails: Incoming emails
     label_information_plural: Information
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Import
     label_latest_activity: Latest activity
@@ -392,6 +392,7 @@ kk:
     label_no_value: No value
     label_none: none
     label_not_contains: doesn't contain
+    label_not_available: Not available
     label_not_equals: is not
     label_on: 'on'
     label_open_menu: Open menu

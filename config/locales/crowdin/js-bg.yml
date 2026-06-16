@@ -155,7 +155,6 @@ bg:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
       macro:
-        error: 'Не може да се разгъне макроса: %{message}'
         attribute_reference:
           macro_help_tooltip: Този текстов сегмент се визуализира динамично от макрос.
           not_found: Заявеният ресурс не можа да бъде намерен
@@ -175,9 +174,14 @@ bg:
           title: Insert / edit Code snippet
           language: Formatting language
           language_hint: Enter the formatting language that will be used for highlighting (if supported).
-        dropdown:
-          macros: Macros
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Не може да се разгъне макроса: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Table of contents
         toolbar_help: Click to select widget and show the toolbar. Double-click to edit widget
         wiki_page_include:
@@ -195,11 +199,6 @@ bg:
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: Create work package
           with_type: 'Create work package (Type: %{typename})'
-        embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
         edit_query: Редактирай заявка
@@ -368,6 +367,7 @@ bg:
     label_in_more_than: в повече от
     label_incoming_emails: Входящи имейли
     label_information_plural: Информация
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Импортиране
     label_latest_activity: Latest activity
@@ -392,6 +392,7 @@ bg:
     label_no_value: Няма стойност
     label_none: никой
     label_not_contains: doesn't contain
+    label_not_available: Not available
     label_not_equals: is not
     label_on: на
     label_open_menu: Open menu

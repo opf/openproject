@@ -5,6 +5,7 @@ import { addTurboEventListeners } from './turbo-event-listeners';
 import { registerFlashStreamAction } from './flash-stream-action';
 import { registerLiveRegionStreamAction } from './live-region-stream-action';
 import { registerInputCaptionStreamAction } from './input-caption-stream-action';
+import { registerDispatchEventStreamAction } from './dispatch-event-stream-action';
 import { addTurboGlobalListeners } from './turbo-global-listeners';
 import { applyTurboNavigationPatch } from './turbo-navigation-patch';
 import { debugLog, whenDebugging } from 'core-app/shared/helpers/debug_output';
@@ -43,6 +44,7 @@ registerDialogStreamAction();
 registerFlashStreamAction();
 registerLiveRegionStreamAction();
 registerInputCaptionStreamAction();
+registerDispatchEventStreamAction();
 addTurboAngularWrapper();
 
 StreamActions.reloadPage = function reloadPage() {

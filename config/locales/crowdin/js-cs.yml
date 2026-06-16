@@ -155,7 +155,6 @@ cs:
         manual: Přepněte do Markdown zdroje
         wysiwyg: Přepnout na WYSIWYG Editor
       macro:
-        error: Nelze rozšířit makro %{message}
         attribute_reference:
           macro_help_tooltip: Tento textový segment je dynamicky rendrován makrem.
           not_found: Požadovaný zdroj nebyl nalezen.
@@ -175,9 +174,14 @@ cs:
           title: Insert / edit Code snippet
           language: Formátování jazyka
           language_hint: Zadejte jazyk, který bude použit pro zvýraznění (pokud je podporováno).
-        dropdown:
-          macros: Makra
-          chose_macro: Vybrat makro
+        embedded_calendar:
+          text: "[Placeholder] Vložený kalendář"
+        embedded_table:
+          button: Vložit tabulku pracovního balíčku
+          text: "[Placeholder] Vložený tabulka pracovního balíčku"
+        error: Nelze rozšířit makro %{message}
+        macro_dropdown:
+          caption: Insert
         toc: Obsah
         toolbar_help: Klikněte pro výběr widgetu a zobrazení panelu nástrojů. Dvojklikem upravíte widget
         wiki_page_include:
@@ -195,11 +199,6 @@ cs:
           button_style_hint: 'Volitelné: Zkontrolujte, zda se makro zobrazí jako tlačítko, ne jako odkaz.'
           without_type: Vytvořit pracovní balíček
           with_type: 'Vytvořit pracovní balíček (typ: %{typename})'
-        embedded_table:
-          button: Vložit tabulku pracovního balíčku
-          text: "[Placeholder] Vložený tabulka pracovního balíčku"
-        embedded_calendar:
-          text: "[Placeholder] Vložený kalendář"
     admin:
       type_form:
         edit_query: Upravit dotaz
@@ -368,6 +367,7 @@ cs:
     label_in_more_than: za více než
     label_incoming_emails: Příchozí e-maily
     label_information_plural: Informace
+    label_infinity: Infinity
     label_invalid: Neplatné
     label_import: Import
     label_latest_activity: Poslední aktivita
@@ -392,6 +392,7 @@ cs:
     label_no_value: Žádná hodnota
     label_none: žádný
     label_not_contains: neobsahuje
+    label_not_available: Not available
     label_not_equals: není
     label_on: ''
     label_open_menu: Otevřít nabídku

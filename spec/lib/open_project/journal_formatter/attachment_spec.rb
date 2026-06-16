@@ -56,7 +56,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
         expect(instance.render(key, [nil, attachment.filename.to_s]))
           .to eq(I18n.t(:text_journal_attachment_added,
                         label: "<strong>#{I18n.t(:"activerecord.models.attachment")}</strong>",
-                        value: "<a href=\"#{link}\">#{attachment.filename}</a>"))
+                        value: "<a target=\"_blank\" href=\"#{link}\">#{attachment.filename}</a>"))
       end
 
       context "WITH a relative_url_root" do
@@ -71,7 +71,7 @@ RSpec.describe OpenProject::JournalFormatter::Attachment do
           expect(instance.render(key, [nil, attachment.filename.to_s]))
             .to eq(I18n.t(:text_journal_attachment_added,
                           label: "<strong>#{I18n.t(:"activerecord.models.attachment")}</strong>",
-                          value: "<a href=\"#{link}\">#{attachment.filename}</a>"))
+                          value: "<a target=\"_blank\" href=\"#{link}\">#{attachment.filename}</a>"))
         end
       end
     end

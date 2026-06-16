@@ -60,6 +60,7 @@ module OpenProject::ResourceManagement
                                                                       new_work_package add_work_package
                                                                       remove_work_package move_work_package
                                                                       reorder_work_package],
+                     "resource_management/work_package_resource_allocations": %i[index],
                      "resource_management/menus": %i[show]
                    },
                    permissible_on: :project

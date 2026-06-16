@@ -160,7 +160,7 @@ sk:
         '
       other_active_session_notice: Your account has an active remember cookie on another session.
       label: Zapamätať
-      clear_cookie: Click here to remove all remembered 2FA sessions.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: All remembered 2FA sessions have been removed.
       dont_ask_again: Create cookie to remember 2FA authentication on this client for %{days} days.
   field_otp: Jednorazové heslo
@@ -171,6 +171,7 @@ sk:
   notice_account_has_no_phone: K Vášmu účtu nie je priradené žiadne číslo mobilného telefónu.
   label_confirmed: Potvrdený
   button_continue: Pokračovať
+  button_make_active: Activate
   button_make_default: Označiť ako predvolené
   notice_phone_number_format: 'Zadajte číslo v nasledujúcom formáte: + XX XXXXXXXX.'
   text_otp_not_receive: Ďalšie metódy overovania

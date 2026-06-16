@@ -30,6 +30,7 @@
 module ::ResourceManagement
   class ResourcePlannersController < BaseController
     include OpTurbo::ComponentStream
+    include PlannerViewContent
 
     menu_item :resource_management
 
@@ -47,6 +48,7 @@ module ::ResourceManagement
 
     def show
       @view = default_view
+      @content_component = work_package_list_content(@view)
       render "resource_management/resource_planner_views/show"
     end
 

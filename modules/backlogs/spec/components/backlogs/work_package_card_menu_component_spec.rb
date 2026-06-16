@@ -180,10 +180,10 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_css(".ActionList-sectionDivider")
     end
 
-    it "shows the Move submenu with incoming-arrow icon" do
+    it "shows the Move to position submenu with incoming-arrow icon" do
       render_component
 
-      expect(page).to have_selector(:menuitem, text: "Move")
+      expect(page).to have_selector(:menuitem, text: "Move to position")
       expect(page).to have_octicon(:"op-arrow-in")
     end
   end
@@ -300,10 +300,10 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       context "when the work package is already in the inbox" do
         let(:sprint) { nil }
 
-        it "hides the Move submenu entirely" do
+        it "hides the Move to position submenu entirely" do
           render_component(open_sprints_exist: false, other_buckets_exist: false)
 
-          expect(page).to have_no_selector(:menuitem, text: "Move")
+          expect(page).to have_no_selector(:menuitem, text: "Move to position")
         end
       end
     end
@@ -358,7 +358,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
     end
   end
 
-  describe "Move to inbox item" do
+  describe "Move to backlog inbox item" do
     context "when work package is in a sprint" do
       it "is shown with inbox icon" do
         render_component

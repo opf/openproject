@@ -33,8 +33,8 @@ fr:
         other: Fournisseur XWiki
   menus:
     admin:
-      external_wiki_providers: Wiki providers
-      internal_wiki_provider: Internal wiki
+      external_wiki_providers: Fournisseurs de wiki
+      internal_wiki_provider: Wiki interne
       wikis: Wikis
   permission_manage_wiki_page_links: Gérer les liens de la page wiki
   project_module_wiki_platforms: Fournisseurs de wiki
@@ -66,11 +66,11 @@ fr:
           no_health_report_description: Lancez les contrôles maintenant pour obtenir un rapport complet sur l'état de santé de ce fournisseur wiki.
           title: Bilan de santé
       internal_provider_form:
-        checkbox_caption: Allow projects to use the internal OpenProject wiki along with external Wiki providers
-        checkbox_label: Enable the internal OpenProject wiki
+        checkbox_caption: Permettre aux projets d'utiliser le wiki interne d'OpenProject ainsi que des fournisseurs de wiki externes
+        checkbox_label: Activer le wiki interne d'OpenProject
       internal_wiki_provider:
         show:
-          description: Choose to enable or disable the internal OpenProject wiki
+          description: Choisissez d'activer ou de désactiver le wiki interne d'OpenProject
       oauth_application_info_component:
         confirm_replace_oauth_application: Cette action réinitialisera les informations d'identification OAuth actuelles. Après confirmation, vous devrez saisir à nouveau les informations d'identification dans votre instance XWiki et tous les utilisateurs devront se réautoriser. Voulez-vous vraiment continuer ?
         label_oauth_client_id: ID client OAuth
@@ -97,7 +97,7 @@ fr:
         label_edit: Modifier le fournisseur XWiki
         label_new_provider: Nouveau fournisseur XWiki
         label_wiki_platform: Fournisseur de wiki
-        name_caption: Give your wiki provider a name so that users can differentiate between multiple wiki platforms.
+        name_caption: Donnez à votre espace de stockage un nom pour permettre aux utilisateurs de le différencier des autres plateformes de wiki.
         name_placeholder: Base de connaissances XWiki
         new_provider_html: Lisez notre documentation sur [la configuration d'une intégration XWiki](docs_url) pour en savoir plus.
         oauth:
@@ -105,13 +105,13 @@ fr:
         sections:
           general_information: Informations générales
           oauth_configuration: Configuration OAuth
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+        url_caption: Veuillez ajouter l'adresse d'hôte de votre plateforme wiki, y compris le https://. Elle ne doit pas dépasser 255 caractères.
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
+            openproject_oauth_description: Autoriser XWiki à accéder aux données d'OpenProject via OAuth.
             provider_oauth: OAuth du wiki
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
+            provider_oauth_configuration: Copiez ces valeurs dans le [client de connexion XWiki OIDC](xwiki_oidc_link).
+            provider_oauth_description: Autoriser OpenProject à accéder aux données XWiki via OAuth.
           openproject_oauth_description: Autoriser XWiki à accéder aux données d'OpenProject via OAuth.
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: Autoriser OpenProject à accéder aux données XWiki via OAuth.
@@ -122,9 +122,9 @@ fr:
       save_and_continue: Enregistrer et continuer
       wiki_page: Page wiki
     create_new_wiki_page_dialog:
-      page_title: Title
-      parent_help_text: Select a parent for this new wiki page.
-      title: Create new wiki page
+      page_title: Titre
+      parent_help_text: Veuillez sélectionner une page parente pour cette nouvelle page wiki.
+      title: Créer une nouvelle page wiki
     delete_relation_page_link_confirmation_dialog:
       heading: Supprimer le lien vers la page wiki associée ?
       title: Supprimer le lien vers la page wiki associée
@@ -149,8 +149,9 @@ fr:
     link_existing_wiki_page_dialog:
       title: Ajouter une page wiki existante
     link_existing_wiki_page_form:
-      no_results: No wiki pages found
-      placeholder: Search for a wiki page
+      label: Page wiki
+      no_results: Aucune page wiki trouvée
+      placeholder: Search for a wiki page (or enter its URL)
     oauth_login_component:
       connect_button: Connecter le compte %{provider}
       description: Connectez-vous à %{provider} pour voir et gérer les pages wiki liées à cette instance d'OpenProject.

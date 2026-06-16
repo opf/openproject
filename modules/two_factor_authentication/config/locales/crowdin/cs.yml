@@ -160,7 +160,7 @@ cs:
         '
       other_active_session_notice: Váš účet má aktivní paměť cookie v jiné relaci.
       label: Zapamatovat
-      clear_cookie: Kliknutím sem odstraníte všechny zapamatované 2FA relace.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Všechny zapamatované 2FA relace byly odstraněny.
       dont_ask_again: Vytvořte cookie a zapamatujte si 2FA autentizaci tohoto klienta po dobu %{days} dní.
   field_otp: Jednorázové heslo
@@ -171,6 +171,7 @@ cs:
   notice_account_has_no_phone: S vaším účtem není přiřazeno žádné telefonní číslo.
   label_confirmed: Potvrzený
   button_continue: Pokračovat
+  button_make_active: Activate
   button_make_default: Označit jako výchozí
   notice_phone_number_format: 'Zadejte číslo v následujícím formátu: +XX XXXXXXXX.'
   text_otp_not_receive: Jiné metody ověřování

@@ -3838,6 +3838,7 @@ ja:
   label_send_invitation: 招待状を送信
   label_calculated_value: Calculated value
   label_change_parent: 親タスクの変更
+  label_change_password: Change password
   label_change_plural: 変更
   label_change_properties: プロパティの変更
   label_change_status: ステータスの変更
@@ -4124,6 +4125,7 @@ ja:
   label_my_account_data: アカウントのデータ
   label_my_avatar: 自分のアバター
   label_my_queries: 個人のクエリ
+  label_my_security: Security
   label_name: 名称
   label_never: なし
   label_new: 新しく作成

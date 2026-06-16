@@ -45,6 +45,7 @@ eu:
   default_doc_category_user: Erabiltzaile dokumentazioa
   enumeration_doc_categories: Dokumentuen kategoriak
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

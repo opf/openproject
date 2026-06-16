@@ -155,7 +155,6 @@ id:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
@@ -175,9 +174,14 @@ id:
           title: Sisipkan / edit cuplikan kode
           language: Memformat bahasa
           language_hint: Masukan format bahasa yang akan digunakan untuk menyorot(jika didukung).
-        dropdown:
-          macros: Makro
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Daftar isi
         toolbar_help: Klik untuk memilih widget dan menampilkan toolbar. klik dua kali untuk mengedit widget
         wiki_page_include:
@@ -195,11 +199,6 @@ id:
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: Create work package
           with_type: 'Create work package (Type: %{typename})'
-        embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
         edit_query: Edit query
@@ -368,6 +367,7 @@ id:
     label_in_more_than: lebih dari
     label_incoming_emails: Email masuk
     label_information_plural: Informasi
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Impor
     label_latest_activity: Latest activity
@@ -392,6 +392,7 @@ id:
     label_no_value: Kosongkan
     label_none: kosong
     label_not_contains: tidak berisi
+    label_not_available: Not available
     label_not_equals: tidak
     label_on: pada
     label_open_menu: Buka menu

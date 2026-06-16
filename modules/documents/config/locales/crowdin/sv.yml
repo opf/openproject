@@ -45,6 +45,7 @@ sv:
   default_doc_category_user: Användardokumentation
   enumeration_doc_categories: Dokumentkategorier
   documents:
+    button_add_type: Type
     page_header:
       heading: Alla dokument
       action_menu:

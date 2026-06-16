@@ -34,7 +34,6 @@ module Admin::Settings
     include PaginationHelper
 
     before_action :require_admin
-    before_action :require_classic_mode
     before_action :find_slug, only: %i[confirm_dialog destroy]
 
     menu_item :project_reserved_identifiers_settings
@@ -63,7 +62,7 @@ module Admin::Settings
     end
 
     def destroy
-      @slug.destroy!
+      ProjectIdentifiers::ReleaseReservedIdentifierService.new(@slug).call
       redirect_to admin_settings_project_reserved_identifiers_path,
                   flash: { notice: t("admin.reserved_identifiers.released_notice", identifier: @slug.slug) }
     end
@@ -84,13 +83,6 @@ module Admin::Settings
         .new(FriendlyId::Slug, current_user,
              query_class: Queries::ProjectReservedIdentifiers::ProjectReservedIdentifierQuery)
         .call(params)
-    end
-
-    def require_classic_mode
-      return unless Setting::WorkPackageIdentifier.semantic?
-
-      redirect_to admin_settings_work_packages_identifier_path,
-                  flash: { warning: t("admin.reserved_identifiers.not_available_in_semantic_mode") }
     end
   end
 end

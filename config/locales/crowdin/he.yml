@@ -4027,6 +4027,7 @@ he:
   label_send_invitation: Send invitation
   label_calculated_value: Calculated value
   label_change_parent: שנה אב
+  label_change_password: Change password
   label_change_plural: שינויים
   label_change_properties: שינוי מאפיינים
   label_change_status: שנה מצב
@@ -4313,6 +4314,7 @@ he:
   label_my_account_data: My account data
   label_my_avatar: My avatar
   label_my_queries: My custom queries
+  label_my_security: Security
   label_name: שם
   label_never: אף פעם
   label_new: חדש

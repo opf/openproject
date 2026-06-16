@@ -3837,6 +3837,7 @@ vi:
   label_send_invitation: Gửi lời mời
   label_calculated_value: Giá trị tính toán
   label_change_parent: Thay đổi cha mẹ
+  label_change_password: Change password
   label_change_plural: Thay đổi
   label_change_properties: Thay đổi những thuộc tính
   label_change_status: Đổi trạng thái
@@ -4123,6 +4124,7 @@ vi:
   label_my_account_data: Dữ liệu tài khoản của tôi
   label_my_avatar: Hình đại diện của tôi
   label_my_queries: Các truy vấn tùy biến của tôi
+  label_my_security: Security
   label_name: tên
   label_never: không bao giờ
   label_new: Mới

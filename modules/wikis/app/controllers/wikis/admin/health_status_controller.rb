@@ -85,7 +85,7 @@ module Wikis
       end
 
       def find_provider
-        @provider = ::Wikis::Provider.visible.find(params[:wiki_provider_id])
+        @provider = ::Wikis::Provider.visible.find(params.expect(:wiki_provider_id))
       end
 
       def create_and_store_report

@@ -227,4 +227,16 @@ RSpec.describe CostQuery::PDF::TimesheetGenerator do
       expect(subject).to eq expected_document(false)
     end
   end
+
+  context "with semantic work package identifiers",
+          with_settings: { work_packages_identifier: "semantic", allow_tracking_start_and_end_times: false } do
+    before do
+      user_time_entry.entity.update_columns(identifier: "PROD-42", sequence_number: 42)
+    end
+
+    it "renders the semantic identifier in the work package column" do
+      expect(subject).to include("PROD-42")
+      expect(subject).not_to include("##{user_time_entry.entity.id}")
+    end
+  end
 end

@@ -30,6 +30,7 @@
 
 module Wikis
   class RelationPageLinksController < ApplicationController
+    include PageSelectionFormInput
     include OpTurbo::ComponentStream
 
     before_action :authorize
@@ -78,15 +79,6 @@ module Wikis
     def relation_page_link_params
       params.expect(wikis_relation_page_link: %i[provider_id linkable_type linkable_id])
             .merge(author_id: current_user.id, identifier: parse_identifier(params[:wiki_page_selection]))
-    end
-
-    def parse_identifier(wiki_page_selection)
-      case wiki_page_selection
-      in [selected_page]
-        MultiJson.load(selected_page, symbolize_keys: true)[:value]
-      else
-        nil
-      end
     end
 
     def turbo_redirect_for_linkable(linkable)

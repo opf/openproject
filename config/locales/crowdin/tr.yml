@@ -3904,6 +3904,7 @@ tr:
   label_send_invitation: Davet gönder
   label_calculated_value: Hesaplanan değer
   label_change_parent: Üstünü değiştir
+  label_change_password: Change password
   label_change_plural: Değişiklikler
   label_change_properties: Özellikleri değiştir
   label_change_status: Durumu değiştir
@@ -4190,6 +4191,7 @@ tr:
   label_my_account_data: Hesap verilerim
   label_my_avatar: Avatarım
   label_my_queries: Özel sorgularım
+  label_my_security: Security
   label_name: İsim
   label_never: Hiçbir zaman
   label_new: Yeni

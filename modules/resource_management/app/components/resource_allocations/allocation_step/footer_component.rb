@@ -34,6 +34,16 @@ module ResourceAllocations
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
+      # `dialog_id` and `submit_label` default to the create wizard's; the edit
+      # dialog passes its own.
+      def initialize(dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID,
+                     submit_label: I18n.t("resource_management.allocate_resource_dialog.submit"))
+        super
+
+        @dialog_id = dialog_id
+        @submit_label = submit_label
+      end
+
       def wrapper_key
         ResourceAllocations::NewDialogComponent::FOOTER_ID
       end
@@ -43,7 +53,7 @@ module ResourceAllocations
           component_collection do |buttons|
             buttons.with_component(
               Primer::Beta::Button.new(
-                data: { "close-dialog-id": ResourceAllocations::NewDialogComponent::DIALOG_ID },
+                data: { "close-dialog-id": @dialog_id },
                 mr: 1
               )
             ) { I18n.t(:button_cancel) }
@@ -54,7 +64,7 @@ module ResourceAllocations
                 form: ResourceAllocations::NewDialogComponent::FORM_ID,
                 type: :submit
               )
-            ) { I18n.t("resource_management.allocate_resource_dialog.submit") }
+            ) { @submit_label }
           end
         end
       end

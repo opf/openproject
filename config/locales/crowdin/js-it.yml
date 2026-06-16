@@ -155,7 +155,6 @@ it:
         manual: Passa alla risorsa Markdown
         wysiwyg: Passa all'editor WYSIWYG
       macro:
-        error: 'Impossibile espandere la macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Questo segmento di testo viene renderizzato dinamicamente da una macro.
           not_found: Impossibile trovare la risorsa richiesta
@@ -175,9 +174,14 @@ it:
           title: Inserisci / modifica frammento di codice
           language: Linguaggio di formattazione
           language_hint: Specifica il linguaggio di formattazione che verrà utilizzato per evidenziare (se supportato).
-        dropdown:
-          macros: Macro
-          chose_macro: Scegli macro
+        embedded_calendar:
+          text: "[Placeholder] Calendario incorporato"
+        embedded_table:
+          button: Incorpora la tabella della macro-attività
+          text: "[Placeholder] Tabella della macro-attività incorporata"
+        error: 'Impossibile espandere la macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Indice
         toolbar_help: Clicca per selezionare widget e visualizzare la barra degli strumenti. Fai doppio clic per modificare i widget
         wiki_page_include:
@@ -195,11 +199,6 @@ it:
           button_style_hint: 'Facoltativo: Spunta per far apparire la macro come un pulsante e non come collegamento.'
           without_type: Crea macro-attività
           with_type: 'Crea macro-attività (Tipo: %{typename})'
-        embedded_table:
-          button: Incorpora la tabella della macro-attività
-          text: "[Placeholder] Tabella della macro-attività incorporata"
-        embedded_calendar:
-          text: "[Placeholder] Calendario incorporato"
     admin:
       type_form:
         edit_query: Modifica query
@@ -368,6 +367,7 @@ it:
     label_in_more_than: in più di
     label_incoming_emails: Email in arrivo
     label_information_plural: Informazioni
+    label_infinity: Infinity
     label_invalid: Non valido
     label_import: Importazione
     label_latest_activity: Ultima attività
@@ -392,6 +392,7 @@ it:
     label_no_value: Nessun valore
     label_none: nessuno
     label_not_contains: non contiene
+    label_not_available: Not available
     label_not_equals: non è
     label_on: il
     label_open_menu: Apri menu

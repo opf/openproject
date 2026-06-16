@@ -110,6 +110,69 @@ RSpec.describe Import::JiraUser do
     end
   end
 
+  describe "#try_to_find_existing_op_users" do
+    subject(:result) { jira_user.try_to_find_existing_op_users }
+
+    let(:payload) { { "displayName" => "Test User", "name" => "testuser", "emailAddress" => "test@example.com" } }
+
+    context "when no matching user exists" do
+      it "returns an empty relation" do
+        expect(result).to be_empty
+      end
+    end
+
+    context "when a user with matching login exists (case-insensitive)" do
+      let!(:existing_user) { create(:user, login: "TestUser", mail: "other@example.com") }
+
+      it "finds the user" do
+        expect(result).to contain_exactly(existing_user)
+      end
+    end
+
+    context "when a user with matching email exists (case-insensitive)" do
+      let!(:existing_user) { create(:user, login: "otherlogin", mail: "TEST@EXAMPLE.COM") }
+
+      it "finds the user" do
+        expect(result).to contain_exactly(existing_user)
+      end
+    end
+
+    context "when a user matches both login and email" do
+      let!(:existing_user) { create(:user, login: "TESTUSER", mail: "TEST@example.com") }
+
+      it "finds the user once" do
+        expect(result).to contain_exactly(existing_user)
+      end
+    end
+
+    context "when different users match login and email respectively" do
+      let!(:user_by_login) { create(:user, login: "TESTUSER", mail: "different@example.com") }
+      let!(:user_by_email) { create(:user, login: "differentlogin", mail: "TEST@EXAMPLE.COM") }
+
+      it "finds both users" do
+        expect(result).to contain_exactly(user_by_login, user_by_email)
+      end
+    end
+
+    context "when email is nil in payload" do
+      let(:payload) { { "displayName" => "Test User", "name" => "testuser", "emailAddress" => nil } }
+      let!(:existing_user) { create(:user, login: "TESTUSER", mail: "any@example.com") }
+
+      it "still finds users by login" do
+        expect(result).to contain_exactly(existing_user)
+      end
+    end
+
+    context "when email separator is used" do
+      let(:payload) { { "displayName" => "Test User", "name" => "othername", "emailAddress" => "any@example.com" } }
+      let!(:existing_user) { create(:user, login: "testname", mail: "any+test@example.com") }
+
+      it "considers the email to be different and does not find it this user account" do
+        expect(result).to be_empty
+      end
+    end
+  end
+
   describe "#sanitize_name (private)" do
     subject(:jira_user) { described_class.new(payload: {}) }
 

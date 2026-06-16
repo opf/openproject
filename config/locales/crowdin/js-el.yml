@@ -155,7 +155,6 @@ el:
         manual: Αλλαγή σε Markdown source
         wysiwyg: Αλλαγή σε επεξεργαστή WYSIWYG
       macro:
-        error: 'Αδυναμία επέκτασης μακροεντολής: %{message}'
         attribute_reference:
           macro_help_tooltip: Αυτό το τμήμα κειμένου δημιουργείται δυναμικά από μια μακροεντολή.
           not_found: Ο ζητούμενος πόρος δεν βρέθηκε.
@@ -175,9 +174,14 @@ el:
           title: Εισαγωγή / επεξεργασία αποσπάσματος κώδικα
           language: Μορφοποίηση γλώσσας
           language_hint: Εισάγετε την γλώσσα μορφοποίησης που θα χρησιμοποιηθεί για επισημάνσεις (αν υποστηρίζεται).
-        dropdown:
-          macros: Μακροεντολές
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Ενσωματωμένο ημερολόγιο"
+        embedded_table:
+          button: Ενσωμάτωση πίνακα πακέτων εργασίας
+          text: "[Placeholder] Ενσωματωμένος πίνακας πακέτων εργασίας"
+        error: 'Αδυναμία επέκτασης μακροεντολής: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Πίνακας περιεχομένων
         toolbar_help: Κάντε κλικ για να επιλέξετε widget και να εμφανίσετε τη γραμμή εργαλείων. Κάντε διπλό κλικ για να επεξεργαστείτε το widget
         wiki_page_include:
@@ -195,11 +199,6 @@ el:
           button_style_hint: 'Προαιρετικό: Επιλέξτε για να κάνετε την μακροεντολή να εμφανίζεται ως κουμπί και όχι ως σύνδεσμος.'
           without_type: Δημιουργήστε πακέτο εργασίας
           with_type: 'Δημιουργήστε πακέτο εργασίας (Τύπου: %{typename})'
-        embedded_table:
-          button: Ενσωμάτωση πίνακα πακέτων εργασίας
-          text: "[Placeholder] Ενσωματωμένος πίνακας πακέτων εργασίας"
-        embedded_calendar:
-          text: "[Placeholder] Ενσωματωμένο ημερολόγιο"
     admin:
       type_form:
         edit_query: Επεξεργασία αναζήτησης
@@ -368,6 +367,7 @@ el:
     label_in_more_than: σε περισσότερο από
     label_incoming_emails: Εισερχόμενα email
     label_information_plural: Πληροφορίες
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Εισαγωγή
     label_latest_activity: Τελευταία δραστηριότητα
@@ -392,6 +392,7 @@ el:
     label_no_value: Καμία τιμή
     label_none: κανένα
     label_not_contains: δεν περιέχει
+    label_not_available: Not available
     label_not_equals: δεν είναι
     label_on: σε
     label_open_menu: Άνοιγμα μενού

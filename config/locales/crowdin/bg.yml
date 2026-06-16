@@ -3897,6 +3897,7 @@ bg:
   label_send_invitation: Send invitation
   label_calculated_value: Calculated value
   label_change_parent: Смяна на главният работен пакет
+  label_change_password: Change password
   label_change_plural: Промени
   label_change_properties: Промяна на свойствата
   label_change_status: Промяна на статуса
@@ -4183,6 +4184,7 @@ bg:
   label_my_account_data: Данни за моят акаунт
   label_my_avatar: Моят аватар
   label_my_queries: Моите потребителски заявки
+  label_my_security: Security
   label_name: Име
   label_never: Никога
   label_new: Нов

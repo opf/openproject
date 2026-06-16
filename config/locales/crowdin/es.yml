@@ -3890,6 +3890,7 @@ es:
   label_send_invitation: Enviar invitación
   label_calculated_value: Valor calculado
   label_change_parent: Cambiar principal
+  label_change_password: Change password
   label_change_plural: Cambios
   label_change_properties: Cambiar propiedades
   label_change_status: Cambiar estado
@@ -4176,6 +4177,7 @@ es:
   label_my_account_data: Mis datos de cuenta
   label_my_avatar: Mi avatar
   label_my_queries: Mis consultas personalizadas
+  label_my_security: Security
   label_name: Nombre
   label_never: Nunca
   label_new: Nuevo

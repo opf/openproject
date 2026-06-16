@@ -29,6 +29,10 @@
 ---
 en:
   js:
+    editor:
+      macro:
+        wikis:
+          add_existing: Existing wiki page
     work_packages:
       tabs:
-        wikis: 'Wikis'
+        wikis: Wikis

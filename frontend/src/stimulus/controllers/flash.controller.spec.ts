@@ -29,8 +29,12 @@
  */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import FlashController, { SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
+import FlashController, { LIVE_REGION_ANNOUNCEMENT_DELAY, SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
+
+interface LiveRegionTestElement extends HTMLElement {
+  announce(message:string, options:unknown):void;
+}
 
 describe('FlashController', () => {
   let ctx:StimulusTestContext;
@@ -41,7 +45,85 @@ describe('FlashController', () => {
     });
   });
 
-  afterEach(() => ctx.dispose());
+  afterEach(() => {
+    document.documentElement.removeAttribute('data-turbo-preview');
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+    ctx?.dispose();
+  });
+
+  function renderFlash(attributes:string, content = 'Message') {
+    ctx.appendHTML(`
+      <div data-controller="flash">
+        <live-region data-testid="live-region"></live-region>
+        <div data-flash-target="item" ${attributes}>
+          ${content}
+        </div>
+      </div>
+    `);
+  }
+
+  // The real live-region element is provided globally in the app layout.
+  // In this isolated controller spec, we stub its announce method directly.
+  function stubLiveRegionAnnouncement(announceSpy:LiveRegionTestElement['announce']) {
+    const liveRegion = ctx.screen.getByTestId('live-region') as unknown as LiveRegionTestElement;
+
+    liveRegion.announce = announceSpy;
+  }
+
+  describe('announcements', () => {
+    it('announces flash items politely by default', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      renderFlash('data-announcement="Saved"', 'Saved');
+      const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
+      stubLiveRegionAnnouncement(announceSpy);
+      await ctx.nextFrame();
+
+      const item = ctx.screen.getByText('Saved');
+      // Keep the delayed live-region update deterministic.
+      vi.advanceTimersByTime(LIVE_REGION_ANNOUNCEMENT_DELAY);
+
+      expect(announceSpy).toHaveBeenCalledWith('Saved', { politeness: 'polite', from: item });
+    });
+
+    it('announces urgent flash items assertively', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      renderFlash('data-announcement="Invalid input" data-politeness="assertive"', 'Invalid input');
+      const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
+      stubLiveRegionAnnouncement(announceSpy);
+      await ctx.nextFrame();
+
+      const item = ctx.screen.getByText('Invalid input');
+      vi.advanceTimersByTime(LIVE_REGION_ANNOUNCEMENT_DELAY);
+
+      expect(announceSpy).toHaveBeenCalledWith('Invalid input', { politeness: 'assertive', from: item });
+    });
+
+    it('does not announce while Turbo is rendering a cached preview', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      document.documentElement.setAttribute('data-turbo-preview', '');
+      renderFlash('data-announcement="Saved"', 'Saved');
+      const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
+      stubLiveRegionAnnouncement(announceSpy);
+      await ctx.nextFrame();
+      vi.advanceTimersByTime(LIVE_REGION_ANNOUNCEMENT_DELAY);
+
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+
+    it('does not announce flash items that were removed before the deferred announcement', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      renderFlash('data-announcement="Saved"', 'Saved');
+      const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
+      stubLiveRegionAnnouncement(announceSpy);
+      await ctx.nextFrame();
+
+      ctx.screen.getByText('Saved').remove();
+      vi.advanceTimersByTime(LIVE_REGION_ANNOUNCEMENT_DELAY);
+
+      expect(announceSpy).not.toHaveBeenCalled();
+    });
+  });
 
   describe('without autohide', () => {
     it('keeps flash items visible', async () => {
@@ -108,6 +190,64 @@ describe('FlashController', () => {
       await ctx.nextFrame();
 
       expect(ctx.screen.queryByTestId('item-container')).not.toBeInTheDocument();
+    });
+  });
+
+  describe('interaction pause/resume', () => {
+    it('pauses and resumes autohide timer on keyboard interaction', async () => {
+      // Focused messages should stay visible while users interact with controls inside them.
+      const timeoutSpy = vi.spyOn(globalThis, 'setTimeout');
+      const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
+
+      ctx.appendHTML(`
+        <div data-controller="flash" data-flash-autohide-value="true">
+          <div data-flash-target="item" data-autohide="true" role="status">
+            <button>Action</button>
+          </div>
+        </div>
+      `);
+      await ctx.nextFrame();
+
+      const button = ctx.screen.getByRole('button');
+      button.focus();
+      await ctx.nextFrame();
+
+      expect(clearTimeoutSpy).toHaveBeenCalled();
+      timeoutSpy.mockClear();
+
+      button.blur();
+      await ctx.nextFrame();
+
+      const autohideCall = timeoutSpy.mock.calls.find(([, delay]) => delay === SUCCESS_AUTOHIDE_TIMEOUT);
+      expect(autohideCall).toBeDefined();
+    });
+
+    it('pauses and resumes autohide timer on mouse interaction', async () => {
+      // Hovered messages should also pause so users have time to read them.
+      const timeoutSpy = vi.spyOn(globalThis, 'setTimeout');
+      const clearTimeoutSpy = vi.spyOn(globalThis, 'clearTimeout');
+
+      ctx.appendHTML(`
+        <div data-controller="flash" data-flash-autohide-value="true">
+          <div data-flash-target="item" data-autohide="true" role="status" data-testid="flash-item">
+            Message
+          </div>
+        </div>
+      `);
+      await ctx.nextFrame();
+
+      const item = ctx.screen.getByTestId('flash-item');
+      item.dispatchEvent(new MouseEvent('mouseenter', { bubbles: true }));
+      await ctx.nextFrame();
+
+      expect(clearTimeoutSpy).toHaveBeenCalled();
+      timeoutSpy.mockClear();
+
+      item.dispatchEvent(new MouseEvent('mouseleave', { bubbles: true }));
+      await ctx.nextFrame();
+
+      const autohideCall = timeoutSpy.mock.calls.find(([, delay]) => delay === SUCCESS_AUTOHIDE_TIMEOUT);
+      expect(autohideCall).toBeDefined();
     });
   });
 });

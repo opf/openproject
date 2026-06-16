@@ -3963,6 +3963,7 @@ ro:
   label_send_invitation: Trimite invitație
   label_calculated_value: Calculated value
   label_change_parent: Modifică părinte
+  label_change_password: Change password
   label_change_plural: Modificări
   label_change_properties: Modificare proprietăţi
   label_change_status: Modificare stare
@@ -4249,6 +4250,7 @@ ro:
   label_my_account_data: Datele din contul meu
   label_my_avatar: My avatar
   label_my_queries: Interogările mele
+  label_my_security: Security
   label_name: Nume
   label_never: Niciodată
   label_new: Nou

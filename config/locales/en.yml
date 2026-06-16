@@ -61,25 +61,27 @@ en:
 
   admin:
     reserved_identifiers:
-      title: "Reserved project identifiers"
-      lede_html: "When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects."
+      btn_release: "Unreserve"
       col_identifier: "Identifier"
       col_project: "Project"
       col_reserved: "Reserved"
-      not_available_in_semantic_mode: "Reserved project identifiers are only available in numeric identifier mode."
-      filter_label: "Search identifiers"
-      btn_release: "Release"
-      released_notice: 'Identifier "%{identifier}" has been released.'
-      identifier_not_found: "The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page."
       dialog:
-        title: "Release identifier"
-        heading: 'Release "%{identifier}"?'
-        description: "Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim."
         checkbox_label: "I understand that this cannot be undone."
-        confirm_button: "Release identifier"
+        confirm_button: "Unreserve identifier"
+        description: "Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim."
+        description_with_work_packages:
+          one: "Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim."
+          other: "Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim."
+        heading: 'Unreserve "%{identifier}"?'
+        title: "Unreserve identifier"
+      empty_body: "When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so."
       empty_heading: "No reserved identifiers"
+      filter_label: "Search identifiers"
+      identifier_not_found: "The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page."
+      lede_html: "When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects."
+      released_notice: 'Identifier "%{identifier}" has been unreserved.'
       reserved_ago: "%{time} ago"
-      empty_body: "When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so."
+      title: "Reserved project identifiers"
     plugins:
       no_results_title_text: There are currently no plugins installed.
       no_results_content_text: See our integrations and plugins page for more information.
@@ -137,8 +139,8 @@ en:
         trial: "Trial"
     jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
-      caption: >
-        User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays.
+      caption_with_maximum: >
+        User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
     import:
       title: "Import"
     jira:
@@ -2471,11 +2473,12 @@ en:
         setting:
           attributes:
             base:
-              working_days_are_missing: "At least one day of the week must be defined as a working day."
-              previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
-              hours_per_day_are_missing: "The number of hours per day must be defined."
               durations_are_not_positive_numbers: "The durations must be positive numbers."
+              hours_per_day_are_missing: "The number of hours per day must be defined."
               hours_per_day_is_out_of_bounds: "Hours per day can't be more than 24"
+              journal_aggregation_time_minutes_is_out_of_bounds: "Aggregation period must be between %{min} and %{max} minutes."
+              previous_working_day_changes_unprocessed: "The previous changes to the working days configuration have not been applied yet."
+              working_days_are_missing: "At least one day of the week must be defined as a working day."
         status:
           attributes:
             default_done_ratio:
@@ -4044,6 +4047,7 @@ en:
   label_send_invitation: Send invitation
   label_calculated_value: "Calculated value"
   label_change_parent: "Change parent"
+  label_change_password: "Change password"
   label_change_plural: "Changes"
   label_change_properties: "Change properties"
   label_change_status: "Change status"
@@ -4331,6 +4335,7 @@ en:
   label_my_account_data: "My account data"
   label_my_avatar: "My avatar"
   label_my_queries: "My custom queries"
+  label_my_security: "Security"
   label_name: "Name"
   label_never: "Never"
   label_new: "New"

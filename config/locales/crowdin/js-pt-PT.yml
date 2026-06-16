@@ -155,7 +155,6 @@ pt-PT:
         manual: Alterar para fonte Markdown
         wysiwyg: Alternar para o editor do WYSIWYG
       macro:
-        error: 'Não é possível expandir a macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Este segmento de texto está a ser dinamicamente processado por uma macro.
           not_found: Não foi possível encontrar o recurso solicitado
@@ -175,9 +174,14 @@ pt-PT:
           title: Inserir / editar o trecho de código
           language: A formatar idioma
           language_hint: Insira a linguagem de formatação que será usada para destacar (se suportado).
-        dropdown:
-          macros: Macros
-          chose_macro: Escolher macro
+        embedded_calendar:
+          text: "[Placeholder] Calendário embutido"
+        embedded_table:
+          button: Incorporar a tabela de pacote de trabalho
+          text: "[Placeholder] Tabela de pacote de trabalho incorporada"
+        error: 'Não é possível expandir a macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Índice
         toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget
         wiki_page_include:
@@ -195,11 +199,6 @@ pt-PT:
           button_style_hint: 'Opcional: Verifique para que a macro apareça como um botão, não como um link.'
           without_type: Criar tarefa
           with_type: 'Criar o pacote de trabalho (tipo: %{typename})'
-        embedded_table:
-          button: Incorporar a tabela de pacote de trabalho
-          text: "[Placeholder] Tabela de pacote de trabalho incorporada"
-        embedded_calendar:
-          text: "[Placeholder] Calendário embutido"
     admin:
       type_form:
         edit_query: Editar consulta
@@ -368,6 +367,7 @@ pt-PT:
     label_in_more_than: em mais de
     label_incoming_emails: E-mails recebidos
     label_information_plural: Informação
+    label_infinity: Infinity
     label_invalid: Inválido
     label_import: Importar
     label_latest_activity: Atividade mais recente
@@ -392,6 +392,7 @@ pt-PT:
     label_no_value: Sem valor
     label_none: nenhum
     label_not_contains: não contém
+    label_not_available: Not available
     label_not_equals: não é
     label_on: 'on'
     label_open_menu: Abrir menu

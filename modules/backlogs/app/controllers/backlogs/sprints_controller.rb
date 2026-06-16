@@ -76,7 +76,7 @@ module Backlogs
     end
 
     def edit_dialog
-      @sprint = Sprint.for_project(@project).visible.find(params[:sprint_id])
+      @sprint = Sprint.for_project(@project).visible.find(params.expect(:sprint_id))
 
       respond_with_dialog Backlogs::SprintDialogComponent.new(sprint: @sprint, state: :edit)
     end

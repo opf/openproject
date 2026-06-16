@@ -40,6 +40,10 @@ module Grids
       def favorite_projects
         @favorite_projects ||= Project.visible.active.favorited_by(current_user).order(name: :asc).to_a
       end
+
+      def render?
+        current_user.logged?
+      end
     end
   end
 end

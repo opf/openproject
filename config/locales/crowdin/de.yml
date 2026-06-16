@@ -3893,6 +3893,7 @@ de:
   label_send_invitation: Einladung senden
   label_calculated_value: Berechneter Wert
   label_change_parent: Übergeordnetes Arbeitspaket ändern
+  label_change_password: Change password
   label_change_plural: Änderungen
   label_change_properties: Eigenschaften ändern
   label_change_status: Statuswechsel
@@ -4179,6 +4180,7 @@ de:
   label_my_account_data: Meine Kontodaten
   label_my_avatar: Mein Avatar
   label_my_queries: Meine Berichte
+  label_my_security: Security
   label_name: Name
   label_never: Nie
   label_new: Neu

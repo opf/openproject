@@ -3899,6 +3899,7 @@ et:
   label_send_invitation: Saada kutse
   label_calculated_value: Calculated value
   label_change_parent: Change parent
+  label_change_password: Change password
   label_change_plural: Muutused
   label_change_properties: Muuda andmeid
   label_change_status: Muuda olekut
@@ -4185,6 +4186,7 @@ et:
   label_my_account_data: Oma konto andmed
   label_my_avatar: My avatar
   label_my_queries: Mu omaloodud päringud
+  label_my_security: Security
   label_name: Nimi
   label_never: Mitte kunagi
   label_new: Uus

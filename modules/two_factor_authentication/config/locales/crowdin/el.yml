@@ -160,7 +160,7 @@ el:
         '
       other_active_session_notice: Ο λογαριασμός σας έχει ένα ενεργό cookie απομνημόνευσης από άλλη συνεδρία.
       label: Απομνημόνευση
-      clear_cookie: Κάντε κλικ εδώ για να αφαιρέσετε όλες την απομνημονευμένες συνεδρίες 2FA.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Όλες οι απομνημονευμένες συνεδρίες 2FA έχουν αφαιρεθεί.
       dont_ask_again: Δημιουργήστε ένα cookie για να απομνημονευτεί η ταυτοποίηση 2FA σε αυτό την περιηγητή για %{days} ημέρες.
   field_otp: Κωδικός μιάς χρήσης
@@ -171,6 +171,7 @@ el:
   notice_account_has_no_phone: Δεν υπάρχει αριθμός κινητού τηλεφώνου που να σχετίζεται με αυτό τον λογαριασμό.
   label_confirmed: Επιβεβαιωμένο
   button_continue: Συνέχεια
+  button_make_active: Activate
   button_make_default: Ορισμός ως προεπιλογή
   notice_phone_number_format: 'Καταχωρίστε τον αριθμό με την ακόλουθη μορφή: + XX XXXXXXXX.'
   text_otp_not_receive: Άλλες μέθοδοι επαλήθευσης

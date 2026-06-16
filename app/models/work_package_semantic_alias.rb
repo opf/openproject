@@ -42,4 +42,12 @@ class WorkPackageSemanticAlias < ApplicationRecord
 
   validates :identifier, presence: true, uniqueness: true
   validates :work_package, presence: true
+
+  # Aliases created for the given project slug prefix, i.e. identifiers of the
+  # exact form "<slug>-<digits>". Case-sensitive: aliases are always created
+  # verbatim from slug values, and slugs differing only in case (classic "proj"
+  # vs semantic "PROJ") are distinct reservations.
+  scope :for_slug_prefix, ->(slug) {
+    where("identifier ~ ?", WorkPackage::SemanticIdentifier.slug_prefix_pattern(slug))
+  }
 end

@@ -34,17 +34,25 @@ module ResourcePlannerViews::WorkPackageList
 
     mobile_columns :subject, :priority
 
-    attr_reader :view, :project, :resource_planner
+    attr_reader :view, :project, :resource_planner, :visible_principal_ids
 
-    def initialize(view:, project:, resource_planner:, **)
+    def initialize(view:, project:, resource_planner:, allocations: {}, visible_principal_ids: nil, **)
       super(**)
 
       @view = view
       @project = project
       @resource_planner = resource_planner
+      @allocations = allocations
+      @visible_principal_ids = visible_principal_ids
     end
 
     def manual? = view.manually_picked?
+
+    # The allocations of a work package, taken from the page-wide map the
+    # controller loaded; shared by the allocation progress and members columns.
+    def allocations_for(work_package)
+      @allocations[work_package.id] || []
+    end
 
     main_column :subject
 
@@ -53,6 +61,10 @@ module ResourcePlannerViews::WorkPackageList
     def paginated? = false
 
     def has_actions? = true
+
+    # Scopes this table's styling (see table_component.sass) without touching the
+    # shared border-box grid defaults used by every other table.
+    def container_class = "op-resource-work-package-list"
 
     def mobile_title
       I18n.t("resource_management.work_package_list.mobile_title")

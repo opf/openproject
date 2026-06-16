@@ -30,8 +30,8 @@
 
 module Wikis
   class PagesController < ApplicationController
+    include PageSelectionFormInput
     include OpTurbo::ComponentStream
-    include Dry::Monads[:result]
 
     before_action :authorize, except: %i[search]
 
@@ -69,27 +69,12 @@ module Wikis
     private
 
     def search_pages(query, provider)
-      return Success([]) if query.blank?
-
-      Adapters::Input::SearchPages.build(query:).bind do |input_data|
-        provider.auth_strategy_for(current_user).bind do |auth_strategy|
-          provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
-        end
-      end
+      PageSearchService.new(provider:, user: current_user).search_pages(query)
     end
 
     def create_new_page_params
       params.expect(wikis_forms_create_new_wiki_page_form_model: %i[provider_id linkable_type linkable_id page_title])
             .merge(parent_page_identifier: parse_identifier(params[:wiki_page_selection]))
-    end
-
-    def parse_identifier(wiki_page_selection)
-      case wiki_page_selection
-      in [selected_page]
-        MultiJson.load(selected_page, symbolize_keys: true)[:value]
-      else
-        nil
-      end
     end
   end
 end

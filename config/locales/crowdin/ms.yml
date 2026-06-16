@@ -3843,6 +3843,7 @@ ms:
   label_send_invitation: Hantar jemputan
   label_calculated_value: Calculated value
   label_change_parent: Ubah induk
+  label_change_password: Change password
   label_change_plural: Perubahan
   label_change_properties: Tukar ciri-ciri
   label_change_status: Tukar status
@@ -4131,6 +4132,7 @@ ms:
   label_my_account_data: Data akaun saya
   label_my_avatar: Avatar saya
   label_my_queries: Pertanyaan tersuai saya
+  label_my_security: Security
   label_name: Nama
   label_never: Tidak akan
   label_new: Baharu

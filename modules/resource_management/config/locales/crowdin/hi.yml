@@ -57,6 +57,10 @@ hi:
       make_private: Make private
       make_public: Make public
       unfavorite: Remove from favorites
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -94,6 +98,10 @@ hi:
           caption: A custom list of items you manually add and remove. Filtering is not possible.
           label: Manually hand-picked
       title: Configure view
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
     favorite_caption: Make this view a favorite to add it on the top section of the sidebar menu.
     label_new_resource_planner: New resource planner
     label_resource_planner: Resource planner
@@ -114,9 +122,23 @@ hi:
       user_card:
         caption: Create a view based on users and see their details and allocation in a list of user cards
         label: Users card list
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
     work_package_list:
       add_work_package_dialog:
         title: Add work package
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} user"
+          other: "%{count} users"
+        unassigned: Unassigned
       allocation_placeholder: "—"
       blank:
         description: There are no work packages matching this view's filters yet.

@@ -149,8 +149,9 @@ pt-PT:
     link_existing_wiki_page_dialog:
       title: Adicionar uma página wiki existente
     link_existing_wiki_page_form:
+      label: Wiki page
       no_results: No wiki pages found
-      placeholder: Search for a wiki page
+      placeholder: Search for a wiki page (or enter its URL)
     oauth_login_component:
       connect_button: Ligar a conta %{provider}
       description: Inicie sessão em %{provider} para ver e gerir as páginas wiki relacionadas com esta instância do OpenProject.

@@ -72,6 +72,8 @@ Rails.application.routes.draw do
 
   resource :wiki_page_link_macro, controller: "wikis/page_link_macro", only: [] do
     get :load
+    get :inline_existing_page_dialog
+    post :close_dialog_and_inline
   end
 
   resource :wiki_pages, controller: "wikis/pages", only: [] do

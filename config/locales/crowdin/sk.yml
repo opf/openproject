@@ -4025,6 +4025,7 @@ sk:
   label_send_invitation: Poslať pozvánku
   label_calculated_value: Calculated value
   label_change_parent: Zmeniť nadradený objekt
+  label_change_password: Change password
   label_change_plural: Zmeny
   label_change_properties: Zmeniť vlastnosti
   label_change_status: Zmeniť stav
@@ -4311,6 +4312,7 @@ sk:
   label_my_account_data: Moje prihlasovacie parametre
   label_my_avatar: My avatar
   label_my_queries: Moje vlastné dopyty
+  label_my_security: Security
   label_name: Názov
   label_never: Nikdy
   label_new: Nový

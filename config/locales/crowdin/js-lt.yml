@@ -155,7 +155,6 @@ lt:
         manual: Perjungti į Markdown išeities kodą
         wysiwyg: Perjungti į WYSIWYG (ką matai, tą ir turi) redaktorių
       macro:
-        error: 'Nepavyksta išskleisti makrokomandos: %{message}'
         attribute_reference:
           macro_help_tooltip: Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos.
           not_found: Reikalaujamas resursas nerastas
@@ -175,9 +174,14 @@ lt:
           title: Įterpti / redaguoti kodo fragmentą
           language: Formatavimo kalba
           language_hint: Įveskite formatavimo kalbą, kuri bus naudojama elementų išryškinimui (jei tai palaikoma).
-        dropdown:
-          macros: Makrokomandos
-          chose_macro: Parinkite makrokomandą
+        embedded_calendar:
+          text: "[Placeholder] Įterptinis kalendorius"
+        embedded_table:
+          button: Įterpti darbo paketų lentelę
+          text: "[Placeholder] Įterpta darbo paketų lentelė"
+        error: 'Nepavyksta išskleisti makrokomandos: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Turinys
         toolbar_help: Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui
         wiki_page_include:
@@ -195,11 +199,6 @@ lt:
           button_style_hint: 'Pasirinktinai: įjunkite, kad makro būtų rodomas kaip mygtukas, o ne kaip nuoroda.'
           without_type: Kurti darbo paketą
           with_type: 'Kurti darbo paketą (Tipas: %{typename})'
-        embedded_table:
-          button: Įterpti darbo paketų lentelę
-          text: "[Placeholder] Įterpta darbo paketų lentelė"
-        embedded_calendar:
-          text: "[Placeholder] Įterptinis kalendorius"
     admin:
       type_form:
         edit_query: Keisti užklausą
@@ -368,6 +367,7 @@ lt:
     label_in_more_than: daugiau nei
     label_incoming_emails: Gauti el. laiškai
     label_information_plural: Informacija
+    label_infinity: Infinity
     label_invalid: Netinkamas
     label_import: Importuoti
     label_latest_activity: Paskutinė veikla
@@ -392,6 +392,7 @@ lt:
     label_no_value: Nenurodytas dydis
     label_none: joks
     label_not_contains: neturi
+    label_not_available: Not available
     label_not_equals: nėra
     label_on: įjungta
     label_open_menu: Atidaryti meniu

@@ -401,6 +401,8 @@ Rails.application.routes.draw do
 
       get "export_project_initiation", to: "projects#export_project_initiation_pdf"
 
+      get :list_row_menu
+
       get :copy, to: "projects#copy_form"
       post :copy
 
@@ -1126,6 +1128,7 @@ Rails.application.routes.draw do
   end
 
   scope controller: "my" do
+    get "/my/security", action: "security", as: "my_security"
     get "/my/password", action: "password"
     get "/my/password_confirmation_dialog", action: "password_confirmation_dialog"
     post "/my/change_password", action: "change_password"

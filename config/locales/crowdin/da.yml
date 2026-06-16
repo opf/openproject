@@ -3898,6 +3898,7 @@ da:
   label_send_invitation: Send invitation
   label_calculated_value: Calculated value
   label_change_parent: Ændr overordnede
+  label_change_password: Change password
   label_change_plural: Ændringer
   label_change_properties: Skift egenskaber
   label_change_status: Skift status
@@ -4184,6 +4185,7 @@ da:
   label_my_account_data: Mine kontodata
   label_my_avatar: My avatar
   label_my_queries: Mine selvvalgte forespørgsler
+  label_my_security: Security
   label_name: Navn
   label_never: Aldrig
   label_new: Ny

@@ -149,8 +149,9 @@ de:
     link_existing_wiki_page_dialog:
       title: Vorhandene Wikiseite hinzufügen
     link_existing_wiki_page_form:
+      label: Wiki page
       no_results: Keine Wikiseiten gefunden
-      placeholder: Suche nach einer Wikiseite
+      placeholder: Search for a wiki page (or enter its URL)
     oauth_login_component:
       connect_button: "%{provider}-Konto verbinden"
       description: Melden Sie sich bei %{provider} an, um verwandte Wiki-Seiten aus dieser OpenProject-Instanz anzuzeigen und zu verwalten.

@@ -155,7 +155,6 @@ sv:
         manual: Växla till markdown-källa
         wysiwyg: Växla till WYSIWYG-redigerare
       macro:
-        error: 'Kan inte expandera makro: %{message}'
         attribute_reference:
           macro_help_tooltip: Detta textsegment renderas dynamiskt av ett makro.
           not_found: Begärd resurs kunde inte hittas
@@ -175,9 +174,14 @@ sv:
           title: Infoga / redigera kodavsnitt
           language: Formateringsspråk
           language_hint: Ange det formateringsspråk som används för att belysa (om det stöds).
-        dropdown:
-          macros: Makron
-          chose_macro: Välj makro
+        embedded_calendar:
+          text: "[Placeholder] Inbäddad kalender"
+        embedded_table:
+          button: Bädda in arbetspaket-tabell
+          text: "[Placeholder] Inbäddade tabeller för arbetspaket"
+        error: 'Kan inte expandera makro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Innehållsförteckning
         toolbar_help: Klicka på välj widget och visa verktygsfältet. Dubbelklicka om du vill redigera widget
         wiki_page_include:
@@ -195,11 +199,6 @@ sv:
           button_style_hint: 'Frivilligt: Markera för att makrot ska synas som en knapp istället för en länk.'
           without_type: Skapa arbetspaket
           with_type: 'Skapa arbetspaket (Typ: %{typename})'
-        embedded_table:
-          button: Bädda in arbetspaket-tabell
-          text: "[Placeholder] Inbäddade tabeller för arbetspaket"
-        embedded_calendar:
-          text: "[Placeholder] Inbäddad kalender"
     admin:
       type_form:
         edit_query: Redigera fråga
@@ -368,6 +367,7 @@ sv:
     label_in_more_than: i mer än
     label_incoming_emails: Inkommande E-post
     label_information_plural: Information
+    label_infinity: Infinity
     label_invalid: Ogiltig
     label_import: Importera
     label_latest_activity: Senaste aktivitet
@@ -392,6 +392,7 @@ sv:
     label_no_value: Inget värde
     label_none: inga
     label_not_contains: innehåller inte
+    label_not_available: Not available
     label_not_equals: är inte
     label_on: på
     label_open_menu: Öppna meny

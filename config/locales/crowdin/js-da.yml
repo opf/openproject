@@ -155,7 +155,6 @@ da:
         manual: Skift til Markdown kildekode
         wysiwyg: Skift til WYSIWYG redigering
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
@@ -175,9 +174,14 @@ da:
           title: Indsæt / rediger kodestykke
           language: Formaterings sprog
           language_hint: Indtast det formateringssprog, der skal bruges til at fremhæve (hvis det understøttes).
-        dropdown:
-          macros: Makroer
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded kalender"
+        embedded_table:
+          button: Embed arbejdspakkebord
+          text: "[Placeholder] Embedded arbejdspakkebord"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Indholdsfortegnelse
         toolbar_help: Klik for at vælge widget og vis værktøjslinjen. Dobbeltklik for at redigere widget
         wiki_page_include:
@@ -195,11 +199,6 @@ da:
           button_style_hint: 'Valgfrit: Kontroller, at makro vises som en knap, ikke som et link.'
           without_type: Opret arbejdspakke
           with_type: 'Opret arbejdspakke (Type: %{typename})'
-        embedded_table:
-          button: Embed arbejdspakkebord
-          text: "[Placeholder] Embedded arbejdspakkebord"
-        embedded_calendar:
-          text: "[Placeholder] Embedded kalender"
     admin:
       type_form:
         edit_query: Edit query
@@ -368,6 +367,7 @@ da:
     label_in_more_than: på mere end
     label_incoming_emails: Indkommende e-mails
     label_information_plural: Information
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Import
     label_latest_activity: Latest activity
@@ -392,6 +392,7 @@ da:
     label_no_value: Ingen værdi tildelt
     label_none: ingen
     label_not_contains: indeholder ikke
+    label_not_available: Not available
     label_not_equals: er ikke
     label_on: på
     label_open_menu: Åbn menuen

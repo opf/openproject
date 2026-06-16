@@ -113,10 +113,10 @@ module ProjectIdentifiers
         @historical_identifiers ||= Project.identifier_slugs.historically_reserved.upcased_values.to_set
       end
 
-      def exceeds_max_length        = Project.where("length(identifier) > ?", self.class.max_identifier_length)
-      def contains_non_alphanumeric = Project.where("identifier ~ ?", "[^a-zA-Z0-9_]")
+      def exceeds_max_length          = Project.where("length(identifier) > ?", self.class.max_identifier_length)
+      def contains_non_alphanumeric   = Project.where("identifier ~ ?", "[^a-zA-Z0-9_]")
       def does_not_start_with_letter  = Project.where("identifier ~ ?", "^[^A-Za-z]") # rubocop:disable Naming/PredicatePrefix
-      def not_fully_uppercased      = Project.where("identifier != UPPER(identifier)")
+      def not_fully_uppercased        = Project.where("identifier != UPPER(identifier)")
 
       def collision_error_reason(identifier)
         if self.class.model_reserved_identifiers.include?(identifier)

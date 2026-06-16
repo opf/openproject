@@ -160,7 +160,7 @@ sl:
         '
       other_active_session_notice: Vaš račun ima aktivni piškotek za zapomnitev v drugi seji.
       label: Ne pozabite
-      clear_cookie: Kliknite tukaj, da odstranite vse spomnjene seje 2FA.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Vse spomnjene seje 2FA so bile odstranjene.
       dont_ask_again: Ustvarite piškotek za zapomnitev pristnosti 2FA na tej stranki za %{days} days.
   field_otp: Enkratno geslo
@@ -171,6 +171,7 @@ sl:
   notice_account_has_no_phone: Z vašim računom ni povezana nobena številka mobilnega telefona.
   label_confirmed: Potrjeno
   button_continue: Nadaljuj
+  button_make_active: Activate
   button_make_default: Označite kot privzeto
   notice_phone_number_format: 'Vnesite številko v naslednji obliki: + XX XXXXXXXX.'
   text_otp_not_receive: Druge metode preverjanja

@@ -45,6 +45,7 @@ el:
   default_doc_category_user: Τεκμηρίωση χρήστη
   enumeration_doc_categories: Κατηγορίες εγγράφων
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

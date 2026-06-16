@@ -402,38 +402,6 @@ cs:
         confirm_label:
           enable: Povolit aktualizací e-mailem
           disable: Zakázat aktualizací e-mailem
-      banner:
-        participants:
-          enabled: 'Všichni účastníci obdrží e-mailem aktualizované pozvánky do kalendáře, když přidáte nebo odeberete účastníky.
-
-            '
-          disabled: 'E-mailové aktualizace kalendářů jsou zakázány. Účastníci nedostanou e-mail s informacemi o přidání nebo odebrání účastníků.
-
-            '
-          draft_disabled: 'Participants will not receive an email informing them when you add or remove participants.
-
-            '
-        onetime:
-          enabled: 'Všichni účastníci obdrží e-mailem aktualizované pozvánky do kalendáře, když přidáte nebo odeberete účastníky.
-
-            '
-          disabled: 'Participants will not receive an email informing them of changes to meeting date, time or participants.
-
-            '
-        occurrence:
-          enabled: 'E-mailové aktualizace kalendářů jsou povoleny pro tuto sérii schůzek. Účastníci dostanou e-mail s informacemi, když provedete změny.
-
-            '
-          disabled: 'E-mailové aktualizace kalendářů jsou zakázány pro tuto sérii schůzek. Účastníci nedostanou e-mail s informacemi, když provedete změny.
-
-            '
-        template:
-          enabled: 'E-mailové aktualizace kalendářů jsou povoleny. Účastníci budou dostávat aktualizované pozvánky e-mailem, když upravíte tuto šablonu či individuální výskyty.
-
-            '
-          disabled: 'E-mailové aktualizace kalendářů jsou zakázány pro tuto sérii schůzek. Účastníci nebudou dostávat aktualizované pozvánky e-mailem, když upravíte tuto šablonu či individuální výskyty.
-
-            '
     presentation_mode:
       title: Prezentační mód
       button_present: Prezentovat

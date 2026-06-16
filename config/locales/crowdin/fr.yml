@@ -3892,6 +3892,7 @@ fr:
   label_send_invitation: Envoyer une invitation
   label_calculated_value: Valeur calculée
   label_change_parent: Changer le parent
+  label_change_password: Change password
   label_change_plural: Changements
   label_change_properties: Modifier les propriétés
   label_change_status: Changer le statut
@@ -3996,7 +3997,7 @@ fr:
   label_enumerations: Énumérations
   label_enterprise: Entreprise
   label_enterprise_active_users: "%{current}/%{limit} utilisateurs actifs inscrits"
-  label_enterprise_edition: édition Enterprise
+  label_enterprise_edition: Édition Enterprise
   label_enterprise_support: Support Enterprise
   label_environment: Environnement
   label_estimates_and_progress: Estimations et progression
@@ -4178,6 +4179,7 @@ fr:
   label_my_account_data: Info sur mon compte
   label_my_avatar: Mon avatar
   label_my_queries: Mes requêtes personnalisées
+  label_my_security: Security
   label_name: Nom
   label_never: Jamais
   label_new: Nouveau
@@ -4526,8 +4528,8 @@ fr:
     one: 'Temps libre : 1 jour ouvrable'
     other: 'Temps libre : %{count} jours ouvrables'
   label_x_items_selected:
-    one: One item selected
-    other: "%{count} items selected"
+    one: Un élément sélectionné
+    other: "%{count} éléments sélectionnés"
   label_yesterday: hier
   label_zen_mode: Mode zen
   label_role_type: Type

@@ -298,6 +298,14 @@ module Pages
       dismiss_menu(work_package)
     end
 
+    def click_in_work_package_menu(work_package, item_name, wait: true)
+      within_work_package_menu(work_package) do |submenu|
+        wait_for_turbo_stream(wait:) do
+          submenu.find(:menuitem, text: item_name).click
+        end
+      end
+    end
+
     def within_work_package_move_submenu(work_package, &)
       within_work_package_menu(work_package) do |menu|
         yield open_move_submenu(menu)
@@ -581,7 +589,7 @@ module Pages
     end
 
     def open_move_submenu(menu)
-      move_item = menu.find(:menuitem, text: "Move")
+      move_item = menu.find(:menuitem, text: "Move to position")
       move_item.click
       page.find(:menu, id: move_item["aria-controls"])
     end

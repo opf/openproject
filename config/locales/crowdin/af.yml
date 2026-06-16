@@ -3899,6 +3899,7 @@ af:
   label_send_invitation: Stuur uitnodiging
   label_calculated_value: Calculated value
   label_change_parent: Change parent
+  label_change_password: Change password
   label_change_plural: Veranderinge
   label_change_properties: Verander eienskappe
   label_change_status: Verander status
@@ -4185,6 +4186,7 @@ af:
   label_my_account_data: My rekeningdata
   label_my_avatar: My avatar
   label_my_queries: My pasgemaakte navrae
+  label_my_security: Security
   label_name: Naam
   label_never: Never
   label_new: Nuut

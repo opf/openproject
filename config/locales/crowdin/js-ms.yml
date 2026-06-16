@@ -155,7 +155,6 @@ ms:
         manual: Tukar ke sumber Markdown
         wysiwyg: Tukar ke editor WYSIWYG
       macro:
-        error: 'Tidak dapat kembangkan makro: %{message}'
         attribute_reference:
           macro_help_tooltip: Bahagian teks ini sedang dihasilkan secara dinamik oleh makro.
           not_found: Sumber yang diminta tidak dapat ditemui
@@ -175,9 +174,14 @@ ms:
           title: Masukkan / edit Kod snippet
           language: Bahasa pemformatan
           language_hint: Masukkan pemformatan bahasa yang akan digunakan untuk penyorotan (jika disokong).
-        dropdown:
-          macros: Makro-makro
-          chose_macro: Pilih makro
+        embedded_calendar:
+          text: "[Placeholder] Kalendar yang tersemat"
+        embedded_table:
+          button: 'Sematkan jadual pakej kerja '
+          text: "[Placeholder] Jadual pakej kerja yang tersemat"
+        error: 'Tidak dapat kembangkan makro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Jadual kandungan
         toolbar_help: Klik untuk memilih widget dan paparkan toolbar. Klik dua kali untuk edit widget
         wiki_page_include:
@@ -195,11 +199,6 @@ ms:
           button_style_hint: 'Pilihan: Tanda untuk membuat makro muncul sebagai butang, bukan sebagai pautan.'
           without_type: Cipta pakej kerja
           with_type: 'Cipta pakej kerja (Jenis: %{typename})'
-        embedded_table:
-          button: 'Sematkan jadual pakej kerja '
-          text: "[Placeholder] Jadual pakej kerja yang tersemat"
-        embedded_calendar:
-          text: "[Placeholder] Kalendar yang tersemat"
     admin:
       type_form:
         edit_query: Edit pertanyaan
@@ -368,6 +367,7 @@ ms:
     label_in_more_than: dalam lebih daripada
     label_incoming_emails: E-mel masuk
     label_information_plural: Maklumat
+    label_infinity: Infinity
     label_invalid: Tidak sah
     label_import: Import
     label_latest_activity: Aktiviti terkini
@@ -392,6 +392,7 @@ ms:
     label_no_value: Tiada nilai
     label_none: tiada
     label_not_contains: tidak mengandungi
+    label_not_available: Not available
     label_not_equals: adalah tidak
     label_on: pada
     label_open_menu: Buka menu

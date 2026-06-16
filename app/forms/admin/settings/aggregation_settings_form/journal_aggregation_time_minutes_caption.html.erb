@@ -1,5 +1,9 @@
 <%= render(Primer::Beta::Text.new(tag: :p)) do %>
-  <%= link_translate("admin.journal_aggregation.caption", links: { webhook_link: url_helpers.admin_outgoing_webhooks_path }) %>
+  <%= link_translate(
+        "admin.journal_aggregation.caption_with_maximum",
+        i18n_args: { max: ::Settings::Definition[:journal_aggregation_time_minutes].allowed.max },
+        links: { webhook_link: url_helpers.admin_outgoing_webhooks_path }
+      ) %>
 <% end %>
 <%= render(Primer::OpenProject::InlineMessage.new(scheme: :warning, size: :small)) do %>
   <%= render(Primer::Beta::Text.new(tag: :p)) do %>

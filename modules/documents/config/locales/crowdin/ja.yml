@@ -45,6 +45,7 @@ ja:
   default_doc_category_user: ユーザー文書
   enumeration_doc_categories: ドキュメントのカテゴリ
   documents:
+    button_add_type: Type
     page_header:
       heading: すべてのドキュメント
       action_menu:

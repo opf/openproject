@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -59,6 +61,5 @@ module OpenProject::Backlogs::Patches::SetAttributesServicePatch
         work_package.sprint_id &&
         !work_package.sprint.visible_to?(work_package.project)
     end
-
   end
 end

@@ -3897,6 +3897,7 @@ fi:
   label_send_invitation: Lähetä kutsu
   label_calculated_value: Calculated value
   label_change_parent: Vaihda pääkohdetta
+  label_change_password: Change password
   label_change_plural: Muutokset
   label_change_properties: Vaihda asetuksia
   label_change_status: Muuta tila
@@ -4183,6 +4184,7 @@ fi:
   label_my_account_data: Tilini tiedot
   label_my_avatar: My avatar
   label_my_queries: Omat hakuni
+  label_my_security: Security
   label_name: Nimi
   label_never: Ei koskaan
   label_new: Uusi

@@ -4030,6 +4030,7 @@ ru:
   label_send_invitation: Отправить приглашение
   label_calculated_value: Рассчитываемое значение
   label_change_parent: Изменить родителя
+  label_change_password: Change password
   label_change_plural: Изменения
   label_change_properties: Изменить свойства
   label_change_status: Изменить статус
@@ -4316,6 +4317,7 @@ ru:
   label_my_account_data: Данные моей учетной записи
   label_my_avatar: Мой аватар
   label_my_queries: Мои пользовательские запросы
+  label_my_security: Security
   label_name: Имя
   label_never: Никогда
   label_new: Новое

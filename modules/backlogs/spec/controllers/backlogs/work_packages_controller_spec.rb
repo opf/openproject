@@ -215,7 +215,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         include_examples "respecting the all param for inbox pagination"
       end
 
-      context "with a Backlog Bucket as target" do
+      context "with a Backlog bucket as target" do
         let(:bucket) { create(:backlog_bucket, name: "My Bucket", project:) }
         let!(:bucket_items) { create_list(:work_package, 2, project:, status:, backlog_bucket: bucket) }
         let(:target_id) { "backlog_bucket:#{bucket.id}" }
@@ -345,7 +345,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         include_examples "respecting the all param for inbox pagination"
       end
 
-      context "with a Backlog Bucket as target" do
+      context "with a Backlog bucket as target" do
         let(:bucket) { create(:backlog_bucket, project:) }
         let!(:bucket_items) { create_list(:work_package, 2, project:, status:, backlog_bucket: bucket) }
         let(:target_id) { "backlog_bucket:#{bucket.id}" }
@@ -443,7 +443,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         include_examples "respecting the all param for inbox pagination"
       end
 
-      context "with the same Backlog Bucket as target" do
+      context "with the same Backlog bucket as target" do
         let(:target_id) { "backlog_bucket:#{bucket.id}" }
         let(:prev_id) { bucket_items.first.id }
 
@@ -465,7 +465,7 @@ RSpec.describe Backlogs::WorkPackagesController do
         include_examples "respecting the all param for inbox pagination"
       end
 
-      context "with another Backlog Bucket as target" do
+      context "with another Backlog bucket as target" do
         let(:other_bucket) { create(:backlog_bucket, project:) }
         let!(:other_bucket_items) { create_list(:work_package, 2, project:, status:, backlog_bucket: other_bucket) }
         let(:target_id) { "backlog_bucket:#{other_bucket.id}" }

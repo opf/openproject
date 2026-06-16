@@ -3896,6 +3896,7 @@ ca:
   label_send_invitation: Enviar invitació
   label_calculated_value: Calculated value
   label_change_parent: Canviar pare
+  label_change_password: Change password
   label_change_plural: Canvis
   label_change_properties: Canvia les propietats
   label_change_status: Canvia l'estat
@@ -4182,6 +4183,7 @@ ca:
   label_my_account_data: Dades del meu compte
   label_my_avatar: El meu avatar
   label_my_queries: Les meves consultes personalitzades
+  label_my_security: Security
   label_name: Nom
   label_never: Mai
   label_new: Nou

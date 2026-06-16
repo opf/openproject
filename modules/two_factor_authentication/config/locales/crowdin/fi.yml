@@ -160,7 +160,7 @@ fi:
         '
       other_active_session_notice: Your account has an active remember cookie on another session.
       label: Muista
-      clear_cookie: Poista kaikki  muistissa olevat kaksivaiheiset tunnistautumiset.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Kaikki muistissa olevat kaksivaiheiset todennusistunnot poistettu.
       dont_ask_again: Muista tunnistautuminen tällä laitteella seuraavat %{days} päivää.
   field_otp: Kertakäyttösalasana
@@ -171,6 +171,7 @@ fi:
   notice_account_has_no_phone: No cell phone number is associated with your account.
   label_confirmed: Vahvistettu
   button_continue: Jatka
+  button_make_active: Activate
   button_make_default: Merkitse oletusarvo
   notice_phone_number_format: Anna numero esim. +358 40 1234567.
   text_otp_not_receive: Muut tunnistustavat

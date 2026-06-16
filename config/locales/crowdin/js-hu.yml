@@ -167,7 +167,6 @@ hu:
         manual: Váltás Markdown forrásra
         wysiwyg: Váltás a WYSIWYG szerkesztőre
       macro:
-        error: 'A makró nem bővíthető: %{message}'
         attribute_reference:
           macro_help_tooltip: Ezt a szövegrészt dinamikusan megjeleníti egy makró.
           not_found: A kért erőforrás nem található.
@@ -187,9 +186,14 @@ hu:
           title: Kódrészlet beszúrás / szerkesztés
           language: Formázási nyelvek
           language_hint: Adja meg a kiemeléshez használt formázási nyelvet (ha támogatott).
-        dropdown:
-          macros: Makrók
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Beágyazott naptár"
+        embedded_table:
+          button: Feladatcsoport táblázat beágyazás
+          text: "[Placeholder] Beágyazott feladatcsoport táblázat"
+        error: 'A makró nem bővíthető: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Tartalomjegyzék
         toolbar_help: Kattintson a widget kiválasztásához és az eszköztár megjelenítéséhez. Kattintson duplán a widget szerkesztéséhez
         wiki_page_include:
@@ -207,11 +211,6 @@ hu:
           button_style_hint: 'Lehetőség: Ellenőrizze, hogy a makró gombként jelenik meg, nem pedig linkként.'
           without_type: Feladatcsoport létrehozása
           with_type: 'Feladatcsoport létrehozása (típus: %{typename})'
-        embedded_table:
-          button: Feladatcsoport táblázat beágyazás
-          text: "[Placeholder] Beágyazott feladatcsoport táblázat"
-        embedded_calendar:
-          text: "[Placeholder] Beágyazott naptár"
     admin:
       type_form:
         edit_query: Lekérdezés módosítása
@@ -380,6 +379,7 @@ hu:
     label_in_more_than: több mint
     label_incoming_emails: Bejövő e-mailek
     label_information_plural: Információk
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Importálás
     label_latest_activity: Utolsó aktivitás
@@ -404,6 +404,7 @@ hu:
     label_no_value: Nincs érték
     label_none: Egyik sem
     label_not_contains: nem tartalmaz
+    label_not_available: Not available
     label_not_equals: nem
     label_on: be
     label_open_menu: Menü megnyitása

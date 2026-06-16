@@ -160,7 +160,7 @@ id:
         '
       other_active_session_notice: Akun Anda memiliki pengingat kuki yang aktif di sesi lain.
       label: ingat
-      clear_cookie: Klik di sini untuk menghapus semua sesi 2FA yang tersimpan.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Semua sesi 2FA yang tersimpan telah dihapus.
       dont_ask_again: Membuat cookie untuk mengingat 2FA otentikasi pada klien ini untuk %{days} hari.
   field_otp: Satu-kali kata sandi
@@ -171,6 +171,7 @@ id:
   notice_account_has_no_phone: Tidak ada nomor ponsel ini dikaitkan dengan akun Anda.
   label_confirmed: Dikonfirmasi
   button_continue: Lanjutkan
+  button_make_active: Activate
   button_make_default: Tandai sebagai default
   notice_phone_number_format: 'Masukkan nomor dalam format berikut: + XX XXXXXXXX.'
   text_otp_not_receive: Verifikasi metode lain

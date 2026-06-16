@@ -4038,6 +4038,7 @@ sl:
   label_send_invitation: Pošlji povabilo
   label_calculated_value: Calculated value
   label_change_parent: Zamenjaj nadrejenega
+  label_change_password: Change password
   label_change_plural: Spremembe
   label_change_properties: Sprememba lastnosti
   label_change_status: Spremeni status
@@ -4324,6 +4325,7 @@ sl:
   label_my_account_data: Podatki mojega računa
   label_my_avatar: My avatar
   label_my_queries: Moje poizvedbe po meri
+  label_my_security: Security
   label_name: Ime
   label_never: Nikoli
   label_new: Novo

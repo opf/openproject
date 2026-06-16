@@ -57,6 +57,10 @@ ko:
       make_private: 비공개로 설정
       make_public: 공개로 설정
       unfavorite: 즐겨찾기에서 제거
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -94,6 +98,10 @@ ko:
           caption: 수동으로 추가 및 제거하는 항목의 사용자 지정 목록입니다. 필터링은 불가능합니다.
           label: 수동으로 직접 선택함
       title: 보기 구성
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
     favorite_caption: 이 보기를 즐겨찾기로 지정하여 사이드바 메뉴의 상단 섹션에 추가합니다.
     label_new_resource_planner: 새로운 리소스 플래너
     label_resource_planner: 리소스 플래너
@@ -114,9 +122,22 @@ ko:
       user_card:
         caption: 사용자에 기반한 보기를 만들고 사용자 카드 목록에서 해당 세부 정보 및 할당을 확인하세요
         label: 사용자 카드 목록
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
     work_package_list:
       add_work_package_dialog:
         title: 작업 패키지 추가
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          other: "%{count} users"
+        unassigned: Unassigned
       allocation_placeholder: "—"
       blank:
         description: 아직 이 보기의 필터와 일치하는 작업 패키지가 없습니다.

@@ -15,7 +15,7 @@ module ::TwoFactorAuthentication
       before_action :check_regenerate_done, only: [:show]
 
       layout "my"
-      menu_item :two_factor_authentication
+      menu_item :security
 
       def create
         flash[:_backup_codes] = TwoFactorAuthentication::BackupCode.regenerate!(current_user)
@@ -34,7 +34,7 @@ module ::TwoFactorAuthentication
 
         unless @backup_codes.present?
           flash[:error] = I18n.t(:notice_bad_request)
-          redirect_to my_2fa_devices_path
+          redirect_to my_security_path
         end
       end
     end

@@ -57,6 +57,10 @@ pt-PT:
       make_private: Tornar privado
       make_public: Tornar público
       unfavorite: Remover dos favoritos
+    allocation:
+      hours: "%{value}h"
+      no_work: No work planned on this work package
+      summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
@@ -94,6 +98,10 @@ pt-PT:
           caption: Uma lista personalizada de elementos que pode adicionar e remover manualmente. Não é possível filtrar.
           label: Seleção manual
       title: Configurar vista
+    edit_allocation_dialog:
+      submit: Save
+      success_message: Resource allocation updated.
+      title: Edit allocation
     favorite_caption: Torne esta vista num favorito para a adicionar à secção superior do menu da barra lateral.
     label_new_resource_planner: Novo planeador de recursos
     label_resource_planner: Planeador de recursos
@@ -114,9 +122,23 @@ pt-PT:
       user_card:
         caption: Crie uma vista baseada nos utilizadores e veja os seus detalhes e atribuição numa lista de cartões de utilizador
         label: Lista de cartões de utilizadores
+    work_package_allocations_dialog:
+      allocate_resource: Allocate resource
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
+      delete_success: Resource allocation deleted.
+      hidden_user: Hidden user
+      overbooked: The user is allocated beyond their working hours during this period.
+      title: Allocation
     work_package_list:
       add_work_package_dialog:
         title: Adicionar pacote de trabalho
+      allocated_members:
+        additional: "+%{count}"
+        other_users:
+          one: "%{count} user"
+          other: "%{count} users"
+        unassigned: Unassigned
       allocation_placeholder: "—"
       blank:
         description: Ainda não existem pacotes de trabalho correspondentes aos filtros desta vista.

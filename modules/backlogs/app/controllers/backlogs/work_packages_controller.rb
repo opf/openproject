@@ -65,13 +65,13 @@ module Backlogs
 
     def move # rubocop:disable Metrics/AbcSize
       # Capture the source before the call; the service reloads @work_package internally via #move_after.
-      source = @work_package.sprint
+      source_sprint = @work_package.sprint
 
       call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, story: @work_package)
                                    .call(**move_params.to_h.symbolize_keys)
 
       if call.success?
-        move_work_package_to_target_component_via_turbo_stream(source:, target: call.result.sprint)
+        move_work_package_to_target_component_via_turbo_stream(source_sprint:, target_sprint: call.result.sprint)
 
         if work_package_invisible_after_move?(call.result)
           backlog_name = call.result.backlog_bucket&.name || I18n.t(:label_inbox)
@@ -90,17 +90,17 @@ module Backlogs
 
     private
 
-    def move_work_package_to_target_component_via_turbo_stream(source:, target:)
-      if source != target
-        replace_component_via_turbo_stream(source)
+    def move_work_package_to_target_component_via_turbo_stream(source_sprint:, target_sprint:)
+      if source_sprint != target_sprint
+        replace_component_via_turbo_stream(sprint: source_sprint)
       end
 
-      replace_component_via_turbo_stream(target)
+      replace_component_via_turbo_stream(sprint: target_sprint)
     end
 
-    def replace_component_via_turbo_stream(container)
-      component = if container
-                    sprint_component(sprint: container)
+    def replace_component_via_turbo_stream(sprint:)
+      component = if sprint
+                    sprint_component(sprint:)
                   else
                     backlog_component
                   end

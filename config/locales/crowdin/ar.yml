@@ -4153,6 +4153,7 @@ ar:
   label_send_invitation: Send invitation
   label_calculated_value: Calculated value
   label_change_parent: تغيير الوالد
+  label_change_password: Change password
   label_change_plural: التغييرات
   label_change_properties: تغيير الخصائص
   label_change_status: تغيير الحالة
@@ -4439,6 +4440,7 @@ ar:
   label_my_account_data: بيانات حسابي
   label_my_avatar: My avatar
   label_my_queries: استعلاماتي المخصصة
+  label_my_security: Security
   label_name: الاسم
   label_never: أبداً
   label_new: جديد

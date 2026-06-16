@@ -160,7 +160,7 @@ zh-TW:
         '
       other_active_session_notice: 您的帳戶在另一個連線中有一個作用中且記憶之cookie。
       label: 記住
-      clear_cookie: 按一下此處以移除所有已記憶之 2FA 連線。
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: 所有記住的 2FA 連線都已移除。
       dont_ask_again: 產生 cookie， %{days} 天內將記住此用戶端2FA 身份驗證。
   field_otp: 一次性密碼
@@ -171,6 +171,7 @@ zh-TW:
   notice_account_has_no_phone: 沒有與您的帳戶關聯的手機號碼。
   label_confirmed: 已確認
   button_continue: 繼續
+  button_make_active: Activate
   button_make_default: 標記為預設值
   notice_phone_number_format: '請輸入以下格式的號碼: + XX XXXXXXXX。'
   text_otp_not_receive: 其他驗證方法

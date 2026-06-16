@@ -3846,6 +3846,7 @@ id:
   label_send_invitation: Kirim undangan
   label_calculated_value: Calculated value
   label_change_parent: Perubahan induk
+  label_change_password: Change password
   label_change_plural: Perubahan
   label_change_properties: Ubah properti
   label_change_status: Ubah status
@@ -4132,6 +4133,7 @@ id:
   label_my_account_data: Data akun saya
   label_my_avatar: My avatar
   label_my_queries: Query kustom saya
+  label_my_security: Security
   label_name: Nama
   label_never: Never
   label_new: Baru

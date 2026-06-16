@@ -384,10 +384,16 @@ module Import
 
       jira_user = Import::JiraUser.find_by(jira_user_key:, jira_import: @jira_import)
       if jira_user
-        JiraOpenProjectReference.find_by!(
-          jira_entity_class: "Import::JiraUser",
+        reference = JiraOpenProjectReference.find_by(
+          jira_entity_class: jira_user.class.to_s,
           jira_entity_id: jira_user.id
-        ).op_leg
+        )
+        if reference
+          reference.op_leg
+        else
+          raise "Import::JiraOpenProjectReference with jira_entity_class #{jira_user.class} " \
+                "and jira_entity_id #{jira_user.id} not found!"
+        end
       else
         raise "Import::JiraUser with jira_user_key #{jira_user_key} not found!"
       end

@@ -3898,6 +3898,7 @@ el:
   label_send_invitation: Αποστολή πρόσκλησης
   label_calculated_value: Calculated value
   label_change_parent: Αλλαγή γονέα
+  label_change_password: Change password
   label_change_plural: Αλλαγές
   label_change_properties: Αλλαγή ιδιοτήτων
   label_change_status: Αλλαγή κατάστασης
@@ -4184,6 +4185,7 @@ el:
   label_my_account_data: Τα δεδομένα του λογαριασμού μου
   label_my_avatar: My avatar
   label_my_queries: Οι προσαρμοσμένες αναζητήσεις μου
+  label_my_security: Security
   label_name: Όνομα
   label_never: Ποτέ
   label_new: Νέο
