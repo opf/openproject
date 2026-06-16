@@ -40,7 +40,7 @@ RSpec.describe Wikis::Provider do
       it "is invalid when universal_identifier is already taken" do
         expect(duplicate).not_to be_valid
         expect(duplicate.errors[:url]).to include(
-          "is already used by another wiki provider called \"#{existing.name}\""
+          "belongs to the wiki provider that's already known as \"#{existing.name}\""
         )
       end
 
