@@ -106,14 +106,6 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
         .and_return(instance_double(Wikis::XWikiProviders::FetchInstanceIdService, call: Dry::Monads::Success("xwiki-test-id")))
     end
 
-    context "with valid params" do
-      it "creates a provider and redirects to the wizard" do
-        expect { post :create, params: valid_params }
-          .to change(Wikis::XWikiProvider, :count).by(1)
-        expect(response).to redirect_to(new_admin_settings_wiki_provider_path(continue_wizard: Wikis::XWikiProvider.last.id))
-      end
-    end
-
     context "with a token that includes the xwiki integration", with_ee: [:xwiki_integration] do
       context "with valid params" do
         it "creates a provider and redirects to the wizard" do
