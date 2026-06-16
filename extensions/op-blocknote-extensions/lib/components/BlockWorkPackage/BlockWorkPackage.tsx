@@ -74,7 +74,7 @@ export const BlockWorkPackageComponent = ({
   const handleSelectWorkPackage = (wp: WorkPackage) => {
     pendingBlockRegistry.delete(block.id);
     editor.updateBlock(block, {
-      props: { ...block.props, wpid: wp.id },
+      props: { ...block.props, wpid: wp.id, displayId: wp.displayId },
     });
     requestAnimationFrame(() => moveCursorAfterBlock(editor, block.id));
   };
