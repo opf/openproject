@@ -51,8 +51,6 @@ module Wikis
       end
 
       def new
-        redirect_to action: :index if @upsell
-
         @wiki_provider = continue_from_wizard_params || Wikis::XWikiProvider.new
 
         @wizard = wiki_provider_wizard(@wiki_provider)
