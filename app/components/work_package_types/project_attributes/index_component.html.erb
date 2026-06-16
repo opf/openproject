@@ -1,0 +1,37 @@
+<%=
+  component_wrapper(data: wrapper_data_attributes) do
+    flex_layout do |flex|
+      flex.with_row do
+        render(Primer::OpenProject::SubHeader.new) do |subheader|
+          subheader.with_filter_input(
+            name: "border-box-filter",
+            label: t("types.edit.project_attributes.filter"),
+            visually_hide_label: true,
+            placeholder: t("types.edit.project_attributes.filter"),
+            leading_visual: {
+              icon: :search,
+              size: :small
+            },
+            show_clear_button: true,
+            clear_button_id: clear_button_id,
+            data: {
+              action: "input->projects--settings--border-box-filter#filterLists",
+              "projects--settings--border-box-filter-target": "filter"
+            }
+          )
+        end
+      end
+
+      @project_custom_field_sections.each do |project_custom_field_section|
+        flex.with_row do
+          render(
+            WorkPackageTypes::ProjectAttributes::SectionComponent.new(
+              type: @type,
+              project_custom_field_section:
+            )
+          )
+        end
+      end
+    end
+  end
+%>

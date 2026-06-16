@@ -1504,6 +1504,12 @@ en:
         enable_all: Enable for all projects
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
+      project_attributes:
+        tab: "Project attributes"
+        filter: "Search by section or name"
+        actions:
+          label_enable_all: "Enable all"
+          label_disable_all: "Disable all"
       settings:
         tab: "Settings"
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
