@@ -113,7 +113,7 @@ RSpec.describe Wikis::Admin::WikiProvidersController do
         expect(response).to redirect_to(new_admin_settings_wiki_provider_path(continue_wizard: Wikis::XWikiProvider.last.id))
       end
     end
-    
+
     context "with a token that includes the xwiki integration", with_ee: [:xwiki_integration] do
       context "with valid params" do
         it "creates a provider and redirects to the wizard" do
