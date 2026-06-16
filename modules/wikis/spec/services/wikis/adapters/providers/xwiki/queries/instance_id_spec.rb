@@ -45,9 +45,13 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::InstanceId, :disable_
     subject(:result) { described_class.new(model: wiki_provider).call(auth_strategy:) }
 
     context "when the request succeeds", vcr: "xwiki/instance_id" do
+      # Recorded against a real XWiki instance (spec/support/fixtures/vcr_cassettes/xwiki/instance_id.yml);
+      # instanceId was scrubbed. To re-record: delete the cassette and run with VCR_RECORD_MODE=new_episodes.
+      let(:expected_instance_id) { "xwiki-instance-abc123" }
+
       it "returns Success with the instance id" do
         expect(result).to be_success
-        expect(result.value!).to eq("xwiki-instance-abc123")
+        expect(result.value!).to eq(expected_instance_id)
       end
     end
 
