@@ -28,26 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::ProjectAttributesTabComponent < ApplicationComponent
+class WorkPackages::ProjectCustomFields::SectionComponent < ApplicationComponent
+  include ApplicationHelper
   include OpPrimer::ComponentHelpers
   include OpTurbo::Streamable
 
-  def initialize(work_package:)
+  def initialize(project:, project_custom_field_section:, project_custom_fields:)
     super
 
-    @work_package = work_package
-    @project = work_package.project
-  end
-
-  def render?
-    project_custom_fields_grouped_by_section.any?
-  end
-
-  private
-
-  def project_custom_fields_grouped_by_section
-    @project_custom_fields_grouped_by_section ||=
-      @project.available_custom_fields
-              .group_by(&:project_custom_field_section)
+    @project = project
+    @project_custom_field_section = project_custom_field_section
+    @project_custom_fields = project_custom_fields
   end
 end

@@ -973,8 +973,8 @@ en:
       tabs:
         activity: Activity
         files: Files
-        project_attributes: Project attributes
         overview: Overview
+        project_attributes: Project attributes
         relations: Relations
         watchers: Watchers
       time_relative:

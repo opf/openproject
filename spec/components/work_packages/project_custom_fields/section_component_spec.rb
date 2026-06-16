@@ -28,26 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class WorkPackages::ProjectAttributesTabComponent < ApplicationComponent
-  include OpPrimer::ComponentHelpers
-  include OpTurbo::Streamable
+require "rails_helper"
 
-  def initialize(work_package:)
-    super
+RSpec.describe WorkPackages::ProjectCustomFields::SectionComponent, type: :component do
+  include Rails.application.routes.url_helpers
 
-    @work_package = work_package
-    @project = work_package.project
+  let(:project) { build(:project) }
+  let(:project_custom_field_section) { build(:project_custom_field_section, name: "Special Section") }
+  let(:project_custom_fields) { create_list(:project_custom_field, 2, projects: [project]) }
+  let(:user) { build_stubbed(:user) }
+
+  current_user { user }
+
+  subject(:rendered_component) do
+    render_inline(described_class.new(project:, project_custom_field_section:, project_custom_fields:))
   end
 
-  def render?
-    project_custom_fields_grouped_by_section.any?
+  it "renders the section with the correct title" do
+    expect(rendered_component).to have_section "Special Section"
   end
 
-  private
-
-  def project_custom_fields_grouped_by_section
-    @project_custom_fields_grouped_by_section ||=
-      @project.available_custom_fields
-              .group_by(&:project_custom_field_section)
+  it "renders a field container for each custom field" do
+    expect(rendered_component).to have_css ".op-project-custom-field-container", count: 2
   end
 end
