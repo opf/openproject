@@ -151,6 +151,7 @@ export class WorkPackageTabsService {
         id: 'project_attributes',
         component: WorkPackageProjectAttributesTabComponent,
         name: I18n.t('js.work_packages.tabs.project_attributes'),
+        displayable: (workPackage) => !!workPackage.hasProjectAttributes,
       },
       {
         id: 'files',

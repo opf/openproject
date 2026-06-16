@@ -203,6 +203,29 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "hasProjectAttributes" do
+      context "when the project has no visible custom fields" do
+        before do
+          allow(workspace).to receive(:available_custom_fields).and_return([])
+        end
+
+        it "renders as false" do
+          expect(subject).to be_json_eql(false.to_json).at_path("hasProjectAttributes")
+        end
+      end
+
+      context "when the project has visible custom fields" do
+        before do
+          allow(workspace).to receive(:available_custom_fields)
+            .and_return(instance_double(Array, any?: true, reject: []))
+        end
+
+        it "renders as true" do
+          expect(subject).to be_json_eql(true.to_json).at_path("hasProjectAttributes")
+        end
+      end
+    end
+
     describe "startDate" do
       it_behaves_like "has ISO 8601 date only" do
         let(:date) { start_date }

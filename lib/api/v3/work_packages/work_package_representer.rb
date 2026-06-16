@@ -490,6 +490,12 @@ module API
                    status_id && status.is_readonly?
                  end
 
+        property :has_project_attributes,
+                 as: :hasProjectAttributes,
+                 writable: false,
+                 uncacheable: true,
+                 getter: ->(*) { project&.available_custom_fields&.any? || false }
+
         associated_resource :category
 
         associated_resource :type
