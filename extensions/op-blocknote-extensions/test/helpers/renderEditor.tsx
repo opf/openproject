@@ -25,9 +25,10 @@ const schema = BlockNoteSchema.create().extend({
   },
 });
 
-function Editor() {
+function Editor({ onEditor }:{ onEditor?:(editor:any) => void }) {
   const editor = useCreateBlockNote({ schema, extensions: [PasteDeduplicateInstanceIdsExtension] });
-  useOpBlockNoteExtensions(editor as any); 
+  onEditor?.(editor);
+  useOpBlockNoteExtensions(editor as any);
 
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
 
@@ -54,6 +55,6 @@ function Editor() {
   );
 }
 
-export function renderEditor() {
-  return render(<Editor />);
+export function renderEditor(opts?:{ onEditor?:(editor:any) => void }) {
+  return render(<Editor onEditor={opts?.onEditor} />);
 }
