@@ -39,6 +39,9 @@ updates:
       html-eslint:
         patterns:
           - '@html-eslint/*'
+      hocuspocus:
+        patterns:
+          - '@hocuspocus/*'
       hotwired:
         patterns:
           - '@hotwired/turbo'
