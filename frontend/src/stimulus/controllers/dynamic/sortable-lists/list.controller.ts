@@ -93,10 +93,6 @@ export default class ListController extends Controller<HTMLElement> implements R
     }
   }
 
-  private get initialized():boolean {
-    return this.root != null;
-  }
-
   private get listData():SortableListData {
     return sortableListData({
       type: this.typeValue,
@@ -105,10 +101,11 @@ export default class ListController extends Controller<HTMLElement> implements R
   }
 
   private canDrop(data:Record<string|symbol, unknown>):boolean {
-    if (!this.initialized || this.root!.moving) {
+    const { root } = this;
+    if (root == null || root.moving) {
       return false;
     }
 
-    return canAccept(this.root!, data);
+    return canAccept(root, data);
   }
 }

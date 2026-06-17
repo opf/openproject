@@ -48,6 +48,13 @@ export function registerPragmaticDndMorphAttributePreservation():void {
       return;
     }
 
+    // Only protect removals: these markers are Pragmatic DnD-owned and absent
+    // from server HTML, so a morph strips them. A server-driven add/update of
+    // the same attribute should still be allowed through.
+    if (event.detail.mutationType !== 'remove') {
+      return;
+    }
+
     if (!(event.target instanceof Element) || event.target.closest(sortableListsRootSelector) === null) {
       return;
     }

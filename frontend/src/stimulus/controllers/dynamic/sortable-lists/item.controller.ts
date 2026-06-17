@@ -116,10 +116,6 @@ export default class ItemController extends Controller<HTMLElement> implements R
     this.root = undefined;
   }
 
-  private get initialized():boolean {
-    return this.root != null;
-  }
-
   // Both values are required: an item with an empty id can never be persisted,
   // and an empty type never matches the root's accepted type, so the item would
   // appear draggable yet silently refuse every drop. Surface that wiring mistake.
@@ -138,7 +134,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
       element: this.element,
       ...(this.hasHandleTarget ? { dragHandle: this.handleTarget } : {}),
       canDrag: ({ input }) => {
-        if (!this.initialized || this.root!.moving) {
+        const { root } = this;
+        if (root == null || root.moving) {
           return false;
         }
         return this.canDragFromPoint(input.clientX, input.clientY);
@@ -174,7 +171,8 @@ export default class ItemController extends Controller<HTMLElement> implements R
     return dropTargetForElements({
       element: this.element,
       canDrop: ({ source }) => {
-        if (!this.initialized || this.root!.moving) {
+        const { root } = this;
+        if (root == null || root.moving) {
           return false;
         }
 
@@ -182,7 +180,7 @@ export default class ItemController extends Controller<HTMLElement> implements R
           return false;
         }
 
-        return canAccept(this.root!, source.data);
+        return canAccept(root, source.data);
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {
