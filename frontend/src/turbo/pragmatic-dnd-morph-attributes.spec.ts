@@ -76,6 +76,16 @@ describe('Pragmatic DnD morph attribute preservation', () => {
     expect(event.defaultPrevented).toBe(true);
   });
 
+  it('lets marker attributes morph when the mutation is not a removal', () => {
+    const element = appendSortableRow();
+    const event = beforeMorphAttributeEvent('data-dragging', 'updated');
+
+    element.setAttribute('data-dragging', 'source');
+    element.dispatchEvent(event);
+
+    expect(event.defaultPrevented).toBe(false);
+  });
+
   it('lets unrelated attributes continue morphing', () => {
     const element = appendSortableRow();
     const event = beforeMorphAttributeEvent('class');
