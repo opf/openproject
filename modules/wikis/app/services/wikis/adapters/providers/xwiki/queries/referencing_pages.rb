@@ -47,7 +47,7 @@ module Wikis
               authenticated(auth_strategy) do |http|
                 fetch_reference_ids(http, input_data).bind do |reference_ids|
                   fetch_mention_ids(http, input_data).bind do |mention_ids|
-                    ids = reference_ids + (mention_ids - reference_ids)
+                    ids = (reference_ids + mention_ids).uniq
                     success(ids.map { canonical_page_info(identifier: it, auth_strategy:) })
                   end
                 end
