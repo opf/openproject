@@ -40,6 +40,7 @@ import {
   buildMoveFormData,
   isSortableItemData,
   resolveDropIntent,
+  type RootAwareChild,
   type SortableListData,
   type SortableListsRoot,
 } from './sortable-lists/drag-and-drop';
@@ -55,12 +56,11 @@ type ElementDropPayload = ElementEventPayloadMap['onDrop'];
 type AutoScrollAllowedAxis = 'vertical'|'horizontal'|'all';
 type AutoScrollMaxScrollSpeed = 'standard'|'fast';
 type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
-interface RootAwareChild { connectRoot(root:SortableListsRoot):void; disconnectRoot():void }
 
 const allowedAxes = new Set<string>(['vertical', 'horizontal', 'all']);
 const maxScrollSpeeds = new Set<string>(['standard', 'fast']);
 
-export default class SortableListsController extends Controller<HTMLElement> {
+export default class SortableListsController extends Controller<HTMLElement> implements SortableListsRoot {
   static targets = ['scrollable'];
   static outlets = ['sortable-lists--list', 'sortable-lists--item'];
 
@@ -87,7 +87,9 @@ export default class SortableListsController extends Controller<HTMLElement> {
 
   connect():void {
     this.monitorCleanupFn = monitorForElements({
-      canMonitor: ({ source }) => !this.moving && isSortableItemData(source.data),
+      canMonitor: ({ source }) => !this.moving
+        && isSortableItemData(source.data)
+        && source.data.rootElement === this.element,
       onDrop: (args) => {
         void this.handleDrop(args);
       },
@@ -120,7 +122,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
   scrollableTargetConnected(element:HTMLElement):void {
     const cleanup = autoScrollForElements({
       element,
-      canScroll: ({ source }) => isSortableItemData(source.data),
+      canScroll: ({ source }) => isSortableItemData(source.data) && source.data.rootElement === this.element,
       getAllowedAxis: () => this.allowedAxis,
       getConfiguration: () => ({ maxScrollSpeed: this.maxScrollSpeed }),
     });

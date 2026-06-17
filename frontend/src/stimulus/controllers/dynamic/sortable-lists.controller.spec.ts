@@ -417,6 +417,23 @@ describe('Sortable lists controller', () => {
     await flushPromises();
   });
 
+  it('only monitors drags belonging to its own root', async () => {
+    const { root, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+
+    const canMonitor = vi.mocked(monitorForElements).mock.lastCall?.[0].canMonitor;
+
+    expect(canMonitor?.({
+      source: sourcePayload(firstSourceItem, sortableItemData({ itemId: '1', type: 'work_package', rootElement: root })),
+      initial: {} as never,
+    })).toBe(true);
+    expect(canMonitor?.({
+      source: sourcePayload(firstSourceItem, sortableItemData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })),
+      initial: {} as never,
+    })).toBe(false);
+  });
+
   it('dispatches an error toast when the move request rejects', async () => {
     const toastEvents:CustomEvent[] = [];
     const onToast = (event:Event) => toastEvents.push(event as CustomEvent);
@@ -525,6 +542,7 @@ describe('Sortable lists controller', () => {
 
   it('registers scrollable targets for vertical sortable list auto-scrolling', async () => {
     const scrollable = renderScrollableFixture();
+    const root = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists"]')!;
 
     await ctx.nextFrame();
 
@@ -537,12 +555,17 @@ describe('Sortable lists controller', () => {
     expect(options?.canScroll?.({
       element: scrollable,
       input: input(),
-      source: sourcePayload(itemRow('1')),
+      source: sourcePayload(itemRow('1'), sortableItemData({ itemId: '1', type: 'work_package', rootElement: root })),
     })).toBe(true);
     expect(options?.canScroll?.({
       element: scrollable,
       input: input(),
       source: sourcePayload(document.createElement('div'), { type: 'unrelated' }),
+    })).toBe(false);
+    expect(options?.canScroll?.({
+      element: scrollable,
+      input: input(),
+      source: sourcePayload(itemRow('1'), sortableItemData({ itemId: '1', type: 'work_package', rootElement: document.createElement('div') })),
     })).toBe(false);
     expect(options?.getAllowedAxis?.({
       element: scrollable,

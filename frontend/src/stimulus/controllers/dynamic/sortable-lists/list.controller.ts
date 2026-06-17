@@ -29,16 +29,16 @@
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { Controller } from '@hotwired/stimulus';
 import {
-  acceptsSortableItemType,
-  isSortableItemData,
+  canAccept,
   sortableListData,
+  type RootAwareChild,
   type SortableListData,
   type SortableListsRoot,
 } from './drag-and-drop';
 
 type CleanupFn = () => void;
 
-export default class ListController extends Controller<HTMLElement> {
+export default class ListController extends Controller<HTMLElement> implements RootAwareChild {
   static values = {
     type: String,
     id: String,
@@ -69,7 +69,7 @@ export default class ListController extends Controller<HTMLElement> {
   disconnect():void {
     this.cleanupFn?.();
     this.cleanupFn = undefined;
-    this.root = undefined;
+    this.disconnectRoot();
   }
 
   // Called by the root controller's outlet-connected callback.
@@ -80,6 +80,9 @@ export default class ListController extends Controller<HTMLElement> {
 
   disconnectRoot():void {
     this.root = undefined;
+    // The root only reaches still-connected list outlets when it ends a move, so
+    // a list that disconnects mid-move would otherwise keep aria-busy forever.
+    this.reflectMoving(false);
   }
 
   reflectMoving(moving:boolean):void {
@@ -106,17 +109,6 @@ export default class ListController extends Controller<HTMLElement> {
       return false;
     }
 
-    if (!isSortableItemData(data)) {
-      return false;
-    }
-
-    if (data.rootElement == null || data.rootElement !== this.root!.element) {
-      return false;
-    }
-
-    return acceptsSortableItemType({
-      acceptedType: this.root!.acceptedType,
-      type: data.type,
-    });
+    return canAccept(this.root!, data);
   }
 }
