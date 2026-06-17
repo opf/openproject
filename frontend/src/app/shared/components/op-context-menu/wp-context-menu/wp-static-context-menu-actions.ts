@@ -9,7 +9,7 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     link: 'id',
   },
   {
-    key: 'copy_id_to_clipboard',
+    key: 'copy_numeric_id_to_clipboard',
     icon: 'icon-clipboard',
     link: 'id',
   },

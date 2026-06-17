@@ -23,6 +23,7 @@ import { TimeEntryTimerService } from 'core-app/shared/components/time_entries/s
 import { TimeEntryResource } from 'core-app/features/hal/resources/time-entry-resource';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 @Directive({
   // eslint-disable-next-line @angular-eslint/directive-selector
@@ -118,7 +119,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
         this.copyToClipboardService.copy(url.toString());
         break;
       }
-      case 'copy_id_to_clipboard':
+      case 'copy_numeric_id_to_clipboard':
         this.copyToClipboardService.copy(`${this.workPackage.id!}`);
         break;
       default:
@@ -157,9 +158,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
     // Copying the numeric ID is only useful in semantic mode, where the
     // displayed identifier (e.g. "PROJ-42") is not the numeric ID itself.
-    const copyIdAction = actions.find((action) => action.key === 'copy_id_to_clipboard');
+    const copyIdAction = actions.find((action) => action.key === 'copy_numeric_id_to_clipboard');
     if (copyIdAction) {
-      copyIdAction.hidden = this.workPackage.displayId === this.workPackage.id?.toString();
+      copyIdAction.hidden = !isSemanticWorkPackageId(this.workPackage.displayId);
     }
 
     // Splice plugin actions onto the core actions
