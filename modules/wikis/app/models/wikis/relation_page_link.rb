@@ -35,7 +35,7 @@ module Wikis
   class RelationPageLink < PageLink
     belongs_to :author, class_name: "User"
 
-    validates :identifier, uniqueness: { scope: %i[linkable_id linkable_type] }
+    validates :identifier, uniqueness: { scope: %i[linkable_id linkable_type provider_id] }
 
     def relation? = true
   end

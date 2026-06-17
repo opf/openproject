@@ -26,7 +26,7 @@ en:
         wikis/relation_page_link:
           attributes:
             identifier:
-              taken: %{value} is already linked
+              taken: '%{value} is already linked'
     models:
       wikis/inline_page_link:
         one: Inline page link

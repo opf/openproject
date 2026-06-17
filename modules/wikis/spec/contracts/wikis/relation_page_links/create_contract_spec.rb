@@ -39,21 +39,34 @@ module Wikis
       let(:linkable) { create(:work_package) }
       let(:project) { linkable.project }
       let(:current_user) { create(:user, member_with_permissions: { project => %i(manage_wiki_page_links view_work_packages) }) }
-      let(:relation_page_link) { build_stubbed(:relation_wiki_page_link, author: current_user, linkable:) }
+      let(:provider) { create(:internal_wiki_provider) }
+      let(:relation_page_link) { build_stubbed(:relation_wiki_page_link, author: current_user, linkable:, provider:) }
 
       subject(:contract) { described_class.new(relation_page_link, current_user) }
 
       it_behaves_like "contract is valid"
 
       describe "validates the uniqueness of identifier" do
-        context "when the identifier already exists for the linkable" do
-          before { create(:relation_wiki_page_link, identifier: relation_page_link.identifier, linkable:) }
+        context "when the identifier already exists for the linkable for the same provider" do
+          before do
+            create(:relation_wiki_page_link, identifier: relation_page_link.identifier, linkable:, provider:)
+          end
 
           include_examples "contract is invalid", identifier: :taken
         end
 
-        context "when the identifier already exists in another linkable" do
-          before { create(:relation_wiki_page_link, identifier: relation_page_link.identifier) }
+        context "when the identifier already exists in another linkable for the same provider" do
+          before { create(:relation_wiki_page_link, identifier: relation_page_link.identifier, provider:) }
+
+          include_examples "contract is valid"
+        end
+
+        context "when the identifier already exists but is from another provider" do
+          let(:xwiki_provider) { create(:xwiki_provider) }
+
+          before do
+            create(:relation_wiki_page_link, identifier: relation_page_link.identifier, linkable:, provider: xwiki_provider)
+          end
 
           include_examples "contract is valid"
         end
