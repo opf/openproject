@@ -101,11 +101,11 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         expect(rendered_component).to have_text(work_package2.subject)
       end
 
-      it "wires drop-target data attributes for the sprint" do
+      it "wires the list controller and value attributes for the sprint" do
         expect(rendered_component).to have_css(".Box") do |box|
-          expect(box["data-sortable-lists-target"]).to eq("list")
-          expect(box["data-sortable-lists-list-type"]).to eq("sprint")
-          expect(box["data-sortable-lists-list-id"]).to eq(sprint.id.to_s)
+          expect(box["data-controller"]).to include("sortable-lists--list")
+          expect(box["data-sortable-lists--list-type-value"]).to eq("sprint")
+          expect(box["data-sortable-lists--list-id-value"]).to eq(sprint.id.to_s)
         end
       end
 

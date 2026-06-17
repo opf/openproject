@@ -50,7 +50,9 @@ See COPYRIGHT and LICENSE files for more details.
                       data: {
                         controller: "backlogs--list-refresh sortable-lists",
                         sortable_lists_accepted_type_value: "work_package",
-                        sortable_lists_move_url_template_value: backlogs_move_url_template(@project)
+                        sortable_lists_move_url_template_value: backlogs_move_url_template(@project),
+                        sortable_lists_sortable_lists__list_outlet: "#backlogs_container [data-controller~='sortable-lists--list']",
+                        sortable_lists_sortable_lists__item_outlet: "#backlogs_container [data-controller~='sortable-lists--item']"
                       } %>
 <% end %>
 

@@ -276,9 +276,9 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
   describe "drag-and-drop data merging" do
     context "without drag_and_drop" do
       it "does not emit drag-and-drop data" do
-        expect(rendered_component).to have_no_css(".Box[data-sortable-lists-target]")
-        expect(rendered_component).to have_no_css(".Box[data-sortable-lists-list-type]")
-        expect(rendered_component).to have_no_css(".Box[data-sortable-lists-list-id]")
+        expect(rendered_component).to have_no_css(".Box[data-controller~='sortable-lists--list']")
+        expect(rendered_component).to have_no_css(".Box[data-sortable-lists--list-type-value]")
+        expect(rendered_component).to have_no_css(".Box[data-sortable-lists--list-id-value]")
       end
     end
 
@@ -287,11 +287,11 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
         { list_type: "sprint", list_id: sprint.id }
       end
 
-      it "merges drag-and-drop data attributes onto the box" do
+      it "wires the list controller and value attributes onto the box" do
         expect(rendered_component).to have_css(".Box") do |box|
-          expect(box["data-sortable-lists-target"]).to eq("list")
-          expect(box["data-sortable-lists-list-type"]).to eq("sprint")
-          expect(box["data-sortable-lists-list-id"]).to eq(sprint.id.to_s)
+          expect(box["data-controller"]).to include("sortable-lists--list")
+          expect(box["data-sortable-lists--list-type-value"]).to eq("sprint")
+          expect(box["data-sortable-lists--list-id-value"]).to eq(sprint.id.to_s)
         end
       end
     end

@@ -36,7 +36,6 @@ import {
   isSortableItemData,
   isSortableListData,
   resolveDropIntent,
-  resolveListTargetData,
   resolvePreviousSortableItemId,
   sortableItemData,
   sortableListData,
@@ -130,6 +129,20 @@ describe('sortable lists drag and drop helpers', () => {
       expect(data.type).toEqual('work_package');
       expect(data.itemId).toEqual('42');
       expect(isSortableItemData(data)).toBe(true);
+    });
+
+    it('carries the root element on the item payload when provided', () => {
+      const root = document.createElement('div');
+      const data = sortableItemData({ itemId: '1', type: 'work_package', rootElement: root });
+
+      expect(data.rootElement).toBe(root);
+      expect(isSortableItemData(data)).toBe(true);
+    });
+
+    it('defaults the item payload root element to null', () => {
+      const data = sortableItemData({ itemId: '1', type: 'work_package' });
+
+      expect(data.rootElement).toBeNull();
     });
   });
 
@@ -240,29 +253,6 @@ describe('sortable lists drag and drop helpers', () => {
     });
   });
 
-  describe('resolveListTargetData', () => {
-    it('reads the list type and id from the list element', () => {
-      const list = document.createElement('ul');
-
-      list.setAttribute('data-sortable-lists-list-type', 'sprint');
-      list.setAttribute('data-sortable-lists-list-id', '12');
-
-      expect(resolveListTargetData(list)).toEqual(expect.objectContaining({ type: 'sprint', listId: '12' }));
-    });
-
-    it('uses null as the list id for lists without an id', () => {
-      const list = document.createElement('ul');
-
-      list.setAttribute('data-sortable-lists-list-type', 'inbox');
-
-      expect(resolveListTargetData(list)).toEqual(expect.objectContaining({ type: 'inbox', listId: null }));
-    });
-
-    it('returns null for elements without a list type', () => {
-      expect(resolveListTargetData(document.createElement('ul'))).toBeNull();
-    });
-  });
-
   describe('resolveDropIntent', () => {
     function dropLocation({
       dropTargets = [],
@@ -278,13 +268,11 @@ describe('sortable lists drag and drop helpers', () => {
       } as unknown as DragLocationHistory;
     }
 
-    function buildList({ listId = '7' } = {}) {
+    function buildList() {
       const root = document.createElement('div');
       const list = document.createElement('ul');
 
-      list.setAttribute('data-sortable-lists-target', 'list');
-      list.setAttribute('data-sortable-lists-list-type', 'backlog_bucket');
-      list.setAttribute('data-sortable-lists-list-id', listId);
+      list.setAttribute('data-controller', 'sortable-lists--list');
       root.appendChild(list);
 
       return { root, list };
@@ -352,9 +340,7 @@ describe('sortable lists drag and drop helpers', () => {
       const sourceList = document.createElement('ul');
       const source = itemRow('1');
 
-      sourceList.setAttribute('data-sortable-lists-target', 'list');
-      sourceList.setAttribute('data-sortable-lists-list-type', 'sprint');
-      sourceList.setAttribute('data-sortable-lists-list-id', '3');
+      sourceList.setAttribute('data-controller', 'sortable-lists--list');
       sourceList.append(source);
       list.append(itemRow('4'), itemRow('5'));
       root.append(sourceList);
@@ -415,9 +401,7 @@ describe('sortable lists drag and drop helpers', () => {
       const source = itemRow('1');
       const header = document.createElement('header');
 
-      sourceList.setAttribute('data-sortable-lists-target', 'list');
-      sourceList.setAttribute('data-sortable-lists-list-type', 'sprint');
-      sourceList.setAttribute('data-sortable-lists-list-id', '3');
+      sourceList.setAttribute('data-controller', 'sortable-lists--list');
       sourceList.append(source);
       list.append(header, itemRow('4'));
       root.append(sourceList);

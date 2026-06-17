@@ -27,8 +27,8 @@
 //++
 
 // Sortable lists use a DOM contract shared by the root and item controllers:
-// the root has data-controller~="sortable-lists"; lists are root targets with
-// data-sortable-lists-list-* metadata; items expose sortable-lists--item values;
+// the root has data-controller~="sortable-lists"; lists are sortable-lists--list
+// controllers wired to the root via outlets; items expose sortable-lists--item values;
 // sparse non-item rows may expose data-sortable-lists-prev-item-id.
 //
 // This module holds the drag-and-drop-agnostic half of that contract: reading
@@ -37,9 +37,7 @@
 export const sortableListsMovingAttribute = 'data-sortable-lists-moving';
 export const sortableListsRootSelector = '[data-controller~="sortable-lists"]';
 export const sortableItemSelector = '[data-sortable-lists--item-id-value]';
-export const sortableListSelector = '[data-sortable-lists-target~="list"]';
-export const sortableListTypeAttribute = 'data-sortable-lists-list-type';
-export const sortableListIdAttribute = 'data-sortable-lists-list-id';
+export const sortableListSelector = '[data-controller~="sortable-lists--list"]';
 export const sortablePreviousItemIdAttribute = 'data-sortable-lists-prev-item-id';
 
 // Rows can sit directly under the list element or inside a nested <ul>.
