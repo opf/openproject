@@ -194,14 +194,21 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
     this.items = permittedActions.map((action:WorkPackageAction) => {
       const { key } = action;
+
+      // "Copy numeric ID" copies a plain value rather than navigating anywhere.
+      // Rendering it as a link would show a misleading link preview on hover and
+      // make the clipboard copy originate from an anchor, so render it as a
+      // button (no href).
+      const href = key === 'copy_numeric_id_to_clipboard' ? undefined : action.link;
+
       return {
         disabled: false,
         hidden: action.hidden === true,
         linkText: I18n.t(`js.button_${key}`),
-        href: action.link,
+        href,
         icon: action.icon || `icon-${key}`,
         onClick: (event:MouseEvent) => {
-          if (action.link && isClickedWithModifier(event)) {
+          if (href && isClickedWithModifier(event)) {
             return false;
           }
 
