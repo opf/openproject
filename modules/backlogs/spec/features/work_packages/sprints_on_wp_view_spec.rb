@@ -66,7 +66,7 @@ RSpec.describe "Sprint displayed and selectable on work package view", :js do
   end
 
   context "when attempting to assign the wp to a bucket" do
-    let!(:bucket) { create(:backlog_bucket, name: "Bucket", project:) }
+    shared_let(:bucket) { create(:backlog_bucket, name: "Bucket", project:) }
 
     it "clears the sprint (and the other way around) instead of throwing an error" do
       wp_page.visit!
