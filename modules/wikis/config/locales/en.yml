@@ -184,5 +184,5 @@ en:
         title: XWiki Integration
 
     work_package_wikis_tab_component:
-      mentioned_in_description: Mentioned in description
+      inline_page_links: Mentioned in description
       referencing_pages: Referenced in
