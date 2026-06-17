@@ -70,7 +70,7 @@ RSpec.describe Wikis::XWikiProviders::CreateService, type: :model do
       it "fails with a url error" do
         result = service.call(name: "My Wiki", url: "https://xwiki.local/")
         expect(result).not_to be_success
-        expect(result.errors[:url]).to include("could not be reached")
+        expect(result.errors[:url]).to include("could not be reached.")
       end
     end
   end
