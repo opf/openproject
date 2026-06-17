@@ -33,6 +33,10 @@ module Wikis
     module Providers
       module XWiki
         module Queries
+          # Fetches all XWiki pages that reference a work package, combining two XWiki endpoints:
+          # - /openproject/links
+          # - /openproject/mentions
+          # Both sets are merged and deduplicated.
           class ReferencingPages < BaseQuery
             include Concerns::XWikiRequest
             include Concerns::XWikiPageQueries
@@ -41,15 +45,29 @@ module Wikis
 
             def call(input_data:, auth_strategy:)
               authenticated(auth_strategy) do |http|
-                url = rest_url("openproject/links/workPackages/#{input_data.linkable.id}")
-                handle_response(http.get(url, params: { number: MAXIMUM_RESULTS })) do |data|
-                  success(
-                    fetch_json(data, "searchResults")
-                      .uniq { |r| fetch_json(r, "id") }
-                      .map { canonical_page_info(identifier: fetch_json(it, "id"), auth_strategy:) }
-                  )
+                reference_ids = fetch_reference_ids(http, input_data)
+                mention_ids = fetch_mention_ids(http, input_data)
+
+                reference_ids.fmap do |ids|
+                  (ids + (mention_ids - ids)).map { canonical_page_info(identifier: it, auth_strategy:) }
                 end
               end
+            end
+
+            private
+
+            def fetch_reference_ids(http, input_data)
+              handle_response(http.get(rest_url("openproject/links/workPackages/#{input_data.linkable.id}"),
+                                       params: { number: MAXIMUM_RESULTS })) do |data|
+                success(fetch_json(data, "searchResults").map { fetch_json(it, "id") }.uniq)
+              end
+            end
+
+            def fetch_mention_ids(http, input_data)
+              handle_response(http.get(rest_url("openproject/mentions"),
+                                       params: { workPackage: input_data.linkable.id })) do |data|
+                success((data["searchResults"] || []).filter_map { it["id"] }.uniq)
+              end.value_or([])
             end
           end
         end

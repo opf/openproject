@@ -49,6 +49,50 @@ http_interactions:
   recorded_at: Wed, 10 Jun 2026 13:09:46 GMT
 - request:
     method: get
+    uri: https://xwiki.local/rest/openproject/mentions?workPackage=14
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 10 Jun 2026 16:34:00 GMT
+      Set-Cookie:
+      - JSESSIONID=A1B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - QVVZtN1gchKDZcFGGdo7Rg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '855'
+    body:
+      encoding: UTF-8
+      string: '{"links":[],"searchResults":[{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20reference/pages/WebHome","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null}],"type":"page","id":"xwiki:Test
+        reference.WebHome","pageFullName":"Test reference.WebHome","title":"Test reference","wiki":"xwiki","space":"Test
+        reference","pageName":"WebHome","modified":1781187743000,"author":"xwiki:XWiki.admin","authorName":null,"version":"4.1","language":null,"className":null,"objectNumber":null,"filename":null,"score":0.54726034,"object":null,"hierarchy":null}],"template":"https://xwiki.local/rest/?q={solrquery}(&number={number})(&start={start})(&orderField={fieldname}(&order={asc|desc}))(&distinct=1)(&prettyNames={false|true})(&wikis={wikis})(&className={classname})"}'
+  recorded_at: Wed, 10 Jun 2026 16:34:00 GMT
+- request:
+    method: get
     uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:test.WebHome
     body:
       encoding: US-ASCII
@@ -190,4 +234,54 @@ http_interactions:
         URL Shortener.","content":"{{openproject instance=\"OpenProject\"/}}","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Just
         a normal page","name":"Just a normal page","type":"space","url":"https://xwiki.local/bin/view/Just%20a%20normal%20page/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Just%20a%20normal%20page/"}]},"rights":[],"renderedContent":null}'
   recorded_at: Wed, 10 Jun 2026 13:09:46 GMT
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents?docRef=xwiki:Test%20reference.WebHome
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 10 Jun 2026 16:34:00 GMT
+      Set-Cookie:
+      - JSESSIONID=B2C3D4E5F6A7B8C9D0E1F2A3B4C5D6E7; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - QVVZtN1gchKDZcFGGdo7Rg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '2156'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20reference","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20reference/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20reference/pages/WebHome/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20reference/pages/WebHome/children","rel":"http://www.xwiki.org/rel/children","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/spaces/Test%20reference/pages/WebHome/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/xwiki/classes/Test%20reference.WebHome","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"f58c0","fullName":"Test
+        reference.WebHome","wiki":"xwiki","space":"Test reference","name":"WebHome","title":"Test
+        reference","rawTitle":"Test reference","parent":"Main.WebHome","parentId":"xwiki:Main.WebHome","version":"4.1","author":"XWiki.admin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/bin/view/Test%20reference/","xwikiAbsoluteUrl":"https://xwiki.local/bin/view/Test%20reference/","translations":{"links":[],"translations":[],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":4,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1780651564000,"creator":"XWiki.admin","creatorName":null,"modified":1781187743000,"modifier":"XWiki.admin","modifierName":null,"originalMetadataAuthor":"xwiki:XWiki.admin","originalMetadataAuthorName":null,"comment":"","content":"Hello
+        new page!\n\n[[openproject wp 14>>https://openproject.local/projects/demo-project/work_packages/14/activity]]\n\n\n{{openproject
+        description=\"test\" identifier=\"14\" instance=\"OpenProject\" limit=\"10\"
+        workItemsDisplayer=\"workItemsSingle\"/}}","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"xwiki","name":"xwiki","type":"wiki","url":"https://xwiki.local/bin/view/Main/"},{"label":"Test
+        reference","name":"Test reference","type":"space","url":"https://xwiki.local/bin/view/Test%20reference/"},{"label":"WebHome","name":"WebHome","type":"document","url":"https://xwiki.local/bin/view/Test%20reference/"}]},"rights":[],"renderedContent":null}'
+  recorded_at: Wed, 10 Jun 2026 16:34:00 GMT
 recorded_with: VCR 6.4.0
