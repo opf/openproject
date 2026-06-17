@@ -34,7 +34,7 @@ module Wikis
       module XWiki
         module Queries
           # Fetches all XWiki pages that reference a work package, combining two XWiki endpoints:
-          # - /openproject/links
+          # - /openproject/links/workPackages
           # - /openproject/mentions
           # Both sets are merged and deduplicated.
           class ReferencingPages < BaseQuery
