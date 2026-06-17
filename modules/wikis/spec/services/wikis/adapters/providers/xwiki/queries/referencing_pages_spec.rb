@@ -133,16 +133,11 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
             .to_return(status: 500, body: "Internal Server Error")
         end
 
-        it "succeeds with only the linked pages" do
-          expect(result).to be_success
-          expect(resolved_identifiers).to contain_exactly("aaa111")
-        end
+        it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :request_failed)) }
       end
     end
 
     context "when the links request fails" do
-      before { stub_mentions([], provider: wiki_provider, linkable:) }
-
       context "with a server error" do
         before do
           stub_request(:get, search_endpoint(linkable, provider: wiki_provider))

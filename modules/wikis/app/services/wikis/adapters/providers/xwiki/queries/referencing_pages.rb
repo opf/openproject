@@ -36,7 +36,7 @@ module Wikis
           # Fetches all XWiki pages that reference a work package, combining two XWiki endpoints:
           # - /openproject/links/workPackages
           # - /openproject/mentions
-          # Both sets are merged and deduplicated.
+          # Results are merged and deduplicated. Either endpoint failing fails the whole query.
           class ReferencingPages < BaseQuery
             include Concerns::XWikiRequest
             include Concerns::XWikiPageQueries
@@ -45,11 +45,11 @@ module Wikis
 
             def call(input_data:, auth_strategy:)
               authenticated(auth_strategy) do |http|
-                reference_ids = fetch_reference_ids(http, input_data)
-                mention_ids = fetch_mention_ids(http, input_data)
-
-                reference_ids.fmap do |ids|
-                  (ids + (mention_ids - ids)).map { canonical_page_info(identifier: it, auth_strategy:) }
+                fetch_reference_ids(http, input_data).bind do |reference_ids|
+                  fetch_mention_ids(http, input_data).bind do |mention_ids|
+                    ids = reference_ids + (mention_ids - reference_ids)
+                    success(ids.map { canonical_page_info(identifier: it, auth_strategy:) })
+                  end
                 end
               end
             end
@@ -67,7 +67,7 @@ module Wikis
               handle_response(http.get(rest_url("openproject/mentions"),
                                        params: { workPackage: input_data.linkable.id })) do |data|
                 success((data["searchResults"] || []).filter_map { it["id"] }.uniq)
-              end.value_or([])
+              end
             end
           end
         end
