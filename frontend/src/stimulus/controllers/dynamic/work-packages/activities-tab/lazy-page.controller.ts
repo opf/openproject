@@ -28,11 +28,13 @@
  * ++
  */
 
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { useIntersection } from 'stimulus-use';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 import BaseController from './base.controller';
 
 export default class LazyPageController extends BaseController {
+  static services:ServiceKey[] = ['turboRequests'];
+
   static values = {
     url: String,
     page: { type: Number, default: 1 },
@@ -45,15 +47,20 @@ export default class LazyPageController extends BaseController {
   declare isLoadedValue:boolean;
   declare loadDelayMsValue:number;
 
-  private turboRequests:TurboRequestsService;
+  declare services:Promise<PickedServices<'turboRequests'>>;
+
   private stopObserving?:() => void;
   private loadTimeout?:number;
+
+  initialize() {
+    super.initialize();
+    useAngularServices(this);
+  }
 
   connect() {
     if (this.isLoadedValue) return;
 
     super.connect();
-    void this.initializeTurboRequestService();
     this.startObserving();
   }
 
@@ -91,9 +98,10 @@ export default class LazyPageController extends BaseController {
     this.stopObserving = unobserve;
   }
 
-  private fetchPageStream():Promise<{ html:string, headers:Headers }> {
+  private async fetchPageStream():Promise<{ html:string, headers:Headers }> {
     const url = this.preparePageStreamsUrl();
-    return this.turboRequests.requestStream(url);
+    const { turboRequests } = await this.services;
+    return turboRequests.requestStream(url);
   }
 
   private preparePageStreamsUrl():string {
@@ -104,11 +112,6 @@ export default class LazyPageController extends BaseController {
     url.searchParams.set('filter', this.indexOutlet.filterValue);
 
     return url.toString();
-  }
-
-  private async initializeTurboRequestService() {
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
   }
 
   private cancelPendingLoad() {

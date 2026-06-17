@@ -304,7 +304,7 @@ Password: admin
 
 ### Run OpenProject manually
 
-To run OpenProject manually, you need to run the rails server and the webpack frontend bundler to:
+To run OpenProject manually, you need to run the rails server and the Angular CLI dev server (Vite) to:
 
 #### Rails web server
 

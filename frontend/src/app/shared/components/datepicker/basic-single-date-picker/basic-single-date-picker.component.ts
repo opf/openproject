@@ -56,7 +56,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
   readonly timezoneService = inject(TimezoneService);
   readonly injector = inject(Injector);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly deviceService = inject(DeviceService);
 
   @Output() valueChange = new EventEmitter();
@@ -100,7 +100,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
 
   private _inputAttrs:Record<string, string> = {};
 
-  @ViewChild('input') input:ElementRef;
+  @ViewChild('input') input:ElementRef<HTMLInputElement>;
 
   mobile = false;
 
@@ -127,8 +127,8 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
   }
 
   private applyInputAttrs():void {
-    const el = (this.input?.nativeElement as HTMLInputElement | null)
-      ?? (this.elementRef.nativeElement as HTMLElement).querySelector<HTMLInputElement>(`input[id="${this.id}"]`);
+    const el = this.input?.nativeElement
+      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${this.id}"]`);
     if (el) {
       Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
     }
@@ -194,7 +194,7 @@ export class OpBasicSingleDatePickerComponent implements ControlValueAccessor, O
         static: false,
         appendTo: this.appendToBodyOrDialog(),
       },
-      this.input.nativeElement as HTMLInputElement,
+      this.input.nativeElement,
     );
   }
 

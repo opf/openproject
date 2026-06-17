@@ -64,8 +64,6 @@ export default defineConfig([
       // Allow short circuit evaluations
       '@typescript-eslint/no-unused-expressions': ['error', { allowShortCircuit: true }],
 
-      // Disable webpack loader definitions
-      'import/no-webpack-loader-syntax': 'off',
       // Disable order style as it's not compatible with intellij import organization
       'import/order': 'off',
 

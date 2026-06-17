@@ -63,7 +63,7 @@ interface SearchResultItems {
   standalone: false,
 })
 export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly I18n = inject(I18nService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly pathHelperService = inject(PathHelperService);
@@ -77,7 +77,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
 
   @Input() public placeholder:string;
 
-  @ViewChild('btn', { static: true }) btn:ElementRef;
+  @ViewChild('btn', { static: true }) btn:ElementRef<HTMLButtonElement>;
 
   @ViewChild(OpAutocompleterComponent, { static: true }) public ngSelectComponent:OpAutocompleterComponent;
 
@@ -167,7 +167,7 @@ export class GlobalSearchInputComponent implements AfterViewInit, OnDestroy {
     event.preventDefault();
 
     // handle click on search button
-    if (insideOrSelf(this.btn.nativeElement as HTMLElement, event.target as HTMLElement)) {
+    if (insideOrSelf(this.btn.nativeElement, event.target as HTMLElement)) {
       if (this.deviceService.isTablet) {
         this.toggleMobileSearch();
         // open ng-select menu on default

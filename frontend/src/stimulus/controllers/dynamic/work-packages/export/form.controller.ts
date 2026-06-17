@@ -1,15 +1,24 @@
 import { Controller } from '@hotwired/stimulus';
 import * as Turbo from '@hotwired/turbo';
 import { HttpErrorResponse } from '@angular/common/http';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class FormController extends Controller<HTMLFormElement> {
+  static services:ServiceKey[] = ['notifications'];
+
   static values = {
     jobStatusDialogUrl: String,
     jobStatusDialogId: String,
   };
 
+  declare services:Promise<PickedServices<'notifications'>>;
+
   declare jobStatusDialogUrlValue:string;
   declare jobStatusDialogIdValue:string;
+
+  initialize() {
+    useAngularServices(this);
+  }
 
   jobModalUrl(job_id:string):string {
     return this.jobStatusDialogUrlValue.replace('_job_uuid_', job_id);
@@ -66,7 +75,7 @@ export default class FormController extends Controller<HTMLFormElement> {
 
     this.requestExport(this.generateExportURL(formData))
       .then((job_id) => this.showJobModal(job_id))
-      .catch((error:HttpErrorResponse) => this.handleError(error));
+      .catch((error:HttpErrorResponse) => { void this.handleError(error); });
 
     const dialog = document.getElementById(this.jobStatusDialogIdValue) as HTMLDialogElement;
     if (dialog) {
@@ -76,10 +85,9 @@ export default class FormController extends Controller<HTMLFormElement> {
     return true;
   }
 
-  private handleError(error:HttpErrorResponse) {
-    void window.OpenProject.getPluginContext().then((pluginContext) => {
-      pluginContext.services.notifications.addError(error);
-    });
+  private async handleError(error:HttpErrorResponse) {
+    const { notifications } = await this.services;
+    notifications.addError(error);
   }
 
   private findCurrentVisibleColumnSelection(formData:FormData):HTMLElement|null {

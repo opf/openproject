@@ -92,12 +92,16 @@ jobs:
       env:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
+        PR_AUTHOR: ${{ github.event.pull_request.user.login }}
       run: |
         if [ -f tmp/retried_specs.txt ]; then
           echo "## Flaky specs" >> "$GITHUB_STEP_SUMMARY"
           cat tmp/retried_specs.txt >> "$GITHUB_STEP_SUMMARY"
           if [ -n "$PR_NUMBER" ]; then
-            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body "$(printf '> [!WARNING]\n> Flaky specs\n\n'; cat tmp/retried_specs.txt)"
+            SPECS="$(cat tmp/retried_specs.txt)" \
+              envsubst '$SPECS $PR_NUMBER $PR_AUTHOR' \
+              < .github/flaky-spec-copilot-comment.md > tmp/flaky_comment.md
+            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file tmp/flaky_comment.md
           fi
         fi
     - name: Save CI image to cache

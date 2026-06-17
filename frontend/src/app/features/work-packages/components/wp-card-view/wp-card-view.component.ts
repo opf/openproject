@@ -86,7 +86,7 @@ export class WorkPackageCardViewComponent extends UntilDestroyedMixin implements
   @Input() public shrinkOnMobile = false;
 
   /** Container reference */
-  @ViewChild('container', { static: true }) public container:ElementRef;
+  @ViewChild('container', { static: true }) public container:ElementRef<HTMLElement>;
 
   @Output() public onMoved = new EventEmitter<void>();
 

@@ -11,5 +11,5 @@
  * @param video Path to the video starting from frontend/src/assets/videos
  */
 export function videoPath(video:string):string {
-  return `${globalThis.__webpack_public_path__}assets/videos/${video}`;
+  return `${globalThis.publicAssetPath}assets/videos/${video}`;
 }

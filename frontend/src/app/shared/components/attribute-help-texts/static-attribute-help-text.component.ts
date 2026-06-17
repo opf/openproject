@@ -40,7 +40,7 @@ import { StaticAttributeHelpTextModalComponent } from './static-attribute-help-t
   standalone: false,
 })
 export class StaticAttributeHelpTextComponent {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected opModalService = inject(OpModalService);
   protected cdRef = inject(ChangeDetectorRef);
   protected injector = inject(Injector);

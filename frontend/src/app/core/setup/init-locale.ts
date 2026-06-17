@@ -83,7 +83,7 @@ export function initializeLocale() {
     .chain([userLocale, instanceLocale])
     .uniq()
     .map(
-      (locale) => import(/* webpackChunkName: "locale" */ `../../../locales/${locale}.json`)
+      (locale) => import(`../../../locales/${locale}.json`)
         .then((imported:{ default:object }) => {
           i18n.store(imported.default);
         }),

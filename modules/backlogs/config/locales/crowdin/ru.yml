@@ -42,7 +42,7 @@ ru:
           completed: Завершён
         work_packages: Пакеты работ
       work_package:
-        backlog_bucket: Раздел бэклога
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Тип невыполненной работы
         position: Позиция
         sprint: Спринт

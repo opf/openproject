@@ -157,7 +157,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @ViewChild('ucCalendar', { read: ElementRef })
-  set ucCalendarElement(v:ElementRef|undefined) {
+  set ucCalendarElement(v:ElementRef<HTMLElement>|undefined) {
     this.calendar.resizeObserver(v);
   }
 
@@ -165,9 +165,9 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   @ViewChild('assigneeAutocompleter') assigneeAutocompleter:TemplateRef<unknown>;
 
-  @ViewChild('removeDropzone', { read: ElementRef }) removeDropzone:ElementRef;
+  @ViewChild('removeDropzone', { read: ElementRef }) removeDropzone:ElementRef<HTMLElement>;
 
-  @ViewChild('addExistingToggle', { read: ElementRef }) addExistingToggle:ElementRef;
+  @ViewChild('addExistingToggle', { read: ElementRef }) addExistingToggle:ElementRef<HTMLElement>;
 
   calendarOptions$ = new Subject<CalendarOptions>();
 
@@ -917,7 +917,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
 
   private toggleAddExistingPane():void {
     this.showAddExistingPane.next(!this.showAddExistingPane.getValue());
-    (this.addExistingToggle.nativeElement as HTMLElement).blur();
+    this.addExistingToggle.nativeElement.blur();
   }
 
   private removeExternalEvents():void {

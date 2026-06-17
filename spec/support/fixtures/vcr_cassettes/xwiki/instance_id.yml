@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/metadata
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 10 Jun 2026 14:32:15 GMT
+      Set-Cookie:
+      - JSESSIONID=58C1113B3B8025E93C1E1B0F25E0CC18; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - QVVZtN1gchKDZcFGGdo7Rg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '53'
+    body:
+      encoding: UTF-8
+      string: '{"instanceId":"xwiki-instance-abc123"}'
+  recorded_at: Wed, 10 Jun 2026 14:32:15 GMT
+recorded_with: VCR 6.4.0

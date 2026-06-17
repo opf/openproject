@@ -31,6 +31,11 @@
 module Wikis
   module XWikiProviders
     class CreateService < ::BaseServices::Create
+      include Concerns::FetchesInstanceId
+
+      private
+
+      def should_fetch_instance_id?(model) = model.url.present?
     end
   end
 end

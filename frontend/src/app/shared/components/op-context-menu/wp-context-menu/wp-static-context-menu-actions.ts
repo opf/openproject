@@ -32,6 +32,11 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     link: 'delete',
   },
   {
+    key: 'copy_numeric_id_to_clipboard',
+    icon: 'icon-clipboard',
+    link: 'id',
+  },
+  {
     key: 'generate_pdf',
     link: 'generate_pdf',
     icon: 'icon-export-pdf-with-descriptions',

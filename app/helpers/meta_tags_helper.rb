@@ -54,6 +54,21 @@ module MetaTagsHelper
         }.compact
   end
 
+  # Emits a <link rel="canonical"> pointing to the URL built from each record's
+  # current display identifier (the work package's display_id and the project's
+  # identifier), so search engines always see the most recent identifier even
+  # when the page was reached via an older alias.
+  def canonical_link_tag(work_package: nil, project: nil)
+    canonical_path =
+      if work_package && controller_name == "work_packages" && request.path_parameters[:id].present?
+        work_package_canonical_path(work_package)
+      elsif project && request.path.match?(%r{/projects/[^/]+})
+        project_canonical_path(project)
+      end
+
+    tag.link rel: :canonical, href: "#{request.base_url}#{canonical_path}" if canonical_path
+  end
+
   ##
   # Writer of html_title as string
   def html_title(*args)
@@ -70,5 +85,17 @@ module MetaTagsHelper
       parts << h(@project.name) if @project
       parts.concat @html_title.map(&:to_s) if @html_title
     end
+  end
+
+  private
+
+  def work_package_canonical_path(work_package)
+    request.path
+      .sub("/projects/#{request.path_parameters[:project_id]}", "/projects/#{work_package.project.identifier}")
+      .sub("/work_packages/#{request.path_parameters[:id]}", "/work_packages/#{work_package.display_id}")
+  end
+
+  def project_canonical_path(project)
+    request.path.sub(%r{/projects/[^/]+}, "/projects/#{project.identifier}")
   end
 end

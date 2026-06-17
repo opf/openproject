@@ -42,7 +42,7 @@ export const attributeHelpTextSelector = 'attribute-help-text';
   standalone: false,
 })
 export class AttributeHelpTextComponent implements OnInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected attributeHelpTexts = inject(AttributeHelpTextsService);
   protected attributeHelpTextModalService = inject(AttributeHelpTextModalService);
   protected cdRef = inject(ChangeDetectorRef);

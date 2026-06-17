@@ -210,6 +210,35 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     end
   end
 
+  describe "DELETE /api/v3/wiki_page_links/:wiki_page_link_id" do
+    let(:page_link) { create(:relation_wiki_page_link, linkable: work_package, provider: internal_wiki) }
+    let(:path) { api_v3_paths.wiki_page_link(page_link.id) }
+
+    before { delete path }
+
+    it "deletes the relation page link" do
+      expect(last_response).to have_http_status(204)
+
+      expect(Wikis::PageLink).not_to exist(page_link.id)
+    end
+
+    context "when called over an inline page links" do
+      let(:page_link) { create(:inline_wiki_page_link, linkable: work_package, provider: internal_wiki) }
+
+      it "returns a 404" do
+        expect(last_response).to have_http_status(404)
+      end
+    end
+
+    context "when the user lacks manage wiki page links permissions" do
+      let(:user) { create(:user, member_with_permissions: { project => %i(view_work_packages) }) }
+
+      it "checks if the user has manage page links permissions" do
+        expect(last_response).to have_http_status(403)
+      end
+    end
+  end
+
   private
 
   def stub_provider_queries

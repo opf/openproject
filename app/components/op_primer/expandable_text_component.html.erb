@@ -1,15 +1,18 @@
 <%= render(Primer::BaseComponent.new(**@system_arguments)) do %>
-  <%= render Primer::Beta::Truncate.new(
-        data: { truncation_target: "truncate" },
-        flex: 1
-      ) do %>
+  <%= render(@truncate_component) do %>
     <%= content %>
   <% end %>
 
-  <%= render Primer::Alpha::HiddenTextExpander.new(
-        hidden: true,
-        mt: 1,
-        aria: { label: t(:"js.label_expand_text") },
-        data: { truncation_target: "expander" }
-      ) %>
+  <%= render Primer::Alpha::HiddenTextExpander.new(**@expander_arguments) %>
+<% end %>
+
+<% if @expansion.dialog? %>
+  <% unless dialog? %>
+    <% with_dialog(title: I18n.t("js.label_expand_text"), visually_hide_title: true) do |dialog| %>
+      <% dialog.with_header %>
+      <% dialog.with_body_content(content) %>
+    <% end %>
+  <% end %>
+
+  <%= dialog %>
 <% end %>

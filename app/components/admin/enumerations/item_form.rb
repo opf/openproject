@@ -61,7 +61,8 @@ module Admin
           form.check_box(
             name: :is_default,
             label: I18n.t(:label_default),
-            caption: I18n.t(:"priorities.admin.default.caption"),
+            caption: I18n.t(:enumeration_default_value_caption,
+                            model: object.class.model_name.human.downcase),
             data: { action: "admin--enumerations#lockstepActive",
                     "admin--enumerations-target": "default" }
           )

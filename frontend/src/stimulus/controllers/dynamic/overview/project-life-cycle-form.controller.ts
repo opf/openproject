@@ -28,7 +28,7 @@
  * ++
  */
 
-import { TimezoneService } from 'core-app/core/datetime/timezone.service';
+import type { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import { DeviceService } from 'core-app/core/browser/device.service';
 import FormPreviewController from '../../form-preview.controller';
 import {
@@ -36,9 +36,13 @@ import {
   DebouncedFunc,
 } from 'lodash';
 import { type TurboBeforeMorphAttributeEvent } from '@hotwired/turbo';
+import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class ProjectLifeCycleFormController extends FormPreviewController {
-  private timezoneService:TimezoneService;
+  static services:ServiceKey[] = ['timezone'];
+
+  declare timezone:TimezoneService;
+
   private deviceService:DeviceService;
   private handleFlatpickrDatesChangedBound = this.handleFlatpickrDatesChanged.bind(this);
   private updateFlatpickrCalendarBound = this.updateFlatpickrCalendar.bind(this);
@@ -53,7 +57,12 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
 
   private readonly CURRENT_FIELD_CLASS_NAME = 'op-datepicker-modal--date-field_current';
 
-  async connect() {
+  initialize() {
+    super.initialize();
+    useAngularServices(this);
+  }
+
+  connect() {
     super.connect();
 
     this.previewForm = debounce(() => {
@@ -62,10 +71,12 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
       }
     }, 300);
 
-    const context = await window.OpenProject.getPluginContext();
-    this.timezoneService = context.services.timezone;
     this.deviceService = new DeviceService();
+  }
 
+  // The flatpickr listener reads the timezone service synchronously, so it may
+  // only start listening once the service is bound.
+  servicesConnected() {
     document.addEventListener('date-picker:flatpickr-dates-changed', this.handleFlatpickrDatesChangedBound);
     document.addEventListener('turbo:before-stream-render', this.updateFlatpickrCalendarBound);
     document.addEventListener('turbo:before-morph-attribute', this.preventValueMorphingActiveElementBound);
@@ -195,7 +206,7 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
 
   private dateToIso(date:Date|null):string {
     if (date) {
-      return this.timezoneService.utcDateToISODateString(date);
+      return this.timezone.utcDateToISODateString(date);
     }
     return '';
   }

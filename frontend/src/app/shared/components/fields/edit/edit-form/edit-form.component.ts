@@ -59,7 +59,7 @@ import * as Turbo from '@hotwired/turbo';
 })
 export class EditFormComponent extends EditForm<HalResource> implements OnInit, OnDestroy {
   readonly injector:Injector;
-  protected readonly elementRef = inject(ElementRef);
+  protected readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private appRef = inject(ApplicationRef);
   private readonly cdRef = inject(ChangeDetectorRef);
   protected readonly $transitions = inject(TransitionService);
@@ -235,7 +235,7 @@ export class EditFormComponent extends EditForm<HalResource> implements OnInit, 
     this.cdRef.detectChanges();
     // Focus the first field that is erroneous
     this.elementRef.nativeElement
-      .querySelector(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
+      .querySelector<HTMLElement>(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
       ?.focus();
   }
 

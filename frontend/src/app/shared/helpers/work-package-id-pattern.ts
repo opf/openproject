@@ -8,6 +8,23 @@
 export const WP_ID_URL_PATTERN = '\\d+|[A-Za-z][A-Za-z0-9_]*-\\d+';
 
 /**
+ * Detect whether a work package identifier is a semantic one (e.g. `PROJ-42`)
+ * rather than a plain numeric id (e.g. `42`).
+ *
+ * Semantic identifiers are self-describing because they contain letters; numeric
+ * ids do not. This is the canonical, mode-agnostic way for the frontend to tell
+ * the two apart — there is no semantic-mode flag exposed to the client.
+ *
+ * @example
+ * isSemanticWorkPackageId('PROJ-42') // => true
+ * isSemanticWorkPackageId('42')      // => false
+ * isSemanticWorkPackageId('')        // => false
+ */
+export function isSemanticWorkPackageId(id:string):boolean {
+  return /[A-Za-z]/.test(id);
+}
+
+/**
  * Format a work package identifier for inline UI display.
  *
  * OpenProject supports two identifier modes:
@@ -23,5 +40,5 @@ export const WP_ID_URL_PATTERN = '\\d+|[A-Za-z][A-Za-z0-9_]*-\\d+';
  */
 export function formatWorkPackageId(id:string):string {
   if (!id) return '';
-  return /[A-Za-z]/.test(id) ? id : `#${id}`;
+  return isSemanticWorkPackageId(id) ? id : `#${id}`;
 }

@@ -57,22 +57,9 @@ RSpec.describe Queries::Factory,
   end
   let(:custom_field) do
     build_stubbed(:project_custom_field, id: 1) do |cf|
-      scope = instance_double(ActiveRecord::Relation)
-
       allow(ProjectCustomField)
         .to receive(:visible)
-              .and_return(scope)
-
-      allow(scope)
-        .to receive(:includes)
-              .with(:calculated_value_errors)
-              .and_return(scope)
-
-      allow(scope)
-        .to receive(:where) do |conditions|
-          cf_id = conditions[:id]&.first
-          cf_id == cf.id ? [cf] : []
-        end
+              .and_return([cf])
     end
   end
 

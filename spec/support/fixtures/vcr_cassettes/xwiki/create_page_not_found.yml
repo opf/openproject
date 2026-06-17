@@ -1,0 +1,52 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents/abc123
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - text/html;charset=utf-8
+      Date:
+      - Thu, 11 Jun 2026 14:40:01 GMT
+      Set-Cookie:
+      - JSESSIONID=D9B95B99F5C18BBBF0957992EE0CBD09; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - 1FHSxxmCi5SpcFuCzBbysA
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '714'
+    body:
+      encoding: UTF-8
+      string: <!doctype html><html lang="en"><head><title>HTTP Status 404 – Not Found</title><style
+        type="text/css">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b
+        {color:white;background-color:#525D76;} h1 {font-size:22px;} h2 {font-size:16px;}
+        h3 {font-size:14px;} p {font-size:12px;} a {color:black;} .line {height:1px;background-color:#525D76;border:none;}</style></head><body><h1>HTTP
+        Status 404 – Not Found</h1><hr class="line" /><p><b>Type</b> Status Report</p><p><b>Message</b>
+        Not Found</p><p><b>Description</b> The origin server did not find a current
+        representation for the target resource or is not willing to disclose that
+        one exists.</p><hr class="line" /><h3>Apache Tomcat/10.1.55</h3></body></html>
+  recorded_at: Thu, 11 Jun 2026 14:40:01 GMT
+recorded_with: VCR 6.4.0

@@ -75,7 +75,7 @@ zh-CN:
         end_date: 结束日期
         iterations: 事件
         time_zone: 时区
-        location: 地点
+        location: 位置
         duration: 持续时间
         notify: 发送通知
       recurring_meeting_interim_response:

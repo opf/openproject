@@ -64,7 +64,7 @@ const RESIZE_EVENT = 'main-menu-resize';
 export class MainMenuResizerComponent extends UntilDestroyedMixin {
   readonly toggleService = inject(MainMenuToggleService);
   readonly I18n = inject(I18nService);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   private readonly elementWidth = signal<number>(0);
   private readonly mainMenu = document.querySelector('#main-menu')!;

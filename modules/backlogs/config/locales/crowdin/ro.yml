@@ -42,7 +42,7 @@ ro:
           completed: Finalizat
         work_packages: Pachete de lucru
       work_package:
-        backlog_bucket: Backlog Bucket
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Tip restanță
         position: Poziție
         sprint: Sprint

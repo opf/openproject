@@ -32,6 +32,7 @@ zh-CN:
         label_activity_show_all: 显示所有
         label_activity_show_only_comments: 仅显示评论
         label_activity_show_only_changes: 仅显示更改
+        label_dismiss_comment: Dismiss
         label_sort_asc: 时间升序
         label_sort_desc: 时间降序
         label_type_to_comment: 添加评论。输入 @ 以通知他人。
@@ -44,7 +45,7 @@ zh-CN:
         commented: 已评论
         internal_comment: 内部评论
         internal_journal: 内部评论仅对有限的成员组可见。
-        unsaved_changes_confirmation_message: 您有未保存的更改。您确定要关闭编辑器吗？
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: 公开此评论吗？
           heading: 公开此评论吗？
@@ -52,25 +53,26 @@ zh-CN:
           confirm_button_text: 设为公开
   admin:
     reserved_identifiers:
-      title: 保留的项目标识符
-      lede_html: 重命名项目标识符时，会保留之前的标识符，以确保现有链接和集成可正常使用。<br>可以在此处释放已保留的标识符，以供其他项目使用。
+      btn_release: Unreserve
       col_identifier: 标识符
       col_project: 项目
       col_reserved: 保留
-      not_available_in_semantic_mode: 保留的项目标识符只能在数字标识符模式下使用。
-      filter_label: 搜索标识符
-      btn_release: 释放
-      released_notice: 标识符“%{identifier}”已发布。
-      identifier_not_found: 找不到保留的标识符。该标识符可能已发布，或者项目可能已被删除。请刷新页面。
       dialog:
-        title: 释放标识符
-        heading: 是否释放“%{identifier}”？
-        description: 此标识符释放后无法撤消。使用此标识符的外部链接和集成将停止解析，该名称可供任何新项目认领。
         checkbox_label: 我明白此操作无法撤消。
-        confirm_button: 释放标识符
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: 没有保留的标识符
+      filter_label: 搜索标识符
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time}前"
-      empty_body: 项目的标识符变更时，上一个标识符会出现在此处，以便您在确认安全后将其释放。
+      title: 保留的项目标识符
     plugins:
       no_results_title_text: 目前没有安装插件。
       no_results_content_text: 更多信息，请参阅我们的集成和插件页面。
@@ -128,7 +130,7 @@ zh-CN:
         trial: 试用
     jemalloc_allocator: 使用 jemalloc 内存分配器
     journal_aggregation:
-      caption: '如果用户对工作包执行的操作（更改描述、状态、数值或编写评论）是在此时间段内完成的，则会将这些操作分为一组。此设置还控制通知和[网络钩子](webhook_link)延迟。
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1303,9 +1305,6 @@ zh-CN:
       priority_color_text: |
         点击以指定或更改此优先级的颜色。
         颜色可用于高亮显示表中的工作包。
-    admin:
-      default:
-        caption: 将此优先级设为默认优先级会覆盖之前的默认优先级。
   reactions:
     action_title: 回应
     add_reaction: 添加回应
@@ -2360,11 +2359,12 @@ zh-CN:
         setting:
           attributes:
             base:
-              working_days_are_missing: 每周必须至少有一天定义为工作日。
-              previous_working_day_changes_unprocessed: 先前对工作日配置的更改尚未应用。
-              hours_per_day_are_missing: 必须定义每天的小时数
               durations_are_not_positive_numbers: 持续时间必须是正数
+              hours_per_day_are_missing: 必须定义每天的小时数
               hours_per_day_is_out_of_bounds: 每天小时数不能超过24
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: 先前对工作日配置的更改尚未应用。
+              working_days_are_missing: 每周必须至少有一天定义为工作日。
         status:
           attributes:
             default_done_ratio:
@@ -3191,10 +3191,11 @@ zh-CN:
       disabled: 启用
       enabled: 禁用
   enumeration_activities: 时间跟踪活动
-  enumeration_work_package_priorities: 工作包优先级
-  enumeration_reported_project_statuses: 报告的状态
   enumeration_caption_order_changed: 顺序修改成功。
   enumeration_could_not_be_moved: 无法移动枚举。
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: 报告的状态
+  enumeration_work_package_priorities: 工作包优先级
   enterprise_trials:
     dialog_component:
       title: 企业版试用
@@ -3667,8 +3668,8 @@ zh-CN:
         submit_button: 更新提醒
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: 参与
-        description: 您（作为受理人、负责人或关注者）参与的工作包中所有活动的通知。
         submit_button: 更新偏好设置
         mentioned: 被提及
         watched: 关注中
@@ -3676,8 +3677,8 @@ zh-CN:
         responsible: 负责人
         shared: 与我共享
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: 日期提醒
-        description: 当您（作为受理人、负责人或关注者）参与的已打开工作包的重要日期临近时，会自动发出通知。
         submit_button: 更新日期提醒
         start_date: 开始日期
         due_date: 完成日期
@@ -3691,8 +3692,8 @@ zh-CN:
           three_days_after: 推后 3 天
           seven_days_after: 推后 7 天
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: 不参与
-        description: 所有项目中活动的其他通知。
         submit_button: 更新偏好设置
         work_package_created: 新工作包
         work_package_commented: 所有新评论
@@ -3700,8 +3701,8 @@ zh-CN:
         work_package_prioritized: 所有优先级更改
         work_package_scheduled: 所有日期更改
       project_specific_settings:
-        title: 项目特定通知设置
-        description: 这些项目特定的设置会覆盖上方的默认设置。
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: 添加项目特定通知
         dialog_title: 添加项目特定通知
         list_header: 具有特定通知的项目
@@ -3835,6 +3836,7 @@ zh-CN:
   label_send_invitation: 发送邀请
   label_calculated_value: 计算值
   label_change_parent: 更改父级
+  label_change_password: Change password
   label_change_plural: 更改
   label_change_properties: 更改属性
   label_change_status: 更改状态
@@ -4121,6 +4123,7 @@ zh-CN:
   label_my_account_data: 我的账户数据
   label_my_avatar: 我的头像
   label_my_queries: 我的自定义查询
+  label_my_security: Security
   label_name: 名称
   label_never: 永不
   label_new: 新增

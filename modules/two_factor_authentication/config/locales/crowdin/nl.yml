@@ -160,7 +160,7 @@ nl:
         '
       other_active_session_notice: Je account heeft een actieve cookie onthouden tijdens een andere sessie.
       label: Onthoud
-      clear_cookie: Klik hier om alle onthouden 2FA-sessies te verwijderen.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Alle onthouden 2FA sessies zijn verwijderd.
       dont_ask_again: Maak een cookie aan om de 2FA-authenticatie op deze client te onthouden gedurende %{days} dagen.
   field_otp: Eenmalig wachtwoord
@@ -171,6 +171,7 @@ nl:
   notice_account_has_no_phone: Er is geen mobiel nummer gekoppeld aan uw account.
   label_confirmed: Bevestigd
   button_continue: Verdergaan
+  button_make_active: Activate
   button_make_default: Markeren als standaard
   notice_phone_number_format: 'Voer het nummer alstublieft in de volgende indeling in: + XX XXXXXXXX.'
   text_otp_not_receive: Andere verificatiemethoden

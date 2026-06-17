@@ -165,5 +165,5 @@ _CAVEAT: npm dependencies for hybrid plugins are not yet resolved._
   using the Bundler DSL.
 * then run `bundle install`.
 
-Provided Ruby Bundler is aware of these plugins, Webpack (our node-based build pipeline)
-will bundle their assets.
+Provided Ruby Bundler is aware of these plugins, the frontend build pipeline
+(Angular CLI with esbuild) will bundle their assets.

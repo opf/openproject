@@ -58,7 +58,7 @@ export class WpButtonMacroModalComponent extends OpModalComponent implements Aft
 
   public classes = '';
 
-  @ViewChild('typeSelect', { static: true }) typeSelect:ElementRef;
+  @ViewChild('typeSelect', { static: true }) typeSelect:ElementRef<HTMLSelectElement>;
 
   public text:any = {
     title: this.I18n.t('js.editor.macro.work_package_button.button'),

@@ -52,7 +52,7 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
   standalone: false,
 })
 export class WorkPackageQuickinfoMacroComponent implements OnInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly injector = inject(Injector);
   readonly apiV3Service = inject(ApiV3Service);
   readonly schemaCache = inject(SchemaCacheService);
@@ -81,7 +81,7 @@ export class WorkPackageQuickinfoMacroComponent implements OnInit {
   detailed = false;
 
   ngOnInit() {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     // Prefer `data-display-id`; fall back to `data-id` for legacy
     // stored markdown emitted before the attribute split.
     const id:string = element.dataset.displayId ?? element.dataset.id!;

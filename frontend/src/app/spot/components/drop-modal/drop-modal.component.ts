@@ -14,7 +14,7 @@ import { autoUpdate, computePosition, flip, limitShift, Placement, shift } from 
 })
 export class SpotDropModalComponent implements OnDestroy {
   readonly i18n = inject(I18nService);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly cdRef = inject(ChangeDetectorRef);
   private teleportationService = inject(SpotDropModalTeleportationService);
 
@@ -86,11 +86,11 @@ export class SpotDropModalComponent implements OnDestroy {
 
   private cleanupFloatingUI:() => void|undefined;
 
-  @ViewChild('anchor') anchor:ElementRef;
+  @ViewChild('anchor') anchor:ElementRef<HTMLElement>;
 
   @ViewChild('body') body:TemplateRef<unknown>;
 
-  @ViewChild('focusGrabber') focusGrabber:ElementRef;
+  @ViewChild('focusGrabber') focusGrabber:ElementRef<HTMLElement>;
 
   open() {
     this._opened = true;
@@ -104,8 +104,8 @@ export class SpotDropModalComponent implements OnDestroy {
       )
       .subscribe(() => {
         this.cdRef.detectChanges();
-        const referenceEl = this.elementRef.nativeElement as HTMLElement;
-        const floatingEl = this.anchor.nativeElement as HTMLElement;
+        const referenceEl = this.elementRef.nativeElement;
+        const floatingEl = this.anchor.nativeElement;
         this.cleanupFloatingUI = autoUpdate(
           referenceEl,
           floatingEl,
@@ -180,7 +180,7 @@ export class SpotDropModalComponent implements OnDestroy {
 
     this.teleportationService.clear();
     this.cdRef.detectChanges();
-    (this.focusGrabber.nativeElement as HTMLElement).focus();
+    this.focusGrabber.nativeElement.focus();
   }
 
   private onGlobalClick = this.close.bind(this);

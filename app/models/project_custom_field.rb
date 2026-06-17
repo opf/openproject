@@ -126,8 +126,8 @@ class ProjectCustomField < CustomField
     end
   end
 
-  def visible?(usr = User.current, project: nil)
-    self.class.visible(usr, project:).exists?(id: id)
+  def visible?(user = User.current, project: nil)
+    user.admin? || (!admin_only && user.allowed_in_project?(:view_project_attributes, project))
   end
 
   def type_name

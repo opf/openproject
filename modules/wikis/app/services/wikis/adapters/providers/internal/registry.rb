@@ -38,15 +38,7 @@ module Wikis
           end
 
           namespace("commands") do
-            # ...
-          end
-
-          namespace("components") do
-            # ...
-          end
-
-          namespace("contracts") do
-            # ...
+            register(:create_page, Commands::CreatePage)
           end
 
           namespace("queries") do

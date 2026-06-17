@@ -56,7 +56,7 @@ function containsFiles(dataTransfer:DataTransfer):boolean {
   standalone: false,
 })
 export class OpAttachmentsComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
-  elementRef = inject(ElementRef);
+  elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected readonly I18n = inject(I18nService);
   protected readonly states = inject(States);
   protected readonly toastService = inject(ToastService);

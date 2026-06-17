@@ -31,8 +31,11 @@
 import {Controller} from '@hotwired/stimulus';
 import * as Turbo from '@hotwired/turbo';
 import {HttpErrorResponse} from '@angular/common/http';
+import {useAngularServices, type PickedServices, type ServiceKey} from 'core-stimulus/mixins/use-angular-services';
 
 export default class extends Controller {
+    static services:ServiceKey[] = ['notifications'];
+
     static targets = ['finished', 'poll'];
     static values = {
         url: String
@@ -40,14 +43,20 @@ export default class extends Controller {
 
     private pollingInterval = 3000;
 
+    declare services:Promise<PickedServices<'notifications'>>;
+
     declare urlValue:string;
 
     interval?:ReturnType<typeof setInterval>;
 
+    initialize() {
+        useAngularServices(this);
+    }
+
     pollTargetConnected() {
         this.interval ??= setInterval(() => {
             this.reload()
-                .catch((error) => this.handleError(error as HttpErrorResponse));
+                .catch((error) => { void this.handleError(error as HttpErrorResponse); });
         }, this.pollingInterval);
     }
 
@@ -76,9 +85,8 @@ export default class extends Controller {
         }
     }
 
-    private handleError(error:HttpErrorResponse) {
-        void window.OpenProject.getPluginContext().then((pluginContext) => {
-            pluginContext.services.notifications.addError(error);
-        });
+    private async handleError(error:HttpErrorResponse) {
+        const {notifications} = await this.services;
+        notifications.addError(error);
     }
 }

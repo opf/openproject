@@ -46,10 +46,6 @@ module Queries::WorkPackages::Filter
       :sprint_id
     end
 
-    def human_name
-      WorkPackage.human_attribute_name(:sprint)
-    end
-
     def ar_object_filter?
       true
     end

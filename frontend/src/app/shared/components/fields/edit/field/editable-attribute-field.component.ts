@@ -57,7 +57,7 @@ import { SchemaResource } from 'core-app/features/hal/resources/schema-resource'
 export class EditableAttributeFieldComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   protected states = inject(States);
   protected injector = inject(Injector);
-  protected elementRef = inject(ElementRef);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected opContextMenu = inject(OPContextMenuService);
   protected halEditing = inject(HalResourceEditingService);
   protected schemaCache = inject(SchemaCacheService);
@@ -90,6 +90,11 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
   public destroyed = false;
 
   public setActive(active = true):void {
+    if (active && !this.active) {
+      this.preserveWrapperHeight();
+    } else if (!active) {
+      this.clearWrapperHeight();
+    }
     this.active = active;
     if (!this.componentDestroyed) {
       this.cdRef.detectChanges();
@@ -217,6 +222,28 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     this.deactivate();
   }
 
+  // When switching to edit mode, the display container collapses immediately
+  // (display:none) while the edit portal renders asynchronously. This shrinks
+  // the page height and the browser clamps scroll to the new maximum, causing
+  // the page to jump to the bottom (observed in Firefox). Preserve the wrapper
+  // height to prevent this.
+  // Note: min-height must be set on the block wrapper div, not the host element
+  // (op-editable-attribute-field is display:inline and ignores min-height).
+  private preserveWrapperHeight():void {
+    const wrapperEl = this.displayContainer.nativeElement.parentElement;
+    const height = this.displayContainer.nativeElement.offsetHeight;
+    if (wrapperEl && height > 0) {
+      wrapperEl.style.minHeight = `${height}px`;
+    }
+  }
+
+  private clearWrapperHeight():void {
+    const wrapperEl = this.displayContainer.nativeElement.parentElement;
+    if (wrapperEl) {
+      wrapperEl.style.minHeight = '';
+    }
+  }
+
   private get schema() {
     if (this.halEditing.typedState(this.resource).hasValue()) {
       const val = this.halEditing.typedState(this.resource).value as { schema:SchemaResource };
@@ -226,4 +253,3 @@ export class EditableAttributeFieldComponent extends UntilDestroyedMixin impleme
     return this.schemaCache.of(this.resource);
   }
 }
-

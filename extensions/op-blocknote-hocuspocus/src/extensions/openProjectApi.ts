@@ -41,7 +41,7 @@ export class OpenProjectApi implements Extension {
       throw new Error('Unauthorized: Missing auth params');
     }
 
-    const requestOrigin = data.request?.headers?.origin;
+    const requestOrigin = data.requestHeaders?.get("origin") ?? undefined;
     const result = await decryptAndValidateToken(token, resourceUrl, requestOrigin);
 
     const tokenExpiresAtDate = new Date(result.tokenExpiresAt);
@@ -103,7 +103,7 @@ export class OpenProjectApi implements Extension {
     * Store data to the API. The data is a YDoc update
     */
   async onStoreDocument(data: onStoreDocumentPayload): Promise<void> {
-    const { resourceUrl, readonly } = data.context;
+    const { resourceUrl, readonly } = data.lastContext;
 
     if (!resourceUrl) {
       console.warn("Missing parameters in context. Skipping store.");
@@ -124,7 +124,7 @@ export class OpenProjectApi implements Extension {
     const editorData = editor.yXmlFragmentToBlocks(tempFragment);
     const markdownData = await editor.blocksToMarkdownLossy(editorData);
 
-    const response = await fetchResource(resourceUrl, data.context.token, {
+    const response = await fetchResource(resourceUrl, data.lastContext.token, {
       method: "PATCH",
       body: JSON.stringify({
         content_binary: base64Data,
@@ -137,7 +137,7 @@ export class OpenProjectApi implements Extension {
       return;
     }
 
-    data.document.connections.forEach(({ connection }) => connection.sendStateless("storeEvent"));
+    data.document.broadcastStateless("storeEvent");
   }
 
   /**

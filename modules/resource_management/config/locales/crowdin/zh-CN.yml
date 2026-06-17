@@ -127,7 +127,7 @@ zh-CN:
       context_menu_label: Allocation actions
       delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
       delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
+      hidden_user: 隐藏用户
       overbooked: The user is allocated beyond their working hours during this period.
       title: Allocation
     work_package_list:

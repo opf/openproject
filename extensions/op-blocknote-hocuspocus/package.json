@@ -24,15 +24,17 @@
   },
   "dependencies": {
     "@blocknote/server-util": "^0.51.3",
-    "@hocuspocus/extension-logger": "^3.4.4",
-    "@hocuspocus/server": "^3.4.0",
-    "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.1.2/op-blocknote-extensions-0.1.2.tgz",
+    "@hocuspocus/extension-logger": "^4.2.0",
+    "@hocuspocus/server": "^4.2.0",
+    "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.1.4/op-blocknote-extensions-0.1.4.tgz",
     "tsx": "^4.21.0"
   },
   "devDependencies": {
     "@blocknote/core": "^0.51.3",
     "@eslint/js": "^9.35.0",
     "@eslint/json": "^1.2.0",
+    "@hocuspocus/provider": "^4.2.0",
+    "@hocuspocus/provider-prev-test-only": "npm:@hocuspocus/provider@^3",
     "@stylistic/eslint-plugin": "^5.3.1",
     "@types/node": "^25.0.2",
     "eslint": "^9.35.0",

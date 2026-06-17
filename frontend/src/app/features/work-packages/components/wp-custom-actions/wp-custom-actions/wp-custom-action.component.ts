@@ -79,6 +79,9 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
 
     void this.halResourceService
       .get<CustomActionResource>(this.action.href)
+      .pipe(
+        this.untilDestroyed(),
+      )
       .subscribe((action) => {
         this.action = action;
       });

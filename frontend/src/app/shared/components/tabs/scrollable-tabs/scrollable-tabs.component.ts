@@ -21,13 +21,13 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
   private cdRef = inject(ChangeDetectorRef);
   injector = inject(Injector);
 
-  @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef;
+  @ViewChild('scrollContainer', { static: true }) scrollContainer:ElementRef<HTMLElement>;
 
-  @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef;
+  @ViewChild('scrollPane', { static: true }) scrollPane:ElementRef<HTMLUListElement>;
 
-  @ViewChild('scrollRightBtn', { static: true }) scrollRightBtn:ElementRef;
+  @ViewChild('scrollRightBtn', { static: true }) scrollRightBtn:ElementRef<HTMLButtonElement>;
 
-  @ViewChild('scrollLeftBtn', { static: true }) scrollLeftBtn:ElementRef;
+  @ViewChild('scrollLeftBtn', { static: true }) scrollLeftBtn:ElementRef<HTMLButtonElement>;
 
   @Input() public currentTabId:string|null = null;
 
@@ -56,8 +56,8 @@ export class ScrollableTabsComponent extends UntilDestroyedMixin implements Afte
   private dragTargetStack = 0;
 
   ngAfterViewInit():void {
-    this.container = this.scrollContainer.nativeElement as HTMLElement;
-    this.pane = this.scrollPane.nativeElement as HTMLElement;
+    this.container = this.scrollContainer.nativeElement;
+    this.pane = this.scrollPane.nativeElement;
 
     this.resizeObserver = new ResizeObserver(() => this.updateScrollableArea());
     this.resizeObserver.observe(this.container);

@@ -30,7 +30,7 @@ export interface DraggableOption {
 })
 export class DraggableAutocompleteComponent extends UntilDestroyedMixin implements OnInit, AfterViewInit, OnDestroy {
   readonly I18n = inject(I18nService);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly dragula = inject(DragulaService);
   readonly alternativeSearchService = inject(AlternativeSearchService);
 
@@ -88,7 +88,7 @@ export class DraggableAutocompleteComponent extends UntilDestroyedMixin implemen
   private columnsGroup:Group;
 
   @ViewChild('ngSelectComponent') public ngSelectComponent:NgSelectComponent;
-  @ViewChild('input') inputElement:ElementRef;
+  @ViewChild('input') inputElement:ElementRef<HTMLInputElement>;
 
   public appendTo = 'body';
 

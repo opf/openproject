@@ -42,6 +42,16 @@ zh-CN:
       wikis: Wiki
   permission_manage_wiki_page_links: 管理 Wiki 页面链接
   project_module_wiki_platforms: Wiki 提供商
+  services:
+    attributes:
+      wikis/create_linked_page_service:
+        wiki_page: Wiki page
+    errors:
+      models:
+        wikis/create_linked_page_service:
+          forbidden: was not allowed to be created.
+          not_found: was not found.
+          token_missing: Page creation not possible, user account is not connected to the wiki provider.
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -126,8 +136,6 @@ zh-CN:
       save_and_continue: 保存并继续
       wiki_page: Wiki 页面
     create_new_wiki_page_dialog:
-      page_title: 标题
-      parent_help_text: 选择此新wiki页面的父页面。
       title: 创建新Wiki页面
     delete_relation_page_link_confirmation_dialog:
       heading: 是否删除相关 wiki 页面链接？
@@ -146,22 +154,28 @@ zh-CN:
         xwiki_oauth_request_error: 尝试与 XWiki 实例通信时发生意外错误。
         xwiki_oauth_token_missing: OpenProject 无法测试用户与 XWiki 的用户级通信，因为用户尚未关联他们的 XWiki 帐户。
         xwiki_oauth_unauthorized: XWiki 未识别用户令牌。
+    inline_existing_wiki_page_dialog:
+      title: Add existing wiki page
     instructions:
       xwiki:
         integration: XWiki 管理
         oauth_application_details_html: 关闭此窗口后，将无法再次访问客户端密钥值。请将这些值复制到 [XWiki OpenProject 集成设置](xwiki_admin_link)中。
     link_existing_wiki_page_dialog:
       title: 添加现有 wiki 页面
-    link_existing_wiki_page_form:
-      label: Wiki page
-      no_results: 未找到wiki页面
-      placeholder: 搜索wiki页面
     oauth_login_component:
       connect_button: 连接 %{provider} 账户
       description: 登录 %{provider} ，查看和管理此 OpenProject 实例的相关Wiki页面。
       heading: 未连接至 %{provider}
     page_link_component:
       remove: 删除页面链接
+    page_link_forms:
+      labels:
+        page_tile: Title
+        parent: Parent wiki page
+        wiki_page: Wiki page
+      search:
+        no_results: No wiki pages found
+        placeholder: Search for a wiki page (or enter its URL)
     page_links:
       errors:
         page_access_forbidden: 您无权访问此 wiki 页面
@@ -175,6 +189,10 @@ zh-CN:
       empty_text: 手动添加链接到其他相关Wiki页面。
       link_existing: 现有 wiki 页面
       link_new: 新 wiki 页面
+    upsell:
+      xwiki:
+        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
+        title: XWiki Integration
     work_package_wikis_tab_component:
       inline_page_links: 内联页面链接
       referencing_pages: 引用于

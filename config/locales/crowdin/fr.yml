@@ -32,6 +32,7 @@ fr:
         label_activity_show_all: Tout afficher
         label_activity_show_only_comments: Afficher uniquement les commentaires
         label_activity_show_only_changes: Afficher uniquement les modifications
+        label_dismiss_comment: Dismiss
         label_sort_asc: Les plus récents en bas
         label_sort_desc: Les plus récents en haut
         label_type_to_comment: Ajoutez un commentaire. Saisissez @ pour informer les gens.
@@ -44,7 +45,7 @@ fr:
         commented: commenté
         internal_comment: Commentaire interne
         internal_journal: Les commentaires internes sont visibles pour un groupe limité de membres.
-        unsaved_changes_confirmation_message: Vous avez des modifications non enregistrées. Voulez-vous vraiment fermer l'éditeur ?
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: Rendre ce commentaire public ?
           heading: Rendre ce commentaire public ?
@@ -52,25 +53,27 @@ fr:
           confirm_button_text: Passer en public
   admin:
     reserved_identifiers:
-      title: Identifiants de projet réservés
-      lede_html: Lorsque l'identifiant d'un projet est renommé, l'ancien identifiant reste réservé afin que les liens et intégrations existants continuent de fonctionner.<br>Vous pouvez ici libérer les identifiants réservés afin qu'ils puissent être utilisés par d'autres projets.
+      btn_release: Unreserve
       col_identifier: Identifiant
       col_project: Projet
       col_reserved: Réservé
-      not_available_in_semantic_mode: Les identifiants de projet réservés ne sont disponibles qu'en mode d'identifiant numérique.
-      filter_label: Rechercher des identifiants
-      btn_release: Release
-      released_notice: L'identifiant "%{identifier}" a été publié.
-      identifier_not_found: L'identifiant réservé est introuvable. Il a peut-être déjà été libéré ou le projet a peut-être été supprimé. Veuillez actualiser la page.
       dialog:
-        title: Identifiant de publication
-        heading: Publier «%{identifier} » ?
-        description: La publication de cet identifiant ne peut pas être annulée. Les liens externes et les intégrations qui les utilisent cesseront de fonctionner, et le nom devient disponible pour tout nouveau projet à réclamer.
         checkbox_label: Je comprends que cette action ne peut pas être annulée.
-        confirm_button: Identifiant de publication
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: Aucun identifiant réservé
+      filter_label: Rechercher des identifiants
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: il y a %{time}
-      empty_body: Lorsque l'identifiant d'un projet change, l'identifiant précédent apparaît ici afin que vous puissiez le libérer en toute sécurité.
+      title: Identifiants de projet réservés
     plugins:
       no_results_title_text: Aucun plugin n'est actuellement installé.
       no_results_content_text: Consultez notre page sur les intégrations et les plugins pour plus d'informations.
@@ -128,7 +131,7 @@ fr:
         trial: Essai
     jemalloc_allocator: Allocateur de mémoire Jemalloc
     journal_aggregation:
-      caption: 'Les actions de l''utilisateur sur un lot de travaux (modification de la description, du statut, des valeurs ou rédaction de commentaires) sont regroupées si elles sont effectuées au cours de cette période. Il contrôle également les délais de notification et de [webhook](webhook_link).
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1317,9 +1320,6 @@ fr:
       priority_color_text: |
         Cliquez pour attribuer ou modifier la couleur de cette priorité.
         Elle peut être utilisée pour mettre en évidence les lots de travaux dans le tableau.
-    admin:
-      default:
-        caption: Le fait de définir cette priorité par défaut remplacera la priorité par défaut précédente.
   reactions:
     action_title: Réagir
     add_reaction: Ajouter une réaction
@@ -2375,11 +2375,12 @@ fr:
         setting:
           attributes:
             base:
-              working_days_are_missing: Au moins un jour de la semaine doit être défini comme jour de travail.
-              previous_working_day_changes_unprocessed: Les modifications précédentes de la configuration des jours ouvrables n'ont pas encore été appliquées.
-              hours_per_day_are_missing: Le nombre d'heures par jour doit être défini.
               durations_are_not_positive_numbers: Les durées doivent être des nombres positifs.
+              hours_per_day_are_missing: Le nombre d'heures par jour doit être défini.
               hours_per_day_is_out_of_bounds: Le nombre d'heures par jour ne peut être supérieur à 24.
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: Les modifications précédentes de la configuration des jours ouvrables n'ont pas encore été appliquées.
+              working_days_are_missing: Au moins un jour de la semaine doit être défini comme jour de travail.
         status:
           attributes:
             default_done_ratio:
@@ -3246,10 +3247,11 @@ fr:
       disabled: Activer
       enabled: Désactiver
   enumeration_activities: Activités de suivi du temps
-  enumeration_work_package_priorities: Priorités du lot de travaux
-  enumeration_reported_project_statuses: Statut signalé
   enumeration_caption_order_changed: La commande a été modifiée avec succès.
   enumeration_could_not_be_moved: L'énumération n'a pas pu être déplacée.
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: Statut signalé
+  enumeration_work_package_priorities: Priorités du lot de travaux
   enterprise_trials:
     dialog_component:
       title: Essai Enterprise
@@ -3724,8 +3726,8 @@ fr:
         submit_button: Mettre à jour les alertes
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: Participant
-        description: Notifications pour toute activité sur les lots de travaux vous concernant (personne assignée, responsable ou observateur).
         submit_button: Mettre à jour les préférences
         mentioned: Mentionné
         watched: En cours
@@ -3733,8 +3735,8 @@ fr:
         responsible: Responsable
         shared: Partagé avec moi
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Alertes de date
-        description: Notifications automatiques lorsque des dates importantes approchent pour les lots de travaux ouverts vous concernant (personne assignée, responsable ou observateur).
         submit_button: Mettre à jour les alertes de date
         start_date: Date de début
         due_date: Date de fin
@@ -3748,8 +3750,8 @@ fr:
           three_days_after: 3 jours après
           seven_days_after: 7 jours après
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: Non participant
-        description: Notifications additionnelles pour les activités de tous les projets.
         submit_button: Mettre à jour les préférences
         work_package_created: Nouveaux lots de travaux
         work_package_commented: Tous les nouveaux commentaires
@@ -3757,8 +3759,8 @@ fr:
         work_package_prioritized: Tous les changements de priorité
         work_package_scheduled: Tous les changements de date
       project_specific_settings:
-        title: Paramètres de notification spécifiques au projet
-        description: Ces paramètres spécifiques au projet remplacent les paramètres par défaut ci-dessus.
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: Ajouter des notifications spécifiques au projet
         dialog_title: Ajouter des notifications spécifiques au projet
         list_header: Projets avec notifications spécifiques
@@ -3892,6 +3894,7 @@ fr:
   label_send_invitation: Envoyer une invitation
   label_calculated_value: Valeur calculée
   label_change_parent: Changer le parent
+  label_change_password: Change password
   label_change_plural: Changements
   label_change_properties: Modifier les propriétés
   label_change_status: Changer le statut
@@ -4178,6 +4181,7 @@ fr:
   label_my_account_data: Info sur mon compte
   label_my_avatar: Mon avatar
   label_my_queries: Mes requêtes personnalisées
+  label_my_security: Security
   label_name: Nom
   label_never: Jamais
   label_new: Nouveau

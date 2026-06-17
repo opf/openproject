@@ -75,6 +75,39 @@ RSpec.describe WorkPackage::SemanticIdentifier do
     end
   end
 
+  describe ".for_slug_prefix" do
+    it "matches work packages whose identifier is of the form <slug>-<digits>" do
+      expect(WorkPackage.for_slug_prefix("MYPROJ")).to include(work_package)
+    end
+
+    it "does not over-match when another slug starts with the given slug plus a dash" do
+      work_package.update_columns(identifier: "my-project-42")
+      expect(WorkPackage.for_slug_prefix("my")).not_to include(work_package)
+    end
+
+    it "matches case-sensitively" do
+      expect(WorkPackage.for_slug_prefix("myproj")).not_to include(work_package)
+    end
+  end
+
+  describe ".resolving_via_slug_prefix" do
+    # The auto-registered work_package carries the prefix both in its
+    # identifier column and as an alias row.
+    it "returns work packages matched via column and alias exactly once" do
+      expect(WorkPackage.resolving_via_slug_prefix("MYPROJ")).to contain_exactly(work_package)
+    end
+
+    it "includes work packages matched only via an alias row" do
+      work_package.update_columns(identifier: nil, sequence_number: nil)
+      expect(WorkPackage.resolving_via_slug_prefix("MYPROJ")).to contain_exactly(work_package)
+    end
+
+    it "includes work packages matched only via the identifier column" do
+      work_package.semantic_aliases.delete_all
+      expect(WorkPackage.resolving_via_slug_prefix("MYPROJ")).to contain_exactly(work_package)
+    end
+  end
+
   describe "after_create registration", with_settings: { work_packages_identifier: "semantic" } do
     it "assigns a sequence number" do
       expect(work_package.reload.sequence_number).to eq(1)

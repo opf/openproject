@@ -48,7 +48,7 @@ import SelectAutosizeController from 'core-stimulus/controllers/select-autosize.
 import OpZenModeController from 'core-stimulus/controllers/zen-mode.controller';
 import CheckAllController from 'core-stimulus/controllers/check-all.controller';
 import CheckableController from 'core-stimulus/controllers/checkable.controller';
-import TruncationController from 'core-stimulus/controllers/truncation.controller';
+import ExpandableTextController from 'core-stimulus/controllers/expandable-text.controller';
 
 declare global {
   interface Window {
@@ -102,7 +102,7 @@ OpenProjectStimulusApplication.preregister('password-force-change', OpPasswordFo
 OpenProjectStimulusApplication.preregister('check-all', CheckAllController);
 OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjectSelectController);
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);
-OpenProjectStimulusApplication.preregister('truncation', TruncationController);
+OpenProjectStimulusApplication.preregister('expandable-text', ExpandableTextController);
 
 const instance = OpenProjectStimulusApplication.start();
 window.Stimulus = instance;

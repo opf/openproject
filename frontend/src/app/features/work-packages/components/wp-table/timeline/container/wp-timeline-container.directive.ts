@@ -96,7 +96,7 @@ import { IDay } from 'core-app/core/state/days/day.model';
 })
 export class WorkPackageTimelineTableController extends UntilDestroyedMixin implements AfterViewInit {
   readonly injector = inject(Injector);
-  private elementRef = inject(ElementRef);
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private states = inject(States);
   wpTableComponent = inject(WorkPackagesTableComponent);
   private toastService = inject(ToastService);

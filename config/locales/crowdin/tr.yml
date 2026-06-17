@@ -32,6 +32,7 @@ tr:
         label_activity_show_all: Her şeyi göster
         label_activity_show_only_comments: Sadece yorumları göster
         label_activity_show_only_changes: Yalnızca değişiklikleri göster
+        label_dismiss_comment: Dismiss
         label_sort_asc: En altta en yeni
         label_sort_desc: En üstte en yeni
         label_type_to_comment: Bir yorum ekleyin. Kişilere bildirmek için @ yazın.
@@ -44,7 +45,7 @@ tr:
         commented: yorumlandı
         internal_comment: İç yorum
         internal_journal: İç yorumlar sınırlı sayıda grup üyesine görünür.
-        unsaved_changes_confirmation_message: Kaydedilmemiş değişiklikleriniz var. Editörü kapatmak istediğinizden emin misiniz?
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: Bu yorum görünür olsun mu?
           heading: Bu yorum görünür olsun mu?
@@ -52,25 +53,27 @@ tr:
           confirm_button_text: Herkese aç
   admin:
     reserved_identifiers:
-      title: Reserved project identifiers
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
+      btn_release: Unreserve
       col_identifier: Identifier
       col_project: Project
       col_reserved: Reserved
-      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
-      filter_label: Search identifiers
-      btn_release: Release
-      released_notice: Identifier "%{identifier}" has been released.
-      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
       dialog:
-        title: Release identifier
-        heading: Release "%{identifier}"?
-        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         checkbox_label: I understand that this cannot be undone.
-        confirm_button: Release identifier
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: No reserved identifiers
+      filter_label: Search identifiers
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time} ago"
-      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
+      title: Reserved project identifiers
     plugins:
       no_results_title_text: Şu anda yüklü bir eklenti yok.
       no_results_content_text: Daha fazla bilgi için entegrasyonlar ve eklentiler sayfamıza bakın.
@@ -128,7 +131,7 @@ tr:
         trial: Deneme
     jemalloc_allocator: Jemalloc bellek ayırıcı
     journal_aggregation:
-      caption: 'Bir iş paketi üzerindeki kullanıcı eylemleri (açıklama, durum, değer değiştirme veya yorum yazma) bu süre içinde gerçekleştirilirse gruplandırılır. Ayrıca bildirim ve [webhook](webhook_link) gecikmelerini de kontrol eder.
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1320,9 +1323,6 @@ tr:
       priority_color_text: |
         Bu önceliğin rengini atamak veya değiştirmek için tıklayın.
         Tablodaki iş paketlerini vurgulamak için kullanılabilir.
-    admin:
-      default:
-        caption: Bu önceliği varsayılan yapmak önceki varsayılan önceliği geçersiz kılacaktır.
   reactions:
     action_title: Tepki
     add_reaction: Tepki ekle
@@ -2387,11 +2387,12 @@ tr:
         setting:
           attributes:
             base:
-              working_days_are_missing: Haftanın en az bir günü iş günü olarak tanımlanmalıdır.
-              previous_working_day_changes_unprocessed: Çalışma günleri yapılandırmasında yapılan önceki değişiklikler henüz uygulanmadı.
-              hours_per_day_are_missing: Günlük saat sayısı tanımlanmalıdır.
               durations_are_not_positive_numbers: Süreler pozitif sayı olmalıdır.
+              hours_per_day_are_missing: Günlük saat sayısı tanımlanmalıdır.
               hours_per_day_is_out_of_bounds: Günlük saat 24'ten fazla olamaz
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: Çalışma günleri yapılandırmasında yapılan önceki değişiklikler henüz uygulanmadı.
+              working_days_are_missing: Haftanın en az bir günü iş günü olarak tanımlanmalıdır.
         status:
           attributes:
             default_done_ratio:
@@ -3258,10 +3259,11 @@ tr:
       disabled: Etkinleştir
       enabled: Devre dışı bırak
   enumeration_activities: Zaman izleme faaliyetleri
-  enumeration_work_package_priorities: İş paketi öncelikleri
-  enumeration_reported_project_statuses: Bildirilen durum
   enumeration_caption_order_changed: Sıralama başarıyla değiştirildi.
   enumeration_could_not_be_moved: Numaralandırma taşınamadı.
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: Bildirilen durum
+  enumeration_work_package_priorities: İş paketi öncelikleri
   enterprise_trials:
     dialog_component:
       title: Enterprise Deneme
@@ -3736,8 +3738,8 @@ tr:
         submit_button: Update alerts
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: Participating
-        description: Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).
         submit_button: Update preferences
         mentioned: Mentioned
         watched: Watching
@@ -3745,8 +3747,8 @@ tr:
         responsible: Accountable
         shared: Shared with me
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Date alerts
-        description: Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).
         submit_button: Update date alerts
         start_date: Start date
         due_date: Finish date
@@ -3760,8 +3762,8 @@ tr:
           three_days_after: 3 days after
           seven_days_after: 7 days after
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: Non-participating
-        description: Additional notifications for activities in all projects.
         submit_button: Update preferences
         work_package_created: New work packages
         work_package_commented: All new comments
@@ -3769,8 +3771,8 @@ tr:
         work_package_prioritized: All priority changes
         work_package_scheduled: All date changes
       project_specific_settings:
-        title: Project-specific notification settings
-        description: These project-specific settings override default settings above.
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: Add project-specific notifications
         dialog_title: Add project-specific notifications
         list_header: Projects with specific notifications
@@ -3904,6 +3906,7 @@ tr:
   label_send_invitation: Davet gönder
   label_calculated_value: Hesaplanan değer
   label_change_parent: Üstünü değiştir
+  label_change_password: Change password
   label_change_plural: Değişiklikler
   label_change_properties: Özellikleri değiştir
   label_change_status: Durumu değiştir
@@ -4190,6 +4193,7 @@ tr:
   label_my_account_data: Hesap verilerim
   label_my_avatar: Avatarım
   label_my_queries: Özel sorgularım
+  label_my_security: Security
   label_name: İsim
   label_never: Hiçbir zaman
   label_new: Yeni

@@ -32,7 +32,7 @@ module Wikis
   module Adapters
     module Input
       class AuthStrategyContract < DryApplicationContract
-        AUTH_METHODS = %i[bearer_token internal].to_set.freeze
+        AUTH_METHODS = %i[bearer_token internal noop].to_set.freeze
 
         params do
           required(:key).filled(:symbol, included_in?: AUTH_METHODS)

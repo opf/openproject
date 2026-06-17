@@ -160,7 +160,7 @@ pl:
         '
       other_active_session_notice: Twoje konto ma aktywny plik cookie pamiętania w innej sesji.
       label: Zapamiętaj
-      clear_cookie: Kliknij tutaj, aby usunąć wszystkie zapamiętane sesje uwierzytelniania 2FA.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Wszystkie zapamiętane sesje uwierzytelniania 2FA zostały usunięte.
       dont_ask_again: Utwórz pliki cookie w celu zapamiętania uwierzytelnienia 2FA na tym kliencie na %{days} dni.
   field_otp: Jednorazowe hasło
@@ -171,6 +171,7 @@ pl:
   notice_account_has_no_phone: Żaden numer telefonu komórkowego nie jest powiązany z Twoim kontem.
   label_confirmed: Zatwardziały
   button_continue: Dalej
+  button_make_active: Activate
   button_make_default: Oznacz jako domyślny
   notice_phone_number_format: 'Wprowadź numer w następującym formacie: + XX XXXXXXXX.'
   text_otp_not_receive: Inne metody weryfikacji

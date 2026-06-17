@@ -42,7 +42,7 @@ vi:
           completed: Đã hoàn thành
         work_packages: Work packages
       work_package:
-        backlog_bucket: Nhóm Backlog (Bucket)
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Loại Backlog
         position: Vị trí
         sprint: Sprint

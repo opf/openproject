@@ -100,6 +100,26 @@ RSpec.describe "API V3 Authentication" do
           expect(last_response).to have_http_status :unauthorized
         end
       end
+
+      context "and when there is an X-Requested-With: XMLHttpRequest header when HTTPS is enabled",
+              with_settings: { https: true } do
+        let(:add_additional_headers) { header "X-Requested-With", "XMLHttpRequest" }
+
+        # in HTTPS setups we ignore this header, because the safer alternative is available
+        it "is not authenticated" do
+          expect(last_response).to have_http_status :unauthorized
+        end
+      end
+
+      context "and when there is an X-Requested-With: XMLHttpRequest header when HTTPS is disabled",
+              with_settings: { https: false } do
+        let(:add_additional_headers) { header "X-Requested-With", "XMLHttpRequest" }
+
+        # in HTTP setups we still accept the header for backwards-compatibility
+        it "authenticates successfully" do
+          expect(last_response).to have_http_status :created
+        end
+      end
     end
   end
 

@@ -29,6 +29,7 @@
 #++
 
 require "spec_helper"
+require_module_spec_helper
 
 require "services/base_services/behaves_like_update_service"
 
@@ -37,5 +38,45 @@ RSpec.describe Wikis::XWikiProviders::UpdateService, type: :model do
     let(:factory) { :xwiki_provider }
     let(:call_attributes) { { name: "Updated XWiki" } }
     let!(:model_instance) { build_stubbed(factory, name: "My XWiki", url: "https://xwiki.example.com") }
+  end
+
+  describe "#call" do
+    let(:current_user) { build_stubbed(:admin) }
+    let(:provider) { create(:xwiki_provider, url: "https://old.example.com/", universal_identifier: "old-id") }
+    let(:service) { described_class.new(user: current_user, model: provider) }
+    let(:fetch_service) { instance_spy(Wikis::XWikiProviders::FetchInstanceIdService) }
+
+    before do
+      allow(Wikis::XWikiProviders::FetchInstanceIdService).to receive(:new).and_return(fetch_service)
+    end
+
+    context "when the URL changes" do
+      before { allow(fetch_service).to receive(:call).and_return(Dry::Monads::Success("xwiki-instance-abc123")) }
+
+      it "re-fetches and updates the universal_identifier" do
+        result = service.call(url: "https://xwiki.local/")
+        expect(result).to be_success
+        expect(result.result.universal_identifier).to eq("xwiki-instance-abc123")
+      end
+    end
+
+    context "when the URL is unchanged" do
+      it "skips the fetch and preserves the universal_identifier" do
+        result = service.call(name: "Renamed Wiki")
+        expect(result).to be_success
+        expect(fetch_service).not_to have_received(:call)
+        expect(result.result.universal_identifier).to eq("old-id")
+      end
+    end
+
+    context "when XWiki is unreachable" do
+      before { allow(fetch_service).to receive(:call).and_return(Dry::Monads::Failure(:connection_error)) }
+
+      it "fails with a url error" do
+        result = service.call(url: "https://xwiki.local/")
+        expect(result).not_to be_success
+        expect(result.errors[:url]).to include("could not be reached.")
+      end
+    end
   end
 end

@@ -29,24 +29,26 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class CreateDialogController extends Controller<HTMLFormElement> {
-  private turboRequests:TurboRequestsService;
+  static services:ServiceKey[] = ['turboRequests'];
 
   static values = {
     refreshUrl: String,
   };
 
+  declare services:Promise<PickedServices<'turboRequests'>>;
+
   declare refreshUrlValue:string;
 
-  async connect() {
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
+  initialize() {
+    useAngularServices(this);
   }
 
-  refreshForm() {
-    void this.turboRequests.submitForm(
+  async refreshForm() {
+    const { turboRequests } = await this.services;
+    void turboRequests.submitForm(
       this.element,
       null,
       this.refreshUrlValue,

@@ -42,7 +42,7 @@ ko:
           completed: 완료됨
         work_packages: 작업 패키지
       work_package:
-        backlog_bucket: 백로그 버킷
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: 백로그 유형
         position: 위치
         sprint: 스프린트

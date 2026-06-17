@@ -41,6 +41,16 @@ module WorkPackage::SemanticIdentifier
   # The frontend equivalent lives in WP_ID_URL_PATTERN (work-package-id-pattern.ts).
   ID_ROUTE_CONSTRAINT = /\d+|#{SEMANTIC_ID_PATTERN.source}/
 
+  # Anchored POSIX regex matching identifiers of the exact form "<slug>-<digits>"
+  # for a concrete project slug, so prefixes containing dashes don't over-match
+  # (matching "my" must not touch "my-project-42"). Used by the for_slug_prefix
+  # scopes on WorkPackage and WorkPackageSemanticAlias. Regexp.escape output is
+  # valid in PostgreSQL's ARE syntax: it backslash-escapes punctuation (which
+  # ARE treats as literals) and never emits class escapes.
+  def self.slug_prefix_pattern(slug)
+    "^#{Regexp.escape(slug)}-[0-9]+$"
+  end
+
   # Raised when a finder is invoked in a way that cannot resolve a semantic
   # identifier — e.g. find_by(id: "PROJ-42") which reduces to a raw SQL
   # WHERE clause that cannot consult the alias table. Subclasses ArgumentError
@@ -63,6 +73,21 @@ module WorkPackage::SemanticIdentifier
     scope :non_semantic, -> {
       joins(:project).semantically_sequenced
         .where("work_packages.identifier IS DISTINCT FROM projects.identifier || '-' || work_packages.sequence_number::text")
+    }
+    # Work packages whose identifier column carries the given project slug
+    # prefix, i.e. is of the exact form "<slug>-<digits>". Counterpart to
+    # WorkPackageSemanticAlias.for_slug_prefix for the denormalized column.
+    scope :for_slug_prefix, ->(slug) {
+      where("identifier ~ ?", WorkPackage::SemanticIdentifier.slug_prefix_pattern(slug))
+    }
+    # Work packages that currently resolve via identifiers of the form
+    # "<slug>-<digits>" — through the identifier column or an alias row.
+    # The single-identifier counterpart is FinderMethods#scope_for_semantic_identifier.
+    # ReleaseReservedIdentifierService severs exactly this set, and the release
+    # dialog counts it — keep the two in sync through this scope.
+    scope :resolving_via_slug_prefix, ->(slug) {
+      where(id: WorkPackageSemanticAlias.for_slug_prefix(slug).select(:work_package_id))
+        .or(for_slug_prefix(slug))
     }
 
     attr_accessor :skip_semantic_id_allocation

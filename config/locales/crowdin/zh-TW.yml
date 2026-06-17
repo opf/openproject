@@ -32,6 +32,7 @@ zh-TW:
         label_activity_show_all: 全部顯示
         label_activity_show_only_comments: 僅顯示留言
         label_activity_show_only_changes: 僅顯示檔案異動
+        label_dismiss_comment: Dismiss
         label_sort_asc: 最新的在最下面
         label_sort_desc: 最新的在最上面
         label_type_to_comment: 留言。輸入 @ 來通知他人。
@@ -44,7 +45,7 @@ zh-TW:
         commented: 已留言
         internal_comment: 內部備註
         internal_journal: 內部留言僅對特定成員群組可見。
-        unsaved_changes_confirmation_message: 您有未儲存的變更。您確實要關閉編輯器嗎？
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: 公開此評論？
           heading: 公開此評論？
@@ -52,25 +53,26 @@ zh-TW:
           confirm_button_text: 設為公開
   admin:
     reserved_identifiers:
-      title: Reserved project identifiers
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
+      btn_release: Unreserve
       col_identifier: Identifier
       col_project: Project
       col_reserved: Reserved
-      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
-      filter_label: Search identifiers
-      btn_release: Release
-      released_notice: Identifier "%{identifier}" has been released.
-      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
       dialog:
-        title: Release identifier
-        heading: Release "%{identifier}"?
-        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         checkbox_label: I understand that this cannot be undone.
-        confirm_button: Release identifier
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: No reserved identifiers
+      filter_label: Search identifiers
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time} ago"
-      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
+      title: Reserved project identifiers
     plugins:
       no_results_title_text: 目前沒有安裝任何外掛程式
       no_results_content_text: 請參閱我們的整合和外掛頁面以獲取更多資訊。
@@ -128,7 +130,7 @@ zh-TW:
         trial: 試用
     jemalloc_allocator: Jemalloc 記憶體分配器
     journal_aggregation:
-      caption: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays.
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1302,9 +1304,6 @@ zh-TW:
       priority_color_text: |
         點擊以指派或變更此優先順序的顏色。
         可用於在表格中突顯工作套件。
-    admin:
-      default:
-        caption: 將此優先順序設為預設值，將會覆寫先前的預設優先順序。
   reactions:
     action_title: 反應
     add_reaction: 加入反應
@@ -2356,11 +2355,12 @@ zh-TW:
         setting:
           attributes:
             base:
-              working_days_are_missing: 每週至少有一天必須定義為工作天。
-              previous_working_day_changes_unprocessed: 之前對工作日組態的變更尚未套用。
-              hours_per_day_are_missing: 必須定義每天的時數。
               durations_are_not_positive_numbers: 持續時間必須是正數
+              hours_per_day_are_missing: 必須定義每天的時數。
               hours_per_day_is_out_of_bounds: 每天小時數不能超過24
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: 之前對工作日組態的變更尚未套用。
+              working_days_are_missing: 每週至少有一天必須定義為工作天。
         status:
           attributes:
             default_done_ratio:
@@ -3185,10 +3185,11 @@ zh-TW:
       disabled: 啟用
       enabled: 停用
   enumeration_activities: 工時紀錄活動
-  enumeration_work_package_priorities: 工作套件優先等級
-  enumeration_reported_project_statuses: 報告狀態
   enumeration_caption_order_changed: 成功更改排序。
   enumeration_could_not_be_moved: 無法移動枚舉。
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: 報告狀態
+  enumeration_work_package_priorities: 工作套件優先等級
   enterprise_trials:
     dialog_component:
       title: 試用企業版
@@ -3661,8 +3662,8 @@ zh-TW:
         submit_button: Update alerts
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: Participating
-        description: Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).
         submit_button: Update preferences
         mentioned: Mentioned
         watched: Watching
@@ -3670,8 +3671,8 @@ zh-TW:
         responsible: Accountable
         shared: Shared with me
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Date alerts
-        description: Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).
         submit_button: Update date alerts
         start_date: Start date
         due_date: Finish date
@@ -3685,8 +3686,8 @@ zh-TW:
           three_days_after: 3 days after
           seven_days_after: 7 days after
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: Non-participating
-        description: Additional notifications for activities in all projects.
         submit_button: Update preferences
         work_package_created: New work packages
         work_package_commented: All new comments
@@ -3694,8 +3695,8 @@ zh-TW:
         work_package_prioritized: All priority changes
         work_package_scheduled: All date changes
       project_specific_settings:
-        title: Project-specific notification settings
-        description: These project-specific settings override default settings above.
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: Add project-specific notifications
         dialog_title: Add project-specific notifications
         list_header: Projects with specific notifications
@@ -3829,6 +3830,7 @@ zh-TW:
   label_send_invitation: 發送邀請
   label_calculated_value: 計算值
   label_change_parent: 變更父項
+  label_change_password: Change password
   label_change_plural: 更改
   label_change_properties: 更改屬性
   label_change_status: 更改狀態
@@ -4115,6 +4117,7 @@ zh-TW:
   label_my_account_data: 我的帳號資料
   label_my_avatar: 我的大頭貼
   label_my_queries: 我的自訂查詢
+  label_my_security: Security
   label_name: 名稱
   label_never: 無
   label_new: 新增

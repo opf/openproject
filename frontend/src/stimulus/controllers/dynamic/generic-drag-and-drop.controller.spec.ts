@@ -28,8 +28,11 @@
  * ++
  */
 
+import { waitFor } from '@testing-library/dom';
+import { vi } from 'vitest';
+
 import GenericDragAndDropController from './generic-drag-and-drop.controller';
-import { createControllerInstance } from 'core-stimulus/test-helpers';
+import { createControllerInstance, setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
 describe('GenericDragAndDropController', () => {
   let controller:GenericDragAndDropController;
@@ -139,6 +142,106 @@ describe('GenericDragAndDropController', () => {
       setValue('handleSelectorValue', '.DragHandle');
 
       expect(callAriaPressedTarget(row)).toBe(handle);
+    });
+  });
+
+  describe('autoscroll setup through the plugin context', () => {
+    class FakeAutoscroll {
+      static constructedWith:unknown[][] = [];
+
+      static instances:FakeAutoscroll[] = [];
+
+      destroy = vi.fn();
+
+      constructor(...args:unknown[]) {
+        FakeAutoscroll.constructedWith.push(args);
+        FakeAutoscroll.instances.push(this);
+      }
+    }
+
+    let ctx:StimulusTestContext;
+    let originalOpenProject:typeof window.OpenProject;
+
+    const pluginContext = () => ({ classes: { DomAutoscrollService: FakeAutoscroll } });
+
+    beforeEach(async () => {
+      FakeAutoscroll.constructedWith = [];
+      FakeAutoscroll.instances = [];
+      originalOpenProject = window.OpenProject;
+      window.OpenProject = {
+        getPluginContext: () => Promise.resolve(pluginContext()),
+      } as unknown as typeof window.OpenProject;
+
+      ctx = await setupStimulusTest({
+        controllers: { 'generic-drag-and-drop': GenericDragAndDropController },
+      });
+    });
+
+    afterEach(() => {
+      ctx.dispose();
+      window.OpenProject = originalOpenProject;
+      vi.restoreAllMocks();
+    });
+
+    async function renderLists() {
+      await ctx.mount(`
+        <div data-controller="generic-drag-and-drop">
+          <div data-generic-drag-and-drop-target="scrollContainer">
+            <ul data-generic-drag-and-drop-target="container"></ul>
+          </div>
+        </div>
+      `);
+      return ctx.getController<GenericDragAndDropController>('generic-drag-and-drop');
+    }
+
+    it('exposes the full plugin context as a promise', async () => {
+      const mounted = await renderLists();
+
+      await expect(mounted.pluginContext).resolves.toMatchObject({
+        classes: { DomAutoscrollService: FakeAutoscroll },
+      });
+    });
+
+    it('sets up autoscroll on the scroll containers once connected', async () => {
+      await renderLists();
+
+      await waitFor(() => {
+        expect(FakeAutoscroll.constructedWith).toHaveLength(1);
+      });
+      const scrollContainer = ctx.container.querySelector('[data-generic-drag-and-drop-target="scrollContainer"]');
+      expect(FakeAutoscroll.constructedWith[0][0]).toEqual([scrollContainer]);
+    });
+
+    it('destroys the autoscroll instance on disconnect', async () => {
+      await renderLists();
+      const root = ctx.container.querySelector('[data-controller="generic-drag-and-drop"]')!;
+
+      await waitFor(() => {
+        expect(FakeAutoscroll.instances).toHaveLength(1);
+      });
+
+      root.remove();
+      await ctx.nextFrame();
+
+      expect(FakeAutoscroll.instances[0].destroy).toHaveBeenCalled();
+    });
+
+    it('does not set up autoscroll when disconnected before the context resolves', async () => {
+      let resolveContext!:(context:unknown) => void;
+      window.OpenProject = {
+        getPluginContext: () => new Promise((resolve) => { resolveContext = resolve; }),
+      } as unknown as typeof window.OpenProject;
+
+      await renderLists();
+      const root = ctx.container.querySelector('[data-controller="generic-drag-and-drop"]')!;
+
+      root.remove();
+      await ctx.nextFrame();
+
+      resolveContext(pluginContext());
+      await ctx.nextFrame();
+
+      expect(FakeAutoscroll.constructedWith).toHaveLength(0);
     });
   });
 });

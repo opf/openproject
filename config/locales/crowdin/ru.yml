@@ -32,6 +32,7 @@ ru:
         label_activity_show_all: Показать всё
         label_activity_show_only_comments: Показать только комментарии
         label_activity_show_only_changes: Показать только изменения
+        label_dismiss_comment: Dismiss
         label_sort_asc: Новые внизу
         label_sort_desc: Новые вверху
         label_type_to_comment: Добавить комментарий. Введите @ для уведомления пользователей.
@@ -44,7 +45,7 @@ ru:
         commented: прокомментировано
         internal_comment: Внутренний комментарий
         internal_journal: Внутренние комментарии видны ограниченной группе членов.
-        unsaved_changes_confirmation_message: У вас есть несохраненные изменения. Вы уверены, что хотите закрыть редактор?
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: Сделать этот комментарий публичным?
           heading: Сделать этот комментарий публичным?
@@ -52,25 +53,29 @@ ru:
           confirm_button_text: Сделать общедоступным
   admin:
     reserved_identifiers:
-      title: Reserved project identifiers
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
+      btn_release: Unreserve
       col_identifier: Идентификатор
       col_project: Проект
       col_reserved: Зарезервировано
-      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
-      filter_label: Search identifiers
-      btn_release: Релиз
-      released_notice: Identifier "%{identifier}" has been released.
-      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
       dialog:
-        title: Release identifier
-        heading: Release "%{identifier}"?
-        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         checkbox_label: Я понимаю, что это действие нельзя отменить.
-        confirm_button: Идентификатор релиза
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: Нет зарезервированных идентификаторов
+      filter_label: Search identifiers
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time} назад"
-      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
+      title: Reserved project identifiers
     plugins:
       no_results_title_text: В настоящее время плагины не установлены.
       no_results_content_text: Более подробную информацию см. на странице "Наши интеграции и плагины".
@@ -128,7 +133,7 @@ ru:
         trial: Пробная версия
     jemalloc_allocator: Распределитель памяти Jemalloc
     journal_aggregation:
-      caption: 'Действия пользователя над пакетом работ (изменение описания, статуса, значений или написание комментариев) группируются, если они выполнены в течение этого периода. Он также контролирует задержки уведомлений и [webhook](webhook_link).
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1352,9 +1357,6 @@ ru:
       priority_color_text: |
         Щелкните, чтобы задать или изменить цвет этого приоритета.
         Этот цвет может использоваться для выделения пакетов работ в таблице.
-    admin:
-      default:
-        caption: Использование этого приоритета переопределит предыдущий приоритет по умолчанию.
   reactions:
     action_title: Реакция
     add_reaction: Добавить реакцию
@@ -2429,11 +2431,12 @@ ru:
         setting:
           attributes:
             base:
-              working_days_are_missing: По крайней мере, один день недели должен быть определен как рабочий.
-              previous_working_day_changes_unprocessed: Предыдущие изменения конфигурации рабочих дней еще не были применены.
-              hours_per_day_are_missing: Необходимо указать количество часов в день.
               durations_are_not_positive_numbers: Длительность должна быть положительным числом.
+              hours_per_day_are_missing: Необходимо указать количество часов в день.
               hours_per_day_is_out_of_bounds: Количество часов в день не может быть больше 24
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: Предыдущие изменения конфигурации рабочих дней еще не были применены.
+              working_days_are_missing: По крайней мере, один день недели должен быть определен как рабочий.
         status:
           attributes:
             default_done_ratio:
@@ -3380,10 +3383,11 @@ ru:
       disabled: Включить
       enabled: Отключить
   enumeration_activities: Отслеживание времени
-  enumeration_work_package_priorities: Приоритеты пакета работ
-  enumeration_reported_project_statuses: Переданный статус
   enumeration_caption_order_changed: Порядок успешно изменен.
   enumeration_could_not_be_moved: Перечисление не может быть перенесено.
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: Переданный статус
+  enumeration_work_package_priorities: Приоритеты пакета работ
   enterprise_trials:
     dialog_component:
       title: Корпоративная временная лицензия
@@ -3862,8 +3866,8 @@ ru:
         submit_button: Обновить оповещения
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: Участие
-        description: Уведомления обо всех действиях в пакетах работ, в которых Вы участвуете (назначенный, подотчетный или наблюдатель).
         submit_button: Обновить настройки
         mentioned: Упомянутый
         watched: Отслеживает
@@ -3871,8 +3875,8 @@ ru:
         responsible: Ответственный
         shared: Доступные мне
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Дата оповещения
-        description: Автоматическое уведомление, когда приближаются важные даты открытия пакетов работ, в которых вы участвуете (исполнитель, ответственный или наблюдатель).
         submit_button: Обновить дату оповещения
         start_date: Дата начала
         due_date: Дата окончания
@@ -3886,8 +3890,8 @@ ru:
           three_days_after: Через 3 дня после
           seven_days_after: Через 7 дней после
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: Неучастие
-        description: Дополнительные уведомления для деятельности во всех проектах.
         submit_button: Обновить настройки
         work_package_created: Новые пакеты работ
         work_package_commented: Все новые комментарии
@@ -3895,8 +3899,8 @@ ru:
         work_package_prioritized: Все изменения приоритетов
         work_package_scheduled: Все изменения дат
       project_specific_settings:
-        title: Настройки уведомлений для конкретного проекта
-        description: Эти настройки для конкретного проекта переопределяют параметры по умолчанию.
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: Добавить уведомления по проекту
         dialog_title: Добавить уведомления по проекту
         list_header: Проекты с особыми уведомлениями
@@ -4030,6 +4034,7 @@ ru:
   label_send_invitation: Отправить приглашение
   label_calculated_value: Рассчитываемое значение
   label_change_parent: Изменить родителя
+  label_change_password: Change password
   label_change_plural: Изменения
   label_change_properties: Изменить свойства
   label_change_status: Изменить статус
@@ -4316,6 +4321,7 @@ ru:
   label_my_account_data: Данные моей учетной записи
   label_my_avatar: Мой аватар
   label_my_queries: Мои пользовательские запросы
+  label_my_security: Security
   label_name: Имя
   label_never: Никогда
   label_new: Новое

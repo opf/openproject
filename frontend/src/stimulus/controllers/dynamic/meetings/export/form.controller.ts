@@ -1,16 +1,25 @@
 import {Controller} from '@hotwired/stimulus';
 import * as Turbo from '@hotwired/turbo';
 import {HttpErrorResponse} from '@angular/common/http';
+import {useAngularServices, type PickedServices, type ServiceKey} from 'core-stimulus/mixins/use-angular-services';
 
 export default class FormController extends Controller<HTMLFormElement> {
+    static services:ServiceKey[] = ['notifications'];
+
     static values = {
         jobStatusDialogUrl: String,
     };
 
     static targets = ['inputGroups'];
 
+    declare services:Promise<PickedServices<'notifications'>>;
+
     declare jobStatusDialogUrlValue:string;
     declare inputGroupsTargets:HTMLElement[];
+
+    initialize() {
+        useAngularServices(this);
+    }
 
     jobModalUrl(job_id:string):string {
         return this.jobStatusDialogUrlValue.replace('_job_uuid_', job_id);
@@ -57,15 +66,14 @@ export default class FormController extends Controller<HTMLFormElement> {
         this.requestExport(this.generateExportURL(formData))
             .then((job_id) => this.showJobModal(job_id))
             .catch((error:unknown) => {
-                this.handleError(error);
+                void this.handleError(error);
             });
         return true;
     }
 
-    private handleError(error:unknown) {
-        void window.OpenProject.getPluginContext().then((pluginContext) => {
-            pluginContext.services.notifications.addError(error as HttpErrorResponse);
-        });
+    private async handleError(error:unknown) {
+        const {notifications} = await this.services;
+        notifications.addError(error as HttpErrorResponse);
     }
 
     private getExportParams(formData:FormData):string {

@@ -8,7 +8,6 @@
 /// <reference path="../../node_modules/@types/mousetrap/index.d.ts" />
 /// <reference path="../../node_modules/@types/moment-timezone/index.d.ts" />
 /// <reference path="../../node_modules/@types/urijs/index.d.ts" />
-/// <reference path="../../node_modules/@types/webpack-env/index.d.ts" />
 /// <reference path="../../node_modules/@types/resize-observer-browser/index.d.ts" />
 
 import { Injector } from '@angular/core';
@@ -26,6 +25,10 @@ declare module 'core-vendor/enjoyhint';
 declare global {
   const _:typeof TLodash;
   const I18n:I18n;
+
+  // Public path prefix used to build absolute asset URLs at runtime.
+  // Set once in main.ts; read by the image/video path helpers.
+  var publicAssetPath:string;
 }
 
 declare global {

@@ -48,11 +48,11 @@ import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import { getMetaContent } from 'core-app/core/setup/globals/global-helpers';
 
 export interface XeokitElements {
-  canvasElement:HTMLElement;
+  canvasElement:HTMLCanvasElement;
   explorerElement:HTMLElement;
   toolbarElement:HTMLElement;
   inspectorElement:HTMLElement;
-  navCubeCanvasElement:HTMLElement;
+  navCubeCanvasElement:HTMLCanvasElement;
   busyModelBackdropElement:HTMLElement;
   enableEditModels?:boolean;
   keyboardEventsElement?:HTMLElement;

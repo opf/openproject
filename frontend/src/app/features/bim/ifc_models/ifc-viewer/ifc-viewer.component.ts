@@ -38,6 +38,7 @@ import {
   Subject, Subscription,
 } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
+import invariant from 'tiny-invariant';
 
 @Component({
   selector: 'op-ifc-viewer',
@@ -69,19 +70,19 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   inspectorVisible$:BehaviorSubject<boolean> = this.ifcViewerService.inspectorVisible$;
 
-  @ViewChild('outerContainer') outerContainer:ElementRef;
+  @ViewChild('outerContainer') outerContainer:ElementRef<HTMLElement>;
 
-  @ViewChild('viewerContainer') viewerContainer:ElementRef;
+  @ViewChild('viewerContainer') viewerContainer:ElementRef<HTMLElement>;
 
-  @ViewChild('modelCanvas') modelCanvas:ElementRef;
+  @ViewChild('modelCanvas') modelCanvas:ElementRef<HTMLCanvasElement>;
 
-  @ViewChild('navCubeCanvas') navCubeCanvas:ElementRef;
+  @ViewChild('navCubeCanvas') navCubeCanvas:ElementRef<HTMLCanvasElement>;
 
-  @ViewChild('toolbar') toolbarElement:ElementRef;
+  @ViewChild('toolbar') toolbarElement:ElementRef<HTMLElement>;
 
-  @ViewChild('inspectorPane') inspectorElement:ElementRef;
+  @ViewChild('inspectorPane') inspectorElement:ElementRef<HTMLElement>;
 
-  @ViewChild('xeokitToolbarIcons') xeokitToolbarIcons:ElementRef;
+  @ViewChild('xeokitToolbarIcons') xeokitToolbarIcons:ElementRef<HTMLElement>;
 
   ngOnInit():void {
     if (this.modelCount === 0) {
@@ -105,15 +106,18 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     ])
       .pipe(take(1))
       .subscribe(([manageIfcModelsAllowed]) => {
+        const explorerElement = document.querySelector<HTMLElement>('.op-ifc-viewer--tree-panel');
+        invariant(explorerElement, 'Expected IFC viewer tree panel element to be present');
+
         this.ifcViewerService.newViewer(
           {
-            canvasElement: this.modelCanvas.nativeElement as HTMLElement,
-            explorerElement: document.getElementsByClassName('op-ifc-viewer--tree-panel')[0] as HTMLElement, // Left panel
-            toolbarElement: this.toolbarElement.nativeElement as HTMLElement,
-            inspectorElement: this.inspectorElement.nativeElement as HTMLElement,
-            navCubeCanvasElement: this.navCubeCanvas.nativeElement as HTMLElement,
-            busyModelBackdropElement: this.viewerContainer.nativeElement as HTMLElement,
-            keyboardEventsElement: this.modelCanvas.nativeElement as HTMLElement,
+            canvasElement: this.modelCanvas.nativeElement,
+            explorerElement, // Left panel
+            toolbarElement: this.toolbarElement.nativeElement,
+            inspectorElement: this.inspectorElement.nativeElement,
+            navCubeCanvasElement: this.navCubeCanvas.nativeElement,
+            busyModelBackdropElement: this.viewerContainer.nativeElement,
+            keyboardEventsElement: this.modelCanvas.nativeElement,
             enableEditModels: manageIfcModelsAllowed,
             enableMeasurements: false,
           },
@@ -138,8 +142,8 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
         take(1),
       )
       .subscribe(() => {
-        const toolbarIcons = this.xeokitToolbarIcons.nativeElement as HTMLElement;
-        const toolbar = this.toolbarElement.nativeElement as HTMLElement;
+        const toolbarIcons = this.xeokitToolbarIcons.nativeElement;
+        const toolbar = this.toolbarElement.nativeElement;
 
         for (let i = 0; i < toolbarIcons.children.length; i++) {
           const replacer = toolbarIcons.children[i];
@@ -184,7 +188,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window:mousedown', ['$event.target'])
   disableKeyboard(target:Element):void {
-    if (this.modelCount && !(this.outerContainer.nativeElement as HTMLElement).contains(target)) {
+    if (this.modelCount && !this.outerContainer.nativeElement.contains(target)) {
       this.keyboardEnabled = false;
       this.ifcViewerService.setKeyboardEnabled(false);
     }
@@ -194,7 +198,7 @@ export class IFCViewerComponent implements OnInit, OnDestroy, AfterViewInit {
     this.enableKeyBoard();
 
     // Focus on the canvas
-    (this.modelCanvas.nativeElement as HTMLElement).focus();
+    this.modelCanvas.nativeElement.focus();
 
     // Ensure we don't bubble this event to the window:mousedown handler
     // as the target will already be removed from the DOM by angular

@@ -36,7 +36,7 @@ export class CalendarDragDropService {
     }
   }
 
-  registerDrag(container:ElementRef, itemSelector:string):void {
+  registerDrag(container:ElementRef<HTMLElement>, itemSelector:string):void {
     this.drake = dragula({
       containers: [container.nativeElement],
       revertOnSpill: true,

@@ -50,10 +50,10 @@ export class AddExistingPaneComponent extends UntilDestroyedMixin implements OnI
 
   @HostBinding('class.op-add-existing-pane') className = true;
 
-  @ViewChild('container') container:ElementRef;
+  @ViewChild('container') container:ElementRef<HTMLElement>;
 
   @ViewChild('container')
-  set dragContainer(v:ElementRef|undefined) {
+  set dragContainer(v:ElementRef<HTMLElement>|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {

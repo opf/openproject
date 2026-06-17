@@ -5,12 +5,12 @@ import { AfterViewChecked, Directive, ElementRef, Input, inject } from '@angular
   standalone: false,
 })
 export class OpSearchHighlightDirective implements AfterViewChecked {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input('opSearchHighlight') public query = '';
 
   ngAfterViewChecked():void {
-    let el = this.elementRef.nativeElement as HTMLElement;
+    let el = this.elementRef.nativeElement;
     const highlightedElement = el.querySelector('.op-search-highlight');
 
     if (!!highlightedElement && highlightedElement.innerHTML.toLocaleLowerCase() === this.query?.toLocaleLowerCase()) {

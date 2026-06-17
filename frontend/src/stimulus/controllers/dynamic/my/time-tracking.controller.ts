@@ -5,8 +5,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import momentTimezonePlugin from '@fullcalendar/moment-timezone';
 import { toMoment } from '@fullcalendar/moment';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import type { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
+import type { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import moment from 'moment';
 import allLocales from '@fullcalendar/core/locales-all';
 import { renderStreamMessage } from '@hotwired/turbo';
@@ -14,10 +14,14 @@ import { opStopwatchStopIconData, toDOMString } from '@openproject/octicons-angu
 import { useMeta } from 'stimulus-use';
 import { html, render, TemplateResult } from 'lit-html';
 import { unsafeHTML } from 'lit-html/directives/unsafe-html.js';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class MyTimeTrackingController extends Controller {
-  private turboRequests:TurboRequestsService;
-  private pathHelper:PathHelperService;
+  static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
+
+  declare turboRequests:TurboRequestsService;
+  declare pathHelperService:PathHelperService;
+  declare services:Promise<PickedServices<'turboRequests'|'pathHelperService'>>;
 
   static targets = ['calendar'];
 
@@ -58,12 +62,15 @@ export default class MyTimeTrackingController extends Controller {
   private DEFAULT_TIMED_EVENT_DURATION = '01:00';
   private boundListener = this.dialogCloseListener.bind(this);
 
-  async connect() {
-    useMeta(this, { suffix: false });
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
-    this.pathHelper = context.services.pathHelperService;
+  initialize() {
+    useAngularServices(this);
+  }
 
+  connect() {
+    useMeta(this, { suffix: false });
+  }
+
+  servicesConnected() {
     if (this.hasCalendarTarget && this.viewModeValue === 'calendar') {
       this.initializeCalendar();
 
@@ -143,7 +150,7 @@ export default class MyTimeTrackingController extends Controller {
         }
 
         void this.turboRequests.request(
-          `${this.pathHelper.timeEntryDialog()}?${dialogParams}`,
+          `${this.pathHelperService.timeEntryDialog()}?${dialogParams}`,
           { method: 'GET' },
         );
       },
@@ -225,7 +232,7 @@ export default class MyTimeTrackingController extends Controller {
         }
 
         void this.turboRequests.request(
-          `${this.pathHelper.timeEntryEditDialog(info.event.id)}?onlyMe=true`,
+          `${this.pathHelperService.timeEntryEditDialog(info.event.id)}?onlyMe=true`,
           { method: 'GET' },
         );
       },
@@ -266,7 +273,7 @@ export default class MyTimeTrackingController extends Controller {
       <div class="fc-event-title-container">
         <div class="fc-event-title fc-event-wp" title="${info.event.extendedProps.workPackageSubject}">
           <a class="Link--primary Link"
-             href="${this.pathHelper.workPackageShortPath(info.event.extendedProps.workPackageId as string)}">
+             href="${this.pathHelperService.workPackageShortPath(info.event.extendedProps.workPackageId as string)}">
             ${info.event.extendedProps.workPackageSubject}
           </a>
         </div>
@@ -387,7 +394,7 @@ export default class MyTimeTrackingController extends Controller {
   }
 
   updateTimeEntry(timeEntryId:string, spentOn:string, startTime:string|null, hours:number, revertFunction:() => void) {
-    fetch(this.pathHelper.timeEntryUpdate(timeEntryId), {
+    fetch(this.pathHelperService.timeEntryUpdate(timeEntryId), {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -475,11 +482,12 @@ export default class MyTimeTrackingController extends Controller {
     return hiddenDays;
   }
 
-  newTimeEntry(event:ActionEvent) {
+  async newTimeEntry(event:ActionEvent) {
     const dialogParams = `onlyMe=true&date=${event.params.date}`;
 
-    void this.turboRequests.request(
-      `${this.pathHelper.timeEntryDialog()}?${dialogParams}`,
+    const { turboRequests, pathHelperService } = await this.services;
+    void turboRequests.request(
+      `${pathHelperService.timeEntryDialog()}?${dialogParams}`,
       { method: 'GET' },
     );
   }
@@ -504,7 +512,7 @@ export default class MyTimeTrackingController extends Controller {
     if (this.viewModeValue === 'list') {
       // we don't know what date we clicked, so we need to reload the whole page
       if (additional?.spent_on) {
-        void this.turboRequests.request(this.pathHelper.myTimeTrackingRefresh(additional.spent_on, this.viewModeValue, this.modeValue), { method: 'GET' });
+        void this.turboRequests.request(this.pathHelperService.myTimeTrackingRefresh(additional.spent_on, this.viewModeValue, this.modeValue), { method: 'GET' });
       } else {
         window.location.reload();
       }

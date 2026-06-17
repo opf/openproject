@@ -154,9 +154,10 @@ RSpec.describe API::V3::Queries::Schemas::SprintFilterDependencyRepresenter do
       allow(embedded_instance).to receive(:to_hash).and_call_original
 
       embedded_instance.to_json
+      embedded_instance.to_json
 
       expect(embedded_instance)
-        .to have_received(:to_hash)
+        .to have_received(:to_hash).once
     end
   end
 end

@@ -160,7 +160,7 @@ fil:
         '
       other_active_session_notice: Your account has an active remember cookie on another session.
       label: Tandaan
-      clear_cookie: Click here to remove all remembered 2FA sessions.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: All remembered 2FA sessions have been removed.
       dont_ask_again: Lumikha ng coockie upang maalala ang 2FA authentication para sa kleyente na ito %{days} mga araw.
   field_otp: Ang Isang-beses na password
@@ -171,6 +171,7 @@ fil:
   notice_account_has_no_phone: Walang numero sa cellphone ang nauugnay sa iyong account.
   label_confirmed: Kumpirmahin
   button_continue: Ipagpatuloy
+  button_make_active: Activate
   button_make_default: Markahan bilang default
   notice_phone_number_format: 'Pakiusap na ipasok ang numero sa sumusunod na pormat: +XX XXXXXXXX.'
   text_otp_not_receive: Iba pang mga pamamaraan sa pagpapatunay

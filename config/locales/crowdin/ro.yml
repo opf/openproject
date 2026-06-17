@@ -32,6 +32,7 @@ ro:
         label_activity_show_all: Afișează tot
         label_activity_show_only_comments: Arată doar comentariile
         label_activity_show_only_changes: Arată doar modificările
+        label_dismiss_comment: Dismiss
         label_sort_asc: Cele mai noi jos
         label_sort_desc: Cele mai noi sus
         label_type_to_comment: Adaugă un comentariu. Tastează @ pentru a notifica persoane.
@@ -44,7 +45,7 @@ ro:
         commented: comentat
         internal_comment: Comentariu intern
         internal_journal: Comentariile interne sunt vizibile pentru un grup limitat de membri.
-        unsaved_changes_confirmation_message: You have unsaved changes. Are you sure you want to close the editor?
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: Fă acest comentariu public?
           heading: Fă acest comentariu public?
@@ -52,25 +53,28 @@ ro:
           confirm_button_text: Fă public
   admin:
     reserved_identifiers:
-      title: Reserved project identifiers
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
+      btn_release: Unreserve
       col_identifier: Identifier
       col_project: Project
       col_reserved: Reserved
-      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
-      filter_label: Search identifiers
-      btn_release: Release
-      released_notice: Identifier "%{identifier}" has been released.
-      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
       dialog:
-        title: Release identifier
-        heading: Release "%{identifier}"?
-        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         checkbox_label: I understand that this cannot be undone.
-        confirm_button: Release identifier
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: No reserved identifiers
+      filter_label: Search identifiers
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time} ago"
-      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
+      title: Reserved project identifiers
     plugins:
       no_results_title_text: There are currently no plugins installed.
       no_results_content_text: See our integrations and plugins page for more information.
@@ -128,7 +132,7 @@ ro:
         trial: Trial
     jemalloc_allocator: Jemalloc memory allocator
     journal_aggregation:
-      caption: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays.
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1336,9 +1340,6 @@ ro:
       priority_color_text: |
         Clic pentru a desemna sau schimba culoarea acestui nivel de prioritate.
         Poate fi utilizate pentru a evidenția pachetele de lucru dintr-un tabel.
-    admin:
-      default:
-        caption: Dacă această prioritate este implicită va suprascrie prioritatea implicită anterioară.
   reactions:
     action_title: React
     add_reaction: Add reaction
@@ -2404,11 +2405,12 @@ ro:
         setting:
           attributes:
             base:
-              working_days_are_missing: Cel puțin o zi a săptămânii trebuie să fie definită ca zi lucrătoare.
-              previous_working_day_changes_unprocessed: Modificările anterioare la configurația din zilele lucrătoare nu au fost încă aplicate.
-              hours_per_day_are_missing: The number of hours per day must be defined.
               durations_are_not_positive_numbers: The durations must be positive numbers.
+              hours_per_day_are_missing: The number of hours per day must be defined.
               hours_per_day_is_out_of_bounds: Hours per day can't be more than 24
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: Modificările anterioare la configurația din zilele lucrătoare nu au fost încă aplicate.
+              working_days_are_missing: Cel puțin o zi a săptămânii trebuie să fie definită ca zi lucrătoare.
         status:
           attributes:
             default_done_ratio:
@@ -3315,10 +3317,11 @@ ro:
       disabled: Activează
       enabled: Dezactivează
   enumeration_activities: Activități de urmărire timp activate
-  enumeration_work_package_priorities: Priorități pentru pachetele de lucru
-  enumeration_reported_project_statuses: Stare raportată
   enumeration_caption_order_changed: Order successfully changed.
   enumeration_could_not_be_moved: Enumeration could not be moved.
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: Stare raportată
+  enumeration_work_package_priorities: Priorități pentru pachetele de lucru
   enterprise_trials:
     dialog_component:
       title: Enterprise Trial
@@ -3795,8 +3798,8 @@ ro:
         submit_button: Update alerts
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: Participating
-        description: Notifications for all activities in work packages you are involved in (assignee, accountable or watcher).
         submit_button: Update preferences
         mentioned: Mentioned
         watched: Watching
@@ -3804,8 +3807,8 @@ ro:
         responsible: Accountable
         shared: Shared with me
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Date alerts
-        description: Automatic notifications when important dates are approaching for open work packages you are involved in (assignee, accountable or watcher).
         submit_button: Update date alerts
         start_date: Start date
         due_date: Finish date
@@ -3819,8 +3822,8 @@ ro:
           three_days_after: 3 days after
           seven_days_after: 7 days after
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: Non-participating
-        description: Additional notifications for activities in all projects.
         submit_button: Update preferences
         work_package_created: New work packages
         work_package_commented: All new comments
@@ -3828,8 +3831,8 @@ ro:
         work_package_prioritized: All priority changes
         work_package_scheduled: All date changes
       project_specific_settings:
-        title: Project-specific notification settings
-        description: These project-specific settings override default settings above.
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: Add project-specific notifications
         dialog_title: Add project-specific notifications
         list_header: Projects with specific notifications
@@ -3963,6 +3966,7 @@ ro:
   label_send_invitation: Trimite invitație
   label_calculated_value: Calculated value
   label_change_parent: Modifică părinte
+  label_change_password: Change password
   label_change_plural: Modificări
   label_change_properties: Modificare proprietăţi
   label_change_status: Modificare stare
@@ -4249,6 +4253,7 @@ ro:
   label_my_account_data: Datele din contul meu
   label_my_avatar: My avatar
   label_my_queries: Interogările mele
+  label_my_security: Security
   label_name: Nume
   label_never: Niciodată
   label_new: Nou

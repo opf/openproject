@@ -63,7 +63,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   readonly timezoneService = inject(TimezoneService);
   readonly deviceService = inject(DeviceService);
   readonly pathHelper = inject(PathHelperService);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() public ignoreNonWorkingDays:boolean;
   @Input() public scheduleManually:boolean;
@@ -81,7 +81,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
 
   @Input() isMilestone = false;
 
-  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
+  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef<HTMLInputElement>;
 
   private datePickerInstance:DatePicker;
   private startDateValue:Date|null;
@@ -218,7 +218,6 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
       '#flatpickr-input',
       this.currentDates(),
       this.datePickerOptions(),
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       this.flatpickrTarget.nativeElement,
     );
   }

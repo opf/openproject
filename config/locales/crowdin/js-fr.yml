@@ -181,7 +181,7 @@ fr:
           text: "[Placeholder] Tableau du lot de travaux intégré"
         error: 'Impossible d''étendre la macro : %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: Insérer
         toc: Table des matières
         toolbar_help: Cliquez pour sélectionner le widget et afficher la barre d'outils. Double-cliquez pour modifier le widget
         wiki_page_include:

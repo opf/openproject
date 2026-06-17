@@ -11,5 +11,5 @@
  * @param image Path to the image starting from frontend/src/assets/images
  */
 export function imagePath(image:string) {
-  return `${globalThis.__webpack_public_path__}assets/images/${image}`;
+  return `${globalThis.publicAssetPath}assets/images/${image}`;
 }

@@ -32,6 +32,7 @@ uk:
         label_activity_show_all: Показати все
         label_activity_show_only_comments: Показувати лише коментарі
         label_activity_show_only_changes: Показувати лише зміни
+        label_dismiss_comment: Dismiss
         label_sort_asc: Найновіші внизу
         label_sort_desc: Найновіші вгорі
         label_type_to_comment: Додайте коментар. Введіть @, щоб сповістити людину.
@@ -44,7 +45,7 @@ uk:
         commented: прокоментував(-ла)
         internal_comment: Внутрішній коментар
         internal_journal: Внутрішні коментарі видимі для визначеної групи учасників.
-        unsaved_changes_confirmation_message: У вас є незбережені зміни. Справді закрити редактор?
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: Зробити цей коментар загальнодоступним?
           heading: Зробити цей коментар загальнодоступним?
@@ -52,25 +53,29 @@ uk:
           confirm_button_text: Зробити загальнодоступним
   admin:
     reserved_identifiers:
-      title: Зарезервовані ідентифікатори проєктів
-      lede_html: Коли ідентифікатор проєкту перейменовується, попередній ідентифікатор залишається зарезервованим, щоб наявні посилання й інтеграції продовжували працювати.<br>Тут ви можете відв’язати зарезервовані ідентифікатори, щоб їх можна було використовувати для інших проєктів.
+      btn_release: Unreserve
       col_identifier: Ідентифікатор
       col_project: Проєкт
       col_reserved: Зарезервовано
-      not_available_in_semantic_mode: Зарезервовані ідентифікатори проєктів доступні лише в режимі числових ідентифікаторів.
-      filter_label: Шукати ідентифікатори
-      btn_release: Відв’язати
-      released_notice: Ідентифікатор %{identifier} відв’язано.
-      identifier_not_found: Не вдалося знайти зарезервований ідентифікатор. Можливо, його вже відв’язали або проєкт було видалено. Оновіть сторінку.
       dialog:
-        title: Відв’язати ідентифікатор
-        heading: Відв’язати %{identifier}?
-        description: Якщо відв’язати ідентифікатор, цю дію не можна буде відмінити. Зовнішні посилання й інтеграції, що використовують цей ідентифікатор, перестануть розпізнаватися, а ім’я стане доступним для будь-якого нового проєкту.
         checkbox_label: Я розумію, що цю дію не можна відмінити.
-        confirm_button: Відв’язати ідентифікатор
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: Немає зарезервованих ідентифікаторів
+      filter_label: Шукати ідентифікатори
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time} тому"
-      empty_body: Коли ідентифікатор проєкту змінюється, тут з’являється попередній ідентифікатор, щоб ви могли відв’язати його, щойно переконаєтеся, що це безпечно.
+      title: Зарезервовані ідентифікатори проєктів
     plugins:
       no_results_title_text: Зараз немає встановлених плагінів.
       no_results_content_text: Щоб дізнатися більше, ознайомтеся з нашою сторінкою інтеграцій і планів.
@@ -128,7 +133,7 @@ uk:
         trial: Пробний період
     jemalloc_allocator: Розподіл пам'яті Jemalloc
     journal_aggregation:
-      caption: 'Дії користувача над пакетом робіт (зміни опису, статусу чи значень або написання коментарів) групуються, якщо їх було виконано протягом цього періоду. Це налаштування також керує сповіщеннями й затримками [вебхука](webhook_link).
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1353,9 +1358,6 @@ uk:
       priority_color_text: |
         Натисніть, щоб призначити або змінити колір для цього пріоритету.
         Його можна використовувати для виділення пакетів роботи в таблиці.
-    admin:
-      default:
-        caption: Якщо зробити цей пріоритет стандартним, він замінить попередній стандартний пріоритет.
   reactions:
     action_title: Реакція
     add_reaction: Додати реакцію
@@ -2425,11 +2427,12 @@ uk:
         setting:
           attributes:
             base:
-              working_days_are_missing: Принаймні один день тижня має бути визначено як робочий.
-              previous_working_day_changes_unprocessed: Попередні зміни конфігурації робочих днів ще не застосовано.
-              hours_per_day_are_missing: Потрібно визначити кількість годин на день.
               durations_are_not_positive_numbers: Тривалість має бути додатним числом.
+              hours_per_day_are_missing: Потрібно визначити кількість годин на день.
               hours_per_day_is_out_of_bounds: Кількість годин на день не може перевищувати 24
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: Попередні зміни конфігурації робочих днів ще не застосовано.
+              working_days_are_missing: Принаймні один день тижня має бути визначено як робочий.
         status:
           attributes:
             default_done_ratio:
@@ -3376,10 +3379,11 @@ uk:
       disabled: Увімкнути
       enabled: Вимкнути
   enumeration_activities: Дії щодо відстеження часу
-  enumeration_work_package_priorities: Пріоритети робочого пакету
-  enumeration_reported_project_statuses: Повідомлений статус
   enumeration_caption_order_changed: Порядок змінено.
   enumeration_could_not_be_moved: Неможливо перенести перелічення.
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: Повідомлений статус
+  enumeration_work_package_priorities: Пріоритети робочого пакету
   enterprise_trials:
     dialog_component:
       title: Пробна версія Enterprise
@@ -3858,8 +3862,8 @@ uk:
         submit_button: Оновити сповіщення
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: Бере участь
-        description: Сповіщення про всі дії з пакетами робіт, з якими ви працюєте (як виконавець, відповідальний або спостерігач).
         submit_button: Оновити налаштування
         mentioned: Вас згадали
         watched: Відстеження
@@ -3867,8 +3871,8 @@ uk:
         responsible: Відповідальний
         shared: Доступ надано мені
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Сповіщення про дати
-        description: Автоматичні сповіщення про наближення важливих дат для відкритих пакетів робіт, з якими ви працюєте (як виконавець, відповідальний або спостерігач).
         submit_button: Оновити сповіщення про дати
         start_date: Дата початку
         due_date: Дата завершення
@@ -3882,8 +3886,8 @@ uk:
           three_days_after: Через 3 дні
           seven_days_after: Через 7 днів
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: Не бере участі
-        description: Додаткові сповіщення про дії в усіх проєктах.
         submit_button: Оновити налаштування
         work_package_created: Нові пакети робіт
         work_package_commented: Усі нові коментарі
@@ -3891,8 +3895,8 @@ uk:
         work_package_prioritized: Усі зміни пріоритету
         work_package_scheduled: Усі зміни дат
       project_specific_settings:
-        title: Налаштування сповіщень щодо проєктів
-        description: Ці налаштування для конкретного проєкту перевизначають типові налаштування, указані вище.
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: Додати сповіщення щодо проєктів
         dialog_title: Додати сповіщення щодо проєктів
         list_header: Проєкти зі спеціальними сповіщеннями
@@ -4026,6 +4030,7 @@ uk:
   label_send_invitation: Надіслати запрошення
   label_calculated_value: Розраховане значення
   label_change_parent: Змінити батьківський об’єкт
+  label_change_password: Change password
   label_change_plural: Зміни
   label_change_properties: Змінити властивості
   label_change_status: Змінити статус
@@ -4312,6 +4317,7 @@ uk:
   label_my_account_data: Мої дані облікового запису
   label_my_avatar: Мій аватар
   label_my_queries: Мої збережені запити
+  label_my_security: Security
   label_name: Назва
   label_never: Ніколи
   label_new: Нові

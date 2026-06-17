@@ -160,7 +160,7 @@ uk:
         '
       other_active_session_notice: У вашому обліковому записі є активний файл cookie на іншому сеансі.
       label: Пам'ятайте
-      clear_cookie: Натисніть тут, щоб видалити всі згадані 2FA сесії.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Усі згадані сеанси 2FA були видалені.
       dont_ask_again: Створіть cookie, щоб запам'ятати автентифікацію 2FA на цьому клієнті %{days}  днів.
   field_otp: Одноразовий пароль
@@ -171,6 +171,7 @@ uk:
   notice_account_has_no_phone: З вашим обліковим записом не пов’язано номер мобільного телефону.
   label_confirmed: Підтверджено
   button_continue: Продовжити
+  button_make_active: Activate
   button_make_default: Позначити за умовчанням
   notice_phone_number_format: 'Введіть номер у такому форматі: + XX XXXXXXXX.'
   text_otp_not_receive: Інші методи верифікації

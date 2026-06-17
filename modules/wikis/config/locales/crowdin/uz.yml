@@ -38,6 +38,16 @@ uz:
       wikis: Wikis
   permission_manage_wiki_page_links: Manage Wiki Page Links
   project_module_wiki_platforms: Wiki providers
+  services:
+    attributes:
+      wikis/create_linked_page_service:
+        wiki_page: Wiki page
+    errors:
+      models:
+        wikis/create_linked_page_service:
+          forbidden: was not allowed to be created.
+          not_found: was not found.
+          token_missing: Page creation not possible, user account is not connected to the wiki provider.
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -122,8 +132,6 @@ uz:
       save_and_continue: Save and continue
       wiki_page: Wiki page
     create_new_wiki_page_dialog:
-      page_title: Title
-      parent_help_text: Select a parent for this new wiki page.
       title: Create new wiki page
     delete_relation_page_link_confirmation_dialog:
       heading: Delete related wiki page link?
@@ -142,22 +150,28 @@ uz:
         xwiki_oauth_request_error: An unexpected error occured when trying to communicate with the XWiki instance.
         xwiki_oauth_token_missing: OpenProject cannot test the user-level communication with XWiki as the user did not yet connect their XWiki account.
         xwiki_oauth_unauthorized: The user token was not recognized by XWiki.
+    inline_existing_wiki_page_dialog:
+      title: Add existing wiki page
     instructions:
       xwiki:
         integration: XWiki Administration
         oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [XWiki OpenProject Integration settings](xwiki_admin_link).
     link_existing_wiki_page_dialog:
       title: Add existing wiki page
-    link_existing_wiki_page_form:
-      label: Wiki page
-      no_results: No wiki pages found
-      placeholder: Search for a wiki page
     oauth_login_component:
       connect_button: Connect %{provider} account
       description: Log in to %{provider} to view and manage related wiki pages from this OpenProject instance.
       heading: Not connected to %{provider}
     page_link_component:
       remove: Remove page link
+    page_link_forms:
+      labels:
+        page_tile: Title
+        parent: Parent wiki page
+        wiki_page: Wiki page
+      search:
+        no_results: No wiki pages found
+        placeholder: Search for a wiki page (or enter its URL)
     page_links:
       errors:
         page_access_forbidden: You do not have permission to access this wiki page
@@ -171,6 +185,10 @@ uz:
       empty_text: Manually add links to other related wiki pages.
       link_existing: Existing wiki page
       link_new: New wiki page
+    upsell:
+      xwiki:
+        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
+        title: XWiki Integration
     work_package_wikis_tab_component:
       inline_page_links: Inline page links
       referencing_pages: Referenced in

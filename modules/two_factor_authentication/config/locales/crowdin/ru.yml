@@ -160,7 +160,7 @@ ru:
         '
       other_active_session_notice: Ваша учетная запись обладает активным помнить куки на другой сессии.
       label: Запомнить
-      clear_cookie: Нажмите здесь, чтобы удалить все сохраненные 2FA сессий.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Все вспомнил, что 2FA сессий были удалены.
       dont_ask_again: Создать файл cookie для запоминания аутентификации 2ФА на этом клиенте в течение %{days} дней.
   field_otp: Одноразовый пароль
@@ -171,6 +171,7 @@ ru:
   notice_account_has_no_phone: К вашей учетной записи не привязан номер сотового телефона.
   label_confirmed: Подтвержден
   button_continue: Далее
+  button_make_active: Activate
   button_make_default: Задать по умолчанию
   notice_phone_number_format: 'Введите номер в следующем формате: +XX XXXXXXXX.'
   text_otp_not_receive: Другие способы проверки

@@ -29,12 +29,13 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { useMeta } from 'stimulus-use';
 import { durationStringToSeconds, formattedHour } from 'core-stimulus/helpers/chronic-duration-helper';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class TimeEntryController extends Controller {
+  static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
+
   static targets = ['startTimeInput', 'endTimeInput', 'hoursInput', 'hoursHiddenInput', 'form'];
 
   declare readonly formTarget:HTMLFormElement;
@@ -50,31 +51,31 @@ export default class TimeEntryController extends Controller {
 
   declare readonly csrfToken:string;
 
-  private turboRequests:TurboRequestsService;
-  private pathHelper:PathHelperService;
+  declare services:Promise<PickedServices<'turboRequests'|'pathHelperService'>>;
 
-  async connect() {
+  initialize() {
+    useAngularServices(this);
+  }
+
+  connect() {
     useMeta(this, { suffix: false });
-
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
-    this.pathHelper = context.services.pathHelperService;
 
     const workPackageAutocompleter = document.querySelector('opce-autocompleter[data-input-name*="time_entry[entity_id]"]');
     if (workPackageAutocompleter) {
-      this.oldWorkPackageId = (workPackageAutocompleter as HTMLElement).dataset.inputValue || '';
+      this.oldWorkPackageId = (workPackageAutocompleter as HTMLElement).dataset.inputValue ?? '';
     }
   }
 
-  userChanged(event:InputEvent) {
+  async userChanged(event:InputEvent) {
     const userId = (event.currentTarget as HTMLInputElement).value;
-    void this.turboRequests.request(
-      this.pathHelper.timeEntriesUserTimezoneCaption(userId),
+    const { turboRequests, pathHelperService } = await this.services;
+    void turboRequests.request(
+      pathHelperService.timeEntriesUserTimezoneCaption(userId),
       { method: 'GET' },
     );
   }
 
-  entityChanged(event:InputEvent) {
+  async entityChanged(event:InputEvent) {
     const target = event.currentTarget as HTMLInputElement;
     const newValue = target.value;
 
@@ -84,7 +85,8 @@ export default class TimeEntryController extends Controller {
       const url = this.formTarget.dataset.refreshFormUrl!;
       const formData = new FormData(this.formTarget);
       formData.delete('_method'); // remove the override method as this will submit to the wrong action
-      void this.turboRequests.request(url, {
+      const { turboRequests } = await this.services;
+      void turboRequests.request(url, {
         method: 'post',
         body: formData,
         headers: {

@@ -45,9 +45,6 @@ import {
 import {
   WorkPackageNotificationService,
 } from 'core-app/features/work-packages/services/notifications/work-package-notification.service';
-import {
-  take,
-} from 'rxjs/operators';
 import { UntilDestroyedMixin } from 'core-app/shared/helpers/angular/until-destroyed.mixin';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { HookService } from 'core-app/features/plugins/hook-service';
@@ -137,10 +134,14 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
    * Needs to be run explicitly by descendants.
    *
    * Note: this.workPackageId may be a semantic identifier (e.g. "PROJ-7")
-   * from the route param. The API resolves it correctly, but the cache key
-   * would be "PROJ-7" while list queries cache the same WP under "42".
-   * After the first load we normalize to the numeric PK to prevent
-   * dual cache entries.
+   * from the route param. In that case the initial load and stream are
+   * keyed under the semantic id, but cache writes elsewhere (e.g.
+   * cache.updateWorkPackage on save) key by the numeric PK on wp.id.
+   * If they differ, we open a parallel subscription on the numeric slot
+   * after the first emission so subsequent updates reach us — otherwise
+   * this.workPackage would freeze at the initial load. In classic mode
+   * (route param == numeric PK) no parallel subscription is opened, so
+   * the emission count is unchanged from the original behavior.
    */
   protected observeWorkPackage():void {
     this
@@ -150,29 +151,42 @@ export abstract class WorkPackageSingleViewBase extends UntilDestroyedMixin {
       .requireAndStream()
       .pipe(this.untilDestroyed())
       .subscribe((wp:WorkPackageResource) => {
-        // Normalize semantic route param (e.g. "PROJ-7") to numeric PK
-        // for cache coherence — downstream code uses this.workPackageId
-        // as a cache key, and the canonical key is always numeric.
-        if (this.workPackageId !== wp.id && wp.id) {
+        if (wp.id && this.workPackageId !== wp.id) {
           this.workPackageId = wp.id;
+          this.subscribeToNumericCacheSlot(wp.id);
         }
 
-        if (!this.workPackage) {
-          this.workPackage = wp;
-          this.init();
-        } else {
-          this.workPackage = wp;
-        }
-
-        if (this.routedFromAngular) {
-          // Push the current title
-          this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
-        }
-
-        this.cdRef.detectChanges();
+        this.applyWorkPackage(wp);
       }, (error) => {
         this.handleLoadingError(error);
       });
+  }
+
+  private subscribeToNumericCacheSlot(numericId:string):void {
+    this
+      .apiV3Service
+      .work_packages
+      .cache
+      .state(numericId)
+      .values$()
+      .pipe(this.untilDestroyed())
+      .subscribe((nextWp:WorkPackageResource) => this.applyWorkPackage(nextWp));
+  }
+
+  private applyWorkPackage(wp:WorkPackageResource):void {
+    if (!this.workPackage) {
+      this.workPackage = wp;
+      this.init();
+    } else {
+      this.workPackage = wp;
+    }
+
+    if (this.routedFromAngular) {
+      // Push the current title
+      this.titleService.setFirstPart(this.workPackage.subjectWithType(-1));
+    }
+
+    this.cdRef.detectChanges();
   }
 
   /**

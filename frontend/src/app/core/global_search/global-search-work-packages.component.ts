@@ -70,7 +70,7 @@ export class GlobalSearchWorkPackagesComponent extends UntilDestroyedMixin imple
 
   public queryProps:Partial<QueryRequestParams>;
 
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly renderer= inject(Renderer2);
   readonly I18n= inject(I18nService);
   readonly halResourceService= inject(HalResourceService);

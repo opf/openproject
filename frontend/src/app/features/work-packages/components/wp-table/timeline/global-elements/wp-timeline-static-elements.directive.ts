@@ -55,7 +55,7 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
   private elements:TimelineStaticElement[];
 
   constructor() {
-    const elementRef = inject(ElementRef);
+    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
     this.element = elementRef.nativeElement;
 

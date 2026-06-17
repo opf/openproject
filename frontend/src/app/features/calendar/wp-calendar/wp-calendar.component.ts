@@ -101,7 +101,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   readonly wpListService = inject(WorkPackagesListService);
   readonly querySpace = inject(IsolatedQuerySpace);
   readonly schemaCache = inject(SchemaCacheService);
-  private element = inject(ElementRef);
+  private element = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly i18n = inject(I18nService);
   readonly toastService = inject(ToastService);
   private sanitizer = inject(DomSanitizer);
@@ -121,7 +121,7 @@ export class WorkPackagesCalendarComponent extends UntilDestroyedMixin implement
   @ViewChild(FullCalendarComponent) ucCalendar:FullCalendarComponent;
 
   @ViewChild('ucCalendar', { read: ElementRef })
-  set ucCalendarElement(v:ElementRef|undefined) {
+  set ucCalendarElement(v:ElementRef<HTMLElement>|undefined) {
     this.calendar.resizeObserver(v);
   }
 

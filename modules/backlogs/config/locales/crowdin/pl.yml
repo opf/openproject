@@ -42,7 +42,7 @@ pl:
           completed: Ukończone
         work_packages: Pakiety robocze
       work_package:
-        backlog_bucket: Kategoria backlogu
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Typ backlogu
         position: Pozycja
         sprint: Sprint

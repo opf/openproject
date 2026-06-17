@@ -88,7 +88,7 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
   public _container:HTMLElement;
 
   @ViewChild('container')
-  set container(v:ElementRef|undefined) {
+  set container(v:ElementRef<HTMLElement>|undefined) {
     // ViewChild reference may be undefined initially
     // due to ngIf
     if (v !== undefined) {

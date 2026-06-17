@@ -53,7 +53,7 @@ import {
 })
 export class InAppNotificationCenterComponent implements OnInit {
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly I18n = inject(I18nService);
   readonly storeService = inject(IanCenterService);
   readonly bellService = inject(IanBellService);

@@ -63,7 +63,7 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
   readonly timezoneService = inject(TimezoneService);
   readonly injector = inject(Injector);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly spotDropModalTeleportationService = inject(SpotDropModalTeleportationService);
 
   @Output() closed = new EventEmitter();
@@ -117,7 +117,7 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
 
   @Input() ignoreNonWorkingDays = false;
 
-  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef;
+  @ViewChild('flatpickrTarget') flatpickrTarget:ElementRef<HTMLElement>;
 
   public workingValue = '';
 
@@ -147,7 +147,7 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
   }
 
   ngAfterContentInit() {
-    const trigger = (this.elementRef.nativeElement as HTMLElement).querySelector("[slot='trigger']");
+    const trigger = this.elementRef.nativeElement.querySelector("[slot='trigger']");
     this.useDefaultTrigger = trigger === null;
   }
 
@@ -249,7 +249,7 @@ export class OpModalSingleDatePickerComponent implements ControlValueAccessor, O
           );
         },
       },
-      this.flatpickrTarget.nativeElement as HTMLElement,
+      this.flatpickrTarget.nativeElement,
     );
   }
 

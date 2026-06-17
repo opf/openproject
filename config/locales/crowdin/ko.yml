@@ -32,6 +32,7 @@ ko:
         label_activity_show_all: 모두 표시
         label_activity_show_only_comments: 코멘트만 표시
         label_activity_show_only_changes: 변경 사항만 표시
+        label_dismiss_comment: Dismiss
         label_sort_asc: 오래된 순
         label_sort_desc: 최신 순
         label_type_to_comment: 코멘트를 추가하세요. 사람들에게 알려주려면 @을 입력하세요.
@@ -44,7 +45,7 @@ ko:
         commented: "- 코멘트 작성함"
         internal_comment: 내부 코멘트
         internal_journal: 내부 코멘트는 제한된 멤버 그룹에게만 표시됩니다.
-        unsaved_changes_confirmation_message: 저장하지 않은 변경 사항이 있습니다. 편집기를 닫으시겠습니까?
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: 이 코멘트를 공개로 지정하시겠습니까?
           heading: 이 코멘트를 공개로 지정하시겠습니까?
@@ -52,25 +53,26 @@ ko:
           confirm_button_text: 공개로 설정
   admin:
     reserved_identifiers:
-      title: 예약된 프로젝트 식별자
-      lede_html: 프로젝트 식별자의 이름이 변경되면 기존 링크와 통합이 계속 작동하도록 이전 식별자는 예약된 상태로 유지됩니다.<br>다른 프로젝트에서 사용할 수 있도록, 예약된 식별자를 여기에서 해제할 수 있습니다.
+      btn_release: Unreserve
       col_identifier: 식별자
       col_project: 프로젝트
       col_reserved: 예약됨
-      not_available_in_semantic_mode: 예약된 프로젝트 식별자는 숫자 식별자 모드에서만 사용할 수 있습니다.
-      filter_label: 식별자 검색
-      btn_release: 해제
-      released_notice: '"%{identifier}" 식별자가 해제되었습니다.'
-      identifier_not_found: 예약된 식별자를 찾을 수 없습니다. 이미 해제되었거나 프로젝트가 삭제되었을 수 있습니다. 페이지를 새로 고쳐주세요.
       dialog:
-        title: 식별자 해제
-        heading: '"%{identifier}"을(를) 해제하시겠습니까?'
-        description: 이 식별자를 해제하면 되돌릴 수 없습니다. 이 식별자를 사용하는 외부 링크 및 통합은 확인이 중지되며 새 프로젝트에서 해당 이름을 클레임할 수 있게 됩니다.
         checkbox_label: 이 작업은 취소할 수 없음을 이해합니다.
-        confirm_button: 식별자 해제
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: 예약된 식별자 없음
+      filter_label: 식별자 검색
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time} 전"
-      empty_body: 프로젝트의 식별자가 변경되면, 이전 식별자가 여기에 표시되므로, 안전하다고 판단되면 해제할 수 있습니다.
+      title: 예약된 프로젝트 식별자
     plugins:
       no_results_title_text: 현재 설치된 플러그인이 없습니다.
       no_results_content_text: 자세한 내용은 통합 및 플러그인 페이지를 참조하세요.
@@ -128,7 +130,7 @@ ko:
         trial: 평가판
     jemalloc_allocator: Jemalloc 메모리 할당기
     journal_aggregation:
-      caption: '작업 패키지에 대한 사용자 액션(설명, 상태, 값 변경 또는 코멘트 작성)은 이 기간 내에 수행된 경우 그룹화됩니다. 또한 알림 및 [webhook](webhook_link) 지연을 제어합니다.
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1300,9 +1302,6 @@ ko:
       priority_color_text: |
         이 우선 순위의 색상을 할당하거나 변경하려면 클릭하세요.
         테이블에서 작업 패키지를 강조 표시하는 데 사용할 수 있습니다.
-    admin:
-      default:
-        caption: 이 우선 순위를 기본값으로 설정하면 이전 기본 우선 순위가 재정의됩니다.
   reactions:
     action_title: 반응
     add_reaction: 반응 추가
@@ -2358,11 +2357,12 @@ ko:
         setting:
           attributes:
             base:
-              working_days_are_missing: 적어도 일주일의 하루는 근무일로 정의해야 합니다.
-              previous_working_day_changes_unprocessed: 근무일 구성에 대한 이전 변경 사항이 아직 적용되지 않았습니다.
-              hours_per_day_are_missing: 일별 시간을 정의해야 합니다.
               durations_are_not_positive_numbers: 기간은 양수여야 합니다.
+              hours_per_day_are_missing: 일별 시간을 정의해야 합니다.
               hours_per_day_is_out_of_bounds: 일별 시간은 24시간을 초과할 수 없습니다
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: 근무일 구성에 대한 이전 변경 사항이 아직 적용되지 않았습니다.
+              working_days_are_missing: 적어도 일주일의 하루는 근무일로 정의해야 합니다.
         status:
           attributes:
             default_done_ratio:
@@ -3207,10 +3207,11 @@ ko:
       disabled: 활성화
       enabled: 비활성화
   enumeration_activities: 시간 추적 활동
-  enumeration_work_package_priorities: 작업 패키지 우선 순위
-  enumeration_reported_project_statuses: 보고된 상태
   enumeration_caption_order_changed: 주문이 변경되었습니다.
   enumeration_could_not_be_moved: 열거형은 이동할 수 없습니다.
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: 보고된 상태
+  enumeration_work_package_priorities: 작업 패키지 우선 순위
   enterprise_trials:
     dialog_component:
       title: Enterprise 평가판
@@ -3683,8 +3684,8 @@ ko:
         submit_button: 알림 업데이트
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: 참여
-        description: 내가 참여하고 있는 작업 패키지의 모든 활동에 대한 알림(담당자, 책임자 또는 주시자).
         submit_button: 기본 설정 업데이트
         mentioned: 멘션됨
         watched: 지켜보는 중
@@ -3692,8 +3693,8 @@ ko:
         responsible: 담당
         shared: 나와 공유됨
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: 날짜 알림
-        description: 내가 참여하고 있는 오픈 작업 패키지에 대한 중요 날짜가 다가올 때 자동 알림(담당자, 책임자 또는 주시자).
         submit_button: 날짜 알림 업데이트
         start_date: 시작 날짜
         due_date: 완료 날짜
@@ -3707,8 +3708,8 @@ ko:
           three_days_after: 3일 후
           seven_days_after: 7일 후
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: 참여하지 않음
-        description: 모든 프로젝트의 활동에 대한 추가 알림.
         submit_button: 기본 설정 업데이트
         work_package_created: 새 작업 패키지
         work_package_commented: 모든 새로운 코멘트
@@ -3716,8 +3717,8 @@ ko:
         work_package_prioritized: 모든 우선 순위 변경 사항
         work_package_scheduled: 모든 날짜 변경 사항
       project_specific_settings:
-        title: 프로젝트별 알림 설정
-        description: 이러한 프로젝트별 설정은 위의 기본 설정을 재정의합니다.
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: 프로젝트별 알림 추가
         dialog_title: 프로젝트별 알림 추가
         list_header: 특정 알림이 있는 프로젝트
@@ -3851,6 +3852,7 @@ ko:
   label_send_invitation: 초대장 보내기
   label_calculated_value: 계산된 값
   label_change_parent: 부모 변경
+  label_change_password: Change password
   label_change_plural: 변경
   label_change_properties: 속성 변경
   label_change_status: 상태 변경
@@ -4137,6 +4139,7 @@ ko:
   label_my_account_data: 내 계정 데이터
   label_my_avatar: 내 아바타
   label_my_queries: 내 사용자 지정 쿼리
+  label_my_security: Security
   label_name: 이름
   label_never: 사용 안 함
   label_new: 새로 만들기

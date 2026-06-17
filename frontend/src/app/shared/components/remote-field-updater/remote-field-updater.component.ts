@@ -38,7 +38,7 @@ export const remoteFieldUpdaterSelector = 'remote-field-updater';
   standalone: false,
 })
 export class RemoteFieldUpdaterComponent implements OnInit, OnDestroy {
-  private elementRef = inject(ElementRef);
+  private elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private http = inject(HttpClient);
 
 
@@ -53,7 +53,7 @@ export class RemoteFieldUpdaterComponent implements OnInit, OnDestroy {
   private unitsTextField:HTMLInputElement | null = null;
 
   ngOnInit():void {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     this.form = element.closest('form')!;
     this.costTypeSelect = this.form.querySelector('#cost_entry_cost_type_id');
     this.unitsTextField = this.form.querySelector('#cost_entry_units');

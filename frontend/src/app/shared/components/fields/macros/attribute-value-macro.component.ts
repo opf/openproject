@@ -54,7 +54,7 @@ export const ATTRIBUTE_MACRO_CLASS = 'op-attribute-value-macro';
   standalone: false,
 })
 export class AttributeValueMacroComponent implements OnInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly injector = inject(Injector);
   readonly resourceLoader = inject(AttributeModelLoaderService);
   readonly schemaCache = inject(SchemaCacheService);
@@ -81,7 +81,7 @@ export class AttributeValueMacroComponent implements OnInit {
   fieldName:string;
 
   ngOnInit():void {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
@@ -96,7 +96,7 @@ export class AttributeValueMacroComponent implements OnInit {
   }
 
   private isNestedMacro(model:SupportedAttributeModels, id:string, attributeName:string):boolean {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     const parent = element.parentElement;
     return !!parent?.closest(`.${ATTRIBUTE_MACRO_CLASS}[data-model="${model}"][data-id="${id}"][data-attribute="${attributeName}"]`);
   }

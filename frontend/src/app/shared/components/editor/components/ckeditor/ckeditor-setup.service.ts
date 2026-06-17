@@ -159,7 +159,7 @@ export class CKEditorSetupService {
     // untyped modules cannot be dynamically imported
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const loadEditorScript = import(/* webpackChunkName: "ckeditor" */ 'core-vendor/ckeditor/ckeditor');
+    const loadEditorScript = import('core-vendor/ckeditor/ckeditor');
 
     const promises = [loadEditorScript];
 
@@ -172,9 +172,7 @@ export class CKEditorSetupService {
 
   private async loadLocale():Promise<void> {
     try {
-      await import(
-        /* webpackPrefetch: true; webpackChunkName: "ckeditor-translation" */ `../../../../../../vendor/ckeditor/translations/${I18n.locale}.js`
-      );
+      await import(`../../../../../../vendor/ckeditor/translations/${I18n.locale}.js`);
       this.loadedLocale = I18n.locale;
     } catch (e:unknown) {
       console.warn(`Failed to load translation for CKEditor: ${e as string}`);

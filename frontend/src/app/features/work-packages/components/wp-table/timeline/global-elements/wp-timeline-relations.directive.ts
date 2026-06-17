@@ -85,7 +85,7 @@ function newSegment(vp:TimelineViewParameters,
 })
 export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
   readonly injector = inject(Injector);
-  elementRef = inject(ElementRef);
+  elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   states = inject(States);
   workPackageTimelineTableController = inject(WorkPackageTimelineTableController);
   wpTableTimeline = inject(WorkPackageViewTimelineService);
@@ -98,8 +98,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   private workPackagesWithRelations:Record<string, RelationsStateValue> = {};
 
   ngOnInit() {
-    const element = this.elementRef.nativeElement;
-    this.container = element.querySelector('.wp-table-timeline--relations');
+    this.container = this.elementRef.nativeElement.querySelector('.wp-table-timeline--relations')!;
     this.workPackageTimelineTableController
       .onRefreshRequested('relations', (vp:TimelineViewParameters) => this.refreshView());
 

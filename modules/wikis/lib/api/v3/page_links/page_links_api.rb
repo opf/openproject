@@ -70,6 +70,21 @@ module API
               current_user:
             )
           end
+
+          route_param :wiki_page_link_id, type: Integer, description: "Wiki Page Link ID" do
+            after_validation do
+              @relation_page_link = Wikis::RelationPageLink.find(params[:wiki_page_link_id])
+
+              unless authorize_in_project(:manage_wiki_page_links, project: @relation_page_link.linkable.project)
+                raise ::API::Errors::NotFound.new
+              end
+            end
+
+            delete &API::Utilities::Endpoints::Delete.new(
+              model: Wikis::RelationPageLink,
+              process_service: Wikis::RelationPageLinks::DeleteService
+            ).mount
+          end
         end
       end
     end

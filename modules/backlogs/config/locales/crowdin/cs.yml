@@ -42,7 +42,7 @@ cs:
           completed: Dokončen
         work_packages: Pracovní balíčky
       work_package:
-        backlog_bucket: Sekce backlogu
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Typ backlogu
         position: Pozice
         sprint: Sprint

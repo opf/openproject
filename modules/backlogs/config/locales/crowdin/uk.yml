@@ -42,7 +42,7 @@ uk:
           completed: Завершений
         work_packages: Пакети робіт
       work_package:
-        backlog_bucket: Сегмент беклогу
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Тип Backlog-у
         position: Позиція
         sprint: Спринт

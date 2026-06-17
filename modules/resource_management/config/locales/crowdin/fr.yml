@@ -3,11 +3,11 @@ fr:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
+        allocated_hours: Heures
         allocated_time: Temps alloué
         end_date: Date de fin
         entity: Entité
-        filter_name: Resource filter name
+        filter_name: Nom du filtre de ressources
         principal: Assigné à
         start_date: Date de début
         state: État
@@ -59,28 +59,28 @@ fr:
       unfavorite: Supprimer des favoris
     allocation:
       hours: "%{value}h"
-      no_work: No work planned on this work package
+      no_work: Aucun travail n'est prévu pour ce lot de travail
       summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
           caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          label: Critères de filtrage
+        label: Type d’allocation
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Attribuer des heures à un utilisateur spécifique.
+          label: Utilisateur
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: Les dates de la ressource sélectionnée, %{resource_dates}, ne correspondent pas aux dates du lot de travail, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
+        capacity_summary: "%{available} disponible · %{scheduled} prévu"
+        description: L'utilisateur sélectionné, %{user}, serait affecté à des tâches en dehors de ses heures de travail pendant cette période.
+        hidden_work: Autres relations
+        schedule_availability: "%{schedule} (%{factor}% de disponibilité pour des projets)"
+        schedule_change: jusque le %{date}, puis %{schedule}
         schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
+        submit: Temps alloué
+        title: Souhaitez-vous attribuer des heures supplémentaires à l'utilisateur ?
       submit: Allocate
       success_message: Resource allocated.
       title: Allocate resource

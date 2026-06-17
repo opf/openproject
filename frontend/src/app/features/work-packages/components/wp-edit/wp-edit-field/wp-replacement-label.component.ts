@@ -40,7 +40,7 @@ import { EditFormComponent } from 'core-app/shared/components/fields/edit/edit-f
 })
 export class WorkPackageReplacementLabelComponent implements OnInit {
   protected wpeditForm = inject(EditFormComponent);
-  protected elementRef = inject(ElementRef);
+  protected elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() public fieldName:string;
 

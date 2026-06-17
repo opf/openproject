@@ -79,6 +79,9 @@ RSpec.describe "Document types admin", :js do
 
       click_link "Documentation"
 
+      expect(page).to have_text("Making this document type the default")
+      expect(page).to have_no_text("priority")
+
       fill_in "Name", with: "Report"
       click_on("Save")
 

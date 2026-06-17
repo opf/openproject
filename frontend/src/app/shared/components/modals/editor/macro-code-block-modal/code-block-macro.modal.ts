@@ -62,7 +62,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
 
   public debouncedLanguageLoader = _.debounce(() => this.loadLanguageAsMode(this.language), 300);
 
-  @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef;
+  @ViewChild('codeMirrorPane', { static: true }) codeMirrorPane:ElementRef<HTMLTextAreaElement>;
 
   readonly I18n = inject(I18nService);
   readonly codeMirrorLoader = inject(CodeMirrorLoaderService);
@@ -101,7 +101,7 @@ export class CodeBlockMacroModalComponent extends OpModalComponent implements Af
   ngAfterViewInit():void {
     void this.codeMirrorLoader.loadCore().then((CodeMirror) => {
       this.codeMirrorInstance = CodeMirror.fromTextArea(
-        this.codeMirrorPane.nativeElement as HTMLTextAreaElement,
+        this.codeMirrorPane.nativeElement,
         {
           lineNumbers: true,
           smartIndent: true,

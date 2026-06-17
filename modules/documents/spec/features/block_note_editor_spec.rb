@@ -104,15 +104,13 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
     context "when inserting work package links into the editor" do
       let(:status) { create(:status, name: "Open") }
       let(:type) { create(:type, name: "Life Goals") }
-      let(:work_package) do
+      let!(:work_package) do
         create(:work_package,
                project: document.project,
                subject: "pet a tiger",
                status:,
                type:)
       end
-
-      before { work_package } # force eager creation before visiting the page
 
       it "inserts link work package cards with slash command" do
         visit document_path(document)
@@ -122,13 +120,13 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         editor.search_and_select_work_package("tiger", "pet a tiger")
 
         expect(editor.element).to have_no_text("Link existing work package") # search dialog is closed
-        expect(editor.element).to have_no_text("…") # work package is loaded
-        expect(editor.element.text).to match(/##{work_package.display_id}\sLIFE GOALS\sOpen\spet a tiger/)
+        expect(editor.element).to have_no_text("Loading")
+        expect(editor.element.text).to match(/LIFE GOALS\s##{work_package.display_id}\sOpen\spet a tiger/)
 
         # Capybara's have_link seems not to work in a shadow dom, so it's tested via the property
         expect(editor.element.find_link(text: "pet a tiger").native.property("href")).to end_with("/wp/#{work_package.id}")
 
-        editor.wait_for_autosave { document.reload.description&.include?("##{work_package.id}") }
+        editor.wait_for_autosave { document.reload.description&.include?("[####{work_package.id}](https://openproject.local/wp/#{work_package.id})") }
       end
 
       it "inserts an xxs inline link via # notation" do
@@ -144,7 +142,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(editor.element.text).to match(/##{work_package.display_id}/)
         # xxs chip shows only the ID — no title link
 
-        editor.wait_for_autosave { document.reload.description&.include?("##{work_package.id}") }
+        editor.wait_for_autosave { document.reload.description&.include?("[##{work_package.id}](https://openproject.local/wp/#{work_package.id})") }
       end
 
       it "inserts an xs inline link via ## notation" do
@@ -162,7 +160,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(editor.element.find_link(text: "pet a tiger").native.property("href"))
           .to end_with("/wp/#{work_package.id}")
 
-        editor.wait_for_autosave { document.reload.description&.include?("##{work_package.id}") }
+        editor.wait_for_autosave { document.reload.description&.include?("[###{work_package.id}](https://openproject.local/wp/#{work_package.id})") }
       end
 
       it "inserts an s inline link via ### notation" do
@@ -180,7 +178,7 @@ RSpec.describe "BlockNote editor rendering", :js, :selenium, with_settings: { re
         expect(editor.element.find_link(text: "pet a tiger").native.property("href"))
           .to end_with("/wp/#{work_package.id}")
 
-        editor.wait_for_autosave { document.reload.description&.include?("##{work_package.id}") }
+        editor.wait_for_autosave { document.reload.description&.include?("####{work_package.id}") }
       end
 
       describe "CTRL-Z undo behavior" do

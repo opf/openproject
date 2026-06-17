@@ -463,7 +463,7 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :project_reserved_identifiers_settings,
             { controller: "/admin/settings/project_reserved_identifiers", action: :index },
-            if: ->(_) { User.current.admin? && Setting::WorkPackageIdentifier.classic? },
+            if: ->(_) { User.current.admin? },
             caption: :label_reserved_identifiers,
             parent: :admin_projects_settings
 

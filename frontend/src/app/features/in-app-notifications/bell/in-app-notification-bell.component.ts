@@ -15,7 +15,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   standalone: false,
 })
 export class InAppNotificationBellComponent implements OnInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly storeService = inject(IanBellService);
   readonly apiV3Service = inject(ApiV3Service);
   readonly activeWindow = inject(ActiveWindowService);

@@ -107,12 +107,12 @@ module OpTurbo
       turbo_streams << target_component.insert_as_turbo_stream(component:, view_context:, action: :before)
     end
 
-    def render_success_flash_message_via_turbo_stream(**)
-      render_flash_message_via_turbo_stream(**, scheme: :success)
+    def render_success_flash_message_via_turbo_stream(message:, **)
+      render_flash_message_via_turbo_stream(message:, scheme: :success, **)
     end
 
-    def render_error_flash_message_via_turbo_stream(**)
-      render_flash_message_via_turbo_stream(**, scheme: :danger, icon: :stop)
+    def render_error_flash_message_via_turbo_stream(message:, **)
+      render_flash_message_via_turbo_stream(message:, scheme: :danger, icon: :stop, **)
     end
 
     def render_live_region_update_message(message:, politeness: "polite", delay: nil)

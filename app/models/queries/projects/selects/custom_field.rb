@@ -56,6 +56,7 @@ class Queries::Projects::Selects::CustomField < Queries::Selects::Base
 
   def custom_field
     return @custom_field if defined?(@custom_field)
+
     @custom_field = custom_field_context.find_custom_field(attribute[KEY, 1])
   end
 

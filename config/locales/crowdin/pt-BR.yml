@@ -32,6 +32,7 @@ pt-BR:
         label_activity_show_all: Exibir tudo
         label_activity_show_only_comments: Exibir apenas comentários
         label_activity_show_only_changes: Exibir apenas alterações
+        label_dismiss_comment: Dismiss
         label_sort_asc: Mais recentes embaixo
         label_sort_desc: Mais recentes em cima
         label_type_to_comment: Adicione um comentário. Digite @ para notificar as pessoas.
@@ -44,7 +45,7 @@ pt-BR:
         commented: comentou
         internal_comment: Comentário interno
         internal_journal: Comentários internos são visíveis apenas para um grupo restrito de membros.
-        unsaved_changes_confirmation_message: Há alterações não salvas. Tem certeza de que deseja fechar o editor?
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: Tornar este comentário público?
           heading: Tornar este comentário público?
@@ -52,25 +53,27 @@ pt-BR:
           confirm_button_text: Tornar público
   admin:
     reserved_identifiers:
-      title: Identificadores de projeto reservados
-      lede_html: Quando o identificador de um projeto é renomeado, o identificador anterior é mantido como reservado para que links e integrações existentes continuem funcionando.<br>Aqui você pode liberar identificadores reservados para que possam ser usados por outros projetos.
+      btn_release: Unreserve
       col_identifier: Identificador
       col_project: Projeto
       col_reserved: Reservado
-      not_available_in_semantic_mode: Identificadores de projeto reservados estão disponíveis apenas no modo de identificador numérico.
-      filter_label: Pesquisar identificadores
-      btn_release: Liberar
-      released_notice: O identificador “%{identifier}” foi liberado.
-      identifier_not_found: O identificador reservado não foi encontrado. Ele pode já ter sido liberado ou o projeto pode ter sido excluído. Atualize a página.
       dialog:
-        title: Liberar identificador
-        heading: Liberar "%{identifier}"?
-        description: A liberação deste identificador não pode ser desfeita. Links externos e integrações que o utilizam deixarão de funcionar, e o identificador ficará disponível para ser usado por qualquer novo projeto.
         checkbox_label: Compreendo que isso é irreversível.
-        confirm_button: Liberar identificador
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: Nenhum identificador reservado
+      filter_label: Pesquisar identificadores
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time} atrás"
-      empty_body: Quando o identificador de um projeto é alterado, o anterior aparecerá aqui para que você possa liberá-lo quando for seguro fazê-lo.
+      title: Identificadores de projeto reservados
     plugins:
       no_results_title_text: Atualmente, não existem plugins instalados.
       no_results_content_text: Confira nossa página de integrações e plugins para obter mais informações.
@@ -128,7 +131,7 @@ pt-BR:
         trial: Avaliação
     jemalloc_allocator: Alocador de memória Jemalloc
     journal_aggregation:
-      caption: 'As ações do usuário em um pacote de trabalho (alterar descrição, status, valores ou escrever comentários) são agrupadas se realizadas dentro deste período. Esse intervalo também controla os atrasos nas notificações e nos [webhooks] (webhook_link).
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1319,9 +1322,6 @@ pt-BR:
       priority_color_text: |
         Clique para atribuir ou alterar a cor desta prioridade.
         Pode ser usado para destacar pacotes de trabalho na tabela.
-    admin:
-      default:
-        caption: Definir esta prioridade como padrão substituirá a prioridade padrão anterior.
   reactions:
     action_title: Reagir
     add_reaction: Adicionar reação
@@ -2379,11 +2379,12 @@ pt-BR:
         setting:
           attributes:
             base:
-              working_days_are_missing: Pelo menos um dia da semana deve ser definido como um dia útil.
-              previous_working_day_changes_unprocessed: As alterações anteriores na configuração de dias úteis ainda não foram aplicadas.
-              hours_per_day_are_missing: O número de horas por dia deve ser definido.
               durations_are_not_positive_numbers: As durações devem ser números positivos.
+              hours_per_day_are_missing: O número de horas por dia deve ser definido.
               hours_per_day_is_out_of_bounds: As horas por dia não podem ultrapassar 24
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: As alterações anteriores na configuração de dias úteis ainda não foram aplicadas.
+              working_days_are_missing: Pelo menos um dia da semana deve ser definido como um dia útil.
         status:
           attributes:
             default_done_ratio:
@@ -3250,10 +3251,11 @@ pt-BR:
       disabled: Habilitar
       enabled: Desabilitar
   enumeration_activities: Atividades de controle de tempo
-  enumeration_work_package_priorities: Prioridades do pacote de trabalho
-  enumeration_reported_project_statuses: Publicação denunciada
   enumeration_caption_order_changed: Ordem alterada com sucesso.
   enumeration_could_not_be_moved: Enumeração não pôde ser movida.
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: Publicação denunciada
+  enumeration_work_package_priorities: Prioridades do pacote de trabalho
   enterprise_trials:
     dialog_component:
       title: Versão de avaliação corporativa
@@ -3728,8 +3730,8 @@ pt-BR:
         submit_button: Atualizar alertas
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: Participando
-        description: Notificações para todas as atividades em pacotes de trabalho nos quais você está envolvido (responsável, encarregado ou observador).
         submit_button: Atualizar preferências
         mentioned: Mencionado
         watched: Assistindo
@@ -3737,8 +3739,8 @@ pt-BR:
         responsible: Encarregado
         shared: Compartilhados comigo
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Alertas de data
-        description: Notificações automáticas quando datas importantes estiverem se aproximando para pacotes de trabalho abertos nos quais você está envolvido (responsável, encarregado ou observador).
         submit_button: Atualizar alertas de data
         start_date: Data de início
         due_date: Data de conclusão
@@ -3752,8 +3754,8 @@ pt-BR:
           three_days_after: 3 dias depois
           seven_days_after: 7 dias depois
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: Não participando
-        description: Notificações adicionais sobre atividades em todos os projetos.
         submit_button: Atualizar preferências
         work_package_created: Novos pacotes de trabalho
         work_package_commented: Todos os novos comentários
@@ -3761,8 +3763,8 @@ pt-BR:
         work_package_prioritized: Todas as mudanças de prioridade
         work_package_scheduled: Todas as mudanças de data
       project_specific_settings:
-        title: Configurações de notificação específicas de projetos
-        description: Essas configurações específicas do projeto substituem as configurações padrão acima.
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: Adicionar notificações específicas do projeto
         dialog_title: Adicionar notificações específicas do projeto
         list_header: Projetos com notificações específicas
@@ -3896,6 +3898,7 @@ pt-BR:
   label_send_invitation: Enviar Convite
   label_calculated_value: Valor calculado
   label_change_parent: Alterar pai
+  label_change_password: Change password
   label_change_plural: Mudanças
   label_change_properties: Alterar propriedades
   label_change_status: Alterar situação
@@ -4182,6 +4185,7 @@ pt-BR:
   label_my_account_data: Dados da minha conta
   label_my_avatar: Meu avatar
   label_my_queries: Minhas consultas personalizadas
+  label_my_security: Security
   label_name: Nome
   label_never: Nunca
   label_new: Novo

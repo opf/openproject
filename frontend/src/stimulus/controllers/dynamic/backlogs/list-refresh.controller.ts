@@ -30,7 +30,7 @@ import { Controller } from '@hotwired/stimulus';
 import type { FrameElement } from '@hotwired/turbo';
 import { filter, Subscription } from 'rxjs';
 import type { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
-import { useServices, type ServiceKey } from 'core-stimulus/mixins/use-services';
+import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 // The Backlogs lists are server-rendered and updated via Turbo streams on drag
 // moves, but a work package can also change outside a drag — e.g. edited in the
@@ -47,7 +47,7 @@ export default class ListRefreshController extends Controller<FrameElement> {
   private subscription:Subscription|null = null;
 
   initialize() {
-    useServices(this);
+    useAngularServices(this);
   }
 
   servicesConnected() {

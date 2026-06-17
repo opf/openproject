@@ -29,20 +29,19 @@
  */
 
 import { ApplicationController } from 'stimulus-use';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class extends ApplicationController {
-  protected turboRequests:TurboRequestsService;
-  protected pathHelper:PathHelperService;
+  static services:ServiceKey[] = ['turboRequests', 'pathHelperService'];
 
-  async connect() {
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
-    this.pathHelper = context.services.pathHelperService;
+  declare services:Promise<PickedServices<'turboRequests'|'pathHelperService'>>;
+
+  initialize() {
+    super.initialize();
+    useAngularServices(this);
   }
 
-  updateTimezoneText():void {
+  async updateTimezoneText() {
     const data = new FormData(this.element as HTMLFormElement);
     const urlSearchParams = new URLSearchParams();
     let key:string;
@@ -52,10 +51,10 @@ export default class extends ApplicationController {
       urlSearchParams.append(key, data.get(key) as string);
     });
 
-    void this
-      .turboRequests
+    const { turboRequests, pathHelperService } = await this.services;
+    void turboRequests
       .request(
-        `${this.pathHelper.staticBase}/meetings/fetch_timezone?${urlSearchParams.toString()}`,
+        `${pathHelperService.staticBase}/meetings/fetch_timezone?${urlSearchParams.toString()}`,
         {
           headers: {
             Accept: 'text/vnd.turbo-stream.html',

@@ -42,7 +42,7 @@ it:
           completed: Completato
         work_packages: Macro-attività
       work_package:
-        backlog_bucket: Bucket del backlog
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Tipo di backlog
         position: Posizione
         sprint: Sprint

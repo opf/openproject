@@ -42,7 +42,7 @@ es:
           completed: Completado
         work_packages: Paquetes de trabajo
       work_package:
-        backlog_bucket: Buckets de backlog
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Tipo de Backlog
         position: Posición
         sprint: Sprint

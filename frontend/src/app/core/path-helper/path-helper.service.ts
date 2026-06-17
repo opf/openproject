@@ -479,4 +479,12 @@ export class PathHelperService {
     const frameIdQuery = `turbo_frame_id=${encodeURIComponent(turboFrameId)}`;
     return `${this.staticBase}/wiki_page_link_macro/load?${providerIdQuery}&${pageIdentifierQuery}&${frameIdQuery}`;
   }
+
+  public openExistingWikiPageDialog() {
+    return `${this.staticBase}/wiki_page_link_macro/existing_page_dialog`;
+  }
+
+  public openNewWikiPageDialog() {
+    return `${this.staticBase}/wiki_page_link_macro/new_page_dialog`;
+  }
 }

@@ -96,7 +96,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   private readonly I18n = inject(I18nService);
   private readonly hook = inject(HookService);
   private readonly $state = inject(StateService);
-  private readonly elementRef = inject(ElementRef);
+  private readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   private readonly cdRef = inject(ChangeDetectorRef);
   private readonly PathHelper = inject(PathHelperService);
   private readonly schemaCache = inject(SchemaCacheService);
@@ -155,7 +155,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
   projectStorages = new BehaviorSubject<IProjectStorage[]>([]);
 
   public ngOnInit():void {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
 
     this.isNewResource = isNewResource(this.workPackage);
 

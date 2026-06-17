@@ -42,7 +42,7 @@ tr:
           completed: Tamamlandı
         work_packages: İş paketleri
       work_package:
-        backlog_bucket: Birikmiş İş Havuzu
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Bekleme listesi türü
         position: Konum
         sprint: Koşu

@@ -160,7 +160,7 @@ vi:
         '
       other_active_session_notice: Tài khoản của bạn có cookie ghi nhớ đang hoạt động trong một phiên khác.
       label: ghi nhớ
-      clear_cookie: Nhấp vào đây để xóa tất cả các phiên 2FA đã nhớ.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Tất cả các phiên 2FA được ghi nhớ đã bị xóa.
       dont_ask_again: Tạo cookie để ghi nhớ xác thực 2FA trên ứng dụng khách này trong %{days} ngày.
   field_otp: Mật khẩu sử dụng một lần
@@ -171,6 +171,7 @@ vi:
   notice_account_has_no_phone: Không có số điện thoại di động nào được liên kết với tài khoản của bạn.
   label_confirmed: xác nhận
   button_continue: Tiếp tục
+  button_make_active: Activate
   button_make_default: Đánh dấu là mặc định
   notice_phone_number_format: 'Vui lòng nhập số theo định dạng sau: +XX XXXXXXXXX.'
   text_otp_not_receive: Các phương pháp xác minh khác

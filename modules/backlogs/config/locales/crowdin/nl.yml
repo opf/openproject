@@ -42,7 +42,7 @@ nl:
           completed: Voltooid
         work_packages: Werkpakketten
       work_package:
-        backlog_bucket: Backlog Bucket
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Backlog type
         position: Positie
         sprint: Sprint

@@ -12,6 +12,16 @@ module GithubActionsFailures
   class TestsGroup
     attr_accessor :test_env_number, :seed, :files
 
+    # parallel tests run in `docker/ci/entrypoint.sh` does not output command
+    # showing test groups, seeds and files anymore. Not sure how to fix it. Use
+    # a null object when the information is not available to avoid errors in the
+    # meantime.
+    def self.null
+      @null ||= new.tap do |null_test_group|
+        null_test_group.test_env_number = "0 (info not available)"
+      end
+    end
+
     def initialize
       @files = []
     end
@@ -144,7 +154,7 @@ module GithubActionsFailures
         .map { build_tests_group_from_command(it) }
 
       errors.each do |error|
-        error.tests_group = tests_groups.find { it.include_error?(error) }
+        error.tests_group = tests_groups.find { it.include_error?(error) } || TestsGroup.null
       end
     end
 

@@ -37,11 +37,9 @@ describe("OpenProjectApi", () => {
         new OpenProjectApi().onAuthenticate({
           token: "Yjo1x80JGIjrK8J6IDOuRn5kIOGvaAUw8C1so+dJJq7cgkllf3dQnw6d8bgiKbHXw8ZaMYE4IyOI1KQgX2ZRmx1mKBkxtb/fc7eCpGyTKGTA2Y1r/q7VJYiJZlpX7gx3nu569joEl/k=--mUkLaPiK0E82vGT9--gj1ZnTNlydL9j+Xw8+YFAA==",
           documentName: "https://test.api/api/v3/documents/1",
-          request: {
-            headers: {
-              origin: "https://different.origin",
-            },
-          },
+          requestHeaders: new Headers({
+            origin: "https://different.origin",
+          }),
         } as unknown as onAuthenticatePayload)
       ).rejects.toThrowError("Unauthorized: Token origin does not match request origin.");
     });
@@ -269,20 +267,22 @@ describe("OpenProjectApi", () => {
       // @ts-expect-error BlockNote types are complicated
       editor.blocksToYXmlFragment(blocks, fragment);
 
+      const broadcastStateless = vi.fn();
       const data = {
-        context: {
+        lastContext: {
           token: "superValidToken",
           resourceUrl: "https://test.api/api/v3/documents/121",
           readonly: false,
           tokenExpiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 min from now
         },
-        document: { ...document, connections: [] } as unknown as Document,
-      } as onStoreDocumentPayload;
+        document: { ...document, broadcastStateless } as unknown as Document,
+      } as unknown as onStoreDocumentPayload;
 
       const api = new OpenProjectApi();
       await api.onStoreDocument(data);
 
       await expect(body).resolves.toContain("content_binary");
+      expect(broadcastStateless).toHaveBeenCalledWith("storeEvent");
     });
   });
 

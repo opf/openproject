@@ -29,9 +29,11 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { HttpClient } from '@angular/common/http';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class RepositoryNavigationController extends Controller {
+  static services:ServiceKey[] = ['http'];
+
   static targets = [
     'revision',
     'branch',
@@ -54,16 +56,17 @@ export default class RepositoryNavigationController extends Controller {
 
   declare readonly repoBrowserTarget:HTMLFormElement;
 
-  private http:HttpClient;
+  declare services:Promise<PickedServices<'http'>>;
 
-  async connect() {
+  initialize() {
+    useAngularServices(this);
+  }
+
+  connect() {
     // If we're viewing a tag or branch, don't display it in the revision box
     if (this.tagSelected || this.branchSelected) {
       this.revisionTarget.value = '';
     }
-
-    const context = await window.OpenProject.getPluginContext();
-    this.http = context.services.http;
   }
 
   sendForm() {
@@ -100,15 +103,19 @@ export default class RepositoryNavigationController extends Controller {
     if (this.expandDir(content)) {
       content.classList.add('loading');
 
-      this
-        .http
-        .get(el.dataset.url!, { responseType: 'text' })
-        .subscribe((response:string) => {
-          content.insertAdjacentHTML('afterend', response);
-          content.classList.remove('loading');
-          this.expandItem(content);
-        });
+      void this.loadDirectory(el.dataset.url!, content);
     }
+  }
+
+  private async loadDirectory(url:string, content:HTMLElement) {
+    const { http } = await this.services;
+    http
+      .get(url, { responseType: 'text' })
+      .subscribe((response:string) => {
+        content.insertAdjacentHTML('afterend', response);
+        content.classList.remove('loading');
+        this.expandItem(content);
+      });
   }
 
   private get branchSelected():boolean {

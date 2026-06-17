@@ -54,7 +54,7 @@ export interface PrincipalInput {
   standalone: false,
 })
 export class OpPrincipalComponent implements OnInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly PathHelper = inject(PathHelperService);
   readonly principalRenderer = inject(PrincipalRendererService);
   readonly principalResourceService = inject(PrincipalsResourceService);
@@ -102,7 +102,7 @@ export class OpPrincipalComponent implements OnInit {
       };
 
       this.principalRenderer.render(
-        this.elementRef.nativeElement as HTMLElement,
+        this.elementRef.nativeElement,
         this.principal,
         {
           hide: this.hideName,

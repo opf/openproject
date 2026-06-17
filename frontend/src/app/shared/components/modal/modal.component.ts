@@ -37,7 +37,7 @@ import { debounce } from 'lodash';
 export abstract class OpModalComponent extends UntilDestroyedMixin implements OnInit, OnDestroy {
   locals = inject<OpModalLocalsMap>(OpModalLocalsToken);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   /* Reference to service */
   protected service:OpModalService = this.locals.service;
@@ -56,7 +56,7 @@ export abstract class OpModalComponent extends UntilDestroyedMixin implements On
   public data:unknown;
 
   ngOnInit():void {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
   }
 
   ngOnDestroy():void {

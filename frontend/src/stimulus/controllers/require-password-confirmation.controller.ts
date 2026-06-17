@@ -29,26 +29,30 @@
  */
 
 import { ApplicationController } from 'stimulus-use';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { renderStreamMessage } from '@hotwired/turbo';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class RequirePasswordConfirmationController extends ApplicationController {
+  static services:ServiceKey[] = ['pathHelperService'];
+
+  declare services:Promise<PickedServices<'pathHelperService'>>;
+
   private formListener:(evt:SubmitEvent) => unknown = this.onFormSubmit.bind(this);
   private dialogCloseListener:(evt:Event) => unknown = this.onDialogClose.bind(this);
   private dialogSubmitListener:(evt:CustomEvent) => unknown = this.onConfirmationSubmit.bind(this);
-
-  private pathHelper:PathHelperService;
 
   private activeDialog = false;
   private submitButton:HTMLButtonElement|null;
   private submitDialogId:string|undefined;
   private previousSubmitter:HTMLElement|null;
 
-  async connect() {
-    super.connect();
+  initialize() {
+    super.initialize();
+    useAngularServices(this);
+  }
 
-    const context = await window.OpenProject.getPluginContext();
-    this.pathHelper = context.services.pathHelperService;
+  connect() {
+    super.connect();
 
     this.element.addEventListener('submit', this.formListener);
     document.addEventListener('password-confirmation-dialog:close', this.dialogCloseListener);
@@ -87,7 +91,8 @@ export default class RequirePasswordConfirmationController extends ApplicationCo
     }
     this.activeDialog = true;
 
-    void fetch(this.pathHelper.myPasswordConfirmationDialogPath(), {
+    const { pathHelperService } = await this.services;
+    void fetch(pathHelperService.myPasswordConfirmationDialogPath(), {
       method: 'GET',
       headers: {
         Accept: 'text/vnd.turbo-stream.html',

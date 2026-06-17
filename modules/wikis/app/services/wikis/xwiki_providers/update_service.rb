@@ -31,6 +31,11 @@
 module Wikis
   module XWikiProviders
     class UpdateService < ::BaseServices::Update
+      include Concerns::FetchesInstanceId
+
+      private
+
+      def should_fetch_instance_id?(model) = model.url.present? && model.url_changed?
     end
   end
 end

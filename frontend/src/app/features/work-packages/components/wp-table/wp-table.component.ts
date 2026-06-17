@@ -71,7 +71,7 @@ export interface WorkPackageFocusContext {
   standalone: false,
 })
 export class WorkPackagesTableComponent extends UntilDestroyedMixin implements OnInit, TableEventComponent, OnDestroy {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly injector = inject(Injector);
   readonly states = inject(States);
   readonly querySpace = inject(IsolatedQuerySpace);

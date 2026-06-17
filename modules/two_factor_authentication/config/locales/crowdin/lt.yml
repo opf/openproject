@@ -160,7 +160,7 @@ lt:
         '
       other_active_session_notice: Jūsų paskyra turi aktyvų prisiminimo „sausainį“ kitoje sesijoje.
       label: Atsiminti
-      clear_cookie: Paspauskite čia, kad pašalintumėt visas prisimenamas 2FA sesijas.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Visos prisimenamos 2FA sesijos buvo pašalintos.
       dont_ask_again: Kurti slapuką, kad šiame kliente 2FA autentikacija būtų atsiminta %{days} dienų.
   field_otp: Vienkartinis slaptažodis
@@ -171,6 +171,7 @@ lt:
   notice_account_has_no_phone: Su jūsų paskyra nesusietas joks telefono numeris.
   label_confirmed: Patvirtinta
   button_continue: Tęsti
+  button_make_active: Activate
   button_make_default: Pažymėti kaip numatytąjį
   notice_phone_number_format: 'Prašome įvesti numerį tokiu formatu: +XX XXXXXXXX.'
   text_otp_not_receive: Kiti patikrinimo būdai

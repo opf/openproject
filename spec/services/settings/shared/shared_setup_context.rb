@@ -35,7 +35,7 @@ RSpec.shared_context "with update service setup" do
   let(:instance) do
     described_class.new(user:)
   end
-  let(:user) { build_stubbed(:user) }
+  let(:user) { build_stubbed(:admin) }
   let(:contract) do
     instance_double(Settings::UpdateContract,
                     validate: contract_success,

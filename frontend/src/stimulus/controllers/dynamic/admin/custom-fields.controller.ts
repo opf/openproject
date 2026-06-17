@@ -29,7 +29,9 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import dragula from 'dragula';
+import dragula, { Drake } from 'dragula';
+import type { OpenProjectPluginContext } from 'core-app/features/plugins/plugin-context';
+import { useAngularServices } from 'core-stimulus/mixins/use-angular-services';
 
 export default class CustomFieldsController extends Controller {
   static targets = [
@@ -50,6 +52,12 @@ export default class CustomFieldsController extends Controller {
 
   declare readonly customOptionDefaultsTargets:HTMLInputElement[];
   declare readonly customOptionRowTargets:HTMLTableRowElement[];
+
+  declare pluginContext:Promise<OpenProjectPluginContext>;
+
+  initialize() {
+    useAngularServices(this);
+  }
 
   connect() {
     if (this.hasDragContainerTarget) {
@@ -172,19 +180,22 @@ export default class CustomFieldsController extends Controller {
       ignoreInputTextSelection: true,
     });
 
-    // Setup autoscroll
-    void window.OpenProject.getPluginContext().then((pluginContext) => {
-      new pluginContext.classes.DomAutoscrollService(
-        [
-          document.getElementById('content-body')!,
-        ],
-        {
-          margin: 25,
-          maxSpeed: 10,
-          scrollWhenOutside: true,
-          autoScroll: () => drake.dragging,
-        },
-      );
-    });
+    void this.setupAutoscroll(drake);
+  }
+
+  private async setupAutoscroll(drake:Drake) {
+    const { classes } = await this.pluginContext;
+
+    new classes.DomAutoscrollService(
+      [
+        document.getElementById('content-body')!,
+      ],
+      {
+        margin: 25,
+        maxSpeed: 10,
+        scrollWhenOutside: true,
+        autoScroll: () => drake.dragging,
+      },
+    );
   }
 }

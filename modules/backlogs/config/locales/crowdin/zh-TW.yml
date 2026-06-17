@@ -42,7 +42,7 @@ zh-TW:
           completed: Completed
         work_packages: Work packages
       work_package:
-        backlog_bucket: Backlog Bucket
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: 待辦事項類型
         position: 位置
         sprint: 衝刺

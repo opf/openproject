@@ -34,6 +34,16 @@ ko:
       wikis: Wikis
   permission_manage_wiki_page_links: 위키 페이지 링크 관리
   project_module_wiki_platforms: 위키 공급자
+  services:
+    attributes:
+      wikis/create_linked_page_service:
+        wiki_page: Wiki page
+    errors:
+      models:
+        wikis/create_linked_page_service:
+          forbidden: was not allowed to be created.
+          not_found: was not found.
+          token_missing: Page creation not possible, user account is not connected to the wiki provider.
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -118,8 +128,6 @@ ko:
       save_and_continue: 저장 및 계속
       wiki_page: 위키 페이지
     create_new_wiki_page_dialog:
-      page_title: Title
-      parent_help_text: Select a parent for this new wiki page.
       title: Create new wiki page
     delete_relation_page_link_confirmation_dialog:
       heading: 관련 위키 페이지 링크를 삭제하시겠습니까?
@@ -138,22 +146,28 @@ ko:
         xwiki_oauth_request_error: XWiki 인스턴스와 통신을 시도할 때 예기치 않은 오류가 발생했습니다.
         xwiki_oauth_token_missing: 사용자가 아직 XWiki 계정을 연결하지 않았기 때문에 OpenProject가 XWiki와의 사용자 수준 통신을 테스트할 수 없습니다.
         xwiki_oauth_unauthorized: 사용자 토큰이 XWiki에서 인식되지 않았습니다.
+    inline_existing_wiki_page_dialog:
+      title: Add existing wiki page
     instructions:
       xwiki:
         integration: XWiki 관리
         oauth_application_details_html: '이 창을 닫으면 클라이언트 비밀번호 값에 다시 액세스할 수 없습니다. 다음 값을 [XWiki OpenProject 통합 설정](xwiki_admin_link)에 복사하세요:'
     link_existing_wiki_page_dialog:
       title: 기존 위키 페이지 추가
-    link_existing_wiki_page_form:
-      label: Wiki page
-      no_results: No wiki pages found
-      placeholder: Search for a wiki page
     oauth_login_component:
       connect_button: "%{provider} 계정 연결"
       description: "%{provider}에 로그인하여 이 OpenProject 인스턴스의 관련 위키 페이지를 보고 관리합니다."
       heading: "%{provider}에 연결되지 않음"
     page_link_component:
       remove: 페이지 링크 제거
+    page_link_forms:
+      labels:
+        page_tile: Title
+        parent: Parent wiki page
+        wiki_page: Wiki page
+      search:
+        no_results: No wiki pages found
+        placeholder: Search for a wiki page (or enter its URL)
     page_links:
       errors:
         page_access_forbidden: 이 위키 페이지에 액세스할 수 있는 권한이 없습니다
@@ -167,6 +181,10 @@ ko:
       empty_text: 다른 관련 위키 페이지에 대한 링크를 수동으로 추가합니다.
       link_existing: 기존 위키 페이지
       link_new: 새 위키 페이지
+    upsell:
+      xwiki:
+        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
+        title: XWiki Integration
     work_package_wikis_tab_component:
       inline_page_links: 인라인 페이지 링크
       referencing_pages: '다음에서 참조됨:'

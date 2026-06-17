@@ -32,6 +32,7 @@ vi:
         label_activity_show_all: Hiển thị mọi thứ
         label_activity_show_only_comments: Chỉ hiển thị nhận xét
         label_activity_show_only_changes: Chỉ hiển thị các thay đổi
+        label_dismiss_comment: Dismiss
         label_sort_asc: Mới nhất ở phía dưới
         label_sort_desc: Mới nhất ở trên cùng
         label_type_to_comment: Thêm một bình luận. Nhập @ để thông báo cho mọi người.
@@ -44,7 +45,7 @@ vi:
         commented: Đã bình luận
         internal_comment: Bình luận nội bộ
         internal_journal: Nhận xét nội bộ được hiển thị cho một nhóm thành viên hạn chế.
-        unsaved_changes_confirmation_message: Bạn có những thay đổi chưa được lưu. Bạn có chắc chắn muốn đóng trình chỉnh sửa không?
+        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
         internal_comment_confirmation:
           title: Công khai nhận xét này?
           heading: Công khai nhận xét này?
@@ -52,25 +53,26 @@ vi:
           confirm_button_text: Công khai
   admin:
     reserved_identifiers:
-      title: Reserved project identifiers
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can release reserved identifiers so that they may be used by other projects.
+      btn_release: Unreserve
       col_identifier: Identifier
       col_project: Project
       col_reserved: Reserved
-      not_available_in_semantic_mode: Reserved project identifiers are only available in numeric identifier mode.
-      filter_label: Search identifiers
-      btn_release: Release
-      released_notice: Identifier "%{identifier}" has been released.
-      identifier_not_found: The reserved identifier could not be found. It may have already been released or the project may have been deleted. Please refresh the page.
       dialog:
-        title: Release identifier
-        heading: Release "%{identifier}"?
-        description: Releasing this identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
         checkbox_label: I understand that this cannot be undone.
-        confirm_button: Release identifier
+        confirm_button: Unreserve identifier
+        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        description_with_work_packages:
+          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        heading: Unreserve "%{identifier}"?
+        title: Unreserve identifier
+      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: No reserved identifiers
+      filter_label: Search identifiers
+      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
+      released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time} ago"
-      empty_body: When a project's identifier changes, the previous one will appear here so you can release it once it's safe to do so.
+      title: Reserved project identifiers
     plugins:
       no_results_title_text: Hiện tại không có plugin nào được cài đặt.
       no_results_content_text: Xem trang tích hợp và plugin của chúng tôi để biết thêm thông tin.
@@ -128,7 +130,7 @@ vi:
         trial: thử nghiệm
     jemalloc_allocator: Bộ cấp phát bộ nhớ Jemalloc
     journal_aggregation:
-      caption: 'User actions on a gói công việc (work package) (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays.
+      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
 
         '
     import:
@@ -1304,9 +1306,6 @@ vi:
       priority_color_text: |
         Nhấn vào đây để gán hoặc thay đổi màu sắc của mức độ ưu tiên này.
         Nó có thể được sử dụng để làm nổi bật các gói công việc trong bảng.
-    admin:
-      default:
-        caption: Đặt mức độ ưu tiên này làm mặc định sẽ ghi đè mức độ ưu tiên mặc định trước đó.
   reactions:
     action_title: phản ứng
     add_reaction: Thêm phản ứng
@@ -2362,11 +2361,12 @@ vi:
         setting:
           attributes:
             base:
-              working_days_are_missing: Ít nhất một ngày trong tuần phải được xác định là ngày làm việc.
-              previous_working_day_changes_unprocessed: Những thay đổi trước đó đối với cấu hình ngày làm việc vẫn chưa được áp dụng.
-              hours_per_day_are_missing: Số giờ mỗi ngày phải được xác định.
               durations_are_not_positive_numbers: Khoảng thời gian phải là số dương.
+              hours_per_day_are_missing: Số giờ mỗi ngày phải được xác định.
               hours_per_day_is_out_of_bounds: Số giờ mỗi ngày không thể nhiều hơn 24
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              previous_working_day_changes_unprocessed: Những thay đổi trước đó đối với cấu hình ngày làm việc vẫn chưa được áp dụng.
+              working_days_are_missing: Ít nhất một ngày trong tuần phải được xác định là ngày làm việc.
         status:
           attributes:
             default_done_ratio:
@@ -3193,10 +3193,11 @@ vi:
       disabled: Kích hoạt
       enabled: vô hiệu hóa
   enumeration_activities: Theo dõi hoạt động
-  enumeration_work_package_priorities: Độ ưu tiên của work package
-  enumeration_reported_project_statuses: Trạng thái được báo cáo
   enumeration_caption_order_changed: Đơn hàng đã được thay đổi thành công.
   enumeration_could_not_be_moved: Việc liệt kê không thể di chuyển được.
+  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_reported_project_statuses: Trạng thái được báo cáo
+  enumeration_work_package_priorities: Độ ưu tiên của work package
   enterprise_trials:
     dialog_component:
       title: Bản dùng thử doanh nghiệp
@@ -3669,8 +3670,8 @@ vi:
         submit_button: Update alerts
     notifications:
       participating:
+        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
         title: Participating
-        description: Notifications for all activities in gói công việc (work package)s you are involved in (assignee, accountable or watcher).
         submit_button: Update preferences
         mentioned: Mentioned
         watched: Watching
@@ -3678,8 +3679,8 @@ vi:
         responsible: Accountable
         shared: Shared with me
       date_alerts:
+        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
         title: Date alerts
-        description: Automatic notifications when important dates are approaching for open gói công việc (work package)s you are involved in (assignee, accountable or watcher).
         submit_button: Update date alerts
         start_date: Start date
         due_date: Ngày kết thúc
@@ -3693,8 +3694,8 @@ vi:
           three_days_after: 3 days after
           seven_days_after: 7 days after
       non_participating:
+        description: You can additionally choose to be notified of any of the following activities for all projects.
         title: Non-participating
-        description: Additional notifications for activities in all projects.
         submit_button: Update preferences
         work_package_created: New gói công việc (work package)s
         work_package_commented: All new comments
@@ -3702,8 +3703,8 @@ vi:
         work_package_prioritized: All priority changes
         work_package_scheduled: All date changes
       project_specific_settings:
-        title: Project-specific notification thiết lập
-        description: These project-specific thiết lập override default thiết lập above.
+        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
+        title: Project-specific notifications
         add_button: Add project-specific notifications
         dialog_title: Add project-specific notifications
         list_header: Projects with specific notifications
@@ -3837,6 +3838,7 @@ vi:
   label_send_invitation: Gửi lời mời
   label_calculated_value: Giá trị tính toán
   label_change_parent: Thay đổi cha mẹ
+  label_change_password: Change password
   label_change_plural: Thay đổi
   label_change_properties: Thay đổi những thuộc tính
   label_change_status: Đổi trạng thái
@@ -4123,6 +4125,7 @@ vi:
   label_my_account_data: Dữ liệu tài khoản của tôi
   label_my_avatar: Hình đại diện của tôi
   label_my_queries: Các truy vấn tùy biến của tôi
+  label_my_security: Security
   label_name: tên
   label_never: không bao giờ
   label_new: Mới
