@@ -44,8 +44,16 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do |list|
   %>
-    <% list.with_header(title: sprint.name) do |header| %>
+    <% list.with_header(title: sprint.name, title_arguments:) do |header| %>
       <% header.with_description(display: :flex, direction: :column, classes: "row-gap-2") do %>
+        <% if goal_text.present? %>
+          <%= render(Primer::Beta::Text.new(id: sprint_goal_id, color: :muted, mr: 2)) do %>
+            <%= render(OpPrimer::ExpandableTextComponent.new(truncate: :multi_line, lines: 3)) do %>
+              <%= goal_text %>
+            <% end %>
+          <% end %>
+        <% end %>
+
         <%= render(Primer::Alpha::Stack.new(direction: :horizontal, align: :center)) do %>
           <%= render(Backlogs::SprintStatusBadgeComponent.new(sprint:)) %>
 
@@ -84,7 +92,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         header.with_menu(button_aria_label: t(".label_actions")) do |menu|
           with_item_group(menu) do
-            if user_allowed?(:create_sprints)
+            if can_open_edit_dialog?
               menu.with_item(
                 id: dom_target(sprint, :menu, :edit_sprint),
                 label: t(".action_menu.edit_sprint"),

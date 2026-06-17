@@ -178,7 +178,7 @@ RSpec.describe "Backlogs project settings sprint sharing", :js do
     it "does not show the sharing tab and forbids direct route access" do
       visit project_settings_backlogs_path(project)
 
-      expect(page).to have_heading(I18n.t(:label_backlogs))
+      expect(page).to have_heading(I18n.t(:label_backlogs), exact: true)
       expect(page).to have_no_link(I18n.t("backlogs.sharing"))
 
       visit project_settings_backlog_sharing_path(project)

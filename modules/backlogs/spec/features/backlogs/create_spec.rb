@@ -96,6 +96,24 @@ RSpec.describe "Create", :js do
       expect(sprint.finish_date).to eq finish_date
     end
 
+    it "allows creating a new sprint with a sprint goal" do
+      planning_page.visit!
+
+      planning_page.open_create_sprint_dialog
+
+      within_dialog "New sprint" do
+        fill_in "Sprint name", with: "Created sprint"
+        fill_in "Start date", with: start_date_fmt
+        fill_in "Finish date", with: finish_date_fmt
+        fill_in "Sprint goal", with: "Deliver the first MVP scope."
+
+        click_on "Create"
+      end
+
+      expect_and_dismiss_flash(exact_message: "Successful creation.")
+      planning_page.expect_sprint_heading_with_goal("Created sprint", "Deliver the first MVP scope.")
+    end
+
     it "previews the sprint duration when changing the dates" do
       planning_page.visit!
 

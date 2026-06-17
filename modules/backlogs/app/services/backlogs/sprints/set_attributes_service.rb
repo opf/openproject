@@ -32,6 +32,56 @@ module Backlogs::Sprints
   class SetAttributesService < ::BaseServices::SetAttributes
     private
 
+    def set_attributes(params)
+      params = params.to_h.deep_symbolize_keys
+
+      super(sprint_params_with_goal_attributes(params.fetch(:attributes, params)))
+    end
+
+    def sprint_params_with_goal_attributes(params)
+      attributes = params.reject { |key, _| %i[goal goal_project].include?(key.to_sym) }
+      goal_attributes = goal_nested_attributes(params)
+
+      if goal_attributes
+        attributes.merge(goals_attributes: [goal_attributes])
+      else
+        attributes
+      end
+    end
+
+    def goal_nested_attributes(params)
+      attributes = goal_params(params)
+      return unless attributes
+
+      project = goal_project(params)
+      existing_id = existing_goal_id(project)
+
+      return if existing_id.blank? && attributes[:text].blank?
+
+      nested_goal_attributes(project, attributes[:text], existing_id)
+    end
+
+    def goal_params(params)
+      params[:goal]&.to_h&.symbolize_keys
+    end
+
+    def goal_project(params)
+      params[:goal_project] || params[:project] || model.project
+    end
+
+    def nested_goal_attributes(project, text, existing_id)
+      attributes = { project_id: project.id, text: }
+      attributes[:id] = existing_id if existing_id.present?
+      attributes[:_destroy] = "1" if existing_id.present? && text.blank?
+      attributes
+    end
+
+    def existing_goal_id(goal_project)
+      return unless model.persisted?
+
+      model.goal_for(goal_project)&.id
+    end
+
     def sprint_name_from_predecessor
       return model.name unless model.new_record?
 

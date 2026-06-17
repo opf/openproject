@@ -51,7 +51,7 @@ module Backlogs
     end
 
     def load_sprint
-      @sprint_id = params.delete(:sprint_id)
+      @sprint_id = params[:sprint_id].presence
       return unless @sprint_id
 
       @sprint = Sprint.for_project(@project).visible.find(@sprint_id)

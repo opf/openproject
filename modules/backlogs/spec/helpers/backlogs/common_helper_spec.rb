@@ -31,6 +31,30 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::CommonHelper do
+  describe "#user_allowed?" do
+    let(:user) { build_stubbed(:user) }
+    let(:default_project) { build_stubbed(:project) }
+    let(:explicit_project) { build_stubbed(:project) }
+
+    before do
+      without_partial_double_verification do
+        allow(helper).to receive_messages(current_user: user, project: default_project)
+      end
+
+      mock_permissions_for(user) do |mock|
+        mock.allow_in_project(:create_sprints, project: explicit_project)
+      end
+    end
+
+    it "checks permissions in the provided project when given" do
+      expect(helper.user_allowed?(:create_sprints, project: explicit_project)).to be true
+    end
+
+    it "checks permissions in the default project when none is given" do
+      expect(helper.user_allowed?(:create_sprints)).to be false
+    end
+  end
+
   describe "#show_all_backlog" do
     before do
       allow(helper).to receive(:params).and_return(params)

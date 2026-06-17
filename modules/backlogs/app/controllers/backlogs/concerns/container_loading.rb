@@ -41,7 +41,7 @@ module Backlogs::Concerns
       @sprints = Sprint.for_project(@project)
                        .not_completed
                        .order_by_date
-                       .includes(:project, :task_boards)
+                       .includes(:project, :task_boards, :goals)
       @active_sprint_ids = @sprints.select(&:active?).map(&:id)
 
       @work_packages_by_sprint_id = WorkPackage

@@ -36,4 +36,40 @@ RSpec.describe Backlogs::Sprints::CreateService, type: :model do
     let(:model_class) { Sprint }
     let(:factory) { :sprint }
   end
+
+  describe "goal persistence" do
+    let(:project) { create(:project) }
+    let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_sprints create_sprints] })
+    end
+    let(:goals_attributes) { [{ project_id: project.id, text: goal_text }] }
+    let(:attributes) do
+      {
+        project:,
+        name: "Sprint 1",
+        start_date: Time.zone.today,
+        finish_date: Time.zone.today + 2.weeks,
+        goals_attributes:
+      }
+    end
+    let(:goal_text) { "Ship dashboard" }
+
+    subject(:service_call) do
+      described_class.new(user:).call(attributes:)
+    end
+
+    it "creates a goal for the new sprint's project" do
+      expect { service_call }.to change(SprintGoal, :count).by(1)
+
+      expect(service_call.result.goal_text_for(project)).to eq("Ship dashboard")
+    end
+
+    context "when the goal is blank" do
+      let(:goal_text) { "" }
+
+      it "does not create a goal" do
+        expect { service_call }.not_to change(SprintGoal, :count)
+      end
+    end
+  end
 end

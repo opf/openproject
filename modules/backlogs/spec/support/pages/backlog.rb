@@ -211,6 +211,20 @@ module Pages
       expect(sprint_names_in_order).to eq(sprint_names)
     end
 
+    def expect_sprint_heading_with_goal(sprint_name, goal_text)
+      within(:section, sprint_name) do
+        expect(page)
+          .to have_heading(sprint_name, level: 4, accessible_description: goal_text, exact: true)
+      end
+    end
+
+    def expect_sprint_heading_without_goal(sprint_name)
+      within(:section, sprint_name) do
+        expect(page)
+          .to have_heading(sprint_name, level: 4, accessible_description: "", exact: true)
+      end
+    end
+
     def expect_sprint_story_points(sprint, points)
       within(sprint_selector(sprint)) do
         expect(page).to have_css(".velocity", text: points.to_s)

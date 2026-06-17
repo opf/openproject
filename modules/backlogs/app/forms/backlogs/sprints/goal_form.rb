@@ -29,38 +29,23 @@
 #++
 
 module Backlogs
-  module CommonHelper
-    def user_allowed?(permission, project: nil)
-      current_user.allowed_in_project?(permission, project || self.project)
-    end
+  module Sprints
+    class GoalForm < ApplicationForm
+      extend Dry::Initializer
 
-    def backlog_bucket_creation_allowed?
-      user_allowed?(:create_sprints)
-    end
+      option :label
+      option :caption, optional: true
+      option :disabled, default: -> { false }
 
-    def sprint_creation_allowed?
-      user_allowed?(:create_sprints) &&
-        !project.receive_shared_sprints?
-    end
-
-    def sprint_management_allowed?
-      user_allowed?(:share_sprint)
-    end
-
-    def show_all_backlog
-      ActiveRecord::Type::Boolean.new.cast(params[:all]) || false
-    end
-
-    # Optional query params for backlog URLs when showing all items (`?all=1`).
-    def all_backlogs_params
-      show_all_backlog ? { all: 1 } : {}
-    end
-
-    def backlogs_move_url_template(project)
-      id_placeholder = "__work_package_id__"
-
-      move_project_backlogs_work_package_path(project, id_placeholder, all_backlogs_params)
-        .sub(id_placeholder, "{id}")
+      form do |f|
+        f.text_field(
+          name: :text,
+          label:,
+          caption:,
+          disabled:,
+          maxlength: SprintGoal::TEXT_MAX_LENGTH
+        )
+      end
     end
   end
 end

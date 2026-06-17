@@ -130,7 +130,51 @@ RSpec.describe Sprint do
   describe "associations" do
     it { is_expected.to have_many(:work_packages).inverse_of(:sprint).dependent(:nullify) }
     it { is_expected.to have_many(:task_boards).dependent(:nullify) }
+    it { is_expected.to have_many(:goals).class_name("SprintGoal").inverse_of(:sprint).dependent(:delete_all) }
     it { is_expected.to belong_to(:project) }
+  end
+
+  describe "nested goal attributes" do
+    let(:sprint) { create(:sprint, project:) }
+
+    it { is_expected.to accept_nested_attributes_for(:goals).allow_destroy(true).limit(1) }
+
+    it "assigns goal attributes" do
+      sprint.assign_attributes(
+        goals_attributes: [{ project_id: project.id, text: "Ship MVP" }]
+      )
+
+      expect(sprint.goals.first).to have_attributes(project_id: project.id, text: "Ship MVP")
+    end
+
+    it "rejects blank new goals" do
+      expect do
+        sprint.assign_attributes(
+          goals_attributes: [{ project_id: project.id, text: "" }]
+        )
+      end.not_to change { sprint.goals.length }
+    end
+
+    it "marks existing blanked goals for destruction" do
+      goal = create(:sprint_goal, sprint:, project:, text: "Old goal")
+
+      sprint.assign_attributes(
+        goals_attributes: [{ id: goal.id, text: "", _destroy: "1" }]
+      )
+
+      expect(sprint.goals.find { |sprint_goal| sprint_goal.id == goal.id }).to be_marked_for_destruction
+    end
+
+    it "limits nested assignment to one contextual goal" do
+      expect do
+        sprint.assign_attributes(
+          goals_attributes: [
+            { project_id: project.id, text: "First goal" },
+            { project_id: project.id, text: "Second goal" }
+          ]
+        )
+      end.to raise_error(ActiveRecord::NestedAttributes::TooManyRecords)
+    end
   end
 
   describe "#task_board_for" do
@@ -384,6 +428,36 @@ RSpec.describe Sprint do
       it "returns true for the owning project" do
         expect(unrelated_sprint.visible_to?(unrelated_project)).to be true
       end
+    end
+  end
+
+  describe "#goal_for" do
+    let(:sprint) { create(:sprint, project:) }
+    let!(:sprint_goal) { create(:sprint_goal, sprint:, project:, text: "Ship dashboard") }
+
+    it "returns the goal for the given project" do
+      expect(sprint.goal_for(project)).to eq(sprint_goal)
+    end
+
+    it "returns nil when no goal exists for the project" do
+      other_project = create(:project)
+      expect(sprint.goal_for(other_project)).to be_nil
+    end
+  end
+
+  describe "#goal_text_for" do
+    let(:sprint) { create(:sprint, project:) }
+
+    it "returns the goal text for the given project" do
+      create(:sprint_goal, sprint:, project:, text: "Ship dashboard")
+
+      expect(sprint.goal_text_for(project)).to eq("Ship dashboard")
+    end
+
+    it "returns nil when no goal exists for the project" do
+      other_project = create(:project)
+
+      expect(sprint.goal_text_for(other_project)).to be_nil
     end
   end
 

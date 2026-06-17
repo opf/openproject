@@ -23,44 +23,21 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  module CommonHelper
-    def user_allowed?(permission, project: nil)
-      current_user.allowed_in_project?(permission, project || self.project)
+class CreateSprintGoals < ActiveRecord::Migration[8.0]
+  def change
+    create_table :sprint_goals do |t|
+      t.references :sprint, null: false, foreign_key: { on_delete: :cascade }
+      t.references :project, null: false, foreign_key: { on_delete: :cascade }
+      t.text :text, null: false
+
+      t.timestamps
     end
 
-    def backlog_bucket_creation_allowed?
-      user_allowed?(:create_sprints)
-    end
-
-    def sprint_creation_allowed?
-      user_allowed?(:create_sprints) &&
-        !project.receive_shared_sprints?
-    end
-
-    def sprint_management_allowed?
-      user_allowed?(:share_sprint)
-    end
-
-    def show_all_backlog
-      ActiveRecord::Type::Boolean.new.cast(params[:all]) || false
-    end
-
-    # Optional query params for backlog URLs when showing all items (`?all=1`).
-    def all_backlogs_params
-      show_all_backlog ? { all: 1 } : {}
-    end
-
-    def backlogs_move_url_template(project)
-      id_placeholder = "__work_package_id__"
-
-      move_project_backlogs_work_package_path(project, id_placeholder, all_backlogs_params)
-        .sub(id_placeholder, "{id}")
-    end
+    add_index :sprint_goals, %i[sprint_id project_id], unique: true
   end
 end

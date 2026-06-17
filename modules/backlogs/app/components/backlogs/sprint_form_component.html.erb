@@ -40,15 +40,35 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |f|
       flex_layout(mb: 2) do |flex|
         if base_errors&.any?
-          flex.with_row do
-            render(Primer::Alpha::Banner.new(mb: 3, icon: :stop, scheme: :danger)) { base_errors.join("\n") }
+          flex.with_row(mb: 3) do
+            render(Primer::Alpha::Banner.new(scheme: :danger)) { base_errors.join("\n") }
+          end
+        end
+        if shared_sprint?
+          flex.with_row(mb: 3) do
+            render(Primer::Alpha::Banner.new(scheme: banner_scheme)) { banner_text }
           end
         end
         flex.with_row(mb: 3) do
-          render Backlogs::Sprints::DetailsForm.new(f)
+          render Backlogs::Sprints::DetailsForm.new(f, disabled: !can_edit_sprint?)
         end
-        flex.with_row(classes: "FormControl-horizontalGroup--sm-vertical") do
-          render Backlogs::Sprints::DatesForm.new(f)
+        flex.with_row(mb: 3, classes: "FormControl-horizontalGroup--sm-vertical") do
+          render Backlogs::Sprints::DatesForm.new(f, disabled: !can_edit_sprint?)
+        end
+        if shared_sprint?
+          flex.with_row(mb: 3) do
+            render(Primer::Forms::Separator.new)
+          end
+        end
+        flex.with_row do
+          f.fields_for(:goal, goal) do |goal_fields|
+            render Backlogs::Sprints::GoalForm.new(
+              goal_fields,
+              label: goal_label,
+              caption: goal_caption,
+              disabled: !can_edit_goal?
+            )
+          end
         end
       end
     end

@@ -41,14 +41,15 @@ module Backlogs
     STATE_DEFAULT = :create
     STATE_OPTIONS = [STATE_DEFAULT, :edit].freeze
 
-    attr_reader :sprint, :state
+    attr_reader :sprint, :project, :state
 
     delegate :create?, :edit?, to: :state
 
-    def initialize(sprint:, state: STATE_DEFAULT)
+    def initialize(sprint:, project:, state: STATE_DEFAULT)
       super
 
       @sprint = sprint
+      @project = project
       @state = ActiveSupport::StringInquirer.new(fetch_or_fallback(STATE_OPTIONS, state, STATE_DEFAULT).to_s)
     end
 
