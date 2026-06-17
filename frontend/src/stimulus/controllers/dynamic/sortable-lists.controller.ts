@@ -36,7 +36,6 @@ import { Controller } from '@hotwired/stimulus';
 import { FetchRequest } from '@rails/request.js';
 import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
-import { withProgressBar } from 'core-stimulus/helpers/request-helpers';
 import { parseTemplate } from 'url-template';
 import {
   acceptsSortableItemType,
@@ -253,7 +252,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
 
     this.setMoving(true);
     try {
-      const response = await withProgressBar(request.perform());
+      const response = await request.perform();
 
       if (!response.ok) {
         debugLog(`Failed to move sortable list item: ${response.statusCode}`);

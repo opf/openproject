@@ -51,7 +51,6 @@ describe('Sortable lists controller', () => {
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
   let fetchMock:ReturnType<typeof vi.fn>;
-  let turboHelpers:typeof import('core-turbo/helpers');
   let renderStreamMessageMock:ReturnType<typeof vi.fn>;
 
   beforeAll(async () => {
@@ -69,8 +68,6 @@ describe('Sortable lists controller', () => {
     ({ autoScrollForElements } = await import('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
     ({ sortableItemData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
-
-    turboHelpers = await import('core-turbo/helpers');
   });
 
   function input() {
@@ -222,9 +219,6 @@ describe('Sortable lists controller', () => {
       renderStreamMessage: renderStreamMessageMock,
     });
 
-    vi.spyOn(turboHelpers.TurboHelpers, 'showProgressBar').mockImplementation(() => undefined);
-    vi.spyOn(turboHelpers.TurboHelpers, 'hideProgressBar').mockImplementation(() => undefined);
-
     ctx = await setupStimulusTest({
       controllers: {
         'sortable-lists': SortableListsController,
@@ -337,7 +331,7 @@ describe('Sortable lists controller', () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  it('marks the moving state and busy lists and shows the progress bar while moving an item', async () => {
+  it('marks the moving state and busy lists while moving an item', async () => {
     let resolveMove:(response:Response) => void;
 
     fetchMock.mockImplementationOnce(() => {
@@ -353,14 +347,12 @@ describe('Sortable lists controller', () => {
 
     expect(root.dataset.sortableListsMoving).toEqual('true');
     expect(targetList.getAttribute('aria-busy')).toEqual('true');
-    expect(turboHelpers.TurboHelpers.showProgressBar).toHaveBeenCalled();
 
     resolveMove!(new Response('', { status: 200 }));
     await flushPromises();
 
     expect(root.hasAttribute('data-sortable-lists-moving')).toBe(false);
     expect(targetList.hasAttribute('aria-busy')).toBe(false);
-    expect(turboHelpers.TurboHelpers.hideProgressBar).toHaveBeenCalled();
   });
 
   it('rejects new sortable-list drags and drops while a move is pending', async () => {
@@ -410,7 +402,6 @@ describe('Sortable lists controller', () => {
       type: 'error',
     }));
     expect(root.hasAttribute('data-sortable-lists-moving')).toBe(false);
-    expect(turboHelpers.TurboHelpers.hideProgressBar).toHaveBeenCalled();
 
     window.removeEventListener('op:toasters:add', onToast);
   });
