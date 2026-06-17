@@ -36,9 +36,7 @@ import {
   resolveItemId,
   resolveListAppendPreviousItemId,
   resolvePreviousItemId,
-  sortableListIdAttribute,
   sortableListSelector,
-  sortableListTypeAttribute,
 } from './list-dom';
 
 // The Pragmatic DnD payloads exchanged between the sortable-lists root and
@@ -50,12 +48,22 @@ export interface SortableItemData extends Record<string|symbol, unknown> {
   [sortableItemDataKey]:true;
   type:string;
   itemId:string;
+  rootElement:HTMLElement|null;
 }
 
 export interface SortableListData extends Record<string|symbol, unknown> {
   [sortableListDataKey]:true;
   type:string;
   listId:string|null;
+}
+
+// Implemented by the sortable-lists root controller and handed to list/item
+// controllers via outlet callbacks, so children read shared state through a
+// typed reference instead of walking the DOM.
+export interface SortableListsRoot {
+  readonly element:HTMLElement;
+  readonly moving:boolean;
+  readonly acceptedType:string|null;
 }
 
 export function isSortableItemData(data:Record<string|symbol, unknown>):data is SortableItemData {
@@ -76,14 +84,17 @@ export function isSortableListData(data:Record<string|symbol, unknown>):data is 
 export function sortableItemData({
   type,
   itemId,
+  rootElement = null,
 }:{
   type:string;
   itemId:string;
+  rootElement?:HTMLElement|null;
 }):SortableItemData {
   return {
     [sortableItemDataKey]: true,
     type,
     itemId,
+    rootElement,
   };
 }
 
@@ -117,19 +128,6 @@ export function buildMoveFormData({
   data.append('prev_id', previousItemId ?? '');
 
   return data;
-}
-
-export function resolveListTargetData(element:Element):SortableListData|null {
-  const type = element.getAttribute(sortableListTypeAttribute);
-
-  if (!type) {
-    return null;
-  }
-
-  return sortableListData({
-    type,
-    listId: element.getAttribute(sortableListIdAttribute),
-  });
 }
 
 export function acceptsSortableItemType({

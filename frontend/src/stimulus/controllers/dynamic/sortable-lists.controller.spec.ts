@@ -29,7 +29,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 import type { autoScrollForElements as autoScrollForElementsFn } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
-import type { dropTargetForElements as dropTargetForElementsFn, monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import type { monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { waitFor } from '@testing-library/dom';
 import { type Mock } from 'vitest';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
@@ -42,7 +42,6 @@ import type {
 describe('Sortable lists controller', () => {
   const flushPromises = () => new Promise<void>((resolve) => setTimeout(resolve));
 
-  let dropTargetForElements:typeof dropTargetForElementsFn;
   let monitorForElements:typeof monitorForElementsFn;
   let autoScrollForElements:typeof autoScrollForElementsFn;
   let SortableListsController:typeof SortableListsControllerType;
@@ -65,7 +64,25 @@ describe('Sortable lists controller', () => {
       autoScrollForElements: vi.fn(() => vi.fn()),
     }));
 
-    ({ dropTargetForElements, monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
+    // This spec mounts the real item controller, which pulls in these modules.
+    // Tests share one module registry (the runner does not isolate spec files),
+    // so importing the real versions here would leak into the item controller
+    // spec and break its spies. Mock them to keep the shared cache inert.
+    vi.doMock('@atlaskit/pragmatic-drag-and-drop/combine', () => ({
+      combine: vi.fn((...cleanups:(() => void)[]) => vi.fn(() => {
+        cleanups.forEach((cleanup) => cleanup());
+      })),
+    }));
+
+    vi.doMock('@atlaskit/pragmatic-drag-and-drop/prevent-unhandled', () => ({
+      preventUnhandled: { start: vi.fn(), stop: vi.fn() },
+    }));
+
+    vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/set-custom-native-drag-preview', () => ({
+      setCustomNativeDragPreview: vi.fn(),
+    }));
+
+    ({ monitorForElements } = await import('@atlaskit/pragmatic-drag-and-drop/element/adapter'));
     ({ autoScrollForElements } = await import('@atlaskit/pragmatic-drag-and-drop-auto-scroll/element'));
     ({ default: SortableListsController } = await import('./sortable-lists.controller'));
     ({ sortableItemData, sortableListData } = await import('./sortable-lists/drag-and-drop'));
@@ -88,43 +105,34 @@ describe('Sortable lists controller', () => {
 
   function itemRow(id:string):HTMLLIElement {
     const row = document.createElement('li');
-
+    row.setAttribute('data-controller', 'sortable-lists--item');
     row.setAttribute('data-sortable-lists--item-id-value', id);
     row.setAttribute('data-sortable-lists--item-type-value', 'work_package');
-
     return row;
   }
 
   function renderFixture({
     acceptedType = null,
     moveUrlTemplate = '/move/{id}',
-  }:{
-    acceptedType?:string|null;
-    moveUrlTemplate?:string|null;
-  } = {}) {
+  }:{ acceptedType?:string|null; moveUrlTemplate?:string|null } = {}) {
     fixture.innerHTML = `
       <div
+        id="sortable-root"
         data-controller="sortable-lists"
         ${acceptedType ? `data-sortable-lists-accepted-type-value="${acceptedType}"` : ''}
         ${moveUrlTemplate ? `data-sortable-lists-move-url-template-value="${moveUrlTemplate}"` : ''}
+        data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
+        data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
       >
-        <ul data-sortable-lists-target="list" data-sortable-lists-list-type="backlog_bucket" data-sortable-lists-list-id="1"></ul>
-        <ul data-sortable-lists-target="list" data-sortable-lists-list-type="sprint" data-sortable-lists-list-id="1"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1"></ul>
       </div>
     `;
-
-    const [sourceList, targetList] = Array.from(fixture.querySelectorAll<HTMLElement>('[data-sortable-lists-target="list"]'));
-    const root = fixture.querySelector<HTMLElement>('[data-controller="sortable-lists"]')!;
-
+    const [sourceList, targetList] = Array.from(fixture.querySelectorAll<HTMLElement>('[data-controller~="sortable-lists--list"]'));
+    const root = fixture.querySelector<HTMLElement>('#sortable-root')!;
     sourceList.append(itemRow('1'), itemRow('2'), itemRow('3'));
     targetList.append(itemRow('4'), itemRow('5'));
-
-    return {
-      root,
-      sourceList,
-      targetList,
-      firstSourceItem: sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!,
-    };
+    return { root, sourceList, targetList, firstSourceItem: sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')! };
   }
 
   function renderScrollableFixture(values = '') {
@@ -135,16 +143,6 @@ describe('Sortable lists controller', () => {
     `;
 
     return fixture.querySelector<HTMLElement>('[data-sortable-lists-target="scrollable"]')!;
-  }
-
-  function renderInvalidListFixture() {
-    fixture.innerHTML = `
-      <div data-controller="sortable-lists">
-        <ul data-sortable-lists-target="list"></ul>
-      </div>
-    `;
-
-    return fixture.querySelector<HTMLElement>('[data-sortable-lists-target="list"]')!;
   }
 
   async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement) {
@@ -165,8 +163,8 @@ describe('Sortable lists controller', () => {
             dropTargetRecord(
               list,
               sortableListData({
-                type: list.getAttribute('data-sortable-lists-list-type')!,
-                listId: list.getAttribute('data-sortable-lists-list-id'),
+                type: list.getAttribute('data-sortable-lists--list-type-value')!,
+                listId: list.getAttribute('data-sortable-lists--list-id-value'),
               }),
             ),
           ],
@@ -202,10 +200,6 @@ describe('Sortable lists controller', () => {
     };
   }
 
-  function dropTargetOptionsFor(element:HTMLElement) {
-    return vi.mocked(dropTargetForElements).mock.calls.find(([options]) => options.element === element)?.[0];
-  }
-
   function itemIds(list:HTMLElement):string[] {
     return Array.from(list.querySelectorAll('[data-sortable-lists--item-id-value]'))
       .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
@@ -225,6 +219,8 @@ describe('Sortable lists controller', () => {
     ctx = await setupStimulusTest({
       controllers: {
         'sortable-lists': SortableListsController,
+        'sortable-lists--list': (await import('./sortable-lists/list.controller')).default,
+        'sortable-lists--item': (await import('./sortable-lists/item.controller')).default,
       },
     });
     fixture = ctx.container;
@@ -248,22 +244,28 @@ describe('Sortable lists controller', () => {
   it('ignores drops that belong to another sortable lists root', async () => {
     fixture.innerHTML = `
       <div
+        id="sortable-root-1"
         data-controller="sortable-lists"
         data-sortable-lists-accepted-type-value="work_package"
         data-sortable-lists-move-url-template-value="/move/{id}"
+        data-sortable-lists-sortable-lists--list-outlet="#sortable-root-1 [data-controller~='sortable-lists--list']"
+        data-sortable-lists-sortable-lists--item-outlet="#sortable-root-1 [data-controller~='sortable-lists--item']"
       >
-        <ul data-sortable-lists-target="list" data-sortable-lists-list-type="sprint" data-sortable-lists-list-id="1">
-          <li data-sortable-lists--item-id-value="1" data-sortable-lists--item-type-value="work_package"></li>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1">
+          <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="1" data-sortable-lists--item-type-value="work_package"></li>
         </ul>
       </div>
       <div
+        id="sortable-root-2"
         data-controller="sortable-lists"
         data-sortable-lists-accepted-type-value="work_package"
         data-sortable-lists-move-url-template-value="/move/{id}"
+        data-sortable-lists-sortable-lists--list-outlet="#sortable-root-2 [data-controller~='sortable-lists--list']"
+        data-sortable-lists-sortable-lists--item-outlet="#sortable-root-2 [data-controller~='sortable-lists--item']"
       >
-        <ul data-sortable-lists-target="list" data-sortable-lists-list-type="sprint" data-sortable-lists-list-id="2">
-          <li data-sortable-lists--item-id-value="10" data-sortable-lists--item-type-value="work_package"></li>
-          <li data-sortable-lists--item-id-value="11" data-sortable-lists--item-type-value="work_package"></li>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="2">
+          <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="10" data-sortable-lists--item-type-value="work_package"></li>
+          <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="11" data-sortable-lists--item-type-value="work_package"></li>
         </ul>
       </div>
     `;
@@ -333,14 +335,16 @@ describe('Sortable lists controller', () => {
         data-controller="sortable-lists"
         data-sortable-lists-accepted-type-value="work_package"
         data-sortable-lists-move-url-template-value="/projects/demo/backlogs/work_packages/{id}/move"
+        data-sortable-lists-sortable-lists--list-outlet="#backlogs-list [data-controller~='sortable-lists--list']"
+        data-sortable-lists-sortable-lists--item-outlet="#backlogs-list [data-controller~='sortable-lists--item']"
       >
-        <ul data-sortable-lists-target="list" data-sortable-lists-list-type="backlog_bucket" data-sortable-lists-list-id="1"></ul>
-        <ul data-sortable-lists-target="list" data-sortable-lists-list-type="sprint" data-sortable-lists-list-id="1"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="backlog_bucket" data-sortable-lists--list-id-value="1"></ul>
+        <ul data-controller="sortable-lists--list" data-sortable-lists--list-type-value="sprint" data-sortable-lists--list-id-value="1"></ul>
       </turbo-frame>
     `;
 
     const [sourceList, targetList] = Array.from(
-      fixture.querySelectorAll<HTMLElement>('[data-sortable-lists-target="list"]'),
+      fixture.querySelectorAll<HTMLElement>('[data-controller~="sortable-lists--list"]'),
     );
     sourceList.append(itemRow('1'));
     targetList.append(itemRow('4'));
@@ -407,11 +411,6 @@ describe('Sortable lists controller', () => {
     expect(vi.mocked(monitorForElements).mock.lastCall?.[0].canMonitor?.({
       source: sourcePayload(firstSourceItem),
       initial: {} as never,
-    })).toBe(false);
-    expect(dropTargetOptionsFor(targetList)?.canDrop?.({
-      element: targetList,
-      input: input(),
-      source: sourcePayload(firstSourceItem),
     })).toBe(false);
 
     resolveMove!(new Response('', { status: 200 }));
@@ -524,67 +523,6 @@ describe('Sortable lists controller', () => {
     window.removeEventListener('op:toasters:add', onToast);
   });
 
-  it('registers Backlogs lists as drop targets', async () => {
-    const { sourceList, targetList } = renderFixture();
-
-    await ctx.nextFrame();
-
-    expect(dropTargetForElements).toHaveBeenCalledWith(expect.objectContaining({
-      element: sourceList,
-    }));
-    expect(dropTargetForElements).toHaveBeenCalledWith(expect.objectContaining({
-      element: targetList,
-    }));
-  });
-
-  it('does not register list targets without sortable list data', async () => {
-    const list = renderInvalidListFixture();
-
-    await ctx.nextFrame();
-
-    expect(dropTargetForElements).not.toHaveBeenCalledWith(expect.objectContaining({
-      element: list,
-    }));
-  });
-
-  it('accepts item drops when the source type matches the root accepted type', async () => {
-    const { targetList, firstSourceItem } = renderFixture({ acceptedType: 'work_package' });
-
-    await ctx.nextFrame();
-
-    expect(dropTargetOptionsFor(targetList)?.canDrop?.({
-      element: targetList,
-      input: input(),
-      source: sourcePayload(firstSourceItem, itemData('1', 'work_package')),
-    })).toBe(true);
-  });
-
-  it('applies the accepted item type to every list target in the controller root', async () => {
-    const { sourceList, targetList, firstSourceItem } = renderFixture({ acceptedType: 'work_package' });
-
-    await ctx.nextFrame();
-
-    for (const list of [sourceList, targetList]) {
-      expect(dropTargetOptionsFor(list)?.canDrop?.({
-        element: list,
-        input: input(),
-        source: sourcePayload(firstSourceItem, itemData('1', 'meeting_agenda_item')),
-      })).toBe(false);
-    }
-  });
-
-  it('rejects item drops when the source type does not match the root accepted type', async () => {
-    const { targetList, firstSourceItem } = renderFixture({ acceptedType: 'work_package' });
-
-    await ctx.nextFrame();
-
-    expect(dropTargetOptionsFor(targetList)?.canDrop?.({
-      element: targetList,
-      input: input(),
-      source: sourcePayload(firstSourceItem, itemData('1', 'meeting_agenda_item')),
-    })).toBe(false);
-  });
-
   it('registers scrollable targets for vertical sortable list auto-scrolling', async () => {
     const scrollable = renderScrollableFixture();
 
@@ -630,5 +568,20 @@ describe('Sortable lists controller', () => {
     await ctx.nextFrame();
 
     expect(scrollableCleanup).toHaveBeenCalledOnce();
+  });
+
+  it('hands the root reference to connected list and item controllers', async () => {
+    const { root, sourceList, firstSourceItem } = renderFixture({ acceptedType: 'work_package' });
+    await ctx.nextFrame();
+    // Outlet connections happen after the controller frame; a second frame
+    // ensures the hand-over callbacks have fired.
+    await ctx.nextFrame();
+
+    const listController = ctx.application.getControllerForElementAndIdentifier(sourceList, 'sortable-lists--list') as unknown as { ['root']?:unknown };
+    const itemController = ctx.application.getControllerForElementAndIdentifier(firstSourceItem, 'sortable-lists--item') as unknown as { ['root']?:unknown };
+    const rootController = ctx.application.getControllerForElementAndIdentifier(root, 'sortable-lists');
+
+    expect(listController.root).toBe(rootController);
+    expect(itemController.root).toBe(rootController);
   });
 });

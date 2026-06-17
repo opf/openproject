@@ -43,12 +43,9 @@ import {
   isSortableItemData,
   sortableItemData,
   type SortableItemData,
+  type SortableListsRoot,
 } from './drag-and-drop';
-import {
-  sortableItemSelector,
-  sortableListsMovingAttribute,
-  sortableListsRootSelector,
-} from './list-dom';
+import { sortableItemSelector } from './list-dom';
 
 type CleanupFn = () => void;
 
@@ -91,6 +88,7 @@ export default class ItemController extends Controller<HTMLElement> {
 
   private cleanupFn?:CleanupFn;
   private dropIndicatorElement?:HTMLElement;
+  private root?:SortableListsRoot;
 
   connect() {
     this.cleanupFn = combine(
@@ -104,11 +102,28 @@ export default class ItemController extends Controller<HTMLElement> {
     this.cleanupFn = undefined;
   }
 
+  connectRoot(root:SortableListsRoot):void {
+    this.root = root;
+  }
+
+  disconnectRoot():void {
+    this.root = undefined;
+  }
+
+  private get initialized():boolean {
+    return this.root != null;
+  }
+
   private registerDraggable():CleanupFn {
     return draggable({
       element: this.element,
       ...(this.hasHandleTarget ? { dragHandle: this.handleTarget } : {}),
-      canDrag: ({ input }) => this.canDragFromPoint(input.clientX, input.clientY),
+      canDrag: ({ input }) => {
+        if (!this.initialized || this.root!.moving) {
+          return false;
+        }
+        return this.canDragFromPoint(input.clientX, input.clientY);
+      },
       getInitialData: () => this.getItemData(),
       onDragStart: () => {
         preventUnhandled.start();
@@ -140,15 +155,21 @@ export default class ItemController extends Controller<HTMLElement> {
     return dropTargetForElements({
       element: this.element,
       canDrop: ({ source }) => {
-        if (!isSortableItemData(source.data) || source.data.itemId === this.idValue) {
+        if (
+          !this.initialized ||
+          this.root!.moving ||
+          !isSortableItemData(source.data) ||
+          source.data.itemId === this.idValue
+        ) {
           return false;
         }
 
-        const targetRoot = this.element.closest(sortableListsRootSelector);
-        const sourceRoot = source.element.closest(sortableListsRootSelector);
+        if (source.data.rootElement == null || source.data.rootElement !== this.root!.element) {
+          return false;
+        }
 
-        return targetRoot === sourceRoot && acceptsSortableItemType({
-          acceptedType: targetRoot?.getAttribute('data-sortable-lists-accepted-type-value') ?? null,
+        return acceptsSortableItemType({
+          acceptedType: this.root!.acceptedType,
           type: source.data.type,
         });
       },
@@ -178,10 +199,6 @@ export default class ItemController extends Controller<HTMLElement> {
   }
 
   private canDragFromPoint(clientX:number, clientY:number):boolean {
-    if (this.element.closest(sortableListsRootSelector)?.hasAttribute(sortableListsMovingAttribute)) {
-      return false;
-    }
-
     const target = this.element.ownerDocument.elementFromPoint(clientX, clientY);
 
     if (!(target instanceof Element) || !this.element.contains(target)) {
@@ -197,6 +214,7 @@ export default class ItemController extends Controller<HTMLElement> {
     return sortableItemData({
       itemId: this.idValue,
       type: this.typeValue,
+      rootElement: this.root?.element ?? null,
     });
   }
 

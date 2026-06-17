@@ -92,6 +92,14 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         expect(response.body).to include(
           %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move")
         )
+        expect(response.body).to include(
+          "data-sortable-lists-sortable-lists--list-outlet=" \
+          "\"#backlogs_container [data-controller~=&#39;sortable-lists--list&#39;]\""
+        )
+        expect(response.body).to include(
+          "data-sortable-lists-sortable-lists--item-outlet=" \
+          "\"#backlogs_container [data-controller~=&#39;sortable-lists--item&#39;]\""
+        )
         expect(response.body).to include('id="owner_backlogs_container"')
         expect(response.body).to include('id="sprint_backlogs_container"')
         expect(response.body.scan('data-sortable-lists-target="scrollable"').size).to eq(2)
@@ -133,9 +141,9 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
 
         expect(response).to have_http_status(:ok)
         expect(response.body).to include(%(id="inbox_project_#{project.id}"))
-        expect(response.body).to include('data-sortable-lists-target="list"')
-        expect(response.body).to include('data-sortable-lists-list-type="inbox"')
-        expect(response.body).not_to include('data-sortable-lists-list-id="inbox"')
+        expect(response.body).to include('data-controller="sortable-lists--list"')
+        expect(response.body).to include('data-sortable-lists--list-type-value="inbox"')
+        expect(response.body).not_to include('data-sortable-lists--list-id-value="inbox"')
       end
 
       context "with backlog buckets" do
@@ -146,8 +154,8 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
 
           expect(response).to have_http_status(:ok)
           expect(response.body).to include(%(data-test-selector="backlog-bucket-#{backlog_bucket.id}"))
-          expect(response.body).to include('data-sortable-lists-list-type="backlog_bucket"')
-          expect(response.body).to include(%(data-sortable-lists-list-id="#{backlog_bucket.id}"))
+          expect(response.body).to include('data-sortable-lists--list-type-value="backlog_bucket"')
+          expect(response.body).to include(%(data-sortable-lists--list-id-value="#{backlog_bucket.id}"))
         end
       end
     end

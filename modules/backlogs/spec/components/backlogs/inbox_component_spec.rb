@@ -64,11 +64,11 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       expect(page).to have_css(".Box#inbox_project_#{project.id}")
     end
 
-    it "wires drop-target data attributes for the inbox" do
+    it "wires the list controller for the inbox" do
       expect(page).to have_css(".Box#inbox_project_#{project.id}") do |box|
-        expect(box["data-sortable-lists-target"]).to eq("list")
-        expect(box["data-sortable-lists-list-type"]).to eq("inbox")
-        expect(box["data-sortable-lists-list-id"]).to be_nil
+        expect(box["data-controller"]).to include("sortable-lists--list")
+        expect(box["data-sortable-lists--list-type-value"]).to eq("inbox")
+        expect(box["data-sortable-lists--list-id-value"]).to be_nil
       end
     end
 

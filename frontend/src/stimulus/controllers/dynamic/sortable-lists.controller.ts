@@ -28,7 +28,6 @@
 
 import { autoScrollForElements } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import {
-  dropTargetForElements,
   monitorForElements,
   type ElementEventPayloadMap,
 } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
@@ -38,12 +37,11 @@ import { debugLog } from 'core-app/shared/helpers/debug_output';
 import { flipMove } from 'core-stimulus/helpers/flip-helper';
 import { parseTemplate } from 'url-template';
 import {
-  acceptsSortableItemType,
   buildMoveFormData,
   isSortableItemData,
   resolveDropIntent,
-  resolveListTargetData,
   type SortableListData,
+  type SortableListsRoot,
 } from './sortable-lists/drag-and-drop';
 import {
   captureRowPositions,
@@ -57,12 +55,14 @@ type ElementDropPayload = ElementEventPayloadMap['onDrop'];
 type AutoScrollAllowedAxis = 'vertical'|'horizontal'|'all';
 type AutoScrollMaxScrollSpeed = 'standard'|'fast';
 type MoveResult = { ok:true }|{ ok:false; showToast:boolean };
+interface RootAwareChild { connectRoot(root:SortableListsRoot):void; disconnectRoot():void }
 
 const allowedAxes = new Set<string>(['vertical', 'horizontal', 'all']);
 const maxScrollSpeeds = new Set<string>(['standard', 'fast']);
 
 export default class SortableListsController extends Controller<HTMLElement> {
-  static targets = ['list', 'scrollable'];
+  static targets = ['scrollable'];
+  static outlets = ['sortable-lists--list', 'sortable-lists--item'];
 
   static values = {
     acceptedType: String,
@@ -71,8 +71,9 @@ export default class SortableListsController extends Controller<HTMLElement> {
     maxScrollSpeed: { type: String, default: 'standard' },
   };
 
-  declare readonly listTargets:HTMLElement[];
   declare readonly scrollableTargets:HTMLElement[];
+  declare readonly sortableListsListOutlets:import('./sortable-lists/list.controller').default[];
+  declare readonly sortableListsItemOutlets:RootAwareChild[];
 
   declare readonly acceptedTypeValue:string;
   declare readonly hasAcceptedTypeValue:boolean;
@@ -82,7 +83,6 @@ export default class SortableListsController extends Controller<HTMLElement> {
   declare readonly maxScrollSpeedValue:string;
 
   private monitorCleanupFn?:CleanupFn;
-  private listCleanupFns = new Map<HTMLElement, CleanupFn>();
   private scrollableCleanupFns = new Map<HTMLElement, CleanupFn>();
 
   connect():void {
@@ -97,34 +97,24 @@ export default class SortableListsController extends Controller<HTMLElement> {
   disconnect():void {
     this.monitorCleanupFn?.();
     this.monitorCleanupFn = undefined;
-    this.listCleanupFns.forEach((cleanup) => cleanup());
-    this.listCleanupFns.clear();
     this.scrollableCleanupFns.forEach((cleanup) => cleanup());
     this.scrollableCleanupFns.clear();
   }
 
-  listTargetConnected(element:HTMLElement):void {
-    const listData = resolveListTargetData(element);
-    if (!listData) {
-      return;
-    }
-
-    const cleanup = dropTargetForElements({
-      element,
-      canDrop: ({ source }) => !this.moving && isSortableItemData(source.data) && acceptsSortableItemType({
-        acceptedType: this.acceptedType,
-        type: source.data.type,
-      }),
-      getData: () => listData,
-      getIsSticky: () => false,
-    });
-
-    this.listCleanupFns.set(element, cleanup);
+  sortableListsListOutletConnected(list:RootAwareChild):void {
+    list.connectRoot(this);
   }
 
-  listTargetDisconnected(element:HTMLElement):void {
-    this.listCleanupFns.get(element)?.();
-    this.listCleanupFns.delete(element);
+  sortableListsListOutletDisconnected(list:RootAwareChild):void {
+    list.disconnectRoot();
+  }
+
+  sortableListsItemOutletConnected(item:RootAwareChild):void {
+    item.connectRoot(this);
+  }
+
+  sortableListsItemOutletDisconnected(item:RootAwareChild):void {
+    item.disconnectRoot();
   }
 
   scrollableTargetConnected(element:HTMLElement):void {
@@ -147,9 +137,9 @@ export default class SortableListsController extends Controller<HTMLElement> {
     return allowedAxes.has(this.allowedAxisValue) ? this.allowedAxisValue as AutoScrollAllowedAxis : 'vertical';
   }
 
-  private get acceptedType():string|null {
-    // The accepted type is scoped to this controller instance, so every list target
-    // inside one sortable-lists root accepts the same sortable item type.
+  get acceptedType():string|null {
+    // The accepted type is scoped to this controller instance, so every list
+    // outlet inside one sortable-lists root accepts the same sortable item type.
     return this.hasAcceptedTypeValue ? this.acceptedTypeValue : null;
   }
 
@@ -157,7 +147,7 @@ export default class SortableListsController extends Controller<HTMLElement> {
     return maxScrollSpeeds.has(this.maxScrollSpeedValue) ? this.maxScrollSpeedValue as AutoScrollMaxScrollSpeed : 'standard';
   }
 
-  private get moving():boolean {
+  get moving():boolean {
     return this.element.hasAttribute(sortableListsMovingAttribute);
   }
 
@@ -295,11 +285,10 @@ export default class SortableListsController extends Controller<HTMLElement> {
   private setMoving(moving:boolean):void {
     if (moving) {
       this.element.setAttribute(sortableListsMovingAttribute, 'true');
-      this.listTargets.forEach((list) => list.setAttribute('aria-busy', 'true'));
     } else {
       this.element.removeAttribute(sortableListsMovingAttribute);
-      this.listTargets.forEach((list) => list.removeAttribute('aria-busy'));
     }
+    this.sortableListsListOutlets.forEach((list) => list.reflectMoving(moving));
   }
 
   private dispatchErrorToast():void {

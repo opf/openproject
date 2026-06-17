@@ -31,6 +31,7 @@ import type { setCustomNativeDragPreview as setCustomNativeDragPreviewFn } from 
 import type { preventUnhandled as preventUnhandledType } from '@atlaskit/pragmatic-drag-and-drop/prevent-unhandled';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type ItemControllerType from './item.controller';
+import type { SortableListsRoot } from './drag-and-drop';
 
 describe('Sortable lists item controller', () => {
   let draggable:typeof draggableFn;
@@ -81,18 +82,27 @@ describe('Sortable lists item controller', () => {
 
     Object.defineProperty(controller, 'element', { value: element });
     Object.defineProperty(controller, 'idValue', { value: '1' });
-    Object.defineProperty(controller, 'hasMoveUrlValue', { value: false });
     Object.defineProperty(controller, 'typeValue', { value: 'item' });
 
     return controller;
   }
 
-  function connectedControllerFor(element:HTMLElement, { handle = null }:{ handle?:HTMLElement|null } = {}) {
+  function fakeRoot(
+    element = document.createElement('div'),
+    { moving = false, acceptedType = null as string|null } = {},
+  ):SortableListsRoot {
+    Object.defineProperty(element, 'isConnected', { value: true, configurable: true });
+    return { element, moving, acceptedType };
+  }
+
+  function connectedControllerFor(
+    element:HTMLElement,
+    { handle = null, root = fakeRoot() }:{ handle?:HTMLElement|null; root?:SortableListsRoot|null } = {},
+  ) {
     const controller = Object.create(ItemController.prototype) as InstanceType<typeof ItemControllerType>;
 
     Object.defineProperty(controller, 'element', { value: element });
     Object.defineProperty(controller, 'idValue', { value: '123' });
-    Object.defineProperty(controller, 'hasMoveUrlValue', { value: false });
     Object.defineProperty(controller, 'typeValue', { value: 'item' });
     Object.defineProperty(controller, 'hasHandleTarget', { value: handle !== null });
     if (handle) {
@@ -100,6 +110,9 @@ describe('Sortable lists item controller', () => {
     }
 
     controller.connect();
+    if (root) {
+      controller.connectRoot(root);
+    }
 
     return controller;
   }
@@ -220,67 +233,68 @@ describe('Sortable lists item controller', () => {
   });
 
   it('does not accept itself as an item drop target', () => {
+    const root = document.createElement('div');
     const element = document.createElement('article');
 
-    connectedControllerFor(element);
+    connectedControllerFor(element, { root: fakeRoot(root) });
 
     expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
       element,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '123' }),
+        data: sortableItemData({ type: 'item', itemId: '123', rootElement: root }),
         element: document.createElement('article'),
       } as never,
     })).toBe(false);
   });
 
   it('does not accept drops from another sortable lists root', () => {
-    const sourceRoot = document.createElement('div');
     const targetRoot = document.createElement('div');
-    const sourceElement = document.createElement('article');
+    const foreignRoot = document.createElement('div');
     const targetElement = document.createElement('article');
 
-    sourceRoot.setAttribute('data-controller', 'sortable-lists');
-    targetRoot.setAttribute('data-controller', 'sortable-lists');
-    sourceRoot.append(sourceElement);
-    targetRoot.append(targetElement);
-    document.body.append(sourceRoot, targetRoot);
-    connectedControllerFor(targetElement);
+    connectedControllerFor(targetElement, { root: fakeRoot(targetRoot) });
 
     expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'item', itemId: '456' }),
-        element: sourceElement,
+        data: sortableItemData({ type: 'item', itemId: '456', rootElement: foreignRoot }),
+        element: document.createElement('article'),
       } as never,
     })).toBe(false);
-
-    sourceRoot.remove();
-    targetRoot.remove();
   });
 
   it('does not accept drops whose type is rejected by the root', () => {
     const root = document.createElement('div');
-    const sourceElement = document.createElement('article');
     const targetElement = document.createElement('article');
 
-    root.setAttribute('data-controller', 'sortable-lists');
-    root.setAttribute('data-sortable-lists-accepted-type-value', 'work_package');
-    root.append(sourceElement, targetElement);
-    document.body.append(root);
-    connectedControllerFor(targetElement);
+    connectedControllerFor(targetElement, { root: fakeRoot(root, { acceptedType: 'work_package' }) });
 
     expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
       element: targetElement,
       input: {} as never,
       source: {
-        data: sortableItemData({ type: 'meeting_agenda_item', itemId: '456' }),
-        element: sourceElement,
+        data: sortableItemData({ type: 'meeting_agenda_item', itemId: '456', rootElement: root }),
+        element: document.createElement('article'),
       } as never,
     })).toBe(false);
+  });
 
-    root.remove();
+  it('does not accept drops while the root is moving another item', () => {
+    const root = document.createElement('div');
+    const targetElement = document.createElement('article');
+
+    connectedControllerFor(targetElement, { root: fakeRoot(root, { moving: true }) });
+
+    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
+      element: targetElement,
+      input: {} as never,
+      source: {
+        data: sortableItemData({ type: 'item', itemId: '456', rootElement: root }),
+        element: document.createElement('article'),
+      } as never,
+    })).toBe(false);
   });
 
   it('does not expose native external drag data', () => {
@@ -354,26 +368,39 @@ describe('Sortable lists item controller', () => {
     element.remove();
   });
 
-  it('does not start dragging while the sortable lists root is moving another item', () => {
-    const root = document.createElement('div');
+  it('does not start dragging while the root is moving another item', () => {
     const element = document.createElement('article');
     const text = document.createElement('span');
-
-    root.setAttribute('data-sortable-lists-moving', 'true');
-    root.setAttribute('data-controller', 'sortable-lists');
-    root.appendChild(element);
     element.appendChild(text);
-    document.body.appendChild(root);
     vi.spyOn(document, 'elementFromPoint').mockReturnValue(text);
-    connectedControllerFor(element);
+
+    connectedControllerFor(element, { root: fakeRoot(document.createElement('div'), { moving: true }) });
 
     expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
-      element,
-      dragHandle: null,
-      input: { clientX: 10, clientY: 10 } as never,
+      element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
     })).toBe(false);
+  });
 
-    root.remove();
+  it('refuses to drag before the root reference is connected', () => {
+    const element = document.createElement('article');
+    const text = document.createElement('span');
+    element.appendChild(text);
+    vi.spyOn(document, 'elementFromPoint').mockReturnValue(text);
+
+    connectedControllerFor(element, { root: null });
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].canDrag?.({
+      element, dragHandle: null, input: { clientX: 10, clientY: 10 } as never,
+    })).toBe(false);
+  });
+
+  it('includes the root element in the drag payload', () => {
+    const root = document.createElement('div');
+    const element = document.createElement('article');
+    connectedControllerFor(element, { root: fakeRoot(root) });
+
+    expect(vi.mocked(draggable).mock.lastCall?.[0].getInitialData?.(draggableArgs(element)))
+      .toEqual(expect.objectContaining({ itemId: '123', type: 'item', rootElement: root }));
   });
 
   describe('Stimulus application wiring', () => {
