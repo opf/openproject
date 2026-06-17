@@ -57,16 +57,17 @@ module Wikis
             private
 
             def fetch_reference_ids(http, input_data)
-              handle_response(http.get(rest_url("openproject/links/workPackages/#{input_data.linkable.id}"),
-                                       params: { number: MAXIMUM_RESULTS })) do |data|
-                success(fetch_json(data, "searchResults").map { fetch_json(it, "id") }.uniq)
-              end
+              fetch_page_ids(http, rest_url("openproject/links/workPackages/#{input_data.linkable.id}"),
+                             params: { number: MAXIMUM_RESULTS })
             end
 
             def fetch_mention_ids(http, input_data)
-              handle_response(http.get(rest_url("openproject/mentions"),
-                                       params: { workPackage: input_data.linkable.id })) do |data|
-                success((data["searchResults"] || []).filter_map { it["id"] }.uniq)
+              fetch_page_ids(http, rest_url("openproject/mentions"), params: { workPackage: input_data.linkable.id })
+            end
+
+            def fetch_page_ids(http, url, params:)
+              handle_response(http.get(url, params:)) do |data|
+                success(fetch_json(data, "searchResults").map { fetch_json(it, "id") }.uniq)
               end
             end
           end
