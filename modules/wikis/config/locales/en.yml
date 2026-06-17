@@ -23,6 +23,10 @@ en:
             url:
               already_taken: "belongs to the wiki provider that's already known as \"%{name}\"."
               wiki_provider_unreachable: could not be reached.
+        wikis/relation_page_link:
+          attributes:
+            identifier:
+              taken: %{value} is already linked
     models:
       wikis/inline_page_link:
         one: Inline page link
