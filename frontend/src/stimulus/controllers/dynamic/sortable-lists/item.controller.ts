@@ -39,9 +39,10 @@ import { preventUnhandled } from '@atlaskit/pragmatic-drag-and-drop/prevent-unha
 import { Controller } from '@hotwired/stimulus';
 import { closestInteractiveElement } from 'core-stimulus/helpers/interactive-element-helper';
 import {
-  acceptsSortableItemType,
+  canAccept,
   isSortableItemData,
   sortableItemData,
+  type RootAwareChild,
   type SortableItemData,
   type SortableListsRoot,
 } from './drag-and-drop';
@@ -70,16 +71,18 @@ const PREVIEW_STRIPPED_ATTRIBUTES = [
 // `.Box--condensed .Box-card`) would not apply to it otherwise.
 const BOX_DENSITY_VARIANT_CLASSES = ['Box--condensed', 'Box--spacious'] as const;
 
-export default class ItemController extends Controller<HTMLElement> {
+export default class ItemController extends Controller<HTMLElement> implements RootAwareChild {
   static targets = ['handle', 'preview'];
 
   static values = {
     id: String,
-    type: { type: String, default: 'item' },
+    type: String,
   };
 
-  declare idValue:string;
-  declare typeValue:string;
+  declare readonly idValue:string;
+  declare readonly hasIdValue:boolean;
+  declare readonly typeValue:string;
+  declare readonly hasTypeValue:boolean;
 
   declare readonly handleTarget:HTMLElement;
   declare readonly hasHandleTarget:boolean;
@@ -90,18 +93,21 @@ export default class ItemController extends Controller<HTMLElement> {
   private dropIndicatorElement?:HTMLElement;
   private root?:SortableListsRoot;
 
-  connect() {
+  connect():void {
+    this.warnOnMissingValues();
     this.cleanupFn = combine(
       this.registerDraggable(),
       this.registerDropTarget(),
     );
   }
 
-  disconnect() {
+  disconnect():void {
     this.cleanupFn?.();
     this.cleanupFn = undefined;
+    this.disconnectRoot();
   }
 
+  // Called by the root controller's outlet-connected callback.
   connectRoot(root:SortableListsRoot):void {
     this.root = root;
   }
@@ -112,6 +118,19 @@ export default class ItemController extends Controller<HTMLElement> {
 
   private get initialized():boolean {
     return this.root != null;
+  }
+
+  // Both values are required: an item with an empty id can never be persisted,
+  // and an empty type never matches the root's accepted type, so the item would
+  // appear draggable yet silently refuse every drop. Surface that wiring mistake.
+  private warnOnMissingValues():void {
+    if (!this.hasIdValue) {
+      console.warn('sortable-lists--item is missing its required id value (data-sortable-lists--item-id-value); it cannot be moved.', this.element);
+    }
+
+    if (!this.hasTypeValue) {
+      console.warn('sortable-lists--item is missing its required type value (data-sortable-lists--item-type-value); it cannot be moved.', this.element);
+    }
   }
 
   private registerDraggable():CleanupFn {
@@ -155,23 +174,15 @@ export default class ItemController extends Controller<HTMLElement> {
     return dropTargetForElements({
       element: this.element,
       canDrop: ({ source }) => {
-        if (
-          !this.initialized ||
-          this.root!.moving ||
-          !isSortableItemData(source.data) ||
-          source.data.itemId === this.idValue
-        ) {
+        if (!this.initialized || this.root!.moving) {
           return false;
         }
 
-        if (source.data.rootElement == null || source.data.rootElement !== this.root!.element) {
+        if (isSortableItemData(source.data) && source.data.itemId === this.idValue) {
           return false;
         }
 
-        return acceptsSortableItemType({
-          acceptedType: this.root!.acceptedType,
-          type: source.data.type,
-        });
+        return canAccept(this.root!, source.data);
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {

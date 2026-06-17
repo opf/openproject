@@ -103,7 +103,9 @@ describe('Sortable lists item controller', () => {
 
     Object.defineProperty(controller, 'element', { value: element });
     Object.defineProperty(controller, 'idValue', { value: '123' });
+    Object.defineProperty(controller, 'hasIdValue', { value: true });
     Object.defineProperty(controller, 'typeValue', { value: 'item' });
+    Object.defineProperty(controller, 'hasTypeValue', { value: true });
     Object.defineProperty(controller, 'hasHandleTarget', { value: handle !== null });
     if (handle) {
       Object.defineProperty(controller, 'handleTarget', { value: handle });
@@ -145,6 +147,40 @@ describe('Sortable lists item controller', () => {
         element.removeAttribute('data-drop-target-for-element');
       });
     });
+  });
+
+  function connectItem({ id, type }:{ id:string; type:string }) {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const controller = Object.create(ItemController.prototype) as InstanceType<typeof ItemControllerType>;
+
+    Object.defineProperty(controller, 'element', { value: document.createElement('li') });
+    Object.defineProperty(controller, 'idValue', { value: id });
+    Object.defineProperty(controller, 'hasIdValue', { value: id !== '' });
+    Object.defineProperty(controller, 'typeValue', { value: type });
+    Object.defineProperty(controller, 'hasTypeValue', { value: type !== '' });
+    Object.defineProperty(controller, 'hasHandleTarget', { value: false });
+
+    controller.connect();
+
+    return warn;
+  }
+
+  it('warns when connected without an item id', () => {
+    const warn = connectItem({ id: '', type: 'work_package' });
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('id'), expect.anything());
+  });
+
+  it('warns when connected without an item type', () => {
+    const warn = connectItem({ id: '123', type: '' });
+
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('type'), expect.anything());
+  });
+
+  it('does not warn when id and type are both present', () => {
+    const warn = connectItem({ id: '123', type: 'work_package' });
+
+    expect(warn).not.toHaveBeenCalled();
   });
 
   it('marks the closest edge while dragging over an item', () => {

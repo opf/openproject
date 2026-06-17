@@ -33,10 +33,10 @@ import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-
 import type ListControllerType from './list.controller';
 import type { sortableItemData as sortableItemDataFn, SortableListsRoot } from './drag-and-drop';
 
-// The list controller is tested in ISOLATION: the real outlet hand-over from the
-// root is not implemented until Task 3, so here we render only the list, let it
-// connect, then call connectRoot(fakeRoot) ourselves. The genuine outlet wiring
-// is covered by Task 3's integration test.
+// The list controller is tested in ISOLATION: the root drives the outlet
+// hand-over in production (sortable-lists.controller.ts), so here we render only
+// the list, let it connect, then call connectRoot(fakeRoot) ourselves to stand
+// in for that wiring.
 describe('Sortable lists list controller', () => {
   let dropTargetForElements:typeof dropTargetForElementsFn;
   let ListController:typeof ListControllerType;
@@ -179,6 +179,23 @@ describe('Sortable lists list controller', () => {
     expect(list.getAttribute('aria-busy')).toEqual('true');
 
     controller.reflectMoving(false);
+    expect(list.hasAttribute('aria-busy')).toBe(false);
+  });
+
+  it('clears aria-busy when the root outlet disconnects mid-move', async () => {
+    const { list, controller } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
+    expect(list.getAttribute('aria-busy')).toEqual('true');
+
+    controller.disconnectRoot();
+    expect(list.hasAttribute('aria-busy')).toBe(false);
+  });
+
+  it('clears aria-busy when the list element disconnects mid-move', async () => {
+    const { list } = await connectedListFor({ root: fakeRoot(document.createElement('div'), { moving: true }) });
+    expect(list.getAttribute('aria-busy')).toEqual('true');
+
+    list.remove();
+    await ctx.nextFrame();
     expect(list.hasAttribute('aria-busy')).toBe(false);
   });
 

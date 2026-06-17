@@ -66,6 +66,13 @@ export interface SortableListsRoot {
   readonly acceptedType:string|null;
 }
 
+// Implemented by the list and item controllers so the root can hand them its
+// reference (and revoke it) through outlet-connected callbacks.
+export interface RootAwareChild {
+  connectRoot(root:SortableListsRoot):void;
+  disconnectRoot():void;
+}
+
 export function isSortableItemData(data:Record<string|symbol, unknown>):data is SortableItemData {
   return data[sortableItemDataKey] === true
     && typeof data.type === 'string'
@@ -138,6 +145,21 @@ export function acceptsSortableItemType({
   type:string;
 }):boolean {
   return acceptedType === null || acceptedType === type;
+}
+
+// The drop rule shared by list and item drop targets: the payload must be a
+// sortable item belonging to this same root and of an accepted type. Item
+// targets additionally exclude themselves before calling this.
+export function canAccept(root:SortableListsRoot, data:Record<string|symbol, unknown>):boolean {
+  if (!isSortableItemData(data)) {
+    return false;
+  }
+
+  if (data.rootElement == null || data.rootElement !== root.element) {
+    return false;
+  }
+
+  return acceptsSortableItemType({ acceptedType: root.acceptedType, type: data.type });
 }
 
 export function isSourceListTarget({
