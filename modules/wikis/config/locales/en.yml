@@ -18,7 +18,7 @@ en:
         wiki_audience: XWiki Audience
     errors:
       models:
-        wikis/xwiki_provider:
+        wikis/provider:
           attributes:
             url:
               already_taken: "belongs to the wiki provider that's already known as \"%{name}\"."
