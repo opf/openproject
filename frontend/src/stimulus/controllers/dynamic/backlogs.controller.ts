@@ -36,10 +36,9 @@ import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-an
 // The work package detail/side panel renders into this shared turbo frame.
 const SPLIT_VIEW_FRAME_ID = 'content-bodyRight';
 
-// Depending on whether the side panel is shown, the backlog is scrolled either
-// by `#content` or by `#content-body` (see frontend/.../layout/_base.sass). We
-// read the position from whichever container is currently scrollable and write
-// it back to both so it survives the container switch.
+// The backlog is scrolled by `#content`, or by `#content-body` while the side
+// panel is open (see frontend/.../layout/_base.sass). Only one is scrollable at
+// a time, so we resolve whichever currently is.
 const SCROLL_CONTAINER_IDS = ['content-body', 'content'];
 
 export default class BacklogsController extends Controller<HTMLElement> {
@@ -48,7 +47,7 @@ export default class BacklogsController extends Controller<HTMLElement> {
 
   private subscription:Subscription|null = null;
   private abortController:AbortController|null = null;
-  private savedScrollTop:number|null = null;
+  private savedScrollTop = 0;
 
   initialize() {
     useAngularServices(this);
@@ -58,15 +57,13 @@ export default class BacklogsController extends Controller<HTMLElement> {
     this.abortController = new AbortController();
     const { signal } = this.abortController;
 
-    const frame = this.splitViewFrame;
-    if (frame) {
-      // Opening or closing the side panel navigates the content-bodyRight turbo
-      // frame. Without this, each navigation resets the backlog to the top and
-      // the user loses their refinement spot (AGILE-241). We snapshot the scroll
-      // position before the frame renders and reapply it afterwards.
-      frame.addEventListener('turbo:before-frame-render', this.rememberScrollPosition, { signal });
-      frame.addEventListener('turbo:frame-render', this.restoreScrollPosition, { signal });
-    }
+    // Opening or closing the side panel navigates the content-bodyRight turbo
+    // frame, which otherwise resets the backlog to the top and loses the user's
+    // refinement spot (AGILE-241). We snapshot the scroll position before the
+    // frame renders and reapply it afterwards.
+    const frame = document.getElementById(SPLIT_VIEW_FRAME_ID);
+    frame?.addEventListener('turbo:before-frame-render', this.rememberScrollPosition, { signal });
+    frame?.addEventListener('turbo:frame-render', this.restoreScrollPosition, { signal });
   }
 
   servicesConnected() {
@@ -81,7 +78,7 @@ export default class BacklogsController extends Controller<HTMLElement> {
 
     this.abortController?.abort();
     this.abortController = null;
-    this.savedScrollTop = null;
+    this.savedScrollTop = 0;
   }
 
   private refreshList() {
@@ -89,54 +86,36 @@ export default class BacklogsController extends Controller<HTMLElement> {
   }
 
   private rememberScrollPosition = ():void => {
-    // Only the container that is actually scrollable in the current split state
-    // tracks the user's position. While the panel is open `#content` becomes
-    // `overflow: hidden` but keeps a stale, possibly larger `scrollTop`; reading
-    // the max across both would resurface that outdated position on the next
-    // open/close. So we read from the active scroll container only.
-    this.savedScrollTop = this.activeScrollContainer?.scrollTop ?? null;
+    this.savedScrollTop = this.scrollContainer?.scrollTop ?? 0;
   };
 
   private restoreScrollPosition = ():void => {
     const target = this.savedScrollTop;
-    this.savedScrollTop = null;
-
-    if (target === null || target <= 0) {
+    if (target <= 0) {
       return;
     }
 
     const apply = () => {
-      // Setting scrollTop on the currently inactive (non-scrollable) container
-      // is a harmless no-op, so we can apply to both candidates unconditionally.
-      this.scrollContainers.forEach((container) => { container.scrollTop = target; });
+      const container = this.scrollContainer;
+      if (container) { container.scrollTop = target; }
     };
 
+    // The frame navigation is promoted to a turbo visit that scrolls after the
+    // frame renders, so reapply once the layout has settled (the ~25ms mirrors
+    // keep-scroll-position.controller.ts).
     apply();
-    // Reapply once layout has settled. The frame navigation is promoted to a
-    // turbo visit which scrolls afterwards, so a single synchronous write is
-    // not always enough (mirrors the keep-scroll-position controller).
-    requestAnimationFrame(apply);
     window.setTimeout(apply, 25);
   };
 
-  private get scrollContainers():HTMLElement[] {
+  // The container the backlog currently scrolls in: whichever candidate is
+  // actually scrollable. `#content` reports `overflow: hidden` while the side
+  // panel is open, so it is skipped in favour of `#content-body`.
+  private get scrollContainer():HTMLElement|null {
     return SCROLL_CONTAINER_IDS
       .map((id) => document.getElementById(id))
-      .filter((element):element is HTMLElement => element !== null);
-  }
-
-  // The container the user is actually scrolling: the first candidate whose
-  // computed overflow allows scrolling. `#content` reports `overflow: hidden`
-  // while the side panel is open, so it is skipped in favour of `#content-body`.
-  private get activeScrollContainer():HTMLElement|null {
-    return this.scrollContainers.find((container) => {
-      const { overflowY } = window.getComputedStyle(container);
-      return overflowY === 'auto' || overflowY === 'scroll';
-    }) ?? null;
-  }
-
-  private get splitViewFrame() {
-    return document.getElementById(SPLIT_VIEW_FRAME_ID);
+      .find((el):el is HTMLElement => (
+        el !== null && ['auto', 'scroll'].includes(window.getComputedStyle(el).overflowY)
+      )) ?? null;
   }
 
   private get listElement() {
