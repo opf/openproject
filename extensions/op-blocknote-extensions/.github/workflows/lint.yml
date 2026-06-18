@@ -1,4 +1,4 @@
-name: test.yml
+name: lint.yml
 on:
   pull_request:
     types: [opened, reopened, synchronize]
@@ -7,8 +7,8 @@ permissions:
   contents: read
 
 jobs:
-  units:
-    name: Units
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
 
     steps:
@@ -26,10 +26,6 @@ jobs:
         id: npm-i
         run: npm i
 
-      - name: Install Playwright Browsers
-        id: install-playwright
-        run: npx playwright install --with-deps
-
-      - name: run tests
-        id: npm-test
-        run: CI=1 npm test
+      - name: lint
+        id: npm-lint
+        run: npm run lint
