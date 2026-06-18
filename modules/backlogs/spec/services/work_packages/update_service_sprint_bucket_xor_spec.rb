@@ -84,4 +84,68 @@ RSpec.describe WorkPackages::UpdateService, "sprint and bucket mutual exclusivit
       expect(work_package.reload).to have_attributes(sprint: nil, backlog_bucket: nil)
     end
   end
+
+  context "when only sprint changes (no bucket involved)" do
+    context "when the work package has no sprint" do
+      let(:work_package) { create(:work_package, project:) }
+
+      it "sets the sprint without clearing the bucket" do
+        result = instance.call(sprint:)
+
+        expect(result).to be_success
+        expect(work_package.reload).to have_attributes(sprint:, backlog_bucket: nil)
+      end
+    end
+
+    context "when the work package already has a sprint" do
+      let(:other_sprint) { create(:sprint, project:) }
+      let(:work_package) { create(:work_package, project:, sprint:) }
+
+      it "changes the sprint without clearing the bucket" do
+        result = instance.call(sprint: other_sprint)
+
+        expect(result).to be_success
+        expect(work_package.reload).to have_attributes(sprint: other_sprint, backlog_bucket: nil)
+      end
+
+      it "clears the sprint without clearing the bucket" do
+        result = instance.call(sprint: nil)
+
+        expect(result).to be_success
+        expect(work_package.reload).to have_attributes(sprint: nil, backlog_bucket: nil)
+      end
+    end
+  end
+
+  context "when only bucket changes (no sprint involved)" do
+    context "when the work package has no bucket" do
+      let(:work_package) { create(:work_package, project:) }
+
+      it "sets the bucket without clearing the sprint" do
+        result = instance.call(backlog_bucket: bucket)
+
+        expect(result).to be_success
+        expect(work_package.reload).to have_attributes(sprint: nil, backlog_bucket: bucket)
+      end
+    end
+
+    context "when the work package already has a bucket" do
+      let(:other_bucket) { create(:backlog_bucket, project:) }
+      let(:work_package) { create(:work_package, project:, backlog_bucket: bucket) }
+
+      it "changes the bucket without clearing the sprint" do
+        result = instance.call(backlog_bucket: other_bucket)
+
+        expect(result).to be_success
+        expect(work_package.reload).to have_attributes(sprint: nil, backlog_bucket: other_bucket)
+      end
+
+      it "clears the bucket without clearing the sprint" do
+        result = instance.call(backlog_bucket: nil)
+
+        expect(result).to be_success
+        expect(work_package.reload).to have_attributes(sprint: nil, backlog_bucket: nil)
+      end
+    end
+  end
 end
