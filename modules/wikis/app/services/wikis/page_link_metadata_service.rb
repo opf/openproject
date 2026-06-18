@@ -39,10 +39,11 @@ module Wikis
     # @return [ServiceResult<ActiveRecord::Relation<Wikis::PageLink>]
     def call
       metadata = relation.group_by(&:provider).flat_map do |provider, page_links|
-        build_inputs(page_links).filter_map do |input_data|
+        build_inputs(page_links).filter_map do |(page_link_id, input_data)|
           provider.auth_strategy_for(User.current).bind do |auth_strategy|
             provider.resolve("queries.page_info").call(input_data:, auth_strategy:)
-          end.value_or(nil)
+                    .either(->(info) { [page_link_id, info] }, ->(*) {})
+          end
         end
       end
 
@@ -56,16 +57,16 @@ module Wikis
 
     def build_inputs(page_links)
       page_links.filter_map do |page_link|
-        Adapters::Input::PageInfo.build(identifier: page_link.identifier).value_or(nil)
+        [page_link.id, Adapters::Input::PageInfo.build(identifier: page_link.identifier).value_or(nil)]
       end
     end
 
     def enrich_models(metadata)
-      identifier_title_map = metadata.map { [it.identifier, it.title, it.provider.id] }
-      variable_placeholders = Array.new(identifier_title_map.size, "(?,?,?)").join(",")
+      identifier_title_map = metadata.map { |(id, info)| [id, info.title] }
+      variable_placeholders = Array.new(identifier_title_map.size, "(?,?)").join(",")
       join_string = <<~SQL.squish
-        LEFT JOIN (VALUES #{variable_placeholders}) AS metadata(identifier, title, provider_id)
-          ON metadata.identifier = wiki_page_links.identifier AND metadata.provider_id = wiki_page_links.provider_id
+        LEFT JOIN (VALUES #{variable_placeholders}) AS metadata(page_link_id, title)
+          ON metadata.page_link_id = wiki_page_links.id
       SQL
 
       join_expression = OpenProject::SqlSanitization.sanitize(join_string, *identifier_title_map.flatten)

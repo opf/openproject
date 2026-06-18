@@ -49,6 +49,10 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     create_list(:inline_wiki_page_link, 3, provider: internal_wiki, linkable: create(:work_package, project: project))
   end
 
+  shared_let(:same_identifier_page_links) do
+    create_list(:relation_wiki_page_link, 3, provider: create(:xwiki_provider), identifier: "shared_identifier")
+  end
+
   before do
     login_as user
     stub_provider_queries
@@ -90,7 +94,10 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
       end
 
       it_behaves_like "API V3 collection response", 9, 9, "WikiPageLink", "WikiPageLinkCollection" do
-        let(:elements) { Wikis::PageLink.where.not(id: unaccessible_links.pluck(:id)).order(id: :desc).all }
+        let(:elements) do
+          ids = unaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
+          Wikis::PageLink.where.not(id: ids).order(id: :desc).all
+        end
       end
     end
 
@@ -113,7 +120,10 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
       before { get "#{path}?filters=#{CGI.escape(filter.to_json)}" }
 
       it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
-        let(:elements) { Wikis::RelationPageLink.where.not(id: unaccessible_links.pluck(:id)).order(id: :desc).all }
+        let(:elements) do
+          ids = unaccessible_links.pluck(:id) + same_identifier_page_links.pluck(:id)
+          Wikis::RelationPageLink.where.not(id: ids).order(id: :desc).all
+        end
       end
 
       it "only returns the filtered type" do
@@ -121,6 +131,20 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
 
         expect(json.dig(:_embedded, :elements))
           .to all(include(wikiPageLinkType: API::V3::PageLinks::URN_PAGE_LINK_TYPE["Wikis::RelationPageLink"]))
+      end
+    end
+
+    context "when filtering by identifier" do
+      let(:user) { create(:admin) } # simplifies access to multiple projects
+      let(:filter) { [{ identifier: { operator: "=", values: "shared_identifier" } }] }
+
+      before do
+        login_as user
+        get "#{path}?filters=#{CGI.escape(filter.to_json)}"
+      end
+
+      it_behaves_like "API V3 collection response", 3, 3, "WikiPageLink", "WikiPageLinkCollection" do
+        let(:elements) { Wikis::PageLink.where(identifier: "shared_identifier").order(id: :desc).all }
       end
     end
   end
@@ -256,6 +280,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     stub_query_calls(inline_page_links, internal_query)
     stub_query_calls(relation_page_links, xwiki_query)
     stub_query_calls(unrelated_page_links, internal_query)
+    stub_query_calls(same_identifier_page_links, xwiki_query)
   end
 
   def stub_query_calls(links, query)
