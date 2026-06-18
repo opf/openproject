@@ -12,7 +12,8 @@ import { useInlineWpEvents } from './useInlineWpEvents';
  * destroys the y-prosemirror UndoManager, breaking Ctrl+Z.
  */
 export function useOpBlockNoteExtensions(
-  editor: BlockNoteEditor<any, any, any>
-): void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  editor:BlockNoteEditor<any, any, any>
+):void {
   useInlineWpEvents(editor);
 }

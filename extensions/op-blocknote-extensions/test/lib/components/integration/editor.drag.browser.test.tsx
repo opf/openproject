@@ -19,7 +19,7 @@ describe('Drag and drop - inline chip', () => {
 
     await expect.element(page.getByText('#123')).toBeVisible();
 
-    const chipEl = page.getByText('#123').element().closest('.op-bn-inline-wp') as HTMLElement;
+    const chipEl = page.getByText('#123').element().closest('.op-bn-inline-wp')!;
     expect(chipEl).not.toBeNull();
     expect(chipEl.hasAttribute('data-drag-handle')).toBe(true);
     expect(chipEl.getAttribute('draggable')).not.toBe('true');
@@ -68,7 +68,7 @@ describe('Drag and drop - inline chip', () => {
     let fetchCount = 0;
     worker.use(
       http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) => {
-        fetchCount++;
+        fetchCount += 1;
         return HttpResponse.json({ ...mockWorkPackage, id: Number(params.id), displayId: String(params.id) });
       })
     );
@@ -96,7 +96,7 @@ describe('Drag and drop - block card', () => {
 
     await expect.element(page.getByTestId('block-card')).toBeVisible();
 
-    const blockContainer = page.getByTestId('block-card').element().closest('.op-bn-extensions') as HTMLElement;
+    const blockContainer = page.getByTestId('block-card').element().closest('.op-bn-extensions')!;
     expect(blockContainer).not.toBeNull();
     expect(blockContainer.getAttribute('draggable')).toBe('true');
   });
@@ -117,15 +117,15 @@ describe('Drag and drop - block card', () => {
     let fetchCount = 0;
     worker.use(
       http.get('http://localhost:3000/api/v3/work_packages/:id', ({ params }) => {
-        fetchCount++;
+        fetchCount += 1;
         return HttpResponse.json({ ...mockWorkPackage, id: Number(params.id), displayId: String(params.id) });
       })
     );
 
     // Drop onto the block-level container of the target paragraph, not the text span,
     // so ProseMirror can resolve a valid block-level drop position.
-    const blockContainer = page.getByTestId('block-card').element().closest('.op-bn-extensions') as HTMLElement;
-    const dropTarget = page.getByText('After card').element().closest('[data-node-type="blockOuter"]') as HTMLElement;
+    const blockContainer = page.getByTestId('block-card').element().closest('.op-bn-extensions')!;
+    const dropTarget = page.getByText('After card').element().closest('[data-node-type="blockOuter"]')!;
     await userEvent.dragAndDrop(blockContainer, dropTarget);
 
     // Yield to the browser event loop so React effects have time to run

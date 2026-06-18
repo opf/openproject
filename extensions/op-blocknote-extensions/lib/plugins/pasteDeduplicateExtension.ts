@@ -1,5 +1,5 @@
-import { createExtension } from "@blocknote/core";
-import { pasteDeduplicatePlugin } from "./pasteDeduplicatePlugin";
+import { createExtension } from '@blocknote/core';
+import { pasteDeduplicatePlugin } from './pasteDeduplicatePlugin';
 
 /**
  * BlockNote extension that registers the pasteDeduplicatePlugin at editor
@@ -19,6 +19,6 @@ import { pasteDeduplicatePlugin } from "./pasteDeduplicatePlugin";
  * `reconfigure` pass entirely.
  */
 export const PasteDeduplicateInstanceIdsExtension = createExtension({
-  key: "pasteDeduplicateInstanceIds",
+  key: 'pasteDeduplicateInstanceIds',
   prosemirrorPlugins: [pasteDeduplicatePlugin],
 });

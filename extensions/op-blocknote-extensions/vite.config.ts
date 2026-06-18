@@ -1,6 +1,6 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "node:path";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'node:path';
 
 const __dirname = path.resolve();
 
@@ -10,22 +10,22 @@ export default defineConfig({
   build: {
     lib: {
       entry: {
-        "op-blocknote-extensions": path.resolve(__dirname, "lib/index.ts"),
-        "op-blocknote-extensions-server": path.resolve(__dirname, "lib/server.ts"),
+        'op-blocknote-extensions': path.resolve(__dirname, 'lib/index.ts'),
+        'op-blocknote-extensions-server': path.resolve(__dirname, 'lib/server.ts'),
       },
-      name: "OpBlocknoteExtensions",
-      formats: ["es", "cjs"],
+      name: 'OpBlocknoteExtensions',
+      formats: ['es', 'cjs'],
       fileName: (format, entryName) => `${entryName}.${format}.js`,
     },
     rollupOptions: {
       // Externalize deps that shouldn't be bundled
       external: [
-        "react",
-        "react-dom",
-        "@blocknote/core",
-        "@blocknote/react",
-        "@blocknote/mantine",
-        "yjs",
+        'react',
+        'react-dom',
+        '@blocknote/core',
+        '@blocknote/react',
+        '@blocknote/mantine',
+        'yjs',
       ],
     },
   },

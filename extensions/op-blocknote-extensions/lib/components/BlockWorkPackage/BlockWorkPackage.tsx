@@ -1,27 +1,28 @@
-import { BlockNoteEditor, SideMenuExtension } from "@blocknote/core";
-import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { useTranslation } from "react-i18next";
-import { useWorkPackage } from "../../hooks/useWorkPackage";
-import { useColors } from "../../services/colors";
-import { wpBridge } from "../../services/wpBridge";
-import type { WorkPackage } from "../../openProjectTypes";
-import type { InlineWpSize, BlockWpSize } from "../WorkPackage/types";
-import { BlockCard } from "./BlockCard";
-import { UnavailableCard } from "../WorkPackage/UnavailableCard";
-import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
-import { SearchContainer, SearchLabel } from "../Search/SearchContainer";
-import { SearchDropdown } from "../Search/SearchDropdown";
-import { defaultWpVariables } from "../WorkPackage/atoms";
-import { moveCursorAfterBlock } from "../../utils/cursor";
-import { pendingBlockRegistry } from "./pendingBlockRegistry";
+import { BlockNoteEditor, SideMenuExtension } from '@blocknote/core';
+import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
+import { useWorkPackage } from '../../hooks/useWorkPackage';
+import { useColors } from '../../services/colors';
+import { wpBridge } from '../../services/wpBridge';
+import type { WorkPackage } from '../../openProjectTypes';
+import type { InlineWpSize, BlockWpSize } from '../WorkPackage/types';
+import type { BlockWorkPackageProps } from './types';
+import { BlockCard } from './BlockCard';
+import { UnavailableCard } from '../WorkPackage/UnavailableCard';
+import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
+import { SearchContainer, SearchLabel } from '../Search/SearchContainer';
+import { SearchDropdown } from '../Search/SearchDropdown';
+import { defaultWpVariables } from '../WorkPackage/atoms';
+import { moveCursorAfterBlock } from '../../utils/cursor';
+import { pendingBlockRegistry } from './pendingBlockRegistry';
 
-const Block = styled.div.attrs({ className: "op-bn-extensions" })<{ $pending?: boolean }>`
+const Block = styled.div.attrs({ className: 'op-bn-extensions' })<{ $pending?:boolean }>`
   ${defaultWpVariables}
-  background-color: ${({ $pending }) => ($pending ? "transparent" : "var(--op-chip-bg)")};
+  background-color: ${({ $pending }) => ($pending ? 'transparent' : 'var(--op-chip-bg)')};
   user-select: all;
   border-radius: var(--bn-border-radius);
-  ${({ $pending }) => $pending && "position: relative;"}
+  ${({ $pending }) => $pending && 'position: relative;'}
 `;
 
 const BlockCardWrapper = styled.div`
@@ -32,19 +33,17 @@ const BlockCardWrapper = styled.div`
 type SideMenuInstance = NonNullable<ReturnType<ReturnType<typeof SideMenuExtension>>>;
 
 interface BlockProps {
-  id: string;
-  props: {
-    wpid?: number;
-    size?: BlockWpSize;
-  };
+  id:string;
+  props:BlockWorkPackageProps;
 }
 
 export const BlockWorkPackageComponent = ({
   block,
   editor,
-}: {
-  block: BlockProps;
-  editor: BlockNoteEditor<any>;
+}:{
+  block:BlockProps;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  editor:BlockNoteEditor<any>;
 }) => {
   const { t } = useTranslation();
   const cardRef = useRef<HTMLDivElement>(null);
@@ -59,19 +58,19 @@ export const BlockWorkPackageComponent = ({
 
   useEffect(() => {
     if (!selectedWorkPackage) return;
-    if (selectedWorkPackage.displayId === (block.props as any).displayId) return;
+    if (selectedWorkPackage.displayId === block.props.displayId) return;
     editor.updateBlock(block, {
       props: { ...block.props, displayId: selectedWorkPackage.displayId },
     });
   }, [selectedWorkPackage?.displayId]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const cardSize: BlockWpSize = block.props.size ?? "m";
+  const cardSize:BlockWpSize = block.props.size ?? 'm';
 
   useEffect(() => {
     return () => { pendingBlockRegistry.delete(block.id); };
   }, [block.id]);
 
-  const handleSelectWorkPackage = (wp: WorkPackage) => {
+  const handleSelectWorkPackage = (wp:WorkPackage) => {
     pendingBlockRegistry.delete(block.id);
     editor.updateBlock(block, {
       props: { ...block.props, wpid: wp.id, displayId: wp.displayId },
@@ -81,30 +80,31 @@ export const BlockWorkPackageComponent = ({
 
   // Delegate the drag to the same mechanism the side menu uses internally,
   // so dragging the block directly behaves identically to dragging via the handle.
-  const handleBlockDragStart = (e: React.DragEvent) => {
-    const sideMenu = editor.extensions.get("sideMenu") as SideMenuInstance | undefined;
+  const handleBlockDragStart = (e:React.DragEvent) => {
+    const sideMenu = editor.extensions.get('sideMenu') as SideMenuInstance | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     sideMenu?.blockDragStart(e.nativeEvent, block as any);
   };
 
   // Close options popover on outside click
   useEffect(() => {
     if (!isOptionsOpen) return;
-    const handleClickOutside = (e: MouseEvent) => {
+    const handleClickOutside = (e:MouseEvent) => {
       const path = e.composedPath();
       if (cardRef.current && !path.includes(cardRef.current as EventTarget)) {
         setIsOptionsOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [isOptionsOpen]);
 
-  const handleConvertToInline = (size: InlineWpSize) => {
+  const handleConvertToInline = (size:InlineWpSize) => {
     if (!selectedWorkPackage) return;
     wpBridge.convertToInline({ wpid: selectedWorkPackage.id, size, blockId: block.id });
   };
 
-  const handleResizeBlock = (size: BlockWpSize) => {
+  const handleResizeBlock = (size:BlockWpSize) => {
     editor.updateBlock(block, {
       props: { ...block.props, size },
     });
@@ -118,11 +118,11 @@ export const BlockWorkPackageComponent = ({
 
   return (
     <Block $pending={isPending} draggable="true" onDragStart={handleBlockDragStart}>
-      <div contentEditable={false} style={{ userSelect: "none" }}>
+      <div contentEditable={false} style={{ userSelect: 'none' }}>
         {isPending && (
           <SearchContainer $floating>
             <SearchLabel>
-              {t("search.label")}
+              {t('search.label')}
             </SearchLabel>
             <SearchDropdown
               autoFocus
@@ -141,20 +141,20 @@ export const BlockWorkPackageComponent = ({
           <>
             {workPackageResult.loading && (
               <UnavailableCard
-                header={t("unavailableWorkPackage.loading.header")}
-                message={t("unavailableWorkPackage.loading.message")}
+                header={t('unavailableWorkPackage.loading.header')}
+                message={t('unavailableWorkPackage.loading.message')}
               />
             )}
             {!workPackageResult.loading && workPackageResult.error && (
               <UnavailableCard
-                header={t("unavailableWorkPackage.error.header")}
-                message={t("unavailableWorkPackage.error.message")}
+                header={t('unavailableWorkPackage.error.header')}
+                message={t('unavailableWorkPackage.error.message')}
               />
             )}
             {!workPackageResult.loading && !workPackageResult.error && workPackageResult.unauthorized && (
               <UnavailableCard
-                header={t("unavailableWorkPackage.unauthorized.header")}
-                message={t("unavailableWorkPackage.unauthorized.message")}
+                header={t('unavailableWorkPackage.unauthorized.header')}
+                message={t('unavailableWorkPackage.unauthorized.message')}
               />
             )}
             {!workPackageResult.loading &&
@@ -178,6 +178,7 @@ export const BlockWorkPackageComponent = ({
                       currentSize={undefined}
                       currentBlockSize={cardSize}
                       instanceId={undefined}
+                      // eslint-disable-next-line react-hooks/refs
                       anchorEl={cardRef.current}
                       onClose={() => setIsOptionsOpen(false)}
                       onConvertToInline={handleConvertToInline}
@@ -194,4 +195,3 @@ export const BlockWorkPackageComponent = ({
     </Block>
   );
 };
-

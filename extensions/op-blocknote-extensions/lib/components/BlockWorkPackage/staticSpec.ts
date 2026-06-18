@@ -1,10 +1,10 @@
-import { createBlockSpec } from "@blocknote/core";
-import { blockConfig } from "./blockConfig";
+import { createBlockSpec } from '@blocknote/core';
+import { blockConfig } from './blockConfig';
 import {
   buildWorkPackageBlockExternalDOM,
   computeWorkPackageBlockExternalData,
   parseWorkPackageBlockExternalHTML,
-} from "./externalHtml";
+} from './externalHtml';
 
 // Server-safe block spec. Same blockConfig and external-HTML shape as the
 // React variant; only the runtime renderer is vanilla DOM. Suitable for
@@ -17,7 +17,7 @@ export const openProjectWorkPackageStaticBlockSpec = createBlockSpec(
       const data = computeWorkPackageBlockExternalData(block.props);
       const dom = data
         ? buildWorkPackageBlockExternalDOM(data, document)
-        : document.createElement("div");
+        : document.createElement('div');
       return { dom };
     },
 

@@ -1,12 +1,12 @@
-import { useTranslation } from "react-i18next";
-import type { WorkPackage } from "../../openProjectTypes";
-import { SearchContainer, SearchLabel } from "./SearchContainer";
-import { SearchDropdown } from "./SearchDropdown";
+import { useTranslation } from 'react-i18next';
+import type { WorkPackage } from '../../openProjectTypes';
+import { SearchContainer, SearchLabel } from './SearchContainer';
+import { SearchDropdown } from './SearchDropdown';
 
 interface WorkPackageSearchPopoverProps {
-  onSelect: (wp: WorkPackage) => void;
-  onCancel: () => void;
-  renderItem: (wp: WorkPackage) => React.ReactNode;
+  onSelect:(wp:WorkPackage) => void;
+  onCancel:() => void;
+  renderItem:(wp:WorkPackage) => React.ReactNode;
 }
 
 // Floating search popover for inline work package chip.
@@ -14,7 +14,7 @@ export const WorkPackageSearchPopover = ({
   onSelect,
   onCancel,
   renderItem,
-}: WorkPackageSearchPopoverProps) => {
+}:WorkPackageSearchPopoverProps) => {
   const { t } = useTranslation();
 
   return (
@@ -23,7 +23,7 @@ export const WorkPackageSearchPopover = ({
       className="op-bn-inline-search"
       onMouseDown={(e) => e.stopPropagation()}
     >
-      <SearchLabel>{t("search.label")}</SearchLabel>
+      <SearchLabel>{t('search.label')}</SearchLabel>
       <SearchDropdown
         autoFocus
         onSelect={onSelect}

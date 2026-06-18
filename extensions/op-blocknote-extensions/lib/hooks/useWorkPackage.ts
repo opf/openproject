@@ -1,16 +1,16 @@
-import { useEffect, useState, useCallback } from "react";
-import type { WorkPackage } from "../openProjectTypes";
-import { OpenProjectApiError, fetchWorkPackage } from "../services/openProjectApi";
+import { useEffect, useState, useCallback } from 'react';
+import type { WorkPackage } from '../openProjectTypes';
+import { OpenProjectApiError, fetchWorkPackage } from '../services/openProjectApi';
 
-const workPackageCache: Record<number, WorkPackage> = {};
+const workPackageCache:Record<number, WorkPackage> = {};
 
-export function clearWorkPackageCache(): void {
+export function clearWorkPackageCache():void {
   for (const key in workPackageCache) {
     delete workPackageCache[key as unknown as number];
   }
 }
 
-export function useWorkPackage(wpid: number|undefined) {
+export function useWorkPackage(wpid:number|undefined) {
   const [workPackage, setWorkPackage] = useState<WorkPackage | null>(
     () => (wpid != null ? workPackageCache[wpid] ?? null : null)
   );
@@ -31,8 +31,8 @@ export function useWorkPackage(wpid: number|undefined) {
     setError(null);
     try {
       const data = await fetchWorkPackage(wpid);
-      workPackageCache[wpid] = data as WorkPackage;
-      setWorkPackage(data as WorkPackage);
+      workPackageCache[wpid] = data;
+      setWorkPackage(data);
     } catch (error) {
       if (error instanceof OpenProjectApiError && error.responseStatus === 404) {
         setUnauthorized(true);
@@ -47,7 +47,7 @@ export function useWorkPackage(wpid: number|undefined) {
   }, [wpid]);
 
   useEffect(() => {
-    getWorkPackage();
+    void getWorkPackage();
   }, [getWorkPackage]);
 
   return { workPackage, loading, unauthorized, error };

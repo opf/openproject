@@ -1,13 +1,13 @@
-import { createBlockConfig } from "@blocknote/core";
+import { createBlockConfig } from '@blocknote/core';
 
 export const blockConfig = createBlockConfig((() => ({
-  type: "openProjectWorkPackageBlock" as const,
+  type: 'openProjectWorkPackageBlock' as const,
   propSchema: {
-    wpid: { default: undefined, type: "number" },
-    size: { default: "m", type: "string" },
-    instanceId: { default: "", type: "string" },
-    displayId: { default: "", type: "string" },
+    wpid: { default: undefined, type: 'number' },
+    size: { default: 'm', type: 'string' },
+    instanceId: { default: '', type: 'string' },
+    displayId: { default: '', type: 'string' },
   },
-  content: "none",
+  content: 'none',
   isSelectable: false,
 })) as unknown as ReturnType<typeof createBlockConfig>);

@@ -6,8 +6,8 @@ import mantineStyles from '@blocknote/mantine/style.css?url';
 import { ShadowDomWrapper } from '../lib';
 
 class BlockNoteElement extends HTMLElement {
-  private mount: HTMLDivElement;
-  private reactRoot: ReturnType<typeof createRoot> | null = null;
+  private mount:HTMLDivElement;
+  private reactRoot:ReturnType<typeof createRoot> | null = null;
 
   constructor() {
     super();

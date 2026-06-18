@@ -1,8 +1,8 @@
-import styled, { css } from "styled-components";
+import styled, { css } from 'styled-components';
 import {
   defaultColorStyles,
   typeTextColor,
-} from "../../services/colors";
+} from '../../services/colors';
 
 export const defaultWpVariables = css`
   --spacer-s: 4px;
@@ -31,8 +31,8 @@ export const defaultWpVariables = css`
 `;
 
 export const WorkPackageId = styled.span.attrs({
-  className: "op-bn-work-package--id",
-})<{ $compact?: boolean }>`
+  className: 'op-bn-work-package--id',
+})<{ $compact?:boolean }>`
   color: var(--op-wp-meta-color) !important;
 
   ${({ $compact }) =>
@@ -45,9 +45,9 @@ export const WorkPackageId = styled.span.attrs({
 `;
 
 export const WorkPackageType = styled.span.attrs({
-  className: "op-bn-work-package--type",
-  "data-testid": "op-bn-work-package--type",
-})<{ $color: string; $compact?: boolean }>`
+  className: 'op-bn-work-package--type',
+  'data-testid': 'op-bn-work-package--type',
+})<{ $color:string; $compact?:boolean }>`
   ${({ $color }) => defaultColorStyles($color)}
   font-weight: ${({ $compact }) => ($compact ? 600 : 500)};
   text-transform: uppercase;
@@ -62,18 +62,18 @@ export const WorkPackageType = styled.span.attrs({
 `;
 
 export const WorkPackageStatus = styled.span.attrs({
-  className: "op-bn-work-package--status",
+  className: 'op-bn-work-package--status',
 })<{
-  $baseColor: string;
-  $borderColor?: string;
-  $textColor?: string;
-  $bgColor?: string;
-  $compact?: boolean;
+  $baseColor:string;
+  $borderColor?:string;
+  $textColor?:string;
+  $bgColor?:string;
+  $compact?:boolean;
 }>`
   ${({ $baseColor }) => defaultColorStyles($baseColor)}
   font-size: 0.95em;
   border-radius: 100px;
-  border: 1px solid ${({ $borderColor }) => $borderColor ?? "transparent"};
+  border: 1px solid ${({ $borderColor }) => $borderColor ?? 'transparent'};
   padding: 0 7px;
   align-content: center;
   color: ${({ $textColor }) => $textColor} !important;
@@ -92,8 +92,8 @@ export const WorkPackageStatus = styled.span.attrs({
 `;
 
 export const WorkPackageTitle = styled.span.attrs({
-  className: "op-bn-work-package--title",
-})<{ $compact?: boolean }>`
+  className: 'op-bn-work-package--title',
+})<{ $compact?:boolean }>`
   flex-basis: max-content;
   color: var(--bn-colors-editor-text);
   font-weight: 500;
@@ -110,7 +110,7 @@ export const WorkPackageTitle = styled.span.attrs({
     `}
 `;
 
-export const WorkPackageTitleLink = styled.a<{ $compact?: boolean }>`
+export const WorkPackageTitleLink = styled.a<{ $compact?:boolean }>`
   cursor: pointer;
   text-decoration: none;
   color: var(--bn-colors-highlights-blue-text);

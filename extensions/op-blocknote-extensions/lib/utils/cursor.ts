@@ -1,26 +1,27 @@
-import type { BlockNoteEditor } from "@blocknote/core";
-import { TextSelection } from "prosemirror-state";
+import type { BlockNoteEditor } from '@blocknote/core';
+import { TextSelection } from 'prosemirror-state';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyEditor = BlockNoteEditor<any, any, any>;
 
-export function moveCursorAfterBlock(editor: AnyEditor, blockId: string): void {
+export function moveCursorAfterBlock(editor:AnyEditor, blockId:string):void {
   editor.focus();
-  editor.setTextCursorPosition(blockId, "end");
+  editor.setTextCursorPosition(blockId, 'end');
 
   const cursor = editor.getTextCursorPosition();
   if (!cursor?.nextBlock && cursor?.block) {
-    editor.insertBlocks([{ type: "paragraph", content: [] }], cursor.block.id, "after");
+    editor.insertBlocks([{ type: 'paragraph', content: [] }], cursor.block.id, 'after');
   }
 
   const updated = editor.getTextCursorPosition();
   if (updated?.nextBlock) {
-    editor.setTextCursorPosition(updated.nextBlock.id, "start");
+    editor.setTextCursorPosition(updated.nextBlock.id, 'start');
   }
 }
 
-export function placeCursorAfterInlineNode(editor: AnyEditor, instanceId: string): void {
+export function placeCursorAfterInlineNode(editor:AnyEditor, instanceId:string):void {
   const { doc } = editor.prosemirrorState;
-  let targetPos: number | null = null;
+  let targetPos:number | null = null;
 
   doc.descendants((node, pos) => {
     if (targetPos !== null) return false;

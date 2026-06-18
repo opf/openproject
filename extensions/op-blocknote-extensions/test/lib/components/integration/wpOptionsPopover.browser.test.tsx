@@ -15,10 +15,10 @@ afterEach(() => {
   cleanup();
 });
 
-function ChipWrapper({ initialSize, wpid = '123', instanceId = 'iid-test' }: {
-  initialSize: string;
-  wpid?: string;
-  instanceId?: string;
+function ChipWrapper({ initialSize, wpid = '123', instanceId = 'iid-test' }:{
+  initialSize:string;
+  wpid?:string;
+  instanceId?:string;
 }) {
   const [size, setSize] = useState(initialSize);
 

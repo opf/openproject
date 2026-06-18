@@ -2,7 +2,7 @@ import { http, HttpResponse } from 'msw';
 
 export const mockWorkPackage = {
   id: 123,
-  displayId: "123",
+  displayId: '123',
   subject: 'Fix login bug',
   _links: {
     self:   { href: '/api/v3/work_packages/123' },
@@ -13,7 +13,7 @@ export const mockWorkPackage = {
 
 export const mockWorkPackage2 = {
   id: 456,
-  displayId: "456",
+  displayId: '456',
   subject: 'Add dark mode',
   _links: {
     self:   { href: '/api/v3/work_packages/456' },
@@ -24,7 +24,7 @@ export const mockWorkPackage2 = {
 
 export const mockWorkPackageWithSemanticId = {
   id: 789,
-  displayId: "DWPS-1",
+  displayId: 'DWPS-1',
   subject: 'Semantic ID work package',
   _links: {
     self:   { href: '/api/v3/work_packages/789' },

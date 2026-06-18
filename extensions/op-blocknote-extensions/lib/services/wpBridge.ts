@@ -1,7 +1,7 @@
-import type { InlineWpSize, WpSize } from "../components/WorkPackage/types";
-export interface WpResizePayload { instanceId: string; wpid: number; size: WpSize }
-export interface WpDeletePayload { instanceId: string; wpid: number }
-export interface WpToInlinePayload { wpid: number; size: InlineWpSize; blockId: string }
+import type { InlineWpSize, WpSize } from '../components/WorkPackage/types';
+export interface WpResizePayload { instanceId:string; wpid:number; size:WpSize }
+export interface WpDeletePayload { instanceId:string; wpid:number }
+export interface WpToInlinePayload { wpid:number; size:InlineWpSize; blockId:string }
 
 /**
  * Bridge between BlockNote inline components and the host application.
@@ -18,34 +18,35 @@ export interface WpToInlinePayload { wpid: number; size: InlineWpSize; blockId: 
  */
 
 class WpBridge {
-  private readonly listeners = new Map<string, Set<(payload: any) => void>>();
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private readonly listeners = new Map<string, Set<(payload:any) => void>>();
 
   // Typed emit helpers — prefer these over calling emit() directly
-  resize(payload: WpResizePayload): void {
-    this.emit("resize", payload);
+  resize(payload:WpResizePayload):void {
+    this.emit('resize', payload);
   }
 
-  delete(payload: WpDeletePayload): void {
-    this.emit("delete", payload);
+  delete(payload:WpDeletePayload):void {
+    this.emit('delete', payload);
   }
 
-  convertToInline(payload: WpToInlinePayload): void {
-    this.emit("toInline", payload);
+  convertToInline(payload:WpToInlinePayload):void {
+    this.emit('toInline', payload);
   }
 
-  onResize(callback: (payload: WpResizePayload) => void): () => void {
-    return this.on("resize", callback);
+  onResize(callback:(payload:WpResizePayload) => void):() => void {
+    return this.on('resize', callback);
   }
 
-  onDelete(callback: (payload: WpDeletePayload) => void): () => void {
-    return this.on("delete", callback);
+  onDelete(callback:(payload:WpDeletePayload) => void):() => void {
+    return this.on('delete', callback);
   }
 
-  onConvertToInline(callback: (payload: WpToInlinePayload) => void): () => void {
-    return this.on("toInline", callback);
+  onConvertToInline(callback:(payload:WpToInlinePayload) => void):() => void {
+    return this.on('toInline', callback);
   }
 
-  private emit(event: string, payload: unknown): void {
+  private emit(event:string, payload:unknown):void {
     const listeners = this.listeners.get(event);
     if (!listeners) return;
 
@@ -54,12 +55,13 @@ class WpBridge {
       try {
         callback(payload);
       } catch (error) {
-        console.error("[WpBridge]", event, { payload, error });
+        console.error('[WpBridge]', event, { payload, error });
       }
     }
   }
 
-  private on(event: string, callback: (payload: any) => void): () => void {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private on(event:string, callback:(payload:any) => void):() => void {
     let set = this.listeners.get(event);
     if (!set) {
       set = new Set();
@@ -68,8 +70,8 @@ class WpBridge {
     set.add(callback);
 
     return () => {
-      set!.delete(callback);
-      if (set!.size === 0) this.listeners.delete(event);
+      set.delete(callback);
+      if (set.size === 0) this.listeners.delete(event);
     };
   }
 }

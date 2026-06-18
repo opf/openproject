@@ -1,1 +1,1 @@
-export { openProjectWorkPackageBlockSpec } from "./spec";
+export { openProjectWorkPackageBlockSpec } from './spec';

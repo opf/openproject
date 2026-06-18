@@ -1,0 +1,31 @@
+name: lint.yml
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: '22.19'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install Dependencies
+        id: npm-i
+        run: npm i
+
+      - name: lint
+        id: npm-lint
+        run: npm run lint

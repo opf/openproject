@@ -12,7 +12,6 @@ import {
   useOpBlockNoteExtensions,
   PasteDeduplicateInstanceIdsExtension,
 } from '../../lib';
-import type { HashMenuItem } from '../../lib';
 
 import '@blocknote/core/fonts/inter.css';
 import '@blocknote/mantine/style.css';
@@ -33,7 +32,7 @@ function Editor() {
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
 
   const getSlashItems = useCallback(
-    async (query: string) =>
+    async (query:string) =>
       filterSuggestionItems(
         [...getDefaultReactSlashMenuItems(editor), workPackageSlashMenu(editor as any)],
         query

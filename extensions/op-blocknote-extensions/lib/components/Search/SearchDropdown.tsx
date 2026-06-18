@@ -1,23 +1,23 @@
-import { useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { SearchIcon } from "@primer/octicons-react";
-import styled from "styled-components";
-import type { WorkPackage } from "../../openProjectTypes";
-import { useWorkPackageSearchDropdown } from "../../hooks/useWorkPackageSearchDropdown";
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { SearchIcon } from '@primer/octicons-react';
+import styled from 'styled-components';
+import type { WorkPackage } from '../../openProjectTypes';
+import { useWorkPackageSearchDropdown } from '../../hooks/useWorkPackageSearchDropdown';
 import {
   SearchIconWrapper,
   SearchInput,
   DropdownList,
   DropdownItem,
-} from "./SearchContainer";
+} from './SearchContainer';
 
 const MAX_RESULTS = 5;
 
 interface SearchDropdownProps {
-  onSelect: (wp: WorkPackage) => void;
-  onCancel?: () => void;
-  autoFocus?: boolean;
-  renderItem: (wp: WorkPackage) => React.ReactNode;
+  onSelect:(wp:WorkPackage) => void;
+  onCancel?:() => void;
+  autoFocus?:boolean;
+  renderItem:(wp:WorkPackage) => React.ReactNode;
 }
 
 const SearchInputWrapper = styled.div`
@@ -48,7 +48,7 @@ const SearchInputWithIcon = styled(SearchInput)`
   }
 `;
 
-export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }: SearchDropdownProps) => {
+export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }:SearchDropdownProps) => {
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement>(null);
   const blurTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -77,7 +77,7 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }: Se
     handleKeyDown,
   } = useWorkPackageSearchDropdown({
     onSelect,
-    onEscape: onCancel ?? (() => {}),
+    onEscape: onCancel ?? (() => undefined),
   });
 
   return (
@@ -92,7 +92,7 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }: Se
           type="search"
           autoComplete="off"
           spellCheck={false}
-          placeholder={t("search.placeholder")}
+          placeholder={t('search.placeholder')}
           value={searchQuery}
           onChange={(e) => {
             setSearchQuery(e.target.value);
@@ -117,7 +117,7 @@ export const SearchDropdown = ({ onSelect, onCancel, autoFocus, renderItem }: Se
       </SearchInputWrapper>
 
       {isDropdownOpen && searchResults.length > 0 && (
-        <DropdownList role="listbox" aria-label={t("search.dropdownAriaLabel")}>
+        <DropdownList role="listbox" aria-label={t('search.dropdownAriaLabel')}>
           {searchResults.slice(0, MAX_RESULTS).map((wp, index) => (
             <DropdownItem
               role="option" 

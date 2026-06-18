@@ -4,7 +4,9 @@ import { wpBridge, makeInstanceId } from '../../lib';
 import type { InlineWpSize, BlockWpSize, WpSize } from '../../lib';
 import { moveCursorAfterBlock } from '../utils/cursor';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyEditor = BlockNoteEditor<any, any, any>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyInlineNode = InlineContentFromConfig<any, any>;
 
 interface InlineWpNode {
@@ -14,25 +16,25 @@ interface InlineWpNode {
     instanceId:string;
     size:InlineWpSize;
   };
-  content: AnyInlineNode[];
+  content:AnyInlineNode[];
 }
 
-const VALID_INLINE_SIZES:Set<InlineWpSize> = new Set(['xxs', 'xs', 's']);
+const VALID_INLINE_SIZES = new Set<InlineWpSize>(['xxs', 'xs', 's']);
 
-function isInlineWpNode(node:unknown): node is InlineWpNode {
+function isInlineWpNode(node:unknown):node is InlineWpNode {
   if (typeof node !== 'object' || node === null) return false;
 
   const n = node as Record<string, unknown>;
-  if (n['type'] !== 'openProjectWorkPackageInline') return false;
+  if (n.type !== 'openProjectWorkPackageInline') return false;
 
-  const props = n['props'];
+  const props = n.props;
   if (typeof props !== 'object' || props === null) return false;
 
   const p = props as Record<string, unknown>;
   return (
-    typeof p['instanceId'] === 'string' &&
-    typeof p['wpid'] === 'string' &&
-    VALID_INLINE_SIZES.has(p['size'] as InlineWpSize)
+    typeof p.instanceId === 'string' &&
+    typeof p.wpid === 'string' &&
+    VALID_INLINE_SIZES.has(p.size as InlineWpSize)
   );
 }
 
@@ -47,14 +49,14 @@ interface FoundInlineBlock {
 }
 
 function findInlineChip(editor:AnyEditor, instanceId:string):FoundInlineBlock | null {
-  let found: FoundInlineBlock | null = null;
+  let found:FoundInlineBlock | null = null;
 
   editor.forEachBlock((block) => {
     if (found) return false;
 
     if (!Array.isArray(block.content)) return true; 
     
-    const content = (block.content ?? []) as AnyInlineNode[];
+    const content = (block.content ?? []);
     const chip = content.find(
       (node) => isInlineWpNode(node) && node.props.instanceId === instanceId
     ) as InlineWpNode | undefined;
@@ -76,7 +78,7 @@ export function updateInlineChip(
   editor:AnyEditor,
   instanceId:string,
   updater:(chip:InlineWpNode) => InlineWpNode | null
-): FoundInlineBlock | null {
+):FoundInlineBlock | null {
   const found = findInlineChip(editor, instanceId);
   if (!found) return null;
 
@@ -123,7 +125,8 @@ function handlePromoteToBlock(
   // wpid must be a positive integer
   const wpid = Number(found.chip.props.wpid);
   if (Number.isNaN(wpid) || wpid <= 0) return;
-  const displayId = (found.chip.props as any).displayId || String(found.chip.props.wpid);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing
+  const displayId = (((found.chip.props as any).displayId || String(found.chip.props.wpid)) as string);
 
   const chipIndex = found.content.findIndex(
     (node) => isInlineWpNode(node) && node.props.instanceId === instanceId
@@ -152,10 +155,10 @@ function handlePromoteToBlock(
 }
 
 function placeAfterContent(
-  editor: AnyEditor,
-  anchorBlockId: string,
-  content: AnyInlineNode[]
-): void {
+  editor:AnyEditor,
+  anchorBlockId:string,
+  content:AnyInlineNode[]
+):void {
   if (content.length > 0) {
     const [afterParagraph] = editor.insertBlocks(
       [{ type: 'paragraph', content }],
@@ -179,7 +182,8 @@ function handleConvertToInline(
 ):void {
   const block = editor.getBlock(blockId);
   if (!block) return;
-  const displayId = (block?.props as any)?.displayId || String(wpid);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/prefer-nullish-coalescing
+  const displayId = (((block?.props as any)?.displayId || String(wpid)) as string);
 
   const instanceId = makeInstanceId();
 
@@ -209,7 +213,7 @@ function handleConvertToInline(
 }
 
 // editor instance is stable for the lifetime of the component re-subscription only on editor replacement
-export function useInlineWpEvents(editor: AnyEditor):void {
+export function useInlineWpEvents(editor:AnyEditor):void {
   useEffect(() => {
     const offResize = wpBridge.onResize(({ instanceId, size }) =>
       handleResize(editor, instanceId, size)

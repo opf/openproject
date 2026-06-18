@@ -1,33 +1,34 @@
-import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { useWorkPackage } from "../../hooks/useWorkPackage";
-import { useColors } from "../../services/colors";
-import { CHIP_STYLES } from "../WorkPackage/tokens";
-import { ChipBase } from "./chipLayouts";
-import { WorkPackageId } from "../WorkPackage/atoms";
-import { WpChipXXS, WpChipXS, WpChipS } from "./InlineChips";
-import { WorkPackageSearchPopover } from "../Search/WorkPackageSearchPopover";
-import { WpOptionsPopover } from "../WorkPackage/OptionsPopover";
-import { getPendingCallbacks, clearInlineWpCallbacks } from "./callbacks";
-import { updateInlineChip } from "../../hooks/useInlineWpEvents";
-import type { InlineWpSize } from "../WorkPackage/types";
-import { wpBridge } from "../../services/wpBridge";
-import { BlockCard } from "../BlockWorkPackage/BlockCard";
-import { useTranslation } from "react-i18next";
-import { defaultWpVariables } from "../WorkPackage/atoms";
-import { formatWorkPackageId } from "../../utils/id";
-import { useIsNodeInSelection } from "../../hooks/useIsNodeInSelection";
+import { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { useWorkPackage } from '../../hooks/useWorkPackage';
+import { useColors } from '../../services/colors';
+import { CHIP_STYLES } from '../WorkPackage/tokens';
+import { ChipBase } from './chipLayouts';
+import { WorkPackageId } from '../WorkPackage/atoms';
+import { WpChipXXS, WpChipXS, WpChipS } from './InlineChips';
+import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
+import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
+import { getPendingCallbacks, clearInlineWpCallbacks } from './callbacks';
+import { updateInlineChip } from '../../hooks/useInlineWpEvents';
+import type { InlineWpSize } from '../WorkPackage/types';
+import { wpBridge } from '../../services/wpBridge';
+import { BlockCard } from '../BlockWorkPackage/BlockCard';
+import { useTranslation } from 'react-i18next';
+import { defaultWpVariables } from '../WorkPackage/atoms';
+import { formatWorkPackageId } from '../../utils/id';
+import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
 
 export interface InlineWorkPackageChipProps {
-  inlineContent: { props: { wpid: string; size: string; instanceId: string } };
-  contentRef: (node: HTMLElement | null) => void;
-  editor?: any;
+  inlineContent:{ props:{ wpid:string; size:string; instanceId:string } };
+  contentRef:(node:HTMLElement | null) => void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  editor?:any;
 }
 
 const InlineChip = styled.span.attrs({
-  className: "op-bn-inline-wp",
+  className: 'op-bn-inline-wp',
   contentEditable: false,
-})<{ selected?: boolean }>`
+})<{ selected?:boolean }>`
   ${defaultWpVariables}
   display: inline-flex;
   align-items: center;
@@ -35,9 +36,9 @@ const InlineChip = styled.span.attrs({
   cursor: pointer;
   user-select: none;
   border-radius: ${CHIP_STYLES.radius};
-  outline: ${({ selected }) => (selected ? CHIP_STYLES.focusOutline : "none")};
+  outline: ${({ selected }) => (selected ? CHIP_STYLES.focusOutline : 'none')};
   outline-offset: 1px;
-  box-shadow: ${({ selected }) => (selected ? CHIP_STYLES.focusShadow : "none")};
+  box-shadow: ${({ selected }) => (selected ? CHIP_STYLES.focusShadow : 'none')};
   position: relative;
   max-width: 100%;
   line-height: 1;
@@ -47,10 +48,10 @@ const InlineChip = styled.span.attrs({
   }
 `;
 
-export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: InlineWorkPackageChipProps) => {
+export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:InlineWorkPackageChipProps) => {
   const { t } = useTranslation();
   const rawWpid = inlineContent.props.wpid;
-  const size = (inlineContent.props.size ?? "s") as InlineWpSize;
+  const size = (inlineContent.props.size ?? 's') as InlineWpSize;
   const instanceId = inlineContent.props.instanceId;
 
   const pendingCallbacks = getPendingCallbacks(rawWpid);
@@ -62,16 +63,19 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
 
   useEffect(() => {
     if (!wp || !editor) return;
-    if (wp.displayId === ((inlineContent.props as any).displayId || '')) return;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+    if (wp.displayId === ((inlineContent.props as any).displayId ?? '')) return;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     updateInlineChip(editor, instanceId, (chip) => ({ ...chip, props: { ...chip.props, displayId: wp.displayId } }));
   }, [wp?.displayId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [isSelected, setIsSelected] = useState(false);
   const chipRef = useRef<HTMLElement | null>(null);
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
-  const setRef = (node: HTMLElement | null) => {
+  const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;
     contentRef(node);
   };
@@ -79,13 +83,13 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
   // Close the options popover when the user clicks outside the chip
   useEffect(() => {
     if (!isSelected) return;
-    const onClickOutside = (e: MouseEvent) => {
+    const onClickOutside = (e:MouseEvent) => {
       if (chipRef.current && !chipRef.current.contains(e.target as Node)) {
         setIsSelected(false);
       }
     };
-    document.addEventListener("mousedown", onClickOutside);
-    return () => document.removeEventListener("mousedown", onClickOutside);
+    document.addEventListener('mousedown', onClickOutside);
+    return () => document.removeEventListener('mousedown', onClickOutside);
   }, [isSelected]);
 
   // Pending: waiting for user to pick a WP via search
@@ -124,7 +128,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
       <InlineChip
         data-drag-handle
         role="button"
-        aria-label={t("options.chipAriaLabel", { id: formatWorkPackageId(wp.displayId) })}
+        aria-label={t('options.chipAriaLabel', { id: formatWorkPackageId(wp.displayId) })}
         ref={setRef}
         selected={isSelected || isEditorSelected}
         onClick={(e) => {
@@ -133,15 +137,16 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }: Inl
           setIsSelected((prev) => !prev);
         }}
       >
-        {size === "xxs" && <WpChipXXS wp={wp} />}
-        {size === "xs" && <WpChipXS wp={wp} />}
-        {size === "s" && <WpChipS wp={wp} />}
+        {size === 'xxs' && <WpChipXXS wp={wp} />}
+        {size === 'xs' && <WpChipXS wp={wp} />}
+        {size === 's' && <WpChipS wp={wp} />}
 
         {isSelected && (
           <WpOptionsPopover
             wp={wp}
             currentSize={size}
             instanceId={instanceId}
+            // eslint-disable-next-line react-hooks/refs
             anchorEl={chipRef.current}
             onClose={() => setIsSelected(false)}
             onResize={(newSize) => {

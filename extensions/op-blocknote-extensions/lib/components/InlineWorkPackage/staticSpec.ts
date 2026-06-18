@@ -1,10 +1,10 @@
-import { createInlineContentSpec } from "@blocknote/core";
-import { inlineConfig } from "./inlineConfig";
+import { createInlineContentSpec } from '@blocknote/core';
+import { inlineConfig } from './inlineConfig';
 import {
   buildWorkPackageInlineExternalDOM,
   computeWorkPackageInlineExternalData,
   parseWorkPackageInlineExternalHTML,
-} from "./externalHtml";
+} from './externalHtml';
 
 // Server-safe inline content spec. Same inlineConfig and external-HTML shape
 // as the React variant; only the runtime renderer is vanilla DOM. Suitable for
@@ -17,7 +17,7 @@ export const openProjectWorkPackageStaticInlineSpec = createInlineContentSpec(
       const data = computeWorkPackageInlineExternalData(inlineContent.props);
       const dom = data
         ? buildWorkPackageInlineExternalDOM(data, document)
-        : document.createElement("span");
+        : document.createElement('span');
       return { dom };
     },
 

@@ -1,14 +1,14 @@
-import { useCallback } from "react";
-import { BlockNoteSchema } from "@blocknote/core";
-import { filterSuggestionItems } from "@blocknote/core/extensions";
-import "@blocknote/core/fonts/inter.css";
-import { BlockNoteView } from "@blocknote/mantine";
-import "@blocknote/mantine/style.css";
+import { useCallback } from 'react';
+import { BlockNoteSchema } from '@blocknote/core';
+import { filterSuggestionItems } from '@blocknote/core/extensions';
+import '@blocknote/core/fonts/inter.css';
+import { BlockNoteView } from '@blocknote/mantine';
+import '@blocknote/mantine/style.css';
 import {
   getDefaultReactSlashMenuItems,
   SuggestionMenuController,
   useCreateBlockNote,
-} from "@blocknote/react";
+} from '@blocknote/react';
 import {
   initializeOpBlockNoteExtensions,
   openProjectWorkPackageBlockSpec,
@@ -17,8 +17,8 @@ import {
   useHashWpMenu,
   useOpBlockNoteExtensions,
   PasteDeduplicateInstanceIdsExtension,
-} from "../lib";
-import "./fetchOverride";
+} from '../lib';
+import './fetchOverride';
 
 const schema = BlockNoteSchema.create().extend({
   blockSpecs: {
@@ -30,15 +30,16 @@ const schema = BlockNoteSchema.create().extend({
 });
 
 initializeOpBlockNoteExtensions({
-  baseUrl: import.meta.env.VITE_OPENPROJECT_URL ?? "http://localhost:3000",
-  locale: "en",
+  baseUrl: import.meta.env.VITE_OPENPROJECT_URL ?? 'http://localhost:3000',
+  locale: 'en',
 });
 
 type EditorType = typeof schema.BlockNoteEditor;
 
-function buildSlashMenuItems(editor: EditorType) {
+function buildSlashMenuItems(editor:EditorType) {
   return [
     ...getDefaultReactSlashMenuItems(editor),
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
     workPackageSlashMenu(editor as any),
   ];
 }
@@ -46,13 +47,16 @@ function buildSlashMenuItems(editor: EditorType) {
 export default function App() {
   const editor = useCreateBlockNote({ schema, extensions: [PasteDeduplicateInstanceIdsExtension] });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
   useOpBlockNoteExtensions(editor as any);
 
   const getSlashItems = useCallback(
-    async (query: string) => filterSuggestionItems(buildSlashMenuItems(editor), query),
+    // eslint-disable-next-line @typescript-eslint/require-await
+    async (query:string) => filterSuggestionItems(buildSlashMenuItems(editor), query),
     [editor]
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
   const { getHashItems, HashWpMenu } = useHashWpMenu(editor as any);
 
   return (
