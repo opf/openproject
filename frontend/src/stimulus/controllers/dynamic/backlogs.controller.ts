@@ -38,7 +38,8 @@ const SPLIT_VIEW_FRAME_ID = 'content-bodyRight';
 
 // Depending on whether the side panel is shown, the backlog is scrolled either
 // by `#content` or by `#content-body` (see frontend/.../layout/_base.sass). We
-// remember and restore both so the position survives the container switch.
+// read the position from whichever container is currently scrollable and write
+// it back to both so it survives the container switch.
 const SCROLL_CONTAINER_IDS = ['content-body', 'content'];
 
 export default class BacklogsController extends Controller<HTMLElement> {
@@ -88,10 +89,12 @@ export default class BacklogsController extends Controller<HTMLElement> {
   }
 
   private rememberScrollPosition = ():void => {
-    this.savedScrollTop = this.scrollContainers.reduce(
-      (max, container) => Math.max(max, container.scrollTop),
-      0,
-    );
+    // Only the container that is actually scrollable in the current split state
+    // tracks the user's position. While the panel is open `#content` becomes
+    // `overflow: hidden` but keeps a stale, possibly larger `scrollTop`; reading
+    // the max across both would resurface that outdated position on the next
+    // open/close. So we read from the active scroll container only.
+    this.savedScrollTop = this.activeScrollContainer?.scrollTop ?? null;
   };
 
   private restoreScrollPosition = ():void => {
@@ -120,6 +123,16 @@ export default class BacklogsController extends Controller<HTMLElement> {
     return SCROLL_CONTAINER_IDS
       .map((id) => document.getElementById(id))
       .filter((element):element is HTMLElement => element !== null);
+  }
+
+  // The container the user is actually scrolling: the first candidate whose
+  // computed overflow allows scrolling. `#content` reports `overflow: hidden`
+  // while the side panel is open, so it is skipped in favour of `#content-body`.
+  private get activeScrollContainer():HTMLElement|null {
+    return this.scrollContainers.find((container) => {
+      const { overflowY } = window.getComputedStyle(container);
+      return overflowY === 'auto' || overflowY === 'scroll';
+    }) ?? null;
   }
 
   private get splitViewFrame() {
