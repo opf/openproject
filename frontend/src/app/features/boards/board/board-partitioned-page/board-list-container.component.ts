@@ -10,7 +10,7 @@ import {
   ViewChild,
   ViewChildren,
 } from '@angular/core';
-import { EMPTY, Observable, Subscription } from 'rxjs';
+import { EMPTY, Observable, Subscription, fromEvent } from 'rxjs';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { BoardListComponent } from 'core-app/features/boards/board/board-list/board-list.component';
 import { StateService } from '@uirouter/core';
@@ -33,7 +33,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import {
   BoardListCrossSelectionService,
 } from 'core-app/features/boards/board/board-list/board-list-cross-selection.service';
-import { catchError, filter, finalize, tap } from 'rxjs/operators';
+import { catchError, filter, finalize, skip, tap } from 'rxjs/operators';
 import {
   BoardActionsRegistryService,
 } from 'core-app/features/boards/board/board-actions/board-actions-registry.service';
@@ -140,6 +140,27 @@ export class BoardListContainerComponent extends UntilDestroyedMixin implements 
         const search = window.location.search;
         Turbo.visit(search ? `${base}${search}` : base, { frame: 'content-bodyRight', action: 'advance' });
       });
+
+    // The work package details panel (split view) is rendered into the
+    // `content-bodyRight` Turbo frame and is server-rendered (Hotwire).
+    // Edits made there (e.g. "Claim", changing the status) do not go through
+    // the Angular HAL editing pipeline, so the board never receives an
+    // `updated` HAL event and the action attribute columns are not refreshed.
+    // Reload every column whenever that frame finishes loading, which covers
+    // both saving a change in the panel and closing it. The first load (when
+    // the panel is initially opened, before any change) is skipped to avoid a
+    // redundant reload.
+    fromEvent<CustomEvent>(document, 'turbo:frame-load')
+      .pipe(
+        this.untilDestroyed(),
+        filter((event) => (event.target as HTMLElement|null)?.id === 'content-bodyRight'),
+        skip(1),
+      )
+      .subscribe(() => this.refreshAllLists());
+  }
+
+  private refreshAllLists():void {
+    this.lists?.forEach((list) => list.updateQuery(false));
   }
 
   moveList(board:Board, event:CdkDragDrop<GridWidgetResource[]>) {
