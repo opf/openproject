@@ -6,7 +6,7 @@
 
 **We empower teams to achieve great things together for the good of society.**
 
-OpenProject is the leading open source project management software for teams and organizations that require transparency, flexibility, and data sovereignty.
+OpenProject is a web-based open source project management software for teams and organizations that require transparency, flexibility, and data sovereignty.
 Manage projects, portfolios, products, tasks, bugs, agile workflows, roadmaps, and team collaboration in a single platform. OpenProject can be self-hosted and is designed for organizations looking for an open source enterprise-ready alternative to tools such as Jira, MS Project, Monday, Asana, YouTrack while maintaining full control over their data and infrastructure.
 
 OpenProject is trusted by organizations worldwide, including enterprises, public institutions, and highly regulated industries.
