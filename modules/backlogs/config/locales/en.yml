@@ -201,6 +201,11 @@ en:
       shared_sprint_info_banner: "This is a shared sprint. Modifications will be reflected in all projects using it."
       shared_sprint_warning_banner: "This is a shared sprint. You do not have the necessary permissions to edit it."
 
+    sprint_reports:
+      page_header_component:
+        breadcrumb: Report
+        title: "%{sprint} report"
+
     sprints_component:
       blankslate:
         title: "No sprints present yet"

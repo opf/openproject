@@ -103,6 +103,7 @@ Rails.application.routes.draw do
       scope "sprints/:sprint_id" do
         get "taskboard", to: "taskboard#show", as: :sprint_taskboard
         get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
+        get "report", to: "sprint_reports#show", as: :sprint_report
       end
     end
   end
