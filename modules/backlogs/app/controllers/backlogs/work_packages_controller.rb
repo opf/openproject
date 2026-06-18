@@ -70,7 +70,7 @@ module Backlogs
       respond_with_dialog Backlogs::MoveToSprintDialogComponent.new(
         work_package: @work_package,
         project: @project,
-        move_action: move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
+        move_action: move_path
       )
     end
 
@@ -78,7 +78,7 @@ module Backlogs
       respond_with_dialog Backlogs::MoveToBucketDialogComponent.new(
         work_package: @work_package,
         project: @project,
-        move_action: move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
+        move_action: move_path
       )
     end
 
@@ -132,6 +132,10 @@ module Backlogs
     def load_work_package
       @work_packages = WorkPackage.visible.where(project: @project).order_by_position
       @work_package = @work_packages.find(params.expect(:id))
+    end
+
+    def move_path
+      move_project_backlogs_work_package_path(@project, @work_package, backlog_filter_params)
     end
 
     def move_params
