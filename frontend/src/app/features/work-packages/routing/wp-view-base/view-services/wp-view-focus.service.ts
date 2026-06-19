@@ -44,7 +44,7 @@ export class WorkPackageViewFocusService extends WorkPackageViewBaseService<WPFo
   wpTableSelection = inject(WorkPackageViewSelectionService);
 
   public isFocused(workPackageId:string) {
-    return this.focusedWorkPackage === workPackageId;
+    return this.current?.workPackageId === workPackageId;
   }
 
   public ifShouldFocus(callback:(workPackageId:string) => void) {
