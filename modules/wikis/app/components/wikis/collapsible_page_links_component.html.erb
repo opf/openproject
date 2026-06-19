@@ -36,8 +36,8 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    page_links.each do |presenter|
-      box.with_row { render(Wikis::PageLinkComponent.new(presenter.page_info_result, badge: presenter.badge)) }
+    page_links.each do |view_model|
+      box.with_row { render(Wikis::PageLinkComponent.new(view_model.page_info_result, badge: view_model.badge)) }
     end
   end
 %>
