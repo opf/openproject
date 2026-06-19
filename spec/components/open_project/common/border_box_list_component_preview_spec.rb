@@ -98,4 +98,14 @@ RSpec.describe OpenProject::Common::BorderBoxListComponentPreview, type: :compon
 
     expect(page).to have_css(".Box.Box--condensed.op-border-box-list_header-padding-default")
   end
+
+  it "renders custom header content preview branches" do
+    render_preview(:custom_header_content, from: described_class)
+
+    expect(page).to have_heading("Linked delivery plan", level: 4)
+    expect(page).to have_link("Linked delivery plan")
+    expect(page).to have_button(accessible_name: "Add delivery item")
+    expect(page).to have_text("Add item")
+    expect(page).to have_no_css("tool-tip[data-type='label']", text: I18n.t(:label_actions))
+  end
 end

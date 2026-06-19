@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
     ) do |list|
       list.with_header(title: backlog_bucket.name) do |header|
         if show_menu?
-          header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+          header.with_menu(button_arguments: { aria: { label: t(".label_actions") } }) do |menu|
             with_item_group(menu) do
               menu.with_item(
                 id: dom_target(backlog_bucket, :menu, :edit_backlog_bucket),

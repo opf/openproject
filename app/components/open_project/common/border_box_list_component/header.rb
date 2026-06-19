@@ -71,19 +71,42 @@ module OpenProject
         end
 
         # @!parse
+        #   # Replaces the plain-text title with custom title content.
+        #   #
+        #   # Use when the heading needs more than a string, e.g. a link or
+        #   # composed inline content. When this slot is filled, `title:` is
+        #   # ignored and may be omitted. The slot content is still rendered
+        #   # inside the configured title heading.
+        #   #
+        #   # @return [ViewComponent::Slot]
+        #   def with_title(&block)
+        #   end
+        renders_one :title
+
+        # @!parse
         #   # Adds a button to the header actions area.
         #   #
         #   # @param system_arguments [Hash] forwarded to `Primer::Beta::Button`.
         #   # @return [ViewComponent::Slot]
         #   def with_action_button(**system_arguments, &block)
         #   end
+        #
+        #   # Adds an icon button to the header actions area.
+        #   #
+        #   # @param system_arguments [Hash] forwarded to `Primer::Beta::IconButton`.
+        #   # @return [ViewComponent::Slot]
+        #   def with_action_icon_button(**system_arguments)
+        #   end
         renders_many :actions, types: {
           button: ->(scheme: DEFAULT_ACTION_SCHEME, **system_arguments) do
             Primer::Beta::Button.new(scheme:, **system_arguments)
+          end,
+          icon_button: ->(**system_arguments) do
+            Primer::Beta::IconButton.new(**system_arguments)
           end
         }
 
-        attr_reader :title,
+        attr_reader :title_text,
                     :count,
                     :count_label,
                     :count_arguments,
@@ -96,7 +119,8 @@ module OpenProject
 
         attr_writer :collapsible_id
 
-        # @param title [String] header title.
+        # @param title [String, nil] header title. Optional when the `title`
+        #   slot is filled.
         # @param count [Integer, Boolean, nil] count badge behavior. Pass
         #   `nil` or `false` to hide it, `true` to infer the rendered item
         #   count, or an integer to render an explicit value.
@@ -116,7 +140,7 @@ module OpenProject
         #   with a toggle button.
         # @param system_arguments [Hash] forwarded to `Primer::Beta::BorderBox#with_header`.
         def initialize(
-          title:,
+          title: nil,
           count: nil,
           count_label: nil,
           count_arguments: {},
@@ -130,7 +154,7 @@ module OpenProject
         )
           super()
 
-          @title = title
+          @title_text = title
           @count = count
           @count_label = count_label
           @count_arguments = count_arguments
@@ -142,6 +166,11 @@ module OpenProject
           @collapsed = collapsed
           @collapsible = collapsible
           @system_arguments = system_arguments
+        end
+
+        def before_render
+          content
+          validate_title!
         end
 
         # @return [Boolean] whether a collapsible toggle should be rendered.
@@ -185,6 +214,11 @@ module OpenProject
           class_names("Box-title", title_arguments[:classes])
         end
 
+        # @return [String, ViewComponent::Slot] rendered title content.
+        def title_content
+          title? ? title.to_s : title_text
+        end
+
         # @return [String, nil] ids controlled by the collapsible header.
         def collapsible_id
           @collapsible_id.presence
@@ -194,6 +228,12 @@ module OpenProject
 
         def default_menu_id
           list_id ? "#{list_id}_menu" : super
+        end
+
+        def validate_title!
+          return if title? || title_text.present?
+
+          raise ArgumentError, "BorderBoxListComponent::Header requires title: or with_title"
         end
       end
     end
