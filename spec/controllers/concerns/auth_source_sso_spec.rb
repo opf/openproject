@@ -177,7 +177,8 @@ RSpec.describe MyController, :skip_2fa_stage do
 
   context "when the logged-in user differs in case" do
     let(:header_login_value) { "h.WURST" }
-    let(:session_update_time) { 1.minute.ago }
+    # Must exceed SESSION_ACTIVITY_REFRESH_INTERVAL so the request refreshes it
+    let(:session_update_time) { 5.minutes.ago }
     let(:last_login) { 1.minute.ago }
 
     before do
