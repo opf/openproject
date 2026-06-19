@@ -29,19 +29,16 @@
 #++
 
 module Wikis
-  # Presenter for Either<PageInfo> items in the "Mentioned in description" section.
-  # Implements the page link presenter interface: #page_info_result and #badge.
-  class InlinePageLinkPresenter
-    def initialize(result)
-      @result = result
+  # View model for a single row in a CollapsiblePageLinksComponent.
+  # Factory methods encapsulate how each domain type maps to display data.
+  PageLinkViewModel = Data.define(:page_info_result, :badge) do
+    def self.from_reference(result)
+      badge = I18n.t("wikis.page_links.source.link") if result.success? && result.value!.source == :link
+      new(page_info_result: result.fmap(&:page_info), badge:)
     end
 
-    def page_info_result
-      @result
-    end
-
-    def badge
-      nil
+    def self.from_inline(result)
+      new(page_info_result: result, badge: nil)
     end
   end
 end
