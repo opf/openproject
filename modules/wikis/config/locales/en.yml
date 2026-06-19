@@ -176,7 +176,7 @@ en:
         page_not_found: Linked wiki page no longer available
         unexpected: An unexpected error occurred
       source:
-        link: Link
+        parent: As parent
     provider_types:
       xwiki:
         name: XWiki

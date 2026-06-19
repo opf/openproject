@@ -30,15 +30,16 @@
 
 module Wikis
   # View model for a single row in a CollapsiblePageLinksComponent.
-  # Factory methods encapsulate how each domain type maps to display data.
-  PageLinkViewModel = Data.define(:page_info_result, :badge) do
+  # Factory methods normalize each domain result into a common shape:
+  # a page_info_result plus the source that produced it (nil for inline links).
+  # Mapping source -> badge label and styling is the component's concern.
+  PageLinkViewModel = Data.define(:page_info_result, :source) do
     def self.from_reference(result)
-      badge = I18n.t("wikis.page_links.source.link") if result.success? && result.value!.source == :link
-      new(page_info_result: result.fmap(&:page_info), badge:)
+      new(page_info_result: result.fmap(&:page_info), source: result.fmap(&:source).value_or(nil))
     end
 
     def self.from_inline(result)
-      new(page_info_result: result, badge: nil)
+      new(page_info_result: result, source: nil)
     end
   end
 end

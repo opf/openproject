@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
     end
 
     page_links.each do |view_model|
-      box.with_row { render(Wikis::PageLinkComponent.new(view_model.page_info_result, badge: view_model.badge)) }
+      box.with_row { render(Wikis::PageLinkComponent.new(view_model.page_info_result, source: view_model.source)) }
     end
   end
 %>
