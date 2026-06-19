@@ -40,7 +40,10 @@ module Wikis
                         .merge(ReverseInlinePageLink.all)
                         .where(linkable: input_data.linkable)
                         .order(created_at: :desc)
-                        .map { page_info(identifier: it.identifier, auth_strategy:) }
+                        .map do |link|
+                          page_info(identifier: link.identifier, auth_strategy:)
+                            .fmap { Wikis::Adapters::Results::PageReference.new(page_info: it, source: :link) }
+                        end
               )
             end
           end

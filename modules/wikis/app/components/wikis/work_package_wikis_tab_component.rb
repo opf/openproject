@@ -54,6 +54,10 @@ module Wikis
       @referencing_wiki_pages ||= page_link_service.referencing_wiki_page_infos_for(linkable: work_package)
     end
 
+    def referencing_page_badge_for
+      ->(page_ref) { t(".badge_as_parent") if page_ref.source == :link }
+    end
+
     private
 
     def page_link_service

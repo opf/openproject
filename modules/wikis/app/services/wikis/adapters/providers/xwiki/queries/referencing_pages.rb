@@ -47,14 +47,24 @@ module Wikis
               authenticated(auth_strategy) do |http|
                 fetch_reference_ids(http, input_data).bind do |reference_ids|
                   fetch_mention_ids(http, input_data).bind do |mention_ids|
-                    ids = (reference_ids + mention_ids).uniq
-                    success(ids.map { canonical_page_info(identifier: it, auth_strategy:) })
+                    mention_only_ids = mention_ids - reference_ids
+                    success(
+                      canonical_pages(reference_ids, source: :link, auth_strategy:) +
+                      canonical_pages(mention_only_ids, source: :mention, auth_strategy:)
+                    )
                   end
                 end
               end
             end
 
             private
+
+            def canonical_pages(ids, source:, auth_strategy:)
+              ids.map do |id|
+                canonical_page_info(identifier: id, auth_strategy:)
+                  .fmap { Wikis::Adapters::Results::PageReference.new(page_info: it, source:) }
+              end
+            end
 
             def fetch_reference_ids(http, input_data)
               fetch_page_ids(http, rest_url("openproject/links/workPackages/#{input_data.linkable.id}"),

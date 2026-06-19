@@ -63,8 +63,9 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::ReferencingPages d
   it "returns pages indicated by reverse links" do
     results = subject.value!
     expect(results).to all(be_success)
-    infos = results.map(&:value!)
-    expect(infos.map(&:title)).to contain_exactly(wiki_page.title)
+    page_references = results.map(&:value!)
+    expect(page_references.map { it.page_info.title }).to contain_exactly(wiki_page.title)
+    expect(page_references.map(&:source)).to all(eq(:link))
   end
 
   context "when there are no reverse links" do

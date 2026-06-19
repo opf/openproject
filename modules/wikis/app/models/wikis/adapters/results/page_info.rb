@@ -29,5 +29,9 @@
 #++
 
 module Wikis::Adapters::Results
-  PageInfo = Data.define(:identifier, :provider, :title, :href)
+  PageInfo = Data.define(:identifier, :provider, :title, :href) do
+    # Satisfies the same protocol as PageReference — allows callers to call
+    # .fmap(&:page_info) uniformly on Either<PageInfo> and Either<PageReference>.
+    def page_info = self
+  end
 end
