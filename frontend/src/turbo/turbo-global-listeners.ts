@@ -84,7 +84,7 @@ export function canonicalizeWorkPackageIdInUrl():void {
     `/work_packages/${canonicalMatch[1]}`,
   );
   window.history.replaceState(
-    null,
+    window.history.state,
     '',
     newPath + window.location.search + window.location.hash,
   );

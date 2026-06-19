@@ -98,7 +98,7 @@ describe('canonicalizeWorkPackageIdInUrl', () => {
 
     canonicalizeWorkPackageIdInUrl();
 
-    expect(replaceStateSpy).toHaveBeenCalledWith(null, '', '/projects/old-proj/work_packages/NEW-42/activity');
+    expect(replaceStateSpy).toHaveBeenCalledWith({}, '', '/projects/old-proj/work_packages/NEW-42/activity');
   });
 
   it('does not call replaceState when url already matches canonical', () => {
@@ -133,6 +133,6 @@ describe('canonicalizeWorkPackageIdInUrl', () => {
 
     canonicalizeWorkPackageIdInUrl();
 
-    expect(replaceStateSpy).toHaveBeenCalledWith(null, '', '/projects/demo/work_packages/DEMO-42?focus=description#comment-5');
+    expect(replaceStateSpy).toHaveBeenCalledWith({}, '', '/projects/demo/work_packages/DEMO-42?focus=description#comment-5');
   });
 });
