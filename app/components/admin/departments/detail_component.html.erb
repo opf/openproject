@@ -29,66 +29,62 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   component_wrapper(tag: "turbo-frame", target: "_top") do
-    render(Primer::Beta::BorderBox.new) do |box|
-      box.with_header do
-        flex_layout(align_items: :center, justify_content: :space_between) do |header|
-          header.with_column do
+    render(OpenProject::Common::BorderBoxListComponent.new(container: "admin-departments-detail")) do |list|
+      list.with_header(title: header_title) do |header|
+        header.with_description(tag: :div, color: :default) do
+          concat(
             render(Primer::Beta::Breadcrumbs.new) do |loaf|
               breadcrumb_items.each do |item|
                 loaf.with_item(href: item[:href] || "#", target: nil) { item[:label] }
               end
             end
-          end
+          )
 
           if group&.ldap_managed?
-            header.with_column do
-              render(Primer::Beta::Label.new(scheme: :accent)) { I18n.t(:label_managed_by_ldap) }
-            end
-          elsif group
-            header.with_column do
-              render(
-                Primer::Beta::IconButton.new(
-                  tag: :a,
-                  href: edit_admin_department_path(group),
-                  icon: :pencil,
-                  scheme: :invisible,
-                  "aria-label": I18n.t(:button_edit)
-                )
-              )
-            end
+            concat(render(Primer::Beta::Label.new(scheme: :accent)) { I18n.t(:label_managed_by_ldap) })
           end
+        end
+
+        if group && !group.ldap_managed?
+          header.with_action_icon_button(
+            tag: :a,
+            href: edit_admin_department_path(group),
+            icon: :pencil,
+            scheme: :invisible,
+            "aria-label": I18n.t(:button_edit)
+          )
         end
       end
 
       if show_global_empty_state? && !add_subgroup?
-        box.with_row do
+        list.with_item do
           render(Admin::Departments::BlankslateComponent.new)
         end
       elsif show_department_empty_state? && !add_user? && !add_subgroup?
-        box.with_row do
+        list.with_item do
           render(Admin::Departments::DetailBlankslateComponent.new(group:))
         end
       else
         child_groups.each do |child|
-          box.with_row do
+          list.with_item do
             render(Admin::Departments::DepartmentRowComponent.new(department: child))
           end
         end
 
         if add_subgroup?
-          box.with_row do
+          list.with_item do
             render(Admin::Departments::AddDepartmentComponent.new(group:))
           end
         end
 
         users.each do |user|
-          box.with_row do
+          list.with_item do
             render(Admin::Departments::UserRowComponent.new(user:, group:))
           end
         end
 
         if add_user?
-          box.with_row do
+          list.with_item do
             render(Admin::Departments::AddUserComponent.new(group:))
           end
         end

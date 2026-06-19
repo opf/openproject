@@ -74,6 +74,10 @@ module Admin
         items
       end
 
+      def header_title
+        group&.name || organization_name
+      end
+
       def show_global_empty_state?
         group.blank? && child_groups.empty?
       end
