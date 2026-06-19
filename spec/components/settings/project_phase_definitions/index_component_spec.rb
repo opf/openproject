@@ -28,38 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Settings
-  module ProjectPhaseDefinitions
-    class IndexComponent < ApplicationComponent
-      include OpPrimer::ComponentHelpers
-      include OpTurbo::Streamable
-      include Projects::PhaseDefinitionHelper
+require "rails_helper"
 
-      options :definitions
+RSpec.describe Settings::ProjectPhaseDefinitions::IndexComponent, type: :component do
+  include Rails.application.routes.url_helpers
 
-      private
+  subject(:rendered_component) { render_inline(described_class.new(definitions:)) }
 
-      def wrapper_data_attributes
-        {
-          controller: "projects--settings--border-box-filter generic-drag-and-drop"
-        }
-      end
+  # The row component reads the +project_count+ column added by the
+  # +with_project_count+ scope, so definitions are loaded through it.
+  let(:definitions) { Project::PhaseDefinition.with_project_count }
 
-      def drop_target_config
-        {
-          generic_drag_and_drop_target: "container",
-          target_container_accessor: ":scope > ul",
-          target_allowed_drag_type: "life-cycle-step-definition"
-        }
-      end
+  def drop_url_for(definition)
+    drop_admin_settings_project_phase_definition_path(definition)
+  end
 
-      def draggable_item_config(definition)
-        {
-          draggable_id: definition.id,
-          draggable_type: "life-cycle-step-definition",
-          drop_url: drop_admin_settings_project_phase_definition_path(definition)
-        }
-      end
-    end
+  context "with definitions" do
+    let!(:draggable_records) { create_list(:project_phase_definition, 2) }
+
+    it_behaves_like "rendering Box", row_count: 2
+    it_behaves_like "a reorderable Border Box List", drag_type: "life-cycle-step-definition"
+  end
+
+  context "without definitions" do
+    it_behaves_like "rendering an empty Border Box List",
+                    heading: I18n.t("settings.project_phase_definitions.non_defined")
   end
 end
