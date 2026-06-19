@@ -7,26 +7,26 @@
         end
       end
       container.with_row do
-        render(border_box_container) do |box|
-          box.with_header(color: :muted) do
-            render(Meetings::Participants::BoxHeaderComponent.new(meeting: @meeting))
+        render(
+          OpenProject::Common::BorderBoxListComponent.new(
+            container: "op-meeting-participants-#{@meeting.id}"
+          )
+        ) do |list|
+          list.with_header(color: :muted) do |header|
+            header.with_title do
+              render(Meetings::Participants::BoxHeaderComponent.new(meeting: @meeting))
+            end
           end
 
-          if @meeting_participants.none?
-            box.with_row do
-              render(Primer::Beta::Blankslate.new) do |blankslate|
-                blankslate.with_visual_icon(icon: :people, size: :medium)
-                blankslate.with_heading(tag: :h2).with_content(I18n.t("meeting.participants.blankslate.heading"))
-                blankslate.with_description_content(I18n.t("meeting.participants.blankslate.description"))
-              end
-            end
-          else
-            render(Primer::BaseComponent.new(tag: :div, classes: "participants-list")) do
-              @meeting_participants.each do |participant|
-                box.with_row do
-                  render(Meetings::Participants::BoxRowComponent.new(meeting: @meeting, participant:))
-                end
-              end
+          list.with_empty_state(
+            title: I18n.t("meeting.participants.blankslate.heading"),
+            description: I18n.t("meeting.participants.blankslate.description"),
+            icon: :people
+          )
+
+          @meeting_participants.each do |participant|
+            list.with_item do
+              render(Meetings::Participants::BoxRowComponent.new(meeting: @meeting, participant:))
             end
           end
         end
