@@ -246,6 +246,7 @@ module OpenProject::Backlogs
 
       ::Queries::Register.register(::Query) do
         filter Queries::WorkPackages::Filter::BacklogBucketFilter
+        filter Queries::WorkPackages::Filter::BacklogInboxFilter
         filter Queries::WorkPackages::Filter::SprintFilter
 
         select OpenProject::Backlogs::QueryBacklogsSelect

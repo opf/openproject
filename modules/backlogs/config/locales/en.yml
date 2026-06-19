@@ -49,6 +49,7 @@ en:
         text: "Sprint goal"
       work_package:
         backlog_bucket: "Backlog bucket"
+        backlog_inbox: "Backlog inbox"
         backlogs_work_package_type: "Backlog type"
         position: "Position"
         sprint: "Sprint"
@@ -325,5 +326,8 @@ en:
         sharing_form_component:
           sharing_description: "This project can either share its own sprints, receive shared sprints or handle sprints independently (no sharing)."
           sharing_fallback_description: "Lacking a corporate enterprise plan, the sharing options are limited to the project's own sprints. The currently active setting remains active."
+
+  query_fields:
+    backlog_inbox: "Backlog inbox"
 
   remaining_hours: "remaining work"

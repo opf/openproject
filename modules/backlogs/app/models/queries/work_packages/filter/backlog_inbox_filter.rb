@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,50 +26,38 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module Backlogs
-  class AddExistingWorkPackageForm < ApplicationForm
-    def initialize(project:, target_id: nil)
-      super()
+module Queries::WorkPackages::Filter
+  class BacklogInboxFilter < ::Queries::WorkPackages::Filter::WorkPackageFilter
+    include Queries::Filters::Shared::BooleanFilter
 
-      @project = project
-      @target_id = target_id
-    end
-
-    form do |f|
-      f.work_package_autocompleter(
-        name: :work_package_id,
-        label: WorkPackage.model_name.human,
-        required: true,
-        autocomplete_options: {
-          url: autocomplete_url,
-          dropdownPosition: "bottom",
-          appendTo: "##{AddExistingWorkPackageDialogComponent::DIALOG_ID}",
-          filters:
-        }
-      )
-    end
-
-    private
-
-    def autocomplete_url
-      ::API::V3::Utilities::PathHelper::ApiV3Path.work_packages_by_project(@project.id)
-    end
-
-    def filters
-      [
-        { name: "status", operator: Queries::Operators::OpenWorkPackages.symbol }
-      ].tap do |filters|
-        case Target.parse(@target_id)
-        in Target::SprintId[sprint_id]
-          filters << { name: "sprint", operator: "!", values: [sprint_id] }
-        in Target::BucketId[backlog_bucket_id]
-          filters << { name: "backlogBucket", operator: "!", values: [backlog_bucket_id] }
-        in Target::InboxId
-          filters << { name: "backlogInbox", operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] }
-        end
+    def available?
+      if project.present?
+        User.current.allowed_in_project?(:view_sprints, project)
+      else
+        User.current.allowed_in_any_project?(:view_sprints)
       end
+    end
+
+    def available_operators
+      [::Queries::Operators::BooleanEquals]
+    end
+
+    def dependency_class
+      "::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter"
+    end
+
+    def where
+      if values == [OpenProject::Database::DB_VALUE_TRUE]
+        "work_packages.sprint_id IS NULL AND work_packages.backlog_bucket_id IS NULL"
+      else
+        "work_packages.sprint_id IS NOT NULL OR work_packages.backlog_bucket_id IS NOT NULL"
+      end
+    end
+
+    def human_name
+      I18n.t("query_fields.backlog_inbox")
     end
   end
 end
