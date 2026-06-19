@@ -45,8 +45,7 @@ See COPYRIGHT and LICENSE files for more details.
 
         if referencing_wiki_pages.any?
           container.with_row do
-            render(::Wikis::CollapsiblePageLinksComponent.new(referencing_wiki_pages, heading: t(".referencing_pages"),
-                                                              badge_for: referencing_page_badge_for))
+            render(::Wikis::CollapsiblePageLinksComponent.new(referencing_wiki_pages, heading: t(".referencing_pages")))
           end
         end
       end

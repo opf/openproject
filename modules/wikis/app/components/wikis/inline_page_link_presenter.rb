@@ -29,18 +29,19 @@
 #++
 
 module Wikis
-  class CollapsiblePageLinksComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+  # Presenter for Either<PageInfo> items in the "Mentioned in description" section.
+  # Implements the page link presenter interface: #page_info_result and #badge.
+  class InlinePageLinkPresenter
+    def initialize(result)
+      @result = result
+    end
 
-    attr_reader :heading
+    def page_info_result
+      @result
+    end
 
-    alias_method :page_links, :model
-
-    def initialize(model = nil, heading:, **)
-      @heading = heading
-
-      super(model, **)
+    def badge
+      nil
     end
   end
 end

@@ -175,6 +175,8 @@ en:
         page_access_forbidden: You do not have permission to access this wiki page
         page_not_found: Linked wiki page no longer available
         unexpected: An unexpected error occurred
+      source:
+        link: Link
     provider_types:
       xwiki:
         name: XWiki
@@ -190,6 +192,5 @@ en:
         title: XWiki Integration
 
     work_package_wikis_tab_component:
-      badge_as_parent: As parent
       inline_page_links: Mentioned in description
       referencing_pages: Referenced in

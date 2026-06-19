@@ -48,14 +48,12 @@ module Wikis
 
     def inline_page_links
       @inline_page_links ||= page_link_service.inline_page_link_infos_for(linkable: work_package)
+                                               .map { InlinePageLinkPresenter.new(it) }
     end
 
     def referencing_wiki_pages
       @referencing_wiki_pages ||= page_link_service.referencing_wiki_page_infos_for(linkable: work_package)
-    end
-
-    def referencing_page_badge_for
-      ->(page_ref) { t(".badge_as_parent") if page_ref.source == :link }
+                                                    .map { PageReferencePresenter.new(it) }
     end
 
     private
