@@ -37,11 +37,16 @@ module Wikis
 
     attr_reader :actions
 
-    def initialize(model = nil, actions: [], page_link: nil, **)
+    def initialize(model = nil, actions: [], page_link: nil, badge: nil, **)
       @actions = actions
       @page_link = page_link
+      @badge = badge
 
       super(model, **)
+    end
+
+    def badge
+      @badge
     end
 
     def page_title

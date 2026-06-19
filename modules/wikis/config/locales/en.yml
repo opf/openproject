@@ -190,5 +190,6 @@ en:
         title: XWiki Integration
 
     work_package_wikis_tab_component:
+      badge_as_parent: As parent
       inline_page_links: Mentioned in description
       referencing_pages: Referenced in

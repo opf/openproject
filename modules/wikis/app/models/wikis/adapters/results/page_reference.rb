@@ -28,28 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  class CollapsiblePageLinksComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
-
-    attr_reader :heading
-
-    alias_method :page_links, :model
-
-    def initialize(model = nil, heading:, badge_for: nil, **)
-      @heading = heading
-      @badge_for = badge_for
-
-      super(model, **)
-    end
-
-    def page_info_result_for(result)
-      result.fmap(&:page_info)
-    end
-
-    def badge_for(result)
-      @badge_for&.call(result.value!) if result.success?
-    end
-  end
+module Wikis::Adapters::Results
+  # Pairs a PageInfo with how it relates to a given work package.
+  # source: :link — page has a structured WorkPackage link
+  # source: :mention — page mentions the WP in its content
+  PageReference = Data.define(:page_info, :source)
 end

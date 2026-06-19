@@ -55,11 +55,13 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
     end
     let(:input_data) { Wikis::Adapters::Input::ReferencingPages.build(linkable:).value! }
     let(:query) { described_class.new(model: wiki_provider) }
-    let(:resolved_identifiers) { result.value!.map { it.value!.identifier } }
+    let(:resolved_page_references) { result.value!.map(&:value!) }
+    let(:resolved_identifiers) { resolved_page_references.map { it.page_info.identifier } }
+    let(:resolved_sources) { resolved_page_references.map(&:source) }
 
     subject(:result) { query.call(input_data:, auth_strategy:) }
 
-    context "when the same page appears multiple times in results" do
+    context "when the same page appears multiple times in link results" do
       let(:duplicate_id) { "xwiki:Main.WebHome" }
       let(:same_title_different_id) { "xwiki:Other.WebHome" }
 
@@ -91,6 +93,36 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
       it "deduplicates by page identifier, not by title" do
         expect(resolved_identifiers).to contain_exactly("aaa111", "bbb222")
       end
+
+      it "tags all results as :link" do
+        expect(resolved_sources).to all(eq(:link))
+      end
+    end
+
+    context "with mixed link and mention pages" do
+      let(:link_only_id) { "xwiki:Link.Only" }
+      let(:shared_id) { "xwiki:Shared.Page" }
+      let(:mention_only_id) { "xwiki:Mention.Only" }
+
+      before do
+        stub_search([{ "id" => link_only_id }, { "id" => shared_id }], provider: wiki_provider, linkable:)
+        stub_mentions([{ "id" => shared_id }, { "id" => mention_only_id }], provider: wiki_provider, linkable:)
+        stub_canonical_page_info(link_only_id, uid: "aaa111", title: "Link Only",
+                                               href: "https://xwiki.example.com/link/", provider: wiki_provider)
+        stub_canonical_page_info(shared_id, uid: "bbb222", title: "Shared",
+                                            href: "https://xwiki.example.com/shared/", provider: wiki_provider)
+        stub_canonical_page_info(mention_only_id, uid: "ccc333", title: "Mention Only",
+                                                  href: "https://xwiki.example.com/mention/", provider: wiki_provider)
+      end
+
+      it "returns each page exactly once" do
+        expect(resolved_identifiers).to contain_exactly("aaa111", "bbb222", "ccc333")
+      end
+
+      it "assigns sources correctly" do
+        sources_by_identifier = result.value!.to_h { [it.value!.page_info.identifier, it.value!.source] }
+        expect(sources_by_identifier).to eq("aaa111" => :link, "bbb222" => :link, "ccc333" => :mention)
+      end
     end
 
     context "with a single page" do
@@ -113,6 +145,10 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
         it "returns the page only once" do
           expect(resolved_identifiers).to contain_exactly("aaa111")
         end
+
+        it "tags the shared page as :link" do
+          expect(resolved_sources).to contain_exactly(:link)
+        end
       end
 
       context "when pages appear only in mentions" do
@@ -123,6 +159,10 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
 
         it "includes pages from the mentions endpoint" do
           expect(resolved_identifiers).to contain_exactly("aaa111")
+        end
+
+        it "tags mention-only pages as :mention" do
+          expect(resolved_sources).to contain_exactly(:mention)
         end
       end
 
@@ -172,9 +212,9 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
       let(:linkable) { create(:work_package, id: 14) }
       let(:auth_strategy) { wiki_provider.auth_strategy_for(user).value! }
 
-      it "returns PageInfo for all linked and mentioned pages" do
+      it "returns PageReference for all linked and mentioned pages" do
         expect(result).to be_success
-        expect(result.value!.map { it.value!.to_h.except(:provider) }).to contain_exactly(
+        expect(result.value!.map { it.value!.page_info.to_h.except(:provider) }).to contain_exactly(
           { identifier: "48944", title: "OpenProject integration", href: "https://xwiki.local/bin/view/test/" },
           { identifier: "42f2f", title: "Def New Page", href: "https://xwiki.local/bin/view/test/Def%20New%20Page/" },
           { identifier: "a3739", title: "Just a normal page", href: "https://xwiki.local/bin/view/Just%20a%20normal%20page/" },
