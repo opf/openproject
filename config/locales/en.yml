@@ -4244,6 +4244,7 @@ en:
         add_button: "Add project-specific notifications"
         description: "You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above."
         dialog_title: "Add project-specific notifications"
+        empty_text: "You have no project-specific notifications yet."
         list_header: "Projects with specific notifications"
         title: "Project-specific notifications"
     notifications_and_email:
