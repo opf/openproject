@@ -42,8 +42,8 @@ import {
   openProjectWorkPackageInlineSpec,
   workPackageSlashMenu,
   useOpBlockNoteExtensions,
-  PasteDeduplicateInstanceIdsExtension,
   useHashWpMenu,
+  OpBlockNoteExtensions,
 } from 'op-blocknote-extensions';
 import { useCallback, useEffect, useMemo } from 'react';
 import * as Y from 'yjs';
@@ -119,7 +119,7 @@ export function OpBlockNoteEditor({
       dictionary: localeDictionary,
       ...(attachmentsEnabled && { uploadFile }),
       extensions: [
-        PasteDeduplicateInstanceIdsExtension,
+        OpBlockNoteExtensions,
         ExternalLinkA11yExtension,
         ...(captureExternalLinks ? [ExternalLinkCaptureExtension] : []),
       ],
