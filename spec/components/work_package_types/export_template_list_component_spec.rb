@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) 2010-2024 the OpenProject GmbH
+# Copyright (C) the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,45 +26,39 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 require "rails_helper"
 
-RSpec.describe WorkPackageTypes::ExportTemplateRowComponent, type: :component do
+RSpec.describe WorkPackageTypes::ExportTemplateListComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   let(:type) { create(:type) }
-  let(:template) { Type::PdfExportTemplates::Template.new(id: 1, label: "Full", caption: "A4", enabled: true) }
+  let(:draggable_records) { type.pdf_export_templates.list }
 
-  context "when readonly" do
-    it "renders the toggle as a disabled, non-interactive switch", :aggregate_failures do
-      render_inline(described_class.new(type:, template:, readonly: true))
+  subject(:rendered_component) { render_inline(described_class.new(type:)) }
 
-      expect(page).to have_css("[data-test-selector='toggle-pdf-export-template-row-1']")
-      expect(page).to have_css(".ToggleSwitch--disabled")
-      expect(page).to have_no_css("[data-turbo-method]")
-    end
+  def drop_url_for(template)
+    drop_type_pdf_export_template_path(type_id: type.id, id: template.id)
   end
 
-  context "when editable (default)" do
-    subject(:rendered_component) { render_inline(described_class.new(type:, template:)) }
+  it_behaves_like "rendering Box", row_count: 3
+  it_behaves_like "a reorderable Border Box List", drag_type: "template"
 
-    it "renders an interactive toggle switch", :aggregate_failures do
-      expect(rendered_component).to have_css("[data-test-selector='toggle-pdf-export-template-row-1']")
-      expect(rendered_component).to have_no_css(".ToggleSwitch--disabled")
-    end
+  it "renders the enable-all and disable-all header actions", :aggregate_failures do
+    expect(rendered_component).to have_link(accessible_name: I18n.t("projects.settings.actions.label_enable_all"))
+    expect(rendered_component).to have_link(accessible_name: I18n.t("projects.settings.actions.label_disable_all"))
+  end
 
-    it "renders a unique wrapper derived from the template id" do
+  it "renders a unique wrapper for each template row" do
+    draggable_records.each do |template|
       expect(rendered_component)
         .to have_css("#work-package-types-export-template-row-component-#{template.id}", count: 1)
     end
+  end
 
-    it "renders the template label and caption" do
-      expect(rendered_component).to have_text(template.label)
-      expect(rendered_component).to have_text(template.caption)
-    end
-
-    it "labels the toggle button with its template and reflects the enabled state" do
+  it "labels each template toggle button with its template" do
+    draggable_records.each do |template|
       expect(rendered_component).to have_button(
         accessible_name: I18n.t(
           "types.edit.export_configuration.pdf_export_templates.actions.label_toggle_template",
