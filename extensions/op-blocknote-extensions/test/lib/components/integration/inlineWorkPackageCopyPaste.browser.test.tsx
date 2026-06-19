@@ -1,7 +1,27 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { page, userEvent } from 'vitest/browser';
 import { renderEditor } from '../../../helpers/renderEditor';
-import { insertInlineWorkPackageViaSlashMenu } from '../../../helpers/editorHelpers';
+import { insertInlineWorkPackageViaSlashMenu, insertInlineWorkPackageViaHash } from '../../../helpers/editorHelpers';
+
+describe('Inline chip - single block copy/paste', () => {
+  it('copies a chip when the chip is clicked and Ctrl+C is pressed without surrounding text', async () => {
+    renderEditor();
+    await insertInlineWorkPackageViaHash('#');
+
+    await userEvent.click(page.getByText('#123').first());
+    await expect.element(page.getByTestId('popover-content')).toBeVisible();
+
+    await userEvent.keyboard('{Control>}c{/Control}');
+
+    await userEvent.keyboard('{Control>}{End}{/Control}');
+    await userEvent.keyboard('{Enter}');
+    await userEvent.keyboard('{Control>}v{/Control}');
+
+    await vi.waitFor(() => {
+      expect(document.querySelectorAll('.op-bn-inline-wp').length).toBe(2);
+    });
+  });
+});
 
 describe('Inline chip - copy/paste independence', () => {
   it('resizing the original does not affect the copy', async () => {
@@ -84,3 +104,4 @@ describe('Inline chip - copy/paste independence', () => {
     await expect.element(page.getByText('In Progress')).toBeVisible();
   });
 });
+
