@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
         )
-        concat(render(Primer::Beta::Label.new(scheme: :secondary)) { badge }) if badge.present?
+        concat(render(Primer::Beta::Label.new(scheme: :secondary)) { badge_label }) if badge_label.present?
       end
     end
   %>
