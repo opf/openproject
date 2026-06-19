@@ -31,4 +31,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
 
+<%= render(Primer::OpenProject::SubHeader.new) do |subheader| %>
+  <% subheader.with_text { "FOO" } %>
+<% end %>
+
 <%= render(Grids::WidgetGridComponent.new) %>
