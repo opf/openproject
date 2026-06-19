@@ -29,18 +29,21 @@
 #++
 
 module Wikis
-  class CollapsiblePageLinksComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+  # Presenter for Either<PageReference> items in the "Referenced in" section.
+  # Implements the page link presenter interface: #page_info_result and #badge.
+  class PageReferencePresenter
+    def initialize(result)
+      @result = result
+    end
 
-    attr_reader :heading
+    def page_info_result
+      @result.fmap(&:page_info)
+    end
 
-    alias_method :page_links, :model
+    def badge
+      return unless @result.success? && @result.value!.source == :link
 
-    def initialize(model = nil, heading:, **)
-      @heading = heading
-
-      super(model, **)
+      I18n.t("wikis.page_links.source.link")
     end
   end
 end
