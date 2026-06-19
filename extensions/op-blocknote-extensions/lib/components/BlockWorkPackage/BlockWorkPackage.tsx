@@ -1,4 +1,5 @@
 import { BlockNoteEditor, SideMenuExtension } from '@blocknote/core';
+import { useSelectedBlocks } from '@blocknote/react';
 import { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
@@ -14,14 +15,17 @@ import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
 import { SearchContainer, SearchLabel } from '../Search/SearchContainer';
 import { SearchDropdown } from '../Search/SearchDropdown';
 import { defaultWpVariables } from '../WorkPackage/atoms';
+import { CHIP_STYLES } from '../WorkPackage/tokens';
 import { moveCursorAfterBlock } from '../../utils/cursor';
 import { pendingBlockRegistry } from './pendingBlockRegistry';
 
-const Block = styled.div.attrs({ className: 'op-bn-extensions' })<{ $pending?:boolean }>`
+const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': 'block-wp-wrapper' })<{ $pending?:boolean; $selected?:boolean }>`
   ${defaultWpVariables}
   background-color: ${({ $pending }) => ($pending ? 'transparent' : 'var(--op-chip-bg)')};
   user-select: all;
   border-radius: var(--bn-border-radius);
+  outline: ${({ $selected }) => ($selected ? CHIP_STYLES.focusOutline : 'none')};
+  outline-offset: 1px;
   ${({ $pending }) => $pending && 'position: relative;'}
 `;
 
@@ -51,6 +55,12 @@ export const BlockWorkPackageComponent = ({
   // The hook handles triggering re-renders when data arrives.
   useColors();
 
+  // BlockNote applies ProseMirror-selectednode (and its built-in outline CSS) only when ProseMirror creates a NodeSelection.
+  // When the cursor is in a paragraph above the WP block and the user clicks the block, ProseMirror resolves the click
+  // as a TextSelection at the end of that paragraph rather than a NodeSelection on the block. The class is never applied
+  // and the outline never appears. So we set the outline ourselves.
+  const selectedBlocks = useSelectedBlocks(editor);
+  const isBlockSelected = selectedBlocks.some((b) => b.id === block.id);
   const [isOptionsOpen, setIsOptionsOpen] = useState(false);
 
   const workPackageResult = useWorkPackage(block.props.wpid);
@@ -117,7 +127,7 @@ export const BlockWorkPackageComponent = ({
   const isPending = pendingBlockRegistry.has(block.id);
 
   return (
-    <Block $pending={isPending} draggable="true" onDragStart={handleBlockDragStart}>
+    <Block $pending={isPending} $selected={isBlockSelected} data-selected={isBlockSelected || undefined} draggable="true" onDragStart={handleBlockDragStart}>
       <div contentEditable={false} style={{ userSelect: 'none' }}>
         {isPending && (
           <SearchContainer $floating>

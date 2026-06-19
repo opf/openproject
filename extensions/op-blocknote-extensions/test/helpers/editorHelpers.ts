@@ -44,6 +44,24 @@ export async function openInlineWorkPackageSizeMenu(displayId = '#123') {
   await expect.element(page.getByTestId('size-menu')).toBeVisible();
 }
 
+export async function insertBlockWorkPackageViaSlashMenu(searchTerm = 'Fix', resultTerm = 'Fix login bug') {
+  const editorEl = page.getByRole('textbox');
+  await expect.element(editorEl).toBeVisible();
+  await userEvent.click(editorEl);
+  await userEvent.type(editorEl, '/');
+
+  await expect.element(page.getByText('Link existing work package').first()).toBeVisible();
+  await userEvent.click(page.getByText('Link existing work package').first());
+
+  const searchInput = page.getByPlaceholder('Search by work package ID or subject');
+  await expect.element(searchInput).toBeVisible();
+  await userEvent.type(searchInput, searchTerm);
+  await expect.element(page.getByText(resultTerm)).toBeVisible();
+  await userEvent.click(page.getByText(resultTerm));
+
+  await expect.element(page.getByTestId('block-card')).toBeVisible();
+}
+
 // Block card - popover & size menu
 export async function openBlockCardPopover() {
   await userEvent.click(page.getByTestId('op-bn-work-package--type'));
