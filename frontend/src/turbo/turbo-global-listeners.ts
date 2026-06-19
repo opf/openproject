@@ -52,6 +52,9 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
     focusFirstErroneousField();
     activateFlashNotice();
     activateFlashError();
+
+    // Ensure the URL contains the correct work package identifier
+    canonicalizeWorkPackageIdInUrl();
   };
   target.addEventListener('turbo:render', runOnRenderAndLoad, { signal });
   target.addEventListener('DOMContentLoaded', runOnRenderAndLoad, { signal });
@@ -62,4 +65,27 @@ export function addTurboGlobalListeners(target:Document = document, signal?:Abor
       event.preventDefault();
     }
   }, { signal });
+}
+
+export function canonicalizeWorkPackageIdInUrl():void {
+  const currentPath = window.location.pathname;
+  const wpIdPattern = /\/work_packages\/([^/]+)/;
+  const currentMatch = wpIdPattern.exec(currentPath);
+  if (!currentMatch) return;
+
+  const canonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+  if (!canonical?.href) return;
+
+  const canonicalMatch = wpIdPattern.exec(new URL(canonical.href).pathname);
+  if (!canonicalMatch || canonicalMatch[1] === currentMatch[1]) return;
+
+  const newPath = currentPath.replace(
+    `/work_packages/${currentMatch[1]}`,
+    `/work_packages/${canonicalMatch[1]}`,
+  );
+  window.history.replaceState(
+    null,
+    '',
+    newPath + window.location.search + window.location.hash,
+  );
 }
