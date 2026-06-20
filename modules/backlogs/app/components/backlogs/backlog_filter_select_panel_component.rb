@@ -71,7 +71,7 @@ module Backlogs
     def counter_arguments
       aria = { label: I18n.t(:label_x_items, count:), live: "polite" }
 
-      { count:, hide_if_zero: true, ml: 2, aria: }
+      { count:, hide_if_zero: true, aria: }
     end
 
     def show_button_arguments

@@ -12,9 +12,9 @@
         )
       ) do |panel| %>
     <% panel.with_show_button(**show_button_arguments) do |button| %>
-      <% button.with_trailing_visual_icon(icon: :"triangle-down", color: :default) %>
+      <% button.with_trailing_visual_counter(**counter_arguments) %>
+      <% button.with_trailing_action_icon(icon: :"triangle-down") %>
       <%= t(".label_#{filter_field_name}_filter", count:) %>
-      <%= render Primer::Beta::Counter.new(**counter_arguments) %>
     <% end %>
 
     <% items.each do |item| %>
