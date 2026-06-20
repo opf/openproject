@@ -5,6 +5,7 @@
                panelClosed->backlogs--backlog-filter-select-panel#revertOnClose">
   <%= render(
         Primer::Alpha::SelectPanel.new(
+          id: panel_id,
           select_variant: :multiple,
           fetch_strategy: :local,
           title: t(".select_panel_title")
@@ -18,6 +19,7 @@
 
     <% items.each do |item| %>
       <% panel.with_item(
+           id: item_id(item),
            label: item.name,
            active: selected_ids&.include?(item.id) || false,
            content_arguments: { data: { value: item.id } }

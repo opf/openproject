@@ -61,6 +61,12 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
       expect(page).to have_css("[aria-selected='true']", text: "Alpha Sprint")
       expect(page).to have_css("[aria-selected='false']", text: "Beta Sprint")
     end
+
+    it "scopes each item id under the panel id" do
+      render_component(field_name: :sprint_ids)
+      expect(page).to have_css("#sprint_filter_select_panel_item_#{sprint1.id}", visible: :all, text: "Alpha Sprint")
+      expect(page).to have_css("#sprint_filter_select_panel_item_#{sprint2.id}", visible: :all, text: "Beta Sprint")
+    end
   end
 
   describe "bucket panel" do
@@ -82,6 +88,29 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
       render_component(field_name: :bucket_ids, bucket_ids: [bucket2.id])
       expect(page).to have_element(aria: { selected: false }, text: "Ideas")
       expect(page).to have_element(aria: { selected: true }, text: "Backlog")
+    end
+
+    it "scopes each item id under the panel id, including the inbox sentinel" do
+      render_component(field_name: :bucket_ids)
+      expect(page).to have_css("#backlog_bucket_filter_select_panel_item_#{bucket1.id}", visible: :all, text: "Ideas")
+      expect(page).to have_css("#backlog_bucket_filter_select_panel_item_#{bucket2.id}", visible: :all, text: "Backlog")
+      expect(page).to have_css("#backlog_bucket_filter_select_panel_item_inbox", visible: :all, text: I18n.t(:label_inbox))
+    end
+  end
+
+  describe "stable DOM ids" do
+    it "derives the sprint panel and its trigger button ids from the field name" do
+      render_component(field_name: :sprint_ids)
+
+      expect(page).to have_css("#sprint_filter_select_panel", visible: :all)
+      expect(page).to have_css("#sprint_filter_select_panel-button", visible: :all)
+    end
+
+    it "derives the bucket panel and its trigger button ids from the field name" do
+      render_component(field_name: :bucket_ids)
+
+      expect(page).to have_css("#backlog_bucket_filter_select_panel", visible: :all)
+      expect(page).to have_css("#backlog_bucket_filter_select_panel-button", visible: :all)
     end
   end
 

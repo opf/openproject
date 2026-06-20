@@ -44,6 +44,14 @@ module Backlogs
 
     private
 
+    def panel_id
+      dom_target(filter_field_name, :filter_select_panel)
+    end
+
+    def item_id(item)
+      dom_target(panel_id, :item, item.id.to_s)
+    end
+
     def items
       if filter_field == :sprint_ids
         all_sprints_for(project)
