@@ -434,9 +434,8 @@ module Pages
       end
       within_dialog "Select items" do
         sprints.each { |sprint| click_on sprint.name, role: "option" }
-        click_on "Apply"
       end
-      wait_for_network_idle
+      close_filter_panel
     end
 
     def apply_bucket_filter(*buckets, include_inbox: false)
@@ -446,8 +445,16 @@ module Pages
       within_dialog "Select items" do
         buckets.each { |bucket| click_on bucket.name, role: "option" }
         click_on(I18n.t(:label_inbox), role: "option") if include_inbox
-        click_on "Apply"
       end
+      close_filter_panel
+    end
+
+    # Applying closes the select panel, which submits the selection.
+    def close_filter_panel
+      within_dialog "Select items" do
+        click_on I18n.t(:button_apply)
+      end
+      expect(page).to have_no_dialog("Select items")
       wait_for_network_idle
     end
 

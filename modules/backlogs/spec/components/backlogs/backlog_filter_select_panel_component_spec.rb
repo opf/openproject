@@ -85,26 +85,49 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
     end
   end
 
-  describe "hidden filter fields" do
-    it "passes through sprint_ids when rendering the bucket panel" do
-      render_component(field_name: :bucket_ids, sprint_ids: ["1"])
-      expect(page).to have_field("sprint_ids", type: :hidden, with: "1", visible: :all)
+  describe "submission wiring" do
+    it "wires the panel root to refresh buttons on change and revert on close" do
+      render_component(field_name: :bucket_ids)
+
+      expect(page).to have_css(
+        "[data-controller='backlogs--backlog-filter-select-panel']" \
+        "[data-backlogs--backlog-filter-select-panel-filter-key-value='bucket_ids']" \
+        "[data-action*='itemActivated->backlogs--backlog-filter-select-panel#refreshButtons']" \
+        "[data-action*='panelClosed->backlogs--backlog-filter-select-panel#revertOnClose']"
+      )
     end
 
-    it "passes through bucket_ids when rendering the sprint panel" do
-      render_component(field_name: :sprint_ids, bucket_ids: ["2"])
-      expect(page).to have_field("bucket_ids", type: :hidden, with: "2", visible: :all)
+    it "renders the Apply button disabled and wired to the apply action" do
+      render_component(field_name: :sprint_ids)
+
+      apply = page.find(
+        "button[data-action='click->backlogs--backlog-filter-select-panel#apply']",
+        visible: :all
+      )
+      expect(apply).to be_disabled
+      expect(apply).to have_text(I18n.t(:button_apply))
+      expect(apply["data-backlogs--backlog-filter-select-panel-target"]).to eq("applyButton")
     end
 
-    it "joins array values into a single comma-delimited hidden input" do
-      render_component(field_name: :sprint_ids, bucket_ids: [1, 2])
-      expect(page).to have_field("bucket_ids", type: :hidden, with: "1,2", visible: :all)
+    it "disables the Clear button when no filter is selected" do
+      render_component(field_name: :bucket_ids)
+
+      clear = page.find(
+        "button[data-action='click->backlogs--backlog-filter-select-panel#clear']",
+        visible: :all
+      )
+      expect(clear).to be_disabled
+      expect(clear["data-backlogs--backlog-filter-select-panel-target"]).to eq("clearButton")
     end
 
-    it "renders each passthrough param once per form (clear + filter)" do
-      render_component(field_name: :sprint_ids, all: true)
-      # The clear form carries 1 `all`, the filter form carries another.
-      expect(page).to have_field("all", type: :hidden, with: "true", count: 2, visible: :all)
+    it "enables the Clear button when a filter is already selected" do
+      render_component(field_name: :bucket_ids, bucket_ids: ["1"])
+
+      clear = page.find(
+        "button[data-action='click->backlogs--backlog-filter-select-panel#clear']",
+        visible: :all
+      )
+      expect(clear).not_to be_disabled
     end
   end
 end

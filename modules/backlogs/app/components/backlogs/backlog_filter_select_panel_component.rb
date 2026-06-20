@@ -44,12 +44,6 @@ module Backlogs
 
     private
 
-    def filter_fields_for
-      backlog_filter_params
-        .except(filter_field)
-        .map { |name, value| [name, value, { id: nil }] }
-    end
-
     def items
       if filter_field == :sprint_ids
         all_sprints_for(project)
@@ -86,10 +80,6 @@ module Backlogs
 
     def filter_field_name
       filter_field == :sprint_ids ? "sprint" : "backlog_bucket"
-    end
-
-    def clear_form_id
-      "#{filter_field_name}-clear-form"
     end
   end
 end
