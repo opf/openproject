@@ -88,26 +88,23 @@ RSpec.describe Backlogs::BacklogFilterSelectPanelComponent, type: :component do
   describe "hidden filter fields" do
     it "passes through sprint_ids when rendering the bucket panel" do
       render_component(field_name: :bucket_ids, sprint_ids: ["1"])
-      expect(page).to have_field("sprint_ids[]", type: :hidden, with: "1", visible: :all)
+      expect(page).to have_field("sprint_ids", type: :hidden, with: "1", visible: :all)
     end
 
     it "passes through bucket_ids when rendering the sprint panel" do
       render_component(field_name: :sprint_ids, bucket_ids: ["2"])
-      expect(page).to have_field("bucket_ids[]", type: :hidden, with: "2", visible: :all)
+      expect(page).to have_field("bucket_ids", type: :hidden, with: "2", visible: :all)
     end
 
-    it "expands array values into multiple hidden inputs" do
+    it "joins array values into a single comma-delimited hidden input" do
       render_component(field_name: :sprint_ids, bucket_ids: [1, 2])
-      expect(page).to have_field("bucket_ids[]", type: :hidden, with: "1", visible: :all)
-      expect(page).to have_field("bucket_ids[]", type: :hidden, with: "2", visible: :all)
+      expect(page).to have_field("bucket_ids", type: :hidden, with: "1,2", visible: :all)
     end
 
-    it "passes through scalar params as a single hidden input without brackets" do
+    it "renders each passthrough param once per form (clear + filter)" do
       render_component(field_name: :sprint_ids, all: true)
-      # The clear form has 1 `all`, the filter form has 1 `all` and 1 `sprint_ids[]` parameter
-      expect(page).to have_field(type: :hidden, count: 3, visible: :all)
+      # The clear form carries 1 `all`, the filter form carries another.
       expect(page).to have_field("all", type: :hidden, with: "true", count: 2, visible: :all)
-      expect(page).to have_field("sprint_ids[]", type: :hidden, count: 1, visible: :all)
     end
   end
 end

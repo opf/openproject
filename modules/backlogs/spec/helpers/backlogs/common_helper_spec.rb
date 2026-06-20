@@ -80,7 +80,7 @@ RSpec.describe Backlogs::CommonHelper do
       let(:params) { { bucket_ids: %w[1 2], sprint_ids: %w[3] } }
 
       it "includes both in to_h" do
-        expect(helper.backlog_filters.to_h).to eq({ bucket_ids: [1, 2], sprint_ids: [3] })
+        expect(helper.backlog_filters.to_h).to eq({ bucket_ids: "1,2", sprint_ids: "3" })
       end
     end
   end

@@ -47,10 +47,7 @@ module Backlogs
     def filter_fields_for
       backlog_filter_params
         .except(filter_field)
-        .flat_map do |name, value|
-          field_name = value.is_a?(Array) ? "#{name}[]" : name
-          Array(value).map { |v| [field_name, v, { id: nil }] }
-        end
+        .map { |name, value| [name, value, { id: nil }] }
     end
 
     def items
