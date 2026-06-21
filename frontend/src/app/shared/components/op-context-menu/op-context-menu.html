@@ -19,7 +19,7 @@
       @if (item.divider) {
         <li class="dropdown-divider" role="separator"></li>
       }
-      @if (!item.divider && !item.isHeader) {
+      @if (!item.divider && !item.isHeader && !item.hidden) {
         <li>
           @if (item.href) {
             <a

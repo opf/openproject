@@ -28,6 +28,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 import { Placement } from '@floating-ui/dom';
 
@@ -223,6 +224,7 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
     const items = this.permittedActions.map((action:WorkPackageAction) => ({
       class: undefined as string | undefined,
       disabled: false,
+      hidden: action.key === 'copy_numeric_id_to_clipboard' && !isSemanticWorkPackageId(this.workPackage.displayId),
       linkText: action.text,
       href: action.href,
       icon: action.icon != null ? action.icon : `icon-${action.key}`,
