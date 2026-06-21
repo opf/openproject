@@ -123,6 +123,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         this.copyToClipboardService.copy(url.toString());
         break;
       }
+
+      case 'copy_display_id_to_clipboard':
+        this.copyToClipboardService.copy(this.workPackage.displayId);
+        break;
       case 'copy_to_other_project':
         window.location.href = `${this.pathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${id}`;
         break;
