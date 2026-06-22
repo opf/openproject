@@ -58,9 +58,11 @@ Work packages can now be assigned to backlog buckets without navigating to the B
 
 ### Group and sort work packages by backlog bucket
 
-text
+OpenProject 17.6 adds support for backlog buckets in work package tables. You can now add the Backlog bucket column to a work package table and use it to sort and group work packages.
 
-screenshot
+This makes backlog bucket assignments visible across work package lists and provides additional options for organizing backlog items.
+
+![Work package table with highlighted Backlog bucket column](openproject-17-6-backlog-bucket-work-package-table-highlighted.png)
 
 ### Support project-based (semantic) identifiers in exports
 
