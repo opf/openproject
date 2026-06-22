@@ -42,10 +42,8 @@ RSpec.describe Backlogs::SprintsComponent, type: :component do
   current_user { user }
 
   def render_component
-    render_inline(
-      described_class.new(
-        sprints:, work_packages_by_sprint_id:, active_sprint_ids:, project:, current_user:
-      )
+    render_inline described_class.new(
+      sprints:, work_packages_by_sprint_id:, active_sprint_ids:, project:, current_user:
     )
   end
 

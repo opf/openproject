@@ -29,63 +29,70 @@
 #++
 
 module Backlogs
-  class InboxComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
+  class BacklogFilterSelectPanelComponent < ApplicationComponent
     include CommonHelper
 
-    TRUNCATE_MIDDLE = 50
+    InboxItem = Data.define(:id, :name)
 
-    attr_reader :work_packages, :project, :current_user
+    attr_reader :project, :filter_field
 
-    def initialize(work_packages:, project:, current_user: User.current)
+    def initialize(project:, field_name:)
       super()
-
-      @work_packages = work_packages
       @project = project
-      @current_user = current_user
-    end
-
-    def wrapper_uniq_by
-      project.id
-    end
-
-    def truncated?
-      return @truncated if defined?(@truncated)
-
-      @truncated = !backlog_filters.show_all? && work_packages.size > truncate_threshold
-    end
-
-    def visible_work_packages
-      return work_packages unless truncated?
-
-      work_packages.first(TRUNCATE_MIDDLE) + work_packages.last(tail_size)
-    end
-
-    def show_more_id
-      dom_target(:inbox, project, :show_more)
-    end
-
-    def show_more_label
-      I18n.t("backlogs.inbox_component.show_more", count: omitted_count)
-    end
-
-    def last_omitted_id
-      work_packages[-(tail_size + 1)]&.id
+      @filter_field = field_name.to_sym
     end
 
     private
 
-    def tail_size
-      [TRUNCATE_MIDDLE / 5, 1].max
+    def filter_fields_for
+      backlog_filter_params
+        .except(filter_field)
+        .flat_map do |name, value|
+          field_name = value.is_a?(Array) ? "#{name}[]" : name
+          Array(value).map { |v| [field_name, v, { id: nil }] }
+        end
     end
 
-    def truncate_threshold
-      TRUNCATE_MIDDLE + (tail_size * 2)
+    def items
+      if filter_field == :sprint_ids
+        all_sprints_for(project)
+      else
+        all_buckets_for(project).to_a + [InboxItem.new(id: "inbox", name: I18n.t(:label_inbox))]
+      end
     end
 
-    def omitted_count
-      work_packages.size - TRUNCATE_MIDDLE - tail_size
+    def selected_ids
+      backlog_filters.public_send(filter_field)
+    end
+
+    def count
+      @count ||= selected_ids&.size || 0
+    end
+
+    def counter_arguments
+      aria = { label: I18n.t(:label_x_items, count:), live: "polite" }
+
+      { count:, hide_if_zero: true, aria: }
+    end
+
+    def show_button_arguments
+      {
+        scheme: :secondary,
+        color: selector_color,
+        data: { test_selector: "#{filter_field_name}_filter_button" }
+      }
+    end
+
+    def selector_color
+      selected_ids ? :default : :muted
+    end
+
+    def filter_field_name
+      filter_field == :sprint_ids ? "sprint" : "backlog_bucket"
+    end
+
+    def clear_form_id
+      "#{filter_field_name}-clear-form"
     end
   end
 end

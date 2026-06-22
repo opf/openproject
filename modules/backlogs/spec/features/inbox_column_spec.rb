@@ -89,7 +89,8 @@ RSpec.describe "Inbox column in sprint planning view", :js do
         planning_page.expect_inbox_blankslate
         planning_page.expect_sprints_blankslate
         planning_page.expect_sprints_blankslate_description(
-          "To start planning your sprint, create one here or go to the project settings to receive sprints from a different project."
+          "To start planning your sprint, create one here or go to the project " \
+          "settings to receive sprints from a different project."
         )
         planning_page.expect_backlog_settings_link
         planning_page.expect_new_sprint_button
@@ -454,9 +455,9 @@ RSpec.describe "Inbox column in sprint planning view", :js do
       # Initial load shows pagination
       planning_page.expect_inbox_show_more
 
-      # Expand inbox — URL advances to ?all=1
+      # Expand inbox — URL advances to ?all=true
       planning_page.click_inbox_show_more
-      expect(page).to have_current_path(/all=1/)
+      expect(page.current_url).to include("all=true")
       planning_page.expect_no_inbox_show_more
 
       # Drag an inbox item to the sprint

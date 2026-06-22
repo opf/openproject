@@ -116,7 +116,7 @@ module Backlogs
 
     def redirect_to_backlogs
       render turbo_stream: turbo_stream.redirect_to(
-        project_backlogs_backlog_path(@project, helpers.all_backlogs_params)
+        project_backlogs_backlog_path(@project, backlog_filter_params)
       )
     end
   end

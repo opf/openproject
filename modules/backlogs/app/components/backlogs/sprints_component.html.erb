@@ -30,25 +30,30 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   render(Primer::Beta::Subhead.new(hide_border: true, pb: 0)) do |head|
     head.with_heading(tag: :h3, size: :medium, font_weight: :bold) { Sprint.human_model_name.pluralize }
-
-    if sprint_creation_allowed?
-      head.with_actions do
-        render Primer::Beta::Button.new(
-          tag: :a,
-          label: Sprint.human_model_name,
-          href: new_dialog_project_backlogs_sprints_path(project, all_backlogs_params),
-          data: {
-            controller: "async-dialog",
-            test_selector: "op-sprints--new-sprint-button"
-          }
-        ) do |button|
-          button.with_leading_visual_icon(icon: :plus)
-          Sprint.human_model_name
-        end
-      end
-    end
   end
 %>
+
+<%= render(Primer::OpenProject::FlexLayout.new(justify_content: :space_between, align_items: :center)) do |flex| %>
+  <% flex.with_column do %>
+    <%= render Backlogs::BacklogFilterSelectPanelComponent.new(project:, field_name: :sprint_ids) %>
+  <% end %>
+  <% if sprint_creation_allowed? %>
+    <% flex.with_column do %>
+      <%= render Primer::Beta::Button.new(
+            tag: :a,
+            href: new_dialog_project_backlogs_sprints_path(project, backlog_filter_params),
+            aria: { label: t(".button_new_sprint") },
+            data: {
+              controller: "async-dialog",
+              test_selector: "op-sprints--new-sprint-button"
+            }
+          ) do |button|
+            button.with_leading_visual_icon(icon: :plus)
+            Sprint.human_model_name
+          end %>
+    <% end %>
+  <% end %>
+<% end %>
 
 <% if sprints.empty? %>
   <%=

@@ -109,13 +109,13 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
     end
 
     context "with params" do
-      let(:params) { { all: 1 } }
+      let(:params) { { all: true } }
 
       it "passes params into card URLs" do
         render_inline(item.card)
         card = page.find(".op-work-package-card")
 
-        expect(card["data-backlogs--story-split-url-value"]).to match(/all=1/)
+        expect(card["data-backlogs--story-split-url-value"]).to include("all=true")
       end
     end
   end

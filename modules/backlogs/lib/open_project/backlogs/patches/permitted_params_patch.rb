@@ -42,5 +42,9 @@ module OpenProject::Backlogs::Patches::PermittedParamsPatch
 
       permitted_params
     end
+
+    def backlog_filters
+      params.permit(:all, bucket_ids: [], sprint_ids: [])
+    end
   end
 end

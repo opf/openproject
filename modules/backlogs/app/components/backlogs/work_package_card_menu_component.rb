@@ -100,7 +100,7 @@ module Backlogs
         id: dom_target(work_package, :menu, label),
         label: I18n.t(label),
         tag: :button,
-        href: move_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
+        href: move_project_backlogs_work_package_path(project, work_package, backlog_filter_params),
         form_arguments: { method: :put, inputs: }
       ) do |item|
         item.with_leading_visual_icon(icon:)

@@ -66,7 +66,7 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       expect(response).to have_http_status(:ok)
       expect(response).to render_template("backlogs/backlog/show")
       expect(response).to have_turbo_frame "backlogs_container",
-                                           src: "/projects/#{project.identifier}/backlogs/backlog?all=false"
+                                           src: "/projects/#{project.identifier}/backlogs/backlog"
       expect(response).to have_turbo_frame "content-bodyRight"
     end
 
@@ -98,14 +98,16 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
         expect(response).to have_no_turbo_frame "content-bodyRight"
       end
 
-      it "passes all=1 to the move URL template when requested" do
+      it "passes all=true to the move URL template when requested" do
         get "/projects/#{project.identifier}/backlogs/backlog",
             params: { all: "1" },
             headers: { "Turbo-Frame" => "backlogs_container" }
 
         expect(response).to have_http_status(:ok)
+        move_url_template =
+          "/projects/#{project.identifier}/backlogs/work_packages/{id}/move?all=true"
         expect(response.body).to include(
-          %(data-sortable-lists-move-url-template-value="/projects/#{project.identifier}/backlogs/work_packages/{id}/move?all=1")
+          %(data-sortable-lists-move-url-template-value="#{move_url_template}")
         )
       end
 
@@ -159,7 +161,7 @@ RSpec.describe "Backlogs::Backlog", :skip_csrf, type: :rails_request do
       expect(response).to render_template("backlogs/backlog/show")
 
       expect(response).to have_turbo_frame "backlogs_container",
-                                           src: "/projects/#{project.identifier}/backlogs/backlog?all=false"
+                                           src: "/projects/#{project.identifier}/backlogs/backlog"
       expect(response).to have_turbo_frame "content-bodyRight"
     end
 

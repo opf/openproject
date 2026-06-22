@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,40 +26,32 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Backlogs
-  class BucketDestroyModalComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-    include CommonHelper
-
-    TEST_SELECTOR = "backlog-bucket-destroy-modal-dialog"
-
-    attr_reader :backlog_bucket
-
-    def initialize(backlog_bucket:)
-      super()
-      @backlog_bucket = backlog_bucket
+  BacklogFilters = Data.define(:bucket_ids, :sprint_ids, :show_all) do
+    def self.from_params(params)
+      new(
+        bucket_ids: Array(params[:bucket_ids]).filter_map do |id|
+                      id == "inbox" ? "inbox" : id.to_i.nonzero?
+                    end.presence,
+        sprint_ids: Array(params[:sprint_ids]).filter_map { |id| id.to_i.nonzero? }.presence,
+        show_all: ActiveRecord::Type::Boolean.new.cast(params[:all]) || false
+      )
     end
 
-    private
-
-    def title
-      t(".title")
+    def show_inbox?
+      bucket_ids.nil? || bucket_ids.include?("inbox")
     end
 
-    def details
-      t(".details", name: backlog_bucket.name)
+    def to_h
+      result = show_all? ? { all: true } : {}
+      result[:bucket_ids] = bucket_ids if bucket_ids
+      result[:sprint_ids] = sprint_ids if sprint_ids
+      result
     end
 
-    def form_arguments
-      {
-        action: project_backlogs_bucket_path(backlog_bucket.project,
-                                             backlog_bucket,
-                                             backlog_filter_params),
-        method: :delete
-      }
-    end
+    alias to_hash to_h
+    alias show_all? show_all
   end
 end

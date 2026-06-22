@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,40 +26,46 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
-module Backlogs
-  class BucketDestroyModalComponent < ApplicationComponent
-    include OpTurbo::Streamable
-    include OpPrimer::ComponentHelpers
-    include CommonHelper
+require "rails_helper"
 
-    TEST_SELECTOR = "backlog-bucket-destroy-modal-dialog"
+RSpec.describe PermittedParams do
+  let(:user) { build_stubbed(:user) }
 
-    attr_reader :backlog_bucket
+  subject(:permitted) { described_class.new(params, user).backlog_filters.to_h }
 
-    def initialize(backlog_bucket:)
-      super()
-      @backlog_bucket = backlog_bucket
+  describe "#backlog_filters" do
+    context "with bucket_ids and sprint_ids" do
+      let(:params) { ActionController::Parameters.new(bucket_ids: %w[1 2], sprint_ids: %w[3]) }
+
+      it "permits both arrays" do
+        expect(permitted).to eq("bucket_ids" => %w[1 2], "sprint_ids" => %w[3])
+      end
     end
 
-    private
+    context "with the all flag" do
+      let(:params) { ActionController::Parameters.new(all: "1") }
 
-    def title
-      t(".title")
+      it "permits all" do
+        expect(permitted).to eq("all" => "1")
+      end
     end
 
-    def details
-      t(".details", name: backlog_bucket.name)
+    context "with bucket_ids as a hash (e.g. bucket_ids[0]=1)" do
+      let(:params) { ActionController::Parameters.new(bucket_ids: { "0" => "1", "1" => "2" }) }
+
+      it "filters it out" do
+        expect(permitted).to eq({})
+      end
     end
 
-    def form_arguments
-      {
-        action: project_backlogs_bucket_path(backlog_bucket.project,
-                                             backlog_bucket,
-                                             backlog_filter_params),
-        method: :delete
-      }
+    context "with unpermitted params" do
+      let(:params) { ActionController::Parameters.new(bucket_ids: %w[1], evil: "true") }
+
+      it "filters them out" do
+        expect(permitted).to eq("bucket_ids" => %w[1])
+      end
     end
   end
 end

@@ -103,7 +103,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "adds the all param to the open details href" do
         render_component
 
-        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_open_details[href*="all=1"]))
+        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_open_details[href*="all=true"]))
       end
     end
 
@@ -360,7 +360,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "adds the all param to the move to sprint href" do
         render_component(open_sprints_exist: true)
 
-        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_sprint[href*="all=1"]))
+        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_sprint[href*="all=true"]))
       end
     end
   end
@@ -404,7 +404,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "adds the all param to the form action for the inbox move" do
         render_component
 
-        expect(page).to have_css(%(form[action*="all=1"]))
+        expect(page).to have_css(%(form[action*="all=true"]))
       end
     end
   end
@@ -453,7 +453,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       it "adds the all param to the dialog href" do
         render_component(other_buckets_exist: true)
 
-        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_backlog_bucket[href*="all=1"]))
+        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_backlog_bucket[href*="all=true"]))
       end
     end
   end

@@ -57,13 +57,13 @@ RSpec.describe Backlogs::MoveToBucketDialogComponent, type: :component do
 
   context "when params[:all] is true" do
     let(:move_path) do
-      Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package, all: "1")
+      Rails.application.routes.url_helpers.move_project_backlogs_work_package_path(project, work_package, all: "true")
     end
 
     it "submits the move form with the all query preserved" do
       render_component
 
-      expect(page).to have_element(:form, action: /all=1/)
+      expect(page).to have_element(:form, action: /all=true/)
     end
   end
 

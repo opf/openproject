@@ -68,10 +68,8 @@ RSpec.describe Backlogs::FinishSprintDialogComponent, type: :component do
     it "propagates the all parameter in the form action" do
       render_component
 
-      expect(page).to have_css(
-        "form[action='#{finish_project_backlogs_sprint_path(project, sprint, all: 1)}']",
-        visible: :all
-      )
+      expect(page)
+        .to have_element(:form, action: finish_project_backlogs_sprint_path(project, sprint, all: true))
     end
   end
 end
