@@ -30,31 +30,14 @@
 
 module Backlogs
   module Widgets
-    class BurndownChart < Grids::WidgetComponent
-      include Backlogs::BurndownChartHelper
-
-      FRAME_ID = "sprint-report-burndown-chart"
+    class Placeholder < Grids::WidgetComponent
+      FRAME_ID = "sprint-report-placeholder"
 
       param :sprint
       param :project
 
       def title
-        t("backlogs.show_burndown_chart")
-      end
-
-      def chart_data
-        {
-          labels: xaxis_labels(burndown),
-          datasets: dataseries(burndown)
-        }.to_json
-      end
-
-      private
-
-      def burndown
-        return nil unless sprint.date_range_set?
-
-        @burndown ||= Burndown.new(sprint, project)
+        "Placeholder widget"
       end
     end
   end

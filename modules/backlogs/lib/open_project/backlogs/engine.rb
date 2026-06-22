@@ -59,6 +59,7 @@ module OpenProject::Backlogs
                      "backlogs/burndown_chart": :show,
                      "backlogs/sprints": :index,
                      "backlogs/sprint_reports": :show,
+                     "backlogs/sprint_report_widgets": %i[burndown_chart placeholder],
                      "backlogs/taskboard": :show },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages show_board_views]

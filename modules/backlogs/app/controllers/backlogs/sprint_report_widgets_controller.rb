@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# -- copyright
+#-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,36 +26,16 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-# ++
+#++
 
 module Backlogs
-  module Widgets
-    class BurndownChart < Grids::WidgetComponent
-      include Backlogs::BurndownChartHelper
+  class SprintReportWidgetsController < BaseController
+    def burndown_chart
+      render layout: false
+    end
 
-      FRAME_ID = "sprint-report-burndown-chart"
-
-      param :sprint
-      param :project
-
-      def title
-        t("backlogs.show_burndown_chart")
-      end
-
-      def chart_data
-        {
-          labels: xaxis_labels(burndown),
-          datasets: dataseries(burndown)
-        }.to_json
-      end
-
-      private
-
-      def burndown
-        return nil unless sprint.date_range_set?
-
-        @burndown ||= Burndown.new(sprint, project)
-      end
+    def placeholder
+      render layout: false
     end
   end
 end

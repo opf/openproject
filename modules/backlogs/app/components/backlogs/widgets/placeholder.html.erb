@@ -1,0 +1,9 @@
+<%=
+  widget_wrapper do |container|
+    container.with_body do
+      render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
+        blankslate.with_heading(tag: :h3).with_content("Placeholder widget")
+      end
+    end
+  end
+%>
