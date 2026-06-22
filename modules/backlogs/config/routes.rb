@@ -112,6 +112,11 @@ Rails.application.routes.draw do
         get "taskboard", to: "taskboard#show", as: :sprint_taskboard
         get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
         get "report", to: "sprint_reports#show", as: :sprint_report
+
+        scope "report/widgets" do
+          get "burndown_chart", to: "sprint_report_widgets#burndown_chart", as: :sprint_report_burndown_chart_widget
+          get "placeholder", to: "sprint_report_widgets#placeholder", as: :sprint_report_placeholder_widget
+        end
       end
     end
   end
