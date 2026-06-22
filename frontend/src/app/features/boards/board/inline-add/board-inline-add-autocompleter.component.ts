@@ -29,7 +29,7 @@
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild, ViewEncapsulation, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { IsolatedQuerySpace } from 'core-app/features/work-packages/directives/query-space/isolated-query-space';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
@@ -86,16 +86,26 @@ export class BoardInlineAddAutocompleterComponent implements AfterViewInit {
     if (results && results.elements.length > 0) {
       filters.add('id', '!', results.elements.map((wp:WorkPackageResource) => wp.id!));
     }
-    // Add the subproject filter, if any
+    // If the column query has a 'project' filter, use the global endpoint and forward
+    // that filter so the autocomplete respects it. Basic boards always have one (added
+    // by the board to show all projects, or narrowed by the user). Action boards may
+    // also have one if the user added it explicitly.
+    // Otherwise stay scoped to the current project and forward the 'subprojectId' filter.
     const query = this.querySpace.query.value;
+    let projectScopeId:string|null = this.CurrentProject.id;
     if (query?.filters) {
       const currentFilters = this.urlParamsHelper.buildV3GetFilters(query.filters);
-      filters.merge(currentFilters, 'subprojectId');
+      if (currentFilters.some((f) => 'project' in f)) {
+        filters.merge(currentFilters, 'project');
+        projectScopeId = null;
+      } else {
+        filters.merge(currentFilters, 'subprojectId');
+      }
     }
 
     return this
       .apiV3Service
-      .withOptionalProject(this.CurrentProject.id)
+      .withOptionalProject(projectScopeId)
       .work_packages
       .filtered(filters, { sortBy: '[["updatedAt","desc"]]' })
       .get()

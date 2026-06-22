@@ -443,6 +443,13 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
     const existingFilters = (this.resource.options.filters || []) as ApiV3Filter[];
 
     const newFilters = existingFilters.concat(filters);
+
+    // For Basic boards, ensure work packages from all projects are shown
+    // by adding a project filter with the 'any' operator if not already set.
+    if (this.board.isFree && !newFilters.some((f) => 'project' in f)) {
+      newFilters.push({ project: { operator: '*', values: [] } });
+    }
+
     const newColumnsQueryProps:any = {
       'columns[]': ['id', 'subject'],
       showHierarchies: false,

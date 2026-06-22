@@ -46,7 +46,7 @@ class Queries::WorkPackages::Filter::ProjectFilter < Queries::WorkPackages::Filt
   end
 
   def type
-    :list
+    :list_optional
   end
 
   def self.key

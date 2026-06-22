@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe Queries::WorkPackages::Filter::ProjectFilter do
   it_behaves_like "basic query filter" do
-    let(:type) { :list }
+    let(:type) { :list_optional }
     let(:class_key) { :project_id }
     let(:visible_projects) { build_stubbed_list(:project, 2) }
 

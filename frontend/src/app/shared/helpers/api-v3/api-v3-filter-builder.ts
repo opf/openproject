@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-export type FilterOperator = '='|'!*'|'!'|'~'|'o'|'>t-'|'<>d'|'**'|'ow';
+export type FilterOperator = '='|'!*'|'*'|'!'|'~'|'o'|'>t-'|'<>d'|'**'|'ow';
 export const FalseValue = ['f'];
 export const TrueValue = ['t'];
 
