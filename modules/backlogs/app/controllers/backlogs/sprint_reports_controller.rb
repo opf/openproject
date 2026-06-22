@@ -30,6 +30,10 @@
 
 module Backlogs
   class SprintReportsController < BaseController
+    current_menu_item %i[show] do
+      :all_sprints
+    end
+
     def show; end
   end
 end
