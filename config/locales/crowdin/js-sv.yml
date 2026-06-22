@@ -77,8 +77,9 @@ sv:
     button_confirm: Bekräfta
     button_continue: Fortsätt
     button_copy: Kopiera
-    button_copy_to_clipboard: Kopiera till Urklipp
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Kopiera länk till urklipp
+    button_copy_to_clipboard: Kopiera till Urklipp
     button_copy_to_other_project: Duplicera i ett annat projekt
     button_custom-fields: Anpassade fält
     button_delete: Ta bort

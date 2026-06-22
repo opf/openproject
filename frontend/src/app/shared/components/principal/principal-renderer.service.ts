@@ -1,3 +1,4 @@
+import { take } from 'lodash-es';
 import { Injectable, inject } from '@angular/core';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { colorModes, ColorsService } from 'core-app/shared/components/colors/colors.service';
@@ -48,7 +49,7 @@ export class PrincipalRendererService {
     wrapper.appendChild(principals);
     container.appendChild(wrapper);
 
-    const valueForDisplay = _.take(users, maxCount);
+    const valueForDisplay = take(users, maxCount);
     this.renderMultiple(
       principals,
       valueForDisplay,

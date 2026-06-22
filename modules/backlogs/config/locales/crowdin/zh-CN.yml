@@ -41,6 +41,8 @@ zh-CN:
           active: 激活
           completed: 已完成
         work_packages: 工作包
+      sprint_goal:
+        text: Sprint goal
       work_package:
         backlog_bucket: Backlog bucket
         backlogs_work_package_type: 待办清单类型
@@ -59,6 +61,8 @@ zh-CN:
             sprint_sharing:
               share_all_projects_already_taken: 无法设置，因为项目“%{name}”已经与所有项目共享。
               share_all_projects_already_taken_anonymous: 无法设置，因为另一个项目已经与所有项目共享。
+        sprint_goal:
+          project_already_has_goal: already has a goal for this sprint.
         sprint:
           attributes:
             base:
@@ -147,6 +151,12 @@ zh-CN:
       action_menu:
         edit_sprint: 编辑冲刺
         add_work_package: 添加工作包
+    sprint_form:
+      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
+      goal_for_this_project_label: "%{attribute} (for this project)"
+    sprint_form_component:
+      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
+      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprints_component:
       blankslate:
         title: 还不存在冲刺

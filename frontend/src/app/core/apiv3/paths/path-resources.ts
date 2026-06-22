@@ -26,7 +26,7 @@ export class SimpleResourceCollection<T = SimpleResource> {
    * @param id
    */
   public withOptionalId(id?:string|number):this|T {
-    if (_.isNil(id)) {
+    if (id == null) {
       return this;
     }
     return this.id(id);

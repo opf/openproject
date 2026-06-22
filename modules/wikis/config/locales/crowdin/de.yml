@@ -16,7 +16,13 @@ de:
         token_exchange_scope: XWiki Scope
         url: Instanz-URL
         wiki_audience: XWiki Audience
-    errors: {}
+    errors:
+      models:
+        wikis/provider:
+          attributes:
+            url:
+              already_taken: belongs to the wiki provider that's already known as "%{name}".
+              wiki_provider_unreachable: could not be reached.
     models:
       wikis/inline_page_link:
         one: Inline-Seitenlink
@@ -38,16 +44,6 @@ de:
       wikis: Wikis
   permission_manage_wiki_page_links: Wiki-Seitenlinks verwalten
   project_module_wiki_platforms: Wiki-Anbieter
-  services:
-    attributes:
-      wikis/create_linked_page_service:
-        wiki_page: Wiki page
-    errors:
-      models:
-        wikis/create_linked_page_service:
-          forbidden: was not allowed to be created.
-          not_found: was not found.
-          token_missing: Page creation not possible, user account is not connected to the wiki provider.
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -166,7 +162,7 @@ de:
       remove: Seitenlink entfernen
     page_link_forms:
       labels:
-        page_tile: Title
+        page_title: Title
         parent: Parent wiki page
         wiki_page: Wiki page
       search:
@@ -182,7 +178,7 @@ de:
         name: XWiki
     relation_page_links_component:
       empty_heading: Keine verwandten Seiten
-      empty_text: Fügen Sie manuell Links zu anderen verwandten Wikiseiten hinzu.
+      empty_text: Add wiki pages that are relevant to this work package.
       link_existing: Vorhandene Wikiseite
       link_new: Neue Wikiseite
     upsell:
@@ -190,5 +186,5 @@ de:
         description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
         title: XWiki Integration
     work_package_wikis_tab_component:
-      inline_page_links: Inline-Seitenlinks
+      inline_page_links: Mentioned in description
       referencing_pages: Referenziert in

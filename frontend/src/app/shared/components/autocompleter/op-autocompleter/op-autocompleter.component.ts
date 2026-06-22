@@ -354,7 +354,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
     if (!this.model) {
       return '';
     } else if (Array.isArray(this.model)) {
-      const mappedValues = this.model.map((el) => (_.isObject(el) ? el[this.inputBindValue as 'id'] : el) as string);
+      const mappedValues = this.model.map((el) => ((typeof el === 'object' && el !== null) ? el[this.inputBindValue as 'id'] : el) as string);
       return mappedValues.length > 0 ? mappedValues : [''];
     } else {
       return this.model[this.inputBindValue as 'id'] as string || '';
@@ -562,7 +562,7 @@ export class OpAutocompleterComponent<T extends IAutocompleteItem = IAutocomplet
 
   protected defaultCompareWithFunction():null|((a:unknown, b:unknown) => boolean) {
     return (a, b) => {
-      if (this.bindValue && !_.isObject(b)) {
+      if (this.bindValue && !(typeof b === 'object' && b !== null)) {
         return (a as Record<string, unknown>)[this.bindValue] === b;
       }
 

@@ -44,7 +44,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
       ...this.defaultState,
       visible: query.timelineVisible,
       zoomLevel: query.timelineZoomLevel,
-      labels: query.timelineLabels,
+      labels: query.timelineLabels ?? this.defaultLabels,
     };
   }
 
@@ -90,7 +90,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   }
 
   public get labels() {
-    if (_.isEmpty(this.current.labels)) {
+    if (Object.keys(this.current.labels).length === 0) {
       return this.defaultLabels;
     }
 

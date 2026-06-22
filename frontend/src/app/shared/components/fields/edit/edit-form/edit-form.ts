@@ -101,7 +101,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    * Return whether this form has any active fields
    */
   public hasActiveFields():boolean {
-    return !_.isEmpty(this.activeFields);
+    return Object.keys(this.activeFields).length > 0;
   }
 
   /**

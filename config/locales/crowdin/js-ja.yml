@@ -77,8 +77,9 @@ ja:
     button_confirm: 確認
     button_continue: 続行
     button_copy: コピー
-    button_copy_to_clipboard: クリップボードにコピー
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: クリップボードにリンクをコピー
+    button_copy_to_clipboard: クリップボードにコピー
     button_copy_to_other_project: 別のプロジェクトで複製する
     button_custom-fields: カスタムフィールド
     button_delete: 削除

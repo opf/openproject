@@ -48,7 +48,7 @@ import {
   ResourceState,
   setResourceLoading,
 } from 'core-app/core/state/resource-store';
-import { omit } from 'lodash';
+import { omit } from 'lodash-es';
 import {
   ApiV3ListParameters,
   listParamsString,

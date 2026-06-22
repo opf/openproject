@@ -33,7 +33,7 @@ import type { TimezoneService } from 'core-app/core/datetime/timezone.service';
 import {
   debounce,
   DebouncedFunc,
-} from 'lodash';
+} from 'lodash-es';
 import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class PreviewController extends DialogPreviewController {
@@ -259,7 +259,7 @@ export default class PreviewController extends DialogPreviewController {
   }
 
   private updateFlatpickrCalendar() {
-    const dates:Date[] = _.compact([this.currentStartDate, this.currentDueDate]);
+    const dates:Date[] = [this.currentStartDate, this.currentDueDate].filter((x):x is NonNullable<typeof x> => Boolean(x));
     const ignoreNonWorkingDays = this.currentIgnoreNonWorkingDays;
     const mode = this.mode();
 
@@ -280,7 +280,7 @@ export default class PreviewController extends DialogPreviewController {
       return this.toDate(flatPickrDates[0]);
     }
 
-    const fieldDates = _.compact([this.currentStartDate, this.currentDueDate])
+    const fieldDates = [this.currentStartDate, this.currentDueDate].filter((x):x is NonNullable<typeof x> => Boolean(x))
                         .map((date) => this.timezone.utcDateToISODateString(date));
     const diff = _.difference(flatPickrDates, fieldDates);
     return this.toDate(diff[0]);

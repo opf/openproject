@@ -32,6 +32,6 @@ export class OpTableActionsService {
    */
   public render(workPackage:WorkPackageResource):HTMLElement[] {
     const built = this.actions.map((factory) => factory(this.injector, workPackage).buildElement());
-    return _.compact(built);
+    return built.filter((x):x is NonNullable<typeof x> => Boolean(x));
   }
 }

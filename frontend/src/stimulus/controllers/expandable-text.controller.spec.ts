@@ -47,7 +47,7 @@ const singleLineTemplate = `
 
 const multiLineTemplate = `
   <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="true">
-    <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+    <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
       <p>Line one of a multi-line block of text.</p>
       <p>Line two with more content.</p>
       <p>Line three extends beyond the clamp limit.</p>
@@ -61,7 +61,7 @@ const multiLineTemplate = `
 
 const dialogTemplate = `
   <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="false">
-    <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+    <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
       <p>Content that opens in a dialog.</p>
     </div>
     <div data-expandable-text-target="expander">
@@ -425,7 +425,7 @@ describe('ExpandableTextController', () => {
       // should not advertise a disclosure state, so the controller strips it.
       const dialogWithAriaTemplate = `
         <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="false">
-          <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+          <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
             <p>Content that opens in a dialog.</p>
           </div>
           <div data-expandable-text-target="expander">
@@ -472,7 +472,7 @@ describe('ExpandableTextController', () => {
     it('preserves server-rendered expander when content fits but has omitted paragraphs', async () => {
       const serverVisibleTemplate = `
         <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="false">
-          <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+          <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
             <span>Short first paragraph that fits.</span>
           </div>
           <div data-expandable-text-target="expander">
@@ -500,7 +500,7 @@ describe('ExpandableTextController', () => {
     it('toggles a server-hidden expander based on truncation', async () => {
       const serverHiddenTemplate = `
         <div data-controller="expandable-text" data-expandable-text-expanded-value="false" data-expandable-text-mode-value="multi_line" data-expandable-text-inline-value="false">
-          <div data-expandable-text-target="truncate" class="op-vertical-truncate op-vertical-truncate--lines-3" style="overflow: hidden;">
+          <div data-expandable-text-target="truncate" class="op-vertical-truncate" style="--op-vertical-truncate-lines: 3; overflow: hidden;">
             <span>Single paragraph.</span>
           </div>
           <div data-expandable-text-target="expander" hidden>

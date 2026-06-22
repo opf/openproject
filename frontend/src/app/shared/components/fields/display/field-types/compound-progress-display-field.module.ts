@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { upperFirst } from 'lodash-es';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { DisplayField } from 'core-app/shared/components/fields/display/display-field.module';
 import { LazyInject } from 'core-app/shared/helpers/angular/lazy-inject.decorator';
@@ -112,7 +113,7 @@ export class CompoundProgressDisplayField extends DisplayField {
   }
 
   private get derivedPropertyName():string {
-    return `derived${_.upperFirst(this.name)}`;
+    return `derived${upperFirst(this.name)}`;
   }
 
   private get derivedValue():number|null {

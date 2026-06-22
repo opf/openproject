@@ -41,6 +41,8 @@ pt-BR:
           active: Ativa
           completed: Concluída
         work_packages: Pacotes de trabalho
+      sprint_goal:
+        text: Sprint goal
       work_package:
         backlog_bucket: Backlog bucket
         backlogs_work_package_type: Tipo de backlog
@@ -59,6 +61,8 @@ pt-BR:
             sprint_sharing:
               share_all_projects_already_taken: não pode ser definido, pois o projeto “%{name}” já está compartilhando com todos os projetos.
               share_all_projects_already_taken_anonymous: não pode ser definido, pois outro projeto já está compartilhando com todos os projetos.
+        sprint_goal:
+          project_already_has_goal: already has a goal for this sprint.
         sprint:
           attributes:
             base:
@@ -150,6 +154,12 @@ pt-BR:
       action_menu:
         edit_sprint: Editar sprint
         add_work_package: Adicionar pacote de trabalho
+    sprint_form:
+      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
+      goal_for_this_project_label: "%{attribute} (for this project)"
+    sprint_form_component:
+      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
+      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprints_component:
       blankslate:
         title: Nenhuma sprint criada até o momento

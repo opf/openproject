@@ -34,7 +34,7 @@ import FormPreviewController from '../../form-preview.controller';
 import {
   debounce,
   DebouncedFunc,
-} from 'lodash';
+} from 'lodash-es';
 import { type TurboBeforeMorphAttributeEvent } from '@hotwired/turbo';
 import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
@@ -102,7 +102,7 @@ export default class ProjectLifeCycleFormController extends FormPreviewControlle
   }
 
   private updateFlatpickrCalendar() {
-    const dates:Date[] = _.compact(this.dateInputFields.map((field) => this.toDate(field.value)));
+    const dates:Date[] = this.dateInputFields.map((field) => this.toDate(field.value)).filter((x):x is NonNullable<typeof x> => Boolean(x));
     const ignoreNonWorkingDays = false;
     const mode = 'range';
 

@@ -77,8 +77,9 @@ uk:
     button_confirm: Підтвердити
     button_continue: Продовжити
     button_copy: Копіювати
-    button_copy_to_clipboard: Копіювати в буфер обміну
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Копіювати посилання в буфер обміну
+    button_copy_to_clipboard: Копіювати в буфер обміну
     button_copy_to_other_project: Копіювати в інший проєкт
     button_custom-fields: Індивідуальні поля
     button_delete: Видалити

@@ -36,10 +36,9 @@ module Backlogs
     SHARED_SPRINT_EDIT_ACTIONS = %i[edit_dialog update refresh_form].freeze
     SPRINTLESS_ACTIONS = %i[index new_dialog create].freeze
 
-    skip_before_action :load_sprint_and_project, only: SPRINTLESS_ACTIONS
+    skip_before_action :load_sprint, only: SPRINTLESS_ACTIONS
     skip_before_action :authorize, only: SPRINT_STATE_ACTIONS + SHARED_SPRINT_EDIT_ACTIONS
 
-    prepend_before_action :load_project, only: SPRINTLESS_ACTIONS
     before_action :load_sprint_from_form_id, only: :refresh_form
     before_action :authorize_sprint_edit!, only: SHARED_SPRINT_EDIT_ACTIONS
     before_action :authorize_start!, only: :start

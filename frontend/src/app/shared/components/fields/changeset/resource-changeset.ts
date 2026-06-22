@@ -459,7 +459,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   protected getLinkedValue(val:any, fieldSchema:IFieldSchema) {
     // Links should always be nullified as { href: null }, but
     // this wasn't always the case, so ensure null values are returned as such.
-    if (_.isNil(val)) {
+    if (val == null) {
       return { href: null };
     }
 

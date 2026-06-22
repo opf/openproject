@@ -33,7 +33,7 @@ export namespace OpenprojectHalModuleHelpers {
     property:string,
     getter:() => any,
     setter?:(value:any) => void):void {
-    if (_.isObject(obj)) {
+    if (typeof obj === 'object' && obj !== null) {
       let done = false;
       let value:any;
       const config:any = {

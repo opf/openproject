@@ -1,3 +1,4 @@
+import { sortBy } from 'lodash-es';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Injector, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewSortByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-sort-by.service';
@@ -75,7 +76,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
     }
 
     sortElements = sortElements.map((object) => this.getMatchingSort(object.column.href!, object.direction));
-    this.wpTableSortBy.update(_.compact(sortElements));
+    this.wpTableSortBy.update(sortElements.filter((x):x is NonNullable<typeof x> => Boolean(x)));
   }
 
   ngOnInit() {
@@ -122,7 +123,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
       .filter((o) => o.column !== null)
       .map((object:SortModalObject) => object.column);
 
-    this.availableColumns = _.sortBy(_.differenceBy(this.allColumns, usedColumns, 'href'), 'name');
+    this.availableColumns = sortBy(_.differenceBy(this.allColumns, usedColumns, 'href'), 'name');
   }
 
   public updateSortingMode(mode:SortingMode) {

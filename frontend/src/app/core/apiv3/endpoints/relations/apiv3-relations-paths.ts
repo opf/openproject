@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { chunk } from 'lodash-es';
 import { ApiV3GettableResource, ApiV3ResourceCollection } from 'core-app/core/apiv3/paths/apiv3-resource';
 import { ApiV3Service } from 'core-app/core/apiv3/api-v3.service';
 import { forkJoin, from, Observable } from 'rxjs';
@@ -53,7 +54,7 @@ export class ApiV3RelationsPaths extends ApiV3ResourceCollection<RelationResourc
 
   public loadInvolved(workPackageIds:string[]):Observable<RelationResource[]> {
     if (workPackageIds.length > MAGIC_RELATION_SIZE) {
-      const chunks = _.chunk(workPackageIds, MAGIC_RELATION_SIZE);
+      const chunks = chunk(workPackageIds, MAGIC_RELATION_SIZE);
       return forkJoin(chunks.map((chunk) => this.loadInvolved(chunk)))
         .pipe(
           map((results) => _.flatten(results)),

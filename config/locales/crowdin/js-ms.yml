@@ -77,8 +77,9 @@ ms:
     button_confirm: Sahkan
     button_continue: Teruskan
     button_copy: Salin
-    button_copy_to_clipboard: Salin ke papan klip
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Salin pautan ke papan klip
+    button_copy_to_clipboard: Salin ke papan klip
     button_copy_to_other_project: Salin dalam projek lain
     button_custom-fields: Ruangan tersuai
     button_delete: Padamkan

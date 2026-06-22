@@ -16,7 +16,13 @@ ko:
         token_exchange_scope: XWiki 범위
         url: 인스턴스 URL
         wiki_audience: XWiki 오디언스
-    errors: {}
+    errors:
+      models:
+        wikis/provider:
+          attributes:
+            url:
+              already_taken: belongs to the wiki provider that's already known as "%{name}".
+              wiki_provider_unreachable: could not be reached.
     models:
       wikis/inline_page_link:
         other: 인라인 페이지 링크
@@ -34,16 +40,6 @@ ko:
       wikis: Wikis
   permission_manage_wiki_page_links: 위키 페이지 링크 관리
   project_module_wiki_platforms: 위키 공급자
-  services:
-    attributes:
-      wikis/create_linked_page_service:
-        wiki_page: Wiki page
-    errors:
-      models:
-        wikis/create_linked_page_service:
-          forbidden: was not allowed to be created.
-          not_found: was not found.
-          token_missing: Page creation not possible, user account is not connected to the wiki provider.
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -162,7 +158,7 @@ ko:
       remove: 페이지 링크 제거
     page_link_forms:
       labels:
-        page_tile: Title
+        page_title: Title
         parent: Parent wiki page
         wiki_page: Wiki page
       search:
@@ -178,7 +174,7 @@ ko:
         name: XWiki
     relation_page_links_component:
       empty_heading: 관련 페이지 없음
-      empty_text: 다른 관련 위키 페이지에 대한 링크를 수동으로 추가합니다.
+      empty_text: Add wiki pages that are relevant to this work package.
       link_existing: 기존 위키 페이지
       link_new: 새 위키 페이지
     upsell:
@@ -186,5 +182,5 @@ ko:
         description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
         title: XWiki Integration
     work_package_wikis_tab_component:
-      inline_page_links: 인라인 페이지 링크
+      inline_page_links: Mentioned in description
       referencing_pages: '다음에서 참조됨:'

@@ -18,7 +18,7 @@ versus `multi_line` only decides how much shows while collapsed.
 | `single_line` (default) | A single line, cut off with an ellipsis (`…`) | Short labels in table cells or list rows — permission names, statuses |
 | `multi_line` | The first `lines:` rows, then clamped | Multi-line descriptions or rich-text previews |
 
-`multi_line` takes a `lines:` count (2–8, default 3):
+`multi_line` takes a `lines:` count (2 or more, default 3):
 
 <%= embed OpPrimer::ExpandableTextComponentPreview, :multi_line %>
 
@@ -82,7 +82,7 @@ case: **single_line + inline** (table and list labels) and **multi_line + dialog
 
 The component is a flex container with two children:
 
-- **Truncation wrapper** — `Primer::Beta::Truncate` for `single_line` (`text-overflow: ellipsis`) or `OpPrimer::VerticalTruncateComponent` for `multi_line` (`-webkit-line-clamp` via `.op-vertical-truncate--lines-N`)
+- **Truncation wrapper** — `Primer::Beta::Truncate` for `single_line` (`text-overflow: ellipsis`) or `OpPrimer::VerticalTruncateComponent` for `multi_line` (`-webkit-line-clamp` driven by the inline `--op-vertical-truncate-lines` custom property)
 - **Expander button** — a `Primer::Alpha::HiddenTextExpander`, initially hidden, shown by the private `expandable-text` Stimulus controller when overflow is detected
 
 The private `expandable-text` Stimulus controller (for `ExpandableTextComponent` only):

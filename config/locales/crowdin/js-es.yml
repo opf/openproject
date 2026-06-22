@@ -75,8 +75,9 @@ es:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_to_clipboard: Copiar en el portapapeles
+    button_copy_numeric_id_to_clipboard: Copiar ID numérico al portapapeles
     button_copy_link_to_clipboard: Copiar enlace al portapapeles
+    button_copy_to_clipboard: Copiar en el portapapeles
     button_copy_to_other_project: Duplicar en otro proyecto
     button_custom-fields: Campos personalizados
     button_delete: Eliminar

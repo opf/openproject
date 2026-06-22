@@ -31,7 +31,7 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { AttributeHelpTextsService } from './attribute-help-text.service';
 import { AttributeHelpTextModalService } from './attribute-help-text-modal.service';
-import { uniqueId } from 'lodash';
+import { uniqueId } from 'lodash-es';
 
 export const attributeHelpTextSelector = 'attribute-help-text';
 

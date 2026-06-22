@@ -1,3 +1,4 @@
+import { pickBy } from 'lodash-es';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -199,7 +200,7 @@ export class BoardListComponent extends AbstractWidgetComponent implements OnIni
         this.untilDestroyed(),
       )
       .subscribe((selectionState) => {
-        const selected = Object.keys(_.pickBy(selectionState.selected, (option, _) => option === true));
+        const selected = Object.keys(pickBy(selectionState.selected, (option, _) => option === true));
 
         const focused = this.wpViewFocusService.focusedWorkPackage;
 

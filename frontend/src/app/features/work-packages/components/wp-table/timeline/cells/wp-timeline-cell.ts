@@ -92,10 +92,10 @@ export class WorkPackageTimelineCell {
   canConnectRelations():boolean {
     const wp = this.latestRenderInfo.workPackage;
     if (this.schemaCache.of(wp).isMilestone) {
-      return !_.isNil(wp.date);
+      return wp.date != null;
     }
 
-    return !_.isNil(wp.startDate) || !_.isNil(wp.dueDate);
+    return wp.startDate != null || wp.dueDate != null;
   }
 
   public clear() {

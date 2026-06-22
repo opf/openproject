@@ -77,8 +77,9 @@ fil:
     button_confirm: Kumpirmahin
     button_continue: Magpatuloy
     button_copy: Kopyahin
-    button_copy_to_clipboard: Kopyahin sa clipboard
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Kopyahin sa clipboard
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Mga pasadyang patlang
     button_delete: Burahin

@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { merge } from 'lodash-es';
 import { ChangeDetectionStrategy, Component, ElementRef, HostListener, Injector, OnDestroy, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 import {
   CalendarOptions,
@@ -505,7 +506,7 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
               center: 'title',
               right: 'prev,next today',
             },
-            views: _.merge(
+            views: merge(
               {},
               this.viewOptions,
               {

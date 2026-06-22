@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: https://xwiki.local/rest/openproject/links/workPackages/21?number=25
+    uri: https://xwiki.local/rest/openproject/links/workPackages/21?number=25&withInstance=test_uuid
     body:
       encoding: US-ASCII
       string: ''
@@ -44,7 +44,7 @@ http_interactions:
   recorded_at: Wed, 10 Jun 2026 13:35:49 GMT
 - request:
     method: get
-    uri: https://xwiki.local/rest/openproject/mentions?workPackage=21
+    uri: https://xwiki.local/rest/openproject/mentions?withInstance=test_uuid&workPackage=21
     body:
       encoding: US-ASCII
       string: ''

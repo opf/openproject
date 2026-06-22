@@ -76,7 +76,7 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
   }
 
   private filteredValue(value:WorkPackageViewHighlight):WorkPackageViewHighlight {
-    if (_.isEmpty(value.selectedAttributes)) {
+    if (!value.selectedAttributes?.length) {
       value.selectedAttributes = undefined;
     }
 

@@ -31,7 +31,7 @@
 
 import { Controller } from '@hotwired/stimulus';
 import { renderStreamMessage } from '@hotwired/turbo';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import {
   hideElement,
   showElement,

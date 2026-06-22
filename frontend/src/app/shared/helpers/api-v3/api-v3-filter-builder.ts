@@ -26,6 +26,8 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { pickBy } from 'lodash-es';
+
 export type FilterOperator = '='|'!*'|'!'|'~'|'o'|'>t-'|'<>d'|'**'|'ow';
 export const FalseValue = ['f'];
 export const TrueValue = ['t'];
@@ -116,7 +118,7 @@ export class ApiV3FilterBuilder {
    * @param only Only apply the given filters
    */
   public merge(filters:ApiV3Filter[], ...only:string[]):void {
-    const toAdd:ApiV3FilterObject = _.pickBy(
+    const toAdd:ApiV3FilterObject = pickBy(
       ApiV3FilterBuilder.toFilterObject(filters),
       (_, filter:string) => only.includes(filter),
     );

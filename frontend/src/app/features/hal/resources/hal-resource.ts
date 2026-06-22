@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { merge } from 'lodash-es';
 import { InputState } from '@openproject/reactivestates';
 import { Injector } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
@@ -171,7 +172,7 @@ export class HalResource {
   public $copy<T extends HalResource = HalResource>(source:object = {}):T {
     const clone:HalResourceClass<T> = this.constructor as any;
 
-    return new clone(this.injector, _.merge(this.$plain(), source), this.$loaded, this.halInitializer, this.$halType);
+    return new clone(this.injector, merge(this.$plain(), source), this.$loaded, this.halInitializer, this.$halType);
   }
 
   public $plain():any {

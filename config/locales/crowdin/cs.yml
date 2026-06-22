@@ -4380,7 +4380,7 @@ cs:
   label_password_rule_numeric: Numerické znaky
   label_password_rule_special: Speciální znaky
   label_password_rule_uppercase: Velká písmena
-  label_password_requirement_lowercase: Must contain at least one lowercase character.
+  label_password_requirement_lowercase: Musí obsahovat alespoň jeden malý znak.
   label_password_requirement_numeric: Must contain at least one numeric character.
   label_password_requirement_special: Must contain at least one special character.
   label_password_requirement_uppercase: Must contain at least one uppercase character.

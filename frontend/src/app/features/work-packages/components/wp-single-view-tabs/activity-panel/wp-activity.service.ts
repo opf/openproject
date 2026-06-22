@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { sortBy } from 'lodash-es';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { Injectable, inject } from '@angular/core';
@@ -69,7 +70,7 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
   }
 
   protected sortedActivityList(activities:HalResource[], attr = 'createdAt'):HalResource[] {
-    const sorted = _.sortBy(_.flatten(activities), attr);
+    const sorted = sortBy(_.flatten(activities), attr);
 
     if (this.isReversed) {
       return sorted.reverse();

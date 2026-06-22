@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { groupBy } from 'lodash-es';
 import { Injectable, Injector, inject } from '@angular/core';
 import { debounceTime, defaultIfEmpty, distinctUntilChanged, map, mapTo, switchMap, take, tap } from 'rxjs/operators';
 import { forkJoin, from, Observable, Subject } from 'rxjs';
@@ -116,7 +117,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     .selectNotifications$
     .pipe(
       map((notifications) => (
-        _.groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
+        groupBy(notifications, (notification) => notification._links.resource?.href || 'none')
       )),
       distinctUntilChanged(),
     );
@@ -325,7 +326,7 @@ export class IanCenterService extends UntilDestroyedMixin {
     const promise = this
       .apiV3Service
       .work_packages
-      .requireAll(_.compact(wpIds));
+      .requireAll(wpIds.filter(Boolean));
 
     wpIds.forEach((id) => {
       cache.clearAndLoad(

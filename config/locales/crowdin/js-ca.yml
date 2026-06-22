@@ -77,8 +77,9 @@ ca:
     button_confirm: Confirmar
     button_continue: Continua
     button_copy: Copiar
-    button_copy_to_clipboard: Copiar al porta-retalls
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Copiar al porta-retalls
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Camps personalitzats
     button_delete: Esborrar

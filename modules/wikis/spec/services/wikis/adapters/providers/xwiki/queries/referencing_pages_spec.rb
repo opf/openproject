@@ -166,7 +166,8 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
       it { is_expected.to be_failure.and have_attributes(failure: have_attributes(code: :missing_token)) }
     end
 
-    context "with real XWiki responses", vcr: "xwiki/referencing_pages" do
+    # VCR setup: replace installation_uuid with one accepted by your XWiki instance (possible to search-and-replace it afterwards)
+    context "with real XWiki responses", vcr: "xwiki/referencing_pages", with_settings: { installation_uuid: "test_uuid" } do
       let(:wiki_provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
       let(:linkable) { create(:work_package, id: 14) }
       let(:auth_strategy) { wiki_provider.auth_strategy_for(user).value! }
@@ -182,7 +183,8 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
       end
     end
 
-    context "with no linked pages in XWiki (VCR)", vcr: "xwiki/referencing_pages_empty" do
+    context "with no linked pages in XWiki (VCR)", vcr: "xwiki/referencing_pages_empty",
+                                                   with_settings: { installation_uuid: "test_uuid" } do
       let(:wiki_provider) { create(:xwiki_provider, :for_local_connection, connected_user: user) }
       let(:linkable) { create(:work_package, id: 21) }
       let(:auth_strategy) { wiki_provider.auth_strategy_for(user).value! }

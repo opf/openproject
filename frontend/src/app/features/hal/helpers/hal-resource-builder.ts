@@ -6,14 +6,14 @@ import { OpenprojectHalModuleHelpers } from 'core-app/features/hal/helpers/lazy-
 import { HalSource } from 'core-app/features/hal/interfaces';
 
 export function cloneHalResourceCollection<T extends HalResource>(values:T[]|undefined):T[] {
-  if (_.isNil(values)) {
+  if (values == null) {
     return [];
   }
   return values.map((v) => v.$copy<T>());
 }
 
 export function cloneHalResource<T extends HalResource>(value:T|undefined):T|undefined {
-  if (_.isNil(value)) {
+  if (value == null) {
     return value;
   }
   return value.$copy<T>();
@@ -38,7 +38,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
   }
 
   function asHalResource(value?:HalSource, loaded = true):HalResource|HalSource|undefined|null {
-    if (_.isNil(value)) {
+    if (value == null) {
       return value;
     }
 
@@ -122,7 +122,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
     const sourceName = `_${name}`;
     const sourceObj:any = halResource.$source[sourceName];
 
-    if (_.isObject(sourceObj)) {
+    if (typeof sourceObj === 'object' && sourceObj !== null) {
       Object.keys(sourceObj).forEach((propName) => {
         OpenprojectHalModuleHelpers.lazy((halResource)[instanceName],
           propName,
@@ -147,7 +147,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
         return element.map((source) => asHalResource(source, true));
       }
 
-      if (_.isObject(element)) {
+      if (typeof element === 'object' && element !== null) {
         _.each(element, (child:any, name:string) => {
           if (child && (child._embedded || child._links)) {
             OpenprojectHalModuleHelpers.lazy(element as any,

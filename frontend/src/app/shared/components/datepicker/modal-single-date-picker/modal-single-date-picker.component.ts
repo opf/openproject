@@ -35,7 +35,7 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import {
   SpotDropModalTeleportationService,
 } from 'core-app/spot/components/drop-modal/drop-modal-teleportation.service';

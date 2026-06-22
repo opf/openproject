@@ -28,6 +28,7 @@
  * ++
  */
 
+import { escape } from 'lodash-es';
 import { Injector } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { rowGroupClassName } from 'core-app/features/work-packages/components/wp-fast-table/builders/modes/grouped/grouped-classes.constants';
@@ -68,7 +69,7 @@ export class GroupHeaderBuilder {
 
     const leadingIcon = this.leadingIcon(group);
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const groupTitle = _.escape((groupName(group)));
+    const groupTitle = escape((groupName(group)));
 
     row.classList.add(rowGroupClassName, groupClassNameFor(group));
     row.id = `wp-table-rowgroup-${group.index}`;
@@ -77,7 +78,7 @@ export class GroupHeaderBuilder {
     row.innerHTML = `
       <td colspan="${colspan}" class="-no-highlighting">
         <div class="expander icon-context ${togglerIconClass}">
-          <span class="sr-only">${_.escape(text)}</span>
+          <span class="sr-only">${escape(text)}</span>
         </div>
         <div class="group--value" data-test-selector="op-group--value">
           ${leadingIcon ? leadingIcon.outerHTML : ''}

@@ -41,7 +41,7 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 export const rangeSeparator = '-';

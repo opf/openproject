@@ -74,7 +74,9 @@ RSpec.describe OpPrimer::ExpandableTextComponentPreview, type: :component do
     render_preview(:multi_line, from: described_class, params: { lines: 4 })
 
     expect(page).to have_css("[data-expandable-text-mode-value='multi_line']")
-    expect(page).to have_css(".op-vertical-truncate--lines-4[data-expandable-text-target='truncate']")
+    expect(page).to have_css(
+      ".op-vertical-truncate[style*='--op-vertical-truncate-lines: 4'][data-expandable-text-target='truncate']"
+    )
   end
 
   it "renders the dialog preview (inline: false)" do
@@ -88,6 +90,8 @@ RSpec.describe OpPrimer::ExpandableTextComponentPreview, type: :component do
     render_preview(:playground, from: described_class, params: { truncate: "multi_line", lines: 2 })
 
     expect(page).to have_css("[data-controller='expandable-text'][data-expandable-text-mode-value='multi_line']")
-    expect(page).to have_css(".op-vertical-truncate--lines-2[data-expandable-text-target='truncate']")
+    expect(page).to have_css(
+      ".op-vertical-truncate[style*='--op-vertical-truncate-lines: 2'][data-expandable-text-target='truncate']"
+    )
   end
 end

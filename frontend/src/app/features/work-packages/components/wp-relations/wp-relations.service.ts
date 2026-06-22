@@ -1,3 +1,4 @@
+import { keyBy } from 'lodash-es';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { multiInput, MultiInputState, StatesGroup } from '@openproject/reactivestates';
@@ -220,7 +221,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * @param relations The relation resource array.
    */
   private relationsStateValue(wpId:string, relations:RelationResource[]):RelationsStateValue {
-    return _.keyBy(relations, (r) => r.id!);
+    return keyBy(relations, (r) => r.id!);
   }
 
   /**

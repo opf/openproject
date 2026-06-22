@@ -77,8 +77,9 @@ mn:
     button_confirm: Confirm
     button_continue: Continue
     button_copy: Copy
-    button_copy_to_clipboard: Copy to clipboard
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Custom fields
     button_delete: Delete

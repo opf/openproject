@@ -77,8 +77,9 @@ pl:
     button_confirm: Potwierdź
     button_continue: Kontynuuj
     button_copy: Kopiuj
-    button_copy_to_clipboard: Skopiuj do schowka
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Kopiuj link do schowka
+    button_copy_to_clipboard: Skopiuj do schowka
     button_copy_to_other_project: Zduplikuj w innym projekcie
     button_custom-fields: Pola niestandardowe
     button_delete: Usuń

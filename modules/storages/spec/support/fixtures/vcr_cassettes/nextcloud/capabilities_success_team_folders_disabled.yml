@@ -64,7 +64,7 @@ http_interactions:
       - '465'
     body:
       encoding: UTF-8
-      string: '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"version":{"major":32,"minor":0,"micro":1,"string":"32.0.1","edition":"","extendedSupport":false},"capabilities":{"bruteforce":{"delay":0,"allow-listed":false},"app_api":{"version":"32.0.0"},"integration_openproject":{"app_version":"2.11.2","groupfolder_version":"20.1.7","groupfolders_enabled":false},"theming":{"name":"Nextcloud","productName":"Nextcloud","url":"https:\/\/nextcloud.com","slogan":"a
+      string: '{"ocs":{"meta":{"status":"ok","statuscode":200,"message":"OK"},"data":{"version":{"major":32,"minor":0,"micro":1,"string":"32.0.1","edition":"","extendedSupport":false},"capabilities":{"bruteforce":{"delay":0,"allow-listed":false},"app_api":{"version":"32.0.0"},"integration_openproject":{"app_version":"2.11.3","groupfolder_version":"20.1.7","groupfolders_enabled":false},"theming":{"name":"Nextcloud","productName":"Nextcloud","url":"https:\/\/nextcloud.com","slogan":"a
         safe home for all your data","color":"#00679e","color-text":"#ffffff","color-element":"#00679e","color-element-bright":"#00679e","color-element-dark":"#00679e","logo":"https:\/\/nextcloud.local\/core\/img\/logo\/logo.svg?v=0","background":"https:\/\/nextcloud.local\/apps\/theming\/img\/background\/jo-myoung-hee-fluid.webp","background-text":"#ffffff","background-plain":false,"background-default":true,"logoheader":"https:\/\/nextcloud.local\/core\/img\/logo\/logo.svg?v=0","favicon":"https:\/\/nextcloud.local\/core\/img\/logo\/logo.svg?v=0"}}}}}'
   recorded_at: Thu, 15 Jan 2026 15:56:49 GMT
 recorded_with: VCR 6.4.0

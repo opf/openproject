@@ -283,7 +283,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
     const invisibleFilters = new Set(this.hidden);
     invisibleFilters.delete('search');
 
-    return _.reject(this.current, (filter) => invisibleFilters.has(filter.id));
+    return this.current.filter((filter) => !invisibleFilters.has(filter.id));
   }
 
   /**

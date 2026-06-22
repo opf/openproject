@@ -58,17 +58,23 @@ module Wikis
 
             def fetch_reference_ids(http, input_data)
               fetch_page_ids(http, rest_url("openproject/links/workPackages/#{input_data.linkable.id}"),
-                             params: { number: MAXIMUM_RESULTS })
+                             params: { number: MAXIMUM_RESULTS, withInstance: instance_id })
             end
 
             def fetch_mention_ids(http, input_data)
-              fetch_page_ids(http, rest_url("openproject/mentions"), params: { workPackage: input_data.linkable.id })
+              fetch_page_ids(http, rest_url("openproject/mentions"), params: {
+                               workPackage: input_data.linkable.id, withInstance: instance_id
+                             })
             end
 
             def fetch_page_ids(http, url, params:)
               handle_response(http.get(url, params:)) do |data|
                 success(fetch_json(data, "searchResults").map { fetch_json(it, "id") }.uniq)
               end
+            end
+
+            def instance_id
+              Setting.installation_uuid
             end
           end
         end

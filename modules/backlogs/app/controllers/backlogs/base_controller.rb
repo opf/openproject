@@ -33,19 +33,14 @@ module Backlogs
   class BaseController < ::ApplicationController
     helper "backlogs/common"
 
-    before_action :load_sprint_and_project,
+    before_action :load_project,
+                  :load_sprint,
                   :authorize
 
     private
 
     # Loads the project to be used by the authorize filter to determine if
     # User.current has permission to invoke the method in question.
-    def load_sprint_and_project
-      load_project
-
-      load_sprint
-    end
-
     def load_project
       @project = Project.visible.find(params.expect(:project_id))
     end

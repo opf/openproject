@@ -1,3 +1,4 @@
+import { camelCase } from 'lodash-es';
 import {
   InputState,
   multiInput,
@@ -74,7 +75,7 @@ export class States extends StatesGroup {
   }
 
   forResource<T extends HalResource = HalResource>(resource:T):InputState<T>|undefined {
-    const stateName = `${_.camelCase(resource._type)}s`;
+    const stateName = `${camelCase(resource._type)}s`;
     const state = this.forType<T>(stateName);
 
     return state && state.get(resource.id!);

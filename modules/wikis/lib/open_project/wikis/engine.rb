@@ -63,6 +63,7 @@ module OpenProject::Wikis
 
       # Registering queries and filters
       ::Queries::Register.register(::Queries::Wikis::PageLinks::PageLinkQuery) do
+        filter ::Queries::Wikis::PageLinks::Filter::IdentifierFilter
         filter ::Queries::Wikis::PageLinks::Filter::ProviderFilter
         filter ::Queries::Wikis::PageLinks::Filter::WikiPageLinkTypeFilter
       end

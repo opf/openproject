@@ -30,7 +30,7 @@
 
 import {Controller} from '@hotwired/stimulus';
 import {renderStreamMessage} from '@hotwired/turbo';
-import {debounce, DebouncedFunc} from 'lodash';
+import {debounce, DebouncedFunc} from 'lodash-es';
 import {useMeta} from 'stimulus-use';
 
 export default class extends Controller {

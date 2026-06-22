@@ -164,9 +164,9 @@ export function getTimeSlicesForHeader(vp:TimelineViewParameters,
   const firstRest:[Moment, Moment] = rest.splice(0, 1)[0];
   const lastRest:[Moment, Moment] = rest.pop()!;
   const inViewportAndBoundaries = _.concat(
-    [firstRest].filter((e) => !_.isNil(e)),
+    [firstRest].filter((e) => e != null),
     inViewport,
-    [lastRest].filter((e) => !_.isNil(e)),
+    [lastRest].filter((e) => e != null),
   );
 
   return {

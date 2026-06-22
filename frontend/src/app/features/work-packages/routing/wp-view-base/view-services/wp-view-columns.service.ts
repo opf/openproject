@@ -175,7 +175,7 @@ export class WorkPackageViewColumnsService extends WorkPackageQueryStateService<
 
   public setColumnsById(columnIds:string[]) {
     const mapped = columnIds.map((id) => _.find(this.all, (c) => c.id === id));
-    this.setColumns(_.compact(mapped));
+    this.setColumns(mapped.filter((x):x is NonNullable<typeof x> => Boolean(x)));
   }
 
   /**

@@ -77,8 +77,9 @@ vi:
     button_confirm: Xác nhận
     button_continue: tiếp tục
     button_copy: sao chép
-    button_copy_to_clipboard: Sao chép vào khay nhớ tạm
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Sao chép liên kết vào bảng tạm
+    button_copy_to_clipboard: Sao chép vào khay nhớ tạm
     button_copy_to_other_project: Trùng lặp trong một dự án khác
     button_custom-fields: Tùy chỉnh mục
     button_delete: xóa

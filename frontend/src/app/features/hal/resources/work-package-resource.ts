@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { truncate } from 'lodash-es';
 import { InputState } from '@openproject/reactivestates';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { States } from 'core-app/core/states/states.service';
@@ -225,7 +226,7 @@ export class WorkPackageBaseResource extends HalResource {
   }
 
   public truncatedSubject(length = 40):string {
-    return length <= 0 ? this.subject : _.truncate(this.subject, { length: length });
+    return length <= 0 ? this.subject : truncate(this.subject, { length: length });
   }
 
   public get isLeaf():boolean {

@@ -16,7 +16,13 @@ sr:
         token_exchange_scope: XWiki Scope
         url: Instance URL
         wiki_audience: XWiki Audience
-    errors: {}
+    errors:
+      models:
+        wikis/provider:
+          attributes:
+            url:
+              already_taken: belongs to the wiki provider that's already known as "%{name}".
+              wiki_provider_unreachable: could not be reached.
     models:
       wikis/inline_page_link:
         one: Inline page link
@@ -42,16 +48,6 @@ sr:
       wikis: Wikis
   permission_manage_wiki_page_links: Manage Wiki Page Links
   project_module_wiki_platforms: Wiki providers
-  services:
-    attributes:
-      wikis/create_linked_page_service:
-        wiki_page: Wiki page
-    errors:
-      models:
-        wikis/create_linked_page_service:
-          forbidden: was not allowed to be created.
-          not_found: was not found.
-          token_missing: Page creation not possible, user account is not connected to the wiki provider.
   wikis:
     admin:
       destroy_confirmation_dialog_component:
@@ -170,7 +166,7 @@ sr:
       remove: Remove page link
     page_link_forms:
       labels:
-        page_tile: Title
+        page_title: Title
         parent: Parent wiki page
         wiki_page: Wiki page
       search:
@@ -186,7 +182,7 @@ sr:
         name: XWiki
     relation_page_links_component:
       empty_heading: No related pages
-      empty_text: Manually add links to other related wiki pages.
+      empty_text: Add wiki pages that are relevant to this work package.
       link_existing: Existing wiki page
       link_new: New wiki page
     upsell:
@@ -194,5 +190,5 @@ sr:
         description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
         title: XWiki Integration
     work_package_wikis_tab_component:
-      inline_page_links: Inline page links
+      inline_page_links: Mentioned in description
       referencing_pages: Referenced in

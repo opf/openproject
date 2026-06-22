@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { merge } from 'lodash-es';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { QuerySortByResource } from 'core-app/features/hal/resources/query-sort-by-resource';
 import { HalLink } from 'core-app/features/hal/hal-link/hal-link';
@@ -156,7 +157,7 @@ export class UrlParamsHelperService {
     }
 
     if (typeof extender === 'object') {
-      return JSON.stringify(_.merge(paramsData, extender));
+      return JSON.stringify(merge(paramsData, extender));
     }
 
     return JSON.stringify(paramsData);
@@ -229,7 +230,7 @@ export class UrlParamsHelperService {
     if (query.timelineVisible) {
       paramsData.tv = query.timelineVisible;
 
-      if (!_.isEmpty(query.timelineLabels)) {
+      if (Object.keys(query.timelineLabels ?? {}).length > 0) {
         paramsData.tll = JSON.stringify(query.timelineLabels);
       }
 

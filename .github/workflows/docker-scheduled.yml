@@ -29,10 +29,10 @@ jobs:
     # References to release/X.Y and X.Y-rc are being
     # updated from the devkit (UpdateWorkflows step) whenever a new release branch is created
     # Ignore unpinned uses as we reference the latest release branch and change it
-    uses: opf/openproject/.github/workflows/docker.yml@release/17.5 # zizmor: ignore[unpinned-uses]
+    uses: opf/openproject/.github/workflows/docker.yml@release/17.6 # zizmor: ignore[unpinned-uses]
     with:
-      branch: release/17.5
-      tag: 17.5-rc
+      branch: release/17.6
+      tag: 17.6-rc
     secrets:
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
       DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}

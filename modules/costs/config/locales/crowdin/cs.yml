@@ -85,7 +85,7 @@ cs:
         other: Typy nákladů
       time_entry_activity:
         one: Položka výkazu
-        few: Položek výkazu
+        few: Položky výkazu
         many: Položek výkazu
         other: Položek výkazu
       rate: Sazba

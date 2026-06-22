@@ -30,17 +30,30 @@
 
 require "spec_helper"
 
+# A real session login (rather than the current_user stub) is required so the
+# request runs through user_setup. Otherwise User.current is stubbed from the
+# start and the project is never loaded as an anonymous user, which is exactly
+# the regression these specs guard against on a private project.
 RSpec.describe "Backlogs::Sprints", :skip_csrf, type: :rails_request do
-  shared_let(:type_feature) { create(:type_feature) }
-  shared_let(:type_task) { create(:type_task) }
-  shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project) }
-  shared_let(:status) { create(:status, name: "status 1", is_default: true) }
-  shared_let(:sprint) { create(:sprint, name: "Original sprint name", project:) }
+  let(:password) { "adminADMIN!" }
+  let(:user) do
+    create(:user,
+           password:,
+           password_confirmation: password,
+           member_with_permissions: { project => %i[view_sprints create_sprints view_work_packages show_board_views] })
+  end
 
-  current_user { user }
+  before do
+    post signin_path, params: { username: user.login, password: }
+    follow_redirect! while response.redirect?
+  end
 
   describe "PUT #update" do
+    let(:project) do
+      create(:project, public: true, enabled_module_names: %w[work_package_tracking backlogs])
+    end
+    let!(:sprint) { create(:sprint, name: "Original sprint name", project:) }
+
     it "loads the sprint from sprint_id and updates it", :aggregate_failures do
       put "/projects/#{project.identifier}/backlogs/sprints/#{sprint.id}",
           headers: { "ACCEPT" => "text/vnd.turbo-stream.html" },
@@ -48,6 +61,33 @@ RSpec.describe "Backlogs::Sprints", :skip_csrf, type: :rails_request do
 
       expect(response).to be_successful
       expect(sprint.reload.name).to eq("Changed sprint name")
+    end
+  end
+
+  describe "private project access" do
+    let(:project) do
+      create(:project, public: false, enabled_module_names: %w[work_package_tracking backlogs])
+    end
+
+    it "GET #index is reachable" do
+      get project_backlogs_sprints_path(project)
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "GET #new_dialog is reachable" do
+      get new_dialog_project_backlogs_sprints_path(project), headers: { "Accept" => "text/vnd.turbo-stream.html" }
+
+      expect(response).to have_http_status(:ok)
+    end
+
+    it "POST #create is reachable", :aggregate_failures do
+      post project_backlogs_sprints_path(project),
+           headers: { "Accept" => "text/vnd.turbo-stream.html" },
+           params: { sprint: { name: "New sprint", start_date: Time.zone.today, finish_date: Time.zone.today + 14.days } }
+
+      expect(response).to be_successful
+      expect(Sprint.for_project(project).where(name: "New sprint")).to exist
     end
   end
 end

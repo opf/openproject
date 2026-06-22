@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { merge } from 'lodash-es';
 import { Injectable, Injector, inject } from '@angular/core';
 import {
   firstValueFrom,
@@ -264,7 +265,7 @@ export class WorkPackageCreateService extends UntilDestroyedMixin {
     return this
       .withFiltersPayload(projectIdentifier, defaults)
       .then((filterDefaults) => {
-        const mergedPayload = _.merge({ _links: {} }, filterDefaults, defaults);
+        const mergedPayload = merge({ _links: {} }, filterDefaults, defaults);
 
         return this.createNewWorkPackage(projectIdentifier, mergedPayload).then((change:WorkPackageChangeset) => {
           if (!change) {

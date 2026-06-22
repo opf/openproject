@@ -140,7 +140,7 @@ export class WorkPackageFilterValues {
    */
   private filterAlreadyApplied(change:WorkPackageChangeset|Record<string, unknown>, filter:{ id:string, values:unknown[] }):boolean {
     const value:unknown = change instanceof WorkPackageChangeset ? change.projectedResource[filter.id] : change[filter.id];
-    const current = _.castArray(value);
+    const current = Array.isArray(value) ? value : [value];
 
     for (let i = 0; i < filter.values.length; i++) {
       for (let j = 0; j < current.length; j++) {

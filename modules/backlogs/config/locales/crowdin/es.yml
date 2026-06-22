@@ -41,6 +41,8 @@ es:
           active: Activo
           completed: Completado
         work_packages: Paquetes de trabajo
+      sprint_goal:
+        text: Meta del sprint
       work_package:
         backlog_bucket: Backlog bucket
         backlogs_work_package_type: Tipo de Backlog
@@ -59,6 +61,8 @@ es:
             sprint_sharing:
               share_all_projects_already_taken: no se puede configurar porque el proyecto «%{name}» ya se comparte con todos los proyectos.
               share_all_projects_already_taken_anonymous: no se puede configurar porque otro proyecto ya lo está compartiendo con todos los proyectos.
+        sprint_goal:
+          project_already_has_goal: ya existe una meta para este sprint.
         sprint:
           attributes:
             base:
@@ -150,6 +154,12 @@ es:
       action_menu:
         edit_sprint: Editar sprint
         add_work_package: Añadir paquete de trabajo
+    sprint_form:
+      goal_caption: La meta del sprint es exclusiva de este proyecto y no se comparte con otros proyectos que también estén usando este sprint.
+      goal_for_this_project_label: "%{attribute} (para este proyecto)"
+    sprint_form_component:
+      shared_sprint_info_banner: Este es un sprint compartido. Las modificaciones serán reflejadas en todos los proyectos que lo usen.
+      shared_sprint_warning_banner: Este es un sprint compartido. Usted no tiene los permisos necesarios para editarlo.
     sprints_component:
       blankslate:
         title: Todavía no hay sprints

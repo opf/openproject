@@ -83,8 +83,9 @@ hu:
     button_confirm: Jóváhagy
     button_continue: Folytatás
     button_copy: Másol
-    button_copy_to_clipboard: Másolás a vágólapra
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Hivatkozás másolása a vágólapra
+    button_copy_to_clipboard: Másolás a vágólapra
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Választható mezők
     button_delete: Törlés

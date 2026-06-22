@@ -87,7 +87,7 @@ export class FilterToggledMultiselectValueComponent implements OnInit, AfterView
   }
 
   public setValues(val:HalResource[]|string[]|string|HalResource):void {
-    this.filter.values = _.castArray(val) as HalResource[]|string[];
+    this.filter.values = (Array.isArray(val) ? val : [val]) as HalResource[]|string[];
     this.filterChanged.emit(this.filter);
     this.cdRef.detectChanges();
   }

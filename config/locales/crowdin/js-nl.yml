@@ -77,8 +77,9 @@ nl:
     button_confirm: Accepteren
     button_continue: Ga verder
     button_copy: Kopieer
-    button_copy_to_clipboard: Kopiëren naar het klembord
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Link naar klembord kopiëren
+    button_copy_to_clipboard: Kopiëren naar het klembord
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Aangepaste velden
     button_delete: Verwijderen

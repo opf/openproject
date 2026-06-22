@@ -47,7 +47,10 @@ RSpec.describe OpenProject::Common::AttributeComponent, type: :component do
       render_component(lines: 3)
 
       expect(page).to have_css("[data-expandable-text-mode-value='multi_line']")
-      expect(page).to have_css(".op-vertical-truncate--lines-3[data-expandable-text-target='truncate']", text: "Some long text")
+      expect(page).to have_css(
+        ".op-vertical-truncate[style*='--op-vertical-truncate-lines: 3'][data-expandable-text-target='truncate']",
+        text: "Some long text"
+      )
     end
   end
 

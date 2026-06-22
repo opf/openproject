@@ -77,8 +77,9 @@ sk:
     button_confirm: Potvrdiť
     button_continue: Pokračovať
     button_copy: Kopírovať
-    button_copy_to_clipboard: Kopírovať do schránky
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Kopírovať do schránky
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Vlastné polia
     button_delete: Odstrániť

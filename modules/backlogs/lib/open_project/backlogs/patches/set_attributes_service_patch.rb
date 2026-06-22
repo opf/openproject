@@ -50,6 +50,27 @@ module OpenProject::Backlogs::Patches::SetAttributesServicePatch
           model.sprint = nil
         end
       end
+
+      clear_conflicting_sprint_or_bucket
+    end
+
+    # A work package may only have either a sprint *or* a bucket assigned. Not both at the
+    # same time. Instead of throwing a validation error and making the user resolve it,
+    # we resolve it implicitly: whichever attribute was just changed wins, the other is cleared.
+    def clear_conflicting_sprint_or_bucket
+      # No conflict to resolve? Abort.
+      return unless model.sprint_id? && model.backlog_bucket_id?
+
+      # Both attributes were set at the same time. It is unknown what the users
+      # intentions are here. We should not clear a previously set value in this case
+      # and let the user deal with the validation error.
+      return if model.sprint_id_changed? && model.backlog_bucket_id_changed?
+
+      if model.sprint_id_changed?
+        model.backlog_bucket = nil
+      else
+        model.sprint = nil
+      end
     end
 
     def moved_to_another_project?

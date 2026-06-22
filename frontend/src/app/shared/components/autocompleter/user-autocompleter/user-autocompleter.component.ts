@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { keyBy } from 'lodash-es';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -143,7 +144,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
   }
 
   protected buildFilteredURL(searchTerm?:string):URL {
-    const filterObject = _.keyBy(this.filters, 'name');
+    const filterObject = keyBy(this.filters, 'name');
     const searchFilters = ApiV3FilterBuilder.fromFilterObject(filterObject);
 
     if (searchTerm?.length) {

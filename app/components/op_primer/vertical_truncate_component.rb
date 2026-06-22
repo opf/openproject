@@ -36,11 +36,13 @@ module OpPrimer
   # line horizontally). Like `Truncate`, it wraps whatever block content it is
   # given; callers pass system arguments (e.g. `flex:`, `data:`) through.
   class VerticalTruncateComponent < Primer::Component # rubocop:disable OpenProject/AddPreviewForViewComponent
-    LINES_RANGE = (2..8)
+    LINES_MINIMUM = 2
     LINES_DEFAULT = 3
 
-    # @param lines [Integer] number of visible rows, clamped to `2..8` (a single
-    #   line is `Primer::Beta::Truncate`'s job).
+    # @param lines [Integer] number of visible rows (at least 2; a single line is
+    #   `Primer::Beta::Truncate`'s job). Applied via the
+    #   `--op-vertical-truncate-lines` custom property rather than a per-count
+    #   modifier class, so any count from 2 up is supported.
     # @param tag [Symbol] wrapping element; defaults to `:div` (safe for block
     #   content). Overridable, mirroring `Primer::Beta::Truncate`.
     # @param system_arguments [Hash] forwarded to the wrapping `Primer::BaseComponent`.
@@ -50,11 +52,14 @@ module OpPrimer
       @system_arguments = system_arguments
       @system_arguments[:tag] ||= :div
 
-      lines = lines.to_i.clamp(LINES_RANGE)
+      lines = [lines.to_i, LINES_MINIMUM].max
       @system_arguments[:classes] = class_names(
         @system_arguments[:classes],
-        "op-vertical-truncate",
-        "op-vertical-truncate--lines-#{lines}"
+        "op-vertical-truncate"
+      )
+      @system_arguments[:style] = join_style_arguments(
+        @system_arguments[:style],
+        "--op-vertical-truncate-lines: #{lines};"
       )
     end
 

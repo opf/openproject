@@ -110,7 +110,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    */
   public buildSelectedOption() {
     const value:HalResource[] = this.resource[this.name];
-    return value ? _.castArray(value).map((val) => this.findValueOption(val)) : [];
+    return value ? (Array.isArray(value) ? value : [value]).map((val) => this.findValueOption(val)) : [];
   }
 
   public get selectedOption() {
@@ -135,7 +135,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       return option;
     };
 
-    this.resource[this.name] = _.castArray(val).map((el) => mapper(el));
+    (this.resource as Record<string, ValueOption[]>)[this.name] = (Array.isArray(val) ? val : [val]).map((el) => mapper(el) as ValueOption);
   }
 
   public onOpen() {

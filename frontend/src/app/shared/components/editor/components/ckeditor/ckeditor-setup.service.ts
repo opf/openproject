@@ -1,3 +1,4 @@
+import { escapeRegExp } from 'lodash-es';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { Injectable, inject } from '@angular/core';
 import {
@@ -123,7 +124,7 @@ export class CKEditorSetupService {
 
     const allowedLinkProtocols = this.configurationService.allowedLinkProtocols;
     if (allowedLinkProtocols) {
-      config.link = { allowedProtocols: allowedLinkProtocols.map((el:string) => _.escapeRegExp(el)) };
+      config.link = { allowedProtocols: allowedLinkProtocols.map((el:string) => escapeRegExp(el)) };
     }
 
     return config;

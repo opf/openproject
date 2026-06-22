@@ -1,3 +1,4 @@
+import { keyBy } from 'lodash-es';
 import { ChangeDetectionStrategy, Component, Injector, OnInit, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { QueryColumn } from 'core-app/features/work-packages/components/wp-query/query-column';
@@ -28,7 +29,7 @@ export class WpTableConfigurationColumnsTabComponent implements TabComponent, On
 
   public availableColumns = this.wpTableColumns.all;
 
-  public availableColumnsMap:Record<string, QueryColumn> = _.keyBy(this.availableColumns, (c) => c.id);
+  public availableColumnsMap:Record<string, QueryColumn> = keyBy(this.availableColumns, (c) => c.id);
 
   public selectedColumns:DraggableOption[] = this.wpTableColumns.getColumns().map((c) => this.column2Like(c));
 

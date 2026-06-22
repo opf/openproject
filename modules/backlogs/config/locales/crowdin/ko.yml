@@ -41,6 +41,8 @@ ko:
           active: 활성
           completed: 완료됨
         work_packages: 작업 패키지
+      sprint_goal:
+        text: Sprint goal
       work_package:
         backlog_bucket: Backlog bucket
         backlogs_work_package_type: 백로그 유형
@@ -59,6 +61,8 @@ ko:
             sprint_sharing:
               share_all_projects_already_taken: '- 프로젝트 "%{name}"이(가) 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다.'
               share_all_projects_already_taken_anonymous: "- 다른 프로젝트가 이미 모든 프로젝트와 공유 중이므로 설정할 수 없습니다."
+        sprint_goal:
+          project_already_has_goal: already has a goal for this sprint.
         sprint:
           attributes:
             base:
@@ -147,6 +151,12 @@ ko:
       action_menu:
         edit_sprint: 스프린트 편집
         add_work_package: 작업 패키지 추가
+    sprint_form:
+      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
+      goal_for_this_project_label: "%{attribute} (for this project)"
+    sprint_form_component:
+      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
+      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprints_component:
       blankslate:
         title: 아직 스프린트 없음

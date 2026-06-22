@@ -77,8 +77,9 @@ da:
     button_confirm: Bekræft
     button_continue: Fortsæt
     button_copy: Kopier
-    button_copy_to_clipboard: Kopiér til Udklipsholder
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Kopiér til Udklipsholder
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Selvvalgte felter
     button_delete: Slet

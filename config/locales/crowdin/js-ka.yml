@@ -77,8 +77,9 @@ ka:
     button_confirm: დადასტურება
     button_continue: გაგრძელება
     button_copy: კოპირება
-    button_copy_to_clipboard: Copy to clipboard
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: მორგებადი ველები
     button_delete: წაშლა

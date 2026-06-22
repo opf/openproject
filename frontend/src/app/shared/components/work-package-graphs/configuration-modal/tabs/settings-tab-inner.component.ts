@@ -1,3 +1,4 @@
+import { sortBy } from 'lodash-es';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { WorkPackageViewGroupByService } from 'core-app/features/work-packages/routing/wp-view-base/view-services/wp-view-group-by.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
@@ -93,11 +94,11 @@ export class WpGraphConfigurationSettingsTabInnerComponent extends QuerySpacedTa
       available = available.concat(current);
     }
 
-    this.availableGroups = _.sortBy(available, 'name');
+    this.availableGroups = sortBy(available, 'name');
   }
 
   private initializeAvailableChartType() {
-    this.availableChartTypes = _.sortBy([
+    this.availableChartTypes = sortBy([
       { identifier: 'horizontalBar', label: this.I18n.t('js.chart.types.horizontal_bar') },
       { identifier: 'bar', label: this.I18n.t('js.chart.types.bar') },
       { identifier: 'line', label: this.I18n.t('js.chart.types.line') },

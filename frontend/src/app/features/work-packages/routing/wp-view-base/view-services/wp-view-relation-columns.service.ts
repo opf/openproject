@@ -75,7 +75,7 @@ workPackage:WorkPackageResource,
     }
 
     // Only if any relations exist for this work package
-    if (_.isNil(relations)) {
+    if (relations == null) {
       return;
     }
 
@@ -105,7 +105,7 @@ this.relationsForColumn(workPackage, relations, column),
    * @return The filtered relations
    */
   public relationsForColumn(workPackage:WorkPackageResource, relations:RelationsStateValue|undefined, column:QueryColumn) {
-    if (_.isNil(relations)) {
+    if (relations == null) {
       return [];
     }
 

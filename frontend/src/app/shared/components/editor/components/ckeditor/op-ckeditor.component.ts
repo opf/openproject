@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { debounce } from 'lodash-es';
 import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import type { Editor as CodeMirrorEditor } from 'codemirror';
 import { ToastService } from 'core-app/shared/components/toaster/toast.service';
@@ -118,7 +119,7 @@ export class OpCkeditorComponent extends UntilDestroyedMixin implements OnInit, 
 
   // Debounce change listener for both CKE and codemirror
   // to read back changes as they happen
-  private debouncedEmitter = _.debounce(
+  private debouncedEmitter = debounce(
     () => {
       const val = this.getTransformedContent(false);
       this.contentChanged.emit(val);
