@@ -184,7 +184,7 @@
     "build": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --configuration production --named-chunks --source-map",
     "build:watch": "node --max_old_space_size=4096 ./node_modules/@angular/cli/bin/ng build --watch --named-chunks",
     "ci:plugins:register_frontend": "node ci-plugins-generator.js",
-    "serve": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve --host ${FE_HOST:-localhost} --port ${FE_PORT:-4200} --serve-path ${RAILS_RELATIVE_URL_ROOT}/assets/frontend",
+    "serve": "PORT=\"${FE_PORT:-${PORT:-4200}}\" node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng serve --host ${FE_HOST:-localhost} --serve-path ${RAILS_RELATIVE_URL_ROOT}/assets/frontend",
     "test": "ng test --watch=false",
     "test:watch": "ng test --watch=true",
     "lint": "ng lint",
