@@ -50,10 +50,11 @@ screenshot
 
 ### Display backlog buckets in work packages
 
-text
+OpenProject 17.6 introduces a new **Backlog bucket attribute for work packages**. If enabled for a work package type, users can view and manage backlog bucket assignments directly from the work package details.
 
-screenshot
+Work packages can now be assigned to backlog buckets without navigating to the Backlogs module. Since a work package can only belong to either a sprint or a backlog bucket, selecting one will automatically remove the other assignment.
 
+![User story work package in OpenProject with backlog bucket dropdown](openproject-17-6-backlog-bucket-work-package.png)
 
 ### Group and sort work packages by backlog bucket
 
