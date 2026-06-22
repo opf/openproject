@@ -30,12 +30,13 @@
 
 module Backlogs
   class SprintReportWidgetsController < BaseController
-    def burndown_chart
-      render layout: false
-    end
+    WIDGETS = %i[
+      burndown_chart
+      placeholder
+    ].freeze
 
-    def placeholder
-      render layout: false
+    WIDGETS.each do |widget|
+      define_method(widget) { render layout: false }
     end
   end
 end
