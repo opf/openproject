@@ -41,7 +41,9 @@ The sprint goal is then displayed on the sprint card, making it visible alongsid
 
 ### All sprints overview
 
-text
+OpenProject 17.6 introduces a new **All sprints** view in the Backlogs module. The new page provides a centralized overview of all sprints in a project.
+
+For each sprint, the overview displays key information such as its status, start and finish dates, and the number of assigned work packages.
 
 screenshot
 
