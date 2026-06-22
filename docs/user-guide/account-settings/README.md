@@ -15,7 +15,7 @@ Change your personal settings under Account settings (earlier called My account)
 | [Open account settings](#open-account-settings)           | How to open your personal settings in OpenProject            |
 | [Edit your user information](#edit-your-user-information) | How to change the name or email address in OpenProject       |
 | [Language and region](#language-and-region-settings)      | How to change the language and the time zone in OpenProject  |
-| [Security](#security)                                     | How to change your password and set up two.factor authentication |
+| [Security](#security)                                     | How to change your password and set up two factor authentication in OpenProject |
 | [Access tokens](#access-tokens)                           | How to set up access tokens in OpenProject                   |
 | [Session management](#session-management)                 | How to manage your OpenProject sessions                      |
 | [Notification and email](#notification-and-email)         | How to change in-app notifications and email reminders in OpenProject |
@@ -162,7 +162,7 @@ Press the **Change password** button in order to confirm the password changes.
 > [!NOTE]
 > You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
 
-### Two-factor devices
+### Two-factor authentication devices
 
 In order to activate the two-factor authentication for your OpenProject installation, click on **+2FA device**.  If you have not added any device yet, this list will be empty.
 
