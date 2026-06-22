@@ -82,20 +82,33 @@ Administrators can now unreserve old project-based (semantic) identifiers and ma
 
 ![Admin setting with a list of projects and their identifiers and an "Unreserve" button next to each](openproject-17-6-reserved-project-identifiers.png)
 
-### Turn meeting agenda items into work packages
+### Convert meeting agenda items into work packages
 
-text
+OpenProject 17.6 adds a new **Convert to work package** action for meeting agenda items. This allows users to turn agenda items directly into work packages without leaving the meeting.
 
-screenshot
+The newly created work package remains linked to the agenda item, helping teams connect meeting discussions with follow-up work.
+
+![Meeting with agenda item three dots (more) menu opened and option to "Convert to work package"](openproject-17-6-meeting-work-packages-highlighted.png)
 
 ### Configure cost types per project
 
-text
+OpenProject 17.6 introduces project-specific cost type configuration. Administrators can now control which cost types are available within each project.
 
-screenshot
+To support this, project settings now include a new Time and costs section with a dedicated Cost types tab where available cost types can be configured.
 
+![Time and Costs setting in a project with Cost types overview](openproject-17-6-cost-types-project-setting.png)
 
 ## Important technical changes
+
+### Escape control characters in CSV exports
+
+OpenProject 17.6 improves CSV export security by escaping control characters in exported data. This helps prevent spreadsheet applications from interpreting exported values in unintended ways.
+
+### Configure LDAP group synchronization using group member attributes
+
+OpenProject 17.6 extends LDAP group synchronization with support for group member attributes. Administrators can now configure synchronization based on attributes such as member or uniqueMember on LDAP groups, in addition to the existing memberOf lookup on user entries.
+
+This improves compatibility with LDAP servers that do not maintain the memberOf attribute.
 
 ### Integrations (e.g. Nextcloud and XWiki) respect global SSRF filters
 
