@@ -198,12 +198,13 @@ export default defineConfig([
         {
           before: false,
           after: false,
-          overrides: {
-            arrow: {
-              before: true,
-              after: true,
-            },
-          },
+        },
+      ],
+      '@stylistic/arrow-spacing': [
+        'error',
+        {
+          before: true,
+          after: true,
         },
       ],
 
