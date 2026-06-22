@@ -34,6 +34,12 @@
     margin: var(--base-size-16)
     margin-right: 0
 
+    body.-browser-windows.-browser-firefox &
+      margin-right: var(--base-size-16)
+
+      .FilterableTreeViewLayout > .Stack
+        padding-right: 0
+
   &--frame
     max-height: 100%
     flex-basis: 100%
