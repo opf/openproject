@@ -3,21 +3,65 @@ title: OpenProject 17.6.0
 sidebar_navigation:
     title: 17.6.0
 release_version: 17.6.0
-release_date: 2026-06-18
+release_date: 2026-07-08
 ---
 
 # OpenProject 17.6.0
 
-Release date: 2026-06-18
+Release date: 2026-07-08
 
 We released [OpenProject 17.6.0](https://community.openproject.org/versions/2298).
 The release contains several bug fixes and we recommend updating to the newest version.
 In these Release Notes, we will give an overview of important feature changes. At the end, you will find a complete list of all changes and bug fixes.
+
 ## Important feature changes
 
-<!-- Inform about the major features in this section -->
+### XWiki integration (Corporate plan)
 
-## Important updates and breaking changes
+text
+
+screenshot
+
+### Sprint goals
+
+text
+
+screenshot
+
+
+### "All sprints" overview page
+
+text
+
+screenshot
+
+
+### Display backlog buckets in work packages and work package tables
+
+text
+
+screenshot
+
+### Improved support for project-based (semantic) identifiers
+
+text
+
+screenshot
+
+### Turn meeting agenda items into work packages
+
+text
+
+screenshot
+
+### Configure cost types per project
+
+text
+
+screenshot
+
+
+## Important technical changes
 
 ### Integrations (e.g. Nextcloud and XWiki) respect global SSRF filters
 
@@ -191,11 +235,13 @@ This follows the APIv3 standards, and also fixes a bug related to the self link.
 <!-- Warning: Anything above this line will be automatically removed by the release script -->
 
 ## Contributions
-A very special thank you goes to our sponsors for this release.
-Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes.
-Special thanks for reporting and finding bugs go to Rince wind, Walid Ibrahim, Gábor Alexovics, Brandon Soonaye, Mohammed Mohiuddin.
 
-Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings!
-Would you like to help out with translations yourself?
-Then take a look at our translation guide and find out exactly how you can contribute.
-It is very much appreciated!
+A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn and ZenDiS for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
+
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Rince wind, Walid Ibrahim, Gábor Alexovics, Brandon Soonaye, Mohammed Mohiuddin.
+
+Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to particularly thank the following users:
+
+- [name](https://crowdin.com/profile/name), for an outstanding number of translations into Language.
+
+Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
