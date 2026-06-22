@@ -66,13 +66,21 @@ This makes backlog bucket assignments visible across work package lists and prov
 
 ### Support project-based (semantic) identifiers in exports
 
-text
+OpenProject 17.6 extends support for project-based (semantic) identifiers across exports. Semantic identifiers are now included consistently in:
 
-screenshot
+- Excel and CSV exports
+- Meeting PDF exports
+- Timesheet PDF exports
 
-### Unreserve old project based (semantic) identifiers
+This ensures that exported data uses the same identifiers that users see throughout OpenProject.
 
+### Unreserve old project-based (semantic) identifiers
 
+OpenProject 17.6 extends support for reserved project identifiers to project-based (semantic) identifiers. When a project identifier is renamed, previous identifiers remain reserved so that existing links and integrations continue to work.
+
+Administrators can now unreserve old project-based (semantic) identifiers and make them available for reuse by other projects.
+
+![Admin setting with a list of projects and their identifiers and an "Unreserve" button next to each](openproject-17-6-reserved-project-identifiers.png)
 
 ### Turn meeting agenda items into work packages
 
