@@ -44,9 +44,9 @@ See COPYRIGHT and LICENSE files for more details.
       )
     ) do |list|
       list.with_header(title: backlog_bucket.name) do |header|
-        if show_menu?
-          header.with_menu(button_aria_label: t(".label_actions")) do |menu|
-            with_item_group(menu) do
+        header.with_menu(button_aria_label: t(".label_actions")) do |menu|
+          with_item_group(menu) do
+            if user_allowed?(:create_sprints)
               menu.with_item(
                 id: dom_target(backlog_bucket, :menu, :edit_backlog_bucket),
                 label: t(".action_menu.edit_backlog_bucket"),
@@ -66,26 +66,26 @@ See COPYRIGHT and LICENSE files for more details.
                 item.with_leading_visual_icon(icon: :trash)
               end
             end
+          end
 
-            with_item_group(menu) do
-              if user_allowed?(:manage_sprint_items)
-                menu.with_item(
-                  id: dom_target(backlog_bucket, :menu, :add_new_work_package),
-                  label: t(".action_menu.add_new_work_package"),
-                  href: new_project_work_packages_dialog_path(project, backlog_bucket_id: backlog_bucket.id),
-                  content_arguments: { data: { controller: "async-dialog" } }
-                ) do |item|
-                  item.with_leading_visual_icon(icon: :plus)
-                end
+          with_item_group(menu) do
+            if user_allowed?(:manage_sprint_items)
+              menu.with_item(
+                id: dom_target(backlog_bucket, :menu, :add_new_work_package),
+                label: t(".action_menu.add_new_work_package"),
+                href: new_project_work_packages_dialog_path(project, backlog_bucket_id: backlog_bucket.id),
+                content_arguments: { data: { controller: "async-dialog" } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :plus)
+              end
 
-                menu.with_item(
-                  id: dom_target(backlog_bucket, :menu, :add_existing_work_package),
-                  label: t(".action_menu.add_existing_work_package"),
-                  href: add_existing_dialog_project_backlogs_work_packages_path(project, target_id: Backlogs::Target.for(backlog_bucket)),
-                  content_arguments: { data: { controller: "async-dialog" } }
-                ) do |item|
-                  item.with_leading_visual_icon(icon: :link)
-                end
+              menu.with_item(
+                id: dom_target(backlog_bucket, :menu, :add_existing_work_package),
+                label: t(".action_menu.add_existing_work_package"),
+                href: add_existing_dialog_project_backlogs_work_packages_path(project, target_id: Backlogs::Target.for(backlog_bucket)),
+                content_arguments: { data: { controller: "async-dialog" } }
+              ) do |item|
+                item.with_leading_visual_icon(icon: :link)
               end
             end
           end

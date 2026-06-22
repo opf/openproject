@@ -193,16 +193,15 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
              position: 1)
     end
 
-    it "does not render the bucket header menu" do
-      expect(rendered_component).to have_no_button(accessible_name: "Backlog bucket actions")
+    it "still renders the add work package menu actions" do
+      expect(rendered_component).to have_button(accessible_name: "Backlog bucket actions")
+      expect(rendered_component).to have_css("[role='menuitem']", text: "Add new work package")
+      expect(rendered_component).to have_css("[role='menuitem']", text: "Add existing work package")
     end
-  end
 
-  context "when the bucket is not persisted" do
-    let(:backlog_bucket) { BacklogBucket.new(project:, name: "Ready for development") }
-
-    it "does not render the bucket header menu" do
-      expect(rendered_component).to have_no_button(accessible_name: "Backlog bucket actions")
+    it "does not render the edit or delete bucket menu items" do
+      expect(rendered_component).to have_no_css("[role='menuitem']", text: "Edit backlog bucket")
+      expect(rendered_component).to have_no_css("[role='menuitem']", text: "Delete backlog bucket")
     end
   end
 
@@ -224,6 +223,12 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}.Box-row--draggable")
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[data-draggable-id]")
       expect(rendered_component).to have_no_css(".Box-row#work_package_#{work_package.id}[data-drop-url]")
+    end
+
+    it "still renders the edit and delete bucket menu items" do
+      expect(rendered_component).to have_button(accessible_name: "Backlog bucket actions")
+      expect(rendered_component).to have_css("[role='menuitem']", text: "Edit backlog bucket")
+      expect(rendered_component).to have_css("[role='menuitem']", text: "Delete backlog bucket")
     end
 
     it "does not render the add work package menu actions" do
