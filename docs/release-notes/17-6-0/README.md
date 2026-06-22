@@ -16,9 +16,18 @@ In these Release Notes, we will give an overview of important feature changes. A
 
 ## Important feature changes
 
-### XWiki integration (Corporate plan)
+### XWiki integration (Enterprise add-on)
 
-text
+[feature: xwiki_integration ]
+
+OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect work packages and documentation more closely.
+
+With the new integration, work packages now include a **dedicated Wiki tab** where users can view related wiki pages, create new pages, and link existing content from XWiki. This makes it easier to access relevant documentation directly from the work package.
+
+The integration also supports **references between OpenProject and XWiki**. Users can see which wiki pages reference a work package and insert links to wiki pages directly from descriptions, comments, and documents. This helps teams keep project work and documentation connected across both platforms.
+
+> [!NOTE]
+> OpenProject's built-in [wiki module](../../user-guide/wiki/) remains available and continues to be supported. In future releases, we also plan to further improve it. The XWiki integration is designed for organizations that require advanced wiki and documentation capabilities. It is available as an Enterprise add-on in the Corporate plan.
 
 screenshot
 
@@ -29,24 +38,35 @@ text
 screenshot
 
 
-### "All sprints" overview page
+### All sprints overview
 
 text
 
 screenshot
 
 
-### Display backlog buckets in work packages and work package tables
+### Display backlog buckets in work packages
 
 text
 
 screenshot
 
-### Improved support for project-based (semantic) identifiers
+
+### Group and sort work packages by backlog bucket
 
 text
 
 screenshot
+
+### Support project-based (semantic) identifiers in exports
+
+text
+
+screenshot
+
+### Unreserve old project based (semantic) identifiers
+
+
 
 ### Turn meeting agenda items into work packages
 
