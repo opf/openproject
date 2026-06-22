@@ -47,15 +47,38 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
   let(:page_info_result) { Success(page_info) }
   let(:permissions) { [:manage_wiki_page_links] }
   let(:actions) { [] }
+  let(:source) { nil }
 
   current_user { create(:user, member_with_permissions: { project => permissions }) }
 
-  subject(:render_component) { render_inline(described_class.new(page_info_result, actions:, page_link:)) }
+  subject(:render_component) { render_inline(described_class.new(page_info_result, actions:, page_link:, source:)) }
 
   before { render_component }
 
   it "renders the page link successfully" do
     expect(page).to have_link(text: page_info.title, href: page_info.href)
+  end
+
+  context "when the page is referenced as a parent" do
+    let(:source) { :link }
+
+    it "renders the parent badge" do
+      expect(page).to have_text(I18n.t("wikis.page_links.source.parent"))
+    end
+  end
+
+  context "when the page is referenced as a mention" do
+    let(:source) { :mention }
+
+    it "renders no badge" do
+      expect(page).to have_no_text(I18n.t("wikis.page_links.source.parent"))
+    end
+  end
+
+  context "when the page has no source" do
+    it "renders no badge" do
+      expect(page).to have_no_text(I18n.t("wikis.page_links.source.parent"))
+    end
   end
 
   context "when the page link has the remove action" do
