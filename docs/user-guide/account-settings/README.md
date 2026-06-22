@@ -17,7 +17,7 @@ Change your personal settings under Account settings (earlier called My account)
 | [Language and region](#language-and-region-settings)      | How to change the language and the time zone in OpenProject  |
 | [Security](#security)                                     | How to change your password and set up two.factor authentication |
 | [Access tokens](#access-tokens)                           | How to set up access tokens in OpenProject                   |
-| [Session management](#sessions-management)                | How to manage your OpenProject sessions                      |
+| [Session management](#session-management)                 | How to manage your OpenProject sessions                      |
 | [Notification and email](#notification-and-email)         | How to change in-app notifications and email reminders in OpenProject |
 | [Set an Avatar](#set-an-avatar)                           | How to set an avatar in OpenProject and change the profile picture |
 | [Delete account](#delete-account)                         | How to delete my own account                                 |
