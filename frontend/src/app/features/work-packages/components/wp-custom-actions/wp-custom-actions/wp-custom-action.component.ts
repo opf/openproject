@@ -149,8 +149,8 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
   // `changes` map is consumed by the action board listener, where each entry's
   // `from`/`to` is compared against the column's value via its `href`.
   private commitFor(previous:WorkPackageResource, saved:WorkPackageResource):ResourceChangesetCommit<WorkPackageResource> {
-    const previousLinks = (previous.$source._links || {}) as Record<string, { href?:string }>;
-    const savedLinks = (saved.$source._links || {}) as Record<string, { href?:string }>;
+    const previousLinks = this.linksOf(previous);
+    const savedLinks = this.linksOf(saved);
     const changes:ChangeMap = {};
 
     Object.keys(savedLinks).forEach((attribute) => {
@@ -171,6 +171,13 @@ export class WpCustomActionComponent extends UntilDestroyedMixin implements OnIn
       wasNew: false,
       changes,
     } as ResourceChangesetCommit<WorkPackageResource>;
+  }
+
+  // `$source` is untyped (`any`), so narrow it before reading the HAL `_links`
+  // object to keep the link diff type-safe.
+  private linksOf(workPackage:WorkPackageResource):Record<string, { href?:string }> {
+    const source = workPackage.$source as { _links?:Record<string, { href?:string }> };
+    return source._links ?? {};
   }
 
   @HostListener('mouseenter') onMouseEnter():void {

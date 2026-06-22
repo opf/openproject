@@ -107,8 +107,12 @@ RSpec.describe "Status action board",
       board_page.expect_list "Closed"
     end
 
-    it "moves the card to the matching column after changing the status in the details panel and closing it " \
-       "(Bug #AGILE-178)" do
+    it "moves the card to the matching column when a custom action changes the status in the split view " \
+       "(Bug #AGILE-178)", with_ee: %i[custom_actions] do
+      create(:custom_action,
+             actions: [CustomActions::Actions::Status.new(closed_status.id)],
+             name: "Close")
+
       board_index.visit!
 
       # Create new board with an "Open" and a "Closed" list
@@ -125,25 +129,21 @@ RSpec.describe "Status action board",
       board_page.expect_card("Open", "Task 1", present: true)
       board_page.expect_card("Closed", "Task 1", present: false)
 
-      # Open the work package in the (Hotwire) details panel via the info icon.
-      # This panel is a server-rendered Turbo frame whose work package edits do
-      # not reach the board's HAL event bus, so the columns are not refreshed
-      # on their own (see Bug #AGILE-178).
+      # Open the work package in the split view and run the custom action that
+      # changes the status. Custom actions are executed server-side and have no
+      # Angular changeset, so the board only learns about the change through the
+      # HAL event the action emits (see Bug #AGILE-178).
       card = board_page.card_for(wp)
-      split_view = card.open_details_view(primerized: true)
+      split_view = card.open_details_view
       split_view.expect_subject
 
-      # Change the status from within the details panel
-      split_view.edit_field(:status).update("Closed")
-      split_view.expect_and_dismiss_toaster message: "Successful update."
+      split_view.click_custom_action("Close", expect_success: true)
 
       wp.reload
       expect(wp.status).to eq(closed_status)
 
-      # Closing the panel must reload the board so the card shows up in the
-      # matching column without a manual page reload.
-      split_view.close
-
+      # The board must move the card to the matching column on its own, while the
+      # split view is still open and without a manual page reload.
       board_page.expect_card("Closed", "Task 1", present: true)
       board_page.expect_card("Open", "Task 1", present: false)
     end
