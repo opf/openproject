@@ -75,7 +75,7 @@ class ProjectCustomField < CustomField
       ).first
     end
 
-    def toggleable_ids_in_type_settings(custom_field_section_id)
+    def custom_field_ids_in_section(custom_field_section_id)
       where(custom_field_section_id:).pluck(:id)
     end
 

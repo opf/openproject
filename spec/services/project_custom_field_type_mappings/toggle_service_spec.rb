@@ -42,6 +42,22 @@ RSpec.describe ProjectCustomFieldTypeMappings::ToggleService do
         expect(type.reload.project_custom_fields).to be_empty
       end
     end
+
+    it "does not map a work package custom field to the type" do
+      work_package_custom_field = create(:wp_custom_field)
+
+      result = instance.call(
+        type_id: type.id,
+        custom_field_id: work_package_custom_field.id,
+        value: "1"
+      )
+
+      expect(result).to be_failure
+      expect(ProjectCustomFieldTypeMapping).not_to exist(
+        type_id: type.id,
+        custom_field_id: work_package_custom_field.id
+      )
+    end
   end
 
   context "without admin permissions" do

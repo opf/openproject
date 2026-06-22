@@ -37,13 +37,15 @@ module ProjectCustomFieldTypeMappings
     end
 
     def perform_bulk_edit(service_call, params)
-      custom_field_ids = ProjectCustomField.toggleable_ids_in_type_settings(@project_custom_field_section.id)
+      custom_field_ids = ProjectCustomField.custom_field_ids_in_section(@project_custom_field_section.id)
 
       case params[:action]
       when :enable
         enable_custom_fields(custom_field_ids)
       when :disable
         disable_custom_fields(custom_field_ids)
+      else
+        raise ArgumentError, "Unsupported bulk update action: #{params[:action].inspect}"
       end
 
       service_call

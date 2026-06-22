@@ -22,6 +22,23 @@ module ProjectCustomFieldTypeMappings
       service_result
     end
 
+    def instance(params)
+      instance_class.find_or_initialize_by(
+        type_id: params[:type_id],
+        custom_field_id: params[:custom_field_id]
+      )
+    end
+
+    def set_attributes_params(_params)
+      {}
+    end
+
+    def default_contract_class
+      ProjectCustomFieldTypeMappings::UpdateContract
+    end
+
+    private
+
     def create_mapping(service_result)
       return if service_result.result.persisted?
 
@@ -38,21 +55,6 @@ module ProjectCustomFieldTypeMappings
     rescue StandardError => e
       service_result.errors = e.message
       service_result.success = false
-    end
-
-    def instance(params)
-      instance_class.find_or_initialize_by(
-        type_id: params[:type_id],
-        custom_field_id: params[:custom_field_id]
-      )
-    end
-
-    def set_attributes_params(_params)
-      {}
-    end
-
-    def default_contract_class
-      ProjectCustomFieldTypeMappings::UpdateContract
     end
   end
 end

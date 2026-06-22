@@ -45,6 +45,14 @@ RSpec.describe ProjectCustomFieldTypeMappings::BulkUpdateService do
 
       expect(type.reload.project_custom_fields).to contain_exactly(other_project_custom_field)
     end
+
+    it "fails for an unsupported action" do
+      result = instance.call(action: :unsupported)
+
+      expect(result).to be_failure
+      expect(result.errors).to eq("Unsupported bulk update action: :unsupported")
+      expect(type.reload.project_custom_fields).to be_empty
+    end
   end
 
   context "without admin permissions" do
