@@ -35,7 +35,7 @@ screenshot
 
 OpenProject 17.6 introduces sprint goals for Backlogs. When creating or editing a sprint, you can now define a sprint goal directly within the sprint settings.
 
-The sprint goal is then displayed on the sprint card, making it visible alongside the sprint's status, dates, and work packages.
+The sprint goal is then displayed on the sprint card, making it visible to everyone working on the sprint.
 
 ![Edit sprint view with field to manually enter a sprint goal](openproject-17-6-sprint-goals.png)
 
@@ -46,7 +46,6 @@ OpenProject 17.6 introduces a new **All sprints** view in the Backlogs module. T
 For each sprint, the overview displays key information such as its status, start and finish dates, and the number of assigned work packages.
 
 screenshot
-
 
 ### Display backlog buckets in work packages
 
@@ -106,7 +105,7 @@ OpenProject 17.6 improves CSV export security by escaping control characters in 
 
 ### Configure LDAP group synchronization using group member attributes
 
-OpenProject 17.6 extends LDAP group synchronization with support for group member attributes. Administrators can now configure synchronization based on attributes such as member or uniqueMember on LDAP groups, in addition to the existing memberOf lookup on user entries.
+OpenProject 17.6 extends LDAP group synchronization with support for group member attributes. Administrators can now configure synchronization based on attributes such as `member` or `uniqueMember` on LDAP groups, in addition to the existing `memberOf` lookup on user entries.
 
 This improves compatibility with LDAP servers that do not maintain the memberOf attribute.
 
@@ -127,7 +126,7 @@ The list accepts one or multiple IP addresses or ranges (in CIDR notation) that 
 
 ### Meeting API structure changes
 
-17.6. introduces new endpoints for meeting outcomes,
+OpenProject 17.6. introduces new endpoints for meeting outcomes,
 and changes the self link for all meeting related resources to be flat:
 
 That means, some of the responses have changed:
