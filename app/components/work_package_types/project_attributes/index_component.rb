@@ -28,8 +28,8 @@ module WorkPackageTypes
 
       def wrapper_data_attributes
         {
-          controller: "projects--settings--border-box-filter",
-          "projects--settings--border-box-filter-clear-button-id-value": clear_button_id
+          controller: "filter--filter-list",
+          "filter--filter-list-clear-button-id-value": clear_button_id
         }
       end
 

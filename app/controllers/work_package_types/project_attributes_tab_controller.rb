@@ -51,6 +51,7 @@ module WorkPackageTypes
         ProjectCustomFieldSection
           .joins(:custom_fields)
           .includes(:custom_fields)
+          .merge(ProjectCustomField.visible)
           .group(:id, "custom_fields.id")
           .order(:position, :position_in_custom_field_section)
     end
@@ -73,6 +74,10 @@ module WorkPackageTypes
       if call.success?
         eager_load_project_custom_field_data
         update_project_attribute_sections_via_turbo_stream
+      else
+        render_error_flash_message_via_turbo_stream(
+          message: call.message.presence || I18n.t(:notice_unsuccessful_update)
+        )
       end
 
       respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)
@@ -84,11 +89,10 @@ module WorkPackageTypes
           type_id
           custom_field_id
           custom_field_section_id
-          value
         ]
       ).to_h
 
-      permitted_params[:value] = params[:value] if params.key?(:value)
+      permitted_params[:value] = params.permit(:value)[:value] if params.key?(:value)
 
       permitted_params
     end
