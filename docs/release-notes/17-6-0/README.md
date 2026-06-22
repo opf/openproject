@@ -33,10 +33,11 @@ screenshot
 
 ### Sprint goals
 
-text
+OpenProject 17.6 introduces sprint goals for Backlogs. When creating or editing a sprint, you can now define a sprint goal directly within the sprint settings.
 
-screenshot
+The sprint goal is then displayed on the sprint card, making it visible alongside the sprint's status, dates, and work packages.
 
+![Edit sprint view with field to manually enter a sprint goal](openproject-17-6-sprint-goals.png)
 
 ### All sprints overview
 
