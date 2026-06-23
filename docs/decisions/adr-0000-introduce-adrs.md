@@ -75,6 +75,8 @@ Compliance will be confirmed by:
 
 - Good, because easy to write and familiar to teams
 - Good, because searchable
+- Good, because referenceable from other work items
+- Good, because tracking time on the work involved in an ADR is possible
 - Neutral, because can hold discussion history
 - Bad, because documentation away from code becomes outdated more easily
 - Bad, because it is disconnected from the codebase
