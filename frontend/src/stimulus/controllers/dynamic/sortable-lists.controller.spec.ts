@@ -322,6 +322,38 @@ describe('Sortable lists controller', () => {
     );
   });
 
+  it('adds the current turbo frame query to the move URL', async () => {
+    fixture.innerHTML = `
+      <turbo-frame
+        id="backlogs-list"
+        src="/projects/demo/backlogs/backlog?bucket_ids%5B%5D=1&bucket_ids%5B%5D=inbox&sprint_ids%5B%5D=2"
+        data-controller="sortable-lists"
+        data-sortable-lists-accepted-type-value="work_package"
+        data-sortable-lists-move-url-template-value="/projects/demo/backlogs/work_packages/{id}/move"
+      >
+        <ul data-sortable-lists-target="list" data-sortable-lists-list-type="backlog_bucket" data-sortable-lists-list-id="1"></ul>
+        <ul data-sortable-lists-target="list" data-sortable-lists-list-type="sprint" data-sortable-lists-list-id="1"></ul>
+      </turbo-frame>
+    `;
+
+    const [sourceList, targetList] = Array.from(
+      fixture.querySelectorAll<HTMLElement>('[data-sortable-lists-target="list"]'),
+    );
+    sourceList.append(itemRow('1'));
+    targetList.append(itemRow('4'));
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(
+      sourceList.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="1"]')!,
+      targetList,
+    );
+
+    expect(fetchMock).toHaveBeenCalledWith(
+      '/projects/demo/backlogs/work_packages/1/move?bucket_ids%5B%5D=1&bucket_ids%5B%5D=inbox&sprint_ids%5B%5D=2',
+      expect.objectContaining({ method: 'PUT' }),
+    );
+  });
+
   it('does nothing when the controller has no move URL template', async () => {
     const { targetList, firstSourceItem } = renderFixture({ moveUrlTemplate: null });
 

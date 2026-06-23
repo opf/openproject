@@ -564,9 +564,10 @@ module Pages
       moved_element = find(draggable_work_package_selector(work_package))
       inbox = find(backlog_inbox_selector)
       target_item = inbox.all("[data-sortable-lists--item-id-value]", minimum: 0).last
+      target_element = target_item || inbox.find("[data-empty-list-item]")
 
       wait_for_backlogs_turbo_stream do
-        drag_backlogs_item(source: moved_element, target: target_item || inbox, edge: target_item ? :bottom : nil)
+        drag_backlogs_item(source: moved_element, target: target_element, edge: target_item ? :bottom : nil)
       end
       wait_for { work_package.reload.backlog_bucket_id }.to be_nil
       wait_for { work_package.reload.sprint_id }.to be_nil
@@ -772,7 +773,12 @@ module Pages
         .driver
         .browser
         .action
-        .drag_and_drop_by(source.native, target_x - source_x, target_y - source_y)
+        .move_to(source.native)
+        .click_and_hold(source.native)
+        .pause(duration: 0.1)
+        .move_by(target_x - source_x, target_y - source_y)
+        .pause(duration: 0.1)
+        .release
         .perform
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force

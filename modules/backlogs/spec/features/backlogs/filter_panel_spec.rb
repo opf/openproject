@@ -225,7 +225,7 @@ RSpec.describe "Backlog filter panel", :js do
         expect_selected_filters_preserved
       end
 
-      it "preserves the filter after drag and drop" do
+      it "preserves the filter after drag and drop", :selenium do
         backlogs_page.drag_work_package_to_backlog_inbox(sprint_a_wp)
         expect_selected_filters_preserved
 

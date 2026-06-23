@@ -222,10 +222,33 @@ export default class SortableListsController extends Controller<HTMLElement> {
 
   private resolveMoveUrl(data:{ itemId:string }):string|null {
     if (this.hasMoveUrlTemplateValue) {
-      return parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId });
+      return this.withCurrentFrameQuery(
+        parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId }),
+      );
     }
 
     return null;
+  }
+
+  private withCurrentFrameQuery(moveUrl:string):string {
+    const src = this.element.tagName === 'TURBO-FRAME' ? this.element.getAttribute('src') : null;
+
+    if (!src) {
+      return moveUrl;
+    }
+
+    const frameParams = new URL(src, window.location.href).searchParams;
+    if (frameParams.size === 0) {
+      return moveUrl;
+    }
+
+    const url = new URL(moveUrl, window.location.href);
+    const replacedKeys = new Set(frameParams.keys());
+
+    replacedKeys.forEach((key) => url.searchParams.delete(key));
+    frameParams.forEach((value, key) => url.searchParams.append(key, value));
+
+    return /^[a-z][a-z\d+\-.]*:/i.test(moveUrl) ? url.toString() : `${url.pathname}${url.search}${url.hash}`;
   }
 
   private async moveItem({
