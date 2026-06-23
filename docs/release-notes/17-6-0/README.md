@@ -45,7 +45,7 @@ OpenProject 17.6 introduces a new **All sprints** view in the Backlogs module. T
 
 For each sprint, the overview displays key information such as its status, start and finish dates, and the number of assigned work packages.
 
-screenshot
+![OpenProject Agile project, Backlogs module and 'All sprints' view with the following columns: Sprint name, Status (Completed or In planning), Start date, Finish date, Work packages (number included)](openproject-17-6-all-sprints.png)
 
 ### Display backlog buckets in work packages
 
