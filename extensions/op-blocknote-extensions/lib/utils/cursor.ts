@@ -1,6 +1,6 @@
 import type { BlockNoteEditor } from '@blocknote/core';
 import type { Node as PmNode } from 'prosemirror-model';
-import { TextSelection } from 'prosemirror-state';
+import { NodeSelection, TextSelection } from 'prosemirror-state';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyEditor = BlockNoteEditor<any, any, any>;
@@ -37,7 +37,7 @@ export function selectInlineNode(editor:AnyEditor, instanceId:string):void {
   const range = findInlineNodeRange(editor.prosemirrorState.doc, instanceId);
   if (!range) return;
   editor.transact((tr) => {
-    tr.setSelection(TextSelection.create(tr.doc, range.from, range.to));
+    tr.setSelection(NodeSelection.create(tr.doc, range.from));
   });
 }
 

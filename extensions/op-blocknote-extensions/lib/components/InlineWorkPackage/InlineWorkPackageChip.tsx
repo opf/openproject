@@ -135,7 +135,10 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:Inli
           e.preventDefault();
           e.stopPropagation();
           setIsSelected((prev) => !prev);
-          if (editor) selectInlineNode(editor, instanceId);
+          if (editor) {
+            selectInlineNode(editor, instanceId);
+            editor.getExtension('formattingToolbar')?.store?.setState(false);
+          }
         }}
       >
         {size === 'xxs' && <WpChipXXS wp={wp} />}
