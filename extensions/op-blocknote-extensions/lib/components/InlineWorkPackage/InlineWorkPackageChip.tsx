@@ -32,8 +32,7 @@ const InlineChip = styled.span.attrs({
   contentEditable: false,
 })<{ selected?:boolean }>`
   ${defaultWpVariables}
-  display: inline-flex;
-  align-items: center;
+  display: inline;
   vertical-align: middle;
   cursor: pointer;
   user-select: none;
@@ -42,7 +41,6 @@ const InlineChip = styled.span.attrs({
   outline-offset: 1px;
   box-shadow: ${({ selected }) => (selected ? CHIP_STYLES.focusShadow : 'none')};
   position: relative;
-  max-width: 100%;
   line-height: 1;
 
   &:active {

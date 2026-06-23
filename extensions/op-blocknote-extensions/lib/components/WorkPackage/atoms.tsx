@@ -40,7 +40,7 @@ export const WorkPackageId = styled.span.attrs({
     css`
       font-size: 12px;
       font-weight: 400;
-      flex-shrink: 0;
+      white-space: nowrap;
     `}
 `;
 
@@ -124,8 +124,5 @@ export const WorkPackageTitleLink = styled.a<{ $compact?:boolean }>`
     css`
       font-size: 14px;
       font-weight: 600;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
     `}
 `;

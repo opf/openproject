@@ -28,14 +28,14 @@ const titleLinkProps = (wp:WorkPackage) => ({
   onClick: (e:React.MouseEvent) => e.stopPropagation(),
 });
 
-// XXS — "#ID"  (padding 2px 8px)
+// XXS — "#ID"
 export const WpChipXXS = ({ wp }:{ wp:WorkPackage }) => (
   <ChipBaseXXS>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
   </ChipBaseXXS>
 );
 
-// XS — "#ID  TYPE  [Title]"  (padding 8px)
+// XS — "#ID TYPE subject"
 export const WpChipXS = ({ wp }:{ wp:WorkPackage }) => (
   <ChipBaseXS>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
@@ -50,7 +50,7 @@ export const WpChipXS = ({ wp }:{ wp:WorkPackage }) => (
   </ChipBaseXS>
 );
 
-// S — "#ID  TYPE  [Status]  [Title]"  (padding 8px)
+// S — "#ID TYPE [Status] subject"
 export const WpChipS = ({ wp }:{ wp:WorkPackage }) => (
   <ChipBaseS>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>

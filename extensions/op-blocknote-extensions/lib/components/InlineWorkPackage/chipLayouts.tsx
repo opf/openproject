@@ -3,15 +3,17 @@ import styled from 'styled-components';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
 
 const chipBaseStyles = css`
-  display: inline-flex;
-  align-items: center;
-  gap: ${CHIP_STYLES.gap};
+  display: inline;
   border-radius: ${CHIP_STYLES.radius};
   background: ${CHIP_STYLES.bg};
-  white-space: nowrap;
-  max-width: 480px;
-  overflow: hidden;
   font-size: ${CHIP_STYLES.fontSize};
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+
+  /* gap equivalent for display:inline — applies left margin to every child except the first */
+  & > * + * {
+    margin-left: ${CHIP_STYLES.gap};
+  }
 `;
 
 export const ChipBaseXXS = styled.span`
