@@ -38,8 +38,8 @@ export const handlers = [
     HttpResponse.json({
       _embedded: {
         elements: [
-          { id: '1', color: '#D35400' }, 
-          { id: '2', color: '#27AE60' }, 
+          { id: '1', color: '#D35400' },
+          { id: '2', color: '#27AE60' },
         ],
       },
     })
@@ -49,7 +49,7 @@ export const handlers = [
     HttpResponse.json({
       _embedded: {
         elements: [
-          { id: '1', color: '#2980B9' }, 
+          { id: '1', color: '#2980B9' },
           { id: '2', color: '#95A5A6' },
         ],
       },
