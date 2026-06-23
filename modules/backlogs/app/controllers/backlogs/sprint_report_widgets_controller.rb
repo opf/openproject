@@ -36,7 +36,6 @@ module Backlogs
     # in `engine.rb` and a route will be generated in `routes.rb`.
     WIDGETS = %i[
       burndown_chart
-      placeholder
     ].freeze
 
     WIDGETS.each do |widget|

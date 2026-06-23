@@ -34,6 +34,4 @@ See COPYRIGHT and LICENSE files for more details.
 <section class="widget-boxes">
   <%= turbo_frame_tag Backlogs::Widgets::BurndownChart::FRAME_ID,
                       src: project_backlogs_sprint_report_burndown_chart_widget_path(@project, @sprint) %>
-  <%= turbo_frame_tag Backlogs::Widgets::Placeholder::FRAME_ID,
-                      src: project_backlogs_sprint_report_placeholder_widget_path(@project, @sprint) %>
 </section>
