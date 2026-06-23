@@ -64,6 +64,39 @@ module Backlogs
       def row_css_id
         dom_id(sprint)
       end
+
+      def button_links
+        [
+          action_menu
+        ]
+      end
+
+      private
+
+      def action_menu
+        render(Primer::Alpha::ActionMenu.new) do |menu|
+          menu.with_show_button(icon: "kebab-horizontal",
+                                "aria-label": t(:label_more),
+                                scheme: :invisible,
+                                data: {
+                                  "test-selector": "more-button"
+                                })
+
+          sprint_report_action(menu)
+        end
+      end
+
+      def sprint_report_action(menu)
+        return nil unless OpenProject::FeatureDecisions.sprint_reports_active?
+        return nil unless User.current.allowed_in_project?(:view_sprints, [project])
+
+        label = t(".action_menu.sprint_report")
+        href = project_backlogs_sprint_report_path(project, sprint)
+
+        menu.with_item(label:, href:, tag: :a) do |item|
+          item.with_leading_visual_icon(icon: :graph)
+        end
+      end
     end
   end
 end
