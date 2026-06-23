@@ -10,9 +10,9 @@ informed: All developers
 
 ## Context and Problem Statement
 
-Our software systems are growing in complexity and team size. Architectural and technical decisions are currently communicated verbally, through chat, or buried in pull requests and tickets. As a result, developers often lack context about _why_ a solution was chosen, leading to repeated discussions, inconsistent implementations, and accidental regressions. Additionally, the same problem is solved with different tools within the same codebase, creating a fragmented architecture. We need a way to make architectural decisions transparent, durable, and discoverable across time and teams.
+Our software systems are growing in complexity and team size. Architectural, technical, and significant process decisions are currently communicated verbally, through chat, or buried in pull requests and tickets. As a result, developers often lack context about _why_ a solution was chosen, leading to repeated discussions, inconsistent implementations, and accidental regressions. Additionally, the same problem is solved with different tools within the same codebase, creating a fragmented architecture. We need a way to make architectural decisions transparent, durable, and discoverable across time and teams.
 
-How can we make architectural decisions transparent, durable, and discoverable across time and teams?
+How can we make architectural and other significant cross-cutting decisions transparent, durable, and discoverable across time and teams?
 
 ## Decision Drivers
 
@@ -105,7 +105,8 @@ ADRs will:
 
 - Be numbered sequentially starting with `ADR-0000`
 - Use the MADR template from [https://adr.github.io/madr/](https://adr.github.io/madr/)
-- ADRs will be required for significant architectural decisions, such as:
+- Use "ADR" in its broad sense of *Any Decision Record* (as in MADR, *Markdown Any Decision Records*), covering architecture as well as significant technical and process/collaboration decisions
+- ADRs will be required for significant decisions, such as:
   - introducing a new technology, including:
     - new RubyGems or NPM packages when they are not trivial and introduce new usage patterns (i.e. Angular, React, dry-rb, etc.)
     - introducing new databases or services that need to be included in the deployment process
