@@ -31,8 +31,9 @@
 module Backlogs
   module Sprints
     class RowComponent < ::OpPrimer::BorderBoxRowComponent
+      include CommonHelper
+      include SprintsHelper
       include Redmine::I18n
-      include Backlogs::SprintsHelper
 
       delegate :project, to: :table
       alias_method :sprint, :model
@@ -83,9 +84,28 @@ module Backlogs
                                 })
 
           with_item_group(menu) do
+            sprint_edit_action(menu) if can_open_edit_dialog?
+          end
+
+          with_item_group(menu) do
             sprint_report_action(menu) if show_sprint_report_link?
             sprint_board_action(menu) if show_task_board_link?
           end
+        end
+      end
+
+      def current_user
+        @current_user ||= User.current
+      end
+
+      def sprint_edit_action(menu)
+        menu.with_item(
+          id: dom_target(sprint, :menu, :edit_sprint),
+          label: t(".action_menu.edit_sprint"),
+          href: edit_dialog_project_backlogs_sprint_path(project, sprint),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :pencil)
         end
       end
 
@@ -114,6 +134,14 @@ module Backlogs
 
       def show_task_board_link?
         sprint_board.present?
+      end
+
+      def can_open_edit_dialog?
+        if sprint.owned_by?(project)
+          user_allowed?(:create_sprints)
+        else
+          user_allowed?(:create_sprints) || user_allowed?(:create_sprints, project: sprint.project)
+        end
       end
     end
   end
