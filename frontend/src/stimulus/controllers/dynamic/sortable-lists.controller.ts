@@ -67,6 +67,7 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   static values = {
     acceptedType: String,
     moveUrlTemplate: String,
+    moveUrlTemplates: Object,
     allowedAxis: { type: String, default: 'vertical' },
     maxScrollSpeed: { type: String, default: 'standard' },
   };
@@ -79,6 +80,8 @@ export default class SortableListsController extends Controller<HTMLElement> imp
   declare readonly hasAcceptedTypeValue:boolean;
   declare readonly moveUrlTemplateValue:string;
   declare readonly hasMoveUrlTemplateValue:boolean;
+  declare readonly moveUrlTemplatesValue:Record<string, string>;
+  declare readonly hasMoveUrlTemplatesValue:boolean;
   declare readonly allowedAxisValue:string;
   declare readonly maxScrollSpeedValue:string;
 
@@ -212,14 +215,17 @@ export default class SortableListsController extends Controller<HTMLElement> imp
     }
   }
 
-  private resolveMoveUrl(data:{ itemId:string }):string|null {
-    if (this.hasMoveUrlTemplateValue) {
-      return this.withCurrentFrameQuery(
-        parseTemplate(this.moveUrlTemplateValue).expand({ id: data.itemId }),
-      );
+  private resolveMoveUrl(data:{ type:string; itemId:string }):string|null {
+    const template = this.moveUrlTemplateForType(data.type);
+    return template ? parseTemplate(template).expand({ id: data.itemId }) : null;
+  }
+
+  private moveUrlTemplateForType(type:string):string|null {
+    if (this.hasMoveUrlTemplatesValue && this.moveUrlTemplatesValue[type]) {
+      return this.moveUrlTemplatesValue[type];
     }
 
-    return null;
+    return this.hasMoveUrlTemplateValue ? this.moveUrlTemplateValue : null;
   }
 
   private withCurrentFrameQuery(moveUrl:string):string {
