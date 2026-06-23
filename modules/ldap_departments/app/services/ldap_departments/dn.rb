@@ -1,46 +1,46 @@
 # frozen_string_literal: true
 
 module LdapDepartments
-  # Small helpers for working with LDAP distinguished names. Splitting is escape-aware so that
-  # escaped commas (e.g. `cn=Doe\, John,ou=...`) do not break RDN boundaries.
+  # Helpers for working with LDAP distinguished names. Parsing is delegated to Net::LDAP::DN,
+  # which respects some of the weirder parsing and escaping rules.
   module Dn
     module_function
 
-    def split_rdns(value)
-      rdns = []
-      current = +""
-      escaped = false
-
-      value.to_s.each_char do |char|
-        if escaped
-          current << char
-          escaped = false
-        elsif char == "\\"
-          current << char
-          escaped = true
-        elsif char == ","
-          rdns << current
-          current = +""
-        else
-          current << char
-        end
-      end
-
-      rdns << current
-      rdns
+    # Number of key-value parts (RDN) in the DN. Used to find and process shallower OUs first.
+    def depth(value)
+      parse(value).size
     end
 
-    # The parent container DN (everything past the first RDN), or nil for a single-component DN.
+    # Normalized form for case- and escaping-insensitive comparison. Values are decoded by the parser
+    # and then re-escaped, in case there are differing encodings.
+    # The result is itself a valid DN, which ensures this method is idempotent.
+    def normalize(value)
+      canonical(parse(value))
+    end
+
+    # The parent DN (everything except the first RDN) in canonical form
+    # returns nil for a single-component DN.
     def parent(value)
-      rdns = split_rdns(value)
+      rdns = parse(value)
       return nil if rdns.size <= 1
 
-      rdns.drop(1).join(",").strip
+      canonical(rdns.drop(1))
     end
 
-    # Canonical form for case- and spacing-insensitive comparison.
-    def normalize(value)
-      split_rdns(value).map { |rdn| rdn.strip.downcase }.join(",")
+    # Parsed RDNs as [attribute, value] pairs with values already decoded. A malformed DN returns an
+    # empty array so a single bad entry is skipped rather than aborting the whole synchronization.
+    def parse(value)
+      return [] if value.blank?
+
+      Net::LDAP::DN.new(value.to_s).to_a.each_slice(2).to_a
+    rescue Net::LDAP::InvalidDNError
+      []
+    end
+
+    def canonical(rdns)
+      rdns
+        .map { |attribute, attribute_value| "#{attribute.downcase}=#{Net::LDAP::DN.escape(attribute_value.strip).downcase}" }
+        .join(",")
     end
   end
 end

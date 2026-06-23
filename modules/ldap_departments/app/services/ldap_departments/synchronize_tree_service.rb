@@ -27,7 +27,7 @@ module LdapDepartments
     def synchronize!
       entries = fetch_ou_entries
       # Process shallow OUs first so a child can always resolve its already-persisted parent.
-      entries.sort_by! { |entry| Dn.split_rdns(entry[:dn]).size }
+      entries.sort_by! { |entry| Dn.depth(entry[:dn]) }
 
       seen = []
       entries.each do |entry|
