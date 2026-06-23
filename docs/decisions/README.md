@@ -290,6 +290,8 @@ Examples:
 
 Explain the reasoning process for each option.
 
+When the ADR is about introducing a package or a new coding pattern, show some code examples for each option so we can compare how the newly introduced pattern will be used.
+
 This section answers the future developer’s question:
 
 > Why didn’t we choose the other obvious solution?
