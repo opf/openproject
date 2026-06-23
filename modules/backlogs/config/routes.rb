@@ -116,8 +116,9 @@ Rails.application.routes.draw do
           get "report", to: "sprint_reports#show", as: :sprint_report
 
           scope "report/widgets" do
-            get "burndown_chart", to: "sprint_report_widgets#burndown_chart", as: :sprint_report_burndown_chart_widget
-            get "placeholder", to: "sprint_report_widgets#placeholder", as: :sprint_report_placeholder_widget
+            Backlogs::SprintReportWidgetsController::WIDGETS.each do |widget|
+              get widget, to: "sprint_report_widgets##{widget}", as: "sprint_report_#{widget}_widget"
+            end
           end
         end
       end
