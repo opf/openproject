@@ -659,7 +659,7 @@ describe('Sortable lists controller', () => {
       },
     });
 
-    expect(fetchMock).toHaveBeenCalledWith('/sections/3/drop', expect.objectContaining({ method: 'PUT' }));
+    expect(fetchMock).toHaveBeenLastCalledWith('/sections/3/drop', expect.objectContaining({ method: 'PUT' }));
   });
 
   it('falls back to moveUrlTemplate when type has no entry in the templates map', async () => {
@@ -671,6 +671,86 @@ describe('Sortable lists controller', () => {
     await dropCurrentItemOnList(firstSourceItem, targetList);
 
     expect(fetchMock).toHaveBeenCalledWith('/move/1', expect.objectContaining({ method: 'PUT' }));
+  });
+
+  function renderAbsoluteFixture() {
+    fixture.innerHTML = `
+      <div
+        id="sortable-root"
+        data-controller="sortable-lists"
+        data-sortable-lists-position-mode-value="absolute"
+        data-sortable-lists-move-url-templates-value='{"custom_field":"/fields/{id}/drop"}'
+        data-sortable-lists-sortable-lists--list-outlet="#sortable-root [data-controller~='sortable-lists--list']"
+        data-sortable-lists-sortable-lists--item-outlet="#sortable-root [data-controller~='sortable-lists--item']"
+      >
+        <ul
+          data-controller="sortable-lists--list"
+          data-sortable-lists--list-type-value="custom_field"
+          data-sortable-lists--list-id-value="5"
+        >
+          <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="10" data-sortable-lists--item-type-value="custom_field"></li>
+        </ul>
+        <ul
+          data-controller="sortable-lists--list"
+          data-sortable-lists--list-type-value="custom_field"
+          data-sortable-lists--list-id-value="5"
+        >
+          <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="20" data-sortable-lists--item-type-value="custom_field"></li>
+          <li data-controller="sortable-lists--item" data-sortable-lists--item-id-value="30" data-sortable-lists--item-type-value="custom_field"></li>
+        </ul>
+      </div>
+    `;
+    const root = fixture.querySelector<HTMLElement>('#sortable-root')!;
+    const [sourceList, targetList] = Array.from(fixture.querySelectorAll<HTMLElement>('[data-controller~="sortable-lists--list"]'));
+    const sourceItem = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="10"]')!;
+    return {
+      root, sourceList, targetList, sourceItem,
+    };
+  }
+
+  it('posts target_id and position (no prev_id) when positionMode is absolute', async () => {
+    const {
+      root, targetList, sourceItem,
+    } = renderAbsoluteFixture();
+
+    await ctx.nextFrame();
+
+    const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
+
+    // Drop item 10 from sourceList onto targetList (different list → not a no-op).
+    // The item appends to end of targetList (position 3 among 3 items after move).
+    await monitorOptions?.onDrop?.({
+      source: sourcePayload(sourceItem, sortableItemData({ itemId: '10', type: 'custom_field', rootElement: root })),
+      location: {
+        initial: { dropTargets: [], input: input() },
+        current: {
+          dropTargets: [
+            dropTargetRecord(targetList, sortableListData({ type: 'custom_field', listId: '5' })),
+          ],
+          input: input(),
+        },
+        previous: { dropTargets: [] },
+      },
+    });
+
+    expect(fetchMock).toHaveBeenCalledOnce();
+    const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+    expect(options.body.get('target_id')).toBe('5');
+    expect(typeof Number(options.body.get('position'))).toBe('number');
+    expect(Number(options.body.get('position'))).toBeGreaterThan(0);
+    expect(options.body.get('prev_id')).toBeNull();
+  });
+
+  it('posts prev_id (no position) in the default relative mode', async () => {
+    const { targetList, firstSourceItem } = renderFixture();
+
+    await ctx.nextFrame();
+    await dropCurrentItemOnList(firstSourceItem, targetList);
+
+    expect(fetchMock).toHaveBeenCalledOnce();
+    const options = fetchMock.mock.lastCall?.[1] as { body:FormData };
+    expect(options.body.get('prev_id')).not.toBeNull();
+    expect(options.body.get('position')).toBeNull();
   });
 
   it('hands the root reference to connected list and item controllers', async () => {

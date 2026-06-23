@@ -89,6 +89,22 @@ function resolveAnchorRow(list:HTMLElement, previousItemId:string):HTMLElement|n
   return anchor?.closest('li') ?? null;
 }
 
+// 1-indexed position of an item among the list's sortable-item rows, matching
+// the absolute position the acts_as_list backend expects. Non-item rows (e.g.
+// the empty-state marker) are not counted.
+export function resolveItemPosition({
+  list,
+  itemId,
+}:{
+  list:HTMLElement;
+  itemId:string;
+}):number {
+  const itemRows = listRows(list).filter((row) => resolveItemElement(row) !== null);
+  const index = itemRows.findIndex((row) => resolvePreviousItemId(row) === itemId);
+
+  return index < 0 ? 1 : index + 1;
+}
+
 export function resolveListAppendPreviousItemId({
   sourceItemId,
   list,

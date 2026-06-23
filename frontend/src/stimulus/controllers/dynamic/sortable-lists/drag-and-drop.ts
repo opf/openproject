@@ -144,6 +144,26 @@ export function buildMoveFormData({
   return data;
 }
 
+export function buildAbsolutePositionFormData({
+  listId,
+  position,
+  type,
+}:{
+  listId:string|null;
+  position:number;
+  type:string;
+}):FormData {
+  const data = new FormData();
+
+  data.append('list_type', type);
+  if (listId !== null) {
+    data.append('target_id', listId);
+  }
+  data.append('position', String(position));
+
+  return data;
+}
+
 export function acceptsSortableItemType({
   acceptedType,
   type,

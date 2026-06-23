@@ -29,6 +29,7 @@
 import {
   captureRowPositions,
   reorderRows,
+  resolveItemPosition,
   resolveListAppendPreviousItemId,
   restoreRowPositions,
 } from './list-dom';
@@ -60,10 +61,38 @@ describe('sortable lists DOM helpers', () => {
     return list;
   }
 
+  function htmlList(inner:string):HTMLUListElement {
+    const list = document.createElement('ul');
+
+    list.innerHTML = inner;
+
+    return list;
+  }
+
   function itemIdOrder(list:HTMLElement):string[] {
     return Array.from(list.querySelectorAll('[data-sortable-lists--item-id-value]'))
       .map((element) => element.getAttribute('data-sortable-lists--item-id-value')!);
   }
+
+  describe('resolveItemPosition', () => {
+    it('returns the 1-indexed position of an item among item rows', () => {
+      const list = htmlList(`
+        <li data-sortable-lists--item-id-value="a"></li>
+        <li data-sortable-lists--item-id-value="b"></li>
+        <li data-sortable-lists--item-id-value="c"></li>
+      `);
+      expect(resolveItemPosition({ list, itemId: 'a' })).toBe(1);
+      expect(resolveItemPosition({ list, itemId: 'c' })).toBe(3);
+    });
+
+    it('ignores non-item rows such as the empty-state marker', () => {
+      const list = htmlList(`
+        <li data-empty-list-item="true"></li>
+        <li data-sortable-lists--item-id-value="a"></li>
+      `);
+      expect(resolveItemPosition({ list, itemId: 'a' })).toBe(1);
+    });
+  });
 
   describe('resolveListAppendPreviousItemId', () => {
     it('returns the last item in a list while skipping the source and truncation marker rows', () => {

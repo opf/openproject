@@ -32,6 +32,7 @@ import { attachClosestEdge } from '@atlaskit/pragmatic-drag-and-drop-hitbox/clos
 import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import {
   acceptsSortableItemType,
+  buildAbsolutePositionFormData,
   buildMoveFormData,
   canAccept,
   isSortableItemData,
@@ -197,6 +198,22 @@ describe('sortable lists drag and drop helpers', () => {
       expect(data.get('list_type')).toEqual('inbox');
       expect(data.get('list_id')).toEqual('');
       expect(data.get('prev_id')).toEqual('');
+    });
+  });
+
+  describe('buildAbsolutePositionFormData', () => {
+    it('builds absolute-position form data with target_id and position', () => {
+      const data = buildAbsolutePositionFormData({ listId: '5', position: 2, type: 'custom_field' });
+      expect(data.get('list_type')).toBe('custom_field');
+      expect(data.get('target_id')).toBe('5');
+      expect(data.get('position')).toBe('2');
+      expect(data.get('prev_id')).toBeNull();
+    });
+
+    it('omits target_id when listId is null', () => {
+      const data = buildAbsolutePositionFormData({ listId: null, position: 1, type: 'section' });
+      expect(data.get('target_id')).toBeNull();
+      expect(data.get('position')).toBe('1');
     });
   });
 
