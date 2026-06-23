@@ -23,26 +23,41 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis::Admin
-  class XWikiAuthenticationMethodSelectForm < ApplicationForm
-    form do |f|
-      f.select_list(
-        name: :authentication_method,
-        label: I18n.t("activerecord.attributes.wikis/xwiki_provider.authentication_method"),
-        required: true,
-        input_width: :large,
-        disabled: model.configured_from_env?
-      ) do |select|
-        Wikis::XWikiProvider::AUTHENTICATION_METHODS.each do |method|
-          select.option(
-            label: I18n.t("activerecord.attributes.wikis/xwiki_provider.authentication_methods.#{method}"),
-            value: method
-          )
+module EnvData
+  module Wikis
+    class ExternalProviderSeeder < Seeder
+      def seed_data!
+        Setting.wiki_providers.each do |config|
+          print_status "    ↳ Creating or Updating wiki provider" do
+            result = sync_service_class(config).new(config).call
+
+            if result.success?
+              print_status "   - OK"
+            else
+              raise result.message
+            end
+          end
+        end
+      end
+
+      def applicable?
+        Setting.wiki_providers.present?
+      end
+
+      private
+
+      def sync_service_class(config)
+        type = config.fetch("type").downcase
+        case type
+        when "xwiki"
+          ::Wikis::XWikiEnvSyncService
+        else
+          raise "Unsupported external wiki provider '#{type}'"
         end
       end
     end

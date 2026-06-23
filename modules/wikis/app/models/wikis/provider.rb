@@ -45,6 +45,10 @@ module Wikis
 
     def configured? = raise SubclassResponsibilityError
 
+    def configured_from_env?
+      Setting.wiki_providers.any? { |c| c["name"] == name_was || c["uid"] == universal_identifier_was }
+    end
+
     def non_confidential_configuration
       {
         enabled:

@@ -33,9 +33,15 @@ module Wikis
     class UpdateService < ::BaseServices::Update
       include Concerns::FetchesInstanceId
 
+      def initialize(*, skip_instance_id_fetching: false, **)
+        super(*, **)
+
+        @skip_instance_id_fetching = skip_instance_id_fetching
+      end
+
       private
 
-      def should_fetch_instance_id?(model) = model.url.present? && model.url_changed?
+      def should_fetch_instance_id?(model) = model.url.present? && model.url_changed? && !@skip_instance_id_fetching
     end
   end
 end

@@ -28,22 +28,37 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis::Admin
-  class XWikiAuthenticationMethodSelectForm < ApplicationForm
-    form do |f|
-      f.select_list(
-        name: :authentication_method,
-        label: I18n.t("activerecord.attributes.wikis/xwiki_provider.authentication_method"),
-        required: true,
-        input_width: :large,
-        disabled: model.configured_from_env?
-      ) do |select|
-        Wikis::XWikiProvider::AUTHENTICATION_METHODS.each do |method|
-          select.option(
-            label: I18n.t("activerecord.attributes.wikis/xwiki_provider.authentication_methods.#{method}"),
-            value: method
-          )
-        end
+module Wikis
+  module OAuthApplications
+    class UpdateService
+      OIDC_CALLBACK_PATH = "oidc/authenticator/callback"
+
+      attr_accessor :user, :wiki_provider
+
+      def initialize(wiki_provider:, user:)
+        @wiki_provider = wiki_provider
+        @user = user
+      end
+
+      def call(client_id: nil, client_secret: nil)
+        ::OAuth::Applications::UpdateService.new(user:, model: wiki_provider.oauth_application).call(
+          **attributes(client_id:, client_secret:)
+        )
+      end
+
+      private
+
+      def attributes(client_id:, client_secret:)
+        {
+          name: wiki_provider.name,
+          redirect_uri:,
+          uid: client_id,
+          secret: client_secret
+        }.compact
+      end
+
+      def redirect_uri
+        URI.join("#{wiki_provider.url.chomp('/')}/", OIDC_CALLBACK_PATH).to_s
       end
     end
   end

@@ -37,7 +37,8 @@ module Wikis::Admin
         required: true,
         caption: I18n.t("wikis.admin.wiki_providers.name_caption"),
         placeholder: I18n.t("wikis.admin.wiki_providers.name_placeholder"),
-        input_width: :large
+        input_width: :large,
+        disabled: model.configured_from_env?
       )
     end
   end
