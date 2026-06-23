@@ -55,7 +55,7 @@ module Backlogs
     end
 
     def menu_src
-      url_helpers.menu_project_backlogs_work_package_path(project, work_package, params)
+      url_helpers.menu_project_backlogs_work_package_path(project, work_package)
     end
 
     def card_arguments

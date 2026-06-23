@@ -158,6 +158,10 @@ module OpTurbo
       turbo_streams << OpTurbo::StreamComponent.new(action: :reloadPage, target: nil).render_in(view_context)
     end
 
+    def reload_frame_via_turbo_stream(target)
+      turbo_streams << turbo_stream.turbo_frame_reload(target)
+    end
+
     # Dispatches a `CustomEvent` on `document` from a turbo stream, letting the
     # server signal a client-side change without knowing which listeners (if
     # any) react to it. `detail` is serialized and exposed as the event's detail.
