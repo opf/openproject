@@ -43,12 +43,20 @@ See COPYRIGHT and LICENSE files for more details.
 <% end %>
 
 <% content_for :content_body do %>
-  <%=
-    render Backlogs::Sprints::TableComponent.new(
-      rows: @sprints,
-      project: @project,
-      work_package_counts: @work_package_counts,
-      test_selector: "all-sprints-table"
-    )
-  %>
+  <%= turbo_frame_tag "all-sprints-table",
+                      refresh: :morph,
+                      data: {
+                        controller: "reload-frame-on-event",
+                        "reload-frame-on-event-event-name-value": "backlogs:sprint-updated",
+                        "reload-frame-on-event-url-value": project_backlogs_sprints_path(@project)
+                      } do %>
+    <%=
+      render Backlogs::Sprints::TableComponent.new(
+        rows: @sprints,
+        project: @project,
+        work_package_counts: @work_package_counts,
+        test_selector: "all-sprints-table"
+      )
+    %>
+  <% end %>
 <% end %>
