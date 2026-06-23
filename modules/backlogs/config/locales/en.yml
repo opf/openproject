@@ -226,6 +226,7 @@ en:
     sprints:
       row_component:
         action_menu:
+          edit_sprint: "Edit sprint"
           sprint_report: "Sprint report"
 
     sprints_component:
