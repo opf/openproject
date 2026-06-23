@@ -42,6 +42,6 @@
     "msw": "^2.12.7",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.0",
-    "vitest": "^4.1.0"
+    "vitest": "^4.1.9"
   }
 }
