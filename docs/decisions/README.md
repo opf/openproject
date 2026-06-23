@@ -30,7 +30,7 @@ You must create an ADR when making a decision that is:
 - Difficult to reverse
 - Expensive to change later
 - Introducing or replacing a technology
-- Introducing a new RubyGem or NPM package when it is not trivial and introduce new usage patterns (i.e. Angular, React, dry-rb, etc.)
+- Introducing a new RubyGem or NPM package when it is not trivial and introduces new usage patterns (e.g. Angular, React, dry-rb, etc.)
 - Introducing a new database or service that needs to be included in the deployment process
 - Introducing dependencies on external services
 - Affecting APIs or system boundaries

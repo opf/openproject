@@ -39,7 +39,7 @@ Chosen option: "{title of option 1}", because {justification. e.g., only option,
 
 ### Confirmation
 
-{Describe how the implementation of/compliance with the ADR can/will be confirmed. Is it possible to create a RuboCop rule or create a GitHub action that can enforce compliance. Are the design that was decided for and its implementation in line with the decision made? E.g., a design/code review or a test with a library such as ArchUnit can help validate this. Note that although we classify this element as optional, it is included in many ADRs.}
+{Describe how the implementation of/compliance with the ADR can/will be confirmed. Is it possible to create a RuboCop rule or create a GitHub action that can enforce compliance. Is the design that was decided for and its implementation in line with the decision made? E.g., a design/code review or a test with a library such as ArchUnit can help validate this. Note that although we classify this element as optional, it is included in many ADRs.}
 
 <!-- This is an optional element. Feel free to remove. -->
 
@@ -72,4 +72,4 @@ Chosen option: "{title of option 1}", because {justification. e.g., only option,
 
 ## More Information
 
-{You might want to provide additional evidence/confidence for the decision outcome here and/or document the team agreement on the decision and/or define when/how this decision the decision should be realized and if/when it should be re-visited. Links to other decisions and resources might appear here as well.}
+{You might want to provide additional evidence/confidence for the decision outcome here and/or document the team agreement on the decision and/or define when/how this decision should be realized and if/when it should be re-visited. Links to other decisions and resources might appear here as well.}

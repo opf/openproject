@@ -1,7 +1,7 @@
 ---
 status: "accepted"
 date: 2026-02-10
-decision-makers: Open Project Development Team
+decision-makers: OpenProject Development Team
 consulted:
 informed: All developers
 ---
