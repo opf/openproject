@@ -56,6 +56,7 @@ import { ProjectStoragesResourceService } from 'core-app/core/state/project-stor
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 export interface FieldDescriptor {
   name:string;
@@ -283,6 +284,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    */
   public get idLabel():string {
     return this.workPackage.formattedId;
+  }
+
+  public get selectEntireId():boolean {
+    return isSemanticWorkPackageId(this.idLabel);
   }
 
   public showSwitchToProjectBanner():boolean {

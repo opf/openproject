@@ -23,7 +23,10 @@
       @if (!isNewResource) {
         <div class="work-packages--info-row"
           >
-          <span [textContent]="idLabel"></span>:
+          <span
+            [ngClass]="{ '-all-text-select': selectEntireId }"
+            [textContent]="idLabel"
+          ></span>:
           <span [textContent]="text.infoRow.createdBy"></span>
           <!-- The space has to be in an extra span
           because otherwise the browser would add a second space after it -->
