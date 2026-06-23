@@ -49,7 +49,7 @@ Chosen option: "{title of option 1}", because {justification. e.g., only option,
 
 <!-- This is an optional element. Feel free to remove. -->
 
-{example | description | pointer to more information | …}
+{ code example | example | description | pointer to more information | …}
 
 - Good, because {argument a}
 - Good, because {argument b}
