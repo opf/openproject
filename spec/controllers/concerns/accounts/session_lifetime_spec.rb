@@ -63,7 +63,7 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
 
     context "and the last activity is older than the refresh interval but within the TTL" do
       it "refreshes the session timestamp" do
-        session[:updated_at] = 5.minutes.ago
+        session[:updated_at] = 10.minutes.ago
 
         get :index
 
@@ -88,9 +88,31 @@ RSpec.describe ApplicationController, "session lifetime handling" do # rubocop:d
     end
   end
 
+  context "with a short TTL", with_settings: { session_ttl_enabled?: true, session_ttl: "5" } do
+    it "refreshes more promptly, scaling the interval down with the TTL" do
+      # 90s is past the ~1 minute interval a 5 minute TTL yields, but would have
+      # been skipped by a fixed multi-minute window.
+      session[:updated_at] = 90.seconds.ago
+
+      get :index
+
+      expect(response).to have_http_status(:ok)
+      expect(session[:updated_at]).to be_within(5.seconds).of(Time.current)
+    end
+  end
+
   context "when the session TTL is disabled", with_settings: { session_ttl_enabled?: false } do
+    it "does not terminate even a very old session" do
+      session[:updated_at] = 1.year.ago
+
+      get :index
+
+      expect(response).to have_http_status(:ok)
+      expect(session[:user_id]).to eq(user.id)
+    end
+
     it "still refreshes a stale timestamp for the 30-day cleanup window" do
-      session[:updated_at] = 5.minutes.ago
+      session[:updated_at] = 10.minutes.ago
 
       get :index
 

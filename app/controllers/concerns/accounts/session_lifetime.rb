@@ -37,10 +37,17 @@ module Accounts::SessionLifetime
 
   include ::OpenProject::Authentication::SessionExpiration
 
-  # Minimum age of session[:updated_at] before we refresh it.
-  # Previously, we would bump it on every request, which causes an unnecessary session write.
-  # The minimum TTL value is 5.minutes, so we set this to half of that.
-  SESSION_ACTIVITY_REFRESH_INTERVAL = 2.minutes
+  # We refresh session[:updated_at] (causing a database write in our session store) at most
+  # once per the interval below, rather than on every request.
+  #
+  # Doing that MAY cause the session to expire within one interval earlier than its TTL,
+  # but it will never be expired later than that, ensuring that the setting is considered a maximum.
+  #
+  # The interval is a fraction of the configured TTL, with min and max values at 1 and 5 minutes respectively.
+  # This alllows us to save more writes on longer TTLs, while keeping the "expire ahead" minimal for smaller values.
+  SESSION_ACTIVITY_REFRESH_RATIO = 0.2
+  SESSION_ACTIVITY_REFRESH_MIN = 1.minute
+  SESSION_ACTIVITY_REFRESH_MAX = 5.minutes
 
   protected
 
@@ -65,12 +72,22 @@ module Accounts::SessionLifetime
     !api_request? && current_user.logged? && session_ttl_expired?
   end
 
-  # Only write to the esssion if we really need to to prevent a session write
-  # that has no effect other than the updated_at.
+  # Only write to the session if we really need to, to prevent a session write
+  # that has no effect other than bumping updated_at.
   def refresh_session_activity
     last_seen = session[:updated_at]
-    return if last_seen.present? && last_seen > SESSION_ACTIVITY_REFRESH_INTERVAL.ago
+    return if last_seen.present? && last_seen > session_activity_refresh_interval.ago
 
     session[:updated_at] = Time.zone.now
+  end
+
+  # See the SESSION_ACTIVITY_REFRESH_* constants. Without a TTL only the 30-day
+  # cleanup cares about updated_at, so the maximum interval is enough.
+  def session_activity_refresh_interval
+    return SESSION_ACTIVITY_REFRESH_MAX unless session_ttl_enabled?
+
+    scaled = (session_ttl_minutes.to_i * SESSION_ACTIVITY_REFRESH_RATIO).round
+    # Ensure our value it stays between the min and max interval
+    scaled.clamp(SESSION_ACTIVITY_REFRESH_MIN.to_i, SESSION_ACTIVITY_REFRESH_MAX.to_i).seconds
   end
 end
