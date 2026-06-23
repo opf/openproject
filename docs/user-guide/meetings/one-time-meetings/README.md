@@ -176,6 +176,19 @@ Sections will show the sum of all the durations of all containing items (or at l
 > [!TIP]
 > If you need to store the agenda outside of OpenProject, you can generate an optimized PDF using the print function (Ctrl/Cmd + P).
 
+#### Convert agenda items to work packages
+
+ From the menu (three dots) menu of an agenda item, you can convert a selected item into a work package.
+
+![Menu option to convert agenda outcome into work package](openproject_userguide_meetings_convert_agenda_item_to_wp.png)
+
+A convert to work package dialog opens, where you can edit the work package type, subject and description. Click **Create** to save your changes.
+
+![Form to convert agenda outcome to work package](openproject_userguide_meetings_convert_to_wp_form.png)
+
+Your converted work package will now appear as an agenda item.
+
+![Converted work package agenda item](openproject_userguide_meetings_converted_work_package.png)
 
 #### Link a work package to a meeting
 
@@ -384,7 +397,6 @@ After creating it, the new work package will be shown as an outcome under the ag
 Meeting agenda outcomes are also displayed in the **Meetings** tab of the linked work package in a read-only format. They are marked with an **Added as outcome** label so that it is clear how the work package is connected to the meeting.
 
 ![Agenda item outcomes displayed in Meetings tab in a work package in OpenProject](openproject_userguide_meetings_agenda_outcome_in_work_package.png)
-
 
 ## Meeting attachments
 
