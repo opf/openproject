@@ -297,7 +297,7 @@ module Pages
       dismiss_menu(bucket)
     end
 
-    def click_in_backlog_bucket_menu(bucket, item_name)
+    def click_in_bucket_menu(bucket, item_name)
       within_backlog_bucket_menu(bucket) do |menu|
         menu.find(:menuitem, text: item_name).click
       end

@@ -173,7 +173,7 @@ RSpec.describe "Create work package", :js do
 
   context "in a backlog bucket" do
     it "allows creating a new story" do
-      backlogs_page.click_in_backlog_bucket_menu(bucket, "Add new work package")
+      backlogs_page.click_in_bucket_menu(bucket, "Add new work package")
 
       within_dialog "New work package" do
         fill_in "Subject", with: "The new item"

@@ -62,7 +62,7 @@ RSpec.describe "Add existing work package", :js do
 
     it "can be added to a bucket" do
       backlogs_page.visit!
-      backlogs_page.click_in_backlog_bucket_menu(bucket_a, "Add existing work package")
+      backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
 
       within_modal "Add existing work package to #{bucket_a.name}" do
         select_autocomplete(find("ng-select"), query: work_package.subject)
@@ -72,7 +72,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_work_package_in_backlog_bucket(work_package, bucket_a)
       backlogs_page.expect_no_inbox_item(work_package)
 
-      backlogs_page.click_in_backlog_bucket_menu(bucket_a, "Add existing work package")
+      backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
       within_modal "Add existing work package to #{bucket_a.name}" do
         search_autocomplete(find("ng-select"), query: work_package.subject)
         expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
@@ -123,7 +123,7 @@ RSpec.describe "Add existing work package", :js do
 
     it "can be added to another bucket" do
       backlogs_page.visit!
-      backlogs_page.click_in_backlog_bucket_menu(bucket_b, "Add existing work package")
+      backlogs_page.click_in_bucket_menu(bucket_b, "Add existing work package")
 
       within_modal "Add existing work package to #{bucket_b.name}" do
         select_autocomplete(find("ng-select"), query: work_package.subject)
@@ -133,7 +133,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_work_package_in_backlog_bucket(work_package, bucket_b)
       backlogs_page.expect_work_package_not_in_backlog_bucket(work_package, bucket_a)
 
-      backlogs_page.click_in_backlog_bucket_menu(bucket_b, "Add existing work package")
+      backlogs_page.click_in_bucket_menu(bucket_b, "Add existing work package")
       within_modal "Add existing work package to #{bucket_b.name}" do
         search_autocomplete(find("ng-select"), query: work_package.subject)
         expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
@@ -184,7 +184,7 @@ RSpec.describe "Add existing work package", :js do
 
     it "can be added to a bucket" do
       backlogs_page.visit!
-      backlogs_page.click_in_backlog_bucket_menu(bucket_a, "Add existing work package")
+      backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
 
       within_modal "Add existing work package to #{bucket_a.name}" do
         select_autocomplete(find("ng-select"), query: work_package.subject)
@@ -194,7 +194,7 @@ RSpec.describe "Add existing work package", :js do
       backlogs_page.expect_work_package_in_backlog_bucket(work_package, bucket_a)
       backlogs_page.expect_work_package_not_in_sprint(work_package, sprint_a)
 
-      backlogs_page.click_in_backlog_bucket_menu(bucket_a, "Add existing work package")
+      backlogs_page.click_in_bucket_menu(bucket_a, "Add existing work package")
       within_modal "Add existing work package to #{bucket_a.name}" do
         search_autocomplete(find("ng-select"), query: work_package.subject)
         expect(page).to have_no_css(".ng-option", text: work_package.subject, wait: 5)
