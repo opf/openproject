@@ -63,7 +63,8 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
     let(:source) { :link }
 
     it "renders the parent badge" do
-      expect(page).to have_text(I18n.t("wikis.page_links.source.parent"))
+      expect(page).to have_test_selector("wiki-page-link-source-badge",
+                                         text: I18n.t("wikis.page_links.source.parent"))
     end
   end
 
@@ -71,13 +72,13 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
     let(:source) { :mention }
 
     it "renders no badge" do
-      expect(page).to have_no_text(I18n.t("wikis.page_links.source.parent"))
+      expect(page).not_to have_test_selector("wiki-page-link-source-badge")
     end
   end
 
   context "when the page has no source" do
     it "renders no badge" do
-      expect(page).to have_no_text(I18n.t("wikis.page_links.source.parent"))
+      expect(page).not_to have_test_selector("wiki-page-link-source-badge")
     end
   end
 
