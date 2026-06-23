@@ -82,20 +82,38 @@ module Backlogs
                                   "test-selector": "more-button"
                                 })
 
-          sprint_report_action(menu)
+          with_item_group(menu) do
+            sprint_report_action(menu) if show_sprint_report_link?
+            sprint_board_action(menu) if show_task_board_link?
+          end
         end
       end
 
       def sprint_report_action(menu)
-        return nil unless OpenProject::FeatureDecisions.sprint_reports_active?
-        return nil unless User.current.allowed_in_project?(:view_sprints, [project])
-
         label = t(".action_menu.sprint_report")
         href = project_backlogs_sprint_report_path(project, sprint)
 
         menu.with_item(label:, href:, tag: :a) do |item|
           item.with_leading_visual_icon(icon: :graph)
         end
+      end
+
+      def sprint_board_action(menu)
+        label = t("backlogs.label_sprint_board")
+        href = project_backlogs_sprint_taskboard_path(project, sprint)
+
+        menu.with_item(label:, href:, tag: :a) do |item|
+          item.with_leading_visual_icon(icon: :"op-view-cards")
+        end
+      end
+
+      def show_sprint_report_link?
+        OpenProject::FeatureDecisions.sprint_reports_active? &&
+          user_allowed?(:view_sprints)
+      end
+
+      def show_task_board_link?
+        sprint_board.present?
       end
     end
   end
