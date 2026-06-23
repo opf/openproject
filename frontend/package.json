@@ -113,7 +113,7 @@
     "@rails/request.js": "^0.0.13",
     "@stimulus-components/auto-submit": "^6.0.0",
     "@stimulus-components/reveal": "^5.0.0",
-    "@tiptap/extensions": "^3.26.0",
+    "@tiptap/extensions": "^3.26.1",
     "@uirouter/angular": "^21.0.0",
     "@uirouter/core": "^6.1.2",
     "@uirouter/rx": "^1.0.0",
