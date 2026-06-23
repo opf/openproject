@@ -75,9 +75,8 @@ module WorkPackageTypes
         eager_load_project_custom_field_data
         update_project_attribute_sections_via_turbo_stream
       else
-        render_error_flash_message_via_turbo_stream(
-          message: call.message.presence || I18n.t(:notice_unsuccessful_update)
-        )
+        error_message = call.message.presence || I18n.t(:notice_unsuccessful_update)
+        render_error_flash_message_via_turbo_stream(message: error_message)
       end
 
       respond_with_turbo_streams(status: call.success? ? :ok : :unprocessable_entity)

@@ -116,7 +116,9 @@ RSpec.describe "Work package type project attributes", :js do
   it "enables and disables all project attributes of a section" do
     project_attributes_page.within_section(input_section) do
       page.find_test_selector("enable-all-type-project-attributes-#{input_section.id}").click
+    end
 
+    project_attributes_page.within_section(input_section) do
       project_attributes_page.within_attribute(boolean_project_custom_field) do
         project_attributes_page.expect_checked_state
       end
@@ -136,7 +138,9 @@ RSpec.describe "Work package type project attributes", :js do
 
     project_attributes_page.within_section(input_section) do
       page.find_test_selector("disable-all-type-project-attributes-#{input_section.id}").click
+    end
 
+    project_attributes_page.within_section(input_section) do
       project_attributes_page.within_attribute(boolean_project_custom_field) do
         project_attributes_page.expect_unchecked_state
       end

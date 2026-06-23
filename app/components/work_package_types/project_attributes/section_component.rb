@@ -27,6 +27,27 @@ module WorkPackageTypes
 
       private
 
+      def enable_all_path
+        enable_all_of_section_type_project_attributes_path(
+          @type,
+          project_custom_field_type_mapping: bulk_action_params
+        )
+      end
+
+      def disable_all_path
+        disable_all_of_section_type_project_attributes_path(
+          @type,
+          project_custom_field_type_mapping: bulk_action_params
+        )
+      end
+
+      def bulk_action_params
+        {
+          type_id: @type.id,
+          custom_field_section_id: @project_custom_field_section.id
+        }
+      end
+
       def wrapper_uniq_by
         @project_custom_field_section.id
       end
