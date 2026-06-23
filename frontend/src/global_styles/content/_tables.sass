@@ -107,9 +107,6 @@ tr.context-menu-selection,
 tr.-checked
   background-color: var(--box-list-item-selected-bg-color) !important
   border-bottom: 1px solid var(--box-list-item-selected-border-color) !important
-  &:first-child
-    td
-      border-top: 1px solid var(--box-list-item-selected-border-color) !important
   &[class*=__hl_background]
     outline: var(--bgColor-accent-emphasis) solid 2px
 
@@ -123,15 +120,18 @@ tr.-checked
 
 tr.-pressed
   border-bottom: 1px solid var(--box-list-item-pressed-border-color) !important
-  &:first-child
-    td
-      border-top: 1px solid var(--box-list-item-pressed-border-color) !important
 
 tr:not(.-pressed):has(+ tr.-checked)
   border-bottom: 1px solid var(--box-list-item-selected-border-color) !important
 
 tr:not(.-pressed):has(+ tr.-pressed)
   border-bottom: 1px solid var(--box-list-item-pressed-border-color) !important
+
+thead:has(+ tbody > tr:first-child.-checked) th
+  border-bottom-color: var(--box-list-item-selected-border-color) !important
+
+thead:has(+ tbody > tr:first-child.-pressed) th
+  border-bottom-color: var(--box-list-item-pressed-border-color) !important
 
 #custom-options-table
   .custom-option-value
