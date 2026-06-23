@@ -116,7 +116,7 @@ ADRs will:
   - influencing how multiple teams work
 - Be accepted through pull request that will be approved by **at least one developer from each team** and merged into the `dev` branch
 - Be immutable once accepted (updates require a new ADR that supersedes the previous one)
-- Be revisited when:
+- Be superseded by a new ADR when (the original is then marked as superseded and archived):
   - the system architecture significantly changes
   - assumptions are no longer valid
   - the decision causes operational or development friction
