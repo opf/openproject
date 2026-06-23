@@ -49,38 +49,6 @@ RSpec.describe Backlogs::WorkPackagesController do
   let(:sprint) { create(:sprint, name: "Agile Sprint 1", project:) }
   let(:work_package) { create(:work_package, status:, sprint:, project:, type: type_feature) }
 
-  shared_examples "respecting the all param for inbox pagination" do
-    context "with an inbox over the pagination threshold" do
-      shared_let(:wps) { create_list(:work_package, 5, project:, status:) }
-
-      before do
-        stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 2)
-      end
-
-      context "when all param is not present" do
-        let(:all) { nil }
-
-        it "replaces the inbox with a show-more row in the stream" do
-          subject
-
-          expect(response).to be_successful
-          expect(response.body).to include("inbox_project_#{project.id}_show_more")
-        end
-      end
-
-      context "when all=true" do
-        let(:all) { "true" }
-
-        it "replaces the inbox without a show-more row in the stream" do
-          subject
-
-          expect(response).to be_successful
-          expect(response.body).not_to include("inbox_project_#{project.id}_show_more")
-        end
-      end
-    end
-  end
-
   describe "load_work_package" do
     let(:params) { { project_id: project.id, id: work_package.id } }
 
@@ -139,9 +107,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{sprint.id}",
-                                                method: "morph"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
         end
 
         it "does not change the work_package's sprint and position" do
@@ -162,10 +129,8 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(response).to be_successful
           expect(response).to have_http_status :ok
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{other_sprint.id}", method: "morph"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(assigns(:project)).to eq(project)
           expect(assigns(:work_package)).to eq(work_package_in_sprint)
         end
@@ -201,10 +166,8 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(response).to be_successful
           expect(response).to have_http_status :ok
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-backlog-component-#{project.id}", method: "morph"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(assigns(:project)).to eq(project)
           expect(assigns(:work_package)).to eq(work_package_in_sprint)
         end
@@ -241,8 +204,6 @@ RSpec.describe Backlogs::WorkPackagesController do
             expect(work_package_in_sprint.reload).to have_attributes(sprint_id: nil, backlog_bucket_id: nil, position: 1)
           end
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with a Backlog bucket as target" do
@@ -256,11 +217,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{sprint.id}",
-                                                method: "morph"
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
         end
 
         context "when the project is configured to exclude the work packages status from backlogs" do
@@ -284,8 +242,6 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(work_package_in_sprint.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with direction param" do
@@ -296,8 +252,8 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(response).to be_successful
           expect(response).to have_http_status :ok
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(assigns(:work_package)).to eq(work_package_in_sprint)
         end
 
@@ -319,7 +275,8 @@ RSpec.describe Backlogs::WorkPackagesController do
 
             expect(response).to have_http_status :unprocessable_entity
             expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
-            expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
+            expect(response).not_to have_turbo_stream action: "turbo_frame_reload",
+                                                      target: "backlogs_container"
           end
         end
       end
@@ -338,10 +295,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{target_sprint.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
 
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
@@ -351,8 +306,6 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(inbox_work_package.reload).to have_attributes(sprint: target_sprint, backlog_bucket_id: nil, position: 1)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with the same Inbox as target" do
@@ -364,8 +317,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
@@ -373,8 +326,6 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
           expect(inbox_work_package.reload).to have_attributes(sprint: nil, backlog_bucket: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with a Backlog bucket as target" do
@@ -388,8 +339,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
@@ -397,8 +348,6 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
           expect(inbox_work_package.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with direction param" do
@@ -409,7 +358,9 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace", target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
+
           expect(assigns(:work_package)).to eq(inbox_work_package)
         end
 
@@ -418,8 +369,6 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(inbox_work_package.reload).to have_attributes(backlog_bucket_id: nil, sprint_id: nil, position: 1)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
     end
 
@@ -438,10 +387,9 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{target_sprint.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
+
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
@@ -450,8 +398,6 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(bucket_work_package.reload).to have_attributes(sprint: target_sprint, backlog_bucket: nil, position: 1)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with the Inbox as target" do
@@ -463,8 +409,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
@@ -473,8 +419,6 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket_id: nil, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with the same Backlog bucket as target" do
@@ -486,8 +430,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
@@ -496,8 +440,6 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with another Backlog bucket as target" do
@@ -511,8 +453,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
@@ -521,8 +463,6 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket: other_bucket, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with direction param" do
@@ -532,7 +472,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           subject
 
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace", target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(assigns(:work_package)).to eq(bucket_work_package)
         end
 
@@ -541,8 +482,6 @@ RSpec.describe Backlogs::WorkPackagesController do
 
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket_id: bucket.id, sprint_id: nil, position: 1)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
     end
 
@@ -593,16 +532,6 @@ RSpec.describe Backlogs::WorkPackagesController do
 
       expect(response).to have_http_status :ok
       expect(response.body).to include(I18n.t(:"js.button_open_details"))
-    end
-
-    context "when all=true is in params" do
-      let(:params) { { project_id: project.id, id: work_package_id, all: "true" } }
-
-      it "embeds the all query in deferred action URLs" do
-        subject
-
-        expect(response.body).to match(/all=true/)
-      end
     end
 
     context "when another open sprint exists" do

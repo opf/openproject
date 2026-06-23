@@ -180,13 +180,6 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
         expect(card["data-backlogs--story-split-url-value"]).to include("all=true")
       end
     end
-
-    it "includes all=true in the action-menu src" do
-      expect(rendered_component).to have_element(
-        "include-fragment",
-        src: menu_project_backlogs_work_package_path(project, work_package, all: "true")
-      )
-    end
   end
 
   context "when the user lacks the create_sprints permission" do

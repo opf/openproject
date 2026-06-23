@@ -97,16 +97,6 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       )
     end
 
-    context "when params[:all] is true" do
-      before { vc_test_controller.params[:all] = "1" }
-
-      it "adds the all param to the open details href" do
-        render_component
-
-        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_open_details[href*="all=true"]))
-      end
-    end
-
     it "shows Open fullscreen link (full page)" do
       render_component
 
@@ -353,16 +343,6 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
 
       expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
     end
-
-    context "when params[:all] is true" do
-      before { vc_test_controller.params[:all] = "1" }
-
-      it "adds the all param to the move to sprint href" do
-        render_component(open_sprints_exist: true)
-
-        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_sprint[href*="all=true"]))
-      end
-    end
   end
 
   describe "Move to backlog inbox item" do
@@ -395,16 +375,6 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         render_component
 
         expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
-      end
-    end
-
-    context "when params[:all] is true" do
-      before { vc_test_controller.params[:all] = "1" }
-
-      it "adds the all param to the form action for the inbox move" do
-        render_component
-
-        expect(page).to have_css(%(form[action*="all=true"]))
       end
     end
   end
@@ -445,16 +415,6 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       render_component(other_buckets_exist: false)
 
       expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
-    end
-
-    context "when params[:all] is true" do
-      before { vc_test_controller.params[:all] = "1" }
-
-      it "adds the all param to the dialog href" do
-        render_component(other_buckets_exist: true)
-
-        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_backlog_bucket[href*="all=true"]))
-      end
     end
   end
 end

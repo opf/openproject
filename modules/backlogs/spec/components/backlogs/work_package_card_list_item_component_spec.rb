@@ -107,17 +107,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       expect(card["data-backlogs--story-split-url-value"])
         .to end_with(project_backlogs_backlog_details_path(project, work_package))
     end
-
-    context "with params" do
-      let(:params) { { all: true } }
-
-      it "passes params into card URLs" do
-        render_inline(item.card)
-        card = page.find(".op-work-package-card")
-
-        expect(card["data-backlogs--story-split-url-value"]).to include("all=true")
-      end
-    end
   end
 
   describe "#card" do
@@ -187,17 +176,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         expect(rendered_card).to have_element(
           "include-fragment",
           src: menu_project_backlogs_work_package_path(project, work_package)
-        )
-      end
-    end
-
-    context "with params" do
-      let(:params) { { all: 1 } }
-
-      it "passes params into the menu source" do
-        expect(rendered_card).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package, all: 1)
         )
       end
     end
