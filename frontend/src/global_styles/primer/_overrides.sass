@@ -226,5 +226,17 @@ ul.SegmentedControl,
   .FilterableTreeViewLayout
     > .Stack
       padding-right: var(--base-size-16)
+
+      // Firefox on Windows uses classic scrollbars. The project selector
+      // compensates for that with an outer right margin, so avoid adding
+      // toolbar padding on top of it.
+      body.-browser-windows.-browser-firefox &
+        padding-right: 0
+
     .FilterableTreeViewTreeContainer
       scrollbar-gutter: stable
+
+      // Keep the selected row action away from the classic scrollbar.
+      body.-browser-windows.-browser-firefox &
+        .TreeViewRootUlStyles
+          padding-right: var(--base-size-16)
