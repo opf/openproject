@@ -157,27 +157,25 @@ Confirm it a second time.
 
 Press the **Change password** button in order to confirm the password changes.
 
-![Change password under security in OpenProject](openproject_account_settings_change_password.png)
+![Change password under security section in user account settings](openproject_account_settings_change_password.png)
 
 > [!NOTE]
 > You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
 
 ### Two-factor authentication devices
 
-In order to activate the two-factor authentication for your OpenProject installation, click on **+2FA device**.  If you have not added any device yet, this list will be empty.
+In order to activate the two-factor authentication for your OpenProject installation, click the  **+2FA device** button.  If you have not added any device yet, this list will be empty.
 
-![Two-factor authentication under security in OpenProject account settings](openproject_account_settings_two_factor_authentication.png)
+![Two-factor authentication under security section in OpenProject account settings](openproject_account_settings_two_factor_authentication.png)
 
 If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set a a default option.
 
-![List of all registered 2FA devices in OpenProject](openproject_account_settings_2fa_overview.png)
-
-In order to register a new device for two-factor authentication, click the add a **+ 2FA device** button and select one of the options. The options you see will depend on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/):
+In order to register a new device for two-factor authentication, click the **+ 2FA device** button and select one of the options. The options you see will depend on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/):
 
 - App-based authenticator
 - WebAuthn
 
-![Authentication options under OpenProject account settings](openproject_account_settings_two_factor_authentication_options.png)
+![Authentication options under security section in OpenProject account settings](openproject_account_settings_two_factor_authentication_options.png)
 
 You can remove or approve 2FA applications by confirming your password. Note that this applies only to internally authenticated users.
 
@@ -201,11 +199,11 @@ Your browser will prompt you to present your WebAuthn device (depending on your 
 
 ### Backup codes
 
-If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Click on the **Generate backup codes** button to generate a new set of backup codes.
+If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Click the **Generate backup codes** button to generate a new set of backup codes.
 
 If you have created backup codes before, they will be invalidated and will no longer work.
 
-![Generate backup codes under security in OpenProject account settings](openproject_account_settings_backup_codes.png)
+![Generate backup codes under security section in OpenProject account settings](openproject_account_settings_backup_codes.png)
 
 
 
@@ -347,7 +345,7 @@ To configure the notification settings which you receive from the system, naviga
 
 ![Notification settings in OpenProject account settings](openproject_account_settings_notification_settings.png)
 
-![](openproject_account_settings_more_notification_settings.png)
+![More notification settings in Openproject account settings](openproject_account_settings_more_notification_settings.png)
 
 In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings/).
 
@@ -357,9 +355,9 @@ Please also see our detailed [in-app notifications](../../user-guide/notificatio
 
 To configure the email reminders which you receive from the system, switch to the **email reminders tab.** Your system administrator can also set them for you or change the global default settings.
 
-![Email reminders in OpenProject account settings](openproject_account_settings_email_reminders.png)
+![Email reminders section in OpenProject account settings](openproject_account_settings_email_reminders.png)
 
-![Email reminders in OpenProject account settings](openproject_account_settings_more_email_reminders.png)
+![More email reminders section in OpenProject account settings](openproject_account_settings_more_email_reminders.png)
 
 You can choose between several email reminders.
 
