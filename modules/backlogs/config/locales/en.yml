@@ -206,6 +206,11 @@ en:
         breadcrumb: Report
         title: "%{sprint} report"
 
+    sprints:
+      row_component:
+        action_menu:
+          sprint_report: "Sprint report"
+
     sprints_component:
       blankslate:
         title: "No sprints present yet"
