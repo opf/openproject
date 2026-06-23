@@ -272,4 +272,35 @@ describe('Sortable lists list controller', () => {
     expect(dropTargetOptionsFor(list)?.canDrop?.({ element: list, input: {} as never, source: source(root, 'work_package') }))
       .toBe(false);
   });
+
+  it('accepts only its acceptedTypes when configured', async () => {
+    const root = document.createElement('div');
+    fixture.innerHTML = `<ul data-controller="sortable-lists--list"
+                             data-sortable-lists--list-type-value="custom_field"
+                             data-sortable-lists--list-accepted-types-value='["custom_field"]'></ul>`;
+    const listEl = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists--list"]')!;
+    await ctx.nextFrame();
+
+    const controller = ctx.application.getControllerForElementAndIdentifier(listEl, 'sortable-lists--list') as unknown as InstanceType<typeof ListControllerType>;
+    controller.connectRoot(fakeRoot(root, { acceptedType: null }));
+
+    const opts = dropTargetOptionsFor(listEl);
+    expect(opts?.canDrop?.({ element: listEl, input: {} as never, source: source(root, 'custom_field') })).toBe(true);
+    expect(opts?.canDrop?.({ element: listEl, input: {} as never, source: source(root, 'section') })).toBe(false);
+  });
+
+  it('falls back to root.acceptedType when acceptedTypes is unset', async () => {
+    const root = document.createElement('div');
+    fixture.innerHTML = `<ul data-controller="sortable-lists--list"
+                             data-sortable-lists--list-type-value="inbox"></ul>`;
+    const listEl = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists--list"]')!;
+    await ctx.nextFrame();
+
+    const controller = ctx.application.getControllerForElementAndIdentifier(listEl, 'sortable-lists--list') as unknown as InstanceType<typeof ListControllerType>;
+    controller.connectRoot(fakeRoot(root, { acceptedType: 'work_package' }));
+
+    const opts = dropTargetOptionsFor(listEl);
+    expect(opts?.canDrop?.({ element: listEl, input: {} as never, source: source(root, 'work_package') })).toBe(true);
+    expect(opts?.canDrop?.({ element: listEl, input: {} as never, source: source(root, 'inbox') })).toBe(false);
+  });
 });

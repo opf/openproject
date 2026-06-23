@@ -155,18 +155,15 @@ export function acceptsSortableItemType({
 }
 
 // The drop rule shared by list and item drop targets: the payload must be a
-// sortable item belonging to this same root and of an accepted type. Item
-// targets additionally exclude themselves before calling this.
-export function canAccept(root:SortableListsRoot, data:Record<string|symbol, unknown>):boolean {
+// sortable item belonging to this same root. Type filtering is handled by each
+// list leaf (via acceptedTypes) or item leaf (via typeValue). Item targets
+// additionally exclude themselves before calling this.
+export function canAccept(root:SortableListsRoot, data:Record<string|symbol, unknown>):data is SortableItemData {
   if (!isSortableItemData(data)) {
     return false;
   }
 
-  if (data.rootElement == null || data.rootElement !== root.element) {
-    return false;
-  }
-
-  return acceptsSortableItemType({ acceptedType: root.acceptedType, type: data.type });
+  return data.rootElement != null && data.rootElement === root.element;
 }
 
 export function isSourceListTarget({

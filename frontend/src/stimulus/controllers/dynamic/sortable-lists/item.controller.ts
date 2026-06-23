@@ -180,7 +180,11 @@ export default class ItemController extends Controller<HTMLElement> implements R
           return false;
         }
 
-        return canAccept(root, source.data);
+        if (!canAccept(root, source.data)) {
+          return false;
+        }
+
+        return source.data.type === this.typeValue;
       },
       getData: ({ input }) => {
         return attachClosestEdge(this.getItemData(), {

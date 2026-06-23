@@ -33,15 +33,23 @@ import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/type
 import {
   acceptsSortableItemType,
   buildMoveFormData,
+  canAccept,
   isSortableItemData,
   isSortableListData,
   resolveDropIntent,
   resolvePreviousSortableItemId,
   sortableItemData,
   sortableListData,
+  type SortableListsRoot,
 } from './drag-and-drop';
 
 describe('sortable lists drag and drop helpers', () => {
+  let rootEl:HTMLElement;
+
+  beforeEach(() => {
+    rootEl = document.createElement('div');
+  });
+
   function itemRow(id:string):HTMLLIElement {
     const row = document.createElement('li');
     const item = document.createElement('article');
@@ -157,6 +165,20 @@ describe('sortable lists drag and drop helpers', () => {
 
     it('rejects drops when the source type does not match the accepted type', () => {
       expect(acceptsSortableItemType({ acceptedType: 'work_package', type: 'meeting_agenda_item' })).toBe(false);
+    });
+  });
+
+  describe('canAccept', () => {
+    it('canAccept returns true for any sortable item belonging to the root, regardless of type', () => {
+      const root = { element: rootEl, moving: false, acceptedType: 'work_package' } as SortableListsRoot;
+      const data = sortableItemData({ type: 'anything', itemId: '7', rootElement: rootEl });
+      expect(canAccept(root, data)).toBe(true);
+    });
+
+    it('canAccept returns false for items from another root', () => {
+      const root = { element: rootEl, moving: false, acceptedType: null } as SortableListsRoot;
+      const data = sortableItemData({ type: 'x', itemId: '7', rootElement: document.createElement('div') });
+      expect(canAccept(root, data)).toBe(false);
     });
   });
 

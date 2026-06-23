@@ -48,6 +48,7 @@ export default class ListController extends Controller<HTMLElement> implements R
     type: String,
     id: String,
     dropPosition: { type: String, default: 'end' },
+    acceptedTypes: Array,
   };
 
   declare readonly typeValue:string;
@@ -55,6 +56,8 @@ export default class ListController extends Controller<HTMLElement> implements R
   declare readonly idValue:string;
   declare readonly hasIdValue:boolean;
   declare readonly dropPositionValue:string;
+  declare readonly acceptedTypesValue:string[];
+  declare readonly hasAcceptedTypesValue:boolean;
 
   private root?:SortableListsRoot;
   private cleanupFn?:CleanupFn;
@@ -130,7 +133,19 @@ export default class ListController extends Controller<HTMLElement> implements R
       return false;
     }
 
-    return canAccept(root, data);
+    if (!canAccept(root, data)) {
+      return false;
+    }
+
+    return this.accepts(data.type);
+  }
+
+  private accepts(type:string):boolean {
+    const configured = this.hasAcceptedTypesValue && this.acceptedTypesValue.length > 0
+      ? this.acceptedTypesValue
+      : (this.root?.acceptedType != null ? [this.root.acceptedType] : null);
+
+    return configured === null || configured.includes(type);
   }
 
   // The list is the item targets' parent drop target, so its onDrag keeps firing

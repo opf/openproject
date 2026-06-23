@@ -317,6 +317,22 @@ describe('Sortable lists item controller', () => {
     })).toBe(false);
   });
 
+  it('does not accept an item whose type differs from the drop target type', () => {
+    const root = document.createElement('div');
+    const targetElement = document.createElement('article');
+
+    connectedControllerFor(targetElement, { root: fakeRoot(root) });
+
+    expect(vi.mocked(dropTargetForElements).mock.lastCall?.[0].canDrop?.({
+      element: targetElement,
+      input: {} as never,
+      source: {
+        data: sortableItemData({ type: 'foreign_type', itemId: '456', rootElement: root }),
+        element: document.createElement('article'),
+      } as never,
+    })).toBe(false);
+  });
+
   it('does not accept drops while the root is moving another item', () => {
     const root = document.createElement('div');
     const targetElement = document.createElement('article');
