@@ -1,14 +1,23 @@
-<%= widget_wrapper do %>
-  <ul class="widget-box--arrow-links">
-    <li>
-      <%= link_to t(:label_profile), my_account_path, title: t(:label_profile) %>
-    </li>
-    <li>
-      <%= link_to t(:"my_page.label"), my_page_path,
-                  title: t(:"my_page.label") %>
-    </li>
-    <li>
-      <%= link_to t(:button_change_password), my_password_path, title: t(:button_change_password) %>
-    </li>
-  </ul>
-<% end %>
+<%=
+  component_wrapper do
+    render(Primer::Beta::BorderBox.new(padding: :condensed)) do |box|
+      box.with_row do
+        render(
+          Primer::Beta::Link.new(href: my_account_path).with_content(t(:label_profile))
+        )
+      end
+
+      box.with_row do
+        render(
+          Primer::Beta::Link.new(href: my_page_path).with_content(t(:"my_page.label"))
+        )
+      end
+
+      box.with_row do
+        render(
+          Primer::Beta::Link.new(href: my_password_path).with_content(t(:button_change_password))
+        )
+      end
+    end
+  end
+%>

@@ -34,6 +34,10 @@ module Homescreen
       def title
         I18n.t(:label_my_account)
       end
+
+      def wrapper_arguments
+        { content_padding: :none }
+      end
     end
   end
 end
