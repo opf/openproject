@@ -42,7 +42,7 @@ RSpec.describe "Work package table navigation follow-ups use displayId",
       expect(details_anchor[:href]).not_to include("/details/#{work_package.id}")
     end
 
-    it "switches an already open split view to the clicked work package" do
+    it "switches an already open split view to the clicked work package (OP-19486)" do
       wp_table.open_split_view(work_package)
 
       split_page = wp_table.open_split_view(other_wp)
