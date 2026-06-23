@@ -457,7 +457,7 @@ RSpec.describe "Inbox column in sprint planning view", :js do
 
       # Expand inbox — URL advances to ?all=true
       planning_page.click_inbox_show_more
-      expect(page.current_url).to include("all=true")
+      expect(page).to have_current_path(project_backlogs_backlog_path(project, all: true))
       planning_page.expect_no_inbox_show_more
 
       # Drag an inbox item to the sprint
