@@ -107,7 +107,7 @@ If unsure: **create an ADR**. It is better to document one decision too many tha
 
 10. **Approval**
 
-    The ADR must be approved by **at least one developer from each team**.
+    Be accepted through a pull request that gives every team the opportunity to review, with final approval by consensus among the team leads, then merged into the `dev` branch.
 
 11. **Merge**
 
@@ -323,7 +323,7 @@ During PR reviews you should:
 
 ## Goal of ADRs
 
-ADRs are not bureaucracy.
+ADRs exist to save time, not to add process.
 
 They exist to:
 
