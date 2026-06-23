@@ -3668,18 +3668,17 @@ en:
         learn_about: "Learn more about all new features"
         missing: "There are no highlighted features yet."
         # We need to include the version to invalidate outdated translations in other locales
-        "17_5":
+        "17_6":
           new_features_title: >
             The release contains various new features and improvements, such as:
           new_features_list:
-            line_0: "Project-based work package identifiers for clearer references."
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: "XWiki integration (Corporate plan)."
+            line_1: "Sprint goals."
+            line_2: "'All sprints' overview page."
+            line_3: "Display backlog buckets in work packages and work package tables."
+            line_4: "Improved support for project-based (semantic) identifiers."
+            line_5: "Convert meeting agenda items into work packages."
+            line_6: "Configure cost types per project."
     links:
       upgrade_enterprise_edition: "Upgrade to Enterprise edition"
       postgres_migration: "Migrating your installation to PostgreSQL"
