@@ -27,9 +27,11 @@
 //++
 
 import { dropTargetForElements } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
+import { type DragLocationHistory } from '@atlaskit/pragmatic-drag-and-drop/types';
 import { Controller } from '@hotwired/stimulus';
 import {
   canAccept,
+  isSortableItemData,
   sortableListData,
   type RootAwareChild,
   type SortableListData,
@@ -68,11 +70,11 @@ export default class ListController extends Controller<HTMLElement> implements R
       canDrop: ({ source }) => this.canDrop(source.data),
       getData: () => this.listData,
       getIsSticky: () => false,
-      onDragEnter: () => {
-        this.renderDropIndicator();
+      onDragEnter: ({ location }) => {
+        this.syncDropIndicator(location);
       },
-      onDrag: () => {
-        this.renderDropIndicator();
+      onDrag: ({ location }) => {
+        this.syncDropIndicator(location);
       },
       onDragLeave: () => {
         this.clearDropIndicator();
@@ -129,6 +131,17 @@ export default class ListController extends Controller<HTMLElement> implements R
     }
 
     return canAccept(root, data);
+  }
+
+  // The list is the item targets' parent drop target, so its onDrag keeps firing
+  // while the pointer is over a row. Outline the container only for a list-only
+  // drop (no item target in play), so the row gap indicator owns that case.
+  private syncDropIndicator(location:DragLocationHistory):void {
+    if (location.current.dropTargets.some(({ data }) => isSortableItemData(data))) {
+      this.clearDropIndicator();
+    } else {
+      this.renderDropIndicator();
+    }
   }
 
   private renderDropIndicator():void {

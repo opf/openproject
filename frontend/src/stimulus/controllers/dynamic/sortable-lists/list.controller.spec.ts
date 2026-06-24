@@ -113,6 +113,10 @@ describe('Sortable lists list controller', () => {
     } as never;
   }
 
+  function locationOver(...dropTargets:{ data:Record<string|symbol, unknown> }[]) {
+    return { current: { dropTargets } } as never;
+  }
+
   it('registers itself as a drop target', async () => {
     const { list } = await connectedListFor();
 
@@ -219,6 +223,46 @@ describe('Sortable lists list controller', () => {
     list.remove();
     await ctx.nextFrame();
     expect(list.hasAttribute('aria-busy')).toBe(false);
+  });
+
+  it('outlines the container for a list-only drop', async () => {
+    const { list } = await connectedListFor();
+    const options = dropTargetOptionsFor(list);
+
+    options?.onDragEnter?.({ location: locationOver() } as never);
+
+    expect(list.dataset.dropContainer).toEqual('active');
+  });
+
+  it('does not outline the container while the pointer is over an item row', async () => {
+    const { list } = await connectedListFor();
+    const options = dropTargetOptionsFor(list);
+
+    options?.onDrag?.({ location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }) } as never);
+
+    expect(list.dataset.dropContainer).toBeUndefined();
+  });
+
+  it('clears the container outline when the pointer moves from the list onto an item row', async () => {
+    const { list } = await connectedListFor();
+    const options = dropTargetOptionsFor(list);
+
+    options?.onDragEnter?.({ location: locationOver() } as never);
+    expect(list.dataset.dropContainer).toEqual('active');
+
+    options?.onDrag?.({ location: locationOver({ data: sortableItemData({ itemId: '1', type: 'work_package', rootElement: null }) }) } as never);
+    expect(list.dataset.dropContainer).toBeUndefined();
+  });
+
+  it('clears the container outline on drag leave', async () => {
+    const { list } = await connectedListFor();
+    const options = dropTargetOptionsFor(list);
+
+    options?.onDragEnter?.({ location: locationOver() } as never);
+    expect(list.dataset.dropContainer).toEqual('active');
+
+    options?.onDragLeave?.({} as never);
+    expect(list.dataset.dropContainer).toBeUndefined();
   });
 
   it('rejects drops while the root is moving', async () => {
