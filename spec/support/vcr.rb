@@ -74,7 +74,7 @@ VCR.configure do |config|
     content_type = interaction.response.headers["Content-Type"]&.first
 
     if content_type&.include?("application/json")
-      MultiJson.load(interaction.response.body)["access_token"]
+      MultiJSON.load(interaction.response.body)["access_token"]
     end
   end
 
@@ -82,7 +82,7 @@ VCR.configure do |config|
     content_type = interaction.response.headers["Content-Type"]&.first
 
     if content_type&.include?("application/json")
-      MultiJson.load(interaction.response.body)["refresh_token"]
+      MultiJSON.load(interaction.response.body)["refresh_token"]
     end
   end
 

@@ -7,7 +7,7 @@
 # test executed.
 #
 # Calling this will prevent the error from happening
-MultiJson::OptionsCache.reset
+MultiJSON::OptionsCache.reset
 
 # This file can be removed once the issue has been fixed and released in a new
 # version of multi_json gem (issue exists in 1.15.0)

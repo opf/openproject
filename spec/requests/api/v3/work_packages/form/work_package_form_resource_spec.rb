@@ -206,7 +206,7 @@ RSpec.describe "API v3 Work package form resource" do
               end
 
               it_behaves_like "parse error",
-                              "unexpected comma (after ) at line 1, column 3"
+                              "expected object key, got ',' at line 1 column 3"
             end
 
             describe "lock version" do

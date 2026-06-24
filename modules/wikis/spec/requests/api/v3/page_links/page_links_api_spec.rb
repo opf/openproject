@@ -196,7 +196,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
       end
 
       it "only returns the filtered type" do
-        json = MultiJson.load(last_response.body, symbolize_keys: true)
+        json = MultiJSON.load(last_response.body, symbolize_keys: true)
 
         expect(json.dig(:_embedded, :elements))
           .to all(include(wikiPageLinkType: API::V3::PageLinks::URN_PAGE_LINK_TYPE["Wikis::RelationPageLink"]))
@@ -283,7 +283,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
       end
 
       it "contains the error" do
-        json = MultiJson.load(response_body)
+        json = MultiJSON.load(response_body)
 
         expect(json["message"]).to match("Wiki Provider does not exist")
       end

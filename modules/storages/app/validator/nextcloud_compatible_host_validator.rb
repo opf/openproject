@@ -147,13 +147,13 @@ class NextcloudCompatibleHostValidator < ActiveModel::EachValidator
 
   def read_version(response)
     response.json.dig("ocs", "data", "version", "major")
-  rescue HTTPX::Error, MultiJson::ParseError
+  rescue HTTPX::Error, MultiJSON::ParseError
     false
   end
 
   def read_authorization_header(response)
     response.json["authorization_header"]
-  rescue HTTPX::Error, MultiJson::ParseError
+  rescue HTTPX::Error, MultiJSON::ParseError
     nil
   end
 end
