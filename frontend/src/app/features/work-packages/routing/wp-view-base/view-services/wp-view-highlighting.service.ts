@@ -36,7 +36,7 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
     }
 
     // 3. Is name in selected attributes ?
-    return !!_.find(this.current.selectedAttributes, (attr:HalResource) => attr.id === name);
+    return this.current.selectedAttributes?.some((attr:HalResource) => attr.id === name) ?? false;
   }
 
   public get current():WorkPackageViewHighlight {

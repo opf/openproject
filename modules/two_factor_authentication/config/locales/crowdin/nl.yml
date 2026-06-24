@@ -46,7 +46,7 @@ nl:
     text_otp_delivery_message_sms: Uw %{app_title} eenmalig wachtwoord is %{token}
     text_otp_delivery_message_voice: 'Uw %{app_title} eenmalig wachtwoord is: %{pause} %{token}. %{pause} Ik herhaal: %{pause} %{token}'
     text_2fa_enabled: Bij elke aanmelding wordt u gevraagd om een OTP-token in te voeren vanaf uw standaard 2FA-apparaat.
-    text_2fa_disabled: Om authenticatie met twee factoren in te schakelen, gebruikt u de knop hierboven om een nieuw 2FA-apparaat te registreren. Als u al een apparaat heeft, moet u dit als standaard instellen.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Back-up code invoeren
       enter_backup_code_text: Voer een geldige back-up code in uit uw codelijst voor het geval dat u geen toegang meer heeft tot uw geregistreerde 2FA-apparaten.

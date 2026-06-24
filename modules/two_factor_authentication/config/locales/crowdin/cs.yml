@@ -46,7 +46,7 @@ cs:
     text_otp_delivery_message_sms: Vaše jednorázové heslo pro %{app_title} je %{token}
     text_otp_delivery_message_voice: 'Vaše jednorázové heslo pro %{app_title} je: %{pause} %{token}. %{pause} opakuji: %{pause} %{token}'
     text_2fa_enabled: Při každém přihlášení bude vyžadováno zadání jednorázového hesla z Vašeho výchozího 2FA zařízení.
-    text_2fa_disabled: Pro zapnutí dvoufázového ověřování klikněte na tlačítko výše, abyste zaregistrovali nové 2FA zařízení. Pokud již zařízení máte, musíte ho nastavit jako výchozí.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Zadejte záložní kód
       enter_backup_code_text: Zadejte prosím platný záložní kód z Vašeho seznamu kódů, pokud již nemáte přístup k Vašim zaregistrovaným 2FA zařízením.

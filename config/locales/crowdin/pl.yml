@@ -21,6 +21,7 @@
 #++
 ---
 pl:
+  label_user_attributes_plural: User attributes
   no_results_title_text: Obecnie nie ma nic do wyświetlenia.
   activities:
     index:
@@ -446,6 +447,20 @@ pl:
       new_project:
         project_creation: Utworzenie projektu
         notification_text_default: "<p>Witaj,</p> <p>Utworzono nowy projekt: projectValue:name</p> <p>Dziękujemy</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
+      user_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
       work_packages_identifier:
         page_header:
           description: Wybierz pomiędzy klasycznymi numerycznymi identyfikatorami pakietów roboczych albo semantycznymi identyfikatorami specyficznymi dla projektu, które dodają identyfikator projektu do identyfikatora pakietu roboczego.
@@ -697,6 +712,8 @@ pl:
             gain_role: Zyska rolę „%{new_role}”
             lose_role: Utraci rolę „%{old_role}”
             no_change: Brak zmian
+    multi_value_more:
+      other: and %{count} more
     text_add_new_custom_field: 'Aby dodać do projektu nowe pola niestandardowe, najpierw należy je utworzyć.
 
       '
@@ -741,6 +758,8 @@ pl:
         project: 0 oznacza brak ograniczeń
       has_comment:
         project: Umożliwia użytkownikowi dodanie komentarza związanego z atrybutem projektu podczas wybierania wartości w przeglądzie projektu.
+      visible_on_user_card:
+        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     tab:
       no_results_title_text: Nie ma jeszcze żadnych pól użytkownika.
       no_results_content_text: Utwórz pole użytkownika
@@ -768,9 +787,11 @@ pl:
         '
       add_button: Dodaj
     detail_blankslate:
-      heading: W tym dziale nie ma żadnej hierarchii poniżej
-      description: Dodaj działy lub użytkowników, aby utworzyć podpozycje wewnątrz innej pozycji.
       add_button: Dodaj
+      description: Dodaj działy lub użytkowników, aby utworzyć podpozycje wewnątrz innej pozycji.
+      heading: W tym dziale nie ma żadnej hierarchii poniżej
+      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_heading: This department is managed by LDAP synchronization
     add_department_form:
       name_label: Nazwa działu
       name_placeholder: Wprowadź nazwę działu
@@ -779,6 +800,9 @@ pl:
       heading: Przenieść użytkownika do tego działu?
       description: "%{user} jest obecnie członkiem %{from_department}. Przeniesienie spowoduje usunięcie go z tego działu."
       confirm: Przenieś użytkownika
+      managed_title: User managed by LDAP
+      managed_heading: This user cannot be moved
+      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: Dodaj poddział
       add_user: Dodaj użytkownika
@@ -1744,18 +1768,6 @@ pl:
         dependencies: Zależności
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Identyfikator
-        work_package: Pakiet roboczy
-      jira_import:
-        projects: Projekty
-      import/jira:
-        name: Nazwa wystąpienia Jira
-        url: Adres URL wystąpienia Jira
-        personal_access_token: Osobisty token dostępu
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Migrator Jira
       announcements:
         show_until: Wyświetlaj do
       attachment:
@@ -1801,6 +1813,7 @@ pl:
         possible_values: Możliwe wartości
         regexp: Wyrażenie regularne
         searchable: Wyszukiwalne
+        visible_on_user_card: Show on user card
         admin_only: Tylko dla administratorów
         has_comment: Dodaj pole tekstowe komentarza
       custom_value:
@@ -1835,6 +1848,23 @@ pl:
         row_count: Liczba wierszy
         column_count: Liczba kolumn
         widgets: Widżety
+      group:
+        group_users: Grupy użytkowników
+        identity_url: Adres URL tożsamości
+        organizational_unit: Jednostka organizacyjna
+        parent: Grupa nadrzędna
+      group_detail:
+        organizational_unit: Jednostka organizacyjna
+        parent: Grupa nadrzędna
+      import/jira:
+        name: Nazwa wystąpienia Jira
+        personal_access_token: Osobisty token dostępu
+        url: Adres URL wystąpienia Jira
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Migrator Jira
+      jira_import:
+        projects: Projekty
       journal:
         notes: Notatki
         cause_type: Typ przyczyny
@@ -1863,6 +1893,21 @@ pl:
         resource: Zasób
       oauth_client:
         client: Identyfikator klienta
+      ordered_persisted_query_entity:
+        persisted_query: Przetrwałe zapytanie
+        entity: Pole
+        position: Pozycja
+      persisted_query:
+        name: Nazwa
+        views: Widoki
+        filters: Filtry
+        orders: Zamówienia
+        selects: Wybory
+      persisted_view:
+        name: Nazwa
+        query: Zapytanie
+        parent: Widok nadrzędny
+        public: Publiczny
       project:
         active_value:
           true: niezarchiwizowane
@@ -2009,14 +2054,8 @@ pl:
         new_password: Nowe hasło
         password_confirmation: Potwierdzenie
         consented_at: Zgodę na
-      group:
-        identity_url: Adres URL tożsamości
-        parent: Grupa nadrzędna
-        organizational_unit: Jednostka organizacyjna
-        group_users: Grupy użytkowników
-      group_detail:
-        parent: Grupa nadrzędna
-        organizational_unit: Jednostka organizacyjna
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: Wygląd i działanie
         header_alerts: Alerty
@@ -2115,29 +2154,11 @@ pl:
         type: Typ
         version: Wersja
         watcher: Obserwator
-      ordered_persisted_query_entity:
-        persisted_query: Przetrwałe zapytanie
-        entity: Pole
-        position: Pozycja
-      persisted_query:
-        name: Nazwa
-        views: Widoki
-        filters: Filtry
-        orders: Zamówienia
-        selects: Wybory
-      persisted_view:
-        name: Nazwa
-        query: Zapytanie
-        parent: Widok nadrzędny
-        public: Publiczny
-      user_card_view:
-        secondary_info: Dodatkowe informacje
-        show_status_badge: Pokaż odznakę statusu
-        show_email: Pokaż adres e-mail
-        tag_source: Źródło tagów
-        tag_limit: Limit tagów
-        card_size: Rozmiar karty
-        columns_per_row: Liczba kolumn w wierszu
+      work_package_version:
+        kind: Kind
+      work_package_semantic_alias:
+        identifier: Identyfikator
+        work_package: Pakiet roboczy
     errors:
       messages:
         accepted: musi być zaakceptowane.
@@ -2183,6 +2204,7 @@ pl:
         invalid_url: nie jest poprawnym adresem URL.
         invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
         is_for_all_cannot_modify: dotyczy wszystkich projektów i dlatego nie można zmodyfikować.
+        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: musi być mniejsze niż lub równe %{count}.
         not_available: jest niedostępne z powodu konfiguracji systemu.
         not_before_start_date: nie może być wcześniejsza niż data rozpoczęcia.
@@ -2220,6 +2242,7 @@ pl:
 
           '
         user_already_in_department: Użytkownik %{user_id} jest już członkiem działu %{department_id}.
+        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: ma nieprawidłową długość (powinno mieć %{count} znaków).
       models:
         group:
@@ -2227,6 +2250,7 @@ pl:
             parent_id:
               circular_dependency: spowodowałoby utworzenie cyklicznej hierarchii grup.
               organizational_unit_mismatch: musi mieć to samo ustawienie jednostki organizacyjnej, co grupa.
+              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -3601,6 +3625,7 @@ pl:
       all_projects: All projects
       favorites: Favorites
       leave_project: Leave project
+      no_favorite_projects: You have no favorite projects.
       title: Projects
   toggle_switch:
     label_on: Wł.
@@ -4261,7 +4286,7 @@ pl:
   label_custom_favicon: Własny favicon
   label_custom_touch_icon: Własny touch icon
   label_departments: Organizacja
-  label_departments_description_html: 'Zdefiniuj strukturę swojej firmy, tworząc działy i poddziały w sposób hierarchiczny. Pozwala to na odzwierciedlenie linii podległości i utrzymanie przejrzystego, uporządkowanego przeglądu organizacji w OpenProject. Można również zaimportować istniejącą strukturę organizacji poprzez [synchronizację grup LDAP](ldap_docs_article).
+  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
     '
   label_logout: Wyloguj
@@ -4269,6 +4294,7 @@ pl:
   label_main_menu: Menu boczne
   label_manage: Zarządzaj
   label_manage_groups: Zarządzaj grupami
+  label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Zarządzane %{vendor} repozytoria
   label_mathematical_operators: Operatory matematyczne
   label_max_size: Maksymalny rozmiar
@@ -5593,6 +5619,7 @@ pl:
     passwords: Hasła
     project_attributes:
       heading: Atrybuty projektu
+      label_add_attribute: Add a project attribute
       label_for_all_projects: Wszystkie projekty
       label_new_attribute: Atrybut projektu
       label_new_section: Sekcja
@@ -5689,8 +5716,30 @@ pl:
     session: Sesja
     user:
       default_preferences: Ustawienia domyślne
-      display_format: Format wyswietlania
       deletion: Usunięcie
+      display_format: Format wyswietlania
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Built-in
+        label_built_in_attribute_actions: Built-in attribute actions
+      custom_field_row_component:
+        label_user_custom_field_actions: User attribute actions
+      show_component:
+        label_add_attribute: Add a user attribute
+        label_edit_section: Edit title
+        label_no_user_custom_fields: No user attributes defined in this section
+        label_section_actions: Section actions
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filter by attribute name…
+        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
+      heading: User attributes
+      label_new_attribute: User attribute
+      label_new_section: Section
+      label_untitled_section: User attributes
+      new:
+        heading: New attribute
     working_days:
       section_work_week: Tydzień roboczy
       section_holidays_and_closures: Dni wolne i zamknięcia

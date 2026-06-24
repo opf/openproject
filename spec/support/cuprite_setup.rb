@@ -142,6 +142,23 @@ def configure_remote_chrome(options)
   options
 end
 
+# Ferrum v0.17.2 regression: https://github.com/rubycdp/ferrum/issues/578
+Ferrum::Contexts.prepend(Module.new do
+  def reset
+    super
+    @default_context = nil
+  end
+
+  private
+
+  def add_context(context_id)
+    return if contexts[context_id]
+
+    context = Ferrum::Context.new(@client, self, context_id)
+    contexts[context_id] = context
+  end
+end)
+
 register_better_cuprite "en"
 
 RSpec.configure do |config|

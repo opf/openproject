@@ -35,10 +35,10 @@ See COPYRIGHT and LICENSE files for more details.
         project:,
         container: sprint,
         drag_and_drop: {
-          target_id: "sprint:#{sprint.id}",
+          target_id: Backlogs::Target.for(sprint).to_s, # explicit to_s, as otherwise to_json is used
           allowed_drag_type: "story"
         },
-        params: all_backlogs_params,
+        params: backlog_filter_params,
         current_user:,
         test_selector: "sprint-#{sprint.id}"
       )

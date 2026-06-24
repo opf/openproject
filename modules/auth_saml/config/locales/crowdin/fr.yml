@@ -48,7 +48,7 @@ fr:
       federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
 
         '
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      metadata_too_large: Le fichier de métadonnées dépasse la taille maximale autorisée.
     providers:
       label_empty_title: Aucun fournisseur SAML n'est encore configuré.
       label_empty_description: Ajoutez un fournisseur pour le voir ici.

@@ -89,10 +89,8 @@ workPackage:WorkPackageResource,
     const type = this.relationColumnType(column);
 
     if (type !== null) {
-      _.each(
-this.relationsForColumn(workPackage, relations, column),
-        (relation) => eachCallback(relation, column, type),
-);
+      this.relationsForColumn(workPackage, relations, column)
+        .forEach((relation:RelationResource) => eachCallback(relation, column, type));
     }
   }
 
@@ -114,7 +112,7 @@ this.relationsForColumn(workPackage, relations, column),
     if (type === 'toType') {
       const typeHref = (column as TypeRelationQueryColumn).type.href;
 
-      return _.filter(relations, (relation:RelationResource) => {
+      return Object.values(relations).filter((relation:RelationResource) => {
         const denormalized = relation.denormalized(workPackage);
         const target = this.apiV3Service.work_packages.cache.state(denormalized.targetId).value;
 
@@ -126,7 +124,7 @@ this.relationsForColumn(workPackage, relations, column),
     if (type === 'ofType') {
       const { relationType } = column as RelationQueryColumn;
 
-      return _.filter(relations, (relation:RelationResource) => relation.denormalized(workPackage).relationType === relationType);
+      return Object.values(relations).filter((relation:RelationResource) => relation.denormalized(workPackage).relationType === relationType);
     }
 
     return [];

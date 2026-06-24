@@ -46,7 +46,7 @@ el:
     text_otp_delivery_message_sms: Ο %{app_title} κωδικός πρόσβασης μια χρήσης σας είναι %{token}
     text_otp_delivery_message_voice: 'Ο %{app_title} κωδικός πρόσβασης μια χρήσης σας είναι %{pause} %{token}. %{pause} Επαναλαμβάνω: %{pause} %{token}'
     text_2fa_enabled: Κατά κάθε σύνδεση, θα σας ζητείται να εισάγετε ένα OPT token από την προεπιλεγμένη 2FA συσκευή σας.
-    text_2fa_disabled: Για να ενεργοποιήσετε την ταυτοποίηση δύο παραγόντων, χρησιμοποιήστε το παραπάνω κουμπί για να καταχωρήσετε μια καινούργια 2FA συσκευή.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Εισάγετε τον κωδικό αντιγράφων ασφαλείας
       enter_backup_code_text: Παρακαλούμε εισάγετε έναν έγκυρο κωδικό αντιγράφων ασφαλείας από την λίστα κωδικών σε περίπτωση που δεν έχετε πια πρόσβαση στις καταχωρημένες συσκευές 2FA.

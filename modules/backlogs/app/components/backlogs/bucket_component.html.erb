@@ -35,10 +35,10 @@ See COPYRIGHT and LICENSE files for more details.
         project:,
         container: backlog_bucket,
         drag_and_drop: {
-          target_id: "backlog_bucket:#{backlog_bucket.id}",
+          target_id: Backlogs::Target.for(backlog_bucket).to_s, # explicit to_s, as otherwise to_json is used
           allowed_drag_type: "story"
         },
-        params: all_backlogs_params,
+        params: backlog_filter_params,
         current_user:,
         test_selector: "backlog-bucket-#{backlog_bucket.id}"
       )
@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
               menu.with_item(
                 id: dom_target(backlog_bucket, :menu, :edit_backlog_bucket),
                 label: t(".action_menu.edit_backlog_bucket"),
-                href: edit_dialog_project_backlogs_bucket_path(project, backlog_bucket, all_backlogs_params),
+                href: edit_dialog_project_backlogs_bucket_path(project, backlog_bucket, backlog_filter_params),
                 content_arguments: { data: { controller: "async-dialog" } }
               ) do |item|
                 item.with_leading_visual_icon(icon: :pencil)
@@ -60,7 +60,7 @@ See COPYRIGHT and LICENSE files for more details.
                 id: dom_target(backlog_bucket, :menu, :delete_backlog_bucket),
                 label: t(".action_menu.delete_backlog_bucket"),
                 scheme: :danger,
-                href: destroy_dialog_project_backlogs_bucket_path(project, backlog_bucket, all_backlogs_params),
+                href: destroy_dialog_project_backlogs_bucket_path(project, backlog_bucket, backlog_filter_params),
                 content_arguments: { data: { controller: "async-dialog" } }
               ) do |item|
                 item.with_leading_visual_icon(icon: :trash)

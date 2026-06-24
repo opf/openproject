@@ -43,6 +43,7 @@ module ApplicationHelper
   include IconsHelper
   include AdditionalUrlHelpers
   include OpenProject::PageHierarchyHelper
+  include PermittedParamsHelper
 
   # Return true if user is authorized for controller/action, otherwise false
   def authorize_for(controller, action, project: @project)
@@ -441,10 +442,6 @@ module ApplicationHelper
   #   defaults to no index, follow, and no archive
   def robot_exclusion_tag(content = "NOINDEX,FOLLOW,NOARCHIVE")
     tag(:meta, name: "ROBOTS", content:)
-  end
-
-  def permitted_params
-    PermittedParams.new(params, current_user)
   end
 
   def link_to_content_update(name, options = {}, html_options = {}, &)

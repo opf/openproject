@@ -38,6 +38,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
   let(:work_packages) { [] }
   let(:wp_scope) { WorkPackage.where(id: work_packages.map(&:id)).order(:position) }
   let(:show_all_backlog) { false }
+  let(:filter_params) { {} }
 
   current_user { user }
 
@@ -51,6 +52,7 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
 
   def render_component
     vc_test_controller.params[:all] = "1" if show_all_backlog
+    filter_params.each { |k, v| vc_test_controller.params[k] = v }
 
     render_inline component
   end
@@ -169,10 +171,21 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
         )
       end
 
-      it "renders show-more targeting the full backlog turbo frame with all=1" do
+      it "renders show-more targeting the full backlog turbo frame with all=true" do
         show_link = page.find("##{show_more_id}")
-        expect(show_link[:href]).to include("all=1")
+        expect(show_link[:href]).to include("all=true")
         expect(show_link["data-turbo-frame"]).to eq("backlogs_container")
+      end
+
+      context "when filter params are active" do
+        let(:sprint) { create(:sprint, project:) }
+        let(:filter_params) { { sprint_ids: [sprint.id.to_s] } }
+
+        it "carries filter params in the show-more href alongside all=true" do
+          show_link = page.find("##{show_more_id}")
+          expect(show_link[:href]).to include("all=")
+          expect(show_link[:href]).to include("sprint_ids")
+        end
       end
 
       it "renders the show-more row with the last omitted work package id" do

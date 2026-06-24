@@ -61,6 +61,7 @@ TurboPower.register('turbo_frame_set_src', TurboPower.Actions.turbo_frame_set_sr
 TurboPower.register('redirect_to', TurboPower.Actions.redirect_to, StreamActions);
 TurboPower.register('set_dataset_attribute', TurboPower.Actions.set_dataset_attribute, StreamActions);
 TurboPower.register('set_title', TurboPower.Actions.set_title, StreamActions);
+TurboPower.register('reload', TurboPower.Actions.reload, StreamActions);
 
 // Error handling when "Content missing" returned
 document.addEventListener('turbo:frame-missing', (event) => {

@@ -117,7 +117,7 @@ module Backlogs::Sprints
     end
 
     def default_sprint_name
-      [I18n.t("activerecord.models.sprint"), 1].join(" ")
+      [Sprint.human_model_name, 1].join(" ")
     end
   end
 end

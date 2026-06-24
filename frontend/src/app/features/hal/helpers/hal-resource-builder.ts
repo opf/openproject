@@ -148,7 +148,7 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       }
 
       if (typeof element === 'object' && element !== null) {
-        _.each(element, (child:any, name:string) => {
+        Object.entries(element as Record<string, HalSource>).forEach(([name, child]) => {
           if (child && (child._embedded || child._links)) {
             OpenprojectHalModuleHelpers.lazy(element as any,
               name,

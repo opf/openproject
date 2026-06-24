@@ -55,7 +55,11 @@ module Backlogs
     private
 
     def total
-      @total ||= work_packages_by_backlog_id.values.sum(&:count)
+      @total ||= begin
+        count = buckets.sum { |bucket| work_packages_for(bucket).count }
+        count += work_packages_for_inbox.count if backlog_filters.show_inbox?
+        count
+      end
     end
 
     def work_packages_for_inbox

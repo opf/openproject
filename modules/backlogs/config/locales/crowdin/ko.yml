@@ -90,6 +90,18 @@ ko:
     administration_blankslate:
       title: 백로그 관리자 설정을 개선하는 중입니다
       text: 백로그 모듈을 현재 재설계하는 중입니다. 스프린트 및 백로그에 대한 관리자 설정이 조만간 여기에 표시될 예정입니다. 프로젝트 수준 설정은 계속 사용할 수 있습니다.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: 백로그 버킷을 삭제하시겠습니까?
       details: 백로그 버킷 '%{name}'이(가) 삭제되고 모든 작업 패키지가 백로그 받은 편지함으로 이동됩니다. 작업 패키지는 삭제되지 않습니다.
@@ -167,6 +179,7 @@ ko:
         create_description_text: 스프린트 계획을 시작하려면 여기에서 스프린트를 생성하세요.
         manage_description_html: 스프린트 계획을 시작하려면 %{settings_link}(으)로 이동하여 다른 프로젝트의 스프린트를 받아보세요.
         no_actions_description_text: 아직 이 프로젝트에 사용할 수 있는 스프린트가 없습니다.
+      button_new_sprint: New sprint
     story_points:
       other: "%{count} 스토리 포인트"
     statuses_considered_closed_caption: '해당 워크플로에서 마감 또는 완료 상태를 나타내는 상태를 선택하세요. 이러한 상태는 보고(예: 번다운) 및 스프린트 계획 전반에서 "마감됨" 상태로 처리됩니다. 예를 들어, 완료됨, 해결됨 또는 수정 안 함 등의 상태는 모두 해당 프로세스에서 마감된 작업 항목을 나타낼 수 있습니다.

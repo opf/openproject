@@ -219,7 +219,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
   public get changes():Record<string, unknown> {
     const changes:Record<string, unknown> = {};
 
-    _.each(this.changeset.all, (item, key) => {
+    Object.entries(this.changeset.all).forEach(([key, item]) => {
       changes[key] = item.to;
     });
 
@@ -389,7 +389,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       reference = this.form$.value.payload.$source;
     }
 
-    _.each(this.changeset.all, (val:ChangeItem, key:string) => {
+    Object.entries(this.changeset.all).forEach(([key, val]) => {
       if (!this.schema.isAttributeEditable(key)) {
         debugLog(`Trying to write ${key} but is not writable in schema`);
         return;
@@ -495,7 +495,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * that we need to set.
    */
   protected setNewDefaults(form:FormResource) {
-    _.each(form.payload, (val:unknown, key:string) => {
+    Object.entries(form.payload as Record<string, unknown>).forEach(([key, val]) => {
       const fieldSchema:IFieldSchema|null = this.schema.ofProperty(key);
       if (!fieldSchema?.writable && !fieldSchema?.required) {
         return;

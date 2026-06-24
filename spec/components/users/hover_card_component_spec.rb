@@ -164,4 +164,46 @@ RSpec.describe Users::HoverCardComponent, type: :component do
       end
     end
   end
+
+  context "when displaying custom fields" do
+    let(:section) { create(:user_custom_field_section) }
+    let!(:cf) do
+      create(:user_custom_field, :string, name: "Job title",
+                                          user_custom_field_section: section, visible_on_user_card: true)
+    end
+    let(:user) do
+      create(:user,
+             member_with_permissions: { project => [:view_project] },
+             custom_values: [build(:custom_value, custom_field: cf, value: "Developer")])
+    end
+
+    it "renders card-visible fields with their value" do
+      expect(page).to have_test_selector("user-hover-card-custom-field", text: "Developer")
+    end
+
+    context "with a multi-value field exceeding the display limit" do
+      let!(:multi_cf) do
+        create(:user_custom_field, :multi_list,
+               name: "Skills",
+               user_custom_field_section: section,
+               visible_on_user_card: true,
+               possible_values: %w[Ruby Rails React Vue Angular])
+      end
+      let(:user) do
+        create(:user,
+               member_with_permissions: { project => [:view_project] },
+               custom_values: multi_cf.possible_values.map { |opt| build(:custom_value, custom_field: multi_cf, value: opt) })
+      end
+
+      it "shows the first 3 values as labels and a count of the rest" do
+        field = find_test_selector("user-hover-card-custom-field")
+
+        expect(field).to have_css("span.Label", text: "Ruby")
+        expect(field).to have_css("span.Label", text: "Rails")
+        expect(field).to have_css("span.Label", text: "React")
+        expect(field).to have_no_css("span.Label", text: "Vue")
+        expect(field).to have_text("and 2 more")
+      end
+    end
+  end
 end

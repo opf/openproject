@@ -7,9 +7,6 @@ cs:
     avatars:
       label_choose_avatar: Vyberte avatar ze souboru
       uploading_avatar: Nahrávám váš avatar.
-      text_upload_instructions: |
-        Nahrajte svůj vlastní avatar o velikosti 128x128 pixelů. Větší soubory budou zmenšeny a oříznuty tak, aby odpovídaly.
-        Náhled avataru bude zobrazen před odesláním, jakmile vyberete obrázek.
       error_image_too_large: Obrázek je příliš velký.
       wrong_file_format: Povolené formáty jsou jpg, png, gif
       empty_file_error: Prosím nahrajte platný obrázek (jpg, png, gif)

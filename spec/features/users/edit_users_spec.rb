@@ -49,6 +49,28 @@ RSpec.describe "edit users", :js do
     find "input#user_password"
   end
 
+  describe "custom fields" do
+    let!(:section) { create(:user_custom_field_section, name: "Professional info") }
+    let!(:string_cf) { create(:user_custom_field, :string, name: "Job title", user_custom_field_section: section) }
+    let!(:admin_only_cf) do
+      create(:user_custom_field, :string, name: "Internal code", admin_only: true, user_custom_field_section: section)
+    end
+
+    before { visit edit_user_path(user) }
+
+    it "saves a custom field value" do
+      within "fieldset", text: "Professional info" do
+        fill_in "Job title", with: "Software Engineer"
+        fill_in "Internal code", with: "SE"
+      end
+      click_on "Save"
+
+      expect(page).to have_text("Successful update")
+      expect(user.reload.custom_value_for(string_cf)&.value).to eq("Software Engineer")
+      expect(user.custom_value_for(admin_only_cf)&.value).to eq("SE")
+    end
+  end
+
   context "with internal authentication" do
     before do
       visit edit_user_path(user)
@@ -145,8 +167,9 @@ RSpec.describe "edit users", :js do
   end
 
   context "as admin" do
+    let(:another_admin) { create(:admin) }
+
     it "can edit attributes of an admin user" do
-      another_admin = create(:admin)
       visit edit_user_path(another_admin)
 
       expect(page).to have_visible_tab("General")

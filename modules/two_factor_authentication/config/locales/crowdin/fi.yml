@@ -46,7 +46,7 @@ fi:
     text_otp_delivery_message_sms: Your %{app_title} one-time password is %{token}
     text_otp_delivery_message_voice: 'Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}'
     text_2fa_enabled: Sisäänkirjautumisen yhteydessä sinun on annettava koodi oletuksesi määritellystä tunnistuslaitteestasi.
-    text_2fa_disabled: Voit ottaa kaksivaiheisen tunnistautumisen käyttöön käyttämällä yllä olevaa painiketta rekisteröidäksesi uuden tunnistuslaitteen. Jos sinulla on jo laite, sinun on määriteltävä se oletukseksi.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Syötä palautuskoodi
       enter_backup_code_text: Syötä voimassa oleva vahvistuskoodi koodiluettelosta, jos sinulla ei ole enää pääsyä rekisteröityihin 2FA laitteisiin.

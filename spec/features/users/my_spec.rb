@@ -127,6 +127,18 @@ RSpec.describe "my", :js do
     end
   end
 
+  describe "non-editable custom fields" do
+    let!(:readonly_cf) do
+      create(:user_custom_field, :string, name: "Employee ID", editable: false)
+    end
+
+    it "renders them read-only on the account page" do
+      visit my_account_path
+
+      expect(page).to have_field("Employee ID", disabled: true)
+    end
+  end
+
   context "user" do
     describe "#account" do
       let(:dialog) { Components::PasswordConfirmationDialog.new }

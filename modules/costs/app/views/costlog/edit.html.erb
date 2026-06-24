@@ -92,7 +92,7 @@ See COPYRIGHT and LICENSE files for more details.
   <div class="form--field -required">
     <%# see above %>
     <%= f.select :cost_type_id,
-                 cost_types_collection_for_select_options,
+                 cost_types_collection_for_select_options(project: @project),
                  { prompt: true,
                    container_class: "-middle" },
                  {

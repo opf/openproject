@@ -63,12 +63,12 @@ class Backlogs::WorkPackages::UpdateService
   end
 
   def attributes_result_from_target(target_id)
-    case target_id.to_s.split(":", 2)
-    in ["sprint", /\A\d+\z/ => sprint_id]
+    case Backlogs::Target.parse(target_id)
+    in Backlogs::Target::SprintId[sprint_id]
       ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: })
-    in ["backlog_bucket", /\A\d+\z/ => backlog_bucket_id]
+    in Backlogs::Target::BucketId[backlog_bucket_id]
       ServiceResult.success(result: { backlog_bucket_id:, sprint_id: nil })
-    in ["inbox"]
+    in Backlogs::Target::InboxId
       ServiceResult.success(result: { backlog_bucket_id: nil, sprint_id: nil })
     else
       ServiceResult.failure(message: I18n.t("backlogs.stories.update_service.invalid_target_type"))

@@ -12,6 +12,20 @@ module Toasts
       expect_no_toaster(type:, message:, wait: 0.1)
     end
 
+    # Like #expect_and_dismiss_toaster, but tolerant of a single user action raising
+    # several identical toasts (e.g. a grid change that persists in multiple steps).
+    # Dismisses every matching toast, allowing late ones to still appear, before
+    # asserting that none remain.
+    def expect_and_dismiss_all_toasters(message: nil, type: :success, wait: 20)
+      expect_toast(type:, message:, wait:)
+
+      while page.has_css?(".op-toast.-#{type}", wait: 1)
+        page.first(".op-toast.-#{type} .op-toast--close", wait: 1).click
+      end
+
+      expect_no_toaster(type:, message:, wait: 2)
+    end
+
     def dismiss_toaster!
       sleep 0.1
       page.find(".op-toast--close").click

@@ -90,6 +90,18 @@ zh-TW:
     administration_blankslate:
       title: Backlog 管理設定不斷演進
       text: 我們目前正在重新設計 Backlogs 模組。在不久的將來，Sprint 和 Backlogs 的管理設定將在此處顯示。專案層級的設定仍然可用。
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Delete backlog bucket?
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -167,6 +179,7 @@ zh-TW:
         create_description_text: To start planning your sprint, create one here.
         manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
         no_actions_description_text: No sprints are available for this project yet.
+      button_new_sprint: New sprint
     story_points:
       other: "%{count} 故事點"
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.

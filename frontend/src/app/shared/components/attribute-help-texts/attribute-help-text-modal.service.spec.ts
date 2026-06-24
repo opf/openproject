@@ -12,7 +12,7 @@ describe('AttributeHelpTextModalService', () => {
   let dialog:HTMLDialogElement|null;
 
   beforeEach(() => {
-    fetchSpy = vi.spyOn(window, 'fetch'); // eslint-disable-line @typescript-eslint/no-unsafe-assignment
+    fetchSpy = vi.spyOn(window, 'fetch');
   });
 
   beforeEach(async () => {
@@ -114,6 +114,12 @@ describe('AttributeHelpTextModalService', () => {
     });
 
     it('should handle Turbo Stream dialog response and update dialog', async () => {
+      const showModalSpy = vi.spyOn(HTMLDialogElement.prototype, 'showModal') as unknown as Mock<() => void>;
+
+      showModalSpy.mockImplementation(function showModal(this:HTMLDialogElement) {
+        this.open = true;
+      });
+
       expect(document.querySelector('dialog#test3')).toBeFalsy();
 
       await modalService.show('3');
@@ -128,6 +134,7 @@ describe('AttributeHelpTextModalService', () => {
       await modalService.show('3');
 
       expect(fetchSpy).toHaveBeenCalledTimes(2);
+      expect(showModalSpy.mock.contexts.at(-1)).toBe(dialog);
 
       let mutation = await waitForElementMutation(dialog);
 
@@ -138,6 +145,7 @@ describe('AttributeHelpTextModalService', () => {
       await modalService.show('3');
 
       expect(fetchSpy).toHaveBeenCalledTimes(3);
+      expect(showModalSpy.mock.contexts.at(-1)).toBe(dialog);
 
       mutation = await waitForElementMutation(dialog);
 

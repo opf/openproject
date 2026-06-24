@@ -41,7 +41,7 @@ See COPYRIGHT and LICENSE files for more details.
         data: {
           generic_drag_and_drop_target: "container",
           target_container_accessor: ":scope > ul",
-          target_id: "inbox",
+          target_id: Backlogs::Target::InboxId.to_s, # explicit to_s, as otherwise to_json is used
           target_allowed_drag_type: "story"
         }
       )
@@ -59,7 +59,7 @@ See COPYRIGHT and LICENSE files for more details.
         list.with_work_package_item(
           work_package:,
           project:,
-          params: all_backlogs_params,
+          params: backlog_filter_params,
           component_klass: Backlogs::WorkPackageCardListItemComponent
         )
 
@@ -78,7 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
                 block: true,
                 align_content: :start,
                 underline: true,
-                href: project_backlogs_backlog_path(project, all: 1),
+                href: project_backlogs_backlog_path(project, backlog_filter_params.merge(all: true)),
                 data: {
                   turbo_frame: "backlogs_container",
                   turbo_action: :advance

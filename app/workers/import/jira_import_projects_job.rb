@@ -143,7 +143,9 @@ module Import
       update_workflows(type)
       new_custom_fields = new_custom_fields_in_type(jira_issue, type, custom_field_registry)
       update_custom_fields_in_type(type, new_custom_fields) if new_custom_fields.any?
-      priority = import_priority(jira_issue)
+      priority = import_priority(jira_issue) || IssuePriority.default || IssuePriority.active.first
+      raise "Create a priority. OpenProject work package requires a priority!" if priority.blank?
+
       import_work_package(jira_issue, project, type, status, priority, custom_field_registry)
     end
 
@@ -238,15 +240,17 @@ module Import
 
     def import_priority(jira_issue)
       issue_priority = jira_issue.payload["fields"]["priority"]
-      priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
-      uses_existing = true
-      if priority.blank?
-        priority = IssuePriority.create!(name: issue_priority["name"])
-        uses_existing = false
+      if issue_priority.present?
+        priority = IssuePriority.where("LOWER(name) = LOWER(?)", issue_priority["name"]).first
+        uses_existing = true
+        if priority.blank?
+          priority = IssuePriority.create!(name: issue_priority["name"])
+          uses_existing = false
+        end
+        jira_priority = Import::JiraPriority.find_by!(jira_priority_id: issue_priority["id"], jira_id: @jira_id)
+        create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
+        priority
       end
-      jira_priority = Import::JiraPriority.find_by!(jira_priority_id: issue_priority["id"], jira_id: @jira_id)
-      create_reference!(op_leg: priority, jira_leg: jira_priority, jira_import: @jira_import, uses_existing:)
-      priority
     end
 
     def update_workflows(type)
@@ -358,9 +362,13 @@ module Import
                  .call(container: work_package, filename:, file: tempfile)
 
         call.on_failure do
-          raise call.message
+          OpenProject.logger.error("#{work_package}: Attachment creation failed for #{filename}: #{call.message}")
         end
       end
+    rescue JiraClient::SsrfError,
+           JiraClient::ConnectionError,
+           JiraClient::ApiError => e
+      OpenProject.logger.error("#{work_package}: Download attachment failed for #{filename}: #{e.message}")
     end
 
     def import_member(project, member)

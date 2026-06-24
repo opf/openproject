@@ -1,36 +1,14 @@
-<div class="form--field">
-  <label class="form--label"
-    [ngClass]="{ '-error':  fileInvalid }"
-    [textContent]="text.label_choose_avatar"
-    for="avatar_file_input">
-  </label>
-  <div class="form--field-container">
-    <input #avatarFilePicker
-      type="file"
-      accept="image/jpeg,image/png,image/gif"
-      id="avatar_file_input"
-      name="avatar_file_input"
-      (change)="onFilePickerChanged($event)" />
-  </div>
-  <div class="form--field-instructions">
-    <span [textContent]="text.upload_instructions"></span>
-    <div class="avatars--error-pane">
-      @if (fileInvalid) {
-        <span [textContent]="text.wrong_file_format"></span>
-      }
-    </div>
-  </div>
+<input #avatarFilePicker
+  type="file"
+  accept="image/jpeg,image/png,image/gif"
+  id="avatar_file_input"
+  name="avatar_file_input"
+  class="sr-only"
+  [attr.aria-label]="text.label_choose_avatar"
+  [attr.disabled]="busy || undefined"
+  (change)="onFilePickerChanged($event)" />
+<div class="avatars--error-pane">
+  @if (fileInvalid) {
+    <span [textContent]="text.wrong_file_format"></span>
+  }
 </div>
-@if (avatarPreviewUrl) {
-  <fieldset class="preview">
-    <legend class="preview--legend" [textContent]="text.preview"></legend>
-    <img [src]="avatarPreviewUrl" class="avatars--local-avatar-preview" alt="{{ text.preview }}"/>
-  </fieldset>
-}
-
-<button type="submit"
-  (click)="uploadAvatar($event)"
-  [attr.disabled]="!avatarFile || busy || undefined"
-  [textContent]="text.button_update"
-  class="button -primary -with-icon icon-checkmark">
-</button>

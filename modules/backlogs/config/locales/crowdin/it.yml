@@ -91,6 +91,18 @@ it:
     administration_blankslate:
       title: Le impostazioni amministrative del backlog sono in divenire
       text: Stiamo attualmente riprogettando il modulo Backlog. Le impostazioni amministrative per sprint e backlog saranno presto disponibili qui. Le impostazioni a livello di progetto restano disponibili.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Eliminare il bucket del backlog?
       details: Il bucket del backlog '%{name}' verrà eliminato e tutte le macro-attività verranno spostate nella posta in arrivo del backlog. Nessuna macro-attività verrà eliminata.
@@ -170,6 +182,7 @@ it:
         create_description_text: Per iniziare a pianificare il tuo sprint, creane uno qui.
         manage_description_html: Per iniziare a pianificare il tuo sprint, vai alle %{settings_link} per ricevere sprint da un altro progetto.
         no_actions_description_text: Non ci sono ancora sprint disponibili per questo progetto.
+      button_new_sprint: New sprint
     story_points:
       one: "%{count} punto story"
       other: "%{count} punti story"

@@ -49,7 +49,11 @@ module Groups
       ) do |list|
         parent_candidates.each do |group|
           prefix = "\u00A0\u00A0" * (group.hierarchy_depth || 0)
-          list.option(label: "#{prefix}#{group.name}", value: group.id, selected: model.parent_id == group.id)
+          # Departments managed by LDAP own their sub-tree and cannot be chosen as a manual parent.
+          list.option(label: "#{prefix}#{group.name}",
+                      value: group.id,
+                      selected: model.parent_id == group.id,
+                      disabled: group.ldap_managed?)
         end
       end
 

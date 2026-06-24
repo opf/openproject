@@ -36,8 +36,8 @@ zh-CN:
     models:
       resource_allocation: 资源分配
       resource_planner: 资源规划工具
+      resource_user_card: User cards
       resource_work_package_list: 工作包列表
-      user_card: 用户卡
   button_next: 下一步
   label_resource_management: 资源规划
   permission_allocate_user_resources: 分配用户资源
@@ -115,13 +115,34 @@ zh-CN:
       private: 私用
       public: 公开
     sub_views: 此资源规划工具中的视图
+    user_allocations_dialog:
+      allocate_work_package: Allocate work package
+      blank: This user has no allocated work packages.
+      other_work_packages:
+        other: "%{count} other work packages"
+      title: Utilization
+    user_card_list:
+      add_user_dialog:
+        title: Add user
+      blank:
+        description: There are no users matching this view's filters yet.
+        manual_description: No users have been added to this view yet.
+        title: No users to display
+      card:
+        remove: Remove user
+        remove_confirmation: Remove this user from the view?
+      subheader:
+        resource: Resource
+        settings: Configure view
+      utilization:
+        label: Utilization
     view_types:
+      resource_user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
       resource_work_package_list:
         caption: 基于工作包创建视图，并在列表中查看其详细信息和分配情况
         label: 工作包列表
-      user_card:
-        caption: 基于用户创建视图，并在用户卡列表中查看其详细信息和分配情况
-        label: 用户卡列表
     work_package_allocations_dialog:
       allocate_resource: Allocate resource
       context_menu_label: Allocation actions

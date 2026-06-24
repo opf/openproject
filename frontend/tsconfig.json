@@ -28,5 +28,10 @@
       "core-typings/*": ["./src/typings/*"],
       "core-vendor/*": ["./src/vendor/*"]
     }
-  }
+  },
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.spec.json" }
+  ]
 }

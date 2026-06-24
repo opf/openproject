@@ -45,7 +45,7 @@ export class FormResource<T = HalResource> extends HalResource {
   public validationErrors:Record<string, ErrorResource>;
 
   public getErrors():ErrorResource|null {
-    const errors = _.values(this.validationErrors);
+    const errors = Object.values(this.validationErrors ?? {});
     const count = errors.length;
 
     if (count === 0) {

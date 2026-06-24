@@ -40,8 +40,8 @@ export class WorkPackageRelationsCountComponent extends UntilDestroyedMixin impl
     ]).pipe(
       this.untilDestroyed(),
     ).subscribe(([relations, workPackage]) => {
-      const relationCount = _.size(relations);
-      const childrenCount = _.size(workPackage.children);
+      const relationCount = Object.keys(relations).length;
+      const childrenCount = (workPackage.children ?? []).length;
 
       this.count = relationCount + childrenCount;
       this.cdRef.markForCheck();

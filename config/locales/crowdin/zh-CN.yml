@@ -21,6 +21,7 @@
 #++
 ---
 zh-CN:
+  label_user_attributes_plural: User attributes
   no_results_title_text: 当前没有可显示的内容。
   activities:
     index:
@@ -425,6 +426,20 @@ zh-CN:
       new_project:
         project_creation: 项目创建
         notification_text_default: "<p>您好！</p><p>已创建一个新项目：projectValue:name</p> <p>谢谢</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
+      user_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
       work_packages_identifier:
         page_header:
           description: 可以选择经典的数字工作包 ID，或者将项目标识符作为工作包 ID 前缀的语义化项目特定工作包 ID。
@@ -669,6 +684,8 @@ zh-CN:
             gain_role: 将获得角色“%{new_role}”
             lose_role: 将失去角色“%{old_role}”
             no_change: 无更改
+    multi_value_more:
+      other: and %{count} more
     text_add_new_custom_field: '要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
 
       '
@@ -713,6 +730,8 @@ zh-CN:
         project: 0 表示无限制
       has_comment:
         project: 允许用户在项目概览中选择值时添加与项目特性相关的注释。
+      visible_on_user_card:
+        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
@@ -740,9 +759,11 @@ zh-CN:
         '
       add_button: 添加
     detail_blankslate:
-      heading: 此部门下面没有任何层级
-      description: 添加部门或用户以在另一个部门或用户中创建子条目。
       add_button: 添加
+      description: 添加部门或用户以在另一个部门或用户中创建子条目。
+      heading: 此部门下面没有任何层级
+      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_heading: This department is managed by LDAP synchronization
     add_department_form:
       name_label: 部门名称
       name_placeholder: 输入部门名称
@@ -751,6 +772,9 @@ zh-CN:
       heading: 将用户移至此部门？
       description: "%{user} 目前是%{from_department}的成员。移动他们会将其从该部门中移除。"
       confirm: 移动用户
+      managed_title: User managed by LDAP
+      managed_heading: This user cannot be moved
+      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: 添加子部门
       add_user: 添加用户
@@ -1682,18 +1706,6 @@ zh-CN:
         dependencies: 依赖项
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: 标识符
-        work_package: 工作包
-      jira_import:
-        projects: 项目
-      import/jira:
-        name: Jira 实例名称
-        url: Jira 实例 URL
-        personal_access_token: 个人访问令牌
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: 显示截止日期
       attachment:
@@ -1739,6 +1751,7 @@ zh-CN:
         possible_values: 可能的值
         regexp: 正则表达式
         searchable: 可搜索
+        visible_on_user_card: Show on user card
         admin_only: 仅管理员
         has_comment: 添加注释文本字段
       custom_value:
@@ -1773,6 +1786,23 @@ zh-CN:
         row_count: 行数
         column_count: 列数
         widgets: 小部件
+      group:
+        group_users: 用户组
+        identity_url: 身份 URL
+        organizational_unit: 组织单元
+        parent: 父群组
+      group_detail:
+        organizational_unit: 组织单元
+        parent: 父群组
+      import/jira:
+        name: Jira 实例名称
+        personal_access_token: 个人访问令牌
+        url: Jira 实例 URL
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: 项目
       journal:
         notes: 备注
         cause_type: Cause 类型
@@ -1801,6 +1831,21 @@ zh-CN:
         resource: 资源
       oauth_client:
         client: 客户端 ID
+      ordered_persisted_query_entity:
+        persisted_query: 持续查询
+        entity: 实体
+        position: 位置
+      persisted_query:
+        name: 名称
+        views: 视图
+        filters: 筛选器
+        orders: 订单
+        selects: 选择
+      persisted_view:
+        name: 名称
+        query: 查询
+        parent: 父视图
+        public: 公开
       project:
         active_value:
           true: 未归档
@@ -1947,14 +1992,8 @@ zh-CN:
         new_password: 新密码
         password_confirmation: 确认
         consented_at: 同意在
-      group:
-        identity_url: 身份 URL
-        parent: 父群组
-        organizational_unit: 组织单元
-        group_users: 用户组
-      group_detail:
-        parent: 父群组
-        organizational_unit: 组织单元
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: 外观和风格
         header_alerts: 提醒
@@ -2053,29 +2092,11 @@ zh-CN:
         type: 类型
         version: 版本
         watcher: 关注者
-      ordered_persisted_query_entity:
-        persisted_query: 持续查询
-        entity: 实体
-        position: 位置
-      persisted_query:
-        name: 名称
-        views: 视图
-        filters: 筛选器
-        orders: 订单
-        selects: 选择
-      persisted_view:
-        name: 名称
-        query: 查询
-        parent: 父视图
-        public: 公开
-      user_card_view:
-        secondary_info: 次要信息
-        show_status_badge: 显示状态标识
-        show_email: 显示邮箱
-        tag_source: 标签来源
-        tag_limit: 标签限制
-        card_size: 卡片大小
-        columns_per_row: 每行列数
+      work_package_version:
+        kind: Kind
+      work_package_semantic_alias:
+        identifier: 标识符
+        work_package: 工作包
     errors:
       messages:
         accepted: 必须接受。
@@ -2121,6 +2142,7 @@ zh-CN:
         invalid_url: 不是有效的 URL。
         invalid_url_scheme: 不是受支持的协议（允许：%{allowed_schemes}）。
         is_for_all_cannot_modify: 适用于所有项目，因此不能修改。
+        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: 必须小于或等于 %{count}。
         not_available: 因系统配置而不可用。
         not_before_start_date: 不得在开始日期之前。
@@ -2158,6 +2180,7 @@ zh-CN:
 
           '
         user_already_in_department: 用户 %{user_id} 已经是部门 %{department_id} 的成员。
+        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: 长度不正确 (应该是 %{count} 个字符)。
       models:
         group:
@@ -2165,6 +2188,7 @@ zh-CN:
             parent_id:
               circular_dependency: 将创建循环群组层次结构。
               organizational_unit_mismatch: 必须与该群组具有相同的组织单位设置。
+              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -3420,6 +3444,7 @@ zh-CN:
       all_projects: 所有项目
       favorites: 收藏夹
       leave_project: 退出项目
+      no_favorite_projects: You have no favorite projects.
       title: 项目
   toggle_switch:
     label_on: 开启
@@ -4074,7 +4099,7 @@ zh-CN:
   label_custom_favicon: 自定义图标
   label_custom_touch_icon: 自定义触摸图标
   label_departments: 组织
-  label_departments_description_html: '以分级方式创建部门和分部门来定义您公司的结构。 这使您能够在OpenProject中反映报告线，并保持清晰、有条理的组织概述。 您也可以通过 [LDAP 组同步](ldap_docs_article)导入一个现有的组织结构。
+  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
     '
   label_logout: 注销
@@ -4082,6 +4107,7 @@ zh-CN:
   label_main_menu: 侧边菜单
   label_manage: 管理
   label_manage_groups: 组管理
+  label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: 托管的 %{vendor} 存储库
   label_mathematical_operators: 数学运算符
   label_max_size: 最大
@@ -5389,6 +5415,7 @@ zh-CN:
     passwords: 密码
     project_attributes:
       heading: 项目属性
+      label_add_attribute: Add a project attribute
       label_for_all_projects: 所有项目
       label_new_attribute: 项目属性
       label_new_section: 单元
@@ -5486,8 +5513,30 @@ zh-CN:
     session: 会话
     user:
       default_preferences: 默认偏好设置
-      display_format: 显示格式
       deletion: 删除
+      display_format: 显示格式
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Built-in
+        label_built_in_attribute_actions: Built-in attribute actions
+      custom_field_row_component:
+        label_user_custom_field_actions: User attribute actions
+      show_component:
+        label_add_attribute: Add a user attribute
+        label_edit_section: Edit title
+        label_no_user_custom_fields: No user attributes defined in this section
+        label_section_actions: Section actions
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filter by attribute name…
+        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
+      heading: User attributes
+      label_new_attribute: User attribute
+      label_new_section: Section
+      label_untitled_section: User attributes
+      new:
+        heading: New attribute
     working_days:
       section_work_week: 工作周
       section_holidays_and_closures: 节假日与停业

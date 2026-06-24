@@ -36,8 +36,8 @@ lv:
     models:
       resource_allocation: Resource Allocation
       resource_planner: Resource Planner
+      resource_user_card: User cards
       resource_work_package_list: Work packages list
-      user_card: User cards
   button_next: Next
   label_resource_management: Resource planning
   permission_allocate_user_resources: Allocate user resources
@@ -115,13 +115,36 @@ lv:
       private: Private
       public: Public
     sub_views: Views in this resource planner
+    user_allocations_dialog:
+      allocate_work_package: Allocate work package
+      blank: This user has no allocated work packages.
+      other_work_packages:
+        zero: "%{count} other work packages"
+        one: 1 other work package
+        other: "%{count} other work packages"
+      title: Utilization
+    user_card_list:
+      add_user_dialog:
+        title: Add user
+      blank:
+        description: There are no users matching this view's filters yet.
+        manual_description: No users have been added to this view yet.
+        title: No users to display
+      card:
+        remove: Remove user
+        remove_confirmation: Remove this user from the view?
+      subheader:
+        resource: Resource
+        settings: Configure view
+      utilization:
+        label: Utilization
     view_types:
+      resource_user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
       resource_work_package_list:
         caption: Create a view based on work packages and see its details and allocation in a list
         label: Work packages list
-      user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
     work_package_allocations_dialog:
       allocate_resource: Allocate resource
       context_menu_label: Allocation actions

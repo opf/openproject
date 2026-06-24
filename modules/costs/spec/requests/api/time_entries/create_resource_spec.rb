@@ -51,7 +51,10 @@ RSpec.describe "API v3 Time Entries resource",
 
   let(:path) { api_v3_paths.time_entries }
   let(:parameters) { {} }
+  # Rack::MockResponse does not expose parsed_body.
+  # rubocop:disable Rails/ResponseParsedBody
   let(:json_response) { JSON.parse(response.body) }
+  # rubocop:enable Rails/ResponseParsedBody
 
   subject(:response) { last_response }
 
@@ -150,6 +153,32 @@ RSpec.describe "API v3 Time Entries resource",
           expect(time_entry.user).to eq(japanese_user)
           expect(time_entry.entity).to eq(work_package)
         end
+      end
+    end
+
+    describe "entity visibility" do
+      let(:other_project) { create(:project) }
+      let(:hidden_meeting) { create(:meeting, project: other_project) }
+      let(:parameters) do
+        {
+          _links: {
+            entity: { href: api_v3_paths.meeting(hidden_meeting.id) },
+            project: { href: api_v3_paths.project(project.id) },
+            activity: { href: api_v3_paths.time_entries_activity(active_activity.id) }
+          },
+          spentOn: "2024-12-24",
+          hours: "PT2H"
+        }
+      end
+
+      it "rejects a meeting from a project invisible to the user" do
+        expect { post path, parameters.to_json }
+          .not_to change(TimeEntry, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.body)
+          .to be_json_eql("Logged for is invalid.".to_json)
+          .at_path("message")
       end
     end
 

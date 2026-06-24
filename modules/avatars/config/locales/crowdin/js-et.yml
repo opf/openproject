@@ -7,9 +7,6 @@ et:
     avatars:
       label_choose_avatar: Vali profiilipilt failist
       uploading_avatar: Uploading your avatar.
-      text_upload_instructions: |
-        Upload your own custom avatar of 128 by 128 pixels. Larger files will be resized and cropped to match.
-        A preview of your avatar will be shown before uploading, once you selected an image.
       error_image_too_large: Image is too large.
       wrong_file_format: Lubatud vormingud on jpg, png, gif.
       empty_file_error: Palun laadige üles ainult lubatud formaadis (jpg, png, gif).

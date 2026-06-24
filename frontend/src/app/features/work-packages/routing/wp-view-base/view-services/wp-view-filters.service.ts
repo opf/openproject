@@ -153,10 +153,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
   public instantiate(filterOrId:QueryFilterResource|string):QueryFilterInstanceResource {
     const id = (filterOrId instanceof QueryFilterResource) ? filterOrId.id : filterOrId;
 
-    const schema = _.find(
-      this.availableSchemas,
-      (schema) => (schema.filter.allowedValues as HalResource)[0].id === id,
-    )!;
+    const schema = this.availableSchemas.find((schema) => (schema.filter.allowedValues as HalResource[])[0].id === id)!;
 
     return schema.getFilter();
   }
@@ -201,7 +198,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * @param filters
    */
   public isComplete(filters:QueryFilterInstanceResource[]):boolean {
-    return _.every(filters, (filter) => filter.isCompletelyDefined());
+    return filters.every((filter) => filter.isCompletelyDefined());
   }
 
   /**
@@ -247,7 +244,7 @@ export class WorkPackageViewFiltersService extends WorkPackageQueryStateService<
    * @param id Identifier of the filter
    */
   public findIndex(id:string):number {
-    return _.findIndex(this.current, (f) => f.id === id);
+    return this.current.findIndex((f) => f.id === id);
   }
 
   public applyToQuery(query:QueryResource):boolean {

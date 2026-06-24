@@ -91,6 +91,18 @@ es:
     administration_blankslate:
       title: Las opciones de configuración de Backlog están cambiando
       text: Ahora mismo estamos rediseñando el módulo «Backlogs». La configuración de administración para los sprints y los backlogs estará disponible aquí en breve. La configuración a nivel de proyecto sigue estando disponible.
+    backlog_component:
+      button_new_backlog_bucket: Nuevo bucket de backlog
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: Todos los backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: Todos los sprints
+      select_panel_title: Seleccionar elementos
     bucket_destroy_modal_component:
       title: "¿Eliminar bucket de backlog?"
       details: Se eliminará el bucket de backlog «%{name}» y todos los paquetes de trabajo se trasladarán a la bandeja de entrada de tareas pendientes. No se eliminará ningún paquete de trabajo.
@@ -170,6 +182,7 @@ es:
         create_description_text: Para empezar a planificar tu sprint, crea uno aquí.
         manage_description_html: Para empezar a planificar tu sprint, ve a %{settings_link} para recibir sprints de otro proyecto.
         no_actions_description_text: Todavía no hay sprints disponibles para este proyecto.
+      button_new_sprint: Nuevo sprint
     story_points:
       one: "%{count} punto de historia"
       other: "%{count} puntos de historia"

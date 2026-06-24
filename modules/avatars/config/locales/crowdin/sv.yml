@@ -19,24 +19,10 @@ sv:
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
-    label_current_avatar: Aktuell avatar
     label_local_avatar: Anpassad avatar
-    text_current_avatar: 'Följande bild visar den aktuella avataren.
-
-      '
-    text_upload_instructions: |
-      Ladda upp din egen avatar på 128 gånger 128 pixlar. Större filer kommer att skalas om och beskäras för att matcha.
-      En förhandsvisning av din avatar kommer att visas innan du laddar upp, när du har valt en bild.
-    text_change_gravatar_html: För att ändra eller lägga till Gravatar för din e-postadress, gå till %{gravatar_url}.
-    text_your_local_avatar: 'OpenProject låter dig ladda upp din egen egen avatar.
-
-      '
-    text_local_avatar_over_gravatar: 'Om du anger en, används denna anpassade avatar före gravataren ovan.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject använder din gravatar om du registrerade en, eller en standardbild eller ikon om det finns.
-      Den aktuella gravatar är följande:
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: Aktivera användargravatarer
       gravatar_default: Standard Gravatar bild

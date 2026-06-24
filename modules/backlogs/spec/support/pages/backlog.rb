@@ -377,9 +377,17 @@ module Pages
       expect(page).to have_css("#create-work-package-dialog")
     end
 
+    def expect_sprint(sprint)
+      expect(page).to have_css(sprint_selector(sprint))
+    end
+
+    def expect_no_sprint(sprint)
+      expect(page).to have_no_css(sprint_selector(sprint))
+    end
+
     def open_create_bucket_dialog
       within_owner_backlogs do
-        click_on accessible_name: BacklogBucket.human_model_name
+        click_on accessible_name: "New backlog bucket"
       end
     end
 
@@ -393,6 +401,10 @@ module Pages
       within_owner_backlogs do
         expect(page).to have_no_link(BacklogBucket.human_model_name, exact: true)
       end
+    end
+
+    def expect_backlog_bucket(bucket)
+      expect(page).to have_css(bucket_selector(bucket))
     end
 
     def expect_no_backlog_bucket(bucket)
@@ -414,6 +426,65 @@ module Pages
     def expect_work_package_not_draggable(work_package)
       expect(page)
         .to have_no_css(draggable_work_package_selector(work_package))
+    end
+
+    def apply_sprint_filter(*sprints)
+      within_sprint_backlogs do
+        find_test_selector("sprint_filter_button").click
+      end
+      within_dialog "Select items" do
+        sprints.each { |sprint| click_on sprint.name, role: "option" }
+        click_on "Apply"
+      end
+      wait_for_network_idle
+    end
+
+    def apply_bucket_filter(*buckets, include_inbox: false)
+      within_owner_backlogs do
+        find_test_selector("backlog_bucket_filter_button").click
+      end
+      within_dialog "Select items" do
+        buckets.each { |bucket| click_on bucket.name, role: "option" }
+        click_on(I18n.t(:label_inbox), role: "option") if include_inbox
+        click_on "Apply"
+      end
+      wait_for_network_idle
+    end
+
+    def expect_inbox
+      expect(page).to have_test_selector("backlog-inbox")
+    end
+
+    def expect_no_inbox
+      expect(page).to have_no_test_selector("backlog-inbox")
+    end
+
+    def within_filter_panel(type, &)
+      within_filter_container(type) do
+        find_test_selector(filter_button_label(type)).click
+      end
+      within_dialog("Select items", &)
+    end
+
+    def clear_filter(type)
+      within_filter_panel(type) { click_on I18n.t(:button_clear) }
+      wait_for_network_idle
+    end
+
+    def expect_filter_count(type, count)
+      within_filter_container(type) do
+        within_test_selector(filter_button_label(type)) do
+          expect(page).to have_css(".Counter", text: count)
+        end
+      end
+    end
+
+    def expect_no_filter_count(type)
+      within_filter_container(type) do
+        within_test_selector(filter_button_label(type)) do
+          expect(page).to have_no_css(".Counter")
+        end
+      end
     end
 
     def drag_work_package(moved, before: nil, into: nil)
@@ -556,6 +627,14 @@ module Pages
       within("#sprint_backlogs_container", &)
     end
 
+    def within_filter_container(type, &)
+      type == :sprint ? within_sprint_backlogs(&) : within_owner_backlogs(&)
+    end
+
+    def filter_button_label(type)
+      type == :sprint ? "sprint_filter_button" : "backlog_bucket_filter_button"
+    end
+
     def sprint_selector(sprint)
       test_selector("sprint-#{sprint.id}")
     end
@@ -572,13 +651,6 @@ module Pages
 
     def list_body_selector(container_selector)
       "#{container_selector} > ul"
-    end
-
-    def headed_section_titles(id_prefix:)
-      page
-        .all(:section, section_element: :section, heading_level: 4)
-        .select { |section| section[:id].to_s.start_with?(id_prefix) }
-        .map { |section| section.first(:heading, level: 4).text }
     end
 
     def work_package_selector(work_package)
@@ -615,6 +687,13 @@ module Pages
       return unless page.has_css?(selector, visible: true, wait: 0)
 
       find(selector).click
+    end
+
+    def headed_section_titles(id_prefix:)
+      page
+        .all(:section, section_element: :section, heading_level: 4)
+        .select { |section| section[:id].to_s.start_with?(id_prefix) }
+        .map { |section| section.first(:heading, level: 4).text }
     end
 
     def sprint_names_in_order

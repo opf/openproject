@@ -46,7 +46,7 @@ de:
     text_otp_delivery_message_sms: Ihr %{app_title} Einmalkennwort lautet %{token}
     text_otp_delivery_message_voice: 'Ihr %{app_title} Einmalkennwort lautet: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}'
     text_2fa_enabled: Bei jedem Login werden Sie aufgefordert, ein Einmalpasswort aus Ihrem Standardgerät für 2FA einzugeben.
-    text_2fa_disabled: Um die Zwei-Faktor-Authentifizierung zu aktivieren, registrieren Sie ein 2FA-Gerät über die obige Schaltfläche. Wenn Sie bereits ein Gerät registriert haben, müssen Sie es noch als Standardgerät festlegen.
+    text_2fa_disabled: Um die Zwei-Faktor-Authentifizierung zu aktivieren, registrieren Sie ein 2FA-Gerät über die Schaltfläche unten. Wenn Sie bereits ein Gerät registriert haben, müssen Sie es noch als Standardgerät festlegen.
     login:
       enter_backup_code_title: 2FA Backup-Code eingeben
       enter_backup_code_text: Bitte geben Sie einen 2FA Backup-Code von der zuvor gespeicherten Liste ein, falls Sie keinen Zugang zu Ihrem 2FA-Geräten mehr haben.
@@ -160,7 +160,7 @@ de:
         '
       other_active_session_notice: Ihr Konto hat einen aktiven Erinnerungs-Cookie in einer anderen Sitzung.
       label: Erinnern
-      clear_cookie: Remove all remembered 2FA sessions.
+      clear_cookie: Alle gespeicherten 2FA-Sitzungen löschen.
       cookie_removed: Alle gespeicherten 2FA Sitzungen wurden entfernt.
       dont_ask_again: Die Zwei-Faktor-Authentifizierung auf diesem Browser für %{days} Tage nicht mehr abfragen.
   field_otp: Einmalpasswort
@@ -171,7 +171,7 @@ de:
   notice_account_has_no_phone: Keine Telefonnummer mit Ihrem Account verknüpft.
   label_confirmed: Bestätigt
   button_continue: Fortfahren
-  button_make_active: Activate
+  button_make_active: Aktivieren
   button_make_default: Als Standard festlegen
   notice_phone_number_format: 'Bitte geben Sie die Nummer in folgendem Format ein: +XX XXXXXXXX.'
   text_otp_not_receive: Andere Überprüfungsmethoden

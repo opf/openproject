@@ -46,7 +46,7 @@ uk:
     text_otp_delivery_message_sms: Ваш %{app_title}  одноразовий пароль %{token}
     text_otp_delivery_message_voice: 'Ваш %{app_title}  одноразовий пароль:%{pause} %{token} %{pause}  Я повторюю: %{pause} %{token}'
     text_2fa_enabled: Після кожного входу вам буде запропоновано ввести маркер OTP з пристрою 2FA за умовчанням.
-    text_2fa_disabled: Щоб увімкнути двофакторну аутентифікацію, скористайтеся кнопкою вище для реєстрації нового пристрою 2FA. Якщо у вас вже є пристрій, потрібно зробити його стандартним.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Введіть резервний код
       enter_backup_code_text: Введіть дійсний код резервного копіювання зі списку кодів, якщо ви більше не зможете отримати доступ до зареєстрованих пристроїв 2FA.

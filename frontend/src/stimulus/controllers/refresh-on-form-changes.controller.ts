@@ -28,10 +28,29 @@
  * ++
  */
 
-import { ApplicationController } from 'stimulus-use';
-import { renderStreamMessage } from '@hotwired/turbo';
+import { ApplicationController, useDebounce } from 'stimulus-use';
+import { FetchRequest } from '@rails/request.js';
+
+const TURBO_STREAM_REFRESH_DELAY = 50;
+
+// Serialize a form's fields into a query string. URLSearchParams does not accept
+// a FormData object whose entries may hold File values, so copy the string
+// entries across explicitly, dropping any file inputs.
+export function serializeFormQuery(form:HTMLFormElement):string {
+  const params = new URLSearchParams();
+  new FormData(form).forEach((value, key) => {
+    if (typeof value === 'string') {
+      params.append(key, value);
+    }
+  });
+  return params.toString();
+}
 
 export default class RefreshOnFormChangesController extends ApplicationController {
+  static debounces = [
+    { name: 'performTurboStreamRefresh', wait: TURBO_STREAM_REFRESH_DELAY },
+  ];
+
   static targets = [
     'form',
   ];
@@ -46,23 +65,48 @@ export default class RefreshOnFormChangesController extends ApplicationControlle
   declare refreshUrlValue:string;
   declare turboStreamUrlValue:string;
 
+  private abortController:AbortController|null = null;
+
+  connect():void {
+    useDebounce(this);
+  }
+
+  disconnect():void {
+    this.abortController?.abort();
+    this.abortController = null;
+  }
+
   triggerReload():void {
-    window.location.href = `${this.refreshUrlValue}?${this.getSerializedFormData()}`;
+    window.location.replace(`${this.refreshUrlValue}?${serializeFormQuery(this.formTarget)}`);
   }
 
-  async triggerTurboStream():Promise<void> {
-    await fetch(`${this.turboStreamUrlValue}?${this.getSerializedFormData()}`, {
-      headers: {
-        Accept: 'text/vnd.turbo-stream.html',
-      },
-    }).then((r) => r.text())
-      .then((html) => renderStreamMessage(html));
+  triggerTurboStream():void {
+    void this.performTurboStreamRefresh();
   }
 
-  private getSerializedFormData():string {
-    // without the cast to undefined, the URLSearchParams constructor will
-    // not accept the FormData object.
-    const formData = new FormData(this.formTarget) as unknown as undefined;
-    return new URLSearchParams(formData).toString();
+  private async performTurboStreamRefresh():Promise<void> {
+    // Cancel any refresh still in flight so a slower, earlier response cannot
+    // arrive last and overwrite the form with stale state (e.g. a half-entered
+    // date range clobbering the completed one).
+    this.abortController?.abort();
+    const abortController = new AbortController();
+    this.abortController = abortController;
+
+    try {
+      const request = new FetchRequest('get', this.turboStreamUrlValue, {
+        query: new FormData(this.formTarget),
+        responseKind: 'turbo-stream',
+        signal: abortController.signal,
+      });
+      await request.perform();
+    } catch (error) {
+      if (!(error instanceof DOMException && error.name === 'AbortError')) {
+        console.error(error);
+      }
+    } finally {
+      if (this.abortController === abortController) {
+        this.abortController = null;
+      }
+    }
   }
 }

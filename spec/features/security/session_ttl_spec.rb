@@ -50,7 +50,7 @@ RSpec.describe "Session TTL",
       visit "/my/account"
 
       within_test_selector "my-account-form" do
-        expect(page).to have_field "user_username", with: admin.login
+        expect(page).to have_field "user_login", with: admin.login
       end
 
       # Expire the session

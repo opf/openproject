@@ -66,7 +66,7 @@ export class WpTableConfigurationDisplaySettingsTabComponent implements TabCompo
 
   public updateGroup(href:string) {
     this.displayMode = 'grouped';
-    this.currentGroup = _.find(this.availableGroups, (group) => group.href === href) || null;
+    this.currentGroup = this.availableGroups.find((group) => group.href === href) ?? null;
   }
 
   ngOnInit() {

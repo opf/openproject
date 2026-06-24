@@ -30,7 +30,20 @@ jobs:
         id: version-check
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
-        run: ./script/ci/version_check.sh "$PR_BODY"
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: ./script/ci/version_check.sh
+
+      - name: Add comment if no work package is linked
+        if: steps.version-check.outputs.no_ticket == 'true'
+        uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
+        with:
+          header: version-mismatch-comment
+          message: |
+            > [!WARNING]
+            > This pull request does not link an OpenProject work package.
+
+            Please add a link to the work package in the description, or reference it in the
+            title in square brackets, e.g. `[SLUG-123] My title here`.
 
       - name: Add comment if versions differ
         if: steps.version-check.outputs.version_mismatch == 'true'
@@ -51,7 +64,7 @@ jobs:
 
              - The work package version OR your pull request target branch is correct
       - name: Version check passed
-        if: steps.version-check.outputs.version_mismatch != 'true'
+        if: steps.version-check.outputs.version_mismatch != 'true' && steps.version-check.outputs.no_ticket != 'true'
         uses: marocchino/sticky-pull-request-comment@d4d6b0936434b21bc8345ad45a440c5f7d2c40ff # v3
         with:
           header: version-mismatch-comment

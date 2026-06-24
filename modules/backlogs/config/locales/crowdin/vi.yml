@@ -92,6 +92,18 @@ vi:
     administration_blankslate:
       title: Các thiết lập quản trị Backlog đang được phát triển
       text: Chúng tôi hiện đang thiết kế lại mô-đun Backlogs. Các thiết lập quản trị cho Sprint và Backlog sẽ hiển thị ở đây trong thời gian tới. Các thiết lập ở cấp độ dự án vẫn khả dụng.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Xóa nhóm Backlog (bucket)?
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -169,6 +181,7 @@ vi:
         create_description_text: To start planning your sprint, create one here.
         manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
         no_actions_description_text: No sprints are available for this project yet.
+      button_new_sprint: New sprint
     story_points:
       other: "%{count} story points"
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.

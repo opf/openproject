@@ -92,8 +92,12 @@ module Admin
       end
 
       def disabled_ids
+        # Disallow the department itself, its current parent and descendants (circular), as well as
+        # any department managed by LDAP (the sync owns its sub-tree).
         @disabled_ids ||= Set.new(
-          [@department.id, @department.parent_id].compact + descendant_ids(@department.id)
+          [@department.id, @department.parent_id].compact +
+            descendant_ids(@department.id) +
+            @departments.select(&:ldap_managed?).map(&:id)
         )
       end
 

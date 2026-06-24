@@ -60,7 +60,7 @@ module OpTurbo
     alias_method :respond_with_turbo_streams, :respond_to_with_turbo_streams
 
     def respond_with_dialog(dialog_component, status: :ok, &format_block)
-      modify_via_turbo_stream(component: dialog_component, action: :dialog, status:)
+      dialog_via_turbo_stream(component: dialog_component, status:)
 
       respond_to_with_turbo_streams(&format_block)
     end
@@ -75,6 +75,10 @@ module OpTurbo
 
     def remove_via_turbo_stream(component:, status: :ok, **)
       modify_via_turbo_stream(component:, action: :remove, status:, **)
+    end
+
+    def dialog_via_turbo_stream(component:, status: :ok, **)
+      modify_via_turbo_stream(component:, action: :dialog, status:, **)
     end
 
     def modify_via_turbo_stream(component:, action:, status:, **)

@@ -29,7 +29,14 @@
 #++
 
 Rails.application.config.to_prepare do
-  Primer::Forms::Dsl::FormObject.include(Primer::OpenProject::Forms::Dsl::InputMethods)
-  Primer::Forms::Dsl::InputGroup.include(Primer::OpenProject::Forms::Dsl::InputMethods)
-  Primer::Forms::Dsl::MultiInput.include(Primer::OpenProject::Forms::Dsl::InputMethods)
+  [Primer::Forms::Dsl::FormObject,
+   Primer::Forms::Dsl::InputGroup,
+   Primer::Forms::Dsl::MultiInput,
+   Primer::Forms::Dsl::FieldsetGroupInput].each do |klass|
+    klass.include(Primer::OpenProject::Forms::Dsl::InputMethods)
+  end
+
+  # A nested group must report its own visibility: the parent Group/FieldsetGroup
+  # collapses (display: none) when inputs.all?(&:hidden?).
+  Primer::Forms::Dsl::InputGroup.define_method(:hidden?) { !!system_arguments[:hidden] }
 end

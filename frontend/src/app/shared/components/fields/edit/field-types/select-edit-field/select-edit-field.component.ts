@@ -68,7 +68,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   readonly editFormComponent = inject(EditFormComponent, { optional: true });
 
-  public availableOptions:any[];
+  public availableOptions:HalResource[] = [];
 
   public text:Record<string, string>;
 
@@ -86,11 +86,11 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public get selectedOption() {
     const href = this.value ? this.value.href : null;
-    return _.find(this.availableOptions, (o) => o.href === href)!;
+    return (this.availableOptions as ValueOption[]).find((o) => o.href === href)!;
   }
 
   public set selectedOption(val:ValueOption|HalResource) {
-    const option = _.find(this.availableOptions, (o) => o.href === val.href);
+    const option = (this.availableOptions as ValueOption[]).find((o) => o.href === val.href);
 
     // Special case 'null' value, which angular
     // only understands in ng-options as an empty string.
@@ -217,7 +217,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
 
   public get currentValueInvalid():boolean {
     return !!(
-      (this.value && !_.some(this.availableOptions, (option:HalResource) => (option.href === this.value.href)))
+      (this.value && !this.availableOptions.some((option:HalResource) => (option.href === (this.value as HalResource).href)))
       || (!this.value && this.schema.required)
     );
   }
@@ -276,7 +276,7 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
       this.availableOptions.unshift({
         name: this.text.placeholder,
         href: '',
-      });
+      } as HalResource);
     }
   }
 
@@ -298,8 +298,8 @@ export class SelectEditFieldComponent extends EditFieldComponent implements OnIn
     return {};
   }
 
-  private getEmptyOption():undefined {
-    return _.find(this.availableOptions, (el) => el.name === this.text.placeholder);
+  private getEmptyOption():ValueOption|undefined {
+    return (this.availableOptions as ValueOption[]).find((el) => el.name === this.text.placeholder);
   }
 
   private syncUrlParamsOnChangeIfNeeded(fieldName:string, editMode?:boolean) {

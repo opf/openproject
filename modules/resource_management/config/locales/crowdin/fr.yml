@@ -36,8 +36,8 @@ fr:
     models:
       resource_allocation: Affectation des ressources
       resource_planner: Planificateur de ressources
+      resource_user_card: User cards
       resource_work_package_list: Liste des lots de travaux
-      user_card: Fiches des utilisateurs
   button_next: Suivant
   label_resource_management: Planification des ressources
   permission_allocate_user_resources: Attribuer des ressources aux utilisateurs
@@ -64,7 +64,7 @@ fr:
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
+          caption: Définissez des critères de filtrage en fonction des attributs de l'utilisateur pour créer une ressource de remplacement.
           label: Critères de filtrage
         label: Type d’allocation
         principal:
@@ -81,9 +81,9 @@ fr:
         schedule_note: This user works %{schedule}.
         submit: Temps alloué
         title: Souhaitez-vous attribuer des heures supplémentaires à l'utilisateur ?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+      submit: Allouer
+      success_message: Ressource allouée.
+      title: Allouer une ressource
     blankslate:
       desc: Créez un planificateur de ressources pour commencer à planifier la capacité de ce projet.
       title: Aucun planificateur de ressources pour le moment
@@ -99,9 +99,9 @@ fr:
           label: Sélection manuelle
       title: Configurer la vue
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
+      submit: Enregistrer
+      success_message: Allocation de la ressource mise à jour.
+      title: Modifier l'allocation
     favorite_caption: Faites de cette vue un favori pour l'ajouter à la section supérieure du menu de la barre latérale.
     label_new_resource_planner: Nouveau planificateur de ressources
     label_resource_planner: Planificateur de ressources
@@ -115,20 +115,42 @@ fr:
       private: Privé
       public: Public
     sub_views: Vues de ce planificateur de ressources
+    user_allocations_dialog:
+      allocate_work_package: Allocate work package
+      blank: This user has no allocated work packages.
+      other_work_packages:
+        one: 1 other work package
+        other: "%{count} other work packages"
+      title: Utilization
+    user_card_list:
+      add_user_dialog:
+        title: Add user
+      blank:
+        description: There are no users matching this view's filters yet.
+        manual_description: No users have been added to this view yet.
+        title: No users to display
+      card:
+        remove: Remove user
+        remove_confirmation: Remove this user from the view?
+      subheader:
+        resource: Resource
+        settings: Configure view
+      utilization:
+        label: Utilization
     view_types:
+      resource_user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
       resource_work_package_list:
         caption: Créez une vue basée sur des lots de travaux et affichez leurs informations et leur affectation dans une liste
         label: Liste des lots de travaux
-      user_card:
-        caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
-        label: Liste des fiches des utilisateurs
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
+      allocate_resource: Allouer une ressource
       context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
+      delete_confirmation: Êtes-vous sûr de vouloir supprimer cette allocation ? Cette action est irréversible.
+      delete_success: Allocation de la ressource supprimée.
+      hidden_user: Utilisateur masqué
+      overbooked: L’utilisateur est alloué au-delà de ses heures de travail durant cette période.
       title: Allocation
     work_package_list:
       add_work_package_dialog:
@@ -136,9 +158,9 @@ fr:
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} utilisateur"
+          other: "%{count} utilisateurs"
+        unassigned: Non assigné
       allocation_placeholder: "—"
       blank:
         description: Aucun lot de travaux ne correspond encore aux filtres de cette vue.

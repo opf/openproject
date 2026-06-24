@@ -46,7 +46,7 @@ ca:
     text_otp_delivery_message_sms: La teva contrasenya d'un sol ús de %{app_title} és %{token}
     text_otp_delivery_message_voice: 'La teva contrasenya d''un sol ús de %{app_title} és: %{pause}%{token}. %{pause} Repeteixo: %{pause} %{token}'
     text_2fa_enabled: Després de cada inici de sessió, se't demanarà introduir un token OTP del teu dispositiu 2FA per defecte.
-    text_2fa_disabled: Per tal d'activar l'autentificació en dos passos utilitza el botó d'aquí a dalt per tal de registrar un dispositiu 2FA nou. En cas que ja tinguis un dispositiu registrat, l'hauràs de configurar com a predeterminat.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Introduïu el codi de la còpia de seguretat
       enter_backup_code_text: Si us plau, entra un codi de còpia de seguretat de la teva llista de codis en cas que ja no tinguis accés als teus dispositius 2FA registrats.

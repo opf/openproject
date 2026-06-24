@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "My working times pages", :js, with_flag: { user_working_times: true } do
+RSpec.describe "My working times pages", :js do
   describe "/my/non_working_times" do
     let(:nwt_page) { Pages::Users::NonWorkingTimes.new(year: 2026) }
 

@@ -462,7 +462,7 @@ export class TimelineCellRenderer {
 
     // ensure minimum width
     if (!Number.isNaN(start.valueOf()) || !Number.isNaN(due.valueOf())) {
-      const minWidth = _.max([renderInfo.viewParams.pixelPerDay, 2]);
+      const minWidth = Math.max(renderInfo.viewParams.pixelPerDay, 2);
       element.style.minWidth = `${minWidth}px`;
     }
   }

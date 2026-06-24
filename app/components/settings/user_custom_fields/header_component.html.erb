@@ -1,0 +1,72 @@
+<%= component_wrapper do %>
+  <%=
+    render Primer::OpenProject::PageHeader.new do |header|
+      header.with_title(variant: :default) { t("settings.user_custom_fields.heading") }
+      header.with_description { t(".heading_description") }
+      header.with_breadcrumbs(breadcrumbs_items)
+    end
+  %>
+
+  <%=
+    render Primer::OpenProject::SubHeader.new(collapsed_search: true) do |subheader|
+      subheader.with_filter_input(
+        name: "attribute-filter-input",
+        label: t(".attribute_filter.label"),
+        visually_hide_label: true,
+        placeholder: t(".attribute_filter.label"),
+        leading_visual: {
+          icon: :search,
+          size: :small
+        },
+        show_clear_button: true,
+        clear_button_id: "attribute-filter-clear-button",
+        data: {
+          action: "input->filter--filter-list#filterLists",
+          "filter--filter-list-target": "filter"
+        }
+      )
+      subheader.with_action_menu(
+        leading_icon: :plus,
+        trailing_icon: :"triangle-down",
+        label: I18n.t(:button_add),
+        anchor_align: :end,
+        button_arguments: {
+          scheme: :primary,
+          aria: { label: I18n.t(:button_add) },
+          test_selector: "user-attributes-add-menu-button"
+        }
+      ) do |menu|
+        menu.with_item(
+          label: t("settings.user_custom_fields.label_new_section"),
+          id: "dialog-show-user-custom-field-section-dialog",
+          tag: :a,
+          href: new_link_admin_settings_user_custom_field_sections_path,
+          content_arguments: { data: { controller: "async-dialog", test_selector: "add-user-custom-field-section" } }
+        )
+
+        if allow_custom_field_creation?
+          menu.with_sub_menu_item(
+            label: t("settings.user_custom_fields.label_new_attribute"),
+            content_arguments: { data: { test_selector: "add-user-custom-field-attribute" } }
+          ) do |sub_menu|
+            OpenProject::CustomFieldFormat.enabled_for_class_name("User")
+                                          .sort_by(&:name)
+                                          .map do |format|
+              sub_menu.with_item(
+                label: helpers.label_for_custom_field_format(format.name),
+                tag: :a,
+                href: new_admin_settings_user_custom_field_path(field_format: format.name),
+                content_arguments: { data: { turbo: "false",
+                                             test_selector: "new-user-custom-field-button" } }
+              ) do |item|
+                unless format.enterprise_feature_allowed?
+                  item.with_trailing_visual_icon(icon: :"op-enterprise-addons", classes: "upsell-colored")
+                end
+              end
+            end
+          end
+        end
+      end
+    end
+  %>
+<% end %>

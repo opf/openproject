@@ -67,7 +67,7 @@ export class RelationsRenderPass {
       // If the work package has no relations, ignore
       const { workPackage } = row;
       const state = this.wpRelations.state(workPackage.id!);
-      if (!state.hasValue() || _.size(state.value) === 0) {
+      if (!state.hasValue() || Object.keys(state.value ?? {}).length === 0) {
         return;
       }
 

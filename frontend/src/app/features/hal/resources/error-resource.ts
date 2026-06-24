@@ -116,7 +116,7 @@ export class ErrorResource extends HalResource {
     if (this.details) {
       perAttribute[this.details.attribute] = [this.message];
     } else {
-      _.forEach(this.errors, (error:any) => {
+      this.errors?.forEach((error:ErrorResource) => {
         if (error.errorIdentifier === v3ErrorIdentifierMultipleErrors) {
           const [attribute, messages] = this.extractMultiError(error);
           const current = perAttribute[attribute] || [];

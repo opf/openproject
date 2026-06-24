@@ -143,19 +143,19 @@ RSpec.describe "random password generation", :js do
       # And I try to set my new password to "adminADMIN"
       fill_in "user_password", with: "adminADMIN"
       fill_in "user_password_confirmation", with: "adminADMIN"
-      scroll_to_and_click(find(".button", text: "Save"))
+      scroll_to_and_click(find_button("Save"))
       expect_flash(type: :error, message: "Password Must include characters of the following types")
 
       # Has numeric but still missing special
       fill_in "user_password", with: "adminADMIN123"
       fill_in "user_password_confirmation", with: "adminADMIN123"
-      scroll_to_and_click(find(".button", text: "Save"))
+      scroll_to_and_click(find_button("Save"))
       expect_flash(type: :error, message: "Password Must include characters of the following types")
 
       # All classes
       fill_in "user_password", with: "adminADMIN1!"
       fill_in "user_password_confirmation", with: "adminADMIN1!"
-      scroll_to_and_click(find(".button", text: "Save"))
+      scroll_to_and_click(find_button("Save"))
       expect_flash(message: I18n.t(:notice_successful_update))
     end
   end

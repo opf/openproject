@@ -77,7 +77,7 @@ de:
     button_confirm: Bestätigen
     button_continue: Fortfahren
     button_copy: Kopieren
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: Numerische ID in die Zwischenablage kopieren
     button_copy_link_to_clipboard: Link in Zwischenablage kopieren
     button_copy_to_clipboard: In Zwischenablage kopieren
     button_copy_to_other_project: In anderes Projekt duplizieren
@@ -182,7 +182,7 @@ de:
           text: "[Platzhalter] Eingebettete Arbeitspaket-Tabelle"
         error: 'Kann Makro nicht anzeigen: %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: Einfügen
         toc: Inhaltsverzeichnis
         toolbar_help: Klicken Sie auf das Widget zum Auswählen und Anzeigen der Symbolleiste. Doppelklicken zum Editieren des Makros
         wiki_page_include:
@@ -368,7 +368,7 @@ de:
     label_in_more_than: in mehr als
     label_incoming_emails: Eingehende E-Mails
     label_information_plural: Information
-    label_infinity: Infinity
+    label_infinity: Unendlich
     label_invalid: Ungültig
     label_import: Import
     label_latest_activity: Letzte Änderungen
@@ -393,7 +393,7 @@ de:
     label_no_value: Kein Wert
     label_none: keine
     label_not_contains: enthält nicht
-    label_not_available: Not available
+    label_not_available: Nicht verfügbar
     label_not_equals: ist nicht
     label_on: am
     label_open_menu: Menü öffnen

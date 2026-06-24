@@ -91,6 +91,18 @@ pt-PT:
     administration_blankslate:
       title: As definições de administração do backlog estão a evoluir
       text: Estamos a reformular o módulo Backlogs. As definições de administração para os sprints e backlogs estarão disponíveis aqui num futuro próximo. As definições ao nível do projeto continuam disponíveis.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Eliminar grupo de backlog?
       details: O grupo de backlog '%{name}' será eliminado e todos os pacotes de trabalho serão movidos para a caixa de entrada de backlogs. Nenhum pacote de trabalho será eliminado.
@@ -170,6 +182,7 @@ pt-PT:
         create_description_text: Para começar a planear o seu sprint, crie um aqui.
         manage_description_html: Para começar a planear o seu sprint, vá a %{settings_link} para receber sprints de um projeto diferente.
         no_actions_description_text: Ainda não há sprints disponíveis para este projeto.
+      button_new_sprint: New sprint
     story_points:
       one: "%{count} ponto de história"
       other: "%{count} pontos de história"

@@ -77,7 +77,7 @@ fr:
     button_confirm: Confirmer
     button_continue: Continuer
     button_copy: Copier
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: Copier l'identifiant numérique dans le presse-papiers
     button_copy_link_to_clipboard: Copier le lien dans le presse-papiers
     button_copy_to_clipboard: Copier dans le presse-papiers
     button_copy_to_other_project: Dupliquer dans un autre projet
@@ -368,7 +368,7 @@ fr:
     label_in_more_than: dans plus de
     label_incoming_emails: E-mails entrants
     label_information_plural: Information
-    label_infinity: Infinity
+    label_infinity: Infini
     label_invalid: Non valide
     label_import: Importer
     label_latest_activity: Dernière activité
@@ -393,7 +393,7 @@ fr:
     label_no_value: Aucune valeur
     label_none: aucune
     label_not_contains: ne contient pas
-    label_not_available: Not available
+    label_not_available: Indisponible
     label_not_equals: n'est pas
     label_on: le
     label_open_menu: Ouvrir le menu

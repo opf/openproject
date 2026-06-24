@@ -36,8 +36,8 @@ es:
     models:
       resource_allocation: Asignación de recursos
       resource_planner: Planificador de recursos
+      resource_user_card: User cards
       resource_work_package_list: Lista de paquetes de trabajo
-      user_card: Tarjetas de usuario
   button_next: Siguiente
   label_resource_management: Planificación de recursos
   permission_allocate_user_resources: Asignar recursos de usuario
@@ -115,13 +115,35 @@ es:
       private: Privado
       public: Público
     sub_views: Vistas en este planificador de recursos
+    user_allocations_dialog:
+      allocate_work_package: Allocate work package
+      blank: This user has no allocated work packages.
+      other_work_packages:
+        one: 1 other work package
+        other: "%{count} other work packages"
+      title: Utilization
+    user_card_list:
+      add_user_dialog:
+        title: Add user
+      blank:
+        description: There are no users matching this view's filters yet.
+        manual_description: No users have been added to this view yet.
+        title: No users to display
+      card:
+        remove: Remove user
+        remove_confirmation: Remove this user from the view?
+      subheader:
+        resource: Resource
+        settings: Configure view
+      utilization:
+        label: Utilization
     view_types:
+      resource_user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
       resource_work_package_list:
         caption: Crea una vista basada en los paquetes de trabajo y consulta sus detalles y su asignación en una lista
         label: Lista de paquetes de trabajo
-      user_card:
-        caption: Crea una vista basada en los usuarios y consulta sus datos y su asignación en una lista de fichas de usuario
-        label: Lista de tarjetas de usuario
     work_package_allocations_dialog:
       allocate_resource: Asignar recurso
       context_menu_label: Acciones de asignación

@@ -40,17 +40,23 @@ module ResourceAllocations
     # Turbo stream wrapper.
     BODY_ID = "allocate-resource-dialog-body"
 
-    def initialize(project:, work_package: nil)
+    def initialize(project:, work_package: nil, allocation: nil, resource_planner_id: nil)
       super
 
       @project = project
       @work_package = work_package
+      @allocation = allocation
+      @resource_planner_id = resource_planner_id
     end
 
     private
 
     def title
       I18n.t("resource_management.allocate_resource_dialog.title")
+    end
+
+    def allocation_kind
+      @allocation.filter_based? ? "filter" : "principal"
     end
   end
 end

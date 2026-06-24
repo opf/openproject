@@ -226,7 +226,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
   }
 
   public dateChange(values:string[]):void {
-    if (_.every(values, validDate)) {
+    if (values.every(validDate)) {
       this.selectedDates = values;
     }
   }

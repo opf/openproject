@@ -200,4 +200,66 @@ RSpec.describe ResourceAllocations::Availability do
       expect(other.working_schedules(monday..friday)).to be_empty
     end
   end
+
+  describe "#utilization_ratio" do
+    it "expresses booked time as a percentage of the window's capacity" do
+      allocate(1200) # half of the 2400 min Mon-Fri capacity
+
+      expect(availability.utilization_ratio(monday..friday)).to eq(50)
+    end
+
+    it "exceeds 100% when the user is overbooked" do
+      allocate(3600)
+
+      expect(availability.utilization_ratio(monday..friday)).to eq(150)
+    end
+
+    it "rounds to the nearest whole percent" do
+      allocate(800) # 800 / 2400 => 33.33%
+
+      expect(availability.utilization_ratio(monday..friday)).to eq(33)
+    end
+
+    it "sums every allocation overlapping the window" do
+      allocate(600)
+      allocate(1200)
+
+      expect(availability.utilization_ratio(monday..friday)).to eq(75)
+    end
+
+    it "counts only the portion of an allocation that overlaps the window" do
+      # 2000 min booked across Mon-Fri, only 2/5 (800 min) fall in the Mon-Tue window,
+      # measured against that window's 960 min capacity
+      allocate(2000, start_date: monday, end_date: friday)
+
+      expect(availability.utilization_ratio(monday..tuesday)).to eq(83) # 800 / 960
+    end
+
+    it "prorates by working time capacity across user-specific daily hours" do
+      part_timer = create(:user)
+      create(:user_working_hours, user: part_timer, valid_from: Date.new(2025, 1, 1), monday: 240)
+      part_availability = described_class.new(user: part_timer)
+      next_monday = Date.new(2026, 1, 12)
+
+      # 720 min booked Fri-Mon is distributed by capacity:
+      # 480 to Friday for 8h and 240 to Monday for 4h, filling each day to 100%.
+      create(:resource_allocation, principal: part_timer, entity: create(:work_package),
+                                   allocated_time: 720, start_date: friday, end_date: next_monday)
+
+      expect(part_availability.utilization_ratio(friday..friday)).to eq(100)            # 480 / 480
+      expect(part_availability.utilization_ratio(next_monday..next_monday)).to eq(100)  # 240 / 240
+    end
+
+    it "ignores allocations that fall entirely outside the window" do
+      allocate(2400, start_date: monday, end_date: tuesday)
+
+      expect(availability.utilization_ratio(friday..friday)).to eq(0)
+    end
+
+    it "is nil when the window has no working capacity" do
+      weekend = Date.new(2026, 1, 10)..Date.new(2026, 1, 11)
+
+      expect(availability.utilization_ratio(weekend)).to be_nil
+    end
+  end
 end

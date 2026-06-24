@@ -1,0 +1,22 @@
+.op-user-card
+  gap: 1rem
+  width: 100%
+  padding: 1rem
+  overflow: hidden
+  cursor: pointer
+  border: 1px solid var(--borderColor-default)
+  border-radius: var(--borderRadius-medium)
+
+  &--header
+    gap: 0.75rem
+
+  &--identity
+    flex: 1
+    min-width: 0
+    gap: 0.25rem
+
+  &--name, &--email
+    @include text-shortener()
+
+  &--group-list
+    gap: 0.5rem

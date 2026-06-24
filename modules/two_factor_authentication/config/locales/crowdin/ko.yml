@@ -46,7 +46,7 @@ ko:
     text_otp_delivery_message_sms: "%{app_title}의 일회용 암호는 %{token}입니다."
     text_otp_delivery_message_voice: "%{app_title} 일회용 암호: %{pause} %{token}. %{pause} 반복: %{pause} %{token}"
     text_2fa_enabled: 로그인할 때마다 기본 2FA 장치에서 OTP 토큰을 입력하라는 메시지가 표시됩니다.
-    text_2fa_disabled: 2단계 인증을 활성화하려면 위의 버튼을 사용하여 새로운 2FA 장치를 등록하세요. 장치가 이미 있는 경우 이 장치를 기본값으로 만들어야 합니다.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: 백업 코드 입력
       enter_backup_code_text: 등록된 2FA 장치에 더 이상 액세스할 수 없는 경우 코드 목록에서 유효한 백업 코드를 입력하세요.

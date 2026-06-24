@@ -36,8 +36,8 @@ pl:
     models:
       resource_allocation: Przydział zasobów
       resource_planner: Planista zasobów
+      resource_user_card: User cards
       resource_work_package_list: Lista pakietów roboczych
-      user_card: Karty użytkowników
   button_next: Dalej
   label_resource_management: Planowanie zasobów
   permission_allocate_user_resources: Przydziel zasoby użytkownika
@@ -115,13 +115,37 @@ pl:
       private: Prywatny
       public: Publiczny
     sub_views: Widoki w tym planiście zasobów
+    user_allocations_dialog:
+      allocate_work_package: Allocate work package
+      blank: This user has no allocated work packages.
+      other_work_packages:
+        one: 1 other work package
+        few: "%{count} other work packages"
+        many: "%{count} other work packages"
+        other: "%{count} other work packages"
+      title: Utilization
+    user_card_list:
+      add_user_dialog:
+        title: Add user
+      blank:
+        description: There are no users matching this view's filters yet.
+        manual_description: No users have been added to this view yet.
+        title: No users to display
+      card:
+        remove: Remove user
+        remove_confirmation: Remove this user from the view?
+      subheader:
+        resource: Resource
+        settings: Configure view
+      utilization:
+        label: Utilization
     view_types:
+      resource_user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
       resource_work_package_list:
         caption: Utwórz widok oparty na pakietach roboczych i zobacz jego szczegóły i przydział na liście
         label: Lista pakietów roboczych
-      user_card:
-        caption: Utwórz widok w oparciu o użytkowników i zobacz ich szczegóły i przydział na liście kart użytkowników
-        label: Lista kart użytkowników
     work_package_allocations_dialog:
       allocate_resource: Allocate resource
       context_menu_label: Allocation actions

@@ -229,7 +229,7 @@ export function initializeUiRouterListeners(injector:Injector) {
     const projectIdentifier = toParams.projectPath as string || currentProject.identifier;
     if (hasProjectRoutes && !toParams.projects && projectIdentifier) {
       const newParams = _.clone(toParams);
-      _.assign(newParams, { projectPath: projectIdentifier, projects: 'projects' });
+      Object.assign(newParams, { projectPath: projectIdentifier, projects: 'projects' });
       return $state.target(toState, newParams, { location: 'replace' });
     }
 

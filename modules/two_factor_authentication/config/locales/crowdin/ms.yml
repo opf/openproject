@@ -46,7 +46,7 @@ ms:
     text_otp_delivery_message_sms: Kata laluan satu kali %{app_title} anda ialah %{token}
     text_otp_delivery_message_voice: 'Kata laluan satu kali %{app_title} anda ialah: %{pause} %{token}. Saya ulang: %{pause} %{token}'
     text_2fa_enabled: Setiap kali log masuk, anda akan diminta untuk memasukkan token OTP daripada peranti 2FA default anda.
-    text_2fa_disabled: Untuk membenarkan pengesahan dua faktor, gunakan butang di atas untuk mendaftar peranti 2FA yang baharu. Jika anda sudah mempunyai peranti, anda perlu menjadikannya default.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Masukkan kod sandaran
       enter_backup_code_text: Sila masukkan kod sandaran yang sah daripada senarai kod anda sekiranya anda tidak lagi mendapat akses kepada peranti 2FA berdaftar anda.

@@ -268,7 +268,7 @@ export function registerWorkPackageMouseHandler(this:void,
       .save<WorkPackageResource, WorkPackageChangeset>(change)
       .then((result) => {
         notificationService.showSave(result.resource);
-        const ids = _.map(querySpace.tableRendered.value, (row) => row.workPackageId);
+        const ids = (querySpace.tableRendered.value ?? []).map((row) => row.workPackageId);
         return apiv3Service
           .work_packages
           .filterUpdatedSince(ids, updatedAt)

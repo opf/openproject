@@ -51,12 +51,21 @@ module Departments
     end
 
     def handle_existing_membership(existing_department, user_id, call)
-      if params[:remove_from_previous_department]
+      if existing_department.ldap_managed?
+        # The user is locked into an LDAP-managed department and cannot be moved out manually.
+        reject_move_from_managed(existing_department, call)
+      elsif params[:remove_from_previous_department]
         move_user(from: existing_department, to: model, user_id:, call:)
       else
         call.success = false
         call.result = existing_department
       end
+    end
+
+    def reject_move_from_managed(existing_department, call)
+      call.success = false
+      call.result = existing_department
+      call.errors.add(:base, :user_in_ldap_managed_department)
     end
 
     def find_existing_department(user_id)

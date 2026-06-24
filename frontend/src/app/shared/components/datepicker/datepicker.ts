@@ -76,7 +76,7 @@ export class DatePicker {
         }
       });
 
-    const mergedOptions = _.extend({}, this.defaultOptions, options);
+    const mergedOptions = Object.assign({}, this.defaultOptions, options);
 
     let datePickerInstances:Instance|Instance[];
     if (this.datepickerTarget) {

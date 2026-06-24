@@ -133,11 +133,11 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
     end
 
     context "with params" do
-      let(:params) { { all: 1 } }
+      let(:params) { { all: true } }
 
       it "passes params into row URLs" do
-        expect(item.row_args.dig(:data, :backlogs__story_split_url_value)).to match(/all=1/)
-        expect(item.row_args.dig(:data, :drop_url)).to match(/all=1/)
+        expect(item.row_args.dig(:data, :backlogs__story_split_url_value)).to match(/all=true/)
+        expect(item.row_args.dig(:data, :drop_url)).to match(/all=true/)
       end
     end
   end

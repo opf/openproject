@@ -27,32 +27,26 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<section class="form--section">
-  <div class="form--field">
-    <%= styled_label_tag "FIXME", I18n.t("attributes.status") %>
-    <div class="form--field-container">
-      <span>
-        <span class=""><%= full_user_status(@user, true) %></span>
-      </span>
-    </div>
-  </div>
-</section>
-
-<%= labelled_tabular_form_for @user,
-                              url: { controller: "/users",
-                                     action: "update",
-                                     tab: nil },
-                              html: {
-                                method: :put,
-                                autocomplete: "off"
-                              },
-                              data: {
-                                controller: "admin--users",
-                                turbo: false,
-                                "admin--users-password-auth-selected-value": @user.ldap_auth_source_id.blank?
-                              },
-                              as: :user do |f| %>
-  <%= render partial: "users/form", locals: { f: f } %>
-
-  <%= styled_button_tag t(:button_save), class: "-primary -with-icon icon-checkmark" %>
+<%# Constrain hook content (e.g. the avatar section) to the same width as the form below,
+    and separate it from the form with the same gap as sits between the form sections (mb-6). %>
+<%= content_tag(:div, class: "op-admin-settings-form-wrapper mb-6") do %>
+  <%= call_hook(:view_users_general_top, user: @user) %>
 <% end %>
+
+<%= error_messages_for @user %>
+
+<%=
+  settings_primer_form_with(
+    model: @user,
+    url: { controller: "/users", action: "update", tab: nil },
+    method: :put,
+    html: { autocomplete: "off" },
+    data: {
+      controller: "admin--users",
+      turbo: false,
+      "admin--users-password-auth-selected-value": @user.ldap_auth_source_id.blank?
+    }
+  ) do |f|
+    render(Users::FormComponent.new(builder: f, user: @user, contract: @contract))
+  end
+%>

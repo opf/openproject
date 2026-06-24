@@ -136,7 +136,7 @@ module Backlogs
 
       if result.success?
         flash[:notice] = I18n.t(:notice_successful_finish)
-        render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, helpers.all_backlogs_params))
+        render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, backlog_filter_params))
       elsif result.includes_error?(:base, :unfinished_work_packages)
         show_finish_sprint_dialog
       else
@@ -188,7 +188,7 @@ module Backlogs
 
     def respond_with_create_success
       flash[:notice] = I18n.t(:notice_successful_create)
-      render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, helpers.all_backlogs_params))
+      render turbo_stream: turbo_stream.redirect_to(project_backlogs_backlog_path(@project, backlog_filter_params))
     end
 
     def sprint_params

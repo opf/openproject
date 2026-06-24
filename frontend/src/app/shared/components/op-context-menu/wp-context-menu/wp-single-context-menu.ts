@@ -164,7 +164,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
     }
 
     // Splice plugin actions onto the core actions
-    _.each(this.getPermittedPluginActions(authorization), (action:WorkPackageAction) => {
+    this.getPermittedPluginActions(authorization).forEach((action:WorkPackageAction) => {
       const index = action.indexBy ? action.indexBy(actions) : actions.length;
       actions.splice(index, 0, action);
     });

@@ -21,7 +21,7 @@ export class Changeset {
    * @returns {string[]}
    */
   public get changed():string[] {
-    return _.keys(this.changes);
+    return Object.keys(this.changes);
   }
 
   /**

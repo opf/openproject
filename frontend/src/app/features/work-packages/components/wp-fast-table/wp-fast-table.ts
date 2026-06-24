@@ -62,18 +62,18 @@ export class WorkPackageTable {
   ) {
   }
 
-  public get renderedRows() {
+  public get renderedRows():RenderedWorkPackage[] {
     return this.querySpace.tableRendered.getValueOr([]);
   }
 
   public findRenderedRow(classIdentifier:string):[number, RenderedWorkPackage] {
-    const index = _.findIndex(this.renderedRows, (row) => row.classIdentifier === classIdentifier);
+    const index = this.renderedRows.findIndex((row) => row.classIdentifier === classIdentifier);
 
     return [index, this.renderedRows[index]];
   }
 
   public get rowBuilder():RowsBuilder {
-    return _.find(this.builders, (builder:RowsBuilder) => builder.isApplicable(this))!;
+    return this.builders.find((builder:RowsBuilder) => builder.isApplicable(this))!;
   }
 
   /**
@@ -142,7 +142,7 @@ export class WorkPackageTable {
       return;
     }
 
-    _.each(pass.renderedOrder, (row) => {
+    pass.renderedOrder.forEach((row) => {
       if (row.workPackage?.id === workPackage.id!) {
         debugLog(`Refreshing rendered row ${row.classIdentifier}`);
         row.workPackage = workPackage;

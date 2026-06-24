@@ -243,7 +243,9 @@ FactoryBot.define do
       end
     end
 
-    factory :user_custom_field, class: "UserCustomField"
+    factory :user_custom_field, class: "UserCustomField" do
+      user_custom_field_section
+    end
 
     factory :group_custom_field, class: "GroupCustomField"
 

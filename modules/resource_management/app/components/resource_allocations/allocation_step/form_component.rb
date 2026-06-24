@@ -39,12 +39,14 @@ module ResourceAllocations
       # attach to it): the create wizard's by default, the edit dialog's when
       # editing a persisted allocation.
       def initialize(allocation:, project:, allocation_kind:,
-                     dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID)
+                     dialog_id: ResourceAllocations::NewDialogComponent::DIALOG_ID,
+                     resource_planner_id: nil)
         super
         @allocation = allocation
         @project = project
         @allocation_kind = allocation_kind
         @dialog_id = dialog_id
+        @resource_planner_id = resource_planner_id
       end
 
       def wrapper_key
@@ -63,9 +65,9 @@ module ResourceAllocations
       # through the create flow (with its confirmation step).
       def form_url
         if @allocation.persisted?
-          project_resource_allocation_path(@project, @allocation)
+          project_resource_allocation_path(@project, @allocation, resource_planner_id: @resource_planner_id)
         else
-          project_resource_allocations_path(@project)
+          project_resource_allocations_path(@project, resource_planner_id: @resource_planner_id)
         end
       end
 

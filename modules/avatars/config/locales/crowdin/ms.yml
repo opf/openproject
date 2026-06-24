@@ -19,24 +19,10 @@ ms:
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
-    label_current_avatar: Avatar semasa
     label_local_avatar: Avatar tersuai
-    text_current_avatar: 'Imej berikut memaparkan avatar semasa.
-
-      '
-    text_upload_instructions: |
-      Muat naik avatar tersuai anda sendiri bersaiz 128 x 128 piksel. Fail lebih besar akan disaizkan dan dipotong untuk disesuaikan.
-      Previu avatar anda akan ditunjukkan sebelum muat naik, sebaik sahaja anda memilih imej.
-    text_change_gravatar_html: Untuk menukar atau menambah Gravatar ke alamat e-mel anda, sila ke %{gravatar_url}.
-    text_your_local_avatar: 'OpenProject membenarkan anda memuat naik avatar tersuai anda sendiri.
-
-      '
-    text_local_avatar_over_gravatar: 'Jika anda tetapkan satu, avatar tersuai ini akan digunakan dalam keutamaan daripada gravatar di atas.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject akan menggunakan gravatar anda jika anda mendaftarkannya, atau imej atau ikon default, jika ada.
-      Gravatar semasa adalah seperti berikut:
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: Benarkan pengguna gravatar
       gravatar_default: Imej Gravatar default

@@ -104,7 +104,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   public getNormalizedLabels(workPackage:WorkPackageResource) {
     const labels:TimelineLabels = this.defaultLabels;
 
-    _.each(this.current.labels, (attribute:string | null, positionAsString:string) => {
+    Object.entries(this.current.labels).forEach(([positionAsString, attribute]) => {
       // RR: Lodash typings declare the position as string. However, it is save to cast
       // to `keyof TimelineLabels` because `this.current.labels` is of type TimelineLabels.
       const position:keyof TimelineLabels = positionAsString as keyof TimelineLabels;

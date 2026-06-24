@@ -271,7 +271,7 @@ export class WorkPackageBaseResource extends HalResource {
       resources[name] = linked ? linked.$update() : Promise.reject(undefined);
     });
 
-    const promise = Promise.all(_.values(resources));
+    const promise = Promise.all(Object.values(resources));
     promise.then(() => {
       this.wpCacheService.touch(this.id!);
     });
