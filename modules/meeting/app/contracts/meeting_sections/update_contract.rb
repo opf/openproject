@@ -29,6 +29,8 @@
 
 module MeetingSections
   class UpdateContract < BaseContract
+    attribute :meeting, writable: false
+
     validate :user_allowed_to_edit
     validate :backlog_not_editable
 

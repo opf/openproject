@@ -29,6 +29,8 @@
 
 module MeetingSections
   class MoveContract < BaseContract
+    attribute :meeting, writable: false
+
     validate :user_allowed_to_edit
 
     # We allow an empty title internally via create to mark an untitled/implicit section
