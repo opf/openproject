@@ -141,6 +141,42 @@ RSpec.describe CostReportsController do
     end
   end
 
+  describe "POST save_as" do
+    let(:user) { create(:user) }
+
+    context "when only save_private_cost_reports is granted" do
+      before do
+        is_member project, user, %i[view_cost_entries save_private_cost_reports]
+      end
+
+      it "does not create a public report when query_is_public is requested" do
+        expect do
+          post :create, params: { query_name: "Shared report", query_is_public: "1" }
+        end.not_to change { CostQuery.where(is_public: true).count }
+
+        expect(response).to have_http_status(:forbidden)
+      end
+
+      it "still allows creating a private report" do
+        expect do
+          post :create, params: { query_name: "My report" }
+        end.to change { CostQuery.where(is_public: false, user_id: user.id).count }.by(1)
+      end
+    end
+
+    context "when save_cost_reports is granted" do
+      before do
+        is_member project, user, %i[view_cost_entries save_cost_reports]
+      end
+
+      it "creates a public report when query_is_public is requested" do
+        expect do
+          post :create, params: { query_name: "Shared report", query_is_public: "1" }
+        end.to change { CostQuery.where(is_public: true).count }.by(1)
+      end
+    end
+  end
+
   describe "POST update" do
     let(:user) { create(:user) }
     let(:owner) { create(:user) }
