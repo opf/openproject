@@ -383,7 +383,7 @@ class PermittedParams
     if project && current_user.allowed_in_project?(:edit_messages, project)
       params.fetch(:message, {}).permit(:subject, :content, :forum_id, :locked, :sticky)
     else
-      params.fetch(:message, {}).permit(:subject, :content, :forum_id)
+      params.fetch(:message, {}).permit(:subject, :content)
     end
   end
 
