@@ -68,6 +68,63 @@ RSpec.describe "Sprint index", :js do
 
   current_user { create(:user, member_with_permissions: { project => permissions }) }
 
+  describe "row action menu" do
+    let!(:active_board) { create(:board_grid, project:, linked: sprint) }
+
+    before { sprints_page.visit! }
+
+    it "shows the edit sprint action for a user with create_sprints" do
+      sprints_page.open_more_menu(sprint)
+      sprints_page.expect_menu_item("Edit sprint")
+    end
+
+    it "hides the edit sprint action for a user without create_sprints" do
+      login_as create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] })
+      sprints_page.visit!
+
+      sprints_page.open_more_menu(sprint)
+      sprints_page.expect_no_menu_item("Edit sprint")
+    end
+
+    it "shows the sprint board action when a board exists" do
+      sprints_page.open_more_menu(sprint)
+      sprints_page.expect_menu_item(I18n.t("backlogs.label_sprint_board"))
+    end
+
+    it "hides the sprint board action when no board exists" do
+      sprints_page.open_more_menu(other_sprint)
+      sprints_page.expect_no_menu_item(I18n.t("backlogs.label_sprint_board"))
+    end
+
+    context "with sprint_reports feature flag", with_flag: :sprint_reports do
+      it "shows the sprint report action" do
+        sprints_page.open_more_menu(sprint)
+        sprints_page.expect_menu_item(I18n.t("backlogs.sprints.row_component.action_menu.sprint_report"))
+      end
+
+      it "navigates to the sprint report page when clicking the sprint report action" do
+        sprints_page.click_menu_item(sprint, I18n.t("backlogs.sprints.row_component.action_menu.sprint_report"))
+        expect(page).to have_current_path(project_backlogs_sprint_report_path(project, sprint))
+      end
+    end
+
+    context "without sprint_reports feature flag" do
+      it "hides the sprint report action" do
+        sprints_page.open_more_menu(sprint)
+        sprints_page.expect_no_menu_item(I18n.t("backlogs.sprints.row_component.action_menu.sprint_report"))
+      end
+    end
+
+    context "when no actions are available to the user" do
+      let(:permissions) { %i[view_sprints view_work_packages] }
+
+      it "does not render the more button" do
+        # other_sprint has no board and create_sprints is missing, sprint_reports flag is off
+        sprints_page.expect_no_more_menu(other_sprint)
+      end
+    end
+  end
+
   it "shows the correct breadcrumb menu" do
     sprints_page.visit!
 
@@ -197,7 +254,7 @@ RSpec.describe "Sprint index", :js do
       sprints_page.visit!
 
       sprints_page.expect_sprint_name_link(planning_sprint, href: project_backlogs_backlog_path(project))
-      sprints_page.expect_sprint_name_link(active_sprint, href: project_work_package_board_path(project, active_board))
+      sprints_page.expect_sprint_name_link(active_sprint, href: project_backlogs_sprint_taskboard_path(project, active_sprint))
 
       default_columns = Setting.work_package_list_default_columns.map(&:to_s)
       completed_link = project_work_packages_path(

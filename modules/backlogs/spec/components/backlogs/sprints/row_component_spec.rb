@@ -42,7 +42,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
       Backlogs::Sprints::TableComponent,
       columns:,
       grid_class: "test",
-      has_actions?: false,
+      has_actions?: true,
       mobile_columns: %i[name status],
       mobile_labels: [],
       project:,
@@ -79,7 +79,7 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
         end
 
         it "links to the sprint task board" do
-          expect(rendered_component).to have_link("Active sprint", href: project_work_package_board_path(project, board))
+          expect(rendered_component).to have_link("Active sprint", href: project_backlogs_sprint_taskboard_path(project, sprint))
         end
       end
 
@@ -108,6 +108,86 @@ RSpec.describe Backlogs::Sprints::RowComponent, type: :component do
           "Completed sprint",
           href: project_work_packages_path(project, query_props:)
         )
+      end
+    end
+  end
+
+  describe "action menu" do
+    let(:sprint) { build_stubbed(:sprint, project:, status: :in_planning, name: "Sprint 42") }
+
+    before do
+      allow(user).to receive(:allowed_in_project?).and_return(false)
+      allow(sprint).to receive(:task_board_for).and_return(nil)
+    end
+
+    describe "edit sprint" do
+      context "when the user has create_sprints permission" do
+        before { allow(user).to receive(:allowed_in_project?).with(:create_sprints, project).and_return(true) }
+
+        it "shows the edit action" do
+          expect(rendered_component).to have_css("[role=menuitem]", text: "Edit sprint")
+        end
+      end
+
+      context "when the user lacks create_sprints permission" do
+        it "hides the edit action" do
+          expect(rendered_component).to have_no_css("[role=menuitem]", text: "Edit sprint")
+        end
+      end
+    end
+
+    describe "sprint board" do
+      context "when a task board exists" do
+        before { allow(sprint).to receive(:task_board_for).with(project).and_return(build_stubbed(:board_grid)) }
+
+        it "shows the sprint board action" do
+          expect(rendered_component).to have_css("[role=menuitem]", text: I18n.t("backlogs.label_sprint_board"))
+        end
+      end
+
+      context "when no task board exists" do
+        it "hides the sprint board action" do
+          expect(rendered_component).to have_no_css("[role=menuitem]", text: I18n.t("backlogs.label_sprint_board"))
+        end
+      end
+    end
+
+    context "when no actions are available to the user" do
+      it "does not render the more button" do
+        expect(rendered_component).to have_no_css(test_selector("more-button"))
+      end
+    end
+
+    describe "sprint report" do
+      before { allow(user).to receive(:allowed_in_project?).with(:view_sprints, project).and_return(true) }
+
+      context "when the sprint_reports feature flag is active", with_flag: :sprint_reports do
+        it "shows the sprint report action linking to the report page" do
+          expect(rendered_component).to have_css(
+            "[role=menuitem]",
+            text: I18n.t("backlogs.sprints.row_component.action_menu.sprint_report")
+          )
+        end
+      end
+
+      context "when the sprint_reports feature flag is inactive" do
+        it "hides the sprint report action" do
+          expect(rendered_component).to have_no_css(
+            "[role=menuitem]",
+            text: I18n.t("backlogs.sprints.row_component.action_menu.sprint_report")
+          )
+        end
+      end
+
+      context "when the user lacks view_sprints permission", with_flag: :sprint_reports do
+        before { allow(user).to receive(:allowed_in_project?).with(:view_sprints, project).and_return(false) }
+
+        it "hides the sprint report action" do
+          expect(rendered_component).to have_no_css(
+            "[role=menuitem]",
+            text: I18n.t("backlogs.sprints.row_component.action_menu.sprint_report")
+          )
+        end
       end
     end
   end
