@@ -29,32 +29,34 @@
 # ++
 
 module Backlogs
-  module Widgets
-    class BurndownChart < Grids::WidgetComponent
-      include Backlogs::BurndownChartHelper
+  module SprintReports
+    module Widgets
+      class BurndownChart < Grids::WidgetComponent
+        include Backlogs::BurndownChartHelper
 
-      FRAME_ID = "sprint-report-burndown-chart"
+        FRAME_ID = "sprint-report-burndown-chart"
 
-      param :sprint
-      param :project
+        param :sprint
+        param :project
 
-      def title
-        t("backlogs.show_burndown_chart")
-      end
+        def title
+          t("backlogs.show_burndown_chart")
+        end
 
-      def chart_data
-        {
-          labels: xaxis_labels(burndown),
-          datasets: dataseries(burndown)
-        }.to_json
-      end
+        def chart_data
+          {
+            labels: xaxis_labels(burndown),
+            datasets: dataseries(burndown)
+          }.to_json
+        end
 
-      private
+        private
 
-      def burndown
-        return nil unless sprint.date_range_set?
+        def burndown
+          return nil unless sprint.date_range_set?
 
-        @burndown ||= Burndown.new(sprint, project)
+          @burndown ||= Burndown.new(sprint, project)
+        end
       end
     end
   end
