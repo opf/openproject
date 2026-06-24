@@ -77,16 +77,19 @@ describe('Sortable lists list controller', () => {
   async function connectedListFor({
     type = 'sprint',
     id = '7',
+    dropPosition = null,
     root = fakeRoot(),
   }:{
     type?:string|null;
     id?:string|null;
+    dropPosition?:string|null;
     root?:SortableListsRoot|null;
   } = {}) {
     fixture.innerHTML = `
       <ul data-controller="sortable-lists--list"
           ${type != null ? `data-sortable-lists--list-type-value="${type}"` : ''}
-          ${id != null ? `data-sortable-lists--list-id-value="${id}"` : ''}></ul>
+          ${id != null ? `data-sortable-lists--list-id-value="${id}"` : ''}
+          ${dropPosition != null ? `data-sortable-lists--list-drop-position-value="${dropPosition}"` : ''}></ul>
     `;
     const list = fixture.querySelector<HTMLElement>('[data-controller~="sortable-lists--list"]')!;
     await ctx.nextFrame();
@@ -127,6 +130,27 @@ describe('Sortable lists list controller', () => {
 
     expect(dropTargetOptionsFor(list)?.getData?.({ element: list, input: {} as never, source: source(null) }))
       .toEqual(expect.objectContaining({ type: 'sprint', listId: '7' }));
+  });
+
+  it('defaults its list-only drop position to end', async () => {
+    const { list } = await connectedListFor({ type: 'sprint', id: '7' });
+
+    expect(dropTargetOptionsFor(list)?.getData?.({ element: list, input: {} as never, source: source(null) }))
+      .toEqual(expect.objectContaining({ dropPosition: 'end' }));
+  });
+
+  it('exposes the configured list-only drop position', async () => {
+    const { list } = await connectedListFor({ type: 'sprint', id: '7', dropPosition: 'start' });
+
+    expect(dropTargetOptionsFor(list)?.getData?.({ element: list, input: {} as never, source: source(null) }))
+      .toEqual(expect.objectContaining({ dropPosition: 'start' }));
+  });
+
+  it('falls back to end for an unknown drop position value', async () => {
+    const { list } = await connectedListFor({ type: 'sprint', id: '7', dropPosition: 'sideways' });
+
+    expect(dropTargetOptionsFor(list)?.getData?.({ element: list, input: {} as never, source: source(null) }))
+      .toEqual(expect.objectContaining({ dropPosition: 'end' }));
   });
 
   it('accepts a same-root item of the accepted type', async () => {

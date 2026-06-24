@@ -123,6 +123,7 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
           expect(box["data-controller"]).to include("sortable-lists--list")
           expect(box["data-sortable-lists--list-type-value"]).to eq("backlog_bucket")
           expect(box["data-sortable-lists--list-id-value"]).to eq(backlog_bucket.id.to_s)
+          expect(box["data-sortable-lists--list-drop-position-value"]).to eq("start")
         end
       end
 

@@ -33,21 +33,26 @@ import {
   sortableListData,
   type RootAwareChild,
   type SortableListData,
+  type SortableListDropPosition,
   type SortableListsRoot,
 } from './drag-and-drop';
 
 type CleanupFn = () => void;
 
+const dropPositions = new Set<string>(['start', 'end']);
+
 export default class ListController extends Controller<HTMLElement> implements RootAwareChild {
   static values = {
     type: String,
     id: String,
+    dropPosition: { type: String, default: 'end' },
   };
 
   declare readonly typeValue:string;
   declare readonly hasTypeValue:boolean;
   declare readonly idValue:string;
   declare readonly hasIdValue:boolean;
+  declare readonly dropPositionValue:string;
 
   private root?:SortableListsRoot;
   private cleanupFn?:CleanupFn;
@@ -93,10 +98,15 @@ export default class ListController extends Controller<HTMLElement> implements R
     }
   }
 
+  private get dropPosition():SortableListDropPosition {
+    return dropPositions.has(this.dropPositionValue) ? this.dropPositionValue as SortableListDropPosition : 'end';
+  }
+
   private get listData():SortableListData {
     return sortableListData({
       type: this.typeValue,
       listId: this.hasIdValue ? this.idValue : null,
+      dropPosition: this.dropPosition,
     });
   }
 

@@ -51,10 +51,14 @@ export interface SortableItemData extends Record<string|symbol, unknown> {
   rootElement:HTMLElement|null;
 }
 
+export type SortableListDropPosition = 'start'|'end';
+
 export interface SortableListData extends Record<string|symbol, unknown> {
   [sortableListDataKey]:true;
   type:string;
   listId:string|null;
+  // Where a list-only drop (header or empty space, not over an item) lands.
+  dropPosition:SortableListDropPosition;
 }
 
 // Implemented by the sortable-lists root controller and handed to list/item
@@ -108,14 +112,17 @@ export function sortableItemData({
 export function sortableListData({
   type,
   listId,
+  dropPosition = 'end',
 }:{
   type:string;
   listId:string|null;
+  dropPosition?:SortableListDropPosition;
 }):SortableListData {
   return {
     [sortableListDataKey]: true,
     type,
     listId,
+    dropPosition,
   };
 }
 
@@ -203,6 +210,25 @@ export function resolvePreviousSortableItemId({
   return null;
 }
 
+// A list-only drop (over the header or empty space, not over an item) lands at
+// the position the target list declares: 'start' inserts before the first row
+// (null previous item), 'end' appends after the last.
+function resolveListOnlyPreviousItemId({
+  sourceItemId,
+  list,
+  dropPosition,
+}:{
+  sourceItemId:string;
+  list:HTMLElement;
+  dropPosition:SortableListDropPosition;
+}):string|null {
+  if (dropPosition === 'start') {
+    return null;
+  }
+
+  return resolveListAppendPreviousItemId({ sourceItemId, list });
+}
+
 export interface DropIntent {
   listElement:HTMLElement;
   listData:SortableListData;
@@ -250,9 +276,10 @@ export function resolveDropIntent({
       targetItem: targetItem.element,
       closestEdge: extractClosestEdge(targetItem.data),
     })
-    : resolveListAppendPreviousItemId({
+    : resolveListOnlyPreviousItemId({
       sourceItemId: sourceData.itemId,
       list: listElement,
+      dropPosition: listData.dropPosition,
     });
 
   return { listElement, listData, previousItemId };

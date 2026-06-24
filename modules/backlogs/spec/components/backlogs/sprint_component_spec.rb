@@ -106,6 +106,7 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           expect(box["data-controller"]).to include("sortable-lists--list")
           expect(box["data-sortable-lists--list-type-value"]).to eq("sprint")
           expect(box["data-sortable-lists--list-id-value"]).to eq(sprint.id.to_s)
+          expect(box["data-sortable-lists--list-drop-position-value"]).to eq("start")
         end
       end
 

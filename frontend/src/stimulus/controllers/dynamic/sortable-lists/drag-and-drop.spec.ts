@@ -359,6 +359,29 @@ describe('sortable lists drag and drop helpers', () => {
       expect(intent?.previousItemId).toEqual('5');
     });
 
+    it('prepends to the list when its drop position is start', () => {
+      const { root, list } = buildList();
+      const sourceList = document.createElement('ul');
+      const source = itemRow('1');
+
+      sourceList.setAttribute('data-controller', 'sortable-lists--list');
+      sourceList.append(source);
+      list.append(itemRow('4'), itemRow('5'));
+      root.append(sourceList);
+
+      const intent = resolveDropIntent({
+        location: dropLocation({
+          dropTargets: [{ data: sortableListData({ type: 'backlog_bucket', listId: '7', dropPosition: 'start' }), element: list }],
+        }),
+        root,
+        sourceElement: source,
+        sourceData: sortableItemData({ type: 'work_package', itemId: '1' }),
+      });
+
+      expect(intent?.listElement).toBe(list);
+      expect(intent?.previousItemId).toBeNull();
+    });
+
     it('returns null for a drop back onto the source list without a target item', () => {
       const { root, list } = buildList();
       const source = itemRow('1');
