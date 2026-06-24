@@ -178,15 +178,23 @@ Sections will show the sum of all the durations of all containing items (or at l
 
 #### Convert agenda items to work packages
 
- From the menu (three dots) menu of an agenda item, you can convert a selected item into a work package.
+### Convert agenda items to work packages
 
-![Menu option to convert agenda outcome into work package](openproject_userguide_meetings_convert_agenda_item_to_wp.png)
+### Convert agenda items to work packages
 
-A convert to work package dialog opens, where you can edit the work package type, subject and description. Click **Create** to save your changes.
+You can convert an agenda item into a work package to turn a discussion topic into an actionable task within your project.
 
-![Form to convert agenda outcome to work package](openproject_userguide_meetings_convert_to_wp_form.png)
+To do so, open the **More** menu (three dots) of an agenda item and select **Convert to work package**.
 
-Your converted work package will now appear as an agenda item.
+![Menu option to convert an agenda item into a work package](openproject_userguide_meetings_convert_agenda_item_to_wp.png)
+
+A **Convert to work package** dialog will open. The agenda item title is used as the work package subject, and the agenda item notes are added as the work package description. You can review and adjust these values before creating the work package.
+
+![Form to convert an agenda item into a work package](openproject_userguide_meetings_convert_to_wp_form.png)
+
+Click **Create** to create the work package in the same project as the meeting. 
+
+After creation, the agenda item is converted into a work package agenda item and becomes the newly created work package within the meeting agenda. The original agenda item notes are preserved in the work package description.
 
 ![Converted work package agenda item](openproject_userguide_meetings_converted_work_package.png)
 
