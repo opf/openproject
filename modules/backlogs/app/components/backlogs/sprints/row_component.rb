@@ -88,8 +88,8 @@ module Backlogs
           end
 
           with_item_group(menu) do
-            sprint_report_action(menu) if show_sprint_report_link?
             sprint_board_action(menu) if show_task_board_link?
+            sprint_report_action(menu) if show_sprint_report_link?
           end
         end
       end
