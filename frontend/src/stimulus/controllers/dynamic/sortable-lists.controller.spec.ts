@@ -26,11 +26,12 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-/* eslint-disable @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
 import type { autoScrollForElements as autoScrollForElementsFn } from '@atlaskit/pragmatic-drag-and-drop-auto-scroll/element';
 import type { dropTargetForElements as dropTargetForElementsFn, monitorForElements as monitorForElementsFn } from '@atlaskit/pragmatic-drag-and-drop/element/adapter';
 import { waitFor } from '@testing-library/dom';
+import { type Mock } from 'vitest';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type SortableListsControllerType from './sortable-lists.controller';
 import type {
@@ -50,8 +51,8 @@ describe('Sortable lists controller', () => {
 
   let ctx:StimulusTestContext;
   let fixture:HTMLElement;
-  let fetchMock:ReturnType<typeof vi.fn>;
-  let renderStreamMessageMock:ReturnType<typeof vi.fn>;
+  let fetchMock:Mock;
+  let renderStreamMessageMock:Mock;
 
   beforeAll(async () => {
     vi.doMock('@atlaskit/pragmatic-drag-and-drop/element/adapter', () => ({
@@ -149,7 +150,7 @@ describe('Sortable lists controller', () => {
   async function dropCurrentItemOnList(sourceElement:HTMLElement, list:HTMLElement) {
     const monitorOptions = vi.mocked(monitorForElements).mock.lastCall?.[0];
 
-    await monitorOptions?.onDrop?.({
+    monitorOptions?.onDrop?.({
       source: sourcePayload(
         sourceElement,
         itemData(sourceElement.getAttribute('data-sortable-lists--item-id-value')!),
@@ -176,6 +177,8 @@ describe('Sortable lists controller', () => {
         },
       },
     });
+
+    await flushPromises();
   }
 
   function itemData(itemId = '1', type = 'work_package') {
@@ -271,7 +274,7 @@ describe('Sortable lists controller', () => {
     const secondRootSource = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="10"]')!;
     const secondRootTarget = fixture.querySelector<HTMLElement>('[data-sortable-lists--item-id-value="11"]')!;
 
-    await firstRootMonitor?.onDrop?.({
+    firstRootMonitor?.onDrop?.({
       source: sourcePayload(secondRootSource, itemData('10', 'work_package')),
       location: {
         initial: {
