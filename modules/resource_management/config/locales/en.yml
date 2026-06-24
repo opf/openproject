@@ -98,6 +98,7 @@ en:
       success_message: Resource allocated.
       title: Allocate resource
     assignment_dialog:
+      available: "%{hours} available"
       confirm_overtime: Assign anyway
       filter_criteria: Filter criteria
       no_candidates:
@@ -105,9 +106,8 @@ en:
         title: No matching members
       no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
       overbooked_detail: >-
-        This user works %{working} in this period, of which %{scheduled} are already scheduled.
+        This user has %{available} available in this period, the work package requires %{requested}.
       requested_for: Requested for
-      scheduled: "%{hours} scheduled"
       select_user: Please select a user to assign.
       submit: Assign
       title: "Assign %{filter_name}"

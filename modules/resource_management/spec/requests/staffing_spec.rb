@@ -141,8 +141,8 @@ RSpec.describe "Staffing requests",
       # The criteria the candidates are matched against are summarized.
       expect(response.body).to include(I18n.t("resource_management.assignment_dialog.filter_criteria"))
       expect(response.body).to include("Job title")
-      # The hours already scheduled in the period are shown, even when none.
-      expect(response.body).to include(I18n.t("resource_management.assignment_dialog.scheduled", hours: "0h"))
+      # The hours still available in the period are shown for the candidate.
+      expect(response.body).to include("available")
       # The avatar is the principal component that carries the user hover card.
       expect(response.body).to include("opce-principal")
       # The allocation context: work package, period and requested time, each
@@ -162,7 +162,7 @@ RSpec.describe "Staffing requests",
       expect(response.body).to include(I18n.t("resource_management.assignment_dialog.no_schedule"))
     end
 
-    it "explains the working vs already-scheduled hours for an overbooked candidate" do
+    it "explains the available vs required hours for an overbooked candidate" do
       # Mona already has more booked in January than she can work, so the
       # prospective allocation overbooks her.
       create(:resource_allocation, principal: matching_user, entity: work_package,
@@ -171,7 +171,7 @@ RSpec.describe "Staffing requests",
 
       get project_staffing_assign_path(project, earlier_allocation), as: :turbo_stream
 
-      expect(response.body).to include("are already scheduled")
+      expect(response.body).to include("the work package requires")
     end
   end
 

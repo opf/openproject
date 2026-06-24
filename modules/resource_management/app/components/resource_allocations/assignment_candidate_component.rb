@@ -79,9 +79,16 @@ module ResourceAllocations
     end
 
     # How many hours the user already has booked within the allocation's period.
-    # Always shown, even when zero, so the manager sees the current load.
-    def scheduled_label
-      t("resource_management.assignment_dialog.scheduled", hours: format_hours(scheduled_minutes))
+    # Always shown, even when zero, so the manager sees the remaining capacity.
+    def available_label
+      t("resource_management.assignment_dialog.available", hours: format_hours(available_minutes))
+    end
+
+    # Working capacity in the period minus what is already booked. Floored at
+    # zero so an already-overbooked user reads "0h available" rather than going
+    # negative.
+    def available_minutes
+      [working_minutes - scheduled_minutes, 0].max
     end
 
     def scheduled_minutes
@@ -115,12 +122,12 @@ module ResourceAllocations
       WorkingTimeCalendar.new(user:, range: allocation.start_date..allocation.end_date).total
     end
 
-    # Spells out why the candidate is overbooked: their working hours in the
-    # period and how many of those are already taken by other allocations.
+    # Spells out why the candidate is overbooked: the hours still available in
+    # the period versus the hours the allocation requires.
     def overbooked_message
       t("resource_management.assignment_dialog.overbooked_detail",
-        working: format_hours(working_minutes),
-        scheduled: format_hours(scheduled_minutes))
+        available: format_hours(available_minutes),
+        requested: format_hours(allocation.allocated_time))
     end
 
     def overbooked_tooltip_id
