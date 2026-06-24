@@ -84,6 +84,14 @@ module OpenProject::ResourceManagement
                    permissible_on: :project,
                    dependencies: %i[view_resource_planners],
                    contract_actions: { resource_allocation: %i[create update destroy] }
+
+        # Assigning a real user to a generic (filter-based) allocation in the
+        # Staffing view. Independent of `allocate_user_resources`: a user may be
+        # allowed to staff without being allowed to create or edit allocations.
+        permission :assign_users_to_generic_allocations,
+                   { "resource_management/staffing": %i[index assign_form assign] },
+                   permissible_on: :project,
+                   dependencies: %i[view_resource_planners]
       end
 
       # TODO: Add those menus when global overview will be implemented

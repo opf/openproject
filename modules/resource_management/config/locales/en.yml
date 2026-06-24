@@ -44,6 +44,10 @@ en:
   permission_allocate_user_resources_explanation: >-
     Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users
     (or user filters) to a planner and adjusting the allocated time and date range.
+  permission_assign_users_to_generic_allocations: Assign users to generic allocations
+  permission_assign_users_to_generic_allocations_explanation: >-
+    Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet
+    have a user. It does not allow creating or editing allocations.
   permission_manage_public_resource_planners: Manage public resource planners
   permission_manage_public_resource_planners_explanation: >-
     Allows users to create and manage public resource planners. It allows them to view, create, manage and publish their own
