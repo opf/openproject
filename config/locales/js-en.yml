@@ -163,13 +163,13 @@ en:
     description_select_work_package: "Select work package #%{id}"
     description_subwork_package: "Child of work package #%{id}"
     editor:
+      error_paste_failed: "The pasted content could not be inserted with formatting and was added as plain text instead."
       revisions: "Show local modifications"
       no_revisions: "No local modifications found"
       preview: "Toggle preview mode"
       source_code: "Toggle Markdown source mode"
       error_saving_failed: "Saving the document failed with the following error: %{error}"
       ckeditor_error: "An error occurred within CKEditor"
-      error_paste_failed: "The pasted content could not be inserted with formatting and was added as plain text instead."
       mode:
         manual: "Switch to Markdown source"
         wysiwyg: "Switch to WYSIWYG editor"
