@@ -178,10 +178,6 @@ Sections will show the sum of all the durations of all containing items (or at l
 
 #### Convert agenda items to work packages
 
-### Convert agenda items to work packages
-
-### Convert agenda items to work packages
-
 You can convert an agenda item into a work package to turn a discussion topic into an actionable task within your project.
 
 To do so, open the **More** menu (three dots) of an agenda item and select **Convert to work package**.
