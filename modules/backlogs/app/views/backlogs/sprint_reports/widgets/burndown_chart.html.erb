@@ -27,6 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= turbo_frame_tag Backlogs::Widgets::BurndownChart::FRAME_ID do %>
-  <%= render(Backlogs::Widgets::BurndownChart.new(@sprint, @project)) %>
+<%= turbo_frame_tag Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID do %>
+  <%= render(Backlogs::SprintReports::Widgets::BurndownChart.new(@sprint, @project)) %>
 <% end %>
