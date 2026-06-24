@@ -40,7 +40,6 @@ You can also start typing in a project name to filter by the project's title or 
 Projects and subprojects are displayed according to their hierarchy in the drop-down menu.
 
 <div class="glossary">
-
 **Subproject** is defined as a child project of another project. Subprojects can be used to display a hierarchy of projects. Several filter options (e.g. in work package table and timeline) can be applied only to the current project and its subprojects.
 
 </div>
@@ -57,19 +56,16 @@ Also, you will see your newest and favorited projects on the application landing
 
 There are several ways to create a new project in OpenProject. Keep in mind that the ability to create a new project is tied to correct [permissions](../../system-admin-guide/users-permissions/roles-permissions/).
 
-1. Click the green button **+ Project** directly on the system's home screen in the **Project** section.
+1. Click the **+ (Plus)** button in the top right corner of the header navigation. 
 
-   ![Button to create a new project on the OpenProject homepage](openproject_getting_started_project_new_project_button.png)
-
-2. You can also use the **+ (Plus)** button in the top right corner of the header navigation. 
 
 ![+ Button in the top right corner of the OpenProject head navigation, opened, showing an option to add a new project](openproject_getting_started_project_plust_button_add_project.png)
 
-![+ Button in the top right corner of the OpenProject head navigation, opened, showing an option to add a new project](openproject_getting_started_project_plust_button_add_project.png)
 
-3. In addition, you can also create a new project on the [project lists](../../user-guide/projects/project-lists/) overview page. 
 
-4. If the project you are creating is subproject, navigate to the [project settings](../../user-guide/projects/project-settings/) and use the *+ Subproject* button.
+2. In addition, you can also create a new project on the [project lists](../../user-guide/projects/project-lists/) overview page. 
+
+3. If the project you are creating is a subproject, navigate to the [project settings](../../user-guide/projects/project-settings/) and use the *+ Subproject* button.
 
 ### Choose how to create your project
 You can create either:
