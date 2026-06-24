@@ -40,7 +40,8 @@ module OpenProject::ResourceManagement
       OpenProject::FeatureDecisions.add :resource_management
     end
 
-    replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id]
+    replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
+                                                            principal_assigned_by_id]
 
     register "openproject-resource_management",
              author_url: "https://www.openproject.org",
