@@ -107,6 +107,23 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       expect(card["data-backlogs--story-split-url-value"])
         .to end_with(project_backlogs_backlog_details_path(project, work_package))
     end
+
+    context "in semantic mode", with_settings: { work_packages_identifier: "semantic" } do
+      let(:project) { create(:project, types: [type_feature], identifier: "STORY") }
+      let(:sprint) do
+        create(:sprint, project:, name: "Sprint 1", start_date: Date.yesterday, finish_date: Date.tomorrow)
+      end
+
+      it "uses the semantic identifier in the split-view route and display id" do
+        render_inline(item.card)
+        card = page.find(".op-work-package-card")
+        semantic_id = work_package.reload.identifier
+
+        expect(semantic_id).to start_with("STORY-")
+        expect(card["data-backlogs--story-split-url-value"]).to end_with("/details/#{semantic_id}")
+        expect(card["data-backlogs--story-display-id-value"]).to eq(semantic_id)
+      end
+    end
   end
 
   describe "#card" do
