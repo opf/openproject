@@ -29,17 +29,19 @@
 #++
 
 module Backlogs
-  class SprintReportWidgetsController < BaseController
-    # Used to dynamically generate an action per widget within this
-    # controller.
-    # Additionally, the `view_sprints` permission is wired to the action
-    # in `engine.rb` and a route will be generated in `routes.rb`.
-    WIDGETS = %i[
-      burndown_chart
-    ].freeze
+  module SprintReports
+    class WidgetsController < BaseController
+      # Adding a widget requires:
+      # - An entry here
+      # - A route in routes.rb (within the `scope module: :sprint_reports` block)
+      # - A view at views/backlogs/sprint_reports/widgets/<name>.html.erb
+      WIDGETS = %i[
+        burndown_chart
+      ].freeze
 
-    WIDGETS.each do |widget|
-      define_method(widget) { render layout: false }
+      WIDGETS.each do |widget|
+        define_method(widget) { render layout: false }
+      end
     end
   end
 end
