@@ -97,6 +97,20 @@ en:
       submit: Allocate
       success_message: Resource allocated.
       title: Allocate resource
+    assignment_dialog:
+      confirm_overtime: Assign anyway
+      filter_criteria: Filter criteria
+      no_candidates:
+        description: No project member matches this allocation's filter criteria.
+        title: No matching members
+      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
+      overbooked_detail: >-
+        This user works %{working} in this period, of which %{scheduled} are already scheduled.
+      requested_for: Requested for
+      scheduled: "%{hours} scheduled"
+      select_user: Please select a user to assign.
+      submit: Assign
+      title: "Assign %{filter_name}"
     blankslate:
       desc: Create a resource planner to start planning capacity for this project.
       title: No resource planners yet
@@ -133,6 +147,19 @@ en:
     sidebar:
       private: Private
       public: Public
+    staffing:
+      blank:
+        description: All generic allocations in this project have a user assigned.
+        title: Nothing to staff
+      columns:
+        dates: Dates
+        requested_time: Requested time
+        resource: Resource
+        work_package: Work package
+      menu_item: Staffing
+      starts_in_past: This allocation has already started and is still unassigned.
+      success_message: User assigned.
+      title: Staffing
     sub_views: Views in this resource planner
     user_allocations_dialog:
       allocate_work_package: Allocate work package
