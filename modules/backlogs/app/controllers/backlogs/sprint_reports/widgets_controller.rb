@@ -33,8 +33,9 @@ module Backlogs
     class WidgetsController < BaseController
       # Adding a widget requires:
       # - An entry here
-      # - A route in routes.rb (within the `scope module: :sprint_reports` block)
       # - A view at views/backlogs/sprint_reports/widgets/<name>.html.erb
+      #
+      # The controller action, permission and a route are created automatically.
       WIDGETS = %i[
         burndown_chart
       ].freeze
