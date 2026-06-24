@@ -182,7 +182,7 @@ RSpec.describe "Work package type project attributes", :js do
     end
 
     input_section.move_to_bottom
-    boolean_project_custom_field.move_to_bottom
+    input_section.move_in_order(boolean_project_custom_field.column_name, :lowest)
 
     project_attributes_page.visit!
 

@@ -48,12 +48,7 @@ module WorkPackageTypes
 
     def eager_load_project_custom_field_data
       @project_custom_field_sections =
-        ProjectCustomFieldSection
-          .joins(:custom_fields)
-          .includes(:custom_fields)
-          .merge(ProjectCustomField.visible)
-          .group(:id, "custom_fields.id")
-          .order(:position, :position_in_custom_field_section)
+        ProjectCustomFieldSection.grouped_in_order(ProjectCustomField.visible)
     end
 
     def set_project_custom_field_section

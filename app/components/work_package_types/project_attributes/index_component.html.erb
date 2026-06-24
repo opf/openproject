@@ -22,12 +22,13 @@
         end
       end
 
-      @project_custom_field_sections.each do |project_custom_field_section|
+      @project_custom_field_sections.each do |project_custom_field_section, project_custom_fields|
         flex.with_row do
           render(
             WorkPackageTypes::ProjectAttributes::SectionComponent.new(
               type: @type,
-              project_custom_field_section:
+              project_custom_field_section:,
+              project_custom_fields:
             )
           )
         end
