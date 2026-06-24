@@ -122,6 +122,9 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       case 'copy_numeric_id_to_clipboard':
         this.copyToClipboardService.copy(`${this.workPackage.id!}`);
         break;
+      case 'copy_display_id_to_clipboard':
+        this.copyToClipboardService.copy(this.workPackage.displayId);
+        break;
       default:
         window.location.href = link!;
         break;
@@ -199,7 +202,7 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
       // Rendering it as a link would show a misleading link preview on hover and
       // make the clipboard copy originate from an anchor, so render it as a
       // button (no href).
-      const href = key === 'copy_numeric_id_to_clipboard' ? undefined : action.link;
+      const href = (key === 'copy_numeric_id_to_clipboard' || key === 'copy_display_id_to_clipboard') ? undefined : action.link;
 
       return {
         disabled: false,

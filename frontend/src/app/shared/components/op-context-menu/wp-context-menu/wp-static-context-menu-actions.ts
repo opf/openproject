@@ -9,6 +9,11 @@ export const PERMITTED_CONTEXT_MENU_ACTIONS:WorkPackageAction[] = [
     link: 'id',
   },
   {
+    key: 'copy_display_id_to_clipboard',
+    icon: 'icon-clipboard',
+    link: 'id',
+  },
+  {
     key: 'log_time',
     link: 'logTime',
   },
