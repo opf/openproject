@@ -28,7 +28,7 @@ export class WorkPackageFilterValues {
   ) {}
 
   applyDefaultsFromFilters(change:WorkPackageChangeset|Record<string, unknown>):void {
-    _.each(this.filters, (filter) => {
+    this.filters.forEach((filter) => {
       // Exclude filters specified in constructor
       if (this.excluded.includes(filter.id)) {
         return;
@@ -42,7 +42,7 @@ export class WorkPackageFilterValues {
         if (operator !== '=') return;
 
         const currentProjectId = this.currentProject.id;
-        const projectFilter = _.find(filter.values, (resource:HalResource|string) => {
+        const projectFilter = filter.values.find((resource:HalResource|string) => {
           const href = (resource instanceof HalResource) ? resource.href : resource;
           const hrefParts = href?.split('/');
           return hrefParts?.[hrefParts.length - 1] === currentProjectId;

@@ -443,6 +443,13 @@ RSpec.describe Sprint do
       other_project = create(:project)
       expect(sprint.goal_for(other_project)).to be_nil
     end
+
+    it "returns an in-memory goal for an unsaved sprint" do
+      sprint = build(:sprint, project:)
+      sprint_goal = sprint.goals.build(project:, text: "Ship dashboard")
+
+      expect(sprint.goal_for(project)).to eq(sprint_goal)
+    end
   end
 
   describe "#goal_text_for" do

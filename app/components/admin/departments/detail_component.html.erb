@@ -40,7 +40,11 @@ See COPYRIGHT and LICENSE files for more details.
             end
           end
 
-          if group
+          if group&.ldap_managed?
+            header.with_column do
+              render(Primer::Beta::Label.new(scheme: :accent)) { I18n.t(:label_managed_by_ldap) }
+            end
+          elsif group
             header.with_column do
               render(
                 Primer::Beta::IconButton.new(
@@ -62,7 +66,7 @@ See COPYRIGHT and LICENSE files for more details.
         end
       elsif show_department_empty_state? && !add_user? && !add_subgroup?
         box.with_row do
-          render(Admin::Departments::DetailBlankslateComponent.new)
+          render(Admin::Departments::DetailBlankslateComponent.new(group:))
         end
       else
         child_groups.each do |child|

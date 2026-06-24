@@ -57,14 +57,27 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
+    card_sections_with_fields.flat_map(&:last).each do |custom_field|
+      value = @user.formatted_custom_value_for(custom_field)
+
+      flex.with_row(data: { test_selector: "user-hover-card-custom-field" }) do
+        flex_layout(classes: "op-user-hover-card--custom-field") do |cf|
+          cf.with_column(color: :muted, mr: 2) { custom_field.name }
+          cf.with_column do
+            custom_field.multi_value? ? render_value_labels(value) : value
+          end
+        end
+      end
+    end
+
     flex.with_row do
       flex_layout(classes: "op-user-hover-card--group-list") do |f|
         f.with_column do
-          render(Primer::Beta::Octicon.new(icon: :people))
+          render(Primer::Beta::Octicon.new(icon: :people, color: :muted))
         end
 
         f.with_column do
-          render(Primer::Beta::Text.new(color: :muted, data: { test_selector: "user-hover-card-groups" })) do
+          render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-groups" })) do
             group_membership_summary
           end
         end

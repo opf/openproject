@@ -19,24 +19,10 @@ zh-TW:
   avatars:
     label_avatar: 大頭貼
     label_gravatar: 大頭貼
-    label_current_avatar: 當前大頭貼
     label_local_avatar: 自定大頭貼
-    text_current_avatar: '以下圖像顯示當前圖像。
-
-      '
-    text_upload_instructions: |
-      上傳您自己的 128 x 128 像素自定大頭貼。 較大圖片將被調整大小和裁剪。
-      選擇了圖片後，上傳前將預覽您的大頭貼。
-    text_change_gravatar_html: 請連結到%{gravatar_url}，將您的郵件設定進去以便使用。
-    text_your_local_avatar: 'OpenProject 允許你上傳自己定義的頭像
-
-      '
-    text_local_avatar_over_gravatar: '如果你有設定，這個自己定義的頭像將會優於gravatar。
-
-      '
-    text_your_current_gravatar: |
-      如果你註冊了一個gravatar圖像，OpenProject將使用你的圖像；如果沒有則會使用既有預設的圖像或圖標。
-      目前的gravatar圖像如下：
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: 啟用使用者的圖像
       gravatar_default: 預設大頭貼

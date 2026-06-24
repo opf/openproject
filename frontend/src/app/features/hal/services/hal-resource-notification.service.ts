@@ -163,7 +163,7 @@ export class HalResourceNotificationService {
   public showGeneralError(message?:unknown) {
     let error = this.I18n.t('js.error.internal');
 
-    if (typeof (message) === 'string' || _.has(message, 'toString')) {
+    if (typeof (message) === 'string' || (message != null && Object.hasOwn(message, 'toString'))) {
       error += ` ${(message as any).toString()}`;
     }
 

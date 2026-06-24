@@ -26,9 +26,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
   constructor(public readonly injector:Injector) {
   }
 
-  public get EVENT():EventType {
-    return 'click';
-  }
+  public readonly EVENT:EventType = 'click';
 
   public get SELECTOR() {
     return `.${uiStateLinkClass}`;
@@ -73,6 +71,10 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
     const classIdentifier = row.dataset.classIdentifier!;
     const [index] = view.workPackageTable.findRenderedRow(classIdentifier);
+
+    // Keep the focused work package in sync when opening the details view
+    // from a row other than the currently selected one.
+    this.wpTableFocus.updateFocus(workPackageId, false, false);
 
     // Update single selection if no modifier present
     this.wpTableSelection.setSelection(workPackageId, index);

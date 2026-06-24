@@ -680,6 +680,41 @@ RSpec.describe "ResourceAllocations requests",
     end
   end
 
+  describe "opened from a user's utilization dialog" do
+    shared_let(:resource_planner) do
+      create(:resource_planner, project:, principal: user,
+                                start_date: Date.new(2026, 3, 1), end_date: Date.new(2026, 3, 31))
+    end
+    let(:user_dialog_id) { ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID }
+
+    it "replaces the utilization dialog and opens the allocation step prefilled for the user" do
+      get new_project_resource_allocation_path(project, principal_id: assignee.id,
+                                                        resource_planner_id: resource_planner.id),
+          as: :turbo_stream
+
+      # The user dialog is closed and the kind step is skipped
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include('action="closeDialog"')
+      expect(response.body).to include("##{user_dialog_id}")
+      expect(response.body).not_to include('value="filter"')
+    end
+
+    it "reopens a refreshed utilization dialog after a successful create" do
+      post project_resource_allocations_path(project, resource_planner_id: resource_planner.id),
+           params: {
+             allocation_kind: "principal",
+             resource_allocation: {
+               principal_id: assignee.id, entity_type: "WorkPackage", entity_id: work_package.id,
+               start_date: "2026-03-02", end_date: "2026-03-03", allocated_hours: "40h"
+             }
+           },
+           as: :turbo_stream
+
+      expect(response.body).to include(user_dialog_id)
+      expect(response.body).to include(I18n.t("resource_management.user_allocations_dialog.title"))
+    end
+  end
+
   # The controller emits a `dispatchEvent` turbo stream carrying the changed
   # work package so an open resource planner table can reload it.
   def expect_allocation_change_announced_for(work_package)

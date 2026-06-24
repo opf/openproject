@@ -29,7 +29,15 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%=
   render(Primer::Beta::Subhead.new(hide_border: true, pb: 0)) do |head|
-    head.with_heading(tag: :h3, size: :medium, font_weight: :bold) { Sprint.human_model_name.pluralize }
+    head.with_heading(
+      tag: :h3,
+      size: :medium,
+      font_weight: :bold,
+      display: :inline_flex,
+      align_items: :center
+    ) do
+      Sprint.human_plural_model_name
+    end
   end
 %>
 

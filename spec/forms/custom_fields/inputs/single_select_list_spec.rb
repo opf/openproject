@@ -44,6 +44,18 @@ RSpec.describe CustomFields::Inputs::SingleSelectList, type: :forms do
     end
   end
 
+  context "when the field is rendered read-only" do
+    def build_form(builder)
+      described_class.new(builder, custom_field:, object: model, disabled: true)
+    end
+
+    it_behaves_like "rendering autocompleter", "List field" do
+      it "disables the autocompleter" do
+        expect(autocompleter["data-disabled"]).to be_json_eql(true)
+      end
+    end
+  end
+
   context "with a default value" do
     before do
       custom_field.possible_values[1].update default_value: true

@@ -119,7 +119,8 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
   }
 
   private definesAllowedValues() {
-    return _.some(this._dependencies[0].dependencies,
-      (dependency:any) => dependency.values?._links?.allowedValues);
+    interface FilterDependency { values?:{ _links?:{ allowedValues?:unknown } } }
+    const dependencies = (this._dependencies as { dependencies:Record<string, FilterDependency> }[])[0].dependencies;
+    return Object.values(dependencies).some((dependency:FilterDependency) => !!dependency.values?._links?.allowedValues);
   }
 }

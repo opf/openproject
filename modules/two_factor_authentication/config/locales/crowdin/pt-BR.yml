@@ -46,7 +46,7 @@ pt-BR:
     text_otp_delivery_message_sms: Sua senha de uso único de %{app_title} é %{token}
     text_otp_delivery_message_voice: 'Sua senha de uso único de %{app_title} é: %{pause} %{token}. %{pause} repito: %{pause} %{token}'
     text_2fa_enabled: Em cada acesso, será requisitado a você para entrar com seu token OTP do seu dispositivo de 2FA padrão.
-    text_2fa_disabled: Para habilitar o segundo fator de autenticação, use o botão acima para registrar seu novo dispositivo 2FA. Se você já tem um dispositivo cadastrado, você precisa deixá-lo como sendo padrão.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Digite o código de backup
       enter_backup_code_text: Por favor, entre com um código de backup válido da sua lista de códigos caso de você não conseguir mais acessar seus dispositivos com 2FA.

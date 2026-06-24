@@ -36,8 +36,8 @@ ko:
     models:
       resource_allocation: 리소스 할당
       resource_planner: 리소스 플래너
+      resource_user_card: User cards
       resource_work_package_list: 작업 패키지 목록
-      user_card: 사용자 카드
   button_next: 다음
   label_resource_management: 리소스 계획
   permission_allocate_user_resources: 사용자 리소스 할당
@@ -115,13 +115,34 @@ ko:
       private: 비공개
       public: 공개
     sub_views: 이 리소스 플래너의 보기
+    user_allocations_dialog:
+      allocate_work_package: Allocate work package
+      blank: This user has no allocated work packages.
+      other_work_packages:
+        other: "%{count} other work packages"
+      title: Utilization
+    user_card_list:
+      add_user_dialog:
+        title: Add user
+      blank:
+        description: There are no users matching this view's filters yet.
+        manual_description: No users have been added to this view yet.
+        title: No users to display
+      card:
+        remove: Remove user
+        remove_confirmation: Remove this user from the view?
+      subheader:
+        resource: Resource
+        settings: Configure view
+      utilization:
+        label: Utilization
     view_types:
+      resource_user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
       resource_work_package_list:
         caption: 작업 패키지를 기반으로 보기를 만들고 목록에서 해당 세부 정보 및 할당을 확인하세요
         label: 작업 패키지 목록
-      user_card:
-        caption: 사용자에 기반한 보기를 만들고 사용자 카드 목록에서 해당 세부 정보 및 할당을 확인하세요
-        label: 사용자 카드 목록
     work_package_allocations_dialog:
       allocate_resource: Allocate resource
       context_menu_label: Allocation actions

@@ -212,6 +212,15 @@ RSpec.describe Group do
     let!(:grandchild) { create(:group, parent_id: child.id) }
     let!(:unrelated) { create(:group) }
 
+    describe "#destroy" do
+      it "nullifies the parent of its children instead of failing on the foreign key" do
+        expect { parent_group.destroy }.not_to raise_error
+
+        expect(described_class.exists?(parent_group.id)).to be(false)
+        expect(child.reload.parent_id).to be_nil
+      end
+    end
+
     describe "#children" do
       it "returns direct children only" do
         expect(grandparent.children).to contain_exactly(parent_group)

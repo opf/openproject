@@ -58,7 +58,7 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   }
 
   public isGroupable(column:QueryColumn):boolean {
-    return !!_.find(this.available, (candidate) => candidate.id === column.id);
+    return this.available.some((candidate) => candidate.id === column.id);
   }
 
   public disable() {
@@ -66,7 +66,7 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   }
 
   public setBy(column:QueryColumn) {
-    const groupBy = _.find(this.available, (candidate) => candidate.id === column.id);
+    const groupBy = this.available.find((candidate) => candidate.id === column.id);
 
     if (groupBy) {
       this.update(groupBy);

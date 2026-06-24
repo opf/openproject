@@ -38,7 +38,7 @@ module ResourceAllocations
       include OpPrimer::ComponentHelpers
 
       def initialize(allocation:, project:, allocation_kind:, form_values:, overbooked_ranges: [],
-                     working_schedules: [], filters: nil)
+                     working_schedules: [], filters: nil, resource_planner_id: nil)
         super
         @allocation = allocation
         @project = project
@@ -47,6 +47,7 @@ module ResourceAllocations
         @overbooked_ranges = overbooked_ranges
         @working_schedules = working_schedules
         @filters = filters
+        @resource_planner_id = resource_planner_id
       end
 
       def wrapper_key
@@ -63,9 +64,9 @@ module ResourceAllocations
       # update of a persisted allocation or the create flow for a new one.
       def form_url
         if @allocation.persisted?
-          project_resource_allocation_path(@project, @allocation)
+          project_resource_allocation_path(@project, @allocation, resource_planner_id: @resource_planner_id)
         else
-          project_resource_allocations_path(@project)
+          project_resource_allocations_path(@project, resource_planner_id: @resource_planner_id)
         end
       end
 

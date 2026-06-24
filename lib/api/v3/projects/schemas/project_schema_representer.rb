@@ -138,7 +138,7 @@ module API
                                                 .includes(:custom_fields)
                                                 .merge(ProjectCustomField.visible(current_user))
                                                 .group(:id, "custom_fields.id")
-                                                .order(:position, :position_in_custom_field_section)
+                                                .order(:position)
           end
 
           def section_representation(section)

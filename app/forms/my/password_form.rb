@@ -37,8 +37,7 @@ class My::PasswordForm < ApplicationForm
   end
 
   form do |f|
-    f.fieldset_group(title: helpers.t(:label_change_password),
-                     mt: 2) do |fg|
+    f.fieldset_group(title: helpers.t(:label_change_password)) do |fg|
       fg.hidden(name: :back_url, value: @back_url) if @back_url.present?
       fg.hidden(name: :password_change_user, value: @user.login)
 

@@ -90,6 +90,18 @@ zh-CN:
     administration_blankslate:
       title: 积压工作管理设置不断演进
       text: 我们目前正在重新设计积压工作模块。冲刺和积压工作的管理设置不久后将显示在此处。项目级设置仍然可用。
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: 是否删除积压工作存储桶？
       details: 积压工作存储桶“%{name}”将被删除，所有工作包将移至积压工作收件箱。不会删除任何工作包。
@@ -167,6 +179,7 @@ zh-CN:
         create_description_text: 要开始计划冲刺，请在此处创建。
         manage_description_html: 要开始计划冲刺，请转到%{settings_link}从其他项目接收冲刺。
         no_actions_description_text: 此项目还没有可用冲刺。
+      button_new_sprint: New sprint
     story_points:
       other: "%{count} 个故事点"
     statuses_considered_closed_caption: '选择在您的工作流中代表已关闭或已完成状态的状态。这些状态将在报告（如燃尽图）和冲刺计划中被视为“已关闭”状态。例如，“已完成”、“已解决”或“不会修复”等状态都可能代表流程中的已关闭工作项。

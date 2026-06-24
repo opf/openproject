@@ -46,7 +46,7 @@ sl:
     text_otp_delivery_message_sms: Vaše  %{app_title} enkratno geslo je %{token}
     text_otp_delivery_message_voice: 'Vaše %{app_title} enkratno geslo je: %{pause} %{token}. %{pause} Ponavljam: %{pause} %{token}'
     text_2fa_enabled: Ob vsaki prijavi boste morali vnesti OTP žeton iz vaše privzete naprave 2FA.
-    text_2fa_disabled: Da omogočite dvofaktorsko preverjanje pristnosti uporabite zgornji gumb za registracijo nove 2FA naprave. Če že imate napravo, jo morate nastaviti kot privzeto.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Vstavite rezervno kodo
       enter_backup_code_text: Prosimo vnesite veljavno rezervno kodo s svojega seznama kod v primeru, da ne morete več dostopati do vaših registriranih 2FA naprav.

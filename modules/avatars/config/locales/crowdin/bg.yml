@@ -19,24 +19,10 @@ bg:
   avatars:
     label_avatar: Аватар
     label_gravatar: Граватар
-    label_current_avatar: Текущ аватар
     label_local_avatar: Потребителски аватар
-    text_current_avatar: 'Следващото изображение показва текущия аватар.
-
-      '
-    text_upload_instructions: |
-      Качете свой собствен персонализиран аватар от 128 на 128 пиксела. По-големите файлове ще бъдат преоразмерени и изрязани, за да съвпадат.
-      Визуализация на вашия аватар ще бъде показан преди качването, след като изберете изображение.
-    text_change_gravatar_html: За да промените или добавите Граватар за вашия пощенски адрес, отидете на %{gravatar_url}.
-    text_your_local_avatar: 'OpenProject ви позволява да качвате собствен персонализиран аватар.
-
-      '
-    text_local_avatar_over_gravatar: 'Ако зададете такъв, този персонализиран аватар се използва с предимство пред граватара по-горе.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject използва вашия граватар, ако сте регистрирали такъв, или по подразбиране изображение или икона, ако такава съществува.
-      Настоящият граватар е както следва:
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: Активиране на потребителски граватари
       gravatar_default: Подразбиращо се изображение от Gravatar

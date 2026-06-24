@@ -147,8 +147,8 @@ export class WorkPackageViewAdditionalElementsService {
    */
   private getInvolvedWorkPackages(states:RelationsStateValue[]) {
     const ids:string[] = [];
-    _.each(states, (relations:RelationsStateValue) => {
-      _.each(relations, (resource:RelationResource) => {
+    states.forEach((relations:RelationsStateValue) => {
+      Object.values(relations).forEach((resource:RelationResource) => {
         ids.push(resource.ids.from, resource.ids.to);
       });
     });

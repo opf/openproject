@@ -19,24 +19,10 @@ af:
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
-    label_current_avatar: Huidige avatar
     label_local_avatar: Doelgemaakte avatar
-    text_current_avatar: 'Die volgende beeld toon die huidige avatar.
-
-      '
-    text_upload_instructions: |
-      Laai jou eie pasgemaakte avatar van 128 by 128 pieksels op. Groter lêers sal verander en gesny word om te pas.
-      'n Voorskou van jou avatar sal gewys word voor oplaai sodra jy 'n beeld gekies het.
-    text_change_gravatar_html: Om die Gravatar vir jou e-posadres te verander of by te voeg, gaan na %{gravatar_url}.
-    text_your_local_avatar: 'OpenProject laat jou toe om jou eie persoonlike avatar op te laai.
-
-      '
-    text_local_avatar_over_gravatar: 'As jy een stel, word hierdie pasgemaakte avatar voorrang bo die gravatar hierbo gebruik.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject gebruik jou gravatar as jy een geregistreer het, of 'n verstek beeld of ikoon as een bestaan.
-      Die huidige gravatar is soos volg:
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: Aktiveer gebruikers-gravatars
       gravatar_default: Verstek Gravatar-beeld

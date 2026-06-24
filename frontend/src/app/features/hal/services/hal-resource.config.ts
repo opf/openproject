@@ -222,6 +222,6 @@ const halResourceDefaultConfig:Record<string, HalResourceFactoryConfigInterface>
 
 export function initializeHalResourceConfig(halResourceService:HalResourceService) {
   return () => {
-    _.each(halResourceDefaultConfig, (value, key) => halResourceService.registerResource(key, value));
+    Object.entries(halResourceDefaultConfig).forEach(([key, value]) => halResourceService.registerResource(key, value));
   };
 }

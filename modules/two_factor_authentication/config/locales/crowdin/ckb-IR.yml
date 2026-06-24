@@ -46,7 +46,7 @@ ckb-IR:
     text_otp_delivery_message_sms: Your %{app_title} one-time password is %{token}
     text_otp_delivery_message_voice: 'Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}'
     text_2fa_enabled: Upon every login, you will be requested to enter a OTP token from your default 2FA device.
-    text_2fa_disabled: To enable two-factor authentication, use the button above to register a new 2FA device. If you already have a device, you need to make it a default.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Enter backup code
       enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.

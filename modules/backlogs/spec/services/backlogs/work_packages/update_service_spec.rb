@@ -130,13 +130,13 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       it "delegates with sprint_id and nil backlog_bucket_id" do
         instance.call(list_type: "sprint", list_id: "42")
 
-        expect(inner_service).to have_received(:call).with(sprint_id: "42", backlog_bucket_id: nil)
+        expect(inner_service).to have_received(:call).with(sprint_id: 42, backlog_bucket_id: nil)
       end
 
       it "normalizes integer list IDs before validating the target" do
         instance.call(list_type: "sprint", list_id: 42)
 
-        expect(inner_service).to have_received(:call).with(sprint_id: "42", backlog_bucket_id: nil)
+        expect(inner_service).to have_received(:call).with(sprint_id: 42, backlog_bucket_id: nil)
       end
     end
 
@@ -144,7 +144,7 @@ RSpec.describe Backlogs::WorkPackages::UpdateService, type: :model do
       it "delegates with backlog_bucket_id and nil sprint_id" do
         instance.call(list_type: "backlog_bucket", list_id: "99")
 
-        expect(inner_service).to have_received(:call).with(backlog_bucket_id: "99", sprint_id: nil)
+        expect(inner_service).to have_received(:call).with(backlog_bucket_id: 99, sprint_id: nil)
       end
     end
 

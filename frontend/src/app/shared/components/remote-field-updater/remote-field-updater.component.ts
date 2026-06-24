@@ -133,7 +133,7 @@ export class RemoteFieldUpdaterComponent implements OnInit, OnDestroy {
     this
       .request(params)
       .subscribe((response:object) => {
-        _.each(response, (val:string, selector:string) => {
+        Object.entries(response).forEach(([selector, val]) => {
           const element = document.getElementById(selector) as HTMLElement|HTMLInputElement;
 
           if (element instanceof HTMLInputElement) {

@@ -164,6 +164,10 @@ RSpec.describe DocumentsController do
       expect(response).to be_successful
       expect(response).to render_template("show")
     end
+
+    it "does not opt out of Turbo snapshot caching" do
+      expect(response.body).not_to include('name="turbo-cache-control"')
+    end
   end
 
   describe "destroy" do
@@ -201,6 +205,11 @@ RSpec.describe DocumentsController do
       it "generates a token payload for show action" do
         get :show, params: { id: document.id }
         expect(assigns(:token_payload)).to be_present
+      end
+
+      it "opts the collaborative editor page out of Turbo snapshot caching" do
+        get :show, params: { id: document.id }
+        expect(response.body).to include('<meta name="turbo-cache-control" content="no-cache">')
       end
     end
 

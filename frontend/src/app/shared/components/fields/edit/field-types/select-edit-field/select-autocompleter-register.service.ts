@@ -42,7 +42,7 @@ export class SelectAutocompleterRegisterService {
   }
 
   public getAutocompleterOfAttribute(attribute:string) {
-    const assignment = _.find(this._fields, (field) => field.attribute === attribute);
+    const assignment = this._fields.find((field) => field.attribute === attribute);
     return assignment ? assignment.component : undefined;
   }
 }

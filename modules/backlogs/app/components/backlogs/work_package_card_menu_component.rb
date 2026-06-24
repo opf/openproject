@@ -116,7 +116,7 @@ module Backlogs
     end
 
     def current_list_inputs
-      target = Backlogs::MoveTarget.for(work_package)
+      target = Backlogs::Target.for(work_package)
 
       [{ name: "list_type", value: target.list_type }, { name: "list_id", value: target.list_id }]
     end

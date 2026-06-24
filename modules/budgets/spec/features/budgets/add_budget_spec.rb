@@ -78,6 +78,29 @@ RSpec.describe "adding a new budget", :js do
       expect(page).to have_css(".material_budget_items td.units", text: "15.00")
       expect(page).to have_css(".material_budget_items td", text: "Foobar")
     end
+
+    context "and a project-scoped cost type not mapped to this project" do
+      let!(:scoped_mapped) do
+        create(:cost_type, name: "Mapped", unit: "x", unit_plural: "xs", for_all_projects: false).tap do |ct|
+          CostTypesProject.create!(cost_type: ct, project: project)
+        end
+      end
+      let!(:scoped_unmapped) do
+        create(:cost_type, name: "Hidden", unit: "y", unit_plural: "ys", for_all_projects: false)
+      end
+
+      it "omits the unmapped cost type from the dropdown" do
+        visit new_projects_budget_path(project)
+
+        select_id = "budget_new_material_budget_item_attributes_0_cost_type_id"
+        within("##{select_id}") do
+          expect(page).to have_css("option", text: "Post-war")
+          expect(page).to have_css("option", text: "Foobar")
+          expect(page).to have_css("option", text: "Mapped")
+          expect(page).to have_no_css("option", text: "Hidden")
+        end
+      end
+    end
   end
 
   it "create the budget" do

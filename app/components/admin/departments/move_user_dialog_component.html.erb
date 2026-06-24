@@ -27,33 +27,55 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%=
-  render(
-    Primer::OpenProject::DangerDialog.new(
-      id: DIALOG_ID,
-      title: t("departments.move_user_dialog.title"),
-      confirm_button_text: t("departments.move_user_dialog.confirm"),
-      size: :medium_portrait,
-      form_arguments: {
-        action: add_user_admin_department_path(to_department),
-        method: :post
-      }
-    )
-  ) do |dialog|
-    dialog.with_confirmation_message do |message|
-      message.with_heading(tag: :h2) { t("departments.move_user_dialog.heading") }
-      message.with_description do
-        t(
-          "departments.move_user_dialog.description",
-          user: moved_user.name,
-          from_department: from_department.name
-        )
+<% if from_department.ldap_managed? %>
+  <%=
+    render(
+      Primer::OpenProject::FeedbackDialog.new(
+        id: DIALOG_ID,
+        title: t("departments.move_user_dialog.managed_title")
+      )
+    ) do |dialog|
+      dialog.with_feedback_message(icon_arguments: { icon: :lock, color: :muted }) do |message|
+        message.with_heading(tag: :h2) { t("departments.move_user_dialog.managed_heading") }
+        message.with_description do
+          t(
+            "departments.move_user_dialog.managed_description",
+            user: moved_user.name,
+            from_department: from_department.name
+          )
+        end
       end
     end
+  %>
+<% else %>
+  <%=
+    render(
+      Primer::OpenProject::DangerDialog.new(
+        id: DIALOG_ID,
+        title: t("departments.move_user_dialog.title"),
+        confirm_button_text: t("departments.move_user_dialog.confirm"),
+        size: :medium_portrait,
+        form_arguments: {
+          action: add_user_admin_department_path(to_department),
+          method: :post
+        }
+      )
+    ) do |dialog|
+      dialog.with_confirmation_message do |message|
+        message.with_heading(tag: :h2) { t("departments.move_user_dialog.heading") }
+        message.with_description do
+          t(
+            "departments.move_user_dialog.description",
+            user: moved_user.name,
+            from_department: from_department.name
+          )
+        end
+      end
 
-    dialog.with_additional_details do
-      concat(hidden_field_tag(:user_id, moved_user.id))
-      concat(hidden_field_tag(:remove_from_previous_department, "true"))
+      dialog.with_additional_details do
+        concat(hidden_field_tag(:user_id, moved_user.id))
+        concat(hidden_field_tag(:remove_from_previous_department, "true"))
+      end
     end
-  end
-%>
+  %>
+<% end %>

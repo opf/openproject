@@ -3,11 +3,11 @@ de:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
+        allocated_hours: Stunden
         allocated_time: Zugewiesene Zeit
         end_date: Endtermin
         entity: Entität
-        filter_name: Resource filter name
+        filter_name: Name des Ressourcenfilters
         principal: Zugewiesen an
         start_date: Anfangstermin
         state: Status
@@ -36,8 +36,8 @@ de:
     models:
       resource_allocation: Ressourcenzuteilung
       resource_planner: Ressourcenplanung
+      resource_user_card: User cards
       resource_work_package_list: Liste von Arbeitspaketen
-      user_card: Benutzer-Karten
   button_next: Weiter
   label_resource_management: Ressourcenplanung
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
@@ -65,11 +65,11 @@ de:
       kind:
         filter:
           caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
+          label: Filterkriterien
         label: Allocation type
         principal:
           caption: Allocate hours for a specific user.
-          label: User
+          label: Benutzer
       outside_dates:
         description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
       overbooking:
@@ -115,13 +115,35 @@ de:
       private: Privat
       public: Öffentlich
     sub_views: Ansichten in dieser Ressourcenplanung
+    user_allocations_dialog:
+      allocate_work_package: Allocate work package
+      blank: This user has no allocated work packages.
+      other_work_packages:
+        one: 1 other work package
+        other: "%{count} other work packages"
+      title: Utilization
+    user_card_list:
+      add_user_dialog:
+        title: Add user
+      blank:
+        description: There are no users matching this view's filters yet.
+        manual_description: No users have been added to this view yet.
+        title: No users to display
+      card:
+        remove: Remove user
+        remove_confirmation: Remove this user from the view?
+      subheader:
+        resource: Resource
+        settings: Configure view
+      utilization:
+        label: Utilization
     view_types:
+      resource_user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
       resource_work_package_list:
         caption: Erstellen Sie eine Ansicht auf Basis von Arbeitspaketen und sehen Sie deren Details und Zuweisungen in einer Liste
         label: Liste von Arbeitspaketen
-      user_card:
-        caption: Erstellen Sie eine Ansicht auf der Basis von Benutzern und sehen Sie deren Details und Zuordnung in einer Kachelansicht von Benutzerkarten
-        label: Benutzer-Karten
     work_package_allocations_dialog:
       allocate_resource: Allocate resource
       context_menu_label: Allocation actions

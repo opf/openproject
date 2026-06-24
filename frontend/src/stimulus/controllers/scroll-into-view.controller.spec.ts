@@ -27,7 +27,7 @@
  * See COPYRIGHT and LICENSE files for more details.
  * ++
  */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+
 
 import ScrollIntoViewController from './scroll-into-view.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';

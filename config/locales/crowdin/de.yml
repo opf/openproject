@@ -21,6 +21,7 @@
 #++
 ---
 de:
+  label_user_attributes_plural: User attributes
   no_results_title_text: Es gibt derzeit nichts anzuzeigen.
   activities:
     index:
@@ -131,7 +132,7 @@ de:
         trial: Probezeitraum
     jemalloc_allocator: Jemalloc Speicher allocator
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: 'Benutzeraktionen an einem Arbeitspaket (Ändern der Beschreibung, des Status, der Werte oder Schreiben von Kommentaren) werden gruppiert, wenn sie innerhalb dieses Zeitraums durchgeführt werden. Sie steuert auch die Verzögerungen bei Benachrichtigungen und [webhook](webhook_link). Der maximal zulässige Wert ist %{max} Minuten.
 
         '
     import:
@@ -432,6 +433,20 @@ de:
       new_project:
         project_creation: Erstellung von Projekten
         notification_text_default: "<p>Hallo,</p> <p>Ein neues Projekt wurde erstellt: projectValue:name</p> <p>Vielen Dank</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
+      user_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
       work_packages_identifier:
         page_header:
           description: Wählen Sie zwischen einfachen numerischen Arbeitspaket- oder projektspezifischen Kennungen, bei denen die Projektkennung der Arbeitspaket-ID vorangestellt wird.
@@ -677,6 +692,8 @@ de:
             gain_role: Wird die Rolle '%{new_role}' erhalten
             lose_role: Wird die Rolle '%{old_role}' verlieren
             no_change: Keine Änderungen
+    multi_value_more:
+      other: and %{count} more
     text_add_new_custom_field: 'Um neue benutzerdefinierte Felder einem Projekt zuzuweisen, müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren zu können.
 
       '
@@ -721,6 +738,8 @@ de:
         project: 0 heißt keine Beschränkung
       has_comment:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
+      visible_on_user_card:
+        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
@@ -748,9 +767,11 @@ de:
         '
       add_button: Hinzufügen
     detail_blankslate:
-      heading: Diese Abteilung hat keine untergeordnete Hierarchiestufe
-      description: Fügen Sie Abteilungen oder Benutzer hinzu, um Unterelemente innerhalb einer anderen zu erstellen.
       add_button: Hinzufügen
+      description: Fügen Sie Abteilungen oder Benutzer hinzu, um Unterelemente innerhalb einer anderen zu erstellen.
+      heading: Diese Abteilung hat keine untergeordnete Hierarchiestufe
+      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_heading: This department is managed by LDAP synchronization
     add_department_form:
       name_label: Name der Abteilung
       name_placeholder: Name der Abteilung eingeben
@@ -759,6 +780,9 @@ de:
       heading: Benutzer in diese Abteilung verschieben?
       description: "%{user} ist derzeit Mitglied von %{from_department}. Wenn Sie ihn verschieben wird er aus dieser Abteilung entfernt."
       confirm: Benutzer verschieben
+      managed_title: User managed by LDAP
+      managed_heading: This user cannot be moved
+      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: Unterabteilung hinzufügen
       add_user: Benutzer hinzufügen
@@ -1700,18 +1724,6 @@ de:
         dependencies: Abhängigkeiten
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Kennung
-        work_package: Arbeitspaket
-      jira_import:
-        projects: Projekte
-      import/jira:
-        name: Name der Jira-Instanz
-        url: URL der Jira-Instanz
-        personal_access_token: Persönlicher Zugangs-Token
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira-Migrator
       announcements:
         show_until: Anzeigen bis
       attachment:
@@ -1757,6 +1769,7 @@ de:
         possible_values: Mögliche Werte
         regexp: Regulärer Ausdruck
         searchable: Durchsuchbar
+        visible_on_user_card: Show on user card
         admin_only: Nur für Administratoren
         has_comment: Ein Kommentarfeld hinzufügen
       custom_value:
@@ -1791,6 +1804,23 @@ de:
         row_count: Anzahl der Zeilen
         column_count: Anzahl der Spalten
         widgets: Widgets
+      group:
+        group_users: Benutzer der Gruppe
+        identity_url: Identity URL
+        organizational_unit: Organisationseinheit
+        parent: Übergeordnete Gruppe
+      group_detail:
+        organizational_unit: Organisationseinheit
+        parent: Übergeordnete Gruppe
+      import/jira:
+        name: Name der Jira-Instanz
+        personal_access_token: Persönlicher Zugangs-Token
+        url: URL der Jira-Instanz
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira-Migrator
+      jira_import:
+        projects: Projekte
       journal:
         notes: Kommentare
         cause_type: Ursachen-Typ
@@ -1819,6 +1849,21 @@ de:
         resource: Ressource
       oauth_client:
         client: Client-ID
+      ordered_persisted_query_entity:
+        persisted_query: Gespeicherte Abfrage
+        entity: Entität
+        position: Position
+      persisted_query:
+        name: Name
+        views: Ansichten
+        filters: Filter
+        orders: Sortierungen
+        selects: Ausgewählte Attribute
+      persisted_view:
+        name: Name
+        query: Abfrage
+        parent: Übergeordnete Ansicht
+        public: Öffentlich
       project:
         active_value:
           true: nicht archiviert
@@ -1965,14 +2010,8 @@ de:
         new_password: Neues Kennwort
         password_confirmation: Bestätigung
         consented_at: Eingewilligt am
-      group:
-        identity_url: Identity URL
-        parent: Übergeordnete Gruppe
-        organizational_unit: Organisationseinheit
-        group_users: Benutzer der Gruppe
-      group_detail:
-        parent: Übergeordnete Gruppe
-        organizational_unit: Organisationseinheit
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: Erscheinungsbild und Bedienverhalten
         header_alerts: Warnmeldungen
@@ -2071,29 +2110,11 @@ de:
         type: Typ
         version: Version
         watcher: Beobachter
-      ordered_persisted_query_entity:
-        persisted_query: Gespeicherte Abfrage
-        entity: Entität
-        position: Position
-      persisted_query:
-        name: Name
-        views: Ansichten
-        filters: Filter
-        orders: Sortierungen
-        selects: Ausgewählte Attribute
-      persisted_view:
-        name: Name
-        query: Abfrage
-        parent: Übergeordnete Ansicht
-        public: Öffentlich
-      user_card_view:
-        secondary_info: Weitere Angaben
-        show_status_badge: Status anzeigen
-        show_email: E-Mail-Adresse anzeigen
-        tag_source: Tag-Quelle
-        tag_limit: Tag-Limit
-        card_size: Kartengröße
-        columns_per_row: Spalten pro Zeile
+      work_package_version:
+        kind: Kind
+      work_package_semantic_alias:
+        identifier: Kennung
+        work_package: Arbeitspaket
     errors:
       messages:
         accepted: muss akzeptiert werden.
@@ -2139,6 +2160,7 @@ de:
         invalid_url: ist keine gültige URL.
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         is_for_all_cannot_modify: gilt für alle Projekte und kann daher nicht geändert werden.
+        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: muss kleiner oder gleich %{count} sein.
         not_available: ist aufgrund einer Systemkonfiguration nicht verfügbar.
         not_before_start_date: darf nicht vor dem Startdatum liegen.
@@ -2176,6 +2198,7 @@ de:
 
           '
         user_already_in_department: Der Benutzer %{user_id} ist bereits Mitglied der Abteilung %{department_id}.
+        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben).
       models:
         group:
@@ -2183,6 +2206,7 @@ de:
             parent_id:
               circular_dependency: würde eine zirkuläre Gruppenhierarchie erstellen.
               organizational_unit_mismatch: muss die gleiche Einstellung für die Organisationseinheit haben wie die Gruppe.
+              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2381,7 +2405,7 @@ de:
               durations_are_not_positive_numbers: Die Dauer muss positiv sein
               hours_per_day_are_missing: Die Anzahl der Stunden pro Tag muss festgelegt werden.
               hours_per_day_is_out_of_bounds: Die Anzahl der Stunden pro Tag darf 24 nicht überschreiten.
-              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              journal_aggregation_time_minutes_is_out_of_bounds: Aggregationszeitraum muss zwischen %{min} und %{max} Minuten liegen.
               previous_working_day_changes_unprocessed: Die vorherigen Änderungen an der Konfiguration der Arbeitstage wurden noch nicht angewendet.
               working_days_are_missing: Mindestens ein Wochentag muss als Arbeitstag definiert werden.
         status:
@@ -3477,6 +3501,7 @@ de:
       all_projects: Alle Projekte
       favorites: Favoriten
       leave_project: Projekt verlassen
+      no_favorite_projects: Sie haben keine favorisierten Projekte.
       title: Projekte
   toggle_switch:
     label_on: Ein
@@ -3761,7 +3786,7 @@ de:
         work_package_scheduled: Alle Datumsänderungen
       project_specific_settings:
         description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
-        title: Project-specific notifications
+        title: Projektspezifische Benachrichtigungen
         add_button: Projektspezifische Benachrichtigungen hinzufügen
         dialog_title: Projektspezifische Benachrichtigungen hinzufügen
         list_header: Projekte mit spezifischen Benachrichtigungen
@@ -3895,7 +3920,7 @@ de:
   label_send_invitation: Einladung senden
   label_calculated_value: Berechneter Wert
   label_change_parent: Übergeordnetes Arbeitspaket ändern
-  label_change_password: Change password
+  label_change_password: Passwort ändern
   label_change_plural: Änderungen
   label_change_properties: Eigenschaften ändern
   label_change_status: Statuswechsel
@@ -4133,7 +4158,7 @@ de:
   label_custom_favicon: Benutzerdefiniertes Favicon
   label_custom_touch_icon: Benutzerdefiniertes Touch-Icon
   label_departments: Organisation
-  label_departments_description_html: 'Definieren Sie die Struktur Ihres Unternehmens, indem Sie Abteilungen und Unterabteilungen in hierarchischer Form anlegen. So können Sie Berichtslinien abbilden und einen klaren, strukturierten Überblick über Ihre Organisation in OpenProject behalten. Sie können auch eine bestehende Organisationsstruktur über [LDAP-Gruppensynchronisation](ldap_docs_article) importieren.
+  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
     '
   label_logout: Abmelden
@@ -4141,6 +4166,7 @@ de:
   label_main_menu: Nebenmenü
   label_manage: Verwalten
   label_manage_groups: Gruppen verwalten
+  label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Verwaltete %{vendor} Projektarchive
   label_mathematical_operators: Mathematische Operatoren
   label_max_size: Maximale Größe
@@ -4182,7 +4208,7 @@ de:
   label_my_account_data: Meine Kontodaten
   label_my_avatar: Mein Avatar
   label_my_queries: Meine Berichte
-  label_my_security: Security
+  label_my_security: Sicherheit
   label_name: Name
   label_never: Nie
   label_new: Neu
@@ -5463,6 +5489,7 @@ de:
     passwords: Passwörter
     project_attributes:
       heading: Projektattribute
+      label_add_attribute: Add a project attribute
       label_for_all_projects: Alle Projekte
       label_new_attribute: Projektattribut
       label_new_section: Abschnitt
@@ -5560,8 +5587,30 @@ de:
     session: Sitzung
     user:
       default_preferences: Standardeinstellungen
-      display_format: Anzeigeformat
       deletion: Löschen
+      display_format: Anzeigeformat
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Built-in
+        label_built_in_attribute_actions: Built-in attribute actions
+      custom_field_row_component:
+        label_user_custom_field_actions: User attribute actions
+      show_component:
+        label_add_attribute: Add a user attribute
+        label_edit_section: Edit title
+        label_no_user_custom_fields: No user attributes defined in this section
+        label_section_actions: Section actions
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filter by attribute name…
+        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
+      heading: User attributes
+      label_new_attribute: User attribute
+      label_new_section: Section
+      label_untitled_section: User attributes
+      new:
+        heading: New attribute
     working_days:
       section_work_week: Arbeitswoche
       section_holidays_and_closures: Feiertage und Schließungen

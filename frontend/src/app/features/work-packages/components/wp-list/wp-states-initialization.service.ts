@@ -88,7 +88,7 @@ export class WorkPackageStatesInitializationService {
   public updateStatesFromForm(query:QueryResource, form:QueryFormResource) {
     const schema:QuerySchemaResource = form.schema as any;
 
-    _.each(schema.filtersSchemas.elements, (schema) => {
+    schema.filtersSchemas.elements.forEach((schema) => {
       this.states.schemas.get(schema.href!).putValue(schema);
     });
 
@@ -107,7 +107,7 @@ export class WorkPackageStatesInitializationService {
     this.querySpace.tableRendered.clear('Clearing rendered data before upgrading query space');
 
     if (results.schemas) {
-      _.each(results.schemas.elements, (schema:SchemaResource) => {
+      results.schemas.elements.forEach((schema:SchemaResource) => {
         this.states.schemas.get(schema.href!).putValue(schema);
       });
     }

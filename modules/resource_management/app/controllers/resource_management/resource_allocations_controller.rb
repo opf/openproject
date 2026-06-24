@@ -38,9 +38,17 @@ module ::ResourceManagement
     before_action :find_resource_allocation, only: %i[edit update destroy]
 
     def new
+      # Opened from a user's utilization dialog: replace it rather than stack on
+      # top. It is reopened (refreshed) after a successful create.
+      if preselected_user
+        close_dialog_via_turbo_stream("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}")
+      end
+
       respond_with_dialog ResourceAllocations::NewDialogComponent.new(
         project: @project,
-        work_package: context_work_package
+        work_package: context_work_package,
+        allocation: prefilled_allocation,
+        resource_planner_id: params[:resource_planner_id]
       )
     end
 
@@ -63,9 +71,14 @@ module ::ResourceManagement
     end
 
     def edit
+      if reopen_planner
+        close_dialog_via_turbo_stream("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}")
+      end
+
       respond_with_dialog ResourceAllocations::EditDialogComponent.new(
         project: @project,
-        allocation: @resource_allocation
+        allocation: @resource_allocation,
+        resource_planner_id: params[:resource_planner_id]
       )
     end
 
@@ -118,7 +131,8 @@ module ::ResourceManagement
         component: ResourceAllocations::AllocationStep::FormComponent.new(
           allocation:,
           project: @project,
-          allocation_kind:
+          allocation_kind:,
+          resource_planner_id: params[:resource_planner_id]
         ),
         status:
       )
@@ -136,6 +150,7 @@ module ::ResourceManagement
           allocation_kind:,
           form_values: submitted_allocation_params,
           filters: params[:filters],
+          resource_planner_id: params[:resource_planner_id],
           overbooked_ranges: ranges,
           working_schedules: working_schedules(allocation, ranges)
         )
@@ -225,7 +240,32 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream("##{ResourceAllocations::NewDialogComponent::DIALOG_ID}")
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
+      reopen_user_dialog(allocation)
       respond_with_turbo_streams
+    end
+
+    def reopen_user_dialog(allocation)
+      planner = reopen_planner
+      return if planner.nil? || allocation.principal.nil?
+
+      user = allocation.principal
+      allocations = ResourceAllocation.allocated.for_principal(user).includes(:entity).to_a
+
+      dialog_via_turbo_stream(
+        component: ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
+          project: @project,
+          resource_planner: planner,
+          user:,
+          allocations:,
+          overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
+        )
+      )
+    end
+
+    def reopen_planner
+      return if params[:resource_planner_id].blank?
+
+      ResourcePlanner.visible(current_user).where(project: @project).find_by(id: params[:resource_planner_id])
     end
 
     def set_update_attributes
@@ -252,7 +292,8 @@ module ::ResourceManagement
           allocation:,
           project: @project,
           allocation_kind:,
-          dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID
+          dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID,
+          resource_planner_id: params[:resource_planner_id]
         ),
         status:
       )
@@ -272,6 +313,7 @@ module ::ResourceManagement
       close_dialog_via_turbo_stream("##{ResourceAllocations::EditDialogComponent::DIALOG_ID}")
       refresh_allocations_list(allocation.entity)
       notify_allocation_change(allocation.entity)
+      reopen_user_dialog(allocation)
       respond_with_turbo_streams
     end
 
@@ -391,6 +433,18 @@ module ::ResourceManagement
                              .fetch(:filters, [])
                              .each { |f| query.where(f[:attribute], f[:operator], f[:values]) }
       query.filters
+    end
+
+    def prefilled_allocation
+      return if preselected_user.nil?
+
+      ResourceAllocation.new(principal: preselected_user, principal_explicit: true, entity: context_work_package)
+    end
+
+    def preselected_user
+      return @preselected_user if defined?(@preselected_user)
+
+      @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
     end
   end
 end

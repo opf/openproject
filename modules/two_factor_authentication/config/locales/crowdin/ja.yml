@@ -46,7 +46,7 @@ ja:
     text_otp_delivery_message_sms: あなたの %{app_title} のワンタイムパスワードは %{token} です
     text_otp_delivery_message_voice: 'あなたの %{app_title} のワンタイムパスワード: %{pause} %{token}。 %{pause} 繰り返します: %{pause} %{token}'
     text_2fa_enabled: ログインごとに、デフォルトの2FAデバイスからOTPトークンを入力するよう要求されます。
-    text_2fa_disabled: 2要素証を有効にするには、上記のボタンを使用して新しい2FAデバイスを登録します。既にデバイスがある場合は、デフォルトにする必要があります。
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: バックアップコードを入力
       enter_backup_code_text: 登録された2FAデバイスにアクセスできない場合は、コードのリストから有効なバックアップコードを入力してください。

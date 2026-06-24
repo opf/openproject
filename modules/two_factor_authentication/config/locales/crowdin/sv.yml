@@ -46,7 +46,7 @@ sv:
     text_otp_delivery_message_sms: Engångslösenordet för %{app_title} är %{token}
     text_otp_delivery_message_voice: 'Engångslösenordet för %{app_title} är: %{pause} %{token}. %{pause} jag upprepar: %{pause} %{token}'
     text_2fa_enabled: Vid varje inloggning, blir du ombedd att ange ett OTP-token från din standard 2FA-enhet.
-    text_2fa_disabled: För att aktivera tvåfaktorsautentisering, använd knappen ovan för att registrera en ny 2FA-enhet. Om du redan har en enhet måste du göra den till standardenhet.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Ange säkerhetskod
       enter_backup_code_text: Ange en giltig säkerhetskod från din kodlista om du inte längre kan komma åt dina registrerade 2FA-enheter.

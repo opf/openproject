@@ -151,7 +151,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     return this.change.getForm().then((form:FormResource) => {
       const activateFields:Promise<unknown>[] = [];
 
-      _.each(form.validationErrors, (_:ErrorResource, key:string) => {
+      Object.entries(form.validationErrors ?? {}).forEach(([key]) => {
         if (key === 'id') {
           return;
         }
@@ -183,10 +183,10 @@ export abstract class EditForm<T extends HalResource = HalResource> {
     this.errorsPerAttribute = {};
 
     // Notify all fields of upcoming save
-    const openFields = _.keys(this.activeFields);
+    const openFields = Object.keys(this.activeFields);
 
     // Call onSubmit handlers
-    await Promise.all(_.map(this.activeFields, (handler:EditFieldHandler) => handler.onSubmit()));
+    await Promise.all(Object.values(this.activeFields).map((handler:EditFieldHandler) => handler.onSubmit()));
 
     return new Promise<T>((resolve, reject) => {
       this.halEditing.save<T, ResourceChangeset<T>>(this.change)
@@ -231,7 +231,7 @@ export abstract class EditForm<T extends HalResource = HalResource> {
    */
   public closeEditFields(fields:string[]|'all' = 'all', resetChange = true) {
     if (fields === 'all') {
-      fields = _.keys(this.activeFields);
+      fields = Object.keys(this.activeFields);
     }
 
     fields.forEach((name:string) => {

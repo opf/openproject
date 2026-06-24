@@ -77,7 +77,7 @@ module Backlogs
     end
 
     def goal
-      sprint.goals.find_or_initialize_by(project:)
+      sprint.goal_for(project) || sprint.goals.build(project:)
     end
 
     def goal_label

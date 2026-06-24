@@ -21,6 +21,7 @@
 #++
 ---
 ko:
+  label_user_attributes_plural: User attributes
   no_results_title_text: 표시할 내용이 없습니다.
   activities:
     index:
@@ -425,6 +426,20 @@ ko:
       new_project:
         project_creation: 프로젝트 생성
         notification_text_default: "<p>안녕하세요,</p> <p>새 프로젝트가 생성되었습니다: projectValue:name</p> <p>감사합니다.</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
+      user_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
       work_packages_identifier:
         page_header:
           description: 클래식 숫자 작업 패키지 ID 또는 작업 패키지 ID 앞에 프로젝트 식별자를 붙이는 프로젝트별 시맨틱 ID 중에서 선택합니다.
@@ -666,6 +681,8 @@ ko:
             gain_role: "‘%{new_role}’ 역할을 얻습니다"
             lose_role: "‘%{old_role}’ 역할을 잃습니다"
             no_change: 변경 사항 없음
+    multi_value_more:
+      other: and %{count} more
     text_add_new_custom_field: '프로젝트에 새 사용자 지정 필드를 추가하려면 먼저 해당 필드를 만들어야 합니다. 그래야 이 프로젝트에 해당 필드를 추가할 수 있습니다.
 
       '
@@ -710,6 +727,8 @@ ko:
         project: 0은 제한이 없음을 의미합니다
       has_comment:
         project: 사용자가 프로젝트 개요에서 값을 선택할 때 프로젝트 특성과 관련된 코멘트를 추가할 수 있습니다.
+      visible_on_user_card:
+        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     tab:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
@@ -737,9 +756,11 @@ ko:
         '
       add_button: 추가
     detail_blankslate:
-      heading: 이 부서에는 아래 계층 수준이 없습니다
-      description: 부서 또는 사용자를 추가하여 다른 항목 내에서 하위 항목을 만듭니다.
       add_button: 추가
+      description: 부서 또는 사용자를 추가하여 다른 항목 내에서 하위 항목을 만듭니다.
+      heading: 이 부서에는 아래 계층 수준이 없습니다
+      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_heading: This department is managed by LDAP synchronization
     add_department_form:
       name_label: 부서 이름
       name_placeholder: 부서 이름 입력
@@ -748,6 +769,9 @@ ko:
       heading: 이 부서로 사용자를 이동하시겠습니까?
       description: "%{user}은(는) 현재 %{from_department}의 멤버입니다. 사용자를 이동하면 해당 부서에서 제거됩니다."
       confirm: 사용자 이동
+      managed_title: User managed by LDAP
+      managed_heading: This user cannot be moved
+      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: 하위 부서 추가
       add_user: 사용자 추가
@@ -1680,18 +1704,6 @@ ko:
         dependencies: 종속성
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: 식별자
-        work_package: 작업 패키지
-      jira_import:
-        projects: 프로젝트
-      import/jira:
-        name: Jira 인스턴스 이름
-        url: Jira 인스턴스 URL
-        personal_access_token: 개인 액세스 토큰
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: 표시 기한
       attachment:
@@ -1737,6 +1749,7 @@ ko:
         possible_values: 가능한 값
         regexp: 정규 표현식
         searchable: 검색가능한
+        visible_on_user_card: Show on user card
         admin_only: 관리자 전용
         has_comment: 코멘트 텍스트 필드 추가
       custom_value:
@@ -1771,6 +1784,23 @@ ko:
         row_count: 행 수
         column_count: 열 수
         widgets: 위젯
+      group:
+        group_users: 그룹 사용자
+        identity_url: ID URL
+        organizational_unit: 조직 단위
+        parent: 부모 그룹
+      group_detail:
+        organizational_unit: 조직 단위
+        parent: 부모 그룹
+      import/jira:
+        name: Jira 인스턴스 이름
+        personal_access_token: 개인 액세스 토큰
+        url: Jira 인스턴스 URL
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: 프로젝트
       journal:
         notes: 노트
         cause_type: 원인 유형
@@ -1799,6 +1829,21 @@ ko:
         resource: 리소스
       oauth_client:
         client: 클라이언트 ID
+      ordered_persisted_query_entity:
+        persisted_query: 지속 쿼리
+        entity: 엔티티
+        position: 위치
+      persisted_query:
+        name: 이름
+        views: 보기
+        filters: 필터
+        orders: 주문
+        selects: 선택
+      persisted_view:
+        name: 이름
+        query: 쿼리
+        parent: 부모 보기
+        public: 공개
       project:
         active_value:
           true: 보관 취소됨
@@ -1945,14 +1990,8 @@ ko:
         new_password: 새로운 비밀번호
         password_confirmation: 확인
         consented_at: '동의함:'
-      group:
-        identity_url: ID URL
-        parent: 부모 그룹
-        organizational_unit: 조직 단위
-        group_users: 그룹 사용자
-      group_detail:
-        parent: 부모 그룹
-        organizational_unit: 조직 단위
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: 모양 및 느낌
         header_alerts: 알림
@@ -2051,29 +2090,11 @@ ko:
         type: 타입
         version: 버전
         watcher: 주시자
-      ordered_persisted_query_entity:
-        persisted_query: 지속 쿼리
-        entity: 엔티티
-        position: 위치
-      persisted_query:
-        name: 이름
-        views: 보기
-        filters: 필터
-        orders: 주문
-        selects: 선택
-      persisted_view:
-        name: 이름
-        query: 쿼리
-        parent: 부모 보기
-        public: 공개
-      user_card_view:
-        secondary_info: 보조 정보
-        show_status_badge: 상태 배지 표시
-        show_email: 이메일 표시
-        tag_source: 태그 소스
-        tag_limit: 태그 제한
-        card_size: 카드 크기
-        columns_per_row: 행별 열
+      work_package_version:
+        kind: Kind
+      work_package_semantic_alias:
+        identifier: 식별자
+        work_package: 작업 패키지
     errors:
       messages:
         accepted: 허용 되어야 합니다.
@@ -2119,6 +2140,7 @@ ko:
         invalid_url: 은(는) 올바른 URL이 아닙니다.
         invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
         is_for_all_cannot_modify: "- 모든 프로젝트용므로 수정할 수 없습니다."
+        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: 은(는) %{count} 보다 작거나 같아야 합니다
         not_available: "- 시스템 구성으로 인해 사용 가능하지 않습니다."
         not_before_start_date: "- 시작 날짜 전이 아니어야 합니다."
@@ -2156,6 +2178,7 @@ ko:
 
           '
         user_already_in_department: "%{user_id} 사용자는 이미 %{department_id} 부서의 멤버입니다."
+        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
       models:
         group:
@@ -2163,6 +2186,7 @@ ko:
             parent_id:
               circular_dependency: "- 순환 그룹 계층을 생성합니다."
               organizational_unit_mismatch: "- 그룹과 동일한 조직 단위 설정이 있어야 합니다."
+              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -3436,6 +3460,7 @@ ko:
       all_projects: All projects
       favorites: Favorites
       leave_project: Leave project
+      no_favorite_projects: You have no favorite projects.
       title: Projects
   toggle_switch:
     label_on: 켜기
@@ -4090,7 +4115,7 @@ ko:
   label_custom_favicon: 사용자 지정 favicon
   label_custom_touch_icon: 사용자 지정 터치 아이콘
   label_departments: 조직
-  label_departments_description_html: '계층적 방식으로 부서와 하위 부서를 만들어 회사 구조를 정의하세요. 이렇게 하면 OpenProject 내에서 보고 라인을 반영하고 조직에 대한 명확하고 구조화된 개요를 유지할 수 있습니다. [LDAP 그룹 동기화](ldap_docs_article)를 통해 기존 조직 구조를 가져올 수도 있습니다.
+  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
     '
   label_logout: 로그아웃
@@ -4098,6 +4123,7 @@ ko:
   label_main_menu: 측면 메뉴
   label_manage: 관리
   label_manage_groups: 그룹 관리
+  label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: 관리 되는 %{vendor} 저장소
   label_mathematical_operators: 수학 연산자
   label_max_size: 최대 크기
@@ -5405,6 +5431,7 @@ ko:
     passwords: 암호
     project_attributes:
       heading: 프로젝트 특성
+      label_add_attribute: Add a project attribute
       label_for_all_projects: 모든 프로젝트
       label_new_attribute: 프로젝트 특성
       label_new_section: 섹션
@@ -5502,8 +5529,30 @@ ko:
     session: 세션
     user:
       default_preferences: 기본 설정
-      display_format: 표시 형식
       deletion: 삭제
+      display_format: 표시 형식
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Built-in
+        label_built_in_attribute_actions: Built-in attribute actions
+      custom_field_row_component:
+        label_user_custom_field_actions: User attribute actions
+      show_component:
+        label_add_attribute: Add a user attribute
+        label_edit_section: Edit title
+        label_no_user_custom_fields: No user attributes defined in this section
+        label_section_actions: Section actions
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filter by attribute name…
+        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
+      heading: User attributes
+      label_new_attribute: User attribute
+      label_new_section: Section
+      label_untitled_section: User attributes
+      new:
+        heading: New attribute
     working_days:
       section_work_week: 근무 주
       section_holidays_and_closures: 공휴일 및 휴업일

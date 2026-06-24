@@ -34,13 +34,21 @@ See COPYRIGHT and LICENSE files for more details.
                 test_selector: "op-header-project-select--list" }
       )
     ) do |tree| %>
-  <% @tree.each do |node| %>
-    <%= render Header::Projects::NodeComponent.new(
-          component: tree,
-          node:,
-          current_project_id: @current_project_id,
-          favorited_ids: @favorited_ids,
-          jump: @jump
-        ) %>
+  <% if @tree.empty? && params[:filter_mode] == "favorited" && params[:query].blank? %>
+    <% tree.with_leaf(
+         label: t("header.project_select_component.no_favorite_projects"),
+         disabled: true,
+         data: { test_selector: "op-header-project-select--no-favourites" }
+       ) %>
+  <% else %>
+    <% @tree.each do |node| %>
+      <%= render Header::Projects::NodeComponent.new(
+            component: tree,
+            node:,
+            current_project_id: @current_project_id,
+            favorited_ids: @favorited_ids,
+            jump: @jump
+          ) %>
+    <% end %>
   <% end %>
 <% end %>

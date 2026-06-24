@@ -204,4 +204,26 @@ RSpec.describe CustomFields::CustomFieldRendering do
       end
     end
   end
+
+  describe "#render_custom_field" do
+    let(:values_builder) { instance_double(ActionView::Helpers::FormBuilder) }
+    let(:custom_field) { build(:custom_field, :string) }
+
+    before do
+      allow(builder).to receive(:fields_for).with(:custom_field_values).and_yield(values_builder)
+      allow(form_instance).to receive(:additional_custom_field_input_arguments).and_return({})
+    end
+
+    it "renders a single custom field input" do
+      allow(CustomFields::Inputs::String).to receive(:new)
+
+      form_instance.render_custom_field(form: builder, custom_field:)
+
+      expect(CustomFields::Inputs::String).to have_received(:new).with(
+        values_builder,
+        custom_field:,
+        object: model
+      )
+    end
+  end
 end

@@ -46,7 +46,7 @@ pl:
     text_otp_delivery_message_sms: Hasło jednorazowe %{app_title} to %{token}
     text_otp_delivery_message_voice: 'Hasło jednorazowe %{app_title} to: %{pause} %{token}. %{pause} I powtórz: %{pause} %{token}'
     text_2fa_enabled: Po każdym logowaniu zostaniesz poproszony o wprowadzenie tokena OTP z domyślnego urządzenia 2FA.
-    text_2fa_disabled: Aby włączyć uwierzytelnianie dwuskładnikowe, użyj przycisku powyżej, aby zarejestrować nowe urządzenie 2FA. Jeśli masz już urządzenie, musisz ustawić je jako domyślne.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Wprowadź kod zapasowy
       enter_backup_code_text: Wprowadź prawidłowy kod zapasowy z listy kodów, na wypadek, gdyby nie było już dostępu do zarejestrowanych urządzeń 2FA.

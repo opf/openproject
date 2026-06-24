@@ -46,7 +46,7 @@ it:
     text_otp_delivery_message_sms: La tua password monouso per %{app_title} è %{token}
     text_otp_delivery_message_voice: 'La tua password monouso per %{app_title} è: %{pause} %{token}. %{pause} Ripeto: %{pause} %{token}'
     text_2fa_enabled: Ad ogni accesso, ti sarà chiesto di inserire un token OTP dal tuo dispositivo 2FA predefinito.
-    text_2fa_disabled: Per abilitare l'autenticazione a due fattori, usa il pulsante qui sopra per registrare un nuovo dispositivo 2FA. Se hai già un dispositivo, devi renderlo predefinito.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Inserisci codice di backup
       enter_backup_code_text: Inserisci un codice di backup valido dall'elenco dei codici nel caso in cui non puoi accedere ai tuoi dispositivi 2FA registrati.

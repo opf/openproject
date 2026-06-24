@@ -1,0 +1,10 @@
+<%= render(
+      Primer::Alpha::Dialog.new(
+        title: t("settings.user_custom_fields.label_new_section"),
+        size: :medium_portrait,
+        id: MODAL_ID,
+        data: { "keep-open-on-submit": true }
+      )
+    ) do %>
+    <%= render(Settings::UserCustomFieldSections::DialogBodyFormComponent.new) %>
+<% end %>

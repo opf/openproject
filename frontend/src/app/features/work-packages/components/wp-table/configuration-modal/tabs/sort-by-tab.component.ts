@@ -95,7 +95,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
 
         this.getManualSortingOption();
 
-        _.each(this.wpTableSortBy.current, (sort) => {
+        this.wpTableSortBy.current.forEach((sort) => {
           if (!sort.column.href!.endsWith('/parent')) {
             this.sortationObjects.push(
               new SortModalObject({ name: sort.column.name, href: sort.column.href },
@@ -114,7 +114,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
   }
 
   public updateSelection(sort:SortModalObject, selected:string | null) {
-    sort.column = _.find(this.allColumns, (column) => column.href === selected) || this.emptyColumn;
+    sort.column = this.allColumns.find((column) => column.href === selected) ?? this.emptyColumn;
     this.updateUsedColumns();
   }
 
@@ -131,7 +131,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
   }
 
   private getMatchingSort(column:string, direction:string) {
-    return _.find(this.wpTableSortBy.available, (sort) => sort.column.href === column && sort.direction.href === direction);
+    return this.wpTableSortBy.available.find((sort) => sort.column.href === column && sort.direction.href === direction);
   }
 
   private fillUpSortElements() {

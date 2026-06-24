@@ -29,6 +29,11 @@
 #++
 
 class UserCustomField < CustomField
+  include CustomField::Sectionable
+
+  belongs_to :user_custom_field_section, class_name: "UserCustomFieldSection", foreign_key: :custom_field_section_id,
+                                         inverse_of: :custom_fields
+
   scopes :visible
 
   def type_name

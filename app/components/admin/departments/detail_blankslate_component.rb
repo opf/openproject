@@ -33,12 +33,29 @@ module Admin
     class DetailBlankslateComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
 
+      def initialize(group: nil)
+        super()
+        @group = group
+      end
+
       def call
         render(Primer::Beta::Blankslate.new(border: false)) do |component|
-          component.with_visual_icon(icon: :people, size: :medium)
-          component.with_heading(tag: :h2) { t("departments.detail_blankslate.heading") }
-          component.with_description { t("departments.detail_blankslate.description") }
+          if managed?
+            component.with_visual_icon(icon: :lock, size: :medium)
+            component.with_heading(tag: :h2) { t("departments.detail_blankslate.managed_heading") }
+            component.with_description { t("departments.detail_blankslate.managed_description") }
+          else
+            component.with_visual_icon(icon: :people, size: :medium)
+            component.with_heading(tag: :h2) { t("departments.detail_blankslate.heading") }
+            component.with_description { t("departments.detail_blankslate.description") }
+          end
         end
+      end
+
+      private
+
+      def managed?
+        @group&.ldap_managed?
       end
     end
   end

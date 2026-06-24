@@ -115,7 +115,7 @@ class UsersController < ApplicationController
     prepare_views_for_tab
   end
 
-  def create # rubocop:disable Metrics/AbcSize
+  def create
     call = Users::CreateService
            .new(user: current_user)
            .call(create_params)
@@ -124,7 +124,7 @@ class UsersController < ApplicationController
 
     if call.success?
       flash[:notice] = I18n.t(:notice_successful_create)
-      redirect_to(params[:continue] ? new_user_path : helpers.allowed_management_user_profile_path(@user))
+      redirect_to helpers.allowed_management_user_profile_path(@user)
     else
       @contract = Users::CreateContract.new(@user, current_user)
       render action: :new, status: :unprocessable_entity
@@ -443,13 +443,11 @@ class UsersController < ApplicationController
   def prepare_views_for_tab # rubocop:disable Metrics/AbcSize
     if params[:tab] == "non_working_times"
       authorize_manage_working_times
-      check_working_times_feature_flag_is_active
 
       @year = (params[:year].presence || Date.current.year).to_i
       @non_working_times = @user.non_working_time_entities_for_year(@year)
     elsif params[:tab] == "working_hours"
       authorize_manage_working_times
-      check_working_times_feature_flag_is_active
 
       @current_working_hours = @user.working_hours.current
 

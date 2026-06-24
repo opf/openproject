@@ -46,7 +46,7 @@ zh-TW:
     text_otp_delivery_message_sms: "%{app_title} 一次性密碼為 %{token}"
     text_otp_delivery_message_voice: '您的 %{app_title} 一次性密碼為: %{pause} %{token}。 %{pause} 重複: %{pause} %{token}'
     text_2fa_enabled: 於每次登錄, 您都將被要求從預設的2FA 設備中取得 OTP 密碼。
-    text_2fa_disabled: 要啟用兩階段驗證, 請使用上面的按鈕註冊新的2FA 設備。如果已有設備, 則需要將其設置為預設值。
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: 輸入備份代碼
       enter_backup_code_text: 請從代碼清單中輸入有效的備份代碼, 以防您無法再訪問已註冊的2FA 設備。

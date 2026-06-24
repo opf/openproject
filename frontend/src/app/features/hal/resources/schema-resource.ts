@@ -27,6 +27,7 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { HalSource } from 'core-app/features/hal/interfaces';
 import { InputState } from '@openproject/reactivestates';
 
 export class SchemaResource extends HalResource {
@@ -35,7 +36,7 @@ export class SchemaResource extends HalResource {
   }
 
   public get availableAttributes():string[] {
-    return _.keys(this.$source).filter((name) => !name.startsWith('_'));
+    return Object.keys(this.$source as HalSource).filter((name) => !name.startsWith('_'));
   }
 
   // Find the attribute name with a matching (localized) name;

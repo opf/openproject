@@ -42,7 +42,7 @@ fr:
           completed: Terminé
         work_packages: Lots de travaux
       sprint_goal:
-        text: Sprint goal
+        text: Objectif du sprint
       work_package:
         backlog_bucket: Backlog bucket
         backlogs_work_package_type: Type de backlog
@@ -62,7 +62,7 @@ fr:
               share_all_projects_already_taken: ne peut pas être défini car le projet "%{name}" est déjà partagé avec tous les projets.
               share_all_projects_already_taken_anonymous: ne peut pas être défini parce qu'un autre projet est déjà partagé avec tous les projets.
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: a déjà défini un objectif pour ce sprint.
         sprint:
           attributes:
             base:
@@ -91,6 +91,18 @@ fr:
     administration_blankslate:
       title: Les paramètres d'administration du backlog évoluent
       text: Nous sommes en train de redessiner le module Backlogs. Les paramètres d'administration pour les sprints et les backlogs seront visibles ici dans un futur proche. Les paramètres au niveau du projet restent disponibles.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: Tous les sprints
+      select_panel_title: Sélectionner les éléments
     bucket_destroy_modal_component:
       title: Supprimer le bucket de backlog ?
       details: Le bucket de backlog « %{name} » sera supprimé et tous les lots de travaux seront déplacés vers la boîte de réception des backlogs. Aucun lot de travaux ne sera supprimé.
@@ -155,11 +167,11 @@ fr:
         edit_sprint: Modifier le sprint
         add_work_package: Ajouter un lot de travaux
     sprint_form:
-      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
-      goal_for_this_project_label: "%{attribute} (for this project)"
+      goal_caption: L'objectif du sprint est propre à ce projet et n'est pas partagé avec d'autres projets utilisant également ce sprint.
+      goal_for_this_project_label: "%{attribute} (pour ce projet)"
     sprint_form_component:
-      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
-      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+      shared_sprint_info_banner: Il s'agit d'un sprint partagé. Les modifications seront répercutées dans tous les projets qui l'utilisent.
+      shared_sprint_warning_banner: Il s'agit d'un sprint partagé. Vous ne disposez pas des autorisations nécessaires pour le modifier.
     sprints_component:
       blankslate:
         title: Il n'y a pas encore de sprints
@@ -170,6 +182,7 @@ fr:
         create_description_text: Pour commencer à planifier votre sprint, créez-en un ici.
         manage_description_html: Pour commencer à planifier votre sprint, accédez aux %{settings_link} pour trouver les sprints d'un autre projet.
         no_actions_description_text: Il n'y a pas encore de sprints disponibles pour ce projet.
+      button_new_sprint: Nouveau sprint
     story_points:
       one: "%{count} story point"
       other: "%{count} story points"
@@ -193,7 +206,7 @@ fr:
         copy_work_package_id: Copier l'ID du lot de travaux
         move_menu: Déplacer vers la position
         move_to_backlog_bucket: Déplacer vers un bucket de backlog
-        move_to_inbox: Move to backlog inbox
+        move_to_inbox: Déplacer vers le backlog d'entrée
         move_to_sprint: Déplacer dans le sprint
     work_package_is_closed: Le lot de travaux est fait lorsque
   burndown:

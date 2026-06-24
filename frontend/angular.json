@@ -141,6 +141,7 @@
           "options": {
             "tsConfig": "tsconfig.spec.json",
             "buildTarget": "OpenProject:build",
+            "runnerConfig": true,
             "providersFile": "src/test-providers.ts",
             "setupFiles": ["src/test-browser-polyfills.ts", "src/test-setup.ts"],
             "browsers": ["chromium", "firefox", "webkit"],

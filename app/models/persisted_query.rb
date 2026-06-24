@@ -67,11 +67,10 @@ class PersistedQuery < ApplicationRecord
     self.principal = user
   end
 
-  # Returns the query results, bypassing filters and orders when the query has
-  # manually-added entities — in that case they are returned in the order
-  # stored on the join records.
+  # Returns the query results. A `manual_elements` query draws from its
+  # explicitly-ordered `ordered_entities` instead of its filters and orders
   def results
-    return super if ordered_entities.empty?
+    return super unless manual_elements?
 
     entity_ids = ordered_entities.pluck(:entity_id)
     self.class.model.where(id: entity_ids).in_order_of(:id, entity_ids)

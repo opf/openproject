@@ -61,7 +61,7 @@ export class ApiV3RelationsPaths extends ApiV3ResourceCollection<RelationResourc
         );
     }
 
-    const validIds = _.filter(workPackageIds, (id) => /\d+/.test(id));
+    const validIds = workPackageIds.filter((id) => /\d+/.test(id));
 
     if (validIds.length === 0) {
       return from([]);

@@ -460,7 +460,7 @@ RSpec.describe Import::JiraImport do
       end
     end
 
-    context "when importing a user without email(can happen in case of LDAP)" do
+    context "when importing a jira user without email(can happen in case of LDAP)" do
       let!(:jira_user) do
         create(:jira_user,
                jira:,
@@ -474,13 +474,11 @@ RSpec.describe Import::JiraImport do
                ))
       end
 
-      it "raises useful error message" do
-        expect do
-          jira_import.import_users
-        end.to raise_error(
-          'Error creating a user ({login: "jvd@example.com", firstname: "Jean Van Der", lastname: "Berg", ' \
-          "mail: nil, status: :locked}): Email can't be blank."
-        )
+      it "creates an OpenProject user with unresolvable email" do
+        jira_import.import_users
+
+        user = User.find_by(login: "jvd@example.com")
+        expect(user.mail).to match(/@noemail.invalid/)
       end
     end
   end

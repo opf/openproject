@@ -65,7 +65,7 @@ class Backlogs::WorkPackages::UpdateService
   end
 
   def attributes_result_from_list(list_type, list_id)
-    target = Backlogs::MoveTarget.from_list(list_type, list_id)
+    target = Backlogs::Target.from_list(list_type, list_id)
 
     if target
       ServiceResult.success(result: target.attributes)

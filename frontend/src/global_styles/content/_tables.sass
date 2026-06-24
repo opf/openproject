@@ -127,6 +127,12 @@ tr:not(.-pressed):has(+ tr.-checked)
 tr:not(.-pressed):has(+ tr.-pressed)
   border-bottom: 1px solid var(--box-list-item-pressed-border-color) !important
 
+thead:has(+ tbody > tr:first-child.-checked) th
+  border-bottom-color: var(--box-list-item-selected-border-color) !important
+
+thead:has(+ tbody > tr:first-child.-pressed) th
+  border-bottom-color: var(--box-list-item-pressed-border-color) !important
+
 #custom-options-table
   .custom-option-value
     display: inline-block

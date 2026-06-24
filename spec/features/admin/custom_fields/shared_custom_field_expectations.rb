@@ -180,7 +180,7 @@ RSpec.shared_examples_for "expected fields for the custom field's format", :aggr
 
     expect(page).to have_field(label_name)
 
-    if type == "Project"
+    if %w[Project User].include?(type)
       expect(page).to have_field(label_section)
     else
       expect(page).to have_no_label(label_section)

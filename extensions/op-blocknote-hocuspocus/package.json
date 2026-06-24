@@ -31,17 +31,17 @@
   },
   "devDependencies": {
     "@blocknote/core": "^0.51.3",
-    "@eslint/js": "^9.35.0",
+    "@eslint/js": "^10.0.1",
     "@eslint/json": "^1.2.0",
     "@hocuspocus/provider": "^4.2.0",
     "@hocuspocus/provider-prev-test-only": "npm:@hocuspocus/provider@^3",
     "@stylistic/eslint-plugin": "^5.3.1",
     "@types/node": "^25.0.2",
-    "eslint": "^9.35.0",
+    "eslint": "^10.4.0",
     "globals": "^17.3.0",
     "msw": "^2.12.7",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.48.1",
-    "vitest": "^4.1.0"
+    "typescript-eslint": "^8.61.1",
+    "vitest": "^4.1.9"
   }
 }

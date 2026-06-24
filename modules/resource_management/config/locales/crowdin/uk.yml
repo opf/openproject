@@ -36,8 +36,8 @@ uk:
     models:
       resource_allocation: Призначення ресурсів
       resource_planner: Планувальник ресурсів
+      resource_user_card: User cards
       resource_work_package_list: Список пакетів робіт
-      user_card: Картки користувачів
   button_next: Далі
   label_resource_management: Планування ресурсів
   permission_allocate_user_resources: Призначати ресурси користувачів
@@ -115,13 +115,37 @@ uk:
       private: Приватні
       public: Загальнодоступні
     sub_views: Подання в цьому планувальнику ресурсів
+    user_allocations_dialog:
+      allocate_work_package: Allocate work package
+      blank: This user has no allocated work packages.
+      other_work_packages:
+        one: 1 other work package
+        few: "%{count} other work packages"
+        many: "%{count} other work packages"
+        other: "%{count} other work packages"
+      title: Utilization
+    user_card_list:
+      add_user_dialog:
+        title: Add user
+      blank:
+        description: There are no users matching this view's filters yet.
+        manual_description: No users have been added to this view yet.
+        title: No users to display
+      card:
+        remove: Remove user
+        remove_confirmation: Remove this user from the view?
+      subheader:
+        resource: Resource
+        settings: Configure view
+      utilization:
+        label: Utilization
     view_types:
+      resource_user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
       resource_work_package_list:
         caption: Створіть подання на основі пакетів робіт, щоб переглядати інформацію про них і дані про призначення в списку
         label: Список пакетів робіт
-      user_card:
-        caption: Створіть подання на основі користувачів, щоб переглядати інформацію про них і дані про призначення в списку карток користувачів
-        label: Список карток користувачів
     work_package_allocations_dialog:
       allocate_resource: Allocate resource
       context_menu_label: Allocation actions

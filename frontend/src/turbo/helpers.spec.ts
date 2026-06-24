@@ -3,7 +3,7 @@ import { TurboHelpers } from './helpers';
 
 describe('TurboHelpers.showProgressBar / hideProgressBar', () => {
   const progressBar = (Turbo.session.adapter as Turbo.BrowserAdapter).progressBar;
-  /* eslint-disable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-empty-function */
+  /* eslint-disable @typescript-eslint/no-empty-function */
   let setValueSpy:ReturnType<typeof vi.spyOn>;
   let showSpy:ReturnType<typeof vi.spyOn>;
   let hideSpy:ReturnType<typeof vi.spyOn>;
@@ -17,7 +17,7 @@ describe('TurboHelpers.showProgressBar / hideProgressBar', () => {
     savedDelay = Turbo.config.drive.progressBarDelay;
     Turbo.config.drive.progressBarDelay = 200;
   });
-  /* eslint-enable @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-empty-function */
+  /* eslint-enable @typescript-eslint/no-empty-function */
 
   afterEach(() => {
     TurboHelpers.hideProgressBar();

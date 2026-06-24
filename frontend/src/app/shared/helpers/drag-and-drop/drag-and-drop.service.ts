@@ -69,7 +69,7 @@ export class DragAndDropService implements OnDestroy {
   }
 
   public member(container:HTMLElement):DragMember|undefined {
-    return _.find(this.members, (el) => el.dragContainer === container);
+    return this.members.find((el) => el.dragContainer === container);
   }
 
   public get initialized() {

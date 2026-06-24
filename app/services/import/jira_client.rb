@@ -260,7 +260,8 @@ module Import
           end
           yield tempfile
         else
-          raise ApiError.new(I18n.t("admin.jira.client.api_error"), status: response.code.to_i, response_body: response.body)
+          status = response.code.to_i
+          raise ApiError.new(I18n.t("admin.jira.client.api_error", status:), status:, response_body: response.body)
         end
       end
       nil

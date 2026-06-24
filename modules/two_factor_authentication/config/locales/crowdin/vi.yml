@@ -46,7 +46,7 @@ vi:
     text_otp_delivery_message_sms: Mật khẩu một lần cho ứng dụng %{app_title} là %{token}
     text_otp_delivery_message_voice: 'Mật khẩu một lần cho ứng dụng %{app_title} là: %{pause} %{token}. %{pause}. Lặp lại: %{pause} %{token}'
     text_2fa_enabled: Sau khi mỗi đăng nhập, bạn sẽ được yêu cầu để nhập một mã thông báo OTP từ thiết bị 2FA mặc định của bạn.
-    text_2fa_disabled: Để kích hoạt xác thực 2 yếu tố, sử dụng các nút ở trên để đăng ký thiết bị 2FA mới. Nếu bạn đã có một thiết bị, bạn cần để làm cho nó một mặc định.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Nhập mã dự phòng
       enter_backup_code_text: Vui lòng nhập mã dự phòng hợp lệ từ danh sách các mã số trong trường hợp bạn không còn có thể truy cập vào thiết bị của bạn đã đăng ký 2FA.

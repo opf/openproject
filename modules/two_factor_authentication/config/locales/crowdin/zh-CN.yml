@@ -46,7 +46,7 @@ zh-CN:
     text_otp_delivery_message_sms: 您的 %{app_title} 一次性密码为 %{token}
     text_otp_delivery_message_voice: 您的 %{app_title} 一次性密码为 %{pause} %{token}。%{pause} I 重复：%{pause} %{token}
     text_2fa_enabled: 每次登录时，系统将要求您从默认的 2FA 设备输入 OTP 令牌。
-    text_2fa_disabled: 要启用双因子认证，请使用上面的按钮注册新的 2FA 设备。如果您已拥有设备，则需要将其设置为默认设备。
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: 输入备份代码
       enter_backup_code_text: 请从您的代码列表中输入有效的备份代码，以防您无法再访问已注册的 2FA 设备。

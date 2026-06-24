@@ -46,7 +46,7 @@ id:
     text_otp_delivery_message_sms: Kata sandi sekali pakai untuk %{app_title} Anda adalah %{token}
     text_otp_delivery_message_voice: 'Kata sandi sekali pakai untuk %{app_title} Anda adalah: %{pause} %{token}. %{pause} Saya ulangi: %{pause} %{token}'
     text_2fa_enabled: Setelah setiap login, Anda akan diminta untuk memasukkan tanda OTP dari perangkat 2FA default Anda.
-    text_2fa_disabled: Untuk mengaktifkan otentikasi dua faktor, gunakan tombol di atas untuk mendaftar perangkat 2FA baru. Jika Anda sudah memiliki perangkat, Anda perlu untuk membuatnya default.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Masukkan Kode Cadangan
       enter_backup_code_text: Masukkan kode cadangan yang sah dari daftar kode dalam kasus Anda tidak lagi dapat mengakses perangkat 2FA terdaftar.

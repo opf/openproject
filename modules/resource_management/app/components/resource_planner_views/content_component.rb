@@ -56,6 +56,12 @@ module ResourcePlannerViews
           allocations: @allocations,
           visible_principal_ids: @visible_principal_ids
         )
+      when ResourceUserCard
+        ResourcePlannerViews::UserCardList::ContentComponent.new(
+          view: @view,
+          project: @project,
+          resource_planner: @resource_planner
+        )
       end
     end
 

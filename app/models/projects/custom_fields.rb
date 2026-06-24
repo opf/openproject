@@ -63,7 +63,7 @@ module Projects::CustomFields
       RequestStore.fetch("#{self.class}#all_available_custom_fields") do
         ProjectCustomField
           .includes(:project_custom_field_section)
-          .order("custom_field_sections.position", :position_in_custom_field_section)
+          .order("custom_field_sections.position")
       end
     end
 

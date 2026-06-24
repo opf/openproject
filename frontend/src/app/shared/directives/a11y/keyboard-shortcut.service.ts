@@ -84,7 +84,7 @@ export class KeyboardShortcutService {
   public register():void {
     void this.configurationService.initialize().then(() => {
       if (!this.configurationService.disableKeyboardShortcuts()) {
-        _.each(this.shortcuts, (action:() => void, key:string) => Mousetrap.bind(key, action));
+        Object.entries(this.shortcuts).forEach(([key, action]) => Mousetrap.bind(key, action));
       }
     });
   }

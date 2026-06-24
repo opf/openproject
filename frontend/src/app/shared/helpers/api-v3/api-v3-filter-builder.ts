@@ -85,7 +85,7 @@ export class ApiV3FilterBuilder {
     const map:ApiV3FilterObject = {};
 
     filters.forEach((item:ApiV3Filter) => {
-      _.each(item, (val:ApiV3FilterValue, filter:string) => {
+      Object.entries(item).forEach(([filter, val]) => {
         map[filter] = val;
       });
     });
@@ -131,7 +131,7 @@ export class ApiV3FilterBuilder {
 
   public get filters():ApiV3Filter[] {
     const filters:ApiV3Filter[] = [];
-    _.each(this.filterMap, (val:ApiV3FilterValue, filter:string) => {
+    Object.entries(this.filterMap).forEach(([filter, val]) => {
       filters.push({ [filter]: val });
     });
 

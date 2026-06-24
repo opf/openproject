@@ -31,6 +31,8 @@
 class Users::HoverCardComponent < ApplicationComponent
   include OpPrimer::ComponentHelpers
 
+  MULTI_VALUE_DISPLAY_LIMIT = 3
+
   def initialize(id:)
     super
 
@@ -60,7 +62,30 @@ class Users::HoverCardComponent < ApplicationComponent
     build_summary(group_links, cutoff_index)
   end
 
+  def card_sections_with_fields
+    @card_sections_with_fields ||= UserCustomFieldSection.with_filled_fields_for(@user, visible_on_user_card: true)
+  end
+
   private
+
+  # Renders the values of a multi-value field as a row of Primer labels,
+  # capped at MULTI_VALUE_DISPLAY_LIMIT with an "and N more" overflow hint.
+  def render_value_labels(value)
+    values = Array(value)
+    remaining = values.size - MULTI_VALUE_DISPLAY_LIMIT
+
+    labels = values.first(MULTI_VALUE_DISPLAY_LIMIT).map do |item|
+      render(Primer::Beta::Label.new(scheme: :accent, mr: 1)) { item }
+    end
+
+    if remaining > 0
+      labels << render(Primer::Beta::Text.new) do
+        t("custom_fields.multi_value_more", count: remaining)
+      end
+    end
+
+    safe_join(labels, " ")
+  end
 
   def linked_group_names(groups)
     groups.map { |group| link_to(h(group.name), show_group_path(group)) }

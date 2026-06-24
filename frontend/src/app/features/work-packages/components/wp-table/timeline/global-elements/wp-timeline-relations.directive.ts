@@ -165,9 +165,8 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
       }
 
       this.removeRelationElementsForWorkPackage(workPackageId);
-      const relations = _.values(workPackageWithRelation);
-      const relationsList = _.values(relations);
-      relationsList.forEach((relation) => {
+      const relations = Object.values(workPackageWithRelation);
+      relations.forEach((relation) => {
         if (!(relation.type === 'precedes'
           || relation.type === 'follows')) {
           return;
@@ -195,7 +194,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   }
 
   private renderElements() {
-    const wpIdsWithRelations:string[] = _.keys(this.workPackagesWithRelations);
+    const wpIdsWithRelations:string[] = Object.keys(this.workPackagesWithRelations);
     this.renderWorkPackagesRelations(wpIdsWithRelations);
   }
 

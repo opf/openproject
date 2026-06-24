@@ -42,6 +42,7 @@ module Admin::Settings
       )
 
       if call.success?
+        close_dialog_via_turbo_stream("##{Settings::ProjectCustomFieldSections::NewSectionDialogComponent::MODAL_ID}")
         update_header_via_turbo_stream(allow_custom_field_creation: allow_custom_field_creation?)
         update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
       else
@@ -57,6 +58,7 @@ module Admin::Settings
       )
 
       if call.success?
+        close_dialog_via_turbo_stream("#project-custom-field-section-dialog#{@project_custom_field_section.id}")
         update_section_via_turbo_stream(project_custom_field_section: call.result)
       else
         update_section_dialog_body_form_via_turbo_stream(project_custom_field_section: call.result)
@@ -72,7 +74,7 @@ module Admin::Settings
         update_header_via_turbo_stream(allow_custom_field_creation: allow_custom_field_creation?)
         update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
       else
-        # TODO: show error message
+        render_section_error_via_turbo_stream(call)
       end
 
       respond_with_turbo_streams
@@ -86,7 +88,7 @@ module Admin::Settings
       if call.success?
         update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
       else
-        # TODO: show error message
+        render_section_error_via_turbo_stream(call)
       end
 
       respond_with_turbo_streams
@@ -101,7 +103,7 @@ module Admin::Settings
         update_header_via_turbo_stream(allow_custom_field_creation: allow_custom_field_creation?)
         update_sections_via_turbo_stream(project_custom_field_sections: ProjectCustomFieldSection.all)
       else
-        # TODO: show error message
+        render_section_error_via_turbo_stream(call)
       end
       respond_with_turbo_streams
     end
@@ -111,6 +113,14 @@ module Admin::Settings
     end
 
     private
+
+    # Show a danger toast with the action's hint (resolved relative to the
+    # controller/action), appending the service's error detail (e.g. why a
+    # non-empty section cannot be deleted) when present.
+    def render_section_error_via_turbo_stream(call)
+      message = [t(".error"), call.message].compact_blank.join(" ")
+      render_error_flash_message_via_turbo_stream(message:)
+    end
 
     def set_project_custom_field_section
       @project_custom_field_section = ProjectCustomFieldSection.find(params[:id])

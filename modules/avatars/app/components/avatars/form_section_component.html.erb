@@ -1,0 +1,35 @@
+<%= render(Primer::Beta::Subhead.new(mb: 2)) do |subhead| %>
+  <% subhead.with_heading(tag: :h3, size: :medium) { t("avatars.label_avatar") } %>
+  <% subhead.with_description { description } %>
+<% end %>
+
+<div class="avatars--media">
+  <% if manager.local_avatars_enabled? %>
+    <%# Clicking the avatar activates the hidden file input rendered by the
+        upload form below; the upload then fires as soon as a file is selected. %>
+    <label for="avatar_file_input"
+           class="avatars--current-avatar avatars--upload-trigger">
+      <%= helpers.avatar(@user, hover_card: { active: false }) %>
+    </label>
+    <opce-avatar-upload-form target="<%= @target_avatar_path %>" method="PUT"></opce-avatar-upload-form>
+    <% if helpers.local_avatar?(@user) %>
+      <%= form_with(
+            url: @target_avatar_path,
+            method: :delete,
+            data: { turbo_confirm: t(:are_you_sure_delete_avatar) }
+          ) do %>
+        <%= render(
+              Primer::Beta::Button.new(
+                type: :submit,
+                scheme: :link,
+                test_selector: "avatar-delete-link"
+              )
+            ) { t(:button_delete) } %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="avatars--current-avatar">
+      <%= helpers.avatar(@user, hover_card: { active: false }) %>
+    </div>
+  <% end %>
+</div>

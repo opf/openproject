@@ -43,275 +43,244 @@ RSpec.describe API::V3::UserWorkingHours::WorkingHoursByUserAPI do
   let!(:working_hours) { create(:user_working_hours, user: target_user, valid_from: Date.yesterday) }
   let!(:future_record) { create(:user_working_hours, user: target_user, valid_from: Date.tomorrow) }
 
-  context "with feature disabled", with_flag: { user_working_times: false } do
-    current_user { admin_user }
+  describe "GET /api/v3/users/:user_id/working_hours" do
+    let(:path) { api_v3_paths.user_working_hours(target_user.id) }
 
-    it "returns 404 for GET /api/v3/users/:user_id/working_hours" do
-      get api_v3_paths.user_working_hours(target_user.id)
-      expect(last_response).to have_http_status(404)
+    context "with admin user (has manage_working_times and view_all_principals)" do
+      current_user { admin_user }
+
+      before { get path }
+
+      it "returns 200 OK" do
+        expect(last_response).to have_http_status(200)
+      end
+
+      it "returns a collection of working hours records" do
+        expect(last_response.body).to be_json_eql("Collection".to_json).at_path("_type")
+        expect(last_response.body).to be_json_eql(2.to_json).at_path("total")
+      end
     end
 
-    it "returns 404 for POST /api/v3/users/:user_id/working_hours" do
-      post api_v3_paths.user_working_hours(target_user.id), {}.to_json, headers
-      expect(last_response).to have_http_status(404)
+    context "with manage_own_working_times viewing own records" do
+      let(:own_user) { create(:user, global_permissions: [:manage_own_working_times]) }
+      let!(:own_record) { create(:user_working_hours, user: own_user) }
+
+      current_user { own_user }
+
+      before { get api_v3_paths.user_working_hours(own_user.id) }
+
+      it "returns 200 OK" do
+        expect(last_response).to have_http_status(200)
+      end
+
+      it "returns the user's own working hours" do
+        expect(last_response.body).to be_json_eql("Collection".to_json).at_path("_type")
+        expect(last_response.body).to be_json_eql(1.to_json).at_path("total")
+      end
     end
 
-    it "returns 404 for GET /api/v3/users/:user_id/working_hours/:id" do
-      get api_v3_paths.user_working_hours_record(target_user.id, working_hours.id)
-      expect(last_response).to have_http_status(404)
+    context "with regular user viewing own records (no special permissions)" do
+      current_user { target_user }
+
+      before { get api_v3_paths.user_working_hours(target_user.id) }
+
+      it "returns 200 with own records (visible scope returns own records)" do
+        expect(last_response).to have_http_status(200)
+        expect(last_response.body).to be_json_eql(2.to_json).at_path("total")
+      end
     end
 
-    it "returns 404 for PATCH /api/v3/users/:user_id/working_hours/:id" do
-      patch api_v3_paths.user_working_hours_record(target_user.id, working_hours.id), {}.to_json, headers
-      expect(last_response).to have_http_status(404)
+    context "with manage_own_working_times viewing another user's records" do
+      let(:other_user) { create(:user, global_permissions: [:manage_own_working_times]) }
+
+      current_user { other_user }
+
+      before { get path }
+
+      it "returns 404" do
+        expect(last_response).to have_http_status(404)
+      end
     end
 
-    it "returns 404 for DELETE /api/v3/users/:user_id/working_hours/:id" do
-      delete api_v3_paths.user_working_hours_record(target_user.id, working_hours.id)
-      expect(last_response).to have_http_status(404)
+    context "with 'me' as the user ID" do
+      current_user { target_user }
+
+      before { get api_v3_paths.user_working_hours("me") }
+
+      it "returns 200 OK" do
+        expect(last_response).to have_http_status(200)
+      end
+
+      it "returns the same records as using the numeric user ID" do
+        expect(last_response.body).to be_json_eql(2.to_json).at_path("total")
+      end
+    end
+
+    it_behaves_like "handling anonymous user" do
+      let(:path) { api_v3_paths.user_working_hours(target_user.id) }
+
+      before { get path }
     end
   end
 
-  context "with feature enabled", with_flag: { user_working_times: true } do
-    describe "GET /api/v3/users/:user_id/working_hours" do
-      let(:path) { api_v3_paths.user_working_hours(target_user.id) }
+  describe "POST /api/v3/users/:user_id/working_hours" do
+    let(:path) { api_v3_paths.user_working_hours(target_user.id) }
+    let(:valid_params) do
+      {
+        validFrom: Date.current.iso8601,
+        mondayHours: 8,
+        tuesdayHours: 8,
+        wednesdayHours: 8,
+        thursdayHours: 8,
+        fridayHours: 8,
+        saturdayHours: 0,
+        sundayHours: 0,
+        availabilityFactor: 100
+      }
+    end
 
-      context "with admin user (has manage_working_times and view_all_principals)" do
-        current_user { admin_user }
+    context "with admin user" do
+      current_user { admin_user }
 
-        before { get path }
+      before { post path, valid_params.to_json, headers }
 
-        it "returns 200 OK" do
-          expect(last_response).to have_http_status(200)
-        end
-
-        it "returns a collection of working hours records" do
-          expect(last_response.body).to be_json_eql("Collection".to_json).at_path("_type")
-          expect(last_response.body).to be_json_eql(2.to_json).at_path("total")
-        end
+      it "returns 201 Created" do
+        expect(last_response).to have_http_status(201)
       end
 
-      context "with manage_own_working_times viewing own records" do
-        let(:own_user) { create(:user, global_permissions: [:manage_own_working_times]) }
-        let!(:own_record) { create(:user_working_hours, user: own_user) }
-
-        current_user { own_user }
-
-        before { get api_v3_paths.user_working_hours(own_user.id) }
-
-        it "returns 200 OK" do
-          expect(last_response).to have_http_status(200)
-        end
-
-        it "returns the user's own working hours" do
-          expect(last_response.body).to be_json_eql("Collection".to_json).at_path("_type")
-          expect(last_response.body).to be_json_eql(1.to_json).at_path("total")
-        end
-      end
-
-      context "with regular user viewing own records (no special permissions)" do
-        current_user { target_user }
-
-        before { get api_v3_paths.user_working_hours(target_user.id) }
-
-        it "returns 200 with own records (visible scope returns own records)" do
-          expect(last_response).to have_http_status(200)
-          expect(last_response.body).to be_json_eql(2.to_json).at_path("total")
-        end
-      end
-
-      context "with manage_own_working_times viewing another user's records" do
-        let(:other_user) { create(:user, global_permissions: [:manage_own_working_times]) }
-
-        current_user { other_user }
-
-        before { get path }
-
-        it "returns 404" do
-          expect(last_response).to have_http_status(404)
-        end
-      end
-
-      context "with 'me' as the user ID" do
-        current_user { target_user }
-
-        before { get api_v3_paths.user_working_hours("me") }
-
-        it "returns 200 OK" do
-          expect(last_response).to have_http_status(200)
-        end
-
-        it "returns the same records as using the numeric user ID" do
-          expect(last_response.body).to be_json_eql(2.to_json).at_path("total")
-        end
-      end
-
-      it_behaves_like "handling anonymous user" do
-        let(:path) { api_v3_paths.user_working_hours(target_user.id) }
-
-        before { get path }
+      it "creates a working hours record for the target user" do
+        parsed = JSON.parse(last_response.body)
+        expect(parsed["_type"]).to eq("UserWorkingHours")
+        expect(parsed["mondayHours"]).to eq(8.0)
       end
     end
 
-    describe "POST /api/v3/users/:user_id/working_hours" do
-      let(:path) { api_v3_paths.user_working_hours(target_user.id) }
-      let(:valid_params) do
-        {
-          validFrom: Date.current.iso8601,
-          mondayHours: 8,
-          tuesdayHours: 8,
-          wednesdayHours: 8,
-          thursdayHours: 8,
-          fridayHours: 8,
-          saturdayHours: 0,
-          sundayHours: 0,
-          availabilityFactor: 100
-        }
-      end
+    context "with own user but no manage_own_working_times permission" do
+      current_user { target_user }
 
-      context "with admin user" do
-        current_user { admin_user }
+      before { post api_v3_paths.user_working_hours(target_user.id), valid_params.to_json, headers }
 
-        before { post path, valid_params.to_json, headers }
-
-        it "returns 201 Created" do
-          expect(last_response).to have_http_status(201)
-        end
-
-        it "creates a working hours record for the target user" do
-          parsed = JSON.parse(last_response.body)
-          expect(parsed["_type"]).to eq("UserWorkingHours")
-          expect(parsed["mondayHours"]).to eq(8.0)
-        end
-      end
-
-      context "with own user but no manage_own_working_times permission" do
-        current_user { target_user }
-
-        before { post api_v3_paths.user_working_hours(target_user.id), valid_params.to_json, headers }
-
-        it "returns 403 Forbidden" do
-          expect(last_response).to have_http_status(403)
-        end
-      end
-
-      context "with 'me' as the user ID with manage_own_working_times permission" do
-        let(:own_user) { create(:user, global_permissions: [:manage_own_working_times]) }
-
-        current_user { own_user }
-
-        before { post api_v3_paths.user_working_hours("me"), valid_params.to_json, headers }
-
-        it "returns 201 Created" do
-          expect(last_response).to have_http_status(201)
-        end
-
-        it "creates a record for the current user" do
-          parsed = JSON.parse(last_response.body)
-          expect(parsed["_type"]).to eq("UserWorkingHours")
-          expect(parsed["mondayHours"]).to eq(8.0)
-        end
+      it "returns 403 Forbidden" do
+        expect(last_response).to have_http_status(403)
       end
     end
 
-    describe "GET /api/v3/users/:user_id/working_hours/:id" do
-      let(:path) { api_v3_paths.user_working_hours_record(target_user.id, working_hours.id) }
+    context "with 'me' as the user ID with manage_own_working_times permission" do
+      let(:own_user) { create(:user, global_permissions: [:manage_own_working_times]) }
 
-      context "with admin user" do
-        current_user { admin_user }
+      current_user { own_user }
 
-        before { get path }
+      before { post api_v3_paths.user_working_hours("me"), valid_params.to_json, headers }
 
-        it "returns 200 OK" do
-          expect(last_response).to have_http_status(200)
-        end
-
-        it "returns the working hours record" do
-          parsed = JSON.parse(last_response.body)
-          expect(parsed["_type"]).to eq("UserWorkingHours")
-          expect(parsed["id"]).to eq(working_hours.id)
-          expect(parsed["mondayHours"]).to eq(8.0)
-        end
+      it "returns 201 Created" do
+        expect(last_response).to have_http_status(201)
       end
 
-      context "with regular user (no access to other users)" do
-        current_user { create(:user) }
+      it "creates a record for the current user" do
+        parsed = JSON.parse(last_response.body)
+        expect(parsed["_type"]).to eq("UserWorkingHours")
+        expect(parsed["mondayHours"]).to eq(8.0)
+      end
+    end
+  end
 
-        before { get path }
+  describe "GET /api/v3/users/:user_id/working_hours/:id" do
+    let(:path) { api_v3_paths.user_working_hours_record(target_user.id, working_hours.id) }
 
-        it "returns 404 Not Found" do
-          expect(last_response).to have_http_status(404)
-        end
+    context "with admin user" do
+      current_user { admin_user }
+
+      before { get path }
+
+      it "returns 200 OK" do
+        expect(last_response).to have_http_status(200)
+      end
+
+      it "returns the working hours record" do
+        parsed = JSON.parse(last_response.body)
+        expect(parsed["_type"]).to eq("UserWorkingHours")
+        expect(parsed["id"]).to eq(working_hours.id)
+        expect(parsed["mondayHours"]).to eq(8.0)
       end
     end
 
-    describe "PATCH /api/v3/users/:user_id/working_hours/:id" do
-      let(:path) { api_v3_paths.user_working_hours_record(target_user.id, future_record.id) }
-      let(:params) { { mondayHours: 6 } }
+    context "with regular user (no access to other users)" do
+      current_user { create(:user) }
 
-      context "with admin user updating a future record" do
-        current_user { admin_user }
+      before { get path }
 
-        before { patch path, params.to_json, headers }
+      it "returns 404 Not Found" do
+        expect(last_response).to have_http_status(404)
+      end
+    end
+  end
 
-        it "returns 200 OK" do
-          expect(last_response).to have_http_status(200)
-        end
+  describe "PATCH /api/v3/users/:user_id/working_hours/:id" do
+    let(:path) { api_v3_paths.user_working_hours_record(target_user.id, future_record.id) }
+    let(:params) { { mondayHours: 6 } }
 
-        it "updates the record" do
-          parsed = JSON.parse(last_response.body)
-          expect(parsed["mondayHours"]).to eq(6.0)
-        end
+    context "with admin user updating a future record" do
+      current_user { admin_user }
+
+      before { patch path, params.to_json, headers }
+
+      it "returns 200 OK" do
+        expect(last_response).to have_http_status(200)
       end
 
-      context "when the record is already in effect (past valid_from)" do
-        current_user { admin_user }
-
-        before do
-          patch api_v3_paths.user_working_hours_record(target_user.id, working_hours.id), params.to_json, headers
-        end
-
-        it "returns 422 Unprocessable Entity" do
-          expect(last_response).to have_http_status(422)
-        end
-      end
-
-      context "with regular user (no access to other users)" do
-        current_user { create(:user) }
-
-        before { patch path, params.to_json, headers }
-
-        it "returns 404 Not Found" do
-          expect(last_response).to have_http_status(404)
-        end
+      it "updates the record" do
+        parsed = JSON.parse(last_response.body)
+        expect(parsed["mondayHours"]).to eq(6.0)
       end
     end
 
-    describe "DELETE /api/v3/users/:user_id/working_hours/:id" do
-      let(:path) { api_v3_paths.user_working_hours_record(target_user.id, working_hours.id) }
+    context "when the record is already in effect (past valid_from)" do
+      current_user { admin_user }
 
-      context "with admin user" do
-        current_user { admin_user }
-
-        before { delete path }
-
-        it "returns 204 No Content" do
-          expect(last_response).to have_http_status(204)
-        end
-
-        it "deletes the record" do
-          expect(UserWorkingHours.find_by(id: working_hours.id)).to be_nil
-        end
+      before do
+        patch api_v3_paths.user_working_hours_record(target_user.id, working_hours.id), params.to_json, headers
       end
 
-      context "with regular user (no access to other users)" do
-        current_user { create(:user) }
+      it "returns 422 Unprocessable Entity" do
+        expect(last_response).to have_http_status(422)
+      end
+    end
 
-        before { delete path }
+    context "with regular user (no access to other users)" do
+      current_user { create(:user) }
 
-        it "returns 404 Not Found" do
-          expect(last_response).to have_http_status(404)
-        end
+      before { patch path, params.to_json, headers }
+
+      it "returns 404 Not Found" do
+        expect(last_response).to have_http_status(404)
+      end
+    end
+  end
+
+  describe "DELETE /api/v3/users/:user_id/working_hours/:id" do
+    let(:path) { api_v3_paths.user_working_hours_record(target_user.id, working_hours.id) }
+
+    context "with admin user" do
+      current_user { admin_user }
+
+      before { delete path }
+
+      it "returns 204 No Content" do
+        expect(last_response).to have_http_status(204)
+      end
+
+      it "deletes the record" do
+        expect(UserWorkingHours.find_by(id: working_hours.id)).to be_nil
+      end
+    end
+
+    context "with regular user (no access to other users)" do
+      current_user { create(:user) }
+
+      before { delete path }
+
+      it "returns 404 Not Found" do
+        expect(last_response).to have_http_status(404)
       end
     end
   end

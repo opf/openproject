@@ -36,8 +36,8 @@ it:
     models:
       resource_allocation: Allocazione delle risorse
       resource_planner: Pianificatore di risorse
+      resource_user_card: User cards
       resource_work_package_list: Elenco macro-attività
-      user_card: Schede utente
   button_next: Avanti
   label_resource_management: Pianificazione delle risorse
   permission_allocate_user_resources: Assegnazione delle risorse utente
@@ -115,13 +115,35 @@ it:
       private: Privato
       public: Pubblico
     sub_views: Viste in questo pianificatore di risorse
+    user_allocations_dialog:
+      allocate_work_package: Allocate work package
+      blank: This user has no allocated work packages.
+      other_work_packages:
+        one: 1 other work package
+        other: "%{count} other work packages"
+      title: Utilization
+    user_card_list:
+      add_user_dialog:
+        title: Add user
+      blank:
+        description: There are no users matching this view's filters yet.
+        manual_description: No users have been added to this view yet.
+        title: No users to display
+      card:
+        remove: Remove user
+        remove_confirmation: Remove this user from the view?
+      subheader:
+        resource: Resource
+        settings: Configure view
+      utilization:
+        label: Utilization
     view_types:
+      resource_user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
       resource_work_package_list:
         caption: Crea una vista basata su macro-attività e visualizza i dettagli e l'allocazione in un elenco
         label: Elenco macro-attività
-      user_card:
-        caption: Crea una vista basata sugli utenti per consultare i loro dettagli e le allocazioni in un elenco di schede utente
-        label: Elenco di schede utenti
     work_package_allocations_dialog:
       allocate_resource: Allocate resource
       context_menu_label: Allocation actions

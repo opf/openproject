@@ -21,6 +21,7 @@
 #++
 ---
 zh-TW:
+  label_user_attributes_plural: User attributes
   no_results_title_text: 目前無資料可以顯示
   activities:
     index:
@@ -425,6 +426,20 @@ zh-TW:
       new_project:
         project_creation: 專案建立
         notification_text_default: "<p>您好，</p> <p>已建立新專案： projectValue:name</p> <p>謝謝</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
+      user_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
       work_packages_identifier:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
@@ -668,6 +683,8 @@ zh-TW:
             gain_role: 將獲得角色 '%{new_role}'
             lose_role: 將失去角色 '%{old_role}'
             no_change: 未變更
+    multi_value_more:
+      other: and %{count} more
     text_add_new_custom_field: '要加入客製欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
 
       '
@@ -712,6 +729,8 @@ zh-TW:
         project: 0 means no restriction
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
+      visible_on_user_card:
+        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
@@ -739,9 +758,11 @@ zh-TW:
         '
       add_button: Add
     detail_blankslate:
-      heading: This department doesn’t have any hierarchy level below
-      description: Add departments or users to create sub-items inside another one.
       add_button: Add
+      description: Add departments or users to create sub-items inside another one.
+      heading: This department doesn’t have any hierarchy level below
+      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_heading: This department is managed by LDAP synchronization
     add_department_form:
       name_label: Department name
       name_placeholder: Enter department name
@@ -750,6 +771,9 @@ zh-TW:
       heading: Move user to this department?
       description: "%{user} is currently a member of %{from_department}. Moving them will remove them from that department."
       confirm: Move user
+      managed_title: User managed by LDAP
+      managed_heading: This user cannot be moved
+      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: Add sub-department
       add_user: Add user
@@ -1678,18 +1702,6 @@ zh-TW:
         dependencies: 依賴套件
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Identifier
-        work_package: Work package
-      jira_import:
-        projects: Projects
-      import/jira:
-        name: Jira instance name
-        url: Jira instance URL
-        personal_access_token: Personal access token
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: 只顯示到
       attachment:
@@ -1735,6 +1747,7 @@ zh-TW:
         possible_values: 可選擇內容
         regexp: 正規表示式
         searchable: 搜索
+        visible_on_user_card: Show on user card
         admin_only: 僅限管理員
         has_comment: Add a comment text field
       custom_value:
@@ -1769,6 +1782,23 @@ zh-TW:
         row_count: 列數
         column_count: 欄數：
         widgets: 小工具
+      group:
+        group_users: Group users
+        identity_url: 身份識別 URL
+        organizational_unit: Organizational unit
+        parent: Parent group
+      group_detail:
+        organizational_unit: Organizational unit
+        parent: Parent group
+      import/jira:
+        name: Jira instance name
+        personal_access_token: Personal access token
+        url: Jira instance URL
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: Projects
       journal:
         notes: 備註
         cause_type: 原因類型
@@ -1797,6 +1827,21 @@ zh-TW:
         resource: 資源
       oauth_client:
         client: 客戶端 ID
+      ordered_persisted_query_entity:
+        persisted_query: Persisted query
+        entity: Entity
+        position: Position
+      persisted_query:
+        name: Name
+        views: Views
+        filters: Filters
+        orders: Orders
+        selects: Selects
+      persisted_view:
+        name: Name
+        query: Query
+        parent: Parent view
+        public: Public
       project:
         active_value:
           true: 解除封存
@@ -1943,14 +1988,8 @@ zh-TW:
         new_password: 新密碼
         password_confirmation: 確認密碼
         consented_at: 同意在
-      group:
-        identity_url: 身份識別 URL
-        parent: Parent group
-        organizational_unit: Organizational unit
-        group_users: Group users
-      group_detail:
-        parent: Parent group
-        organizational_unit: Organizational unit
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: 介面與外觀
         header_alerts: 提醒
@@ -2049,29 +2088,11 @@ zh-TW:
         type: 類型
         version: 版本
         watcher: 監看者
-      ordered_persisted_query_entity:
-        persisted_query: Persisted query
-        entity: Entity
-        position: Position
-      persisted_query:
-        name: Name
-        views: Views
-        filters: Filters
-        orders: Orders
-        selects: Selects
-      persisted_view:
-        name: Name
-        query: Query
-        parent: Parent view
-        public: Public
-      user_card_view:
-        secondary_info: Secondary info
-        show_status_badge: Show status badge
-        show_email: Show email
-        tag_source: Tag source
-        tag_limit: Tag limit
-        card_size: Card size
-        columns_per_row: Columns per row
+      work_package_version:
+        kind: Kind
+      work_package_semantic_alias:
+        identifier: Identifier
+        work_package: Work package
     errors:
       messages:
         accepted: 必須被接受
@@ -2117,6 +2138,7 @@ zh-TW:
         invalid_url: 不是有效的 URL。
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
         is_for_all_cannot_modify: 適用於所有專案，因此無法修改。
+        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: 必須少於或者等於 %{count}。
         not_available: 由於系統配置所以不可用
         not_before_start_date: must not be before the start date.
@@ -2154,6 +2176,7 @@ zh-TW:
 
           '
         user_already_in_department: User %{user_id} is already a member of department %{department_id}.
+        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: 長度錯誤 (應該要有 %{count} 個字元)
       models:
         group:
@@ -2161,6 +2184,7 @@ zh-TW:
             parent_id:
               circular_dependency: would create a circular group hierarchy.
               organizational_unit_mismatch: must have the same organizational unit setting as the group.
+              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -3414,6 +3438,7 @@ zh-TW:
       all_projects: All projects
       favorites: Favorites
       leave_project: Leave project
+      no_favorite_projects: You have no favorite projects.
       title: Projects
   toggle_switch:
     label_on: 開啟
@@ -4068,7 +4093,7 @@ zh-TW:
   label_custom_favicon: 自訂圖示
   label_custom_touch_icon: 自訂觸控圖示
   label_departments: Organization
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP group synchronisation](ldap_docs_article).
+  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
     '
   label_logout: 登出
@@ -4076,6 +4101,7 @@ zh-TW:
   label_main_menu: 側邊選單
   label_manage: 管理
   label_manage_groups: 管理群組
+  label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: 已管理的 %{vendor} 版本庫
   label_mathematical_operators: 數學運算元
   label_max_size: 最大容量
@@ -5393,6 +5419,7 @@ zh-TW:
     passwords: 密碼
     project_attributes:
       heading: 專案屬性
+      label_add_attribute: Add a project attribute
       label_for_all_projects: 所有專案
       label_new_attribute: 專案屬性
       label_new_section: 區段
@@ -5492,8 +5519,30 @@ zh-TW:
     session: 連線
     user:
       default_preferences: 默認偏好設置
-      display_format: 顯示格式
       deletion: 消除
+      display_format: 顯示格式
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Built-in
+        label_built_in_attribute_actions: Built-in attribute actions
+      custom_field_row_component:
+        label_user_custom_field_actions: User attribute actions
+      show_component:
+        label_add_attribute: Add a user attribute
+        label_edit_section: Edit title
+        label_no_user_custom_fields: No user attributes defined in this section
+        label_section_actions: Section actions
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filter by attribute name…
+        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
+      heading: User attributes
+      label_new_attribute: User attribute
+      label_new_section: Section
+      label_untitled_section: User attributes
+      new:
+        heading: New attribute
     working_days:
       section_work_week: 工作週
       section_holidays_and_closures: 假日和休息日

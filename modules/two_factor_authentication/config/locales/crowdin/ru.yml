@@ -46,7 +46,7 @@ ru:
     text_otp_delivery_message_sms: Ваш одноразовый пароль для %{app_title} это %{token}
     text_otp_delivery_message_voice: 'Ваш одноразовый пароль для %{app_title}: %{pause} %{token}. %{pause} Повторяю: %{pause} %{token}'
     text_2fa_enabled: При каждом входе у вас будет запрашиваться токен ОП (одноразового пароля) с устройства 2ФА по умолчанию.
-    text_2fa_disabled: Чтобы включить двухфакторную аутентификацию, нажмите кнопку выше и зарегистрируйте новое устройство 2ФА. Если устройство у вас уже есть, необходимо сделать его устройством по умолчанию.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Введите резервный код
       enter_backup_code_text: Если у вас больше нет доступа к зарегистрированным устройствам 2ФА, введите действительный резервный код из списка кодов.

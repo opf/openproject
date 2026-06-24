@@ -28,6 +28,8 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module ::ResourceManagement
+  # TODO - separate controllers per view?
+
   class ResourcePlannerViewsController < BaseController
     include OpTurbo::ComponentStream
     include PlannerViewContent
@@ -40,12 +42,14 @@ module ::ResourceManagement
     before_action :find_view,
                   only: %i[show edit update destroy
                            new_work_package add_work_package remove_work_package
-                           move_work_package reorder_work_package]
+                           move_work_package reorder_work_package
+                           new_user add_user remove_user]
     # The controller-level :authorize only grants read access; mutating a view's
     # contents additionally requires ownership or manage-public.
     before_action :authorize_manage_contents,
                   only: %i[new_work_package add_work_package remove_work_package
-                           move_work_package reorder_work_package]
+                           move_work_package reorder_work_package
+                           new_user add_user remove_user]
 
     def show
       @content_component = work_package_list_content(@view)
@@ -119,7 +123,7 @@ module ::ResourceManagement
 
       append_work_package(work_package)
 
-      replace_work_package_list
+      replace_view_content
       close_dialog_via_turbo_stream(
         "##{ResourcePlannerViews::WorkPackageList::AddWorkPackageDialogComponent::DIALOG_ID}"
       )
@@ -132,7 +136,7 @@ module ::ResourceManagement
            .where(work_package_id: params[:work_package_id])
            .destroy_all
 
-      replace_work_package_list
+      replace_view_content
       respond_with_turbo_streams
     end
 
@@ -146,7 +150,7 @@ module ::ResourceManagement
         end
       end
 
-      replace_work_package_list
+      replace_view_content
       respond_with_turbo_streams
     end
 
@@ -154,11 +158,55 @@ module ::ResourceManagement
     def reorder_work_package
       move_to_index(params[:work_package_id]) { params[:position].to_i - 1 }
 
-      replace_work_package_list
+      replace_view_content
+      respond_with_turbo_streams
+    end
+
+    def new_user
+      respond_with_dialog ResourcePlannerViews::UserCardList::AddUserDialogComponent.new(
+        view: @view,
+        project: @project,
+        resource_planner: @resource_planner
+      )
+    end
+
+    def add_user
+      user = User.user.visible(current_user).in_project(@project).find_by(id: params[:user_id])
+
+      return render_400(message: I18n.t(:notice_file_not_found)) if user.nil?
+
+      append_user(user)
+
+      replace_view_content
+      close_dialog_via_turbo_stream(
+        "##{ResourcePlannerViews::UserCardList::AddUserDialogComponent::DIALOG_ID}"
+      )
+      respond_with_turbo_streams
+    end
+
+    def remove_user
+      @view.effective_query
+           .ordered_entities
+           .where(entity_type: "Principal", entity_id: params[:user_id])
+           .destroy_all
+
+      replace_view_content
       respond_with_turbo_streams
     end
 
     private
+
+    def append_user(user)
+      query = @view.effective_query
+      return if query.ordered_entities.exists?(entity_type: "Principal", entity_id: user.id)
+
+      next_position = (query.ordered_entities.maximum(:position) || 0) + 1
+      query.ordered_entities.create!(entity: user, position: next_position)
+    end
+
+    def replace_view_content
+      replace_via_turbo_stream(component: work_package_list_content(@view))
+    end
 
     def append_work_package(work_package)
       query = @view.effective_query
@@ -188,10 +236,6 @@ module ::ResourceManagement
       ordered.each_with_index do |owp, index|
         owp.update_column(:position, index + 1) unless owp.position == index + 1
       end
-    end
-
-    def replace_work_package_list
-      replace_via_turbo_stream(component: work_package_list_content(@view))
     end
 
     def render_configure_step(view, status: :ok)

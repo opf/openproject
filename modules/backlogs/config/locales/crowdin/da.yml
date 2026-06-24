@@ -91,6 +91,18 @@ da:
     administration_blankslate:
       title: Backlog admin-indstillinger udvikler sig
       text: Vi er i gang med at redesigne Backlog-modulet. Admin-indstillinger for sprints og backlogs vil fremgå her i den nærmeste fremtid. Projektniveauindstillinger forbliver tilgængelige.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Delete backlog bucket?
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -170,6 +182,7 @@ da:
         create_description_text: For at begynde at planlægge en sprint, opret en her.
         manage_description_html: For at begynde at planlægge en sprint, gå til %{settings_link} for at modtage sprints fra et andet projekt.
         no_actions_description_text: Endnu ingen sprints tilgængelige til dette projekt.
+      button_new_sprint: New sprint
     story_points:
       one: "%{count} historiepoint"
       other: "%{count} historiepoint"

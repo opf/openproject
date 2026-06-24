@@ -48,7 +48,7 @@ class CustomFieldsController < ApplicationController
   def index
     # loading wp cfs exclicity to allow for eager loading
     @custom_fields_by_type = CustomField
-      .where.not(type: ["WorkPackageCustomField", "ProjectCustomField"])
+      .where.not(type: ["WorkPackageCustomField", "ProjectCustomField", "UserCustomField"])
       .group_by { |f| f.class.name }
 
     @custom_fields_by_type["WorkPackageCustomField"] = WorkPackageCustomField.includes(:types).all
@@ -89,8 +89,8 @@ class CustomFieldsController < ApplicationController
   end
 
   def check_custom_field
-    # ProjectCustomFields now managed in a different UI
-    if @custom_field.nil? || @custom_field.type == "ProjectCustomField"
+    # ProjectCustomFields and UserCustomFields now managed in a different UI
+    if @custom_field.nil? || @custom_field.type.in?(%w[ProjectCustomField UserCustomField])
       flash[:error] = "Invalid CF type"
       redirect_to action: :index
     end

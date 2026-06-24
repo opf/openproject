@@ -43,6 +43,7 @@ RSpec.describe "users/edit" do
     assign(:auth_sources, [])
     assign(:contract, Users::UpdateContract.new(user, current_user))
 
+    User.current = current_user
     without_partial_double_verification do
       allow(view).to receive(:current_user).and_return(current_user)
     end
@@ -105,7 +106,7 @@ RSpec.describe "users/edit" do
   end
 
   context "with password-based login" do
-    let(:user) { build(:user, id: 42) }
+    let(:user) { build_stubbed(:user) }
 
     context "with password login disabled" do
       before do

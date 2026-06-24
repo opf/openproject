@@ -31,15 +31,15 @@ el:
         backlog_excluded_types: Excluded work package types
         statuses_considered_closed: Statuses considered closed
       sprint:
-        duration: Duration
-        finish_date: Finish date
-        goal: Sprint goal
-        name: Sprint name
-        sharing: Sharing
+        duration: Διάρκεια
+        finish_date: Ημερομηνία ολοκλήρωσης
+        goal: Στόχος Sprint
+        name: Όνομα Sprint
+        sharing: Κοινή Χρήση
         statuses:
-          in_planning: In planning
-          active: Active
-          completed: Completed
+          in_planning: Σε σχεδιασμό
+          active: Ενεργό
+          completed: Ολοκληρωμένο
         work_packages: Work packages
       sprint_goal:
         text: Sprint goal
@@ -91,6 +91,18 @@ el:
     administration_blankslate:
       title: Backlog admin settings are evolving
       text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Delete backlog bucket?
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -119,13 +131,13 @@ el:
       select_sprint_label: Select sprint
       button_complete_sprint: Complete sprint
     inbox_component:
-      title: Inbox
+      title: Εισερχόμενα
       blankslate_title: Backlog inbox is empty
       blankslate_description: All open work packages in this project will automatically appear here.
       show_more:
-        one: Show 1 more item
-        other: Show %{count} more items
-    label_burndown_chart: Burndown chart
+        one: Εμφάνιση 1 ακόμη στοιχείου
+        other: Εμφάνιση %{count} περισσότερα στοιχεία
+    label_burndown_chart: Γράφημα Burndown
     label_is_done_status: Η κατάσταση %{status_name} σημαίνει ολοκληρωμένη
     label_sprint_board: Sprint board
     move_to_bucket_dialog_component:
@@ -134,8 +146,8 @@ el:
       title: Move to sprint
       label_sprint: Sprint
     points_label:
-      one: point
-      other: points
+      one: πόντος
+      other: πόντοι
     positions_could_not_be_rebuilt: Οι θέσεις δεν ήταν δυνατό να ανοικοδομηθούν.
     positions_rebuilt_successfully: Οι θέσεις ξανακτίστηκαν επιτυχώς.
     rebuild: Ανοικοδόμηση
@@ -158,25 +170,26 @@ el:
       goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
       goal_for_this_project_label: "%{attribute} (for this project)"
     sprint_form_component:
-      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
-      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+      shared_sprint_info_banner: Αυτό είναι κοινόχρηστο σπριντ. Οι τροποποιήσεις θα αντικατοπτρίζονται σε όλα τα έργα που το χρησιμοποιούν.
+      shared_sprint_warning_banner: Αυτό είναι κοινόχρηστο σπριντ. Δεν έχετε τα απαραίτητα δικαιώματα για να το επεξεργαστείτε.
     sprints_component:
       blankslate:
-        title: No sprints present yet
-        settings_link_text: project settings
+        title: Δεν υπάρχουν σπριντ ακόμα
+        settings_link_text: ρυθμίσεις έργου
         receive_and_manage_description_html: This project receives sprints from a different project. Manage this in the %{settings_link}.
         receive_description_text: This project receives shared sprints from a different project, but none are available right now.
         create_and_manage_description_html: To start planning your sprint, create one here or go to the %{settings_link} to receive sprints from a different project.
         create_description_text: To start planning your sprint, create one here.
         manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
         no_actions_description_text: No sprints are available for this project yet.
+      button_new_sprint: New sprint
     story_points:
       one: "%{count} story point"
       other: "%{count} story points"
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
 
       '
-    types_and_statuses: Types and statuses
+    types_and_statuses: Τύποι και καταστάσεις
     unassigned: Μη Αναθετημένο
     user_preference:
       header_backlogs: Backlogs module
@@ -191,7 +204,7 @@ el:
       action_menu:
         copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy work package ID
-        move_menu: Move to position
+        move_menu: Μετακίνηση στη θέση
         move_to_backlog_bucket: Move to backlog bucket
         move_to_inbox: Move to backlog inbox
         move_to_sprint: Move to sprint
@@ -212,23 +225,23 @@ el:
   label_backlog_bucket_edit: Edit backlog bucket
   label_backlog_bucket_new: New backlog bucket
   label_burndown_chart: Burndown chart
-  label_inbox: Inbox
-  label_sprint_board: Sprint board
+  label_inbox: Εισερχόμενα
+  label_sprint_board: Στόχος Sprint
   label_points_burn_down: Κάτω
   label_points_burn_up: Πάνω
   label_sprint_edit: Edit sprint
-  label_sprint_new: New sprint
+  label_sprint_new: Νέο σπριντ
   label_task_board: Πίνακας εργασιών
-  notice_successful_start: The sprint was started.
-  notice_successful_finish: The sprint was completed.
-  notice_unsuccessful_start: The sprint could not be started.
+  notice_successful_start: Το σπριντ ξεκίνησε.
+  notice_successful_finish: Το σπριντ ολοκληρώθηκε.
+  notice_unsuccessful_start: Δεν ήταν δυνατή η εκκίνηση του σπριντ.
   notice_unsuccessful_start_with_reason: 'The sprint could not be started: %{reason}'
   notice_unsuccessful_finish: The sprint could not be completed.
   notice_unsuccessful_finish_with_reason: 'The sprint could not be completed: %{reason}'
   notice_work_package_invisible_after_move: 'The work package was moved to %{backlog} but is not visible because its type or status is excluded from the backlog.
 
     '
-  permission_create_sprints: Create sprints
+  permission_create_sprints: Δημιουργία σπριντ
   permission_manage_sprint_items: Manage sprint items
   permission_select_backlog_types_and_statuses: Select backlog types and statuses
   permission_select_backlog_types_and_statuses_explanation: 'Allows choosing which work package types to hide from the backlog. Also allows defining which statuses represent a closed or finished state in the project''s workflow.

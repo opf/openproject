@@ -51,7 +51,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
 
     this.hierarchies = this.wpTableHierarchies.current;
 
-    _.each(this.workPackageTable.originalRowIndex, (row) => {
+    Object.values(this.workPackageTable.originalRowIndex).forEach((row) => {
       row.object.getAncestors().forEach((ancestor:WorkPackageResource) => {
         this.parentsWithVisibleChildren[ancestor.id!] = true;
       });
@@ -208,7 +208,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     });
 
     // Insert this row to parent
-    const parent = _.last(ancestors);
+    const parent = ancestors.at(-1);
     this.insertUnderParent(row, parent!);
   }
 
