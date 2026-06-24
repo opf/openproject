@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
 
-<section class="widget-boxes">
+<section class="widget-boxes op-sprint-report__widgets">
   <%= turbo_frame_tag Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID,
                       src: project_backlogs_sprint_report_burndown_chart_widget_path(@project, @sprint) %>
 </section>
