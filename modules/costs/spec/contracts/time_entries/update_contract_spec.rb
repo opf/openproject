@@ -129,6 +129,19 @@ RSpec.describe TimeEntries::UpdateContract do
       end
     end
 
+    context "if an entry of another user is reassigned to the acting user" do
+      let(:time_entry_user) { other_user }
+      let(:permissions) { %i(edit_own_time_entries log_time) }
+
+      before do
+        time_entry.user = current_user
+      end
+
+      it "is invalid" do
+        expect_valid(false, base: %i(error_unauthorized))
+      end
+    end
+
     context "if the user is changed to a user that the user has no access to" do
       let(:new_user) do
         create(:user).tap do |user|
