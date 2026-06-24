@@ -248,6 +248,38 @@ RSpec.describe API::V3::Configuration::ConfigurationRepresenter do
       end
     end
 
+    describe "attachmentWhitelist" do
+      context "with a configured whitelist" do
+        before { allow(Setting).to receive(:attachment_whitelist).and_return(["*.png", "image/jpeg"]) }
+
+        it "returns the entries as an array" do
+          expect(subject)
+            .to be_json_eql(["*.png", "image/jpeg"].to_json)
+                  .at_path("attachmentWhitelist")
+        end
+      end
+
+      context "with blank entries in the whitelist" do
+        before { allow(Setting).to receive(:attachment_whitelist).and_return(["  *.png  ", "", "image/jpeg"]) }
+
+        it "strips whitespace and removes blank entries" do
+          expect(subject)
+            .to be_json_eql(["*.png", "image/jpeg"].to_json)
+                  .at_path("attachmentWhitelist")
+        end
+      end
+
+      context "with an empty whitelist" do
+        before { allow(Setting).to receive(:attachment_whitelist).and_return([]) }
+
+        it "returns an empty array" do
+          expect(subject)
+            .to be_json_eql([].to_json)
+                  .at_path("attachmentWhitelist")
+        end
+      end
+    end
+
     describe "availableFeatures" do
       context "without any features" do
         it "is an empty array" do

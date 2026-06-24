@@ -116,6 +116,11 @@ module API
         property :allowed_link_protocols,
                  getter: ->(*) { Setting::AllowedLinkProtocols.all }
 
+        property :attachment_whitelist,
+                 getter: ->(*) {
+                   Array(Setting.attachment_whitelist).map(&:strip).compact_blank
+                 }
+
         property :user_preferences,
                  embedded: true,
                  exec_context: :decorator,

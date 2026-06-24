@@ -31,15 +31,21 @@
 import { IUploadFile } from 'core-app/core/upload/upload.service';
 import { useCallback } from 'react';
 import { firstValueFrom } from 'rxjs';
+import { useAttachmentValidation } from './useAttachmentValidation';
 
 export interface BlockNoteAttachmentsResult {
   enabled:boolean;
-  uploadFile?:(file:File) => Promise<string>;
+  uploadFile?:(file:File, blockId?:string) => Promise<string>;
+}
+
+export interface EditorHandle {
+  removeBlocks:(ids:string[]) => void;
 }
 
 export function useBlockNoteAttachments(
   attachmentsCollectionKey:string,
   attachmentsUploadUrl:string,
+  getEditor?:() => EditorHandle | null,
 ):BlockNoteAttachmentsResult {
   const enabled = (
     attachmentsCollectionKey !== undefined &&
@@ -48,25 +54,56 @@ export function useBlockNoteAttachments(
     attachmentsUploadUrl !== ''
   );
 
-  const uploadFile = useCallback(async (file:File):Promise<string> => {
-    const pluginContext = await window.OpenProject.getPluginContext();
+  const { validateFile } = useAttachmentValidation();
+
+  // BlockNote 0.44.x creates a "Loading..." placeholder block before awaiting
+  // uploadFile (blocknote.js Ie(), ~line 1130) and only calls updateBlock on
+  // the success path - it has no try/catch around the await. On rejection,
+  // the placeholder is left in the document forever. We remove it ourselves
+  // here. removeBlocks is synchronous and safe because BlockNote never
+  // touches the block again after the rejected await.
+  const removePlaceholder = useCallback((blockId?:string) => {
+    const editor = getEditor?.();
+    if (!editor || !blockId) return;
     try {
+      editor.removeBlocks([blockId]);
+    } catch { /* already removed by a collaborator via Yjs */ }
+  }, [getEditor]);
+
+  const uploadFile = useCallback(async (file:File, blockId?:string):Promise<string> => {
+    try {
+      const pluginContext = await window.OpenProject.getPluginContext();
+
+      const validation = await validateFile(file);
+      if (!validation.valid) {
+        pluginContext.services.notifications.addError(validation.reason);
+        removePlaceholder(blockId);
+        return '';
+      }
+
       const service = pluginContext.services.attachmentsResourceService;
       const uploadFiles:IUploadFile[] = [{ file }];
       const result = await firstValueFrom(
-        service.addAttachments(attachmentsCollectionKey, attachmentsUploadUrl, uploadFiles)
+        service.addAttachments(attachmentsCollectionKey, attachmentsUploadUrl, uploadFiles),
       );
 
-      return result?.[0]._links.staticDownloadLocation.href ?? '';
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error:any) {
-      const toastService = pluginContext.services.notifications;
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      toastService.addError(error);
+      const href = result?.[0]?._links?.staticDownloadLocation?.href;
+      if (!href) {
+        throw new Error('Upload returned no download location');
+      }
+      return href;
+    } catch (error) {
+      const pluginContext = await window.OpenProject.getPluginContext().catch(() => null);
+      pluginContext?.services.notifications.addError(error as never);
+      removePlaceholder(blockId);
 
+      // Return '' instead of rethrowing: BlockNote 0.44.x doesn't catch
+      // uploadFile rejections, so throwing would surface as Uncaught (in
+      // promise). The placeholder is already gone, so the success-path
+      // updateBlock that follows our return won't fire anyway.
       return '';
     }
-  }, [attachmentsCollectionKey, attachmentsUploadUrl]);
+  }, [attachmentsCollectionKey, attachmentsUploadUrl, validateFile, removePlaceholder]);
 
   if (!enabled) {
     return { enabled };

@@ -61,6 +61,18 @@ RSpec.describe "API v3 Configuration resource" do
               .at_path("perPageOptions")
     end
 
+    it "returns the attachment whitelist", with_settings: { attachment_whitelist: ["*.png", "image/jpeg"] } do
+      expect(subject.body)
+        .to be_json_eql(["*.png", "image/jpeg"].to_json)
+              .at_path("attachmentWhitelist")
+    end
+
+    it "returns an empty attachment whitelist when none is configured", with_settings: { attachment_whitelist: [] } do
+      expect(subject.body)
+        .to be_json_eql([].to_json)
+              .at_path("attachmentWhitelist")
+    end
+
     it "embedds the current user preferences" do
       expect(subject.body)
         .to be_json_eql("UserPreferences".to_json)

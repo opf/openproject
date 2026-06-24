@@ -19,6 +19,12 @@ properties:
     type: string
     description: The format used to display Work, Remaining Work, and Spent time durations
     readOnly: true
+  attachmentWhitelist:
+    type: array
+    description: The list of allowed attachment MIME types or extension globs (e.g. "image/png", "*.pdf"). Empty means all types are allowed.
+    readOnly: true
+    items:
+      type: string
   activeFeatureFlags:
     type: array
     description: The list of all feature flags that are active
