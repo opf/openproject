@@ -68,6 +68,18 @@ export default class ListController extends Controller<HTMLElement> implements R
       canDrop: ({ source }) => this.canDrop(source.data),
       getData: () => this.listData,
       getIsSticky: () => false,
+      onDragEnter: () => {
+        this.renderDropIndicator();
+      },
+      onDrag: () => {
+        this.renderDropIndicator();
+      },
+      onDragLeave: () => {
+        this.clearDropIndicator();
+      },
+      onDrop: () => {
+        this.clearDropIndicator();
+      },
     });
   }
 
@@ -117,5 +129,13 @@ export default class ListController extends Controller<HTMLElement> implements R
     }
 
     return canAccept(root, data);
+  }
+
+  private renderDropIndicator():void {
+    this.element.dataset.dropContainer = 'active';
+  }
+
+  private clearDropIndicator():void {
+    delete this.element.dataset.dropContainer;
   }
 }

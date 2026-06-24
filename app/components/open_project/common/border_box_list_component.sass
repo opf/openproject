@@ -191,6 +191,13 @@
     content: ''
     bottom: calc(var(--op-backlogs-drop-gap-height) / -2)
 
+// Container drop zone: the whole list outlines while a sortable item hovers it,
+// signalling the item will land inside this list.
+[data-controller~="sortable-lists--list"][data-drop-container]
+  outline: var(--borderWidth-thick) solid var(--fgColor-accent)
+  outline-offset: calc(var(--borderWidth-thick) * -1)
+  border-radius: var(--borderRadius-medium)
+
 // Reapplies the padding removed from the containing .Box-row, matching the
 // .Box-row padding of each Box density variant upstream.
 .Box-card
