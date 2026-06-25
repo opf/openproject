@@ -24,7 +24,7 @@ Take a look at our release video showing the most important features introduced 
 
 [feature: xwiki_integration ]
 
-OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely.
+OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely. Together, OpenProject and XWiki provide **an integrated open source alternative** for organizations looking to manage both projects and documentation on their own infrastructure.
 
 With the new integration, work packages now include a **dedicated Wiki tab** where users can view related wiki pages, create new pages, and link existing content from XWiki. This makes it easier to access relevant documentation directly from the work package where the work is planned and executed.
 
