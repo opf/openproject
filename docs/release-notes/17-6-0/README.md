@@ -16,13 +16,17 @@ In these Release Notes, we will give an overview of important feature changes. A
 
 ## Important feature changes
 
+Take a look at our release video showing the most important features introduced in OpenProject 17.6.0:
+
+![Release video of OpenProject 17.6](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_17_6_release.mp4)
+
 ### XWiki integration (Enterprise add-on)
 
 [feature: xwiki_integration ]
 
-OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect work packages and documentation more closely.
+OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely.
 
-With the new integration, work packages now include a **dedicated Wiki tab** where users can view related wiki pages, create new pages, and link existing content from XWiki. This makes it easier to access relevant documentation directly from the work package.
+With the new integration, work packages now include a **dedicated Wiki tab** where users can view related wiki pages, create new pages, and link existing content from XWiki. This makes it easier to access relevant documentation directly from the work package where the work is planned and executed.
 
 The integration also supports **references between OpenProject and XWiki**. Users can see which wiki pages reference a work package and insert links to wiki pages directly from descriptions, comments, and documents. This helps teams keep project work and documentation connected across both platforms.
 
@@ -41,7 +45,7 @@ The sprint goal is then displayed on the sprint card, making it visible to every
 
 ### All sprints overview
 
-OpenProject 17.6 introduces a new **All sprints** view in the Backlogs module. The new page provides a centralized overview of all sprints in a project.
+OpenProject 17.6 introduces a new **All sprints** view in the Backlogs module. The new page provides an overview of all sprints in a project.
 
 For each sprint, the overview displays key information such as its status, start and finish dates, and the number of assigned work packages.
 
@@ -59,7 +63,7 @@ Work packages can now be assigned to backlog buckets without navigating to the B
 
 OpenProject 17.6 adds support for backlog buckets in work package tables. You can now add the Backlog bucket column to a work package table and use it to sort and group work packages.
 
-This makes backlog bucket assignments visible across work package lists and provides additional options for organizing backlog items.
+This makes backlog bucket assignments visible in work package tables and provides additional options for organizing backlog items.
 
 ![Work package table with highlighted Backlog bucket column](openproject-17-6-backlog-bucket-work-package-table-highlighted.png)
 
@@ -107,14 +111,14 @@ OpenProject 17.6 improves CSV export security by escaping control characters in 
 
 OpenProject 17.6 extends LDAP group synchronization with support for group member attributes. Administrators can now configure synchronization based on attributes such as `member` or `uniqueMember` on LDAP groups, in addition to the existing `memberOf` lookup on user entries.
 
-This improves compatibility with LDAP servers that do not maintain the memberOf attribute.
+This improves compatibility with LDAP servers that do not maintain the `memberOf` attribute.
 
 ### Integrations (e.g. Nextcloud and XWiki) respect global SSRF filters
 
 To increase the security of OpenProject installations, we've added protections against server-side request forgery in previous releases
 of OpenProject. These prevent OpenProject from making network requests into private IP address space.
 
-Starting with OpenProject 17.6, these protections expand into the code that's responsible for web requests of storage and wiki integrations as well.
+Starting with OpenProject 17.6, these protections also apply to web requests made by storage and wiki integrations.
 This means if you have a Nextcloud instance or an XWiki instance reachable via a private (i.e. not publicly routable) IP address, you need to
 add it to the SSRF allowlist to be able to keep the integration working. This is usually achieved by defining the following environment variable:
 
@@ -126,7 +130,7 @@ The list accepts one or multiple IP addresses or ranges (in CIDR notation) that 
 
 ### Meeting API structure changes
 
-OpenProject 17.6. introduces new endpoints for meeting outcomes,
+OpenProject 17.6 introduces new endpoints for meeting outcomes,
 and changes the self link for all meeting related resources to be flat:
 
 That means, some of the responses have changed:
@@ -284,10 +288,12 @@ This follows the APIv3 standards, and also fixes a bug related to the self link.
 
 A very special thank you goes to Helmholtz-Zentrum Berlin, City of Cologne, Deutsche Bahn and ZenDiS for sponsoring released or upcoming features. Your support, alongside the efforts of our amazing Community, helps drive these innovations.
 
-Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Rince wind, Walid Ibrahim, Gábor Alexovics, Brandon Soonaye, Mohammed Mohiuddin.
+Also a big thanks to our Community members for reporting bugs and helping us identify and provide fixes. Special thanks for reporting and finding bugs go to Rince wind, Walid Ibrahim, Gábor Alexovics, Brandon Soonaye, and Mohammed Mohiuddin.
 
 Last but not least, we are very grateful for our very engaged translation contributors on Crowdin, who translated quite a few OpenProject strings! This release we would like to particularly thank the following users:
 
-- [name](https://crowdin.com/profile/name), for an outstanding number of translations into Language.
+- [OlhaTrotska](https://crowdin.com/profile/olhatrotska), for a great number of translations into Ukrainian.
+- [Daniel Catarino](https://crowdin.com/profile/tradengport), for a great number of translations into Portuguese.
+- [Raffaele Brevetti](https://crowdin.com/profile/rbrevetti), for a great number of translations into Italian.
 
 Would you like to help out with translations yourself? Then take a look at our [translation guide](../../contributions-guide/translate-openproject/) and find out exactly how you can contribute. It is very much appreciated!
