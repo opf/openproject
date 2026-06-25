@@ -5,6 +5,9 @@ export const SUCCESS_AUTOHIDE_TIMEOUT = 5000;
 // Match Primer's live-region registration delay. Manual screen reader
 // testing showed the first announcement can be missed without this pause.
 export const LIVE_REGION_ANNOUNCEMENT_DELAY = 150;
+// Let the live-region timing window pass before focusing a flash that has an
+// important action. The extra 50ms is only a small scheduler buffer.
+export const ACTION_FOCUS_DELAY = LIVE_REGION_ANNOUNCEMENT_DELAY + 50;
 
 export default class FlashController extends ApplicationController {
   static values = {
@@ -26,8 +29,12 @@ export default class FlashController extends ApplicationController {
   }
 
   itemTargetConnected(element:HTMLElement) {
-    // Announce the flash message to screen readers via global live region
-    this.announceFlash(element);
+    const focusesFlash = this.focusRequestedFlash(element);
+
+    // Focused flashes announce themselves, and Tab then reaches the action.
+    if (!focusesFlash) {
+      this.announceFlash(element);
+    }
 
     // Schedule auto-hide timer if enabled for both controller and individual element
     const autohide = element.dataset.autohide === 'true';
@@ -81,6 +88,28 @@ export default class FlashController extends ApplicationController {
 
       void announce(message, { politeness, from: element });
     }, LIVE_REGION_ANNOUNCEMENT_DELAY);
+  }
+
+  private focusRequestedFlash(element:HTMLElement) {
+    const action = element.querySelector<HTMLElement>('[data-flash-focus-action="true"]');
+    if (!action) {
+      return false;
+    }
+
+    element.setAttribute('tabindex', '-1');
+    if (element.dataset.announcement) {
+      element.setAttribute('aria-label', element.dataset.announcement);
+    }
+
+    window.setTimeout(() => {
+      if (!element.isConnected || !action.isConnected) {
+        return;
+      }
+
+      element.focus();
+    }, ACTION_FOCUS_DELAY);
+
+    return true;
   }
 
   /**

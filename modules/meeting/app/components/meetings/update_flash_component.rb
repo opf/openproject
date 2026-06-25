@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -47,7 +48,7 @@ module Meetings
           href: helpers.project_meeting_path(project, meeting),
           size: :medium,
           data: {
-
+            "flash-focus-action": true,
             keep_scroll_position_target: "triggerButton"
           }
         ) { I18n.t("label_meeting_reload") }

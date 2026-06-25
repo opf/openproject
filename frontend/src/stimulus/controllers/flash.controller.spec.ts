@@ -29,7 +29,7 @@
  */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import FlashController, { LIVE_REGION_ANNOUNCEMENT_DELAY, SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
+import FlashController, { ACTION_FOCUS_DELAY, LIVE_REGION_ANNOUNCEMENT_DELAY, SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
 interface LiveRegionTestElement extends HTMLElement {
@@ -136,6 +136,71 @@ describe('FlashController', () => {
       `);
 
       expect(ctx.screen.getByRole('alert')).toBeInTheDocument();
+    });
+  });
+
+  describe('action focus', () => {
+    it('focuses the flash with the requested action', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
+      ctx.appendHTML(`
+        <div data-controller="flash">
+          <div data-flash-target="item" data-announcement="Meeting updated" data-testid="flash-item">
+            Meeting updated
+            <a href="/meeting" data-flash-focus-action="true">Reload</a>
+          </div>
+        </div>
+      `);
+      await ctx.nextFrame();
+
+      const flashItem = ctx.screen.getByTestId('flash-item');
+      vi.advanceTimersByTime(ACTION_FOCUS_DELAY);
+
+      expect(flashItem).toHaveFocus();
+      expect(flashItem).toHaveAttribute('aria-label', 'Meeting updated');
+    });
+
+    it('does not move focus for regular flash actions', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
+      ctx.appendHTML(`
+        <button>Current action</button>
+        <div data-controller="flash">
+          <div data-flash-target="item" data-announcement="Saved">
+            Saved
+            <a href="/details">Details</a>
+          </div>
+        </div>
+      `);
+      const currentAction = ctx.screen.getByRole('button', { name: 'Current action' });
+      currentAction.focus();
+      await ctx.nextFrame();
+
+      vi.advanceTimersByTime(ACTION_FOCUS_DELAY);
+
+      expect(currentAction).toHaveFocus();
+    });
+
+    it('does not also announce focused flashes via the live region', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+
+      ctx.appendHTML(`
+        <div data-controller="flash">
+          <live-region data-testid="live-region"></live-region>
+          <div data-flash-target="item" data-announcement="Meeting updated" data-testid="flash-item">
+            Meeting updated
+            <a href="/meeting" data-flash-focus-action="true">Reload</a>
+          </div>
+        </div>
+      `);
+      const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
+      stubLiveRegionAnnouncement(announceSpy);
+      await ctx.nextFrame();
+
+      vi.advanceTimersByTime(ACTION_FOCUS_DELAY);
+
+      expect(ctx.screen.getByTestId('flash-item')).toHaveFocus();
+      expect(announceSpy).not.toHaveBeenCalled();
     });
   });
 
