@@ -96,7 +96,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     let(:external_wiki_element) do
       {
         identifier: "/wiki/path/to/kiwi",
-        type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
+        wiki_page_link_type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
         author: { href: api_v3_paths.user(author.id) },
         provider: { href: api_v3_paths.wiki_provider(xwiki_provider.universal_identifier) }
       }
@@ -106,7 +106,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     let(:internal_wiki_element) do
       {
         identifier: "/wiki/anotherWiki/Waka/Waka",
-        type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
+        wiki_page_link_type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
         author: { href: api_v3_paths.user(author.id) },
         provider: { href: api_v3_paths.wiki_provider(internal_wiki.universal_identifier) }
       }
@@ -231,7 +231,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     let(:external_wiki_element) do
       {
         identifier: "/wiki/path/to/kiwi",
-        type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
+        wiki_page_link_type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
         author: { href: api_v3_paths.user(author.id) },
         linkable: { href: api_v3_paths.work_package(work_package.id) },
         provider: { href: api_v3_paths.wiki_provider(xwiki_provider.universal_identifier) }
@@ -242,7 +242,7 @@ RSpec.describe "API v3 wiki page links resource", content_type: :json do
     let(:internal_wiki_element) do
       {
         identifier: "/wiki/anotherWiki/Waka/Waka",
-        type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
+        wiki_page_link_type: "urn:openproject-org:api:v3:wikiPageLinks:Relation",
         author: { href: api_v3_paths.user(author.id) },
         linkable: { href: api_v3_paths.work_package(other_work_package.id) },
         provider: { href: api_v3_paths.wiki_provider(internal_wiki.universal_identifier) }
