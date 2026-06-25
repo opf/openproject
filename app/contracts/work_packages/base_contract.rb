@@ -50,8 +50,18 @@ module WorkPackages
               permission: :assign_versions do
       validate_version_is_assignable
     end
+    attribute :target_versions,
+              permission: :assign_versions do
+      validate_target_versions_are_assignable
+    end
+    attribute :observed_in_versions,
+              permission: :assign_versions do
+      validate_observed_in_versions_are_assignable
+    end
 
     validate :validate_no_reopen_on_closed_version
+    validate :validate_versions_permission
+    validate :validate_version_id_and_target_versions_not_both_changed
 
     attribute :project_id
 
@@ -228,6 +238,9 @@ module WorkPackages
       model.try(:assignable_versions, only_open:) if model.project
     end
 
+    def assignable_target_versions = assignable_versions
+    def assignable_observed_in_versions = assignable_versions
+
     def assignable_budgets
       model.project&.budgets
     end
@@ -382,6 +395,38 @@ module WorkPackages
     def validate_version_is_assignable
       if model.version_id && model.assignable_versions.map(&:id).exclude?(model.version_id)
         errors.add :version_id, :inclusion
+      end
+    end
+
+    def validate_versions_permission
+      return unless model.override_target_versions? || model.override_observed_in_versions?
+
+      unless user.allowed_in_project?(:assign_versions, model.project)
+        errors.add(:target_versions, :error_readonly) if model.override_target_versions?
+        errors.add(:observed_in_versions, :error_readonly) if model.override_observed_in_versions?
+      end
+    end
+
+    def validate_version_id_and_target_versions_not_both_changed
+      if model.version_id_changed? && model.override_target_versions?
+        errors.add :base, :version_and_target_versions_mutually_exclusive
+      end
+    end
+
+    def validate_target_versions_are_assignable
+      validate_version_ids_assignable(model.target_version_ids_replacements, :target_versions)
+    end
+
+    def validate_observed_in_versions_are_assignable
+      validate_version_ids_assignable(model.observed_in_version_ids_replacements, :observed_in_versions)
+    end
+
+    def validate_version_ids_assignable(ids, error_field)
+      return if ids.nil?
+
+      assignable_ids = assignable_versions&.map(&:id) || []
+      if (ids - assignable_ids).any?
+        errors.add error_field, :inclusion
       end
     end
 

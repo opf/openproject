@@ -74,6 +74,12 @@ class WorkPackage < ApplicationRecord
            -> { where(work_package_versions: { kind: "observed_in" }) },
            through: :work_package_versions, source: :version
 
+  attr_accessor :target_version_ids_replacements,
+                :observed_in_version_ids_replacements
+
+  def override_target_versions? = !target_version_ids_replacements.nil?
+  def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
+
   has_and_belongs_to_many :changesets, -> { # rubocop:disable Rails/HasAndBelongsToMany
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
