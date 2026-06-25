@@ -169,7 +169,9 @@
     "turbo_power": "^0.7.1",
     "typedjson": "^1.5.1",
     "urijs": "^1.19.11",
-    "uuid": "^14.0.0"
+    "uuid": "^14.0.0",
+    "y-protocols": "^1.0.6",
+    "yjs": "^13.6.27"
   },
   "optionalDependencies": {
     "fsevents": "*"

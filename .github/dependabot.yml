@@ -79,6 +79,16 @@ updates:
         patterns:
           - 'vitest'
           - '@vitest/*'
+      yjs:
+        # Keep the shared Yjs CRDT/sync layer aligned between the
+        # collab client (/frontend) and server (the extension). These
+        # are pinned as direct deps in both manifests so Dependabot
+        # tracks them; group-by: dependency-name merges each into a
+        # single cross-directory PR rather than one PR per directory.
+        group-by: dependency-name
+        patterns:
+          - 'yjs'
+          - 'y-protocols'
     ignore:
       - dependency-name: "@angular/*"
         update-types: ["version-update:semver-major"]

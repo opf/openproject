@@ -27,7 +27,9 @@
     "@hocuspocus/extension-logger": "^4.2.0",
     "@hocuspocus/server": "^4.2.0",
     "op-blocknote-extensions": "https://github.com/opf/op-blocknote-extensions/releases/download/v0.1.4/op-blocknote-extensions-0.1.4.tgz",
-    "tsx": "^4.21.0"
+    "tsx": "^4.21.0",
+    "y-protocols": "^1.0.6",
+    "yjs": "^13.6.27"
   },
   "devDependencies": {
     "@blocknote/core": "^0.51.3",
