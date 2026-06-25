@@ -38,7 +38,11 @@ module Costs::Patches::PermittedParamsPatch
       params.require(:cost_entry).permit(:comments,
                                          :units,
                                          :overridden_costs,
-                                         :spent_on)
+                                         :spent_on,
+                                         :user_id,
+                                         :entity_id,
+                                         :entity_type,
+                                         :cost_type_id)
     end
 
     def budget

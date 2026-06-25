@@ -31,7 +31,6 @@
 class CostlogController < ApplicationController
   menu_item :work_packages
   before_action :find_cost_entry_work_package_or_project, :authorize, only: %i[edit new create update destroy]
-  before_action :find_associated_objects, only: %i[create update]
 
   helper :work_packages
   include CostlogHelper
@@ -53,50 +52,52 @@ class CostlogController < ApplicationController
   end
 
   def create
-    new_default_cost_entry
-    update_cost_entry_from_params
+    service_call = CostEntries::CreateService
+                     .new(user: current_user, model: CostEntry.new(project: @project))
+                     .call(permitted_params.cost_entry)
 
-    if !@cost_entry.creatable_by?(User.current)
+    respond_with_service_call(service_call) do |call|
+      @cost_entry = call.result
 
-      render_403
-
-    elsif @cost_entry.save
-
-      flash[:notice] = t(:notice_cost_logged_successfully)
-      redirect_back_or_default polymorphic_path(@cost_entry.entity)
-    else
-      render action: :edit, status: :unprocessable_entity
+      if call.success?
+        flash[:notice] = t(:notice_cost_logged_successfully)
+        redirect_back_or_default polymorphic_path(@cost_entry.entity)
+      else
+        render action: :edit, status: :unprocessable_entity
+      end
     end
   end
 
   def update
-    update_cost_entry_from_params
+    service_call = CostEntries::UpdateService
+                     .new(user: current_user, model: @cost_entry)
+                     .call(permitted_params.cost_entry)
 
-    if !@cost_entry.editable_by?(User.current)
+    respond_with_service_call(service_call) do |call|
+      @cost_entry = call.result
 
-      render_403
-
-    elsif @cost_entry.save
-
-      flash[:notice] = t(:notice_successful_update)
-      redirect_back_or_to(polymorphic_path(@cost_entry.entity))
-
-    else
-      render action: "edit"
+      if call.success?
+        flash[:notice] = t(:notice_successful_update)
+        redirect_back_or_to(polymorphic_path(@cost_entry.entity))
+      else
+        render action: "edit"
+      end
     end
   end
 
   def destroy
     render_404 and return unless @cost_entry
-    render_403 and return unless @cost_entry.editable_by?(User.current)
 
-    @cost_entry.destroy
-    flash[:notice] = t(:notice_successful_delete)
+    service_call = CostEntries::DeleteService.new(user: current_user, model: @cost_entry).call
 
-    if request.referer.include?("cost_reports")
-      redirect_to controller: "/cost_reports", action: :index, status: :see_other
-    else
-      redirect_back_or_to(polymorphic_path(@cost_entry.entity), status: :see_other)
+    respond_with_service_call(service_call) do
+      flash[:notice] = t(:notice_successful_delete)
+
+      if request.referer.include?("cost_reports")
+        redirect_to controller: "/cost_reports", action: :index, status: :see_other
+      else
+        redirect_back_or_to(polymorphic_path(@cost_entry.entity), status: :see_other)
+      end
     end
   end
 
@@ -116,28 +117,19 @@ class CostlogController < ApplicationController
     end
   end
 
-  def find_associated_objects # rubocop:disable Metrics/AbcSize, Metrics/PerceivedComplexity
-    user_id = cost_entry_params.delete(:user_id)
-    @user = if @cost_entry.present? && @cost_entry.user_id == user_id
-              @cost_entry.user
-            else
-              User.visible.find_by(id: user_id)
-            end
+  # Renders 403 when the service call failed because of missing permissions and
+  # yields the call otherwise, so each action handles its own success and
+  # validation outcomes consistently.
+  def respond_with_service_call(service_call)
+    if service_unauthorized?(service_call)
+      render_403
+    else
+      yield service_call
+    end
+  end
 
-    entity_id = cost_entry_params.delete(:entity_id)
-    entity_type = cost_entry_params.delete(:entity_type)
-    @work_package = if @cost_entry.present? && @cost_entry.entity_type == "WorkPackage" && @cost_entry.entity_id == entity_id
-                      @cost_entry.entity
-                    elsif entity_type == "WorkPackage"
-                      WorkPackage.visible.find_by(id: entity_id)
-                    end
-
-    cost_type_id = cost_entry_params.delete(:cost_type_id)
-    @cost_type = if @cost_entry.present? && @cost_entry.cost_type_id == cost_type_id
-                   @cost_entry.cost_type
-                 else
-                   CostType.find_by(id: cost_type_id)
-                 end
+  def service_unauthorized?(service_call)
+    service_call.errors.added?(:base, :error_unauthorized)
   end
 
   def new_default_cost_entry
@@ -148,24 +140,5 @@ class CostlogController < ApplicationController
       ce.spent_on = Time.zone.today
       ce.cost_type = CostType.default_for_project(@project) if @project
     end
-  end
-
-  def update_cost_entry_from_params
-    @cost_entry.user = @user
-    @cost_entry.entity = @work_package
-    @cost_entry.cost_type = @cost_type
-
-    attributes = permitted_params.cost_entry
-    attributes[:units] = Rate.parse_number_string_to_number(attributes[:units])
-
-    if attributes[:overridden_costs].present?
-      attributes[:overridden_costs] = Rate.parse_number_string_to_number(attributes[:overridden_costs])
-    end
-
-    @cost_entry.attributes = attributes
-  end
-
-  def cost_entry_params
-    params.expect(cost_entry: %i[user_id entity_id entity_type spent_on cost_type_id units comments])
   end
 end

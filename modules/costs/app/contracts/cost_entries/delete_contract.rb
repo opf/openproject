@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,27 +28,16 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :cost_entry do
-    project
-    user
-    logged_by { User.current }
-    entity factory: :work_package
-    cost_type
-    spent_on { Date.current }
-    units { 1 }
-    comments { "" }
+module CostEntries
+  class DeleteContract < ::DeleteContract
+    delete_permission -> {
+      edit_all = user.allowed_in_project?(:edit_cost_entries, model.project)
 
-    before(:create) do |ce|
-      ce.project = ce.entity.project
-
-      unless ce.project.users.include?(ce.user)
-        Members::CreateService
-          .new(user: User.system, contract_class: EmptyContract)
-          .call(principal: ce.user,
-                project: ce.project,
-                roles: [create(:project_role)])
+      if model.user == user
+        edit_all || user.allowed_in_project?(:edit_own_cost_entries, model.project)
+      else
+        edit_all
       end
-    end
+    }
   end
 end

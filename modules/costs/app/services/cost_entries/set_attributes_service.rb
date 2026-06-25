@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,27 +28,44 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :cost_entry do
-    project
-    user
-    logged_by { User.current }
-    entity factory: :work_package
-    cost_type
-    spent_on { Date.current }
-    units { 1 }
-    comments { "" }
+module CostEntries
+  class SetAttributesService < ::BaseServices::SetAttributes
+    private
 
-    before(:create) do |ce|
-      ce.project = ce.entity.project
+    def set_attributes(_attributes)
+      parse_overridden_costs
 
-      unless ce.project.users.include?(ce.user)
-        Members::CreateService
-          .new(user: User.system, contract_class: EmptyContract)
-          .call(principal: ce.user,
-                project: ce.project,
-                roles: [create(:project_role)])
+      super
+    end
+
+    # Called by parent SetAttributes#set_attributes
+    def set_default_attributes(*)
+      model.spent_on ||= Time.zone.today
+    end
+
+    # Called by parent SetAttributes#set_attributes for new records
+    def ensure_default_attributes(*)
+      set_project
+      set_logged_by
+    end
+
+    def set_project
+      model.project ||= model.entity&.project
+    end
+
+    # Always record the acting user as the one who logged the entry.
+    def set_logged_by
+      model.change_by_system do
+        model.logged_by = user
       end
+    end
+
+    # The locale-aware units setter on the model already parses unit strings.
+    # The overridden_costs column has no such setter, so we parse it here.
+    def parse_overridden_costs
+      return if params[:overridden_costs].blank?
+
+      params[:overridden_costs] = CostRate.parse_number_string_to_number(params[:overridden_costs])
     end
   end
 end

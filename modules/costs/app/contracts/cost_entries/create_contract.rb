@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -26,27 +28,26 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-FactoryBot.define do
-  factory :cost_entry do
-    project
-    user
-    logged_by { User.current }
-    entity factory: :work_package
-    cost_type
-    spent_on { Date.current }
-    units { 1 }
-    comments { "" }
+module CostEntries
+  class CreateContract < BaseContract
+    validate :user_allowed_to_add
 
-    before(:create) do |ce|
-      ce.project = ce.entity.project
+    private
 
-      unless ce.project.users.include?(ce.user)
-        Members::CreateService
-          .new(user: User.system, contract_class: EmptyContract)
-          .call(principal: ce.user,
-                project: ce.project,
-                roles: [create(:project_role)])
-      end
+    def user_allowed_to_add
+      return unless model.project
+      return if allowed_to_log_for_others?
+      return if allowed_to_log_to_himself?
+
+      errors.add :base, :error_unauthorized
+    end
+
+    def allowed_to_log_for_others?
+      user.allowed_in_project?(:log_costs, model.project)
+    end
+
+    def allowed_to_log_to_himself?
+      model.user == user && user.allowed_in_project?(:log_own_costs, model.project)
     end
   end
 end
