@@ -107,6 +107,8 @@ To support this, project settings now include a new Time and costs section with 
 
 OpenProject 17.6 improves CSV export security by escaping control characters in exported data. This helps prevent spreadsheet applications from interpreting exported values in unintended ways.
 
+If you need to escape unmodified machine-readable CSV exports, you can disable this flag on the new Exports page Administration → System settings → Exports
+
 ### Configure LDAP group synchronization using group member attributes
 
 OpenProject 17.6 extends LDAP group synchronization with support for group member attributes. Administrators can now configure synchronization based on attributes such as `member` or `uniqueMember` on LDAP groups, in addition to the existing `memberOf` lookup on user entries.
