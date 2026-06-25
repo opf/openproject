@@ -80,7 +80,7 @@ To get an overview of existing values for time tracking activities, navigate to 
 ![Overview of existing time tracking activities in OpenProject administration](openproject_system_admin_guide_time_costs_time_tracking_activities_overview.png)
 
 > [!NOTE]
-> To activate the [Activities for time tracking](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to *Project settings -> Time tracking activities*.
+> To activate the [Activities for time tracking](../../user-guide/projects/project-settings/time-and-costs) in a certain project, navigate to *Project settings -> Time tracking activities*.
 
 ### Create new time tracking activity
 
@@ -100,4 +100,4 @@ To **edit** an existing configuration either click on the name of the activity d
 To remove a time tracking activity, open the **More (three dots)** menu on the right end of the row and click on the **delete icon**.
 
 > [!NOTE]
-> To activate the [Activities for time tracking](../../user-guide/projects/project-settings/activities-time-tracking) in a certain project, navigate to *Project settings -> Time tracking activities*.
+> To activate the [Activities for time tracking](../../user-guide/projects/project-settings/time-and-costs) in a certain project, navigate to *Project settings -> Time tracking activities*.
