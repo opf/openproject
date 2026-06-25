@@ -51,10 +51,19 @@ module Backlogs
     end
 
     def add_existing_dialog
-      respond_with_dialog Backlogs::AddExistingWorkPackageDialogComponent.new(
-        project: @project,
-        target_id: params.expect(:target_id)
-      )
+      target_id = Target.parse(params[:target_id])
+
+      if target_id
+        respond_with_dialog Backlogs::AddExistingWorkPackageDialogComponent.new(
+          project: @project,
+          target_id:
+        )
+      else
+        render_error_flash_message_via_turbo_stream(
+          message: I18n.t("backlogs.stories.update_service.invalid_target_type")
+        )
+        respond_with_turbo_streams(status: :unprocessable_entity)
+      end
     end
 
     def move_to_sprint_dialog

@@ -71,7 +71,7 @@ RSpec.describe Backlogs::AddExistingWorkPackageDialogComponent, type: :component
 
   context "when target is a sprint" do
     let!(:sprint) { create(:sprint, project:, name: "My Sprint") }
-    let(:target_id) { "sprint:#{sprint.id}" }
+    let(:target_id) { Backlogs::Target.for(sprint) }
     let(:title) { "Add existing work package to My Sprint" }
 
     include_examples "renders the dialog correctly"
@@ -79,14 +79,14 @@ RSpec.describe Backlogs::AddExistingWorkPackageDialogComponent, type: :component
 
   context "when target is a backlog bucket" do
     let!(:bucket) { create(:backlog_bucket, project:, name: "My Bucket") }
-    let(:target_id) { "backlog_bucket:#{bucket.id}" }
+    let(:target_id) { Backlogs::Target.for(bucket) }
     let(:title) { "Add existing work package to My Bucket" }
 
     include_examples "renders the dialog correctly"
   end
 
   context "when target is inbox" do
-    let(:target_id) { "inbox" }
+    let(:target_id) { Backlogs::Target::InboxId }
     let(:title) { "Add existing work package to Inbox" }
 
     include_examples "renders the dialog correctly"

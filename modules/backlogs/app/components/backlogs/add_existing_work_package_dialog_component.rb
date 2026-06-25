@@ -48,15 +48,13 @@ module Backlogs
     private
 
     def container_name
-      case Target.parse(target_id)
+      case target_id
       in Target::SprintId[id]
         Sprint.for_project(project).visible.where(id:).pick(:name) || Sprint.human_model_name
       in Target::BucketId[id]
         BacklogBucket.for_project(project).visible.where(id:).pick(:name) || BacklogBucket.human_model_name
       in Target::InboxId
         I18n.t(:label_inbox)
-      else
-        nil
       end
     end
 

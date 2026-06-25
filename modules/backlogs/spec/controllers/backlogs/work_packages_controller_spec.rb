@@ -699,6 +699,26 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
     end
 
+    context "with an empty target_id" do
+      let(:target_id) { nil }
+
+      it "responds with 422 and an error flash instead of a blank dialog", :aggregate_failures do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "dialog"
+      end
+    end
+
+    context "with an invalid target_id" do
+      let(:target_id) { "garbage" }
+
+      it "responds with 422 and an error flash instead of a blank dialog", :aggregate_failures do
+        expect(response).to have_http_status :unprocessable_entity
+        expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
+        expect(response).not_to have_turbo_stream action: "dialog"
+      end
+    end
+
     context "with a user lacking manage_sprint_items permission" do
       let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
       let(:target_id) { "inbox" }
