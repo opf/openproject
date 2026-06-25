@@ -359,9 +359,12 @@ RSpec.describe Settings::Definition, :settings_reset do
               "OPENPROJECT_2FA_ALLOW__REMEMBER__FOR__DAYS" => "15"
             }
           )
-          # override from env manually because these settings are added by plugin itself
-          described_class.send(:override_value, all[:plugin_openproject_two_factor_authentication])
-          expect(all[:plugin_openproject_two_factor_authentication].value).to eq(
+          # override from env manually because these settings are added by plugin itself.
+          # Operate on a dup so override_value does not mutate the shared definition
+          # instance, which the "with settings reset" snapshot only restores shallowly.
+          definition = all[:plugin_openproject_two_factor_authentication].dup
+          described_class.send(:override_value, definition)
+          expect(definition.value).to eq(
             "active_strategies" => %i[totp webauthn],
             "enforced" => true,
             "allow_remember_for_days" => 15
@@ -375,9 +378,12 @@ RSpec.describe Settings::Definition, :settings_reset do
               "OPENPROJECT_2FA" => '{"enforced": true, "allow_remember_for_days": 15}'
             }
           )
-          # override from env manually because these settings are added by plugin itself
-          described_class.send(:override_value, all[:plugin_openproject_two_factor_authentication])
-          expect(all[:plugin_openproject_two_factor_authentication].value)
+          # override from env manually because these settings are added by plugin itself.
+          # Operate on a dup so override_value does not mutate the shared definition
+          # instance, which the "with settings reset" snapshot only restores shallowly.
+          definition = all[:plugin_openproject_two_factor_authentication].dup
+          described_class.send(:override_value, definition)
+          expect(definition.value)
             .to eq({ "active_strategies" => %i[totp webauthn], "enforced" => true, "allow_remember_for_days" => 15 })
         end
       end
