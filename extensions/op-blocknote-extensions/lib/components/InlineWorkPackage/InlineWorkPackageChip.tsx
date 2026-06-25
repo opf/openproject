@@ -12,17 +12,19 @@ import { getPendingCallbacks, clearInlineWpCallbacks } from './callbacks';
 import { updateInlineChip } from '../../hooks/useInlineWpEvents';
 import type { InlineWpSize } from '../WorkPackage/types';
 import { wpBridge } from '../../services/wpBridge';
+import { selectInlineNode } from '../../utils/cursor';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
 import { useTranslation } from 'react-i18next';
 import { defaultWpVariables } from '../WorkPackage/atoms';
 import { formatWorkPackageId } from '../../utils/id';
 import { useIsNodeInSelection } from '../../hooks/useIsNodeInSelection';
+import type { BlockNoteEditor } from '@blocknote/core';
 
 export interface InlineWorkPackageChipProps {
   inlineContent:{ props:{ wpid:string; size:string; instanceId:string } };
   contentRef:(node:HTMLElement | null) => void;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  editor?:any;
+  editor?:BlockNoteEditor<any, any, any>;
 }
 
 const InlineChip = styled.span.attrs({
@@ -65,14 +67,12 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:Inli
     if (!wp || !editor) return;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
     if (wp.displayId === ((inlineContent.props as any).displayId ?? '')) return;
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     updateInlineChip(editor, instanceId, (chip) => ({ ...chip, props: { ...chip.props, displayId: wp.displayId } }));
   }, [wp?.displayId]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [isSelected, setIsSelected] = useState(false);
   const chipRef = useRef<HTMLElement | null>(null);
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const isEditorSelected = useIsNodeInSelection(chipRef, editor);
 
   const setRef = (node:HTMLElement | null) => {
@@ -135,6 +135,10 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:Inli
           e.preventDefault();
           e.stopPropagation();
           setIsSelected((prev) => !prev);
+          if (editor) {
+            selectInlineNode(editor, instanceId);
+            editor.getExtension('formattingToolbar')?.store?.setState(false);
+          }
         }}
       >
         {size === 'xxs' && <WpChipXXS wp={wp} />}
