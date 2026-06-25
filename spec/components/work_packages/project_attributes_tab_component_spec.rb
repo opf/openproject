@@ -34,7 +34,8 @@ RSpec.describe WorkPackages::ProjectAttributesTabComponent, type: :component do
   include Rails.application.routes.url_helpers
 
   let(:project) { create(:project) }
-  let(:work_package) { build_stubbed(:work_package, project:) }
+  let(:type) { create(:type) }
+  let(:work_package) { build_stubbed(:work_package, project:, type:) }
   let(:user) { build_stubbed(:admin) }
 
   current_user { user }
@@ -43,31 +44,54 @@ RSpec.describe WorkPackages::ProjectAttributesTabComponent, type: :component do
     render_inline(described_class.new(work_package:))
   end
 
+  def create_field_for(wp_type, section:)
+    create(:project_custom_field, project_custom_field_section: section, projects: [project]).tap do |f|
+      wp_type.project_custom_fields << f
+    end
+  end
+
   context "when the project has no custom fields" do
     it "renders nothing" do
       expect(rendered_component.to_html).to be_empty
     end
   end
 
-  context "when the project has custom fields but the user has no permission to view them" do
+  context "when the project has custom fields mapped to the type but the user has no permission to view them" do
     let(:user) { build_stubbed(:user) }
     let(:section) { create(:project_custom_field_section) }
-    let!(:fields) { create_list(:project_custom_field, 2, project_custom_field_section: section, projects: [project]) }
+    let!(:fields) { Array.new(2) { create_field_for(type, section:) } }
 
     it "renders nothing" do
       expect(rendered_component.to_html).to be_empty
     end
   end
 
-  context "when the project has custom fields in multiple sections" do
+  context "when the project has custom fields in multiple sections mapped to the type" do
     let(:section_a) { create(:project_custom_field_section) }
     let(:section_b) { create(:project_custom_field_section) }
-    let!(:fields_a) { create_list(:project_custom_field, 2, project_custom_field_section: section_a, projects: [project]) }
-    let!(:fields_b) { create_list(:project_custom_field, 1, project_custom_field_section: section_b, projects: [project]) }
+    let!(:fields_a) { Array.new(2) { create_field_for(type, section: section_a) } }
+    let!(:fields_b) { [create_field_for(type, section: section_b)] }
 
     it "renders one section component per custom field section" do
       expect(rendered_component).to have_test_selector("wp-project-attribute-section-#{section_a.id}")
       expect(rendered_component).to have_test_selector("wp-project-attribute-section-#{section_b.id}")
+    end
+  end
+
+  context "when the project has custom fields with type mappings" do
+    let(:section) { create(:project_custom_field_section) }
+    let(:other_type) { create(:type) }
+    let!(:field_for_type) { create_field_for(type, section:) }
+    let!(:field_for_other_type) { create_field_for(other_type, section:) }
+    let!(:field_without_mapping) do
+      create(:project_custom_field, project_custom_field_section: section, projects: [project])
+    end
+
+    it "only renders fields mapped to the work package type" do
+      expect(rendered_component).to have_test_selector("wp-project-attribute-section-#{section.id}")
+      expect(rendered_component).to have_text(field_for_type.name)
+      expect(rendered_component).to have_no_text(field_for_other_type.name)
+      expect(rendered_component).to have_no_text(field_without_mapping.name)
     end
   end
 end

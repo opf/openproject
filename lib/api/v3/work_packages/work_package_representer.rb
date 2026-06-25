@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -494,7 +496,14 @@ module API
                  as: :hasProjectAttributes,
                  writable: false,
                  uncacheable: true,
-                 getter: ->(*) { project&.available_custom_fields&.any? || false }
+                 getter: ->(*) do
+                   fields = project
+                              &.available_custom_fields
+                              &.joins(:project_custom_field_type_mappings)
+                   fields
+                     &.where(project_custom_field_type_mappings: { type_id: })
+                     &.any? || false
+                 end
 
         associated_resource :category
 

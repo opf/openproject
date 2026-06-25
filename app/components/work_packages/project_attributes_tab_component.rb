@@ -48,6 +48,8 @@ class WorkPackages::ProjectAttributesTabComponent < ApplicationComponent
   def project_custom_fields_grouped_by_section
     @project_custom_fields_grouped_by_section ||=
       @project.available_custom_fields
+              .joins(:project_custom_field_type_mappings)
+              .where(project_custom_field_type_mappings: { type_id: @work_package.type_id })
               .group_by(&:project_custom_field_section)
   end
 end

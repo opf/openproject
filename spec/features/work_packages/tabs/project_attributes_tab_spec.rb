@@ -32,12 +32,14 @@ require "spec_helper"
 
 RSpec.describe "Work package project attributes tab", :js do
   shared_let(:project) { create(:project) }
+  shared_let(:type) { create(:type) }
   shared_let(:section) { create(:project_custom_field_section, name: "Details") }
   shared_let(:string_field) do
     create(:string_project_custom_field,
            name: "Project info",
            project_custom_field_section: section,
            projects: [project]) do |field|
+      type.project_custom_fields << field
       create(:custom_value, customized: project, custom_field: field, value: "Initial value")
     end
   end
@@ -49,7 +51,7 @@ RSpec.describe "Work package project attributes tab", :js do
     create(:project_role, permissions: %i[view_work_packages view_project_attributes])
   end
 
-  let(:work_package) { create(:work_package, project:) }
+  let(:work_package) { create(:work_package, project:, type:) }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
   let(:inplace_field) { Components::Common::InplaceEditField.new(project, string_field.attribute_name.to_sym) }
   let(:input_field) { FormFields::Primerized::InputField.new(string_field) }

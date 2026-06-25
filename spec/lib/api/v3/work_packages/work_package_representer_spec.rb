@@ -204,21 +204,22 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
     end
 
     describe "hasProjectAttributes" do
-      context "when the project has no visible custom fields" do
-        before do
-          allow(workspace).to receive(:available_custom_fields).and_return([])
-        end
+      let(:type_fields_exist) { false }
 
+      before do
+        fields = instance_double(ActiveRecord::Relation, any?: type_fields_exist)
+        allow(fields).to receive_messages(reject: [], joins: fields, where: fields)
+        allow(workspace).to receive(:available_custom_fields).and_return(fields)
+      end
+
+      context "when no custom fields are mapped to the type" do
         it "renders as false" do
           expect(subject).to be_json_eql(false.to_json).at_path("hasProjectAttributes")
         end
       end
 
-      context "when the project has visible custom fields" do
-        before do
-          allow(workspace).to receive(:available_custom_fields)
-            .and_return(instance_double(Array, any?: true, reject: []))
-        end
+      context "when custom fields are mapped to the type" do
+        let(:type_fields_exist) { true }
 
         it "renders as true" do
           expect(subject).to be_json_eql(true.to_json).at_path("hasProjectAttributes")
