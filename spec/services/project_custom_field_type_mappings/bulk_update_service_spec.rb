@@ -50,7 +50,7 @@ RSpec.describe ProjectCustomFieldTypeMappings::BulkUpdateService do
       result = instance.call(action: :unsupported)
 
       expect(result).to be_failure
-      expect(result.errors).to eq("Unsupported bulk update action: :unsupported")
+      expect(result.errors).to eq("Unsupported bulk update action: unsupported")
       expect(type.reload.project_custom_fields).to be_empty
     end
   end

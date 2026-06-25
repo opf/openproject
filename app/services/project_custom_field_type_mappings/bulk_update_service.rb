@@ -45,7 +45,7 @@ module ProjectCustomFieldTypeMappings
       when :disable
         disable_custom_fields(custom_field_ids)
       else
-        raise ArgumentError, "Unsupported bulk update action: #{params[:action].inspect}"
+        raise ArgumentError, "Unsupported bulk update action: #{params[:action]}"
       end
 
       service_call
