@@ -32,7 +32,7 @@ To use this module, you must have the work packages module enabled.
 
 Clicking on the **Team planners** entry on the left sidebar takes you to the team planner module with a list of all existing team planners:
 
-![List of team planners](openproject_user_guide_teamplanner_overview_explained.png)
+![List of team planners created in a project in OpenProject](openproject_user_guide_teamplanner_overview_explained.png)
 
 - You can create a new team planner using either the **+ Team planner** button in the top right near your avatar or at the bottom of the left menu bar.
 - Click on an existing (saved) team planner to open it.

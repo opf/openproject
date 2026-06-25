@@ -104,7 +104,8 @@ OpenProject allows you to subscribe to and access any of your calendars using an
 
 This makes it possible for you to keep an eye on your project schedule from any compatible device (including mobile devices) without having to connect to your OpenProject instance and always remain up to date with relevant work packages.
 
-> **Note:** You can only subscribe to saved calendars. If you are creating a new calendar, please save it before you are able to create a calendar subscription.
+> [!NOTE]
+> You can only subscribe to saved calendars. If you are creating a new calendar, please save it before you are able to create a calendar subscription.
 
 ![Subscribe to calendar in the More menu](openproject_user_guide_calendar_menu_subscribe.png)
 
