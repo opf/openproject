@@ -36,7 +36,7 @@
     "@hocuspocus/provider": "^4.2.0",
     "@hocuspocus/provider-prev-test-only": "npm:@hocuspocus/provider@^3",
     "@stylistic/eslint-plugin": "^5.3.1",
-    "@types/node": "^25.0.2",
+    "@types/node": "^25.9.4",
     "eslint": "^10.4.1",
     "globals": "^17.3.0",
     "msw": "^2.12.7",
