@@ -91,7 +91,7 @@ export class WorkPackageViewHierarchyIdentationService {
     // get the first element of the ancestor chain that workPackage is not in
     const predecessor = await firstValueFrom(this.apiV3Service.work_packages.id(predecessorId).get());
 
-    const difference = _.difference(predecessor.ancestorIds, workPackage.ancestorIds);
+    const difference = predecessor.ancestorIds.filter((id) => !workPackage.ancestorIds.includes(id));
     if (difference && difference.length > 0) {
       newParentId = difference[0];
     }

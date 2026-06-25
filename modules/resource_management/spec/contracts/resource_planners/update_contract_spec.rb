@@ -53,5 +53,72 @@ RSpec.describe ResourcePlanners::UpdateContract do
     it "does not allow principal to be set" do
       expect(contract.writable?(:principal)).to be(false)
     end
+
+    it "allows public to be set" do
+      expect(contract.writable?(:public)).to be(true)
+    end
+  end
+
+  describe "changing the public flag" do
+    let(:project) { create(:project, enabled_module_names: %w[resource_management]) }
+    let(:contract) { described_class.new(resource_planner, current_user) }
+    let(:unauthorized_message) { I18n.t("activerecord.errors.messages.error_unauthorized") }
+
+    context "when the user lacks manage_public_resource_planners" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { project => %i[view_resource_planners] })
+      end
+
+      context "and the planner is public" do
+        let(:resource_planner) do
+          create(:resource_planner, project:, principal: current_user, public: true)
+        end
+
+        # Regression: unsetting public bypassed the permission check because the
+        # validation only ran when the *resulting* state was public.
+        it "cannot unset the public flag" do
+          resource_planner.public = false
+          contract.validate
+
+          expect(contract.errors[:public]).to include(unauthorized_message)
+        end
+      end
+
+      context "and the planner is private" do
+        let(:resource_planner) do
+          create(:resource_planner, project:, principal: current_user, public: false)
+        end
+
+        it "cannot set the public flag" do
+          resource_planner.public = true
+          contract.validate
+
+          expect(contract.errors[:public]).to include(unauthorized_message)
+        end
+
+        it "is valid when the public flag is left unchanged" do
+          contract.validate
+
+          expect(contract.errors[:public]).to be_empty
+        end
+      end
+    end
+
+    context "when the user can manage_public_resource_planners" do
+      let(:current_user) do
+        create(:user,
+               member_with_permissions: { project => %i[view_resource_planners manage_public_resource_planners] })
+      end
+      let(:resource_planner) do
+        create(:resource_planner, project:, principal: current_user, public: true)
+      end
+
+      it "can unset the public flag" do
+        resource_planner.public = false
+        contract.validate
+
+        expect(contract.errors[:public]).to be_empty
+      end
+    end
   end
 end

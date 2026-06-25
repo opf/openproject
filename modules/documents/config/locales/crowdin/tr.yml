@@ -45,7 +45,7 @@ tr:
   default_doc_category_user: Kullanıcı belgeleri
   enumeration_doc_categories: Belge kategorileri
   documents:
-    button_add_type: Type
+    button_add_type: Tür
     page_header:
       heading: Tüm belgeler
       action_menu:
@@ -89,7 +89,7 @@ tr:
     last_updated_at: Son kaydedilen %{time}.
     info_line:
       currently_offline: Şu anda çevrimdışısınız.
-      connection_restored: You are now back online.
+      connection_restored: Artık tekrar çevrimiçisiniz.
     active_editors: Etkin düzenleyici
     active_editors_count:
       one: 1 aktif editör

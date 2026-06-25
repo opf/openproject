@@ -316,7 +316,7 @@ group :test do
 
   gem "equivalent-xml", "~> 0.6"
   gem "json_spec", "~> 1.1.4"
-  gem "shoulda-matchers", "~> 7.0", require: nil
+  gem "shoulda-matchers", "~> 8.0", require: nil
 
   gem "parallel_tests", "~> 4.0"
 end
@@ -433,5 +433,5 @@ end
 source "https://rubygems.org", cooldown: 0 do
   gem "openproject-octicons", "~>19.35.0"
   gem "openproject-octicons_helper", "~>19.35.0"
-  gem "openproject-primer_view_components", "~>0.87.0"
+  gem "openproject-primer_view_components", "~>0.88.0"
 end

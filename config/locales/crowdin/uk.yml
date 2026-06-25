@@ -6359,6 +6359,8 @@ uk:
     scopes:
       api_v3: Повний доступ до API версії 3
       api_v3_text: Додаток отримає повний доступ для читання та записування в OpenProject API версії 3, щоб виконувати дії від вашого імені.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Затверджено
       scopes: Дозволи

@@ -251,7 +251,7 @@ es:
       rates:
         title: Historial de tasas
     settings:
-      time_and_costs: Tiempo y costos
+      time_and_costs: Time and costs
       cost_types:
         heading: Tipos de costos
         none_active: Actualmente no hay tipos de coste activos en este proyecto.

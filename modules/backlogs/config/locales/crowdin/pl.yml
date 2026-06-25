@@ -88,7 +88,11 @@ pl:
               not_assignable: nie można przypisać, ponieważ albo nie jest współdzielony z projektem, albo został już ukończony.
               not_eligible_for_moving: nie jest aktywnym sprintem w projekcie, w którym znajduje się sprint, z którego przenoszony jest pakiet roboczy.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        few: Sprints
+        many: Sprints
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Ustawienia administratora backlogu ewoluują

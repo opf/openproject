@@ -6150,6 +6150,8 @@ zh-TW:
     scopes:
       api_v3: 完整 API v3 存取
       api_v3_text: 應用程序將獲得 OpenProject API v3 的完全讀寫訪問權限來代表您執行操作。
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: 核准於
       scopes: 權限

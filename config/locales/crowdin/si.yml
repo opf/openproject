@@ -6217,6 +6217,8 @@ si:
     scopes:
       api_v3: පූර්ණ API v3 ප්රවේශ
       api_v3_text: ඔබ වෙනුවෙන් ක්රියාවන් සිදු කිරීම සඳහා OpenProject API v3 වෙත සම්පූර්ණ කියවීමට සහ ලිවීමට ප්රවේශය ලබා දෙනු ඇත.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: මත අනුමත
       scopes: අවසර

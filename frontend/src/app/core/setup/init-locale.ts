@@ -79,15 +79,12 @@ export function initializeLocale() {
     },
   );
 
-  const localeImports = _
-    .chain([userLocale, instanceLocale])
-    .uniq()
+  const localeImports = [...new Set([userLocale, instanceLocale])]
     .map(
       (locale) => import(`../../../locales/${locale}.json`)
         .then((imported:{ default:object }) => {
           i18n.store(imported.default);
         }),
-      )
-    .value();
+    );
   return Promise.all(localeImports);
 }

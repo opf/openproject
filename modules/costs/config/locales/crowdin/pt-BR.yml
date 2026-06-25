@@ -251,7 +251,7 @@ pt-BR:
       rates:
         title: Taxa histórica
     settings:
-      time_and_costs: Tempo e custos
+      time_and_costs: Time and costs
       cost_types:
         heading: Tipos de custo
         none_active: Nenhum tipo de custo está ativo neste projeto.

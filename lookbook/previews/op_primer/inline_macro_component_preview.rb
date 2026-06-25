@@ -47,6 +47,10 @@ module OpPrimer
       end
     end
 
+    def loading_content
+      render_with_template
+    end
+
     def with_link
       render_with_template
     end

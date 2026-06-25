@@ -33,25 +33,37 @@ module ResourcePlanners
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
 
+    def initialize(dialog_id: NewDialogComponent::DIALOG_ID,
+                   form_id: NewDialogComponent::FORM_ID,
+                   footer_id: NewDialogComponent::FOOTER_ID,
+                   submit_label: I18n.t(:button_next))
+      super
+
+      @dialog_id = dialog_id
+      @form_id = form_id
+      @footer_id = footer_id
+      @submit_label = submit_label
+    end
+
     def wrapper_key
-      NewDialogComponent::FOOTER_ID
+      @footer_id
     end
 
     def call
       component_wrapper do
         component_collection do |buttons|
           buttons.with_component(
-            Primer::Beta::Button.new(data: { close_dialog_id: NewDialogComponent::DIALOG_ID })
+            Primer::Beta::Button.new(data: { close_dialog_id: @dialog_id })
           ) { I18n.t(:button_cancel) }
 
           buttons.with_component(
             Primer::Beta::Button.new(
               scheme: :primary,
-              form: NewDialogComponent::FORM_ID,
+              form: @form_id,
               data: { turbo: true },
               type: :submit
             )
-          ) { I18n.t(:button_next) }
+          ) { @submit_label }
         end
       end
     end

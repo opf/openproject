@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { ChangeDetectionStrategy, Component, EventEmitter, HostBinding, Input, OnInit, Output, inject } from '@angular/core';
 
 import { I18nService } from 'core-app/core/i18n/i18n.service';
@@ -183,7 +184,7 @@ export class OpBaselineComponent extends UntilDestroyedMixin implements OnInit {
     this.wpTableBaseline
       .pristine$()
       .subscribe((timestamps) => {
-        if (_.isEqual(timestamps, [DEFAULT_TIMESTAMP])) {
+        if (isEqual(timestamps, [DEFAULT_TIMESTAMP])) {
           this.resetSelection();
           this.wpTableBaseline.disable();
         }

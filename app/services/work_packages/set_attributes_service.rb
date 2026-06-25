@@ -35,8 +35,6 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
 
   def set_attributes(attributes)
     validate_custom_fields = attributes.delete(:validate_custom_fields)
-    file_links_ids = attributes.delete(:file_links_ids)
-    model.file_links = Storages::FileLink.where(id: file_links_ids) if file_links_ids
 
     set_attachments_attributes(attributes)
     set_static_attributes(attributes)
@@ -274,6 +272,10 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     end
   end
 
+  # The identifier belongs to the source project; a fresh one is allocated
+  # after the move (WorkPackages::UpdateService#update_semantic_ids). The
+  # fields must be cleared in the same UPDATE that changes project_id because
+  # of the unique index on (project_id, sequence_number).
   def clear_semantic_identifier
     work_package.sequence_number = nil
     work_package.identifier = nil

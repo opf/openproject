@@ -46,6 +46,6 @@ export class WorkPackagesGitlabMrsService extends WorkPackageLinkedResourceCache
   }
 
   protected sortList(mergeRequests:HalResource[], attr = 'createdAt'):HalResource[] {
-    return sortBy(_.flatten(mergeRequests), attr);
+    return sortBy(mergeRequests.flat(), attr);
   }
 }

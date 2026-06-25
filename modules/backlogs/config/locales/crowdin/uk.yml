@@ -88,7 +88,11 @@ uk:
               not_assignable: не можна призначити, оскільки його вже завершено або доступ до нього не надано цьому проєкту.
               not_eligible_for_moving: не є активним спринтом у проєкті, який включає спринт, з якого переміщується пакет робіт.
     models:
-      sprint: Спринт
+      sprint:
+        one: Sprint
+        few: Sprints
+        many: Sprints
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Ми змінюємо налаштування адміністратора в модулі беклогів

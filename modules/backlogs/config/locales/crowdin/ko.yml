@@ -85,7 +85,8 @@ ko:
               not_assignable: "- 프로젝트와 공유되지 않았거나 이미 완료되었으므로 할당할 수 없습니다."
               not_eligible_for_moving: "- 작업 패키지가 이동된 스프린트가 속한 프로젝트에서 활성 스프린트가 아닙니다."
     models:
-      sprint: 스프린트
+      sprint:
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: 백로그 관리자 설정을 개선하는 중입니다

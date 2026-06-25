@@ -251,9 +251,9 @@ ro:
               few: "%{count} types"
               other: "%{count} types"
             statuses:
-              one: 1 status
-              few: "%{count} statuses"
-              other: "%{count} statuses"
+              one: 1 stare
+              few: "%{count} stări"
+              other: "%{count} stări"
             users:
               one: 1 user
               few: "%{count} users"
@@ -503,17 +503,17 @@ ro:
         user_assignee: User is assignee
       status_button: Status
       statuses_dialog:
-        title: Statuses
+        title: Statusuri
         label: Statuses enabled for this type
         caption: Add or remove statuses you would like to associate with this type. Removing a status will also delete the workflow associated with it.
       statuses_removal_dialog:
         title: Remove statuses
         heading:
-          one: Remove 1 status?
+          one: Elimini o stare?
           few: Remove %{count} statuses?
           other: Remove %{count} statuses?
         description: Removing these statuses will make them unavailable to this type and delete existing workflows. Are you sure you want to proceed?
-        confirm: Remove
+        confirm: Elimină
       leave_confirmation:
         title: Save changes before continuing?
         description: You are about to leave this page but you have unsaved changes. Would you like to save them before continuing?
@@ -4477,7 +4477,7 @@ ro:
   label_start_to_start: început la început
   label_statistics: Statistici
   label_status: Stare
-  label_status_plural: Statuses
+  label_status_plural: Stări
   label_storage_free_space: Spațiu disc rămas
   label_storage_used_space: Spațiu disc folosit
   label_storage_group: Sistem de fișiere pentru stocare %{identifier}
@@ -6285,6 +6285,8 @@ ro:
     scopes:
       api_v3: Acces complet la API v3
       api_v3_text: Aplicația va primi acces complet de citire și scriere la OpenProject API v3 pentru a efectua acțiuni în numele dumneavoastră.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Aprobat
       scopes: Permisiuni

@@ -102,7 +102,7 @@ export class HalLink implements HalLinkInterface {
       throw new Error(`The link ${this.href} is not templated.`);
     }
 
-    let href = _.clone(this.href) || '';
+    let href = this.href ?? '';
     Object.entries(templateValues).forEach(([key, value]) => {
       const regexp = new RegExp(`{${key}}`);
       href = href.replace(regexp, value);

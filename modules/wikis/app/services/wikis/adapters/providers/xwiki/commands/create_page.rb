@@ -62,6 +62,8 @@ module Wikis
 
               authenticated(auth_strategy) do |http|
                 handle_response(http.get(rest_url(ref.rest_path))) do |data|
+                  return failure(code: :invalid_parent) if fetch_json(data, "name") != "WebHome"
+
                   success("#{fetch_json(data, 'wiki')}:#{fetch_json(data, 'space')}")
                 end
               end

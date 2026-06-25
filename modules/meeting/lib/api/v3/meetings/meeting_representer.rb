@@ -122,7 +122,8 @@ module API
 
         property :template
 
-        property :notify
+        property :notify,
+                 getter: ->(*) { notify? }
 
         associated_resource :author,
                             v3_path: :user,

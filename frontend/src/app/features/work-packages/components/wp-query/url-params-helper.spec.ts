@@ -172,7 +172,7 @@ describe('UrlParamsHelper', () => {
         pageSize: 100,
       };
 
-      expect(_.isEqual(decodedQueryParams, expected)).toBeTruthy();
+      expect(decodedQueryParams).toEqual(expected);
     });
   });
 
@@ -264,7 +264,7 @@ describe('UrlParamsHelper', () => {
         timestamps: 'PT0S',
       };
 
-      expect(_.isEqual(v3Params, expected)).toBeTruthy();
+      expect(v3Params).toEqual(expected);
     });
 
     it('decodes custom options filters', () => {
@@ -324,7 +324,7 @@ describe('UrlParamsHelper', () => {
         timestamps: 'PT0S',
       };
 
-      expect(_.isEqual(v3Params, expected)).toBeTruthy();
+      expect(v3Params).toEqual(expected);
     });
   });
 });

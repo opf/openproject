@@ -76,6 +76,19 @@ RSpec.describe MeetingSections::UpdateContract do
     it_behaves_like "contract is invalid", base: :error_unauthorized
   end
 
+  context "when the meeting is changed" do
+    let(:user) do
+      create(:user, member_with_permissions: { project => [:manage_agendas] })
+    end
+    let(:other_meeting) { create(:meeting, project: other_project) }
+
+    before do
+      section.meeting = other_meeting
+    end
+
+    it_behaves_like "contract is invalid", meeting_id: :error_readonly
+  end
+
   include_examples "contract reuses the model errors" do
     let(:user) { build_stubbed(:user) }
   end

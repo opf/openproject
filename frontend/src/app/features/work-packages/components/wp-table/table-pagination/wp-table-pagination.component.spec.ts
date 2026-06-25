@@ -85,7 +85,9 @@ describe('wpTablePagination Directive', () => {
         WorkPackageViewPaginationService,
         HalResourceService,
         { provide: WeekdayService, useValue: WeekdayServiceStub },
-        ConfigurationService,
+        // PaginationService reads perPageOptions from ConfigurationService in its
+        // constructor; in production the service is initialized before injection.
+        { provide: ConfigurationService, useValue: { perPageOptions: [10, 50] } as unknown as ConfigurationService },
         IsolatedQuerySpace,
         I18nService,
         provideHttpClient(withXhr(), withInterceptorsFromDi()),

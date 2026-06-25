@@ -251,7 +251,7 @@ fr:
       rates:
         title: Historique des tarifs
     settings:
-      time_and_costs: Temps et coûts
+      time_and_costs: Time and costs
       cost_types:
         heading: Types de coûts
         none_active: Aucun type de coût n'est actuellement actif dans ce projet.

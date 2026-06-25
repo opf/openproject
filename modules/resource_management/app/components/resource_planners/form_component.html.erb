@@ -30,10 +30,10 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   component_wrapper do
     primer_form_with(
-      id: FORM_ID,
+      id: @form_id,
       model: @resource_planner,
       scope: :resource_planner,
-      method: :post,
+      method: @method,
       url: form_url
     ) do |f|
       flex_layout do |flex|
@@ -48,11 +48,13 @@ See COPYRIGHT and LICENSE files for more details.
         end
 
         flex.with_row(mb: 3) do
-          render ResourcePlanners::Forms::DatesForm.new(f)
+          render ResourcePlanners::Forms::DatesForm.new(f, dialog_id: @dialog_id)
         end
 
-        flex.with_row(mb: 3) do
-          render ResourcePlanners::Forms::DefaultViewForm.new(f)
+        if @include_default_view
+          flex.with_row(mb: 3) do
+            render ResourcePlanners::Forms::DefaultViewForm.new(f)
+          end
         end
 
         if can_manage_public?

@@ -85,7 +85,8 @@ zh-CN:
               not_assignable: 是不可分配的，因为它要么没有与项目共享，要么已经完成。
               not_eligible_for_moving: 在该工作包被移出的冲刺所属的项目中，没有处于有效状态的冲刺。
     models:
-      sprint: 冲刺
+      sprint:
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: 积压工作管理设置不断演进

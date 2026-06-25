@@ -36,7 +36,7 @@ fr:
     models:
       resource_allocation: Affectation des ressources
       resource_planner: Planificateur de ressources
-      resource_user_card: User cards
+      resource_user_card: Fiches des utilisateurs
       resource_work_package_list: Liste des lots de travaux
   button_next: Suivant
   label_resource_management: Planification des ressources
@@ -78,7 +78,7 @@ fr:
         hidden_work: Autres relations
         schedule_availability: "%{schedule} (%{factor}% de disponibilité pour des projets)"
         schedule_change: jusque le %{date}, puis %{schedule}
-        schedule_note: This user works %{schedule}.
+        schedule_note: Cet utilisateur utilise l'adresse %{schedule}.
         submit: Temps alloué
         title: Souhaitez-vous attribuer des heures supplémentaires à l'utilisateur ?
       submit: Allouer
@@ -116,37 +116,37 @@ fr:
       public: Public
     sub_views: Vues de ce planificateur de ressources
     user_allocations_dialog:
-      allocate_work_package: Allocate work package
-      blank: This user has no allocated work packages.
+      allocate_work_package: Attribuer un lot de travail
+      blank: Cet utilisateur n'a aucun lot de travail qui lui a été attribué.
       other_work_packages:
-        one: 1 other work package
-        other: "%{count} other work packages"
-      title: Utilization
+        one: 1 autre lot de travail
+        other: "%{count} autres lots de travail"
+      title: Utilisation
     user_card_list:
       add_user_dialog:
-        title: Add user
+        title: Ajouter un utilisateur
       blank:
-        description: There are no users matching this view's filters yet.
-        manual_description: No users have been added to this view yet.
-        title: No users to display
+        description: Aucun utilisateur ne correspond pour l'instant aux critères de filtrage de cette vue.
+        manual_description: Aucun utilisateur n'a encore été ajouté à cette vue.
+        title: Aucun utilisateur à afficher
       card:
-        remove: Remove user
-        remove_confirmation: Remove this user from the view?
+        remove: Supprimer l'utilisateur
+        remove_confirmation: Souhaitez-vous supprimer cet utilisateur de la liste ?
       subheader:
-        resource: Resource
-        settings: Configure view
+        resource: Ressource
+        settings: Configurer la vue
       utilization:
-        label: Utilization
+        label: Utilisation
     view_types:
       resource_user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
+        label: Liste des fiches des utilisateurs
       resource_work_package_list:
         caption: Créez une vue basée sur des lots de travaux et affichez leurs informations et leur affectation dans une liste
         label: Liste des lots de travaux
     work_package_allocations_dialog:
       allocate_resource: Allouer une ressource
-      context_menu_label: Allocation actions
+      context_menu_label: Actions d'allocation
       delete_confirmation: Êtes-vous sûr de vouloir supprimer cette allocation ? Cette action est irréversible.
       delete_success: Allocation de la ressource supprimée.
       hidden_user: Utilisateur masqué

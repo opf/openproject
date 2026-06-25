@@ -6323,6 +6323,8 @@ hu:
     scopes:
       api_v3: Teljes API v3 hozzáférés
       api_v3_text: Az alkalmazás teljes olvasási és írási hozzáférést kap az OpenProject API v3 verzióhoz az Ön nevében végzett műveletek elvégzéséhez.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: 'Elfogadva '
       scopes: Jogosultságok

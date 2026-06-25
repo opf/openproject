@@ -41,7 +41,7 @@ export class BoardVersionActionService extends CachedBoardActionService {
   localizedName = this.I18n.t('js.work_packages.properties.version');
 
   public canAddToQuery(query:QueryResource):Promise<boolean> {
-    const formLink = _.get(query, 'results.createWorkPackage.href', null);
+    const formLink = (query?.results?.createWorkPackage as { href?:string }|undefined)?.href ?? null;
 
     if (!formLink) {
       return Promise.resolve(false);

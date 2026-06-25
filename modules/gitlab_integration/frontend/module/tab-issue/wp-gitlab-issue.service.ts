@@ -46,6 +46,6 @@ export class WorkPackagesGitlabIssueService extends WorkPackageLinkedResourceCac
   }
 
   protected sortList(gitlabIssue:HalResource[], attr = 'createdAt'):HalResource[] {
-    return sortBy(_.flatten(gitlabIssue), attr);
+    return sortBy(gitlabIssue.flat(), attr);
   }
 }

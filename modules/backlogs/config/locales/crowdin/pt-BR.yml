@@ -86,7 +86,9 @@ pt-BR:
               not_assignable: não pode ser atribuído, pois não está compartilhado com o projeto ou já foi concluído.
               not_eligible_for_moving: não é uma sprint ativa no projeto que contém a sprint da qual o pacote de trabalho está sendo movido.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: As configurações administrativas do backlog estão evoluindo

@@ -62,4 +62,22 @@ RSpec.describe ResourcePlanners::UpdateService, type: :model do
     described_class.new(user:, model: resource_planner).call(project: other_project)
     expect(resource_planner.reload.project).to eq(project)
   end
+
+  context "when favorite: true is passed" do
+    it "marks the planner as favorited by the calling user" do
+      described_class.new(user:, model: resource_planner).call(name: "Updated", favorite: true)
+
+      expect(resource_planner.favorited_by?(user)).to be(true)
+    end
+  end
+
+  context "when favorite: false is passed for an already-favorited planner" do
+    before { resource_planner.add_favoriting_user(user) }
+
+    it "removes the favorite for the calling user" do
+      described_class.new(user:, model: resource_planner).call(name: "Updated", favorite: false)
+
+      expect(resource_planner.favorited_by?(user)).to be(false)
+    end
+  end
 end

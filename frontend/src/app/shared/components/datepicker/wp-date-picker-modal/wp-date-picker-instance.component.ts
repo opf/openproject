@@ -26,7 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { omitBy } from 'lodash-es';
+import { isEqual, omitBy } from 'lodash-es';
 import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, ViewChild, inject } from '@angular/core';
 import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { TimezoneService } from 'core-app/core/datetime/timezone.service';
@@ -41,7 +41,6 @@ import { PathHelperService } from 'core-app/core/path-helper/path-helper.service
 import { populateInputsFromDataset } from 'core-app/shared/components/dataset-inputs';
 import { fromEvent } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import _ from 'lodash';
 
 export type DateMode = 'single'|'range';
 
@@ -164,7 +163,7 @@ export class OpWpDatePickerInstanceComponent extends UntilDestroyedMixin impleme
   private isDifferentFromDatePickerSelectedDates(isoDates:string[]):boolean {
     const datePickerSelectedDates = this.datePickerInstance.datepickerInstance.selectedDates;
     const isoDatePickerSelectedDates = datePickerSelectedDates.map((date) => this.timezoneService.formattedISODate(date));
-    return !_.isEqual(isoDates, isoDatePickerSelectedDates);
+    return !isEqual(isoDates, isoDatePickerSelectedDates);
   }
 
   // set dates on flatpickr, trying to avoid jumping to a different month when possible

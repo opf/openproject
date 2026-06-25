@@ -37,7 +37,7 @@ See COPYRIGHT and LICENSE files for more details.
         )
       ) do |tree_view|
         pages.each do |page|
-          tree_view.with_leaf(select_variant: :single, label: page.title, value: page.identifier) do |item|
+          tree_view.with_leaf(select_variant: :single, label: page.title, data: { node_id: page.identifier }, value: page.identifier) do |item|
             item.with_leading_visual_icon(icon: :"op-file-doc")
           end
         end

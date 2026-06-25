@@ -66,11 +66,13 @@ RSpec.describe "API v3 Work package resource",
         }
       }
     end
+    let(:project_storage) { nil }
 
     before do
       status.save!
       priority.save!
       other_user
+      project_storage
 
       perform_enqueued_jobs do
         post path, parameters.to_json
@@ -407,7 +409,7 @@ RSpec.describe "API v3 Work package resource",
               href: api_v3_paths.project(project.id)
             },
             attachments: [
-              href: api_v3_paths.attachment(attachment.id)
+              { href: api_v3_paths.attachment(attachment.id) }
             ]
           }
         }
@@ -425,6 +427,7 @@ RSpec.describe "API v3 Work package resource",
 
     context "when file links are being claimed" do
       let(:storage) { create(:nextcloud_storage) }
+      let(:project_storage) { create(:project_storage, project:, storage:) }
       let(:file_link) do
         create(:file_link,
                container_id: nil,
@@ -443,29 +446,37 @@ RSpec.describe "API v3 Work package resource",
               href: api_v3_paths.project(project.id)
             },
             fileLinks: [
-              href: api_v3_paths.file_link(file_link.id)
+              { href: api_v3_paths.file_link(file_link.id) }
             ]
           }
         }
       end
-      let(:extra_permissions) do
-        %i[view_file_links]
+      let(:extra_permissions) { %i[view_file_links manage_file_links] }
+
+      context "when user is not allowed to manage file links" do
+        let(:extra_permissions) { %i[view_file_links] }
+
+        it "does not create a work package and responds with an error" do
+          expect(WorkPackage.count).to eq(0)
+          expect(last_response.body).to be_json_eql(
+            "urn:openproject-org:api:v3:errors:MissingPermission".to_json
+          ).at_path("errorIdentifier")
+        end
       end
 
-      it "does not create a work packages and responds with an error " \
-         "when user is not allowed to manage file links", :aggregate_failtures do
-        expect(WorkPackage.count).to eq(0)
-        expect(last_response.body).to be_json_eql(
-          "urn:openproject-org:api:v3:errors:MissingPermission".to_json
-        ).at_path("errorIdentifier")
+      context "when there is no project storage for the file link's storage" do
+        let(:project_storage) { create(:project_storage, project:) }
+
+        it "does not create a work package and responds with an error" do
+          expect(WorkPackage.count).to eq(0)
+          expect(last_response.body).to be_json_eql(
+            "urn:openproject-org:api:v3:errors:PropertyConstraintViolation".to_json
+          ).at_path("errorIdentifier")
+        end
       end
 
       context "when user is allowed to manage file links" do
-        let(:extra_permissions) do
-          %i[view_file_links manage_file_links]
-        end
-
-        it "creates a work package and assigns the file links", :aggregate_failtures do
+        it "creates a work package and assigns the file links" do
           expect(WorkPackage.count).to eq(1)
           work_package = WorkPackage.first
           expect(work_package.file_links).to eq([file_link])

@@ -44,7 +44,7 @@ fr:
       sprint_goal:
         text: Objectif du sprint
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: Compartiment des commandes en attente
         backlogs_work_package_type: Type de backlog
         position: Position
         sprint: Sprint
@@ -86,18 +86,20 @@ fr:
               not_assignable: n'est pas assignable, car il est déjà terminée ou il n'est pas partagé avec le projet.
               not_eligible_for_moving: n'est pas un sprint actif dans le projet qui contient le sprint duquel le lot de travaux est déplacé.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Les paramètres d'administration du backlog évoluent
       text: Nous sommes en train de redessiner le module Backlogs. Les paramètres d'administration pour les sprints et les backlogs seront visibles ici dans un futur proche. Les paramètres au niveau du projet restent disponibles.
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: Nouveau bucket de backlog
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: Compartiment des commandes en attente
+        other: Buckets de backlog
+        zero: Tous les compartiments de commandes en attente
       label_sprint_filter:
         one: Sprint
         other: Sprints

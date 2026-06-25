@@ -1,0 +1,55 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://xwiki.local/rest/openproject/documents/76e14
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - OpenProject 17.6.0 HTTPX Client
+      Accept:
+      - application/json
+      Accept-Encoding:
+      - gzip, deflate
+      Authorization:
+      - Bearer <SECRET>
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Content-Language:
+      - en
+      Content-Script-Type:
+      - text/javascript
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Mon, 22 Jun 2026 07:11:10 GMT
+      Set-Cookie:
+      - JSESSIONID=BBAF653F5895BAF72E35CB8678CC4508; Path=/; HttpOnly
+      Xwiki-Form-Token:
+      - Q2mTvZxYrU5KAp9nzlv5lg
+      Xwiki-User:
+      - xwiki:XWiki.admin
+      Xwiki-Version:
+      - 18.3.0
+      Content-Length:
+      - '8157'
+    body:
+      encoding: UTF-8
+      string: '{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox","rel":"http://www.xwiki.org/rel/space","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/WebHome","rel":"http://www.xwiki.org/rel/parent","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/objects","rel":"http://www.xwiki.org/rel/objects","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/syntaxes","rel":"http://www.xwiki.org/rel/syntaxes","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/openproject/documents/76e14","rel":"self","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/classes/Sandbox.TestPage1","rel":"http://www.xwiki.org/rel/class","type":null,"hrefLang":null}],"id":"76e14","fullName":"Sandbox.TestPage1","wiki":"secondwiki","space":"Sandbox","name":"TestPage1","title":"Sandbox
+        Test Page 1","rawTitle":"Sandbox Test Page 1","parent":"Sandbox.WebHome","parentId":"secondwiki:Sandbox.WebHome","version":"1.1","author":"xwiki:XWiki.superadmin","authorName":null,"xwikiRelativeUrl":"https://xwiki.local/wiki/secondwiki/view/Sandbox/TestPage1","xwikiAbsoluteUrl":"https://xwiki.local/wiki/secondwiki/view/Sandbox/TestPage1","translations":{"links":[],"translations":[{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/de","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/de/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"de"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/ja","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/ja/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ja"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/lv","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/lv/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"lv"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/hr","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/hr/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"hr"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/uk","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/uk/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"uk"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/mr","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/mr/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"mr"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/ru","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/ru/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ru"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/en_GB","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/en_GB/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"en_GB"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/fr","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/fr/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"fr"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/ko","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/ko/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"ko"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/pt_BR","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/pt_BR/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"pt_BR"},{"links":[{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/es","rel":"http://www.xwiki.org/rel/page","type":null,"hrefLang":null},{"href":"https://xwiki.local/rest/wikis/secondwiki/spaces/Sandbox/pages/TestPage1/translations/es/history","rel":"http://www.xwiki.org/rel/history","type":null,"hrefLang":null}],"language":"es"}],"default":"en"},"syntax":"xwiki/2.1","language":"","majorVersion":1,"minorVersion":1,"hidden":false,"enforceRequiredRights":false,"created":1780916403000,"creator":"xwiki:XWiki.superadmin","creatorName":null,"modified":1780916403000,"modifier":"xwiki:XWiki.superadmin","modifierName":null,"originalMetadataAuthor":"XWiki.superadmin","originalMetadataAuthorName":null,"comment":"Created
+        URL Shortener.","content":"Click on **\"Edit\"** and modify the contents of
+        this page, then click on **\"Save & View\"** to see how they look like on
+        your page!\n\n= Here''s some dummy text to show you what the page looks like
+        =\n\nLorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore
+        eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+        sunt in culpa qui officia deserunt mollit anim id est laborum.","clazz":null,"objects":null,"attachments":null,"hierarchy":{"items":[{"label":"secondwiki","name":"secondwiki","type":"wiki","url":"https://xwiki.local/wiki/secondwiki/view/Main/"},{"label":"Sandbox","name":"Sandbox","type":"space","url":"https://xwiki.local/wiki/secondwiki/view/Sandbox/"},{"label":"TestPage1","name":"TestPage1","type":"document","url":"https://xwiki.local/wiki/secondwiki/view/Sandbox/TestPage1"}]},"rights":[],"renderedContent":null}'
+  recorded_at: Mon, 22 Jun 2026 07:11:10 GMT
+recorded_with: VCR 6.4.0

@@ -86,7 +86,9 @@ de:
               not_assignable: ist nicht zuweisbar, da es entweder nicht mit dem Projekt geteilt oder bereits beendet ist.
               not_eligible_for_moving: ist kein aktiver Sprint in dem Projekt, in dem der Sprint liegt, aus dem das Arbeitspaket verschoben wird.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Die Einstellungen des Backlogs-Moduls sind derzeit in der Entwicklung

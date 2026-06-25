@@ -204,11 +204,11 @@ RSpec.describe PermittedParams do
 
     context "with no instance passed" do
       let(:expected_permitted) do
-        %w(subject content forum_id).index_with("value")
+        %w(subject content).index_with("value")
       end
 
       let(:hash) do
-        expected_permitted.merge(evil: "true", sticky: "true", locked: "true")
+        expected_permitted.merge(evil: "true", sticky: "true", locked: "true", forum_id: "value")
       end
 
       it_behaves_like "allows params"
@@ -237,6 +237,29 @@ RSpec.describe PermittedParams do
       before do
         mock_permissions_for(user) do |mock|
           mock.allow_in_project :edit_messages, project:
+        end
+      end
+
+      subject { described_class.new(hash, user).message(project).to_h }
+
+      it do
+        expect(subject).to eq(expected_permitted)
+      end
+    end
+
+    context "with project instance passed but without edit_messages" do
+      let(:project) { instance_double(Project) }
+      let(:expected_permitted) do
+        %w(subject content).index_with("value")
+      end
+
+      let(:hash) do
+        ActionController::Parameters.new("message" => expected_permitted.merge(forum_id: "value", evil: "true"))
+      end
+
+      before do
+        mock_permissions_for(user) do |mock|
+          mock.allow_in_project :edit_own_messages, project:
         end
       end
 

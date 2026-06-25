@@ -6358,6 +6358,8 @@ lt:
     scopes:
       api_v3: Pilna API v3 prieiga
       api_v3_text: Aplikacija gaus pilną skaitymo ir rašymo prieigą prie OpenProject API v3 vykdyti veiksmus jūsų vardu.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Patvirtinimo data
       scopes: Leidimai

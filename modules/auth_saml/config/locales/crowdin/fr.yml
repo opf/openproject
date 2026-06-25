@@ -12,7 +12,7 @@ fr:
         sp_entity_id: ID de l'entité de service
         metadata_url: URL des métadonnées du fournisseur d'identité
         name_identifier_format: Format de l'identifiant du nom
-        idp_entity_id: Identity provider entity ID
+        idp_entity_id: ID d'entité du fournisseur d'identité
         idp_sso_service_url: Point de terminaison de connexion du fournisseur d'identité
         idp_slo_service_url: Point de terminaison de déconnexion du fournisseur d'identité
         idp_cert: Certificat public du fournisseur d'identité
@@ -45,7 +45,7 @@ fr:
       success: Mise à jour réussie de la configuration à l'aide des métadonnées du fournisseur d'identité.
       invalid_url: L'URL des métadonnées fournie n'est pas valide. Fournissez une URL HTTP(s).
       error: 'Échec de la récupération des métadonnées du fournisseur d''identité : %{error}'
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+      federation_metadata: 'L''URL des métadonnées renvoie vers un agrégat de fédération (plusieurs fournisseurs d''identité). Veuillez utiliser l''URL directe des métadonnées de votre établissement ou saisir l''identifiant d''entité (Entity ID) de l''IdP de votre établissement dans le formulaire de métadonnées, puis réessayez.
 
         '
       metadata_too_large: Le fichier de métadonnées dépasse la taille maximale autorisée.
@@ -116,7 +116,7 @@ fr:
       metadata_url: 'Votre fournisseur d''identité fournit une URL de métadonnées.
 
         '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+      idp_entity_id: 'Facultatif : utile lorsque l''URL des métadonnées renvoie vers un agrégat de fédération comportant un grand nombre d''entrées. Saisissez l''identifiant d''entité du fournisseur d''identité de votre établissement. Laissez ce champ vide pour les URL de métadonnées concernant une seule entité.
 
         '
       metadata_xml: 'Votre fournisseur d''identité fournit un téléchargement de métadonnées XML.

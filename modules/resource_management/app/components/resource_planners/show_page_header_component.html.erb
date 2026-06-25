@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { @resource_planner.name }
+      header.with_breadcrumbs(breadcrumb_items)
+
+      if favorited?
+        header.with_action_icon_button(
+          icon: "star-fill",
+          mobile_icon: "star-fill",
+          label: t(:button_unfavorite),
+          classes: "op-primer--star-icon",
+          tag: :a,
+          href: favorite_path_for(@resource_planner),
+          data: { turbo_method: :delete, "test-selector": "resource-planner-unfavorite" }
+        )
+      else
+        header.with_action_icon_button(
+          icon: "star",
+          mobile_icon: "star",
+          label: t(:button_favorite),
+          tag: :a,
+          href: favorite_path_for(@resource_planner),
+          data: { turbo_method: :post, "test-selector": "resource-planner-favorite" }
+        )
+      end
+
+      if show_action_menu?
+        header.with_action_menu(
+          menu_arguments: { anchor_align: :end },
+          button_arguments: { icon: "kebab-horizontal", "aria-label": t(:label_more) }
+        ) do |menu|
+          if edit_allowed?
+            menu.with_item(
+              label: t(:button_edit),
+              tag: :a,
+              href: edit_project_resource_planner_path(@project, @resource_planner),
+              content_arguments: { data: { controller: "async-dialog", "test-selector": "resource-planner-edit" } }
+            ) do |item|
+              item.with_leading_visual_icon(icon: :pencil)
+            end
+          end
+
+          if delete_allowed?
+            menu.with_item(
+              label: t(:button_delete),
+              scheme: :danger,
+              tag: :a,
+              href: project_resource_planner_path(@project, @resource_planner),
+              content_arguments: {
+                data: {
+                  turbo_method: :delete,
+                  turbo_confirm: t(:text_are_you_sure),
+                  "test-selector": "resource-planner-delete"
+                }
+              }
+            ) do |item|
+              item.with_leading_visual_icon(icon: :trash)
+            end
+          end
+        end
+      end
+    end %>

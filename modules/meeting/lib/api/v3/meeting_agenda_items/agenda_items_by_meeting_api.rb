@@ -32,9 +32,27 @@ module API
   module V3
     module MeetingAgendaItems
       class AgendaItemsByMeetingAPI < ::API::OpenProjectAPI
+        helpers do
+          def agenda_item_includes(scope)
+            scope.includes(:author, :presenter, :work_package, :meeting_section)
+          end
+
+          def agenda_items(meeting)
+            # backlog: false is to not have duplicates for one-time meetings
+            items = agenda_item_includes(meeting.agenda_items.joins(:meeting_section)
+                                                .where(meeting_sections: { backlog: false })).to_a
+
+            if meeting.backlog.present?
+              items + agenda_item_includes(meeting.backlog.agenda_items).to_a
+            else
+              items
+            end
+          end
+        end
+
         resources :agenda_items do
           get do
-            items = @meeting.agenda_items.includes(:author, :presenter, :work_package, :meeting_section)
+            items = agenda_items(@meeting)
             MeetingAgendaItemCollectionRepresenter.new(items,
                                                        self_link: api_v3_paths.meeting_agenda_items(meeting_id: @meeting.id),
                                                        current_user:)
@@ -42,7 +60,10 @@ module API
 
           route_param :agenda_item_id, type: Integer, desc: "Agenda item ID" do
             after_validation do
-              @meeting_agenda_item = @meeting.agenda_items.find(declared_params[:agenda_item_id])
+              id = declared_params[:agenda_item_id]
+              @meeting_agenda_item = @meeting.agenda_items.find_by(id:) ||
+                                     @meeting.backlog&.agenda_items&.find_by(id:)
+              raise API::Errors::NotFound.new unless @meeting_agenda_item
             end
 
             get &::API::V3::Utilities::Endpoints::Show.new(model: MeetingAgendaItem).mount

@@ -36,7 +36,6 @@ module API
         include API::Decorators::FormattableProperty
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
-        include ::API::V3::FileLinks::FileLinkRelationRepresenter
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
         include TimestampedRepresenter
 

@@ -52,6 +52,8 @@ module Wikis
         end
       end
 
+      attr_reader :provider_id, :identifier
+
       def initialize(provider_id:, identifier:)
         super()
 
@@ -60,23 +62,9 @@ module Wikis
       end
 
       def process
-        provider = Provider.find_by(id: @provider_id)
         view_context = ApplicationController.new.view_context
-        page_info_result = resolve_page(provider, @identifier)
 
-        InlinePageLinkMacroComponent.new(page_info_result).render_in(view_context)
-      end
-
-      private
-
-      def resolve_page(provider, identifier)
-        return Failure() if provider.nil?
-
-        Adapters::Input::PageInfo.build(identifier:).bind do |input_data|
-          provider.auth_strategy_for(User.current).bind do |auth_strategy|
-            provider.resolve("queries.page_info").call(input_data:, auth_strategy:)
-          end
-        end
+        DeferredInlinePageLinkMacroComponent.new(provider_id:, identifier:).render_in(view_context)
       end
     end
   end

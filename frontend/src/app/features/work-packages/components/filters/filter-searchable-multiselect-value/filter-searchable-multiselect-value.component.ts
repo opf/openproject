@@ -202,12 +202,12 @@ export class FilterSearchableMultiselectValueComponent extends UntilDestroyedMix
   }
 
   private get isUserResource() {
-    const type = _.get(this.filter.currentSchema, 'values.type', null) as string;
-    return type && type.indexOf('User') > 0;
+    const type = this.filter.currentSchema?.values?.type;
+    return !!type && type.indexOf('User') > 0;
   }
 
   private get isVersionResource() {
-    const type = _.get(this.filter.currentSchema, 'values.type', null) as string;
-    return type && type.indexOf('Version') > 0;
+    const type = this.filter.currentSchema?.values?.type;
+    return !!type && type.indexOf('Version') > 0;
   }
 }

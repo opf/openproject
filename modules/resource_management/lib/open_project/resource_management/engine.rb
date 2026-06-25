@@ -37,7 +37,7 @@ module OpenProject::ResourceManagement
     include OpenProject::Plugins::ActsAsOpEngine
 
     initializer "openproject-resource_management.feature_decisions" do
-      OpenProject::FeatureDecisions.add :resource_management, allow_enabling: Rails.env.local?
+      OpenProject::FeatureDecisions.add :resource_management
     end
 
     replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id]

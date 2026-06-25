@@ -164,13 +164,14 @@ export class WorkPackageEmbeddedTableComponent extends WorkPackageEmbeddedBaseCo
         this.cdRef.markForCheck();
         return query;
       })
-      .catch((error) => {
+      .catch((error:unknown) => {
+        const message = (error as { message?:unknown } | null | undefined)?.message;
         this.error = this.I18n.t(
           'js.error.embedded_table_loading',
-          { message: _.get(error, 'message', error) },
+          { message: message !== undefined ? message : error },
         );
         this.cdRef.markForCheck();
-        this.onError.emit(error);
+        this.onError.emit(error as string);
       });
 
     if (visible) {

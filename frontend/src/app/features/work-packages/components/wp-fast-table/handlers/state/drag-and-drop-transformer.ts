@@ -168,7 +168,7 @@ export class DragAndDropTransformer {
    * Update current rendered order
    */
   private async updateRenderedOrder(order:string[]) {
-    order = _.uniq(order);
+    order = Array.from(new Set(order));
 
     const mappedOrder = await Promise.all(
       order.map(

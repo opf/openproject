@@ -86,7 +86,9 @@ it:
               not_assignable: non è assegnabile perché non è condiviso con il progetto oppure è già completato.
               not_eligible_for_moving: non è uno sprint attivo nel progetto che contiene lo sprint da cui la macro-attività viene spostata.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Le impostazioni amministrative del backlog sono in divenire

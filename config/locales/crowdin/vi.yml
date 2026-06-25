@@ -6157,6 +6157,8 @@ vi:
     scopes:
       api_v3: Truy cập đầy đủ API v3
       api_v3_text: Ứng dụng sẽ nhận được quyền truy cập đọc và ghi đầy đủ vào OpenProject API v3 để thay mặt bạn thực hiện các hành động.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Đã duyệt
       scopes: quyền

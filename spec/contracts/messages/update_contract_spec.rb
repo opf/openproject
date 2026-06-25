@@ -85,5 +85,21 @@ RSpec.describe Messages::UpdateContract do
         expect(contract.errors[:forum_id]).to include("A message cannot be moved to a forum of a different project.")
       end
     end
+
+    context "when the user only has edit_own_messages" do
+      let(:current_user) do
+        create(:user, member_with_permissions: { project => %i[view_messages edit_own_messages] })
+      end
+      let(:message) { create(:message, forum:, author: current_user) }
+
+      before do
+        message.forum = other_forum
+      end
+
+      it "is invalid" do
+        expect(contract).not_to be_valid
+        expect(contract.errors.symbols_for(:forum_id)).to include(:error_readonly)
+      end
+    end
   end
 end

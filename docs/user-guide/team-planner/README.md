@@ -32,13 +32,13 @@ To use this module, you must have the work packages module enabled.
 
 Clicking on the **Team planners** entry on the left sidebar takes you to the team planner module with a list of all existing team planners:
 
-![A screenshot of a list of team planners visible after clicking on Team Planners on the left-hand menu](openproject_user_guide_teamplanner_overview_explained.png)
+![List of team planners created in a project in OpenProject](openproject_user_guide_teamplanner_overview_explained.png)
 
-1. You can create a new team planner using either the **+ Team planner** button in the top right near your avatar or at the bottom of the left menu bar.
-2. Click on an existing (saved) team planner to open it.
-3. Team planners marked as *favorite* under visibility settings appear under the **Favorite** heading in the menu bar.
-4. Team planners with *public* visibility settings appear under the **Public** heading in the menu bar.
-5. New team planners by default appear under the **Private** heading in the left menu bar. These are visible only to you.
+- You can create a new team planner using either the **+ Team planner** button in the top right near your avatar or at the bottom of the left menu bar.
+- Click on an existing (saved) team planner to open it.
+- Team planners marked as *favorite* under visibility settings appear under the **Favorite** heading in the menu bar.
+- Team planners with *public* visibility settings appear under the **Public** heading in the menu bar.
+- New team planners by default appear under the **Private** heading in the left menu bar. These are visible only to you.
 
 > [!TIP]
 > Both *public* and *private* team planners can be added as **favorited** planners.
@@ -77,17 +77,19 @@ A team planner has a number of features numbered 1 to 8 in the above screenshot:
 
 When you create a new team planner, it will be empty, like so:
 
-![An example of a newly-created empty team planner in OpenProject](openproject_user_guide_teamplanner_new_unnamed_empty.png)
+![An example of a newly-created empty team planner in OpenProject](openproject_user_guide_teamplanner_new_unnamed.png)
 
-The first step in setting up your team planning calendar is to add team members. To do so, click on the **+ Assignee** button then search for the team member you would like to add from the the dropdown list (1). This will add a new row to the calendar view for that team member.
+The first step in setting up your team planning calendar is to add team members. To do so, click on the **+ Assignee** button then search for the team member you would like to add from the the dropdown list. This will add a new row to the calendar view for that team member.
 
-Repeat this step until all relevant team members are added and then save it using the floppy disk icon in the top header (2).
+Repeat this step until all relevant team members are added, rename *Unnamed team planner* and then save it using the floppy disk icon in the top header as shown below:
 
 ![Adding team members to a team planner in OpenProject](openproject_user_guide_teamplanner_add_assignee.png)
 
 If you need to remove a member from this list, hover over their name and click on the **X button** that appears next to their name. (This action simply removes the row and does not affect the user's status in the project).
 
-Once you are finished adding members to the team planner, click on the floppy disk icon in the top header to save.
+For more save options, click on the menu **(...)**. Other options such as Rename view, Delete, and Visibility settings become enabled after you save your new team planner.
+
+![More options to save in the menu](openproject_user_guide_teamplanner_save_options.png)
 
 ### Add and edit work packages
 
@@ -100,11 +102,9 @@ You can create a new work package for a particular member of your team by clicki
 > [!TIP]
 > You can also click and drag across a date range to create a work package that spans those dates. The first square will be the start date and the last one the finish date.
 
-![Creating a new work package by clicking and dragging across multiple day cells](openproject_user_guide_teamplanner_add_task_select_row.png)
-
 A **new work package dialog** will open. The assignee, start and finish dates will already be set based on where you clicked to create the work package. You can add any additional details, such as subject, work package type, a description and add attachments. Scrolling further down on the split screen also gives you access to other attributes such as cost and time and custom fields that might exist.
 
-![An example of the new work package split screen view](openproject_user_guide_teamplanner_add_task.png)
+![New work package in split screen view](openproject_user_guide_teamplanner_new_wp.png)
 
 #### Add an existing work package
 
@@ -115,7 +115,7 @@ Start by pressing the **+ Add existing** button below the name of the team plann
 > [!NOTE]
 > Scheduling tasks by adding existing work packages is easier in the one or two week view, especially if you have work packages that can span a weekend.
 
-![Searching for existing work packages to add to the team planner](openproject_user_guide_teamplanner_add_existing_task.png)
+![Search for existing work packages to add to the team planner](openproject_user_guide_teamplanner_add_existing_task.png)
 
 Sometimes, it is not possible to assign an existing work package to a particular team member for a variety of reasons: they might not be a member of the project the selected work package belongs to, might not have the necessary permissions, or you yourself might not have the necessary permissions to edit the dates or the assignee for that work package. In this case, a small error message will indicate that the operation was not successful.
 
@@ -155,6 +155,4 @@ Since the team planner is simply a view that displays work packages for certain 
 2. Removing the start and finish dates or changing them such that they do not fall in the time period displayed in the team planner.
 3. Removing the assignee or changing the assignee to someone who has not been added to this particular team planner.
 
-Alternatively, the team planner offers an easy way to remove a work package by combining 2 and 3 in one action. When you start dragging a work package, a *remove drop zone* appears at the bottom of the team planner. You can drag a work package card to that drop zone to clear the assignee, start date and finish date attributes in one go.
-
-![The remove drop zone appears when dragging a work package card](openproject_user_guide_teamplanner_delete_task.png)
+Alternatively, the team planner offers an easy way to remove a work package by right clicking on it. This opens up a list of further actions, from which you can select **Delete.**![The remove drop zone appears when dragging a work package card](openproject_user_guide_teamplanner_delete_task.png)

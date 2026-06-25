@@ -84,6 +84,23 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Commands::CreatePage, :disable
         expect(WebMock).not_to have_requested(:put, %r{https://xwiki.local/rest/openproject/documents})
       end
     end
+
+    context "when the parent is a final page", vcr: "xwiki/create_page_invalid_parent" do
+      # For VCR recording set this to the identifier of a final page, i.e. one where the ID does not end in ".WebHome"
+      # For example you can use "Sandbox Test Page 1"
+      let(:parent_identifier) { "76e14" }
+
+      it "returns a :parent_invalid error" do
+        expect(result).to be_failure
+        expect(result.failure.code).to eq(:invalid_parent)
+      end
+
+      it "does not create a page" do
+        result
+
+        expect(WebMock).not_to have_requested(:put, %r{https://xwiki.local/rest/openproject/documents})
+      end
+    end
   end
 
   describe ".derive_page_id" do

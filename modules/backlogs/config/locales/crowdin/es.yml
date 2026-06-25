@@ -86,7 +86,9 @@ es:
               not_assignable: no se puede asignar, ya que o bien no se ha compartido con el proyecto o bien ya se ha completado.
               not_eligible_for_moving: no hay ningún sprint activo en el proyecto del que se ha sacado el paquete de trabajo.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Las opciones de configuración de Backlog están cambiando

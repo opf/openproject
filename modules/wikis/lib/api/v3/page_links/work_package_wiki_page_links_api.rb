@@ -39,6 +39,17 @@ module API
         end
 
         resources :wiki_page_links do
+          post &WorkPackagesPageLinksCreateEndpoint.new(
+            model: ::Wikis::RelationPageLink,
+            instance_generator: ->(*) { Wikis::RelationPageLink.new },
+            parse_representer: RelationPageLinkRepresenter,
+            parse_service: ParsePageLinkParamsService,
+            process_service: ::Wikis::RelationPageLinks::CreateService,
+            process_contract: ::Wikis::RelationPageLinks::CreateContract,
+            render_representer: PageLinkCollectionRepresenter,
+            params_modifier: ->(params) { params.merge(linkable: @work_package) }
+          ).mount
+
           get do
             query = ParamsToQueryService.new(
               ::Wikis::PageLink,
@@ -56,7 +67,7 @@ module API
             PageLinkCollectionRepresenter.new(
               enrich_models_with_wiki_metadata(relation).result,
               per_page: params[:pageSize],
-              self_link: api_v3_paths.work_package_page_links(@work_package.id),
+              self_link: api_v3_paths.work_package_wiki_page_links(@work_package.id),
               current_user:
             )
           end

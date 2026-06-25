@@ -158,10 +158,10 @@ export class WorkPackageSingleContextMenuDirective extends OpContextMenuTrigger 
 
     // Copying the numeric ID is only useful in semantic mode, where the
     // displayed identifier (e.g. "PROJ-42") is not the numeric ID itself.
-    const copyIdAction = actions.find((action) => action.key === 'copy_numeric_id_to_clipboard');
-    if (copyIdAction) {
-      copyIdAction.hidden = !isSemanticWorkPackageId(this.workPackage.displayId);
-    }
+    actions = actions.filter((action) => (
+      action.key !== 'copy_numeric_id_to_clipboard'
+      || isSemanticWorkPackageId(this.workPackage.displayId)
+    ));
 
     // Splice plugin actions onto the core actions
     this.getPermittedPluginActions(authorization).forEach((action:WorkPackageAction) => {

@@ -327,7 +327,14 @@ export class SearchableProjectListService {
     return forkJoin(extraFetches).pipe(
       map((collections) => collections.map((collection) => collection._embedded.elements)),
       map((collections) => projects.concat(...collections)),
-      map((allProjects) => _.uniqBy(allProjects, (p) => p.id)),
+      map((allProjects) => {
+        const seen = new Set<ID>();
+        return allProjects.filter((p) => {
+          if (seen.has(p.id)) { return false; }
+          seen.add(p.id);
+          return true;
+        });
+      }),
     );
   }
 

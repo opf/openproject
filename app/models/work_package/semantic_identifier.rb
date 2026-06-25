@@ -58,6 +58,14 @@ module WorkPackage::SemanticIdentifier
   # specifically when needed.
   class UnsupportedLookup < ArgumentError; end
 
+  # Validation context that permits deliberate changes to identifier/sequence_number
+  # on a persisted work package:
+  #
+  #   work_package.save(context: WorkPackage::SemanticIdentifier::IDENTIFIER_REWRITE_CONTEXT)
+  #
+  # See #semantic_identifier_fields_not_accidentally_changed.
+  IDENTIFIER_REWRITE_CONTEXT = :identifier_rewrite
+
   included do
     has_many :semantic_aliases,
              class_name: "WorkPackageSemanticAlias",
@@ -94,7 +102,7 @@ module WorkPackage::SemanticIdentifier
 
     after_create :allocate_and_register_semantic_id, if: -> { Setting::WorkPackageIdentifier.semantic? && !skip_semantic_id_allocation }
 
-    validate :semantic_identifier_fields_consistent
+    validate :validate_semantic_identifier_fields
   end
 
   class_methods do
@@ -219,11 +227,42 @@ module WorkPackage::SemanticIdentifier
 
   private
 
+  def validate_semantic_identifier_fields
+    semantic_identifier_fields_consistent
+    semantic_identifier_fields_not_accidentally_changed
+  end
+
   # Ensures identifier and sequence_number are always written together.
   # One field set without the other indicates a partial write and is never valid.
   def semantic_identifier_fields_consistent
     return unless identifier.present? ^ sequence_number.present?
 
     errors.add(:identifier, :semantic_identifier_incomplete)
+  end
+
+  # Guards against accidental edits, e.g. from a Rails console: identifiers are
+  # allocated automatically and resolved through the alias table, so a
+  # hand-written change silently breaks links and identifier history.
+  # Deliberate changes must be saved with the IDENTIFIER_REWRITE_CONTEXT
+  # validation context.
+  def semantic_identifier_fields_not_accidentally_changed
+    return unless persisted?
+    return if Array(validation_context).include?(IDENTIFIER_REWRITE_CONTEXT)
+    return if cleared_for_project_move?
+
+    %w[identifier sequence_number].each do |attribute|
+      next unless attribute_changed?(attribute)
+
+      errors.add(attribute, :must_not_be_changed, context: IDENTIFIER_REWRITE_CONTEXT)
+    end
+  end
+
+  # Clearing both fields while moving to another project is part of the move
+  # operation itself: the identifier belongs to the source project and must be
+  # cleared in the same UPDATE that changes project_id (unique index on
+  # project_id/sequence_number). A fresh identifier is allocated after the move.
+  # See WorkPackages::SetAttributesService#clear_semantic_identifier.
+  def cleared_for_project_move?
+    project_id_changed? && identifier.nil? && sequence_number.nil?
   end
 end

@@ -41,6 +41,8 @@ sv:
         storage: Storage
         storage_url: Storage URL
         tenant: Katalog (hyresgäst) ID
+      work_package:
+        file_links: File links
     errors:
       messages:
         invalid_host_url: är inte ett giltigt URL.

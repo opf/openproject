@@ -726,6 +726,62 @@ RSpec.describe WorkPackage::SemanticIdentifier do
     end
   end
 
+  describe "semantic_identifier_fields_not_accidentally_changed validation" do
+    it "forbids changing the identifier in the default validation context" do
+      work_package.identifier = "MYPROJ-99"
+      work_package.sequence_number = 99
+
+      expect(work_package).not_to be_valid
+      expect(work_package.errors[:identifier]).to include(a_string_matching(/must not be changed manually/))
+      expect(work_package.errors[:identifier]).to include(a_string_matching(/identifier_rewrite/))
+    end
+
+    it "forbids changing the sequence_number" do
+      work_package.sequence_number = 99
+
+      expect(work_package).not_to be_valid
+      expect(work_package.errors[:sequence_number]).to include(a_string_matching(/must not be changed manually/))
+    end
+
+    it "forbids clearing the identifier fields" do
+      work_package.identifier = nil
+      work_package.sequence_number = nil
+
+      expect(work_package).not_to be_valid
+    end
+
+    it "allows clearing the fields as part of a project move" do
+      work_package.project = create(:project)
+      work_package.identifier = nil
+      work_package.sequence_number = nil
+
+      work_package.validate
+      expect(work_package.errors[:identifier]).to be_empty
+      expect(work_package.errors[:sequence_number]).to be_empty
+    end
+
+    it "allows the change when saved with the rewrite context" do
+      work_package.identifier = "MYPROJ-99"
+      work_package.sequence_number = 99
+
+      expect(work_package.save(context: WorkPackage::SemanticIdentifier::IDENTIFIER_REWRITE_CONTEXT)).to be(true)
+      expect(work_package.reload.identifier).to eq("MYPROJ-99")
+      expect(work_package.reload.sequence_number).to eq(99)
+    end
+
+    it "does not interfere with unrelated changes" do
+      work_package.subject = "Updated subject"
+
+      expect(work_package).to be_valid
+    end
+
+    it "does not apply to new records" do
+      wp = build(:work_package, project:, identifier: "MYPROJ-5", sequence_number: 5)
+
+      expect(wp).to be_valid
+    end
+  end
+
   describe "#allocate_and_register_semantic_id", with_settings: { work_packages_identifier: "semantic" } do
     let(:project) { create(:project, identifier: "PROJ", wp_sequence_counter: 0) }
     let(:target_project) { create(:project, identifier: "OTHER", wp_sequence_counter: 0) }

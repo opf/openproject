@@ -978,6 +978,47 @@ RSpec.describe UsersController do
             .to have_attributes(attribute: :firstname, type: :blank)
         end
       end
+
+      # Department membership lives in a separate table and is mutated by these
+      # examples, so use a fresh user per example rather than the shared some_user.
+      context "when changing the department" do
+        let(:edited_user) { create(:user) }
+        let(:department) { create(:department, name: "Engineering") }
+
+        it "assigns the user to the selected department" do
+          put :update, params: { id: edited_user.id, user: { department_id: department.id } }
+          expect(edited_user.reload.department).to eq(department)
+        end
+
+        context "when the user already belongs to a department" do
+          let!(:current_department) { create(:department, name: "Sales", members: [edited_user]) }
+
+          it "moves the user to the selected department" do
+            put :update, params: { id: edited_user.id, user: { department_id: department.id } }
+            expect(edited_user.reload.department).to eq(department)
+          end
+
+          it "clears the department when submitted blank" do
+            put :update, params: { id: edited_user.id, user: { department_id: "" } }
+            expect(edited_user.reload.department).to be_nil
+          end
+        end
+      end
+    end
+
+    context "when a non-admin with manage_user permission changes the department" do
+      shared_let(:manager) { create(:user, global_permissions: %i[manage_user view_all_principals]) }
+      let(:edited_user) { create(:user, firstname: "Original") }
+      let(:department) { create(:department, name: "Engineering") }
+
+      current_user { manager }
+
+      it "ignores the department change while still updating other attributes" do
+        put :update, params: { id: edited_user.id, user: { firstname: "Renamed", department_id: department.id } }
+
+        expect(edited_user.reload.firstname).to eq("Renamed")
+        expect(edited_user.department).to be_nil
+      end
     end
 
     shared_examples "it can update field" do |field:, value:, edited_user:, current_user:|

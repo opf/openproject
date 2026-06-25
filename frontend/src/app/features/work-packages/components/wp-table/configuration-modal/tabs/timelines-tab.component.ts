@@ -87,7 +87,7 @@ export class WpTableConfigurationTimelinesTabComponent implements TabComponent, 
 
     // Current label models
     const { labels } = this.wpTableTimeline;
-    this.labels = _.clone(labels);
+    this.labels = { ...labels };
     this.availableLabels = Object.keys(this.labels);
 
     // Available labels

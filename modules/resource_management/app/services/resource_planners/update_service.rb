@@ -30,5 +30,20 @@
 
 module ResourcePlanners
   class UpdateService < ::BaseServices::Update
+    protected
+
+    # `favorite` is a virtual attribute consumed here rather than persisted on
+    # the planner, so keep it out of the contract's writable attributes.
+    def set_attributes_params(params)
+      super.except(:favorite)
+    end
+
+    def after_perform(call)
+      if call.success? && params.key?(:favorite)
+        call.result.set_favorited(user, favorited: params[:favorite])
+      end
+
+      call
+    end
   end
 end

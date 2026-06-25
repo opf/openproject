@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { Injectable, inject } from '@angular/core';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
@@ -148,7 +149,7 @@ export class WorkPackageViewBaselineService extends WorkPackageQueryStateService
   }
 
   public hasChanged(query:QueryResource) {
-    return !_.isEqual(query.timestamps, this.current);
+    return !isEqual(query.timestamps, this.current);
   }
 
   public applyToQuery(query:QueryResource):boolean {

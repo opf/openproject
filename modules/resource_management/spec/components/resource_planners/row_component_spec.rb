@@ -59,6 +59,36 @@ RSpec.describe ResourcePlanners::RowComponent, type: :component do
       end
     end
 
+    describe "edit" do
+      context "when the current user owns the planner" do
+        it "offers the edit action" do
+          expect(rendered).to have_link(text: I18n.t("resource_management.action.edit"),
+                                        href: edit_project_resource_planner_path(project, planner))
+        end
+      end
+
+      context "when the current user is a non-owner viewer of a private planner" do
+        let(:current_user) do
+          create(:user, member_with_permissions: { project => %i[view_resource_planners] })
+        end
+
+        it "hides the edit action" do
+          expect(rendered).to have_no_link(text: I18n.t("resource_management.action.edit"))
+        end
+      end
+
+      context "when the planner is public and the current user can manage_public" do
+        let(:public_planner) { true }
+        let(:current_user) do
+          create(:user, member_with_permissions: { project => %i[view_resource_planners manage_public_resource_planners] })
+        end
+
+        it "offers the edit action" do
+          expect(rendered).to have_link(text: I18n.t("resource_management.action.edit"))
+        end
+      end
+    end
+
     describe "toggle public" do
       context "when the user lacks manage_public_resource_planners" do
         it "is hidden" do

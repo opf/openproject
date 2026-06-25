@@ -259,7 +259,7 @@ ru:
       rates:
         title: История ставок
     settings:
-      time_and_costs: Время и затраты
+      time_and_costs: Time and costs
       cost_types:
         heading: Типы затрат
         none_active: No cost types are currently active in this project.

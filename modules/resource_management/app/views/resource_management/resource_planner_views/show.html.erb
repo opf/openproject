@@ -29,16 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title @resource_planner.name, t(:label_resource_management) %>
 
-<%= render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title { @resource_planner.name }
-      header.with_breadcrumbs(
-        [
-          { href: project_overview_path(@project.id), text: @project.name },
-          { href: project_resource_planners_path(@project), text: t(:label_resource_management) },
-          @resource_planner.name
-        ]
-      )
-    end %>
+<%= render(ResourcePlanners::ShowPageHeaderComponent.new(resource_planner: @resource_planner, project: @project)) %>
 
 <%= render(ResourcePlanners::SubViewsComponent.new(resource_planner: @resource_planner, selected_view: @view)) %>
 <%#

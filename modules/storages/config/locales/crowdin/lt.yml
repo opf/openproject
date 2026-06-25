@@ -41,6 +41,8 @@ lt:
         storage: Storage
         storage_url: Storage URL
         tenant: Direktorijos (savininko) ID
+      work_package:
+        file_links: File links
     errors:
       messages:
         invalid_host_url: nėra tinkamas URL.

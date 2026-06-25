@@ -51,6 +51,7 @@ RSpec.describe "Finding users with accents", :js do
   it "finds a user with accents in the name in the global administration" do
     visit users_path
 
+    click_button accessible_name: "Search"
     fill_in "Search", with: "Cecile"
     wait_for_network_idle
     expect(page).to have_css("td.firstname", text: "Cécile")

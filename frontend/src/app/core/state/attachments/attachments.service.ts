@@ -193,7 +193,7 @@ export class AttachmentsResourceService extends ResourceStoreService<IAttachment
     }
 
     if (isNewResource(resource)) {
-      return this.configurationService.prepareAttachmentURL;
+      return this.configurationService.prepareAttachmentURL ?? null;
     }
 
     return null;

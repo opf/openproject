@@ -3,6 +3,11 @@
 module ResourcePlanners
   module Forms
     class DatesForm < ApplicationForm
+      def initialize(dialog_id: ResourcePlanners::NewDialogComponent::DIALOG_ID)
+        super()
+        @dialog_id = dialog_id
+      end
+
       form do |f|
         f.group(layout: :horizontal) do |dates|
           dates.single_date_picker(
@@ -11,7 +16,7 @@ module ResourcePlanners
             required: false,
             value: model.start_date&.iso8601,
             datepicker_options: {
-              inDialog: ResourcePlanners::NewDialogComponent::DIALOG_ID
+              inDialog: @dialog_id
             }
           )
           dates.single_date_picker(
@@ -20,7 +25,7 @@ module ResourcePlanners
             required: false,
             value: model.end_date&.iso8601,
             datepicker_options: {
-              inDialog: ResourcePlanners::NewDialogComponent::DIALOG_ID
+              inDialog: @dialog_id
             }
           )
         end

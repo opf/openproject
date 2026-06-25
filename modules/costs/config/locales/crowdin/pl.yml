@@ -259,7 +259,7 @@ pl:
       rates:
         title: Historia stawek
     settings:
-      time_and_costs: Czas i koszty
+      time_and_costs: Time and costs
       cost_types:
         heading: Typy kosztów
         none_active: Żadne typy kosztów nie są obecnie aktywne w tym projekcie.

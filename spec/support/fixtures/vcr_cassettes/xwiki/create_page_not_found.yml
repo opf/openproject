@@ -27,11 +27,11 @@ http_interactions:
       Content-Type:
       - text/html;charset=utf-8
       Date:
-      - Thu, 11 Jun 2026 14:40:01 GMT
+      - Mon, 22 Jun 2026 07:11:10 GMT
       Set-Cookie:
-      - JSESSIONID=D9B95B99F5C18BBBF0957992EE0CBD09; Path=/; HttpOnly
+      - JSESSIONID=F821CE788BE7A7BC6ED84560B7C7F0D4; Path=/; HttpOnly
       Xwiki-Form-Token:
-      - 1FHSxxmCi5SpcFuCzBbysA
+      - Q2mTvZxYrU5KAp9nzlv5lg
       Xwiki-User:
       - xwiki:XWiki.admin
       Xwiki-Version:
@@ -48,5 +48,5 @@ http_interactions:
         Not Found</p><p><b>Description</b> The origin server did not find a current
         representation for the target resource or is not willing to disclose that
         one exists.</p><hr class="line" /><h3>Apache Tomcat/10.1.55</h3></body></html>
-  recorded_at: Thu, 11 Jun 2026 14:40:01 GMT
+  recorded_at: Mon, 22 Jun 2026 07:11:10 GMT
 recorded_with: VCR 6.4.0

@@ -70,6 +70,22 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
+    if @user.department
+      flex.with_row do
+        flex_layout(classes: "op-user-hover-card--department") do |f|
+          f.with_column do
+            render(Primer::Beta::Octicon.new(icon: :briefcase, color: :muted))
+          end
+
+          f.with_column do
+            render(Primer::Beta::Text.new(data: { test_selector: "user-hover-card-department" })) do
+              @user.department.name
+            end
+          end
+        end
+      end
+    end
+
     flex.with_row do
       flex_layout(classes: "op-user-hover-card--group-list") do |f|
         f.with_column do

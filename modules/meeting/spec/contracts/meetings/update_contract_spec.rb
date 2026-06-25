@@ -73,6 +73,27 @@ RSpec.describe Meetings::UpdateContract do
       end
 
       it_behaves_like "contract is invalid", base: I18n.t(:text_meeting_not_editable_anymore)
+
+      context "and only the state is being changed (reopening)" do
+        before { meeting.state = :open }
+
+        it_behaves_like "contract is valid"
+      end
+
+      context "and another attribute is changed alongside the state" do
+        before do
+          meeting.state = :open
+          meeting.title = "New title"
+        end
+
+        it_behaves_like "contract is invalid", base: I18n.t(:text_meeting_not_editable_anymore)
+      end
+    end
+
+    context "when closing an open meeting" do
+      before { meeting.state = :closed }
+
+      it_behaves_like "contract is valid"
     end
   end
 

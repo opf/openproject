@@ -116,7 +116,7 @@ workPackage:WorkPackageResource,
         const denormalized = relation.denormalized(workPackage);
         const target = this.apiV3Service.work_packages.cache.state(denormalized.targetId).value;
 
-        return _.get(target, 'type.href') === typeHref;
+        return target?.type?.href === typeHref;
       });
     }
 

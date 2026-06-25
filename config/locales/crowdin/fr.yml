@@ -21,7 +21,7 @@
 #++
 ---
 fr:
-  label_user_attributes_plural: User attributes
+  label_user_attributes_plural: Attributs de l'utilisateur
   no_results_title_text: Il n'y a actuellement rien à afficher.
   activities:
     index:
@@ -67,12 +67,12 @@ fr:
           other: La libération de cet identifiant de projet (ainsi que de ses identifiants de lots de travail %{count} ) est irréversible. Les liens externes et les intégrations qui l'utilisent ne fonctionneront plus, et le nom deviendra disponible pour tout nouveau projet souhaitant le revendiquer.
         heading: Libérer «%{identifier} » ?
         title: Libérer l'identifiant
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+      empty_body: Lorsqu'l'identifiant d'un projet change, l'ancien identifiant s'affiche ici afin que vous puissiez le désenregistrer dès que vous pouvez le faire en toute sécurité.
       empty_heading: Aucun identifiant réservé
       filter_label: Rechercher des identifiants
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: L'identifiant réservé est introuvable. Il se peut qu'il ait déjà été débloqué ou que le projet ait été supprimé. Veuillez actualiser la page.
+      lede_html: Lorsqu'un identifiant de projet est renommé, l'ancien identifiant reste réservé afin que les liens et intégrations existants continuent de fonctionner.<br>Vous pouvez ici libérer des identifiants afin qu'ils puissent être utilisés par d'autres projets.
+      released_notice: L'identifiant «%{identifier}» n'est plus réservé.
       reserved_ago: il y a %{time}
       title: Identifiants de projet réservés
     plugins:
@@ -132,7 +132,7 @@ fr:
         trial: Essai
     jemalloc_allocator: Allocateur de mémoire Jemalloc
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: 'Les actions effectuées par les utilisateurs sur un lot de travail (modification de la description, du statut, des valeurs ou ajout de commentaires) sont regroupées si elles sont effectuées au cours de cette période. Ce paramètre permet également de contrôler les délais de notification et de [webhook](webhook_link). La durée maximale est de %{max} minutes.
 
         '
     import:
@@ -435,18 +435,18 @@ fr:
         notification_text_default: "<p>Bonjour,</p> <p>Un nouveau projet a été créé : projectValue:name</p> <p>Nous vous remercions de votre attention et vous prions d'agréer nos salutations distinguées.</p>\n"
       project_custom_field_sections:
         destroy:
-          error: The section could not be deleted.
+          error: La section n'a pas pu être supprimée.
         drop:
-          error: The section could not be reordered.
+          error: Il n'a pas été possible de réorganiser cette section.
         move:
-          error: The section could not be reordered.
+          error: Il n'a pas été possible de réorganiser cette section.
       user_custom_field_sections:
         destroy:
-          error: The section could not be deleted.
+          error: La section n'a pas pu être supprimée.
         drop:
-          error: The section could not be reordered.
+          error: Il n'a pas été possible de réorganiser cette section.
         move:
-          error: The section could not be reordered.
+          error: Il n'a pas été possible de réorganiser cette section.
       work_packages_identifier:
         page_header:
           description: Vous avez le choix entre des identifiants numériques classiques pour les lots de travaux et des identifiants sémantiques spécifiques aux projets, qui ajoutent l'identifiant du projet à l'identifiant du lot de travaux.
@@ -694,7 +694,7 @@ fr:
             lose_role: Perdra son rôle '%{old_role}'
             no_change: Pas de changement
     multi_value_more:
-      other: and %{count} more
+      other: et %{count} autres
     text_add_new_custom_field: 'Pour ajouter de nouveaux champs personnalisés à un projet, vous devez d''abord les créer avant de pouvoir les ajouter à ce projet.
 
       '
@@ -740,7 +740,7 @@ fr:
       has_comment:
         project: Permet à l'utilisateur d'ajouter un commentaire relatif à l'attribut du projet lorsqu'il sélectionne la valeur dans la vue d'ensemble du projet.
       visible_on_user_card:
-        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+        all: Lorsque cette case est cochée, la valeur de ce champ s'affiche dans la fiche d'informations de l'utilisateur lorsque vous passez la souris sur un utilisateur, partout dans l'application.
     tab:
       no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
       no_results_content_text: Créer un nouveau champ personnalisé
@@ -771,8 +771,8 @@ fr:
       add_button: Ajouter
       description: Ajoutez des services ou des utilisateurs pour créer des sous-éléments à l'intérieur d'un autre.
       heading: Ce service n'a pas de niveau hiérarchique inférieur
-      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
-      managed_heading: This department is managed by LDAP synchronization
+      managed_description: Ses sous-départements et ses membres sont synchronisés via LDAP et ne peuvent pas être ajoutés manuellement.
+      managed_heading: Ce service est géré par synchronisation LDAP
     add_department_form:
       name_label: Nom du service
       name_placeholder: Saisissez le nom du service
@@ -781,9 +781,9 @@ fr:
       heading: Déplacer l'utilisateur vers ce service ?
       description: L'utilisateur %{user} est actuellement membre du service %{from_department}. Si vous le déplacez, il sera retiré de ce service.
       confirm: Déplacer l'utilisateur
-      managed_title: User managed by LDAP
-      managed_heading: This user cannot be moved
-      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
+      managed_title: Utilisateur géré via LDAP
+      managed_heading: Cet utilisateur ne peut pas être déplacé
+      managed_description: "%{user} appartient à %{from_department}, qui est géré par synchronisation LDAP. L'appartenance à un service est contrôlée par LDAP et ne peut pas être modifiée ici."
     context_menu:
       add_sub_department: Ajouter un sous-service
       add_user: Ajouter un utilisateur
@@ -1766,7 +1766,7 @@ fr:
         possible_values: Valeurs possibles
         regexp: Expression régulière
         searchable: Recherchable
-        visible_on_user_card: Show on user card
+        visible_on_user_card: Afficher sur la fiche utilisateur
         admin_only: Administrateurs uniquement
         has_comment: Ajouter un champ de texte pour les commentaires
       custom_value:
@@ -2108,7 +2108,7 @@ fr:
         version: Version
         watcher: Observateur
       work_package_version:
-        kind: Kind
+        kind: Type
       work_package_semantic_alias:
         identifier: Identifiant
         work_package: Lot de travaux
@@ -2157,7 +2157,7 @@ fr:
         invalid_url: n'est pas une URL valide.
         invalid_url_scheme: 'n''est pas un protocole pris en charge (autorisés : %{allowed_schemes}).'
         is_for_all_cannot_modify: s'applique à tous les projets et ne peut donc pas être modifié.
-        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
+        ldap_managed: Ce service est géré par synchronisation LDAP et ne peut pas être modifié manuellement.
         less_than_or_equal_to: doit être inférieur ou égal à %{count}.
         not_available: n'est pas disponible en raison d'une configuration système.
         not_before_start_date: ne doit pas être avant la date de début.
@@ -2195,7 +2195,7 @@ fr:
 
           '
         user_already_in_department: L'utilisateur %{user_id} est déjà membre du service %{department_id}.
-        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
+        user_in_ldap_managed_department: Cet utilisateur appartient à un service géré par synchronisation LDAP et ne peut pas être déplacé.
         wrong_length: est de mauvaise longueur (devrait être %{count} caractères).
       models:
         group:
@@ -2203,7 +2203,7 @@ fr:
             parent_id:
               circular_dependency: créerait une hiérarchie de groupe circulaire.
               organizational_unit_mismatch: doit avoir le même paramètre d'unité organisationnelle que le groupe.
-              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
+              parent_ldap_managed: est gérée par synchronisation LDAP et ne permet pas d'ajouter manuellement des services.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -3183,8 +3183,8 @@ fr:
       edit_attribute_groups:
         description: 'Personnalisez la configuration du formulaire avec ces add-ons supplémentaires :'
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: Ajouter de nouvelles sections d'attributs
+          rename: Renommer les sections d'attributs
           related: Ajouter un tableau des lots de travaux associés
       readonly_work_packages:
         description: Marquer les lots de travaux comme étant en lecture seule pour des statuts spécifiques.
@@ -4157,7 +4157,7 @@ fr:
   label_custom_favicon: Favicon personnalisé
   label_custom_touch_icon: Icône de contact personnalisé
   label_departments: Organisation
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
+  label_departments_description_html: 'Définissez la structure de votre entreprise en créant des services et des sous-services selon une organisation hiérarchique. Cela vous permet de refléter les liens hiérarchiques et de conserver une vue d''ensemble claire et structurée de votre organisation au sein d''OpenProject. Vous pouvez également importer une structure organisationnelle existante via la [synchronisation des services via LDAP](ldap_docs_article).
 
     '
   label_logout: Déconnexion
@@ -4165,7 +4165,7 @@ fr:
   label_main_menu: Menu principal
   label_manage: Gérer
   label_manage_groups: Gérer les groupes
-  label_managed_by_ldap: Managed by LDAP synchronization
+  label_managed_by_ldap: Géré par synchronisation LDAP
   label_managed_repositories_vendor: Référentiels %{vendor} gérés
   label_mathematical_operators: Opérateurs mathématiques
   label_max_size: Taille maximale
@@ -5484,7 +5484,7 @@ fr:
     passwords: Mots de passe
     project_attributes:
       heading: Attributs du projet
-      label_add_attribute: Add a project attribute
+      label_add_attribute: Ajouter un attribut de projet
       label_for_all_projects: Tous les projets
       label_new_attribute: Attribut du projet
       label_new_section: Section
@@ -5586,26 +5586,26 @@ fr:
       display_format: Format d'affichage
     user_custom_field_sections:
       built_in_attribute_row_component:
-        label_built_in: Built-in
-        label_built_in_attribute_actions: Built-in attribute actions
+        label_built_in: Intégré
+        label_built_in_attribute_actions: Actions d'attributs intégrés
       custom_field_row_component:
-        label_user_custom_field_actions: User attribute actions
+        label_user_custom_field_actions: Actions relatives aux attributs des utilisateurs
       show_component:
-        label_add_attribute: Add a user attribute
-        label_edit_section: Edit title
-        label_no_user_custom_fields: No user attributes defined in this section
-        label_section_actions: Section actions
+        label_add_attribute: Ajouter un attribut d'utilisateur
+        label_edit_section: Modifier le titre
+        label_no_user_custom_fields: Aucun attribut d'utilisateur n'est défini dans cette section
+        label_section_actions: Actions de section
     user_custom_fields:
       header_component:
         attribute_filter:
-          label: Filter by attribute name…
-        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
-      heading: User attributes
-      label_new_attribute: User attribute
+          label: Filtrer par nom d'attribut…
+        heading_description: Ces attributs d'utilisateur apparaissent dans les profils d'utilisateur et sur les fiches d'information. Vous pouvez ajouter de nouveaux attributs, les regrouper en sections et les réorganiser.
+      heading: Attributs de l'utilisateur
+      label_new_attribute: Attribut de l'utilisateur
       label_new_section: Section
-      label_untitled_section: User attributes
+      label_untitled_section: Attributs de l'utilisateur
       new:
-        heading: New attribute
+        heading: Nouvel attribut
     working_days:
       section_work_week: Semaine de travail
       section_holidays_and_closures: Vacances et fermetures
@@ -6208,6 +6208,8 @@ fr:
     scopes:
       api_v3: Accès complet à l'API v3
       api_v3_text: L'application recevra un accès complet en lecture et écriture à l'API v3 d'OpenProject pour effectuer des actions en votre nom.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Approuvée le
       scopes: Autorisations

@@ -1,0 +1,10 @@
+<p>
+  When the content is not fully loaded yet, best use a spinner and muted text to indicate it:
+
+  <%= render(OpPrimer::InlineMacroComponent.new) do |c| %>
+    <% c.with_leading_visual_icon(icon: :book) %>
+
+    <%= render(Primer::Beta::Spinner.new(size: :small, display: :flex, mr: 2, sr_text: "")) %>
+    <%= render(Primer::Beta::Text.new(color: :muted)) { "Loading…" } %>
+  <% end %>
+</p>

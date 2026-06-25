@@ -251,7 +251,7 @@ de:
       rates:
         title: Stückpreise-Historie
     settings:
-      time_and_costs: Zeit und Kosten
+      time_and_costs: Time and costs
       cost_types:
         heading: Kostentypen
         none_active: In diesem Projekt sind derzeit keine Kostenarten aktiv.

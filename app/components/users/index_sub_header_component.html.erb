@@ -1,5 +1,5 @@
 <%=
-  render(Primer::OpenProject::SubHeader.new(data: sub_header_data_attributes)) do |subheader|
+  render(Primer::OpenProject::SubHeader.new(collapsed_search: true, data: sub_header_data_attributes)) do |subheader|
     subheader.with_action_button(
       scheme: :primary,
       leading_icon: :plus,

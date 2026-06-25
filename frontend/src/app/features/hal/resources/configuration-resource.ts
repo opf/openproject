@@ -27,8 +27,38 @@
 //++
 
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
+import { type DurationFormat } from 'core-app/shared/helpers/chronic_duration';
+
+export interface ConfigurationUserPreferences {
+  timeZone:string;
+  commentSortDescending:boolean;
+  disableKeyboardShortcuts:boolean;
+  warnOnLeavingUnsaved:boolean;
+  autoHidePopups:boolean;
+}
 
 export class ConfigurationResource extends HalResource {
+  // Embedded `_embedded.userPreferences`, exposed as a property by the HAL initializer
+  public userPreferences:ConfigurationUserPreferences;
+
+  // `_links.prepareAttachment`, present only when direct uploads are enabled
+  public prepareAttachment?:{ href:string };
+
+  // Top-level body attributes
+  public maximumAttachmentFileSize:number;
+  public maximumAPIV3PageSize:number;
   public perPageOptions:number[];
   public allowedLinkProtocols?:string[];
+  public dateFormat:string|null;
+  public timeFormat:string|null;
+  public durationFormat:DurationFormat;
+  public hoursPerDay:number;
+  public daysPerMonth:number;
+  public userDefaultTimezone:string|null;
+  public startOfWeek:number|null;
+  public wikisAvailable:boolean;
+  public hostName:string;
+  public activeFeatureFlags:string[];
+  public availableFeatures:string[];
+  public triallingFeatures:string[];
 }

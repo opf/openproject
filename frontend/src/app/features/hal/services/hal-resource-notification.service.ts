@@ -129,7 +129,7 @@ export class HalResourceNotificationService {
     }
 
     // Some older response may have a data attribute
-    if (_.get(response, 'data._type') === 'Error') {
+    if ((response as { data?:{ _type?:string } } | null)?.data?._type === 'Error') {
       errorBody = (response as any).data;
     }
 

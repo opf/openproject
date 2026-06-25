@@ -1,3 +1,4 @@
+import { isEqual } from 'lodash-es';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { Injectable, inject } from '@angular/core';
 import { States } from 'core-app/core/states/states.service';
@@ -63,7 +64,7 @@ export class WorkPackageViewHighlightingService extends WorkPackageQueryStateSer
 
   public hasChanged(query:QueryResource) {
     return query.highlightingMode !== this.current.mode
-      || !_.isEqual(query.highlightedAttributes, this.current.selectedAttributes);
+      || !isEqual(query.highlightedAttributes, this.current.selectedAttributes);
   }
 
   public applyToQuery(query:QueryResource):boolean {

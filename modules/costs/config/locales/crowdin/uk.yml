@@ -259,7 +259,7 @@ uk:
       rates:
         title: Історія ставок
     settings:
-      time_and_costs: Час і витрати
+      time_and_costs: Time and costs
       cost_types:
         heading: Типи витрат
         none_active: Зараз у цьому проєкті немає активних типів витрат.

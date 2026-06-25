@@ -86,7 +86,9 @@ da:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
               not_eligible_for_moving: ikke er en aktiv sprint i projektet indeholdende den sprint, som arbejdspakken flyttes ud af.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Backlog admin-indstillinger udvikler sig

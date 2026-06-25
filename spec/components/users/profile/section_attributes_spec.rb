@@ -113,6 +113,34 @@ RSpec.describe Users::Profile::SectionAttributes do
     end
   end
 
+  context "with the department built-in" do
+    shared_let(:department) { create(:department, name: "Engineering", members: [user]) }
+
+    before { section.update_column(:attribute_order, ["department"]) }
+
+    context "even for a regular viewer with no permissions" do
+      let(:current_user) { create(:user) }
+
+      before { mock_permissions_for(current_user) {} } # rubocop:disable Lint/EmptyBlock -- viewer with no global permissions
+
+      it "shows the department name with a briefcase icon" do
+        attribute = attributes.first
+        expect(attribute.label).to eq(User.human_attribute_name("department"))
+        expect(attribute.value).to eq("Engineering")
+        expect(attribute.icon).to eq(:briefcase)
+      end
+    end
+
+    context "when the user has no department" do
+      let(:current_user) { user }
+      let(:user) { create(:user) }
+
+      it "is skipped" do
+        expect(labels).not_to include(User.human_attribute_name("department"))
+      end
+    end
+  end
+
   context "with a multi-value custom field" do
     shared_let(:multi_cf) do
       create(:user_custom_field, :multi_list, name: "Skills", user_custom_field_section: section)

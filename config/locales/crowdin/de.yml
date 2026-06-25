@@ -6211,6 +6211,8 @@ de:
     scopes:
       api_v3: Vollständiger API(v3)-Zugriff
       api_v3_text: Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject API v3, um Aktionen in Ihrem Namen durchzuführen.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Genehmigt
       scopes: Berechtigungen

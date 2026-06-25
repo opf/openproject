@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,6 +30,8 @@
 
 module MeetingSections
   class UpdateContract < BaseContract
+    attribute :meeting, writable: false
+
     validate :user_allowed_to_edit
     validate :backlog_not_editable
 
