@@ -31,6 +31,10 @@
 import BaseController from './base.controller';
 import { UrlHelpers, ActivityAnchorType, ActivityAnchor } from './services/url-helpers';
 
+// How long to keep following the bottom after a streamed entry arrives, covering
+// late layout growth as its avatar, reactions, and media finish rendering.
+const STREAM_SETTLE_MS = 1000;
+
 interface CustomEventWithIdParam extends Event {
   params:{
     id:string;
@@ -72,14 +76,48 @@ export default class AutoScrollingController extends BaseController {
   }
 
   performAutoScrollingOnStreamsUpdate(journalsContainerAtBottom = false) {
-    if (this.indexOutlet.sortingAscending && journalsContainerAtBottom) {
-      // scroll to (new) bottom if sorting is ascending and journals container was already at bottom before a new activity was added
-      if (this.isMobile()) {
-        this.scrollInputContainerIntoView(300);
-      } else {
-        this.scrollJournalContainer(true, true);
-      }
+    // Only follow a new activity into view when it lands at the foot of an
+    // ascending list the user was already reading the bottom of.
+    if (!this.indexOutlet.sortingAscending || !journalsContainerAtBottom) { return; }
+
+    if (this.isMobile()) {
+      this.keepInputInViewWhileSettling();
+    } else {
+      this.keepScrolledToBottomWhileSettling();
     }
+  }
+
+  // A streamed-in entry keeps growing for a moment after insertion as its avatar,
+  // reactions, and media render, leaving a one-shot scroll short of its final
+  // position. Re-assert the scroll while the height settles, then stop so we never
+  // fight a later deliberate scroll.
+  private followWhileSettling(scroll:() => void) {
+    scroll();
+
+    const observer = new ResizeObserver(scroll);
+    observer.observe(this.element);
+    setTimeout(() => observer.disconnect(), STREAM_SETTLE_MS);
+  }
+
+  private keepScrolledToBottomWhileSettling() {
+    const scrollableContainer = this.scrollableContainer;
+    if (!scrollableContainer) { return; }
+
+    this.followWhileSettling(() => scrollableContainer.scrollTo({
+      top: scrollableContainer.scrollHeight,
+      behavior: 'smooth',
+    }));
+  }
+
+  private keepInputInViewWhileSettling() {
+    const inputContainer = this.inputContainer;
+    if (!inputContainer) { return; }
+
+    // Wait for the on-screen keyboard to settle before the first scroll.
+    setTimeout(() => this.followWhileSettling(() => inputContainer.scrollIntoView({
+      behavior: 'smooth',
+      block: this.indexOutlet.sortingDescending ? 'nearest' : 'start',
+    })), 300);
   }
 
   performAutoScrollingOnFormSubmit() {

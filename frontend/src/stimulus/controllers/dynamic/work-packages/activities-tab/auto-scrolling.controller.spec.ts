@@ -41,6 +41,8 @@ const HIGHLIGHTED_CLASS = '--anchor-highlighted';
 class StubIndexController extends Controller {
   sortingAscending = false;
 
+  sortingDescending = true;
+
   viewPortService:ViewPortServiceInterface = {
     scrollableContainer: null,
     isMobile: () => false,
@@ -254,6 +256,98 @@ describe('Activities tab auto-scrolling controller', () => {
     // The listener was bound to the controller's AbortController, so it no longer
     // mutates the URL after disconnect.
     expect(window.location.hash).toBe('#comment-139');
+  });
+
+  describe('streamed updates in an ascending list', () => {
+    function autoScrollingController() {
+      const el = ctx.container.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!;
+      return ctx.getController<AutoScrollingControllerType>('work-packages--activities-tab--auto-scrolling', el);
+    }
+
+    // A streamed-in entry keeps growing as its avatar, reactions, and media render,
+    // so a single scroll can land just above it. The controller follows the bottom
+    // while the height settles.
+    it('re-asserts the bottom as the new entry grows after insertion', async () => {
+      const original = globalThis.ResizeObserver;
+      let resize:(() => void) | undefined;
+      /* eslint-disable @typescript-eslint/no-empty-function */
+      vi.stubGlobal('ResizeObserver', class {
+        constructor(cb:() => void) { resize = cb; }
+        observe() {}
+        disconnect() {}
+      });
+      /* eslint-enable @typescript-eslint/no-empty-function */
+
+      try {
+        const { index, scroller } = await renderActivities();
+        index.sortingAscending = true;
+        Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
+
+        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+        expect(scrollTo).toHaveBeenCalledWith({ top: 1000, behavior: 'smooth' });
+
+        // The entry's late content settles and the list grows taller.
+        Object.defineProperty(scroller, 'scrollHeight', { value: 1400, configurable: true });
+        resize?.();
+
+        expect(scrollTo).toHaveBeenLastCalledWith({ top: 1400, behavior: 'smooth' });
+      } finally {
+        vi.stubGlobal('ResizeObserver', original);
+      }
+    });
+
+    it('does not scroll when the list was not already at the bottom', async () => {
+      const { index } = await renderActivities();
+      index.sortingAscending = true;
+
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(false);
+
+      expect(scrollTo).not.toHaveBeenCalled();
+    });
+
+    // On mobile the comment input, not the container, is the scroll target. It
+    // waits for the keyboard, then follows the same way as the entry settles.
+    it('follows the input into view as the new entry settles on mobile', async () => {
+      const { index } = await renderActivities();
+      index.sortingAscending = true;
+      index.sortingDescending = false;
+      index.viewPortService.isMobile = () => true;
+
+      const input = document.createElement('div');
+      input.className = 'work-packages-activities-tab-journals-new-component';
+      const scrollIntoView = vi.fn();
+      input.scrollIntoView = scrollIntoView;
+      ctx.container
+        .querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!
+        .appendChild(input);
+
+      vi.useFakeTimers();
+      const original = globalThis.ResizeObserver;
+      let resize:(() => void) | undefined;
+      /* eslint-disable @typescript-eslint/no-empty-function */
+      vi.stubGlobal('ResizeObserver', class {
+        constructor(cb:() => void) { resize = cb; }
+        observe() {}
+        disconnect() {}
+      });
+      /* eslint-enable @typescript-eslint/no-empty-function */
+
+      try {
+        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+
+        // The first scroll waits for the on-screen keyboard to settle.
+        expect(scrollIntoView).not.toHaveBeenCalled();
+        vi.advanceTimersByTime(300);
+        expect(scrollIntoView).toHaveBeenCalledTimes(1);
+
+        // The entry's late content settles and the list grows.
+        resize?.();
+        expect(scrollIntoView).toHaveBeenCalledTimes(2);
+      } finally {
+        vi.stubGlobal('ResizeObserver', original);
+        vi.useRealTimers();
+      }
+    });
   });
 
   // The controller sets the hash only when it decides to handle a link, so the
