@@ -52,7 +52,7 @@ export default class BacklogsController extends Controller<HTMLElement> {
     this.abortController = new AbortController();
     document.addEventListener(
       'turbo:before-morph-element',
-      this.preserveLoadedCardFrame,
+      this.reloadCardFrameOnMorph,
       { signal: this.abortController.signal },
     );
   }
@@ -71,10 +71,14 @@ export default class BacklogsController extends Controller<HTMLElement> {
   }
 
   // Work package cards are lazily loaded turbo-frames whose `src` carries a hash
-  // of the card's state. When the list is morphed we must not replace an already
-  // loaded card with its skeleton placeholder: we keep the rendered content and
-  // only update the `src` when the hash changed, which reloads just that card.
-  private preserveLoadedCardFrame = (event:Event):void => {
+  // of the card's state (e.g. status, parent and type). The server response carries
+  // a skeleton which is only to be shown on the initial load. Morphing the list would
+  // replace an already loaded card with its skeleton placeholder, so instead we prevent
+  // the morph and reload the frame. A reload keeps the current content visible until the response
+  // swaps in, so the skeleton never reappears; for an unchanged card the
+  // response comes from the (immutable) browser cache and is imperceptible, and
+  // re-rendering also rebuilds the deferred menu so it cannot go stale.
+  private reloadCardFrameOnMorph = (event:Event):void => {
     const morphEvent = event as CustomEvent<{ newElement:Element }>;
     const frame = morphEvent.target as Element;
     if (!this.isLoadedCardFrame(frame)) { return; }
@@ -83,7 +87,13 @@ export default class BacklogsController extends Controller<HTMLElement> {
 
     const newSrc = morphEvent.detail.newElement?.getAttribute('src');
     if (newSrc && !frame.getAttribute('src')?.endsWith(newSrc)) {
+      // The server reports a different state: point the frame at the new URL,
+      // which reloads it from there.
       frame.setAttribute('src', newSrc);
+    } else {
+      // Same state: reload the (cache-served) URL to refresh the card and its
+      // menu without a perceptible change.
+      void (frame as FrameElement).reload();
     }
   };
 
