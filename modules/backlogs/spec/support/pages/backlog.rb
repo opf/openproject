@@ -338,9 +338,12 @@ module Pages
       end
     end
 
-    def click_in_work_package_move_submenu(work_package, item_name, wait: true)
+    # The move submenu items (Move up/down/to top/to bottom) all perform a
+    # successful move, which reloads the `backlogs_container` frame. Wait for that
+    # reload so a subsequent drag does not grab a soon-to-be-detached element.
+    def click_in_work_package_move_submenu(work_package, item_name, wait: true, frame_reload: true)
       within_work_package_move_submenu(work_package) do |submenu|
-        wait_for_backlogs_turbo_stream(wait:) do
+        wait_for_backlogs_turbo_stream(wait:, frame_reload:) do
           submenu.find(:menuitem, text: item_name, visible: :all).click
         end
       end
@@ -451,7 +454,7 @@ module Pages
           install_backlogs_move_request_probe
           pick_up_and_release_backlogs_item(moved_element)
           return
-        rescue Capybara::Cuprite::ObsoleteNode
+        rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
           next
         ensure
           stop_backlogs_move_request_probe
@@ -553,10 +556,10 @@ module Pages
                          find(sprint_selector(into))
                        end
 
-      wait_for_backlogs_turbo_stream do
+      wait_for_backlogs_turbo_stream(frame_reload: true) do
         drag_backlogs_item(source: moved_element, target: target_element, edge: before ? :top : nil)
       end
-    rescue Capybara::Cuprite::ObsoleteNode
+    rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
     end
 
@@ -566,12 +569,12 @@ module Pages
       target_item = inbox.all("[data-sortable-lists--item-id-value]", minimum: 0).last
       target_element = target_item || inbox.find("[data-empty-list-item]")
 
-      wait_for_backlogs_turbo_stream do
+      wait_for_backlogs_turbo_stream(frame_reload: true) do
         drag_backlogs_item(source: moved_element, target: target_element, edge: target_item ? :bottom : nil)
       end
       wait_for { work_package.reload.backlog_bucket_id }.to be_nil
       wait_for { work_package.reload.sprint_id }.to be_nil
-    rescue Capybara::Cuprite::ObsoleteNode
+    rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
     end
 
@@ -579,22 +582,22 @@ module Pages
       moved_element = find(draggable_work_package_selector(work_package))
       target_element = find(list_body_selector(bucket_selector(bucket)))
 
-      wait_for_backlogs_turbo_stream do
+      wait_for_backlogs_turbo_stream(frame_reload: true) do
         drag_backlogs_item(source: moved_element, target: target_element)
       end
       wait_for { work_package.reload.backlog_bucket_id }.to eq(bucket.id)
-    rescue Capybara::Cuprite::ObsoleteNode
+    rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
     end
 
     def drag_work_package_to_sprint(work_package, sprint)
       moved_element = find(draggable_work_package_selector(work_package))
       target_element = find(list_body_selector(sprint_selector(sprint)))
-      wait_for_backlogs_turbo_stream do
+      wait_for_backlogs_turbo_stream(frame_reload: true) do
         drag_backlogs_item(source: moved_element, target: target_element)
       end
       wait_for { work_package.reload.sprint_id }.to eq(sprint.id)
-    rescue Capybara::Cuprite::ObsoleteNode
+    rescue Capybara::Cuprite::ObsoleteNode, Selenium::WebDriver::Error::StaleElementReferenceError
       retry
     end
 
@@ -724,11 +727,7 @@ module Pages
     end
 
     def drag_backlogs_item(source:, target:, edge: nil)
-      if selenium_driver?
-        selenium_drag_backlogs_item(source:, target:, edge:)
-      else
-        source.native.drag_to(target.native, delay: 0.1)
-      end
+      selenium_drag_backlogs_item(source:, target:, edge:)
     end
 
     def pick_up_and_release_backlogs_item(source)
@@ -736,21 +735,17 @@ module Pages
 
       scroll_to_element(source)
 
-      if selenium_driver?
-        page
-          .driver
-          .browser
-          .action
-          .move_to(source.native)
-          .click_and_hold
-          .pause(duration: 0.1)
-          .move_by(0, 8)
-          .pause(duration: 0.1)
-          .release
-          .perform
-      else
-        source.native.drag_to(source.native, delay: 0.1)
-      end
+      page
+        .driver
+        .browser
+        .action
+        .move_to(source.native)
+        .click_and_hold
+        .pause(duration: 0.1)
+        .move_by(0, 8)
+        .pause(duration: 0.1)
+        .release
+        .perform
 
       # Assert Pragmatic DnD tore down its own honey-pot overlay before we force
       # a cleanup, so a regression that leaves the overlay stuck is caught here
@@ -815,7 +810,18 @@ module Pages
       wait_for_network_idle if using_cuprite?
     end
 
-    def wait_for_backlogs_turbo_stream(wait: 10, &)
+    # Waits for a backlogs move to settle.
+    #
+    # A move responds with a turbo stream whose `turbo_frame_reload` action tells
+    # the `backlogs_container` frame to reload itself. That is two round-trips: the
+    # stream render (request 1, `op:turbo-stream-rendered`) and the frame reload it
+    # triggers (request 2, `turbo:frame-load`). The DOM is only swapped when request
+    # 2 completes, so callers that go on to interact with the refreshed frame must
+    # pass `frame_reload: true` to wait for the frame load rather than racing it.
+    #
+    # Moves that fail (e.g. dropping onto a completed sprint) only render an error
+    # flash and never reload the frame, so the default settles on the stream render.
+    def wait_for_backlogs_turbo_stream(wait: 10, frame_reload: false, &)
       return yield unless wait
       return wait_for_turbo_stream(wait:, &) if using_cuprite?
 
@@ -827,6 +833,7 @@ module Pages
         const controller = new AbortController();
         const state = {
           rendered: false,
+          frameReloaded: false,
           timeoutMs: arguments[0],
           events: []
         };
@@ -839,25 +846,38 @@ module Pages
           });
         }, { signal: controller.signal });
 
+        document.addEventListener('turbo:frame-load', (event) => {
+          if (event.target instanceof Element && event.target.id === 'backlogs_container') {
+            state.frameReloaded = true;
+            state.events.push({
+              type: event.type,
+              target: event.target.id,
+              time: Math.round(performance.now())
+            });
+          }
+        }, { signal: controller.signal });
+
         window.__opBacklogsTurboStreamAbort = controller;
         window.__opBacklogsTurboStreamState = state;
       JS
 
       yield
 
-      wait_for_backlogs_turbo_stream_event(timeout:)
+      wait_for_backlogs_turbo_stream_event(timeout:, frame_reload:)
     ensure
       stop_backlogs_turbo_stream_probe unless using_cuprite?
     end
 
-    def wait_for_backlogs_turbo_stream_event(timeout:)
+    def wait_for_backlogs_turbo_stream_event(timeout:, frame_reload: false)
+      flag = frame_reload ? "frameReloaded" : "rendered"
       deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + timeout
 
       loop do
-        return if page.evaluate_script("window.__opBacklogsTurboStreamState?.rendered === true")
+        return if page.evaluate_script("window.__opBacklogsTurboStreamState?.#{flag} === true")
 
         if Process.clock_gettime(Process::CLOCK_MONOTONIC) >= deadline
-          raise "wait_for_backlogs_turbo_stream: no turbo stream rendered\n#{backlogs_dnd_diagnostics}"
+          missing = frame_reload ? "backlogs_container frame did not reload" : "no turbo stream rendered"
+          raise "wait_for_backlogs_turbo_stream: #{missing}\n#{backlogs_dnd_diagnostics}"
         end
 
         sleep 0.05
