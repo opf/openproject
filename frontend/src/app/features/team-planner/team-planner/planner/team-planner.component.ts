@@ -726,11 +726,12 @@ export class TeamPlannerComponent extends UntilDestroyedMixin implements OnInit,
   }
 
   showDisabledText(workPackage:WorkPackageResource):{ text:string, orientation:'left'|'right' } {
-    const dueDate = new Date(workPackage.dueDate).setHours(0, 0, 0, 0);
+    const startDate = new Date(workPackage.startDate ?? workPackage.date).setHours(0, 0, 0, 0);
     const firstCalendarDay = this.ucCalendar.getApi().view.currentStart.setHours(0, 0, 0, 0);
+
     return {
       text: this.calendarDrag.workPackageDisabledExplanation(workPackage),
-      orientation: dueDate === firstCalendarDay ? 'right' : 'left',
+      orientation: startDate === firstCalendarDay ? 'right' : 'left',
     };
   }
 
