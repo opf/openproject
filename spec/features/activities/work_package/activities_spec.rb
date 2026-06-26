@@ -1166,6 +1166,58 @@ RSpec.describe "Work package activity", :js, :with_cuprite, with_ee: %i[internal
       def wait_for_auto_scrolling_to_finish = sleep(1)
     end
 
+    describe "when the comment anchor changes without reloading the page" do
+      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
+
+      before do
+        visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
+        wp_page.wait_for_activity_tab
+      end
+
+      it "moves the highlight to the comment newly referenced in the URL hash" do
+        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
+
+        # As clicking an in-page comment link or editing the comment id by hand would:
+        # the URL hash changes but the page is not reloaded.
+        page.execute_script("window.location.hash = '#comment-#{comment_2.id}'")
+
+        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
+        expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
+      end
+    end
+
+    describe "when clicking an in-content link to another comment on the same page" do
+      let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
+
+      before do
+        visit project_work_package_path(project, work_package.id, "activity", anchor: "comment-#{comment_1.id}")
+        wp_page.wait_for_activity_tab
+      end
+
+      it "scrolls to and highlights the comment instead of letting Turbo drop the fragment" do
+        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 1")
+
+        # Comment bodies render plain links. Inject one (so this stays independent of
+        # the rich-text formatter) pointing to another comment on this same activity
+        # page, as a pasted comment link would, then click it through a real browser
+        # click so Turbo's own handlers run. Turbo must not swallow it.
+        page.execute_script(<<~JS)
+          const root = document.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]');
+          const link = document.createElement('a');
+          link.href = window.location.pathname + '#comment-#{comment_2.id}';
+          link.textContent = 'jump to the other comment';
+          link.id = 'injected-comment-link';
+          root.prepend(link);
+        JS
+
+        find_by_id("injected-comment-link").click
+
+        expect(page).to have_css(".Box.--anchor-highlighted", text: "Comment 2")
+        expect(page).to have_no_css(".Box.--anchor-highlighted", text: "Comment 1")
+        expect(page.evaluate_script("window.location.hash")).to eq("#comment-#{comment_2.id}")
+      end
+    end
+
     context "when sorting set to asc" do
       let!(:admin_preferences) { create(:user_preference, user: admin, others: { comments_sorting: :asc }) }
 
