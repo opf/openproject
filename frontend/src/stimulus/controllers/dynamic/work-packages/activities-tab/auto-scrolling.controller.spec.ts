@@ -39,9 +39,13 @@ const HIGHLIGHTED_CLASS = '--anchor-highlighted';
 // through the index controller's viewport service. A real index controller pulls
 // in the whole activities tab, so this stub exposes only what the scroll paths read.
 class StubIndexController extends Controller {
-  sortingAscending = false;
+  // Mirror the real controller: both flags derive from one sort value, so a test
+  // can never leave them in the impossible both-true / both-false state.
+  sortingValue = 'desc';
 
-  sortingDescending = true;
+  get sortingAscending():boolean { return this.sortingValue === 'asc'; }
+
+  get sortingDescending():boolean { return this.sortingValue === 'desc'; }
 
   viewPortService:ViewPortServiceInterface = {
     scrollableContainer: null,
@@ -280,7 +284,7 @@ describe('Activities tab auto-scrolling controller', () => {
 
       try {
         const { index, scroller } = await renderActivities();
-        index.sortingAscending = true;
+        index.sortingValue = 'asc';
         Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
 
         autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
@@ -315,7 +319,7 @@ describe('Activities tab auto-scrolling controller', () => {
 
       try {
         const { index, scroller } = await renderActivities();
-        index.sortingAscending = true;
+        index.sortingValue = 'asc';
         Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
 
         autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
@@ -346,7 +350,7 @@ describe('Activities tab auto-scrolling controller', () => {
 
       try {
         const { index, scroller } = await renderActivities();
-        index.sortingAscending = true;
+        index.sortingValue = 'asc';
         Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
 
         autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
@@ -380,7 +384,7 @@ describe('Activities tab auto-scrolling controller', () => {
 
       try {
         const { index, scroller } = await renderActivities();
-        index.sortingAscending = true;
+        index.sortingValue = 'asc';
         Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
 
         autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
@@ -401,7 +405,7 @@ describe('Activities tab auto-scrolling controller', () => {
 
     it('does not scroll when the list was not already at the bottom', async () => {
       const { index } = await renderActivities();
-      index.sortingAscending = true;
+      index.sortingValue = 'asc';
 
       autoScrollingController().performAutoScrollingOnStreamsUpdate(false);
 
@@ -412,8 +416,7 @@ describe('Activities tab auto-scrolling controller', () => {
     // waits for the keyboard, then follows the same way as the entry settles.
     it('follows the input into view as the new entry settles on mobile', async () => {
       const { index } = await renderActivities();
-      index.sortingAscending = true;
-      index.sortingDescending = false;
+      index.sortingValue = 'asc';
       index.viewPortService.isMobile = () => true;
 
       const input = document.createElement('div');
@@ -456,8 +459,7 @@ describe('Activities tab auto-scrolling controller', () => {
     // it follows the input too, after the longer wait for the keyboard to dismiss.
     it('follows the input into view after submitting on mobile', async () => {
       const { index } = await renderActivities();
-      index.sortingAscending = true;
-      index.sortingDescending = false;
+      index.sortingValue = 'asc';
       index.viewPortService.isMobile = () => true;
 
       const input = document.createElement('div');
