@@ -822,6 +822,12 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
           expect(subject)
             .not_to have_json_path("_embedded/budget")
         end
+
+        it "does not instantiate a budget representer" do
+          allow(API::V3::Budgets::BudgetRepresenter).to receive(:create)
+          subject
+          expect(API::V3::Budgets::BudgetRepresenter).not_to have_received(:create)
+        end
       end
 
       context "when a privileged user's response is cached before the current user reads it" do
