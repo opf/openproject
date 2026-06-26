@@ -168,7 +168,7 @@ In order to activate the two-factor authentication for your OpenProject installa
 
 ![Two-factor authentication under security section in OpenProject account settings](openproject_account_settings_two_factor_authentication.png)
 
-If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set as a default option or to be removed.
+If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set as a default option.
 
 ![List of two-factor authenticated devices](openproject_account_settings_two_factor_authentication_devices_overview.png)
 
