@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent, RefObject } from 'react';
 import type { WorkPackage } from '../openProjectTypes';
 import { useWorkPackageSearch } from './useWorkPackageSearch';
@@ -29,6 +29,11 @@ export function useWorkPackageSearchDropdown({
   const { searchQuery, setSearchQuery, searchResults } = useWorkPackageSearch();
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setFocusedIndex(searchResults.length > 0 ? 0 : -1);
+  }, [searchResults]);
 
   // useRef instead of useState changing this flag must not trigger a re-render,
   // it only needs to be readable in the onBlur timeout in SearchDropdown.
