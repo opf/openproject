@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { useColors } from '../../services/colors';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
@@ -33,19 +33,29 @@ const InlineChip = styled.span.attrs({
 })<{ selected?:boolean }>`
   ${defaultWpVariables}
   display: inline;
-  vertical-align: middle;
   cursor: pointer;
   user-select: none;
   border-radius: ${CHIP_STYLES.radius};
-  outline: ${({ selected }) => (selected ? CHIP_STYLES.focusOutline : 'none')};
-  outline-offset: 1px;
-  box-shadow: ${({ selected }) => (selected ? CHIP_STYLES.focusShadow : 'none')};
+  margin: 0 var(--spacer-s); // necessary so blue outline will not cover adjacent characters
   position: relative;
   line-height: 1;
 
   &:active {
     cursor: grabbing;
   }
+
+  /* Paint the selection ring on the chip surface (the grey-background element) so it shares
+     the exact same box and clones onto every line fragment of a wrapped subject. */
+  ${({ selected }) =>
+    selected &&
+    css`
+      /* selection should be above other elements in adjacent lines */
+      z-index: 1;
+
+      & > .op-bn-inline-wp-base {
+        box-shadow: ${CHIP_STYLES.focusShadow};
+      }
+    `}
 `;
 
 export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor }:InlineWorkPackageChipProps) => {

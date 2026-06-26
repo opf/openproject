@@ -42,6 +42,5 @@ export const CHIP_STYLES = {
     },
   },
 
-  focusOutline: '4px solid var(--mantine-color-blue-4)',
-  focusShadow: 'none',
+  focusShadow: '0 0 0 4px var(--blocknote-focus-color)',
 } as const;

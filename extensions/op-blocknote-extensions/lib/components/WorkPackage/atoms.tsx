@@ -10,6 +10,9 @@ export const defaultWpVariables = css`
   --spacer-l: 12px;
   --spacer-xl: 16px;
 
+  /* BlockNote's node-selection outline color; not exposed by BlockNote as a variable, so defined here */
+  --blocknote-focus-color: rgb(100, 160, 255);
+
   --lightness-threshold: 0.453;
   --background-alpha: 0.18;
 

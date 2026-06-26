@@ -24,8 +24,7 @@ const Block = styled.div.attrs({ className: 'op-bn-extensions', 'data-testid': '
   background-color: ${({ $pending }) => ($pending ? 'transparent' : 'var(--op-chip-bg)')};
   user-select: all;
   border-radius: var(--bn-border-radius);
-  outline: ${({ $selected }) => ($selected ? CHIP_STYLES.focusOutline : 'none')};
-  outline-offset: 1px;
+  box-shadow: ${({ $selected }) => ($selected ? CHIP_STYLES.focusShadow : 'none')};
   ${({ $pending }) => $pending && 'position: relative;'}
 `;
 
