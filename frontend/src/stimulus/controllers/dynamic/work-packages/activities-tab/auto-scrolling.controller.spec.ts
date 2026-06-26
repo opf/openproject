@@ -264,9 +264,9 @@ describe('Activities tab auto-scrolling controller', () => {
       return ctx.getController<AutoScrollingControllerType>('work-packages--activities-tab--auto-scrolling', el);
     }
 
-    // A streamed-in entry keeps growing as its avatar, reactions, and media render,
-    // so a single scroll can land just above it. The controller follows the bottom
-    // while the height settles.
+    // A streamed-in entry carries images that reserve no height until they load, so
+    // it keeps growing and a single scroll can land just above it. The controller
+    // follows the bottom while the height settles.
     it('re-asserts the bottom as the new entry grows after insertion', async () => {
       const original = globalThis.ResizeObserver;
       let resize:(() => void) | undefined;
@@ -291,6 +291,109 @@ describe('Activities tab auto-scrolling controller', () => {
         resize?.();
 
         expect(scrollTo).toHaveBeenLastCalledWith({ top: 1400, behavior: 'smooth' });
+      } finally {
+        vi.stubGlobal('ResizeObserver', original);
+      }
+    });
+
+    // Each poll opens a settle window; without teardown the prior window keeps its
+    // observer alive and scrolling. A newer update, or a disconnect, must close it.
+    it('tears down the prior settle window when a newer update streams in', async () => {
+      const observers:{ disconnected:boolean }[] = [];
+      const original = globalThis.ResizeObserver;
+      /* eslint-disable @typescript-eslint/no-empty-function */
+      vi.stubGlobal('ResizeObserver', class {
+        state = { disconnected: false };
+
+        constructor() { observers.push(this.state); }
+
+        observe() {}
+
+        disconnect() { this.state.disconnected = true; }
+      });
+      /* eslint-enable @typescript-eslint/no-empty-function */
+
+      try {
+        const { index, scroller } = await renderActivities();
+        index.sortingAscending = true;
+        Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
+
+        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+
+        expect(observers).toHaveLength(2);
+        expect(observers[0].disconnected).toBe(true);
+        expect(observers[1].disconnected).toBe(false);
+      } finally {
+        vi.stubGlobal('ResizeObserver', original);
+      }
+    });
+
+    it('stops following when the controller disconnects', async () => {
+      const observers:{ disconnected:boolean }[] = [];
+      const original = globalThis.ResizeObserver;
+      /* eslint-disable @typescript-eslint/no-empty-function */
+      vi.stubGlobal('ResizeObserver', class {
+        state = { disconnected: false };
+
+        constructor() { observers.push(this.state); }
+
+        observe() {}
+
+        disconnect() { this.state.disconnected = true; }
+      });
+      /* eslint-enable @typescript-eslint/no-empty-function */
+
+      try {
+        const { index, scroller } = await renderActivities();
+        index.sortingAscending = true;
+        Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
+
+        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+        expect(observers[0].disconnected).toBe(false);
+
+        const root = ctx.container.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!;
+        root.remove();
+        await ctx.nextFrame();
+
+        expect(observers[0].disconnected).toBe(true);
+      } finally {
+        vi.stubGlobal('ResizeObserver', original);
+      }
+    });
+
+    // The follow only knows the user was at the bottom when the entry arrived. If
+    // they scroll up while it settles, late growth must not yank them back down.
+    it('stops following once the user scrolls during the settle window', async () => {
+      let disconnected = false;
+      let resize:(() => void) | undefined;
+      const original = globalThis.ResizeObserver;
+      /* eslint-disable @typescript-eslint/no-empty-function */
+      vi.stubGlobal('ResizeObserver', class {
+        constructor(cb:() => void) { resize = () => { if (!disconnected) { cb(); } }; }
+
+        observe() {}
+
+        disconnect() { disconnected = true; }
+      });
+      /* eslint-enable @typescript-eslint/no-empty-function */
+
+      try {
+        const { index, scroller } = await renderActivities();
+        index.sortingAscending = true;
+        Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
+
+        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+        expect(scrollTo).toHaveBeenCalledTimes(1);
+
+        // The user grabs the scroll before the entry finishes growing.
+        window.dispatchEvent(new WheelEvent('wheel'));
+
+        Object.defineProperty(scroller, 'scrollHeight', { value: 1400, configurable: true });
+        resize?.();
+
+        expect(scrollTo).toHaveBeenCalledTimes(1);
+        expect(scrollTo).toHaveBeenLastCalledWith({ top: 1000, behavior: 'smooth' });
       } finally {
         vi.stubGlobal('ResizeObserver', original);
       }

@@ -32,7 +32,7 @@ import BaseController from './base.controller';
 import { UrlHelpers, ActivityAnchorType, ActivityAnchor } from './services/url-helpers';
 
 // How long to keep following the bottom after a streamed entry arrives, covering
-// late layout growth as its avatar, reactions, and media finish rendering.
+// the late layout growth as its images reserve their height only once they load.
 const STREAM_SETTLE_MS = 1000;
 
 // Mobile on-screen keyboard timings, tuned on device. The keyboard slides while
@@ -57,6 +57,12 @@ export default class AutoScrollingController extends BaseController {
 
   private abortController!:AbortController;
 
+  // A single settle window at a time: a newer streamed entry, or a teardown,
+  // cancels the one in flight rather than leaving it scrolling in the background.
+  private settleObserver?:ResizeObserver;
+  private settleTimeout?:ReturnType<typeof setTimeout>;
+  private settleAbort?:AbortController;
+
   connect() {
     super.connect();
 
@@ -71,6 +77,7 @@ export default class AutoScrollingController extends BaseController {
 
   disconnect() {
     this.abortController.abort();
+    this.stopFollowing();
   }
 
   setAnchor(event:CustomEventWithIdParam) {
@@ -92,16 +99,38 @@ export default class AutoScrollingController extends BaseController {
     }
   }
 
-  // A streamed-in entry keeps growing for a moment after insertion as its avatar,
-  // reactions, and media render, leaving a one-shot scroll short of its final
-  // position. Re-assert the scroll while the height settles, then stop so we never
-  // fight a later deliberate scroll.
+  // A streamed-in entry carries images that reserve no height until they load, so
+  // it keeps growing for a moment after insertion and a one-shot scroll lands short
+  // of its final position. Re-assert the scroll while the height settles, yielding
+  // the moment the user scrolls so we never fight them, and stop once it closes.
   private followWhileSettling(scroll:() => void) {
+    this.stopFollowing();
     scroll();
 
-    const observer = new ResizeObserver(scroll);
-    observer.observe(this.element);
-    setTimeout(() => observer.disconnect(), STREAM_SETTLE_MS);
+    this.settleObserver = new ResizeObserver(scroll);
+    this.settleObserver.observe(this.element);
+
+    // A user scrolling mid-settle has taken over; wheel and touch gestures come
+    // only from them, never from our own scroll, so yield the moment one fires.
+    this.settleAbort = new AbortController();
+    const yieldToUser = () => this.stopFollowing();
+    window.addEventListener('wheel', yieldToUser, { signal: this.settleAbort.signal, passive: true });
+    window.addEventListener('touchmove', yieldToUser, { signal: this.settleAbort.signal, passive: true });
+
+    this.settleTimeout = setTimeout(() => this.stopFollowing(), STREAM_SETTLE_MS);
+  }
+
+  private stopFollowing() {
+    this.settleObserver?.disconnect();
+    this.settleObserver = undefined;
+
+    this.settleAbort?.abort();
+    this.settleAbort = undefined;
+
+    if (this.settleTimeout) {
+      clearTimeout(this.settleTimeout);
+      this.settleTimeout = undefined;
+    }
   }
 
   private keepScrolledToBottomWhileSettling() {
