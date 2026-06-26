@@ -46,8 +46,7 @@ module Backlogs
       @project = project
       @current_user = current_user
       @active_sprint_ids = active_sprint_ids
-      @work_packages = work_packages || sprint.work_packages_for(project)
-                                              .includes(:status, :type, :assigned_to, :priority, :parent)
+      @work_packages = work_packages || sprint.work_packages_for(project).with_card_hash
     end
 
     def wrapper_uniq_by

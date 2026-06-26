@@ -57,10 +57,19 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
     render_component(work_packages:, container:, drag_and_drop:)
   end
 
+  # Reloads the given work packages through the with_card_hash scope, preserving
+  # their order, so the lazily loaded card frames can read their card_hash.
+  def with_card_hash(work_packages)
+    return work_packages if work_packages.nil?
+
+    by_id = WorkPackage.where(id: work_packages.map(&:id)).with_card_hash.index_by(&:id)
+    work_packages.map { |work_package| by_id.fetch(work_package.id) }
+  end
+
   def render_component(work_packages:, container:, drag_and_drop:)
     render_inline(
       described_class.new(
-        work_packages:,
+        work_packages: with_card_hash(work_packages),
         project:,
         container:,
         drag_and_drop:,
@@ -86,9 +95,12 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
 
     it_behaves_like "rendering Box", row_count: 2, header: false, footer: false
 
-    it "renders one row per work package" do
-      expect(rendered_component).to have_text("WP A")
-      expect(rendered_component).to have_text("WP B")
+    it "renders one lazy card frame per work package" do
+      work_packages.each do |work_package|
+        expect(rendered_component).to have_css(
+          "turbo-frame#work_package_#{work_package.id}_card[loading='lazy']"
+        )
+      end
     end
   end
 
@@ -118,16 +130,13 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
       end
     end
 
-    it "renders the Backlogs work-package card" do
+    it "lazily loads the Backlogs work-package card through a turbo-frame" do
       work_package = work_packages.first
 
       expect(rendered_component).to have_css(
-        ".Box-row#work_package_#{work_package.id} .sr-only",
-        text: "3 story points"
-      )
-      expect(rendered_component).to have_element(
-        "include-fragment",
-        src: menu_project_backlogs_work_package_path(project, work_package)
+        ".Box-row#work_package_#{work_package.id} " \
+        "turbo-frame#work_package_#{work_package.id}_card[loading='lazy']" \
+        "[src*='#{project_backlogs_work_package_card_path(project, work_package)}']"
       )
     end
   end

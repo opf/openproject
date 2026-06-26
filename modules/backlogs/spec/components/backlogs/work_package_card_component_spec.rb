@@ -52,6 +52,10 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
     expect(rendered_component).to have_text("##{work_package.id}")
   end
 
+  it "wraps the card in its turbo-frame so the lazily loaded placeholder is replaced" do
+    expect(rendered_component).to have_css("turbo-frame#work_package_#{work_package.id}_card")
+  end
+
   it "renders story points as the card metric" do
     expect(rendered_component).to have_css("span", text: "5", aria: { hidden: true })
     expect(rendered_component).to have_css(".sr-only", text: "5 story points")

@@ -29,30 +29,34 @@
 #++
 
 module Backlogs
-  class BucketComponent < ApplicationComponent
-    include OpPrimer::ComponentHelpers
-    include OpTurbo::Streamable
-    include CommonHelper
+  module WorkPackages
+    class CardsController < Backlogs::BaseController
+      before_action :load_work_package
 
-    attr_reader :backlog_bucket, :work_packages, :project, :current_user
+      # Renders the content of a single backlog work package card into its
+      # turbo-frame. The frame is loaded lazily by
+      # Backlogs::WorkPackageCardListItemLoadingComponent with a +version+ derived
+      # from the card's state hash, so each distinct state maps to a distinct URL
+      # that the client can cache.
+      # Cards are permission scoped, so the cache has to stays private to the browser.
+      def show
+        # Caveat here: If the user were to lose the permissions to see a work package,
+        # they would still have it cached locally, if they ever looked at the card.
+        # But the same would be true for every screenshot or PDF export.
+        expires_in 1.day, public: false
 
-    def initialize(backlog_bucket:, project:, work_packages: nil, current_user: User.current)
-      super()
+        render(Backlogs::WorkPackageCardComponent.new(
+                 work_package: @work_package,
+                 menu_src: menu_project_backlogs_work_package_path(@project, @work_package)
+               ),
+               layout: false)
+      end
 
-      @backlog_bucket = backlog_bucket
-      @project = project
-      @current_user = current_user
-      @work_packages = work_packages || backlog_bucket.displayed_work_packages.with_card_hash
-    end
+      private
 
-    def wrapper_uniq_by
-      backlog_bucket.id
-    end
-
-    private
-
-    def show_menu?
-      backlog_bucket.persisted? && current_user.allowed_in_project?(:create_sprints, project)
+      def load_work_package
+        @work_package = ::WorkPackage.visible.where(project: @project).find(params.expect(:work_package_id))
+      end
     end
   end
 end

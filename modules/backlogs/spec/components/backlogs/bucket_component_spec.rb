@@ -109,13 +109,14 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
 
       it "renders one shared-card row per work package" do
         expect(rendered_component).to have_css(".Box-row", count: 1)
-        expect(rendered_component).to have_text("Bucket Work Package")
-        expect(rendered_component).to have_text("##{work_package.id}")
       end
 
-      it "renders story points on the work package card" do
-        expect(rendered_component).to have_css("span", text: "3", aria: { hidden: true })
-        expect(rendered_component).to have_css(".sr-only", text: "3 story points")
+      it "lazily loads the work package card through a turbo-frame" do
+        expect(rendered_component).to have_css(
+          ".Box-row#work_package_#{work_package.id} " \
+          "turbo-frame#work_package_#{work_package.id}_card[loading='lazy']" \
+          "[src*='#{project_backlogs_work_package_card_path(project, work_package)}']"
+        )
       end
 
       it "wires the bucket drop-target data on the box" do
@@ -124,13 +125,6 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
           expect(box["data-target-id"]).to eq("backlog_bucket:#{backlog_bucket.id}")
           expect(box["data-target-allowed-drag-type"]).to eq("story")
         end
-      end
-
-      it "renders the shared work-package row menu with inbox src" do
-        expect(rendered_component).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package)
-        )
       end
 
       it "wires draggable row data through the shared card" do

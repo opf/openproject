@@ -43,7 +43,7 @@ module Backlogs::Concerns
 
       @work_packages_by_sprint_id = WorkPackage
                                       .where(sprint: @sprints, project: @project)
-                                      .includes(:type, :status, :assigned_to, :priority, :parent)
+                                      .with_card_hash
                                       .order_by_position
                                       .group_by(&:sprint_id)
     end
@@ -57,7 +57,7 @@ module Backlogs::Concerns
       # But doing only a single query (+ includes) to the database has its benefits, and currently this seems quicker.
       @work_packages_by_backlog_id = WorkPackage
                                        .in_backlog_for(project: @project)
-                                       .includes(:type, :status, :assigned_to, :priority, :parent)
+                                       .with_card_hash
                                        .group_by(&:backlog_bucket_id)
     end
   end

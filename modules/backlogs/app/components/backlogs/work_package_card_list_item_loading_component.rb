@@ -28,43 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject::Backlogs::Patches::WorkPackagePatch
-  extend ActiveSupport::Concern
-
-  included do
-    prepend InstanceMethods
-    extend ClassMethods
-
-    register_journal_formatted_fields "story_points", "position", formatter_key: :decimal
-
-    validates_numericality_of :story_points, only_integer: true,
-                                             allow_nil: true,
-                                             greater_than_or_equal_to: 0,
-                                             less_than: 10_000,
-                                             if: -> { backlogs_enabled? }
-
-    belongs_to :sprint, optional: true
-    belongs_to :backlog_bucket, optional: true
-
-    include OpenProject::Backlogs::List
-
-    scopes :in_backlog_for
-    scopes :in_inbox_for
-    scopes :with_backlogs_neighbours
-    scopes :without_status_considered_closed
-    scopes :without_excluded_type
-    scopes :with_card_hash
-  end
-
-  module ClassMethods
-    def order_by_position
-      order(arel_table[:position].asc.nulls_last)
+module Backlogs
+  # A backlog list row that lazily loads its work package card through a
+  # turbo-frame instead of rendering the card inline.
+  #
+  # The frame's +src+ carries a +version+ derived from the card's state hash
+  # (see WorkPackages::Scopes::WithCardHash). As long as that hash is stable the
+  # client keeps the cached card; a changed hash points the frame at a fresh URL
+  # which is served by Backlogs::WorkPackages::CardsController.
+  #
+  # Row behaviour (dragging, selection, urls) is inherited from
+  # WorkPackageCardListItemComponent; only the rendered content differs.
+  class WorkPackageCardListItemLoadingComponent < WorkPackageCardListItemComponent
+    def call
+      helpers.turbo_frame_tag(WorkPackageCardComponent.frame_id(work_package),
+                              loading: :lazy,
+                              src: card_src) do
+        render(Primer::Alpha::SkeletonBox.new(width: "100%", height: "40px"))
+      end
     end
-  end
 
-  module InstanceMethods
-    def backlogs_enabled?
-      project&.backlogs_enabled?
+    private
+
+    def card_src
+      url_helpers.project_backlogs_work_package_card_path(project, work_package, version: work_package.card_hash)
     end
   end
 end

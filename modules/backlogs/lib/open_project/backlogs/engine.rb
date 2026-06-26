@@ -55,6 +55,7 @@ module OpenProject::Backlogs
         permission :view_sprints,
                    { "backlogs/backlog": %i[show details],
                      "backlogs/work_packages": %i[index show menu],
+                     "backlogs/work_packages/cards": %i[show],
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,
                      "backlogs/sprints": :index,

@@ -98,6 +98,8 @@ Rails.application.routes.draw do
           get :move_to_sprint_dialog
           get :move_to_bucket_dialog
         end
+
+        resource :card, only: %i[show], controller: "work_packages/cards"
       end
 
       scope "sprints/:sprint_id" do
