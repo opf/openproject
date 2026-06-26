@@ -35,6 +35,11 @@ import { UrlHelpers, ActivityAnchorType, ActivityAnchor } from './services/url-h
 // late layout growth as its avatar, reactions, and media finish rendering.
 const STREAM_SETTLE_MS = 1000;
 
+// Mobile on-screen keyboard timings, tuned on device. The keyboard slides while
+// we scroll, so we wait it out before the first scroll settles the input.
+const KEYBOARD_SETTLE_MS = 300; // poll arrives with the keyboard already down
+const SUBMIT_KEYBOARD_DISMISS_MS = 800; // own comment sent, keyboard dismissing
+
 interface CustomEventWithIdParam extends Event {
   params:{
     id:string;
@@ -109,37 +114,32 @@ export default class AutoScrollingController extends BaseController {
     }));
   }
 
-  private keepInputInViewWhileSettling() {
-    const inputContainer = this.inputContainer;
-    if (!inputContainer) { return; }
+  private keepInputInViewWhileSettling(initialDelay = KEYBOARD_SETTLE_MS) {
+    if (!this.inputContainer) { return; }
 
     // Wait for the on-screen keyboard to settle before the first scroll.
-    setTimeout(() => this.followWhileSettling(() => inputContainer.scrollIntoView({
-      behavior: 'smooth',
-      block: this.indexOutlet.sortingDescending ? 'nearest' : 'start',
-    })), 300);
+    setTimeout(() => this.followWhileSettling(() => this.scrollInputIntoView()), initialDelay);
   }
 
   performAutoScrollingOnFormSubmit() {
     if (this.isMobile() && !this.isWithinNotificationCenter()) {
-      // wait for the keyboard to be fully down before scrolling further
-      // timeout amount tested on mobile devices for best possible user experience
-      this.scrollInputContainerIntoView(800);
+      // Your own comment streams in and keeps growing like a polled one, so follow
+      // it while it settles rather than scrolling once the keyboard is down.
+      this.keepInputInViewWhileSettling(SUBMIT_KEYBOARD_DISMISS_MS);
     } else {
       this.scrollJournalContainer(this.indexOutlet.sortingAscending, true);
     }
   }
 
-  scrollInputContainerIntoView(timeout = 0, behavior:ScrollBehavior = 'smooth') {
-    const inputContainer = this.inputContainer;
-    setTimeout(() => {
-      if (inputContainer) {
-        inputContainer.scrollIntoView({
-          behavior,
-          block: this.indexOutlet.sortingDescending ? 'nearest' : 'start',
-        });
-      }
-    }, timeout);
+  scrollInputContainerIntoView(timeout = 0) {
+    setTimeout(() => this.scrollInputIntoView(), timeout);
+  }
+
+  private scrollInputIntoView() {
+    this.inputContainer?.scrollIntoView({
+      behavior: 'smooth',
+      block: this.indexOutlet.sortingDescending ? 'nearest' : 'start',
+    });
   }
 
   scrollJournalContainer(toBottom:boolean, smooth = false) {

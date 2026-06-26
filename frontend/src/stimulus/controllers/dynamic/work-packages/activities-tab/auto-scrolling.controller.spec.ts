@@ -348,6 +348,51 @@ describe('Activities tab auto-scrolling controller', () => {
         vi.useRealTimers();
       }
     });
+
+    // Submitting your own comment streams in an entry that grows the same way, so
+    // it follows the input too, after the longer wait for the keyboard to dismiss.
+    it('follows the input into view after submitting on mobile', async () => {
+      const { index } = await renderActivities();
+      index.sortingAscending = true;
+      index.sortingDescending = false;
+      index.viewPortService.isMobile = () => true;
+
+      const input = document.createElement('div');
+      input.className = 'work-packages-activities-tab-journals-new-component';
+      const scrollIntoView = vi.fn();
+      input.scrollIntoView = scrollIntoView;
+      ctx.container
+        .querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!
+        .appendChild(input);
+
+      vi.useFakeTimers();
+      const original = globalThis.ResizeObserver;
+      let resize:(() => void) | undefined;
+      /* eslint-disable @typescript-eslint/no-empty-function */
+      vi.stubGlobal('ResizeObserver', class {
+        constructor(cb:() => void) { resize = cb; }
+        observe() {}
+        disconnect() {}
+      });
+      /* eslint-enable @typescript-eslint/no-empty-function */
+
+      try {
+        autoScrollingController().performAutoScrollingOnFormSubmit();
+
+        // The first scroll waits the longer keyboard-dismiss window after a send.
+        vi.advanceTimersByTime(300);
+        expect(scrollIntoView).not.toHaveBeenCalled();
+        vi.advanceTimersByTime(500);
+        expect(scrollIntoView).toHaveBeenCalledTimes(1);
+
+        // The entry's late content settles and the list grows.
+        resize?.();
+        expect(scrollIntoView).toHaveBeenCalledTimes(2);
+      } finally {
+        vi.stubGlobal('ResizeObserver', original);
+        vi.useRealTimers();
+      }
+    });
   });
 
   // The controller sets the hash only when it decides to handle a link, so the
