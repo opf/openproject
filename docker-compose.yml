@@ -131,10 +131,8 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.hocuspocus.rule=Host(`hocuspocus.${OPENPROJECT_DOCKER_DEV_TLD:-local}`)"
-      - "traefik.http.routers.hocuspocus.tls=true"
-      - "traefik.http.routers.hocuspocus.tls.certresolver=step"
-      - "traefik.http.routers.hocuspocus.service=hocuspocus-service"
-      - "traefik.http.services.hocuspocus-service.loadbalancer.server.port=1234"
+      - "traefik.http.routers.hocuspocus.entrypoints=websecure"
+      - "traefik.http.services.hocuspocus.loadbalancer.server.port=1234"
 
   cache:
     image: memcached
