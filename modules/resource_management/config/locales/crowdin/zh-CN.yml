@@ -53,6 +53,7 @@ zh-CN:
   resource_management:
     action:
       delete: 删除
+      edit: Edit
       favorite: 添加至收藏夹
       make_private: 设为私有
       make_public: 设为公开
@@ -103,6 +104,7 @@ zh-CN:
       success_message: Resource allocation updated.
       title: Edit allocation
     favorite_caption: 将此视图标记为收藏项，并添加到边栏菜单的顶部。
+    label_edit_resource_planner: Edit resource planner
     label_new_resource_planner: 新建资源规划工具
     label_resource_planner: 资源规划工具
     label_resource_planner_plural: 资源规划工具

@@ -1999,6 +1999,7 @@ it:
       user:
         admin: Amministratore
         auth_source: Origine dell'autenticazione
+        department: Department
         ldap_auth_source: Connessione LDAP
         identity_url: URL identificativo
         current_password: Password corrente
@@ -2444,11 +2445,14 @@ it:
           is_not_a_valid_target_for_time_entries: 'La macro-attività #%{id} non può essere utilizzata per riassegnare la cronologia.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Impossibile aggiungere un figlio perché non hai i permessi per modificare la macro-attività selezionata.
               blank: Il campo ID non può essere vuoto.
+              cannot_add_child_because_of_lack_of_permission: Impossibile aggiungere un figlio perché non hai i permessi per modificare la macro-attività selezionata.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: e sequence_number devono essere entrambi impostati contemporaneamente.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3561,19 +3565,18 @@ it:
         header: Informati sulle nuove funzionalità e sugli aggiornamenti dei prodotti.
         learn_about: Scopri di più su tutte le nuove funzionalità
         missing: Non ci sono ancora caratteristiche evidenziate.
-        '17_5':
-          new_features_title: 'Questa versione contiene diverse nuove funzionalità e miglioramenti, come ad esempio:
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Identificatori delle macro-attività basati su progetto per riferimenti più chiari.
-            line_1: Supporto del migratore Jira per identificativi Jira, date di scadenza e altro ancora.
-            line_2: Possibilità di escludere tipi di macro-attività dai backlog.
-            line_3: Vista sprint riprogettata.
-            line_4: Collegamento migliorato delle macro-attività nei documenti e negli editor di testo.
-            line_5: Orari delle riunioni più flessibili e meno notifiche e-mail superflue.
-            line_6: Gruppi nidificati per strutture organizzative e autorizzazioni ereditate.
-            line_7: Interfacce di amministrazione migliorate per flussi di lavoro, utenti e configurazione dei tipi.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Aggiorna ad Enterprise edition
       postgres_migration: Migrazione dell'installazione su PostgreSQL
@@ -5874,6 +5877,7 @@ it:
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: Cambiamento di stato
     text_change_disabled_for_provider_login: Il nome e l'e-mail sono impostati dal servizio con cui hai effettuato l'accesso e non possono essere modificati.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Sblocca
     unlock_and_reset_failed_logins: Sblocca e azzera gli accessi non riusciti
     error_cannot_delete_user: L'utente non può essere eliminato

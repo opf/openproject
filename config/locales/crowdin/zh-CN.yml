@@ -1979,6 +1979,7 @@ zh-CN:
       user:
         admin: 管理员
         auth_source: 身份验证源
+        department: Department
         ldap_auth_source: LDAP 连接
         identity_url: 身份网址
         current_password: 当前密码：
@@ -2423,11 +2424,14 @@ zh-CN:
           is_not_a_valid_target_for_time_entries: '工作包 #%{id} 不是重新分配时间条目的有效目标。'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: 无法添加子项目，因为您没有权限编辑选定的工作包。
               blank: ID不能为空。
+              cannot_add_child_because_of_lack_of_permission: 无法添加子项目，因为您没有权限编辑选定的工作包。
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: 并且必须同时设置 sequence_number。
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3496,19 +3500,18 @@ zh-CN:
         header: 了解新功能和产品更新。
         learn_about: 详细了解所有新功能
         missing: 目前还没有高亮显示的功能。
-        '17_5':
-          new_features_title: '此版本包含多项新功能和改进，例如：
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: 基于项目的工作包标识符，可实现更清晰的引用。
-            line_1: Jira Migrator 支持 Jira 标识符、截止日期等。
-            line_2: 用于从积压工作中排除工作包类型的选项。
-            line_3: 重新设计了冲刺视图。
-            line_4: 改进了跨文档和文本编辑器的工作包链接。
-            line_5: 会议时间安排更灵活，减少电子邮件通知干扰。
-            line_6: 用于组织结构和继承权限的嵌套群组。
-            line_7: 改进了工作流、用户和类型配置的管理界面。
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: 升级到企业版
       postgres_migration: 将您的安装迁移到 PostgreSQL
@@ -5801,6 +5804,7 @@ zh-CN:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: 状态更改
     text_change_disabled_for_provider_login: 名称和电子邮件地址由您的登录提供商设置，因此无法更改。
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: 解锁​​​​
     unlock_and_reset_failed_logins: 解锁和重置失败的帐户
     error_cannot_delete_user: 无法删除用户

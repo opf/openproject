@@ -1977,6 +1977,7 @@ ko:
       user:
         admin: 관리자
         auth_source: 인증 소스
+        department: Department
         ldap_auth_source: LDAP 연결
         identity_url: ID URL
         current_password: 기존 비밀번호
@@ -2421,11 +2422,14 @@ ko:
           is_not_a_valid_target_for_time_entries: '작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: 선택한 작업 패키지를 편집할 권한이 없으므로 자식을 추가할 수 없습니다.
               blank: ID는 비워둘 수 없습니다.
+              cannot_add_child_because_of_lack_of_permission: 선택한 작업 패키지를 편집할 권한이 없으므로 자식을 추가할 수 없습니다.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: 및 sequence_number를 동시에 둘 다 설정해야 합니다.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3512,19 +3516,18 @@ ko:
         header: 새로운 기능 및 제품 업데이트에 대해 알아보세요.
         learn_about: 새로운 모든 기능에 대해 자세히 알아보기
         missing: 아직 강조 표시된 기능이 없습니다.
-        '17_5':
-          new_features_title: '이 릴리스에는 다음과 같은 다양한 새로운 기능과 개선 사항이 포함되어 있습니다.
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: 보다 명확한 참조를 위한 프로젝트 기반 작업 패키지 식별자.
-            line_1: Jira 식별자, 기한 등에 대한 Jira Migrator 지원.
-            line_2: 백로그에서 작업 패키지 유형을 제외하는 옵션.
-            line_3: 새롭게 디자인된 스프린트 보기.
-            line_4: 문서와 텍스트 편집기 간에 개선된 작업 패키지 연결.
-            line_5: 보다 유연한 미팅 스케줄 및 감소된 이메일 알림 소음.
-            line_6: 조직 구조 및 상속된 권한에 대한 중첩된 그룹.
-            line_7: 워크플로, 사용자 및 유형 구성을 위해 개선된 관리 인터페이스.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Enterprise Edition으로 업그레이드
       postgres_migration: 설치를 PostgreSQL로 마이그레이션
@@ -5817,6 +5820,7 @@ ko:
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: 상태 변경
     text_change_disabled_for_provider_login: 이름 및 이메일은 로그인 공급자가 설정하므로 변경할 수 없습니다.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: 잠금 해제
     unlock_and_reset_failed_logins: 실패한 로그인 잠금 해제 및 재설정
     error_cannot_delete_user: 사용자를 삭제할 수 없습니다

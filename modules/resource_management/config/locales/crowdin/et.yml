@@ -53,6 +53,7 @@ et:
   resource_management:
     action:
       delete: Delete
+      edit: Edit
       favorite: Add to favorites
       make_private: Make private
       make_public: Make public
@@ -103,6 +104,7 @@ et:
       success_message: Resource allocation updated.
       title: Edit allocation
     favorite_caption: Make this view a favorite to add it on the top section of the sidebar menu.
+    label_edit_resource_planner: Edit resource planner
     label_new_resource_planner: New resource planner
     label_resource_planner: Resource planner
     label_resource_planner_plural: Resource planners

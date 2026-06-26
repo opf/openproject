@@ -1994,6 +1994,7 @@ fr:
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
+        department: Department
         ldap_auth_source: Connexion LDAP
         identity_url: URL d'identité
         current_password: Mot de passe actuel
@@ -2439,11 +2440,14 @@ fr:
           is_not_a_valid_target_for_time_entries: 'Le lot de travaux #%{id} n''est pas une cible valide pour réaffecter les entrées de temps.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Impossible d'ajouter un enfant, car vous n'avez pas les permissions pour modifier le lot de travaux sélectionné.
               blank: L'ID ne peut pas être vide.
+              cannot_add_child_because_of_lack_of_permission: Impossible d'ajouter un enfant, car vous n'avez pas les permissions pour modifier le lot de travaux sélectionné.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: et sequence_number doivent être définis en même temps.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3554,19 +3558,18 @@ fr:
         header: Découvrez les nouvelles fonctionnalités et les mises à jour des produits.
         learn_about: En savoir plus sur les nouvelles fonctionnalités
         missing: Il n'y a pas encore de fonctionnalités mises en évidence.
-        '17_5':
-          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que:
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Identifiants de lots de travaux basés sur des projets pour des références plus claires.
-            line_1: Prise en charge par Jira Migrator des identifiants Jira, des dates d'échéance, etc.
-            line_2: Possibilité d'exclure des types de lots de travail des carnets de commandes.
-            line_3: Refonte des vues de sprint.
-            line_4: Amélioration de la liaison des lots de travaux dans les documents et les éditeurs de texte.
-            line_5: Des horaires de réunions plus flexibles et des notifications par courriel réduites.
-            line_6: Groupes imbriqués pour les structures organisationnelles et les autorisations héritées.
-            line_7: Amélioration des interfaces d'administration des flux de travail, des utilisateurs et de la configuration des types.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Passer à la version Enterprise
       postgres_migration: Migration de votre installation vers PostgreSQL
@@ -5871,6 +5874,7 @@ fr:
     status_user_and_brute_force: "%{user} et %{brute_force}"
     status_change: Changement de statut
     text_change_disabled_for_provider_login: Le nom et l'adresse e-mail sont définis par votre fournisseur d'accès et ne peuvent donc pas être modifiés.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Déverrouiller
     unlock_and_reset_failed_logins: Déverrouiller et réinitialiser les échecs de connexion
     error_cannot_delete_user: L'utilisateur ne peut pas être supprimé

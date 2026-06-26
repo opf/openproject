@@ -2040,6 +2040,7 @@ uk:
       user:
         admin: Адміністратор
         auth_source: Джерело автентифікації
+        department: Department
         ldap_auth_source: LDAP-підключення
         identity_url: URL-адреса сутності
         current_password: Поточний пароль
@@ -2491,11 +2492,14 @@ uk:
           is_not_a_valid_target_for_time_entries: 'Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Не вдалося додати дочірній елемент, оскільки у вас немає дозволів для редагування вибраного пакета робіт.
               blank: Поле «ID» не може бути порожнє.
+              cannot_add_child_because_of_lack_of_permission: Не вдалося додати дочірній елемент, оскільки у вас немає дозволів для редагування вибраного пакета робіт.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: і sequence_number мають бути вказані одночасно.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3690,19 +3694,18 @@ uk:
         header: Читайте про нові функції і оновлення продуктів.
         learn_about: Дізнайтеся більше про всі нові функції
         missing: Ще немає виділених функцій.
-        '17_5':
-          new_features_title: 'Цей випуск включає різноманітні нові функції і покращення, зокрема:
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: ідентифікатори пакетів робіт із зазначенням проєктів для ясності;
-            line_1: підтримку Jira Migrator для термінів виконання, ідентифікаторів Jira тощо;
-            line_2: можливість виключити типи пакетів робіт із беклогу;
-            line_3: оновлений дизайн подань спринту;
-            line_4: покращене зв’язування робочих пакетів у документах і текстових редакторах;
-            line_5: більш гнучкі графіки нарад і надсилання меншої кількості неважливих сповіщень електронною поштою;
-            line_6: вкладені групи для організаційних структур і успадкування дозволів;
-            line_7: покращені інтерфейси адміністрування для робочих процесів, користувачів і конфігурації типів.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Оновлення до версії Enterprise
       postgres_migration: Міграція інсталяції в PostgreSQL
@@ -6022,6 +6025,7 @@ uk:
     status_user_and_brute_force: "%{user} і %{brute_force}"
     status_change: Зміна стану
     text_change_disabled_for_provider_login: Ім’я і електронну адресу вказав ваш постачальник облікових даних, тому їх не можна змінити.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Розблокувати
     unlock_and_reset_failed_logins: Розблокувати та скинути помилки входу до системи
     error_cannot_delete_user: Користувача не можна видалити

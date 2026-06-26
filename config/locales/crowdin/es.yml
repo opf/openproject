@@ -1996,6 +1996,7 @@ es:
       user:
         admin: Administrador
         auth_source: Fuente de autentificación
+        department: Department
         ldap_auth_source: Conexión LDAP
         identity_url: URL de identidad
         current_password: Contraseña actual
@@ -2441,11 +2442,14 @@ es:
           is_not_a_valid_target_for_time_entries: 'Paquete de trabajo #%{id} no es un objetivo válido para reasignar las entradas de tiempo.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: No se puede añadir un secundario porque no tiene permisos para editar el paquete de trabajo seleccionado.
               blank: El ID no puede estar en blanco.
+              cannot_add_child_because_of_lack_of_permission: No se puede añadir un secundario porque no tiene permisos para editar el paquete de trabajo seleccionado.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: y «sequence_number» deben configurarse al mismo tiempo.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3552,19 +3556,18 @@ es:
         header: Obtenga información sobre nuevas funciones y actualizaciones de productos.
         learn_about: Más información sobre todas las nuevas funciones
         missing: Aún no hay funciones destacadas.
-        '17_5':
-          new_features_title: 'El lanzamiento incluye varias funciones nuevas y mejoras, tales como:
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Identificadores de paquetes de trabajo basados en proyectos para que las referencias sean más claras.
-            line_1: Migrador de Jira es compatible con los identificadores de Jira, las fechas de vencimiento y mucho más.
-            line_2: Opción para excluir tipos de paquetes de trabajo de las listas de tareas pendientes.
-            line_3: Vistas de sprint rediseñadas.
-            line_4: Se ha mejorado la integración entre los paquetes de trabajo en los documentos y los editores de texto.
-            line_5: Horarios de reuniones más flexibles y menos notificaciones por correo electrónico.
-            line_6: Grupos anidados para estructuras organizativas y permisos heredados.
-            line_7: Interfaces de administración mejoradas para flujos de trabajo, usuarios y configuración de tipos.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Actualizar a Enterprise
       postgres_migration: Migrando su instalación a PostgreSQL
@@ -4155,7 +4158,7 @@ es:
   label_custom_favicon: Icono de página personalizado
   label_custom_touch_icon: Icono táctil personalizado
   label_departments: Organización
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
+  label_departments_description_html: 'ldap_docs_articleldap_docs_articlehttps://crowdin.com/editor/openproject/20758/en-es?view=side-by-side#1465313
 
     '
   label_logout: Cerrar sesión
@@ -5861,6 +5864,7 @@ es:
     status_user_and_brute_force: "%{user} y %{brute_force}"
     status_change: Cambio de estado
     text_change_disabled_for_provider_login: El nombre y el correo electrónico los configura su proveedor de inicio de sesión y no se pueden cambiar.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Desbloquear
     unlock_and_reset_failed_logins: Desbloquear y resetear los inicios de sesión fallidos
     error_cannot_delete_user: No se puede eliminar el usuario

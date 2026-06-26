@@ -1999,6 +1999,7 @@ pt-PT:
       user:
         admin: Administrador
         auth_source: Fonte de autenticação
+        department: Department
         ldap_auth_source: Ligação LDAP
         identity_url: URL de identidade
         current_password: Senha atual
@@ -2444,11 +2445,14 @@ pt-PT:
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não válido para reafectar os registos de horas.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Não é possível adicionar elemento secundário porque não tem permissão para editar o pacote de trabalho selecionado.
               blank: O ID não pode ficar em branco.
+              cannot_add_child_because_of_lack_of_permission: Não é possível adicionar elemento secundário porque não tem permissão para editar o pacote de trabalho selecionado.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: e sequence_number devem ser definidos ao mesmo tempo.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3559,19 +3563,18 @@ pt-PT:
         header: Leia sobre novas funcionalidades e atualizações de produtos.
         learn_about: Mais informações sobre todas as novas funcionalidades
         missing: Ainda não há nenhum recurso destacado.
-        '17_5':
-          new_features_title: 'A versão contém várias novas funcionalidades e melhorias, como:
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Identificadores de pacotes de trabalho baseados em projetos para referências mais claras.
-            line_1: Suporte do Jira Migrator para identificadores Jira, datas de vencimento e muito mais.
-            line_2: Opção para excluir tipos de pacotes de trabalho dos Backlogs.
-            line_3: Vistas de sprint redesenhadas.
-            line_4: Melhoria na integração entre pacotes de trabalho em documentos e editores de texto.
-            line_5: Horários de reuniões mais flexíveis e menos notificações por e-mail.
-            line_6: Grupos aninhados para estruturas organizacionais e permissões herdadas.
-            line_7: Interfaces de administração melhoradas para fluxos de trabalho, utilizadores e configuração de tipos.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Aprimorar para a edição Enterprise
       postgres_migration: A migrar a sua instalação para PostgreSQL
@@ -5863,6 +5866,7 @@ pt-PT:
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: Alteração de estado
     text_change_disabled_for_provider_login: O nome e o e-mail são definidos pelo seu fornecedor de início de sessão, e não podem ser alterados.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Desbloquear
     unlock_and_reset_failed_logins: Desbloquear e redefinir logins errados
     error_cannot_delete_user: O utilizador não pode ser eliminado

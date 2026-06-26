@@ -2023,6 +2023,7 @@ hu:
       user:
         admin: Adminisztrátor
         auth_source: Hitelesítési forrás
+        department: Department
         ldap_auth_source: LDAP csatlakozás
         identity_url: Identity URL
         current_password: Jelenlegi jelszó
@@ -2496,11 +2497,14 @@ hu:
           is_not_a_valid_target_for_time_entries: 'A  #%{id} feladatcsoport nem érvényes cél az idő bejegyzések ismételt hozzárendeléséhez.'
           attributes:
             id:
-              format: "%{message}\n"
-              cannot_add_child_because_of_lack_of_permission: Cannot add child because you don't have permissions to edit the selected work package.
               blank: ID can't be blank.
+              cannot_add_child_because_of_lack_of_permission: Cannot add child because you don't have permissions to edit the selected work package.
+              format: "%{message}\n"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}\n"
             done_ratio:
@@ -3623,19 +3627,18 @@ hu:
         header: Itt találhatóak az új funkciók és a frissítések
         learn_about: Learn more about all new features
         missing: There are no highlighted features yet.
-        '17_5':
+        '17_6':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Váltás Vállalati Verzióra
       postgres_migration: A rendszer költöztetése PostreSQL-re
@@ -5968,6 +5971,7 @@ hu:
     status_user_and_brute_force: "%{user} és %{brute_force}"
     status_change: Állapot változás
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: A zárolás feloldása
     unlock_and_reset_failed_logins: Zárolás felodása és alaphelyzetbe állitása sikertelen bejelentkezéskor
     error_cannot_delete_user: User cannot be deleted

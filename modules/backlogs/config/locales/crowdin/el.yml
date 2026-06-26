@@ -28,8 +28,8 @@ el:
     attributes:
       project:
         sprint_sharing: Διαμοιρασμός Sprint
-        backlog_excluded_types: Excluded work package types
-        statuses_considered_closed: Statuses considered closed
+        backlog_excluded_types: Τύποι εργασιών που εξαιρούνται
+        statuses_considered_closed: Καταστάσεις που θεωρούνται κλειστές
       sprint:
         duration: Διάρκεια
         finish_date: Ημερομηνία ολοκλήρωσης
@@ -40,9 +40,9 @@ el:
           in_planning: Σε σχεδιασμό
           active: Ενεργό
           completed: Ολοκληρωμένο
-        work_packages: Work packages
+        work_packages: Πακέτα εργασίας
       sprint_goal:
-        text: Sprint goal
+        text: Στόχος Sprint
       work_package:
         backlog_bucket: Backlog bucket
         backlogs_work_package_type: Τύπος backlog
@@ -71,12 +71,12 @@ el:
                 other: There are %{count} work packages that were not completed in this sprint.
               format: "%{message}"
             status:
-              not_active: is not active so it cannot be closed.
+              not_active: δεν είναι ενεργό, οπότε δεν μπορεί να κλείσει.
         work_package:
-          backlog_bucket_xor_sprint: cannot be assigned to both a sprint and a backlog bucket.
+          backlog_bucket_xor_sprint: δεν μπορεί να αντιστοιχιστεί ταυτόχρονα σε ένα σπριντ και σε μια κατηγορία του backlog.
           attributes:
             backlog_bucket:
-              backlog_bucket_from_another_project: must belong to the same project as the work package.
+              backlog_bucket_from_another_project: πρέπει να ανήκει στο ίδιο έργο με το πακέτο εργασιών.
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: μπορεί να περιέχει μόνο ταυτότητες πακέτων εργασία του τρέχοντος sprint.
               must_block_at_least_one_work_package: πρέπει να περιέχει την ταυτότητα από τουλάχιστον ένα ticket.
@@ -84,15 +84,15 @@ el:
               task_version_must_be_the_same_as_story_version: πρέπει να είναι το ίδιο με την έκδοση ιστορίας του γονέα.
             sprint:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
-              not_eligible_for_moving: is not an active sprint in the project which holds the sprint the work package is moved out of.
+              not_eligible_for_moving: δεν αποτελεί ενεργό σπριντ στο έργο στο οποίο ανήκει το πακέτο εργασίας από το οποίο μετακινήθηκε.
     models:
       sprint:
         one: Sprint
-        other: Sprints
+        other: Sprint
   backlogs:
     administration_blankslate:
-      title: Backlog admin settings are evolving
-      text: We are currently redesigning the Backlogs module. Admin settings for sprints and backlogs will be visible here in the near future. Project-level settings remain available.
+      title: Οι ρυθμίσεις διαχείρισης των εκκρεμών εργασιών εξελίσσονται
+      text: Αυτή τη στιγμή προχωράμε στην αναδιαμόρφωση της ενότητας «Backlogs». Οι ρυθμίσεις διαχειριστή για τα σπριντ και τα backlogs θα είναι ορατές εδώ στο εγγύς μέλλον. Οι ρυθμίσεις σε επίπεδο έργου παραμένουν διαθέσιμες.
     backlog_component:
       button_new_backlog_bucket: New backlog bucket
     backlog_filter_select_panel_component:

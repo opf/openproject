@@ -2041,6 +2041,7 @@ pl:
       user:
         admin: Administrator
         auth_source: Źródło uwierzytelniania
+        department: Department
         ldap_auth_source: Połączenie LDAP
         identity_url: Adres URL tożsamości
         current_password: Aktualne hasło
@@ -2488,11 +2489,14 @@ pl:
           is_not_a_valid_target_for_time_entries: 'Zadanie #%{id} jest niepoprawnym celem do ponownego rozpisania czasu.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Nie można dodać elementu podrzędnego, ponieważ nie masz uprawnień do edycji wybranego pakietu roboczego.
               blank: Identyfikator nie może być pusty.
+              cannot_add_child_because_of_lack_of_permission: Nie można dodać elementu podrzędnego, ponieważ nie masz uprawnień do edycji wybranego pakietu roboczego.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: i sequence_number muszą być ustawione w tym samym czasie.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3683,19 +3687,18 @@ pl:
         header: Przeczytaj o nowych funkcjach i aktualizacjach produktów.
         learn_about: Dowiedz się więcej o wszystkich nowych funkcjach
         missing: Nie ma jeszcze wyróżnionych funkcji.
-        '17_5':
-          new_features_title: 'Wydanie zawiera różne nowe funkcje i ulepszenia, takie jak:
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Identyfikatory pakietów roboczych oparte na projektach, zapewniające przejrzystsze odniesienia.
-            line_1: Migrator Jira obsługuje identyfikatory Jira, terminy itd.
-            line_2: Opcja wykluczenia typów pakietów roboczych z backlogów.
-            line_3: Przeprojektowane widoki sprintów.
-            line_4: Ulepszone powiązywanie pakietów roboczych w dokumentach i edytorach tekstu.
-            line_5: Elastyczniejsze harmonogramy spotkań i mniej powiadomień e-mail.
-            line_6: Zagnieżdżone grupy dla struktur organizacyjnych i dziedziczonych uprawnień.
-            line_7: Ulepszone interfejsy administracyjne przepływów pracy, użytkowników i konfiguracji typów.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Aktualizuj do wersji Enterprise
       postgres_migration: Migrowanie instalacji do PostgreSQL
@@ -6007,6 +6010,7 @@ pl:
     status_user_and_brute_force: "%{user} i %{brute_force}"
     status_change: Zmiana statusu
     text_change_disabled_for_provider_login: Nazwa i adres e-mail są ustawiane przez dostawcę usług logowania i dlatego nie można ich zmienić.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Odblokuj
     unlock_and_reset_failed_logins: Odblokuj i resetuj nieudane logowania
     error_cannot_delete_user: Nie można usunąć użytkownika

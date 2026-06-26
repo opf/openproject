@@ -19,7 +19,7 @@ ja:
         token_exchange_scope: ストレージスコープ
       storages/project_storage:
         project_folder: プロジェクトフォルダ
-        project_folder_mode: プロジェクトフォルダーモード
+        project_folder_mode: プロジェクトフォルダモード
         storage: ストレージ
         storage_url: ストレージURL
       storages/sharepoint_storage:
@@ -30,60 +30,60 @@ ja:
       storages/storage:
         authentication_method: 認証方法
         creator: 作成者
-        drive: ドライブID
+        drive: ドライブ ID
         file_link_origin: File link origin ID
         host: ホスト
         linkable_to_storage: Linkable to storage
         linkable_to_storage_url: Linkable to storage URL
         name: 名称
         password: アプリケーションのパスワード
-        provider_type: プロバイダー・タイプ
+        provider_type: プロバイダーの種類
         storage: Storage
         storage_url: Storage URL
-        tenant: ディレクトリ（テナント）ID
+        tenant: ディレクトリ (テナント) ID
       work_package:
         file_links: File links
     errors:
       messages:
         invalid_host_url: は有効な URL ではありません。
-        invalid_sharepoint_url: は有効なSharePointサイト、ライブラリ、ドキュメントのURLではありません。
-        not_linked_to_project: はプロジェクトにリンクされていない。
+        invalid_sharepoint_url: は有効なSharePointサイト、ライブラリ、またはドキュメントのURLではありません。
+        not_linked_to_project: はプロジェクトにリンクされていません。
       models:
         storages/file_link:
           attributes:
             origin_id:
-              only_numeric_or_uuid: には数値かuuidしか指定できない。
+              only_numeric_or_uuid: は数値またはuuidのみとなります。
         storages/project_storage:
           attributes:
             project_folder_id:
               blank: フォルダーを選択してください。
             project_folder_mode:
-              mode_unavailable: はこのストレージでは使用できない。
+              mode_unavailable: このストレージでは使用できません。
             project_ids:
               blank: プロジェクトを選択してください。
         storages/storage:
           attributes:
             host:
-              authorization_header_missing: が完全にセットアップされていません。APIリクエストのベアラートークンベースの認証に必要な "Authorization "ヘッダーをNextcloudインスタンスが受け取っていません。HTTPサーバーの設定を再度ご確認ください。
-              cannot_be_connected_to: に到達できませんでした。ホストに到達可能で、OpenProject 統合アプリがインストールされていることを確認してください。
-              minimal_nextcloud_version_unmet: 最小バージョン要件を満たしていない（Nextcloud 23以上である必要があります。）
-              not_nextcloud_server: はNextcloudサーバーではありません。
-              op_application_not_installed: は、アプリ「OpenProject integration」がインストールされていないようです。インストールしてからもう一度お試しください。
+              authorization_header_missing: 完全には設定されていません。 Nextcloudインスタンスは、APIリクエストのベアラートークンベースの認可に必要な「Authorization」ヘッダーを受け取りません。 HTTPサーバーの設定を再確認してください。
+              cannot_be_connected_to: に到達できませんでした。ホストが到達可能で、OpenProject 統合アプリがインストールされていることを確認してください。
+              minimal_nextcloud_version_unmet: 最小バージョン要件を満たしていません（Nextcloud23以上でなければなりません）
+              not_nextcloud_server: はNextcloudサーバーではありません
+              op_application_not_installed: アプリ「OpenProject統合」がインストールされていません。最初にインストールしてからもう一度お試しください。
             password:
-              invalid_password: は無効である。
+              invalid_password: は無効です。
               unknown_error: could not be validated with the file storage provider. Please verify that the connection is functioning properly.
     models:
       file_link: ファイル
       storages/storage: ストレージ
   api_v3:
     errors:
-      too_many_elements_created_at_once: 一度に作成される要素が多すぎる。最大でも %{max} 、 %{actual}。
+      too_many_elements_created_at_once: 一度に作成された要素が多すぎます。 %{max} の期待値は %{actual} です。
   external_file_storages: 外部ファイルストレージ
   permission_create_files: '自動的に管理されたプロジェクトフォルダ: ファイルの作成'
   permission_create_files_explanation: この権限はNextcloudストレージでのみ利用できます
   permission_delete_files: '自動的に管理されたプロジェクトフォルダ: ファイルの削除'
   permission_delete_files_explanation: この権限はNextcloudストレージでのみ利用できます
-  permission_header_for_project_module_storages: 自動的に管理されるプロジェクトフォルダ
+  permission_header_for_project_module_storages: 自動的に管理されたプロジェクトフォルダ
   permission_manage_file_links: ファイルへのリンク管理
   permission_manage_files_in_project: プロジェクト内のファイル管理
   permission_read_files: '自動的に管理されたプロジェクトフォルダ: ファイルの読み込み'
@@ -94,16 +94,16 @@ ja:
   project_module_storages: ファイルを添付する
   project_storages:
     edit_project_folder:
-      label: プロジェクトフォルダの編集
+      label: プロジェクトフォルダを編集
     open:
-      contact_admin: このエラーを解決するには、管理者に連絡してください。
-      remote_identity_error: ストレージへの接続中に予期せぬエラーが発生しました。
+      contact_admin: このエラーを解決するには管理者に問い合わせてください。
+      remote_identity_error: ストレージへの接続中に予期しないエラーが発生しました。
     project_folder_mode:
-      automatic: 自動的に管理される
-      inactive: 特定のフォルダなし
+      automatic: 自動的に管理
+      inactive: 特定のフォルダがありません
       manual: 既存のフォルダを手動で管理
     remove_project:
-      deletion_failure_flash: ストレージからのプロジェクトの削除に失敗しました。 %{error}
+      deletion_failure_flash: プロジェクトをストレージから削除できませんでした。 %{error}
       label: プロジェクトを削除
   services:
     attributes:
@@ -119,7 +119,7 @@ ja:
       one_drive_sync_service:
         create_folder: プロジェクトフォルダの作成を管理：
         ensure_root_folder_permissions: ベースフォルダの権限を設定：
-        hide_inactive_folders: 非アクティブフォルダを隠す ステップ：
+        hide_inactive_folders: 非アクティブフォルダを隠す ステップ
         remote_folders: 'Read contents of the drive root folder:'
         rename_project_folder: 管理プロジェクトフォルダの名前を変更します：
         set_folder_permission: 'Set managed project Folder permissions:'
@@ -132,17 +132,17 @@ ja:
         set_folder_permission: 'Set managed project Folder permissions:'
     errors:
       messages:
-        error: 予期しないエラーが発生しました。OpenProject のログを確認するか、管理者に連絡してください
+        error: 予期しないエラーが発生しました。OpenProject のログを確認するか、管理者に連絡してください。
         folder_id_collision: Multiple project storages try to manage the project folder %{folder}. Its synchronization was skipped.
         forbidden: OpenProject could not access the requested resource. Please check your permissions configuration on the Storage Provider.
         unauthorized: OpenProjectはストレージプロバイダと認証できませんでした。アクセスできることを確認してください。
       models:
         copy_project_folders_service:
           conflict: フォルダ %{destination_path} は既に存在する。上書きを避けるために処理を中断しています。
-          error: 予期しないエラーが発生しました。OpenProject のログを確認するか、管理者に連絡してください
-          forbidden: OpenProject はソースフォルダにアクセスできませんでした。ストレージ・プロバイダの権限設定を確認してください
+          error: 予期しないエラーが発生しました。OpenProject のログを確認するか、管理者に連絡してください。
+          forbidden: OpenProject はソースフォルダにアクセスできませんでした。ストレージ・プロバイダの権限設定を確認してください。
           not_found: ソース・テンプレートの場所 %{source_path} が見つかりませんでした。
-          unauthorized: OpenProject はストレージプロバイダと認証できませんでした。ストレージの設定を確認してください
+          unauthorized: OpenProject はストレージプロバイダと認証できませんでした。ストレージの設定を確認してください。
         nextcloud_sync_service:
           attributes:
             add_user_to_group:
@@ -163,31 +163,31 @@ ja:
               conflict: 以下の理由により、 %{user} のユーザーを %{group} グループから削除できませんでした： %{reason}
               failed_to_remove: 以下の理由により、 %{user} のユーザーを %{group} グループから削除できませんでした： %{reason}
             rename_project_folder:
-              conflict: OpenProjectは、同じ名前のフォルダが既に存在するため、プロジェクトフォルダの名前を %{current_path} に変更できませんでした
-              forbidden: OpenProject ユーザーは %{current_path} フォルダにアクセスできません。
-              not_found: "%{current_path} は見つからなかった。"
+              conflict: OpenProjectは、同じ名前のフォルダが既に存在するため、プロジェクトフォルダの名前を %{current_path} に変更できませんでした。
+              forbidden: OpenProjectユーザーは %{current_path} フォルダにアクセスできません。
+              not_found: "%{current_path} は見つかりませんでした。"
             set_folders_permissions:
-              permission_not_set: "%{path}にパーミッションを設定できなかった。"
-          error: 予期しないエラーが発生しました。Nextcloud インスタンスに到達可能であることを確認し、OpenProject ワーカーのログを確認してください
+              permission_not_set: "%{path} に権限を設定できませんでした。"
+          error: 予期しないエラーが発生しました。Nextcloudインスタンスがアクセス可能であることを確認し、詳細についてはOpenProjectワーカーログを確認してください。
           group_does_not_exist: "%{group} は存在しません。Nextcloudインスタンスの設定を確認してください。"
-          insufficient_privileges: OpenProjectには、 %{group}に %{user} を追加するのに十分な権限がありません。Nextcloudのグループ設定を確認してください。
-          not_allowed: ネクストクラウドはリクエストをブロックする。
+          insufficient_privileges: OpenProjectには %{user} を %{group}に追加するための十分な権限がありません。Nextcloudでグループ設定を確認してください。
+          not_allowed: Nextcloudはリクエストをブロックします。
           not_found: OpenProject could not find the file on the Nextcloud Storage Provider. Please check if it wasn't deleted.
           unauthorized: OpenProjectがNextcloudと同期できませんでした。ストレージとNextcloudの設定を確認してください。
-          user_does_not_exist: "%{user} はNextcloudには存在しません。"
+          user_does_not_exist: Nextcloudには%{user} は存在しません。
         one_drive_sync_service:
           attributes:
             create_folder:
-              conflict: "%{folder_name} はすでに %{parent_location}に存在している。"
-              not_found: "%{parent_location} は見つからなかった。"
+              conflict: "%{folder_name} は %{parent_location} に既に存在します。"
+              not_found: "%{parent_location} は見つかりませんでした。"
             hide_inactive_folders:
-              permission_not_set: "%{path}にパーミッションを設定できなかった。"
+              permission_not_set: "%{path} に権限を設定できませんでした。"
             remote_folders:
-              request_error: OpenProject は %{drive_id}ドライブにアクセスできませんでした。ストレージの設定が正しいかどうか確認してください。
+              request_error: OpenProjectがドライブ %{drive_id}にアクセスできませんでした。ストレージの設定が正しいか確認してください。
             rename_project_folder:
               conflict: OpenProject could not rename the folder %{current_path} to %{project_folder_name} as a folder with the same name already exists.
-              forbidden: OpenProject は、 %{current_path} にアクセスできず、名前を変更できません。
-              not_found: "%{current_path} は見つからなかった。"
+              forbidden: OpenProject は名前を変更するために %{current_path} にアクセスできません。
+              not_found: "%{current_path} は見つかりませんでした。"
             set_folders_permissions:
               permission_not_set: "%{path} に権限を設定できませんでした。"
           error: An unexpected error occurred. Please ensure that OneDrive is reachable and check OpenProject worker logs for more information.
@@ -322,9 +322,9 @@ ja:
           drive_id_format: ドライブIDフォーマット
           header: 構成
           host: ホスト URL
-          host_url_accessible: アクセス可能なホストURL
+          host_url_accessible: ホスト URL アクセス
           storage_configured: 設定完了
-          tenant_id: テナントID
+          tenant_id: Tenant ID
         errors:
           client_id_invalid: The configured OAuth 2 client id is invalid. Please check the configuration.
           client_secret_invalid: The configured OAuth 2 client secret is invalid. Please check the configuration.
@@ -372,51 +372,51 @@ ja:
       label_error: エラー
       label_healthy: 健康的
       label_pending: 保留中
-      no_report: 報告書なし
-      no_report_description: 今すぐチェックを実行し、このファイル・ストレージの完全な健全性ステータスをレポートする。
+      no_report: 利用可能なレポートがありません
+      no_report_description: 今すぐこのファイルストレージの完全な健康状態レポートを確認します。
       open_report: 完全な健康報告を開く
       project_folders:
         subtitle: 自動的に管理されるプロジェクトフォルダ
-      since: "%{datetime}より"
+      since: "%{datetime} 以降"
       synced: 'Last sync: %{datetime}'
-      title: 健康状態報告
+      title: 健康状態レポート
     health_email_notifications:
       description_disabled: 管理者は、重要なアップデートがあった場合、メールでアップデートを受け取ることはできません。
       description_enabled: 管理者は、重要なアップデートがあった場合、メールで最新情報を受け取ります。
-      error_could_not_be_saved: 電子メール通知の設定を保存できませんでした。もう一度お試しください。
+      error_could_not_be_saved: メール通知設定を保存できませんでした。もう一度やり直してください。
       title: 管理者にメールで更新する
     help_texts:
-      project_folder: プロジェクトフォルダは、このプロジェクトのファイルアップロード用のデフォルトフォルダです。それでも、ユーザーは他の場所にファイルをアップロードすることができます。
-      project_folder_bulk: プロジェクトフォルダは、選択したすべてのプロジェクトのファイルアップロード用のデフォルトフォルダです。これは、各プロジェクト設定で個別に変更できます。それでも、ユーザーは他の場所にファイルをアップロードすることができます。
+      project_folder: プロジェクトフォルダは、このプロジェクトのファイルアップロードのデフォルトフォルダです。ただし、ユーザーは他の場所にファイルをアップロードすることができます。
+      project_folder_bulk: プロジェクトフォルダは、選択したすべてのプロジェクトのファイルアップロードのデフォルトフォルダです。 プロジェクトごとの設定で個別に変更することができますが、ユーザーは別の場所にファイルをアップロードすることもできます。
     instructions:
-      all_available_storages_already_added: 利用可能なすべてのストレージはすでにプロジェクトに追加されている。
-      authentication_method: OpenProject とストレージ間のリクエストの認証方法。
-      automatic_folder: これにより、このプロジェクトのルート・フォルダーが自動的に作成され、各プロジェクト・メンバーのアクセス権が管理されます。
-      empty_project_folder_validation: 続行するには、フォルダの選択が必須です。
-      existing_manual_folder: 既存のフォルダをこのプロジェクトのルートフォルダとして指定することができます。ただし、パーミッションは自動的に管理されないため、管理者は関連するユーザーがアクセスできることを手動で確認する必要があります。選択したフォルダは、複数のプロジェクトで使用できます。
-      host: https:// を含むストレージのホスト・アドレスを追加してください。255文字以内にしてください。
-      managed_project_folders_application_password_caption: "%{provider_type_link}からこの値をコピーして、自動管理フォルダを有効にする。"
-      name: ユーザーが複数のストレージを区別できるように、ストレージに名前を付ける。
+      all_available_storages_already_added: 利用可能なすべてのストレージが既にプロジェクトに追加されています。
+      authentication_method: OpenProjectとストレージ間のリクエストは認証されます。
+      automatic_folder: これにより、このプロジェクトのルートフォルダが自動的に作成され、各プロジェクトメンバーのアクセス権限が管理されます。
+      empty_project_folder_validation: フォルダの選択は必須です。
+      existing_manual_folder: このプロジェクトのルートフォルダとして既存のフォルダを指定できます。 ただし、権限は自動的に管理されておらず、管理者は関連するユーザーに手動でアクセス権があることを確認する必要があります。 選択したフォルダは複数のプロジェクトで使用できます。
+      host: https://を含むストレージのホストアドレスを追加してください。255文字以内にしてください。
+      managed_project_folders_application_password_caption: "%{provider_type_link} からこの値をコピーすることで、自動管理フォルダを有効にします。"
+      name: ユーザーが複数のストレージを区別できるように、ストレージに名前を付けます。
       new_storage_html: Read our documentation on [setting up a %{provider_name} file storage](docs_url) integration for more information.
       nextcloud:
         application_link_text: アプリケーション "Integration OpenProject"
-        integration: ネクストクラウド管理 / OpenProject
+        integration: Nextcloudの管理 / OpenProject
         oauth_configuration: "%{application_link_text} からこれらの値をコピーします。"
-        provider_configuration: セットアップを行う前に、Nextcloudインスタンスの管理者権限があり、 %{application_link_text} がインストールされていることを確認してください。
-        storage_audience: Nextcloud インスタンスが ID プロバイダとの通信に使用するクライアント ID。
-        storage_audience_placeholder: 例：ネクストクラウド
-        token_exchange_scope: トークン交換時に要求するスコープを、それぞれスペースで区切って指定する。
-      no_specific_folder: デフォルトでは、ファイルをアップロードすると、各ユーザーは自分のホームフォルダから開始します。
-      no_storage_set_up: ファイルストレージはまだ設定されていない。
-      not_logged_into_storage: プロジェクトフォルダを選択するには、まずログインしてください。
+        provider_configuration: Nextcloudインスタンスに管理権限があり、設定を行う前に %{application_link_text} がインストールされていることを確認してください。
+        storage_audience: NextcloudインスタンスがIDプロバイダーと通信するために使用するクライアントID。
+        storage_audience_placeholder: 例：nextcloud
+        token_exchange_scope: トークン交換中に要求されるべきスコープは、それぞれスペースで区切られています。
+      no_specific_folder: デフォルトでは、各ユーザーはファイルをアップロードしたときに自分のホームフォルダから開始します。
+      no_storage_set_up: まだ設定されているファイルストレージがありません。
+      not_logged_into_storage: プロジェクトフォルダを選択するには、最初にログインしてください
       oauth_application_details_html: The client secret value will not be accessible again after you close this window. Please copy these values into the [Nextcloud OpenProject Integration settings](oauth_application_details_link).
       one_drive:
         application_link_text: Azure Portal
         copy_redirect_uri: リダイレクトURIをコピーする
         documentation_link_text: OneDriveファイルストレージのドキュメント
         drive_id: "%{drive_id_link_text} の手順に従って、目的のドライブからIDをコピーしてください。"
-        integration: ワンドライブ
-        missing_client_id_for_redirect_uri: OAuthの値を入力してURIを生成してください。
+        integration: OneDrive
+        missing_client_id_for_redirect_uri: OAuthの値を入力してURIを生成してください
         oauth_client_redirect_uri: この値を「リダイレクト URIs」にある新しい Web リダイレクト URI にコピーしてください。
         oauth_client_secret: Client 資格情報にアプリケーション クライアント シークレットがない場合は、新しいシークレットを作成してください。
         oauth_configuration: "%{application_link_text}、目的のアプリケーションからこれらの値をコピーします。"
@@ -488,13 +488,13 @@ ja:
       login_button_aria_label: "%{storage} にログイン"
       login_button_label: "%{provider_type} ログイン"
       project_settings:
-        description: プロジェクトフォルダにアクセスするには、 %{storage}にログインする必要があります。
+        description: プロジェクトフォルダにアクセスするには、 %{storage} にログインする必要があります。
       requesting_access_to: "%{storage} へのアクセスをリクエストしています"
       storage_admin:
         description: このストレージにプロジェクトを追加するには、 %{provider_type}にログインする必要があります。ログインしてもう一度やり直してください。
     open_project_storage_modal:
       success:
-        subtitle: リダイレクトされます
+        subtitle: リダイレクトしています
         title: 連携のセットアップが完了しました
       timeout:
         link_text: ファイルストレージセットアップの状態の状態
@@ -513,8 +513,8 @@ ja:
         subtitle_short: OpenProjectにプロジェクトごとにフォルダを自動的に作成させます。
         title: 自動的に管理されるプロジェクトフォルダ
       project_settings:
-        edit: このプロジェクトのファイル・ストレージを編集する
-        members_connection_status: メンバーの接続状況
+        edit: このプロジェクトのファイルストレージを編集
+        members_connection_status: 会員の接続状況
         new: このプロジェクトにファイルストレージを追加する
       project_storage_members:
         subtitle_html: Check the connection status for the storage %{storage_name_link} of all project members.
@@ -525,14 +525,14 @@ ja:
     provider_types:
       label: プロバイダー・タイプ
       nextcloud:
-        label_oauth_client_id: NextcloudのOAuthクライアントID
-        label_oauth_client_secret: NextcloudOAuthクライアントシークレット
+        label_oauth_client_id: Nextcloud OAuthクライアントID
+        label_oauth_client_secret: Nextcloud OAuth クライアントシークレット
         name: ネクストクラウド
         name_placeholder: 例：ネクストクラウド
       one_drive:
-        label_oauth_client_id: Azure OAuthアプリケーション（クライアント）ID
+        label_oauth_client_id: Azure OAuth アプリケーション (クライアント) ID
         label_oauth_client_secret: Azure OAuth クライアントの秘密値
-        name: ワンドライブ
+        name: OneDrive
         name_placeholder: '例: OneDrive'
       sharepoint:
         drive_description: OpenProject access-managed document library
@@ -542,18 +542,18 @@ ja:
         name_placeholder: 例：シェアポイント
     show_attachments_toggle:
       description: このオプションを無効にすると、ワークパッケージのファイルタブの添付ファイルリストが非表示になります。ワークパッケージの説明に添付されたファイルは、内部添付ファイルストレージにアップロードされます。
-      label: ワークパッケージのファイルタブに添付ファイルを表示
+      label: ワークパッケージファイルタブに添付ファイルを表示
     storage_audience:
-      documentation_intro: 以下のオプションと ID プロバイダの設定の詳細については、当社のドキュメントをお読みください。
+      documentation_intro: アイデンティティプロバイダの以下のオプションと設定については、当社のドキュメントをお読みください。
       idp:
-        helptext: OpenProjectは、ストレージへのリクエストを認証するために、ログイン時にIDプロバイダから受け取ったアクセストークンを使用します。別のトークンを取得しようとすることはありません。
-        label: ユーザーログイン時に取得したアクセストークンを使用する
+        helptext: OpenProjectはログイン中にIDプロバイダーが受け取ったアクセストークンを使用して、ストレージへのリクエストを認証します。 別のトークンを取得しようとしません。
+        label: ログイン中に取得したアクセストークンを使用する
       manual:
-        helptext: OpenProjectは、指定されたオーディエンスのIDプロバイダとトークンを交換します。
+        helptext: OpenProject は、特定のオーディエンスの ID プロバイダーとトークンを交換します。
         label: Manually specify audience for which to exchange access token (Recommended)
     storage_list_blank_slate:
-      description: ストレージを追加して、ここで見ることができる。
-      heading: あなたはまだ倉庫を持っていない。
+      description: ここにそれらを見るためにストレージを追加します。
+      heading: まだストレージがありません。
     successful_storage_connection: ストレージが正常に接続されました! 使用する各プロジェクトの「プロジェクト」タブでストレージをアクティブにすることを忘れないでください。
     upsell:
       one_drive:

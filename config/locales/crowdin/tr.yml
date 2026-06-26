@@ -2002,6 +2002,7 @@ tr:
       user:
         admin: Yönetici
         auth_source: Kimlik doğrulama kaynağı
+        department: Department
         ldap_auth_source: LDAP bağlantısı
         identity_url: Kimlik URL'si
         current_password: Mevcut parola
@@ -2451,11 +2452,14 @@ tr:
           is_not_a_valid_target_for_time_entries: 'İş paketi #%{id} zaman girdilerini yeniden atama için geçerli bir hedef değil.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Seçili iş paketini düzenleme izniniz olmadığı için alt eklenemiyor.
               blank: Kimlik boş olamaz.
+              cannot_add_child_because_of_lack_of_permission: Seçili iş paketini düzenleme izniniz olmadığı için alt eklenemiyor.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3566,19 +3570,18 @@ tr:
         header: Yeni özellikler ve ürün güncellemeleri hakkında bilgi edinin.
         learn_about: Tüm yeni özellikler hakkında daha fazla bilgi edinin
         missing: Henüz vurgulanan bir özellik yok.
-        '17_5':
+        '17_6':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Enterprise sürümüne yükseltin
       postgres_migration: Kurulumunuzu PostgreSQL'e taşıyın
@@ -5876,6 +5879,7 @@ tr:
     status_user_and_brute_force: "%{user} ve %{brute_force}"
     status_change: Durum değişikliği
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Kilidi kaldır
     unlock_and_reset_failed_logins: Başarısız oturum açma işlemlerinin kilidini aç ve sıfırla
     error_cannot_delete_user: Kullanıcı silinemez
