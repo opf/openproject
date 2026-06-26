@@ -168,16 +168,25 @@ In order to activate the two-factor authentication for your OpenProject installa
 
 ![Two-factor authentication under security section in OpenProject account settings](openproject_account_settings_two_factor_authentication.png)
 
-If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set a a default option.
+If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set as a default option or to be removed.
+
+![List of two-factor authenticated devices](openproject_account_settings_two_factor_authentication_devices_overview.png)
 
 In order to register a new device for two-factor authentication, click the **+ 2FA device** button and select one of the options. The options you see will depend on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/):
 
+- Mobile phone
 - App-based authenticator
 - WebAuthn
 
 ![Authentication options under security section in OpenProject account settings](openproject_account_settings_two_factor_authentication_options.png)
 
 You can remove or approve 2FA applications by confirming your password. Note that this applies only to internally authenticated users.
+
+### Use your mobile phone
+
+You can use your mobile phone as a 2FA device. The field *Identifier* will be pre-filled out, you will need to add your phone number, choose a preferred delivery channel and click the green **Continue** button.
+
+![OpenProject mobile phone authentication](openproject_account_settings_two_factor_authentication_mobile.png)
 
 ### Use your app-based authenticator
 
