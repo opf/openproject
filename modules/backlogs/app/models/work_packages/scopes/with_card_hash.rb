@@ -37,6 +37,10 @@
 # +updated_at+ catches edits to those records (e.g. a renamed status) that do
 # not touch the work package itself.
 #
+# The current OpenProject version is mixed in so that every card is busted when
+# the instance is updated, covering changes to the card markup itself between
+# releases.
+#
 # The hash is used as the cache-busting +version+ of the card's lazily loaded
 # turbo-frame: as long as the hash is stable the client keeps the cached card,
 # and a changed hash points the frame at a fresh URL.
@@ -45,10 +49,13 @@ module WorkPackages::Scopes::WithCardHash
 
   class_methods do
     def with_card_hash
+      instance_version = connection.quote(OpenProject::VERSION.to_s)
+
       left_outer_joins(:status, :assigned_to, :type, :priority)
         .joins("LEFT JOIN work_packages card_hash_parents ON card_hash_parents.id = work_packages.parent_id")
         .select(WorkPackage.arel_table[Arel.star], Arel.sql(<<~SQL.squish))
           md5(concat_ws('/',
+            #{instance_version},
             work_packages.updated_at,
             work_packages.lock_version,
             card_hash_parents.updated_at,

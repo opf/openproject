@@ -57,10 +57,10 @@ RSpec.describe Backlogs::WorkPackages::CardsController do
         expect(response.body).to have_css(".sr-only", text: "5 story points")
       end
 
-      it "marks the response as privately cacheable for a day" do
+      it "marks the response as privately cacheable and immutable" do
         request
 
-        expect(response.headers["Cache-Control"]).to include("max-age=#{1.day.to_i}", "private")
+        expect(response.headers["Cache-Control"]).to include("max-age=#{1.year.to_i}", "private", "immutable")
       end
 
       context "when the work package is not in the requested project" do

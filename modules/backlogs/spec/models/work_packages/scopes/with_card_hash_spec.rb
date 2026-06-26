@@ -72,6 +72,14 @@ RSpec.describe WorkPackages::Scopes::WithCardHash do
       expect(card_hash_for(work_package)).to eq(first)
     end
 
+    it "changes when the OpenProject version changes (instance update busts every card)" do
+      before = card_hash_for(work_package)
+
+      allow(OpenProject::VERSION).to receive(:to_s).and_return("99.9.9")
+
+      expect(card_hash_for(work_package)).not_to eq(before)
+    end
+
     context "when re-reading after a change" do
       def expect_hash_change(record = work_package, &)
         before = card_hash_for(record)
