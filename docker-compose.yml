@@ -71,7 +71,7 @@ x-op-hocuspocus: &hocuspocus
   image: node:22-alpine
   restart: unless-stopped
   environment:
-    - SECRET=secret12345
+    - SECRET=${OPENPROJECT_COLLABORATIVE__EDITING__HOCUSPOCUS__SECRET:-secret12345}
     - NODE_TLS_REJECT_UNAUTHORIZED=0
   working_dir: /app
   command: sh -c "npm run dev"
