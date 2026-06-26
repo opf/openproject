@@ -25,9 +25,8 @@ const chipBaseStyles = css`
     }
   }
 
-  /* gap equivalent for display:inline — applies left margin to every child except the first */
-  & > * + * {
-    margin-left: ${CHIP_STYLES.gap};
+  & > *:not(:last-child) {
+    margin-right: ${CHIP_STYLES.gap};
   }
 `;
 

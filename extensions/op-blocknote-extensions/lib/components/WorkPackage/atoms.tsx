@@ -37,13 +37,13 @@ export const WorkPackageId = styled.span.attrs({
   className: 'op-bn-work-package--id',
 })<{ $compact?:boolean }>`
   color: var(--op-wp-meta-color) !important;
+  white-space: nowrap;
 
   ${({ $compact }) =>
     $compact &&
     css`
       font-size: 12px;
       font-weight: 400;
-      white-space: nowrap;
     `}
 `;
 
@@ -55,6 +55,7 @@ export const WorkPackageType = styled.span.attrs({
   font-weight: ${({ $compact }) => ($compact ? 600 : 500)};
   text-transform: uppercase;
   color: ${typeTextColor} !important;
+  white-space: nowrap;
 
   ${({ $compact }) =>
     $compact &&
@@ -81,6 +82,7 @@ export const WorkPackageStatus = styled.span.attrs({
   align-content: center;
   color: ${({ $textColor }) => $textColor} !important;
   background-color: ${({ $bgColor }) => $bgColor};
+  white-space: nowrap;
 
   ${({ $compact }) =>
     $compact &&
@@ -100,6 +102,7 @@ export const WorkPackageTitle = styled.span.attrs({
   flex-basis: max-content;
   color: var(--bn-colors-editor-text);
   font-weight: 500;
+  overflow-wrap: anywhere;
 
   ${({ $compact }) =>
     $compact &&
@@ -117,6 +120,7 @@ export const WorkPackageTitleLink = styled.a<{ $compact?:boolean }>`
   cursor: pointer;
   text-decoration: none;
   color: var(--bn-colors-highlights-blue-text);
+  overflow-wrap: anywhere;
 
   &:hover {
     text-decoration: underline;

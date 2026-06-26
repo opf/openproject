@@ -18,6 +18,7 @@ import {
 import { formatWorkPackageId } from '../../utils/id';
 
 const resolvedDisplayId = (wp:WorkPackage) => wp.displayId ?? String(wp.id);
+const WRAP_OPPORTUNITY = '\u200B'; /*zero-width space*/
 
 const titleLinkProps = (wp:WorkPackage) => ({
   as: 'a' as const,
@@ -39,11 +40,13 @@ export const WpChipXXS = ({ wp }:{ wp:WorkPackage }) => (
 export const WpChipXS = ({ wp }:{ wp:WorkPackage }) => (
   <ChipBaseXS>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
+    {WRAP_OPPORTUNITY}
     {wp._links?.type?.title && (
       <WorkPackageType as="span" $compact $color={typeColor(wp)}>
         {wp._links.type.title}
       </WorkPackageType>
     )}
+    {WRAP_OPPORTUNITY}
     <WorkPackageTitleLink {...titleLinkProps(wp)}>
       {wp.subject}
     </WorkPackageTitleLink>
@@ -54,11 +57,13 @@ export const WpChipXS = ({ wp }:{ wp:WorkPackage }) => (
 export const WpChipS = ({ wp }:{ wp:WorkPackage }) => (
   <ChipBaseS>
     <WorkPackageId as="span" $compact>{formatWorkPackageId(resolvedDisplayId(wp))}</WorkPackageId>
+    {WRAP_OPPORTUNITY}
     {wp._links?.type?.title && (
       <WorkPackageType as="span" $compact $color={typeColor(wp)}>
         {wp._links.type.title}
       </WorkPackageType>
     )}
+    {WRAP_OPPORTUNITY}
     {wp._links?.status?.title && (
       <WorkPackageStatus
         as="span"
@@ -70,6 +75,7 @@ export const WpChipS = ({ wp }:{ wp:WorkPackage }) => (
         {wp._links.status.title}
       </WorkPackageStatus>
     )}
+    {WRAP_OPPORTUNITY}
     <WorkPackageTitleLink {...titleLinkProps(wp)}>
       {wp.subject}
     </WorkPackageTitleLink>
