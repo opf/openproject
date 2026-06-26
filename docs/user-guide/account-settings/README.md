@@ -186,7 +186,7 @@ You can remove or approve 2FA applications by confirming your password. Note tha
 
 You can use your mobile phone as a 2FA device. The field *Identifier* will be pre-filled out, you will need to add your phone number, choose a preferred delivery channel and click the green **Continue** button.
 
-![OpenProject mobile phone authentication](openproject_account_settings_two_factor_authentication_mobile.png)
+![Add a new mobile phone as a 2FA device in OpenProject](openproject_account_settings_two_factor_authentication_mobile.png)
 
 ### Use your app-based authenticator
 
@@ -366,7 +366,7 @@ To configure the email reminders which you receive from the system, switch to th
 
 ![Email reminders section in OpenProject account settings](openproject_account_settings_email_reminders.png)
 
-![More email reminders section in OpenProject account settings](openproject_account_settings_more_email_reminders.png)
+![Second part of the page of email reminders section in OpenProject account settings](openproject_account_settings_more_email_reminders.png)
 
 You can choose between several email reminders.
 
