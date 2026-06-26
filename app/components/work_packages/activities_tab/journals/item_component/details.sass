@@ -2,13 +2,6 @@
     &--journal-details-container
         margin-left: 19px
         min-height: 20px
-        // applied by the stimulus controller in specific UI states
-        &--border-removed
-            border-left: none!important
-        &--hidden
-            display: none!important
-    &--journal-details-container--empty--last--asc
-        display: none!important
     &--journal-details-header-container
         margin-left: -14px
     &--journal-details-header
@@ -52,3 +45,22 @@
     &--journal-detail-description-container
         max-width: 95% // otherwise the stem branch might get too short for long descriptions
         @include text-shortener(false)
+
+// The activity stem is built from each entry's left border (plus an absolute
+// connector line on wide viewports). In descending (newest on top) order the work package
+// creation sits at the bottom, so its trailing stem segment is trimmed to stop
+// the connector dangling past the final node. :last-child re-resolves as entries
+// stream into the DOM, which a server render of the collection cannot.
+$wp-activities-pages: "#work-packages-activities-tab-journals-lazy-index-component-pages"
+
+[data-work-packages--activities-tab--index-sorting-value="desc"]
+    // The creation entry renders as an empty bordered container. On narrow
+    // viewports the absolute connector line is hidden, so that border would be
+    // the only stem and would dangle below the final node.
+    @media screen and (max-width: $breakpoint-xl)
+        .work-packages-activities-tab-journals-item-component-details--journal-details-container[data-initial="true"]
+            border-left: none !important
+
+    // Trailing empty-line spacer beneath the final entry (e.g. the oldest comment).
+    #{$wp-activities-pages} > :last-child > :last-child > :last-child .work-packages-activities-tab-journals-item-component-details--journal-details-container:has(.empty-line)
+        display: none !important
