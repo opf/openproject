@@ -31,7 +31,8 @@
 require "spec_helper"
 
 RSpec.describe WorkPackages::Scopes::WithCardHash do
-  shared_let(:project) { create(:project) }
+  shared_let(:project) { create(:project, enabled_module_names: %w[work_package_tracking]) }
+  shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
   shared_let(:assignee) { create(:user) }
   shared_let(:priority) { create(:priority) }
   shared_let(:parent) { create(:work_package, project:) }
@@ -39,12 +40,22 @@ RSpec.describe WorkPackages::Scopes::WithCardHash do
     create(:work_package, project:, parent:, assigned_to: assignee, priority:)
   end
   shared_let(:minimal_work_package) do
-    create(:work_package, project:) # no parent and no assignee
+    create(:work_package, project:, status: create(:status)) # no parent and no assignee but assuredly a different status
   end
+
+  current_user { user }
 
   # The hash of a single work package, freshly read through the scope.
   def card_hash_for(work_package)
     WorkPackage.where(id: work_package.id).with_card_hash.first.card_hash
+  end
+
+  def expect_hash_change(record = work_package, &)
+    expect(&).to change { card_hash_for(record) }
+  end
+
+  def expect_no_hash_change(record = work_package, &)
+    expect(&).not_to change { card_hash_for(record) }
   end
 
   describe ".with_card_hash" do
@@ -67,28 +78,23 @@ RSpec.describe WorkPackages::Scopes::WithCardHash do
     end
 
     it "is stable when nothing relevant changes" do
-      first = card_hash_for(work_package)
-
-      expect(card_hash_for(work_package)).to eq(first)
+      expect_no_hash_change { nil } # do nothing
     end
 
     it "changes when the OpenProject version changes (instance update busts every card)" do
-      before = card_hash_for(work_package)
+      expect_hash_change { allow(OpenProject::VERSION).to receive(:to_s).and_return("99.9.9") }
+    end
 
-      allow(OpenProject::VERSION).to receive(:to_s).and_return("99.9.9")
+    it "differs depending on whether the parent is visible to the user" do
+      other_user = create(:user) # not a member, cannot see the parent
 
-      expect(card_hash_for(work_package)).not_to eq(before)
+      visible_hash = WorkPackage.where(id: work_package.id).with_card_hash(user).first.card_hash
+      hidden_hash = WorkPackage.where(id: work_package.id).with_card_hash(other_user).first.card_hash
+
+      expect(hidden_hash).not_to eq(visible_hash)
     end
 
     context "when re-reading after a change" do
-      def expect_hash_change(record = work_package, &)
-        before = card_hash_for(record)
-
-        travel_to(1.hour.from_now, &)
-
-        expect(card_hash_for(record)).not_to eq(before)
-      end
-
       it "changes when the work package itself changes" do
         expect_hash_change { work_package.update(subject: "A new subject") }
       end
@@ -135,12 +141,7 @@ RSpec.describe WorkPackages::Scopes::WithCardHash do
     end
 
     it "is isolated from changes to records of other work packages" do
-      before = card_hash_for(work_package)
-
-      travel_to(1.hour.from_now) { minimal_work_package.status.touch }
-
-      # Only affects the other work package if they happen to share the status.
-      expect(card_hash_for(work_package)).to eq(before) if minimal_work_package.status_id != work_package.status_id
+      expect_no_hash_change(work_package) { minimal_work_package.status.touch }
     end
   end
 end
