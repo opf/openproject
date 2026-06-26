@@ -29,7 +29,7 @@
  */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 
-import FlashController, { ACTION_FOCUS_DELAY, LIVE_REGION_ANNOUNCEMENT_DELAY, SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
+import FlashController, { LIVE_REGION_ANNOUNCEMENT_DELAY, SUCCESS_AUTOHIDE_TIMEOUT } from './flash.controller';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 
 interface LiveRegionTestElement extends HTMLElement {
@@ -141,8 +141,6 @@ describe('FlashController', () => {
 
   describe('action focus', () => {
     it('focuses the flash with the requested action', async () => {
-      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
-
       ctx.appendHTML(`
         <div data-controller="flash">
           <div data-flash-target="item" data-announcement="Meeting updated" data-testid="flash-item">
@@ -154,15 +152,13 @@ describe('FlashController', () => {
       await ctx.nextFrame();
 
       const flashItem = ctx.screen.getByTestId('flash-item');
-      vi.advanceTimersByTime(ACTION_FOCUS_DELAY);
+      await ctx.nextFrame();
 
       expect(flashItem).toHaveFocus();
       expect(flashItem).toHaveAttribute('aria-label', 'Meeting updated');
     });
 
     it('does not move focus for regular flash actions', async () => {
-      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
-
       ctx.appendHTML(`
         <button>Current action</button>
         <div data-controller="flash">
@@ -175,15 +171,12 @@ describe('FlashController', () => {
       const currentAction = ctx.screen.getByRole('button', { name: 'Current action' });
       currentAction.focus();
       await ctx.nextFrame();
-
-      vi.advanceTimersByTime(ACTION_FOCUS_DELAY);
+      await ctx.nextFrame();
 
       expect(currentAction).toHaveFocus();
     });
 
     it('does not also announce focused flashes via the live region', async () => {
-      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
-
       ctx.appendHTML(`
         <div data-controller="flash">
           <live-region data-testid="live-region"></live-region>
@@ -196,8 +189,7 @@ describe('FlashController', () => {
       const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
       stubLiveRegionAnnouncement(announceSpy);
       await ctx.nextFrame();
-
-      vi.advanceTimersByTime(ACTION_FOCUS_DELAY);
+      await ctx.nextFrame();
 
       expect(ctx.screen.getByTestId('flash-item')).toHaveFocus();
       expect(announceSpy).not.toHaveBeenCalled();

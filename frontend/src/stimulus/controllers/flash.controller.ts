@@ -5,9 +5,6 @@ export const SUCCESS_AUTOHIDE_TIMEOUT = 5000;
 // Match Primer's live-region registration delay. Manual screen reader
 // testing showed the first announcement can be missed without this pause.
 export const LIVE_REGION_ANNOUNCEMENT_DELAY = 150;
-// Let the live-region timing window pass before focusing a flash that has an
-// important action. The extra 50ms is only a small scheduler buffer.
-export const ACTION_FOCUS_DELAY = LIVE_REGION_ANNOUNCEMENT_DELAY + 50;
 
 export default class FlashController extends ApplicationController {
   static values = {
@@ -101,13 +98,13 @@ export default class FlashController extends ApplicationController {
       element.setAttribute('aria-label', element.dataset.announcement);
     }
 
-    window.setTimeout(() => {
+    window.requestAnimationFrame(() => {
       if (!element.isConnected || !action.isConnected) {
         return;
       }
 
       element.focus();
-    }, ACTION_FOCUS_DELAY);
+    });
 
     return true;
   }
