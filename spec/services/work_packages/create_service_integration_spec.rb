@@ -306,16 +306,28 @@ RSpec.describe WorkPackages::CreateService, "integration", type: :model do
     let!(:version1) { create(:version, project:) }
     let!(:version2) { create(:version, project:) }
 
-    context "with target_version_ids" do
+    context "with multiple target_versions" do
       let(:attributes) do
         { subject: "test wp", project:, target_version_ids: [version1.id, version2.id] }
+      end
+
+      it { expect(service_result).to be_failure }
+
+      it "fails with appropriate message" do
+        expect(service_result.message).to eq "Target Versions can only hold a single value."
+      end
+    end
+
+    context "with target_version_ids" do
+      let(:attributes) do
+        { subject: "test wp", project:, target_version_ids: [version1.id] }
       end
 
       it { expect(service_result).to be_success }
 
       it "sets target versions" do
         service_result
-        expect(new_work_package.target_versions).to contain_exactly(version1, version2)
+        expect(new_work_package.target_versions).to contain_exactly(version1)
       end
 
       it "sets the version" do

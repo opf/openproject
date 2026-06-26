@@ -61,6 +61,7 @@ module WorkPackages
 
     validate :validate_no_reopen_on_closed_version
     validate :validate_versions_permission
+    validate :validate_target_versions_single_value
     validate :validate_version_id_and_target_versions_not_both_changed
 
     attribute :project_id
@@ -404,6 +405,12 @@ module WorkPackages
       unless user.allowed_in_project?(:assign_versions, model.project)
         errors.add(:target_versions, :error_readonly) if model.override_target_versions?
         errors.add(:observed_in_versions, :error_readonly) if model.override_observed_in_versions?
+      end
+    end
+
+    def validate_target_versions_single_value
+      if model.override_target_versions? && model.target_version_ids_replacements.length > 1
+        errors.add :base, :target_versions_only_allow_single_value
       end
     end
 

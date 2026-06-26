@@ -2102,14 +2102,24 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
     let!(:version2) { create(:version, project:) }
     let!(:version3) { create(:version, project:) }
 
+    context "with multiple target_versions" do
+      subject(:service) { instance.call(target_version_ids: [version1.id, version2.id, version3.id], send_notifications: false) }
+
+      it { expect(service).to be_failure }
+
+      it "fails with appropriate message" do
+        expect(service.message).to eq "Target Versions can only hold a single value."
+      end
+    end
+
     context "when writing new target versions" do
-      subject(:service) { instance.call(target_version_ids: [version1.id, version2.id], send_notifications: false) }
+      subject(:service) { instance.call(target_version_ids: [version1.id], send_notifications: false) }
 
       it { expect(service).to be_success }
 
       it "updates the target versions" do
         service
-        expect(work_package.target_versions).to contain_exactly(version1, version2)
+        expect(work_package.target_versions).to contain_exactly(version1)
       end
 
       it "updates the work_package.version" do
