@@ -615,6 +615,7 @@ module API
                             v3_path: :budget,
                             link_title_attribute: :subject,
                             representer: ::API::V3::Budgets::BudgetRepresenter,
+                            link_cache_if: -> { view_budgets_allowed? },
                             skip_render: ->(*) { !view_budgets_allowed? }
 
         resources :customActions,

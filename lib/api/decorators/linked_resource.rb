@@ -177,6 +177,7 @@ module API
                                 link_getter: :"#{name}_id",
                                 link_property_name: nil,
                                 uncacheable_link: false,
+                                link_cache_if: nil,
                                 getter: associated_resource_default_getter(name, representer, as || name),
                                 setter: associated_resource_default_setter(name, as, v3_path),
                                 link: associated_resource_default_link_lambda(link_property_name || name,
@@ -190,6 +191,7 @@ module API
                    setter:,
                    link:,
                    uncacheable_link:,
+                   link_cache_if:,
                    skip_render:)
         end
 

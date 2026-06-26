@@ -823,6 +823,37 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             .not_to have_json_path("_embedded/budget")
         end
       end
+
+      context "when a privileged user's response is cached before the current user reads it" do
+        let(:cached_json_with_budget) do
+          {
+            "_type" => "WorkPackage",
+            "_links" => {
+              "budget" => {
+                "href" => "/api/v3/budgets/#{budget.id}",
+                "title" => budget.subject
+              }
+            }
+          }.to_json
+        end
+
+        before do
+          # Simulate a poisoned cache: a previous privileged-user render cached the
+          # budget link, but the shared cache key does not include the user's permission set.
+          allow(OpenProject::Cache)
+            .to receive(:fetch)
+            .and_call_original
+
+          allow(OpenProject::Cache)
+            .to receive(:fetch)
+            .with(representer.json_cache_key)
+            .and_return(cached_json_with_budget)
+        end
+
+        it "does not leak the budget link to the user lacking view_budgets (regression AGILE-296)" do
+          expect(subject).not_to have_json_path("_links/budget")
+        end
+      end
     end
 
     describe "schema" do
