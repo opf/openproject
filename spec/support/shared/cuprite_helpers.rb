@@ -96,8 +96,9 @@ def wait_for_turbo_stream(wait: 10, &block)
   timeout_ms = timeout * 1000
   page.execute_script(<<~JS, timeout_ms)
     window.__opTurboStreamRendered = new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error('wait_for_turbo_stream: no turbo stream rendered within #{timeout}s')), arguments[0]);
-      document.addEventListener('op:turbo-stream-rendered', () => { clearTimeout(timer); resolve(true); }, { once: true });
+      const handler = () => { clearTimeout(timer); document.removeEventListener('op:turbo-stream-rendered', handler); resolve(true); };
+      const timer = setTimeout(() => { document.removeEventListener('op:turbo-stream-rendered', handler); reject(new Error('wait_for_turbo_stream: no turbo stream rendered within #{timeout}s')); }, arguments[0]);
+      document.addEventListener('op:turbo-stream-rendered', handler);
     });
   JS
 
@@ -135,8 +136,9 @@ def wait_for_turbo(wait: 10, &block)
   timeout_ms = timeout * 1000
   page.execute_script(<<~JS, timeout_ms)
     window.__opTurboLoaded = new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error('wait_for_turbo: no turbo:load event within #{timeout}s')), arguments[0]);
-      document.addEventListener('turbo:load', () => { clearTimeout(timer); resolve(true); }, { once: true });
+      const handler = () => { clearTimeout(timer); document.removeEventListener('turbo:load', handler); resolve(true); };
+      const timer = setTimeout(() => { document.removeEventListener('turbo:load', handler); reject(new Error('wait_for_turbo: no turbo:load event within #{timeout}s')); }, arguments[0]);
+      document.addEventListener('turbo:load', handler);
     });
   JS
 
@@ -181,13 +183,13 @@ def wait_for_turbo_frame(frame: nil, wait: 10, &block)
     const timeoutMs = arguments[0];
     const frameId = arguments[1];
     window.__opTurboFrameLoaded = new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error('wait_for_turbo_frame: no turbo:frame-load event within #{timeout}s')), timeoutMs);
       const handler = (event) => {
         if (frameId && !(event.target instanceof Element && event.target.id === frameId)) { return; }
         clearTimeout(timer);
         document.removeEventListener('turbo:frame-load', handler);
         resolve(true);
       };
+      const timer = setTimeout(() => { document.removeEventListener('turbo:frame-load', handler); reject(new Error('wait_for_turbo_frame: no turbo:frame-load event within #{timeout}s')); }, timeoutMs);
       document.addEventListener('turbo:frame-load', handler);
     });
   JS
