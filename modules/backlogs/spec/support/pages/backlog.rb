@@ -812,80 +812,21 @@ module Pages
 
     # Waits for a backlogs move to settle.
     #
-    # A move responds with a turbo stream whose `turbo_frame_reload` action tells
-    # the `backlogs_container` frame to reload itself. That is two round-trips: the
-    # stream render (request 1, `op:turbo-stream-rendered`) and the frame reload it
-    # triggers (request 2, `turbo:frame-load`). The DOM is only swapped when request
-    # 2 completes, so callers that go on to interact with the refreshed frame must
-    # pass `frame_reload: true` to wait for the frame load rather than racing it.
+    # A successful move responds with a turbo stream whose `turbo_frame_reload`
+    # action reloads the `backlogs_container` frame — two round-trips: the stream
+    # render and the frame reload. Callers that go on to touch the refreshed frame
+    # pass `frame_reload: true` to await the frame load rather than racing it.
     #
-    # Moves that fail (e.g. dropping onto a completed sprint) only render an error
-    # flash and never reload the frame, so the default settles on the stream render.
+    # A failed move (e.g. dropping onto a completed sprint) only renders an error
+    # flash and never reloads the frame, so the default settles on the stream render.
     def wait_for_backlogs_turbo_stream(wait: 10, frame_reload: false, &)
       return yield unless wait
-      return wait_for_turbo_stream(wait:, &) if using_cuprite?
 
-      timeout = wait == true ? 10 : wait
-      timeout_ms = timeout * 1000
-      page.execute_script(<<~JS, timeout_ms)
-        window.__opBacklogsTurboStreamAbort?.abort();
-
-        const controller = new AbortController();
-        const state = {
-          rendered: false,
-          frameReloaded: false,
-          timeoutMs: arguments[0],
-          events: []
-        };
-
-        document.addEventListener('op:turbo-stream-rendered', (event) => {
-          state.rendered = true;
-          state.events.push({
-            type: event.type,
-            time: Math.round(performance.now())
-          });
-        }, { signal: controller.signal });
-
-        document.addEventListener('turbo:frame-load', (event) => {
-          if (event.target instanceof Element && event.target.id === 'backlogs_container') {
-            state.frameReloaded = true;
-            state.events.push({
-              type: event.type,
-              target: event.target.id,
-              time: Math.round(performance.now())
-            });
-          }
-        }, { signal: controller.signal });
-
-        window.__opBacklogsTurboStreamAbort = controller;
-        window.__opBacklogsTurboStreamState = state;
-      JS
-
-      yield
-
-      wait_for_backlogs_turbo_stream_event(timeout:, frame_reload:)
-    ensure
-      stop_backlogs_turbo_stream_probe unless using_cuprite?
-    end
-
-    def wait_for_backlogs_turbo_stream_event(timeout:, frame_reload: false)
-      flag = frame_reload ? "frameReloaded" : "rendered"
-      deadline = Process.clock_gettime(Process::CLOCK_MONOTONIC) + timeout
-
-      loop do
-        return if page.evaluate_script("window.__opBacklogsTurboStreamState?.#{flag} === true")
-
-        if Process.clock_gettime(Process::CLOCK_MONOTONIC) >= deadline
-          missing = frame_reload ? "backlogs_container frame did not reload" : "no turbo stream rendered"
-          raise "wait_for_backlogs_turbo_stream: #{missing}\n#{backlogs_dnd_diagnostics}"
-        end
-
-        sleep 0.05
+      if frame_reload
+        wait_for_turbo_frame(frame: "backlogs_container", wait:, &)
+      else
+        wait_for_turbo_stream(wait:, &)
       end
-    end
-
-    def stop_backlogs_turbo_stream_probe
-      page.execute_script("window.__opBacklogsTurboStreamAbort?.abort();")
     end
 
     def install_backlogs_dnd_probe(source:, target:, edge:)
@@ -1122,39 +1063,6 @@ module Pages
           window.fetch = window.__opBacklogsOriginalFetch;
         }
       JS
-    end
-
-    def backlogs_dnd_diagnostics
-      diagnostics = page.evaluate_script(<<~JS)
-        (() => {
-          const dnd = window.__opBacklogsDndProbeState ?? null;
-          const turbo = window.__opBacklogsTurboStreamState ?? null;
-
-          if (dnd) {
-            dnd.snapshots.push({
-              label: 'on-timeout',
-              draggingCount: document.querySelectorAll('[data-dragging]').length,
-              honeyPotCount: document.querySelectorAll('[data-pdnd-honey-pot]').length,
-              dropTargets: document.querySelectorAll('[data-drop-target-for-element]').length,
-              dropPositions: Array
-                .from(document.querySelectorAll('[data-drop-position]'))
-                .map((element) => ({
-                  itemId: element
-                    .closest('[data-sortable-lists--item-id-value]')
-                    ?.getAttribute('data-sortable-lists--item-id-value') ?? null,
-                  position: element.getAttribute('data-drop-position')
-                })),
-              source: dnd.source,
-              target: dnd.target,
-              time: Math.round(performance.now())
-            });
-          }
-
-          return { dnd, turbo };
-        })()
-      JS
-
-      JSON.pretty_generate(diagnostics)
     end
 
     def clear_pragmatic_dnd_honey_pot
