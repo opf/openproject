@@ -16,6 +16,8 @@ In these Release Notes, we will give an overview of important feature changes. A
 
 ## Important feature changes
 
+OpenProject 17.6 continues our vision of providing a comprehensive open source platform for project management and collaboration. The new XWiki integration brings project management and enterprise knowledge management closer together, while further improvements for Backlogs, Meetings, and administration help teams plan, collaborate, and execute their work more efficiently.
+
 Take a look at our release video showing the most important features introduced in OpenProject 17.6.0:
 
 ![Release video of OpenProject 17.6](https://openproject-docs.s3.eu-central-1.amazonaws.com/videos/OpenProject_17_6_release.mp4)
@@ -24,7 +26,7 @@ Take a look at our release video showing the most important features introduced 
 
 [feature: xwiki_integration ]
 
-OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely. Together, OpenProject and XWiki provide **an integrated open source alternative** for organizations looking to manage both projects and documentation on their own infrastructure.
+OpenProject 17.6 introduces a new integration with XWiki, enabling teams to connect project work and documentation more closely. Together, OpenProject and XWiki provide an **integrated open source solution** for organizations looking to manage both projects and documentation on their own infrastructure. This makes the integration a natural choice for existing XWiki users and for organizations looking to replace proprietary combinations such as Jira and Confluence with a sovereign open source solution.
 
 With the new integration, work packages now include a **dedicated Wiki tab** where users can view related wiki pages, create new pages, and link existing content from XWiki. This makes it easier to access relevant documentation directly from the work package where the work is planned and executed.
 
@@ -39,7 +41,7 @@ screenshot
 
 OpenProject 17.6 introduces sprint goals for Backlogs. When creating or editing a sprint, you can now define a sprint goal directly within the sprint settings.
 
-The sprint goal is then displayed on the sprint card, making it visible to everyone working on the sprint.
+The sprint goal is then displayed on the sprint header, making it visible to everyone working on the sprint.
 
 ![Edit sprint view with field to manually enter a sprint goal](openproject-17-6-sprint-goals.png)
 
@@ -59,11 +61,11 @@ Work packages can now be assigned to backlog buckets without navigating to the B
 
 ![User story work package in OpenProject with backlog bucket dropdown](openproject-17-6-backlog-bucket-work-package.png)
 
-### Group and sort work packages by backlog bucket
+### Group, sort and filter work packages by backlog bucket
 
-OpenProject 17.6 adds support for backlog buckets in work package tables. You can now add the Backlog bucket column to a work package table and use it to sort and group work packages.
+OpenProject 17.6 adds support for backlog buckets in work package tables. You can now add the Backlog bucket column to a work package table and use it to filter, sort, and group work packages.
 
-This makes backlog bucket assignments visible in work package tables and provides additional options for organizing backlog items.
+This makes backlog bucket assignments visible in work package tables, allowing teams to organize, filter, and analyze backlog items more effectively.
 
 ![Work package table with highlighted Backlog bucket column](openproject-17-6-backlog-bucket-work-package-table-highlighted.png)
 
@@ -95,7 +97,7 @@ The newly created work package remains linked to the agenda item, helping teams 
 
 ### Configure cost types per project
 
-OpenProject 17.6 introduces project-specific cost type configuration. Administrators can now control which cost types are available within each project.
+OpenProject 17.6 introduces project-specific cost type configuration. Project administrators can now control which cost types are available within each project.
 
 To support this, project settings now include a new Time and costs section with a dedicated Cost types tab where available cost types can be configured.
 
@@ -109,11 +111,13 @@ OpenProject 17.6 improves CSV export security by escaping control characters in 
 
 If you need to escape unmodified machine-readable CSV exports, you can disable this flag on the new Exports page Administration → System settings → Exports
 
-### Configure LDAP group synchronization using group member attributes
+### Configure LDAP group synchronization using group member attributes (Enterprise add-on)
+
+[feature: ldap_groups ]
 
 OpenProject 17.6 extends LDAP group synchronization with support for group member attributes. Administrators can now configure synchronization based on attributes such as `member` or `uniqueMember` on LDAP groups, in addition to the existing `memberOf` lookup on user entries.
 
-This improves compatibility with LDAP servers that do not maintain the `memberOf` attribute.
+This improves compatibility with LDAP servers that do not maintain the `memberOf` attribute. Read more about [synchronizing LDAP and OpenProject groups](Enterprise add-on)(../../system-admin-guide/authentication/ldap-connections/ldap-group-synchronization)
 
 ### Integrations (e.g. Nextcloud and XWiki) respect global SSRF filters
 
