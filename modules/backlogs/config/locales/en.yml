@@ -133,7 +133,7 @@ en:
     burndown_chart:
       show:
         blankslate_title: "No burndown data available"
-        blankslate_description: "Set start and end date for the sprint to generate a burndown chart."
+        blankslate_description: "A sprint start and end date is necessary to generate a burndown chart."
 
     excluded_work_package_types_caption: >
       Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically,
