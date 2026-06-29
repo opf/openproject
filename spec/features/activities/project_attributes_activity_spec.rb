@@ -138,8 +138,9 @@ RSpec.describe "Project attributes activity", :js do
   end
 
   describe "custom field visibility enforcement on the project activity page" do
-    let!(:string_cf) { create(:string_project_custom_field) }
     let(:cf_project) { create(:project) }
+    let!(:string_cf) { create(:string_project_custom_field) }
+    let!(:comment_cf) { create(:string_project_custom_field, :has_comment, projects: [cf_project]) }
     let(:activity_page) { Pages::Projects::Activity.new(cf_project) }
 
     let(:user_without_cf_permission) do
@@ -152,16 +153,19 @@ RSpec.describe "Project attributes activity", :js do
     before do
       cf_project.update!(custom_field_values: { "#{string_cf.id}": "initial" })
       cf_project.update!(custom_field_values: { "#{string_cf.id}": "changed" })
+      cf_project.update!(custom_comments: { comment_cf.id => "initial comment" })
+      cf_project.update!(custom_comments: { comment_cf.id => "updated comment" })
     end
 
     context "when the user lacks view_project_attributes" do
       current_user { user_without_cf_permission }
 
-      it "does not show the custom field change in the activity feed" do
+      it "does not show the custom field or comment change in the activity feed" do
         activity_page.visit!
         activity_page.show_details
 
         expect(page).to have_no_text(string_cf.name)
+        expect(page).to have_no_text(comment_cf.name)
         expect(page).to have_text(I18n.t(:text_journal_permission_denied))
       end
     end
@@ -169,11 +173,12 @@ RSpec.describe "Project attributes activity", :js do
     context "when the user has view_project_attributes" do
       current_user { user_with_cf_permission }
 
-      it "shows the custom field change in the activity feed" do
+      it "shows the custom field and comment change in the activity feed" do
         activity_page.visit!
         activity_page.show_details
 
         expect(page).to have_text(string_cf.name)
+        expect(page).to have_text(comment_cf.name)
         expect(page).to have_no_text(I18n.t(:text_journal_permission_denied))
       end
     end

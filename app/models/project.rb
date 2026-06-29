@@ -156,7 +156,11 @@ class Project < ApplicationRecord
                                     view_permission: -> do
                                       User.current.allowed_in_project?(:view_project_attributes, project)
                                     end
-  register_journal_formatted_fields /\Acustom_comment_\d+\z/, formatter_key: :custom_comment
+  register_journal_formatted_fields /\Acustom_comment_\d+\z/,
+                                    formatter_key: :custom_comment,
+                                    view_permission: -> do
+                                      User.current.allowed_in_project?(:view_project_attributes, project)
+                                    end
   register_journal_formatted_fields /\Aproject_phase_\d+_active\z/, formatter_key: :project_phase_active
   register_journal_formatted_fields /\Aproject_phase_\d+_date_range\z/, formatter_key: :project_phase_dates
 
