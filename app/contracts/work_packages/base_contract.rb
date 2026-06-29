@@ -513,7 +513,11 @@ module WorkPackages
     def validate_people_visible(attribute, id_attribute, list)
       id = model[id_attribute]
 
-      return if id.nil? || id == 0 || model.changed.exclude?(id_attribute)
+      # Re-validate not only when the person itself is written, but also when the
+      # work package is moved to another project, since that changes who can be
+      # assigned. Otherwise a person who is not assignable in the target project
+      # would silently survive the move.
+      return if id.nil? || id == 0 || (model.changed.exclude?(id_attribute) && !model.project_id_changed?)
 
       unless principal_visible?(id, list)
         errors.add attribute,
