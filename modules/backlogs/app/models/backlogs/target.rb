@@ -38,6 +38,8 @@ module Backlogs
       def to_s = "#{type}:#{id}"
 
       def to_h = { type:, id: }
+
+      def to_filter = { name: "sprint", operator: "!", values: [id] }
     end
 
     BucketId = Data.define(:id) do
@@ -46,6 +48,8 @@ module Backlogs
       def to_s = "#{type}:#{id}"
 
       def to_h = { type:, id: }
+
+      def to_filter = { name: "backlogBucket", operator: "!", values: [id] }
     end
 
     InboxId = Data.define do
@@ -54,6 +58,8 @@ module Backlogs
       delegate :to_s, to: :type
 
       def to_h = { type: }
+
+      def to_filter = { name: "backlogInbox", operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] }
     end.new
 
     def self.for(container)

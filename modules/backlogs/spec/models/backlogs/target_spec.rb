@@ -39,7 +39,8 @@ RSpec.describe Backlogs::Target do
         id: 42,
         type: :sprint,
         to_s: "sprint:42",
-        to_h: { type: :sprint, id: 42 }
+        to_h: { type: :sprint, id: 42 },
+        to_filter: { name: "sprint", operator: "!", values: [42] }
       )
     end
   end
@@ -52,7 +53,8 @@ RSpec.describe Backlogs::Target do
         id: 13,
         type: :backlog_bucket,
         to_s: "backlog_bucket:13",
-        to_h: { type: :backlog_bucket, id: 13 }
+        to_h: { type: :backlog_bucket, id: 13 },
+        to_filter: { name: "backlogBucket", operator: "!", values: [13] }
       )
     end
   end
@@ -60,7 +62,14 @@ RSpec.describe Backlogs::Target do
   describe "InboxId" do
     subject { described_class::InboxId }
 
-    it { is_expected.to have_attributes(type: :inbox, to_s: "inbox", to_h: { type: :inbox }) }
+    it do
+      expect(subject).to have_attributes(
+        type: :inbox,
+        to_s: "inbox",
+        to_h: { type: :inbox },
+        to_filter: { name: "backlogInbox", operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] }
+      )
+    end
   end
 
   describe ".for" do

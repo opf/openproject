@@ -59,17 +59,9 @@ module Backlogs
 
     def filters
       [
-        { name: "status", operator: Queries::Operators::OpenWorkPackages.symbol }
-      ].tap do |filters|
-        case Target.parse(@target_id)
-        in Target::SprintId[sprint_id]
-          filters << { name: "sprint", operator: "!", values: [sprint_id] }
-        in Target::BucketId[backlog_bucket_id]
-          filters << { name: "backlogBucket", operator: "!", values: [backlog_bucket_id] }
-        in Target::InboxId
-          filters << { name: "backlogInbox", operator: "=", values: [OpenProject::Database::DB_VALUE_FALSE] }
-        end
-      end
+        { name: "status", operator: Queries::Operators::OpenWorkPackages.symbol },
+        Target.parse(@target_id).to_filter
+      ]
     end
   end
 end
