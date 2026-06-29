@@ -112,8 +112,9 @@ module JournalFormatter
     end
 
     config = lookup_formatter_config(field)
-    formatter = formatter_instance(config[:formatter_key])
+    return if config.nil?
 
+    formatter = formatter_instance(config[:formatter_key])
     return if formatter.nil?
 
     formatter_options = options.merge(permission: config[:view_permission])

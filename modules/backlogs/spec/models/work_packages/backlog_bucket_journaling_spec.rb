@@ -82,6 +82,7 @@ RSpec.describe "WorkPackage backlog_bucket association journaling", # rubocop:di
   end
 
   context "when user lacks :view_sprints permission" do
+    current_user { create(:user) }
     before { mock_permissions_for(User.current, &:forbid_everything) }
 
     it "renders a permission denied message instead of the bucket name" do
