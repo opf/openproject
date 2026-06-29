@@ -148,7 +148,7 @@ module Backlogs
     private
 
     def notify_sprint_changed(sprint)
-      dispatch_event_via_turbo_stream("backlogs:sprint-updated", detail: { sprint_id: sprint.id })
+      dispatch_event_via_turbo_stream("op-dispatched:backlogs:sprint-updated", detail: { sprint_id: sprint.id })
     end
 
     def update_sprint_component_via_turbo_stream(sprint:)
