@@ -239,7 +239,7 @@ module WorkPackages
     end
 
     def assignable_target_versions = assignable_versions
-    def assignable_observed_in_versions = assignable_versions
+    def assignable_observed_in_versions = assignable_versions(only_open: false)
 
     def assignable_budgets
       model.project&.budgets
@@ -425,17 +425,21 @@ module WorkPackages
     end
 
     def validate_target_versions_are_assignable
-      validate_version_ids_assignable(model.target_version_ids_replacements, :target_versions)
+      validate_version_ids_assignable(model.target_version_ids_replacements,
+                                      :target_versions,
+                                      assignable_target_versions)
     end
 
     def validate_observed_in_versions_are_assignable
-      validate_version_ids_assignable(model.observed_in_version_ids_replacements, :observed_in_versions)
+      validate_version_ids_assignable(model.observed_in_version_ids_replacements,
+                                      :observed_in_versions,
+                                      assignable_observed_in_versions)
     end
 
-    def validate_version_ids_assignable(ids, error_field)
+    def validate_version_ids_assignable(ids, error_field, assignable)
       return if ids.nil?
 
-      assignable_ids = assignable_versions&.map(&:id) || []
+      assignable_ids = assignable&.map(&:id) || []
       if (ids - assignable_ids).any?
         errors.add error_field, :inclusion
       end

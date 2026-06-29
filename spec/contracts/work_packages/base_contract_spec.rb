@@ -1305,6 +1305,19 @@ RSpec.describe WorkPackages::BaseContract do
         end
       end
 
+      context "with a closed version" do
+        let(:closed_version) { build_stubbed(:version, status: "closed") }
+
+        before do
+          work_package.target_version_ids_replacements = [closed_version.id]
+          contract.validate
+        end
+
+        it "is invalid (only open versions may be targeted)" do
+          expect(contract.errors.symbols_for(:target_versions)).to include(:inclusion)
+        end
+      end
+
       context "with empty array" do
         before do
           work_package.target_version_ids_replacements = []
@@ -1347,6 +1360,20 @@ RSpec.describe WorkPackages::BaseContract do
 
         it "is invalid" do
           expect(contract.errors.symbols_for(:observed_in_versions)).to include(:inclusion)
+        end
+      end
+
+      context "with a closed version" do
+        let(:closed_version) { build_stubbed(:version, status: "closed") }
+
+        before do
+          allow(work_package).to receive(:assignable_versions).with(only_open: false).and_return([closed_version])
+          work_package.observed_in_version_ids_replacements = [closed_version.id]
+          contract.validate
+        end
+
+        it "is valid (a defect can be observed in a past, closed release)" do
+          expect(contract.errors.symbols_for(:observed_in_versions)).to be_empty
         end
       end
     end
