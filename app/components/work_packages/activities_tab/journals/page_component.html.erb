@@ -9,7 +9,8 @@
             render(
               WorkPackages::ActivitiesTab::Journals::ItemComponent.new(
                 journal: record, filter:,
-                grouped_emoji_reactions: emoji_reactions.fetch(record.id, {})
+                grouped_emoji_reactions: emoji_reactions.fetch(record.id, {}),
+                last: last_item?(record)
               )
             )
           end

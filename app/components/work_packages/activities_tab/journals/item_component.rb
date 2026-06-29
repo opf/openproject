@@ -38,18 +38,19 @@ module WorkPackages
         include WorkPackages::ActivitiesTab::SharedHelpers
         include WorkPackages::ActivitiesTab::StimulusControllers
 
-        def initialize(journal:, filter:, grouped_emoji_reactions:, state: :show)
+        def initialize(journal:, filter:, grouped_emoji_reactions:, state: :show, last: false)
           super
 
           @journal = journal
           @filter = filter
           @grouped_emoji_reactions = grouped_emoji_reactions
           @state = state
+          @last = last
         end
 
         private
 
-        attr_reader :journal, :state, :filter, :grouped_emoji_reactions
+        attr_reader :journal, :state, :filter, :grouped_emoji_reactions, :last
 
         def menu_id
           ItemComponent::Actions.menu_id(journal)

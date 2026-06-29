@@ -55,7 +55,8 @@ class WorkPackages::ActivitiesTabController < ApplicationController
         journals: @paginated_journals,
         emoji_reactions: wp_journals_emoji_reactions,
         page: @paginator.page,
-        filter: @filter
+        filter: @filter,
+        last_page: @paginator.page == @paginator.last
       )
     )
 

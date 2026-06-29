@@ -36,13 +36,14 @@ module WorkPackages
         include OpTurbo::Streamable
         include WorkPackages::ActivitiesTab::SharedHelpers
 
-        def initialize(journals:, emoji_reactions:, page:, filter: Filters::ALL)
+        def initialize(journals:, emoji_reactions:, page:, filter: Filters::ALL, last_page: false)
           super
 
           @journals = journals
           @emoji_reactions = emoji_reactions
           @filter = filter
           @page = page
+          @last_page = last_page
         end
 
         def render?
@@ -55,7 +56,13 @@ module WorkPackages
 
         private
 
-        attr_reader :journals, :emoji_reactions, :page, :filter
+        attr_reader :journals, :emoji_reactions, :page, :filter, :last_page
+
+        # The last activity of the last page is the bottom of the list. In descending
+        # order that is where the stem would otherwise dangle past the final node.
+        def last_item?(record)
+          last_page && record == journals.last
+        end
       end
     end
   end

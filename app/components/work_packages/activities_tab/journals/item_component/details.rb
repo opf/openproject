@@ -39,17 +39,18 @@ module WorkPackages
         include OpPrimer::ComponentHelpers
         include OpTurbo::Streamable
 
-        def initialize(journal:, filter:, has_unread_notifications: false)
+        def initialize(journal:, filter:, has_unread_notifications: false, last: false)
           super
 
           @journal = journal
           @has_unread_notifications = has_unread_notifications
           @filter = filter
+          @last = last
         end
 
         private
 
-        attr_reader :journal, :has_unread_notifications, :filter
+        attr_reader :journal, :has_unread_notifications, :filter, :last
 
         def wrapper_uniq_by
           journal.id

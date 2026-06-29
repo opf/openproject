@@ -49,10 +49,8 @@
 // The activity stem is built from each entry's left border (plus an absolute
 // connector line on wide viewports). In descending (newest on top) order the work package
 // creation sits at the bottom, so its trailing stem segment is trimmed to stop
-// the connector dangling past the final node. :last-child re-resolves as entries
-// stream into the DOM, which a server render of the collection cannot.
-$wp-activities-pages: "#work-packages-activities-tab-journals-lazy-index-component-pages"
-
+// the connector dangling past the final node. The last rendered activity carries
+// data-last, set server-side, which CSS uses to trim its trailing stem.
 [data-work-packages--activities-tab--index-sorting-value="desc"]
     // The creation entry renders as an empty bordered container. On narrow
     // viewports the absolute connector line is hidden, so that border would be
@@ -61,6 +59,6 @@ $wp-activities-pages: "#work-packages-activities-tab-journals-lazy-index-compone
         .work-packages-activities-tab-journals-item-component-details--journal-details-container[data-initial="true"]
             border-left: none !important
 
-    // Trailing empty-line spacer beneath the final entry (e.g. the oldest comment).
-    #{$wp-activities-pages} > :last-child > :last-child > :last-child .work-packages-activities-tab-journals-item-component-details--journal-details-container:has(.empty-line)
+    // Trailing empty-line spacer beneath the last rendered activity (e.g. the oldest comment).
+    .work-packages-activities-tab-journals-item-component-details--journal-details-container[data-last="true"]:has(.empty-line)
         display: none !important
