@@ -819,7 +819,7 @@ module Pages
     #
     # A failed move (e.g. dropping onto a completed sprint) only renders an error
     # flash and never reloads the frame, so the default settles on the stream render.
-    def wait_for_backlogs_turbo_stream(wait: 10, frame_reload: false, &)
+    def wait_for_backlogs_turbo_stream(wait: Capybara.default_max_wait_time, frame_reload: false, &)
       return yield unless wait
 
       if frame_reload
