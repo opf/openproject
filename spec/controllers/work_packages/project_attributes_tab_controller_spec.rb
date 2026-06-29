@@ -28,25 +28,46 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module InplaceEdit
-    module Handlers
-      class ProjectUpdate
-        def self.call(model:, params:, user:)
-          contract_options = project_attributes_only?(params) ? { project_attributes_only: true } : {}
+require "spec_helper"
 
-          call = ::Projects::UpdateService
-                   .new(model:, user:, contract_options:)
-                   .call(params)
+RSpec.describe WorkPackages::ProjectAttributesTabController do
+  let(:project) { create(:project) }
+  let(:work_package) { create(:work_package, project:) }
 
-          call.success?
-        end
+  let(:role_with_both_permissions) do
+    create(:project_role, permissions: %i[view_work_packages view_project_attributes])
+  end
+  let(:role_without_project_attributes) do
+    create(:project_role, permissions: %i[view_work_packages])
+  end
 
-        def self.project_attributes_only?(params)
-          params.keys.all? { |k| k.to_s.start_with?("custom_field_", "custom_comment") }
-        end
-        private_class_method :project_attributes_only?
-      end
+  before do
+    allow(User).to receive(:current).and_return(user)
+    work_package
+  end
+
+  describe "#index" do
+    subject do
+      get :index, params: { id: work_package.id }
+      response
+    end
+
+    context "when the user has view_work_packages and view_project_attributes" do
+      let(:user) { create(:user, member_with_roles: { project => role_with_both_permissions }) }
+
+      it { is_expected.to be_successful }
+    end
+
+    context "when the user has view_work_packages but not view_project_attributes" do
+      let(:user) { create(:user, member_with_roles: { project => role_without_project_attributes }) }
+
+      it { is_expected.to be_forbidden }
+    end
+
+    context "when the user has no access to the project" do
+      let(:user) { create(:user) }
+
+      it { is_expected.to be_not_found }
     end
   end
 end

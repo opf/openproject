@@ -29,7 +29,6 @@
 #++
 
 class WorkPackages::ProjectCustomFields::SectionComponent < ApplicationComponent
-  include ApplicationHelper
   include OpPrimer::ComponentHelpers
   include OpTurbo::Streamable
 

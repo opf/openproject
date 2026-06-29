@@ -497,12 +497,7 @@ module API
                  writable: false,
                  uncacheable: true,
                  getter: ->(*) do
-                   fields = project
-                              &.available_custom_fields
-                              &.joins(:project_custom_field_type_mappings)
-                   fields
-                     &.where(project_custom_field_type_mappings: { type_id: })
-                     &.any? || false
+                   project&.available_custom_fields_for_type(type_id)&.any? || false
                  end
 
         associated_resource :category

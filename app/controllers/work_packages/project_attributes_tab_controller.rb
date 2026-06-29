@@ -31,6 +31,7 @@
 class WorkPackages::ProjectAttributesTabController < ApplicationController
   before_action :find_work_package
   before_action :authorize
+  before_action :authorize_project_attributes_visibility
 
   def index
     render(WorkPackages::ProjectAttributesTabComponent.new(work_package: @work_package))
@@ -43,5 +44,9 @@ class WorkPackages::ProjectAttributesTabController < ApplicationController
     @project = @work_package.project
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def authorize_project_attributes_visibility
+    do_authorize(:view_project_attributes)
   end
 end
