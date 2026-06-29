@@ -342,12 +342,19 @@ module Costs
       ::Type.add_default_group(:costs, :label_cost_plural)
       ::Type.add_default_mapping(:costs, *cost_attributes)
 
-      constraint = ->(_type, project: nil) {
+      # Unit costs (and the overall total they feed into) are meaningless without a
+      # cost type, so they are hidden when none is available in the project.
+      unit_costs_constraint = ->(_type, project: nil) {
+        project.nil? || (project.costs_enabled? && project.cost_types_available?)
+      }
+      # Labor costs come from time entries and stay visible regardless.
+      costs_constraint = ->(_type, project: nil) {
         project.nil? || project.costs_enabled?
       }
 
-      cost_attributes.each do |attribute|
-        ::Type.add_constraint attribute, constraint
+      ::Type.add_constraint :labor_costs, costs_constraint
+      %i(costs_by_type material_costs overall_costs).each do |attribute|
+        ::Type.add_constraint attribute, unit_costs_constraint
       end
 
       ::Queries::Register.register(::Query) do
