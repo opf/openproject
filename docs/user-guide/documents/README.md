@@ -110,6 +110,13 @@ Start editing a document, type **/** to open the slash menu, then select **Link 
 
 ![Link a document to an existing work package in OpenProject](openproject_user_guide_documents_module_add_work_package.png)
 
+Enter the work package ID or subject and it will automatically be linked, as shown below:
+
+![Document linked to an existing work package in OpenProject](openproject_user_guide_documents_module_add_linked_work_package.png)
+
+> [!NOTE]
+> The work package is displayed as a full-width card only when it is linked using a slash command on an empty line.
+
 2. **Using inline work package links**
 
 You can also link work packages directly within a line of text or a paragraph. Type **#**, **##**, or **###**, followed by a work package ID or part of the subject. Matching work packages will be suggested automatically.
