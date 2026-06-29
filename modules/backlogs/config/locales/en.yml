@@ -123,17 +123,17 @@ en:
       details: "The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted."
 
     bucket_component:
-      blankslate_title: "Backlog bucket is empty"
       blankslate_description: "Drag items here to add them."
+      blankslate_title: "Backlog bucket is empty"
       label_actions: "Backlog bucket actions"
       action_menu:
-        edit_backlog_bucket: "Edit backlog bucket"
         delete_backlog_bucket: "Delete backlog bucket"
+        edit_backlog_bucket: "Edit backlog bucket"
 
     burndown_chart:
       show:
-        blankslate_title: "No burndown data available"
         blankslate_description: "A sprint start and end date is necessary to generate a burndown chart."
+        blankslate_title: "No burndown data available"
 
     excluded_work_package_types_caption: >
       Choose which work package types to hide from the backlog. Items of the selected types will not appear in the backlog automatically,
