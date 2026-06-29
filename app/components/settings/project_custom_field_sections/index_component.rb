@@ -53,22 +53,20 @@ module Settings
 
       def wrapper_data_attributes
         {
-          controller: "generic-drag-and-drop"
+          controller: "sortable-lists",
+          sortable_lists_position_mode_value: "absolute",
+          sortable_lists_move_url_templates_value: move_url_templates.to_json,
+          sortable_lists_sortable_lists__list_outlet: "[data-controller~='sortable-lists--list']",
+          sortable_lists_sortable_lists__item_outlet: "[data-controller~='sortable-lists--item']"
         }
       end
 
-      def drop_target_config
+      def move_url_templates
         {
-          generic_drag_and_drop_target: "container",
-          "target-allowed-drag-type": "section" # the type of dragged items which are allowed to be dropped in this target
-        }
-      end
-
-      def draggable_item_config(section)
-        {
-          "draggable-id": section.id,
-          "draggable-type": "section",
-          "drop-url": drop_admin_settings_project_custom_field_section_path(section)
+          custom_field: drop_admin_settings_project_custom_field_path("PLACEHOLDER")
+            .gsub("PLACEHOLDER", "{id}"),
+          section: drop_admin_settings_project_custom_field_section_path("PLACEHOLDER")
+            .gsub("PLACEHOLDER", "{id}")
         }
       end
     end

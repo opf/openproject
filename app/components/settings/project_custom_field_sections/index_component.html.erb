@@ -1,15 +1,16 @@
-<%=
-  component_wrapper(data: wrapper_data_attributes) do
-    if @project_custom_field_sections.any?
-      flex_layout(classes: "dragula-container", data: { "allowed-drop-type": "section" }.merge(drop_target_config)) do |flex|
-        @project_custom_field_sections.each do |section|
-          flex.with_row(
-            data: draggable_item_config(section)
-          ) do
-            render(row_component_class.new(project_custom_field_section: section, first_and_last:))
-          end
-        end
-      end
-    end
-  end
-%>
+<%= component_wrapper(data: wrapper_data_attributes) do %>
+  <% if @project_custom_field_sections.any? %>
+    <ul class="op-project-custom-field-sections"
+        data-controller="sortable-lists--list"
+        data-sortable-lists--list-type-value="section"
+        data-sortable-lists--list-accepted-types-value='["section"]'>
+      <% @project_custom_field_sections.each do |section| %>
+        <li data-controller="sortable-lists--item"
+            data-sortable-lists--item-id-value="<%= section.id %>"
+            data-sortable-lists--item-type-value="section">
+          <%= render(row_component_class.new(project_custom_field_section: section, first_and_last:)) %>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+<% end %>

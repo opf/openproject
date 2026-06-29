@@ -54,20 +54,12 @@ module Settings
         @project_custom_field_section.id
       end
 
-      def drag_and_drop_target_config
+      def field_list_data
         {
-          generic_drag_and_drop_target: "container",
-          "target-container-accessor": ".Box > ul",
-          "target-id": @project_custom_field_section.id,
-          "target-allowed-drag-type": "custom-field"
-        }
-      end
-
-      def draggable_item_config(project_custom_field)
-        {
-          "draggable-id": project_custom_field.id,
-          "draggable-type": "custom-field",
-          "drop-url": drop_admin_settings_project_custom_field_path(project_custom_field)
+          controller: "sortable-lists--list",
+          sortable_lists__list_type_value: "custom_field",
+          sortable_lists__list_accepted_types_value: ["custom_field"].to_json,
+          sortable_lists__list_id_value: @project_custom_field_section.id
         }
       end
 

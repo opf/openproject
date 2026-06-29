@@ -45,6 +45,14 @@ module Settings
 
       private
 
+      def wrapper_data_attributes
+        {
+          controller: "sortable-lists--item",
+          sortable_lists__item_id_value: @project_custom_field.id,
+          sortable_lists__item_type_value: "custom_field"
+        }
+      end
+
       def edit_action_item(menu)
         menu.with_item(label: t("label_edit"),
                        href: edit_admin_settings_project_custom_field_path(@project_custom_field),
