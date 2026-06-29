@@ -73,6 +73,59 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
     end
   end
 
+  describe "chart data passed to the component" do
+    shared_let(:sprint) do
+      create(:sprint,
+             project:,
+             name: "Sprint 42",
+             start_date: 1.week.ago.to_date,
+             finish_date: 1.week.from_now.to_date,
+             status: :active)
+    end
+
+    let!(:status) { create(:status, is_default: true) }
+
+    # Backdating the journal validity_period to the sprint start makes the story
+    # points appear as remaining work on every collected day since the sprint began.
+    let!(:work_package1) do
+      create(:work_package, project:, sprint:, story_points: 5, status:) do |wp|
+        wp.last_journal.update_columns(
+          created_at: sprint.start_date.beginning_of_day,
+          updated_at: sprint.start_date.beginning_of_day,
+          validity_period: sprint.start_date.beginning_of_day..Float::INFINITY
+        )
+      end
+    end
+    let!(:work_package2) do
+      create(:work_package, project:, sprint:, story_points: 3, status:) do |wp|
+        wp.last_journal.update_columns(
+          created_at: sprint.start_date.beginning_of_day,
+          updated_at: sprint.start_date.beginning_of_day,
+          validity_period: sprint.start_date.beginning_of_day..Float::INFINITY
+        )
+      end
+    end
+
+    it "sets chart-data with labels and the expected series" do
+      visit_widget(sprint)
+
+      chart_data = JSON.parse(find("opce-burndown-chart")["chart-data"])
+
+      expect(chart_data["labels"]).to be_an(Array)
+      expect(chart_data["datasets"].pluck("label")).to contain_exactly("Story points", "Story points (ideal)")
+
+      story_points = chart_data["datasets"].find { |d| d["label"] == "Story points" }
+      ideal = chart_data["datasets"].find { |d| d["label"] == "Story points (ideal)" }
+
+      # 5 + 3 = 8 points remain on every collected day because both WPs were
+      # present from the sprint start and have not been completed.
+      expect(story_points["data"]).to all(eq(8.0))
+      # The ideal starts at the sprint total and decreases linearly to zero.
+      expect(ideal["data"].first).to eq(8.0)
+      expect(ideal["data"].last).to be_within(0.001).of(0.0)
+    end
+  end
+
   context "when the sprint has no date range set" do
     shared_let(:sprint) do
       create(:sprint,
