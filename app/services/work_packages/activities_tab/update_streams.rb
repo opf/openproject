@@ -100,15 +100,28 @@ module WorkPackages
       end
 
       def insert_latest(sink)
-        journals.where("created_at > ?", since).find_each do |journal|
+        new_journals = journals.where("created_at > ?", since)
+        newly_last_id = newly_last_journal_id(new_journals)
+
+        new_journals.find_each do |journal|
           sink.insert_via_turbo_stream(
             target_component: insert_target,
             component: Journals::ItemComponent.new(
-              journal:, filter:, grouped_emoji_reactions: grouped_emoji_reactions.fetch(journal.id, {})
+              journal:, filter:, grouped_emoji_reactions: grouped_emoji_reactions.fetch(journal.id, {}),
+              last: journal.id == newly_last_id
             ),
             action: sorting.asc? ? :append : :prepend
           )
         end
+      end
+
+      # In descending order the list's bottom is its oldest entry. A streamed-in entry
+      # takes that spot only when nothing older was already rendered with the mark.
+      def newly_last_journal_id(new_journals)
+        return unless sorting.desc?
+        return if journals.exists?(created_at: ..since)
+
+        new_journals.order(:created_at).first&.id
       end
 
       def rerender_changed_reactions(sink)

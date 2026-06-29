@@ -167,4 +167,43 @@ RSpec.describe WorkPackages::ActivitiesTab::UpdateStreams do
       expect(updated_item_journal_ids).not_to include(work_package.journals.last.id)
     end
   end
+
+  # In descending order the bottom of the list (its oldest entry) carries data-last
+  # so CSS can trim its trailing stem. A streamed-in comment inherits that mark only
+  # when it lands at the bottom, which the page render cannot have done.
+  describe "marking the bottom entry for stem trimming" do
+    def inserted_last_flags
+      sink.inserted.map { it[:component].instance_variable_get(:@last) }
+    end
+
+    context "when a streamed-in comment becomes the bottom of a comments-only list" do
+      let(:filter) { WorkPackages::ActivitiesTab::Filters::ONLY_COMMENTS }
+      let!(:first_comment) { add_comment(notes: "first", created_at: 5.minutes.ago, updated_at: 5.minutes.ago) }
+
+      it "marks it as the last entry" do
+        emit
+        expect(inserted_last_flags).to eq([true])
+      end
+
+      context "when sorting ascending, where the trim rule does not apply" do
+        let(:sorting) { ActiveSupport::StringInquirer.new("asc") }
+
+        it "leaves it unmarked" do
+          emit
+          expect(inserted_last_flags).to eq([false])
+        end
+      end
+    end
+
+    context "when an older entry already sits at the bottom" do
+      # The aged-out creation entry is the oldest, so under the default filter it is
+      # the rendered bottom; a newer streamed-in comment must not steal its mark.
+      let!(:fresh) { add_comment(notes: "fresh", created_at: 5.minutes.ago, updated_at: 5.minutes.ago) }
+
+      it "leaves the streamed-in comment unmarked, so the rendered bottom keeps the trim" do
+        emit
+        expect(inserted_last_flags).to eq([false])
+      end
+    end
+  end
 end
