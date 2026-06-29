@@ -162,9 +162,9 @@ vi:
           nested_macro: Macro này đang tham chiếu đệ quy %{model} %{id}.
           invalid_attribute: Thuộc tính đã chọn '%{name}' không tồn tại.
         child_pages:
-          button: Liên kết đến trang con
+          button: List of sub-pages
           include_parent: Bao gồm cha mẹ
-          text: "[Placeholder] Liên kết tới các trang con của"
+          text: "[Placeholder] List of sub-pages of"
           page: trang Wiki
           this_page: trang này
           hint: 'Để trống trường này để liệt kê tất cả các trang con của trang hiện tại. Nếu bạn muốn tham khảo một trang khác, hãy cung cấp tiêu đề hoặc phần mở rộng của trang đó.

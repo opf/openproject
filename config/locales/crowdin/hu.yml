@@ -21,7 +21,7 @@
 #++
 ---
 hu:
-  label_user_attributes_plural: User attributes
+  label_user_attributes_plural: Felhasználói attribútumok
   no_results_title_text: Nincs megjeleníthető adat.
   activities:
     index:
@@ -103,8 +103,8 @@ hu:
       theme_warning: A téma megváltoztatása felülírja az egyéni stílust. A forma elvész. Biztos, hogy folytatni akarod?
     enterprise:
       delete_dialog:
-        title: Delete enterprise token
-        heading: Delete this enterprise token?
+        title: Enterprise token törlése
+        heading: Törli ezt a vállalati tokent?
         confirmation: Are you sure you want to delete this Enterprise edition support token?
       create_dialog:
         title: Add Enterprise token
@@ -192,25 +192,25 @@ hu:
         401_error: Jira API returned a 401 error. Your authentication token may have expired or lack the required permissions. Please ensure the token belongs to a Jira administrator.
         429_error: Jira API returned a 429 error. It means token owner has been rate limited by the Jira instance. Please disable rate limiting for this user.
       columns:
-        projects: Projects
+        projects: Projektek
         last_change: Last change
-        added: Added
+        added: Hozzáadva
         label_ago: "%{amount} ago"
       run:
-        title: Import run
-        history: History
+        title: Importálás futtatása
+        history: Előzmények
         remove_error: A Jira import run cannot be removed while it is running
         import_blocked_error: Another Jira import run is currently in progress or awaiting review. Please complete or revert it before starting a new import.
         project_identifier_taken: 'You are trying to import a project with an already used identifier: %{taken_identifier}. Please update the project identifier in Jira then click on Retry.'
         blank:
-          title: No import runs set up yet
+          title: Még nincs beállított import futtatás
           description: Create an import run to start importing information from this Jira instance
         index:
           description: You can import different sets of data with each import run. It is possible to undo an import run immediately after in review mode but not after finalizing.
-          button_import_run: Import run
-          button_edit_configuration: Edit configuration
+          button_import_run: Importálás futtatása
+          button_edit_configuration: Konfiguráció szerkesztése
         status:
-          initial: Start
+          initial: Indít
           instance_meta_fetching: Fetching meta data
           instance_meta_error: Error fetching meta data
           instance_meta_done: Meta data fetched
@@ -218,10 +218,10 @@ hu:
           configuring: Select scope
           projects_meta_fetching: Fetching project data
           projects_meta_error: Error fetching project data
-          projects_meta_done: Data gathered
-          importing: In progress
+          projects_meta_done: Összegyűjtött adatok
+          importing: Folyamatban
           import_error: Error during import
-          imported: Review mode
+          imported: Felülvizsgálati mód
           reverting: Reverting
           revert_error: Error during revert
           revert_cancelling: Cancelling revert
@@ -231,7 +231,7 @@ hu:
           finalizing_error: Error during finalizing
           finalizing_done: Completed
         wizard:
-          button_retry: Retry
+          button_retry: Újrapróbál
           parts:
             projects:
               one: 1 project
@@ -274,15 +274,15 @@ hu:
             import_scope:
               title: Import scope
               caption: Choose what you want to import into OpenProject
-              caption_done: Completed
+              caption_done: Kész
               label_info: Please note that this import tool is in beta and cannot import all types of data. Here is a summary of what the host Jira instance offers for import and what this tool is able to import right now.
               description: Select what data you want to import from the available data fetched from the host Jira instance.
               label_supported_data: Supported data
               label_coming_soon: Coming soon (Q2 2026)
-              label_coming_later: Coming later
+              label_coming_later: Később érkezik
               label_available_server_data: Available data on %{server_info}
               button_select_projects: Select projects to import
-              button_continue: Continue
+              button_continue: Folytatás
               label_import: Select which projects you would like to import.
               button_select: Select projects
               label_selected_data: Selected data for import

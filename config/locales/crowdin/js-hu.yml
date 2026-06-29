@@ -174,9 +174,9 @@ hu:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: A kiválasztott "%{name}" attribútum nem létezik.
         child_pages:
-          button: Gyermek kapcsolatok
+          button: List of sub-pages
           include_parent: Tartalmazza a szülőt
-          text: "[Placeholder] Linkek a gyermek oldalra"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki oldal
           this_page: ez az oldal
           hint: 'Hagyja üresen ezt a mezőt az aktuális oldal összes gyermekoldalának felsorolásához. Ha másik oldalra szeretne hivatkozni, adja meg a címét vagy a sorközöket.
@@ -566,7 +566,7 @@ hu:
         milestone_date: Milestone date
         overdue: Overdue
         overdue_since: for %{difference_in_days}.
-        property_today: is today.
+        property_today: ma van.
         property_is: "%{difference_in_days} napon belül."
         property_was: "%{difference_in_days} napja volt."
         property_is_deleted: törölve.
@@ -794,7 +794,7 @@ hu:
         header_with_parent: 'Új %{type} (%{parent_type} #%{id} gyermek)'
         button: Létrehoz
       duplicate:
-        title: Duplicate work package
+        title: Ismétlődő munkacsomag
       hierarchy:
         show: Hierarchikus mód megjelenítése
         hide: Hierarchikus mód elrejtése
@@ -1088,7 +1088,7 @@ hu:
       selected_filter:
         all: Minden projekt
         selected: Csak a kijelölt
-      search_placeholder: Search projects...
+      search_placeholder: Projektek keresése...
       include_subprojects: Összes alprojekt bevonása
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.

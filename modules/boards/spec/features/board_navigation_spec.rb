@@ -200,11 +200,9 @@ RSpec.describe "Work Package boards spec",
 
     # Go to full view of WP
     split_view.switch_to_fullscreen
-    wait_for_turbo do
-      split_view.wait_for_activity_tab
-      find_by_id("action-show-more-dropdown-menu").click
-      click_link(I18n.t("js.button_delete"))
-    end
+    split_view.wait_for_activity_tab
+    find_by_id("action-show-more-dropdown-menu").click
+    click_link(I18n.t("js.button_delete"))
 
     # Delete the WP
     destroy_modal.expect_listed(wp)

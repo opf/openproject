@@ -162,9 +162,9 @@ ko:
           nested_macro: 이 매크로는 %{model} %{id}을(를) 재귀적으로 참조하고 있습니다.
           invalid_attribute: 선택한 특성 '%{name}'이(가) 없습니다.
         child_pages:
-          button: 자식 페이지의 링크
+          button: List of sub-pages
           include_parent: 부모 포함
-          text: '다음에 대한 자식 페이지의 [Placeholder] 링크:'
+          text: "[Placeholder] List of sub-pages of"
           page: 위키 페이지
           this_page: 이 페이지
           hint: '현재 페이지의 모든 자식 페이지를 나열하려면 이 필드를 비워두세요. 다른 페이지를 참조하려는 경우 해당 제목 또는 슬러그를 제공하세요.

@@ -162,9 +162,9 @@ de:
           nested_macro: Dieses Makro verweist rekursiv auf %{model} %{id}.
           invalid_attribute: Das ausgewählte Attribut '%{name}' existiert nicht.
         child_pages:
-          button: Auflistung der Unteraufgaben
+          button: List of sub-pages
           include_parent: Elternseite anzeigen
-          text: "[Platzhalter] Auflistung der Unteraufgaben von"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki-Seite
           this_page: diese Seite
           hint: 'Lassen Sie dieses Feld leer, um alle untergeordneten Seiten der aktuellen Seite aufzulisten. Wenn Sie die untergeordneten Seiten einer anderen Wikiseite referenzieren möchten, geben Sie ihren Titel oder URL-Slug ein.

@@ -162,9 +162,9 @@ zh-CN:
           nested_macro: 该宏递归引用 %{model} %{id}。
           invalid_attribute: 所选属性 '%{name}' 不存在。
         child_pages:
-          button: 链接至子页面
+          button: List of sub-pages
           include_parent: 包括上级
-          text: "[Placeholder] 子页面链接"
+          text: "[Placeholder] List of sub-pages of"
           page: 维基页面
           this_page: 本页
           hint: '将此字段留空可列出当前页面的所有子页面。如果您想引用不同的页面，请提供其标题或标识符。

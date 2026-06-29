@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
         disabled: !deletable?,
         href: delete_button_href,
         aria: { label: I18n.t(:button_delete) },
-        data: { "test-selector": "placeholder-user--delete-button" },
+        data: { controller: "async-dialog", "test-selector": "placeholder-user--delete-button" },
         title: delete_button_title
       ) do |button|
         button.with_leading_visual_icon(icon: :trash)

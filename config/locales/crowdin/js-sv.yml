@@ -162,9 +162,9 @@ sv:
           nested_macro: Detta makro refererar rekursivt till %{model} %{id}.
           invalid_attribute: Det valda attributet '%{name}' finns inte.
         child_pages:
-          button: Länkar till underordnade sidor
+          button: List of sub-pages
           include_parent: Inkludera överordnade
-          text: "[Placeholder] länkar till underordnade sidor av"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki-sida
           this_page: den här sidan
           hint: 'Lämna fältet tomt om du vill lista alla underordnade sidor på den aktuella sidan. Om du vill referera till en annan sida, ange dess titel eller slug.

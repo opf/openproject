@@ -34,6 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
           include_sub_items_check_box_arguments: { hidden: true },
           filter_mode_control_arguments: logged? ? {} : { hidden: true },
           filter_input_arguments: { autofocus: true,
+                                    autocomplete: "off",
                                     data: { test_selector: "op-header-project-select--search" } },
           no_results_node_arguments: { data: { test_selector: "op-header-project-select--no-results" },
                                        label: I18n.t("filterable_tree_view.no_results_text") }

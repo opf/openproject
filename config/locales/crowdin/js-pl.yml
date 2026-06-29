@@ -162,9 +162,9 @@ pl:
           nested_macro: To makro odwołuje się rekurencyjnie do %{model} %{id}.
           invalid_attribute: Wybrany atrybut „%{name}” nie istnieje.
         child_pages:
-          button: Łącza do stron podrzędnych
+          button: List of sub-pages
           include_parent: Uwzględnij nadrzędne
-          text: "[Placeholder] Łącza do stron podrzędnych"
+          text: "[Placeholder] List of sub-pages of"
           page: Strona wiki
           this_page: tej strony
           hint: 'Aby wyświetlać listę wszystkich stron podrzędnych bieżącej strony, pozostaw to pole puste. Aby odwołać się do innej strony, podaj jej tytuł lub przyjazny adres URL.

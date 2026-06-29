@@ -162,9 +162,9 @@ fr:
           nested_macro: Cette macro fait référence de manière récursive à %{model} %{id}.
           invalid_attribute: L'attribut « %{name} » n'existe pas.
         child_pages:
-          button: Liens vers les pages enfants
+          button: List of sub-pages
           include_parent: Inclure un parent
-          text: "[Placeholder] Liens vers les pages enfants de"
+          text: "[Placeholder] List of sub-pages of"
           page: Page du wiki
           this_page: cette page
           hint: 'Laissez ce champ vide pour répertorier toutes les pages enfants de la page actuelle. Si vous souhaitez référencer une page différente, indiquez son titre ou son slug.

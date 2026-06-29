@@ -162,9 +162,9 @@ ms:
           nested_macro: Makro ini merujuk secara rekursif %{model} %{id}.
           invalid_attribute: Atribut yang dipilih '%{name}' tidak wujud.
         child_pages:
-          button: Terpaut pada halaman anak
+          button: List of sub-pages
           include_parent: Termasuk induk
-          text: "[Placeholder] Pautan ke halaman anak"
+          text: "[Placeholder] List of sub-pages of"
           page: Halaman wiki
           this_page: halaman ini
           hint: 'Tinggalkan ruangan ini kosong untuk senaraikan halaman-halaman anak daripada halaman semasa. Jika anda ingin merujuk ke halaman berbeza, sediakan tajuk atau slug.

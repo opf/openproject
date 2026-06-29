@@ -162,9 +162,9 @@ pt-PT:
           nested_macro: Esta macro faz referência de forma recursiva a %{model} %{id}.
           invalid_attribute: O atributo selecionado '%{name}' não existe.
         child_pages:
-          button: Links para páginas filho
+          button: List of sub-pages
           include_parent: Incluir pais
-          text: "[Placeholder] links para páginas filho de"
+          text: "[Placeholder] List of sub-pages of"
           page: Página wiki
           this_page: esta página
           hint: 'Deixe este campo em branco para listar todas as páginas filho da página atual. Se desejat fazer referência a uma página diferente, forneça o seu título ou slug.

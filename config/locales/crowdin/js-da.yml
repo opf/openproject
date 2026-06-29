@@ -162,9 +162,9 @@ da:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Links til undersider
+          button: List of sub-pages
           include_parent: Inkludér forælder
-          text: "[Placeholder] Linker til under-sider af"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki-side
           this_page: denne side
           hint: 'Lad feltet være tomt for at vise alle børnesider på den aktuelle side. Hvis du vil referere til en anden side, skal du angive sin titel eller slug.

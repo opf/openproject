@@ -162,9 +162,9 @@ ro:
           nested_macro: Acest macro face trimitere recursivă la %{model} %{id}.
           invalid_attribute: Atributul selectat "%{name}" nu există.
         child_pages:
-          button: Legături către paginile pentru copii
+          button: List of sub-pages
           include_parent: Include părinte
-          text: Păstrare pagini fii ca pagini rădăcină
+          text: "[Placeholder] List of sub-pages of"
           page: Pagină wiki
           this_page: această pagină
           hint: 'Lăsați acest câmp gol pentru a lista toate paginile copil ale paginii curente. Dacă doriți să faceți referire la o altă pagină, furnizați titlul sau slug-ul acesteia.

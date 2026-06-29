@@ -162,9 +162,9 @@ hy:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Links to child pages
+          button: List of sub-pages
           include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki page
           this_page: this page
           hint: 'Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.

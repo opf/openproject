@@ -15,10 +15,9 @@ Change your personal settings under Account settings (earlier called My account)
 | [Open account settings](#open-account-settings)           | How to open your personal settings in OpenProject            |
 | [Edit your user information](#edit-your-user-information) | How to change the name or email address in OpenProject       |
 | [Language and region](#language-and-region-settings)      | How to change the language and the time zone in OpenProject  |
-| [Change password](#change-password)                       | How to change my password                                    |
-| [Two-factor authentication](#two-factor-authentication)   | How to set up a two-factor authentication                    |
+| [Security](#security)                                     | How to change your password and set up two factor authentication in OpenProject |
 | [Access tokens](#access-tokens)                           | How to set up access tokens in OpenProject                   |
-| [Session management](#sessions-management)                | How to manage your OpenProject sessions                      |
+| [Session management](#session-management)                 | How to manage your OpenProject sessions                      |
 | [Notification and email](#notification-and-email)         | How to change in-app notifications and email reminders in OpenProject |
 | [Set an Avatar](#set-an-avatar)                           | How to set an avatar in OpenProject and change the profile picture |
 | [Delete account](#delete-account)                         | How to delete my own account                                 |
@@ -144,11 +143,11 @@ Additionally, you can activate to **auto-hide success notifications** from the s
 
 ![Alerts section under interface settings in OpenProject account settings](openproject_account_settings_interface_alerts.png)
 
-## Change password
+## Security
 
-In order to reset your password, navigate to  **Account settings** and choose **Change password** in the menu.
+To reset your password, add a two-factor authentication and generate backup codes, navigate to  **Account settings** and choose **Security** in the menu.
 
-![Change password under account settings in OpenProject](openproject_account_settings_change_new_password.png)
+### Change password
 
 Enter your current password.
 
@@ -156,50 +155,50 @@ Enter your new password and ensure all password requirements are met.
 
 Confirm it a second time.
 
-Press the **Save** button in order to confirm the password changes.
+Press the **Change password** button in order to confirm the password changes.
+
+![Change password under security section in user account settings](openproject_account_settings_change_password.png)
 
 > [!NOTE]
 > You cannot reset your Google password in OpenProject. If you authenticate with a Google/Gmail account, please go to your Google account administration in order to change your password.
 
-## Two-factor authentication
+### Two-factor authentication devices
 
-In order to activate the two-factor authentication for your OpenProject installation, navigate to your **Account settings** and choose the **Two-factor authentication** in the menu. If you have not added any device yet, this list will be empty.
+In order to activate the two-factor authentication for your OpenProject installation, click the  **+2FA device** button.  If you have not added any device yet, this list will be empty.
 
-![Two-factor authentication in OpenProject account settings](openproject_account_settings_two_factor_authentication.png)
+![Two-factor authentication under security section in OpenProject account settings](openproject_account_settings_two_factor_authentication.png)
 
-If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set a a default option.
+If you have already registered one or multiple 2FA devices, you will see the list of all activated 2FA devices here. You can change, which of them you prefer to have set as a default option.
 
-![List of all registered 2FA devices in OpenProject](openproject_account_settings_2fa_overview.png)
+![List of two-factor authenticated devices](openproject_account_settings_two_factor_authentication_devices_overview.png)
 
-In order to register a new device for two-factor authentication, click the green button to add a **new 2FA device** and select one of the options. The options you see will depend on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/):
+In order to register a new device for two-factor authentication, click the **+ 2FA device** button and select one of the options. The options you see will depend on what your system administrator has [activated for your instance](../../system-admin-guide/authentication/two-factor-authentication/):
 
 - Mobile phone
 - App-based authenticator
 - WebAuthn
 
-![Authentication options under OpenProject account settings](openproject_account_settings_authentication_options.png)
-
-To receive the second factor, you can use an authentication app on your mobile phone, such as Google Authenticator or Authy. You have to enter the code that is displayed in the authentication app to your login.
+![Authentication options under security section in OpenProject account settings](openproject_account_settings_two_factor_authentication_options.png)
 
 You can remove or approve 2FA applications by confirming your password. Note that this applies only to internally authenticated users.
 
 ### Use your mobile phone
 
-You can use your mobile phone as a 2FA device. The field *Identifier* will be pre-filled out, you will need to add your phone number and click the green **Continue** button.
+You can use your mobile phone as a 2FA device. The field *Identifier* will be pre-filled out, you will need to add your phone number, choose a preferred delivery channel and click the green **Continue** button.
 
 ![Add a new mobile phone as a 2FA device in OpenProject](openproject_account_settings_two_factor_authentication_mobile.png)
 
 ### Use your app-based authenticator
 
-Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard. Common examples are Google Authenticator or Authy.
+Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard. Common examples are Google Authenticator or Authy. 
 
-Click the grey **Register device** button to register an authentication app. Open your app and follow the instructions to add a new application. The easiest way is to scan the QR code. Otherwise, you can register the application manually by entering the displayed details.
+Open your app and follow the instructions to add a new application. The easiest way is to scan the QR code. Otherwise, you can register the application manually by entering the displayed details.
 
 Click the green **Continue** button to finish the registration.
 
 ![openproject_my_account_authenticator_app](openproject_account_settings_authenticator_app.png)
 
-### Use the WebAuth authentication
+### Use the WebAuthn authentication
 
 Use Web Authentication to register a FIDO2 device (like a YubiKey) or  the secure enclave of your mobile device as a second factor. After you have chosen a name, you can click the green **Continue**  button.
 
@@ -209,9 +208,13 @@ Your browser will prompt you to present your WebAuthn device (depending on your 
 
 ### Backup codes
 
-If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Use the grey button **Generate backup codes** to generate a new set of backup codes.
+If you are unable to access your two-factor devices, you can use a backup code to regain access to your account. Click the **Generate backup codes** button to generate a new set of backup codes.
 
 If you have created backup codes before, they will be invalidated and will no longer work.
+
+![Generate backup codes under security section in OpenProject account settings](openproject_account_settings_backup_codes.png)
+
+
 
 ## Access tokens
 
@@ -328,7 +331,7 @@ If you have not yet linked your account to any of the integrations activated for
 ![File storages access tokens under Account settings in OpenProject](openproject_account_settings_access_tokens_file_storages.png)
 
 
-## Sessions management
+## Session management
 
 To view and manage your OpenProject sessions navigate to **Account settings** and choose **Sessions management** from the menu.
 
@@ -351,6 +354,8 @@ To configure the notification settings which you receive from the system, naviga
 
 ![Notification settings in OpenProject account settings](openproject_account_settings_notification_settings.png)
 
+![More notification settings in Openproject account settings](openproject_account_settings_more_notification_settings.png)
+
 In-app notifications can be configured and customized various ways. For a detailed guide, [click here](../../user-guide/notifications/notification-settings/).
 
 Please also see our detailed [in-app notifications](../../user-guide/notifications/) guide to gain a general understanding.
@@ -359,9 +364,9 @@ Please also see our detailed [in-app notifications](../../user-guide/notificatio
 
 To configure the email reminders which you receive from the system, switch to the **email reminders tab.** Your system administrator can also set them for you or change the global default settings.
 
-![Email reminders in OpenProject account settings](openproject_account_settings_email_reminders1.png)
+![Email reminders section in OpenProject account settings](openproject_account_settings_email_reminders.png)
 
-![Email reminders in OpenProject account settings](openproject_account_settings_email_reminders.png)
+![Second part of the page of email reminders section in OpenProject account settings](openproject_account_settings_more_email_reminders.png)
 
 You can choose between several email reminders.
 

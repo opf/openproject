@@ -162,9 +162,9 @@ uk:
           nested_macro: Цей макрос рекурсивно посилається на %{model} %{id}.
           invalid_attribute: Вибраний атрибут «%{name}» не існує.
         child_pages:
-          button: Посилання на дочірні сторінки
+          button: List of sub-pages
           include_parent: Включити джерела
-          text: "[Placeholder] Посилання на дочірні сторінки"
+          text: "[Placeholder] List of sub-pages of"
           page: Сторінка Wiki
           this_page: цієї сторінки
           hint: 'Залиште це поле порожнім, щоб перерахувати всі дочірні сторінки поточної сторінки. Якщо ви хочете посилатися на іншу сторінку, вкажіть її назву або накладку.

@@ -53,6 +53,56 @@ RSpec.describe RecurringMeetings::InitOccurrenceService, type: :model do
   let(:service_result) { instance.call(**params) }
   let(:created_meeting) { service_result.result }
 
+  describe "instantiating an occurrence for a slot" do
+    let(:start_time) { series.start_time + 3.days }
+
+    context "when no occurrence exists yet for the slot" do
+      it "creates a new occurrence for the series" do
+        expect(service_result).to be_success
+        expect(created_meeting).to be_persisted
+        expect(created_meeting).not_to be_template
+        expect(created_meeting.recurring_meeting).to eq(series)
+        expect(created_meeting.recurrence_start_time).to eq(start_time)
+      end
+
+      it "adds exactly one occurrence" do
+        expect { instance.call(**params) }
+          .to change { series.meetings.not_templated.count }.by(1)
+      end
+    end
+
+    context "when a non-cancelled occurrence already exists for the slot" do
+      let!(:existing) do
+        create(:recurring_meeting_occurrence, recurring_meeting: series, start_time:)
+      end
+
+      it "returns the existing occurrence instead of creating a duplicate" do
+        expect(service_result).to be_success
+        expect(created_meeting).to eq(existing)
+      end
+
+      it "does not create another meeting" do
+        expect { instance.call(**params) }.not_to change(Meeting, :count)
+      end
+    end
+
+    context "when a cancelled occurrence exists for the slot" do
+      let!(:existing) do
+        create(:recurring_meeting_occurrence, :cancelled, recurring_meeting: series, start_time:)
+      end
+
+      it "restores the cancelled occurrence rather than creating a new one" do
+        expect(service_result).to be_success
+        expect(created_meeting).to eq(existing)
+        expect(created_meeting.reload).to be_open
+      end
+
+      it "does not create another meeting" do
+        expect { instance.call(**params) }.not_to change(Meeting, :count)
+      end
+    end
+  end
+
   describe "handling the interim responses" do
     let(:start_time) { series.start_time + 10.days }
 

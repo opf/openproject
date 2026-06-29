@@ -160,9 +160,9 @@ es:
           nested_macro: Esta macro hace referencia recursivamente a %{model} %{id}.
           invalid_attribute: El atributo seleccionado («%{name}») no existe.
         child_pages:
-          button: Enlaces a páginas secundarias
+          button: List of sub-pages
           include_parent: Incluir principal
-          text: "[Placeholder] Enlaces a páginas secundarias de"
+          text: "[Placeholder] List of sub-pages of"
           page: Página wiki
           this_page: esta página
           hint: 'Deje este campo en blanco para mostrar todas las páginas secundarias de la página actual. Para hacer referencia a otra página, especifique el título o slug.

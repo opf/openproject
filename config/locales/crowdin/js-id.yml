@@ -162,9 +162,9 @@ id:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Tautkan ke anak halaman
+          button: List of sub-pages
           include_parent: Sertakan induk
-          text: "[Placeholder] Tertaut pada anak halaman ke"
+          text: "[Placeholder] List of sub-pages of"
           page: Halaman Wiki
           this_page: halaman ini
           hint: 'Kosongkan kolom ini untuk mencantumkan semua anak halaman dari halaman ini. jika anda ingin mereferensikan halaman berbeda, tambahkan judul atau hal terkait.

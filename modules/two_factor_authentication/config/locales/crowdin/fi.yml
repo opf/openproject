@@ -9,7 +9,7 @@ fi:
       two_factor_authentication/device:
         identifier: Tunnistaa
         default: Käytä oletuksena
-        channel: Channel
+        channel: Kanava
       two_factor_authentication/device/sms:
         phone_number: Puhelinnumero
       two_factor_authentication/device/webauthn:
@@ -30,7 +30,7 @@ fi:
       two_factor_authentication/device/webauthn: WebAuthn
   two_factor_authentication:
     error_2fa_disabled: 2FA-toimitus on poistettu käytöstä.
-    notice_not_writable: 2FA Settings were provided through environment variables and cannot be overwritten.
+    notice_not_writable: 2FA asetukset toimitettiin ympäristömuuttujien kautta eikä niitä voi ylikirjoittaa.
     error_no_device: Tälle käyttäjälle ei ole rekisteröity tunnistuslaitetta, vaikka se vaaditaan.
     error_no_matching_strategy: Tälle käyttäjälle ei ole käytettävissä vastaavaa 2FA-strategiaa. Ota yhteyttä hallintoasihteisiisi.
     error_is_enforced_not_active: 'Konfigurointivirhe: Kaksivaiheinen tunnistautuminen on pakotettu, mutta aktiivisia strategioita ei ole.'
@@ -43,7 +43,7 @@ fi:
     label_devices: 2FA laitteet
     label_2fa_enabled: Kaksivaiheinen tunnistautuminen on käytössä
     label_2fa_disabled: Kaksivaiheinen tunnistautuminen ei ole käytössä
-    text_otp_delivery_message_sms: Your %{app_title} one-time password is %{token}
+    text_otp_delivery_message_sms: "%{app_title} -palvelun kertakäyttöinen salasanasi on %{token}"
     text_otp_delivery_message_voice: 'Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}'
     text_2fa_enabled: Sisäänkirjautumisen yhteydessä sinun on annettava koodi oletuksesi määritellystä tunnistuslaitteestasi.
     text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.

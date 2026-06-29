@@ -296,7 +296,14 @@ The most frequent root cause is **Turbo's asynchronous rendering**. `wait_for_ne
 3. Turbo awaits the next repaint
 4. DOM is updated
 
-An assertion running between steps 1 and 4 sees stale content and fails intermittently. The helpers below (in `spec/support/shared/cuprite_helpers.rb` and `spec/support/toasts/expectations.rb`) register their JS event listeners *before* yielding the block, so they are race-condition-safe. Wrap only the triggering action — never the assertion.
+An assertion running between steps 1 and 4 sees stale content and fails intermittently. The helpers below (in `spec/support/capybara/wait_helpers.rb` and `spec/support/toasts/expectations.rb`) register their JS event listeners *before* yielding the block, so they are race-condition-safe. Wrap only the triggering action — never the assertion.
+
+The `wait_for_turbo*` helpers return the block's value, so when the assertion needs the object the action produces, capture it and assert afterwards:
+
+```ruby
+split_view = wait_for_turbo_frame { team_planner.open_split_view_by_info_icon(wp) }
+split_view.expect_subject
+```
 
 | Helper | Use when the action triggers… | Example |
 |--------|-------------------------------|---------|

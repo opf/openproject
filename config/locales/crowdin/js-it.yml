@@ -162,9 +162,9 @@ it:
           nested_macro: Questa macro fa riferimento in modo ricorsivo a %{model} %{id}.
           invalid_attribute: L'attributo selezionato '%{name}' non esiste.
         child_pages:
-          button: Collegamenti alle pagine discendenti
+          button: List of sub-pages
           include_parent: Includi genitore
-          text: "[Placeholder] Collegamenti alle pagine discendenti di"
+          text: "[Placeholder] List of sub-pages of"
           page: Pagina wiki
           this_page: questa pagina
           hint: 'Lascia questo campo vuoto per elencare tutte le pagine discendenti dalla pagina attuale. Se desideri referenziare un''altra pagina, specifica il titolo o lo slug di pagina.

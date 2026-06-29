@@ -112,16 +112,21 @@ module RecurringMeetings
     def create
       return unless creatable?
 
-      render(
-        Primer::Beta::Button.new(
-          scheme: :default,
-          size: :medium,
-          tag: :a,
-          data: { "turbo-method": "post" },
-          href: init_project_recurring_meeting_path(project, recurring_meeting.id, start_time: occurrence_time.iso8601)
-        )
-      ) do |_c|
-        I18n.t(:label_recurring_meeting_create)
+      # Submit via a real form so Turbo disables the button while the request is in
+      # flight. turbo_submits_with only works on form submit buttons, not on an
+      # <a data-turbo-method="post">, which is why repeated clicks duplicated occurrences.
+      helpers.primer_form_with(
+        url: init_project_recurring_meeting_path(project, recurring_meeting.id, start_time: occurrence_time.iso8601),
+        method: :post
+      ) do
+        render(
+          Primer::Beta::Button.new(
+            scheme: :default,
+            size: :medium,
+            type: :submit,
+            data: { turbo_submits_with: I18n.t(:label_loading) }
+          )
+        ) { I18n.t(:label_recurring_meeting_create) }
       end
     end
 
@@ -153,14 +158,18 @@ module RecurringMeetings
 
       menu.with_item(
         label: I18n.t(:label_recurring_meeting_create),
-        tag: :a,
         href: init_project_recurring_meeting_path(
           project,
           recurring_meeting.id,
           start_time: occurrence_time.iso8601
         ),
+        # Submit via a real form (like restore_action) so Turbo disables the item
+        # while in flight, preventing the double submit that duplicated occurrences.
+        form_arguments: {
+          method: :post
+        },
         content_arguments: {
-          data: { turbo_method: :post }
+          data: { turbo_submits_with: I18n.t(:label_loading) }
         }
       ) do |item|
         item.with_leading_visual_icon(icon: :"issue-opened")
@@ -246,6 +255,5 @@ module RecurringMeetings
     def start_time_changed?
       instantiated? && meeting.start_time != occurrence_time
     end
-
   end
 end

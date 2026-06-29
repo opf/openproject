@@ -162,9 +162,9 @@ ru:
           nested_macro: Этот макрос рекурсивно ссылается на %{model} %{id}.
           invalid_attribute: Выбранный атрибут '%{name}' не существует.
         child_pages:
-          button: Ссылки на дочерние страницы
+          button: List of sub-pages
           include_parent: Включить родителя
-          text: "[Placeholder] Ссылки на дочерние страницы"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki страница
           this_page: эта страница
           hint: 'Оставьте это поле пустым, чтобы перечислить все дочерние страницы текущей страницы. Если вы хотите описать другую страницу, предоставьте ее заголовок или иденцифицирующую строку.

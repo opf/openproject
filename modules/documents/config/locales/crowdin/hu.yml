@@ -45,7 +45,7 @@ hu:
   default_doc_category_user: Felhasználói dokumentáció
   enumeration_doc_categories: Dokumentum kategóriák
   documents:
-    button_add_type: Type
+    button_add_type: Típus
     page_header:
       heading: Összes dokumentum
       action_menu:
@@ -88,8 +88,8 @@ hu:
       collaboration_settings: Valós idejű együttműködés
     last_updated_at: Last saved %{time}.
     info_line:
-      currently_offline: You are currently offline.
-      connection_restored: You are now back online.
+      currently_offline: Jelenleg offline vagy.
+      connection_restored: Most már újra online vagy.
     active_editors: Aktív szerkesztők
     active_editors_count:
       one: 1 active editor

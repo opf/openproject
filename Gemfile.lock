@@ -1311,7 +1311,7 @@ GEM
     responders (3.2.0)
       actionpack (>= 7.0)
       railties (>= 7.0)
-    retriable (3.8.0)
+    retriable (4.1.0)
     rexml (3.4.4)
     rinku (2.0.6)
     roar (1.2.0)
@@ -1389,7 +1389,7 @@ GEM
       iso8601
     ruby-next-core (1.2.0)
     ruby-ole (1.2.13.1)
-    ruby-prof (2.0.4)
+    ruby-prof (2.0.5)
       base64
       ostruct
     ruby-progressbar (1.13.0)
@@ -1742,7 +1742,7 @@ DEPENDENCIES
   redis (~> 5.4.0)
   request_store (~> 1.7.0)
   responders (~> 3.2)
-  retriable (~> 3.8.0)
+  retriable (~> 4.1.0)
   rinku (~> 2.0.4)
   roar (~> 1.2.0)
   rouge (~> 4.7.0)
@@ -2228,7 +2228,7 @@ CHECKSUMS
   representable (3.2.0) sha256=cc29bf7eebc31653586849371a43ffe36c60b54b0a6365b5f7d95ec34d1ebace
   request_store (1.7.0) sha256=e1b75d5346a315f452242a68c937ef8e48b215b9453a77a6c0acdca2934c88cb
   responders (3.2.0) sha256=89c2d6ac0ae16f6458a11524cae4a8efdceba1a3baea164d28ee9046bd3df55a
-  retriable (3.8.0) sha256=9f2f1b0207594c7817f17f671587b8ec7587387ac6cebda6c941a802bb98a8e5
+  retriable (4.1.0) sha256=1de1000696e3ddeca688a12be9a2e8042226ca36f7446d18c7ed451f2878ece7
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
   rinku (2.0.6) sha256=8b60670e3143f3db2b37efa262971ce3619ec23092045498ef9f077d82828d7d
   roar (1.2.0) sha256=8db4d1ca79c57a5fb746c16c0d5661d7c3e0de3d9553dc016a88d2dba2929d08
@@ -2254,7 +2254,7 @@ CHECKSUMS
   ruby-duration (3.2.3) sha256=eb3d13b1df85067a015a8fb2ed8f1eec842a3b721e47c9b6fd74d2f356069784
   ruby-next-core (1.2.0) sha256=f6a7d00bb5186cecbb02f7f1845a0f3a2c9788d35b6ccff5c9be3f0d46799b86
   ruby-ole (1.2.13.1) sha256=578d10dd2a797a2b35a1286c6fb2c9525f67c24791346fc8015d39f0ffa3cb72
-  ruby-prof (2.0.4) sha256=42190ff6870e055a9d58b39df63e83442113ef7169c0e27b599942c3f15d1435
+  ruby-prof (2.0.5) sha256=dbc3b5112089538ac33303145db0cbd77cbdcdbc05b09e44a967ff72a36d6c0e
   ruby-progressbar (1.13.0) sha256=80fc9c47a9b640d6834e0dc7b3c94c9df37f08cb072b7761e4a71e22cff29b33
   ruby-rc4 (0.1.5) sha256=00cc40a39d20b53f5459e7ea006a92cf584e9bc275e2a6f7aa1515510e896c03
   ruby-saml (1.18.1) sha256=1b0e7a44aef150b4197955f5e015d593672e242cfdc5d06aa7554ec2350b9107

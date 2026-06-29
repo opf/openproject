@@ -162,9 +162,9 @@ ja:
           nested_macro: このマクロは %{model} %{id}を再帰的に参照している。
           invalid_attribute: 選択した属性 '%{name}' は存在しません。
         child_pages:
-          button: 子ページへのリンク
+          button: List of sub-pages
           include_parent: 親を含める
-          text: "[Placeholder] の子ページへのリンク"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki ページ
           this_page: このページ
           hint: '現在のページのすべての子ページを表示するには、このフィールドを空のままにします。 別のページを参照する場合は、そのタイトルまたはスラッグを入力します。

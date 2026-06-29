@@ -162,9 +162,9 @@ ca:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: L'atribut seleccionat "%{name}" no existeix.
         child_pages:
-          button: Enllaços a pàgines filles
+          button: List of sub-pages
           include_parent: Afegir pare
-          text: "[Placeholder] Enllaçar a pàgines filles de"
+          text: "[Placeholder] List of sub-pages of"
           page: Pàgina wiki
           this_page: aquesta pàgina
           hint: 'Deixa aquest camp buit per llistar totes les pàgines filles de la pàgina actual. Si vols referenciar a una pàgina diferent, indica el seu títol o slug.

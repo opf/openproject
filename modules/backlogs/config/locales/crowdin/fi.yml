@@ -27,20 +27,20 @@ fi:
   activerecord:
     attributes:
       project:
-        sprint_sharing: Sprint sharing
-        backlog_excluded_types: Excluded work package types
-        statuses_considered_closed: Statuses considered closed
+        sprint_sharing: Sprintin jakaminen
+        backlog_excluded_types: Poissuljetut tehtävätyypit
+        statuses_considered_closed: Suljetuiksi tulkitut tilat
       sprint:
-        duration: Duration
-        finish_date: Finish date
-        goal: Sprint goal
-        name: Sprint name
-        sharing: Sharing
+        duration: Kesto
+        finish_date: Päättymispäivä
+        goal: Sprintin tavoite
+        name: Sprintin nimi
+        sharing: Jakaminen
         statuses:
-          in_planning: In planning
-          active: Active
-          completed: Completed
-        work_packages: Work packages
+          in_planning: Suunnittelussa
+          active: Aktiivinen
+          completed: Valmis
+        work_packages: Tehtävät
       sprint_goal:
         text: Sprint goal
       work_package:

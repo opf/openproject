@@ -162,9 +162,9 @@ nl:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: Het geselecteerde attribuut '%{name}' bestaat niet.
         child_pages:
-          button: Links naar onderliggende pagina 's
+          button: List of sub-pages
           include_parent: Inclusief bovenliggende
-          text: "[Placeholder] links naar onderliggende pagina's van"
+          text: "[Placeholder] List of sub-pages of"
           page: Wikipagina
           this_page: deze pagina
           hint: 'Laat dit veld leeg om alle onderliggende pagina''s van de huidige pagina weer te geven. Als u wilt verwijzen naar een andere pagina, geef de titel of de witruimte van de pagina in.
