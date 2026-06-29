@@ -113,7 +113,7 @@ module Backlogs
         label = t(".action_menu.sprint_report")
         href = project_backlogs_sprint_report_path(project, sprint)
 
-        menu.with_item(label:, href:, tag: :a) do |item|
+        menu.with_item(label:, href:) do |item|
           item.with_leading_visual_icon(icon: :graph)
         end
       end
@@ -122,7 +122,7 @@ module Backlogs
         label = t("backlogs.label_sprint_board")
         href = project_backlogs_sprint_taskboard_path(project, sprint)
 
-        menu.with_item(label:, href:, tag: :a) do |item|
+        menu.with_item(label:, href:) do |item|
           item.with_leading_visual_icon(icon: :"op-view-cards")
         end
       end
