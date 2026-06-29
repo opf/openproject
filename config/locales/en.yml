@@ -943,6 +943,7 @@ en:
       sub_items_html:
         one: "<strong>1</strong> sub-item"
         other: "<strong>%{count}</strong> sub-items"
+      budget_spent: "%{budget} budget – %{spent} spent"
     lists:
       active: "Active portfolios"
       my: "My portfolios"

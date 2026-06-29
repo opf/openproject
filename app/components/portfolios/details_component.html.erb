@@ -135,17 +135,31 @@
             )
           end
 
-          # TODO: WP-68872 render budget
-          # footer.with_column(mr: 3) do
-          #   render(
-          #     Primer::Beta::Octicon.new(
-          #       icon: "op-budget",
-          #       align_self: :center,
-          #       "aria-label": "TODO",
-          #       mr: 1
-          #     )
-          #   ) + content_tag(:span, "34,000 EUR budget - 12,000 EUR spent")
-          # end
+          if has_budget?
+            footer.with_column(mr: 3) do
+              budget_label = t(
+                "portfolios.index.budget_spent",
+                budget: total_budget,
+                spent: spent_budget
+              )
+
+              concat(
+                render(
+                  Primer::Beta::Octicon.new(
+                    icon: "op-budget",
+                    align_self: :center,
+                    "aria-label": budget_label,
+                    mr: 1
+                  )
+                )
+              )
+              concat(
+                render(Primer::Beta::Text.new) do
+                  budget_label
+                end
+              )
+            end
+          end
         end
 
         footer.with_column do

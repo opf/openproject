@@ -93,6 +93,12 @@ module Portfolios
       "portfolio-progress-hover-card-#{portfolio.id}"
     end
 
+    # If the budget module is enabled, this method will be overridden by the patch
+    # in modules/budgets/lib/budgets/patches/portfolios/details_component_patch.rb
+    def has_budget?
+      false
+    end
+
     private
 
     def all_descendants

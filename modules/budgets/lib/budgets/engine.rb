@@ -57,6 +57,7 @@ module Budgets
     end
 
     patch_with_namespace :Projects, :RowComponent
+    patch_with_namespace :Portfolios, :DetailsComponent
 
     add_api_path :budget do |id|
       "#{root}/budgets/#{id}"
