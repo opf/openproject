@@ -51,6 +51,8 @@ module JournalFormatter
     end
 
     def render(key, values, options = { html: true })
+      return permission_denied_message(options) if permission_denied?(options)
+
       label, old_value, value = format_details(key, values)
 
       if options[:html]
@@ -86,10 +88,6 @@ module JournalFormatter
     end
 
     def render_ternary_detail_text(label, value, old_value, options)
-      permission_denied = options[:permission].respond_to?(:call) && !instance_exec(&options[:permission])
-
-      return permission_denied_message(options) if permission_denied
-
       return I18n.t(:text_journal_deleted, label:, old: old_value) if value.blank?
       return I18n.t(:text_journal_set_to, label:, value:) if old_value.blank?
 
@@ -102,6 +100,10 @@ module JournalFormatter
              linebreak:,
              old: old_value,
              new: value)
+    end
+
+    def permission_denied?(options)
+      options[:permission].respond_to?(:call) && !instance_exec(&options[:permission])
     end
 
     def permission_denied_message(options)
