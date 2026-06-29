@@ -162,6 +162,7 @@ RSpec.describe "Project attributes activity", :js do
         activity_page.show_details
 
         expect(page).to have_no_text(string_cf.name)
+        expect(page).to have_text(I18n.t(:text_journal_permission_denied))
       end
     end
 
@@ -173,6 +174,7 @@ RSpec.describe "Project attributes activity", :js do
         activity_page.show_details
 
         expect(page).to have_text(string_cf.name)
+        expect(page).to have_no_text(I18n.t(:text_journal_permission_denied))
       end
     end
   end
