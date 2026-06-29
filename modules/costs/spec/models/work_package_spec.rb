@@ -68,4 +68,19 @@ RSpec.describe WorkPackage do
     work_package.budget = nil
     expect { work_package.save! }.not_to raise_error
   end
+
+  context "when the assigned budget belongs to the source project" do
+    before do
+      work_package.update_columns(budget_id: budget.id)
+      work_package.reload
+    end
+
+    it "prevents moving the work package to a project the budget does not belong to" do
+      result = move_to_project(work_package, project2)
+
+      expect(result).not_to be_success
+      expect(result.errors.symbols_for(:budget)).to include(:inclusion)
+      expect(work_package.reload.project_id).to eql project.id
+    end
+  end
 end
