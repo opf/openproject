@@ -5276,16 +5276,13 @@ en:
     create_managed_delay: "Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly."
     create_successful: "The repository has been registered."
     delete_sucessful: "The repository has been deleted."
-    destroy:
-      confirmation: "If you continue, this will permanently delete the managed repository."
-      info: "Deleting the repository is an irreversible action."
-      info_not_managed: "Note: This will NOT delete the contents of this repository, as it is not managed by OpenProject."
-      managed_path_note: "The following directory will be erased: %{path}"
-      repository_verification_html: "Enter the project's identifier %{identifier} to verify the deletion of its repository."
-      subtitle: "Do you really want to delete the %{repository_type} of the project %{project_name}?"
-      subtitle_not_managed_html: "Do you really want to remove the linked %{repository_type} %{url} from the project %{project_name}?"
-      title_html: "Delete the %{repository_type}"
-      title_not_managed: "Remove the linked %{repository_type}?"
+    destroy_dialog:
+      description: "The %{repository_type} repository at %{path} and all its contents will be permanently deleted."
+      description_not_managed: "The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of of this repository, as it is not managed by OpenProject."
+      heading: "Delete this %{repository_type}?"
+      heading_not_managed: "Remove this linked %{repository_type}?"
+      title: "Delete repository"
+      title_not_managed: "Remove repository"
     errors:
       build_failed: "Unable to create the repository with the selected configuration. %{reason}"
       managed_delete: "Unable to delete the managed repository."
