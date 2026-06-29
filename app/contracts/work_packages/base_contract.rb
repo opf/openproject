@@ -61,8 +61,7 @@ module WorkPackages
 
     validate :validate_no_reopen_on_closed_version
     validate :validate_versions_permission
-    validate :validate_target_versions_single_value
-    validate :validate_version_id_and_target_versions_not_both_changed
+    validate :validate_target_versions_and_legacy_version_id
 
     attribute :project_id
 
@@ -408,14 +407,19 @@ module WorkPackages
       end
     end
 
-    def validate_target_versions_single_value
-      if model.override_target_versions? && model.target_version_ids_replacements.length > 1
+    # While the deprecated single version_id column coexists with target_versions,
+    # the two must not contradict each other. This enforces both constraints of
+    # that transitional period in one place:
+    #   * target_versions still behaves as a single value (at most one entry), and
+    #   * a request may write either version_id or target_versions, but not both.
+    def validate_target_versions_and_legacy_version_id
+      return unless model.override_target_versions?
+
+      if model.target_version_ids_replacements.length > 1
         errors.add :base, :target_versions_only_allow_single_value
       end
-    end
 
-    def validate_version_id_and_target_versions_not_both_changed
-      if model.version_id_changed? && model.override_target_versions?
+      if model.version_id_changed?
         errors.add :base, :version_and_target_versions_mutually_exclusive
       end
     end

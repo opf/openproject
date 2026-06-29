@@ -77,6 +77,10 @@ class WorkPackage < ApplicationRecord
   attr_accessor :target_version_ids_replacements,
                 :observed_in_version_ids_replacements
 
+  # The *_replacements accessors default to nil, which means "leave the existing
+  # associations untouched". Once a caller assigns to them (even an empty array),
+  # it signals intent to replace the whole set, so nil vs. non-nil is what tells
+  # us whether an override was requested at all.
   def override_target_versions? = !target_version_ids_replacements.nil?
   def override_observed_in_versions? = !observed_in_version_ids_replacements.nil?
 

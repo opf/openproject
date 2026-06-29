@@ -33,10 +33,20 @@ module WorkPackages
     module Versions
       private
 
+      # Persists the version associations after a work package is saved.
+      #
+      # Two paths feed the "target" associations:
+      #   * an explicit override (the *_replacements accessor was set) takes
+      #     precedence and replaces the whole set.
+      #   * otherwise, a plain change to version_id (the legacy single-version
+      #     path) is mirrored into the associations so both stay consistent.
+      #
+      # Writing to version_id will be removed after all subsystems start using
+      # target_versions instead
       def save_versions(work_package)
         if work_package.override_target_versions?
           replace_versions(work_package, "target", work_package.target_version_ids_replacements)
-          work_package.version_id = work_package.target_version_ids_replacements&.first || nil
+          update_legacy_version_field(work_package)
         elsif work_package.saved_change_to_version_id?
           new_ids = work_package.version_id ? [work_package.version_id] : []
           replace_versions(work_package, "target", new_ids)
@@ -47,6 +57,15 @@ module WorkPackages
         end
       end
 
+      # Keeps the deprecated single version_id column in sync with the first
+      # target version, so code still reading version_id sees a sensible value.
+      # Can be dropped once the version_id column is removed.
+      def update_legacy_version_field(work_package)
+        work_package.version_id = work_package.target_version_ids_replacements&.first || nil
+      end
+
+      # Sets the work package's associations of the given kind to exactly the
+      # given version_ids.
       def replace_versions(work_package, kind, version_ids)
         existing = work_package.work_package_versions.where(kind:).pluck(:version_id)
 
