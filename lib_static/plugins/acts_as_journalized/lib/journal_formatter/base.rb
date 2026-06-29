@@ -103,7 +103,14 @@ module JournalFormatter
     end
 
     def permission_denied?(options)
-      options[:permission].respond_to?(:call) && !instance_exec(&options[:permission])
+      permission = options[:permission]
+      return false unless permission
+
+      if permission.is_a?(Symbol)
+        !User.current.allowed_in_project?(permission, project)
+      else
+        !instance_exec(&permission)
+      end
     end
 
     def permission_denied_message(options)
