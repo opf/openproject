@@ -36,6 +36,12 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     extend ClassMethods
 
     register_journal_formatted_fields "story_points", "position", formatter_key: :decimal
+    register_journal_formatted_fields :sprint_id, :backlog_bucket_id,
+                                      formatter_key: :named_association,
+                                      formatter_permission: -> do
+                                        User.current.allowed_in_project?(:view_sprints, project)
+                                      end
+
 
     validates_numericality_of :story_points, only_integer: true,
                                              allow_nil: true,

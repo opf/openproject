@@ -32,6 +32,7 @@ require "spec_helper"
 
 RSpec.describe "WorkPackage backlog_bucket association journaling", # rubocop:disable RSpec/DescribeClass
                with_settings: { journal_aggregation_time_minutes: 0 } do
+  shared_current_user { create(:admin) }
   shared_let(:project) { create(:project) }
   shared_let(:bucket1) { create(:backlog_bucket, name: "Bucket 1", project:) }
   shared_let(:bucket2) { create(:backlog_bucket, name: "Bucket 2", project:) }
@@ -74,9 +75,26 @@ RSpec.describe "WorkPackage backlog_bucket association journaling", # rubocop:di
     work_package_with_bucket.update!(backlog_bucket: bucket2)
 
     last_journal = work_package_with_bucket.journals.last
-    formatted = last_journal.render_detail("backlog_bucket_id", no_html: true)
+    formatted = last_journal.render_detail("backlog_bucket_id", html: false)
 
     expect(formatted).to include("Bucket 1")
     expect(formatted).to include("Bucket 2")
+  end
+
+  context "when user lacks :view_sprints permission" do
+    before { mock_permissions_for(User.current, &:forbid_everything) }
+
+    it "renders a permission denied message instead of the bucket name" do
+      last_journal = work_package_with_bucket.journals.last
+      result = last_journal.render_detail("backlog_bucket_id", html: true)
+      expect(result).to include(I18n.t(:text_journal_permission_denied))
+      expect(result).not_to include("Bucket 1")
+    end
+
+    it "renders a permission denied message in plain text" do
+      last_journal = work_package_with_bucket.journals.last
+      expect(last_journal.render_detail("backlog_bucket_id", html: false))
+        .to include(I18n.t(:text_journal_permission_denied))
+    end
   end
 end
