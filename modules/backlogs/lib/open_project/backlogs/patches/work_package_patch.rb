@@ -38,7 +38,7 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     register_journal_formatted_fields "story_points", "position", formatter_key: :decimal
     register_journal_formatted_fields :sprint_id, :backlog_bucket_id,
                                       formatter_key: :named_association,
-                                      formatter_permission: -> do
+                                      view_permission: -> do
                                         User.current.allowed_in_project?(:view_sprints, project)
                                       end
 
