@@ -104,10 +104,10 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
       end
 
       it "renders the bucket menu actions" do
-        expect(rendered_component).to have_css("[role='menuitem']", text: "Edit backlog bucket")
-        expect(rendered_component).to have_css("[role='menuitem']", text: "Delete backlog bucket")
-        expect(rendered_component).to have_css("[role='menuitem']", text: "Add new work package")
-        expect(rendered_component).to have_css("[role='menuitem']", text: "Add existing work package")
+        expect(rendered_component).to have_selector(:menuitem, "Edit backlog bucket")
+        expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket")
+        expect(rendered_component).to have_selector(:menuitem, "Add new work package")
+        expect(rendered_component).to have_selector(:menuitem, "Add existing work package")
       end
 
       it "renders one shared-card row per work package" do
@@ -195,13 +195,13 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
 
     it "still renders the add work package menu actions" do
       expect(rendered_component).to have_button(accessible_name: "Backlog bucket actions")
-      expect(rendered_component).to have_css("[role='menuitem']", text: "Add new work package")
-      expect(rendered_component).to have_css("[role='menuitem']", text: "Add existing work package")
+      expect(rendered_component).to have_selector(:menuitem, "Add new work package")
+      expect(rendered_component).to have_selector(:menuitem, "Add existing work package")
     end
 
     it "does not render the edit or delete bucket menu items" do
-      expect(rendered_component).to have_no_css("[role='menuitem']", text: "Edit backlog bucket")
-      expect(rendered_component).to have_no_css("[role='menuitem']", text: "Delete backlog bucket")
+      expect(rendered_component).to have_no_selector(:menuitem, "Edit backlog bucket")
+      expect(rendered_component).to have_no_selector(:menuitem, "Delete backlog bucket")
     end
   end
 
@@ -227,13 +227,13 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
 
     it "still renders the edit and delete bucket menu items" do
       expect(rendered_component).to have_button(accessible_name: "Backlog bucket actions")
-      expect(rendered_component).to have_css("[role='menuitem']", text: "Edit backlog bucket")
-      expect(rendered_component).to have_css("[role='menuitem']", text: "Delete backlog bucket")
+      expect(rendered_component).to have_selector(:menuitem, "Edit backlog bucket")
+      expect(rendered_component).to have_selector(:menuitem, "Delete backlog bucket")
     end
 
     it "does not render the add work package menu actions" do
-      expect(rendered_component).to have_no_css("[role='menuitem']", text: "Add new work package")
-      expect(rendered_component).to have_no_css("[role='menuitem']", text: "Add existing work package")
+      expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
+      expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
     end
   end
 end

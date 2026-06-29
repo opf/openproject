@@ -99,8 +99,8 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     end
 
     it "renders the add work package menu actions" do
-      expect(page).to have_css("[role='menuitem']", text: "Add new work package")
-      expect(page).to have_css("[role='menuitem']", text: "Add existing work package")
+      expect(page).to have_selector(:menuitem, "Add new work package")
+      expect(page).to have_selector(:menuitem, "Add existing work package")
     end
 
     context "when the user lacks the manage_sprint_items permission" do
@@ -112,8 +112,8 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
       end
 
       it "does not render the add work package menu actions" do
-        expect(page).to have_no_css("[role='menuitem']", text: "Add new work package")
-        expect(page).to have_no_css("[role='menuitem']", text: "Add existing work package")
+        expect(page).to have_no_selector(:menuitem, "Add new work package")
+        expect(page).to have_no_selector(:menuitem, "Add existing work package")
       end
     end
   end

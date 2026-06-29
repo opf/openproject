@@ -129,8 +129,8 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
 
       it "renders the add work package menu actions" do
-        expect(rendered_component).to have_css("[role='menuitem']", text: "Add new work package")
-        expect(rendered_component).to have_css("[role='menuitem']", text: "Add existing work package")
+        expect(rendered_component).to have_selector(:menuitem, "Add new work package")
+        expect(rendered_component).to have_selector(:menuitem, "Add existing work package")
       end
     end
 
@@ -150,8 +150,8 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
 
       it "does not render the add work package menu actions" do
-        expect(rendered_component).to have_no_css("[role='menuitem']", text: "Add new work package")
-        expect(rendered_component).to have_no_css("[role='menuitem']", text: "Add existing work package")
+        expect(rendered_component).to have_no_selector(:menuitem, "Add new work package")
+        expect(rendered_component).to have_no_selector(:menuitem, "Add existing work package")
       end
     end
 
