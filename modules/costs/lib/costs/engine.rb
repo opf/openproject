@@ -301,31 +301,39 @@ module Costs
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      costs_visible = ->(*) { represented.project&.costs_enabled? }
+
+      # Unit costs (and the overall total) require an available cost type.
+      # instance_exec keeps `represented` bound to the decorator.
+      unit_costs_visible = ->(*) {
+        instance_exec(&costs_visible) && represented.project.cost_types_available?
+      }
+
       # N.B. in the long term we should have a type like "Currency", but that requires a proper
       # format and not a string like "10 EUR"
       schema :overall_costs,
              type: "String",
              required: false,
              writable: false,
-             show_if: ->(*) { represented.project && represented.project.costs_enabled? }
+             show_if: unit_costs_visible
 
       schema :labor_costs,
              type: "String",
              required: false,
              writable: false,
-             show_if: ->(*) { represented.project && represented.project.costs_enabled? }
+             show_if: costs_visible
 
       schema :material_costs,
              type: "String",
              required: false,
              writable: false,
-             show_if: ->(*) { represented.project && represented.project.costs_enabled? }
+             show_if: unit_costs_visible
 
       schema :costs_by_type,
              type: "Collection",
              name_source: :spent_units,
              required: false,
-             show_if: ->(*) { represented.project && represented.project.costs_enabled? },
+             show_if: unit_costs_visible,
              writable: false
     end
 
