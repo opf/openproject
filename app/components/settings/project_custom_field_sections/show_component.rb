@@ -63,6 +63,18 @@ module Settings
         }
       end
 
+      def drag_and_drop_target_config
+        {
+          SNETINEL_FOO: "BAR"
+        }
+      end
+
+      def draggable_item_config(project_custom_field)
+        {
+          SENTINAL_FIGHTERS: "YAH + #{project_custom_field}"
+        }
+      end
+
       def move_actions(menu)
         unless first?
           move_action_item(menu, :highest, t("label_agenda_item_move_to_top"),
