@@ -19,7 +19,7 @@
     "@types/dragula": "^3.7.5",
     "@types/flot": "^0.0.36",
     "@types/hammerjs": "^2.0.36",
-    "@types/hotwired__turbo": "^8.0.11",
+    "@types/hotwired__turbo": "^8.0.12",
     "@types/jquery": "^4.0.1",
     "@types/jquery-migrate": "^3.3.3",
     "@types/lodash-es": "^4.17.12",
