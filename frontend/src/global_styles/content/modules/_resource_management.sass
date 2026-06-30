@@ -125,6 +125,12 @@
     &--badge
       flex: 0 0 auto
 
+    // The overbooking warning icon (carries an explanatory tooltip) sits at the
+    // trailing edge of the bar and never shrinks.
+    &--warning
+      flex: 0 0 auto
+      margin-inline-start: auto
+
     // Time-off and holiday markers: a light-blue pill rounded only on the leading
     // edge, per the mockup. Overrides the white card base above.
     &_non-working
@@ -140,12 +146,7 @@
   .resource-allocation--editable .op-rm-timeline-bar
     cursor: pointer
 
-  // Overbooking cue, keyed off the class we add via `eventClassNames`.
+  // Overbooking cue, keyed off the class we add via `eventClassNames`. The
+  // warning icon itself (with its tooltip) is rendered into the bar markup.
   .resource-allocation--overbooked .op-rm-timeline-bar
     border-top: 3px solid var(--borderColor-danger-emphasis, #cf222e)
-
-    &::after
-      content: "⚠"
-      flex: 0 0 auto
-      margin-inline-start: 0.25rem
-      color: var(--fgColor-danger, #cf222e)

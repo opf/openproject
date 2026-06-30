@@ -177,6 +177,20 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       expect(overbooked_bg).not_to be_empty
       expect(overbooked_bg.pluck("resourceId")).to all(eq(assignee.id))
     end
+
+    it "flags the overbooked allocation bar and explains it in a tooltip" do
+      create(:resource_allocation, entity: wp, principal: assignee, requested_by: user,
+                                   start_date: Date.new(2026, 6, 1), end_date: Date.new(2026, 6, 5),
+                                   allocated_time: 5 * 8 * 60)
+      get_events
+
+      bar = block_events.find { |e| e["id"] == allocation.id }
+      expect(bar.dig("extendedProps", "overbooked")).to be(true)
+      html = bar.dig("extendedProps", "html")
+      # The tooltip names the period and contrasts scheduled vs available capacity.
+      expect(html).to include("scheduled", "available")
+      expect(html).to include("tool-tip")
+    end
   end
 
   describe "working-day background events" do

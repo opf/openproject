@@ -33,9 +33,10 @@ module ResourcePlannerViews
     # Renders one allocation's bar content on a user row: the allocated hours and
     # the work package the user is allocated to.
     class AllocationBarComponent < ApplicationComponent
-      def initialize(allocation:)
+      def initialize(allocation:, overbooked_ranges: [])
         super
         @allocation = allocation
+        @overbooked_ranges = overbooked_ranges
       end
 
       private
@@ -48,6 +49,35 @@ module ResourcePlannerViews
 
       def entity_subject
         allocation.entity.subject
+      end
+
+      def overbooked? = @overbooked_ranges.any?
+
+      def overbooked_tooltip_id
+        "user-timeline-overbooked-#{allocation.id}"
+      end
+
+      # Explains when (the date ranges) and how much (scheduled vs available) the
+      # allocation contributes to overbooking, joined when it spans several ranges.
+      def overbooked_tooltip
+        @overbooked_ranges.map { |range| overbooked_range_summary(range) }.join("; ")
+      end
+
+      def overbooked_range_summary(range)
+        t("resource_management.user_timeline.overbooked_tooltip.range",
+          dates: date_range(range.start_date, range.end_date),
+          scheduled: format_hours(range.items.sum(&:minutes)),
+          available: format_hours(range.available_minutes))
+      end
+
+      def date_range(from_date, to_date)
+        "#{helpers.format_date(from_date)} - #{helpers.format_date(to_date)}"
+      end
+
+      def format_hours(minutes)
+        hours = minutes.to_f / 60
+        formatted = hours == hours.to_i ? hours.to_i : hours.round(2)
+        "#{formatted}h"
       end
 
       # The work package's status colour, painted on the bar's top edge. Nil when

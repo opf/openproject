@@ -34,10 +34,9 @@ module ResourceManagement
     # on its assigned user's row.
     class EventsController < FeedsController
       def index
-        overbooked = overbooked_allocation_ids
         allocations = allocations_by_principal.values.flatten
 
-        events = allocations.map { |allocation| event_for(allocation, overbooked: overbooked.include?(allocation.id)) }
+        events = allocations.map { |allocation| event_for(allocation) }
         events.concat(working_day_background_events)
         events.concat(overbooked_background_events)
         events.concat(non_working_events)
@@ -47,12 +46,11 @@ module ResourceManagement
 
       private
 
-      # The ids of the allocations that fall into an overbooked range, derived
-      # from the ranges computed once on the base controller.
-      def overbooked_allocation_ids
-        overbooked_ranges_by_principal.values.flatten
-                                      .flat_map { |range| range.items.map(&:id) }
-                                      .to_set
+      # The overbooked ranges this allocation is part of (the ranges whose forced
+      # work items reference it), used to flag and explain the bar.
+      def overbooked_ranges_for_allocation(allocation)
+        (overbooked_ranges_by_principal[allocation.principal_id] || [])
+          .select { |range| range.items.any? { |item| item.id == allocation.id } }
       end
 
       # One red background span per range in which a user is over-allocated, drawn
@@ -119,16 +117,17 @@ module ResourceManagement
         runs
       end
 
-      def event_for(allocation, overbooked:)
+      def event_for(allocation)
+        overbooked_ranges = overbooked_ranges_for_allocation(allocation)
         {
           id: allocation.id,
           resourceId: allocation.principal_id,
           start: allocation.start_date.iso8601,
           end: (allocation.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
           extendedProps: {
-            overbooked:,
+            overbooked: overbooked_ranges.any?,
             editUrl: edit_url_for(allocation),
-            html: render_bar(allocation)
+            html: render_bar(allocation, overbooked_ranges)
           }
         }
       end
@@ -145,9 +144,9 @@ module ResourceManagement
         @may_allocate = current_user.allowed_in_project?(:allocate_user_resources, @project)
       end
 
-      def render_bar(allocation)
+      def render_bar(allocation, overbooked_ranges)
         ResourcePlannerViews::UserTimeline::AllocationBarComponent
-          .new(allocation:)
+          .new(allocation:, overbooked_ranges:)
           .render_in(view_context)
       end
 
