@@ -241,11 +241,12 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
       recurring_meeting.update!(current_schedule_start: new_schedule_start)
     end
 
-    it "emits only the 10 most recent previous-schedule occurrences as overrides without polluting EXDATE" do
+    it "emits only the 10 most recent previous-schedule occurrences as RDATE-backed overrides" do
       builder.add_series_event(recurring_meeting: recurring_meeting)
 
       master_event = parsed_calendar.events.find { |event| event.recurrence_id.nil? }
       override_events = parsed_calendar.events.select { |event| event.recurrence_id.present? }
+      previous_schedule_start_times = past_occurrence_start_times.last(10).map(&:to_time)
 
       expect(master_event.dtstart).to eq(new_schedule_start)
       expect(master_event.dtend).to eq(new_schedule_start + recurring_meeting.template.duration.hours)
@@ -253,10 +254,12 @@ RSpec.describe Meetings::IcalendarBuilder, "recurring meeting with updated sched
       # EXDATE is reserved for cancelled meetings still in the RRULE expansion.
       # Previous-schedule occurrences are already outside it, so EXDATE'ing them would be a no-op.
       expect(Array(master_event.exdate)).to be_empty
+      expect(Array(master_event.rdate).map { |date| date.value.to_time })
+        .to match_array(previous_schedule_start_times)
 
       expect(override_events.count).to eq(10)
       expect(override_events.map { |evt| evt.recurrence_id.to_time })
-        .to match_array(past_occurrence_start_times.last(10).map(&:to_time))
+        .to match_array(previous_schedule_start_times)
     end
   end
 end

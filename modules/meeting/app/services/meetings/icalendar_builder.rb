@@ -120,6 +120,11 @@ module Meetings
 
         # Add exceptions for all cancelled recurrences
         set_excluded_recurrence_dates(event: e, recurring_meeting: recurring_meeting)
+
+        # Previous-schedule overrides are outside the current RRULE expansion.
+        # Add them as RDATEs so strict clients can attach their RECURRENCE-ID
+        # overrides to the master event.
+        set_included_recurrence_dates(event: e, recurring_meeting: recurring_meeting)
       end
 
       # Add single events for all occurrences
@@ -306,16 +311,31 @@ module Meetings
 
     # Methods for recurring meetings
     def add_instantiated_occurrences(recurring_meeting:)
-      previous, upcoming = instantiated_schedules(recurring_meeting)
-                             .partition { |meeting| in_previous_schedule?(meeting, recurring_meeting) }
-
-      recent_previous = previous
-                          .sort_by(&:recurrence_start_time)
-                          .last(PAST_OCCURRENCES_LIMIT)
-
-      (recent_previous + upcoming).each do |meeting|
+      instantiated_occurrences_for_export(recurring_meeting).each do |meeting|
         add_single_recurring_occurrence(meeting:)
       end
+    end
+
+    def instantiated_occurrences_for_export(recurring_meeting)
+      previous_schedule_occurrences(recurring_meeting) + upcoming_schedule_occurrences(recurring_meeting)
+    end
+
+    def previous_schedule_occurrences(recurring_meeting)
+      instantiated_schedules_partitioned(recurring_meeting)
+        .first
+        .sort_by(&:recurrence_start_time)
+        .last(PAST_OCCURRENCES_LIMIT)
+    end
+
+    def upcoming_schedule_occurrences(recurring_meeting)
+      instantiated_schedules_partitioned(recurring_meeting).second
+    end
+
+    def instantiated_schedules_partitioned(recurring_meeting)
+      @instantiated_schedules_partition_cache ||= {}
+      @instantiated_schedules_partition_cache[recurring_meeting.id] ||=
+        instantiated_schedules(recurring_meeting)
+          .partition { |meeting| in_previous_schedule?(meeting, recurring_meeting) }
     end
 
     def in_previous_schedule?(meeting, recurring_meeting)
@@ -365,6 +385,11 @@ module Meetings
     def set_excluded_recurrence_dates(event:, recurring_meeting:)
       event.exdate = cancelled_recurrence_dates(recurring_meeting)
                        .map { ical_datetime(it, timezone: recurring_meeting.time_zone) }
+    end
+
+    def set_included_recurrence_dates(event:, recurring_meeting:)
+      event.rdate = previous_schedule_occurrences(recurring_meeting)
+                    .map { ical_datetime(it.recurrence_start_time, timezone: recurring_meeting.time_zone) }
     end
 
     def cancelled_recurrence_dates(recurring_meeting)
