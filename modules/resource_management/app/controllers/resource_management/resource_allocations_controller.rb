@@ -46,10 +46,7 @@ module ::ResourceManagement
 
       respond_with_dialog ResourceAllocations::NewDialogComponent.new(
         project: @project,
-        work_package: preselected_work_package,
         allocation: prefilled_allocation,
-        start_date: params[:start_date],
-        end_date: params[:end_date],
         resource_planner_id: params[:resource_planner_id]
       )
     end
@@ -445,14 +442,13 @@ module ::ResourceManagement
       @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
     end
 
-    # The allocation the new dialog opens with when a user was pre-selected,
-    # carrying that user, the pre-selected work package and any timeline dates.
+    # The allocation the new dialog opens with, carrying any pre-selected user
+    # and work package plus a timeline-picked date range. A pre-selected user
+    # lets the dialog skip the kind step and open directly on the allocation form.
     def prefilled_allocation
-      return if preselected_user.nil?
-
       ResourceAllocation.new(
         principal: preselected_user,
-        principal_explicit: true,
+        principal_explicit: preselected_user.present?,
         entity: preselected_work_package,
         start_date: params[:start_date],
         end_date: params[:end_date]
