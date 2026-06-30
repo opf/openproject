@@ -46,7 +46,7 @@ module ::ResourceManagement
 
       respond_with_dialog ResourceAllocations::NewDialogComponent.new(
         project: @project,
-        work_package: context_work_package,
+        work_package: preselected_work_package,
         allocation: prefilled_allocation,
         start_date: params[:start_date],
         end_date: params[:end_date],
@@ -58,7 +58,7 @@ module ::ResourceManagement
       # Pre-select the autocompleter when the dialog was opened from a work package,
       # and carry any date range picked on the timeline into the new allocation.
       render_allocation_step(
-        ResourceAllocation.new(entity: context_work_package,
+        ResourceAllocation.new(entity: preselected_work_package,
                                start_date: params[:start_date], end_date: params[:end_date])
       )
     end
@@ -371,12 +371,6 @@ module ::ResourceManagement
       allocation_kind == "filter"
     end
 
-    def context_work_package
-      return @context_work_package if defined?(@context_work_package)
-
-      @context_work_package = resolve_entity("WorkPackage", params[:work_package_id])
-    end
-
     # Raw, untransformed values to carry through the confirmation step as hidden
     # inputs so a confirmed resubmit recreates exactly what the user entered.
     def submitted_allocation_params
@@ -403,17 +397,8 @@ module ::ResourceManagement
                     .symbolize_keys
 
       principal_id = permitted.delete(:principal_id)
-      entity = resolve_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
+      entity = resolve_visible_entity(permitted.delete(:entity_type), permitted.delete(:entity_id))
       permitted.merge(entity:, **resource_params(principal_id))
-    end
-
-    # Allow-list the type before constantizing it. Returns nil for an unknown
-    # type or unreachable id, letting the entity validations surface the error.
-    def resolve_entity(entity_type, entity_id)
-      return if entity_id.blank?
-      return unless ResourceAllocation::ALLOWED_ENTITY_TYPES.include?(entity_type)
-
-      entity_type.constantize.visible(current_user).where(project: @project).find_by(id: entity_id)
     end
 
     def resource_params(principal_id)
@@ -445,20 +430,33 @@ module ::ResourceManagement
       query.filters
     end
 
-    def prefilled_allocation
-      return if preselected_user.nil?
+    # The resources a dialog was pre-selected for, resolved from the request
+    # params (a work-package allocation dialog, a user's utilization dialog, or a
+    # timeline range selection). Either may be absent.
+    def preselected_work_package
+      return @preselected_work_package if defined?(@preselected_work_package)
 
-      # `start_date`/`end_date` carry a range picked on the user timeline (blank
-      # when opened from the utilization dialog).
-      ResourceAllocation.new(principal: preselected_user, principal_explicit: true,
-                             entity: context_work_package,
-                             start_date: params[:start_date], end_date: params[:end_date])
+      @preselected_work_package = resolve_visible_entity("WorkPackage", params[:work_package_id])
     end
 
     def preselected_user
       return @preselected_user if defined?(@preselected_user)
 
       @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
+    end
+
+    # The allocation the new dialog opens with when a user was pre-selected,
+    # carrying that user, the pre-selected work package and any timeline dates.
+    def prefilled_allocation
+      return if preselected_user.nil?
+
+      ResourceAllocation.new(
+        principal: preselected_user,
+        principal_explicit: true,
+        entity: preselected_work_package,
+        start_date: params[:start_date],
+        end_date: params[:end_date]
+      )
     end
   end
 end

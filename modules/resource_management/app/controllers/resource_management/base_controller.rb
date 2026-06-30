@@ -30,5 +30,18 @@
 
 module ::ResourceManagement
   class BaseController < ::ApplicationController
+    private
+
+    # Resolves a polymorphic allocation entity from a (potentially user-supplied)
+    # type and id, scoped to the current project and the current user's
+    # visibility. Allow-lists the type before constantizing it; returns nil for an
+    # unknown type or unreachable id, letting the caller's validations surface the
+    # error.
+    def resolve_visible_entity(entity_type, entity_id)
+      return if entity_id.blank?
+      return unless ResourceAllocation::ALLOWED_ENTITY_TYPES.include?(entity_type)
+
+      entity_type.constantize.visible(current_user).where(project: @project).find_by(id: entity_id)
+    end
   end
 end
