@@ -37,12 +37,13 @@ module ResourcePlannerViews
       include OpPrimer::ComponentHelpers
       include AvatarHelper
 
-      def initialize(user:, overbooked: false, schedule_missing: false,
+      def initialize(user:, overbooked: false, schedule_missing: false, job_title_field: nil,
                      project: nil, resource_planner: nil, view: nil)
         super
         @user = user
         @overbooked = overbooked
         @schedule_missing = schedule_missing
+        @job_title_field = job_title_field
         @project = project
         @resource_planner = resource_planner
         @view = view
@@ -66,6 +67,32 @@ module ResourcePlannerViews
 
       def no_work_schedule_tooltip_id
         "user-timeline-no-schedule-#{user.id}"
+      end
+
+      # "Department - Job title" with the department in bold, omitting whichever
+      # is not set (nil when neither). Built as HTML so only the department is bold.
+      def details
+        segments = []
+        segments << tag.b(department_name) if department_name.present?
+        segments << job_title if job_title.present?
+        return if segments.empty?
+
+        safe_join(segments, " - ")
+      end
+
+      # `departments` is preloaded by the controller, so `.first` hits no query.
+      def department_name
+        user.departments.first&.name
+      end
+
+      # Reads the value off the preloaded `custom_values` rather than going
+      # through the per-record custom-field-values machinery (avoids N+1).
+      def job_title
+        return if @job_title_field.nil?
+
+        user.custom_values
+            .detect { |custom_value| custom_value.custom_field_id == @job_title_field.id }
+            &.formatted_value.presence
       end
     end
   end

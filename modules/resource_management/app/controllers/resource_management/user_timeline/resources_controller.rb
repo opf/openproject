@@ -33,8 +33,10 @@ module ResourceManagement
     # Feeds the FullCalendar resources (rows): one per user in the view.
     class ResourcesController < FeedsController
       def index
-        overbooked = overbooked_principal_ids
+        overbooked = overbooked_ranges_by_principal.keys.to_set
         scheduled = scheduled_principal_ids
+        preload_user_details
+
         resources = users.map.with_index do |user, index|
           {
             id: user.id,
@@ -52,27 +54,27 @@ module ResourceManagement
 
       private
 
-      # The ids of the users who are overbooked somewhere within their booked
-      # allocations, so the resource cell can flag them with a warning icon.
-      def overbooked_principal_ids
-        allocations = allocations_by_principal.values.flatten
-        overbooked = ResourceAllocation.overbooked_ids(allocations)
-
-        allocations.select { |allocation| overbooked.include?(allocation.id) }
-                   .to_set(&:principal_id)
-      end
-
-      # The ids of the users who have a work schedule set up, so the resource
-      # cell can flag those who do not. Fetched in a single query.
-      def scheduled_principal_ids
-        UserWorkingHours.for_user(users).distinct.pluck(:user_id).to_set
+      # Eager-load everything the resource cell reads off each user, so rendering
+      # the rows stays a fixed number of queries regardless of the user count.
+      def preload_user_details
+        ActiveRecord::Associations::Preloader
+          .new(records: users, associations: [:departments, { custom_values: :custom_field }])
+          .call
       end
 
       def render_cell(user, overbooked:, schedule_missing:)
         ResourcePlannerViews::UserTimeline::ResourceCellComponent
-          .new(user:, overbooked:, schedule_missing:,
+          .new(user:, overbooked:, schedule_missing:, job_title_field:,
                project: @project, resource_planner: @resource_planner, view: @view)
           .render_in(view_context)
+      end
+
+      # The "job title" custom field is the same for every user, so resolve it
+      # once per request rather than per cell.
+      def job_title_field
+        return @job_title_field if defined?(@job_title_field)
+
+        @job_title_field = UserCustomField.for_semantic_key(:job_title)
       end
     end
   end

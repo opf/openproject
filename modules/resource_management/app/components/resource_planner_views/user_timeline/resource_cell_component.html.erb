@@ -1,12 +1,6 @@
-<%= flex_layout(align_items: :center, justify_content: :space_between, classes: "op-rm-timeline-resource") do |row| %>
-  <% row.with_column(flex: 1, mr: 2) do %>
-    <%= avatar(
-          user,
-          size: "default",
-          hide_name: false,
-          link: false,
-          hover_card: { active: true }
-        ) %>
+<%= flex_layout(align_items: :center, classes: "op-rm-timeline-resource") do |row| %>
+  <% row.with_column(mr: 2) do %>
+    <%= avatar(user, size: "mini", hide_name: false, hover_card: { active: true }) %>
   <% end %>
   <% if overbooked? %>
     <% row.with_column do %>
@@ -28,4 +22,7 @@
           ) %>
     <% end %>
   <% end %>
+<% end %>
+<% if details.present? %>
+  <%= render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted)) { details } %>
 <% end %>

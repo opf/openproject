@@ -63,6 +63,30 @@ module ResourceManagement
       def allocations_by_principal
         @allocations_by_principal ||= ResourceAllocation.allocated_for_principals(users)
       end
+
+      # The ids of the users who have a work schedule set up. Capacity (and thus
+      # overbooking) can only be computed for these; the others are flagged as
+      # having no schedule. Fetched in a single query.
+      def scheduled_principal_ids
+        @scheduled_principal_ids ||= UserWorkingHours.for_user(users).distinct.pluck(:user_id).to_set
+      end
+
+      # The overbooked ranges per user, keyed by user id, for users who are
+      # over-allocated (skipping those without a schedule, whose capacity is
+      # unknown). Computed once per request from the already-loaded allocations
+      # and reused by both the row warnings/feeds and the red background spans.
+      def overbooked_ranges_by_principal
+        @overbooked_ranges_by_principal ||=
+          users.each_with_object({}) do |user, ranges_by_id|
+            next unless scheduled_principal_ids.include?(user.id)
+
+            booked = allocations_by_principal.fetch(user.id, [])
+            next if booked.empty?
+
+            ranges = ResourceAllocations::Availability.new(user:, allocations: booked).overbooked_ranges
+            ranges_by_id[user.id] = ranges if ranges.any?
+          end
+      end
     end
   end
 end

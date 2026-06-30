@@ -98,6 +98,18 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       expect(scheduled.dig("extendedProps", "html")).not_to include(warning)
     end
 
+    it "shows the user's department (bold) and job title" do
+      create(:department, lastname: "Product Team", members: [assignee])
+      job_title = create(:user_custom_field, :string, name: "Position", semantic_key: :job_title)
+      assignee.custom_values.create!(custom_field: job_title, value: "UX Designer")
+
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
+
+      html = response.parsed_body["resources"].find { |r| r["id"].to_i == assignee.id }.dig("extendedProps", "html")
+      expect(html).to include("<b>Product Team</b>") # department bold
+      expect(html).to include("UX Designer")
+    end
+
     it "denies users without access" do
       login_as create(:user)
       get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
@@ -150,6 +162,20 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       get_events
 
       expect(block_events).to all(satisfy { |e| e.dig("extendedProps", "editUrl").nil? })
+    end
+
+    it "paints a red background over the days a user is over-allocated" do
+      # A second full week on the same Mon-Fri days exceeds the assignee's schedule.
+      create(:resource_allocation, entity: wp, principal: assignee, requested_by: user,
+                                   start_date: Date.new(2026, 6, 1), end_date: Date.new(2026, 6, 5),
+                                   allocated_time: 5 * 8 * 60)
+      get_events
+
+      overbooked_bg = block_events.select do |e|
+        e["display"] == "background" && (e["classNames"] || []).include?("op-rm-timeline-overbooked")
+      end
+      expect(overbooked_bg).not_to be_empty
+      expect(overbooked_bg.pluck("resourceId")).to all(eq(assignee.id))
     end
   end
 

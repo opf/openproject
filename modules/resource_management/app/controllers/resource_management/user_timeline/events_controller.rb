@@ -34,17 +34,42 @@ module ResourceManagement
     # on its assigned user's row.
     class EventsController < FeedsController
       def index
+        overbooked = overbooked_allocation_ids
         allocations = allocations_by_principal.values.flatten
-        overbooked = ResourceAllocation.overbooked_ids(allocations)
 
         events = allocations.map { |allocation| event_for(allocation, overbooked: overbooked.include?(allocation.id)) }
         events.concat(working_day_background_events)
+        events.concat(overbooked_background_events)
         events.concat(non_working_events)
 
         render json: { events: }
       end
 
       private
+
+      # The ids of the allocations that fall into an overbooked range, derived
+      # from the ranges computed once on the base controller.
+      def overbooked_allocation_ids
+        overbooked_ranges_by_principal.values.flatten
+                                      .flat_map { |range| range.items.map(&:id) }
+                                      .to_set
+      end
+
+      # One red background span per range in which a user is over-allocated, drawn
+      # over the white working-day region.
+      def overbooked_background_events
+        overbooked_ranges_by_principal.flat_map do |principal_id, ranges|
+          ranges.map do |range|
+            {
+              resourceId: principal_id,
+              start: range.start_date.iso8601,
+              end: (range.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
+              display: "background",
+              classNames: ["op-rm-timeline-overbooked"]
+            }
+          end
+        end
+      end
 
       # One background event per contiguous run of a user's working days within
       # the visible range. These paint the active (white) region of the row; the
