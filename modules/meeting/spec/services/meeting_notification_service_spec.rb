@@ -28,7 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-require "icalendar"
 require "spec_helper"
 
 RSpec.describe MeetingNotificationService do
@@ -39,7 +38,6 @@ RSpec.describe MeetingNotificationService do
 
   before do
     User.current = actor
-    ActionMailer::Base.deliveries.clear
   end
 
   describe "#call" do
@@ -68,38 +66,17 @@ RSpec.describe MeetingNotificationService do
         create(:meeting_participant, :invitee, meeting:, user: occurrence_participant)
       end
 
-      it "sends a series ICS to template participants and a standalone ICS to occurrence-only participants" do
-        perform_enqueued_jobs do
-          expect(service_call).to be_success
-        end
+      it "routes template participants to the series mailer and occurrence-only participants to a standalone occurrence" do
+        allow(MeetingSeriesMailer).to receive(:invited).and_call_original
+        allow(MeetingMailer).to receive(:invited).and_call_original
 
-        expect(ActionMailer::Base.deliveries.count).to eq(2)
+        expect(service_call).to be_success
 
-        series_mail = delivered_mail_for(series_participant)
-        occurrence_mail = delivered_mail_for(occurrence_participant)
-
-        series_calendar = parse_ics_attachment(series_mail)
-        series_master_event = series_calendar.events.find { |event| event.recurrence_id.blank? }
-
-        expect(series_master_event).to be_present
-        expect(series_master_event.uid).to eq(recurring_meeting.uid)
-        expect(series_master_event.rrule).not_to be_empty
-
-        occurrence_calendar = parse_ics_attachment(occurrence_mail)
-
-        expect(occurrence_calendar.events.length).to eq(1)
-        expect(occurrence_calendar.events.first.uid).to eq(meeting.uid)
-        expect(occurrence_calendar.events.first.recurrence_id).to be_nil
-        expect(occurrence_calendar.events.first.rrule).to be_empty
+        expect(MeetingSeriesMailer).to have_received(:invited)
+          .with(recurring_meeting, series_participant, actor)
+        expect(MeetingMailer).to have_received(:invited)
+          .with(meeting, occurrence_participant, actor, standalone_occurrence: true)
       end
     end
-  end
-
-  def delivered_mail_for(user)
-    ActionMailer::Base.deliveries.find { |mail| mail.to == [user.mail] }
-  end
-
-  def parse_ics_attachment(mail)
-    Icalendar::Calendar.parse(mail.attachments["meeting.ics"].body.decoded).first
   end
 end

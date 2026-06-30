@@ -61,6 +61,6 @@ class MeetingNotificationService
   end
 
   def template_participant_user_ids
-    MeetingParticipant.where(meeting_id: meeting.recurring_meeting.template.id).pluck(:user_id)
+    @template_participant_user_ids ||= MeetingParticipant.where(meeting_id: meeting.recurring_meeting.template.id).pluck(:user_id)
   end
 end
