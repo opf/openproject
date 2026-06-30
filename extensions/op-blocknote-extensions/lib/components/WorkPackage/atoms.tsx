@@ -61,7 +61,6 @@ export const WorkPackageType = styled.span.attrs({
     $compact &&
     css`
       font-size: 12px;
-      flex-shrink: 0;
     `}
 `;
 
@@ -79,7 +78,6 @@ export const WorkPackageStatus = styled.span.attrs({
   border-radius: 100px;
   border: 1px solid ${({ $borderColor }) => $borderColor ?? 'transparent'};
   padding: 0 7px;
-  align-content: center;
   color: ${({ $textColor }) => $textColor} !important;
   background-color: ${({ $bgColor }) => $bgColor};
   white-space: nowrap;
@@ -89,7 +87,6 @@ export const WorkPackageStatus = styled.span.attrs({
     css`
       font-size: 12px;
       font-weight: 600;
-      flex-shrink: 0;
       display: inline-flex;
       align-items: center;
       gap: 4px;
@@ -99,7 +96,6 @@ export const WorkPackageStatus = styled.span.attrs({
 export const WorkPackageTitle = styled.span.attrs({
   className: 'op-bn-work-package--title',
 })<{ $compact?:boolean }>`
-  flex-basis: max-content;
   color: var(--bn-colors-editor-text);
   font-weight: 500;
   overflow-wrap: anywhere;
