@@ -112,6 +112,16 @@
     &--badge
       flex: 0 0 auto
 
+    // Time-off and holiday markers: a light-blue pill rounded only on the leading
+    // edge, per the mockup. Overrides the white card base above.
+    &_non-working
+      block-size: 32px
+      padding: 0 8px
+      background: var(--bgColor-accent-muted, #ddf4ff)
+      border: 0
+      border-radius: 6px 0 0 6px
+      box-shadow: 1px 1px 5px rgb(0 0 0 / 15%)
+
   // Only bars the user may edit are clickable (open the edit dialog), so only
   // they get the pointer; keyed off the class we add via `eventClassNames`.
   .resource-allocation--editable .op-rm-timeline-bar

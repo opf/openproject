@@ -68,7 +68,9 @@ module ResourceManagement
             start: run_start.iso8601,
             end: (run_end + 1).iso8601,
             display: "background",
-            classNames: ["op-rm-timeline-working"]
+            # Same white "active span" styling the work-package timeline uses for
+            # a work package's start/due range (see _resource_management.sass).
+            classNames: ["op-rm-timeline-active"]
           }
         end
       end
@@ -147,7 +149,7 @@ module ResourceManagement
               time_off.user_id,
               time_off.start_date, time_off.end_date,
               I18n.t("label_x_working_days_time_off", count: time_off.working_days_count),
-              icon: :calendar
+              icon: :"check-circle"
             )
           end
       end

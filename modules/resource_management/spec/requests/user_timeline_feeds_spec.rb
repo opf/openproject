@@ -157,7 +157,7 @@ RSpec.describe "User timeline feeds", type: :rails_request do
 
       expect(events).to contain_exactly(
         hash_including("start" => "2026-06-22", "end" => "2026-06-27", # exclusive end => through Fri 06-26
-                       "display" => "background", "classNames" => ["op-rm-timeline-working"])
+                       "display" => "background", "classNames" => ["op-rm-timeline-active"])
       )
     end
 
