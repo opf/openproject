@@ -123,6 +123,32 @@ describe('FlashController', () => {
 
       expect(announceSpy).not.toHaveBeenCalled();
     });
+
+    it('announces actionable flashes without moving focus', async () => {
+      vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+      ctx.appendHTML(`
+        <button>Current action</button>
+        <div data-controller="flash">
+          <live-region data-testid="live-region"></live-region>
+          <div data-flash-target="item" data-announcement="Meeting updated. Reload to view changes.">
+            Meeting updated.
+            <a href="/meeting">Reload</a>
+          </div>
+        </div>
+      `);
+      const currentAction = ctx.screen.getByRole('button', { name: 'Current action' });
+      const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
+      stubLiveRegionAnnouncement(announceSpy);
+      currentAction.focus();
+      await ctx.nextFrame();
+      vi.advanceTimersByTime(LIVE_REGION_ANNOUNCEMENT_DELAY);
+
+      expect(currentAction).toHaveFocus();
+      expect(announceSpy).toHaveBeenCalledWith(
+        'Meeting updated. Reload to view changes.',
+        expect.objectContaining({ politeness: 'polite' }),
+      );
+    });
   });
 
   describe('without autohide', () => {
@@ -136,63 +162,6 @@ describe('FlashController', () => {
       `);
 
       expect(ctx.screen.getByRole('alert')).toBeInTheDocument();
-    });
-  });
-
-  describe('action focus', () => {
-    it('focuses the flash with the requested action', async () => {
-      ctx.appendHTML(`
-        <div data-controller="flash">
-          <div data-flash-target="item" data-announcement="Meeting updated" data-testid="flash-item">
-            Meeting updated
-            <a href="/meeting" data-flash-focus-action="true">Reload</a>
-          </div>
-        </div>
-      `);
-      await ctx.nextFrame();
-
-      const flashItem = ctx.screen.getByTestId('flash-item');
-      await ctx.nextFrame();
-
-      expect(flashItem).toHaveFocus();
-      expect(flashItem).toHaveAttribute('aria-label', 'Meeting updated');
-    });
-
-    it('does not move focus for regular flash actions', async () => {
-      ctx.appendHTML(`
-        <button>Current action</button>
-        <div data-controller="flash">
-          <div data-flash-target="item" data-announcement="Saved">
-            Saved
-            <a href="/details">Details</a>
-          </div>
-        </div>
-      `);
-      const currentAction = ctx.screen.getByRole('button', { name: 'Current action' });
-      currentAction.focus();
-      await ctx.nextFrame();
-      await ctx.nextFrame();
-
-      expect(currentAction).toHaveFocus();
-    });
-
-    it('does not also announce focused flashes via the live region', async () => {
-      ctx.appendHTML(`
-        <div data-controller="flash">
-          <live-region data-testid="live-region"></live-region>
-          <div data-flash-target="item" data-announcement="Meeting updated" data-testid="flash-item">
-            Meeting updated
-            <a href="/meeting" data-flash-focus-action="true">Reload</a>
-          </div>
-        </div>
-      `);
-      const announceSpy:LiveRegionTestElement['announce'] = vi.fn((_message:string, _options:unknown) => undefined);
-      stubLiveRegionAnnouncement(announceSpy);
-      await ctx.nextFrame();
-      await ctx.nextFrame();
-
-      expect(ctx.screen.getByTestId('flash-item')).toHaveFocus();
-      expect(announceSpy).not.toHaveBeenCalled();
     });
   });
 

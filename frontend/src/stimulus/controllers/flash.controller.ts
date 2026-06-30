@@ -26,12 +26,8 @@ export default class FlashController extends ApplicationController {
   }
 
   itemTargetConnected(element:HTMLElement) {
-    const focusesFlash = this.focusRequestedFlash(element);
-
-    // Focused flashes announce themselves, and Tab then reaches the action.
-    if (!focusesFlash) {
-      this.announceFlash(element);
-    }
+    // Announce the flash message to screen readers via global live region
+    this.announceFlash(element);
 
     // Schedule auto-hide timer if enabled for both controller and individual element
     const autohide = element.dataset.autohide === 'true';
@@ -85,28 +81,6 @@ export default class FlashController extends ApplicationController {
 
       void announce(message, { politeness, from: element });
     }, LIVE_REGION_ANNOUNCEMENT_DELAY);
-  }
-
-  private focusRequestedFlash(element:HTMLElement) {
-    const action = element.querySelector<HTMLElement>('[data-flash-focus-action="true"]');
-    if (!action) {
-      return false;
-    }
-
-    element.setAttribute('tabindex', '-1');
-    if (element.dataset.announcement) {
-      element.setAttribute('aria-label', element.dataset.announcement);
-    }
-
-    window.requestAnimationFrame(() => {
-      if (!element.isConnected || !action.isConnected) {
-        return;
-      }
-
-      element.focus();
-    });
-
-    return true;
   }
 
   /**

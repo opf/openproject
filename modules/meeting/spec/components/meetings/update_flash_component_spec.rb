@@ -36,10 +36,17 @@ RSpec.describe Meetings::UpdateFlashComponent, type: :component do
   shared_let(:project) { create(:project, enabled_module_names: %w[meetings]) }
   let(:meeting) { create(:meeting, project:) }
 
-  it "marks the reload action as the flash focus target" do
+  it "renders a persistent reload action with a polite announcement" do
     render_inline(described_class.new(meeting))
 
     expect(page).to have_link(I18n.t("label_meeting_reload"), href: project_meeting_path(project, meeting))
-    expect(page).to have_css("a[data-flash-focus-action='true']", text: I18n.t("label_meeting_reload"))
+    expect(page).to have_css(
+      ".Banner-message + .Banner-actions a:not([tabindex])",
+      text: I18n.t("label_meeting_reload")
+    )
+    expect(page).to have_css(
+      ".op-primer-flash--item[data-politeness='polite'][data-announcement='#{I18n.t('notice_meeting_updated')}']"
+    )
+    expect(page).to have_no_button(I18n.t(:button_close))
   end
 end
