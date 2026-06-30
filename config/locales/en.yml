@@ -5278,7 +5278,7 @@ en:
     delete_sucessful: "The repository has been deleted."
     destroy_dialog:
       description: "The %{repository_type} repository at %{path} and all its contents will be permanently deleted."
-      description_not_managed: "The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of of this repository, as it is not managed by OpenProject."
+      description_not_managed: "The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject."
       heading: "Delete this %{repository_type}?"
       heading_not_managed: "Remove this linked %{repository_type}?"
       title: "Delete repository"
