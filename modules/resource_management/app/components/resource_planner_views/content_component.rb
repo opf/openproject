@@ -71,6 +71,12 @@ module ResourcePlannerViews
           project: @project,
           resource_planner: @resource_planner
         )
+      when ::ResourceUserTimeline
+        ResourcePlannerViews::UserTimeline::ContentComponent.new(
+          view: @view,
+          project: @project,
+          resource_planner: @resource_planner
+        )
       end
     end
 

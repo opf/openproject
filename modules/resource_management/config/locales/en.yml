@@ -197,6 +197,16 @@ en:
         blank: No working hours configured
         schedule_availability_compact: "%{schedule} (%{factor}% available)"
         schedule_change_compact: until %{date}, %{schedule}
+    user_timeline:
+      blank:
+        add_user: Add user
+        configure_view: Configure view
+        description: There are no users matching this view's filters yet.
+        manual_description: Add users to this view to see their allocation over time.
+        title: No users to display
+      subheader:
+        add_user: Add user
+        settings: Configure view
     view_types:
       resource_user_card:
         caption: >-
