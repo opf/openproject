@@ -43,10 +43,11 @@ export function getSizeFromCurrentBlock(editor:AnyEditor):InlineWpSize {
 }
 
 /**
- * Inserts a chip at the cursor and removes the `#query` trigger before it.
+ * Inserts a chip followed by a trailing space at the cursor and removes the
+ * `#query` trigger before it.
  *
- * The chip is inserted on its own (no trailing space): `insertInlineContent`
- * leaves the cursor directly after the chip, which is exactly where we want it.
+ * The chip and its trailing space are inserted together; `insertInlineContent`
+ * leaves the cursor directly after the space, which is exactly where we want it.
  * We deliberately avoid placing the cursor with a separate selection
  * transaction — under real-time collaboration (Yjs/Hocuspocus) any selection
  * change dispatched after the menu insertion leaves the editor in a state where
@@ -58,6 +59,7 @@ export function insertWpChip(editor:AnyEditor, wp:WorkPackage, size:InlineWpSize
 
   (editor.insertInlineContent as (content:unknown[]) => void)([
     { type: 'openProjectWorkPackageInline', props: { wpid: String(wp.id), instanceId, size, displayId: wp.displayId } },
+    { type: 'text', text: ' ', styles: {} },
   ]);
 
   removeTriggerBeforeChip(editor, instanceId);

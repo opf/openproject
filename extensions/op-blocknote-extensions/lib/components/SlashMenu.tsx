@@ -30,8 +30,8 @@ function buildOnSelect(
     // props in place. We use a ProseMirror `setNodeMarkup` transaction rather than
     // `editor.updateBlock` because updateBlock rebuilds the block and moves the
     // cursor to the block end, whereas setNodeMarkup maps the existing selection
-    // through unchanged — leaving the cursor directly after the chip (where the
-    // placeholder insertion left it). Crucially we do NOT dispatch a separate
+    // through unchanged — leaving the cursor directly after the chip's trailing
+    // space (where the placeholder insertion left it). Crucially we do NOT dispatch a separate
     // selection transaction to reposition the cursor: under real-time
     // collaboration (Yjs/Hocuspocus) a selection change issued after the menu
     // insertion leaves the editor in a state where the next native keyboard input
@@ -112,6 +112,7 @@ function insertInlineWorkPackage(editor:AnyEditor):void {
   try {
     (editor.insertInlineContent as (content:unknown[]) => void)([
       { type: 'openProjectWorkPackageInline', props: { wpid: pendingWpid, instanceId, size: 's' } },
+      { type: 'text', text: ' ', styles: {} },
     ]);
   } catch (error) {
     console.error('[inline-wp] insertInlineContent failed:', error);
