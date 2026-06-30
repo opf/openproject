@@ -91,6 +91,17 @@ class ResourceAllocation < ApplicationRecord
       .group_by(&:entity_id)
   end
 
+  # The `allocated` allocations for the given principals, grouped by principal
+  # id and with their entity and principal eager-loaded. Loaded once per page so
+  # the user-timeline resource cells (overbooking) and bars share a single query.
+  def self.allocated_for_principals(principals)
+    allocated
+      .where(principal_id: principals.map(&:id))
+      .includes(:entity, :principal)
+      .order(:id)
+      .group_by(&:principal_id)
+  end
+
   # The subset of the given allocations' principal ids that `user` may see.
   # Used to anonymise members the current user is not allowed to know about.
   def self.visible_principal_ids(allocations, user)
