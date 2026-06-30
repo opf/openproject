@@ -202,6 +202,10 @@ en:
         caption: >-
           Create a view based on users and see their details and allocation in a list of user cards
         label: Users card list
+      resource_user_timeline:
+        caption: >-
+          Create a view based on users and see their allocations over time on a timeline
+        label: Users timeline
       resource_work_package_list:
         caption: >-
           Create a view based on work packages and see its details and allocation in a list

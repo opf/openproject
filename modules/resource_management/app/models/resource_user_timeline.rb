@@ -28,11 +28,9 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ResourceUserCard < PersistedView
+# A planner view that renders its selected users on a timeline, one swimlane per
+# user with their resource allocations shown over time.
+class ResourceUserTimeline < PersistedView
   include ResourceManagement::Categorized
   include ResourceManagement::UserSelection
-
-  # Ordered list of field identifiers shown on each user card. Built-in keys
-  # ("department", "working_times") and custom field column names ("cf_<id>").
-  store_attribute :options, :card_fields, :json, default: %w[department working_times]
 end

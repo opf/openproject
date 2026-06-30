@@ -28,11 +28,30 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ResourceUserCard < PersistedView
-  include ResourceManagement::Categorized
-  include ResourceManagement::UserSelection
+require "spec_helper"
 
-  # Ordered list of field identifiers shown on each user card. Built-in keys
-  # ("department", "working_times") and custom field column names ("cf_<id>").
-  store_attribute :options, :card_fields, :json, default: %w[department working_times]
+RSpec.describe ResourceUserTimeline do
+  shared_let(:project) { create(:project) }
+  shared_let(:user) { create(:user) }
+  shared_let(:planner) { create(:resource_planner, project:, principal: user) }
+
+  it "is an allowed child of a resource planner" do
+    expect(ResourcePlanner.allowed_children).to include("ResourceUserTimeline")
+  end
+
+  it "persists as a child of a planner with a default user query" do
+    view = described_class.new(name: "Timeline", parent: planner, project:, principal: user)
+    view.query = view.build_default_query
+
+    expect(view.save).to be(true)
+    expect(view.query).to be_a(UserQuery)
+  end
+
+  it "rejects a non-user query" do
+    view = described_class.new(name: "Timeline", parent: planner, project:, principal: user)
+    view.query = Query.new(project:, user:)
+
+    expect(view).not_to be_valid
+    expect(view.errors).to be_added(:query, :invalid)
+  end
 end

@@ -28,11 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class ResourceUserCard < PersistedView
-  include ResourceManagement::Categorized
-  include ResourceManagement::UserSelection
-
-  # Ordered list of field identifiers shown on each user card. Built-in keys
-  # ("department", "working_times") and custom field column names ("cf_<id>").
-  store_attribute :options, :card_fields, :json, default: %w[department working_times]
+FactoryBot.define do
+  factory :resource_user_timeline, class: "ResourceUserTimeline" do
+    sequence(:name) { |n| "User timeline #{n}" }
+    project
+    principal factory: :user
+    parent factory: :resource_planner
+  end
 end
