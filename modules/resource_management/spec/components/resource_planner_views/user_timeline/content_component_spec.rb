@@ -67,6 +67,24 @@ RSpec.describe ResourcePlannerViews::UserTimeline::ContentComponent, type: :comp
       expect(el["#{prefix}-selection-param-value"]).to eq("principal_id")
       expect(el["#{prefix}-reload-event-name-value"]).to eq("op-dispatched:resource-allocations:changed")
     end
+
+    it "omits the range values when the planner has no date range" do
+      el = rendered.find("[data-controller='resource-management--resource-timeline']")
+      prefix = "data-resource-management--resource-timeline"
+
+      expect(el["#{prefix}-range-start-value"]).to be_blank
+      expect(el["#{prefix}-range-end-value"]).to be_blank
+    end
+
+    it "passes the planner's date range for the initial centring" do
+      planner.update!(start_date: Date.new(2026, 1, 1), end_date: Date.new(2026, 12, 31))
+
+      el = rendered.find("[data-controller='resource-management--resource-timeline']")
+      prefix = "data-resource-management--resource-timeline"
+
+      expect(el["#{prefix}-range-start-value"]).to eq("2026-01-01")
+      expect(el["#{prefix}-range-end-value"]).to eq("2026-12-31")
+    end
   end
 
   context "with no users" do
