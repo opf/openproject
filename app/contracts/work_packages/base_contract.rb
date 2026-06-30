@@ -411,15 +411,23 @@ module WorkPackages
     # the two must not contradict each other. This enforces both constraints of
     # that transitional period in one place:
     #   * target_versions still behaves as a single value (at most one entry), and
-    #   * a request may write either version_id or target_versions, but not both.
+    #   * version_id and target_versions may both be written in one request as
+    #     long as they agree; only an actual contradiction is rejected.
     def validate_target_versions_and_legacy_version_id
       return unless model.override_target_versions?
 
+      validate_target_versions_length
+      validate_version_and_target_version_not_contradict
+    end
+
+    def validate_target_versions_length
       if model.target_version_ids_replacements.length > 1
         errors.add :base, :target_versions_only_allow_single_value
       end
+    end
 
-      if model.version_id_changed?
+    def validate_version_and_target_version_not_contradict
+      if model.version_id_changed? && model.version_id != model.target_version_ids_replacements.first
         errors.add :base, :version_and_target_versions_mutually_exclusive
       end
     end

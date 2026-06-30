@@ -1267,6 +1267,19 @@ RSpec.describe WorkPackages::BaseContract do
         end
       end
 
+      context "when both are set to the same version" do
+        before do
+          work_package.version = assignable_version
+          work_package.target_version_ids_replacements = [assignable_version.id]
+          contract.validate
+        end
+
+        it "is valid (a consistent write is allowed)" do
+          expect(contract.errors.symbols_for(:base))
+            .not_to include(:version_and_target_versions_mutually_exclusive)
+        end
+      end
+
       context "when only one type of version changed" do
         it "is valid for version" do
           work_package.version = assignable_version
