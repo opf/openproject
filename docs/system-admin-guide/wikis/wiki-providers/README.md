@@ -10,7 +10,7 @@ keywords: wikis, xwiki, wiki integration, wiki provider, external wiki
 
 You can connect your OpenProject instance to external wiki providers. To do so, navigate to *Administration → Wikis →
 Wiki providers*. Here all configured wiki providers are listed. With the *+ Wiki provider* button, you can add a new
-wiki provider from the list of supported instances.
+wiki provider from the list of supported options.
 
 > *Insert a screenshot from the index page*
 
@@ -21,7 +21,7 @@ Once a wiki provider is configured, it will be available globally in the whole O
 | [XWiki](#xwiki)                                                    | Section about configuration of XWiki providers   |
 | [XWiki: Set up](#set-up-the-xwiki-provider)                        | How to set up an XWiki provider                  |
 | [XWiki: Replacing authentication](#replace-authentication-details) | Replacing authentication details and its effects |
-| [Deleting a wiki provider](#deleting-a-wiki-provider)              | Effects of removing a wiki provider              |
+| [Delete a wiki provider](#delete-a-wiki-provider)                  | Effects of removing a wiki provider              |
 
 ## XWiki
 
@@ -37,7 +37,7 @@ OpenProject offers an integration with XWiki to allow users to:
 ### Set up the XWiki provider
 
 > [!IMPORTANT]
-> You need to have administrator privileges in your XWiki and OpenProject instances to set up this integration.
+> You need to have administrator privileges both in your XWiki and OpenProject instances to set this integration up.
 
 #### 1. Install the OpenProject plugin in XWiki
 
@@ -48,19 +48,19 @@ Start by opening the XWiki instance as an administrator. Click on the *Drawer* a
 
 #### 2. Create the XWiki provider in OpenProject
 
-Navigate to the OpenProject administration settings page. In the side menu on the left select *Wikis → Wiki providers*.
-Click on the **+ Wiki provider** button and select **XWiki**.
+Navigate to the OpenProject administration settings page. In the left hand menu select *Wikis → Wiki providers*.
+Click the **+ Wiki provider** button and select **XWiki**.
 
 > *Screenshot of creation button*
 
 A new page titled **New XWiki provider** will appear, where you will be able to configure your XWiki instance.
 
-First, choose a **Name** for the XWiki provider. This name will show up when linking pages from this XWiki instance in
+First, choose a **Name** for the XWiki provider. This name will be shown when linking pages from this XWiki instance in
 OpenProject.
 
 Then, enter the **Instance URL** of your XWiki instance. This URL will be checked on submitting this form.
 
-Last, choose the **Authentication method**. This determines how OpenProject user will connect their user accounts to
+Lastly, choose the **Authentication method**. This determines how OpenProject users will connect their user accounts to
 their XWiki accounts. Additional information is provided in the next step.
 
 > *Screenshot of the fist step*
@@ -68,7 +68,7 @@ their XWiki accounts. Additional information is provided in the next step.
 #### 3. Configure authentication credentials
 
 Depending on which authentication method you chose in the previous step, this configuration step differs. Currently,
-OpenProject supports the following authentication methods:
+OpenProject supports only a single authentication method:
 
 - **Two-way OAuth 2.0 authorization code flow**
 
@@ -84,8 +84,8 @@ configuration page is displayed in a banner above.
 > *Screenshot of the first state of the authentication step*
 
 Once this is done, click on **Done, continue** and the next step is shown, where a **Client ID** and **Client secret**
-are generated to be used for the XWiki OAuth client configuration. Those values are just examples – if needed, you can
-change them. The generated secret fulfills all requirements to be considered secure. Copy the all values, including the
+are generated to be used for the XWiki OAuth client configuration. These values are just examples – if needed, you can
+change them. The generated secret fulfills all requirements to be considered secure. Copy all the values, including the
 **Redirect URI**, to your clipboard and insert them in the corresponding form at the XWiki instance. A link will be
 displayed again above the form.
 
@@ -97,7 +97,7 @@ details page will be shown.
 ### Replace authentication details
 
 If authentication credentials are lost, leaked, or need to be rerolled, you can replace them by clicking on the name of
-an XWiki provider. This will open the details page of the provider. Click on the **Replace** next to the configuration
+an XWiki provider. This will open the details page of the provider. Click **Replace** next to the configuration
 entry. The replacement action is available separately for each pair of credentials and will generate new credentials
 after confirming the destructive action. As described in the
 section [Two-way OAuth 2.0 authorization code flow](#two-way-oauth-20-authorization-code-flow) you will have to copy the
@@ -108,11 +108,12 @@ new values over to the corresponding XWiki forms.
 > the Wiki OAuth credentials, the connection from the OpenProject account to the XWiki account is lost and has to be
 > reconnected.
 
-## Deleting a wiki provider
+## Delete a wiki provider
 
 You can delete a wiki provider by clicking on the provider's name in the list. This will open the details page of the
-provider. In here, you click on the **Delete** button in the top right corner.
+provider. There you can click the **Delete** button in the top right corner.
 
-Deleting a wiki provider will remove all wiki page links created as relation for a work package. In addition, all wiki
-page links that are mentioned in rich text areas will show an error, as OpenProject will no longer be able to fetch
-information about the linked wiki page.
+> [!IMPORTANT]
+> Deleting a wiki provider will remove all wiki page links created as relation for a work package. In addition, all wiki
+> page links that are mentioned in rich text areas will show an error, as OpenProject will no longer be able to fetch
+> information about the linked wiki page.

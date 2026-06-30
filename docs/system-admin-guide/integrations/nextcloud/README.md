@@ -24,7 +24,7 @@ keywords: Nextcloud file storage integration
 OpenProject offers close integration with Nextcloud to allow users to:
 
 - Link files and folders stored in Nextcloud with OpenProject work packages
-- View, open, and download files and folder linked to a work package via the Files tab
+- View, open, and download files and folders linked to a work package via the Files tab
 - View all work packages linked to a file
 - View OpenProject notifications via the Nextcloud dashboard
 
@@ -84,7 +84,9 @@ Click on **+ Storage** to add a new file storage.
 
 A new page titled **New Nextcloud storage** will appear, where you will be able to configure your new Nextcloud storage.
 
-Give a **Name** to this new storage. This will be visible to all users in all projects using this file storage. We highly recommended choosing a distinct name that allows users to differentiate it from any other file storages you may add in the future.
+Give a **Name** to this new storage. This will be visible to users in all projects using this file storage. We highly
+recommended choosing a distinct name that allows users to differentiate it from any other file storages you may add in
+the future.
 
 Next, enter the **Host** of your Nextcloud instance. This is simply the address of your Nextcloud instance, including the "https://".
 
