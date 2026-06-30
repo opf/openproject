@@ -37,6 +37,7 @@ const NON_DEFAULT_FILTER_MODES = new Set(['favorited']);
 export default class HeaderProjectSelectController extends Controller {
   connect():void {
     this.element.addEventListener('click', this.onFilterModeClick);
+    this.element.addEventListener('keydown', this.onKeydown);
 
     // Before the overlay becomes visible, inject the stored filter mode into
     // the turbo-frame src so the server renders the correct initial state.
@@ -55,6 +56,7 @@ export default class HeaderProjectSelectController extends Controller {
 
   disconnect():void {
     this.element.removeEventListener('click', this.onFilterModeClick);
+    this.element.removeEventListener('keydown', this.onKeydown);
   }
 
   private onBeforeFirstOpen = ():void => {
@@ -95,6 +97,23 @@ export default class HeaderProjectSelectController extends Controller {
   private scrollCurrentProjectIntoView = ():void => {
     const current = this.element.querySelector<HTMLElement>('[role="treeitem"][aria-current="true"]');
     current?.scrollIntoView({ block: 'center' });
+  };
+
+  private onKeydown = (event:KeyboardEvent):void => {
+    if (event.key !== 'Enter') return;
+    const target = event.target as HTMLElement;
+    if (target.tagName !== 'INPUT') return;
+
+    const links = this.element.querySelectorAll<HTMLAnchorElement>(
+      'a[role="treeitem"][href]:not([aria-disabled="true"])',
+    );
+    for (const link of links) {
+      if (!link.closest('[hidden]')) {
+        event.preventDefault();
+        link.click();
+        return;
+      }
+    }
   };
 
   private onFilterModeClick = (event:MouseEvent):void => {
