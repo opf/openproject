@@ -100,7 +100,7 @@ module JournalFormatter
     hash[journal_data_type] = {}
   end
 
-  def render_detail(detail, options = {})
+  def render_detail(detail, options = {}) # rubocop:disable Metrics/AbcSize
     options = options.reverse_merge(html: true, only_path: true, cache: JournalFormatterCache.request_instance)
 
     if detail.respond_to? :to_ary
