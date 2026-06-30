@@ -1311,7 +1311,7 @@ GEM
     responders (3.2.0)
       actionpack (>= 7.0)
       railties (>= 7.0)
-    retriable (4.1.0)
+    retriable (4.2.0)
     rexml (3.4.4)
     rinku (2.0.6)
     roar (1.2.0)
@@ -1742,7 +1742,7 @@ DEPENDENCIES
   redis (~> 5.4.0)
   request_store (~> 1.7.0)
   responders (~> 3.2)
-  retriable (~> 4.1.0)
+  retriable (~> 4.2.0)
   rinku (~> 2.0.4)
   roar (~> 1.2.0)
   rouge (~> 4.7.0)
@@ -2228,7 +2228,7 @@ CHECKSUMS
   representable (3.2.0) sha256=cc29bf7eebc31653586849371a43ffe36c60b54b0a6365b5f7d95ec34d1ebace
   request_store (1.7.0) sha256=e1b75d5346a315f452242a68c937ef8e48b215b9453a77a6c0acdca2934c88cb
   responders (3.2.0) sha256=89c2d6ac0ae16f6458a11524cae4a8efdceba1a3baea164d28ee9046bd3df55a
-  retriable (4.1.0) sha256=1de1000696e3ddeca688a12be9a2e8042226ca36f7446d18c7ed451f2878ece7
+  retriable (4.2.0) sha256=90c3b257472a1c02f2a3dfa64dd35a420f7a624cef1a5981e20fdac5730f8cdc
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
   rinku (2.0.6) sha256=8b60670e3143f3db2b37efa262971ce3619ec23092045498ef9f077d82828d7d
   roar (1.2.0) sha256=8db4d1ca79c57a5fb746c16c0d5661d7c3e0de3d9553dc016a88d2dba2929d08

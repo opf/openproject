@@ -42,6 +42,15 @@ export default class HeaderProjectSelectController extends Controller {
     // the turbo-frame src so the server renders the correct initial state.
     const popover = this.element.closest<HTMLElement>('[popover]');
     popover?.addEventListener('beforetoggle', this.onBeforeFirstOpen, { once: true });
+
+    // After the outer Turbo frame loads the FilterableTreeView shell, that component
+    // makes a second fetch() of its own to populate the tree. We observe aria-busy on
+    // the filterable-tree-view element: when it transitions from "true" → "false" the
+    // tree is in the DOM and we can scroll the current project into view.
+    // { once: true } on the frame event ensures we only attach the observer on the
+    // initial open, not on subsequent search-driven reloads of the outer frame.
+    const frame = this.element.querySelector('turbo-frame#op-header-project-frame');
+    frame?.addEventListener('turbo:frame-load', this.observeFilterableTreeViewLoad, { once: true });
   }
 
   disconnect():void {
@@ -61,6 +70,31 @@ export default class HeaderProjectSelectController extends Controller {
     const url = new URL(src, window.location.href);
     url.searchParams.set('filter_mode', stored);
     frame.setAttribute('src', url.toString());
+  };
+
+  private observeFilterableTreeViewLoad = ():void => {
+    const filterableTreeView = this.element.querySelector('filterable-tree-view');
+    if (!filterableTreeView) return;
+
+    const observer = new MutationObserver(() => {
+      this.onTreeViewLoadFinished(filterableTreeView, observer);
+    });
+
+    observer.observe(filterableTreeView, { attributes: true, attributeFilter: ['aria-busy'] });
+    // Also check immediately in case aria-busy is already "false" when the observer is attached
+    this.onTreeViewLoadFinished(filterableTreeView, observer);
+  };
+
+  private onTreeViewLoadFinished(filterableTreeView:Element, observer:MutationObserver):void {
+    if (filterableTreeView.getAttribute('aria-busy') === 'false') {
+      observer.disconnect();
+      this.scrollCurrentProjectIntoView();
+    }
+  }
+
+  private scrollCurrentProjectIntoView = ():void => {
+    const current = this.element.querySelector<HTMLElement>('[role="treeitem"][aria-current="true"]');
+    current?.scrollIntoView({ block: 'center' });
   };
 
   private onFilterModeClick = (event:MouseEvent):void => {
