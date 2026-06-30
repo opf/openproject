@@ -370,7 +370,7 @@ module Components
         end
       end
 
-      def filter_journals(filter)
+      def filter_journals(filter, sorting: :asc)
         retry_block do
           wait_for_turbo_stream do
             page.find_test_selector("op-wp-journals-filter-menu").click
@@ -384,6 +384,12 @@ module Components
               page.find_test_selector("op-wp-journals-filter-show-only-changes").click
             end
           end
+
+          # Block until the journals wrapper actually reflects the requested
+          # filter. A bare wait_for_turbo_stream can be satisfied early by a
+          # concurrent activity-poll stream, returning while the DOM still
+          # shows the previous filter. Mirrors set_journal_sorting.
+          expect(page).to have_test_selector("op-wp-journals-#{filter}-#{sorting}", wait: 10)
         end
       end
 
