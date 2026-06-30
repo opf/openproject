@@ -433,12 +433,16 @@ module WorkPackages
     end
 
     def validate_target_versions_are_assignable
+      return if model.target_version_ids_replacements.nil?
+
       validate_version_ids_assignable(model.target_version_ids_replacements,
                                       :target_versions,
                                       assignable_target_versions)
     end
 
     def validate_observed_in_versions_are_assignable
+      return if model.observed_in_version_ids_replacements.nil?
+
       validate_version_ids_assignable(model.observed_in_version_ids_replacements,
                                       :observed_in_versions,
                                       assignable_observed_in_versions)
