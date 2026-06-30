@@ -89,27 +89,15 @@ export const WorkPackageStatus = styled.span.attrs({
       font-weight: 600;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
     `}
 `;
 
 export const WorkPackageTitle = styled.span.attrs({
   className: 'op-bn-work-package--title',
-})<{ $compact?:boolean }>`
+})`
   color: var(--bn-colors-editor-text);
   font-weight: 500;
   overflow-wrap: anywhere;
-
-  ${({ $compact }) =>
-    $compact &&
-    css`
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--bn-colors-highlights-blue-text);
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    `}
 `;
 
 export const WorkPackageTitleLink = styled.a<{ $compact?:boolean }>`
