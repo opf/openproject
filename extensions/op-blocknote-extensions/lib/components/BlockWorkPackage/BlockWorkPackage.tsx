@@ -9,6 +9,7 @@ import { convertBlockToInlineChip } from '../../utils/inlineChipActions';
 import type { WorkPackage } from '../../openProjectTypes';
 import type { InlineWpSize, BlockWpSize } from '../WorkPackage/types';
 import type { BlockWorkPackageProps } from './types';
+import { EyeClosedIcon, AlertIcon } from '@primer/octicons-react';
 import { BlockCard } from './BlockCard';
 import { UnavailableCard } from '../WorkPackage/UnavailableCard';
 import { WpOptionsPopover } from '../WorkPackage/OptionsPopover';
@@ -156,12 +157,14 @@ export const BlockWorkPackageComponent = ({
             )}
             {!workPackageResult.loading && workPackageResult.error && (
               <UnavailableCard
+                icon={<AlertIcon size={16} />}
                 header={t('unavailableWorkPackage.error.header')}
                 message={t('unavailableWorkPackage.error.message')}
               />
             )}
             {!workPackageResult.loading && !workPackageResult.error && workPackageResult.unauthorized && (
               <UnavailableCard
+                icon={<EyeClosedIcon size={16} />}
                 header={t('unavailableWorkPackage.unauthorized.header')}
                 message={t('unavailableWorkPackage.unauthorized.message')}
               />

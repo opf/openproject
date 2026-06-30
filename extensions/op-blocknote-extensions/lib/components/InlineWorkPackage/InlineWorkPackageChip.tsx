@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import styled, { css } from 'styled-components';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { useColors } from '../../services/colors';
@@ -16,6 +16,7 @@ import {
   removeInlineChipAt,
   promoteInlineChipToBlockAt,
 } from '../../utils/inlineChipActions';
+import { EyeClosedIcon, AlertIcon } from '@primer/octicons-react';
 import { BlockCard } from '../BlockWorkPackage/BlockCard';
 import { useTranslation } from 'react-i18next';
 import { defaultWpVariables } from '../WorkPackage/atoms';
@@ -34,6 +35,18 @@ export interface InlineWorkPackageChipProps {
     props:{ wpid:string; size:string; displayId:string };
   }) => void;
 }
+
+const UnavailableIcon = styled.span`
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 0;
+`;
+
+const UnavailableLabel = styled.span`
+  color: var(--bn-colors-editor-text);
+  font-size: ${CHIP_STYLES.fontSize};
+  vertical-align: middle;
+`;
 
 const InlineChip = styled.span.attrs({
   className: 'op-bn-inline-wp',
@@ -70,7 +83,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
 
   useColors();
 
-  const { workPackage: wp, loading } = useWorkPackage(wpid);
+  const { workPackage: wp, loading, unauthorized, error } = useWorkPackage(wpid);
 
   useEffect(() => {
     if (!wp || !updateInlineContent) return;
@@ -180,7 +193,19 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     );
   }
 
-  // Error / unknown
+  const unavailableWorkPackage = (icon:ReactNode, label:string) => (
+    <InlineChip ref={setRef} data-drag-handle selected={isEditorSelected}>
+      <ChipBase>
+        <UnavailableIcon>{icon}</UnavailableIcon>
+        <UnavailableLabel>{label}</UnavailableLabel>
+      </ChipBase>
+    </InlineChip>
+  );
+
+  if (wpid && unauthorized) return unavailableWorkPackage(<EyeClosedIcon size={12} />, t('unavailableWorkPackage.unauthorized.chip'));
+  if (wpid && error) return unavailableWorkPackage(<AlertIcon size={12} />, t('unavailableWorkPackage.error.chip'));
+
+  // Unknown / transitional
   if (wpid) {
     return (
       <InlineChip ref={setRef} data-drag-handle selected={isEditorSelected} style={{ opacity: 0.6 }}>

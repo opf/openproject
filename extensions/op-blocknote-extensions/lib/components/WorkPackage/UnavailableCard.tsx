@@ -1,9 +1,12 @@
+import type { ReactNode } from 'react';
 import styled from 'styled-components';
 import { defaultWpVariables } from './atoms';
+import { CHIP_STYLES } from './tokens';
 
 interface UnavailableCardProps {
   header:string;
   message:string;
+  icon?:ReactNode;
 }
 
 const UnavailableWorkPackage = styled.div.attrs({
@@ -26,12 +29,16 @@ const UnavailableMessageHeader = styled.div.attrs({
 })`
   font-weight: 600;
   color: var(--bn-colors-editor-text) !important;
+  display: flex;
+  align-items: center;
+  gap: ${CHIP_STYLES.gap};
 `;
 
-export const UnavailableCard = ({ header, message }:UnavailableCardProps) => (
+export const UnavailableCard = ({ header, message, icon }:UnavailableCardProps) => (
   <UnavailableWorkPackage>
     <UnavailableMessage>
       <UnavailableMessageHeader>
+        {icon}
         {header}
       </UnavailableMessageHeader>
       {message}
