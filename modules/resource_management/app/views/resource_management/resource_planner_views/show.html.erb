@@ -29,12 +29,8 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title @resource_planner.name, t(:label_resource_management) %>
 
-<%# The timeline fills the remaining viewport height; other views keep their
-    natural page-scrolling flow. %>
-<% fill_height = @view.timeline? %>
-<div class="op-rm-planner-page <%= "op-rm-planner-page--fill" if fill_height %>">
+<div class="op-rm-planner-page <%= "op-rm-planner-page--fill" if @view&.timeline? %>">
   <%= render(ResourcePlanners::ShowPageHeaderComponent.new(resource_planner: @resource_planner, project: @project)) %>
-
   <%= render(ResourcePlanners::SubViewsComponent.new(resource_planner: @resource_planner, selected_view: @view)) %>
 <%#
   Reloadable frame so allocation changes made in the dialogs refresh the content
