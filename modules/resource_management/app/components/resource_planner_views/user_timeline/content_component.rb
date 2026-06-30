@@ -29,10 +29,14 @@
 #++
 
 module ResourcePlannerViews::UserTimeline
-  # Renders the user timeline: the toolbar plus one swimlane per selected user.
-  # The interactive FullCalendar timeline is mounted into the swimlane area in a
-  # later step; for now the swimlanes are rendered server-side.
+  # The container the shared resource-timeline FullCalendar controller mounts
+  # into, rendering one swimlane per user. Bulk data comes from the feed
+  # endpoints; only small config travels inline. Mirrors
+  # WorkPackageTimeline::ContentComponent with the user feeds and a user-row
+  # selection param.
   class ContentComponent < ApplicationComponent
+    include ResourcePlannerViews::Timeline::Content
+
     def initialize(view:, project:, resource_planner:)
       super
 
@@ -47,6 +51,28 @@ module ResourcePlannerViews::UserTimeline
       @users ||= @view.results.to_a
     end
 
+    def timeline_test_selector
+      "resource-user-timeline"
+    end
+
+    def timeline_empty?
+      users.empty?
+    end
+
+    def timeline_feed_values
+      {
+        "resources-url" => helpers.project_resource_planner_view_user_timeline_resources_path(
+          @project, @resource_planner, @view, format: :json
+        ),
+        "events-url" => helpers.project_resource_planner_view_user_timeline_events_path(
+          @project, @resource_planner, @view, format: :json
+        ),
+        # A date-range selection on a user row pre-fills that user (principal) on
+        # the new-allocation dialog.
+        "selection-param" => "principal_id"
+      }
+    end
+
     def blank_description
       key = @view.manually_picked? ? "manual_description" : "description"
       t("resource_management.user_timeline.blank.#{key}")
@@ -54,10 +80,6 @@ module ResourcePlannerViews::UserTimeline
 
     def add_user_path
       helpers.new_user_project_resource_planner_view_path(@project, @resource_planner, @view)
-    end
-
-    def configure_view_path
-      helpers.edit_project_resource_planner_view_path(@project, @resource_planner, @view)
     end
   end
 end

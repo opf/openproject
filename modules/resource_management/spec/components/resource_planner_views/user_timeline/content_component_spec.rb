@@ -55,9 +55,17 @@ RSpec.describe ResourcePlannerViews::UserTimeline::ContentComponent, type: :comp
 
   context "with selected users" do
     # An automatic view resolves to the project members, so `user` shows up.
-    it "renders one swimlane per user" do
-      expect(rendered).to have_css("[data-test-selector='resource-user-timeline']")
-      expect(rendered).to have_css("[data-test-selector='user-swimlane'][data-user-id='#{user.id}']", text: user.name)
+    it "mounts the resource-timeline controller with the user feeds and a principal selection param" do
+      el = rendered.find("[data-controller='resource-management--resource-timeline']")
+      prefix = "data-resource-management--resource-timeline"
+
+      expect(el["#{prefix}-resources-url-value"])
+        .to eq(project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json))
+      expect(el["#{prefix}-events-url-value"])
+        .to eq(project_resource_planner_view_user_timeline_events_path(project, planner, view, format: :json))
+      expect(el["#{prefix}-initial-view-value"]).to eq("resourceTimelineDays")
+      expect(el["#{prefix}-selection-param-value"]).to eq("principal_id")
+      expect(el["#{prefix}-reload-event-name-value"]).to eq("op-dispatched:resource-allocations:changed")
     end
   end
 
@@ -70,7 +78,8 @@ RSpec.describe ResourcePlannerViews::UserTimeline::ContentComponent, type: :comp
         Member.where(project:, principal: user).destroy_all
       end
 
-      it "shows a blankslate offering to configure the view" do
+      it "mounts no calendar controller, showing a blankslate instead" do
+        expect(rendered).to have_no_css("[data-controller='resource-management--resource-timeline']")
         expect(rendered).to have_css(".blankslate")
         expect(rendered).to have_text("No users to display")
         expect(rendered).to have_css(

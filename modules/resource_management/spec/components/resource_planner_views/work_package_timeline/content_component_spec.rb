@@ -44,8 +44,8 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::ContentComponent, type
   it "renders the calendar container with feed urls and the initial view" do
     render_inline(described_class.new(view:, project:, resource_planner: planner, work_packages: [work_package]))
 
-    el = page.find("[data-controller='resource-management--work-package-timeline']")
-    prefix = "data-resource-management--work-package-timeline"
+    el = page.find("[data-controller='resource-management--resource-timeline']")
+    prefix = "data-resource-management--resource-timeline"
     expect(el["#{prefix}-resources-url-value"]).to be_present
     expect(el["#{prefix}-events-url-value"]).to be_present
     expect(el["#{prefix}-initial-view-value"]).to eq("resourceTimelineDays")
@@ -56,7 +56,7 @@ RSpec.describe ResourcePlannerViews::WorkPackageTimeline::ContentComponent, type
     it "mounts no calendar controller, showing a blankslate instead" do
       render_inline(described_class.new(view:, project:, resource_planner: planner, work_packages: []))
 
-      expect(page).to have_no_css("[data-controller='resource-management--work-package-timeline']")
+      expect(page).to have_no_css("[data-controller='resource-management--resource-timeline']")
       expect(page).to have_css(".blankslate")
       expect(page).to have_text("No work packages to display")
     end

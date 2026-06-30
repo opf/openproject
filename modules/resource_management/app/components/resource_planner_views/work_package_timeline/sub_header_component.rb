@@ -44,11 +44,11 @@ module ResourcePlannerViews::WorkPackageTimeline
     private
 
     def granularities
-      Granularity::VIEWS
+      ResourcePlannerViews::Timeline::Granularity::VIEWS
     end
 
     def default_granularity_key
-      Granularity::DEFAULT
+      ResourcePlannerViews::Timeline::Granularity::DEFAULT
     end
 
     # The Stimulus controller is owned by ContentComponent, which mounts it.
