@@ -141,5 +141,23 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
       expect(page).to have_no_element(:"opce-burndown-chart")
       expect(page).to have_text("No burndown data available")
     end
+
+    context "when the user has create_sprints permission" do
+      let(:permissions) { %i[view_sprints view_work_packages show_board_views create_sprints] }
+
+      it "shows an edit sprint link in the blankslate" do
+        visit_widget(sprint)
+
+        expect(page).to have_link("Edit sprint")
+      end
+    end
+
+    context "when the user lacks create_sprints permission" do
+      it "hides the edit sprint link" do
+        visit_widget(sprint)
+
+        expect(page).to have_no_link("Edit sprint")
+      end
+    end
   end
 end

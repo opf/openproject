@@ -133,6 +133,7 @@ en:
     burndown_chart:
       show:
         blankslate_description: "A sprint start and end date is necessary to generate a burndown chart."
+        blankslate_edit_sprint: "Edit sprint"
         blankslate_title: "No burndown data available"
 
     excluded_work_package_types_caption: >

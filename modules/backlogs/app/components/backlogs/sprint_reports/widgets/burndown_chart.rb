@@ -57,6 +57,10 @@ module Backlogs
 
           @burndown ||= Burndown.new(sprint, project)
         end
+
+        def show_sprint_edit_action?
+          current_user.allowed_in_project?(:create_sprints, project)
+        end
       end
     end
   end

@@ -99,4 +99,34 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
       end
     end
   end
+
+  describe "sprint edit from the burndown chart widget" do
+    let(:permissions) { %i[view_sprints view_work_packages show_board_views create_sprints] }
+    let(:sprint) do
+      create(:sprint, project:, name: "Sprint 42", start_date: nil, finish_date: nil)
+    end
+
+    before { visit project_backlogs_sprint_report_path(project, sprint) }
+
+    it "reloads the page header and shows the burndown chart after saving sprint dates" do
+      within "turbo-frame##{Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID}" do
+        click_on "Edit sprint"
+      end
+
+      within_dialog "Edit sprint" do
+        fill_in "Sprint name", with: "Sprint 42 Updated"
+        fill_in "Start date", with: "2025-10-01"
+        fill_in "Finish date", with: "2025-10-15"
+        click_on "Save"
+      end
+
+      expect_and_dismiss_flash(exact_message: "Successful update.")
+      expect(page).to have_heading("Sprint 42 Updated report", level: 2)
+
+      within "turbo-frame##{Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID}" do
+        expect(page).to have_element(:"opce-burndown-chart")
+        expect(page).to have_no_link("Edit sprint")
+      end
+    end
+  end
 end

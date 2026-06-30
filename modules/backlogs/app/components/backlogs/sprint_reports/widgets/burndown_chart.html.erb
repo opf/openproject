@@ -39,6 +39,18 @@ See COPYRIGHT and LICENSE files for more details.
           blankslate.with_visual_icon(icon: :graph)
           blankslate.with_heading(tag: :h3).with_content(t("backlogs.burndown_chart.show.blankslate_title"))
           blankslate.with_description_content(t("backlogs.burndown_chart.show.blankslate_description"))
+
+          if show_sprint_edit_action?
+            blankslate.with_primary_action(
+              href: edit_dialog_project_backlogs_sprint_path(project, sprint),
+              data: { turbo: true,
+                      controller: "async-dialog" }
+            ) do |button|
+              button.with_leading_visual_icon(icon: :pencil)
+
+              t("backlogs.burndown_chart.show.blankslate_edit_sprint")
+            end
+          end
         end
       end
     end

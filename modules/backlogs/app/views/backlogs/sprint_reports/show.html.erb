@@ -29,9 +29,17 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title t("backlogs.sprint_reports.page_header_component.title", sprint: @sprint.name) %>
 
-<%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
+<%= turbo_frame_tag "sprint-report-content",
+                    refresh: :morph,
+                    data: {
+                      controller: "reload-frame-on-event",
+                      "reload-frame-on-event-event-name-value": "op-dispatched:backlogs:sprint-updated",
+                      "reload-frame-on-event-url-value": project_backlogs_sprint_report_path(@project, @sprint)
+                    } do %>
+  <%= render(Backlogs::SprintReports::PageHeaderComponent.new(sprint: @sprint, project: @project)) %>
 
-<section class="widget-boxes op-sprint-report__widgets">
-  <%= turbo_frame_tag Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID,
-                      src: project_backlogs_sprint_report_burndown_chart_widget_path(@project, @sprint) %>
-</section>
+  <section class="widget-boxes op-sprint-report__widgets">
+    <%= turbo_frame_tag Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID,
+                        src: project_backlogs_sprint_report_burndown_chart_widget_path(@project, @sprint) %>
+  </section>
+<% end %>
