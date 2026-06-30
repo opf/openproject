@@ -63,8 +63,8 @@ const DEFAULT_GRANULARITY_VIEW = GRANULARITY_VIEWS.resourceTimelineDays;
 // row per work package, the user timeline one row per user. Everything else —
 // feeds, navigation, granularity, background spans — is identical, so a single
 // controller drives both. The only behavioural difference is which query param
-// a date-range selection pre-fills on the new-allocation dialog, configured via
-// the `selectionParam` value.
+// a date-range selection pre-fills on the new-allocation dialog, which each view
+// passes explicitly through the `selectionParam` value.
 export default class ResourceTimelineController extends Controller {
   static targets = ['calendar', 'granularityButton'];
 
@@ -77,9 +77,7 @@ export default class ResourceTimelineController extends Controller {
     initialView: String,
     newAllocationUrl: String,
     reloadEventName: String,
-    // The dialog param the selected resource's id is passed as, e.g.
-    // `work_package_id` (work-package rows) or `principal_id` (user rows).
-    selectionParam: { type: String, default: 'work_package_id' },
+    selectionParam: String,
   };
 
   declare readonly calendarTarget:HTMLElement;

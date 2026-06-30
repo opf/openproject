@@ -62,8 +62,10 @@ module ResourcePlannerViews
           ),
           "events-url" => helpers.project_resource_planner_view_work_package_timeline_events_path(
             @project, @resource_planner, @view, format: :json
-          )
-          # No selection-param: work-package rows use the controller's default.
+          ),
+          # A date-range selection on a work-package row pre-fills that work
+          # package on the new-allocation dialog.
+          "selection-param" => "work_package_id"
         }
       end
 
