@@ -43,8 +43,8 @@ export function getSizeFromCurrentBlock(editor:AnyEditor):InlineWpSize {
 }
 
 /**
- * Inserts a chip followed by a trailing space at the cursor and removes the
- * `#query` trigger before it.
+ * Inserts a chip followed by a trailing space at the cursor, then removes any
+ * leftover trigger hashes immediately before it.
  *
  * The chip and its trailing space are inserted together; `insertInlineContent`
  * leaves the cursor directly after the space, which is exactly where we want it.
@@ -67,14 +67,8 @@ export function insertWpChip(editor:AnyEditor, wp:WorkPackage, size:InlineWpSize
 }
 
 /**
- * Trims the trailing `#query` trigger from the text node directly before the chip.
- *
- * Implemented with a ProseMirror delete transaction rather than `editor.updateBlock`.
- * updateBlock rebuilds the whole block and moves the cursor to the block end, which
- * would leave the caret in the wrong place after insertion. A delete maps the existing
- * selection through unchanged, so the caret stays directly after the chip — and we
- * never dispatch a separate selection transaction, which under real-time collaboration
- * (Yjs/Hocuspocus) would cause the following keyboard input to be silently dropped.
+ * Removes the leftover trigger hashes (`#`/`##`) that BlockNote's suggestion menu
+ * leaves directly before the chip for `##`/`###` triggers.
  */
 export function removeTriggerBeforeChip(editor:AnyEditor, instanceId:string):void {
   const { doc } = editor.prosemirrorState;
@@ -93,7 +87,7 @@ export function removeTriggerBeforeChip(editor:AnyEditor, instanceId:string):voi
   const nodeBeforeChip = doc.resolve(chipStart).nodeBefore;
   if (!nodeBeforeChip?.isText || nodeBeforeChip.text == null) return;
 
-  const match = /#+\S*$/.exec(nodeBeforeChip.text);
+  const match = /#+$/.exec(nodeBeforeChip.text);
   if (!match) return;
 
   const triggerStart = chipStart - (nodeBeforeChip.text.length - match.index);

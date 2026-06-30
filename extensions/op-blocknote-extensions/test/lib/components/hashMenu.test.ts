@@ -72,7 +72,10 @@ describe('getSizeFromCurrentBlock', () => {
 });
 
 describe('removeTriggerBeforeChip', () => {
-  it('removes the trailing # before the chip', () => {
+  // BlockNote's suggestion menu removes the active `#query`; this function only
+  // strips the leftover bare trigger hashes it leaves for `##`/`###`.
+
+  it('removes a single leftover # before the chip', () => {
     const editor = createEditorWithContent([
       { type: 'text', text: 'Hello #', styles: {} },
       {
@@ -87,7 +90,7 @@ describe('removeTriggerBeforeChip', () => {
     expect((block?.content as any)[0].text).toBe('Hello ');
   });
 
-  it('removes multiple trailing hashes (##, ###) before the chip', () => {
+  it('removes multiple leftover hashes (##, ###) before the chip', () => {
     const editor = createEditorWithContent([
       { type: 'text', text: 'Hello ###', styles: {} },
       {
@@ -102,7 +105,7 @@ describe('removeTriggerBeforeChip', () => {
     expect((block?.content as any)[0].text).toBe('Hello ');
   });
 
-  it('leaves earlier # in the line alone — removes only the trigger # nearest to the chip', () => {
+  it('leaves an earlier # in the line alone — removes only the trailing hashes', () => {
     const editor = createEditorWithContent([
       { type: 'text', text: 'Pre #one #two #', styles: {} },
       {
@@ -115,6 +118,24 @@ describe('removeTriggerBeforeChip', () => {
 
     const block = editor.getBlock(editor.document[0].id);
     expect((block?.content as any)[0].text).toBe('Pre #one #two ');
+  });
+
+  it('preserves a preceding #word — does not over-delete an existing hash like "#42"', () => {
+    // Regression: when the line already contains "#42" and a chip is inserted right
+    // after it (BlockNote has already removed the real "#query" trigger), the "#42"
+    // must survive — there are no leftover bare hashes to strip.
+    const editor = createEditorWithContent([
+      { type: 'text', text: 'See PR #42', styles: {} },
+      {
+        type: 'openProjectWorkPackageInline',
+        props: { wpid: '1', instanceId: 'test-iid', size: 'xxs' },
+      },
+    ]);
+
+    removeTriggerBeforeChip(editor as any, 'test-iid');
+
+    const block = editor.getBlock(editor.document[0].id);
+    expect((block?.content as any)[0].text).toBe('See PR #42');
   });
 
   it('removes the previous text node entirely when only # remains', () => {
