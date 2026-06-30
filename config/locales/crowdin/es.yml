@@ -738,6 +738,9 @@ es:
         project: Permite al usuario añadir un comentario relacionado con el atributo del proyecto al seleccionar el valor en la descripción general del proyecto.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Actualmente no hay campos personalizados.
       no_results_content_text: Crear un nuevo campo personalizado
@@ -1332,12 +1335,11 @@ es:
       '
     delete_tooltip: Eliminar usuario de marcador de posición
     deletion_info:
-      heading_html: Eliminar usuario de marcador de posición %{name}
       data_consequences: 'Todas las repeticiones del usuario de marcador de posición (por ejemplo, como asignado, responsable u otros valores de usuario) se reasignarán a una cuenta denominada «Usuario eliminado». Como los datos de todas las cuentas eliminadas se reasignarán a esta cuenta, no podrán distinguirse los datos del usuario de los datos creados con cualquier otra cuenta eliminada.
 
         '
-      irreversible: Esta acción no se puede deshacer
-      confirmation_html: Escriba el nombre de usuario de marcador de posición %{name} para confirmar la eliminación.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1700,6 +1702,7 @@ es:
       login_consequences:
         other: Esta cuenta se eliminará inmediatamente del sistema y el usuario ya no podrá iniciar sesión con sus credenciales.
         self: Tu cuenta se eliminará inmediatamente del sistema y ya no podrás iniciar sesión con tus credenciales.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Su cuenta aún no está activada. Para activar su cuenta, haga clic en el enlace que fue enviado a su correo electrónico.
 
       '
@@ -1769,6 +1772,7 @@ es:
         regexp: Expresión regular
         searchable: Buscable
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Solo administradores
         has_comment: Añadir un campo de texto de comentario
       custom_value:
@@ -5603,6 +5607,13 @@ es:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Semana de trabajo
       section_holidays_and_closures: Vacaciones y cierres

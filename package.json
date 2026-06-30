@@ -10,8 +10,8 @@
   },
   "private": true,
   "engines": {
-    "node": "^22.22.3 || ^24.15.0",
-    "npm": "^10.9.8 || ^11.0.0"
+    "node": "^24.15.0",
+    "npm": "^11.0.0"
   },
   "devDependencies": {
     "@redocly/cli": "^2.32.0"

@@ -47,9 +47,11 @@ See COPYRIGHT and LICENSE files for more details.
       <%= render(
             ResourcePlannerViews::UserCardList::CardComponent.new(
               user:,
+              card_fields:,
               remove_path: remove_path_for(user),
               utilization: utilization_for(user),
-              details_path: details_path_for(user)
+              details_path: details_path_for(user),
+              working_schedules: working_schedules_for(user)
             )
           ) %>
     <% end %>

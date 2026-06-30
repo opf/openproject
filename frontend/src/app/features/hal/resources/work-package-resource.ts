@@ -166,6 +166,8 @@ export class WorkPackageBaseResource extends HalResource {
 
   public lockVersion:number;
 
+  public hasProjectAttributes:boolean;
+
   public description:any;
 
   public activities:CollectionResource;

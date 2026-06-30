@@ -247,7 +247,7 @@ zh-CN:
       rates:
         title: 费率历史记录
     settings:
-      time_and_costs: Time and costs
+      time_and_costs: 时间和成本
       cost_types:
         heading: 成本类型
         none_active: 此项目中目前没有有效成本类型。

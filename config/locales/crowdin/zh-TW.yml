@@ -731,6 +731,9 @@ zh-TW:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
@@ -1317,12 +1320,11 @@ zh-TW:
       '
     delete_tooltip: 刪除佔位使用者
     deletion_info:
-      heading_html: Delete placeholder user %{name}
       data_consequences: '出現的所有佔位符用戶(例如，作為受理人、負責人或其他用戶值) 將被重新分配給一個名為“已刪除用戶”的帳戶。 由於每個已刪除帳戶的數據都會被重新分配給此帳戶，因此無法將用戶創建的數據與另一個已刪除帳戶的數據區分。
 
         '
-      irreversible: 這一行動是不可還原的
-      confirmation_html: Enter the placeholder user name %{name} to confirm the deletion.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1679,6 +1681,7 @@ zh-TW:
       login_consequences:
         other: 此帳戶會立即從系統中移除，使用者將無法再使用其憑證登入。
         self: 您的帳戶將會立即從系統中移除，您也將無法再使用您的憑證登入。
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: '您的帳號尚未啟用。要啟用您的帳號，請點擊系統通過電子郵件發送給您的連結。
 
       '
@@ -1748,6 +1751,7 @@ zh-TW:
         regexp: 正規表示式
         searchable: 搜索
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: 僅限管理員
         has_comment: Add a comment text field
       custom_value:
@@ -5546,6 +5550,13 @@ zh-TW:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: 工作週
       section_holidays_and_closures: 假日和休息日

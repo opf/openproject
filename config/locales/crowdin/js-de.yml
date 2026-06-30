@@ -164,7 +164,7 @@ de:
         child_pages:
           button: List of sub-pages
           include_parent: Elternseite anzeigen
-          text: "[Placeholder] List of sub-pages of"
+          text: "[Platzhalter] Liste der Unterseiten von"
           page: Wiki-Seite
           this_page: diese Seite
           hint: 'Lassen Sie dieses Feld leer, um alle untergeordneten Seiten der aktuellen Seite aufzulisten. Wenn Sie die untergeordneten Seiten einer anderen Wikiseite referenzieren möchten, geben Sie ihren Titel oder URL-Slug ein.

@@ -42,7 +42,7 @@ pt-BR:
           completed: Concluída
         work_packages: Pacotes de trabalho
       sprint_goal:
-        text: Sprint goal
+        text: Objetivo da sprint
       work_package:
         backlog_bucket: Backlog bucket
         backlogs_work_package_type: Tipo de backlog

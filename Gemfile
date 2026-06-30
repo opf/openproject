@@ -120,7 +120,7 @@ gem "mail", "2.9.0"
 gem "csv", "~> 3.3"
 
 # provide compatible filesystem information for available storage
-gem "sys-filesystem", "~> 1.5.0", require: false
+gem "sys-filesystem", "~> 1.6.0", require: false
 
 gem "bcrypt", "~> 3.1.22"
 
@@ -162,7 +162,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.18.0"
+gem "mcp", "~> 0.20.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -276,7 +276,7 @@ group :test do
   gem "rspec-rails", "~> 8.0.4", group: :development
 
   # Retry failures within the same environment
-  gem "retriable", "~> 4.1.0"
+  gem "retriable", "~> 4.2.0"
   gem "rspec-retry", "~> 0.6.1"
 
   # Accessibility tests
@@ -367,7 +367,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.35.4"
+  gem "rubocop-rails", "~> 2.35.5"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 

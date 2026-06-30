@@ -48,6 +48,21 @@ module Settings
          t("settings.user_custom_fields.heading")]
       end
 
+      def tabs
+        [
+          { name: "attributes",
+            path: admin_settings_user_custom_fields_path,
+            label: t("settings.user_custom_fields.tabs.attributes") },
+          { name: "semantic_keys",
+            path: admin_settings_user_custom_fields_path(tab: :semantic_keys),
+            label: t("settings.user_custom_fields.tabs.semantic_keys") }
+        ]
+      end
+
+      def attributes_tab?
+        helpers.selected_tab(tabs)[:name] == "attributes"
+      end
+
       def allow_custom_field_creation?
         @allow_custom_field_creation
       end

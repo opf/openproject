@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/opf/openproject/tree/dev/extensions/op-blocknote-hocuspocus#readme",
   "engines": {
-    "node": "^22.22.3 || ^24.15.0"
+    "node": "^24.15.0"
   },
   "dependencies": {
     "@blocknote/server-util": "^0.51.3",

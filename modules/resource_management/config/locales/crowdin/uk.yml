@@ -36,7 +36,7 @@ uk:
     models:
       resource_allocation: Призначення ресурсів
       resource_planner: Планувальник ресурсів
-      resource_user_card: User cards
+      resource_user_card: Картки користувачів
       resource_work_package_list: Список пакетів робіт
   button_next: Далі
   label_resource_management: Планування ресурсів
@@ -53,38 +53,38 @@ uk:
   resource_management:
     action:
       delete: Видалити
-      edit: Edit
+      edit: Редагувати
       favorite: Додати у вибране
       make_private: Зробити приватним
       make_public: Зробити загальнодоступним
       unfavorite: Вилучити з вибраного
     allocation:
-      hours: "%{value}h"
-      no_work: No work planned on this work package
+      hours: "%{value} год"
+      no_work: Немає запланованих робіт для цього пакета робіт
       summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: Задайте критерії фільтра на основі атрибутів користувача, щоб створити ресурс-заповнювач.
+          label: Критерії фільтра
+        label: Тип призначення
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Призначайте години для конкретного користувача.
+          label: Користувач
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: Вибрані дати ресурсу, %{resource_dates}, виходять за межі термінів виконання пакета робіт, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
+        capacity_summary: "%{available} доступно · %{scheduled} заплановано"
+        description: Вибраному користувачу %{user} у цей період буде призначено більше годин роботи, ніж передбачено його робочим графіком.
+        hidden_work: Інші призначення
         schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
+        schedule_change: до %{date}, потім %{schedule}
         schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        submit: Призначити понаднормову роботу
+        title: Хочете призначити користувачу понаднормову роботу?
+      submit: Призначити
+      success_message: Ресурси призначено.
+      title: Призначити ресурс
     blankslate:
       desc: Створіть планувальник ресурсів, щоб почати планувати завантаження для цього проєкту.
       title: Ще немає планувальників ресурсів
@@ -100,9 +100,9 @@ uk:
           label: Вибране вручну
       title: Налаштувати подання
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
+      submit: Зберегти
+      success_message: Призначення ресурсів оновлено.
+      title: Редагувати призначення
     favorite_caption: Якщо додати це подання у вибране, воно з’явиться у верхній частині меню бічної панелі.
     label_edit_resource_planner: Edit resource planner
     label_new_resource_planner: Новий планувальник ресурсів
@@ -118,55 +118,67 @@ uk:
       public: Загальнодоступні
     sub_views: Подання в цьому планувальнику ресурсів
     user_allocations_dialog:
-      allocate_work_package: Allocate work package
-      blank: This user has no allocated work packages.
+      allocate_work_package: Призначити пакет робіт
+      blank: Цьому користувачу не призначено жодних пакетів робіт.
       other_work_packages:
-        one: 1 other work package
-        few: "%{count} other work packages"
-        many: "%{count} other work packages"
-        other: "%{count} other work packages"
-      title: Utilization
+        one: Ще 1 пакет робіт
+        few: Ще %{count} пакети робіт
+        many: Ще %{count} пакетів робіт
+        other: Ще %{count} пакета робіт
+      title: Використання
     user_card_list:
       add_user_dialog:
-        title: Add user
+        title: Додати користувача
       blank:
-        description: There are no users matching this view's filters yet.
-        manual_description: No users have been added to this view yet.
-        title: No users to display
+        description: Ще немає пакетів робіт, які відповідають фільтрам цього подання.
+        manual_description: До цього подання ще не додано жодного користувача.
+        title: Немає користувачів
       card:
-        remove: Remove user
-        remove_confirmation: Remove this user from the view?
+        remove: Вилучити користувача
+        remove_confirmation: Вилучити цього користувача з подання?
+      fields:
+        working_times: Working times
+        input_label: Fields
+        input_caption: Select the fields that will be displayed in the user card for this view
+        input_placeholder: Add a field
+        drag_area_label: Displayed fields
       subheader:
-        resource: Resource
-        settings: Configure view
+        resource: Ресурс
+        settings: Налаштувати подання
       utilization:
-        label: Utilization
+        label: Використання
     view_types:
       resource_user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Створіть подання на основі користувачів, щоб переглядати інформацію про них і дані про призначення в списку карток користувачів
+        label: Список карток користувачів
       resource_work_package_list:
         caption: Створіть подання на основі пакетів робіт, щоб переглядати інформацію про них і дані про призначення в списку
         label: Список пакетів робіт
+      resource_work_package_timeline:
+        caption: Create a view based on work packages and see their allocations over time on a timeline
+        label: Work packages timeline
+      user_card:
+        caption: Створіть подання на основі користувачів, щоб переглядати інформацію про них і дані про призначення в списку карток користувачів
+        label: Список карток користувачів
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Призначити ресурс
+      context_menu_label: Дії з призначення
+      delete_confirmation: Справді видалити це призначення? Цю дію не можна відмінити.
+      delete_success: Призначення ресурсу видалено.
+      hidden_user: Прихований користувач
+      overbooked: Користувачу в цей період призначено більше годин роботи, ніж передбачено його робочим графіком.
+      title: Призначення
     work_package_list:
       add_work_package_dialog:
         title: Додати пакет робіт
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          few: "%{count} users"
-          many: "%{count} users"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} користувач"
+          few: "%{count} користувачі"
+          many: "%{count} користувачів"
+          other: "%{count} користувача"
+        unassigned: Не призначено
       allocation_placeholder: "—"
       blank:
         description: Ще немає пакетів робіт, які відповідають фільтрам цього подання.
@@ -195,3 +207,19 @@ uk:
         add_work_package: Додати пакет робіт
         allocate: Призначити
         settings: Налаштувати подання
+    work_package_timeline:
+      blank:
+        add_work_package: Add work package
+        configure_view: Configure view
+        description: There are no work packages matching this view's filters yet.
+        manual_description: Add work packages to this view to plan their allocation over time.
+        title: No work packages to display
+      granularity:
+        day: Day
+        month: Month
+        week: Calendar week
+      navigation:
+        next: Next period
+        previous: Previous period
+        today: Today
+      query_name: 'Resource management work package timeline: %{name}'

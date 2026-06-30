@@ -133,6 +133,12 @@ ms:
       card:
         remove: Remove user
         remove_confirmation: Remove this user from the view?
+      fields:
+        working_times: Working times
+        input_label: Fields
+        input_caption: Select the fields that will be displayed in the user card for this view
+        input_placeholder: Add a field
+        drag_area_label: Displayed fields
       subheader:
         resource: Resource
         settings: Configure view
@@ -145,6 +151,12 @@ ms:
       resource_work_package_list:
         caption: Create a view based on work packages and see its details and allocation in a list
         label: Work packages list
+      resource_work_package_timeline:
+        caption: Create a view based on work packages and see their allocations over time on a timeline
+        label: Work packages timeline
+      user_card:
+        caption: Create a view based on users and see their details and allocation in a list of user cards
+        label: Users card list
     work_package_allocations_dialog:
       allocate_resource: Allocate resource
       context_menu_label: Allocation actions
@@ -189,3 +201,19 @@ ms:
         add_work_package: Add work package
         allocate: Allocate
         settings: Configure view
+    work_package_timeline:
+      blank:
+        add_work_package: Add work package
+        configure_view: Configure view
+        description: There are no work packages matching this view's filters yet.
+        manual_description: Add work packages to this view to plan their allocation over time.
+        title: No work packages to display
+      granularity:
+        day: Day
+        month: Month
+        week: Calendar week
+      navigation:
+        next: Next period
+        previous: Previous period
+        today: Today
+      query_name: 'Resource management work package timeline: %{name}'

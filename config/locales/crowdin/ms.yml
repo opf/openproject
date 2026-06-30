@@ -731,6 +731,9 @@ ms:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Tiada ruangan tersuai pada masa ini.
       no_results_content_text: Cipta ruangan tersuai baharu
@@ -1317,12 +1320,11 @@ ms:
       '
     delete_tooltip: Buang pengguna placeholder
     deletion_info:
-      heading_html: Delete placeholder user %{name}
       data_consequences: 'Semua kejadian pengguna placeholder (cth., sebagai penerima tugasan, bertanggungjawab atau nilai pengguna lain) akan ditugaskan semula kepada akaun yang dipanggil "Pengguna yang dipadam". Oleh kerana data setiap akaun yang dipadam ditugaskan semula ke akaun ini, tidak mungkin akan dapat untuk membezakan data yang dicipta oleh pengguna, daripada data akaun lain yang dipadam.
 
         '
-      irreversible: Tindakan ini tidak dapat dipulihkan
-      confirmation_html: Enter the placeholder user name %{name} to confirm the deletion.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1681,6 +1683,7 @@ ms:
       login_consequences:
         other: This account will immediately be removed from the system and the user will no longer be able to log in with their credentials.
         self: Your account will immediately be removed from the system and you will no longer be able to log in using your credentials.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Akaun anda masih belum diaktifkan. Untuk pengaktifan akaun anda, klik pautan yang telah dihantar melalui e-mel anda.
 
       '
@@ -1750,6 +1753,7 @@ ms:
         regexp: Ungkapan biasa
         searchable: Dapat dicari
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Admin sahaja
         has_comment: Add a comment text field
       custom_value:
@@ -5559,6 +5563,13 @@ ms:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Minggu kerja
       section_holidays_and_closures: Hari perayaan dan penutupan

@@ -306,9 +306,9 @@ module ::ResourceManagement
     end
 
     # The radio is scoped to the `:view` form (`view[filter_mode]`) while the
-    # filters JSON is top-level, so read the toggle from either place.
+    # filters JSON and the card-field list are top-level, so read them directly.
     def query_configuration_params
-      { filters: params[:filters], filter_mode: filter_mode_param }
+      { filters: params[:filters], filter_mode: filter_mode_param, card_fields: params[:card_fields] }
     end
 
     def filter_mode_param

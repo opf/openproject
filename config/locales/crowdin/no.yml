@@ -741,6 +741,9 @@
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Det er ingen egendefinerte felt for øyeblikket.
       no_results_content_text: Opprett nytt egendefinert felt
@@ -1335,12 +1338,11 @@
       '
     delete_tooltip: Slett plassholderbruker
     deletion_info:
-      heading_html: Delete placeholder user %{name}
       data_consequences: 'Alle forekomster av plassholderbrukeren (f.eks. som utførende, ansvarlig eller andre brukerverdier) blir tilordnet på nytt til en konto kalt "Slettet bruker". Siden dataene for hver slettede konto blir tilordnet denne kontoen vil det ikke være mulig å skille dataene brukeren har opprettet fra data for en annen slettet konto.
 
         '
-      irreversible: Du kan ikke angre denne handlingen
-      confirmation_html: Enter the placeholder user name %{name} to confirm the deletion.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1703,6 +1705,7 @@
       login_consequences:
         other: This account will immediately be removed from the system and the user will no longer be able to log in with their credentials.
         self: Your account will immediately be removed from the system and you will no longer be able to log in using your credentials.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Din konto er ennå ikke aktivert. For å aktivere kontoen må du følge lenken som er sendt deg på e-post.
 
       '
@@ -1772,6 +1775,7 @@
         regexp: Regulære uttrykk
         searchable: Søkbar
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Kun administratorer
         has_comment: Add a comment text field
       custom_value:
@@ -5616,6 +5620,13 @@
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Arbeidsuke
       section_holidays_and_closures: Ferier og lukking

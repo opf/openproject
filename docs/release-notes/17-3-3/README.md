@@ -21,7 +21,7 @@ This vulnerability was reported as part of the [YesWeHack.com OpenProject Bug Bo
 
 For more information, please see the [GitHub advisory #GHSA-f2rx-x2qj-2hgj](https://github.com/opf/openproject/security/advisories/GHSA-f2rx-x2qj-2hgj)
 
-### GHSA-3vpx-94qx-xpw6 - IDOR through /projects/<A>/settings/project_storages/<A_ps_id> via PATCH parameter "storages_project_storage[project_folder_id]" leads to Access to Unauthorized Resources
+### GHSA-3vpx-94qx-xpw6 - IDOR through /projects/<A>/settings/project_storages/{A_ps_id} via PATCH parameter "storages_project_storage[project_folder_id]" leads to Access to Unauthorized Resources
 A project-admin in one project can hijack the managed Nextcloud or OneDrive folder of another project on the same storage by writing the victim project&#39;s `project_folder_id` into the attacker&#39;s `Storages::ProjectStorage` row. The next managed-folder sync overwrites the ACL on the referenced folder with the attacker project&#39;s user list.
 
 This vulnerability was reported as part of the [YesWeHack.com OpenProject Bug Bounty program](https://yeswehack.com/programs/openproject), sponsored by the European Commission.

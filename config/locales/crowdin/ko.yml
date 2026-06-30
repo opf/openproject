@@ -729,6 +729,9 @@ ko:
         project: 사용자가 프로젝트 개요에서 값을 선택할 때 프로젝트 특성과 관련된 코멘트를 추가할 수 있습니다.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
@@ -1315,12 +1318,11 @@ ko:
       '
     delete_tooltip: 플레이스홀더 사용자 삭제
     deletion_info:
-      heading_html: 플레이스홀더 사용자 %{name} 삭제
       data_consequences: '플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다. 삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
 
         '
-      irreversible: 이 작업은 취소할 수 없습니다
-      confirmation_html: 삭제를 확인하려면 플레이스홀더 사용자 이름 %{name}(을)를 입력하세요.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1681,6 +1683,7 @@ ko:
       login_consequences:
         other: 이 계정은 시스템에서 즉시 제거되며 사용자는 더 이상 해당 자격 증명으로 로그인할 수 없게 됩니다.
         self: 내 계정은 시스템에서 즉시 제거되며 더 이상 내 자격 증명으로 로그인할 수 없게 됩니다.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: '당신의 계정이 아직 활성화되지 않았습니다. 계정을 활성화하기 위해, 이메일로 전송된 링크를 클릭하십시오.
 
       '
@@ -1750,6 +1753,7 @@ ko:
         regexp: 정규 표현식
         searchable: 검색가능한
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: 관리자 전용
         has_comment: 코멘트 텍스트 필드 추가
       custom_value:
@@ -5556,6 +5560,13 @@ ko:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: 근무 주
       section_holidays_and_closures: 공휴일 및 휴업일

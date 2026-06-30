@@ -134,6 +134,12 @@ fr:
       card:
         remove: Supprimer l'utilisateur
         remove_confirmation: Souhaitez-vous supprimer cet utilisateur de la liste ?
+      fields:
+        working_times: Working times
+        input_label: Fields
+        input_caption: Select the fields that will be displayed in the user card for this view
+        input_placeholder: Add a field
+        drag_area_label: Displayed fields
       subheader:
         resource: Ressource
         settings: Configurer la vue
@@ -146,6 +152,12 @@ fr:
       resource_work_package_list:
         caption: Créez une vue basée sur des lots de travaux et affichez leurs informations et leur affectation dans une liste
         label: Liste des lots de travaux
+      resource_work_package_timeline:
+        caption: Create a view based on work packages and see their allocations over time on a timeline
+        label: Work packages timeline
+      user_card:
+        caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
+        label: Liste des fiches des utilisateurs
     work_package_allocations_dialog:
       allocate_resource: Allouer une ressource
       context_menu_label: Actions d'allocation
@@ -191,3 +203,19 @@ fr:
         add_work_package: Ajouter un lot de travaux
         allocate: Attribuer
         settings: Configurer la vue
+    work_package_timeline:
+      blank:
+        add_work_package: Add work package
+        configure_view: Configure view
+        description: There are no work packages matching this view's filters yet.
+        manual_description: Add work packages to this view to plan their allocation over time.
+        title: No work packages to display
+      granularity:
+        day: Day
+        month: Month
+        week: Calendar week
+      navigation:
+        next: Next period
+        previous: Previous period
+        today: Today
+      query_name: 'Resource management work package timeline: %{name}'

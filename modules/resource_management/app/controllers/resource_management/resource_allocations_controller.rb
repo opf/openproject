@@ -48,13 +48,19 @@ module ::ResourceManagement
         project: @project,
         work_package: context_work_package,
         allocation: prefilled_allocation,
+        start_date: params[:start_date],
+        end_date: params[:end_date],
         resource_planner_id: params[:resource_planner_id]
       )
     end
 
     def step
-      # Pre-select the autocompleter when the dialog was opened from a work package.
-      render_allocation_step(ResourceAllocation.new(entity: context_work_package))
+      # Pre-select the autocompleter when the dialog was opened from a work package,
+      # and carry any date range picked on the timeline into the new allocation.
+      render_allocation_step(
+        ResourceAllocation.new(entity: context_work_package,
+                               start_date: params[:start_date], end_date: params[:end_date])
+      )
     end
 
     # Recomputes the inline "outside dates" warning whenever a date field
@@ -300,7 +306,8 @@ module ::ResourceManagement
       replace_via_turbo_stream(
         component: ResourceAllocations::AllocationStep::FooterComponent.new(
           dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID,
-          submit_label: I18n.t("resource_management.edit_allocation_dialog.submit")
+          submit_label: I18n.t("resource_management.edit_allocation_dialog.submit"),
+          allocation:
         )
       )
       respond_with_turbo_streams(status:)
@@ -321,6 +328,9 @@ module ::ResourceManagement
       render_success_flash_message_via_turbo_stream(
         message: I18n.t("resource_management.work_package_allocations_dialog.delete_success")
       )
+      # Closes the edit dialog when the delete was triggered from it; a harmless
+      # no-op when deleting from a list row, where the dialog is not open.
+      close_dialog_via_turbo_stream("##{ResourceAllocations::EditDialogComponent::DIALOG_ID}")
       refresh_allocations_list(entity)
       notify_allocation_change(entity)
       respond_with_turbo_streams
@@ -350,7 +360,7 @@ module ::ResourceManagement
     def notify_allocation_change(entity)
       return unless entity.is_a?(WorkPackage)
 
-      dispatch_event_via_turbo_stream("resource-allocations:changed", detail: { work_package_id: entity.id })
+      dispatch_event_via_turbo_stream("op-dispatched:resource-allocations:changed", detail: { work_package_id: entity.id })
     end
 
     def allocation_kind

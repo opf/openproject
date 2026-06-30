@@ -93,6 +93,21 @@ fr:
           name: Haute
         item_3:
           name: Immédiate
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Projet de démonstration
@@ -182,21 +197,23 @@ fr:
                 item_2:
                   subject: Configurer le site Web de la conférence
             item_2:
-              subject: Conférence
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Tâches de suivi
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Téléverser les présentations sur le site Web
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Fête pour les supporters de la conférence :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] Bière
-                    * [ ] En-cas
-                    * [ ] Musique
-                    * [ ] Encore plus de bière
-            item_4:
-              subject: Fin du projet
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _Dans ce wiki, vous pouvez créer et modifier des pages et des sous-pages de manière collaborative afin de créer un wiki de projet._
 

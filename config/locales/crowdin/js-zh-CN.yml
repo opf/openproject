@@ -77,7 +77,7 @@ zh-CN:
     button_confirm: 确认
     button_continue: 继续
     button_copy: 复制
-    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
+    button_copy_numeric_id_to_clipboard: 将数字 ID 复制到剪贴板
     button_copy_link_to_clipboard: 将链接复制到剪贴板
     button_copy_to_clipboard: 复制到剪贴板
     button_copy_to_other_project: 复制到其他项目
@@ -162,9 +162,9 @@ zh-CN:
           nested_macro: 该宏递归引用 %{model} %{id}。
           invalid_attribute: 所选属性 '%{name}' 不存在。
         child_pages:
-          button: List of sub-pages
+          button: 子页面列表
           include_parent: 包括上级
-          text: "[Placeholder] List of sub-pages of"
+          text: "[Placeholder] 此项的子页面列表："
           page: 维基页面
           this_page: 本页
           hint: '将此字段留空可列出当前页面的所有子页面。如果您想引用不同的页面，请提供其标题或标识符。
@@ -182,7 +182,7 @@ zh-CN:
           text: "[Placeholder] 嵌入式工作包表"
         error: 无法展开宏：%{message}
         macro_dropdown:
-          caption: Insert
+          caption: 插入
         toc: 目录
         toolbar_help: 单击可以选择微件并显示工具栏。双击可以编辑微件
         wiki_page_include:
@@ -368,7 +368,7 @@ zh-CN:
     label_in_more_than: 在多于
     label_incoming_emails: 传入电子邮件
     label_information_plural: 信息
-    label_infinity: Infinity
+    label_infinity: 无穷大
     label_invalid: 无效
     label_import: 导入
     label_latest_activity: 最新活动
@@ -393,7 +393,7 @@ zh-CN:
     label_no_value: 无值
     label_none: 无
     label_not_contains: 不包含
-    label_not_available: Not available
+    label_not_available: 不可用
     label_not_equals: 不是
     label_on: 于
     label_open_menu: 打开菜单

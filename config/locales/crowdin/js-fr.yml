@@ -162,7 +162,7 @@ fr:
           nested_macro: Cette macro fait référence de manière récursive à %{model} %{id}.
           invalid_attribute: L'attribut « %{name} » n'existe pas.
         child_pages:
-          button: List of sub-pages
+          button: Liste des sous-pages
           include_parent: Inclure un parent
           text: "[Placeholder] List of sub-pages of"
           page: Page du wiki

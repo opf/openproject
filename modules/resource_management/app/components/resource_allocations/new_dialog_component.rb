@@ -40,12 +40,14 @@ module ResourceAllocations
     # Turbo stream wrapper.
     BODY_ID = "allocate-resource-dialog-body"
 
-    def initialize(project:, work_package: nil, allocation: nil, resource_planner_id: nil)
+    def initialize(project:, work_package: nil, allocation: nil, start_date: nil, end_date: nil, resource_planner_id: nil)
       super
 
       @project = project
       @work_package = work_package
       @allocation = allocation
+      @start_date = start_date
+      @end_date = end_date
       @resource_planner_id = resource_planner_id
     end
 

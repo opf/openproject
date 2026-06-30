@@ -21,7 +21,7 @@
 #++
 ---
 uk:
-  label_user_attributes_plural: User attributes
+  label_user_attributes_plural: Атрибути користувача
   no_results_title_text: Немає що виводити на екран.
   activities:
     index:
@@ -33,7 +33,7 @@ uk:
         label_activity_show_all: Показати все
         label_activity_show_only_comments: Показувати лише коментарі
         label_activity_show_only_changes: Показувати лише зміни
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: Відхилити
         label_sort_asc: Найновіші внизу
         label_sort_desc: Найновіші вгорі
         label_type_to_comment: Додайте коментар. Введіть @, щоб сповістити людину.
@@ -46,7 +46,7 @@ uk:
         commented: прокоментував(-ла)
         internal_comment: Внутрішній коментар
         internal_journal: Внутрішні коментарі видимі для визначеної групи учасників.
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: Хочете відхилити свій коментар? Введений вами вміст буде втрачено.
         internal_comment_confirmation:
           title: Зробити цей коментар загальнодоступним?
           heading: Зробити цей коментар загальнодоступним?
@@ -54,25 +54,25 @@ uk:
           confirm_button_text: Зробити загальнодоступним
   admin:
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: Скасувати резервування
       col_identifier: Ідентифікатор
       col_project: Проєкт
       col_reserved: Зарезервовано
       dialog:
         checkbox_label: Я розумію, що цю дію не можна відмінити.
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: Скасувати резервування ідентифікатора
+        description: Скасування резервування цього ідентифікатора проєкту неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
         description_with_work_packages:
-          one: Unreserving this project identifier (and its 1 work package identifier) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          few: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          many: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          one: Скасування резервування цього ідентифікатора проєкту (і його 1 ідентифікатора пакета робіт) неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
+          few: Скасування резервування цього ідентифікатора проєкту (і його %{count} ідентифікаторів пакетів робіт) неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
+          many: Скасування резервування цього ідентифікатора проєкту (і його %{count} ідентифікаторів пакетів робіт) неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
+          other: Скасування резервування цього ідентифікатора проєкту (і його %{count} ідентифікатора пакета робіт) неможливо відмінити. Зовнішні посилання й інтеграції, що його використовують, перестануть працювати, а ім’я стане доступним для будь-якого нового проєкту.
+        heading: Скасувати резервування ідентифікатора %{identifier}?
+        title: Скасувати резервування ідентифікатора
+      empty_body: Коли ідентифікатор проєкту змінюється, тут з’являється попередній ідентифікатор, щоб ви могли скасувати його резервування, щойно переконаєтеся, що це безпечно.
       empty_heading: Немає зарезервованих ідентифікаторів
       filter_label: Шукати ідентифікатори
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
+      identifier_not_found: Не вдалося знайти зарезервований ідентифікатор. Можливо, його резервування вже скасовано або проєкт було видалено. Оновіть сторінку.
       lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
       released_notice: Identifier "%{identifier}" has been unreserved.
       reserved_ago: "%{time} тому"
@@ -761,6 +761,9 @@ uk:
         project: Дає змогу користувачу додати коментар до атрибута проєкту при виборі значення на сторінці «Огляд проєкту».
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Наразі немає спеціальних полів.
       no_results_content_text: Створіть нове спеціальне поле
@@ -1371,12 +1374,11 @@ uk:
       '
     delete_tooltip: Видалити прототип користувача
     deletion_info:
-      heading_html: Видалити прототип користувача %{name}
       data_consequences: 'Усі екземпляри прототипу користувача (наприклад, виконавець, відповідальний тощо) буде перепризначено обліковому запису з назвою «Видалений користувач». Оскільки дані кожного видаленого облікового запису перепризначаються цьому обліковому запису, відрізнити дані, створені користувачем, від даних іншого видаленого облікового запису, може бути важко.
 
         '
-      irreversible: Цю дію не можна скасувати
-      confirmation_html: Введіть ім’я прототипу  користувача %{name}, щоб підтвердити видалення.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1744,6 +1746,7 @@ uk:
       login_consequences:
         other: Цей обліковий запис буде негайно видалено із системи, і користувач більше не зможе ввійти в неї за допомогою своїх облікових даних.
         self: Ваш обліковий запис буде негайно видалено із системи, і ви більше не зможете ввійти в неї за допомогою своїх облікових даних.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Ваш обліковий запис ще не активовано. Щоб активувати ваш обліковий запис, перейдіть за посиланням, яке було відправлено вам електронною поштою.
 
       '
@@ -1813,6 +1816,7 @@ uk:
         regexp: Регулярний вираз
         searchable: Доступно для пошуку
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Тільки для адміністраторів
         has_comment: Додати текстове поле для коментаря
       custom_value:
@@ -2040,7 +2044,7 @@ uk:
       user:
         admin: Адміністратор
         auth_source: Джерело автентифікації
-        department: Department
+        department: Відділ
         ldap_auth_source: LDAP-підключення
         identity_url: URL-адреса сутності
         current_password: Поточний пароль
@@ -2055,7 +2059,7 @@ uk:
         password_confirmation: Підтвердження
         consented_at: Згоден на
       user_custom_field:
-        custom_field_section: Section
+        custom_field_section: Розділ
       user_preference:
         header_look_and_feel: Оформлення
         header_alerts: Сповіщення
@@ -5745,19 +5749,26 @@ uk:
       show_component:
         label_add_attribute: Add a user attribute
         label_edit_section: Edit title
-        label_no_user_custom_fields: No user attributes defined in this section
+        label_no_user_custom_fields: У цьому розділі не визначено жодних атрибутів користувача
         label_section_actions: Section actions
     user_custom_fields:
       header_component:
         attribute_filter:
           label: Filter by attribute name…
-        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
-      heading: User attributes
+        heading_description: Ці атрибути користувача відображаються в профілях користувачів і на інформаційних картках. Ви можете додавати нові атрибути, групувати їх у розділи й перевпорядковувати їх.
+      heading: Атрибути користувача
       label_new_attribute: User attribute
       label_new_section: Section
-      label_untitled_section: User attributes
+      label_untitled_section: Атрибути користувача
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Робочий тиждень
       section_holidays_and_closures: Свята й вихідні

@@ -21,7 +21,7 @@
 #++
 ---
 zh-CN:
-  label_user_attributes_plural: User attributes
+  label_user_attributes_plural: 用户特性
   no_results_title_text: 当前没有可显示的内容。
   activities:
     index:
@@ -33,7 +33,7 @@ zh-CN:
         label_activity_show_all: 显示所有
         label_activity_show_only_comments: 仅显示评论
         label_activity_show_only_changes: 仅显示更改
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: 关闭
         label_sort_asc: 时间升序
         label_sort_desc: 时间降序
         label_type_to_comment: 添加评论。输入 @ 以通知他人。
@@ -46,7 +46,7 @@ zh-CN:
         commented: 已评论
         internal_comment: 内部评论
         internal_journal: 内部评论仅对有限的成员组可见。
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: 确定要关闭您的评论吗？您编写的内容将丢失。
         internal_comment_confirmation:
           title: 公开此评论吗？
           heading: 公开此评论吗？
@@ -54,24 +54,24 @@ zh-CN:
           confirm_button_text: 设为公开
   admin:
     reserved_identifiers:
-      btn_release: Unreserve
+      btn_release: 取消保留
       col_identifier: 标识符
       col_project: 项目
       col_reserved: 保留
       dialog:
         checkbox_label: 我明白此操作无法撤消。
-        confirm_button: Unreserve identifier
-        description: Unreserving this project identifier cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
+        confirm_button: 取消保留标识符
+        description: 此项目标识符取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，该名称可供任何新项目认领。
         description_with_work_packages:
-          other: Unreserving this project identifier (and its %{count} work package identifiers) cannot be undone. External links and integrations using it will stop resolving, and the name becomes available for any new project to claim.
-        heading: Unreserve "%{identifier}"?
-        title: Unreserve identifier
-      empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
+          other: 此项目标识符（及其 %{count} 个工作包标识符）取消保留后，将无法撤消。使用此标识符的外部链接和集成将停止解析，该名称可供任何新项目认领。
+        heading: 是否取消保留“%{identifier}”？
+        title: 取消保留标识符
+      empty_body: 项目的标识符更改后，上一个标识符会出现在此处，以便您在确认安全后将其取消保留。
       empty_heading: 没有保留的标识符
       filter_label: 搜索标识符
-      identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
-      lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
-      released_notice: Identifier "%{identifier}" has been unreserved.
+      identifier_not_found: 找不到保留的标识符。该标识符可能已取消保留，或者项目可能已被删除。请刷新页面。
+      lede_html: 重命名项目标识符时，会保留之前的标识符，以确保现有链接和集成可正常使用。<br>可以在此处取消保留标识符，以供其他项目使用。
+      released_notice: 标识符“%{identifier}”已取消保留。
       reserved_ago: "%{time}前"
       title: 保留的项目标识符
     plugins:
@@ -131,7 +131,7 @@ zh-CN:
         trial: 试用
     jemalloc_allocator: 使用 jemalloc 内存分配器
     journal_aggregation:
-      caption_with_maximum: 'User actions on a work package (changing description, status, values, or writing comments) are grouped if performed within this period. It also controls notification and [webhook](webhook_link) delays. The maximum is %{max} minutes.
+      caption_with_maximum: '如果用户对工作包执行的操作（更改描述、状态、数值或编写评论）是在此时间段内完成的，则会将这些操作分为一组。此设置还控制通知和[网络钩子](webhook_link)延迟。最大值为 %{max} 分钟。
 
         '
     import:
@@ -428,25 +428,25 @@ zh-CN:
         notification_text_default: "<p>您好！</p><p>已创建一个新项目：projectValue:name</p> <p>谢谢</p>\n"
       project_custom_field_sections:
         destroy:
-          error: The section could not be deleted.
+          error: 此分区无法删除。
         drop:
-          error: The section could not be reordered.
+          error: 此分区无法重新排序。
         move:
-          error: The section could not be reordered.
+          error: 此分区无法重新排序。
       user_custom_field_sections:
         destroy:
-          error: The section could not be deleted.
+          error: 此分区无法删除。
         drop:
-          error: The section could not be reordered.
+          error: 此分区无法重新排序。
         move:
-          error: The section could not be reordered.
+          error: 此分区无法重新排序。
       work_packages_identifier:
         page_header:
           description: 可以选择经典的数字工作包 ID，或者将项目标识符作为工作包 ID 前缀的语义化项目特定工作包 ID。
         banner:
           existing_identifiers_notice: "%{project_count} 个项目的现有标识符不符合基于项目的语义标识符要求。OpenProject 可以自动更新这些标识符，使其成为如下例中所示的有效格式。点击“自转换标识符”，以这种方式更新所有项目的标识符，并启用基于项目的语义标识符。\n"
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: 标识符待更新的项目
           label_project: 项目
           label_previous_identifier: 上一个标识符
           label_autofixed_suggestion: 未来标识符
@@ -685,7 +685,7 @@ zh-CN:
             lose_role: 将失去角色“%{old_role}”
             no_change: 无更改
     multi_value_more:
-      other: and %{count} more
+      other: 及其他 %{count} 个
     text_add_new_custom_field: '要向项目添加新的自定义字段，您需要先创建字段，然后才能将其添加到此项目中。
 
       '
@@ -731,7 +731,10 @@ zh-CN:
       has_comment:
         project: 允许用户在项目概览中选择值时添加与项目特性相关的注释。
       visible_on_user_card:
-        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+        all: 选中后，当在应用程序中将鼠标悬停在某个用户上时，该字段的值会显示在用户信息卡中。
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: 目前没有自定义字段。
       no_results_content_text: 创建新的自定义字段
@@ -762,8 +765,8 @@ zh-CN:
       add_button: 添加
       description: 添加部门或用户以在另一个部门或用户中创建子条目。
       heading: 此部门下面没有任何层级
-      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
-      managed_heading: This department is managed by LDAP synchronization
+      managed_description: 其子部门和成员与 LDAP 保持同步，无法手动添加。
+      managed_heading: 此部门通过 LDAP 同步进行管理
     add_department_form:
       name_label: 部门名称
       name_placeholder: 输入部门名称
@@ -772,9 +775,9 @@ zh-CN:
       heading: 将用户移至此部门？
       description: "%{user} 目前是%{from_department}的成员。移动他们会将其从该部门中移除。"
       confirm: 移动用户
-      managed_title: User managed by LDAP
-      managed_heading: This user cannot be moved
-      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
+      managed_title: 由 LDAP 管理的用户
+      managed_heading: 无法移动此用户
+      managed_description: "%{user} 属于 %{from_department}，通过 LDAP 同步进行管理。其部门成员关系由 LDAP 控制，无法在此处更改。"
     context_menu:
       add_sub_department: 添加子部门
       add_user: 添加用户
@@ -1318,12 +1321,11 @@ zh-CN:
       '
     delete_tooltip: 删除占位符用户
     deletion_info:
-      heading_html: 删除占位符用户 %{name}
       data_consequences: '出现的所有占位符用户（例如，作为受理人、负责人或其他用户值）将被重新分配给一个名为“已删除用户”的帐户。 由于每个已删除帐户的数据都会被重新分配给此帐户，因此无法将用户创建的数据与另一个已删除帐户的数据区分。
 
         '
-      irreversible: 此操作不可逆
-      confirmation_html: 输入占位符用户名 %{name} 以确认删除。
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1683,6 +1685,7 @@ zh-CN:
       login_consequences:
         other: 此帐户将立即从系统中移除，用户将无法再使用其凭据登录。
         self: 您的帐户将立即从系统中移除，您将无法再使用您的凭据登录。
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: '您的帐户尚未激活。要激活您的帐户，请单击通过电子邮件发送到您的链接。
 
       '
@@ -1751,7 +1754,8 @@ zh-CN:
         possible_values: 可能的值
         regexp: 正则表达式
         searchable: 可搜索
-        visible_on_user_card: Show on user card
+        visible_on_user_card: 在用户卡上显示
+        semantic_key: Semantic meaning
         admin_only: 仅管理员
         has_comment: 添加注释文本字段
       custom_value:
@@ -1979,7 +1983,7 @@ zh-CN:
       user:
         admin: 管理员
         auth_source: 身份验证源
-        department: Department
+        department: 部门
         ldap_auth_source: LDAP 连接
         identity_url: 身份网址
         current_password: 当前密码：
@@ -1994,7 +1998,7 @@ zh-CN:
         password_confirmation: 确认
         consented_at: 同意在
       user_custom_field:
-        custom_field_section: Section
+        custom_field_section: 分区
       user_preference:
         header_look_and_feel: 外观和风格
         header_alerts: 提醒
@@ -2094,7 +2098,7 @@ zh-CN:
         version: 版本
         watcher: 关注者
       work_package_version:
-        kind: Kind
+        kind: 种类
       work_package_semantic_alias:
         identifier: 标识符
         work_package: 工作包
@@ -2143,7 +2147,7 @@ zh-CN:
         invalid_url: 不是有效的 URL。
         invalid_url_scheme: 不是受支持的协议（允许：%{allowed_schemes}）。
         is_for_all_cannot_modify: 适用于所有项目，因此不能修改。
-        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
+        ldap_managed: 此部门通过 LDAP 同步进行管理，无法手动更改。
         less_than_or_equal_to: 必须小于或等于 %{count}。
         not_available: 因系统配置而不可用。
         not_before_start_date: 不得在开始日期之前。
@@ -2166,7 +2170,7 @@ zh-CN:
         regex_invalid: 无法与关联的正则表达式进行验证。
         regex_list_invalid: 行 %{invalid_lines} 无法解析为正则表达式。
         smaller_than_or_equal_to_max_length: 必须小于或等于最大长度。
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: 违反了此 OpenProject 实例的 SSRF 政策。
         system_wide_non_working_day_exists: 与此日期现有的系统范围非工作日冲突。
         taken: 已经采取。
         too_long: 太长 (最多 %{count} 个字符)。
@@ -2181,7 +2185,7 @@ zh-CN:
 
           '
         user_already_in_department: 用户 %{user_id} 已经是部门 %{department_id} 的成员。
-        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
+        user_in_ldap_managed_department: 此用户属于通过 LDAP 同步进行管理的部门，无法移动。
         wrong_length: 长度不正确 (应该是 %{count} 个字符)。
       models:
         group:
@@ -2189,7 +2193,7 @@ zh-CN:
             parent_id:
               circular_dependency: 将创建循环群组层次结构。
               organizational_unit_mismatch: 必须与该群组具有相同的组织单位设置。
-              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
+              parent_ldap_managed: 通过 LDAP 同步进行管理，无法手动添加部门。
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2387,7 +2391,7 @@ zh-CN:
               durations_are_not_positive_numbers: 持续时间必须是正数
               hours_per_day_are_missing: 必须定义每天的小时数
               hours_per_day_is_out_of_bounds: 每天小时数不能超过24
-              journal_aggregation_time_minutes_is_out_of_bounds: Aggregation period must be between %{min} and %{max} minutes.
+              journal_aggregation_time_minutes_is_out_of_bounds: 聚合期必须在 %{min} 到 %{max} 分钟。
               previous_working_day_changes_unprocessed: 先前对工作日配置的更改尚未应用。
               working_days_are_missing: 每周必须至少有一天定义为工作日。
         status:
@@ -2428,10 +2432,10 @@ zh-CN:
               cannot_add_child_because_of_lack_of_permission: 无法添加子项目，因为您没有权限编辑选定的工作包。
               format: "%{message}"
             identifier:
-              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
+              must_not_be_changed: '不得手动更改。工作包标识符是自动分配并通过别名表解析的，因此手动更改它们会破坏链接和标识符历史记录。如果此更改是有意操作，请使用 `save(context: :%{context})` 进行保存，并确保 work_package_semantic_aliases 表的一致性。'
               semantic_identifier_incomplete: 并且必须同时设置 sequence_number。
             sequence_number:
-              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
+              must_not_be_changed: '不得手动更改。它随标识符一起自动分配。如果此更改是有意操作，请使用 `save(context: :%{context})` 进行保存。'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3132,8 +3136,8 @@ zh-CN:
       edit_attribute_groups:
         description: 使用这些附加组件自定义表单配置：
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: 添加新特性分区
+          rename: 重命名特性分区
           related: 添加一个相关工作包表
       readonly_work_packages:
         description: 标记工作包为只读的特定状态。
@@ -3221,7 +3225,7 @@ zh-CN:
   enumeration_activities: 时间跟踪活动
   enumeration_caption_order_changed: 顺序修改成功。
   enumeration_could_not_be_moved: 无法移动枚举。
-  enumeration_default_value_caption: Making this %{model} the default will override the previous default %{model}.
+  enumeration_default_value_caption: 将此 %{model} 设为默认值会覆盖之前的默认 %{model}。
   enumeration_reported_project_statuses: 报告的状态
   enumeration_work_package_priorities: 工作包优先级
   enterprise_trials:
@@ -3448,7 +3452,7 @@ zh-CN:
       all_projects: 所有项目
       favorites: 收藏夹
       leave_project: 退出项目
-      no_favorite_projects: You have no favorite projects.
+      no_favorite_projects: 您没有收藏的项目。
       title: 项目
   toggle_switch:
     label_on: 开启
@@ -3501,17 +3505,17 @@ zh-CN:
         learn_about: 详细了解所有新功能
         missing: 目前还没有高亮显示的功能。
         '17_6':
-          new_features_title: 'The release contains various new features and improvements, such as:
+          new_features_title: '此版本包含各种新功能和改进，例如：
 
             '
           new_features_list:
-            line_0: XWiki integration (Corporate plan).
-            line_1: Sprint goals.
-            line_2: "'All sprints' overview page."
-            line_3: Display backlog buckets in work packages and work package tables.
-            line_4: Improved support for project-based (semantic) identifiers.
-            line_5: Convert meeting agenda items into work packages.
-            line_6: Configure cost types per project.
+            line_0: XWiki 集成（企业方案）。
+            line_1: 冲刺目标。
+            line_2: "“所有冲刺”概览页面。"
+            line_3: 在工作包和工作包表中显示积压工作存储桶。
+            line_4: 改进了对基于项目的（语义）标识符的支持。
+            line_5: 将会议议程条目转换为工作包。
+            line_6: 按项目配置成本类型。
     links:
       upgrade_enterprise_edition: 升级到企业版
       postgres_migration: 将您的安装迁移到 PostgreSQL
@@ -3696,7 +3700,7 @@ zh-CN:
         submit_button: 更新提醒
     notifications:
       participating:
-        description: You will always receive a notification whenever you are mentioned, and for changes to work packages you are watching. These cannot be disabled. However, you can choose to enable or disable receiving notifications for changes to work packages that concern you (where you are assignee, accountable or are shared with you).
+        description: 每当有人提及您，以及您关注的工作包发生更改时，您都会收到通知。无法禁用这些通知。但是，您可以选择允许或禁止接收与您有关（您是受理人、负责人或与您共享）的工作包更改的通知。
         title: 参与
         submit_button: 更新偏好设置
         mentioned: 被提及
@@ -3705,7 +3709,7 @@ zh-CN:
         responsible: 负责人
         shared: 与我共享
       date_alerts:
-        description: You can configure date alerts for work packages where you are assignee, accountable and/or watcher to be automatically notified a few days prior to approaching or overdue deadlines.
+        description: 您可以为作为受理人、负责人和/或关注者的工作包配置日期提醒，以便在截止日期临近或逾期前几天自动收到通知。
         title: 日期提醒
         submit_button: 更新日期提醒
         start_date: 开始日期
@@ -3720,7 +3724,7 @@ zh-CN:
           three_days_after: 推后 3 天
           seven_days_after: 推后 7 天
       non_participating:
-        description: You can additionally choose to be notified of any of the following activities for all projects.
+        description: 此外，您还可以为所有项目选择接收以下任何活动的通知。
         title: 不参与
         submit_button: 更新偏好设置
         work_package_created: 新工作包
@@ -3729,8 +3733,8 @@ zh-CN:
         work_package_prioritized: 所有优先级更改
         work_package_scheduled: 所有日期更改
       project_specific_settings:
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
-        title: Project-specific notifications
+        description: 您可以对通知设置进行细微调整，以仅针对特定项目中的某些事件接收通知。请在下方添加项目，并选择哪些事件应触发通知。这些项目特定的设置将覆盖上方的默认设置。
+        title: 项目特定通知
         add_button: 添加项目特定通知
         dialog_title: 添加项目特定通知
         list_header: 具有特定通知的项目
@@ -3864,7 +3868,7 @@ zh-CN:
   label_send_invitation: 发送邀请
   label_calculated_value: 计算值
   label_change_parent: 更改父级
-  label_change_password: Change password
+  label_change_password: 更改密码
   label_change_plural: 更改
   label_change_properties: 更改属性
   label_change_status: 更改状态
@@ -4110,7 +4114,7 @@ zh-CN:
   label_main_menu: 侧边菜单
   label_manage: 管理
   label_manage_groups: 组管理
-  label_managed_by_ldap: Managed by LDAP synchronization
+  label_managed_by_ldap: 通过 LDAP 同步进行管理
   label_managed_repositories_vendor: 托管的 %{vendor} 存储库
   label_mathematical_operators: 数学运算符
   label_max_size: 最大
@@ -4152,7 +4156,7 @@ zh-CN:
   label_my_account_data: 我的账户数据
   label_my_avatar: 我的头像
   label_my_queries: 我的自定义查询
-  label_my_security: Security
+  label_my_security: 安全
   label_name: 名称
   label_never: 永不
   label_new: 新增
@@ -5418,7 +5422,7 @@ zh-CN:
     passwords: 密码
     project_attributes:
       heading: 项目属性
-      label_add_attribute: Add a project attribute
+      label_add_attribute: 添加项目特性
       label_for_all_projects: 所有项目
       label_new_attribute: 项目属性
       label_new_section: 单元
@@ -5520,26 +5524,33 @@ zh-CN:
       display_format: 显示格式
     user_custom_field_sections:
       built_in_attribute_row_component:
-        label_built_in: Built-in
-        label_built_in_attribute_actions: Built-in attribute actions
+        label_built_in: 内置
+        label_built_in_attribute_actions: 内置特性操作
       custom_field_row_component:
-        label_user_custom_field_actions: User attribute actions
+        label_user_custom_field_actions: 用户特性操作
       show_component:
-        label_add_attribute: Add a user attribute
-        label_edit_section: Edit title
-        label_no_user_custom_fields: No user attributes defined in this section
-        label_section_actions: Section actions
+        label_add_attribute: 添加用户特性
+        label_edit_section: 编辑标题
+        label_no_user_custom_fields: 未在此分区定义任何用户特性
+        label_section_actions: 分区操作
     user_custom_fields:
       header_component:
         attribute_filter:
-          label: Filter by attribute name…
-        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
-      heading: User attributes
-      label_new_attribute: User attribute
-      label_new_section: Section
-      label_untitled_section: User attributes
+          label: 按特性名称筛选…
+        heading_description: 这些用户特性会显示在用户个人资料和信息卡上。您可以添加新特性、将其分组和重新排序。
+      heading: 用户特性
+      label_new_attribute: 用户特性
+      label_new_section: 分区
+      label_untitled_section: 用户特性
       new:
-        heading: New attribute
+        heading: 新特性
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: 工作周
       section_holidays_and_closures: 节假日与停业
@@ -5804,7 +5815,7 @@ zh-CN:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: 状态更改
     text_change_disabled_for_provider_login: 名称和电子邮件地址由您的登录提供商设置，因此无法更改。
-    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
+    department_ldap_managed_caption: 此部门通过 LDAP 同步进行管理，无法在此处更改。
     unlock: 解锁​​​​
     unlock_and_reset_failed_logins: 解锁和重置失败的帐户
     error_cannot_delete_user: 无法删除用户
@@ -6142,8 +6153,8 @@ zh-CN:
     scopes:
       api_v3: API v3 完全访问权限
       api_v3_text: 应用程序将获得 OpenProject API v3 的完全读写访问权限来代表您执行操作。
-      mcp: Access to MCP
-      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
+      mcp: 访问 MCP
+      mcp_text: 应用程序将获得 OpenProject MCP 端点的访问权限。它们是 APIv3 的一个有限子集，专为与 AI 智能体配合使用而设计。
     grants:
       created_date: 批准于
       scopes: 权限

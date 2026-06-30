@@ -30,31 +30,31 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   flex_layout(**card_options) do |card|
     card.with_row do
-      flex_layout(classes: "op-user-card--header", align_items: :center) do |header|
-        header.with_column do
+      flex_layout(align_items: :center) do |header|
+        header.with_column(mr: 2) do
           render(Users::AvatarComponent.new(user: @user, show_name: false, link: false, hover_card: { active: false }))
         end
 
-        header.with_column(classes: "op-user-card--identity") do
+        header.with_column(flex: 1, mr: 2, classes: "op-user-card--identity") do
           flex_layout do |identity|
-            identity.with_row(classes: "op-user-card--name") do
-              render(Primer::Beta::Text.new(font_weight: :semibold)) do
-                @user.name
-              end
+            identity.with_row do
+              render(Primer::Beta::Text.new(font_weight: :semibold, classes: "op-user-card--name")) { @user.name }
             end
 
-            if show_email?
-              identity.with_row(classes: "op-user-card--email") do
-                render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do
-                  @user.mail
-                end
+            if (title = job_title)
+              identity.with_row do
+                render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { title }
               end
             end
           end
         end
 
+        header.with_column do
+          render(Primer::Beta::Label.new(scheme: status_scheme)) { status_label }
+        end
+
         if @remove_path
-          header.with_column do
+          header.with_column(ml: 2) do
             render(
               Primer::Beta::IconButton.new(
                 icon: :trash,
@@ -74,22 +74,30 @@ See COPYRIGHT and LICENSE files for more details.
       end
     end
 
-    card.with_row do
-      flex_layout(classes: "op-user-card--group-list", align_items: :center) do |f|
-        f.with_column do
-          render(Primer::Beta::Octicon.new(icon: :people))
-        end
+    card_field_rows.each do |field|
+      card.with_row(mt: 3) do
+        flex_layout(align_items: :center) do |row|
+          row.with_column(mr: 2) do
+            if field.icon
+              render(Primer::Beta::Octicon.new(icon: field.icon, color: :muted))
+            else
+              render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { "#{field.label}:" }
+            end
+          end
 
-        f.with_column do
-          render(Primer::Beta::Text.new(color: :muted)) do
-            group_membership_summary
+          row.with_column(flex: 1, classes: "op-user-card--attribute-value") do
+            if field.multi_value
+              render_value_labels(field.value)
+            else
+              render(Primer::Beta::Text.new(font_size: :small, color: field.icon ? :muted : :default)) { field.value }
+            end
           end
         end
       end
     end
 
     if utilization?
-      card.with_row do
+      card.with_row(mt: 3) do
         flex_layout do |bar|
           bar.with_row(mb: 1) do
             flex_layout(justify_content: :space_between, align_items: :center) do |line|
@@ -110,17 +118,6 @@ See COPYRIGHT and LICENSE files for more details.
             render(ResourcePlannerViews::UserCardList::UtilizationBarComponent.new(value: @utilization))
           end
         end
-      end
-    end
-
-    card.with_row do
-      render(
-        Primer::Beta::Button.new(
-          tag: :a,
-          href: helpers.allowed_management_user_profile_path(@user)
-        )
-      ) do
-        I18n.t("users.open_profile")
       end
     end
   end

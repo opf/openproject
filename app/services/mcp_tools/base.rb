@@ -174,8 +174,7 @@ module McpTools
       if Rails.env.local? && @tool_context.output_schema
         # We are only validating the output during development, so we can see errors during dev, but do not break the
         # API in production due to minor schema differences.
-        @tool_context.output_schema.validate_result(result.to_json)
-        validate_root_output_schema!(@tool_context.output_schema)
+        @tool_context.output_schema.validate_result(JSON.parse(result.to_json))
       end
 
       format_response(result)
@@ -204,13 +203,6 @@ module McpTools
 
     def current_user
       @server_context[:current_user]
-    end
-
-    def validate_root_output_schema!(output_schema)
-      root_type = output_schema.schema.fetch(:type, "object")
-      return if root_type == "object"
-
-      raise "MCP tools must respond with a JSON object as the root element. #{self.class} responds in #{root_type}."
     end
 
     def render_plain_content?

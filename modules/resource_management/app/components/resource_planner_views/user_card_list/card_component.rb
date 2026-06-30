@@ -29,27 +29,42 @@
 #++
 
 module ResourcePlannerViews::UserCardList
-  # Modelled on +Users::HoverCardComponent+, but kept as its own component
-  # so the card can evolve independently of the hover card
-  # TODO - OP-19586: match card layout to spec
+  # Modelled on Users::HoverCardComponent
   class CardComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include ResourceAllocations::ScheduleSummary
 
-    def initialize(user:, details_path:, remove_path: nil, utilization: nil)
+    MULTI_VALUE_DISPLAY_LIMIT = 3
+
+    CardFieldRow = Data.define(:icon, :label, :value, :multi_value)
+
+    def initialize(user:, details_path:, card_fields: [], remove_path: nil, utilization: nil, working_schedules: [])
       super
 
       @user = user
       @details_path = details_path
+      @card_fields = card_fields
       @remove_path = remove_path
       @utilization = utilization
+      @working_schedules = working_schedules
     end
 
     def render?
       @user&.visible?(User.current)
     end
 
-    def show_email?
-      (@user == User.current) || User.current.allowed_globally?(:view_user_email)
+    def status_label
+      helpers.full_user_status(@user)
+    end
+
+    def status_scheme
+      @user.active? ? :success : :attention
+    end
+
+    def job_title
+      return unless (custom_field = UserCustomField.for_semantic_key(:job_title))
+
+      @user.formatted_custom_value_for(custom_field).presence
     end
 
     def utilization?
@@ -60,61 +75,82 @@ module ResourcePlannerViews::UserCardList
       helpers.number_to_percentage(@utilization, precision: 0)
     end
 
-    # Constructs a string in the form of:
-    # "Member of group4, group5"
-    # or
-    # "Member of group1, group2 and 3 more"
-    # The latter string is cut off since the complete list of group names would exceed the allowed `max_length`.
-    def group_membership_summary(max_length = 40)
-      groups = @user.groups.visible.order(:lastname)
-      return no_group_text if groups.empty?
+    def working_hours_summary
+      return t("resource_management.user_card_list.working_hours.blank") if @working_schedules.blank?
 
-      group_links = linked_group_names(groups)
+      schedule_sentence(@working_schedules, compact: true)
+    end
 
-      cutoff_index = calculate_cutoff_index(groups.map(&:name), max_length)
-      build_summary(group_links, cutoff_index)
+    def card_field_rows
+      @card_fields.filter_map { |id| card_field_row(id) }
     end
 
     private
 
-    def linked_group_names(groups)
-      groups.map { |group| link_to(h(group.name), show_group_path(group)) }
-    end
-
-    def no_group_text
-      t("users.groups.no_results_title_text")
-    end
-
-    # Calculate the index at which to cut off the group names, based on plain text length
-    def calculate_cutoff_index(names, max_length)
-      current_length = 0
-
-      names.each_with_index do |name, index|
-        new_length = current_length + name.length + (index > 0 ? 2 : 0) # 2 for ", " separator
-        return index if new_length > max_length
-
-        current_length = new_length
-      end
-
-      names.size # No cutoff needed -> return the total size
-    end
-
-    def build_summary(links, cutoff_index)
-      summary_links = safe_join(links[0...cutoff_index], ", ")
-      remaining_count = links.size - cutoff_index
-      remaining_count_link = link_to(t("users.groups.more", count: remaining_count), user_path(@user))
-
-      if remaining_count > 0
-        t("users.groups.summary_with_more_html", names: summary_links, count_link: remaining_count_link)
+    def card_field_row(id)
+      case id
+      when "department"
+        department_row
+      when "working_times"
+        CardFieldRow.new(icon: :clock, label: nil, value: working_hours_summary, multi_value: false)
       else
-        t("users.groups.summary_html", names: summary_links)
+        custom_field_row(id)
       end
+    end
+
+    def department_row
+      name = @user.department&.name
+      return if name.blank?
+
+      CardFieldRow.new(icon: :briefcase, label: nil, value: name, multi_value: false)
+    end
+
+    def custom_field_row(id)
+      custom_field = custom_fields_by_column_name[id]
+      return if custom_field.nil?
+      return unless filled_custom_field_ids.include?(custom_field.id)
+
+      CardFieldRow.new(
+        icon: nil,
+        label: custom_field.name,
+        value: @user.formatted_custom_value_for(custom_field),
+        multi_value: custom_field.multi_value?
+      )
+    end
+
+    def custom_fields_by_column_name
+      @custom_fields_by_column_name ||= UserCustomField.visible(User.current).index_by(&:column_name)
+    end
+
+    def filled_custom_field_ids
+      @filled_custom_field_ids ||= @user.custom_values.where.not(value: [nil, ""]).pluck(:custom_field_id).uniq
+    end
+
+    def render_value_labels(value)
+      values = Array(value)
+      remaining = values.size - MULTI_VALUE_DISPLAY_LIMIT
+
+      labels = values.first(MULTI_VALUE_DISPLAY_LIMIT).map do |item|
+        render(Primer::Beta::Label.new(scheme: :accent, mr: 1)) { item }
+      end
+
+      if remaining > 0
+        labels << render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do
+          t("resource_management.user_card_list.card.multi_value_more", count: remaining)
+        end
+      end
+
+      safe_join(labels, " ")
     end
 
     def card_options
       {
         classes: "op-user-card",
         test_selector: "op-user-card",
+        p: 3,
+        border: true,
+        border_radius: 2,
+        overflow: :hidden,
         data: {
           controller: "resource-management--user-card",
           "resource-management--user-card-url-value": @details_path

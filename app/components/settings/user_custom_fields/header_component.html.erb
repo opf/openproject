@@ -4,9 +4,11 @@
       header.with_title(variant: :default) { t("settings.user_custom_fields.heading") }
       header.with_description { t(".heading_description") }
       header.with_breadcrumbs(breadcrumbs_items)
+      helpers.render_tab_header_nav(header, tabs, test_selector: "user-custom-fields-tabs")
     end
   %>
 
+  <% if attributes_tab? %>
   <%=
     render Primer::OpenProject::SubHeader.new(collapsed_search: true) do |subheader|
       subheader.with_filter_input(
@@ -69,4 +71,5 @@
       end
     end
   %>
+  <% end %>
 <% end %>

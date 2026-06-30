@@ -93,6 +93,21 @@ zh-CN:
           name: 高
         item_3:
           name: 立即
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: 演示项目
@@ -182,21 +197,23 @@ zh-CN:
                 item_2:
                   subject: 设置会议网站
             item_2:
-              subject: 会议
+              subject: Test and quality-check the conference website
             item_3:
-              subject: 后续任务
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: 上传演示文稿到网站
+                  subject: Upload presentations to website
                 item_1:
-                  subject: 会议支持者宴会:-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] 啤酒
-                    * [ ] 零食
-                    * [ ] 音乐
-                    * [ ] 甚至更多啤酒
-            item_4:
-              subject: 项目结束
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: "_在这个wiki中，您可以协作创建和编辑页面及子页面，以创建项目wiki._\n\n**您可以：**\n\n* 插入文本和图片，也可以从其他文档中复制和粘贴\n* 创建带父页面的页面层次结构\n* 在项目菜单中包含wiki页面\n* 使用宏来包含，例如：目录、工作包列表或甘特图 \n* 在其他文本字段中包含wiki页面，例如：项目概览页面 \n* 包含指向其他文档的链接\n* 查看更改历史\n* 以 Markdown 格式查看\n\n更多信息：[https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)\n"
         scrum-project:
           name: Scrum 项目

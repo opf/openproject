@@ -45,7 +45,7 @@ zh-CN:
   default_doc_category_user: 用户文档
   enumeration_doc_categories: 文档类别
   documents:
-    button_add_type: Type
+    button_add_type: 类型
     page_header:
       heading: 所有文档
       action_menu:

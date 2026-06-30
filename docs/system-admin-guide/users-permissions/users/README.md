@@ -209,7 +209,7 @@ If you want to set a different hourly rate for the user on different projects, y
 
 To enter a new hourly rate, click on the **Update** icon next to the rate history. You can either set a **default hourly rate** or define a rate for a certain project.
 
-![Set hourly rates for users in OpenProject administrationin OpenProject administration](system_guide_rate_history.png)
+![Set hourly rates for users in OpenProject administration OpenProject administration](system_guide_rate_history.png)
 
 1. Enter a date from which the rate is **Valid from**.
 2. Enter the (hourly) **Rate**. The currency can only be changed in the [respective settings](../../time-and-costs).

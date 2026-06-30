@@ -12,7 +12,7 @@ zh-CN:
         sp_entity_id: 服务实体 ID
         metadata_url: 身份提供商元数据URL
         name_identifier_format: 名称标识符格式
-        idp_entity_id: Identity provider entity ID
+        idp_entity_id: 身份提供方实体 ID
         idp_sso_service_url: 身份供应商登录端点
         idp_slo_service_url: 身份供应商注销端点
         idp_cert: 身份提供商公共证书
@@ -45,10 +45,10 @@ zh-CN:
       success: 使用身份提供商元数据成功更新配置。
       invalid_url: 提供的元数据 URL 无效。请提供一个 HTTP(s) URL。
       error: 检索身份提商元数据失败： %{error}
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+      federation_metadata: '元数据 URL 指向一个联合聚合体（许多身份提供方）。请使用贵机构的直接元数据 URL，或在元数据表单中输入贵机构的身份提供方实体 ID，然后重试。
 
         '
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      metadata_too_large: 元数据文件超出允许的最大大小。
     providers:
       label_empty_title: 尚未配置 SAML 提供商。
       label_empty_description: 在这里添加一个提供商以查看它们。
@@ -116,7 +116,7 @@ zh-CN:
       metadata_url: '您的身份提供商提供了一个元数据 URL 。
 
         '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+      idp_entity_id: '可选：当元数据 URL 指向具有大量条目的联合聚合体时非常有用。请输入贵机构的身份供应方的实体 ID。对于单实体元数据 URL，请留空。
 
         '
       metadata_xml: '您的身份提供商提供了一个元数据 XML 下载。

@@ -59,6 +59,13 @@ Rails.application.routes.draw do
           delete "users/:user_id", action: :remove_user, as: :remove_user
         end
 
+        resource :work_package_timeline, only: [], defaults: { format: :json } do
+          scope module: "resource_management/work_package_timeline" do
+            resources :resources, only: :index
+            resources :events, only: :index
+          end
+        end
+
         resources :work_packages, only: [] do
           resource :progress,
                    only: %i[edit update],

@@ -740,6 +740,9 @@ de:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
@@ -1334,12 +1337,11 @@ de:
       '
     delete_tooltip: Platzhalter löschen
     deletion_info:
-      heading_html: Platzhalter-Benutzer %{name} löschen
       data_consequences: 'Alle Vorkommnisse des Platzhalter-Benutzers (z.B. als zugewiesene Person, Verantwortlicher oder andere Benutzerwerte) werden einem Konto mit dem Namen "Gelöschter Benutzer" zugewiesen. Da die Daten jedes gelöschten Kontos diesem Konto zugewiesen werden, wird es nicht möglich sein, die Daten dieses Benutzers von den Daten eines anderen gelöschten Kontos zu unterscheiden.
 
         '
-      irreversible: Dieser Vorgang kann nicht rückgängig gemacht werden
-      confirmation_html: Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Prioritätswert. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
@@ -1701,6 +1703,7 @@ de:
       login_consequences:
         other: Dieses Konto wird sofort aus dem System entfernt und der Benutzer kann sich nicht mehr mit seinen Anmeldedaten anmelden.
         self: Ihr Konto wird sofort aus dem System entfernt und Sie können sich nicht mehr mit Ihren Anmeldedaten anmelden.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Ihr Konto wurde noch nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde.
 
       '
@@ -1770,6 +1773,7 @@ de:
         regexp: Regulärer Ausdruck
         searchable: Durchsuchbar
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Nur für Administratoren
         has_comment: Ein Kommentarfeld hinzufügen
       custom_value:
@@ -5105,7 +5109,7 @@ de:
       managed_path_note: 'Das folgende Verzeichnis wird gelöscht werden: %{path}'
       repository_verification_html: Geben Sie die Projektkennung %{identifier} ein, um die Löschung des Projektarchivs zu bestätigen.
       subtitle: Wollen Sie wirklich das %{repository_type} des Projekts %{project_name} löschen?
-      subtitle_not_managed_html: Wollen Sie wirklich die verknüpfte %{repository_type} %{url} aus dem Projekt %{project_name} entfernen?
+      subtitle_not_managed_html: Wollen Sie wirklich das verknüpfte %{repository_type} %{url} aus dem Projekt %{project_name} entfernen?
       title_html: "%{repository_type} löschen"
       title_not_managed: Verknüpftes %{repository_type} löschen?
     errors:
@@ -5614,6 +5618,13 @@ de:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Arbeitswoche
       section_holidays_and_closures: Feiertage und Schließungen

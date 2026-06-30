@@ -1,0 +1,44 @@
+<%=
+  component_wrapper do
+    flex_layout(
+      align_items: :center, justify_content: :space_between, classes: "op-project-custom-field", data: {
+        test_selector: "type-project-attribute-#{@project_custom_field.id}"
+      }
+    ) do |custom_field_container|
+      custom_field_container.with_column(flex_layout: true) do |title_container|
+        title_container.with_column(pt: 1, mr: 2) do
+          render(Primer::Beta::Text.new(classes: "filter-target-visible-text")) do
+            @project_custom_field.name
+          end
+        end
+        title_container.with_column(pt: 1, mr: 2, data: { test_selector: "custom-field-type" }) do
+          render(Primer::Beta::Text.new(font_size: :small, color: :subtle)) do
+            helpers.label_for_custom_field_format(@project_custom_field.field_format)
+          end
+        end
+        if @project_custom_field.required?
+          title_container.with_column(pt: 1) do
+            render(Primer::Beta::Label.new(scheme: :attention, size: :medium)) do
+              ProjectCustomField.human_attribute_name(:required)
+            end
+          end
+        end
+      end
+
+      custom_field_container.with_column(py: 1, mr: 2) do
+        render(
+          Primer::Alpha::ToggleSwitch.new(
+            src: toggle_path,
+            csrf_token: form_authenticity_token,
+            data: toggle_data_attributes,
+            checked: active_for_type?,
+            enabled: true,
+            size: :small,
+            status_label_position: :start,
+            classes: "op-primer-adjustments__toggle-switch--hidden-loading-indicator"
+          )
+        )
+      end
+    end
+  end
+%>

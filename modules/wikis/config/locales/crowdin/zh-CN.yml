@@ -21,8 +21,8 @@ zh-CN:
         wikis/provider:
           attributes:
             url:
-              already_taken: belongs to the wiki provider that's already known as "%{name}".
-              wiki_provider_unreachable: could not be reached.
+              already_taken: 属于名为“%{name}”的 Wiki 提供商。
+              wiki_provider_unreachable: 无法访问。
     models:
       wikis/inline_page_link:
         other: 内联页面链接
@@ -115,13 +115,13 @@ zh-CN:
         sections:
           general_information: 常规信息
           oauth_configuration: OAuth 配置
-        url_caption: The host address of your wiki platform including the https://. It should not be longer than 255 characters.
+        url_caption: 您的 Wiki 平台的主机地址（包含 https://）。地址的长度不应超过 255 个字符。
         xwiki:
           oauth:
-            openproject_oauth_description: Allow XWiki to access OpenProject data using an OAuth application.
+            openproject_oauth_description: 允许 XWiki 使用 OAuth 应用程序访问 OpenProject 数据。
             provider_oauth: Wiki OAuth
-            provider_oauth_configuration: Copy these values to the [XWiki OIDC Connection client](xwiki_oidc_link).
-            provider_oauth_description: Allow OpenProject to access XWiki data using OAuth.
+            provider_oauth_configuration: 将这些值复制到 [XWiki OIDC 连接客户端](xwiki_oidc_link)。
+            provider_oauth_description: 允许 OpenProject 使用 OAuth 访问 XWiki 数据。
           openproject_oauth_description: 允许 XWiki 使用 OAuth 访问 OpenProject 数据。
           xwiki_oauth: XWiki OAuth
           xwiki_oauth_description: 允许 OpenProject 使用 OAuth 访问 XWiki 数据。
@@ -134,17 +134,17 @@ zh-CN:
     create_new_wiki_page_dialog:
       title: 创建新Wiki页面
     deferred_inline_page_link_macro_component:
-      loading: Loading…
+      loading: 正在加载…
     delete_relation_page_link_confirmation_dialog:
       heading: 是否删除相关 wiki 页面链接？
       title: 删除相关 wiki 页面链接
     errors:
-      connection_error: Could not connect to the wiki provider.
-      invalid_parent: The selected page is not a valid parent page.
-      invalid_response: The wiki provider responded unexpectedly.
-      missing_token: The user account is not yet connected to the wiki provider.
-      request_failed: The wiki provider experienced an unexpected error.
-      unauthorized: An authorization error occured.
+      connection_error: 无法连接到 Wiki 提供商。
+      invalid_parent: 所选页面不是有效的父页面。
+      invalid_response: Wiki 提供商意外响应。
+      missing_token: 用户帐户尚未连接到 Wiki 提供商。
+      request_failed: Wiki 提供商意外出错。
+      unauthorized: 出现授权错误。
     health_checks:
       authentication:
         existing_token: 用户令牌
@@ -160,7 +160,7 @@ zh-CN:
         xwiki_oauth_token_missing: OpenProject 无法测试用户与 XWiki 的用户级通信，因为用户尚未关联他们的 XWiki 帐户。
         xwiki_oauth_unauthorized: XWiki 未识别用户令牌。
     inline_existing_wiki_page_dialog:
-      title: Add existing wiki page
+      title: 添加现有 Wiki 页面
     instructions:
       xwiki:
         integration: XWiki 管理
@@ -175,12 +175,12 @@ zh-CN:
       remove: 删除页面链接
     page_link_forms:
       labels:
-        page_title: Title
-        parent: Parent wiki page
-        wiki_page: Wiki page
+        page_title: 标题
+        parent: 父 Wiki 页面
+        wiki_page: Wiki 页面
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: 未找到 Wiki 页面
+        placeholder: 搜索 Wiki 页面（或输入其 URL）
     page_links:
       errors:
         page_access_forbidden: 您无权访问此 wiki 页面
@@ -191,13 +191,13 @@ zh-CN:
         name: XWiki
     relation_page_links_component:
       empty_heading: 无相关页面
-      empty_text: Add wiki pages that are relevant to this work package.
+      empty_text: 添加与此工作包相关的 Wiki 页面。
       link_existing: 现有 wiki 页面
       link_new: 新 wiki 页面
     upsell:
       xwiki:
-        description: Connect XWiki with OpenProject and keep documentation and work in sync, link pages, track references and manage everything in one place.
-        title: XWiki Integration
+        description: 将 XWiki 与 OpenProject 连接起来，实现文档与工作的同步，建立页面链接，跟踪引用，并在一个地方管理所有内容。
+        title: XWiki 集成
     work_package_wikis_tab_component:
-      inline_page_links: Mentioned in description
+      inline_page_links: 在描述中提及
       referencing_pages: 引用于

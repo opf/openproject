@@ -741,6 +741,9 @@ et:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
@@ -1335,12 +1338,11 @@ et:
       '
     delete_tooltip: Delete placeholder user
     deletion_info:
-      heading_html: Delete placeholder user %{name}
       data_consequences: 'All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
 
         '
-      irreversible: This action is irreversible
-      confirmation_html: Enter the placeholder user name %{name} to confirm the deletion.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1705,6 +1707,7 @@ et:
       login_consequences:
         other: This account will immediately be removed from the system and the user will no longer be able to log in with their credentials.
         self: Your account will immediately be removed from the system and you will no longer be able to log in using your credentials.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Sinu konto ei ole veel aktiivne. Sulle saadetud e-kirjas on link, millega saad oma konto aktiveerida.
 
       '
@@ -1774,6 +1777,7 @@ et:
         regexp: Regulaaravaldis
         searchable: Otsitav
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Ainult admin
         has_comment: Add a comment text field
       custom_value:
@@ -5616,6 +5620,13 @@ et:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Töönädal
       section_holidays_and_closures: Holidays and closures

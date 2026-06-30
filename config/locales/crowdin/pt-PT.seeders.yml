@@ -93,6 +93,21 @@ pt-PT:
           name: Alto
         item_3:
           name: Imediato
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Projeto de demonstração
@@ -182,21 +197,23 @@ pt-PT:
                 item_2:
                   subject: Configurar site da conferência
             item_2:
-              subject: Conferência
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Tarefas de acompanhamento
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Carregar apresentações para o site
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Festa para os apoiantes da conferência :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] Cerveja
-                    * [ ] Snacks
-                    * [ ] Música
-                    * [ ] Ainda mais cerveja
-            item_4:
-              subject: Fim do projeto
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _Neste wiki pode criar e editar páginas e subpáginas de forma colaborativa para criar um projeto wiki._
 

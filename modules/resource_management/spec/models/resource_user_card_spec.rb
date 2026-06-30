@@ -170,6 +170,26 @@ RSpec.describe ResourceUserCard do
     end
   end
 
+  describe "#card_fields" do
+    it "defaults a new view to department and working times" do
+      expect(described_class.new.card_fields).to eq(%w[department working_times])
+    end
+
+    it "round-trips an ordered selection through the options column" do
+      view.card_fields = %w[working_times cf_5 department]
+      view.save!
+
+      expect(view.reload.card_fields).to eq(%w[working_times cf_5 department])
+    end
+
+    it "preserves an explicitly emptied selection instead of re-defaulting" do
+      view.card_fields = []
+      view.save!
+
+      expect(view.reload.card_fields).to eq([])
+    end
+  end
+
   describe "validation" do
     it "is valid with a user query" do
       expect(view).to be_valid

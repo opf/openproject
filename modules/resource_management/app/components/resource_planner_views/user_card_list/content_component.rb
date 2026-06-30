@@ -44,6 +44,10 @@ module ResourcePlannerViews::UserCardList
       @users ||= @view.results.to_a
     end
 
+    def card_fields
+      @view.card_fields
+    end
+
     def remove_path_for(user)
       return nil unless @view.manually_picked?
 
@@ -62,6 +66,14 @@ module ResourcePlannerViews::UserCardList
       ResourceAllocations::Availability
         .new(user:, allocations: booked_allocations.fetch(user.id, []))
         .utilization_ratio(utilization_window)
+    end
+
+    def working_schedules_for(user)
+      if utilization_window
+        ResourceAllocations::Availability.new(user:).working_schedules(utilization_window)
+      else
+        Array(UserWorkingHours.for_user(user).valid_for_date(Date.current))
+      end
     end
 
     def utilization_window

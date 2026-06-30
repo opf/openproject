@@ -59,6 +59,7 @@ import {
 import {
   workPackageFilesCount,
 } from 'core-app/features/work-packages/components/wp-tabs/services/wp-tabs/wp-files-count.function';
+import { WorkPackageProjectAttributesTabComponent } from 'core-app/features/work-packages/components/wp-single-view-tabs/project-attributes-tab/op-project-attributes-tab.component';
 
 @Injectable({
   providedIn: 'root',
@@ -145,6 +146,12 @@ export class WorkPackageTabsService {
         name: I18n.t('js.work_packages.tabs.activity'),
         count: workPackageNotificationsCount,
         showCountAsBubble: true,
+      },
+      {
+        id: 'project_attributes',
+        component: WorkPackageProjectAttributesTabComponent,
+        name: I18n.t('js.work_packages.tabs.project_attributes'),
+        displayable: (workPackage) => !!workPackage.hasProjectAttributes,
       },
       {
         id: 'files',

@@ -93,6 +93,21 @@ uk:
           name: Високо
         item_3:
           name: Негайно
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Демопроєкт
@@ -182,21 +197,23 @@ uk:
                 item_2:
                   subject: Налаштування вебсайту конференції
             item_2:
-              subject: Конференція
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Наступні завдання
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Завантаження презентації на вебсайт
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Вечірка для спонсорів конференції :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    *   [ ] Пиво
-                    *   [ ] Закуски
-                    *   [ ] Музика
-                    *   [ ] Більше пива
-            item_4:
-              subject: Кінець проєкту
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _На цій вікі-сторінці можна спільно створювати та редагувати сторінки й підсторінки вікі-проєкту._
 

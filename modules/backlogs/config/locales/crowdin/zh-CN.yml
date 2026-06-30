@@ -42,9 +42,9 @@ zh-CN:
           completed: 已完成
         work_packages: 工作包
       sprint_goal:
-        text: Sprint goal
+        text: 冲刺目标
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: 积压工作存储桶
         backlogs_work_package_type: 待办清单类型
         position: 位置
         sprint: 冲刺
@@ -62,7 +62,7 @@ zh-CN:
               share_all_projects_already_taken: 无法设置，因为项目“%{name}”已经与所有项目共享。
               share_all_projects_already_taken_anonymous: 无法设置，因为另一个项目已经与所有项目共享。
         sprint_goal:
-          project_already_has_goal: already has a goal for this sprint.
+          project_already_has_goal: 已为此冲刺设定目标。
         sprint:
           attributes:
             base:
@@ -86,23 +86,23 @@ zh-CN:
               not_eligible_for_moving: 在该工作包被移出的冲刺所属的项目中，没有处于有效状态的冲刺。
     models:
       sprint:
-        other: Sprints
+        other: 冲刺
   backlogs:
     administration_blankslate:
       title: 积压工作管理设置不断演进
       text: 我们目前正在重新设计积压工作模块。冲刺和积压工作的管理设置不久后将显示在此处。项目级设置仍然可用。
     backlog_component:
-      button_new_backlog_bucket: New backlog bucket
+      button_new_backlog_bucket: 新建积压工作存储桶
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: All backlog buckets
+        one: 积压工作存储桶
+        other: 积压工作存储桶
+        zero: 所有积压工作存储桶
       label_sprint_filter:
-        one: Sprint
-        other: Sprints
-        zero: All sprints
-      select_panel_title: Select items
+        one: 冲刺
+        other: 冲刺
+        zero: 所有冲刺
+      select_panel_title: 选择条目
     bucket_destroy_modal_component:
       title: 是否删除积压工作存储桶？
       details: 积压工作存储桶“%{name}”将被删除，所有工作包将移至积压工作收件箱。不会删除任何工作包。
@@ -165,11 +165,11 @@ zh-CN:
         edit_sprint: 编辑冲刺
         add_work_package: 添加工作包
     sprint_form:
-      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
-      goal_for_this_project_label: "%{attribute} (for this project)"
+      goal_caption: 该冲刺目标仅适用于此项目，不会与同样使用该冲刺的其他项目共享。
+      goal_for_this_project_label: "%{attribute}（针对此项目）"
     sprint_form_component:
-      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
-      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
+      shared_sprint_info_banner: 这是共享冲刺。所做的修改将反映在所有使用该冲刺的项目中。
+      shared_sprint_warning_banner: 这是共享冲刺。您没有编辑该冲刺的必要权限。
     sprints_component:
       blankslate:
         title: 还不存在冲刺
@@ -180,7 +180,7 @@ zh-CN:
         create_description_text: 要开始计划冲刺，请在此处创建。
         manage_description_html: 要开始计划冲刺，请转到%{settings_link}从其他项目接收冲刺。
         no_actions_description_text: 此项目还没有可用冲刺。
-      button_new_sprint: New sprint
+      button_new_sprint: 新冲刺
     story_points:
       other: "%{count} 个故事点"
     statuses_considered_closed_caption: '选择在您的工作流中代表已关闭或已完成状态的状态。这些状态将在报告（如燃尽图）和冲刺计划中被视为“已关闭”状态。例如，“已完成”、“已解决”或“不会修复”等状态都可能代表流程中的已关闭工作项。
@@ -203,7 +203,7 @@ zh-CN:
         copy_work_package_id: 复制工作包 ID
         move_menu: 移动到指定位置
         move_to_backlog_bucket: 移至积压工作存储桶
-        move_to_inbox: Move to backlog inbox
+        move_to_inbox: 移至积压工作收件箱
         move_to_sprint: 移至冲刺
     work_package_is_closed: 工作包已完成，当
   burndown:

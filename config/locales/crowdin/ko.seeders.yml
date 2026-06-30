@@ -93,6 +93,21 @@ ko:
           name: 높음
         item_3:
           name: 즉시
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: 데모 프로젝트
@@ -182,21 +197,23 @@ ko:
                 item_2:
                   subject: 컨퍼런스 웹사이트 설정
             item_2:
-              subject: 컨퍼런스
+              subject: Test and quality-check the conference website
             item_3:
-              subject: 후속 작업
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: 웹사이트에 프레젠테이션 업로드
+                  subject: Upload presentations to website
                 item_1:
-                  subject: 컨퍼런스 서포터즈를 위한 파티 :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    *   [ ] 맥주
-                    *   [ ] 간식
-                    *   [ ] 음악
-                    *   [ ] 더 많은 맥주
-            item_4:
-              subject: 프로젝트 종료
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _이 위키에서는 공동으로 페이지와 하위 페이지를 만들고 편집하여 프로젝트 위키를 만들 수 있습니다._
 

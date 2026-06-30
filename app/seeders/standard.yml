@@ -62,6 +62,122 @@ priorities:
     color_name: grape-5
     position: 4
 
+departments:
+  - reference: :department__marketing_communications
+    t_name: Marketing & Communications
+    members:
+      - reference: :user__marko_marketing
+        firstname: Marko
+        lastname: Marketing
+        job_title: Marketing Manager
+        spoken_languages: [English, German]
+        key_skills: [Marketing & Communications, Public Speaking]
+        job_start_date: "2021-03-01"
+      - reference: :user__connie_comms
+        firstname: Connie
+        lastname: Comms
+        job_title: Technical Writer
+        spoken_languages: [English, French]
+        key_skills: [Copywriting, Marketing & Communications]
+        job_start_date: "2022-06-15"
+  - reference: :department__public_relations
+    t_name: Public Relations
+    parent: :department__marketing_communications
+    members:
+      - reference: :user__petra_press
+        firstname: Petra
+        lastname: Press
+        job_title: Marketing Manager
+        spoken_languages: [English, German]
+        key_skills: [Public Speaking, Stakeholder Management]
+        job_start_date: "2020-09-01"
+      - reference: :user__polly_pr
+        firstname: Polly
+        lastname: PR
+        job_title: Marketing Manager
+        spoken_languages: [English, Spanish]
+        key_skills: [Marketing & Communications, Stakeholder Management]
+        job_start_date: "2023-01-10"
+  - reference: :department__design_content
+    t_name: Design & Content
+    parent: :department__marketing_communications
+    members:
+      - reference: :user__dora_design
+        firstname: Dora
+        lastname: Design
+        job_title: UX/UI Designer
+        spoken_languages: [English, Dutch]
+        key_skills: [UX/UI Design, Public Speaking]
+        job_start_date: "2021-11-02"
+      - reference: :user__carl_content
+        firstname: Carl
+        lastname: Content
+        job_title: Technical Writer
+        spoken_languages: [English, German]
+        key_skills: [Copywriting, Marketing & Communications]
+        job_start_date: "2022-02-14"
+  - reference: :department__events_operations
+    t_name: Events & Operations
+    members:
+      - reference: :user__evan_events
+        firstname: Evan
+        lastname: Events
+        job_title: Event Coordinator
+        spoken_languages: [English, French]
+        key_skills: [Event Planning, Public Speaking]
+        job_start_date: "2019-05-20"
+      - reference: :user__olga_ops
+        firstname: Olga
+        lastname: Ops
+        job_title: Event Coordinator
+        spoken_languages: [English, Polish]
+        key_skills: [Event Planning, Budgeting]
+        job_start_date: "2020-08-17"
+  - reference: :department__web_it
+    t_name: Web & IT
+    members:
+      - reference: :user__wanda_web
+        firstname: Wanda
+        lastname: Web
+        job_title: Software Developer
+        spoken_languages: [English, German]
+        key_skills: [Software Development, DevOps]
+        job_start_date: "2021-04-12"
+      - reference: :user__ivan_it
+        firstname: Ivan
+        lastname: IT
+        job_title: Software Developer
+        spoken_languages: [English, Italian]
+        key_skills: [Software Development, DevOps]
+        job_start_date: "2018-10-01"
+  - reference: :department__finance_administration
+    t_name: Finance & Administration
+    members:
+      - reference: :user__fritz_finance
+        firstname: Fritz
+        lastname: Finance
+        job_title: Project Manager
+        spoken_languages: [English, German]
+        key_skills: [Budgeting, Stakeholder Management]
+        job_start_date: "2017-07-03"
+      - reference: :user__adam_admin
+        firstname: Adam
+        lastname: Admin
+        job_title: Project Manager
+        spoken_languages: [English, German]
+        key_skills: [Project Management, Budgeting]
+        job_start_date: "2019-01-15"
+  - reference: :department__quality_assurance
+    t_name: Quality Assurance
+    members:
+      - reference: :user__tessa_tester
+        firstname: Tessa
+        lastname: Tester
+        job_title: QA Engineer
+        spoken_languages: [English, Portuguese]
+        key_skills: [Quality Assurance, Agile & Scrum]
+        job_start_date: "2022-09-05"
+
 project_custom_field_sections:
   - reference: :default_project_attributes
     name: Project attributes
@@ -74,6 +190,18 @@ projects:
     status_code: on_track
     t_status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
     t_description: This is a short summary of the goals of this demo project.
+    # Some people join the project directly, others through their whole department (group).
+    members:
+      - principal: :user__marko_marketing
+        role: :default_role_member
+      - principal: :user__wanda_web
+        role: :default_role_member
+      - principal: :user__tessa_tester
+        role: :default_role_member
+      - principal: :department__events_operations
+        role: :default_role_member
+      - principal: :department__finance_administration
+        role: :default_role_member
     project_phases:
       - definition: :default_project_phase_initiating
         duration: 20
@@ -264,6 +392,7 @@ projects:
       - start: 0
         t_subject: Organize open source conference
         reference: :organize_open_source_conference
+        assigned_to: :department__events_operations
         description: ''
         status: :default_status_in_progress
         type: :default_type_summary_task
@@ -273,6 +402,7 @@ projects:
           - start: 0
             t_subject: Set date and location of conference
             reference: :set_date_and_location_of_conference
+            assigned_to: :user__olga_ops
             description: ''
             status: :default_status_in_progress
             type: :default_type_task
@@ -281,18 +411,21 @@ projects:
             children:
               - start: 0
                 t_subject: Send invitation to speakers
+                assigned_to: :user__marko_marketing
                 description: ''
                 status: :default_status_in_progress
                 type: :default_type_task
                 duration: 1
               - start: 0
                 t_subject: Contact sponsoring partners
+                assigned_to: :department__finance_administration
                 description: ''
                 status: :default_status_new
                 type: :default_type_task
                 duration: 2
               - start: 0
                 t_subject: Create sponsorship brochure and hand-outs
+                assigned_to: :user__marko_marketing
                 description: ''
                 status: :default_status_new
                 type: :default_type_task
@@ -300,6 +433,7 @@ projects:
           - start: 4
             t_subject: Invite attendees to conference
             reference: :invite_attendees_to_conference
+            assigned_to: :user__evan_events
             description: ''
             status: :default_status_new
             type: :default_type_task
@@ -311,6 +445,7 @@ projects:
           - start: 4
             t_subject: Setup conference website
             reference: :setup_conference_website
+            assigned_to: :user__wanda_web
             description: ''
             status: :default_status_new
             type: :default_type_task
@@ -319,6 +454,17 @@ projects:
             relations:
               - to: :set_date_and_location_of_conference
                 type: follows
+      - start: 15
+        t_subject: Test and quality-check the conference website
+        assigned_to: :user__tessa_tester
+        description: ''
+        status: :default_status_new
+        type: :default_type_task
+        duration: 3
+        schedule_manually: false
+        relations:
+          - to: :setup_conference_website
+            type: follows
       - start: 15
         t_subject: Conference
         description: ''
@@ -332,6 +478,7 @@ projects:
       - start: 21
         t_subject: Follow-up tasks
         reference: :follow_up_tasks
+        assigned_to: :user__adam_admin
         description: ''
         status: :default_status_to_be_scheduled
         type: :default_type_summary_task
@@ -341,12 +488,14 @@ projects:
           - start: 21
             t_subject: Upload presentations to website
             reference: :upload_presentations_to_website
+            assigned_to: :user__wanda_web
             description: ''
             status: :default_status_new
             type: :default_type_task
             duration: 10
           - start: 31
             t_subject: Party for conference supporters :-)
+            assigned_to: :user__olga_ops
             t_description: |-
               *   [ ] Beer
               *   [ ] Snacks

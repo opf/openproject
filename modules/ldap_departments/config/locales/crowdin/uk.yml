@@ -4,49 +4,49 @@ uk:
     attributes:
       ldap_departments/synchronized_department:
         dn: DN
-        group: Department
-        ldap_auth_source: LDAP connection
-        users_count: Members
+        group: Відділ
+        ldap_auth_source: LDAP-підключення
+        users_count: Члени
       ldap_departments/synchronized_tree:
-        base_dn: Base DN
-        guid_attribute: Unique identifier attribute
-        ldap_auth_source: LDAP connection
-        name: Name
-        ou_name_attribute: OU name attribute
-        structure_filter_string: Organizational unit filter
-        sync_users: Sync users
-        user_filter_string: User filter
+        base_dn: Базове ім’я DN
+        guid_attribute: Атрибут унікального ідентифікатора
+        ldap_auth_source: LDAP-підключення
+        name: Назва
+        ou_name_attribute: Атрибут назви організаційної одиниці
+        structure_filter_string: Фільтр організаційних одиниць
+        sync_users: Синхронізувати користувачів
+        user_filter_string: Фільтр користувачів
     errors:
       models:
         ldap_departments/synchronized_tree:
-          must_contain_base_dn: The base DN must be contained within the LDAP connection's base DN.
-          overlaps_other_tree: Overlaps the base DN of another synchronization on the same LDAP connection.
+          must_contain_base_dn: Базовий DN має входити в базове унікальне ім’я LDAP-підключення.
+          overlaps_other_tree: Перекривається з базовим DN іншої синхронізації в межах того самого LDAP-підключення.
     models:
-      ldap_departments/synchronized_department: Synchronized department
-      ldap_departments/synchronized_tree: LDAP department synchronization
+      ldap_departments/synchronized_department: Синхронізований відділ
+      ldap_departments/synchronized_tree: Синхронізація відділів з LDAP
   ee:
     upsell:
       ldap_departments:
-        title: LDAP department synchronization
-        description: Mirror your LDAP organizational unit structure into the OpenProject department hierarchy and keep department members in sync automatically.
+        title: Синхронізація відділів з LDAP
+        description: Синхронізуйте структуру відділів LDAP з ієрархією відділів OpenProject і автоматично підтримуйте актуальний склад учасників.
   ldap_departments:
-    label_menu_item: LDAP department synchronization
-    label_synchronize: Synchronize organizational units
+    label_menu_item: Синхронізація відділів з LDAP
+    label_synchronize: Синхронізувати організаційні одиниці
     synchronized_departments:
       blankslate:
-        description: Run the synchronization to import the organizational units of this base DN as departments.
-        heading: No departments synchronized yet
+        description: Запустіть синхронізацію, щоб імпортувати організаційні одиниці цього базового DN як відділи.
+        heading: Поки не синхронізовано жоден відділ
       destroy:
-        confirmation: If you continue, %{name} is no longer managed by LDAP synchronization.
-        heading: Stop managing %{name}?
-        info: The department and its members are kept. It becomes a regular department that you can edit or delete manually.
-        title: Stop managing %{name}
-      managed_notice: Managed by LDAP synchronization
-      no_results: No departments have been synchronized yet.
-      plural: Synchronized departments
-      singular: Synchronized department
+        confirmation: Якщо ви продовжите, %{name} буде виключено із синхронізації з LDAP.
+        heading: Припинити керування для %{name}?
+        info: Відділ і його члени зберігаються. Він стає звичайним відділом, який можна редагувати або видалити вручну.
+        title: Припинити керування для %{name}
+      managed_notice: Синхронізується з LDAP
+      no_results: Поки не синхронізовано жоден відділ.
+      plural: Синхронізовані відділи
+      singular: Синхронізований відділ
     synchronized_trees:
-      add_new: Add LDAP department synchronization
+      add_new: Додати синхронізацію відділів з LDAP
       synchronization_started: Synchronization started in the background. Departments will appear once it completes.
       blankslate:
         description: Set up a synchronization to mirror your LDAP organizational unit structure into the OpenProject department hierarchy.
@@ -54,19 +54,19 @@ uk:
       destroy:
         confirmation: If you continue, the synchronization %{name} is removed and its %{departments_count} departments are no longer managed by LDAP.
         heading: Remove synchronization %{name}?
-        info: The departments and their members are kept and become regular departments. You can edit or delete them manually afterwards under Administration → Users and permissions → Organization.
+        info: Відділи і їхні члени зберігаються й стають звичайними відділами. Потім ви можете редагувати або видаляти їх вручну в розділі «Адміністрування» → «Користувачі й права доступу» → «Організація».
         title: Remove synchronization %{name}
       form:
-        auth_source_text: Select which LDAP connection should be used.
-        base_dn_text: 'Enter the base DN whose organizational units should be synchronized. Its direct child OUs become top-level departments. It must be below the base DN of the selected LDAP connection.
+        auth_source_text: Виберіть, яке LDAP-підключення використовувати.
+        base_dn_text: 'Введіть базовий DN, організаційні одиниці якого потрібно синхронізувати. Його безпосередні дочірні організаційні одиниці стануть відділами верхнього рівня. Значення має бути розташоване нижче базового DN вибраного LDAP-підключення.
 
           '
-        guid_attribute_text: 'Optional. The LDAP attribute holding a stable unique identifier (e.g. "objectGUID" or "entryUUID"). When set, departments survive OU renames and moves. Leave empty to match by DN.
+        guid_attribute_text: 'Необов’язково. Атрибут LDAP, що містить стабільний унікальний ідентифікатор (наприклад, «objectGUID» або «entryUUID»). Якщо задано, підрозділи зберігаються навіть після перейменування або переміщення організаційних одиниць. Залиште поле порожнім, щоб виконувати зіставлення за DN.
 
           '
-        ou_name_attribute_text: The LDAP attribute used to name the department (e.g. "ou").
+        ou_name_attribute_text: Атрибут LDAP, який використовується для позначення відділу (наприклад, «ou»).
         sections:
-          connection: LDAP connection
+          connection: LDAP-підключення
           structure: Organizational units
           users: Users
         structure_filter_string_text: RFC4515 LDAP filter identifying organizational unit entries.

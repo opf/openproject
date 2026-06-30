@@ -760,6 +760,9 @@ ru:
         project: Позволяет пользователю добавить комментарий, относящийся к атрибуту проекта, при выборе значения в обзоре проекта.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
@@ -1370,12 +1373,11 @@ ru:
       '
     delete_tooltip: Удалить пользователя-заполнителя
     deletion_info:
-      heading_html: Удалить пользователя-заполнителя %{name}
       data_consequences: 'Все вхождения пользователя плейсхолдера (например, как цессионария, ответственные или другие пользовательские значения) будут переназначены на учетную запись под названием "Удаленный пользователь". Так как данные каждого удаленного аккаунта переназначены на этот аккаунт, невозможно отличить данные пользователя от данных другого удаленного аккаунта.
 
         '
-      irreversible: Это действие необратимо
-      confirmation_html: Введите имя пользователя %{name}, чтобы подтвердить удаление.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1752,6 +1754,7 @@ ru:
       login_consequences:
         other: Эта учетная запись будет немедленно удалена из системы, и пользователь больше не сможет войти в систему с ее учетными данными.
         self: Ваша учетная запись будет немедленно удалена из системы, и Вы больше не сможете войти в систему, используя свои учетные данные.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Ваша учетная запись не была активирована. Для активации перейдите по ссылке, направленной вам по электронной почте.
 
       '
@@ -1821,6 +1824,7 @@ ru:
         regexp: Регулярное выражение
         searchable: Доступно для поиска
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Только администратор
         has_comment: Добавьте комментарий для текстового поля
       custom_value:
@@ -5749,6 +5753,13 @@ ru:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Рабочая неделя
       section_holidays_and_closures: Праздничные и нерабочие дни

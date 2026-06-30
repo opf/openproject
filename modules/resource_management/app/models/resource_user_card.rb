@@ -28,9 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# TODO - OP-19587: support placeholder users (results, cards, add/allocate forms)
 class ResourceUserCard < PersistedView
   include ResourceManagement::Categorized
+
+  # Ordered list of field identifiers shown on each user card. Built-in keys
+  # ("department", "working_times") and custom field column names ("cf_<id>").
+  store_attribute :options, :card_fields, :json, default: %w[department working_times]
 
   validate :query_must_be_user_query
 

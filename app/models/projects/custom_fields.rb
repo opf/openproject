@@ -50,6 +50,12 @@ module Projects::CustomFields
       all_visible_custom_fields.where(id: project_custom_field_project_mappings.select(:custom_field_id))
     end
 
+    def available_custom_fields_for_type(type_id)
+      available_custom_fields
+        .joins(:project_custom_field_type_mappings)
+        .where(project_custom_field_type_mappings: { type_id: })
+    end
+
     # Note:
     #
     # The UI allows the enabled attributes only via the project_custom_field_project_mappings.

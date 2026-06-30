@@ -721,7 +721,7 @@ GEM
     http_parser.rb (0.8.1)
     httpx (1.7.8)
       http-2 (>= 1.1.3)
-    i18n (1.15.0)
+    i18n (1.15.2)
       concurrent-ruby (~> 1.0)
     i18n-js (4.2.4)
       glob (>= 0.4.0)
@@ -762,7 +762,7 @@ GEM
     jmespath (1.6.2)
     job-iteration (1.15.0)
       activejob (>= 7.1)
-    json (2.19.9)
+    json (2.20.0)
     json-jwt (1.17.1)
       activesupport (>= 4.2)
       aes_key_wrap
@@ -836,8 +836,8 @@ GEM
     marcel (1.0.4)
     markly (0.16.0)
     matrix (0.4.3)
-    mcp (0.18.0)
-      json-schema (>= 4.1)
+    mcp (0.20.0)
+      json_schemer (>= 2.4)
     messagebird-rest (5.0.0)
       jwt (< 4)
     meta-tags (2.23.0)
@@ -1311,7 +1311,7 @@ GEM
     responders (3.2.0)
       actionpack (>= 7.0)
       railties (>= 7.0)
-    retriable (4.1.0)
+    retriable (4.2.0)
     rexml (3.4.4)
     rinku (2.0.6)
     roar (1.2.0)
@@ -1369,7 +1369,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
-    rubocop-rails (2.35.4)
+    rubocop-rails (2.35.5)
       activesupport (>= 4.2.0)
       lint_roller (~> 1.1)
       rack (>= 1.1)
@@ -1460,7 +1460,7 @@ GEM
       attr_required (>= 0.0.5)
       faraday (~> 2.0)
       faraday-follow_redirects
-    sys-filesystem (1.5.5)
+    sys-filesystem (1.6.0)
       ffi (~> 1.1)
     table_print (1.5.7)
     terminal-table (4.0.0)
@@ -1664,7 +1664,7 @@ DEPENDENCIES
   mail (= 2.9.0)
   markly (~> 0.15)
   matrix (~> 0.4.3)
-  mcp (~> 0.18.0)
+  mcp (~> 0.20.0)
   md_to_pdf!
   meta-tags (~> 2.23.0)
   mini_magick (~> 5.3.0)
@@ -1742,7 +1742,7 @@ DEPENDENCIES
   redis (~> 5.4.0)
   request_store (~> 1.7.0)
   responders (~> 3.2)
-  retriable (~> 4.1.0)
+  retriable (~> 4.2.0)
   rinku (~> 2.0.4)
   roar (~> 1.2.0)
   rouge (~> 4.7.0)
@@ -1755,7 +1755,7 @@ DEPENDENCIES
   rubocop-factory_bot
   rubocop-openproject
   rubocop-performance
-  rubocop-rails (~> 2.35.4)
+  rubocop-rails (~> 2.35.5)
   rubocop-rspec
   rubocop-rspec_rails
   ruby-duration (~> 3.2.0)
@@ -1781,7 +1781,7 @@ DEPENDENCIES
   stringex (~> 2.8.5)
   structured_warnings (~> 0.5.0)
   svg-graph (~> 2.2.0)
-  sys-filesystem (~> 1.5.0)
+  sys-filesystem (~> 1.6.0)
   table_print (~> 1.5.6)
   test-prof (~> 1.6.0)
   timecop (~> 0.9.0)
@@ -1987,7 +1987,7 @@ CHECKSUMS
   http-2 (1.2.0) sha256=5bed923379ae67895d3bde440502219543da2885104b46ed7d604f5990efad1c
   http_parser.rb (0.8.1) sha256=9ae8df145b39aa5398b2f90090d651c67bd8e2ebfe4507c966579f641e11097a
   httpx (1.7.8) sha256=6d769465ed608287a272ba0e4700fc22cee6f0335d80bd5c2effaf7fb7bd2a3a
-  i18n (1.15.0) sha256=ed20037ed7ca75dd36ec486b5fb9696e8e0cfe48f4f80980017932d93e70527f
+  i18n (1.15.2) sha256=00f9eb62412fe593b2a65a97daa75300d37abb8f7202ec748e94b6d46a9dd1b5
   i18n-js (4.2.4) sha256=61390d372f8fa68c495c5907d577657e8cc3a7031f4945db1e91f935e1391355
   i18n-tasks (1.1.2) sha256=4dcfba49e52a623f30661cb316cb80d84fbba5cb8c6d88ef5e02545fffa3637a
   icalendar (2.12.3) sha256=37dea76c36f5b21dd745bcd3cb53e7bacfbb4ad0a8d9c2a1c0aa9d39af83c850
@@ -2001,7 +2001,7 @@ CHECKSUMS
   iso8601 (0.13.0) sha256=298c2b15b7be5fa95a1372813d36a2257656cd8e906dfbc1f5cb409851425aa2
   jmespath (1.6.2) sha256=238d774a58723d6c090494c8879b5e9918c19485f7e840f2c1c7532cf84ebcb1
   job-iteration (1.15.0) sha256=a4571cc02588716243b553f95fae88271c55dc85bb8053714aec7b26cb9547fd
-  json (2.19.9) sha256=9b9025b7cdddafa38d316eca0b2358488e42d417045c1b90d216a9fefe46b79a
+  json (2.20.0) sha256=9362bc6e55a952b056abf9167cf053358181c904cb70cd6eee0808ea830fc32b
   json-jwt (1.17.1) sha256=5e1ced0f7b206b4c567efee19e6503c1426a819749132926cda579ec013d1f46
   json-schema (6.2.0) sha256=e8bff46ed845a22c1ab2bd0d7eccf831c01fe23bb3920caa4c74db4306813666
   json_schemer (2.5.0) sha256=2f01fb4cce721a4e08dd068fc2030cffd0702a7f333f1ea2be6e8991f00ae396
@@ -2023,7 +2023,7 @@ CHECKSUMS
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
   markly (0.16.0) sha256=6f70d79e385b1efc9e171f74c81628826259039fe6c778e03c3924c71dac5511
   matrix (0.4.3) sha256=a0d5ab7ddcc1973ff690ab361b67f359acbb16958d1dc072b8b956a286564c5b
-  mcp (0.18.0) sha256=4d8ec572c1536f53370196539d5272355fb6480ed969ea58a8d24917ee2562c8
+  mcp (0.20.0) sha256=6b71bfc9a19f6dca34953bded1bd89cba75176a4f8bb293ce82ace065af584f9
   md_to_pdf (0.2.6)
   messagebird-rest (5.0.0) sha256=da4cc1efba3d5e4aa021fad07426c2cb6b326ce5670da5104bb8f6056a39d59c
   meta-tags (2.23.0) sha256=ffe78b5bee398de4ff5ac3316f5a786049538a651643b8476def06c3acc762c1
@@ -2228,7 +2228,7 @@ CHECKSUMS
   representable (3.2.0) sha256=cc29bf7eebc31653586849371a43ffe36c60b54b0a6365b5f7d95ec34d1ebace
   request_store (1.7.0) sha256=e1b75d5346a315f452242a68c937ef8e48b215b9453a77a6c0acdca2934c88cb
   responders (3.2.0) sha256=89c2d6ac0ae16f6458a11524cae4a8efdceba1a3baea164d28ee9046bd3df55a
-  retriable (4.1.0) sha256=1de1000696e3ddeca688a12be9a2e8042226ca36f7446d18c7ed451f2878ece7
+  retriable (4.2.0) sha256=90c3b257472a1c02f2a3dfa64dd35a420f7a624cef1a5981e20fdac5730f8cdc
   rexml (3.4.4) sha256=19e0a2c3425dfbf2d4fc1189747bdb2f849b6c5e74180401b15734bc97b5d142
   rinku (2.0.6) sha256=8b60670e3143f3db2b37efa262971ce3619ec23092045498ef9f077d82828d7d
   roar (1.2.0) sha256=8db4d1ca79c57a5fb746c16c0d5661d7c3e0de3d9553dc016a88d2dba2929d08
@@ -2248,7 +2248,7 @@ CHECKSUMS
   rubocop-factory_bot (2.28.0) sha256=4b17fc02124444173317e131759d195b0d762844a71a29fe8139c1105d92f0cb
   rubocop-openproject (0.5.0) sha256=564d4a0d240bec8543c96d1cb38facba9afd3fbe7e91ff28d254d3ebf329c323
   rubocop-performance (1.26.1) sha256=cd19b936ff196df85829d264b522fd4f98b6c89ad271fa52744a8c11b8f71834
-  rubocop-rails (2.35.4) sha256=3aeaa325439c89950e8327565682ea794065d08e2ecbbfe95032bfa295a35df5
+  rubocop-rails (2.35.5) sha256=f00b3c936002ba8e9ac62e8607c54bb24cda44b36e41b9c7e4f3872e1b0f3fe3
   rubocop-rspec (3.10.2) sha256=0b3e2ecc592cd10ecbf0095bb58d1e357905276e069643523cc19eb7495f65e2
   rubocop-rspec_rails (2.32.0) sha256=4a0d641c72f6ebb957534f539d9d0a62c47abd8ce0d0aeee1ef4701e892a9100
   ruby-duration (3.2.3) sha256=eb3d13b1df85067a015a8fb2ed8f1eec842a3b721e47c9b6fd74d2f356069784
@@ -2288,7 +2288,7 @@ CHECKSUMS
   structured_warnings (0.5.0) sha256=864aca5a4d6b63cd3a948f9dcd7f5498af1cf42bcf4fd75e2c315b7d77a30583
   svg-graph (2.2.2) sha256=f928866403055e6539afdfdab5f6268d108b2abc9f002e0fc51b16511809513a
   swd (2.0.3) sha256=4cdbe2a4246c19f093fce22e967ec3ebdd4657d37673672e621bf0c7eb770655
-  sys-filesystem (1.5.5) sha256=6f995890a734b9f0aa55df5e09d99adeb9fd1c288f2c4097269a1f8c95e15033
+  sys-filesystem (1.6.0) sha256=e2a7183e147e9b95aaa1217d65b3e3b479861c554acd18ec36aebb91398b45f6
   table_print (1.5.7) sha256=436664281f93387b882335795e16cfeeb839ad0c785ff7f9110fc0f17c68b5cb
   terminal-table (4.0.0) sha256=f504793203f8251b2ea7c7068333053f0beeea26093ec9962e62ea79f94301d2
   test-prof (1.6.1) sha256=0332d9c39a7c118ed942b2db582f055d9f24964d150004ec6b964d2fa262499e

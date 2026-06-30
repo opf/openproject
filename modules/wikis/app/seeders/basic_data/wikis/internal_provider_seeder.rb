@@ -32,11 +32,18 @@ module BasicData
   module Wikis
     class InternalProviderSeeder < Seeder
       def seed_data!
-        ::Wikis::InternalProvider.create!(universal_identifier: "internal", name: "internal", enabled: true)
+        provider = ::Wikis::InternalProvider.find_or_create_by!(universal_identifier: "internal") do |p|
+          p.name = "internal"
+          p.enabled = true
+        end
+
+        provider.update!(
+          enabled: Setting.internal_wiki_provider.fetch("enabled", true)
+        )
       end
 
       def applicable?
-        !::Wikis::InternalProvider.exists?
+        !::Wikis::InternalProvider.exists? || Setting.internal_wiki_provider.present?
       end
     end
   end

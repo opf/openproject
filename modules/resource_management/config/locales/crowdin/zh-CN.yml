@@ -36,7 +36,7 @@ zh-CN:
     models:
       resource_allocation: 资源分配
       resource_planner: 资源规划工具
-      resource_user_card: User cards
+      resource_user_card: 用户卡
       resource_work_package_list: 工作包列表
   button_next: 下一步
   label_resource_management: 资源规划
@@ -53,7 +53,7 @@ zh-CN:
   resource_management:
     action:
       delete: 删除
-      edit: Edit
+      edit: 编辑
       favorite: 添加至收藏夹
       make_private: 设为私有
       make_public: 设为公开
@@ -76,12 +76,12 @@ zh-CN:
       overbooking:
         capacity_summary: "%{available} 可用 - %{scheduled} 预定"
         description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
+        hidden_work: 其他分配
         schedule_availability: "%{schedule} (%{factor}% 可用于项目工作)"
         schedule_change: 直到 %{date}，然后 %{schedule}
         schedule_note: 该用户工作 %{schedule}。
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
+        submit: 分配加班时间
+        title: 是否要为用户分配加班时间？
       submit: 分配
       success_message: 资源分配。
       title: 分配资源
@@ -101,10 +101,10 @@ zh-CN:
       title: 配置视图
     edit_allocation_dialog:
       submit: 保存
-      success_message: Resource allocation updated.
-      title: Edit allocation
+      success_message: 资源分配已更新。
+      title: 编辑分配
     favorite_caption: 将此视图标记为收藏项，并添加到边栏菜单的顶部。
-    label_edit_resource_planner: Edit resource planner
+    label_edit_resource_planner: 编辑资源规划工具
     label_new_resource_planner: 新建资源规划工具
     label_resource_planner: 资源规划工具
     label_resource_planner_plural: 资源规划工具
@@ -118,49 +118,61 @@ zh-CN:
       public: 公开
     sub_views: 此资源规划工具中的视图
     user_allocations_dialog:
-      allocate_work_package: Allocate work package
-      blank: This user has no allocated work packages.
+      allocate_work_package: 分配工作包
+      blank: 此用户没有分配的工作包。
       other_work_packages:
-        other: "%{count} other work packages"
-      title: Utilization
+        other: 其他 %{count} 个工作包
+      title: 使用情况
     user_card_list:
       add_user_dialog:
-        title: Add user
+        title: 添加用户
       blank:
-        description: There are no users matching this view's filters yet.
-        manual_description: No users have been added to this view yet.
-        title: No users to display
+        description: 还没有与此视图的筛选条件相符的用户。
+        manual_description: 此视图中尚未添加任何用户。
+        title: 没有可显示的用户
       card:
-        remove: Remove user
-        remove_confirmation: Remove this user from the view?
+        remove: 移除用户
+        remove_confirmation: 是否将此用户从视图中移除？
+      fields:
+        working_times: Working times
+        input_label: Fields
+        input_caption: Select the fields that will be displayed in the user card for this view
+        input_placeholder: Add a field
+        drag_area_label: Displayed fields
       subheader:
-        resource: Resource
-        settings: Configure view
+        resource: 资源
+        settings: 配置视图
       utilization:
-        label: Utilization
+        label: 使用情况
     view_types:
       resource_user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: 基于用户创建视图，并在用户卡列表中查看其详细信息和分配情况
+        label: 用户卡列表
       resource_work_package_list:
         caption: 基于工作包创建视图，并在列表中查看其详细信息和分配情况
         label: 工作包列表
+      resource_work_package_timeline:
+        caption: Create a view based on work packages and see their allocations over time on a timeline
+        label: Work packages timeline
+      user_card:
+        caption: 基于用户创建视图，并在用户卡列表中查看其详细信息和分配情况
+        label: 用户卡列表
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
+      allocate_resource: 分配资源
+      context_menu_label: 分配操作
+      delete_confirmation: 确定要删除此分配吗？此操作无法撤消。
+      delete_success: 资源分配已删除。
       hidden_user: 隐藏用户
       overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      title: 分配
     work_package_list:
       add_work_package_dialog:
         title: 添加工作包
       allocated_members:
         additional: "+%{count}"
         other_users:
-          other: "%{count} users"
-        unassigned: Unassigned
+          other: "%{count} 名用户"
+        unassigned: 未分配
       allocation_placeholder: "—"
       blank:
         description: 还没有与此视图的筛选条件相符的工作包。
@@ -189,3 +201,19 @@ zh-CN:
         add_work_package: 添加工作包
         allocate: 分配
         settings: 配置视图
+    work_package_timeline:
+      blank:
+        add_work_package: Add work package
+        configure_view: Configure view
+        description: There are no work packages matching this view's filters yet.
+        manual_description: Add work packages to this view to plan their allocation over time.
+        title: No work packages to display
+      granularity:
+        day: Day
+        month: Month
+        week: Calendar week
+      navigation:
+        next: Next period
+        previous: Previous period
+        today: Today
+      query_name: 'Resource management work package timeline: %{name}'

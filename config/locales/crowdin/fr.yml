@@ -741,6 +741,9 @@ fr:
         project: Permet à l'utilisateur d'ajouter un commentaire relatif à l'attribut du projet lorsqu'il sélectionne la valeur dans la vue d'ensemble du projet.
       visible_on_user_card:
         all: Lorsque cette case est cochée, la valeur de ce champ s'affiche dans la fiche d'informations de l'utilisateur lorsque vous passez la souris sur un utilisateur, partout dans l'application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
       no_results_content_text: Créer un nouveau champ personnalisé
@@ -1333,12 +1336,11 @@ fr:
       '
     delete_tooltip: Supprimer l'utilisateur fictif
     deletion_info:
-      heading_html: Supprimer l'utilisateur fictif %{name}
       data_consequences: 'Toutes les occurrences de l''utilisateur fictif (par exemple, en tant que responsable ou autre valeur utilisateur) seront réaffectées à un compte appelé « Utilisateur supprimé ». Comme les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera pas possible de distinguer les données que l''utilisateur a créées des données d''un autre compte supprimé.
 
         '
-      irreversible: Cette action est irréversible
-      confirmation_html: Saisissez le nom d'utilisateur fictif %{name} pour confirmer sa suppression.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1698,6 +1700,7 @@ fr:
       login_consequences:
         other: Ce compte sera immédiatement supprimé du système et l'utilisateur ne pourra plus se connecter avec ses informations d'identification.
         self: Votre compte sera immédiatement supprimé du système et vous ne pourrez plus vous connecter à l'aide de vos informations d'identification.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Votre compte n''a pas encore été activé. Pour activer votre compte, cliquez sur le lien qui vous a été envoyé par e-mail.
 
       '
@@ -1767,6 +1770,7 @@ fr:
         regexp: Expression régulière
         searchable: Recherchable
         visible_on_user_card: Afficher sur la fiche utilisateur
+        semantic_key: Semantic meaning
         admin_only: Administrateurs uniquement
         has_comment: Ajouter un champ de texte pour les commentaires
       custom_value:
@@ -5609,6 +5613,13 @@ fr:
       label_untitled_section: Attributs de l'utilisateur
       new:
         heading: Nouvel attribut
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Semaine de travail
       section_holidays_and_closures: Vacances et fermetures
