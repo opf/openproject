@@ -36,7 +36,6 @@ const InlineChip = styled.span.attrs({
   cursor: pointer;
   user-select: none;
   border-radius: ${CHIP_STYLES.radius};
-  margin: 0 var(--spacer-s); // necessary so blue outline will not cover adjacent characters
   position: relative;
   line-height: 1;
 
@@ -44,16 +43,11 @@ const InlineChip = styled.span.attrs({
     cursor: grabbing;
   }
 
-  /* Paint the selection ring on the chip surface (the grey-background element) so it shares
-     the exact same box and clones onto every line fragment of a wrapped subject. */
   ${({ selected }) =>
     selected &&
     css`
-      /* selection should be above other elements in adjacent lines */
-      z-index: 1;
-
       & > .op-bn-inline-wp-base {
-        box-shadow: ${CHIP_STYLES.focusShadow};
+        box-shadow: ${CHIP_STYLES.inlineFocusShadow};
       }
     `}
 `;
