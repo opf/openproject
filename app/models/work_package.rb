@@ -648,7 +648,7 @@ class WorkPackage < ApplicationRecord
 
   # Update issues so their versions are not pointing to a
   # version that is not shared with the issue's project
-  def self.update_versions(conditions = nil)
+  def self.update_versions(conditions = nil) # rubocop:disable Metrics/AbcSize
     # Only need to update issues with a version from
     # a different project and that is not systemwide shared
     having_version_from_other_project
@@ -658,6 +658,9 @@ class WorkPackage < ApplicationRecord
       next if issue.project.nil? || issue.version.nil?
 
       unless issue.project.shared_versions.include?(issue.version)
+        # this is path that clears version_id without going through the services,
+        # so we need to manually drop the matching target association here too.
+        issue.target_versions.delete(issue.version)
         issue.version = nil
         issue.save
       end
