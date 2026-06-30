@@ -110,7 +110,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
 
     it "reloads the page header and shows the burndown chart after saving sprint dates" do
       within "turbo-frame##{Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID}" do
-        click_on "Edit sprint"
+        click_on "Edit sprint dates"
       end
 
       within_dialog "Edit sprint" do
@@ -125,7 +125,7 @@ RSpec.describe "Sprint report page", :js, with_flag: :sprint_reports do
 
       within "turbo-frame##{Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID}" do
         expect(page).to have_element(:"opce-burndown-chart")
-        expect(page).to have_no_link("Edit sprint")
+        expect(page).to have_no_link("Edit sprint dates")
       end
     end
   end

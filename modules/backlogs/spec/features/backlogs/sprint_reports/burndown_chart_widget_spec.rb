@@ -148,7 +148,7 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
       it "shows an edit sprint link in the blankslate" do
         visit_widget(sprint)
 
-        expect(page).to have_link("Edit sprint")
+        expect(page).to have_link("Edit sprint dates")
       end
     end
 
@@ -156,7 +156,7 @@ RSpec.describe "Burndown chart widget", :js, with_flag: :sprint_reports do
       it "hides the edit sprint link" do
         visit_widget(sprint)
 
-        expect(page).to have_no_link("Edit sprint")
+        expect(page).to have_no_link("Edit sprint dates")
       end
     end
   end
