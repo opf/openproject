@@ -33,4 +33,8 @@
 class ResourceUserTimeline < PersistedView
   include ResourceManagement::Categorized
   include ResourceManagement::UserSelection
+
+  def timeline?
+    true
+  end
 end

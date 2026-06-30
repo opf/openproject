@@ -39,6 +39,10 @@ RSpec.describe ResourceUserTimeline do
     expect(ResourcePlanner.allowed_children).to include("ResourceUserTimeline")
   end
 
+  it "is a timeline view (drives the page's height-fill chain)" do
+    expect(described_class.new).to be_timeline
+  end
+
   it "persists as a child of a planner with a default user query" do
     view = described_class.new(name: "Timeline", parent: planner, project:, principal: user)
     view.query = view.build_default_query

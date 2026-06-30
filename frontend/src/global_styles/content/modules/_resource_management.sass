@@ -1,7 +1,7 @@
 // Viewport-fill chain for the timeline. These rules style the planner page and
 // the content frame, which are ANCESTORS of `.op-rm-timeline-view`, so they can
 // not live inside the single-class scope below. They only take effect on timeline
-// views: the `--fill` modifier is added solely for `ResourceWorkPackageTimeline`.
+// views: the `--fill` modifier is added for timeline views (see `PersistedView#timeline?`).
 // `#content-body` already has a resolved height, so a `height: 100%` flex column
 // off it carries the height down to FullCalendar (which runs with `height: '100%'`).
 .op-rm-planner-page--fill

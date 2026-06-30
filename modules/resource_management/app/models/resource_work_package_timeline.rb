@@ -34,6 +34,10 @@ class ResourceWorkPackageTimeline < PersistedView
   include ResourceManagement::Categorized
   include ResourceManagement::WorkPackageSelection
 
+  def timeline?
+    true
+  end
+
   private
 
   def query_name_i18n_key

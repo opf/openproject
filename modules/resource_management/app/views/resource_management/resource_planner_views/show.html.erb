@@ -31,7 +31,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <%# The timeline fills the remaining viewport height; other views keep their
     natural page-scrolling flow. %>
-<% fill_height = @view.is_a?(ResourceWorkPackageTimeline) %>
+<% fill_height = @view.timeline? %>
 <div class="op-rm-planner-page <%= "op-rm-planner-page--fill" if fill_height %>">
   <%= render(ResourcePlanners::ShowPageHeaderComponent.new(resource_planner: @resource_planner, project: @project)) %>
 
@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
 %>
 <%
   # When the planner does not have a view yet, we cannot add frame data
-  frame_data = if @view && !@view.is_a?(ResourceWorkPackageTimeline)
+  frame_data = if @view && !@view.timeline?
                  {
                    controller: "reload-frame-on-event",
                    "reload-frame-on-event-event-name-value": "op-dispatched:resource-allocations:changed",

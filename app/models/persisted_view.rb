@@ -88,6 +88,12 @@ class PersistedView < ApplicationRecord
     raise SubclassResponsibilityError
   end
 
+  # Whether this view renders a (viewport-filling) timeline. Timeline subclasses
+  # override this; it drives the page's height-fill chain.
+  def timeline?
+    false
+  end
+
   private
 
   def parent_allows_this_child_class
