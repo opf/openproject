@@ -28,25 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module InplaceEdit
-    module Handlers
-      class ProjectUpdate
-        def self.call(model:, params:, user:)
-          contract_options = project_attributes_only?(params) ? { project_attributes_only: true } : {}
+require "rails_helper"
 
-          call = ::Projects::UpdateService
-                   .new(model:, user:, contract_options:)
-                   .call(params)
+RSpec.describe WorkPackages::ProjectCustomFields::SectionComponent, type: :component do
+  include Rails.application.routes.url_helpers
 
-          call.success?
-        end
+  let(:project) { build(:project) }
+  let(:project_custom_field_section) { build(:project_custom_field_section, name: "Special Section") }
+  let(:project_custom_fields) { create_list(:project_custom_field, 2, projects: [project]) }
+  let(:user) { build_stubbed(:user) }
 
-        def self.project_attributes_only?(params)
-          params.keys.all? { |k| k.to_s.start_with?("custom_field_", "custom_comment") }
-        end
-        private_class_method :project_attributes_only?
-      end
-    end
+  current_user { user }
+
+  subject(:rendered_component) do
+    render_inline(described_class.new(project:, project_custom_field_section:, project_custom_fields:))
+  end
+
+  it "renders the section with the correct title" do
+    expect(rendered_component).to have_section "Special Section"
+  end
+
+  it "renders a field container for each custom field" do
+    expect(rendered_component).to have_css ".op-project-custom-field-container", count: 2
   end
 end

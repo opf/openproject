@@ -73,4 +73,23 @@ describe('WpTabsService', () => {
       expect(displayableTabs[0].id).toEqual(notDisplayableTab.id);
     });
   });
+
+  describe('project_attributes tab', () => {
+    beforeEach(() => {
+      // Reset to default tabs so the built-in project_attributes tab is present
+      (service as any).registeredTabs = (service as any).buildDefaultTabs();
+    });
+
+    it('is hidden when hasProjectAttributes is false', () => {
+      const wp:any = { hasProjectAttributes: false };
+      const tabs = service.getDisplayableTabs(wp);
+      expect(tabs.find((t) => t.id === 'project_attributes')).toBeUndefined();
+    });
+
+    it('is visible when hasProjectAttributes is true', () => {
+      const wp:any = { hasProjectAttributes: true };
+      const tabs = service.getDisplayableTabs(wp);
+      expect(tabs.find((t) => t.id === 'project_attributes')).toBeDefined();
+    });
+  });
 });

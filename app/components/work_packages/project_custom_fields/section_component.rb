@@ -28,25 +28,15 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module OpenProject
-  module InplaceEdit
-    module Handlers
-      class ProjectUpdate
-        def self.call(model:, params:, user:)
-          contract_options = project_attributes_only?(params) ? { project_attributes_only: true } : {}
+class WorkPackages::ProjectCustomFields::SectionComponent < ApplicationComponent
+  include OpPrimer::ComponentHelpers
+  include OpTurbo::Streamable
 
-          call = ::Projects::UpdateService
-                   .new(model:, user:, contract_options:)
-                   .call(params)
+  def initialize(project:, project_custom_field_section:, project_custom_fields:)
+    super
 
-          call.success?
-        end
-
-        def self.project_attributes_only?(params)
-          params.keys.all? { |k| k.to_s.start_with?("custom_field_", "custom_comment") }
-        end
-        private_class_method :project_attributes_only?
-      end
-    end
+    @project = project
+    @project_custom_field_section = project_custom_field_section
+    @project_custom_fields = project_custom_fields
   end
 end

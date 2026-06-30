@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
-# Copyright (C) the OpenProject GmbH
+# Copyright (C) 2010-2023 the OpenProject GmbH
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -26,27 +26,27 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module OpenProject
-  module InplaceEdit
-    module Handlers
-      class ProjectUpdate
-        def self.call(model:, params:, user:)
-          contract_options = project_attributes_only?(params) ? { project_attributes_only: true } : {}
+class WorkPackages::ProjectAttributesTabController < ApplicationController
+  before_action :find_work_package
+  before_action :authorize
+  before_action :authorize_project_attributes_visibility
 
-          call = ::Projects::UpdateService
-                   .new(model:, user:, contract_options:)
-                   .call(params)
+  def index
+    render(WorkPackages::ProjectAttributesTabComponent.new(work_package: @work_package))
+  end
 
-          call.success?
-        end
+  private
 
-        def self.project_attributes_only?(params)
-          params.keys.all? { |k| k.to_s.start_with?("custom_field_", "custom_comment") }
-        end
-        private_class_method :project_attributes_only?
-      end
-    end
+  def find_work_package
+    @work_package = WorkPackage.visible.find(params.expect(:id))
+    @project = @work_package.project
+  rescue ActiveRecord::RecordNotFound
+    render_404
+  end
+
+  def authorize_project_attributes_visibility
+    do_authorize(:view_project_attributes)
   end
 end
