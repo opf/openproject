@@ -1,17 +1,16 @@
 import type { BlockNoteEditor, InlineContentFromConfig } from '@blocknote/core';
+import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import { LinkIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
 import { makeInstanceId } from '../utils/id.ts';
-import { placeCursorAfterInlineNode } from '../utils/cursor.ts';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { isCurrentBlockEmpty } from '../utils/blockContent.ts';
 import type { AnyEditor } from './HashMenu/editorUtils';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type AnyInlineNode = InlineContentFromConfig<any, any>;
-interface TextNode { type:'text'; text:string; styles:Record<string, unknown> }
 
 function getBlockContent(
   editor:AnyEditor,
@@ -24,39 +23,39 @@ function getBlockContent(
 
 function buildOnSelect(
   editor:AnyEditor,
-  blockId:string,
-  pendingWpid:string,
   instanceId:string
 ):(wpid:number, displayId:string) => void {
   return (wpid:number, displayId:string) => {
-    const current = getBlockContent(editor, blockId);
-    if (!current) return;
-
-    const chipIndex = current.content.findIndex((node) => {
-      const n = node as { type:string; props?:{ wpid?:string } };
-      return n.type === 'openProjectWorkPackageInline' && n.props?.wpid === pendingWpid;
-    });
-
-    const updatedContent = current.content.map((node) => {
-      const n = node as { type:string; props?:{ wpid?:string; instanceId?:string } };
-      if (n.type === 'openProjectWorkPackageInline' && n.props?.wpid === pendingWpid) {
-        return { ...n, props: { ...n.props, wpid: String(wpid), instanceId, displayId } };
+    // Resolve the placeholder chip to its real work package by updating the node's
+    // props in place. We use a ProseMirror `setNodeMarkup` transaction rather than
+    // `editor.updateBlock` because updateBlock rebuilds the block and moves the
+    // cursor to the block end, whereas setNodeMarkup maps the existing selection
+    // through unchanged — leaving the cursor directly after the chip (where the
+    // placeholder insertion left it). Crucially we do NOT dispatch a separate
+    // selection transaction to reposition the cursor: under real-time
+    // collaboration (Yjs/Hocuspocus) a selection change issued after the menu
+    // insertion leaves the editor in a state where the next native keyboard input
+    // (e.g. Backspace) is silently dropped. Relying on the preserved selection
+    // avoids that entirely.
+    const view = editor.prosemirrorView;
+    let chipPosition:number | null = null;
+    let chipNode:ProsemirrorNode | null = null;
+    view.state.doc.descendants((node, position) => {
+      if (chipPosition !== null) return false;
+      if ((node.attrs as Record<string, unknown>)?.instanceId === instanceId) {
+        chipPosition = position;
+        chipNode = node;
+        return false;
       }
-      return node;
+      return true;
     });
+    if (chipPosition === null || chipNode === null) return;
 
-    const nodeAfter = updatedContent[chipIndex + 1] as TextNode | undefined;
-    const hasSpaceAfter = nodeAfter?.type === 'text' && nodeAfter?.text?.startsWith(' ');
-    if (!hasSpaceAfter) {
-      updatedContent.splice(chipIndex + 1, 0, { type: 'text', text: ' ', styles: {} } as AnyInlineNode);
-    }
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-    editor.updateBlock(current.blockId, { content: updatedContent } as any);
-
-    requestAnimationFrame(() => {
-      editor.focus();
-      placeCursorAfterInlineNode(editor, instanceId);
+    const position:number = chipPosition;
+    const existingAttributes = (chipNode as ProsemirrorNode).attrs;
+    editor.focus();
+    editor.transact((tr) => {
+      tr.setNodeMarkup(position, undefined, { ...existingAttributes, wpid: String(wpid), displayId });
     });
   };
 }
@@ -105,7 +104,7 @@ function insertInlineWorkPackage(editor:AnyEditor):void {
   const blockId = editor.getTextCursorPosition()?.block?.id as string | undefined;
   if (!blockId) return;
 
-  const onSelect = buildOnSelect(editor, blockId, pendingWpid, instanceId);
+  const onSelect = buildOnSelect(editor, instanceId);
   const onCancel = buildOnCancel(editor, blockId, pendingWpid, instanceId);
 
   registerInlineWpCallbacks(instanceId, onSelect, onCancel);
@@ -113,7 +112,6 @@ function insertInlineWorkPackage(editor:AnyEditor):void {
   try {
     (editor.insertInlineContent as (content:unknown[]) => void)([
       { type: 'openProjectWorkPackageInline', props: { wpid: pendingWpid, instanceId, size: 's' } },
-      ' ',
     ]);
   } catch (error) {
     console.error('[inline-wp] insertInlineContent failed:', error);

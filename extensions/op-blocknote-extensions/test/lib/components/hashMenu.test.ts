@@ -177,7 +177,10 @@ describe('insertWpChip', () => {
     expect(chip.props.instanceId).toEqual(expect.any(String));
   });
 
-  it('inserts a trailing space after the chip', () => {
+  it('does not insert a trailing space after the chip', () => {
+    // The chip is inserted on its own so the caret lands directly after it.
+    // A trailing space would force the caret after the space (or require a
+    // separate selection transaction, which breaks Backspace under collaboration).
     const editor = createTestEditor('test ');
 
     insertWpChip(
@@ -192,9 +195,7 @@ describe('insertWpChip', () => {
     const chipIdx = content.findIndex(
       (n) => n.type === 'openProjectWorkPackageInline',
     );
-    const afterChip = content[chipIdx + 1];
 
-    expect(afterChip?.type).toBe('text');
-    expect(afterChip?.text).toBe(' ');
+    expect(content[chipIdx + 1]).toBeUndefined();
   });
 });

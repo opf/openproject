@@ -1,6 +1,6 @@
 import type { BlockNoteEditor } from '@blocknote/core';
 import type { Node as PmNode } from 'prosemirror-model';
-import { NodeSelection, TextSelection } from 'prosemirror-state';
+import { NodeSelection } from 'prosemirror-state';
 
 const isSafari =
   typeof navigator !== 'undefined' &&
@@ -65,10 +65,3 @@ export function selectInlineNode(editor:AnyEditor, instanceId:string):void {
   });
 }
 
-export function placeCursorAfterInlineNode(editor:AnyEditor, instanceId:string):void {
-  const range = findInlineNodeRange(editor.prosemirrorState.doc, instanceId);
-  if (!range) return;
-  editor.transact((tr) => {
-    tr.setSelection(TextSelection.create(tr.doc, range.to));
-  });
-}

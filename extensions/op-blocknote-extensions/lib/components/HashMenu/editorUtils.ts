@@ -2,8 +2,6 @@ import type { BlockNoteEditor } from '@blocknote/core';
 import type { InlineWpSize } from '../WorkPackage/types';
 import { makeInstanceId } from '../../utils/id.ts';
 import type { WorkPackage } from '../../openProjectTypes';
-import { placeCursorAfterInlineNode } from '../../utils/cursor.ts';
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyEditor = BlockNoteEditor<any, any, any>;
 
@@ -45,55 +43,59 @@ export function getSizeFromCurrentBlock(editor:AnyEditor):InlineWpSize {
 }
 
 /**
- * Inserts a chip at the cursor, removes the `#query` trigger before it,
- * then repositions the cursor right after the chip via its instanceId.
+ * Inserts a chip at the cursor and removes the `#query` trigger before it.
+ *
+ * The chip is inserted on its own (no trailing space): `insertInlineContent`
+ * leaves the cursor directly after the chip, which is exactly where we want it.
+ * We deliberately avoid placing the cursor with a separate selection
+ * transaction — under real-time collaboration (Yjs/Hocuspocus) any selection
+ * change dispatched after the menu insertion leaves the editor in a state where
+ * the following native keyboard input (e.g. Backspace) is silently dropped.
+ * Relying on the natural post-insertion cursor sidesteps that entirely.
  */
 export function insertWpChip(editor:AnyEditor, wp:WorkPackage, size:InlineWpSize):void {
   const instanceId = makeInstanceId();
 
   (editor.insertInlineContent as (content:unknown[]) => void)([
     { type: 'openProjectWorkPackageInline', props: { wpid: String(wp.id), instanceId, size, displayId: wp.displayId } },
-    { type: 'text', text: ' ', styles: {} },
   ]);
 
   removeTriggerBeforeChip(editor, instanceId);
   editor.focus();
-
-  requestAnimationFrame(() => {
-    placeCursorAfterInlineNode(editor, instanceId);
-  });
 }
 
 /**
- * Trims the trailing `#query` from the text node right before the chip.
- * Returns the block ID if the operation completed (with or without changes), or null if no block.
+ * Trims the trailing `#query` trigger from the text node directly before the chip.
+ *
+ * Implemented with a ProseMirror delete transaction rather than `editor.updateBlock`.
+ * updateBlock rebuilds the whole block and moves the cursor to the block end, which
+ * would leave the caret in the wrong place after insertion. A delete maps the existing
+ * selection through unchanged, so the caret stays directly after the chip — and we
+ * never dispatch a separate selection transaction, which under real-time collaboration
+ * (Yjs/Hocuspocus) would cause the following keyboard input to be silently dropped.
  */
-export function removeTriggerBeforeChip(editor:AnyEditor, instanceId:string):string | null {
-  const block = editor.getTextCursorPosition()?.block;
-  if (!block) return null;
+export function removeTriggerBeforeChip(editor:AnyEditor, instanceId:string):void {
+  const { doc } = editor.prosemirrorState;
 
-  const content = (block.content ?? []) as RawNode[];
-  const chipIndex = content.findIndex(
-    (n) => n.type === 'openProjectWorkPackageInline' && n.props?.instanceId === instanceId
-  );
-  if (chipIndex <= 0) return block.id;
+  let chipStart = -1;
+  doc.descendants((node, position) => {
+    if (chipStart !== -1) return false;
+    if ((node.attrs as Record<string, unknown>)?.instanceId === instanceId) {
+      chipStart = position;
+      return false;
+    }
+    return true;
+  });
+  if (chipStart === -1) return;
 
-  const prev = content[chipIndex - 1];
-  if (prev.type !== 'text') return block.id;
+  const nodeBeforeChip = doc.resolve(chipStart).nodeBefore;
+  if (!nodeBeforeChip?.isText || nodeBeforeChip.text == null) return;
 
-  const match = /#+\S*$/.exec(prev.text ?? '');
-  if (!match) return block.id;
+  const match = /#+\S*$/.exec(nodeBeforeChip.text);
+  if (!match) return;
 
-  const before = (prev.text ?? '').slice(0, match.index);
-  const newContent = [...content];
-
-  if (before.length > 0) {
-    newContent[chipIndex - 1] = { ...prev, text: before };
-  } else {
-    newContent.splice(chipIndex - 1, 1);
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument
-  editor.updateBlock(block.id, { content: newContent } as any);
-  return block.id;
+  const triggerStart = chipStart - (nodeBeforeChip.text.length - match.index);
+  editor.transact((tr) => {
+    tr.delete(triggerStart, chipStart);
+  });
 }
