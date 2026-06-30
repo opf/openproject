@@ -57,7 +57,7 @@ module Projects
       when "projects"
         case params[:query_id]
         when nil
-          query_params[:query_id].to_s == ProjectQueries::Static::DEFAULT
+          query_params[:query_id].to_s == ProjectQueries::Static::DEFAULT unless modification_params?
         when /\A\d+\z/
           query_params[:query_id].to_s == params[:query_id]
         else

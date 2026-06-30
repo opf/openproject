@@ -53,7 +53,7 @@ module Portfolios
       when "portfolios"
         case params[:query_id]
         when nil
-          query_params[:query_id].to_s == ProjectQueries::Static::ACTIVE_PORTFOLIOS
+          query_params[:query_id].to_s == ProjectQueries::Static::ACTIVE_PORTFOLIOS unless modification_params?
         when /\A\d+\z/
           query_params[:query_id].to_s == params[:query_id]
         else

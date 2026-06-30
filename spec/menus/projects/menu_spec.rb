@@ -275,6 +275,22 @@ RSpec.describe Projects::Menu do
         end
       end
 
+      context "with query_id param for archived projects" do
+        let(:params) { { query_id: "archived" } }
+
+        it "has nothing selected" do
+          expect(selected_menu_items).to be_empty
+        end
+
+        context "as an admin" do
+          let(:current_user) { build(:admin) }
+
+          it "has archived projects selected" do
+            expect(selected_menu_items).to contain_exactly(have_attributes(title: "Archived projects"))
+          end
+        end
+      end
+
       context "with query_id param for at_risk projects" do
         let(:params) { { query_id: "at_risk" } }
 
@@ -299,11 +315,35 @@ RSpec.describe Projects::Menu do
         end
       end
 
-      context "with query_id param for active projects and modifications to query" do
-        let(:params) { { query_id: "active", columns: "foo" } }
+      context "with query_id param for my projects and filters in query" do
+        let(:params) { { query_id: "my", filters: "foo" } }
 
         it "has no selected items" do
           expect(selected_menu_items).to be_empty
+        end
+      end
+
+      context "with query_id param for my projects and sortBy in query" do
+        let(:params) { { query_id: "my", sortBy: "bar" } }
+
+        it "has no selected items" do
+          expect(selected_menu_items).to be_empty
+        end
+      end
+
+      context "with query_id param for my projects and columns in query" do
+        let(:params) { { query_id: "my", columns: "baz" } }
+
+        it "has no selected items" do
+          expect(selected_menu_items).to be_empty
+        end
+      end
+
+      context "with query_id param for my projects and something else in query" do
+        let(:params) { { query_id: "my", something: "else" } }
+
+        it "has no selected items" do
+          expect(selected_menu_items).to contain_exactly(have_attributes(title: "My projects"))
         end
       end
 
