@@ -23,12 +23,13 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
 module ScimClients
-  class CreateContract < BaseContract
+  class EnvironmentCreateContract < CreateContract
+    def not_configured_from_env = nil
   end
 end

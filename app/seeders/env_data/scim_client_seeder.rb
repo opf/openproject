@@ -23,12 +23,32 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
 #++
+module EnvData
+  class ScimClientSeeder < Seeder
+    def seed_data!
+      Rails.logger.debug "*** Seeding SCIM Clients from ENV"
 
-module ScimClients
-  class CreateContract < BaseContract
+      Setting.scim_clients.each do |config|
+        result = ScimClients::EnvSyncService.new(config).call
+
+        if result.success?
+          print_status "   - #{result.result.name}: OK"
+        else
+          raise result.message
+        end
+      end
+    end
+
+    def applicable?
+      Setting.scim_clients.present?
+    end
+
+    def dependencies
+      [EnvData::OpenIDConnect::ProviderSeeder]
+    end
   end
 end
