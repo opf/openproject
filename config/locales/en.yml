@@ -1503,6 +1503,7 @@ en:
         actions:
           label_disable_all: "Disable all"
           label_enable_all: "Enable all"
+        description: "Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there."
         filter: "Search by section or name"
         tab: "Project attributes"
       projects:
