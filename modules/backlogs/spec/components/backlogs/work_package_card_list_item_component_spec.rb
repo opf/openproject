@@ -104,7 +104,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       render_inline(item.card)
       card = page.find(".op-work-package-card")
 
-      expect(card["data-backlogs--story-split-url-value"])
+      expect(card["data-backlogs--work-package-split-url-value"])
         .to end_with(project_backlogs_backlog_details_path(project, work_package))
     end
 
@@ -120,8 +120,8 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         semantic_id = work_package.reload.identifier
 
         expect(semantic_id).to start_with("STORY-")
-        expect(card["data-backlogs--story-split-url-value"]).to end_with("/details/#{semantic_id}")
-        expect(card["data-backlogs--story-display-id-value"]).to eq(semantic_id)
+        expect(card["data-backlogs--work-package-split-url-value"]).to end_with("/details/#{semantic_id}")
+        expect(card["data-backlogs--work-package-display-id-value"]).to eq(semantic_id)
       end
     end
   end
@@ -140,12 +140,12 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
       )
     end
 
-    it "wires the card as a Backlogs story" do
+    it "wires the card as a Backlogs work package" do
       expect(rendered_card).to have_css(
-        ".op-work-package-card[data-controller~='backlogs--story']" \
-        "[data-backlogs--story-id-value='#{work_package.id}']" \
-        "[data-backlogs--story-display-id-value='#{work_package.display_id}']" \
-        "[data-backlogs--story-full-url-value='#{work_package_path(work_package)}']" \
+        ".op-work-package-card[data-controller~='backlogs--work-package']" \
+        "[data-backlogs--work-package-id-value='#{work_package.id}']" \
+        "[data-backlogs--work-package-display-id-value='#{work_package.display_id}']" \
+        "[data-backlogs--work-package-full-url-value='#{work_package_path(work_package)}']" \
         "[data-sortable-lists--item-target='preview handle']" \
         "[tabindex='0']"
       )
@@ -153,7 +153,7 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
 
     it "does not wire the card as the draggable item" do
       expect(rendered_card).to have_css(
-        ".op-work-package-card[data-controller~='backlogs--story']"
+        ".op-work-package-card[data-controller~='backlogs--work-package']"
       )
       expect(rendered_card).to have_no_css(".op-work-package-card[data-controller~='sortable-lists--item']")
       expect(rendered_card).to have_no_css(".op-work-package-card[draggable='true']")

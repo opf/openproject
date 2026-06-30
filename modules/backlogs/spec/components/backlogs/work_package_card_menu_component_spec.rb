@@ -92,7 +92,7 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       expect(page).to have_text(I18n.t(:"js.button_open_details"))
       expect(page).to have_octicon(:"op-view-split")
       expect(page).to have_css(
-        "button[data-action='backlogs--story#openSplitPane']",
+        "button[data-action='backlogs--work-package#openSplitPane']",
         text: I18n.t(:"js.button_open_details")
       )
     end

@@ -106,7 +106,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
 
       expect(rendered_component).to have_css(
         ".Box-row#work_package_#{work_package.id}[data-controller='sortable-lists--item'] " \
-        ".op-work-package-card[data-controller='backlogs--story']"
+        ".op-work-package-card[data-controller='backlogs--work-package']"
       )
     end
 
@@ -120,7 +120,7 @@ RSpec.describe Backlogs::WorkPackageCardListComponent, type: :component do
 
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id} .op-work-package-card") do |card|
         expect(card["data-story"]).to be_present
-        expect(card["data-backlogs--story-id-value"]).to eq(work_package.id.to_s)
+        expect(card["data-backlogs--work-package-id-value"]).to eq(work_package.id.to_s)
         expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
       end
     end

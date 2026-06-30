@@ -28,29 +28,29 @@
 
 import { Application } from '@hotwired/stimulus';
 
-import type StoryControllerType from './story.controller';
+import type WorkPackageControllerType from './work-package.controller';
 
-interface StoryNavigation {
+interface WorkPackageNavigation {
   openSplitPane(this:void):void;
   openFullPane(this:void):void;
 }
 
-describe('Backlogs story controller', () => {
+describe('Backlogs work package controller', () => {
   const nextFrame = () => new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
   let application:Application;
   let fixture:HTMLElement;
-  let StoryController:typeof StoryControllerType;
-  let navigation:StoryNavigation;
+  let WorkPackageController:typeof WorkPackageControllerType;
+  let navigation:WorkPackageNavigation;
 
   beforeAll(async () => {
-    ({ default: StoryController } = await import('./story.controller'));
+    ({ default: WorkPackageController } = await import('./work-package.controller'));
   });
 
   beforeEach(() => {
     // Stub the navigation so activating a card neither hits Turbo nor leaves
     // the test page; the spies double as activation assertions.
-    navigation = StoryController.prototype as unknown as StoryNavigation;
+    navigation = WorkPackageController.prototype as unknown as WorkPackageNavigation;
     vi.spyOn(navigation, 'openSplitPane').mockReturnValue(undefined);
     vi.spyOn(navigation, 'openFullPane').mockReturnValue(undefined);
 
@@ -58,7 +58,7 @@ describe('Backlogs story controller', () => {
     document.body.appendChild(fixture);
 
     application = Application.start();
-    application.register('backlogs--story', StoryController);
+    application.register('backlogs--work-package', WorkPackageController);
   });
 
   afterEach(async () => {
@@ -68,21 +68,21 @@ describe('Backlogs story controller', () => {
     vi.restoreAllMocks();
   });
 
-  function renderStory() {
+  function renderWorkPackage() {
     fixture.innerHTML = `
       <article
-        data-controller="backlogs--story"
-        data-backlogs--story-id-value="42"
-        data-backlogs--story-display-id-value="SP-42"
-        data-backlogs--story-split-url-value="/projects/demo/backlogs/details/SP-42"
-        data-backlogs--story-full-url-value="/work_packages/42"
+        data-controller="backlogs--work-package"
+        data-backlogs--work-package-id-value="42"
+        data-backlogs--work-package-display-id-value="SP-42"
+        data-backlogs--work-package-split-url-value="/projects/demo/backlogs/details/SP-42"
+        data-backlogs--work-package-full-url-value="/work_packages/42"
         tabindex="0"
       >
-        Story
+        Work package
       </article>
     `;
 
-    return fixture.querySelector<HTMLElement>('[data-controller="backlogs--story"]')!;
+    return fixture.querySelector<HTMLElement>('[data-controller="backlogs--work-package"]')!;
   }
 
   function keydown(target:HTMLElement, key:string, init:KeyboardEventInit = {}) {
@@ -94,10 +94,10 @@ describe('Backlogs story controller', () => {
   }
 
   it('prevents Space from scrolling the page without activating the card', async () => {
-    const story = renderStory();
+    const workPackage = renderWorkPackage();
 
     await nextFrame();
-    const event = keydown(story, ' ');
+    const event = keydown(workPackage, ' ');
 
     expect(event.defaultPrevented).toBe(true);
     expect(navigation.openSplitPane).not.toHaveBeenCalled();
@@ -105,10 +105,10 @@ describe('Backlogs story controller', () => {
   });
 
   it('opens the split pane when Enter is pressed', async () => {
-    const story = renderStory();
+    const workPackage = renderWorkPackage();
 
     await nextFrame();
-    const event = keydown(story, 'Enter');
+    const event = keydown(workPackage, 'Enter');
 
     expect(event.defaultPrevented).toBe(true);
     expect(navigation.openSplitPane).toHaveBeenCalledTimes(1);
@@ -116,10 +116,10 @@ describe('Backlogs story controller', () => {
   });
 
   it('opens the full pane when Shift+Enter is pressed', async () => {
-    const story = renderStory();
+    const workPackage = renderWorkPackage();
 
     await nextFrame();
-    const event = keydown(story, 'Enter', { shiftKey: true });
+    const event = keydown(workPackage, 'Enter', { shiftKey: true });
 
     expect(event.defaultPrevented).toBe(true);
     expect(navigation.openFullPane).toHaveBeenCalledTimes(1);
@@ -127,9 +127,9 @@ describe('Backlogs story controller', () => {
   });
 
   it('ignores Space inside a form field so typing and scrolling stay native', async () => {
-    const story = renderStory();
+    const workPackage = renderWorkPackage();
     const input = document.createElement('input');
-    story.appendChild(input);
+    workPackage.appendChild(input);
 
     await nextFrame();
     const event = keydown(input, ' ');
@@ -140,24 +140,24 @@ describe('Backlogs story controller', () => {
   });
 
   it('marks the card as selected immediately on click, before the pane opens', async () => {
-    const story = renderStory();
+    const workPackage = renderWorkPackage();
 
     await nextFrame();
-    story.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
-    expect(story.hasAttribute('data-selected')).toBe(true);
-    expect(story.hasAttribute('aria-current')).toBe(false);
+    expect(workPackage.hasAttribute('data-selected')).toBe(true);
+    expect(workPackage.hasAttribute('aria-current')).toBe(false);
     expect(navigation.openSplitPane).not.toHaveBeenCalled();
   });
 
   it('cancels a pending click activation when the card disconnects', async () => {
-    const story = renderStory();
+    const workPackage = renderWorkPackage();
 
     await nextFrame();
     vi.useFakeTimers();
 
     try {
-      story.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
       fixture.remove();
       await Promise.resolve();
       await Promise.resolve();
@@ -170,45 +170,45 @@ describe('Backlogs story controller', () => {
   });
 
   it('marks the card as selected when Enter opens the split pane', async () => {
-    const story = renderStory();
+    const workPackage = renderWorkPackage();
 
     await nextFrame();
-    keydown(story, 'Enter');
+    keydown(workPackage, 'Enter');
 
-    expect(story.hasAttribute('data-selected')).toBe(true);
+    expect(workPackage.hasAttribute('data-selected')).toBe(true);
     expect(navigation.openSplitPane).toHaveBeenCalledTimes(1);
   });
 
-  it('clears the selection of other stories when a card is selected', async () => {
-    const story = renderStory();
+  it('clears the selection of other work packages when a card is selected', async () => {
+    const workPackage = renderWorkPackage();
     const other = document.createElement('article');
-    other.setAttribute('data-controller', 'backlogs--story');
+    other.setAttribute('data-controller', 'backlogs--work-package');
     fixture.appendChild(other);
 
     await nextFrame();
     other.setAttribute('data-selected', '');
-    story.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+    workPackage.dispatchEvent(new MouseEvent('click', { bubbles: true }));
 
     expect(other.hasAttribute('data-selected')).toBe(false);
-    expect(story.hasAttribute('data-selected')).toBe(true);
+    expect(workPackage.hasAttribute('data-selected')).toBe(true);
   });
 
   it('syncs selection and aria-current from the visited URL', async () => {
-    const story = renderStory();
+    const workPackage = renderWorkPackage();
 
     await nextFrame();
     document.dispatchEvent(new CustomEvent('turbo:visit', {
       detail: { url: '/projects/demo/backlogs/details/SP-42' },
     }));
 
-    expect(story.getAttribute('aria-current')).toBe('true');
-    expect(story.hasAttribute('data-selected')).toBe(true);
+    expect(workPackage.getAttribute('aria-current')).toBe('true');
+    expect(workPackage.hasAttribute('data-selected')).toBe(true);
 
     document.dispatchEvent(new CustomEvent('turbo:visit', {
       detail: { url: '/projects/demo/backlogs' },
     }));
 
-    expect(story.hasAttribute('aria-current')).toBe(false);
-    expect(story.hasAttribute('data-selected')).toBe(false);
+    expect(workPackage.hasAttribute('aria-current')).toBe(false);
+    expect(workPackage.hasAttribute('data-selected')).toBe(false);
   });
 });

@@ -467,9 +467,9 @@ describe('Sortable lists item controller', () => {
         >
           <article
             tabindex="0"
-            data-controller="backlogs--story"
+            data-controller="backlogs--work-package"
             data-sortable-lists--item-target="preview handle"
-            data-action="click->backlogs--story#select"
+            data-action="click->backlogs--work-package#select"
             data-dragging="source"
             data-drop-position="top"
             data-drop-position-owner="${itemId}"
@@ -477,7 +477,7 @@ describe('Sortable lists item controller', () => {
             <span
               data-controller="nested"
               data-action="click->nested#noop"
-              data-backlogs--story-target="subject"
+              data-backlogs--work-package-target="subject"
             ></span>
           </article>
         </li>
@@ -487,7 +487,7 @@ describe('Sortable lists item controller', () => {
 
       return {
         row: fixture.querySelector<HTMLElement>('.Box-row')!,
-        article: fixture.querySelector<HTMLElement>('[data-controller="backlogs--story"]')!,
+        article: fixture.querySelector<HTMLElement>('[data-controller="backlogs--work-package"]')!,
       };
     }
 
@@ -598,7 +598,7 @@ describe('Sortable lists item controller', () => {
       expect(preview.hasAttribute('aria-disabled')).toBe(false);
       expect(preview.querySelector('[data-controller]')).toBeNull();
       expect(preview.querySelector('[data-action]')).toBeNull();
-      expect(preview.querySelector('[data-backlogs--story-target]')).toBeNull();
+      expect(preview.querySelector('[data-backlogs--work-package-target]')).toBeNull();
     });
 
     it('offsets the preview so the pointer keeps its grab position on the card', async () => {

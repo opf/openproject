@@ -123,9 +123,9 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         end
 
         expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id} .op-work-package-card") do |card|
-          expect(card["data-controller"]).to eq("backlogs--story")
+          expect(card["data-controller"]).to eq("backlogs--work-package")
           expect(card["data-sortable-lists--item-target"]).to eq("preview handle")
-          expect(card["data-backlogs--story-display-id-value"]).to eq(work_package1.display_id.to_s)
+          expect(card["data-backlogs--work-package-display-id-value"]).to eq(work_package1.display_id.to_s)
         end
       end
 

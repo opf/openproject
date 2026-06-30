@@ -33,7 +33,7 @@ import { WP_ID_URL_PATTERN } from 'core-app/shared/helpers/work-package-id-patte
 
 const DETAILS_URL_PATTERN = new RegExp(`/details/(${WP_ID_URL_PATTERN})(?:/|$)`);
 
-export default class StoryController extends Controller<HTMLElement> implements EventListenerObject {
+export default class WorkPackageController extends Controller<HTMLElement> implements EventListenerObject {
   static values = {
     id: Number,
     displayId: String,
@@ -89,11 +89,11 @@ export default class StoryController extends Controller<HTMLElement> implements 
 
   // Selection is applied synchronously on activation, before the split screen
   // has loaded, so the list reacts immediately. With single selection any
-  // previously selected story is cleared right away instead of waiting for
-  // its own URL sync.
+  // previously selected work package is cleared right away instead of waiting
+  // for its own URL sync.
   markAsSelected():void {
     document
-      .querySelectorAll('[data-controller~="backlogs--story"][data-selected]')
+      .querySelectorAll('[data-controller~="backlogs--work-package"][data-selected]')
       .forEach((other) => {
         if (other !== this.element) {
           other.removeAttribute('data-selected');
