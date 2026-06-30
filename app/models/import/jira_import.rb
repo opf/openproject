@@ -92,11 +92,8 @@ module Import
 
     private
 
-    # rubocop:disable Metrics/PerceivedComplexity
-    # rubocop:disable Metrics/AbcSize
     def import_user(jira_user)
       user_attrs = jira_user.to_op_attributes
-      user_attrs_without_password = user_attrs.except(:password)
       call = Users::CreateService
                .new(user: User.system, contract_class: EmptyContract)
                .call(user_attrs)
@@ -110,68 +107,138 @@ module Import
         )
       end
       call.on_failure do |_result|
-        if call.errors.find { |error| error.type == :taken }.present?
-          user = jira_user.try_to_find_existing_op_users.first
-          if user.present?
-            create_reference!(
-              op_leg: user,
-              jira_leg: jira_user,
-              jira_import: self,
-              uses_existing: true
-            )
-          else
-            raise "Existing User is expected to be found, because there was an email " \
-                  "or login collision. See attributes: #{user_attrs_without_password}"
-          end
-        else
-          raise "Error creating a user (#{user_attrs_without_password}): #{call.message}"
-        end
+        handle_create_user_failure(call, user_attrs, jira_user)
       end
 
-      jira_user_groups = jira_user.payload["groups"]["items"].pluck("name")
+      import_user_groups(jira_user)
+    end
 
-      jira_user_groups.each do |group_name|
-        call = Groups::CreateService
-                 .new(user: User.system, contract_class: EmptyContract)
-                 .call(name: group_name)
-        call.on_success do |result|
-          group = result.result
-          create_reference!(
-            op_leg: group,
-            jira_leg: nil,
-            jira_import: self,
-            uses_existing: false
-          )
-        end
-        call.on_failure do |_result|
-          if call.errors.find { |error| error.type == :taken }.present?
-            group = Group.where(name: group_name).first
-            if group.present?
-              create_reference!(
-                op_leg: group,
-                jira_leg: nil,
-                jira_import: self,
-                uses_existing: true
-              )
-            else
-              raise "Existing Group is expected to be found. Group name: #{group_name}"
-            end
-          else
-            raise "Error creating a group #{group_name}: #{call.message}"
-          end
-        end
-        member_id = Import::JiraOpenProjectReference.where(
-          jira_import_id: id,
-          jira_entity_id: jira_user.id,
-          jira_entity_class: jira_user.class.to_s
-        ).pick(:op_entity_id)
-        group = Group.find_by!(name: group_name)
-        Groups::AddUsersService
-          .new(group, current_user: User.system)
-          .call(ids: [member_id], send_notifications: false)
+    def handle_create_user_failure(call, user_attrs, jira_user)
+      unless call.errors.find { |error| error.type == :taken }.present?
+        raise "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
+      end
+
+      user = jira_user.try_to_find_existing_op_users.first
+      unless user.present?
+        raise "Existing User is expected to be found, because there was an email " \
+              "or login collision. See attributes: #{user_attrs.except(:password)}"
+      end
+
+      mail_taken = call.errors.find { |error| error.type == :taken && error.attribute == :mail }.present?
+      if jira_user_already_referenced?(user) && mail_taken
+        handle_referenced_user_mail_conflict(user_attrs, jira_user)
+      else
+        create_reference!(
+          op_leg: user,
+          jira_leg: jira_user,
+          jira_import: self,
+          uses_existing: true
+        )
       end
     end
-    # rubocop:enable Metrics/PerceivedComplexity
-    # rubocop:enable Metrics/AbcSize
+
+    def handle_referenced_user_mail_conflict(user_attrs, jira_user)
+      unique_mail, reusable_user = resolve_jira_email(user_attrs[:mail], jira_user.jira_user_key)
+      if reusable_user
+        create_reference!(
+          op_leg: reusable_user,
+          jira_leg: jira_user,
+          jira_import: self,
+          uses_existing: true
+        )
+      else
+        new_call = Users::CreateService
+                     .new(user: User.system, contract_class: EmptyContract)
+                     .call(user_attrs.merge(mail: unique_mail))
+        unless new_call.success?
+          raise "Error creating a user with modified email (#{user_attrs.except(:password)}): #{new_call.message}"
+        end
+
+        create_reference!(
+          op_leg: new_call.result,
+          jira_leg: jira_user,
+          jira_import: self,
+          uses_existing: false
+        )
+      end
+    end
+
+    def import_user_groups(jira_user)
+      jira_user.payload["groups"]["items"].pluck("name").each do |group_name|
+        import_user_group(group_name, jira_user)
+      end
+    end
+
+    def import_user_group(group_name, jira_user)
+      call = Groups::CreateService
+               .new(user: User.system, contract_class: EmptyContract)
+               .call(name: group_name)
+      call.on_success do |result|
+        create_reference!(
+          op_leg: result.result,
+          jira_leg: nil,
+          jira_import: self,
+          uses_existing: false
+        )
+      end
+      call.on_failure do |_result|
+        handle_create_group_failure(call, group_name)
+      end
+      member_id = Import::JiraOpenProjectReference.where(
+        jira_import_id: id,
+        jira_entity_id: jira_user.id,
+        jira_entity_class: jira_user.class.to_s
+      ).pick(:op_entity_id)
+      group = Group.find_by!(name: group_name)
+      Groups::AddUsersService
+        .new(group, current_user: User.system)
+        .call(ids: [member_id], send_notifications: false)
+    end
+
+    def handle_create_group_failure(call, group_name)
+      unless call.errors.find { |error| error.type == :taken }.present?
+        raise "Error creating a group #{group_name}: #{call.message}"
+      end
+
+      group = Group.where(name: group_name).first
+      if group.present?
+        create_reference!(
+          op_leg: group,
+          jira_leg: nil,
+          jira_import: self,
+          uses_existing: true
+        )
+      else
+        raise "Existing Group is expected to be found. Group name: #{group_name}"
+      end
+    end
+
+    def jira_user_already_referenced?(op_user)
+      Import::JiraOpenProjectReference.exists?(
+        jira_entity_class: Import::JiraUser.to_s,
+        op_entity_id: op_user.id,
+        op_entity_class: op_user.class.to_s
+      )
+    end
+
+    # Returns [email, existing_user_or_nil].
+    # existing_user_or_nil is set when a user already exists at that address and has no
+    # JiraUser reference yet - meaning it can be reused instead of creating a new account.
+    def resolve_jira_email(original_email, jira_user_key)
+      local, domain = original_email.split("@", 2)
+
+      candidate = "#{local}+#{jira_user_key}@#{domain}"
+      user = User.find_by(["LOWER(mail) = ?", candidate.downcase])
+      return [candidate, user] unless user && jira_user_already_referenced?(user)
+
+      counter = 1
+      loop do
+        candidate = "#{local}+#{jira_user_key}+#{counter}@#{domain}"
+        user = User.find_by(["LOWER(mail) = ?", candidate.downcase])
+        break [candidate, user] unless user && jira_user_already_referenced?(user)
+
+        counter += 1
+      end
+    end
   end
 end

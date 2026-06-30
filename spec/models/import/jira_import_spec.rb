@@ -481,5 +481,126 @@ RSpec.describe Import::JiraImport do
         expect(user.mail).to match(/@noemail.invalid/)
       end
     end
+
+    context "when two Jira users share the same email address" do
+      let(:shared_email) { "shared@example.com" }
+      let!(:jira_user1) do
+        create(:jira_user,
+               jira:,
+               jira_import:,
+               payload: jira_user_payload(
+                 key: "JIRAUSER10110",
+                 name: "user.one",
+                 display_name: "User One",
+                 email: shared_email,
+                 groups: []
+               ))
+      end
+      let!(:jira_user2) do
+        create(:jira_user,
+               jira:,
+               jira_import:,
+               jira_user_key: "JIRAUSER10111",
+               payload: jira_user_payload(
+                 key: "JIRAUSER10111",
+                 name: "user.two",
+                 display_name: "User Two",
+                 email: shared_email,
+                 groups: []
+               ))
+      end
+
+      it "creates two separate OpenProject users" do
+        expect { jira_import.import_users }.to change(User, :count).by(2)
+      end
+
+      it "creates individual references for each Jira user" do
+        jira_import.import_users
+
+        ref1 = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user1.id)
+        ref2 = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user2.id)
+
+        expect(ref1).to be_present
+        expect(ref2).to be_present
+        expect(ref1.op_entity_id).not_to eq(ref2.op_entity_id)
+      end
+
+      it "keeps the original email for the first imported user" do
+        jira_import.import_users
+
+        ref1 = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user1.id)
+        expect(User.find(ref1.op_entity_id).mail).to eq(shared_email)
+      end
+
+      it "assigns a plus-addressed email using the Jira key of the second imported user" do
+        jira_import.import_users
+
+        ref2 = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user2.id)
+        expect(User.find(ref2.op_entity_id).mail).to eq("shared+JIRAUSER10111@example.com")
+      end
+
+      it "marks the second user as not using an existing OP user" do
+        jira_import.import_users
+
+        ref2 = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user2.id)
+        expect(ref2.uses_existing).to be false
+      end
+
+      context "when a user already exists at the Jira-key address but has no JiraUser reference" do
+        let!(:unreferenced_user) do
+          create(:user,
+                 mail: "shared+JIRAUSER10111@example.com",
+                 login: "jira_key_existing",
+                 password: existing_user_password,
+                 password_confirmation: existing_user_password)
+        end
+
+        it "reuses that existing user instead of creating a new one" do
+          expect { jira_import.import_users }.to change(User, :count).by(1)
+
+          ref2 = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user2.id)
+          expect(ref2.op_entity_id).to eq(unreferenced_user.id.to_s)
+        end
+
+        it "marks the reference as uses_existing" do
+          jira_import.import_users
+
+          ref2 = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user2.id)
+          expect(ref2.uses_existing).to be true
+        end
+      end
+
+      context "when the Jira-key address is taken by an already-referenced user" do
+        let!(:referenced_user) do
+          create(:user,
+                 mail: "shared+JIRAUSER10111@example.com",
+                 login: "jira_key_referenced",
+                 password: existing_user_password,
+                 password_confirmation: existing_user_password)
+        end
+
+        before do
+          other_jira_user = create(:jira_user, jira:, jira_import:,
+                                   jira_user_key: "JIRAUSER99999",
+                                   payload: jira_user_payload(key: "JIRAUSER99999", name: "other",
+                                                              display_name: "Other", email: "other@example.com",
+                                                              groups: []))
+          create(:jira_open_project_reference,
+                 jira:,
+                 jira_import:,
+                 jira_entity_id: other_jira_user.id,
+                 jira_entity_class: Import::JiraUser.to_s,
+                 op_entity_id: referenced_user.id,
+                 op_entity_class: referenced_user.class.to_s)
+        end
+
+        it "falls back with a counter suffix" do
+          jira_import.import_users
+
+          ref2 = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user2.id)
+          expect(User.find(ref2.op_entity_id).mail).to eq("shared+JIRAUSER10111+1@example.com")
+        end
+      end
+    end
   end
 end
