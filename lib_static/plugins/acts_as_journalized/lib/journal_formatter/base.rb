@@ -51,7 +51,7 @@ module JournalFormatter
     end
 
     def render(key, values, options = { html: true })
-      return permission_denied_message(options) if permission_denied?(options)
+      return render_permission_denied_message(options) if permission_denied?(options)
 
       label, old_value, value = format_details(key, values)
 
@@ -113,7 +113,7 @@ module JournalFormatter
       end
     end
 
-    def permission_denied_message(options)
+    def render_permission_denied_message(options)
       message = I18n.t(:text_journal_permission_denied)
 
       if options[:html]
