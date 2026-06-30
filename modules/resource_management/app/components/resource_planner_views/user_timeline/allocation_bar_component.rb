@@ -49,6 +49,13 @@ module ResourcePlannerViews
       def entity_subject
         allocation.entity.subject
       end
+
+      # The work package's status colour, painted on the bar's top edge. Nil when
+      # the status has no colour, in which case the CSS falls back to a muted border.
+      def status_style
+        hexcode = allocation.entity.status&.color&.hexcode
+        "--rm-status-color: #{hexcode}" if hexcode.present?
+      end
     end
   end
 end

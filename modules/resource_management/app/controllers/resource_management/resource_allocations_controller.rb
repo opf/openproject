@@ -448,7 +448,11 @@ module ::ResourceManagement
     def prefilled_allocation
       return if preselected_user.nil?
 
-      ResourceAllocation.new(principal: preselected_user, principal_explicit: true, entity: context_work_package)
+      # `start_date`/`end_date` carry a range picked on the user timeline (blank
+      # when opened from the utilization dialog).
+      ResourceAllocation.new(principal: preselected_user, principal_explicit: true,
+                             entity: context_work_package,
+                             start_date: params[:start_date], end_date: params[:end_date])
     end
 
     def preselected_user

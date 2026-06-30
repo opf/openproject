@@ -1,4 +1,4 @@
-<div class="op-rm-timeline-bar">
+<%= tag.div(class: "op-rm-timeline-bar op-rm-timeline-bar_status", style: status_style) do %>
   <span class="op-rm-timeline-bar--hours"><%= hours_label %></span>
   <span class="op-rm-timeline-bar--label"><%= entity_subject %></span>
-</div>
+<% end %>

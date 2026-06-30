@@ -131,6 +131,8 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       expect(event["resourceId"]).to eq(assignee.id)
       expect(event).to include("start" => "2026-06-01", "end" => "2026-06-06")
       expect(event.dig("extendedProps", "html")).to include("Develop route optimization")
+      # Carries its work package's status colour on the bar's top edge.
+      expect(event.dig("extendedProps", "html")).to include("op-rm-timeline-bar_status")
     end
 
     it "carries an edit url on each allocation event for a user who may allocate" do

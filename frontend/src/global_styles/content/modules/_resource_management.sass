@@ -85,19 +85,26 @@
   // force that transparent and borderless with `!important`, so it can't be
   // restyled by specificity.
   .op-rm-timeline-bar
+    box-sizing: border-box
     display: flex
     align-items: center
     gap: 0.25rem
     inline-size: 100%
     min-inline-size: 0
+    block-size: 32px
     overflow: hidden
     white-space: nowrap
-    padding: 2px 0.4rem
+    padding: 0 8px
     background: var(--bgColor-default, #ffffff)
-    border: 1px solid var(--borderColor-muted, #d8dee4)
     border-radius: 6px
-    box-shadow: 0 1px 3px rgba(31, 35, 40, 0.12), 0 1px 2px rgba(31, 35, 40, 0.06)
+    box-shadow: 1px 1px 5px rgb(0 0 0 / 15%)
     color: var(--fgColor-default, #1f2328)
+
+    // The user-timeline bar carries its work package's status colour on the top
+    // edge (`--rm-status-color` set inline per bar; muted when the status has no
+    // colour). Overbooking overrides this with the danger border below.
+    &_status
+      border-top: 1px solid var(--rm-status-color, var(--borderColor-muted, #d8dee4))
 
     &--hours
       color: var(--fgColor-muted, #0969da)
