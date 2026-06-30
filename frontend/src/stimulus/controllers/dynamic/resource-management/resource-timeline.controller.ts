@@ -59,7 +59,13 @@ const GRANULARITY_VIEWS:Record<string, { granularity:string, unit:moment.unitOfT
 };
 const DEFAULT_GRANULARITY_VIEW = GRANULARITY_VIEWS.resourceTimelineDays;
 
-export default class WorkPackageTimelineController extends Controller {
+// The resource (row) axis differs per view: the work-package timeline has one
+// row per work package, the user timeline one row per user. Everything else —
+// feeds, navigation, granularity, background spans — is identical, so a single
+// controller drives both. The only behavioural difference is which query param
+// a date-range selection pre-fills on the new-allocation dialog, configured via
+// the `selectionParam` value.
+export default class ResourceTimelineController extends Controller {
   static targets = ['calendar', 'granularityButton'];
 
   static values = {
@@ -71,6 +77,9 @@ export default class WorkPackageTimelineController extends Controller {
     initialView: String,
     newAllocationUrl: String,
     reloadEventName: String,
+    // The dialog param the selected resource's id is passed as, e.g.
+    // `work_package_id` (work-package rows) or `principal_id` (user rows).
+    selectionParam: { type: String, default: 'work_package_id' },
   };
 
   declare readonly calendarTarget:HTMLElement;
@@ -84,6 +93,7 @@ export default class WorkPackageTimelineController extends Controller {
   declare readonly initialViewValue:string;
   declare readonly newAllocationUrlValue:string;
   declare readonly reloadEventNameValue:string;
+  declare readonly selectionParamValue:string;
 
   private calendar?:Calendar;
 
@@ -216,7 +226,7 @@ export default class WorkPackageTimelineController extends Controller {
         // FullCalendar's end is exclusive; step back one day for the inclusive end.
         const inclusiveEnd = moment(info.endStr).subtract(1, 'day').format('YYYY-MM-DD');
         const url = new URL(this.newAllocationUrlValue, window.location.origin);
-        url.searchParams.set('work_package_id', info.resource?.id ?? '');
+        url.searchParams.set(this.selectionParamValue, info.resource?.id ?? '');
         url.searchParams.set('start_date', info.startStr);
         url.searchParams.set('end_date', inclusiveEnd);
         this.openDialog(url.toString());
