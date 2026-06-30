@@ -217,6 +217,7 @@ en:
         description: There are no users matching this view's filters yet.
         manual_description: Add users to this view to see their allocation over time.
         title: No users to display
+      no_work_schedule: No work schedule planned for this user
       overbooked: This user is over-allocated in the selected period.
       subheader:
         add_user: Add user

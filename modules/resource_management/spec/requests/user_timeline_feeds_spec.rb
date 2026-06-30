@@ -86,6 +86,18 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       expect(cell.dig("extendedProps", "html")).to include(I18n.t("resource_management.user_timeline.overbooked"))
     end
 
+    it "flags a user with no work schedule, but not one who has one" do
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
+
+      warning = I18n.t("resource_management.user_timeline.no_work_schedule")
+      # `user` (Olivia) has no working hours; `assignee` (Adam) has the factory default.
+      no_schedule = response.parsed_body["resources"].find { |r| r["id"].to_i == user.id }
+      scheduled = response.parsed_body["resources"].find { |r| r["id"].to_i == assignee.id }
+
+      expect(no_schedule.dig("extendedProps", "html")).to include(warning)
+      expect(scheduled.dig("extendedProps", "html")).not_to include(warning)
+    end
+
     it "denies users without access" do
       login_as create(:user)
       get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)

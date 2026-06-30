@@ -34,13 +34,15 @@ module ResourceManagement
     class ResourcesController < FeedsController
       def index
         overbooked = overbooked_principal_ids
+        scheduled = scheduled_principal_ids
         resources = users.map.with_index do |user, index|
           {
             id: user.id,
             title: user.name,
             order: index,
             extendedProps: {
-              html: render_cell(user, overbooked: overbooked.include?(user.id))
+              html: render_cell(user, overbooked: overbooked.include?(user.id),
+                                      schedule_missing: scheduled.exclude?(user.id))
             }
           }
         end
@@ -60,9 +62,16 @@ module ResourceManagement
                    .to_set(&:principal_id)
       end
 
-      def render_cell(user, overbooked:)
+      # The ids of the users who have a work schedule set up, so the resource
+      # cell can flag those who do not. Fetched in a single query.
+      def scheduled_principal_ids
+        UserWorkingHours.for_user(users).distinct.pluck(:user_id).to_set
+      end
+
+      def render_cell(user, overbooked:, schedule_missing:)
         ResourcePlannerViews::UserTimeline::ResourceCellComponent
-          .new(user:, overbooked:, project: @project, resource_planner: @resource_planner, view: @view)
+          .new(user:, overbooked:, schedule_missing:,
+               project: @project, resource_planner: @resource_planner, view: @view)
           .render_in(view_context)
       end
     end

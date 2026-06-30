@@ -12,5 +12,20 @@
     <% row.with_column do %>
       <%= render(Primer::Beta::Octicon.new(icon: :alert, color: :danger, "aria-label": overbooked_label)) %>
     <% end %>
+  <% elsif schedule_missing? %>
+    <% row.with_column do %>
+      <%= render Primer::Beta::Octicon.new(
+            icon: :"alert-fill",
+            color: :danger,
+            id: no_work_schedule_tooltip_id,
+            "aria-label": no_work_schedule_message
+          ) %>
+      <%= render Primer::Alpha::Tooltip.new(
+            for_id: no_work_schedule_tooltip_id,
+            type: :description,
+            text: no_work_schedule_message,
+            direction: :e
+          ) %>
+    <% end %>
   <% end %>
 <% end %>

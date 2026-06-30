@@ -37,10 +37,12 @@ module ResourcePlannerViews
       include OpPrimer::ComponentHelpers
       include AvatarHelper
 
-      def initialize(user:, overbooked: false, project: nil, resource_planner: nil, view: nil)
+      def initialize(user:, overbooked: false, schedule_missing: false,
+                     project: nil, resource_planner: nil, view: nil)
         super
         @user = user
         @overbooked = overbooked
+        @schedule_missing = schedule_missing
         @project = project
         @resource_planner = resource_planner
         @view = view
@@ -52,8 +54,18 @@ module ResourcePlannerViews
 
       def overbooked? = @overbooked
 
+      def schedule_missing? = @schedule_missing
+
       def overbooked_label
         t("resource_management.user_timeline.overbooked")
+      end
+
+      def no_work_schedule_message
+        t("resource_management.user_timeline.no_work_schedule")
+      end
+
+      def no_work_schedule_tooltip_id
+        "user-timeline-no-schedule-#{user.id}"
       end
     end
   end
