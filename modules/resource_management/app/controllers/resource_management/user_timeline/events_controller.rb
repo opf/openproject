@@ -85,7 +85,7 @@ module ResourceManagement
       end
 
       def working_day_background_events_for(user, range)
-        calendar = ResourceAllocations::WorkingTimeCalendar.new(user:, range:)
+        calendar = ResourceAllocations::WorkingTimeCalendar.new(user:, range:, global_non_working_days:)
 
         working_day_runs(range, calendar).map do |run_start, run_end|
           {

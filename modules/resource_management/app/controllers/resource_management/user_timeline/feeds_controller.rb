@@ -78,14 +78,44 @@ module ResourceManagement
       def overbooked_ranges_by_principal
         @overbooked_ranges_by_principal ||=
           users.each_with_object({}) do |user, ranges_by_id|
-            next unless scheduled_principal_ids.include?(user.id)
-
-            booked = allocations_by_principal.fetch(user.id, [])
-            next if booked.empty?
-
-            ranges = ResourceAllocations::Availability.new(user:, allocations: booked).overbooked_ranges
+            ranges = overbooked_ranges_for(user)
             ranges_by_id[user.id] = ranges if ranges.any?
           end
+      end
+
+      def overbooked_ranges_for(user)
+        return [] unless scheduled_principal_ids.include?(user.id)
+
+        booked = allocations_by_principal.fetch(user.id, [])
+        return [] if booked.empty?
+
+        ResourceAllocations::Availability
+          .new(user:, allocations: booked, global_non_working_days:)
+          .overbooked_ranges
+      end
+
+      # The global non-working days, fetched once and shared across every
+      # per-user working-time calendar this request builds (capacity, overbooking,
+      # working-day spans). Spans the allocations and the requested window, so it
+      # covers every range those calendars use.
+      def global_non_working_days
+        @global_non_working_days ||= NonWorkingDay.for_dates(non_working_days_span).pluck(:date).to_set
+      end
+
+      def non_working_days_span
+        dates = allocations_by_principal.values.flatten
+                                        .flat_map { |allocation| [allocation.start_date, allocation.end_date] }
+                                        .concat(requested_window_bounds)
+                                        .compact
+        return Date.current..Date.current if dates.empty?
+
+        Range.new(*dates.minmax)
+      end
+
+      def requested_window_bounds
+        return [] if params[:start].blank? || params[:end].blank?
+
+        [Date.iso8601(params[:start]), Date.iso8601(params[:end])]
       end
     end
   end

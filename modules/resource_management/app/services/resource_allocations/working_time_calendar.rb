@@ -42,11 +42,15 @@ module ResourceAllocations
   class WorkingTimeCalendar
     WDAY_TO_COLUMN = UserWorkingHours::DAY_ABBR_INDEX.invert.freeze
 
-    def initialize(user:, range:)
+    # `global_non_working_days` lets a caller iterating several users share one
+    # `NonWorkingDay` lookup instead of refetching per user. It may cover a wider
+    # span than `range` (only dates within `range` are consulted); when omitted
+    # the global non-working days for `range` are fetched here.
+    def initialize(user:, range:, global_non_working_days: nil)
       @user = user
       @range = range
       @working_hours = UserWorkingHours.for_user(user).order(:valid_from).to_a
-      @holidays = NonWorkingDay.for_dates(range).pluck(:date).to_set
+      @global_non_working_days = global_non_working_days || NonWorkingDay.for_dates(range).pluck(:date).to_set
       @non_working_ranges = load_non_working_ranges(range)
       @capacities = {}
       @prefix = build_prefix
@@ -94,7 +98,7 @@ module ResourceAllocations
     end
 
     def compute_capacity(date)
-      return 0 if @holidays.include?(date)
+      return 0 if @global_non_working_days.include?(date)
       return 0 if non_working?(date)
 
       working_hours = working_hours_for(date)
