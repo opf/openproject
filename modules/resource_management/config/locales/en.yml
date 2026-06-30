@@ -164,6 +164,19 @@ en:
       success_message: User assigned.
       title: Staffing
     sub_views: Views in this resource planner
+    timeline:
+      granularity:
+        day: Day
+        month: Month
+        week: Calendar week
+      navigation:
+        next: Next period
+        previous: Previous period
+        today: Today
+      subheader:
+        add: Add
+        allocate: Allocate
+        settings: Configure view
     user_allocations_dialog:
       allocate_work_package: Allocate work package
       blank: This user has no allocated work packages.
@@ -207,7 +220,6 @@ en:
       overbooked: This user is over-allocated in the selected period.
       subheader:
         add_user: Add user
-        settings: Configure view
     view_types:
       resource_user_card:
         caption: >-
@@ -281,12 +293,6 @@ en:
         description: There are no work packages matching this view's filters yet.
         manual_description: Add work packages to this view to plan their allocation over time.
         title: No work packages to display
-      granularity:
-        day: Day
-        month: Month
-        week: Calendar week
-      navigation:
-        next: Next period
-        previous: Previous period
-        today: Today
       query_name: "Resource management work package timeline: %{name}"
+      subheader:
+        add_work_package: Add work package

@@ -52,6 +52,17 @@ RSpec.describe ResourcePlannerViews::UserTimeline::SubHeaderComponent, type: :co
 
   before { login_as(user) }
 
+  it "renders navigation and granularity controls wired to the timeline controller" do
+    html = rendered.native.to_html
+
+    expect(html).to include("resource-management--resource-timeline#today")
+    expect(html).to include("resource-management--resource-timeline#prev")
+    expect(html).to include("resource-management--resource-timeline#next")
+    expect(html).to include("resource-management--resource-timeline#setView")
+    expect(html).to include("resourceTimelineWeeks")
+    expect(html).to include("resourceTimelineMonths")
+  end
+
   it "links the settings action to the edit dialog" do
     expect(rendered).to have_link(
       href: edit_project_resource_planner_view_path(project, resource_planner, view)
@@ -63,6 +74,17 @@ RSpec.describe ResourcePlannerViews::UserTimeline::SubHeaderComponent, type: :co
 
     it "offers no add user button" do
       expect(rendered).to have_no_text(I18n.t("resource_management.user_timeline.subheader.add_user"))
+    end
+
+    it "offers an allocate button to a user who may allocate" do
+      login_as create(:user, member_with_permissions: {
+                        project => %i[view_resource_planners allocate_user_resources]
+                      })
+
+      expect(rendered).to have_link(
+        text: I18n.t("resource_management.timeline.subheader.allocate"),
+        href: new_project_resource_allocation_path(project)
+      )
     end
   end
 

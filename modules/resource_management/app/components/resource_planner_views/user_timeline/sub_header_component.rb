@@ -29,17 +29,28 @@
 #++
 
 module ResourcePlannerViews::UserTimeline
-  # The user-timeline toolbar. Timeline navigation and granularity controls are
-  # added together with the calendar in a later step; for now it exposes the
-  # configure-view and add-user actions.
+  # The user-timeline toolbar. The shared toolbar behaviour lives in the
+  # Timeline::SubHeader concern; this component only supplies the user-specific
+  # add entry.
   class SubHeaderComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
+    include ResourcePlannerViews::Timeline::SubHeader
 
     def initialize(project:, resource_planner:, view:)
       super
       @project = project
       @resource_planner = resource_planner
       @view = view
+    end
+
+    private
+
+    def add_entity_item(menu)
+      menu.with_item(label: t("resource_management.user_timeline.subheader.add_user"), tag: :a,
+                     href: new_user_project_resource_planner_view_path(@project, @resource_planner, @view),
+                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
+        item.with_leading_visual_icon(icon: :person)
+      end
     end
   end
 end
