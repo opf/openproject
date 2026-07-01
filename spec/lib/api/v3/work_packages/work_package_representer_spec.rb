@@ -810,6 +810,22 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
             .to be_json_eql(budget.subject.to_json)
                   .at_path("_embedded/budget/subject")
         end
+
+        context "when a non-privileged user's response is cached before the current user reads it" do
+          let(:non_privileged_user) { build_stubbed(:user) }
+          let(:non_privileged_representer) do
+            described_class.create(work_package, current_user: non_privileged_user, embed_links:)
+          end
+
+          before do
+            # Non-privileged user renders first, warming the shared cache key
+            non_privileged_representer.to_json
+          end
+
+          it "still renders the budget link for the user having view_budgets (regression AGILE-296)" do
+            expect(subject).to have_json_path("_links/budget")
+          end
+        end
       end
 
       context "with the user lacking the view_budgets permission" do
