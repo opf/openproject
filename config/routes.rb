@@ -343,7 +343,7 @@ Rails.application.routes.draw do
           post :update_name_settings
           post :update_submission_settings
           post :update_artifact_export_settings
-          get :refresh_submission_form
+          post :refresh_submission_form
           post :toggle_project_custom_field
           put :enable_all_of_section
           put :disable_all_of_section
@@ -687,7 +687,7 @@ Rails.application.routes.draw do
       resource :attachments, controller: "/admin/settings/attachments_settings", only: %i[show update]
       resource :virus_scanning, controller: "/admin/settings/virus_scanning_settings", only: %i[show update] do
         collection do
-          get :av_form
+          post :av_form
         end
       end
 

@@ -31,7 +31,6 @@ import { vi, type Mock } from 'vitest';
 
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type RefreshOnFormChangesControllerType from './refresh-on-form-changes.controller';
-import { serializeFormQuery } from './refresh-on-form-changes.controller';
 
 describe('Refresh on form changes controller', () => {
   let ctx:StimulusTestContext;
@@ -87,7 +86,7 @@ describe('Refresh on form changes controller', () => {
     return ctx.getController<RefreshOnFormChangesControllerType>('refresh-on-form-changes');
   }
 
-  it('requests a turbo stream refresh with the current form data as query params', async () => {
+  it('requests a turbo stream refresh with the current form data in the POST body', async () => {
     const controller = await renderForm();
 
     controller.triggerTurboStream();
@@ -100,21 +99,71 @@ describe('Refresh on form changes controller', () => {
     const parsedUrl = new URL(url, window.location.origin);
 
     expect(parsedUrl.pathname).toBe('/refresh');
-    expect(parsedUrl.searchParams.get('sprint[name]')).toBe('Created sprint');
-    expect(parsedUrl.searchParams.get('sprint[goal][text]')).toBe('Deliver the first MVP scope.');
-    expect(init).toEqual(expect.objectContaining({
-      method: 'GET',
-      credentials: 'same-origin',
-      headers: expect.objectContaining({
-        Accept: 'text/vnd.turbo-stream.html, text/html, application/xhtml+xml',
-        'X-Requested-With': 'XMLHttpRequest',
-      }) as HeadersInit,
-    }));
+    expect(parsedUrl.search).toBe('');
+
+    const body = init.body as FormData;
+    expect(body).toBeInstanceOf(FormData);
+    expect(body.get('sprint[name]')).toBe('Created sprint');
+    expect(body.get('sprint[goal][text]')).toBe('Deliver the first MVP scope.');
+    expect(init).toEqual(expect.objectContaining({ method: 'POST', credentials: 'same-origin' }));
+
     await waitFor(() => {
       expect(renderStreamMessage).toHaveBeenCalledWith(
         '<turbo-stream action="update" target="sprint-dialog-form"></turbo-stream>',
       );
     });
+  });
+
+  it('drops the _method override so the refresh stays a POST', async () => {
+    await ctx.mount(`
+      <form data-controller="refresh-on-form-changes"
+            data-refresh-on-form-changes-target="form"
+            data-refresh-on-form-changes-turbo-stream-url-value="/refresh">
+        <input type="hidden" name="_method" value="patch">
+        <input name="sprint[name]" value="Created sprint">
+      </form>
+    `);
+    const controller = ctx.getController<RefreshOnFormChangesControllerType>('refresh-on-form-changes');
+
+    controller.triggerTurboStream();
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalled();
+    });
+
+    const [, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    const body = init.body as FormData;
+    expect(init).toEqual(expect.objectContaining({ method: 'POST' }));
+    expect(body.has('_method')).toBe(false);
+    expect(body.get('sprint[name]')).toBe('Created sprint');
+  });
+
+  it('omits file inputs from the refresh body so selected files are not uploaded', async () => {
+    await ctx.mount(`
+      <form data-controller="refresh-on-form-changes"
+            data-refresh-on-form-changes-target="form"
+            data-refresh-on-form-changes-turbo-stream-url-value="/refresh">
+        <input name="sprint[name]" value="Created sprint">
+        <input type="file" name="sprint[attachment]">
+      </form>
+    `);
+    const controller = ctx.getController<RefreshOnFormChangesControllerType>('refresh-on-form-changes');
+    const fileInput = ctx.container.querySelector<HTMLInputElement>('[name="sprint[attachment]"]')!;
+    const file = new File(['secret contents'], 'secret.txt', { type: 'text/plain' });
+    const transfer = new DataTransfer();
+    transfer.items.add(file);
+    fileInput.files = transfer.files;
+
+    controller.triggerTurboStream();
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalled();
+    });
+
+    const [, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    const body = init.body as FormData;
+    expect(body.has('sprint[attachment]')).toBe(false);
+    expect(body.get('sprint[name]')).toBe('Created sprint');
   });
 
   it('aborts an in-flight refresh before starting the next one', async () => {
@@ -184,46 +233,8 @@ describe('Refresh on form changes controller', () => {
     await waitFor(() => {
       expect(fetchSpy).toHaveBeenCalledOnce();
     });
-    const [url] = fetchSpy.mock.calls[0] as [string, RequestInit];
-    const parsedUrl = new URL(url, window.location.origin);
-
-    expect(parsedUrl.searchParams.get('sprint[goal][text]')).toBe('Updated goal');
-  });
-
-  describe('serializeFormQuery', () => {
-    function buildForm(innerHtml:string):HTMLFormElement {
-      const form = document.createElement('form');
-      form.innerHTML = innerHtml;
-      return form;
-    }
-
-    it('serializes string form fields into a query string', () => {
-      const form = buildForm(`
-        <input name="sprint[name]" value="Created sprint">
-        <textarea name="sprint[goal][text]">Deliver the first MVP scope.</textarea>
-      `);
-
-      const params = new URLSearchParams(serializeFormQuery(form));
-
-      expect(params.get('sprint[name]')).toBe('Created sprint');
-      expect(params.get('sprint[goal][text]')).toBe('Deliver the first MVP scope.');
-    });
-
-    it('omits file inputs so File values never reach the query string', () => {
-      const form = buildForm(`
-        <input name="sprint[name]" value="Created sprint">
-        <input type="file" name="sprint[attachment]">
-      `);
-      const fileInput = form.querySelector<HTMLInputElement>('[name="sprint[attachment]"]')!;
-      const transfer = new DataTransfer();
-      transfer.items.add(new File(['data'], 'report.pdf', { type: 'application/pdf' }));
-      fileInput.files = transfer.files;
-
-      const params = new URLSearchParams(serializeFormQuery(form));
-
-      expect(params.has('sprint[attachment]')).toBe(false);
-      expect(params.get('sprint[name]')).toBe('Created sprint');
-    });
+    const [, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    expect((init.body as FormData).get('sprint[goal][text]')).toBe('Updated goal');
   });
 
   it('swallows abort errors but logs other request errors', async () => {

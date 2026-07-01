@@ -34,7 +34,7 @@ See COPYRIGHT and LICENSE files for more details.
         data: {
           controller: "refresh-on-form-changes",
           "refresh-on-form-changes-target": "form",
-          "refresh-on-form-changes-refresh-url-value": url_for(action: "new")
+          "refresh-on-form-changes-turbo-stream-url-value": turbo_stream_url
         },
         class: "-wide-labels augment--refresh-on-form-changes"
       ) do %>
@@ -55,7 +55,7 @@ See COPYRIGHT and LICENSE files for more details.
                                             filters: [{ name: "user_action", operator: "=", values: ["work_packages/#{copy ? 'copy' : 'move'}"] }],
                                             inputName: "new_project_id",
                                             model: target_project,
-                                            hiddenFieldAction: "change->refresh-on-form-changes#triggerReload",
+                                            hiddenFieldAction: "change->refresh-on-form-changes#triggerTurboStream",
                                             clearable: false
                                           },
                                           id: "new_project_id",
@@ -73,7 +73,7 @@ See COPYRIGHT and LICENSE files for more details.
                       content_tag("option", t(:label_no_change_option), value: "") +
                         options_from_collection_for_select(types, "id", "name", target_type&.id),
                       data: {
-                        action: "change->refresh-on-form-changes#triggerReload"
+                        action: "change->refresh-on-form-changes#triggerTurboStream"
                       }
                     ) %>
               </div>

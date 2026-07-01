@@ -60,6 +60,10 @@ module WorkPackages
 
       attr_reader :work_packages, :project, :target_project, :types, :target_type,
                   :unavailable_type_in_target_project, :available_versions, :available_statuses, :notes, :copy
+
+      def turbo_stream_url
+        url_for(action: :refresh_form)
+      end
     end
   end
 end
