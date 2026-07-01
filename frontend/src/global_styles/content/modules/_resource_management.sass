@@ -35,8 +35,31 @@
   flex-direction: column
   flex-grow: 1
 
+  // Positioning context for the loading overlay, wrapping only the calendar so the
+  // overlay covers the grid and not the sub-header controls above it.
+  .op-rm-timeline-canvas
+    position: relative
+    display: flex
+    flex-grow: 1
+    min-block-size: 0
+
   .op-rm-timeline
     flex-grow: 1
+
+  .op-rm-timeline-loading
+    position: absolute
+    inset: 0
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    gap: 0.5rem
+    background: rgb(255 255 255 / 60%)
+    color: var(--fgColor-muted, #59636e)
+    z-index: 1
+
+    &[hidden]
+      display: none
 
   .fc-scrollgrid
     border-radius: var(--borderRadius-medium, 6px)
