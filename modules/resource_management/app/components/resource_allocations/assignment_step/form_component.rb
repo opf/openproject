@@ -78,20 +78,16 @@ module ResourceAllocations
         date.present? ? helpers.format_date(date) : "—"
       end
 
-      # The bold, muted caption shared by every summary line in the dialog.
       def detail_label(text)
-        render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted, font_weight: :bold)) { text }
+        render(Primer::Beta::Text.new(tag: :div, font_size: :small, font_weight: :bold)) { text }
       end
 
-      # A muted "label / value" pair for plain-text values (period, requested
-      # time, filter criteria). The work package uses the same label but renders
-      # the richer info line as its value.
       def detail_block(label, value)
         render(Primer::Box.new(mb: 3)) do
           safe_join(
             [
               detail_label(label),
-              render(Primer::Beta::Text.new(tag: :div, font_size: :small, color: :muted)) { value }
+              render(Primer::Beta::Text.new(tag: :div, font_size: :small)) { value }
             ]
           )
         end

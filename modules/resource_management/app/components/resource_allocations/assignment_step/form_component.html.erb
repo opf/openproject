@@ -32,7 +32,6 @@ See COPYRIGHT and LICENSE files for more details.
     <%= render(Primer::Beta::Flash.new(scheme: :danger, mb: 3)) { error } %>
   <% end %>
 
-  <%# What is being staffed, all under the same muted caption style. %>
   <% if work_package %>
     <%= render(Primer::Box.new(mb: 3)) do %>
       <%= detail_label(t("resource_management.staffing.columns.work_package")) %>
