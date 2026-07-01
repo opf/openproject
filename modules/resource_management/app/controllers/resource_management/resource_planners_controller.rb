@@ -36,7 +36,7 @@ module ::ResourceManagement
 
     before_action :find_project_by_project_id
     before_action :authorize
-    before_action :find_resource_planner, only: %i[show edit update destroy toggle_public]
+    before_action -> { find_resource_planner(:id) }, only: %i[show edit update destroy toggle_public]
     before_action :build_resource_planner, only: %i[new]
 
     def index
@@ -128,14 +128,6 @@ module ::ResourceManagement
     end
 
     private
-
-    def find_resource_planner
-      @resource_planner = ResourcePlanner
-                            .visible(current_user)
-                            .where(project: @project)
-                            .with_children
-                            .find(params.expect(:id))
-    end
 
     def build_resource_planner
       @resource_planner = ResourcePlanner.new(project: @project, principal: current_user)

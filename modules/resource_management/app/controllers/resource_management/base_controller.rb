@@ -32,6 +32,18 @@ module ::ResourceManagement
   class BaseController < ::ApplicationController
     private
 
+    # Loads the resource planner (with its child views) scoped to the current
+    # project and the current user's visibility. Defaults to the nested
+    # +:resource_planner_id+ route param; controllers where the planner is the
+    # primary resource pass +:id+.
+    def find_resource_planner(param_key = :resource_planner_id)
+      @resource_planner = ResourcePlanner
+                            .visible(current_user)
+                            .where(project: @project)
+                            .with_children
+                            .find(params.expect(param_key))
+    end
+
     # Resolves a polymorphic allocation entity from a (potentially user-supplied)
     # type and id, scoped to the current project and the current user's
     # visibility. Allow-lists the type before constantizing it; returns nil for an
