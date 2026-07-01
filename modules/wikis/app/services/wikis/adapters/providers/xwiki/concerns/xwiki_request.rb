@@ -53,6 +53,10 @@ module Wikis
               def fetch_json(json_hash, key)
                 json_hash.fetch(key) { throw :xwiki_error, Failure(Results::Error.new(source: self, code: :invalid_response)) }
               end
+
+              def dig_json(json_hash, *keys)
+                json_hash.dig(*keys) { throw :xwiki_error, Failure(Results::Error.new(source: self, code: :invalid_response)) }
+              end
             end
 
             private
