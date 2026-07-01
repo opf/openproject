@@ -36,7 +36,7 @@ See COPYRIGHT and LICENSE files for more details.
           "refresh-on-form-changes-target": "form",
           "refresh-on-form-changes-turbo-stream-url-value": turbo_stream_url
         },
-        class: "-wide-labels augment--refresh-on-form-changes"
+        class: "-wide-labels"
       ) do %>
     <% work_packages.each do |wp| %>
       <%= hidden_field_tag "ids[]", wp.id %>
