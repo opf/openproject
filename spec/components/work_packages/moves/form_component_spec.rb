@@ -71,6 +71,13 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     expect(rendered_component).to have_field(:notes, with: "Move notes")
   end
 
+  it "wires the refresh-on-form-changes controller" do
+    expect(rendered_component).to have_css(
+      "form[data-controller='refresh-on-form-changes']" \
+      "[data-refresh-on-form-changes-target='form']"
+    )
+  end
+
   context "with a required custom field on the target type" do
     let!(:custom_field) do
       create(:string_wp_custom_field,
