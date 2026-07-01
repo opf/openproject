@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { useWorkPackage } from '../../hooks/useWorkPackage';
 import { useColors } from '../../services/colors';
 import { CHIP_STYLES } from '../WorkPackage/tokens';
-import { ChipBase } from './chipLayouts';
+import { ChipBase, ChipBaseXXS } from './chipLayouts';
 import { WorkPackageId } from '../WorkPackage/atoms';
 import { WpChipXXS, WpChipXS, WpChipS } from './InlineChips';
 import { WorkPackageSearchPopover } from '../Search/WorkPackageSearchPopover';
@@ -36,16 +36,8 @@ export interface InlineWorkPackageChipProps {
   }) => void;
 }
 
-const UnavailableIcon = styled.span`
-  display: inline-block;
-  vertical-align: middle;
-  line-height: 0;
-`;
-
 const UnavailableLabel = styled.span`
   color: var(--bn-colors-editor-text);
-  font-size: ${CHIP_STYLES.fontSize};
-  vertical-align: middle;
 `;
 
 const InlineChip = styled.span.attrs({
@@ -99,6 +91,13 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
   const setRef = (node:HTMLElement | null) => {
     chipRef.current = node;
     contentRef(node);
+  };
+
+  const selectWorkPackageNode = () => {
+    if (!editor || !chipRef.current) return;
+    const chip = findInlineChipAtDOM(editor, chipRef.current);
+    if (chip) selectInlineChipAt(editor, chip.position);
+    editor.getExtension('formattingToolbar')?.store?.setState(false);
   };
 
   // Close the options popover when the user clicks outside the chip
@@ -156,11 +155,7 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
           e.preventDefault();
           e.stopPropagation();
           setIsSelected((prev) => !prev);
-          if (editor && chipRef.current) {
-            const chip = findInlineChipAtDOM(editor, chipRef.current);
-            if (chip) selectInlineChipAt(editor, chip.position);
-            editor.getExtension('formattingToolbar')?.store?.setState(false);
-          }
+          selectWorkPackageNode();
         }}
       >
         {size === 'xxs' && <WpChipXXS wp={wp} />}
@@ -193,17 +188,34 @@ export const InlineWorkPackageChip = ({ inlineContent, contentRef, editor, updat
     );
   }
 
-  const unavailableWorkPackage = (icon:ReactNode, label:string) => (
-    <InlineChip ref={setRef} data-drag-handle selected={isEditorSelected}>
-      <ChipBase>
-        <UnavailableIcon>{icon}</UnavailableIcon>
-        <UnavailableLabel>{label}</UnavailableLabel>
-      </ChipBase>
-    </InlineChip>
-  );
+  const unavailableWorkPackage = (icon:ReactNode, label:string) => {
+    // xxs stays tiny: icon only, with the label as a tooltip instead
+    const iconOnly = size === 'xxs';
+    const Base = iconOnly ? ChipBaseXXS : ChipBase;
+    return (
+      <InlineChip
+        ref={setRef}
+        data-drag-handle
+        selected={isEditorSelected}
+        // xxs shows no text, so expose the message to the tooltip and to assistive tech
+        title={iconOnly ? label : undefined}
+        aria-label={iconOnly ? label : undefined}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          selectWorkPackageNode();
+        }}
+      >
+        <Base>
+          {icon}
+          {!iconOnly && <UnavailableLabel>{label}</UnavailableLabel>}
+        </Base>
+      </InlineChip>
+    );
+  };
 
-  if (wpid && unauthorized) return unavailableWorkPackage(<EyeClosedIcon size={12} />, t('unavailableWorkPackage.unauthorized.chip'));
-  if (wpid && error) return unavailableWorkPackage(<AlertIcon size={12} />, t('unavailableWorkPackage.error.chip'));
+  if (wpid && unauthorized) return unavailableWorkPackage(<EyeClosedIcon size={12} verticalAlign="middle" />, t('unavailableWorkPackage.unauthorized.short_message'));
+  if (wpid && error) return unavailableWorkPackage(<AlertIcon size={12} verticalAlign="middle" />, t('unavailableWorkPackage.error.short_message'));
 
   // Unknown / transitional
   if (wpid) {

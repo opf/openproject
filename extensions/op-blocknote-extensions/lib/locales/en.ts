@@ -23,12 +23,12 @@ export const en = {
       'unauthorized': {
         'header': 'Linked work package unavailable',
         'message': 'You do not have permission to see this',
-        'chip': 'Unavailable: No permission'
+        'short_message': 'Unavailable: No permission'
       },
       'error': {
         'header': 'Error',
         'message': 'Could not load work package',
-        'chip': 'Unavailable: error'
+        'short_message': 'Unavailable: error'
       }
     },
     'options': {

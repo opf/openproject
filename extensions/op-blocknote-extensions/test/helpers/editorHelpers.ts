@@ -58,6 +58,8 @@ export async function insertBlockWorkPackageViaSlashMenu(searchTerm = 'Fix', res
   await userEvent.type(searchInput, searchTerm);
   await expect.element(page.getByText(resultTerm)).toBeVisible();
   await userEvent.click(page.getByText(resultTerm));
+
+  await expect.element(searchInput).not.toBeInTheDocument();
 }
 
 // Block card - popover & size menu
