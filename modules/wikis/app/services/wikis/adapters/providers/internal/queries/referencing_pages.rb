@@ -42,7 +42,7 @@ module Wikis
                         .order(created_at: :desc)
                         .map do |link|
                           page_info(identifier: link.identifier, auth_strategy:)
-                            .fmap { Wikis::Adapters::Results::PageReference.new(page_info: it, source: :link) }
+                            .fmap { Wikis::Adapters::Results::PageReference.new(page_info: it, source: :mention) }
                         end
               )
             end

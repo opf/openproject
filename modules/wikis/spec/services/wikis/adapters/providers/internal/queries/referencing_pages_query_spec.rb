@@ -65,7 +65,7 @@ RSpec.describe Wikis::Adapters::Providers::Internal::Queries::ReferencingPages d
     expect(results).to all(be_success)
     page_references = results.map(&:value!)
     expect(page_references.map { it.page_info.title }).to contain_exactly(wiki_page.title)
-    expect(page_references.map(&:source)).to all(eq(:link))
+    expect(page_references.map(&:source)).to all(eq(:mention))
   end
 
   context "when there are no reverse links" do
