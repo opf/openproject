@@ -286,4 +286,78 @@ RSpec.describe MeetingAgendaItem do
       end
     end
   end
+
+  describe "WP linking methods" do
+    shared_let(:project) { create(:project) }
+    shared_let(:work_package) { create(:work_package, project:) }
+    shared_let(:other_work_package) { create(:work_package, project:) }
+    shared_let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_meetings view_work_packages] })
+    end
+    shared_let(:meeting) { create(:meeting, project:) }
+
+    shared_let(:directly_linked_item) do
+      create(:wp_meeting_agenda_item, meeting:, work_package:)
+    end
+
+    shared_let(:outcome_linked_item) do
+      create(:meeting_agenda_item, meeting:).tap do |item|
+        create(:meeting_outcome, meeting_agenda_item: item, kind: :work_package, work_package:)
+      end
+    end
+
+    shared_let(:unrelated_item) do
+      create(:wp_meeting_agenda_item, meeting:, work_package: other_work_package)
+    end
+
+    describe ".linked_to_work_package" do
+      subject { described_class.linked_to_work_package(work_package) }
+
+      it "includes items linked directly and via outcomes" do
+        expect(subject).to contain_exactly(directly_linked_item, outcome_linked_item)
+      end
+    end
+
+    describe ".visible_linked_to_work_package" do
+      subject { described_class.visible_linked_to_work_package(user, work_package) }
+
+      it "returns linked items in meetings visible to the user" do
+        expect(subject).to contain_exactly(directly_linked_item, outcome_linked_item)
+      end
+
+      context "when the meeting is not visible to the user" do
+        shared_let(:invisible_meeting) { create(:meeting, project: create(:project)) }
+        shared_let(:invisible_item) do
+          create(:wp_meeting_agenda_item, meeting: invisible_meeting, work_package:)
+        end
+
+        it "excludes items from meetings the user cannot see" do
+          expect(subject).not_to include(invisible_item)
+        end
+      end
+
+      context "when the meeting is a template" do
+        shared_let(:template_item) do
+          create(:wp_meeting_agenda_item, meeting: create(:meeting, project:, template: true), work_package:)
+        end
+
+        it "excludes items" do
+          expect(subject).not_to include(template_item)
+        end
+      end
+
+      context "when an outcome WP is visible, but the containing agenda item WP is not" do
+        shared_let(:inaccessible_work_package) { create(:work_package, project: create(:project)) }
+        shared_let(:item_with_inaccessible_wp) do
+          create(:wp_meeting_agenda_item, meeting:, work_package: inaccessible_work_package).tap do |item|
+            create(:meeting_outcome, meeting_agenda_item: item, kind: :work_package, work_package:)
+          end
+        end
+
+        it "still returns the item even though its work package is not visible to the user" do
+          expect(subject).to include(item_with_inaccessible_wp)
+        end
+      end
+    end
+  end
 end
