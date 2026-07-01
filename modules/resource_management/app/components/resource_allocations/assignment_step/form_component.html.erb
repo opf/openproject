@@ -46,7 +46,7 @@ See COPYRIGHT and LICENSE files for more details.
   <% end %>
 
   <% if candidates.empty? %>
-    <%= render(Primer::Beta::Blankslate.new(border: false)) do |blankslate|
+    <%= render(Primer::Beta::Blankslate.new(border: true)) do |blankslate|
           blankslate.with_visual_icon(icon: :people)
           blankslate.with_heading(tag: :h2) { t("resource_management.assignment_dialog.no_candidates.title") }
           blankslate.with_description { t("resource_management.assignment_dialog.no_candidates.description") }
