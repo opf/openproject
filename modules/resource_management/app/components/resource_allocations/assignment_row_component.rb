@@ -71,6 +71,12 @@ module ResourceAllocations
       DurationConverter.output(allocation.allocated_hours)
     end
 
+    # The date range can be too wide for a narrow viewport; let it wrap instead of
+    # being truncated with an ellipsis like the other non-main columns.
+    def cell_classes(column)
+      class_names(super, "-no-ellipsis": column == :dates)
+    end
+
     private
 
     def filter_name_link
