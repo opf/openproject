@@ -716,7 +716,9 @@ class PermittedParams
     # thus we do it by hand
     object = required ? params.require(key_to_fetch) : params.fetch(key_to_fetch, {})
     values = key ? object[:custom_field_values] : object
-    values || ActionController::Parameters.new
+    return ActionController::Parameters.new unless values.is_a?(ActionController::Parameters)
+
+    values
   end
 
   def nilify_params!(hash, *keys)

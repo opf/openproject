@@ -71,6 +71,23 @@ RSpec.describe "Work package moves", :webmock, type: :rails_request do
       expect(response.body).to include("secret note")
     end
 
+    context "with malformed custom field values" do
+      let(:params) do
+        {
+          "ids[]" => work_package.id,
+          new_project_id: target.id,
+          custom_field_values: ["Malformed"]
+        }
+      end
+
+      it "ignores them and renders the refreshed form" do
+        request
+
+        expect(response).to have_http_status(:ok)
+        expect_turbo_streamed_move_form
+      end
+    end
+
     context "with current move form values" do
       let(:version) { create(:version, project: target) }
       let(:priority) { create(:priority, name: "High") }

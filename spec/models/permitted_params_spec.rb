@@ -668,6 +668,27 @@ RSpec.describe PermittedParams do
         "journal_notes" => "Move notes"
       )
     end
+
+    context "with array-shaped custom field values" do
+      let(:params) do
+        ActionController::Parameters.new(
+          assigned_to_id: "1",
+          custom_field_values: ["Malformed"],
+          new_project_id: "3",
+          new_type_id: "4",
+          notes: "Move notes"
+        )
+      end
+
+      it "ignores them" do
+        expect(permitted).to eq(
+          "assigned_to_id" => "1",
+          "type_id" => "4",
+          "project_id" => "3",
+          "journal_notes" => "Move notes"
+        )
+      end
+    end
   end
 
   describe "#move_work_package_form_values" do
@@ -717,6 +738,19 @@ RSpec.describe PermittedParams do
 
       it "removes them" do
         expect(permitted).to eq({})
+      end
+    end
+
+    context "with array-shaped custom field values" do
+      let(:params) do
+        ActionController::Parameters.new(
+          assigned_to_id: "1",
+          custom_field_values: ["Malformed"]
+        )
+      end
+
+      it "ignores them" do
+        expect(permitted).to eq("assigned_to_id" => "1")
       end
     end
   end
