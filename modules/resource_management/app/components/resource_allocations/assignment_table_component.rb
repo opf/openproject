@@ -57,7 +57,7 @@ module ResourceAllocations
 
     def paginated? = false
 
-    def has_actions? = false
+    def has_actions? = true
 
     def mobile_title
       I18n.t("resource_management.staffing.title")

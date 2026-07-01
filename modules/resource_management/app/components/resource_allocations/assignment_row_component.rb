@@ -77,7 +77,74 @@ module ResourceAllocations
       class_names(super, "-no-ellipsis": column == :dates)
     end
 
+    # The row's context menu. Actions are permission-gated, so the kebab only
+    # appears when the current user may run at least one of them.
+    def button_links
+      return [] unless can_assign? || can_manage?
+
+      [action_menu]
+    end
+
     private
+
+    def action_menu
+      render(Primer::Alpha::ActionMenu.new(size: :small, anchor_align: :end)) do |menu|
+        menu.with_show_button(icon: "kebab-horizontal",
+                              "aria-label": I18n.t("resource_management.staffing.context_menu_label"),
+                              scheme: :invisible)
+
+        assign_item(menu) if can_assign?
+        edit_item(menu) if can_manage?
+        delete_item(menu) if can_manage?
+      end
+    end
+
+    def can_assign?
+      User.current.allowed_in_project?(:assign_users_to_generic_allocations, table.project)
+    end
+
+    def can_manage?
+      User.current.allowed_in_project?(:allocate_user_resources, table.project)
+    end
+
+    def assign_item(menu)
+      menu.with_item(
+        label: I18n.t("resource_management.staffing.assign"),
+        tag: :a,
+        href: helpers.project_staffing_assign_path(table.project, allocation),
+        content_arguments: { data: { controller: "async-dialog" } }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :"person-add")
+      end
+    end
+
+    def edit_item(menu)
+      menu.with_item(
+        label: I18n.t(:button_edit),
+        tag: :a,
+        href: helpers.edit_project_resource_allocation_path(table.project, allocation),
+        content_arguments: { data: { controller: "async-dialog" } }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :pencil)
+      end
+    end
+
+    def delete_item(menu)
+      menu.with_item(
+        label: I18n.t(:button_delete),
+        scheme: :danger,
+        href: helpers.project_resource_allocation_path(table.project, allocation),
+        form_arguments: {
+          method: :delete,
+          data: {
+            turbo_confirm: I18n.t("resource_management.staffing.delete_confirmation"),
+            turbo_stream: true
+          }
+        }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :trash)
+      end
+    end
 
     def filter_name_link
       render(

@@ -40,4 +40,21 @@ See COPYRIGHT and LICENSE files for more details.
       )
     end %>
 
-<%= render(@list_component) %>
+<%#
+  Reloadable frame so allocation edits and deletes made from a row's dialog
+  refresh the list in place. The frame has no `src`, so it is not fetched on
+  load — it just holds the server-rendered list. The reload-frame-on-event
+  controller points its `src` at this same action and morphs it in when an
+  allocation changes.
+%>
+<%= turbo_frame_tag(
+      "staffing-list",
+      refresh: :morph,
+      data: {
+        controller: "reload-frame-on-event",
+        "reload-frame-on-event-event-name-value": "op-dispatched:resource-allocations:changed",
+        "reload-frame-on-event-url-value": project_staffing_path(@project)
+      }
+    ) do %>
+  <%= render(@list_component) %>
+<% end %>

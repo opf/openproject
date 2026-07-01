@@ -110,6 +110,37 @@ RSpec.describe "Staffing requests",
     end
   end
 
+  describe "the row context menu" do
+    it "offers Assign inside a frame that reloads when an allocation changes" do
+      get project_staffing_path(project)
+
+      expect(response.body).to include(I18n.t("resource_management.staffing.assign"))
+      # Edit and delete require the allocate permission, which this user lacks.
+      expect(response.body).not_to include(edit_project_resource_allocation_path(project, earlier_allocation))
+      expect(response.body).not_to include(I18n.t("resource_management.staffing.delete_confirmation"))
+      # The list sits in a frame that reloads when an allocation changes elsewhere.
+      expect(response.body).to include("op-dispatched:resource-allocations:changed")
+    end
+
+    context "with the allocate permission" do
+      let(:manager) do
+        create(:user,
+               member_with_permissions: {
+                 project => %i[view_resource_planners assign_users_to_generic_allocations
+                               allocate_user_resources view_work_packages]
+               })
+      end
+
+      it "also offers Edit and Delete" do
+        login_as manager
+        get project_staffing_path(project)
+
+        expect(response.body).to include(edit_project_resource_allocation_path(project, earlier_allocation))
+        expect(response.body).to include(I18n.t("resource_management.staffing.delete_confirmation"))
+      end
+    end
+  end
+
   describe "the sidebar menu" do
     it "shows the Staffing entry for a user with the permission" do
       get menu_project_resource_planners_path(project, origin_controller: "resource_management/staffing")
