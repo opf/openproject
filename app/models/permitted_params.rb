@@ -127,13 +127,17 @@ class PermittedParams
   end
 
   def move_work_package(args = {})
-    permitted = permitted_attributes(:move_work_package, args)
-    permitted_params = params.permit(*permitted)
-    permitted_params
-      .merge(custom_field_values(required: false))
+    move_work_package_form_values(args)
       .merge(type_id: params[:new_type_id],
              project_id: params[:new_project_id],
              journal_notes: params[:notes])
+  end
+
+  def move_work_package_form_values(args = {})
+    permitted = permitted_attributes(:move_work_package, args)
+    params
+      .permit(*permitted)
+      .merge(custom_field_values(required: false))
   end
 
   def member
