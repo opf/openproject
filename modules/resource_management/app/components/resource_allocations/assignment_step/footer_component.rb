@@ -28,41 +28,33 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries
-  module Filters
-    module Shared
-      module CustomFields
-        class Hierarchy < Base
-          def ar_object_filter?
-            true
-          end
+module ResourceAllocations
+  module AssignmentStep
+    class FooterComponent < ApplicationComponent
+      include OpTurbo::Streamable
+      include OpPrimer::ComponentHelpers
 
-          def autocomplete_options
-            items = allowed_values.map do |name, id|
-              path = name.split(" / ")
-              { name: path.last, id:, depth: path.length - 1 }
-            end
+      def wrapper_key
+        ResourceAllocations::AssignmentDialogComponent::FOOTER_ID
+      end
 
-            # `values` are stored as strings while the item ids are integers, so
-            # compare as strings to pre-select the current values (e.g. when
-            # editing an existing filter).
-            selected_ids = Array(values).map(&:to_s)
+      def call
+        component_wrapper do
+          component_collection do |buttons|
+            buttons.with_component(
+              Primer::Beta::Button.new(
+                data: { "close-dialog-id": ResourceAllocations::AssignmentDialogComponent::DIALOG_ID },
+                mr: 1
+              )
+            ) { I18n.t(:button_close) }
 
-            {
-              component: "opce-autocompleter",
-              bindValue: "id",
-              bindLabel: "name",
-              hideSelected: true,
-              defaultData: false,
-              items:,
-              model: items.select { |item| selected_ids.include?(item[:id].to_s) }
-            }
-          end
-
-          def value_objects
-            CustomField::Hierarchy::Item
-              .where(id: @values)
-              .map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) }
+            buttons.with_component(
+              Primer::Beta::Button.new(
+                scheme: :primary,
+                form: ResourceAllocations::AssignmentDialogComponent::FORM_ID,
+                type: :submit
+              )
+            ) { I18n.t("resource_management.assignment_dialog.submit") }
           end
         end
       end

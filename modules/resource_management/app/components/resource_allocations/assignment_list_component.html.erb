@@ -27,13 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%#
-  `origin_controller` is forwarded so the lazily-loaded menu can highlight a
-  static entry (e.g. Staffing); planner entries highlight via the `id` param.
-%>
-<% menu_src = menu_project_resource_planners_path(@project, **params.permit(:id), origin_controller: params[:controller]) %>
-<%= turbo_frame_tag "resource_planners_sidemenu",
-                    src: menu_src,
-                    target: "_top",
-                    data: { turbo: false, query_param: "id" },
-                    loading: :lazy %>
+<%= component_wrapper do %>
+  <%= render(table) %>
+<% end %>

@@ -28,44 +28,27 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries
-  module Filters
-    module Shared
-      module CustomFields
-        class Hierarchy < Base
-          def ar_object_filter?
-            true
-          end
+module ResourceAllocations
+  # Streamable wrapper around the Staffing table so it can be replaced in place
+  # via Turbo after an assignment removes a row.
+  class AssignmentListComponent < ApplicationComponent
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-          def autocomplete_options
-            items = allowed_values.map do |name, id|
-              path = name.split(" / ")
-              { name: path.last, id:, depth: path.length - 1 }
-            end
+    def initialize(project:, allocations:, visible_work_package_ids:)
+      super
 
-            # `values` are stored as strings while the item ids are integers, so
-            # compare as strings to pre-select the current values (e.g. when
-            # editing an existing filter).
-            selected_ids = Array(values).map(&:to_s)
+      @project = project
+      @allocations = allocations
+      @visible_work_package_ids = visible_work_package_ids
+    end
 
-            {
-              component: "opce-autocompleter",
-              bindValue: "id",
-              bindLabel: "name",
-              hideSelected: true,
-              defaultData: false,
-              items:,
-              model: items.select { |item| selected_ids.include?(item[:id].to_s) }
-            }
-          end
+    private
 
-          def value_objects
-            CustomField::Hierarchy::Item
-              .where(id: @values)
-              .map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) }
-          end
-        end
-      end
+    attr_reader :project, :allocations, :visible_work_package_ids
+
+    def table
+      AssignmentTableComponent.new(rows: allocations, project:, visible_work_package_ids:)
     end
   end
 end

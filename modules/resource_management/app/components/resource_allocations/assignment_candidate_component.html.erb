@@ -27,13 +27,33 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%#
-  `origin_controller` is forwarded so the lazily-loaded menu can highlight a
-  static entry (e.g. Staffing); planner entries highlight via the `id` param.
-%>
-<% menu_src = menu_project_resource_planners_path(@project, **params.permit(:id), origin_controller: params[:controller]) %>
-<%= turbo_frame_tag "resource_planners_sidemenu",
-                    src: menu_src,
-                    target: "_top",
-                    data: { turbo: false, query_param: "id" },
-                    loading: :lazy %>
+<%= flex_layout(align_items: :center) do |row| %>
+  <% row.with_column(mr: 2) do %>
+    <%= radio_button_tag("principal_id", user.id, false, id: radio_id) %>
+  <% end %>
+
+  <% row.with_column(mr: 2) do %>
+    <%= render(Users::AvatarComponent.new(user:, show_name: false, link: false, hover_card: { active: true })) %>
+  <% end %>
+
+  <% row.with_column(flex: 1) do %>
+    <%= label_tag(radio_id, user.name, class: "FormControl-label") %>
+  <% end %>
+
+  <% if capacity_known? %>
+    <% row.with_column(mr: fits? ? 0 : 1) do %>
+      <%= render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { available_label } %>
+    <% end %>
+
+    <% unless fits? %>
+      <% row.with_column(display: :flex) do %>
+        <%= warning_indicator(color: :danger, id: overbooked_tooltip_id, message: overbooked_message) %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <%# No work schedule: we cannot tell whether the allocation fits. %>
+    <% row.with_column(display: :flex) do %>
+      <%= warning_indicator(color: :attention, id: no_schedule_tooltip_id, message: no_schedule_message) %>
+    <% end %>
+  <% end %>
+<% end %>

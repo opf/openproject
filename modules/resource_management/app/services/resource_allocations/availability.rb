@@ -114,6 +114,13 @@ module ResourceAllocations
       ((booked_minutes_within(range).to_f / capacity) * 100).round
     end
 
+    # Minutes already booked against the user within the given range. Allocations
+    # overlapping it only partially are counted proportionally to capacity.
+    # Zero when the user has nothing booked there.
+    def scheduled_minutes_within(range)
+      booked_minutes_within(range)
+    end
+
     private
 
     def allocations

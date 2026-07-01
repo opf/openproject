@@ -27,13 +27,31 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<% html_title t("resource_management.staffing.title"), t(:label_resource_management) %>
+
+<%= render(Primer::OpenProject::PageHeader.new) do |header|
+      header.with_title { t("resource_management.staffing.title") }
+      header.with_breadcrumbs(
+        [
+          { href: project_overview_path(@project.id), text: @project.name },
+          { href: project_resource_planners_path(@project), text: t(:label_resource_management) },
+          t("resource_management.staffing.title")
+        ]
+      )
+    end %>
+
 <%#
-  `origin_controller` is forwarded so the lazily-loaded menu can highlight a
-  static entry (e.g. Staffing); planner entries highlight via the `id` param.
+  The frame has no `src`, so it is not fetched on load — it holds the
+  server-rendered list until an allocation change reloads it via its own action.
 %>
-<% menu_src = menu_project_resource_planners_path(@project, **params.permit(:id), origin_controller: params[:controller]) %>
-<%= turbo_frame_tag "resource_planners_sidemenu",
-                    src: menu_src,
-                    target: "_top",
-                    data: { turbo: false, query_param: "id" },
-                    loading: :lazy %>
+<%= turbo_frame_tag(
+      "staffing-list",
+      refresh: :morph,
+      data: {
+        controller: "reload-frame-on-event",
+        "reload-frame-on-event-event-name-value": "op-dispatched:resource-allocations:changed",
+        "reload-frame-on-event-url-value": project_staffing_path(@project)
+      }
+    ) do %>
+  <%= render(@list_component) %>
+<% end %>

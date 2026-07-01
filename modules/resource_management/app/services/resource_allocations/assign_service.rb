@@ -28,44 +28,12 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries
-  module Filters
-    module Shared
-      module CustomFields
-        class Hierarchy < Base
-          def ar_object_filter?
-            true
-          end
+module ResourceAllocations
+  class AssignService < ::BaseServices::Update
+    private
 
-          def autocomplete_options
-            items = allowed_values.map do |name, id|
-              path = name.split(" / ")
-              { name: path.last, id:, depth: path.length - 1 }
-            end
-
-            # `values` are stored as strings while the item ids are integers, so
-            # compare as strings to pre-select the current values (e.g. when
-            # editing an existing filter).
-            selected_ids = Array(values).map(&:to_s)
-
-            {
-              component: "opce-autocompleter",
-              bindValue: "id",
-              bindLabel: "name",
-              hideSelected: true,
-              defaultData: false,
-              items:,
-              model: items.select { |item| selected_ids.include?(item[:id].to_s) }
-            }
-          end
-
-          def value_objects
-            CustomField::Hierarchy::Item
-              .where(id: @values)
-              .map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) }
-          end
-        end
-      end
+    def default_contract_class
+      ResourceAllocations::AssignContract
     end
   end
 end

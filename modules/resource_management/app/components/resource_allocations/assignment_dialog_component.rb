@@ -28,44 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Queries
-  module Filters
-    module Shared
-      module CustomFields
-        class Hierarchy < Base
-          def ar_object_filter?
-            true
-          end
+module ResourceAllocations
+  # The dialog for assigning a real user to a generic allocation. Its body and
+  # footer are swapped between the candidate-selection step and the overbooking
+  # confirmation step (the latter reuses the WarningStep components).
+  class AssignmentDialogComponent < ApplicationComponent
+    include OpTurbo::Streamable
+    include OpPrimer::ComponentHelpers
 
-          def autocomplete_options
-            items = allowed_values.map do |name, id|
-              path = name.split(" / ")
-              { name: path.last, id:, depth: path.length - 1 }
-            end
+    DIALOG_ID = "assign-resource-dialog"
+    FORM_ID = "assign-resource-form"
+    FOOTER_ID = "assign-resource-footer"
+    # Shared by every step so swapping the body targets the same Turbo wrapper.
+    BODY_ID = "assign-resource-dialog-body"
 
-            # `values` are stored as strings while the item ids are integers, so
-            # compare as strings to pre-select the current values (e.g. when
-            # editing an existing filter).
-            selected_ids = Array(values).map(&:to_s)
+    def initialize(project:, allocation:, candidates:)
+      super
 
-            {
-              component: "opce-autocompleter",
-              bindValue: "id",
-              bindLabel: "name",
-              hideSelected: true,
-              defaultData: false,
-              items:,
-              model: items.select { |item| selected_ids.include?(item[:id].to_s) }
-            }
-          end
+      @project = project
+      @allocation = allocation
+      @candidates = candidates
+    end
 
-          def value_objects
-            CustomField::Hierarchy::Item
-              .where(id: @values)
-              .map { |item| CustomField::Hierarchy::HierarchyItemAdapter.new(item:) }
-          end
-        end
-      end
+    private
+
+    attr_reader :project, :allocation, :candidates
+
+    def title
+      I18n.t("resource_management.assignment_dialog.title", filter_name: allocation.filter_name)
     end
   end
 end
