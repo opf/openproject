@@ -29,16 +29,19 @@
 #++
 
 module Backlogs
-  class BurndownChartController < BaseController
-    menu_item :backlogs
+  module SprintReports
+    class WidgetsController < BaseController
+      # Adding a widget requires:
+      # - An entry here
+      # - A view at views/backlogs/sprint_reports/widgets/<name>.html.erb
+      #
+      # The controller action, permission and a route are created automatically.
+      WIDGETS = %i[
+        burndown_chart
+      ].freeze
 
-    helper Backlogs::BurndownChartHelper
-
-    def show
-      @burndown = Burndown.new(@sprint, @project) if @sprint.date_range_set?
-
-      respond_to do |format|
-        format.html { render "backlogs/burndown_chart/show", layout: true }
+      WIDGETS.each do |widget|
+        define_method(widget) { render layout: false }
       end
     end
   end

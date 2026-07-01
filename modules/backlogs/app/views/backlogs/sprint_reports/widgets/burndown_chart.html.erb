@@ -27,36 +27,6 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<% html_title t(:label_all_sprints) %>
-
-<% content_for :content_header do %>
-  <%=
-    render Primer::OpenProject::PageHeader.new(mb: 4) do |header|
-      header.with_title { t(:label_all_sprints) }
-      header.with_breadcrumbs(
-        [{ href: project_overview_path(@project), text: @project.name },
-         { href: project_backlogs_backlog_path(@project), text: t(:label_backlogs) },
-         t(:label_all_sprints)]
-      )
-    end
-  %>
-<% end %>
-
-<% content_for :content_body do %>
-  <%= turbo_frame_tag "all-sprints-table",
-                      refresh: :morph,
-                      data: {
-                        controller: "reload-frame-on-event",
-                        "reload-frame-on-event-event-name-value": "op-dispatched:backlogs:sprint-updated",
-                        "reload-frame-on-event-url-value": project_backlogs_sprints_path(@project)
-                      } do %>
-    <%=
-      render Backlogs::Sprints::TableComponent.new(
-        rows: @sprints,
-        project: @project,
-        work_package_counts: @work_package_counts,
-        test_selector: "all-sprints-table"
-      )
-    %>
-  <% end %>
+<%= turbo_frame_tag Backlogs::SprintReports::Widgets::BurndownChart::FRAME_ID do %>
+  <%= render(Backlogs::SprintReports::Widgets::BurndownChart.new(@sprint, @project)) %>
 <% end %>

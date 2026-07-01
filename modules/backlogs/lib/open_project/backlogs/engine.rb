@@ -58,6 +58,8 @@ module OpenProject::Backlogs
                      "backlogs/inbox": :menu,
                      "backlogs/burndown_chart": :show,
                      "backlogs/sprints": :index,
+                     "backlogs/sprint_reports": :show,
+                     "backlogs/sprint_reports/widgets": Backlogs::SprintReports::WidgetsController::WIDGETS,
                      "backlogs/taskboard": :show },
                    permissible_on: :project,
                    dependencies: %i[view_work_packages show_board_views]

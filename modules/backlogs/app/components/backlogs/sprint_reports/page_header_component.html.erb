@@ -25,38 +25,14 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%>
+++# %>
 
-<% html_title t(:label_all_sprints) %>
-
-<% content_for :content_header do %>
-  <%=
-    render Primer::OpenProject::PageHeader.new(mb: 4) do |header|
-      header.with_title { t(:label_all_sprints) }
-      header.with_breadcrumbs(
-        [{ href: project_overview_path(@project), text: @project.name },
-         { href: project_backlogs_backlog_path(@project), text: t(:label_backlogs) },
-         t(:label_all_sprints)]
-      )
+<%=
+  render(Primer::OpenProject::PageHeader.new) do |header|
+    header.with_title { title }
+    header.with_breadcrumbs(breadcrumb_items)
+    header.with_description do
+      render(Backlogs::SprintReports::HeaderInfolineComponent.new(sprint: @sprint))
     end
-  %>
-<% end %>
-
-<% content_for :content_body do %>
-  <%= turbo_frame_tag "all-sprints-table",
-                      refresh: :morph,
-                      data: {
-                        controller: "reload-frame-on-event",
-                        "reload-frame-on-event-event-name-value": "op-dispatched:backlogs:sprint-updated",
-                        "reload-frame-on-event-url-value": project_backlogs_sprints_path(@project)
-                      } do %>
-    <%=
-      render Backlogs::Sprints::TableComponent.new(
-        rows: @sprints,
-        project: @project,
-        work_package_counts: @work_package_counts,
-        test_selector: "all-sprints-table"
-      )
-    %>
-  <% end %>
-<% end %>
+  end
+%>

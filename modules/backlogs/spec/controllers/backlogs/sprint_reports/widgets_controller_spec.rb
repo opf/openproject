@@ -28,17 +28,35 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Backlogs
-  class BurndownChartController < BaseController
-    menu_item :backlogs
+require "rails_helper"
 
-    helper Backlogs::BurndownChartHelper
+RSpec.describe Backlogs::SprintReports::WidgetsController do
+  let(:all_permissions) { %i[view_sprints view_work_packages show_board_views] }
+  let(:permissions) { all_permissions }
+  let(:project) { create(:project) }
+  let(:sprint) { create(:sprint, project:) }
 
-    def show
-      @burndown = Burndown.new(@sprint, @project) if @sprint.date_range_set?
+  current_user { create(:user, member_with_permissions: { project => permissions }) }
 
-      respond_to do |format|
-        format.html { render "backlogs/burndown_chart/show", layout: true }
+  describe "GET #burndown_chart" do
+    it "responds with success", :aggregate_failures do
+      get :burndown_chart, params: { project_id: project.id, sprint_id: sprint.id }
+
+      expect(response).to be_successful
+      expect(response).to have_http_status :ok
+      expect(response).to render_template("backlogs/sprint_reports/widgets/burndown_chart")
+      expect(controller.controller_path).to eq("backlogs/sprint_reports/widgets")
+      expect(assigns(:project)).to eq(project)
+      expect(assigns(:sprint)).to eq(sprint)
+    end
+
+    context "without the 'view_sprints' permission" do
+      let(:permissions) { %i[view_work_packages show_board_views] }
+
+      it "responds with not_found" do
+        get :burndown_chart, params: { project_id: project.id, sprint_id: sprint.id }
+
+        expect(response).to have_http_status :not_found
       end
     end
   end

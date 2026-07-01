@@ -26,19 +26,41 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 module Backlogs
-  class BurndownChartController < BaseController
-    menu_item :backlogs
+  module SprintReports
+    module Widgets
+      class BurndownChart < Grids::WidgetComponent
+        include Backlogs::BurndownChartHelper
 
-    helper Backlogs::BurndownChartHelper
+        FRAME_ID = "sprint-report-burndown-chart"
 
-    def show
-      @burndown = Burndown.new(@sprint, @project) if @sprint.date_range_set?
+        param :sprint
+        param :project
 
-      respond_to do |format|
-        format.html { render "backlogs/burndown_chart/show", layout: true }
+        def title
+          t("backlogs.show_burndown_chart")
+        end
+
+        def chart_data
+          {
+            labels: xaxis_labels(burndown),
+            datasets: dataseries(burndown)
+          }.to_json
+        end
+
+        private
+
+        def burndown
+          return nil unless sprint.date_range_set?
+
+          @burndown ||= Burndown.new(sprint, project)
+        end
+
+        def show_sprint_edit_action?
+          current_user.allowed_in_project?(:create_sprints, project)
+        end
       end
     end
   end

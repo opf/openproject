@@ -103,6 +103,16 @@ Rails.application.routes.draw do
       scope "sprints/:sprint_id" do
         get "taskboard", to: "taskboard#show", as: :sprint_taskboard
         get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
+
+        constraints(Constraints::FeatureDecision.new(:sprint_reports)) do
+          get "report", to: "sprint_reports#show", as: :sprint_report
+
+          scope "report/widgets", module: :sprint_reports do
+            Backlogs::SprintReports::WidgetsController::WIDGETS.each do |widget|
+              get widget, to: "widgets##{widget}", as: "sprint_report_#{widget}_widget"
+            end
+          end
+        end
       end
     end
   end

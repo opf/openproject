@@ -25,38 +25,34 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 See COPYRIGHT and LICENSE files for more details.
 
-++#%>
+++# %>
 
-<% html_title t(:label_all_sprints) %>
+<%=
+  widget_wrapper do |container|
+    if burndown.present?
+      container.with_body do
+        helpers.angular_component_tag "opce-burndown-chart", "chart-data": chart_data, style: "display:block"
+      end
+    else
+      container.with_body do
+        render(Primer::Beta::Blankslate.new(spacious: true)) do |blankslate|
+          blankslate.with_visual_icon(icon: :graph)
+          blankslate.with_heading(tag: :h3).with_content(t("backlogs.burndown_chart.show.blankslate_title"))
+          blankslate.with_description_content(t("backlogs.burndown_chart.show.blankslate_description"))
 
-<% content_for :content_header do %>
-  <%=
-    render Primer::OpenProject::PageHeader.new(mb: 4) do |header|
-      header.with_title { t(:label_all_sprints) }
-      header.with_breadcrumbs(
-        [{ href: project_overview_path(@project), text: @project.name },
-         { href: project_backlogs_backlog_path(@project), text: t(:label_backlogs) },
-         t(:label_all_sprints)]
-      )
+          if show_sprint_edit_action?
+            blankslate.with_primary_action(
+              href: edit_dialog_project_backlogs_sprint_path(project, sprint),
+              data: { turbo: true,
+                      controller: "async-dialog" }
+            ) do |button|
+              button.with_leading_visual_icon(icon: :pencil)
+
+              t("backlogs.burndown_chart.show.blankslate_edit_sprint")
+            end
+          end
+        end
+      end
     end
-  %>
-<% end %>
-
-<% content_for :content_body do %>
-  <%= turbo_frame_tag "all-sprints-table",
-                      refresh: :morph,
-                      data: {
-                        controller: "reload-frame-on-event",
-                        "reload-frame-on-event-event-name-value": "op-dispatched:backlogs:sprint-updated",
-                        "reload-frame-on-event-url-value": project_backlogs_sprints_path(@project)
-                      } do %>
-    <%=
-      render Backlogs::Sprints::TableComponent.new(
-        rows: @sprints,
-        project: @project,
-        work_package_counts: @work_package_counts,
-        test_selector: "all-sprints-table"
-      )
-    %>
-  <% end %>
-<% end %>
+  end
+%>

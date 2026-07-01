@@ -29,16 +29,17 @@
 #++
 
 module Backlogs
-  class BurndownChartController < BaseController
-    menu_item :backlogs
+  module SprintReports
+    class HeaderInfolineComponent < ApplicationComponent
+      include OpPrimer::ComponentHelpers
+      include Redmine::I18n
 
-    helper Backlogs::BurndownChartHelper
+      attr_reader :sprint
 
-    def show
-      @burndown = Burndown.new(@sprint, @project) if @sprint.date_range_set?
+      def initialize(sprint:)
+        super
 
-      respond_to do |format|
-        format.html { render "backlogs/burndown_chart/show", layout: true }
+        @sprint = sprint
       end
     end
   end

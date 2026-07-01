@@ -29,17 +29,11 @@
 #++
 
 module Backlogs
-  class BurndownChartController < BaseController
-    menu_item :backlogs
-
-    helper Backlogs::BurndownChartHelper
-
-    def show
-      @burndown = Burndown.new(@sprint, @project) if @sprint.date_range_set?
-
-      respond_to do |format|
-        format.html { render "backlogs/burndown_chart/show", layout: true }
-      end
+  class SprintReportsController < BaseController
+    current_menu_item %i[show] do
+      :all_sprints
     end
+
+    def show; end
   end
 end

@@ -316,6 +316,26 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
           # The three item groups are separated by presentation-only dividers.
           expect(page).to have_css("li[role='presentation']", count: 2)
         end
+
+        context "with sprint_reports feature flag active", with_flag: :sprint_reports do
+          it "shows sprint report in the action menu instead of burndown chart" do
+            rendered_component
+
+            expect(menu_items).to eq(["Edit sprint", "Add work package", "Sprint board", "Sprint report"])
+          end
+
+          context "when the user lacks view_sprints permission" do
+            let(:role) { create(:project_role, permissions: %i[view_work_packages create_sprints]) }
+            let(:user) { create(:user, member_with_roles: { project => role }) }
+
+            it "hides both the sprint report and burndown chart menu items" do
+              rendered_component
+
+              expect(menu_items).not_to include("Sprint report")
+              expect(menu_items).not_to include("Burndown chart")
+            end
+          end
+        end
       end
     end
   end

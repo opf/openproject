@@ -26,19 +26,31 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
 module Backlogs
-  class BurndownChartController < BaseController
-    menu_item :backlogs
+  module SprintReports
+    class PageHeaderComponent < ApplicationComponent
+      include ApplicationHelper
 
-    helper Backlogs::BurndownChartHelper
+      def initialize(sprint:, project:)
+        super
 
-    def show
-      @burndown = Burndown.new(@sprint, @project) if @sprint.date_range_set?
+        @sprint = sprint
+        @project = project
+      end
 
-      respond_to do |format|
-        format.html { render "backlogs/burndown_chart/show", layout: true }
+      def breadcrumb_items
+        [
+          { href: project_overview_path(@project), text: @project.name },
+          { href: project_backlogs_backlog_path(@project), text: t(:label_backlogs) },
+          { href: project_backlogs_sprints_path(@project), text: @sprint.name },
+          t("backlogs.sprint_reports.page_header_component.breadcrumb")
+        ]
+      end
+
+      def title
+        t("backlogs.sprint_reports.page_header_component.title", sprint: @sprint.name)
       end
     end
   end
