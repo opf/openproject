@@ -917,9 +917,12 @@ Rails.application.routes.draw do
 
     # move bulk of wps
     get "move/new" => "work_packages/moves#new", on: :collection, as: "new_move"
+    post "move/refresh_form" => "work_packages/moves#refresh_form", on: :collection, as: "refresh_form_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"
     # move individual wp
-    resource :move, controller: "work_packages/moves", only: %i[new create]
+    resource :move, controller: "work_packages/moves", only: %i[new create] do
+      post :refresh_form, on: :member
+    end
 
     # states managed by client-side routing on work_package#index
     get "details/*state" => "work_packages#index", on: :collection, as: :details
