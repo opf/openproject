@@ -2388,4 +2388,51 @@ RSpec.describe WorkPackages::SetAttributesService,
       expect(work_package.override_target_versions?).to be true
     end
   end
+
+  describe "setting the templated description when the type changes on a new work package" do
+    subject(:service_result) { instance.call(call_attributes) }
+
+    let(:work_package) { new_work_package }
+    let(:type_with_template) { create(:type, description: "Some default template text") }
+    let(:type_without_template) { create(:type, description: nil) }
+
+    before { allow(work_package).to receive(:save) }
+
+    context "when changing to a type that has a default description template" do
+      let(:call_attributes) { { type: type_with_template } }
+
+      it "sets the description to the type's template" do
+        service_result
+        expect(work_package.description).to eq("Some default template text")
+      end
+    end
+
+    context "when changing from a templated type to one without a template" do
+      let(:call_attributes) { { type: type_without_template } }
+
+      before do
+        work_package.description = type_with_template.description
+        work_package.clear_changes_information
+      end
+
+      it "clears the previous type's template" do
+        service_result
+        expect(work_package.description).to be_blank
+      end
+    end
+
+    context "when the description was authored by the user" do
+      let(:call_attributes) { { type: type_without_template } }
+
+      before do
+        work_package.description = "Something the user typed"
+        work_package.clear_changes_information
+      end
+
+      it "keeps the user's description" do
+        service_result
+        expect(work_package.description).to eq("Something the user typed")
+      end
+    end
+  end
 end

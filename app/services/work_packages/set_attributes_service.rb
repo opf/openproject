@@ -230,14 +230,10 @@ class WorkPackages::SetAttributesService < BaseServices::SetAttributes
     # And the type was changed
     return unless work_package.type_id_changed?
 
-    # And the new type has a default text
-    default_description = work_package.type&.description
-    return if default_description.blank?
-
     # And the current description matches ANY current default text
     return unless work_package.description.blank? || default_description?
 
-    work_package.description = default_description
+    work_package.description = work_package.type&.description
   end
 
   def default_description?
