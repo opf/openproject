@@ -59,7 +59,7 @@ module WorkPackages
         @notes = notes
         @copy = copy
         @new_type_id = new_type_id
-        @selected_values = selected_values
+        @selected_values = selected_values.to_h.with_indifferent_access
         @turbo_stream_url = turbo_stream_url
         @current_user = current_user
       end
@@ -110,16 +110,12 @@ module WorkPackages
         @possible_assignees ||= Principal.possible_assignee(target_project)
       end
 
-      def selected_value(attribute)
-        selected_values[attribute] || selected_values[attribute.to_s]
-      end
-
       def selected_version
-        available_versions.find { |version| version.id.to_s == selected_value(:version_id).to_s }
+        available_versions.find { |version| version.id.to_s == selected_values[:version_id].to_s }
       end
 
       def selected_custom_field_value(custom_field)
-        selected_value(:custom_field_values)&.[](custom_field.id.to_s)
+        selected_values.dig(:custom_field_values, custom_field.id.to_s)
       end
     end
   end

@@ -97,7 +97,7 @@ See COPYRIGHT and LICENSE files for more details.
                 <%= styled_select_tag(
                       "status_id",
                       content_tag("option", t(:label_no_change_option), value: "") +
-                        options_from_collection_for_select(available_statuses, :id, :name, selected_value(:status_id))
+                        options_from_collection_for_select(available_statuses, :id, :name, selected_values[:status_id])
                     ) %>
               </div>
             </div>
@@ -121,7 +121,7 @@ See COPYRIGHT and LICENSE files for more details.
                           IssuePriority.active,
                           :id,
                           :name,
-                          selected_value(:priority_id)
+                          selected_values[:priority_id]
                         )
                     ) %>
               </div>
@@ -133,13 +133,13 @@ See COPYRIGHT and LICENSE files for more details.
                       "assigned_to_id",
                       options_for_select(
                         [[t(:label_no_change_option), ""], [t(:label_nobody), "none"]],
-                        selected_value(:assigned_to_id)
+                        selected_values[:assigned_to_id]
                       ) +
                         options_from_collection_for_select(
                           possible_assignees,
                           :id,
                           :name,
-                          selected_value(:assigned_to_id)
+                          selected_values[:assigned_to_id]
                         )
                     ) %>
               </div>
@@ -151,13 +151,13 @@ See COPYRIGHT and LICENSE files for more details.
                       "responsible_id",
                       options_for_select(
                         [[t(:label_no_change_option), ""], [t(:label_nobody), "none"]],
-                        selected_value(:responsible_id)
+                        selected_values[:responsible_id]
                       ) +
                         options_from_collection_for_select(
                           possible_assignees,
                           :id,
                           :name,
-                          selected_value(:responsible_id)
+                          selected_values[:responsible_id]
                         )
                     ) %>
               </div>
@@ -171,13 +171,13 @@ See COPYRIGHT and LICENSE files for more details.
                         ([t(:label_no_change_option), ""] if target_project == project),
                         [t(:label_none), "none"]
                       ].compact,
-                      selected_value(:budget_id)
+                      selected_values[:budget_id]
                     ) +
                     options_from_collection_for_select(
                       target_project.budgets,
                       :id,
                       :subject,
-                      selected_value(:budget_id)
+                      selected_values[:budget_id]
                     )
                   ) %>
             </div>
@@ -190,7 +190,7 @@ See COPYRIGHT and LICENSE files for more details.
                                           inputs: {
                                             id: "start_date",
                                             name: "start_date",
-                                            value: selected_value(:start_date)
+                                            value: selected_values[:start_date]
                                           } %>
               </div>
             </div>
@@ -201,7 +201,7 @@ See COPYRIGHT and LICENSE files for more details.
                                           inputs: {
                                             id: "due_date",
                                             name: "due_date",
-                                            value: selected_value(:due_date)
+                                            value: selected_values[:due_date]
                                           } %>
               </div>
             </div>
