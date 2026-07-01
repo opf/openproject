@@ -87,6 +87,11 @@ export default class RefreshOnFormChangesController extends ApplicationControlle
       // Copy only string entries: the refresh just re-renders the form, so
       // posting selected File blobs would upload them on every keystroke and
       // leak them to an endpoint that never reads them.
+      // Let editors (e.g. CKEditor) flush their content into their backing
+      // <textarea> before the snapshot. Dispatch is synchronous, so any
+      // listener runs before the FormData below is read.
+      this.dispatch('beforeSnapshot', { target: this.formTarget });
+
       const body = new FormData();
       new FormData(this.formTarget).forEach((value, key) => {
         if (typeof value === 'string') {

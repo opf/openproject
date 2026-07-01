@@ -237,6 +237,26 @@ describe('Refresh on form changes controller', () => {
     expect((init.body as FormData).get('sprint[goal][text]')).toBe('Updated goal');
   });
 
+  it('dispatches beforeSnapshot before reading the form, so late edits are captured', async () => {
+    const controller = await renderForm();
+    const form = ctx.container.querySelector('form')!;
+    const goal = ctx.container.querySelector<HTMLTextAreaElement>('[name="sprint[goal][text]"]')!;
+
+    // Stand in for CKEditor flushing its latest content into the textarea on the event.
+    form.addEventListener('refresh-on-form-changes:beforeSnapshot', () => {
+      goal.value = 'Flushed just before snapshot';
+    });
+
+    controller.triggerTurboStream();
+
+    await waitFor(() => {
+      expect(fetchSpy).toHaveBeenCalled();
+    });
+
+    const [, init] = fetchSpy.mock.calls[0] as [string, RequestInit];
+    expect((init.body as FormData).get('sprint[goal][text]')).toBe('Flushed just before snapshot');
+  });
+
   it('swallows abort errors but logs other request errors', async () => {
     const controller = await renderForm();
     const consoleError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
