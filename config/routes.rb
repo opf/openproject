@@ -920,9 +920,7 @@ Rails.application.routes.draw do
     post "move/refresh_form" => "work_packages/moves#refresh_form", on: :collection, as: "refresh_form_move"
     post "move" => "work_packages/moves#create", on: :collection, as: "move"
     # move individual wp
-    resource :move, controller: "work_packages/moves", only: %i[new create] do
-      post :refresh_form, on: :member
-    end
+    resource :move, controller: "work_packages/moves", only: %i[new create]
 
     # states managed by client-side routing on work_package#index
     get "details/*state" => "work_packages#index", on: :collection, as: :details
