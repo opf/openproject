@@ -31,15 +31,26 @@
 module ResourcePlanners
   class ShowPageHeaderComponent < ApplicationComponent
     include ApplicationHelper
+    include OpTurbo::Streamable
 
-    def initialize(resource_planner:, project:)
+    def initialize(resource_planner:, project:, selected_view: nil)
       super
 
       @resource_planner = resource_planner
       @project = project
+      @selected_view = selected_view
     end
 
     private
+
+    def selected_view_id
+      @selected_view&.id || @resource_planner.default_view_id
+    end
+
+    def can_add_views?
+      # TODO: Proper permission check
+      true
+    end
 
     def breadcrumb_items
       [

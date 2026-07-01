@@ -278,8 +278,9 @@ module ::ResourceManagement
       @resource_planner.children.reload
 
       replace_via_turbo_stream(
-        component: ResourcePlanners::SubViewsComponent.new(
+        component: ResourcePlanners::ShowPageHeaderComponent.new(
           resource_planner: @resource_planner,
+          project: @project,
           selected_view: view
         )
       )

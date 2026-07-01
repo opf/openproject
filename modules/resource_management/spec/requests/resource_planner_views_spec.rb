@@ -168,7 +168,7 @@ RSpec.describe "ResourcePlannerViews requests",
       perform
 
       expect(response.body).to have_turbo_stream(action: "closeDialog", target: "#edit-resource-planner-view-dialog")
-      expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planners-sub-views-component")
+      expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planners-show-page-header-component")
       expect(response.body).to have_turbo_stream(action: "replace", target: "resource-planner-views-content-component")
 
       expect(response.body).to include("Renamed view")

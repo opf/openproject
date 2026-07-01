@@ -27,6 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
+<%= component_wrapper do %>
 <%= render(Primer::OpenProject::PageHeader.new) do |header|
       header.with_title { @resource_planner.name }
       header.with_breadcrumbs(breadcrumb_items)
@@ -87,4 +88,23 @@ See COPYRIGHT and LICENSE files for more details.
           end
         end
       end
+
+      header.with_tab_nav(label: t("resource_management.sub_views")) do |tab_nav|
+        @resource_planner.children.each do |child|
+          tab_nav.with_tab(
+            selected: child.id == selected_view_id,
+            href: project_resource_planner_view_path(@project, @resource_planner, child)
+          ) { child.name }
+        end
+
+        if can_add_views?
+          tab_nav.with_tab(
+            href: new_project_resource_planner_view_path(@project, @resource_planner),
+            data: { controller: "async-dialog" }
+          ) do
+            render(Primer::Beta::Octicon.new(icon: :plus, size: :medium))
+          end
+        end
+      end
     end %>
+<% end %>
