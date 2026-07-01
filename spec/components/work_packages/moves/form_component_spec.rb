@@ -49,18 +49,18 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
   let(:status) { create(:status) }
   let!(:priority) { create(:priority, name: "High") }
   let(:version) { create(:version, project: target_project) }
+  let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
+  let(:user) { create(:user, member_with_roles: { project => role }) }
 
   def build_component(**params)
     described_class.new(
       work_packages: [work_package],
       project:,
       target_project:,
-      types: target_project.types,
-      target_type: type,
-      available_versions: [version],
-      available_statuses: [status],
       notes: "Move notes",
+      new_type_id: type.id,
       turbo_stream_url: "/work_packages/move/refresh_form",
+      current_user: user,
       **params
     )
   end
@@ -80,6 +80,8 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
   end
 
   context "with selected values" do
+    let!(:workflow) { create(:workflow, type:, role:, old_status: work_package.status, new_status: status) }
+
     let(:component) do
       build_component(
         selected_values: {
@@ -109,6 +111,25 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     it "renders the required marker as an HTML element, not escaped text" do
       expect(rendered_component).to have_css("label.form--label span.required", text: "*")
       expect(rendered_component).to have_no_text('<span class="required">')
+    end
+  end
+
+  context "with a required project-scoped custom field on the target type" do
+    let!(:source_version) { create(:version, project:, name: "Source milestone") }
+    let!(:target_version) { create(:version, project: target_project, name: "Target milestone") }
+    let!(:custom_field) do
+      create(:version_wp_custom_field,
+             name: "Milestone",
+             is_required: true,
+             types: [type],
+             projects: [project, target_project])
+    end
+
+    it "scopes the custom field options to the target project" do
+      cf_select = "custom_field_values[#{custom_field.id}]"
+
+      expect(rendered_component).to have_select(cf_select, with_options: ["Target milestone"])
+      expect(rendered_component).to have_no_select(cf_select, with_options: ["Source milestone"])
     end
   end
 end

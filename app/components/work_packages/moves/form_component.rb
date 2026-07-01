@@ -40,30 +40,68 @@ module WorkPackages
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
 
-      def initialize(work_packages:, project:, target_project:, types:, available_versions:, available_statuses:,
-                     notes:, turbo_stream_url:, copy: false, target_type: nil,
-                     unavailable_type_in_target_project: false, selected_values: {})
+      def initialize(
+        work_packages:,
+        project:,
+        target_project:,
+        notes:,
+        turbo_stream_url:,
+        copy: false,
+        new_type_id: nil,
+        selected_values: {},
+        current_user: User.current
+      )
         super
 
         @work_packages = work_packages
         @project = project
         @target_project = target_project
-        @types = types
-        @target_type = target_type
-        @unavailable_type_in_target_project = unavailable_type_in_target_project
-        @available_versions = available_versions
-        @available_statuses = available_statuses
         @notes = notes
         @copy = copy
+        @new_type_id = new_type_id
         @selected_values = selected_values
         @turbo_stream_url = turbo_stream_url
+        @current_user = current_user
       end
 
       private
 
-      attr_reader :work_packages, :project, :target_project, :types, :target_type,
-                  :unavailable_type_in_target_project, :available_versions, :available_statuses, :notes, :copy,
-                  :selected_values, :turbo_stream_url
+      attr_reader :work_packages, :project, :target_project, :notes, :copy,
+                  :new_type_id, :selected_values, :turbo_stream_url, :current_user
+
+      def types
+        @types ||= target_project.types.order(:position)
+      end
+
+      def target_type
+        @target_type ||= types.find { |type| type.id.to_s == new_type_id.to_s }
+      end
+
+      def available_versions
+        @available_versions ||= target_project.assignable_versions
+      end
+
+      def available_statuses
+        @available_statuses ||= Workflow.available_statuses(project, current_user)
+      end
+
+      def unavailable_type_in_target_project?
+        return false if target_project == project
+        return types.exclude?(target_type) unless target_type.nil?
+
+        ancestor_types_missing_in_target?
+      end
+
+      def ancestor_types_missing_in_target?
+        hierarchies = WorkPackageHierarchy
+                        .includes(:ancestor)
+                        .where(ancestor_id: work_packages.select(:id))
+        Type.where(id: hierarchies.map { it.ancestor.type_id })
+            .select("distinct id")
+            .pluck(:id)
+            .difference(types.pluck(:id))
+            .any?
+      end
 
       def possible_assignees
         @possible_assignees ||= Principal.possible_assignee(target_project)

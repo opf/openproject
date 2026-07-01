@@ -142,15 +142,12 @@ class WorkPackages::MovesController < ApplicationController
       work_packages: @work_packages,
       project: @project,
       target_project: @target_project,
-      types: @types,
-      target_type: @target_type,
-      unavailable_type_in_target_project: @unavailable_type_in_target_project,
-      available_versions: @available_versions,
-      available_statuses: @available_statuses,
       notes: @notes,
       copy: @copy,
+      new_type_id: params[:new_type_id],
       selected_values: selected_move_form_values,
-      turbo_stream_url: refresh_form_move_work_packages_path
+      turbo_stream_url: refresh_form_move_work_packages_path,
+      current_user:
     )
   end
 
@@ -160,32 +157,11 @@ class WorkPackages::MovesController < ApplicationController
 
   def prepare_for_work_package_move
     @copy = params.has_key? :copy
-    @allowed_projects = WorkPackage.allowed_target_projects_on_move(current_user)
-    @target_project = @allowed_projects.detect { |p| p.id.to_s == params[:new_project_id].to_s } if params[:new_project_id]
-    @target_project ||= @project
-    @types = @target_project.types.order(:position)
-    @target_type = @types.find { |t| t.id.to_s == params[:new_type_id].to_s }
-    @unavailable_type_in_target_project = set_unavailable_type_in_target_project
-    @available_versions = @target_project.assignable_versions
-    @available_statuses = Workflow.available_statuses(@project)
-    @notes = params[:notes] || ""
-  end
-
-  def set_unavailable_type_in_target_project
-    if @target_project == @project
-      false
-    elsif @target_type.nil?
-      hierarchies = WorkPackageHierarchy
-                      .includes(:ancestor)
-                      .where(ancestor_id: @work_packages.select(:id))
-      Type.where(id: hierarchies.map { it.ancestor.type_id })
-          .select("distinct id")
-          .pluck(:id)
-          .difference(@types.pluck(:id))
-          .any?
-    else
-      @types.exclude?(@target_type)
+    if params[:new_project_id]
+      @target_project = WorkPackage.allowed_target_projects_on_move(current_user).find_by(id: params[:new_project_id])
     end
+    @target_project ||= @project
+    @notes = params[:notes] || ""
   end
 
   def attributes_for_create
