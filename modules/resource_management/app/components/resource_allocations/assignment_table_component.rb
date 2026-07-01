@@ -34,8 +34,6 @@ module ResourceAllocations
   class AssignmentTableComponent < ::OpPrimer::BorderBoxTableComponent
     columns :resource, :work_package, :dates, :requested_time
 
-    mobile_columns :resource, :dates
-
     main_column :resource, :work_package
 
     attr_reader :project, :visible_work_package_ids
@@ -58,6 +56,10 @@ module ResourceAllocations
     def paginated? = false
 
     def has_actions? = true
+
+    # Scopes this table's column sizing (see assignment_table_component.sass)
+    # without touching the shared border-box grid defaults used by other tables.
+    def container_class = "op-staffing-list"
 
     def mobile_title
       I18n.t("resource_management.staffing.title")
