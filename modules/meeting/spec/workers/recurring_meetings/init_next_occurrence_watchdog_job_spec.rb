@@ -28,27 +28,40 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class RecurringMeetings::InitNextOccurrenceWatchdogJob < ApplicationJob
-  queue_with_priority :low
+require "spec_helper"
+require_module_spec_helper
 
-  def perform
-    key = RecurringMeetings::InitNextOccurrenceJob::CONCURRENCY_KEY_BASE
+RSpec.describe RecurringMeetings::InitNextOccurrenceWatchdogJob, type: :model do
+  shared_let(:project) { create(:project, enabled_module_names: %i[meetings]) }
+  shared_let(:user) { create(:user) }
 
-    RecurringMeeting
-      .includes(:template)
-      .joins("LEFT JOIN good_jobs ON good_jobs.concurrency_key = CONCAT('#{key}', recurring_meetings.id)")
-      .where(good_jobs: { id: nil })
-      .find_each do |series|
-      next if series.template.draft?
+  let(:series) do
+    create(:recurring_meeting,
+           project:,
+           author: user,
+           start_time: Time.zone.tomorrow + 10.hours,
+           frequency: "daily",
+           interval: 1,
+           end_after: "specific_date",
+           end_date: 1.month.from_now)
+  end
 
-      next_occurrence = series.next_occurrence
+  subject(:perform) { described_class.perform_now }
 
-      if next_occurrence
-        Rails.logger.warn { "Meeting series ##{series.id} lost its InitNextOccurrenceJob. Re-scheduling." }
-        RecurringMeetings::InitNextOccurrenceJob.perform_later(series, next_occurrence)
-      else
-        Rails.logger.debug { "Meeting series ##{series.id} has no next occurrence. Skipping resetting init job" }
-      end
+  it "re-schedules missing init jobs for open series" do
+    expect { perform }
+      .to have_enqueued_job(RecurringMeetings::InitNextOccurrenceJob)
+      .with(series, series.next_occurrence)
+  end
+
+  context "when the template is still in draft mode" do
+    before do
+      series.template.update!(state: :draft)
+    end
+
+    it "does not schedule an init job" do
+      expect { perform }
+        .not_to have_enqueued_job(RecurringMeetings::InitNextOccurrenceJob)
     end
   end
 end

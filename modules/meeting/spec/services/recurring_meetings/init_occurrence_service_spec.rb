@@ -56,6 +56,23 @@ RSpec.describe RecurringMeetings::InitOccurrenceService, type: :model do
   describe "instantiating an occurrence for a slot" do
     let(:start_time) { series.start_time + 3.days }
 
+    context "when the template is still in draft mode" do
+      before do
+        series.template.update!(state: :draft)
+      end
+
+      it "does not create an occurrence" do
+        expect(service_result).not_to be_success
+        expect(service_result.message).to eq(I18n.t("recurring_meeting.occurrence.error_template_draft"))
+        expect(created_meeting).to be_nil
+      end
+
+      it "does not add an occurrence" do
+        expect { instance.call(**params) }
+          .not_to change { series.meetings.not_templated.count }
+      end
+    end
+
     context "when no occurrence exists yet for the slot" do
       it "creates a new occurrence for the series" do
         expect(service_result).to be_success

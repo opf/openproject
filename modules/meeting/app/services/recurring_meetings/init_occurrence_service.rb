@@ -44,6 +44,8 @@ module RecurringMeetings
 
     def perform
       start_time = params.fetch(:start_time)
+      return draft_template_failure if recurring_meeting.template.draft?
+
       in_context(recurring_meeting, send_notifications: false) do
         call = instantiate(start_time)
         if call.success?
@@ -52,6 +54,10 @@ module RecurringMeetings
 
         call
       end
+    end
+
+    def draft_template_failure
+      ServiceResult.failure(message: I18n.t("recurring_meeting.occurrence.error_template_draft"))
     end
 
     def instantiate(start_time)
