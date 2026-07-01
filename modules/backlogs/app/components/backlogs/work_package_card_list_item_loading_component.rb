@@ -40,12 +40,17 @@ module Backlogs
   # Row behaviour (dragging, selection, urls) is inherited from
   # WorkPackageCardListItemComponent; only the rendered content differs.
   class WorkPackageCardListItemLoadingComponent < WorkPackageCardListItemComponent
+    # Magic number for the skelton's height. It is based on work packages not having a parent.
+    # There is no way to get this completely right without loading the content as other factors like
+    # the subject length and the screen width would also need to be factored in.
+    SKELETON_HEIGHT = "50px"
+
     def call
       helpers.turbo_frame_tag(WorkPackageCardComponent.frame_id(work_package),
                               loading: :lazy,
                               src: card_src,
                               data: { reload_frames_on_morph_target: "frame" }) do
-        render(Primer::Alpha::SkeletonBox.new(width: "100%", height: "40px"))
+        render(Primer::Alpha::SkeletonBox.new(width: "100%", height: SKELETON_HEIGHT))
       end
     end
 
