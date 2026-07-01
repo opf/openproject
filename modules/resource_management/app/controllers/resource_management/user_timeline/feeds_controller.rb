@@ -30,9 +30,6 @@
 
 module ResourceManagement
   module UserTimeline
-    # Shared setup for the timeline's JSON feeds: locates the planner and view and
-    # loads its users' allocations. Subclasses render the FullCalendar resources
-    # (one row per user) and events (the users' allocation bars).
     class FeedsController < BaseController
       menu_item :resource_management
 

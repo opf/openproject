@@ -30,8 +30,6 @@
 
 module ResourcePlannerViews
   module WorkPackageTimeline
-    # The container the FullCalendar resource-timeline controller mounts into.
-    # Bulk data comes from the feed endpoints; only small config travels inline.
     class ContentComponent < ApplicationComponent
       include ResourcePlannerViews::Timeline::Content
 

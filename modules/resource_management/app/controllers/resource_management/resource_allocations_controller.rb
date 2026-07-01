@@ -351,8 +351,8 @@ module ::ResourceManagement
       respond_with_turbo_streams
     end
 
-    # Re-renders the allocation list of the work package's allocations dialog.
-    # The stream is a no-op on the client when that dialog is not open.
+    # The stream is a no-op on the client when the work package's allocations
+    # dialog is not open.
     def refresh_allocations_list(work_package)
       return unless work_package.is_a?(WorkPackage)
 
@@ -368,10 +368,9 @@ module ::ResourceManagement
       )
     end
 
-    # Announces that an allocation of the work package changed. A resource
-    # planner table open on the page reloads the affected work package in
-    # response; the controller stays unaware of which view (if any) is on
-    # screen. The stream is a harmless no-op when nothing listens.
+    # The controller stays unaware of which view (if any) is on screen: a
+    # resource planner table open on the page reloads the affected work package
+    # in response, and the stream is a harmless no-op when nothing listens.
     def notify_allocation_change(entity)
       return unless entity.is_a?(WorkPackage)
 
@@ -445,9 +444,6 @@ module ::ResourceManagement
       query.filters
     end
 
-    # The resources a dialog was pre-selected for, resolved from the request
-    # params (a work-package allocation dialog, a user's utilization dialog, or a
-    # timeline range selection). Either may be absent.
     def preselected_work_package
       return @preselected_work_package if defined?(@preselected_work_package)
 
@@ -460,9 +456,8 @@ module ::ResourceManagement
       @preselected_user = User.visible(current_user).in_project(@project).find_by(id: params[:principal_id])
     end
 
-    # The allocation the new dialog opens with, carrying any pre-selected user
-    # and work package plus a timeline-picked date range. A pre-selected user
-    # lets the dialog skip the kind step and open directly on the allocation form.
+    # A pre-selected user lets the dialog skip the kind step and open directly on
+    # the allocation form.
     def prefilled_allocation
       ResourceAllocation.new(
         principal: preselected_user,

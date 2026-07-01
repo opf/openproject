@@ -78,7 +78,6 @@ module ResourcePlannerViews
         @view.try(:excluded_configuration_filters) || []
       end
 
-      # The card-field selector only applies to user card views.
       # ::ResourceUserCard disambiguates from the ResourcePlannerViews::ResourceUserCard contracts namespace.
       def show_card_fields?
         @view.is_a?(::ResourceUserCard)

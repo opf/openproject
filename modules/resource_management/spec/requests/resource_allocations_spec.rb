@@ -750,7 +750,6 @@ RSpec.describe "ResourceAllocations requests",
                                                         resource_planner_view_id: card_view.id),
           as: :turbo_stream
 
-      # The user dialog is closed and the kind step is skipped
       expect(response).to have_http_status(:ok)
       expect(response.body).to have_turbo_stream(action: "closeDialog", target: "##{user_dialog_id}")
       expect(response.body).not_to include('value="filter"')

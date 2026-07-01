@@ -29,9 +29,6 @@
 #++
 
 module ResourcePlannerViews::WorkPackageTimeline
-  # The work-package timeline toolbar. The shared toolbar behaviour lives in the
-  # Timeline::SubHeader concern; this component only supplies the
-  # work-package-specific add entry.
   class SubHeaderComponent < ApplicationComponent
     include OpPrimer::ComponentHelpers
     include ResourcePlannerViews::Timeline::SubHeader

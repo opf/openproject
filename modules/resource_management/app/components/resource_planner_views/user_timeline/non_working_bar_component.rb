@@ -30,9 +30,7 @@
 
 module ResourcePlannerViews
   module UserTimeline
-    # Renders the content of a non-working-period bar on a user row: a global
-    # holiday or a stretch of the user's time off. Styling (the blue colour) is
-    # applied through the event's class names by FullCalendar.
+    # Styling (the blue colour) is applied through the event's class names by FullCalendar.
     class NonWorkingBarComponent < ApplicationComponent
       def initialize(label:, icon: :calendar)
         super

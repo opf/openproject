@@ -29,8 +29,6 @@
 #++
 
 module ResourceAllocations
-  # Computes how many minutes a user can work on each day of a date range.
-  #
   # Capacity is purely user-driven: the system-wide `Setting.working_days` is
   # intentionally NOT consulted, because a user's `UserWorkingHours` already
   # encodes which weekdays they work (a zero-minute weekday is a non-working day
@@ -56,7 +54,6 @@ module ResourceAllocations
       @prefix = build_prefix
     end
 
-    # Capacity in minutes the user can work on the given date.
     def capacity_on(date)
       @capacities[date] ||= compute_capacity(date)
     end
@@ -67,13 +64,11 @@ module ResourceAllocations
       @range.each { |date| yield date, capacity_on(date) }
     end
 
-    # Total capacity across the whole range.
     def total
       prefix_total(@range.end)
     end
 
-    # Cumulative capacity from the start of the range up to and including `date`,
-    # clamped to the range bounds. Enables O(1) interval capacity sums.
+    # Clamped to the range bounds. Enables O(1) interval capacity sums.
     def prefix_total(date)
       return 0 if date < @range.begin
 

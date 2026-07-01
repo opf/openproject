@@ -32,10 +32,6 @@ module ::ResourceManagement
   class BaseController < ::ApplicationController
     private
 
-    # Loads the resource planner (with its child views) scoped to the current
-    # project and the current user's visibility. Defaults to the nested
-    # +:resource_planner_id+ route param; controllers where the planner is the
-    # primary resource pass +:id+.
     def find_resource_planner(param_key = :resource_planner_id)
       @resource_planner = ResourcePlanner
                             .visible(current_user)
@@ -44,11 +40,9 @@ module ::ResourceManagement
                             .find(params.expect(param_key))
     end
 
-    # Resolves a polymorphic allocation entity from a (potentially user-supplied)
-    # type and id, scoped to the current project and the current user's
-    # visibility. Allow-lists the type before constantizing it; returns nil for an
-    # unknown type or unreachable id, letting the caller's validations surface the
-    # error.
+    # Allow-lists the type before constantizing it, since it may be
+    # user-supplied. Returns nil for an unknown type or unreachable id, letting
+    # the caller's validations surface the error.
     def resolve_visible_entity(entity_type, entity_id)
       return if entity_id.blank?
       return unless ResourceAllocation::ALLOWED_ENTITY_TYPES.include?(entity_type)

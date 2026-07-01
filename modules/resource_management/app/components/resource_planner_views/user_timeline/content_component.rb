@@ -29,11 +29,6 @@
 #++
 
 module ResourcePlannerViews::UserTimeline
-  # The container the shared resource-timeline FullCalendar controller mounts
-  # into, rendering one swimlane per user. Bulk data comes from the feed
-  # endpoints; only small config travels inline. Mirrors
-  # WorkPackageTimeline::ContentComponent with the user feeds and a user-row
-  # selection param.
   class ContentComponent < ApplicationComponent
     include ResourcePlannerViews::Timeline::Content
 

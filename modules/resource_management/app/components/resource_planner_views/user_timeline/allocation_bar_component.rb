@@ -30,8 +30,6 @@
 
 module ResourcePlannerViews
   module UserTimeline
-    # Renders one allocation's bar content on a user row: the allocated hours and
-    # the work package the user is allocated to.
     class AllocationBarComponent < ApplicationComponent
       def initialize(allocation:, overbooked_ranges: [])
         super
@@ -57,8 +55,6 @@ module ResourcePlannerViews
         "user-timeline-overbooked-#{allocation.id}"
       end
 
-      # Explains when (the date ranges) and how much (scheduled vs available) the
-      # allocation contributes to overbooking, joined when it spans several ranges.
       def overbooked_tooltip
         @overbooked_ranges.map { |range| overbooked_range_summary(range) }.join("; ")
       end
@@ -80,8 +76,7 @@ module ResourcePlannerViews
         "#{formatted}h"
       end
 
-      # The work package's status colour, painted on the bar's top edge. Nil when
-      # the status has no colour, in which case the CSS falls back to a muted border.
+      # Nil when the status has no colour, in which case the CSS falls back to a muted border.
       def status_style
         hexcode = allocation.entity.status&.color&.hexcode
         "--rm-status-color: #{hexcode}" if hexcode.present?

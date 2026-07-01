@@ -29,9 +29,6 @@
 #++
 
 module ResourceAllocations
-  # Answers availability questions for a single user by combining their working
-  # time capacity with the allocations booked against them.
-  #
   # Load is every `allocated` allocation the user is the principal of, across all
   # projects (capacity is a user-level property). Filter-based allocations have no
   # principal and are excluded.
@@ -71,7 +68,6 @@ module ResourceAllocations
       overbooked_ranges.any? { |range| range.covers?(date) }
     end
 
-    # The user's working time optimally allocated to their work packages.
     def optimal_schedule
       @optimal_schedule ||= build_optimal_schedule
     end

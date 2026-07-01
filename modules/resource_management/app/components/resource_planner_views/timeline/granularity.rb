@@ -30,9 +30,7 @@
 
 module ResourcePlannerViews
   module Timeline
-    # The timeline's granularity options, shared by both timeline views (their
-    # menus and the controller): each key (also an i18n label) maps to its
-    # FullCalendar view name.
+    # Each key is also an i18n label under `resource_management.timeline.granularity`.
     module Granularity
       # Ordered — drives the granularity menu order.
       VIEWS = {

@@ -30,15 +30,11 @@
 
 module ResourcePlannerViews
   module Timeline
-    # Shared toolbar for the resource-timeline sub-headers. FullCalendar runs
-    # headless (`headerToolbar: false`), so these controls drive it from outside
-    # via the shared Stimulus controller. The whole toolbar is built here from
-    # the shared `resource_management.timeline` translations; including
-    # components supply only their entity-specific add entry (`add_entity_item`).
+    # FullCalendar runs headless (`headerToolbar: false`), so these controls
+    # drive it from outside via the shared Stimulus controller.
     module SubHeader
       extend ActiveSupport::Concern
 
-      # Builds the full toolbar into the given Primer SubHeader builder.
       def render_timeline_actions(subheader)
         render_navigation_actions(subheader)
         render_granularity_action(subheader)
@@ -119,7 +115,6 @@ module ResourcePlannerViews
                                      data: { controller: "async-dialog" }) { label }
       end
 
-      # The view-specific "add work package" / "add user" menu entry.
       def add_entity_item(_menu)
         raise SubclassResponsibilityError
       end

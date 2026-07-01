@@ -30,7 +30,6 @@
 
 module ResourceManagement
   module UserTimeline
-    # Feeds the FullCalendar resources (rows): one per user in the view.
     class ResourcesController < FeedsController
       def index
         overbooked = overbooked_ranges_by_principal.keys.to_set

@@ -29,9 +29,6 @@
 #++
 
 module ResourceManagement
-  # Shared behaviour for planner views that select work packages through a
-  # work-package `Query`, in manual (hand-picked) or automatic (filtered) mode.
-  # The work-package-list and -timeline views differ only in how they render it.
   module WorkPackageSelection
     extend ActiveSupport::Concern
 
@@ -72,10 +69,9 @@ module ResourceManagement
       effective_query&.results&.work_packages || WorkPackage.none
     end
 
-    # Autocompleter filters that restrict the work-package picker to this view's
-    # set. A manually-picked view pins its hand-chosen ids; an automatic view
-    # forwards its query filters so the API filters server-side instead of
-    # materialising a potentially huge id list.
+    # A manually-picked view pins its hand-chosen ids; an automatic view forwards
+    # its query filters so the API filters server-side instead of materialising a
+    # potentially huge id list.
     def allocation_work_package_filters
       if manually_picked?
         # `reorder(nil)` drops the manual-sort ordering: it is irrelevant for a
@@ -87,7 +83,6 @@ module ResourceManagement
       end
     end
 
-    # A work-package view does not constrain which user an allocation targets.
     def allocation_principal_filters
       nil
     end

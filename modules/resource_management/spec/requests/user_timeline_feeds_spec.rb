@@ -106,7 +106,7 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
 
       html = response.parsed_body["resources"].find { |r| r["id"].to_i == assignee.id }.dig("extendedProps", "html")
-      expect(html).to include("<b>Product Team</b>") # department bold
+      expect(html).to include("<b>Product Team</b>")
       expect(html).to include("UX Designer")
     end
 

@@ -30,17 +30,9 @@
 
 module ResourcePlannerViews
   module Timeline
-    # Shared rendering behaviour for the resource-timeline content components.
-    # Both the work-package and user timelines mount the same FullCalendar
-    # Stimulus controller and differ only in the rows they draw and the feeds
-    # behind them. Including components provide those differences through the
-    # `timeline_test_selector`, `timeline_empty?` and `timeline_feed_values`
-    # hooks; everything else (mounting, common config, allocation linking) is
-    # shared here.
     module Content
       extend ActiveSupport::Concern
 
-      # The shared resource-timeline Stimulus controller, registered in setup.ts.
       STIMULUS = "resource-management--resource-timeline"
 
       # The server dispatches this after an allocation changes; the controller

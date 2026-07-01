@@ -29,9 +29,6 @@
 #++
 
 module ResourceManagement
-  # Shared behaviour for planner views that select users through a `UserQuery`,
-  # in manual (hand-picked) or automatic (filtered) mode. The user-card and
-  # user-timeline views differ only in how they render the selection.
   module UserSelection
     extend ActiveSupport::Concern
 
@@ -50,7 +47,6 @@ module ResourceManagement
       effective_query&.manual_elements? || false
     end
 
-    # Autocompleter filters that restrict the user picker to this view's set.
     # The user set is team-sized, so both manual and automatic views pin the
     # resolved ids: the principals autocompleter endpoint uses a different
     # filter registry than UserQuery, so forwarding the view's own filters is
@@ -59,7 +55,6 @@ module ResourceManagement
       [{ name: "id", operator: "=", values: (results&.ids || []).map(&:to_s) }]
     end
 
-    # A user view does not constrain which work package an allocation targets.
     def allocation_work_package_filters
       nil
     end
@@ -104,7 +99,6 @@ module ResourceManagement
       end
     end
 
-    # Drops any excluded filter that slipped into the payload.
     def allowed_configuration_filters(filters)
       excluded = excluded_configuration_filters.map(&:to_s)
       return filters if excluded.empty?
