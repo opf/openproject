@@ -2119,12 +2119,12 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       it "updates the target versions" do
         service
-        expect(work_package.target_versions).to contain_exactly(version1)
+        expect(work_package.reload.target_versions).to contain_exactly(version1)
       end
 
       it "updates the work_package.version" do
         service
-        expect(work_package.version).to eq(version1)
+        expect(work_package.reload.version).to eq(version1)
       end
     end
 
@@ -2139,12 +2139,12 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       it "updates the target versions" do
         service
-        expect(work_package.target_versions).to contain_exactly(version2)
+        expect(work_package.reload.target_versions).to contain_exactly(version2)
       end
 
       it "updates the work_package.version" do
         service
-        expect(work_package.version).to eq(version2)
+        expect(work_package.reload.version).to eq(version2)
       end
     end
 
@@ -2159,12 +2159,12 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       it "updates the target versions" do
         service
-        expect(work_package.target_versions).to be_empty
+        expect(work_package.reload.target_versions).to be_empty
       end
 
       it "updates the work_package.version" do
         service
-        expect(work_package.version).to be_nil
+        expect(work_package.reload.version).to be_nil
       end
     end
 
@@ -2183,7 +2183,7 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       it "creates observed_in_versions" do
         service
-        expect(work_package.observed_in_versions).to contain_exactly(version1)
+        expect(work_package.reload.observed_in_versions).to contain_exactly(version1)
       end
     end
 
@@ -2194,12 +2194,12 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       it "updates the target versions" do
         service
-        expect(work_package.target_versions).to contain_exactly(version1)
+        expect(work_package.reload.target_versions).to contain_exactly(version1)
       end
 
       it "updates the work_package.version" do
         service
-        expect(work_package.version).to eq(version1)
+        expect(work_package.reload.version).to eq(version1)
       end
     end
 
@@ -2215,12 +2215,12 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       it "updates the target versions" do
         service
-        expect(work_package.target_versions).to contain_exactly(version2)
+        expect(work_package.reload.target_versions).to contain_exactly(version2)
       end
 
       it "updates the work_package.version" do
         service
-        expect(work_package.version).to eq(version2)
+        expect(work_package.reload.version).to eq(version2)
       end
     end
 
@@ -2236,12 +2236,12 @@ RSpec.describe WorkPackages::UpdateService, "integration", type: :model do
 
       it "updates the target versions" do
         service
-        expect(work_package.target_versions).to be_empty
+        expect(work_package.reload.target_versions).to be_empty
       end
 
       it "updates the work_package.version" do
         service
-        expect(work_package.version).to be_nil
+        expect(work_package.reload.version).to be_nil
       end
     end
 
