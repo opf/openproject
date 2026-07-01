@@ -532,6 +532,7 @@ class PermittedParams
           :custom_field_section_id,
           :allow_non_open_versions,
           :has_comment,
+          :visible_on_user_card,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],

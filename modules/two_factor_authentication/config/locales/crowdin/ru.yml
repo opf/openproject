@@ -170,7 +170,7 @@ ru:
   notice_account_otp_send_failed: Не удается отправить одноразовый пароль.
   notice_account_has_no_phone: К вашей учетной записи не привязан номер сотового телефона.
   label_confirmed: Подтвержден
-  button_continue: Продолжить
+  button_continue: Далее
   button_make_active: Activate
   button_make_default: Задать по умолчанию
   notice_phone_number_format: 'Введите номер в следующем формате: +XX XXXXXXXX.'

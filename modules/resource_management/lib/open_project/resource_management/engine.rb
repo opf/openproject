@@ -37,7 +37,7 @@ module OpenProject::ResourceManagement
     include OpenProject::Plugins::ActsAsOpEngine
 
     initializer "openproject-resource_management.feature_decisions" do
-      OpenProject::FeatureDecisions.add :resource_management, allow_enabling: Rails.env.local?
+      OpenProject::FeatureDecisions.add :resource_management
     end
 
     replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id]
@@ -59,8 +59,12 @@ module OpenProject::ResourceManagement
                      "resource_management/resource_planner_views": %i[show new create edit update destroy
                                                                       new_work_package add_work_package
                                                                       remove_work_package move_work_package
-                                                                      reorder_work_package],
+                                                                      reorder_work_package
+                                                                      new_user add_user remove_user],
                      "resource_management/work_package_resource_allocations": %i[index],
+                     "resource_management/work_package_timeline/resources": %i[index],
+                     "resource_management/work_package_timeline/events": %i[index],
+                     "resource_management/user_resource_allocations": %i[index],
                      "resource_management/menus": %i[show]
                    },
                    permissible_on: :project

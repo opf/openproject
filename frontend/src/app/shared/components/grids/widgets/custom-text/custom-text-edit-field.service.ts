@@ -73,11 +73,11 @@ export class CustomTextEditFieldService extends EditFieldHandler {
   }
 
   public get rawText() {
-    return _.get(this.textValue, 'raw', '');
+    return (this.textValue as { raw?:string } | null)?.raw ?? '';
   }
 
   public get htmlText() {
-    return _.get(this.textValue, 'html', '');
+    return (this.textValue as { html?:string } | null)?.html ?? '';
   }
 
   public get textValue() {

@@ -21,6 +21,7 @@
 #++
 ---
 uk:
+  label_user_attributes_plural: Атрибути користувача
   no_results_title_text: Немає що виводити на екран.
   activities:
     index:
@@ -52,6 +53,8 @@ uk:
           description: Ваш коментар буде видимий усім, хто має доступ до цього пакета робіт. Продовжити?
           confirm_button_text: Зробити загальнодоступним
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Скасувати резервування
       col_identifier: Ідентифікатор
@@ -446,6 +449,20 @@ uk:
       new_project:
         project_creation: Створення проєкту
         notification_text_default: "<p>Вітаємо,</p> <p>Новий проєкт створено: projectValue:name</p> <p>Дякуємо</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: Не вдалося видалити цей розділ.
+        drop:
+          error: Не вдалося перевпорядкувати цей розділ.
+        move:
+          error: Не вдалося перевпорядкувати цей розділ.
+      user_custom_field_sections:
+        destroy:
+          error: Не вдалося видалити цей розділ.
+        drop:
+          error: Не вдалося перевпорядкувати цей розділ.
+        move:
+          error: Не вдалося перевпорядкувати цей розділ.
       work_packages_identifier:
         page_header:
           description: Виберіть класичні числові ідентифікатори пакетів робіт або семантичні із зазначенням проєкту (до ідентифікатора пакета робіт додається префікс з ідентифікатором проєкту).
@@ -698,6 +715,8 @@ uk:
             gain_role: Отримає роль «%{new_role}»
             lose_role: Втратить роль «%{old_role}»
             no_change: Немає змін
+    multi_value_more:
+      other: і ще %{count}
     text_add_new_custom_field: 'Щоб додати нові користувальницькі поля до проекту, спочатку потрібно створити їх, перш ніж ви зможете додати їх до цього проекту.
 
       '
@@ -742,6 +761,11 @@ uk:
         project: 0 означає відсутність обмежень
       has_comment:
         project: Дає змогу користувачу додати коментар до атрибута проєкту при виборі значення на сторінці «Огляд проєкту».
+      visible_on_user_card:
+        all: Якщо встановлено, значення цього поля відображається на інформаційній картці користувача, коли навести вказівник на користувача будь-де в додатку.
+    semantic_keys:
+      none: Немає
+      job_title: Назва посади
     tab:
       no_results_title_text: Наразі немає спеціальних полів.
       no_results_content_text: Створіть нове спеціальне поле
@@ -769,9 +793,11 @@ uk:
         '
       add_button: Додати
     detail_blankslate:
-      heading: Цей відділ не має ієрархії нижчого рівня
-      description: Додавайте відділи або користувачів, щоб створювати піделементи.
       add_button: Додати
+      description: Додавайте відділи або користувачів, щоб створювати піделементи.
+      heading: Цей відділ не має ієрархії нижчого рівня
+      managed_description: Його підвідділи й учасники синхронізуються з LDAP, тому їх не можна додавати вручну.
+      managed_heading: Цей відділ синхроніщується з LDAP
     add_department_form:
       name_label: Назва відділу
       name_placeholder: Введіть назву відділу
@@ -780,6 +806,9 @@ uk:
       heading: Перемістити користувача в цей відділ?
       description: "%{user} зараз є членом відділу «%{from_department}», але в разі переміщення більше ним не буде."
       confirm: Перемістити користувача
+      managed_title: Користувач синхронізується з LDAP
+      managed_heading: Цього користувача неможливо перемістити
+      managed_description: Користувач %{user} належить до відділу %{from_department}, який синхронізується з LDAP. Належність користувачів до цього відділу визначається через LDAP, і її не можна змінити тут.
     context_menu:
       add_sub_department: Додати підвідділ
       add_user: Додати користувача
@@ -1347,12 +1376,11 @@ uk:
       '
     delete_tooltip: Видалити прототип користувача
     deletion_info:
-      heading_html: Видалити прототип користувача %{name}
       data_consequences: 'Усі екземпляри прототипу користувача (наприклад, виконавець, відповідальний тощо) буде перепризначено обліковому запису з назвою «Видалений користувач». Оскільки дані кожного видаленого облікового запису перепризначаються цьому обліковому запису, відрізнити дані, створені користувачем, від даних іншого видаленого облікового запису, може бути важко.
 
         '
-      irreversible: Цю дію не можна скасувати
-      confirmation_html: Введіть ім’я прототипу  користувача %{name}, щоб підтвердити видалення.
+      heading: Видалити умовного користувача %{name}?
+      title: Видалити умовного користувача %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1406,44 +1434,51 @@ uk:
       no_results_content_text: Створіть новий тип
     edit:
       form_configuration:
-        tab: Конфігурація форми
-        label_group: Розділ
-        reset_to_defaults: Скинути форму
         add_attribute_group: Розділ
         add_query_group: Таблиця пов’язаних робочих пакетів
+        blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
+        blankslate_title: Ще немає груп
+        builtin_field: Вбудоване поле
+        confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
+        confirm_reset: Справді скинути конфігурацію форми?
+        custom_field: Користувацьке поле
         delete_group: Видалити розділ
-        remove_attribute: Вилучити з розділу
         drag_to_activate: Перетягніть поля звідси, щоб активувати їх
         drag_to_reorder: Перетягніть, щоб змінити порядок
         edit_query: Редагувати запит
-        custom_field: Користувацьке поле
-        filter_inactive: Фільтрувати атрибути
-        inactive_attributes_heading: Неактивні атрибути
-        no_inactive_attributes: Немає неактивних атрибутів
-        blankslate_title: Ще немає груп
-        blankslate_description: Додайте групи за допомогою кнопки вище або перетягніть атрибути з лівої панелі.
-        group_actions: Дії з розділом
-        rename_group: Перейменувати розділ
-        confirm_delete_group: Справді видалити цей розділ? Цю дію не можна буде скасувати автоматично.
-        group_name_label: Назва розділу
-        row_actions: Дії з рядком
-        query_group_label: Таблиця пов’язаних робочих пакетів
         empty_group_hint: Перетягніть атрибути сюди
+        filter_inactive: Фільтрувати атрибути
+        group_actions: Дії з розділом
+        group_name_label: Назва розділу
+        inactive_attributes_heading: Неактивні атрибути
         invalid_attribute_groups: Корисний обсяг даних конфігурації форми недійсний.
         invalid_query: Конфігурація вбудованого запиту недійсна.
+        label_group: Розділ
+        no_inactive_attributes: Немає неактивних атрибутів
         not_found: Запитуваний елемент конфігурації форми не знайдено.
-        untitled_group: Безіменна група
-        reset_title: Скинути конфігурацію форми
-        confirm_reset: Справді скинути конфігурацію форми?
-        builtin_field: Вбудоване поле
+        query_group_label: Таблиця пов’язаних робочих пакетів
+        remove_attribute: Вилучити з розділу
+        rename_group: Перейменувати розділ
         reset_description: 'Це призведе до скидання атрибутів до групи, що використовується за замовчуванням, і до вимкнення ВСІХ користувацьких полів.
 
           '
+        reset_title: Скинути конфігурацію форми
+        reset_to_defaults: Скинути форму
+        row_actions: Дії з рядком
+        tab: Конфігурація форми
+        untitled_group: Безіменна група
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Проєкти
         enable_all: Використовувати у всіх проєктах
         select_projects: Вибрати проєкти
         select_projects_description: Виберіть проєкти, у яких ви хочете використовувати цей тип.
+        tab: Проєкти
       settings:
         tab: Налаштування
         type_color_text: "Цей колір використовується для виділення різних типів \nна діаграмах Ґанта або в таблицях пакетів робіт. Тому рекомендуємо вибрати насичений колір."
@@ -1720,6 +1755,7 @@ uk:
       login_consequences:
         other: Цей обліковий запис буде негайно видалено із системи, і користувач більше не зможе ввійти в неї за допомогою своїх облікових даних.
         self: Ваш обліковий запис буде негайно видалено із системи, і ви більше не зможете ввійти в неї за допомогою своїх облікових даних.
+      title: Видалити обліковий запис %{name}
     error_inactive_activation_by_mail: 'Ваш обліковий запис ще не активовано. Щоб активувати ваш обліковий запис, перейдіть за посиланням, яке було відправлено вам електронною поштою.
 
       '
@@ -1743,18 +1779,6 @@ uk:
         dependencies: Залежності
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Ідентифікатор
-        work_package: Робочий пакет
-      jira_import:
-        projects: Проєкти
-      import/jira:
-        name: Назва екземпляра Jira
-        url: URL-адреса екземпляра Jira
-        personal_access_token: Персональний маркер доступу
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: Показувати до
       attachment:
@@ -1800,6 +1824,8 @@ uk:
         possible_values: Можливі значення
         regexp: Регулярний вираз
         searchable: Доступно для пошуку
+        visible_on_user_card: Показати на картці користувача
+        semantic_key: Семантичне значення
         admin_only: Тільки для адміністраторів
         has_comment: Додати текстове поле для коментаря
       custom_value:
@@ -1834,6 +1860,23 @@ uk:
         row_count: Кількість рядків
         column_count: Кількість стовпців
         widgets: Віджети
+      group:
+        group_users: Користувачі групи
+        identity_url: URL-адреса ідентичності
+        organizational_unit: Організаційний підрозділ
+        parent: Батьківська група
+      group_detail:
+        organizational_unit: Організаційний підрозділ
+        parent: Батьківська група
+      import/jira:
+        name: Назва екземпляра Jira
+        personal_access_token: Персональний маркер доступу
+        url: URL-адреса екземпляра Jira
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: Проєкти
       journal:
         notes: Примітки
         cause_type: Тип причини
@@ -1862,6 +1905,21 @@ uk:
         resource: Ресурс
       oauth_client:
         client: ID клієнта
+      ordered_persisted_query_entity:
+        persisted_query: Постійний запит
+        entity: Сутність
+        position: Позиція
+      persisted_query:
+        name: Назва
+        views: Подання
+        filters: Фільтри
+        orders: Порядок
+        selects: Вибране
+      persisted_view:
+        name: Назва
+        query: Запит
+        parent: Батьківське подання
+        public: Загальнодоступне
       project:
         active_value:
           true: розархівовано
@@ -1995,6 +2053,7 @@ uk:
       user:
         admin: Адміністратор
         auth_source: Джерело автентифікації
+        department: Відділ
         ldap_auth_source: LDAP-підключення
         identity_url: URL-адреса сутності
         current_password: Поточний пароль
@@ -2008,14 +2067,8 @@ uk:
         new_password: Новий пароль
         password_confirmation: Підтвердження
         consented_at: Згоден на
-      group:
-        identity_url: URL-адреса ідентичності
-        parent: Батьківська група
-        organizational_unit: Організаційний підрозділ
-        group_users: Користувачі групи
-      group_detail:
-        parent: Батьківська група
-        organizational_unit: Організаційний підрозділ
+      user_custom_field:
+        custom_field_section: Розділ
       user_preference:
         header_look_and_feel: Оформлення
         header_alerts: Сповіщення
@@ -2114,29 +2167,11 @@ uk:
         type: Тип
         version: Версія
         watcher: Спостерігач
-      ordered_persisted_query_entity:
-        persisted_query: Постійний запит
-        entity: Сутність
-        position: Позиція
-      persisted_query:
-        name: Назва
-        views: Подання
-        filters: Фільтри
-        orders: Порядок
-        selects: Вибране
-      persisted_view:
-        name: Назва
-        query: Запит
-        parent: Батьківське подання
-        public: Загальнодоступне
-      user_card_view:
-        secondary_info: Додаткова інформація
-        show_status_badge: Показати значок статусу
-        show_email: Показати електронну адресу
-        tag_source: Джерело тегів
-        tag_limit: Ліміт тегів
-        card_size: Розмір картки
-        columns_per_row: Стовпців у рядку
+      work_package_version:
+        kind: Вид
+      work_package_semantic_alias:
+        identifier: Ідентифікатор
+        work_package: Робочий пакет
     errors:
       messages:
         accepted: повинні бути прийняті.
@@ -2150,6 +2185,7 @@ uk:
         cannot_delete_mapping: "– обов’язкове. Неможливо видалити."
         cant_link_a_work_package_with_a_descendant: Робочий пакет не може бути пов'язаний з одним з підзадач.
         circular_dependency: Це співвідношення створить кругову залежність.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: не збігається %{attribute}
         could_not_be_copied: "%{dependency} не вдалося скопіювати (повністю)."
         datetime_must_be_in_future: має бути в майбутньому.
@@ -2182,6 +2218,7 @@ uk:
         invalid_url: не є дійсною URL-адресою.
         invalid_url_scheme: 'не є підтримуваним протоколом (дозволено: %{allowed_schemes}).'
         is_for_all_cannot_modify: призначений для всіх проєктів, тому його не можна бути змінити.
+        ldap_managed: Цей відділ синхронізується з LDAP, і його не можна змінити вручну.
         less_than_or_equal_to: має бути меншим або рівним %{count}
         not_available: "– недоступно через налаштування системи."
         not_before_start_date: не має передувати даті початку.
@@ -2221,6 +2258,7 @@ uk:
 
           '
         user_already_in_department: Користувач %{user_id} уже є членом відділу «%{department_id}».
+        user_in_ldap_managed_department: Цей користувач належить до відділу, що синхронізується з LDAP, тому його не можна перемістити.
         wrong_length: неправильна довжина (повинна бути %{count} символів).
       models:
         group:
@@ -2228,6 +2266,7 @@ uk:
             parent_id:
               circular_dependency: призведе до створення ієрархії циклічної групи.
               organizational_unit_mismatch: має включати той самий організаційний підрозділ, що й група.
+              parent_ldap_managed: синхронізується з LDAP, тому додати відділи вручну не можна.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2467,11 +2506,14 @@ uk:
           is_not_a_valid_target_for_time_entries: 'Робочий пакет #%{id} не є дійсною ціллю для перепризначення записів часу.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Не вдалося додати дочірній елемент, оскільки у вас немає дозволів для редагування вибраного пакета робіт.
               blank: Поле «ID» не може бути порожнє.
+              cannot_add_child_because_of_lack_of_permission: Не вдалося додати дочірній елемент, оскільки у вас немає дозволів для редагування вибраного пакета робіт.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'не можна змінити вручну. Ідентифікатори пакетів робіт призначаються автоматично й зіставляються через таблицю псевдонімів, тому їх ручне змінення порушує зв’язки й історію ідентифікаторів. Якщо ви навмисно вносите цю зміну, збережіть запис за допомогою `save(context: :%{context})` і забезпечте узгодженість таблиці work_package_semantic_aliases.'
               semantic_identifier_incomplete: і sequence_number мають бути вказані одночасно.
+            sequence_number:
+              must_not_be_changed: 'не можна змінити вручну. Він призначається автоматично разом з ідентифікатором. Якщо ви навмисно вносите цю зміну, збережіть запис за допомогою `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -4207,7 +4249,7 @@ uk:
   label_index_by_title: Індекс за назвою
   label_information: Інформація
   label_information_plural: Інформація
-  label_installation_guides: Інструкції із встановлення
+  label_installation_guides: Інструкції зі встановлення
   label_integer: Ціле число
   label_interface: Інтерфейс
   label_internal: Власне
@@ -4269,7 +4311,7 @@ uk:
   label_custom_favicon: призначені для користувача іконки
   label_custom_touch_icon: Призначений для користувача значок логотипу
   label_departments: Організація
-  label_departments_description_html: 'Визначте структуру своєї компанії, створивши відділи й підвідділи у вигляді ієрархій. Це дає змогу відобразити лінії підпорядкування й забезпечити чітку, структуровану візуалізацію вашої організації в OpenProject. Ви також можете імпортувати наявну структуру організації за допомогою [синхронізації груп LDAP](ldap_docs_article).
+  label_departments_description_html: 'Визначте структуру своєї компанії, створюючи відділи й підвідділи в ієрархічному порядку. Це дасть змогу відобразити лінії підпорядкованості й підтримувати чіткий упорядкований огляд вашої організації в OpenProject. Ви також можете імпортувати наявну організаційну структуру за допомогою [синхронізації відділів з LDAP](ldap_docs_article).
 
     '
   label_logout: Вийти
@@ -4277,6 +4319,7 @@ uk:
   label_main_menu: Бокове меню
   label_manage: Керувати
   label_manage_groups: Керувати групами
+  label_managed_by_ldap: Синхронізується з LDAP
   label_managed_repositories_vendor: Керований %{vendor} repositories
   label_mathematical_operators: Математичні оператори
   label_max_size: Максимальний розмір
@@ -5214,16 +5257,13 @@ uk:
     create_managed_delay: 'Зверніть увагу: керування сховищем здійснюється асинхронно на диску і незабаром буде доступним.'
     create_successful: Репозитарій зареєстровано.
     delete_sucessful: Репозиторій видалено.
-    destroy:
-      confirmation: Якщо ви продовжите, це призведе до видалення керованого репозиторію назавжди.
-      info: Видалення сховища є незворотною дією.
-      info_not_managed: 'Примітка: Зміст цього репозиторію не буде видалено, оскільки він не керується OpenProject.'
-      managed_path_note: 'Наступний каталог буде видалено: %{path}'
-      repository_verification_html: Введіть ідентифікатор проекту %{identifier}, щоб підтвердити видалення його репозиторію.
-      subtitle: Ви дійсно бажаєте видалити %{repository_type} проекту %{project_name}?
-      subtitle_not_managed_html: Ви дійсно бажаєте видалити пов'язаний %{repository_type} %{url} з проекту %{project_name}?
-      title_html: Видалити %{repository_type}
-      title_not_managed: Видалити посилання %{repository_type}?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Неможливо створити сховище з вибраною конфігурацією. %{reason}
       managed_delete: Неможливо видалити керований репозиторій.
@@ -5610,6 +5650,7 @@ uk:
     passwords: Паролі
     project_attributes:
       heading: Атрибути проєкту
+      label_add_attribute: Додати атрибут проєкту
       label_for_all_projects: Усі проєкти
       label_new_attribute: Атрибут проєкту
       label_new_section: Розділ
@@ -5707,8 +5748,37 @@ uk:
     session: Сесія
     user:
       default_preferences: Параметри за умовчанням
-      display_format: Формат відображення
       deletion: Видалення
+      display_format: Формат відображення
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Вбудовані
+        label_built_in_attribute_actions: Дії з вбудованими атрибутами
+      custom_field_row_component:
+        label_user_custom_field_actions: Дії з атрибутами користувача
+      show_component:
+        label_add_attribute: Додати атрибут користувача
+        label_edit_section: Редагувати назву
+        label_no_user_custom_fields: У цьому розділі не визначено жодних атрибутів користувача
+        label_section_actions: Дії з розділом
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Фільтрувати за назвою атрибута…
+        heading_description: Ці атрибути користувача відображаються в профілях користувачів і на інформаційних картках. Ви можете додавати нові атрибути, групувати їх у розділи й перевпорядковувати.
+      heading: Атрибути користувача
+      label_new_attribute: Атрибут користувача
+      label_new_section: Розділ
+      label_untitled_section: Атрибути користувача
+      new:
+        heading: Новий атрибут
+      tabs:
+        attributes: Атрибути
+        semantic_keys: Зіставлені атрибути
+      semantic_keys:
+        description: Деякі атрибути можуть не лише зберігати інформацію — додаток використовує їх для роботи окремих функцій. Виберіть, який атрибут використовувати для кожної з наведених нижче цілей. Кожен атрибут можна використати лише для однієї цілі, і кожна ціль може мати лише один атрибут.
+        descriptions:
+          job_title: Виберіть атрибут, у якому зберігається посада користувача. Вона відображається поруч з іменем у різних місцях, зокрема на картках користувачів.
     working_days:
       section_work_week: Робочий тиждень
       section_holidays_and_closures: Свята й вихідні
@@ -5976,6 +6046,7 @@ uk:
     status_user_and_brute_force: "%{user} і %{brute_force}"
     status_change: Зміна стану
     text_change_disabled_for_provider_login: Ім’я і електронну адресу вказав ваш постачальник облікових даних, тому їх не можна змінити.
+    department_ldap_managed_caption: Цей відділ синхронізується з LDAP, і його не можна змінити тут.
     unlock: Розблокувати
     unlock_and_reset_failed_logins: Розблокувати та скинути помилки входу до системи
     error_cannot_delete_user: Користувача не можна видалити

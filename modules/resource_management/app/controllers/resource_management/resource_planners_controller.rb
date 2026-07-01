@@ -61,7 +61,14 @@ module ::ResourceManagement
       )
     end
 
-    def edit; end
+    def edit
+      @resource_planner.favorite = @resource_planner.favorited_by?(current_user)
+
+      respond_with_dialog ResourcePlanners::EditDialogComponent.new(
+        resource_planner: @resource_planner,
+        project: @project
+      )
+    end
 
     def create
       call = ResourcePlanners::CreateService
@@ -74,16 +81,23 @@ module ::ResourceManagement
     end
 
     def update
+      permitted = update_params
+      # Keep the favorite checkbox state on re-render; the flag is virtual and
+      # applied by UpdateService rather than persisted on the planner.
+      @resource_planner.favorite = permitted[:favorite] if permitted.key?(:favorite)
+
       call = ResourcePlanners::UpdateService
                .new(user: current_user, model: @resource_planner)
-               .call(update_params)
+               .call(permitted)
 
       if call.success?
         flash[:notice] = I18n.t(:notice_successful_update)
-        redirect_to project_resource_planner_path(@project, @resource_planner)
+        redirect_back_or_to(
+          project_resource_planner_path(@project, @resource_planner), status: :see_other
+        )
       else
         @resource_planner = call.result
-        render action: :edit, status: :unprocessable_entity
+        render_update_failure(call)
       end
     end
 
@@ -120,7 +134,7 @@ module ::ResourceManagement
                             .visible(current_user)
                             .where(project: @project)
                             .with_children
-                            .find(params[:id])
+                            .find(params.expect(:id))
     end
 
     def build_resource_planner
@@ -133,16 +147,23 @@ module ::ResourceManagement
     end
 
     def create_params
-      extra = %i[default_view_class_name favorite]
-      extra << :public if can_manage_public?
-      permitted = resource_planner_params(extra:).to_h
-      permitted[:favorite] = ActiveModel::Type::Boolean.new.cast(permitted[:favorite]) if permitted.key?(:favorite)
-      permitted[:public] = ActiveModel::Type::Boolean.new.cast(permitted[:public]) if permitted.key?(:public)
-      permitted.merge(project: @project)
+      permitted_planner_params(default_view: true).merge(project: @project)
     end
 
     def update_params
-      resource_planner_params
+      permitted_planner_params(default_view: false)
+    end
+
+    def permitted_planner_params(default_view:)
+      extra = %i[favorite]
+      extra << :default_view_class_name if default_view
+      extra << :public if can_manage_public?
+
+      permitted = resource_planner_params(extra:).to_h
+      %i[favorite public].each do |key|
+        permitted[key] = ActiveModel::Type::Boolean.new.cast(permitted[key]) if permitted.key?(key)
+      end
+      permitted
     end
 
     def resource_planner_params(extra: [])
@@ -205,6 +226,25 @@ module ::ResourceManagement
           resource_planner: @resource_planner,
           project: @project,
           base_errors: call.errors[:base]
+        ),
+        status: :unprocessable_entity
+      )
+      respond_with_turbo_streams
+    end
+
+    def render_update_failure(call)
+      dialog = ResourcePlanners::EditDialogComponent
+
+      update_via_turbo_stream(
+        component: ResourcePlanners::FormComponent.new(
+          resource_planner: @resource_planner,
+          project: @project,
+          base_errors: call.errors[:base],
+          form_id: dialog::FORM_ID,
+          dialog_id: dialog::DIALOG_ID,
+          url: project_resource_planner_path(@project, @resource_planner),
+          method: :patch,
+          include_default_view: false
         ),
         status: :unprocessable_entity
       )

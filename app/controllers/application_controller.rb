@@ -56,6 +56,7 @@ class ApplicationController < ActionController::Base
   include Security::DefaultUrlOptions
   include OpModalFlashable
   include DynamicContentSecurityPolicy
+  include PermittedParamsHelper
 
   layout "base"
 
@@ -409,6 +410,10 @@ class ApplicationController < ActionController::Base
 
   def permitted_params
     @permitted_params ||= PermittedParams.new(params, current_user)
+  end
+
+  def session_expired?
+    !api_request? && current_user.logged? && session_ttl_expired?
   end
 
   def login_back_url_params

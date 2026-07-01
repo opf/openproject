@@ -101,10 +101,8 @@ class Projects::CreationWizardController < ApplicationController
       .where(creation_wizard: true)
       .select(:custom_field_id)
 
-    @custom_fields_by_section = @project
-      .available_custom_fields
-      .where(id: enabled_in_wizard_ids)
-      .group_by(&:project_custom_field_section)
+    scoped_fields = @project.available_custom_fields.where(id: enabled_in_wizard_ids)
+    @custom_fields_by_section = ProjectCustomFieldSection.grouped_in_order(scoped_fields).to_h
   end
 
   def find_current_section

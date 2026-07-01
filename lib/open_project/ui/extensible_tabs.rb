@@ -73,14 +73,14 @@ module OpenProject
               partial: "users/working_hours/list",
               path: ->(params) { edit_user_path(params[:user], tab: :working_hours) },
               label: :label_working_hours,
-              only_if: ->(*) { OpenProject::FeatureDecisions.user_working_times_active? && User.current.allowed_globally?(:manage_working_times) }
+              only_if: ->(*) { User.current.allowed_globally?(:manage_working_times) }
             },
             {
               name: "non_working_times",
               partial: "users/non_working_times/list",
               path: ->(params) { edit_user_path(params[:user], tab: :non_working_times) },
               label: :label_non_working_days,
-              only_if: ->(*) { OpenProject::FeatureDecisions.user_working_times_active? && User.current.allowed_globally?(:manage_working_times) }
+              only_if: ->(*) { User.current.allowed_globally?(:manage_working_times) }
             },
 
             {

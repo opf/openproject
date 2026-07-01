@@ -36,8 +36,8 @@ fr:
     models:
       resource_allocation: Affectation des ressources
       resource_planner: Planificateur de ressources
+      resource_user_card: Fiches des utilisateurs
       resource_work_package_list: Liste des lots de travaux
-      user_card: Fiches des utilisateurs
   button_next: Suivant
   label_resource_management: Planification des ressources
   permission_allocate_user_resources: Attribuer des ressources aux utilisateurs
@@ -53,6 +53,7 @@ fr:
   resource_management:
     action:
       delete: Supprimer
+      edit: Modifier
       favorite: Ajouter aux favoris
       make_private: Rendre privé
       make_public: Rendre public
@@ -105,6 +106,7 @@ fr:
       success_message: Attribution des ressources mise à jour.
       title: Modifier l'attribution
     favorite_caption: Faites de cette vue un favori pour l'ajouter à la section supérieure du menu de la barre latérale.
+    label_edit_resource_planner: Modifier le planificateur de ressources
     label_new_resource_planner: Nouveau planificateur de ressources
     label_resource_planner: Planificateur de ressources
     label_resource_planner_plural: Planificateurs de ressources
@@ -117,10 +119,49 @@ fr:
       private: Privé
       public: Public
     sub_views: Vues de ce planificateur de ressources
+    user_allocations_dialog:
+      allocate_work_package: Attribuer un lot de travaux
+      blank: Cet utilisateur n'a aucun lot de travaux qui lui a été attribué.
+      other_work_packages:
+        one: 1 autre lot de travaux
+        other: "%{count} autres lots de travaux"
+      title: Utilisation
+    user_card_list:
+      add_user_dialog:
+        title: Ajouter un utilisateur
+      blank:
+        description: Aucun utilisateur ne correspond pour l'instant aux critères de filtrage de cette vue.
+        manual_description: Aucun utilisateur n'a encore été ajouté à cette vue.
+        title: Aucun utilisateur à afficher
+      card:
+        multi_value_more: "+%{count} more"
+        remove: Supprimer l'utilisateur
+        remove_confirmation: Supprimer cet utilisateur de la vue ?
+      fields:
+        working_times: Heures de travail
+        input_label: Champs
+        input_caption: Sélectionnez les champs qui s'afficheront dans la fiche utilisateur pour cette vue
+        input_placeholder: Ajouter un champ
+        drag_area_label: Champs affichés
+      subheader:
+        resource: Ressource
+        settings: Configurer la vue
+      utilization:
+        label: Utilisation
+      working_hours:
+        blank: No working hours configured
+        schedule_availability_compact: "%{schedule} (%{factor}% available)"
+        schedule_change_compact: until %{date}, %{schedule}
     view_types:
+      resource_user_card:
+        caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
+        label: Liste des fiches des utilisateurs
       resource_work_package_list:
         caption: Créez une vue basée sur des lots de travaux et affichez leurs informations et leur affectation dans une liste
         label: Liste des lots de travaux
+      resource_work_package_timeline:
+        caption: Créez une vue basée sur les lots de travaux et visualisez leur répartition au fil du temps sur un graphique chronologique
+        label: Chronologie des lots de travaux
       user_card:
         caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
         label: Liste des fiches des utilisateurs
@@ -169,3 +210,19 @@ fr:
         add_work_package: Ajouter un lot de travaux
         allocate: Attribuer
         settings: Configurer la vue
+    work_package_timeline:
+      blank:
+        add_work_package: Ajouter un lot de travaux
+        configure_view: Configurer la vue
+        description: Aucun lot de travaux ne correspond encore aux filtres de cette vue.
+        manual_description: Ajoutez des lots de travaux à cette vue afin de planifier leur répartition dans le temps.
+        title: Aucun lot de travaux à afficher
+      granularity:
+        day: Jour
+        month: Mois
+        week: Semaine du calendrier
+      navigation:
+        next: Période suivante
+        previous: Période précédente
+        today: Aujourd'hui
+      query_name: 'Calendrier des lots de travaux de gestion des ressources : %{name}'

@@ -137,6 +137,8 @@ uk:
       wiki_page: Сторінка Wiki
     create_new_wiki_page_dialog:
       title: Створити нову сторінку вікі
+    deferred_inline_page_link_macro_component:
+      loading: Завантаження…
     delete_relation_page_link_confirmation_dialog:
       heading: Видалити посилання на пов’язану сторінку Wiki?
       title: Видалити посилання на пов’язану сторінку Wiki

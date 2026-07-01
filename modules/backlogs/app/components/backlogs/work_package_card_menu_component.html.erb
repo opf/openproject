@@ -31,10 +31,9 @@ See COPYRIGHT and LICENSE files for more details.
   render(Primer::Alpha::ActionMenu::List.new(menu_id:)) do |list|
     list.with_item(
       id: dom_target(work_package, :menu, :open_details),
-      tag: :a,
+      tag: :button,
       label: t(:"js.button_open_details"),
-      href: project_backlogs_backlog_details_path(project, work_package, all_backlogs_params),
-      content_arguments: { data: { turbo_frame: "content-bodyRight", turbo_action: "advance" } }
+      content_arguments: { data: { action: "backlogs--story#openSplitPane" } }
     ) do |item|
       item.with_leading_visual_icon(icon: :"op-view-split")
     end
@@ -75,7 +74,7 @@ See COPYRIGHT and LICENSE files for more details.
           id: dom_target(work_package, :menu, :move_to_inbox),
           label: t(".action_menu.move_to_inbox"),
           tag: :button,
-          href: move_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
+          href: move_project_backlogs_work_package_path(project, work_package),
           form_arguments: { method: :put, inputs: [{ name: "target_id", value: "inbox" }] }
         ) do |item|
           item.with_leading_visual_icon(icon: :inbox)
@@ -86,7 +85,7 @@ See COPYRIGHT and LICENSE files for more details.
         list.with_item(
           id: dom_target(work_package, :menu, :move_to_backlog_bucket),
           label: t(".action_menu.move_to_backlog_bucket"),
-          href: move_to_bucket_dialog_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
+          href: move_to_bucket_dialog_project_backlogs_work_package_path(project, work_package),
           content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :package)
@@ -97,7 +96,7 @@ See COPYRIGHT and LICENSE files for more details.
         list.with_item(
           id: dom_target(work_package, :menu, :move_to_sprint),
           label: t(".action_menu.move_to_sprint"),
-          href: move_to_sprint_dialog_project_backlogs_work_package_path(project, work_package, all_backlogs_params),
+          href: move_to_sprint_dialog_project_backlogs_work_package_path(project, work_package),
           content_arguments: { data: { controller: "async-dialog" } }
         ) do |item|
           item.with_leading_visual_icon(icon: :zap)

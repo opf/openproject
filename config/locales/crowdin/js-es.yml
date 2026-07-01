@@ -912,11 +912,12 @@ es:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrar paquetes de trabajo por tipo de relación
       tabs:
-        overview: Resumen
         activity: Actividad
+        files: Archivos
+        overview: Resumen
+        project_attributes: Project attributes
         relations: Relaciones
         watchers: Observadores
-        files: Archivos
       time_relative:
         days: días
         weeks: semanas

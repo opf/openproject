@@ -19,24 +19,10 @@ it:
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
-    label_current_avatar: Avatar corrente
     label_local_avatar: Avatar personalizzato
-    text_current_avatar: 'L''immagine seguente mostra l''avatar corrente.
-
-      '
-    text_upload_instructions: |
-      Carica il tuo avatar personalizzato di 128x128 pixel. I file più grandi saranno ridimensionati e tagliati per corrispondere.
-      Una volta selezionata un'immagine, verrà mostrata un'anteprima del tuo avatar prima del caricamento.
-    text_change_gravatar_html: Per cambiare o aggiungere il Gravatar per il tuo indirizzo email, vai su %{gravatar_url}.
-    text_your_local_avatar: 'OpenProject ti permette di caricare il tuo avatar personalizzato.
-
-      '
-    text_local_avatar_over_gravatar: 'Se ne selezioni uno, questo avatar personalizzato viene utilizzato in precedenza rispetto al gravatar sopra.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject utilizza il tuo gravatar se ne hai registrato uno, o un'immagine o un'icona predefinita se esiste.
-      Il gravatar corrente è il seguente:
+    text_avatar_gravatar_html: OpenProject utilizza il tuo Gravatar, se ne hai registrato uno su %{gravatar_url}, oppure un'immagine o un'icona predefinita, se disponibile.
+    text_avatar_local: Puoi anche caricare un avatar personalizzato che sostituisce il Gravatar facendo clic sull'immagine. Ti consigliamo un'immagine di 128 × 128 pixel.
+    text_avatar_local_only: Puoi caricare un avatar personalizzato facendo clic sull'immagine. Ti consigliamo un'immagine di 128 × 128 pixel.
     settings:
       enable_gravatars: Abilita i gravatars dell'utente
       gravatar_default: Immagine Gravatar predefinita

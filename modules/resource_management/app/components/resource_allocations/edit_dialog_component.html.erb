@@ -45,7 +45,8 @@ See COPYRIGHT and LICENSE files for more details.
           allocation:,
           project:,
           allocation_kind:,
-          dialog_id: DIALOG_ID
+          dialog_id: DIALOG_ID,
+          resource_planner_id:
         )
       )
     end
@@ -54,7 +55,8 @@ See COPYRIGHT and LICENSE files for more details.
       render(
         ResourceAllocations::AllocationStep::FooterComponent.new(
           dialog_id: DIALOG_ID,
-          submit_label: I18n.t("resource_management.edit_allocation_dialog.submit")
+          submit_label: I18n.t("resource_management.edit_allocation_dialog.submit"),
+          allocation:
         )
       )
     end

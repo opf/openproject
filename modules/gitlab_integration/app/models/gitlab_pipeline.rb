@@ -1,4 +1,4 @@
-#-- encoding: UTF-8
+# frozen_string_literal: true
 
 #-- copyright
 # OpenProject is an open source project management software.
@@ -47,12 +47,13 @@ class GitlabPipeline < ApplicationRecord
     scheduled: "scheduled"
   }
 
-  validates_presence_of :gitlab_user_avatar_url,
-                        :gitlab_html_url,
-                        :gitlab_id,
-                        :status,
-                        :name,
-                        :ci_details,
-                        :commit_id,
-                        :username
+  validates :gitlab_user_avatar_url,
+            :gitlab_html_url,
+            :gitlab_id,
+            :status,
+            :name,
+            :ci_details,
+            :commit_id,
+            :username,
+            presence: true
 end

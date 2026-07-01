@@ -19,24 +19,10 @@ az:
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
-    label_current_avatar: Cari avatar
     label_local_avatar: Fərdi avatar
-    text_current_avatar: 'Aşağıdakı şəkil cari avatar olduğunu göstərir.
-
-      '
-    text_upload_instructions: |
-      128x128 piksel ölçüsündə öz fərdi avatarınızı yükləyin. Daha böyük faylların ölçüsü dəyişdiriləcək və uyğunlaşmaq üçün kəsiləcək.
-      Siz şəkil seçdikdən sonra, avatarınız yükləməzdən əvvəl sızə göstəriləcək
-    text_change_gravatar_html: Poçt ünvanınızın Gravatarını dəyişmək və ya əlavə etmək üçün %{gravatar_url} ünvanına keçin.
-    text_your_local_avatar: 'OpenProject sizə öz fərdi avatarınızı yükləməyə imkan verir.
-
-      '
-    text_local_avatar_over_gravatar: 'Əgər birini təyin etsəniz, bu fərdi avatar yuxarıdakı qravatardan üstün olaraq istifadə olunur.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject qravatarınızdan, əgər varsa, defolt şəkil və ya ikonadan istifadə edir.
-      Hazırkı qravatar aşağıdakı kimidir
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: İstifadəçi qravatarlarını aktivləşdirin
       gravatar_default: Defolt Gravatar şəkli

@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { sortBy } from 'lodash-es';
 import { Injectable } from '@angular/core';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 
@@ -62,7 +63,7 @@ export class HalResourceSortingService {
 
     const property = this.sortingProperty(halType);
     if (property) {
-      return _.sortBy<T>(elements, (v) => v[property].toLowerCase());
+      return sortBy<T>(elements, (v) => (v[property] as string).toLowerCase());
     }
     return elements;
   }

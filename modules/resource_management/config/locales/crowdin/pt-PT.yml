@@ -36,8 +36,8 @@ pt-PT:
     models:
       resource_allocation: Alocação de recursos
       resource_planner: Planeador de recursos
+      resource_user_card: Cartões de utilizador
       resource_work_package_list: Lista de pacotes de trabalho
-      user_card: Cartões de utilizador
   button_next: Seguinte
   label_resource_management: Planeamento de recursos
   permission_allocate_user_resources: Alocar recursos do utilizador
@@ -53,6 +53,7 @@ pt-PT:
   resource_management:
     action:
       delete: Eliminar
+      edit: Editar
       favorite: Adicionar aos favoritos
       make_private: Tornar privado
       make_public: Tornar público
@@ -103,6 +104,7 @@ pt-PT:
       success_message: A atribuição de recursos foi atualizada.
       title: Editar atribuição
     favorite_caption: Torne esta vista num favorito para a adicionar à secção superior do menu da barra lateral.
+    label_edit_resource_planner: Editar o planeador de recursos
     label_new_resource_planner: Novo planeador de recursos
     label_resource_planner: Planeador de recursos
     label_resource_planner_plural: Planeadores de recursos
@@ -115,10 +117,49 @@ pt-PT:
       private: Privado
       public: Público
     sub_views: Vistas neste planeador de recursos
+    user_allocations_dialog:
+      allocate_work_package: Atribuir pacote de trabalho
+      blank: Este utilizador não tem pacotes de trabalho atribuídos.
+      other_work_packages:
+        one: 1 outro pacote de trabalho
+        other: "%{count} outros pacotes de trabalho"
+      title: Utilização
+    user_card_list:
+      add_user_dialog:
+        title: Adicionar utilizador
+      blank:
+        description: Ainda não existem utilizadores que correspondam aos filtros desta vista.
+        manual_description: Ainda não foram adicionados utilizadores a esta vista.
+        title: Não há utilizadores para apresentar
+      card:
+        multi_value_more: "+%{count} more"
+        remove: Remover utilizador
+        remove_confirmation: Quer remover este utilizador da vista?
+      fields:
+        working_times: Horários de trabalho
+        input_label: Campos
+        input_caption: Selecione os campos que serão apresentados no cartão do utilizador nesta vista
+        input_placeholder: Adicionar um campo
+        drag_area_label: Campos apresentados
+      subheader:
+        resource: Recurso
+        settings: Configurar vista
+      utilization:
+        label: Utilização
+      working_hours:
+        blank: No working hours configured
+        schedule_availability_compact: "%{schedule} (%{factor}% available)"
+        schedule_change_compact: until %{date}, %{schedule}
     view_types:
+      resource_user_card:
+        caption: Crie uma vista baseada nos utilizadores e veja os seus detalhes e atribuição numa lista de cartões de utilizador
+        label: Lista de cartões de utilizadores
       resource_work_package_list:
         caption: Crie uma vista com base nos pacotes de trabalho e veja os seus detalhes e a sua atribuição numa lista
         label: Lista de pacotes de trabalho
+      resource_work_package_timeline:
+        caption: Criar uma visualização com base em pacotes de trabalho e ver suas atribuições ao longo do tempo num cronograma
+        label: Cronograma dos pacotes de trabalho
       user_card:
         caption: Crie uma vista baseada nos utilizadores e veja os seus detalhes e atribuição numa lista de cartões de utilizador
         label: Lista de cartões de utilizadores
@@ -167,3 +208,19 @@ pt-PT:
         add_work_package: Adicionar pacote de trabalho
         allocate: Alocar
         settings: Configurar vista
+    work_package_timeline:
+      blank:
+        add_work_package: Adicionar pacote de trabalho
+        configure_view: Configurar vista
+        description: Ainda não existem pacotes de trabalho correspondentes aos filtros desta vista.
+        manual_description: Adicione pacotes de trabalho a esta vista para planear a sua distribuição ao longo do tempo.
+        title: Não há pacotes de trabalho a apresentar
+      granularity:
+        day: Dia
+        month: Mês
+        week: Semana civil
+      navigation:
+        next: Próximo período
+        previous: Período anterior
+        today: Hoje
+      query_name: 'Cronograma do pacote de trabalho relativo à gestão de recursos: %{name}'

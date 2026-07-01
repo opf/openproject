@@ -109,7 +109,7 @@ export class WorkPackageRelationQueryComponent extends WorkPackageRelationQueryB
     // When relations have changed, refresh this table
     this.wpRelations.observe(this.workPackage.id!)
       .pipe(
-        filter((val) => !_.isEmpty(val)),
+        filter((val) => !(val == null || (Array.isArray(val) ? val.length === 0 : Object.keys(val).length === 0))),
         this.untilDestroyed(),
       )
       .subscribe(() => this.refreshTable());

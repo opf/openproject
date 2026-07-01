@@ -36,8 +36,8 @@ it:
     models:
       resource_allocation: Allocazione delle risorse
       resource_planner: Pianificatore di risorse
+      resource_user_card: Schede utente
       resource_work_package_list: Elenco macro-attività
-      user_card: Schede utente
   button_next: Avanti
   label_resource_management: Pianificazione delle risorse
   permission_allocate_user_resources: Assegnazione delle risorse utente
@@ -53,6 +53,7 @@ it:
   resource_management:
     action:
       delete: Elimina
+      edit: Modifica
       favorite: Aggiungi ai preferiti
       make_private: Rendi privato
       make_public: Rendi pubblico
@@ -103,6 +104,7 @@ it:
       success_message: Assegnazione della risorsa aggiornata.
       title: Modifica assegnazione
     favorite_caption: Aggiungi questa vista ai preferiti per mostrarla nella sezione superiore del menu laterale.
+    label_edit_resource_planner: Modifica il pianificatore delle risorse
     label_new_resource_planner: Nuovo pianificatore di risorse
     label_resource_planner: Pianificatore di risorse
     label_resource_planner_plural: Pianificatori di risorse
@@ -115,10 +117,49 @@ it:
       private: Privato
       public: Pubblico
     sub_views: Viste in questo pianificatore di risorse
+    user_allocations_dialog:
+      allocate_work_package: Assegna macro-attività
+      blank: A questo utente non è assegnata alcuna macro-attività.
+      other_work_packages:
+        one: 1 altra macro-attività
+        other: Altre %{count} macro-attività
+      title: Utilizzo
+    user_card_list:
+      add_user_dialog:
+        title: Aggiungi utente
+      blank:
+        description: Non ci sono ancora utenti che corrispondono ai filtri di questa vista.
+        manual_description: Non è stato ancora aggiunto alcun utente a questa vista.
+        title: Nessun utente da mostrare
+      card:
+        multi_value_more: "+%{count} more"
+        remove: Rimuovi utente
+        remove_confirmation: Rimuovere questo utente dalla vista?
+      fields:
+        working_times: Orari di lavoro
+        input_label: Campi
+        input_caption: Seleziona i campi che verranno visualizzati nella scheda utente per questa vista
+        input_placeholder: Aggiungi un campo
+        drag_area_label: Campi visualizzati
+      subheader:
+        resource: Risorsa
+        settings: Configura vista
+      utilization:
+        label: Utilizzo
+      working_hours:
+        blank: No working hours configured
+        schedule_availability_compact: "%{schedule} (%{factor}% available)"
+        schedule_change_compact: until %{date}, %{schedule}
     view_types:
+      resource_user_card:
+        caption: Crea una vista basata sugli utenti per consultare i loro dettagli e le allocazioni in un elenco di schede utente
+        label: Elenco di schede utenti
       resource_work_package_list:
         caption: Crea una vista basata su macro-attività e visualizza i dettagli e l'allocazione in un elenco
         label: Elenco macro-attività
+      resource_work_package_timeline:
+        caption: Crea una vista basata sulle macro-attività e visualizzane le assegnazioni nel tempo su una sequenza temporale
+        label: Sequenza temporale delle macro-attività
       user_card:
         caption: Crea una vista basata sugli utenti per consultare i loro dettagli e le allocazioni in un elenco di schede utente
         label: Elenco di schede utenti
@@ -167,3 +208,19 @@ it:
         add_work_package: Aggiungi macro-attività
         allocate: Alloca
         settings: Configura vista
+    work_package_timeline:
+      blank:
+        add_work_package: Aggiungi macro-attività
+        configure_view: Configura vista
+        description: Non ci sono ancora macro-attività che corrispondono ai filtri di questa vista.
+        manual_description: Aggiungi macro-attività a questa vista per pianificarne l'assegnazione nel tempo.
+        title: Nessuna macro-attività da visualizzare
+      granularity:
+        day: Giorno
+        month: Mese
+        week: Settimana dell'anno
+      navigation:
+        next: Periodo successivo
+        previous: Periodo precedente
+        today: Oggi
+      query_name: 'Sequenza temporale delle macro-attività di gestione delle risorse: %{name}'

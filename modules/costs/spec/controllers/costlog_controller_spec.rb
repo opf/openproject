@@ -524,7 +524,7 @@ RSpec.describe CostlogController do
         params["cost_entry"]["user_id"] = user.id.to_s
       end
 
-      let(:expected_user) { nil } # user isn't member so won't be found
+      let(:expected_user) { user } # assigned but rejected because the user is not a project member
 
       it_behaves_like "invalid create"
     end
@@ -537,7 +537,7 @@ RSpec.describe CostlogController do
                               type: project2.types.first,
                               author: user)
       end
-      let(:expected_entity) { nil } # user has no access to the WP so it won't be found
+      let(:expected_entity) { work_package2 } # assigned but rejected because it is not in the project
 
       before do
         grant_current_user_permissions user, %i[view_project view_work_packages log_costs]
@@ -719,7 +719,7 @@ RSpec.describe CostlogController do
              "WHEN updating the user " \
              "WHEN the new user isn't a member of the project" do
       let(:user2) { create(:user) }
-      let(:expected_user) { nil } # user is not allowed to see the user so we cannot expect it to be assigned
+      let(:expected_user) { user2 } # assigned but rejected because the user is not a project member
 
       before do
         grant_current_user_permissions user, %i[view_project view_work_packages view_cost_entries edit_cost_entries]
@@ -738,7 +738,7 @@ RSpec.describe CostlogController do
         create(:work_package, project: project2,
                               type: project2.types.first)
       end
-      let(:expected_entity) { nil } # user has no access to the WP so it won't be found
+      let(:expected_entity) { work_package2 } # assigned but rejected because it is not in the project
 
       before do
         grant_current_user_permissions user, %i[view_project view_work_packages view_cost_entries edit_cost_entries]

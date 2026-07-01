@@ -7,9 +7,6 @@ tr:
     avatars:
       label_choose_avatar: Dosyadan Avatar seçin
       uploading_avatar: Avatarını yüklüyorum.
-      text_upload_instructions: |
-        128 x 128 piksellik kendi özel avatarınızı yükleyin. Büyük dosyalar yeniden boyutlandırılacak ve eşleşecek şekilde kırpılacaktır.
-        Bir resmi seçtikten sonra, yüklemeden önce avatarınızın bir önizlemesi gösterilir.
       error_image_too_large: Resim çok büyük.
       wrong_file_format: İzin verilen biçimler jpg, png, gif
       empty_file_error: Lütfen geçerli bir resim yükleyin (jpg, png, gif)

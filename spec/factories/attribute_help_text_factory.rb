@@ -14,4 +14,11 @@ FactoryBot.define do
     caption { "Some caption" }
     attribute_name { "status" }
   end
+
+  factory :user_help_text, class: "AttributeHelpText::User" do
+    type { "AttributeHelpText::User" }
+    help_text { "Attribute help text" }
+    caption { "Some caption" }
+    attribute_name { "custom_field_1" }
+  end
 end

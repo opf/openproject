@@ -54,8 +54,8 @@ module CustomFields
           label: I18n.t("activerecord.attributes.project_custom_field.custom_field_section"),
           required: true
         ) do |list|
-          ProjectCustomFieldSection.find_each do |cs|
-            list.option(value: cs.id, label: cs.name)
+          section_class_for_model.all.each do |cs| # rubocop:disable Rails/FindEach -- ordered by default_scope; find_each would override it
+            list.option(value: cs.id, label: cs.name.presence || I18n.t("settings.user_custom_fields.label_untitled_section"))
           end
         end
       end
@@ -199,6 +199,14 @@ module CustomFields
         )
       end
 
+      if show_on_user_card_field?
+        details_form.check_box(
+          name: :visible_on_user_card,
+          label: label(:visible_on_user_card),
+          caption: instructions(:visible_on_user_card)
+        )
+      end
+
       details_form.submit(name: :submit, label: I18n.t(:button_save), scheme: :default)
     end
 
@@ -217,7 +225,11 @@ module CustomFields
     end
 
     def show_section_field?
-      model.is_a?(ProjectCustomField)
+      model.is_a?(ProjectCustomField) || model.is_a?(UserCustomField)
+    end
+
+    def section_class_for_model
+      model.is_a?(UserCustomField) ? UserCustomFieldSection : ProjectCustomFieldSection
     end
 
     def show_default_bool_field?
@@ -282,6 +294,10 @@ module CustomFields
     end
 
     def show_editable_field?
+      model.is_a?(UserCustomField)
+    end
+
+    def show_on_user_card_field?
       model.is_a?(UserCustomField)
     end
 

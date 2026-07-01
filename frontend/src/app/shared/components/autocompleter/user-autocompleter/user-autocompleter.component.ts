@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { keyBy } from 'lodash-es';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -127,7 +128,15 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
       .http
       .get<IHALCollection<IUser>>(filteredURL.toString())
       .pipe(
-        map((res) => _.uniqBy(res._embedded.elements, (el) => el._links.self?.href || el.id)),
+        map((res) => {
+          const seen = new Set<string|number>();
+          return res._embedded.elements.filter((el) => {
+            const key = el._links.self?.href || el.id;
+            if (seen.has(key)) { return false; }
+            seen.add(key);
+            return true;
+          });
+        }),
         map((users) => {
           const mapped:IUserAutocompleteItem[] = users.map((user) => {
               return { id: user.id, name: user.name, href: user._links.self?.href, email: user.email };
@@ -143,7 +152,7 @@ export class UserAutocompleterComponent extends OpAutocompleterComponent<IUserAu
   }
 
   protected buildFilteredURL(searchTerm?:string):URL {
-    const filterObject = _.keyBy(this.filters, 'name');
+    const filterObject = keyBy(this.filters, 'name');
     const searchFilters = ApiV3FilterBuilder.fromFilterObject(filterObject);
 
     if (searchTerm?.length) {

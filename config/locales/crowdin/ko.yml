@@ -21,6 +21,7 @@
 #++
 ---
 ko:
+  label_user_attributes_plural: 사용자 특성
   no_results_title_text: 표시할 내용이 없습니다.
   activities:
     index:
@@ -52,6 +53,8 @@ ko:
           description: 이 작업 패키지에 액세스할 수 있는 모든 사용자에게 코멘트가 표시됩니다. 계속하시겠습니까?
           confirm_button_text: 공개로 설정
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: 예약 취소
       col_identifier: 식별자
@@ -425,6 +428,20 @@ ko:
       new_project:
         project_creation: 프로젝트 생성
         notification_text_default: "<p>안녕하세요,</p> <p>새 프로젝트가 생성되었습니다: projectValue:name</p> <p>감사합니다.</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: 해당 섹션을 삭제할 수 없습니다.
+        drop:
+          error: 해당 섹션의 순서를 변경할 수 없습니다.
+        move:
+          error: 해당 섹션의 순서를 변경할 수 없습니다.
+      user_custom_field_sections:
+        destroy:
+          error: 해당 섹션을 삭제할 수 없습니다.
+        drop:
+          error: 해당 섹션의 순서를 변경할 수 없습니다.
+        move:
+          error: 해당 섹션의 순서를 변경할 수 없습니다.
       work_packages_identifier:
         page_header:
           description: 클래식 숫자 작업 패키지 ID 또는 작업 패키지 ID 앞에 프로젝트 식별자를 붙이는 프로젝트별 시맨틱 ID 중에서 선택합니다.
@@ -666,6 +683,8 @@ ko:
             gain_role: "‘%{new_role}’ 역할을 얻습니다"
             lose_role: "‘%{old_role}’ 역할을 잃습니다"
             no_change: 변경 사항 없음
+    multi_value_more:
+      other: 외 %{count}개
     text_add_new_custom_field: '프로젝트에 새 사용자 지정 필드를 추가하려면 먼저 해당 필드를 만들어야 합니다. 그래야 이 프로젝트에 해당 필드를 추가할 수 있습니다.
 
       '
@@ -710,6 +729,11 @@ ko:
         project: 0은 제한이 없음을 의미합니다
       has_comment:
         project: 사용자가 프로젝트 개요에서 값을 선택할 때 프로젝트 특성과 관련된 코멘트를 추가할 수 있습니다.
+      visible_on_user_card:
+        all: 이 항목을 선택하면, 애플리케이션 전반에서 사용자 위에 마우스를 올렸을 때 사용자 정보 카드에 이 필드의 값이 표시됩니다.
+    semantic_keys:
+      none: 없음
+      job_title: 직책
     tab:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
@@ -737,9 +761,11 @@ ko:
         '
       add_button: 추가
     detail_blankslate:
-      heading: 이 부서에는 아래 계층 수준이 없습니다
-      description: 부서 또는 사용자를 추가하여 다른 항목 내에서 하위 항목을 만듭니다.
       add_button: 추가
+      description: 부서 또는 사용자를 추가하여 다른 항목 내에서 하위 항목을 만듭니다.
+      heading: 이 부서에는 아래 계층 수준이 없습니다
+      managed_description: 해당 하위 부서와  멤버는 LDAP과 동기화되므로 수동으로 추가할 수 없습니다.
+      managed_heading: 이 부서는 LDAP 동기화를 통해 관리됩니다
     add_department_form:
       name_label: 부서 이름
       name_placeholder: 부서 이름 입력
@@ -748,6 +774,9 @@ ko:
       heading: 이 부서로 사용자를 이동하시겠습니까?
       description: "%{user}은(는) 현재 %{from_department}의 멤버입니다. 사용자를 이동하면 해당 부서에서 제거됩니다."
       confirm: 사용자 이동
+      managed_title: LDAP에 의해 관리되는 사용자
+      managed_heading: 이 사용자는 이동할 수 없습니다.
+      managed_description: "%{user}은(는) %{from_department}에 속해 있으며, 이는 LDAP 동기화를 통해 관리됩니다. 해당 부서 멤버십은 LDAP에 의해 제어되며 여기에서 변경할 수 없습니다."
     context_menu:
       add_sub_department: 하위 부서 추가
       add_user: 사용자 추가
@@ -1291,12 +1320,11 @@ ko:
       '
     delete_tooltip: 플레이스홀더 사용자 삭제
     deletion_info:
-      heading_html: 플레이스홀더 사용자 %{name} 삭제
       data_consequences: '플레이스홀더 사용자의 모든 항목(예: 담당자, 책임자, 기타 사용자 값 등)은 "삭제된 사용자"라는 계정에 다시 할당됩니다. 삭제된 모든 계정의 데이터는 이 계정에 다시 할당되기 때문에 사용자가 생성한 데이터와 다른 삭제된 계정의 데이터를 구별할 수 없습니다.
 
         '
-      irreversible: 이 작업은 취소할 수 없습니다
-      confirmation_html: 삭제를 확인하려면 플레이스홀더 사용자 이름 %{name}(을)를 입력하세요.
+      heading: 플레이스홀더 사용자 %{name}을(를) 삭제하시겠습니까?
+      title: 플레이스홀더 사용자 %{name} 삭제
   priorities:
     edit:
       priority_color_text: |
@@ -1350,44 +1378,51 @@ ko:
       no_results_content_text: 새 타입 생성
     edit:
       form_configuration:
-        tab: 양식 구성
-        label_group: 섹션
-        reset_to_defaults: 양식 재설정
         add_attribute_group: 섹션
         add_query_group: 관련 작업 패키지 테이블
+        blankslate_description: 위의 버튼을 사용하여 그룹을 추가하거나 왼쪽 패널에서 특성을 드래그합니다.
+        blankslate_title: 아직 그룹 없음
+        builtin_field: 기본 제공 필드
+        confirm_delete_group: 이 섹션을 삭제하시겠습니까? 이 작업은 자동으로 되돌릴 수 없습니다.
+        confirm_reset: 양식 구성을 재설정하시겠습니까?
+        custom_field: 사용자 지정 필드
         delete_group: 섹션 삭제
-        remove_attribute: 섹션에서 제거
         drag_to_activate: 여기에서 필드를 드래그하여 활성화
         drag_to_reorder: 드래그하여 재정렬
         edit_query: 쿼리 편집
-        custom_field: 사용자 지정 필드
-        filter_inactive: 필터 특성
-        inactive_attributes_heading: 비활성 특성
-        no_inactive_attributes: 비활성 특성 없음
-        blankslate_title: 아직 그룹 없음
-        blankslate_description: 위의 버튼을 사용하여 그룹을 추가하거나 왼쪽 패널에서 특성을 드래그합니다.
-        group_actions: 섹션 작업
-        rename_group: 섹션 이름 바꾸기
-        confirm_delete_group: 이 섹션을 삭제하시겠습니까? 이 작업은 자동으로 되돌릴 수 없습니다.
-        group_name_label: 섹션 이름
-        row_actions: 행 작업
-        query_group_label: 관련 작업 패키지 테이블
         empty_group_hint: 속성을 여기로 드래그하세요
+        filter_inactive: 필터 특성
+        group_actions: 섹션 작업
+        group_name_label: 섹션 이름
+        inactive_attributes_heading: 비활성 특성
         invalid_attribute_groups: 양식 구성 페이로드가 유효하지 않습니다.
         invalid_query: 포함된 쿼리 구성이 유효하지 않습니다.
+        label_group: 섹션
+        no_inactive_attributes: 비활성 특성 없음
         not_found: 요청한 양식 구성 항목을 찾을 수 없습니다.
-        untitled_group: 제목이 없는 그룹
-        reset_title: 양식 구성 재설정
-        confirm_reset: 양식 구성을 재설정하시겠습니까?
-        builtin_field: 기본 제공 필드
+        query_group_label: 관련 작업 패키지 테이블
+        remove_attribute: 섹션에서 제거
+        rename_group: 섹션 이름 바꾸기
         reset_description: '이렇게 하면 특성이 해당 기본 그룹으로 재설정되고 모든 사용자 지정 필드가 비활성화됩니다.
 
           '
+        reset_title: 양식 구성 재설정
+        reset_to_defaults: 양식 재설정
+        row_actions: 행 작업
+        tab: 양식 구성
+        untitled_group: 제목이 없는 그룹
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: 프로젝트
         enable_all: 모든 프로젝트에 대해 활성화
         select_projects: 프로젝트 선택
         select_projects_description: 이 유형을 사용하려는 프로젝트를 선택합니다.
+        tab: 프로젝트
       settings:
         tab: 설정
         type_color_text: 선택한 색상은 Gantt 차트 또는 작업 패키지 테이블에서 다양한 유형을 구분합니다. 따라서 진한 색상을 사용하는 것이 좋습니다.
@@ -1657,6 +1692,7 @@ ko:
       login_consequences:
         other: 이 계정은 시스템에서 즉시 제거되며 사용자는 더 이상 해당 자격 증명으로 로그인할 수 없게 됩니다.
         self: 내 계정은 시스템에서 즉시 제거되며 더 이상 내 자격 증명으로 로그인할 수 없게 됩니다.
+      title: "%{name} 님의 계정 삭제"
     error_inactive_activation_by_mail: '당신의 계정이 아직 활성화되지 않았습니다. 계정을 활성화하기 위해, 이메일로 전송된 링크를 클릭하십시오.
 
       '
@@ -1680,18 +1716,6 @@ ko:
         dependencies: 종속성
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: 식별자
-        work_package: 작업 패키지
-      jira_import:
-        projects: 프로젝트
-      import/jira:
-        name: Jira 인스턴스 이름
-        url: Jira 인스턴스 URL
-        personal_access_token: 개인 액세스 토큰
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: 표시 기한
       attachment:
@@ -1737,6 +1761,8 @@ ko:
         possible_values: 가능한 값
         regexp: 정규 표현식
         searchable: 검색가능한
+        visible_on_user_card: 사용자 카드에 표시
+        semantic_key: 시맨틱 의미
         admin_only: 관리자 전용
         has_comment: 코멘트 텍스트 필드 추가
       custom_value:
@@ -1771,6 +1797,23 @@ ko:
         row_count: 행 수
         column_count: 열 수
         widgets: 위젯
+      group:
+        group_users: 그룹 사용자
+        identity_url: ID URL
+        organizational_unit: 조직 단위
+        parent: 부모 그룹
+      group_detail:
+        organizational_unit: 조직 단위
+        parent: 부모 그룹
+      import/jira:
+        name: Jira 인스턴스 이름
+        personal_access_token: 개인 액세스 토큰
+        url: Jira 인스턴스 URL
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: 프로젝트
       journal:
         notes: 노트
         cause_type: 원인 유형
@@ -1799,6 +1842,21 @@ ko:
         resource: 리소스
       oauth_client:
         client: 클라이언트 ID
+      ordered_persisted_query_entity:
+        persisted_query: 지속 쿼리
+        entity: 엔티티
+        position: 위치
+      persisted_query:
+        name: 이름
+        views: 보기
+        filters: 필터
+        orders: 주문
+        selects: 선택
+      persisted_view:
+        name: 이름
+        query: 쿼리
+        parent: 부모 보기
+        public: 공개
       project:
         active_value:
           true: 보관 취소됨
@@ -1932,6 +1990,7 @@ ko:
       user:
         admin: 관리자
         auth_source: 인증 소스
+        department: 부서
         ldap_auth_source: LDAP 연결
         identity_url: ID URL
         current_password: 기존 비밀번호
@@ -1945,14 +2004,8 @@ ko:
         new_password: 새로운 비밀번호
         password_confirmation: 확인
         consented_at: '동의함:'
-      group:
-        identity_url: ID URL
-        parent: 부모 그룹
-        organizational_unit: 조직 단위
-        group_users: 그룹 사용자
-      group_detail:
-        parent: 부모 그룹
-        organizational_unit: 조직 단위
+      user_custom_field:
+        custom_field_section: 섹션
       user_preference:
         header_look_and_feel: 모양 및 느낌
         header_alerts: 알림
@@ -2051,29 +2104,11 @@ ko:
         type: 타입
         version: 버전
         watcher: 주시자
-      ordered_persisted_query_entity:
-        persisted_query: 지속 쿼리
-        entity: 엔티티
-        position: 위치
-      persisted_query:
-        name: 이름
-        views: 보기
-        filters: 필터
-        orders: 주문
-        selects: 선택
-      persisted_view:
-        name: 이름
-        query: 쿼리
-        parent: 부모 보기
-        public: 공개
-      user_card_view:
-        secondary_info: 보조 정보
-        show_status_badge: 상태 배지 표시
-        show_email: 이메일 표시
-        tag_source: 태그 소스
-        tag_limit: 태그 제한
-        card_size: 카드 크기
-        columns_per_row: 행별 열
+      work_package_version:
+        kind: 종류
+      work_package_semantic_alias:
+        identifier: 식별자
+        work_package: 작업 패키지
     errors:
       messages:
         accepted: 허용 되어야 합니다.
@@ -2087,6 +2122,7 @@ ko:
         cannot_delete_mapping: "- 필수입니다. 삭제할 수 없습니다."
         cant_link_a_work_package_with_a_descendant: 작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수 없습니다.
         circular_dependency: 이 연계는 순환 종속관계를 만듭니다.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         could_not_be_copied: "%{dependency}을(를) (완전히) 복사할 수 없습니다."
         datetime_must_be_in_future: "- 미래여야 합니다."
@@ -2119,6 +2155,7 @@ ko:
         invalid_url: 은(는) 올바른 URL이 아닙니다.
         invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
         is_for_all_cannot_modify: "- 모든 프로젝트용므로 수정할 수 없습니다."
+        ldap_managed: 이 부서는 LDAP 동기화를 통해 관리되며 수동으로 변경할 수 없습니다.
         less_than_or_equal_to: 은(는) %{count} 보다 작거나 같아야 합니다
         not_available: "- 시스템 구성으로 인해 사용 가능하지 않습니다."
         not_before_start_date: "- 시작 날짜 전이 아니어야 합니다."
@@ -2156,6 +2193,7 @@ ko:
 
           '
         user_already_in_department: "%{user_id} 사용자는 이미 %{department_id} 부서의 멤버입니다."
+        user_in_ldap_managed_department: 이 사용자는 LDAP 동기화를 통해 관리되는 부서에 속해 있으므로 이동할 수 없습니다.
         wrong_length: 너무 짧습니다 (최소 %{count} 자 이상이어야 합니다).
       models:
         group:
@@ -2163,6 +2201,7 @@ ko:
             parent_id:
               circular_dependency: "- 순환 그룹 계층을 생성합니다."
               organizational_unit_mismatch: "- 그룹과 동일한 조직 단위 설정이 있어야 합니다."
+              parent_ldap_managed: "- LDAP 동기화를 통해 관리되며 부서를 수동으로 추가할 수 없습니다."
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2397,11 +2436,14 @@ ko:
           is_not_a_valid_target_for_time_entries: '작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른 대상이 아닙니다.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: 선택한 작업 패키지를 편집할 권한이 없으므로 자식을 추가할 수 없습니다.
               blank: ID는 비워둘 수 없습니다.
+              cannot_add_child_because_of_lack_of_permission: 선택한 작업 패키지를 편집할 권한이 없으므로 자식을 추가할 수 없습니다.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: "- 수동으로 변경해서는 안 됩니다. 작업 패키지 식별자는 자동으로 할당되며 별칭 테이블을 통해 확인되므로, 수동으로 변경하면 링크와 식별자 기록이 손상됩니다. 의도적으로 변경하는 경우, `save(context: :%{context})`를 사용하여 저장하고 work_package_semantic_aliases 테이블의 일관성을 유지하세요."
               semantic_identifier_incomplete: 및 sequence_number를 동시에 둘 다 설정해야 합니다.
+            sequence_number:
+              must_not_be_changed: "- 수동으로 변경해서는 안 됩니다. 이 값은 식별자와 함께 자동으로 할당됩니다. 의도적으로 변경하는 경우, `save(context: :%{context})`를 사용하여 저장하세요."
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -4091,7 +4133,7 @@ ko:
   label_custom_favicon: 사용자 지정 favicon
   label_custom_touch_icon: 사용자 지정 터치 아이콘
   label_departments: 조직
-  label_departments_description_html: '계층적 방식으로 부서와 하위 부서를 만들어 회사 구조를 정의하세요. 이렇게 하면 OpenProject 내에서 보고 라인을 반영하고 조직에 대한 명확하고 구조화된 개요를 유지할 수 있습니다. [LDAP 그룹 동기화](ldap_docs_article)를 통해 기존 조직 구조를 가져올 수도 있습니다.
+  label_departments_description_html: '계층적 방식으로 부서와 하위 부서를 만들어 회사 구조를 정의하세요. 이렇게 하면 OpenProject 내에서 보고 라인을 반영하고 조직에 대한 명확하고 구조화된 개요를 유지할 수 있습니다. [LDAP 부서 동기화](ldap_docs_article)를 통해 기존 조직 구조를 가져올 수도 있습니다.
 
     '
   label_logout: 로그아웃
@@ -4099,6 +4141,7 @@ ko:
   label_main_menu: 측면 메뉴
   label_manage: 관리
   label_manage_groups: 그룹 관리
+  label_managed_by_ldap: LDAP 동기화를 통해 관리됨
   label_managed_repositories_vendor: 관리 되는 %{vendor} 저장소
   label_mathematical_operators: 수학 연산자
   label_max_size: 최대 크기
@@ -5016,16 +5059,13 @@ ko:
     create_managed_delay: '참고: 리포지토리가 관리됩니다. 이는 디스크에서 비동기적으로 생성되고 곧 사용 가능하게 됩니다.'
     create_successful: 리포지토리가 등록되었습니다.
     delete_sucessful: 리포지토리가 삭제되었습니다.
-    destroy:
-      confirmation: 계속하는 경우, 관리되는 리포지토리가 영구적으로 삭제됩니다.
-      info: 리포지토리 삭제는 취소할 수 없는 작업입니다.
-      info_not_managed: '참고: 이렇게 해도 이 리포지토리의 콘텐츠는 삭제되지 않습니다. OpenProject에 의해 관리되지 않기 때문입니다.'
-      managed_path_note: 다음 디렉터리가 지워집니다. %{path}
-      repository_verification_html: 해당 리포지토리의 삭제를 확인하려면 프로젝트의 식별자 %{identifier}을(를) 입력하세요.
-      subtitle: 프로젝트 %{project_name}의 %{repository_type}을(를) 삭제하시겠습니까?
-      subtitle_not_managed_html: 프로젝트 %{project_name}에서 링크된 %{repository_type} %{url}을(를) 제거하시겠습니까?
-      title_html: "%{repository_type} 삭제"
-      title_not_managed: 연결된 %{repository_type}을(를) 제거하시겠습니까?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: 선택한 구성으로 리포지토리를 만들 수 없습니다. %{reason}
       managed_delete: 관리되는 리포지토리는 삭제할 수 없습니다.
@@ -5408,6 +5448,7 @@ ko:
     passwords: 암호
     project_attributes:
       heading: 프로젝트 특성
+      label_add_attribute: 프로젝트 특성 추가
       label_for_all_projects: 모든 프로젝트
       label_new_attribute: 프로젝트 특성
       label_new_section: 섹션
@@ -5505,8 +5546,37 @@ ko:
     session: 세션
     user:
       default_preferences: 기본 설정
-      display_format: 표시 형식
       deletion: 삭제
+      display_format: 표시 형식
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: 내장
+        label_built_in_attribute_actions: 내장된 특성 액션
+      custom_field_row_component:
+        label_user_custom_field_actions: 사용자 특성 액션
+      show_component:
+        label_add_attribute: 사용자 특성 추가
+        label_edit_section: 제목 편집
+        label_no_user_custom_fields: 이 섹션에 정의된 사용자 특성이 없습니다
+        label_section_actions: 섹션 액션
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: 특성 이름으로 필터링…
+        heading_description: 이러한 사용자 특성은 사용자 프로필과 정보 카드에 표시됩니다. 새로운 특성을 추가하거나, 섹션별로 그룹화하거나, 순서를 변경할 수 있습니다.
+      heading: 사용자 특성
+      label_new_attribute: 사용자 특성
+      label_new_section: 섹션
+      label_untitled_section: 사용자 특성
+      new:
+        heading: 새 특성
+      tabs:
+        attributes: 특성
+        semantic_keys: 매핑된 특성
+      semantic_keys:
+        description: 일부 특성은 단순히 정보를 저장하는 것 이상의 역할을 할 수 있습니다. 앱은 이러한 특성을 사용하여 특정 기능을 구현합니다. 아래에서 각 용도에 사용할 특성을 선택하세요. 각 특성은 하나의 용도로만 사용할 수 있으며, 각 용도는 하나의 특성에만 사용할 수 있습니다.
+        descriptions:
+          job_title: 각 사용자의 직책을 저장하는 특성을 선택하세요. 이 정보는 사용자 카드 등 여러 곳에서 사용자의 이름 옆에 표시됩니다.
     working_days:
       section_work_week: 근무 주
       section_holidays_and_closures: 공휴일 및 휴업일
@@ -5771,6 +5841,7 @@ ko:
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
     status_change: 상태 변경
     text_change_disabled_for_provider_login: 이름 및 이메일은 로그인 공급자가 설정하므로 변경할 수 없습니다.
+    department_ldap_managed_caption: 이 부서는 LDAP 동기화를 통해 관리되며 여기에서 변경할 수 없습니다.
     unlock: 잠금 해제
     unlock_and_reset_failed_logins: 실패한 로그인 잠금 해제 및 재설정
     error_cannot_delete_user: 사용자를 삭제할 수 없습니다

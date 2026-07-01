@@ -914,11 +914,12 @@ it:
         relation_filters:
           filter_work_packages_by_relation_type: Filtra le macro-attività per tipo di relazione
       tabs:
-        overview: Panoramica
         activity: Attività
+        files: File
+        overview: Panoramica
+        project_attributes: Project attributes
         relations: Relazioni
         watchers: Osservatori
-        files: File
       time_relative:
         days: giorni
         weeks: Settimane

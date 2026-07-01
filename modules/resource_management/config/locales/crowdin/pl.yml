@@ -36,8 +36,8 @@ pl:
     models:
       resource_allocation: Przydział zasobów
       resource_planner: Planista zasobów
+      resource_user_card: Karty użytkowników
       resource_work_package_list: Lista pakietów roboczych
-      user_card: Karty użytkowników
   button_next: Dalej
   label_resource_management: Planowanie zasobów
   permission_allocate_user_resources: Przydziel zasoby użytkownika
@@ -53,6 +53,7 @@ pl:
   resource_management:
     action:
       delete: Usuń
+      edit: Edytuj
       favorite: Dodaj do ulubionych
       make_private: Ustaw jako prywatny
       make_public: Ustaw jako publiczny
@@ -103,6 +104,7 @@ pl:
       success_message: Zaktualizowano przydział zasobów.
       title: Edytuj przydział
     favorite_caption: Ustaw ten widok jako ulubiony, aby dodać go do górnej części menu paska bocznego.
+    label_edit_resource_planner: Edytuj planistę zasobów
     label_new_resource_planner: Nowy planista zasobów
     label_resource_planner: Planista zasobów
     label_resource_planner_plural: Planiści zasobów
@@ -115,10 +117,51 @@ pl:
       private: Prywatny
       public: Publiczny
     sub_views: Widoki w tym planiście zasobów
+    user_allocations_dialog:
+      allocate_work_package: Przydziel pakiet roboczy
+      blank: Temu użytkownikowi nie przydzielono żadnych pakietów roboczych.
+      other_work_packages:
+        one: 1 inny pakiet roboczy
+        few: "%{count} inne pakiety robocze"
+        many: "%{count} innych pakietów roboczych"
+        other: "%{count} innego pakietu roboczego"
+      title: Wykorzystanie
+    user_card_list:
+      add_user_dialog:
+        title: Dodaj użytkownika
+      blank:
+        description: Nie ma jeszcze użytkowników pasujących do filtrów tego widoku.
+        manual_description: Do tego widoku nie dodano jeszcze żadnych użytkowników.
+        title: Brak użytkowników do wyświetlenia
+      card:
+        multi_value_more: "+%{count} more"
+        remove: Usuń użytkownika
+        remove_confirmation: Usunąć tego użytkownika z widoku?
+      fields:
+        working_times: Czasy pracy
+        input_label: Pola
+        input_caption: Wybierz pola, które będą wyświetlane na karcie użytkownika w tym widoku
+        input_placeholder: Dodaj pole
+        drag_area_label: Wyświetlane pola
+      subheader:
+        resource: Zasób
+        settings: Konfiguruj widok
+      utilization:
+        label: Wykorzystanie
+      working_hours:
+        blank: No working hours configured
+        schedule_availability_compact: "%{schedule} (%{factor}% available)"
+        schedule_change_compact: until %{date}, %{schedule}
     view_types:
+      resource_user_card:
+        caption: Utwórz widok w oparciu o użytkowników i zobacz ich szczegóły i przydział na liście kart użytkowników
+        label: Lista kart użytkowników
       resource_work_package_list:
         caption: Utwórz widok oparty na pakietach roboczych i zobacz jego szczegóły i przydział na liście
         label: Lista pakietów roboczych
+      resource_work_package_timeline:
+        caption: Utwórz widok oparty na pakietach roboczych i wyświetl ich przydziały w czasie na osi czasu
+        label: Oś czasu pakietów roboczych
       user_card:
         caption: Utwórz widok w oparciu o użytkowników i zobacz ich szczegóły i przydział na liście kart użytkowników
         label: Lista kart użytkowników
@@ -169,3 +212,19 @@ pl:
         add_work_package: Dodaj pakiet roboczy
         allocate: Przydziel
         settings: Konfiguruj widok
+    work_package_timeline:
+      blank:
+        add_work_package: Dodaj pakiet roboczy
+        configure_view: Konfiguruj widok
+        description: Nie ma jeszcze pakietów roboczych pasujących do filtrów tego widoku.
+        manual_description: Dodaj pakiety robocze do tego widoku, aby zaplanować ich przydział w czasie.
+        title: Brak pakietów roboczych do wyświetlenia
+      granularity:
+        day: Dzień
+        month: Miesiąc
+        week: Tydzień kalendarzowy
+      navigation:
+        next: Następny okres
+        previous: Poprzedni okres
+        today: Dzisiaj
+      query_name: 'Oś czasu zarządzania zasobami pakietu roboczego: %{name}'

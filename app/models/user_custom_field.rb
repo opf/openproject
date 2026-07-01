@@ -29,7 +29,22 @@
 #++
 
 class UserCustomField < CustomField
+  include CustomField::Sectionable
+
+  belongs_to :user_custom_field_section, class_name: "UserCustomFieldSection", foreign_key: :custom_field_section_id,
+                                         inverse_of: :custom_fields
+
+  enum :semantic_key, { job_title: "job_title" }, prefix: true
+
+  validates :semantic_key, uniqueness: { scope: :type }, allow_nil: true
+
   scopes :visible
+
+  scope :with_semantic_key, ->(semantic_key) { where(semantic_key:) }
+
+  def self.for_semantic_key(semantic_key)
+    with_semantic_key(semantic_key).first
+  end
 
   def type_name
     :label_user_plural

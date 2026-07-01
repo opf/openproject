@@ -1,0 +1,35 @@
+<%= content_tag(:div, container_attributes) do %>
+  <%= render(
+        ResourcePlannerViews::WorkPackageTimeline::SubHeaderComponent.new(
+          project: @project, resource_planner: @resource_planner, view: @view
+        )
+      ) %>
+  <% if @work_packages.empty? %>
+    <%= render(Primer::Beta::Blankslate.new(border: true)) do |blankslate| %>
+      <% blankslate.with_visual_icon(icon: :calendar) %>
+      <% blankslate.with_heading(tag: :h2) { t("resource_management.work_package_timeline.blank.title") } %>
+      <% blankslate.with_description { blank_description } %>
+      <% if @view.manually_picked? %>
+        <% blankslate.with_primary_action(
+             label: t("resource_management.work_package_timeline.blank.add_work_package"),
+             href: add_work_package_path,
+             data: { controller: "async-dialog" }
+           ) do |button| %>
+          <% button.with_leading_visual_icon(icon: :plus) %>
+          <%= t("resource_management.work_package_timeline.blank.add_work_package") %>
+        <% end %>
+      <% else %>
+        <% blankslate.with_primary_action(
+             label: t("resource_management.work_package_timeline.blank.configure_view"),
+             href: configure_view_path,
+             data: { controller: "async-dialog" }
+           ) do |button| %>
+          <% button.with_leading_visual_icon(icon: :gear) %>
+          <%= t("resource_management.work_package_timeline.blank.configure_view") %>
+        <% end %>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="op-rm-timeline" data-resource-management--work-package-timeline-target="calendar"></div>
+  <% end %>
+<% end %>

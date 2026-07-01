@@ -37,6 +37,8 @@ module WorkPackages
       include WorkPackages::ActivitiesTab::SharedHelpers
       include WorkPackages::ActivitiesTab::StimulusControllers
 
+      DEFAULT_POLLING_INTERVAL_IN_MS = 10_000
+
       def initialize(work_package:, journals:, paginator:, last_server_timestamp:, filter: Filters::ALL, resolved_anchor: nil)
         super
 
@@ -62,17 +64,27 @@ module WorkPackages
 
       attr_reader :work_package, :journals, :paginator, :filter, :last_server_timestamp, :resolved_anchor
 
-      def wrapper_data_attributes # rubocop:disable Metrics/AbcSize
-        stimulus_controllers = {
-          controller: [
-            index_stimulus_controller,
-            polling_stimulus_controller,
-            editor_stimulus_controller,
-            auto_scrolling_stimulus_controller,
-            stems_stimulus_controller
-          ].join(" ")
+      def wrapper_data_attributes
+        {
+          test_selector: "op-wp-activity-tab",
+          controller: stimulus_controllers
         }
-        stimulus_controller_values = {
+          .merge(stimulus_controller_values)
+          .merge(stimulus_controller_outlets)
+      end
+
+      def stimulus_controllers
+        [
+          index_stimulus_controller,
+          polling_stimulus_controller,
+          editor_stimulus_controller,
+          auto_scrolling_stimulus_controller,
+          stems_stimulus_controller
+        ].join(" ")
+      end
+
+      def stimulus_controller_values # rubocop:disable Metrics/AbcSize
+        values = {
           editor_stimulus_controller("-unsaved-changes-confirmation-message-value") => unsaved_changes_confirmation_message,
           index_stimulus_controller("-notification-center-path-name-value") => notifications_path,
           index_stimulus_controller("-sorting-value") => journal_sorting,
@@ -84,23 +96,24 @@ module WorkPackages
           polling_stimulus_controller("-show-conflict-flash-message-url-value") => show_conflict_flash_message_work_packages_path,
           polling_stimulus_controller("-update-streams-path-value") => update_streams_work_package_activities_path(work_package)
         }
+
         # Only a legacy activity-N deep link sets this; it tells the client which
         # comment anchor the activity number resolved to so it can scroll there.
         if resolved_anchor
-          stimulus_controller_values[auto_scrolling_stimulus_controller("-resolved-comment-id-value")] = resolved_anchor
+          values[auto_scrolling_stimulus_controller("-resolved-comment-id-value")] = resolved_anchor
         end
-        stimulus_controller_outlets = {
+
+        values
+      end
+
+      def stimulus_controller_outlets
+        {
           editor_stimulus_controller("-#{auto_scrolling_stimulus_controller}-outlet") => index_component_dom_selector,
           editor_stimulus_controller("-#{polling_stimulus_controller}-outlet") => index_component_dom_selector,
           editor_stimulus_controller("-#{stems_stimulus_controller}-outlet") => index_component_dom_selector,
           polling_stimulus_controller("-#{auto_scrolling_stimulus_controller}-outlet") => index_component_dom_selector,
           polling_stimulus_controller("-#{stems_stimulus_controller}-outlet") => index_component_dom_selector
         }
-
-        { test_selector: "op-wp-activity-tab" }
-            .merge(stimulus_controllers)
-            .merge(stimulus_controller_values)
-            .merge(stimulus_controller_outlets)
       end
 
       def add_comment_wrapper_data_attributes
@@ -117,16 +130,13 @@ module WorkPackages
       end
 
       def polling_interval
-        # Polling interval should only be adjustable in test environment
-        if Rails.env.test?
-          ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"].presence || 10000
-        else
-          10000
-        end
+        return DEFAULT_POLLING_INTERVAL_IN_MS unless Rails.env.test?
+
+        ENV["WORK_PACKAGES_ACTIVITIES_TAB_POLLING_INTERVAL_IN_MS"].presence || DEFAULT_POLLING_INTERVAL_IN_MS
       end
 
       def adding_comment_allowed?
-        User.current.allowed_in_work_package?(:add_work_package_comments, @work_package)
+        User.current.allowed_in_work_package?(:add_work_package_comments, work_package)
       end
 
       def unsaved_changes_confirmation_message

@@ -913,11 +913,12 @@ ko:
         relation_filters:
           filter_work_packages_by_relation_type: 관계 유형별 작업 패키지 필터링
       tabs:
-        overview: 요약
         activity: 활동
+        files: 파일
+        overview: 요약
+        project_attributes: Project attributes
         relations: 관계
         watchers: 주시자
-        files: 파일
       time_relative:
         days: 일
         weeks: 주

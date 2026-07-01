@@ -3,7 +3,6 @@ import { I18nService } from 'core-app/core/i18n/i18n.service';
 import { DisplayFieldContext } from 'core-app/shared/components/fields/display/display-field.service';
 import { HalResource } from 'core-app/features/hal/resources/hal-resource';
 import { IFieldSchema } from 'core-app/shared/components/fields/field.base';
-import { Injector } from '@angular/core';
 
 describe('WorkPackageDisplayField', () => {
   let field:WorkPackageDisplayField;
@@ -21,7 +20,7 @@ describe('WorkPackageDisplayField', () => {
 
     const mockInjector = {
       get: (token:unknown, notFoundValue?:unknown) => serviceMap.get(token) ?? notFoundValue ?? {},
-    } as Injector;
+    };
 
     field = new WorkPackageDisplayField('parent', {
       injector: mockInjector,

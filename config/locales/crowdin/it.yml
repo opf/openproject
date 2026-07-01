@@ -21,6 +21,7 @@
 #++
 ---
 it:
+  label_user_attributes_plural: Attributi dell'utente
   no_results_title_text: Al momento non c'è niente da visualizzare.
   activities:
     index:
@@ -52,6 +53,8 @@ it:
           description: Il tuo commento sarà visibile a chiunque possa accedere a questa macro-attività. Vuoi continuare?
           confirm_button_text: Rendi pubblico
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Annulla prenotazione
       col_identifier: Identificatore
@@ -432,6 +435,20 @@ it:
       new_project:
         project_creation: Creazione del progetto
         notification_text_default: "<p>Ciao,</p> <p>È stato creato un nuovo progetto: projectValue:name</p> <p>Grazie</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: Impossibile eliminare la sezione.
+        drop:
+          error: Impossibile riordinare la sezione.
+        move:
+          error: Impossibile riordinare la sezione.
+      user_custom_field_sections:
+        destroy:
+          error: Impossibile eliminare la sezione.
+        drop:
+          error: Impossibile riordinare la sezione.
+        move:
+          error: Impossibile riordinare la sezione.
       work_packages_identifier:
         page_header:
           description: Scegli tra ID numerici classici delle macro-attività oppure ID semantici specifici del progetto che antepongono l'identificatore del progetto all'ID della macro-attività.
@@ -677,6 +694,8 @@ it:
             gain_role: Otterrà il ruolo '%{new_role}'
             lose_role: Perderà il ruolo '%{old_role}'
             no_change: Nessun cambiamento
+    multi_value_more:
+      other: e altri %{count}
     text_add_new_custom_field: 'Per aggiungere nuovi campi personalizzati a un progetto, è necessario prima crearli.
 
       '
@@ -721,6 +740,11 @@ it:
         project: 0 significa nessuna restrizione
       has_comment:
         project: Consente all'utente di aggiungere un commento relativo all'attributo del progetto quando seleziona il valore nella panoramica del progetto.
+      visible_on_user_card:
+        all: Se selezionata, il valore di questo campo viene mostrato nella scheda informazioni dell'utente quando si passa il puntatore su un utente nell'intera applicazione.
+    semantic_keys:
+      none: Nessuno
+      job_title: Titolo professionale
     tab:
       no_results_title_text: Al momento non esistono campi personalizzati.
       no_results_content_text: Crea un nuovo campo personalizzato
@@ -748,9 +772,11 @@ it:
         '
       add_button: Aggiungi
     detail_blankslate:
-      heading: Questo reparto non ha alcun livello gerarchico sottostante
-      description: Aggiungi reparti o utenti per creare sottoelementi all'interno di un altro.
       add_button: Aggiungi
+      description: Aggiungi reparti o utenti per creare sottoelementi all'interno di un altro.
+      heading: Questo reparto non ha alcun livello gerarchico sottostante
+      managed_description: I suoi sottodipartimenti e i relativi membri vengono sincronizzati con LDAP e non possono essere aggiunti manualmente.
+      managed_heading: Questo dipartimento è gestito dalla sincronizzazione LDAP
     add_department_form:
       name_label: Nome del reparto
       name_placeholder: Inserisci il nome del reparto
@@ -759,6 +785,9 @@ it:
       heading: Spostare l'utente in questo reparto?
       description: "%{user} è attualmente membro di %{from_department}. Se lo sposti, verrà rimosso da quel reparto."
       confirm: Sposta utente
+      managed_title: Utente gestito tramite LDAP
+      managed_heading: Questo utente non può essere spostato
+      managed_description: "%{user} appartiene al dipartimento %{from_department}, gestito dalla sincronizzazione LDAP. L'appartenenza al dipartimento è gestita da LDAP e non può essere modificata qui."
     context_menu:
       add_sub_department: Aggiungi sottoreparto
       add_user: Aggiungi utente
@@ -1310,12 +1339,11 @@ it:
       '
     delete_tooltip: Elimina utente segnaposto
     deletion_info:
-      heading_html: Elimina l'utente segnaposto %{name}
       data_consequences: 'Tutte le occorrenze dell''utente segnaposto (ad esempio, come assegnatario, responsabile o altri valori) saranno riassegnate a un account chiamato "Utente eliminato". Poiché i dati di ogni account eliminato vengono riassegnati a questo account, non sarà possibile distinguere i dati creati dall''utente dai dati di un altro account eliminato.
 
         '
-      irreversible: Questa azione è irreversibile
-      confirmation_html: Inserisci il nome utente del segnaposto %{name} per confermare l'eliminazione.
+      heading: Eliminare l'utente segnaposto %{name}?
+      title: Elimina l'utente segnaposto %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1369,44 +1397,51 @@ it:
       no_results_content_text: Crea un nuovo tipo
     edit:
       form_configuration:
-        tab: Configurazione del modulo
-        label_group: Sezione
-        reset_to_defaults: Azzera modulo
         add_attribute_group: Sezione
         add_query_group: Tabella di macro-attività correlate
+        blankslate_description: Aggiungi gruppi utilizzando il pulsante sopra oppure trascina gli attributi dal pannello di sinistra.
+        blankslate_title: Ancora nessun gruppo
+        builtin_field: Campo integrato
+        confirm_delete_group: Vuoi davvero eliminare questa sezione? Questa azione non può essere annullata automaticamente.
+        confirm_reset: Vuoi davvero ripristinare la configurazione del modulo?
+        custom_field: Campo personalizzato
         delete_group: Elimina sezione
-        remove_attribute: Rimuovi dalla sezione
         drag_to_activate: Trascina i campi da qui per attivarli
         drag_to_reorder: Trascina per riordinare
         edit_query: Modifica query
-        custom_field: Campo personalizzato
-        filter_inactive: Filtra attributi
-        inactive_attributes_heading: Attributi inattivi
-        no_inactive_attributes: Nessun attributo inattivo
-        blankslate_title: Ancora nessun gruppo
-        blankslate_description: Aggiungi gruppi utilizzando il pulsante sopra oppure trascina gli attributi dal pannello di sinistra.
-        group_actions: Azioni di sezione
-        rename_group: Rinomina sezione
-        confirm_delete_group: Vuoi davvero eliminare questa sezione? Questa azione non può essere annullata automaticamente.
-        group_name_label: Nome sezione
-        row_actions: Azioni sulle righe
-        query_group_label: Tabella di macro-attività correlate
         empty_group_hint: Trascina qui gli attributi
+        filter_inactive: Filtra attributi
+        group_actions: Azioni di sezione
+        group_name_label: Nome sezione
+        inactive_attributes_heading: Attributi inattivi
         invalid_attribute_groups: La configurazione del modulo non è valida.
         invalid_query: La configurazione della query incorporata non è valida.
+        label_group: Sezione
+        no_inactive_attributes: Nessun attributo inattivo
         not_found: Impossibile trovare l'elemento della configurazione del modulo richiesto.
-        untitled_group: Gruppo senza titolo
-        reset_title: Reimposta la configurazione del modulo
-        confirm_reset: Vuoi davvero ripristinare la configurazione del modulo?
-        builtin_field: Campo integrato
+        query_group_label: Tabella di macro-attività correlate
+        remove_attribute: Rimuovi dalla sezione
+        rename_group: Rinomina sezione
         reset_description: 'Questa operazione ripristinerà gli attributi nel gruppo predefinito e disattiverà TUTTI i campi personalizzati.
 
           '
+        reset_title: Reimposta la configurazione del modulo
+        reset_to_defaults: Azzera modulo
+        row_actions: Azioni sulle righe
+        tab: Configurazione del modulo
+        untitled_group: Gruppo senza titolo
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Progetti
         enable_all: Abilita per tutti i progetti
         select_projects: Seleziona progetti
         select_projects_description: Seleziona i progetti in cui desideri utilizzare questo tipo.
+        tab: Progetti
       settings:
         tab: Impostazioni
         type_color_text: Il colore selezionato distingue diverse tipologie nei diagrammi Gantt o nelle tabelle delle macro-attività. Si consiglia quindi di utilizzare colori forti.
@@ -1679,6 +1714,7 @@ it:
       login_consequences:
         other: Questo account verrà immediatamente rimosso dal sistema e l'utente non potrà più accedere con le proprie credenziali.
         self: Il tuo account verrà immediatamente rimosso dal sistema e non potrai più accedere utilizzando le tue credenziali.
+      title: Elimina l'account di %{name}
     error_inactive_activation_by_mail: 'Il tuo account non è stato ancora attivato. Per attivare il tuo account, clicca sul link che ti è stato inviato via email.
 
       '
@@ -1702,18 +1738,6 @@ it:
         dependencies: Dipendenze
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Identificatore
-        work_package: Macro-attività
-      jira_import:
-        projects: Progetti
-      import/jira:
-        name: Nome dell'istanza Jira
-        url: URL dell'istanza Jira
-        personal_access_token: Token di accesso personale
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: Visualizza fino a
       attachment:
@@ -1759,6 +1783,8 @@ it:
         possible_values: Valori possibili
         regexp: Espressione regolare
         searchable: Ricercabile
+        visible_on_user_card: Mostra sulla scheda utente
+        semantic_key: Significato semantico
         admin_only: Solo amministratore
         has_comment: Aggiungere un campo di testo per i commenti
       custom_value:
@@ -1793,6 +1819,23 @@ it:
         row_count: Numero di righe
         column_count: Numero di colonne
         widgets: Widget
+      group:
+        group_users: Utenti del gruppo
+        identity_url: URL identificativo
+        organizational_unit: Unità organizzativa
+        parent: Gruppo padre
+      group_detail:
+        organizational_unit: Unità organizzativa
+        parent: Gruppo padre
+      import/jira:
+        name: Nome dell'istanza Jira
+        personal_access_token: Token di accesso personale
+        url: URL dell'istanza Jira
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: Progetti
       journal:
         notes: Note
         cause_type: Tipo di causa
@@ -1821,6 +1864,21 @@ it:
         resource: Risorsa
       oauth_client:
         client: ID Client
+      ordered_persisted_query_entity:
+        persisted_query: Query persistente
+        entity: Entità
+        position: Posizione
+      persisted_query:
+        name: Nome
+        views: Visualizzazioni
+        filters: Filtri
+        orders: Ordini
+        selects: Seleziona
+      persisted_view:
+        name: Nome
+        query: Query
+        parent: Vista genitore
+        public: Pubblica
       project:
         active_value:
           true: Rimosso dall'archivio
@@ -1954,6 +2012,7 @@ it:
       user:
         admin: Amministratore
         auth_source: Origine dell'autenticazione
+        department: Dipartimento
         ldap_auth_source: Connessione LDAP
         identity_url: URL identificativo
         current_password: Password corrente
@@ -1967,14 +2026,8 @@ it:
         new_password: Nuova password
         password_confirmation: Conferma
         consented_at: Consenso a
-      group:
-        identity_url: URL identificativo
-        parent: Gruppo padre
-        organizational_unit: Unità organizzativa
-        group_users: Utenti del gruppo
-      group_detail:
-        parent: Gruppo padre
-        organizational_unit: Unità organizzativa
+      user_custom_field:
+        custom_field_section: Sezione
       user_preference:
         header_look_and_feel: Aspetto
         header_alerts: Avvisi
@@ -2073,29 +2126,11 @@ it:
         type: Tipo
         version: Versione
         watcher: Osservatore
-      ordered_persisted_query_entity:
-        persisted_query: Query persistente
-        entity: Entità
-        position: Posizione
-      persisted_query:
-        name: Nome
-        views: Visualizzazioni
-        filters: Filtri
-        orders: Ordini
-        selects: Seleziona
-      persisted_view:
-        name: Nome
-        query: Query
-        parent: Vista genitore
-        public: Pubblica
-      user_card_view:
-        secondary_info: Informazioni secondarie
-        show_status_badge: Mostra distintivo di stato
-        show_email: Mostra email
-        tag_source: Sorgente tag
-        tag_limit: Limite tag
-        card_size: Dimensioni scheda
-        columns_per_row: Colonne per riga
+      work_package_version:
+        kind: Tipo
+      work_package_semantic_alias:
+        identifier: Identificatore
+        work_package: Macro-attività
     errors:
       messages:
         accepted: deve essere accettato.
@@ -2109,6 +2144,7 @@ it:
         cannot_delete_mapping: è necessario. Non può essere cancellato.
         cant_link_a_work_package_with_a_descendant: Una macro-attività non può essere collegato a una delle sue sottoattività.
         circular_dependency: Questa relazione creerebbe una dipendenza circolare.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: non coincide con %{attribute}.
         could_not_be_copied: "%{dependency} non può essere (completamente) copiato."
         datetime_must_be_in_future: deve essere nel futuro.
@@ -2141,6 +2177,7 @@ it:
         invalid_url: non è un URL valido.
         invalid_url_scheme: 'non è un protocollo supportato (ammessi: %{allowed_schemes}).'
         is_for_all_cannot_modify: è per tutti i progetti e non può quindi essere modificato.
+        ldap_managed: Questo dipartimento è gestito dalla sincronizzazione LDAP e non può essere modificato manualmente.
         less_than_or_equal_to: deve essere inferiore o uguale a %{count}.
         not_available: non è disponibile a causa di una configurazione di sistema.
         not_before_start_date: non deve essere prima della data di inizio.
@@ -2178,6 +2215,7 @@ it:
 
           '
         user_already_in_department: L'utente %{user_id} è già membro del reparto %{department_id}.
+        user_in_ldap_managed_department: Questo utente appartiene a un dipartimento gestito dalla sincronizzazione LDAP e non può essere spostato.
         wrong_length: è della lunghezza sbagliata (dovrebbe essere %{count} caratteri).
       models:
         group:
@@ -2185,6 +2223,7 @@ it:
             parent_id:
               circular_dependency: creerebbe una gerarchia circolare dei gruppi.
               organizational_unit_mismatch: deve avere la stessa impostazione di unità organizzativa del gruppo.
+              parent_ldap_managed: è gestito tramite sincronizzazione LDAP e non consente l'aggiunta manuale di dipartimenti.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2420,11 +2459,14 @@ it:
           is_not_a_valid_target_for_time_entries: 'La macro-attività #%{id} non può essere utilizzata per riassegnare la cronologia.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Impossibile aggiungere un figlio perché non hai i permessi per modificare la macro-attività selezionata.
               blank: Il campo ID non può essere vuoto.
+              cannot_add_child_because_of_lack_of_permission: Impossibile aggiungere un figlio perché non hai i permessi per modificare la macro-attività selezionata.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'non deve essere modificato manualmente. Gli identificatori delle macro-attività vengono assegnati automaticamente e risolti tramite la tabella degli alias, pertanto modificarli manualmente interrompe i collegamenti e la cronologia degli identificatori. Se questa modifica è intenzionale, salva con `save(context: :%{context})` e mantieni coerente la tabella `work_package_semantic_aliases`.'
               semantic_identifier_incomplete: e sequence_number devono essere entrambi impostati contemporaneamente.
+            sequence_number:
+              must_not_be_changed: 'non deve essere modificato manualmente. Viene assegnato automaticamente insieme all''identificatore. Se questa modifica è intenzionale, salva con `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -4140,7 +4182,7 @@ it:
   label_custom_favicon: Favicon personalizzata
   label_custom_touch_icon: Icona del touch personalizzata
   label_departments: Organizzazione
-  label_departments_description_html: 'Definisci la struttura della tua azienda creando reparti e sottoreparti in modo gerarchico. In questo modo puoi rispecchiare le linee di riporto e mantenere una panoramica chiara e strutturata della tua organizzazione in OpenProject. Puoi anche importare una struttura organizzativa esistente tramite la [sincronizzazione dei gruppi LDAP](ldap_docs_article).
+  label_departments_description_html: 'Definisci la struttura della tua azienda creando reparti e sottoreparti in modo gerarchico. In questo modo puoi rispecchiare le linee di riporto e mantenere una panoramica chiara e strutturata della tua organizzazione in OpenProject. Puoi anche importare una struttura organizzativa esistente tramite la [Sincronizzazione dei dipartimenti LDAP](ldap_docs_article).
 
     '
   label_logout: Disconnetti
@@ -4148,6 +4190,7 @@ it:
   label_main_menu: Menu laterale
   label_manage: Gestisci
   label_manage_groups: Gestisci i gruppi
+  label_managed_by_ldap: Gestito tramite sincronizzazione LDAP
   label_managed_repositories_vendor: Archivio gestito %{vendor}
   label_mathematical_operators: Operatori matematici
   label_max_size: Dimensione massima
@@ -5072,16 +5115,13 @@ it:
     create_managed_delay: 'Attenzione: L''archivio è gestito automaticamente, verrà creato in modo asincrono sul disco e sarà disponibile a breve.'
     create_successful: L'archivio è stato registrato.
     delete_sucessful: L'archivio è stato eliminato.
-    destroy:
-      confirmation: Se si continua, questo eliminerà definitivamente l'archivio gestito dal sistema.
-      info: L'eliminazione del repository è un'operazione irreversibile.
-      info_not_managed: 'Nota: questa azione NON eliminerà il contenuto di questo archivio, che non è gestito direttamente da OpenProject.'
-      managed_path_note: 'La seguente cartella sarà eliminata: %{path}'
-      repository_verification_html: Immettere l'identificatore del progetto %{identifier} per verificare l'eliminazione del suo archivio gestito dal sistema.
-      subtitle: Vuoi davvero eliminare la risorsa %{repository_type} del %{project_name} progetto?
-      subtitle_not_managed_html: Vuoi davvero eliminare la risorsa %{repository_type} accessibile al link %{url} dal progetto %{project_name}?
-      title_html: Elimina %{repository_type}
-      title_not_managed: Eliminare la risorsa collegata %{repository_type}?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Impossibile creare il repository con la configurazione richiesta. %{reason}
       managed_delete: Impossibile eliminare l'archivio gestito dal sistema.
@@ -5468,6 +5508,7 @@ it:
     passwords: Password
     project_attributes:
       heading: Attributi del progetto
+      label_add_attribute: Aggiungi un attributo del progetto
       label_for_all_projects: Tutti i progetti
       label_new_attribute: Attributo del progetto
       label_new_section: Sezione
@@ -5565,8 +5606,37 @@ it:
     session: Sessione
     user:
       default_preferences: Preferenze predefinite
-      display_format: Formato di visualizzazione
       deletion: Eliminazione
+      display_format: Formato di visualizzazione
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Integrato
+        label_built_in_attribute_actions: Azioni integrate degli attributi
+      custom_field_row_component:
+        label_user_custom_field_actions: Azioni degli attributi utente
+      show_component:
+        label_add_attribute: Aggiungi un attributo utente
+        label_edit_section: Modifica titolo
+        label_no_user_custom_fields: Nessun attributo utente definito in questa sezione
+        label_section_actions: Azioni di sezione
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filtra per nome dell'attributo…
+        heading_description: Questi attributi utente vengono visualizzati nei profili utente e nelle schede informative. Puoi aggiungere nuovi attributi, raggrupparli in sezioni e riordinarli.
+      heading: Attributi dell'utente
+      label_new_attribute: Attributo utente
+      label_new_section: Sezione
+      label_untitled_section: Attributi dell'utente
+      new:
+        heading: Nuovo attributo
+      tabs:
+        attributes: Attributi
+        semantic_keys: Attributi mappati
+      semantic_keys:
+        description: 'Alcuni attributi possono fare molto più che memorizzare informazioni: l''applicazione li utilizza per funzionalità specifiche. Scegli quale attributo utilizzare per ciascuno degli scopi indicati di seguito. Ogni attributo può essere usato per un solo scopo e ogni scopo può essere associato a un solo attributo.'
+        descriptions:
+          job_title: Scegli l'attributo che contiene il ruolo lavorativo di ciascun utente. Verrà visualizzato accanto al nome dell'utente in diversi punti dell'applicazione, ad esempio nelle schede utente.
     working_days:
       section_work_week: Settimana lavorativa
       section_holidays_and_closures: Festività e chiusure
@@ -5828,6 +5898,7 @@ it:
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: Cambiamento di stato
     text_change_disabled_for_provider_login: Il nome e l'e-mail sono impostati dal servizio con cui hai effettuato l'accesso e non possono essere modificati.
+    department_ldap_managed_caption: Questo dipartimento è gestito dalla sincronizzazione LDAP e non può essere modificato qui.
     unlock: Sblocca
     unlock_and_reset_failed_logins: Sblocca e azzera gli accessi non riusciti
     error_cannot_delete_user: L'utente non può essere eliminato

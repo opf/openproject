@@ -144,7 +144,7 @@ de:
     description_available_columns: Verfügbare Spalten
     description_current_position: 'Sie sind hier: '
     description_select_work_package: 'Arbeitspaket #%{id} auswählen'
-    description_subwork_package: 'Unteraufgabe von Arbeitspaket #%{id}'
+    description_subwork_package: 'Kind von Arbeitspaket #%{id}'
     editor:
       revisions: Lokale Änderungen anzeigen
       no_revisions: Keine lokalen Änderungen gefunden
@@ -445,7 +445,7 @@ de:
     label_total_progress: "%{percent}% Gesamtfortschritt"
     label_total_amount: 'Gesamt: %{amount}'
     label_updated_on: aktualisiert am
-    label_value_derived_from_children: "(aggregierter Wert von Unteraufgaben)"
+    label_value_derived_from_children: "(aggregierter Wert von Kindelementen)"
     label_children_derived_duration: Aggregierte Dauer der Unteraufgaben
     label_warning: Warnung
     label_work_package: Arbeitspaket
@@ -763,7 +763,7 @@ de:
         title: Neues Arbeitspaket
         header: 'Neu: %{type}'
         header_no_type: Neues Arbeitspaket (Typ noch nicht gesetzt)
-        header_with_parent: 'Neu: %{type} (Unteraufgabe von %{parent_type} #%{id})'
+        header_with_parent: 'Neu: %{type} (Kind von %{parent_type} #%{id})'
         button: Erstellen
       duplicate:
         title: Arbeitspaket duplizieren
@@ -916,11 +916,12 @@ de:
         relation_filters:
           filter_work_packages_by_relation_type: Arbeitspakete nach Beziehungs-Typ filtern
       tabs:
-        overview: Übersicht
         activity: Aktivität
+        files: Dateien
+        overview: Übersicht
+        project_attributes: Project attributes
         relations: Beziehungen
         watchers: Beobachter
-        files: Dateien
       time_relative:
         days: Tagen
         weeks: Wochen

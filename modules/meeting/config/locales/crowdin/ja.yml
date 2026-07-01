@@ -272,7 +272,7 @@ ja:
         summary_occurrence: An occurrence of '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary_series: Meeting series '%{title}' has been cancelled by %{actor}, or you have been removed as a participant
         summary: "'%{title}' has been cancelled by %{actor}, or you have been removed as a participant"
-        date_time: 予定日時
+        date_time: スケジュールされた日時
       ended:
         header_series: 'Ended: Meeting series ''%{title}'''
         summary_series: Meeting series '%{title}' has been ended by %{actor}
@@ -312,7 +312,7 @@ ja:
       occurrence:
         title: 会議のキャンセル
         heading: この会議をキャンセルしますか？
-        confirmation_message_html: 'テンプレートにない会議情報は失われます。 続行しますか？
+        confirmation_message_html: 'テンプレートにない会議情報は失われます。 続けますか？
 
           '
         confirm_button: 発生をキャンセル
@@ -526,7 +526,7 @@ ja:
       confirm_button: この予定をキャンセル
     end_series_dialog:
       title: 一連の会議を終了
-  notice_successful_notification: 参加者全員にカレンダー更新の電子メールを送信
+  notice_successful_notification: すべての出席者にカレンダーの更新をメールしました
   notice_meeting_template_created: Template successfully created
   notice_timezone_missing: タイムゾーンが設定されていない場合、%{zone} が使用されます。タイムゾーンを選択するには、ここをクリックしてください。
   notice_meeting_updated: このページは他の誰かによって更新されました。変更を表示するには再読み込みしてください。
@@ -612,7 +612,7 @@ ja:
 
     '
   label_agenda_backlog_clear_title: 議題のバックログをクリアしますか？
-  text_agenda_backlog_clear_description: '現在アジェンダバックログにあるすべての項目を削除してもよろしいですか？このアクションは元に戻せません。
+  text_agenda_backlog_clear_description: '議題のバックログ内のすべての項目を削除してもよろしいですか？この操作は取り消せません。
 
     '
   label_series_backlog: シリーズバックログ
@@ -648,7 +648,7 @@ ja:
   text_meeting_closed_description: この会議は終了しています。これ以上、議題項目の追加/削除はできません。
   text_meeting_in_progress_description: 議題を変更したり、各項目のアウトカムを記録したり、参加者の出席を追跡することができます。 会議が完了すると、会議をクローズとしてマークしてロックできます。
   text_meeting_open_dropdown_description: 既存の結果は残りますが、ユーザーは新しい結果を追加することはできません。
-  text_meeting_in_progress_dropdown_description: 会議中に必要な情報や決定事項などの成果を文書化する。
+  text_meeting_in_progress_dropdown_description: 会議中に取られた情報のニーズや意思決定などの成果を記録します。
   text_meeting_closed_dropdown_description: この会議は終了しました。これ以上、議題や結果を変更することはできません。
   text_meeting_draft_banner: 現在下書きモードです。 会議の詳細を変更したり出席者を追加/削除したりしても，この会議はカレンダーの更新や招待状を送信しません。
   text_onetime_meeting_template_banner: You are currently editing a meeting template. You can use this template to create one-time meetings with a predefined agenda. Changes will not affect already-created meetings.

@@ -21,6 +21,7 @@
 #++
 ---
 zh-TW:
+  label_user_attributes_plural: User attributes
   no_results_title_text: 目前無資料可以顯示
   activities:
     index:
@@ -52,6 +53,8 @@ zh-TW:
           description: 您的評論將對任何可以存取此工作單元的人皆可見。您確定要這樣做嗎？
           confirm_button_text: 設為公開
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Unreserve
       col_identifier: Identifier
@@ -425,6 +428,20 @@ zh-TW:
       new_project:
         project_creation: 專案建立
         notification_text_default: "<p>您好，</p> <p>已建立新專案： projectValue:name</p> <p>謝謝</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
+      user_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
       work_packages_identifier:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
@@ -668,6 +685,8 @@ zh-TW:
             gain_role: 將獲得角色 '%{new_role}'
             lose_role: 將失去角色 '%{old_role}'
             no_change: 未變更
+    multi_value_more:
+      other: and %{count} more
     text_add_new_custom_field: '要加入客製欄位至一個專案，您必須先建立欄位才能將它們加入至此專案。
 
       '
@@ -712,6 +731,11 @@ zh-TW:
         project: 0 means no restriction
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
+      visible_on_user_card:
+        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: 目前沒有自定義的欄位
       no_results_content_text: 建立一個新的自定義欄位
@@ -739,9 +763,11 @@ zh-TW:
         '
       add_button: Add
     detail_blankslate:
-      heading: This department doesn’t have any hierarchy level below
-      description: Add departments or users to create sub-items inside another one.
       add_button: Add
+      description: Add departments or users to create sub-items inside another one.
+      heading: This department doesn’t have any hierarchy level below
+      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_heading: This department is managed by LDAP synchronization
     add_department_form:
       name_label: Department name
       name_placeholder: Enter department name
@@ -750,6 +776,9 @@ zh-TW:
       heading: Move user to this department?
       description: "%{user} is currently a member of %{from_department}. Moving them will remove them from that department."
       confirm: Move user
+      managed_title: User managed by LDAP
+      managed_heading: This user cannot be moved
+      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: Add sub-department
       add_user: Add user
@@ -1293,12 +1322,11 @@ zh-TW:
       '
     delete_tooltip: 刪除佔位使用者
     deletion_info:
-      heading_html: Delete placeholder user %{name}
       data_consequences: '出現的所有佔位符用戶(例如，作為受理人、負責人或其他用戶值) 將被重新分配給一個名為“已刪除用戶”的帳戶。 由於每個已刪除帳戶的數據都會被重新分配給此帳戶，因此無法將用戶創建的數據與另一個已刪除帳戶的數據區分。
 
         '
-      irreversible: 這一行動是不可還原的
-      confirmation_html: Enter the placeholder user name %{name} to confirm the deletion.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1350,44 +1378,51 @@ zh-TW:
       no_results_content_text: 新增一個類型
     edit:
       form_configuration:
-        tab: 表單設置
-        label_group: Section
-        reset_to_defaults: Reset form
         add_attribute_group: Section
         add_query_group: Related work packages table
+        blankslate_description: Add groups using the button above or drag attributes from the left panel.
+        blankslate_title: No groups yet
+        builtin_field: Built-in field
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        confirm_reset: Are you sure you want to reset the form configuration?
+        custom_field: Custom field
         delete_group: Delete section
-        remove_attribute: Remove from section
         drag_to_activate: Drag fields from here to activate them
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
-        custom_field: Custom field
-        filter_inactive: Filter attributes
-        inactive_attributes_heading: Inactive attributes
-        no_inactive_attributes: No inactive attributes
-        blankslate_title: No groups yet
-        blankslate_description: Add groups using the button above or drag attributes from the left panel.
-        group_actions: Section actions
-        rename_group: Rename section
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        group_name_label: Section name
-        row_actions: Row actions
-        query_group_label: Related work packages table
         empty_group_hint: Drag attributes here
+        filter_inactive: Filter attributes
+        group_actions: Section actions
+        group_name_label: Section name
+        inactive_attributes_heading: Inactive attributes
         invalid_attribute_groups: The form configuration payload is invalid.
         invalid_query: The embedded query configuration is invalid.
+        label_group: Section
+        no_inactive_attributes: No inactive attributes
         not_found: The requested form configuration item could not be found.
-        untitled_group: Untitled group
-        reset_title: Reset form configuration
-        confirm_reset: Are you sure you want to reset the form configuration?
-        builtin_field: Built-in field
+        query_group_label: Related work packages table
+        remove_attribute: Remove from section
+        rename_group: Rename section
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
+        reset_title: Reset form configuration
+        reset_to_defaults: Reset form
+        row_actions: Row actions
+        tab: 表單設置
+        untitled_group: Untitled group
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: 專案
         enable_all: 在所有專案中啟用
         select_projects: 選取專案
         select_projects_description: 選擇要使用此類型的專案。
+        tab: 專案
       settings:
         tab: 設定
         type_color_text: 選取的顏色可區分甘特圖或工作套件表格中的不同類型。因此建議使用強烈的顏色。
@@ -1655,6 +1690,7 @@ zh-TW:
       login_consequences:
         other: 此帳戶會立即從系統中移除，使用者將無法再使用其憑證登入。
         self: 您的帳戶將會立即從系統中移除，您也將無法再使用您的憑證登入。
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: '您的帳號尚未啟用。要啟用您的帳號，請點擊系統通過電子郵件發送給您的連結。
 
       '
@@ -1678,18 +1714,6 @@ zh-TW:
         dependencies: 依賴套件
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Identifier
-        work_package: Work package
-      jira_import:
-        projects: Projects
-      import/jira:
-        name: Jira instance name
-        url: Jira instance URL
-        personal_access_token: Personal access token
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: 只顯示到
       attachment:
@@ -1735,6 +1759,8 @@ zh-TW:
         possible_values: 可選擇內容
         regexp: 正規表示式
         searchable: 搜索
+        visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: 僅限管理員
         has_comment: Add a comment text field
       custom_value:
@@ -1769,6 +1795,23 @@ zh-TW:
         row_count: 列數
         column_count: 欄數：
         widgets: 小工具
+      group:
+        group_users: Group users
+        identity_url: 身份識別 URL
+        organizational_unit: Organizational unit
+        parent: Parent group
+      group_detail:
+        organizational_unit: Organizational unit
+        parent: Parent group
+      import/jira:
+        name: Jira instance name
+        personal_access_token: Personal access token
+        url: Jira instance URL
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: Projects
       journal:
         notes: 備註
         cause_type: 原因類型
@@ -1797,6 +1840,21 @@ zh-TW:
         resource: 資源
       oauth_client:
         client: 客戶端 ID
+      ordered_persisted_query_entity:
+        persisted_query: Persisted query
+        entity: Entity
+        position: Position
+      persisted_query:
+        name: Name
+        views: Views
+        filters: Filters
+        orders: Orders
+        selects: Selects
+      persisted_view:
+        name: Name
+        query: Query
+        parent: Parent view
+        public: Public
       project:
         active_value:
           true: 解除封存
@@ -1930,6 +1988,7 @@ zh-TW:
       user:
         admin: 管理員
         auth_source: 驗證方式
+        department: Department
         ldap_auth_source: LDAP 連線
         identity_url: Identity URL
         current_password: 目前的密碼
@@ -1943,14 +2002,8 @@ zh-TW:
         new_password: 新密碼
         password_confirmation: 確認密碼
         consented_at: 同意在
-      group:
-        identity_url: 身份識別 URL
-        parent: Parent group
-        organizational_unit: Organizational unit
-        group_users: Group users
-      group_detail:
-        parent: Parent group
-        organizational_unit: Organizational unit
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: 介面與外觀
         header_alerts: 提醒
@@ -2049,29 +2102,11 @@ zh-TW:
         type: 類型
         version: 版本
         watcher: 監看者
-      ordered_persisted_query_entity:
-        persisted_query: Persisted query
-        entity: Entity
-        position: Position
-      persisted_query:
-        name: Name
-        views: Views
-        filters: Filters
-        orders: Orders
-        selects: Selects
-      persisted_view:
-        name: Name
-        query: Query
-        parent: Parent view
-        public: Public
-      user_card_view:
-        secondary_info: Secondary info
-        show_status_badge: Show status badge
-        show_email: Show email
-        tag_source: Tag source
-        tag_limit: Tag limit
-        card_size: Card size
-        columns_per_row: Columns per row
+      work_package_version:
+        kind: Kind
+      work_package_semantic_alias:
+        identifier: Identifier
+        work_package: Work package
     errors:
       messages:
         accepted: 必須被接受
@@ -2085,6 +2120,7 @@ zh-TW:
         cannot_delete_mapping: 必需項，不能刪除
         cant_link_a_work_package_with_a_descendant: 工作套件不能聯結到自己的子套件。
         circular_dependency: 這個關係會建立一個循環依賴
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: 不吻合 %{attribute}。
         could_not_be_copied: "%{dependency} 無法完整複製."
         datetime_must_be_in_future: 必須是未來時間。
@@ -2117,6 +2153,7 @@ zh-TW:
         invalid_url: 不是有效的 URL。
         invalid_url_scheme: '不是受支援的協定 (允許的協定: %{allowed_schemes})。'
         is_for_all_cannot_modify: 適用於所有專案，因此無法修改。
+        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: 必須少於或者等於 %{count}。
         not_available: 由於系統配置所以不可用
         not_before_start_date: must not be before the start date.
@@ -2154,6 +2191,7 @@ zh-TW:
 
           '
         user_already_in_department: User %{user_id} is already a member of department %{department_id}.
+        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: 長度錯誤 (應該要有 %{count} 個字元)
       models:
         group:
@@ -2161,6 +2199,7 @@ zh-TW:
             parent_id:
               circular_dependency: would create a circular group hierarchy.
               organizational_unit_mismatch: must have the same organizational unit setting as the group.
+              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2395,11 +2434,14 @@ zh-TW:
           is_not_a_valid_target_for_time_entries: '工作套件 #%{id} 不是重新分配時間項目有效的目標。'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: 無法新增子項，因為您沒有所選工作套件的編輯權限。
               blank: ID 不能空白。
+              cannot_add_child_because_of_lack_of_permission: 無法新增子項，因為您沒有所選工作套件的編輯權限。
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3964,7 +4006,7 @@ zh-TW:
   label_filter_add: 新增條件
   label_filter_by: 篩選條件：
   label_filter_any_name_attribute: 名稱屬性
-  label_filter_plural: 篩選條件
+  label_filter_plural: 篩選器
   label_filters_toggle: 顯示/隱藏篩選條件
   label_float: 浮點數
   label_folder: 資料夾
@@ -3978,8 +4020,8 @@ zh-TW:
   label_global_modules: 全域模組
   label_global_roles: 全域角色
   label_git_path: ".git 目錄的路徑"
-  label_greater_or_equal: 之前
-  label_group_by: 分類
+  label_greater_or_equal: ">="
+  label_group_by: 分組依據
   label_group_new: 新增群組
   label_group: 群組
   label_group_named: 群組名稱 %{name}
@@ -3991,7 +4033,7 @@ zh-TW:
   label_hierarchy: 階層
   label_hierarchy_leaf: 頁面結構頁
   label_home: Home
-  label_subject_or_id: 名稱或 id
+  label_subject_or_id: 主旨或 id
   label_calendar_subscriptions: 訂閱行事曆
   label_identifier: Identifiers
   label_project_identifier: Project identifier
@@ -4044,7 +4086,7 @@ zh-TW:
   label_latest_revision_plural: 最新版本
   label_ldap_authentication: LDAP 認證
   label_learn_more: 了解更多
-  label_less_or_equal: 之後
+  label_less_or_equal: "<="
   label_less_than_ago: 幾天內
   label_link_url: 連結(URL)
   label_list: 清單
@@ -4069,7 +4111,7 @@ zh-TW:
   label_custom_favicon: 自訂圖示
   label_custom_touch_icon: 自訂觸控圖示
   label_departments: Organization
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP group synchronisation](ldap_docs_article).
+  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
     '
   label_logout: 登出
@@ -4077,6 +4119,7 @@ zh-TW:
   label_main_menu: 側邊選單
   label_manage: 管理
   label_manage_groups: 管理群組
+  label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: 已管理的 %{vendor} 版本庫
   label_mathematical_operators: 數學運算元
   label_max_size: 最大容量
@@ -5000,16 +5043,13 @@ zh-TW:
     create_managed_delay: '請注意: 這個版本庫已被託管，它是以非同步的方式建立在磁碟上，並且將在稍後可供使用。'
     create_successful: 這個版本庫已經被註冊了
     delete_sucessful: 這個版本庫已被刪除
-    destroy:
-      confirmation: 如果你要繼續，這將會永久刪除這個託管的版本庫
-      info: 刪除這個版本庫是不可逆的動作
-      info_not_managed: '注意: 這將"不會"刪除版本庫的內容，因為他不是由 OpenProject 所託管的'
-      managed_path_note: '以下的資料夾將會被刪除: %{path}'
-      repository_verification_html: Enter the project's identifier %{identifier} to verify the deletion of its repository.
-      subtitle: 你真的想要刪除專案 %{project_name} 的 %{repository_type} 嗎？
-      subtitle_not_managed_html: Do you really want to remove the linked %{repository_type} %{url} from the project %{project_name}?
-      title_html: Delete the %{repository_type}
-      title_not_managed: 刪除連結的 %{repository_type}?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: 無法用選取的設定建立版本庫。%{reason}
       managed_delete: 無法刪除版本庫
@@ -5396,6 +5436,7 @@ zh-TW:
     passwords: 密碼
     project_attributes:
       heading: 專案屬性
+      label_add_attribute: Add a project attribute
       label_for_all_projects: 所有專案
       label_new_attribute: 專案屬性
       label_new_section: 區段
@@ -5495,8 +5536,37 @@ zh-TW:
     session: 連線
     user:
       default_preferences: 默認偏好設置
-      display_format: 顯示格式
       deletion: 消除
+      display_format: 顯示格式
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Built-in
+        label_built_in_attribute_actions: Built-in attribute actions
+      custom_field_row_component:
+        label_user_custom_field_actions: User attribute actions
+      show_component:
+        label_add_attribute: Add a user attribute
+        label_edit_section: Edit title
+        label_no_user_custom_fields: No user attributes defined in this section
+        label_section_actions: Section actions
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filter by attribute name…
+        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
+      heading: User attributes
+      label_new_attribute: User attribute
+      label_new_section: Section
+      label_untitled_section: User attributes
+      new:
+        heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: 工作週
       section_holidays_and_closures: 假日和休息日
@@ -5761,6 +5831,7 @@ zh-TW:
     status_user_and_brute_force: "%{user} 和 %{brute_force}"
     status_change: 狀態變更
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: 按此啟用
     unlock_and_reset_failed_logins: 啟用並清除登入紀錄
     error_cannot_delete_user: User cannot be deleted

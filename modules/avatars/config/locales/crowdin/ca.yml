@@ -19,24 +19,10 @@ ca:
   avatars:
     label_avatar: Avatar
     label_gravatar: Gravatar
-    label_current_avatar: Avatar actual
     label_local_avatar: Avatar personalitzat
-    text_current_avatar: 'La següent imatge mostra l''avatar actual
-
-      '
-    text_upload_instructions: 'Carrega el teu avatar personalitzat de 128 per 128 píxels. Les imatges més grans es redimensionaran i retallaran per encaixar. Una visualització prèvia de l''avatar es mostrarà abans de carregar-la, un cop seleccionis la imatge.
-
-      '
-    text_change_gravatar_html: Per a canviar o afegir el Gravatar de la teva adreça de correu electrònic, accediu a %{gravatar_url}.
-    text_your_local_avatar: 'OpenProject et permet pujar el teu avatar personalitzat.
-
-      '
-    text_local_avatar_over_gravatar: 'Si n''estableixes un, aquest avatar personalitzat s''utilitzarà preferentment abans que el gravatar de sobre.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject fa servir el teu gravatar si n'heu registrat un, o una imatge o icona per defecte si n'existeix una.
-      L'actual gravatar és el següent:
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: Activa els Gravatars d'usuari
       gravatar_default: Imatge Gravatar predeterminada

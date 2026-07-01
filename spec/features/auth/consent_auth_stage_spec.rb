@@ -55,7 +55,7 @@ RSpec.describe "Authentication Stages" do
     wait_for_network_idle
 
     within_test_selector "my-account-form" do
-      expect(page).to have_field "user_username", with: user.login
+      expect(page).to have_field "user_login", with: user.login
     end
   end
 

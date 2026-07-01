@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -89,76 +91,56 @@ RSpec.describe GithubPullRequest do
              github_html_url: github_url)
     end
 
-    context "when the github_id attribute matches" do
-      it "finds by github_id" do
-        expect(described_class.find_by_github_identifiers(id: pull_request.github_id))
+    it "raises an ArgumentError when no url is provided" do
+      expect { described_class.find_by_github_identifiers(id: github_id, url: nil) }
+        .to raise_error(ArgumentError, "needs an url")
+    end
+
+    context "when the url matches" do
+      it "returns the pull request regardless of the id" do
+        expect(described_class.find_by_github_identifiers(id: pull_request.github_id + 1, url: github_url))
           .to eql pull_request
       end
     end
 
-    context "when the github_html_url attribute matches" do
-      it "finds by github_html_url" do
-        expect(described_class.find_by_github_identifiers(url: pull_request.github_html_url))
-          .to eql pull_request
-      end
-    end
-
-    context "when the provided github_id does not match" do
-      it "is nil" do
-        expect(described_class.find_by_github_identifiers(id: pull_request.github_id + 1))
-          .to be_nil
-      end
-    end
-
-    context "when the provided github_html_url does not match" do
-      it "is nil" do
-        expect(described_class.find_by_github_identifiers(url: "#{pull_request.github_html_url}zzzz"))
-          .to be_nil
-      end
-    end
-
-    context "when neither match" do
-      it "is nil" do
-        expect(described_class.find_by_github_identifiers(id: pull_request.github_id + 1,
-                                                          url: "#{pull_request.github_html_url}zzzz"))
-          .to be_nil
-      end
-    end
-
-    context "when the provided github_html_url does not match but the github_id does" do
-      it "is nil" do
+    context "when the url does not match" do
+      it "falls back to the id so renamed repositories keep their records" do
         expect(described_class.find_by_github_identifiers(id: pull_request.github_id,
                                                           url: "#{pull_request.github_html_url}zzzz"))
           .to eql pull_request
       end
+
+      it "returns nothing when the id does not match either" do
+        expect(described_class.find_by_github_identifiers(id: pull_request.github_id + 1,
+                                                          url: "#{pull_request.github_html_url}zzzz"))
+          .to be_nil
+      end
     end
 
-    context "when the provided github_html_url does match but the github_id does not" do
-      it "is nil" do
-        expect(described_class.find_by_github_identifiers(id: pull_request.github_id + 1,
-                                                          url: pull_request.github_html_url))
+    context "when the url matches one record and the id another" do
+      let!(:other_pull_request) do
+        create(:github_pull_request,
+               github_id: github_id + 1,
+               github_html_url: "#{github_url}4")
+      end
+
+      before { pull_request }
+
+      it "prefers the url match" do
+        expect(described_class.find_by_github_identifiers(id: other_pull_request.github_id, url: github_url))
           .to eql pull_request
       end
     end
 
-    context "when neither match but initialize is true" do
+    context "when the url does not match but initialize is true" do
       subject(:finder) do
         described_class.find_by_github_identifiers(id: pull_request.github_id + 1,
                                                    url: "#{pull_request.github_html_url}zzzz",
                                                    initialize: true)
       end
 
-      it "returns a pull reqeust" do
-        expect(finder)
-          .to be_a(described_class)
-      end
-
-      it "returns a new record" do
-        expect(finder)
-          .to be_new_record
-      end
-
-      it "has the provided attributes initialized" do
+      it "returns a new record with the provided attributes" do
+        expect(finder).to be_a(described_class).and be_new_record
         expect(finder.attributes.compact)
           .to eql("github_id" => pull_request.github_id + 1,
                   "github_html_url" => "#{pull_request.github_html_url}zzzz")

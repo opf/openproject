@@ -110,7 +110,7 @@ vi:
     button_save: lưu lại
     button_settings: cài đặt
     button_uncheck_all: Bỏ chọn tất cả
-    button_update: cập nhật
+    button_update: Cập Nhật
     button_export-atom: Tải xuống nguyên tử
     button_generate_pdf: Tạo PDF
     button_create: Tạo mới
@@ -913,11 +913,12 @@ vi:
         relation_filters:
           filter_work_packages_by_relation_type: Lọc các gói công việc theo loại quan hệ
       tabs:
-        overview: tổng quan
         activity: hoạt động
+        files: tập tin
+        overview: tổng quan
+        project_attributes: Project attributes
         relations: quan hệ
         watchers: người theo dõi
-        files: tập tin
       time_relative:
         days: ngày
         weeks: tuần

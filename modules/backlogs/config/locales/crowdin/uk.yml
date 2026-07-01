@@ -97,6 +97,18 @@ uk:
     administration_blankslate:
       title: Ми змінюємо налаштування адміністратора в модулі беклогів
       text: Зараз ми переробляємо модуль невиконаних завдань (беклогів). Налаштування адміністратора для спринтів і беклогів з’являться тут найближчим часом. Налаштування на рівні проєктів залишаються доступними.
+    backlog_component:
+      button_new_backlog_bucket: Новий сегмент беклогу
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Сегмент беклогу
+        other: Сегменти беклогу
+        zero: Усі сегменти беклогу
+      label_sprint_filter:
+        one: Спринт
+        other: Спринти
+        zero: Усі спринти
+      select_panel_title: Вибрати елементи
     bucket_destroy_modal_component:
       title: Видалити сегмент беклогу?
       details: Сегмент беклогу «%{name}» буде видалено, а всі пакети робіт — переміщено у вхідні завдання беклогу. Пакети робіт не видаляться.
@@ -180,6 +192,7 @@ uk:
         create_description_text: Щоб почати планувати спринт, створіть його тут.
         manage_description_html: Щоб почати планувати спринт, перейдіть у %{settings_link}, щоб отримати спринти з інших проєктів.
         no_actions_description_text: Ще немає спринтів, доступних для цього проєкту.
+      button_new_sprint: Новий спринт
     story_points:
       one: "%{count} cторі-поінт"
       few: "%{count} сторі-поінти"

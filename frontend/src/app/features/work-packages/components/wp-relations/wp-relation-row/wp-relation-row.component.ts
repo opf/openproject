@@ -81,8 +81,7 @@ export class WorkPackageRelationRowComponent extends UntilDestroyedMixin impleme
 
     this.userInputs.newRelationText = this.relation.description || '';
     this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
-    this.selectedRelationType = _.find(this.availableRelationTypes,
-      { name: this.relation.normalizedType(this.workPackage) })!;
+    this.selectedRelationType = this.availableRelationTypes.find((relationType) => relationType.name === this.relation.normalizedType(this.workPackage))!;
 
     this
       .apiV3Service

@@ -54,9 +54,9 @@ module Backlogs
 
     def form_url
       if @backlog_bucket.new_record?
-        project_backlogs_buckets_path(@backlog_bucket.project, all_backlogs_params)
+        project_backlogs_buckets_path(@backlog_bucket.project, backlog_filter_params)
       else
-        project_backlogs_bucket_path(@backlog_bucket.project, @backlog_bucket, all_backlogs_params)
+        project_backlogs_bucket_path(@backlog_bucket.project, @backlog_bucket, backlog_filter_params)
       end
     end
   end

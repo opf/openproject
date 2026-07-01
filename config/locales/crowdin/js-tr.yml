@@ -914,11 +914,12 @@ tr:
         relation_filters:
           filter_work_packages_by_relation_type: İş paketlerini ilişki türüne göre filtreleme
       tabs:
-        overview: Genel Bakış
         activity: Etkinlik
+        files: Dosyalar
+        overview: Genel Bakış
+        project_attributes: Project attributes
         relations: İlişkiler
         watchers: Takip Edenler
-        files: Dosyalar
       time_relative:
         days: gün
         weeks: hafta

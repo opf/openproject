@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   # Update my avatar
   scope "my" do
-    resource :avatar, controller: "avatars/my_avatar", as: "edit_my_avatar", only: %i[show update destroy]
+    resource :avatar, controller: "avatars/my_avatar", as: "edit_my_avatar", only: %i[update destroy]
   end
 
   # Get the current avatar

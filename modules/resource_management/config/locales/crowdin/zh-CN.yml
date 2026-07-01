@@ -36,8 +36,8 @@ zh-CN:
     models:
       resource_allocation: 资源分配
       resource_planner: 资源规划工具
+      resource_user_card: 用户卡
       resource_work_package_list: 工作包列表
-      user_card: 用户卡
   button_next: 下一步
   label_resource_management: 资源规划
   permission_allocate_user_resources: 分配用户资源
@@ -53,6 +53,7 @@ zh-CN:
   resource_management:
     action:
       delete: 删除
+      edit: 编辑
       favorite: 添加至收藏夹
       make_private: 设为私有
       make_public: 设为公开
@@ -103,6 +104,7 @@ zh-CN:
       success_message: 资源分配已更新。
       title: 编辑分配
     favorite_caption: 将此视图标记为收藏项，并添加到边栏菜单的顶部。
+    label_edit_resource_planner: 编辑资源规划工具
     label_new_resource_planner: 新建资源规划工具
     label_resource_planner: 资源规划工具
     label_resource_planner_plural: 资源规划工具
@@ -115,10 +117,48 @@ zh-CN:
       private: 私用
       public: 公开
     sub_views: 此资源规划工具中的视图
+    user_allocations_dialog:
+      allocate_work_package: 分配工作包
+      blank: 此用户没有分配的工作包。
+      other_work_packages:
+        other: 其他 %{count} 个工作包
+      title: 使用情况
+    user_card_list:
+      add_user_dialog:
+        title: 添加用户
+      blank:
+        description: 还没有与此视图的筛选条件相符的用户。
+        manual_description: 此视图中尚未添加任何用户。
+        title: 没有可显示的用户
+      card:
+        multi_value_more: "+%{count} more"
+        remove: 移除用户
+        remove_confirmation: 是否将此用户从视图中移除？
+      fields:
+        working_times: 工作时间
+        input_label: 字段
+        input_caption: 选择将在此视图的用户卡中显示的字段
+        input_placeholder: 添加字段
+        drag_area_label: 显示的字段
+      subheader:
+        resource: 资源
+        settings: 配置视图
+      utilization:
+        label: 使用情况
+      working_hours:
+        blank: No working hours configured
+        schedule_availability_compact: "%{schedule} (%{factor}% available)"
+        schedule_change_compact: until %{date}, %{schedule}
     view_types:
+      resource_user_card:
+        caption: 基于用户创建视图，并在用户卡列表中查看其详细信息和分配
+        label: 用户卡列表
       resource_work_package_list:
         caption: 基于工作包创建视图，并在列表中查看其详细信息和分配情况
         label: 工作包列表
+      resource_work_package_timeline:
+        caption: 创建基于工作包的视图，并在时间线上查看其分配在一段时间内的变化
+        label: 工作包时间线
       user_card:
         caption: 基于用户创建视图，并在用户卡列表中查看其详细信息和分配情况
         label: 用户卡列表
@@ -166,3 +206,19 @@ zh-CN:
         add_work_package: 添加工作包
         allocate: 分配
         settings: 配置视图
+    work_package_timeline:
+      blank:
+        add_work_package: 添加工作包
+        configure_view: 配置视图
+        description: 还没有与此视图的筛选条件相符的工作包。
+        manual_description: 向此视图添加工作包，以规划其分配在一段时间内的变化。
+        title: 没有可显示的工作包
+      granularity:
+        day: 天
+        month: 月
+        week: 日历周
+      navigation:
+        next: 下一个期间
+        previous: 上一个期间
+        today: 今天
+      query_name: 资源管理工作包时间线：%{name}

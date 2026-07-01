@@ -21,6 +21,7 @@
 #++
 ---
 ru:
+  label_user_attributes_plural: User attributes
   no_results_title_text: Показать нечего.
   activities:
     index:
@@ -52,6 +53,8 @@ ru:
           description: Ваш комментарий будет виден всем, кто может получить доступ к этому пакету работ. Вы уверены, что хотите это сделать?
           confirm_button_text: Сделать общедоступным
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Unreserve
       col_identifier: Идентификатор
@@ -446,6 +449,20 @@ ru:
       new_project:
         project_creation: Создание проекта
         notification_text_default: "<p>Здравствуйте,</p> <p>Был создан новый проект: projectValue:name</p> <p>Спасибо</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
+      user_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
       work_packages_identifier:
         page_header:
           description: Выберите между классическими числовыми идентификаторами пакета работ или семантическими, специфичными для проекта, которые добавляют идентификатор проекта к ID пакета работ.
@@ -697,6 +714,8 @@ ru:
             gain_role: Получит роль '%{new_role}'
             lose_role: Потеряет роль '%{old_role}'
             no_change: Без изменений
+    multi_value_more:
+      other: and %{count} more
     text_add_new_custom_field: 'Прежде чем добавлять настраиваемые поля в проект, нужно создать их.
 
       '
@@ -741,6 +760,11 @@ ru:
         project: 0 означает отсутствие ограничений
       has_comment:
         project: Позволяет пользователю добавить комментарий, относящийся к атрибуту проекта, при выборе значения в обзоре проекта.
+      visible_on_user_card:
+        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
@@ -768,9 +792,11 @@ ru:
         '
       add_button: Добавить
     detail_blankslate:
-      heading: Это подразделение не имеет дочерних подразделений
-      description: Добавить подразделения или пользователей для создания дочерних элементов.
       add_button: Добавить
+      description: Добавить подразделения или пользователей для создания дочерних элементов.
+      heading: Это подразделение не имеет дочерних подразделений
+      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_heading: This department is managed by LDAP synchronization
     add_department_form:
       name_label: Наименование подразделения
       name_placeholder: Введите название подразделения
@@ -779,6 +805,9 @@ ru:
       heading: Переместить пользователя в этот департамент?
       description: "%{user} в настоящее время является членом %{from_department}. Перемещение удалит их из этого подразделения."
       confirm: Переместить пользователя
+      managed_title: User managed by LDAP
+      managed_heading: This user cannot be moved
+      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: Добавить дочернее подразделение
       add_user: Добавить пользователя
@@ -1346,12 +1375,11 @@ ru:
       '
     delete_tooltip: Удалить пользователя-заполнителя
     deletion_info:
-      heading_html: Удалить пользователя-заполнителя %{name}
       data_consequences: 'Все вхождения пользователя плейсхолдера (например, как цессионария, ответственные или другие пользовательские значения) будут переназначены на учетную запись под названием "Удаленный пользователь". Так как данные каждого удаленного аккаунта переназначены на этот аккаунт, невозможно отличить данные пользователя от данных другого удаленного аккаунта.
 
         '
-      irreversible: Это действие необратимо
-      confirmation_html: Введите имя пользователя %{name}, чтобы подтвердить удаление.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1408,44 +1436,51 @@ ru:
       no_results_content_text: Создать новый тип
     edit:
       form_configuration:
-        tab: Настройка форм
-        label_group: Section
-        reset_to_defaults: Reset form
         add_attribute_group: Section
         add_query_group: Related work packages table
+        blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
+        blankslate_title: Нет групп
+        builtin_field: Встроенное поле
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        confirm_reset: Вы уверены, что хотите сбросить конфигурацию формы?
+        custom_field: Настраиваемое поле
         delete_group: Delete section
-        remove_attribute: Remove from section
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
         drag_to_reorder: Перетащите, чтобы изменить порядок
         edit_query: Редактировать представление
-        custom_field: Настраиваемое поле
-        filter_inactive: Фильтровать атрибуты
-        inactive_attributes_heading: Неактивные атрибуты
-        no_inactive_attributes: Нет неактивных атрибутов
-        blankslate_title: Нет групп
-        blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
-        group_actions: Section actions
-        rename_group: Rename section
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        group_name_label: Section name
-        row_actions: Действия со строками
-        query_group_label: Related work packages table
         empty_group_hint: Перетащите атрибуты сюда
+        filter_inactive: Фильтровать атрибуты
+        group_actions: Section actions
+        group_name_label: Section name
+        inactive_attributes_heading: Неактивные атрибуты
         invalid_attribute_groups: Конфигурация формы является недопустимой.
         invalid_query: Недопустимая конфигурация встраиваемого представления.
+        label_group: Section
+        no_inactive_attributes: Нет неактивных атрибутов
         not_found: Запрашиваемый элемент конфигурации формы не найден.
-        untitled_group: Безымянная группа
-        reset_title: Сбросить настройки формы
-        confirm_reset: Вы уверены, что хотите сбросить конфигурацию формы?
-        builtin_field: Встроенное поле
+        query_group_label: Related work packages table
+        remove_attribute: Remove from section
+        rename_group: Rename section
         reset_description: 'Это сбросит атрибуты к группе по умолчанию и отключит ВСЕ настраиваемые поля.
 
           '
+        reset_title: Сбросить настройки формы
+        reset_to_defaults: Reset form
+        row_actions: Действия со строками
+        tab: Настройка форм
+        untitled_group: Безымянная группа
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Проекты
         enable_all: Использовать во всех проектах
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
+        tab: Проекты
       settings:
         tab: Параметры
         type_color_text: |-
@@ -1728,6 +1763,7 @@ ru:
       login_consequences:
         other: Эта учетная запись будет немедленно удалена из системы, и пользователь больше не сможет войти в систему с ее учетными данными.
         self: Ваша учетная запись будет немедленно удалена из системы, и Вы больше не сможете войти в систему, используя свои учетные данные.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Ваша учетная запись не была активирована. Для активации перейдите по ссылке, направленной вам по электронной почте.
 
       '
@@ -1751,18 +1787,6 @@ ru:
         dependencies: Связи
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Идентификатор
-        work_package: Пакет работ
-      jira_import:
-        projects: Проекты
-      import/jira:
-        name: Имя экземпляра Jira
-        url: URL-адрес экземпляра Jira
-        personal_access_token: Персональный токен доступа
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Мигратор Jira
       announcements:
         show_until: Отобразить до
       attachment:
@@ -1808,6 +1832,8 @@ ru:
         possible_values: Возможные значения
         regexp: Регулярное выражение
         searchable: Доступно для поиска
+        visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Только администратор
         has_comment: Добавьте комментарий для текстового поля
       custom_value:
@@ -1842,6 +1868,23 @@ ru:
         row_count: Количество строк
         column_count: Количество столбцов
         widgets: Виджеты
+      group:
+        group_users: Пользователи группы
+        identity_url: URL идентификации
+        organizational_unit: Подразделение организации
+        parent: Родительская группа
+      group_detail:
+        organizational_unit: Подразделение организации
+        parent: Родительская группа
+      import/jira:
+        name: Имя экземпляра Jira
+        personal_access_token: Персональный токен доступа
+        url: URL-адрес экземпляра Jira
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Мигратор Jira
+      jira_import:
+        projects: Проекты
       journal:
         notes: Примечания
         cause_type: Причина
@@ -1870,6 +1913,21 @@ ru:
         resource: Ресурс
       oauth_client:
         client: Идентификатор клиента
+      ordered_persisted_query_entity:
+        persisted_query: Постоянный запрос
+        entity: Сущность
+        position: Позиция
+      persisted_query:
+        name: Имя
+        views: Представления
+        filters: Фильтры
+        orders: Порядок
+        selects: Выбирает
+      persisted_view:
+        name: Имя
+        query: Запрос
+        parent: Родительское представление
+        public: Общий
       project:
         active_value:
           true: Разархивирован
@@ -2003,6 +2061,7 @@ ru:
       user:
         admin: Администратор
         auth_source: Источник аутентификации
+        department: Department
         ldap_auth_source: Подключение к LDAP
         identity_url: URL идентификации
         current_password: Текущий пароль
@@ -2016,14 +2075,8 @@ ru:
         new_password: Новый пароль
         password_confirmation: Подтверждение
         consented_at: Согласен с
-      group:
-        identity_url: URL идентификации
-        parent: Родительская группа
-        organizational_unit: Подразделение организации
-        group_users: Пользователи группы
-      group_detail:
-        parent: Родительская группа
-        organizational_unit: Подразделение организации
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: Оформление
         header_alerts: Оповещения
@@ -2122,29 +2175,11 @@ ru:
         type: Тип
         version: Этапы
         watcher: Наблюдатель
-      ordered_persisted_query_entity:
-        persisted_query: Постоянный запрос
-        entity: Сущность
-        position: Позиция
-      persisted_query:
-        name: Имя
-        views: Представления
-        filters: Фильтры
-        orders: Порядок
-        selects: Выбирает
-      persisted_view:
-        name: Имя
-        query: Запрос
-        parent: Родительское представление
-        public: Общий
-      user_card_view:
-        secondary_info: Дополнительная информация
-        show_status_badge: Показать значок статуса
-        show_email: Показать адрес эл. почты
-        tag_source: Источник тегов
-        tag_limit: Лимит тегов
-        card_size: Размер карты
-        columns_per_row: Столбцов в строке
+      work_package_version:
+        kind: Kind
+      work_package_semantic_alias:
+        identifier: Идентификатор
+        work_package: Пакет работ
     errors:
       messages:
         accepted: нужно подтвердить.
@@ -2158,6 +2193,7 @@ ru:
         cannot_delete_mapping: требуется. Невозможно удалить.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: не совпадает со значением поля %{attribute}.
         could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
         datetime_must_be_in_future: должно быть в будущем.
@@ -2190,6 +2226,7 @@ ru:
         invalid_url: не является допустимым URL-адресом.
         invalid_url_scheme: 'не является поддерживаемым протоколом (разрешены следующие: %{allowed_schemes}).'
         is_for_all_cannot_modify: предназначено для всех проектов и поэтому не может быть изменено.
+        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: должно быть меньше или равно %{count}.
         not_available: недоступно из-за конфигурации системы.
         not_before_start_date: должно быть после даты начала.
@@ -2227,6 +2264,7 @@ ru:
 
           '
         user_already_in_department: Пользователь %{user_id} уже является членом департамента %{department_id}.
+        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: неправильная длина (должно быть %{count} знаков).
       models:
         group:
@@ -2234,6 +2272,7 @@ ru:
             parent_id:
               circular_dependency: создаст круговую иерархию групп.
               organizational_unit_mismatch: должен иметь те же организационные подразделения, что и группа.
+              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2471,11 +2510,14 @@ ru:
           is_not_a_valid_target_for_time_entries: 'Пакет работ #%{id} не допустимым для переназначения времени записи.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Не удается добавить дочерний пакет, потому что вы не имеете разрешения на редактирование выбранного пакета работ.
               blank: ID не может быть пустым.
+              cannot_add_child_because_of_lack_of_permission: Не удается добавить дочерний пакет, потому что вы не имеете разрешения на редактирование выбранного пакета работ.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: и sequence_number должны быть установлены одновременно.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -4273,7 +4315,7 @@ ru:
   label_custom_favicon: Пользовательские иконки
   label_custom_touch_icon: Пользовательский значок логотипа
   label_departments: Департаменты
-  label_departments_description_html: 'Определите структуру вашей компании создавая отделы и подразделения иерархическим образом. Это позволяет отразить линии отчетности и поддерживать четкий, структурированный обзор вашей организации в рамках OpenProject. Вы также можете импортировать существующую структуру организации через [синхронизацию групп LDAP](ldap_docs_article).
+  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
     '
   label_logout: Выход
@@ -4281,6 +4323,7 @@ ru:
   label_main_menu: Боковое меню
   label_manage: Управление
   label_manage_groups: Управление группами
+  label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Управляемые %{vendor} репозиториев
   label_mathematical_operators: Математические операторы
   label_max_size: Максимальный размер
@@ -5209,16 +5252,13 @@ ru:
     create_managed_delay: 'Пожалуйста, обратите внимание: репозиторий является управляемым, он формируется асинхронно на диске и будет доступен в ближайшее время.'
     create_successful: Репозиторий был зарегистрирован.
     delete_sucessful: Репозиторий был удален.
-    destroy:
-      confirmation: Продолжив, вы окончательно удалите управляемый репозиторий.
-      info: Удаление репозитория – действие необратимое.
-      info_not_managed: 'Примечание: Содержимое этого репозитория не будет удалено, так как оно не управляется OpenProject.'
-      managed_path_note: 'Следующий каталог будет удален: %{path}'
-      repository_verification_html: Введите идентификатор проекта %{identifier} для проверки удаления его репозитория.
-      subtitle: Вы действительно хотите удалить %{repository_type} проект %{project_name}?
-      subtitle_not_managed_html: Вы действительно хотите удалить связанный %{repository_type} %{url} из проекта %{project_name}?
-      title_html: Удаление %{repository_type}
-      title_not_managed: Удалить связанный %{repository_type}?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Не удается создать репозиторий с выбранной конфигурацией. %{reason}
       managed_delete: Не удается удалить управляемый репозиторий.
@@ -5601,6 +5641,7 @@ ru:
     passwords: Пароли
     project_attributes:
       heading: Атрибуты проекта
+      label_add_attribute: Add a project attribute
       label_for_all_projects: Все проекты
       label_new_attribute: Атрибут проекта
       label_new_section: Раздел
@@ -5698,8 +5739,37 @@ ru:
     session: Сессия
     user:
       default_preferences: Предпочтения по умолчанию
-      display_format: Формат отображения
       deletion: Удаление
+      display_format: Формат отображения
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Built-in
+        label_built_in_attribute_actions: Built-in attribute actions
+      custom_field_row_component:
+        label_user_custom_field_actions: User attribute actions
+      show_component:
+        label_add_attribute: Add a user attribute
+        label_edit_section: Edit title
+        label_no_user_custom_fields: No user attributes defined in this section
+        label_section_actions: Section actions
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filter by attribute name…
+        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
+      heading: User attributes
+      label_new_attribute: User attribute
+      label_new_section: Section
+      label_untitled_section: User attributes
+      new:
+        heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Рабочая неделя
       section_holidays_and_closures: Праздничные и нерабочие дни
@@ -5961,6 +6031,7 @@ ru:
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: Смена статуса
     text_change_disabled_for_provider_login: Это имя и адрес электронной почты заданы вашим поставщиком авторизации, поэтому их нельзя изменить.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Разблокировать
     unlock_and_reset_failed_logins: Разблокировать и сбросить неудачные попытки входа
     error_cannot_delete_user: Пользователь не может быть удален

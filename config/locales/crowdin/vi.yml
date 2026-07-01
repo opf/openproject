@@ -21,6 +21,7 @@
 #++
 ---
 vi:
+  label_user_attributes_plural: User attributes
   no_results_title_text: Hiện không có nội dung.
   activities:
     index:
@@ -52,6 +53,8 @@ vi:
           description: Nhận xét của bạn sẽ hiển thị với bất kỳ ai có thể truy cập gói công việc này. Bạn có chắc chắn muốn làm điều này?
           confirm_button_text: Công khai
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Unreserve
       col_identifier: Identifier
@@ -425,6 +428,20 @@ vi:
       new_project:
         project_creation: Tạo dự án
         notification_text_default: "<p>Xin chào,</p> <p>Một dự án mới đã được tạo: projectValue:name</p> <p>Thank you</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
+      user_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
       work_packages_identifier:
         page_header:
           description: Choose between classic numerical gói công việc (work package) IDs or semantic project-specific ones that prepend the project identifier to the gói công việc (work package) ID.
@@ -670,6 +687,8 @@ vi:
             gain_role: Sẽ nhận được vai trò ‘%{new_role}’
             lose_role: Sẽ mất vai trò ‘%{old_role}’
             no_change: Không có thay đổi
+    multi_value_more:
+      other: and %{count} more
     text_add_new_custom_field: 'Để thêm các trường tùy chỉnh mới vào một dự án, trước tiên bạn cần tạo chúng trước khi có thể thêm vào dự án này.
 
       '
@@ -714,6 +733,11 @@ vi:
         project: 0 means no restriction
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
+      visible_on_user_card:
+        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Không có hiện tại không có trường tùy chỉnh.
       no_results_content_text: Tạo trường tùy chỉnh mới
@@ -741,9 +765,11 @@ vi:
         '
       add_button: Add
     detail_blankslate:
-      heading: This department doesn’t have any hierarchy level below
-      description: Add departments or users to create sub-items inside another one.
       add_button: Add
+      description: Add departments or users to create sub-items inside another one.
+      heading: This department doesn’t have any hierarchy level below
+      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_heading: This department is managed by LDAP synchronization
     add_department_form:
       name_label: Department name
       name_placeholder: Enter department name
@@ -752,6 +778,9 @@ vi:
       heading: Move user to this department?
       description: "%{user} is currently a member of %{from_department}. Moving them will remove them from that department."
       confirm: Move user
+      managed_title: User managed by LDAP
+      managed_heading: This user cannot be moved
+      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: Add sub-department
       add_user: Add user
@@ -1295,12 +1324,11 @@ vi:
       '
     delete_tooltip: Xóa người dùng giữ chỗ
     deletion_info:
-      heading_html: Delete placeholder user %{name}
       data_consequences: 'Tất cả các lần xuất hiện của người dùng giữ chỗ (ví dụ: với tư cách là người được chuyển nhượng, người chịu trách nhiệm hoặc giá trị người dùng khác) sẽ được chỉ định lại cho tài khoản có tên "Người dùng đã xóa". Vì dữ liệu của mọi tài khoản đã xóa được gán lại cho tài khoản này nên sẽ không thể phân biệt dữ liệu người dùng đã tạo với dữ liệu của tài khoản đã xóa khác.
 
         '
-      irreversible: Hành động này không thể thay đổi được
-      confirmation_html: Enter the placeholder user name %{name} to confirm the deletion.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1354,44 +1382,51 @@ vi:
       no_results_content_text: Tạo loại mới
     edit:
       form_configuration:
-        tab: Cấu hình biểu mẫu
-        label_group: Section
-        reset_to_defaults: Reset form
         add_attribute_group: Section
         add_query_group: Related work packages table
+        blankslate_description: Add groups using the button above or drag attributes from the left panel.
+        blankslate_title: No groups yet
+        builtin_field: Built-in field
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        confirm_reset: Are you sure you want to reset the form cấu hình?
+        custom_field: Custom field
         delete_group: Delete section
-        remove_attribute: Remove from section
         drag_to_activate: Drag fields from here to activate them
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
-        custom_field: Custom field
-        filter_inactive: Filter attributes
-        inactive_attributes_heading: Inactive attributes
-        no_inactive_attributes: No inactive attributes
-        blankslate_title: No groups yet
-        blankslate_description: Add groups using the button above or drag attributes from the left panel.
-        group_actions: Section actions
-        rename_group: Rename section
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        group_name_label: Section name
-        row_actions: Row actions
-        query_group_label: Related work packages table
         empty_group_hint: Drag attributes here
+        filter_inactive: Filter attributes
+        group_actions: Section actions
+        group_name_label: Section name
+        inactive_attributes_heading: Inactive attributes
         invalid_attribute_groups: The form cấu hình payload không hợp lệ.
         invalid_query: The embedded query cấu hình không hợp lệ.
+        label_group: Section
+        no_inactive_attributes: No inactive attributes
         not_found: The requested form cấu hình item could not be found.
-        untitled_group: Untitled group
-        reset_title: Reset form cấu hình
-        confirm_reset: Are you sure you want to reset the form cấu hình?
-        builtin_field: Built-in field
+        query_group_label: Related work packages table
+        remove_attribute: Remove from section
+        rename_group: Rename section
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
+        reset_title: Reset form cấu hình
+        reset_to_defaults: Reset form
+        row_actions: Row actions
+        tab: Cấu hình biểu mẫu
+        untitled_group: Untitled group
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: dự án
         enable_all: Kích hoạt cho tất cả các dự án
         select_projects: Chọn dự án
         select_projects_description: Chọn các dự án mà bạn muốn sử dụng loại này.
+        tab: dự án
       settings:
         tab: cài đặt
         type_color_text: Màu được chọn sẽ phân biệt các loại khác nhau trong biểu đồ Gantt hoặc bảng gói công việc. Do đó, nên sử dụng màu sắc mạnh mẽ.
@@ -1661,6 +1696,7 @@ vi:
       login_consequences:
         other: Tài khoản này sẽ ngay lập tức bị xóa khỏi hệ thống và người dùng sẽ không thể đăng nhập bằng thông tin đăng nhập của mình nữa.
         self: Tài khoản của bạn sẽ ngay lập tức bị xóa khỏi hệ thống và bạn sẽ không thể đăng nhập bằng thông tin đăng nhập của mình nữa.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Tài khoản của bạn vẫn chưa được kích hoạt. Để kích hoạt tài khoản của bạn, hãy nhấp vào liên kết được gửi qua email cho bạn.
 
       '
@@ -1684,18 +1720,6 @@ vi:
         dependencies: phụ thuộc
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Identifier
-        work_package: Gói công việc (Work Package)
-      jira_import:
-        projects: Projects
-      import/jira:
-        name: Jira instance name
-        url: Jira instance URL
-        personal_access_token: Personal access token
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: Hiển thị cho đến khi
       attachment:
@@ -1741,6 +1765,8 @@ vi:
         possible_values: Giá trị có thể
         regexp: Biểu thức chính quy
         searchable: Có thể tìm kiếm được
+        visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Chỉ dành cho quản trị viên
         has_comment: Add a comment text field
       custom_value:
@@ -1775,6 +1801,23 @@ vi:
         row_count: Số dòng
         column_count: Số cột
         widgets: Tiện ích
+      group:
+        group_users: Group users
+        identity_url: URL nhận dạng
+        organizational_unit: Organizational unit
+        parent: Parent group
+      group_detail:
+        organizational_unit: Organizational unit
+        parent: Parent group
+      import/jira:
+        name: Jira instance name
+        personal_access_token: Personal access token
+        url: Jira instance URL
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: Projects
       journal:
         notes: Ghi chú
         cause_type: Loại nguyên nhân
@@ -1803,6 +1846,21 @@ vi:
         resource: tài nguyên
       oauth_client:
         client: ID người dùng
+      ordered_persisted_query_entity:
+        persisted_query: Persisted query
+        entity: Entity
+        position: Position
+      persisted_query:
+        name: Name
+        views: Views
+        filters: Filters
+        orders: Orders
+        selects: Selects
+      persisted_view:
+        name: Name
+        query: Query
+        parent: Parent view
+        public: Public
       project:
         active_value:
           true: không được lưu trữ
@@ -1936,6 +1994,7 @@ vi:
       user:
         admin: Người Quản lý
         auth_source: Nguồn xác thực
+        department: Department
         ldap_auth_source: Kết nối LDAP
         identity_url: URL nhận dạng
         current_password: Mật khẩu hiện tại
@@ -1949,14 +2008,8 @@ vi:
         new_password: Mật khẩu mới
         password_confirmation: Xác nhận lại mật khẩu
         consented_at: Đồng ý tại
-      group:
-        identity_url: URL nhận dạng
-        parent: Parent group
-        organizational_unit: Organizational unit
-        group_users: Group users
-      group_detail:
-        parent: Parent group
-        organizational_unit: Organizational unit
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: Nhìn và cảm nhận
         header_alerts: cảnh báo
@@ -2055,29 +2108,11 @@ vi:
         type: loại
         version: Phiên bản
         watcher: Người quan sát
-      ordered_persisted_query_entity:
-        persisted_query: Persisted query
-        entity: Entity
-        position: Position
-      persisted_query:
-        name: Name
-        views: Views
-        filters: Filters
-        orders: Orders
-        selects: Selects
-      persisted_view:
-        name: Name
-        query: Query
-        parent: Parent view
-        public: Public
-      user_card_view:
-        secondary_info: Secondary info
-        show_status_badge: Show status badge
-        show_email: Show email
-        tag_source: Tag source
-        tag_limit: Tag limit
-        card_size: Card size
-        columns_per_row: Columns per row
+      work_package_version:
+        kind: Kind
+      work_package_semantic_alias:
+        identifier: Identifier
+        work_package: Gói công việc (Work Package)
     errors:
       messages:
         accepted: phải được đồng ý
@@ -2091,6 +2126,7 @@ vi:
         cannot_delete_mapping: được yêu cầu. Không thể xóa được.
         cant_link_a_work_package_with_a_descendant: Một gói công việc không thể được liên kết với một trong các nhiệm vụ con của nó.
         circular_dependency: Mối quan hệ này sẽ tạo ra sự phụ thuộc vòng tròn.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: không khớp %{attribute}.
         could_not_be_copied: "%{dependency} không thể sao chép (đầy đủ)."
         datetime_must_be_in_future: phải ở tương lai.
@@ -2123,6 +2159,7 @@ vi:
         invalid_url: không phải là một URL hợp lệ.
         invalid_url_scheme: 'không phải là giao thức được hỗ trợ  (được phép: %{allowed_schemes}).'
         is_for_all_cannot_modify: dành cho tất cả các dự án và do đó không thể sửa đổi được.
+        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: phải nhỏ hơn hoặc bằng %{count}
         not_available: không khả dụng do cấu hình hệ thống.
         not_before_start_date: must not be before the start date.
@@ -2160,6 +2197,7 @@ vi:
 
           '
         user_already_in_department: User %{user_id} is already a member of department %{department_id}.
+        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: độ dài không đúng (phải là %{count} ký tự).
       models:
         group:
@@ -2167,6 +2205,7 @@ vi:
             parent_id:
               circular_dependency: would create a circular group hierarchy.
               organizational_unit_mismatch: must have the same organizational unit setting as the group.
+              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2401,11 +2440,14 @@ vi:
           is_not_a_valid_target_for_time_entries: 'Work package #%{id} không phải là một mục tiêu hợp lệ để gán lại các mục thời gian.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Không thể thêm con vì bạn không có quyền chỉnh sửa gói công việc đã chọn.
               blank: ID không được để trống.
+              cannot_add_child_because_of_lack_of_permission: Không thể thêm con vì bạn không có quyền chỉnh sửa gói công việc đã chọn.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -2636,7 +2678,7 @@ vi:
     base: 'Lỗi tổng quan:'
     body: cơ thể
     category: thể loại
-    comment: bình luận
+    comment: Nhận xét
     comments: bình luận
     content: Nội dung
     color: màu sắc
@@ -4077,7 +4119,7 @@ vi:
   label_custom_favicon: Favicon tuỳ chỉnh
   label_custom_touch_icon: Tùy chỉnh biểu tượng ICON
   label_departments: Organization
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP group synchronisation](ldap_docs_article).
+  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
     '
   label_logout: Đăng xuất
@@ -4085,6 +4127,7 @@ vi:
   label_main_menu: Menu bên
   label_manage: Quản lý
   label_manage_groups: Quản lý nhóm
+  label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Kho lưu trữ %{vendor} được quản lý
   label_mathematical_operators: Toán tử toán học
   label_max_size: Kích thước tối đa
@@ -4373,7 +4416,7 @@ vi:
   label_used_by: Được dùng bởi
   label_used_by_types: Được sử dụng bởi các loại
   label_used_in_projects: Được sử dụng trong các dự án
-  label_user: người dùng
+  label_user: Người dùng
   label_user_and_permission: Người dùng và quyền
   label_user_named: Người dùng %{name}
   label_user_activity_html: "%{value}'s activity"
@@ -5013,16 +5056,13 @@ vi:
     create_managed_delay: 'Xin lưu ý: Kho lưu trữ được quản lý, nó được tạo không đồng bộ trên đĩa và sẽ sớm ra mắt.'
     create_successful: Kho lưu trữ đã được đăng ký.
     delete_sucessful: Kho lưu trữ đã bị xóa.
-    destroy:
-      confirmation: Nếu bạn tiếp tục, thao tác này sẽ xóa vĩnh viễn kho lưu trữ được quản lý.
-      info: Xóa kho lưu trữ là một hành động không thể đảo ngược.
-      info_not_managed: 'Lưu ý: Thao tác này sẽ KHÔNG xóa nội dung của kho lưu trữ này vì nó không được OpenProject quản lý.'
-      managed_path_note: 'Thư mục sau sẽ bị xóa: %{path}'
-      repository_verification_html: Enter the project's identifier %{identifier} to verify the deletion of its repository.
-      subtitle: Bạn có thực sự muốn xóa %{repository_type} của dự án %{project_name} không?
-      subtitle_not_managed_html: Do you really want to remove the linked %{repository_type} %{url} from the project %{project_name}?
-      title_html: Delete the %{repository_type}
-      title_not_managed: Xóa %{repository_type} được liên kết?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Không thể tạo kho lưu trữ với cấu hình đã chọn. %{reason}
       managed_delete: Không thể xóa kho lưu trữ được quản lý.
@@ -5409,6 +5449,7 @@ vi:
     passwords: mật khẩu
     project_attributes:
       heading: Các thuộc tính dự án
+      label_add_attribute: Add a project attribute
       label_for_all_projects: Tất cả dự án
       label_new_attribute: Thuộc tính dự án
       label_new_section: phần
@@ -5508,8 +5549,37 @@ vi:
     session: Phiên
     user:
       default_preferences: Cấu hình mặc định
-      display_format: Định dạng hiển thị
       deletion: Xóa
+      display_format: Định dạng hiển thị
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Built-in
+        label_built_in_attribute_actions: Built-in attribute actions
+      custom_field_row_component:
+        label_user_custom_field_actions: User attribute actions
+      show_component:
+        label_add_attribute: Add a user attribute
+        label_edit_section: Edit title
+        label_no_user_custom_fields: No user attributes defined in this section
+        label_section_actions: Section actions
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filter by attribute name…
+        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
+      heading: User attributes
+      label_new_attribute: User attribute
+      label_new_section: Section
+      label_untitled_section: User attributes
+      new:
+        heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: tuần làm việc
       section_holidays_and_closures: Ngày lễ và đóng cửa
@@ -5774,6 +5844,7 @@ vi:
     status_user_and_brute_force: "%{user} và %{brute_force}"
     status_change: Thay đổi trạng thái
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Mở khoá
     unlock_and_reset_failed_logins: Mở khóa và đặt lại thông tin đăng nhập thất bại
     error_cannot_delete_user: User cannot be deleted

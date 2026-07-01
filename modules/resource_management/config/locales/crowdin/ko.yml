@@ -36,8 +36,8 @@ ko:
     models:
       resource_allocation: 리소스 할당
       resource_planner: 리소스 플래너
+      resource_user_card: 사용자 카드
       resource_work_package_list: 작업 패키지 목록
-      user_card: 사용자 카드
   button_next: 다음
   label_resource_management: 리소스 계획
   permission_allocate_user_resources: 사용자 리소스 할당
@@ -53,6 +53,7 @@ ko:
   resource_management:
     action:
       delete: 삭제
+      edit: 편집
       favorite: 즐겨찾기에 추가
       make_private: 비공개로 설정
       make_public: 공개로 설정
@@ -103,6 +104,7 @@ ko:
       success_message: 리소스 할당이 업데이트되었습니다.
       title: 할당 편집
     favorite_caption: 이 보기를 즐겨찾기로 지정하여 사이드바 메뉴의 상단 섹션에 추가합니다.
+    label_edit_resource_planner: 리소스 플래너 편집
     label_new_resource_planner: 새로운 리소스 플래너
     label_resource_planner: 리소스 플래너
     label_resource_planner_plural: 리소스 플래너
@@ -115,10 +117,48 @@ ko:
       private: 비공개
       public: 공개
     sub_views: 이 리소스 플래너의 보기
+    user_allocations_dialog:
+      allocate_work_package: 작업 패키지 할당
+      blank: 이 사용자에게는 할당된 작업 패키지가 없습니다.
+      other_work_packages:
+        other: "%{count}개 기타 작업 패키지"
+      title: 이용
+    user_card_list:
+      add_user_dialog:
+        title: 사용자 추가
+      blank:
+        description: 아직 이 보기의 필터와 일치하는 사용자가 없습니다.
+        manual_description: 아직 이 보기에 추가된 사용자가 없습니다.
+        title: 표시할 사용자 없음
+      card:
+        multi_value_more: "+%{count} more"
+        remove: 사용자 제거
+        remove_confirmation: 보기에서 이 사용자를 제거하시겠습니까?
+      fields:
+        working_times: 작업 시간
+        input_label: 필드
+        input_caption: 이 보기의 사용자 카드에 표시할 필드 선택
+        input_placeholder: 필드 추가
+        drag_area_label: 표시된 필드
+      subheader:
+        resource: 리소스
+        settings: 보기 구성
+      utilization:
+        label: 이용
+      working_hours:
+        blank: No working hours configured
+        schedule_availability_compact: "%{schedule} (%{factor}% available)"
+        schedule_change_compact: until %{date}, %{schedule}
     view_types:
+      resource_user_card:
+        caption: 사용자에 기반한 보기를 만들고 사용자 카드 목록에서 해당 세부 정보 및 할당 현황을 확인합니다
+        label: 사용자 카드 목록
       resource_work_package_list:
         caption: 작업 패키지를 기반으로 보기를 만들고 목록에서 해당 세부 정보 및 할당을 확인하세요
         label: 작업 패키지 목록
+      resource_work_package_timeline:
+        caption: 작업 패키지를 기반으로 보기를 생성하고, 타임라인에서 시간 경과에 따른 할당 현황을 확인합니다
+        label: 작업 패키지 타임라인
       user_card:
         caption: 사용자에 기반한 보기를 만들고 사용자 카드 목록에서 해당 세부 정보 및 할당 현황을 확인합니다
         label: 사용자 카드 목록
@@ -166,3 +206,19 @@ ko:
         add_work_package: 작업 패키지 추가
         allocate: 할당
         settings: 보기 구성
+    work_package_timeline:
+      blank:
+        add_work_package: 작업 패키지 추가
+        configure_view: 보기 구성
+        description: 아직 이 보기의 필터와 일치하는 작업 패키지가 없습니다.
+        manual_description: 이 보기에 작업 패키지를 추가하여 시간 경과에 따른 할당을 계획합니다.
+        title: 표시할 작업 패키지 없음
+      granularity:
+        day: 일
+        month: 월
+        week: 달력 주
+      navigation:
+        next: 다음 기간
+        previous: 이전 기간
+        today: 오늘
+      query_name: '리소스 관리 작업 패키지 타임라인: %{name}'

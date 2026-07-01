@@ -21,6 +21,7 @@
 #++
 ---
 ro:
+  label_user_attributes_plural: User attributes
   no_results_title_text: În acest moment nu este nimic de afișat.
   activities:
     index:
@@ -52,6 +53,8 @@ ro:
           description: Comentariul tau va fi vizibil oricui poate accesa acest pachet de lucru. Esti sigur ca vrei sa faci asta?
           confirm_button_text: Fă public
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Unreserve
       col_identifier: Identifier
@@ -439,6 +442,20 @@ ro:
       new_project:
         project_creation: Crearea proiectului
         notification_text_default: "<p>Hello,</p> <p>A new project has been created: projectValue:name</p> <p>Thank you</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
+      user_custom_field_sections:
+        destroy:
+          error: The section could not be deleted.
+        drop:
+          error: The section could not be reordered.
+        move:
+          error: The section could not be reordered.
       work_packages_identifier:
         page_header:
           description: Choose between classic numerical work package IDs or semantic project-specific ones that prepend the project identifier to the work package ID.
@@ -688,6 +705,8 @@ ro:
             gain_role: Will gain role ‘%{new_role}’
             lose_role: Will lose role ‘%{old_role}’
             no_change: No changes
+    multi_value_more:
+      other: and %{count} more
     text_add_new_custom_field: 'Dacă vrei să adaugi noi câmpuri personalizate în cadrul unui proiect va trebui, mai întâi, să le creezi.
 
       '
@@ -732,6 +751,11 @@ ro:
         project: 0 means no restriction
       has_comment:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
+      visible_on_user_card:
+        all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: În acest moment nu există câmpuri personalizate.
       no_results_content_text: Creează câmp personalizat nou
@@ -759,9 +783,11 @@ ro:
         '
       add_button: Add
     detail_blankslate:
-      heading: This department doesn’t have any hierarchy level below
-      description: Add departments or users to create sub-items inside another one.
       add_button: Add
+      description: Add departments or users to create sub-items inside another one.
+      heading: This department doesn’t have any hierarchy level below
+      managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
+      managed_heading: This department is managed by LDAP synchronization
     add_department_form:
       name_label: Department name
       name_placeholder: Enter department name
@@ -770,6 +796,9 @@ ro:
       heading: Move user to this department?
       description: "%{user} is currently a member of %{from_department}. Moving them will remove them from that department."
       confirm: Move user
+      managed_title: User managed by LDAP
+      managed_heading: This user cannot be moved
+      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: Add sub-department
       add_user: Add user
@@ -1329,12 +1358,11 @@ ro:
       '
     delete_tooltip: Șterge utilizator placeholder
     deletion_info:
-      heading_html: Delete placeholder user %{name}
       data_consequences: 'Toate prezențele utilizatorului de tip "placeholder" (de exemplu, ca destinatar, responsabil sau alte valori de utilizator) vor fi realocate unui cont numit "Utilizator eliminat". Deoarece datele fiecărui cont șters sunt realocate acestui cont, nu va fi posibilă deosebirea datelor create de utilizator de datele unui alt cont șters.
 
         '
-      irreversible: Această acțiune este ireversibilă
-      confirmation_html: Enter the placeholder user name %{name} to confirm the deletion.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1390,44 +1418,51 @@ ro:
       no_results_content_text: Creează tip nou
     edit:
       form_configuration:
-        tab: Configurare formular
-        label_group: Section
-        reset_to_defaults: Reset form
         add_attribute_group: Section
         add_query_group: Related work packages table
+        blankslate_description: Add groups using the button above or drag attributes from the left panel.
+        blankslate_title: No groups yet
+        builtin_field: Built-in field
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        confirm_reset: Are you sure you want to reset the form configuration?
+        custom_field: Custom field
         delete_group: Delete section
-        remove_attribute: Remove from section
         drag_to_activate: Drag fields from here to activate them
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
-        custom_field: Custom field
-        filter_inactive: Filter attributes
-        inactive_attributes_heading: Inactive attributes
-        no_inactive_attributes: No inactive attributes
-        blankslate_title: No groups yet
-        blankslate_description: Add groups using the button above or drag attributes from the left panel.
-        group_actions: Section actions
-        rename_group: Rename section
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        group_name_label: Section name
-        row_actions: Row actions
-        query_group_label: Related work packages table
         empty_group_hint: Drag attributes here
+        filter_inactive: Filter attributes
+        group_actions: Section actions
+        group_name_label: Section name
+        inactive_attributes_heading: Inactive attributes
         invalid_attribute_groups: The form configuration payload is invalid.
         invalid_query: The embedded query configuration is invalid.
+        label_group: Section
+        no_inactive_attributes: No inactive attributes
         not_found: The requested form configuration item could not be found.
-        untitled_group: Untitled group
-        reset_title: Reset form configuration
-        confirm_reset: Are you sure you want to reset the form configuration?
-        builtin_field: Built-in field
+        query_group_label: Related work packages table
+        remove_attribute: Remove from section
+        rename_group: Rename section
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
+        reset_title: Reset form configuration
+        reset_to_defaults: Reset form
+        row_actions: Row actions
+        tab: Configurare formular
+        untitled_group: Untitled group
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Proiecte
         enable_all: Activează pentru toate proiectele
         select_projects: Select projects
         select_projects_description: Select the projects in which you would like to use this type.
+        tab: Proiecte
       settings:
         tab: Setări
         type_color_text: "Culoarea selectată distinge diferite tipuri \nîn graficele Gantt sau tabelele pachetelor de lucru. Prin urmare, este recomandat să folosești o culoare puternică."
@@ -1703,6 +1738,7 @@ ro:
       login_consequences:
         other: This account will immediately be removed from the system and the user will no longer be able to log in with their credentials.
         self: Your account will immediately be removed from the system and you will no longer be able to log in using your credentials.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Contul nu a fost încă activat. Pentru a activa contul dumneavoastră, dați click pe link-ul care v-a fost trimis prin e-mail.
 
       '
@@ -1726,18 +1762,6 @@ ro:
         dependencies: Dependenţe
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Identifier
-        work_package: Work package
-      jira_import:
-        projects: Projects
-      import/jira:
-        name: Jira instance name
-        url: Jira instance URL
-        personal_access_token: Personal access token
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: Afişare până la
       attachment:
@@ -1783,6 +1807,8 @@ ro:
         possible_values: Valori posibile
         regexp: Expresie regulată
         searchable: Permite căutare
+        visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Doar administratorii
         has_comment: Add a comment text field
       custom_value:
@@ -1817,6 +1843,23 @@ ro:
         row_count: Număr de rânduri
         column_count: Număr de coloane
         widgets: Widget-uri
+      group:
+        group_users: Group users
+        identity_url: Identity URL
+        organizational_unit: Organizational unit
+        parent: Parent group
+      group_detail:
+        organizational_unit: Organizational unit
+        parent: Parent group
+      import/jira:
+        name: Jira instance name
+        personal_access_token: Personal access token
+        url: Jira instance URL
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: Projects
       journal:
         notes: Mențiuni
         cause_type: Cause type
@@ -1845,6 +1888,21 @@ ro:
         resource: Resursă
       oauth_client:
         client: ID Client
+      ordered_persisted_query_entity:
+        persisted_query: Persisted query
+        entity: Entity
+        position: Position
+      persisted_query:
+        name: Name
+        views: Views
+        filters: Filters
+        orders: Orders
+        selects: Selects
+      persisted_view:
+        name: Name
+        query: Query
+        parent: Parent view
+        public: Public
       project:
         active_value:
           true: dezarhivat
@@ -1978,6 +2036,7 @@ ro:
       user:
         admin: Administrator
         auth_source: Sursa de autentificare
+        department: Department
         ldap_auth_source: Conexiune LDAP
         identity_url: Identity URL
         current_password: Parola curentă
@@ -1991,14 +2050,8 @@ ro:
         new_password: Parolă nouă
         password_confirmation: Confirmare
         consented_at: Consimţit la
-      group:
-        identity_url: Identity URL
-        parent: Parent group
-        organizational_unit: Organizational unit
-        group_users: Group users
-      group_detail:
-        parent: Parent group
-        organizational_unit: Organizational unit
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: Aspect și stil
         header_alerts: Alerts
@@ -2097,29 +2150,11 @@ ro:
         type: Tip
         version: Versiune
         watcher: Observator
-      ordered_persisted_query_entity:
-        persisted_query: Persisted query
-        entity: Entity
-        position: Position
-      persisted_query:
-        name: Name
-        views: Views
-        filters: Filters
-        orders: Orders
-        selects: Selects
-      persisted_view:
-        name: Name
-        query: Query
-        parent: Parent view
-        public: Public
-      user_card_view:
-        secondary_info: Secondary info
-        show_status_badge: Show status badge
-        show_email: Show email
-        tag_source: Tag source
-        tag_limit: Tag limit
-        card_size: Card size
-        columns_per_row: Columns per row
+      work_package_version:
+        kind: Kind
+      work_package_semantic_alias:
+        identifier: Identifier
+        work_package: Work package
     errors:
       messages:
         accepted: trebuie acceptat.
@@ -2133,6 +2168,7 @@ ro:
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Un pachet de lucru nu poate fi legat de una din sub-activitățile sale.
         circular_dependency: Această relație ar crea o dependință circulară.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: nu se potrivește cu %{attribute}.
         could_not_be_copied: "%{dependency} nu a putut fi copiat (integral)."
         datetime_must_be_in_future: must be in the future.
@@ -2165,6 +2201,7 @@ ro:
         invalid_url: nu este o adresa URL validă.
         invalid_url_scheme: 'nu este un protocol permis (allowed: %{allowed_schemes}).'
         is_for_all_cannot_modify: is for all projects and can therefore not be modified.
+        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
         less_than_or_equal_to: trebuie să fie mai mic sau egal cu %{count}.
         not_available: nu este disponibil din cauza unei configurații a sistemului.
         not_before_start_date: must not be before the start date.
@@ -2202,6 +2239,7 @@ ro:
 
           '
         user_already_in_department: User %{user_id} is already a member of department %{department_id}.
+        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
         wrong_length: nu are lungimea corectă (ar trebui să fie de %{count} characters).
       models:
         group:
@@ -2209,6 +2247,7 @@ ro:
             parent_id:
               circular_dependency: would create a circular group hierarchy.
               organizational_unit_mismatch: must have the same organizational unit setting as the group.
+              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2445,11 +2484,14 @@ ro:
           is_not_a_valid_target_for_time_entries: 'Pachetul de lucru #%{id} nu este o ţintă validă pentru reasocierea timpilor de lucru.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Nu poți adăuga un copil deoarece nu ai permisiunea de a edita pachetul de lucru selectat.
               blank: ID nu poate fi gol.
+              cannot_add_child_because_of_lack_of_permission: Nu poți adăuga un copil deoarece nu ai permisiunea de a edita pachetul de lucru selectat.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -4058,7 +4100,7 @@ ro:
   label_duplicated_by: dublat de
   label_duplicate: duplicat
   label_duplicates: dublează
-  label_edit: Editează
+  label_edit: Editare
   label_edit_x: 'Editare: %{x}'
   label_view_x: 'View: %{x}'
   label_enable_multi_select: Comutare selecție multiplă
@@ -4115,7 +4157,7 @@ ro:
   label_global_roles: Roluri globale
   label_git_path: Calea catre directorul .git
   label_greater_or_equal: ">="
-  label_group_by: Grupează după
+  label_group_by: Grupare după
   label_group_new: Grupare nouă
   label_group: Grup
   label_group_named: Grup %{name}
@@ -4205,7 +4247,7 @@ ro:
   label_custom_favicon: Pictogramă personalizată
   label_custom_touch_icon: Pictogramă touch personalizată
   label_departments: Organization
-  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP group synchronisation](ldap_docs_article).
+  label_departments_description_html: 'Define your company’s structure by creating departments and sub-departments in a hierarchical way. This allows you to reflect reporting lines and maintain a clear, structured overview of your organization within OpenProject. You can also import an existing organization structure through [LDAP department synchronization](ldap_docs_article).
 
     '
   label_logout: Deconectare
@@ -4213,6 +4255,7 @@ ro:
   label_main_menu: Meniu lateral
   label_manage: Gestionează
   label_manage_groups: Gestionare grupuri
+  label_managed_by_ldap: Managed by LDAP synchronization
   label_managed_repositories_vendor: Gestionare arhive %{vendor}
   label_mathematical_operators: Mathematical operators
   label_max_size: Dimensiunea maximă
@@ -5143,16 +5186,13 @@ ro:
     create_managed_delay: 'Atenție: Repo-ul este gestionat, este creat în mod asincron pe disc și va fi disponibil în scurt timp.'
     create_successful: Repo-ul a fost înregistrat.
     delete_sucessful: Repo-ul a fost șters.
-    destroy:
-      confirmation: Prin continuarea operațiunii veți șterge permanent repo-ul gestionat.
-      info: Ștergerea repo-ului este o acțiune ireversibilă.
-      info_not_managed: 'Atenție: Această acțiune NU va șterge conținutul repo-ului, deoarece acesta nu este gestionat de OpenProject.'
-      managed_path_note: 'Urmatorul director va fi şters: %{path}'
-      repository_verification_html: Enter the project's identifier %{identifier} to verify the deletion of its repository.
-      subtitle: Ești sigur că vrei să ştergi %{repository_type} din proiectul %{project_name}?
-      subtitle_not_managed_html: Do you really want to remove the linked %{repository_type} %{url} from the project %{project_name}?
-      title_html: Delete the %{repository_type}
-      title_not_managed: Doriți eliminarea %{repository_type} corespunzător?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Imposibil de creat repo-ul cu configuraţia selectată. %{reason}
       managed_delete: Nu se poate șterge repo-ul gestionat.
@@ -5539,6 +5579,7 @@ ro:
     passwords: Parole
     project_attributes:
       heading: Atribute proiect
+      label_add_attribute: Add a project attribute
       label_for_all_projects: All projects
       label_new_attribute: Atribut proiect
       label_new_section: Secțiune
@@ -5636,8 +5677,37 @@ ro:
     session: Sesiune
     user:
       default_preferences: Preferințe implicite
-      display_format: Format afișare
       deletion: 'Ștergerea a eșuat: %s'
+      display_format: Format afișare
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Built-in
+        label_built_in_attribute_actions: Built-in attribute actions
+      custom_field_row_component:
+        label_user_custom_field_actions: User attribute actions
+      show_component:
+        label_add_attribute: Add a user attribute
+        label_edit_section: Edit title
+        label_no_user_custom_fields: No user attributes defined in this section
+        label_section_actions: Section actions
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filter by attribute name…
+        heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
+      heading: User attributes
+      label_new_attribute: User attribute
+      label_new_section: Section
+      label_untitled_section: User attributes
+      new:
+        heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Săptămână de lucru
       section_holidays_and_closures: Holidays and closures
@@ -5902,6 +5972,7 @@ ro:
     status_user_and_brute_force: "%{user} şi %{brute_force}"
     status_change: Schimbare stare
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Deblochează
     unlock_and_reset_failed_logins: Deblocare şi resetare autentificări eşuate
     error_cannot_delete_user: User cannot be deleted

@@ -36,8 +36,8 @@ uk:
     models:
       resource_allocation: Призначення ресурсів
       resource_planner: Планувальник ресурсів
+      resource_user_card: Картки користувачів
       resource_work_package_list: Список пакетів робіт
-      user_card: Картки користувачів
   button_next: Далі
   label_resource_management: Планування ресурсів
   permission_allocate_user_resources: Призначати ресурси користувачів
@@ -53,6 +53,7 @@ uk:
   resource_management:
     action:
       delete: Видалити
+      edit: Редагувати
       favorite: Додати у вибране
       make_private: Зробити приватним
       make_public: Зробити загальнодоступним
@@ -103,6 +104,7 @@ uk:
       success_message: Виділення ресурсів оновлено.
       title: Редагувати виділення ресурсів
     favorite_caption: Якщо додати це подання у вибране, воно з’явиться у верхній частині меню бічної панелі.
+    label_edit_resource_planner: Редагувати планування ресурсів
     label_new_resource_planner: Новий планувальник ресурсів
     label_resource_planner: Планувальник ресурсів
     label_resource_planner_plural: Планувальники ресурсів
@@ -115,10 +117,51 @@ uk:
       private: Приватні
       public: Загальнодоступні
     sub_views: Подання в цьому планувальнику ресурсів
+    user_allocations_dialog:
+      allocate_work_package: Виділити пакет робіт
+      blank: Цьому користувачу не призначено жодних пакетів робіт.
+      other_work_packages:
+        one: Ще 1 пакет робіт
+        few: Ще %{count} пакети робіт
+        many: Ще %{count} пакетів робіт
+        other: Ще %{count} пакета робіт
+      title: Використання
+    user_card_list:
+      add_user_dialog:
+        title: Додати користувача
+      blank:
+        description: Поки немає пакетів робіт, які відповідають фільтрам цього подання.
+        manual_description: До цього подання поки не додано жодного користувача.
+        title: Немає користувачів
+      card:
+        multi_value_more: "+%{count} more"
+        remove: Вилучити користувача
+        remove_confirmation: Вилучити цього користувача з подання?
+      fields:
+        working_times: Робочий час
+        input_label: Поля
+        input_caption: Виберіть поля, які відображатимуться на картці користувача в цьому режимі перегляду
+        input_placeholder: Додати поле
+        drag_area_label: Відображувані поля
+      subheader:
+        resource: Ресурс
+        settings: Налаштувати подання
+      utilization:
+        label: Використання
+      working_hours:
+        blank: No working hours configured
+        schedule_availability_compact: "%{schedule} (%{factor}% available)"
+        schedule_change_compact: until %{date}, %{schedule}
     view_types:
+      resource_user_card:
+        caption: Створюйте списки користувачів, щоб переглядати інформацію про них і обсяг виділених їм ресурсів за певний період на часовій шкалі
+        label: Список карток користувачів
       resource_work_package_list:
         caption: Створіть подання на основі пакетів робіт, щоб переглядати інформацію про них і дані про призначення в списку
         label: Список пакетів робіт
+      resource_work_package_timeline:
+        caption: Створюйте списки пакетів робіт, щоб переглядати обсяг виділених їм ресурсів за певний період на часовій шкалі
+        label: Часова шкала пакетів робіт
       user_card:
         caption: Створіть подання на основі користувачів, щоб переглядати інформацію про них і дані про призначення в списку карток користувачів
         label: Список карток користувачів
@@ -169,3 +212,19 @@ uk:
         add_work_package: Додати пакет робіт
         allocate: Призначити
         settings: Налаштувати подання
+    work_package_timeline:
+      blank:
+        add_work_package: Додати пакет робіт
+        configure_view: Налаштувати подання
+        description: Ще немає пакетів робіт, які відповідають фільтрам цього подання.
+        manual_description: Додайте пакети робіт до цього режиму перегляду, щоб планувати обсяг виділених їм ресурсів за певний період.
+        title: Немає пакетів робіт
+      granularity:
+        day: День
+        month: Місяць
+        week: Календарний тиждень
+      navigation:
+        next: Наступний період
+        previous: Попередній період
+        today: Сьогодні
+      query_name: 'Управління ресурсами — часова шкала пакетів робіт: %{name}'

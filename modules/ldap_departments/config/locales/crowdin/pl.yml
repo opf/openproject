@@ -1,0 +1,87 @@
+---
+pl:
+  activerecord:
+    attributes:
+      ldap_departments/synchronized_department:
+        dn: DN
+        group: Dział
+        ldap_auth_source: Połączenie LDAP
+        users_count: Członkowie
+      ldap_departments/synchronized_tree:
+        base_dn: Bazowa nazwa wyróżniająca
+        guid_attribute: Atrybut unikalnego identyfikatora
+        ldap_auth_source: Połączenie LDAP
+        name: Nazwa
+        ou_name_attribute: Atrybut nazwy JO
+        structure_filter_string: Filtr jednostek organizacyjnych
+        sync_users: Synchronizuj użytkowników
+        user_filter_string: Filtr użytkownika
+    errors:
+      models:
+        ldap_departments/synchronized_tree:
+          must_contain_base_dn: Bazowa nazwa wyróżniająca musi być zawarta w bazowej nazwie wyróżniającej połączenia LDAP.
+          overlaps_other_tree: Pokrywa się z bazową nazwą wyróżniającą innej synchronizacji w ramach tego samego połączenia LDAP.
+    models:
+      ldap_departments/synchronized_department: Synchronizowany dział
+      ldap_departments/synchronized_tree: Synchronizacja działu LDAP
+  ee:
+    upsell:
+      ldap_departments:
+        title: Synchronizacja działu LDAP
+        description: Zsynchronizuj strukturę jednostek organizacyjnych LDAP z hierarchią działów w OpenProject i zapewnij automatyczną synchronizację członków działów.
+  ldap_departments:
+    label_menu_item: Synchronizacja LDAP działu
+    label_synchronize: Zsynchronizuj jednostki organizacyjne
+    synchronized_departments:
+      blankslate:
+        description: Uruchom synchronizację, aby zaimportować jednostki organizacyjne tej bazowej nazwy wyróżniającej jako działy.
+        heading: Nie zsynchronizowano jeszcze żadnych działów
+      destroy:
+        confirmation: Jeśli będziesz kontynuować, dział %{name} nie będzie już zarządzany za pomocą synchronizacji LDAP.
+        heading: Zatrzymać zarządzanie %{name}?
+        info: Dział i jego członkowie zostają zachowani. Staje się on zwykłym działem, który można edytować lub usunąć ręcznie.
+        title: Zatrzymaj zarządzanie %{name}
+      managed_notice: Zarządzane za pomocą synchronizacji LDAP
+      no_results: Nie zsynchronizowano jeszcze żadnych działów.
+      plural: Synchronizowane działy
+      singular: Synchronizowany dział
+    synchronized_trees:
+      add_new: Dodaj synchronizację LDAP działu
+      synchronization_started: Synchronizacja rozpoczęła się w tle. Działy pojawią się po jej zakończeniu.
+      blankslate:
+        description: Skonfiguruj synchronizację w celu odzwierciedlenia struktury jednostek organizacyjnych LDAP w hierarchii działów OpenProject.
+        heading: Brak synchronizacji LDAP działów
+      destroy:
+        confirmation: Jeśli będziesz kontynuować, synchronizacja %{name} zostanie usunięta, a jej działy (%{departments_count}) nie będą już zarządzane za pomocą usługi LDAP.
+        heading: Usunąć synchronizację %{name}?
+        info: Działy zostają zachowane wraz z członkami i stają się zwykłymi działami. Można je później ręcznie edytować lub usunąć w sekcji Administracja → Użytkownicy i uprawnienia → Organizacja.
+        title: Usuń synchronizację %{name}
+      form:
+        auth_source_text: Wybierz połączenie LDAP, którego chcesz użyć.
+        base_dn_text: 'Wprowadź bazową nazwę DN, której jednostki organizacyjne mają być synchronizowane. Jej bezpośrednie jednostki podrzędne staną się działami najwyższego poziomu. Musi znajdować się poniżej bazowej nazwy DN wybranego połączenia LDAP.
+
+          '
+        guid_attribute_text: 'Opcjonalne. Atrybut LDAP zawierający stabilny unikalny identyfikator (np. „objectGUID” lub „entryUUID”). Po ustawieniu tej opcji działy zachowują swoje dane nawet w przypadku zmiany nazwy i przeniesienia jednostki organizacyjnej. Pozostaw to pole puste, aby dopasowywać na podstawie nazwy wyróżniającej.
+
+          '
+        ou_name_attribute_text: Atrybut LDAP służący do określenia nazwy działu (np. „ou”).
+        sections:
+          connection: Połączenie LDAP
+          structure: Jednostki organizacyjne
+          users: Użytkownicy
+        structure_filter_string_text: Filtr LDAP zgodny z RFC 4515, służący do identyfikacji wpisów jednostek organizacyjnych.
+        sync_users_text: 'Jeśli opcja ta jest włączona, użytkownicy znajdujący się poniżej bazowej nazwy DN są tworzeni również w OpenProject. W przeciwnym razie do działów przypisywane są jedynie istniejące konta.
+
+          '
+        user_filter_string_text: 'Opcjonalny filtr LDAP zgodny z RFC 4515, służący do identyfikacji wpisów użytkowników. Pozostaw to pole puste, aby zastosować filtr połączenia lub ogólny filtr osób, jeśli nie określono żadnego filtru.
+
+          '
+      help_text: 'Ten moduł odzwierciedla strukturę jednostki organizacyjnej (OU) katalogu LDAP w hierarchii działów OpenProject. Każda OU poniżej skonfigurowanej bazowej DN staje się działem, a użytkownicy są przypisywani do działu OU, w którym się znajdują. Działy są regularnie synchronizowane przez zadanie cron.
+
+        '
+      no_results: Nie skonfigurowano jeszcze żadnych synchronizacji LDAP działów.
+      plural: Synchronizacje LDAP działów
+      singular: Synchronizacja LDAP działu
+  plugin_openproject_ldap_departments:
+    description: Synchronizacja jednostek organizacyjnych LDAP z działami OpenProject.
+    name: Działy LDAP OpenProject
