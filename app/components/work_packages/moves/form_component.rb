@@ -87,15 +87,18 @@ module WorkPackages
 
       def unavailable_type_in_target_project?
         return false if target_project == project
-        return types.exclude?(target_type) unless target_type.nil?
 
-        ancestor_types_missing_in_target?
+        current_types_missing_in_target? || ancestor_types_missing_in_target?
+      end
+
+      def current_types_missing_in_target?
+        work_packages.map(&:type_id).uniq.difference(types.pluck(:id)).any?
       end
 
       def ancestor_types_missing_in_target?
         hierarchies = WorkPackageHierarchy
                         .includes(:ancestor)
-                        .where(ancestor_id: work_packages.select(:id))
+                        .where(ancestor_id: work_packages.map(&:id))
         Type.where(id: hierarchies.map { it.ancestor.type_id })
             .select("distinct id")
             .pluck(:id)

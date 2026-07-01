@@ -114,6 +114,25 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     end
   end
 
+  context "when a moved work package's current type is unavailable in the target project" do
+    let(:other_type) { create(:type, name: "Phase") }
+    let(:project) { create(:project, types: [other_type]) }
+    let(:target_project) { create(:project, types: [type]) }
+    let(:work_package) { create(:work_package, project:, type: other_type) }
+
+    it "renders the unavailable-type warning" do
+      expect(rendered_component)
+        .to have_css(".op-toast.-warning",
+                     text: I18n.t("work_packages.move.current_type_not_available_in_target_project"))
+    end
+  end
+
+  context "when all moved work package types exist in the target project" do
+    it "does not render the unavailable-type warning" do
+      expect(rendered_component).to have_no_css(".op-toast.-warning")
+    end
+  end
+
   context "with a required project-scoped custom field on the target type" do
     let!(:source_version) { create(:version, project:, name: "Source milestone") }
     let!(:target_version) { create(:version, project: target_project, name: "Target milestone") }
