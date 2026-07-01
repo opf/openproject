@@ -40,7 +40,7 @@ See COPYRIGHT and LICENSE files for more details.
           classes: "op-primer--star-icon",
           tag: :a,
           href: favorite_path_for(@resource_planner),
-          data: { turbo_method: :delete, "test-selector": "resource-planner-unfavorite" }
+          data: { turbo_method: :delete, turbo_frame: "_top", "test-selector": "resource-planner-unfavorite" }
         )
       else
         header.with_action_icon_button(
@@ -49,7 +49,7 @@ See COPYRIGHT and LICENSE files for more details.
           label: t(:button_favorite),
           tag: :a,
           href: favorite_path_for(@resource_planner),
-          data: { turbo_method: :post, "test-selector": "resource-planner-favorite" }
+          data: { turbo_method: :post, turbo_frame: "_top", "test-selector": "resource-planner-favorite" }
         )
       end
 
@@ -78,6 +78,7 @@ See COPYRIGHT and LICENSE files for more details.
               content_arguments: {
                 data: {
                   turbo_method: :delete,
+                  turbo_frame: "_top",
                   turbo_confirm: t(:text_are_you_sure),
                   "test-selector": "resource-planner-delete"
                 }

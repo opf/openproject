@@ -27,7 +27,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%= component_wrapper(class: "op-rm-planner-content") do %>
+<%= component_wrapper(class: class_names("op-rm-planner-content", "op-rm-planner-content--fill" => fills_viewport?)) do %>
   <% if inner_component %>
     <%= render(inner_component) %>
   <% else %>
