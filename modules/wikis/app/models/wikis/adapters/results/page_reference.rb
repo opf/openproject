@@ -30,7 +30,7 @@
 
 module Wikis::Adapters::Results
   # Pairs a PageInfo with how it relates to a given linkable.
-  # source: :link — page has a WorkPackage as a parent  link
+  # source: :link — page has a linkable as a parent link
   # source: :mention — page mentions the WP in its content
   PageReference = Data.define(:page_info, :source)
 end
