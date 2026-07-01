@@ -41,11 +41,8 @@ See COPYRIGHT and LICENSE files for more details.
     end %>
 
 <%#
-  Reloadable frame so allocation edits and deletes made from a row's dialog
-  refresh the list in place. The frame has no `src`, so it is not fetched on
-  load — it just holds the server-rendered list. The reload-frame-on-event
-  controller points its `src` at this same action and morphs it in when an
-  allocation changes.
+  The frame has no `src`, so it is not fetched on load — it holds the
+  server-rendered list until an allocation change reloads it via its own action.
 %>
 <%= turbo_frame_tag(
       "staffing-list",

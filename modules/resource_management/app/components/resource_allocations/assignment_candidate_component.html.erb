@@ -32,7 +32,6 @@ See COPYRIGHT and LICENSE files for more details.
     <%= radio_button_tag("principal_id", user.id, false, id: radio_id) %>
   <% end %>
 
-  <%# The avatar carries the user hover card (shown on hover). %>
   <% row.with_column(mr: 2) do %>
     <%= render(Users::AvatarComponent.new(user:, show_name: false, link: false, hover_card: { active: true })) %>
   <% end %>

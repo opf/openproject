@@ -32,8 +32,6 @@ module ResourceAllocations
   class AssignmentRowComponent < ::OpPrimer::BorderBoxRowComponent
     alias_method :allocation, :model
 
-    # The generic allocation's filter name (opening the assignment dialog), with
-    # an info icon whose tooltip reveals the actual filter criteria.
     def resource
       flex_layout(align_items: :center) do |row|
         row.with_column { filter_name_link }
@@ -41,7 +39,6 @@ module ResourceAllocations
       end
     end
 
-    # The work package details, shown only when the current user may see it.
     def work_package
       entity = allocation.entity
       return hidden_work_package unless entity.is_a?(WorkPackage) && visible_work_package?(entity)
@@ -77,8 +74,6 @@ module ResourceAllocations
       class_names(super, "-no-ellipsis": column == :dates)
     end
 
-    # The row's context menu. Actions are permission-gated, so the kebab only
-    # appears when the current user may run at least one of them.
     def button_links
       return [] unless can_assign? || can_manage?
 

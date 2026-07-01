@@ -78,8 +78,6 @@ module ResourceAllocations
       @availability ||= ResourceAllocations::Availability.new(user:)
     end
 
-    # How many hours the user already has booked within the allocation's period.
-    # Always shown, even when zero, so the manager sees the remaining capacity.
     def available_label
       t("resource_management.assignment_dialog.available", hours: format_hours(available_minutes))
     end
@@ -105,8 +103,6 @@ module ResourceAllocations
       "assignment-candidate-#{user.id}"
     end
 
-    # An alert octicon with a descriptive hover tooltip, used for both the
-    # overbooked and the no-work-schedule warnings.
     def warning_indicator(color:, id:, message:)
       safe_join(
         [
@@ -122,8 +118,6 @@ module ResourceAllocations
       WorkingTimeCalendar.new(user:, range: allocation.start_date..allocation.end_date).total
     end
 
-    # Spells out why the candidate is overbooked: the hours still available in
-    # the period versus the hours the allocation requires.
     def overbooked_message
       t("resource_management.assignment_dialog.overbooked_detail",
         available: format_hours(available_minutes),

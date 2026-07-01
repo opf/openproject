@@ -58,7 +58,6 @@ module ResourceAllocations
         @filter_summary ||= Queries::FilterSummary.new(allocation.user_filter)
       end
 
-      # The allocation's work package, only when the current user may see it.
       def work_package
         entity = allocation.entity
         return unless entity.is_a?(WorkPackage) && WorkPackage.visible(User.current).exists?(id: entity.id)
