@@ -32,6 +32,10 @@ See COPYRIGHT and LICENSE files for more details.
       header.with_title { @resource_planner.name }
       header.with_breadcrumbs(breadcrumb_items)
 
+      if (timeframe = timeframe_description)
+        header.with_description { timeframe }
+      end
+
       if favorited?
         header.with_action_icon_button(
           icon: "star-fill",

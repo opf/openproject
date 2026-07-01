@@ -164,6 +164,10 @@ en:
       success_message: User assigned.
       title: Staffing
     sub_views: Views in this resource planner
+    timeframe:
+      end_only: "Until %{end}"
+      full: "From %{start} to %{end}"
+      start_only: "From %{start}"
     timeline:
       granularity:
         day: Day
