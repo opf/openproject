@@ -29,7 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title @resource_planner.name, t(:label_resource_management) %>
 
-<%= content_tag(:div, class: class_names("op-rm-planner-page", { "op-rm-planner-page--fill" => @view&.timeline? })) do %>
+<%= content_tag(:div, class: class_names("op-rm-planner-page", { "op-rm-planner-page--fill" => @content_component.fills_viewport? })) do %>
   <%= render(ResourcePlanners::ShowPageHeaderComponent.new(resource_planner: @resource_planner, project: @project, selected_view: @view)) %>
   <%= render(@content_component) %>
 <% end %>
