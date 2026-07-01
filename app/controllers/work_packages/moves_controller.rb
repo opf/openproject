@@ -32,6 +32,18 @@ class WorkPackages::MovesController < ApplicationController
   include WorkPackages::BulkErrorMessage
   include OpTurbo::ComponentStream
 
+  MOVE_FORM_VALUE_PARAMS = %i[
+    assigned_to_id
+    responsible_id
+    start_date
+    due_date
+    status_id
+    version_id
+    priority_id
+    budget_id
+    custom_field_values
+  ].freeze
+
   default_search_scope :work_packages
   before_action :find_work_packages, :check_project_uniqueness
   before_action :authorize_move_or_copy
@@ -39,6 +51,8 @@ class WorkPackages::MovesController < ApplicationController
 
   def new
     prepare_for_work_package_move
+
+    @move_form_component = move_form_component
   end
 
   def create
@@ -134,8 +148,14 @@ class WorkPackages::MovesController < ApplicationController
       available_versions: @available_versions,
       available_statuses: @available_statuses,
       notes: @notes,
-      copy: @copy
+      copy: @copy,
+      selected_values: selected_move_form_values,
+      turbo_stream_url: refresh_form_move_work_packages_path
     )
+  end
+
+  def selected_move_form_values
+    params.slice(*MOVE_FORM_VALUE_PARAMS)
   end
 
   def prepare_for_work_package_move

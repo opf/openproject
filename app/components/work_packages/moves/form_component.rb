@@ -41,7 +41,8 @@ module WorkPackages
       include OpPrimer::ComponentHelpers
 
       def initialize(work_packages:, project:, target_project:, types:, available_versions:, available_statuses:,
-                     notes:, copy: false, target_type: nil, unavailable_type_in_target_project: false)
+                     notes:, turbo_stream_url:, copy: false, target_type: nil,
+                     unavailable_type_in_target_project: false, selected_values: {})
         super
 
         @work_packages = work_packages
@@ -54,15 +55,30 @@ module WorkPackages
         @available_statuses = available_statuses
         @notes = notes
         @copy = copy
+        @selected_values = selected_values
+        @turbo_stream_url = turbo_stream_url
       end
 
       private
 
       attr_reader :work_packages, :project, :target_project, :types, :target_type,
-                  :unavailable_type_in_target_project, :available_versions, :available_statuses, :notes, :copy
+                  :unavailable_type_in_target_project, :available_versions, :available_statuses, :notes, :copy,
+                  :selected_values, :turbo_stream_url
 
-      def turbo_stream_url
-        url_for(action: :refresh_form)
+      def possible_assignees
+        @possible_assignees ||= Principal.possible_assignee(target_project)
+      end
+
+      def selected_value(attribute)
+        selected_values[attribute] || selected_values[attribute.to_s]
+      end
+
+      def selected_version
+        available_versions.find { |version| version.id.to_s == selected_value(:version_id).to_s }
+      end
+
+      def selected_custom_field_value(custom_field)
+        selected_value(:custom_field_values)&.[](custom_field.id.to_s)
       end
     end
   end

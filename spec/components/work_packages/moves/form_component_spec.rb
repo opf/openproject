@@ -60,6 +60,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       available_versions: [version],
       available_statuses: [status],
       notes: "Move notes",
+      turbo_stream_url: "/work_packages/move/refresh_form",
       **params
     )
   end
@@ -76,6 +77,24 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       "form[data-controller='refresh-on-form-changes']" \
       "[data-refresh-on-form-changes-target='form']"
     )
+  end
+
+  context "with selected values" do
+    let(:component) do
+      build_component(
+        selected_values: {
+          status_id: status.id.to_s,
+          version_id: version.id.to_s,
+          priority_id: priority.id.to_s
+        }
+      )
+    end
+
+    it "preserves the selected form values" do
+      expect(rendered_component).to have_select(:status_id, selected: status.name)
+      expect(rendered_component).to have_select(:version_id, selected: version.name)
+      expect(rendered_component).to have_select(:priority_id, selected: priority.name)
+    end
   end
 
   context "with a required custom field on the target type" do
