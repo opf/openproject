@@ -28,15 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A planner view that renders its selected work packages on a timeline, one row
-# per work package with the allocations shown as bars.
-class ResourceWorkPackageTimeline < PersistedView
-  include ResourceManagement::Categorized
-  include ResourceManagement::WorkPackageSelection
+module ResourcePlannerViews
+  # Wraps a content component in a reloadable turbo frame so allocation changes
+  # made in the dialogs refresh the content in place. The frame has no `src`, so
+  # it is not fetched on load — it just holds the server-rendered content. The
+  # `reload-frame-on-event` controller points its `src` at the same view and
+  # morphs it in when an allocation of any listed work package changes.
+  #
+  # Timelines deliberately do not use this: their FullCalendar controller refetches
+  # its feeds in place on the same event, so they opt out of the frame-level reload
+  # to avoid tearing down and re-instantiating the calendar.
+  module ReloadableFrame
+    FRAME_ID = "resource-planner-view-content"
+    RELOAD_EVENT_NAME = "op-dispatched:resource-allocations:changed"
 
-  private
+    private
 
-  def query_name_i18n_key
-    "resource_management.work_package_timeline.query_name"
+    def reloadable_content_frame(&)
+      helpers.turbo_frame_tag(FRAME_ID, refresh: :morph, data: reload_frame_data, &)
+    end
+
+    def reload_frame_data
+      {
+        controller: "reload-frame-on-event",
+        "reload-frame-on-event-event-name-value": RELOAD_EVENT_NAME,
+        "reload-frame-on-event-url-value": helpers.project_resource_planner_view_path(
+          @project, @resource_planner, @view
+        )
+      }
+    end
   end
 end

@@ -1,7 +1,8 @@
 // Viewport-fill chain for the timeline. These rules style the planner page and
-// the content frame, which are ANCESTORS of `.op-rm-timeline-view`, so they can
+// the content wrapper, which are ANCESTORS of `.op-rm-timeline-view`, so they can
 // not live inside the single-class scope below. They only take effect on timeline
-// views: the `--fill` modifier is added for timeline views (see `PersistedView#timeline?`).
+// views: the `--fill` modifier is added when the content component fills the
+// viewport (see `ResourcePlannerViews::ContentComponent#fills_viewport?`).
 // `#content-body` already has a resolved height, so a `height: 100%` flex column
 // off it carries the height down to FullCalendar (which runs with `height: '100%'`).
 .op-rm-planner-page--fill
@@ -9,10 +10,9 @@
   display: flex
   flex-direction: column
 
-  // The content frame and the OpTurbo::Streamable wrapper each hold a single
-  // child, so a flex-grow chain through them passes the height down.
-  turbo-frame#resource-planner-view-content,
-  turbo-frame#resource-planner-view-content > div
+  // The OpTurbo::Streamable wrapper holds the single content child, so a flex-grow
+  // chain through it passes the height down.
+  .op-rm-planner-content
     display: flex
     flex-grow: 1
 

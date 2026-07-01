@@ -30,6 +30,8 @@
 
 module ResourcePlannerViews::UserCardList
   class ContentComponent < ApplicationComponent
+    include ResourcePlannerViews::ReloadableFrame
+
     def initialize(view:, project:, resource_planner:)
       super
 
