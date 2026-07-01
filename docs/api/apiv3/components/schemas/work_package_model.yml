@@ -569,6 +569,27 @@ allOf:
                   The version associated to the work package
 
                   **Resource**: Version
+          targetVersions:
+            type: array
+            items:
+              $ref: "./link.yml"
+            description: |-
+              List of versions associated to the work package
+
+              **Resource**: Collection of Version
+
+              # Conditions
+              
+              - Transitioning from single to multiple version support
+              - (Temporary) Only allows a single value for compatibility with the version field
+          observedInVersions:
+            type: array
+            items:
+              $ref: "./link.yml"
+            description: |-
+              List of versions in which the work package was observed in (e.g. bugs)
+
+              **Resource**: Collection of Version
           watchers:
             allOf:
               - $ref: "./link.yml"
@@ -647,6 +668,16 @@ example:
     version:
       href: "/api/v3/versions/1"
       title: Version 1
+    targetVersions:
+      - href: "/api/v3/versions/1"
+        title: Version 1
+      - href: "/api/v3/versions/2"
+        title: Version 2
+    observedInVersions:
+      - href: "/api/v3/versions/1"
+        title: Version 1
+      - href: "/api/v3/versions/2"
+        title: Version 2
     availableWatchers:
       href: "/api/v3/work_packages/1528/available_watchers"
     watch:

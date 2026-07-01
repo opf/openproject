@@ -46,7 +46,9 @@ module Type::Attributes
                 parent_id
                 parent
                 readonly
-                schedule_manually].freeze
+                schedule_manually
+                target_versions
+                observed_in_versions].freeze
 
   included do
     # Allow plugins to define constraints

@@ -2198,6 +2198,7 @@ en:
           true: "include non-working days"
         journal_internal: Internal Journal
         notify: "Notify" # used in custom actions
+        observed_in_versions: "Observed in versions"
         parent: "Parent"
         parent_issue: "Parent"
         parent_work_package: "Parent"
@@ -2213,6 +2214,7 @@ en:
         spent_hours: "Spent time"
         spent_time: "Spent time"
         subproject: "Subproject"
+        target_versions: "Target versions"
         time_entries: "Log time"
         type: "Type"
         version: "Version"
@@ -6350,6 +6352,12 @@ en:
   api_v3:
     attributes:
       property: "Property"
+      version:
+        deprecated: >-
+          Deprecated: this single-valued field is being replaced by `targetVersions`.
+          Read and write `targetVersions` instead. While multiple versions is not enabled,
+          `targetVersions` accepts at most one value and must not be written together
+          with `version` in the same request.
     errors:
       code_400: "Bad request: %{message}"
       code_401: "You need to be authenticated to access this resource."

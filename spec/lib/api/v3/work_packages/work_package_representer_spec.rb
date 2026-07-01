@@ -709,6 +709,80 @@ RSpec.describe API::V3::WorkPackages::WorkPackageRepresenter do
       end
     end
 
+    describe "targetVersions" do
+      context "when no version is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/targetVersions")
+          expect(subject).to have_json_size(0).at_path("_embedded/targetVersions")
+        end
+      end
+
+      context "when a version is set" do
+        let!(:version) { create(:version, project: workspace) }
+
+        before do
+          allow(work_package).to receive(:target_versions).and_return([version])
+        end
+
+        it "wraps the version in the links collection" do
+          expect(subject).to have_json_size(1).at_path("_links/targetVersions")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("_links/targetVersions/0/href")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_links/targetVersions/0/title")
+        end
+
+        it "wraps the version in the embedded collection" do
+          expect(subject).to have_json_size(1).at_path("_embedded/targetVersions")
+          expect(subject)
+            .to be_json_eql("Version".to_json)
+            .at_path("_embedded/targetVersions/0/_type")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_embedded/targetVersions/0/name")
+        end
+      end
+    end
+
+    describe "observedInVersions" do
+      context "when no version is set" do
+        it "renders an empty links collection and an empty embedded collection" do
+          expect(subject).to have_json_size(0).at_path("_links/observedInVersions")
+          expect(subject).to have_json_size(0).at_path("_embedded/observedInVersions")
+        end
+      end
+
+      context "when a version is set" do
+        let!(:version) { create(:version, project: workspace) }
+
+        before do
+          allow(work_package).to receive(:observed_in_versions).and_return([version])
+        end
+
+        it "wraps the version in the links collection" do
+          expect(subject).to have_json_size(1).at_path("_links/observedInVersions")
+          expect(subject)
+            .to be_json_eql(api_v3_paths.version(version.id).to_json)
+            .at_path("_links/observedInVersions/0/href")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_links/observedInVersions/0/title")
+        end
+
+        it "wraps the version in the embedded collection" do
+          expect(subject).to have_json_size(1).at_path("_embedded/observedInVersions")
+          expect(subject)
+            .to be_json_eql("Version".to_json)
+            .at_path("_embedded/observedInVersions/0/_type")
+          expect(subject)
+            .to be_json_eql(version.name.to_json)
+            .at_path("_embedded/observedInVersions/0/name")
+        end
+      end
+    end
+
     describe "project" do
       it_behaves_like "has workspace linked"
     end

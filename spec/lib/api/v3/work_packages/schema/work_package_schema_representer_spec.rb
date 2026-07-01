@@ -997,6 +997,7 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:required) { false }
           let(:writable) { true }
           let(:location) { "_links" }
+          let(:description) { I18n.t("api_v3.attributes.version.deprecated") }
         end
 
         it_behaves_like "has a collection of allowed values" do
@@ -1013,6 +1014,70 @@ RSpec.describe API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
           let(:path) { "version" }
           let(:type) { "Version" }
           let(:name) { I18n.t("activerecord.attributes.work_package.version") }
+          let(:required) { false }
+          let(:writable) { false }
+          let(:location) { "_links" }
+          let(:description) { I18n.t("api_v3.attributes.version.deprecated") }
+        end
+      end
+
+      it "marks the deprecated version field as deprecated" do
+        expect(subject).to be_json_eql(true.to_json).at_path("version/deprecated")
+        expect(subject)
+          .to be_json_eql(I18n.t("api_v3.attributes.version.deprecated").to_json)
+          .at_path("version/description/raw")
+      end
+    end
+
+    describe "targetVersions" do
+      context "when has permission to assign versions" do
+        let(:permissions) { [:assign_versions] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "targetVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+      end
+
+      context "when does not have permission to assign versions" do
+        let(:permissions) { [:edit_work_packages] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "targetVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.target_versions") }
+          let(:required) { false }
+          let(:writable) { false }
+          let(:location) { "_links" }
+        end
+      end
+    end
+
+    describe "observedInVersions" do
+      context "when has the permission to assign versions" do
+        let(:permissions) { [:assign_versions] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "observedInVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.observed_in_versions") }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:location) { "_links" }
+        end
+      end
+
+      context "when does not have the permission to assign versions" do
+        let(:permissions) { [:edit_work_packages] }
+
+        it_behaves_like "has basic schema properties" do
+          let(:path) { "observedInVersions" }
+          let(:type) { "[]Version" }
+          let(:name) { I18n.t("activerecord.attributes.work_package.observed_in_versions") }
           let(:required) { false }
           let(:writable) { false }
           let(:location) { "_links" }
