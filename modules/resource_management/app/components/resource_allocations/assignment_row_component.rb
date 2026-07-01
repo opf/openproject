@@ -37,7 +37,7 @@ module ResourceAllocations
     def resource
       flex_layout(align_items: :center) do |row|
         row.with_column { filter_name_link }
-        row.with_column(ml: 2, classes: "d-flex") { criteria_tooltip } unless filter_summary.empty?
+        row.with_column(ml: 2, display: :flex) { criteria_tooltip } unless filter_summary.empty?
       end
     end
 

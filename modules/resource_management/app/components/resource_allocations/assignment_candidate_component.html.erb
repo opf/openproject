@@ -47,13 +47,13 @@ See COPYRIGHT and LICENSE files for more details.
     <% end %>
 
     <% unless fits? %>
-      <% row.with_column(classes: "d-flex") do %>
+      <% row.with_column(display: :flex) do %>
         <%= warning_indicator(color: :danger, id: overbooked_tooltip_id, message: overbooked_message) %>
       <% end %>
     <% end %>
   <% else %>
     <%# No work schedule: we cannot tell whether the allocation fits. %>
-    <% row.with_column(classes: "d-flex") do %>
+    <% row.with_column(display: :flex) do %>
       <%= warning_indicator(color: :attention, id: no_schedule_tooltip_id, message: no_schedule_message) %>
     <% end %>
   <% end %>
