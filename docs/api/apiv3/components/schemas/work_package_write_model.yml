@@ -106,6 +106,7 @@ properties:
 
               **Resource**: User
       version:
+        deprecated: true
         allOf:
           - $ref: './link.yml'
           - description: |-
@@ -122,7 +123,7 @@ properties:
           **Resource**: Collection of Version
 
           # Conditions
-          
+
           - Transitioning from single to multiple version support
           - (Temporary) Only allows a single value for compatibility with the version field
       observedInVersions:
