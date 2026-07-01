@@ -28,26 +28,20 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  module Adapters
-    module Providers
-      module XWiki
-        module Concerns
-          module XWikiPageQueries
-            def canonical_page_info(identifier:, auth_strategy:)
-              Input::PageInfo.build(identifier:).bind do |input_data|
-                Queries::Internal::CanonicalPageInfo.new(model: provider).call(input_data:, auth_strategy:)
-              end
-            end
+module Wikis::Adapters::Results
+  class PageSearchTreeNode
+    attr_accessor :enabled
 
-            def canonical_page_hierarchy(identifier:, auth_strategy:)
-              Input::PageHierarchy.build(identifier:).bind do |input_data|
-                Queries::Internal::CanonicalPageHierarchy.new(model: provider).call(input_data:, auth_strategy:)
-              end
-            end
-          end
-        end
-      end
+    attr_reader :identifier, :type, :name, :children
+
+    def initialize(identifier:, type:, name:, children:, enabled:)
+      @identifier = identifier
+      @type = type
+      @name = name
+      @children = children
+      @enabled = enabled
     end
+
+    def key = "#{type}:#{identifier}"
   end
 end
