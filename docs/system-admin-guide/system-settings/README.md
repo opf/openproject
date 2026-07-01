@@ -24,8 +24,3 @@ To modify these settings, navigate to **Administration → System settings**.
 | [Exports](exports)           | CSV export settings.                                         |
 | [Project](../projects)       | Settings for new projects.                                   |
 | [Repositories](repositories) | How to integrate SVN or GIT repositories.                    |
-
-
-
-
-
