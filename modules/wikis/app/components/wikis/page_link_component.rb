@@ -46,7 +46,7 @@ module Wikis
     end
 
     def badge_label
-      I18n.t("wikis.page_links.source.parent") if source == :link
+      I18n.t("wikis.page_links.source.parent") if source == :parent
     end
 
     def page_title

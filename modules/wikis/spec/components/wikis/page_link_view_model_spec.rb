@@ -46,16 +46,16 @@ RSpec.describe Wikis::PageLinkViewModel do
   describe ".from_page_reference_result" do
     subject(:view_model) { described_class.from_page_reference_result(result) }
 
-    context "when the result is a link" do
-      let(:result) { Success(Wikis::Adapters::Results::PageReference.new(page_info:, source: :link)) }
+    context "when the result is a parent link" do
+      let(:result) { Success(Wikis::Adapters::Results::PageReference.new(page_info:, source: :parent)) }
 
       it "extracts the page_info_result from the reference" do
         expect(view_model.page_info_result).to be_success
         expect(view_model.page_info_result.value!).to eq(page_info)
       end
 
-      it "carries the link source" do
-        expect(view_model.source).to eq(:link)
+      it "carries the parent source" do
+        expect(view_model.source).to eq(:parent)
       end
     end
 

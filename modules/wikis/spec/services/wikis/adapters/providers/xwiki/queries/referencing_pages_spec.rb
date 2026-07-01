@@ -94,8 +94,8 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
         expect(resolved_identifiers).to contain_exactly("aaa111", "bbb222")
       end
 
-      it "tags all results as :link" do
-        expect(resolved_sources).to all(eq(:link))
+      it "tags all results as :parent" do
+        expect(resolved_sources).to all(eq(:parent))
       end
     end
 
@@ -121,7 +121,7 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
 
       it "assigns sources correctly" do
         sources_by_identifier = result.value!.to_h { [it.value!.page_info.identifier, it.value!.source] }
-        expect(sources_by_identifier).to eq("aaa111" => :link, "bbb222" => :link, "ccc333" => :mention)
+        expect(sources_by_identifier).to eq("aaa111" => :parent, "bbb222" => :parent, "ccc333" => :mention)
       end
     end
 
@@ -146,8 +146,8 @@ RSpec.describe Wikis::Adapters::Providers::XWiki::Queries::ReferencingPages, :di
           expect(resolved_identifiers).to contain_exactly("aaa111")
         end
 
-        it "tags the shared page as :link" do
-          expect(resolved_sources).to contain_exactly(:link)
+        it "tags the shared page as :parent" do
+          expect(resolved_sources).to contain_exactly(:parent)
         end
       end
 

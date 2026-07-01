@@ -60,7 +60,7 @@ RSpec.describe Wikis::PageLinkComponent, type: :component do
   end
 
   context "when the page is referenced as a parent" do
-    let(:source) { :link }
+    let(:source) { :parent }
 
     it "renders the parent badge" do
       expect(page).to have_test_selector("wiki-page-link-source-badge",

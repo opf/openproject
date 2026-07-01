@@ -49,7 +49,7 @@ module Wikis
                   fetch_mention_ids(http, input_data).bind do |mention_ids|
                     mention_only_ids = mention_ids - reference_ids
                     success(
-                      canonical_pages(reference_ids, source: :link, auth_strategy:) +
+                      canonical_pages(reference_ids, source: :parent, auth_strategy:) +
                       canonical_pages(mention_only_ids, source: :mention, auth_strategy:)
                     )
                   end
