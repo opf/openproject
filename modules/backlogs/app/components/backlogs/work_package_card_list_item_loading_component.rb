@@ -43,7 +43,8 @@ module Backlogs
     def call
       helpers.turbo_frame_tag(WorkPackageCardComponent.frame_id(work_package),
                               loading: :lazy,
-                              src: card_src) do
+                              src: card_src,
+                              data: { reload_frames_on_morph_target: "frame" }) do
         render(Primer::Alpha::SkeletonBox.new(width: "100%", height: "40px"))
       end
     end

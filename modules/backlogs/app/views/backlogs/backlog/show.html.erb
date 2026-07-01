@@ -49,7 +49,8 @@ See COPYRIGHT and LICENSE files for more details.
   <%= turbo_frame_tag :backlogs_container,
                       refresh: :morph,
                       src: project_backlogs_backlog_path(@project, backlog_filter_params),
-                      class: "op-backlogs-page" %>
+                      class: "op-backlogs-page",
+                      data: { controller: "reload-frames-on-morph" } %>
 <% end %>
 
 <% content_for :content_body_right do %>

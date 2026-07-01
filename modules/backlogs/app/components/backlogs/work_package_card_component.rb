@@ -32,8 +32,7 @@ module Backlogs
   class WorkPackageCardComponent < ApplicationComponent
     # Suffix appended to a work package's dom_id to build its card turbo-frame
     # id. Shared with WorkPackageCardListItemLoadingComponent so the lazily
-    # loaded placeholder and the rendered card target the same frame, and with
-    # the backlogs Stimulus controller which keys cached frames off it.
+    # loaded placeholder and the rendered card target the same frame.
     FRAME_ID_SUFFIX = "_card"
 
     attr_reader :work_package, :menu_src
