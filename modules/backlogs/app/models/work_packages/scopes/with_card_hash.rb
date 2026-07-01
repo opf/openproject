@@ -56,13 +56,13 @@ module WorkPackages::Scopes::WithCardHash
       instance_version = connection.quote(OpenProject::VERSION.to_s)
 
       left_outer_joins(:status, :assigned_to, :type, :priority)
-        .joins("LEFT JOIN work_packages card_hash_parents ON card_hash_parents.id = work_packages.parent_id")
+        .joins("LEFT JOIN (#{visible_parent(user)}) card_hash_parents ON card_hash_parents.id = work_packages.parent_id")
         .select(WorkPackage.arel_table[Arel.star], Arel.sql(<<~SQL.squish))
-          md5(concat_ws('/',
+          md5(concat_ws(
             #{instance_version},
             work_packages.updated_at,
             work_packages.lock_version,
-            #{visible_parent_updated_at(user)},
+            card_hash_parents.updated_at,
             statuses.updated_at,
             users.updated_at,
             types.updated_at,
@@ -73,25 +73,16 @@ module WorkPackages::Scopes::WithCardHash
 
     private
 
-    # The card shows the parent's subject only while the parent is visible to
-    # the user, and an "undisclosed" placeholder otherwise. The parent therefore
-    # contributes its updated_at while visible and nothing otherwise (whether it
-    # is hidden or absent). Adding or removing a parent already bumps
-    # work_packages.updated_at, so only the visible/hidden toggle needs tracking
-    # here.
-    def visible_parent_updated_at(user)
+    # The card shows the parent and changes in visibility of that parent needs to be tracked.
+    def visible_parent(user)
       # Built unscoped so the surrounding relation (e.g. the backlog filters or
       # the id of the work package being loaded) does not leak into the
       # visibility subquery, which must be free to match the parent row.
-      visible_parent = unscoped do
+      unscoped do
         WorkPackage
           .visible(user)
-          .where("work_packages.id = card_hash_parents.id")
-          .select("1")
           .to_sql
       end
-
-      "CASE WHEN EXISTS (#{visible_parent}) THEN card_hash_parents.updated_at END"
     end
   end
 end
