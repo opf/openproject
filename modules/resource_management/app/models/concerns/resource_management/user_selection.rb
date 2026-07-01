@@ -50,6 +50,20 @@ module ResourceManagement
       effective_query&.manual_elements? || false
     end
 
+    # Autocompleter filters that restrict the user picker to this view's set.
+    # The user set is team-sized, so both manual and automatic views pin the
+    # resolved ids: the principals autocompleter endpoint uses a different
+    # filter registry than UserQuery, so forwarding the view's own filters is
+    # not safe.
+    def allocation_principal_filters
+      [{ name: "id", operator: "=", values: (results&.ids || []).map(&:to_s) }]
+    end
+
+    # A user view does not constrain which work package an allocation targets.
+    def allocation_work_package_filters
+      nil
+    end
+
     def build_default_query
       UserQuery.new(project:, principal:)
     end

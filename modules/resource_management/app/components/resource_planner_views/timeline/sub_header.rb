@@ -106,7 +106,7 @@ module ResourcePlannerViews
 
       def render_allocate_item(menu)
         menu.with_item(label: t("resource_management.timeline.subheader.allocate"), tag: :a,
-                       href: new_project_resource_allocation_path(@project),
+                       href: new_project_resource_allocation_path(@project, resource_planner_view_id: @view.id),
                        content_arguments: { data: { controller: "async-dialog" } }) do |item|
           item.with_leading_visual_icon(icon: :people)
         end
@@ -115,7 +115,7 @@ module ResourcePlannerViews
       def render_allocate_button(subheader)
         label = t("resource_management.timeline.subheader.allocate")
         subheader.with_action_button(leading_icon: :plus, scheme: :primary, tag: :a, label:,
-                                     href: new_project_resource_allocation_path(@project),
+                                     href: new_project_resource_allocation_path(@project, resource_planner_view_id: @view.id),
                                      data: { controller: "async-dialog" }) { label }
       end
 

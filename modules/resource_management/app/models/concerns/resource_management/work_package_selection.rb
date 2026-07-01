@@ -72,7 +72,35 @@ module ResourceManagement
       effective_query&.results&.work_packages || WorkPackage.none
     end
 
+    # Autocompleter filters that restrict the work-package picker to this view's
+    # set. A manually-picked view pins its hand-chosen ids; an automatic view
+    # forwards its query filters so the API filters server-side instead of
+    # materialising a potentially huge id list.
+    def allocation_work_package_filters
+      if manually_picked?
+        # `reorder(nil)` drops the manual-sort ordering: it is irrelevant for a
+        # filter set and its `ORDER BY ordered_work_packages.position` clashes
+        # with the id-only GROUP BY otherwise.
+        [{ name: "id", operator: "=", values: work_packages.reorder(nil).ids.map(&:to_s) }]
+      else
+        dump_query_filters(effective_query)
+      end
+    end
+
+    # A work-package view does not constrain which user an allocation targets.
+    def allocation_principal_filters
+      nil
+    end
+
     private
+
+    # The view's filters were originally built from API-v3 filter JSON, so
+    # dumping `field`/`operator`/`values` round-trips back into that format.
+    def dump_query_filters(query)
+      (query&.filters || []).map do |filter|
+        { name: filter.field.to_s, operator: filter.operator, values: filter.values }
+      end
+    end
 
     # Overridable so each view type labels its persisted query appropriately.
     def query_name_i18n_key

@@ -130,6 +130,48 @@ RSpec.describe ResourceWorkPackageList do
     end
   end
 
+  describe "#allocation_work_package_filters" do
+    context "in automatic mode" do
+      before do
+        view.apply_query_configuration(
+          filter_mode: "automatic",
+          filters_json: filters_json({ assigned_to_id: { operator: "=", values: [user.id.to_s] } })
+        )
+      end
+
+      it "forwards the view's query filters so the API filters server-side" do
+        expect(view.allocation_work_package_filters).to contain_exactly(
+          { name: "assigned_to_id", operator: "=", values: [user.id.to_s] }
+        )
+      end
+    end
+
+    context "in manual mode" do
+      let(:picked) { create(:work_package, project:) }
+
+      before do
+        create(:member, principal: user, project:,
+                        roles: [create(:project_role, permissions: %i[view_work_packages])])
+        login_as(user)
+        view.apply_query_configuration(filter_mode: "manual", filters_json: nil)
+        view.query.save!
+        view.query.ordered_work_packages.create!(work_package: picked, position: 1)
+      end
+
+      it "pins the hand-picked work package ids rather than a huge filter set" do
+        filters = view.allocation_work_package_filters
+
+        expect(filters.size).to eq(1)
+        expect(filters.first).to include(name: "id", operator: "=")
+        expect(filters.first[:values]).to contain_exactly(picked.id.to_s)
+      end
+    end
+
+    it "leaves the user picker unconstrained" do
+      expect(view.allocation_principal_filters).to be_nil
+    end
+  end
+
   describe "validation" do
     it "is valid with a work-package query" do
       expect(view).to be_valid

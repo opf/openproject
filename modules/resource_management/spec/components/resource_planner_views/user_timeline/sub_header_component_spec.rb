@@ -83,7 +83,7 @@ RSpec.describe ResourcePlannerViews::UserTimeline::SubHeaderComponent, type: :co
 
       expect(rendered).to have_link(
         text: I18n.t("resource_management.timeline.subheader.allocate"),
-        href: new_project_resource_allocation_path(project)
+        href: new_project_resource_allocation_path(project, resource_planner_view_id: view.id)
       )
     end
   end

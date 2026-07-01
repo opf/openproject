@@ -92,7 +92,7 @@ module ResourcePlannerViews
       def new_allocation_url
         return "" unless can_allocate?
 
-        helpers.new_project_resource_allocation_path(@project)
+        helpers.new_project_resource_allocation_path(@project, resource_planner_view_id: @view.id)
       end
     end
   end

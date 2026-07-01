@@ -40,14 +40,14 @@ module ::ResourceManagement
     def new
       # Opened from a user's utilization dialog: replace it rather than stack on
       # top. It is reopened (refreshed) after a successful create.
-      if preselected_user
+      if reopen_user_allocations_dialog?
         close_dialog_via_turbo_stream("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}")
       end
 
       respond_with_dialog ResourceAllocations::NewDialogComponent.new(
         project: @project,
         allocation: prefilled_allocation,
-        resource_planner_id: params[:resource_planner_id]
+        view: resource_planner_view
       )
     end
 
@@ -74,14 +74,14 @@ module ::ResourceManagement
     end
 
     def edit
-      if reopen_planner
+      if reopen_user_allocations_dialog?
         close_dialog_via_turbo_stream("##{ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID}")
       end
 
       respond_with_dialog ResourceAllocations::EditDialogComponent.new(
         project: @project,
         allocation: @resource_allocation,
-        resource_planner_id: params[:resource_planner_id]
+        view: resource_planner_view
       )
     end
 
@@ -135,7 +135,7 @@ module ::ResourceManagement
           allocation:,
           project: @project,
           allocation_kind:,
-          resource_planner_id: params[:resource_planner_id]
+          view: resource_planner_view
         ),
         status:
       )
@@ -153,7 +153,7 @@ module ::ResourceManagement
           allocation_kind:,
           form_values: submitted_allocation_params,
           filters: params[:filters],
-          resource_planner_id: params[:resource_planner_id],
+          view: resource_planner_view,
           overbooked_ranges: ranges,
           working_schedules: working_schedules(allocation, ranges)
         )
@@ -248,8 +248,8 @@ module ::ResourceManagement
     end
 
     def reopen_user_dialog(allocation)
-      planner = reopen_planner
-      return if planner.nil? || allocation.principal.nil?
+      return unless reopen_user_allocations_dialog?
+      return if allocation.principal.nil?
 
       user = allocation.principal
       allocations = ResourceAllocation.allocated.for_principal(user).includes(:entity).to_a
@@ -257,7 +257,7 @@ module ::ResourceManagement
       dialog_via_turbo_stream(
         component: ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent.new(
           project: @project,
-          resource_planner: planner,
+          view: resource_planner_view,
           user:,
           allocations:,
           overbooked_ids: ResourceAllocation.overbooked_ids(allocations)
@@ -265,10 +265,28 @@ module ::ResourceManagement
       )
     end
 
-    def reopen_planner
-      return if params[:resource_planner_id].blank?
+    # The user-utilization dialog only exists in the user-card view, so the
+    # close-and-reopen dance around it is limited to allocations opened there.
+    def reopen_user_allocations_dialog?
+      resource_planner_view.is_a?(ResourceUserCard)
+    end
 
-      ResourcePlanner.visible(current_user).where(project: @project).find_by(id: params[:resource_planner_id])
+    # The planner sub-view the dialog was opened from. Its query scopes the
+    # autocompleters and its parent planner drives the user-dialog reopen flow.
+    # Absent when opened outside a planner (e.g. from a work package's
+    # allocations list).
+    def resource_planner_view
+      return @resource_planner_view if defined?(@resource_planner_view)
+
+      id = params[:resource_planner_view_id]
+      @resource_planner_view =
+        if id.blank?
+          nil
+        else
+          PersistedView
+            .where(parent: ResourcePlanner.visible(current_user).where(project: @project))
+            .find_by(id:)
+        end
     end
 
     def set_update_attributes
@@ -296,7 +314,7 @@ module ::ResourceManagement
           project: @project,
           allocation_kind:,
           dialog_id: ResourceAllocations::EditDialogComponent::DIALOG_ID,
-          resource_planner_id: params[:resource_planner_id]
+          view: resource_planner_view
         ),
         status:
       )
