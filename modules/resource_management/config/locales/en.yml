@@ -39,7 +39,7 @@ en:
       resource_user_card: User cards
       resource_work_package_list: Work packages list
   button_next: Next
-  label_resource_management: Resource planning
+  label_resource_management: Resource management
   permission_allocate_user_resources: Allocate user resources
   permission_allocate_user_resources_explanation: >-
     Allows users to create, update, and delete resource allocations within a resource planner. This includes assigning users
