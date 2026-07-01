@@ -32,11 +32,11 @@ module Wikis
   # View model for a single row in a CollapsiblePageLinksComponent.
   # Mapping source -> badge label and styling is the component's concern.
   PageLinkViewModel = Data.define(:page_info_result, :source) do
-    def self.from_reference(result)
+    def self.from_page_reference_result(result)
       new(page_info_result: result.fmap(&:page_info), source: result.fmap(&:source).value_or(nil))
     end
 
-    def self.from_inline(result)
+    def self.from_page_info_result(result)
       new(page_info_result: result, source: nil)
     end
   end

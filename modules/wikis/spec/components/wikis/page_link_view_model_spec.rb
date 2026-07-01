@@ -43,8 +43,8 @@ RSpec.describe Wikis::PageLinkViewModel do
   end
   let(:failure_result) { Failure(Wikis::Adapters::Results::Error.new(source: nil, code: :not_found)) }
 
-  describe ".from_reference" do
-    subject(:view_model) { described_class.from_reference(result) }
+  describe ".from_page_reference_result" do
+    subject(:view_model) { described_class.from_page_reference_result(result) }
 
     context "when the result is a link" do
       let(:result) { Success(Wikis::Adapters::Results::PageReference.new(page_info:, source: :link)) }
@@ -85,8 +85,8 @@ RSpec.describe Wikis::PageLinkViewModel do
     end
   end
 
-  describe ".from_inline" do
-    subject(:view_model) { described_class.from_inline(result) }
+  describe ".from_page_info_result" do
+    subject(:view_model) { described_class.from_page_info_result(result) }
 
     context "when the result is a success" do
       let(:result) { Success(page_info) }

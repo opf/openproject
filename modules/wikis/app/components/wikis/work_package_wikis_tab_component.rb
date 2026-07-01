@@ -48,12 +48,12 @@ module Wikis
 
     def inline_page_links
       @inline_page_links ||= page_link_service.inline_page_link_infos_for(linkable: work_package)
-                                               .map { PageLinkViewModel.from_inline(it) }
+                                               .map { PageLinkViewModel.from_page_info_result(it) }
     end
 
     def referencing_wiki_pages
-      @referencing_wiki_pages ||= page_link_service.referencing_wiki_page_infos_for(linkable: work_package)
-                                                    .map { PageLinkViewModel.from_reference(it) }
+      @referencing_wiki_pages ||= page_link_service.referencing_wiki_page_references_for(linkable: work_package)
+                                                    .map { PageLinkViewModel.from_page_reference_result(it) }
     end
 
     private
