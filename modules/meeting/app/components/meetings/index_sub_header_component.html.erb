@@ -1,79 +1,81 @@
-<%=
-  render(
-    Primer::OpenProject::SubHeader.new(
-      data: {
-        controller: "filter--filters-form",
-        "filter--filters-form-output-format-value": "json",
-        "filter--filters-form-perform-turbo-requests-value": true,
-        "filter--filters-form-display-filters-value": filters_expanded?
-      }
-    )
-  ) do |subheader|
-    subheader.with_quick_filter do
-      render(Meetings::MeetingTimeFilterComponent.new(query: @query, project: @project))
-    end
-
-    if @project.nil?
+<%= component_wrapper do %>
+  <%=
+    render(
+      Primer::OpenProject::SubHeader.new(
+        data: {
+          controller: "filter--filters-form",
+          "filter--filters-form-output-format-value": "json",
+          "filter--filters-form-perform-turbo-requests-value": true,
+          "filter--filters-form-display-filters-value": filters_expanded?
+        }
+      )
+    ) do |subheader|
       subheader.with_quick_filter do
+        render(Meetings::MeetingTimeFilterComponent.new(query: @query, project: @project))
+      end
+
+      if @project.nil?
+        subheader.with_quick_filter do
+          render(
+            OpPrimer::QuickFilter::SelectPanelComponent.new(
+              name: I18n.t(:label_project),
+              query: @query,
+              filter_key: :project_id,
+              path_args: [@project, :meetings],
+              src: project_items_meetings_path
+            )
+          )
+        end
+      end
+
+      subheader.with_filter_component do
+        render(Meetings::MeetingFilterButtonComponent.new(query: @query, project: @project))
+      end
+
+      if render_create_button?
+        subheader.with_action_menu(
+          leading_icon: :plus,
+          trailing_icon: :"triangle-down",
+          label: label_text,
+          anchor_align: :end,
+          size: :small,
+          button_arguments: {
+            scheme: :primary,
+            id: id,
+            aria: { label: accessibility_label_text },
+            test_selector: "add-meeting-button"
+          }
+        ) do |menu|
+          menu.with_item(
+            label: I18n.t("meeting.types.one_time"),
+            tag: :a,
+            href: polymorphic_path([:new_dialog, @project, :meetings]),
+            content_arguments: { data: { controller: "async-dialog" } }
+          ) do |item|
+            item.with_description.with_content(t("meeting.types.structured_text"))
+          end
+
+          menu.with_item(
+            label: I18n.t("meeting.types.recurring"),
+            tag: :a,
+            href: polymorphic_path([:new_dialog, @project, :meetings], type: :recurring),
+            content_arguments: { data: { controller: "async-dialog" } }
+          ) do |item|
+            item.with_description.with_content(t("meeting.types.recurring_text"))
+          end
+        end
+      end
+
+      subheader.with_bottom_pane_component do
         render(
-          OpPrimer::QuickFilter::SelectPanelComponent.new(
-            name: I18n.t(:label_project),
+          Meetings::MeetingFiltersComponent.new(
             query: @query,
-            filter_key: :project_id,
-            path_args: [@project, :meetings],
-            src: project_items_meetings_path
+            project: @project,
+            lazy_loaded_path:,
+            initially_expanded: filters_expanded?
           )
         )
       end
     end
-
-    subheader.with_filter_component do
-      render(Meetings::MeetingFilterButtonComponent.new(query: @query, project: @project))
-    end
-
-    if render_create_button?
-      subheader.with_action_menu(
-        leading_icon: :plus,
-        trailing_icon: :"triangle-down",
-        label: label_text,
-        anchor_align: :end,
-        size: :small,
-        button_arguments: {
-          scheme: :primary,
-          id: id,
-          aria: { label: accessibility_label_text },
-          test_selector: "add-meeting-button"
-        }
-      ) do |menu|
-        menu.with_item(
-          label: I18n.t("meeting.types.one_time"),
-          tag: :a,
-          href: polymorphic_path([:new_dialog, @project, :meetings]),
-          content_arguments: { data: { controller: "async-dialog" } }
-        ) do |item|
-          item.with_description.with_content(t("meeting.types.structured_text"))
-        end
-
-        menu.with_item(
-          label: I18n.t("meeting.types.recurring"),
-          tag: :a,
-          href: polymorphic_path([:new_dialog, @project, :meetings], type: :recurring),
-          content_arguments: { data: { controller: "async-dialog" } }
-        ) do |item|
-          item.with_description.with_content(t("meeting.types.recurring_text"))
-        end
-      end
-    end
-
-    subheader.with_bottom_pane_component do
-      render(
-        Meetings::MeetingFiltersComponent.new(
-          query: @query,
-          project: @project,
-          lazy_loaded_path: :meetings_filters_path,
-          initially_expanded: filters_expanded?
-        )
-      )
-    end
-  end
-%>
+  %>
+<% end %>

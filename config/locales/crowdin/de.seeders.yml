@@ -93,6 +93,21 @@ de:
           name: Hoch
         item_3:
           name: Sofort
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Demo-Projekt
@@ -182,21 +197,23 @@ de:
                 item_2:
                   subject: Konferenz-Webseite einrichten
             item_2:
-              subject: Konferenz
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Aufgaben zur Nachbearbeitung
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Präsentationen auf Webseite hochladen
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Party für Konferenz-Supporter :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] Bier
-                    * [ ] Snacks
-                    * [ ] Musik
-                    * [ ] Noch mehr Bier
-            item_4:
-              subject: Projektende
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _In diesem Wiki können Sie gemeinsam Seiten und Unterseiten erstellen und bearbeiten um ein Projekt-Wiki zu erstellen.
 

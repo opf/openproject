@@ -36,9 +36,17 @@ module ResourceAllocations
       include ApplicationHelper
       include OpTurbo::Streamable
       include OpPrimer::ComponentHelpers
+      include ResourceAllocations::ScheduleSummary
 
+      # `body_id`/`form_id`/`footer ids default to the allocate wizard's so the
+      # create and edit flows are unchanged. The Staffing flow hosts the same
+      # confirmation in its own dialog by passing its ids, a custom `form_url`
+      # and the plain `hidden_fields` to carry through a confirmed resubmit.
       def initialize(allocation:, project:, allocation_kind:, form_values:, overbooked_ranges: [],
-                     working_schedules: [], filters: nil, resource_planner_id: nil)
+                     working_schedules: [], filters: nil, resource_planner_id: nil,
+                     body_id: ResourceAllocations::NewDialogComponent::BODY_ID,
+                     form_id: ResourceAllocations::NewDialogComponent::FORM_ID,
+                     form_url: nil, form_method: nil, hidden_fields: nil)
         super
         @allocation = allocation
         @project = project
@@ -48,10 +56,15 @@ module ResourceAllocations
         @working_schedules = working_schedules
         @filters = filters
         @resource_planner_id = resource_planner_id
+        @body_id = body_id
+        @form_id = form_id
+        @form_url = form_url
+        @form_method = form_method
+        @hidden_fields = hidden_fields
       end
 
       def wrapper_key
-        ResourceAllocations::NewDialogComponent::BODY_ID
+        @body_id
       end
 
       def overbooked?
@@ -60,9 +73,13 @@ module ResourceAllocations
 
       private
 
+      attr_reader :form_id, :hidden_fields
+
       # A confirmed resubmit goes back to where the values came from: the
       # update of a persisted allocation or the create flow for a new one.
       def form_url
+        return @form_url if @form_url
+
         if @allocation.persisted?
           project_resource_allocation_path(@project, @allocation, resource_planner_id: @resource_planner_id)
         else
@@ -71,7 +88,7 @@ module ResourceAllocations
       end
 
       def form_method
-        @allocation.persisted? ? :patch : :post
+        @form_method || (@allocation.persisted? ? :patch : :post)
       end
 
       def overbooking_heading
@@ -90,24 +107,7 @@ module ResourceAllocations
       # span, e.g. "This user works Mon-Fri 8h until 03/31/2026, then Mon-Thu
       # 6h (80% available for project work)."
       def schedule_note
-        first, *rest = @working_schedules
-
-        segments = [schedule_summary(first)]
-        rest.each do |schedule|
-          segments << t("resource_management.allocate_resource_dialog.overbooking.schedule_change",
-                        date: helpers.format_date(schedule.valid_from - 1),
-                        schedule: schedule_summary(schedule))
-        end
-
-        t("resource_management.allocate_resource_dialog.overbooking.schedule_note", schedule: segments.join(" "))
-      end
-
-      def schedule_summary(schedule)
-        summary = schedule.working_days_summary
-        return summary if schedule.availability_factor >= 100
-
-        t("resource_management.allocate_resource_dialog.overbooking.schedule_availability",
-          schedule: summary, factor: schedule.availability_factor)
+        schedule_sentence(@working_schedules)
       end
 
       def capacity_summary(range)

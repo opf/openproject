@@ -67,7 +67,11 @@ module Users
         value = built_in_value(key)
         return if value.blank?
 
-        SectionAttribute.new(label: User.human_attribute_name(key), value:)
+        SectionAttribute.new(label: User.human_attribute_name(key), value:, icon: built_in_icon(key))
+      end
+
+      def built_in_icon(key)
+        :briefcase if key == "department"
       end
 
       def custom_field_attribute(custom_field)
@@ -80,16 +84,22 @@ module Users
       end
 
       def built_in_value(key)
-        if key == "language"
+        case key
+        when "language"
           @user.language.presence && translate_language(@user.language).first
+        when "department"
+          @user.department&.name
         else
           @user.public_send(key)
         end
       end
 
       def built_in_visible?(key)
-        if key == "mail"
+        case key
+        when "mail"
           can_view_email? || can_manage?
+        when "department"
+          true
         else
           can_manage?
         end

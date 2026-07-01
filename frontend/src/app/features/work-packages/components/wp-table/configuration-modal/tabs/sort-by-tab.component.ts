@@ -91,7 +91,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
 
         // For whatever reason, even though the UI doesn't implement it,
         // QuerySortByResources are doubled for each column (one for asc/desc direction)
-        this.allColumns = _.uniqBy(allColumns, 'href');
+        this.allColumns = allColumns.filter((col, index, self) => index === self.findIndex((other) => other.href === col.href));
 
         this.getManualSortingOption();
 
@@ -123,7 +123,7 @@ export class WpTableConfigurationSortByTabComponent implements TabComponent, OnI
       .filter((o) => o.column !== null)
       .map((object:SortModalObject) => object.column);
 
-    this.availableColumns = sortBy(_.differenceBy(this.allColumns, usedColumns, 'href'), 'name');
+    this.availableColumns = sortBy(this.allColumns.filter((col) => !usedColumns.some((used) => used.href === col.href)), 'name');
   }
 
   public updateSortingMode(mode:SortingMode) {

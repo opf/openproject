@@ -51,7 +51,23 @@ module Admin::Settings
     def index
       @allow_custom_field_creation = @user_custom_field_sections.any?
 
+      if params[:tab] == "semantic_keys"
+        @semantic_key_field_options = UserCustomField.order(:position)
+        @semantic_key_assignments = UserCustomField.where.not(semantic_key: nil).index_by(&:semantic_key)
+      end
+
       respond_to :html
+    end
+
+    # Assigns (or clears) the custom field bound to each semantic key. Driven by
+    # the "Semantic keys" tab on the index page rather than the per-field form, so
+    # admins manage the mapping in one place. Clearing the previous holder before
+    # setting the new one keeps the per-(type, semantic_key) unique index satisfied.
+    def update_semantic_keys
+      assign_semantic_keys
+
+      flash[:notice] = t(:notice_successful_update)
+      redirect_to admin_settings_user_custom_fields_path(tab: :semantic_keys)
     end
 
     def show
@@ -125,6 +141,17 @@ module Admin::Settings
     end
 
     private
+
+    def assign_semantic_keys
+      UserCustomField.transaction do
+        UserCustomField.semantic_keys.each_key do |key|
+          custom_field_id = params.dig(:semantic_keys, key).presence
+
+          UserCustomField.with_semantic_key(key).where.not(id: custom_field_id).update_all(semantic_key: nil)
+          UserCustomField.where(id: custom_field_id).update_all(semantic_key: key) if custom_field_id
+        end
+      end
+    end
 
     def set_sections
       @user_custom_field_sections = UserCustomFieldSection.includes(:custom_fields).all

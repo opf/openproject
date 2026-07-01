@@ -35,9 +35,12 @@ class RecurringMeetings::InitNextOccurrenceWatchdogJob < ApplicationJob
     key = RecurringMeetings::InitNextOccurrenceJob::CONCURRENCY_KEY_BASE
 
     RecurringMeeting
+      .includes(:template)
       .joins("LEFT JOIN good_jobs ON good_jobs.concurrency_key = CONCAT('#{key}', recurring_meetings.id)")
       .where(good_jobs: { id: nil })
       .find_each do |series|
+      next if series.template.draft?
+
       next_occurrence = series.next_occurrence
 
       if next_occurrence

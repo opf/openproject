@@ -334,7 +334,7 @@ zh-CN:
         author: 作者
         date: 日期
         time: 时间
-        location: 地点
+        location: 位置
         title: 会议记录
     export_pdf_dialog:
       title: 导出 PDF

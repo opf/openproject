@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -36,7 +38,6 @@ module API
         include API::Decorators::FormattableProperty
         include API::Caching::CachedRepresenter
         include ::API::V3::Attachments::AttachableRepresenterMixin
-        include ::API::V3::FileLinks::FileLinkRelationRepresenter
         extend ::API::V3::Utilities::CustomFieldInjector::RepresenterClass
         include TimestampedRepresenter
 
@@ -488,6 +489,14 @@ module API
                  if: ->(*) { ::Status.can_readonly? },
                  getter: ->(*) do
                    status_id && status.is_readonly?
+                 end
+
+        property :has_project_attributes,
+                 as: :hasProjectAttributes,
+                 writable: false,
+                 uncacheable: true,
+                 getter: ->(*) do
+                   project&.available_custom_fields_for_type(type_id)&.any? || false
                  end
 
         associated_resource :category

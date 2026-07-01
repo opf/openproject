@@ -101,7 +101,7 @@ eo:
         view_details: View budget details
   events:
     budget: Budget edited
-  help_click_to_edit: Click here to edit.
+  help_click_to_edit: Klaku ĉi tie por redakti.
   help_currency_format: Format of displayed currency values. %n is replaced with the currency value, %u ist replaced with the currency unit.
   help_override_rate: Enter a value here to override the default rate.
   label_budget: Budĝeto

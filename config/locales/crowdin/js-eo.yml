@@ -36,7 +36,7 @@ eo:
         '
       quarantined_hint: The file is quarantined, as a virus was found. It is not available for download.
     autocomplete_ng_select:
-      add_tag: Add item
+      add_tag: Aldoni eron
       clear_all: Clear all
       loading: Loading...
       not_found: No items found
@@ -69,7 +69,7 @@ eo:
     button_add: Aldoni
     button_back: Reen
     button_back_to_list_view: Reen al la listo
-    button_cancel: Nnuligi
+    button_cancel: Nuligi
     button_close: Fermi
     button_change_project: Move to another project
     button_check_all: Marki ĉiujn
@@ -162,9 +162,9 @@ eo:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Links to child pages
+          button: List of sub-pages
           include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          text: "[Placeholder] List of sub-pages of"
           page: Vikia paĝo
           this_page: tiu ĉi paĝo
           hint: 'Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
@@ -182,7 +182,7 @@ eo:
           text: "[Placeholder] Embedded work package table"
         error: 'Cannot expand macro: %{message}'
         macro_dropdown:
-          caption: Insert
+          caption: Enmeti
         toc: Enhavtabelo
         toolbar_help: Click to select widget and show the toolbar. Double-click to edit widget
         wiki_page_include:
@@ -469,7 +469,7 @@ eo:
     label_drop_files: Drop files here to attach files.
     label_drop_or_click_files: Drop files here or click to attach files.
     label_drop_folders_hint: You cannot upload folders as an attachment. Please select single files.
-    label_add_attachments: Attach files
+    label_add_attachments: Alŝutu dosierojn
     label_formattable_attachment_hint: Attach and link files by dropping on this field, or pasting from the clipboard.
     label_remove_file: Forigi %{fileName}
     label_remove_watcher: Forigi atentanton %{name}
@@ -616,7 +616,7 @@ eo:
       label_loading: loading watchers...
       label_error_loading: An error occurred while loading the watchers
       label_search_watchers: Serĉi atentantojn
-      label_add: Add watchers
+      label_add: Aldoni observantojn
       label_discard: Discard selection
       typeahead_placeholder: Serĉi por eblaj atentantoj
     relation_labels:
@@ -692,7 +692,7 @@ eo:
       zooms: Zoom level
       outlines: Hierarkia nivelo
     upsell:
-      ee_only: Enterprise edition add-on
+      ee_only: Aldonaĵo por Entreprena Eldono
     wiki_formatting:
       strong: Strong
       italic: Kursiva
@@ -716,7 +716,7 @@ eo:
         mixed: Mixed
     work_packages:
       bulk_actions:
-        edit: Bulk edit
+        edit: Amasa redaktado
         delete: Bulk delete
         duplicate: Bulk duplicate
         move: Bulk change of project
@@ -733,7 +733,7 @@ eo:
       key_value: "%{key}: %{value}"
       label_enable_multi_select: Ŝalti plurelekton
       label_disable_multi_select: Malŝalti plurelekton
-      label_filter_add: Add filter
+      label_filter_add: Aldoni filtrilon
       label_filter_by_text: Filtri laŭ teksto
       label_options: Opcioj
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys, confirm selection with enter, delete with backspace'
@@ -914,11 +914,12 @@ eo:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Superrigardo
         activity: Aktiveco
+        files: Dosieroj
+        overview: Superrigardo
+        project_attributes: Project attributes
         relations: Rilatoj
         watchers: Atentantoj
-        files: Dosieroj
       time_relative:
         days: tagoj
         weeks: weeks
@@ -949,7 +950,7 @@ eo:
       button_apply: Ekuzi
       button_save: Konservi
       button_submit: Sendi
-      button_cancel: Nnuligi
+      button_cancel: Nuligi
       button_delete: Forigi
       form_submit:
         title: Konfirmi por daŭrigi
@@ -973,7 +974,7 @@ eo:
       button_save: "%{attribute}: Konservi"
       button_cancel: "%{attribute}: Nuligi"
       button_save_all: Konservi
-      button_cancel_all: Nnuligi
+      button_cancel_all: Nuligi
       link_formatting_help: Text formatting help
       btn_preview_enable: Antaŭrigardo
       btn_preview_disable: Disable preview

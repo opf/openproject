@@ -57,7 +57,7 @@ export class ApiV3RelationsPaths extends ApiV3ResourceCollection<RelationResourc
       const chunks = chunk(workPackageIds, MAGIC_RELATION_SIZE);
       return forkJoin(chunks.map((chunk) => this.loadInvolved(chunk)))
         .pipe(
-          map((results) => _.flatten(results)),
+          map((results) => results.flat()),
         );
     }
 

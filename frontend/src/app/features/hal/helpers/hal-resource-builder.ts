@@ -184,7 +184,8 @@ export function initializeHalProperties<T extends HalResource>(halResourceServic
       if (isArray) {
         halResource.$source._embedded[linkName] = (val).map((el) => el.$source);
       } else {
-        halResource.$source._embedded[linkName] = _.get(val, '$source', val);
+        const source:unknown = (val as HalResource | undefined)?.$source;
+        (halResource.$source as { _embedded:Record<string, unknown> })._embedded[linkName] = source === undefined ? val : source;
       }
     }
 

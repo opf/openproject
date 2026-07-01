@@ -53,6 +53,14 @@ module OpenProject::Wikis
       end
     end
 
+    initializer "openproject_wikis.configuration" do
+      ::Settings::Definition.add :internal_wiki_provider,
+                                 description: "Overwrite settings of the internal wiki provider through environment variables",
+                                 writable: false,
+                                 default: {},
+                                 format: :hash
+    end
+
     config.to_prepare do
       API::V3::Configuration::ConfigurationRepresenter.property(
         :wikisAvailable,
@@ -127,7 +135,7 @@ module OpenProject::Wikis
     add_api_path(:wiki_page_links) { "#{root}/wiki_page_links" }
     add_api_path(:wiki_page_link) { |page_link_id| "#{wiki_page_links}/#{page_link_id}" }
     add_api_path(:wiki_provider) { |provider_universal_identifier| "#{root}/wiki_providers/#{provider_universal_identifier}" }
-    add_api_path(:work_package_page_links) { |work_package_id| "#{work_package(work_package_id)}/wiki_page_links" }
+    add_api_path(:work_package_wiki_page_links) { |work_package_id| "#{work_package(work_package_id)}/wiki_page_links" }
 
     add_api_endpoint "API::V3::Root" do
       mount ::API::V3::PageLinks::PageLinksAPI

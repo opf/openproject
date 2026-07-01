@@ -240,20 +240,20 @@ tr:
       no_cost_types_available: No cost types are available in this project. Please contact an administrator.
     admin:
       columns:
-        active_projects: Active projects
+        active_projects: Aktif projeler
       cost_type_projects:
         for_all_projects_blank_slate:
           heading: This cost type is enabled in all projects
           description: Uncheck "For all projects" on the details tab to limit this cost type to specific projects.
         no_projects:
-          heading: No projects assigned
+          heading: Atanmış proje yok
           description: Add projects so this cost type can be used in them.
       rates:
         title: Rate history
     settings:
-      time_and_costs: Time & Costs
+      time_and_costs: Time and costs
       cost_types:
-        heading: Cost types
+        heading: Maliyet türleri
         none_active: No cost types are currently active in this project.
         for_all_projects_hint: This cost type is enabled in all projects.
   costs:

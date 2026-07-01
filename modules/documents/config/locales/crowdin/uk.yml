@@ -45,7 +45,7 @@ uk:
   default_doc_category_user: Документація користувача
   enumeration_doc_categories: Категорії документів
   documents:
-    button_add_type: Type
+    button_add_type: Тип
     page_header:
       heading: Усі документи
       action_menu:

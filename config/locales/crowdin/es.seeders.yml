@@ -93,6 +93,21 @@ es:
           name: Alta
         item_3:
           name: Inmediata
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Proyecto de demostración
@@ -182,21 +197,23 @@ es:
                 item_2:
                   subject: Configurar el sitio web de la conferencia
             item_2:
-              subject: Conferencia
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Tareas de seguimiento
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Subir presentaciones al sitio web
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Fiesta para los promotores de la conferencia :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] Cerveza
-                    * [ ] Aperitivos
-                    * [ ] Música
-                    * [ ] Más cerveza
-            item_4:
-              subject: Fin del proyecto
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _En esta wiki puede crear y editar en colaboración páginas y subpáginas para crear un wiki de proyecto._
 

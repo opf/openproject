@@ -45,12 +45,12 @@ eo:
   default_doc_category_user: Dokumentado por la uzanto
   enumeration_doc_categories: Kategorioj de dokumentoj
   documents:
-    button_add_type: Type
+    button_add_type: Tipo
     page_header:
       heading: All documents
       action_menu:
         document_actions: Document actions
-        edit_title: Edit title
+        edit_title: Redaktu titolon
     subheader:
       filter:
         label: Document name filter
@@ -75,12 +75,12 @@ eo:
         description_server_unavailable: |-
           Unable to open document because the real-time text collaboration server is unreachable.
           Please contact the administrator if the problem persists.
-        action: Try again
+        action: Provu denove
       tabs: Document tabs
     index_page:
       name: Nomo
       type: Tipo
-      updated_at: Last edited
+      updated_at: Laste redaktita
       label_legacy: Legacy
     menu:
       all: All documents
@@ -90,9 +90,9 @@ eo:
     info_line:
       currently_offline: You are currently offline.
       connection_restored: You are now back online.
-    active_editors: Active editors
+    active_editors: Aktivaj redaktistoj
     active_editors_count:
-      one: 1 active editor
+      one: 1 aktiva redaktisto
       other: "%{count} active editors"
     label_attachment_author: Aŭtoro de la kunsendaĵo
     label_categories: Categories

@@ -142,7 +142,7 @@ export class UrlParamsHelperService {
     const paramsData:QueryProps = {
       c: query.columns.map((column) => column.id),
       hi: !!query.showHierarchies,
-      g: _.get(query.groupBy, 'id', ''),
+      g: query.groupBy?.id ?? '',
       dr: query.displayRepresentation,
       is: query.includeSubprojects,
       ...this.encodeSums(query),
@@ -294,7 +294,7 @@ export class UrlParamsHelperService {
       queryData.showHierarchies = properties.hi;
     }
 
-    queryData.groupBy = _.get(properties, 'g', '');
+    queryData.groupBy = properties.g ?? '';
 
     // Filters
     if (properties.f) {
@@ -367,7 +367,7 @@ export class UrlParamsHelperService {
 
     queryData.includeSubprojects = !!query.includeSubprojects;
     queryData.showHierarchies = !!query.showHierarchies;
-    queryData.groupBy = _.get(query.groupBy, 'id', '');
+    queryData.groupBy = query.groupBy?.id ?? '';
 
     // Filters
     queryData.filters = this.buildV3GetFiltersAsJson(query.filters, contextual);

@@ -61,7 +61,16 @@ module Meetings
     def meeting_is_editable
       return unless user.allowed_in_project?(:edit_meetings, model.project)
 
-      errors.add :base, I18n.t(:text_meeting_not_editable_anymore) unless model.editable?(user)
+      # A closed meeting may still be reopened or otherwise have its state changed
+      #  but no other attribute of it may be edited
+      return unless model.state_was == "closed"
+      return if only_state_changed?
+
+      errors.add :base, I18n.t(:text_meeting_not_editable_anymore)
+    end
+
+    def only_state_changed?
+      model.changed == %w[state]
     end
 
     def valid_rescheduling_date # rubocop:disable Metrics/AbcSize

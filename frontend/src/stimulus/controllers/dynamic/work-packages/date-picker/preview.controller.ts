@@ -282,7 +282,7 @@ export default class PreviewController extends DialogPreviewController {
 
     const fieldDates = [this.currentStartDate, this.currentDueDate].filter((x):x is NonNullable<typeof x> => Boolean(x))
                         .map((date) => this.timezone.utcDateToISODateString(date));
-    const diff = _.difference(flatPickrDates, fieldDates);
+    const diff = flatPickrDates.filter((date) => !fieldDates.includes(date));
     return this.toDate(diff[0]);
   }
 

@@ -71,6 +71,20 @@ module ResourcePlannerViews
       def has_filter_query?
         @filter_query.present?
       end
+
+      # The card-field selector only applies to user card views.
+      # ::ResourceUserCard disambiguates from the ResourcePlannerViews::ResourceUserCard contracts namespace.
+      def show_card_fields?
+        @view.is_a?(::ResourceUserCard)
+      end
+
+      def card_field_options
+        UserCardList::CardFieldCatalog.options
+      end
+
+      def selected_card_fields
+        UserCardList::CardFieldCatalog.selected_options(@view.card_fields)
+      end
     end
   end
 end

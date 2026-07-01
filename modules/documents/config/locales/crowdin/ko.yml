@@ -45,7 +45,7 @@ ko:
   default_doc_category_user: 사용자 설명서
   enumeration_doc_categories: 문서 범주
   documents:
-    button_add_type: Type
+    button_add_type: 유형
     page_header:
       heading: 모든 문서
       action_menu:

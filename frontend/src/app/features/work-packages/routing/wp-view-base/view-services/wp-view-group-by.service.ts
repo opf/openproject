@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { QueryResource } from 'core-app/features/hal/resources/query-resource';
 import { States } from 'core-app/core/states/states.service';
 import { Injectable, inject } from '@angular/core';
@@ -45,7 +46,7 @@ export class WorkPackageViewGroupByService extends WorkPackageQueryStateService<
   public hasChanged(query:QueryResource) {
     const comparer = (groupBy:QueryColumn|HalResource|null|undefined) => (groupBy ? groupBy.href : null);
 
-    return !_.isEqual(
+    return !isEqual(
       comparer(query.groupBy),
       comparer(this.current),
     );

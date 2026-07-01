@@ -132,7 +132,12 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         // Append all new elements
         elements = elements.concat(newElements);
         // Remove duplicates (Regression #29652)
-        this.deferred[parent.id!] = _.uniqBy(elements, (el) => el.id!);
+        const seen = new Set<string>();
+        this.deferred[parent.id!] = elements.filter((el) => {
+          if (seen.has(el.id!)) { return false; }
+          seen.add(el.id!);
+          return true;
+        });
         return true;
       }
       // Otherwise, continue the chain upwards

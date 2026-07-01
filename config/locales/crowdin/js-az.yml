@@ -162,9 +162,9 @@ az:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Links to child pages
+          button: List of sub-pages
           include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki page
           this_page: this page
           hint: 'Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
@@ -914,11 +914,12 @@ az:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Overview
         activity: Activity
+        files: Files
+        overview: Overview
+        project_attributes: Project attributes
         relations: Relations
         watchers: Watchers
-        files: Files
       time_relative:
         days: days
         weeks: weeks

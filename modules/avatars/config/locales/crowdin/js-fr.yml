@@ -9,4 +9,4 @@ fr:
       uploading_avatar: Chargement de votre avatar.
       error_image_too_large: L'image est trop grande.
       wrong_file_format: Les formats autorisés sont JPG, PNG et GIF
-      empty_file_error: Veuillez téléverser une image valide (JPG, PNG, GIF)
+      empty_file_error: Veuillez importer une image valide (JPG, PNG, GIF)

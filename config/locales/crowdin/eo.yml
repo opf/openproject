@@ -53,6 +53,8 @@ eo:
           description: Your comment will be visible to anyone who can access this work package. Are you sure you want to do this?
           confirm_button_text: Make public
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Unreserve
       col_identifier: Identifier
@@ -194,7 +196,7 @@ eo:
       columns:
         projects: Projects
         last_change: Last change
-        added: Added
+        added: Aldonita
         label_ago: "%{amount} ago"
       run:
         title: Import run
@@ -623,10 +625,10 @@ eo:
     new:
       label_new_color: Nova koloro
     edit:
-      label_edit_color: Edit Color
+      label_edit_color: Redakti koloron
     form:
       label_new_color: Nova koloro
-      label_edit_color: Edit color
+      label_edit_color: Redakti koloron
     label_no_color: Senkolora
     label_properties: Properties
     label_really_delete_color: 'Are you sure, you want to delete the following color? Types using this color will not be deleted.
@@ -741,6 +743,9 @@ eo:
         project: Allows the user to add a comment related to the project attribute when selecting the value in the project overview.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Nun estas neniu adaptita kampo.
       no_results_content_text: Krei novan adaptitan kampon
@@ -759,16 +764,16 @@ eo:
     confirmation_live_message_unchecked: The button to proceed is now inactive. You need to tick the checkbox to continue.
   departments:
     edit: Edit department
-    add_user: Add user
+    add_user: Aldoni uzanton
     add_department: Add department
     blankslate:
       heading: Your organization has no departments
       description: 'Start by adding departments or users to the organization. Each department can be used to create a hierarchy below it, to navigate and create sub-department inside a hierarchy click on the created item.
 
         '
-      add_button: Add
+      add_button: Aldoni
     detail_blankslate:
-      add_button: Add
+      add_button: Aldoni
       description: Add departments or users to create sub-items inside another one.
       heading: This department doesn’t have any hierarchy level below
       managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
@@ -786,9 +791,9 @@ eo:
       managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
     context_menu:
       add_sub_department: Add sub-department
-      add_user: Add user
+      add_user: Aldoni uzanton
     flash:
-      user_added: User was successfully added to the department.
+      user_added: Uzanto estis sukcese aldonita al la departemento.
       user_removed: User was successfully removed from the department.
       department_created: Department was successfully created.
     errors:
@@ -1335,12 +1340,11 @@ eo:
       '
     delete_tooltip: Delete placeholder user
     deletion_info:
-      heading_html: Delete placeholder user %{name}
       data_consequences: 'All occurrences of the placeholder user (e.g., as assignee, responsible or other user values) will be reassigned to an account called "Deleted user". As the data of every deleted account is reassigned to this account it will not be possible to distinguish the data the user created from the data of another deleted account.
 
         '
-      irreversible: This action is irreversible
-      confirmation_html: Enter the placeholder user name %{name} to confirm the deletion.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1348,7 +1352,7 @@ eo:
         It can be used for highlighting work packages in the table.
   reactions:
     action_title: React
-    add_reaction: Add reaction
+    add_reaction: Aldoni reagon
     react_with: React with %{reaction}
     and_user: and %{user}
     and_others:
@@ -1395,44 +1399,51 @@ eo:
       no_results_content_text: Krei novan tipon
     edit:
       form_configuration:
-        tab: Formulara agordo
-        label_group: Section
-        reset_to_defaults: Reset form
-        add_attribute_group: Section
-        add_query_group: Related work packages table
-        delete_group: Delete section
-        remove_attribute: Remove from section
+        add_attribute_group: Sekcio
+        add_query_group: Tablo de rilataj laborpakoj
+        blankslate_description: Add groups using the button above or drag attributes from the left panel.
+        blankslate_title: No groups yet
+        builtin_field: Built-in field
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        confirm_reset: Are you sure you want to reset the form configuration?
+        custom_field: Custom field
+        delete_group: Forigi sekcion
         drag_to_activate: Drag fields from here to activate them
         drag_to_reorder: Drag to reorder
         edit_query: Edit query
-        custom_field: Custom field
-        filter_inactive: Filter attributes
-        inactive_attributes_heading: Inactive attributes
-        no_inactive_attributes: No inactive attributes
-        blankslate_title: No groups yet
-        blankslate_description: Add groups using the button above or drag attributes from the left panel.
-        group_actions: Section actions
-        rename_group: Rename section
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        group_name_label: Section name
-        row_actions: Row actions
-        query_group_label: Related work packages table
         empty_group_hint: Drag attributes here
+        filter_inactive: Filter attributes
+        group_actions: Section actions
+        group_name_label: Section name
+        inactive_attributes_heading: Inactive attributes
         invalid_attribute_groups: The form configuration payload is invalid.
         invalid_query: The embedded query configuration is invalid.
+        label_group: Sekcio
+        no_inactive_attributes: No inactive attributes
         not_found: The requested form configuration item could not be found.
-        untitled_group: Untitled group
-        reset_title: Reset form configuration
-        confirm_reset: Are you sure you want to reset the form configuration?
-        builtin_field: Built-in field
+        query_group_label: Related work packages table
+        remove_attribute: Forigi el sekcio
+        rename_group: Rename section
         reset_description: 'This will reset the attributes to their default group and disable ALL custom fields.
 
           '
+        reset_title: Reset form configuration
+        reset_to_defaults: Reset form
+        row_actions: Row actions
+        tab: Formulara agordo
+        untitled_group: Untitled group
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Projektoj
         enable_all: Enable for all projects
-        select_projects: Select projects
+        select_projects: Elektu projektojn
         select_projects_description: Select the projects in which you would like to use this type.
+        tab: Projektoj
       settings:
         tab: Agordoj
         type_color_text: The selected color distinguishes different types in Gantt charts or work packages tables. It is therefore recommended to use a strong color.
@@ -1460,8 +1471,8 @@ eo:
         pdf_export_templates:
           label: PDF Export templates
           actions:
-            label_enable_all: Enable all
-            label_disable_all: Disable all
+            label_enable_all: Aktivigi ĉiujn
+            label_disable_all: Malŝalti ĉiujn
   versions:
     overview:
       work_packages_in_archived_projects: The version is shared with archived projects which still have work packages assigned to this version. These are counted, but will not appear in the linked views.
@@ -1705,6 +1716,7 @@ eo:
       login_consequences:
         other: This account will immediately be removed from the system and the user will no longer be able to log in with their credentials.
         self: Your account will immediately be removed from the system and you will no longer be able to log in using your credentials.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Your account has not yet been activated. To activate your account, click on the link that was emailed to you.
 
       '
@@ -1774,6 +1786,7 @@ eo:
         regexp: Regula esprimo
         searchable: Serĉebla
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Admin-only
         has_comment: Add a comment text field
       custom_value:
@@ -2001,6 +2014,7 @@ eo:
       user:
         admin: Administranto
         auth_source: Authentication source
+        department: Department
         ldap_auth_source: LDAP connection
         identity_url: Identity URL
         current_password: Nuna pasvorto
@@ -2043,7 +2057,7 @@ eo:
         workdays: Working days
       users/invitation/form_model:
         principal_type: Invitation type
-        id_or_email: Name or email address
+        id_or_email: Nomo aŭ retpoŝta adreso
       user_non_working_time:
         start_date: Start date
         end_date: End date
@@ -2132,6 +2146,7 @@ eo:
         cannot_delete_mapping: is required. Cannot be deleted.
         cant_link_a_work_package_with_a_descendant: Laborpakaĵo ne povis esti ligita al unu el siaj subtaskoj.
         circular_dependency: Tiu ĉi rilato povus krei cirklan dependon.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: ne kongruas kun %{attribute}
         could_not_be_copied: "%{dependency} could not be (fully) copied."
         datetime_must_be_in_future: must be in the future.
@@ -2141,7 +2156,7 @@ eo:
         error_readonly: was attempted to be written but is not writable.
         error_conflict: Information has been updated by at least one other user in the meantime.
         error_not_found: not found.
-        email: is not a valid email address.
+        email: ne estas valida retpoŝtadreso.
         empty: Ĝi ne povas esti malplena.
         enterprise_plan_required: requires at least the %{plan_name}.
         even: must be even.
@@ -2446,11 +2461,14 @@ eo:
           is_not_a_valid_target_for_time_entries: 'Work package #%{id} is not a valid target for reassigning the time entries.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Cannot add child because you don't have permissions to edit the selected work package.
               blank: ID can't be blank.
+              cannot_add_child_because_of_lack_of_permission: Cannot add child because you don't have permissions to edit the selected work package.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: and sequence_number must both be set at the same time.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -3153,7 +3171,7 @@ eo:
     upsell:
       buy_now_button: Buy now
       plans_title: Enterprise plans
-      title: Enterprise add-on
+      title: Entreprena aldonaĵo
       plan_title: Enterprise %{plan} add-on
       plan_name: "%{plan} enterprise plan"
       trial_text: This feature is included in your active Enterprise trial.
@@ -3561,19 +3579,18 @@ eo:
         header: Legu pri novaj plibonigoj kaj aktualigoj de produkto.
         learn_about: Learn more about all new features
         missing: There are no highlighted features yet.
-        '17_5':
+        '17_6':
           new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Upgrade to Enterprise edition
       postgres_migration: Transmetanta vian instalon al PostgreSQL
@@ -3656,7 +3673,7 @@ eo:
       mails_and_notifications: Emails and notifications
       mcp_configurations: Model Context Protocol (MCP)
     quick_add:
-      label: Add…
+      label: Aldoni…
   my_account:
     notifications_and_email:
       title: Notification and email
@@ -3734,7 +3751,7 @@ eo:
         title: Send me daily email reminders for unread notifications
         description: You will receive these reminders only for unread notifications and only at hours you specify. Until you configure a time zone for your account, the times will be interpreted to be in UTC.
         enabled: Enable daily email reminders
-        add_time: Add time
+        add_time: Aldoni tempon
         remove_time: Remove time
         time_slot_label: Reminder time (UTC)
       workdays:
@@ -3747,13 +3764,13 @@ eo:
       email_alerts:
         title: Email alerts for other items that are not work packages
         description: Notifications today are limited to work packages. You can choose to continue receiving email alerts for these events until they are included in notifications.
-        news_added: News added
+        news_added: Novaĵoj aldonitaj
         news_commented: Comment on a news item
-        document_added: Document added
+        document_added: Dokumento aldonita
         forum_messages: Forum message posted
-        wiki_page_added: Wiki page added
+        wiki_page_added: Vikipaĝo aldonita
         wiki_page_updated: Wiki page updated
-        membership_added: Membership added
+        membership_added: Membreco aldonita
         membership_updated: Membership updated
         submit_button: Update alerts
     notifications:
@@ -4031,7 +4048,7 @@ eo:
   label_enumerations: Enumerations
   label_enterprise: Entrepreno
   label_enterprise_active_users: "%{current}/%{limit} rezervitaj aktivaj uzantoj"
-  label_enterprise_edition: Enterprise edition
+  label_enterprise_edition: Entreprena Eldono
   label_enterprise_support: Enterprise support
   label_environment: Medio
   label_estimates_and_progress: Estimates and progress
@@ -4736,7 +4753,7 @@ eo:
       added_by:
         without_message: "%{user} added you as a member to the project '%{project}'."
         with_message: "%{user} added you as a member to the project '%{project}' writing:"
-      roles: 'You have the following roles:'
+      roles: 'Vi havas la jenajn rolojn:'
   mail_member_updated_project:
     subject: "%{project} - Your roles have been updated"
     body:
@@ -4802,8 +4819,8 @@ eo:
   notice_locking_conflict_warning: This page has been updated by someone else. To not lose your edits, copy them locally and reload to view the updated version.
   notice_locking_conflict_danger: Could not save your changes because of conflicting modifications. To not lose your edits, copy them locally and reload to view the updated version.
   notice_locking_conflict_action_button: Discard changes and reload
-  notice_member_added: Added %{name} to the project.
-  notice_members_added: Added %{number} users to the project.
+  notice_member_added: "%{name} estis aldonita al la projekto."
+  notice_members_added: Aldonis %{number} uzantojn al la projekto.
   notice_member_removed: Removed %{user} from project.
   notice_member_deleted: "%{user} has been removed from the project and deleted."
   notice_no_principals_found: No results found.
@@ -4876,21 +4893,21 @@ eo:
           label_actions: Work package actions
         parent: Parent
         undisclosed: Undisclosed
-  permission_add_work_package_comments: Add comments
-  permission_add_work_packages: Add work packages
+  permission_add_work_package_comments: Aldoni komentojn
+  permission_add_work_packages: Aldonu laborpakaĵojn
   permission_add_messages: Post messages
   permission_add_project: Create projects
   permission_add_portfolios: Create portfolios
   permission_add_programs: Create programs
-  permission_add_work_package_attachments: Add attachments
-  permission_add_work_package_attachments_explanation: Allows adding attachments without Edit work packages permission
-  permission_add_internal_comments: Write internal comments
+  permission_add_work_package_attachments: Aldoni aldonaĵojn
+  permission_add_work_package_attachments_explanation: Permesas aldoni aldonaĵojn sen permeso por redakti laborpakaĵojn
+  permission_add_internal_comments: Skribi internajn komentojn
   permission_archive_project: Aktivi projekton
   permission_create_user: Create users
   permission_manage_user: Edit users
   permission_manage_placeholder_user: Create, edit, and delete placeholder users
-  permission_add_subprojects: Create subprojects
-  permission_add_work_package_watchers: Add watchers
+  permission_add_subprojects: Krei subprojektojn
+  permission_add_work_package_watchers: Aldoni observantojn
   permission_assign_versions: Assign versions
   permission_browse_repository: Read-only access to repository (browse and checkout)
   permission_change_work_package_status: Change work package status
@@ -4910,14 +4927,14 @@ eo:
   permission_edit_work_package_comments: Moderate comments
   permission_edit_work_package_comments_explanation: 'Caution: Users with this permission are able to edit anyone''s comment.'
   permission_edit_work_packages: Edit work packages
-  permission_edit_messages: Edit messages
+  permission_edit_messages: Redakti mesaĝojn
   permission_edit_own_internal_comments: Edit own internal comments
   permission_edit_own_work_package_comments: Edit own comments
   permission_edit_own_messages: Edit own messages
   permission_edit_own_time_entries: Edit own time logs
   permission_edit_others_internal_comments: Moderate internal comments
   permission_edit_others_internal_comments_explanation: 'Caution: Users with this permission are able to edit other users'' internal comments.'
-  permission_edit_project: Edit project
+  permission_edit_project: Redatki projekton
   permission_edit_project_attributes: Edit project attributes
   permission_edit_project_phases: Edit project phases
   permission_edit_reportings: Edit reportings
@@ -4981,7 +4998,7 @@ eo:
   permission_view_shared_work_packages: View work package shares
   permission_view_time_entries: View spent time
   permission_view_timelines: View timelines
-  permission_view_user_email: View users' mail addresses
+  permission_view_user_email: Vidi la retpoŝtadresojn de uzantoj
   permission_view_wiki_edits: View wiki history
   permission_view_wiki_pages: View wiki
   permission_work_package_assigned: Become assignee/responsible
@@ -5097,16 +5114,13 @@ eo:
     create_managed_delay: 'Please note: The repository is managed, it is created asynchronously on the disk and will be available shortly.'
     create_successful: The repository has been registered.
     delete_sucessful: The repository has been deleted.
-    destroy:
-      confirmation: If you continue, this will permanently delete the managed repository.
-      info: Deleting the repository is an irreversible action.
-      info_not_managed: 'Note: This will NOT delete the contents of this repository, as it is not managed by OpenProject.'
-      managed_path_note: 'The following directory will be erased: %{path}'
-      repository_verification_html: Enter the project's identifier %{identifier} to verify the deletion of its repository.
-      subtitle: Do you really want to delete the %{repository_type} of the project %{project_name}?
-      subtitle_not_managed_html: Do you really want to remove the linked %{repository_type} %{url} from the project %{project_name}?
-      title_html: Delete the %{repository_type}
-      title_not_managed: Remove the linked %{repository_type}?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Unable to create the repository with the selected configuration. %{reason}
       managed_delete: Unable to delete the managed repository.
@@ -5242,7 +5256,7 @@ eo:
   setting_sendmail_arguments: Arguments for sendmail
   setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
   setting_smtp_ssl: Use SSL connection
-  setting_smtp_address: SMTP server
+  setting_smtp_address: SMTP-servilo
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP authentication
   setting_smtp_user_name: SMTP username
@@ -5493,11 +5507,11 @@ eo:
     passwords: Passwords
     project_attributes:
       heading: Project attributes
-      label_add_attribute: Add a project attribute
+      label_add_attribute: Aldoni projekto-atributon
       label_for_all_projects: All projects
       label_new_attribute: Project attribute
       label_new_section: Section
-      label_edit_section: Edit title
+      label_edit_section: Redakti titolon
       label_section_actions: Section actions
       heading_description: These project attributes appear in the overview page of each project. You can add new attributes, group them into sections and re-order them as you please. These attributes can be enabled or disabled but not re-ordered at a project level.
       label_project_custom_field_actions: Project attribute actions
@@ -5601,7 +5615,7 @@ eo:
         label_user_custom_field_actions: User attribute actions
       show_component:
         label_add_attribute: Add a user attribute
-        label_edit_section: Edit title
+        label_edit_section: Redakti titolon
         label_no_user_custom_fields: No user attributes defined in this section
         label_section_actions: Section actions
     user_custom_fields:
@@ -5615,6 +5629,13 @@ eo:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Work week
       section_holidays_and_closures: Holidays and closures
@@ -5880,6 +5901,7 @@ eo:
     status_user_and_brute_force: "%{user} and %{brute_force}"
     status_change: Status change
     text_change_disabled_for_provider_login: The name and email is set by your login provider and can thus not be changed.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Malŝlosi
     unlock_and_reset_failed_logins: Unlock and reset failed logins
     error_cannot_delete_user: User cannot be deleted
@@ -5959,7 +5981,7 @@ eo:
       comment_verb: comment
       comment_description: Can view and comment this work package.
       edit: Redakti
-      edit_verb: edit
+      edit_verb: redakti
       edit_description: Can view, comment and edit this work package.
       view: Montri
       view_verb: view
@@ -6217,6 +6239,8 @@ eo:
     scopes:
       api_v3: Full API v3 access
       api_v3_text: Application will receive full read & write access to the OpenProject API v3 to perform actions on your behalf.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Approved on
       scopes: Permesoj

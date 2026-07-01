@@ -41,6 +41,8 @@ eo:
         storage: Storage
         storage_url: Storage URL
         tenant: Directory (tenant) ID
+      work_package:
+        file_links: File links
     errors:
       messages:
         invalid_host_url: Ĝi ne estas valida URL.
@@ -106,7 +108,7 @@ eo:
   services:
     attributes:
       nextcloud_sync_service:
-        add_user_to_group: 'Add User to Group:'
+        add_user_to_group: 'Aldoni uzanton al grupo:'
         create_folder: 'Managed Project Folder Creation:'
         ensure_root_folder_permissions: 'Set Base Folder Permissions:'
         hide_inactive_folders: 'Hide Inactive Folders Step:'

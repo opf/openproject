@@ -162,9 +162,9 @@ lt:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: Pasirinktas atributas „%{name}“ neegzistuoja.
         child_pages:
-          button: Nuorodos į vaikų puslapius
+          button: List of sub-pages
           include_parent: Įtraukti tėvą
-          text: "[Placeholder] Nuorodos į vaikų puslapius"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki puslapis
           this_page: šis puslapis
           hint: 'Palikus šį lauką tuščią, bus pateikiamas visų šio puslapio vaikų sąrašas. Jei norite nuorodos į kitą puslapį, pateikite jo pavadinimą arba techninį adresą (slug).
@@ -916,11 +916,12 @@ lt:
         relation_filters:
           filter_work_packages_by_relation_type: Filtruokite darbo paketus pagal sąryšio tipą
       tabs:
-        overview: Peržiūra
         activity: Veikla
+        files: Failai
+        overview: Peržiūra
+        project_attributes: Project attributes
         relations: Ryšiai
         watchers: Stebėtojai
-        files: Failai
       time_relative:
         days: dienos
         weeks: savaitės

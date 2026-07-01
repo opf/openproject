@@ -28,6 +28,7 @@ import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
 import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
 import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
 import { CurrentProjectService } from 'core-app/core/current-project/current-project.service';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 import { Placement } from '@floating-ui/dom';
 
@@ -123,6 +124,10 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
         this.copyToClipboardService.copy(url.toString());
         break;
       }
+      case 'copy_numeric_id_to_clipboard':
+        this.copyToClipboardService.copy(`${id}`);
+        break;
+
       case 'copy_to_other_project':
         window.location.href = `${this.pathHelper.staticBase}/work_packages/move/new?copy=true&ids[]=${id}`;
         break;
@@ -212,7 +217,15 @@ export class WorkPackageViewContextMenu extends OpContextMenuHandler {
 
   protected buildItems():OpContextMenuItem[] {
     const selected = this.getSelectedWorkPackages();
-    const items = this.permittedActions.map((action:WorkPackageAction) => ({
+
+    // Copying the numeric ID is only useful in semantic mode, where the
+    // displayed identifier (e.g. "PROJ-42") is not the numeric ID itself.
+    const visibleActions = this.permittedActions.filter((action) => (
+      action.key !== 'copy_numeric_id_to_clipboard'
+      || isSemanticWorkPackageId(this.workPackage.displayId)
+    ));
+
+    const items = visibleActions.map((action:WorkPackageAction) => ({
       class: undefined as string | undefined,
       disabled: false,
       linkText: action.text,

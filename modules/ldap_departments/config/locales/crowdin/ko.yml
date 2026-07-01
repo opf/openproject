@@ -4,84 +4,84 @@ ko:
     attributes:
       ldap_departments/synchronized_department:
         dn: DN
-        group: Department
-        ldap_auth_source: LDAP connection
-        users_count: Members
+        group: 부서
+        ldap_auth_source: LDAP 연결
+        users_count: 멤버
       ldap_departments/synchronized_tree:
-        base_dn: Base DN
-        guid_attribute: Unique identifier attribute
-        ldap_auth_source: LDAP connection
-        name: Name
-        ou_name_attribute: OU name attribute
-        structure_filter_string: Organizational unit filter
-        sync_users: Sync users
-        user_filter_string: User filter
+        base_dn: 기본 DN
+        guid_attribute: 고유한 식별자 특성
+        ldap_auth_source: LDAP 연결
+        name: 이름
+        ou_name_attribute: OU 이름 특성
+        structure_filter_string: 조직 단위 필터
+        sync_users: 사용자 동기화
+        user_filter_string: 사용자 필터
     errors:
       models:
         ldap_departments/synchronized_tree:
-          must_contain_base_dn: The base DN must be contained within the LDAP connection's base DN.
-          overlaps_other_tree: Overlaps the base DN of another synchronization on the same LDAP connection.
+          must_contain_base_dn: 기본 DN은 LDAP 연결의 기본 DN에 포함되어야 합니다.
+          overlaps_other_tree: 동일한 LDAP 연결에서 다른 동기화의 기본 DN과 중복됩니다.
     models:
-      ldap_departments/synchronized_department: Synchronized department
-      ldap_departments/synchronized_tree: LDAP department synchronization
+      ldap_departments/synchronized_department: 동기화된 부서
+      ldap_departments/synchronized_tree: LDAP 부서 동기화
   ee:
     upsell:
       ldap_departments:
-        title: LDAP department synchronization
-        description: Mirror your LDAP organizational unit structure into the OpenProject department hierarchy and keep department members in sync automatically.
+        title: LDAP 부서 동기화
+        description: LDAP 조직 단위 구조를 OpenProject 부서 계층에 미러링하고, 부서 멤버를 자동으로 동기화합니다.
   ldap_departments:
-    label_menu_item: LDAP department synchronization
-    label_synchronize: Synchronize organizational units
+    label_menu_item: LDAP 부서 동기화
+    label_synchronize: 조직 단위 동기화
     synchronized_departments:
       blankslate:
-        description: Run the synchronization to import the organizational units of this base DN as departments.
-        heading: No departments synchronized yet
+        description: 동기화를 실행하여 이 기본 DN의 조직 단위를 부서로 가져옵니다.
+        heading: 아직 동기화된 부서 없음
       destroy:
-        confirmation: If you continue, %{name} is no longer managed by LDAP synchronization.
-        heading: Stop managing %{name}?
-        info: The department and its members are kept. It becomes a regular department that you can edit or delete manually.
-        title: Stop managing %{name}
-      managed_notice: Managed by LDAP synchronization
-      no_results: No departments have been synchronized yet.
-      plural: Synchronized departments
-      singular: Synchronized department
+        confirmation: 계속하는 경우, %{name}은(는) 더 이상 LDAP 동기화를 통해 관리되지 않습니다.
+        heading: "%{name} 관리를 중지하시겠습니까?"
+        info: 해당 부서와 멤버들은 그대로 유지됩니다. 이 부서는 수동으로 편집하거나 삭제할 수 있는 일반 부서가 됩니다.
+        title: "%{name} 관리 중지"
+      managed_notice: LDAP 동기화를 통해 관리됨
+      no_results: 아직 동기화된 부서가 없습니다.
+      plural: 동기화된 부서
+      singular: 동기화된 부서
     synchronized_trees:
-      add_new: Add LDAP department synchronization
-      synchronization_started: Synchronization started in the background. Departments will appear once it completes.
+      add_new: LDAP 부서 동기화 추가
+      synchronization_started: 백그라운드에서 동기화가 시작되었습니다. 동기화가 완료되면 부서가 표시됩니다.
       blankslate:
-        description: Set up a synchronization to mirror your LDAP organizational unit structure into the OpenProject department hierarchy.
-        heading: No LDAP department synchronizations
+        description: LDAP 조직 단위 구조를 OpenProject 부서 계층에 미러링하도록 동기화를 설정합니다.
+        heading: LDAP 부서 동기화 없음
       destroy:
-        confirmation: If you continue, the synchronization %{name} is removed and its %{departments_count} departments are no longer managed by LDAP.
-        heading: Remove synchronization %{name}?
-        info: The departments and their members are kept and become regular departments. You can edit or delete them manually afterwards under Administration → Users and permissions → Organization.
-        title: Remove synchronization %{name}
+        confirmation: 계속하면 동기화 %{name}이(가) 제거되며, 해당 %{departments_count}개 부서는 더 이상 LDAP에 의해 관리되지 않습니다.
+        heading: 동기화 %{name}을(를) 제거하시겠습니까?
+        info: 해당 부서와 멤버들은 그대로 유지되며 일반 부서가 됩니다. 관리 → 사용자 및 권한 → 조직에서 나중에 수동으로 편집하거나 삭제할 수 있습니다.
+        title: 동기화 %{name} 제거
       form:
-        auth_source_text: Select which LDAP connection should be used.
-        base_dn_text: 'Enter the base DN whose organizational units should be synchronized. Its direct child OUs become top-level departments. It must be below the base DN of the selected LDAP connection.
+        auth_source_text: 사용해야 하는 LDAP 연결을 선택하세요.
+        base_dn_text: '동기화할 조직 단위의 기본 DN을 입력하세요. 해당 다이렉트 자식 OU는 최상위 부서가 됩니다. 이 기본 DN은 선택한 LDAP 연결의 기본 DN보다 아래에 위치해야 합니다.
 
           '
-        guid_attribute_text: 'Optional. The LDAP attribute holding a stable unique identifier (e.g. "objectGUID" or "entryUUID"). When set, departments survive OU renames and moves. Leave empty to match by DN.
+        guid_attribute_text: '선택 사항입니다. 안정적인 고유한 식별자(예: “objectGUID” 또는 “entryUUID”)를 포함하는 LDAP 특성입니다. 이 특성을 설정하면, OU 이름 바꾸기 및 이동 후에도 부서가 유지됩니다. DN 기준으로 매칭하려면 비워 두세요.
 
           '
-        ou_name_attribute_text: The LDAP attribute used to name the department (e.g. "ou").
+        ou_name_attribute_text: '부서 이름을 지정하는 데 사용되는 LDAP 특성(예: “ou”)입니다.'
         sections:
-          connection: LDAP connection
-          structure: Organizational units
-          users: Users
-        structure_filter_string_text: RFC4515 LDAP filter identifying organizational unit entries.
-        sync_users_text: 'If enabled, users found below the base DN are also created in OpenProject. Without it, only existing accounts are assigned to departments.
+          connection: LDAP 연결
+          structure: 조직 단위
+          users: 사용자
+        structure_filter_string_text: 조직 단위 항목을 식별하는 RFC 4515 LDAP 필터입니다.
+        sync_users_text: '이 옵션을 활성화하면, 기본 DN 아래에 있는 사용자도 OpenProject에서 생성됩니다. 이 옵션을 사용하지 않으면, 기존 계정만 부서에 할당됩니다.
 
           '
-        user_filter_string_text: 'Optional RFC4515 LDAP filter identifying user entries. Leave empty to use the connection filter, or a generic person filter when none is set.
+        user_filter_string_text: '사용자 항목을 식별하는 선택적 RFC4515 LDAP 필터입니다. 비워 두면 연결 필터가 사용되며, 필터가 설정되지 않은 경우에는 일반 사용자 필터가 사용됩니다.
 
           '
-      help_text: 'This module mirrors the organizational unit (OU) structure of your LDAP directory into the OpenProject department hierarchy. Each OU below the configured base DN becomes a department, and users are assigned to the department of the OU they reside in. Departments are synchronized regularly through a cron job.
+      help_text: '이 모듈은 LDAP 디렉터리의 조직 단위(OU) 구조를 OpenProject 부서 계층에 미러링합니다. 구성된 기본 DN 아래에 있는 각 OU는 부서가 되며, 사용자는 자신이 속한 OU의 부서에 할당됩니다. 부서는 cron 작업을 통해 정기적으로 동기화됩니다.
 
         '
-      no_results: No LDAP department synchronizations configured yet.
-      plural: LDAP department synchronizations
-      singular: LDAP department synchronization
+      no_results: 아직 LDAP 부서 동기화가 구성되지 않았습니다.
+      plural: LDAP 부서 동기화
+      singular: LDAP 부서 동기화
   plugin_openproject_ldap_departments:
-    description: Synchronization of LDAP organizational units into OpenProject departments.
-    name: OpenProject LDAP departments
+    description: LDAP 조직 단위를 OpenProject 부서에 동기화합니다.
+    name: OpenProject LDAP 부서

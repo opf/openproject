@@ -46,6 +46,9 @@ class Type < ApplicationRecord
   belongs_to :color, optional: true, class_name: "Color"
 
   has_many :work_packages
+  has_many :project_custom_field_type_mappings, dependent: :destroy
+  has_many :project_custom_fields, through: :project_custom_field_type_mappings,
+                                   class_name: "ProjectCustomField"
   has_many :workflows, dependent: :delete_all do
     def copy_from_type(source_type)
       Workflow.copy(source_type, nil, proxy_association.owner, nil)

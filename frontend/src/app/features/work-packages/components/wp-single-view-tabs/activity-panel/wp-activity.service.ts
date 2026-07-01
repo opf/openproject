@@ -70,7 +70,7 @@ export class WorkPackagesActivityService extends WorkPackageLinkedResourceCache<
   }
 
   protected sortedActivityList(activities:HalResource[], attr = 'createdAt'):HalResource[] {
-    const sorted = sortBy(_.flatten(activities), attr);
+    const sorted = sortBy(activities.flat(), attr);
 
     if (this.isReversed) {
       return sorted.reverse();

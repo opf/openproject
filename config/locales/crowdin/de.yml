@@ -53,6 +53,8 @@ de:
           description: Ihr Kommentar wird für jeden sichtbar, der dieses Arbeitspaket sehen kann. Sind Sie sicher, dass Sie dies tun möchten?
           confirm_button_text: Veröffentlichen
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Unreserve
       col_identifier: Kennung
@@ -740,6 +742,9 @@ de:
         project: Ermöglicht es dem Benutzer, zusätzlich einen Kommentar zum Projektattribut hinzuzufügen, wenn der Wert in der Projektübersicht ausgewählt wird.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Zur Zeit existieren keine benutzerdefinierten Felder.
       no_results_content_text: Neues benutzerdefiniertes Feld anlegen
@@ -1334,12 +1339,11 @@ de:
       '
     delete_tooltip: Platzhalter löschen
     deletion_info:
-      heading_html: Platzhalter-Benutzer %{name} löschen
       data_consequences: 'Alle Vorkommnisse des Platzhalter-Benutzers (z.B. als zugewiesene Person, Verantwortlicher oder andere Benutzerwerte) werden einem Konto mit dem Namen "Gelöschter Benutzer" zugewiesen. Da die Daten jedes gelöschten Kontos diesem Konto zugewiesen werden, wird es nicht möglich sein, die Daten dieses Benutzers von den Daten eines anderen gelöschten Kontos zu unterscheiden.
 
         '
-      irreversible: Dieser Vorgang kann nicht rückgängig gemacht werden
-      confirmation_html: Geben Sie den Namen des Platzhalter-Benutzers %{name} ein, um die Löschung zu bestätigen.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Prioritätswert. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
@@ -1391,44 +1395,51 @@ de:
       no_results_content_text: Neuen Typ erstellen
     edit:
       form_configuration:
-        tab: Formularkonfiguration
-        label_group: Abschnitt
-        reset_to_defaults: Formular zurücksetzen
         add_attribute_group: Abschnitt
         add_query_group: Zugehörige Arbeitspaket-Tabelle
+        blankslate_description: Fügen Sie Gruppen über die Schaltfläche oben hinzu oder ziehen Sie Attribute aus dem linken Bereich.
+        blankslate_title: Noch keine Gruppen
+        builtin_field: Internes Attribut
+        confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
+        confirm_reset: Sind Sie sicher, dass Sie die Konfiguration des Formulars zurücksetzen möchten?
+        custom_field: Benutzerdefiniertes Feld
         delete_group: Abschnitt löschen
-        remove_attribute: Aus Abschnitt entfernen
         drag_to_activate: Felder aus diesem Bereich herausziehen, um sie zu aktivieren
         drag_to_reorder: Ziehen zum Neuordnen
         edit_query: Abfrage bearbeiten
-        custom_field: Benutzerdefiniertes Feld
-        filter_inactive: Attribute filtern
-        inactive_attributes_heading: Inaktive Attribute
-        no_inactive_attributes: Keine inaktiven Attribute
-        blankslate_title: Noch keine Gruppen
-        blankslate_description: Fügen Sie Gruppen über die Schaltfläche oben hinzu oder ziehen Sie Attribute aus dem linken Bereich.
-        group_actions: Abschnittsoptionen
-        rename_group: Abschnitt umbenennen
-        confirm_delete_group: Sind Sie sicher, dass Sie diesen Abschnitt löschen möchten? Diese Aktion kann nicht automatisch rückgängig gemacht werden.
-        group_name_label: Name des Abschnitts
-        row_actions: Weitere Aktionen
-        query_group_label: Zugehörige Arbeitspaket-Tabelle
         empty_group_hint: Attribute hierher ziehen
+        filter_inactive: Attribute filtern
+        group_actions: Abschnittsoptionen
+        group_name_label: Name des Abschnitts
+        inactive_attributes_heading: Inaktive Attribute
         invalid_attribute_groups: Die abgesendeten Daten der Formularkonfiguration sind ungültig.
         invalid_query: Die eingebettete Abfrage ist ungültig.
+        label_group: Abschnitt
+        no_inactive_attributes: Keine inaktiven Attribute
         not_found: Die angeforderte Formularkonfiguration konnte nicht gefunden werden.
-        untitled_group: Unbenannte Gruppe
-        reset_title: Formularkonfiguration zurücksetzen
-        confirm_reset: Sind Sie sicher, dass Sie die Konfiguration des Formulars zurücksetzen möchten?
-        builtin_field: Internes Attribut
+        query_group_label: Zugehörige Arbeitspaket-Tabelle
+        remove_attribute: Aus Abschnitt entfernen
+        rename_group: Abschnitt umbenennen
         reset_description: 'Dadurch werden die Attribute auf ihre Standardgruppe zurückgesetzt und ALLE benutzerdefinierten Felder deaktiviert.
 
           '
+        reset_title: Formularkonfiguration zurücksetzen
+        reset_to_defaults: Formular zurücksetzen
+        row_actions: Weitere Aktionen
+        tab: Formularkonfiguration
+        untitled_group: Unbenannte Gruppe
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Projekte
         enable_all: Für alle Projekte aktivieren
         select_projects: Projekt auswählen
         select_projects_description: Wählen Sie die Projekte aus, in denen Sie diesen Typ verwenden möchten.
+        tab: Projekte
       settings:
         tab: Einstellungen
         type_color_text: |-
@@ -1701,6 +1712,7 @@ de:
       login_consequences:
         other: Dieses Konto wird sofort aus dem System entfernt und der Benutzer kann sich nicht mehr mit seinen Anmeldedaten anmelden.
         self: Ihr Konto wird sofort aus dem System entfernt und Sie können sich nicht mehr mit Ihren Anmeldedaten anmelden.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Ihr Konto wurde noch nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde.
 
       '
@@ -1770,6 +1782,7 @@ de:
         regexp: Regulärer Ausdruck
         searchable: Durchsuchbar
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Nur für Administratoren
         has_comment: Ein Kommentarfeld hinzufügen
       custom_value:
@@ -1997,6 +2010,7 @@ de:
       user:
         admin: Administrator
         auth_source: Authentifizierungsquelle
+        department: Department
         ldap_auth_source: LDAP-Verbindung
         identity_url: Identity URL
         current_password: Aktuelles Passwort
@@ -2128,6 +2142,7 @@ de:
         cannot_delete_mapping: ist erforderlich. Kann nicht gelöscht werden.
         cant_link_a_work_package_with_a_descendant: Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden.
         circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: stimmt nicht mit %{attribute} überein.
         could_not_be_copied: "%{dependency} konnte nicht (vollständig) kopiert werden."
         datetime_must_be_in_future: muss in der Zukunft liegen.
@@ -2442,11 +2457,14 @@ de:
           is_not_a_valid_target_for_time_entries: 'Arbeitspaket #%{id} ist kein gültiges Ziel für die Zuordnung der Zeiterfassungseinträge.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Sie können keine Unteraufgabe hinzufügen, weil Sie keine Berechtigung haben, das ausgewählte Arbeitspaket zu bearbeiten.
               blank: ID darf nicht leer sein.
+              cannot_add_child_because_of_lack_of_permission: Sie können keine Unteraufgabe hinzufügen, weil Sie keine Berechtigung haben, das ausgewählte Arbeitspaket zu bearbeiten.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: und sequence_number müssen beide gleichzeitig gesetzt werden.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -2821,6 +2839,7 @@ de:
   button_add_sub_item: Unterelement hinzufügen
   button_add_member: Mitglied hinzufügen
   button_add_watcher: Beobachter hinzufügen
+  button_all_filters: All filters
   button_annotate: Kommentieren
   button_apply: Anwenden
   button_apply_changes: Änderungen anwenden
@@ -3555,19 +3574,18 @@ de:
         header: Lesen Sie über neue Funktionen und Updates.
         learn_about: Erfahren Sie mehr über die neuen Funktionen
         missing: Es gibt noch keine hervorgehobenen Funktionen.
-        '17_5':
+        '17_6':
           new_features_title: 'Dieses Release enthält verschiedene neue Funktionen und Verbesserungen, wie z. B:
 
             '
           new_features_list:
-            line_0: Projektbasierte Arbeitspaket-Kennungen für klarere Referenzen.
-            line_1: Jira Migrator unterstützt Jira-Kennungen, Fälligkeitsdaten und mehr.
-            line_2: Option Arbeitspakettypen und -status in Backlogs auszuschließen.
-            line_3: Neu gestaltete Sprint-Ansichten.
-            line_4: Verbesserte Verknüpfung von Arbeitspaketen zwischen dem Dokumenten-Modul und Texteditoren.
-            line_5: Flexiblere Besprechungspläne und weniger E-Mail-Benachrichtigungen.
-            line_6: Verschachtelte Gruppen für Organisationsstrukturen und vererbte Berechtigungen.
-            line_7: Verbesserte Verwaltungsoberflächen für Workflows, Benutzer und Typkonfiguration.
+            line_0: XWiki-Integration (Corporate-Plan).
+            line_1: Sprint-Ziele.
+            line_2: Übersichtsseite „Alle Sprints“.
+            line_3: Zeige Backlog Buckets in Arbeitspaketen und Arbeitspaket-Tabellen.
+            line_4: Verbesserte Unterstützung für projektbezogene (semantische) Identifikatoren.
+            line_5: Tagesordnungspunkte einer Besprechung in Arbeitspakete umwandeln.
+            line_6: Kostenarten pro Projekt konfigurieren.
     links:
       upgrade_enterprise_edition: Auf Enterprise Edition upgraden
       postgres_migration: Migration Ihrer Installation zu PostgreSQL
@@ -4263,6 +4281,7 @@ de:
 
     '
   label_part_of: enthalten in
+  label_past: Past
   label_password_lost: Kennwort vergessen?
   label_password_rule_lowercase: Kleinbuchstaben
   label_password_rule_numeric: Ziffern
@@ -4446,6 +4465,7 @@ de:
   label_type_new: Neuer Typ
   label_type_plural: Typen
   label_ui: Nutzeroberfläche
+  label_upcoming: Upcoming
   label_updated_time: Vor %{value} aktualisiert
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Von %{author} vor %{age} aktualisiert
@@ -5095,16 +5115,13 @@ de:
     create_managed_delay: 'Bitte beachten Sie: Das Projektarchiv wird in OpenProject verwaltet. Es wird asynchron auf dem Datenträger erstellt und wird in Kürze verfügbar sein.'
     create_successful: Das Projektarchiv wurde registriert.
     delete_sucessful: Das Projektarchiv wurde gelöscht.
-    destroy:
-      confirmation: Wenn Sie fortfahren, wird das verwaltete Projektarchiv dauerhaft gelöscht.
-      info: Die Löschung des Projektarchivs kann nicht rückgängig gemacht werden.
-      info_not_managed: 'Hinweis: Der Inhalt des Projektarchivs wird nicht gelöscht, da es sich um ein externes Projektarchiv handelt.'
-      managed_path_note: 'Das folgende Verzeichnis wird gelöscht werden: %{path}'
-      repository_verification_html: Geben Sie die Projektkennung %{identifier} ein, um die Löschung des Projektarchivs zu bestätigen.
-      subtitle: Wollen Sie wirklich das %{repository_type} des Projekts %{project_name} löschen?
-      subtitle_not_managed_html: Wollen Sie wirklich die verknüpfte %{repository_type} %{url} aus dem Projekt %{project_name} entfernen?
-      title_html: "%{repository_type} löschen"
-      title_not_managed: Verknüpftes %{repository_type} löschen?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Projektarchiv mit der gewählten Konfiguration konnte nicht erstellt werden. %{reason}
       managed_delete: Löschen des verwalteten Projektarchivs nicht möglich.
@@ -5611,6 +5628,13 @@ de:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Arbeitswoche
       section_holidays_and_closures: Feiertage und Schließungen
@@ -5874,6 +5898,7 @@ de:
     status_user_and_brute_force: "%{user} und %{brute_force}"
     status_change: Status geändert
     text_change_disabled_for_provider_login: Der Login-Anbieter legt den Namen und die E-Mail-Adresse fest. Daher können sie nicht geändert werden.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Entsperren
     unlock_and_reset_failed_logins: Entsperren und fehlgeschlagene Logins zurücksetzen
     error_cannot_delete_user: Benutzer kann nicht gelöscht werden
@@ -6211,6 +6236,8 @@ de:
     scopes:
       api_v3: Vollständiger API(v3)-Zugriff
       api_v3_text: Die Anwendung erhält vollen Lese- und Schreibzugriff auf die OpenProject API v3, um Aktionen in Ihrem Namen durchzuführen.
+      mcp: Zugang zu MCP
+      mcp_text: Die Anwendung erhält Zugriff auf die OpenProject-MCP-Endpunkte. Dabei handelt es sich um eine Untermenge von APIv3 Endpunkten, die speziell für die Verwendung mit KI-Agenten ausgelegt ist.
     grants:
       created_date: Genehmigt
       scopes: Berechtigungen

@@ -86,6 +86,9 @@ module Pages
         end
 
         def filter_by_name(value)
+          within("#content") do
+            click_button accessible_name: "Search"
+          end
           fill_in "Search", with: value
 
           wait_for_network_idle

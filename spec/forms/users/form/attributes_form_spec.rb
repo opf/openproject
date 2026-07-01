@@ -62,6 +62,45 @@ RSpec.describe Users::Form::AttributesForm, type: :forms do
     end
   end
 
+  context "with the department field" do
+    let(:model) { build_stubbed(:user) }
+
+    context "for an admin with departments available" do
+      # The shared context renders in a top-level before hook, so set up the
+      # department and re-render before asserting.
+      before do
+        create(:department, name: "Engineering")
+        vc_render_form
+      end
+
+      it "renders an editable department select including the department" do
+        expect(page).to have_select("user[department_id]", disabled: false, with_options: ["Engineering"])
+      end
+    end
+
+    context "when the current department is managed by LDAP" do
+      before do
+        ldap_department = build_stubbed(:department, name: "LDAP Dept")
+        allow(ldap_department).to receive(:ldap_managed?).and_return(true)
+        allow(model).to receive(:department).and_return(ldap_department)
+        vc_render_form
+      end
+
+      it "renders the department select disabled with a caption" do
+        expect(page).to have_select("user[department_id]", disabled: true)
+        expect(page).to have_text(I18n.t("user.department_ldap_managed_caption"))
+      end
+    end
+
+    context "when the current user is not an admin" do
+      let(:current_user) { build_stubbed(:user) }
+
+      it "renders the department select disabled" do
+        expect(page).to have_select("user[department_id]", disabled: true)
+      end
+    end
+  end
+
   context "with a section that has no visible content" do
     let(:model) { build_stubbed(:user) }
 

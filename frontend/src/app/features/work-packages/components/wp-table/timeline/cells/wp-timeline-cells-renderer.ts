@@ -120,7 +120,7 @@ export class WorkPackageTimelineCellsRenderer {
       newCells.push(identifier);
     });
 
-    _.difference(currentlyActive, newCells).forEach((identifier:string) => {
+    currentlyActive.filter((identifier) => !newCells.includes(identifier)).forEach((identifier:string) => {
       this.cells[identifier].clear();
       delete this.cells[identifier];
     });

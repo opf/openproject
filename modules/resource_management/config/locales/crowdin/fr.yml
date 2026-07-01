@@ -36,7 +36,7 @@ fr:
     models:
       resource_allocation: Affectation des ressources
       resource_planner: Planificateur de ressources
-      resource_user_card: User cards
+      resource_user_card: Fiches des utilisateurs
       resource_work_package_list: Liste des lots de travaux
   button_next: Suivant
   label_resource_management: Planification des ressources
@@ -53,37 +53,40 @@ fr:
   resource_management:
     action:
       delete: Supprimer
+      edit: Modifier
       favorite: Ajouter aux favoris
       make_private: Rendre privé
       make_public: Rendre public
       unfavorite: Supprimer des favoris
     allocation:
-      hours: "%{value}h"
-      no_work: Aucun travail n'est prévu pour ce lot de travail
-      summary: "%{allocated} / %{scheduled}"
+      hours: "%{value} h"
+      no_work: Aucun travail n'est prévu pour ce lot de travaux
+      summary: "%{allocated}/%{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Définissez des critères de filtrage en fonction des attributs de l'utilisateur pour créer une ressource de remplacement.
+          caption: 'Définissez des critères de filtrage en fonction des attributs utilisateur afin de créer une ressource fictive.
+
+            '
           label: Critères de filtrage
-        label: Type d’allocation
+        label: Type d'attribution
         principal:
           caption: Attribuer des heures à un utilisateur spécifique.
           label: Utilisateur
       outside_dates:
-        description: Les dates de la ressource sélectionnée, %{resource_dates}, ne correspondent pas aux dates du lot de travail, %{work_package_dates}.
+        description: Les dates de la ressource sélectionnée, %{resource_dates}, ne correspondent pas aux dates du lot de travaux, %{work_package_dates}.
       overbooking:
         capacity_summary: "%{available} disponible · %{scheduled} prévu"
         description: L'utilisateur sélectionné, %{user}, serait affecté à des tâches en dehors de ses heures de travail pendant cette période.
         hidden_work: Autres relations
-        schedule_availability: "%{schedule} (%{factor}% de disponibilité pour des projets)"
-        schedule_change: jusque le %{date}, puis %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Temps alloué
+        schedule_availability: "%{schedule} (%{factor} % de disponibilité pour des projets)"
+        schedule_change: jusqu'au %{date}, puis %{schedule}
+        schedule_note: Cet utilisateur utilise l'adresse %{schedule}.
+        submit: Attribuer des heures supplémentaires
         title: Souhaitez-vous attribuer des heures supplémentaires à l'utilisateur ?
-      submit: Allouer
-      success_message: Ressource allouée.
-      title: Allouer une ressource
+      submit: Attribuer
+      success_message: Ressource attribuée.
+      title: Attribuer une ressource
     blankslate:
       desc: Créez un planificateur de ressources pour commencer à planifier la capacité de ce projet.
       title: Aucun planificateur de ressources pour le moment
@@ -100,9 +103,10 @@ fr:
       title: Configurer la vue
     edit_allocation_dialog:
       submit: Enregistrer
-      success_message: Allocation de la ressource mise à jour.
-      title: Modifier l'allocation
+      success_message: Attribution des ressources mise à jour.
+      title: Modifier l'attribution
     favorite_caption: Faites de cette vue un favori pour l'ajouter à la section supérieure du menu de la barre latérale.
+    label_edit_resource_planner: Modifier le planificateur de ressources
     label_new_resource_planner: Nouveau planificateur de ressources
     label_resource_planner: Planificateur de ressources
     label_resource_planner_plural: Planificateurs de ressources
@@ -116,42 +120,59 @@ fr:
       public: Public
     sub_views: Vues de ce planificateur de ressources
     user_allocations_dialog:
-      allocate_work_package: Allocate work package
-      blank: This user has no allocated work packages.
+      allocate_work_package: Attribuer un lot de travaux
+      blank: Cet utilisateur n'a aucun lot de travaux qui lui a été attribué.
       other_work_packages:
-        one: 1 other work package
-        other: "%{count} other work packages"
-      title: Utilization
+        one: 1 autre lot de travaux
+        other: "%{count} autres lots de travaux"
+      title: Utilisation
     user_card_list:
       add_user_dialog:
-        title: Add user
+        title: Ajouter un utilisateur
       blank:
-        description: There are no users matching this view's filters yet.
-        manual_description: No users have been added to this view yet.
-        title: No users to display
+        description: Aucun utilisateur ne correspond pour l'instant aux critères de filtrage de cette vue.
+        manual_description: Aucun utilisateur n'a encore été ajouté à cette vue.
+        title: Aucun utilisateur à afficher
       card:
-        remove: Remove user
-        remove_confirmation: Remove this user from the view?
+        multi_value_more: "+%{count} more"
+        remove: Supprimer l'utilisateur
+        remove_confirmation: Supprimer cet utilisateur de la vue ?
+      fields:
+        working_times: Heures de travail
+        input_label: Champs
+        input_caption: Sélectionnez les champs qui s'afficheront dans la fiche utilisateur pour cette vue
+        input_placeholder: Ajouter un champ
+        drag_area_label: Champs affichés
       subheader:
-        resource: Resource
-        settings: Configure view
+        resource: Ressource
+        settings: Configurer la vue
       utilization:
-        label: Utilization
+        label: Utilisation
+      working_hours:
+        blank: No working hours configured
+        schedule_availability_compact: "%{schedule} (%{factor}% available)"
+        schedule_change_compact: until %{date}, %{schedule}
     view_types:
       resource_user_card:
-        caption: Create a view based on users and see their details and allocation in a list of user cards
-        label: Users card list
+        caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
+        label: Liste des fiches des utilisateurs
       resource_work_package_list:
         caption: Créez une vue basée sur des lots de travaux et affichez leurs informations et leur affectation dans une liste
         label: Liste des lots de travaux
+      resource_work_package_timeline:
+        caption: Créez une vue basée sur les lots de travaux et visualisez leur répartition au fil du temps sur un graphique chronologique
+        label: Chronologie des lots de travaux
+      user_card:
+        caption: Créez une vue basée sur des utilisateurs et affichez leurs informations et leur affectation dans une liste de fiches des utilisateurs
+        label: Liste des fiches des utilisateurs
     work_package_allocations_dialog:
-      allocate_resource: Allouer une ressource
-      context_menu_label: Allocation actions
-      delete_confirmation: Êtes-vous sûr de vouloir supprimer cette allocation ? Cette action est irréversible.
-      delete_success: Allocation de la ressource supprimée.
+      allocate_resource: Attribuer une ressource
+      context_menu_label: Actions d'allocation
+      delete_confirmation: Voulez-vous vraiment supprimer cette attribution ? Cette action est irréversible.
+      delete_success: Attribution de ressources supprimée.
       hidden_user: Utilisateur masqué
-      overbooked: L’utilisateur est alloué au-delà de ses heures de travail durant cette période.
-      title: Allocation
+      overbooked: Pendant cette période, l'utilisateur est affecté à d'autres tâches en dehors de ses heures de travail.
+      title: Attribution
     work_package_list:
       add_work_package_dialog:
         title: Ajouter un lot de travaux
@@ -160,7 +181,7 @@ fr:
         other_users:
           one: "%{count} utilisateur"
           other: "%{count} utilisateurs"
-        unassigned: Non assigné
+        unassigned: Non attribué
       allocation_placeholder: "—"
       blank:
         description: Aucun lot de travaux ne correspond encore aux filtres de cette vue.
@@ -189,3 +210,19 @@ fr:
         add_work_package: Ajouter un lot de travaux
         allocate: Attribuer
         settings: Configurer la vue
+    work_package_timeline:
+      blank:
+        add_work_package: Ajouter un lot de travaux
+        configure_view: Configurer la vue
+        description: Aucun lot de travaux ne correspond encore aux filtres de cette vue.
+        manual_description: Ajoutez des lots de travaux à cette vue afin de planifier leur répartition dans le temps.
+        title: Aucun lot de travaux à afficher
+      granularity:
+        day: Jour
+        month: Mois
+        week: Semaine du calendrier
+      navigation:
+        next: Période suivante
+        previous: Période précédente
+        today: Aujourd'hui
+      query_name: 'Calendrier des lots de travaux de gestion des ressources : %{name}'

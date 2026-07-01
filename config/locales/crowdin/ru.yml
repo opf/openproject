@@ -53,6 +53,8 @@ ru:
           description: Ваш комментарий будет виден всем, кто может получить доступ к этому пакету работ. Вы уверены, что хотите это сделать?
           confirm_button_text: Сделать общедоступным
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
       btn_release: Unreserve
       col_identifier: Идентификатор
@@ -760,6 +762,9 @@ ru:
         project: Позволяет пользователю добавить комментарий, относящийся к атрибуту проекта, при выборе значения в обзоре проекта.
       visible_on_user_card:
         all: When checked, this field's value is shown in the user information card when hovering over a user across the application.
+    semantic_keys:
+      none: None
+      job_title: Job title
     tab:
       no_results_title_text: Нет настраиваемых полей.
       no_results_content_text: Создать новое настраиваемое поле
@@ -1370,12 +1375,11 @@ ru:
       '
     delete_tooltip: Удалить пользователя-заполнителя
     deletion_info:
-      heading_html: Удалить пользователя-заполнителя %{name}
       data_consequences: 'Все вхождения пользователя плейсхолдера (например, как цессионария, ответственные или другие пользовательские значения) будут переназначены на учетную запись под названием "Удаленный пользователь". Так как данные каждого удаленного аккаунта переназначены на этот аккаунт, невозможно отличить данные пользователя от данных другого удаленного аккаунта.
 
         '
-      irreversible: Это действие необратимо
-      confirmation_html: Введите имя пользователя %{name}, чтобы подтвердить удаление.
+      heading: Delete placeholder user %{name}?
+      title: Delete placeholder user %{name}
   priorities:
     edit:
       priority_color_text: |
@@ -1432,44 +1436,51 @@ ru:
       no_results_content_text: Создать новый тип
     edit:
       form_configuration:
-        tab: Настройка форм
-        label_group: Section
-        reset_to_defaults: Reset form
         add_attribute_group: Section
         add_query_group: Related work packages table
+        blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
+        blankslate_title: Нет групп
+        builtin_field: Встроенное поле
+        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
+        confirm_reset: Вы уверены, что хотите сбросить конфигурацию формы?
+        custom_field: Настраиваемое поле
         delete_group: Delete section
-        remove_attribute: Remove from section
         drag_to_activate: Чтобы включить поля, перетащите их отсюда
         drag_to_reorder: Перетащите, чтобы изменить порядок
         edit_query: Редактировать представление
-        custom_field: Настраиваемое поле
-        filter_inactive: Фильтровать атрибуты
-        inactive_attributes_heading: Неактивные атрибуты
-        no_inactive_attributes: Нет неактивных атрибутов
-        blankslate_title: Нет групп
-        blankslate_description: Добавьте группы с помощью кнопки выше или перетащите атрибуты с левой панели.
-        group_actions: Section actions
-        rename_group: Rename section
-        confirm_delete_group: Are you sure you want to delete this section? This action cannot be automatically reversed.
-        group_name_label: Section name
-        row_actions: Действия со строками
-        query_group_label: Related work packages table
         empty_group_hint: Перетащите атрибуты сюда
+        filter_inactive: Фильтровать атрибуты
+        group_actions: Section actions
+        group_name_label: Section name
+        inactive_attributes_heading: Неактивные атрибуты
         invalid_attribute_groups: Конфигурация формы является недопустимой.
         invalid_query: Недопустимая конфигурация встраиваемого представления.
+        label_group: Section
+        no_inactive_attributes: Нет неактивных атрибутов
         not_found: Запрашиваемый элемент конфигурации формы не найден.
-        untitled_group: Безымянная группа
-        reset_title: Сбросить настройки формы
-        confirm_reset: Вы уверены, что хотите сбросить конфигурацию формы?
-        builtin_field: Встроенное поле
+        query_group_label: Related work packages table
+        remove_attribute: Remove from section
+        rename_group: Rename section
         reset_description: 'Это сбросит атрибуты к группе по умолчанию и отключит ВСЕ настраиваемые поля.
 
           '
+        reset_title: Сбросить настройки формы
+        reset_to_defaults: Reset form
+        row_actions: Действия со строками
+        tab: Настройка форм
+        untitled_group: Безымянная группа
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Проекты
         enable_all: Использовать во всех проектах
         select_projects: Выберите проекты
         select_projects_description: Выберите проекты, в которых вы хотели бы использовать этот тип.
+        tab: Проекты
       settings:
         tab: Параметры
         type_color_text: |-
@@ -1752,6 +1763,7 @@ ru:
       login_consequences:
         other: Эта учетная запись будет немедленно удалена из системы, и пользователь больше не сможет войти в систему с ее учетными данными.
         self: Ваша учетная запись будет немедленно удалена из системы, и Вы больше не сможете войти в систему, используя свои учетные данные.
+      title: Delete %{name}'s account
     error_inactive_activation_by_mail: 'Ваша учетная запись не была активирована. Для активации перейдите по ссылке, направленной вам по электронной почте.
 
       '
@@ -1821,6 +1833,7 @@ ru:
         regexp: Регулярное выражение
         searchable: Доступно для поиска
         visible_on_user_card: Show on user card
+        semantic_key: Semantic meaning
         admin_only: Только администратор
         has_comment: Добавьте комментарий для текстового поля
       custom_value:
@@ -2048,6 +2061,7 @@ ru:
       user:
         admin: Администратор
         auth_source: Источник аутентификации
+        department: Department
         ldap_auth_source: Подключение к LDAP
         identity_url: URL идентификации
         current_password: Текущий пароль
@@ -2179,6 +2193,7 @@ ru:
         cannot_delete_mapping: требуется. Невозможно удалить.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан с одной из своих подзадач.
         circular_dependency: Это отношение создаст циклическую зависимость.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: не совпадает со значением поля %{attribute}.
         could_not_be_copied: "%{dependency} не может быть скопировано (полностью)."
         datetime_must_be_in_future: должно быть в будущем.
@@ -2495,11 +2510,14 @@ ru:
           is_not_a_valid_target_for_time_entries: 'Пакет работ #%{id} не допустимым для переназначения времени записи.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Не удается добавить дочерний пакет, потому что вы не имеете разрешения на редактирование выбранного пакета работ.
               blank: ID не может быть пустым.
+              cannot_add_child_because_of_lack_of_permission: Не удается добавить дочерний пакет, потому что вы не имеете разрешения на редактирование выбранного пакета работ.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'must not be changed manually. Work package identifiers are allocated automatically and resolved through the alias table, so changing them by hand breaks links and identifier history. If this change is deliberate, save with `save(context: :%{context})` and keep the work_package_semantic_aliases table consistent.'
               semantic_identifier_incomplete: и sequence_number должны быть установлены одновременно.
+            sequence_number:
+              must_not_be_changed: 'must not be changed manually. It is allocated automatically together with the identifier. If this change is deliberate, save with `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -2914,6 +2932,7 @@ ru:
   button_add_sub_item: Добавить подпроект
   button_add_member: Добавить участника
   button_add_watcher: Добавить наблюдателя
+  button_all_filters: All filters
   button_annotate: Комментировать
   button_apply: Применить
   button_apply_changes: Применить изменения
@@ -3694,19 +3713,18 @@ ru:
         header: Читайте о новых возможностях и обновлениях продуктов.
         learn_about: Узнайте больше о всех новых функциях
         missing: Нет выделенных функций.
-        '17_5':
-          new_features_title: 'Релиз содержит различные новые функции и улучшения, такие как:
+        '17_6':
+          new_features_title: 'The release contains various new features and improvements, such as:
 
             '
           new_features_list:
-            line_0: Project-based work package identifiers for clearer references.
-            line_1: Jira Migrator support for Jira identifiers, due dates, and more.
-            line_2: Option to exclude work package types from Backlogs.
-            line_3: Redesigned sprint views.
-            line_4: Improved work package linking across Documents and text editors.
-            line_5: More flexible meeting schedules and reduced email notification noise.
-            line_6: Nested groups for organizational structures and inherited permissions.
-            line_7: Improved administration interfaces for workflows, users, and type configuration.
+            line_0: XWiki integration (Corporate plan).
+            line_1: Sprint goals.
+            line_2: "'All sprints' overview page."
+            line_3: Display backlog buckets in work packages and work package tables.
+            line_4: Improved support for project-based (semantic) identifiers.
+            line_5: Convert meeting agenda items into work packages.
+            line_6: Configure cost types per project.
     links:
       upgrade_enterprise_edition: Обновить до корпоративной версии
       postgres_migration: Перенос вашей установки в PostgreSQL
@@ -4402,6 +4420,7 @@ ru:
 
     '
   label_part_of: является частью
+  label_past: Past
   label_password_lost: Забыли пароль?
   label_password_rule_lowercase: Нижний регистр
   label_password_rule_numeric: Числовые символы
@@ -4585,6 +4604,7 @@ ru:
   label_type_new: Новый тип
   label_type_plural: Типы
   label_ui: Интерфейс пользователя
+  label_upcoming: Upcoming
   label_updated_time: Обновлено %{value} назад
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Обновил %{author} %{age} назад
@@ -5232,16 +5252,13 @@ ru:
     create_managed_delay: 'Пожалуйста, обратите внимание: репозиторий является управляемым, он формируется асинхронно на диске и будет доступен в ближайшее время.'
     create_successful: Репозиторий был зарегистрирован.
     delete_sucessful: Репозиторий был удален.
-    destroy:
-      confirmation: Продолжив, вы окончательно удалите управляемый репозиторий.
-      info: Удаление репозитория – действие необратимое.
-      info_not_managed: 'Примечание: Содержимое этого репозитория не будет удалено, так как оно не управляется OpenProject.'
-      managed_path_note: 'Следующий каталог будет удален: %{path}'
-      repository_verification_html: Введите идентификатор проекта %{identifier} для проверки удаления его репозитория.
-      subtitle: Вы действительно хотите удалить %{repository_type} проект %{project_name}?
-      subtitle_not_managed_html: Вы действительно хотите удалить связанный %{repository_type} %{url} из проекта %{project_name}?
-      title_html: Удаление %{repository_type}
-      title_not_managed: Удалить связанный %{repository_type}?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Не удается создать репозиторий с выбранной конфигурацией. %{reason}
       managed_delete: Не удается удалить управляемый репозиторий.
@@ -5746,6 +5763,13 @@ ru:
       label_untitled_section: User attributes
       new:
         heading: New attribute
+      tabs:
+        attributes: Attributes
+        semantic_keys: Mapped attributes
+      semantic_keys:
+        description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
+        descriptions:
+          job_title: Choose the attribute that holds each user's job title. It appears next to their name in several places, such as user cards.
     working_days:
       section_work_week: Рабочая неделя
       section_holidays_and_closures: Праздничные и нерабочие дни
@@ -6007,6 +6031,7 @@ ru:
     status_user_and_brute_force: "%{user} и %{brute_force}"
     status_change: Смена статуса
     text_change_disabled_for_provider_login: Это имя и адрес электронной почты заданы вашим поставщиком авторизации, поэтому их нельзя изменить.
+    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
     unlock: Разблокировать
     unlock_and_reset_failed_logins: Разблокировать и сбросить неудачные попытки входа
     error_cannot_delete_user: Пользователь не может быть удален
@@ -6344,6 +6369,8 @@ ru:
     scopes:
       api_v3: Полный доступ к API v3
       api_v3_text: Приложение получит полный доступ к OpenProject API v3 для выполнения действий от вашего имени.
+      mcp: Access to MCP
+      mcp_text: Application will receive access to the OpenProject MCP endpoints. They are a limited subset of APIv3, that's tailored for usage with AI agents.
     grants:
       created_date: Ознакомлен с
       scopes: Разрешения

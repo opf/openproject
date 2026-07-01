@@ -59,6 +59,13 @@ Rails.application.routes.draw do
           delete "users/:user_id", action: :remove_user, as: :remove_user
         end
 
+        resource :work_package_timeline, only: [], defaults: { format: :json } do
+          scope module: "resource_management/work_package_timeline" do
+            resources :resources, only: :index
+            resources :events, only: :index
+          end
+        end
+
         resources :work_packages, only: [] do
           resource :progress,
                    only: %i[edit update],
@@ -93,5 +100,14 @@ Rails.application.routes.draw do
                 controller: "resource_management/user_resource_allocations",
                 only: :index
     end
+
+    # Staffing: assigning real users to generic (filter-based) allocations.
+    # `:id` is the ResourceAllocation being staffed. The GET opens the dialog and
+    # the PUT performs the assignment; both share the same path. The PUT needs an
+    # explicit `as:` — without one it would inherit the scope's `project` name and
+    # clobber the global `project_path` helper.
+    get "staffing" => "resource_management/staffing#index", as: :staffing
+    get "staffing/:id/assign" => "resource_management/staffing#assign_form", as: :staffing_assign
+    put "staffing/:id/assign" => "resource_management/staffing#assign", as: :staffing_assignment
   end
 end

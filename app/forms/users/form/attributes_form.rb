@@ -125,13 +125,56 @@ module Users
                            input_width: :medium,
                            **editability(:login))
         when "language"
-          group.select_list(name: :language,
-                            label: User.human_attribute_name(:language),
-                            include_blank: "--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
-                            input_width: :medium) do |list|
-            helpers.lang_options_for_select.each { |label, value| list.option(label:, value:) }
+          render_language(group)
+        when "department"
+          render_department(group)
+        end
+      end
+
+      def render_language(group)
+        group.select_list(name: :language,
+                          label: User.human_attribute_name(:language),
+                          include_blank: "--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                          input_width: :medium) do |list|
+          helpers.lang_options_for_select.each { |label, value| list.option(label:, value:) }
+        end
+      end
+
+      # A user belongs to at most one department (an organizational unit group).
+      # The field is editable by administrators only and disabled when the current
+      # department is managed by LDAP, since LDAP owns that membership.
+      def render_department(group)
+        group.select_list(name: :department_id,
+                          label: User.human_attribute_name(:department),
+                          include_blank: "--- #{I18n.t(:actionview_instancetag_blank_option)} ---",
+                          input_width: :medium,
+                          **department_editability) do |list|
+          department_options.each do |department|
+            prefix = "  " * (department.hierarchy_depth || 0)
+            # LDAP-managed departments own their membership; assigning into them
+            # would fail validation, so they cannot be chosen as a target.
+            list.option(label: "#{prefix}#{department.name}",
+                        value: department.id,
+                        selected: @user.department&.id == department.id,
+                        disabled: department.ldap_managed?)
           end
         end
+      end
+
+      def department_options
+        @department_options ||= Group.organizational_units.in_tree_order
+      end
+
+      def department_editable?
+        User.current.active_admin? && !@user.department&.ldap_managed?
+      end
+
+      def department_editability
+        return {} if department_editable?
+
+        options = { disabled: true }
+        options[:caption] = I18n.t("user.department_ldap_managed_caption") if @user.department&.ldap_managed?
+        options
       end
 
       # Editability options for a built-in text field. Administration disables

@@ -30,13 +30,11 @@
 
 require "spec_helper"
 require "features/repositories/repository_settings_page"
-require "features/support/components/danger_zone"
 
 RSpec.describe "Repository Settings", :js do
   let(:current_user) { create (:admin) }
   let(:project) { create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
-  let(:dangerzone) { DangerZone.new(page) }
 
   # Allow to override configuration values to determine
   # whether to activate managed repositories
@@ -67,26 +65,16 @@ RSpec.describe "Repository Settings", :js do
       if type == "managed"
         find("a.icon-delete", text: I18n.t(:button_delete)).click
 
-        dangerzone = DangerZone.new(page)
-
-        expect(page).to have_selector(dangerzone.container_selector)
-        expect(dangerzone.disabled?).to be true
-
         SeleniumHubWaiter.wait
-        dangerzone.confirm_with("definitely not the correct value")
-        expect(dangerzone.disabled?).to be true
-
-        SeleniumHubWaiter.wait
-        dangerzone.confirm_with(project.identifier)
-        expect(dangerzone.disabled?).to be false
-
-        SeleniumHubWaiter.wait
-        dangerzone.danger_button.click
+        check "I understand that this deletion cannot be reversed"
+        click_on I18n.t(:button_delete_permanently)
       else
         find("a.icon-remove", text: I18n.t(:button_remove)).click
-        expect(page).to have_css(".op-toast.-warning")
+
         SeleniumHubWaiter.wait
-        page.find_test_selector("remove-repository-button").click
+        within("#destroy-repository-dialog") do
+          click_on I18n.t(:button_remove)
+        end
       end
 
       vendor = find('select[name="scm_vendor"]')

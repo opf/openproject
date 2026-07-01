@@ -70,7 +70,7 @@ export class ApiV3WorkPackagesPaths extends ApiV3Collection<WorkPackageResource,
 
     return new Promise<undefined>((resolve, reject) => {
       this
-        .loadCollectionsFor(_.uniq(ids))
+        .loadCollectionsFor(Array.from(new Set(ids)))
         .then((pagedResults:WorkPackageCollectionResource[]) => {
           pagedResults.forEach((results) => {
             if (results.schemas) {

@@ -41,6 +41,8 @@ de:
         storage: Dateispeicher
         storage_url: Dateispeicher-URL
         tenant: Verzeichnis (Tenant) ID
+      work_package:
+        file_links: File links
     errors:
       messages:
         invalid_host_url: ist keine gültige URL.

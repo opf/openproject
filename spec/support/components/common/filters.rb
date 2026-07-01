@@ -45,12 +45,12 @@ module Components
         if filter_name == "name_and_identifier"
           expect(page.find_by_id(filter_name).value).not_to be_empty
         elsif value
-          within(".advanced-filters--filter[data-filter-name='#{filter_name}']") do
+          within(filter_selector(filter_name)) do
             expect(page).to have_css(".advanced-filters--filter-value", text: value, visible: :all)
           end
         else
           expect(page)
-            .to have_css(".advanced-filters--filter[data-filter-name='#{filter_name}']")
+            .to have_css(filter_selector(filter_name))
         end
       end
 
@@ -73,23 +73,33 @@ module Components
       end
 
       def set_advanced_filter(name, human_name, human_operator = nil, values = [], send_keys: false)
-        selected_filter = select_filter(name, human_name)
+        select_filter(name, human_name)
+
+        # Classify the row before apply_operator re-renders it; the type and
+        # autocomplete markers are fixed per filter, so selecting the operator
+        # does not change them. Skipped when there is nothing to set.
+        kind = filter_kind(name) if values.any?
+
         apply_operator(name, human_operator)
 
-        within(selected_filter) do
-          return unless values.any?
+        return unless values.any?
 
-          if boolean_filter?(name)
-            set_toggle_filter(values)
-          elsif autocomplete_filter?(selected_filter)
-            select(human_operator, from: "operator_#{name}")
-            set_autocomplete_filter(values)
-          elsif name == "created_at"
-            select(human_operator, from: "operator_#{name}")
-            set_datetime_filter(name, human_operator, values, send_keys:)
-          elsif date_filter?(selected_filter) && human_operator == "on"
-            set_date_filter(values, send_keys)
-          end
+        # Re-find after apply_operator: selecting the operator re-renders the
+        # filter row, leaving an earlier reference stale (ObsoleteNode).
+        within(filter_selector(name)) do
+          set_advanced_filter_value(name, kind, human_operator, values, send_keys:)
+        end
+      end
+
+      def set_advanced_filter_value(name, kind, human_operator, values, send_keys:)
+        if boolean_filter?(name)
+          set_toggle_filter(values)
+        elsif kind == :autocomplete
+          set_autocomplete_filter(values)
+        elsif name == "created_at"
+          set_datetime_filter(name, human_operator, values, send_keys:)
+        elsif kind == :date && human_operator == "on"
+          set_date_filter(values, send_keys)
         end
       end
 
@@ -121,14 +131,14 @@ module Components
 
       def select_filter(name, human_name)
         select human_name, from: "add_filter_select"
-        page.find(".advanced-filters--filter[data-filter-name='#{name}']")
+        page.find(filter_selector(name))
       end
 
       def remove_filter(name)
         if name == "name_and_identifier"
           page.find_by_id("name_and_identifier").find(:xpath, "following-sibling::button").click
         else
-          page.find(".advanced-filters--filter[data-filter-name='#{name}'] .advanced-filters--remove-filter").click
+          page.find("#{filter_selector(name)} .advanced-filters--remove-filter").click
         end
       end
 
@@ -223,16 +233,27 @@ module Components
         page.has_css?(".op-filters-form.-expanded", wait: 0)
       end
 
-      def autocomplete_filter?(filter)
-        filter.has_css?('[data-filter-autocomplete="true"]', wait: 0)
+      def filter_selector(name)
+        ".advanced-filters--filter[data-filter-name='#{name}']"
       end
 
-      def date_filter?(filter)
-        filter[:"data-filter-type"] == "date"
-      end
+      # Classifies the filter row by re-finding it once. Returns :autocomplete
+      # when the value container carries the autocomplete marker, otherwise the
+      # row's data-filter-type as a symbol (:date, :datetime_past, ...).
+      #
+      # Re-finding is required because adding/operating on a filter re-renders
+      # the row, leaving a captured reference stale (ObsoleteNode). The raising
+      # find waits for the row; the marker check is then instant, mirroring the
+      # synchronous data-filter-type read. The marker check stays wait: 0 on
+      # purpose: rows are pre-rendered, so the marker is present whenever the row
+      # is, and a default wait would only stall the non-autocomplete branches for
+      # the full Capybara timeout before falling through.
+      def filter_kind(name)
+        row = page.find(filter_selector(name))
 
-      def date_time_filter?(filter)
-        filter[:"data-filter-type"] == "datetime_past"
+        return :autocomplete if row.has_css?('[data-filter-autocomplete="true"]', wait: 0)
+
+        row[:"data-filter-type"]&.to_sym
       end
 
       def boolean_filter?(_filter)

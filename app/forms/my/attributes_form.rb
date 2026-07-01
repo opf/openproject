@@ -18,6 +18,12 @@ class My::AttributesForm < Users::Form::AttributesForm
 
   private
 
+  # Users cannot move themselves between departments; the field is always
+  # read-only on the self-service account page.
+  def department_editable?
+    false
+  end
+
   def editability(key)
     return {} if @contract.writable?(key.to_sym)
 

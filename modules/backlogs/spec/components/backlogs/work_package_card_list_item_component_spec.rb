@@ -131,15 +131,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
           .to end_with(move_project_backlogs_work_package_path(project, work_package))
       end
     end
-
-    context "with params" do
-      let(:params) { { all: true } }
-
-      it "passes params into row URLs" do
-        expect(item.row_args.dig(:data, :backlogs__story_split_url_value)).to match(/all=true/)
-        expect(item.row_args.dig(:data, :drop_url)).to match(/all=true/)
-      end
-    end
   end
 
   describe "#card" do
@@ -184,17 +175,6 @@ RSpec.describe Backlogs::WorkPackageCardListItemComponent, type: :component do
         expect(rendered_card).to have_element(
           "include-fragment",
           src: menu_project_backlogs_work_package_path(project, work_package)
-        )
-      end
-    end
-
-    context "with params" do
-      let(:params) { { all: 1 } }
-
-      it "passes params into the menu source" do
-        expect(rendered_card).to have_element(
-          "include-fragment",
-          src: menu_project_backlogs_work_package_path(project, work_package, all: 1)
         )
       end
     end

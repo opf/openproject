@@ -37,10 +37,11 @@ module OpenProject::ResourceManagement
     include OpenProject::Plugins::ActsAsOpEngine
 
     initializer "openproject-resource_management.feature_decisions" do
-      OpenProject::FeatureDecisions.add :resource_management, allow_enabling: Rails.env.local?
+      OpenProject::FeatureDecisions.add :resource_management
     end
 
-    replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id]
+    replace_principal_references "ResourceAllocation" => %i[principal_id requested_by_id reviewed_by_id
+                                                            principal_assigned_by_id]
 
     register "openproject-resource_management",
              author_url: "https://www.openproject.org",
@@ -62,6 +63,8 @@ module OpenProject::ResourceManagement
                                                                       reorder_work_package
                                                                       new_user add_user remove_user],
                      "resource_management/work_package_resource_allocations": %i[index],
+                     "resource_management/work_package_timeline/resources": %i[index],
+                     "resource_management/work_package_timeline/events": %i[index],
                      "resource_management/user_resource_allocations": %i[index],
                      "resource_management/menus": %i[show]
                    },
@@ -81,6 +84,14 @@ module OpenProject::ResourceManagement
                    permissible_on: :project,
                    dependencies: %i[view_resource_planners],
                    contract_actions: { resource_allocation: %i[create update destroy] }
+
+        # Assigning a real user to a generic (filter-based) allocation in the
+        # Staffing view. Independent of `allocate_user_resources`: a user may be
+        # allowed to staff without being allowed to create or edit allocations.
+        permission :assign_users_to_generic_allocations,
+                   { "resource_management/staffing": %i[index assign_form assign] },
+                   permissible_on: :project,
+                   dependencies: %i[view_resource_planners]
       end
 
       # TODO: Add those menus when global overview will be implemented

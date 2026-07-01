@@ -162,9 +162,9 @@ cs:
           nested_macro: Tento makro rekurzivně odkazuje na %{model} %{id}.
           invalid_attribute: Vybraný atribut '%{name}' neexistuje.
         child_pages:
-          button: Odkazy na podřízené stránky
+          button: List of sub-pages
           include_parent: Zahrnout nadřazený
-          text: "[Placeholder] Odkazy na podřízené stránky z"
+          text: "[Placeholder] List of sub-pages of"
           page: Stránka wiki
           this_page: tato stránka
           hint: 'Ponechte toto pole prázdné pro zobrazení všech podstránek aktuální stránky. Pokud chcete odkazovat na jinou stránku, zadejte její název nebo slug.
@@ -920,11 +920,12 @@ cs:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrovat pracovní balíčky podle typu vztahu
       tabs:
-        overview: Přehled
         activity: Aktivita
+        files: Soubory
+        overview: Přehled
+        project_attributes: Project attributes
         relations: Vztahy
         watchers: Sledující
-        files: Soubory
       time_relative:
         days: dnů
         weeks: týdny

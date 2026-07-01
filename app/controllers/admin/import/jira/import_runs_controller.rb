@@ -51,7 +51,7 @@ module Admin::Import::Jira
 
     def show; end
 
-    def new
+    def create
       jira = Import::Jira.find(params[:jira_id])
       jira_import = Import::JiraImport.create!(author_id: current_user.id, jira_id: jira.id)
       redirect_to(admin_import_jira_run_path(jira_id: jira.id, id: jira_import.id))

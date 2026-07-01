@@ -41,6 +41,8 @@ cs:
         storage: Storage
         storage_url: Storage URL
         tenant: ID adresáře (tenant)
+      work_package:
+        file_links: File links
     errors:
       messages:
         invalid_host_url: není platná adresa URL.

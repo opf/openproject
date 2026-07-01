@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { Injectable } from '@angular/core';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { input } from '@openproject/reactivestates';
@@ -59,7 +60,7 @@ export class WorkPackageViewTimelineService extends WorkPackageQueryStateService
   public hasChanged(query:QueryResource) {
     const visibilityChanged = this.isVisible !== query.timelineVisible;
     const zoomLevelChanged = this.zoomLevel !== query.timelineZoomLevel;
-    const labelsChanged = !_.isEqual(this.current.labels, query.timelineLabels);
+    const labelsChanged = !isEqual(this.current.labels, query.timelineLabels);
 
     return visibilityChanged || zoomLevelChanged || labelsChanged;
   }

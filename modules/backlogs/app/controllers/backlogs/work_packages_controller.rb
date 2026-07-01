@@ -31,7 +31,6 @@
 module Backlogs
   class WorkPackagesController < BaseController
     include OpTurbo::ComponentStream
-    include Backlogs::Concerns::ContainerLoading
 
     before_action :load_work_package
 
@@ -64,14 +63,11 @@ module Backlogs
     end
 
     def move # rubocop:disable Metrics/AbcSize
-      # Capture the source before the call; the service reloads @work_package internally via #move_after.
-      source_sprint = @work_package.sprint
-
       call = ::Backlogs::WorkPackages::UpdateService.new(user: current_user, story: @work_package)
                                    .call(**move_params.to_h.symbolize_keys)
 
       if call.success?
-        move_work_package_to_target_component_via_turbo_stream(source_sprint:, target_sprint: call.result.sprint)
+        reload_frame_via_turbo_stream("backlogs_container")
 
         if work_package_invisible_after_move?(call.result)
           backlog_name = call.result.backlog_bucket&.name || I18n.t(:label_inbox)
@@ -89,36 +85,6 @@ module Backlogs
     end
 
     private
-
-    def move_work_package_to_target_component_via_turbo_stream(source_sprint:, target_sprint:)
-      if source_sprint != target_sprint
-        replace_component_via_turbo_stream(sprint: source_sprint)
-      end
-
-      replace_component_via_turbo_stream(sprint: target_sprint)
-    end
-
-    def replace_component_via_turbo_stream(sprint:)
-      component = if sprint
-                    sprint_component(sprint:)
-                  else
-                    backlog_component
-                  end
-
-      replace_via_turbo_stream(component:, method: :morph)
-    end
-
-    def sprint_component(sprint:)
-      Backlogs::SprintComponent.new(sprint:, project: @project)
-    end
-
-    def backlog_component
-      load_backlog_data
-
-      Backlogs::BacklogComponent.new(buckets: @backlog_buckets,
-                                     work_packages_by_backlog_id: @work_packages_by_backlog_id,
-                                     project: @project)
-    end
 
     def load_work_package
       @work_packages = WorkPackage.visible.where(project: @project).order_by_position

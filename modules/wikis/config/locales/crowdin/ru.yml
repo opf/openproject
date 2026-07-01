@@ -137,9 +137,18 @@ ru:
       wiki_page: Wiki-страница
     create_new_wiki_page_dialog:
       title: Create new wiki page
+    deferred_inline_page_link_macro_component:
+      loading: Loading…
     delete_relation_page_link_confirmation_dialog:
       heading: Delete related wiki page link?
       title: Delete related wiki page link
+    errors:
+      connection_error: Could not connect to the wiki provider.
+      invalid_parent: The selected page is not a valid parent page.
+      invalid_response: The wiki provider responded unexpectedly.
+      missing_token: The user account is not yet connected to the wiki provider.
+      request_failed: The wiki provider experienced an unexpected error.
+      unauthorized: An authorization error occured.
     health_checks:
       authentication:
         existing_token: User token

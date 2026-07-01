@@ -75,10 +75,10 @@ export class WorkPackageEmbeddedGraphComponent implements OnChanges {
   }
 
   private updateChartData() {
-    let uniqLabels = _.uniq(this.datasets.reduce((array, dataset) => {
+    let uniqLabels = Array.from(new Set(this.datasets.reduce((array, dataset) => {
       const groups = (dataset.groups || []).map((group) => group.value) as any;
       return array.concat(groups);
-    }, [])) as string[];
+    }, []))) as string[];
 
     const labelCountMaps = this.datasets.map((dataset) => {
       const countMap = (dataset.groups || []).reduce<any>((hash, group) => ({

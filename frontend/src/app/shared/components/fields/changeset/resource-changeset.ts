@@ -31,6 +31,7 @@ import {
   InputState,
 } from '@openproject/reactivestates';
 import { take } from 'rxjs/operators';
+import { cloneDeep } from 'lodash-es';
 
 import { SchemaResource } from 'core-app/features/hal/resources/schema-resource';
 import { FormResource } from 'core-app/features/hal/resources/form-resource';
@@ -256,7 +257,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
    * @param attribute
    */
   public humanName(attribute:string):string {
-    return _.get(this.schema, `${attribute}.name`, attribute);
+    return (this.schema?.[attribute] as { name?:string }|undefined)?.name ?? attribute;
   }
 
   /**
@@ -425,9 +426,9 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
       // to let all default values be transmitted (type, status, etc.)
       // We clone the object to avoid later manipulations to affect the original resource.
       if (this.form$.value) {
-        payload = _.cloneDeep(this.form$.value.payload.$source);
+        payload = cloneDeep((this.form$.value.payload as { $source:unknown }).$source) as typeof payload;
       } else {
-        payload = _.cloneDeep(this.pristineResource.$source);
+        payload = cloneDeep(this.pristineResource.$source) as typeof payload;
       }
 
       // Add attachments to be assigned.
@@ -487,7 +488,7 @@ export class ResourceChangeset<T extends HalResource = HalResource> {
 
       return links;
     }
-    return { href: _.get(val, 'href', null) };
+    return { href: (val as { href?:string }|null|undefined)?.href ?? null };
   }
 
   /**

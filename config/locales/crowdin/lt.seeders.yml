@@ -93,6 +93,21 @@ lt:
           name: Aukštis
         item_3:
           name: Neatidėliotinas
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Demonstracinis projektas
@@ -182,21 +197,23 @@ lt:
                 item_2:
                   subject: Nustatyti konferencijos svetainę
             item_2:
-              subject: Konferencija
+              subject: Test and quality-check the conference website
             item_3:
-              subject: Tolimesnės užduotys
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: Įkelti pristatymą į svetainę
+                  subject: Upload presentations to website
                 item_1:
-                  subject: Vakarėlis konferencijos rėmėjams :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    *   [ ] Alus
-                    *   [ ] Užkandžiai
-                    *   [ ] Muzika
-                    *   [ ] Dar daugiau alaus
-            item_4:
-              subject: Projekto pabaiga
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             _Šioje viki jūs galite bendrai kurti ir redaguoti puslapius bei popuslapius, kad sukurtumėte projekto viki._
 

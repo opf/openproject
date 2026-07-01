@@ -26,5 +26,5 @@ hu:
       properties:
         storyPoints: Story pontok
     burndown:
-      day: Day
-      points: Points
+      day: Nap
+      points: Pontok

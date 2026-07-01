@@ -24,7 +24,7 @@ Below you will find a complete list of all changes and bug fixes.
 
 - Bugfix: Capital letters in user email or login break import with error. \[[#75924](https://community.openproject.org/wp/75924)\]
 - Bugfix: Page scrolls down to the bottom if user clicks on WP description when top of description is out of screen \[[#74186](https://community.openproject.org/wp/74186)\]
-- Bugfix: Creation of new work packages and status transitions not possible aber upgrade to 17.5 \[[#75961](https://community.openproject.org/wp/75961)\]
+- Bugfix: Creation of new work packages and status transitions not possible after upgrade to 17.5 \[[#75961](https://community.openproject.org/wp/75961)\]
 - Bugfix: Renaming of projects causes AMPF sync to fail \[[#76022](https://community.openproject.org/wp/76022)\]
 - Bugfix: Direct upload failing on SaaS since new prefix key is added \[[#75811](https://community.openproject.org/wp/75811)\]
 

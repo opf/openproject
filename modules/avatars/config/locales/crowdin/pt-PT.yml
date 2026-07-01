@@ -20,9 +20,9 @@ pt-PT:
     label_avatar: Avatar
     label_gravatar: Gravatar
     label_local_avatar: Avatar personalizado
-    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
-    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
-    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_gravatar_html: O OpenProject utiliza o seu Gravatar, caso o tenha registado em %{gravatar_url}, uma imagem ou um ícone predefinido, caso exista.
+    text_avatar_local: Também clicar na imagem para carregar um avatar personalizado que substitua o Gravatar. Recomendamos uma imagem com 128 por 128 píxeis.
+    text_avatar_local_only: Pode carregar um avatar personalizado clicando na imagem. Recomendamos uma imagem com 128 por 128 píxeis.
     settings:
       enable_gravatars: Ativar Gravatars de utilizadores
       gravatar_default: Imagem Gravatar predefinida

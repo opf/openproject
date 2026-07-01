@@ -79,9 +79,21 @@ module ResourcePlanners
                               "aria-label": t(:label_more),
                               scheme: :invisible)
 
+        edit_item(menu) if edit_allowed?
         favorite_item(menu)
         toggle_public_item(menu) if toggle_public_allowed?
         delete_item(menu) if delete_allowed?
+      end
+    end
+
+    def edit_item(menu)
+      menu.with_item(
+        label: t("resource_management.action.edit"),
+        tag: :a,
+        href: edit_project_resource_planner_path(project, model),
+        content_arguments: { data: { controller: "async-dialog" } }
+      ) do |item|
+        item.with_leading_visual_icon(icon: :pencil)
       end
     end
 
@@ -133,8 +145,17 @@ module ResourcePlanners
       User.current.allowed_in_project?(:manage_public_resource_planners, project)
     end
 
+    def edit_allowed?
+      manage_allowed?
+    end
+
     def delete_allowed?
       return true if User.current.active_admin?
+
+      manage_allowed?
+    end
+
+    def manage_allowed?
       return false if project.nil?
 
       owns_planner = model.principal == User.current &&

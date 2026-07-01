@@ -52,7 +52,7 @@ The conversion process will start immediately. You can safely leave the page whi
 
 Once the conversion has finished, OpenProject displays a confirmation message. 
 
-![Successfull confirmation message after the conversion process when switching from numeric to project-based work package identifiers in OpenProject](openproject_system_guide_wp_identifiers_settings_switch_to_semantic_conversion_success.png)
+![Successful confirmation message after the conversion process when switching from numeric to project-based work package identifiers in OpenProject](openproject_system_guide_wp_identifiers_settings_switch_to_semantic_conversion_success.png)
 
 > [!NOTE]
 > Historical references continue to work even if project identifiers change later.

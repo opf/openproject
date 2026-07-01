@@ -41,6 +41,8 @@ sk:
         storage: Storage
         storage_url: Storage URL
         tenant: Directory (tenant) ID
+      work_package:
+        file_links: File links
     errors:
       messages:
         invalid_host_url: nie je platnou URL adresou.

@@ -143,7 +143,7 @@ eo:
   label_meeting_template_new: New template
   label_meeting_template_create: Create template
   label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
+  label_meeting_template_edit: Redaktu ŝablonon
   label_meeting_create_from_template: Create meeting from template
   label_meeting_new: Nova renkontiĝo
   label_meeting_new_dynamic: New one-time meeting
@@ -291,7 +291,7 @@ eo:
         new_date_time: New date/time
         old_location: Old location
         new_location: New location
-        added_participants: Added
+        added_participants: Aldonita
         removed_participants: Removed
     label_mail_all_participants: Send email invite to participants
     types:
@@ -444,7 +444,7 @@ eo:
 
         '
       label_view_template: View template
-      label_edit_template: Edit template
+      label_edit_template: Redaktu ŝablonon
       banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings.
 
         '
@@ -600,10 +600,10 @@ eo:
   label_agenda_item_duplicate: Duplicate
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
-  label_agenda_item_add_notes: Add notes
-  label_agenda_item_add_outcome: Add outcome
+  label_agenda_item_add_notes: Aldoni notojn
+  label_agenda_item_add_outcome: Aldoni rezulton
   label_agenda_item_convert_to_work_package: Convert to work package
-  label_agenda_item_work_package_add: Add work package
+  label_agenda_item_work_package_add: Aldoni laborpakaĵon
   label_agenda_item_work_package: Agenda item work package
   label_section_rename: Rename section
   label_agenda_outcome: Outcome
@@ -611,7 +611,7 @@ eo:
   label_agenda_outcome_actions: Agenda outcome actions
   label_agenda_outcome_edit: Edit outcome
   label_agenda_outcome_delete: Remove outcome
-  label_added_as_outcome: Added as outcome
+  label_added_as_outcome: Aldonita kiel rezulto
   label_write_outcome: Write outcome
   label_existing_work_package: Existing work package
   text_outcome_not_editable_anymore: This outcome is not editable anymore.
@@ -678,7 +678,7 @@ eo:
   text_meeting_not_editable_anymore: This meeting is not editable anymore.
   text_meeting_not_present_anymore: This meeting was deleted. Please select another meeting.
   label_add_work_package_to_meeting_dialog_title: Select meeting
-  label_add_work_package_to_meeting_section_label: Section
+  label_add_work_package_to_meeting_section_label: Sekcio
   label_add_work_package_to_meeting_dialog_button: Add to meeting
   label_meeting_selection_caption: It is only possible to add this work package to an upcoming or an ongoing meeting.
   label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.

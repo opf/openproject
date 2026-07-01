@@ -162,9 +162,9 @@ hr:
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Links to child pages
+          button: List of sub-pages
           include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki stranica
           this_page: this page
           hint: 'Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
@@ -915,11 +915,12 @@ hr:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Pregled
         activity: Aktivnost
+        files: Datoteke
+        overview: Pregled
+        project_attributes: Project attributes
         relations: Relacije
         watchers: Nadglednici
-        files: Datoteke
       time_relative:
         days: dani
         weeks: tjedana

@@ -88,7 +88,11 @@ cs:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
               not_eligible_for_moving: není aktivní sprint v projektu, v němž se koná sprint, z něhož je pracovní balíček přesunut.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        few: Sprints
+        many: Sprints
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Nastavení backlogu se vyvíjí

@@ -145,6 +145,20 @@ RSpec.describe Users::HoverCardComponent, type: :component do
     end
   end
 
+  context "when the user belongs to a department" do
+    let(:current_user) { create(:user, global_permissions: %i[view_all_principals]) }
+    let!(:groups) { create(:department, name: "Engineering", members: [user]) }
+
+    it "shows the department name" do
+      expect(page).to have_test_selector("user-hover-card-department", text: "Engineering")
+    end
+
+    it "excludes the department from the group membership summary" do
+      g = find_test_selector("user-hover-card-groups")
+      expect(g).to have_text(I18n.t("users.groups.no_results_title_text"))
+    end
+  end
+
   context "when clicking on the Open Profile button" do
     it "leads to the users profile" do
       b = find_test_selector("user-hover-card-profile-btn")

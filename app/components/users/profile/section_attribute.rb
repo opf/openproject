@@ -33,11 +33,12 @@ module Users
     # A single renderable profile attribute (built-in or custom field).
     # `value` is a scalar for single values, or an Array for multi-value custom fields.
     class SectionAttribute
-      attr_reader :label, :value
+      attr_reader :label, :value, :icon
 
-      def initialize(label:, value:)
+      def initialize(label:, value:, icon: nil)
         @label = label
         @value = value
+        @icon = icon
       end
 
       def multi_value?

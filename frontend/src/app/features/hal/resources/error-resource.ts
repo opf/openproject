@@ -94,20 +94,20 @@ export class ErrorResource extends HalResource {
   }
 
   public getInvolvedAttributes():string[] {
-    let columns = [];
+    let columns:ErrorResource[] = [];
 
     if (this.details) {
-      columns = [{ details: this.details }];
+      columns = [{ details: this.details as { attribute:string } } as ErrorResource];
     } else if (this.errors) {
-      columns = this.errors;
+      columns = this.errors as ErrorResource[];
     }
 
-    return _.flatten(columns.map((resource:ErrorResource) => {
+    return columns.map((resource:ErrorResource):string => {
       if (resource.errorIdentifier === v3ErrorIdentifierMultipleErrors) {
         return this.extractMultiError(resource)[0];
       }
-      return resource.details.attribute;
-    }));
+      return (resource.details as { attribute:string }).attribute;
+    }).flat();
   }
 
   public getMessagesPerAttribute():Record<string, string[]> {

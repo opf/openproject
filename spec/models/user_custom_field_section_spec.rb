@@ -34,8 +34,8 @@ RSpec.describe UserCustomFieldSection do
   subject(:section) { create(:user_custom_field_section) }
 
   describe "constants" do
-    it "defines the five built-in attribute keys" do
-      expect(described_class::BUILT_IN_ATTRIBUTES).to eq(%w[login firstname lastname mail language])
+    it "defines the built-in attribute keys" do
+      expect(described_class::BUILT_IN_ATTRIBUTES).to eq(%w[login firstname lastname mail language department])
     end
   end
 

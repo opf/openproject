@@ -34,7 +34,7 @@ eo:
   description_multi_select: Show multiselect
   description_remove_filter: Remove filter
   information_restricted_depending_on_permission: Depending on your permissions this page might contain restricted information.
-  label_click_to_edit: Click to edit.
+  label_click_to_edit: Klaku por redakti.
   label_closed: fermita
   label_columns: Kolumnoj
   label_cost_entry_attributes: Cost entry attributes
@@ -69,7 +69,7 @@ eo:
   label_year_reporting: Year (Spent)
   label_count: Count
   label_filter: Filtrilo
-  label_filter_add: Add Filter
+  label_filter_add: Aldoni filtrilon
   label_filter_plural: Filtriloj
   label_group_by: Grupigi laŭ
   label_group_by_add: Add Group-by Attribute

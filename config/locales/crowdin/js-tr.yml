@@ -162,9 +162,9 @@ tr:
           nested_macro: Bu makro özyinelemeli olarak %{model} %{id}adresine referans verir.
           invalid_attribute: Seçilen '%{name}' özniteliği mevcut değil.
         child_pages:
-          button: Alt sayfalara bağlantılar
+          button: List of sub-pages
           include_parent: Üst öğeyi dahil et
-          text: "[Placeholder] Alt sayfalara bağlantılar"
+          text: "[Placeholder] List of sub-pages of"
           page: Viki sayfası
           this_page: bu sayfa
           hint: 'Geçerli sayfanın tüm alt sayfalarını listelemek için bu alanı boş bırakın. Farklı bir sayfaya referans vermek istiyorsanız, başlığını veya fişini belirtin.
@@ -914,11 +914,12 @@ tr:
         relation_filters:
           filter_work_packages_by_relation_type: İş paketlerini ilişki türüne göre filtreleme
       tabs:
-        overview: Genel Bakış
         activity: Etkinlik
+        files: Dosyalar
+        overview: Genel Bakış
+        project_attributes: Project attributes
         relations: İlişkiler
         watchers: Takip Edenler
-        files: Dosyalar
       time_relative:
         days: gün
         weeks: hafta
