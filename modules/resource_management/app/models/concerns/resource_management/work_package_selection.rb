@@ -92,6 +92,13 @@ module ResourceManagement
       nil
     end
 
+    # Filters never offered when configuring the view. The view is always scoped
+    # to its planner's project, so a project filter must not be added on top of
+    # (and override) that built-in scoping.
+    def excluded_configuration_filters
+      %i[project_id]
+    end
+
     private
 
     # The view's filters were originally built from API-v3 filter JSON, so
@@ -125,9 +132,16 @@ module ResourceManagement
       # ordered_work_packages.
       query.sort_criteria = [%w[id asc]] if query.manually_sorted?
 
-      parse_filters(filters_json).each do |filter|
+      allowed_configuration_filters(parse_filters(filters_json)).each do |filter|
         query.add_filter(filter[:attribute], filter[:operator], filter[:values])
       end
+    end
+
+    # Drops any excluded filter that slipped into the payload so it can never
+    # override the built-in project scoping, regardless of the form.
+    def allowed_configuration_filters(filters)
+      excluded = excluded_configuration_filters.map(&:to_s)
+      filters.reject { |filter| excluded.include?(filter[:attribute].to_s) }
     end
 
     def parse_filters(filters_json)

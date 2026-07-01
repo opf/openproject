@@ -64,6 +64,12 @@ module ResourceManagement
       nil
     end
 
+    # No filters are withheld when configuring a user view; the project scoping
+    # is applied outside the filter set (`results.in_project`).
+    def excluded_configuration_filters
+      []
+    end
+
     def build_default_query
       UserQuery.new(project:, principal:)
     end
@@ -93,9 +99,17 @@ module ResourceManagement
     end
 
     def configure_automatic(query, filters_json)
-      parse_filters(filters_json).each do |filter|
+      allowed_configuration_filters(parse_filters(filters_json)).each do |filter|
         query.where(filter[:attribute], filter[:operator], filter[:values])
       end
+    end
+
+    # Drops any excluded filter that slipped into the payload.
+    def allowed_configuration_filters(filters)
+      excluded = excluded_configuration_filters.map(&:to_s)
+      return filters if excluded.empty?
+
+      filters.reject { |filter| excluded.include?(filter[:attribute].to_s) }
     end
 
     def parse_filters(filters_json)

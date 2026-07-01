@@ -83,6 +83,16 @@ RSpec.describe ResourceWorkPackageList do
 
         expect(view).not_to be_manually_picked
       end
+
+      it "ignores excluded filters so the project scoping cannot be overridden" do
+        view.apply_query_configuration(
+          filter_mode: "automatic",
+          filters_json: filters_json({ project_id: { operator: "=", values: ["999"] } },
+                                     { assigned_to_id: { operator: "=", values: [user.id.to_s] } })
+        )
+
+        expect(view.query.filters.map(&:name)).to contain_exactly(:assigned_to_id)
+      end
     end
 
     context "in manual mode" do
