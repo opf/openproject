@@ -128,9 +128,7 @@ class PermittedParams
 
   def move_work_package(args = {})
     move_work_package_form_values(args)
-      .merge(type_id: params[:new_type_id],
-             project_id: params[:new_project_id],
-             journal_notes: params[:notes])
+      .merge(journal_notes: params[:notes])
   end
 
   def move_work_package_form_values(args = {})
@@ -138,6 +136,8 @@ class PermittedParams
     params
       .permit(*permitted)
       .merge(custom_field_values(required: false))
+      .merge(type_id: params[:new_type_id],
+             project_id: params[:new_project_id])
   end
 
   def member

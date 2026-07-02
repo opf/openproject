@@ -58,7 +58,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       project:,
       target_project:,
       notes: "Move notes",
-      new_type_id: type.id,
+      selected_values: { type_id: type.id.to_s },
       turbo_stream_url: "/work_packages/move/refresh_form",
       current_user: user,
       **params

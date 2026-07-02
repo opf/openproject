@@ -132,7 +132,6 @@ class WorkPackages::MovesController < ApplicationController
       target_project: @target_project,
       notes: @notes,
       copy: @copy,
-      new_type_id: params[:new_type_id],
       selected_values: permitted_params.move_work_package_form_values,
       turbo_stream_url: refresh_form_move_work_packages_path,
       current_user:

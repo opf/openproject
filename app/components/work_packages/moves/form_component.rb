@@ -47,7 +47,6 @@ module WorkPackages
         notes:,
         turbo_stream_url:,
         copy: false,
-        new_type_id: nil,
         selected_values: {},
         current_user: User.current
       )
@@ -58,7 +57,6 @@ module WorkPackages
         @target_project = target_project
         @notes = notes
         @copy = copy
-        @new_type_id = new_type_id
         @selected_values = selected_values.to_h.with_indifferent_access
         @turbo_stream_url = turbo_stream_url
         @current_user = current_user
@@ -67,14 +65,14 @@ module WorkPackages
       private
 
       attr_reader :work_packages, :project, :target_project, :notes, :copy,
-                  :new_type_id, :selected_values, :turbo_stream_url, :current_user
+                  :selected_values, :turbo_stream_url, :current_user
 
       def available_types
         @available_types ||= target_project.types.order(:position)
       end
 
       def target_type
-        @target_type ||= available_types.find { |type| type.id.to_s == new_type_id.to_s }
+        @target_type ||= available_types.find { |type| type.id.to_s == selected_values[:type_id].to_s }
       end
 
       def available_versions

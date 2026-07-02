@@ -712,7 +712,7 @@ RSpec.describe PermittedParams do
       )
     end
 
-    it "permits move form values without operation-only normalization" do
+    it "permits move form values and normalizes operation-only keys" do
       expect(permitted).to eq(
         "assigned_to_id" => "1",
         "responsible_id" => "2",
@@ -722,7 +722,9 @@ RSpec.describe PermittedParams do
         "version_id" => "4",
         "priority_id" => "5",
         "budget_id" => "6",
-        "custom_field_values" => { "7" => "Keep me" }
+        "custom_field_values" => { "7" => "Keep me" },
+        "type_id" => "9",
+        "project_id" => "8"
       )
     end
 
@@ -737,7 +739,7 @@ RSpec.describe PermittedParams do
       end
 
       it "removes them" do
-        expect(permitted).to eq({})
+        expect(permitted).to eq("type_id" => nil, "project_id" => nil)
       end
     end
 
@@ -750,7 +752,9 @@ RSpec.describe PermittedParams do
       end
 
       it "ignores them" do
-        expect(permitted).to eq("assigned_to_id" => "1")
+        expect(permitted).to eq("assigned_to_id" => "1",
+                                "type_id" => nil,
+                                "project_id" => nil)
       end
     end
   end
