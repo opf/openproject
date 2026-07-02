@@ -44,11 +44,10 @@ describe('addTurboAngularWrapper — Angular re-bootstrap on Turbo navigation', 
     return { components, detachView: vi.fn() } as unknown as ApplicationRef;
   }
 
-  // The handler awaits the plugin-context promise; flush the microtask queue so
-  // assertions see the re-bootstrap that follows it.
+  // The handler awaits the plugin-context promise; yield a macrotask so the
+  // whole microtask queue drains (any chain depth) before assertions run.
   async function flush():Promise<void> {
-    await Promise.resolve();
-    await Promise.resolve();
+    await new Promise((resolve) => { setTimeout(resolve); });
   }
 
   beforeEach(() => {
