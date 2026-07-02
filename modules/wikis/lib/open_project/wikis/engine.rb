@@ -38,6 +38,24 @@ module OpenProject::Wikis
 
     include OpenProject::Plugins::ActsAsOpEngine
 
+    initializer "openproject_wikis.event_subscriptions" do
+      Rails.application.config.after_initialize do
+        OpenProject::Notifications.subscribe(OpenProject::Events::MODULE_ENABLED) do |payload|
+          enabled_module = payload[:enabled_module] # EnabledModule name / project_id
+          next unless enabled_module.name == "wiki"
+
+          Wiki.create(project_id: enabled_module.project_id, start_page: "Wiki")
+        end
+
+        OpenProject::Notifications.subscribe(OpenProject::Events::MODULE_DISABLED) do |payload|
+          disabled_module = payload[:disabled_module]
+          next unless disabled_module.name == "wiki"
+
+          Rails.logger.info "Disabled the wikis module for project id #{disabled_module.project_id}"
+        end
+      end
+    end
+
     initializer "openproject_wikis.inflections" do
       ActiveSupport::Inflector.inflections(:en) do |inflect|
         inflect.acronym "XWiki"
