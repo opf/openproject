@@ -43,6 +43,7 @@ module ::ResourceManagement
       @resource_planners = ResourcePlanner
                              .visible(current_user)
                              .where(project: @project)
+                             .includes(children: :query)
                              .order(:name)
     end
 

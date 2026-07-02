@@ -63,7 +63,25 @@ class ResourcePlanner < PersistedView
     public? || principal == user
   end
 
+  def work_package_count
+    @work_package_count ||= distinct_child_count(ResourceManagement::WorkPackageSelection) do |view|
+      view.work_packages.reorder(nil).ids
+    end
+  end
+
+  def member_count
+    @member_count ||= distinct_child_count(ResourceManagement::UserSelection) do |view|
+      view.results&.ids || []
+    end
+  end
+
   private
+
+  def distinct_child_count(selection_module)
+    children.each_with_object(Set.new) do |view, ids|
+      ids.merge(yield(view)) if view.is_a?(selection_module)
+    end.size
+  end
 
   def end_date_after_start_date
     return if start_date.blank? || end_date.blank?
