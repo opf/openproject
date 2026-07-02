@@ -59,7 +59,6 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       target_project:,
       notes: "Move notes",
       selected_values: { type_id: type.id.to_s },
-      turbo_stream_url: "/work_packages/move/refresh_form",
       current_user: user,
       **params
     )
@@ -75,7 +74,8 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
   it "wires the refresh-on-form-changes controller" do
     expect(rendered_component).to have_css(
       "form[data-controller='refresh-on-form-changes']" \
-      "[data-refresh-on-form-changes-target='form']"
+      "[data-refresh-on-form-changes-target='form']" \
+      "[data-refresh-on-form-changes-turbo-stream-url-value='/work_packages/move/refresh_form']"
     )
   end
 

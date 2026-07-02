@@ -45,7 +45,6 @@ module WorkPackages
         project:,
         target_project:,
         notes:,
-        turbo_stream_url:,
         copy: false,
         selected_values: {},
         current_user: User.current
@@ -58,14 +57,17 @@ module WorkPackages
         @notes = notes
         @copy = copy
         @selected_values = selected_values.to_h.with_indifferent_access
-        @turbo_stream_url = turbo_stream_url
         @current_user = current_user
       end
 
       private
 
       attr_reader :work_packages, :project, :target_project, :notes, :copy,
-                  :selected_values, :turbo_stream_url, :current_user
+                  :selected_values, :current_user
+
+      def turbo_stream_url
+        url_helpers.refresh_form_move_work_packages_path
+      end
 
       def available_types
         @available_types ||= target_project.types.order(:position)
