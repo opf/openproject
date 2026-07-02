@@ -12,11 +12,11 @@ import {
   initMainMenuExpandStatus,
 } from 'core-app/core/setup/globals/global-listeners/setup-server-response';
 
-export function addTurboGlobalListeners() {
+export function addTurboGlobalListeners(target:Document = document, signal?:AbortSignal) {
   const runOnRenderAndLoad = () => {
     // Add to content if warnings displayed
-    if (document.querySelector('.warning-bar--item')) {
-      const content = document.querySelector<HTMLElement>('#content');
+    if (target.querySelector('.warning-bar--item')) {
+      const content = target.querySelector<HTMLElement>('#content');
       if (content) {
         content.style.marginBottom = '100px';
       }
@@ -37,7 +37,7 @@ export function addTurboGlobalListeners() {
     //
 
     // Action menu logic
-    document.querySelectorAll<HTMLElement>('.toolbar-items').forEach((menu) => {
+    target.querySelectorAll<HTMLElement>('.toolbar-items').forEach((menu) => {
       installMenuLogic(menu);
     });
 
@@ -56,15 +56,15 @@ export function addTurboGlobalListeners() {
     activateFlashNotice();
     activateFlashError();
   };
-  document.addEventListener('turbo:render', runOnRenderAndLoad);
-  document.addEventListener('DOMContentLoaded', runOnRenderAndLoad);
+  target.addEventListener('turbo:render', runOnRenderAndLoad, { signal });
+  target.addEventListener('DOMContentLoaded', runOnRenderAndLoad, { signal });
 
-  document.addEventListener('turbo:before-morph-element', (event) => {
+  target.addEventListener('turbo:before-morph-element', (event) => {
     const element = event.target as HTMLElement;
 
     // In case the element is an OpenProject custom dom element, morphing is prevented.
     if (element.tagName.toUpperCase().startsWith('OPCE-')) {
       event.preventDefault();
     }
-  });
+  }, { signal });
 }
