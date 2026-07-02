@@ -55,4 +55,27 @@ RSpec.describe Principals::DeleteJob, "Meetings", type: :model do
       expect(recurring_meeting.reload.author).to eq deleted_user
     end
   end
+
+  context "with a meeting participant" do
+    let!(:meeting) { create(:meeting) }
+    let!(:participant) { create(:meeting_participant, meeting:, user: principal) }
+
+    it "deletes the participant instead of replacing it with the deleted user" do
+      job
+
+      expect(MeetingParticipant.exists?(participant.id)).to be(false)
+      expect(meeting.reload.participants.where(user: deleted_user)).to be_empty
+    end
+
+    context "when the meeting already has a deleted-user participant" do
+      let!(:existing_deleted_participant) { create(:meeting_participant, meeting:, user: deleted_user) }
+
+      it "does not fail on the unique [meeting_id, user_id] index and keeps a single deleted-user participant" do
+        expect { job }.not_to raise_error
+
+        expect(MeetingParticipant.exists?(participant.id)).to be(false)
+        expect(meeting.reload.participants.where(user: deleted_user)).to contain_exactly(existing_deleted_participant)
+      end
+    end
+  end
 end
