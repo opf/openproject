@@ -22,8 +22,8 @@
 ---
 eo:
   plugin_openproject_documents:
-    name: OpenProject Documents
-    description: An OpenProject plugin to allow creation of documents in projects.
+    name: Malfermu Projekto-Dokumentoj
+    description: Aldonaĵo por OpenProject por permesi krei dokumentojn en projektoj.
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
   activerecord:
@@ -54,7 +54,7 @@ eo:
     subheader:
       filter:
         label: Document name filter
-        placeholder: Type here to search document names
+        placeholder: Tajpu ĉi tie por serĉi nomojn de dokumentoj
     documents_list_blank_slate:
       heading: There are no documents yet
       description: There are no documents in this view. You can click the button below to add one.
@@ -86,7 +86,7 @@ eo:
       all: All documents
       types: Specoj
       collaboration_settings: Real-time collaboration
-    last_updated_at: Last saved %{time}.
+    last_updated_at: Laste konservita %{time}.
     info_line:
       currently_offline: You are currently offline.
       connection_restored: You are now back online.

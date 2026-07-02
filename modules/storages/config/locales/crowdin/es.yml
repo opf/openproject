@@ -42,7 +42,7 @@ es:
         storage_url: URL de almacenamiento
         tenant: Directory (tenant) ID
       work_package:
-        file_links: File links
+        file_links: Enlaces de archivos
     errors:
       messages:
         invalid_host_url: no es una URL válida.

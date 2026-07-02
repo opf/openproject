@@ -441,12 +441,13 @@ pl:
       message: 'Ta seria spotkań dobiegła końca. Nie ma nadchodzących spotkań. '
       action: Nadal można przeglądać poprzednie wystąpienia lub edytować serię spotkań, aby ją przedłużyć.
     occurrence:
-      infoline: Spotkanie to jest częścią serii spotkań cyklicznych.
       error_no_next: Nie ma następnego wystąpienia tego spotkania.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Pierwsze wystąpienie tej serii spotkań jest już tworzone.
       first_created: 'Pierwsze spotkanie zostało utworzone z szablonu. Wszystkie przyszłe spotkania zostaną utworzone automatycznie o godzinie poprzedniego wystąpienia.
 
         '
+      infoline: Spotkanie to jest częścią serii spotkań cyklicznych.
     template:
       button_finalize: Otwarte pierwsze spotkanie
       blank_title: Szablon serii spotkań jest pusty

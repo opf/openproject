@@ -119,6 +119,7 @@ RSpec.describe "index users", :js do
       index_page.expect_listed(current_user, active_user)
 
       index_page.lock_user(active_user)
+      expect_and_dismiss_flash(message: "Successful update.")
       expect(active_user.reload).to be_locked
 
       index_page.filter_by_status(I18n.t(:status_locked))
@@ -130,6 +131,7 @@ RSpec.describe "index users", :js do
 
       index_page.filter_by_status(I18n.t(:status_locked))
       index_page.unlock_user(active_user)
+      expect_and_dismiss_flash(message: "Successful update.")
       index_page.expect_non_listed
 
       index_page.filter_by_status(I18n.t(:status_active))
@@ -146,16 +148,19 @@ RSpec.describe "index users", :js do
       index_page.expect_listed(current_user, active_user)
 
       index_page.reset_failed_logins(active_user)
+      expect_and_dismiss_flash(message: "Successful update.")
       # still listed — reset doesn't change status
       index_page.expect_listed(current_user, active_user)
 
       # Lock and unlock — failed logins were reset above, so the user is locked
       # but not blocked, and the row exposes the plain "Unlock" action.
       index_page.lock_user(active_user)
+      expect_and_dismiss_flash(message: "Successful update.")
       index_page.filter_by_status(I18n.t(:status_locked))
       index_page.expect_listed(active_user)
 
       index_page.unlock_user(active_user)
+      expect_and_dismiss_flash(message: "Successful update.")
       index_page.expect_non_listed
 
       index_page.filter_by_status(I18n.t(:status_active))
@@ -166,6 +171,7 @@ RSpec.describe "index users", :js do
       index_page.expect_listed(registered_user)
 
       index_page.activate_user(registered_user)
+      expect_and_dismiss_flash(message: "Successful update.")
       index_page.filter_by_status(I18n.t(:status_active))
       index_page.expect_listed(current_user, active_user, registered_user)
     end

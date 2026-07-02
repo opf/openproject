@@ -77,7 +77,7 @@ de:
         description: The selected user, %{user}, would be allocated beyond their working hours during this period.
         hidden_work: Other allocations
         schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
+        schedule_change: bis %{date}, dann %{schedule}
         schedule_note: This user works %{schedule}.
         submit: Allocate overtime
         title: Do you want to allocate overtime to the user?

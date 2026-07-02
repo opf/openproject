@@ -2350,7 +2350,7 @@ zh-CN:
           not_whitelisted: 配置所不允许的。
           invalid_url: 不是有效的存储库 URL 或路径。
           must_not_be_ssh: 不能是 SSH url。
-          must_not_point_to_openproject_directory: 不得指向 OpenProject 管理的存储库目录。
+          must_not_point_to_openproject_directory: 不得指向 OpenProject 管理的仓库目录。
           no_directory: 不是一个目录。
         role:
           attributes:
@@ -2761,7 +2761,7 @@ zh-CN:
   button_add_sub_item: 添加子项目
   button_add_member: 添加成员
   button_add_watcher: 添加关注者
-  button_all_filters: All filters
+  button_all_filters: 所有筛选器
   button_annotate: 批注
   button_apply: 应用
   button_apply_changes: 应用更改
@@ -4179,7 +4179,7 @@ zh-CN:
 
     '
   label_part_of: 一部分
-  label_past: Past
+  label_past: 过往
   label_password_lost: 忘记密码？
   label_password_rule_lowercase: 小写字母
   label_password_rule_numeric: 数字
@@ -4363,7 +4363,7 @@ zh-CN:
   label_type_new: 新类型
   label_type_plural: 类型
   label_ui: 用户界面
-  label_upcoming: Upcoming
+  label_upcoming: 即将推出
   label_updated_time: "%{value}前更新"
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: "%{author} 于 %{age}前更新"

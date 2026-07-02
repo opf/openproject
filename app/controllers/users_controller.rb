@@ -161,7 +161,7 @@ class UsersController < ApplicationController
 
     if call.success?
       if update_params[:password].present? && @user.change_password_allowed?
-        send_information = params[:send_information]
+        send_information = params[:send_information].present? || assign_random_password?
 
         if @user.invited?
           # setting a password for an invited user activates them implicitly
@@ -391,6 +391,10 @@ class UsersController < ApplicationController
     params[:user][:password].present? && !OpenProject::Configuration.disable_password_choice?
   end
 
+  def assign_random_password?
+    ActiveModel::Type::Boolean.new.cast(params.dig(:user, :assign_random_password))
+  end
+
   protected
 
   def build_user_update_params # rubocop:disable Metrics/AbcSize
@@ -402,7 +406,7 @@ class UsersController < ApplicationController
 
     return update_params unless @user.change_password_allowed?
 
-    if params[:user][:assign_random_password]
+    if assign_random_password?
       password = OpenProject::Passwords::Generator.random_password
       update_params.merge!(
         password:,
@@ -436,7 +440,7 @@ class UsersController < ApplicationController
     update_via_turbo_stream(component: Users::UserFilterButtonComponent.new(query: @query))
     replace_via_turbo_stream(component: Users::TableComponent.new(rows: @query, current_user:))
     turbo_streams << turbo_stream.push_state(url_for(params.permit(:filters, :sortBy, :sort, :page, :per_page, :columns)))
-    turbo_streams << turbo_stream.replace("primerized-flash-messages", helpers.render_flash_messages)
+    turbo_streams << helpers.render_flash_messages_as_turbo_streams
     render turbo_stream: turbo_streams
   end
 

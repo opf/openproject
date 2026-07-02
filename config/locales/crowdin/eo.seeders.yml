@@ -115,10 +115,10 @@ eo:
             item_2:
               name: Taskoj
             item_3:
-              name: Team planner
+              name: Teama planilo
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban-tabulo
             basic:
               name: Baza panelo
               lists:
@@ -182,21 +182,21 @@ eo:
                 item_2:
                   subject: Setup conference website
             item_2:
-              subject: Conference
+              subject: Konferenco
             item_3:
-              subject: Follow-up tasks
+              subject: Sekvaj taskoj
               children:
                 item_0:
-                  subject: Upload presentations to website
+                  subject: Alŝutu prezentaĵojn al la retejo
                 item_1:
-                  subject: Party for conference supporters :-)
+                  subject: Festo por konferencaj subtenantoj :-)
                   description: |-
-                    *   [ ] Beer
-                    *   [ ] Snacks
-                    *   [ ] Music
-                    *   [ ] Even more beer
+                    *   [ ] Biero
+                    *   [ ] Manĝetoj
+                    *   [ ] Muziko
+                    *   [ ] Eĉ pli da biero
             item_4:
-              subject: End of project
+              subject: Fino de projekto
           wiki: |
             _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
 

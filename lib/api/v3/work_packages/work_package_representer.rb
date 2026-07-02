@@ -615,7 +615,12 @@ module API
                             v3_path: :budget,
                             link_title_attribute: :subject,
                             representer: ::API::V3::Budgets::BudgetRepresenter,
-                            skip_render: ->(*) { !view_budgets_allowed? }
+                            link_cache_if: -> { view_budgets_allowed? },
+                            getter: ->(*) {
+                              if embed_link?(:budget) && represented.budget && view_budgets_allowed?
+                                ::API::V3::Budgets::BudgetRepresenter.create(represented.budget, current_user:)
+                              end
+                            }
 
         resources :customActions,
                   uncacheable_link: true,
