@@ -196,6 +196,11 @@ module OpenProject::Backlogs
       mount ::API::V3::BacklogBuckets::BacklogBucketsByProjectAPI
     end
 
+    initializer "openproject_backlogs.feature_decisions" do
+      OpenProject::FeatureDecisions.add :backlogs_lazy_cards,
+                                        description: "Lazily load and cache backlog work package cards via turbo-frames."
+    end
+
     initializer "openproject_backlogs.event_subscriptions" do
       Rails.application.config.after_initialize do
         # When the backlogs module is first enabled on a project, automatically populate

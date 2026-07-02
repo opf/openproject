@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-#-- copyright
+# -- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
 #
@@ -26,46 +26,28 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See COPYRIGHT and LICENSE files for more details.
-#++
+# ++
 
-module OpenProject::Backlogs::Patches::WorkPackagePatch
+# Loads the data a backlog work package card needs, depending on the
+# +backlogs_lazy_cards+ feature flag.
+#
+# * On: cards are lazily loaded through turbo-frames, so only the card_hash
+#   (see WorkPackages::Scopes::WithCardHash) is needed to build the frame src;
+#   the associations are loaded per card by the cards controller.
+# * Off: cards are rendered inline, so their associations are eager loaded to
+#   avoid N+1 queries.
+module WorkPackages::Scopes::WithBacklogCardData
   extend ActiveSupport::Concern
 
-  included do
-    prepend InstanceMethods
-    extend ClassMethods
+  CARD_ASSOCIATIONS = %i[type status assigned_to priority parent].freeze
 
-    register_journal_formatted_fields "story_points", "position", formatter_key: :decimal
-
-    validates_numericality_of :story_points, only_integer: true,
-                                             allow_nil: true,
-                                             greater_than_or_equal_to: 0,
-                                             less_than: 10_000,
-                                             if: -> { backlogs_enabled? }
-
-    belongs_to :sprint, optional: true
-    belongs_to :backlog_bucket, optional: true
-
-    include OpenProject::Backlogs::List
-
-    scopes :in_backlog_for
-    scopes :in_inbox_for
-    scopes :with_backlogs_neighbours
-    scopes :without_status_considered_closed
-    scopes :without_excluded_type
-    scopes :with_card_hash
-    scopes :with_backlog_card_data
-  end
-
-  module ClassMethods
-    def order_by_position
-      order(arel_table[:position].asc.nulls_last)
-    end
-  end
-
-  module InstanceMethods
-    def backlogs_enabled?
-      project&.backlogs_enabled?
+  class_methods do
+    def with_backlog_card_data
+      if OpenProject::FeatureDecisions.backlogs_lazy_cards_active?
+        with_card_hash
+      else
+        includes(*CARD_ASSOCIATIONS)
+      end
     end
   end
 end

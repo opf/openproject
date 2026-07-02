@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
+RSpec.describe Backlogs::WorkPackageCardComponent, type: :component, with_flag: { backlogs_lazy_cards: true } do
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:project) { create(:project, types: [type_feature]) }
 
@@ -54,6 +54,13 @@ RSpec.describe Backlogs::WorkPackageCardComponent, type: :component do
 
   it "wraps the card in its turbo-frame so the lazily loaded placeholder is replaced" do
     expect(rendered_component).to have_css("turbo-frame#work_package_#{work_package.id}_card")
+  end
+
+  context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
+    it "renders the card inline without a turbo-frame" do
+      expect(rendered_component).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
+      expect(rendered_component).to have_text("Backlogs card")
+    end
   end
 
   it "renders story points as the card metric" do

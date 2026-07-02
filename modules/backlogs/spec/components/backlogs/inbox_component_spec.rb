@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::InboxComponent, type: :component do
+RSpec.describe Backlogs::InboxComponent, type: :component, with_flag: { backlogs_lazy_cards: true } do
   include Rails.application.routes.url_helpers
 
   shared_let(:project) { create(:project) }
@@ -126,6 +126,16 @@ RSpec.describe Backlogs::InboxComponent, type: :component do
     it "renders a lazy card frame for each work package" do
       work_packages.each do |work_package|
         expect(page).to have_css("turbo-frame#work_package_#{work_package.id}_card[loading='lazy']")
+      end
+    end
+
+    context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
+      it "renders the cards inline without turbo-frames" do
+        work_packages.each do |work_package|
+          expect(page).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
+        end
+        expect(page).to have_css(".sr-only", text: "2 story points")
+        expect(page).to have_css(".sr-only", text: "4 story points")
       end
     end
   end

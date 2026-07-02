@@ -50,7 +50,7 @@ See COPYRIGHT and LICENSE files for more details.
                       refresh: :morph,
                       src: project_backlogs_backlog_path(@project, backlog_filter_params),
                       class: "op-backlogs-page",
-                      data: { controller: "reload-frames-on-morph" } %>
+                      data: (OpenProject::FeatureDecisions.backlogs_lazy_cards_active? ? { controller: "reload-frames-on-morph" } : {}) %>
 <% end %>
 
 <% content_for :content_body_right do %>

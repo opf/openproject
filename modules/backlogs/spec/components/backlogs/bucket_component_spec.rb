@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::BucketComponent, type: :component do
+RSpec.describe Backlogs::BucketComponent, type: :component, with_flag: { backlogs_lazy_cards: true } do
   include Rails.application.routes.url_helpers
 
   shared_let(:type_feature) { create(:type_feature) }
@@ -117,6 +117,15 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
           "turbo-frame#work_package_#{work_package.id}_card[loading='lazy']" \
           "[src*='#{project_backlogs_work_package_card_path(project, work_package)}']"
         )
+      end
+
+      context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
+        it "renders the card inline without a turbo-frame" do
+          expect(rendered_component).to have_no_css("turbo-frame#work_package_#{work_package.id}_card")
+          expect(rendered_component).to have_css(
+            ".Box-row#work_package_#{work_package.id} .sr-only", text: "3 story points"
+          )
+        end
       end
 
       it "wires the bucket drop-target data on the box" do

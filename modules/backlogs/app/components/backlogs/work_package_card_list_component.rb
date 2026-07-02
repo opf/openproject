@@ -137,7 +137,7 @@ module Backlogs
           work_package:,
           project:,
           params:,
-          component_klass: Backlogs::WorkPackageCardListItemLoadingComponent
+          component_klass: Backlogs::WorkPackageCardListItemComponent.for_current_feature
         )
       end
     end

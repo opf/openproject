@@ -30,7 +30,7 @@
 
 require "rails_helper"
 
-RSpec.describe Backlogs::WorkPackages::CardsController do
+RSpec.describe Backlogs::WorkPackages::CardsController, with_flag: { backlogs_lazy_cards: true } do
   shared_let(:type_feature) { create(:type_feature) }
   shared_let(:project) { create(:project, types: [type_feature]) }
   shared_let(:status) { create(:status, name: "status 1", is_default: true) }
@@ -75,6 +75,12 @@ RSpec.describe Backlogs::WorkPackages::CardsController do
       shared_let(:user) { create(:user, member_with_permissions: { project => %i[view_work_packages] }) }
 
       it { is_expected.to have_http_status(:forbidden) }
+    end
+
+    context "when the backlogs_lazy_cards feature is disabled", with_flag: { backlogs_lazy_cards: false } do
+      shared_let(:user) { create(:admin) }
+
+      it { is_expected.to have_http_status(:not_found) }
     end
   end
 end

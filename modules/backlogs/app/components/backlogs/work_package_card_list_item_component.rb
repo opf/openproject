@@ -32,6 +32,17 @@ module Backlogs
   class WorkPackageCardListItemComponent < OpenProject::Common::BorderBoxListComponent::WorkPackageItem
     include CommonHelper
 
+    # The list item component to use for backlog cards: a lazily loaded
+    # turbo-frame placeholder when the backlogs_lazy_cards feature is enabled,
+    # or this inline card component otherwise.
+    def self.for_current_feature
+      if OpenProject::FeatureDecisions.backlogs_lazy_cards_active?
+        WorkPackageCardListItemLoadingComponent
+      else
+        self
+      end
+    end
+
     private
 
     def build_card

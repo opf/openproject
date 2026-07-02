@@ -53,18 +53,20 @@ module Backlogs
     end
 
     def call
-      # Wrapped in a turbo-frame so the lazily loaded placeholder rendered by
-      # WorkPackageCardListItemLoadingComponent is replaced once the controller
-      # response arrives.
-      helpers.turbo_frame_tag(card_frame_id) do
-        render(card) do |common_card|
-          unless common_card.metric?
-            common_card.with_metric do
-              render(Backlogs::StoryPointsComponent.new(work_package:))
-            end
+      card_html = render(card) do |common_card|
+        unless common_card.metric?
+          common_card.with_metric do
+            render(Backlogs::StoryPointsComponent.new(work_package:))
           end
         end
       end
+
+      return card_html unless OpenProject::FeatureDecisions.backlogs_lazy_cards_active?
+
+      # With lazy cards enabled the card is wrapped in a turbo-frame so the
+      # placeholder rendered by WorkPackageCardListItemLoadingComponent is
+      # replaced once the controller response arrives.
+      helpers.turbo_frame_tag(card_frame_id) { card_html }
     end
 
     def card_frame_id
