@@ -59,7 +59,13 @@ const GRANULARITY_VIEWS:Record<string, { granularity:string, unit:moment.unitOfT
 };
 const DEFAULT_GRANULARITY_VIEW = GRANULARITY_VIEWS.resourceTimelineDays;
 
-export default class WorkPackageTimelineController extends Controller {
+// The resource (row) axis differs per view: the work-package timeline has one
+// row per work package, the user timeline one row per user. Everything else —
+// feeds, navigation, granularity, background spans — is identical, so a single
+// controller drives both. The only behavioural difference is which query param
+// a date-range selection pre-fills on the new-allocation dialog, which each view
+// passes explicitly through the `selectionParam` value.
+export default class ResourceTimelineController extends Controller {
   static targets = ['calendar', 'granularityButton'];
 
   static values = {
@@ -71,6 +77,11 @@ export default class WorkPackageTimelineController extends Controller {
     initialView: String,
     newAllocationUrl: String,
     reloadEventName: String,
+    selectionParam: String,
+    // The planner's date range (ISO dates, blank when it has none). Drives where
+    // the first render is centred — see `initialFocusDate`.
+    rangeStart: String,
+    rangeEnd: String,
   };
 
   declare readonly calendarTarget:HTMLElement;
@@ -84,6 +95,9 @@ export default class WorkPackageTimelineController extends Controller {
   declare readonly initialViewValue:string;
   declare readonly newAllocationUrlValue:string;
   declare readonly reloadEventNameValue:string;
+  declare readonly selectionParamValue:string;
+  declare readonly rangeStartValue:string;
+  declare readonly rangeEndValue:string;
 
   private calendar?:Calendar;
 
@@ -137,9 +151,9 @@ export default class WorkPackageTimelineController extends Controller {
   }
 
   private initializeCalendar() {
-    // Computed up front so the first render is already centered on today, with no
+    // Computed up front so the first render lands on its target span with no
     // post-render gotoDate that would trigger a second feed fetch.
-    const initialDate = this.startCenteredOnToday(this.initialViewValue);
+    const initialDate = this.startCentered(this.initialFocusDate(), this.initialViewValue);
 
     this.currentGranularity = this.granularityKeyFor(this.initialViewValue);
 
@@ -216,7 +230,7 @@ export default class WorkPackageTimelineController extends Controller {
         // FullCalendar's end is exclusive; step back one day for the inclusive end.
         const inclusiveEnd = moment(info.endStr).subtract(1, 'day').format('YYYY-MM-DD');
         const url = new URL(this.newAllocationUrlValue, window.location.origin);
-        url.searchParams.set('work_package_id', info.resource?.id ?? '');
+        url.searchParams.set(this.selectionParamValue, info.resource?.id ?? '');
         url.searchParams.set('start_date', info.startStr);
         url.searchParams.set('end_date', inclusiveEnd);
         this.openDialog(url.toString());
@@ -236,14 +250,28 @@ export default class WorkPackageTimelineController extends Controller {
   private centerOnToday():void {
     if (!this.calendar) { return; }
 
-    this.calendar.gotoDate(this.startCenteredOnToday(this.calendar.view.type));
+    this.calendar.gotoDate(this.startCentered(this.initialDateValue, this.calendar.view.type));
   }
 
-  // The start date that places today COLUMNS_BEFORE_TODAY columns into the span.
-  // Takes the view type explicitly because the initial render computes this
+  // Where the first render is centred: today when it falls within the planner's
+  // range (or there is no range), otherwise the range start nudged in by
+  // COLUMNS_BEFORE_TODAY so that — once centred — the range begins at the left
+  // edge. Navigating ("today", granularity) always re-centres on today instead.
+  private initialFocusDate():string {
+    if (!this.rangeStartValue || !this.rangeEndValue) { return this.initialDateValue; }
+
+    if (moment(this.initialDateValue).isBetween(this.rangeStartValue, this.rangeEndValue, 'day', '[]')) {
+      return this.initialDateValue;
+    }
+
+    return moment(this.rangeStartValue).add(COLUMNS_BEFORE_TODAY, 'days').format('YYYY-MM-DD');
+  }
+
+  // The start date that places `focusDate` COLUMNS_BEFORE_TODAY columns into the
+  // span. Takes the view type explicitly because the initial render computes this
   // before `this.calendar` exists.
-  private startCenteredOnToday(viewType:string):string {
-    return moment(this.initialDateValue)
+  private startCentered(focusDate:string, viewType:string):string {
+    return moment(focusDate)
       .subtract(COLUMNS_BEFORE_TODAY, this.unitForViewName(viewType))
       .format('YYYY-MM-DD');
   }

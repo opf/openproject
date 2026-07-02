@@ -28,23 +28,24 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourcePlannerViews::WorkPackageList
-  class ContentComponent < ApplicationComponent
-    include ResourcePlannerViews::ReloadableFrame
+module ResourcePlannerViews
+  module Timeline
+    # The timeline's granularity options, shared by both timeline views (their
+    # menus and the controller): each key (also an i18n label) maps to its
+    # FullCalendar view name.
+    module Granularity
+      # Ordered — drives the granularity menu order.
+      VIEWS = {
+        (DAY = :day) => "resourceTimelineDays",
+        (WEEK = :week) => "resourceTimelineWeeks",
+        (MONTH = :month) => "resourceTimelineMonths"
+      }.freeze
 
-    def initialize(view:, project:, resource_planner:, work_packages: [], allocations: {}, visible_principal_ids: nil)
-      super
+      DEFAULT = DAY
 
-      @view = view
-      @project = project
-      @resource_planner = resource_planner
-      @work_packages = work_packages
-      @allocations = allocations
-      @visible_principal_ids = visible_principal_ids
+      def self.default_view
+        VIEWS.fetch(DEFAULT)
+      end
     end
-
-    private
-
-    attr_reader :work_packages, :allocations, :visible_principal_ids
   end
 end

@@ -28,9 +28,14 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourcePlannerViews::UserCardList
+module ResourcePlannerViews::UserTimeline
+  # The container the shared resource-timeline FullCalendar controller mounts
+  # into, rendering one swimlane per user. Bulk data comes from the feed
+  # endpoints; only small config travels inline. Mirrors
+  # WorkPackageTimeline::ContentComponent with the user feeds and a user-row
+  # selection param.
   class ContentComponent < ApplicationComponent
-    include ResourcePlannerViews::ReloadableFrame
+    include ResourcePlannerViews::Timeline::Content
 
     def initialize(view:, project:, resource_planner:)
       super
@@ -46,58 +51,35 @@ module ResourcePlannerViews::UserCardList
       @users ||= @view.results.to_a
     end
 
-    def card_fields
-      @view.card_fields
+    def timeline_test_selector
+      "resource-user-timeline"
     end
 
-    def remove_path_for(user)
-      return nil unless @view.manually_picked?
-
-      helpers.remove_user_project_resource_planner_view_path(
-        @project, @resource_planner, @view, user_id: user.id
-      )
+    def timeline_empty?
+      users.empty?
     end
 
-    def details_path_for(user)
-      helpers.project_user_resource_allocations_path(@project, user, resource_planner_id: @resource_planner.id)
-    end
-
-    def utilization_for(user)
-      return nil unless utilization_window
-
-      ResourceAllocations::Availability
-        .new(user:, allocations: booked_allocations.fetch(user.id, []))
-        .utilization_ratio(utilization_window)
-    end
-
-    def working_schedules_for(user)
-      if utilization_window
-        ResourceAllocations::Availability.new(user:).working_schedules(utilization_window)
-      else
-        Array(UserWorkingHours.for_user(user).valid_for_date(Date.current))
-      end
-    end
-
-    def utilization_window
-      return @utilization_window if defined?(@utilization_window)
-
-      from = @resource_planner.start_date
-      to = @resource_planner.end_date
-      @utilization_window = from && to ? from..to : nil
-    end
-
-    def booked_allocations
-      @booked_allocations ||=
-        if utilization_window
-          ResourceAllocation.allocated.for_principal(users).group_by(&:principal_id)
-        else
-          {}
-        end
+    def timeline_feed_values
+      {
+        "resources-url" => helpers.project_resource_planner_view_user_timeline_resources_path(
+          @project, @resource_planner, @view, format: :json
+        ),
+        "events-url" => helpers.project_resource_planner_view_user_timeline_events_path(
+          @project, @resource_planner, @view, format: :json
+        ),
+        # A date-range selection on a user row pre-fills that user (principal) on
+        # the new-allocation dialog.
+        "selection-param" => "principal_id"
+      }
     end
 
     def blank_description
       key = @view.manually_picked? ? "manual_description" : "description"
-      t("resource_management.user_card_list.blank.#{key}")
+      t("resource_management.user_timeline.blank.#{key}")
+    end
+
+    def add_user_path
+      helpers.new_user_project_resource_planner_view_path(@project, @resource_planner, @view)
     end
   end
 end

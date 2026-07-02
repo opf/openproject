@@ -28,23 +28,21 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourcePlannerViews::WorkPackageList
-  class ContentComponent < ApplicationComponent
-    include ResourcePlannerViews::ReloadableFrame
+module ResourcePlannerViews
+  module UserTimeline
+    # Renders the content of a non-working-period bar on a user row: a global
+    # holiday or a stretch of the user's time off. Styling (the blue colour) is
+    # applied through the event's class names by FullCalendar.
+    class NonWorkingBarComponent < ApplicationComponent
+      def initialize(label:, icon: :calendar)
+        super
+        @label = label
+        @icon = icon
+      end
 
-    def initialize(view:, project:, resource_planner:, work_packages: [], allocations: {}, visible_principal_ids: nil)
-      super
+      private
 
-      @view = view
-      @project = project
-      @resource_planner = resource_planner
-      @work_packages = work_packages
-      @allocations = allocations
-      @visible_principal_ids = visible_principal_ids
+      attr_reader :label, :icon
     end
-
-    private
-
-    attr_reader :work_packages, :allocations, :visible_principal_ids
   end
 end

@@ -61,6 +61,18 @@ RSpec.describe "ResourceAllocations requests",
       expect(response.body).to include('name="start_date"', 'value="2026-06-10"')
       expect(response.body).to include('name="end_date"', 'value="2026-06-12"')
     end
+
+    it "opens the allocation step for a preselected user with the timeline dates filled" do
+      # The user timeline passes `principal_id`; the dialog skips the kind step and
+      # pre-fills the allocation (incl. the selected date range).
+      get new_project_resource_allocation_path(project, principal_id: assignee.id,
+                                                        start_date: "2026-06-10", end_date: "2026-06-12"),
+          as: :turbo_stream
+
+      expect(response).to have_http_status(:ok)
+      expect(response.body).to include("resource_allocation[principal_id]")
+      expect(response.body).to include("2026-06-10", "2026-06-12")
+    end
   end
 
   describe "GET step" do

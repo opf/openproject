@@ -29,7 +29,12 @@
 #++
 
 class ResourcePlanner < PersistedView
-  self.allowed_children = %w[ResourceUserCard ResourceWorkPackageList ResourceWorkPackageTimeline]
+  self.allowed_children = %w[
+    ResourceWorkPackageTimeline
+    ResourceUserTimeline
+    ResourceWorkPackageList
+    ResourceUserCard
+  ]
 
   # Virtual attributes used by the new-planner form. They are not persisted on
   # the planner itself: `default_view_class_name` is consumed when creating the

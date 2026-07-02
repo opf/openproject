@@ -28,23 +28,34 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourcePlannerViews::WorkPackageList
-  class ContentComponent < ApplicationComponent
-    include ResourcePlannerViews::ReloadableFrame
-
-    def initialize(view:, project:, resource_planner:, work_packages: [], allocations: {}, visible_principal_ids: nil)
-      super
-
-      @view = view
-      @project = project
-      @resource_planner = resource_planner
-      @work_packages = work_packages
-      @allocations = allocations
-      @visible_principal_ids = visible_principal_ids
-    end
+module ResourcePlannerViews
+  # Wraps a content component in a reloadable turbo frame so allocation changes
+  # made in the dialogs refresh the content in place. The frame has no `src`, so
+  # it is not fetched on load — it just holds the server-rendered content. The
+  # `reload-frame-on-event` controller points its `src` at the same view and
+  # morphs it in when an allocation of any listed work package changes.
+  #
+  # Timelines deliberately do not use this: their FullCalendar controller refetches
+  # its feeds in place on the same event, so they opt out of the frame-level reload
+  # to avoid tearing down and re-instantiating the calendar.
+  module ReloadableFrame
+    FRAME_ID = "resource-planner-view-content"
+    RELOAD_EVENT_NAME = "op-dispatched:resource-allocations:changed"
 
     private
 
-    attr_reader :work_packages, :allocations, :visible_principal_ids
+    def reloadable_content_frame(&)
+      helpers.turbo_frame_tag(FRAME_ID, refresh: :morph, data: reload_frame_data, &)
+    end
+
+    def reload_frame_data
+      {
+        controller: "reload-frame-on-event",
+        "reload-frame-on-event-event-name-value": RELOAD_EVENT_NAME,
+        "reload-frame-on-event-url-value": helpers.project_resource_planner_view_path(
+          @project, @resource_planner, @view
+        )
+      }
+    end
   end
 end

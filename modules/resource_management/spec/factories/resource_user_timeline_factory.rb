@@ -28,23 +28,11 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourcePlannerViews::WorkPackageList
-  class ContentComponent < ApplicationComponent
-    include ResourcePlannerViews::ReloadableFrame
-
-    def initialize(view:, project:, resource_planner:, work_packages: [], allocations: {}, visible_principal_ids: nil)
-      super
-
-      @view = view
-      @project = project
-      @resource_planner = resource_planner
-      @work_packages = work_packages
-      @allocations = allocations
-      @visible_principal_ids = visible_principal_ids
-    end
-
-    private
-
-    attr_reader :work_packages, :allocations, :visible_principal_ids
+FactoryBot.define do
+  factory :resource_user_timeline, class: "ResourceUserTimeline" do
+    sequence(:name) { |n| "User timeline #{n}" }
+    project
+    principal factory: :user
+    parent factory: :resource_planner
   end
 end

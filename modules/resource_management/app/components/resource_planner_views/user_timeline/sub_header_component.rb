@@ -28,23 +28,29 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module ResourcePlannerViews::WorkPackageList
-  class ContentComponent < ApplicationComponent
-    include ResourcePlannerViews::ReloadableFrame
+module ResourcePlannerViews::UserTimeline
+  # The user-timeline toolbar. The shared toolbar behaviour lives in the
+  # Timeline::SubHeader concern; this component only supplies the user-specific
+  # add entry.
+  class SubHeaderComponent < ApplicationComponent
+    include OpPrimer::ComponentHelpers
+    include ResourcePlannerViews::Timeline::SubHeader
 
-    def initialize(view:, project:, resource_planner:, work_packages: [], allocations: {}, visible_principal_ids: nil)
+    def initialize(project:, resource_planner:, view:)
       super
-
-      @view = view
       @project = project
       @resource_planner = resource_planner
-      @work_packages = work_packages
-      @allocations = allocations
-      @visible_principal_ids = visible_principal_ids
+      @view = view
     end
 
     private
 
-    attr_reader :work_packages, :allocations, :visible_principal_ids
+    def add_entity_item(menu)
+      menu.with_item(label: t("resource_management.user_timeline.subheader.add_user"), tag: :a,
+                     href: new_user_project_resource_planner_view_path(@project, @resource_planner, @view),
+                     content_arguments: { data: { controller: "async-dialog" } }) do |item|
+        item.with_leading_visual_icon(icon: :person)
+      end
+    end
   end
 end

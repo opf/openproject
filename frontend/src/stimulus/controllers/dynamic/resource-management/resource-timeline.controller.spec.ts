@@ -30,11 +30,11 @@
 
 import { vi } from 'vitest';
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
-import WorkPackageTimelineController from './work-package-timeline.controller';
+import ResourceTimelineController from './resource-timeline.controller';
 
 const EVENT_NAME = 'op-dispatched:resource-allocations:changed';
 
-describe('WorkPackageTimelineController', () => {
+describe('ResourceTimelineController', () => {
   let ctx:StimulusTestContext;
 
   // A stand-in for the FullCalendar instance. We stub `initializeCalendar` so no
@@ -48,12 +48,12 @@ describe('WorkPackageTimelineController', () => {
 
   const mountTimeline = async ():Promise<void> => {
     ctx = await setupStimulusTest({
-      controllers: { 'resource-management--work-package-timeline': WorkPackageTimelineController },
+      controllers: { 'resource-management--resource-timeline': ResourceTimelineController },
     });
 
-    const prefix = 'data-resource-management--work-package-timeline';
+    const prefix = 'data-resource-management--resource-timeline';
     ctx.appendHTML(`
-      <div data-controller="resource-management--work-package-timeline"
+      <div data-controller="resource-management--resource-timeline"
            ${prefix}-reload-event-name-value="${EVENT_NAME}">
         <div ${prefix}-target="calendar"></div>
       </div>
@@ -66,7 +66,7 @@ describe('WorkPackageTimelineController', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.spyOn(WorkPackageTimelineController.prototype as unknown as { initializeCalendar:() => void }, 'initializeCalendar')
+    vi.spyOn(ResourceTimelineController.prototype as unknown as { initializeCalendar:() => void }, 'initializeCalendar')
       .mockImplementation(function stubInitializeCalendar(this:{ calendar:unknown }) {
         this.calendar = calendar;
       });
