@@ -28,43 +28,41 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-class Projects::Settings::WorkPackages::TypesController < Projects::SettingsController
-  include WorkPackageTypes::TypeDeactivationErrorMessage
+require "spec_helper"
 
-  menu_item :settings_work_packages
+RSpec.describe Projects::Settings::WorkPackages::TypesController do
+  shared_let(:user) { create(:admin) }
 
-  def show
-    @types = ::Type.all
-  end
+  current_user { user }
 
-  def update
-    type_ids = permitted_params.projects_type_ids
+  describe "PATCH #update" do
+    let(:type) { create(:type_bug) }
+    let(:other_type) { create(:type_task) }
+    let(:project) { create(:project, types: [type, other_type]) }
+    let!(:work_package) { create(:work_package, project:, type:) }
 
-    if UpdateProjectsTypesService.new(@project).call(type_ids)
-      flash[:notice] = success_message
-    else
-      flash[:error] = type_deactivation_error_messages(types_missing_from(type_ids), project_ids: [@project.id])
+    before do
+      patch :update,
+            params: {
+              project_id: project.identifier,
+              project: { type_ids: [other_type.id.to_s] }
+            }
     end
 
-    redirect_to project_settings_types_path(@project.identifier)
-  end
+    it { expect(response).to redirect_to(project_settings_types_path(project.identifier)) }
 
-  private
+    it "shows an error message with a link to the affected work packages" do
+      expect(sanitize_string(flash[:error]))
+        .to include("Unable to deactivate type #{type.name} because it's still in use by work packages")
+      expect(flash[:error].first)
+        .to include(work_packages_path(query_props: { f: [
+          { n: "type", o: "=", v: [type.id] },
+          { n: "project", o: "=", v: [project.id.to_s] }
+        ] }.to_json))
+    end
 
-  def success_message
-    ApplicationController.helpers.sanitize(
-      t(:notice_successful_update_custom_fields_added_to_project, url: project_settings_custom_fields_path(@project)),
-      attributes: %w(href target)
-    )
-  end
-
-  def types_missing_from(type_ids)
-    @project
-      .types_used_by_work_packages
-      .where.not(id: type_ids.presence || standard_type_ids)
-  end
-
-  def standard_type_ids
-    [::Type.standard_type&.id].compact
+    it "keeps the type active in the project" do
+      expect(project.reload.types).to include(type)
+    end
   end
 end
