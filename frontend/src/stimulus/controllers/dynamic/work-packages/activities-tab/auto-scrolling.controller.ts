@@ -30,6 +30,7 @@
 
 import BaseController from './base.controller';
 import { UrlHelpers, ActivityAnchorType, ActivityAnchor } from './services/url-helpers';
+import SettleWindow from './services/settle-window';
 
 // How long to keep following the bottom after a streamed entry arrives, covering
 // the late layout growth as its images reserve their height only once they load.
@@ -57,11 +58,7 @@ export default class AutoScrollingController extends BaseController {
 
   private abortController!:AbortController;
 
-  // A single settle window at a time: a newer streamed entry, or a teardown,
-  // cancels the one in flight rather than leaving it scrolling in the background.
-  private settleObserver?:ResizeObserver;
-  private settleTimeout?:ReturnType<typeof setTimeout>;
-  private settleAbort?:AbortController;
+  private settleWindow!:SettleWindow;
 
   connect() {
     super.connect();
@@ -69,6 +66,7 @@ export default class AutoScrollingController extends BaseController {
     // Construct per connect so a disconnect→reconnect of the same instance gets a
     // fresh signal; an already-aborted one would silently drop these listeners.
     this.abortController = new AbortController();
+    this.settleWindow = new SettleWindow({ target: this.element, duration: STREAM_SETTLE_MS });
 
     window.addEventListener('hashchange', this.scrollToHashAnchor, { signal: this.abortController.signal });
     this.element.addEventListener('click', this.handleCommentReferenceClick, { signal: this.abortController.signal });
@@ -77,7 +75,7 @@ export default class AutoScrollingController extends BaseController {
 
   disconnect() {
     this.abortController.abort();
-    this.stopFollowing();
+    this.settleWindow.stop();
   }
 
   setAnchor(event:CustomEventWithIdParam) {
@@ -99,45 +97,11 @@ export default class AutoScrollingController extends BaseController {
     }
   }
 
-  // A streamed-in entry carries images that reserve no height until they load, so
-  // it keeps growing for a moment after insertion and a one-shot scroll lands short
-  // of its final position. Re-assert the scroll while the height settles, yielding
-  // the moment the user scrolls so we never fight them, and stop once it closes.
-  private followWhileSettling(scroll:() => void) {
-    this.stopFollowing();
-    scroll();
-
-    this.settleObserver = new ResizeObserver(scroll);
-    this.settleObserver.observe(this.element);
-
-    // A user scrolling mid-settle has taken over; wheel and touch gestures come
-    // only from them, never from our own scroll, so yield the moment one fires.
-    this.settleAbort = new AbortController();
-    const yieldToUser = () => this.stopFollowing();
-    window.addEventListener('wheel', yieldToUser, { signal: this.settleAbort.signal, passive: true });
-    window.addEventListener('touchmove', yieldToUser, { signal: this.settleAbort.signal, passive: true });
-
-    this.settleTimeout = setTimeout(() => this.stopFollowing(), STREAM_SETTLE_MS);
-  }
-
-  private stopFollowing() {
-    this.settleObserver?.disconnect();
-    this.settleObserver = undefined;
-
-    this.settleAbort?.abort();
-    this.settleAbort = undefined;
-
-    if (this.settleTimeout) {
-      clearTimeout(this.settleTimeout);
-      this.settleTimeout = undefined;
-    }
-  }
-
   private keepScrolledToBottomWhileSettling() {
     const scrollableContainer = this.scrollableContainer;
     if (!scrollableContainer) { return; }
 
-    this.followWhileSettling(() => scrollableContainer.scrollTo({
+    this.settleWindow.follow(() => scrollableContainer.scrollTo({
       top: scrollableContainer.scrollHeight,
       behavior: 'smooth',
     }));
@@ -147,7 +111,7 @@ export default class AutoScrollingController extends BaseController {
     if (!this.inputContainer) { return; }
 
     // Wait for the on-screen keyboard to settle before the first scroll.
-    setTimeout(() => this.followWhileSettling(() => this.scrollInputIntoView()), initialDelay);
+    setTimeout(() => this.settleWindow.follow(() => this.scrollInputIntoView()), initialDelay);
   }
 
   performAutoScrollingOnFormSubmit() {
