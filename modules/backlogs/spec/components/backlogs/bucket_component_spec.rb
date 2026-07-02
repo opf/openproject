@@ -170,23 +170,10 @@ RSpec.describe Backlogs::BucketComponent, type: :component do
              position: 1)
     end
 
-    it "includes all=1 in the split-view URL" do
+    it "includes all=true in the split-view URL" do
       expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-        expect(row["data-backlogs--story-split-url-value"]).to include("all=1")
+        expect(row["data-backlogs--story-split-url-value"]).to include("all=true")
       end
-    end
-
-    it "includes all=1 in the drop URL" do
-      expect(rendered_component).to have_css(".Box-row#work_package_#{work_package.id}") do |row|
-        expect(row["data-drop-url"]).to include("all=1")
-      end
-    end
-
-    it "includes all=1 in the action-menu src" do
-      expect(rendered_component).to have_element(
-        "include-fragment",
-        src: menu_project_backlogs_work_package_path(project, work_package, all: "1")
-      )
     end
   end
 

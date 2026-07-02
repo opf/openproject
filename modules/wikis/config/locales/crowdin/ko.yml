@@ -125,6 +125,8 @@ ko:
       wiki_page: 위키 페이지
     create_new_wiki_page_dialog:
       title: 새 위키 페이지 만들기
+    deferred_inline_page_link_macro_component:
+      loading: 로드 중…
     delete_relation_page_link_confirmation_dialog:
       heading: 관련 위키 페이지 링크를 삭제하시겠습니까?
       title: 관련 위키 페이지 링크 삭제

@@ -86,7 +86,7 @@ export class WorkPackageBreadcrumbParentComponent {
   public updateParent(newParent:WorkPackageResource|null) {
     this.close();
     const newParentId = newParent ? newParent.id : null;
-    if (_.get(this.parent, 'id', null) === newParentId) {
+    if ((this.parent?.id ?? null) === newParentId) {
       return;
     }
 

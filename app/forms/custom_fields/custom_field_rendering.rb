@@ -52,13 +52,17 @@ module CustomFields::CustomFieldRendering
 
   def render_custom_fields(form:)
     custom_fields.each do |custom_field|
-      form.fields_for(:custom_field_values) do |builder|
-        custom_field_input(builder, custom_field)
-      end
-      if custom_field.has_comment?
-        form.fields_for(:custom_comments) do |builder|
-          custom_comment_input(builder, custom_field)
-        end
+      render_custom_field(form:, custom_field:)
+    end
+  end
+
+  def render_custom_field(form:, custom_field:)
+    form.fields_for(:custom_field_values) do |builder|
+      custom_field_input(builder, custom_field)
+    end
+    if custom_field.has_comment?
+      form.fields_for(:custom_comments) do |builder|
+        custom_comment_input(builder, custom_field)
       end
     end
   end

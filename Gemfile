@@ -50,7 +50,7 @@ gem "connection_pool", "~> 3.0.2"
 
 gem "rdoc", ">= 2.4.2"
 
-gem "doorkeeper", "~> 5.9.2"
+gem "doorkeeper", "~> 5.9.3"
 # Maintain our own omniauth due to relative URL root issues
 # see upstream PR: https://github.com/omniauth/omniauth/pull/903
 gem "omniauth", git: "https://github.com/opf/omniauth", ref: "7eb21563ba047ef86d71f099975587b5ec88f9c9"
@@ -113,14 +113,14 @@ gem "date_validator", "~> 0.12.0"
 gem "email_validator", "~> 2.2.3"
 gem "json_schemer", "~> 2.5.0"
 gem "ruby-duration", "~> 3.2.0"
-gem "msgpack", "~> 1.8.0"
+gem "msgpack", "~> 1.8.3"
 
 gem "mail", "2.9.0"
 
 gem "csv", "~> 3.3"
 
 # provide compatible filesystem information for available storage
-gem "sys-filesystem", "~> 1.5.0", require: false
+gem "sys-filesystem", "~> 1.6.0", require: false
 
 gem "bcrypt", "~> 3.1.22"
 
@@ -162,7 +162,7 @@ gem "ttfunk", "~> 1.7.0" # remove after https://github.com/prawnpdf/prawn/issues
 # prawn implicitly depends on matrix gem no longer in ruby core with 3.1
 gem "matrix", "~> 0.4.3"
 
-gem "mcp", "~> 0.18.0"
+gem "mcp", "~> 0.20.0"
 
 gem "meta-tags", "~> 2.23.0"
 
@@ -198,16 +198,16 @@ gem "puma", "~> 8.0"
 gem "puma-plugin-statsd", "~> 2.7"
 gem "rack-timeout", "~> 0.7.0", require: "rack/timeout/base"
 
-gem "nokogiri", "~> 1.19.2"
+gem "nokogiri", "~> 1.19.4"
 
 gem "carrierwave", "~> 2.2.7"
 gem "carrierwave_direct", "~> 3.0.0"
 gem "fog-aws"
 gem "ssrf_filter", "~> 1.3"
 
-gem "aws-sdk-core", "~> 3.244"
+gem "aws-sdk-core", "~> 3.251"
 # File upload via fog + screenshots on travis
-gem "aws-sdk-s3", "~> 1.217"
+gem "aws-sdk-s3", "~> 1.225"
 
 gem "openproject-token", "~> 8.10.0"
 
@@ -241,7 +241,7 @@ gem "opentelemetry-exporter-otlp", "~> 0.34.0", require: false
 gem "opentelemetry-instrumentation-all", "~> 0.94.0", require: false
 gem "opentelemetry-sdk", "~> 1.10", require: false
 
-gem "view_component", "~> 4.11.0"
+gem "view_component", "~> 4.12.0"
 # Lookbook
 gem "lookbook", "2.3.14"
 
@@ -276,7 +276,7 @@ group :test do
   gem "rspec-rails", "~> 8.0.4", group: :development
 
   # Retry failures within the same environment
-  gem "retriable", "~> 3.8.0"
+  gem "retriable", "~> 4.2.0"
   gem "rspec-retry", "~> 0.6.1"
 
   # Accessibility tests
@@ -316,7 +316,7 @@ group :test do
 
   gem "equivalent-xml", "~> 0.6"
   gem "json_spec", "~> 1.1.4"
-  gem "shoulda-matchers", "~> 7.0", require: nil
+  gem "shoulda-matchers", "~> 8.0", require: nil
 
   gem "parallel_tests", "~> 4.0"
 end
@@ -367,7 +367,7 @@ group :development, :test do
   gem "rubocop-factory_bot", require: false
   gem "rubocop-openproject", require: false
   gem "rubocop-performance", require: false
-  gem "rubocop-rails", "~> 2.35.4"
+  gem "rubocop-rails", "~> 2.35.5"
   gem "rubocop-rspec", require: false
   gem "rubocop-rspec_rails", require: false
 
@@ -376,7 +376,7 @@ group :development, :test do
   gem "erblint-github", require: false
 
   # Brakeman scanner
-  gem "brakeman", "~> 8.0.1"
+  gem "brakeman", "~> 8.0.5"
 
   # i18n-tasks helps find and manage missing and unused translations.
   gem "i18n-tasks", "~> 1.1.0", require: false

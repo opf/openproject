@@ -56,6 +56,21 @@ module ResourcePlannerViews
           allocations: @allocations,
           visible_principal_ids: @visible_principal_ids
         )
+      when ResourceWorkPackageTimeline
+        ResourcePlannerViews::WorkPackageTimeline::ContentComponent.new(
+          view: @view,
+          project: @project,
+          resource_planner: @resource_planner,
+          work_packages: @work_packages,
+          allocations: @allocations,
+          visible_principal_ids: @visible_principal_ids
+        )
+      when ::ResourceUserCard # disambiguate from the ResourcePlannerViews::ResourceUserCard contracts namespace
+        ResourcePlannerViews::UserCardList::ContentComponent.new(
+          view: @view,
+          project: @project,
+          resource_planner: @resource_planner
+        )
       end
     end
 

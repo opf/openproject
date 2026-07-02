@@ -186,7 +186,7 @@ export class ApiV3Service {
    * @param projectIdentifier
    */
   public withOptionalProject(projectIdentifier:string|number|null|undefined):ApiV3ProjectPaths|this {
-    if (_.isNil(projectIdentifier)) {
+    if (projectIdentifier == null) {
       return this;
     }
     return this.projects.id(projectIdentifier);

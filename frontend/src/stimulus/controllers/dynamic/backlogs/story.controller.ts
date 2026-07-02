@@ -158,7 +158,7 @@ export default class StoryController extends Controller<HTMLElement> implements 
     }
   }
 
-  private openSplitPane():void {
+  openSplitPane():void {
     Turbo.visit(this.splitUrlValue, { frame: 'content-bodyRight', action: 'advance' });
   }
 

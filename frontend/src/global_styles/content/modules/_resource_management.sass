@@ -1,0 +1,128 @@
+// Viewport-fill chain for the timeline. These rules style the planner page and
+// the content frame, which are ANCESTORS of `.op-rm-timeline-view`, so they can
+// not live inside the single-class scope below. They only take effect on timeline
+// views: the `--fill` modifier is added solely for `ResourceWorkPackageTimeline`.
+// `#content-body` already has a resolved height, so a `height: 100%` flex column
+// off it carries the height down to FullCalendar (which runs with `height: '100%'`).
+.op-rm-planner-page--fill
+  block-size: 100%
+  display: flex
+  flex-direction: column
+
+  // The content frame and the OpTurbo::Streamable wrapper each hold a single
+  // child, so a flex-grow chain through them passes the height down.
+  turbo-frame#resource-planner-view-content,
+  turbo-frame#resource-planner-view-content > div
+    display: flex
+    flex-grow: 1
+
+// Everything the timeline renders is scoped under this one class. The FullCalendar
+// vendor overrides (frontend/src/global_styles/vendor/_full_calendar.sass) live at
+// `#content-wrapper .fc …` and carry id specificity, so the rules competing with
+// them use `!important` rather than chaining `#content-wrapper` here. It is uglier
+// but keeps this file scoped to a single class, the same trade-off as
+// modules/costs/app/components/my/time_tracking/calendar_component.sass.
+.op-rm-timeline-view
+  display: flex
+  flex-direction: column
+  flex-grow: 1
+
+  .op-rm-timeline
+    flex-grow: 1
+
+  .fc-scrollgrid
+    border-radius: var(--borderRadius-medium, 6px)
+    overflow: hidden
+
+  // With a liquid (`height: '100%'`) calendar, FullCalendar stretches the timeline
+  // body to `min-height: 100%`. The column shading and now-indicator are absolutely
+  // positioned over that full height, so they paint the empty area below the last
+  // row, making it read as one over-sized row. Letting the body hug its rows keeps
+  // the shaded grid bounded; the scrollgrid still fills the viewport, so the card
+  // stays full height with plain space below the last row.
+  .fc-timeline-body
+    min-height: 0
+
+  // Both content bodies now end at the last row, so close them off with a divider.
+  // The last row's own lane border reads too faintly against the column shading,
+  // and the area below it is plain, so without this the table looks unterminated.
+  // `!important` because `.fc-datagrid-body` is a table whose border FullCalendar
+  // sets at id specificity, which a class-only selector would otherwise lose to.
+  .fc-timeline-body,
+  .fc-datagrid-body
+    border-bottom: 1px solid var(--borderColor-muted, #d8dee4) !important
+
+  // Grey base for every column, at all granularities. `!important` beats the vendor
+  // `.fc-day` grey (id specificity) so it applies in Day view too.
+  .fc-timeline-body .fc-timeline-slot-lane
+    background: rgb(205 205 205 / 20%) !important
+
+  // Re-assert today's highlight, which the grey rule above would otherwise outrank.
+  .fc-timeline-body .fc-timeline-slot-lane.fc-day-today
+    background: rgb(255 255 120 / 20%) !important
+
+  // FullCalendar background events are translucent by default; set the active
+  // span's background explicitly over the grey base.
+  .fc-bg-event.op-rm-timeline-active
+    background: var(--bgColor-default, #ffffff) !important
+    opacity: 0.8
+
+  // Header columns mirror the body shading: grey when no work package is active in
+  // the column, white otherwise, today's highlight kept for inactive columns. The
+  // active class is toggled by the controller from the loaded bands, since
+  // FullCalendar does not colour the header from event data. The active rule comes
+  // last so it outranks the equal-specificity today rule.
+  .fc-timeline-header .fc-timeline-slot-label
+    background: rgb(205 205 205 / 20%) !important
+
+  .fc-timeline-header .fc-timeline-slot-label.fc-day-today
+    background: rgb(255 255 120 / 20%) !important
+
+  .fc-timeline-header .fc-timeline-slot-label.op-rm-active-col
+    background: var(--bgColor-default) !important
+
+  // Our own card class, not FullCalendar's `.fc-timeline-event`: the vendor styles
+  // force that transparent and borderless with `!important`, so it can't be
+  // restyled by specificity.
+  .op-rm-timeline-bar
+    display: flex
+    align-items: center
+    gap: 0.25rem
+    inline-size: 100%
+    min-inline-size: 0
+    overflow: hidden
+    white-space: nowrap
+    padding: 2px 0.4rem
+    background: var(--bgColor-default, #ffffff)
+    border: 1px solid var(--borderColor-muted, #d8dee4)
+    border-radius: 6px
+    box-shadow: 0 1px 3px rgba(31, 35, 40, 0.12), 0 1px 2px rgba(31, 35, 40, 0.06)
+    color: var(--fgColor-default, #1f2328)
+
+    &--hours
+      color: var(--fgColor-muted, #0969da)
+      flex: 0 0 auto
+
+    &--label
+      flex: 0 1 auto
+      min-inline-size: 0
+      overflow: hidden
+      text-overflow: ellipsis
+
+    &--badge
+      flex: 0 0 auto
+
+  // Only bars the user may edit are clickable (open the edit dialog), so only
+  // they get the pointer; keyed off the class we add via `eventClassNames`.
+  .resource-allocation--editable .op-rm-timeline-bar
+    cursor: pointer
+
+  // Overbooking cue, keyed off the class we add via `eventClassNames`.
+  .resource-allocation--overbooked .op-rm-timeline-bar
+    border-top: 3px solid var(--borderColor-danger-emphasis, #cf222e)
+
+    &::after
+      content: "⚠"
+      flex: 0 0 auto
+      margin-inline-start: 0.25rem
+      color: var(--fgColor-danger, #cf222e)

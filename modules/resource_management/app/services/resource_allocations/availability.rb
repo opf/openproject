@@ -107,6 +107,20 @@ module ResourceAllocations
       active_index.nil? ? records : records[active_index..]
     end
 
+    def utilization_ratio(range)
+      capacity = WorkingTimeCalendar.new(user: @user, range:).total
+      return if capacity.zero?
+
+      ((booked_minutes_within(range).to_f / capacity) * 100).round
+    end
+
+    # Minutes already booked against the user within the given range. Allocations
+    # overlapping it only partially are counted proportionally to capacity.
+    # Zero when the user has nothing booked there.
+    def scheduled_minutes_within(range)
+      booked_minutes_within(range)
+    end
+
     private
 
     def allocations
@@ -154,6 +168,29 @@ module ResourceAllocations
 
       by_date.each_value { |entries| entries.sort_by!(&:minutes) }
       by_date
+    end
+
+    def booked_minutes_within(range)
+      return 0 if items.empty?
+
+      allocations.sum { |allocation| allocation_minutes_within(allocation, range) }
+    end
+
+    def allocation_minutes_within(allocation, range)
+      overlap_start = [allocation.start_date, range.begin].max
+      overlap_end = [allocation.end_date, range.end].min
+      return 0 if overlap_start > overlap_end
+
+      total = capacity_between(allocation.start_date, allocation.end_date)
+      return 0 if total.zero?
+
+      overlap = capacity_between(overlap_start, overlap_end)
+
+      (allocation.allocated_time * overlap.to_f / total).round
+    end
+
+    def capacity_between(first, last)
+      base_calendar.prefix_total(last) - base_calendar.prefix_total(first - 1)
     end
   end
 end

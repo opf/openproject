@@ -28,7 +28,7 @@
  * ++
  */
 
-import { debounce, DebouncedFunc } from 'lodash';
+import { debounce, DebouncedFunc } from 'lodash-es';
 import { DialogPreviewController } from '../dialog/preview.controller';
 
 export default class PreviewController extends DialogPreviewController {

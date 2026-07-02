@@ -80,31 +80,21 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       render_component
 
       expect(page).to have_element(:ul, id: /\Awork_package_#{work_package.id}_menu-list\z/)
-      expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_open_details\z/)
+      expect(page).to have_element(:button, id: /\Awork_package_#{work_package.id}_menu_open_details\z/)
       expect(page).to have_element(:a, id: /\Awork_package_#{work_package.id}_menu_open_fullscreen\z/)
       expect(page).to have_element(:"clipboard-copy", id: /\Awork_package_#{work_package.id}_menu_copy_url_to_clipboard\z/)
       expect(page).to have_element(:"clipboard-copy", id: /\Awork_package_#{work_package.id}_menu_copy_work_package_id\z/)
     end
 
-    it "shows Open details link (split view)" do
+    it "shows Open details action (split view)" do
       render_component
 
       expect(page).to have_text(I18n.t(:"js.button_open_details"))
       expect(page).to have_octicon(:"op-view-split")
       expect(page).to have_css(
-        "a[data-turbo-frame='content-bodyRight'][data-turbo-action='advance']",
+        "button[data-action='backlogs--story#openSplitPane']",
         text: I18n.t(:"js.button_open_details")
       )
-    end
-
-    context "when params[:all] is true" do
-      before { vc_test_controller.params[:all] = "1" }
-
-      it "adds the all param to the open details href" do
-        render_component
-
-        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_open_details[href*="all=1"]))
-      end
     end
 
     it "shows Open fullscreen link (full page)" do
@@ -146,15 +136,11 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
             with_settings: { work_packages_identifier: "semantic" } do
       let(:project) { create(:project, types: [type_feature, type_task], identifier: "STORY") }
 
-      it "uses the semantic displayId in the open details, fullscreen, and clipboard URLs" do
+      it "uses the semantic displayId in the fullscreen and clipboard URLs" do
         render_component
 
         semantic_id = work_package.reload.identifier
         expect(semantic_id).to start_with("STORY-")
-
-        details = page.find_by_id("work_package_#{work_package.id}_menu_open_details")
-        expect(details[:href]).to include("/details/#{semantic_id}")
-        expect(details[:href]).not_to include("/details/#{work_package.id}")
 
         fullscreen = page.find_by_id("work_package_#{work_package.id}_menu_open_fullscreen")
         expect(fullscreen[:href]).to end_with("/work_packages/#{semantic_id}")
@@ -346,16 +332,6 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
 
       expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_sprint\z/)
     end
-
-    context "when params[:all] is true" do
-      before { vc_test_controller.params[:all] = "1" }
-
-      it "adds the all param to the move to sprint href" do
-        render_component(open_sprints_exist: true)
-
-        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_sprint[href*="all=1"]))
-      end
-    end
   end
 
   describe "Move to backlog inbox item" do
@@ -387,16 +363,6 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
         render_component
 
         expect(page).to have_no_element(:button, id: /\Awork_package_#{work_package.id}_menu_move_to_inbox\z/)
-      end
-    end
-
-    context "when params[:all] is true" do
-      before { vc_test_controller.params[:all] = "1" }
-
-      it "adds the all param to the form action for the inbox move" do
-        render_component
-
-        expect(page).to have_css(%(form[action*="all=1"]))
       end
     end
   end
@@ -437,16 +403,6 @@ RSpec.describe Backlogs::WorkPackageCardMenuComponent, type: :component do
       render_component(other_buckets_exist: false)
 
       expect(page).to have_no_element(:a, id: /\Awork_package_#{work_package.id}_menu_move_to_backlog_bucket\z/)
-    end
-
-    context "when params[:all] is true" do
-      before { vc_test_controller.params[:all] = "1" }
-
-      it "adds the all param to the dialog href" do
-        render_component(other_buckets_exist: true)
-
-        expect(page).to have_css(%(#work_package_#{work_package.id}_menu_move_to_backlog_bucket[href*="all=1"]))
-      end
     end
   end
 end

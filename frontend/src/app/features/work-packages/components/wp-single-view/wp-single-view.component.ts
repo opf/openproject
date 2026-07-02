@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Injector, Input, OnInit, inject } from '@angular/core';
 import { StateService } from '@uirouter/core';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -56,6 +57,7 @@ import { ProjectStoragesResourceService } from 'core-app/core/state/project-stor
 import { IProjectStorage } from 'core-app/core/state/project-storages/project-storage.model';
 import idFromLink from 'core-app/features/hal/helpers/id-from-link';
 import isNewResource from 'core-app/features/hal/helpers/is-new-resource';
+import { isSemanticWorkPackageId } from 'core-app/shared/helpers/work-package-id-pattern';
 
 export interface FieldDescriptor {
   name:string;
@@ -172,7 +174,7 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
       .pipe(
         this.untilDestroyed(),
         map((resource) => this.contextFrom(resource)),
-        distinctUntilChanged<ResourceContextChange>((a, b) => _.isEqual(a, b)),
+        distinctUntilChanged<ResourceContextChange>((a, b) => isEqual(a, b)),
         map(() => this.halEditing.changeFor(this.workPackage)),
       )
       .subscribe((changeset:WorkPackageChangeset) => this.refresh(changeset));
@@ -283,6 +285,10 @@ export class WorkPackageSingleViewComponent extends UntilDestroyedMixin implemen
    */
   public get idLabel():string {
     return this.workPackage.formattedId;
+  }
+
+  public get selectEntireId():boolean {
+    return isSemanticWorkPackageId(this.idLabel);
   }
 
   public showSwitchToProjectBanner():boolean {

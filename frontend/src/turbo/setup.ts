@@ -58,9 +58,11 @@ applyTurboNavigationPatch();
 // Register only the turbo-power stream actions we actually use
 TurboPower.register('push_state', TurboPower.Actions.push_state, StreamActions);
 TurboPower.register('turbo_frame_set_src', TurboPower.Actions.turbo_frame_set_src, StreamActions);
+TurboPower.register('turbo_frame_reload', TurboPower.Actions.turbo_frame_reload, StreamActions);
 TurboPower.register('redirect_to', TurboPower.Actions.redirect_to, StreamActions);
 TurboPower.register('set_dataset_attribute', TurboPower.Actions.set_dataset_attribute, StreamActions);
 TurboPower.register('set_title', TurboPower.Actions.set_title, StreamActions);
+TurboPower.register('reload', TurboPower.Actions.reload, StreamActions);
 
 // Error handling when "Content missing" returned
 document.addEventListener('turbo:frame-missing', (event) => {

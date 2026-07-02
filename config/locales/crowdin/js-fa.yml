@@ -914,11 +914,12 @@ fa:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: نمای کلی
         activity: فعالیت
+        files: Files
+        overview: نمای کلی
+        project_attributes: Project attributes
         relations: Relations
         watchers: Watchers
-        files: Files
       time_relative:
         days: days
         weeks: weeks

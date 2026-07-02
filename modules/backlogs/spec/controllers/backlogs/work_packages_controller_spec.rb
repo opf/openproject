@@ -31,10 +31,12 @@
 require "rails_helper"
 
 RSpec.describe Backlogs::WorkPackagesController do
+  delegate :body, to: :response
+
   # Gets the html content of the template of the first turbo-stream with the
   # given action.
   def turbo_stream_template(action:)
-    Nokogiri("<response>#{response.body}</response>").css("turbo-stream[action=#{action}] template").first.inner_html
+    assert_select("turbo-stream[action=#{action}] template").first.inner_html
   end
 
   shared_let(:type_feature) { create(:type_feature) }
@@ -49,46 +51,12 @@ RSpec.describe Backlogs::WorkPackagesController do
   let(:sprint) { create(:sprint, name: "Agile Sprint 1", project:) }
   let(:work_package) { create(:work_package, status:, sprint:, project:, type: type_feature) }
 
-  shared_examples "respecting the all param for inbox pagination" do
-    context "with an inbox over the pagination threshold" do
-      shared_let(:wps) { create_list(:work_package, 5, project:, status:) }
-
-      before do
-        stub_const("Backlogs::InboxComponent::TRUNCATE_MIDDLE", 2)
-      end
-
-      context "when all param is not present" do
-        let(:all) { nil }
-
-        it "replaces the inbox with a show-more row in the stream" do
-          subject
-
-          expect(response).to be_successful
-          expect(response.body).to include("inbox_project_#{project.id}_show_more")
-        end
-      end
-
-      context "when all=1" do
-        let(:all) { "1" }
-
-        it "replaces the inbox without a show-more row in the stream" do
-          subject
-
-          expect(response).to be_successful
-          expect(response.body).not_to include("inbox_project_#{project.id}_show_more")
-        end
-      end
-    end
-  end
-
   describe "load_work_package" do
     let(:params) { { project_id: project.id, id: work_package.id } }
 
-    subject { get :menu, params:, format: :html }
+    subject(:response) { get :menu, params:, format: :html }
 
     it "assigns the visible work package", :aggregate_failures do
-      subject
-
       expect(response).to be_successful
       expect(response).to have_http_status :ok
       expect(assigns(:work_package)).to eq(work_package)
@@ -111,15 +79,13 @@ RSpec.describe Backlogs::WorkPackagesController do
     let(:all) { nil }
     let(:direction) { nil }
 
-    subject do
+    subject(:response) do
       put :move, params: { project_id:, id:, target_id:, prev_id:, all:, direction: }, format: :turbo_stream
     end
 
     context "with a Sprint as source" do
       shared_examples "shows a flash message after moving a work package that turns invisible" do |target_name|
         it "shows a flash message after moving the work package" do
-          subject
-
           message = "The work package was moved to #{target_name} but is not visible"
           expect(response).to be_successful
           expect(response).to have_http_status :ok
@@ -132,17 +98,15 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:target_id) { "sprint:#{sprint.id}" }
 
         it "replaces the sprint component once and emits no flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{sprint.id}",
-                                                method: "morph"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
         end
 
         it "does not change the work_package's sprint and position" do
           expect do
-            subject
+            response
+
             sprint.reload
           end.not_to change(sprint, :attributes)
         end
@@ -153,20 +117,16 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:target_id) { "sprint:#{other_sprint.id}" }
 
         it "responds with success and moves work_package to another Sprint", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
           expect(response).to have_http_status :ok
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{other_sprint.id}", method: "morph"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(assigns(:project)).to eq(project)
           expect(assigns(:work_package)).to eq(work_package_in_sprint)
         end
 
         it "moves the work_package to the target sprint" do
-          subject
+          response
 
           expect(work_package_in_sprint.reload).to have_attributes(sprint: other_sprint, backlog_bucket_id: nil, position: 1)
         end
@@ -178,14 +138,10 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:prev_id) { existing_inbox_item.id }
 
         it "replaces the sprint and backlog components without a flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
           expect(response).to have_http_status :ok
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-backlog-component-#{project.id}", method: "morph"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(assigns(:project)).to eq(project)
           expect(assigns(:work_package)).to eq(work_package_in_sprint)
         end
@@ -207,12 +163,10 @@ RSpec.describe Backlogs::WorkPackagesController do
         end
 
         it "moves the work_package to the inbox at the given position" do
-          subject
+          response
 
           expect(work_package_in_sprint.reload).to have_attributes(sprint_id: nil, backlog_bucket_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with a Backlog bucket as target" do
@@ -222,14 +176,9 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:prev_id) { bucket_items.first.id }
 
         it "replaces the sprint and backlog components without a flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{sprint.id}",
-                                                method: "morph"
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
         end
 
         context "when the project is configured to exclude the work packages status from backlogs" do
@@ -249,29 +198,25 @@ RSpec.describe Backlogs::WorkPackagesController do
         end
 
         it "moves the work_package into the bucket at the given position" do
-          subject
+          response
 
           expect(work_package_in_sprint.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with direction param" do
         let(:direction) { "highest" }
 
         it "replaces the sprint component and responds with turbo streams", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
           expect(response).to have_http_status :ok
-          expect(response)
-            .to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}", method: "morph"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(assigns(:work_package)).to eq(work_package_in_sprint)
         end
 
         it "moves the inbox item to the first position" do
-          subject
+          response
 
           expect(work_package_in_sprint.reload).to have_attributes(backlog_bucket_id: nil, sprint:, position: 1)
         end
@@ -284,11 +229,10 @@ RSpec.describe Backlogs::WorkPackagesController do
           end
 
           it "renders an error flash with 422", :aggregate_failures do
-            subject
-
             expect(response).to have_http_status :unprocessable_entity
             expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
-            expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
+            expect(response).not_to have_turbo_stream action: "turbo_frame_reload",
+                                                      target: "backlogs_container"
           end
         end
       end
@@ -303,24 +247,18 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:target_id) { "sprint:#{target_sprint.id}" }
 
         it "replaces inbox and target sprint components without a flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{target_sprint.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
 
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
         it "moves the work_package to the sprint" do
-          subject
+          response
 
           expect(inbox_work_package.reload).to have_attributes(sprint: target_sprint, backlog_bucket_id: nil, position: 1)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with the same Inbox as target" do
@@ -329,20 +267,17 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:prev_id) { inbox_items.first.id }
 
         it "replaces only the inbox component without a flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
         it "moves the work package to position 2" do
-          subject
+          response
+
           expect(inbox_work_package.reload).to have_attributes(sprint: nil, backlog_bucket: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with a Backlog bucket as target" do
@@ -352,20 +287,17 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:prev_id) { bucket_items.first.id }
 
         it "replaces only the backlog component without a flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
         it "moves the work package into the bucket to position 2" do
-          subject
+          response
+
           expect(inbox_work_package.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with direction param" do
@@ -373,20 +305,18 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:direction) { "highest" }
 
         it "replaces the backlog component and responds with turbo streams", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace", target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
+
           expect(assigns(:work_package)).to eq(inbox_work_package)
         end
 
         it "moves the inbox item to the first position" do
-          subject
+          response
 
           expect(inbox_work_package.reload).to have_attributes(backlog_bucket_id: nil, sprint_id: nil, position: 1)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
     end
 
@@ -401,23 +331,18 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:target_id) { "sprint:#{target_sprint.id}" }
 
         it "replaces the backlog and sprint components without a flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-sprint-component-#{target_sprint.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
+
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
         it "moves the work_package into the sprint" do
-          subject
+          response
 
           expect(bucket_work_package.reload).to have_attributes(sprint: target_sprint, backlog_bucket: nil, position: 1)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with the Inbox as target" do
@@ -426,21 +351,17 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:prev_id) { existing_inbox_item.id }
 
         it "replaces only the backlog component without a flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
         it "moves the work_package to the inbox at the given position" do
-          subject
+          response
 
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket_id: nil, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with the same Backlog bucket as target" do
@@ -448,21 +369,17 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:prev_id) { bucket_items.first.id }
 
         it "replaces only the backlog component without a flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
         it "reorders the work_package within the bucket" do
-          subject
+          response
 
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket: bucket, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with another Backlog bucket as target" do
@@ -472,41 +389,34 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:prev_id) { other_bucket_items.first.id }
 
         it "replaces only the backlog component without a flash", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace",
-                                                target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(response).not_to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         end
 
         it "moves the work_package into the other bucket at the given position" do
-          subject
+          response
 
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket: other_bucket, sprint_id: nil, position: 2)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
 
       context "with direction param" do
         let(:direction) { "highest" }
 
         it "replaces the backlog component and responds with turbo streams", :aggregate_failures do
-          subject
-
           expect(response).to be_successful
-          expect(response).to have_turbo_stream action: "replace", target: "backlogs-backlog-component-#{project.id}"
+          expect(response).to have_turbo_stream action: "turbo_frame_reload",
+                                                target: "backlogs_container"
           expect(assigns(:work_package)).to eq(bucket_work_package)
         end
 
         it "moves the work_package to the first position within the bucket" do
-          subject
+          response
 
           expect(bucket_work_package.reload).to have_attributes(backlog_bucket_id: bucket.id, sprint_id: nil, position: 1)
         end
-
-        include_examples "respecting the all param for inbox pagination"
       end
     end
 
@@ -524,8 +434,6 @@ RSpec.describe Backlogs::WorkPackagesController do
       end
 
       it "renders an error flash with 422", :aggregate_failures do
-        subject
-
         expect(response).to have_http_status :unprocessable_entity
         expect(response).to have_turbo_stream action: "flash", target: "op-primer-flash-component"
         expect(response).not_to have_turbo_stream action: "replace", target: "backlogs-sprint-component-#{sprint.id}"
@@ -537,35 +445,21 @@ RSpec.describe Backlogs::WorkPackagesController do
     let(:params) { { project_id: project.id, id: work_package_id } }
     let(:work_package_id) { work_package.id }
 
-    subject { get :menu, params:, format: :html }
+    subject(:response) { get :menu, params:, format: :html }
 
     context "when work_package has no sprint (inbox item)" do
       let(:inbox_work_package) { create(:work_package, status:, project:) }
       let(:work_package_id) { inbox_work_package.id }
 
       it "returns deferred action menu list HTML for inbox items" do
-        subject
-
         expect(response).to have_http_status :ok
-        expect(response.body).to include(I18n.t(:"js.button_open_details"))
+        expect(body).to include(I18n.t(:"js.button_open_details"))
       end
     end
 
     it "returns deferred action menu list HTML", :aggregate_failures do
-      subject
-
       expect(response).to have_http_status :ok
-      expect(response.body).to include(I18n.t(:"js.button_open_details"))
-    end
-
-    context "when all=1 is in params" do
-      let(:params) { { project_id: project.id, id: work_package_id, all: "1" } }
-
-      it "embeds the all query in deferred action URLs" do
-        subject
-
-        expect(response.body).to match(/all=1/)
-      end
+      expect(body).to include(I18n.t(:"js.button_open_details"))
     end
 
     context "when another open sprint exists" do
@@ -574,7 +468,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
 
       it "passes open_sprints_exist: true to the menu component" do
-        subject
+        response
 
         expect(Backlogs::WorkPackageCardMenuComponent)
           .to have_received(:new)
@@ -586,7 +480,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
 
       it "passes open_sprints_exist: false to the menu component" do
-        subject
+        response
 
         expect(Backlogs::WorkPackageCardMenuComponent)
           .to have_received(:new)
@@ -600,7 +494,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
 
       it "passes other_buckets_exist: true to the menu component" do
-        subject
+        response
 
         expect(Backlogs::WorkPackageCardMenuComponent)
           .to have_received(:new)
@@ -612,7 +506,7 @@ RSpec.describe Backlogs::WorkPackagesController do
       before { allow(Backlogs::WorkPackageCardMenuComponent).to receive(:new).and_call_original }
 
       it "passes other_buckets_exist: false to the menu component" do
-        subject
+        response
 
         expect(Backlogs::WorkPackageCardMenuComponent)
           .to have_received(:new)
@@ -624,7 +518,6 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:user) { create(:user) }
 
       it "responds with 404" do
-        subject
         expect(response).to have_http_status :not_found
       end
     end
@@ -639,10 +532,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:work_package_id) { sprint_items.first.id }
 
         it "scopes max_position to the sprint (first item has only downward actions)" do
-          subject
-
-          expect(response.body).not_to include(I18n.t(:label_sort_highest))
-          expect(response.body).to include(I18n.t(:label_sort_lower))
+          expect(body).not_to include(I18n.t(:label_sort_highest))
+          expect(body).to include(I18n.t(:label_sort_lower))
         end
       end
 
@@ -650,10 +541,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:work_package_id) { sprint_items.last.id }
 
         it "scopes max_position to the sprint (last item has only upward actions)" do
-          subject
-
-          expect(response.body).to include(I18n.t(:label_sort_highest))
-          expect(response.body).not_to include(I18n.t(:label_sort_lower))
+          expect(body).to include(I18n.t(:label_sort_highest))
+          expect(body).not_to include(I18n.t(:label_sort_lower))
         end
 
         context "when a closed work package exists in the sprint" do
@@ -663,9 +552,7 @@ RSpec.describe Backlogs::WorkPackagesController do
           it "includes closed work packages in max_position so the last open item can still move down" do
             # sprint_items.last is at position 3; closed_sprint_item occupies position 4
             # max_position = 4 (closed included) → last open item is not at the bottom
-            subject
-
-            expect(response.body).to include(I18n.t(:label_sort_lower))
+            expect(body).to include(I18n.t(:label_sort_lower))
           end
         end
       end
@@ -679,10 +566,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:work_package_id) { inbox_items.first.id }
 
         it "scopes max_position to the inbox (first item has only downward actions)" do
-          subject
-
-          expect(response.body).not_to include(I18n.t(:label_sort_highest))
-          expect(response.body).to include(I18n.t(:label_sort_lower))
+          expect(body).not_to include(I18n.t(:label_sort_highest))
+          expect(body).to include(I18n.t(:label_sort_lower))
         end
       end
 
@@ -690,10 +575,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:work_package_id) { inbox_items.last.id }
 
         it "scopes max_position to the inbox (last item has only upward actions)" do
-          subject
-
-          expect(response.body).to include(I18n.t(:label_sort_highest))
-          expect(response.body).not_to include(I18n.t(:label_sort_lower))
+          expect(body).to include(I18n.t(:label_sort_highest))
+          expect(body).not_to include(I18n.t(:label_sort_lower))
         end
 
         context "when a closed work package exists in the inbox" do
@@ -703,9 +586,7 @@ RSpec.describe Backlogs::WorkPackagesController do
           it "excludes closed work packages from max_position so the last open item is at the bottom" do
             # inbox_items.last is at position 3; closed_inbox_item occupies position 4
             # max_position = 3 (closed excluded) → last open item is at the bottom
-            subject
-
-            expect(response.body).not_to include(I18n.t(:label_sort_lower))
+            expect(body).not_to include(I18n.t(:label_sort_lower))
           end
         end
       end
@@ -721,11 +602,9 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:work_package_id) { lone_item.id }
 
         it "scopes max_position to the bucket (lone item has no move actions)" do
-          subject
-
           expect(response).to have_http_status :ok
-          expect(response.body).not_to include(I18n.t(:label_sort_highest))
-          expect(response.body).not_to include(I18n.t(:label_sort_lower))
+          expect(body).not_to include(I18n.t(:label_sort_highest))
+          expect(body).not_to include(I18n.t(:label_sort_lower))
         end
       end
 
@@ -733,10 +612,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:work_package_id) { bucket_items.first.id }
 
         it "scopes max_position to the bucket (first item has only downward actions)" do
-          subject
-
-          expect(response.body).not_to include(I18n.t(:label_sort_highest))
-          expect(response.body).to include(I18n.t(:label_sort_lower))
+          expect(body).not_to include(I18n.t(:label_sort_highest))
+          expect(body).to include(I18n.t(:label_sort_lower))
         end
       end
 
@@ -744,10 +621,8 @@ RSpec.describe Backlogs::WorkPackagesController do
         let(:work_package_id) { bucket_items.last.id }
 
         it "scopes max_position to the bucket (last item has only upward actions)" do
-          subject
-
-          expect(response.body).to include(I18n.t(:label_sort_highest))
-          expect(response.body).not_to include(I18n.t(:label_sort_lower))
+          expect(body).to include(I18n.t(:label_sort_highest))
+          expect(body).not_to include(I18n.t(:label_sort_lower))
         end
 
         context "when a closed work package exists in the bucket" do
@@ -757,9 +632,8 @@ RSpec.describe Backlogs::WorkPackagesController do
           it "excludes closed work packages from max_position so the last open item is at the bottom" do
             # bucket_items.last is at position 3; closed_bucket_item occupies position 4
             # max_position = 3 (closed excluded) → last open item is at the bottom
-            subject
 
-            expect(response.body).not_to include(I18n.t(:label_sort_lower))
+            expect(body).not_to include(I18n.t(:label_sort_lower))
           end
         end
       end
@@ -772,34 +646,26 @@ RSpec.describe Backlogs::WorkPackagesController do
 
     let(:params) { { project_id: project.id, id: work_package.id } }
 
-    subject { get :move_to_sprint_dialog, params:, format: :turbo_stream }
+    subject(:response) { get :move_to_sprint_dialog, params:, format: :turbo_stream }
 
     context "with a Sprint source" do
       it "responds with a dialog turbo stream", :aggregate_failures do
-        subject
-
         expect(response).to be_successful
         expect(response).to have_turbo_stream action: "dialog"
       end
 
       it "includes the existing sprints in the target_id" do
-        subject
-
         displayed_sprints.each do |sprint|
-          expect(response.body).to include("sprint:#{sprint.id}")
+          expect(body).to include("sprint:#{sprint.id}")
         end
       end
 
       it "does not include the current sprints from the target_id" do
-        subject
-
-        expect(response.body).not_to include("sprint:#{sprint.id}")
+        expect(body).not_to include("sprint:#{sprint.id}")
       end
 
       it "does not include the other sprint" do
-        subject
-
-        expect(response.body).not_to include("sprint:#{other_sprint.id}")
+        expect(body).not_to include("sprint:#{other_sprint.id}")
       end
     end
 
@@ -808,31 +674,23 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:params) { { project_id: project.id, id: inbox_work_package.id } }
 
       it "responds with a dialog turbo stream", :aggregate_failures do
-        subject
-
         expect(response).to be_successful
         expect(response).to have_turbo_stream action: "dialog"
       end
 
       it "embeds the no-sprint work_packages path in the dialog form action URL" do
-        subject
-
-        expect(response.body).to include("backlogs/work_packages/#{inbox_work_package.id}/move")
-        expect(response.body).not_to include("sprints")
+        expect(body).to include("backlogs/work_packages/#{inbox_work_package.id}/move")
+        expect(body).not_to include("sprints")
       end
 
       it "includes the existing sprints in the target_id" do
-        subject
-
         displayed_sprints.each do |sprint|
-          expect(response.body).to include("sprint:#{sprint.id}")
+          expect(body).to include("sprint:#{sprint.id}")
         end
       end
 
       it "does not include the other sprint" do
-        subject
-
-        expect(response.body).not_to include("sprint:#{other_sprint.id}")
+        expect(body).not_to include("sprint:#{other_sprint.id}")
       end
     end
 
@@ -842,34 +700,26 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:params) { { project_id: project.id, id: bucket_work_package.id } }
 
       it "responds with a dialog turbo stream", :aggregate_failures do
-        subject
-
         expect(response).to be_successful
         expect(response).to have_turbo_stream action: "dialog"
       end
 
       it "includes the available sprints in the dialog" do
-        subject
-
         displayed_sprints.each do |sprint|
-          expect(response.body).to include("sprint:#{sprint.id}")
+          expect(body).to include("sprint:#{sprint.id}")
         end
       end
 
       it "does not include sprints from other projects" do
-        subject
-
-        expect(response.body).not_to include("sprint:#{other_sprint.id}")
+        expect(body).not_to include("sprint:#{other_sprint.id}")
       end
     end
 
-    context "when all=1 is in params" do
-      let(:params) { { project_id: project.id, id: work_package.id, all: "1" } }
+    context "when all=true is in params" do
+      let(:params) { { project_id: project.id, id: work_package.id, all: "true" } }
 
       it "embeds the all query in the dialog form action URL" do
-        subject
-
-        expect(response.body).to match(/all=1/)
+        expect(body).to include("all=true")
       end
     end
 
@@ -877,7 +727,6 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
 
       it "responds with 403" do
-        subject
         expect(response).to have_http_status :forbidden
       end
     end
@@ -886,7 +735,6 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:user) { create(:user) }
 
       it "responds with 404" do
-        subject
         expect(response).to have_http_status :not_found
       end
     end
@@ -898,28 +746,22 @@ RSpec.describe Backlogs::WorkPackagesController do
 
     let(:params) { { project_id: project.id, id: work_package.id } }
 
-    subject { get :move_to_bucket_dialog, params:, format: :turbo_stream }
+    subject(:response) { get :move_to_bucket_dialog, params:, format: :turbo_stream }
 
     context "with a Sprint source" do
       it "responds with a dialog turbo stream", :aggregate_failures do
-        subject
-
         expect(response).to be_successful
         expect(response).to have_turbo_stream action: "dialog"
       end
 
       it "includes the project buckets in the target_id options" do
-        subject
-
         displayed_buckets.each do |bucket|
-          expect(response.body).to include("backlog_bucket:#{bucket.id}")
+          expect(body).to include("backlog_bucket:#{bucket.id}")
         end
       end
 
       it "does not include buckets from other projects" do
-        subject
-
-        expect(response.body).not_to include("backlog_bucket:#{other_bucket.id}")
+        expect(body).not_to include("backlog_bucket:#{other_bucket.id}")
       end
     end
 
@@ -929,34 +771,26 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:params) { { project_id: project.id, id: current_bucket_wp.id } }
 
       it "responds with a dialog turbo stream" do
-        subject
-
         expect(response).to be_successful
         expect(response).to have_turbo_stream action: "dialog"
       end
 
       it "excludes the current bucket from the options" do
-        subject
-
-        expect(response.body).not_to include("backlog_bucket:#{current_bucket.id}")
+        expect(body).not_to include("backlog_bucket:#{current_bucket.id}")
       end
 
       it "includes the other project buckets" do
-        subject
-
         displayed_buckets.each do |bucket|
-          expect(response.body).to include("backlog_bucket:#{bucket.id}")
+          expect(body).to include("backlog_bucket:#{bucket.id}")
         end
       end
     end
 
-    context "when all=1 is in params" do
-      let(:params) { { project_id: project.id, id: work_package.id, all: "1" } }
+    context "when all=true is in params" do
+      let(:params) { { project_id: project.id, id: work_package.id, all: "true" } }
 
       it "embeds the all query in the dialog form action URL" do
-        subject
-
-        expect(response.body).to match(/all=1/)
+        expect(body).to include("all=true")
       end
     end
 
@@ -964,7 +798,6 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:user) { create(:user, member_with_permissions: { project => %i[view_sprints view_work_packages] }) }
 
       it "responds with 403" do
-        subject
         expect(response).to have_http_status :forbidden
       end
     end
@@ -973,7 +806,6 @@ RSpec.describe Backlogs::WorkPackagesController do
       let(:user) { create(:user) }
 
       it "responds with 404" do
-        subject
         expect(response).to have_http_status :not_found
       end
     end

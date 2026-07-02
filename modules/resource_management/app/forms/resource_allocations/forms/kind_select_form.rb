@@ -31,15 +31,28 @@
 module ResourceAllocations
   module Forms
     class KindSelectForm < ApplicationForm
-      def initialize(work_package:)
+      def initialize(work_package:, start_date: nil, end_date: nil)
         super()
 
         @work_package = work_package
+        @start_date = start_date
+        @end_date = end_date
       end
 
+      # The timeline opens this dialog with a work package and a picked date
+      # range; carry all three to the `step` action so the allocation form
+      # opens pre-filled.
       form do |f|
         f.hidden name: :work_package_id,
                  value: @work_package&.id,
+                 scope_name_to_model: false
+
+        f.hidden name: :start_date,
+                 value: @start_date,
+                 scope_name_to_model: false
+
+        f.hidden name: :end_date,
+                 value: @end_date,
                  scope_name_to_model: false
 
         f.advanced_radio_button_group(

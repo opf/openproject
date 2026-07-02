@@ -129,6 +129,8 @@ az:
       wiki_page: Wiki page
     create_new_wiki_page_dialog:
       title: Create new wiki page
+    deferred_inline_page_link_macro_component:
+      loading: Loading…
     delete_relation_page_link_confirmation_dialog:
       heading: Delete related wiki page link?
       title: Delete related wiki page link

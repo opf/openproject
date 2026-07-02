@@ -30,6 +30,9 @@ class DemoDataSeeder < CompositeSeeder
   def data_seeder_classes
     [
       DemoData::GroupSeeder,
+      DemoData::UserCustomFieldsSeeder,
+      DemoData::DepartmentSeeder,
+      DemoData::WorkingTimeSeeder,
       DemoData::GlobalQuerySeeder,
       DemoData::ProjectsSeeder,
       DemoData::OverviewSeeder

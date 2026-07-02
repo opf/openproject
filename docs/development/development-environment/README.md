@@ -28,6 +28,12 @@ The OpenProject logfile can be found in `log/development.log`.
 
 If an error occurs, it should be logged there (as well as in the output to STDOUT/STDERR of the rails server process).
 
+`npm ci` / `npm install` fails on a package with an unreviewed install script? `.npmrc` sets
+`strict-allow-scripts=true`, which blocks any script not listed in the nearest `package.json`'s
+`allowScripts` map. Review the script, then run
+[`npm approve-scripts`](https://docs.npmjs.com/cli/v11/commands/npm-approve-scripts) (or edit
+`allowScripts` directly) to record a decision.
+
 ## Questions, Comments, and Feedback
 
 If you have any further questions, comments, feedback, or an idea to enhance this guide, please tell us at the

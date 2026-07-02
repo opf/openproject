@@ -85,7 +85,7 @@ OpenProject::CustomFieldFormat.tap do |formats|
 
   formats.register("hierarchy",
                    label: :label_hierarchy,
-                   only: %w(Project WorkPackage),
+                   only: %w(Project User WorkPackage),
                    order: 12,
                    multi_value_possible: true,
                    enterprise_feature: :custom_field_hierarchies,

@@ -93,6 +93,7 @@ jobs:
         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         PR_NUMBER: ${{ github.event.pull_request.number }}
         PR_AUTHOR: ${{ github.event.pull_request.user.login }}
+        PR_HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
       run: |
         if [ -f tmp/retried_specs.txt ]; then
           echo "## Flaky specs" >> "$GITHUB_STEP_SUMMARY"
@@ -101,7 +102,12 @@ jobs:
             SPECS="$(cat tmp/retried_specs.txt)" \
               envsubst '$SPECS $PR_NUMBER $PR_AUTHOR' \
               < .github/flaky-spec-copilot-comment.md > tmp/flaky_comment.md
-            gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file tmp/flaky_comment.md
+            if [ "$PR_HEAD_REPO" != "$GITHUB_REPOSITORY" ]; then
+              echo "::warning::Flaky specs detected in this PR - see job summary for details"
+              cat tmp/flaky_comment.md
+            else
+              gh pr comment "$PR_NUMBER" --repo "$GITHUB_REPOSITORY" --body-file tmp/flaky_comment.md
+            fi
           fi
         fi
     - name: Save CI image to cache

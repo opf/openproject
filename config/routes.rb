@@ -179,6 +179,11 @@ Rails.application.routes.draw do
         post :enable_all, to: "projects_tab#enable_all_projects"
       end
     end
+    resource :project_attributes, controller: "project_attributes_tab", only: %i[edit] do
+      post :toggle
+      put :enable_all_of_section
+      put :disable_all_of_section
+    end
     resource :settings, controller: "settings_tab", only: %i[update edit]
     resource :subject_configuration, controller: "subject_configuration_tab", only: %i[update edit]
 
@@ -765,6 +770,57 @@ Rails.application.routes.draw do
           get :new_link
         end
       end
+
+      resources :user_custom_fields, controller: "/admin/settings/user_custom_fields" do
+        collection do
+          patch :semantic_keys, action: :update_semantic_keys
+        end
+
+        member do
+          delete "options/:option_id", action: "delete_option", as: :delete_option_of
+          post :reorder_alphabetical
+          put :move
+          put :drop
+
+          get :attribute_help_text
+          put :update_attribute_help_text
+
+          get :list_items
+        end
+
+        resources :items, controller: "/admin/settings/user_custom_fields/hierarchy/items" do
+          member do
+            get :change_parent, action: :change_parent_dialog
+            post :change_parent, action: :change_parent
+            get :delete, action: :deletion_dialog
+            get :item_actions
+            post :move
+            get :new_child, action: :new
+            post :new_child, action: :create
+          end
+        end
+      end
+
+      resources :user_custom_field_sections, controller: "/admin/settings/user_custom_field_sections",
+                                             only: %i[create update destroy] do
+        member do
+          put :move
+          put :drop
+        end
+        collection do
+          get :new_link
+        end
+        resources :built_in_attributes,
+                  controller: "/admin/settings/user_custom_field_sections/built_in_attributes",
+                  param: :key,
+                  only: [] do
+          member do
+            put :move
+            put :drop
+          end
+        end
+      end
+
       resource :working_days_and_hours, controller: "/admin/settings/working_days_and_hours_settings", only: %i[show update] do
         post :confirm_changes
       end
@@ -849,8 +905,7 @@ Rails.application.routes.draw do
     end
 
     resources :departments,
-              only: %i[index show edit update destroy],
-              constraints: lambda { |_request| OpenProject::FeatureDecisions.departments_active? } do
+              only: %i[index show edit update destroy] do
       member do
         get :new_user
         post :add_user
@@ -911,6 +966,7 @@ Rails.application.routes.draw do
     concerns :shareable
 
     get "hover_card" => "work_packages/hover_card#show", on: :member
+    get "project_attributes" => "work_packages/project_attributes_tab#index", on: :member
 
     get "generate_pdf_dialog" => "work_packages#generate_pdf_dialog", on: :member
     post "generate_pdf" => "work_packages#generate_pdf", on: :member

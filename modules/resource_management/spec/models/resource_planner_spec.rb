@@ -145,7 +145,7 @@ RSpec.describe ResourcePlanner do
   describe ".allowed_child_class" do
     it "resolves an allowed child name to its class" do
       expect(described_class.allowed_child_class("ResourceWorkPackageList")).to eq(ResourceWorkPackageList)
-      expect(described_class.allowed_child_class("UserCard")).to eq(UserCard)
+      expect(described_class.allowed_child_class("ResourceUserCard")).to eq(ResourceUserCard)
     end
 
     it "returns nil for a real but disallowed constant" do
@@ -160,7 +160,7 @@ RSpec.describe ResourcePlanner do
     end
 
     it "is scoped per view type: a leaf view allows no children" do
-      expect(ResourceWorkPackageList.allowed_child_class("UserCard")).to be_nil
+      expect(ResourceWorkPackageList.allowed_child_class("ResourceUserCard")).to be_nil
     end
   end
 end

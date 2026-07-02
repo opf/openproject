@@ -93,6 +93,21 @@ zh-TW:
           name: 高
         item_3:
           name: 立即
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: 示範專案
@@ -182,21 +197,23 @@ zh-TW:
                 item_2:
                   subject: 建立會議網站
             item_2:
-              subject: 會議
+              subject: Test and quality-check the conference website
             item_3:
-              subject: 後續任務
+              subject: Conference
+            item_4:
+              subject: Follow-up tasks
               children:
                 item_0:
-                  subject: 將簡報上傳至網站
+                  subject: Upload presentations to website
                 item_1:
-                  subject: 會議支持者派對 :-)
+                  subject: Party for conference supporters :-)
                   description: |-
-                    * [ ] 啤酒
-                    * [ ] 小吃
-                    * [ ] 音樂
-                    * [ ] 更多啤酒
-            item_4:
-              subject: 專案結束
+                    *   [ ] Beer
+                    *   [ ] Snacks
+                    *   [ ] Music
+                    *   [ ] Even more beer
+            item_5:
+              subject: End of project
           wiki: |
             在此 Wiki 中，您可以協作建立與編輯頁面及子頁面，打造專案 Wiki。
 

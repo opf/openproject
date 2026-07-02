@@ -57,6 +57,12 @@ See COPYRIGHT and LICENSE files for more details.
   end
 %>
 
+<%# Constrain hook content (the avatar section) to the same width as the form below,
+    and separate it from the form with the same gap as sits between the form sections (mb-6). %>
+<%= render(Primer::BaseComponent.new(tag: :div, classes: "op-admin-settings-form-wrapper", mb: 3)) do %>
+  <%= call_hook(:view_my_account_top, user: current_user) %>
+<% end %>
+
 <%= error_messages_for "user" %>
 
 <%=
@@ -71,8 +77,7 @@ See COPYRIGHT and LICENSE files for more details.
   ) do |form|
     render(
       Primer::Forms::FormList.new(
-        My::AccountForm.new(form, user: @user),
-        My::CustomFieldsForm.new(form),
+        My::AttributesForm.new(form, user: @user),
         My::AccountSubmitForm.new(form)
       )
     )

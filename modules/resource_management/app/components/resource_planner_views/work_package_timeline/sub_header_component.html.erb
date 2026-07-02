@@ -1,0 +1,92 @@
+<%=
+  render(Primer::OpenProject::SubHeader.new) do |subheader|
+    subheader.with_action_button(
+      tag: :button,
+      leading_icon: :calendar,
+      label: t("resource_management.work_package_timeline.navigation.today"),
+      data: nav_action("today")
+    ) { t("resource_management.work_package_timeline.navigation.today") }
+
+    subheader.with_action_button(
+      icon_only: true,
+      leading_icon: :"chevron-left",
+      label: t("resource_management.work_package_timeline.navigation.previous"),
+      tag: :button,
+      data: nav_action("prev")
+    )
+
+    subheader.with_action_button(
+      icon_only: true,
+      leading_icon: :"chevron-right",
+      label: t("resource_management.work_package_timeline.navigation.next"),
+      tag: :button,
+      data: nav_action("next")
+    )
+
+    subheader.with_action_menu(
+      leading_icon: :clock,
+      trailing_icon: :"triangle-down",
+      label: granularity_label(default_granularity_key),
+      button_arguments: { "aria-label": granularity_label(default_granularity_key), data: granularity_button_data }
+    ) do |menu|
+      granularities.each do |key, view_name|
+        menu.with_item(
+          label: granularity_label(key),
+          tag: :button,
+          content_arguments: { data: granularity_action(key, view_name) }
+        ) { granularity_label(key) }
+      end
+    end
+
+    subheader.with_action_button(
+      icon_only: true,
+      leading_icon: :gear,
+      label: t("resource_management.work_package_list.subheader.settings"),
+      tag: :a,
+      href: edit_project_resource_planner_view_path(@project, @resource_planner, @view),
+      data: { controller: "async-dialog" }
+    )
+
+    if @view.manually_picked?
+      subheader.with_action_menu(
+        leading_icon: :plus,
+        trailing_icon: :"triangle-down",
+        label: t("resource_management.work_package_list.subheader.add"),
+        anchor_align: :end,
+        button_arguments: {
+          scheme: :primary,
+          "aria-label": t("resource_management.work_package_list.subheader.add")
+        }
+      ) do |menu|
+        if allowed_to_allocate?
+          menu.with_item(
+            label: t("resource_management.work_package_list.subheader.allocate"),
+            tag: :a,
+            href: new_project_resource_allocation_path(@project),
+            content_arguments: { data: { controller: "async-dialog" } }
+          ) do |item|
+            item.with_leading_visual_icon(icon: :people)
+          end
+        end
+
+        menu.with_item(
+          label: t("resource_management.work_package_list.subheader.add_work_package"),
+          tag: :a,
+          href: new_work_package_project_resource_planner_view_path(@project, @resource_planner, @view),
+          content_arguments: { data: { controller: "async-dialog" } }
+        ) do |item|
+          item.with_leading_visual_icon(icon: :"op-relations")
+        end
+      end
+    elsif allowed_to_allocate?
+      subheader.with_action_button(
+        leading_icon: :plus,
+        scheme: :primary,
+        label: t("resource_management.work_package_list.subheader.allocate"),
+        tag: :a,
+        href: new_project_resource_allocation_path(@project),
+        data: { controller: "async-dialog" }
+      ) { t("resource_management.work_package_list.subheader.allocate") }
+    end
+  end
+%>

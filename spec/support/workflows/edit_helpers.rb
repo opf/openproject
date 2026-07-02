@@ -69,6 +69,14 @@ module Workflows
       end
     end
 
+    def toggle_select_all_in_column(to_index)
+      find(:button, accessible_name: "Toggle transitions from all old statuses to #{statuses[to_index].name}").click
+    end
+
+    def toggle_select_all_in_row(from_index)
+      find(:button, accessible_name: "Toggle transitions from #{statuses[from_index].name} to all new statuses").click
+    end
+
     def indeterminate?(checkbox_id)
       page.evaluate_script("document.getElementById('#{checkbox_id}')?.indeterminate ?? false")
     end

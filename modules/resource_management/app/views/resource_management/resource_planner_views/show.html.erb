@@ -29,37 +29,37 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title @resource_planner.name, t(:label_resource_management) %>
 
-<%= render(Primer::OpenProject::PageHeader.new) do |header|
-      header.with_title { @resource_planner.name }
-      header.with_breadcrumbs(
-        [
-          { href: project_overview_path(@project.id), text: @project.name },
-          { href: project_resource_planners_path(@project), text: t(:label_resource_management) },
-          @resource_planner.name
-        ]
-      )
-    end %>
+<%# The timeline fills the remaining viewport height; other views keep their
+    natural page-scrolling flow. %>
+<% fill_height = @view.is_a?(ResourceWorkPackageTimeline) %>
+<div class="op-rm-planner-page <%= "op-rm-planner-page--fill" if fill_height %>">
+  <%= render(ResourcePlanners::ShowPageHeaderComponent.new(resource_planner: @resource_planner, project: @project)) %>
 
-<%= render(ResourcePlanners::SubViewsComponent.new(resource_planner: @resource_planner, selected_view: @view)) %>
+  <%= render(ResourcePlanners::SubViewsComponent.new(resource_planner: @resource_planner, selected_view: @view)) %>
 <%#
-  Reloadable frame so allocation changes made in the dialogs refresh the table
+  Reloadable frame so allocation changes made in the dialogs refresh the content
   in place. The frame has no `src`, so it is not fetched on load — it just holds
   the server-rendered content. The reload-frame-on-event controller points its
   `src` at this same view and morphs it in when an allocation of any listed work
   package changes.
+
+  The timeline is the exception: its FullCalendar controller refetches its feeds
+  in place on the same event, so it opts out of the frame-level reload to avoid
+  tearing down and re-instantiating the calendar.
 %>
 <%
   # When the planner does not have a view yet, we cannot add frame data
-  frame_data = if @view
+  frame_data = if @view && !@view.is_a?(ResourceWorkPackageTimeline)
                  {
                    controller: "reload-frame-on-event",
-                   "reload-frame-on-event-event-name-value": "resource-allocations:changed",
+                   "reload-frame-on-event-event-name-value": "op-dispatched:resource-allocations:changed",
                    "reload-frame-on-event-url-value": project_resource_planner_view_path(@project, @resource_planner, @view)
                  }
                else
                  {}
                end
 %>
-<%= turbo_frame_tag("resource-planner-view-content", refresh: :morph, data: frame_data) do %>
-  <%= render(@content_component) %>
-<% end %>
+  <%= turbo_frame_tag("resource-planner-view-content", refresh: :morph, data: frame_data) do %>
+    <%= render(@content_component) %>
+  <% end %>
+</div>

@@ -1,0 +1,23 @@
+<%=
+  component_wrapper do
+    primer_form_with(**form_config) do |f|
+      component_collection do |collection|
+        collection.with_component(Primer::Alpha::Dialog::Body.new) do
+          render(UserCustomFieldSections::NameForm.new(f))
+        end
+
+        collection.with_component(Primer::Alpha::Dialog::Footer.new) do
+          component_collection do |modal_footer|
+            modal_footer.with_component(Primer::Beta::Button.new(data: { "close-dialog-id": "user-custom-field-section-dialog#{@user_custom_field_section.id}" })) do
+              t("button_cancel")
+            end
+
+            modal_footer.with_component(Primer::Beta::Button.new(scheme: :primary, type: :submit)) do
+              t("button_save")
+            end
+          end
+        end
+      end
+    end
+  end
+%>

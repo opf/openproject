@@ -35,6 +35,7 @@ module Components
       include Capybara::RSpecMatchers
       include RSpec::Matchers
       include RSpec::Wait
+      include WaitHelpers
 
       attr_reader :work_package
 

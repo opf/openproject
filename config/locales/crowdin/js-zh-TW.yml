@@ -913,11 +913,12 @@ zh-TW:
         relation_filters:
           filter_work_packages_by_relation_type: 依關聯類型過濾工作套件
       tabs:
-        overview: 總覽
         activity: 活動
+        files: 檔案
+        overview: 總覽
+        project_attributes: Project attributes
         relations: 關聯
         watchers: 監看者
-        files: 檔案
       time_relative:
         days: 天
         weeks: 週

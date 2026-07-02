@@ -192,16 +192,19 @@ export default defineConfig([
       // Disable indentation rule as it breaks in edge cases and is covered by editorconfig
       '@stylistic/indent': 'off',
 
-      // Whitespace configuration
+      // Whitespace configuration: spaces around the function-type `=>`
+      // (defaults), but tight colons. Colon spacing lives in
+      // `overrides.colon` because the rule's `overrides.arrow` option is
+      // deprecated; keeping the base spaced preserves `() => void` style.
       '@stylistic/type-annotation-spacing': [
         'error',
         {
-          before: false,
-          after: false,
+          before: true,
+          after: true,
           overrides: {
-            arrow: {
-              before: true,
-              after: true,
+            colon: {
+              before: false,
+              after: false,
             },
           },
         },

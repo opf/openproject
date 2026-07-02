@@ -28,6 +28,27 @@
             render(ResourcePlannerViews::Forms::ConfigureForm.new(f))
           end
 
+          if show_card_fields?
+            body.with_row(mt: 3) do
+              helpers.angular_component_tag(
+                "opce-draggable-autocompleter",
+                inputs: {
+                  options: card_field_options,
+                  selected: selected_card_fields,
+                  name: "card_fields",
+                  id: "resource-user-card-fields",
+                  dragAreaName: "resource-user-card-fields_dragarea",
+                  formControlId: "resource-user-card-fields_autocompleter",
+                  inputLabel: t("resource_management.user_card_list.fields.input_label"),
+                  inputCaption: t("resource_management.user_card_list.fields.input_caption"),
+                  inputPlaceholder: t("resource_management.user_card_list.fields.input_placeholder"),
+                  dragAreaLabel: t("resource_management.user_card_list.fields.drag_area_label"),
+                  appendToComponent: true
+                }
+              )
+            end
+          end
+
           if has_filter_query?
             body.with_row(
               mt: 3,

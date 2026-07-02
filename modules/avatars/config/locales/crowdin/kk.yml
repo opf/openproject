@@ -19,24 +19,10 @@ kk:
   avatars:
     label_avatar: Аватар
     label_gravatar: Граватар
-    label_current_avatar: Қазіргі аватар
     label_local_avatar: Жеке аватар
-    text_current_avatar: 'Төмендегі сурет қазіргі аватарды бейнелейді.
-
-      '
-    text_upload_instructions: |
-      Өлшемі 128 де 128 пиксел болатын өзіңіздің жеке аватарыңызды жүктеңіз. Одан үлкен файлдар осы өлшемге келетіндей болып қиылады.
-      Таңдаған суретіңіз жүктелмес бұрын аватарыңыздың алдын-ала бейнесі көрсетіледі.
-    text_change_gravatar_html: 'Өзіңіздің электрондық поштаңыздың Граватарын өзгерту немесе соны қосу үшін мына сілтемеге өтіңіз: %{gravatar_url}.'
-    text_your_local_avatar: 'OpenProject сізге өзіңіздің жеке аватарыңызды жүктеуге мүмкіндік береді.
-
-      '
-    text_local_avatar_over_gravatar: 'Орнатқан аватарыңыз жоғарыдағы аватардың орнына қолданылатын болады.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject сіз тіркеген граватарды немесе жүйеде көрсетілген әдепкі бейнені қолданатын болады.
-      Қазіргі граватар мынадай:
+    text_avatar_gravatar_html: OpenProject uses your Gravatar if you registered one at %{gravatar_url}, or a default image or icon if one exists.
+    text_avatar_local: You can also upload a custom avatar that overrides the Gravatar by clicking the image. We recommend an image of 128 by 128 pixels.
+    text_avatar_local_only: You can upload a custom avatar by clicking the image. We recommend an image of 128 by 128 pixels.
     settings:
       enable_gravatars: Қолданушы граватарларына рұқсат беру
       gravatar_default: Әдепкі граватар бейнесі

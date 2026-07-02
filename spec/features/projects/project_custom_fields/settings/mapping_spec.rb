@@ -401,7 +401,7 @@ RSpec.describe "Projects custom fields mapping via project settings", :js do
         expect(custom_fields[2].text).to include("Int field")
       end
 
-      boolean_project_custom_field.move_to_bottom
+      section_for_input_fields.reload.move_in_order(boolean_project_custom_field.column_name, :lowest)
 
       visit project_settings_project_custom_fields_path(project)
 

@@ -709,6 +709,10 @@ module Settings
         description: "Deactivate regular synchronization job for groups in case scheduled as a separate cronjob",
         default: false
       },
+      ldap_departments_disable_sync_job: {
+        description: "Deactivate regular synchronization job for departments in case scheduled as a separate cronjob",
+        default: false
+      },
       ldap_users_disable_sync_job: {
         description: "Deactivate user attributes synchronization from LDAP",
         default: false

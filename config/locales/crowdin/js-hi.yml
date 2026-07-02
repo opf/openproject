@@ -914,11 +914,12 @@ hi:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: संक्षिप्त अवलोकन
         activity: गतिविधी
+        files: फ़ाइलें
+        overview: संक्षिप्त अवलोकन
+        project_attributes: Project attributes
         relations: Relations
         watchers: वॉचर
-        files: फ़ाइलें
       time_relative:
         days: days
         weeks: weeks

@@ -27,6 +27,7 @@
 // See docs/COPYRIGHT.rdoc for more details.
 //++
 
+import { sortBy } from 'lodash-es';
 import { WorkPackageResource } from "core-app/features/hal/resources/work-package-resource";
 import { HalResource } from "core-app/features/hal/resources/hal-resource";
 import { Injectable, inject } from '@angular/core';
@@ -45,6 +46,6 @@ export class WorkPackagesGitlabMrsService extends WorkPackageLinkedResourceCache
   }
 
   protected sortList(mergeRequests:HalResource[], attr = 'createdAt'):HalResource[] {
-    return _.sortBy(_.flatten(mergeRequests), attr);
+    return sortBy(mergeRequests.flat(), attr);
   }
 }

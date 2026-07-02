@@ -19,24 +19,10 @@ pl:
   avatars:
     label_avatar: Awatar
     label_gravatar: Gravatar
-    label_current_avatar: Bieżący awatar
     label_local_avatar: Awatar niestandardowy
-    text_current_avatar: 'Poniższy obraz przedstawia aktualny awatar.
-
-      '
-    text_upload_instructions: |
-      Prześlij swój własny awatar 128 na 128 pikseli. Rozmiar większych plików zostanie zmieniony i zostaną one odpowiednio przycięte.
-      Podgląd awatara zostanie wyświetlony przed przesłaniem, po wybraniu obrazu.
-    text_change_gravatar_html: Aby zmienić lub dodać Gravatar dla tego adresu e-mail, przejdź na stronę %{gravatar_url}.
-    text_your_local_avatar: 'OpenProject umożliwia przesłanie własnego, niestandardowego awatara.
-
-      '
-    text_local_avatar_over_gravatar: 'Jeśli go ustawisz, ten niestandardowy awatar będzie używany w pierwszej kolejności przed powyższym Gravatarem.
-
-      '
-    text_your_current_gravatar: |
-      OpenProject używa Gravatara, jeśli użytkownik go zarejestrował albo domyślnego obrazu lub ikony, jeśli taka istnieje.
-      Bieżący Gravatar jest następujący:
+    text_avatar_gravatar_html: OpenProject używa Twojego Gravatara, jeśli został zarejestrowany na stronie %{gravatar_url}, lub domyślny obraz lub ikonę, jeśli istnieją.
+    text_avatar_local: Klikając obraz, można również przesłać własny awatar, który zastąpi Gravatar. Zalecamy użycie obrazu o wymiarach 128 na 128 pikseli.
+    text_avatar_local_only: Klikając obraz, można przesłać własny awatar. Zalecamy użycie obrazu o wymiarach 128 na 128 pikseli.
     settings:
       enable_gravatars: Włącz Gravatary użytkownika
       gravatar_default: Domyślny obraz Gravatar

@@ -29,17 +29,18 @@
 #++
 
 class ProjectCustomField < CustomField
+  include CustomField::Sectionable
+
   belongs_to :project_custom_field_section, class_name: "ProjectCustomFieldSection", foreign_key: :custom_field_section_id,
                                             inverse_of: :custom_fields
   has_many :project_custom_field_project_mappings, class_name: "ProjectCustomFieldProjectMapping", foreign_key: :custom_field_id,
                                                    dependent: :destroy, inverse_of: :project_custom_field
   has_many :projects, through: :project_custom_field_project_mappings
-
-  acts_as_list column: :position_in_custom_field_section, scope: [:custom_field_section_id]
+  has_many :project_custom_field_type_mappings, class_name: "ProjectCustomFieldTypeMapping", foreign_key: :custom_field_id,
+                                                dependent: :destroy, inverse_of: :project_custom_field
+  has_many :types, through: :project_custom_field_type_mappings
 
   after_save :activate_required_field_in_all_projects, if: :is_for_all?
-
-  validates :custom_field_section_id, presence: true
 
   # Relevant for user fields to allow membership assignment
   has_one :custom_fields_role, foreign_key: :custom_field_id, dependent: :destroy, inverse_of: :custom_field
@@ -72,6 +73,10 @@ class ProjectCustomField < CustomField
         custom_field_section_id:,
         options: { is_for_all: false }
       ).first
+    end
+
+    def custom_field_ids_in_section(custom_field_section_id)
+      where(custom_field_section_id:).pluck(:id)
     end
 
     def toggleable_ids_in_creation_wizard_settings(project, custom_field_section_id)
