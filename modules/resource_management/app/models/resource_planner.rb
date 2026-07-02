@@ -49,7 +49,6 @@ class ResourcePlanner < PersistedView
   validates :parent, absence: true
   validates :query, absence: true
 
-  # resource planner must belong to a project and a user
   validates :principal, :project,
             presence: true
 

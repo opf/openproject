@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 module ::ResourceManagement
-  # TODO - separate controllers per view?
-
   class ResourcePlannerViewsController < BaseController
     include OpTurbo::ComponentStream
     include PlannerViewContent
