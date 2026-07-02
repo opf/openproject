@@ -153,6 +153,17 @@ class Query::Results
     aliases = include_aliases
     reflections = reflection_includes
 
+    # Build a table_name => alias_name map for substitution in non-association sorts.
+    # When Rails aliases an association table (e.g. "projects" -> "projects_work_packages"),
+    # non-association sortable strings that hardcode the table name (e.g. "projects.identifier"
+    # for the semantic id sort) must use the aliased name, too (-> "projects_work_packages.identifier").
+    table_to_alias = reflection_includes.filter_map do |inc|
+      reflection = WorkPackage.reflections[inc.to_s]
+      table_name = reflection.klass.table_name
+      alias_name = aliases[inc]
+      [table_name, alias_name] if alias_name != table_name
+    end.to_h
+
     sorting_by_column_name.each_with_object({}) do |(column_key, sortable), hash|
       column_is_association = reflections.include?(column_key.to_sym)
       columns_hash = columns_hash_for(column_is_association ? column_key : nil)
@@ -160,8 +171,31 @@ class Query::Results
                            alias_name = aliases[column_key.to_sym]
                            expand_association_columns(alias_name, sortable, columns_hash)
                          else
-                           case_insensitive_condition(column_key, sortable, columns_hash)
+                           resolved = apply_association_table_aliases(sortable, table_to_alias)
+                           case_insensitive_condition(column_key, resolved, columns_hash)
                          end
+    end
+  end
+
+  # Replace association table names in sortable SQL expressions with their actual
+  # aliases. This is needed when a raw SQL join causes Rails to alias an association
+  # table (e.g. "projects" -> "projects_work_packages"), but a non-association column's
+  # sortable expression still hardcodes the unaliased table name.
+  def apply_association_table_aliases(sortable, table_to_alias)
+    return sortable if table_to_alias.empty?
+
+    if sortable.is_a?(Array)
+      sortable.map { |s| substitute_association_table_alias(s, table_to_alias) }
+    else
+      substitute_association_table_alias(sortable, table_to_alias)
+    end
+  end
+
+  def substitute_association_table_alias(str, table_to_alias)
+    return str unless str.is_a?(String)
+
+    table_to_alias.reduce(str) do |s, (table_name, alias_name)|
+      s.gsub(/\b#{Regexp.escape(table_name)}\./, "#{alias_name}.")
     end
   end
 
@@ -227,10 +261,19 @@ class Query::Results
   #
   # There is no handling for cases when the same association is joined/included
   # multiple times as the rest of the code should prevent that.
+  #
+  # Raw SQL joins (e.g. the backlog bucket groupable join) may contain nested
+  # subqueries that reference association tables (e.g. INNER JOIN "projects" ON
+  # inside a permission subquery). Rails's AliasTracker scans these raw strings
+  # and counts such occurrences, which can cause it to alias the projects table
+  # as "projects_work_packages". We pre-count the same way so our ORDER BY
+  # expressions use the matching alias.
   def include_aliases
     counts = Hash.new do |h, key|
       h[key] = 0
     end
+
+    raw_join_table_counts(counts)
 
     reflection_includes.each_with_object({}) do |inc, hash|
       reflection = WorkPackage.reflections[inc.to_s]
@@ -239,6 +282,20 @@ class Query::Results
       hash[inc] = reflection_alias(reflection, counts[table_name])
 
       counts[table_name] += 1
+    end
+  end
+
+  # Scan raw SQL join strings for "JOIN ... table ON" patterns, mirroring
+  # ActiveRecord::Associations::AliasTracker.initial_count_for, and increment
+  # counts for each found table name.
+  def raw_join_table_counts(counts)
+    raw_joins = [sort_criteria_joins, query.group_by_join_statement].flatten.compact
+
+    raw_joins.each do |join_sql|
+      join_sql.to_s.scan(/JOIN(?:\s+\w+)?\s+(?:\S+\s+)?(?:"(\w+)"|(\w+))\s+ON/i) do |quoted, unquoted|
+        table = quoted || unquoted
+        counts[table] += 1 if table
+      end
     end
   end
 
