@@ -69,6 +69,66 @@ RSpec.describe "ResourcePlannerViews requests",
     end
   end
 
+  describe "GET show with an automatic list larger than a page" do
+    let(:query) do
+      Query.new_default(project:, user:).tap do |q|
+        q.name = "List"
+        q.save!
+      end
+    end
+    let(:paginated_view) do
+      ResourceWorkPackageList.create!(name: "Automatic", parent: resource_planner, project:, principal: user, query:)
+    end
+
+    let!(:work_packages) { create_list(:work_package, 2, project:) }
+
+    before { allow(Setting).to receive(:per_page_options_array).and_return([1, 100]) }
+
+    def subjects_on(**query_params)
+      get project_resource_planner_view_path(project, resource_planner, paginated_view, **query_params)
+      work_packages.map(&:subject).select { |subject| response.body.include?(subject) }
+    end
+
+    it "renders the pagination controls and splits the work packages across pages" do
+      first_page = subjects_on(per_page: 1)
+      expect(response.body).to include("op-pagination--pages")
+      expect(first_page.size).to eq(1)
+
+      second_page = subjects_on(per_page: 1, page: 2)
+      expect(second_page.size).to eq(1)
+
+      expect(first_page + second_page).to match_array(work_packages.map(&:subject))
+    end
+  end
+
+  describe "GET show for a manually-picked list" do
+    let(:query) do
+      Query.new_default(project:, user:).tap do |q|
+        q.name = "List"
+        q.add_filter("manual_sort", "ow", [])
+        q.sort_criteria = [%w[manual_sorting asc]]
+        q.save!
+      end
+    end
+    let(:manual_view) do
+      ResourceWorkPackageList.create!(name: "Hand-picked", parent: resource_planner, project:, principal: user, query:)
+    end
+
+    let!(:work_packages) { create_list(:work_package, 2, project:) }
+
+    before do
+      allow(Setting).to receive(:per_page_options_array).and_return([1, 100])
+      work_packages.each_with_index { |wp, i| query.ordered_work_packages.create!(work_package: wp, position: i + 1) }
+    end
+
+    it "stays unpaginated so drag-and-drop keeps the full list" do
+      get project_resource_planner_view_path(project, resource_planner, manual_view, per_page: 1)
+
+      expect(response.body).not_to include("op-pagination--pages")
+      work_packages.each { |wp| expect(response.body).to include(wp.subject) }
+    end
+  end
+
   describe "POST create" do
     subject(:perform) do
       post project_resource_planner_views_path(project, resource_planner),

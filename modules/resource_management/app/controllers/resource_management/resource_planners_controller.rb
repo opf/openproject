@@ -31,7 +31,6 @@ module ::ResourceManagement
   class ResourcePlannersController < BaseController
     include OpTurbo::ComponentStream
     include PlannerViewContent
-    include PaginationHelper
 
     menu_item :resource_management
 

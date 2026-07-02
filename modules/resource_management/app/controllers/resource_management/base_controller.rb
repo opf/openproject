@@ -30,6 +30,8 @@
 
 module ::ResourceManagement
   class BaseController < ::ApplicationController
+    include PaginationHelper
+
     private
 
     def find_resource_planner(param_key = :resource_planner_id)
