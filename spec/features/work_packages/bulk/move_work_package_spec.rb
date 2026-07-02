@@ -193,6 +193,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
   end
 
   it "preserves move form values when refreshing after a project change", :js do
+    notes_editor = Components::WysiwygEditor.new
     assignable_role = create(:project_role, permissions: %i[view_work_packages work_package_assigned])
     assignee = create(:user, member_with_roles: { project => assignable_role, project2 => assignable_role })
     new_status = create(:status, name: "Ready")
@@ -214,6 +215,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
     select assignee.name, from: "Assignee"
     select "nobody", from: "Accountable"
     fill_in required_cf.name, with: "42"
+    notes_editor.set_markdown "Keep this note"
 
     wait_for_turbo_stream do
       select_autocomplete page.find_test_selector("new_project_id"),
@@ -228,6 +230,7 @@ RSpec.describe "Moving a work package through Rails view", :js do
     expect(page).to have_select("Assignee", selected: assignee.name)
     expect(page).to have_select("Accountable", selected: "nobody")
     expect(page).to have_field(required_cf.name, with: "42")
+    notes_editor.expect_value "Keep this note"
   end
 
   describe "moving an unmovable (e.g. readonly status) and a movable work package", with_ee: %i[readonly_work_packages] do
