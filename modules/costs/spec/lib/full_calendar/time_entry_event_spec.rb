@@ -37,4 +37,21 @@ RSpec.describe FullCalendar::TimeEntryEvent do
       expect(json["title"]).to eq("#{project.name}: ##{work_package.id} Fix the thing")
     end
   end
+
+  context "with an all-day entry (no start time)" do
+    let(:time_entry) { create(:time_entry, entity: work_package, spent_on: Date.new(2026, 7, 1)) }
+
+    it "renders a single all-day span with FullCalendar's exclusive end" do
+      expect(json).to include("allDay" => true, "start" => "2026-07-01", "end" => "2026-07-02")
+    end
+  end
+
+  context "with a timed entry" do
+    let(:time_entry) { create(:time_entry, :with_start_and_end_time, entity: work_package) }
+
+    it "stays a timed event with datetimes" do
+      expect(json["allDay"]).to be(false)
+      expect(json["start"]).to include("T")
+    end
+  end
 end

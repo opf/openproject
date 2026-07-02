@@ -33,16 +33,17 @@ module FullCalendar
     attr_accessor :time_entry
 
     class << self
-      def from_time_entry(time_entry)
-        starts_at, ends_at = start_and_end_time_from_time_entry(time_entry)
+      def from_time_entry(time_entry) # rubocop:disable Metrics/AbcSize
+        title = "#{time_entry.project.name}: #{time_entry.entity.formatted_id} #{time_entry.entity.subject}"
 
-        event = new(
-          id: time_entry.id,
-          starts_at: starts_at,
-          ends_at: ends_at,
-          all_day: !time_entry.ongoing? && time_entry.start_time.blank?,
-          title: "#{time_entry.project.name}: #{time_entry.entity.formatted_id} #{time_entry.entity.subject}"
-        )
+        event =
+          if !time_entry.ongoing? && time_entry.start_time.blank?
+            new(id: time_entry.id, title:, all_day: true,
+                date_range: time_entry.spent_on..time_entry.spent_on)
+          else
+            starts_at, ends_at = start_and_end_time_from_time_entry(time_entry)
+            new(id: time_entry.id, title:, starts_at:, ends_at:)
+          end
         event.time_entry = time_entry
 
         event
