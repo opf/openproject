@@ -31,8 +31,9 @@
 require "spec_helper"
 
 RSpec.describe WikiPage do
+  shared_let(:internal_wiki_provider) { create(:internal_wiki_provider) }
   shared_let(:author) { create(:user) }
-  shared_let(:project) { create(:project).reload } # a wiki is created for project, but the object doesn't know of it (FIXME?)
+  shared_let(:project) { create(:project).reload }
 
   let(:wiki) { project.wiki }
   let(:title) { wiki.wiki_menu_items.first.title }
@@ -335,11 +336,11 @@ RSpec.describe WikiPage do
 
   describe "#text" do
     it "does not truncate to 64k" do
-      content = described_class.create(title:, text: "a" * 500.kilobyte, author:, wiki:)
+      content = described_class.create(title:, text: "a" * 500.kilobytes, author:, wiki:)
       content.reload
 
       expect(content.text.size)
-        .to eql(500.kilobyte)
+        .to eql(500.kilobytes)
     end
   end
 
