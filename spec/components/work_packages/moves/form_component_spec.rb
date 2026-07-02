@@ -127,6 +127,21 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
     end
   end
 
+  context "when a descendant's type is unavailable in the target project" do
+    let(:child_type) { create(:type, name: "Phase") }
+    let(:project) { create(:project, types: [type, child_type]) }
+
+    before do
+      create(:work_package, project:, type: child_type, parent: work_package)
+    end
+
+    it "renders the unavailable-type warning" do
+      expect(rendered_component)
+        .to have_css(".op-toast.-warning",
+                     text: I18n.t("work_packages.move.current_type_not_available_in_target_project"))
+    end
+  end
+
   context "when all moved work package types exist in the target project" do
     it "does not render the unavailable-type warning" do
       expect(rendered_component).to have_no_css(".op-toast.-warning")
