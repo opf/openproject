@@ -1,26 +1,37 @@
 ---
 sidebar_navigation:
   title: Exports
-  priority: 960
-description: Exports in OpenProject.
-keywords: export, csv, security
+  priority: 600
+description: Configure export settings in OpenProject, including export limits and CSV security options.
+keywords: exports, csv, export settings, csv security, formula injection
 ---
 # Exports
 
+In OpenProject you can configure export limits and improve the security of CSV exports. To do that, navigate to *Administration →  System settings →  Exports*.
+
 ## Limit work packages export
 
-To set the limit of work packages or projects that can be exported, enter a desired number in the field and **save** your changes.
+To specify the maximum number of work packages or projects that users can export in a single operation, enter the desired limit number and **save** your changes.
 
 ## Escape control characters in CSV exports
 
-This setting is **enabled by default**. It helps to make exported CSV files safe and secure  to open in spreadsheet applications.
+This setting is **enabled by default**. It helps protect users from **CSV formula injection** when exported files are opened in spreadsheet applications.
 
-When enabled, values that start with certain control characters such as `=`  `@`  `\t`  `\r`  or  **`-`** and  **`+`**  are modified so they are treated as text instead of formulas. Unless, these values are deliberately exported as a number (-5.00) or currency (-1.234,56 €), they are not modified.
+When enabled, OpenProject escapes values that begin with control characters commonly interpreted as formulas, including:
 
-To disable this setting, clear the check-box and **save** your changes.
+- `=`
+- `@`
+- `\t` (tab)
+- `\r` (carriage return)
+- `-`
+- `+`
 
-![Escape formula in csv exports under exports section in system settings](openproject_system_settings_exports.png)
+Numeric and currency values, such as `-5.00` or `-1.234,56 €`, remain unchanged so they can still be processed correctly by spreadsheet applications.
 
-> [!IMPORTANT]
+To disable this protection, clear the checkbox and **save** your changes.
 
-There is no standard way to prevent CSV formula injection. Enabling this setting modifies exported values to provide an additional layer of security when CSV files are opened in spreadsheet applications.
+![Escape control characters in CSV exports under the Exports system settings in OpenProject](openproject_system_settings_exports.png)
+
+> [!IMPORTANT] 
+>
+> No universal standard exists for preventing CSV formula injection. When enabled, this setting modifies exported values to reduce the risk of spreadsheet applications interpreting them as formulas. While this provides an additional layer of protection, it cannot guarantee complete mitigation in every application or workflow.

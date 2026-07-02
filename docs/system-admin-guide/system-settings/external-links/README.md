@@ -1,7 +1,7 @@
 ---
 sidebar_navigation:
   title: External links
-  priority: 950
+  priority: 700
 description: External links settings in OpenProject.
 keywords: external links, link, links, capture link, redirect, warning, external site, external website
 ---
