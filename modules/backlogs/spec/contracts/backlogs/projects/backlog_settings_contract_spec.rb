@@ -68,21 +68,21 @@ RSpec.describe Backlogs::Projects::BacklogSettingsContract, type: :model, with_e
         before { project.sprint_sharing = Project::SHARE_ALL_PROJECTS }
 
         it_behaves_like "contract is invalid",
-                        sprint_sharing: { error: :enterprise_plan_required, plan_name: "corporate enterprise plan" }
+                        sprint_sharing: { error: :enterprise_plan_required, plan_name: "basic enterprise plan" }
       end
 
       context "when sprint sharing is set to 'share_subprojects'" do
         before { project.sprint_sharing = Project::SHARE_SUBPROJECTS }
 
         it_behaves_like "contract is invalid",
-                        sprint_sharing: { error: :enterprise_plan_required, plan_name: "corporate enterprise plan" }
+                        sprint_sharing: { error: :enterprise_plan_required, plan_name: "basic enterprise plan" }
       end
 
       context "when sprint sharing is set to 'receive_shared'" do
         before { project.sprint_sharing = Project::RECEIVE_SHARED }
 
         it_behaves_like "contract is invalid",
-                        sprint_sharing: { error: :enterprise_plan_required, plan_name: "corporate enterprise plan" }
+                        sprint_sharing: { error: :enterprise_plan_required, plan_name: "basic enterprise plan" }
       end
 
       context "when sprint sharing remains on 'share_all_projects'" do
