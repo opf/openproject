@@ -241,7 +241,7 @@ RSpec.describe Projects::Menu do
         end
       end
 
-      context "with query_id param" do
+      context "with query_id param for current user query" do
         let(:params) { { query_id: current_user_query.id.to_s } }
 
         it "has no selected items" do
@@ -249,7 +249,7 @@ RSpec.describe Projects::Menu do
         end
       end
 
-      context "with id param" do
+      context "with id param for current user query" do
         let(:params) { { id: current_user_query.id.to_s } }
 
         it "has no selected items" do
@@ -262,14 +262,6 @@ RSpec.describe Projects::Menu do
       let(:controller_path) { "projects" }
 
       context "without params" do
-        it "has default item selected" do
-          expect(selected_menu_items).to contain_exactly(have_attributes(title: "Active projects"))
-        end
-      end
-
-      context "with id param" do
-        let(:params) { { id: current_user_query.id.to_s } }
-
         it "has default item selected" do
           expect(selected_menu_items).to contain_exactly(have_attributes(title: "Active projects"))
         end
@@ -299,6 +291,14 @@ RSpec.describe Projects::Menu do
         end
       end
 
+      context "with id param for current user query" do
+        let(:params) { { id: current_user_query.id.to_s } }
+
+        it "has default item selected" do
+          expect(selected_menu_items).to contain_exactly(have_attributes(title: "Active projects"))
+        end
+      end
+
       context "with query_id param for active projects and modifications to query" do
         let(:params) { { query_id: "active", columns: "foo" } }
 
@@ -325,7 +325,7 @@ RSpec.describe Projects::Menu do
         end
       end
 
-      context "with query_id param" do
+      context "with query_id param for current user query" do
         let(:params) { { query_id: current_user_query.id.to_s } }
 
         it "has no selected items" do
