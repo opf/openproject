@@ -36,7 +36,6 @@ const NON_DEFAULT_FILTER_MODES = new Set(['favorited']);
 
 export default class HeaderProjectSelectController extends Controller {
   private treeViewObserver:MutationObserver|null = null;
-  private scrollAfterLoad = false;
 
   connect():void {
     this.element.addEventListener('click', this.onFilterModeClick);
@@ -84,14 +83,12 @@ export default class HeaderProjectSelectController extends Controller {
 
     this.treeViewObserver = new MutationObserver(this.scrollCurrentProjectAfterLoad);
     this.treeViewObserver.observe(filterableTreeView, { attributes: true, attributeFilter: ['aria-busy'] });
-    this.scrollAfterLoad = true;
     this.scrollCurrentProjectAfterLoad();
   };
 
   private scrollCurrentProjectAfterLoad = ():void => {
     const filterableTreeView = this.element.querySelector('filterable-tree-view');
-    if (this.scrollAfterLoad && filterableTreeView?.getAttribute('aria-busy') === 'false') {
-      this.scrollAfterLoad = false;
+    if (filterableTreeView?.getAttribute('aria-busy') === 'false') {
       this.scrollCurrentProjectIntoView();
     }
   };
@@ -122,7 +119,6 @@ export default class HeaderProjectSelectController extends Controller {
     const button = (event.target as HTMLElement).closest<HTMLElement>('[data-name]');
     if (button?.dataset.name && VALID_FILTER_MODES.has(button.dataset.name)) {
       window.OpenProject.guardedLocalStorage(STORAGE_KEY, button.dataset.name);
-      this.scrollAfterLoad = true;
     }
   };
 }
