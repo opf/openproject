@@ -36,14 +36,17 @@ module ::ResourceManagement
 
     before_action :find_project_by_project_id
     before_action :authorize
-    before_action :find_resource_planner, only: %i[show edit update destroy toggle_public]
+    before_action -> { find_resource_planner(:id) }, only: %i[show edit update destroy toggle_public]
     before_action :build_resource_planner, only: %i[new]
 
     def index
       @resource_planners = ResourcePlanner
                              .visible(current_user)
                              .where(project: @project)
+                             .includes(children: :query)
                              .order(:name)
+                             .page(page_param)
+                             .per_page(per_page_param)
     end
 
     def show
@@ -129,14 +132,6 @@ module ::ResourceManagement
 
     private
 
-    def find_resource_planner
-      @resource_planner = ResourcePlanner
-                            .visible(current_user)
-                            .where(project: @project)
-                            .with_children
-                            .find(params.expect(:id))
-    end
-
     def build_resource_planner
       @resource_planner = ResourcePlanner.new(project: @project, principal: current_user)
     end
@@ -187,7 +182,8 @@ module ::ResourceManagement
     end
 
     def advance_dialog_to_configure_view(view_class)
-      view = view_class.new(parent: @resource_planner, project: @project, principal: current_user)
+      view = view_class.new(parent: @resource_planner, project: @project, principal: current_user,
+                            name: default_view_name(view_class))
       dialog = ResourcePlanners::NewDialogComponent
 
       update_dialog_title_via_turbo_stream(
@@ -218,6 +214,11 @@ module ::ResourceManagement
 
     def chosen_default_view_class
       ResourcePlanner.allowed_child_class(params.dig(:resource_planner, :default_view_class_name))
+    end
+
+    def default_view_name(view_class)
+      I18n.t("resource_management.view_types.#{view_class.model_name.i18n_key}.label",
+             default: view_class.name.underscore.humanize)
     end
 
     def render_create_failure(call)

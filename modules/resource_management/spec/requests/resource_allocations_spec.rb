@@ -740,21 +740,23 @@ RSpec.describe "ResourceAllocations requests",
       create(:resource_planner, project:, principal: user,
                                 start_date: Date.new(2026, 3, 1), end_date: Date.new(2026, 3, 31))
     end
+    shared_let(:card_view) do
+      create(:resource_user_card, parent: resource_planner, project:, principal: user)
+    end
     let(:user_dialog_id) { ResourcePlannerViews::UserCardList::UserAllocationsDialogComponent::DIALOG_ID }
 
     it "replaces the utilization dialog and opens the allocation step prefilled for the user" do
       get new_project_resource_allocation_path(project, principal_id: assignee.id,
-                                                        resource_planner_id: resource_planner.id),
+                                                        resource_planner_view_id: card_view.id),
           as: :turbo_stream
 
-      # The user dialog is closed and the kind step is skipped
       expect(response).to have_http_status(:ok)
       expect(response.body).to have_turbo_stream(action: "closeDialog", target: "##{user_dialog_id}")
       expect(response.body).not_to include('value="filter"')
     end
 
     it "reopens a refreshed utilization dialog after a successful create" do
-      post project_resource_allocations_path(project, resource_planner_id: resource_planner.id),
+      post project_resource_allocations_path(project, resource_planner_view_id: card_view.id),
            params: {
              allocation_kind: "principal",
              resource_allocation: {

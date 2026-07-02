@@ -30,9 +30,6 @@
 
 module ResourcePlannerViews
   module UserTimeline
-    # The user row shown in the timeline's resource (left) column. Rendered
-    # server-side so it stays consistent with the user card view. Flags users who
-    # are over-allocated somewhere in their bookings with a warning icon.
     class ResourceCellComponent < ApplicationComponent
       include OpPrimer::ComponentHelpers
       include AvatarHelper
@@ -69,8 +66,7 @@ module ResourcePlannerViews
         "user-timeline-no-schedule-#{user.id}"
       end
 
-      # "Department - Job title" with the department in bold, omitting whichever
-      # is not set (nil when neither). Built as HTML so only the department is bold.
+      # Built as HTML so only the department is bold.
       def details
         segments = []
         segments << tag.b(department_name) if department_name.present?

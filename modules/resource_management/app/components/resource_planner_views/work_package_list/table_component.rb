@@ -58,8 +58,6 @@ module ResourcePlannerViews::WorkPackageList
 
     def sortable? = false
 
-    def paginated? = false
-
     def has_actions? = true
 
     # Scopes this table's styling (see table_component.sass) without touching the

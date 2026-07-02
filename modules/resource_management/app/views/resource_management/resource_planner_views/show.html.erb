@@ -29,9 +29,7 @@ See COPYRIGHT and LICENSE files for more details.
 
 <% html_title @resource_planner.name, t(:label_resource_management) %>
 
-<div class="op-rm-planner-page <%= "op-rm-planner-page--fill" if @content_component.fills_viewport? %>">
-  <%= render(ResourcePlanners::ShowPageHeaderComponent.new(resource_planner: @resource_planner, project: @project)) %>
-  <%= render(ResourcePlanners::SubViewsComponent.new(resource_planner: @resource_planner, selected_view: @view)) %>
-
+<%= turbo_frame_tag "resource-planner-shell", class: "op-rm-planner-page", data: { turbo_action: "advance" } do %>
+  <%= render(ResourcePlanners::ShowPageHeaderComponent.new(resource_planner: @resource_planner, project: @project, selected_view: @view)) %>
   <%= render(@content_component) %>
-</div>
+<% end %>

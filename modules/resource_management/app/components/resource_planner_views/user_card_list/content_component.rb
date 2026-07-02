@@ -59,7 +59,7 @@ module ResourcePlannerViews::UserCardList
     end
 
     def details_path_for(user)
-      helpers.project_user_resource_allocations_path(@project, user, resource_planner_id: @resource_planner.id)
+      helpers.project_user_resource_allocations_path(@project, user, resource_planner_view_id: @view.id)
     end
 
     def utilization_for(user)

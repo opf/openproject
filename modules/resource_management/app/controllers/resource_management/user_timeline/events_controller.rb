@@ -30,8 +30,6 @@
 
 module ResourceManagement
   module UserTimeline
-    # Feeds the FullCalendar events (allocation bars): one per allocation, placed
-    # on its assigned user's row.
     class EventsController < FeedsController
       def index
         allocations = allocations_by_principal.values.flatten
@@ -53,8 +51,6 @@ module ResourceManagement
           .select { |range| range.items.any? { |item| item.id == allocation.id } }
       end
 
-      # One red background span per range in which a user is over-allocated, drawn
-      # over the white working-day region.
       def overbooked_background_events
         overbooked_ranges_by_principal.flat_map do |principal_id, ranges|
           ranges.map do |range|
@@ -69,11 +65,10 @@ module ResourceManagement
         end
       end
 
-      # One background event per contiguous run of a user's working days within
-      # the visible range. These paint the active (white) region of the row; the
-      # gaps between runs (weekends, holidays, time off) are the un-painted cell.
-      # `WorkingTimeCalendar#capacity_on` already returns zero for all of those,
-      # so a positive capacity is exactly "the user works this day".
+      # The gaps between working-day runs (weekends, holidays, time off) are the
+      # un-painted cell. `WorkingTimeCalendar#capacity_on` already returns zero
+      # for all of those, so a positive capacity is exactly "the user works this
+      # day".
       def working_day_background_events
         return [] unless visible_range
 
@@ -96,8 +91,6 @@ module ResourceManagement
         end
       end
 
-      # Groups the working days within the range into [start, end] runs of
-      # consecutive days.
       def working_day_runs(range, calendar)
         runs = []
         run_start = nil
@@ -148,18 +141,14 @@ module ResourceManagement
           .render_in(view_context)
       end
 
-      # Normal (non-background) events marking the non-working days that are not
-      # part of the user's weekday schedule: their personal time off and the
-      # global holidays. Rendered blue via the event class name.
       def non_working_events
         return [] unless visible_range
 
         time_off_events(visible_range) + holiday_events(visible_range)
       end
 
-      # One event per stretch of a user's time off overlapping the view, on that
-      # user's row. The label counts the working days lost, matching the
-      # working-times admin screens.
+      # The label counts the working days lost, matching the working-times admin
+      # screens.
       def time_off_events(range)
         UserNonWorkingTime
           .where(user: users)

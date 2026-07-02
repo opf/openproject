@@ -66,7 +66,7 @@ const DEFAULT_GRANULARITY_VIEW = GRANULARITY_VIEWS.resourceTimelineDays;
 // a date-range selection pre-fills on the new-allocation dialog, which each view
 // passes explicitly through the `selectionParam` value.
 export default class ResourceTimelineController extends Controller {
-  static targets = ['calendar', 'granularityButton'];
+  static targets = ['calendar', 'granularityButton', 'loading'];
 
   static values = {
     resourcesUrl: String,
@@ -87,6 +87,8 @@ export default class ResourceTimelineController extends Controller {
   declare readonly calendarTarget:HTMLElement;
   declare readonly hasGranularityButtonTarget:boolean;
   declare readonly granularityButtonTarget:HTMLElement;
+  declare readonly hasLoadingTarget:boolean;
+  declare readonly loadingTarget:HTMLElement;
   declare readonly resourcesUrlValue:string;
   declare readonly eventsUrlValue:string;
   declare readonly localeValue:string;
@@ -193,6 +195,10 @@ export default class ResourceTimelineController extends Controller {
       headerToolbar: false,
       nowIndicator: true,
       height: '100%',
+      // Fires true when either feed starts fetching and false once both settle,
+      // covering the initial load as well as date/granularity navigation and the
+      // post-allocation refetch.
+      loading: (isLoading) => this.toggleLoading(isLoading),
       // The feed's output depends on the granularity, not just the date range, so
       // refetch on every navigation instead of reusing FullCalendar's cache.
       lazyFetching: false,
@@ -293,6 +299,15 @@ export default class ResourceTimelineController extends Controller {
         const active = bands.some((band) => band.start <= date && date < band.end);
         cell.classList.toggle('op-rm-active-col', active);
       });
+  }
+
+  // The overlay renders visible so the spinner shows from first paint, before the
+  // calendar has booted; FullCalendar's loading callback then hides it once the feeds
+  // settle and re-shows it on subsequent refetches.
+  private toggleLoading(isLoading:boolean):void {
+    if (this.hasLoadingTarget) {
+      this.loadingTarget.toggleAttribute('hidden', !isLoading);
+    }
   }
 
   private granularityKeyFor(viewType:string):string {

@@ -142,6 +142,66 @@ RSpec.describe ResourcePlanner do
     end
   end
 
+  describe "child entity counts" do
+    shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
+    shared_let(:user) do
+      create(:user, member_with_permissions: { project => %i[view_resource_planners view_work_packages] })
+    end
+    shared_let(:member) { create(:user, member_with_permissions: { project => %i[view_resource_planners] }) }
+
+    let(:planner) { create(:resource_planner, project:, principal: user) }
+
+    before { login_as(user) }
+
+    def work_package_view(work_packages)
+      query = Query.new_default(project:, user:).tap do |q|
+        q.name = "q"
+        q.add_filter("manual_sort", "ow", [])
+        q.sort_criteria = [%w[manual_sorting asc]]
+        q.save!
+      end
+      ResourceWorkPackageList.create!(name: "List", parent: planner, project:, principal: user, query:)
+      work_packages.each_with_index { |wp, i| query.ordered_work_packages.create!(work_package: wp, position: i + 1) }
+    end
+
+    def user_view(members)
+      query = UserQuery.new(name: "People", project:, principal: user).tap do |q|
+        q.manual_elements = true
+        q.save!
+      end
+      ResourceUserCard.create!(name: "Card", parent: planner, project:, principal: user, query:)
+      members.each_with_index { |m, i| query.ordered_entities.create!(entity: m, position: i + 1) }
+    end
+
+    describe "#work_package_count" do
+      it "is zero without any work-package views" do
+        expect(planner.reload.work_package_count).to eq(0)
+      end
+
+      it "counts work packages distinct across all work-package views" do
+        first, second = create_list(:work_package, 2, project:)
+        shared = create(:work_package, project:)
+        work_package_view([first, shared])
+        work_package_view([second, shared])
+
+        expect(planner.reload.work_package_count).to eq(3)
+      end
+    end
+
+    describe "#member_count" do
+      it "is zero without any user views" do
+        expect(planner.reload.member_count).to eq(0)
+      end
+
+      it "counts members distinct across all user views" do
+        user_view([user, member])
+        user_view([member])
+
+        expect(planner.reload.member_count).to eq(2)
+      end
+    end
+  end
+
   describe ".allowed_child_class" do
     it "resolves an allowed child name to its class" do
       expect(described_class.allowed_child_class("ResourceWorkPackageList")).to eq(ResourceWorkPackageList)

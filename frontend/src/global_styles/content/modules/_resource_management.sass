@@ -5,16 +5,24 @@
 // viewport (see `ResourcePlannerViews::ContentComponent#fills_viewport?`).
 // `#content-body` already has a resolved height, so a `height: 100%` flex column
 // off it carries the height down to FullCalendar (which runs with `height: '100%'`).
-.op-rm-planner-page--fill
+// The planner page is a `<turbo-frame>` (tabs swap it in place). It is always a
+// full-height flex column: list/card views keep their natural height as full-width
+// flex children and scroll via `#content-body`, while the `--fill` content modifier
+// below lets timeline views grow to fill the viewport. `#content-body` has a resolved
+// height, so this `block-size: 100%` column carries the height down to FullCalendar
+// (which runs with `height: '100%'`).
+.op-rm-planner-page
   block-size: 100%
   display: flex
   flex-direction: column
 
-  // The OpTurbo::Streamable wrapper holds the single content child, so a flex-grow
-  // chain through it passes the height down.
-  .op-rm-planner-content
-    display: flex
-    flex-grow: 1
+// Only timeline views fill the viewport. The modifier lives on the content wrapper
+// (which Turbo re-renders on every tab switch) instead of the frame, whose attributes
+// are not updated on frame navigation. `display: flex` lets the flex-grow chain pass
+// the height down through the single content child.
+.op-rm-planner-content--fill
+  display: flex
+  flex-grow: 1
 
 // Everything the timeline renders is scoped under this one class. The FullCalendar
 // vendor overrides (frontend/src/global_styles/vendor/_full_calendar.sass) live at
@@ -27,8 +35,31 @@
   flex-direction: column
   flex-grow: 1
 
+  // Positioning context for the loading overlay, wrapping only the calendar so the
+  // overlay covers the grid and not the sub-header controls above it.
+  .op-rm-timeline-canvas
+    position: relative
+    display: flex
+    flex-grow: 1
+    min-block-size: 0
+
   .op-rm-timeline
     flex-grow: 1
+
+  .op-rm-timeline-loading
+    position: absolute
+    inset: 0
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    gap: 0.5rem
+    background: rgb(255 255 255 / 60%)
+    color: var(--fgColor-muted, #59636e)
+    z-index: 1
+
+    &[hidden]
+      display: none
 
   .fc-scrollgrid
     border-radius: var(--borderRadius-medium, 6px)
@@ -67,7 +98,6 @@
     background: var(--bgColor-default, #ffffff) !important
     opacity: 0.8
 
-  // Days a user is over-allocated, painted red over the white working region.
   // Emitted after the active spans so it stacks on top.
   .fc-bg-event.op-rm-timeline-overbooked
     background: var(--bgColor-danger-muted, #ffebe9) !important

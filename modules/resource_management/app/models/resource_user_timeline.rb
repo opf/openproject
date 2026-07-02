@@ -28,8 +28,6 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-# A planner view that renders its selected users on a timeline, one swimlane per
-# user with their resource allocations shown over time.
 class ResourceUserTimeline < PersistedView
   include ResourceManagement::Categorized
   include ResourceManagement::UserSelection
