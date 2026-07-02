@@ -312,6 +312,25 @@ RSpec.describe WorkPackages::MovesController, with_settings: { journal_aggregati
         end
       end
 
+      context "with another budget" do
+        let(:target_budget) { create(:budget, project:) }
+
+        before do
+          post :create,
+               params: {
+                 ids: [work_package.id, work_package_2.id],
+                 budget_id: target_budget.id
+               }
+          work_package.reload
+          work_package_2.reload
+        end
+
+        it "assigns the budget to the work packages" do
+          expect(work_package.budget_id).to eq(target_budget.id)
+          expect(work_package_2.budget_id).to eq(target_budget.id)
+        end
+      end
+
       shared_examples_for "single note for moved work package" do
         it { expect(moved_work_package.journals.count).to eq(2) }
 
