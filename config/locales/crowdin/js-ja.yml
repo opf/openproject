@@ -77,8 +77,9 @@ ja:
     button_confirm: 確認
     button_continue: 続行
     button_copy: コピー
-    button_copy_to_clipboard: クリップボードにコピー
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: クリップボードにリンクをコピー
+    button_copy_to_clipboard: クリップボードにコピー
     button_copy_to_other_project: 別のプロジェクトで複製する
     button_custom-fields: カスタムフィールド
     button_delete: 削除
@@ -155,16 +156,15 @@ ja:
         manual: Markdownソースに切り替える
         wysiwyg: WYSIWYGエディタに切り替えます
       macro:
-        error: 'マクロを展開できません: %{message}'
         attribute_reference:
           macro_help_tooltip: このテキストセグメントはマクロによって動的にレンダリングされています。
           not_found: 要求されたリソースが見つかりませんでした
           nested_macro: このマクロは %{model} %{id}を再帰的に参照している。
           invalid_attribute: 選択した属性 '%{name}' は存在しません。
         child_pages:
-          button: 子ページへのリンク
+          button: List of sub-pages
           include_parent: 親を含める
-          text: "[Placeholder] の子ページへのリンク"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki ページ
           this_page: このページ
           hint: '現在のページのすべての子ページを表示するには、このフィールドを空のままにします。 別のページを参照する場合は、そのタイトルまたはスラッグを入力します。
@@ -175,9 +175,14 @@ ja:
           title: コードスニペットの挿入/編集
           language: 言語の書式設定
           language_hint: 強調表示に使用する言語の書式を入力します（サポートされている場合）。
-        dropdown:
-          macros: マクロ
-          chose_macro: マクロを選択
+        embedded_calendar:
+          text: "[Placeholder] 埋め込みカレンダー"
+        embedded_table:
+          button: ワークパッケージ表を埋め込む
+          text: "[Placeholder] 埋め込まれたワークパッケージ表"
+        error: 'マクロを展開できません: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: 目次
         toolbar_help: クリックしてウィジェットを選択しツールバーを表示します。 ダブルクリックしてウィジェットを編集
         wiki_page_include:
@@ -195,11 +200,6 @@ ja:
           button_style_hint: 'オプション: マクロをリンクではなくボタンとして表示するかどうかをチェックします。'
           without_type: ワークパッケージを作成
           with_type: 'ワークパッケージを作成 (種類: %{typename})'
-        embedded_table:
-          button: ワークパッケージ表を埋め込む
-          text: "[Placeholder] 埋め込まれたワークパッケージ表"
-        embedded_calendar:
-          text: "[Placeholder] 埋め込みカレンダー"
     admin:
       type_form:
         edit_query: クエリの編集
@@ -368,6 +368,7 @@ ja:
     label_in_more_than: 今日から○日後以降
     label_incoming_emails: 受信メール
     label_information_plural: 情報
+    label_infinity: Infinity
     label_invalid: 無効
     label_import: インポート
     label_latest_activity: 最新の活動
@@ -392,6 +393,7 @@ ja:
     label_no_value: 値なし
     label_none: なし
     label_not_contains: 含まない
+    label_not_available: Not available
     label_not_equals: 等しくない
     label_on: オン
     label_open_menu: メニューを開く
@@ -911,11 +913,12 @@ ja:
         relation_filters:
           filter_work_packages_by_relation_type: 関係タイプでワークパッケージをフィルタ
       tabs:
-        overview: 概要
         activity: 活動
+        files: ファイルを添付する
+        overview: 概要
+        project_attributes: Project attributes
         relations: 関係
         watchers: ウォッチャー
-        files: ファイルを添付する
       time_relative:
         days: 日
         weeks: 週

@@ -35,11 +35,12 @@ module Settings
       include OpPrimer::ComponentHelpers
       include OpTurbo::Streamable
 
-      def initialize(project_custom_field:, first_and_last:)
-        super
+      def initialize(project_custom_field:, first:, last:)
+        super()
 
         @project_custom_field = project_custom_field
-        @first_and_last = first_and_last
+        @first = first
+        @last  = last
       end
 
       private
@@ -101,21 +102,11 @@ module Settings
       end
 
       def first?
-        @first ||=
-          if @first_and_last.first
-            @first_and_last.first == @project_custom_field
-          else
-            @project_custom_field.first?
-          end
+        @first
       end
 
       def last?
-        @last ||=
-          if @first_and_last.last
-            @first_and_last.last == @project_custom_field
-          else
-            @project_custom_field.last?
-          end
+        @last
       end
     end
   end

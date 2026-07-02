@@ -30,8 +30,9 @@
 
 module Header
   module ProjectsHelper
-    def project_node_label(project, favorited: false)
-      parts = [project.name]
+    def project_node_label(project, favorited: false, query_terms: [])
+      name_html = query_terms.any? ? content_tag(:span, highlight_name(project.name, query_terms)) : project.name
+      parts = [name_html]
       parts << favorite_icon if favorited
       parts << workspace_type_badge(project) if show_workspace_type_badge?(project)
 
@@ -40,6 +41,55 @@ module Header
     end
 
     private
+
+    def highlight_name(name, query_terms)
+      ranges = find_highlight_ranges(name, query_terms)
+      return h(name) if ranges.empty?
+
+      build_highlighted_segments(name, merge_highlight_ranges(ranges))
+    end
+
+    def find_highlight_ranges(name, query_terms)
+      query_terms.flat_map { |term| occurrences_of(term, in_string: name) }
+    end
+
+    # Returns all character ranges where +term+ appears case-insensitively in +in_string+.
+    def occurrences_of(term, in_string:)
+      regex = Regexp.new(Regexp.escape(term), Regexp::IGNORECASE)
+      ranges = []
+      start = 0
+      while (match = regex.match(in_string, start))
+        ranges << (match.begin(0)...match.end(0))
+        start = match.begin(0) + 1
+      end
+      ranges
+    end
+
+    # Splits +name+ into plain-text and highlighted segments according to +ranges+,
+    # then joins them into a single HTML-safe string.
+    def build_highlighted_segments(name, ranges)
+      pos = 0
+      segments = ranges.flat_map do |range|
+        before = pos < range.begin ? h(name[pos...range.begin]) : nil
+        highlighted = content_tag(:span, name[range], class: "op-search-highlight")
+        pos = range.end
+        [before, highlighted].compact
+      end
+      segments << h(name[pos..]) if pos < name.length
+      safe_join(segments)
+    end
+
+    # Merges overlapping or adjacent ranges into a minimal set of non-overlapping ranges.
+    def merge_highlight_ranges(ranges)
+      ranges.sort_by(&:begin).each_with_object([]) do |range, merged|
+        if merged.empty? || range.begin >= merged.last.end
+          merged << range
+        else
+          last = merged.last
+          merged[-1] = (last.begin...[last.end, range.end].max)
+        end
+      end
+    end
 
     def favorite_icon
       render(Primer::Beta::Octicon.new(icon: :"star-fill", size: :small, classes: "op-primer--star-icon", ml: 2))

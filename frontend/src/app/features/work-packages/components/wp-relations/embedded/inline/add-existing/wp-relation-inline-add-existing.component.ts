@@ -82,7 +82,7 @@ export class WpRelationInlineAddExistingComponent {
   };
 
   public addExisting() {
-    if (_.isNil(this.selectedWpId)) {
+    if (this.selectedWpId == null) {
       return;
     }
 

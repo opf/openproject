@@ -31,16 +31,20 @@ import { FrameElement } from '@hotwired/turbo';
 import { HalEventsService } from 'core-app/features/hal/services/hal-events.service';
 import { filter, Subscription } from 'rxjs';
 
+import { useAngularServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
+
 export default class BacklogsController extends Controller<HTMLElement> {
-  private service:HalEventsService|null = null;
+  static services:ServiceKey[] = ['halEvents'];
+  declare halEvents:HalEventsService;
+
   private subscription:Subscription|null = null;
 
-  // eslint-disable-next-line @typescript-eslint/no-misused-promises
-  async connect() {
-    const { services: { halEvents } } = await window.OpenProject.getPluginContext();
+  initialize() {
+    useAngularServices(this);
+  }
 
-    this.service = halEvents;
-    this.subscription = this.service.aggregated$('WorkPackage')
+  servicesConnected() {
+    this.subscription = this.halEvents.aggregated$('WorkPackage')
       .pipe(filter((events) => events.some((event) => event.eventType === 'updated')))
       .subscribe(() => { this.refreshList(); });
   }
@@ -48,7 +52,6 @@ export default class BacklogsController extends Controller<HTMLElement> {
   disconnect() {
     this.subscription?.unsubscribe();
     this.subscription = null;
-    this.service = null;
   }
 
   private refreshList() {

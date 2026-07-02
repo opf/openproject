@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 #-- copyright
 # OpenProject is an open source project management software.
 # Copyright (C) the OpenProject GmbH
@@ -29,7 +30,8 @@
 
 module MeetingAgendaItems
   class UpdateContract < BaseContract
-    validate :user_allowed_to_edit
+    validate :user_allowed_to_edit_in_source_project
+    validate :user_allowed_to_edit_in_destination_project
     validate :section_belongs_to_meeting
 
     attribute :lock_version do
@@ -43,7 +45,15 @@ module MeetingAgendaItems
     # through the project permission :manage_agendas
     # When MeetingRole becomes available, agenda items will
     # be edited through meeting permissions :manage_agendas
-    def user_allowed_to_edit
+    def user_allowed_to_edit_in_source_project
+      unless user.allowed_in_project?(:manage_agendas, source_meeting.project)
+        errors.add :base, :error_unauthorized
+      end
+    end
+
+    def user_allowed_to_edit_in_destination_project
+      return unless model.meeting_id_changed?
+
       unless user.allowed_in_project?(:manage_agendas, model.project)
         errors.add :base, :error_unauthorized
       end
@@ -64,6 +74,14 @@ module MeetingAgendaItems
       end
 
       errors.add :meeting_section, :invalid
+    end
+
+    private
+
+    def source_meeting
+      return model.meeting unless model.meeting_id_changed?
+
+      Meeting.find(model.meeting_id_was)
     end
   end
 end

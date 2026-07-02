@@ -64,11 +64,19 @@ RSpec.shared_context "as sprint contract" do
     context "when user does not have create_sprints permission" do
       let(:permissions) { [:view_work_packages] }
 
+      before do
+        sprint.name = "Changed sprint name"
+      end
+
       it_behaves_like "contract is invalid", base: :error_unauthorized
     end
 
     context "when user has no permissions in project" do
       let(:permissions) { [] }
+
+      before do
+        sprint.name = "Changed sprint name"
+      end
 
       it_behaves_like "contract is invalid", base: :error_unauthorized
 

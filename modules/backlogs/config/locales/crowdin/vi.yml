@@ -41,8 +41,10 @@ vi:
           active: Đang hoạt động
           completed: Đã hoàn thành
         work_packages: Work packages
+      sprint_goal:
+        text: Sprint goal
       work_package:
-        backlog_bucket: Nhóm Backlog (Bucket)
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: Loại Backlog
         position: Vị trí
         sprint: Sprint
@@ -59,6 +61,8 @@ vi:
             sprint_sharing:
               share_all_projects_already_taken: không thể thiết lập vì dự án "%{name}" đã được chia sẻ với tất cả các dự án.
               share_all_projects_already_taken_anonymous: không thể thiết lập vì một dự án khác đã được chia sẻ với tất cả các dự án.
+        sprint_goal:
+          project_already_has_goal: already has a goal for this sprint.
         sprint:
           attributes:
             base:
@@ -83,11 +87,24 @@ vi:
               not_assignable: không thể gán vì nó chưa được chia sẻ với dự án hoặc đã kết thúc.
               not_eligible_for_moving: không phải là một Sprint hoạt động trong dự án chứa Sprint mà gói công việc bị chuyển đi.
     models:
-      sprint: Sprint
+      sprint:
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Các thiết lập quản trị Backlog đang được phát triển
       text: Chúng tôi hiện đang thiết kế lại mô-đun Backlogs. Các thiết lập quản trị cho Sprint và Backlog sẽ hiển thị ở đây trong thời gian tới. Các thiết lập ở cấp độ dự án vẫn khả dụng.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Xóa nhóm Backlog (bucket)?
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -149,6 +166,12 @@ vi:
       action_menu:
         edit_sprint: Edit sprint
         add_work_package: Add gói công việc (work package)
+    sprint_form:
+      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
+      goal_for_this_project_label: "%{attribute} (for this project)"
+    sprint_form_component:
+      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
+      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprints_component:
       blankslate:
         title: No sprints present yet
@@ -159,6 +182,7 @@ vi:
         create_description_text: To start planning your sprint, create one here.
         manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
         no_actions_description_text: No sprints are available for this project yet.
+      button_new_sprint: New sprint
     story_points:
       other: "%{count} story points"
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
@@ -179,9 +203,9 @@ vi:
       action_menu:
         copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy gói công việc (work package) ID
-        move_menu: Move
+        move_menu: Move to position
         move_to_backlog_bucket: Move to backlog bucket
-        move_to_inbox: Move to inbox
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Di chuyển sang Sprint
     work_package_is_closed: Gói công việc được thực hiện, khi
   burndown:

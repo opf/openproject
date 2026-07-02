@@ -75,6 +75,39 @@ RSpec.describe WorkPackage::SemanticIdentifier do
     end
   end
 
+  describe ".for_slug_prefix" do
+    it "matches work packages whose identifier is of the form <slug>-<digits>" do
+      expect(WorkPackage.for_slug_prefix("MYPROJ")).to include(work_package)
+    end
+
+    it "does not over-match when another slug starts with the given slug plus a dash" do
+      work_package.update_columns(identifier: "my-project-42")
+      expect(WorkPackage.for_slug_prefix("my")).not_to include(work_package)
+    end
+
+    it "matches case-sensitively" do
+      expect(WorkPackage.for_slug_prefix("myproj")).not_to include(work_package)
+    end
+  end
+
+  describe ".resolving_via_slug_prefix" do
+    # The auto-registered work_package carries the prefix both in its
+    # identifier column and as an alias row.
+    it "returns work packages matched via column and alias exactly once" do
+      expect(WorkPackage.resolving_via_slug_prefix("MYPROJ")).to contain_exactly(work_package)
+    end
+
+    it "includes work packages matched only via an alias row" do
+      work_package.update_columns(identifier: nil, sequence_number: nil)
+      expect(WorkPackage.resolving_via_slug_prefix("MYPROJ")).to contain_exactly(work_package)
+    end
+
+    it "includes work packages matched only via the identifier column" do
+      work_package.semantic_aliases.delete_all
+      expect(WorkPackage.resolving_via_slug_prefix("MYPROJ")).to contain_exactly(work_package)
+    end
+  end
+
   describe "after_create registration", with_settings: { work_packages_identifier: "semantic" } do
     it "assigns a sequence number" do
       expect(work_package.reload.sequence_number).to eq(1)
@@ -690,6 +723,62 @@ RSpec.describe WorkPackage::SemanticIdentifier do
         expect(wp).not_to be_valid
         expect(wp.errors[:identifier]).to include(a_string_matching(/sequence_number/))
       end
+    end
+  end
+
+  describe "semantic_identifier_fields_not_accidentally_changed validation" do
+    it "forbids changing the identifier in the default validation context" do
+      work_package.identifier = "MYPROJ-99"
+      work_package.sequence_number = 99
+
+      expect(work_package).not_to be_valid
+      expect(work_package.errors[:identifier]).to include(a_string_matching(/must not be changed manually/))
+      expect(work_package.errors[:identifier]).to include(a_string_matching(/identifier_rewrite/))
+    end
+
+    it "forbids changing the sequence_number" do
+      work_package.sequence_number = 99
+
+      expect(work_package).not_to be_valid
+      expect(work_package.errors[:sequence_number]).to include(a_string_matching(/must not be changed manually/))
+    end
+
+    it "forbids clearing the identifier fields" do
+      work_package.identifier = nil
+      work_package.sequence_number = nil
+
+      expect(work_package).not_to be_valid
+    end
+
+    it "allows clearing the fields as part of a project move" do
+      work_package.project = create(:project)
+      work_package.identifier = nil
+      work_package.sequence_number = nil
+
+      work_package.validate
+      expect(work_package.errors[:identifier]).to be_empty
+      expect(work_package.errors[:sequence_number]).to be_empty
+    end
+
+    it "allows the change when saved with the rewrite context" do
+      work_package.identifier = "MYPROJ-99"
+      work_package.sequence_number = 99
+
+      expect(work_package.save(context: WorkPackage::SemanticIdentifier::IDENTIFIER_REWRITE_CONTEXT)).to be(true)
+      expect(work_package.reload.identifier).to eq("MYPROJ-99")
+      expect(work_package.reload.sequence_number).to eq(99)
+    end
+
+    it "does not interfere with unrelated changes" do
+      work_package.subject = "Updated subject"
+
+      expect(work_package).to be_valid
+    end
+
+    it "does not apply to new records" do
+      wp = build(:work_package, project:, identifier: "MYPROJ-5", sequence_number: 5)
+
+      expect(wp).to be_valid
     end
   end
 

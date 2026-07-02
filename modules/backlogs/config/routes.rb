@@ -104,7 +104,6 @@ Rails.application.routes.draw do
         get "taskboard", to: "taskboard#show", as: :sprint_taskboard
         get "burndown_chart", to: "burndown_chart#show", as: :sprint_burndown_chart
       end
-
     end
   end
 

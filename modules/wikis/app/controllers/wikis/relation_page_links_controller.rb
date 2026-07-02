@@ -30,6 +30,8 @@
 
 module Wikis
   class RelationPageLinksController < ApplicationController
+    include PageSelectionFormInput
+    include Concerns::LinkableRedirect
     include OpTurbo::ComponentStream
 
     before_action :authorize
@@ -40,7 +42,7 @@ module Wikis
         page_link = service_result.result
         turbo_redirect_for_linkable(page_link.linkable)
       else
-        message = service_result.errors.full_messages.join(" ")
+        message = service_result.message
         render_error_flash_message_via_turbo_stream(message:)
         respond_to_with_turbo_streams
       end
@@ -65,7 +67,7 @@ module Wikis
 
     def link_existing_dialog
       linkable = WorkPackage.visible.find(params.expect(:work_package))
-      provider = Provider.visible.find(params.expect(:provider))
+      provider = Provider.visible.enabled.find(params.expect(:provider))
       respond_with_dialog Wikis::LinkExistingWikiPageDialog.new(linkable:, provider:)
     end
 
@@ -78,29 +80,6 @@ module Wikis
     def relation_page_link_params
       params.expect(wikis_relation_page_link: %i[provider_id linkable_type linkable_id])
             .merge(author_id: current_user.id, identifier: parse_identifier(params[:wiki_page_selection]))
-    end
-
-    def parse_identifier(wiki_page_selection)
-      case wiki_page_selection
-      in [selected_page]
-        MultiJson.load(selected_page, symbolize_keys: true)[:value]
-      else
-        nil
-      end
-    end
-
-    def turbo_redirect_for_linkable(linkable)
-      path = derive_path_from_linkable(linkable)
-      return redirect_to path, status: :see_other if path
-
-      head :no_content
-    end
-
-    def derive_path_from_linkable(linkable)
-      case linkable
-      when WorkPackage
-        project_work_package_wikis_tab_index_path(work_package_id: linkable.id, project_id: linkable.project_id)
-      end
     end
   end
 end

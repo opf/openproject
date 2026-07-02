@@ -77,8 +77,9 @@ de:
     button_confirm: Bestätigen
     button_continue: Fortfahren
     button_copy: Kopieren
-    button_copy_to_clipboard: In Zwischenablage kopieren
+    button_copy_numeric_id_to_clipboard: Numerische ID in die Zwischenablage kopieren
     button_copy_link_to_clipboard: Link in Zwischenablage kopieren
+    button_copy_to_clipboard: In Zwischenablage kopieren
     button_copy_to_other_project: In anderes Projekt duplizieren
     button_custom-fields: Benutzerdefinierte Felder
     button_delete: Löschen
@@ -155,16 +156,15 @@ de:
         manual: Wechseln zu reinem Markdown-Text
         wysiwyg: Wechseln zu WYSIWYG-Editor
       macro:
-        error: 'Kann Makro nicht anzeigen: %{message}'
         attribute_reference:
           macro_help_tooltip: Dieser Textabschnitt wird dynamisch durch ein Makro erzeugt.
           not_found: Die angeforderte Ressource konnte nicht gefunden werden
           nested_macro: Dieses Makro verweist rekursiv auf %{model} %{id}.
           invalid_attribute: Das ausgewählte Attribut '%{name}' existiert nicht.
         child_pages:
-          button: Auflistung der Unteraufgaben
+          button: Liste der Unterseiten
           include_parent: Elternseite anzeigen
-          text: "[Platzhalter] Auflistung der Unteraufgaben von"
+          text: "[Platzhalter] Liste der Unterseiten von"
           page: Wiki-Seite
           this_page: diese Seite
           hint: 'Lassen Sie dieses Feld leer, um alle untergeordneten Seiten der aktuellen Seite aufzulisten. Wenn Sie die untergeordneten Seiten einer anderen Wikiseite referenzieren möchten, geben Sie ihren Titel oder URL-Slug ein.
@@ -175,9 +175,14 @@ de:
           title: Code-Snippet einfügen / bearbeiten
           language: Sprache für Syntaxhervorhebung
           language_hint: Geben Sie eine Sprache für Syntaxhervorhebung ein, die für das Hervorheben des Code-Snippets verwendet wird (sofern unterstützt).
-        dropdown:
-          macros: Makros
-          chose_macro: Makro auswählen
+        embedded_calendar:
+          text: "[Platzhalter] Eingebetteter Kalender"
+        embedded_table:
+          button: Arbeitspaket-Tabelle einbetten
+          text: "[Platzhalter] Eingebettete Arbeitspaket-Tabelle"
+        error: 'Kann Makro nicht anzeigen: %{message}'
+        macro_dropdown:
+          caption: Einfügen
         toc: Inhaltsverzeichnis
         toolbar_help: Klicken Sie auf das Widget zum Auswählen und Anzeigen der Symbolleiste. Doppelklicken zum Editieren des Makros
         wiki_page_include:
@@ -195,11 +200,6 @@ de:
           button_style_hint: 'Optional: Haken setzen, um das Makro nicht als Link, sondern als Schaltfläche erscheinen zu lassen.'
           without_type: Arbeitspaket erstellen
           with_type: 'Arbeitspaket erstellen (Typ: %{typename})'
-        embedded_table:
-          button: Arbeitspaket-Tabelle einbetten
-          text: "[Platzhalter] Eingebettete Arbeitspaket-Tabelle"
-        embedded_calendar:
-          text: "[Platzhalter] Eingebetteter Kalender"
     admin:
       type_form:
         edit_query: Abfrage bearbeiten
@@ -368,6 +368,7 @@ de:
     label_in_more_than: in mehr als
     label_incoming_emails: Eingehende E-Mails
     label_information_plural: Information
+    label_infinity: Unendlich
     label_invalid: Ungültig
     label_import: Import
     label_latest_activity: Letzte Änderungen
@@ -392,6 +393,7 @@ de:
     label_no_value: Kein Wert
     label_none: keine
     label_not_contains: enthält nicht
+    label_not_available: Nicht verfügbar
     label_not_equals: ist nicht
     label_on: am
     label_open_menu: Menü öffnen
@@ -914,11 +916,12 @@ de:
         relation_filters:
           filter_work_packages_by_relation_type: Arbeitspakete nach Beziehungs-Typ filtern
       tabs:
-        overview: Übersicht
         activity: Aktivität
+        files: Dateien
+        overview: Übersicht
+        project_attributes: Projektattribute
         relations: Beziehungen
         watchers: Beobachter
-        files: Dateien
       time_relative:
         days: Tagen
         weeks: Wochen

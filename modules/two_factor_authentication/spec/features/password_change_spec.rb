@@ -33,13 +33,13 @@ RSpec.describe "Password change with OTP", :js, with_settings: {
     end
     # rubocop:enable RSpec/AnyInstance
 
-    expect(page).to have_test_selector("change_password_header_title", text: I18n.t(:button_change_password))
+    expect(page).to have_test_selector("change_password_header_title", text: I18n.t(:label_change_password))
     within("#content") do
       SeleniumHubWaiter.wait
       fill_in("password", with: user_password)
       fill_in("new_password", with: new_user_password)
       fill_in("new_password_confirmation", with: new_user_password)
-      click_link_or_button I18n.t(:button_save)
+      click_button I18n.t(:button_change_password)
     end
 
     if requires_otp

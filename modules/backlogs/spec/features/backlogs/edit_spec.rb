@@ -130,6 +130,35 @@ RSpec.describe "Edit", :js do
         planning_page.expect_sprint_names_in_order("Changed name", second_sprint.name)
       end
 
+      it "edits and clears the sprint goal" do
+        planning_page.click_in_sprint_menu(first_sprint, "Edit sprint")
+        planning_page.expect_sprint_dialog
+
+        within_dialog "Edit sprint" do
+          expect(page).to have_field("Sprint goal", with: "")
+          expect(page).to have_no_text("This is a shared sprint.")
+
+          fill_in "Sprint goal", with: "Deliver the first MVP scope."
+          click_on "Save"
+        end
+
+        expect_and_dismiss_flash(exact_message: "Successful update.")
+        planning_page.expect_sprint_heading_with_goal(first_sprint.name, "Deliver the first MVP scope.")
+
+        planning_page.click_in_sprint_menu(first_sprint, "Edit sprint")
+        planning_page.expect_sprint_dialog
+
+        within_dialog "Edit sprint" do
+          expect(page).to have_field("Sprint goal", with: "Deliver the first MVP scope.")
+
+          fill_in "Sprint goal", with: ""
+          click_on "Save"
+        end
+
+        expect_and_dismiss_flash(exact_message: "Successful update.")
+        planning_page.expect_sprint_heading_without_goal(first_sprint.name)
+      end
+
       context "when lacking the 'manage_sprint_items' permission" do
         let(:permissions) { all_permissions - %i[manage_sprint_items] }
 
@@ -164,6 +193,114 @@ RSpec.describe "Edit", :js do
             end
           end
         end
+      end
+    end
+  end
+
+  context "with a shared sprint" do
+    let(:project) { create(:project, sprint_sharing: Projects::SprintSharing::RECEIVE_SHARED) }
+    let(:source_project) { create(:project, sprint_sharing: Projects::SprintSharing::SHARE_ALL_PROJECTS) }
+    let!(:first_sprint) do
+      create(:sprint,
+             name: "Shared Sprint",
+             project: source_project,
+             start_date: Date.new(2025, 9, 5),
+             finish_date: Date.new(2025, 9, 15))
+    end
+
+    context "when the user has complete edit rights" do
+      let(:user) do
+        create(:user, member_with_permissions: { project => permissions, source_project => permissions })
+      end
+
+      it "edits shared sprint details and the project-specific goal" do
+        planning_page.click_in_sprint_menu(first_sprint, "Edit sprint")
+        planning_page.expect_sprint_dialog
+
+        within_dialog "Edit sprint" do
+          expect(page)
+            .to have_element("x-banner",
+                             text: "This is a shared sprint. Modifications will be reflected in all projects using it.")
+          expect(page).to have_field("Sprint name", with: "Shared Sprint", disabled: false)
+          expect(page).to have_field("Start date", disabled: false)
+          expect(page).to have_field("Finish date", disabled: false)
+          expect(page).to have_field("Duration", with: "11 days", readonly: true)
+          expect(page).to have_field(
+            "Sprint goal (for this project)",
+            with: "",
+            disabled: false,
+            accessible_description:
+              "The sprint goal is unique to this project and is not shared with other projects also using this sprint."
+          )
+
+          fill_in "Sprint name", with: "Renamed Shared Sprint"
+          fill_in "Sprint goal (for this project)", with: "Deliver the receiving project MVP."
+          click_on "Save"
+        end
+
+        expect_and_dismiss_flash(exact_message: "Successful update.")
+        planning_page.expect_sprint_heading_with_goal("Renamed Shared Sprint", "Deliver the receiving project MVP.")
+      end
+    end
+
+    context "when the user can edit only the receiving project goal" do
+      let(:user) do
+        create(
+          :user,
+          member_with_permissions: {
+            project => permissions,
+            source_project => all_permissions - [:create_sprints]
+          }
+        )
+      end
+
+      it "edits only the project-specific goal" do
+        planning_page.click_in_sprint_menu(first_sprint, "Edit sprint")
+        planning_page.expect_sprint_dialog
+
+        within_dialog "Edit sprint" do
+          expect(page)
+            .to have_element("x-banner",
+                             text: "This is a shared sprint. You do not have the necessary permissions to edit it.")
+          expect(page).to have_field("Sprint name", with: "Shared Sprint", disabled: true)
+          expect(page).to have_field("Start date", disabled: true)
+          expect(page).to have_field("Finish date", disabled: true)
+          expect(page).to have_field("Duration", with: "11 days", readonly: true)
+          expect(page).to have_field(
+            "Sprint goal (for this project)",
+            with: "",
+            disabled: false,
+            accessible_description:
+              "The sprint goal is unique to this project and is not shared with other projects also using this sprint."
+          )
+
+          fill_in "Sprint goal (for this project)", with: "Deliver the local rollout."
+          click_on "Save"
+        end
+
+        expect_and_dismiss_flash(exact_message: "Successful update.")
+        planning_page.expect_sprint_heading_with_goal("Shared Sprint", "Deliver the local rollout.")
+      end
+    end
+  end
+
+  context "when moving work packages from sprints" do
+    describe "moving to a different sprint" do
+      it "moves a work package to a different sprint" do
+        planning_page.expect_work_package_in_sprint(work_package, first_sprint)
+
+        planning_page.click_in_work_package_menu(work_package, "Move to sprint", wait: false)
+
+        within("#move-to-sprint-dialog") do
+          expect(page).to have_no_select("target_id", with_options: [first_sprint.name])
+          expect(page).to have_select("target_id", with_options: [second_sprint.name])
+
+          select second_sprint.name, from: "target_id"
+          click_on "Move"
+        end
+
+        planning_page.expect_work_package_not_in_sprint(work_package, first_sprint)
+        planning_page.expect_work_package_in_sprint(work_package, second_sprint)
       end
     end
   end

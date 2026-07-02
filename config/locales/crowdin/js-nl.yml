@@ -77,8 +77,9 @@ nl:
     button_confirm: Accepteren
     button_continue: Ga verder
     button_copy: Kopieer
-    button_copy_to_clipboard: Kopiëren naar het klembord
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Link naar klembord kopiëren
+    button_copy_to_clipboard: Kopiëren naar het klembord
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Aangepaste velden
     button_delete: Verwijderen
@@ -155,16 +156,15 @@ nl:
         manual: Schakel naar de bron van het Markdown
         wysiwyg: Schakel over naar de WYSIWYG-Editor
       macro:
-        error: 'Macro: %{message} kan niet worden uitgebreid'
         attribute_reference:
           macro_help_tooltip: Dit tekstsegment wordt dynamisch weergegeven door een macro.
           not_found: Gevraagde bron kan niet worden gevonden
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: Het geselecteerde attribuut '%{name}' bestaat niet.
         child_pages:
-          button: Links naar onderliggende pagina 's
+          button: List of sub-pages
           include_parent: Inclusief bovenliggende
-          text: "[Placeholder] links naar onderliggende pagina's van"
+          text: "[Placeholder] List of sub-pages of"
           page: Wikipagina
           this_page: deze pagina
           hint: 'Laat dit veld leeg om alle onderliggende pagina''s van de huidige pagina weer te geven. Als u wilt verwijzen naar een andere pagina, geef de titel of de witruimte van de pagina in.
@@ -175,9 +175,14 @@ nl:
           title: Insert / codefragment bewerken
           language: Opmaaktaal
           language_hint: Voer de opmaaktaal die wordt gebruikt voor het benadrukken(indien ondersteund).
-        dropdown:
-          macros: Macro's
-          chose_macro: Kies macro
+        embedded_calendar:
+          text: "[Placeholder] ingesloten kalender"
+        embedded_table:
+          button: Werk pakket tabel insluiten
+          text: "[Placeholder] ingesloten werkpakket tabel"
+        error: 'Macro: %{message} kan niet worden uitgebreid'
+        macro_dropdown:
+          caption: Insert
         toc: Inhoudsopgave
         toolbar_help: Klik op widget en geef de werkbalk weer. Dubbelklikken om de widget te bewerken
         wiki_page_include:
@@ -195,11 +200,6 @@ nl:
           button_style_hint: 'Optioneel: Controleer of de macro wordt weergegeven als een knop, niet als een link.'
           without_type: Nieuw werkpakket maken
           with_type: 'Werkpakket maken (Type: %{typename})'
-        embedded_table:
-          button: Werk pakket tabel insluiten
-          text: "[Placeholder] ingesloten werkpakket tabel"
-        embedded_calendar:
-          text: "[Placeholder] ingesloten kalender"
     admin:
       type_form:
         edit_query: Zoekopdracht bewerken
@@ -368,6 +368,7 @@ nl:
     label_in_more_than: in meer dan
     label_incoming_emails: Inkomende e-mails
     label_information_plural: Informatie
+    label_infinity: Infinity
     label_invalid: Ongeldig
     label_import: Importeren
     label_latest_activity: Laatste Activiteit
@@ -392,6 +393,7 @@ nl:
     label_no_value: Geen waarde
     label_none: geen
     label_not_contains: bevat geen
+    label_not_available: Not available
     label_not_equals: is niet
     label_on: op
     label_open_menu: Menu openen
@@ -912,11 +914,12 @@ nl:
         relation_filters:
           filter_work_packages_by_relation_type: Filter werkpakketten op relatietype
       tabs:
-        overview: Overzicht
         activity: Activiteit
+        files: Bestanden
+        overview: Overzicht
+        project_attributes: Project attributes
         relations: Relaties
         watchers: Volgers
-        files: Bestanden
       time_relative:
         days: dagen
         weeks: weken

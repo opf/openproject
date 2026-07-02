@@ -45,6 +45,7 @@ sk:
   default_doc_category_user: Používateľská dokumentácia
   enumeration_doc_categories: Kategórie dokumentu
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

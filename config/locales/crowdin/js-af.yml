@@ -77,8 +77,9 @@ af:
     button_confirm: Confirm
     button_continue: Continue
     button_copy: Kopieer
-    button_copy_to_clipboard: Copy to clipboard
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Pasgemaakte velde
     button_delete: Skrap
@@ -155,16 +156,15 @@ af:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Links to child pages
+          button: List of sub-pages
           include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki bladsy
           this_page: this page
           hint: 'Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
@@ -175,9 +175,14 @@ af:
           title: Insert / edit Code snippet
           language: Formatting language
           language_hint: Enter the formatting language that will be used for highlighting (if supported).
-        dropdown:
-          macros: Macros
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Table of contents
         toolbar_help: Click to select widget and show the toolbar. Double-click to edit widget
         wiki_page_include:
@@ -195,11 +200,6 @@ af:
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: Create work package
           with_type: 'Create work package (Type: %{typename})'
-        embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
         edit_query: Edit query
@@ -368,6 +368,7 @@ af:
     label_in_more_than: in meer as
     label_incoming_emails: Inkomende e-pos
     label_information_plural: Inligting
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Invoer
     label_latest_activity: Latest activity
@@ -392,6 +393,7 @@ af:
     label_no_value: No value
     label_none: geen
     label_not_contains: bevat nie
+    label_not_available: Not available
     label_not_equals: is nie
     label_on: 'on'
     label_open_menu: Maak kieslys oop
@@ -912,11 +914,12 @@ af:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Oorsig
         activity: Aktiwiteit
+        files: Lêers
+        overview: Oorsig
+        project_attributes: Project attributes
         relations: Relations
         watchers: Dophouers
-        files: Lêers
       time_relative:
         days: dae
         weeks: weeks

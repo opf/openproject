@@ -51,7 +51,7 @@ import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service
 })
 export class WorkPackageWatchersTabComponent extends UntilDestroyedMixin implements OnInit {
   readonly I18n = inject(I18nService);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly wpWatchersService = inject(WorkPackageWatchersService);
   readonly uiRouterGlobals = inject(UIRouterGlobals);
   readonly notificationService = inject(WorkPackageNotificationService);

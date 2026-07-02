@@ -45,10 +45,12 @@
       }
     </div>
   @if (!notification.readIAN) {
-    <span
-      class="op-ian-item--reason-count"
-      [textContent]="aggregatedNotifications.length"
-    ></span>
+    <span class="op-ian-item--reason-count">
+      <primer-counter
+        [count]="aggregatedNotifications.length"
+        scheme="secondary"
+      ></primer-counter>
+    </span>
   }
   <div class="op-ian-item--buttons">
     @if (!notification.readIAN) {
@@ -118,7 +120,12 @@
         <svg:rect x="0" y="14" width="80%" height="5" rx="1" />
       </op-content-loader>
     }
-    <span class="op-ian-item--reason-count"></span>
+    <span class="op-ian-item--reason-count">
+      <primer-counter
+        [count]="null"
+        scheme="secondary"
+      ></primer-counter>
+    </span>
     <div class="op-ian-item--buttons">
       <i class="op-ian-item--button icon-mark-read">
       </i>

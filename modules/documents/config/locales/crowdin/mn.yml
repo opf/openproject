@@ -45,6 +45,7 @@ mn:
   default_doc_category_user: Хэрэглэгчийн баримт бичиг
   enumeration_doc_categories: Баримт бичгийн ангилал
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

@@ -45,7 +45,7 @@ export const editModeClassName = '-editing';
 @Directive()
 export abstract class EditFieldComponent extends Field implements OnInit, OnDestroy {
   readonly I18n = inject(I18nService);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   protected change = inject<ResourceChangeset<HalResource>>(OpEditingPortalChangesetToken);
   schema = inject<IFieldSchema>(OpEditingPortalSchemaToken);
   readonly handler = inject<EditFieldHandler>(OpEditingPortalHandlerToken);
@@ -66,7 +66,7 @@ export abstract class EditFieldComponent extends Field implements OnInit, OnDest
   }
 
   ngOnInit():void {
-    this.element = this.elementRef.nativeElement as HTMLElement;
+    this.element = this.elementRef.nativeElement;
     this.initialize();
 
     if (this.change.state) {

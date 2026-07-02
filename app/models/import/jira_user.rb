@@ -39,12 +39,16 @@ module Import
 
     def to_op_attributes
       firstname, lastname = split_display_name(payload["displayName"])
+      mail = payload["emailAddress"]
+      if mail.blank?
+        mail = "#{SecureRandom.hex(16)}@noemail.invalid"
+      end
       {
         login: payload["name"],
         password: OpenProject::Passwords::Generator.random_password,
         firstname: firstname.presence || I18n.t(FALLBACK_NAME_KEY),
         lastname: lastname.presence || I18n.t(FALLBACK_NAME_KEY),
-        mail: payload["emailAddress"],
+        mail:,
         status: :locked
       }
     end

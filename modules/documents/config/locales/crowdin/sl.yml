@@ -45,6 +45,7 @@ sl:
   default_doc_category_user: Uporabniška dokumentacija
   enumeration_doc_categories: Kategorije dokumentov
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

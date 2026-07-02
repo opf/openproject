@@ -49,7 +49,7 @@ class BlockNoteElement extends HTMLElement {
     const shadowRoot = this.attachShadow({ mode: 'open' });
 
     this.editorRoot = document.createElement('div');
-    const browserSpecificClasses = this.getAttribute('browser-specific-classes')?.split(' ') ?? [];
+    const browserSpecificClasses = this.getAttribute('browser-specific-classes')?.split(' ').filter(Boolean) ?? [];
     if (browserSpecificClasses.length > 0) {
       this.editorRoot.classList.add(...browserSpecificClasses);
     }

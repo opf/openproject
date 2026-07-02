@@ -36,8 +36,7 @@ export class GroupedRenderPass extends PlainRenderPass {
    */
   protected doRender() {
     let currentGroup:GroupObject|null = null;
-    const { length } = this.workPackageTable.originalRows;
-    this.workPackageTable.originalRows.forEach((wpId:string, index:number) => {
+    this.workPackageTable.originalRows.forEach((wpId:string) => {
       const row = this.workPackageTable.originalRowIndex[wpId];
       const nextGroup = this.matchingGroup(row.object);
       const groupsChanged = currentGroup !== nextGroup;
@@ -70,8 +69,8 @@ export class GroupedRenderPass extends PlainRenderPass {
    * The API sadly doesn't provide us with the information which group a WP belongs to.
    */
   private matchingGroup(workPackage:WorkPackageResource) {
-    return _.find(this.groups, (group:GroupObject) => {
-      let property = workPackage[groupByProperty(group)];
+    return this.groups.find((group:GroupObject) => {
+      let property = workPackage[groupByProperty(group)] as unknown;
       // explicitly check for undefined as `false` (bool) is a valid value.
       if (property === undefined) {
         property = null;
@@ -79,18 +78,19 @@ export class GroupedRenderPass extends PlainRenderPass {
 
       // If the property is a multi-value
       // Compare the href's of all resources with the ones in valueLink
-      if (_.isArray(property)) {
+      if (Array.isArray(property)) {
         return this.matchesMultiValue(property as HalResource[], group);
       }
 
       /// / If it's a linked resource, compare the href,
       /// / which is an array of links the resource offers
-      if (property?.href) {
-        return !!_.find(group._links.valueLink, (l:any):any => property.href === l.href);
+      if (this.hasHref(property)) {
+        return group._links.valueLink.some((l) => property.href === l.href);
       }
 
       // Otherwise, fall back to simple value comparison.
-      let value = group.value === '' ? null : group.value;
+      const groupValue = group.value as unknown;
+      let value = groupValue === '' ? null : groupValue;
 
       if (value && typeof value === 'string') {
         // For matching we have to remove the % sign which is shown when grouping after progress
@@ -99,22 +99,34 @@ export class GroupedRenderPass extends PlainRenderPass {
 
       // Values provided by the API are always string
       // so avoid triple equal here
-           return value == property;
+      return value == property;
     })!;
   }
 
-  private matchesMultiValue(property:HalResource[], group:GroupObject) {
-    if (property.length !== group.href.length) {
+  private hasHref(value:unknown):value is { href:string } {
+    if (typeof value !== 'object' || value === null) {
       return false;
     }
 
-    const joinedOrderedHrefs = (objects:any[]) => _.map(objects, (object) => object.href).sort().join(', ');
+    const href = (value as { href?:unknown }).href;
+    return typeof href === 'string' && href.length > 0;
+  }
 
-    return _.isEqualWith(
-      property,
-      group.href,
-      (a, b) => joinedOrderedHrefs(a) === joinedOrderedHrefs(b),
-    );
+  private matchesMultiValue(property:HalResource[], group:GroupObject) {
+    // The API returns `group.href` as an object keyed by index rather than a
+    // plain array, so normalise it via `Object.values` before comparing.
+    const groupHrefs = Object.values(group.href);
+
+    if (property.length !== groupHrefs.length) {
+      return false;
+    }
+
+    // `property` may be a read-only observable array whose `map` returns a
+    // read-only array (via `Symbol.species`), so build a plain array via
+    // `Array.from` before sorting to avoid a "read-only" RangeError.
+    const joinedOrderedHrefs = (objects:{ href:string|null }[]) => Array.from(objects, (object) => object.href).sort().join(', ');
+
+    return joinedOrderedHrefs(property) === joinedOrderedHrefs(groupHrefs);
   }
 
   /**

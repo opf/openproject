@@ -224,7 +224,7 @@ class CostQuery::PDF::TimesheetGenerator
 
     href = url_helpers.work_package_url(entry.entity)
     {
-      content: "#{make_link_href(href, "##{entry.entity.id}")} #{entry.entity.subject || ''}",
+      content: "#{make_link_href(href, entry.entity.formatted_id)} #{entry.entity.subject || ''}",
       inline_format: true
     }
   end

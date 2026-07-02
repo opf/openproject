@@ -159,4 +159,17 @@ RSpec.describe ResourcePlannerViews::WorkPackageList::RowComponent, type: :compo
       expect(rendered).to have_no_text(I18n.t("#{i18n_ns}.move_to_top"))
     end
   end
+
+  context "with a single hand-picked row" do
+    let(:query) { manual_query }
+    let(:table) do
+      ResourcePlannerViews::WorkPackageList::TableComponent.new(
+        rows: [work_packages.first], view:, project:, resource_planner:, allocations:
+      )
+    end
+
+    it "disables the move entry, since it cannot be moved" do
+      expect(rendered).to have_css(".ActionListItem--disabled", text: "Move", visible: :all)
+    end
+  end
 end

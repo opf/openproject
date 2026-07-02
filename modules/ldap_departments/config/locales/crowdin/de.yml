@@ -1,0 +1,87 @@
+---
+de:
+  activerecord:
+    attributes:
+      ldap_departments/synchronized_department:
+        dn: DN
+        group: Abteilung
+        ldap_auth_source: LDAP-Verbindung
+        users_count: Mitglieder
+      ldap_departments/synchronized_tree:
+        base_dn: Basis-DN
+        guid_attribute: Attribut für eindeutige Kennung
+        ldap_auth_source: LDAP-Verbindung
+        name: Name
+        ou_name_attribute: OU-Namensattribut
+        structure_filter_string: Organizational unit filter
+        sync_users: Sync users
+        user_filter_string: User filter
+    errors:
+      models:
+        ldap_departments/synchronized_tree:
+          must_contain_base_dn: The base DN must be contained within the LDAP connection's base DN.
+          overlaps_other_tree: Overlaps the base DN of another synchronization on the same LDAP connection.
+    models:
+      ldap_departments/synchronized_department: Synchronized department
+      ldap_departments/synchronized_tree: LDAP department synchronization
+  ee:
+    upsell:
+      ldap_departments:
+        title: LDAP department synchronization
+        description: Mirror your LDAP organizational unit structure into the OpenProject department hierarchy and keep department members in sync automatically.
+  ldap_departments:
+    label_menu_item: LDAP-Abteilungssynchronisierung
+    label_synchronize: Organisationseinheiten synchronisieren
+    synchronized_departments:
+      blankslate:
+        description: Führen Sie die Synchronisierung durch, um die Organisationseinheiten der Basis-DN als Abteilungen zu importieren.
+        heading: Es wurden noch keine Abteilungen synchronisiert
+      destroy:
+        confirmation: Wenn Sie fortfahren, wird %{name} nicht mehr über die LDAP-Synchronisierung verwaltet.
+        heading: Möchten Sie die Synchronisierung von %{name} beenden?
+        info: Die Abteilung und ihre Mitglieder bleiben erhalten. Sie wird eine reguläre Abteilung, die Sie manuell bearbeiten oder löschen können.
+        title: Synchronisierung von %{name} beenden
+      managed_notice: Verwaltung über LDAP-Synchronisierung
+      no_results: Es wurden noch keine Abteilungen synchronisiert.
+      plural: Synchronisierte Abteilungen
+      singular: Synchronisierte Abteilung
+    synchronized_trees:
+      add_new: LDAP-Abteilungssynchronisierung hinzufügen
+      synchronization_started: Die Synchronisierung wurde im Hintergrund gestartet. Die Abteilungen werden angezeigt, sobald der Vorgang abgeschlossen ist.
+      blankslate:
+        description: Richten Sie eine Synchronisierung ein, um Ihre LDAP-Organisationseinheitenstruktur in die Abteilungshierarchie von OpenProject abzubilden.
+        heading: Keine synchronisierte Abteilungen
+      destroy:
+        confirmation: If you continue, the synchronization %{name} is removed and its %{departments_count} departments are no longer managed by LDAP.
+        heading: Synchronisierung %{name} aufheben?
+        info: Die Abteilungen und ihre Mitglieder bleiben erhalten und werden zu regulären Abteilungen. Sie können diese anschließend manuell unter „Administration“ → „Benutzer und Berechtigungen“ → „Organisation“ bearbeiten oder löschen.
+        title: Synchronisierung %{name} aufheben
+      form:
+        auth_source_text: Wählen Sie aus, welche LDAP-Verbindung verwendet werden soll.
+        base_dn_text: 'Geben Sie den Basis-DN ein, unterhalb derer Organisationseinheiten synchronisiert werden sollen. Die direkt untergeordneten Organisationseinheiten werden zu Abteilungen der obersten Ebene. Der Basis-DN muss unterhalb des Basis-DN der ausgewählten LDAP-Verbindung liegen.
+
+          '
+        guid_attribute_text: 'Optional. Das LDAP-Attribut, das eine stabile, eindeutige Kennung enthält (z. B. „objectGUID“ oder „entryUUID“). Wenn dieses Feld gesetzt ist, bleiben Abteilungen auch bei Umbenennungen und Verschiebungen von Organisationseinheiten (OU) erhalten. Lassen Sie das Feld leer, um nach DN abzugleichen.
+
+          '
+        ou_name_attribute_text: Das LDAP-Attribut, das zur Bezeichnung der Abteilung verwendet wird (z. B. „ou“).
+        sections:
+          connection: LDAP-Verbindung
+          structure: Organisationseinheiten
+          users: Benutzer
+        structure_filter_string_text: 'RFC 4515: LDAP-Filter zur Identifizierung von Einträgen für Organisationseinheiten.'
+        sync_users_text: 'Wenn diese Option aktiviert ist, werden auch Benutzer, die unterhalb des Basis-DN liegen, in OpenProject angelegt. Ist sie deaktiviert, werden nur bereits vorhandene Konten den Abteilungen zugeordnet.
+
+          '
+        user_filter_string_text: 'Optionaler RFC4515-LDAP-Filter zur Identifizierung von Benutzereinträgen. Lassen Sie das Feld leer, um den Verbindungsfilter oder - falls kein Filter festgelegt ist - einen generischen Personenfilter zu verwenden.
+
+          '
+      help_text: 'Dieses Modul bildet die Struktur der Organisationseinheiten (OU) Ihres LDAP-Verzeichnisses als Abteilungen von OpenProject ab. Jede OU unterhalb des konfigurierten Basis-DN wird zu einer Abteilung, und die Benutzer werden der Abteilung der OU zugeordnet, in der sie sich befinden. Die Abteilungen werden regelmäßig über einen Hintergrund-Job synchronisiert.
+
+        '
+      no_results: Es wurden noch keine synchronisierten Abteilungen konfiguriert.
+      plural: LDAP department synchronizations
+      singular: LDAP department synchronization
+  plugin_openproject_ldap_departments:
+    description: Synchronization of LDAP organizational units into OpenProject departments.
+    name: OpenProject-LDAP-Abteilungen

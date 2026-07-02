@@ -10,7 +10,7 @@ import { computePosition, ComputePositionReturn, flip, shift } from '@floating-u
   standalone: false,
 })
 export class OpContextMenuTrigger extends OpContextMenuHandler implements AfterViewInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly opContextMenu:OPContextMenuService;
 
   protected element:HTMLElement;

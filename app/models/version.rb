@@ -34,6 +34,13 @@ class Version < ApplicationRecord
 
   belongs_to :project
   has_many :work_packages, dependent: :nullify
+  has_many :work_package_versions, dependent: :delete_all
+  has_many :targeted_work_packages,
+           -> { where(work_package_versions: { kind: "target" }) },
+           through: :work_package_versions, source: :work_package
+  has_many :observed_in_work_packages,
+           -> { where(work_package_versions: { kind: "observed_in" }) },
+           through: :work_package_versions, source: :work_package
   acts_as_customizable
 
   VERSION_STATUSES = %w(open locked closed).freeze

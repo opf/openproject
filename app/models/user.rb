@@ -51,6 +51,18 @@ class User < Principal
   include ::Users::PermissionChecks
   extend DeprecatedAlias
 
+  # Join association backing #departments. The group_users lifecycle is already
+  # managed by the `groups` HABTM above, so no :dependent option is declared here.
+  has_many :group_users, inverse_of: :user # rubocop:disable Rails/HasManyOrHasOneDependent
+  # A user belongs to at most one department (an organizational unit group).
+  # Modeled as a has_many because Rails forbids a has_one :through a collection
+  # (group memberships). Use #department for the single value, and eager-load
+  # with User.includes(:departments) to avoid N+1 queries in user lists.
+  has_many :departments,
+           -> { Group.organizational_units },
+           through: :group_users,
+           source: :group
+
   has_many :watches, class_name: "Watcher",
                      dependent: :delete_all
   has_many :changesets, dependent: :nullify
@@ -530,6 +542,11 @@ class User < Principal
 
   def active_admin?
     admin? && active?
+  end
+
+  # The single organizational unit (department) the user belongs to, if any.
+  def department
+    departments.first
   end
 
   def consent_expired?

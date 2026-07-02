@@ -34,7 +34,7 @@ module Wikis
       module XWiki
         module Queries
           class SearchPages < BaseQuery
-            include Concerns::XWikiQuery
+            include Concerns::XWikiRequest
             include Concerns::XWikiPageQueries
 
             # Limiting result size rather strictly, because each result will cause another HTTP call to XWiki, this does not

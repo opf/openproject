@@ -77,8 +77,9 @@ da:
     button_confirm: Bekræft
     button_continue: Fortsæt
     button_copy: Kopier
-    button_copy_to_clipboard: Kopiér til Udklipsholder
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Kopiér til Udklipsholder
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Selvvalgte felter
     button_delete: Slet
@@ -155,16 +156,15 @@ da:
         manual: Skift til Markdown kildekode
         wysiwyg: Skift til WYSIWYG redigering
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Links til undersider
+          button: List of sub-pages
           include_parent: Inkludér forælder
-          text: "[Placeholder] Linker til under-sider af"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki-side
           this_page: denne side
           hint: 'Lad feltet være tomt for at vise alle børnesider på den aktuelle side. Hvis du vil referere til en anden side, skal du angive sin titel eller slug.
@@ -175,9 +175,14 @@ da:
           title: Indsæt / rediger kodestykke
           language: Formaterings sprog
           language_hint: Indtast det formateringssprog, der skal bruges til at fremhæve (hvis det understøttes).
-        dropdown:
-          macros: Makroer
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded kalender"
+        embedded_table:
+          button: Embed arbejdspakkebord
+          text: "[Placeholder] Embedded arbejdspakkebord"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Indholdsfortegnelse
         toolbar_help: Klik for at vælge widget og vis værktøjslinjen. Dobbeltklik for at redigere widget
         wiki_page_include:
@@ -195,11 +200,6 @@ da:
           button_style_hint: 'Valgfrit: Kontroller, at makro vises som en knap, ikke som et link.'
           without_type: Opret arbejdspakke
           with_type: 'Opret arbejdspakke (Type: %{typename})'
-        embedded_table:
-          button: Embed arbejdspakkebord
-          text: "[Placeholder] Embedded arbejdspakkebord"
-        embedded_calendar:
-          text: "[Placeholder] Embedded kalender"
     admin:
       type_form:
         edit_query: Edit query
@@ -368,6 +368,7 @@ da:
     label_in_more_than: på mere end
     label_incoming_emails: Indkommende e-mails
     label_information_plural: Information
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Import
     label_latest_activity: Latest activity
@@ -392,6 +393,7 @@ da:
     label_no_value: Ingen værdi tildelt
     label_none: ingen
     label_not_contains: indeholder ikke
+    label_not_available: Not available
     label_not_equals: er ikke
     label_on: på
     label_open_menu: Åbn menuen
@@ -912,11 +914,12 @@ da:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Overblik
         activity: Aktivivtet
+        files: Filer
+        overview: Overblik
+        project_attributes: Project attributes
         relations: Tilknytninger
         watchers: Tilsynsførende
-        files: Filer
       time_relative:
         days: dage
         weeks: uger

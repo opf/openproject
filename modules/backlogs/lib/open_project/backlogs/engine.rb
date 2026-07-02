@@ -244,9 +244,11 @@ module OpenProject::Backlogs
       ::Type.add_default_mapping(:details, :backlog_bucket)
 
       ::Queries::Register.register(::Query) do
+        filter Queries::WorkPackages::Filter::BacklogBucketFilter
         filter Queries::WorkPackages::Filter::SprintFilter
 
         select OpenProject::Backlogs::QueryBacklogsSelect
+        select OpenProject::Backlogs::WorkPackageBucketSelect
         select OpenProject::Backlogs::WorkPackageSprintSelect
       end
     end

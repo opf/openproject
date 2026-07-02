@@ -1,0 +1,23 @@
+<div class="op-rm-timeline-bar">
+  <span class="op-rm-timeline-bar--hours"><%= hours_label %></span>
+
+  <% if principal_visible? %>
+    <%= avatar(
+          allocation.principal,
+          size: "mini",
+          hide_name: false,
+          link: false,
+          name_classes: "op-rm-timeline-bar--label",
+          hover_card: { active: true }
+        ) %>
+  <% else %>
+    <%= render(Primer::Beta::Octicon.new(icon: :"person-add", size: :small)) %>
+    <span class="op-rm-timeline-bar--label"><%= placeholder_label %></span>
+  <% end %>
+
+  <% if candidate_badge? %>
+    <span class="op-rm-timeline-bar--badge">
+      <%= render(Primer::Beta::Label.new) { candidate_label } %>
+    </span>
+  <% end %>
+</div>

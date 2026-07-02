@@ -383,7 +383,7 @@ class PermittedParams
     if project && current_user.allowed_in_project?(:edit_messages, project)
       params.fetch(:message, {}).permit(:subject, :content, :forum_id, :locked, :sticky)
     else
-      params.fetch(:message, {}).permit(:subject, :content, :forum_id)
+      params.fetch(:message, {}).permit(:subject, :content)
     end
   end
 
@@ -532,6 +532,7 @@ class PermittedParams
           :custom_field_section_id,
           :allow_non_open_versions,
           :has_comment,
+          :visible_on_user_card,
           { custom_options_attributes: %i(id value default_value position) },
           { type_ids: [] }
         ],

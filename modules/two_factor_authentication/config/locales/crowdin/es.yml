@@ -46,7 +46,7 @@ es:
     text_otp_delivery_message_sms: Su contraseña de un solo uso de %{app_title} es %{token}
     text_otp_delivery_message_voice: 'Su contraseña de un solo uso de %{app_title} es: %{pause} %{token}. %{pause} Repito: %{pause} %{token}'
     text_2fa_enabled: Después de cada inicio de sesión, se le solicitará que ingrese un token OTP desde su dispositivo 2FA predeterminado.
-    text_2fa_disabled: Para habilitar la autenticación de dos factores, use el botón de arriba para registrar un nuevo dispositivo 2FA. Si ya tiene un dispositivo, debe hacerlo de manera predeterminada.
+    text_2fa_disabled: Para habilitar la autenticación de dos factores, use el botón de arriba para registrar un nuevo dispositivo 2FA. Si ya tiene un dispositivo, debe convertirlo en predeterminado.
     login:
       enter_backup_code_title: Ingrese el código de respaldo
       enter_backup_code_text: Ingrese un código de copia de seguridad válido de su lista de códigos en caso de que ya no pueda acceder a sus dispositivos 2FA registrados.
@@ -158,7 +158,7 @@ es:
         '
       other_active_session_notice: Su cuenta tiene una cookie para recordar activa en otra sesión.
       label: Recuerda
-      clear_cookie: Haga clic aquí para quitar todas las sesiones de 2FA recordadas.
+      clear_cookie: Elimine todas las sesiones de autenticación de dos factores (2FA) almacenadas.
       cookie_removed: Se eliminaron todas las sesiones de 2FA recordadas.
       dont_ask_again: Crea una cookie para recordar la autenticación de 2FA en este cliente durante %{days} días.
   field_otp: Contraseña de un solo uso
@@ -169,6 +169,7 @@ es:
   notice_account_has_no_phone: No hay un número de teléfono celular asociado a su cuenta.
   label_confirmed: Confirmado
   button_continue: Continuar
+  button_make_active: Activar
   button_make_default: Marcar como predeterminado
   notice_phone_number_format: 'Ingrese el número en el siguiente formato: + XX XXXXXXXX.'
   text_otp_not_receive: Otros métodos de verificación

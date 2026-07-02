@@ -12,7 +12,7 @@ uk:
         sp_entity_id: ID сервісної організації
         metadata_url: URL-адреса метаданих постачальника ідентифікаційних даних
         name_identifier_format: Формат ідентифікатора імені
-        idp_entity_id: Identity provider entity ID
+        idp_entity_id: ID сутності постачальника ідентифікаційних даних
         idp_sso_service_url: Кінцева точка входу постачальника ідентифікаційних даних
         idp_slo_service_url: Кінцева точка виходу постачальника ідентифікаційних даних
         idp_cert: Загальнодоступний сертифікат постачальника ідентифікаційних даних
@@ -45,10 +45,10 @@ uk:
       success: Конфігурацію оновлено за допомогою метаданих постачальника ідентифікаційних даних.
       invalid_url: Надано неправильну URL-адресу метаданих. Укажіть URL-адресу HTTP(s).
       error: 'Не вдалось отримати метадані постачальника ідентифікаційних даних: %{error}'
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+      federation_metadata: 'URL-адреса метаданих вказує на федеративний агрегатор (кілька постачальників ідентифікаційних даних). Скористайтеся прямою URL-адресою метаданих своєї установи або введіть ID сутності IdP установи у форму метаданих і спробуйте ще раз.
 
         '
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      metadata_too_large: Розмір файлу метаданих перевищує максимально допустимий.
     providers:
       label_empty_title: Поки не налаштовано жодного постачальника послуг SAML.
       label_empty_description: Додайте постачальника послуг, і він з’явиться тут.
@@ -116,7 +116,7 @@ uk:
       metadata_url: 'Ваш постачальник ідентифікаційних надає URL-адресу метаданих.
 
         '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+      idp_entity_id: 'Необов’язково: корисно, коли URL-адреса метаданих вказує на федеративний агрегатор із великою кількістю записів. Введіть ID сутності постачальника ідентифікаційних даних своєї установи. Залиште поле порожнім для метаданих з однією сутністю.
 
         '
       metadata_xml: 'Ваш постачальник ідентифікаційних надає можливість завантаження XML метаданих.

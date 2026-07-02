@@ -46,7 +46,7 @@ lt:
     text_otp_delivery_message_sms: Jūsų %{app_title} vienkartinis slaptažodis yra %{token}
     text_otp_delivery_message_voice: 'Jūsų %{app_title} vienkartinis slaptažodis yra: %{pause} %{token}. %{pause} Aš kartoju: %{pause} %{token}'
     text_2fa_enabled: Kiekvieną kartą prisijungiant jūs turėsite įvesti OTP žetoną iš jūsų numatytojo 2FA įrenginio.
-    text_2fa_disabled: Norėdami įjungti dviejų veiksnių autentikaciją, naudokite aukščiau esantį mygtuką, kad priregistruotumėte naują 2FA įrenginį. Jei jau turite įrenginį, jums reikia jį padaryti numatytuoju.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Įveskite atsarginį kodą
       enter_backup_code_text: Prašome įvesti atsarginį kodą iš jūsų kodų sąrašo, jei daugiau nebeturite prieigos prie jūsų registruotų 2FA įrenginių.
@@ -160,7 +160,7 @@ lt:
         '
       other_active_session_notice: Jūsų paskyra turi aktyvų prisiminimo „sausainį“ kitoje sesijoje.
       label: Atsiminti
-      clear_cookie: Paspauskite čia, kad pašalintumėt visas prisimenamas 2FA sesijas.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Visos prisimenamos 2FA sesijos buvo pašalintos.
       dont_ask_again: Kurti slapuką, kad šiame kliente 2FA autentikacija būtų atsiminta %{days} dienų.
   field_otp: Vienkartinis slaptažodis
@@ -171,6 +171,7 @@ lt:
   notice_account_has_no_phone: Su jūsų paskyra nesusietas joks telefono numeris.
   label_confirmed: Patvirtinta
   button_continue: Tęsti
+  button_make_active: Activate
   button_make_default: Pažymėti kaip numatytąjį
   notice_phone_number_format: 'Prašome įvesti numerį tokiu formatu: +XX XXXXXXXX.'
   text_otp_not_receive: Kiti patikrinimo būdai

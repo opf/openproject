@@ -183,9 +183,10 @@ class Project::PDFExport::ProjectInitiation < Exports::Exporter
       .select(:custom_field_id)
   end
 
-  def collect_custom_fields_data
+  def collect_custom_fields_data # rubocop:disable Metrics/AbcSize
     project.available_custom_fields
            .where(id: enabled_in_wizard_ids)
+           .order("custom_fields.id")
            .group_by(&:project_custom_field_section)
            .map do |section, custom_fields|
              {

@@ -33,6 +33,10 @@
   render(
     Primer::OpenProject::DangerDialog.new(
       id: "release-identifier-dialog",
+      # The default :medium size caps the dialog height at 320px, which the
+      # description with the work package count can exceed, forcing an inner
+      # scrollbar. :medium_portrait keeps the same width with a 600px cap.
+      size: :medium_portrait,
       title: I18n.t("admin.reserved_identifiers.dialog.title"),
       confirm_button_text: I18n.t("admin.reserved_identifiers.dialog.confirm_button"),
       cancel_button_text: I18n.t("button_cancel"),
@@ -47,9 +51,7 @@
         I18n.t("admin.reserved_identifiers.dialog.heading", identifier: @slug.slug)
       end
 
-      message.with_description_content(
-        I18n.t("admin.reserved_identifiers.dialog.description")
-      )
+      message.with_description_content(description_text)
     end
 
     dialog.with_confirmation_check_box_content(

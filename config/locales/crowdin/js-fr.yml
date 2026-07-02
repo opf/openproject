@@ -77,8 +77,9 @@ fr:
     button_confirm: Confirmer
     button_continue: Continuer
     button_copy: Copier
-    button_copy_to_clipboard: Copier dans le presse-papiers
+    button_copy_numeric_id_to_clipboard: Copier l'identifiant numérique dans le presse-papiers
     button_copy_link_to_clipboard: Copier le lien dans le presse-papiers
+    button_copy_to_clipboard: Copier dans le presse-papiers
     button_copy_to_other_project: Dupliquer dans un autre projet
     button_custom-fields: Champs personnalisés
     button_delete: Supprimer
@@ -155,16 +156,15 @@ fr:
         manual: Basculer en mode source Markdown
         wysiwyg: Basculer vers l'éditeur WYSIWYG
       macro:
-        error: 'Impossible d''étendre la macro : %{message}'
         attribute_reference:
           macro_help_tooltip: Ce segment de texte est rendu dynamiquement par une macro.
           not_found: La ressource demandée est introuvable
           nested_macro: Cette macro fait référence de manière récursive à %{model} %{id}.
           invalid_attribute: L'attribut « %{name} » n'existe pas.
         child_pages:
-          button: Liens vers les pages enfants
+          button: Liste des sous-pages
           include_parent: Inclure un parent
-          text: "[Placeholder] Liens vers les pages enfants de"
+          text: "[Placeholder] Liste des sous-pages de"
           page: Page du wiki
           this_page: cette page
           hint: 'Laissez ce champ vide pour répertorier toutes les pages enfants de la page actuelle. Si vous souhaitez référencer une page différente, indiquez son titre ou son slug.
@@ -175,9 +175,14 @@ fr:
           title: Insérer/modifier le fragment de code
           language: Langage de formatage
           language_hint: Entrez le langage de formatage qui sera utilisé pour mettre en évidence (si pris en charge).
-        dropdown:
-          macros: Macros
-          chose_macro: Choisir une macro
+        embedded_calendar:
+          text: "[Placeholder] Calendrier embarqué"
+        embedded_table:
+          button: Intégrer le tableau du lot de travaux
+          text: "[Placeholder] Tableau du lot de travaux intégré"
+        error: 'Impossible d''étendre la macro : %{message}'
+        macro_dropdown:
+          caption: Insérer
         toc: Table des matières
         toolbar_help: Cliquez pour sélectionner le widget et afficher la barre d'outils. Double-cliquez pour modifier le widget
         wiki_page_include:
@@ -195,11 +200,6 @@ fr:
           button_style_hint: 'Facultatif : Cocher pour que la macro apparaisse sous forme de bouton et non de lien.'
           without_type: Créer un lot de travaux
           with_type: 'Créer un lot de travaux (Type : %{typename})'
-        embedded_table:
-          button: Intégrer le tableau du lot de travaux
-          text: "[Placeholder] Tableau du lot de travaux intégré"
-        embedded_calendar:
-          text: "[Placeholder] Calendrier embarqué"
     admin:
       type_form:
         edit_query: Modifier la requête
@@ -368,6 +368,7 @@ fr:
     label_in_more_than: dans plus de
     label_incoming_emails: E-mails entrants
     label_information_plural: Information
+    label_infinity: Infini
     label_invalid: Non valide
     label_import: Importer
     label_latest_activity: Dernière activité
@@ -392,6 +393,7 @@ fr:
     label_no_value: Aucune valeur
     label_none: aucune
     label_not_contains: ne contient pas
+    label_not_available: Indisponible
     label_not_equals: n'est pas
     label_on: le
     label_open_menu: Ouvrir le menu
@@ -457,7 +459,7 @@ fr:
     label_work_package_context_menu: Menu contextuel des lots de travaux
     label_unwatch: Ne plus suivre
     label_unwatch_work_package: Ne plus suivre le lot de travaux
-    label_uploaded_by: Téléversé par
+    label_uploaded_by: Importé par
     label_default_queries: Par défaut
     label_starred_queries: Favori
     label_global_queries: Public
@@ -912,11 +914,12 @@ fr:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrer les lots de travaux par type de relation
       tabs:
-        overview: Vue globale
         activity: Activité
+        files: Fichiers
+        overview: Vue globale
+        project_attributes: Project attributes
         relations: Relations
         watchers: Observateurs
-        files: Fichiers
       time_relative:
         days: jours
         weeks: semaines

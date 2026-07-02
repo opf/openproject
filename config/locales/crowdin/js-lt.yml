@@ -77,8 +77,9 @@ lt:
     button_confirm: Patvirtinti
     button_continue: Tęsti
     button_copy: Kopijuoti
-    button_copy_to_clipboard: Kopijuoti į iškarpinę
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Kopijuoti nuorodą į iškarpinę
+    button_copy_to_clipboard: Kopijuoti į iškarpinę
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Pritaikyti laukai
     button_delete: Trinti
@@ -155,16 +156,15 @@ lt:
         manual: Perjungti į Markdown išeities kodą
         wysiwyg: Perjungti į WYSIWYG (ką matai, tą ir turi) redaktorių
       macro:
-        error: 'Nepavyksta išskleisti makrokomandos: %{message}'
         attribute_reference:
           macro_help_tooltip: Šis teksto segmentas yra dinamiškai sukuriamas makrokomandos.
           not_found: Reikalaujamas resursas nerastas
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: Pasirinktas atributas „%{name}“ neegzistuoja.
         child_pages:
-          button: Nuorodos į vaikų puslapius
+          button: List of sub-pages
           include_parent: Įtraukti tėvą
-          text: "[Placeholder] Nuorodos į vaikų puslapius"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki puslapis
           this_page: šis puslapis
           hint: 'Palikus šį lauką tuščią, bus pateikiamas visų šio puslapio vaikų sąrašas. Jei norite nuorodos į kitą puslapį, pateikite jo pavadinimą arba techninį adresą (slug).
@@ -175,9 +175,14 @@ lt:
           title: Įterpti / redaguoti kodo fragmentą
           language: Formatavimo kalba
           language_hint: Įveskite formatavimo kalbą, kuri bus naudojama elementų išryškinimui (jei tai palaikoma).
-        dropdown:
-          macros: Makrokomandos
-          chose_macro: Parinkite makrokomandą
+        embedded_calendar:
+          text: "[Placeholder] Įterptinis kalendorius"
+        embedded_table:
+          button: Įterpti darbo paketų lentelę
+          text: "[Placeholder] Įterpta darbo paketų lentelė"
+        error: 'Nepavyksta išskleisti makrokomandos: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Turinys
         toolbar_help: Spauskite, kad parinktumėte valdiklį ir rodytumėte įrankinę. Dvigubas paspaudimas valdiklio redagavimui
         wiki_page_include:
@@ -195,11 +200,6 @@ lt:
           button_style_hint: 'Pasirinktinai: įjunkite, kad makro būtų rodomas kaip mygtukas, o ne kaip nuoroda.'
           without_type: Kurti darbo paketą
           with_type: 'Kurti darbo paketą (Tipas: %{typename})'
-        embedded_table:
-          button: Įterpti darbo paketų lentelę
-          text: "[Placeholder] Įterpta darbo paketų lentelė"
-        embedded_calendar:
-          text: "[Placeholder] Įterptinis kalendorius"
     admin:
       type_form:
         edit_query: Keisti užklausą
@@ -368,6 +368,7 @@ lt:
     label_in_more_than: daugiau nei
     label_incoming_emails: Gauti el. laiškai
     label_information_plural: Informacija
+    label_infinity: Infinity
     label_invalid: Netinkamas
     label_import: Importuoti
     label_latest_activity: Paskutinė veikla
@@ -392,6 +393,7 @@ lt:
     label_no_value: Nenurodytas dydis
     label_none: joks
     label_not_contains: neturi
+    label_not_available: Not available
     label_not_equals: nėra
     label_on: įjungta
     label_open_menu: Atidaryti meniu
@@ -914,11 +916,12 @@ lt:
         relation_filters:
           filter_work_packages_by_relation_type: Filtruokite darbo paketus pagal sąryšio tipą
       tabs:
-        overview: Peržiūra
         activity: Veikla
+        files: Failai
+        overview: Peržiūra
+        project_attributes: Project attributes
         relations: Ryšiai
         watchers: Stebėtojai
-        files: Failai
       time_relative:
         days: dienos
         weeks: savaitės

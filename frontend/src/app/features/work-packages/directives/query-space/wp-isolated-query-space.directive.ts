@@ -199,7 +199,7 @@ export class WorkPackageIsolatedQuerySpaceDirective {
   querySpace = inject(IsolatedQuerySpace);
 
   constructor() {
-    const elementRef = inject(ElementRef);
+    const elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
     debugLog('Opening isolated query space in %O', elementRef.nativeElement);
   }

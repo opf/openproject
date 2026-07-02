@@ -17,12 +17,12 @@ export type SpotSwitchState = boolean;
   standalone: false,
 })
 export class SpotSwitchComponent implements ControlValueAccessor {
-  elementRef = inject(ElementRef);
+  elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   cdRef = inject(ChangeDetectorRef);
 
   @HostBinding('class.spot-switch') public className = true;
 
-  @ViewChild('input') public input:ElementRef;
+  @ViewChild('input') public input:ElementRef<HTMLInputElement>;
 
   /**
    * The tabindex for the underlying HTML input
@@ -57,7 +57,7 @@ export class SpotSwitchComponent implements ControlValueAccessor {
   }
 
   onStateChange():void {
-    const value = (this.input.nativeElement as HTMLInputElement).checked;
+    const value = this.input.nativeElement.checked;
     this.checkedChange.emit(value);
     this.onChange(value);
     this.onTouched(value);

@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe Admin::DepartmentsController, with_flag: { departments: true } do
+RSpec.describe Admin::DepartmentsController do
   before do
     login_as current_user
   end

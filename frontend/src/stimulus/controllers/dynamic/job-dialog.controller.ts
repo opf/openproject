@@ -32,39 +32,52 @@ import { ApplicationController } from 'stimulus-use';
 import { renderStreamMessage } from '@hotwired/turbo';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TurboHelpers } from 'core-turbo/helpers';
-import { PathHelperService } from 'core-app/core/path-helper/path-helper.service';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class AsyncJobDialogController extends ApplicationController {
+    static services:ServiceKey[] = ['pathHelperService', 'notifications'];
+
     static values = {
         closeDialogId: String,
     };
 
-    declare closeDialogIdValue:string;
-    protected pathHelper:PathHelperService;
+    declare services:Promise<PickedServices<'pathHelperService'|'notifications'>>;
 
-    // eslint-disable-next-line @typescript-eslint/no-misused-promises
-    async connect(){
-        const context = await window.OpenProject.getPluginContext();
-        this.pathHelper = context.services.pathHelperService;
+    declare closeDialogIdValue:string;
+
+    initialize() {
+        super.initialize();
+        useAngularServices(this);
+    }
+
+    connect() {
         this.element.addEventListener('click', (e) => {
             e.preventDefault();
-            TurboHelpers.showProgressBar();
-            this.closePreviousDialog();
-            this.requestJob()
-                .then((job_id) => {
-                    if (job_id) {
-                        return this.showJobModal(job_id);
-                    }
-                    this.handleError(I18n.t('js.no_job_id'));
-                    return null;
-                })
-                .catch((error:unknown) => {
-                    this.handleError(error);
-                })
-                .finally(() => {
-                    TurboHelpers.hideProgressBar();
-                });
+            void this.triggerJob();
         });
+    }
+
+    // The services must be resolved before anything that needs cleanup in the
+    // finally block: their promise never settles after a disconnect, so an
+    // await on it inside the try would strand the progress bar.
+    private async triggerJob() {
+        const { pathHelperService, notifications } = await this.services;
+
+        TurboHelpers.showProgressBar();
+        this.closePreviousDialog();
+
+        try {
+            const jobId = await this.requestJob();
+            if (jobId) {
+                await this.showJobModal(pathHelperService.jobStatusModalPath(jobId));
+            } else {
+                notifications.addError(I18n.t('js.no_job_id'));
+            }
+        } catch (error) {
+            notifications.addError(error as string | HttpErrorResponse);
+        } finally {
+            TurboHelpers.hideProgressBar();
+        }
     }
 
     closePreviousDialog() {
@@ -91,8 +104,8 @@ export default class AsyncJobDialogController extends ApplicationController {
         return result.job_id;
     }
 
-    async showJobModal(job_id:string) {
-        const response = await fetch(this.pathHelper.jobStatusModalPath(job_id), {
+    async showJobModal(url:string) {
+        const response = await fetch(url, {
             method: 'GET',
             headers: { Accept: 'text/vnd.turbo-stream.html' },
         });
@@ -101,12 +114,6 @@ export default class AsyncJobDialogController extends ApplicationController {
         } else {
             throw new Error(response.statusText);
         }
-    }
-
-    handleError(error:unknown):void {
-        void window.OpenProject.getPluginContext().then((pluginContext) => {
-            pluginContext.services.notifications.addError(error as string | HttpErrorResponse);
-        });
     }
 
     get href() {

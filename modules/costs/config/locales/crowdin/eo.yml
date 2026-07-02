@@ -43,7 +43,7 @@ eo:
         rates: Rates
       work_package:
         costs_by_type: Spent units
-        labor_costs: Labor costs
+        labor_costs: Laboraj kostoj
         material_costs: Unit costs
         overall_costs: Overall costs
         spent_costs: Spent costs
@@ -131,7 +131,7 @@ eo:
   label_cost_plural: Kostoj
   label_cost_type_plural: Cost types
   label_cost_type_specific: 'Speco de kosto #%{id}: %{name}'
-  label_costs_per_page: Costs per page
+  label_costs_per_page: Kostoj po paĝo
   label_current_default_rate: Current default rate
   label_date_on: je
   label_deleted_cost_types: Deleted cost types
@@ -167,21 +167,21 @@ eo:
   label_cost: Kosto
   label_costs: Kostoj
   label_mandatory_fields: Mandatory fields
-  label_my_time_tracking: My time tracking
+  label_my_time_tracking: Mia tempospurado
   label_no_time: No time tracked
   label_next_day: Proksima tago
   label_next_week: Sekva semajno
-  label_next_workweek: Next work week
+  label_next_workweek: Venonta laborsemajno
   label_next_month: Proksima monato
   label_previous_day: Previous day
-  label_previous_workweek: Previous work week
+  label_previous_workweek: Antaŭa laborsemajno
   label_previous_week: Antaŭa semajno
   label_previous_month: Antaŭa monato
   label_specific_day: Tago %{day}
   label_specific_month: Monato %{month}
   label_list: Listo
   label_month: Monato
-  label_workweek: Work week
+  label_workweek: Laborsemajno
   label_day: Tago
   label_today_capitalized: Hodiaŭ
   label_view_mode_switcher: Change view
@@ -226,8 +226,8 @@ eo:
   text_warning_hidden_elements: Some entries may have been excluded from the aggregation.
   week: semajno
   total_times:
-    workweek: 'Workweek Total: %{hours}'
-    week: 'Week Total: %{hours}'
+    workweek: 'Laborsemajna laborsumo: %{hours}'
+    week: 'Semajna laborsumo: %{hours}'
     month: 'Month Total: %{hours}'
     day: 'Day Total: %{hours}'
   api_v3:
@@ -251,7 +251,7 @@ eo:
       rates:
         title: Rate history
     settings:
-      time_and_costs: Time & Costs
+      time_and_costs: Time and costs
       cost_types:
         heading: Cost types
         none_active: No cost types are currently active in this project.

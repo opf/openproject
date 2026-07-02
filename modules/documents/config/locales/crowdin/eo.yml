@@ -22,8 +22,8 @@
 ---
 eo:
   plugin_openproject_documents:
-    name: OpenProject Documents
-    description: An OpenProject plugin to allow creation of documents in projects.
+    name: Malfermu Projekto-Dokumentoj
+    description: Aldonaĵo por OpenProject por permesi krei dokumentojn en projektoj.
   attributes:
     collaborative_editing_hocuspocus_url: Hocuspocus server URL
   activerecord:
@@ -45,15 +45,16 @@ eo:
   default_doc_category_user: Dokumentado por la uzanto
   enumeration_doc_categories: Kategorioj de dokumentoj
   documents:
+    button_add_type: Tipo
     page_header:
       heading: All documents
       action_menu:
         document_actions: Document actions
-        edit_title: Edit title
+        edit_title: Redaktu titolon
     subheader:
       filter:
         label: Document name filter
-        placeholder: Type here to search document names
+        placeholder: Tajpu ĉi tie por serĉi nomojn de dokumentoj
     documents_list_blank_slate:
       heading: There are no documents yet
       description: There are no documents in this view. You can click the button below to add one.
@@ -74,24 +75,24 @@ eo:
         description_server_unavailable: |-
           Unable to open document because the real-time text collaboration server is unreachable.
           Please contact the administrator if the problem persists.
-        action: Try again
+        action: Provu denove
       tabs: Document tabs
     index_page:
       name: Nomo
       type: Tipo
-      updated_at: Last edited
+      updated_at: Laste redaktita
       label_legacy: Legacy
     menu:
       all: All documents
       types: Specoj
       collaboration_settings: Real-time collaboration
-    last_updated_at: Last saved %{time}.
+    last_updated_at: Laste konservita %{time}.
     info_line:
       currently_offline: You are currently offline.
       connection_restored: You are now back online.
-    active_editors: Active editors
+    active_editors: Aktivaj redaktistoj
     active_editors_count:
-      one: 1 active editor
+      one: 1 aktiva redaktisto
       other: "%{count} active editors"
     label_attachment_author: Aŭtoro de la kunsendaĵo
     label_categories: Categories

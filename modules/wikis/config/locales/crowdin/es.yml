@@ -16,7 +16,13 @@ es:
         token_exchange_scope: Ámbito de XWiki
         url: URL de instancia
         wiki_audience: Público de XWiki
-    errors: {}
+    errors:
+      models:
+        wikis/provider:
+          attributes:
+            url:
+              already_taken: pertenece al proveedor de wiki que ya se conoce como «%{name}».
+              wiki_provider_unreachable: no pudo ser encontrado.
     models:
       wikis/inline_page_link:
         one: Enlace a la página integrada
@@ -122,12 +128,19 @@ es:
       save_and_continue: Guardar y continuar
       wiki_page: Página wiki
     create_new_wiki_page_dialog:
-      page_title: Título
-      parent_help_text: Seleccione un padre para esta nueva página de wiki.
       title: Crear nueva página de wiki
+    deferred_inline_page_link_macro_component:
+      loading: Cargando…
     delete_relation_page_link_confirmation_dialog:
       heading: "¿Eliminar el enlace a la página wiki relacionada?"
       title: Eliminar el enlace a la página wiki relacionada
+    errors:
+      connection_error: No se ha podido conectar con el proveedor de la wiki.
+      invalid_parent: La página seleccionada no es una página principal válida.
+      invalid_response: El proveedor de la wiki ha respondido de forma inesperada.
+      missing_token: La cuenta de usuario aún no está vinculada al proveedor de la wiki.
+      request_failed: El proveedor de la wiki ha detectado un error inesperado.
+      unauthorized: Se ha producido un error de autorización.
     health_checks:
       authentication:
         existing_token: Token de usuario
@@ -142,21 +155,28 @@ es:
         xwiki_oauth_request_error: Se ha producido un error inesperado al intentar conectarse con la instancia de XWiki.
         xwiki_oauth_token_missing: OpenProject no puede comprobar la comunicación a nivel de usuario con XWiki, ya que aún no has vinculado tu cuenta de XWiki.
         xwiki_oauth_unauthorized: XWiki no ha reconocido el token de usuario.
+    inline_existing_wiki_page_dialog:
+      title: Añadir página wiki existente
     instructions:
       xwiki:
         integration: Administración de XWiki
         oauth_application_details_html: No podrás volver a acceder al valor del secreto de cliente una vez que cierres esta ventana. Copia estos valores en la [configuración de integración de XWiki con OpenProject](xwiki_admin_link).
     link_existing_wiki_page_dialog:
       title: Añadir una página wiki ya existente
-    link_existing_wiki_page_form:
-      no_results: No se han encontrado páginas de wiki
-      placeholder: Buscar una página de wiki
     oauth_login_component:
       connect_button: Conectar cuenta de %{provider}
       description: Inicie sesión en %{provider} para ver y gestionar las páginas wiki relacionadas desde esta instancia de OpenProject.
       heading: No conectado a %{provider}
     page_link_component:
       remove: Eliminar enlace de página
+    page_link_forms:
+      labels:
+        page_title: Título
+        parent: Página wiki principal
+        wiki_page: Página wiki
+      search:
+        no_results: No se han encontrado páginas wiki
+        placeholder: Busque una página wiki (o introduzca su URL)
     page_links:
       errors:
         page_access_forbidden: No tienes permiso para acceder a esta página wiki
@@ -167,9 +187,13 @@ es:
         name: XWiki
     relation_page_links_component:
       empty_heading: No hay páginas relacionadas
-      empty_text: Añada manualmente enlaces a otras páginas wiki relacionadas.
+      empty_text: Añadir páginas wiki que sean relevantes para este paquete de trabajo.
       link_existing: Página wiki ya existente
       link_new: Nueva página wiki
+    upsell:
+      xwiki:
+        description: Conecta XWiki con OpenProject y mantén la documentación y el trabajo sincronizados, vincula páginas, realiza un seguimiento de las referencias y gestiona todo desde un mismo sitio.
+        title: Integración con XWiki
     work_package_wikis_tab_component:
-      inline_page_links: Enlaces a la página integrada
+      inline_page_links: Mencionado en la descripción
       referencing_pages: Se hace referencia en

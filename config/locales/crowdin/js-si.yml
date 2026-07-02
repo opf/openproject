@@ -77,8 +77,9 @@ si:
     button_confirm: තහවුරු කරන්න
     button_continue: ඉදිරියට යන්න
     button_copy: පිටපත් කරන්න
-    button_copy_to_clipboard: පසුරු පුවරුවට පිටපත් කරන්න
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: පසුරු පුවරුවට පිටපත් කරන්න
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: අභිරුචි ක්ෂේත්ර
     button_delete: මකන්න
@@ -155,16 +156,15 @@ si:
         manual: මාර්ක්ඩවුන් ප්රභවයට මාරු වන්න
         wysiwyg: WYSIWYG සංස්කාරකය වෙත මාරු වන්න
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: ළමා පිටු වලට සබැඳි
+          button: List of sub-pages
           include_parent: දෙමව්පියන් ඇතුළත් කරන්න
-          text: "[Placeholder] ළමා පිටු වෙත සබැඳි"
+          text: "[Placeholder] List of sub-pages of"
           page: විකි පිටුව
           this_page: මෙම පිටුව
           hint: 'වත්මන් පිටුවේ සියලුම ළමා පිටු ලැයිස්තුගත කිරීම සඳහා මෙම ක්ෂේත්රය හිස්ව තබන්න. ඔබට වෙනත් පිටුවක් යොමු කිරීමට අවශ්ය නම්, එහි මාතෘකාව හෝ ස්ලූග් ලබා දෙන්න.
@@ -175,9 +175,14 @@ si:
           title: ඇතුලත් කරන්න/සංස්කරණය කේතය ස්නිපෙට්
           language: හැඩතල භාෂාව
           language_hint: අවධාරණය කිරීම සඳහා භාවිතා කරනු ලබන ආකෘතිකරණ භාෂාව ඇතුළත් කරන්න (සහාය දක්වන්නේ නම්).
-        dropdown:
-          macros: මැක්රෝස්
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] කාවැද්දූ දින දර්ශනය"
+        embedded_table:
+          button: කාවැද්දූ වැඩ පැකේජය වගුව
+          text: "[Placeholder] කාවැද්දූ වැඩ පැකේජය වගුව"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: අන්තර්ගත වගුව
         toolbar_help: විජට් තෝරා ගැනීමට ක්ලික් කරන්න සහ මෙවලම් තීරුව පෙන්වන්න. විජට් සංස්කරණය කිරීමට ද්වි-ක්ලික් කරන්න
         wiki_page_include:
@@ -195,11 +200,6 @@ si:
           button_style_hint: 'විකල්ප: සාර්ව සබැඳියක් ලෙස නොව බොත්තමක් ලෙස පෙනී සිටීමට පරීක්ෂා කරන්න.'
           without_type: වැඩ පැකේජයක් සාදන්න
           with_type: 'වැඩ පැකේජය සාදන්න (වර්ගය: %{typename})'
-        embedded_table:
-          button: කාවැද්දූ වැඩ පැකේජය වගුව
-          text: "[Placeholder] කාවැද්දූ වැඩ පැකේජය වගුව"
-        embedded_calendar:
-          text: "[Placeholder] කාවැද්දූ දින දර්ශනය"
     admin:
       type_form:
         edit_query: විමසුම සංස්කරණය කරන්න
@@ -368,6 +368,7 @@ si:
     label_in_more_than: වඩා වැඩි
     label_incoming_emails: ලැබෙන විද්යුත් තැපැල්
     label_information_plural: තොරතුරු
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: ආනයන
     label_latest_activity: නවතම ක්රියාකාරකම්
@@ -392,6 +393,7 @@ si:
     label_no_value: වටිනාකමක් නැත
     label_none: කිසිවක් නැත
     label_not_contains: අඩංගු නොවේ
+    label_not_available: Not available
     label_not_equals: නැත
     label_on: මත
     label_open_menu: මෙනුව විවෘත කරන්න
@@ -912,11 +914,12 @@ si:
         relation_filters:
           filter_work_packages_by_relation_type: සම්බන්ධතා වර්ගය අනුව වැඩ පැකේජ පෙරහන් කරන්න
       tabs:
-        overview: දළ විශ්ලේෂණය
         activity: ක්‍රියාකාරකම
+        files: ගොනු
+        overview: දළ විශ්ලේෂණය
+        project_attributes: Project attributes
         relations: සබඳතා
         watchers: මුරකරුවන්
-        files: ගොනු
       time_relative:
         days: දින
         weeks: සති

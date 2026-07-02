@@ -93,6 +93,21 @@ eo:
           name: Alta
         item_3:
           name: Tuja
+      departments:
+        item_0:
+          name: Marketing & Communications
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Content
+        item_3:
+          name: Events & Operations
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finance & Administration
+        item_6:
+          name: Quality Assurance
       projects:
         demo-project:
           name: Demo project
@@ -113,12 +128,12 @@ eo:
             item_1:
               name: Milestones
             item_2:
-              name: Tasks
+              name: Taskoj
             item_3:
-              name: Team planner
+              name: Teama planilo
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban-tabulo
             basic:
               name: Baza panelo
               lists:
@@ -182,8 +197,10 @@ eo:
                 item_2:
                   subject: Setup conference website
             item_2:
-              subject: Conference
+              subject: Test and quality-check the conference website
             item_3:
+              subject: Conference
+            item_4:
               subject: Follow-up tasks
               children:
                 item_0:
@@ -195,7 +212,7 @@ eo:
                     *   [ ] Snacks
                     *   [ ] Music
                     *   [ ] Even more beer
-            item_4:
+            item_5:
               subject: End of project
           wiki: |
             _In this wiki you can collaboratively create and edit pages and sub-pages to create a project wiki._
@@ -213,7 +230,7 @@ eo:
 
             More information: [https://www.openproject.org/docs/user-guide/wiki/](https://www.openproject.org/docs/user-guide/wiki/)
         scrum-project:
-          name: Scrum project
+          name: Scrum-projekto
           status_explanation: All tasks are on schedule. The people involved know their tasks. The system is completely set up.
           description: This is a short summary of the goals of this demo Scrum project.
           news:
@@ -228,9 +245,9 @@ eo:
             item_1:
               name: Product Backlog
             item_2:
-              name: Sprint 1
+              name: Spinto 1
               wiki:
-                title: Sprint 1
+                title: Spinto 1
                 content: |
                   ### Sprint planning meeting
 
@@ -278,7 +295,7 @@ eo:
                   * After Sprint Review, will be moderated by Scrum Master.
                   * The team discusses the sprint: what went well, what needs to be improved to be more productive for the next sprint or even have more fun.
             item_3:
-              name: Sprint 2
+              name: Sprinto 2
           categories:
             item_0: Category 1 (to be changed in Project settings)
           queries:
@@ -287,17 +304,17 @@ eo:
             item_1:
               name: Product backlog
             item_2:
-              name: Sprint 1
+              name: Spinto 1
             item_3:
-              name: Tasks
+              name: Taskoj
           boards:
             kanban:
-              name: Kanban board
+              name: Kanban-tabulo
             basic:
-              name: Task board
+              name: Tasktabulo
               lists:
                 item_0:
-                  name: Wish list
+                  name: Dezirlisto
                 item_1:
                   name: Short list
                 item_2:
@@ -308,7 +325,7 @@ eo:
             widgets:
               item_0:
                 options:
-                  name: Welcome
+                  name: Bonvenon
               item_1:
                 options:
                   name: Getting started

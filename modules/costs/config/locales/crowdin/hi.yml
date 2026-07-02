@@ -251,7 +251,7 @@ hi:
       rates:
         title: Rate history
     settings:
-      time_and_costs: Time & Costs
+      time_and_costs: Time and costs
       cost_types:
         heading: Cost types
         none_active: No cost types are currently active in this project.

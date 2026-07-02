@@ -110,7 +110,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
    */
   public buildSelectedOption() {
     const value:HalResource[] = this.resource[this.name];
-    return value ? _.castArray(value).map((val) => this.findValueOption(val)) : [];
+    return value ? (Array.isArray(value) ? value : [value]).map((val) => this.findValueOption(val)) : [];
   }
 
   public get selectedOption() {
@@ -124,7 +124,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   public set selectedOption(val:ValueOption[]) {
     this._selectedOption = val;
     const mapper = (val:ValueOption) => {
-      const option = _.find(this.availableOptions, (o) => o.href === val.href) || this.nullOption;
+      const option = (this.availableOptions as ValueOption[]).find((o) => o.href === val.href) ?? this.nullOption;
 
       // Special case 'null' value, which angular
       // only understands in ng-options as an empty string.
@@ -135,7 +135,7 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
       return option;
     };
 
-    this.resource[this.name] = _.castArray(val).map((el) => mapper(el));
+    (this.resource as Record<string, ValueOption[]>)[this.name] = (Array.isArray(val) ? val : [val]).map((el) => mapper(el) as ValueOption);
   }
 
   public onOpen() {
@@ -161,10 +161,10 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
   }
 
   private findValueOption(option?:HalResource):ValueOption {
-    let result;
+    let result:ValueOption|undefined;
 
     if (option) {
-      result = _.find(this.availableOptions, (valueOption) => valueOption.href === option.href)!;
+      result = (this.availableOptions as ValueOption[]).find((valueOption) => valueOption.href === option.href)!;
     }
 
     return result || this.nullOption;
@@ -225,11 +225,11 @@ export class MultiSelectEditFieldComponent extends EditFieldComponent implements
 
   private checkCurrentValueValidity() {
     if (this.value) {
-      this.currentValueInvalid = !!(
-        // (If value AND)
-        // MultiSelect AND there is no value which href is not in the options hrefs
-        (!_.some(this.value, (value:HalResource) => _.some(this.availableOptions, (option) => (option.href === value.href))))
-      );
+      const resourceValue = (this.resource as Record<string, HalResource[]|HalResource>)[this.name];
+      const values = Array.isArray(resourceValue) ? resourceValue : [resourceValue];
+      // (If value AND)
+      // MultiSelect AND there is no value which href is not in the options hrefs
+      this.currentValueInvalid = !values.some((value:HalResource) => (this.availableOptions as ValueOption[]).some((option) => (option.href === value.href)));
     } else {
       // If no value but required
       this.currentValueInvalid = !!this.schema.required;

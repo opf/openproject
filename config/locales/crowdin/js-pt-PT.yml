@@ -77,8 +77,9 @@ pt-PT:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_to_clipboard: Copiar para a Área de transferência
+    button_copy_numeric_id_to_clipboard: Copiar o ID numérico para a área de transferência
     button_copy_link_to_clipboard: Copiar link para a área de transferência
+    button_copy_to_clipboard: Copiar para a Área de transferência
     button_copy_to_other_project: Duplicar noutro projeto
     button_custom-fields: Campos personalizados
     button_delete: Eliminar
@@ -155,16 +156,15 @@ pt-PT:
         manual: Alterar para fonte Markdown
         wysiwyg: Alternar para o editor do WYSIWYG
       macro:
-        error: 'Não é possível expandir a macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Este segmento de texto está a ser dinamicamente processado por uma macro.
           not_found: Não foi possível encontrar o recurso solicitado
           nested_macro: Esta macro faz referência de forma recursiva a %{model} %{id}.
           invalid_attribute: O atributo selecionado '%{name}' não existe.
         child_pages:
-          button: Links para páginas filho
+          button: Lista de sub-páginas
           include_parent: Incluir pais
-          text: "[Placeholder] links para páginas filho de"
+          text: "[Marcador de posição] lista de sub-páginas de"
           page: Página wiki
           this_page: esta página
           hint: 'Deixe este campo em branco para listar todas as páginas filho da página atual. Se desejat fazer referência a uma página diferente, forneça o seu título ou slug.
@@ -175,9 +175,14 @@ pt-PT:
           title: Inserir / editar o trecho de código
           language: A formatar idioma
           language_hint: Insira a linguagem de formatação que será usada para destacar (se suportado).
-        dropdown:
-          macros: Macros
-          chose_macro: Escolher macro
+        embedded_calendar:
+          text: "[Placeholder] Calendário embutido"
+        embedded_table:
+          button: Incorporar a tabela de pacote de trabalho
+          text: "[Placeholder] Tabela de pacote de trabalho incorporada"
+        error: 'Não é possível expandir a macro: %{message}'
+        macro_dropdown:
+          caption: Inserir
         toc: Índice
         toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget
         wiki_page_include:
@@ -195,11 +200,6 @@ pt-PT:
           button_style_hint: 'Opcional: Verifique para que a macro apareça como um botão, não como um link.'
           without_type: Criar tarefa
           with_type: 'Criar o pacote de trabalho (tipo: %{typename})'
-        embedded_table:
-          button: Incorporar a tabela de pacote de trabalho
-          text: "[Placeholder] Tabela de pacote de trabalho incorporada"
-        embedded_calendar:
-          text: "[Placeholder] Calendário embutido"
     admin:
       type_form:
         edit_query: Editar consulta
@@ -368,6 +368,7 @@ pt-PT:
     label_in_more_than: em mais de
     label_incoming_emails: E-mails recebidos
     label_information_plural: Informação
+    label_infinity: Infinito
     label_invalid: Inválido
     label_import: Importar
     label_latest_activity: Atividade mais recente
@@ -392,6 +393,7 @@ pt-PT:
     label_no_value: Sem valor
     label_none: nenhum
     label_not_contains: não contém
+    label_not_available: Indisponível
     label_not_equals: não é
     label_on: 'on'
     label_open_menu: Abrir menu
@@ -912,11 +914,12 @@ pt-PT:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrar pacotes de trabalho por tipo de relação
       tabs:
-        overview: Sinopse
         activity: Atividade
+        files: Ficheiros
+        overview: Sinopse
+        project_attributes: Project attributes
         relations: Relações
         watchers: Observadores
-        files: Ficheiros
       time_relative:
         days: dias
         weeks: semanas

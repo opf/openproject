@@ -41,8 +41,10 @@ zh-TW:
           active: Active
           completed: Completed
         work_packages: Work packages
+      sprint_goal:
+        text: Sprint goal
       work_package:
-        backlog_bucket: Backlog Bucket
+        backlog_bucket: Backlog bucket
         backlogs_work_package_type: 待辦事項類型
         position: 位置
         sprint: 衝刺
@@ -59,6 +61,8 @@ zh-TW:
             sprint_sharing:
               share_all_projects_already_taken: 無法設定，因為專案 "%{name}" 已經與所有專案共用。
               share_all_projects_already_taken_anonymous: 無法設定，因為另一個專案已經與所有專案共用。
+        sprint_goal:
+          project_already_has_goal: already has a goal for this sprint.
         sprint:
           attributes:
             base:
@@ -81,11 +85,24 @@ zh-TW:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
               not_eligible_for_moving: 工作任務被移出的項目中沒有活耀的衝刺。
     models:
-      sprint: 衝刺
+      sprint:
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Backlog 管理設定不斷演進
       text: 我們目前正在重新設計 Backlogs 模組。在不久的將來，Sprint 和 Backlogs 的管理設定將在此處顯示。專案層級的設定仍然可用。
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Delete backlog bucket?
       details: The backlog bucket '%{name}' will be deleted and all work packages will be moved to the backlog inbox. No work package will be deleted.
@@ -147,6 +164,12 @@ zh-TW:
       action_menu:
         edit_sprint: Edit sprint
         add_work_package: Add work package
+    sprint_form:
+      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
+      goal_for_this_project_label: "%{attribute} (for this project)"
+    sprint_form_component:
+      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
+      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprints_component:
       blankslate:
         title: No sprints present yet
@@ -157,6 +180,7 @@ zh-TW:
         create_description_text: To start planning your sprint, create one here.
         manage_description_html: To start planning your sprint, go to the %{settings_link} to receive sprints from a different project.
         no_actions_description_text: No sprints are available for this project yet.
+      button_new_sprint: New sprint
     story_points:
       other: "%{count} 故事點"
     statuses_considered_closed_caption: 'Choose the statuses that represent a closed or finished state in your workflow. These will be treated as the "Closed" state across reporting (e.g. burndown) and sprint planning. For example, statuses like Done, Resolved, or Won''t Fix may all represent a closed work item in your process.
@@ -177,9 +201,9 @@ zh-TW:
       action_menu:
         copy_url_to_clipboard: Copy URL to clipboard
         copy_work_package_id: Copy work package ID
-        move_menu: Move
+        move_menu: Move to position
         move_to_backlog_bucket: Move to backlog bucket
-        move_to_inbox: Move to inbox
+        move_to_inbox: Move to backlog inbox
         move_to_sprint: Move to sprint
     work_package_is_closed: 視為工作套件已完成
   burndown:

@@ -46,7 +46,7 @@ ro:
     text_otp_delivery_message_sms: Parola unică %{app_title} este %{token}
     text_otp_delivery_message_voice: 'Parola unică %{app_title} este: %{pause} %{token}. %{pause} Repet: %{pause} %{token}'
     text_2fa_enabled: La fiecare autentificare, ți se va cere să introduci un token OTP de pe dispozitivul 2FA implicit.
-    text_2fa_disabled: Pentru a activa autentificarea doi factori, utilizează butonul de mai sus pentru a înregistra un nou dispozitiv 2FA. Dacă ai deja un dispozitiv, trebuie să îl faci implicit.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Introdu codul de rezervă
       enter_backup_code_text: Te rog să introduci un cod de rezervă valabil din lista ta de coduri în cazul în care nu mai poți accesa dispozitivele 2FA înregistrate.
@@ -160,7 +160,7 @@ ro:
         '
       other_active_session_notice: Contul dvs. are un modul cookie de reamintire activ într-o altă sesiune.
       label: Reține autentificarea
-      clear_cookie: Clic aici pentru a elimina toate sesiunile 2FA reținute.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Toate sesiunile 2FA memorate au fost eliminate.
       dont_ask_again: Creați un modul cookie pentru a reține autentificarea 2FA pe acest client timp de %{days} zile.
   field_otp: Parolă unică
@@ -171,6 +171,7 @@ ro:
   notice_account_has_no_phone: Nici un număr de telefon mobil nu este asociat contului dvs.
   label_confirmed: Confirmat
   button_continue: Continuaţi
+  button_make_active: Activate
   button_make_default: Marcați ca implicit
   notice_phone_number_format: 'Te rog să introduci numărul în următorul format: +XX XXXXXXXX.'
   text_otp_not_receive: Alte metode de verificare

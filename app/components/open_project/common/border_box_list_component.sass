@@ -58,7 +58,6 @@
   grid-template-columns: minmax(0, 1fr) minmax(5rem, max-content) auto
   grid-template-areas: "heading actions menu" "description description description"
   align-items: center
-  row-gap: var(--op-border-box-list-header-row-gap)
 
   &_collapsible
     grid-template-areas: "heading actions menu"
@@ -80,3 +79,6 @@
 
     .Box-title
       min-width: 0
+
+  &--description
+    margin-top: var(--op-border-box-list-header-row-gap)

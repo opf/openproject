@@ -77,8 +77,9 @@ id:
     button_confirm: Konfirmasi
     button_continue: Lanjut
     button_copy: Salin
-    button_copy_to_clipboard: Copy to clipboard
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Isian kustom
     button_delete: Hapus
@@ -155,16 +156,15 @@ id:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Tautkan ke anak halaman
+          button: List of sub-pages
           include_parent: Sertakan induk
-          text: "[Placeholder] Tertaut pada anak halaman ke"
+          text: "[Placeholder] List of sub-pages of"
           page: Halaman Wiki
           this_page: halaman ini
           hint: 'Kosongkan kolom ini untuk mencantumkan semua anak halaman dari halaman ini. jika anda ingin mereferensikan halaman berbeda, tambahkan judul atau hal terkait.
@@ -175,9 +175,14 @@ id:
           title: Sisipkan / edit cuplikan kode
           language: Memformat bahasa
           language_hint: Masukan format bahasa yang akan digunakan untuk menyorot(jika didukung).
-        dropdown:
-          macros: Makro
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Daftar isi
         toolbar_help: Klik untuk memilih widget dan menampilkan toolbar. klik dua kali untuk mengedit widget
         wiki_page_include:
@@ -195,11 +200,6 @@ id:
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: Create work package
           with_type: 'Create work package (Type: %{typename})'
-        embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
         edit_query: Edit query
@@ -368,6 +368,7 @@ id:
     label_in_more_than: lebih dari
     label_incoming_emails: Email masuk
     label_information_plural: Informasi
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Impor
     label_latest_activity: Latest activity
@@ -392,6 +393,7 @@ id:
     label_no_value: Kosongkan
     label_none: kosong
     label_not_contains: tidak berisi
+    label_not_available: Not available
     label_not_equals: tidak
     label_on: pada
     label_open_menu: Buka menu
@@ -911,11 +913,12 @@ id:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Tinjauan
         activity: Activity
+        files: File
+        overview: Tinjauan
+        project_attributes: Project attributes
         relations: Relasi
         watchers: Pemantau
-        files: File
       time_relative:
         days: hari
         weeks: minggu

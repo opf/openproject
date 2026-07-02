@@ -26,6 +26,7 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
+import { isEqual } from 'lodash-es';
 import { MultiInputState } from '@openproject/reactivestates';
 import { WorkPackageResource } from 'core-app/features/hal/resources/work-package-resource';
 import { Injectable, Injector } from '@angular/core';
@@ -88,7 +89,7 @@ export class WorkPackageCache extends StateCacheService<WorkPackageResource> {
       // so that no consumer needs to call schema#$load manually
       void this.schemaCacheService.ensureLoaded(wp).then(() => {
         // Check if the work package has changed
-        if (skipOnIdentical && state.hasValue() && _.isEqual(state.value!.$source, wp.$source)) {
+        if (skipOnIdentical && state.hasValue() && isEqual(state.value!.$source, wp.$source)) {
           debugLog('Skipping identical work package from updating');
           return;
         }

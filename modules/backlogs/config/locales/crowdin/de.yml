@@ -41,8 +41,10 @@ de:
           active: Aktiv
           completed: Abgeschlossen
         work_packages: Arbeitspakete
+      sprint_goal:
+        text: Sprintziel
       work_package:
-        backlog_bucket: Backlog Bucket
+        backlog_bucket: Backlog buckets
         backlogs_work_package_type: Backlog Typ
         position: Position
         sprint: Sprint
@@ -59,6 +61,8 @@ de:
             sprint_sharing:
               share_all_projects_already_taken: kann nicht gewählt werden, da das Projekt "%{name}" bereits mit allen Projekten teilt.
               share_all_projects_already_taken_anonymous: kann nicht gewählt werden, da ein anderes Projekt bereits mit allen Projekten teilt.
+        sprint_goal:
+          project_already_has_goal: hat bereits ein Ziel für diesen Sprint.
         sprint:
           attributes:
             base:
@@ -82,11 +86,25 @@ de:
               not_assignable: ist nicht zuweisbar, da es entweder nicht mit dem Projekt geteilt oder bereits beendet ist.
               not_eligible_for_moving: ist kein aktiver Sprint in dem Projekt, in dem der Sprint liegt, aus dem das Arbeitspaket verschoben wird.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Die Einstellungen des Backlogs-Moduls sind derzeit in der Entwicklung
       text: Wir gestalten gerade das Backlogs-Modul neu. Die Einstellungen für Sprints und Backlogs werden in naher Zukunft hier sichtbar sein. Einstellungen auf Projektebene bleiben weiterhin verfügbar.
+    backlog_component:
+      button_new_backlog_bucket: Neuer Backlog Bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog buckets
+        other: Backlog buckets
+        zero: Alle Backlog Buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: Alle Sprints
+      select_panel_title: Elemente auswählen
     bucket_destroy_modal_component:
       title: Backlog Bucket löschen?
       details: Der Backlog Bucket '%{name}' wird gelöscht und alle Arbeitspakete werden in den Eingangs Backlog verschoben. Kein Arbeitspaket wird gelöscht.
@@ -150,6 +168,12 @@ de:
       action_menu:
         edit_sprint: Sprint bearbeiten
         add_work_package: Arbeitspaket hinzufügen
+    sprint_form:
+      goal_caption: Das Sprintziel gilt ausschließlich für dieses Projekt und wird nicht mit anderen Projekten geteilt, die denselben Sprint nutzen.
+      goal_for_this_project_label: "%{attribute} (für dieses Projekt)"
+    sprint_form_component:
+      shared_sprint_info_banner: Dies ist ein geteilter Sprint. Änderungen werden in allen Projekten, die diesen Sprint nutzen, übernommen.
+      shared_sprint_warning_banner: Dies ist ein geteilter Sprint. Sie verfügen nicht über die erforderlichen Berechtigungen, um ihn zu bearbeiten.
     sprints_component:
       blankslate:
         title: Noch keine Sprints vorhanden
@@ -160,6 +184,7 @@ de:
         create_description_text: Um mit der Planung Ihres Sprints zu beginnen, erstellen Sie hier einen Sprint.
         manage_description_html: Um mit der Planung Ihres Sprints zu beginnen, gehen Sie auf %{settings_link}, um Sprints aus einem anderen Projekt zu empfangen.
         no_actions_description_text: Für dieses Projekt sind noch keine Sprints vorhanden.
+      button_new_sprint: Neuer Sprint
     story_points:
       one: "%{count} Story-Punkte"
       other: "%{count} Story-Points"
@@ -181,9 +206,9 @@ de:
       action_menu:
         copy_url_to_clipboard: URL in die Zwischenablage kopieren
         copy_work_package_id: Arbeitspaket-ID kopieren
-        move_menu: Verschieben
+        move_menu: Verschiebe zu Position
         move_to_backlog_bucket: In Backlog Bucket verschieben
-        move_to_inbox: In Posteingang verschieben
+        move_to_inbox: In Backlog Bucket verschieben
         move_to_sprint: Zum Sprint verschieben
     work_package_is_closed: Arbeitspaket ist abgeschlossen, wenn
   burndown:

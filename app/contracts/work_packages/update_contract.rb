@@ -76,8 +76,6 @@ module WorkPackages
 
     validate :can_move_to_milestone
 
-    validate :user_allowed_to_change_parent
-
     default_attribute_permission :edit_work_packages
     attribute_permission :project_id, :move_work_packages
 
@@ -122,17 +120,6 @@ module WorkPackages
 
       if model.children.any?
         errors.add :type, :cannot_be_milestone_due_to_children
-      end
-    end
-
-    def user_allowed_to_change_parent # rubocop:disable Metrics/AbcSize
-      return if model.parent_id.nil? || model.parent.nil?
-      return unless model.parent_id_changed?
-      return unless self.class.update_parent_allowed?(user:, work_package: model)
-
-      unless model.parent.visible?(user) &&
-             user.allowed_in_project?(:manage_subtasks, model.parent.project)
-        errors.add :parent_id, :error_unauthorized
       end
     end
   end

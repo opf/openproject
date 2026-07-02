@@ -124,19 +124,6 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
         end
       end
 
-      context "when params[:all] is true" do
-        before do
-          vc_test_controller.params[:all] = "1"
-        end
-
-        it "propagates ?all=1 to the work package drop URL" do
-          expect(rendered_component).to have_css(".Box-row#work_package_#{work_package1.id}") do |row|
-            expect(row["data-drop-url"])
-              .to eq(move_project_backlogs_work_package_path(project, work_package1, all: "1"))
-          end
-        end
-      end
-
       it "renders the sprint kebab menu in the header" do
         expect(rendered_component).to have_element :"action-menu"
       end
@@ -205,6 +192,73 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
       end
     end
 
+    describe "edit menu visibility for shared sprints" do
+      let(:source_project) { create(:project, sprint_sharing: "share_all_projects", types: [type_feature, type_task]) }
+      let(:project) { create(:project, sprint_sharing: "receive_shared", types: [type_feature, type_task]) }
+      let(:sprint) do
+        create(:sprint, project: source_project, name: "Shared Sprint",
+                        start_date: Date.yesterday, finish_date: Date.tomorrow)
+      end
+
+      context "when user has create_sprints only in the defining project" do
+        let(:user) do
+          create(:user,
+                 member_with_roles: {
+                   project => create(:project_role, permissions: %i[view_sprints view_work_packages]),
+                   source_project => create(:project_role, permissions: %i[view_sprints create_sprints])
+                 })
+        end
+
+        it "renders the edit sprint menu item" do
+          expect(rendered_component).to have_text("Edit sprint")
+        end
+      end
+
+      context "when user has create_sprints in neither project" do
+        let(:user) do
+          create(:user,
+                 member_with_roles: {
+                   project => create(:project_role, permissions: %i[view_sprints view_work_packages]),
+                   source_project => create(:project_role, permissions: %i[view_sprints])
+                 })
+        end
+
+        it "does not render the edit sprint menu item" do
+          expect(rendered_component).to have_no_text("Edit sprint")
+        end
+      end
+    end
+
+    describe "sprint goal in header" do
+      context "when the sprint has a goal for the project" do
+        before do
+          create(:sprint_goal, sprint:, project:, text: "Ship the reporting dashboard")
+        end
+
+        it "renders the goal text" do
+          expect(rendered_component).to have_text("Ship the reporting dashboard")
+        end
+
+        it "describes the sprint heading with the goal text" do
+          expect(rendered_component).to have_heading(
+            "Sprint 1",
+            level: 4,
+            accessible_description: "Ship the reporting dashboard"
+          )
+        end
+      end
+
+      context "when the sprint has no goal for the project" do
+        it "does not render goal text" do
+          expect(rendered_component).to have_no_css("#sprint_#{sprint.id}_goal")
+        end
+
+        it "does not describe the sprint heading" do
+          expect(rendered_component).to have_css("h4", text: "Sprint 1", aria: { describedby: nil })
+        end
+      end
+    end
+
     describe "sprint actions in header" do
       context "when the sprint is in planning with date range set" do
         let(:sprint) do
@@ -247,10 +301,10 @@ RSpec.describe Backlogs::SprintComponent, type: :component do
             vc_test_controller.params[:all] = "1"
           end
 
-          it "preserves ?all=1 on the complete-sprint link" do
+          it "preserves ?all=true on the complete-sprint link" do
             expect(rendered_component).to have_link(
               "Complete sprint",
-              href: finish_project_backlogs_sprint_path(project, sprint, all: 1)
+              href: finish_project_backlogs_sprint_path(project, sprint, all: true)
             )
           end
         end

@@ -87,7 +87,7 @@ export class TableEditForm extends EditForm<WorkPackageResource> {
   }
 
   destroy() {
-    _.each(this.activeFields, (field) => {
+    Object.values(this.activeFields).forEach((field) => {
       field.deactivate(false);
     });
     this.resourceSubscription.unsubscribe();

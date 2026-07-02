@@ -3,11 +3,11 @@ it:
   activerecord:
     attributes:
       resource_allocation:
-        allocated_hours: Hours
+        allocated_hours: Ore
         allocated_time: Tempo assegnato
         end_date: Data di fine
         entity: Entità
-        filter_name: Resource filter name
+        filter_name: Nome del filtro delle risorse
         principal: Assegnatario
         start_date: Data di inizio
         state: Stato
@@ -36,12 +36,14 @@ it:
     models:
       resource_allocation: Allocazione delle risorse
       resource_planner: Pianificatore di risorse
+      resource_user_card: Schede utente
       resource_work_package_list: Elenco macro-attività
-      user_card: Schede utente
   button_next: Avanti
   label_resource_management: Pianificazione delle risorse
   permission_allocate_user_resources: Assegnazione delle risorse utente
   permission_allocate_user_resources_explanation: Consente di creare, aggiornare ed eliminare allocazioni delle risorse all'interno di un pianificatore risorse. Ciò include l'assegnazione di utenti o filtri utente a un pianificatore e la regolazione del tempo allocato e dell'intervallo di date.
+  permission_assign_users_to_generic_allocations: Assign users to generic allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
   permission_manage_public_resource_planners: Gestire i pianificatori di risorse pubbliche
   permission_manage_public_resource_planners_explanation: Consente agli utenti di creare e gestire pianificatori delle risorse pubblici. Permette loro di visualizzare, creare, gestire e pubblicare i propri pianificatori delle risorse. Non consente di visualizzare i pianificatori delle risorse creati da altri utenti che non sono condivisi pubblicamente.
   permission_view_resource_planners: Visualizza i pianificatori di risorse
@@ -53,37 +55,51 @@ it:
   resource_management:
     action:
       delete: Elimina
+      edit: Modifica
       favorite: Aggiungi ai preferiti
       make_private: Rendi privato
       make_public: Rendi pubblico
       unfavorite: Rimuovi dai preferiti
     allocation:
       hours: "%{value}h"
-      no_work: No work planned on this work package
+      no_work: Nessun lavoro pianificato per questa macro-attività
       summary: "%{allocated} / %{scheduled}"
     allocate_resource_dialog:
       kind:
         filter:
-          caption: Set filter criteria based on user attributes to create a placeholder resource.
-          label: Filter criteria
-        label: Allocation type
+          caption: Imposta criteri di filtro basati sugli attributi utente per creare una risorsa segnaposto.
+          label: Criteri di filtro
+        label: Tipo di allocazione
         principal:
-          caption: Allocate hours for a specific user.
-          label: User
+          caption: Assegnare ore a un utente specifico.
+          label: Utente
       outside_dates:
-        description: The selected resource dates, %{resource_dates}, are outside of the work package's dates, %{work_package_dates}.
+        description: Le date della risorsa selezionata, %{resource_dates}, non rientrano nelle date della macro-attività, %{work_package_dates}.
       overbooking:
-        capacity_summary: "%{available} available · %{scheduled} scheduled"
-        description: The selected user, %{user}, would be allocated beyond their working hours during this period.
-        hidden_work: Other allocations
-        schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
-        schedule_note: This user works %{schedule}.
-        submit: Allocate overtime
-        title: Do you want to allocate overtime to the user?
-      submit: Allocate
-      success_message: Resource allocated.
-      title: Allocate resource
+        capacity_summary: "%{available} disponibili · %{scheduled} programmati"
+        description: L'utente selezionato, %{user}, verrebbe assegnato oltre il proprio orario di lavoro durante questo periodo.
+        hidden_work: Altre assegnazioni
+        schedule_availability: "%{schedule} (%{factor}% disponibile per il lavoro sui progetti)"
+        schedule_change: fino al giorno %{date}, poi %{schedule}
+        schedule_note: Questo utente lavora al %{schedule}.
+        submit: Assegna straordinario
+        title: Vuoi assegnare ore di straordinario all'utente?
+      submit: Assegna
+      success_message: Risorsa assegnata.
+      title: Assegna risorsa
+    assignment_dialog:
+      available: "%{hours} available"
+      confirm_overtime: Assign anyway
+      filter_criteria: Filter criteria
+      no_candidates:
+        description: No project member matches this allocation's filter criteria.
+        title: No matching members
+      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
+      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
+      requested_for: Requested for
+      select_user: Please select a user to assign.
+      submit: Assign
+      title: Assign %{filter_name}
     blankslate:
       desc: Crea un pianificatore di risorse per iniziare a pianificare la capacità di questo progetto.
       title: Ancora nessun pianificatore di risorse
@@ -99,10 +115,11 @@ it:
           label: Selezionato manualmente
       title: Configura vista
     edit_allocation_dialog:
-      submit: Save
-      success_message: Resource allocation updated.
-      title: Edit allocation
+      submit: Salva
+      success_message: Assegnazione della risorsa aggiornata.
+      title: Modifica assegnazione
     favorite_caption: Aggiungi questa vista ai preferiti per mostrarla nella sezione superiore del menu laterale.
+    label_edit_resource_planner: Modifica il pianificatore delle risorse
     label_new_resource_planner: Nuovo pianificatore di risorse
     label_resource_planner: Pianificatore di risorse
     label_resource_planner_plural: Pianificatori di risorse
@@ -114,31 +131,86 @@ it:
     sidebar:
       private: Privato
       public: Pubblico
+    staffing:
+      assign: Assign user
+      blank:
+        description: All generic allocations in this project have a user assigned.
+        title: Nothing to staff
+      columns:
+        dates: Dates
+        requested_time: Requested time
+        resource: Resource
+        work_package: Work package
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation?
+      menu_item: Staffing
+      starts_in_past: This allocation has already started and is still unassigned.
+      success_message: User assigned.
+      title: Staffing
     sub_views: Viste in questo pianificatore di risorse
+    user_allocations_dialog:
+      allocate_work_package: Assegna macro-attività
+      blank: A questo utente non è assegnata alcuna macro-attività.
+      other_work_packages:
+        one: 1 altra macro-attività
+        other: Altre %{count} macro-attività
+      title: Utilizzo
+    user_card_list:
+      add_user_dialog:
+        title: Aggiungi utente
+      blank:
+        description: Non ci sono ancora utenti che corrispondono ai filtri di questa vista.
+        manual_description: Non è stato ancora aggiunto alcun utente a questa vista.
+        title: Nessun utente da mostrare
+      card:
+        multi_value_more: "+%{count} more"
+        remove: Rimuovi utente
+        remove_confirmation: Rimuovere questo utente dalla vista?
+      fields:
+        working_times: Orari di lavoro
+        input_label: Campi
+        input_caption: Seleziona i campi che verranno visualizzati nella scheda utente per questa vista
+        input_placeholder: Aggiungi un campo
+        drag_area_label: Campi visualizzati
+      subheader:
+        resource: Risorsa
+        settings: Configura vista
+      utilization:
+        label: Utilizzo
+      working_hours:
+        blank: No working hours configured
+        schedule_availability_compact: "%{schedule} (%{factor}% available)"
+        schedule_change_compact: until %{date}, %{schedule}
     view_types:
+      resource_user_card:
+        caption: Crea una vista basata sugli utenti per consultare i loro dettagli e le allocazioni in un elenco di schede utente
+        label: Elenco di schede utenti
       resource_work_package_list:
         caption: Crea una vista basata su macro-attività e visualizza i dettagli e l'allocazione in un elenco
         label: Elenco macro-attività
+      resource_work_package_timeline:
+        caption: Crea una vista basata sulle macro-attività e visualizzane le assegnazioni nel tempo su una sequenza temporale
+        label: Sequenza temporale delle macro-attività
       user_card:
         caption: Crea una vista basata sugli utenti per consultare i loro dettagli e le allocazioni in un elenco di schede utente
         label: Elenco di schede utenti
     work_package_allocations_dialog:
-      allocate_resource: Allocate resource
-      context_menu_label: Allocation actions
-      delete_confirmation: Are you sure you want to delete this allocation? This cannot be undone.
-      delete_success: Resource allocation deleted.
-      hidden_user: Hidden user
-      overbooked: The user is allocated beyond their working hours during this period.
-      title: Allocation
+      allocate_resource: Assegna risorsa
+      context_menu_label: Azioni di assegnazione
+      delete_confirmation: Vuoi davvero eliminare questa assegnazione? Questa azione è irreversibile.
+      delete_success: Assegnazione della risorsa eliminata.
+      hidden_user: Utente nascosto
+      overbooked: L'utente è assegnato oltre il proprio orario di lavoro durante questo periodo.
+      title: Assegnazione
     work_package_list:
       add_work_package_dialog:
         title: Aggiungi macro-attività
       allocated_members:
         additional: "+%{count}"
         other_users:
-          one: "%{count} user"
-          other: "%{count} users"
-        unassigned: Unassigned
+          one: "%{count} utente"
+          other: "%{count} utenti"
+        unassigned: Non assegnato
       allocation_placeholder: "—"
       blank:
         description: Non ci sono ancora macro-attività che corrispondono ai filtri di questa vista.
@@ -167,3 +239,19 @@ it:
         add_work_package: Aggiungi macro-attività
         allocate: Alloca
         settings: Configura vista
+    work_package_timeline:
+      blank:
+        add_work_package: Aggiungi macro-attività
+        configure_view: Configura vista
+        description: Non ci sono ancora macro-attività che corrispondono ai filtri di questa vista.
+        manual_description: Aggiungi macro-attività a questa vista per pianificarne l'assegnazione nel tempo.
+        title: Nessuna macro-attività da visualizzare
+      granularity:
+        day: Giorno
+        month: Mese
+        week: Settimana dell'anno
+      navigation:
+        next: Periodo successivo
+        previous: Periodo precedente
+        today: Oggi
+      query_name: 'Sequenza temporale delle macro-attività di gestione delle risorse: %{name}'

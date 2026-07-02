@@ -55,7 +55,7 @@ export class WorkPackageSplitViewEntryComponent implements OnDestroy {
   @Input() activeTab:string;
   @Input() resizerClass:string;
 
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   constructor() {
     populateInputsFromDataset(this);

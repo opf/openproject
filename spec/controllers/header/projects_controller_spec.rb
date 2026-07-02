@@ -38,6 +38,7 @@ RSpec.describe Header::ProjectsController do
   end
 
   describe "#index" do
+    render_views
     shared_let(:parent_project) { create(:project, name: "Alpha Parent") }
     shared_let(:child_project)  { create(:project, name: "Beta Child", parent: parent_project) }
     shared_let(:other_project)  { create(:project, name: "Gamma Other") }
@@ -116,6 +117,20 @@ RSpec.describe Header::ProjectsController do
         it "returns an empty project list" do
           make_request
           expect(assigns(:projects)).to be_empty
+        end
+
+        it "renders the no-favourites placeholder" do
+          make_request
+          expect(response.body).to include("op-header-project-select--no-favourites")
+        end
+
+        context "when a query is present" do
+          subject(:make_request) { get :index, params: { filter_mode: "favorited", query: "Alpha" } }
+
+          it "does not render the no-favourites placeholder" do
+            make_request
+            expect(response.body).not_to include("op-header-project-select--no-favourites")
+          end
         end
       end
 

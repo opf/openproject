@@ -1,0 +1,124 @@
+<%#-- copyright
+OpenProject is an open source project management software.
+Copyright (C) the OpenProject GmbH
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See COPYRIGHT and LICENSE files for more details.
+
+++#%>
+
+<%=
+  flex_layout(**card_options) do |card|
+    card.with_row do
+      flex_layout(align_items: :center) do |header|
+        header.with_column(mr: 2) do
+          render(Users::AvatarComponent.new(user: @user, show_name: false, link: false, hover_card: { active: false }))
+        end
+
+        header.with_column(flex: 1, mr: 2, classes: "op-user-card--identity") do
+          flex_layout do |identity|
+            identity.with_row do
+              render(Primer::Beta::Text.new(font_weight: :semibold, classes: "op-user-card--name")) { @user.name }
+            end
+
+            if (title = job_title)
+              identity.with_row do
+                render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { title }
+              end
+            end
+          end
+        end
+
+        header.with_column do
+          render(Primer::Beta::Label.new(scheme: status_scheme)) { status_label }
+        end
+
+        if @remove_path
+          header.with_column(ml: 2) do
+            render(
+              Primer::Beta::IconButton.new(
+                icon: :trash,
+                scheme: :danger,
+                tag: :a,
+                href: @remove_path,
+                label: t("resource_management.user_card_list.card.remove"),
+                aria: { label: t("resource_management.user_card_list.card.remove") },
+                data: {
+                  turbo_method: :delete,
+                  turbo_confirm: t("resource_management.user_card_list.card.remove_confirmation")
+                }
+              )
+            )
+          end
+        end
+      end
+    end
+
+    card_field_rows.each do |field|
+      card.with_row(mt: 3) do
+        flex_layout(align_items: :center) do |row|
+          row.with_column(mr: 2) do
+            if field.icon
+              render(Primer::Beta::Octicon.new(icon: field.icon, color: :muted))
+            else
+              render(Primer::Beta::Text.new(font_size: :small, color: :muted)) { "#{field.label}:" }
+            end
+          end
+
+          row.with_column(flex: 1, classes: "op-user-card--attribute-value") do
+            if field.multi_value
+              render_value_labels(field.value)
+            else
+              render(Primer::Beta::Text.new(font_size: :small, color: field.icon ? :muted : :default)) { field.value }
+            end
+          end
+        end
+      end
+    end
+
+    if utilization?
+      card.with_row(mt: 3) do
+        flex_layout do |bar|
+          bar.with_row(mb: 1) do
+            flex_layout(justify_content: :space_between, align_items: :center) do |line|
+              line.with_column do
+                render(Primer::Beta::Text.new(font_size: :small)) do
+                  t("resource_management.user_card_list.utilization.label")
+                end
+              end
+              line.with_column do
+                render(Primer::Beta::Text.new(font_size: :small, color: :muted)) do
+                  utilization_label
+                end
+              end
+            end
+          end
+
+          bar.with_row do
+            render(ResourcePlannerViews::UserCardList::UtilizationBarComponent.new(value: @utilization))
+          end
+        end
+      end
+    end
+  end
+%>

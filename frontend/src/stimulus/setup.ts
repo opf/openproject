@@ -31,6 +31,7 @@ import EditablePageHeaderTitleController from './controllers/dynamic/editable-pa
 import WorkingHoursFormController from './controllers/dynamic/users/working-hours-form.controller';
 import DailyRemindersController from './controllers/dynamic/my/daily-reminders.controller';
 import HeaderProjectSelectController from './controllers/header-project-select.controller';
+import WorkPackageTimelineController from './controllers/dynamic/resource-management/work-package-timeline.controller';
 import NonWorkingTimesController from './controllers/dynamic/users/non-working-times.controller';
 import NonWorkingTimesFormController from './controllers/dynamic/users/non-working-times-form.controller';
 import OpPasswordForceChangeController from './controllers/password-force-change.controller';
@@ -48,7 +49,7 @@ import SelectAutosizeController from 'core-stimulus/controllers/select-autosize.
 import OpZenModeController from 'core-stimulus/controllers/zen-mode.controller';
 import CheckAllController from 'core-stimulus/controllers/check-all.controller';
 import CheckableController from 'core-stimulus/controllers/checkable.controller';
-import TruncationController from 'core-stimulus/controllers/truncation.controller';
+import ExpandableTextController from 'core-stimulus/controllers/expandable-text.controller';
 
 declare global {
   interface Window {
@@ -96,13 +97,14 @@ OpenProjectStimulusApplication.preregister('select-autosize', SelectAutosizeCont
 OpenProjectStimulusApplication.preregister('editable-page-header-title', EditablePageHeaderTitleController);
 OpenProjectStimulusApplication.preregister('users--working-hours-form', WorkingHoursFormController);
 OpenProjectStimulusApplication.preregister('my--daily-reminders', DailyRemindersController);
+OpenProjectStimulusApplication.preregister('resource-management--work-package-timeline', WorkPackageTimelineController);
 OpenProjectStimulusApplication.preregister('users--non-working-times', NonWorkingTimesController);
 OpenProjectStimulusApplication.preregister('users--non-working-times-form', NonWorkingTimesFormController);
 OpenProjectStimulusApplication.preregister('password-force-change', OpPasswordForceChangeController);
 OpenProjectStimulusApplication.preregister('check-all', CheckAllController);
 OpenProjectStimulusApplication.preregister('header-project-select', HeaderProjectSelectController);
 OpenProjectStimulusApplication.preregister('checkable', CheckableController);
-OpenProjectStimulusApplication.preregister('truncation', TruncationController);
+OpenProjectStimulusApplication.preregister('expandable-text', ExpandableTextController);
 
 const instance = OpenProjectStimulusApplication.start();
 window.Stimulus = instance;

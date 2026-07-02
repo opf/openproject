@@ -48,6 +48,7 @@ class ResourceAllocation < ApplicationRecord
   belongs_to :principal, class_name: "User", optional: true, inverse_of: :resource_allocations
   belongs_to :requested_by, class_name: "User", optional: true
   belongs_to :reviewed_by, class_name: "User", optional: true
+  belongs_to :principal_assigned_by, class_name: "User", optional: true
 
   serialize :user_filter, coder: Queries::Serialization::Filters.new(UserQuery)
 
@@ -56,7 +57,7 @@ class ResourceAllocation < ApplicationRecord
   register_journal_formatted_fields "state", formatter_key: :plaintext
   register_journal_formatted_fields "start_date", "end_date", formatter_key: :datetime
   register_journal_formatted_fields "allocated_time", formatter_key: :allocated_time
-  register_journal_formatted_fields "principal_id", "requested_by_id", "reviewed_by_id",
+  register_journal_formatted_fields "principal_id", "requested_by_id", "reviewed_by_id", "principal_assigned_by_id",
                                     formatter_key: :named_association
   register_journal_formatted_fields "entity_gid", formatter_key: :polymorphic_association
   register_journal_formatted_fields "filter_name", formatter_key: :plaintext

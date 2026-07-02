@@ -34,7 +34,7 @@ eo:
   description_multi_select: Show multiselect
   description_remove_filter: Remove filter
   information_restricted_depending_on_permission: Depending on your permissions this page might contain restricted information.
-  label_click_to_edit: Click to edit.
+  label_click_to_edit: Klaku por redakti.
   label_closed: fermita
   label_columns: Kolumnoj
   label_cost_entry_attributes: Cost entry attributes
@@ -65,11 +65,11 @@ eo:
   label_spent_on_reporting: Date (Spent)
   label_sum: Sumo
   label_units: Units
-  label_week_reporting: Week (Spent)
+  label_week_reporting: Semajno (Pasigita)
   label_year_reporting: Year (Spent)
   label_count: Count
   label_filter: Filtrilo
-  label_filter_add: Add Filter
+  label_filter_add: Aldoni filtrilon
   label_filter_plural: Filtriloj
   label_group_by: Grupigi laŭ
   label_group_by_add: Add Group-by Attribute
@@ -83,7 +83,7 @@ eo:
   permission_save_cost_reports: Save public cost reports
   permission_save_private_cost_reports: Save private cost reports
   project_module_reporting_module: Cost reports
-  text_costs_are_rounded_note: Displayed values are rounded. All calculations are based on the non-rounded values.
+  text_costs_are_rounded_note: Montrataj valoroj estas rondigitaj. Ĉiuj kalkuloj baziĝas sur la nerondigitaj valoroj.
   toggle_multiselect: activate/deactivate multiselect
   units: Units
   validation_failure_date: is not a valid date

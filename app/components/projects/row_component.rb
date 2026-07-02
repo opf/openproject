@@ -49,7 +49,8 @@ module Projects
       ""
     end
 
-    def favorited # rubocop:disable Metrics/AbcSize
+    def favorited # rubocop:disable Metrics/AbcSize,Metrics/PerceivedComplexity
+      return nil unless User.current.logged?
       return nil if project.archived?
 
       render(Primer::Beta::IconButton.new(
@@ -274,21 +275,39 @@ module Projects
     end
 
     def button_links
-      if more_menu_items.empty?
-        []
+      # The action menu is currently only relevant for logged in users
+      # short-circuiting this call for anonymous users, which often hit our projects page.
+      return [] if !User.current.logged? || menu_items&.empty?
+
+      if menu_items
+        [action_menu(items: menu_items)]
       else
-        [action_menu]
+        [action_menu(src: menu_href)]
       end
     end
 
-    def action_menu
-      render(Primer::Alpha::ActionMenu.new(test_selector: "project-list-row--action-menu")) do |menu|
-        menu.with_show_button(scheme: :invisible,
-                              size: :small,
-                              icon: :"kebab-horizontal",
-                              "aria-label": t(:label_open_menu),
-                              tooltip_direction: :w)
-        more_menu_items.each do |action_options|
+    # Subclasses can override inline `menu_items` or `menu_href` in order to control
+    # what is displayed in the action menu.
+    def menu_items = nil
+    def menu_href = list_row_menu_project_path(project, status: params[:status])
+
+    def action_menu(src: nil, items: nil)
+      raise ArgumentError, "provide either src: or items:, not both" if src && items
+      raise ArgumentError, "provide either src: or items:" unless src || items
+
+      render(Primer::Alpha::ActionMenu.new(
+               menu_id: Projects::RowActionsComponent.menu_id(project),
+               test_selector: "project-list-row--action-menu",
+               src:
+             )) do |menu|
+        menu.with_show_button(
+          scheme: :invisible,
+          size: :small,
+          icon: :"kebab-horizontal",
+          "aria-label": t(:label_open_menu),
+          tooltip_direction: :w
+        )
+        items&.each do |action_options|
           action_options => { scheme:, label:, icon:, **button_options }
           menu.with_item(scheme:,
                          label:,
@@ -297,132 +316,6 @@ module Projects
             item.with_leading_visual_icon(icon:) if icon
           end
         end
-      end
-    end
-
-    def more_menu_items
-      @more_menu_items ||= [more_menu_subproject_item,
-                            more_menu_settings_item,
-                            more_menu_activity_item,
-                            more_menu_favorite_item,
-                            more_menu_unfavorite_item,
-                            more_menu_archive_item,
-                            more_menu_unarchive_item,
-                            more_menu_copy_item,
-                            more_menu_delete_item].compact
-    end
-
-    def more_menu_favorite_item
-      return if currently_favorited? || project.archived?
-
-      {
-        scheme: :default,
-        icon: "star",
-        href: helpers.build_favorite_path(project, format: :html),
-        data: { "turbo-method": :post },
-        label: I18n.t(:button_favorite),
-        aria: { label: I18n.t(:button_favorite) }
-      }
-    end
-
-    def more_menu_unfavorite_item
-      return if !currently_favorited? || project.archived?
-
-      {
-        scheme: :default,
-        icon: "star-fill",
-        size: :medium,
-        href: helpers.build_favorite_path(project, format: :html),
-        data: { "turbo-method": :delete },
-        classes: "op-primer--star-icon",
-        label: I18n.t(:button_unfavorite),
-        aria: { label: I18n.t(:button_unfavorite) }
-      }
-    end
-
-    def more_menu_subproject_item
-      if User.current.allowed_in_project?(:add_subprojects, project)
-        {
-          scheme: :default,
-          icon: :plus,
-          label: I18n.t(:label_subproject_new),
-          href: new_project_path(parent_id: project.id)
-        }
-      end
-    end
-
-    def more_menu_settings_item
-      if User.current.allowed_in_project?({ controller: "/projects/settings/general", action: "show", project_id: project.id },
-                                          project)
-        {
-          scheme: :default,
-          icon: :gear,
-          label: I18n.t(:label_project_settings),
-          href: project_settings_general_path(project),
-          data: { turbo: false }
-        }
-      end
-    end
-
-    def more_menu_activity_item
-      if User.current.allowed_in_project?(:view_project_activity, project)
-        {
-          scheme: :default,
-          icon: :check,
-          label: I18n.t(:label_project_activity),
-          href: project_activity_index_path(project, event_types: ["project_details"])
-        }
-      end
-    end
-
-    def more_menu_archive_item
-      if User.current.allowed_in_project?(:archive_project, project) && project.active?
-        {
-          scheme: :default,
-          icon: :lock,
-          label: I18n.t(:button_archive),
-          href: project_archive_path(project, status: params[:status]),
-          data: {
-            turbo_method: :post,
-            turbo_confirm: t("project.archive.are_you_sure", name: project.name)
-          }
-        }
-      end
-    end
-
-    def more_menu_unarchive_item
-      if User.current.admin? && project.archived? && (project.parent.nil? || project.parent.active?)
-        {
-          scheme: :default,
-          icon: :unlock,
-          label: I18n.t(:button_unarchive),
-          href: project_archive_path(project, status: params[:status]),
-          data: { turbo_method: :delete }
-        }
-      end
-    end
-
-    def more_menu_copy_item
-      if User.current.allowed_in_project?(:copy_projects, project) && !project.archived?
-        {
-          scheme: :default,
-          icon: :copy,
-          label: I18n.t(:button_copy),
-          href: copy_project_path(project),
-          data: { turbo: false }
-        }
-      end
-    end
-
-    def more_menu_delete_item
-      if User.current.admin
-        {
-          scheme: :danger,
-          icon: :trash,
-          label: I18n.t(:button_delete),
-          href: confirm_destroy_project_path(project),
-          data: { turbo_stream: true }
-        }
       end
     end
 

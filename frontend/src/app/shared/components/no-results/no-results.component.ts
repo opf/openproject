@@ -37,7 +37,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   standalone: false,
 })
 export class NoResultsComponent {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() title:string;
 

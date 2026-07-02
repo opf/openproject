@@ -93,6 +93,21 @@ de:
           name: Hoch
         item_3:
           name: Sofort
+      departments:
+        item_0:
+          name: Marketing & Kommunikation
+        item_1:
+          name: Public Relations
+        item_2:
+          name: Design & Inhalt
+        item_3:
+          name: Events & Betrieb
+        item_4:
+          name: Web & IT
+        item_5:
+          name: Finanzen & Verwaltung
+        item_6:
+          name: Qualitätssicherung
       projects:
         demo-project:
           name: Demo-Projekt
@@ -182,9 +197,11 @@ de:
                 item_2:
                   subject: Konferenz-Webseite einrichten
             item_2:
-              subject: Konferenz
+              subject: Die Konferenz-Website testen und auf ihre Qualität überprüfen
             item_3:
-              subject: Aufgaben zur Nachbearbeitung
+              subject: Konferenz
+            item_4:
+              subject: Folgeaufgaben
               children:
                 item_0:
                   subject: Präsentationen auf Webseite hochladen
@@ -195,7 +212,7 @@ de:
                     * [ ] Snacks
                     * [ ] Musik
                     * [ ] Noch mehr Bier
-            item_4:
+            item_5:
               subject: Projektende
           wiki: |
             _In diesem Wiki können Sie gemeinsam Seiten und Unterseiten erstellen und bearbeiten um ein Projekt-Wiki zu erstellen.

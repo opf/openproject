@@ -77,8 +77,9 @@ ro:
     button_confirm: Confirmă
     button_continue: Continuă
     button_copy: Copiază
-    button_copy_to_clipboard: Copiză în clipboard
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copiază link-ul în clipboard
+    button_copy_to_clipboard: Copiză în clipboard
     button_copy_to_other_project: Copiază în alt proiect
     button_custom-fields: Câmpuri personalizate
     button_delete: Șterge
@@ -155,16 +156,15 @@ ro:
         manual: Comută la sursa Markdown
         wysiwyg: Comută la editorul WYSIWYG
       macro:
-        error: 'Nu se poate extinde macroul: %{message}'
         attribute_reference:
           macro_help_tooltip: Acest segment de text este redat în mod dinamic de o macro.
           not_found: Resursa solicitată nu a fost găsită.
           nested_macro: Acest macro face trimitere recursivă la %{model} %{id}.
           invalid_attribute: Atributul selectat "%{name}" nu există.
         child_pages:
-          button: Legături către paginile pentru copii
+          button: List of sub-pages
           include_parent: Include părinte
-          text: Păstrare pagini fii ca pagini rădăcină
+          text: "[Placeholder] List of sub-pages of"
           page: Pagină wiki
           this_page: această pagină
           hint: 'Lăsați acest câmp gol pentru a lista toate paginile copil ale paginii curente. Dacă doriți să faceți referire la o altă pagină, furnizați titlul sau slug-ul acesteia.
@@ -175,9 +175,14 @@ ro:
           title: Inserați/Editați fragmentul de cod
           language: Limbaj de formatare
           language_hint: Introdu limbajul de formatare care va fi utilizat pentru evidențiere (dacă există suport pentru acesta).
-        dropdown:
-          macros: Macro
-          chose_macro: Alege macro
+        embedded_calendar:
+          text: "[Placeholder] Tabelul pachetului de lucru inserat"
+        embedded_table:
+          button: Inserează tabel pachet de lucru
+          text: "[Placeholder] Tabelul pachetului de lucru inserat"
+        error: 'Nu se poate extinde macroul: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Cuprins
         toolbar_help: Clic pentru a selecta piesa și pentru a afișa bara de instrumente. Dublu clic pentru a edita piesa
         wiki_page_include:
@@ -195,11 +200,6 @@ ro:
           button_style_hint: 'Opțional: Bifează pentru a vedea comenzile macro sub formă de butoane, nu sub formă de link.'
           without_type: Creați pachet de lucru
           with_type: 'Creați pachet de lucru (Tip: %{typename})'
-        embedded_table:
-          button: Inserează tabel pachet de lucru
-          text: "[Placeholder] Tabelul pachetului de lucru inserat"
-        embedded_calendar:
-          text: "[Placeholder] Tabelul pachetului de lucru inserat"
     admin:
       type_form:
         edit_query: Editează interogare
@@ -368,6 +368,7 @@ ro:
     label_in_more_than: în mai mult de
     label_incoming_emails: E-mailuri primite
     label_information_plural: Informații
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Importă
     label_latest_activity: Activitate recentă
@@ -392,6 +393,7 @@ ro:
     label_no_value: Nici o valoare
     label_none: niciunul
     label_not_contains: nu conține
+    label_not_available: Not available
     label_not_equals: nu este
     label_on: pe
     label_open_menu: Deschide meniu
@@ -913,11 +915,12 @@ ro:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrează pachetele de lucru după tipul relației
       tabs:
-        overview: Prezentare generală
         activity: Activitate
+        files: Fișiere
+        overview: Prezentare generală
+        project_attributes: Project attributes
         relations: Relații
         watchers: Observatori
-        files: Fișiere
       time_relative:
         days: zile
         weeks: săptămâni

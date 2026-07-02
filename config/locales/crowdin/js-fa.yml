@@ -77,8 +77,9 @@ fa:
     button_confirm: تایید
     button_continue: Continue
     button_copy: کپی
-    button_copy_to_clipboard: Copy to clipboard
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Copy to clipboard
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Custom fields
     button_delete: حذف
@@ -155,16 +156,15 @@ fa:
         manual: Switch to Markdown source
         wysiwyg: Switch to WYSIWYG editor
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Links to child pages
+          button: List of sub-pages
           include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki page
           this_page: این صفحه
           hint: 'Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
@@ -175,9 +175,14 @@ fa:
           title: Insert / edit Code snippet
           language: Formatting language
           language_hint: Enter the formatting language that will be used for highlighting (if supported).
-        dropdown:
-          macros: ماکروها
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] تقویم جاسازی شده"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Table of contents
         toolbar_help: Click to select widget and show the toolbar. Double-click to edit widget
         wiki_page_include:
@@ -195,11 +200,6 @@ fa:
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: Create work package
           with_type: 'Create work package (Type: %{typename})'
-        embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] تقویم جاسازی شده"
     admin:
       type_form:
         edit_query: Edit query
@@ -368,6 +368,7 @@ fa:
     label_in_more_than: in more than
     label_incoming_emails: Incoming emails
     label_information_plural: اطلاعات
+    label_infinity: Infinity
     label_invalid: نا معتبر
     label_import: درون‌ریزی
     label_latest_activity: آخرین فعالیت
@@ -392,6 +393,7 @@ fa:
     label_no_value: No value
     label_none: هیچ کدام
     label_not_contains: حاوی این مقدار نیست
+    label_not_available: Not available
     label_not_equals: نیست
     label_on: برخط
     label_open_menu: باز کردن منو
@@ -912,11 +914,12 @@ fa:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: نمای کلی
         activity: فعالیت
+        files: Files
+        overview: نمای کلی
+        project_attributes: Project attributes
         relations: Relations
         watchers: Watchers
-        files: Files
       time_relative:
         days: days
         weeks: weeks

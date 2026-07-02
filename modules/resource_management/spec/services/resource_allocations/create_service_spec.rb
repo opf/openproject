@@ -68,6 +68,19 @@ RSpec.describe ResourceAllocations::CreateService, type: :model do
     expect(result.result.reviewed_by).to eq(owner)
   end
 
+  it "records principal_assigned_by as the requester when a user is picked" do
+    result = service_call
+    expect(result.result.principal_assigned_by).to eq(owner)
+  end
+
+  it "leaves principal_assigned_by blank for a generic allocation" do
+    result = described_class.new(user: owner).call(
+      params.merge(principal: nil, principal_explicit: false, filter_name: "Ruby Developer")
+    )
+    expect(result).to be_success, "expected success but got: #{result.errors.full_messages}"
+    expect(result.result.principal_assigned_by).to be_nil
+  end
+
   it "ignores requested_by and reviewed_by passed in params" do
     other_user = create(:user)
     result = described_class.new(user: owner).call(

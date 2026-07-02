@@ -7,9 +7,6 @@ lv:
     avatars:
       label_choose_avatar: Izvēlieties Avatar no faila
       uploading_avatar: Avatāra augšupielāde.
-      text_upload_instructions: |
-        Augšupielādējiet savu pielāgotu avatāru 128 x 128 pikseļi. Lielākiem failiem tiks mainīts izmērs un tie tiks apgriezti.
-        Kad būsiet izvēlējeis avatur, pirms tā augšupielādes tiks parādīts tā priekšskatījums.
       error_image_too_large: Attēls ir pārāk liels.
       wrong_file_format: Atļautie formāti ir jpg, png, gif
       empty_file_error: Lūdzu, augšupielādējiet atbilstoša formāta attēlu (jpg, png, gif)

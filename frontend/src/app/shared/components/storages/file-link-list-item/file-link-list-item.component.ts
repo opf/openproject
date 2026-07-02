@@ -65,7 +65,7 @@ export class FileLinkListItemComponent implements OnInit, OnChanges, AfterViewIn
 
   @Output() public removeFileLink = new EventEmitter<void>();
 
-  @ViewChild('avatar') avatar:ElementRef;
+  @ViewChild('avatar') avatar:ElementRef<HTMLElement>;
 
   infoTimestampText:string;
 
@@ -136,14 +136,14 @@ export class FileLinkListItemComponent implements OnInit, OnChanges, AfterViewIn
   ngAfterViewInit():void {
     if (this.originData.lastModifiedByName) {
       this.principalRendererService.render(
-        this.avatar.nativeElement as HTMLElement,
+        this.avatar.nativeElement,
         { name: this.originData.lastModifiedByName, href: '/external_users/1' },
         { hide: true, link: false },
         { hide: false, size: 'mini' },
       );
     } else {
       this.principalRendererService.render(
-        this.avatar.nativeElement as HTMLElement,
+        this.avatar.nativeElement,
         { name: 'Not Available', href: '/placeholder_users/1' },
         { hide: true, link: false },
         { hide: false, size: 'mini' },

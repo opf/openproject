@@ -77,8 +77,9 @@ zh-CN:
     button_confirm: 确认
     button_continue: 继续
     button_copy: 复制
-    button_copy_to_clipboard: 复制到剪贴板
+    button_copy_numeric_id_to_clipboard: 将数字 ID 复制到剪贴板
     button_copy_link_to_clipboard: 将链接复制到剪贴板
+    button_copy_to_clipboard: 复制到剪贴板
     button_copy_to_other_project: 复制到其他项目
     button_custom-fields: 自定义字段
     button_delete: 删除
@@ -155,16 +156,15 @@ zh-CN:
         manual: '切换到 Markdown '
         wysiwyg: 切换到 WYSIWYG 编辑器
       macro:
-        error: 无法展开宏：%{message}
         attribute_reference:
           macro_help_tooltip: 此文本段正由宏动态呈现。
           not_found: 无法找到请求的资源
           nested_macro: 该宏递归引用 %{model} %{id}。
           invalid_attribute: 所选属性 '%{name}' 不存在。
         child_pages:
-          button: 链接至子页面
+          button: 子页面列表
           include_parent: 包括上级
-          text: "[Placeholder] 子页面链接"
+          text: "[占位符] 此项的子页面列表："
           page: 维基页面
           this_page: 本页
           hint: '将此字段留空可列出当前页面的所有子页面。如果您想引用不同的页面，请提供其标题或标识符。
@@ -175,9 +175,14 @@ zh-CN:
           title: 插入/编辑代码片段
           language: 格式化语言
           language_hint: 输入将用于突出显示（如果支持）的格式化语言。
-        dropdown:
-          macros: 宏
-          chose_macro: 选择宏
+        embedded_calendar:
+          text: "[Placeholder]嵌入式日历"
+        embedded_table:
+          button: 嵌入工作包表
+          text: "[Placeholder] 嵌入式工作包表"
+        error: 无法展开宏：%{message}
+        macro_dropdown:
+          caption: 插入
         toc: 目录
         toolbar_help: 单击可以选择微件并显示工具栏。双击可以编辑微件
         wiki_page_include:
@@ -195,11 +200,6 @@ zh-CN:
           button_style_hint: 可选：选中以使宏显示为按钮，而不是链接。
           without_type: 创建工作包
           with_type: 创建工作包（类型：%{typename}）
-        embedded_table:
-          button: 嵌入工作包表
-          text: "[Placeholder] 嵌入式工作包表"
-        embedded_calendar:
-          text: "[Placeholder]嵌入式日历"
     admin:
       type_form:
         edit_query: 编辑查询
@@ -368,6 +368,7 @@ zh-CN:
     label_in_more_than: 在多于
     label_incoming_emails: 传入电子邮件
     label_information_plural: 信息
+    label_infinity: 无穷大
     label_invalid: 无效
     label_import: 导入
     label_latest_activity: 最新活动
@@ -392,6 +393,7 @@ zh-CN:
     label_no_value: 无值
     label_none: 无
     label_not_contains: 不包含
+    label_not_available: 不可用
     label_not_equals: 不是
     label_on: 于
     label_open_menu: 打开菜单
@@ -911,11 +913,12 @@ zh-CN:
         relation_filters:
           filter_work_packages_by_relation_type: 按关系类型筛选工作包
       tabs:
-        overview: 概述
         activity: 活动
+        files: 文件
+        overview: 概述
+        project_attributes: 项目特性
         relations: 关系
         watchers: 关注者
-        files: 文件
       time_relative:
         days: 天
         weeks: 周

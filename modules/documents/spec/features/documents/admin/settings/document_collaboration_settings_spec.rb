@@ -186,6 +186,10 @@ RSpec.describe "Document collaboration settings admin",
                                  with: "",
                                  disabled: true)
     end
+
+    it "does not show a save button" do
+      expect(page).to have_no_button(I18n.t("button_save"))
+    end
   end
 
   context "with non-admin user" do

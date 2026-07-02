@@ -31,23 +31,23 @@ fr:
 
           '
         no_file_links: Afin de lier des fichiers à ce lot de travaux, veuillez le faire via %{storageType}.
-        not_logged_in: 'Pour ajouter un lien, voir ou téléverser des fichiers liés à ce lot de travaux, veuillez vous connecter à %{storageType}.
+        not_logged_in: 'Pour ajouter un lien, voir ou importer des fichiers liés à ce lot de travaux, veuillez vous connecter à %{storageType}.
 
           '
         suggest_logout: Vous pouvez essayer de vous déconnecter et de revenir pour tenter de résoudre le problème.
         suggest_relink: Vous pouvez essayer de réassocier votre compte via le bouton de connexion ci-dessous pour résoudre ce problème.
       files:
         already_existing_header: Ce fichier existe déjà
-        already_existing_body: 'Un fichier avec le nom « %{fileName} » existe déjà à l''emplacement où vous essayez de téléverser ce fichier. Que voulez-vous faire ?
+        already_existing_body: 'Un fichier avec le nom « %{fileName} » existe déjà à l''emplacement où vous essayez de importer ce fichier. Que voulez-vous faire ?
 
           '
         directory_not_writeable: Vous n'avez pas la permission d'ajouter des fichiers à ce dossier.
-        dragging_many_files: Le dépôt vers %{storageType} ne supporte qu'un seul fichier à la fois.
-        dragging_folder: Le téléversement vers %{storageType} ne prend pas en charge les dossiers.
+        dragging_many_files: L'importation vers %{storageType} ne prend en charge qu'un seul fichier à la fois.
+        dragging_folder: L'importation vers %{storageType} ne prend pas en charge les dossiers.
         empty_folder: Ce dossier est vide.
-        empty_folder_location_hint: Cliquez sur le bouton ci-dessous pour téléverser le fichier à cet endroit.
+        empty_folder_location_hint: Cliquez sur le bouton ci-dessous pour importer le fichier à cet endroit.
         file_not_selectable_location: La sélection d'un fichier est impossible pendant le processus de sélection d'un emplacement.
-        project_folder_no_access: 'Vous n''avez pas accès au dossier du projet. Veuillez contacter votre administrateur pour avoir accès ou téléverser le fichier vers un autre endroit.
+        project_folder_no_access: 'Vous n''avez pas accès au dossier du projet. Veuillez contacter votre administrateur pour avoir accès ou importer le fichier vers un autre endroit.
 
           '
         managed_project_folder_not_available: 'Le dossier de projet géré automatiquement n''a pas encore été trouvé. Veuillez patienter, rechargez la page pour récupérer les données les plus récentes, puis réessayez.
@@ -84,10 +84,10 @@ fr:
           default: 'Votre fichier (%{fileName}) n''a pas pu être téléchargé.
 
             '
-          403: 'Votre fichier (%{fileName}) n''a pas pu être téléversé en raison de restrictions du système. Veuillez contacter votre administrateur pour obtenir plus d''informations.
+          403: 'Votre fichier (%{fileName}) n''a pas pu être importé en raison de restrictions du système. Veuillez contacter votre administrateur pour obtenir plus d''informations.
 
             '
-          413: 'Votre fichier (%{fileName}) a une taille supérieure à la taille limite que OpenProject peut téléverser sur %{storageType}. Vous pouvez d''abord téléverser le fichier directement sur %{storageType}, puis le lier.
+          413: 'Votre fichier (%{fileName}) a une taille supérieure à la taille limite que OpenProject peut importer sur %{storageType}. Vous pouvez d''abord importer le fichier directement sur %{storageType}, puis le lier.
 
             '
           507: 'Votre fichier (%{fileName}) a une taille supérieure au quota de stockage autorisé. Contactez votre administrateur pour modifier ce quota.

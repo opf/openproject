@@ -35,7 +35,7 @@ module ResourceManagement
   # their own. Requires @project and @resource_planner to be set.
   module PlannerViewContent
     def work_package_list_content(view)
-      work_packages = view.is_a?(ResourceWorkPackageList) ? view.work_packages.to_a : []
+      work_packages = view.is_a?(ResourceManagement::WorkPackageSelection) ? view.work_packages.to_a : []
       allocations = ResourceAllocation.allocated_for_work_packages(work_packages)
 
       ResourcePlannerViews::ContentComponent.new(

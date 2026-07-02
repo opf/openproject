@@ -46,7 +46,7 @@ el:
     text_otp_delivery_message_sms: Ο %{app_title} κωδικός πρόσβασης μια χρήσης σας είναι %{token}
     text_otp_delivery_message_voice: 'Ο %{app_title} κωδικός πρόσβασης μια χρήσης σας είναι %{pause} %{token}. %{pause} Επαναλαμβάνω: %{pause} %{token}'
     text_2fa_enabled: Κατά κάθε σύνδεση, θα σας ζητείται να εισάγετε ένα OPT token από την προεπιλεγμένη 2FA συσκευή σας.
-    text_2fa_disabled: Για να ενεργοποιήσετε την ταυτοποίηση δύο παραγόντων, χρησιμοποιήστε το παραπάνω κουμπί για να καταχωρήσετε μια καινούργια 2FA συσκευή.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Εισάγετε τον κωδικό αντιγράφων ασφαλείας
       enter_backup_code_text: Παρακαλούμε εισάγετε έναν έγκυρο κωδικό αντιγράφων ασφαλείας από την λίστα κωδικών σε περίπτωση που δεν έχετε πια πρόσβαση στις καταχωρημένες συσκευές 2FA.
@@ -160,7 +160,7 @@ el:
         '
       other_active_session_notice: Ο λογαριασμός σας έχει ένα ενεργό cookie απομνημόνευσης από άλλη συνεδρία.
       label: Απομνημόνευση
-      clear_cookie: Κάντε κλικ εδώ για να αφαιρέσετε όλες την απομνημονευμένες συνεδρίες 2FA.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Όλες οι απομνημονευμένες συνεδρίες 2FA έχουν αφαιρεθεί.
       dont_ask_again: Δημιουργήστε ένα cookie για να απομνημονευτεί η ταυτοποίηση 2FA σε αυτό την περιηγητή για %{days} ημέρες.
   field_otp: Κωδικός μιάς χρήσης
@@ -171,6 +171,7 @@ el:
   notice_account_has_no_phone: Δεν υπάρχει αριθμός κινητού τηλεφώνου που να σχετίζεται με αυτό τον λογαριασμό.
   label_confirmed: Επιβεβαιωμένο
   button_continue: Συνέχεια
+  button_make_active: Activate
   button_make_default: Ορισμός ως προεπιλογή
   notice_phone_number_format: 'Καταχωρίστε τον αριθμό με την ακόλουθη μορφή: + XX XXXXXXXX.'
   text_otp_not_receive: Άλλες μέθοδοι επαλήθευσης

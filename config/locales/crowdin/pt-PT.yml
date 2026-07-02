@@ -21,6 +21,7 @@
 #++
 ---
 pt-PT:
+  label_user_attributes_plural: Atributos do utilizador
   no_results_title_text: Atualmente, não há nada para exibir.
   activities:
     index:
@@ -32,6 +33,7 @@ pt-PT:
         label_activity_show_all: Mostrar tudo
         label_activity_show_only_comments: Mostrar apenas comentários
         label_activity_show_only_changes: Mostrar apenas alterações
+        label_dismiss_comment: Descartar
         label_sort_asc: Mais recente em baixo
         label_sort_desc: Mais recente no topo
         label_type_to_comment: Adicione um comentário. Escreva @ para notificar as pessoas.
@@ -44,33 +46,37 @@ pt-PT:
         commented: comentou
         internal_comment: Comentário interno
         internal_journal: Os comentários internos são visíveis para um grupo limitado de membros.
-        unsaved_changes_confirmation_message: Tem alterações não guardadas. Tem certeza de que deseja fechar o editor?
+        unsaved_changes_confirmation_message: Tem a certeza de que quer eliminar o seu comentário? O conteúdo que escreveu irá perder-se.
         internal_comment_confirmation:
           title: Tornar este comentário público?
           heading: Tornar este comentário público?
           description: O seu comentário ficará visível para qualquer pessoa com acesso a este pacote de trabalho. Tem certeza de que deseja fazer isso?
           confirm_button_text: Tornar público
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
-      title: Identificadores de projeto reservados
-      lede_html: Quando o identificador de um projeto é alterado, o identificador anterior permanece reservado para que as ligações e integrações existentes continuem a funcionar.<br>Aqui pode libertar identificadores reservados para poderem ser utilizados por outros projetos.
+      btn_release: Anular a reserva
       col_identifier: Identificador
       col_project: Projeto
       col_reserved: Reservado
-      not_available_in_semantic_mode: Os identificadores de projeto reservados só estão disponíveis no modo de identificador numérico.
-      filter_label: Pesquisar identificadores
-      btn_release: Lançamento
-      released_notice: O identificador "%{identifier}" foi lançado.
-      identifier_not_found: Não foi possível encontrar o identificador reservado. Pode já ter sido lançado ou o projeto pode ter sido eliminado. Recarregue a página.
       dialog:
-        title: Lançar identificador
-        heading: Lançar "%{identifier}"?
-        description: A libertação deste identificador não pode ser revertida. As ligações externas e integrações que o utilizam deixarão de funcionar, e o nome fica disponível para qualquer novo projeto o reclamar.
         checkbox_label: Compreendo que esta ação não pode ser anulada.
-        confirm_button: Lançar identificador
+        confirm_button: Anular a reserva do identificador
+        description: A anulação da reserva deste identificador de projeto não pode ser revertida. As ligações externas e integrações que o utilizam deixarão de funcionar, e o nome ficará disponível para ser reclamado por qualquer novo projeto.
+        description_with_work_packages:
+          one: A anulação da reserva deste identificador de projeto (e o identificador do seu primeiro pacote de trabalho) não pode ser revertida. As ligações externas e integrações que o utilizam deixarão de funcionar, e o nome ficará disponível para ser reclamado por qualquer novo projeto.
+          other: A anulação da reserva deste identificador de projeto (e os seus %{count} identificadores de pacotes de trabalho) não pode ser revertida. As ligações externas e integrações que o utilizam deixarão de funcionar, e o nome ficará disponível para ser reclamado por qualquer novo projeto.
+        heading: Anular a reserva de "%{identifier}"?
+        title: Anular a reserva do identificador
+      empty_body: Quando o identificador de um projeto for alterado, o identificador anterior aparecerá aqui para poder cancelar a sua reserva assim que for seguro fazê-lo.
       empty_heading: Não há identificadores reservados
+      filter_label: Pesquisar identificadores
+      identifier_not_found: Não foi possível encontrar o identificador reservado. É possível que já tenha sido anulada a reserva ou que o projeto tenha sido eliminado. Atualize a página.
+      lede_html: Quando o identificador de um projeto é alterado, o identificador anterior permanece reservado para que as ligações e integrações existentes continuem a funcionar.<br>Pode anular a reserva de identificadores reservados para poderem ser utilizados por outros projetos.
+      released_notice: O identificador "%{identifier}" deixou de estar reservado.
       reserved_ago: há %{time}
-      empty_body: Quando o identificador de um projeto é alterado, o anterior aparece aqui para poder ser lançado quando for seguro fazê-lo.
+      title: Identificadores de projeto reservados
     plugins:
       no_results_title_text: Atualmente não há plugins instalados.
       no_results_content_text: Para mais informações, consulte a nossa página de integrações e plugins.
@@ -128,7 +134,7 @@ pt-PT:
         trial: Teste
     jemalloc_allocator: Alocador de memória Jemalloc
     journal_aggregation:
-      caption: 'As ações do utilizador num pacote de trabalhos (alteração da descrição, do estado, dos valores ou adição de comentários) são agrupadas se forem realizadas durante este período. Também controla os prazos de notificação e de [webhook](webhook_link).
+      caption_with_maximum: 'As ações do utilizador num pacote de trabalho (alterar a descrição, o estado, os valores ou escrever comentários) são agrupadas se forem realizadas neste período. Este período também controla os atrasos nas notificações e no [webhook](webhook_link). O máximo é de %{max} minutos.
 
         '
     import:
@@ -429,6 +435,20 @@ pt-PT:
       new_project:
         project_creation: Criação de projeto
         notification_text_default: "<p>Olá,</p> <p>Foi criado um novo projeto: projectValue:name</p> <p>Obrigado</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: Não foi possível eliminar a secção.
+        drop:
+          error: Não foi possível reordenar a secção.
+        move:
+          error: Não foi possível reordenar a secção.
+      user_custom_field_sections:
+        destroy:
+          error: Não foi possível eliminar a secção.
+        drop:
+          error: Não foi possível reordenar a secção.
+        move:
+          error: Não foi possível reordenar a secção.
       work_packages_identifier:
         page_header:
           description: Escolha entre IDs de pacotes de trabalho numéricos clássicos ou específicos de projetos semânticos, que acrescentam o identificador do projeto ao ID do pacote de trabalho.
@@ -437,7 +457,7 @@ pt-PT:
 
             '
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: Projetos com identificadores a atualizar
           label_project: Projeto
           label_previous_identifier: Identificador anterior
           label_autofixed_suggestion: Identificador de futuro
@@ -674,6 +694,8 @@ pt-PT:
             gain_role: Receberá a função “%{new_role}”
             lose_role: Perderá a função “%{old_role}”
             no_change: Sem alterações
+    multi_value_more:
+      other: e mais %{count}
     text_add_new_custom_field: 'Para adicionar novos campos personalizados a um projeto, primeiro precisa de criá-los para depois adicioná-los a este projeto.
 
       '
@@ -718,6 +740,11 @@ pt-PT:
         project: 0 significa sem restrições
       has_comment:
         project: Permite ao utilizador adicionar um comentário relacionado com o atributo do projeto quando seleciona o valor na síntese do projeto.
+      visible_on_user_card:
+        all: Quando assinalado, o valor deste campo é apresentado no cartão de informações do utilizador ao passar o cursor sobre um utilizador em qualquer parte da aplicação.
+    semantic_keys:
+      none: Nenhum
+      job_title: Cargo
     tab:
       no_results_title_text: Atualmente, não existem campos personalizados.
       no_results_content_text: Criar um novo campo personalizado
@@ -745,9 +772,11 @@ pt-PT:
         '
       add_button: Adicionar
     detail_blankslate:
-      heading: Este departamento não tem qualquer nível hierárquico abaixo
-      description: Adicione departamentos ou utilizadores para criar sub-elementos dentro de outro.
       add_button: Adicionar
+      description: Adicione departamentos ou utilizadores para criar sub-elementos dentro de outro.
+      heading: Este departamento não tem qualquer nível hierárquico abaixo
+      managed_description: Os seus sub-departamentos e membros são mantidos em sincronia com o LDAP e não podem ser adicionados manualmente.
+      managed_heading: Este departamento é gerido através da sincronização LDAP
     add_department_form:
       name_label: Nome do departamento
       name_placeholder: Introduza o nome do departamento
@@ -756,6 +785,9 @@ pt-PT:
       heading: Mover o utilizador para este departamento?
       description: "%{user} é atualmente membro de %{from_department}. Se o mover, irá removê-lo desse departamento."
       confirm: Mover utilizador
+      managed_title: Utilizador gerido pelo LDAP
+      managed_heading: Este utilizador não pode ser transferido
+      managed_description: "%{user} pertence a %{from_department}, que é gerido através de sincronização LDAP. A filiação no departamento é controlada pelo LDAP, e não pode ser alterada aqui."
     context_menu:
       add_sub_department: Adicionar subdepartamento
       add_user: Adicionar utilizador
@@ -1307,20 +1339,16 @@ pt-PT:
       '
     delete_tooltip: Eliminar utilizador de espaço reservado
     deletion_info:
-      heading_html: Eliminar utilizador de espaço reservado %{name}
       data_consequences: 'Todas as ocorrências do utilizador de espaço reservado (por exemplo, como responsável, competente ou outros valores de utilizador) serão reatribuídas a uma conta chamada "Utilizador eliminado". Como os dados de todas as contas eliminadas são reatribuídos a esta conta, não será possível diferenciar os dados criados pelo utilizador a partir de dados de outra conta eliminada.
 
         '
-      irreversible: Esta ação é irreversível
-      confirmation_html: Insira o nome de utilizador do espaço reservado %{name} para confirmar a eliminação.
+      heading: Eliminar utilizador de marcador de posição %{name}
+      title: Eliminar utilizador de marcador de posição %{name}
   priorities:
     edit:
       priority_color_text: |
         Clique para atribuir ou alterar a cor desta prioridade.
         Pode ser usada para destacar os pacotes de trabalho na tabela.
-    admin:
-      default:
-        caption: Fazer esta prioridade a predefinição irá substituir a prioridade predefinida anterior.
   reactions:
     action_title: Reagir
     add_reaction: Adicionar reação
@@ -1369,44 +1397,51 @@ pt-PT:
       no_results_content_text: Crie um novo tipo
     edit:
       form_configuration:
-        tab: Configuração do formulário
-        label_group: Secção
-        reset_to_defaults: Repor formulário
         add_attribute_group: Secção
         add_query_group: Tabela de pacotes de trabalho relacionados
+        blankslate_description: Adicione grupos no botão acima ou arraste atributos do painel esquerdo.
+        blankslate_title: Ainda sem grupos
+        builtin_field: Campo incorporado
+        confirm_delete_group: Tem a certeza de que quer eliminar esta secção? Esta ação não pode ser revertida automaticamente.
+        confirm_reset: Tem a certeza de que quer repor a configuração do formulário?
+        custom_field: Campo personalizado
         delete_group: Eliminar secção
-        remove_attribute: Remover da secção
         drag_to_activate: Arraste campos daqui para ativá-los
         drag_to_reorder: Arrastar para reordenar
         edit_query: Editar consulta
-        custom_field: Campo personalizado
-        filter_inactive: Filtrar atributos
-        inactive_attributes_heading: Atributos inativos
-        no_inactive_attributes: Não há atributos inativos
-        blankslate_title: Ainda sem grupos
-        blankslate_description: Adicione grupos no botão acima ou arraste atributos do painel esquerdo.
-        group_actions: Ações da secção
-        rename_group: Mudar o nome da secção
-        confirm_delete_group: Tem a certeza de que quer eliminar esta secção? Esta ação não pode ser revertida automaticamente.
-        group_name_label: Nome da secção
-        row_actions: Ações de linha
-        query_group_label: Tabela de pacotes de trabalho relacionados
         empty_group_hint: Arraste os atributos para aqui
+        filter_inactive: Filtrar atributos
+        group_actions: Ações da secção
+        group_name_label: Nome da secção
+        inactive_attributes_heading: Atributos inativos
         invalid_attribute_groups: A carga útil da configuração do formulário é inválida.
         invalid_query: A configuração da consulta incorporada é inválida.
+        label_group: Secção
+        no_inactive_attributes: Não há atributos inativos
         not_found: Não foi possível encontrar o elemento de configuração do formulário solicitado.
-        untitled_group: Grupo sem título
-        reset_title: Repor configuração do formulário
-        confirm_reset: Tem a certeza de que quer repor a configuração do formulário?
-        builtin_field: Campo incorporado
+        query_group_label: Tabela de pacotes de trabalho relacionados
+        remove_attribute: Remover da secção
+        rename_group: Mudar o nome da secção
         reset_description: 'Isto irá redefinir os atributos para o seu grupo predefinido e desativar TODOS os campos personalizados.
 
           '
+        reset_title: Repor configuração do formulário
+        reset_to_defaults: Repor formulário
+        row_actions: Ações de linha
+        tab: Configuração do formulário
+        untitled_group: Grupo sem título
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Projetos
         enable_all: Ativar para todos os projetos
         select_projects: Selecionar projetos
         select_projects_description: Selecione os projetos em que pretende utilizar este tipo.
+        tab: Projetos
       settings:
         tab: Definições
         type_color_text: A cor selecionada distingue diferentes tipos em gráficos de Gantt ou tabelas de pacotes de trabalho. Portanto é recomendado usar uma cor forte.
@@ -1679,6 +1714,7 @@ pt-PT:
       login_consequences:
         other: Esta conta será imediatamente removida do sistema e o utilizador deixará de poder iniciar sessão com as suas credenciais.
         self: A sua conta será imediatamente removida do sistema e deixará de poder iniciar sessão com as suas credenciais.
+      title: Eliminar a conta de %{name}
     error_inactive_activation_by_mail: 'A sua conta ainda não foi activada. Para activar sua conta, clique no link que foi enviado por e-mail.
 
       '
@@ -1702,18 +1738,6 @@ pt-PT:
         dependencies: Dependências
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Identificador
-        work_package: Pacote de trabalho
-      jira_import:
-        projects: Projetos
-      import/jira:
-        name: Nome da instância do Jira
-        url: URL da instância do Jira
-        personal_access_token: Token de acesso pessoal
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Jira Migrator
       announcements:
         show_until: Exibir até
       attachment:
@@ -1759,6 +1783,8 @@ pt-PT:
         possible_values: Valores possíveis
         regexp: Expressão regular
         searchable: Pesquisável
+        visible_on_user_card: Mostrar no cartão do utilizador
+        semantic_key: Significado semântico
         admin_only: Apenas administradores
         has_comment: Adicione um campo de texto de comentário
       custom_value:
@@ -1793,6 +1819,23 @@ pt-PT:
         row_count: Número de linhas
         column_count: Número de colunas
         widgets: Widgets
+      group:
+        group_users: Agrupar utilizadores
+        identity_url: URL de identidade
+        organizational_unit: Unidade organizacional
+        parent: Grupo principal
+      group_detail:
+        organizational_unit: Unidade organizacional
+        parent: Grupo principal
+      import/jira:
+        name: Nome da instância do Jira
+        personal_access_token: Token de acesso pessoal
+        url: URL da instância do Jira
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Jira Migrator
+      jira_import:
+        projects: Projetos
       journal:
         notes: Notas
         cause_type: Tipo de causa
@@ -1821,6 +1864,21 @@ pt-PT:
         resource: Recurso
       oauth_client:
         client: ID de cliente
+      ordered_persisted_query_entity:
+        persisted_query: Consulta persistente
+        entity: Entidade
+        position: Posição
+      persisted_query:
+        name: Nome
+        views: Visualizações
+        filters: Filtros
+        orders: Pedidos
+        selects: Seleciona
+      persisted_view:
+        name: Nome
+        query: Consulta
+        parent: Vista geral
+        public: Público
       project:
         active_value:
           true: desarquivado
@@ -1954,6 +2012,7 @@ pt-PT:
       user:
         admin: Administrador
         auth_source: Fonte de autenticação
+        department: Departamento
         ldap_auth_source: Ligação LDAP
         identity_url: URL de identidade
         current_password: Senha atual
@@ -1967,14 +2026,8 @@ pt-PT:
         new_password: Nova senha
         password_confirmation: Confirmação
         consented_at: Consentiu em
-      group:
-        identity_url: URL de identidade
-        parent: Grupo principal
-        organizational_unit: Unidade organizacional
-        group_users: Agrupar utilizadores
-      group_detail:
-        parent: Grupo principal
-        organizational_unit: Unidade organizacional
+      user_custom_field:
+        custom_field_section: Secção
       user_preference:
         header_look_and_feel: Aspeto e sensação
         header_alerts: Alertas
@@ -2073,29 +2126,11 @@ pt-PT:
         type: Tipo
         version: Versão
         watcher: Monitor
-      ordered_persisted_query_entity:
-        persisted_query: Consulta persistente
-        entity: Entidade
-        position: Posição
-      persisted_query:
-        name: Nome
-        views: Visualizações
-        filters: Filtros
-        orders: Pedidos
-        selects: Seleciona
-      persisted_view:
-        name: Nome
-        query: Consulta
-        parent: Vista geral
-        public: Público
-      user_card_view:
-        secondary_info: Informações secundárias
-        show_status_badge: Mostrar distintivo de estado
-        show_email: Mostrar e-mail
-        tag_source: Fonte da etiqueta
-        tag_limit: Limite da etiqueta
-        card_size: Tamanho do cartão
-        columns_per_row: Colunas por linha
+      work_package_version:
+        kind: Tipo
+      work_package_semantic_alias:
+        identifier: Identificador
+        work_package: Pacote de trabalho
     errors:
       messages:
         accepted: deve ser aceite.
@@ -2109,6 +2144,7 @@ pt-PT:
         cannot_delete_mapping: é necessário. Não pode ser eliminado.
         cant_link_a_work_package_with_a_descendant: Um pacote de trabalho não pode ser ligado a uma das suas sub-tarefas.
         circular_dependency: Esta relação vai criar uma dependência circular.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: não coincide %{attribute}.
         could_not_be_copied: "%{dependency} não pode ser copiado (completamente)."
         datetime_must_be_in_future: tem de estar no futuro.
@@ -2141,6 +2177,7 @@ pt-PT:
         invalid_url: não é um URL válido.
         invalid_url_scheme: 'não é um protocolo suportado (permitido: %{allowed_schemes}).'
         is_for_all_cannot_modify: é para todos os projetos e, por conseguinte, não pode ser alterado.
+        ldap_managed: Este departamento é gerido através da sincronização LDAP, e não pode ser alterado aqui.
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
         not_available: não está disponível devido a uma configuração do sistema.
         not_before_start_date: não deve ser antes da data de início.
@@ -2163,7 +2200,7 @@ pt-PT:
         regex_invalid: não pode ser validado com a expressão regular associada.
         regex_list_invalid: Não foi possível analisar as linhas %{invalid_lines} como expressão regular.
         smaller_than_or_equal_to_max_length: deve ser menor ou igual ao comprimento máximo.
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: viola a política de SSRF desta instância do OpenProject.
         system_wide_non_working_day_exists: entra em conflito com um dia não útil existente em todo o sistema para esta data.
         taken: já está a ser utilizado.
         too_long: é muito longo (o máximo é %{count} caracteres).
@@ -2178,6 +2215,7 @@ pt-PT:
 
           '
         user_already_in_department: O utilizador %{user_id} já é membro do departamento %{department_id}.
+        user_in_ldap_managed_department: Este utilizador pertence a um departamento gerido por sincronização LDAP, e não pode ser transferido.
         wrong_length: tamanho errado (deve ser %{count} caracteres).
       models:
         group:
@@ -2185,6 +2223,7 @@ pt-PT:
             parent_id:
               circular_dependency: criaria uma hierarquia circular de grupos.
               organizational_unit_mismatch: deve ter a mesma definição de unidade organizacional que o grupo.
+              parent_ldap_managed: é gerido através da sincronização LDAP, e não permite a adição manual de departamentos.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2380,11 +2419,12 @@ pt-PT:
         setting:
           attributes:
             base:
-              working_days_are_missing: Pelo menos um dia da semana deve ser definido como dia útil.
-              previous_working_day_changes_unprocessed: As alterações anteriores na configuração de dias úteis ainda não foram aplicadas.
-              hours_per_day_are_missing: O número de horas por dia tem de ser definido.
               durations_are_not_positive_numbers: As durações têm de ser números positivos.
+              hours_per_day_are_missing: O número de horas por dia tem de ser definido.
               hours_per_day_is_out_of_bounds: O número de horas por dia não pode ser superior a 24
+              journal_aggregation_time_minutes_is_out_of_bounds: O período de agregação deve situar-se entre %{min} e %{max} minutos.
+              previous_working_day_changes_unprocessed: As alterações anteriores na configuração de dias úteis ainda não foram aplicadas.
+              working_days_are_missing: Pelo menos um dia da semana deve ser definido como dia útil.
         status:
           attributes:
             default_done_ratio:
@@ -2419,11 +2459,14 @@ pt-PT:
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não válido para reafectar os registos de horas.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Não é possível adicionar elemento secundário porque não tem permissão para editar o pacote de trabalho selecionado.
               blank: O ID não pode ficar em branco.
+              cannot_add_child_because_of_lack_of_permission: Não é possível adicionar elemento secundário porque não tem permissão para editar o pacote de trabalho selecionado.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'não devem ser alterados manualmente. Os identificadores dos pacotes de trabalho são atribuídos automaticamente e resolvidos através da tabela de alias; por isso, alterá-los manualmente interrompe as ligações e o histórico dos identificadores. Se esta alteração for deliberada, guarde com `save(context: :%{context})` e mantenha a tabela `work_package_semantic_aliases` consistente.'
               semantic_identifier_incomplete: e sequence_number devem ser definidos ao mesmo tempo.
+            sequence_number:
+              must_not_be_changed: 'não deve ser alterado manualmente. É atribuído automaticamente com o identificador. Se esta alteração for deliberada, guarde com `save(context: :%{context})`.'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -2473,6 +2516,8 @@ pt-PT:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- deve ser 0h quando o Trabalho estiver definido e % Concluído for 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: tem de estar vazio quando o Trabalho está vazio e % de conclusão é 100 %.
           readonly_status: O pacote de trabalho está em estado de apenas leitura, por isso os seus atributos não podem ser alterados.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:
@@ -2800,6 +2845,7 @@ pt-PT:
   button_add_sub_item: Adicionar sub-item
   button_add_member: Adicionar membro
   button_add_watcher: Adicionar observadores
+  button_all_filters: All filters
   button_annotate: Anotar
   button_apply: Aplicar
   button_apply_changes: Aplicar alterações
@@ -3163,8 +3209,8 @@ pt-PT:
       edit_attribute_groups:
         description: 'Personalize a configuração do formulário com estes complementos adicionais:'
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: Adicionar novas secções de atributos
+          rename: Mudar o nome de secções de atributos
           related: Adicione uma tabela de pacotes de trabalho relacionados
       readonly_work_packages:
         description: Marque pacotes de trabalho como só de leitura para estados específicos.
@@ -3251,10 +3297,11 @@ pt-PT:
       disabled: Ativar
       enabled: Desativar
   enumeration_activities: Atividades de controlo de tempo
-  enumeration_work_package_priorities: Prioridades do pacote de trabalho
-  enumeration_reported_project_statuses: Estado reportado
   enumeration_caption_order_changed: Ordem alterada com sucesso.
   enumeration_could_not_be_moved: A enumeração não pode ser movida.
+  enumeration_default_value_caption: Ao definir este %{model} como padrão, a predefinição anterior %{model}  será substituída.
+  enumeration_reported_project_statuses: Estado reportado
+  enumeration_work_package_priorities: Prioridades do pacote de trabalho
   enterprise_trials:
     dialog_component:
       title: Avaliação gratuita do Enterprise
@@ -3476,10 +3523,11 @@ pt-PT:
     no_results_text: Sem resultados
   header:
     project_select_component:
-      all_projects: All projects
-      favorites: Favorites
-      leave_project: Leave project
-      title: Projects
+      all_projects: Todos os projetos
+      favorites: Favoritos
+      leave_project: Sair do projeto
+      no_favorite_projects: Não tem projetos favoritos.
+      title: Projetos
   toggle_switch:
     label_on: Ligar
     label_off: Desligar
@@ -3532,19 +3580,18 @@ pt-PT:
         header: Leia sobre novas funcionalidades e atualizações de produtos.
         learn_about: Mais informações sobre todas as novas funcionalidades
         missing: Ainda não há nenhum recurso destacado.
-        '17_5':
+        '17_6':
           new_features_title: 'A versão contém várias novas funcionalidades e melhorias, como:
 
             '
           new_features_list:
-            line_0: Identificadores de pacotes de trabalho baseados em projetos para referências mais claras.
-            line_1: Suporte do Jira Migrator para identificadores Jira, datas de vencimento e muito mais.
-            line_2: Opção para excluir tipos de pacotes de trabalho dos Backlogs.
-            line_3: Vistas de sprint redesenhadas.
-            line_4: Melhoria na integração entre pacotes de trabalho em documentos e editores de texto.
-            line_5: Horários de reuniões mais flexíveis e menos notificações por e-mail.
-            line_6: Grupos aninhados para estruturas organizacionais e permissões herdadas.
-            line_7: Interfaces de administração melhoradas para fluxos de trabalho, utilizadores e configuração de tipos.
+            line_0: Integração com XWiki (plano Corporate).
+            line_1: Objetivos do sprint
+            line_2: Página de visão geral 'Todos os sprints'.
+            line_3: Apresentar os grupos de backlog nos pacotes de trabalho e nas tabelas de pacotes de trabalho.
+            line_4: Melhoria do suporte a identificadores (semânticos) baseados em projetos.
+            line_5: Converter os pontos da ordem de trabalhos da reunião em pacotes de trabalho.
+            line_6: Configurar os tipos de custos por projeto.
     links:
       upgrade_enterprise_edition: Aprimorar para a edição Enterprise
       postgres_migration: A migrar a sua instalação para PostgreSQL
@@ -3729,8 +3776,8 @@ pt-PT:
         submit_button: Atualizar alertas
     notifications:
       participating:
+        description: Receberá sempre uma notificação sempre que for mencionado, e sempre que houver alterações nos pacotes de trabalho que acompanha. Estas notificações não podem ser desativadas. No entanto, pode optar por ativar ou desativar o recebimento de notificações relativas a alterações nos pacotes de trabalho que lhe dizem respeito (nos quais é encarregado, responsável ou que foram partilhados consigo).
         title: Participante
-        description: Notificações para todas as atividades nos pacotes de trabalho em que está envolvido (responsável ou observador).
         submit_button: Atualizar preferências
         mentioned: Mencionou
         watched: A ver
@@ -3738,8 +3785,8 @@ pt-PT:
         responsible: Responsável
         shared: Partilhado comigo
       date_alerts:
+        description: Pode configurar alertas de data para pacotes de trabalho nos quais seja o responsável, o responsável final e/ou o observador, de modo a ser notificado automaticamente alguns dias antes de os prazos se aproximarem ou de se tornarem vencidos.
         title: Alertas de data
-        description: Notificações automáticas ao aproximarem-se datas importantes para pacotes de trabalho abertos em que esteja envolvido (responsável ou observador).
         submit_button: Atualizar alertas de data
         start_date: Data de início
         due_date: Data de término
@@ -3753,8 +3800,8 @@ pt-PT:
           three_days_after: 3 dias depois
           seven_days_after: 7 dias depois
       non_participating:
+        description: Além disso, pode optar por receber notificações sobre qualquer uma das seguintes atividades em todos os projetos.
         title: Não participante
-        description: Notificações adicionais para atividades em todos os projetos.
         submit_button: Atualizar preferências
         work_package_created: Novos pacotes de trabalho
         work_package_commented: Todos os novos comentários
@@ -3762,8 +3809,8 @@ pt-PT:
         work_package_prioritized: Todas as mudanças de prioridade
         work_package_scheduled: Todas as alterações de datas
       project_specific_settings:
-        title: Definições de notificação específicas do projeto
-        description: Estas configurações específicas do projeto substituem as configurações padrão acima.
+        description: Pode ajustar as suas definições de notificação para ser notificado apenas sobre determinados eventos em projetos específicos. Adicione um projeto abaixo e escolha quais os eventos que devem desencadear uma notificação. Estas definições específicas do projeto substituem as definições predefinidas acima.
+        title: Notificações específicas do projeto
         add_button: Adicionar notificações específicas do projeto
         dialog_title: Adicionar notificações específicas do projeto
         list_header: Projetos com notificações específicas
@@ -3897,6 +3944,7 @@ pt-PT:
   label_send_invitation: Enviar convite
   label_calculated_value: Valor calculado
   label_change_parent: Alterar pai
+  label_change_password: Alterar a palavra-passe
   label_change_plural: Alterações
   label_change_properties: Alterar propriedades
   label_change_status: Alterar estado
@@ -4134,7 +4182,7 @@ pt-PT:
   label_custom_favicon: Favicon personalizado
   label_custom_touch_icon: Ícone de toque personalizado
   label_departments: Organização
-  label_departments_description_html: 'Defina a estrutura da sua empresa criando departamentos e subdepartamentos de forma hierárquica. Isto permite refletir as linhas de reporte e manter uma síntese clara e estruturada da sua organização dentro do OpenProject. Também pode importar uma estrutura organizacional existente através de [sincronização de grupos LDAP](ldap_docs_article).
+  label_departments_description_html: 'Defina a estrutura da sua empresa criando departamentos e sub-departamentos de forma hierárquica. Isto permite refletir as linhas de reporte e manter uma visão geral clara e estruturada da sua organização no OpenProject. Também pode importar uma estrutura organizacional existente através da [sincronização de departamento LDAP](ldap_docs_article).
 
     '
   label_logout: Terminar Sessão
@@ -4142,6 +4190,7 @@ pt-PT:
   label_main_menu: Menu lateral
   label_manage: Gerir
   label_manage_groups: Gerir grupos
+  label_managed_by_ldap: Gerido pela sincronização LDAP
   label_managed_repositories_vendor: Repositórios sob gestão %{vendor}
   label_mathematical_operators: Operadores matemáticos
   label_max_size: Tamanho máximo
@@ -4183,6 +4232,7 @@ pt-PT:
   label_my_account_data: Dados da minha conta
   label_my_avatar: O meu avatar
   label_my_queries: As minhas consultas personalizadas
+  label_my_security: Segurança
   label_name: Nome
   label_never: Nunca
   label_new: Novo
@@ -4237,6 +4287,7 @@ pt-PT:
 
     '
   label_part_of: parte de
+  label_past: Past
   label_password_lost: Esqueceu a sua senha?
   label_password_rule_lowercase: Minúsculas
   label_password_rule_numeric: Carateres Numéricos
@@ -4420,6 +4471,7 @@ pt-PT:
   label_type_new: Novo tipo
   label_type_plural: Tipos
   label_ui: Interface do utilizador
+  label_upcoming: Upcoming
   label_updated_time: Alterado há %{value} atrás
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Atualizado por %{author} há %{age}
@@ -4531,8 +4583,8 @@ pt-PT:
     one: 'Ausência: 1 dia útil'
     other: 'Ausência: %{count} dias úteis'
   label_x_items_selected:
-    one: One item selected
-    other: "%{count} items selected"
+    one: Um elemento selecionado
+    other: "%{count} elementos selecionados"
   label_yesterday: ontem
   label_zen_mode: Modo Zen
   label_role_type: Tipo
@@ -5054,16 +5106,13 @@ pt-PT:
     create_managed_delay: 'Por favor, note: O repositório é gerido, é criado de forma assíncrona no disco e estará disponível em breve.'
     create_successful: O repositório foi registado.
     delete_sucessful: O repositório foi eliminado.
-    destroy:
-      confirmation: Se continuar, irá apagar permanentemente o repositório gerido.
-      info: Apagar o repositório é uma ação irreversível.
-      info_not_managed: 'Nota: Isto NÃO apagará o conteúdo deste repositório, uma vez que não é gerido por OpenProject.'
-      managed_path_note: 'O seguinte directório será apagado: %{path}'
-      repository_verification_html: Digite o identificador do projeto %{identifier} para verificar a eliminação do seu repositório.
-      subtitle: Pretende realmente apagar o %{repository_type} do projeto %{project_name}?
-      subtitle_not_managed_html: Pretende realmente remover o %{repository_type} %{url} vinculado do projeto %{project_name}?
-      title_html: Eliminar %{repository_type}
-      title_not_managed: Remover o %{repository_type} vinculado?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Não é possível criar o repositório com a configuração selecionada. %{reason}
       managed_delete: Não é possível apagar o repositório gerido.
@@ -5446,6 +5495,7 @@ pt-PT:
     passwords: Senhas
     project_attributes:
       heading: Atributos do projeto
+      label_add_attribute: Adicionar um atributo do projeto
       label_for_all_projects: Todos os projetos
       label_new_attribute: Atributo do projeto
       label_new_section: Secção
@@ -5543,8 +5593,37 @@ pt-PT:
     session: Sessão
     user:
       default_preferences: Preferências por Omissão
-      display_format: Formato de visualização
       deletion: Eliminação
+      display_format: Formato de visualização
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Incorporado
+        label_built_in_attribute_actions: Ações de atributo incorporadas
+      custom_field_row_component:
+        label_user_custom_field_actions: Ações de atributos do utilizador
+      show_component:
+        label_add_attribute: Adicionar um atributo de utilizador
+        label_edit_section: Editar título
+        label_no_user_custom_fields: Não existem atributos de utilizador definidos nesta secção
+        label_section_actions: Ações da secção
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filtrar por nome do atributo…
+        heading_description: Estes atributos do utilizador aparecem nos perfis dos utilizadores e nos cartões de informação. Pode adicionar novos atributos, agrupá-los em secções e reordená-los.
+      heading: Atributos do utilizador
+      label_new_attribute: Atributo do utilizador
+      label_new_section: Secção
+      label_untitled_section: Atributos do utilizador
+      new:
+        heading: Novo atributo
+      tabs:
+        attributes: Atributos
+        semantic_keys: Atributos mapeados
+      semantic_keys:
+        description: Alguns atributos podem fazer mais do que apenas armazenar informação — a aplicação utiliza-os para ativar funcionalidades específicas. Escolha abaixo qual o atributo a utilizar para cada finalidade. Cada atributo pode ser utilizado apenas para uma finalidade, e cada finalidade apenas para um atributo.
+        descriptions:
+          job_title: Escolha o atributo que contém o cargo de cada utilizador. Este aparece ao lado do nome do utilizador em vários locais, como, por exemplo, nos cartões de utilizador.
     working_days:
       section_work_week: Semana de trabalho
       section_holidays_and_closures: Feriados e encerramentos
@@ -5810,6 +5889,7 @@ pt-PT:
     status_user_and_brute_force: "%{user} e %{brute_force}"
     status_change: Alteração de estado
     text_change_disabled_for_provider_login: O nome e o e-mail são definidos pelo seu fornecedor de início de sessão, e não podem ser alterados.
+    department_ldap_managed_caption: Este departamento é gerido através da sincronização LDAP e não pode ser alterado aqui.
     unlock: Desbloquear
     unlock_and_reset_failed_logins: Desbloquear e redefinir logins errados
     error_cannot_delete_user: O utilizador não pode ser eliminado
@@ -6147,6 +6227,8 @@ pt-PT:
     scopes:
       api_v3: Acesso completo à API v3
       api_v3_text: A aplicação receberá acesso completo de leitura e escrita à API v3 do OpenProject para executar ações em seu nome.
+      mcp: Acesso ao MCP
+      mcp_text: A aplicação terá acesso aos pontos de extremidade do OpenProject MCP. Trata-se de um sub-conjunto limitado da APIv3, concebido especificamente para utilização com agentes de IA.
     grants:
       created_date: Aprovado em
       scopes: Permissões

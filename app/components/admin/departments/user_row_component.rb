@@ -46,26 +46,28 @@ module Admin
             render(Users::AvatarComponent.new(user: @user, size: "mini"))
           end
 
-          row.with_column do
-            render(Primer::Alpha::ActionMenu.new) do |menu|
-              menu.with_show_button(
-                icon: "kebab-horizontal",
-                scheme: :invisible,
-                "aria-label": I18n.t(:label_actions)
-              )
-              menu.with_item(
-                label: I18n.t(:button_remove),
-                scheme: :danger,
-                tag: :a,
-                href: remove_user_admin_department_path(@group, @user.id),
-                content_arguments: {
-                  data: {
-                    turbo_confirm: I18n.t(:text_are_you_sure),
-                    turbo_method: :delete,
-                    turbo_frame: "_top"
+          unless @group&.ldap_managed?
+            row.with_column do
+              render(Primer::Alpha::ActionMenu.new) do |menu|
+                menu.with_show_button(
+                  icon: "kebab-horizontal",
+                  scheme: :invisible,
+                  "aria-label": I18n.t(:label_actions)
+                )
+                menu.with_item(
+                  label: I18n.t(:button_remove),
+                  scheme: :danger,
+                  tag: :a,
+                  href: remove_user_admin_department_path(@group, @user.id),
+                  content_arguments: {
+                    data: {
+                      turbo_confirm: I18n.t(:text_are_you_sure),
+                      turbo_method: :delete,
+                      turbo_frame: "_top"
+                    }
                   }
-                }
-              )
+                )
+              end
             end
           end
         end

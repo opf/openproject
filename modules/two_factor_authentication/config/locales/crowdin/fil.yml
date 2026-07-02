@@ -46,7 +46,7 @@ fil:
     text_otp_delivery_message_sms: Your %{app_title} one-time password is %{token}
     text_otp_delivery_message_voice: 'Your %{app_title} one-time password is: %{pause} %{token}. %{pause} I repeat: %{pause} %{token}'
     text_2fa_enabled: Sa bawat pag-login, gagawin mo ang kahilingan na ipasok ang OTP token mula sa na-default na 2FA na aparato.
-    text_2fa_disabled: Upang mapagana ang Dalawang-dahilan sa pagpapatunay, gamitin ang boton par monga magparehistro sa bagong 2FA na aparato, kung ikaw ay may handa ng aparato. kailangan mong gawin ito na-default.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Ipasok ang backup code
       enter_backup_code_text: Pakiusap magpasok ng balido na backup code mula sa iyong listahan ng mga code kung sakali na hindi na ma-access ang iyong nirehistro na 2FA na mga aparato.
@@ -160,7 +160,7 @@ fil:
         '
       other_active_session_notice: Your account has an active remember cookie on another session.
       label: Tandaan
-      clear_cookie: Click here to remove all remembered 2FA sessions.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: All remembered 2FA sessions have been removed.
       dont_ask_again: Lumikha ng coockie upang maalala ang 2FA authentication para sa kleyente na ito %{days} mga araw.
   field_otp: Ang Isang-beses na password
@@ -171,6 +171,7 @@ fil:
   notice_account_has_no_phone: Walang numero sa cellphone ang nauugnay sa iyong account.
   label_confirmed: Kumpirmahin
   button_continue: Ipagpatuloy
+  button_make_active: Activate
   button_make_default: Markahan bilang default
   notice_phone_number_format: 'Pakiusap na ipasok ang numero sa sumusunod na pormat: +XX XXXXXXXX.'
   text_otp_not_receive: Iba pang mga pamamaraan sa pagpapatunay

@@ -129,6 +129,50 @@ RSpec.describe Backlogs::Sprints::SetAttributesService, type: :model do
       end
     end
 
+    context "with goal params" do
+      let(:other_project) { create(:project) }
+      let(:params) do
+        {
+          project:,
+          goal: {
+            id: 123,
+            project_id: other_project.id,
+            text: "Ship MVP"
+          }
+        }
+      end
+
+      it "assigns nested goal attributes for the service project" do
+        service_call
+
+        expect(sprint.goals.first).to have_attributes(
+          project_id: project.id,
+          text: "Ship MVP"
+        )
+      end
+
+      context "with a blank new goal" do
+        let(:params) { { project:, goal: { text: "" } } }
+
+        it "does not build a goal" do
+          expect { service_call }.not_to change { sprint.goals.length }
+        end
+      end
+
+      context "with an existing contextual goal" do
+        let(:sprint) { create(:sprint, project:) }
+        let!(:goal) { create(:sprint_goal, sprint:, project:, text: "Old goal") }
+        let(:params) { { goal: { text: "" } } }
+
+        it "marks the goal for destruction when blanked" do
+          service_call
+
+          expect(sprint.goals.find { |sprint_goal| sprint_goal.id == goal.id })
+            .to be_marked_for_destruction
+        end
+      end
+    end
+
     describe "default attributes" do
       let(:sprint) { Sprint.new }
 
@@ -168,7 +212,7 @@ RSpec.describe Backlogs::Sprints::SetAttributesService, type: :model do
         it "assigns a default name for the first sprint" do
           service_call
 
-          expected_name = "#{I18n.t('activerecord.models.sprint')} 1"
+          expected_name = "#{Sprint.human_model_name} 1"
           expect(sprint.name).to eq(expected_name)
         end
       end
@@ -265,7 +309,7 @@ RSpec.describe Backlogs::Sprints::SetAttributesService, type: :model do
           create(:sprint, project: other_project, name: "Other Sprint 5")
 
           service_call
-          expect(sprint.name).to eq("#{I18n.t('activerecord.models.sprint')} 1")
+          expect(sprint.name).to eq("#{Sprint.human_model_name} 1")
         end
 
         it "only considers sprints from the same project" do

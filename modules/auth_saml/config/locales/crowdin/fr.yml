@@ -12,7 +12,7 @@ fr:
         sp_entity_id: ID de l'entité de service
         metadata_url: URL des métadonnées du fournisseur d'identité
         name_identifier_format: Format de l'identifiant du nom
-        idp_entity_id: Identity provider entity ID
+        idp_entity_id: ID d'entité du fournisseur d'identité
         idp_sso_service_url: Point de terminaison de connexion du fournisseur d'identité
         idp_slo_service_url: Point de terminaison de déconnexion du fournisseur d'identité
         idp_cert: Certificat public du fournisseur d'identité
@@ -45,10 +45,10 @@ fr:
       success: Mise à jour réussie de la configuration à l'aide des métadonnées du fournisseur d'identité.
       invalid_url: L'URL des métadonnées fournie n'est pas valide. Fournissez une URL HTTP(s).
       error: 'Échec de la récupération des métadonnées du fournisseur d''identité : %{error}'
-      federation_metadata: 'The metadata URL points to a federation aggregate (many identity providers). Use your institution''s direct metadata URL, or enter your institution''s IdP entity ID in the metadata form and try again.
+      federation_metadata: 'L''URL de métadonnées pointe vers un agrégat de fédération regroupant plusieurs fournisseurs d''identité. Utilisez l''URL de métadonnées directe de votre établissement, ou saisissez l''ID d''entité IdP de votre institution dans le formulaire de métadonnées, puis réessayez.
 
         '
-      metadata_too_large: The metadata file exceeds the maximum allowed size.
+      metadata_too_large: Le fichier de métadonnées dépasse la taille maximale autorisée.
     providers:
       label_empty_title: Aucun fournisseur SAML n'est encore configuré.
       label_empty_description: Ajoutez un fournisseur pour le voir ici.
@@ -116,7 +116,7 @@ fr:
       metadata_url: 'Votre fournisseur d''identité fournit une URL de métadonnées.
 
         '
-      idp_entity_id: 'Optional: Useful when the metadata URL points to a federation aggregate with a lot of entries. Enter the entity ID of your institution''s identity provider. Leave blank for single-entity metadata URLs.
+      idp_entity_id: 'Facultatif : utile lorsque l''URL des métadonnées renvoie vers un agrégat de fédération comportant un grand nombre d''entrées. Saisissez l''identifiant d''entité du fournisseur d''identité de votre institution. Laissez ce champ vide pour les URL de métadonnées concernant une seule entité.
 
         '
       metadata_xml: 'Votre fournisseur d''identité fournit un téléchargement de métadonnées XML.

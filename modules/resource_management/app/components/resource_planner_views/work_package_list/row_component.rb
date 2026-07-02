@@ -179,8 +179,10 @@ module ResourcePlannerViews::WorkPackageList
       end
     end
 
+    # The only row has nowhere to move, so the entry is disabled rather than empty.
     def move_item(menu)
-      menu.with_sub_menu_item(label: t("resource_management.work_package_list.context_menu.move")) do |submenu|
+      menu.with_sub_menu_item(label: t("resource_management.work_package_list.context_menu.move"),
+                              disabled: first? && last?) do |submenu|
         submenu.with_leading_visual_icon(icon: :"arrow-right")
 
         ns = "resource_management.work_package_list.context_menu"

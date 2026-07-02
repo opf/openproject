@@ -156,6 +156,7 @@ RSpec.describe "Portfolios", "index", :js, with_ee: :portfolio_management do # T
   end
 
   it "lets you apply filters" do
+    click_button accessible_name: "Portfolio name filter"
     portfolios_page.filter_by_name_and_identifier("Favorited")
     portfolios_page.expect_portfolios_listed(portfolio_favorited)
     portfolios_page.expect_portfolios_not_listed(portfolio_a, portfolio_b, inactive_portfolio)

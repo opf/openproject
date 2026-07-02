@@ -50,7 +50,7 @@ import { WorkPackageCollectionResource } from 'core-app/features/hal/resources/w
 })
 export class WorkPackageTableSumsRowController implements AfterViewInit {
   readonly injector = inject(Injector);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLTableRowElement>>(ElementRef);
   readonly querySpace = inject(IsolatedQuerySpace);
   readonly states = inject(States);
   readonly schemaCache = inject(SchemaCacheService);

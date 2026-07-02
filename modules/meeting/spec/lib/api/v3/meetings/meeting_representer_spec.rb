@@ -97,4 +97,14 @@ RSpec.describe API::V3::Meetings::MeetingRepresenter do
       expect(subject).to be_json_eql(meeting.updated_at.utc.iso8601(3).to_json).at_path("updatedAt")
     end
   end
+
+  describe "notify" do
+    subject(:generated) { representer.to_json }
+
+    it "reflects the resolved notify status (notify?) rather than the raw column" do
+      allow(meeting).to receive_messages(notify?: true, notify: false)
+
+      expect(generated).to be_json_eql(true.to_json).at_path("notify")
+    end
+  end
 end

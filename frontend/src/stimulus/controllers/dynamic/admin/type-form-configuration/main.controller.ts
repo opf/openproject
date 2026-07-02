@@ -29,12 +29,11 @@
  */
 
 import { Controller } from '@hotwired/stimulus';
-import { TurboRequestsService } from 'core-app/core/turbo/turbo-requests.service';
-import {
-  ExternalRelationQueryConfigurationService,
-} from 'core-app/features/work-packages/components/wp-table/external-configuration/external-relation-query-configuration.service';
+import { useAngularServices, type PickedServices, type ServiceKey } from 'core-stimulus/mixins/use-angular-services';
 
 export default class TypeFormConfigurationController extends Controller {
+  static services:ServiceKey[] = ['turboRequests', 'externalRelationQueryConfiguration'];
+
   static targets = ['groupsContainer', 'inactiveContainer'];
 
   declare readonly groupsContainerTarget:HTMLElement;
@@ -50,18 +49,10 @@ export default class TypeFormConfigurationController extends Controller {
   declare readonly noFilterQueryValue:string;
   declare readonly groupsUrlValue:string;
 
-  private turboRequests:TurboRequestsService;
-  private externalRelationQueryConfiguration:ExternalRelationQueryConfigurationService;
-  private servicesInitialization?:Promise<void>;
+  declare services:Promise<PickedServices<'turboRequests'|'externalRelationQueryConfiguration'>>;
 
-  connect() {
-    this.servicesInitialization ??= this.initializeServices();
-  }
-
-  private async initializeServices() {
-    const context = await window.OpenProject.getPluginContext();
-    this.turboRequests = context.services.turboRequests;
-    this.externalRelationQueryConfiguration = context.services.externalRelationQueryConfiguration;
+  initialize() {
+    useAngularServices(this);
   }
 
   addQueryGroup(event:Event) {
@@ -99,7 +90,7 @@ export default class TypeFormConfigurationController extends Controller {
   }
 
   private async postNewGroup(groupType:'attribute'|'query', queryProps?:unknown):Promise<void> {
-    await this.servicesInitialization;
+    const { turboRequests } = await this.services;
 
     const body = new URLSearchParams({
       group_type: groupType,
@@ -109,7 +100,7 @@ export default class TypeFormConfigurationController extends Controller {
       body.set('query', JSON.stringify(queryProps));
     }
 
-    await this.turboRequests.request(this.addGroupUrlValue, {
+    await turboRequests.request(this.addGroupUrlValue, {
       method: 'POST',
       headers: {
         Accept: 'text/vnd.turbo-stream.html',
@@ -119,9 +110,9 @@ export default class TypeFormConfigurationController extends Controller {
   }
 
   private async postQueryUpdate(groupKey:string, queryProps:unknown):Promise<boolean> {
-    await this.servicesInitialization;
+    const { turboRequests } = await this.services;
 
-    await this.turboRequests.request(`${this.groupsUrlValue}/${encodeURIComponent(groupKey)}/update_query`, {
+    await turboRequests.request(`${this.groupsUrlValue}/${encodeURIComponent(groupKey)}/update_query`, {
       method: 'PATCH',
       headers: {
         Accept: 'text/vnd.turbo-stream.html',
@@ -135,7 +126,7 @@ export default class TypeFormConfigurationController extends Controller {
   }
 
   private async openQueryEditor(queryJson:string, callback:(queryProps:unknown) => void) {
-    await this.servicesInitialization;
+    const { externalRelationQueryConfiguration } = await this.services;
 
     const currentQuery = JSON.parse(queryJson) as unknown;
     const disabledTabs = {
@@ -143,9 +134,7 @@ export default class TypeFormConfigurationController extends Controller {
       timelines: I18n.t('js.work_packages.table_configuration.embedded_tab_disabled'),
     };
 
-    if (!this.element.isConnected) return;
-
-    this.externalRelationQueryConfiguration.show({
+    externalRelationQueryConfiguration.show({
       currentQuery,
       callback,
       disabledTabs,

@@ -37,9 +37,15 @@ class Queries::ProjectReservedIdentifiers::ProjectReservedIdentifierQuery
   end
 
   def default_scope
+    # Pure-numeric slugs are legacy artifacts (identifier validation was tightened
+    # later; the semantic-conversion autofix renames such projects, reserving the
+    # old numeric identifier). Releasing them frees nothing — numeric identifiers
+    # are invalid in both formats — and would break friendly_id history resolution
+    # of old /projects/<number> links, letting them fall through to a primary-key
+    # lookup of a different project.
     Project.identifier_slugs
       .historically_reserved
-      .where("slug ~ ? AND slug !~ ?", "^[a-z0-9_-]+$", "^[0-9]+$")
+      .where("slug !~ ?", "^[0-9]+$")
       .joins("JOIN projects ON projects.id = friendly_id_slugs.sluggable_id")
       .order("projects.name ASC, friendly_id_slugs.created_at DESC")
   end

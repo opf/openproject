@@ -77,8 +77,9 @@
     button_confirm: Bekreft
     button_continue: Fortsett
     button_copy: Kopier
-    button_copy_to_clipboard: Kopier til utklippstavlen
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Kopier lenke til utklippstavlen
+    button_copy_to_clipboard: Kopier til utklippstavlen
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Egendefinerte felter
     button_delete: Slett
@@ -155,16 +156,15 @@
         manual: Bytt til Markdown-kilde
         wysiwyg: Bytt til WYSIWYG editor
       macro:
-        error: 'Kan ikke utvide makro: %{message}'
         attribute_reference:
           macro_help_tooltip: Dette tekstsegmentet er dynamisk gjengitt av en makro.
           not_found: Finner ikke forespurt ressurs
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: Den valgte egenskapen '%{name}' eksisterer ikke.
         child_pages:
-          button: Lenker til undersider
+          button: List of sub-pages
           include_parent: Inkluder overordnet
-          text: "[Placeholder] Lenker til undersider i"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki-side
           this_page: denne siden
           hint: 'La dette feltet stå tomt for å liste alle undersider av gjeldende side. Har du en annen side å referere til, dens tittel eller slug.
@@ -175,9 +175,14 @@
           title: Sett inn / rediger Code snippet
           language: Formaterer språk
           language_hint: Angi formateringsspråket som vil bli brukt til å fremheve (hvis støttet).
-        dropdown:
-          macros: Makroer
-          chose_macro: Velg makro
+        embedded_calendar:
+          text: "[Placeholder] Innbygget kalender"
+        embedded_table:
+          button: Bygg inn arbeidspakker
+          text: "[Placeholder] Innebygd arbeidspakke-tabell"
+        error: 'Kan ikke utvide makro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Innholdsfortegnelse
         toolbar_help: Klikk for å velge widget og vise verktøylinjen. Dobbelklikk for å redigere widgeten.
         wiki_page_include:
@@ -195,11 +200,6 @@
           button_style_hint: 'Valgfritt: Huk av om makroen skal vises som en knapp, ikke som en lenke.'
           without_type: Opprett arbeidspakke
           with_type: 'Opprett arbeidspakke (ype: %{typename})'
-        embedded_table:
-          button: Bygg inn arbeidspakker
-          text: "[Placeholder] Innebygd arbeidspakke-tabell"
-        embedded_calendar:
-          text: "[Placeholder] Innbygget kalender"
     admin:
       type_form:
         edit_query: Rediger spørring
@@ -368,6 +368,7 @@
     label_in_more_than: i mer enn
     label_incoming_emails: Inkommende e-post
     label_information_plural: Informasjon
+    label_infinity: Infinity
     label_invalid: Ugyldig
     label_import: Importer
     label_latest_activity: Siste aktivitet
@@ -392,6 +393,7 @@
     label_no_value: Ingen verdi
     label_none: ingen
     label_not_contains: inneholder ikke
+    label_not_available: Not available
     label_not_equals: er ikke
     label_on: på
     label_open_menu: Åpne meny
@@ -912,11 +914,12 @@
         relation_filters:
           filter_work_packages_by_relation_type: Filtrer arbeidspakker etter relasjonstype
       tabs:
-        overview: Oversikt
         activity: Aktivitet
+        files: Filer
+        overview: Oversikt
+        project_attributes: Project attributes
         relations: Relasjoner
         watchers: Overvåkere
-        files: Filer
       time_relative:
         days: dager
         weeks: uker

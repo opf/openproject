@@ -17,7 +17,7 @@ async function triggerTour(name:OnboardingTourNames):Promise<void> {
   // Wait for configuration to be loaded
   await configuration.initialize();
 
-  await import(/* webpackChunkName: "onboarding-tour" */ './onboarding_tour').then((tour) => {
+  await import('./onboarding_tour').then((tour) => {
     tour.start(name, configuration);
   });
 }

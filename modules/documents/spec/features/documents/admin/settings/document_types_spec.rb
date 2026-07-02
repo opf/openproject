@@ -51,7 +51,7 @@ RSpec.describe "Document types admin", :js do
       end
 
       within_test_selector("admin-document-types-subheader") do
-        click_on "Add"
+        click_on "Type"
       end
 
       fill_in "Name", with: "Documentation"
@@ -78,6 +78,9 @@ RSpec.describe "Document types admin", :js do
       end
 
       click_link "Documentation"
+
+      expect(page).to have_text("Making this document type the default")
+      expect(page).to have_no_text("priority")
 
       fill_in "Name", with: "Report"
       click_on("Save")

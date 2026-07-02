@@ -46,7 +46,7 @@ tr:
     text_otp_delivery_message_sms: "%{app_title} tek kullanımlık parolanız %{token}"
     text_otp_delivery_message_voice: "%{app_title} bir kerelik parolanız: %{pause} %{token}. %{pause} Tekrar ediyorum: %{pause}   %{token} "
     text_2fa_enabled: Her giriş yaptığınızda, varsayılan 2FA cihazınızdan bir OTP belirteci girmeniz istenir.
-    text_2fa_disabled: İki faktörlü kimlik doğrulamayı etkinleştirmek için, yeni bir 2FA cihazı kaydetmek için yukarıdaki düğmeyi kullanın. Zaten bir cihazınız varsa, varsayılan olarak ayarlamanız gerekir.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Yedek kodunu girin
       enter_backup_code_text: Kayıtlı 2FA cihazlarınıza artık erişememeniz durumunda lütfen kod listenizden geçerli bir yedekleme kodu girin.
@@ -160,7 +160,7 @@ tr:
         '
       other_active_session_notice: Hesabınızda başka bir oturumda etkin bir hatırlama çerezi var.
       label: Hatırla
-      clear_cookie: Tüm hatırlanan 2FA oturumlarını kaldırmak için buraya tıklayın.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Tüm hatırlanan 2FA oturumları kaldırıldı.
       dont_ask_again: Bu kullanıcı da 2FA kimlik doğrulamasını %{days} gün boyunca hatırlamak için çerez oluştur.
   field_otp: Tek kullanımlık parola
@@ -171,6 +171,7 @@ tr:
   notice_account_has_no_phone: Hesabınızla ilişkili cep telefonu numarası yok.
   label_confirmed: Onaylandı
   button_continue: Devam et
+  button_make_active: Activate
   button_make_default: Varsayılan olarak işaretleyin
   notice_phone_number_format: 'Lütfen numaranızı yandaki formatta giriniz: +XX XXXXXXXX.'
   text_otp_not_receive: Diğer doğrulama yöntemleri

@@ -228,3 +228,10 @@ ul.SegmentedControl,
       padding-right: var(--base-size-16)
     .FilterableTreeViewTreeContainer
       scrollbar-gutter: stable
+
+      // Firefox on Windows can render the scrollbar over the tree content,
+      // so keep trailing actions out of that area.
+      // see https://bugzilla.mozilla.org/show_bug.cgi?id=1980289
+      body.-browser-windows.-browser-firefox &
+        .TreeViewItemContainer
+          width: calc(100% - var(--base-size-16))

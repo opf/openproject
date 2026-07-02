@@ -52,10 +52,27 @@
                 menu.with_show_button(icon: "kebab-horizontal", "aria-label": t("settings.project_attributes.label_section_actions"), scheme: :invisible)
                 edit_action_item(menu)
                 move_actions(menu)
-                if @project_custom_fields.empty?
+                if @ordered_cfs.empty?
                   delete_action_item(menu)
                 else
                   disabled_delete_action_item(menu)
+                end
+
+                menu.with_divider
+
+                menu.with_sub_menu_item(
+                  label: t("settings.project_attributes.label_new_attribute"),
+                  content_arguments: {
+                    aria: { label: t("settings.project_attributes.label_add_attribute") },
+                    data: { test_selector: "new-project-custom-field-in-section-submenu" }
+                  }
+                ) do |sub_menu|
+                  sub_menu.with_leading_visual_icon(icon: :plus)
+                  OpenProject::CustomFieldFormat.available_for_class_name("Project")
+                                                .sort_by(&:name)
+                                                .each do |format|
+                    action_menu_item_for_custom_field_format(sub_menu, format)
+                  end
                 end
               end
             end
@@ -64,7 +81,8 @@
               render(
                 Primer::Alpha::Dialog.new(
                   id: "project-custom-field-section-dialog#{@project_custom_field_section.id}", title: t("settings.project_attributes.label_new_section"),
-                  size: :medium_portrait
+                  size: :medium_portrait,
+                  data: { "keep-open-on-submit": true }
                 )
               ) do |_dialog|
                 render(Settings::ProjectCustomFieldSections::DialogBodyFormComponent.new(project_custom_field_section: @project_custom_field_section))
@@ -73,7 +91,7 @@
           end
         end
       end
-      if @project_custom_fields.empty?
+      if @ordered_cfs.empty?
         component.with_row(data: { "empty-list-item": true }) do
           flex_layout(align_items: :center, justify_content: :space_between) do |empty_list_container|
             empty_list_container.with_column(ml: 4, mr: 2) do
@@ -93,23 +111,21 @@
 
                 OpenProject::CustomFieldFormat.available_for_class_name("Project")
                                               .sort_by(&:name)
-                                              .map do |format|
-                                                action_menu_item_for_custom_field_format(menu, format)
+                                              .each do |format|
+                  action_menu_item_for_custom_field_format(menu, format)
                 end
               end
             end
           end
         end
       else
-        first_and_last = [@project_custom_fields.first, @project_custom_fields.last]
-        @project_custom_fields.each do |project_custom_field|
-          component.with_row(
-            data: draggable_item_config(project_custom_field)
-          ) do
+        @ordered_cfs.each_with_index do |cf, index|
+          component.with_row(data: draggable_item_config(cf)) do
             render(
               custom_field_row_component_class.new(
-                project_custom_field:,
-                first_and_last:
+                project_custom_field: cf,
+                first: index == 0,
+                last: index == @ordered_cfs.size - 1
               )
             )
           end

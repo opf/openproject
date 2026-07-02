@@ -83,8 +83,9 @@ hu:
     button_confirm: Jóváhagy
     button_continue: Folytatás
     button_copy: Másol
-    button_copy_to_clipboard: Másolás a vágólapra
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Hivatkozás másolása a vágólapra
+    button_copy_to_clipboard: Másolás a vágólapra
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Választható mezők
     button_delete: Törlés
@@ -167,16 +168,15 @@ hu:
         manual: Váltás Markdown forrásra
         wysiwyg: Váltás a WYSIWYG szerkesztőre
       macro:
-        error: 'A makró nem bővíthető: %{message}'
         attribute_reference:
           macro_help_tooltip: Ezt a szövegrészt dinamikusan megjeleníti egy makró.
           not_found: A kért erőforrás nem található.
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: A kiválasztott "%{name}" attribútum nem létezik.
         child_pages:
-          button: Gyermek kapcsolatok
+          button: List of sub-pages
           include_parent: Tartalmazza a szülőt
-          text: "[Placeholder] Linkek a gyermek oldalra"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki oldal
           this_page: ez az oldal
           hint: 'Hagyja üresen ezt a mezőt az aktuális oldal összes gyermekoldalának felsorolásához. Ha másik oldalra szeretne hivatkozni, adja meg a címét vagy a sorközöket.
@@ -187,9 +187,14 @@ hu:
           title: Kódrészlet beszúrás / szerkesztés
           language: Formázási nyelvek
           language_hint: Adja meg a kiemeléshez használt formázási nyelvet (ha támogatott).
-        dropdown:
-          macros: Makrók
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Beágyazott naptár"
+        embedded_table:
+          button: Feladatcsoport táblázat beágyazás
+          text: "[Placeholder] Beágyazott feladatcsoport táblázat"
+        error: 'A makró nem bővíthető: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Tartalomjegyzék
         toolbar_help: Kattintson a widget kiválasztásához és az eszköztár megjelenítéséhez. Kattintson duplán a widget szerkesztéséhez
         wiki_page_include:
@@ -207,11 +212,6 @@ hu:
           button_style_hint: 'Lehetőség: Ellenőrizze, hogy a makró gombként jelenik meg, nem pedig linkként.'
           without_type: Feladatcsoport létrehozása
           with_type: 'Feladatcsoport létrehozása (típus: %{typename})'
-        embedded_table:
-          button: Feladatcsoport táblázat beágyazás
-          text: "[Placeholder] Beágyazott feladatcsoport táblázat"
-        embedded_calendar:
-          text: "[Placeholder] Beágyazott naptár"
     admin:
       type_form:
         edit_query: Lekérdezés módosítása
@@ -380,6 +380,7 @@ hu:
     label_in_more_than: több mint
     label_incoming_emails: Bejövő e-mailek
     label_information_plural: Információk
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Importálás
     label_latest_activity: Utolsó aktivitás
@@ -404,6 +405,7 @@ hu:
     label_no_value: Nincs érték
     label_none: Egyik sem
     label_not_contains: nem tartalmaz
+    label_not_available: Not available
     label_not_equals: nem
     label_on: be
     label_open_menu: Menü megnyitása
@@ -564,7 +566,7 @@ hu:
         milestone_date: Milestone date
         overdue: Overdue
         overdue_since: for %{difference_in_days}.
-        property_today: is today.
+        property_today: ma van.
         property_is: "%{difference_in_days} napon belül."
         property_was: "%{difference_in_days} napja volt."
         property_is_deleted: törölve.
@@ -792,7 +794,7 @@ hu:
         header_with_parent: 'Új %{type} (%{parent_type} #%{id} gyermek)'
         button: Létrehoz
       duplicate:
-        title: Duplicate work package
+        title: Ismétlődő munkacsomag
       hierarchy:
         show: Hierarchikus mód megjelenítése
         hide: Hierarchikus mód elrejtése
@@ -950,11 +952,12 @@ hu:
         relation_filters:
           filter_work_packages_by_relation_type: A munkacsomagok szűrése relációs típus szerint
       tabs:
-        overview: Áttekintés
         activity: Tevékenység
+        files: Fájlok
+        overview: Áttekintés
+        project_attributes: Project attributes
         relations: Kapcsolatok
         watchers: Megfigyelők
-        files: Fájlok
       time_relative:
         days: nap
         weeks: Hetek
@@ -1086,7 +1089,7 @@ hu:
       selected_filter:
         all: Minden projekt
         selected: Csak a kijelölt
-      search_placeholder: Search projects...
+      search_placeholder: Projektek keresése...
       include_subprojects: Összes alprojekt bevonása
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.

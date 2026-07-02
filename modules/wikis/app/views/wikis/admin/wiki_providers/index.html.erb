@@ -33,29 +33,44 @@ See COPYRIGHT and LICENSE files for more details.
   <%= render(Primer::OpenProject::PageHeader.new) do |header| %>
     <% header.with_title { t(:project_module_wiki_platforms) } %>
     <% header.with_description { t("wikis.admin.wiki_providers.index_description") } %>
-    <% header.with_breadcrumbs([
-      { href: admin_index_path, text: t(:label_administration) },
-      { href: admin_settings_wiki_providers_path, text: t("menus.admin.wikis") },
-      t(:project_module_wiki_platforms)
-    ]) %>
+    <% header.with_breadcrumbs(
+         [
+           { href: admin_index_path, text: t(:label_administration) },
+           { href: admin_settings_wiki_providers_path, text: t("menus.admin.wikis") },
+           t(:project_module_wiki_platforms)
+         ]
+       ) %>
   <% end %>
 
-  <%= render(Primer::OpenProject::SubHeader.new) do |subheader|
-        subheader.with_action_menu(
-          leading_icon: :plus,
-          trailing_icon: :"triangle-down",
-          label: I18n.t("wikis.admin.wiki_providers.label_wiki_platform"),
-          anchor_align: :end,
-          button_arguments: { scheme: :primary,
-                              aria: { label: I18n.t("wikis.admin.wiki_providers.label_add_new") },
-                              test_selector: "wiki-providers-create-new-button" }
-        ) do |menu|
-          menu.with_item(
-            label: I18n.t("wikis.provider_types.xwiki.name"),
-            href: new_admin_settings_wiki_provider_path
-          )
-        end
-      end %>
+  <% if @ee_token_allows_wiki_integration %>
+    <%= render(Primer::OpenProject::SubHeader.new) do |subheader|
+          subheader.with_action_menu(
+            leading_icon: :plus,
+            trailing_icon: :"triangle-down",
+            label: I18n.t("wikis.admin.wiki_providers.label_wiki_platform"),
+            anchor_align: :end,
+            button_arguments: { scheme: :primary,
+                                aria: { label: I18n.t("wikis.admin.wiki_providers.label_add_new") },
+                                test_selector: "wiki-providers-create-new-button" }
+          ) do |menu|
+            menu.with_item(
+              label: I18n.t("wikis.provider_types.xwiki.name"),
+              href: new_admin_settings_wiki_provider_path
+            )
+          end
+        end %>
+  <% end %>
 <% end %>
 
-<%= render(Wikis::Admin::WikiProviderListComponent.new(@wiki_providers)) %>
+<% unless @ee_token_allows_wiki_integration %>
+  <%= render EnterpriseEdition::BannerComponent.new(
+        :xwiki_integration,
+        variant: :large,
+        video: "enterprise/xwiki-integration.mp4",
+        i18n_scope: "wikis.upsell.xwiki"
+      ) %>
+<% end %>
+
+<% if @ee_token_allows_wiki_integration || @wiki_providers.any? %>
+  <%= render(Wikis::Admin::WikiProviderListComponent.new(@wiki_providers)) %>
+<% end %>

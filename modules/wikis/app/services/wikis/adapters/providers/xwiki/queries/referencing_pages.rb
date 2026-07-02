@@ -33,23 +33,48 @@ module Wikis
     module Providers
       module XWiki
         module Queries
+          # Fetches all XWiki pages that reference a work package, combining two XWiki endpoints:
+          # - /openproject/links/workPackages
+          # - /openproject/mentions
+          # Results are merged and deduplicated. Either endpoint failing fails the whole query.
           class ReferencingPages < BaseQuery
-            include Concerns::XWikiQuery
+            include Concerns::XWikiRequest
             include Concerns::XWikiPageQueries
 
             MAXIMUM_RESULTS = 25
 
             def call(input_data:, auth_strategy:)
               authenticated(auth_strategy) do |http|
-                url = rest_url("openproject/links/workPackages/#{input_data.linkable.id}")
-                handle_response(http.get(url, params: { number: MAXIMUM_RESULTS })) do |data|
-                  success(
-                    fetch_json(data, "searchResults")
-                      .uniq { |r| fetch_json(r, "id") }
-                      .map { canonical_page_info(identifier: fetch_json(it, "id"), auth_strategy:) }
-                  )
+                fetch_reference_ids(http, input_data).bind do |reference_ids|
+                  fetch_mention_ids(http, input_data).bind do |mention_ids|
+                    ids = (reference_ids + mention_ids).uniq
+                    success(ids.map { canonical_page_info(identifier: it, auth_strategy:) })
+                  end
                 end
               end
+            end
+
+            private
+
+            def fetch_reference_ids(http, input_data)
+              fetch_page_ids(http, rest_url("openproject/links/workPackages/#{input_data.linkable.id}"),
+                             params: { number: MAXIMUM_RESULTS, withInstance: instance_id })
+            end
+
+            def fetch_mention_ids(http, input_data)
+              fetch_page_ids(http, rest_url("openproject/mentions"), params: {
+                               workPackage: input_data.linkable.id, withInstance: instance_id
+                             })
+            end
+
+            def fetch_page_ids(http, url, params:)
+              handle_response(http.get(url, params:)) do |data|
+                success(fetch_json(data, "searchResults").map { fetch_json(it, "id") }.uniq)
+              end
+            end
+
+            def instance_id
+              Setting.installation_uuid
             end
           end
         end

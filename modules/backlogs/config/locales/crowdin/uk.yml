@@ -41,6 +41,8 @@ uk:
           active: Активний
           completed: Завершений
         work_packages: Пакети робіт
+      sprint_goal:
+        text: Ціль спринту
       work_package:
         backlog_bucket: Сегмент беклогу
         backlogs_work_package_type: Тип Backlog-у
@@ -59,6 +61,8 @@ uk:
             sprint_sharing:
               share_all_projects_already_taken: не можна налаштувати, оскільки проєкт «%{name}» уже надає спільний доступ усім проєктам.
               share_all_projects_already_taken_anonymous: не можна налаштувати, оскільки інший проєкт вже надає спільний доступ усім проєктам.
+        sprint_goal:
+          project_already_has_goal: уже має ціль для цього спринту.
         sprint:
           attributes:
             base:
@@ -84,11 +88,27 @@ uk:
               not_assignable: не можна призначити, оскільки його вже завершено або доступ до нього не надано цьому проєкту.
               not_eligible_for_moving: не є активним спринтом у проєкті, який включає спринт, з якого переміщується пакет робіт.
     models:
-      sprint: Спринт
+      sprint:
+        one: Спринт
+        few: Спринти
+        many: Спринти
+        other: Спринти
   backlogs:
     administration_blankslate:
       title: Ми змінюємо налаштування адміністратора в модулі беклогів
       text: Зараз ми переробляємо модуль невиконаних завдань (беклогів). Налаштування адміністратора для спринтів і беклогів з’являться тут найближчим часом. Налаштування на рівні проєктів залишаються доступними.
+    backlog_component:
+      button_new_backlog_bucket: Новий сегмент беклогу
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Сегмент беклогу
+        other: Сегменти беклогу
+        zero: Усі сегменти беклогу
+      label_sprint_filter:
+        one: Спринт
+        other: Спринти
+        zero: Усі спринти
+      select_panel_title: Вибрати елементи
     bucket_destroy_modal_component:
       title: Видалити сегмент беклогу?
       details: Сегмент беклогу «%{name}» буде видалено, а всі пакети робіт — переміщено у вхідні завдання беклогу. Пакети робіт не видаляться.
@@ -156,6 +176,12 @@ uk:
       action_menu:
         edit_sprint: Змінити спринт
         add_work_package: Додати пакет робіт
+    sprint_form:
+      goal_caption: Ціль спринту є унікальною для цього проєкту й не поширюється на інші проєкти, що використовують той самий спринт.
+      goal_for_this_project_label: "%{attribute} (для цього проєкту)"
+    sprint_form_component:
+      shared_sprint_info_banner: Це спільний спринт. Внесені зміни відображатимуться в усіх проєктах, які його використовують.
+      shared_sprint_warning_banner: Це спільний спринт. У вас немає необхідних прав для його редагування.
     sprints_component:
       blankslate:
         title: Спринтів ще немає
@@ -166,6 +192,7 @@ uk:
         create_description_text: Щоб почати планувати спринт, створіть його тут.
         manage_description_html: Щоб почати планувати спринт, перейдіть у %{settings_link}, щоб отримати спринти з інших проєктів.
         no_actions_description_text: Ще немає спринтів, доступних для цього проєкту.
+      button_new_sprint: Новий спринт
     story_points:
       one: "%{count} cторі-поінт"
       few: "%{count} сторі-поінти"
@@ -189,9 +216,9 @@ uk:
       action_menu:
         copy_url_to_clipboard: Скопіювати URL-адресу в буфер обміну
         copy_work_package_id: Скопіювати ідентифікатор пакета робіт
-        move_menu: Перемістити
+        move_menu: Перемістити в позицію
         move_to_backlog_bucket: Перемістити в сегмент беклогу
-        move_to_inbox: Перемiстити у вхідні
+        move_to_inbox: Перемістити у вхідні беклогу
         move_to_sprint: Перемістити в спринт
     work_package_is_closed: Робочий пакет виконується, коли
   burndown:

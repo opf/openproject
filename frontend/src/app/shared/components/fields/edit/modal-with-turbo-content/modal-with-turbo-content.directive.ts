@@ -40,7 +40,7 @@ import type { TurboBeforeFrameRenderEvent, TurboSubmitEndEvent } from '@hotwired
   standalone: false,
 })
 export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly cdRef = inject(ChangeDetectorRef);
   readonly halEvents = inject(HalEventsService);
   readonly apiV3Service = inject(ApiV3Service);
@@ -59,9 +59,9 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
   private cancelListenerBound = this.cancelListener.bind(this);
 
   ngAfterViewInit() {
-    (this.elementRef.nativeElement as HTMLElement)
+    this.elementRef.nativeElement
       .addEventListener('turbo:submit-end', this.contextBasedListenerBound);
-    (this.elementRef.nativeElement as HTMLElement)
+    this.elementRef.nativeElement
       .addEventListener('turbo:before-frame-render', this.preserveSegmentAttributesBound);
 
     document
@@ -69,9 +69,9 @@ export class ModalWithTurboContentDirective implements AfterViewInit, OnDestroy 
   }
 
   ngOnDestroy() {
-    (this.elementRef.nativeElement as HTMLElement)
+    this.elementRef.nativeElement
       .removeEventListener('turbo:submit-end', this.contextBasedListenerBound);
-    (this.elementRef.nativeElement as HTMLElement)
+    this.elementRef.nativeElement
       .removeEventListener('turbo:before-frame-render', this.preserveSegmentAttributesBound);
 
     document

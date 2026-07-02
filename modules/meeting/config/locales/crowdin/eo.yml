@@ -68,10 +68,10 @@ eo:
         interval: Interval
         monthly_day: Day of month
         monthly_ordinal: Position
-        monthly_weekday: Weekday
+        monthly_weekday: Semajntagoj
         start_date: Starts on
-        start_time: Start time
-        start_time_hour: Start time
+        start_time: Komenca tempo
+        start_time_hour: Komenca tempo
         end_after: Meeting series ends
         end_date: End date
         iterations: Occurrences
@@ -80,7 +80,7 @@ eo:
         duration: Duration
         notify: Send notifications
       recurring_meeting_interim_response:
-        start_time: Start time
+        start_time: Komenca tempo
       meeting_participant:
         invited: Invited
         attended: Attended
@@ -134,7 +134,7 @@ eo:
     meeting_agenda_opened: Meeting agenda opened
     meeting_minutes: Meeting minutes edited
     meeting_minutes_created: Meeting minutes created
-  error_notification: Failed to send notification.
+  error_notification: Malsukcesis sendi sciigon.
   error_notification_with_errors: 'Failed to send notification. The following recipients could not be notified: %{recipients}'
   label_meeting: Meeting
   label_meeting_plural: Renkontiĝoj
@@ -143,7 +143,7 @@ eo:
   label_meeting_template_new: New template
   label_meeting_template_create: Create template
   label_meeting_template_delete: Delete template
-  label_meeting_template_edit: Edit template
+  label_meeting_template_edit: Redaktu ŝablonon
   label_meeting_create_from_template: Create meeting from template
   label_meeting_new: Nova renkontiĝo
   label_meeting_new_dynamic: New one-time meeting
@@ -204,7 +204,7 @@ eo:
   label_past_invitations: Past invitations
   label_attended: Attended
   label_attended_user: Attended user
-  label_created_by_me: Created by me
+  label_created_by_me: Kreita de mi
   label_notify: Send for review
   label_icalendar: Send iCalendar
   label_icalendar_download: Download iCalendar event
@@ -218,8 +218,8 @@ eo:
   label_recurring_filter: Recurring filter
   caption_meeting_template_select: Select a template to automatically copy its agenda items
   caption_template_project_select: Please select the project in which to create this meeting template
-  placeholder_meeting_template_select_project_first: Select a project first
-  placeholder_meeting_template_no_templates_for_project: No templates available for this project
+  placeholder_meeting_template_select_project_first: Unue elektu projekton
+  placeholder_meeting_template_no_templates_for_project: Por ĉi tiu projekto neniuj ŝablonoj disponeblas
   meeting:
     participants:
       label:
@@ -235,7 +235,7 @@ eo:
       text:
         template: These participants will be invited automatically to all future meetings as they are created.
         manage_participants: Search for and add project members as participants to this meeting.
-        search_for_members: Search for project members
+        search_for_members: Serĉi projekto-membrojn
       blankslate:
         heading: No participants
         description: There are no participants yet.
@@ -285,13 +285,13 @@ eo:
         header: Meeting '%{title}' has been updated
         summary: Meeting '%{title}' has been updated by %{actor}
         body: The meeting '%{title}' has been updated by %{actor}.
-        old_title: Old title
-        new_title: New title
+        old_title: Malnova titolo
+        new_title: Nova titolo
         old_date_time: Old date/time
         new_date_time: New date/time
         old_location: Old location
         new_location: New location
-        added_participants: Added
+        added_participants: Aldonita
         removed_participants: Removed
     label_mail_all_participants: Send email invite to participants
     types:
@@ -331,7 +331,7 @@ eo:
     blankslate:
       title: There are no meetings to display
       desc: You can create a new meeting or change filter criteria
-    label_export_pdf: Export PDF
+    label_export_pdf: Eksporti kiel PDF
     export:
       your_meeting_export: Meeting is being exported
       minutes:
@@ -342,7 +342,7 @@ eo:
         location: Location
         title: Minutes
     export_pdf_dialog:
-      title: Export PDF
+      title: Eksporti kiel PDF
       description: Generate a printable PDF file of this meeting at the current state.
       templates:
         default:
@@ -409,9 +409,9 @@ eo:
         description: Upcoming meetings you are participating in will appear here.
       view_details: View all meetings
   meeting_section:
-    untitled_title: Untitled section
+    untitled_title: Sekcio sentitola
     delete_confirmation: Deleting the section will also delete all of its agenda items. Are you sure you want to do this?
-    placeholder_title: New section
+    placeholder_title: Nova sekcio
     empty_text: Drag items here or create a new one
   meeting_participant:
     participation_status:
@@ -422,7 +422,7 @@ eo:
       unknown: Unknown
   recurring_meeting:
     time_zone_difference_banner:
-      title: Time zone difference
+      title: Diferenco de horzonoj
       description: 'The dates below are referencing the time zone of the meeting series (%{actual_zone}), not your local time zone (%{user_zone}).
 
         '
@@ -431,12 +431,13 @@ eo:
       message: 'This meeting series has come to an end. There are no upcoming meetings. '
       action: You can still view past occurrences or edit the meeting series to extend it.
     occurrence:
-      infoline: This meeting is part of a recurring meeting series.
       error_no_next: There is no next occurrence for this meeting.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: The first occurrence of this meeting series is already instantiated.
       first_created: 'The first meeting has been successfuly created from template. All future meetings will be created automatically at the time of the previous occurrence.
 
         '
+      infoline: This meeting is part of a recurring meeting series.
     template:
       button_finalize: Open first meeting
       blank_title: Your meeting series template is empty
@@ -444,7 +445,7 @@ eo:
 
         '
       label_view_template: View template
-      label_edit_template: Edit template
+      label_edit_template: Redaktu ŝablonon
       banner_html: 'You are currently editing a template of a meeting series: %{link}. Every new occurrence of a meeting in the series will use this template. Changes will not affect past or already-created meetings.
 
         '
@@ -456,14 +457,14 @@ eo:
         one: Every day
         other: Every %{count} days
       x_weekly:
-        one: Every week
+        one: Ĉiu semajno
         other: Every %{count} weeks
       x_monthly:
         one: Every month
         other: Every %{count} months
       monthly_day_of_month: Day of month
       monthly_nth_weekday: Monthly on a weekday
-      every_weekday: Every %{day_of_the_week}
+      every_weekday: Ĉiu %{day_of_the_week}
       working_days: Every working day
     monthly:
       inflected_ordinal:
@@ -488,7 +489,7 @@ eo:
     in_words:
       daily_interval: Every %{interval} days
       working_days: Every working day
-      weekly: Every week on %{weekday}
+      weekly: Ĉiusemajne je %{weekday}
       weekly_interval: Every %{interval} weeks on %{weekday}
       monthly_day: Every month on the %{day}
       monthly_day_interval: Every %{interval} months on the %{day}
@@ -578,7 +579,7 @@ eo:
   label_meeting_index_today: Hodiaŭ
   label_meeting_index_tomorrow: Morgaŭ
   label_meeting_index_this_week: Later this week
-  label_meeting_index_later: Next week and later
+  label_meeting_index_later: Venontsemajne kaj poste
   label_agenda_items: Agenda items
   label_agenda_items_reordered: reordered
   label_agenda_item_add: Add agenda item
@@ -600,10 +601,10 @@ eo:
   label_agenda_item_duplicate: Duplicate
   label_agenda_item_duplicate_in_next: Duplicate in next meeting
   label_agenda_item_duplicate_in_next_title: Duplicate in next meeting?
-  label_agenda_item_add_notes: Add notes
-  label_agenda_item_add_outcome: Add outcome
+  label_agenda_item_add_notes: Aldoni notojn
+  label_agenda_item_add_outcome: Aldoni rezulton
   label_agenda_item_convert_to_work_package: Convert to work package
-  label_agenda_item_work_package_add: Add work package
+  label_agenda_item_work_package_add: Aldoni laborpakaĵon
   label_agenda_item_work_package: Agenda item work package
   label_section_rename: Rename section
   label_agenda_outcome: Outcome
@@ -611,7 +612,7 @@ eo:
   label_agenda_outcome_actions: Agenda outcome actions
   label_agenda_outcome_edit: Edit outcome
   label_agenda_outcome_delete: Remove outcome
-  label_added_as_outcome: Added as outcome
+  label_added_as_outcome: Aldonita kiel rezulto
   label_write_outcome: Write outcome
   label_existing_work_package: Existing work package
   text_outcome_not_editable_anymore: This outcome is not editable anymore.
@@ -678,7 +679,7 @@ eo:
   text_meeting_not_editable_anymore: This meeting is not editable anymore.
   text_meeting_not_present_anymore: This meeting was deleted. Please select another meeting.
   label_add_work_package_to_meeting_dialog_title: Select meeting
-  label_add_work_package_to_meeting_section_label: Section
+  label_add_work_package_to_meeting_section_label: Sekcio
   label_add_work_package_to_meeting_dialog_button: Add to meeting
   label_meeting_selection_caption: It is only possible to add this work package to an upcoming or an ongoing meeting.
   label_section_selection_caption: Choose a particular section of the agenda or add it to the backlog.

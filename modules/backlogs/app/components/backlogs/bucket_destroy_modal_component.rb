@@ -32,6 +32,7 @@ module Backlogs
   class BucketDestroyModalComponent < ApplicationComponent
     include OpTurbo::Streamable
     include OpPrimer::ComponentHelpers
+    include CommonHelper
 
     TEST_SELECTOR = "backlog-bucket-destroy-modal-dialog"
 
@@ -55,8 +56,8 @@ module Backlogs
     def form_arguments
       {
         action: project_backlogs_bucket_path(backlog_bucket.project,
-                                                     backlog_bucket,
-                                                     helpers.all_backlogs_params),
+                                             backlog_bucket,
+                                             backlog_filter_params),
         method: :delete
       }
     end

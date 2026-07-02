@@ -77,8 +77,9 @@ vi:
     button_confirm: Xác nhận
     button_continue: tiếp tục
     button_copy: sao chép
-    button_copy_to_clipboard: Sao chép vào khay nhớ tạm
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Sao chép liên kết vào bảng tạm
+    button_copy_to_clipboard: Sao chép vào khay nhớ tạm
     button_copy_to_other_project: Trùng lặp trong một dự án khác
     button_custom-fields: Tùy chỉnh mục
     button_delete: xóa
@@ -155,16 +156,15 @@ vi:
         manual: Chuyển sang nguồn Markdown
         wysiwyg: Chuyển sang trình soạn thảo WYSIWYG
       macro:
-        error: 'Không thể mở rộng macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Đoạn văn bản này đang được macro hiển thị động.
           not_found: Không thể tìm thấy tài nguyên được yêu cầu
           nested_macro: Macro này đang tham chiếu đệ quy %{model} %{id}.
           invalid_attribute: Thuộc tính đã chọn '%{name}' không tồn tại.
         child_pages:
-          button: Liên kết đến trang con
+          button: List of sub-pages
           include_parent: Bao gồm cha mẹ
-          text: "[Placeholder] Liên kết tới các trang con của"
+          text: "[Placeholder] List of sub-pages of"
           page: trang Wiki
           this_page: trang này
           hint: 'Để trống trường này để liệt kê tất cả các trang con của trang hiện tại. Nếu bạn muốn tham khảo một trang khác, hãy cung cấp tiêu đề hoặc phần mở rộng của trang đó.
@@ -175,9 +175,14 @@ vi:
           title: Chèn/sửa đoạn mã
           language: Định dạng ngôn ngữ
           language_hint: Nhập ngôn ngữ định dạng sẽ được sử dụng để đánh dấu (nếu được hỗ trợ).
-        dropdown:
-          macros: Macro
-          chose_macro: Chọn vĩ mô
+        embedded_calendar:
+          text: "[Placeholder] Lịch nhúng"
+        embedded_table:
+          button: Nhúng bảng gói công việc
+          text: "[Placeholder] Bảng gói công việc được nhúng"
+        error: 'Không thể mở rộng macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Mục lục
         toolbar_help: Bấm để chọn widget và hiển thị thanh công cụ. Nhấp đúp để chỉnh sửa tiện ích
         wiki_page_include:
@@ -195,11 +200,6 @@ vi:
           button_style_hint: 'Tùy chọn: Chọn để làm cho macro xuất hiện dưới dạng nút chứ không phải dưới dạng liên kết.'
           without_type: Tạo gói công việc
           with_type: 'Tạo gói công việc (Loại: %{typename})'
-        embedded_table:
-          button: Nhúng bảng gói công việc
-          text: "[Placeholder] Bảng gói công việc được nhúng"
-        embedded_calendar:
-          text: "[Placeholder] Lịch nhúng"
     admin:
       type_form:
         edit_query: Chỉnh sửa truy vấn
@@ -368,6 +368,7 @@ vi:
     label_in_more_than: trong hơn
     label_incoming_emails: Các thư đến
     label_information_plural: thông tin
+    label_infinity: Infinity
     label_invalid: không hợp lệ
     label_import: nhập khẩu
     label_latest_activity: Hoạt động mới nhất
@@ -392,6 +393,7 @@ vi:
     label_no_value: Không có giá trị
     label_none: không
     label_not_contains: không chứa
+    label_not_available: Not available
     label_not_equals: không phải
     label_on: trên
     label_open_menu: Mở trình đơn
@@ -911,11 +913,12 @@ vi:
         relation_filters:
           filter_work_packages_by_relation_type: Lọc các gói công việc theo loại quan hệ
       tabs:
-        overview: tổng quan
         activity: hoạt động
+        files: tập tin
+        overview: tổng quan
+        project_attributes: Project attributes
         relations: quan hệ
         watchers: người theo dõi
-        files: tập tin
       time_relative:
         days: ngày
         weeks: tuần

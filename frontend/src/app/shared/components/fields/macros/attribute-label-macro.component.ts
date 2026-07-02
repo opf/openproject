@@ -52,7 +52,7 @@ import { IOPFieldSchema } from 'core-app/features/hal/interfaces';
   standalone: false,
 })
 export class AttributeLabelMacroComponent implements OnInit {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly injector = inject(Injector);
   readonly resourceLoader = inject(AttributeModelLoaderService);
   readonly schemaCache = inject(SchemaCacheService);
@@ -84,7 +84,7 @@ export class AttributeLabelMacroComponent implements OnInit {
   label:string|undefined;
 
   ngOnInit():void {
-    const element = this.elementRef.nativeElement as HTMLElement;
+    const element = this.elementRef.nativeElement;
     const model = element.dataset.model as SupportedAttributeModels;
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;

@@ -85,7 +85,7 @@ function newSegment(vp:TimelineViewParameters,
 })
 export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin implements OnInit {
   readonly injector = inject(Injector);
-  elementRef = inject(ElementRef);
+  elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   states = inject(States);
   workPackageTimelineTableController = inject(WorkPackageTimelineTableController);
   wpTableTimeline = inject(WorkPackageViewTimelineService);
@@ -98,8 +98,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   private workPackagesWithRelations:Record<string, RelationsStateValue> = {};
 
   ngOnInit() {
-    const element = this.elementRef.nativeElement;
-    this.container = element.querySelector('.wp-table-timeline--relations');
+    this.container = this.elementRef.nativeElement.querySelector('.wp-table-timeline--relations')!;
     this.workPackageTimelineTableController
       .onRefreshRequested('relations', (vp:TimelineViewParameters) => this.refreshView());
 
@@ -130,7 +129,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
       )
       .subscribe((list) => {
         // ... make sure that the corresponding relations are loaded ...
-        const wps = _.compact(list.map((row) => row.workPackageId));
+        const wps = list.map((row) => row.workPackageId).filter((x):x is NonNullable<typeof x> => Boolean(x));
         void this.wpRelations.requireAll(wps);
       });
 
@@ -161,14 +160,13 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   private renderWorkPackagesRelations(workPackageIds:string[]) {
     workPackageIds.forEach((workPackageId) => {
       const workPackageWithRelation = this.workPackagesWithRelations[workPackageId];
-      if (_.isNil(workPackageWithRelation)) {
+      if (workPackageWithRelation == null) {
         return;
       }
 
       this.removeRelationElementsForWorkPackage(workPackageId);
-      const relations = _.values(workPackageWithRelation);
-      const relationsList = _.values(relations);
-      relationsList.forEach((relation) => {
+      const relations = Object.values(workPackageWithRelation);
+      relations.forEach((relation) => {
         if (!(relation.type === 'precedes'
           || relation.type === 'follows')) {
           return;
@@ -196,7 +194,7 @@ export class WorkPackageTableTimelineRelations extends UntilDestroyedMixin imple
   }
 
   private renderElements() {
-    const wpIdsWithRelations:string[] = _.keys(this.workPackagesWithRelations);
+    const wpIdsWithRelations:string[] = Object.keys(this.workPackagesWithRelations);
     this.renderWorkPackagesRelations(wpIdsWithRelations);
   }
 

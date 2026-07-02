@@ -212,9 +212,9 @@ We support the latest two [openDesk minor releases](https://gitlab.opencode.de/b
 
 #### Nextcloud Server
 
-* [Nextcloud 31](https://nextcloud.com/changelog/#latest31)
 * [Nextcloud 32](https://nextcloud.com/changelog/#latest32)
 * [Nextcloud 33](https://nextcloud.com/changelog/#latest33)
+* [Nextcloud 34](https://nextcloud.com/changelog/#latest34)
 
 > [!TIP]
 >
@@ -229,8 +229,8 @@ We support the latest two [openDesk minor releases](https://gitlab.opencode.de/b
 
 ##### OpenProject integration
 
-* [OpenProject Integration 3.0.0](https://github.com/nextcloud/integration_openproject/releases/tag/v3.0.0) — Nextcloud 33 or higher
-* [OpenProject Integration 2.11.2](https://github.com/nextcloud/integration_openproject/releases/tag/v2.11.2) — Nextcloud 31, 32
+* [OpenProject Integration 3.1.0](https://github.com/nextcloud/integration_openproject/releases/tag/v3.1.0) — Nextcloud 33, 34 or higher
+* [OpenProject Integration 2.11.3](https://github.com/nextcloud/integration_openproject/releases/tag/v2.11.3) — Nextcloud 32
 
 ##### Team folders
 

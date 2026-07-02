@@ -32,8 +32,7 @@ require "spec_helper"
 require "support/pages/admin/departments"
 
 RSpec.describe "Departments admin",
-               :js,
-               with_flag: { departments: true } do
+               :js do
   shared_let(:admin) { create(:admin) }
 
   let(:departments_page) { Pages::Admin::Departments.new }

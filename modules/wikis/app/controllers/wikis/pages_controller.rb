@@ -30,8 +30,10 @@
 
 module Wikis
   class PagesController < ApplicationController
+    include PageSelectionFormInput
+    include Concerns::ErrorHandling
+    include Concerns::LinkableRedirect
     include OpTurbo::ComponentStream
-    include Dry::Monads[:result]
 
     before_action :authorize, except: %i[search]
 
@@ -39,25 +41,38 @@ module Wikis
     # the permissions set in each wiki.
     no_authorization_required! :search
 
-    def create_and_link
-      # TODO: implement service to create page and link
-      render_error_flash_message_via_turbo_stream(
-        message: "Not implemented yet. Trying to create a new page with #{create_new_page_params.to_h}"
-      )
-      respond_to_with_turbo_streams
+    def create_and_link # rubocop:disable Metrics/AbcSize
+      parameters = create_new_page_params
+      provider = Provider.visible.enabled.find(parameters[:provider_id])
+
+      CreatePageService
+        .new(provider:, user: current_user)
+        .create_page_and_link(
+          title: parameters[:page_title],
+          parent_identifier: parameters[:parent_page_identifier],
+          linkable_type: parameters[:linkable_type],
+          linkable_id: parameters[:linkable_id]
+        )
+        .either(
+          ->(page_link) { turbo_redirect_for_linkable(page_link.linkable) },
+          ->(error) do
+            render_error_flash_message_via_turbo_stream(message: humanize_error_message(error))
+            respond_to_with_turbo_streams
+          end
+        )
     end
 
     def create_new_page_dialog
-      params = create_new_page_params
-      form_object = Forms::CreateNewWikiPageFormModel.new(linkable_id: params[:linkable_id],
-                                                          linkable_type: params[:linkable_type],
-                                                          provider_id: params[:provider_id],
-                                                          page_title: params[:page_title])
+      parameters = create_new_page_params
+      form_object = Forms::CreateNewWikiPageFormModel.new(linkable_id: parameters[:linkable_id],
+                                                          linkable_type: parameters[:linkable_type],
+                                                          provider_id: parameters[:provider_id],
+                                                          page_title: parameters[:page_title])
       respond_with_dialog Wikis::CreateNewWikiPageDialog.new(form_object)
     end
 
     def search
-      provider = Provider.visible.find(params.expect(:provider_id))
+      provider = Provider.visible.enabled.find(params.expect(:provider_id))
       query = params[:query]
       form_name = params[:name]
       builder = ActionView::Helpers::FormBuilder.new("", nil, view_context, {})
@@ -69,27 +84,12 @@ module Wikis
     private
 
     def search_pages(query, provider)
-      return Success([]) if query.blank?
-
-      Adapters::Input::SearchPages.build(query:).bind do |input_data|
-        provider.auth_strategy_for(current_user).bind do |auth_strategy|
-          provider.resolve("queries.search_pages").call(input_data:, auth_strategy:)
-        end
-      end
+      PageSearchService.new(provider:, user: current_user).search_pages(query)
     end
 
     def create_new_page_params
       params.expect(wikis_forms_create_new_wiki_page_form_model: %i[provider_id linkable_type linkable_id page_title])
             .merge(parent_page_identifier: parse_identifier(params[:wiki_page_selection]))
-    end
-
-    def parse_identifier(wiki_page_selection)
-      case wiki_page_selection
-      in [selected_page]
-        MultiJson.load(selected_page, symbolize_keys: true)[:value]
-      else
-        nil
-      end
     end
   end
 end

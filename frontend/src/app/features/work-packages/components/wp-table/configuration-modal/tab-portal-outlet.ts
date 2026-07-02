@@ -42,7 +42,7 @@ export class TabPortalOutlet {
   }
 
   public get activeComponents():TabComponent[] {
-    const tabs = _.values(this.activeTabs);
+    const tabs = Object.values(this.activeTabs);
     return tabs.map((tab:ActiveTabInterface) => tab.componentRef.instance);
   }
 
@@ -78,7 +78,7 @@ export class TabPortalOutlet {
    */
   dispose():void {
     // Dispose all active tabs
-    _.each(this.activeTabs, (active) => active.dispose());
+    Object.values(this.activeTabs).forEach((active) => active.dispose());
 
     // Remove outlet element
     if (this.outletElement.parentNode != null) {

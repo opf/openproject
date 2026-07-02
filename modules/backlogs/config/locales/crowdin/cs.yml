@@ -41,6 +41,8 @@ cs:
           active: Aktivní
           completed: Dokončen
         work_packages: Pracovní balíčky
+      sprint_goal:
+        text: Sprint goal
       work_package:
         backlog_bucket: Sekce backlogu
         backlogs_work_package_type: Typ backlogu
@@ -59,6 +61,8 @@ cs:
             sprint_sharing:
               share_all_projects_already_taken: nelze nastavit, protože projekt "%{name}" již sdílí se všemi projekty.
               share_all_projects_already_taken_anonymous: nelze nastavit, protože jiný projekt již sdílí se všemi projekty.
+        sprint_goal:
+          project_already_has_goal: already has a goal for this sprint.
         sprint:
           attributes:
             base:
@@ -84,11 +88,27 @@ cs:
               not_assignable: is not assignable since it is either not shared with the project or already finished.
               not_eligible_for_moving: není aktivní sprint v projektu, v němž se koná sprint, z něhož je pracovní balíček přesunut.
     models:
-      sprint: Sprint
+      sprint:
+        one: Sprint
+        few: Sprints
+        many: Sprints
+        other: Sprints
   backlogs:
     administration_blankslate:
       title: Nastavení backlogu se vyvíjí
       text: V současné době přepracováváme modul Backlogů. V blízké budoucnosti zde budou viditelná administrátorská nastavení pro sprinty a backlogy. Nastavení na úrovni projektů zůstávají k dispozici.
+    backlog_component:
+      button_new_backlog_bucket: New backlog bucket
+    backlog_filter_select_panel_component:
+      label_backlog_bucket_filter:
+        one: Backlog bucket
+        other: Backlog buckets
+        zero: All backlog buckets
+      label_sprint_filter:
+        one: Sprint
+        other: Sprints
+        zero: All sprints
+      select_panel_title: Select items
     bucket_destroy_modal_component:
       title: Smazat sekci backlogu?
       details: Sekce backlogu '%{name}' bude smazána a všechny pracovní balíčky budou přesunuty do složky nevyřízených úkolů. Žádný pracovní balíček nebude odstraněn.
@@ -117,8 +137,8 @@ cs:
       select_sprint_label: Vyberte sprint
       button_complete_sprint: Dokončit sprint
     inbox_component:
-      title: Příchozí
-      blankslate_title: Žádné příchozí položky
+      title: Nevyřízené
+      blankslate_title: Žádné nevyřízené položky
       blankslate_description: Zde se automaticky zobrazí všechny otevřené pracovní balíčky tohoto projektu.
       show_more:
         one: Zobrazit ještě 1 položku
@@ -156,6 +176,12 @@ cs:
       action_menu:
         edit_sprint: Upravit sprint
         add_work_package: Přidat pracovní balíček
+    sprint_form:
+      goal_caption: The sprint goal is unique to this project and is not shared with other projects also using this sprint.
+      goal_for_this_project_label: "%{attribute} (for this project)"
+    sprint_form_component:
+      shared_sprint_info_banner: This is a shared sprint. Modifications will be reflected in all projects using it.
+      shared_sprint_warning_banner: This is a shared sprint. You do not have the necessary permissions to edit it.
     sprints_component:
       blankslate:
         title: Zatím nejsou přítomny žádné sprinty
@@ -166,6 +192,7 @@ cs:
         create_description_text: Chcete-li začít plánovat sprint, vytvořte si ho zde.
         manage_description_html: Chcete-li začít plánovat sprint, přejděte na stránku %{settings_link} a získejte sprinty z jiného projektu.
         no_actions_description_text: Pro tento projekt zatím nejsou k dispozici žádné sprinty.
+      button_new_sprint: New sprint
     story_points:
       one: "%{count} story point"
       few: "%{count} story pointy"
@@ -189,9 +216,9 @@ cs:
       action_menu:
         copy_url_to_clipboard: Kopírovst adresu URL
         copy_work_package_id: Kopírovat ID pracovního balíčku
-        move_menu: Přesunout
+        move_menu: Přesun na pozici
         move_to_backlog_bucket: Přesunout do sekce backlogu
-        move_to_inbox: Přesunout do Příchozích
+        move_to_inbox: Přesunout do Nevyřízených
         move_to_sprint: Přesunout do sprintu
     work_package_is_closed: Pracovní balíček je hotov, když
   burndown:

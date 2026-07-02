@@ -33,7 +33,7 @@ See COPYRIGHT and LICENSE files for more details.
 <%=
   flex_layout data: { controller: "filter--filter-list", "filter--filter-list-clear-button-id-value": "type-filter-clear-button" } do |flex|
     flex.with_row do
-      render(Primer::OpenProject::SubHeader.new) do |subheader|
+      render(Primer::OpenProject::SubHeader.new(collapsed_search: false)) do |subheader|
         subheader.with_filter_input(
           name: "type-filter-input",
           label: t(".type_filter.label"),

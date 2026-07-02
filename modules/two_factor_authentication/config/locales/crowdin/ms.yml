@@ -46,7 +46,7 @@ ms:
     text_otp_delivery_message_sms: Kata laluan satu kali %{app_title} anda ialah %{token}
     text_otp_delivery_message_voice: 'Kata laluan satu kali %{app_title} anda ialah: %{pause} %{token}. Saya ulang: %{pause} %{token}'
     text_2fa_enabled: Setiap kali log masuk, anda akan diminta untuk memasukkan token OTP daripada peranti 2FA default anda.
-    text_2fa_disabled: Untuk membenarkan pengesahan dua faktor, gunakan butang di atas untuk mendaftar peranti 2FA yang baharu. Jika anda sudah mempunyai peranti, anda perlu menjadikannya default.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Masukkan kod sandaran
       enter_backup_code_text: Sila masukkan kod sandaran yang sah daripada senarai kod anda sekiranya anda tidak lagi mendapat akses kepada peranti 2FA berdaftar anda.
@@ -158,7 +158,7 @@ ms:
         '
       other_active_session_notice: Akaun anda mempunyai simpanan kuki yang aktif di sesi lain.
       label: Ingat
-      clear_cookie: Klik sini untuk buang semua sesi 2FA yang disimpan.
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Semua sesi 2FA yang disimpan telah dipadamkan.
       dont_ask_again: Ciptakan kuki untuk menyimpan pengesahan 2FA pada pelanggan ini selama %{days} hari.
   field_otp: Kata laluan satu kali
@@ -169,6 +169,7 @@ ms:
   notice_account_has_no_phone: Tiada nombor telefon bimbit yang terpaut dengan akaun anda.
   label_confirmed: Disahkan
   button_continue: Teruskan
+  button_make_active: Activate
   button_make_default: Tandakan sebagai default
   notice_phone_number_format: 'Sila masukkan nombor dalam format berikut: +XX XXXXXXXX.'
   text_otp_not_receive: Kaedah pengesahan lain

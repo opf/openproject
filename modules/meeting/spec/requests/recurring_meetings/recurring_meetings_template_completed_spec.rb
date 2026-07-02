@@ -102,6 +102,33 @@ RSpec.describe "Recurring meetings complete template",
     end
   end
 
+  context "when first occurrence is already created while the template is still a draft" do
+    let!(:meeting) do
+      create(:meeting,
+             recurring_meeting:,
+             start_time: recurring_meeting.start_time,
+             recurrence_start_time: recurring_meeting.start_time)
+    end
+
+    before do
+      recurring_meeting.template.update!(state: :draft)
+    end
+
+    it "opens the template without creating a duplicate occurrence" do
+      expect { subject }.not_to change(recurring_meeting.meetings.not_templated, :count)
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq("text/vnd.turbo-stream.html")
+      expect(response.body).to include('action="redirect_to"')
+      expect(response.body).to include(project_recurring_meeting_path(project, recurring_meeting))
+
+      expect(recurring_meeting.template.reload).to be_open
+      expect(recurring_meeting.meetings.not_templated.first).to eq(meeting)
+      expect(RecurringMeetings::InitNextOccurrenceJob)
+        .to have_been_enqueued.with(recurring_meeting, DateTime.parse("2024-12-06T10:00:00Z"))
+                              .at(DateTime.parse("2024-12-05T10:00:00Z"))
+    end
+  end
+
   context "when first occurrence is cancelled" do
     let!(:cancelled_occurrence) do
       create(:meeting,

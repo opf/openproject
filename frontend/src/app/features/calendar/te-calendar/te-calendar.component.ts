@@ -104,7 +104,7 @@ export class TimeEntryCalendarComponent implements AfterViewInit, OnDestroy {
   readonly states = inject(States);
   readonly apiV3Service = inject(ApiV3Service);
   readonly $state = inject(StateService);
-  private element = inject(ElementRef);
+  private element = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly i18n = inject(I18nService);
   readonly injector = inject(Injector);
   readonly notifications = inject(HalResourceNotificationService);

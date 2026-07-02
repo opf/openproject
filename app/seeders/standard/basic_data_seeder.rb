@@ -47,7 +47,8 @@ module Standard
         ::BasicData::WorkflowSeeder,
         ::BasicData::PrioritySeeder,
         ::BasicData::SettingSeeder,
-        ::BasicData::ProjectCustomFieldSectionSeeder
+        ::BasicData::ProjectCustomFieldSectionSeeder,
+        ::BasicData::UserCustomFieldSectionSeeder
       ]
     end
   end

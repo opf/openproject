@@ -45,6 +45,7 @@ lt:
   default_doc_category_user: Vartotojo dokumentacija
   enumeration_doc_categories: Dokumentų kategorijos
   documents:
+    button_add_type: Type
     page_header:
       heading: All documents
       action_menu:

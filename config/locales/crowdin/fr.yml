@@ -21,6 +21,7 @@
 #++
 ---
 fr:
+  label_user_attributes_plural: Attributs de l'utilisateur
   no_results_title_text: Il n'y a actuellement rien à afficher.
   activities:
     index:
@@ -32,6 +33,7 @@ fr:
         label_activity_show_all: Tout afficher
         label_activity_show_only_comments: Afficher uniquement les commentaires
         label_activity_show_only_changes: Afficher uniquement les modifications
+        label_dismiss_comment: Ignorer
         label_sort_asc: Les plus récents en bas
         label_sort_desc: Les plus récents en haut
         label_type_to_comment: Ajoutez un commentaire. Saisissez @ pour informer les gens.
@@ -44,33 +46,37 @@ fr:
         commented: commenté
         internal_comment: Commentaire interne
         internal_journal: Les commentaires internes sont visibles pour un groupe limité de membres.
-        unsaved_changes_confirmation_message: Vous avez des modifications non enregistrées. Voulez-vous vraiment fermer l'éditeur ?
+        unsaved_changes_confirmation_message: Voulez-vous vraiment supprimer votre commentaire ? Le contenu que vous avez rédigé sera perdu.
         internal_comment_confirmation:
           title: Rendre ce commentaire public ?
           heading: Rendre ce commentaire public ?
           description: Votre commentaire sera visible pour tous ceux qui peuvent accéder à ce lot de travaux. Voulez-vous continuer ?
           confirm_button_text: Passer en public
   admin:
+    banners:
+      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
     reserved_identifiers:
-      title: Identifiants de projet réservés
-      lede_html: Lorsque l'identifiant d'un projet est renommé, l'ancien identifiant reste réservé afin que les liens et intégrations existants continuent de fonctionner.<br>Vous pouvez ici libérer les identifiants réservés afin qu'ils puissent être utilisés par d'autres projets.
+      btn_release: Libérer
       col_identifier: Identifiant
       col_project: Projet
       col_reserved: Réservé
-      not_available_in_semantic_mode: Les identifiants de projet réservés ne sont disponibles qu'en mode d'identifiant numérique.
-      filter_label: Rechercher des identifiants
-      btn_release: Release
-      released_notice: L'identifiant "%{identifier}" a été publié.
-      identifier_not_found: L'identifiant réservé est introuvable. Il a peut-être déjà été libéré ou le projet a peut-être été supprimé. Veuillez actualiser la page.
       dialog:
-        title: Identifiant de publication
-        heading: Publier «%{identifier} » ?
-        description: La publication de cet identifiant ne peut pas être annulée. Les liens externes et les intégrations qui les utilisent cesseront de fonctionner, et le nom devient disponible pour tout nouveau projet à réclamer.
         checkbox_label: Je comprends que cette action ne peut pas être annulée.
-        confirm_button: Identifiant de publication
-      empty_heading: Aucun identifiant réservé
-      reserved_ago: il y a %{time}
+        confirm_button: Libérer l'identifiant
+        description: La libération de cet identifiant de projet est irréversible. Les liens externes et les intégrations qui l'utilisent ne fonctionneront plus, et le nom deviendra disponible pour tout nouveau projet souhaitant le revendiquer.
+        description_with_work_packages:
+          one: La libération de cet identifiant de projet (et de son identifiant de lot de travaux n° 1) est irréversible. Les liens externes et les intégrations qui l'utilisent ne fonctionneront plus, et le nom deviendra disponible pour tout nouveau projet souhaitant le revendiquer.
+          other: La libération de cet identifiant de projet (ainsi que de ses %{count} identifiants de lots de travaux) est irréversible. Les liens externes et les intégrations qui l'utilisent ne fonctionneront plus, et le nom deviendra disponible pour tout nouveau projet souhaitant le revendiquer.
+        heading: Libérer « %{identifier} » ?
+        title: Libérer l'identifiant
       empty_body: Lorsque l'identifiant d'un projet change, l'identifiant précédent apparaît ici afin que vous puissiez le libérer en toute sécurité.
+      empty_heading: Aucun identifiant réservé
+      filter_label: Rechercher des identifiants
+      identifier_not_found: L'identifiant réservé est introuvable. Il se peut qu'il ait déjà été libéré ou que le projet ait été supprimé. Veuillez actualiser la page.
+      lede_html: Lorsque l'identifiant d'un projet est renommé, l'ancien identifiant reste réservé afin que les liens et intégrations existants continuent de fonctionner.<br>Vous pouvez ici libérer les identifiants réservés afin qu'ils puissent être utilisés par d'autres projets.
+      released_notice: L'identifiant « %{identifier} » n'est plus réservé.
+      reserved_ago: il y a %{time}
+      title: Identifiants de projet réservés
     plugins:
       no_results_title_text: Aucun plugin n'est actuellement installé.
       no_results_content_text: Consultez notre page sur les intégrations et les plugins pour plus d'informations.
@@ -128,7 +134,7 @@ fr:
         trial: Essai
     jemalloc_allocator: Allocateur de mémoire Jemalloc
     journal_aggregation:
-      caption: 'Les actions de l''utilisateur sur un lot de travaux (modification de la description, du statut, des valeurs ou rédaction de commentaires) sont regroupées si elles sont effectuées au cours de cette période. Il contrôle également les délais de notification et de [webhook](webhook_link).
+      caption_with_maximum: 'Les actions de l''utilisateur sur un lot de travaux (modification de la description, du statut, des valeurs ou rédaction de commentaires) sont regroupées si elles sont effectuées au cours de cette période. Il contrôle également les délais de notification et de [webhook](webhook_link). Le maximum est de %{max} minutes.
 
         '
     import:
@@ -429,6 +435,20 @@ fr:
       new_project:
         project_creation: Création d'un projet
         notification_text_default: "<p>Bonjour,</p> <p>Un nouveau projet a été créé : projectValue:name</p> <p>Nous vous remercions de votre attention et vous prions d'agréer nos salutations distinguées.</p>\n"
+      project_custom_field_sections:
+        destroy:
+          error: La section n'a pas pu être supprimée.
+        drop:
+          error: La section n'a pas pu être réordonnée.
+        move:
+          error: La section n'a pas pu être réordonnée.
+      user_custom_field_sections:
+        destroy:
+          error: La section n'a pas pu être supprimée.
+        drop:
+          error: La section n'a pas pu être réordonnée.
+        move:
+          error: La section n'a pas pu être réordonnée.
       work_packages_identifier:
         page_header:
           description: Vous avez le choix entre des identifiants numériques classiques pour les lots de travaux et des identifiants sémantiques spécifiques aux projets, qui ajoutent l'identifiant du projet à l'identifiant du lot de travaux.
@@ -437,7 +457,7 @@ fr:
 
             '
         box_header:
-          table_title: Projects with identifiers to update
+          table_title: Projets avec des identifiants à mettre à jour
           label_project: Projet
           label_previous_identifier: Identifiant précédent
           label_autofixed_suggestion: Futur identifiant
@@ -675,6 +695,8 @@ fr:
             gain_role: Le rôle sera élargi '%{new_role}'
             lose_role: Perdra son rôle '%{old_role}'
             no_change: Pas de changement
+    multi_value_more:
+      other: et %{count} autres
     text_add_new_custom_field: 'Pour ajouter de nouveaux champs personnalisés à un projet, vous devez d''abord les créer avant de pouvoir les ajouter à ce projet.
 
       '
@@ -719,6 +741,11 @@ fr:
         project: 0 signifie aucune restriction
       has_comment:
         project: Permet à l'utilisateur d'ajouter un commentaire relatif à l'attribut du projet lorsqu'il sélectionne la valeur dans la vue d'ensemble du projet.
+      visible_on_user_card:
+        all: Lorsque cette case est cochée, la valeur de ce champ s'affiche dans la fiche d'informations de l'utilisateur lorsque vous passez la souris sur un utilisateur, partout dans l'application.
+    semantic_keys:
+      none: Aucun
+      job_title: Intitulé du poste
     tab:
       no_results_title_text: Il n'y a actuellement aucun champ personnalisé.
       no_results_content_text: Créer un nouveau champ personnalisé
@@ -746,9 +773,11 @@ fr:
         '
       add_button: Ajouter
     detail_blankslate:
-      heading: Ce service n'a pas de niveau hiérarchique inférieur
-      description: Ajoutez des services ou des utilisateurs pour créer des sous-éléments à l'intérieur d'un autre.
       add_button: Ajouter
+      description: Ajoutez des services ou des utilisateurs pour créer des sous-éléments à l'intérieur d'un autre.
+      heading: Ce service n'a pas de niveau hiérarchique inférieur
+      managed_description: Ses sous-départements et ses membres sont synchronisés via LDAP et ne peuvent pas être ajoutés manuellement.
+      managed_heading: Ce service est géré par synchronisation LDAP
     add_department_form:
       name_label: Nom du service
       name_placeholder: Saisissez le nom du service
@@ -757,6 +786,9 @@ fr:
       heading: Déplacer l'utilisateur vers ce service ?
       description: L'utilisateur %{user} est actuellement membre du service %{from_department}. Si vous le déplacez, il sera retiré de ce service.
       confirm: Déplacer l'utilisateur
+      managed_title: Utilisateur géré via LDAP
+      managed_heading: Cet utilisateur ne peut pas être déplacé
+      managed_description: "%{user} appartient à %{from_department}, qui est géré par synchronisation LDAP. L'appartenance à un service est contrôlée par LDAP et ne peut pas être modifiée ici."
     context_menu:
       add_sub_department: Ajouter un sous-service
       add_user: Ajouter un utilisateur
@@ -1023,7 +1055,7 @@ fr:
           external_file_storage: Espace de stockage de fichiers externe
           label_artifact_export: Exportation d'artefact
           label_attachment_export: Enregistrer en tant que pièce jointe au lot de travaux
-          label_file_link_export: Téléverser le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
+          label_file_link_export: Importer le fichier vers un espace de stockage externe et ajouter un lien vers le lot de travaux
           pdf_file_storage: Stockage de fichiers PDF
           unavailable: indisponible
         label_request_submission: Demande d'envoi
@@ -1306,20 +1338,16 @@ fr:
       '
     delete_tooltip: Supprimer l'utilisateur fictif
     deletion_info:
-      heading_html: Supprimer l'utilisateur fictif %{name}
       data_consequences: 'Toutes les occurrences de l''utilisateur fictif (par exemple, en tant que responsable ou autre valeur utilisateur) seront réaffectées à un compte appelé « Utilisateur supprimé ». Comme les données de chaque compte supprimé sont réaffectées à ce compte, il ne sera pas possible de distinguer les données que l''utilisateur a créées des données d''un autre compte supprimé.
 
         '
-      irreversible: Cette action est irréversible
-      confirmation_html: Saisissez le nom d'utilisateur fictif %{name} pour confirmer sa suppression.
+      heading: Supprimer l'utilisateur fictif %{name} ?
+      title: Supprimer l'utilisateur fictif %{name}
   priorities:
     edit:
       priority_color_text: |
         Cliquez pour attribuer ou modifier la couleur de cette priorité.
         Elle peut être utilisée pour mettre en évidence les lots de travaux dans le tableau.
-    admin:
-      default:
-        caption: Le fait de définir cette priorité par défaut remplacera la priorité par défaut précédente.
   reactions:
     action_title: Réagir
     add_reaction: Ajouter une réaction
@@ -1364,44 +1392,51 @@ fr:
       no_results_content_text: Créer un nouveau type
     edit:
       form_configuration:
-        tab: Configuration du formulaire
-        label_group: Section
-        reset_to_defaults: Réinitialiser le formulaire
         add_attribute_group: Section
         add_query_group: Tableau des lots de travaux associés
+        blankslate_description: Ajoutez des groupes à l'aide du bouton ci-dessus ou faites glisser des attributs depuis le panneau de gauche.
+        blankslate_title: Aucun groupe pour le moment
+        builtin_field: Champ intégré
+        confirm_delete_group: Êtes-vous sûr de vouloir supprimer cette section ? Cette action ne peut pas être annulée.
+        confirm_reset: Êtes-vous sûr de vouloir réinitialiser la configuration du formulaire ?
+        custom_field: Champ personalisé
         delete_group: Supprimer la section
-        remove_attribute: Supprimer de la section
         drag_to_activate: Faites glisser les champs à partir d'ici pour les activer
         drag_to_reorder: Glisser pour réorganiser
         edit_query: Modifier la requête
-        custom_field: Champ personalisé
-        filter_inactive: Filtrer les attributs
-        inactive_attributes_heading: Attributs inactifs
-        no_inactive_attributes: Pas d'attributs inactifs
-        blankslate_title: Aucun groupe pour le moment
-        blankslate_description: Ajoutez des groupes à l'aide du bouton ci-dessus ou faites glisser des attributs depuis le panneau de gauche.
-        group_actions: Actions relatives à la section
-        rename_group: Renommer la section
-        confirm_delete_group: Êtes-vous sûr de vouloir supprimer cette section ? Cette action ne peut pas être annulée.
-        group_name_label: Nom de la section
-        row_actions: Actions de ligne
-        query_group_label: Tableau des lots de travaux connexes
         empty_group_hint: Glisser les attributs ici
+        filter_inactive: Filtrer les attributs
+        group_actions: Actions relatives à la section
+        group_name_label: Nom de la section
+        inactive_attributes_heading: Attributs inactifs
         invalid_attribute_groups: La charge utile de la configuration du formulaire n'est pas valide.
         invalid_query: La configuration de la requête intégrée n'est pas valide.
+        label_group: Section
+        no_inactive_attributes: Pas d'attributs inactifs
         not_found: L'élément de configuration du formulaire demandé n'a pas été trouvé.
-        untitled_group: Groupe sans titre
-        reset_title: Réinitialiser la configuration du formulaire
-        confirm_reset: Êtes-vous sûr de vouloir réinitialiser la configuration du formulaire ?
-        builtin_field: Champ intégré
+        query_group_label: Tableau des lots de travaux connexes
+        remove_attribute: Supprimer de la section
+        rename_group: Renommer la section
         reset_description: 'Cette opération rétablit les attributs dans leur groupe par défaut et désactive TOUS les champs personnalisés.
 
           '
+        reset_title: Réinitialiser la configuration du formulaire
+        reset_to_defaults: Réinitialiser le formulaire
+        row_actions: Actions de ligne
+        tab: Configuration du formulaire
+        untitled_group: Groupe sans titre
+      project_attributes:
+        actions:
+          label_disable_all: Disable all
+          label_enable_all: Enable all
+        description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
+        filter: Search by section or name
+        tab: Project attributes
       projects:
-        tab: Projets
         enable_all: Activer pour tous les projets
         select_projects: Sélectionner des projets
         select_projects_description: Sélectionnez les projets dans lesquels vous souhaitez utiliser ce type.
+        tab: Projets
       settings:
         tab: Paramètres
         type_color_text: La couleur sélectionnée distingue les différents types dans les graphiques de Gantt ou les tableaux des lots de travaux. Il est donc recommandé d'utiliser une couleur forte.
@@ -1674,6 +1709,7 @@ fr:
       login_consequences:
         other: Ce compte sera immédiatement supprimé du système et l'utilisateur ne pourra plus se connecter avec ses informations d'identification.
         self: Votre compte sera immédiatement supprimé du système et vous ne pourrez plus vous connecter à l'aide de vos informations d'identification.
+      title: Supprimez le compte de %{name}
     error_inactive_activation_by_mail: 'Votre compte n''a pas encore été activé. Pour activer votre compte, cliquez sur le lien qui vous a été envoyé par e-mail.
 
       '
@@ -1697,18 +1733,6 @@ fr:
         dependencies: Dépendances
   activerecord:
     attributes:
-      work_package_semantic_alias:
-        identifier: Identifiant
-        work_package: Lot de travaux
-      jira_import:
-        projects: Projets
-      import/jira:
-        name: Nom de l'instance Jira
-        url: URL de l'instance Jira
-        personal_access_token: Jeton d'accès personnel
-      import/jira_open_project_reference:
-        jira: Jira
-        jira_import: Migrateur Jira
       announcements:
         show_until: Afficher jusqu'à
       attachment:
@@ -1754,6 +1778,8 @@ fr:
         possible_values: Valeurs possibles
         regexp: Expression régulière
         searchable: Recherchable
+        visible_on_user_card: Afficher sur la fiche utilisateur
+        semantic_key: Signification sémantique
         admin_only: Administrateurs uniquement
         has_comment: Ajouter un champ de texte pour les commentaires
       custom_value:
@@ -1788,6 +1814,23 @@ fr:
         row_count: Nombre de lignes
         column_count: Nombre de colonnes
         widgets: Widgets
+      group:
+        group_users: Groupes d'utilisateurs
+        identity_url: URL d'identité
+        organizational_unit: Unité organisationnelle
+        parent: Groupe parent
+      group_detail:
+        organizational_unit: Unité organisationnelle
+        parent: Groupe parent
+      import/jira:
+        name: Nom de l'instance Jira
+        personal_access_token: Jeton d'accès personnel
+        url: URL de l'instance Jira
+      import/jira_open_project_reference:
+        jira: Jira
+        jira_import: Migrateur Jira
+      jira_import:
+        projects: Projets
       journal:
         notes: Notes
         cause_type: Type de cause
@@ -1816,6 +1859,21 @@ fr:
         resource: Ressource
       oauth_client:
         client: ID client
+      ordered_persisted_query_entity:
+        persisted_query: Requête persistante
+        entity: Entité
+        position: Position
+      persisted_query:
+        name: Nom
+        views: Vues
+        filters: Filtres
+        orders: Tris
+        selects: Sélections
+      persisted_view:
+        name: Nom
+        query: Requête
+        parent: Vue parente
+        public: Public
       project:
         active_value:
           true: désarchivé
@@ -1949,6 +2007,7 @@ fr:
       user:
         admin: Administrateur
         auth_source: Sources d'authentification
+        department: Service
         ldap_auth_source: Connexion LDAP
         identity_url: URL d'identité
         current_password: Mot de passe actuel
@@ -1962,14 +2021,8 @@ fr:
         new_password: Nouveau mot de passe
         password_confirmation: Confirmation
         consented_at: Consenti à
-      group:
-        identity_url: URL d'identité
-        parent: Groupe parent
-        organizational_unit: Unité organisationnelle
-        group_users: Groupes d'utilisateurs
-      group_detail:
-        parent: Groupe parent
-        organizational_unit: Unité organisationnelle
+      user_custom_field:
+        custom_field_section: Section
       user_preference:
         header_look_and_feel: Apparence et ergonomie
         header_alerts: Alertes
@@ -2068,29 +2121,11 @@ fr:
         type: Type
         version: Version
         watcher: Observateur
-      ordered_persisted_query_entity:
-        persisted_query: Requête persistante
-        entity: Entité
-        position: Position
-      persisted_query:
-        name: Nom
-        views: Vues
-        filters: Filtres
-        orders: Tris
-        selects: Sélections
-      persisted_view:
-        name: Nom
-        query: Requête
-        parent: Vue parente
-        public: Public
-      user_card_view:
-        secondary_info: Informations secondaires
-        show_status_badge: Afficher le badge de statut
-        show_email: Afficher l'adresse e-mail
-        tag_source: Source des étiquettes
-        tag_limit: Limite des étiquettes
-        card_size: Taille des cartes
-        columns_per_row: Colonne par ligne
+      work_package_version:
+        kind: Type
+      work_package_semantic_alias:
+        identifier: Identifiant
+        work_package: Lot de travaux
     errors:
       messages:
         accepted: doi(ven)t être accepté(e)(s).
@@ -2104,6 +2139,7 @@ fr:
         cannot_delete_mapping: est requis. Ne peut être supprimé.
         cant_link_a_work_package_with_a_descendant: Un lot de travaux ne peut pas être lié à l'une de ses sous-tâches.
         circular_dependency: Cette relation créerait une dépendance circulaire.
+        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
         confirmation: ne correspond pas à %{attribute}.
         could_not_be_copied: "%{dependency} n'a pas pu être copié (entièrement)."
         datetime_must_be_in_future: doit se situer dans le futur.
@@ -2136,6 +2172,7 @@ fr:
         invalid_url: n'est pas une URL valide.
         invalid_url_scheme: 'n''est pas un protocole pris en charge (autorisés : %{allowed_schemes}).'
         is_for_all_cannot_modify: s'applique à tous les projets et ne peut donc pas être modifié.
+        ldap_managed: Ce service est géré par synchronisation LDAP et ne peut pas être modifié manuellement.
         less_than_or_equal_to: doit être inférieur ou égal à %{count}.
         not_available: n'est pas disponible en raison d'une configuration système.
         not_before_start_date: ne doit pas être avant la date de début.
@@ -2158,7 +2195,7 @@ fr:
         regex_invalid: n'a pas pu être validé avec l'expression régulière associée.
         regex_list_invalid: Les lignes %{invalid_lines} n'ont pas pu être analysées comme des expressions régulières.
         smaller_than_or_equal_to_max_length: doit être inférieur ou égal à la longueur maximale.
-        ssrf_filtered: violates the SSRF policy of this OpenProject instance.
+        ssrf_filtered: enfreint la politique SSRF de cette instance OpenProject.
         system_wide_non_working_day_exists: entre en conflit avec un jour chômé existant dans le système pour cette date.
         taken: a déjà été pris.
         too_long: est trop long (le maximum est de %{count} caractères).
@@ -2173,6 +2210,7 @@ fr:
 
           '
         user_already_in_department: L'utilisateur %{user_id} est déjà membre du service %{department_id}.
+        user_in_ldap_managed_department: Cet utilisateur appartient à un service géré par synchronisation LDAP et ne peut pas être déplacé.
         wrong_length: est de mauvaise longueur (devrait être %{count} caractères).
       models:
         group:
@@ -2180,6 +2218,7 @@ fr:
             parent_id:
               circular_dependency: créerait une hiérarchie de groupe circulaire.
               organizational_unit_mismatch: doit avoir le même paramètre d'unité organisationnelle que le groupe.
+              parent_ldap_managed: est gérée par synchronisation LDAP et ne permet pas d'ajouter manuellement des services.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2375,11 +2414,12 @@ fr:
         setting:
           attributes:
             base:
-              working_days_are_missing: Au moins un jour de la semaine doit être défini comme jour de travail.
-              previous_working_day_changes_unprocessed: Les modifications précédentes de la configuration des jours ouvrables n'ont pas encore été appliquées.
-              hours_per_day_are_missing: Le nombre d'heures par jour doit être défini.
               durations_are_not_positive_numbers: Les durées doivent être des nombres positifs.
+              hours_per_day_are_missing: Le nombre d'heures par jour doit être défini.
               hours_per_day_is_out_of_bounds: Le nombre d'heures par jour ne peut être supérieur à 24.
+              journal_aggregation_time_minutes_is_out_of_bounds: La période d'agrégation doit être comprise entre %{min} et %{max} minutes.
+              previous_working_day_changes_unprocessed: Les modifications précédentes de la configuration des jours ouvrables n'ont pas encore été appliquées.
+              working_days_are_missing: Au moins un jour de la semaine doit être défini comme jour de travail.
         status:
           attributes:
             default_done_ratio:
@@ -2414,11 +2454,14 @@ fr:
           is_not_a_valid_target_for_time_entries: 'Le lot de travaux #%{id} n''est pas une cible valide pour réaffecter les entrées de temps.'
           attributes:
             id:
-              format: "%{message}"
-              cannot_add_child_because_of_lack_of_permission: Impossible d'ajouter un enfant, car vous n'avez pas les permissions pour modifier le lot de travaux sélectionné.
               blank: L'ID ne peut pas être vide.
+              cannot_add_child_because_of_lack_of_permission: Impossible d'ajouter un enfant, car vous n'avez pas les permissions pour modifier le lot de travaux sélectionné.
+              format: "%{message}"
             identifier:
+              must_not_be_changed: 'ne doit pas être modifié manuellement. Les identifiants des lots de travaux sont attribués automatiquement et résolus via la table des alias ; les modifier manuellement rompt donc les liens et l''historique des identifiants. Si cette modification est intentionnelle, enregistrez avec save(context: %{context}) et veillez à la cohérence de la table work_package_semantic_aliases.'
               semantic_identifier_incomplete: et sequence_number doivent être définis en même temps.
+            sequence_number:
+              must_not_be_changed: 'ne doit pas être modifié manuellement. Il est attribué automatiquement avec l''identifiant. Si cette modification est intentionnelle, enregistrez avec save(context: %{context}).'
             assigned_to:
               format: "%{message}"
             done_ratio:
@@ -2468,6 +2511,8 @@ fr:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- doit être égal à 0 h lorsque le travail est défini et que le % d'achèvement est de 100 %."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: doit être vide lorsque le Travail est vide et le % Complété est de 100 %.
           readonly_status: Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:
@@ -2745,7 +2790,7 @@ fr:
     uid: Identifiant unique
     updated_at: Mis à jour le
     updated_on: Mis à jour le
-    uploader: Téléversé par
+    uploader: Importé par
     user: Utilisateur
     username: Nom d'utilisateur
     unit: Unité
@@ -2795,6 +2840,7 @@ fr:
   button_add_sub_item: Ajouter un sous-élément
   button_add_member: Ajouter un membre
   button_add_watcher: Ajouter observateur
+  button_all_filters: All filters
   button_annotate: Annoter
   button_apply: Appliquer
   button_apply_changes: Appliquer les modifications
@@ -3158,8 +3204,8 @@ fr:
       edit_attribute_groups:
         description: 'Personnalisez la configuration du formulaire avec ces add-ons supplémentaires :'
         features:
-          groups: Add new attribute sections
-          rename: Rename attribute sections
+          groups: Ajouter de nouvelles sections d'attributs
+          rename: Renommer les sections d'attributs
           related: Ajouter un tableau des lots de travaux associés
       readonly_work_packages:
         description: Marquer les lots de travaux comme étant en lecture seule pour des statuts spécifiques.
@@ -3196,7 +3242,7 @@ fr:
         title: Authentification unique (SSO)
         description: Permettez aux utilisateurs de se connecter via des fournisseurs SSO externes utilisant SAML ou OpenID Connect pour assurer un accès transparent et une intégration fluide avec les systèmes d'identité existants.
       virus_scanning:
-        description: Assurez-vous que les fichiers téléversés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs.
+        description: Assurez-vous que les fichiers importés dans OpenProject sont analysés pour détecter les virus avant d'être accessibles aux autres utilisateurs.
       project_creation_wizard:
         description: Générez un assistant étape par étape pour aider les responsables de projet à remplir une demande de lancement de projet.
       placeholder_users:
@@ -3246,10 +3292,11 @@ fr:
       disabled: Activer
       enabled: Désactiver
   enumeration_activities: Activités de suivi du temps
-  enumeration_work_package_priorities: Priorités du lot de travaux
-  enumeration_reported_project_statuses: Statut signalé
   enumeration_caption_order_changed: La commande a été modifiée avec succès.
   enumeration_could_not_be_moved: L'énumération n'a pas pu être déplacée.
+  enumeration_default_value_caption: Faire de ce modèle %{model} la valeur par défaut remplacera le modèle précédent %{model}.
+  enumeration_reported_project_statuses: Statut signalé
+  enumeration_work_package_priorities: Priorités du lot de travaux
   enterprise_trials:
     dialog_component:
       title: Essai Enterprise
@@ -3474,6 +3521,7 @@ fr:
       all_projects: Tous les projets
       favorites: Favoris
       leave_project: Quitter le projet
+      no_favorite_projects: Vous n'avez pas de projet favori.
       title: Projets
   toggle_switch:
     label_on: Activé
@@ -3527,19 +3575,18 @@ fr:
         header: Découvrez les nouvelles fonctionnalités et les mises à jour des produits.
         learn_about: En savoir plus sur les nouvelles fonctionnalités
         missing: Il n'y a pas encore de fonctionnalités mises en évidence.
-        '17_5':
-          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que:
+        '17_6':
+          new_features_title: 'Cette version contient plusieurs nouvelles fonctionnalités et améliorations, telles que :
 
             '
           new_features_list:
-            line_0: Identifiants de lots de travaux basés sur des projets pour des références plus claires.
-            line_1: Prise en charge par Jira Migrator des identifiants Jira, des dates d'échéance, etc.
-            line_2: Possibilité d'exclure des types de lots de travail des carnets de commandes.
-            line_3: Refonte des vues de sprint.
-            line_4: Amélioration de la liaison des lots de travaux dans les documents et les éditeurs de texte.
-            line_5: Des horaires de réunions plus flexibles et des notifications par courriel réduites.
-            line_6: Groupes imbriqués pour les structures organisationnelles et les autorisations héritées.
-            line_7: Amélioration des interfaces d'administration des flux de travail, des utilisateurs et de la configuration des types.
+            line_0: Intégration XWiki (abonnement Corporate).
+            line_1: Objectifs de sprint.
+            line_2: Page de vue d’ensemble de tous les sprints.
+            line_3: Affichage des sections du backlog dans les lots de travaux et les tableaux de lots de travaux.
+            line_4: Meilleure prise en charge des identifiants sémantiques par projet.
+            line_5: Conversion des points d'ordre du jour de réunion en lots de travaux.
+            line_6: Configuration des types de coûts par projet.
     links:
       upgrade_enterprise_edition: Passer à la version Enterprise
       postgres_migration: Migration de votre installation vers PostgreSQL
@@ -3724,8 +3771,8 @@ fr:
         submit_button: Mettre à jour les alertes
     notifications:
       participating:
+        description: Vous recevrez systématiquement une notification chaque fois que vous serez mentionné(e), ainsi que pour toute modification apportée aux lots de travaux que vous suivez. Ces notifications ne peuvent pas être désactivées. Vous pouvez toutefois choisir d'activer ou de désactiver la réception des notifications concernant les modifications apportées aux lots de travaux qui vous concernent (c'est-à-dire ceux dont vous êtes le responsable, le chargé de mission ou qui vous ont été partagés).
         title: Participant
-        description: Notifications pour toute activité sur les lots de travaux vous concernant (personne assignée, responsable ou observateur).
         submit_button: Mettre à jour les préférences
         mentioned: Mentionné
         watched: En cours
@@ -3733,8 +3780,8 @@ fr:
         responsible: Responsable
         shared: Partagé avec moi
       date_alerts:
+        description: Vous pouvez configurer des alertes de date pour les lots de travaux pour lesquels vous êtes la personne assignée, responsable et/ou observatrice, afin de recevoir automatiquement une notification quelques jours avant les échéances à venir ou en retard.
         title: Alertes de date
-        description: Notifications automatiques lorsque des dates importantes approchent pour les lots de travaux ouverts vous concernant (personne assignée, responsable ou observateur).
         submit_button: Mettre à jour les alertes de date
         start_date: Date de début
         due_date: Date de fin
@@ -3748,8 +3795,8 @@ fr:
           three_days_after: 3 jours après
           seven_days_after: 7 jours après
       non_participating:
+        description: Vous pouvez également choisir d'être informé(e) de l'une des activités suivantes pour tous les projets.
         title: Non participant
-        description: Notifications additionnelles pour les activités de tous les projets.
         submit_button: Mettre à jour les préférences
         work_package_created: Nouveaux lots de travaux
         work_package_commented: Tous les nouveaux commentaires
@@ -3757,8 +3804,8 @@ fr:
         work_package_prioritized: Tous les changements de priorité
         work_package_scheduled: Tous les changements de date
       project_specific_settings:
-        title: Paramètres de notification spécifiques au projet
-        description: Ces paramètres spécifiques au projet remplacent les paramètres par défaut ci-dessus.
+        description: Vous pouvez affiner vos paramètres de notification afin de ne recevoir des notifications que pour certains événements dans des projets spécifiques. Ajoutez un projet ci-dessous et choisissez les événements qui doivent déclencher une notification pour vous. Ces paramètres propres au projet remplacent les paramètres par défaut ci-dessus.
+        title: Notifications spécifiques au projet
         add_button: Ajouter des notifications spécifiques au projet
         dialog_title: Ajouter des notifications spécifiques au projet
         list_header: Projets avec notifications spécifiques
@@ -3892,6 +3939,7 @@ fr:
   label_send_invitation: Envoyer une invitation
   label_calculated_value: Valeur calculée
   label_change_parent: Changer le parent
+  label_change_password: Changer de mot de passe
   label_change_plural: Changements
   label_change_properties: Modifier les propriétés
   label_change_status: Changer le statut
@@ -4129,7 +4177,7 @@ fr:
   label_custom_favicon: Favicon personnalisé
   label_custom_touch_icon: Icône de contact personnalisé
   label_departments: Organisation
-  label_departments_description_html: 'Définissez la structure de votre entreprise en créant des services et des sous-services de manière hiérarchique. Cela vous permet de refléter les lignes de rapport et de maintenir une vue d''ensemble claire et structurée de votre organisation au sein d''OpenProject. Vous pouvez également importer une structure d''organisation existante via [Synchronisation de groupe LDAP](ldap_docs_article).
+  label_departments_description_html: 'Définissez la structure de votre entreprise en créant des services et des sous-services de manière hiérarchique. Cela vous permet de refléter les lignes de rapport et de maintenir une vue d''ensemble claire et structurée de votre organisation au sein d''OpenProject. Vous pouvez également importer une structure d''organisation existante via [Synchronisation de service LDAP](ldap_docs_article).
 
     '
   label_logout: Déconnexion
@@ -4137,6 +4185,7 @@ fr:
   label_main_menu: Menu principal
   label_manage: Gérer
   label_manage_groups: Gérer les groupes
+  label_managed_by_ldap: Géré par synchronisation LDAP
   label_managed_repositories_vendor: Référentiels %{vendor} gérés
   label_mathematical_operators: Opérateurs mathématiques
   label_max_size: Taille maximale
@@ -4178,6 +4227,7 @@ fr:
   label_my_account_data: Info sur mon compte
   label_my_avatar: Mon avatar
   label_my_queries: Mes requêtes personnalisées
+  label_my_security: Sécurité
   label_name: Nom
   label_never: Jamais
   label_new: Nouveau
@@ -4232,6 +4282,7 @@ fr:
 
     '
   label_part_of: partie de
+  label_past: Past
   label_password_lost: Mot de passe oublié ?
   label_password_rule_lowercase: Minuscules
   label_password_rule_numeric: Caractères numériques
@@ -4415,6 +4466,7 @@ fr:
   label_type_new: Nouveau type
   label_type_plural: Types
   label_ui: Interface de l'utilisateur
+  label_upcoming: Upcoming
   label_updated_time: Mis à jour il y a %{value}
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Mis à jour par %{author} il y a %{age}
@@ -5058,16 +5110,13 @@ fr:
     create_managed_delay: 'N.B. : le dépôt est géré; il est créé de façon asynchrone sur le disque et sera disponible sous peu.'
     create_successful: Le dépôt a été enregistré.
     delete_sucessful: Le dépôt a été supprimé.
-    destroy:
-      confirmation: Si vous continuez, cela supprimera définitivement le dépôt géré.
-      info: La suppression du dépôt est une action irréversible.
-      info_not_managed: 'Remarque : Ceci ne supprimera PAS le contenu de ce dépôt, étant donné qu''il n''est pas géré par OpenProject.'
-      managed_path_note: 'Le répertoire suivant sera effacé : %{path}'
-      repository_verification_html: Saisissez l'identifiant du projet %{identifier} pour valider la suppression de son dépôt.
-      subtitle: Voulez-vous vraiment supprimer le %{repository_type} du projet %{project_name} ?
-      subtitle_not_managed_html: Voulez-vous vraiment supprimer le %{repository_type} %{url} lié du projet %{project_name} ?
-      title_html: Supprimer le %{repository_type}
-      title_not_managed: Supprimer le %{repository_type} lié ?
+    destroy_dialog:
+      description: The %{repository_type} repository at %{path} and all its contents will be permanently deleted.
+      description_not_managed: The linked %{repository_type} at %{url} will be removed from the project. This will not delete the contents of this repository, as it is not managed by OpenProject.
+      heading: Delete this %{repository_type}?
+      heading_not_managed: Remove this linked %{repository_type}?
+      title: Delete repository
+      title_not_managed: Remove repository
     errors:
       build_failed: Impossible de créer le dépôt avec la configuration sélectionnée. %{reason}
       managed_delete: Impossible de supprimer le dépôt géré.
@@ -5195,7 +5244,7 @@ fr:
   setting_apiv3_docs_enabled_instructions_warning: 'Veuillez noter que l''activation de la documentation de l''API sur un système de production peut exposer des informations sensibles ou entraîner une perte accidentelle de données en l''absence de précaution. Nous vous recommandons d''activer ce paramètre uniquement à des fins de développement.
 
     '
-  setting_attachment_whitelist: Liste blanche de téléversement des pièces jointes
+  setting_attachment_whitelist: Liste blanche d'importation des pièces jointes
   setting_email_delivery_method: Méthode de livraison d'e-mail
   setting_emails_salutation: S'adresser à l'utilisateur dans les e-mails avec
   setting_oauth_allow_remapping_of_existing_users: Permettre le remappage des utilisateurs existants
@@ -5394,7 +5443,7 @@ fr:
 
         '
     attachments:
-      whitelist_text_html: 'Définissez une liste d''extensions de fichiers et/ou de types MIME valides pour les fichiers téléversés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre le téléversement de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
+      whitelist_text_html: 'Définissez une liste d''extensions de fichiers et/ou de types MIME valides pour les fichiers importés. <br/> Entrez les extensions de fichier (par exemple, <code>%{ext_example}</code>) ou les types mime (par exemple, <code>%{mime_example}</code>). <br/> Laissez vide pour permettre l''importation de tout type de fichier. Plusieurs valeurs autorisées (une ligne pour chaque valeur).
 
         '
       show_work_package_attachments: 'Si vous désactivez cette option, la liste des pièces jointes dans l''onglet des fichiers des lots de travaux sera masquée pour les nouveaux projets. Les fichiers joints dans la description d''un lot de travaux seront toujours téléchargés dans l''espace de stockage interne des pièces jointes.
@@ -5421,7 +5470,7 @@ fr:
       modes:
         clamav_socket_html: Entrez le socket du démon clamd, par exemple %{example}
         clamav_host_html: Entrez le nom d'hôte et le port du démon clamd séparés par des deux-points, par exemple, %{example}
-        description_html: 'Sélectionnez le mode dans lequel l''intégration du scanner antivirus doit fonctionner. <br/> <ul> <li><strong>%{disabled_option}</strong>: Les fichiers téléversés ne sont pas scannés pour les virus.</li> <li><strong>%{socket_option}</strong>: Vous avez installé ClamAV sur le même serveur qu''OpenProject et le démon de scan clamd tourne en arrière-plan.</li> <li><strong>%{host_option}</strong>: Vous envoyez les fichiers à un hôte externe pour réaliser le scan antivirus .</li> </ul>
+        description_html: 'Sélectionnez le mode dans lequel l''intégration du scanner antivirus doit fonctionner. <br/> <ul> <li><strong>%{disabled_option}</strong>: Les fichiers importés ne sont pas scannés pour les virus.</li> <li><strong>%{socket_option}</strong>: Vous avez installé ClamAV sur le même serveur qu''OpenProject et le démon de scan clamd tourne en arrière-plan.</li> <li><strong>%{host_option}</strong>: Vous envoyez les fichiers à un hôte externe pour réaliser le scan antivirus .</li> </ul>
 
           '
     brute_force_prevention: Blocage d'utilisateur automatique (pour éviter les pirates)
@@ -5454,6 +5503,7 @@ fr:
     passwords: Mots de passe
     project_attributes:
       heading: Attributs du projet
+      label_add_attribute: Ajouter un attribut de projet
       label_for_all_projects: Tous les projets
       label_new_attribute: Attribut du projet
       label_new_section: Section
@@ -5551,8 +5601,37 @@ fr:
     session: Session
     user:
       default_preferences: Préférences par défaut
-      display_format: Format d'affichage
       deletion: Suppression
+      display_format: Format d'affichage
+    user_custom_field_sections:
+      built_in_attribute_row_component:
+        label_built_in: Intégré
+        label_built_in_attribute_actions: Actions d'attributs intégrés
+      custom_field_row_component:
+        label_user_custom_field_actions: Actions des attributs de l'utilisateur
+      show_component:
+        label_add_attribute: Ajouter un attribut d'utilisateur
+        label_edit_section: Modifier le titre
+        label_no_user_custom_fields: Aucun attribut d'utilisateur n'est défini dans cette section
+        label_section_actions: Actions relatives à la section
+    user_custom_fields:
+      header_component:
+        attribute_filter:
+          label: Filtrer par nom d'attribut…
+        heading_description: Ces attributs d'utilisateur apparaissent dans les profils d'utilisateur et sur les fiches d'information. Vous pouvez ajouter de nouveaux attributs, les regrouper en sections et les réorganiser.
+      heading: Attributs de l'utilisateur
+      label_new_attribute: Attribut de l'utilisateur
+      label_new_section: Section
+      label_untitled_section: Attributs de l'utilisateur
+      new:
+        heading: Nouvel attribut
+      tabs:
+        attributes: Attributs
+        semantic_keys: Attributs mappés
+      semantic_keys:
+        description: 'Certains attributs ne se limitent pas au stockage d''informations : l''application les utilise pour alimenter des fonctionnalités spécifiques. Choisissez ci-dessous l''attribut à utiliser pour chaque usage. Chaque attribut ne peut être utilisé que pour un seul usage, et chaque usage ne peut être associé qu''à un seul attribut.'
+        descriptions:
+          job_title: Choisissez l'attribut qui contient l'intitulé de poste de chaque utilisateur. Il apparaît à côté de son nom à plusieurs endroits, par exemple sur les cartes d'utilisateur.
     working_days:
       section_work_week: Semaine de travail
       section_holidays_and_closures: Vacances et fermetures
@@ -5606,10 +5685,10 @@ fr:
   text_project_custom_field_html: 'L''édition Entreprise ajoutera ces add-ons supplémentaires pour les champs personnalisés des projets : <br> <ul> <li><b>Ajouter des champs personnalisés pour les projets à votre liste de projets pour créer une vue du portefeuille de projets</b></li> </ul>
 
     '
-  text_custom_logo_instructions: 'Le logo s''adapte automatiquement à l''en-tête. Pour obtenir de meilleurs résultats, téléversez un logo blanc sur une image transparente de 130×47px. Vous pouvez ajouter autant d''espacement que vous le souhaitez à l''intérieur de cette image.
+  text_custom_logo_instructions: 'Le logo s''adapte automatiquement à l''en-tête. Pour obtenir de meilleurs résultats, importez un logo blanc sur une image transparente de 130×47px. Vous pouvez ajouter autant d''espacement que vous le souhaitez à l''intérieur de cette image.
 
     '
-  text_custom_logo_mobile_instructions: 'Le logo s''adapte automatiquement à l''en-tête. Pour obtenir de meilleurs résultats, téléversez un logo blanc sur une image transparente de 130×33px. Vous pouvez ajouter autant d''espacement que vous le souhaitez à l''intérieur de cette image.
+  text_custom_logo_mobile_instructions: 'Le logo s''adapte automatiquement à l''en-tête. Pour obtenir de meilleurs résultats, importez un logo blanc sur une image transparente de 130×33px. Vous pouvez ajouter autant d''espacement que vous le souhaitez à l''intérieur de cette image.
 
     '
   text_custom_export_logo_instructions: 'Il s''agit du logo qui apparaît dans vos exportations PDF. Il doit s''agir d''un fichier image PNG ou JPEG. Un logo noir ou coloré sur fond transparent ou blanc est recommandé.
@@ -5621,10 +5700,10 @@ fr:
   text_custom_export_footer_instructions: 'Les exportations PDF comprendront un élément graphique placé à gauche du pied de page. Cette image doit être un fichier PNG ou JPEG d''une largeur d''environ 200 pixels.
 
     '
-  label_custom_export_font_instructions: 'Téléversez et gérez des polices TrueType (.ttf) personnalisées utilisées dans vos exportations PDF. Pour assurer de meilleurs résultats, utilisez des fichiers correspondants issus de la même famille de polices. Si aucune police n''est fournie, la police NotoSans par défaut sera utilisée.
+  label_custom_export_font_instructions: 'Importez et gérez des polices TrueType (.ttf) personnalisées utilisées dans vos exportations PDF. Pour assurer de meilleurs résultats, utilisez des fichiers correspondants issus de la même famille de polices. Si aucune police n''est fournie, la police NotoSans par défaut sera utilisée.
 
     '
-  label_custom_export_images_instructions: 'Téléversez et gérez des fichiers image personnalisés utilisés dans vos exportations PDF.
+  label_custom_export_images_instructions: 'Importez et gérez des fichiers image personnalisés utilisés dans vos exportations PDF.
 
     '
   text_custom_export_font_regular_instructions: 'Il s''agit du fichier de police pour le texte normal. Il doit être obligatoirement au format TTF.
@@ -5818,6 +5897,7 @@ fr:
     status_user_and_brute_force: "%{user} et %{brute_force}"
     status_change: Changement de statut
     text_change_disabled_for_provider_login: Le nom et l'adresse e-mail sont définis par votre fournisseur d'accès et ne peuvent donc pas être modifiés.
+    department_ldap_managed_caption: Ce service est géré par la synchronisation LDAP et ne peut pas être modifié ici.
     unlock: Déverrouiller
     unlock_and_reset_failed_logins: Déverrouiller et réinitialiser les échecs de connexion
     error_cannot_delete_user: L'utilisateur ne peut pas être supprimé
@@ -6155,6 +6235,8 @@ fr:
     scopes:
       api_v3: Accès complet à l'API v3
       api_v3_text: L'application recevra un accès complet en lecture et écriture à l'API v3 d'OpenProject pour effectuer des actions en votre nom.
+      mcp: Accès au MCP
+      mcp_text: L'application aura accès aux points de terminaison MCP d'OpenProject. Il s'agit d'un sous-ensemble limité de l'APIv3, adapté à une utilisation avec des agents d'IA.
     grants:
       created_date: Approuvée le
       scopes: Autorisations

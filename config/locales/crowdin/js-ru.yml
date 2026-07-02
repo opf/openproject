@@ -77,8 +77,9 @@ ru:
     button_confirm: Подтвердить
     button_continue: Продолжить
     button_copy: Копировать
-    button_copy_to_clipboard: Копировать в буфер обмена
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Копировать ссылку в буфер обмена
+    button_copy_to_clipboard: Копировать в буфер обмена
     button_copy_to_other_project: Дублировать в другой проект
     button_custom-fields: Настраиваемые поля
     button_delete: Удалить
@@ -155,16 +156,15 @@ ru:
         manual: Перейти к источнику уценок
         wysiwyg: Перейти к WYSIWYG-редактору
       macro:
-        error: 'Невозможно развернуть макрос: %{message}'
         attribute_reference:
           macro_help_tooltip: Этот текстовый сегмент динамически отображается макросом.
           not_found: Запрошенный ресурс не найден
           nested_macro: Этот макрос рекурсивно ссылается на %{model} %{id}.
           invalid_attribute: Выбранный атрибут '%{name}' не существует.
         child_pages:
-          button: Ссылки на дочерние страницы
+          button: List of sub-pages
           include_parent: Включить родителя
-          text: "[Placeholder] Ссылки на дочерние страницы"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki страница
           this_page: эта страница
           hint: 'Оставьте это поле пустым, чтобы перечислить все дочерние страницы текущей страницы. Если вы хотите описать другую страницу, предоставьте ее заголовок или иденцифицирующую строку.
@@ -175,9 +175,14 @@ ru:
           title: Вставить / Редактировать фрагмент кода
           language: Язык форматирования
           language_hint: Введите язык форматирования, который будет использоваться для выделения (если поддерживается).
-        dropdown:
-          macros: Макрос
-          chose_macro: Выберите макрос
+        embedded_calendar:
+          text: "[Placeholder] Встроенный календарь"
+        embedded_table:
+          button: Вложить таблицу пакетов работ
+          text: "[Placeholder] Таблица внедренных пакетов работ"
+        error: 'Невозможно развернуть макрос: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Содержание
         toolbar_help: Кликните для выбора виджета и показа панели инструментов. Кликните дважды для редактирования виджета
         wiki_page_include:
@@ -195,11 +200,6 @@ ru:
           button_style_hint: 'Дополнительно: Проверьте, чтобы макрос выглядел как кнопка, а не как ссылка.'
           without_type: Создать пакет работ
           with_type: 'Создать пакет работ (Тип: %{typename})'
-        embedded_table:
-          button: Вложить таблицу пакетов работ
-          text: "[Placeholder] Таблица внедренных пакетов работ"
-        embedded_calendar:
-          text: "[Placeholder] Встроенный календарь"
     admin:
       type_form:
         edit_query: Редактировать запрос
@@ -370,6 +370,7 @@ ru:
     label_in_more_than: более чем
     label_incoming_emails: Входящие письма
     label_information_plural: Информация
+    label_infinity: Infinity
     label_invalid: Неверно
     label_import: Импорт
     label_latest_activity: Последние действия
@@ -394,6 +395,7 @@ ru:
     label_no_value: Нет значения
     label_none: Ничего
     label_not_contains: не содержит
+    label_not_available: Not available
     label_not_equals: не
     label_on: на
     label_open_menu: Открыть меню
@@ -916,11 +918,12 @@ ru:
         relation_filters:
           filter_work_packages_by_relation_type: Фильтр пакета работ по типу отношения
       tabs:
-        overview: Обзор
         activity: Деятельность
+        files: Файлы
+        overview: Обзор
+        project_attributes: Project attributes
         relations: Связи
         watchers: Наблюдатель
-        files: Файлы
       time_relative:
         days: дней
         weeks: недель

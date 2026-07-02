@@ -50,7 +50,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
 export class DashboardComponent extends GridPageComponent implements OnInit {
   @Input() projectIdentifier:string;
 
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   ngOnInit() {
     populateInputsFromDataset(this);

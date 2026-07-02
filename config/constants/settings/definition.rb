@@ -697,7 +697,8 @@ module Settings
         default: 7
       },
       journal_aggregation_time_minutes: {
-        default: 5
+        default: 5,
+        allowed: 0..120
       },
       ldap_force_no_page: {
         description: "Force LDAP to respond as a single page, in case paged responses do not work with your server.",
@@ -706,6 +707,10 @@ module Settings
       },
       ldap_groups_disable_sync_job: {
         description: "Deactivate regular synchronization job for groups in case scheduled as a separate cronjob",
+        default: false
+      },
+      ldap_departments_disable_sync_job: {
+        description: "Deactivate regular synchronization job for departments in case scheduled as a separate cronjob",
         default: false
       },
       ldap_users_disable_sync_job: {

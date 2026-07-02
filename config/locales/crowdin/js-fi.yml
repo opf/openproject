@@ -77,8 +77,9 @@ fi:
     button_confirm: Vahvista
     button_continue: Jatka
     button_copy: Kopioi
-    button_copy_to_clipboard: Kopioi leikepöydälle
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Kopioi leikepöydälle
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Mukautetut kentät
     button_delete: Poista
@@ -155,16 +156,15 @@ fi:
         manual: Lähdekoodi
         wysiwyg: Muokkaustila
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Linkit alasivuihin
+          button: List of sub-pages
           include_parent: Include parent
-          text: "[Placeholder] Links to child pages of"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki-sivu
           this_page: tämä sivu
           hint: 'Leave this field empty to list all child pages of the current page. If you want to reference a different page, provide its title or slug.
@@ -175,9 +175,14 @@ fi:
           title: Lisää / muokkaa lähdekoodia
           language: Formatting language
           language_hint: Enter the formatting language that will be used for highlighting (if supported).
-        dropdown:
-          macros: Makrot
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Embedded calendar"
+        embedded_table:
+          button: Embed work package table
+          text: "[Placeholder] Embedded work package table"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Sisällysluettelo
         toolbar_help: Click to select widget and show the toolbar. Double-click to edit widget
         wiki_page_include:
@@ -195,11 +200,6 @@ fi:
           button_style_hint: 'Optional: Check to make macro appear as a button, not as a link.'
           without_type: Luo tehtävä
           with_type: 'Luo tehtävä (tyyppi: %{typename})'
-        embedded_table:
-          button: Embed work package table
-          text: "[Placeholder] Embedded work package table"
-        embedded_calendar:
-          text: "[Placeholder] Embedded calendar"
     admin:
       type_form:
         edit_query: Edit query
@@ -368,6 +368,7 @@ fi:
     label_in_more_than: suurempi kuin
     label_incoming_emails: Saapuvat sähköpostiviestit
     label_information_plural: Tieto
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Tuo
     label_latest_activity: Viimeisimmät tapahtumat
@@ -392,6 +393,7 @@ fi:
     label_no_value: Ei arvoa
     label_none: ei mitään
     label_not_contains: ei sisällä
+    label_not_available: Not available
     label_not_equals: ei ole
     label_on: päälle
     label_open_menu: Avaa valikko
@@ -912,11 +914,12 @@ fi:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Yleiskatsaus
         activity: Tapahtumat
+        files: Tiedostot
+        overview: Yleiskatsaus
+        project_attributes: Project attributes
         relations: Riippuvuudet
         watchers: Seuraajat
-        files: Tiedostot
       time_relative:
         days: päivää
         weeks: viikkoa

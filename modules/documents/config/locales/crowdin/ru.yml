@@ -45,6 +45,7 @@ ru:
   default_doc_category_user: Документация пользователя
   enumeration_doc_categories: Категории документов
   documents:
+    button_add_type: Type
     page_header:
       heading: Все документы
       action_menu:

@@ -50,7 +50,7 @@ import { populateInputsFromDataset } from 'core-app/shared/components/dataset-in
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkPackageSplitCreateEntryComponent implements AfterViewInit, OnDestroy {
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
 
   @Input() projectIdentifier?:string;
   @Input() type?:string;

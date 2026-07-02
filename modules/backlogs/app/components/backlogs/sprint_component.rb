@@ -86,9 +86,25 @@ module Backlogs
       {
         id: dom_target(sprint, :finish_button),
         tag: :a,
-        href: finish_project_backlogs_sprint_path(project, sprint, all_backlogs_params),
+        href: finish_project_backlogs_sprint_path(project, sprint, backlog_filter_params),
         data: { turbo_method: :post }
       }
+    end
+
+    def goal_text
+      return @goal_text if defined?(@goal_text)
+
+      @goal_text = sprint.goal_text_for(project)
+    end
+
+    def sprint_goal_id
+      dom_target(sprint, :goal)
+    end
+
+    def title_arguments
+      return {} if goal_text.blank?
+
+      { aria: { describedby: sprint_goal_id } }
     end
 
     def story_points_total
@@ -119,6 +135,14 @@ module Backlogs
 
     def show_burndown_link?
       sprint.active?
+    end
+
+    def can_open_edit_dialog?
+      if sprint.owned_by?(project)
+        user_allowed?(:create_sprints)
+      else
+        user_allowed?(:create_sprints) || user_allowed?(:create_sprints, project: sprint.project)
+      end
     end
   end
 end

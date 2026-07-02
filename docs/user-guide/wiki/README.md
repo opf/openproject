@@ -108,7 +108,7 @@ Use it to embed views in other pages, create reporting of multiple results, or t
 
 Configure a button or link to target the work package creation screen in the current project. You can preselect a work package type that should be selected, making it easy to guide the users to the work package creation form.
 
-### Links to child pages
+### List of sub-pages
 
 Create a hierarchical list of all child pages of the current page.
 

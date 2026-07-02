@@ -41,7 +41,7 @@ import { DatePicker } from '../datepicker';
 import flatpickr from 'flatpickr';
 import { DayElement } from 'flatpickr/dist/types/instance';
 import { populateInputsFromDataset } from '../../dataset-inputs';
-import { debounce } from 'lodash';
+import { debounce } from 'lodash-es';
 import { DeviceService } from 'core-app/core/browser/device.service';
 
 export const rangeSeparator = '-';
@@ -70,7 +70,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   readonly timezoneService = inject(TimezoneService);
   readonly injector = inject(Injector);
   readonly cdRef = inject(ChangeDetectorRef);
-  readonly elementRef = inject(ElementRef);
+  readonly elementRef = inject<ElementRef<HTMLElement>>(ElementRef);
   readonly deviceService = inject(DeviceService);
 
   @HostBinding('class.op-basic-range-datepicker') className = true;
@@ -120,7 +120,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
 
   private _inputAttrs:Record<string, string> = {};
 
-  @ViewChild('input') input:ElementRef;
+  @ViewChild('input') input:ElementRef<HTMLInputElement>;
 
   stringValue = '';
 
@@ -148,8 +148,8 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
   }
 
   private applyInputAttrs():void {
-    const el = (this.input?.nativeElement as HTMLInputElement | null)
-      ?? (this.elementRef.nativeElement as HTMLElement).querySelector<HTMLInputElement>(`input[id="${this.id}"]`);
+    const el = this.input?.nativeElement
+      ?? this.elementRef.nativeElement.querySelector<HTMLInputElement>(`input[id="${this.id}"]`);
     if (el) {
       Object.entries(this._inputAttrs).forEach(([key, val]) => el.setAttribute(key, val));
     }
@@ -215,7 +215,7 @@ export class OpBasicRangeDatePickerComponent implements OnInit, ControlValueAcce
         static: false,
         appendTo: this.appendToBodyOrDialog(),
       },
-      this.input.nativeElement as HTMLInputElement,
+      this.input.nativeElement,
     );
   }
 

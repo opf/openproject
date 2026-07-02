@@ -77,8 +77,9 @@ pt-BR:
     button_confirm: Confirmar
     button_continue: Continuar
     button_copy: Copiar
-    button_copy_to_clipboard: Copiar para a área de transferência
+    button_copy_numeric_id_to_clipboard: Copiar ID numérico para a área de transferência
     button_copy_link_to_clipboard: Copiar link para área de transferência
+    button_copy_to_clipboard: Copiar para a área de transferência
     button_copy_to_other_project: Duplicar em outro projeto
     button_custom-fields: Campos personalizados
     button_delete: Excluir
@@ -155,16 +156,15 @@ pt-BR:
         manual: Alternar para fonte Markdown
         wysiwyg: Alternar para editor WYSIWYG
       macro:
-        error: 'Não é possível expandir a macro: %{message}'
         attribute_reference:
           macro_help_tooltip: Esse segmento de texto está sendo dinamicamente renderizado por uma macro.
           not_found: Não foi possível encontrar o recurso solicitado
           nested_macro: Esta macro está fazendo referência recursiva a %{model} %{id}.
           invalid_attribute: O atributo selecionado '%{name}' não existe.
         child_pages:
-          button: Vínculos para páginas filhas
+          button: Lista de subpáginas
           include_parent: Incluir pai
-          text: "[Marcador de posição] Vínculos para páginas filhas de"
+          text: "[Espaço reservado] Lista de subpáginas de"
           page: Página wiki
           this_page: esta página
           hint: 'Deixe este campo em branco para listar todas as páginas filhas da página atual. Se você deseja fazer referência a uma página diferente, forneça seu título ou "slug".
@@ -175,9 +175,14 @@ pt-BR:
           title: Inserir / editar Trecho de código
           language: Linguagem de formatação
           language_hint: Informe a linguagem de formatação que será usada para destacar (se suportado).
-        dropdown:
-          macros: Macros
-          chose_macro: Escolher macro
+        embedded_calendar:
+          text: "[Marcador de posição] Calendário embutido"
+        embedded_table:
+          button: Embutir tabela de pacote de trabalho
+          text: "[Marcador de posição] Tabela embutida de pacote de trabalho"
+        error: 'Não é possível expandir a macro: %{message}'
+        macro_dropdown:
+          caption: Inserir
         toc: Tabela de conteúdos
         toolbar_help: Clique para selecionar o widget e mostrar a barra de ferramentas. Clique duas vezes para editar o widget
         wiki_page_include:
@@ -195,11 +200,6 @@ pt-BR:
           button_style_hint: 'Opcional: Marque para fazer a macro aparecer como um botão, não como um link.'
           without_type: Criar pacote de trabalho
           with_type: 'Criar pacote de trabalho (Tipo: %{typename})'
-        embedded_table:
-          button: Embutir tabela de pacote de trabalho
-          text: "[Marcador de posição] Tabela embutida de pacote de trabalho"
-        embedded_calendar:
-          text: "[Marcador de posição] Calendário embutido"
     admin:
       type_form:
         edit_query: Editar consulta
@@ -368,6 +368,7 @@ pt-BR:
     label_in_more_than: em mais de
     label_incoming_emails: E-mails recebidos
     label_information_plural: Informação
+    label_infinity: Infinito
     label_invalid: Inválido
     label_import: Importar
     label_latest_activity: Última atividade
@@ -392,6 +393,7 @@ pt-BR:
     label_no_value: Nenhum valor
     label_none: nenhum
     label_not_contains: não contém
+    label_not_available: Não disponível
     label_not_equals: não é
     label_on: ligado
     label_open_menu: Abrir menu
@@ -912,11 +914,12 @@ pt-BR:
         relation_filters:
           filter_work_packages_by_relation_type: Filtrar pacotes de trabalho por tipo de relação
       tabs:
-        overview: Visão geral
         activity: Atividade
+        files: Arquivos
+        overview: Visão geral
+        project_attributes: Project attributes
         relations: Relações
         watchers: Observadores
-        files: Arquivos
       time_relative:
         days: dias
         weeks: semanas

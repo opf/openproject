@@ -89,8 +89,9 @@ en:
     button_confirm: "Confirm"
     button_continue: "Continue"
     button_copy: "Copy"
-    button_copy_to_clipboard: "Copy to clipboard"
+    button_copy_numeric_id_to_clipboard: "Copy numeric ID to clipboard"
     button_copy_link_to_clipboard: "Copy link to clipboard"
+    button_copy_to_clipboard: "Copy to clipboard"
     button_copy_to_other_project: "Duplicate in another project"
     button_custom-fields: "Custom fields"
     button_delete: "Delete"
@@ -178,9 +179,9 @@ en:
           nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "The selected attribute '%{name}' does not exist."
         child_pages:
-          button: "Links to child pages"
+          button: "List of sub-pages"
           include_parent: "Include parent"
-          text: "[Placeholder] Links to child pages of"
+          text: "[Placeholder] List of sub-pages of"
           page: "Wiki page"
           this_page: "this page"
           hint: |
@@ -400,6 +401,7 @@ en:
     label_in_more_than: "in more than"
     label_incoming_emails: "Incoming emails"
     label_information_plural: "Information"
+    label_infinity: "Infinity"
     label_invalid: "Invalid"
     label_import: "Import"
     label_latest_activity: "Latest activity"
@@ -424,6 +426,7 @@ en:
     label_no_value: "No value"
     label_none: "none"
     label_not_contains: "doesn't contain"
+    label_not_available: "Not available"
     label_not_equals: "is not"
     label_on: "on"
     label_open_menu: "Open menu"
@@ -968,11 +971,12 @@ en:
         relation_filters:
           filter_work_packages_by_relation_type: "Filter work packages by relation type"
       tabs:
-        overview: Overview
         activity: Activity
+        files: Files
+        overview: Overview
+        project_attributes: Project attributes
         relations: Relations
         watchers: Watchers
-        files: Files
       time_relative:
         days: "days"
         weeks: "weeks"

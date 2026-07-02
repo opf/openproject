@@ -31,7 +31,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
   public isEmpty(wp:WorkPackageResource) {
     const date = moment(wp.date);
-    return _.isNaN(date.valueOf());
+    return Number.isNaN(date.valueOf());
   }
 
   public canMoveDates(wp:WorkPackageResource) {
@@ -120,7 +120,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     const date = moment(renderInfo.change.projectedResource.date);
 
     // abort if no date
-    if (_.isNaN(date.valueOf())) {
+    if (Number.isNaN(date.valueOf())) {
       return false;
     }
 

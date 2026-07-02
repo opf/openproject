@@ -5,13 +5,13 @@ fi:
       saml/provider:
         display_name: Nimi
         identifier: Tunniste
-        secret: Secret
+        secret: Salasana
         scope: Scope
-        assertion_consumer_service_url: ACS (Assertion consumer service) URL
-        limit_self_registration: Limit self registration
-        sp_entity_id: Service entity ID
-        metadata_url: Identity provider metadata URL
-        name_identifier_format: Name identifier format
+        assertion_consumer_service_url: ACS (Assertion Consumer Service) -URL
+        limit_self_registration: Rajoita itse rekisteröitymistä
+        sp_entity_id: Palvelun tunniste - Service entity ID
+        metadata_url: Tunnistuspalveluntarjoajan metatietojen URL-osoite
+        name_identifier_format: Nimen tunnisteen muoto
         idp_entity_id: Identity provider entity ID
         idp_sso_service_url: Identity provider login endpoint
         idp_slo_service_url: Identity provider logout endpoint

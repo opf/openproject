@@ -77,8 +77,9 @@ sk:
     button_confirm: Potvrdiť
     button_continue: Pokračovať
     button_copy: Kopírovať
-    button_copy_to_clipboard: Kopírovať do schránky
+    button_copy_numeric_id_to_clipboard: Copy numeric ID to clipboard
     button_copy_link_to_clipboard: Copy link to clipboard
+    button_copy_to_clipboard: Kopírovať do schránky
     button_copy_to_other_project: Duplicate in another project
     button_custom-fields: Vlastné polia
     button_delete: Odstrániť
@@ -155,16 +156,15 @@ sk:
         manual: Prepnúť na zdroj Markdown
         wysiwyg: Prepnúť na WYSIWYG editor
       macro:
-        error: 'Cannot expand macro: %{message}'
         attribute_reference:
           macro_help_tooltip: This text segment is being dynamically rendered by a macro.
           not_found: Requested resource could not be found
           nested_macro: This macro is recursively referencing %{model} %{id}.
           invalid_attribute: The selected attribute '%{name}' does not exist.
         child_pages:
-          button: Odkazy na podstránky
+          button: List of sub-pages
           include_parent: Zahrnúť nadradený
-          text: "[Placeholder] Zoznam podradených stránok"
+          text: "[Placeholder] List of sub-pages of"
           page: Wiki stránka
           this_page: táto stránka
           hint: 'Nechajte toto pole prázdne, ak chcete zobraziť všetky podradené stránky aktuálnej stránky. Ak chcete odkazovať na podradné stránky inej stránky wiki, zadajte ich názov alebo adresu URL.
@@ -175,9 +175,14 @@ sk:
           title: Vložiť / upraviť fragment kódu
           language: Jazyk pre zvýrazňovanie syntaxe
           language_hint: Zadajte jazyk pre zvýrazňovanie syntaxe, ktorý sa používa pre zvýraznenie časti kódu (ak je podporovaný).
-        dropdown:
-          macros: Makrá
-          chose_macro: Choose macro
+        embedded_calendar:
+          text: "[Placeholder] Vložený kalendár"
+        embedded_table:
+          button: Vložiť tabuľku pracovného balíčku
+          text: "[Placeholder] Vložená tabuľka pracovného balíčku"
+        error: 'Cannot expand macro: %{message}'
+        macro_dropdown:
+          caption: Insert
         toc: Obsah
         toolbar_help: Kliknutím vyberte miniaplikáciu, a zobrazenie panela nástrojov.. Dvojitým kliknutím upravíte miniaplikáciu
         wiki_page_include:
@@ -195,11 +200,6 @@ sk:
           button_style_hint: 'Voliteľné: Skontrolujte, či sa makro zobrazí ako tlačidlo, nie ako odkaz.'
           without_type: Vytvoriť pracovný balíček
           with_type: 'Vytvoriť pracovný balíček (Typ: %{typename})'
-        embedded_table:
-          button: Vložiť tabuľku pracovného balíčku
-          text: "[Placeholder] Vložená tabuľka pracovného balíčku"
-        embedded_calendar:
-          text: "[Placeholder] Vložený kalendár"
     admin:
       type_form:
         edit_query: Edit query
@@ -368,6 +368,7 @@ sk:
     label_in_more_than: vo viac ako
     label_incoming_emails: Prichádzajúce e-maily
     label_information_plural: Informácie
+    label_infinity: Infinity
     label_invalid: Invalid
     label_import: Import
     label_latest_activity: Posledná aktivita
@@ -392,6 +393,7 @@ sk:
     label_no_value: Žiadna hodnota
     label_none: žiadne
     label_not_contains: neobsahuje
+    label_not_available: Not available
     label_not_equals: nie je
     label_on: dňa
     label_open_menu: Otvorte menu
@@ -914,11 +916,12 @@ sk:
         relation_filters:
           filter_work_packages_by_relation_type: Filter work packages by relation type
       tabs:
-        overview: Prehľad
         activity: Činnosť
+        files: Súbory
+        overview: Prehľad
+        project_attributes: Project attributes
         relations: Väzby
         watchers: Pozorovatelia
-        files: Súbory
       time_relative:
         days: dní
         weeks: týždne

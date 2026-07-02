@@ -27,30 +27,31 @@ See COPYRIGHT and LICENSE files for more details.
 
 ++#%>
 
-<%# helpers.content_controller "admin--departments-page" %>
-
 <%=
   component_wrapper(tag: "turbo-frame", class: "admin-groups-tree-page--wrapper", refresh: :morph, data: { turbo_action: :advance }) do
     render(Primer::Alpha::Layout.new(stacking_breakpoint: :md, overflow: :hidden, h: :full, classes: "admin-groups-tree-page")) do |content|
       content.with_main(overflow: :auto) do
         flex_layout do |main|
-          main.with_row do
-            render(Primer::OpenProject::SubHeader.new) do |subheader|
-              subheader.with_action_menu(leading_icon: :plus, trailing_icon: :"triangle-down", label: I18n.t(:button_add), button_arguments: { scheme: :primary, "aria-label": I18n.t(:button_add) }) do |menu|
-                if active_group
+          # Managed departments are owned by the LDAP sync: no manual add of members or sub-departments.
+          unless active_group&.ldap_managed?
+            main.with_row do
+              render(Primer::OpenProject::SubHeader.new) do |subheader|
+                subheader.with_action_menu(leading_icon: :plus, trailing_icon: :"triangle-down", label: I18n.t(:button_add), button_arguments: { scheme: :primary, "aria-label": I18n.t(:button_add) }) do |menu|
+                  if active_group
+                    menu.with_item(
+                      label: I18n.t("departments.add_user"),
+                      tag: :a,
+                      href: new_user_admin_department_path(active_group),
+                      content_arguments: { data: { turbo_frame: Admin::Departments::DetailComponent.wrapper_key } }
+                    )
+                  end
                   menu.with_item(
-                    label: I18n.t("departments.add_user"),
+                    label: I18n.t("departments.add_department"),
                     tag: :a,
-                    href: new_user_admin_department_path(active_group),
+                    href: new_department_admin_departments_path(parent_id: active_group&.id),
                     content_arguments: { data: { turbo_frame: Admin::Departments::DetailComponent.wrapper_key } }
                   )
                 end
-                menu.with_item(
-                  label: I18n.t("departments.add_department"),
-                  tag: :a,
-                  href: new_department_admin_departments_path(parent_id: active_group&.id),
-                  content_arguments: { data: { turbo_frame: Admin::Departments::DetailComponent.wrapper_key } }
-                )
               end
             end
           end

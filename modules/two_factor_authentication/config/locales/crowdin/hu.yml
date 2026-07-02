@@ -54,7 +54,7 @@ hu:
     text_otp_delivery_message_sms: 'A %{app_title} egyszeri jelszavad: %{token}'
     text_otp_delivery_message_voice: 'A %{app_title} egyszeri jelszavad: %{pause} %{token}. %{pause} Megismétlem: %{pause} %{token}'
     text_2fa_enabled: Minden egyes belépésnél szükséged lesz az alapértelmezett 2FA eszközödről beírt OTP tokenre.
-    text_2fa_disabled: A kétlépcsős beléptetés engedélyezéséhez és egy új 2FA eszköz regisztrációjához nyomd meg a fenti gombot. Amennyiben már rendelkezel ilyen eszközzel, alapértelmezettnek kell beállítanod.
+    text_2fa_disabled: To enable two-factor authentication, use the button below to register a new 2FA device. If you already have a device, you need to make it a default.
     login:
       enter_backup_code_title: Írd be a tartalék kódot
       enter_backup_code_text: Kérjük, adjon meg egy érvényes biztonsági kódot a kódok listájából, arra az esetre, ha már nem tudja elérni regisztrált 2FA eszközeit
@@ -176,7 +176,7 @@ hu:
         '
       other_active_session_notice: Fiókjában aktív emlékeztető cookie található egy másik munkamenet során.
       label: Megjegyez
-      clear_cookie: Kattintson ide hogy törölje az összes 2FA munkamenetet
+      clear_cookie: Remove all remembered 2FA sessions.
       cookie_removed: Az összes 2FA kapcsolatot eltávolítottuk
       dont_ask_again: Hozzon létre egy cookie -t, hogy emlékezzen a 2FA hitelesítésre ezen az felhasználón%{days} napig.
   field_otp: Egyszeri jelszó
@@ -187,6 +187,7 @@ hu:
   notice_account_has_no_phone: A fiókjához nincs mobiltelefonszám társítva.
   label_confirmed: Megerősítve
   button_continue: Folytatás
+  button_make_active: Activate
   button_make_default: Megjelölés alapértelmezettként
   notice_phone_number_format: A következő módon add meg a telefonszámot +XX XXXXXXXXX
   text_otp_not_receive: Másik hitelesítési módszer használata
