@@ -20,7 +20,7 @@ OpenProject supports two identifier modes:
 | Mode                                       | Example    |
 | ------------------------------------------ | ---------- |
 | Instance-wide numerical sequence (default) | `#12345`   |
-| Project-based identifiers                  | `PROJ-123` |
+| Project-based semantic identifiers         | `PROJ-123` |
 
 Project-based identifiers make it easier to identify the project a work package belongs to and can help organizations migrating from Jira preserve familiar issue references.
 
