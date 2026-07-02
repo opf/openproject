@@ -38,7 +38,7 @@ module ResourceManagement
         preload_user_details
 
         resources = users.map.with_index do |user, index|
-          FullCalendar.resource(
+          FullCalendar::Resource.new(
             id: user.id,
             title: user.name,
             order: index,

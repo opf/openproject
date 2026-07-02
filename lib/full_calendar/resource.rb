@@ -29,61 +29,30 @@
 #++
 
 module FullCalendar
-  class Event
+  # A FullCalendar resource (timeline row). `order` feeds the `resourceOrder`
+  # config so rows keep the query's order; `extended_props` carries the rendered
+  # cell the client reads off `extendedProps`.
+  class Resource
     include ActiveModel::Model
     include ActiveModel::Attributes
 
     attribute :id, :string
-    attribute :group_id, :string
-    attribute :resource_id, :string
-    attribute :all_day, :boolean, default: false
-    attribute :starts_at, :datetime
-    attribute :ends_at, :datetime
     attribute :title, :string
-    attribute :url, :string
-    attribute :display, :string
-    attribute :class_names, array: true, default: []
+    attribute :order, :integer
 
-    # Inclusive date range for all-day events; `start`/`end` are taken from it and
-    # the end is pushed to FullCalendar's exclusive boundary. `extended_props` is
-    # the escape hatch for arbitrary event data the client reads off `extendedProps`.
-    attr_accessor :date_range, :extended_props
-
-    # override in subclasses to add more fields to the JSON
-    def additional_attributes
-      {}
-    end
+    attr_accessor :extended_props
 
     def as_json(*)
       {
         "id" => id,
-        "groupId" => group_id,
-        "resourceId" => resource_id,
-        "allDay" => all_day,
-        "start" => event_start,
-        "end" => event_end,
-        "display" => display,
         "title" => title,
-        "url" => url,
-        "classNames" => class_names,
+        "order" => order,
         "extendedProps" => extended_props
-      }.merge(additional_attributes).compact.as_json
+      }.compact.as_json
     end
 
     def to_json(*)
       as_json.to_json(*)
-    end
-
-    private
-
-    # A date_range is an all-day span whose end FullCalendar treats as exclusive;
-    # without one, the event is timed and uses its datetimes verbatim.
-    def event_start
-      date_range ? date_range.begin : starts_at
-    end
-
-    def event_end
-      date_range ? date_range.end + 1 : ends_at
     end
   end
 end

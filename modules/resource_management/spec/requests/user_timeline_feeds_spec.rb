@@ -139,8 +139,8 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       get_events
 
       expect(response).to have_http_status(:ok)
-      event = block_events.find { |e| e["id"] == allocation.id }
-      expect(event["resourceId"]).to eq(assignee.id)
+      event = block_events.find { |e| e["id"].to_i == allocation.id }
+      expect(event["resourceId"].to_i).to eq(assignee.id)
       expect(event).to include("start" => "2026-06-01", "end" => "2026-06-06")
       expect(event.dig("extendedProps", "html")).to include("Develop route optimization")
       # Carries its work package's status colour on the bar's top edge.
@@ -175,7 +175,7 @@ RSpec.describe "User timeline feeds", type: :rails_request do
         e["display"] == "background" && (e["classNames"] || []).include?("op-rm-timeline-overbooked")
       end
       expect(overbooked_bg).not_to be_empty
-      expect(overbooked_bg.pluck("resourceId")).to all(eq(assignee.id))
+      expect(overbooked_bg.pluck("resourceId").map(&:to_i)).to all(eq(assignee.id))
     end
 
     it "flags the overbooked allocation bar and explains it in a tooltip" do
@@ -184,7 +184,7 @@ RSpec.describe "User timeline feeds", type: :rails_request do
                                    allocated_time: 5 * 8 * 60)
       get_events
 
-      bar = block_events.find { |e| e["id"] == allocation.id }
+      bar = block_events.find { |e| e["id"].to_i == allocation.id }
       expect(bar.dig("extendedProps", "overbooked")).to be(true)
       html = bar.dig("extendedProps", "html")
       # The tooltip names the period and contrasts scheduled vs available capacity.
@@ -202,7 +202,7 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       )
       response.parsed_body["events"]
         .select { |e| e["display"] == "background" }
-        .select { |e| e["resourceId"] == user.id }
+        .select { |e| e["resourceId"].to_i == user.id }
     end
 
     it "paints a background run over the user's working days, broken by the weekend" do
@@ -227,7 +227,7 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       )
       response.parsed_body["events"]
         .select { |e| (e["classNames"] || []).include?("op-rm-timeline-non-working") }
-        .select { |e| e["resourceId"] == user.id }
+        .select { |e| e["resourceId"].to_i == user.id }
     end
 
     it "emits a blue normal event for a user's time off, labelled with the working days lost" do

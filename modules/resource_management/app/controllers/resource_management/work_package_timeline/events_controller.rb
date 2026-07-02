@@ -42,7 +42,7 @@ module ResourceManagement
         visible = ResourceAllocation.visible_principal_ids(allocations, current_user)
 
         events = allocations.map do |allocation|
-          FullCalendar.event(
+          FullCalendar::AllDayEvent.new(
             id: allocation.id,
             resource_id: allocation.entity_id,
             range: allocation.start_date..allocation.end_date,
@@ -85,7 +85,8 @@ module ResourceManagement
           band = active_span_band(work_package, view_first: range.begin, view_last: range.end, granularity:)
           next unless band
 
-          FullCalendar.background(resource_id: work_package.id, range: band, class_names: ["op-rm-timeline-active"])
+          FullCalendar::AllDayEvent.new(resource_id: work_package.id, range: band, display: "background",
+                                        class_names: ["op-rm-timeline-active"])
         end
       end
 

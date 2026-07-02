@@ -58,8 +58,8 @@ module ResourceManagement
       def overbooked_background_events
         overbooked_ranges_by_principal.flat_map do |principal_id, ranges|
           ranges.map do |range|
-            FullCalendar.background(resource_id: principal_id, range: range.start_date..range.end_date,
-                                    class_names: ["op-rm-timeline-overbooked"])
+            FullCalendar::AllDayEvent.new(resource_id: principal_id, range: range.start_date..range.end_date,
+                                          display: "background", class_names: ["op-rm-timeline-overbooked"])
           end
         end
       end
@@ -81,8 +81,8 @@ module ResourceManagement
         working_day_runs(range, calendar).map do |run_start, run_end|
           # Same white "active span" styling the work-package timeline uses for
           # a work package's start/due range (see _resource_management.sass).
-          FullCalendar.background(resource_id: user.id, range: run_start..run_end,
-                                  class_names: ["op-rm-timeline-active"])
+          FullCalendar::AllDayEvent.new(resource_id: user.id, range: run_start..run_end,
+                                        display: "background", class_names: ["op-rm-timeline-active"])
         end
       end
 
@@ -107,7 +107,7 @@ module ResourceManagement
 
       def event_for(allocation)
         overbooked_ranges = overbooked_ranges_for_allocation(allocation)
-        FullCalendar.event(
+        FullCalendar::AllDayEvent.new(
           id: allocation.id,
           resource_id: allocation.principal_id,
           range: allocation.start_date..allocation.end_date,
@@ -177,7 +177,7 @@ module ResourceManagement
       end
 
       def non_working_event(resource_id, start_date, end_date, label, icon:)
-        FullCalendar.event(
+        FullCalendar::AllDayEvent.new(
           resource_id:,
           range: start_date..end_date,
           extended_props: { html: render_non_working_bar(label, icon:) },

@@ -36,7 +36,7 @@ module ResourceManagement
         work_packages = @view.work_packages.to_a
         last_index = work_packages.size - 1
         resources = work_packages.map.with_index do |work_package, index|
-          FullCalendar.resource(
+          FullCalendar::Resource.new(
             id: work_package.id,
             title: work_package.subject,
             order: index, # used by FullCalendar’s resourceOrder config, for hand-picked WPs
