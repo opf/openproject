@@ -32,21 +32,21 @@ module ResourceManagement
   module UserTimeline
     # Feeds the FullCalendar resources (rows): one per user in the view.
     class ResourcesController < FeedsController
-      def index
+      def index # rubocop:disable Metrics/AbcSize
         overbooked = overbooked_ranges_by_principal.keys.to_set
         scheduled = scheduled_principal_ids
         preload_user_details
 
         resources = users.map.with_index do |user, index|
-          {
+          FullCalendar.resource(
             id: user.id,
             title: user.name,
             order: index,
-            extendedProps: {
+            extended_props: {
               html: render_cell(user, overbooked: overbooked.include?(user.id),
                                       schedule_missing: scheduled.exclude?(user.id))
             }
-          }
+          )
         end
 
         render json: { resources: }

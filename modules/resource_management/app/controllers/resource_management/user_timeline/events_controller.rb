@@ -58,13 +58,8 @@ module ResourceManagement
       def overbooked_background_events
         overbooked_ranges_by_principal.flat_map do |principal_id, ranges|
           ranges.map do |range|
-            {
-              resourceId: principal_id,
-              start: range.start_date.iso8601,
-              end: (range.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
-              display: "background",
-              classNames: ["op-rm-timeline-overbooked"]
-            }
+            FullCalendar.background(resource_id: principal_id, range: range.start_date..range.end_date,
+                                    class_names: ["op-rm-timeline-overbooked"])
           end
         end
       end
@@ -84,15 +79,10 @@ module ResourceManagement
         calendar = ResourceAllocations::WorkingTimeCalendar.new(user:, range:, global_non_working_days:)
 
         working_day_runs(range, calendar).map do |run_start, run_end|
-          {
-            resourceId: user.id,
-            start: run_start.iso8601,
-            end: (run_end + 1).iso8601,
-            display: "background",
-            # Same white "active span" styling the work-package timeline uses for
-            # a work package's start/due range (see _resource_management.sass).
-            classNames: ["op-rm-timeline-active"]
-          }
+          # Same white "active span" styling the work-package timeline uses for
+          # a work package's start/due range (see _resource_management.sass).
+          FullCalendar.background(resource_id: user.id, range: run_start..run_end,
+                                  class_names: ["op-rm-timeline-active"])
         end
       end
 
@@ -117,17 +107,16 @@ module ResourceManagement
 
       def event_for(allocation)
         overbooked_ranges = overbooked_ranges_for_allocation(allocation)
-        {
+        FullCalendar.event(
           id: allocation.id,
-          resourceId: allocation.principal_id,
-          start: allocation.start_date.iso8601,
-          end: (allocation.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
-          extendedProps: {
+          resource_id: allocation.principal_id,
+          range: allocation.start_date..allocation.end_date,
+          extended_props: {
             overbooked: overbooked_ranges.any?,
             editUrl: edit_url_for(allocation),
             html: render_bar(allocation, overbooked_ranges)
           }
-        }
+        )
       end
 
       def edit_url_for(allocation)
@@ -188,15 +177,12 @@ module ResourceManagement
       end
 
       def non_working_event(resource_id, start_date, end_date, label, icon:)
-        {
-          resourceId: resource_id,
-          start: start_date.iso8601,
-          end: (end_date + 1).iso8601, # FullCalendar treats the end as exclusive
-          extendedProps: {
-            html: render_non_working_bar(label, icon:)
-          },
-          classNames: ["op-rm-timeline-non-working"]
-        }
+        FullCalendar.event(
+          resource_id:,
+          range: start_date..end_date,
+          extended_props: { html: render_non_working_bar(label, icon:) },
+          class_names: ["op-rm-timeline-non-working"]
+        )
       end
 
       def render_non_working_bar(label, icon:)

@@ -42,17 +42,16 @@ module ResourceManagement
         visible = ResourceAllocation.visible_principal_ids(allocations, current_user)
 
         events = allocations.map do |allocation|
-          {
+          FullCalendar.event(
             id: allocation.id,
-            resourceId: allocation.entity_id,
-            start: allocation.start_date.iso8601,
-            end: (allocation.end_date + 1).iso8601, # FullCalendar treats the end as exclusive
-            extendedProps: {
+            resource_id: allocation.entity_id,
+            range: allocation.start_date..allocation.end_date,
+            extended_props: {
               overbooked: overbooked.include?(allocation.id),
               editUrl: edit_url_for(allocation),
               html: render_bar(allocation, visible)
             }
-          }
+          )
         end
 
         events.concat(active_span_events)
@@ -76,29 +75,22 @@ module ResourceManagement
 
       # One background event per work package spanning the days it is active,
       # snapped to whole columns of the requested granularity and clamped to the view.
-      def active_span_events # rubocop:disable Metrics/AbcSize
-        return [] if params[:start].blank? || params[:end].blank?
+      def active_span_events
+        range = FullCalendar.range_from_params(params)
+        return [] unless range
 
-        view_first = Date.iso8601(params[:start])
-        view_last = Date.iso8601(params[:end]) - 1 # the view range end is exclusive
         granularity = params[:granularity].presence&.to_sym || Granularity::DEFAULT
 
         @view.work_packages.filter_map do |work_package|
-          band = active_span_band(work_package, view_first:, view_last:, granularity:)
+          band = active_span_band(work_package, view_first: range.begin, view_last: range.end, granularity:)
           next unless band
 
-          {
-            resourceId: work_package.id,
-            start: band.first.iso8601,
-            end: band.last.iso8601,
-            display: "background",
-            classNames: ["op-rm-timeline-active"]
-          }
+          FullCalendar.background(resource_id: work_package.id, range: band, class_names: ["op-rm-timeline-active"])
         end
       end
 
-      # Returns [band_start, exclusive_band_end] snapped to whole columns, or nil
-      # when the work package's interval lies entirely outside the visible range.
+      # Returns the inclusive band of days the work package is active, snapped to
+      # whole columns, or nil when its interval lies entirely outside the view.
       def active_span_band(work_package, view_first:, view_last:, granularity:)
         first = work_package.start_date || view_first
         last = work_package.due_date || view_last
@@ -107,7 +99,7 @@ module ResourceManagement
         first = [first, view_first].max
         last = [last, view_last].min
 
-        [snap_down(first, granularity), snap_up(last, granularity) + 1]
+        snap_down(first, granularity)..snap_up(last, granularity)
       end
 
       def snap_down(date, granularity)
