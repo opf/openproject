@@ -50,7 +50,7 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
   let!(:priority) { create(:priority, name: "High") }
   let(:version) { create(:version, project: target_project) }
   let(:role) { create(:project_role, permissions: %i[view_work_packages]) }
-  let(:user) { create(:user, member_with_roles: { project => role }) }
+  let(:user) { create(:user, member_with_roles: { project => role, target_project => role }) }
 
   def build_component(**params)
     described_class.new(
@@ -96,6 +96,26 @@ RSpec.describe WorkPackages::Moves::FormComponent, type: :component do
       expect(rendered_component).to have_select(:status_id, selected: status.name)
       expect(rendered_component).to have_select(:version_id, selected: version.name)
       expect(rendered_component).to have_select(:priority_id, selected: priority.name)
+    end
+  end
+
+  context "when the user's roles differ between source and target project" do
+    let(:source_status) { create(:status, name: "Source only") }
+    let(:target_status) { create(:status, name: "Target only") }
+    let(:source_role) { create(:project_role, permissions: %i[view_work_packages]) }
+    let(:target_role) { create(:project_role, permissions: %i[view_work_packages]) }
+    let(:user) do
+      create(:user, member_with_roles: { project => source_role, target_project => target_role })
+    end
+
+    before do
+      create(:workflow, type:, role: source_role, old_status: work_package.status, new_status: source_status)
+      create(:workflow, type:, role: target_role, old_status: work_package.status, new_status: target_status)
+    end
+
+    it "offers the statuses available in the target project" do
+      expect(rendered_component).to have_select(:status_id, with_options: [target_status.name])
+      expect(rendered_component).to have_no_select(:status_id, with_options: [source_status.name])
     end
   end
 
