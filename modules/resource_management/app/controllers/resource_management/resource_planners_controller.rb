@@ -31,6 +31,7 @@ module ::ResourceManagement
   class ResourcePlannersController < BaseController
     include OpTurbo::ComponentStream
     include PlannerViewContent
+    include PaginationHelper
 
     menu_item :resource_management
 
@@ -45,6 +46,8 @@ module ::ResourceManagement
                              .where(project: @project)
                              .includes(children: :query)
                              .order(:name)
+                             .page(page_param)
+                             .per_page(per_page_param)
     end
 
     def show
