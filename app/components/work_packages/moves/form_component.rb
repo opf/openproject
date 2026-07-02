@@ -69,12 +69,12 @@ module WorkPackages
       attr_reader :work_packages, :project, :target_project, :notes, :copy,
                   :new_type_id, :selected_values, :turbo_stream_url, :current_user
 
-      def types
-        @types ||= target_project.types.order(:position)
+      def available_types
+        @available_types ||= target_project.types.order(:position)
       end
 
       def target_type
-        @target_type ||= types.find { |type| type.id.to_s == new_type_id.to_s }
+        @target_type ||= available_types.find { |type| type.id.to_s == new_type_id.to_s }
       end
 
       def available_versions
@@ -92,7 +92,7 @@ module WorkPackages
       end
 
       def current_types_missing_in_target?
-        work_packages.map(&:type_id).uniq.difference(types.pluck(:id)).any?
+        work_packages.map(&:type_id).uniq.difference(available_types.pluck(:id)).any?
       end
 
       def descendant_types_missing_in_target?
@@ -102,7 +102,7 @@ module WorkPackages
         Type.where(id: hierarchies.map { it.descendant.type_id })
             .select("distinct id")
             .pluck(:id)
-            .difference(types.pluck(:id))
+            .difference(available_types.pluck(:id))
             .any?
       end
 
