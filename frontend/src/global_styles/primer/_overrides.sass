@@ -229,6 +229,12 @@ ul.SegmentedControl,
     .FilterableTreeViewTreeContainer
       scrollbar-gutter: stable
 
+      // Overlay scrollbars can cover the tree content on narrow screens and
+      // touch devices.
+      @media screen and (max-width: $breakpoint-sm), (pointer: coarse)
+        .TreeViewItemContainer
+          width: calc(100% - var(--base-size-16))
+
       // Firefox on Windows can render the scrollbar over the tree content,
       // so keep trailing actions out of that area.
       // see https://bugzilla.mozilla.org/show_bug.cgi?id=1980289
