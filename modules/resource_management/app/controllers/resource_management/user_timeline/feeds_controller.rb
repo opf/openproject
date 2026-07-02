@@ -113,9 +113,21 @@ module ResourceManagement
       end
 
       def requested_window_bounds
-        return [] if params[:start].blank? || params[:end].blank?
+        return [] unless visible_range
 
-        [Date.iso8601(params[:start]), Date.iso8601(params[:end])]
+        [visible_range.begin, visible_range.end]
+      end
+
+      # The inclusive range of days the request wants rendered, or nil on the
+      # initial load that carries no window yet. FullCalendar sends the end
+      # exclusive, so the last visible day is one before it.
+      def visible_range
+        return @visible_range if defined?(@visible_range)
+
+        @visible_range =
+          if params[:start].present? && params[:end].present?
+            Date.iso8601(params[:start])..(Date.iso8601(params[:end]) - 1)
+          end
       end
     end
   end

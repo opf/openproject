@@ -75,11 +75,9 @@ module ResourceManagement
       # `WorkingTimeCalendar#capacity_on` already returns zero for all of those,
       # so a positive capacity is exactly "the user works this day".
       def working_day_background_events
-        return [] if params[:start].blank? || params[:end].blank?
+        return [] unless visible_range
 
-        range = Date.iso8601(params[:start])..(Date.iso8601(params[:end]) - 1) # the view range end is exclusive
-
-        users.flat_map { |user| working_day_background_events_for(user, range) }
+        users.flat_map { |user| working_day_background_events_for(user, visible_range) }
       end
 
       def working_day_background_events_for(user, range)
@@ -154,11 +152,9 @@ module ResourceManagement
       # part of the user's weekday schedule: their personal time off and the
       # global holidays. Rendered blue via the event class name.
       def non_working_events
-        return [] if params[:start].blank? || params[:end].blank?
+        return [] unless visible_range
 
-        range = Date.iso8601(params[:start])..(Date.iso8601(params[:end]) - 1) # the view range end is exclusive
-
-        time_off_events(range) + holiday_events(range)
+        time_off_events(visible_range) + holiday_events(visible_range)
       end
 
       # One event per stretch of a user's time off overlapping the view, on that
