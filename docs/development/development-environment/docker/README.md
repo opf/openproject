@@ -299,10 +299,6 @@ an active internet connection. A compose file exists that runs those two service
 touch docker/dev/tls/acme.json
 chmod 0600 docker/dev/tls/acme.json
 
-# The `gateway` network is already created as part of the base setup
-# (see "Step-by-step Setup → 3) Create the shared `gateway` network").
-# If you skipped that step, create it now: `docker network create gateway`.
-
 # Start certificate authority and reverse proxy
 docker compose --project-directory docker/dev/tls up -d
 
