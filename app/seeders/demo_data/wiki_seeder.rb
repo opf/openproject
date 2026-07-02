@@ -33,7 +33,7 @@ module DemoData
 
     def initialize(project, project_data)
       super(project_data)
-      @project = project
+      @project = project.reload
     end
 
     def seed_data!
