@@ -26,12 +26,13 @@
 // See COPYRIGHT and LICENSE files for more details.
 //++
 
-import { vi, type Mock } from 'vitest';
+import { vi, type Mock, type MockInstance } from 'vitest';
 import { Controller } from '@hotwired/stimulus';
 
 import { setupStimulusTest, type StimulusTestContext } from 'core-stimulus/test-helpers';
 import type AutoScrollingControllerType from './auto-scrolling.controller';
 import { ViewPortServiceInterface } from './services/view-port-service';
+import SettleWindow from './services/settle-window';
 
 const HIGHLIGHTED_CLASS = '--anchor-highlighted';
 
@@ -268,233 +269,117 @@ describe('Activities tab auto-scrolling controller', () => {
       return ctx.getController<AutoScrollingControllerType>('work-packages--activities-tab--auto-scrolling', el);
     }
 
-    // A streamed-in entry carries images that reserve no height until they load, so
-    // it keeps growing and a single scroll can land just above it. The controller
-    // follows the bottom while the height settles.
-    it('re-asserts the bottom as the new entry grows after insertion', async () => {
-      const original = globalThis.ResizeObserver;
-      let resize:(() => void) | undefined;
-      /* eslint-disable @typescript-eslint/no-empty-function */
-      vi.stubGlobal('ResizeObserver', class {
-        constructor(cb:() => void) { resize = cb; }
-        observe() {}
-        disconnect() {}
-      });
-      /* eslint-enable @typescript-eslint/no-empty-function */
+    // Marks the input as the mobile scroll target and returns its scrollIntoView spy.
+    function stubMobileInput(index:StubIndexController) {
+      index.viewPortService.isMobile = () => true;
 
-      try {
-        const { index, scroller } = await renderActivities();
-        index.sortingValue = 'asc';
-        Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
+      const input = document.createElement('div');
+      input.className = 'work-packages-activities-tab-journals-new-component';
+      const scrollIntoView = vi.fn();
+      input.scrollIntoView = scrollIntoView;
+      ctx.container
+        .querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!
+        .appendChild(input);
 
-        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
-        expect(scrollTo).toHaveBeenCalledWith({ top: 1000, behavior: 'smooth' });
+      return scrollIntoView;
+    }
 
-        // The entry's late content settles and the list grows taller.
-        Object.defineProperty(scroller, 'scrollHeight', { value: 1400, configurable: true });
-        resize?.();
+    let followSpy:MockInstance<(onSettle:() => void) => void>;
+    let stopSpy:MockInstance<() => void>;
 
-        expect(scrollTo).toHaveBeenLastCalledWith({ top: 1400, behavior: 'smooth' });
-      } finally {
-        vi.stubGlobal('ResizeObserver', original);
-      }
+    beforeEach(() => {
+      followSpy = vi.spyOn(SettleWindow.prototype, 'follow').mockImplementation(() => undefined);
+      stopSpy = vi.spyOn(SettleWindow.prototype, 'stop').mockImplementation(() => undefined);
     });
 
-    // Each poll opens a settle window; without teardown the prior window keeps its
-    // observer alive and scrolling. A newer update, or a disconnect, must close it.
-    it('tears down the prior settle window when a newer update streams in', async () => {
-      const observers:{ disconnected:boolean }[] = [];
-      const original = globalThis.ResizeObserver;
-      /* eslint-disable @typescript-eslint/no-empty-function */
-      vi.stubGlobal('ResizeObserver', class {
-        state = { disconnected: false };
+    it('follows the container to its bottom when a new entry lands at the bottom', async () => {
+      const { index, scroller } = await renderActivities();
+      index.sortingValue = 'asc';
+      Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
 
-        constructor() { observers.push(this.state); }
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
 
-        observe() {}
+      expect(followSpy).toHaveBeenCalledTimes(1);
 
-        disconnect() { this.state.disconnected = true; }
-      });
-      /* eslint-enable @typescript-eslint/no-empty-function */
-
-      try {
-        const { index, scroller } = await renderActivities();
-        index.sortingValue = 'asc';
-        Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
-
-        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
-        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
-
-        expect(observers).toHaveLength(2);
-        expect(observers[0].disconnected).toBe(true);
-        expect(observers[1].disconnected).toBe(false);
-      } finally {
-        vi.stubGlobal('ResizeObserver', original);
-      }
+      // The callback handed to the settle window scrolls the container to the bottom.
+      const [onSettle] = followSpy.mock.calls[0];
+      onSettle();
+      expect(scrollTo).toHaveBeenCalledWith({ top: 1000, behavior: 'smooth' });
     });
 
-    it('stops following when the controller disconnects', async () => {
-      const observers:{ disconnected:boolean }[] = [];
-      const original = globalThis.ResizeObserver;
-      /* eslint-disable @typescript-eslint/no-empty-function */
-      vi.stubGlobal('ResizeObserver', class {
-        state = { disconnected: false };
-
-        constructor() { observers.push(this.state); }
-
-        observe() {}
-
-        disconnect() { this.state.disconnected = true; }
-      });
-      /* eslint-enable @typescript-eslint/no-empty-function */
-
-      try {
-        const { index, scroller } = await renderActivities();
-        index.sortingValue = 'asc';
-        Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
-
-        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
-        expect(observers[0].disconnected).toBe(false);
-
-        const root = ctx.container.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!;
-        root.remove();
-        await ctx.nextFrame();
-
-        expect(observers[0].disconnected).toBe(true);
-      } finally {
-        vi.stubGlobal('ResizeObserver', original);
-      }
-    });
-
-    // The follow only knows the user was at the bottom when the entry arrived. If
-    // they scroll up while it settles, late growth must not yank them back down.
-    it('stops following once the user scrolls during the settle window', async () => {
-      let disconnected = false;
-      let resize:(() => void) | undefined;
-      const original = globalThis.ResizeObserver;
-      /* eslint-disable @typescript-eslint/no-empty-function */
-      vi.stubGlobal('ResizeObserver', class {
-        constructor(cb:() => void) { resize = () => { if (!disconnected) { cb(); } }; }
-
-        observe() {}
-
-        disconnect() { disconnected = true; }
-      });
-      /* eslint-enable @typescript-eslint/no-empty-function */
-
-      try {
-        const { index, scroller } = await renderActivities();
-        index.sortingValue = 'asc';
-        Object.defineProperty(scroller, 'scrollHeight', { value: 1000, configurable: true });
-
-        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
-        expect(scrollTo).toHaveBeenCalledTimes(1);
-
-        // The user grabs the scroll before the entry finishes growing.
-        window.dispatchEvent(new WheelEvent('wheel'));
-
-        Object.defineProperty(scroller, 'scrollHeight', { value: 1400, configurable: true });
-        resize?.();
-
-        expect(scrollTo).toHaveBeenCalledTimes(1);
-        expect(scrollTo).toHaveBeenLastCalledWith({ top: 1000, behavior: 'smooth' });
-      } finally {
-        vi.stubGlobal('ResizeObserver', original);
-      }
-    });
-
-    it('does not scroll when the list was not already at the bottom', async () => {
+    it('does not follow when the list was not already at the bottom', async () => {
       const { index } = await renderActivities();
       index.sortingValue = 'asc';
 
       autoScrollingController().performAutoScrollingOnStreamsUpdate(false);
 
-      expect(scrollTo).not.toHaveBeenCalled();
+      expect(followSpy).not.toHaveBeenCalled();
     });
 
-    // On mobile the comment input, not the container, is the scroll target. It
-    // waits for the keyboard, then follows the same way as the entry settles.
-    it('follows the input into view as the new entry settles on mobile', async () => {
+    it('does not follow a descending list, where new entries land at the top', async () => {
+      await renderActivities();
+
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+
+      expect(followSpy).not.toHaveBeenCalled();
+    });
+
+    it('stops the settle window when the controller disconnects', async () => {
       const { index } = await renderActivities();
       index.sortingValue = 'asc';
-      index.viewPortService.isMobile = () => true;
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
 
-      const input = document.createElement('div');
-      input.className = 'work-packages-activities-tab-journals-new-component';
-      const scrollIntoView = vi.fn();
-      input.scrollIntoView = scrollIntoView;
-      ctx.container
-        .querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!
-        .appendChild(input);
+      const root = ctx.container.querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!;
+      root.remove();
+      await ctx.nextFrame();
+
+      expect(stopSpy).toHaveBeenCalled();
+    });
+
+    // On mobile the comment input, not the container, is the scroll target, and the
+    // follow waits for the on-screen keyboard to settle before it opens.
+    it('follows the input into view once the keyboard settles on mobile', async () => {
+      const { index } = await renderActivities();
+      index.sortingValue = 'asc';
+      const scrollIntoView = stubMobileInput(index);
 
       vi.useFakeTimers();
-      const original = globalThis.ResizeObserver;
-      let resize:(() => void) | undefined;
-      /* eslint-disable @typescript-eslint/no-empty-function */
-      vi.stubGlobal('ResizeObserver', class {
-        constructor(cb:() => void) { resize = cb; }
-        observe() {}
-        disconnect() {}
-      });
-      /* eslint-enable @typescript-eslint/no-empty-function */
-
       try {
         autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
 
-        // The first scroll waits for the on-screen keyboard to settle.
-        expect(scrollIntoView).not.toHaveBeenCalled();
+        expect(followSpy).not.toHaveBeenCalled();
         vi.advanceTimersByTime(300);
-        expect(scrollIntoView).toHaveBeenCalledTimes(1);
+        expect(followSpy).toHaveBeenCalledTimes(1);
 
-        // The entry's late content settles and the list grows.
-        resize?.();
-        expect(scrollIntoView).toHaveBeenCalledTimes(2);
+        // The callback scrolls the input, not the container, into view.
+        const [onSettle] = followSpy.mock.calls[0];
+        onSettle();
+        expect(scrollIntoView).toHaveBeenCalled();
       } finally {
-        vi.stubGlobal('ResizeObserver', original);
         vi.useRealTimers();
       }
     });
 
-    // Submitting your own comment streams in an entry that grows the same way, so
-    // it follows the input too, after the longer wait for the keyboard to dismiss.
+    // Submitting your own comment streams in an entry the same way, after the longer
+    // wait for the keyboard to dismiss.
     it('follows the input into view after submitting on mobile', async () => {
       const { index } = await renderActivities();
       index.sortingValue = 'asc';
-      index.viewPortService.isMobile = () => true;
-
-      const input = document.createElement('div');
-      input.className = 'work-packages-activities-tab-journals-new-component';
-      const scrollIntoView = vi.fn();
-      input.scrollIntoView = scrollIntoView;
-      ctx.container
-        .querySelector('[data-controller~="work-packages--activities-tab--auto-scrolling"]')!
-        .appendChild(input);
+      const scrollIntoView = stubMobileInput(index);
 
       vi.useFakeTimers();
-      const original = globalThis.ResizeObserver;
-      let resize:(() => void) | undefined;
-      /* eslint-disable @typescript-eslint/no-empty-function */
-      vi.stubGlobal('ResizeObserver', class {
-        constructor(cb:() => void) { resize = cb; }
-        observe() {}
-        disconnect() {}
-      });
-      /* eslint-enable @typescript-eslint/no-empty-function */
-
       try {
         autoScrollingController().performAutoScrollingOnFormSubmit();
 
-        // The first scroll waits the longer keyboard-dismiss window after a send.
         vi.advanceTimersByTime(300);
-        expect(scrollIntoView).not.toHaveBeenCalled();
+        expect(followSpy).not.toHaveBeenCalled();
         vi.advanceTimersByTime(500);
-        expect(scrollIntoView).toHaveBeenCalledTimes(1);
+        expect(followSpy).toHaveBeenCalledTimes(1);
 
-        // The entry's late content settles and the list grows.
-        resize?.();
-        expect(scrollIntoView).toHaveBeenCalledTimes(2);
+        const [onSettle] = followSpy.mock.calls[0];
+        onSettle();
+        expect(scrollIntoView).toHaveBeenCalled();
       } finally {
-        vi.stubGlobal('ResizeObserver', original);
         vi.useRealTimers();
       }
     });
