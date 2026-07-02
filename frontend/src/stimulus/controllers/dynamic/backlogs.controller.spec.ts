@@ -43,10 +43,15 @@ describe('Backlogs controller', () => {
   let events$:Subject<HalEvent[]>;
   let aggregated$:Mock;
   let reload:Mock;
+  let refresh:Mock;
+  let id:Mock;
   let originalOpenProject:typeof window.OpenProject;
 
   const pluginContext = () => ({
-    services: { halEvents: { aggregated$ } },
+    services: {
+      halEvents: { aggregated$ },
+      apiV3Service: { work_packages: { id } },
+    },
   });
 
   beforeAll(async () => {
@@ -57,6 +62,8 @@ describe('Backlogs controller', () => {
     events$ = new Subject<HalEvent[]>();
     aggregated$ = vi.fn(() => events$);
     reload = vi.fn(() => Promise.resolve());
+    refresh = vi.fn(() => Promise.resolve());
+    id = vi.fn(() => ({ refresh }));
     originalOpenProject = window.OpenProject;
     window.OpenProject = {
       getPluginContext: () => Promise.resolve(pluginContext()),
@@ -125,6 +132,46 @@ describe('Backlogs controller', () => {
     await ctx.nextFrame();
 
     expect(reload).not.toHaveBeenCalled();
+  });
+
+  it('refreshes the moved work package cache on a work-package-moved event', async () => {
+    await renderBacklogs();
+    await waitFor(() => { expect(aggregated$).toHaveBeenCalled(); });
+
+    document.dispatchEvent(new CustomEvent('op-dispatched:backlogs:work-package-moved', {
+      detail: { work_package_id: 42 },
+    }));
+
+    await waitFor(() => {
+      expect(id).toHaveBeenCalledWith('42');
+      expect(refresh).toHaveBeenCalled();
+    });
+  });
+
+  it('ignores a work-package-moved event without a work package id', async () => {
+    await renderBacklogs();
+    await waitFor(() => { expect(aggregated$).toHaveBeenCalled(); });
+
+    document.dispatchEvent(new CustomEvent('op-dispatched:backlogs:work-package-moved', { detail: {} }));
+    await ctx.nextFrame();
+
+    expect(refresh).not.toHaveBeenCalled();
+  });
+
+  it('stops refreshing once disconnected', async () => {
+    await renderBacklogs();
+    await waitFor(() => { expect(aggregated$).toHaveBeenCalled(); });
+
+    const root = ctx.container.querySelector('[data-controller="backlogs"]')!;
+    root.remove();
+    await ctx.nextFrame();
+
+    document.dispatchEvent(new CustomEvent('op-dispatched:backlogs:work-package-moved', {
+      detail: { work_package_id: 42 },
+    }));
+    await ctx.nextFrame();
+
+    expect(refresh).not.toHaveBeenCalled();
   });
 
   it('does not subscribe when disconnected before the context resolves', async () => {

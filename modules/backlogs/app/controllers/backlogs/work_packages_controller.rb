@@ -73,6 +73,14 @@ module Backlogs
       if call.success?
         move_work_package_to_target_component_via_turbo_stream(source_sprint:, target_sprint: call.result.sprint)
 
+        # A split view open on the moved work package caches its lock_version. Signal the
+        # move so the frontend can refresh that cache and avoid a stale-lock_version conflict
+        # on the next edit. Covers both drag-and-drop and the move-to-sprint/bucket dialogs.
+        dispatch_event_via_turbo_stream(
+          "op-dispatched:backlogs:work-package-moved",
+          detail: { work_package_id: call.result.id }
+        )
+
         if work_package_invisible_after_move?(call.result)
           backlog_name = call.result.backlog_bucket&.name || I18n.t(:label_inbox)
           render_flash_message_via_turbo_stream(
