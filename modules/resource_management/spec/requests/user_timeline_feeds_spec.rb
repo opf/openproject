@@ -110,6 +110,19 @@ RSpec.describe "User timeline feeds", type: :rails_request do
       expect(html).to include("UX Designer")
     end
 
+    it "joins the values of a multi-value job title field with a comma" do
+      job_title = create(:user_custom_field, :multi_list, name: "Roles", semantic_key: :job_title,
+                                                          possible_values: ["UX Designer", "Researcher"])
+      job_title.possible_values.each do |option|
+        assignee.custom_values.create!(custom_field: job_title, value: option)
+      end
+
+      get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
+
+      html = response.parsed_body["resources"].find { |r| r["id"].to_i == assignee.id }.dig("extendedProps", "html")
+      expect(html).to include("UX Designer, Researcher")
+    end
+
     it "denies users without access" do
       login_as create(:user)
       get project_resource_planner_view_user_timeline_resources_path(project, planner, view, format: :json)
