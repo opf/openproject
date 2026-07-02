@@ -120,7 +120,7 @@ describe('DisableWhenClickedController', () => {
     `);
 
     const link = ctx.screen.getByRole('link', { name: '+ Document' });
-    const parent = link.parentElement as HTMLElement;
+    const parent = link.parentElement!;
 
     link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true }));
     await ctx.nextFrame();

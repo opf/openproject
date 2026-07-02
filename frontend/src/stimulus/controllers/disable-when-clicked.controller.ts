@@ -32,7 +32,7 @@ export default class DisableWhenClickedController extends Controller<HTMLElement
     }
 
     this.alreadyClicked = true;
-    setTimeout(() => this.disable());
+    setTimeout(() => this.disable(), 0);
   }
 
   private disable():void {
