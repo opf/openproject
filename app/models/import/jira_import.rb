@@ -114,13 +114,10 @@ module Import
     # rubocop:disable Metrics/AbcSize
     # rubocop:disable Metrics/PerceivedComplexity
     def handle_create_user_failure(call, user_attrs, jira_user)
-      taken_error = call.errors.find { |error| error.type == :taken }
-      if taken_error.blank?
-        raise "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
-      end
+      taken_errors = call.errors.select { |error| error.type == :taken }
 
-      if taken_error.attribute == :mail
-        user = User.find_by(["LOWER(mail) = ?", user_attrs[:mail]&.downcase])
+      if taken_errors.any? { |e| e.attribute == :mail }
+        user = jira_user.try_to_find_existing_op_user_by_mail
         if user.blank?
           raise "Existing User is expected to be found, because there was an email " \
                 "collision. See attributes: #{user_attrs.except(:password)}"
@@ -134,27 +131,17 @@ module Import
         return
       end
 
-      user = jira_user.try_to_find_existing_op_users.first
-      if user.blank?
-        raise "Existing User is expected to be found, because there was a login " \
-              "collision. See attributes: #{user_attrs.except(:password)}"
+      if taken_errors.any? { |e| e.attribute == :login }
+        handle_referenced_user_login_conflict(user_attrs, jira_user)
+        return
       end
 
-      if jira_user_already_referenced?(user)
-        raise "Login '#{user_attrs[:login]}' is already taken by an OP user that is referenced by another Jira user. " \
-              "See attributes: #{user_attrs.except(:password)}"
-      end
-
-      create_reference!(
-        op_leg: user,
-        jira_leg: jira_user,
-        jira_import: self,
-        uses_existing: true
-      )
+      raise "Error creating a user (#{user_attrs.except(:password)}): #{call.message}"
     end
     # rubocop:enable Metrics/AbcSize
     # rubocop:enable Metrics/PerceivedComplexity
 
+    # rubocop:disable Metrics/AbcSize
     def handle_referenced_user_mail_conflict(user_attrs, jira_user)
       unique_mail, reusable_user = resolve_jira_email(user_attrs[:mail], jira_user.jira_user_key)
       if reusable_user
@@ -165,9 +152,14 @@ module Import
           uses_existing: true
         )
       else
+        overrides = {
+          mail: unique_mail,
+          login: resolve_jira_login(user_attrs[:login], jira_user.jira_user_key)
+        }
+
         new_call = Users::CreateService
                      .new(user: User.system, contract_class: EmptyContract)
-                     .call(user_attrs.merge(mail: unique_mail))
+                     .call(user_attrs.merge(overrides))
         unless new_call.success?
           raise "Error creating a user with modified email '#{unique_mail}' " \
                 "(#{user_attrs.except(:password)}): #{new_call.message}"
@@ -180,6 +172,25 @@ module Import
           uses_existing: false
         )
       end
+    end
+    # rubocop:enable Metrics/AbcSize
+
+    def handle_referenced_user_login_conflict(user_attrs, jira_user)
+      unique_login = resolve_jira_login(user_attrs[:login], jira_user.jira_user_key)
+      new_call = Users::CreateService
+                   .new(user: User.system, contract_class: EmptyContract)
+                   .call(user_attrs.merge(login: unique_login))
+      unless new_call.success?
+        raise "Error creating a user with modified login '#{unique_login}' " \
+              "(#{user_attrs.except(:password)}): #{new_call.message}"
+      end
+
+      create_reference!(
+        op_leg: new_call.result,
+        jira_leg: jira_user,
+        jira_import: self,
+        uses_existing: false
+      )
     end
 
     def import_user_groups(jira_user)
@@ -241,6 +252,7 @@ module Import
         op_entity_class: op_user.class.to_s
       )
     end
+
     # rubocop:enable Metrics/AbcSize
 
     # Returns [email, existing_user_or_nil].
@@ -259,6 +271,21 @@ module Import
         candidate = "#{local}+#{safe_key}+#{counter}@#{domain}"
         user = User.find_by(["LOWER(mail) = ?", candidate.downcase])
         break [candidate, user] unless user && jira_user_already_referenced?(user)
+
+        counter += 1
+      end
+    end
+
+    def resolve_jira_login(original_login, jira_user_key)
+      safe_key = jira_user_key.gsub(/[^a-zA-Z0-9._-]/, "_")
+
+      candidate = "#{original_login}+#{safe_key}"
+      return candidate unless User.by_login(candidate).exists?
+
+      counter = 1
+      loop do
+        candidate = "#{original_login}+#{safe_key}+#{counter}"
+        break candidate unless User.by_login(candidate).exists?
 
         counter += 1
       end

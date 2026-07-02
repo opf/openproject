@@ -265,6 +265,7 @@ RSpec.describe Import::JiraImport do
         create(:jira_user,
                jira:,
                jira_import:,
+               jira_user_key: "JIRAUSER10102",
                payload: jira_user_payload(
                  key: "JIRAUSER10102",
                  name: login,
@@ -274,21 +275,41 @@ RSpec.describe Import::JiraImport do
                ))
       end
 
-      it "does not create a new user" do
-        expect { jira_import.import_users }.not_to change(User, :count)
+      it "creates a new user with a unique login" do
+        expect { jira_import.import_users }.to change(User, :count).by(1)
       end
 
-      it "creates a reference to the existing user with uses_existing flag" do
+      it "assigns a Jira-key-based login to the new user" do
         jira_import.import_users
 
         reference = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user.id)
-        expect(reference).to have_attributes(
-          jira_entity_id: jira_user.id.to_s,
-          jira_entity_class: "Import::JiraUser",
-          op_entity_id: existing_user.id.to_s,
-          op_entity_class: "User",
-          uses_existing: true
-        )
+        new_user = User.find(reference.op_entity_id)
+        expect(new_user.login).to eq("login+JIRAUSER10102")
+        expect(new_user.mail).to eq(email)
+      end
+
+      it "marks the reference as not using an existing user" do
+        jira_import.import_users
+
+        reference = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user.id)
+        expect(reference.uses_existing).to be false
+      end
+
+      context "when the Jira-key-based login is already taken" do
+        before do
+          create(:user,
+                 login: "login+JIRAUSER10102",
+                 mail: "another@example.com",
+                 password: existing_user_password,
+                 password_confirmation: existing_user_password)
+        end
+
+        it "falls back to a counter suffix" do
+          jira_import.import_users
+
+          reference = Import::JiraOpenProjectReference.find_by(jira_entity_id: jira_user.id)
+          expect(User.find(reference.op_entity_id).login).to eq("login+JIRAUSER10102+1")
+        end
       end
     end
 
