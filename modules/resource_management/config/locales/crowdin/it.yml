@@ -42,6 +42,8 @@ it:
   label_resource_management: Pianificazione delle risorse
   permission_allocate_user_resources: Assegnazione delle risorse utente
   permission_allocate_user_resources_explanation: Consente di creare, aggiornare ed eliminare allocazioni delle risorse all'interno di un pianificatore risorse. Ciò include l'assegnazione di utenti o filtri utente a un pianificatore e la regolazione del tempo allocato e dell'intervallo di date.
+  permission_assign_users_to_generic_allocations: Assign users to generic allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
   permission_manage_public_resource_planners: Gestire i pianificatori di risorse pubbliche
   permission_manage_public_resource_planners_explanation: Consente agli utenti di creare e gestire pianificatori delle risorse pubblici. Permette loro di visualizzare, creare, gestire e pubblicare i propri pianificatori delle risorse. Non consente di visualizzare i pianificatori delle risorse creati da altri utenti che non sono condivisi pubblicamente.
   permission_view_resource_planners: Visualizza i pianificatori di risorse
@@ -85,6 +87,19 @@ it:
       submit: Assegna
       success_message: Risorsa assegnata.
       title: Assegna risorsa
+    assignment_dialog:
+      available: "%{hours} available"
+      confirm_overtime: Assign anyway
+      filter_criteria: Filter criteria
+      no_candidates:
+        description: No project member matches this allocation's filter criteria.
+        title: No matching members
+      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
+      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
+      requested_for: Requested for
+      select_user: Please select a user to assign.
+      submit: Assign
+      title: Assign %{filter_name}
     blankslate:
       desc: Crea un pianificatore di risorse per iniziare a pianificare la capacità di questo progetto.
       title: Ancora nessun pianificatore di risorse
@@ -116,6 +131,22 @@ it:
     sidebar:
       private: Privato
       public: Pubblico
+    staffing:
+      assign: Assign user
+      blank:
+        description: All generic allocations in this project have a user assigned.
+        title: Nothing to staff
+      columns:
+        dates: Dates
+        requested_time: Requested time
+        resource: Resource
+        work_package: Work package
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation?
+      menu_item: Staffing
+      starts_in_past: This allocation has already started and is still unassigned.
+      success_message: User assigned.
+      title: Staffing
     sub_views: Viste in questo pianificatore di risorse
     user_allocations_dialog:
       allocate_work_package: Assegna macro-attività

@@ -2491,6 +2491,8 @@ zh-TW:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: 當已設定工作量且完成百分比為 100% 時，必須為 0 小時。
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: 工時未設定設定，但完成度100%時，剩餘工時必須是空白。
           readonly_status: 工作套件處於唯讀狀態，因此無法變更其屬性。
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

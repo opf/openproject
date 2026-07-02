@@ -2515,6 +2515,8 @@ pt-BR:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- deve ser 0h quando Trabalho está definido e % de conclusão é 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: deve ficar vazio quando o Trabalho estiver vazio e % de conclusão for 100%.
           readonly_status: O pacote de trabalho está em estado somente leitura, então seus atributos não podem ser alterados.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

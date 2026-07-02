@@ -36,7 +36,7 @@ eo:
         label_dismiss_comment: Dismiss
         label_sort_asc: Newest at the bottom
         label_sort_desc: Newest on top
-        label_type_to_comment: Add a comment. Type @ to notify people.
+        label_type_to_comment: Aldonu komenton. Tajpu @ por sciigi homojn.
         label_submit_comment: Submit comment
         label_who: Kiu?
         changed_on: changed on
@@ -71,7 +71,7 @@ eo:
         title: Unreserve identifier
       empty_body: When a project's identifier changes, the previous one will appear here so you can unreserve it once it's safe to do so.
       empty_heading: No reserved identifiers
-      filter_label: Search identifiers
+      filter_label: Serĉu identigilojn
       identifier_not_found: The reserved identifier could not be found. It may have already been unreserved or the project may have been deleted. Please refresh the page.
       lede_html: When a project's identifier is renamed, the previous identifier is kept reserved so that existing links and integrations keep working.<br>Here you can unreserve identifiers so that they may be used by other projects.
       released_notice: Identifier "%{identifier}" has been unreserved.
@@ -155,7 +155,7 @@ eo:
         title: Jira configuration
         new: New configuration
       banner:
-        title: Beta - Try it out!
+        title: Beta - Provu ĝin!
         description: This Jira Migrator is currently in beta. We currently only support Jira Server/Data Center versions 10.x and 11.x. Cloud instances are not supported at this time.
         contribution_callout: 'Please, help us improve the Jira Migrator with your feedback and private data donations. You can [join the development community](link) of the Jira Migrator.
 
@@ -672,8 +672,8 @@ eo:
         remember_items_and_projects: Remember to set items and projects in the respective tabs for this custom field.
       hierarchy:
         subitems:
-          zero: no sub-items
-          one: 1 sub-item
+          zero: neniuj suberoj
+          one: 1 subero
           other: "%{count} sub-items"
       role_assignment:
         title: Role Assignment
@@ -862,9 +862,9 @@ eo:
   global_search:
     title:
       all_projects: Search for "%{search_term}" in all projects
-      current_project: Search for "%{search_term}" in %{project_name}
-      project_and_subprojects: Search for "%{search_term}" in %{project_name} and all subprojects
-    placeholder: Search in %{app_title}
+      current_project: Serĉu "%{search_term}" en %{project_name}
+      project_and_subprojects: Serĉu "%{search_term}" en " %{project_name} " kaj en ĉiuj subprojektoj
+    placeholder: Serĉu en %{app_title}
     overwritten_tabs:
       all: Ĉiuj
       messages: Forumo
@@ -895,8 +895,8 @@ eo:
   portfolios:
     index:
       search:
-        label: Portfolio name filter
-        placeholder: Search portfolios
+        label: Filtrilo de portfolia nomo
+        placeholder: Serĉu portfoliojn
       sub_items_html:
         one: "<strong>1</strong> sub-item"
         other: "<strong>%{count}</strong> sub-items"
@@ -931,8 +931,8 @@ eo:
       no_results_title_text: Nun estas neniu projekto.
       no_results_content_text: Krei nova projekton
       search:
-        label: Project name filter
-        placeholder: Search by project name
+        label: Filtri laŭ projekta nomo
+        placeholder: Serĉu laŭ projekta nomo
     lists:
       active: Active projects
       my: Miaj projektoj
@@ -952,7 +952,7 @@ eo:
       header_status: Status
       header_relations: Project relations
       button_update_details: Update details
-      button_update_status_description: Update status description
+      button_update_status_description: Ĝisdatigi la priskribon de la statuso
       button_update_parent_project: Update parent project
       public_warning: 'This project is public. Anyone who has access to this instance will be able to view and interact with this project depending on their role and associated permissions. Sub-projects are not affected and have their own settings.
 
@@ -995,8 +995,8 @@ eo:
 
             '
       actions:
-        label_enable_all: Enable all
-        label_disable_all: Disable all
+        label_enable_all: Aktivigi ĉiujn
+        label_disable_all: Malaktivigi ĉiujn
       activities:
         no_results_title_text: Aktuale estas neniu disponebla aktiveco.
       forums:
@@ -1016,7 +1016,7 @@ eo:
         step:
           use_in_project: Use %{step} in this project
         filter:
-          label: Search project phase
+          label: Serĉu projektofazon
       project_custom_fields:
         header:
           title: Project attributes
@@ -1028,7 +1028,7 @@ eo:
           label_disable_single: Inactive in this project, click to enable
           remove_from_project: Remove from project
         is_for_all_blank_slate:
-          heading: For all projects
+          heading: Por ĉiuj projektoj
           description: This project attribute is enabled in all projects since the "For all projects" option is checked. It cannot be deactivated for individual projects.
         enabled_via_assignee_when_submitted_html: This project attribute cannot be disabled since it is set as <a href=%{pir_submission_url} target="_blank">assignee when submitted</a> for project initiation requests.
       types:
@@ -1437,10 +1437,10 @@ eo:
           label_disable_all: Disable all
           label_enable_all: Enable all
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
-        filter: Search by section or name
+        filter: Serĉu laŭ sekcio aŭ nomo
         tab: Project attributes
       projects:
-        enable_all: Enable for all projects
+        enable_all: Aktivigu por ĉiuj projektoj
         select_projects: Elektu projektojn
         select_projects_description: Select the projects in which you would like to use this type.
         tab: Projektoj
@@ -1634,9 +1634,9 @@ eo:
       blankslate_heading: No relations
       blankslate_description: This work package does not have any relations yet.
     label_add_child_button: Child
-    label_add_x: Add %{x}
+    label_add_x: Aldoni %{x}
     label_edit_x: Edit %{x}
-    label_add_description: Add description
+    label_add_description: Aldoni priskribon
     lag:
       subject: Lag
       caption: |-
@@ -1898,7 +1898,7 @@ eo:
           false: private
         queries: Informpetoj
         status_code: Status
-        status_explanation: Status description
+        status_explanation: Priskribo de stato
         status_codes:
           not_started: Nekomencita
           on_track: Laŭ la plano
@@ -1951,7 +1951,7 @@ eo:
         filters: Filtriloj
         timeline_labels: Kronologiaj etikedoj
         timeline_visible: Show Gantt chart
-        timeline_zoom_level: Gantt chart zoom level
+        timeline_zoom_level: Zoomnivelo de la Gantt-diagramo
         timestamps: Baseline timestamps
         sort_criteria: Sort criteria
         highlighted_attributes: Highlighted attributes
@@ -2518,6 +2518,8 @@ eo:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- must be 0h when Work is set and % Complete is 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: must be empty when Work is empty and % Complete is 100%.
           readonly_status: The work package is in a readonly status so its attributes cannot be changed.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:
@@ -2662,8 +2664,8 @@ eo:
       invalid_child_for_parent: is not allowed as a parent for this view type.
   activity:
     item:
-      created_by_on: created by %{user} on %{datetime}
-      created_by_on_time_entry: time logged by %{user} on %{datetime}
+      created_by_on: kreita de %{user} je %{datetime}
+      created_by_on_time_entry: tempo registrita de %{user} je %{datetime}
       created_on: created on %{datetime}
       created_on_time_entry: time logged on %{datetime}
       updated_by_on: updated by %{user} on %{datetime}
@@ -2778,7 +2780,7 @@ eo:
     recipient: Recipient
     role: Rolo
     roles: Roloj
-    search: Search
+    search: Serĉi
     sprint: Sprint
     start_date: Komencdato
     status: Stato
@@ -2845,6 +2847,7 @@ eo:
   button_add_sub_item: Add sub-item
   button_add_member: Aldoni membron
   button_add_watcher: Aldoni observanton
+  button_all_filters: All filters
   button_annotate: Komenti
   button_apply: Ekuzi
   button_apply_changes: Apply changes
@@ -2917,7 +2920,7 @@ eo:
   button_unwatch: Malatenti
   button_update: Ĝisdatigi
   button_upgrade: Ppromocii
-  button_buy_now: Buy now
+  button_buy_now: Aĉetu nun
   button_upload: Alŝuti
   button_view: Montri
   button_watch: Atenti
@@ -3169,8 +3172,8 @@ eo:
       work_package_sharing: Share work packages with external users
       work_package_subject_generation: Work Package Subject Generation
     upsell:
-      buy_now_button: Buy now
-      plans_title: Enterprise plans
+      buy_now_button: Aĉetu nun
+      plans_title: Entreprenaj planoj
       title: Entreprena aldonaĵo
       plan_title: Enterprise %{plan} add-on
       plan_name: "%{plan} enterprise plan"
@@ -3181,7 +3184,7 @@ eo:
 
         '
       hide_banner: Hide this banner
-      homescreen_description: 'Enterprise plans extend the Community edition of OpenProject with additional [Enterprise add-ons](enterprise_url) and professional support, ideal for organizations running OpenProject in a mission-critical environment.
+      homescreen_description: 'Enterprise-planoj plivastigas la Komunuman eldonon de OpenProject per pliaj [Enterprise-aldonaĵoj](enterprise_url) kaj profesia subteno, idealaj por organizoj, kiuj uzas OpenProject en serioza medio.
 
         '
       homescreen_subline: By upgrading, you will also be supporting an open source project.
@@ -3384,9 +3387,9 @@ eo:
       title: Eksporti
       submit: Eksporti
       save_export_settings:
-        label: Save settings
+        label: Konservi agordojn
       format:
-        label: File format
+        label: Dosierformato
         options:
           csv:
             label: CSV
@@ -3416,13 +3419,13 @@ eo:
           label: Include images
           caption: Exclude images to reduce the size of the PDF export.
         gantt_zoom_levels:
-          label: Zoom levels
-          caption: Select what is the zoom level for dates displayed in the chart.
+          label: Zoom-niveloj
+          caption: Elektu, kia estas la zoma nivelo por la datoj montrataj en la diagramo.
           options:
-            days: Days
-            weeks: Weeks
+            days: Tagoj
+            weeks: Semajnoj
             months: Monatoj
-            quarters: Quarters
+            quarters: Kvaronoj
         column_width:
           label: Table column width
           options:
@@ -3436,7 +3439,7 @@ eo:
         long_text_fields:
           input_caption: By default all long text fields are selected.
           input_label: Add long text fields
-          input_placeholder: Search for long text fields
+          input_placeholder: Serĉu longajn tekstkampojn
           drag_area_label: Manage long text fields
       xls:
         include_relations:
@@ -3523,7 +3526,7 @@ eo:
   header:
     project_select_component:
       all_projects: All projects
-      favorites: Favorites
+      favorites: Favoritoj
       leave_project: Leave project
       no_favorite_projects: You have no favorite projects.
       title: Projects
@@ -3568,7 +3571,7 @@ eo:
       projects: Pli novaj videblaj projektoj en tiu ĉi loko.
       no_visible_projects: Ne estas videblaj projektoj en tiu ĉi loko.
       favorite_projects:
-        no_results: You have no favorite projects
+        no_results: Vi ne havas favoritajn projektojn
         no_results_subtext: Add one or multiple projects as favorite through their overview or in a project list.
       users: Pli novaj registritaj uzantoj en tiu ĉi loko.
     blocks:
@@ -3678,7 +3681,7 @@ eo:
     notifications_and_email:
       title: Notification and email
       tabs:
-        notifications: Notification settings
+        notifications: Agordoj de sciigoj
         email_reminders: Email reminders
     access_tokens:
       description: Provider tokens are issued by OpenProject, allowing other applications to access it. Client tokens are issued by other applications, allowing OpenProject to access them.
@@ -3789,7 +3792,7 @@ eo:
         submit_button: Update date alerts
         start_date: Start date
         due_date: Finish date
-        overdue: Overdue
+        overdue: Malfrua
         times:
           same_day: On the same day
           one_day_before: 1 day before
@@ -3808,11 +3811,11 @@ eo:
         work_package_prioritized: All priority changes
         work_package_scheduled: All date changes
       project_specific_settings:
-        description: You can fine-tune your notification settings to only be notified of certain events in specific projects. Add a project below and choose which events should trigger a notification for you. These project-specific settings override default settings above.
-        title: Project-specific notifications
-        add_button: Add project-specific notifications
-        dialog_title: Add project-specific notifications
-        list_header: Projects with specific notifications
+        description: Vi povas precize agordi viajn sciigajn agordojn por esti sciigita nur pri certaj eventoj en specifaj projektoj. Aldonu projekton sube kaj elektu, kiujn eventojn devus ekigi sciigon por vi. Ĉi tiuj projekto-specifaj agordoj superas la defaŭltajn agordojn supre.
+        title: Projekto-specifaj sciigoj
+        add_button: Aldonu projekto-specifajn sciigojn
+        dialog_title: Aldonu projekto-specifajn sciigojn
+        list_header: Projektoj kun specifaj sciigoj
   notifications:
     reasons:
       assigned: Asignita al
@@ -4066,14 +4069,14 @@ eo:
   label_expanded_click_to_collapse: Etendita. Klaki por maletendi
   label_f_hour: "%{value} horoj"
   label_f_hour_plural: "%{value} hours"
-  label_favorite: Favorite
+  label_favorite: Favorito
   label_feed_plural: Feeds
   label_feeds_access_key: RSS access key
   label_feeds_access_key_created_on: RSS access key created %{value} ago
   label_feeds_access_key_type: RSS
   label_file_plural: Dosieroj
   label_filter: Filtriloj
-  label_filter_add: Add filter
+  label_filter_add: Aldoni filtrilon
   label_filter_by: Filter by
   label_filter_any_name_attribute: Name attributes
   label_filter_plural: Filtriloj
@@ -4084,7 +4087,7 @@ eo:
   label_form_configuration: Formulara agordo
   label_formula: Formula
   label_gantt_chart: Gantt chart
-  label_gantt_chart_plural: Gantt charts
+  label_gantt_chart_plural: Gantt-diagramoj
   label_general: General
   label_generate_key: Generate a key
   label_global_modules: Global modules
@@ -4226,8 +4229,8 @@ eo:
   label_move_column_left: Movi kolumnon maldektren
   label_move_column_right: Movi kolumnon dektren
   label_move_work_package: Movi la laborpakaĵon
-  label_my_account: Account settings
-  label_my_activity: My activity
+  label_my_account: Kontoagordoj
+  label_my_activity: Mia aktiveco
   label_my_account_data: Mia konta datumaro
   label_my_avatar: My avatar
   label_my_queries: Miaj propraj informpetoj
@@ -4286,6 +4289,7 @@ eo:
 
     '
   label_part_of: patro de
+  label_past: Past
   label_password_lost: Ĉu vu forgesis vian pasvorton?
   label_password_rule_lowercase: Minusklo
   label_password_rule_numeric: Numeraj signoj
@@ -4296,7 +4300,7 @@ eo:
   label_password_requirement_special: Must contain at least one special character.
   label_password_requirement_uppercase: Must contain at least one uppercase character.
   label_path_encoding: Path encoding
-  label_per_page: 'Per page:'
+  label_per_page: 'Po paĝo:'
   label_people: Partoprenantoj
   label_permissions: Permesoj
   label_permissions_report: Permesraporto
@@ -4307,7 +4311,7 @@ eo:
   label_planning: Planado
   label_please_login: Bonvolu ensaluti
   label_plugins: Kromprogramoj
-  label_portfolio_plural: Portfolios
+  label_portfolio_plural: Portfolioj
   label_modules_and_plugins: Moduloj kaj Kromprogramoj
   label_precedes: precedes
   label_preferences: Preferoj
@@ -4406,8 +4410,8 @@ eo:
   label_scm: SCM
   label_scroll_left: Scroll left
   label_scroll_right: Scroll right
-  label_search: Search
-  label_search_by_name: Search by name
+  label_search: Serĉi
+  label_search_by_name: Serĉi laŭ nomo
   label_send_information: Send new credentials to the user
   label_send_test_email: Send a test email
   label_session: Session
@@ -4438,7 +4442,7 @@ eo:
   label_subproject: Subprojekto
   label_subproject_new: Nova subprojekto
   label_subproject_plural: Subprojektoj
-  label_subitems: Subitems
+  label_subitems: Suberoj
   label_subtask_plural: Subtaskoj
   label_summary: Resumo
   label_system: Sistemo
@@ -4469,6 +4473,7 @@ eo:
   label_type_new: Nova tipo
   label_type_plural: Specoj
   label_ui: Fasado
+  label_upcoming: Upcoming
   label_updated_time: Updated %{value} ago
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Ĝisdatigita de %{author} antaŭ %{age}
@@ -4644,7 +4649,7 @@ eo:
     salutation: Hello %{user},
     salutation_full_name: Full name
     work_packages:
-      created_at: 'Created at %{timestamp} by %{user} '
+      created_at: 'Kreita ĉe %{timestamp} de %{user} '
       login_to_see_all: Log in to see all notifications.
       mentioned: You have been <b>mentioned in a comment</b>
       mentioned_by: "%{user} mentioned you in a comment"
@@ -4848,8 +4853,8 @@ eo:
     Successful update. The custom fields of the activated types are automatically activated
     on the work package form. <a href="%{url}" target="_blank">See more</a>.
   notice_to_many_principals_to_display: |-
-    There are too many results.
-    Narrow down the search by typing in the name of the new member (or group).
+    Estas tro da rezultoj.
+    Limigu la serĉon tajpante la nomon de la nova membro (aŭ grupo).
   notice_user_missing_authentication_method: User has yet to choose a password or another way to sign in.
   notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
@@ -4897,7 +4902,7 @@ eo:
   permission_add_work_packages: Aldonu laborpakaĵojn
   permission_add_messages: Post messages
   permission_add_project: Create projects
-  permission_add_portfolios: Create portfolios
+  permission_add_portfolios: Krei portfoliojn
   permission_add_programs: Create programs
   permission_add_work_package_attachments: Aldoni aldonaĵojn
   permission_add_work_package_attachments_explanation: Permesas aldoni aldonaĵojn sen permeso por redakti laborpakaĵojn
@@ -4940,7 +4945,7 @@ eo:
   permission_edit_reportings: Edit reportings
   permission_edit_time_entries: Edit time logs for other users
   permission_edit_timelines: Edit timelines
-  permission_edit_wiki_pages: Edit wiki pages
+  permission_edit_wiki_pages: Redaktu vikipaĝojn
   permission_export_work_packages: Export work packages
   permission_export_projects: Export projects
   permission_invite_members_by_email: Invite members by email
@@ -4971,7 +4976,7 @@ eo:
     '
   permission_move_work_packages: Move work packages
   permission_save_queries: Save views
-  permission_search_project: Search project
+  permission_search_project: Serĉu projekton
   permission_select_custom_fields: Select custom fields
   permission_select_project_custom_fields: Select project attributes
   permission_select_project_phases: Select project phases
@@ -5000,7 +5005,7 @@ eo:
   permission_view_timelines: View timelines
   permission_view_user_email: Vidi la retpoŝtadresojn de uzantoj
   permission_view_wiki_edits: View wiki history
-  permission_view_wiki_pages: View wiki
+  permission_view_wiki_pages: Vidi vikion
   permission_work_package_assigned: Become assignee/responsible
   permission_work_package_assigned_explanation: Work packages can be assigned to users and groups in possession of this role in the respective project
   permission_view_project_activity: View project activity
@@ -5017,9 +5022,9 @@ eo:
     templated_hint: Automatically generated through type %{type}
   portfolio:
     count:
-      zero: 0 portfolios
+      zero: 0 portfolioj
       one: 1 portfolio
-      other: "%{count} portfolios"
+      other: "%{count} portfolioj"
   program:
     count:
       zero: 0 programs
@@ -5070,7 +5075,7 @@ eo:
   project_module_news: Novaĵoj
   project_module_repository: Deponejo
   project_module_wiki: Vikio
-  permission_header_for_project_module_work_package_tracking: Work packages and Gantt charts
+  permission_header_for_project_module_work_package_tracking: Laborpakaĵoj kaj Gantt-diagramoj
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
@@ -5508,7 +5513,7 @@ eo:
     project_attributes:
       heading: Project attributes
       label_add_attribute: Aldoni projekto-atributon
-      label_for_all_projects: All projects
+      label_for_all_projects: Ĉiuj projektoj
       label_new_attribute: Project attribute
       label_new_section: Section
       label_edit_section: Redakti titolon
@@ -5585,7 +5590,7 @@ eo:
       label_add: Aldoni
       label_add_description: Add project phase definition
       filter:
-        label: Search project phase
+        label: Serĉu projektofazon
       section_header: Phases
       non_defined: No phases are currently defined.
       phase_gates: Phase gates
@@ -5820,8 +5825,8 @@ eo:
   text_wiki_page_nullify_children: Keep child pages as root pages
   text_wiki_page_reassign_children: Reassign child pages to this parent page
   text_workflow_edit: Select a role and a type to edit the workflow
-  text_zoom_in: Zoom in
-  text_zoom_out: Zoom out
+  text_zoom_in: Zomi
+  text_zoom_out: Malzomi
   text_setup_mail_configuration: Configure your email provider
   help_texts:
     views:
@@ -5855,10 +5860,10 @@ eo:
   queries:
     apply_filter: Apply preconfigured filter
     configure_view:
-      heading: Configure view
+      heading: Agordi vidon
       columns:
         input_label: Aldoni kolumnojn
-        input_placeholder: Select a column
+        input_placeholder: Elektu kolumnon
         drag_area_label: Manage and reorder columns
       sort_by:
         automatic:
@@ -6007,13 +6012,13 @@ eo:
       role: Rolo
       type: Tipo
     denied: You don't have permissions to share %{entities}.
-    label_search: Search for users to invite
-    label_search_placeholder: Search by user or email address
+    label_search: Serĉu uzantojn por inviti
+    label_search_placeholder: Serĉu laŭ uzanto aŭ retpoŝtadreso
     label_toggle_all: Toggle all shares
     remove: Forigi
     share: Share
-    text_empty_search_description: There are no users with the current filter criteria.
-    text_empty_search_header: We couldn't find any matching results.
+    text_empty_search_description: Ne estas uzantoj kun la aktualaj filtrilaj kriterioj.
+    text_empty_search_header: Ni ne povis trovi iujn ajn kongruajn rezultojn.
     text_empty_state_description: The %{entity} has not been shared with anyone yet.
     text_empty_state_header: Not shared
     text_user_limit_reached: Adding additional users will exceed the current limit. Please contact an administrator to increase the user limit to ensure external users are able to access this %{entity}.
@@ -6322,7 +6327,7 @@ eo:
     name: OmniAuth SAML / Single-Sign On
     description: Adds the OmniAuth SAML provider to OpenProject
   enterprise_plans:
-    legacy_enterprise: Enterprise Plan
+    legacy_enterprise: Entreprena Plano
   token:
     hashed_token:
       display_value_placeholder: "***"

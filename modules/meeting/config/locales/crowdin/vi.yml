@@ -426,12 +426,13 @@ vi:
       message: Chuỗi cuộc họp này đã kết thúc. Không có cuộc họp sắp tới.
       action: Bạn vẫn có thể xem các lần diễn ra trước đây hoặc chỉnh sửa chuỗi cuộc họp để mở rộng.
     occurrence:
-      infoline: Cuộc họp này là một phần của chuỗi cuộc họp định kỳ.
       error_no_next: Không có sự xuất hiện tiếp theo cho cuộc họp này.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Lần xuất hiện đầu tiên của chuỗi cuộc họp này đã được khởi tạo.
       first_created: 'Cuộc họp đầu tiên đã được tạo thành công từ mẫu. Tất cả các cuộc họp trong tương lai sẽ được tạo tự động tại thời điểm diễn ra trước đó.
 
         '
+      infoline: Cuộc họp này là một phần của chuỗi cuộc họp định kỳ.
     template:
       button_finalize: Mở cuộc họp đầu tiên
       blank_title: Mẫu chuỗi cuộc họp của bạn trống

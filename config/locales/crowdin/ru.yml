@@ -2567,6 +2567,8 @@ ru:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- должно быть равно 0ч, если параметр Работа установлен и % завершения равен 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: должно быть пустым, если параметр Предполагаемое время не установлен, а % завершения равен 100%.
           readonly_status: Пакет работ находится в статусе доступном только для чтения, поэтому его атрибуты не могут быть изменены.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

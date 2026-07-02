@@ -21,7 +21,7 @@
 #++
 ---
 de:
-  label_user_attributes_plural: User attributes
+  label_user_attributes_plural: Benutzerattribute
   no_results_title_text: Es gibt derzeit nichts anzuzeigen.
   activities:
     index:
@@ -33,7 +33,7 @@ de:
         label_activity_show_all: Alles anzeigen
         label_activity_show_only_comments: Nur Kommentare anzeigen
         label_activity_show_only_changes: Nur Änderungen anzeigen
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: Verwerfen
         label_sort_asc: Neueste unten
         label_sort_desc: Neueste oben
         label_type_to_comment: Einen Kommentar hinzufügen. @ tippen, um Personen zu benachrichtigen.
@@ -46,7 +46,7 @@ de:
         commented: kommentiert
         internal_comment: Interner Kommentar
         internal_journal: Interne Kommentare sind nur für eine einschränkbare Gruppe von Mitgliedern sichtbar.
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: Sind Sie sicher, dass Sie Ihren Kommentar verwerfen möchten? Der verfasste Text geht dabei verloren.
         internal_comment_confirmation:
           title: Diesen Kommentar öffentlich machen?
           heading: Diesen Kommentar öffentlich machen?
@@ -54,7 +54,7 @@ de:
           confirm_button_text: Veröffentlichen
   admin:
     banners:
-      environment_configured_readonly: These values are configured via environment variables and cannot be edited here.
+      environment_configured_readonly: Diese Werte werden über Umgebungsvariablen konfiguriert und können hier nicht bearbeitet werden.
     reserved_identifiers:
       btn_release: Unreserve
       col_identifier: Kennung
@@ -695,7 +695,7 @@ de:
             lose_role: Wird die Rolle '%{old_role}' verlieren
             no_change: Keine Änderungen
     multi_value_more:
-      other: and %{count} more
+      other: und %{count} weitere
     text_add_new_custom_field: 'Um neue benutzerdefinierte Felder einem Projekt zuzuweisen, müssen Sie diese erst global erstellen, um Sie dann an dieser Stelle aktivieren zu können.
 
       '
@@ -776,7 +776,7 @@ de:
       description: Fügen Sie Abteilungen oder Benutzer hinzu, um Unterelemente innerhalb einer anderen zu erstellen.
       heading: Diese Abteilung hat keine untergeordnete Hierarchiestufe
       managed_description: Its sub-departments and members are kept in sync with LDAP and cannot be added manually.
-      managed_heading: This department is managed by LDAP synchronization
+      managed_heading: Diese Abteilung wird über LDAP synchronisiert
     add_department_form:
       name_label: Name der Abteilung
       name_placeholder: Name der Abteilung eingeben
@@ -785,9 +785,9 @@ de:
       heading: Benutzer in diese Abteilung verschieben?
       description: "%{user} ist derzeit Mitglied von %{from_department}. Wenn Sie ihn verschieben wird er aus dieser Abteilung entfernt."
       confirm: Benutzer verschieben
-      managed_title: User managed by LDAP
-      managed_heading: This user cannot be moved
-      managed_description: "%{user} belongs to %{from_department}, which is managed by LDAP synchronization. Their department membership is controlled by LDAP and cannot be changed here."
+      managed_title: Benutzer durch LDAP verwaltet
+      managed_heading: Dieser Benutzer kann nicht verschoben werden
+      managed_description: "%{user} gehört zu %{from_department}, welche über LDAP synchronisiert wird. Die Zugehörigkeit zu den Abteilungen wird in LDAP gesteuert und kann hier nicht geändert werden."
     context_menu:
       add_sub_department: Unterabteilung hinzufügen
       add_user: Benutzer hinzufügen
@@ -1342,8 +1342,8 @@ de:
       data_consequences: 'Alle Vorkommnisse des Platzhalter-Benutzers (z.B. als zugewiesene Person, Verantwortlicher oder andere Benutzerwerte) werden einem Konto mit dem Namen "Gelöschter Benutzer" zugewiesen. Da die Daten jedes gelöschten Kontos diesem Konto zugewiesen werden, wird es nicht möglich sein, die Daten dieses Benutzers von den Daten eines anderen gelöschten Kontos zu unterscheiden.
 
         '
-      heading: Delete placeholder user %{name}?
-      title: Delete placeholder user %{name}
+      heading: Platzhalter-Benutzer %{name} löschen?
+      title: Platzhalter-Benutzer %{name} löschen
   priorities:
     edit:
       priority_color_text: 'Klicken zum Zuweisen einer Farbe für diesen Prioritätswert. Diese wird für die Hervorhebung von Arbeitspaketen in Tabellen verwendet.
@@ -1430,11 +1430,11 @@ de:
         untitled_group: Unbenannte Gruppe
       project_attributes:
         actions:
-          label_disable_all: Disable all
-          label_enable_all: Enable all
+          label_disable_all: Alle deaktivieren
+          label_enable_all: Alle aktivieren
         description: Select the project attributes that you want to enable for this work package type. Enabled project attributes are displayed in a separate tab in work packages of this type. Users with the necessary permissions can view and edit these attributes there.
         filter: Search by section or name
-        tab: Project attributes
+        tab: Projektattribute
       projects:
         enable_all: Für alle Projekte aktivieren
         select_projects: Projekt auswählen
@@ -1712,7 +1712,7 @@ de:
       login_consequences:
         other: Dieses Konto wird sofort aus dem System entfernt und der Benutzer kann sich nicht mehr mit seinen Anmeldedaten anmelden.
         self: Ihr Konto wird sofort aus dem System entfernt und Sie können sich nicht mehr mit Ihren Anmeldedaten anmelden.
-      title: Delete %{name}'s account
+      title: Konto von %{name} löschen
     error_inactive_activation_by_mail: 'Ihr Konto wurde noch nicht aktiviert. Zur Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail zugeschickt wurde.
 
       '
@@ -1781,8 +1781,8 @@ de:
         possible_values: Mögliche Werte
         regexp: Regulärer Ausdruck
         searchable: Durchsuchbar
-        visible_on_user_card: Show on user card
-        semantic_key: Semantic meaning
+        visible_on_user_card: Auf Benutzerkarte anzeigen
+        semantic_key: Semantische Bedeutung
         admin_only: Nur für Administratoren
         has_comment: Ein Kommentarfeld hinzufügen
       custom_value:
@@ -2010,7 +2010,7 @@ de:
       user:
         admin: Administrator
         auth_source: Authentifizierungsquelle
-        department: Department
+        department: Abteilung
         ldap_auth_source: LDAP-Verbindung
         identity_url: Identity URL
         current_password: Aktuelles Passwort
@@ -2025,7 +2025,7 @@ de:
         password_confirmation: Bestätigung
         consented_at: Eingewilligt am
       user_custom_field:
-        custom_field_section: Section
+        custom_field_section: Abschnitt
       user_preference:
         header_look_and_feel: Erscheinungsbild und Bedienverhalten
         header_alerts: Warnmeldungen
@@ -2142,7 +2142,7 @@ de:
         cannot_delete_mapping: ist erforderlich. Kann nicht gelöscht werden.
         cant_link_a_work_package_with_a_descendant: Ein Arbeitspaket kann nicht mit einer seiner Unteraufgaben verlinkt werden.
         circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen.
-        configured_via_env: The configuration of this object is managed through environment variables and can't be changed at runtime.
+        configured_via_env: Die Konfiguration dieses Objekts wird über Umgebungsvariablen verwaltet und kann zur Laufzeit nicht geändert werden.
         confirmation: stimmt nicht mit %{attribute} überein.
         could_not_be_copied: "%{dependency} konnte nicht (vollständig) kopiert werden."
         datetime_must_be_in_future: muss in der Zukunft liegen.
@@ -2175,7 +2175,7 @@ de:
         invalid_url: ist keine gültige URL.
         invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         is_for_all_cannot_modify: gilt für alle Projekte und kann daher nicht geändert werden.
-        ldap_managed: This department is managed by LDAP synchronization and cannot be changed manually.
+        ldap_managed: Diese Abteilung wird über die LDAP synchronisiert und kann nicht manuell geändert werden.
         less_than_or_equal_to: muss kleiner oder gleich %{count} sein.
         not_available: ist aufgrund einer Systemkonfiguration nicht verfügbar.
         not_before_start_date: darf nicht vor dem Startdatum liegen.
@@ -2213,7 +2213,7 @@ de:
 
           '
         user_already_in_department: Der Benutzer %{user_id} ist bereits Mitglied der Abteilung %{department_id}.
-        user_in_ldap_managed_department: This user belongs to a department managed by LDAP synchronization and cannot be moved.
+        user_in_ldap_managed_department: Dieser Benutzer gehört zu einer Abteilung, die über die LDAP synchronisiert wird, und kann nicht verschoben werden.
         wrong_length: hat die falsche Länge (muss genau %{count} Zeichen haben).
       models:
         group:
@@ -2221,7 +2221,7 @@ de:
             parent_id:
               circular_dependency: würde eine zirkuläre Gruppenhierarchie erstellen.
               organizational_unit_mismatch: muss die gleiche Einstellung für die Organisationseinheit haben wie die Gruppe.
-              parent_ldap_managed: is managed by LDAP synchronization and cannot have departments added manually.
+              parent_ldap_managed: wird über die LDAP synchronisiert, weshalb Abteilungen nicht manuell hinzugefügt werden können.
         ldap_auth_source:
           attributes:
             tls_certificate_string:
@@ -2514,6 +2514,8 @@ de:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: muss 0h sein, wenn Aufwand gesetzt und % abgeschlossen 100% ist.
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: muss leer bleiben, wenn Aufwand gesetzt und % abgeschlossen 100% ist.
           readonly_status: Das Arbeitspaket befindet sich in einem schreibgeschützten Status, so dass seine Attribute nicht geändert werden können.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:
@@ -2839,7 +2841,7 @@ de:
   button_add_sub_item: Unterelement hinzufügen
   button_add_member: Mitglied hinzufügen
   button_add_watcher: Beobachter hinzufügen
-  button_all_filters: All filters
+  button_all_filters: Alle Filter
   button_annotate: Kommentieren
   button_apply: Anwenden
   button_apply_changes: Änderungen anwenden
@@ -4281,7 +4283,7 @@ de:
 
     '
   label_part_of: enthalten in
-  label_past: Past
+  label_past: Vergangen
   label_password_lost: Kennwort vergessen?
   label_password_rule_lowercase: Kleinbuchstaben
   label_password_rule_numeric: Ziffern
@@ -4465,7 +4467,7 @@ de:
   label_type_new: Neuer Typ
   label_type_plural: Typen
   label_ui: Nutzeroberfläche
-  label_upcoming: Upcoming
+  label_upcoming: Bevorstehend
   label_updated_time: Vor %{value} aktualisiert
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Von %{author} vor %{age} aktualisiert
@@ -5624,12 +5626,12 @@ de:
         heading_description: These user attributes appear on user profiles and information cards. You can add new attributes, group them into sections and re-order them.
       heading: User attributes
       label_new_attribute: User attribute
-      label_new_section: Section
-      label_untitled_section: User attributes
+      label_new_section: Abschnitt
+      label_untitled_section: Benutzerattribute
       new:
-        heading: New attribute
+        heading: Neues Attribut
       tabs:
-        attributes: Attributes
+        attributes: Attribute
         semantic_keys: Mapped attributes
       semantic_keys:
         description: Some attributes can do more than store information — the app uses them to power specific features. Choose which attribute to use for each purpose below. Each attribute can be used for only one purpose, and each purpose for only one attribute.
@@ -5898,7 +5900,7 @@ de:
     status_user_and_brute_force: "%{user} und %{brute_force}"
     status_change: Status geändert
     text_change_disabled_for_provider_login: Der Login-Anbieter legt den Namen und die E-Mail-Adresse fest. Daher können sie nicht geändert werden.
-    department_ldap_managed_caption: This department is managed by LDAP synchronization and cannot be changed here.
+    department_ldap_managed_caption: Diese Abteilung wird über die LDAP synchronisiert und kann nicht manuell geändert werden.
     unlock: Entsperren
     unlock_and_reset_failed_logins: Entsperren und fehlgeschlagene Logins zurücksetzen
     error_cannot_delete_user: Benutzer kann nicht gelöscht werden

@@ -2511,6 +2511,8 @@ fr:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- doit être égal à 0 h lorsque le travail est défini et que le % d'achèvement est de 100 %."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: doit être vide lorsque le Travail est vide et le % Complété est de 100 %.
           readonly_status: Le lot de travaux est en lecture seule, ses attributs ne peuvent donc pas être changés.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

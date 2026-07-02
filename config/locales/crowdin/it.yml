@@ -2516,6 +2516,8 @@ it:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- deve essere 0h quando il Lavoro è impostato e la % completamento è 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: deve essere vuoto quando il Lavoro è vuoto e la % completamento è 100%.
           readonly_status: La macro-attività è in uno stato di sola lettura perciò i suoi attributi non possono essere modificati.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

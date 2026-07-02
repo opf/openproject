@@ -2,8 +2,8 @@
 ---
 eo:
   plugin_openproject_bim:
-    name: OpenProject BIM and BCF functionality
-    description: This OpenProject plugin introduces BIM and BCF functionality.
+    name: OpenProject BIM kaj BCF-funkcioj
+    description: Ĉi tiu OpenProject-aldonaĵo enkondukas BIM- kaj BCF-funkciojn.
   bim:
     label_bim: BIM
     error_direct_upload_failed: Direct upload failed.

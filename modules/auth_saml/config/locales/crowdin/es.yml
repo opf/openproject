@@ -116,7 +116,7 @@ es:
       metadata_url: 'Su proveedor de identidad proporciona una URL de metadatos.
 
         '
-      idp_entity_id: 'Opcional: Útil cuando la URL de metadatos apunta a un agregado de federaciones con muchas entradas. Introduzca el ID del ente proveedor de identidad de su institución. Déjelo en blanco para las URL de metadatos de una sola entidad.
+      idp_entity_id: 'Opcional: resulta útil cuando la URL de metadatos apunta a un conjunto federado con muchas entradas. Introduce el ID de entidad del proveedor de identidad de tu institución. Déjalo en blanco para las URL de metadatos de una sola entidad.
 
         '
       metadata_xml: 'Su proveedor de identidad proporciona una descarga XML de metadatos.

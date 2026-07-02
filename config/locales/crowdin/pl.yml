@@ -2560,6 +2560,8 @@ pl:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- musi wynosić 0 h, gdy ustawiona jest opcja Praca, a % ukończenia wynosi 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: musi być puste, gdy Praca jest pusta, a % ukończenia wynosi 100%.
           readonly_status: Pakiet roboczy ma status tylko do odczytu, więc jego atrybutów nie można zmienić.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

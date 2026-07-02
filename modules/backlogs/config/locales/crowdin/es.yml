@@ -42,9 +42,9 @@ es:
           completed: Completado
         work_packages: Paquetes de trabajo
       sprint_goal:
-        text: Meta del sprint
+        text: Objetivo del sprint
       work_package:
-        backlog_bucket: Backlog bucket
+        backlog_bucket: Bucket de backlog
         backlogs_work_package_type: Tipo de Backlog
         position: Posición
         sprint: Sprint
@@ -62,7 +62,7 @@ es:
               share_all_projects_already_taken: no se puede configurar porque el proyecto «%{name}» ya se comparte con todos los proyectos.
               share_all_projects_already_taken_anonymous: no se puede configurar porque otro proyecto ya lo está compartiendo con todos los proyectos.
         sprint_goal:
-          project_already_has_goal: ya existe una meta para este sprint.
+          project_already_has_goal: ya existe un objetivo para este sprint.
         sprint:
           attributes:
             base:
@@ -97,9 +97,9 @@ es:
       button_new_backlog_bucket: Nuevo bucket de backlog
     backlog_filter_select_panel_component:
       label_backlog_bucket_filter:
-        one: Backlog bucket
-        other: Backlog buckets
-        zero: Todos los backlog buckets
+        one: Bucket de backlog
+        other: Buckets de backlog
+        zero: Todos los buckets de backlog
       label_sprint_filter:
         one: Sprint
         other: Sprints
@@ -169,7 +169,7 @@ es:
         edit_sprint: Editar sprint
         add_work_package: Añadir paquete de trabajo
     sprint_form:
-      goal_caption: La meta del sprint es exclusiva de este proyecto y no se comparte con otros proyectos que también estén usando este sprint.
+      goal_caption: El objetivo del sprint es exclusivo de este proyecto y no se comparte con otros proyectos que también utilicen este sprint.
       goal_for_this_project_label: "%{attribute} (para este proyecto)"
     sprint_form_component:
       shared_sprint_info_banner: Este es un sprint compartido. Las modificaciones serán reflejadas en todos los proyectos que lo usen.
@@ -208,7 +208,7 @@ es:
         copy_work_package_id: Copiar el ID del paquete de trabajo
         move_menu: Mover a la posición
         move_to_backlog_bucket: Mover al bucket de backlog
-        move_to_inbox: Mover al inbox del backlog
+        move_to_inbox: Mover a la bandeja del backlog
         move_to_sprint: Mover al sprint
     work_package_is_closed: El paquete de trabajo esta terminado, cuando
   burndown:

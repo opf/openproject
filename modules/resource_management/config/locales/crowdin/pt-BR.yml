@@ -42,6 +42,8 @@ pt-BR:
   label_resource_management: Planejamento de recursos
   permission_allocate_user_resources: Alocar recursos do usuário
   permission_allocate_user_resources_explanation: Permite aos usuários criar, atualizar e excluir alocações de recursos dentro de um planejador de recursos. Isto inclui atribuir usuários (ou filtros de usuários) a um planejador e ajustar o tempo e intervalo de datas alocados.
+  permission_assign_users_to_generic_allocations: Assign users to generic allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
   permission_manage_public_resource_planners: Gerenciar planejadores de recursos públicos
   permission_manage_public_resource_planners_explanation: Permite que os usuários criem e gerenciem planejadores de recursos públicos. Permite visualizar, criar, gerenciar e publicar seus próprios planejadores de recursos. Não permite visualizar planejadores de recursos criados por outros usuários que não estejam compartilhados publicamente.
   permission_view_resource_planners: Ver planejadores de recursos
@@ -85,6 +87,19 @@ pt-BR:
       submit: Alocar
       success_message: Recurso alocado.
       title: Alocar recurso
+    assignment_dialog:
+      available: "%{hours} available"
+      confirm_overtime: Assign anyway
+      filter_criteria: Filter criteria
+      no_candidates:
+        description: No project member matches this allocation's filter criteria.
+        title: No matching members
+      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
+      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
+      requested_for: Requested for
+      select_user: Please select a user to assign.
+      submit: Assign
+      title: Assign %{filter_name}
     blankslate:
       desc: Criar um planejador de recursos para iniciar o planejamento de capacidade deste projeto.
       title: Ainda não há planejadores de recursos
@@ -116,6 +131,22 @@ pt-BR:
     sidebar:
       private: Privado
       public: Público
+    staffing:
+      assign: Assign user
+      blank:
+        description: All generic allocations in this project have a user assigned.
+        title: Nothing to staff
+      columns:
+        dates: Dates
+        requested_time: Requested time
+        resource: Resource
+        work_package: Work package
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation?
+      menu_item: Staffing
+      starts_in_past: This allocation has already started and is still unassigned.
+      success_message: User assigned.
+      title: Staffing
     sub_views: Visualizações neste planejador de recursos
     user_allocations_dialog:
       allocate_work_package: Alocar pacote de trabalho

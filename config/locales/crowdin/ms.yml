@@ -2495,6 +2495,8 @@ ms:
               must_be_set_to_zero_hours_when_work_is_set_and_percent_complete_is_100p: ">- must be 0h when Work is set and % Complete is 100%."
               must_be_empty_when_work_is_empty_and_percent_complete_is_100p: mesti kosong apabila Kerja kosong dan % Selesai ialah 100%.
           readonly_status: Pakej kerja berada dalam status baca sahaja maka atributnya tidak boleh diubah.
+          target_versions_only_allow_single_value: Target Versions can only hold a single value.
+          version_and_target_versions_mutually_exclusive: Version and target versions cannot both be changed at the same time.
         type:
           attributes:
             attribute_groups:

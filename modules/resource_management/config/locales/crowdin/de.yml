@@ -36,12 +36,14 @@ de:
     models:
       resource_allocation: Ressourcenzuteilung
       resource_planner: Ressourcenplanung
-      resource_user_card: User cards
+      resource_user_card: Benutzerkarten
       resource_work_package_list: Liste von Arbeitspaketen
   button_next: Weiter
   label_resource_management: Ressourcenplanung
   permission_allocate_user_resources: Benutzer-Ressourcen zuweisen
   permission_allocate_user_resources_explanation: Ermöglicht Benutzern das Erstellen, Aktualisieren und Löschen von Ressourcenzuweisungen innerhalb eines Ressourcenplaners. Dazu gehört die Zuweisung von Benutzern (oder Benutzerfiltern) zu einem Planer und die Anpassung des zugewiesenen Zeit- und Datumsbereichs.
+  permission_assign_users_to_generic_allocations: Assign users to generic allocations
+  permission_assign_users_to_generic_allocations_explanation: Allows users to use the Staffing view to assign real users to generic (filter-based) resource allocations that do not yet have a user. It does not allow creating or editing allocations.
   permission_manage_public_resource_planners: Öffentliche Ressourcenplaner verwalten
   permission_manage_public_resource_planners_explanation: Ermöglicht Benutzern das Erstellen und Verwalten von öffentlichen Ressourcenplanern. Sie können damit ihre eigenen Ressourcenplaner anzeigen, erstellen, verwalten und veröffentlichen. Es erlaubt Benutzern nicht, die von anderen Benutzern erstellten Ressourcenplaner, die nicht öffentlich freigegeben sind, einzusehen.
   permission_view_resource_planners: Ressourcenplaner anzeigen
@@ -53,7 +55,7 @@ de:
   resource_management:
     action:
       delete: Löschen
-      edit: Edit
+      edit: Bearbeiten
       favorite: Zu Favoriten hinzufügen
       make_private: Als Privat festlegen
       make_public: Veröffentlichen
@@ -78,13 +80,26 @@ de:
         description: The selected user, %{user}, would be allocated beyond their working hours during this period.
         hidden_work: Other allocations
         schedule_availability: "%{schedule} (%{factor}% available for project work)"
-        schedule_change: until %{date}, then %{schedule}
+        schedule_change: bis %{date}, dann %{schedule}
         schedule_note: This user works %{schedule}.
         submit: Allocate overtime
         title: Do you want to allocate overtime to the user?
       submit: Allocate
       success_message: Resource allocated.
       title: Allocate resource
+    assignment_dialog:
+      available: "%{hours} available"
+      confirm_overtime: Assign anyway
+      filter_criteria: Filter criteria
+      no_candidates:
+        description: No project member matches this allocation's filter criteria.
+        title: No matching members
+      no_schedule: This user has no work schedule set up, so we cannot determine whether this allocation fits.
+      overbooked_detail: This user has %{available} available in this period, the work package requires %{requested}.
+      requested_for: Requested for
+      select_user: Please select a user to assign.
+      submit: Assign
+      title: Assign %{filter_name}
     blankslate:
       desc: Erstellen Sie einen Ressourcenplaner, um Kapazitäten für dieses Projekt zu planen.
       title: Keine Ressourcenplaner vorhanden
@@ -116,6 +131,22 @@ de:
     sidebar:
       private: Privat
       public: Öffentlich
+    staffing:
+      assign: Assign user
+      blank:
+        description: All generic allocations in this project have a user assigned.
+        title: Nothing to staff
+      columns:
+        dates: Dates
+        requested_time: Requested time
+        resource: Resource
+        work_package: Work package
+      context_menu_label: Allocation actions
+      delete_confirmation: Are you sure you want to delete this allocation?
+      menu_item: Staffing
+      starts_in_past: This allocation has already started and is still unassigned.
+      success_message: User assigned.
+      title: Staffing
     sub_views: Ansichten in dieser Ressourcenplanung
     user_allocations_dialog:
       allocate_work_package: Allocate work package

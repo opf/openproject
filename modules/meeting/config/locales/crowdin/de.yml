@@ -431,12 +431,13 @@ de:
       message: 'Diese Terminserie ist beendet. Es finden keine weiteren Ereignisse statt. '
       action: Sie können immer noch vorangegangene Besprechungen dieser Serie anzeigen oder die Serie bearbeiten, um weitere Termine ergänzen.
     occurrence:
-      infoline: Diese Besprechung ist Teil einer Terminserie.
       error_no_next: Es gibt keinen nächsten Termin für diese Serie.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Das erste Vorkommen dieser Terminserie wurde bereits angelegt.
       first_created: 'Die erste Besprechung wurde erfolgreich aus der Vorlage erstellt. Weitere werden automatisch zu dem Zeitpunkt erstellt, wenn die vorhergehende Besprechung startet.
 
         '
+      infoline: Diese Besprechung ist Teil einer Terminserie.
     template:
       button_finalize: Erste Besprechung öffnen
       blank_title: Die Vorlage für die wiederkehrenden Besprechungen ist leer
