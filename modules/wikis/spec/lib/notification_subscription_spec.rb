@@ -33,12 +33,13 @@ require_module_spec_helper
 
 RSpec.describe "Subscriptions to OpenProject::Notification" do # rubocop:disable RSpec/DescribeClass
   let(:project) { create(:project) }
+  let(:internal_provider_enabled) { true }
+  let(:internal_provider) { create(:internal_wiki_provider, enabled: internal_provider_enabled) }
   let(:enabled_module) { EnabledModule.new(project:, name: "wiki") }
 
   # The event is triggered by saving the EnabledModule
   describe "OpenProject::Events::MODULE_ENABLED" do
-    let(:payload) { { enabled_module: } }
-    let(:event) { OpenProject::Events::MODULE_ENABLED }
+    before { internal_provider }
 
     context "when internal wikis are enabled" do
       it "create an internal wiki for the project" do
@@ -59,7 +60,11 @@ RSpec.describe "Subscriptions to OpenProject::Notification" do # rubocop:disable
     end
 
     context "when internal wikis are disabled" do
-      it "does not create an internal wiki for the project"
+      let(:internal_provider_enabled) { false }
+
+      it "does not create an internal wiki for the project" do
+        expect { enabled_module.save }.not_to change(Wiki, :count)
+      end
     end
   end
 
@@ -77,11 +82,5 @@ RSpec.describe "Subscriptions to OpenProject::Notification" do # rubocop:disable
     context "when internal wikis are disabled" do
       it "ensures that no internal wiki is visible for the project"
     end
-  end
-
-  private
-
-  def emit_event(event, payload)
-    OpenProject::Notifications.send(event, payload)
   end
 end

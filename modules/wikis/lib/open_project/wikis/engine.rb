@@ -41,8 +41,9 @@ module OpenProject::Wikis
     initializer "openproject_wikis.event_subscriptions" do
       Rails.application.config.after_initialize do
         OpenProject::Notifications.subscribe(OpenProject::Events::MODULE_ENABLED) do |payload|
-          enabled_module = payload[:enabled_module] # EnabledModule name / project_id
+          enabled_module = payload[:enabled_module]
           next unless enabled_module.name == "wiki"
+          next unless Wikis::InternalProvider.first&.enabled
 
           Wiki.create(project_id: enabled_module.project_id, start_page: "Wiki")
         end
