@@ -37,14 +37,14 @@ import { FrameElement } from '@hotwired/turbo';
 // the frame:
 //
 // * the current content stays visible until the response swaps in, so the
-//   skeleton never reappears;
-// * an unchanged frame is served from the (immutable) browser cache, making the
-//   refresh imperceptible while rebuilding any deferred content so it cannot go
-//   stale;
+//   skeleton never reappears.
+// * an unchanged frame is reloaded. Ideally, the frame is served from browser
+//   cache so that the operation does not trigger a network request, but this is
+//   not guaranteed by this controller.
 // * a changed frame is pointed at its new `src`, which reloads it from there.
 //
 // Attach the controller to an element containing the frames and mark each frame
-// with `data-<identifier>-target="frame"`.
+// with `data-reload-frames-on-morph-target="frame"`.
 export default class ReloadFramesOnMorphController extends Controller<HTMLElement> {
   static targets = ['frame'];
 
