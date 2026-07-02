@@ -316,6 +316,19 @@ RSpec.describe MeetingAgendaItem do
       it "includes items linked directly and via outcomes" do
         expect(subject).to contain_exactly(directly_linked_item, outcome_linked_item)
       end
+
+      context "when an item is linked to the work package both directly and via multiple outcomes" do
+        shared_let(:multiply_linked_item) do
+          create(:wp_meeting_agenda_item, meeting:, work_package:).tap do |item|
+            create(:meeting_outcome, meeting_agenda_item: item, kind: :work_package, work_package:)
+            create(:meeting_outcome, meeting_agenda_item: item, kind: :work_package, work_package:)
+          end
+        end
+
+        it "returns the item exactly once" do
+          expect(subject.where(id: multiply_linked_item.id).count).to eq(1)
+        end
+      end
     end
 
     describe ".visible_linked_to_work_package" do
