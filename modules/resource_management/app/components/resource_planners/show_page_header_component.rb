@@ -48,8 +48,7 @@ module ResourcePlanners
     end
 
     def can_add_views?
-      # TODO: Proper permission check
-      true
+      manage_planner?
     end
 
     # Both dates are optional and independent, so cover the three non-empty
