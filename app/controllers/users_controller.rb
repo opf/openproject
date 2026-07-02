@@ -474,7 +474,7 @@ class UsersController < ApplicationController
     update_via_turbo_stream(component: Users::UserFilterButtonComponent.new(query: @query))
     replace_via_turbo_stream(component: Users::TableComponent.new(rows: @query, current_user:))
     turbo_streams << turbo_stream.push_state(url_for(params.permit(:filters, :sortBy, :sort, :page, :per_page, :columns)))
-    turbo_streams << turbo_stream.replace("primerized-flash-messages", helpers.render_flash_messages)
+    turbo_streams << helpers.render_flash_messages_as_turbo_streams
     render turbo_stream: turbo_streams
   end
 
