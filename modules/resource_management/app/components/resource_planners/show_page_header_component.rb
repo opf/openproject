@@ -51,9 +51,6 @@ module ResourcePlanners
       manage_planner?
     end
 
-    # Both dates are optional and independent, so cover the three non-empty
-    # combinations; returns nil when the planner has no dates and the header then
-    # renders without a description.
     def timeframe_description
       start_date = @resource_planner.start_date
       end_date = @resource_planner.end_date
