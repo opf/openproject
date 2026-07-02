@@ -43,7 +43,10 @@ module ResourceAllocations
       # confirmation in its own dialog by passing its ids, a custom `form_url`
       # and the plain `hidden_fields` to carry through a confirmed resubmit.
       def initialize(allocation:, project:, allocation_kind:, form_values:, overbooked_ranges: [],
-                     working_schedules: [], filters: nil, view: nil)
+                     working_schedules: [], filters: nil, view: nil,
+                     body_id: ResourceAllocations::NewDialogComponent::BODY_ID,
+                     form_id: ResourceAllocations::NewDialogComponent::FORM_ID,
+                     form_url: nil, form_method: nil, hidden_fields: nil)
         super
         @allocation = allocation
         @project = project
@@ -53,6 +56,11 @@ module ResourceAllocations
         @working_schedules = working_schedules
         @filters = filters
         @view = view
+        @body_id = body_id
+        @form_id = form_id
+        @form_url = form_url
+        @form_method = form_method
+        @hidden_fields = hidden_fields
       end
 
       def wrapper_key
