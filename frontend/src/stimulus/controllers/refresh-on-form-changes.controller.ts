@@ -30,6 +30,7 @@
 
 import { ApplicationController, useDebounce } from 'stimulus-use';
 import { FetchRequest } from '@rails/request.js';
+import { filterFormData } from 'core-stimulus/helpers/form-data-helper';
 
 const TURBO_STREAM_REFRESH_DELAY = 50;
 
@@ -92,16 +93,13 @@ export default class RefreshOnFormChangesController extends ApplicationControlle
       // listener runs before the FormData below is read.
       this.dispatch('beforeSnapshot', { target: this.formTarget });
 
-      const body = new FormData();
-      new FormData(this.formTarget).forEach((value, key) => {
-        if (typeof value === 'string') {
-          body.append(key, value);
-        }
-      });
       // Edit forms carry a `_method` field (PUT/PATCH) for their real submit.
       // Rack::MethodOverride would rewrite this POST to that verb before
       // routing, missing the POST-only refresh route, so drop it here.
-      body.delete('_method');
+      const body = filterFormData(
+        this.formTarget,
+        (value, key) => typeof value === 'string' && key !== '_method',
+      );
       const request = new FetchRequest('post', this.turboStreamUrlValue, {
         body,
         responseKind: 'turbo-stream',
