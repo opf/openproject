@@ -13,9 +13,6 @@ Work package identifiers are used throughout OpenProject to uniquely reference w
 
 By default, OpenProject uses an instance-wide numerical sequence (for example, `#12345`). Starting with OpenProject 17.5, administrators can choose between instance-wide numerical identifiers and project-based identifiers. Project-based identifiers combine a project identifier with a sequential number, such as `PROJ-123`.
 
-> [!NOTE]
-> Project-based identifiers are currently available as a Beta feature (starting with OpenProject 17.5). If you notice any inconsistencies or unexpected behavior, we welcome your feedback.
-
 ## Overview
 
 OpenProject supports two identifier modes:
@@ -23,7 +20,7 @@ OpenProject supports two identifier modes:
 | Mode                                       | Example    |
 | ------------------------------------------ | ---------- |
 | Instance-wide numerical sequence (default) | `#12345`   |
-| Project-based identifiers (Beta)           | `PROJ-123` |
+| Project-based identifiers                  | `PROJ-123` |
 
 Project-based identifiers make it easier to identify the project a work package belongs to and can help organizations migrating from Jira preserve familiar issue references.
 
@@ -33,7 +30,7 @@ To configure work package identifiers navigate to **Administration** → **Work 
 
 - **Instance-wide numerical sequence (default)**
      Every work package receives a unique sequential number (for example, `#1234`). The identifier remains unchanged even if the work package is moved to another project.
-- **Project-based semantic identifiers (Beta)**
+- **Project-based semantic identifiers**
     Every work package receives an identifier consisting of the project identifier and a sequential number (for example, `PROJ-11`). Numbering starts at 1 for each project. If a work package is moved to another project, it receives a new project-based identifier while previous identifiers continue to resolve correctly.
 
  ![Administration settings for work package identifiers in OpenProject](openproject_system_guide_wp_identifiers_settings.png)
