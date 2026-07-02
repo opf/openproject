@@ -182,7 +182,8 @@ module ::ResourceManagement
     end
 
     def advance_dialog_to_configure_view(view_class)
-      view = view_class.new(parent: @resource_planner, project: @project, principal: current_user)
+      view = view_class.new(parent: @resource_planner, project: @project, principal: current_user,
+                            name: default_view_name(view_class))
       dialog = ResourcePlanners::NewDialogComponent
 
       update_dialog_title_via_turbo_stream(
@@ -213,6 +214,11 @@ module ::ResourceManagement
 
     def chosen_default_view_class
       ResourcePlanner.allowed_child_class(params.dig(:resource_planner, :default_view_class_name))
+    end
+
+    def default_view_name(view_class)
+      I18n.t("resource_management.view_types.#{view_class.model_name.i18n_key}.label",
+             default: view_class.name.underscore.humanize)
     end
 
     def render_create_failure(call)
