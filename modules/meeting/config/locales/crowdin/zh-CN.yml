@@ -426,12 +426,13 @@ zh-CN:
       message: '本系列会议已经结束，没有即将举行的会议。 '
       action: 您仍可以查看过去的事件或编辑会议系列来扩展它。
     occurrence:
-      infoline: 本次会议是定期会议系列的一部分。
       error_no_next: 此会议没有下一个发生时间。
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: 此会议系列的第一次发生已经被实例化。
       first_created: '第一次会议已成功从模板创建。所有未来的会议将会在上一次发生的时间自动创建。
 
         '
+      infoline: 本次会议是定期会议系列的一部分。
     template:
       button_finalize: 打开首次会议
       blank_title: 您的会议系列模板为空

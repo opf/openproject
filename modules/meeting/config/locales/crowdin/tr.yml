@@ -431,12 +431,13 @@ tr:
       message: 'Bu toplantı serisi sona ermiştir. Gelecek toplantı yoktur. '
       action: Gerçekleşmiş toplantıları görebilir ya da genişletmek için toplantı serilerini düzenleyebilirsiniz.
     occurrence:
-      infoline: Bu toplantı, yinelenen bir toplantı serisinin parçasıdır.
       error_no_next: Bu seri için bir toplantı yoktur.
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: Bu toplantı serisinin ilk toplantısı zaten oluşturulmuş.
       first_created: 'Şablondan ilk toplantı oluşturuldu. Gelecek toplantılar önceki gerçekleşenin saatinde oluşturulacak.
 
         '
+      infoline: Bu toplantı, yinelenen bir toplantı serisinin parçasıdır.
     template:
       button_finalize: İlk toplantıyı aç
       blank_title: Toplantı serisi şablonunuz boş

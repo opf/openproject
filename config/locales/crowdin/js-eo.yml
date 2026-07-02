@@ -260,15 +260,15 @@ eo:
       selection_mode:
         notification: Click on any highlighted work package to create the relation. Press escape to cancel.
       zoom:
-        in: Zoom in
-        out: Zoom out
-        auto: Auto zoom
-        days: Days
-        weeks: Weeks
+        in: Zomi
+        out: Malzomi
+        auto: Aŭtomata zomado
+        days: Tagoj
+        weeks: Semajnoj
         months: Monatoj
-        quarters: Quarters
-        years: Years
-        description: 'Select the initial zoom level that should be shown when autozoom is not available.
+        quarters: Kvaronoj
+        years: Jaroj
+        description: 'Elektu la komencan zomnivelon, kiu devus esti montrata kiam aŭtomata zomado ne disponeblas.
 
           '
     general_text_no: ne
@@ -308,7 +308,7 @@ eo:
     label_added_time_by: Added by <a href="%{authorLink}">%{author}</a> at %{age}
     label_ago: tagoj antaŭe
     label_all: ĉiuj
-    label_all_projects: All projects
+    label_all_projects: Ĉiuj projektoj
     label_all_uppercase: Ĉiuj
     label_all_work_packages: ĉiuj laborpakaĵoj
     label_and: and
@@ -352,7 +352,7 @@ eo:
     label_expand_project_menu: Etendi projektan menuon
     label_export: Eksporti
     label_export_preparing: The export is being prepared and will be downloaded shortly.
-    label_favorites: Favorites
+    label_favorites: Favoritoj
     label_filename: Dosiero
     label_filesize: Dosiergrando
     label_general: General
@@ -401,7 +401,7 @@ eo:
     label_open_work_packages: malfermita
     label_password: Pasvorto
     label_previous: Antaŭa
-    label_per_page: 'Per page:'
+    label_per_page: 'Po paĝo:'
     label_please_wait: Please wait
     label_project: Projekto
     label_project_plural: Projektoj
@@ -417,7 +417,7 @@ eo:
     label_repository_plural: Repositories
     label_resize_project_menu: Resize project menu
     label_save_as: Konservi kiel
-    label_search_columns: Search a column
+    label_search_columns: Serĉi kolumnon
     label_select_watcher: Select a watcher...
     label_selected_filter_list: Elekti filtrilon
     label_show_attributes: Montri ĉiujn atribuojn
@@ -502,7 +502,7 @@ eo:
         wiki: Within the <b>wiki</b> you can document and share knowledge together with your team.
         boards:
           overview: Select <b>boards</b> to shift the view and manage your project using the agile boards view.
-          lists_kanban: Here you can create multiple lists (columns) within your board. This feature allows you to create a <b>Kanban board</b>, for example.
+          lists_kanban: Ĉi tie vi povas krei plurajn listojn (kolumnojn) en via tabulo. Ĉi tiu funkcio permesas al vi, ekzemple, krei <b>Kanban-tabulon</b>.
           lists_basic: Here you can create multiple lists (columns) within your agile board.
           add: Click on the plus (+) icon to <b>create a new card</b> or <b>add an existing card</b> to the list on the board.
           drag: Drag and drop your cards within a given list to reorder them, or to move them to another list. <br> You can click the info (i) icon in the upper right-hand corner or double-click a card to open its details.
@@ -538,7 +538,7 @@ eo:
         reminder: Memorigilo
       date_alerts:
         milestone_date: Milestone date
-        overdue: Overdue
+        overdue: Malfrua
         overdue_since: for %{difference_in_days}.
         property_today: estas hodiaŭ.
         property_is: is in %{difference_in_days}.
@@ -670,7 +670,7 @@ eo:
     autocompleter:
       placeholder: Tajpu por serĉi
       notFoundText: No items found
-      search: Search
+      search: Serĉi
       project:
         placeholder: Select project
     repositories:
@@ -689,7 +689,7 @@ eo:
     text_work_packages_destroy_confirmation: Are you sure you want to delete the selected work package(s)?
     text_query_destroy_confirmation: Are you sure you want to delete the selected view?
     tl_toolbar:
-      zooms: Zoom level
+      zooms: Zoom-nivelo
       outlines: Hierarkia nivelo
     upsell:
       ee_only: Aldonaĵo por Entreprena Eldono
@@ -817,11 +817,11 @@ eo:
       default_queries:
         manually_sorted: New manually sorted query
         latest_activity: Lastaj aktivecoj
-        created_by_me: Created by me
-        assigned_to_me: Assigned to me
-        recently_created: Recently created
+        created_by_me: Kreita de mi
+        assigned_to_me: Asignita al mi
+        recently_created: Lastatempe kreita
         all_open: Ĉio malfermita
-        overdue: Overdue
+        overdue: Malfrua
         summary: Resumo
         shared_with_users: Shared with users
         shared_with_me: Shared with me
@@ -921,7 +921,7 @@ eo:
         files: Dosieroj
       time_relative:
         days: tagoj
-        weeks: weeks
+        weeks: semajnoj
         months: monatoj
     toolbar:
       settings:
@@ -942,7 +942,7 @@ eo:
         delete: Forigi
       filter: Filtrilo
       unselected_title: Laborpakaĵo
-      search_query_label: Search saved views
+      search_query_label: Serĉi konservitajn vidojn
     modals:
       label_name: Nomo
       label_delete_page: Forigi nunan paĝon
@@ -1014,11 +1014,11 @@ eo:
     global_search:
       all_projects: En ĉiuj projektoj
       close_search: Fermi serĉon
-      items_available: "%{count} items available"
+      items_available: "%{count} haveblaj aĵoj"
       direct_hit_available: Work package with exact ID found. Press Enter to open it.
       current_project_and_all_descendants: En tiu ĉi projekto + subprojektoj
       current_project: En tiu ĉi projekto
-      recently_viewed: Recently viewed
+      recently_viewed: Lastatempe vidita
       search_placeholder_expanded: Search work packages by subject, project, type, status or ID
       title:
         all_projects: ĉiuj projektoj
@@ -1041,18 +1041,18 @@ eo:
     include_projects:
       toggle_title: Include projects
       title: Projektoj
-      clear_selection: Clear selection
+      clear_selection: Nuligi elektojn
       apply: Ekuzi
       selected_filter:
-        all: All projects
-        selected: Only selected
-      search_placeholder: Search projects...
+        all: Ĉiuj projektoj
+        selected: Nur elektitaj
+      search_placeholder: Serĉi projektojn...
       include_subprojects: Include all sub-projects
       tooltip:
         include_all_selected: Project already included since Include all sub-projects is enabled.
-        current_project: This is the current project you are in.
+        current_project: Jen la nuna projekto, en kiu vi estas.
         does_not_match_search: Project does not match the search criteria.
-      no_results: No project matches your search criteria.
+      no_results: Neniu projekto kongruas kun viaj serĉkriterioj.
     include_workspaces:
       types:
         program: Program

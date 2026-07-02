@@ -35,8 +35,8 @@ eo:
         status: Stato
         subject: Temo
         type: Cost type
-        labor_budget: Planned labor costs
-        labor_budget_items: Planned labor costs
+        labor_budget: Planitaj laborkostoj
+        labor_budget_items: Planitaj laborkostoj
         material_budget: Planned unit costs
         base_amount: Base amount
       work_package:
@@ -49,7 +49,7 @@ eo:
               not_a_member_of_budget_project: is not a member of the budget's project
     models:
       budget: Budĝeto
-      labor_budget_item: Planned labor cost
+      labor_budget_item: Planitaj laborkostoj
       material_budget_item: Unit
   activity:
     filter:
@@ -61,8 +61,8 @@ eo:
   button_add_cost_type: Add cost type
   button_cancel_edit_budget: Cancel editing budget
   button_cancel_edit_costs: Cancel editing costs
-  caption_labor: Labor
-  caption_labor_costs: Actual labor costs
+  caption_labor: Laboro
+  caption_labor_costs: Realaj laborkostoj
   caption_material_costs: Actual unit costs
   budgets_title: Budĝetoj
   budgets:
@@ -82,20 +82,20 @@ eo:
           heading: Budget details missing
           description: Add details about your planned budget to see data here
         count_caption:
-          zero: No budget data.
+          zero: Neniuj buĝetaj datumoj.
           one: Data aggregated from %{count} budget
           other: Data aggregated from %{count} budgets
         count_caption_with_subitems:
           project:
-            zero: No budget data.
+            zero: Neniuj buĝetaj datumoj.
             one: Data aggregated from %{count} budget included in this project and its subitems.
             other: Data aggregated from %{count} budgets included in this project and its subitems.
           program:
-            zero: No budget data.
+            zero: Neniuj buĝetaj datumoj.
             one: Data aggregated from %{count} budget included in this program and its subitems.
             other: Data aggregated from %{count} budgets included in this program and its subitems.
           portfolio:
-            zero: No budget data.
+            zero: Neniuj buĝetaj datumoj.
             one: Data aggregated from %{count} budget included in this portfolio and its subitems.
             other: Data aggregated from %{count} budgets included in this portfolio and its subitems.
         view_details: View budget details
@@ -118,7 +118,7 @@ eo:
   label_yes: Jes
   label_budget_totals: Totals
   label_budget_details: Budget details
-  notice_budget_conflict: Work packages must be of the same project.
+  notice_budget_conflict: Laborpakaĵoj devas esti de la sama projekto.
   notice_no_budgets_available: No budgets available.
   permission_edit_budgets: Redaktu budĝetojn
   permission_view_budgets: Vidu budĝetojn

@@ -428,12 +428,13 @@ zh-TW:
       message: '本系列會議已結束。沒有接下來的會議。 '
       action: 您仍然可以檢視過去發生的事件，或編輯會議系列以延伸它。
     occurrence:
-      infoline: 此會議為定期舉行的系列會議之一。
       error_no_next: 本次會議無下次會議。
+      error_template_draft: The meeting series template is still in draft mode.
       first_already_exists: 此會議系列的第一次出現已經實體化。
       first_created: '第一次會議已從範本成功建立。以後所有的會議都會在前一次發生時自動建立。
 
         '
+      infoline: 此會議為定期舉行的系列會議之一。
     template:
       button_finalize: 開放首次會議
       blank_title: 您的會議範本是空的

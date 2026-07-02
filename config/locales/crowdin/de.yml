@@ -32,7 +32,7 @@ de:
         label_activity_show_all: Alles anzeigen
         label_activity_show_only_comments: Nur Kommentare anzeigen
         label_activity_show_only_changes: Nur Änderungen anzeigen
-        label_dismiss_comment: Dismiss
+        label_dismiss_comment: Verwerfen
         label_sort_asc: Neueste unten
         label_sort_desc: Neueste oben
         label_type_to_comment: Einen Kommentar hinzufügen. @ tippen, um Personen zu benachrichtigen.
@@ -45,7 +45,7 @@ de:
         commented: kommentiert
         internal_comment: Interner Kommentar
         internal_journal: Interne Kommentare sind nur für eine einschränkbare Gruppe von Mitgliedern sichtbar.
-        unsaved_changes_confirmation_message: Are you sure you want to dismiss your comment? The content that you have written will be lost.
+        unsaved_changes_confirmation_message: Sind Sie sicher, dass Sie Ihren Kommentar verwerfen möchten? Der verfasste Text geht dabei verloren.
         internal_comment_confirmation:
           title: Diesen Kommentar öffentlich machen?
           heading: Diesen Kommentar öffentlich machen?
@@ -2797,7 +2797,7 @@ de:
   button_add_sub_item: Unterelement hinzufügen
   button_add_member: Mitglied hinzufügen
   button_add_watcher: Beobachter hinzufügen
-  button_all_filters: All filters
+  button_all_filters: Alle Filter
   button_annotate: Kommentieren
   button_apply: Anwenden
   button_apply_changes: Änderungen anwenden
@@ -4238,7 +4238,7 @@ de:
 
     '
   label_part_of: enthalten in
-  label_past: Past
+  label_past: Vergangen
   label_password_lost: Kennwort vergessen?
   label_password_rule_lowercase: Kleinbuchstaben
   label_password_rule_numeric: Ziffern
@@ -4422,7 +4422,7 @@ de:
   label_type_new: Neuer Typ
   label_type_plural: Typen
   label_ui: Nutzeroberfläche
-  label_upcoming: Upcoming
+  label_upcoming: Bevorstehend
   label_updated_time: Vor %{value} aktualisiert
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Von %{author} vor %{age} aktualisiert

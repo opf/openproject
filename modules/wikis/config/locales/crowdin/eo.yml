@@ -6,7 +6,7 @@ eo:
         identifier: Identifier
         provider: Wiki Provider
       wikis/provider:
-        name: Name
+        name: Nomo
         universal_identifier: Universal identifier
       wikis/xwiki_provider:
         authentication_method: Authentication method
@@ -133,7 +133,7 @@ eo:
       heading: Delete related wiki page link?
       title: Delete related wiki page link
     errors:
-      connection_error: Could not connect to the wiki provider.
+      connection_error: Ne eblis konekti kun la vikio-provizanto.
       invalid_parent: The selected page is not a valid parent page.
       invalid_response: The wiki provider responded unexpectedly.
       missing_token: The user account is not yet connected to the wiki provider.
@@ -173,8 +173,8 @@ eo:
         parent: Parent wiki page
         wiki_page: Wiki page
       search:
-        no_results: No wiki pages found
-        placeholder: Search for a wiki page (or enter its URL)
+        no_results: Neniuj vikipaĝoj trovitaj
+        placeholder: Serĉu vikipaĝon (aŭ enigu ĝian URL-on)
     page_links:
       errors:
         page_access_forbidden: You do not have permission to access this wiki page

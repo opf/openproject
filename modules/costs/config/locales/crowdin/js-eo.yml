@@ -24,13 +24,13 @@ eo:
   js:
     text_are_you_sure: Are you sure?
     myTimeTracking:
-      noSpecificTime: No specific time
+      noSpecificTime: Neniu specifa tempo
     work_packages:
       property_groups:
         costs: Kostoj
       properties:
-        overallCosts: Overall costs
-        spentUnits: Spent units
+        overallCosts: Entutaj kostoj
+        spentUnits: Elspezitaj unuoj
     button_log_costs: Log unit costs
     label_hour: horo
     label_hours: horoj
