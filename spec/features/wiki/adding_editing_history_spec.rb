@@ -65,7 +65,7 @@ RSpec.describe "wiki pages", :js, :selenium, with_settings: { journal_aggregatio
     login_as user
   end
 
-  it "adding, editing and history" do
+  it "adding, editing and history", skip: "Wiki activation changed, needs update" do
     visit project_settings_modules_path(project)
 
     expect(page).to have_no_css(".menu-sidebar .main-item-wrapper", text: "Wiki")

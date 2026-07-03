@@ -34,7 +34,7 @@ RSpec.describe "Wiki unicode title spec", :js do
   shared_let(:admin) { create(:admin) }
   let(:user) { admin }
 
-  let(:project) { create(:project) }
+  let(:project) { create(:project, :with_internal_wiki).reload }
   let(:wiki_page_1) do
     build(:wiki_page,
           title: '<script>alert("FOO")</script>')

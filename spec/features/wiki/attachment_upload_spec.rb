@@ -36,7 +36,7 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     create(:user,
            member_with_permissions: { project => %i[view_wiki_pages edit_wiki_pages] })
   end
-  let(:project) { create(:project) }
+  let(:project) { create(:project, :with_internal_wiki).reload }
   let(:attachments) { Components::Attachments.new }
   let(:image_fixture) { UploadedFile.load_from("spec/fixtures/files/image.png") }
   let(:editor) { Components::WysiwygEditor.new }
@@ -60,7 +60,7 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
 
     expect_and_dismiss_flash(message: "Successful creation")
     expect(page).to have_css("#content img", count: 1)
-    expect(page).to have_content("Image uploaded the first time")
+    expect(page).to have_text("Image uploaded the first time")
     attachments_list.expect_attached("image.png")
 
     page.find_test_selector("wiki-edit-action-button").click
@@ -88,7 +88,7 @@ RSpec.describe "Upload attachment to wiki page", :js, :selenium do
     expect(page).to have_text("Successful update")
     expect(page).to have_css("#content img", count: 2)
     # First figcaption is lost by having replaced the markdown
-    expect(page).to have_content("Image uploaded the second time")
+    expect(page).to have_text("Image uploaded the second time")
     attachments_list.expect_attached("image.png", count: 2)
 
     # Both images rendered referring to the api endpoint
