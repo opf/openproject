@@ -263,7 +263,9 @@ RSpec.describe OpenProject::TextFormatting,
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(message1.subject,
                                                                        project_forum_topic_path(project, forum, message1),
                                                                        class: 'message op-uc-link',
-                                                                       aria: { label: "A dynamic link to a message placed using a macro" },
+                                                                       aria: {
+                                                                         label: 'A dynamic link to a message placed using a macro'
+                                                                       },
                                                                        target: '_top')}</p>")
         }
       end
@@ -396,7 +398,9 @@ RSpec.describe OpenProject::TextFormatting,
         it {
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
                                                                        target: '_top',
-                                                                       aria: { label: "A dynamic link to a project placed using a macro" },
+                                                                       aria: {
+                                                                         label: 'A dynamic link to a project placed using a macro'
+                                                                       },
                                                                        class: 'project op-uc-link')}</p>")
         }
       end
@@ -407,7 +411,9 @@ RSpec.describe OpenProject::TextFormatting,
         it {
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
                                                                        target: '_top',
-                                                                       aria: { label: "A dynamic link to a project placed using a macro" },
+                                                                       aria: {
+                                                                         label: 'A dynamic link to a project placed using a macro'
+                                                                       },
                                                                        class: 'project op-uc-link')}</p>")
         }
       end
@@ -418,7 +424,9 @@ RSpec.describe OpenProject::TextFormatting,
         it {
           expect(subject).to be_html_eql("<p class='op-uc-p'>#{link_to(subproject.name, project_url,
                                                                        target: '_top',
-                                                                       aria: { label: "A dynamic link to a project placed using a macro" },
+                                                                       aria: {
+                                                                         label: 'A dynamic link to a project placed using a macro'
+                                                                       },
                                                                        class: 'project op-uc-link')}</p>")
         }
       end
@@ -615,10 +623,10 @@ RSpec.describe OpenProject::TextFormatting,
         entry_revision_project_repository_path(project_id: identifier, repo_path: "some/file.ext", **)
       end
 
-      def resource_link_to(resource, name, url, **options)
+      def resource_link_to(resource, name, url, **)
         link_to(name,
                 url,
-                **options,
+                **,
                 aria: { label: "A dynamic link to a #{resource} placed using a macro" })
       end
 
@@ -632,18 +640,20 @@ RSpec.describe OpenProject::TextFormatting,
 
         @to_test = {
           # source
-          "source:/some/file" => resource_link_to("source", "source:/some/file", source_url, class: "source op-uc-link", target: "_top"),
-          "source:/some/file." => resource_link_to("source", "source:/some/file", source_url, class: "source op-uc-link", target: "_top") + ".",
-          'source:"/some/file.ext".' => resource_link_to("source", "source:/some/file.ext", source_url_with_ext,
-                                                         class: "source op-uc-link", target: "_top") + ".",
-          "source:/some/file. " => resource_link_to("source", "source:/some/file", source_url,
-                                                     class: "source op-uc-link", target: "_top") + ".",
-          'source:"/some/file.ext". ' => resource_link_to("source", "source:/some/file.ext", source_url_with_ext,
-                                                          class: "source op-uc-link", target: "_top") + ".",
-          "source:/some/file, " => resource_link_to("source", "source:/some/file", source_url,
-                                                     class: "source op-uc-link", target: "_top") + ",",
+          "source:/some/file" => resource_link_to("source", "source:/some/file", source_url,
+                                                  class: "source op-uc-link", target: "_top"),
+          "source:/some/file." => "#{resource_link_to('source', 'source:/some/file', source_url,
+                                                      class: 'source op-uc-link', target: '_top')}.",
+          'source:"/some/file.ext".' => "#{resource_link_to('source', 'source:/some/file.ext', source_url_with_ext,
+                                                            class: 'source op-uc-link', target: '_top')}.",
+          "source:/some/file. " => "#{resource_link_to('source', 'source:/some/file', source_url,
+                                                       class: 'source op-uc-link', target: '_top')}.",
+          'source:"/some/file.ext". ' => "#{resource_link_to('source', 'source:/some/file.ext', source_url_with_ext,
+                                                             class: 'source op-uc-link', target: '_top')}.",
+          "source:/some/file, " => "#{resource_link_to('source', 'source:/some/file', source_url,
+                                                       class: 'source op-uc-link', target: '_top')},",
           "source:/some/file@52" => resource_link_to("source", "source:/some/file@52", source_url(rev: 52),
-                                                      class: "source op-uc-link", target: "_top"),
+                                                     class: "source op-uc-link", target: "_top"),
           'source:"/some/file.ext@52"' => resource_link_to("source", "source:/some/file.ext@52", source_url_with_ext(rev: 52),
                                                            class: "source op-uc-link", target: "_top"),
           'source:"/some/file#L110"' => resource_link_to("source", "source:/some/file#L110", source_url(anchor: "L110"),
@@ -655,7 +665,7 @@ RSpec.describe OpenProject::TextFormatting,
                                                             source_url(rev: 52, anchor: "L110"),
                                                             class: "source op-uc-link", target: "_top"),
           "export:/some/file" => resource_link_to("export", "export:/some/file", source_url(format: "raw"),
-                                                   class: "source download op-uc-link", target: "_top"),
+                                                  class: "source download op-uc-link", target: "_top"),
           # escaping
           "!source:/some/file" => "source:/some/file",
           # invalid expressions

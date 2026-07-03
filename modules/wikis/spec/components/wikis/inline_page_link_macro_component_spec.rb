@@ -55,4 +55,3 @@ RSpec.describe Wikis::InlinePageLinkMacroComponent, type: :component do
     expect(page).to have_no_css(".op-inline-macro[title]")
   end
 end
-
