@@ -80,6 +80,32 @@ module OpenProject::Wikis
     replace_principal_references "Wikis::PageLink" => %i[author_id]
 
     register "openproject-wikis", author_url: "https://openproject.org" do
+      project_module nil do
+        permission :view_wiki_pages,
+                   { wiki: %i[index show special menu export] },
+                   permissible_on: :project
+
+        permission :view_wiki_edits,
+                   { wiki: %i[history diff annotate] },
+                   dependencies: :view_wiki_pages,
+                   permissible_on: :project
+
+        permission :edit_wiki_pages,
+                   { wiki: %i[edit update preview add_attachment new new_child create rename] },
+                   dependencies: :view_wiki_pages,
+                   permissible_on: :project
+
+        permission :manage_wiki,
+                   {
+                     wiki: %i[destroy protect edit_parent_page update_parent_page],
+                     wikis: %i[edit destroy],
+                     wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item]
+                   },
+                   dependencies: :edit_wiki_pages,
+                   permissible_on: :project,
+                   require: :member
+      end
+
       project_module :work_package_tracking do
         permission :manage_wiki_page_links,
                    {

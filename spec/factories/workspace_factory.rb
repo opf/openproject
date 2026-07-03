@@ -91,5 +91,17 @@ FactoryBot.define do
     trait :template do
       templated { true }
     end
+
+    trait :with_internal_wiki do
+      transient { start_page { "Wiki" } }
+
+      callback(:after_build) do |workspace, evaluator|
+        unless Wikis::InternalProvider.any? && Wikis::InternalProvider.enabled.any?
+          create(:internal_wiki_provider)
+        end
+
+        Wiki.create(project: workspace, start_page: evaluator.start_page)
+      end
+    end
   end
 end

@@ -537,32 +537,6 @@ Rails.application.reloader.to_prepare do
                       permissible_on: :project
     end
 
-    map.project_module :wiki do |wiki|
-      wiki.permission :view_wiki_pages,
-                      { wiki: %i[index show special menu export] },
-                      permissible_on: :project
-
-      wiki.permission :view_wiki_edits,
-                      { wiki: %i[history diff annotate] },
-                      dependencies: :view_wiki_pages,
-                      permissible_on: :project
-
-      wiki.permission :edit_wiki_pages,
-                      { wiki: %i[edit update preview add_attachment new new_child create rename] },
-                      dependencies: :view_wiki_pages,
-                      permissible_on: :project
-
-      wiki.permission :manage_wiki,
-                      {
-                        wiki: %i[destroy protect edit_parent_page update_parent_page],
-                        wikis: %i[edit destroy],
-                        wiki_menu_items: %i[edit update select_main_menu_item replace_main_menu_item]
-                      },
-                      dependencies: :edit_wiki_pages,
-                      permissible_on: :project,
-                      require: :member
-    end
-
     map.project_module :repository do |repo|
       repo.permission :browse_repository,
                       { repositories: %i[show browse entry annotate changes diff stats graph] },
