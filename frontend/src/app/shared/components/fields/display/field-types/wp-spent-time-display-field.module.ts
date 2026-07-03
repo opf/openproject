@@ -59,7 +59,6 @@ export class WorkPackageSpentTimeDisplayField extends WorkDisplayField {
     const link = document.createElement('a');
     link.textContent = displayText;
     link.setAttribute('title', this.text.linkTitle);
-    link.setAttribute('target', '_top');
 
     if (displayText === this.placeholder) {
       link.setAttribute(

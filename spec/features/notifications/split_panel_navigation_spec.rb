@@ -30,7 +30,7 @@
 
 require "spec_helper"
 
-RSpec.describe "Switching to project from a notification", :js do
+RSpec.describe "Split panel navigation in the notification center", :js do
   shared_let(:project) { create(:project) }
   shared_let(:user) { create(:admin) }
   shared_let(:work_package) { create(:work_package, project:, author: user, subject: "Test Work Package") }
@@ -43,9 +43,8 @@ RSpec.describe "Switching to project from a notification", :js do
     login_as user
   end
 
-  # Regression OP-19605: the split screen renders inside a Turbo Frame, so the
-  # project link needs target="_top" to escape it. Without it, the click is
-  # swallowed by a frame navigation that goes nowhere.
+  # The split panel (content-bodyRight Turbo Frame) defaults to full-page navigation (target="_top"),
+  # so content links escape the frame instead of being swallowed by a frame navigation that goes nowhere.
   it "navigates to the project when clicking the project context link" do
     center.visit!
     center.expect_bell_count 1
@@ -61,5 +60,34 @@ RSpec.describe "Switching to project from a notification", :js do
     link.click
     wait_for_network_idle
     expect(page).to have_current_path(project_path(project.id))
+  end
+
+  # The inverse of the above: tab switching and closing must stay *inside* the frame.
+  # A regression to a full-page visit would re-render the whole body, so we tag a node
+  # outside the frame (the Angular notification center) and assert it survives.
+  it "keeps tab switching and closing inside the split panel" do
+    center.visit!
+    center.expect_bell_count 1
+    center.open
+
+    center.click_item notification
+    split_screen.expect_open
+    mark_surrounding_page
+
+    split_screen.switch_to_tab tab: "overview"
+    split_screen.expect_tab "overview"
+    expect_surrounding_page_preserved
+
+    split_screen.close
+    split_screen.expect_closed
+    expect_surrounding_page_preserved
+  end
+
+  def mark_surrounding_page
+    page.execute_script("document.querySelector('opce-notification-center').dataset.frameRegressionMarker = '1'")
+  end
+
+  def expect_surrounding_page_preserved
+    expect(page).to have_css("opce-notification-center[data-frame-regression-marker='1']")
   end
 end
