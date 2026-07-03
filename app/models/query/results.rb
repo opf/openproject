@@ -193,7 +193,8 @@ class Query::Results
     return str unless str.is_a?(String)
 
     table_to_alias.reduce(str) do |s, (table_name, alias_name)|
-      s.gsub(/\b#{Regexp.escape(table_name)}\./, "#{alias_name}.")
+      # Replaces the unquoted (projects.identifier) and quoted ("projects".identifier) table name:
+      s.gsub(/(?:"#{Regexp.escape(table_name)}"|\b#{Regexp.escape(table_name)})\./, "#{alias_name}.")
     end
   end
 
@@ -289,7 +290,7 @@ class Query::Results
   # ActiveRecord::Associations::AliasTracker.initial_count_for, and increment
   # counts for each found table name.
   def raw_join_table_counts(counts)
-    raw_joins = [sort_criteria_joins, query.group_by_join_statement, all_filter_joins].flatten.compact
+    raw_joins = [sort_criteria_joins, query.group_by_join_statement, all_filter_joins].flatten.compact.uniq
 
     raw_joins.each do |join_sql|
       join_sql.to_s.scan(RAW_JOIN_TABLE_SCAN_REGEX) do |quoted, unquoted|
