@@ -52,20 +52,8 @@ module Projects
       ]
     end
 
-    def selected?(query_params) # rubocop:disable Metrics/AbcSize
-      case controller_path
-      when "projects"
-        case params[:query_id]
-        when nil
-          query_params[:query_id].to_s == ProjectQueries::Static::DEFAULT unless modification_params?
-        when /\A\d+\z/
-          query_params[:query_id].to_s == params[:query_id]
-        else
-          query_params[:query_id].to_s == params[:query_id] unless modification_params?
-        end
-      when "projects/queries"
-        query_params[:query_id].to_s == params[:id]
-      end
+    def selected?(query_params)
+      query_params[:query_id].to_s == selected_query_id
     end
 
     def favorited?(query_params)
@@ -77,6 +65,19 @@ module Projects
     end
 
     private
+
+    def selected_query_id
+      case controller_path
+      when "projects"
+        if /\A\d+\z/.match?(params[:query_id])
+          params[:query_id]
+        elsif !modification_params?
+          params[:query_id] || ProjectQueries::Static::DEFAULT
+        end
+      when "projects/queries"
+        params[:id]
+      end
+    end
 
     def main_static_filters
       static_filters [
