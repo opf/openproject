@@ -30,7 +30,15 @@
 
 module CostTypes
   module CostTypeProjects
-    class DeleteService < ::BaseServices::Delete
+    class DeleteContract < BaseContract
+      validate :not_in_use
+
+      # A mapping must not be removed while costs have been logged for the cost
+      # type in the project, otherwise those costs would disappear from the
+      # affected work packages.
+      def not_in_use
+        errors.add :base, :cost_type_in_use_cannot_disable if model.in_use?
+      end
     end
   end
 end
