@@ -31,8 +31,8 @@ OpenProject offers integration with Nextcloud for file storage and collaboration
 
 [feature: xwiki_integration ]
 
-OpenProject offers integration with XWiki for wiki collaboration. You can find more information about [setting up the integration with XWiki](./xwiki) and [using the integration](UPDATE LINK  )).
-
+OpenProject offers integration with XWiki for wiki collaboration. You can find more information
+about [setting up the integration with XWiki](./xwiki) and [using the integration](UPDATE LINK  ).
 
 [feature: one_drive_sharepoint_file_storage]
 
