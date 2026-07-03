@@ -71,6 +71,14 @@ This makes backlog bucket assignments visible in work package tables, allowing t
 
 ![Work package table with highlighted Backlog bucket column](openproject-17-6-backlog-bucket-work-package-table-highlighted.png)
 
+### Sprint sharing now available in the Basic Enterprise plan
+
+[feature: sprint_sharing ]
+
+Based on customer feedback, sprint sharing is now included in the **Basic Enterprise plan** instead of the Corporate plan. This makes the feature available to many more Enterprise customers.
+
+Thank you to everyone who shared constructive feedback and helped shape this decision.
+
 ### Support project-based (semantic) identifiers in exports
 
 OpenProject 17.6 extends support for project-based (semantic) identifiers across exports. Semantic identifiers are now included consistently in:
@@ -121,7 +129,7 @@ This change was originally reported as [a security advisory on GitHub](https://g
 
 OpenProject 17.6 extends LDAP group synchronization with support for group member attributes. Administrators can now configure synchronization based on attributes such as `member` or `uniqueMember` on LDAP groups, in addition to the existing `memberOf` lookup on user entries.
 
-This improves compatibility with LDAP servers that do not maintain the `memberOf` attribute. Read more about [synchronizing LDAP and OpenProject groups](Enterprise add-on)(../../system-admin-guide/authentication/ldap-connections/ldap-group-synchronization)
+This improves compatibility with LDAP servers that do not maintain the `memberOf` attribute. Read more about [synchronizing LDAP and OpenProject groups (Enterprise add-on)](../../system-admin-guide/authentication/ldap-connections/ldap-group-synchronization)
 
 ### Integrations (e.g. Nextcloud and XWiki) respect global SSRF filters
 
