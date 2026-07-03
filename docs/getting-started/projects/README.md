@@ -41,7 +41,6 @@ Projects and subprojects are displayed according to their hierarchy in the drop-
 
 <div class="glossary">
 **Subproject** is defined as a child project of another project. Subprojects can be used to display a hierarchy of projects. Several filter options (e.g. in work package table and timeline) can be applied only to the current project and its subprojects.
-
 </div>
 
 ![Project hierarchy displayed in "all projects" dropdown menu in OpenProject](openproject_getting_started_project_hierarchy.png)
