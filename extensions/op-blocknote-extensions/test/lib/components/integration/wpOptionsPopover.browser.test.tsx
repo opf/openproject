@@ -153,6 +153,58 @@ describe('Options popover portal', () => {
   });
 });
 
+describe('Options popover positioning', () => {
+  it('opens at the start of a chip that wraps across multiple lines', async () => {
+    render(
+      <div style={{ width: '140px', paddingTop: '200px' }}>
+        <span style={{ display: 'inline-block', width: '90px' }} />
+        <InlineWorkPackageChip
+          inlineContent={{ props: { wpid: '123', size: 's', instanceId: 'iid-wrap' } }}
+          contentRef={vi.fn()}
+        />
+      </div>,
+    );
+
+    await waitForResolvedChip();
+
+    const chip = document.querySelector('.op-bn-inline-wp')!;
+    const fragments = chip.getClientRects();
+    expect(fragments.length).toBeGreaterThan(1);
+    expect(fragments[0].left).toBeGreaterThan(chip.getBoundingClientRect().left);
+
+    await openPopover();
+
+    const popover = document.querySelector('[data-testid="popover-content"]')!;
+    const popoverRect = popover.getBoundingClientRect();
+    expect(popoverRect.left).toBeCloseTo(fragments[0].left, 0);
+    expect(popoverRect.bottom).toBeLessThanOrEqual(fragments[0].top);
+  });
+
+  it('stays inside the viewport when the chip starts near the right edge', async () => {
+    render(
+      <div style={{ paddingTop: '200px' }}>
+        <span style={{ display: 'inline-block', width: 'calc(100vw - 80px)' }} />
+        <InlineWorkPackageChip
+          inlineContent={{ props: { wpid: '123', size: 's', instanceId: 'iid-clamp' } }}
+          contentRef={vi.fn()}
+        />
+      </div>,
+    );
+
+    await waitForResolvedChip();
+
+    const chip = document.querySelector('.op-bn-inline-wp')!;
+    expect(chip.getClientRects()[0].left).toBeGreaterThan(window.innerWidth - 120);
+
+    await openPopover();
+
+    const popover = document.querySelector('[data-testid="popover-content"]')!;
+    const popoverRect = popover.getBoundingClientRect();
+    expect(popoverRect.right).toBeLessThanOrEqual(window.innerWidth);
+    expect(popoverRect.left).toBeGreaterThanOrEqual(0);
+  });
+});
+
 describe('Inline chip popover UX', () => {
   it('popover is not visible before clicking the chip', async () => {
     render(<ChipWrapper initialSize="s" />);
