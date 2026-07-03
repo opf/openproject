@@ -14,7 +14,7 @@ export interface PendingCallbacks {
   onCancel:WpCancelCallback;
 }
 
-const PENDING_PREFIX = 'pending:' as const;
+export const PENDING_PREFIX = 'pending:' as const;
 const registry = new Map<string, PendingCallbacks>();
 
 // Generates a unique placeholder wpid. It doubles as the registry key, so

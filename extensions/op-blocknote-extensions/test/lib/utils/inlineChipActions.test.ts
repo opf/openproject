@@ -6,7 +6,7 @@ import {
   openProjectWorkPackageInlineSpec,
 } from '../../../lib';
 import {
-  findInlineChipByWpid,
+  findPendingInlineChip,
   removeInlineChipAt,
   promoteInlineChipToBlockAt,
   convertBlockToInlineChip,
@@ -67,11 +67,11 @@ function blockContent(editor:BlockNoteEditor, blockIndex = 0):any[] {
   return (editor.document[blockIndex]?.content ?? []) as any[];
 }
 
-describe('findInlineChipByWpid', () => {
-  it('finds the chip with the given wpid', () => {
+describe('findPendingInlineChip', () => {
+  it('finds the chip with the given pending wpid', () => {
     const editor = createEditorWithContent([text('a'), chip('pending:x'), text('b')]);
 
-    const found = findInlineChipByWpid(editor.prosemirrorState.doc, 'pending:x');
+    const found = findPendingInlineChip(editor.prosemirrorState.doc, 'pending:x');
 
     expect(found).not.toBeNull();
     expect(found?.node.attrs.wpid).toBe('pending:x');
@@ -81,7 +81,13 @@ describe('findInlineChipByWpid', () => {
   it('returns null when no chip matches', () => {
     const editor = createEditorWithContent([text('a'), chip('1')]);
 
-    expect(findInlineChipByWpid(editor.prosemirrorState.doc, 'pending:x')).toBeNull();
+    expect(findPendingInlineChip(editor.prosemirrorState.doc, 'pending:x')).toBeNull();
+  });
+
+  it('returns null when the wpid does not carry the pending prefix, even if a matching chip exists', () => {
+    const editor = createEditorWithContent([chip('1')]);
+
+    expect(findPendingInlineChip(editor.prosemirrorState.doc, '1')).toBeNull();
   });
 });
 

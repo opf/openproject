@@ -3,6 +3,7 @@ import type { Node as ProsemirrorNode } from 'prosemirror-model';
 import { NodeSelection } from 'prosemirror-state';
 import type { InlineWpSize, BlockWpSize } from '../components/WorkPackage/types';
 import { moveCursorAfterBlock } from './cursor';
+import { PENDING_PREFIX } from '../components/InlineWorkPackage/callbacks';
 
 // Direct, position-based operations on inline work package chips.
 //
@@ -59,10 +60,12 @@ export function findInlineChipAtDOM(editor:AnyEditor, chipDom:HTMLElement):Found
 }
 
 /**
- * Finds an inline chip by its wpid. Only safe for unique wpids — i.e. the
- * `pending:<uuid>` placeholders used while the user picks a work package.
+ * Finds a pending chip by its wpid. Only `pending:<uuid>` placeholder wpids
+ * are unique in the document, so only those can be found reliably.
  */
-export function findInlineChipByWpid(doc:ProsemirrorNode, wpid:string):FoundInlineChip | null {
+export function findPendingInlineChip(doc:ProsemirrorNode, wpid:string):FoundInlineChip | null {
+  if (!wpid.startsWith(PENDING_PREFIX)) return null;
+
   let found:FoundInlineChip | null = null;
   doc.descendants((node, position) => {
     if (found) return false;

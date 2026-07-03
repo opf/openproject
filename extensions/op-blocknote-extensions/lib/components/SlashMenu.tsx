@@ -3,7 +3,7 @@ import { LinkIcon } from '@primer/octicons-react';
 import i18n from '../services/i18n.ts';
 import { getAliases } from '../services/slashMenuAliases';
 import { registerInlineWpCallbacks, clearInlineWpCallbacks, makePendingWpid } from './InlineWorkPackage/callbacks';
-import { findInlineChipByWpid } from '../utils/inlineChipActions';
+import { findPendingInlineChip } from '../utils/inlineChipActions';
 import { pendingBlockRegistry } from './BlockWorkPackage/pendingBlockRegistry';
 import { isCurrentBlockEmpty } from '../utils/blockContent.ts';
 import type { AnyEditor } from './HashMenu/editorUtils';
@@ -24,7 +24,7 @@ function buildOnSelect(
     // insertion leaves the editor in a state where the next native keyboard input
     // (e.g. Backspace) is silently dropped. Relying on the preserved selection
     // avoids that entirely.
-    const found = findInlineChipByWpid(editor.prosemirrorState.doc, pendingWpid);
+    const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid);
     if (!found) return;
 
     editor.focus();
@@ -39,7 +39,7 @@ function buildOnCancel(
   pendingWpid:string
 ):() => void {
   return () => {
-    const found = findInlineChipByWpid(editor.prosemirrorState.doc, pendingWpid);
+    const found = findPendingInlineChip(editor.prosemirrorState.doc, pendingWpid);
     if (found) {
       editor.transact((tr) => {
         tr.delete(found.position, found.position + found.node.nodeSize);
