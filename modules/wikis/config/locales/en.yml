@@ -170,6 +170,7 @@ en:
       description: Log in to %{provider} to view and manage related wiki pages from this OpenProject instance.
       heading: Not connected to %{provider}
     page_link_component:
+      add_to_related_pages: Add to related pages
       remove: Remove page link
     page_link_forms:
       labels:

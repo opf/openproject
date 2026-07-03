@@ -28,52 +28,25 @@
 # See COPYRIGHT and LICENSE files for more details.
 #++
 
-module Wikis
-  class RelationPageLinksComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+require "spec_helper"
+require_module_spec_helper
 
-    alias_method :provider, :model
+RSpec.describe Wikis::PageLinkComponent::RemoveAction do
+  let(:page_link) { build_stubbed(:relation_wiki_page_link) }
+  let(:url_helpers) { Rails.application.routes.url_helpers }
 
-    attr_reader :work_package
+  subject(:action) { described_class.new(page_link:, url_helpers:) }
 
-    def initialize(model = nil, work_package: nil, **)
-      @work_package = work_package
-      super(model, **)
-    end
+  it "uses the trash icon" do
+    expect(action.icon).to eq(:trash)
+  end
 
-    def page_links
-      @page_links ||= page_link_service.relation_page_links_for(provider:, linkable: work_package)
-    end
-
-    def user_connected?
-      provider.user_connected?(User.current)
-    end
-
-    def create_new_page_parameters
-      {
-        wikis_forms_create_new_wiki_page_form_model: {
-          linkable_id: work_package.id,
-          linkable_type: work_package.class.name,
-          provider_id: provider.id
-        }
-      }
-    end
-
-    private
-
-    def menu_actions_for(page_link)
-      return [] unless can_manage_links?
-
-      [PageLinkComponent::RemoveAction.new(page_link:, url_helpers:)]
-    end
-
-    def page_link_service
-      @page_link_service ||= PageLinkService.new
-    end
-
-    def can_manage_links?
-      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, work_package.project)
-    end
+  it "builds a danger menu item linking to the delete confirmation dialog" do
+    expect(action.menu_item_args).to include(
+      label: I18n.t("wikis.page_link_component.remove"),
+      scheme: :danger,
+      tag: :a,
+      href: url_helpers.confirm_delete_dialog_relation_wiki_page_link_path(page_link)
+    )
   end
 end

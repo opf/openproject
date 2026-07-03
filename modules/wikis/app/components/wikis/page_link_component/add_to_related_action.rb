@@ -29,51 +29,46 @@
 #++
 
 module Wikis
-  class RelationPageLinksComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+  class PageLinkComponent
+    class AddToRelatedAction
+      def initialize(page_info:, linkable:, url_helpers:, already_related:)
+        @page_info = page_info
+        @linkable = linkable
+        @url_helpers = url_helpers
+        @already_related = already_related
+      end
 
-    alias_method :provider, :model
+      def icon = :plus
 
-    attr_reader :work_package
+      def menu_item_args
+        return { label:, disabled: true } if already_related
 
-    def initialize(model = nil, work_package: nil, **)
-      @work_package = work_package
-      super(model, **)
-    end
-
-    def page_links
-      @page_links ||= page_link_service.relation_page_links_for(provider:, linkable: work_package)
-    end
-
-    def user_connected?
-      provider.user_connected?(User.current)
-    end
-
-    def create_new_page_parameters
-      {
-        wikis_forms_create_new_wiki_page_form_model: {
-          linkable_id: work_package.id,
-          linkable_type: work_package.class.name,
-          provider_id: provider.id
+        {
+          label:,
+          tag: :a,
+          href: create_relation_page_link_href,
+          content_arguments: { data: { turbo_method: :post } }
         }
-      }
-    end
+      end
 
-    private
+      private
 
-    def menu_actions_for(page_link)
-      return [] unless can_manage_links?
+      attr_reader :page_info, :linkable, :url_helpers, :already_related
 
-      [PageLinkComponent::RemoveAction.new(page_link:, url_helpers:)]
-    end
+      def label
+        I18n.t("wikis.page_link_component.add_to_related_pages")
+      end
 
-    def page_link_service
-      @page_link_service ||= PageLinkService.new
-    end
-
-    def can_manage_links?
-      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, work_package.project)
+      def create_relation_page_link_href
+        url_helpers.relation_wiki_page_links_path(
+          wikis_relation_page_link: {
+            provider_id: page_info.provider.id,
+            linkable_type: linkable.class.name,
+            linkable_id: linkable.id
+          },
+          identifier: page_info.identifier
+        )
+      end
     end
   end
 end

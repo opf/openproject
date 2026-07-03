@@ -39,13 +39,27 @@ See COPYRIGHT and LICENSE files for more details.
 
         if inline_page_links.any?
           container.with_row(mb: 3) do
-            render(::Wikis::CollapsiblePageLinksComponent.new(inline_page_links, heading: t(".inline_page_links")))
+            render(
+              ::Wikis::CollapsiblePageLinksComponent.new(
+                inline_page_links,
+                heading: t(".inline_page_links"),
+                linkable: work_package,
+                already_related_page_keys:
+              )
+            )
           end
         end
 
         if referencing_wiki_pages.any?
           container.with_row do
-            render(::Wikis::CollapsiblePageLinksComponent.new(referencing_wiki_pages, heading: t(".referencing_pages")))
+            render(
+              ::Wikis::CollapsiblePageLinksComponent.new(
+                referencing_wiki_pages,
+                heading: t(".referencing_pages"),
+                linkable: work_package,
+                already_related_page_keys:
+              )
+            )
           end
         end
       end

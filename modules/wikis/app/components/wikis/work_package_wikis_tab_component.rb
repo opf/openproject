@@ -54,6 +54,10 @@ module Wikis
       @referencing_wiki_pages ||= page_link_service.referencing_wiki_page_infos_for(linkable: work_package)
     end
 
+    def already_related_page_keys
+      @already_related_page_keys ||= page_link_service.relation_page_link_keys_for(linkable: work_package)
+    end
+
     private
 
     def page_link_service

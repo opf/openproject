@@ -47,8 +47,16 @@ module Wikis
       validate :provider_exists?
       validate :author_must_be_user
       validate :validate_user_allowed_to_manage
+      validate :validate_not_already_linked
 
       private
+
+      def validate_not_already_linked
+        scope = model.attributes.slice("linkable_type", "linkable_id", "provider_id", "identifier")
+        return if scope.values.any?(&:blank?)
+
+        errors.add(:identifier, :taken) if RelationPageLink.exists?(scope)
+      end
 
       def author_must_be_user
         return if user.admin? && Setting.apiv3_write_readonly_attributes?

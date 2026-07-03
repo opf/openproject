@@ -29,51 +29,28 @@
 #++
 
 module Wikis
-  class RelationPageLinksComponent < ApplicationComponent
-    include ApplicationHelper
-    include OpPrimer::ComponentHelpers
+  class PageLinkComponent
+    class RemoveAction
+      def initialize(page_link:, url_helpers:)
+        @page_link = page_link
+        @url_helpers = url_helpers
+      end
 
-    alias_method :provider, :model
+      def icon = :trash
 
-    attr_reader :work_package
-
-    def initialize(model = nil, work_package: nil, **)
-      @work_package = work_package
-      super(model, **)
-    end
-
-    def page_links
-      @page_links ||= page_link_service.relation_page_links_for(provider:, linkable: work_package)
-    end
-
-    def user_connected?
-      provider.user_connected?(User.current)
-    end
-
-    def create_new_page_parameters
-      {
-        wikis_forms_create_new_wiki_page_form_model: {
-          linkable_id: work_package.id,
-          linkable_type: work_package.class.name,
-          provider_id: provider.id
+      def menu_item_args
+        {
+          label: I18n.t("wikis.page_link_component.remove"),
+          scheme: :danger,
+          tag: :a,
+          href: url_helpers.confirm_delete_dialog_relation_wiki_page_link_path(page_link),
+          content_arguments: { data: { controller: "async-dialog" } }
         }
-      }
-    end
+      end
 
-    private
+      private
 
-    def menu_actions_for(page_link)
-      return [] unless can_manage_links?
-
-      [PageLinkComponent::RemoveAction.new(page_link:, url_helpers:)]
-    end
-
-    def page_link_service
-      @page_link_service ||= PageLinkService.new
-    end
-
-    def can_manage_links?
-      helpers.current_user.allowed_in_project?(:manage_wiki_page_links, work_package.project)
+      attr_reader :page_link, :url_helpers
     end
   end
 end
