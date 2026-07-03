@@ -46,7 +46,9 @@ module Wikis
     def configured? = raise SubclassResponsibilityError
 
     def configured_from_env?
-      Setting.wiki_providers.any? { |c| c["name"] == name_was || c["uid"] == universal_identifier_was }
+      Setting.wiki_providers.any? do |c|
+        c["name"] == (name_was || name) || c["uid"] == (universal_identifier_was || universal_identifier)
+      end
     end
 
     def non_confidential_configuration

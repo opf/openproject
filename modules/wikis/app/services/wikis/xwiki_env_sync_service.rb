@@ -30,7 +30,6 @@
 
 module Wikis
   class XWikiEnvSyncService < EnvSyncService
-    # rubocop:disable Metrics/AbcSize
     def create!
       provider = result!(provider_create_service.call(attributes))
       result!(
@@ -39,8 +38,6 @@ module Wikis
       result!(
         OAuthClients::CreateService.new(user:).call(oauth_client_attributes.merge(integration: provider))
       )
-
-      XWikiProviders::FetchInstanceIdJob.perform_later(provider) unless explicit_uid?
     end
 
     def update!(provider)
@@ -51,18 +48,14 @@ module Wikis
       result!(
         OAuthClients::UpdateService.new(user:, model: provider.oauth_client).call(oauth_client_attributes)
       )
-
-      XWikiProviders::FetchInstanceIdJob.perform_later(provider) unless explicit_uid?
     end
-    # rubocop:enable Metrics/AbcSize
 
     private
 
     def provider_create_service
       XWikiProviders::CreateService.new(
         user:,
-        contract_class: XWikiProviders::EnvironmentCreateContract,
-        skip_instance_id_fetching: true
+        contract_class: XWikiProviders::EnvironmentCreateContract
       )
     end
 
@@ -70,8 +63,7 @@ module Wikis
       XWikiProviders::UpdateService.new(
         user:,
         model: provider,
-        contract_class: XWikiProviders::EnvironmentUpdateContract,
-        skip_instance_id_fetching: true
+        contract_class: XWikiProviders::EnvironmentUpdateContract
       )
     end
 
@@ -95,10 +87,6 @@ module Wikis
         client_id: config_dig!(:xwiki_oauth, :client_id),
         client_secret: config_dig!(:xwiki_oauth, :client_secret)
       }
-    end
-
-    def explicit_uid?
-      config.key?(:uid)
     end
   end
 end
