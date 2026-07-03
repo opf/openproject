@@ -181,7 +181,6 @@ module OpenProject::Meeting
     replace_principal_references "Meeting" => %i[author_id],
                                  "MeetingAgendaItem" => %i[author_id presenter_id],
                                  "MeetingOutcome" => :author_id,
-                                 "MeetingParticipant" => :user_id,
                                  "RecurringMeeting" => :author_id
 
     extend_api_response(:v3, :work_packages, :work_package,
