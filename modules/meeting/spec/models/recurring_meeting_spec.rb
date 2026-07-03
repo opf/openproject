@@ -453,4 +453,80 @@ RSpec.describe RecurringMeeting,
       expect(series.uid).to include "@#{Setting.host_name}"
     end
   end
+
+  describe "#occurrence_count_until_end_date" do
+    it "counts the remaining occurrences up to the end date" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.hours,
+                     frequency: "daily",
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow + 1.week)
+
+      expect(series.occurrence_count_until_end_date).to eq 8
+    end
+
+    it "counts the remaining occurrences for a non-daily frequency" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.hours,
+                     frequency: "weekly",
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow + 4.weeks)
+
+      expect(series.occurrence_count_until_end_date).to eq 5
+    end
+
+    it "returns nil when the end date is before the start date" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.days + 10.hours,
+                     frequency: "daily",
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow)
+
+      expect(series.occurrence_count_until_end_date).to be_nil
+    end
+
+    it "caps the count for far-future end dates" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.hours,
+                     frequency: "daily",
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow + 5.years)
+
+      expect(series.occurrence_count_until_end_date).to eq RecurringMeeting::MAX_ITERATIONS + 1
+    end
+
+    it "returns nil when the series does not end on a specific date" do
+      series = build(:recurring_meeting, end_after: "iterations", iterations: 3)
+
+      expect(series.occurrence_count_until_end_date).to be_nil
+    end
+  end
+
+  describe "#end_date_for_iterations" do
+    it "returns the last occurrence for the given number of iterations" do
+      series = build(:recurring_meeting,
+                     start_time: Time.zone.tomorrow + 10.hours,
+                     frequency: "daily",
+                     end_after: "iterations",
+                     iterations: 3)
+
+      expect(series.end_date_for_iterations).to eq Time.zone.tomorrow + 2.days + 10.hours
+    end
+
+    it "returns nil when the series does not end after iterations" do
+      series = build(:recurring_meeting,
+                     end_after: "specific_date",
+                     end_date: Time.zone.tomorrow + 1.week)
+
+      expect(series.end_date_for_iterations).to be_nil
+    end
+
+    it "returns nil when iterations exceed the maximum" do
+      series = build(:recurring_meeting,
+                     end_after: "iterations",
+                     iterations: RecurringMeeting::MAX_ITERATIONS + 1)
+
+      expect(series.end_date_for_iterations).to be_nil
+    end
+  end
 end

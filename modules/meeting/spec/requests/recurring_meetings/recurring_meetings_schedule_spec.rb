@@ -207,6 +207,71 @@ RSpec.describe "Recurring meetings schedule text",
         end
       end
     end
+
+    describe "setting the end condition" do
+      context "when ending after a specific date" do
+        let(:start_date) { "2099-01-01" }
+        let(:end_date) { "2099-01-05" }
+        let(:params) do
+          { meeting: { start_time_hour:, start_date:, frequency:, interval:,
+                       end_after: "specific_date", end_date: } }
+        end
+
+        it "returns the resulting occurrence count" do
+          expect(subject).to have_http_status(:ok)
+          expect(subject.body).to include("target=\"recurring-meetings-occurrence-count-caption-component\"")
+          expect(subject.body).to include("This results in 5 meeting occurrences")
+        end
+
+        context "when the end date is before the start date" do
+          let(:start_date) { "2099-01-10" }
+          let(:end_date) { "2099-01-05" }
+
+          it "renders the caption target without any occurrence count" do
+            expect(subject).to have_http_status(:ok)
+            expect(subject.body).to include("target=\"recurring-meetings-occurrence-count-caption-component\"")
+            expect(subject.body).not_to include("This results in")
+          end
+        end
+
+        context "when the range exceeds the maximum count" do
+          let(:end_date) { "2105-01-01" }
+
+          it "reports the capped count" do
+            expect(subject).to have_http_status(:ok)
+            expect(subject.body).to include("This results in more than 1000 meeting occurrences")
+          end
+        end
+      end
+
+      context "when ending after a number of occurrences" do
+        let(:start_date) { "2099-01-01" }
+        let(:params) do
+          { meeting: { start_time_hour:, start_date:, frequency:, interval:,
+                       end_after: "iterations", iterations: "3" } }
+        end
+
+        it "returns the resulting end date" do
+          expect(subject).to have_http_status(:ok)
+          expect(subject.body).to include("target=\"recurring-meetings-end-date-caption-component\"")
+          expect(subject.body).to include("This results in a series ending on")
+          expect(subject.body).to include("2099")
+        end
+      end
+
+      context "when the series never ends" do
+        let(:params) do
+          { meeting: { start_time_hour:, start_date:, frequency:, interval:, end_after: "never" } }
+        end
+
+        it "renders both caption targets without any resulting text" do
+          expect(subject).to have_http_status(:ok)
+          expect(subject.body).to include("target=\"recurring-meetings-occurrence-count-caption-component\"")
+          expect(subject.body).to include("target=\"recurring-meetings-end-date-caption-component\"")
+          expect(subject.body).not_to include("This results in")
+        end
+      end
+    end
   end
 
   context "when not logged in" do

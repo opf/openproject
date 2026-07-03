@@ -19,6 +19,9 @@ export default class OpRecurringMeetingsFormController extends OpMeetingsFormCon
       'monthly_ordinal',
       'monthly_weekday',
       'time_zone',
+      'end_after',
+      'end_date',
+      'iterations',
     ].forEach((name) => {
       const key = `meeting[${name}]`;
       urlSearchParams.append(key, data.get(key) as string);
