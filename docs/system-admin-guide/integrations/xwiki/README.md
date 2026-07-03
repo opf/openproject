@@ -97,4 +97,4 @@ new values over to the corresponding XWiki forms.
 > the Wiki OAuth credentials, the connection from the OpenProject account to the XWiki account is lost and has to be
 > reconnected.
 
-To learn how to link a wiki to a work package or create a new one, refer to the [this user guide](../../user-guide/work-packages/edit-work-package#link-to-or-create-a-wiki-page).
+To learn how to link a wiki to a work package or create a new one, refer to the [this user guide](../../user-guide/work-packages/edit-work-package/#link-to-or-create-a-wiki-page).
