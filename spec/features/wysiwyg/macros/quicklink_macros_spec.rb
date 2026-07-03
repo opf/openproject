@@ -32,7 +32,7 @@ require "spec_helper"
 
 RSpec.describe "Wysiwyg work package quicklink macros", :js do
   shared_let(:user) { create(:admin) }
-  shared_let(:project) { create(:project_with_types) }
+  shared_let(:project) { create(:project_with_types, :with_internal_wiki).reload }
   let(:work_package) do
     create(:work_package,
            subject: "My subject",
