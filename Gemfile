@@ -128,7 +128,7 @@ gem "multi_json", "~> 1.20.0"
 gem "oj", "~> 3.17.3"
 
 gem "daemons"
-gem "good_job", "~> 4.19.0" # update should be done manually in sync with saas-openproject version.
+gem "good_job", "~> 4.19.1" # update should be done manually in sync with saas-openproject version.
 
 gem "rack-protection", "~> 3.2.0"
 
