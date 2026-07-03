@@ -132,6 +132,7 @@ en:
     create_new_wiki_page_dialog:
       title: Create new wiki page
     deferred_inline_page_link_macro_component:
+      aria_label: A dynamic link to a wiki page placed using a macro
       loading: Loading…
     delete_relation_page_link_confirmation_dialog:
       heading: Delete related wiki page link?
@@ -180,6 +181,7 @@ en:
         no_results: No wiki pages found
         placeholder: Search for a wiki page (or enter its URL)
     page_links:
+      aria_label: A dynamic link to a wiki page placed using a macro
       errors:
         page_access_forbidden: You do not have permission to access this wiki page
         page_not_found: Linked wiki page no longer available

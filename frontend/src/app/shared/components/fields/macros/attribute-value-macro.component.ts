@@ -68,13 +68,13 @@ export class AttributeValueMacroComponent implements OnInit {
   error:string|null = null;
 
   text = {
-    help: this.I18n.t('js.editor.macro.attribute_reference.macro_help_tooltip'),
+    aria_label: this.I18n.t('js.editor.macro.attribute_reference.aria_label_work_package_attribute'),
     placeholder: this.I18n.t('js.placeholders.default'),
     not_found: this.I18n.t('js.editor.macro.attribute_reference.not_found'),
     invalid_attribute: (attr:string) => this.I18n.t('js.editor.macro.attribute_reference.invalid_attribute', { name: attr }),
   };
 
-  @HostBinding('title') hostTitle = this.text.help;
+  @HostBinding('attr.aria-label') hostAriaLabel:string|null = null;
 
   resource:HalResource;
 
@@ -86,6 +86,7 @@ export class AttributeValueMacroComponent implements OnInit {
     const id = element.dataset.id!;
     const attributeName = element.dataset.attribute!;
     element.classList.add(ATTRIBUTE_MACRO_CLASS);
+    this.hostAriaLabel = model === 'workPackage' ? this.text.aria_label : null;
 
     if (this.isNestedMacro(model, id, attributeName)) {
       const error = this.I18n.t('js.editor.macro.attribute_reference.nested_macro', { model, id });

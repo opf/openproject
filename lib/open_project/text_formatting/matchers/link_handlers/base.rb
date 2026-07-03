@@ -97,6 +97,21 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def controller; end
+
+      private
+
+      def link_to(name = nil, options = nil, html_options = nil, &)
+        html_options = (html_options || {})
+          .except(:title, "title")
+          .merge(aria: { label: resource_link_aria_label })
+
+        super(name, options, html_options, &) # rubocop:disable Style/SuperArguments
+      end
+
+      def resource_link_aria_label
+        resource = matcher.prefix.presence || (matcher.sep == "r" ? "revision" : "resource")
+        I18n.t("js.editor.macro.attribute_reference.aria_label_resource_link", resource:)
+      end
     end
   end
 end

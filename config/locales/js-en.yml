@@ -175,6 +175,9 @@ en:
       macro:
         attribute_reference:
           macro_help_tooltip: "This text segment is being dynamically rendered by a macro."
+          aria_label_resource_link: "A dynamic link to a %{resource} placed using a macro"
+          aria_label_work_package_attribute: "A dynamic work package attribute placed using a macro"
+          aria_label_work_package_link: "A dynamic link to a work package placed using a macro"
           not_found: "Requested resource could not be found"
           nested_macro: "This macro is recursively referencing %{model} %{id}."
           invalid_attribute: "The selected attribute '%{name}' does not exist."
