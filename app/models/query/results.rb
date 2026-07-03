@@ -267,19 +267,21 @@ class Query::Results
   # as "projects_work_packages". We pre-count the same way so our ORDER BY
   # expressions use the matching alias.
   def include_aliases # rubocop:disable Metrics/AbcSize
-    counts = Hash.new do |h, key|
-      h[key] = 0
-    end
+    @include_aliases ||= begin
+      counts = Hash.new do |h, key|
+        h[key] = 0
+      end
 
-    raw_join_table_counts(counts)
+      raw_join_table_counts(counts)
 
-    reflection_includes.each_with_object({}) do |inc, hash|
-      reflection = WorkPackage.reflections[inc.to_s]
-      table_name = reflection.klass.table_name
+      reflection_includes.each_with_object({}) do |inc, hash|
+        reflection = WorkPackage.reflections[inc.to_s]
+        table_name = reflection.klass.table_name
 
-      hash[inc] = reflection_alias(reflection, counts[table_name])
+        hash[inc] = reflection_alias(reflection, counts[table_name])
 
-      counts[table_name] += 1
+        counts[table_name] += 1
+      end
     end
   end
 
