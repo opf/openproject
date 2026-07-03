@@ -111,7 +111,7 @@ export default class AutoScrollingController extends BaseController {
     if (!this.inputContainer) { return; }
 
     // Wait for the on-screen keyboard to settle before the first scroll.
-    setTimeout(() => this.settleWindow.follow(() => this.scrollInputIntoView()), initialDelay);
+    this.settleWindow.follow(() => this.scrollInputIntoView(), { delay: initialDelay });
   }
 
   performAutoScrollingOnFormSubmit() {

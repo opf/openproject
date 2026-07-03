@@ -35,19 +35,36 @@ interface SettleWindowOptions {
   yieldOn?:readonly string[];
 }
 
+interface FollowOptions {
+  // Defers the window's opening; the duration only starts counting once it opens.
+  delay?:number;
+}
+
 // Images reserve their height only once they load, so a single scroll to a freshly
 // inserted entry lands short of the settled layout. This re-runs the callback for a
 // bounded window as the element grows, and yields the moment the user scrolls.
 export default class SettleWindow {
   private observer?:ResizeObserver;
   private timeout?:ReturnType<typeof setTimeout>;
+  private delayTimeout?:ReturnType<typeof setTimeout>;
   private abort?:AbortController;
 
   constructor(private readonly options:SettleWindowOptions) {}
 
-  // Runs onSettle immediately, then on every resize until the window closes.
-  follow(onSettle:() => void) {
+  // Runs onSettle once the delay elapses, then on every resize until the window
+  // closes. stop() also cancels a follow still waiting out its delay, so the
+  // window's whole lifecycle, opened or pending, ends with it.
+  follow(onSettle:() => void, { delay = 0 }:FollowOptions = {}) {
     this.stop();
+
+    if (delay > 0) {
+      this.delayTimeout = setTimeout(() => this.open(onSettle), delay);
+    } else {
+      this.open(onSettle);
+    }
+  }
+
+  private open(onSettle:() => void) {
     onSettle();
 
     this.observer = new ResizeObserver(onSettle);
@@ -72,6 +89,11 @@ export default class SettleWindow {
     if (this.timeout) {
       clearTimeout(this.timeout);
       this.timeout = undefined;
+    }
+
+    if (this.delayTimeout) {
+      clearTimeout(this.delayTimeout);
+      this.delayTimeout = undefined;
     }
   }
 }

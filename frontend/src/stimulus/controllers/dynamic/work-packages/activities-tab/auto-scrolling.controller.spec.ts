@@ -284,7 +284,7 @@ describe('Activities tab auto-scrolling controller', () => {
       return scrollIntoView;
     }
 
-    let followSpy:MockInstance<(onSettle:() => void) => void>;
+    let followSpy:MockInstance<(onSettle:() => void, options?:{ delay?:number }) => void>;
     let stopSpy:MockInstance<() => void>;
 
     beforeEach(() => {
@@ -337,27 +337,23 @@ describe('Activities tab auto-scrolling controller', () => {
     });
 
     // On mobile the comment input, not the container, is the scroll target, and the
-    // follow waits for the on-screen keyboard to settle before it opens.
+    // settle window waits for the on-screen keyboard to settle before it opens. The
+    // delay is handed to the window rather than timed here, so disconnecting while
+    // it is still pending tears it down with everything else.
     it('follows the input into view once the keyboard settles on mobile', async () => {
       const { index } = await renderActivities();
       index.sortingValue = 'asc';
       const scrollIntoView = stubMobileInput(index);
 
-      vi.useFakeTimers();
-      try {
-        autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
+      autoScrollingController().performAutoScrollingOnStreamsUpdate(true);
 
-        expect(followSpy).not.toHaveBeenCalled();
-        vi.advanceTimersByTime(300);
-        expect(followSpy).toHaveBeenCalledTimes(1);
+      expect(followSpy).toHaveBeenCalledTimes(1);
+      expect(followSpy).toHaveBeenCalledWith(expect.any(Function), { delay: 300 });
 
-        // The callback scrolls the input, not the container, into view.
-        const [onSettle] = followSpy.mock.calls[0];
-        onSettle();
-        expect(scrollIntoView).toHaveBeenCalled();
-      } finally {
-        vi.useRealTimers();
-      }
+      // The callback scrolls the input, not the container, into view.
+      const [onSettle] = followSpy.mock.calls[0];
+      onSettle();
+      expect(scrollIntoView).toHaveBeenCalled();
     });
 
     // Submitting your own comment streams in an entry the same way, after the longer
@@ -367,21 +363,14 @@ describe('Activities tab auto-scrolling controller', () => {
       index.sortingValue = 'asc';
       const scrollIntoView = stubMobileInput(index);
 
-      vi.useFakeTimers();
-      try {
-        autoScrollingController().performAutoScrollingOnFormSubmit();
+      autoScrollingController().performAutoScrollingOnFormSubmit();
 
-        vi.advanceTimersByTime(300);
-        expect(followSpy).not.toHaveBeenCalled();
-        vi.advanceTimersByTime(500);
-        expect(followSpy).toHaveBeenCalledTimes(1);
+      expect(followSpy).toHaveBeenCalledTimes(1);
+      expect(followSpy).toHaveBeenCalledWith(expect.any(Function), { delay: 800 });
 
-        const [onSettle] = followSpy.mock.calls[0];
-        onSettle();
-        expect(scrollIntoView).toHaveBeenCalled();
-      } finally {
-        vi.useRealTimers();
-      }
+      const [onSettle] = followSpy.mock.calls[0];
+      onSettle();
+      expect(scrollIntoView).toHaveBeenCalled();
     });
   });
 

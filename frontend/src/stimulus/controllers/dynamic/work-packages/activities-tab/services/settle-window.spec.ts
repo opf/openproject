@@ -122,6 +122,48 @@ describe('SettleWindow', () => {
     expect(observers[1].disconnected).toBe(false);
   });
 
+  it('waits out the given delay before opening', () => {
+    vi.useFakeTimers();
+    const onSettle = vi.fn();
+
+    open().follow(onSettle, { delay: 300 });
+
+    expect(onSettle).not.toHaveBeenCalled();
+    expect(observers).toHaveLength(0);
+
+    vi.advanceTimersByTime(300);
+
+    expect(onSettle).toHaveBeenCalledTimes(1);
+    expect(observers[0].observed).toContain(target);
+  });
+
+  it('cancels a follow still waiting out its delay on stop()', () => {
+    vi.useFakeTimers();
+    const onSettle = vi.fn();
+    const settleWindow = open();
+
+    settleWindow.follow(onSettle, { delay: 300 });
+    settleWindow.stop();
+    vi.advanceTimersByTime(300);
+
+    expect(onSettle).not.toHaveBeenCalled();
+    expect(observers).toHaveLength(0);
+  });
+
+  it('supersedes a follow still waiting out its delay on a fresh follow', () => {
+    vi.useFakeTimers();
+    const delayed = vi.fn();
+    const fresh = vi.fn();
+    const settleWindow = open();
+
+    settleWindow.follow(delayed, { delay: 300 });
+    settleWindow.follow(fresh);
+    vi.advanceTimersByTime(300);
+
+    expect(delayed).not.toHaveBeenCalled();
+    expect(fresh).toHaveBeenCalledTimes(1);
+  });
+
   it('stops observing and ignores later gestures after stop()', () => {
     const settleWindow = open();
     settleWindow.follow(vi.fn());
