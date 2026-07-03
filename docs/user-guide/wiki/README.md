@@ -8,12 +8,20 @@ keywords: wiki, documentation
 
 # Wiki
 
-In a project wiki you can collaboratively create and document information with your team, such as project documentation, specifications, guidelines, or any other important project information.
+OpenProject offers two different ways to work with project documentation:
+
+- **Internal wiki** – the built-in OpenProject wiki described on this page.
+- **External wiki providers** – integrations with external documentation platforms, including **XWiki**.
+
+This page explains how to use the **internal OpenProject wiki**.
+
+If you want to connect an external documentation platform such as XWiki to your projects, see the documentation on  **[external wiki providers setup](../../system-admin-guide/wikis/wiki-providers)**.
 
 <div class="glossary">
 
-**Wiki** is defined as a module that allows to use textile-based wiki pages. In order to use the wiki module, it has to be activated in the project settings.
+**Wiki** is the built-in OpenProject module for collaboratively creating and editing project documentation. It uses GitHub-flavored CommonMark (GFM) and must be enabled in the project settings before it can be used.
 
+For organizations that prefer to manage documentation outside of OpenProject, external wiki providers such as XWiki can be connected through an integration.
 </div>
 
 | Topic                                                        | Content                                                      |

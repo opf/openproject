@@ -25,3 +25,6 @@ internal provider is disabled. Permissions for the project's wiki are set by the
 
 Under [Wiki providers](./wiki-providers) you can configure external wiki providers. External wiki providers manage their
 own user permissions, thus it is required to connect the OpenProject user to a user on the external provider's instance.
+
+
+To learn how to link a wiki to a work package or create a new one, refer to the [this user guide](../../user-guide/work-packages/edit-work-package#link-to-or-create-a-wiki-page).

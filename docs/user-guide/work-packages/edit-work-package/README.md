@@ -11,6 +11,7 @@ keywords: edit work packages, reminders, work package reminders, attachment, int
 | Feature                                                      | Documentation for                                            |
 | ------------------------------------------------------------ | ------------------------------------------------------------ |
 | [Update a work package](#update-a-work-package)              | How to make a change to an existing work package.            |
+| [Link to create a new Wiki page](#link-to-or-create-a-wiki-page) | How to link a work package to an existing wiki page or create a new wiki page. |
 | [Add an internal comment (Enterprise add-on)](#internal-comments-enterprise-add-on) | How to leave work package comments with limited visibility.  |
 | [Update a work package in a table view](#update-a-work-package-in-a-work-package-table-view) | How to use the quick context menu in the work package table view. |
 | [Attach files to work packages](#attach-files-to-work-packages) | How to manually attach files to work packages.               |
@@ -48,14 +49,69 @@ All changes of a work package are documented in the work package [Activity](../.
 > [!NOTE]
 > There is no possibility to undo changes to work packages by using Ctrl+Z combination.
 
-### How to assign a team member to a work package
+### Link to or create a wiki page
+
+You can link an existing wiki page to a work package or create a new one directly from the work package description.
+
+1. In the rich text editor toolbar, click **Insert** and select either **Existing wiki page** or **New wiki page**.
+
+![Insert menu with wiki page options opened in a CKEditor in an OpenProject work package](openproject_user_guide_wp_insert_wiki_menu.png)
+
+2. Enter a title for the wiki page (if new) or select an existing one, then select the **Wiki provider**.
+
+Depending on your system configuration, you can choose between:
+
+- **Internal wiki**, if the OpenProject wiki module is enabled by an administrator.
+- **External wiki**, if an administrator has configured an external wiki integration, such as **XWiki** (Enterprise add-on).
+
+Click **Next** to continue.
+
+![Select wiki provider when creating or linking a wiki page](openproject_user_guide_wp_wiki_provider.png)
+
+3. Select the parent wiki page.
+
+Use the search field to find an existing page, or enter a URL if you already know the destination.
+
+Click **Insert** to create the link.
+
+![Select a parent wiki page](openproject_user_guide_wp_wiki_parent_page.png)
+
+The wiki page is inserted into the description as a link.
+
+All linked wiki pages are also listed in the **Wikis** tab of the work package.
+
+![Wiki link inserted into the work package description](openproject_user_guide_wp_wiki_link_description.png)
+
+#### Manage linked wiki pages
+
+The **Wikis** tab displays all wiki pages related to the work package.
+
+Depending on your configuration and existing links, it can contain up to four sections:
+
+- **External wiki** (for example, *XWiki Knowledge Hub*)
+- **Internal wiki**
+- **Mentioned in description**
+- **Referenced in**
+
+The **External wiki** and **Internal wiki** sections allow you to create additional links by clicking **Wiki page** and selecting either **Existing wiki page** or **New wiki page**. The linking process is the same as when inserting wiki pages to the work package description.
+
+To remove a linked wiki page, click the **three-dot** menu at the end of the row and select **Remove page link**.
+
+The **Mentioned in description** and **Referenced in** sections are informational. They display wiki pages that already reference or are referenced by the work package. These sections can be expanded or collapsed and are only displayed when matching references exist. Their section headers indicate the number of related wiki pages.
+
+All wiki page entries are clickable and open the corresponding wiki page.
+
+![Wikis tab showing linked wiki pages](openproject_user_guide_wp_wikis_tab.png)
+
+
+### Assign a team member to a work package
 
 When you assign a team member to a work package, you can distinguish between **assignee** and **accountable**. Accountable per definition would be the one accountable for the delivery of the work package. The assignee is the person currently assigned and working on the work package.
 Choose the respective team member from the drop down for assignee or accountable. If you are looking to add a team member that is not coming up in the drop down, this team member might not yet be a member of the project and needs to be [invited](../../members/#add-members).
 
 ![Assignee and accountable in OpenProject work packages](openproject_user_guide_wp_assignee_responsible.png)
 
-### How to update the status of a work package
+### Update the status of a work package
 
 To update the status of a work package, click on the current status in the work package details and select the new status in the drop-down list.
 
@@ -63,7 +119,7 @@ To update the status of a work package, click on the current status in the work 
 
 Please note, the status may differ from work package type. They can be configured in the [system administration](../../../system-admin-guide).
 
-### How to add comments to a work package
+### Add comments to a work package
 
 To add a comment to a work package, open the [details view](../../work-packages/work-package-views/#full-screen-view) or the [split screen view](../../work-packages/work-package-views/#split-screen-view) of a work package. Under [Activity](../../../getting-started/work-packages-introduction/#activity-of-work-packages) tab you have a comment field at the bottom.
 
@@ -117,7 +173,7 @@ Starting with OpenProject 13.0 you can add emojis to all text editors. Type a co
 ![openproject_user_guide_wp_comment_emojis](openproject_user_guide_wp_comment_emojis.png)
 
 ### Linking work packages
-To learn more about how to link work packages within the text editor, please consult this page [Rich text editor in OpenProject](../../wysiwyg/).
+To learn more about how to link work packages within the text editor, please consult this page [Rich text editor in OpenProject](../../wysiwyg/). 
 
 ## Attach files to work packages
 
@@ -182,7 +238,7 @@ At the configured date and time, you will receive the reminder in [Notification 
 
 ## Watchers
 
-### How to add watchers to a work package
+### Add watchers to a work package
 
 <div class="glossary">
 
@@ -196,7 +252,7 @@ It is also possible to add oneself as watcher (if you have sufficient permission
 
 ![Add watchers to OpenProject work packages](openproject_user_guide_wp_watchers_tab.png)
 
-### How to remove watchers from a work package
+### Remove watchers from a work package
 
 To remove watchers, navigate to the work package [details view](../../work-packages/work-package-views/#full-screen-view) and select the *Watchers* tab. Hover over the name of the watcher you want to remove and click the cross icon next to the watcher name.
 The user will no longer get notifications in OpenProject about changes to this work package according to their notification settings. However, if he/she is the author, assignee or accountable of the work package there still might be notifications. Read [here](../../../user-guide/account-settings/#notification-settings) for more information.
