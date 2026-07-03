@@ -33,6 +33,13 @@ class Query::Results
   include ::Query::Results::Sums
   include Redmine::I18n
 
+  # Mirrors the scan pattern used by ActiveRecord::Associations::AliasTracker.initial_count_for
+  # to detect table references in raw SQL StringJoin nodes. We use the same regex so that
+  # raw_join_table_counts stays in sync with what Rails counts when building alias decisions.
+  # See spec/models/query/results_alias_tracker_parity_spec.rb — that spec directly compares
+  # this constant against the live AliasTracker implementation and will fail if Rails changes theirs.
+  RAW_JOIN_TABLE_SCAN_REGEX = /JOIN(?:\s+\w+)?\s+(?:\S+\s+)?(?:"(\w+)"|(\w+))\sON/i
+
   attr_accessor :query
 
   def initialize(query)
@@ -292,7 +299,7 @@ class Query::Results
     raw_joins = [sort_criteria_joins, query.group_by_join_statement].flatten.compact
 
     raw_joins.each do |join_sql|
-      join_sql.to_s.scan(/JOIN(?:\s+\w+)?\s+(?:\S+\s+)?(?:"(\w+)"|(\w+))\s+ON/i) do |quoted, unquoted|
+      join_sql.to_s.scan(RAW_JOIN_TABLE_SCAN_REGEX) do |quoted, unquoted|
         table = quoted || unquoted
         counts[table] += 1 if table
       end
