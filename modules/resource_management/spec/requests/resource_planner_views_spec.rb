@@ -32,6 +32,7 @@ require "spec_helper"
 
 RSpec.describe "ResourcePlannerViews requests",
                :skip_csrf,
+               with_ee: %i[resource_management],
                type: :rails_request do
   shared_let(:project) { create(:project, enabled_module_names: %w[resource_management work_package_tracking]) }
   shared_let(:user) do
