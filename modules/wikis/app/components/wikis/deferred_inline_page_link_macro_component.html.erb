@@ -28,7 +28,7 @@ See COPYRIGHT and LICENSE files for more details.
 ++#%>
 
 <%= content_tag("turbo-frame", id: frame_id, src: frame_src, data: { provider_id:, page_identifier: identifier, type: "wiki-page-link" }) do %>
-  <%= render(OpPrimer::InlineMacroComponent.new) do |component| %>
+  <%= render(OpPrimer::InlineMacroComponent.new("aria-label": t(".aria_label"))) do |component| %>
     <% component.with_leading_visual_icon(icon: :"op-file-doc") %>
 
     <%= render Primer::Beta::Spinner.new(size: :small, display: :flex, mr: 2) %>
